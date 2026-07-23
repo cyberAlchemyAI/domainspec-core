@@ -357,7 +357,7 @@ Plain-language voice: the who-may-connect-to-whom rule — for each edge verb, t
 meta-types; a declared edge with wrong endpoints is rejected.
 
 Domain-context voice: the DS-D8 slice each meta-type card lists (SOURCE of / TARGET of) is now loaded from
-root `definitions/relationships/relationships.yml`. Current authority has 30 active signatures; generated
+root `definitions/relationships/relationships.yml`. Current authority has 31 active signatures; generated
 views such as `owned-by` are navigation only. Distinct from the relationship verb vocabulary (`DS-D2`).
 
 Use carefully: the signature types the **endpoints**; *which* edges earn a type is edge-law admissibility
@@ -547,7 +547,8 @@ Plain-language voice: the concept-to-meta-type map for a feature — it says "Pa
 so the validator knows to run the Entity criterion.
 
 Domain-context voice: the first thing the content validator parses; definitions-governance (M2-C1) aggregates
-per-feature registries into a project-level typed registry.
+per-feature registries into the non-authoritative project-level
+[CONCEPT-REGISTRY.json](./CONCEPT-REGISTRY.json) read model.
 
 Use carefully: the registry declares the **type**; the concept's structure (fields / attributes) is in its
 own table below.
@@ -851,7 +852,8 @@ Promotion boundary: local method vocabulary; does not expose private derivation 
 Source kind: method-vocabulary; local-inference
 
 Evidence: [domainspec-v2-D18](#domainspec-v2-d18) ·
-[relationships.md](./relationships/relationships.md) · [impl/spec/RELATIONSHIPS.md](../impl/spec/RELATIONSHIPS.md)
+[relationships.md](./relationships/relationships.md) ·
+[minted-project graph schema](../impl/spec/minted-project/graph.schema.json)
 
 Formal voice:
 
@@ -865,7 +867,7 @@ projection consequence =
 Plain-language voice: the edge matters if it changes a view people or tools rely on, while the root authority
 still remains elsewhere.
 
-Domain-context voice: `impl/spec/RELATIONSHIPS.md` and display notation are projections. `owned-by` is also a
+Domain-context voice: minted-project graph views and display notation are projections. `owned-by` is also a
 projection consequence of `owns`, but because it is generated reverse navigation it is not an authored
 canonical edge.
 
@@ -1029,7 +1031,7 @@ fragment boundary =
 Plain-language voice: DomainSpec has a typed graph that can compose enough to validate and generate useful
 structure, but it is not yet claiming the full mathematical package of category laws.
 
-Domain-context voice: R3A relationship authority uses this phrase for the current DS-D8 state: 30 active
+Domain-context voice: R3A relationship authority uses this phrase for the current DS-D8 state: 31 active
 relationship signatures with typed endpoints, generated/deferred/deprecated edge policies, and validators
 that reject noncanonical or unconstructible edges. Category laws remain a separate future formalization route.
 
@@ -1073,7 +1075,7 @@ Source kind: domain-vocabulary; active (R3A)
 
 Evidence: [relationships.yml](./relationships/relationships.yml) (machine authority) ·
 [relationships.md](./relationships/relationships.md) (human companion) ·
-[impl/spec/RELATIONSHIPS.md](../impl/spec/RELATIONSHIPS.md) (implementation projection)
+[relationship-signatures.ts](../impl/tools/lib/relationship-signatures.ts) (implementation consumer)
 
 Formal voice:
 
@@ -1125,19 +1127,29 @@ Formal voice:
 ```text
 DS-D8 relationship signature =
   an active tuple in definitions/relationships/relationships.yml:
-    (verb, source_type(s), target_type(s), scope, multiplicity, lifecycle status).
+    (verb, source_type(s), target_type(s), scope, multiplicity, lifecycle status,
+     optional generated relationship projection).
 
 edge admissibility check =
   a declared edge a --[verb]--> b is constructible iff:
     verb resolves to an active DS-D2 label
     AND type(a) is in the signature source set
     AND type(b) is in the signature target set.
+    AND the edge's same-feature or cross-feature location is admitted by scope
+    AND the declared multiplicity bounds hold.
 ```
 
 Plain-language voice: DS-D8 is the typed contract behind every allowed relationship. It says not only that
 `enforces` is a valid word, but that only a Rule may enforce an Operation.
 
-Domain-context voice: R3A currently defines 30 active signatures. `orchestrates` has one Workflow signature
+Domain-context voice: R3A currently defines 31 active signatures. `creates` is the same-feature,
+partial-one-to-one `Operation -> Entity` signature. The edge is canonical; `creation_targets` is generated
+from its outgoing target rather than authored independently.
+The legacy `ui` and `ui-backend` scope tokens are same-feature graph lanes; only
+an explicit `cross-feature` token admits a Cross-Feature Dependency.
+`enforces` admits both same-feature and cross-feature placement while retaining one
+Rule-to-Operation semantic verb; `enforces-cross` remains a rejected deprecated alias.
+`orchestrates` has one Workflow signature
 covering same-feature and cross-feature scope; `owned-by` is generated navigation; `depends-on`, Operation-returned Value Object, and the
 Event payload/publisher split stay deferred until new evidence proves distinct behavior.
 
@@ -1154,12 +1166,150 @@ passes while its endpoint meta-types do not match any active root signature" -> 
 definitions-governance; gate = owner decision; blocking question = "which active signature permits this
 source/target pair?"; residue -> `definitions/reviews/`.
 
-Confirm contract: active after owner-approved R3A root authority, schema participation consistency, endpoint
-fixtures, `validate:rels`, `validate:content`, and no open contradiction. Gate = definitions-governance owner
-gate.
+Confirm contract: active after owner-approved R3A root authority, schema participation consistency, endpoint,
+multiplicity, and projection-authorship fixtures, `validate:rels`, `validate:content`, and no open contradiction.
+Gate = definitions-governance owner gate.
 
 Promotion boundary: local DomainSpec v2 domain vocabulary; implementation surfaces may project DS-D8 but must
 not redefine it.
+
+## domainspec-v2-D26. relationship source-effect binding
+
+Status: superseded by [`domainspec-v2-D27`](#domainspec-v2-d27); stable ID retained for history.
+
+Source kind: method-vocabulary; historical local-inference
+
+Evidence: [DEC-DSV2-OPERATION-CREATES-ENTITY](../authority/decisions/2026-07-22-operation-creates-entity.md) ·
+[DEC-DSV2-CANONICAL-CREATION-RESPONSIBILITY](../authority/decisions/2026-07-22-canonical-creation-responsibility.md)
+
+Formal voice (historical, non-authoritative): the former `creates` contract required independently authored
+`creation_targets` and `creates` edges to satisfy a biconditional. That contract is no longer active.
+
+Plain-language voice: DomainSpec used to require authors to state the same creation fact twice and then check
+that the two statements agreed.
+
+Domain-context voice: the edge is now the sole authored creation fact. Generated views may still expose
+`creation_targets`, but source specifications and minted node sources may not author it.
+
+Supersession reason: equality checking made duplication consistent but did not make the two representations
+orthogonal. D27 replaces that dual-authoring contract with canonical responsibility and generated projection.
+
+## domainspec-v2-D27. Canonical Single Responsibility Principle
+
+Status: active
+
+Source kind: method-vocabulary; local-inference (build-from-owned: software-engineering Single Responsibility
+Principle, CAV2-D16 typed coupling, CAV2-D22 orthogonal classification, and CAV2-D29 axis orthogonality)
+
+Evidence: [DS-D8](#ds-d8) · [domainspec-v2-D18](#domainspec-v2-d18) ·
+[DEC-DSV2-CANONICAL-CREATION-RESPONSIBILITY](../authority/decisions/2026-07-22-canonical-creation-responsibility.md) ·
+[relationships.yml](./relationships/relationships.yml)
+
+Formal voice:
+
+```text
+Let B be one authority boundary.
+Let C_B be its canonical model elements and R_B its admitted semantic responsibilities.
+Let owns_B(c, r) mean that element c canonically owns responsibility r.
+Let authored_B(p) be the canonical authored representations of proposition p.
+
+Canonical Single Responsibility(B) iff:
+  for every c in C_B: c has exactly one primary semantic responsibility;
+  for every r in R_B: exactly one c in C_B owns r;
+  for every canonical proposition p: |authored_B(p)| = 1;
+  every equivalent non-canonical representation of p is a generated projection
+  with provenance back to authored_B(p).
+
+creates is a partial injection from Operation concepts to Entity concepts:
+  creates subset_of Operation x Entity
+  for every Operation O: |{E | creates(O, E)}| <= 1
+  for every Entity E:    |{O | creates(O, E)}| <= 1
+
+creation_targets(O) = sorted({E | creates(O, E)})  [generated, never authored]
+```
+
+`B` is the authority boundary in which ownership is evaluated. A *primary semantic responsibility* is the
+element's governing reason to exist in the model, not every consequence it participates in. A *canonical
+proposition* is one semantic fact admitted as authority. The `creates` inequalities define partial
+one-to-one participation (`0..1` on both sides), not a total bijection.
+
+Plain-language voice: one element owns one primary responsibility; one responsibility has one canonical
+owner; one fact is authored once. Other useful representations are generated from that fact.
+
+Domain-context voice: an Operation may still emit an Event, be enforced by a Rule, query an Entity, and
+participate in a Workflow while owning one cohesive operational responsibility. A Workflow owns coordination,
+not the business responsibilities of the Operations it orchestrates. Legitimate independently meaningful
+relationships such as `enforces` may remain many-to-many; cardinality is constrained only when responsibility
+ownership requires it.
+
+Conformance scope: D27 is active as a model-admission principle. The current machine-executable application is
+`creates`; DomainSpec does not yet claim that every existing concept and relationship has a machine-readable
+responsibility owner. Each additional application needs its own finite owner, authorship, consequence, and
+validation evidence before claiming conformance.
+
+### Application: canonical creation responsibility
+
+Canonical example:
+
+```text
+CreatePlayer --[creates]--> Player
+```
+
+The edge is the sole authored creation proposition. Generated views may show:
+
+```text
+CreatePlayer.creation_targets = [Player]
+```
+
+Other concepts may relate to the same Entity without competing for its creation responsibility:
+
+```text
+FindPlayer   --[queries]--> Player
+UpdatePlayer --[queries]--> Player
+Team         --[owns]-----> Player
+```
+
+The following graphs are rejected:
+
+```text
+CreatePlayer   --[creates]--> Player
+RegisterPlayer --[creates]--> Player   # two canonical owners for one creation responsibility
+```
+
+```text
+CreatePlayer --[creates]--> Player
+CreatePlayer --[creates]--> Team       # one Operation mixes two creation responsibilities
+```
+
+Runtime multiplicity remains separate:
+
+```text
+one CreatePlayer Operation concept
+  -> many executions
+  -> many distinct Player runtime instances
+```
+
+Use carefully: classical software-engineering SRP supplies the cohesion intuition, but it does not by itself
+prove graph cardinality or single authorship. Those additional constraints are the DomainSpec specialization
+recorded here and must be backed by explicit authority and validators.
+
+Misuse warning: do not count fields, methods, edges, or statements and call the result a responsibility count.
+Do not collapse orchestration, enforcement, querying, event production, and creation merely because they
+interact. The test is semantic ownership and independent operational consequence.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "two canonical elements
+own the same semantic responsibility, one element owns unrelated primary responsibilities, or one proposition
+is authored in equivalent forms" -> challenges D27; owner route = definitions-governance; gate = owner
+decision; blocking question = "what is the one canonical owner and authored representation of this semantic
+responsibility?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active for `creates` after owner selection of edge-canonical authorship, rejection of plural
+source and target degree, generated `creation_targets`, synchronized DS-D8 authority, and passing positive and
+negative Markdown/compiler fixtures. Gate = definitions-governance owner gate.
+
+Promotion boundary: DomainSpec-local modeling and validation principle. It builds from CAV2 invariants without
+creating a new CyberAlchemy v2 primitive or claiming that every independently meaningful relationship must be
+one-to-one.
 
 <!-- SKELETON note: D1-D2 mint-seeded; D3-D5 consolidated 2026-07-01 into this canonical home (was the
      separate governance surface DSV2-D1/2/3, now removed). Companions backfilled 2026-07-01 to the current

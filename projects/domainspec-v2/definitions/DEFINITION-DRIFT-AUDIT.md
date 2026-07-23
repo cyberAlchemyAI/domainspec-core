@@ -43,7 +43,7 @@ A term failing (1) is a **drift defect** — create it as a `candidate` card + i
 | State Indicator | meta-types.yml `maturity.ui.deferred` | yes → `DS-D1.25` | deferred/split-candidate | `pass` | domain-state/async-state split remains unresolved |
 | edge-participation signature | DEFINITIONS.md#domainspec-v2-d9 | yes → `domainspec-v2-D9` | active | `pass` | method term now cites `DS-D8`; no alias drift |
 | relationship verb set | DEFINITIONS.md#ds-d2; relationships.yml active signatures | yes → `DS-D2` | active | `pass` | root relationship authority owns canonical labels |
-| relationship signature authority | DEFINITIONS.md#ds-d8; relationships.yml `signature_count=30` | yes → `DS-D8` | active | `pass` | endpoint validator + schema participation consistency check root authority |
+| relationship signature authority | DEFINITIONS.md#ds-d8; relationships.yml `signature_count=31` | yes → `DS-D8` | active | `pass` | endpoint, scope, multiplicity, projection-authorship, and schema-participation checks root authority |
 | layering governance | AUTHORITY-MODEL.md; CONSTITUTION.md C6; reformulate-batch1 L1 | yes -> `domainspec-v2-D16` | active | `pass` | RATIFIED local governance kind; L2 seal still pending |
 | drift governance | AUTHORITY-MODEL.md; CONSTITUTION.md C7; DRIFT-CONVERGENCE.md; DEFINITIONS.md#domainspec-v2-d1 | yes -> `domainspec-v2-D17` | active | `pass` | RATIFIED local governance kind; L2 seal still pending |
 | relationship non-collapse test | relationships.yml; relationships.md; R3 category-boundary findings; D3 | yes -> `domainspec-v2-D18` | active | `pass` | new/disputed relationship labels need a tracked D20-D25 property before promotion |
@@ -54,6 +54,8 @@ A term failing (1) is a **drift defect** — create it as a `candidate` card + i
 | composition path consequence | DEFINITIONS.md#domainspec-v2-d18 property set | yes -> `domainspec-v2-D23` | active | `pass` | finite DS-D8 path/code-connection property |
 | owner route consequence | DEFINITIONS.md#domainspec-v2-d18 property set | yes -> `domainspec-v2-D24` | active | `pass` | changed owner/gate/remediation-route property |
 | generated artifact consequence | DEFINITIONS.md#domainspec-v2-d18 property set | yes -> `domainspec-v2-D25` | active | `pass` | changed generated output/provenance property |
+| relationship source-effect binding | historical DS-D8 `creates`; DEC-DSV2-OPERATION-CREATES-ENTITY | yes -> `domainspec-v2-D26` | superseded | `pass` | stable historical ID; replaced by edge-canonical generated projection |
+| Canonical Single Responsibility Principle | DS-D8 `creates`; DEC-DSV2-CANONICAL-CREATION-RESPONSIBILITY | yes -> `domainspec-v2-D27` | active | `pass` | one primary responsibility, one canonical owner, one authored proposition; `creates` is the executable application |
 
 ## Gate
 - `pass`: every load-bearing term resolves to a tracked, grounded entry.
@@ -66,9 +68,11 @@ three-voice human companion with 13 active backend types, an explicit superseded
 non-active UI candidates, and two differentiated deferred UI dispositions. The index carries every stable ID
 without presenting the staged labels as a contiguous active set.
 
-The relationship-definition sync also passes: `DS-D2`, `DS-D8`, `domainspec-v2-D9`, and
-`domainspec-v2-D19` resolve to the root authority's 30 active signatures and bounded typed-composable-graph
-wording.
+The relationship-definition sync also passes: `DS-D2`, `DS-D8`, `domainspec-v2-D9`,
+`domainspec-v2-D19`, and `domainspec-v2-D27` resolve to the root authority's 31 active signatures,
+bounded typed-composable-graph wording, and edge-canonical partial-one-to-one `creates` application.
+`domainspec-v2-D26` remains as a superseded stable historical ID; no active signature uses its former
+dual-authored source-effect binding.
 
 The sibling governance-kind gap is closed: `layering governance` resolves to `domainspec-v2-D16`, and
 `drift governance` resolves to `domainspec-v2-D17`. Both are active local RATIFIED kinds with the same L2
@@ -80,9 +84,39 @@ and `typed composable graph fragment` resolves to `domainspec-v2-D19`. The D18 p
 `domainspec-v2-D20..D25` define the six consequence properties a new relationship must cite before promotion.
 This imports the CAV2 non-collapse discipline into DS-D2/DS-D8 without promoting full category law.
 
-Focused stale scan (2026-07-16): the owned definition/index/audit/meta-type surfaces carry no live 25-label,
-14-backend, uniform-UI, or 31-signature authority claim. Candidate/deferred status is not treated as
-validation, and the unresolved UI correction routes remain visible rather than being laundered into active
-authority.
+Focused stale scan (2026-07-22): the owned definition/index/audit/meta-type surfaces carry no live 25-label,
+14-backend, uniform-UI, or 30-signature authority claim. Candidate/deferred status is not treated as
+validation, and unresolved UI correction routes remain visible rather than being laundered into active
+authority. Historical review and receipt snapshots retain their dated counts and digests as evidence rather
+than current authority.
+
+The same scan repaired current narrative consumers in
+`impl/spec/meta-types/LEARNING-ORDER.md`,
+`impl/governance/tags/CODE-TAG-COMPOSABILITY-PATTERNS.md`,
+`development/architecture-pattern-enforcement/cards/relationships/README.md`,
+and `formalization/README.md`. Stale research, review, receipt, and run artifacts
+remain dated evidence rather than current authority. The removed
+`impl/spec/RELATIONSHIPS.md` projection is no longer cited by canonical cards.
+
+M2-C1 aggregation emits [CONCEPT-REGISTRY.json](./CONCEPT-REGISTRY.json): 37
+DS-D1 concepts and 34 DS-D8-valid edges, with zero duplicate IDs and zero type
+drift. The intentionally empty sample pack's local `Fixture` label is reported
+as one excluded non-DS-D1 concept, not promoted or silently merged.
+
+Validation evidence (2026-07-22): `definitions:aggregate`, `validate:rels`
+(5 specs / 34 edges / 31 signatures), `validate:content` (37 concepts / 34
+edges / 22 schemas), documentation links, TypeScript, sample lint, 160/160
+tooling tests, 15/15 code-tag tests, and 107/107 engine tests all pass.
+
+## Resolved consumer conflict
+
+`DEC-DSV2-ENFORCES-CROSS-FEATURE-SCOPE` closes the former `enforces` conflict.
+The active tuple now admits `same-feature` and `cross-feature`, matching its
+semantics, `enforces-cross` deprecation record, `relationships.md`,
+`impl/spec/meta-types/LEARNING-ORDER.md`, and
+`impl/governance/tags/CODE-TAG-COMPOSABILITY-PATTERNS.md`. A positive
+cross-feature relationship fixture passes with the canonical `enforces` verb;
+the deprecated alias remains a failing code-tag control. No conflicting current
+consumer remains in this class.
 
 <!-- Emitted live: the audit runs the moment the domain has terms. Re-run when cards are added/changed. -->

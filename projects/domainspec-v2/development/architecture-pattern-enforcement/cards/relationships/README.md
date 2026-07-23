@@ -2,7 +2,7 @@
 artifact_role: non-authoritative-evidence-staging
 scope: DomainSpec-v1 relationship pattern cards plus current DS-D8 coverage gaps
 v1_source_commit: 33859b561dc34e3d0b9cb3da76b6cb3d196daa65
-live_ds_d8_sha256: 567fda214dbf3d2cdfe8f360020d2497cccc611bbcfd05f2fd885e8ad308ab41
+live_ds_d8_sha256: c41453b06528b957b4bb2e3847e2a05ab93cd07243f0a09a70a55677dfe422e7
 status: triaged
 owner: architecture-pattern-enforcement
 promotion_owner: definitions-governance
@@ -18,22 +18,23 @@ The accepted adjudication is in
 
 The v1 source is pinned at commit
 `33859b561dc34e3d0b9cb3da76b6cb3d196daa65`. The live DS-D8 file was modified
-relative to parent HEAD during triage, so its 30 active signatures are pinned
+relative to parent HEAD during triage, so its 31 active signatures are pinned
 here by working-content SHA-256
-`567fda214dbf3d2cdfe8f360020d2497cccc611bbcfd05f2fd885e8ad308ab41`;
+`c41453b06528b957b4bb2e3847e2a05ab93cd07243f0a09a70a55677dfe422e7`;
 this document does not represent that state as a committed-HEAD fact.
 
 `evidence-ready` means only that the scoped legacy example adds practical
 authoring or review utility under current DS-D8. It does not transfer authority,
 create a definition, or make a candidate active.
 
-## Converged 35-row triage
+## Converged 36-row triage
 
 | Relationship | v1 presence / selector | Live DS-D8 state / selector | Outcome | Scoped utility or residue | Owner action |
 |---|---|---|---|---|---|
 | `performs` | card, L80 | active, L20-L33 | `evidence-ready` | Entity-facing initiation call site; “actor” prose is non-authoritative. | Stage under typed Entity → Operation endpoints. |
 | `produces` | card, L81 | active, L36-L49 | `staged-review` | Postcondition event placement is useful, but v1 “emits” wording blurs Entity `emits`. | Require explicit successful-Operation causation distinction. |
 | `produces-for` | card, L82 | active, L52-L65 | `evidence-ready` | Foreign-feature projection/write seam. | Replace informal `@A/@B` with cross-feature metadata. |
+| `creates` | no v1 card | active canonical | `staged-review` | Same-feature Operation creation effect, exact-target-bound by `creation_targets`; v1 supplies no card. | Preserve current DS-D8 contract and positive witnesses; manufacture no imported v1 evidence. |
 | `triggers-cross` | card, L83 | active, L68-L81 | `evidence-ready` | Subscriber-to-operation cross-feature handoff. | Stage under current cross-feature obligations. |
 | `enforces-cross` | card, L84 | deprecated, L525-L530 | `reject-or-superseded` | The scenario is residue; the separate verb is not. | Never author this label; route scenario to `enforces` review. |
 | `enforces` | card, L85 | active with residue, L84-L97 | `staged-review` | Same-feature pre-mutation gate is useful; semantics mention cross-feature metadata while scope admits only `same-feature`. | Preserve contradiction for authority-owner review; do not edit DS-D8 here. |
@@ -69,9 +70,9 @@ create a definition, or make a candidate active.
 
 Counts:
 
-- 35 keyed rows = 29 v1-card-present + 6 no-v1-card.
-- 24 `evidence-ready`, 6 `staged-review`, 3 `deferred`, and 2
+- 36 keyed rows = 29 v1-card-present + 7 no-v1-card.
+- 24 `evidence-ready`, 7 `staged-review`, 3 `deferred`, and 2
   `reject-or-superseded`.
-- 30 active signatures remain an authority count: 28 legacy-ID matches plus
-  authority-only `owns` and `belongs-to`. Generated, deprecated, and deferred
+- 31 active signatures remain an authority count: 28 legacy-ID matches plus
+  authority-only `owns`, `belongs-to`, and `creates`. Generated, deprecated, and deferred
   rows do not enter it.

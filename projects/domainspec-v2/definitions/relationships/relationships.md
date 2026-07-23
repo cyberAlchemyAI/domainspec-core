@@ -14,13 +14,23 @@ consequence, owner route consequence, or generated artifact consequence. See
 The display notation `Source --[verb]--> Target` is human-facing projection only; authority lives in the
 finite machine relation.
 
+## Scope Tokens
+
+Authored graph placement is either `same-feature` or `cross-feature`. Registry
+tokens `ui` and `ui-backend` are same-feature UI/cross-layer lanes: they admit
+edges in a feature's Concept Graph but do not admit a Cross-Feature Dependency.
+Only a signature carrying `cross-feature` admits placement across feature
+identities.
+
 ## Canonical Count
 
-`relationships.yml` currently defines 30 active signatures.
+`relationships.yml` currently defines 31 active signatures.
 
 The count is post-reconciliation:
 
-- `enforces-cross` is deprecated; use `enforces` with cross-feature scope metadata.
+- `enforces-cross` is deprecated; use `enforces` in the cross-feature dependency surface.
+- `creates` is an edge-canonical, partial-one-to-one same-feature Operation-to-Entity relation;
+  `creation_targets` is a generated projection.
 - `queries` is source-widened for read-capable behavioral concepts.
 - `applies` targets both `Operation` and `Calculation`.
 - `owns` and `belongs-to` are first-class; Workflow orchestration admits same-feature and cross-feature scope.
@@ -48,8 +58,9 @@ the candidate as generated, deferred, collapsed into metadata, or non-authoritat
 | `Entity --[performs]--> Operation` | An entity or actor initiates an operation. |
 | `Operation --[produces]--> Event` | An operation causes an event on successful completion. |
 | `Operation --[produces-for]--> Entity` | An operation writes or projects into a foreign entity. |
+| `Operation --[creates]--> Entity` | An operation owns creation of one same-feature entity type; the edge generates its `creation_targets` projection. |
 | `Event --[triggers-cross]--> Operation` | An event activates an operation across a feature boundary. |
-| `Rule --[enforces]--> Operation` | A rule gates whether an operation may execute. |
+| `Rule --[enforces]--> Operation` | A rule gates whether an operation may execute within one feature or across feature boundaries. |
 | `Calculation --[calculates]--> Operation` | A calculation derives values used by an operation. |
 | `Event --[transitions]--> State Machine` | An event advances a lifecycle state machine. |
 | `Interface --[exposes]--> Operation\|Query` | An interface makes behavior callable. |
@@ -85,6 +96,46 @@ the candidate as generated, deferred, collapsed into metadata, or non-authoritat
 | `View Model --[derives]--> Entity` | A view model derives from entity fields. |
 | `Form --[contracts]--> Interface` | A form schema aligns with an interface endpoint. |
 | `Guard --[mirrors]--> Rule` | A client guard mirrors a backend rule. |
+
+## Canonical Responsibility Application
+
+`creates` is the executable DS-D8 application of
+[`domainspec-v2-D27`](../DEFINITIONS.md#domainspec-v2-d27):
+
+```text
+CreatePlayer --[creates]--> Player
+```
+
+The edge is authored once. `CreatePlayer.creation_targets = [Player]` is a generated projection, not a
+second source declaration. One Operation may have at most one `creates` target and one Entity may have at
+most one incoming `creates` source. This is partial one-to-one participation (`0..1` on both sides), not a
+requirement that every Operation or Entity participate.
+
+Other independently meaningful relations remain separate:
+
+```text
+FindPlayer   --[queries]--> Player
+CanCreate    --[enforces]--> CreatePlayer
+CreatePlayer --[produces]--> PlayerCreated
+```
+
+Many executions of the one `CreatePlayer` concept may still create many distinct runtime `Player` instances.
+Runtime instance cardinality is not graph concept cardinality.
+
+## Enforcement Scope Policy
+
+`enforces` is the sole canonical Rule-to-Operation gating verb for both admitted locations:
+
+```text
+same-feature:  CanCreatePlayer --[enforces]--> CreatePlayer
+cross-feature: compliance.AccessRule --[enforces]--> payments.ProcessRefund
+```
+
+In Markdown specifications, placement in `Feature Concept Graph` means same-feature and placement in
+`Cross-Feature Dependencies` means cross-feature. Do not encode location by changing the semantic verb:
+`enforces-cross` remains a deprecated alias and validators reject it with `enforces` replacement guidance.
+The multiplicity remains many-to-many because independently meaningful Rules may gate several Operations and
+an Operation may require several Rules.
 
 ## Entity Relation Policy
 

@@ -40,6 +40,8 @@ Load-Bearing Term Tracking rule, `C(meta-4)`) is "tracked" iff it has a row here
 | `domainspec-v2-D23` | composition path consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d23](./DEFINITIONS.md) |
 | `domainspec-v2-D24` | owner route consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d24](./DEFINITIONS.md) |
 | `domainspec-v2-D25` | generated artifact consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d25](./DEFINITIONS.md) |
+| `domainspec-v2-D26` | relationship source-effect binding | superseded | historical method-vocabulary; superseded by D27 | [DEFINITIONS.md#domainspec-v2-d26](./DEFINITIONS.md) |
+| `domainspec-v2-D27` | Canonical Single Responsibility Principle | active | method-vocabulary (build-from-owned: SRP + CAV2-D16/D22/D29) | [DEFINITIONS.md#domainspec-v2-d27](./DEFINITIONS.md) |
 | `DS-D1` | Meta-Type System (24 staged labels) | active | domain-vocabulary | [meta-types/meta-types.md](./meta-types/meta-types.md) · [.yml](./meta-types/meta-types.yml) |
 | `DS-D1.1` | Entity | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.2` | Value Object | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |

@@ -67,7 +67,7 @@ A **decidable, executable type-checker** for a DomainSpec concept graph, written
 
 The Lean spec core transcribes an earlier 25-meta-type / 29-edge vocabulary. Root
 [`relationships.yml`](../definitions/relationships/relationships.yml) has since reconciled to
-**30 active signatures**. Verified divergences:
+**31 active signatures**. Verified divergences:
 
 | Lean σ table | Root `relationships.yml` |
 | --- | --- |
@@ -75,6 +75,7 @@ The Lean spec core transcribes an earlier 25-meta-type / 29-edge vocabulary. Roo
 | no `owns` / `belongs-to` | `owns`, `belongs-to` first-class (Entity↔Entity family) |
 | `applies`: policy → operation only (:162) | `applies` targets both `Operation` and `Calculation` |
 | `queries`: query → entity (:165) | `queries` source-widened to read-capable behavioral concepts |
+| no `creates` | `creates`: same-feature Operation → Entity with exact `creation_targets` source-effect binding |
 | `associates` + `Cardinality` extension (:184, :320-339) | not a root signature; overlaps the promoted Entity↔Entity family — reconciliation is an open question |
 
 This drift is **the exhibit** for use 3 above, so it is preserved as-is. Any update to the

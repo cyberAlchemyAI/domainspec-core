@@ -76,7 +76,7 @@ PaymentTransaction. Its sameness is its identity, not its field values.
 
 Domain-context voice: the primary "actor" node in a DomainSpec aspect file; SOURCE of `belongs-to` /
 `contains` / `emits` / `owns` / `performs`, TARGET of `belongs-to` / `derives` / `maps` / `owns` /
-`produces-for` / `queries` (the DS-D8 edge slice). Checked by the content validator against
+`creates` / `produces-for` / `queries` (the DS-D8 edge slice). Checked by the content validator against
 `entity.schema.yml`.
 
 Use carefully: "identity" is a *declared* field flag (the `Identity` column), not inferred; an Entity MAY link
@@ -426,9 +426,11 @@ Operation =
 Plain-language voice: a verb that leaves a mark — after it runs, the world is different: a payment charged, an
 order cancelled. Not a plain CRUD "update"; a named action with business meaning and postconditions.
 
-Domain-context voice: the write-side node; SOURCE of `produces` / `produces-for` / `queries`, TARGET of
+Domain-context voice: the write-side node; SOURCE of `creates` / `produces` / `produces-for` / `queries`, TARGET of
 `applies` / `calculates` / `enforces` / `exposes` / `mutates` / `orchestrates` / `performs` /
-`triggers-cross`. Checked by the content validator against `operation.schema.yml`.
+`triggers-cross`. When it authors `creates`, that edge is the canonical creation fact and has at most one
+same-feature Entity target. Generated views derive `creation_targets`; source authors do not declare it.
+Checked by the content and relationship validators against `operation.schema.yml` and DS-D8.
 
 Use carefully: `state_change` is the *declared* attribute (the `Attribute | Value` table), not inferred from a body.
 
