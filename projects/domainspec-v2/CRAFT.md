@@ -2,14 +2,14 @@
 
 > Human view of [`.craft/ledger.yml`](.craft/ledger.yml) (source of truth). Scoped space promoted from
 > cav2 `CTX-CAV2-DOMAINSPEC-V2` on 2026-07-01 (decision `DEC-DSV2-CRAFT-SCOPE`). cav2 stays umbrella and
-> points here. Last updated: 2026-07-20.
+> points here. Last updated: 2026-07-23.
 
 ## Quick links
 - **Next move (root):** R0, R1, and CT-1 are landed and green; migrate UI-11 before verify-closing R2, reconcile-close R7, then continue R4/R5/R6a/R6b **or** stand up the agent-cost experiment for Lane Z vs A.
 - **Open decisions:** `DEC-DSV2-LANE-ZA` (Lane Z vs A — deferred). *(`DEC-DSV2-APE-L0-DOMAIN` closed 2026-07-02 → reuse financial-settlement.)*
-- **Active blockers:** `BLK-DSV2-DRIFT-ENGINE` (drift not implemented), `BLK-DSV2-L2-ATTESTATION` (external actor identity/signature, human), and `BLK-DSV2-BTE-SWU-READINESS-CONTRADICTION-001` (BTE manifest contradicts its task/wave order). FPR01-003 blockers `BLK-FPR01003-001..003` are closed by their receipt chain.
+- **Active blockers:** `BLK-DSV2-DRIFT-ENGINE` (drift not implemented) and `BLK-DSV2-L2-ATTESTATION` (external actor identity/signature, human). The BTE bootstrap cycle is resolved by the 2026-07-23 L0A/L0B refresh. FPR01-003 blockers `BLK-FPR01003-001..003` are closed by their receipt chain.
 - **Active gaps:** `GAP-SH-UI11-MIGRATE` (R2 UI types must move before TAXONOMY deletion), `GAP-SH-PROSE-HOMES` (now DRIFT/R5 owner-home only). *(`GAP-DSV2-COMPOSABILITY-ENFORCE`, `GAP-DSV2-EXERCISE`, and `GAP-DSV2-APE-CARD-TRIAGE` resolved by R3C; AXIOMS half of `GAP-SH-PROSE-HOMES` resolved by R1.)*
-- **FPR next moves:** FPR-01 and W1 are closed. FPR-02B's 16-decision gate is accepted, but the BTE package requires an Invoke Refresh before a dependency-ready SWU can be selected. UI `FPR-02U` independently resumes `SWU-UIP-005`.
+- **FPR next moves:** FPR-01 and W1 are closed. For FPR-02B, explicitly select sole dependency-ready candidate `SWU-BTE-L0A-001` and build its strict runtime context pack. Its receipt precedes the independent freeze and L0B. UI `FPR-02U` independently resumes `SWU-UIP-005`.
 
 ## Contexts
 | Context | Stage / gate | State | Next move |
@@ -23,8 +23,8 @@
 | **CTX-DSV2-APE** — architecture-pattern enforcement | build / flag | **L0 POC + bounded dynamic/second-corpus evidence + TASK-CARDS triage DONE** | L1 cleanup · later owner-gated Evidence links |
 | **CTX-DSV2-CODE-TAG-CONFORMANCE** — code-tag conformance | build / flag | CT-1 done; code-tag taxonomy reads root schemas | CT-3, then CT-2/CT-4 |
 | **CTX-DSV2-FIRST-PRODUCTION-RELEASE** — private bounded release route | plan / block | FPR-01 closed; FPR-02 split into independent backend and UI lanes | Resume either child lane independently; production remains unauthorized |
-| ↳ **CTX-DSV2-FPR02-BACKEND** — backend profile and pilot | plan / block | 16-decision FPR-02B gate accepted | Continue through the bounded BTE proof route; UI state is not an input |
-| ↳ **CTX-DSV2-FPR02B-CONSUMER-PROOF** — BTE plus independent consumers | plan / block | Task Session context gate found contradictory BTE SWU readiness | Invoke Refresh the BTE manifest, then select exactly one dependency-ready SWU |
+| ↳ **CTX-DSV2-FPR02-BACKEND** — backend profile and pilot | plan / block | 2026-07-23 BTE L0A/L0B bootstrap split validated | Select dependency-ready `SWU-BTE-L0A-001`; its receipt precedes the independent freeze and L0B |
+| ↳ **CTX-DSV2-FPR02B-CONSUMER-PROOF** — BTE plus independent consumers | plan / block | L0 bootstrap cycle resolved; one unselected L0A candidate remains | Select L0A and build a strict runtime context pack; consumers remain post-core |
 | ↳ **CTX-DSV2-FPR02-UI** — required UI development | build / flag | `SWU-UIP-001..004` complete; development-only | Run `SWU-UIP-005`; backend state is not an input |
 
 ## Pending by node
@@ -37,8 +37,8 @@
 - **CTX-DSV2-APE** — **L0 POC + bounded dynamic enforcement + second-corpus evidence + TASK-CARDS triage DONE**. Backend staging has 14 source rows; relationship staging has 35 keyed rows with generated/deprecated/deferred boundaries preserved. `GAP-DSV2-APE-CARD-TRIAGE` is resolved. Package: [architecture-pattern-enforcement](development/architecture-pattern-enforcement/). Next: `SWU-APE-004/005` cleanup; later definition Evidence links remain owner-gated.
 - **CTX-DSV2-CODE-TAG-CONFORMANCE** — **CT-1 DONE**: `validate-code-tags` reads taxonomy from `spec/meta-types`, invalid type fixture rejects, and scratch validation passes with `TAXONOMY.md` absent. Remaining: CT-3 waiver/path cleanup, CT-2 schema contract, CT-4 unified gate.
 - **CTX-DSV2-FIRST-PRODUCTION-RELEASE** — `SWU-FPR01-001..004`, W1, and W1R are complete. The ratification receipt verifies 19/19 bindings, deterministic replay, five killed mutants, the current guard, aggregate validation, and deliberate mutation rejection. FPR-02 is a closed coordination split; its two child lanes can resume independently. Production remains unauthorized.
-  - ↳ **CTX-DSV2-FPR02-BACKEND** — the 16-decision gate is accepted. The bounded BTE proof route is active; UI implementation is neither a blocker nor release evidence.
-    - ↳ **CTX-DSV2-FPR02B-CONSUMER-PROOF** — blocker `BLK-DSV2-BTE-SWU-READINESS-CONTRADICTION-001`: the manifest marks 001 blocked and 002 ready while the task, Distill, and waves require 001 first. [Context pack](development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/CONTEXT-PACK.md) and [block receipt](development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/execution-receipt.json). Next: Invoke Refresh; no implementation or consumer mutation.
+  - ↳ **CTX-DSV2-FPR02-BACKEND** — the 16-decision gate is accepted and the [2026-07-23 BTE L0A/L0B route](development/first-production-release/backend-type-test-engine-completeness/PLAN.md) is validated. UI implementation is neither a blocker nor release evidence.
+    - ↳ **CTX-DSV2-FPR02B-CONSUMER-PROOF** — the L0 bootstrap cycle is resolved: `SWU-BTE-L0A-001` is the sole dependency-ready, unselected candidate. It publishes complete contracts without red inputs. After its exact receipt, the validation owner freezes matching red cases and L0B becomes eligible through a later refresh. IOLM and Body War remain unchanged until the shared core passes.
   - ↳ **CTX-DSV2-FPR02-UI** — `SWU-UIP-001..004` are complete and `SWU-UIP-005` is next under the existing UI work-pack. It remains development-only and cannot imply canonical or release admission.
 
 ## Decisions
