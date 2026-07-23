@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-07-22T07:36:33Z",
+  "run_id": "invoke-refresh-20260722-iolm-workable-example-apply",
+  "session_id": "iolm-workable-example-2026-07-22",
+  "sigil": "invoke",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh"
+  },
+  "mode": "refresh",
+  "request": {
+    "summary": "Apply the exactly approved IOLM workable-example refresh proposal.",
+    "intent": "Make one fixture-backed UI SWU eligible without changing or bypassing the blocked compiler-backed route.",
+    "approval": "apply approved: REFRESH-PATCH-PROPOSAL.md"
+  },
+  "execution": {
+    "status": "completed_with_ready_handoff",
+    "outputs": [
+      "One selected fixture-backed UI SWU and one independent wave",
+      "One child Craft execution context with task and wave artifacts",
+      "Synchronized Work-Pack, Execution Pack, Implementation Layering, Distill, shared contracts, and main Dispatch",
+      "Regenerated Craft index and human view",
+      "Applied Refresh report and Context Builder handoff"
+    ],
+    "files_changed": [
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/WORK-PACK.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/EXECUTION-PACK.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/IMPLEMENTATION-LAYERING.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/DISPATCH.json",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/DISTILL-VALIDATION.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/shared/context.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/shared/traceability.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/shared/cross-task-gaps.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/tasks/TASK-IOLM-00C-UI-WORKABLE-EXAMPLE.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/waves/W0C-UI.md",
+      "cyberAlchemy-v2/.craft/ledger.yml",
+      "cyberAlchemy-v2/.craft/index.json",
+      "cyberAlchemy-v2/CRAFT.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/refreshes/2026-07-22-iolm-workable-example/REFRESH-REPORT.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/refreshes/2026-07-22-iolm-workable-example/refresh-report.json",
+      ".arcanum/observability/tmp/invoke-refresh-20260722-iolm-workable-example-apply.json"
+    ],
+    "validation": [
+      "approval-preflight:pass-11-sources-13-targets",
+      "proposal-dispatch-spec:pass-zero-blocks-zero-flags",
+      "main-dispatch-schema:pass-current-state-block-preserved-for-00c-b-and-g-dsv2-sg",
+      "json-yaml-parse:pass",
+      "craft-sync:pass-18-contexts-55-artifacts-122-rows",
+      "craft-ledger-sha256:16ef8dc4f1770d779f3ec5e277f7142ad57af8461abacbb96e29f36d86e895dd",
+      "cardinality:pass-one-slice-task-swu-wave-context",
+      "preservation-hashes:pass-00c-b-task-decision-and-three-fixtures",
+      "local-markdown-links:pass-167",
+      "authorized-scope-and-diff-hygiene:pass",
+      "implementation-boundary:pass-ui-package-absent"
+    ],
+    "notes": "Planning and Craft only. UI implementation remains for Context Builder and one bounded Task Session. Existing 00C-B and G-DSV2-SG block receipts are preserved."
+  },
+  "refresh": {
+    "source_signal_count": 5,
+    "target_artifact_root_count": 13,
+    "delta_classes": {
+      "route_changed": 1,
+      "blocker_resolved": 1,
+      "blocker_opened": 1,
+      "no_op": 1,
+      "evidence_added": 1
+    },
+    "phase_status": "pass",
+    "phase_status_basis": {
+      "artifact_complete": true,
+      "refresh_apply_blocker_count": 0
+    },
+    "mutation_mode": "apply-approved",
+    "handoff_status": "ready",
+    "applied_count": 5,
+    "skipped_count": 4,
+    "blocker_scopes": {
+      "refresh-authoring": 0,
+      "apply-authorization": 0,
+      "target-lifecycle": 2,
+      "audit": 0
+    },
+    "next_route": "context-builder for SWU-IOLM-00C-UI-A, then one bounded task-session"
+  },
+  "observer": {
+    "quality_bar_status": "pass-with-ready-handoff",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "manual-evidence-owner",
+        "severity": "medium",
+        "summary": "Concrete manual browser and assistive-technology runners remain unnamed; overall validation must stay NOT_RUN until they perform the checks.",
+        "evidence": "B-IOLM-UI-MANUAL-RUNNERS in Work-Pack and shared gap ledger."
+      },
+      {
+        "category": "independent-upstream-support",
+        "severity": "high",
+        "summary": "00C-B remains blocked on upstream cross-feature support; the workable example is machine-ineligible to affect that state.",
+        "evidence": "Preserved 00C-B task and Decision Gate hashes plus the Dispatch exclusion fence."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "build the strict UI-A context pack, execute one Task Session, and stop at its receipt"
+  },
+  "target_artifact": "cyberAlchemy-v2/development/interactive-ontology-learning-map/refreshes/2026-07-22-iolm-workable-example/REFRESH-REPORT.md"
+}

@@ -1,0 +1,67 @@
+{
+  "timestamp":"2026-07-22T16:09:45Z",
+  "run_id":"task-session-20260722T160251Z-iolm-ui-a4-blocked",
+  "session_id":"SWU-IOLM-00C-UI-A4",
+  "sigil":"task-session",
+  "tier":"arcana",
+  "mode":"execute",
+  "capability":{"id":"task-session","kind":"sigil","tier":"arcana","mode":"execute","alias":null},
+  "request":{
+    "raw":null,
+    "summary":"Continue the IOLM workable-example implementation through real Firefox until the next blocker while status refreshes run in sidecars.",
+    "intent":"Complete dependency-ready UI work without bookkeeping stalls and stop honestly at the first implementation blocker."
+  },
+  "execution":{
+    "status":"blocked",
+    "outputs":[
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/DEFECT-RECEIPT.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/RESULT.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/execution-receipt.json",
+      "cyberAlchemy-v2/development/iolm-workable-example/generated/runs/20260722T160251Z-firefox/validation-summary.json"
+    ],
+    "files_changed":[
+      "cyberAlchemy-v2/development/iolm-workable-example/manual/MANUAL-CHECKS.md",
+      "cyberAlchemy-v2/development/iolm-workable-example/generated/runs/20260722T160251Z-firefox/automated-results.json",
+      "cyberAlchemy-v2/development/iolm-workable-example/generated/runs/20260722T160251Z-firefox/manual-results.json",
+      "cyberAlchemy-v2/development/iolm-workable-example/generated/runs/20260722T160251Z-firefox/validation-summary.json",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/CONTEXT-PACK.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/context-pack.json",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/CODEX-GOAL-PROFILE.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/DEFECT-RECEIPT.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/RESULT.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/execution-receipt.json",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/CONTINUATION-ROUTE.md",
+      "cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/continuation-route.json"
+    ],
+    "validation":[
+      "strict-context-coverage:12/12:pass",
+      "playwright-firefox-launch:pass",
+      "PW-BB-01:pass",
+      "PW-BB-02:pass",
+      "PW-BB-03:pass",
+      "PW-BB-04:fail:target.closest-is-not-a-function",
+      "fail-fast-and-owner-reroute:pass",
+      "manual-state:not-run",
+      "a4-write-scope:pass",
+      "continuation-route-schema:pass",
+      "subagent-closeout:1/1/1/open-0:pass"
+    ],
+    "notes":"A4 preserved the real Firefox failure, did not edit A3 implementation, emitted no browser acceptance handle, kept human checks NOT_RUN, closed browser/server, and routed the exact defect to A3."
+  },
+  "observer":{
+    "quality_bar_status":"pass",
+    "anti_pattern_hits":[],
+    "workflow_gaps":[
+      {
+        "category":"implementation-browser-gap",
+        "severity":"high",
+        "summary":"A3 delegated selection assumes every Firefox event target is an Element and fails on a text-node target.",
+        "evidence":"PW-BB-04 console and defect receipt"
+      }
+    ],
+    "output_contract_drift":false,
+    "reflection_trigger":"manual",
+    "recommendation":"Repair B-IOLM-A3-FIREFOX-EVENT-TARGET in A3 and replay A4 in a fresh run."
+  },
+  "target_artifact":"cyberAlchemy-v2/development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/RESULT.md"
+}

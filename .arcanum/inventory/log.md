@@ -1,5 +1,125 @@
 # Inventory Log
 
+## 2026-07-22 ingest — DomainSpec v2 obvious-edge completeness review
+
+- Mode: machine-index-first review preflight followed by accepted dispatch
+  result backfill.
+- Repository: `/home/vrondelli/projects/domainspec-core`.
+- Inventory root: `.arcanum/inventory/`.
+- Sources processed: 5 (attack transcript, accepted findings, relationship YAML
+  and Markdown authority views, and append-only dispatch ledger).
+- Entries created: 1 verified synthesis entry; entries updated: 0.
+- Strategy: P1 synthesis/isolation/context-protection/parallelism trigger;
+  formal, mechanics, and requirements attackers; one synthesizer; two
+  verifiers; one final auditor; double-PASS tension gate; human confirmation;
+  one auditor feedback loop; resolved closeout.
+- Result: one MAJOR active mismatch is confirmed. `produces-for` is declared
+  cross-feature/foreign-entity-only but is exercised twice as same-feature
+  creation, while validation omits scope and the compiler enforces the inverse
+  boundary. `creates` and widening remain owner-decision candidates.
+- Boundary: no DS-D8 authority changed. Action-to-Binding stays verb-neutral
+  and deferred; other finite pressure was classified without promotion.
+- Validation: `validate:rels` passed 5 specifications, 34 edges, and 30
+  signatures. The review's historical negative control is classified. The
+  current `tools:test` result is 145/147 because two tests project one unrelated
+  backend test-engine `unused-exception`; that owner surface was preserved.
+- Index: `index.json` and the matching `index.md` row were synchronized through
+  deterministic `inventory-update.cjs`; its uncontrolled-tag warnings describe
+  pre-existing index-wide drift. Updater and human-index tests pass; the broad
+  schema validator still flags 15 older entries with legacy `kind` values, not
+  the new record.
+- Ledger: dispatch `2026-07-22-dsv2-obvious-edge-completeness-review` closed
+  `resolved` with 7 task agents, 0 helpers, and 1 loop.
+- Next action: run one bounded DS-D8 owner decision with paired same/cross-scope
+  and creation/non-creation witnesses before promoting either repair.
+- Authority: non-authority Inventory read model only.
+
+## 2026-07-22 ingest — BTE full-work refresh readiness review result
+
+- Mode: machine-index-first review backfill after accepted dispatch closeout.
+- Repository: `/home/vrondelli/projects/domainspec-core`.
+- Inventory root: `.arcanum/inventory/`.
+- Sources processed: 4 (accepted `review.md`, validated Design, Design
+  validation, and append-only dispatch ledger).
+- Entries created: 1 verified synthesis entry; entries updated: 0.
+- Strategy: P1 synthesis/isolation/parallelism; three whole-corpus attack
+  lenses; robot-talks confrontation; one writer; two verifier gates; one
+  coverage auditor; double-PASS init gate; two explicit human confirmations
+  after live v0.6.1 output-contract correction; one bounded convergence loop.
+- Result: the current package is not Task Session-ready. Preserve Design,
+  current-v1, and completed BTE-001/003 evidence; repair Decision 9 trace;
+  regenerate changed execution surfaces around the L0-L8 dependency route;
+  keep admission and core eligibility separate.
+- Validation: verifier semantic PASS; remaining receipt-scope objection resolved
+  through declared auditor feedback; parent inspected the single review artifact
+  and quoted sources; scoped `git diff --check` passed.
+- Ledger: dispatch `2026-07-22-bte-full-work-refresh-readiness-review` closed
+  `resolved` with 7 working agents, 0 helpers, and 1 loop.
+- Next action: run Invoke Plan refresh; do not select a Task Session SWU from the
+  stale package.
+- Authority: non-authority Inventory read model only.
+
+## 2026-07-22 ingest — BTE X-Ray conversational-language audit result
+
+- Mode: lookup-first review backfill followed by an applied Whisper revision.
+- Repository: `/home/vrondelli/projects/domainspec-core`.
+- Inventory root: `.arcanum/inventory/`.
+- Sources processed: 4 (attack ledger, accepted findings, refreshed Whisper
+  result, and append-only dispatch ledger).
+- Entries created: 1 verified synthesis entry; entries updated: 0.
+- Strategy: P1 synthesis/parallelism/isolation trigger; three explorer methods;
+  one synthesizer; two skeptic attack vectors; one writer; double-PASS tension
+  gate; human confirmation; one reconciliation loop; resolved closeout.
+- Result: accepted C1-C8/E1-E4 corrections now remove conversational coaching,
+  preserve exact terms and catalogue IDs, separate four lifecycle states and
+  machine axes, and correct mutation plus consumer replay semantics.
+- Validation: final validator and regression details are recorded in the X-Ray
+  and Whisper result files; the live local server returns HTTP 200.
+- Index: `index.json` reached 200 entries and the matching `index.md` row was
+  added through deterministic `inventory-update.cjs`; emitted uncontrolled-tag
+  warnings were pre-existing and did not name this entry's tags.
+- Ledger: dispatch `2026-07-22-bte-xray-conversational-language-audit` closed
+  `resolved` with 7 agents, 0 helpers, and 1 loop.
+- Next action: Invoke Plan from the validated BTE Design; this review and copy
+  revision do not implement or admit the BTE runtime.
+- Authority: non-authority Inventory read model only.
+
+## 2026-07-22 ingest — IOLM workable-example research strategy result
+
+- Mode: lookup plus evidence backfill of a confirmed governed research dispatch.
+- Repository: `/home/vrondelli/projects/domainspec-core`.
+- Inventory root: `.arcanum/inventory/`.
+- Sources processed: 8 (accepted `research.md` and `findings.md`, append-only
+  dispatch ledger, IOLM Work-Pack and controlling `00C-B` Decision Gate, and the
+  three checked-in Key-and-Door expected fixture artifacts).
+- Entries created: 1 accepted synthesis entry; entries updated: 0.
+- Strategy: P1 synthesis/context-protection/isolation/parallelism trigger; three
+  explorer lenses; one synthesizer; two independent skeptic gates; one writer;
+  one auditor; double-PASS tension gate; explicit human confirmation;
+  deterministic registration; and resolved closeout.
+- Result: a private fixture-backed 4-node/3-edge UI sidecar is the smallest honest
+  runnable route after proposal approval/apply. It uses one guarded
+  `DemoSnapshotV1` for synchronized graph, outline, table, selection, and
+  provenance views without claiming compiler, authority, promotion, or
+  publication evidence.
+- Validation: reviewer zig-zag converged with `PASS`/`PASS`; one bounded
+  auditor-to-writer correction closed exact path, security, result-state, and
+  browser-evidence issues; final auditor returned `ACCEPT`; `git diff --check`
+  passed for research and findings.
+- Index: `index.json` and the matching `index.md` row are updated through
+  deterministic `inventory-update.cjs`; this log row is the human closeout.
+- Ledger: dispatch `2026-07-22-iolm-workable-example-research` closed `resolved`
+  with 8 counted agents, 0 helpers, and 1 loop.
+- Next human action: run `invoke:refresh:proposal-only` to add exactly
+  `SWU-IOLM-00C-UI-A` and `CTX-CAV2-IOLM-WORKABLE-EXAMPLE`; stop for exact owner
+  approval before one bounded Task Session builds the sidecar.
+- Residue: the UI and Invoke proposal are unbuilt; browser/manual evidence is
+  `NOT_RUN`; `00C-B` remains blocked by `CROSS_FEATURE_UNSUPPORTED`; no authority
+  or publication decision was made.
+- Authority: non-authority Inventory read model only. Accepted findings remain
+  source-backed research; source owners retain compiler, graph, projection,
+  authority, Craft, and publication decisions.
+
 ## 2026-07-20 ingest — EVF implementation-completion re-audit 001 result
 
 - Mode: ingest/backfill of a confirmed single-auditor review dispatch.
@@ -2912,3 +3032,302 @@ Artifacts:
 - Next action: run the full Invoke authoring pass under `projects/domainspec-v2/`
   with explicit gates for formation authority, exact-16 compiler coverage, and
   the Rule predicate source. Do not promote consumer evidence or Markdown.
+
+## 2026-07-22 - DomainSpec v2 BTE X-Ray copy and readability review result
+
+- Mode: ingest/backfill of the closed review dispatch
+  `2026-07-22-bte-xray-copy-readability-review`.
+- Dispatch: three parallel attackers, one writer, two parallel skeptics, one
+  bounded zig-zag revision, and parent final approval; closed `resolved`.
+- Result: accepted three MAJOR change requests covering the overstated combined
+  Key-and-Door evidence story, mobile risk-matrix meaning loss, and present-tense
+  semantic-preservation language for the unimplemented BTE path.
+- Boundary: the X-Ray target was not edited. `DoorUnlocked` and `produces` are
+  only “not evidenced in this x-ray”; absence does not promote them to target
+  design. The hero-order change remains a usability experiment.
+- Inventory: added
+  `entries/domainspec-v2-bte-xray-copy-readability-review-result.md` and
+  synchronized `index.json` and `index.md` through `inventory-update.cjs`.
+- Next action: apply the accepted change requests as a bounded X-Ray revision,
+  then validate desktop/mobile rendering, keyboard behavior, machine JSON, and
+  source/target/owner wording.
+
+## 2026-07-22 - CyberAlchemy Orchestrator purpose research result
+
+- Mode: ingest of the closed research dispatch
+  `2026-07-22-cyberalchemy-orchestrator-purpose`.
+- Dispatch: three parallel explorers, one synthesizer, three independent
+  skeptic gates, one writer, and one dedicated auditor; one bounded zig-zag
+  revision cycle; closed `resolved` after auditor `ACCEPT`.
+- Result: the repository's explicit purpose is governed multi-agent
+  orchestration for decision hygiene, not a stated reasoning-engine project.
+  Current capability is an agent-workflow governance framework plus a
+  read-oriented orchestration control plane, narrow agent-selection utility,
+  and experimental publication bus.
+- Boundary: no repository-owned executable object-level semantic inference
+  witness or confirmation-to-chain execution runtime exists at frozen commit
+  `ca560b8`. External/manual agents may still reason and execute outside the
+  repository. Roadmap claim-graph and epistemic-loop material remains unbuilt.
+- Gate: init-time checker and independent reviewer both returned `PASS`; the
+  pairwise gate verdicts were chat-only and have no durable gate artifact. The
+  registered ledger row remains the durable frozen sheet.
+- Inventory: added
+  `entries/cyberalchemy-orchestrator-reasoning-engine-purpose-strategy-result-synthesis.md`
+  and synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Validation: ledger tests and the publication-bus 10/10 suite passed. API,
+  UI, and agent-pool checks were skipped for missing dependencies and were not
+  reported as passes.
+- Next action: use the accepted orchestration/control-plane classification. If
+  a reasoning engine is desired, separately govern the missing semantic input
+  -> inference/evaluation -> derived-output witness and its owner.
+
+## 2026-07-22 - Sigil Maintenance Loop inventory-first hardening
+
+- Mode: machine-index-first lookup followed by ingest of the validated
+  maintenance result.
+- Lookup: `.arcanum/inventory/index.json` parsed successfully and contained no
+  direct prior entry for `sigil-maintenance-loop` or the strategy maintenance
+  integration; the no-match gap was preserved before source expansion.
+- Result: hardened the canonical public spell, routed the private strategy
+  maintenance hook through it, and made read-only Inventory lookup an automatic
+  pre-reflection phase without weakening mutation approval.
+- Inventory: added
+  `entries/sigil-maintenance-loop-inventory-first-hardening-synthesis.md` and
+  synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Validation: 6/6 file-backed boundary scenarios, 4/4 native Spellcraft
+  examples, profile/regime checks, generated-mirror parity, Markdown links,
+  diff checks, and the public/private scan passed.
+- Residue: the generic experiment output checker does not extract Quality Bar
+  sections from README-based spells. The Inventory updater also surfaced
+  pre-existing controlled-tag drift in older index entries; the new entry uses
+  only controlled tags.
+- Next action: use the canonical spell for future strategy maintenance. Publish
+  only through normal Arcanum-submodule-first discipline if explicitly asked.
+
+## 2026-07-22 - DomainSpec Subagents research and review Inventory preflight
+
+- Mode: machine-index-first lookup followed by ingest of the validated private
+  strategy integration.
+- Lookup: `.arcanum/inventory/index.json` parsed successfully and selected the
+  prior `sigil-maintenance-loop-inventory-first-hardening` entry as relevant
+  evidence. Existing research/review strategy-result entries demonstrated the
+  post-result hook but did not establish a universal pre-sheet lookup.
+- Result: every research or review strategy now performs automatic read-only
+  Inventory lookup before its sheet or inline strategy is finalized and routes
+  relevant matches, exclusions, source references, and gaps into lanes and
+  agent inputs.
+- Boundary: Inventory remains non-authoritative. A no-match is not
+  `precedent-clean`, review findings still require current-artifact evidence,
+  and lookup cannot install, query, ingest, backfill, sync, authorize dispatch,
+  or replace check-tension and human confirmation.
+- Inventory: added
+  `entries/domainspec-subagents-research-review-inventory-preflight-synthesis.md`
+  and synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Validation: research-match, review-match, no-match, machine-index fallback,
+  no-Inventory, preflight/post-result separation, active runtime, referenced
+  skills, and diff checks passed. Static contract checks do not replace the
+  first live research and review invocation as behavioral proof.
+- Dispatch: P1 did not trigger. One observer helper was used; no dispatch sheet,
+  confirmation, registration row, or close row was created.
+- Next action: on the next research or review strategy request, perform lookup
+  without asking and show exactly how the packet changed the proposed strategy.
+
+## 2026-07-22 - Agent reasoning-engine contract research result
+
+- Mode: post-dispatch ingest of the independently accepted research contract.
+- Result: the current repository remains outside the reasoning-engine category;
+  the first defensible build/test slice is an `UNWITNESSED CANDIDATE` named
+  `semantic-judgment evaluator@1`.
+- Boundary: the entry Gate precedes all actor/evaluator calls, the semantic
+  receipt is non-authorizing, and the exact-effect Gate remains downstream.
+  Effort, consensus, receipts, and challenge machinery do not become evidence,
+  truth, or authority.
+- Anti-bias: `AntiBiasVector` is excluded from the first witness and retained as
+  residue until governed dimensions and efficacy tests exist.
+- Inventory: added
+  `entries/agent-reasoning-engine-contract-strategy-result-synthesis.md`; the
+  machine and human indexes are synchronized by `inventory-update.cjs`.
+- Dispatch: final auditor `ACCEPT`; close row records ten agents and one loop.
+- Next action: route an explicit owner/decision gate before creating an
+  executable evaluator witness or promoting any reasoning-engine claim.
+
+## 2026-07-22 - DomainSpec v2 BTE full-work refresh applied
+
+- Mode: post-refresh ingest of the apply-approved Invoke result.
+- Result: added a non-authority synthesis for the validated L0-L8 BTE work
+  package, six exact catalogues, complete obligation-to-replay proof chain, and
+  sole unselected candidate `SWU-BTE-L0-001`.
+- Boundary: this Inventory record does not select an SWU, implement BTE, close
+  any admission gate, prove IOLM or Body War, promote lifecycle state, or
+  authorize production.
+- Inventory: added
+  `entries/domainspec-v2-bte-full-work-refresh-applied-result.md`; synchronized
+  `index.json` and `index.md` through `inventory-update.cjs`.
+- Validation: updater dry run, deterministic add, JSON round-trip, six index
+  assertions, and seven human-index assertions passed.
+- Next action: the validation owner freezes the independent L0 red manifest;
+  then the operator explicitly selects `SWU-BTE-L0-001` and builds its strict
+  runtime context pack.
+
+## 2026-07-23 - Most-used skills efficiency review result
+
+- Mode: post-dispatch ingest of an accepted review and Workflow Reflect result.
+- Scope: Task Session, Invoke, DomainSpec Subagents Strategy, Decision Gate,
+  Inventory, and Whisper were audited separately using 274 named ledger uses as
+  ranking evidence and current artifacts or runnable checks as finding evidence.
+- Result: two opposed attackers, one synthesizer, and one verifier accepted ten
+  bounded efficiency changes after one revision cycle. The queue moves
+  falsifiable validation earlier while retaining controls with demonstrated
+  authority, mutation, publication, destructive-action, or false-readiness
+  containment.
+- Boundary: no audited skill was changed. The queue is not a combined patch and
+  does not authorize canonical mutation. Inventory remains a non-authoritative
+  read model.
+- Inventory: added
+  `entries/most-used-skills-efficiency-review-strategy-result-synthesis.md` and
+  synchronized `index.json` and `index.md` with the deterministic updater.
+- Validation residue: `index.json` is parseable and the new row uses supported
+  kind `entry`, but the package validator still fails because 15 pre-existing
+  rows use out-of-enum kinds. INT-1 owns that repair.
+- Next action: execute DSS-1 as one bounded maintenance task with negative
+  fixtures before moving to the next accepted change request.
+
+## 2026-07-23 - Semantic hierarchy bridge research result
+
+- Mode: machine-index-first preflight followed by post-dispatch ingest of the
+  auditor-accepted research result.
+- Scope: `cyberAlchemy-v2/` and `domainspec-lean-formalization/` only.
+- Result: the two repositories supply typed relation and named-view projection
+  contracts, one narrow four-node/three-relation IOLM projection witness, and
+  bounded formal preservation analogies. They do not supply implemented
+  embedding-to-relation inference, hierarchy induction, facet assignment,
+  scalar alignment, or a Lean semantic interpretation bridge.
+- Verdicts: the order and facet operations remain KILL pending separate gold
+  fixtures; scalar TNAS is KILL; the component ledger remains proposed; IOLM is
+  kept only as a representation contract; the Lean material is kept only as a
+  negative-boundary card.
+- Boundary: Inventory is non-authority. The accepted `findings.md` and
+  `research.md` remain the source-backed result; the eight-node fixture and
+  all induction/alignment behavior remain proposed and unverified.
+- Inventory: added
+  `entries/semantic-hierarchy-bridge-strategy-result-synthesis.md` and
+  synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Dispatch: check-tension double PASS, explicit human confirmation, nine
+  dispatch agents, one synthesis/review loop, one bounded auditor/writer
+  correction, final auditor `ACCEPT`, and `exit_reason: resolved`.
+- Validation residue: IOLM Firefox/manual acceptance remains
+  `BLOCK`/`NOT_RUN` on fixture digest drift; the Inventory updater continues
+  to warn about unrelated historical tags outside the current controlled set.
+  The package validator also remains red on 15 pre-existing entries whose
+  `kind` values are outside its enum; the new strategy-result row passes its
+  required-field and kind checks.
+- Next action: build three independent fixture families for typed predicates,
+  named orders, and multi-label facets before implementing any semantic
+  hierarchy claim.
+
+## 2026-07-23 - DomainSpec v2 BTE L0 bootstrap split refresh applied
+
+- Mode: post-refresh update of the existing non-authority BTE synthesis.
+- Result: accepted Decision Gate Option 1 is now represented as dependency-ready
+  `SWU-BTE-L0A-001` contract publication, independent package-local fixture
+  freeze, and gated `SWU-BTE-L0B-001` semantic execution.
+- Boundary: L0A emits no `ValidationReceipt` and consumes no red manifest; this
+  Inventory update selects no SWU, creates no implementation or validation
+  input, grants no admission, and authorizes no production state.
+- Inventory: updated the existing applied-result entry and synchronized its
+  machine and human index summaries without creating a duplicate identity.
+- Validation: Inventory JSON/index structure, dispatch, scoped JSON/YAML, stale
+  live-route scan, and diff hygiene pass in the refresh receipt.
+- Next action: explicitly select `SWU-BTE-L0A-001`, build its strict runtime
+  context pack, and execute only that Task Session.
+
+## 2026-07-23 - Inventory kind alias conformance sync
+
+- Mode: bounded `sync` for `SWU-WFE-004A`.
+- Result: normalized exactly 15 unsupported machine-index `kind` aliases.
+  Five `strategy-result` rows under `entries/` now use `entry`; ten
+  `query-file`, `research-findings`, or `research-transcript` rows under
+  `queries/` now use `query`.
+- Preservation: IDs, paths, types, all other entry fields, entry order,
+  top-level fields, and the complete derived-index object remain unchanged.
+  Existing unrelated Inventory additions and log history were preserved.
+- Human index: no content change; `index.md` projects path, type, tags, and
+  summary, not machine `kind`.
+- Validation: supported-kind count changed 15 to 0; the canonical Inventory
+  validator, exact non-kind digest comparison, entry-order digest, and
+  derived-index digest pass.
+- Boundary: non-authority Inventory read-model maintenance only. No source
+  entry, controlled enum, updater, ontology, definition, or promotion changed.
+- Next action: add future unsupported-kind admission to the deterministic
+  updater in `SWU-WFE-004B`.
+
+## 2026-07-23 - Agent satisfies spec current-state research result
+
+- Mode: machine-index-first preflight followed by post-dispatch ingest of the
+  auditor-accepted research result.
+- Result: no current implemented or proved general `agent ⊨ spec` relation was
+  found. The strongest formal result remains request/policy agreement plus
+  bounded recorded-trace properties. The first defensible build target is a
+  bounded `DecisionMatchesSpec` access witness with independently owned
+  semantics, a nonempty exact denominator, and explicit compiler, runtime,
+  observation, and mediation bridges.
+- Boundary: BTE is reusable evidence machinery but current BTE v1 does not
+  admit access semantics; IOLM remains a projection-fidelity consumer with no
+  semantic or admission authority. This entry is a non-authority read model.
+- Inventory: added
+  `entries/agent-satisfies-spec-current-state-research-strategy-result-synthesis.md`
+  and synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Dispatch: check-tension double PASS, explicit human confirmation, nine
+  dispatch agents, one synthesis/review loop, final auditor `ACCEPT`, and
+  `exit_reason: resolved`.
+- Validation: updater dry-run and append passed; six inventory-update test
+  groups and seven human-index test groups passed; the machine entry and human
+  link are present. The updater continues to report unrelated historical tags
+  outside the current controlled set.
+- Next action: decide whether access amends `AV-D1` or remains a non-admitting
+  precursor, confirm that its first semantic lane stays outside BTE v1, then
+  reconcile stale L0A read models and start L0B fail-closed validation.
+
+## 2026-07-23 - Categorical Learning and DNG semantic-hierarchy towers
+
+- Mode: machine-index-first preflight followed by post-dispatch ingest of two
+  completed Research Towers and their accepted cross-tower findings.
+- Sources: copied, hash-pinned local PDFs for *Categorical Learning System* and
+  *Dynamic Neural Graph Encoding of Inference Processes*, their tower source
+  records and learning packs, the raw explorer transcript, the accepted
+  findings, the prior semantic-hierarchy bridge, and the dispatch ledger.
+- Result: the papers supply a falsifiable experiment decomposition and one
+  possible ordered encoder arm, not a working Ponder semantic-hierarchy
+  algorithm. A finite adapter, separate relation/order/facet contracts,
+  deterministic admission policies, and componentwise comparison remain to be
+  built and tested.
+- Boundary: the CLS categorical mechanisms are proposals without the required
+  laws or witnesses; the DNG results are paper-reported and were not reproduced;
+  DNG encodes neural parameters and forward inference, not ontology semantics;
+  operational order and facets are heterogeneous views; scalar TNAS remains
+  killed.
+- Inventory: added
+  `entries/categorical-dng-semantic-hierarchy-towers-strategy-result-synthesis.md`
+  and synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Dispatch: two double-PASS gate rounds separated by a final-approver schema
+  correction and explicit reconfirmation; seven working agents; one synthesis
+  revision; advisory auditor `ACCEPT`; parent final approval; one dispatch row
+  and one resolved close row.
+- Validation: source hashes and page counts match the source records; both tower
+  packages are complete; 114 Markdown links resolve, including nine explicit
+  repository-root fallbacks; the Inventory updater dry-run and add pass; its
+  deterministic suite passes 6 groups and its human-index suite passes 7
+  groups; the new entry uses only controlled tags.
+- Existing residue: the updater still reports historical tags absent from the
+  current controlled catalog. Those warnings predate this entry and were not
+  repaired here. The standalone research/findings writing skills referenced by
+  the Research Tower owner are also absent.
+- Next action: route the accepted fixture and falsification outline through
+  `research-evidence-harness` before implementing any encoder or semantic
+  hierarchy claim.

@@ -1,0 +1,104 @@
+{
+  "timestamp": "2026-07-22T16:09:35Z",
+  "run_id": "invoke-refresh-20260722-bte-full-work-refresh-apply",
+  "session_id": "bte-full-work-refresh-2026-07-22",
+  "sigil": "invoke",
+  "capability": {"id": "invoke", "kind": "spell", "tier": "spells", "mode": "refresh"},
+  "mode": "refresh",
+  "request": {
+    "summary": "Apply the accepted BTE full-work refresh across architecture, requirements, L0-L8 execution planning, continuation views, and receipts.",
+    "intent": "Make the BTE route implementation-usable without selecting or executing work before independent proof fixtures and owner gates exist.",
+    "approval": "explicit apply-approved authorization from the operator"
+  },
+  "execution": {
+    "status": "completed_with_gated_handoff",
+    "outputs": [
+      "Validated L0-L8 BTE architecture and execution package",
+      "Ten active task contracts and ten wave handoffs",
+      "Six exact catalogue contracts and complete obligation-to-replay proof chain",
+      "Historical map preserving completed SWU-BTE-001 and SWU-BTE-003 evidence",
+      "Synchronized scoped and umbrella Craft plus FPR visibility read models",
+      "Verified non-authority Inventory result",
+      "Invoke refresh report, machine report, and apply receipt",
+      "Sole unselected first candidate SWU-BTE-L0-001"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/REQUIREMENTS.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/PLAN.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/IMPLEMENTATION-LAYERING.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/WORK-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/EXECUTION-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/EXECUTION-DISPATCH.json",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/DISTILL-VALIDATION.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/contracts/README.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/transport-report.json",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/observability.json",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/HISTORICAL-MAP.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/shared/",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/tasks/",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/waves/",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-22-full-work-refresh/",
+      "projects/domainspec-v2/.craft/ledger.yml",
+      "projects/domainspec-v2/CRAFT.md",
+      "cyberAlchemy-v2/.craft/ledger.yml",
+      "cyberAlchemy-v2/.craft/index.json",
+      "cyberAlchemy-v2/CRAFT.md",
+      "projects/domainspec-v2/development/first-production-release/visibility/roadmap-data.json",
+      "projects/domainspec-v2/development/first-production-release/visibility/roadmap.html",
+      ".arcanum/inventory/entries/domainspec-v2-bte-full-work-refresh-applied-result.md",
+      ".arcanum/inventory/index.json",
+      ".arcanum/inventory/index.md",
+      ".arcanum/inventory/log.md"
+    ],
+    "validation": [
+      "context-builder:deep-strict:11/11:pass",
+      "dispatch-spec:pass",
+      "distill-validate:pass",
+      "preserved-design-review-and-receipt-digests:pass",
+      "engine-test:107/107:pass",
+      "tools-test:147/147:pass",
+      "typecheck:pass",
+      "validate-content:37-concepts:34-edges:5-files:22-schemas:pass",
+      "validate-relationships:5-specs:34-edges:30-canonical-signatures:pass",
+      "instances-validate:22/22:pass",
+      "validate-docs:pass",
+      "tags-test:15/15:pass",
+      "engine-lint:clean-0-regression-baseline-only:pass",
+      "fpr-visibility:generate-check-14-tests:pass",
+      "inventory-updater-and-tests:pass",
+      "json-yaml-parse:pass",
+      "scoped-diff-check:pass"
+    ],
+    "notes": "Planning, routing, Craft, Inventory, visibility, and refresh evidence only. No BTE implementation, consumer execution, owner admission, lifecycle promotion, or production authorization occurred."
+  },
+  "refresh": {
+    "source_signal_count": 10,
+    "phase_status": "pass",
+    "phase_status_basis": {"artifact_complete": true, "refresh_apply_blocker_count": 0},
+    "mutation_mode": "apply-approved",
+    "handoff_status": "gated",
+    "candidate_swu": "SWU-BTE-L0-001",
+    "selected_swu": null,
+    "blocker_scopes": {"refresh-authoring": 0, "apply-authorization": 0, "target-lifecycle": 8, "audit": 0},
+    "next_route": "validation owner freezes the independent L0 red manifest; operator explicitly selects SWU-BTE-L0-001; Context Builder emits a strict runtime pack; Task Session executes exactly that SWU"
+  },
+  "observer": {
+    "quality_bar_status": "pass-with-gated-handoff",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "useful_patterns": [
+      "Separate refresh phase success from downstream handoff readiness.",
+      "Use a visibility generator to falsify disagreement between source Craft state and human projections.",
+      "Preserve historical receipts while replacing only stale future routing."
+    ],
+    "rework": [
+      "Generic Dispatch receipt requirements were narrowed after schema validation exposed BTE-specific coupling.",
+      "Retired-Saga guard wording was restored after the full tools suite exposed an exact allowlist mismatch.",
+      "The parent FPR source gate was corrected to block after visibility generation exposed source/view drift."
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "output-threshold",
+    "recommendation": "continue only after the validation-owner L0 red-manifest freeze and explicit candidate selection"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-22-full-work-refresh/REFRESH-REPORT.md"
+}

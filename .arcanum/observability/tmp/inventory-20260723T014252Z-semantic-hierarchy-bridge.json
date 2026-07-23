@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-07-23T01:42:52Z",
+  "run_id": "inventory-20260723T014252Z-semantic-hierarchy-bridge",
+  "session_id": "session-20260722-semantic-hierarchy-bridge",
+  "sigil": "inventory",
+  "tier": "arcana",
+  "mode": "ingest",
+  "capability": {
+    "id": "inventory",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "ingest",
+    "alias": "domainspec-subagents-strategy-closeout"
+  },
+  "command": null,
+  "request": {
+    "raw": null,
+    "summary": "Inventory the closed semantic hierarchy bridge research result.",
+    "intent": "Make the accepted strategy, verdicts, evidence boundary, and next fixtures discoverable through synchronized machine and human inventory views."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      ".arcanum/inventory/entries/semantic-hierarchy-bridge-strategy-result-synthesis.md",
+      ".arcanum/inventory/index.json",
+      ".arcanum/inventory/index.md",
+      ".arcanum/inventory/log.md"
+    ],
+    "files_changed": [
+      "one strategy-result synthesis entry",
+      "machine inventory index",
+      "human inventory index",
+      "inventory log"
+    ],
+    "validation": [
+      "inventory-update:dry-run-pass",
+      "inventory-update:add-pass",
+      "new-entry-controlled-tags:pass",
+      "new-entry-required-fields-and-kind:pass",
+      "package-validator:fail-pre-existing-15-kind-enum-rows"
+    ],
+    "notes": "The updater synchronized both indexes deterministically. Its warnings concern pre-existing historical tags; this result introduced only controlled tags. The package validator still fails on 15 pre-existing out-of-enum kind values; the new row itself passes."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "input",
+        "severity": "low",
+        "summary": "Historical index entries contain tags absent from the current controlled tag catalog.",
+        "evidence": "inventory-update.cjs emitted warnings while adding the new entry; the new record itself uses only controlled tags."
+      },
+      {
+        "category": "validation",
+        "severity": "medium",
+        "summary": "The package validator fails on 15 pre-existing kind values outside its enum.",
+        "evidence": "The failing rows use historical kinds such as research-transcript, research-findings, query-file, and strategy-result; semantic-hierarchy-bridge-strategy-result-synthesis uses supported kind entry and passes the same check."
+      },
+      {
+        "category": "machine-view",
+        "severity": "medium",
+        "summary": "No machine-readable hierarchy-candidate or fixture contract was created.",
+        "evidence": "The Inventory entry makes the accepted Markdown result discoverable but does not implement the proposed induction, comparison, or fixture schemas."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "output-threshold",
+    "recommendation": "reflect-now"
+  },
+  "target_artifact": ".arcanum/inventory/entries/semantic-hierarchy-bridge-strategy-result-synthesis.md",
+  "dedupe_key": "inventory-20260723T014252Z-semantic-hierarchy-bridge:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

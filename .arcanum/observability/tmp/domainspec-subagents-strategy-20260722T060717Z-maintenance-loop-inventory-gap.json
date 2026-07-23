@@ -1,0 +1,64 @@
+{
+  "schema_version": "arcanum.sigil_invocation.v1",
+  "run_id": "domainspec-subagents-strategy-20260722T060717Z-maintenance-loop-inventory-gap",
+  "timestamp": "2026-07-22T06:07:17Z",
+  "session_id": "unknown",
+  "sigil": "domainspec-subagents-strategy",
+  "tier": "arcana",
+  "mode": "reflect",
+  "capability": {
+    "id": "domainspec-subagents-strategy",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "reflect",
+    "alias": null
+  },
+  "request": {
+    "summary": "Validate the strategy maintenance hook, route it through the canonical Arcanum maintenance spell, and make Inventory exploration automatic before reflection.",
+    "intent": "Replace partial manual maintenance orchestration with the canonical inventory-first sigil-maintenance-loop."
+  },
+  "execution": {
+    "status": "partial",
+    "outputs": [
+      "Manual maintenance trigger captured for domainspec-subagents-strategy."
+    ],
+    "files_changed": [],
+    "validation": [
+      "Inventory index.json parsed successfully and contained no direct prior entry for the target maintenance integration.",
+      "Canonical sigil-maintenance-loop existed but missed current Spellcraft contract fields and an experiment harness.",
+      "Independent observer confirmed that the strategy manually sequenced only part of the canonical spell."
+    ],
+    "notes": "Observation records pre-update behavior only; mutation is owned by the separately approved maintenance task."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [
+      "manually sequenced only part of a canonical spell",
+      "omitted Inventory exploration before reflection"
+    ],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "high",
+        "summary": "The strategy invoked workflow-reflect and sigil-development directly instead of the canonical maintenance spell.",
+        "evidence": "The Workflow Reflect Hook named the two inner sigils and omitted signal-observer and spell-level gates."
+      },
+      {
+        "category": "input",
+        "severity": "high",
+        "summary": "Maintenance reflection did not automatically retrieve prior Inventory evidence.",
+        "evidence": "The hook contained no machine-index-first Inventory lookup phase or lookup packet handoff."
+      },
+      {
+        "category": "quality-bar",
+        "severity": "medium",
+        "summary": "The registered public maintenance spell was under-specified against the current Spellcraft contract.",
+        "evidence": "The spell lacked optional sigils, prerequisites, shared state, handoff artifacts, local customization, and experiment evidence."
+      }
+    ],
+    "output_contract_drift": true,
+    "reflection_trigger": "manual",
+    "recommendation": "reflect-now"
+  },
+  "target_artifact": "domainspec-subagents-strategy maintenance hook"
+}

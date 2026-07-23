@@ -1,0 +1,108 @@
+{
+  "timestamp": "2026-07-23T00:07:29Z",
+  "run_id": "task-session-20260723T000729Z-bte-l0-context-route-conflict",
+  "session_id": "20260723T000729Z-context-route-conflict",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Continue bounded BTE Task Sessions until the next honest blocker.",
+    "intent": "Execute each ready BTE SWU and stop at the first unresolved owner or evidence gate."
+  },
+  "execution": {
+    "status": "blocked_owner_boundary_after_decision",
+    "outputs": [
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/CONTEXT-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/context-pack.json",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/TASK-SESSION-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/execution-receipt.json",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/CONTINUATION-ROUTE-RESULT.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/continuation-route.json",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/invocation-signal.json",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/DECISION-GATE.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/decision-gate.json"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/"
+    ],
+    "validation": [
+      "work-pack-frontier:sole-candidate-unselected-entry-gated",
+      "strict-context-coverage:6/10:block",
+      "canonical-validation-root:pass",
+      "prior-continuation-target:block-wrong-directory",
+      "pre-l0-bootstrap-decision:pass-option-1",
+      "decision-gate:1-resolved-0-blockers",
+      "work-pack-reconciliation:block-invoke-owner",
+      "canonical-red-fixture-manifest:absent",
+      "canonical-red-fixture-freeze-receipt:absent",
+      "continuation-route-schema:pass",
+      "no-implementation-mutation:pass",
+      "subagent-closeout:n/a"
+    ],
+    "notes": "Option 1 resolved the bootstrap architecture: contract publication, independent freeze, then execution. The active Work Pack still defines one circular SWU, so Task Session stopped at the Invoke refresh owner boundary before implementation."
+  },
+  "task_session": {
+    "task": "SWU-BTE-L0-001",
+    "context_source_count": 6,
+    "strict_coverage": "block",
+    "fallback_search": "named-gaps-only",
+    "decision_count": 1,
+    "gate_result": "block",
+    "runtime": "local",
+    "adapter": "none",
+    "files_changed_count": 9,
+    "completion_status": "blocked-invoke-owner-boundary-before-implementation",
+    "follow_up_count": 1,
+    "continuation_handoff": "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/continuation-route.json",
+    "blocker_fingerprint": "sha256:260d9d67b9dd7d92e2b7a8fdf93016d9446ab554231ab2bb48ccaa657313f532",
+    "candidate_count": 3,
+    "continuation_selection": "blocked",
+    "continuation_dispatch": "not-requested",
+    "returned_next_route": "invoke:refresh:proposal-only projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness",
+    "subagent_closeout": {
+      "status": "n/a",
+      "spawned": 0,
+      "joined": 0,
+      "closed": 0,
+      "blocked": 0,
+      "timed_out": 0,
+      "handed_off": 0,
+      "open": 0
+    },
+    "experiment_harness": "not_applicable"
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "evidence-path-label-ambiguity",
+        "severity": "low",
+        "summary": "The preceding Task Session expanded the package-relative validation-input path to the wrong repository-root target.",
+        "evidence": "PLAN.md owns validation inputs inside the BTE package; the prior route points to projects/domainspec-v2/validation-inputs/l0."
+      },
+      {
+        "category": "circular-entry-contract",
+        "severity": "high",
+        "summary": "L0 requires the manifest to validate before the SWU that creates its schema and semantic validator.",
+        "evidence": "TASK-BTE-L0-PROOF-PRIMITIVES.md Consumes and Emits plus PLAN.md L0 entry posture."
+      }
+    ],
+    "useful_patterns": [
+      "Until-blocker execution stops immediately when the current frontier is already blocked.",
+      "Contradictory continuation evidence is superseded with a fresh receipt rather than silently rewritten."
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "Run Invoke Refresh proposal-only to reconcile L0 into contract and execution SWUs; require separate approval before applying."
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/TASK-SESSION-REPORT.md"
+}

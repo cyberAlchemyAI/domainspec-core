@@ -1,0 +1,63 @@
+{
+  "schema_version": "arcanum.sigil_invocation.v1",
+  "run_id": "domainspec-subagents-strategy-20260722T062301Z-research-review-inventory-preflight",
+  "timestamp": "2026-07-22T06:23:01Z",
+  "session_id": "unknown",
+  "sigil": "domainspec-subagents-strategy",
+  "tier": "arcana",
+  "mode": "reflect",
+  "capability": {
+    "id": "domainspec-subagents-strategy",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "reflect",
+    "alias": null
+  },
+  "request": {
+    "summary": "Make every research or review strategy automatically leverage repository Inventory during strategy design.",
+    "intent": "Add a read-only machine-index-first Inventory preflight before research or review sheet design."
+  },
+  "execution": {
+    "status": "partial",
+    "outputs": [
+      "Manual correction captured and bounded private strategy update proposed."
+    ],
+    "files_changed": [
+      "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/SKILL.md",
+      "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md",
+      "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/review/SKILL.md"
+    ],
+    "validation": [
+      "Repository Inventory index.json parsed successfully and was searched before source expansion.",
+      "The existing Inventory Hook covered post-result ingestion only.",
+      "The existing maintenance lookup covered correction-time reflection only.",
+      "A separate observer confirmed that ordinary research and review strategy design lacked Inventory consumption."
+    ],
+    "notes": "Inventory lookup selected sigil-maintenance-loop-inventory-first-hardening as relevant prior evidence and preserved the gap between maintenance lookup, strategy preflight, and post-result ingestion."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [
+      "strategy design could ignore available repository knowledge",
+      "post-result ingestion could be mistaken for pre-sheet evidence retrieval"
+    ],
+    "workflow_gaps": [
+      {
+        "category": "input",
+        "severity": "high",
+        "summary": "Research and review strategy design had no mandatory Inventory preflight.",
+        "evidence": "The router moved from owner-file reading directly to sheet drafting, while its Inventory Hook only ingested durable results after design."
+      },
+      {
+        "category": "quality-bar",
+        "severity": "high",
+        "summary": "Research and review type owners did not define how Inventory evidence affects lanes or agent inputs.",
+        "evidence": "Neither type skill consumed Inventory matches, exclusions, source references, or lookup gaps during source-corpus, lens, or verifier design."
+      }
+    ],
+    "output_contract_drift": true,
+    "reflection_trigger": "manual",
+    "recommendation": "reflect-now"
+  },
+  "target_artifact": "domainspec-subagents-strategy research and review Inventory preflight"
+}

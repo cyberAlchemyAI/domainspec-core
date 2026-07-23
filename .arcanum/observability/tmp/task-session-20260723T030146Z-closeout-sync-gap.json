@@ -1,0 +1,59 @@
+{
+  "schema_version": "arcanum.observability.invocation.v1",
+  "timestamp": "2026-07-23T03:01:46Z",
+  "run_id": "task-session-20260723T030146Z-closeout-sync-gap",
+  "session_id": "2026-07-22-task-session-closeout-sync",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute",
+    "alias": null
+  },
+  "command": null,
+  "request": {
+    "raw": null,
+    "summary": "Review why successful Task Session runs repeatedly require a separate Refresh apply roundtrip.",
+    "intent": "Make bounded evidence and status synchronization part of Task Session closeout without absorbing the next task or another owner's mutation."
+  },
+  "execution": {
+    "status": "completed_with_workflow_gap",
+    "outputs": [
+      "ops/development/2026-07-22-task-session-closeout-sync/INVENTORY-LOOKUP.md"
+    ],
+    "files_changed": [
+      "ops/development/2026-07-22-task-session-closeout-sync/INVENTORY-LOOKUP.md",
+      ".arcanum/observability/tmp/task-session-20260723T030146Z-closeout-sync-gap.json"
+    ],
+    "validation": [
+      "inventory-index:parse:pass",
+      "live-task-session-contract:optional-continuation-confirmed",
+      "invoke-refresh-contract:proposal-only-default-confirmed",
+      "current-pass-receipt:planning-sync-deferred-confirmed",
+      "public-private-boundary:canonical-change-must-remain-product-neutral"
+    ],
+    "notes": "The observed behavior follows the current contracts: Task Session can finish execution before planning projections are synchronized, while Invoke Refresh requires a separate apply-approved route."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [
+      "a successful task returned a separate proposal-only Refresh approval request for deterministic closeout bookkeeping",
+      "closeout synchronization was treated as optional continuation instead of part of the task lifecycle"
+    ],
+    "workflow_gaps": [
+      {
+        "category": "closeout-synchronization",
+        "severity": "high",
+        "summary": "Task Session does not automatically join the owner receipt that synchronizes evidence-backed task, work-pack, route, and projection state after successful execution.",
+        "evidence": "The live Task Session contract makes continuation optional, while the current passing execution example ends at a proposal-only Invoke Refresh with apply authorization still open."
+      }
+    ],
+    "output_contract_drift": true,
+    "reflection_trigger": "manual",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "arcanum/arcana/task-session/SKILL.md"
+}

@@ -1,0 +1,86 @@
+{
+  "schema_version": "arcanum.sigil_invocation.v1",
+  "run_id": "domainspec-subagents-strategy-20260723T005559Z-most-used-skills-efficiency-review",
+  "timestamp": "2026-07-23T00:55:59Z",
+  "session_id": "2026-07-22-most-used-skills-efficiency-review",
+  "sigil": "domainspec-subagents-strategy",
+  "tier": "arcana",
+  "mode": "review",
+  "capability": {
+    "id": "domainspec-subagents-strategy",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "review",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Audit the six most-used observed skills one by one for efficiency without removing controls that contain demonstrated hazards.",
+    "intent": "Produce verified exact maintenance change requests and a one-change-at-a-time queue."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "ops/development/2026-07-22-most-used-skills-efficiency-review/attacks.md",
+      "ops/development/2026-07-22-most-used-skills-efficiency-review/findings.md",
+      ".arcanum/inventory/entries/most-used-skills-efficiency-review-strategy-result-synthesis.md"
+    ],
+    "files_changed": [
+      "ops/development/2026-07-22-most-used-skills-efficiency-review/attacks.md",
+      "ops/development/2026-07-22-most-used-skills-efficiency-review/findings.md",
+      "telemetry/agents/subagents-dispatch.yaml",
+      ".arcanum/inventory/entries/most-used-skills-efficiency-review-strategy-result-synthesis.md",
+      ".arcanum/inventory/index.json",
+      ".arcanum/inventory/index.md",
+      ".arcanum/inventory/log.md"
+    ],
+    "validation": [
+      "pre-dispatch-tension:pass-pass",
+      "dispatch-registration:one-open-one-close",
+      "attackers:two-post-confrontation-returns-preserved",
+      "verifier:revise-then-accept",
+      "inventory-validator:known-fail-15-out-of-enum-kinds",
+      "audited-skill-files:unchanged"
+    ],
+    "notes": "The review produced ten independent maintenance requests. No canonical skill mutation was authorized or performed."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [
+      "usage or gap counts could be mistaken for failure counts",
+      "blind regeneration could erase legitimate local overlays",
+      "human confirmation could be repeated without a machine-consumed receipt"
+    ],
+    "workflow_gaps": [
+      {
+        "category": "machine-admission",
+        "severity": "high",
+        "summary": "Declared Subagents invariants are not all enforced by the registration appender.",
+        "evidence": "Current appender can record RESERVED dispatches and orphan closes and does not enforce working-agent versus final-approver separation."
+      },
+      {
+        "category": "validation",
+        "severity": "high",
+        "summary": "The Inventory machine index is parseable but fails its current kind contract.",
+        "evidence": "Current validator exits non-zero on exactly 15 out-of-enum records."
+      },
+      {
+        "category": "runtime-projection",
+        "severity": "high",
+        "summary": "Generated skill surfaces mix stale copies and legitimate local overlays without declared composition.",
+        "evidence": "Subagents owner and installed copies differ substantively; Whisper .claude lacks current controls while .agents carries multiple local presets."
+      }
+    ],
+    "useful_patterns": [
+      "opposed efficiency and containment attackers converged after direct confrontation",
+      "verifier removed unsupported overbreadth instead of softening it",
+      "one human delegation confirmation remains where it grants real authority"
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "manual",
+    "recommendation": "Run the accepted maintenance queue one bounded change request at a time, beginning with DSS-1."
+  },
+  "target_artifact": "ops/development/2026-07-22-most-used-skills-efficiency-review/findings.md",
+  "dedupe_key": "domainspec-subagents-strategy-20260723T005559Z-most-used-skills-efficiency-review:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

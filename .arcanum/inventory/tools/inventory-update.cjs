@@ -45,6 +45,17 @@ const ENTRY_FIELDS = [
   'evidence_set_ids', 'residue',
 ];
 
+const SUPPORTED_KINDS = Object.freeze([
+  'page',
+  'entry',
+  'query',
+  'lint',
+  'raw-manifest',
+  'evidence-card-bundle',
+  'evidence-set-bundle',
+]);
+const SUPPORTED_KIND_SET = new Set(SUPPORTED_KINDS);
+
 function isNonEmptyString(v) {
   return typeof v === 'string' && v.length > 0;
 }
@@ -72,6 +83,12 @@ function normalizeEntry(record, timestamp) {
   if (!isNonEmptyString(record.id)) throw new Error('record.id is required');
   if (!isNonEmptyString(record.path)) throw new Error('record.path is required');
   if (!isNonEmptyString(record.kind)) throw new Error('record.kind is required');
+  if (!SUPPORTED_KIND_SET.has(record.kind)) {
+    throw new Error(
+      'record.kind must be one of: ' + SUPPORTED_KINDS.join(', ') +
+      ' (received ' + JSON.stringify(record.kind) + ')'
+    );
+  }
   if (!isNonEmptyString(record.type)) throw new Error('record.type is required');
 
   const entry = {
@@ -320,10 +337,16 @@ function main(argv) {
   }
 
   const indexFile = resolveIndexFile(args.index);
-  const indexObj = JSON.parse(fs.readFileSync(indexFile, 'utf8'));
-  const record = JSON.parse(fs.readFileSync(path.resolve(recordPath), 'utf8'));
-
-  const result = addRecord(indexObj, record, args.timestamp);
+  let result;
+  try {
+    const indexObj = JSON.parse(fs.readFileSync(indexFile, 'utf8'));
+    const record = JSON.parse(fs.readFileSync(path.resolve(recordPath), 'utf8'));
+    result = addRecord(indexObj, record, args.timestamp);
+  } catch (error) {
+    process.stderr.write('error: ' + error.message + '\n');
+    process.stderr.write('aborted: invalid input, nothing written\n');
+    return 1;
+  }
 
   // index.md row sync (SWU-2): runs on a json change, and as an idempotent
   // repair when json is a no-op but the md row is missing. Additive only.
@@ -382,6 +405,7 @@ module.exports = {
   mdRowFor,
   ENTRY_FIELDS,
   ALL_MAP_NAMES,
+  SUPPORTED_KINDS,
 };
 
 if (require.main === module) {

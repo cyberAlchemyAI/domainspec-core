@@ -1,0 +1,56 @@
+{
+  "schema_version": "arcanum.observability.invocation.v1",
+  "timestamp": "2026-07-23T03:21:47Z",
+  "run_id": "task-session-20260723T032147Z-zero-argument-nearest-gap",
+  "session_id": "2026-07-23-task-session-zero-argument-nearest",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute",
+    "alias": null
+  },
+  "command": null,
+  "request": {
+    "raw": "[$task-session]",
+    "summary": "Review why a no-argument Task Session cannot deterministically resume the nearest available SWU.",
+    "intent": "Make repeated no-argument Task Session calls resume one uniquely nearest SWU, including after conversational context compaction."
+  },
+  "execution": {
+    "status": "completed_with_workflow_gap",
+    "outputs": [],
+    "files_changed": [
+      ".arcanum/observability/tmp/task-session-20260723T032147Z-zero-argument-nearest-gap.json"
+    ],
+    "validation": [
+      "task-session-step-1:explicit-target-required",
+      "historical-no-argument-invocation:informal-selection-confirmed",
+      "repository-work-pack-count:multiple-unrelated-candidates",
+      "current-session-authority-precedence:already-declared",
+      "public-private-boundary:canonical-change-must-remain-product-neutral"
+    ],
+    "notes": "The current contract has no durable zero-argument selector. Historical calls depend on conversational inference, while global telemetry recency cannot safely distinguish unrelated project work packs."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [
+      "a no-argument invocation relies on conversational memory rather than a durable selector",
+      "global latest evidence could be mistaken for the current scoped continuation"
+    ],
+    "workflow_gaps": [
+      {
+        "category": "session-continuity",
+        "severity": "high",
+        "summary": "Task Session cannot deterministically recover the nearest current-session SWU after conversational context is compacted.",
+        "evidence": "Step 1 requires an explicit target, historical no-argument invocations selected informally, and the repository contains many unrelated work packs."
+      }
+    ],
+    "output_contract_drift": true,
+    "reflection_trigger": "manual",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "arcanum/arcana/task-session/SKILL.md"
+}

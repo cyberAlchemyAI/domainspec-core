@@ -1,0 +1,84 @@
+{
+  "timestamp": "2026-07-23T00:29:43Z",
+  "run_id": "sigil-maintenance-loop-20260723T002943Z-execution-readiness",
+  "session_id": "20260723T002943Z-execution-readiness-maintenance",
+  "sigil": "sigil-maintenance-loop",
+  "tier": "spell",
+  "mode": "reflect",
+  "capability": {
+    "id": "sigil-maintenance-loop",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "reflect",
+    "alias": null
+  },
+  "command": null,
+  "request": {
+    "raw": null,
+    "summary": "Reflect on approval theater, non-falsifying Refresh validation, and gaps discovered only after Task Session starts.",
+    "intent": "Propose a bounded workflow change that validates patches and execution readiness before requesting material approval or starting execution."
+  },
+  "execution": {
+    "status": "proposal_complete_waiting_for_scoped_approval",
+    "outputs": [
+      ".arcanum/observability/reflections/20260723T002943Z-execution-readiness-maintenance/REFRESH-REPORT.md",
+      ".arcanum/observability/reflections/20260723T002943Z-execution-readiness-maintenance/REFRESH-PATCH-PROPOSAL.md",
+      ".arcanum/observability/reflections/20260723T002943Z-execution-readiness-maintenance/refresh-report.json"
+    ],
+    "files_changed": [
+      ".arcanum/observability/reflections/20260723T002943Z-execution-readiness-maintenance/REFRESH-REPORT.md",
+      ".arcanum/observability/reflections/20260723T002943Z-execution-readiness-maintenance/REFRESH-PATCH-PROPOSAL.md",
+      ".arcanum/observability/reflections/20260723T002943Z-execution-readiness-maintenance/refresh-report.json",
+      ".arcanum/observability/tmp/sigil-maintenance-loop-20260723T002943Z-execution-readiness.json"
+    ],
+    "validation": [
+      "inventory-index-json:parse-pass",
+      "signal-ledger:207-relevant-rows",
+      "invoke-refresh-validator:static-pattern-only-gap-confirmed",
+      "canonical-workflow-files:unchanged",
+      "proposal-json:parse-pass",
+      "signal-ledger:append-pass",
+      "reflection-state:update-pass"
+    ],
+    "notes": "No canonical mutation occurred. The current request was treated as a maintenance and reflection trigger, not as apply authorization."
+  },
+  "observer": {
+    "quality_bar_status": "pass-with-gated-mutation",
+    "anti_pattern_hits": [
+      "approval considered before candidate patch validity is proven",
+      "expected-output prose is treated as behavioral validation",
+      "pre-existing structural gaps are discovered inside Task Session"
+    ],
+    "workflow_gaps": [
+      {
+        "category": "validation",
+        "severity": "high",
+        "summary": "Invoke Refresh lacks patch-level behavioral validation and negative controls.",
+        "evidence": "run-validation-fixtures.sh only checks static Markdown patterns for Refresh fixtures"
+      },
+      {
+        "category": "approval",
+        "severity": "high",
+        "summary": "Refresh has no approval-necessity classifier or scoped authorization reuse rule.",
+        "evidence": "refresh.md requires explicit approval for every apply-approved run but defines no independent patch verdict"
+      },
+      {
+        "category": "handoff",
+        "severity": "severe",
+        "summary": "Implementation Readiness lacks a path and dependency preflight before Task Session.",
+        "evidence": "latest Task Session found an existing wrong-root path and consume-before-produce cycle"
+      }
+    ],
+    "useful_patterns": [
+      "Refresh phase completion remains separate from downstream readiness",
+      "Inventory lookup remains automatic, read-only, and machine-index-first",
+      "Task Session remains the live mutation and drift owner"
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "severe-gap",
+    "recommendation": "Approve or reject the exact Waves 1 and 2 scope; if approved, implement once without repeated confirmation."
+  },
+  "target_artifact": ".arcanum/observability/reflections/20260723T002943Z-execution-readiness-maintenance/REFRESH-REPORT.md",
+  "dedupe_key": "sigil-maintenance-loop-20260723T002943Z-execution-readiness:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}
