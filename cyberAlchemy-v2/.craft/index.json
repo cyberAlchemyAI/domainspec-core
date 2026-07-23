@@ -1,8 +1,8 @@
 {
   "metadata": {
     "schema_version": "0.3.0",
-    "ledger_sha256": "8cdbb5c0ccdd3406008129b4bdaae851fa0310c9920797c34b20c035eff35668",
-    "generated_at": "2026-07-20T18:28:23Z",
+    "ledger_sha256": "b3e786bf3f1f25bc57d6956ac169bd93e268706c39733b8c99688c1edb713b70",
+    "generated_at": "2026-07-23T03:42:34Z",
     "generator_version": "manual-craft-index-rebuild/1.0.0",
     "source_ledger": ".craft/ledger.yml"
   },
@@ -24,6 +24,7 @@
     "CTX-CAV2-MINT-CROSSWALK": "contexts[14]",
     "CTX-CAV2-DOMAINSPEC-V2": "contexts[15]",
     "CTX-CAV2-IOLM": "contexts[16]",
+    "CTX-CAV2-IOLM-WORKABLE-EXAMPLE": "contexts[17]",
     "ART-MINT-MACHINE-MAP": "artifacts[0]",
     "ART-MINT-NEWREPO-SKILL": "artifacts[1]",
     "ART-MINT-AUTHORITY-MODEL": "artifacts[2]",
@@ -125,6 +126,8 @@
     "ART-CAV2-IOLM-00C-A-RESULT": "artifacts[50]",
     "ART-CAV2-IOLM-00C-B-DECISION": "artifacts[51]",
     "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT": "artifacts[52]",
+    "ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK": "artifacts[53]",
+    "ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE": "artifacts[54]",
     "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001": "decisions[5]"
   },
   "by_family": {
@@ -145,7 +148,8 @@
       "CTX-CAV2-MINT-BOUNDARY",
       "CTX-CAV2-MINT-CROSSWALK",
       "CTX-CAV2-DOMAINSPEC-V2",
-      "CTX-CAV2-IOLM"
+      "CTX-CAV2-IOLM",
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
     ],
     "artifacts": [
       "ART-MINT-MACHINE-MAP",
@@ -200,7 +204,9 @@
       "ART-CAV2-IOLM-POSTURE-APPLY-DISPATCH",
       "ART-CAV2-IOLM-00C-A-RESULT",
       "ART-CAV2-IOLM-00C-B-DECISION",
-      "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT"
+      "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT",
+      "ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK",
+      "ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE"
     ],
     "descriptions": [
       "DESC-CAV2-ROOT-001",
@@ -366,6 +372,12 @@
       "row_id": "CTX-CAV2-IOLM",
       "path": ".craft/ledger.yml",
       "index": 16
+    },
+    "CTX-CAV2-IOLM-WORKABLE-EXAMPLE": {
+      "family": "contexts",
+      "row_id": "CTX-CAV2-IOLM-WORKABLE-EXAMPLE",
+      "path": ".craft/ledger.yml",
+      "index": 17
     },
     "ART-MINT-MACHINE-MAP": {
       "family": "artifacts",
@@ -973,6 +985,18 @@
       "path": ".craft/ledger.yml",
       "index": 52
     },
+    "ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK": {
+      "family": "artifacts",
+      "row_id": "ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK",
+      "path": ".craft/ledger.yml",
+      "index": 53
+    },
+    "ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE": {
+      "family": "artifacts",
+      "row_id": "ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE",
+      "path": ".craft/ledger.yml",
+      "index": 54
+    },
     "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001": {
       "family": "decisions",
       "row_id": "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001",
@@ -1065,11 +1089,15 @@
     },
     {
       "context_id": "CTX-CAV2-DOMAINSPEC-V2",
-      "next_move": "v2 = implementation home (v1 to be frozen). DONE: Batch-1 engine+docs fork → impl/ + IMPORT-MANIFEST; L1 authority spine minted (3 governances; §7-clean); + validation rules C9 (linking) / C10 (completeness). RECURSIVE-GOVERNANCE RESEARCH RESOLVED (dispatch 2026-06-29-recursive-governance-model): law/check = μF bounded recursion (REAL, depth-1 witnessed, decidability-rooted leaf, ONE recursive schema, Model A as a D30-corollary); drift/trend = νF coalgebraic dual — all BUILD-FROM-OWNED (Hagino/Jacobs/Turi-Rutten + D30/D17/D29); net-new = 3 narrow claims. APPLIED to AUTHORITY-MODEL.md (Governance-Chain section + recursive GovernanceNode schema; edge-law = the layering law); cav2 handoff filed for the D30 refinement. 3 KINDS RATIFIED (owner 2026-06-29; L2 seal pending). impl/ FULLY GREEN 2026-06-30 (engine:test 97/97; tags:test 8/8; validate RC 0; typecheck RC 0; G1/G2/G3 done, G4 CI-wiring deferred). Next = reformulate imported docs/tools per IMPORT-MANIFEST + Batch 3 (design+plan in reformulate-batch1/, R1-R6b unexecuted). 2026-07-01 — spec-as-ontology RESOLVED (SURVIVED, two-plane boundary) + toy T1-T4 (substrate SURVIVED-narrow; catalog gaps → R3) + composability synthesis. v2 PROMOTED to its OWN Craft space projects/domainspec-v2/.craft/ (DEC-DSV2-CRAFT-SCOPE) — this context is now the umbrella pointer; live sub-context state lives there. Residue: R-leaf-inhabitation depth-2; R-trend-type (Stream&lt;CheckResult&gt; + guardedness) → engine lane."
+      "next_move": "DomainSpec v2 live state remains owned by projects/domainspec-v2/.craft/ledger.yml. The 2026-07-23 BTE bootstrap refresh is applied: the L0A/L0B-L8 package is validated and SWU-BTE-L0A-001 is the sole dependency-ready, unselected candidate. It publishes contracts before the independent freeze gates L0B. UI remains independent; IOLM and Body War consumer execution waits for the shared core."
     },
     {
       "context_id": "CTX-CAV2-IOLM",
-      "next_move": "Option 1 is selected. Reconcile the DomainSpec BTE SWU readiness manifest through Invoke Refresh, then follow its dependency-ready Task Session chain until a passing cross-feature-support receipt returns. Do not create 00C-B prototype sources or select 00C-C. Keep GATE-CAV2-IOLM-SG-001 open for later authoritative rebind."
+      "next_move": "Fresh A1 rebind 20260723T002902Z-current-fixture-rebind passed and returned a current-generation iolm-fixture-boundary/v1; select exactly one A2 regeneration in the A2 implementation subset and a new regeneration-evidence directory while A3 and A4 remain gated. Separately, 00C-B remains selected and blocked pending upstream cross-feature support, 00C-C remains unselected, and GATE-CAV2-IOLM-SG-001 remains open for later authoritative rebind."
+    },
+    {
+      "context_id": "CTX-CAV2-IOLM-WORKABLE-EXAMPLE",
+      "next_move": "Build a strict Context Pack and compact Goal for one SWU-IOLM-00C-UI-A2 regeneration; bind the exact fresh A1 receipt and guarded Key-and-Door bundle immediately before mutation, write only the A2 subset plus a new regeneration lifecycle, and stop at a fresh iolm-demo-snapshot/v1."
     }
   ],
   "pending_by_node": [
@@ -1261,7 +1289,7 @@
       "open_decisions": [],
       "gaps": [],
       "pending_artifacts": [],
-      "next_move": "v2 = implementation home (v1 to be frozen). DONE: Batch-1 engine+docs fork → impl/ + IMPORT-MANIFEST; L1 authority spine minted (3 governances; §7-clean); + validation rules C9 (linking) / C10 (completeness). RECURSIVE-GOVERNANCE RESEARCH RESOLVED (dispatch 2026-06-29-recursive-governance-model): law/check = μF bounded recursion (REAL, depth-1 witnessed, decidability-rooted leaf, ONE recursive schema, Model A as a D30-corollary); drift/trend = νF coalgebraic dual — all BUILD-FROM-OWNED (Hagino/Jacobs/Turi-Rutten + D30/D17/D29); net-new = 3 narrow claims. APPLIED to AUTHORITY-MODEL.md (Governance-Chain section + recursive GovernanceNode schema; edge-law = the layering law); cav2 handoff filed for the D30 refinement. 3 KINDS RATIFIED (owner 2026-06-29; L2 seal pending). impl/ FULLY GREEN 2026-06-30 (engine:test 97/97; tags:test 8/8; validate RC 0; typecheck RC 0; G1/G2/G3 done, G4 CI-wiring deferred). Next = reformulate imported docs/tools per IMPORT-MANIFEST + Batch 3 (design+plan in reformulate-batch1/, R1-R6b unexecuted). 2026-07-01 — spec-as-ontology RESOLVED (SURVIVED, two-plane boundary) + toy T1-T4 (substrate SURVIVED-narrow; catalog gaps → R3) + composability synthesis. v2 PROMOTED to its OWN Craft space projects/domainspec-v2/.craft/ (DEC-DSV2-CRAFT-SCOPE) — this context is now the umbrella pointer; live sub-context state lives there. Residue: R-leaf-inhabitation depth-2; R-trend-type (Stream&lt;CheckResult&gt; + guardedness) → engine lane."
+      "next_move": "DomainSpec v2 live state remains owned by projects/domainspec-v2/.craft/ledger.yml. The 2026-07-23 BTE bootstrap refresh is applied: the L0A/L0B-L8 package is validated and SWU-BTE-L0A-001 is the sole dependency-ready, unselected candidate. It publishes contracts before the independent freeze gates L0B. UI remains independent; IOLM and Body War consumer execution waits for the shared core."
     },
     {
       "context_id": "CTX-CAV2-IOLM",
@@ -1277,7 +1305,20 @@
         "ART-CAV2-IOLM-EXECUTION-PACK",
         "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT"
       ],
-      "next_move": "Option 1 is selected. Reconcile the DomainSpec BTE SWU readiness manifest through Invoke Refresh, then follow its dependency-ready Task Session chain until a passing cross-feature-support receipt returns. Do not create 00C-B prototype sources or select 00C-C. Keep GATE-CAV2-IOLM-SG-001 open for later authoritative rebind."
+      "next_move": "Fresh A1 rebind 20260723T002902Z-current-fixture-rebind passed and returned a current-generation iolm-fixture-boundary/v1; select exactly one A2 regeneration in the A2 implementation subset and a new regeneration-evidence directory while A3 and A4 remain gated. Separately, 00C-B remains selected and blocked pending upstream cross-feature support, 00C-C remains unselected, and GATE-CAV2-IOLM-SG-001 remains open for later authoritative rebind."
+    },
+    {
+      "context_id": "CTX-CAV2-IOLM-WORKABLE-EXAMPLE",
+      "status": "ready",
+      "blockers": [],
+      "blocking_decisions": [],
+      "open_decisions": [],
+      "gaps": [],
+      "pending_artifacts": [
+        "ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK",
+        "ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE"
+      ],
+      "next_move": "Build a strict Context Pack and compact Goal for one SWU-IOLM-00C-UI-A2 regeneration; bind the exact fresh A1 receipt and guarded Key-and-Door bundle immediately before mutation, write only the A2 subset plus a new regeneration lifecycle, and stop at a fresh iolm-demo-snapshot/v1."
     }
   ],
   "artifacts_by_path": {
@@ -1333,7 +1374,9 @@
     "development/interactive-ontology-learning-map/refreshes/2026-07-20-candidate-posture-apply/REFRESH-DISPATCH.json": "ART-CAV2-IOLM-POSTURE-APPLY-DISPATCH",
     "development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-A/RESULT.md": "ART-CAV2-IOLM-00C-A-RESULT",
     "development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/DECISION-GATE.md": "ART-CAV2-IOLM-00C-B-DECISION",
-    "development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/execution-receipt.json": "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT"
+    "development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/execution-receipt.json": "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT",
+    "development/interactive-ontology-learning-map/work-pack/tasks/TASK-IOLM-00C-UI-WORKABLE-EXAMPLE.md": "ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK",
+    "development/interactive-ontology-learning-map/work-pack/waves/W0C-UI.md": "ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE"
   },
   "reverse_links": {
     "CTX-CAV2-DEF-TOWERS": [
@@ -1388,7 +1431,14 @@
       "ART-CAV2-IOLM-00C-A-RESULT",
       "ART-CAV2-IOLM-00C-B-DECISION",
       "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT",
-      "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001"
+      "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001",
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
+    ],
+    "CTX-CAV2-IOLM-WORKABLE-EXAMPLE": [
+      "CTX-CAV2-IOLM",
+      "ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK",
+      "ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE",
+      "DESC-CAV2-IOLM-001"
     ],
     "ART-CAV2-LEDGER": [
       "CTX-CAV2-ROOT",
@@ -1734,16 +1784,37 @@
       "GAP-CAV2-CRAFT-SCHEMA-DRIFT-001"
     ],
     "ART-CAV2-IOLM-00C-A-RESULT": [
-      "CTX-CAV2-IOLM"
+      "CTX-CAV2-IOLM",
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
     ],
     "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001": [
       "CTX-CAV2-IOLM"
     ],
     "ART-CAV2-IOLM-00C-B-DECISION": [
+      "CTX-CAV2-IOLM",
       "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001"
     ],
     "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT": [
+      "CTX-CAV2-IOLM",
       "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001"
+    ],
+    "ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK": [
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
+    ],
+    "ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE": [
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
+    ],
+    "[repo-root]/cyberAlchemy-v2/development/research/2026-07-22-iolm-workable-example/findings.md": [
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
+    ],
+    "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/graph.json": [
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
+    ],
+    "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/source-manifest.json": [
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
+    ],
+    "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/build-receipt.json": [
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
     ],
     "[repo-root]/projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/execution-receipt.json": [
       "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001"
@@ -1885,7 +1956,18 @@
       "ART-CAV2-IOLM-00C-A-RESULT",
       "ART-CAV2-IOLM-00C-B-DECISION",
       "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT",
-      "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001"
+      "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001",
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
+    ],
+    "CTX-CAV2-IOLM-WORKABLE-EXAMPLE": [
+      "CTX-CAV2-IOLM",
+      "ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK",
+      "ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE",
+      "ART-CAV2-IOLM-00C-A-RESULT",
+      "[repo-root]/cyberAlchemy-v2/development/research/2026-07-22-iolm-workable-example/findings.md",
+      "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/graph.json",
+      "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/source-manifest.json",
+      "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/build-receipt.json"
     ],
     "ART-MINT-MACHINE-MAP": [
       "CTX-CAV2-MINT"
@@ -2067,7 +2149,8 @@
     "DESC-CAV2-IOLM-001": [
       "ART-CAV2-IOLM-WORKPACK",
       "ART-CAV2-IOLM-POSTURE-APPLY",
-      "CTX-CAV2-IOLM"
+      "CTX-CAV2-IOLM",
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
     ],
     "DEF-CAV2-DEFINITION-TOWER-001": [
       "CTX-CAV2-DEF-TOWERS"
@@ -2220,6 +2303,12 @@
     ],
     "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT": [
       "CTX-CAV2-IOLM"
+    ],
+    "ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK": [
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
+    ],
+    "ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE": [
+      "CTX-CAV2-IOLM-WORKABLE-EXAMPLE"
     ],
     "DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001": [
       "ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT",

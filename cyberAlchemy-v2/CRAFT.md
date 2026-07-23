@@ -13,7 +13,7 @@ the source of truth; this page is a linked status and navigation surface.
 - Boundary review: [CTX-CAV2-BOUNDARY](#context-ctx-cav2-boundary)
 - Mint feature (new 2026-06-29): `CTX-CAV2-MINT` + 6 sub-contexts in [.craft/ledger.yml](.craft/ledger.yml) · resolved design + plan: [refine RESULT](development/refinement-runs/20260629T0000Z-cav2-mint-feature/RESULT.md) _(full human-view section regenerable from ledger)_
 - DomainSpec v2 (new 2026-06-29): [CTX-CAV2-DOMAINSPEC-V2](#context-ctx-cav2-domainspec-v2) — v2 rework of the DomainSpec pillar · v1→v2 import triage done ([findings](../projects/domainspec-v2/research/2026-06-29-v1-import-triage/findings.md))
-- Interactive Ontology Learning Map: [CTX-CAV2-IOLM](#context-ctx-cav2-iolm) — `SWU-IOLM-00C-A` pass; option 1 selected; 00C-B awaits a passing upstream support receipt
+- Interactive Ontology Learning Map: [CTX-CAV2-IOLM](#context-ctx-cav2-iolm) — `SWU-IOLM-00C-A` and fresh UI-A1 rebind pass; [workable-example child](#context-ctx-cav2-iolm-workable-example) selects UI-A2; independently, 00C-B awaits a passing upstream support receipt
 - Blocking decisions: [DEC-CAV2-VISIBLE-SPACES-001](#decision-dec-cav2-visible-spaces-001), [DEC-CAV2-PUBLIC-PRIVATE-001](#decision-dec-cav2-public-private-001)
 - Active blockers: [BLK-CAV2-SOURCE-TRUTH-001](#blocker-blk-cav2-source-truth-001), [BLK-CAV2-PUBLIC-PRIVATE-001](#blocker-blk-cav2-public-private-001), [BLK-CAV2-VISIBLE-SPACES-001](#blocker-blk-cav2-visible-spaces-001)
 - Active IOLM authority gate: [GATE-CAV2-IOLM-SG-001](#gate-gate-cav2-iolm-sg-001)
@@ -95,16 +95,26 @@ the source of truth; this page is a linked status and navigation surface.
 - Gate: `flag`
 - Parent: [CTX-CAV2-ROOT](#context-ctx-cav2-root) (recomposes into root) · sibling of the Mint feature (`CTX-CAV2-MINT`)
 - Purpose: a fresh v2 design effort for the DomainSpec pillar (the *what* — typed intent → engine / Lean kernel), reworked as a peer cav2 workstream. Opened 2026-06-29 on user request; not yet scoped into blockers, decisions, gaps, or owned artifacts.
-- Current next move: **PIVOT (2026-06-29)** — v2 is now the *implementation home*; v1 to be frozen. SWU-A1 hook already shipped in v1. **Batch 1 migration done**: forked the engine (incl. private `src/rules` moat) + 6 Ontology-A docs into [`impl/`](../projects/domainspec-v2/impl/) + seeded [IMPORT-MANIFEST](../projects/domainspec-v2/IMPORT-MANIFEST.md). Batch 2 (validators + code-tag tooling) imported. **impl/ FULLY GREEN 2026-06-30** via npm (pnpm was the blocker, not network): `engine:test` 97/97 · `tags:test` 8/8 · `validate` RC 0 · `typecheck` RC 0 — the validation-governance gate (C9/C10/C11) runs. Next = reformulate the imported docs + Batch 3, freeze v1, wire G4 gate-in-CI.
+- Current next move: DomainSpec v2 live state is owned by its [scoped Craft ledger](../projects/domainspec-v2/.craft/ledger.yml). The [2026-07-23 BTE L0A/L0B route](../projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/PLAN.md) is validated; `SWU-BTE-L0A-001` is the sole dependency-ready, unselected candidate. It publishes complete contracts before the validation owner freezes matching red cases for L0B. UI remains independent; IOLM and Body War consumer execution waits for the shared core.
 
 ### <a id="context-ctx-cav2-iolm"></a>CTX-CAV2-IOLM - Interactive Ontology Learning Map
 
 - Stage: `plan`
-- Gate: `flag`
+- Gate: `block`
 - Parent: [CTX-CAV2-ROOT](#context-ctx-cav2-root)
 - Purpose: govern the private, deterministic, source-preserving learning-map project that renders one shared read model as graph, hierarchy, and table without converting projection or pedagogy into source authority.
-- Current next move: option 1 is selected. Reconcile the DomainSpec BTE readiness manifest through Invoke Refresh, then execute only the named dependency-ready unit through Task Session. Do not create 00C-B sources or select 00C-C before a passing upstream support receipt. Keep [GATE-CAV2-IOLM-SG-001](#gate-gate-cav2-iolm-sg-001) open for later authority rebind.
-- Evidence: [context](development/interactive-ontology-learning-map/CONTEXT.md), [active work-pack](development/interactive-ontology-learning-map/WORK-PACK.md), [00C-A result](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-A/RESULT.md), [00C-B decision](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/DECISION-GATE.md)
+- Current next move: fresh A1 rebind `20260723T002902Z-current-fixture-rebind` passed and returned a current-generation `iolm-fixture-boundary/v1`; select exactly one A2 regeneration in the A2 implementation subset and a new regeneration-evidence directory while A3 and A4 remain gated. Separately, 00C-B remains selected and blocked pending upstream cross-feature support, 00C-C remains unselected, and [GATE-CAV2-IOLM-SG-001](#gate-gate-cav2-iolm-sg-001) remains open for later authority rebind.
+- Evidence: [context](development/interactive-ontology-learning-map/CONTEXT.md), [active work-pack](development/interactive-ontology-learning-map/WORK-PACK.md), [A2 result](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A2/RESULT.md), [A2 receipt](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A2/execution-receipt.json), [00C-B decision](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/DECISION-GATE.md)
+
+### <a id="context-ctx-cav2-iolm-workable-example"></a>CTX-CAV2-IOLM-WORKABLE-EXAMPLE - IOLM Fixture-Backed Workable Example
+
+- Stage: `execute`
+- Gate: `ready`
+- Parent: [CTX-CAV2-IOLM](#context-ctx-cav2-iolm)
+- Purpose: deliver one private, pinned-fixture, runnable learning-map sidecar through four sequential risk-domain SWUs without weakening the compiler-backed candidate proof, DomainSpec authority, or publication boundary.
+- Current next move: build a strict Context Pack and compact Goal for one `SWU-IOLM-00C-UI-A2` regeneration; bind the exact fresh A1 receipt and guarded Key-and-Door bundle immediately before mutation, write only the A2 subset plus a new regeneration lifecycle, and stop at a fresh `iolm-demo-snapshot/v1`.
+- Owned planning artifacts: [task](development/interactive-ontology-learning-map/work-pack/tasks/TASK-IOLM-00C-UI-WORKABLE-EXAMPLE.md) and [wave](development/interactive-ontology-learning-map/work-pack/waves/W0C-UI.md).
+- Evidence inputs: [accepted findings](development/research/2026-07-22-iolm-workable-example/findings.md), [A2 result](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A2/RESULT.md), [A2 receipt](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A2/execution-receipt.json), and the versioned A1 boundary plus A2 snapshot artifacts.
 
 ## Decisions
 
@@ -305,7 +315,8 @@ the source of truth; this page is a linked status and navigation surface.
 | CTX-CAV2-BOUNDARY | DEC-CAV2-PUBLIC-PRIVATE-001 and DEC-CAV2-VISIBLE-SPACES-001. |
 | CTX-CAV2-EXECUTION | GAP-CAV2-WORKPACK-001; create a work-pack after import clustering. |
 | CTX-CAV2-DOMAINSPEC-V2 | PIVOT: v2 = implementation home, v1 to be frozen. Batch 1+2 forked engine+docs+validators → impl/ + IMPORT-MANIFEST. **impl/ FULLY GREEN 2026-06-30** (npm; engine:test 97/97 · tags:test 8/8 · validate RC 0 · typecheck RC 0). Pending: Batch 3 (audit/layering reformulate); reformulate 6 imported-verbatim docs; v1-freeze; G4 gate-in-CI. Residue: C10/lint vacuous until a real feature lands; attestation fire-point + provability-as-moat bet (commercialization decision-gate); the Lean-positioning question still open. |
-| CTX-CAV2-IOLM | **Block:** option 1 is selected, but 00C-B still lacks a passing upstream cross-feature-support receipt. The first BTE Task Session is blocked on contradictory SWU readiness state. GATE-CAV2-IOLM-SG-001 remains separately open for L0A only. Next: Invoke Refresh the BTE work-pack; do not create 00C-B sources or select 00C-C. |
+| CTX-CAV2-IOLM | **Block:** 00C-B still lacks a passing upstream cross-feature-support receipt and GATE-CAV2-IOLM-SG-001 remains open for L0A only. Independently, fixture policy is resolved, fresh A1 rebind `20260723T002902Z-current-fixture-rebind` passed, A2 regeneration is selected, A3-A4 are gated, and historical A1-A4 evidence remains immutable. |
+| CTX-CAV2-IOLM-WORKABLE-EXAMPLE | **Ready:** bind the fresh A1 receipt and guarded current Key-and-Door bundle through one A2 Task Session; stop at `iolm-demo-snapshot/v1`. |
 
 ## Artifacts
 
@@ -320,18 +331,30 @@ the source of truth; this page is a linked status and navigation surface.
 - [authority/imports/definitions/MANIFEST.md](authority/imports/definitions/MANIFEST.md) - definition import ledger.
 - [authority/imports/constitutions/MANIFEST.md](authority/imports/constitutions/MANIFEST.md) - constitution import ledger.
 - [development/interactive-ontology-learning-map/CONTEXT.md](development/interactive-ontology-learning-map/CONTEXT.md) - private learning-map context contract.
-- [development/interactive-ontology-learning-map/WORK-PACK.md](development/interactive-ontology-learning-map/WORK-PACK.md) - active candidate-first work-pack; 00C-A pass and no next unit selected.
-- [development/interactive-ontology-learning-map/EXECUTION-PACK.md](development/interactive-ontology-learning-map/EXECUTION-PACK.md) - bounded execution handoff stopped for receipt review.
-- [development/interactive-ontology-learning-map/DISPATCH.json](development/interactive-ontology-learning-map/DISPATCH.json) - passing route shape with the 00C-A native-stage receipt applied.
+- [development/interactive-ontology-learning-map/WORK-PACK.md](development/interactive-ontology-learning-map/WORK-PACK.md) - active work-pack; superseded UI-A is non-runnable, historical A1-A4 evidence is preserved, fresh A1 rebind passed, A2 regeneration is selected, A3-A4 are gated, and 00C-B remains selected and blocked.
+- [development/interactive-ontology-learning-map/EXECUTION-PACK.md](development/interactive-ontology-learning-map/EXECUTION-PACK.md) - bounded execution handoff with the independent four-unit W0C-UI wave active.
+- [development/interactive-ontology-learning-map/DISPATCH.json](development/interactive-ontology-learning-map/DISPATCH.json) - route shape with sequential A1–A4 Task Session siblings and unchanged compiler/authority gates.
 - [development/interactive-ontology-learning-map/work-pack/shared/G-OWNER-DECISION.md](development/interactive-ontology-learning-map/work-pack/shared/G-OWNER-DECISION.md) - accepted bounded projection-owner decision.
 - [development/interactive-ontology-learning-map/refreshes/2026-07-15-minted-runtime-route/REFRESH-REPORT.md](development/interactive-ontology-learning-map/refreshes/2026-07-15-minted-runtime-route/REFRESH-REPORT.md) - proposal-only candidate-first refresh.
 - [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-A/RESULT.md](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-A/RESULT.md) - passing candidate-contract Task Session receipt.
 - [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/DECISION-GATE.md](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/DECISION-GATE.md) - closed option-1 route decision.
 - [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/execution-receipt.json](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/execution-receipt.json) - Task Session block receipt; no prototype mutation.
+- [development/interactive-ontology-learning-map/work-pack/tasks/TASK-IOLM-00C-UI-WORKABLE-EXAMPLE.md](development/interactive-ontology-learning-map/work-pack/tasks/TASK-IOLM-00C-UI-WORKABLE-EXAMPLE.md) - active parent contract split into A1–A4; fresh A1 current-fixture rebind passed, A2 regeneration is selected, A3-A4 are gated, and all historical receipts remain immutable.
+- [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A1/RESULT.md](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A1/RESULT.md) - passing A1 Task Session result and `iolm-fixture-boundary/v1` handle.
+- [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A1/execution-receipt.json](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A1/execution-receipt.json) - machine A1 receipt used to select A2.
+- [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A2/RESULT.md](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A2/RESULT.md) - passing A2 Task Session result and `iolm-demo-snapshot/v1` handle.
+- [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A2/execution-receipt.json](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A2/execution-receipt.json) - machine A2 receipt used to select A3.
+- [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A3/RESULT.md](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A3/RESULT.md) - passing A3 Task Session result and `iolm-interactive-viewer/v1` handle.
+- [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A3/execution-receipt.json](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A3/execution-receipt.json) - machine A3 receipt used to select A4.
+- [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/RESULT.md](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/RESULT.md) - terminal A4 `BLOCK/FAIL`; no browser-acceptance handle emitted.
+- [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/execution-receipt.json](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/execution-receipt.json) - machine A4 block receipt and exact fail-fast residue.
+- [development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/DEFECT-RECEIPT.md](development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-UI-A4/DEFECT-RECEIPT.md) - Firefox text-node event-target defect routed to A3.
+- [development/interactive-ontology-learning-map/work-pack/waves/W0C-UI.md](development/interactive-ontology-learning-map/work-pack/waves/W0C-UI.md) - independent four-unit sequential wave after 00C-A.
 
 ## Boundary Check
 
-This Craft update records the closed option-1 Decision Gate and the remaining upstream-receipt block
-in the CyberAlchemy v2 ledger, derived index, and human view. It created no 00C-B
-prototype sources and did not mutate public Arcanum, DomainSpec compiler/source
-authority, FPR state, production, or publication state.
+This Craft update records the four-unit execution route inside the existing child
+context while retaining the closed option-1 Decision Gate and upstream-receipt
+block. It created no workable-example implementation or 00C-B prototype source
+and did not mutate public Arcanum, DomainSpec compiler/source authority, FPR state,
+production, or publication state.

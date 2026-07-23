@@ -28,6 +28,7 @@ indexes:
     CTX-CAV2-MINT-CROSSWALK: contexts[14]
     CTX-CAV2-DOMAINSPEC-V2: contexts[15]
     CTX-CAV2-IOLM: contexts[16]
+    CTX-CAV2-IOLM-WORKABLE-EXAMPLE: contexts[17]
     ART-MINT-MACHINE-MAP: artifacts[0]
     ART-MINT-NEWREPO-SKILL: artifacts[1]
     ART-MINT-AUTHORITY-MODEL: artifacts[2]
@@ -81,6 +82,8 @@ indexes:
     ART-CAV2-IOLM-00C-A-RESULT: artifacts[50]
     ART-CAV2-IOLM-00C-B-DECISION: artifacts[51]
     ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT: artifacts[52]
+    ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK: artifacts[53]
+    ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE: artifacts[54]
     DESC-CAV2-ROOT-001: descriptions[0]
     DESC-CAV2-SPACES-001: descriptions[1]
     DESC-CAV2-DEF-TOWERS-001: descriptions[2]
@@ -180,9 +183,15 @@ indexes:
   - context_id: CTX-CAV2-MINT-CROSSWALK
     next_move: Template the crosswalk emit from the resonantos as-built example.
   - context_id: CTX-CAV2-DOMAINSPEC-V2
-    next_move: 'v2 = implementation home (v1 to be frozen). DONE: Batch-1 engine+docs fork → impl/ + IMPORT-MANIFEST; L1 authority spine minted (3 governances; §7-clean); + validation rules C9 (linking) / C10 (completeness). RECURSIVE-GOVERNANCE RESEARCH RESOLVED (dispatch 2026-06-29-recursive-governance-model): law/check = μF bounded recursion (REAL, depth-1 witnessed, decidability-rooted leaf, ONE recursive schema, Model A as a D30-corollary); drift/trend = νF coalgebraic dual — all BUILD-FROM-OWNED (Hagino/Jacobs/Turi-Rutten + D30/D17/D29); net-new = 3 narrow claims. APPLIED to AUTHORITY-MODEL.md (Governance-Chain section + recursive GovernanceNode schema; edge-law = the layering law); cav2 handoff filed for the D30 refinement. 3 KINDS RATIFIED (owner 2026-06-29; L2 seal pending). impl/ FULLY GREEN 2026-06-30 (engine:test 97/97; tags:test 8/8; validate RC 0; typecheck RC 0; G1/G2/G3 done, G4 CI-wiring deferred). Next = reformulate imported docs/tools per IMPORT-MANIFEST + Batch 3 (design+plan in reformulate-batch1/, R1-R6b unexecuted). 2026-07-01 — spec-as-ontology RESOLVED (SURVIVED, two-plane boundary) + toy T1-T4 (substrate SURVIVED-narrow; catalog gaps → R3) + composability synthesis. v2 PROMOTED to its OWN Craft space projects/domainspec-v2/.craft/ (DEC-DSV2-CRAFT-SCOPE) — this context is now the umbrella pointer; live sub-context state lives there. Residue: R-leaf-inhabitation depth-2; R-trend-type (Stream&lt;CheckResult&gt; + guardedness) → engine lane.'
+    next_move: >-
+      DomainSpec v2 live state remains owned by projects/domainspec-v2/.craft/ledger.yml. The 2026-07-23
+      BTE bootstrap refresh is applied: the L0A/L0B-L8 package is validated and SWU-BTE-L0A-001 is the sole
+      dependency-ready, unselected candidate. It publishes contracts before the independent freeze gates L0B.
+      UI remains independent; IOLM and Body War consumer execution waits for the shared core.
   - context_id: CTX-CAV2-IOLM
-    next_move: Option 1 is selected. Reconcile the DomainSpec BTE SWU readiness manifest through Invoke Refresh, then follow its dependency-ready Task Session chain until a passing cross-feature-support receipt returns. Do not create 00C-B prototype sources or select 00C-C. Keep GATE-CAV2-IOLM-SG-001 open for later authoritative rebind.
+    next_move: Fresh A1 rebind 20260723T002902Z-current-fixture-rebind passed and returned a current-generation iolm-fixture-boundary/v1; select exactly one A2 regeneration in the A2 implementation subset and a new regeneration-evidence directory while A3 and A4 remain gated. Separately, 00C-B remains selected and blocked pending upstream cross-feature support, 00C-C remains unselected, and GATE-CAV2-IOLM-SG-001 remains open for later authoritative rebind.
+  - context_id: CTX-CAV2-IOLM-WORKABLE-EXAMPLE
+    next_move: Build a strict Context Pack and compact Goal for one SWU-IOLM-00C-UI-A2 regeneration; bind the exact fresh A1 receipt and guarded Key-and-Door bundle immediately before mutation, write only the A2 subset plus a new regeneration lifecycle, and stop at a fresh iolm-demo-snapshot/v1.
   artifacts_by_path:
     ../.arcanum/inventory/entries/machine-map-and-moat-synthesis.md: ART-MINT-MACHINE-MAP
     ../implementation/domainspec/.claude/skills/domainspec-new-repo/SKILL.md: ART-MINT-NEWREPO-SKILL
@@ -237,6 +246,8 @@ indexes:
     development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-A/RESULT.md: ART-CAV2-IOLM-00C-A-RESULT
     development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/DECISION-GATE.md: ART-CAV2-IOLM-00C-B-DECISION
     development/interactive-ontology-learning-map/work-pack/session-evidence/SWU-IOLM-00C-B/execution-receipt.json: ART-CAV2-IOLM-00C-B-BLOCK-RECEIPT
+    development/interactive-ontology-learning-map/work-pack/tasks/TASK-IOLM-00C-UI-WORKABLE-EXAMPLE.md: ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK
+    development/interactive-ontology-learning-map/work-pack/waves/W0C-UI.md: ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE
 contexts:
   - context_id: CTX-CAV2-ROOT
     parent_id: root
@@ -532,21 +543,10 @@ contexts:
     stage: define
     gate: flag
     next_move: >-
-      v2 = implementation home (v1 to be frozen). DONE: Batch-1 engine+docs fork → impl/ +
-      IMPORT-MANIFEST; L1 authority spine minted (3 governances; §7-clean); + validation rules C9
-      (linking) / C10 (completeness). RECURSIVE-GOVERNANCE RESEARCH RESOLVED (dispatch
-      2026-06-29-recursive-governance-model): law/check = μF bounded recursion (REAL, depth-1
-      witnessed, decidability-rooted leaf, ONE recursive schema, Model A as a D30-corollary);
-      drift/trend = νF coalgebraic dual — all BUILD-FROM-OWNED (Hagino/Jacobs/Turi-Rutten + D30/D17/D29);
-      net-new = 3 narrow claims. APPLIED to AUTHORITY-MODEL.md (Governance-Chain section + recursive
-      GovernanceNode schema; edge-law = the layering law); cav2 handoff filed for the D30 refinement. 3 KINDS RATIFIED (owner 2026-06-29; L2 seal pending). impl/ FULLY GREEN 2026-06-30 (engine:test 97/97; tags:test 8/8;
-      validate RC 0; typecheck RC 0; G1/G2/G3 done, G4 CI-wiring deferred). Next = reformulate
-      imported docs/tools per IMPORT-MANIFEST + Batch 3 (design+plan in reformulate-batch1/, R1-R6b
-      unexecuted). 2026-07-01 — spec-as-ontology RESOLVED (SURVIVED, two-plane boundary) + toy T1-T4
-      (substrate SURVIVED-narrow; catalog gaps → R3) + composability synthesis. v2 PROMOTED to its OWN
-      Craft space projects/domainspec-v2/.craft/ (DEC-DSV2-CRAFT-SCOPE) — this context is now the umbrella
-      pointer; live sub-context state lives there. Residue: R-leaf-inhabitation depth-2; R-trend-type
-      (Stream&lt;CheckResult&gt; + guardedness) → engine lane.
+      DomainSpec v2 live state remains owned by projects/domainspec-v2/.craft/ledger.yml. The 2026-07-23
+      BTE bootstrap refresh is applied: the L0A/L0B-L8 package is validated and SWU-BTE-L0A-001 is the sole
+      dependency-ready, unselected candidate. It publishes contracts before the independent freeze gates L0B.
+      UI remains independent; IOLM and Body War consumer execution waits for the shared core.
     owned_artifacts:
       - ART-DSV2-IMPORT-TRIAGE
       - ART-DSV2-IMPL
@@ -585,10 +585,12 @@ contexts:
     stage: plan
     gate: block
     next_move: >-
-      Option 1 is selected. Reconcile the DomainSpec BTE SWU readiness manifest through
-      Invoke Refresh, then execute only its named dependency-ready unit through Task Session.
-      Keep 00C-B source mutation and 00C-C selection blocked until a passing upstream
-      cross-feature-support receipt exists. Keep GATE-CAV2-IOLM-SG-001 open for later rebind.
+      Fresh A1 rebind 20260723T002902Z-current-fixture-rebind passed and returned
+      a current-generation iolm-fixture-boundary/v1; select exactly one A2 regeneration
+      in the A2 implementation subset and a new regeneration-evidence directory while A3
+      and A4 remain gated. Separately, 00C-B remains selected and blocked pending
+      upstream cross-feature support, 00C-C remains unselected, and
+      GATE-CAV2-IOLM-SG-001 remains open for later authoritative rebind.
     owned_artifacts:
       - ART-CAV2-IOLM-CONTEXT
       - ART-CAV2-IOLM-WORKPACK
@@ -624,13 +626,57 @@ contexts:
       - label: Resolved cross-feature route decision
         target: DEC-CAV2-IOLM-00C-B-CROSS-FEATURE-001
         kind: row-id
+      - label: Fixture-backed workable example
+        target: CTX-CAV2-IOLM-WORKABLE-EXAMPLE
+        kind: row-id
     notes: >-
       Bound to the existing CyberAlchemy v2 Craft space; no nested ledger is created. The
       candidate-first plan is active and SWU-IOLM-00C-A passed with handle
-      iolm-candidate-contract/v1. Option 1 routes cross-feature support upstream; SWU-IOLM-00C-B
-      is blocked before mutation until the BTE readiness contradiction is reconciled and a passing
-      support receipt returns. The authoritative graph gate remains separately open for L0A
-      rebind and cannot be closed by candidate evidence.
+      iolm-candidate-contract/v1. The old UI-A sidecar contract is superseded before execution;
+      historical A1-A3 and both blocked A4 attempts remain immutable. The fixture-policy
+      decision selected the current Key-and-Door generation; fresh A1 rebind
+      20260723T002902Z-current-fixture-rebind passed, so A2 regeneration is selected
+      and A3-A4 remain gated. The separate cross-feature Option 1
+      still routes cross-feature support upstream; SWU-IOLM-00C-B is blocked before mutation
+      until a passing support receipt returns, and 00C-C remains unselected. The authoritative
+      graph gate remains separately open for L0A rebind and cannot be closed by demo or candidate evidence.
+
+  - context_id: CTX-CAV2-IOLM-WORKABLE-EXAMPLE
+    parent_id: CTX-CAV2-IOLM
+    title: IOLM Fixture-Backed Workable Example
+    purpose: >-
+      Deliver one private, pinned-fixture, runnable learning-map sidecar through four sequential
+      risk-domain SWUs without weakening the compiler-backed candidate proof, DomainSpec
+      authority, or publication boundary.
+    stage: execute
+    gate: ready
+    next_move: Build a strict Context Pack and compact Goal for one SWU-IOLM-00C-UI-A2 regeneration; bind the exact fresh A1 receipt and guarded Key-and-Door bundle immediately before mutation, write only the A2 subset plus a new regeneration lifecycle, and stop at a fresh iolm-demo-snapshot/v1.
+    owned_artifacts:
+      - ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK
+      - ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE
+    links:
+      - label: Parent IOLM context
+        target: CTX-CAV2-IOLM
+        kind: row-id
+      - label: Passed 00C-A contract receipt
+        target: ART-CAV2-IOLM-00C-A-RESULT
+        kind: artifact-id
+      - label: Accepted workable-example findings
+        target: "[repo-root]/cyberAlchemy-v2/development/research/2026-07-22-iolm-workable-example/findings.md"
+        kind: path
+      - label: Pinned Key-and-Door graph
+        target: "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/graph.json"
+        kind: path
+      - label: Pinned Key-and-Door source manifest
+        target: "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/source-manifest.json"
+        kind: path
+      - label: Pinned Key-and-Door build receipt
+        target: "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/build-receipt.json"
+        kind: path
+    notes: >-
+      This child owns planning artifacts only. Task Session may create the implementation package
+      later; no Craft artifact row exists for that package until its receipt is returned. The
+      sidecar cannot affect 00C-B, 00C-C, G-DSV2-SG, CROSS_FEATURE_UNSUPPORTED, promotion, or publication.
 artifacts:
   - artifact_id: ART-MINT-MACHINE-MAP
     owner_context_id: CTX-CAV2-MINT
@@ -966,6 +1012,18 @@ artifacts:
     notes: >-
       Task Session stopped before prototype mutation. Option 1 is now selected; the first upstream
       BTE audit also stopped before mutation on contradictory SWU readiness state.
+  - artifact_id: ART-CAV2-IOLM-WORKABLE-EXAMPLE-TASK
+    owner_context_id: CTX-CAV2-IOLM-WORKABLE-EXAMPLE
+    path: development/interactive-ontology-learning-map/work-pack/tasks/TASK-IOLM-00C-UI-WORKABLE-EXAMPLE.md
+    artifact_type: work-pack-task
+    status: active
+    notes: Active parent contract split into four sequential receipt-bound SWUs; superseded UI-A never ran, historical A1-A3 and both blocked A4 attempts remain immutable, fresh A1 current-fixture rebind 20260723T002902Z-current-fixture-rebind passed, A2 regeneration is selected, and A3-A4 are gated.
+  - artifact_id: ART-CAV2-IOLM-WORKABLE-EXAMPLE-WAVE
+    owner_context_id: CTX-CAV2-IOLM-WORKABLE-EXAMPLE
+    path: development/interactive-ontology-learning-map/work-pack/waves/W0C-UI.md
+    artifact_type: work-pack-wave
+    status: active
+    notes: Independent four-unit A1-to-A4 wave after 00C-A; historical receipts remain audit evidence, fresh A1 current-fixture rebind 20260723T002902Z-current-fixture-rebind passed, A2 regeneration is selected, A3-A4 are gated, and no receipt is a predecessor for 00C-B/C or authority work.
 
 descriptions:
   - description_id: DESC-CAV2-ROOT-001
@@ -1017,8 +1075,9 @@ descriptions:
     context_id: CTX-CAV2-IOLM
     description: >-
       The Interactive Ontology Learning Map is an existing private planning package for a
-      deterministic, source-preserving learning UI. Its candidate-first L0C contract selects one
-      bounded provenance/authority-guard SWU now while preserving G-DSV2-SG for later L0A rebind.
+      deterministic, source-preserving learning UI. Its candidate-first L0C contract passed;
+      a child context now selects one fixture-backed sidecar SWU while the compiler-backed 00C-B
+      route remains blocked and G-DSV2-SG remains preserved for later L0A rebind.
     status: active
     evidence: ART-CAV2-IOLM-POSTURE-APPLY
     links:
@@ -1028,6 +1087,9 @@ descriptions:
       - label: Applied posture refresh
         target: ART-CAV2-IOLM-POSTURE-APPLY
         kind: artifact-id
+      - label: Workable-example child context
+        target: CTX-CAV2-IOLM-WORKABLE-EXAMPLE
+        kind: row-id
 
 definitions:
   - definition_id: DEF-CAV2-DEFINITION-TOWER-001
