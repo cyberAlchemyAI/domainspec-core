@@ -44,8 +44,8 @@ This template is retained only as historical scaffolding. New invoke plan work m
 
 ## Source Design References
 
-| Ref ID | Source             | Required  | Notes   |
-| ------ | ------------------ | --------- | ------- |
+| Ref ID | Source | Required | Notes |
+| --- | --- | --- | --- |
 | SD-001 | {path or decision} | yes or no | {notes} |
 
 ## Delivery Boundary
@@ -56,15 +56,15 @@ This template is retained only as historical scaffolding. New invoke plan work m
 
 ## Delivery Slices
 
-| Slice ID | Outcome   | Dependencies   | Validation         |
-| -------- | --------- | -------------- | ------------------ |
-| S-001    | {outcome} | {dependencies} | {validation check} |
+| Slice ID | Outcome | Dependencies | Validation |
+| --- | --- | --- | --- |
+| S-001 | {outcome} | {dependencies} | {validation check} |
 
 ## Dependency Plan
 
-| Dependency   | Needed By | Readiness                  | Risk   |
-| ------------ | --------- | -------------------------- | ------ |
-| {dependency} | {slice}   | ready, partial, or missing | {risk} |
+| Dependency | Needed By | Readiness | Risk |
+| --- | --- | --- | --- |
+| {dependency} | {slice} | ready, partial, or missing | {risk} |
 
 ## Layer Window
 
@@ -75,17 +75,17 @@ This template is retained only as historical scaffolding. New invoke plan work m
 
 ## Task Decomposition
 
-| Task ID | Slice ID | Task   | Done When          |
-| ------- | -------- | ------ | ------------------ |
-| T-001   | S-001    | {task} | {completion check} |
+| Task ID | Slice ID | Task | Done When |
+| --- | --- | --- | --- |
+| T-001 | S-001 | {task} | {completion check} |
 
 ## Implementation Detail Specs
 
 Required for medium/high complexity execution tasks. Low complexity plans may keep these details inline when the task is self-evident.
 
-| Task ID | Detail Status         | Inputs   | Outputs   | Implementation Notes                                                                   | Edge Cases                    | Validation Evidence                          |
-| ------- | --------------------- | -------- | --------- | -------------------------------------------------------------------------------------- | ----------------------------- | -------------------------------------------- |
-| T-001   | complete, gap, or n/a | {inputs} | {outputs} | {algorithm, pseudocode, state transition, data flow, or concrete implementation steps} | {edge cases or failure modes} | {checks proving the intended implementation} |
+| Task ID | Detail Status | Inputs | Outputs | Implementation Notes | Edge Cases | Validation Evidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| T-001 | complete, gap, or n/a | {inputs} | {outputs} | {algorithm, pseudocode, state transition, data flow, or concrete implementation steps} | {edge cases or failure modes} | {checks proving the intended implementation} |
 
 Algorithmic or domain-logic tasks must describe purpose, inputs, outputs, data model or state, step-by-step algorithm or pseudocode, precedence/scoring/classification/transition rules, edge cases, failure modes, and acceptance checks. A task that only says to implement a bundle, component, or outcome is not execution-ready.
 
@@ -95,9 +95,9 @@ Required for medium/high work-packs. SWUs sit below tasks and identify the small
 
 Shared manifest:
 
-| SWU ID                 | Parent Task | Goal                    | Dependencies                 | Write Scope                                   | Done Criteria                        | Acceptance Evidence                   | Verification Command          | Execution Owner                     | Handoff Note                                                |
-| ---------------------- | ----------- | ----------------------- | ---------------------------- | --------------------------------------------- | ------------------------------------ | ------------------------------------- | ----------------------------- | ----------------------------------- | ----------------------------------------------------------- |
-| SWU-{FEATURE-CODE}-001 | T-001       | {small executable goal} | {task ids, SWU ids, or none} | {files, modules, or docs this SWU may change} | {conditions that make this SWU done} | {evidence required to accept the SWU} | {command or reviewable check} | subagent, local-fallback, or manual | {context a worker/subagent needs and expected return shape} |
+| SWU ID | Parent Task | Goal | Dependencies | Write Scope | Done Criteria | Acceptance Evidence | Verification Command | Execution Owner | Handoff Note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SWU-{FEATURE-CODE}-001 | T-001 | {small executable goal} | {task ids, SWU ids, or none} | {files, modules, or docs this SWU may change} | {conditions that make this SWU done} | {evidence required to accept the SWU} | {command or reviewable check} | subagent, local-fallback, or manual | {context a worker/subagent needs and expected return shape} |
 
 Task-local mapping:
 
@@ -144,15 +144,15 @@ expected_result:
 
 ## Blocker Ledger
 
-| Blocker ID | Blocker   | Impact   | Resolution   |
-| ---------- | --------- | -------- | ------------ |
-| B-001      | {blocker} | {impact} | {resolution} |
+| Blocker ID | Blocker | Impact | Resolution |
+| --- | --- | --- | --- |
+| B-001 | {blocker} | {impact} | {resolution} |
 
 ## Validation Strategy
 
-| Check ID | Check   | Scope   | Tool Or Evidence   |
-| -------- | ------- | ------- | ------------------ |
-| V-001    | {check} | {scope} | {tool or evidence} |
+| Check ID | Check | Scope | Tool Or Evidence |
+| --- | --- | --- | --- |
+| V-001 | {check} | {scope} | {tool or evidence} |
 
 ## Work-Pack Handoff
 
@@ -168,8 +168,8 @@ expected_result:
 
 ## Closure Criteria
 
-| Criterion   | Evidence   |
-| ----------- | ---------- |
+| Criterion | Evidence |
+| --- | --- |
 | {criterion} | {evidence} |
 
 ## Gate Result

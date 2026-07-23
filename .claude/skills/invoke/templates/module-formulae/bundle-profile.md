@@ -1,8 +1,8 @@
 ---
-module: { module-name }
+module: {module-name}
 version: current
 status: draft
-updatedAt: { date }
+updatedAt: {date}
 docType: bundle-profile
 ---
 
@@ -12,22 +12,22 @@ Use this template to select and compose Module Formulae artifacts by workflow mo
 
 ## Bundle Profiles
 
-| Profile ID     | Use When                                                         | Required Templates                                                                                                                                                                                                   | Optional Templates |
-| -------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| discovery      | Context is unclear and needs evidence-first clarification.       | research-brief.md, module-spec.md, glossary-ontology.md                                                                                                                                                              | concept-model.md   |
-| architecture   | Scope is approved and structural design is required.             | module-spec.md, glossary-ontology.md, concept-model.md, architecture-bundle.md, interfaces.md, flows-policies.md                                                                                                     | observability.md   |
-| implementation | Architecture is approved and execution planning is required.     | module-spec.md, architecture-bundle.md, ../implementation-layering.md, ../work-pack.md, execution-pack.md                                                                                                            | observability.md   |
-| full           | End-to-end definition, design, and planning in one governed run. | module-spec.md, glossary-ontology.md, concept-model.md, operations.md, flows-policies.md, interfaces.md, architecture-bundle.md, ../implementation-layering.md, ../work-pack.md, execution-pack.md, observability.md | research-brief.md  |
+| Profile ID | Use When | Required Templates | Optional Templates |
+| --- | --- | --- | --- |
+| discovery | Context is unclear and needs evidence-first clarification. | research-brief.md, module-spec.md, glossary-ontology.md | concept-model.md |
+| architecture | Scope is approved and structural design is required. | module-spec.md, glossary-ontology.md, concept-model.md, architecture-bundle.md, interfaces.md, flows-policies.md | observability.md |
+| implementation | Architecture is approved and execution planning is required. | module-spec.md, architecture-bundle.md, ../implementation-layering.md, ../work-pack.md, execution-pack.md | observability.md |
+| full | End-to-end definition, design, and planning in one governed run. | module-spec.md, glossary-ontology.md, concept-model.md, operations.md, flows-policies.md, interfaces.md, architecture-bundle.md, ../implementation-layering.md, ../work-pack.md, execution-pack.md, observability.md | research-brief.md |
 
 ## Mode To Profile Mapping
 
-| Invoke Mode | Recommended Profile | Rationale                                                  |
-| ----------- | ------------------- | ---------------------------------------------------------- |
-| define      | discovery           | Clarifies scope and establishes terminology before design. |
-| design      | architecture        | Produces required structural and process views.            |
-| plan        | implementation      | Produces delivery slices and execution gates.              |
-| full        | full                | Runs all contracts with stage gates and handoffs.          |
-| validate    | profile-specific    | Validates selected profile outputs against gates.          |
+| Invoke Mode | Recommended Profile | Rationale |
+| --- | --- | --- |
+| define | discovery | Clarifies scope and establishes terminology before design. |
+| design | architecture | Produces required structural and process views. |
+| plan | implementation | Produces delivery slices and execution gates. |
+| full | full | Runs all contracts with stage gates and handoffs. |
+| validate | profile-specific | Validates selected profile outputs against gates. |
 
 ## Selection Rules
 
@@ -40,12 +40,12 @@ Use this template to select and compose Module Formulae artifacts by workflow mo
 
 ## Output Expectations
 
-| Profile        | Required Outputs                                                                                |
-| -------------- | ----------------------------------------------------------------------------------------------- |
-| discovery      | research brief, module spec, glossary baseline                                                  |
-| architecture   | design views, assumptions, risk and decision records                                            |
-| implementation | implementation layering, canonical work-pack manifest, and execution pack skeleton              |
-| full           | complete contract set, implementation layering, work-pack manifest, and handoff-ready artifacts |
+| Profile | Required Outputs |
+| --- | --- |
+| discovery | research brief, module spec, glossary baseline |
+| architecture | design views, assumptions, risk and decision records |
+| implementation | implementation layering, canonical work-pack manifest, and execution pack skeleton |
+| full | complete contract set, implementation layering, work-pack manifest, and handoff-ready artifacts |
 
 ## Governance Notes
 

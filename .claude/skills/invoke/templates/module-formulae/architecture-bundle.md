@@ -1,8 +1,8 @@
 ---
-module: { module-name }
+module: {module-name}
 version: current
 status: draft
-updatedAt: { date }
+updatedAt: {date}
 docType: architecture-bundle
 ---
 
@@ -82,14 +82,14 @@ graph TD
 
 ## Open Risks
 
-| Risk ID  | Risk           | Impact            | Mitigation   |
-| -------- | -------------- | ----------------- | ------------ |
+| Risk ID | Risk | Impact | Mitigation |
+| --- | --- | --- | --- |
 | R-ARCH-1 | {risk summary} | high, medium, low | {mitigation} |
 
 ## Unresolved Decisions
 
-| Decision           | Options   | Current Status          |
-| ------------------ | --------- | ----------------------- |
+| Decision | Options | Current Status |
+| --- | --- | --- |
 | {decision summary} | {A, B, C} | open, selected, blocked |
 
 ## Planning Notes

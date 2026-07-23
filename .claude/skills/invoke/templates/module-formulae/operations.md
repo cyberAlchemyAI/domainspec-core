@@ -12,21 +12,21 @@ Trigger: {what starts this action}
 
 ### Input
 
-| Field        | Type       | Required    | Description |
-| ------------ | ---------- | ----------- | ----------- |
-| {field-name} | {TypeName} | {yes or no} | {purpose}   |
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| {field-name} | {TypeName} | {yes or no} | {purpose} |
 
 ### Constraints
 
-| ID  | Constraint        | Formal Expression   |
-| --- | ----------------- | ------------------- |
-| R1  | {constraint text} | {formal expression} |
+| ID | Constraint | Formal Expression |
+| --- | --- | --- |
+| R1 | {constraint text} | {formal expression} |
 
 ### Derivations
 
-| ID  | Derivation      | Formula   |
-| --- | --------------- | --------- |
-| C1  | {derived value} | {formula} |
+| ID | Derivation | Formula |
+| --- | --- | --- |
+| C1 | {derived value} | {formula} |
 
 ### State Update
 
@@ -41,8 +41,8 @@ Transition: {FromState} -> {ToState}
 
 ### Failure Outcomes
 
-| Condition           | Result                       |
-| ------------------- | ---------------------------- |
+| Condition | Result |
+| --- | --- |
 | {failure condition} | {error or fallback behavior} |
 
 ---
@@ -55,21 +55,21 @@ Consumer: {who reads this view}
 
 ### Query Input
 
-| Field         | Type       | Required    | Description |
-| ------------- | ---------- | ----------- | ----------- |
-| {filter-name} | {TypeName} | {yes or no} | {purpose}   |
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| {filter-name} | {TypeName} | {yes or no} | {purpose} |
 
 ### Read Rules
 
-| ID  | Rule        | Formal Expression   |
-| --- | ----------- | ------------------- |
-| Q1  | {rule text} | {formal expression} |
+| ID | Rule | Formal Expression |
+| --- | --- | --- |
+| Q1 | {rule text} | {formal expression} |
 
 ### Output
 
-| Field        | Type       | Description |
-| ------------ | ---------- | ----------- |
-| {field-name} | {TypeName} | {meaning}   |
+| Field | Type | Description |
+| --- | --- | --- |
+| {field-name} | {TypeName} | {meaning} |
 
 ### Performance Notes
 

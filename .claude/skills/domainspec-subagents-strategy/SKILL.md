@@ -1,58 +1,219 @@
 ---
+surface_kind: generated-native-runtime-package
+runtime: claude
+canonical_source: arcana/subagent-strategy/SKILL.md
+alias_of: null
+generated_by: implementation/domainspec/internal_tools/subagents-dispatch-hooks/scripts/sync-strategy-runtimes.cjs
+mutation_policy: regenerate-from-canonical-source
+overlay_source: implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/SKILL.md
 name: domainspec-subagents-strategy
-description: Route any subagent dispatch — check the Principle-1 trigger, hold the human gate, enforce the universal invariants, then route by dispatch_type to the owning type skill (research, review, and experiment are LIVE; code/plan/suggestion are reserved). The record/sheet form is owned by register-dispatch; field definitions by constitution §5. This skill defines no field and no type-specific judgment — it routes.
+description: "Route DomainSpec/Arcanum subagent dispatches: check the trigger, tension the sheet, hold the human gate, register, run, close, and preserve the append-only ledger."
 ---
 
-**Governing doc:** operationalizes `internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md` (v0.6.3-proposal). The live vault constitution is still v0.3.0; where the two conflict, v0.6.x wins (owner decision 2026-06-12; doc bumped 0.6.0 → 0.6.1 → 0.6.2 → 0.6.3 per §10 / §12 / §13 / §14). The wire `schema_version` is `"0.6.1"` (§10.1: it bumps only on a *row-schema* change — §14 added the `output_mode` key, so 0.6.0 → 0.6.1).
+# DomainSpec Subagents Strategy
 
-> **Read budget — do NOT open the constitution to run a dispatch.** The full operational form is inline: routing + invariants here, every field/enum/schema/skeleton/close-row in `register-dispatch`. The constitution (822 lines) is **authority-of-last-resort** — open it *only* to adjudicate a genuine conflict between this skill and the constitution, never as a routine lookup. The `§N` cites below are provenance anchors for that rare case, not an instruction to read.
+## Overview
 
-## When to dispatch (P1) — and what is not a dispatch (P11)
+Use this skill when the user invokes `$domainspec-subagents-strategy`, asks to run a governed subagent dispatch, or asks to spawn subagents under the DomainSpec/Arcanum discipline. This skill is a router: it defines no dispatch fields and makes no type-specific research/review/experiment judgment by itself.
 
-Dispatch only when at least one trigger holds: **synthesis** (3+ sources to combine), **context protection** (raw output ≫ what the parent needs), **isolation** (discardable exploration), **parallelism** (independent tasks). Otherwise work inline.
+## Arcanum Core Boundary
 
-**Helper rule (P11):** a single agent spawned *by* a running agent, within its parent's scope, is not a dispatch — no row, no gate; it is reported post-hoc in the parent's `agents_spawned`. It escalates to a real dispatch when it fans out (2+) or outgrows the parent's scope. *(The exact helper-vs-dispatch boundary is provisional — an open question, not settled law.)*
+This skill is the DomainSpec consuming adapter for the public Arcanum
+`subagent-strategy` core. The Arcanum sigil owns the portable trigger,
+proposal, tension, confirmation, registration, dependency, closeout, and
+observability lifecycle. This adapter owns the DomainSpec constitution, type
+owners, form/schema, agent pool, registrar, ledger, Inventory policy, and local
+artifact paths.
 
-## Lifecycle — the universal four steps (§3)
+Do not copy this adapter's private authority or paths into Arcanum. Changes to
+the reusable lifecycle belong in `subagent-strategy`; changes to DomainSpec
+bindings remain here.
 
-1. **Propose.** The strategist fills the sheet — consulting the type skill (routing table below) for type judgment — and proposes it in chat, stating for each tensioned pair the question on which the two agents are predicted to disagree (P5). The proposal **states where the dispatch's artifacts will be saved** — the `working_folder` path, or **inline** (no files) where the type allows it. `research`/`experiment` always persist and require a `working_folder`. **`review` must declare `output_mode`** (`inline` | `persisted`) — its single artifact is `review.md`, rendered in chat or written to `<working_folder>/review.md` (§14). Before presenting to the human, run the **check-tension gate** (Pointers): two independent agents verify the sheet is genuinely tensioned (Tests 1–4); the sheet reaches the human only if **both PASS**, otherwise it returns here for revision.
-2. **Confirm.** The human's explicit affirmative — silence or a question is not confirmation. Nothing persists before it. **The same gate confirms the artifact destination** (universal, any `dispatch_type`): the human explicitly confirms the `working_folder` path the artifacts will be saved to — or, for a `review`, explicitly picks **`inline` vs `persisted`**. That pick is **recorded on the row as `output_mode`**, never inferred from an absent `working_folder` (§14). Do not register or write artifacts to a folder the human has not confirmed. The confirmed sheet is **frozen**; any strategist edit after confirm — including the folder or the output mode — re-enters the gate (P2).
-3. **Register + run.** Append the dispatch row, then schedule groups **by dependency** (P4, amended 2026-06-12): a group is READY when every group with a `sequential`/`zig-zag` edge into it has produced what it must respond to (zig-zag counts only in its `from`→`to` direction — the `from` endpoint opens the exchange); launch all READY groups concurrently; `feedback` edges never count as dependencies; a sheet with no connections declares its groups independent; declared order is narration tiebreak only. Agents inside a group run in parallel. An agent error degrades to a **partial group result** that downstream groups and the `final_approver` must be told about.
-4. **Close.** Report `exit_reason` + `agents_spawned` in chat — and in the persisted deliverable when there is one (`findings.md` for research; `review.md` for a `persisted` review; an `inline` review reports in chat only) — and append the close row. Two appends, one ledger, append-only (P3).
+It operationalizes the repo-local subagent strategy constitution when present:
+`implementation/domainspec/internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md`.
+The ledger row schema is `"0.7.0"` for new dispatch rows. Historical rows
+remain structurally grandfathered.
 
-For the record shape, the appender, and the close-row mechanics: **register-dispatch owns them** — see Pointers.
+Before acting, locate the active repo root. In `domainspec-core`, prefer the repo-local owner files under `implementation/domainspec/internal_tools/subagents-dispatch-hooks/` over any generated runtime copy.
+In standalone migrated repositories, prefer the repo-local `ops/subagents-strategy/`, `.agents/skills/`, `telemetry/agents/agents.yaml`, and `telemetry/agents/subagents-dispatch.yaml` surfaces over private upstream paths.
 
-## Universal invariants (every dispatch_type)
+## When To Dispatch
 
-These bullets are operational restatements of constitution §4; §4 is authoritative on conflict.
+Dispatch only when at least one Principle-1 trigger holds:
 
-- **P5 — pairwise tension.** Any n ≥ 2 group must be pairwise tensioned (predictable disagreement per pair, named axis, per-agent position); checked by the **check-tension gate** (two independent agents) before the human confirm — untensioned sheets go back to the strategist for revision.
-- **P7 — aggregation is derived,** never a field: `robot_talks: true` → the group synthesizes; otherwise → concat. *(Non-binding note, per P7's own framing: a bare concat is never the dispatch's final deliverable.)*
-- **P10 — claim ≤ proof** in every artifact produced.
-- **P12 — final approval.** Every dispatch names a `final_approver`: `parent` (default) or a dedicated approver group whose single agent's role is `auditor` and that does no other work; never a working-group member (no self-approval); falls back to `parent` if its group never runs; the approver receives the full `working_folder`. One human gate only — the entry confirm.
-- **Three dials, three scopes.** `layers` (group) / `loop_cap` (edge) / `max_loops` (dispatch) — one scenario, one dial; if two seem to fit, the smallest scope wins. Decision table: constitution §5.
-- **exit_reason.** Closed vocabulary: `resolved | loop_ceiling_reached | dissent_irreconcilable | user_abort | error`. Precedence + decision procedure: constitution §5.
-- **P8 — trust-but-verify.** If a subagent wrote files or claimed a check passed, inspect the actual diff / run the actual check before treating it as done.
-- **P13 — meta + lineage.** A dispatch about dispatching is `meta: true`; `parent_dispatch_id` exists only on a dispatch planned by a meta dispatch; a meta-planned child re-enters the confirm gate.
-- **P14 — robot-talks binding.** A group with `robot_talks: true` binds `vault/constitution/robot-talks-constitution.md`; this constitution's single-gate rule overrides any extra human gate it would prescribe. A synthesizer downstream of a robot-talks group MUST receive each agent's initial AND final positions (collapse detection).
+- Synthesis: 3 or more sources, lenses, or returns must be combined.
+- Context protection: raw output would be much larger than what the parent should carry.
+- Isolation: exploration should be discardable or independently checked.
+- Parallelism: independent work can run concurrently.
 
-## Routing by dispatch_type
+Otherwise, work inline.
 
-LIVE status is **declared by constitution §5** (promoting a reserved type goes through §7's premise-debt re-confrontation — an owner act); a LIVE row must also point to an existing skill — a consistency check, not the definition. Routing to a RESERVED type: **refuse and tell the user** the type is not yet populated.
+Helper rule: a single helper agent spawned within a running agent's scope is not a dispatch. Record it post-hoc in the parent's `agents_spawned.helpers`. It escalates into a dispatch when it fans out to 2 or more agents or outgrows the parent's scope.
 
-| dispatch_type | status | skill |
-|---|---|---|
-| `research` | LIVE | `.claude/skills/research/SKILL.md` — research-type judgment: canonical shape, roles, gates, outputs |
-| `code` | RESERVED — must not be dispatched until populated | none |
-| `review` | LIVE (populated 2026-06-12, owner decision) | `.claude/skills/review/SKILL.md` — red-team judgment: attack lenses, severity taxonomy, verification discipline, the change-request report. **One artifact: `review.md`** (the synthesis — no `attacks.md`, no `findings.md`); `output_mode` picks chat vs `<working_folder>/review.md` (§14) |
-| `plan` | RESERVED — must not be dispatched until populated | none |
-| `suggestion` | RESERVED — must not be dispatched until populated | none |
-| `experiment` | LIVE (populated 2026-06-14, owner decision) | `.claude/skills/experiment/SKILL.md` — falsification judgment: pre-registered criterion freeze, validity gates, SURVIVED/FALSIFIED/INVALID verdict (propose phase only — INVALID may be rendered here; SURVIVED/FALSIFIED rendered at the separate downstream run) |
+## Research And Review Inventory Preflight
 
-## Pointers (single owners)
+For every strategy request classified as `research` or `review`, perform an
+automatic, read-only Inventory lookup after the preliminary P1 decision and
+dispatch-type resolution, but before drafting a dispatch sheet or finalizing an
+inline strategy. This lookup does not require an additional user prompt.
 
-- **Form — record/sheet fill mechanics:** `register-dispatch` (`.claude/skills/register-dispatch/SKILL.md`; appender `.claude/skills/register-dispatch/append-dispatch.cjs`) — field tables, enums, the appender, the close row, `invoked_by`.
-- **Definitions + skeleton:** inline in `register-dispatch` (field tables, enums, schema v0.6.0, annotated example) — read there, not the constitution. Constitution §5 (parameter reference) / §6 (skeleton YAML) are the upstream authority only.
-- **Agent names:** `telemetry/agents/agent-pool.yaml`.
-- **Anti-bias design:** `.claude/skills/anti-bias-vector-composition/SKILL.md` (the `check-tension` gate enforces it; the vault discovery `implementation/domainspec/vault/discovery/anti-bias-vector-composition/` is the knowledge home).
-- **Init-time tensioning gate:** `check-tension` (`.claude/skills/check-tension/SKILL.md`) — the two independent agents that verify Tests 1–4 before the human confirm; only "both PASS" reaches the human.
+1. Detect the repository-local Inventory package and use `inventory` in
+   `lookup` mode.
+2. Derive lookup terms from the goal, target artifacts or question, dispatch
+   type, affected contract areas, and likely source or lens vocabulary.
+3. Read `index.json` first when it exists and is parseable. Use `index.md` only
+   as a flagged fallback.
+4. Produce a named `strategy-inventory-packet` with lookup status, query terms,
+   entry IDs, evidence-card and EvidenceSet IDs, paths, selectors, summaries,
+   tags, confidence, source references, obligation fit, excluded matches with
+   reasons, unresolved gaps, residue, and a non-authority notice.
+5. Use the packet to shape source corpora, lanes, angles, target selectors, and
+   agent inputs. The strategy must state at least one design consequence, or
+   explain why every candidate match was excluded.
+6. Pass only relevant packet fields to each lane; do not make every agent reread
+   the whole Inventory.
+
+Inventory is a discovery read model, not proof or dispatch authority. Its
+results do not determine the P1 decision, authorize a dispatch, satisfy
+check-tension, or replace human confirmation. The lookup is inline preflight
+work, not a subagent group or ledger event.
+
+Continue with explicit `inventory_unavailable`, `machine_index_gap`, or
+`no_inventory_match` residue when lookup is degraded. Never convert an
+Inventory no-match into `precedent-clean`; research must still perform and cite
+the actual precedent search. Review findings must still quote and verify the
+current artifact. Automatic preflight must not expand into Inventory `install`,
+`query`, `ingest`, `backfill`, or `sync`.
+
+## Lifecycle
+
+1. Propose.
+   Make the preliminary P1 decision, resolve the dispatch type, run the research/review Inventory preflight when applicable, read the relevant type owner, then draft a durable dispatch sheet. Compute its SHA-256. For each group with 2 or more agents, name the anti-bias axis and the concrete question where the agents are expected to disagree. Before presenting the sheet to the human, run the check-tension gate with two independent agents; only a double PASS bound to that same sheet digest reaches the human. Preserve the two evidence handles, verdicts, and digest, not the full returns. Any strategist edit after the lookup, including a change driven by Inventory evidence, invalidates the digest and must re-enter check-tension. If the runtime has no callable subagent tool, state that the gate cannot be executed and stop at a proposed sheet.
+
+2. Confirm.
+   Wait for explicit human confirmation. Silence, discussion, or a question is not confirmation. Record a confirmation handle and the exact confirmed sheet digest. After confirmation, the sheet is frozen; any strategist edit changes the digest and re-enters the check-tension gate.
+
+3. Register and run.
+   Assemble schema 0.7.0 `evidence_binding` from the live sheet path/digest,
+   the two PASS handles, and the confirmation handle. Append the dispatch row
+   with the deterministic appender; it independently hashes the current sheet
+   and rejects incomplete or substituted evidence. Then launch groups by dependency:
+   a group is READY when every `sequential` or `zig-zag` edge into it has produced what it must respond to. `feedback` edges never count as dependencies. A sheet with no connections declares groups independent. Agents inside a group run in parallel. If an agent errors, downstream groups and the final approver must receive the partial result.
+
+   For research dispatches, the strategist appends `research.md` from verbatim explorer returns only. The writer writes `findings.md` only. Synthesizer and reviewer output is digested into `findings.md`; it is not transcribed into `research.md`.
+
+4. Close.
+   Close all spawned agents, report `exit_reason` and `agents_spawned`, and append the close row. The ledger gets exactly two appends per dispatch: the dispatch row and the close row. After closeout, update inventory and observability read models when present.
+
+## Required Strategy Response Shape
+
+When the user invokes this skill for a strategy, proposal, or dispatch design, the chat answer must surface the strategy itself, not only file paths or validation status. Include:
+
+1. **P1 trigger decision** - why this is or is not a dispatch.
+2. **Lanes / groups** - each group, its purpose, role, anti-bias axis, and whether it runs in parallel or depends on another group.
+3. **Subagents** - agent names, roles, angles, and output expectations.
+4. **Dependency flow** - sequential, zig-zag, feedback, and final-approval edges.
+5. **Gate / ledger state** - check-tension status, confirmation requirement, registration state, and closeout expectation.
+6. **Inventory preflight** - for research/review, lookup status, selected and
+   excluded evidence, gaps, and the concrete effect on lanes or agent inputs.
+7. **Next human action** - usually `confirmed`, revise the sheet, or decline.
+
+For any durable proposal written to disk, add the same lanes/subagents summary to the proposal artifact unless doing so would duplicate a stricter local template.
+
+## Post-Result Inventory Hook
+
+When the repository has an inventory package, inventory the **result of the strategy**, not just the existence of the dispatch machinery.
+
+For every durable strategy/proposal, create or update an inventory entry that captures:
+
+- the P1 trigger decision;
+- the lanes/groups and their roles;
+- the subagents, angles, and expected outputs;
+- the dependency flow;
+- the gate, confirmation, registration, and ledger state;
+- for research/review, the `strategy-inventory-packet` status, selected and
+  excluded evidence, gaps, and design consequences;
+- the next human action.
+
+This inventory entry is a non-authority read model. It must link to the proposal sheet and gate artifacts, but it does not replace the chat answer: the chat answer must still show the lanes and subagents directly.
+
+Minimum inventory checks for a durable strategy/proposal:
+
+- the human index links the strategy-result entry;
+- tags include `strategy-result`, `dispatch`, and `subagents`;
+- the inventory log records whether the proposal is unregistered, registered, run, or closed;
+- the strategy-result entry links the proposal sheet and gate artifacts;
+- after a run, durable findings, validation reports, and closeout evidence get their own entries or log rows.
+
+## Workflow Reflect Hook
+
+When the user correction or observer pass indicates that this skill's answer omitted lanes/subagents, confused inventory with the strategy result, or drifted from its response shape, route maintenance through the canonical Arcanum `sigil-maintenance-loop` with `target_sigil_id: domainspec-subagents-strategy`. Do not manually sequence only `workflow-reflect` and `sigil-development`.
+
+Pass the current correction or observer envelope, the affected contract area, and relevant lookup terms into the spell. The spell always performs a read-only, machine-index-first Inventory lookup before reflection and must not ask for additional permission for that lookup. Keep this maintenance lookup distinct from the Post-Result Inventory Hook above: lookup retrieves prior evidence for reflection; the post-result hook records durable strategy and dispatch results.
+
+`sigil-development` remains the lifecycle owner for edits. The strategy skill is mutated only after the spell has produced a reflection outcome and the user has approved the bounded change scope.
+
+Reflection-relevant signals include:
+
+- missing P1, lanes, subagents, dependency flow, gate state, or next human action in a strategy response;
+- inventory entries that point to machinery but omit the strategy result;
+- durable proposals that lack a lanes/subagents summary;
+- research/review strategy design that omits the pre-sheet Inventory lookup or
+  records a lookup without any design consequence or explicit exclusion;
+- closeout that appends the dispatch ledger but leaves inventory or observability stale;
+- path drift between a standalone repository and the private upstream owner checkout.
+
+## Routing
+
+Route by `dispatch_type`. Reserved types must not be dispatched until populated.
+
+| dispatch_type | status   | owner skill                                                                                    |
+| ------------- | -------- | ---------------------------------------------------------------------------------------------- |
+| `research`    | LIVE     | `implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md`   |
+| `review`      | LIVE     | `implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/review/SKILL.md`     |
+| `experiment`  | LIVE     | `implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/experiment/SKILL.md` |
+| `code`        | RESERVED | none                                                                                           |
+| `plan`        | RESERVED | none                                                                                           |
+| `suggestion`  | RESERVED | none                                                                                           |
+
+For `research` or `review`, perform the Inventory preflight and read the type
+skill before creating the sheet. For `experiment`, read the type skill without
+implying an automatic Inventory preflight. This router owns only the universal
+dispatch process.
+
+## Registering
+
+Use the form owner:
+`implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/register-dispatch/SKILL.md`.
+
+Use the deterministic appender from the repo root:
+
+```sh
+node implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/register-dispatch/append-dispatch.cjs .register-dispatch.tmp.json
+```
+
+Create temporary JSON records with a normal file edit tool. For new dispatch
+rows, include schema 0.7.0 `evidence_binding` with the live sheet path/digest,
+two unique PASS handles, and explicit confirmation handle, all bound to the
+same digest. Run the appender, then delete the temp file. Do not hand-edit
+`telemetry/agents/subagents-dispatch.yaml`.
+
+For close rows, use `close_of`, `exit_reason`, `agents_spawned`, optional `feedback_prompts`, and optional `invoked_by`. Do not include `dispatch_id` in a close record.
+
+## Invariants
+
+- Pairwise tension: every group with 2 or more agents must have a named axis and per-agent angle.
+- Claim <= proof: every artifact produced by the dispatch must cite or preserve its evidence boundary.
+- Final approval: `final_approver` is `parent` unless a dedicated one-agent auditor group is declared; no working-group member self-approves.
+- Three dials, three scopes: `layers` belongs to a group, `loop_cap` belongs to a zig-zag or feedback edge, and `max_loops` belongs to the whole dispatch.
+- Exit reasons are `resolved`, `loop_ceiling_reached`, `dissent_irreconcilable`, `user_abort`, or `error`.
+- Trust but verify: if a subagent wrote files or claimed a check passed, inspect the diff or run the check before treating it as done.
+- Public/private boundary: when outputs land in public `arcanum`, do not write private parent paths, private submodule paths, emails, or workspace-only evidence into the public artifact.
+
+## Pointers
+
+- Constitution: `implementation/domainspec/internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md`
+- Check-tension gate: `implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/check-tension/SKILL.md`
+- Form and appender: `implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/register-dispatch/SKILL.md`
+- Agent pool: `telemetry/agents/agent-pool.yaml`
+- Dispatch ledger: `telemetry/agents/subagents-dispatch.yaml`

@@ -10,11 +10,11 @@ Use this family when invoke needs architecture planning, design transport, depen
 
 ## Templates
 
-| Template                                               | Purpose                               |
-| ------------------------------------------------------ | ------------------------------------- |
-| [architecture.md](architecture.md)                     | Architecture planning contract.       |
-| [examples/passing.md](examples/passing.md)             | Minimal passing architecture example. |
-| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example.       |
+| Template | Purpose |
+| --- | --- |
+| [architecture.md](architecture.md) | Architecture planning contract. |
+| [examples/passing.md](examples/passing.md) | Minimal passing architecture example. |
+| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example. |
 
 ## Composition
 

@@ -27,16 +27,16 @@ graph TD
 
 ### Step Table
 
-| Step | Description    | Actor   | Action       | On Success  | On Failure     | Compensation     |
-| ---- | -------------- | ------- | ------------ | ----------- | -------------- | ---------------- |
-| 1    | {step summary} | {actor} | {ActionName} | {next step} | {failure path} | {none or action} |
-| 2    | {step summary} | {actor} | {ActionName} | {next step} | {failure path} | {none or action} |
+| Step | Description | Actor | Action | On Success | On Failure | Compensation |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | {step summary} | {actor} | {ActionName} | {next step} | {failure path} | {none or action} |
+| 2 | {step summary} | {actor} | {ActionName} | {next step} | {failure path} | {none or action} |
 
 ### Invariants
 
-| ID  | Invariant        | Formal Expression   |
-| --- | ---------------- | ------------------- |
-| I1  | {invariant text} | {formal expression} |
+| ID | Invariant | Formal Expression |
+| --- | --- | --- |
+| I1 | {invariant text} | {formal expression} |
 
 ---
 
@@ -50,9 +50,9 @@ Trigger Conditions: {when to evaluate this policy}
 
 ### Decision Table
 
-| Condition   | Selected Behavior | Notes   |
-| ----------- | ----------------- | ------- |
-| {condition} | {behavior}        | {notes} |
+| Condition | Selected Behavior | Notes |
+| --- | --- | --- |
+| {condition} | {behavior} | {notes} |
 
 ### Formula (Optional)
 
@@ -60,6 +60,6 @@ Trigger Conditions: {when to evaluate this policy}
 
 ### Parameters
 
-| Parameter        | Type       | Default   | Description |
-| ---------------- | ---------- | --------- | ----------- |
-| {parameter-name} | {TypeName} | {default} | {purpose}   |
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| {parameter-name} | {TypeName} | {default} | {purpose} |

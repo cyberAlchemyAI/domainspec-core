@@ -10,11 +10,11 @@ Use this family when an invoke request needs a neutral governed artifact and no 
 
 ## Templates
 
-| Template                                               | Purpose                             |
-| ------------------------------------------------------ | ----------------------------------- |
-| [generic.md](generic.md)                               | Neutral governed artifact contract. |
-| [examples/passing.md](examples/passing.md)             | Minimal passing generic example.    |
-| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example.     |
+| Template | Purpose |
+| --- | --- |
+| [generic.md](generic.md) | Neutral governed artifact contract. |
+| [examples/passing.md](examples/passing.md) | Minimal passing generic example. |
+| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example. |
 
 ## Gates
 

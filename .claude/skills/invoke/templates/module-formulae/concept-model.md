@@ -8,10 +8,10 @@ Define structural concepts and constraints.
 
 Describe what this record represents and why it exists.
 
-| Field        | Type       | Required    | Description        |
-| ------------ | ---------- | ----------- | ------------------ |
-| id           | {IdType}   | yes         | Unique identifier. |
-| {field-name} | {TypeName} | {yes or no} | {field purpose}    |
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| id | {IdType} | yes | Unique identifier. |
+| {field-name} | {TypeName} | {yes or no} | {field purpose} |
 
 Lifecycle Reference: {optional lifecycle or state machine reference}
 
@@ -25,8 +25,8 @@ Related Actions: {actions that create or update this record}
 
 Use value types for immutable or comparison-sensitive shapes.
 
-| Field        | Type       | Constraint        |
-| ------------ | ---------- | ----------------- |
+| Field | Type | Constraint |
+| --- | --- | --- |
 | {field-name} | {TypeName} | {validation rule} |
 
 Equality Rule: {how two values are compared}
@@ -37,7 +37,7 @@ Equality Rule: {how two values are compared}
 
 ### {EnumName}
 
-| Value    | Description |
-| -------- | ----------- |
-| {ValueA} | {meaning}   |
-| {ValueB} | {meaning}   |
+| Value | Description |
+| --- | --- |
+| {ValueA} | {meaning} |
+| {ValueB} | {meaning} |

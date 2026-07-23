@@ -10,11 +10,11 @@ Use this family when invoke needs to prepare context for creating or revising a 
 
 ## Templates
 
-| Template                                               | Purpose                           |
-| ------------------------------------------------------ | --------------------------------- |
-| [spell.md](spell.md)                                   | Spell authoring handoff contract. |
-| [examples/passing.md](examples/passing.md)             | Minimal passing spell example.    |
-| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example.   |
+| Template | Purpose |
+| --- | --- |
+| [spell.md](spell.md) | Spell authoring handoff contract. |
+| [examples/passing.md](examples/passing.md) | Minimal passing spell example. |
+| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example. |
 
 ## Gates
 

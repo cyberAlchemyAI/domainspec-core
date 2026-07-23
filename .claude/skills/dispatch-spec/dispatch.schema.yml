@@ -1,28 +1,28 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://arcanum.local/formulae/dispatch-spec/dispatch.schema.yml
 title: Arcanum Dispatch Spec
-description: Draft schema for describing a governed Arcanum sigil/spell dispatch route.
+description: Draft schema for describing governed Arcanum routes, including capability-bound delegated execution waves.
 type: object
 required:
-  - dispatch_id
-  - intent
-  - mode
-  - steps
-  - gates
-  - observability
+- dispatch_id
+- intent
+- mode
+- steps
+- gates
+- observability
 properties:
   dispatch_id:
     type: string
     minLength: 1
   parent_dispatch_id:
     type:
-      - string
-      - "null"
+    - string
+    - 'null'
   intent:
     type: object
     required:
-      - raw
-      - objective
+    - raw
+    - objective
     properties:
       raw:
         type: string
@@ -42,16 +42,16 @@ properties:
   mode:
     type: string
     enum:
-      - single
-      - sequence
-      - fanout
-      - dialectic
-      - tournament
-      - research
-      - validation
-      - spell-design
-      - implementation-research
-      - mixed
+    - single
+    - sequence
+    - fanout
+    - dialectic
+    - tournament
+    - research
+    - validation
+    - spell-design
+    - implementation-research
+    - mixed
   route_menu:
     type: object
     description: ChoiceCard-like bounded menu of possible routes or capabilities.
@@ -65,9 +65,9 @@ properties:
         items:
           type: object
           required:
-            - id
-            - label
-            - description
+          - id
+          - label
+          - description
           properties:
             id:
               type: string
@@ -85,29 +85,27 @@ properties:
           additionalProperties: true
       selected_item_id:
         type:
-          - string
-          - "null"
+        - string
+        - 'null'
     additionalProperties: true
   techniques:
     type: array
-    description:
-      Dispatch-level technique ids selected from TECHNIQUE-CATALOG.md or
+    description: Dispatch-level technique ids selected from TECHNIQUE-CATALOG.md or
       locally justified extensions.
     items:
-      $ref: "#/$defs/technique_ref"
+      $ref: '#/$defs/technique_ref'
   technique_overlays:
     type: array
-    description:
-      Optional named technique profiles a route proposer may activate without
+    description: Optional named technique profiles a route proposer may activate without
       changing the core dispatch schema.
     items:
       type: object
       required:
-        - overlay_id
-        - trigger
-        - techniques
-        - applies_to_steps
-        - validation_expectation
+      - overlay_id
+      - trigger
+      - techniques
+      - applies_to_steps
+      - validation_expectation
       properties:
         overlay_id:
           type: string
@@ -119,7 +117,7 @@ properties:
           type: array
           minItems: 1
           items:
-            $ref: "#/$defs/technique_ref"
+            $ref: '#/$defs/technique_ref'
         applies_to_steps:
           type: array
           minItems: 1
@@ -133,17 +131,17 @@ properties:
     type: object
     description: Optional execution strategy for role-bound subagents or delegated sibling agents.
     required:
-      - status
-      - explanation
-      - authorization
+    - status
+    - explanation
+    - authorization
     properties:
       status:
         type: string
         enum:
-          - none
-          - recommended
-          - required
-          - blocked
+        - none
+        - recommended
+        - required
+        - blocked
       trigger:
         type: string
       explanation:
@@ -153,14 +151,23 @@ properties:
         type: array
         items:
           type: string
+      binding_mode:
+        type: string
+        description: Use capability-bound when each delegated role must be executable through one named owner capability.
+        enum:
+        - descriptive
+        - capability-bound
+      execution_owner:
+        type: string
+        description: Parent capability that owns spawn, join, gates, and final synthesis.
       roles:
         type: array
         items:
           type: object
           required:
-            - role_id
-            - purpose
-            - owns
+          - role_id
+          - purpose
+          - owns
           properties:
             role_id:
               type: string
@@ -171,65 +178,184 @@ properties:
             owns:
               type: string
               minLength: 1
+            capability_ref:
+              type: string
+              description: Lifecycle or execution capability governing this worker.
+            capability_target:
+              type: string
+              description: Sigil, spell, artifact, or bounded task operated on by the capability.
+            capability_mode:
+              type: string
+              description: Mode passed to the governing capability, such as update, reflect, validate, or execute.
+            agent_count:
+              type: integer
+              minimum: 1
+              maximum: 16
+            mutation_policy:
+              type: string
+              enum:
+              - read-only
+              - proposal-only
+              - lifecycle-owned
+              - artifact-only
+            write_scope:
+              type: array
+              items:
+                type: string
+            forbidden_write_scopes:
+              type: array
+              items:
+                type: string
+            depends_on_roles:
+              type: array
+              items:
+                type: string
+            input_refs:
+              type: array
+              items:
+                type: string
+            output_refs:
+              type: array
+              items:
+                type: string
             applies_to_steps:
               type: array
               items:
                 type: string
           additionalProperties: true
+      execution_waves:
+        type: array
+        description: Ordered worker waves. Roles within one parallel wave may run together; later waves wait for declared joins and gates.
+        items:
+          type: object
+          required:
+          - wave_id
+          - role_ids
+          - parallel
+          - join_policy
+          - on_incomplete
+          properties:
+            wave_id:
+              type: string
+              minLength: 1
+            role_ids:
+              type: array
+              minItems: 1
+              items:
+                type: string
+            parallel:
+              type: boolean
+            join_policy:
+              type: string
+              enum:
+              - all
+              - quorum
+              - ranked
+              - pareto
+              - parent_synthesis
+              - human_gate
+            depends_on_waves:
+              type: array
+              items:
+                type: string
+            gate_after:
+              type: string
+            on_incomplete:
+              type: string
+              enum:
+              - block
+              - flag
+              - defer
+              - reroute
+          additionalProperties: true
       parallelism:
         type: string
         enum:
-          - none
-          - fanout
-          - dialectic
-          - tournament
-          - mixed
+        - none
+        - fanout
+        - dialectic
+        - tournament
+        - mixed
       join_policy:
         type: string
         enum:
-          - none
-          - all
-          - quorum
-          - ranked
-          - pareto
-          - parent_synthesis
-          - human_gate
+        - none
+        - all
+        - quorum
+        - ranked
+        - pareto
+        - parent_synthesis
+        - human_gate
       authorization:
         type: string
         enum:
-          - not_needed
-          - requires_user_permission
-          - approved
-          - blocked
+        - not_needed
+        - requires_user_permission
+        - approved
+        - blocked
       permission_prompt:
         type: string
       receipt_requirements:
         type: array
         items:
           type: string
+    allOf:
+    - if:
+        required:
+        - binding_mode
+        properties:
+          binding_mode:
+            const: capability-bound
+      then:
+        required:
+        - execution_owner
+        - roles
+        - execution_waves
+        - receipt_requirements
+        properties:
+          execution_owner:
+            minLength: 1
+          roles:
+            minItems: 1
+            items:
+              required:
+              - role_id
+              - purpose
+              - owns
+              - capability_ref
+              - capability_target
+              - capability_mode
+              - agent_count
+              - mutation_policy
+              - applies_to_steps
+              - output_refs
+          execution_waves:
+            minItems: 1
+          receipt_requirements:
+            minItems: 1
     additionalProperties: true
   subagent_lifecycle:
     type: object
     description: Optional runtime ledger proving each delegated subagent was joined, closed, blocked, timed out with residue, or handed off.
     required:
-      - status
-      - agents
+    - status
+    - agents
     properties:
       status:
         type: string
         enum:
-          - none
-          - pass
-          - flag
-          - block
+        - none
+        - pass
+        - flag
+        - block
       agents:
         type: array
         items:
           type: object
           required:
-            - agent_id
-            - role_id
-            - spawn_status
+          - agent_id
+          - role_id
+          - spawn_status
           properties:
             agent_id:
               type: string
@@ -237,25 +363,37 @@ properties:
             role_id:
               type: string
               minLength: 1
+            capability_ref:
+              type: string
+            capability_target:
+              type: string
+            capability_mode:
+              type: string
+            wave_id:
+              type: string
+            write_scope:
+              type: array
+              items:
+                type: string
             lane_name:
               type: string
             spawn_status:
               type: string
               enum:
-                - spawned
-                - blocked
+              - spawned
+              - blocked
             spawn_error:
               type: string
             join_status:
               type: string
               enum:
-                - not_needed
-                - pending
-                - completed
-                - timed_out
-                - blocked
-                - handed_off
-                - closed_without_result
+              - not_needed
+              - pending
+              - completed
+              - timed_out
+              - blocked
+              - handed_off
+              - closed_without_result
             join_timeout_ms:
               type: integer
               minimum: 0
@@ -264,12 +402,12 @@ properties:
             close_status:
               type: string
               enum:
-                - not_needed
-                - pending
-                - closed
-                - already_closed
-                - handed_off
-                - blocked
+              - not_needed
+              - pending
+              - closed
+              - already_closed
+              - handed_off
+              - blocked
             close_error:
               type: string
             residue:
@@ -284,10 +422,10 @@ properties:
     items:
       type: object
       required:
-        - step_id
-        - capability_ref
-        - receipt_kind
-        - status
+      - step_id
+      - capability_ref
+      - receipt_kind
+      - status
       properties:
         dispatch_id:
           type: string
@@ -300,17 +438,17 @@ properties:
         receipt_kind:
           type: string
           enum:
-            - native-stage
-            - subagent
-            - handoff
-            - blocked
+          - native-stage
+          - subagent
+          - handoff
+          - blocked
         status:
           type: string
           enum:
-            - pass
-            - flag
-            - block
-            - not_run
+          - pass
+          - flag
+          - block
+          - not_run
         artifacts:
           type: array
           items:
@@ -336,12 +474,12 @@ properties:
     items:
       type: object
       required:
-        - step_id
-        - name
-        - capability_ref
-        - pattern
-        - inputs
-        - outputs
+      - step_id
+      - name
+      - capability_ref
+      - pattern
+      - inputs
+      - outputs
       properties:
         step_id:
           type: string
@@ -357,27 +495,30 @@ properties:
         pattern:
           type: string
           enum:
-            - route
-            - sequential
-            - fanout
-            - dialectic
-            - tournament
-            - distill
-            - xray
-            - decision
-            - validation
-            - toy_game
-            - synthesis
-            - handoff
+          - route
+          - sequential
+          - fanout
+          - dialectic
+          - tournament
+          - distill
+          - xray
+          - decision
+          - validation
+          - toy_game
+          - synthesis
+          - handoff
         parallel:
           type: boolean
+        depends_on_steps:
+          type: array
+          items:
+            type: string
         techniques:
           type: array
-          description:
-            Technique ids used by this step. Use catalog ids where possible;
+          description: Technique ids used by this step. Use catalog ids where possible;
             local extensions must include a source note.
           items:
-            $ref: "#/$defs/technique_ref"
+            $ref: '#/$defs/technique_ref'
         roles:
           type: array
           items:
@@ -388,20 +529,21 @@ properties:
           items:
             type: object
             required:
-              - kind
-              - ref
+            - kind
+            - ref
             properties:
               kind:
                 type: string
                 enum:
-                  - intent
-                  - frame
-                  - handle
-                  - decision
-                  - ledger
-                  - human_answer
-                  - external_context
-                  - artifact
+                - intent
+                - frame
+                - handle
+                - decision
+                - ledger
+                - human_answer
+                - external_context
+                - artifact
+                - receipt
               ref:
                 type: string
                 minLength: 1
@@ -412,20 +554,21 @@ properties:
           items:
             type: object
             required:
-              - kind
-              - ref
+            - kind
+            - ref
             properties:
               kind:
                 type: string
                 enum:
-                  - frame
-                  - handle
-                  - decision
-                  - ledger
-                  - artifact
-                  - route_menu
-                  - handoff
-                  - trace_event
+                - frame
+                - handle
+                - decision
+                - ledger
+                - artifact
+                - route_menu
+                - handoff
+                - trace_event
+                - receipt
               ref:
                 type: string
                 minLength: 1
@@ -433,13 +576,13 @@ properties:
         join_policy:
           type: string
           enum:
-            - none
-            - all
-            - quorum
-            - ranked
-            - pareto
-            - parent_synthesis
-            - human_gate
+          - none
+          - all
+          - quorum
+          - ranked
+          - pareto
+          - parent_synthesis
+          - human_gate
         convergence_criteria:
           type: array
           items:
@@ -457,10 +600,10 @@ properties:
     items:
       type: object
       required:
-        - gate_id
-        - kind
-        - owner
-        - condition
+      - gate_id
+      - kind
+      - owner
+      - condition
       properties:
         gate_id:
           type: string
@@ -468,38 +611,46 @@ properties:
         kind:
           type: string
           enum:
-            - policy
-            - decision
-            - quality
-            - promotion_guardrail
-            - validation
-            - human_approval
+          - policy
+          - decision
+          - quality
+          - promotion_guardrail
+          - validation
+          - human_approval
         owner:
           type: string
           minLength: 1
         condition:
           type: string
           minLength: 1
+        applies_after_wave:
+          type: string
+          description: Capability-bound execution wave whose join this gate evaluates.
+        requires_role_receipts:
+          type: array
+          description: Exact role output refs that must pass before a dependent wave starts.
+          items:
+            type: string
         on_fail:
           type: string
           enum:
-            - block
-            - flag
-            - defer
-            - ask
-            - reroute
+          - block
+          - flag
+          - defer
+          - ask
+          - reroute
       additionalProperties: true
   observability:
     type: object
     required:
-      - trace_events
+    - trace_events
     properties:
       dispatch_id_required:
         type: boolean
       parent_dispatch_id:
         type:
-          - string
-          - "null"
+        - string
+        - 'null'
       trace_events:
         type: array
         minItems: 1
@@ -510,28 +661,27 @@ properties:
     additionalProperties: true
   boundary_evidence:
     type: object
-    description:
-      Optional boundary/evidence contract for cross-capability handoffs,
+    description: Optional boundary/evidence contract for cross-capability handoffs,
       authority ownership, receipts, state namespaces, and promotion splits.
     properties:
       boundaries:
         type: array
         items:
-          $ref: "#/$defs/boundary"
+          $ref: '#/$defs/boundary'
       authority:
-        $ref: "#/$defs/authority_map"
+        $ref: '#/$defs/authority_map'
       receipts:
         type: array
         items:
-          $ref: "#/$defs/receipt_expectation"
+          $ref: '#/$defs/receipt_expectation'
       state_namespaces:
         type: array
         items:
-          $ref: "#/$defs/state_namespace"
+          $ref: '#/$defs/state_namespace'
       promotion_splits:
         type: array
         items:
-          $ref: "#/$defs/promotion_split"
+          $ref: '#/$defs/promotion_split'
     additionalProperties: true
   promotion_guardrails:
     type: array
@@ -540,34 +690,34 @@ properties:
 $defs:
   technique_ref:
     oneOf:
-      - type: string
-        minLength: 1
-      - type: object
-        required:
-          - id
-          - source
-        properties:
-          id:
-            type: string
-            minLength: 1
-          source:
-            type: string
-            enum:
-              - arcanum-dispatch-synthesis
-              - pole-data-standards
-              - local-extension
-          purpose:
-            type: string
-          validation_note:
-            type: string
-        additionalProperties: true
+    - type: string
+      minLength: 1
+    - type: object
+      required:
+      - id
+      - source
+      properties:
+        id:
+          type: string
+          minLength: 1
+        source:
+          type: string
+          enum:
+          - arcanum-dispatch-synthesis
+          - pole-data-standards
+          - local-extension
+        purpose:
+          type: string
+        validation_note:
+          type: string
+      additionalProperties: true
   boundary:
     type: object
     required:
-      - boundary_id
-      - kind
-      - contract
-      - on_violation
+    - boundary_id
+    - kind
+    - contract
+    - on_violation
     properties:
       boundary_id:
         type: string
@@ -575,13 +725,13 @@ $defs:
       kind:
         type: string
         enum:
-          - capability_handoff
-          - artifact_import
-          - human_approval
-          - evidence_return
-          - memory_interaction
-          - state_write
-          - external_context
+        - capability_handoff
+        - artifact_import
+        - human_approval
+        - evidence_return
+        - memory_interaction
+        - state_write
+        - external_context
       from_owner:
         type: string
       to_owner:
@@ -594,7 +744,7 @@ $defs:
         type: string
         minLength: 1
       on_violation:
-        $ref: "#/$defs/gate_action"
+        $ref: '#/$defs/gate_action'
     additionalProperties: true
   authority_map:
     type: object
@@ -616,10 +766,10 @@ $defs:
   receipt_expectation:
     type: object
     required:
-      - receipt_id
-      - producer
-      - required_fields
-      - on_missing
+    - receipt_id
+    - producer
+    - required_fields
+    - on_missing
     properties:
       receipt_id:
         type: string
@@ -633,34 +783,34 @@ $defs:
         items:
           type: string
           enum:
-            - run_id
-            - session_id
-            - artifacts
-            - validation_result
-            - dispatch_id
-            - step_id
-            - capability_ref
-            - status
-            - validation
-            - observer_status
-            - blockers
-            - handoff_note
-            - approval_record
-            - audit_reference
-            - residue
+          - run_id
+          - session_id
+          - artifacts
+          - validation_result
+          - dispatch_id
+          - step_id
+          - capability_ref
+          - status
+          - validation
+          - observer_status
+          - blockers
+          - handoff_note
+          - approval_record
+          - audit_reference
+          - residue
       stores:
         type: array
         items:
           type: string
       on_missing:
-        $ref: "#/$defs/gate_action"
+        $ref: '#/$defs/gate_action'
     additionalProperties: true
   state_namespace:
     type: object
     required:
-      - namespace
-      - owner
-      - write_policy
+    - namespace
+    - owner
+    - write_policy
     properties:
       namespace:
         type: string
@@ -675,10 +825,10 @@ $defs:
   promotion_split:
     type: object
     required:
-      - source
-      - target
-      - rule
-      - on_violation
+    - source
+    - target
+    - rule
+    - on_violation
     properties:
       source:
         type: string
@@ -690,14 +840,14 @@ $defs:
         type: string
         minLength: 1
       on_violation:
-        $ref: "#/$defs/gate_action"
+        $ref: '#/$defs/gate_action'
     additionalProperties: true
   gate_action:
     type: string
     enum:
-      - block
-      - flag
-      - defer
-      - ask
-      - reroute
+    - block
+    - flag
+    - defer
+    - ask
+    - reroute
 additionalProperties: true

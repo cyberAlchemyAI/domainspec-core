@@ -12,17 +12,17 @@ Auth: {auth model}
 
 ### Request
 
-| Field        | Type       | Maps To                     |
-| ------------ | ---------- | --------------------------- |
+| Field | Type | Maps To |
+| --- | --- | --- |
 | {field-name} | {TypeName} | {action or read view field} |
 
 ### Responses
 
-| Status | Condition            | Body                |
-| ------ | -------------------- | ------------------- |
-| 2xx    | Success              | {response contract} |
-| 4xx    | Constraint violation | {error contract}    |
-| 5xx    | System failure       | {fallback contract} |
+| Status | Condition | Body |
+| --- | --- | --- |
+| 2xx | Success | {response contract} |
+| 4xx | Constraint violation | {error contract} |
+| 5xx | System failure | {fallback contract} |
 
 ---
 
@@ -30,10 +30,10 @@ Auth: {auth model}
 
 Consumers: {calling modules or services}
 
-| Method        | Maps To        | Description |
-| ------------- | -------------- | ----------- |
-| {method-name} | {ActionName}   | {purpose}   |
-| {method-name} | {ReadViewName} | {purpose}   |
+| Method | Maps To | Description |
+| --- | --- | --- |
+| {method-name} | {ActionName} | {purpose} |
+| {method-name} | {ReadViewName} | {purpose} |
 
 ## Data Mapping Notes
 

@@ -10,11 +10,11 @@ Use this family when invoke needs evidence-first discovery before decisions, arc
 
 ## Templates
 
-| Template                                               | Purpose                            |
-| ------------------------------------------------------ | ---------------------------------- |
-| [research.md](research.md)                             | Evidence-first discovery contract. |
-| [examples/passing.md](examples/passing.md)             | Minimal passing research example.  |
-| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example.    |
+| Template | Purpose |
+| --- | --- |
+| [research.md](research.md) | Evidence-first discovery contract. |
+| [examples/passing.md](examples/passing.md) | Minimal passing research example. |
+| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example. |
 
 ## Composition
 

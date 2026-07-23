@@ -45,20 +45,20 @@ Describe the outcome this artifact must make possible.
 
 ## Source Evidence
 
-| Evidence ID | Source         | Relevance                 |
-| ----------- | -------------- | ------------------------- |
-| E-001       | {path or note} | {why this source matters} |
+| Evidence ID | Source | Relevance |
+| --- | --- | --- |
+| E-001 | {path or note} | {why this source matters} |
 
 ## Specialized Family Eligibility
 
-| Family              | Eligible  | Rationale |
-| ------------------- | --------- | --------- |
-| research            | yes or no | {reason}  |
-| architecture        | yes or no | {reason}  |
-| implementation-plan | yes or no | {reason}  |
-| spell               | yes or no | {reason}  |
-| sigil               | yes or no | {reason}  |
-| ux-plan             | yes or no | {reason}  |
+| Family | Eligible | Rationale |
+| --- | --- | --- |
+| research | yes or no | {reason} |
+| architecture | yes or no | {reason} |
+| implementation-plan | yes or no | {reason} |
+| spell | yes or no | {reason} |
+| sigil | yes or no | {reason} |
+| ux-plan | yes or no | {reason} |
 
 ## Output Depth
 
@@ -68,15 +68,15 @@ Describe the outcome this artifact must make possible.
 
 ## Acceptance Criteria
 
-| Criterion   | Evidence                 |
-| ----------- | ------------------------ |
+| Criterion | Evidence |
+| --- | --- |
 | {criterion} | {evidence path or check} |
 
 ## Open Gaps
 
-| Gap ID | Description | Severity             | Next Action   |
-| ------ | ----------- | -------------------- | ------------- |
-| G-001  | {gap}       | low, medium, or high | {next action} |
+| Gap ID | Description | Severity | Next Action |
+| --- | --- | --- | --- |
+| G-001 | {gap} | low, medium, or high | {next action} |
 
 ## Next Route
 

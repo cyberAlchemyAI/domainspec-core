@@ -36,62 +36,62 @@ updated_at: 2026-05-16
 
 ## User Goals
 
-| Goal   | Actor   | Success Signal |
-| ------ | ------- | -------------- |
-| {goal} | {actor} | {signal}       |
+| Goal | Actor | Success Signal |
+| --- | --- | --- |
+| {goal} | {actor} | {signal} |
 
 ## Actors
 
-| Actor   | Needs   | Constraints   |
-| ------- | ------- | ------------- |
+| Actor | Needs | Constraints |
+| --- | --- | --- |
 | {actor} | {needs} | {constraints} |
 
 ## Journeys
 
-| Journey   | Start State | End State | Notes   |
-| --------- | ----------- | --------- | ------- |
-| {journey} | {start}     | {end}     | {notes} |
+| Journey | Start State | End State | Notes |
+| --- | --- | --- | --- |
+| {journey} | {start} | {end} | {notes} |
 
 ## Surfaces
 
-| Surface   | Purpose   | Entry Points | Exit Points |
-| --------- | --------- | ------------ | ----------- |
-| {surface} | {purpose} | {entry}      | {exit}      |
+| Surface | Purpose | Entry Points | Exit Points |
+| --- | --- | --- | --- |
+| {surface} | {purpose} | {entry} | {exit} |
 
 ## State Model
 
-| State   | User Meaning | Allowed Transitions | Error Behavior   |
-| ------- | ------------ | ------------------- | ---------------- |
-| {state} | {meaning}    | {transitions}       | {error behavior} |
+| State | User Meaning | Allowed Transitions | Error Behavior |
+| --- | --- | --- | --- |
+| {state} | {meaning} | {transitions} | {error behavior} |
 
 ## Interaction Flows
 
-| Flow   | Steps   | Risk   | Recovery   |
-| ------ | ------- | ------ | ---------- |
+| Flow | Steps | Risk | Recovery |
+| --- | --- | --- | --- |
 | {flow} | {steps} | {risk} | {recovery} |
 
 ## Content Requirements
 
-| Content   | Surface   | Purpose   | Constraint   |
-| --------- | --------- | --------- | ------------ |
+| Content | Surface | Purpose | Constraint |
+| --- | --- | --- | --- |
 | {content} | {surface} | {purpose} | {constraint} |
 
 ## Accessibility Considerations
 
-| Consideration   | Applies To        | Required Response |
-| --------------- | ----------------- | ----------------- |
-| {consideration} | {surface or flow} | {response}        |
+| Consideration | Applies To | Required Response |
+| --- | --- | --- |
+| {consideration} | {surface or flow} | {response} |
 
 ## Risks
 
-| Risk   | Impact   | Mitigation   |
-| ------ | -------- | ------------ |
+| Risk | Impact | Mitigation |
+| --- | --- | --- |
 | {risk} | {impact} | {mitigation} |
 
 ## Acceptance Signals
 
-| Signal   | Evidence   | Owner   |
-| -------- | ---------- | ------- |
+| Signal | Evidence | Owner |
+| --- | --- | --- |
 | {signal} | {evidence} | {owner} |
 
 ## Handoff Boundaries

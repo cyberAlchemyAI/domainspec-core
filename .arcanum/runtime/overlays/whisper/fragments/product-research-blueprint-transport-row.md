@@ -1,0 +1,1 @@
+| local | `product_research_blueprint` | repository-local preset overlay | Creates an in-depth proposal and research blueprint that stays story-first, proof-honest, and focused on vision, gaps, verification, goals, impact, risks, and next decisions. |

@@ -12,11 +12,11 @@ Use this family when `invoke handoff` prepares a new session or thread from an e
 
 ## Templates
 
-| Template                                               | Purpose                                   |
-| ------------------------------------------------------ | ----------------------------------------- |
-| [session-handoff.md](session-handoff.md)               | Session/thread handoff artifact contract. |
-| [examples/passing.md](examples/passing.md)             | Minimal passing session handoff example.  |
-| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example.           |
+| Template | Purpose |
+| --- | --- |
+| [session-handoff.md](session-handoff.md) | Session/thread handoff artifact contract. |
+| [examples/passing.md](examples/passing.md) | Minimal passing session handoff example. |
+| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example. |
 
 ## Gates
 

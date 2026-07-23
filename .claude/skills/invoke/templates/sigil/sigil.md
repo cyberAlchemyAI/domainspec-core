@@ -43,45 +43,45 @@ updated_at: 2026-05-16
 
 ## Inputs
 
-| Input   | Required  | Validation Rule |
-| ------- | --------- | --------------- |
-| {input} | yes or no | {rule}          |
+| Input | Required | Validation Rule |
+| --- | --- | --- |
+| {input} | yes or no | {rule} |
 
 ## Outputs
 
-| Output   | Consumer   | Contract   |
-| -------- | ---------- | ---------- |
+| Output | Consumer | Contract |
+| --- | --- | --- |
 | {output} | {consumer} | {contract} |
 
 ## Modes
 
-| Mode   | Trigger   | Behavior   |
-| ------ | --------- | ---------- |
+| Mode | Trigger | Behavior |
+| --- | --- | --- |
 | {mode} | {trigger} | {behavior} |
 
 ## Interaction Contract
 
-| Interaction   | Producer   | Consumer   | Failure Behavior   |
-| ------------- | ---------- | ---------- | ------------------ |
+| Interaction | Producer | Consumer | Failure Behavior |
+| --- | --- | --- | --- |
 | {interaction} | {producer} | {consumer} | {failure behavior} |
 
 ## Runtime Adapter Expectations
 
-| Expectation   | Required  | Notes   |
-| ------------- | --------- | ------- |
+| Expectation | Required | Notes |
+| --- | --- | --- |
 | {expectation} | yes or no | {notes} |
 
 ## Observability
 
-| Signal   | Trigger   | Payload Summary   |
-| -------- | --------- | ----------------- |
+| Signal | Trigger | Payload Summary |
+| --- | --- | --- |
 | {signal} | {trigger} | {payload summary} |
 
 ## Validation Examples
 
-| Example   | Expected Result |
-| --------- | --------------- |
-| {example} | {result}        |
+| Example | Expected Result |
+| --- | --- |
+| {example} | {result} |
 
 ## Sigil-Development Handoff
 

@@ -42,57 +42,57 @@ updated_at: 2026-05-16
 
 ## Trigger Conditions
 
-| Trigger   | User Signal | Route             |
-| --------- | ----------- | ----------------- |
-| {trigger} | {signal}    | {mode or handoff} |
+| Trigger | User Signal | Route |
+| --- | --- | --- |
+| {trigger} | {signal} | {mode or handoff} |
 
 ## Modes
 
-| Mode   | Purpose   | Required Inputs | Outputs   |
-| ------ | --------- | --------------- | --------- |
-| {mode} | {purpose} | {inputs}        | {outputs} |
+| Mode | Purpose | Required Inputs | Outputs |
+| --- | --- | --- | --- |
+| {mode} | {purpose} | {inputs} | {outputs} |
 
 ## Required Sigils And Spells
 
-| Capability   | Type           | Required  | Notes   |
-| ------------ | -------------- | --------- | ------- |
+| Capability | Type | Required | Notes |
+| --- | --- | --- | --- |
 | {capability} | sigil or spell | yes or no | {notes} |
 
 ## Optional Capabilities
 
-| Capability   | Activation Rule | Notes   |
-| ------------ | --------------- | ------- |
-| {capability} | {rule}          | {notes} |
+| Capability | Activation Rule | Notes |
+| --- | --- | --- |
+| {capability} | {rule} | {notes} |
 
 ## Shared State
 
-| State Item | Owner   | Persistence | Notes   |
-| ---------- | ------- | ----------- | ------- |
-| {item}     | {owner} | {scope}     | {notes} |
+| State Item | Owner | Persistence | Notes |
+| --- | --- | --- | --- |
+| {item} | {owner} | {scope} | {notes} |
 
 ## Phase Contract
 
-| Phase   | Entry Criteria | Exit Criteria | Failure Behavior   |
-| ------- | -------------- | ------------- | ------------------ |
-| {phase} | {entry}        | {exit}        | {failure behavior} |
+| Phase | Entry Criteria | Exit Criteria | Failure Behavior |
+| --- | --- | --- | --- |
+| {phase} | {entry} | {exit} | {failure behavior} |
 
 ## Gates
 
-| Gate   | Required Evidence | Result               |
-| ------ | ----------------- | -------------------- |
-| {gate} | {evidence}        | pass, flag, or block |
+| Gate | Required Evidence | Result |
+| --- | --- | --- |
+| {gate} | {evidence} | pass, flag, or block |
 
 ## Observability
 
-| Signal   | When Emitted | Consumer   |
-| -------- | ------------ | ---------- |
-| {signal} | {event}      | {consumer} |
+| Signal | When Emitted | Consumer |
+| --- | --- | --- |
+| {signal} | {event} | {consumer} |
 
 ## Validation Examples
 
-| Example   | Expected Result |
-| --------- | --------------- |
-| {example} | {result}        |
+| Example | Expected Result |
+| --- | --- |
+| {example} | {result} |
 
 ## Registry Readiness
 

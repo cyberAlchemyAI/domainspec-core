@@ -10,11 +10,11 @@ Use this family when invoke needs to prepare context for creating or revising a 
 
 ## Templates
 
-| Template                                               | Purpose                           |
-| ------------------------------------------------------ | --------------------------------- |
-| [sigil.md](sigil.md)                                   | Sigil authoring handoff contract. |
-| [examples/passing.md](examples/passing.md)             | Minimal passing sigil example.    |
-| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example.   |
+| Template | Purpose |
+| --- | --- |
+| [sigil.md](sigil.md) | Sigil authoring handoff contract. |
+| [examples/passing.md](examples/passing.md) | Minimal passing sigil example. |
+| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example. |
 
 ## Gates
 

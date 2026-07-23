@@ -39,9 +39,9 @@ updated_at: 2026-05-16
 
 ## Source Contracts
 
-| Contract ID | Source             | Required  | Notes   |
-| ----------- | ------------------ | --------- | ------- |
-| SC-001      | {path or decision} | yes or no | {notes} |
+| Contract ID | Source | Required | Notes |
+| --- | --- | --- | --- |
+| SC-001 | {path or decision} | yes or no | {notes} |
 
 ## View 1: Context View
 
@@ -69,27 +69,27 @@ Describe internal and external dependencies, interface contracts, and boundary r
 
 ## Constraints
 
-| Constraint   | Source   | Impact   |
-| ------------ | -------- | -------- |
+| Constraint | Source | Impact |
+| --- | --- | --- |
 | {constraint} | {source} | {impact} |
 
 ## Dependency And Interface Rules
 
-| Rule ID | Rule   | Applies To               | Enforcement |
-| ------- | ------ | ------------------------ | ----------- |
-| R-001   | {rule} | {component or interface} | {check}     |
+| Rule ID | Rule | Applies To | Enforcement |
+| --- | --- | --- | --- |
+| R-001 | {rule} | {component or interface} | {check} |
 
 ## Decision Log
 
-| Decision ID | Decision   | Options Considered | Reason   |
-| ----------- | ---------- | ------------------ | -------- |
-| D-001       | {decision} | {options}          | {reason} |
+| Decision ID | Decision | Options Considered | Reason |
+| --- | --- | --- | --- |
+| D-001 | {decision} | {options} | {reason} |
 
 ## Risks
 
-| Risk ID | Risk   | Mitigation   | Owner   |
-| ------- | ------ | ------------ | ------- |
-| RK-001  | {risk} | {mitigation} | {owner} |
+| Risk ID | Risk | Mitigation | Owner |
+| --- | --- | --- | --- |
+| RK-001 | {risk} | {mitigation} | {owner} |
 
 ## Downstream Planning Notes
 

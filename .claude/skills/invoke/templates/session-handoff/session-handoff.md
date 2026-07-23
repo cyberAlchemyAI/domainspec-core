@@ -55,9 +55,9 @@ updated_at: 2026-05-25
 
 ## Context Builder Selection
 
-| Obligation        | Coverage | Selected Source | Why It Matters |
-| ----------------- | -------- | --------------- | -------------- | ------------------------ | ---------- |
-| `{obligation-id}` | `covered | resolved        | block`         | `{session-ref#selector}` | `{reason}` |
+| Obligation | Coverage | Selected Source | Why It Matters |
+| --- | --- | --- | --- |
+| `{obligation-id}` | `covered | resolved | block` | `{session-ref#selector}` | `{reason}` |
 
 Strict coverage: `{pass | flag | block}`
 
@@ -69,8 +69,8 @@ Strict coverage: `{pass | flag | block}`
 
 ## Excluded Context
 
-| Candidate                | Reason Excluded           |
-| ------------------------ | ------------------------- | ----- | ---------- | ----------- |
+| Candidate | Reason Excluded |
+| --- | --- |
 | `{session-ref#selector}` | `{not obligation-relevant | stale | superseded | too broad}` |
 
 ## Target Boundary
@@ -81,9 +81,9 @@ Strict coverage: `{pass | flag | block}`
 
 ## Gaps And Blockers
 
-| Gap     | Owner     | Status | Next Action |
-| ------- | --------- | ------ | ----------- | ------- | --------- | ---------- |
-| `{gap}` | `{owner}` | `open  | deferred    | blocked | resolved` | `{action}` |
+| Gap | Owner | Status | Next Action |
+| --- | --- | --- | --- |
+| `{gap}` | `{owner}` | `open | deferred | blocked | resolved` | `{action}` |
 
 ## Next-Session Start Prompt
 

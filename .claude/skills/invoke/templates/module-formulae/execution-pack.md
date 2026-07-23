@@ -8,28 +8,28 @@ This file can stay single-document for small scope or split into waves and task 
 
 ## Planning Control Fields
 
-| Field              | Value                                | Notes                                                                              |
-| ------------------ | ------------------------------------ | ---------------------------------------------------------------------------------- |
-| planningGateStatus | pass or block                        | Must be pass before mutation-capable stages.                                       |
-| complexity         | low, medium, or high                 | Current complexity level.                                                          |
-| baselineWave       | W0                                   | Mandatory first wave for medium or high complexity.                                |
-| activePlanRef      | {path}                               | Current wave or plan reference.                                                    |
-| workPackManifest   | {path}                               | Usually ../work-pack.md as the standalone invoke companion template.               |
-| layeringArtifact   | {path}                               | Usually ../implementation-layering.md as the standalone invoke companion template. |
-| activeLayerWindow  | L0, L1, L2, or L3                    | Primary layer focus for current execution slice.                                   |
-| lastPlannedAt      | {iso-timestamp}                      | Last planning update time.                                                         |
-| readinessProfile   | pilot, release-candidate, production | Completion target profile.                                                         |
+| Field | Value | Notes |
+| --- | --- | --- |
+| planningGateStatus | pass or block | Must be pass before mutation-capable stages. |
+| complexity | low, medium, or high | Current complexity level. |
+| baselineWave | W0 | Mandatory first wave for medium or high complexity. |
+| activePlanRef | {path} | Current wave or plan reference. |
+| workPackManifest | {path} | Usually ../work-pack.md as the standalone invoke companion template. |
+| layeringArtifact | {path} | Usually ../implementation-layering.md as the standalone invoke companion template. |
+| activeLayerWindow | L0, L1, L2, or L3 | Primary layer focus for current execution slice. |
+| lastPlannedAt | {iso-timestamp} | Last planning update time. |
+| readinessProfile | pilot, release-candidate, production | Completion target profile. |
 
 ## Task Board
 
-| Task ID               | Goal                        | Layer             | Complexity | Waves  | Gate Status                | Status      |
-| --------------------- | --------------------------- | ----------------- | ---------- | ------ | -------------------------- | ----------- |
-| TASK-A                | {goal summary}              | L0, L1, L2, or L3 | medium     | W1, W2 | ready                      | not-started |
-| TASK-VERIFY           | Completion verification     | L2 or L3          | high       | W3+    | ready-after-implementation | not-started |
-| TASK-AUDIT-ALIGNMENT  | Contract alignment audit    | L2 or L3          | high       | W3+    | ready-after-mutation       | not-started |
-| TASK-AUDIT-LAYERING   | Boundary layering audit     | L2 or L3          | high       | W3+    | ready-after-mutation       | not-started |
-| TASK-SIGNAL-ALIGNMENT | Alignment signal obligation | L2 or L3          | medium     | W3+    | ready-after-docs           | not-started |
-| TASK-SIGNAL-LAYERING  | Layering signal obligation  | L2 or L3          | medium     | W3+    | ready-after-docs           | not-started |
+| Task ID | Goal | Layer | Complexity | Waves | Gate Status | Status |
+| --- | --- | --- | --- | --- | --- | --- |
+| TASK-A | {goal summary} | L0, L1, L2, or L3 | medium | W1, W2 | ready | not-started |
+| TASK-VERIFY | Completion verification | L2 or L3 | high | W3+ | ready-after-implementation | not-started |
+| TASK-AUDIT-ALIGNMENT | Contract alignment audit | L2 or L3 | high | W3+ | ready-after-mutation | not-started |
+| TASK-AUDIT-LAYERING | Boundary layering audit | L2 or L3 | high | W3+ | ready-after-mutation | not-started |
+| TASK-SIGNAL-ALIGNMENT | Alignment signal obligation | L2 or L3 | medium | W3+ | ready-after-docs | not-started |
+| TASK-SIGNAL-LAYERING | Layering signal obligation | L2 or L3 | medium | W3+ | ready-after-docs | not-started |
 
 ## Closure Obligations
 
@@ -60,9 +60,9 @@ Apply these obligations when this execution pack is created:
 
 For each mutation-capable task, map source contracts to implementation directives.
 
-| Task ID | Source Contracts                               | Coverage IDs              | Architecture References   | Implementation Directive                                                             | Verification Evidence          |
-| ------- | ---------------------------------------------- | ------------------------- | ------------------------- | ------------------------------------------------------------------------------------ | ------------------------------ |
-| TASK-A  | operations.md; concept-model.md; interfaces.md | R1, C1, WF-01, concept-id | {architecture references} | Keep rules and calculations pure, isolate adapters, and preserve boundary direction. | {test ids and command outputs} |
+| Task ID | Source Contracts | Coverage IDs | Architecture References | Implementation Directive | Verification Evidence |
+| --- | --- | --- | --- | --- | --- |
+| TASK-A | operations.md; concept-model.md; interfaces.md | R1, C1, WF-01, concept-id | {architecture references} | Keep rules and calculations pure, isolate adapters, and preserve boundary direction. | {test ids and command outputs} |
 
 Directive requirements:
 
@@ -89,33 +89,33 @@ Split mode:
 
 ## Wave Status Board
 
-| Wave | Objective                                     | Entry Gate            | Exit Gate                        | Status      | Evidence |
-| ---- | --------------------------------------------- | --------------------- | -------------------------------- | ----------- | -------- |
-| W0   | Baseline architecture and stage coverage lock | Execution pack exists | Baseline and stage matrix locked | not-started | {links}  |
-| W1   | First implementation wave                     | W0 pass               | Wave objective complete          | not-started | {links}  |
+| Wave | Objective | Entry Gate | Exit Gate | Status | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| W0 | Baseline architecture and stage coverage lock | Execution pack exists | Baseline and stage matrix locked | not-started | {links} |
+| W1 | First implementation wave | W0 pass | Wave objective complete | not-started | {links} |
 
 ## Delivery Stage Coverage
 
 Keep all canonical stages listed, even when skipped.
 
-| Stage                | Required | Wave Mapping | Status      | Evidence | Skip Reason |
-| -------------------- | -------- | ------------ | ----------- | -------- | ----------- |
-| discover             | yes      | W0           | not-started | {links}  | {optional}  |
-| design-baseline      | yes      | W0           | not-started | {links}  | {optional}  |
-| specification        | yes      | W1+          | not-started | {links}  | {optional}  |
-| scenarios            | yes      | W1+          | not-started | {links}  | {optional}  |
-| tests                | yes      | W1+          | not-started | {links}  | {optional}  |
-| implementation       | yes      | W1+          | not-started | {links}  | {optional}  |
-| interface-experience | yes      | W1+          | skipped     | {links}  | {optional}  |
-| telemetry-spec       | yes      | W2+          | not-started | {links}  | {optional}  |
-| telemetry-instrument | yes      | W2+          | not-started | {links}  | {optional}  |
-| telemetry-verify     | yes      | W2+          | not-started | {links}  | {optional}  |
-| deployment           | yes      | W2+          | skipped     | {links}  | {optional}  |
-| concept-index-sync   | yes      | W2+          | not-started | {links}  | {optional}  |
-| readiness-review     | yes      | W3+          | not-started | {links}  | {optional}  |
-| completion-verify    | yes      | W3+          | not-started | {links}  | {optional}  |
-| audit-alignment      | yes      | W3+          | not-started | {links}  | {optional}  |
-| audit-layering       | yes      | W3+          | not-started | {links}  | {optional}  |
+| Stage | Required | Wave Mapping | Status | Evidence | Skip Reason |
+| --- | --- | --- | --- | --- | --- |
+| discover | yes | W0 | not-started | {links} | {optional} |
+| design-baseline | yes | W0 | not-started | {links} | {optional} |
+| specification | yes | W1+ | not-started | {links} | {optional} |
+| scenarios | yes | W1+ | not-started | {links} | {optional} |
+| tests | yes | W1+ | not-started | {links} | {optional} |
+| implementation | yes | W1+ | not-started | {links} | {optional} |
+| interface-experience | yes | W1+ | skipped | {links} | {optional} |
+| telemetry-spec | yes | W2+ | not-started | {links} | {optional} |
+| telemetry-instrument | yes | W2+ | not-started | {links} | {optional} |
+| telemetry-verify | yes | W2+ | not-started | {links} | {optional} |
+| deployment | yes | W2+ | skipped | {links} | {optional} |
+| concept-index-sync | yes | W2+ | not-started | {links} | {optional} |
+| readiness-review | yes | W3+ | not-started | {links} | {optional} |
+| completion-verify | yes | W3+ | not-started | {links} | {optional} |
+| audit-alignment | yes | W3+ | not-started | {links} | {optional} |
+| audit-layering | yes | W3+ | not-started | {links} | {optional} |
 
 When interface-experience is not skipped, evidence must include the interface contract and supporting experience references.
 
@@ -123,15 +123,15 @@ When all mutation-capable stages are skipped, mark audit stages as skipped with 
 
 ## Decision Lock Summary
 
-| Decision ID | Scope              | Status   | Selected Option | Source   | Date   |
-| ----------- | ------------------ | -------- | --------------- | -------- | ------ |
-| D-001       | task or cross-task | selected | {option}        | {source} | {date} |
+| Decision ID | Scope | Status | Selected Option | Source | Date |
+| --- | --- | --- | --- | --- | --- |
+| D-001 | task or cross-task | selected | {option} | {source} | {date} |
 
 ## Blockers
 
-| Blocker ID | Scope              | Description    | Owner   | Next Action      | Target Date |
-| ---------- | ------------------ | -------------- | ------- | ---------------- | ----------- |
-| B-001      | task or cross-task | {blocked item} | {owner} | {unblock action} | {date}      |
+| Blocker ID | Scope | Description | Owner | Next Action | Target Date |
+| --- | --- | --- | --- | --- | --- |
+| B-001 | task or cross-task | {blocked item} | {owner} | {unblock action} | {date} |
 
 ## Notes
 
@@ -144,6 +144,6 @@ When all mutation-capable stages are skipped, mark audit stages as skipped with 
 
 ## Change Log
 
-| Date   | Change                         | Author |
-| ------ | ------------------------------ | ------ |
+| Date | Change | Author |
+| --- | --- | --- |
 | {date} | Initial execution pack created | {name} |

@@ -21,11 +21,11 @@ WORK-PACK.md
 
 ## Templates
 
-| Template                                               | Purpose                                                                 |
-| ------------------------------------------------------ | ----------------------------------------------------------------------- |
-| [implementation-plan.md](implementation-plan.md)       | Retired implementation-plan contract retained for historical reference. |
-| [examples/passing.md](examples/passing.md)             | Historical passing implementation-plan example.                         |
-| [examples/missing-input.md](examples/missing-input.md) | Historical missing-input negative example.                              |
+| Template | Purpose |
+| --- | --- |
+| [implementation-plan.md](implementation-plan.md) | Retired implementation-plan contract retained for historical reference. |
+| [examples/passing.md](examples/passing.md) | Historical passing implementation-plan example. |
+| [examples/missing-input.md](examples/missing-input.md) | Historical missing-input negative example. |
 
 ## Gates
 

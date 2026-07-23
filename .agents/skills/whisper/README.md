@@ -63,7 +63,7 @@ Whisper treats composition as an artifact state machine, not as a loose sequence
 
 | Artifact | Category | Produced In | Feeds | Gate |
 | -------- | -------- | ----------- | ----- | ---- |
-| `text_intent_substrate` | intent substrate | intake, distill | candidate tournament, composition plan, validation | transport, objective, audience, SCU cores, constraints, and intent state are explicit |
+| `text_intent_substrate` | intent substrate | intake, distill | candidate tournament, composition plan, validation | transport, objective, audience, SCU cores, and constraints are explicit |
 | `transport_schema` | transport contract | transport selection | composition plan, validation | required body parts, length, evidence, introduction, ending, and CTA policy are named |
 | `scu_candidate_set` | primitive/technique tournament | distill tournament | Pareto consensus | each candidate combines resonance, relevance, and trajectory rather than optimizing one category repeatedly |
 | `pareto_consensus` | selection decision | candidate tournament | composition plan | selected set is non-dominated across resonance, relevance, trajectory, and cost |
@@ -126,9 +126,8 @@ Each viable candidate must include one coherent selection from all three cores. 
 | ----- | --------- | ------ | ------ |
 | 1 | `substack_research_post` | selected L0 proof | Forces clarity, voice, research-group relevance, argument structure, and reflective ending without immediate conversion pressure. |
 | 2 | `fundraising_copy` | next extension | Adds trust, proof, urgency, ask mechanics, and donor psychology after the base substrate works. |
-| 3 | `product_research_blueprint` | repository-local preset overlay | Creates an in-depth proposal and research blueprint that stays story-first, proof-honest, and focused on vision, gaps, verification, goals, impact, risks, and next decisions. |
-| 4 | `business_plan` | local preset extension | Builds a full business plan, investor memo, operating plan, lender package, or deck substrate from audience, evidence, financial assumptions, risks, and next-witness gates. |
-| 5 | `live_presentation` | candidate preset extension with strict human gate | Separates projected language from spoken delivery, notes, interaction prompts, and authoring metadata; full-deck generation remains blocked until a three-moment language audition is approved. |
+| 3 | `business_plan` | local preset extension | Builds a full business plan, investor memo, operating plan, lender package, or deck substrate from audience, evidence, financial assumptions, risks, and next-witness gates. |
+| 4 | `live_presentation` | candidate preset extension with strict human gate | Separates projected language from spoken delivery, notes, interaction prompts, and authoring metadata; full-deck generation remains blocked until a three-moment language audition is approved. |
 
 Transport availability is not transport proof. A transport listed as a possible
 output remains unproven until it has a transport contract, representative
@@ -178,13 +177,8 @@ Available local presets live in [presets/](presets/):
 
 | Preset ID | Use |
 | --------- | --- |
-| `product_research_blueprint` | Repository-local proposal, description blueprint, or research document preset for product/system ideas. |
 | `business_plan` | Generic business-plan writing preset for investor, lender/financing, operating, partner, and public-impact variants. It keeps the plan claim-bounded, assumption-explicit, and tied to evidence, financial model, risk, and next-witness gates. |
 | `live_presentation` | Live-room presentation preset that separates projected copy, spoken copy, speaker notes, interaction prompts, and authoring metadata, then requires a three-moment language audition before full generation. |
-
-Use `product_research_blueprint` when the user asks for a proposal document that
-explains what the idea is, why it matters, what gaps remain, what must be
-verified, and what next decision would justify continued pursuit.
 
 Use the `business_plan` preset when the user asks for a business plan, investor plan, operating
 plan, financing plan, or BP substrate that must turn a venture or project into a

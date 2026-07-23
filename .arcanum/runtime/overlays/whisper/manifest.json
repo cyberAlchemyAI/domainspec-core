@@ -1,0 +1,142 @@
+{
+  "schema_version": "arcanum.runtime-overlay-manifest.v1",
+  "target": "whisper",
+  "canonical": {
+    "source": "arcanum/spells/whisper/README.md",
+    "sha256": "20d430873a07ebc9ec02b89e77c94982168827755dced06f46685e70bea88f13",
+    "package_root": "arcanum/spells/whisper"
+  },
+  "generator": {
+    "path": "arcanum/tools/bootstrap_arcanum.sh",
+    "version": "0.2.0",
+    "version_marker": "\"version\": \"0.2.0\"",
+    "overlay_protocol": "arcanum.runtime-overlay-manifest.v1"
+  },
+  "payload_root": ".arcanum/runtime/overlays/whisper/presets",
+  "runtime_targets": [
+    {
+      "id": "codex",
+      "package_root": ".agents/skills/whisper",
+      "skill_path": ".agents/skills/whisper/SKILL.md",
+      "metadata": {
+        "surface_kind": "generated-native-runtime-package",
+        "runtime": "codex",
+        "canonical_source": "spells/whisper/README.md",
+        "alias_of": "null",
+        "generated_by": "tools/bootstrap_arcanum.sh --profile",
+        "mutation_policy": "regenerate-from-canonical-source"
+      }
+    },
+    {
+      "id": "claude",
+      "package_root": ".claude/skills/whisper",
+      "skill_path": ".claude/skills/whisper/SKILL.md",
+      "metadata": {
+        "surface_kind": "generated-native-runtime-package",
+        "runtime": "claude",
+        "canonical_source": "spells/whisper/README.md",
+        "alias_of": "null",
+        "generated_by": "tools/bootstrap_arcanum.sh --profile",
+        "mutation_policy": "regenerate-from-canonical-source"
+      }
+    }
+  ],
+  "allowed_metadata": [
+    "surface_kind",
+    "runtime",
+    "canonical_source",
+    "alias_of",
+    "generated_by",
+    "mutation_policy",
+    "name",
+    "description"
+  ],
+  "fragments": [
+    {
+      "id": "product-research-blueprint-transport-row",
+      "preset_ids": [
+        "product_research_blueprint"
+      ],
+      "source": ".arcanum/runtime/overlays/whisper/fragments/product-research-blueprint-transport-row.md",
+      "sha256": "0bba43f70ece2e626336a3a418fb10ccbf220b4e1e74fbf089506506e32affeb",
+      "mode": "insert_after_exact",
+      "anchor": "| 2 | `fundraising_copy` | next extension | Adds trust, proof, urgency, ask mechanics, and donor psychology after the base substrate works. |"
+    },
+    {
+      "id": "product-research-blueprint-catalog-row",
+      "preset_ids": [
+        "product_research_blueprint"
+      ],
+      "source": ".arcanum/runtime/overlays/whisper/fragments/product-research-blueprint-catalog-row.md",
+      "sha256": "0f20c8c1e45caa3e7412df4a47c894af51d71dff3466a178e528d0dc40fdd0d5",
+      "mode": "insert_after_exact",
+      "anchor": "| --------- | --- |"
+    },
+    {
+      "id": "product-research-blueprint-usage",
+      "preset_ids": [
+        "product_research_blueprint"
+      ],
+      "source": ".arcanum/runtime/overlays/whisper/fragments/product-research-blueprint-usage.md",
+      "sha256": "80a02d45d068e1b4533c67accdef639be94da7aa37382a6c087c332e68706315",
+      "mode": "insert_after_exact",
+      "anchor": "| `live_presentation` | Live-room presentation preset that separates projected copy, spoken copy, speaker notes, interaction prompts, and authoring metadata, then requires a three-moment language audition before full generation. |"
+    }
+  ],
+  "presets": [
+    {
+      "id": "product_research_blueprint",
+      "source_dir": ".arcanum/runtime/overlays/whisper/presets/product-research-blueprint",
+      "copied_files": [
+        {
+          "source": ".arcanum/runtime/overlays/whisper/presets/product-research-blueprint/README.md",
+          "destination": "presets/product-research-blueprint/README.md",
+          "sha256": "dfd0609a047169a137d6b52583d777b99ee20c7f8b92a76323e5d276bb84644d"
+        },
+        {
+          "source": ".arcanum/runtime/overlays/whisper/presets/product-research-blueprint/preset.yaml",
+          "destination": "presets/product-research-blueprint/preset.yaml",
+          "sha256": "30579eb8889e84e7750da2cdb515cf0e486631bbcbcb8fb277b2b4f54f13132b"
+        },
+        {
+          "source": ".arcanum/runtime/overlays/whisper/presets/product-research-blueprint/template.md",
+          "destination": "presets/product-research-blueprint/template.md",
+          "sha256": "e6ad076697144e665db0c210eb31869269ef4df11990d83a72fc35311e68c9bd"
+        }
+      ]
+    }
+  ],
+  "protected_controls": [
+    {
+      "id": "surface-map-state",
+      "class": "authority",
+      "text": "| `surface_map` | Whisper | transport selection, composition plan | transport audition, draft phase, validation |"
+    },
+    {
+      "id": "language-audition-state",
+      "class": "gate",
+      "text": "| `language_audition` | Whisper | transport audition | full draft, validation |"
+    },
+    {
+      "id": "intent-state",
+      "class": "status",
+      "text": "| `intent_state` | Whisper | intake, operator correction, intent receipt | composition plan, derivative generation, observability |"
+    },
+    {
+      "id": "candidate-status-ceiling",
+      "class": "status",
+      "text": "Candidate transports must return `flag` rather than `pass` when their required human or experiment gate has not run."
+    },
+    {
+      "id": "operator-voice-gate",
+      "class": "gate",
+      "text": "Full generation is blocked until the operator explicitly approves the voice."
+    },
+    {
+      "id": "publication-authority",
+      "class": "authority",
+      "text": "Source fidelity, schema validity, layout checks, and Playwright results remain separate evidence. None can satisfy `operator_voice_approval` or promote a failed editorial gate."
+    }
+  ],
+  "validation_command": "python3 arcanum/runtime/overlays/scripts/validate_runtime_overlay.py --manifest .arcanum/runtime/overlays/whisper/manifest.json --target whisper"
+}

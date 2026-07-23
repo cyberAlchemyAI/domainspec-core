@@ -10,11 +10,11 @@ Use this family when invoke needs experience planning for users, workflows, scre
 
 ## Templates
 
-| Template                                               | Purpose                          |
-| ------------------------------------------------------ | -------------------------------- |
-| [ux-plan.md](ux-plan.md)                               | Experience planning contract.    |
-| [examples/passing.md](examples/passing.md)             | Minimal passing UX-plan example. |
-| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example.  |
+| Template | Purpose |
+| --- | --- |
+| [ux-plan.md](ux-plan.md) | Experience planning contract. |
+| [examples/passing.md](examples/passing.md) | Minimal passing UX-plan example. |
+| [examples/missing-input.md](examples/missing-input.md) | Missing-input negative example. |
 
 ## Gates
 
