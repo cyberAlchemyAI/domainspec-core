@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <meta name="description" content="A node-first procedural explanation of DomainSpec's current structural compiler, the Backend-Type Test Engine, and the planned DS-SFOL behavioral evidence framework.">
-  <title>DomainSpec Nodes — Current Use and Behavioral Verification Architecture</title>
+  <meta name="description" content="A story-led explanation of DomainSpec, its current node model and structural compiler, and the planned DS-SFOL behavioral evidence framework.">
+  <title>DomainSpec — From Shared Meaning to Nodes and Evidence</title>
   <style>
     :root {
       --ink: #172126;
@@ -403,28 +403,28 @@
 </head>
 <body>
   <header class="hero wrap">
-    <p class="eyebrow">DomainSpec verification · procedural vision</p>
-    <h1>Start with a DomainSpec node, then see what it can do.</h1>
+    <p class="eyebrow">DomainSpec · from intent to evidence</p>
+    <h1>How can the requirement, the code, and the tests all look right—and still disagree?</h1>
     <p class="lede">
-      DomainSpec helps you describe software as small connected building blocks called
-      <strong>nodes</strong>. Each node represents one important thing—such as a player,
-      an action, an event, or a rule. Today, DomainSpec can check these descriptions and
-      build a graph that shows how they connect. Later in this page, you will see how that
-      same information could also help check whether application code behaves as intended.
+      One describes what somebody meant. One records what a developer built. One checks
+      a few examples. They may be reviewed at different moments by different people.
+      The difficult problem is not producing more documents. It is keeping the same
+      meaning alive while an idea becomes software.
     </p>
     <div class="example-banner">
       <p>
-        <strong>Read this page in two parts.</strong>
-        Key-and-Door shows what the current tools can do. Financial Settlement shows a
-        possible future extension. Whenever something does not exist yet, the page says so.
+        <strong>Follow one small story.</strong>
+        A player, a key, and a locked door will show why DomainSpec exists. Then we will
+        open one real node file and follow it into structural and behavioral checks.
       </p>
-      <span class="badge">Now and later</span>
+      <span class="badge">Illustrative story</span>
     </div>
   </header>
 
   <nav class="toolbar" aria-label="Page sections">
     <div class="wrap toolbar-inner">
       <strong>Jump to:</strong>
+      <a href="#domainspec-story">What is DomainSpec?</a>
       <a href="#nodes">Nodes now</a>
       <a href="#orientation">DomainSpec context</a>
       <a href="#bte">Structure vs behavior</a>
@@ -439,6 +439,158 @@
 
   <main class="wrap">
     <div class="content">
+      <section class="section" id="domainspec-story">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Before nodes · why DomainSpec exists</p>
+            <h2>A player has a key. The door should open. Simple—until the meaning changes.</h2>
+            <p>
+              Imagine your team is building a small game. The first requirement says,
+              “A player with a key can unlock the door.” Product writes the sentence,
+              a developer writes the function, and a tester checks that the door opens.
+              Everyone agrees.
+            </p>
+          </div>
+          <span class="badge">Key-and-Door</span>
+        </div>
+
+        <div class="orientation-grid">
+          <article class="card source">
+            <h3>Product’s note</h3>
+            <pre><code>A player with a key
+can unlock the door.</code></pre>
+            <p>This records the original idea in plain language.</p>
+          </article>
+          <article class="card run">
+            <h3>The implementation</h3>
+            <pre><code>if (player.hasKey) {
+  unlock(door)
+}</code></pre>
+            <p>This turns one interpretation of the sentence into executable code.</p>
+          </article>
+          <article class="card proof">
+            <h3>The test</h3>
+            <pre><code>player has a key
+unlock succeeds</code></pre>
+            <p>This checks one example chosen by the tester.</p>
+          </article>
+        </div>
+
+        <p>
+          Now the rule changes: the player needs <em>the matching key for that door</em>.
+          Product updates the requirement. The developer updates the code. The old test
+          still uses the matching key, so it keeps passing—but it never checks what happens
+          with the wrong key.
+        </p>
+        <p class="warning">
+          <strong>Nothing is obviously broken when inspected alone.</strong>
+          The requirement reads well. The code compiles. The test passes. Yet the three
+          files no longer carry the same complete meaning.
+        </p>
+
+        <h3>The obvious answer is “write better documentation”</h3>
+        <p>
+          Better documentation helps. More tests help too. But here is the strange part:
+          every new document or test becomes another place where the meaning can slowly
+          diverge. The team does not only need more descriptions. It needs one explicit
+          model that those descriptions and checks can point back to.
+        </p>
+
+        <p class="note">
+          <strong>This is where DomainSpec begins.</strong>
+          DomainSpec is a repeatable way to turn what a team means into a connected model
+          that both people and tools can inspect. Before asking how to write the code, it
+          asks: what things exist in this domain, how are they related, and which rules must
+          remain true?
+        </p>
+
+        <h3>From one sentence to a model you can inspect</h3>
+        <pre><code>Player ── performs ──→ UnlockDoor ── produces ──→ DoorUnlocked
+                              ↑
+                              │ enforces
+                         HasKeyRule</code></pre>
+        <p>
+          The sentence has been separated into the things it was talking about: a player,
+          an unlock action, an event, and a rule. The arrows make their relationships
+          visible. Now a tool can ask whether the required parts exist, whether a
+          connection is allowed, and which source introduced each part.
+        </p>
+
+        <div class="order" aria-label="General DomainSpec flow">
+          <span>understand the domain</span><i>→</i>
+          <span>build a connected model</span><i>→</i>
+          <span>derive work and checks</span><i>→</i>
+          <span>observe the result</span><i>→</i>
+          <span>make disagreements visible</span>
+        </div>
+
+        <div class="two-column">
+          <article class="card source">
+            <h3>What DomainSpec is trying to preserve</h3>
+            <ul>
+              <li>the important concepts in the problem;</li>
+              <li>the relationships between those concepts;</li>
+              <li>the rules the software is expected to respect;</li>
+              <li>the path from those rules to specifications, tests, and code work;</li>
+              <li>the evidence needed to notice when reality has drifted from the model.</li>
+            </ul>
+          </article>
+          <article class="card danger">
+            <h3>What DomainSpec does not do for you</h3>
+            <ul>
+              <li>invent the correct business meaning;</li>
+              <li>remove the need for product, engineering, or testing judgment;</li>
+              <li>guarantee that application code exists or behaves correctly;</li>
+              <li>make every part of the intended pipeline available today;</li>
+              <li>turn an explanatory model into release approval.</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="warning">
+          <strong>Honesty boundary:</strong> the current DomainSpec v2 tools implement
+          useful slices of the larger idea; they do not make the entire intent-to-code
+          pipeline available today. The rest of this page labels capabilities as current
+          or planned.
+        </p>
+
+        <h3>Where DomainSpec fits in the larger private system</h3>
+        <div class="orientation-grid">
+          <article class="card source">
+            <h3>DomainSpec asks “what?”</h3>
+            <p>
+              What does the domain mean? What concepts, relationships, and rules should
+              the software preserve?
+            </p>
+          </article>
+          <article class="card run">
+            <h3>Arcanum organizes “how?”</h3>
+            <p>
+              Which reusable capabilities, routes, and work sessions help people and
+              agents perform the work?
+            </p>
+          </article>
+          <article class="card proof">
+            <h3>Saturn closes the loop</h3>
+            <p>
+              What actually happened, where did reality drift from intent, and what
+              evidence shows that a correction worked?
+            </p>
+          </article>
+        </div>
+        <p class="warning">
+          <strong>System-frame boundary:</strong> this three-part view describes the
+          intended private architecture. DomainSpec and Saturn are not claimed here as
+          publicly shipped products.
+        </p>
+        <p class="note">
+          <strong>A node is not all of DomainSpec.</strong>
+          It is the first concrete instrument in this page: one small file that makes one
+          part of the shared model explicit. The next section opens that instrument and
+          shows exactly what it can do today.
+        </p>
+      </section>
+
       <section class="section" id="nodes">
         <div class="section-title">
           <div>
