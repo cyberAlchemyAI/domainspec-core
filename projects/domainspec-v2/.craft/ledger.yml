@@ -47,7 +47,14 @@ indexes:
     ART-DSV2-FPR02-INTEGRATED-REFRESH: artifacts[54]
     ART-DSV2-FPR02-BTE-SWU001-CONTEXT: artifacts[55]
     ART-DSV2-FPR02-BTE-SWU001-BLOCK-RECEIPT: artifacts[56]
+    ART-DSV2-FPR02-BTE-L0A-EXECUTION-RECEIPT: artifacts[57]
+    ART-DSV2-FPR02-BTE-L0A-CONTINUATION-HANDOFF: artifacts[58]
+    ART-DSV2-FPR02-BTE-L0A-PUBLICATION-RECEIPT: artifacts[59]
+    ART-DSV2-FPR02-BTE-L0A-RECONCILIATION: artifacts[60]
+    ART-DSV2-FPR02-BTE-L0A-REPAIR-RECEIPT: artifacts[61]
+    ART-DSV2-FPR02-BTE-L0A-REPAIR-SYNC: artifacts[62]
     BLK-DSV2-BTE-SWU-READINESS-CONTRADICTION-001: blockers[5]
+    BLK-DSV2-BTE-L0A-RECEIPT-DRIFT-001: blockers[6]
   open_decisions:
     - DEC-DSV2-LANE-ZA
   blocking_decisions: []
@@ -99,24 +106,26 @@ indexes:
     - context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
       next_move: >-
         FPR-01 and W1 are closed. FPR-02 remains split into independent backend and UI lanes. The 2026-07-23
-        BTE L0A/L0B-L8 route is validated; backend execution next requires explicit selection of dependency-ready
-        SWU-BTE-L0A-001 and a strict runtime context pack. The validation-owner freeze follows L0A and gates L0B. FPR-02U may
-        resume SWU-UIP-005 independently. Production remains unauthorized.
+        BTE L0A/L0B-L8 route is validated. L0A and its bounded exact-byte repair are complete and current
+        publication proof is green. Backend continuation now requires the independent validation owner to return a
+        matching package-local red manifest/freeze before L0B can become a candidate.
+        FPR-02U development is closed through SWU-UIP-007; only its explicit authority packets remain
+        owner-gated. Production remains unauthorized.
     - context_id: CTX-DSV2-FPR02-BACKEND
       next_move: >-
-        The 2026-07-23 BTE bootstrap refresh splits L0A contract publication from L0B semantic execution. Next the
-        operator explicitly selects dependency-ready SWU-BTE-L0A-001 and builds a strict Task Session context pack.
-        The validation owner freezes red inputs only after L0A publishes exact digests; UI is not an input and production remains unauthorized.
+        The historical L0A receipt and bounded repair receipt both pass; current publication proof is green and the
+        byte-drift blocker is resolved. Next the independent validation owner returns a matching package-local red
+        manifest/freeze. L0B remains unselected; UI is not an input and production remains unauthorized.
     - context_id: CTX-DSV2-FPR02B-CONSUMER-PROOF
       next_move: >-
-        The 2026-07-23 Invoke refresh resolves the L0 bootstrap cycle. Explicitly select sole candidate
-        SWU-BTE-L0A-001 and build its strict runtime context pack. After its publication receipt, obtain a matching
-        independent red-manifest freeze before L0B. Consumers remain unchanged until the shared BTE core passes.
+        The selected historical L0A implementation and bounded exact-byte repair both pass; current proof is green
+        and no SWU is selectable. Obtain a matching independent red-manifest freeze, then run a later Invoke Refresh
+        before exposing L0B. Consumers remain unchanged until the shared BTE core passes.
     - context_id: CTX-DSV2-FPR02-UI
       next_move: >-
-        Run SWU-UIP-005 under development/ui-profile-implementation/WORK-PACK.md. Preserve development-only
-        scope and hand authority deltas to DS-D1, DS-D8, and profile owners. Backend profile decisions and
-        backend release completion are not dependencies.
+        The development work-pack is closed through SWU-UIP-007 and aggregate validation passes. Route its
+        exact authority deltas to DS-D1, DS-D8, supported-profile, and R2 owners; canonical activation remains
+        owner-gated and independent of backend release completion.
     - context_id: CTX-DSV2-FPR-VISIBILITY
       next_move: >-
         After any authorized Craft or FPR manifest update, run the roadmap builder and then `--check`. Route
@@ -172,6 +181,12 @@ indexes:
     "development/first-production-release/backend-type-test-engine-completeness/PLAN.md": ART-DSV2-FPR02-BTE-PLAN
     "development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/CONTEXT-PACK.md": ART-DSV2-FPR02-BTE-SWU001-CONTEXT
     "development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/execution-receipt.json": ART-DSV2-FPR02-BTE-SWU001-BLOCK-RECEIPT
+    "development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0A-001/20260723T020759Z-contract-publication/execution-receipt.json": ART-DSV2-FPR02-BTE-L0A-EXECUTION-RECEIPT
+    "development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0A-001/20260723T020759Z-contract-publication/continuation-handoff.json": ART-DSV2-FPR02-BTE-L0A-CONTINUATION-HANDOFF
+    "development/first-production-release/backend-type-test-engine-completeness/runs/20260723T020759Z/l0a/contract-publication-receipt.json": ART-DSV2-FPR02-BTE-L0A-PUBLICATION-RECEIPT
+    "development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-23-l0a-evidence-reconciliation/REFRESH-REPORT.md": ART-DSV2-FPR02-BTE-L0A-RECONCILIATION
+    "development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0A-REPAIR-001/20260723T100352Z-exact-byte-repair/execution-receipt.json": ART-DSV2-FPR02-BTE-L0A-REPAIR-RECEIPT
+    "development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-23-l0a-repair-receipt-sync/REFRESH-REPORT.md": ART-DSV2-FPR02-BTE-L0A-REPAIR-SYNC
     "[repo-root]/cyberAlchemy-v2/development/interactive-ontology-learning-map/SPEC.md": ART-DSV2-FPR02-IOLM-CONSUMER
     "[repo-root]/cyberAlchemy-v2/development/domainspec-v2/BODY-WAR-CONSUMER.md": ART-DSV2-FPR02-BODY-WAR-CONSUMER
     "[repo-root]/cyberAlchemy-v2/development/domainspec-v2/INTEGRATED-EVIDENCE-MANIFEST.yml": ART-DSV2-FPR02-INTEGRATED-MANIFEST
@@ -365,9 +380,10 @@ contexts:
     gate: block
     next_move: >-
       FPR-01 and W1 are closed. FPR-02 remains split into independent backend and UI lanes. The 2026-07-23
-      BTE L0A/L0B-L8 route is validated; backend execution next requires explicit selection of dependency-ready
-      SWU-BTE-L0A-001 and a strict runtime context pack. The validation-owner freeze follows L0A and gates L0B. FPR-02U may
-      resume SWU-UIP-005 independently. Production remains unauthorized.
+      BTE L0A/L0B-L8 route is validated. L0A and its bounded exact-byte repair pass, and current publication
+      proof is green. Backend continuation requires the independent validation owner to return a matching
+      package-local red manifest/freeze before L0B can become a candidate. FPR-02U development is closed through
+      SWU-UIP-007 with authority packets still owner-gated. Production remains unauthorized.
     owned_artifacts:
       - ART-DSV2-FPR-DECISION
       - ART-DSV2-FPR-RESEARCH
@@ -441,9 +457,9 @@ contexts:
     stage: plan
     gate: block
     next_move: >-
-      The 2026-07-23 BTE bootstrap refresh splits L0A contract publication from L0B semantic execution. Next the
-      operator explicitly selects dependency-ready SWU-BTE-L0A-001 and builds a strict Task Session context pack.
-      The validation owner freezes red inputs only after L0A publishes exact digests; UI is not an input and production remains unauthorized.
+      The historical L0A receipt and bounded repair receipt both pass; current publication proof is green and the
+      byte-drift blocker is resolved. Next the independent validation owner returns a matching package-local red
+      manifest/freeze. L0B remains unselected; UI is not an input and production remains unauthorized.
     owned_artifacts:
       - ART-DSV2-FPR02-BACKEND-DECISION
       - ART-DSV2-FPR02-BTE-PLAN
@@ -451,11 +467,21 @@ contexts:
       - ART-DSV2-FPR02-BODY-WAR-CONSUMER
       - ART-DSV2-FPR02-INTEGRATED-MANIFEST
       - ART-DSV2-FPR02-INTEGRATED-REFRESH
+      - ART-DSV2-FPR02-BTE-L0A-EXECUTION-RECEIPT
+      - ART-DSV2-FPR02-BTE-L0A-CONTINUATION-HANDOFF
+      - ART-DSV2-FPR02-BTE-L0A-PUBLICATION-RECEIPT
+      - ART-DSV2-FPR02-BTE-L0A-RECONCILIATION
+      - ART-DSV2-FPR02-BTE-L0A-REPAIR-RECEIPT
+      - ART-DSV2-FPR02-BTE-L0A-REPAIR-SYNC
     links:
       - {label: parent FPR route, target: CTX-DSV2-FIRST-PRODUCTION-RELEASE, kind: row-id}
       - {label: lane contract, target: ART-DSV2-FPR02-LANE-CONTRACT, kind: artifact-id}
       - {label: applied integrated consumer-proof refresh, target: ART-DSV2-FPR02-INTEGRATED-REFRESH, kind: artifact-id}
       - {label: BTE completeness plan, target: ART-DSV2-FPR02-BTE-PLAN, kind: artifact-id}
+      - {label: L0A evidence reconciliation, target: ART-DSV2-FPR02-BTE-L0A-RECONCILIATION, kind: artifact-id}
+      - {label: resolved L0A byte-proof blocker, target: BLK-DSV2-BTE-L0A-RECEIPT-DRIFT-001, kind: row-id}
+      - {label: passing L0A repair receipt, target: ART-DSV2-FPR02-BTE-L0A-REPAIR-RECEIPT, kind: artifact-id}
+      - {label: L0A repair receipt synchronization, target: ART-DSV2-FPR02-BTE-L0A-REPAIR-SYNC, kind: artifact-id}
       - {label: IOLM consumer proof, target: ART-DSV2-FPR02-IOLM-CONSUMER, kind: artifact-id}
       - {label: Body War consumer proof, target: ART-DSV2-FPR02-BODY-WAR-CONSUMER, kind: artifact-id}
       - {label: integrated evidence manifest, target: ART-DSV2-FPR02-INTEGRATED-MANIFEST, kind: artifact-id}
@@ -472,8 +498,9 @@ contexts:
     stage: build
     gate: flag
     next_move: >-
-      Run SWU-UIP-005 under development/ui-profile-implementation/WORK-PACK.md. Backend profile decisions and
-      backend release completion are not dependencies; canonical activation remains owner-gated.
+      The development work-pack is closed through SWU-UIP-007 and aggregate validation passes. Route its exact
+      authority deltas to DS-D1, DS-D8, supported-profile, and R2 owners. Backend profile decisions and backend
+      release completion are not dependencies; canonical activation remains owner-gated.
     owned_artifacts:
       - ART-DSV2-FPR02-UI-PLAN
     links:
@@ -492,9 +519,9 @@ contexts:
     stage: plan
     gate: block
     next_move: >-
-      The 2026-07-23 Invoke refresh resolves the L0 bootstrap cycle. Explicitly select sole candidate
-      SWU-BTE-L0A-001 and build its strict runtime context pack. After its publication receipt, obtain a matching
-      independent red-manifest freeze before L0B. Consumers remain unchanged until the shared BTE core passes.
+      The selected historical L0A implementation and bounded exact-byte repair both pass; current proof is green
+      and no SWU is selectable. Obtain a matching independent red-manifest freeze, then run a later Invoke Refresh
+      before exposing L0B. Consumers remain unchanged until the shared BTE core passes.
     owned_artifacts:
       - ART-DSV2-FPR02-BTE-PLAN
       - ART-DSV2-FPR02-IOLM-CONSUMER
@@ -503,11 +530,23 @@ contexts:
       - ART-DSV2-FPR02-INTEGRATED-REFRESH
       - ART-DSV2-FPR02-BTE-SWU001-CONTEXT
       - ART-DSV2-FPR02-BTE-SWU001-BLOCK-RECEIPT
+      - ART-DSV2-FPR02-BTE-L0A-EXECUTION-RECEIPT
+      - ART-DSV2-FPR02-BTE-L0A-CONTINUATION-HANDOFF
+      - ART-DSV2-FPR02-BTE-L0A-PUBLICATION-RECEIPT
+      - ART-DSV2-FPR02-BTE-L0A-RECONCILIATION
+      - ART-DSV2-FPR02-BTE-L0A-REPAIR-RECEIPT
+      - ART-DSV2-FPR02-BTE-L0A-REPAIR-SYNC
     links:
       - {label: backend parent lane, target: CTX-DSV2-FPR02-BACKEND, kind: row-id}
       - {label: accepted profile decision, target: ART-DSV2-FPR02-BACKEND-DECISION, kind: artifact-id}
       - {label: independent UI sibling, target: CTX-DSV2-FPR02-UI, kind: row-id}
       - {label: resolved planning contradiction, target: BLK-DSV2-BTE-SWU-READINESS-CONTRADICTION-001, kind: row-id}
+      - {label: selected L0A execution receipt, target: ART-DSV2-FPR02-BTE-L0A-EXECUTION-RECEIPT, kind: artifact-id}
+      - {label: selected L0A continuation handoff, target: ART-DSV2-FPR02-BTE-L0A-CONTINUATION-HANDOFF, kind: artifact-id}
+      - {label: immutable L0A publication receipt, target: ART-DSV2-FPR02-BTE-L0A-PUBLICATION-RECEIPT, kind: artifact-id}
+      - {label: resolved L0A byte-proof blocker, target: BLK-DSV2-BTE-L0A-RECEIPT-DRIFT-001, kind: row-id}
+      - {label: passing L0A repair receipt, target: ART-DSV2-FPR02-BTE-L0A-REPAIR-RECEIPT, kind: artifact-id}
+      - {label: L0A repair receipt synchronization, target: ART-DSV2-FPR02-BTE-L0A-REPAIR-SYNC, kind: artifact-id}
 
   - context_id: CTX-DSV2-FPR-VISIBILITY
     parent_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
@@ -1093,6 +1132,35 @@ blockers:
       - ART-DSV2-FPR02-BTE-PLAN
       - "[repo-root]/projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-22-full-work-refresh/REFRESH-REPORT.md"
       - "[repo-root]/projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-23-l0-bootstrap-split/REFRESH-REPORT.md"
+
+  - blocker_id: BLK-DSV2-BTE-L0A-RECEIPT-DRIFT-001
+    context_id: CTX-DSV2-FPR02B-CONSUMER-PROOF
+    status: resolved
+    summary: >-
+      The selected historical SWU-BTE-L0A-001 Task Session receipt passes, but eight contract schemas plus
+      diagnostics.ts do not currently reproduce its immutable exact-byte handles. The existing verifier fails
+      closed with BTE_OUTPUT_OVERWRITE rather than rewriting the run receipt.
+    blocker_type: evidence-drift
+    lane: task-session
+    refinement_status: resolved
+    closure_condition: >-
+      A selected SWU-BTE-L0A-REPAIR-001 Task Session changes only the nine declared byte surfaces, every repaired
+      SHA-256 equals the immutable L0A receipt handle, verify:bte:contract-publication passes without changing the
+      historical run receipt or write manifest, and a later Invoke Refresh synchronizes the passing repair receipt.
+    owner_route: task-session for SWU-BTE-L0A-REPAIR-001, then invoke refresh
+    resolved_at: 2026-07-23
+    resolution: >-
+      SWU-BTE-L0A-REPAIR-001 restored all nine immutable byte handles. The existing publication verifier passed
+      twice while the historical execution receipt, continuation handoff, publication receipt, and write manifest
+      remained byte-identical. The receipt-sync refresh records the green current proof and routes the independent
+      validation owner without selecting L0B.
+    evidence:
+      - ART-DSV2-FPR02-BTE-L0A-EXECUTION-RECEIPT
+      - ART-DSV2-FPR02-BTE-L0A-PUBLICATION-RECEIPT
+      - ART-DSV2-FPR02-BTE-L0A-RECONCILIATION
+    closure_evidence:
+      - ART-DSV2-FPR02-BTE-L0A-REPAIR-RECEIPT
+      - ART-DSV2-FPR02-BTE-L0A-REPAIR-SYNC
 
 gaps:
   - gap_id: GAP-DSV2-EDGE-CATALOG
@@ -1729,10 +1797,9 @@ artifacts:
     path: development/first-production-release/backend-type-test-engine-completeness/PLAN.md
     status: active
     notes: >-
-      Apply-approved 2026-07-23 bootstrap refresh. The active L0A/L0B-L8 route publishes complete machine
-      contracts before independent red-fixture freeze and semantic execution, while preserving six exact
-      catalogues, the obligation-to-replay chain, and independent IOLM/Body War consumers. SWU-BTE-L0A-001
-      is the sole dependency-ready unselected candidate; no implementation or production admission is implied.
+      Apply-approved 2026-07-23 L0A evidence reconciliation. The historical selected L0A Task Session receipt
+      remains pass evidence, current exact-byte proof is blocked, and SWU-BTE-L0A-REPAIR-001 is the sole
+      dependency-ready unselected candidate. L0B, consumers, admission, and production remain gated.
   - artifact_id: ART-DSV2-FPR02-IOLM-CONSUMER
     path: "[repo-root]/cyberAlchemy-v2/development/interactive-ontology-learning-map/SPEC.md"
     status: active
@@ -1769,6 +1836,43 @@ artifacts:
     notes: >-
       Task Session readiness receipt; no implementation files changed. Next route is an Invoke Refresh that
       names exactly one dependency-ready unit.
+  - artifact_id: ART-DSV2-FPR02-BTE-L0A-EXECUTION-RECEIPT
+    path: development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0A-001/20260723T020759Z-contract-publication/execution-receipt.json
+    status: active
+    notes: >-
+      Selected historical Task Session PASS receipt for L0A implementation. It records implementation_changed
+      and exact output handles but grants no admission or production authority; the bounded repair restored current
+      byte proof without rewriting this receipt.
+  - artifact_id: ART-DSV2-FPR02-BTE-L0A-CONTINUATION-HANDOFF
+    path: development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0A-001/20260723T020759Z-contract-publication/continuation-handoff.json
+    status: active
+    notes: >-
+      Historical L0A continuation handoff preserving owner boundaries. The passing repair and receipt-sync refresh
+      restore its independent validation-owner route.
+  - artifact_id: ART-DSV2-FPR02-BTE-L0A-PUBLICATION-RECEIPT
+    path: development/first-production-release/backend-type-test-engine-completeness/runs/20260723T020759Z/l0a/contract-publication-receipt.json
+    status: active
+    notes: >-
+      Immutable non-admitting publication receipt. Current bytes reproduce all recorded handles and the existing
+      verifier passes; the receipt itself remains unchanged.
+  - artifact_id: ART-DSV2-FPR02-BTE-L0A-RECONCILIATION
+    path: development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-23-l0a-evidence-reconciliation/REFRESH-REPORT.md
+    status: active
+    notes: >-
+      Apply-approved Invoke reconciliation that preserves historical L0A evidence, opens the current byte-drift
+      blocker, and exposes SWU-BTE-L0A-REPAIR-001 without selecting or executing it.
+  - artifact_id: ART-DSV2-FPR02-BTE-L0A-REPAIR-RECEIPT
+    path: development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-L0A-REPAIR-001/20260723T100352Z-exact-byte-repair/execution-receipt.json
+    status: active
+    notes: >-
+      Passing non-admitting Task Session receipt. It proves all nine exact handles, publication verification twice,
+      focused and regression validation, exact write scope, and unchanged historical evidence.
+  - artifact_id: ART-DSV2-FPR02-BTE-L0A-REPAIR-SYNC
+    path: development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-23-l0a-repair-receipt-sync/REFRESH-REPORT.md
+    status: active
+    notes: >-
+      Apply-approved Invoke receipt synchronization. It closes current byte drift, removes the repair candidate,
+      and routes the independent validation owner without selecting L0B or granting admission.
 
 recompositions:
   - recomposition_id: REC-DSV2-GREEN

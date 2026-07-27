@@ -12,10 +12,10 @@ semanticAuthority: none
 | Field | Value |
 | --- | --- |
 | planning gate | `pass` |
-| execution handoff | `gated` |
+| execution handoff | `owner-gated` |
 | selected SWU | `none` |
-| candidate | `SWU-BTE-L0A-001` |
-| gate residue | explicit selection only; validation-owner red manifest/freeze gates L0B later |
+| candidate | `none` |
+| gate residue | independent validation-owner red manifest/freeze; a later refresh must validate it before L0B can be selected |
 | active plan | `WORK-PACK.md` |
 | layering | `IMPLEMENTATION-LAYERING.md` |
 | dispatch | `EXECUTION-DISPATCH.json` |
@@ -25,9 +25,9 @@ semanticAuthority: none
 
 | Wave | Layer | Question | Task | Entry | Exit | State |
 | --- | --- | --- | --- | --- | --- | --- |
-| [W0](work-pack/waves/W0-REFRESH-HANDOFF.md) | gate | Is the refreshed package valid and one candidate explicitly selectable? | Plan validation only | accepted decision/refresh | dispatch/Distill/digests pass; user selection | ready-for-selection |
-| [W1](work-pack/waves/W1-L0-PROOF-PRIMITIVES.md) | L0A | Are complete contracts published before red cases are authored? | L0A contract publication | W0 | exact non-admitting contract-publication receipt | candidate-unselected |
-| [W1B](work-pack/waves/W1B-L0-VALIDATION-EXECUTION.md) | L0B | Do unchanged contracts reject independently frozen red cases? | L0B semantic validation | L0A receipt plus matching owner freeze | non-admitting ValidationReceipt | predecessor/owner-gated |
+| [W0](work-pack/waves/W0-REFRESH-HANDOFF.md) | gate | Was the bootstrap package valid and one candidate explicitly selectable? | Historical plan validation | accepted decision/refresh | original dispatch/Distill/digests passed | completed-historical |
+| [W1](work-pack/waves/W1-L0-PROOF-PRIMITIVES.md) | L0A | Do current published bytes reproduce the immutable historical L0A receipt? | L0A exact-byte repair | applied reconciliation plus historical receipt | passing existing publication verifier with unchanged receipt evidence | completed-green |
+| [W1B](work-pack/waves/W1B-L0-VALIDATION-EXECUTION.md) | L0B | Do unchanged contracts reject independently frozen red cases? | L0B semantic validation | current L0A verification plus matching owner freeze | non-admitting ValidationReceipt | predecessor/owner-gated |
 | [W2](work-pack/waves/W2-L1-FORMATION-V2.md) | L1 | Does formation-v2 replace current JSON constraints without losing compatibility? | L1 formation-v2 | L0B ValidationReceipt | retirement/migration/compatibility receipt | predecessor-gated |
 | [W3](work-pack/waves/W3-L2-SUCCESSOR-SOURCES.md) | L2 | Can versioned independent node/edge sources resolve without fallback? | L2 successor sources | L1 receipt | resolver/source-set receipt | predecessor-gated |
 | [W4](work-pack/waves/W4-L3-COMPILER-GRAPH.md) | L3 | Does the successor compile to one deterministic graph/build handle? | L3 compiler/graph | L2 receipt | BuildReceipt plus build ReplayResult | predecessor-gated |
@@ -39,8 +39,9 @@ semanticAuthority: none
 
 ## Ordering And Parallelism
 
-- W0–W7 are sequential evidence gates, with the validation-owner freeze between
-  W1/L0A and W1B/L0B.
+- W1 exact-byte repair is complete. The current route stops at the independent
+  validation-owner freeze between W1/L0A and W1B/L0B. W1B–W7 remain sequential
+  evidence gates after that owner receipt is validated.
 - W8 contains exactly two parallel lanes with disjoint consumer write scopes.
 - W9 joins both W8 ReplayResults and the unchanged exact W7 core handle.
 - A wave is never an execution unit. Task Session receives exactly one selected

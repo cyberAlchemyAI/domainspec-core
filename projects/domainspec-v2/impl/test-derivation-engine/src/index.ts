@@ -59,3 +59,14 @@ export type {
   DialectDescriptor,
   SemanticOptions,
 } from "./roundtrip/index.js";
+export * from "./bte/development-engine.js";
+export * from "./bte/proof-engine.js";
+export * from "./bte/consumer-engine.js";
+export {
+  runCompleteDevelopmentBte,
+  runDevelopmentBte,
+} from "./bte/development-pipeline.js";
+export type {
+  DevelopmentBteRun,
+  DevelopmentBteSummary,
+} from "./bte/development-pipeline.js";

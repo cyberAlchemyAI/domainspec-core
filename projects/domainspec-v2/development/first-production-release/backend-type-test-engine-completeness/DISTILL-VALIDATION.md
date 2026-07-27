@@ -1,16 +1,23 @@
 ---
 artifact: bte-plan-distill-validation
-mode: validate
-status: pass
-handoffStatus: gated
+mode: skipped-receipt-synchronization
+status: not-applicable
+handoffStatus: owner-gated
 updatedAt: 2026-07-23
 semanticAuthority: none
 ---
 
-# Distill Validation — L0 Bootstrap Split
+# Distill Validation — L0 Bootstrap Split And Evidence Repair
 
 ## Result
 
+- Current refresh: Distill is skipped because the passing
+  `SWU-BTE-L0A-REPAIR-001` receipt is being synchronized without changing the
+  architecture, responsibility split, or SWU boundary.
+- Current handoff: `owner-gated` on the independent validation-owner red
+  manifest/freeze only. Current L0A verification passes; L0B is unselected.
+- The prior bootstrap-split validation below remains the accepted explanation
+  for the L0A/L0B architecture; it is not current execution status.
 - Target context: accepted L0 bootstrap correction inside the validated BTE
   architecture; L1–L8 remain unchanged.
 - Output artifact: one atomic Plan/work-pack/dispatch package with separate L0A
@@ -21,8 +28,8 @@ semanticAuthority: none
   a separately proposed and user-confirmed DomainSpec dispatch before using
   subagents; this bounded refresh grants no such dispatch.
 - Verdict: `pass`.
-- Handoff: `gated` only on explicit selection of dependency-ready
-  `SWU-BTE-L0A-001`. The validation-owner freeze gates L0B, not L0A.
+- Historical handoff: L0A was explicitly selected and implemented. Its current
+  proof is restored and verified by the bounded repair receipt.
 
 ## Corrected Route
 
@@ -55,6 +62,12 @@ No stable disagreement remains.
 
 ## Smallest Coherent Units
 
+`SWU-BTE-L0A-REPAIR-001` completed one primary behavior: append one additional LF to
+the eight mismatching schemas and `diagnostics.ts`, restoring exact immutable
+receipt handles. Adding L0B, owner-freeze work, planning sync, or new receipt
+architecture would mix owners; splitting the nine surfaces would leave the
+historical receipt only partially reproducible.
+
 `SWU-BTE-L0A-001` has one primary behavior: publish one stable machine boundary
 that another owner can use to construct expectations. Removing any contract,
 the diagnostic registry, keyword policy, or publication receipt would make that
@@ -62,8 +75,7 @@ handoff incomplete.
 
 `SWU-BTE-L0B-001` has one primary behavior: execute unchanged published
 contracts against independently frozen cases and emit recomputable validation
-evidence. It is not currently selectable because both its predecessor receipt
-and owner freeze are absent.
+evidence. It is not currently selectable because its owner freeze is absent.
 
 ## Recomposition Proof
 
@@ -111,7 +123,7 @@ diagnostic ownership, freeze shape, task boundaries, or predecessor handles
 change.
 
 Start at `PLAN.md`, then `WORK-PACK.md`, then
-`work-pack/tasks/TASK-BTE-L0-PROOF-PRIMITIVES.md`. The next route is explicit
-selection and Task Session for `SWU-BTE-L0A-001`. A later Invoke Refresh must
-verify its publication receipt before routing the validation owner and exposing
-`SWU-BTE-L0B-001`.
+`work-pack/tasks/TASK-BTE-L0-PROOF-PRIMITIVES.md`. The next route is the
+independent validation owner for the package-local L0 red manifest and freeze
+receipt. A later Invoke Refresh must validate that exact owner output before
+exposing `SWU-BTE-L0B-001`.

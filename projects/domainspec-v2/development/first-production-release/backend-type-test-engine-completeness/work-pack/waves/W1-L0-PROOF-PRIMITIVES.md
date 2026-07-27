@@ -1,17 +1,21 @@
-# W1 — L0A Contract Publication
+# W1 — L0A Contract Publication And Evidence Repair
 
 ## Question
 
-Are all machine shapes and diagnostic codes published as one stable,
-machine-checkable boundary before independent red cases are authored?
+Do current machine-contract and diagnostic bytes exactly reproduce the
+immutable L0A publication receipt before independent red cases are authored?
 
 ## Entry, Work, Exit
 
-Entry requires W0 and selection of exactly `SWU-BTE-L0A-001`. Execute only the
-L0A contract, diagnostic-registry, focused positive-contract test, script, and
-publication-evidence writes. Exit is a non-admitting contract-publication
-receipt over exact bytes, digests, dialect, keyword policy, and diagnostic
-closure. It is not a `ValidationReceipt` and does not consume a red manifest.
+Historical entry required W0 and explicit selection of `SWU-BTE-L0A-001`; that
+Task Session returned a pass receipt. The applied evidence-reconciliation
+package then exposed exactly `SWU-BTE-L0A-REPAIR-001`, whose Task Session also
+returned a pass receipt.
 
-Failure routes to L0A repair. Passing routes to the validation owner for the
-package-local red-manifest freeze; it does not open W2.
+The repair executed only the nine declared one-LF byte repairs and append-only
+Task Session evidence. Exit has exact immutable receipt digests, a passing
+`verify:bte:contract-publication`, unchanged historical receipt/manifest bytes,
+and a non-admitting repair receipt. It consumed no red manifest.
+
+W1 is complete and green. Its receipt-sync refresh routes the validation owner
+for the package-local red-manifest freeze. W1 never opens W2 directly.

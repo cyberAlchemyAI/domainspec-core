@@ -61,7 +61,7 @@ owner, and Context Builder anchors in its task contract.
 | G1 mechanics | all contracts reject empty/whitespace and six fixture classes close | pass |
 | G2 engine | explicit dev profile compiles through existing engine with stable views/digest | pass |
 | G3 owner firewall | packet contains proposed deltas but canonical files remain unchanged | pass |
-| G4 audit | all owned gates pass; aggregate guard residue is external and exact | pass-with-external-residue |
+| G4 audit | all owned gates and the repository aggregate validation pass | pass |
 
 ## Active Gaps
 
@@ -72,9 +72,9 @@ owner, and Context Builder anchors in its task contract.
   development result. The work-pack ends with their decision packet.
 - `GAP-UIP-CONFIDENCE`: real-corpus breadth and independent review remain
   unmeasured for several concepts. This is non-blocking confidence residue.
-- `GAP-UIP-AGGREGATE-GUARD`: the repository-wide retired-orchestration audit rejects
-  four unrelated backend-completeness planning files. UI-focused validation
-  passes; the exact aggregate failure is preserved for SWU-UIP-007 recheck.
+- `GAP-UIP-AGGREGATE-GUARD` is resolved. The exact post-manifest backend
+  evidence references are classified by path, match count, and content digest;
+  repository aggregate validation passes.
 
 ## Validation Strategy
 
@@ -102,6 +102,5 @@ npm run typecheck
 ## Next Route
 
 The development work-pack is closed. Route the exact packet to DS-D1, DS-D8,
-supported-profile, and R2 owners. Repair `GAP-UIP-AGGREGATE-GUARD` only through
-its backend-completeness or retired-reference lifecycle owner. No corpus-B,
-backend-profile, or subagent decision is required for this closeout.
+supported-profile, and R2 owners. No corpus-B, backend-profile, or subagent
+decision is required for this closeout.

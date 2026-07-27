@@ -1,7 +1,7 @@
 ---
 module: backend-type-test-engine-completeness
-version: 2026-07-23-l0-bootstrap-split
-status: validated-awaiting-swu-selection
+version: 2026-07-23-l0a-repair-receipt-sync
+status: validated-awaiting-independent-validation-freeze
 updatedAt: 2026-07-23
 docType: implementation-layering
 semanticAuthority: none
@@ -39,8 +39,9 @@ depends on or can repair the other.
 
 | From → to | Required evidence | Failure behavior |
 | --- | --- | --- |
-| Plan → L0A | validated atomic package and explicit user selection of `SWU-BTE-L0A-001` | no Task Session; route to plan repair or selection |
-| L0A → L0B | exact publication receipt plus matching validation-owner red manifest/freeze | no semantic execution; route contract drift to L0A and expectation/freeze drift to validation owner |
+| Plan → L0A repair | validated reconciliation package and explicit user selection of `SWU-BTE-L0A-REPAIR-001` | completed by the passing repair receipt |
+| L0A repair → validation owner | current bytes reproduce the immutable L0A receipt and `verify:bte:contract-publication` passes without rewriting run evidence | passed; route the independent validation owner |
+| L0A → L0B | current passing publication verification plus matching validation-owner red manifest/freeze | no semantic execution; route contract drift to L0A repair and expectation/freeze drift to validation owner |
 | L0B → L1 | exact L0 ValidationReceipt and unchanged publication/Design/seed digests | block formation implementation |
 | L1 → L2 | exact retirement/compatibility receipt; current v1 unchanged | no successor source activation |
 | L2 → L3 | resolver receipt and version-hard source handles | no graph build |
@@ -50,18 +51,22 @@ depends on or can repair the other.
 | L6 → L7A/L7B | exact green core aggregate handle | no consumer run accepted |
 | L7A/L7B → L8 | both fresh consumer ReplayResults reference the same core handle | consumer/terminal nonzero; core remains unchanged |
 
-## First Candidate And Accepted Split
+## Completed Repair And Accepted Split
 
-`SWU-BTE-L0A-001` is the only current candidate and is not selected. It owns
-contract publication, not validation: all machine shapes, supported keyword
-policy, closed diagnostic registry, exact bytes/digests, and a non-admitting
-publication receipt are one coherent handoff to the validation owner.
+`SWU-BTE-L0A-001` was selected and implemented. Its immutable Task Session
+receipt remains a historical pass. The bounded repair restored all nine
+recorded byte handles and the deterministic publication verifier now passes.
+
+`SWU-BTE-L0A-REPAIR-001` is completed. Its passing receipt proves that the nine
+surfaces reproduce the immutable publication handles and that the existing
+publication verifier passes without rewriting historical evidence. It granted
+no admission and authored no validation inputs.
 
 `SWU-BTE-L0B-001` is a named successor but cannot become dependency-ready until
-L0A has passed and the validation owner has frozen package-local red cases
-against the exact publication digests. L0B owns the shape/semantic validators,
-exact frozen-case execution, and `ValidationReceipt`; it cannot rewrite L0A or
-validation-owned bytes.
+the validation owner has frozen package-local red cases against the exact
+publication digests. Current L0A publication verification passes. L0B owns the
+shape/semantic validators, exact frozen-case execution, and
+`ValidationReceipt`; it cannot rewrite L0A or validation-owned bytes.
 
 This split resolves the bootstrap cycle. A freeze before L0A would guess at
 unpublished schemas and diagnostic codes. Folding L0A and L0B back together
@@ -98,8 +103,9 @@ requires one.
   become semantic or admission authority.
 - Missing admission blocks only the affected stage/core eligibility; it does
   not erase already valid local candidate evidence.
+- Current L0A byte proof is green; its repair receipt is synchronized.
 - Missing validation-owner freeze blocks L0B and later TestCase materialization,
-  but never blocks L0A contract publication.
+  but never changes the historical L0A Task Session result.
 - Core has no consumer or UI dependency; terminal proof has both consumers and
   no UI dependency.
 

@@ -1,0 +1,17 @@
+{
+  "schema_version": "minted-node/v1",
+  "node_id": "financial-settlement.PayoutEligibilityRule",
+  "feature_id": "financial-settlement",
+  "kind": "Rule",
+  "intent": "Identify the bounded experimental condition under which payout effects are observed.",
+  "body": {
+    "formal_return_type": "boolean"
+  },
+  "connections": [
+    {
+      "edge_id": "financial-settlement.edge.payout-rule-enforces-generation",
+      "type": "enforces",
+      "to": "financial-settlement.GenerateSettlement"
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 ---
 task: TASK-BTE-L0-PROOF-PRIMITIVES
 layer: L0A-L0B
-status: candidate-ready-for-selection
-swuCandidates: [SWU-BTE-L0A-001]
+status: l0a-green-awaiting-independent-validation-freeze
+swuCandidates: []
+historicalSwus: [SWU-BTE-L0A-001, SWU-BTE-L0A-REPAIR-001]
 successorSwus: [SWU-BTE-L0B-001]
 updatedAt: 2026-07-23
 ---
@@ -19,7 +20,8 @@ against real, immutable contract bytes.
 
 ## SWU-BTE-L0A-001 — Contract Publication
 
-Status: `candidate-unselected-dependency-ready`.
+Status:
+`implementation-present; historical-pass-receipt; current-proof-green`.
 
 ### Consumes
 
@@ -98,9 +100,84 @@ Run planned `verify:bte:contract-publication`, plus current `engine:test`,
 ### Stop And Handoff
 
 Stop on an ignored keyword, open diagnostic set, nondeterministic bytes, write
-escape, preserved digest drift, or any access to validation-owned inputs. A
-passing publication receipt routes to Invoke Refresh and then the validation
-owner to author/freeze the red manifest against the published digests.
+escape, preserved digest drift, or any access to validation-owned inputs. The
+historical Task Session passed and the bounded repair below restored current
+receipt parity; route the independent validation owner before L0B.
+
+## SWU-BTE-L0A-REPAIR-001 — Exact-Byte Evidence Repair
+
+Status: `completed-pass-receipt-synchronized`.
+
+### Primary Behavior
+
+Restore the current L0A published byte set to the immutable receipt handles and
+prove the existing publication verifier passes without replacing historical
+run evidence.
+
+### Consumes
+
+- immutable `SWU-BTE-L0A-001` execution receipt and continuation handoff under
+  `work-pack/session-evidence/SWU-BTE-L0A-001/20260723T020759Z-contract-publication/`;
+- immutable run publication receipt and output-write manifest under
+  `runs/20260723T020759Z/l0a/`;
+- current nine contract schemas, `validation/diagnostics.ts`, publisher source,
+  and package script;
+- this applied repair contract.
+
+### Allowed Writes
+
+Append one additional LF to exactly:
+
+1. `contracts/artifact-handle.v1.schema.json`;
+2. `contracts/logical-identity.v1.schema.json`;
+3. `contracts/authority-class.v1.schema.json`;
+4. `contracts/diagnostic.v1.schema.json`;
+5. `contracts/exact-set.v1.schema.json`;
+6. `contracts/red-fixture-manifest.v1.schema.json`;
+7. `contracts/red-fixture-freeze-receipt.v1.schema.json`;
+8. `contracts/validation-receipt.v1.schema.json`;
+9. `validation/diagnostics.ts`.
+
+All nine paths are relative to
+`projects/domainspec-v2/impl/test-derivation-engine/src/bte/`.
+One append-only repair Task Session evidence directory is also allowed.
+
+### Forbidden Writes
+
+- `contracts/contract-publication-receipt.v1.schema.json`, which already
+  matches;
+- every historical Task Session or run receipt and write manifest;
+- `validation-inputs/`, semantic validators, positive fixtures, publisher
+  source, package scripts, or later BTE layers;
+- current-v1, formation, compiler, graph, catalogue, proof, consumer, UI,
+  admission, release, Craft, Inventory, visibility, or public Arcanum surfaces.
+
+### Acceptance Evidence
+
+1. Every repaired surface has the exact SHA-256 recorded in the immutable L0A
+   receipt.
+2. `npm --prefix projects/domainspec-v2/impl run
+   verify:bte:contract-publication` passes without changing the existing run
+   receipt or write manifest.
+3. `npx vitest run src/bte/contract-publication.test.ts` passes from
+   `projects/domainspec-v2/impl/test-derivation-engine/`.
+4. `npm --prefix projects/domainspec-v2/impl run engine:test` passes.
+5. `npm --prefix projects/domainspec-v2/impl run typecheck` passes.
+6. `npm --prefix projects/domainspec-v2/impl run validate:docs` passes.
+7. JSON parse, links, exact write scope, receipt digests, and
+   `git diff --check` pass.
+8. The repair receipt says `admission_granted=false` and
+   `production_authorized=false`.
+
+### Stop And Handoff
+
+Stop if any mismatch is not the recorded one-additional-LF relation, any target
+outside the nine byte surfaces changes, historical evidence would be rewritten,
+the verifier still fails, or a formatter/commit strips the restored bytes.
+
+A passing repair receipt routed to Invoke Refresh. This refresh closes
+`BLK-DSV2-BTE-L0A-RECEIPT-DRIFT-001`, marks current publication proof green,
+removes this candidate, and routes the independent validation owner.
 
 ## SWU-BTE-L0B-001 — Semantic Validation Execution
 
@@ -108,8 +185,9 @@ Status: `planned-predecessor-and-owner-gated`.
 
 ### Consumes
 
-- the exact passing L0A `contract-publication-receipt.json` and all published
-  contract/registry digests;
+- current passing L0A publication verification, the exact immutable
+  `contract-publication-receipt.json`, and all published contract/registry
+  digests;
 - package-local
   `validation-inputs/l0/red-fixture-manifest.v1.json` and
   `validation-inputs/l0/red-fixture-freeze-receipt.json`, authored by the

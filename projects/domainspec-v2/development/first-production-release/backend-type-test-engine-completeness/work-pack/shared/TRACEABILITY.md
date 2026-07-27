@@ -3,7 +3,7 @@
 | Requirement family | Layer/task | Planned evidence |
 | --- | --- | --- |
 | `AUTH-001..006` | L0–L8, especially L0/L3/L5/L8 | authority-class and handle validators; immutable ProofContext; stale-digest controls; non-admitting receipts |
-| `AUTH-007` | L0A → validation-owner freeze → L0B | exact contract-publication receipt; immutable published digests; package-local freeze receipt; no L0A `ValidationReceipt` |
+| `AUTH-007` | L0A → completed current-byte repair → validation-owner freeze → L0B | exact contract-publication and repair receipts; passing current verifier over immutable published digests; package-local freeze receipt still required; no L0A `ValidationReceipt` |
 | `FORM-001..008` | L1 formation-v2 | 13 structures, 16 criteria, exact retirement/migration/compatibility, reason-specific negatives, preserved 001/003 |
 | `GRAPH-001..007` | L2/L3/L4/L6 | successor source schemas/resolver, graph/manifest/build replay, relationship selections/catalogues |
 | `GRAPH-008` / FPR-02 Decision 9 | L4/L5/L6 | exact 13-row node-pattern selection, canonical effect/removal delta, TestCase/mutation/receipt/replay evidence |
@@ -30,6 +30,7 @@ FPR-02 Resolved Decision 9
 
 ```text
 L0A contract publication
+  -> completed exact-byte repair and passing current publication verification
   -> validation-owner red-manifest freeze
   -> L0B proof-primitive validation
   -> L1 formation-v2

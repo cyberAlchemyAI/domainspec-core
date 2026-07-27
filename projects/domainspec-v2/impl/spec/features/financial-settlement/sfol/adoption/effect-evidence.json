@@ -1,0 +1,318 @@
+{
+  "schema_version": "financial-settlement-sfol-effect-evidence/v1",
+  "denominator": {
+    "schema_version": "domainspec-sfol-clause-denominator/v1",
+    "source_form": "canonical-node-graph-manifest-build",
+    "unsupported_residue_policy": "reject",
+    "proof_context": {
+      "graph_id": "financial-settlement.graph",
+      "graph_digest": "07542be03077c60f6d992cd86c62a6f227783dca63b997cfcf2e7a07e051ec31",
+      "manifest_id": "financial-settlement.source-manifest",
+      "manifest_digest": "24a6b8c3a4a1cb8699570ea7e04acc33018ee6792bae4abed86b219f9a322153",
+      "build_id": "financial-settlement.build",
+      "build_digest": "01b06db4e136920de285d2b4381cf04551a28ad3f65f197473d6782b8e87cf3c",
+      "source_set_digest": "f66583cbce3b46d4ee42e8f5ec640abc96ee524f1c61b52bde86eb0ec3c7bd41",
+      "profile_id": "sfol-development",
+      "profile_version": "0.1",
+      "profile_digest": "17384f4161df05461ac193ab6df369a20f189233a3f27fb111b437845b468918"
+    },
+    "clause_ids": [
+      "financial-settlement.P4"
+    ],
+    "coverage_keys": [
+      "financial-settlement.P4#effects"
+    ],
+    "members": [
+      {
+        "coverage_key": "financial-settlement.P4#effects",
+        "role": "effects",
+        "clause_id": "financial-settlement.P4",
+        "clause_digest": "bbdab51a2a1afcf89ba40a9c3992209adee7b056d8e023e91b70e94951c6d3c8",
+        "node_id": "financial-settlement.GenerateSettlement",
+        "node_digest": "92ad16eaa5660cde661dbefac00bc9ea8f06b415086f90d5086133461262f502",
+        "module_id": "financial-settlement.generate-settlement-effects",
+        "module_digest": "245bc3b9ba565364257953fd728729505fd62b0d56f408eb82b2efc94e05eeec",
+        "kind": "effect-relation",
+        "graph_digest": "07542be03077c60f6d992cd86c62a6f227783dca63b997cfcf2e7a07e051ec31",
+        "manifest_digest": "24a6b8c3a4a1cb8699570ea7e04acc33018ee6792bae4abed86b219f9a322153",
+        "build_digest": "01b06db4e136920de285d2b4381cf04551a28ad3f65f197473d6782b8e87cf3c",
+        "source_set_digest": "f66583cbce3b46d4ee42e8f5ec640abc96ee524f1c61b52bde86eb0ec3c7bd41",
+        "profile_id": "sfol-development",
+        "profile_version": "0.1",
+        "profile_digest": "17384f4161df05461ac193ab6df369a20f189233a3f27fb111b437845b468918"
+      }
+    ],
+    "digest": "29d960619be27e0523f9abb9bb72e06115e8ad172e760a510c5271c08d8263c2"
+  },
+  "typed_artifact_digest": "d725ff8cfb5b2f39b3484c6e404e665f1963ce634b7e059237ea7cab92fb7557",
+  "source_fixture_sha256": "9c286c9e668af605da47bbcede69fc4ee2dc45741dab1b2c3ff86726f228c64e",
+  "fixture": {
+    "fixture_id": "financial-settlement.P4.eligible-payout",
+    "coverage_key": "financial-settlement.P4#effects",
+    "contract_id": "financial-settlement.P4.payout-write-event",
+    "inputs": {},
+    "universes": {},
+    "fixture_digest": "5ac8a64d5125c31f46116099a9c545c7b5734f12b900cd628dfbdea0615f8951"
+  },
+  "contract": {
+    "schema_version": "domainspec-sfol-effect-trace-contract/v1",
+    "contract_id": "financial-settlement.P4.payout-write-event",
+    "pre_record_declaration_id": "financial-settlement.PayoutPre",
+    "post_record_declaration_id": "financial-settlement.PayoutPost",
+    "effect_record_declaration_id": "financial-settlement.PayoutEffect",
+    "pre_fields": [
+      {
+        "name": "total_payout",
+        "value_tag": "integer"
+      },
+      {
+        "name": "existing_payout_count",
+        "value_tag": "integer"
+      },
+      {
+        "name": "end_date",
+        "value_tag": "string"
+      }
+    ],
+    "post_fields": [
+      {
+        "name": "payout_write_count",
+        "value_tag": "integer"
+      },
+      {
+        "name": "payout_event_count",
+        "value_tag": "integer"
+      }
+    ],
+    "effect_sequence": [
+      {
+        "kind": "write",
+        "name": "PAYOUT",
+        "payload_tag": "record"
+      },
+      {
+        "kind": "event",
+        "name": "PayoutCreated",
+        "payload_tag": "record"
+      }
+    ],
+    "return_observation": null,
+    "max_effects": 2,
+    "observation_identity": {
+      "write_payload": {
+        "amount": "pre.total_payout",
+        "date": "pre.end_date"
+      },
+      "event_payload": {
+        "amount": "pre.total_payout",
+        "date": "pre.end_date"
+      },
+      "capture_source": "actual repository write and actual event handler call",
+      "adapter_may_manufacture_observations": false
+    }
+  },
+  "contract_admission": {
+    "schema_version": "domainspec-sfol-effect-contract-admission/v1",
+    "admission_id": "financial-settlement.experimental-p4-contract-admission",
+    "proof_context": {
+      "graph_id": "financial-settlement.graph",
+      "graph_digest": "07542be03077c60f6d992cd86c62a6f227783dca63b997cfcf2e7a07e051ec31",
+      "manifest_id": "financial-settlement.source-manifest",
+      "manifest_digest": "24a6b8c3a4a1cb8699570ea7e04acc33018ee6792bae4abed86b219f9a322153",
+      "build_id": "financial-settlement.build",
+      "build_digest": "01b06db4e136920de285d2b4381cf04551a28ad3f65f197473d6782b8e87cf3c",
+      "source_set_digest": "f66583cbce3b46d4ee42e8f5ec640abc96ee524f1c61b52bde86eb0ec3c7bd41",
+      "profile_id": "sfol-development",
+      "profile_version": "0.1",
+      "profile_digest": "17384f4161df05461ac193ab6df369a20f189233a3f27fb111b437845b468918"
+    },
+    "source_proposal_digest": "50d94f8680a890a1e4c480838d774bd0353708699712b667ffdc2622646834f9",
+    "contract_bindings": [
+      {
+        "contract_id": "financial-settlement.P4.payout-write-event",
+        "contract_digest": "f0dc9c598390e16ff5b80cfc78ba9c80c236e807df369c1d18207d594a9bba1d",
+        "source_proposal_digest": "50d94f8680a890a1e4c480838d774bd0353708699712b667ffdc2622646834f9"
+      }
+    ],
+    "admission_digest": "cb800190001889d9b3b8a65f114290d96b8d36edcd65bcf6d2f9f364c790ff76"
+  },
+  "cases": [
+    {
+      "schema_version": "domainspec-sfol-effect-case/v1",
+      "status": "ready",
+      "case_id": "financial-settlement.P4#effects@financial-settlement.P4.eligible-payout",
+      "coverage_key": "financial-settlement.P4#effects",
+      "role": "effects",
+      "module_id": "financial-settlement.generate-settlement-effects",
+      "module_digest": "245bc3b9ba565364257953fd728729505fd62b0d56f408eb82b2efc94e05eeec",
+      "clause_id": "financial-settlement.P4",
+      "clause_digest": "bbdab51a2a1afcf89ba40a9c3992209adee7b056d8e023e91b70e94951c6d3c8",
+      "fixture_id": "financial-settlement.P4.eligible-payout",
+      "fixture_digest": "5ac8a64d5125c31f46116099a9c545c7b5734f12b900cd628dfbdea0615f8951",
+      "contract_id": "financial-settlement.P4.payout-write-event",
+      "trace_contract_digest": "f0dc9c598390e16ff5b80cfc78ba9c80c236e807df369c1d18207d594a9bba1d",
+      "contract_admission_digest": "cb800190001889d9b3b8a65f114290d96b8d36edcd65bcf6d2f9f364c790ff76",
+      "source_proposal_digest": "50d94f8680a890a1e4c480838d774bd0353708699712b667ffdc2622646834f9",
+      "proof_context_digest": "4178f78b3b4d048bf1a15978dd98a84445288203eaa2092ac7ab4eb41cb4aa55",
+      "inputs": {},
+      "universes": {},
+      "case_digest": "3dcd27c314d9b3bbdfec1f8d67f3031575f810b57138890964831915c9ec5be2"
+    }
+  ],
+  "bindings": [
+    {
+      "resolution_key": "financial-settlement.generate-settlement-effects|financial-settlement.P4|financial-settlement.P4#effects@financial-settlement.P4.eligible-payout|effects|245bc3b9ba565364257953fd728729505fd62b0d56f408eb82b2efc94e05eeec|bbdab51a2a1afcf89ba40a9c3992209adee7b056d8e023e91b70e94951c6d3c8|3dcd27c314d9b3bbdfec1f8d67f3031575f810b57138890964831915c9ec5be2|5ac8a64d5125c31f46116099a9c545c7b5734f12b900cd628dfbdea0615f8951|f0dc9c598390e16ff5b80cfc78ba9c80c236e807df369c1d18207d594a9bba1d|cb800190001889d9b3b8a65f114290d96b8d36edcd65bcf6d2f9f364c790ff76|50d94f8680a890a1e4c480838d774bd0353708699712b667ffdc2622646834f9",
+      "selector": {
+        "module_id": "financial-settlement.generate-settlement-effects",
+        "clause_id": "financial-settlement.P4",
+        "case_id": "financial-settlement.P4#effects@financial-settlement.P4.eligible-payout",
+        "role": "effects",
+        "module_digest": "245bc3b9ba565364257953fd728729505fd62b0d56f408eb82b2efc94e05eeec",
+        "clause_digest": "bbdab51a2a1afcf89ba40a9c3992209adee7b056d8e023e91b70e94951c6d3c8",
+        "case_digest": "3dcd27c314d9b3bbdfec1f8d67f3031575f810b57138890964831915c9ec5be2",
+        "fixture_digest": "5ac8a64d5125c31f46116099a9c545c7b5734f12b900cd628dfbdea0615f8951",
+        "trace_contract_digest": "f0dc9c598390e16ff5b80cfc78ba9c80c236e807df369c1d18207d594a9bba1d",
+        "contract_admission_digest": "cb800190001889d9b3b8a65f114290d96b8d36edcd65bcf6d2f9f364c790ff76",
+        "source_proposal_digest": "50d94f8680a890a1e4c480838d774bd0353708699712b667ffdc2622646834f9"
+      },
+      "binding": {
+        "binding_id": "financial-settlement.P4.binding.financial-settlement.P4.eligible-payout",
+        "selector": {
+          "module_id": "financial-settlement.generate-settlement-effects",
+          "clause_id": "financial-settlement.P4",
+          "case_id": "financial-settlement.P4#effects@financial-settlement.P4.eligible-payout",
+          "role": "effects",
+          "module_digest": "245bc3b9ba565364257953fd728729505fd62b0d56f408eb82b2efc94e05eeec",
+          "clause_digest": "bbdab51a2a1afcf89ba40a9c3992209adee7b056d8e023e91b70e94951c6d3c8",
+          "case_digest": "3dcd27c314d9b3bbdfec1f8d67f3031575f810b57138890964831915c9ec5be2",
+          "fixture_digest": "5ac8a64d5125c31f46116099a9c545c7b5734f12b900cd628dfbdea0615f8951",
+          "trace_contract_digest": "f0dc9c598390e16ff5b80cfc78ba9c80c236e807df369c1d18207d594a9bba1d",
+          "contract_admission_digest": "cb800190001889d9b3b8a65f114290d96b8d36edcd65bcf6d2f9f364c790ff76",
+          "source_proposal_digest": "50d94f8680a890a1e4c480838d774bd0353708699712b667ffdc2622646834f9"
+        },
+        "target": {
+          "adapter_kind": "effect-harness",
+          "module": "validation/poker-team/backend/src/use-cases/financial-settlement/generate-settlement.ts",
+          "symbol": "generateSettlementUseCase",
+          "target_digest": "4cf041e66da8ef18cd2f4ccd6147ec546c8024c5c9be6e50690abd48417dce1e",
+          "runtime_digest": "f9b202d4013f13d4afd3b71a4abaa28610106c1d3f83c4f1d69543c9826a4846",
+          "adapter_id": "financial-settlement.P4.adapter.none",
+          "adapter_digest": "e62492d1653159dcdfbe712281d27bdc8478b201e0735947928297e50d9078f0"
+        }
+      },
+      "binding_digest": "2c5f2aaa085c0ff9bbad3ef04002be3df00323119236f5dff05fa0e5289a90f1"
+    }
+  ],
+  "observations": [
+    {
+      "schema_version": "domainspec-sfol-raw-effect-observation/v1",
+      "case_id": "financial-settlement.P4#effects@financial-settlement.P4.eligible-payout",
+      "case_digest": "3dcd27c314d9b3bbdfec1f8d67f3031575f810b57138890964831915c9ec5be2",
+      "binding_id": "financial-settlement.P4.binding.financial-settlement.P4.eligible-payout",
+      "adapter_id": "financial-settlement.P4.adapter.none",
+      "adapter_digest": "e62492d1653159dcdfbe712281d27bdc8478b201e0735947928297e50d9078f0",
+      "contract_id": "financial-settlement.P4.payout-write-event",
+      "trace_contract_digest": "f0dc9c598390e16ff5b80cfc78ba9c80c236e807df369c1d18207d594a9bba1d",
+      "contract_admission_digest": "cb800190001889d9b3b8a65f114290d96b8d36edcd65bcf6d2f9f364c790ff76",
+      "source_proposal_digest": "50d94f8680a890a1e4c480838d774bd0353708699712b667ffdc2622646834f9",
+      "status": "observed",
+      "trace": {
+        "schema_version": "domainspec-sfol-effect-trace/v1",
+        "trace_id": "financial-settlement.P4#effects@financial-settlement.P4.eligible-payout:financial-settlement.P4.adapter.none",
+        "contract_id": "financial-settlement.P4.payout-write-event",
+        "pre_state": {
+          "end_date": {
+            "tag": "string",
+            "value": "2024-01-31"
+          },
+          "existing_payout_count": {
+            "tag": "integer",
+            "value": "0"
+          },
+          "total_payout": {
+            "tag": "integer",
+            "value": "400"
+          }
+        },
+        "post_state": {
+          "payout_event_count": {
+            "tag": "integer",
+            "value": "1"
+          },
+          "payout_write_count": {
+            "tag": "integer",
+            "value": "1"
+          }
+        },
+        "effects": [
+          {
+            "sequence": 0,
+            "kind": "write",
+            "name": "PAYOUT",
+            "payload": {
+              "tag": "record",
+              "declaration_id": "financial-settlement.PayoutPayload",
+              "fields": {
+                "amount": {
+                  "tag": "integer",
+                  "value": "400"
+                },
+                "date": {
+                  "tag": "string",
+                  "value": "2024-01-31"
+                }
+              }
+            }
+          },
+          {
+            "sequence": 1,
+            "kind": "event",
+            "name": "PayoutCreated",
+            "payload": {
+              "tag": "record",
+              "declaration_id": "financial-settlement.PayoutPayload",
+              "fields": {
+                "amount": {
+                  "tag": "integer",
+                  "value": "400"
+                },
+                "date": {
+                  "tag": "string",
+                  "value": "2024-01-31"
+                }
+              }
+            }
+          }
+        ],
+        "return_value": null,
+        "trace_digest": "2ba6ce5fd5ae88d9c59d60552cdc0618bbd817e20bdc989ca7df2d35562fb61c"
+      },
+      "containment": {
+        "setup_completed": true,
+        "teardown_attempted": true,
+        "teardown_completed": true,
+        "open_resources": [],
+        "recorded_effects": 2,
+        "timed_out": false
+      },
+      "diagnostics": [],
+      "observation_digest": "3309075d4b6c7ec3ab78572a96023b048e9a40fb75a1e04d7626c217d3c4aad3"
+    }
+  ],
+  "evaluations": [
+    {
+      "schema_version": "domainspec-sfol-effect-case-evaluation/v1",
+      "case_id": "financial-settlement.P4#effects@financial-settlement.P4.eligible-payout",
+      "case_digest": "3dcd27c314d9b3bbdfec1f8d67f3031575f810b57138890964831915c9ec5be2",
+      "binding_digest": "2c5f2aaa085c0ff9bbad3ef04002be3df00323119236f5dff05fa0e5289a90f1",
+      "observation_digest": "3309075d4b6c7ec3ab78572a96023b048e9a40fb75a1e04d7626c217d3c4aad3",
+      "trace_digest": "2ba6ce5fd5ae88d9c59d60552cdc0618bbd817e20bdc989ca7df2d35562fb61c",
+      "trace_contract_digest": "f0dc9c598390e16ff5b80cfc78ba9c80c236e807df369c1d18207d594a9bba1d",
+      "contract_admission_digest": "cb800190001889d9b3b8a65f114290d96b8d36edcd65bcf6d2f9f364c790ff76",
+      "source_proposal_digest": "50d94f8680a890a1e4c480838d774bd0353708699712b667ffdc2622646834f9",
+      "status": "pass",
+      "detail": "effect trace satisfies the source relation",
+      "evaluation_digest": "c56fbd4b6f53dcd6896d9c91384a60d63f494e0c7d4a6b0ee40c856692a19b26"
+    }
+  ]
+}

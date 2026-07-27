@@ -1,7 +1,7 @@
 ---
 module: backend-type-test-engine-completeness
-version: 2026-07-23-l0-bootstrap-split
-status: validated-l0a-candidate-unselected
+version: 2026-07-23-l0a-repair-receipt-sync
+status: validated-waiting-independent-validation-freeze
 updatedAt: 2026-07-23
 docType: work-pack
 semanticAuthority: none
@@ -13,15 +13,15 @@ semanticAuthority: none
 
 | Field | Value | Meaning |
 | --- | --- | --- |
-| `workPackGateStatus` | `ready-for-selection` | Planning validates; L0A has no missing dependency but remains unselected. |
+| `workPackGateStatus` | `waiting-validation-owner-freeze` | Current L0A proof is green; L0B remains blocked on an independent matching red manifest/freeze. |
 | `complexity` | `high` | Crosses versioned source contracts, compiler/graph, six catalogues, execution/replay, and two consumer lanes. |
 | `outputMode` | `split` | Active task and wave files own unique dependencies and boundaries. |
-| `activeLayerWindow` | `L0A-candidate` | Exactly one dependency-ready candidate exists; no active Task Session. |
-| `candidateSWU` | `SWU-BTE-L0A-001` | Candidate only; selection requires explicit user action. |
+| `activeLayerWindow` | `L0B-owner-freeze` | L0A implementation and repair receipts pass; no Task Session may start before the independent freeze exists. |
+| `candidateSWU` | `none` | No dependency-ready execution candidate exists. |
 | `selectedSWU` | `none` | Refresh cannot select execution work. |
-| `distillValidationStatus` | `pass` | L0A publication and L0B execution are coherent and recompose without a freeze-before-schema cycle. |
+| `distillValidationStatus` | `skipped-receipt-synchronization` | The receipt sync changes no architecture or SWU boundary. |
 | `dispatchStatus` | `pass` after validator receipt | See `EXECUTION-DISPATCH.json` and current refresh validation. |
-| `readinessProfile` | `implementation candidate; non-admitting` | No profile, catalogue, release, or production promotion. |
+| `readinessProfile` | `l0a-green; validation-owner-gated; non-admitting` | Historical and repair evidence are preserved; no profile, catalogue, release, or production promotion. |
 
 ## Objective And Completion Boundary
 
@@ -38,7 +38,7 @@ artifacts, and independent replay establish the bounded result.
 
 | Layer | Task | Unique responsibility | Entry state | Status |
 | --- | --- | --- | --- | --- |
-| L0A/L0B | [TASK-BTE-L0-PROOF-PRIMITIVES](work-pack/tasks/TASK-BTE-L0-PROOF-PRIMITIVES.md) | publish common machine contracts, then independently freeze and execute semantic validation | L0A dependency-ready; L0B requires L0A receipt plus owner freeze | L0A candidate-ready; L0B planned-gated |
+| L0A/L0B | [TASK-BTE-L0-PROOF-PRIMITIVES](work-pack/tasks/TASK-BTE-L0-PROOF-PRIMITIVES.md) | preserve green L0A receipt parity, then independently freeze and execute semantic validation | L0A implementation and repair receipts pass; L0B requires owner freeze | L0A completed-green; L0B owner-gated |
 | L1 | [TASK-BTE-L1-FORMATION-V2](work-pack/tasks/TASK-BTE-L1-FORMATION-V2.md) | YAML-owned formation-v2 plus exact current-v1 retirement/compatibility | L0B ValidationReceipt | planned |
 | L2 | [TASK-BTE-L2-SUCCESSOR-SOURCES](work-pack/tasks/TASK-BTE-L2-SUCCESSOR-SOURCES.md) | versioned project/feature/node/edge/source-set resolver | L1 receipt | planned |
 | L3 | [TASK-BTE-L3-COMPILER-GRAPH](work-pack/tasks/TASK-BTE-L3-COMPILER-GRAPH.md) | hard version route, graph/manifest/build and replay | L2 receipt | planned |
@@ -53,28 +53,31 @@ Task files define implementation detail. Later tasks intentionally contain no
 SWU IDs yet; their smallest executable boundaries are instantiated only after
 predecessor receipts make exact handles and write scopes knowable.
 
-## Candidate SWU Manifest
+## Completed Repair And Current Selection State
 
-| Field | `SWU-BTE-L0A-001` |
+| Field | `SWU-BTE-L0A-REPAIR-001` |
 | --- | --- |
 | Parent | `TASK-BTE-L0-PROOF-PRIMITIVES` |
-| Primary behavior | Publish one complete, deterministic machine contract and diagnostic boundary that an independent owner can use to author red cases. |
-| Consumes | exact Design, Design validation, seed, and accepted bootstrap-decision digests; no red manifest |
-| Emits | nine L0 shape schemas; closed TypeScript diagnostic registry; positive fixtures/tests; `verify:bte:contract-publication`; run-scoped publication and write-manifest receipts |
-| Allowed writes | `impl/test-derivation-engine/src/bte/contracts/`; exact `diagnostics.ts`; focused L0A tests/positive fixtures; exact `impl/package.json` script row; one new `runs/<run-id>/l0a/` |
-| Forbidden writes | `validation-inputs/`; semantic validators; current-v1 sources; compiler/graph modules; consumer homes; admissions; historical session evidence; UI; public Arcanum |
-| Independent boundary | L0A publishes facts about its own bytes only; it does not author expectations, execute red cases, or emit a `ValidationReceipt` |
-| Done evidence | declared schema dialect and supported-keyword closure; diagnostic schema/registry parity; stable bytes/digests; independently recomputable publication receipt; no writes outside allowlist |
-| Validation | planned `verify:bte:contract-publication`; current `engine:test`, `typecheck`; JSON/link checks; scoped `git diff --check` |
-| Stop | partial schema set; ignored keyword; open diagnostic registry; nondeterministic bytes; validation-input access; write escape; preserved digest drift |
-| State | `candidate-unselected-dependency-ready` |
+| Primary behavior | Restore the current L0A published byte set to the immutable receipt handles and prove the existing verifier passes without replacing historical run evidence. |
+| Consumes | immutable L0A Task Session receipt, continuation handoff, run publication receipt and write manifest; current nine schemas, `diagnostics.ts`, verifier source, and this applied contract |
+| Emits | repaired exact bytes on nine mismatching surfaces plus one Task Session receipt; no new publication receipt |
+| Allowed writes | exactly eight mismatching schemas and `impl/test-derivation-engine/src/bte/validation/diagnostics.ts`; one append-only repair Task Session evidence directory |
+| Forbidden writes | the already-matching `contract-publication-receipt.v1.schema.json`; all historical receipts; `validation-inputs/`; semantic validators; later BTE layers; consumers; Craft; Inventory; UI; public Arcanum |
+| Independent boundary | Repair restores byte identity only; it does not author expectations, execute red cases, emit a new publication receipt, or grant admission. |
+| Done evidence | all nine repaired handles equal immutable receipt SHA-256 values; existing publication verifier, focused test, engine tests, typecheck, docs, JSON/link/write-scope, and diff checks pass; historical receipt/manifest bytes remain unchanged |
+| Validation | `npm --prefix projects/domainspec-v2/impl run verify:bte:contract-publication`; `npx vitest run src/bte/contract-publication.test.ts`; `engine:test`; `typecheck`; `validate:docs`; exact digest/write-scope checks |
+| Stop | any relation is not one additional LF; any undeclared path changes; any historical evidence would change; verifier still fails; formatter or commit strips restored bytes |
+| State | `completed-pass-receipt-synchronized` |
 
-No SWU is active or selected. `SWU-BTE-L0B-001` is a named successor, not a
-current candidate; its predecessor receipt and validation-owner freeze are absent.
+No SWU is active, selected, or currently dependency-ready.
+`SWU-BTE-L0A-001` is historical implementation evidence and
+`SWU-BTE-L0A-REPAIR-001` is completed current-proof evidence.
+`SWU-BTE-L0B-001` is a named successor, not a current candidate; current
+publication verification passes, but the validation-owner freeze is absent.
 
 ## L0 Output Contract
 
-The L0A Task Session must materialize these exact contract files under
+The historical L0A Task Session materialized these exact contract files under
 `impl/test-derivation-engine/src/bte/contracts/`:
 
 - `artifact-handle.v1.schema.json`;
@@ -101,7 +104,7 @@ The validation-owned precondition paths are:
 - `validation-inputs/l0/red-fixture-manifest.v1.json`;
 - `validation-inputs/l0/red-fixture-freeze-receipt.json`.
 
-L0A writes only to `runs/<run-id>/l0a/` and includes
+Historical L0A writes only to `runs/<run-id>/l0a/` and include
 `contract-publication-receipt.json` plus an output/write manifest. L0B writes
 raw case results, an output/write manifest, and `validation-receipt.json` only
 to `runs/<run-id>/l0b/`.
@@ -110,6 +113,7 @@ to `runs/<run-id>/l0b/`.
 
 | Handle | Owner | Required at | State | Failure effect |
 | --- | --- | --- | --- | --- |
+| current L0A publication verification | BTE repair Task Session | before validation-owner routing or L0B | pass | immutable handles restored; repair receipt synchronized |
 | L0 red-fixture freeze | validation owner | after L0A receipt and before L0B | open | no L0B selection or execution; L0A unaffected |
 | formation-v2 admission | formation-contract owner | L1 activation/core formation catalogues | open | candidate/local formation evidence only |
 | successor profile admission | profile owner | L3 build entering core | open | compile experiment remains non-admitting |
@@ -170,7 +174,7 @@ No predetermined SWU count exists. A task label is never execution authority.
 | `npm --prefix projects/domainspec-v2/impl run typecheck` | runnable regression |
 | `npm --prefix projects/domainspec-v2/impl run validate:content` | runnable regression |
 | `npm --prefix projects/domainspec-v2/impl run instances:validate` | runnable regression |
-| `verify:bte:contract-publication` | planned L0A |
+| `npm --prefix projects/domainspec-v2/impl run verify:bte:contract-publication` | runnable; current receipt-sync verification passes twice |
 | `verify:bte:contracts` | planned L0B |
 | `verify:bte:formation-v2` | planned L1 |
 | `verify:bte:build` | planned L2–L3 |
@@ -183,6 +187,10 @@ No predetermined SWU count exists. A task label is never execution authority.
 
 - `SWU-BTE-001` and `SWU-BTE-003` remain completed with their exact receipt
   bytes and hashes. They are prerequisites/evidence, not active route nodes.
+- `SWU-BTE-L0A-001` remains a selected historical pass receipt.
+  `SWU-BTE-L0A-REPAIR-001` restored all nine recorded handles and current
+  publication verification passes; neither historical receipt nor run manifest
+  was rewritten.
 - All earlier uncompleted task, SWU, and wave definitions are historical and
   non-executable. Their exact replacements are in
   [HISTORICAL-MAP.md](work-pack/HISTORICAL-MAP.md).
@@ -196,39 +204,32 @@ No predetermined SWU count exists. A task label is never execution authority.
 | Refresh authoring | 0 | atomic package is exact and validated |
 | Apply authorization | 0 | explicit `--apply-approved` received |
 | Target lifecycle | 8 | L0B freeze; formation, profile, node-pattern, relationship admissions; catalogue freezes; IOLM; Body War |
-| Audit | 0 | accepted source review plus post-apply deterministic validation |
+| Audit | 0 | repair receipt proves exact publication verification and unchanged immutable evidence |
 
 The optional key-and-door Rule semantic fixture remains separately blocked by
 `DEC-GCP-001`; it does not block this structural route.
 
-## Expected Task Session Result
+## Current Continuation Result
 
 ```yaml
-swu_id: SWU-BTE-L0A-001
-result: pass | flag | block | interrupted
-capability_ref: task-session
-consumed_handles: []
-emitted_handles: []
-files_touched: []
-write_manifest: <path or none>
-validation: []
-blockers: []
-residue: []
-receipt_artifact: <path or none>
-reroute: invoke-refresh | validation-owner | none
+completed_swu: SWU-BTE-L0A-REPAIR-001
+result: pass
+selected_swu: none
+candidate_swu: none
+next_owner: independent BTE validation owner
+required_owner_outputs:
+  - validation-inputs/l0/red-fixture-manifest.v1.json
+  - validation-inputs/l0/red-fixture-freeze-receipt.json
+successor_swu: SWU-BTE-L0B-001
+successor_selected: false
+admission_granted: false
+production_authorized: false
 ```
 
 ## Handoff Gate
 
-Task Session may start only after:
-
-- `EXECUTION-DISPATCH.json` validates;
-- all preserved digests match;
-- Context Builder covers every L0A obligation with exact selectors;
-- the user explicitly selects `SWU-BTE-L0A-001`;
-- no implementation, consumer, UI, admission, or session-evidence write appears
-  outside the candidate scope.
-
-The later L0B handoff additionally requires the exact L0A publication receipt,
-the package-local red manifest/freeze, matching governing contract digests, and
-explicit selection of `SWU-BTE-L0B-001` after an Invoke Refresh.
+No Task Session may start from the current state. The independent validation
+owner must first return the package-local red manifest/freeze with governing
+digests matching the current passing L0A publication proof. A later Invoke
+Refresh must validate those inputs, expose at most `SWU-BTE-L0B-001`, and leave
+it unselected until the approved selection policy admits it.

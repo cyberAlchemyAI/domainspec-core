@@ -2,7 +2,8 @@
 
 ## Context Builder Result
 
-- Source pack: `../../refreshes/2026-07-23-l0-bootstrap-split/CONTEXT-PACK.md`
+- Source pack:
+  `../../refreshes/2026-07-23-l0a-evidence-reconciliation/CONTEXT-PACK.md`
 - Mode: deep, strict
 - Coverage: `8/8`
 - Source authority: accepted decisions, current machine sources, validated
@@ -24,14 +25,15 @@
 | `CTX-BTE-008` | legacy compatibility isolation | L0/L5 |
 | `CTX-BTE-009` | real command entrypoints | L0–L8 task outputs |
 | `CTX-BTE-010` | independent IOLM and Body War proofs | L7A/L7B/L8 |
-| `CTX-BTE-011` | one unselected smallest coherent candidate | L0 work pack |
+| `CTX-BTE-011` | no candidate while an independent owner gate is open | L0 work pack |
 | `CTX-BTE-012` | publish complete contracts before independent freeze and semantic execution | L0A/L0B task, waves, and receipts |
+| `CTX-BTE-013` | preserve historical L0A pass evidence and the passing exact-byte repair receipt while routing the independent freeze | L0A and repair receipts; resolved Craft blocker |
 
 ## Runtime Selection Rule
 
 Context Builder must start from the selected task and map every `consumes`,
 `emits`, allowed/forbidden write, negative, stop, and validation obligation to
-selector-level evidence. For L0A it must reject more than one selection or any
-validation-input dependency. For L0B it must additionally reject an absent or
-mismatched L0A publication receipt and validation-owner freeze. Every stage
-rejects a changed preserved digest.
+selector-level evidence. No Task Session candidate is currently exposed. For
+L0B it must reject absent current L0A verification, a mismatched publication
+receipt, or an absent/mismatched validation-owner freeze. Every stage rejects a
+changed preserved digest.

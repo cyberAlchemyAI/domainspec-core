@@ -23,6 +23,11 @@ export const MINTED_PROJECT_COMPILER_ERROR_CODES = [
   "PROFILE_RELATIONSHIP_INVALID",
   "KIND_UNSUPPORTED",
   "FORMATION_INVALID",
+  "NODE_LOGIC_PROFILE_UNSUPPORTED",
+  "NODE_LOGIC_KIND_UNSUPPORTED",
+  "NODE_LOGIC_VERSION_UNSUPPORTED",
+  "NODE_LOGIC_SCHEMA_BINDING_INVALID",
+  "NODE_LOGIC_SCHEMA_INVALID",
   "NODE_FEATURE_MISMATCH",
   "NODE_ID_DUPLICATE",
   "EDGE_ID_DUPLICATE",
@@ -97,6 +102,15 @@ type SupportedProfile = {
     string,
     { validator: "json-schema" | "attribute-map"; path: string }
   >;
+  logic_contract?: {
+    schema_versions: string[];
+    node_kinds: string[];
+    envelope_schema: {
+      validator: "json-schema";
+      path: string;
+      sha256: string;
+    };
+  };
   relationships: ProfileRelationship[];
 };
 
@@ -200,12 +214,74 @@ function validateFormation(
   nodePath: string,
 ): JsonSchemaViolation[] {
   const development = profile.formation_contracts?.[node.kind];
-  return validateMintedNodeFormation(node.kind, node.body, nodePath, {
+  const formationBody =
+    profile.logic_contract && Object.hasOwn(node.body, "logic")
+      ? Object.fromEntries(Object.entries(node.body).filter(([key]) => key !== "logic"))
+      : node.body;
+  return validateMintedNodeFormation(node.kind, formationBody, nodePath, {
     schemaPath:
       development?.validator === "attribute-map"
         ? resolve(domainspecRoot, development.path)
         : undefined,
   });
+}
+
+function validateNodeLogic(
+  profile: SupportedProfile,
+  node: SourceNode,
+  nodePath: string,
+): void {
+  if (!Object.hasOwn(node.body, "logic")) {
+    return;
+  }
+  const contract = profile.logic_contract;
+  if (!contract) {
+    throw new MintedProjectCompilerError(
+      "NODE_LOGIC_PROFILE_UNSUPPORTED",
+      nodePath,
+      `${profile.id}@${profile.version} does not admit body.logic`,
+    );
+  }
+  if (!contract.node_kinds.includes(node.kind)) {
+    throw new MintedProjectCompilerError(
+      "NODE_LOGIC_KIND_UNSUPPORTED",
+      nodePath,
+      `${node.kind} is not admitted for body.logic`,
+    );
+  }
+  const logic = node.body.logic;
+  if (
+    typeof logic !== "object" ||
+    logic === null ||
+    Array.isArray(logic) ||
+    typeof (logic as JsonObject).schema_version !== "string"
+  ) {
+    throw new MintedProjectCompilerError(
+      "NODE_LOGIC_VERSION_UNSUPPORTED",
+      nodePath,
+      "body.logic must declare an admitted schema_version",
+    );
+  }
+  const schemaVersion = (logic as JsonObject).schema_version as string;
+  if (!contract.schema_versions.includes(schemaVersion)) {
+    throw new MintedProjectCompilerError(
+      "NODE_LOGIC_VERSION_UNSUPPORTED",
+      nodePath,
+      schemaVersion,
+    );
+  }
+  const schemaPath = resolve(domainspecRoot, contract.envelope_schema.path);
+  if (sha256File(schemaPath) !== contract.envelope_schema.sha256) {
+    throw new MintedProjectCompilerError(
+      "NODE_LOGIC_SCHEMA_BINDING_INVALID",
+      nodePath,
+      contract.envelope_schema.path,
+    );
+  }
+  const violations = validateJsonSchema(schemaPath, logic, "$.body.logic");
+  if (violations.length > 0) {
+    failSchema("NODE_LOGIC_SCHEMA_INVALID", nodePath, violations);
+  }
 }
 
 function loadProfileSelection(
@@ -400,6 +476,7 @@ export function compileMintedProject(
       if (!profile.kinds.includes(node.kind)) {
         throw new MintedProjectCompilerError("KIND_UNSUPPORTED", nodePath, node.kind);
       }
+      validateNodeLogic(profile, node, nodePath);
       const formationViolations = validateFormation(profile, node, nodePath);
       if (formationViolations.length > 0) {
         failSchema("FORMATION_INVALID", nodePath, formationViolations);
