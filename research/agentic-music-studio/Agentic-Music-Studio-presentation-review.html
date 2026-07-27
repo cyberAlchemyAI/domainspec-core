@@ -1,0 +1,1469 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whisper Draft Review</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #11100f;
+      --panel: #1b1917;
+      --panel-2: #24211e;
+      --text: #f1ebe3;
+      --muted: #a69b8f;
+      --line: #3a332d;
+      --accent: #d59f54;
+      --accent-2: #6ab7a8;
+      --shadow: 0 20px 70px rgba(0, 0, 0, 0.34);
+      --radius: 8px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, rgba(213, 159, 84, 0.08), transparent 320px), var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button, select, textarea, input { font: inherit; }
+
+    button, select {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--text);
+    }
+
+    button {
+      cursor: pointer;
+      min-height: 36px;
+      padding: 0 12px;
+    }
+
+    button:hover, button:focus-visible {
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    textarea, input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #141312;
+      color: var(--text);
+      padding: 10px;
+      resize: vertical;
+    }
+
+    textarea:focus, input:focus, select:focus {
+      border-color: var(--accent-2);
+      outline: none;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+      min-height: 100vh;
+    }
+
+    .draft-pane {
+      min-width: 0;
+      padding: 28px clamp(18px, 4vw, 56px) 56px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+      margin-bottom: 28px;
+    }
+
+    .kicker {
+      color: var(--accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0 0 8px;
+    }
+
+    .meta-line {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin: 8px 0 0;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .article {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .article h1 {
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      line-height: 1;
+      margin: 0 0 30px;
+      font-weight: 760;
+      letter-spacing: 0;
+      color: #f6e3bf;
+    }
+
+    .review-block {
+      position: relative;
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 22px 0;
+      scroll-margin-top: 24px;
+    }
+
+    .review-block.is-selected {
+      background: linear-gradient(90deg, rgba(106, 183, 168, 0.13), transparent);
+      box-shadow: -12px 0 0 rgba(106, 183, 168, 0.24);
+    }
+
+    .block-meta {
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .block-id {
+      color: var(--accent-2);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .part-id {
+      display: block;
+      color: #cdbfae;
+    }
+
+    .block-body p {
+      margin: 0;
+      color: #f0e7dc;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.08rem, 1.55vw, 1.28rem);
+      line-height: 1.78;
+    }
+
+    .block-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .comment-count {
+      min-width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      background: #171514;
+      font-size: 0.82rem;
+    }
+
+    .side-pane {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      border-left: 1px solid var(--line);
+      background: rgba(27, 25, 23, 0.96);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #f6e3bf;
+    }
+
+    .target {
+      margin: 14px 0 18px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #151412;
+      color: var(--muted);
+      min-height: 64px;
+    }
+
+    .target strong { color: var(--text); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    select {
+      min-height: 38px;
+      padding: 0 8px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 8px;
+      margin: 10px 0 20px;
+      flex-wrap: wrap;
+    }
+
+    .primary {
+      background: #3a2b1d;
+      border-color: #7a5b35;
+      color: #f6e3bf;
+    }
+
+    .comments {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .comment-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #151412;
+      padding: 10px;
+    }
+
+    .comment-item header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--accent-2);
+      font-size: 0.82rem;
+      margin-bottom: 6px;
+    }
+
+    .comment-item p {
+      margin: 0;
+      color: var(--text);
+      font-size: 0.92rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .comment-item small {
+      display: block;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    .payload {
+      min-height: 180px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.78rem;
+    }
+
+    .status-line {
+      color: var(--muted);
+      font-size: 0.82rem;
+      min-height: 1.2em;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 980px) {
+      .shell { grid-template-columns: 1fr; }
+      .side-pane {
+        position: relative;
+        height: auto;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar { display: block; }
+      .toolbar {
+        justify-content: flex-start;
+        margin-top: 14px;
+      }
+      .review-block {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .block-meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <script id="whisper-review-data" type="application/json">{
+  "review_id": "Agentic-Music-Studio-presentation-review-883e9e17ca16",
+  "transport": "live_presentation",
+  "draft": {
+    "id": "Agentic-Music-Studio-presentation-review",
+    "title": "Agentic Music Studio \u2014 Presentation Review",
+    "path": "research/agentic-music-studio/Agentic-Music-Studio-presentation-review.md",
+    "sha256_12": "883e9e17ca16"
+  },
+  "schema": {
+    "path": "research/agentic-music-studio/Agentic-Music-Studio-presentation.schema.yaml",
+    "substrate_version": "agentic-music-studio-collaborator-deck-v2"
+  },
+  "pareto": {
+    "tiering": "balanced",
+    "selected_candidate": "musician_first_specificity_revision",
+    "objectives": [
+      "resonance",
+      "relevance",
+      "trajectory"
+    ],
+    "hard_gates": [
+      "source_fidelity",
+      "operator_voice_approval",
+      "notes_not_projected",
+      "no_unearned_jargon",
+      "collaborator_ask_is_concrete"
+    ]
+  },
+  "blocks": [
+    {
+      "block_id": "p001",
+      "part_id": "reader_grounded_opening_hook",
+      "role": "opening_and_tension",
+      "paragraph_index": 1,
+      "source_line": 5,
+      "text": "**S01 \u00b7 projected_copy** \u2014 Agentic Music Studio You know how the track should feel. Turning that feeling into sound is the hard part."
+    },
+    {
+      "block_id": "p002",
+      "part_id": "reader_grounded_opening_hook",
+      "role": "opening_and_tension",
+      "paragraph_index": 2,
+      "source_line": 7,
+      "text": "**S01 \u00b7 spoken_copy** \u2014 You know when a track needs to feel darker, stranger, sharper, or more alive. But finding the synth settings, effects, and automation that get you there can pull you out of the music."
+    },
+    {
+      "block_id": "p003",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 3,
+      "source_line": 9,
+      "text": "**S01 \u00b7 speaker_notes** \u2014 Hold after the headline. Do not define the product yet. Let the room recognize the familiar gap between hearing a direction and reaching it."
+    },
+    {
+      "block_id": "p004",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 4,
+      "source_line": 13,
+      "text": "**S02 \u00b7 projected_copy** \u2014 The shortcut The sound arrives fast. But can you still shape it? Change one choice. Replay it. Perform it."
+    },
+    {
+      "block_id": "p005",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 5,
+      "source_line": 15,
+      "text": "**S02 \u00b7 spoken_copy** \u2014 Prompt-to-audio can give you a result quickly. But when you want to change one choice, replay it exactly, or perform it, you may have only a finished waveform \u2014 not something you can keep shaping."
+    },
+    {
+      "block_id": "p006",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 6,
+      "source_line": 17,
+      "text": "**S02 \u00b7 speaker_notes** \u2014 This is a limitation statement, not a blanket rejection of generative audio. Keep the contrast on inspectability and authorship."
+    },
+    {
+      "block_id": "p007",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 7,
+      "source_line": 19,
+      "text": "**S02 \u00b7 interaction_prompt** \u2014 What is the last sound you could describe but could not reach quickly?"
+    },
+    {
+      "block_id": "p008",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 8,
+      "source_line": 23,
+      "text": "**S03 \u00b7 projected_copy** \u2014 The proposition Describe it. Hear it. Shape it. Keep it yours. Your sound comes from editable code \u2014 not generated audio."
+    },
+    {
+      "block_id": "p009",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 9,
+      "source_line": 25,
+      "text": "**S03 \u00b7 spoken_copy** \u2014 Agentic Music Studio starts with the sound you\u2019re reaching for \u2014 \u201cdarker,\u201d \u201cmore bite,\u201d \u201cstranger before the drop\u201d \u2014 and turns it into a playable result with code you can inspect, edit, and reproduce. We have a working proof, and we are looking for musicians, tool builders, and audio researchers to help shape what comes next."
+    },
+    {
+      "block_id": "p010",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 10,
+      "source_line": 27,
+      "text": "**S03 \u00b7 speaker_notes** \u2014 This is the approved reveal. Stress \u201ckeep it yours.\u201d The no-model claim applies to the sound path; a model may parse intent into an inspectable spec."
+    },
+    {
+      "block_id": "p011",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 11,
+      "source_line": 31,
+      "text": "**S04 \u00b7 projected_copy** \u2014 How it works A sound description becomes code you can hear and edit. Every step leaves something the musician can inspect or change."
+    },
+    {
+      "block_id": "p012",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 12,
+      "source_line": 33,
+      "text": "**S04 \u00b7 spoken_copy** \u2014 The musician describes a direction. The studio makes that direction explicit in a shared spec, writes readable code, renders sound from a fixed seed, and shows what changed. The musician hears it, edits it, or asks for another move."
+    },
+    {
+      "block_id": "p013",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 13,
+      "source_line": 35,
+      "text": "**S04 \u00b7 speaker_notes** \u2014 \u201cSpec\u201d is now earned because the audience has seen why a black box is insufficient. Avoid explaining package architecture on this slide."
+    },
+    {
+      "block_id": "p014",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 14,
+      "source_line": 39,
+      "text": "**S05 \u00b7 projected_copy** \u2014 Working proof The prototype makes sound today. Real WAV audio. Seeded code. A loop you can steer."
+    },
+    {
+      "block_id": "p015",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 15,
+      "source_line": 41,
+      "text": "**S05 \u00b7 spoken_copy** \u2014 The current proof renders playable audio from the example \u201cdark violin stochastic synth, bring strangeness.\u201d It has a small intent engine, a deterministic synthesis and measurement core, and a steering loop. This is a proof of the motion, not yet a finished DAW product."
+    },
+    {
+      "block_id": "p016",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 16,
+      "source_line": 43,
+      "text": "**S05 \u00b7 speaker_notes** \u2014 Play the audio if the room permits. The 14-test count belongs to the dated PDF snapshot; do not present it as a current repository-wide total."
+    },
+    {
+      "block_id": "p017",
+      "part_id": "core_insight_language_becomes_executable_through_ai",
+      "role": "reveal_and_mechanism",
+      "paragraph_index": 17,
+      "source_line": 45,
+      "text": "**S05 \u00b7 interaction_prompt** \u2014 What would you try to change first after hearing this texture?"
+    },
+    {
+      "block_id": "p018",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 18,
+      "source_line": 49,
+      "text": "**S06 \u00b7 projected_copy** \u2014 What the proof taught us A meter is not a feeling. Measure the sound. Ask listeners about the experience."
+    },
+    {
+      "block_id": "p019",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 19,
+      "source_line": 51,
+      "text": "**S06 \u00b7 spoken_copy** \u2014 The first analyzer moved by 6.1 percent when its settings changed. The improved method brought that to 1.3 percent. That makes the measurement more stable. It does not prove that a listener will call the result dark or strange. We want the studio to show that difference honestly."
+    },
+    {
+      "block_id": "p020",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 20,
+      "source_line": 53,
+      "text": "**S06 \u00b7 speaker_notes** \u2014 Keep analyzer stability and felt experience separate. The listener-study question remains deliberately open."
+    },
+    {
+      "block_id": "p021",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 21,
+      "source_line": 57,
+      "text": "**S07 \u00b7 projected_copy** \u2014 Steering Every creative move has a trade-off. \u201cMore bite\u201d changed the sound \u2014 and changed what was sacrificed."
+    },
+    {
+      "block_id": "p022",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 22,
+      "source_line": 59,
+      "text": "**S07 \u00b7 spoken_copy** \u2014 \u201cMore bite\u201d was not a universal improvement. It raised dissonance and brightness, which moved the texture away from darkness. A useful studio should show that cost so the musician can choose the trade-off rather than accept a hidden optimization."
+    },
+    {
+      "block_id": "p023",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 23,
+      "source_line": 61,
+      "text": "**S07 \u00b7 speaker_notes** \u2014 Do not introduce \u201cPareto navigation\u201d unless the room asks for the formal term."
+    },
+    {
+      "block_id": "p024",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 24,
+      "source_line": 65,
+      "text": "**S08 \u00b7 projected_copy** \u2014 A day in the studio The work stays musical. Sketch. Audition. Sculpt. Perform. Keep the trail."
+    },
+    {
+      "block_id": "p025",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 25,
+      "source_line": 67,
+      "text": "**S08 \u00b7 spoken_copy** \u2014 A musician begins with a direction, auditions a render, says \u201cless mud, more bite,\u201d and can still open the code to make a precise change. Later, the same movement can be performed live and saved with its seed, measurements, audio, and notes."
+    },
+    {
+      "block_id": "p026",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 26,
+      "source_line": 69,
+      "text": "**S08 \u00b7 speaker_notes** \u2014 This is a product-use inference from the proven loop, not evidence of a completed DAW integration or validated daily workflow."
+    },
+    {
+      "block_id": "p027",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 27,
+      "source_line": 71,
+      "text": "**S08 \u00b7 interaction_prompt** \u2014 Where would this loop fit \u2014 or break \u2014 in your current practice?"
+    },
+    {
+      "block_id": "p028",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 28,
+      "source_line": 75,
+      "text": "**S09 \u00b7 projected_copy** \u2014 Where you can change the work Three kinds of collaborators can test what matters next. Bring practice, interfaces, or evidence."
+    },
+    {
+      "block_id": "p029",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 29,
+      "source_line": 77,
+      "text": "**S09 \u00b7 spoken_copy** \u2014 Musicians can tell us whether the interaction respects real creative practice. Tool builders can test how the shared spec connects to DAWs, live coding, and controllers. Audio researchers can help separate stable measurements from felt effects with listening evidence."
+    },
+    {
+      "block_id": "p030",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 30,
+      "source_line": 79,
+      "text": "**S09 \u00b7 speaker_notes** \u2014 These are invitations, not validated adoption segments. Ask the room which contribution matches its practice."
+    },
+    {
+      "block_id": "p031",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 31,
+      "source_line": 81,
+      "text": "**S09 \u00b7 interaction_prompt** \u2014 Which of these questions is already yours?"
+    },
+    {
+      "block_id": "p032",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 32,
+      "source_line": 85,
+      "text": "**S10 \u00b7 projected_copy** \u2014 The invitation Bring one sound your current setup makes hard to reach. We will start there."
+    },
+    {
+      "block_id": "p033",
+      "part_id": "implications_for_personal_code",
+      "role": "proof_insights_and_workflow",
+      "paragraph_index": 33,
+      "source_line": 87,
+      "text": "**S10 \u00b7 spoken_copy** \u2014 If you work in a DAW, build audio tools, live code, or study perception, bring one sound direction that is hard to reach without losing the thread. We can use it to test the loop together and decide what this studio needs to become next."
+    },
+    {
+      "block_id": "p034",
+      "part_id": "invitation_to_name_a_workflow",
+      "role": "collaborator_invitation",
+      "paragraph_index": 34,
+      "source_line": 89,
+      "text": "**S10 \u00b7 speaker_notes** \u2014 End on the invitation. Do not repeat the architecture or claim product readiness."
+    },
+    {
+      "block_id": "p035",
+      "part_id": "invitation_to_name_a_workflow",
+      "role": "collaborator_invitation",
+      "paragraph_index": 35,
+      "source_line": 91,
+      "text": "**S10 \u00b7 interaction_prompt** \u2014 What sound direction would you bring?"
+    }
+  ]
+}</script>
+  <main class="shell">
+    <section class="draft-pane">
+      <header class="topbar">
+        <div>
+          <p class="kicker">Whisper Review</p>
+          <p class="meta-line" id="draft-meta"></p>
+        </div>
+        <div class="toolbar">
+          <button type="button" id="copy-payload">Copy JSON</button>
+          <button type="button" id="download-payload">Download JSON</button>
+          <button type="button" id="clear-comments">Clear</button>
+        </div>
+      </header>
+      <article class="article" id="draft-article">
+        <h1>Agentic Music Studio — Presentation Review</h1>
+<section class="review-block" data-review-block data-block-id="p001" data-part-id="reader_grounded_opening_hook" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p001</span>
+    <span class="part-id">reader_grounded_opening_hook</span>
+    <span>line 5</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S01 · projected_copy</strong> — Agentic Music Studio You know how the track should feel. Turning that feeling into sound is the hard part.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p001">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p002" data-part-id="reader_grounded_opening_hook" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p002</span>
+    <span class="part-id">reader_grounded_opening_hook</span>
+    <span>line 7</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S01 · spoken_copy</strong> — You know when a track needs to feel darker, stranger, sharper, or more alive. But finding the synth settings, effects, and automation that get you there can pull you out of the music.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p002">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p003" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p003</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 9</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S01 · speaker_notes</strong> — Hold after the headline. Do not define the product yet. Let the room recognize the familiar gap between hearing a direction and reaching it.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p003">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p004" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p004</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 13</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S02 · projected_copy</strong> — The shortcut The sound arrives fast. But can you still shape it? Change one choice. Replay it. Perform it.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p004">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p005" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p005</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 15</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S02 · spoken_copy</strong> — Prompt-to-audio can give you a result quickly. But when you want to change one choice, replay it exactly, or perform it, you may have only a finished waveform — not something you can keep shaping.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p005">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p006" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p006</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 17</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S02 · speaker_notes</strong> — This is a limitation statement, not a blanket rejection of generative audio. Keep the contrast on inspectability and authorship.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p006">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p007" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p007</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 19</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S02 · interaction_prompt</strong> — What is the last sound you could describe but could not reach quickly?</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p007">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p008" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p008</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 23</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S03 · projected_copy</strong> — The proposition Describe it. Hear it. Shape it. Keep it yours. Your sound comes from editable code — not generated audio.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p008">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p009" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p009</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 25</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S03 · spoken_copy</strong> — Agentic Music Studio starts with the sound you’re reaching for — “darker,” “more bite,” “stranger before the drop” — and turns it into a playable result with code you can inspect, edit, and reproduce. We have a working proof, and we are looking for musicians, tool builders, and audio researchers to help shape what comes next.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p009">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p010" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p010</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 27</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S03 · speaker_notes</strong> — This is the approved reveal. Stress “keep it yours.” The no-model claim applies to the sound path; a model may parse intent into an inspectable spec.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p010">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p011" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p011</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 31</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S04 · projected_copy</strong> — How it works A sound description becomes code you can hear and edit. Every step leaves something the musician can inspect or change.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p011">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p012" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p012</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 33</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S04 · spoken_copy</strong> — The musician describes a direction. The studio makes that direction explicit in a shared spec, writes readable code, renders sound from a fixed seed, and shows what changed. The musician hears it, edits it, or asks for another move.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p012">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p013" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p013</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 35</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S04 · speaker_notes</strong> — “Spec” is now earned because the audience has seen why a black box is insufficient. Avoid explaining package architecture on this slide.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p013">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p014" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p014</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 39</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S05 · projected_copy</strong> — Working proof The prototype makes sound today. Real WAV audio. Seeded code. A loop you can steer.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p014">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p015" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p015</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 41</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S05 · spoken_copy</strong> — The current proof renders playable audio from the example “dark violin stochastic synth, bring strangeness.” It has a small intent engine, a deterministic synthesis and measurement core, and a steering loop. This is a proof of the motion, not yet a finished DAW product.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p015">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p016" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p016</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 43</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S05 · speaker_notes</strong> — Play the audio if the room permits. The 14-test count belongs to the dated PDF snapshot; do not present it as a current repository-wide total.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p016">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p017" data-part-id="core_insight_language_becomes_executable_through_ai" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p017</span>
+    <span class="part-id">core_insight_language_becomes_executable_through_ai</span>
+    <span>line 45</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S05 · interaction_prompt</strong> — What would you try to change first after hearing this texture?</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p017">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p018" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p018</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 49</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S06 · projected_copy</strong> — What the proof taught us A meter is not a feeling. Measure the sound. Ask listeners about the experience.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p018">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p019" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p019</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 51</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S06 · spoken_copy</strong> — The first analyzer moved by 6.1 percent when its settings changed. The improved method brought that to 1.3 percent. That makes the measurement more stable. It does not prove that a listener will call the result dark or strange. We want the studio to show that difference honestly.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p019">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p020" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p020</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 53</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S06 · speaker_notes</strong> — Keep analyzer stability and felt experience separate. The listener-study question remains deliberately open.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p020">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p021" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p021</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 57</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S07 · projected_copy</strong> — Steering Every creative move has a trade-off. “More bite” changed the sound — and changed what was sacrificed.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p021">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p022" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p022</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 59</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S07 · spoken_copy</strong> — “More bite” was not a universal improvement. It raised dissonance and brightness, which moved the texture away from darkness. A useful studio should show that cost so the musician can choose the trade-off rather than accept a hidden optimization.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p022">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p023" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p023</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 61</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S07 · speaker_notes</strong> — Do not introduce “Pareto navigation” unless the room asks for the formal term.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p023">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p024" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p024</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 65</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S08 · projected_copy</strong> — A day in the studio The work stays musical. Sketch. Audition. Sculpt. Perform. Keep the trail.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p024">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p025" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p025</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 67</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S08 · spoken_copy</strong> — A musician begins with a direction, auditions a render, says “less mud, more bite,” and can still open the code to make a precise change. Later, the same movement can be performed live and saved with its seed, measurements, audio, and notes.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p025">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p026" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p026</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 69</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S08 · speaker_notes</strong> — This is a product-use inference from the proven loop, not evidence of a completed DAW integration or validated daily workflow.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p026">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p027" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p027</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 71</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S08 · interaction_prompt</strong> — Where would this loop fit — or break — in your current practice?</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p027">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p028" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p028</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 75</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S09 · projected_copy</strong> — Where you can change the work Three kinds of collaborators can test what matters next. Bring practice, interfaces, or evidence.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p028">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p029" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p029</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 77</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S09 · spoken_copy</strong> — Musicians can tell us whether the interaction respects real creative practice. Tool builders can test how the shared spec connects to DAWs, live coding, and controllers. Audio researchers can help separate stable measurements from felt effects with listening evidence.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p029">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p030" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p030</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 79</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S09 · speaker_notes</strong> — These are invitations, not validated adoption segments. Ask the room which contribution matches its practice.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p030">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p031" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p031</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 81</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S09 · interaction_prompt</strong> — Which of these questions is already yours?</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p031">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p032" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p032</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 85</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S10 · projected_copy</strong> — The invitation Bring one sound your current setup makes hard to reach. We will start there.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p032">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p033" data-part-id="implications_for_personal_code" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p033</span>
+    <span class="part-id">implications_for_personal_code</span>
+    <span>line 87</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S10 · spoken_copy</strong> — If you work in a DAW, build audio tools, live code, or study perception, bring one sound direction that is hard to reach without losing the thread. We can use it to test the loop together and decide what this studio needs to become next.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p033">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p034" data-part-id="invitation_to_name_a_workflow" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p034</span>
+    <span class="part-id">invitation_to_name_a_workflow</span>
+    <span>line 89</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S10 · speaker_notes</strong> — End on the invitation. Do not repeat the architecture or claim product readiness.</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p034">0</span>
+    </div>
+  </div>
+</section>
+<section class="review-block" data-review-block data-block-id="p035" data-part-id="invitation_to_name_a_workflow" tabindex="0">
+  <div class="block-meta">
+    <span class="block-id">p035</span>
+    <span class="part-id">invitation_to_name_a_workflow</span>
+    <span>line 91</span>
+  </div>
+  <div class="block-body">
+    <p><strong>S10 · interaction_prompt</strong> — What sound direction would you bring?</p>
+    <div class="block-actions">
+      <button type="button" data-add-comment>Comment</button>
+      <span class="comment-count" data-comment-count="p035">0</span>
+    </div>
+  </div>
+</section>
+      </article>
+    </section>
+
+    <aside class="side-pane">
+      <h2 class="panel-title">Review Request</h2>
+      <div class="target" id="selected-target"></div>
+
+      <div class="form-grid">
+        <label>
+          Issue
+          <select id="issue-type">
+            <option value="unnatural_transition">Unnatural transition</option>
+            <option value="unclear">Unclear</option>
+            <option value="tone_mismatch">Tone mismatch</option>
+            <option value="structure">Structure</option>
+            <option value="evidence_source">Evidence/source</option>
+            <option value="schema_fit">Schema fit</option>
+            <option value="cut">Cut</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <label>
+          Request
+          <select id="request-type">
+            <option value="offer_options">Offer options</option>
+            <option value="revise_directly">Revise directly</option>
+            <option value="diagnose">Diagnose</option>
+            <option value="tighten">Tighten</option>
+            <option value="expand">Expand</option>
+            <option value="preserve">Preserve</option>
+          </select>
+        </label>
+      </div>
+
+      <label>
+        Priority
+        <select id="priority">
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="low">Low</option>
+        </select>
+      </label>
+
+      <label style="margin-top: 10px;">
+        Comment
+        <textarea id="comment-text" rows="5"></textarea>
+      </label>
+
+      <div class="form-actions">
+        <button type="button" class="primary" id="save-comment">Save Comment</button>
+        <button type="button" id="focus-target">Focus Target</button>
+      </div>
+
+      <h2 class="panel-title">Comments <span class="comment-count" id="comment-total">0</span></h2>
+      <div class="comments" id="comments"></div>
+
+      <h2 class="panel-title">Agent Payload</h2>
+      <textarea class="payload" id="whisper-agent-payload" readonly></textarea>
+      <div class="status-line" id="status-line"></div>
+    </aside>
+  </main>
+
+  <script>
+    (function () {
+      const data = JSON.parse(document.getElementById("whisper-review-data").textContent);
+      const storageKey = "whisper-review:" + data.review_id;
+      const state = {
+        comments: [],
+        selectedBlockId: data.blocks[0] ? data.blocks[0].block_id : null,
+        selectedText: ""
+      };
+
+      const targetEl = document.getElementById("selected-target");
+      const commentsEl = document.getElementById("comments");
+      const totalEl = document.getElementById("comment-total");
+      const payloadEl = document.getElementById("whisper-agent-payload");
+      const statusEl = document.getElementById("status-line");
+
+      function nowIso() {
+        return new Date().toISOString();
+      }
+
+      function getBlock(blockId) {
+        return data.blocks.find((block) => block.block_id === blockId) || data.blocks[0] || null;
+      }
+
+      function commentId() {
+        return "c-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7);
+      }
+
+      function load() {
+        try {
+          const raw = localStorage.getItem(storageKey);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed.comments)) state.comments = parsed.comments;
+          }
+        } catch (error) {
+          state.comments = [];
+        }
+      }
+
+      function save() {
+        localStorage.setItem(storageKey, JSON.stringify({
+          review_id: data.review_id,
+          updated_at: nowIso(),
+          comments: state.comments
+        }, null, 2));
+      }
+
+      function selectionInside(blockEl) {
+        const selection = window.getSelection();
+        if (!selection || selection.isCollapsed) return "";
+        if (!blockEl.contains(selection.anchorNode) || !blockEl.contains(selection.focusNode)) return "";
+        return selection.toString().trim();
+      }
+
+      function selectBlock(blockId, selectedText) {
+        state.selectedBlockId = blockId;
+        state.selectedText = selectedText || "";
+        document.querySelectorAll("[data-review-block]").forEach((el) => {
+          el.classList.toggle("is-selected", el.dataset.blockId === blockId);
+        });
+        renderTarget();
+      }
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function renderTarget() {
+        const block = getBlock(state.selectedBlockId);
+        if (!block) {
+          targetEl.textContent = "No target";
+          return;
+        }
+        const selection = state.selectedText ? "<br><strong>Selection:</strong> " + escapeHtml(state.selectedText) : "";
+        targetEl.innerHTML = "<strong>" + block.block_id + "</strong> / " + escapeHtml(block.part_id) + selection;
+      }
+
+      function enrichComment(comment) {
+        const block = getBlock(comment.block_id);
+        return {
+          id: comment.id,
+          created_at: comment.created_at,
+          block_id: comment.block_id,
+          part_id: block ? block.part_id : comment.part_id,
+          role: block ? block.role : comment.role,
+          paragraph_index: block ? block.paragraph_index : comment.paragraph_index,
+          source_line: block ? block.source_line : comment.source_line,
+          issue_type: comment.issue_type,
+          request_type: comment.request_type,
+          priority: comment.priority,
+          selected_text: comment.selected_text || "",
+          comment: comment.comment,
+          block_text: block ? block.text : "",
+          status: comment.status || "open"
+        };
+      }
+
+      function getAgentPayload() {
+        return {
+          kind: "whisper_review_payload",
+          version: "0.1",
+          exported_at: nowIso(),
+          review_id: data.review_id,
+          draft: data.draft,
+          schema: data.schema,
+          pareto: data.pareto,
+          instruction: "Use comments as located revision requests. Preserve block_id and part_id in proposals; offer options when request_type is offer_options.",
+          comments: state.comments.map(enrichComment),
+          blocks: data.blocks
+        };
+      }
+
+      function renderComments() {
+        commentsEl.innerHTML = "";
+        totalEl.textContent = String(state.comments.length);
+        const counts = new Map();
+        state.comments.forEach((comment) => {
+          counts.set(comment.block_id, (counts.get(comment.block_id) || 0) + 1);
+        });
+        document.querySelectorAll("[data-comment-count]").forEach((el) => {
+          el.textContent = String(counts.get(el.dataset.commentCount) || 0);
+        });
+
+        state.comments.slice().reverse().forEach((comment) => {
+          const item = document.createElement("section");
+          item.className = "comment-item";
+          const block = getBlock(comment.block_id);
+          item.innerHTML =
+            "<header><span>" + escapeHtml(comment.block_id) + "</span><button type=\"button\" data-delete-comment=\"" + comment.id + "\">Delete</button></header>" +
+            "<p>" + escapeHtml(comment.comment) + "</p>" +
+            "<small>" + escapeHtml(comment.issue_type) + " / " + escapeHtml(comment.request_type) + " / " + escapeHtml(comment.priority) +
+            (comment.selected_text ? "<br>Selection: " + escapeHtml(comment.selected_text) : "") +
+            (block ? "<br>Part: " + escapeHtml(block.part_id) : "") + "</small>";
+          commentsEl.appendChild(item);
+        });
+
+        payloadEl.value = JSON.stringify(getAgentPayload(), null, 2);
+      }
+
+      function setStatus(text) {
+        statusEl.textContent = text;
+        if (text) {
+          window.setTimeout(() => {
+            if (statusEl.textContent === text) statusEl.textContent = "";
+          }, 2200);
+        }
+      }
+
+      function saveComment() {
+        const block = getBlock(state.selectedBlockId);
+        const text = document.getElementById("comment-text").value.trim();
+        if (!block || !text) {
+          setStatus("Select a block and add a comment.");
+          return;
+        }
+        state.comments.push({
+          id: commentId(),
+          created_at: nowIso(),
+          block_id: block.block_id,
+          part_id: block.part_id,
+          role: block.role,
+          paragraph_index: block.paragraph_index,
+          source_line: block.source_line,
+          issue_type: document.getElementById("issue-type").value,
+          request_type: document.getElementById("request-type").value,
+          priority: document.getElementById("priority").value,
+          selected_text: state.selectedText,
+          comment: text,
+          status: "open"
+        });
+        document.getElementById("comment-text").value = "";
+        state.selectedText = "";
+        save();
+        renderTarget();
+        renderComments();
+        setStatus("Comment saved.");
+      }
+
+      function downloadPayload() {
+        const blob = new Blob([JSON.stringify(getAgentPayload(), null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = data.review_id + ".agent-payload.json";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function copyPayload() {
+        const text = JSON.stringify(getAgentPayload(), null, 2);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => setStatus("Payload copied."));
+          return;
+        }
+        payloadEl.select();
+        document.execCommand("copy");
+        setStatus("Payload copied.");
+      }
+
+      document.getElementById("draft-meta").textContent =
+        data.draft.id + " / " + data.transport + " / " + data.pareto.selected_candidate;
+
+      document.querySelectorAll("[data-review-block]").forEach((blockEl) => {
+        blockEl.addEventListener("click", () => selectBlock(blockEl.dataset.blockId, selectionInside(blockEl)));
+        const button = blockEl.querySelector("[data-add-comment]");
+        if (button) {
+          button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            selectBlock(blockEl.dataset.blockId, selectionInside(blockEl));
+            document.getElementById("comment-text").focus();
+          });
+        }
+      });
+
+      commentsEl.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-delete-comment]");
+        if (!button) return;
+        state.comments = state.comments.filter((comment) => comment.id !== button.dataset.deleteComment);
+        save();
+        renderComments();
+      });
+
+      document.getElementById("save-comment").addEventListener("click", saveComment);
+      document.getElementById("download-payload").addEventListener("click", downloadPayload);
+      document.getElementById("copy-payload").addEventListener("click", copyPayload);
+      document.getElementById("clear-comments").addEventListener("click", () => {
+        if (!confirm("Clear all comments for this draft review?")) return;
+        state.comments = [];
+        save();
+        renderComments();
+      });
+      document.getElementById("focus-target").addEventListener("click", () => {
+        const block = document.querySelector("[data-block-id=\"" + state.selectedBlockId + "\"]");
+        if (block) block.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+
+      window.WhisperReview = {
+        data,
+        getAgentPayload,
+        setComments(comments) {
+          state.comments = Array.isArray(comments) ? comments : [];
+          save();
+          renderComments();
+        },
+        clearComments() {
+          state.comments = [];
+          save();
+          renderComments();
+        }
+      };
+
+      load();
+      selectBlock(state.selectedBlockId, "");
+      renderComments();
+    })();
+  </script>
+</body>
+</html>

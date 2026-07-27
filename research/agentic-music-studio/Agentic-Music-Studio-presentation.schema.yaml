@@ -1,0 +1,499 @@
+schema_version: whisper.live_presentation.v0.1
+
+text_intent_substrate:
+  metadata:
+    substrate_version: agentic-music-studio-collaborator-deck-v2
+    owner: research/agentic-music-studio
+    source_of_truth: Agentic-Music-Studio-presentation.schema.yaml
+    generated_surfaces:
+      - Agentic-Music-Studio-presentation.html
+      - Agentic-Music-Studio-presentation-review.md
+      - Agentic-Music-Studio-presentation-review.html
+
+  transport_schema:
+    transport_id: live_presentation
+    preset: live_presentation
+    proof_status: candidate
+    objective: >
+      Invite musicians, audio tool builders, live coders, and audio researchers
+      to collaborate on turning the working proof into a studio people can use.
+    target_public: >
+      DAW-using musicians first, followed by tool builders and audio researchers
+      who can test the workflow, interfaces, measurements, and listening claims.
+    room_outcome: >
+      A listener can retell the creative problem, understand the craft-preserving
+      approach, distinguish the working proof from open research, and choose one
+      concrete collaboration path.
+    duration_minutes: 10
+    introduction_policy: Start from the felt DAW experience before naming the system.
+    ending_policy: End with one concrete sound-direction invitation, not a repeated thesis.
+    evidence_policy: Separate measured properties, working artifacts, proxies, and felt claims.
+    cta_policy: Invite participation without implying adoption, demand, or scientific closure.
+
+  human_gate:
+    status: approved
+    approval_source: >
+      The operator approved the three-moment clarity revision produced from the
+      exported Whisper review payload after its ambiguous references and
+      unnecessary opening tagline were resolved.
+    approved_audition: live-presentation-language-audition.md
+    review_resolution:
+      review_id: Agentic-Music-Studio-presentation-review-0e4e11adda1b
+      exported_at: "2026-07-23T20:39:24.753Z"
+      resolved_comments:
+        - c-mrxz3w63-g5bp3
+        - c-mrxz4j2t-ctznj
+        - c-mrxz5ljk-005on
+
+  intent_state:
+    status: frozen
+    frozen_scope:
+      - musician-first opening
+      - explicit copy referents
+      - control-versus-black-box tension
+      - describe-hear-shape-keep reveal
+      - collaborator invitation
+
+  surface_map:
+    projected_copy:
+      audience_access: visible
+      rule: One audience-facing thought per slide.
+    spoken_copy:
+      audience_access: heard
+      rule: Natural presenter language; no schema narration.
+    speaker_notes:
+      audience_access: hidden
+      rule: Timing, source boundaries, and delivery cues.
+    interaction_prompt:
+      audience_access: invited
+      rule: A real question or action that does not contain its answer.
+    authoring_metadata:
+      audience_access: forbidden
+      rule: Story state, source mapping, claim mode, and validation intent.
+
+  readability_dynamics:
+    delivery_flow: active
+    sequence:
+      - entry
+      - felt_problem
+      - consequence
+      - reveal
+      - mechanism
+      - proof
+      - insight
+      - lived_workflow
+      - collaboration_paths
+      - invitation
+    one_visible_thought_per_moment: true
+    projected_word_target: 18
+    spoken_word_target: 75
+
+  pareto_tournament:
+    tiering: balanced
+    objectives:
+      - id: resonance
+        target: Sound like a musician inviting peers into unfinished work.
+      - id: relevance
+        target: Begin in DAW-native creative friction and earn technical terms later.
+      - id: trajectory
+        target: Move from felt problem to proof to a concrete collaborator choice.
+    hard_gates:
+      - id: source_fidelity
+      - id: operator_voice_approval
+      - id: notes_not_projected
+      - id: no_unearned_jargon
+      - id: collaborator_ask_is_concrete
+    consensus:
+      selected_candidate_set: musician_first_specificity_revision
+      rationale: >
+        This candidate preserves the PDF's warm research-note identity while
+        replacing report language with a live, musician-first collaboration arc
+        and making the object of each audience-facing claim explicit.
+
+  composition_parts:
+    parts:
+      - part_id: reader_grounded_opening_hook
+        role: opening_and_tension
+      - part_id: core_insight_language_becomes_executable_through_ai
+        role: reveal_and_mechanism
+      - part_id: implications_for_personal_code
+        role: proof_insights_and_workflow
+      - part_id: invitation_to_name_a_workflow
+        role: collaborator_invitation
+
+  presentation:
+    id: agentic-music-studio-collaborator-deck
+    title: Agentic Music Studio
+    subtitle: A working proof looking for collaborators
+    language: en
+    aspect_ratio: "16:9"
+    authority:
+      content: Agentic-Music-Studio-presentation.schema.yaml
+      source:
+        - Agentic-Music-Studio.pdf
+        - Agentic-Music-Studio.md
+      compatibility_projection: Agentic-Music-Studio-presentation.lanes.json
+    theme:
+      visual_reference: Agentic-Music-Studio.pdf
+      paper: "#fdfaf3"
+      paper_deep: "#f5ead0"
+      ink: "#211b16"
+      muted: "#665f55"
+      oxblood: "#b41422"
+      burgundy: "#8f1118"
+      ochre: "#c7ad7a"
+      rust: "#743216"
+      serif: 'Georgia, "Times New Roman", serif'
+      sans: '"Segoe UI", ui-sans-serif, system-ui, sans-serif'
+    controls:
+      next: ArrowRight
+      previous: ArrowLeft
+      notes: n
+      overview: o
+      first: Home
+      last: End
+
+    slides:
+      - id: opening
+        number: 1
+        chapter: opening
+        layout: cover
+        lanes: [surface, risk_questions]
+        projected_copy:
+          eyebrow: Agentic Music Studio
+          headline: You know how the track should feel. Turning that feeling into sound is the hard part.
+          support: null
+        visual:
+          type: soundline
+          labels: [hear, find]
+        spoken_copy: >
+          You know when a track needs to feel darker, stranger, sharper, or more
+          alive. But finding the synth settings, effects, and automation that
+          get you there can pull you out of the music.
+        speaker_notes: >
+          Hold after the headline. Do not define the product yet. Let the room
+          recognize the familiar gap between hearing a direction and reaching it.
+        interaction_prompt: null
+        authoring_metadata:
+          story_state: entry
+          claim_mode: audience_observation
+          source_refs:
+            - live-presentation-language-audition.md
+          why_it_matters: Earn attention through a familiar DAW experience.
+
+      - id: tension
+        number: 2
+        chapter: problem
+        layout: split
+        lanes: [surface, risk_questions]
+        projected_copy:
+          eyebrow: The shortcut
+          headline: The sound arrives fast. But can you still shape it?
+          support: Change one choice. Replay it. Perform it.
+        visual:
+          type: contrast
+          left:
+            label: Fast result
+            text: A finished waveform arrives.
+          right:
+            label: Creative control
+            text: Change one choice. Replay it. Perform it.
+        spoken_copy: >
+          Prompt-to-audio can give you a result quickly. But when you want to
+          change one choice, replay it exactly, or perform it, you may have only
+          a finished waveform — not something you can keep shaping.
+        speaker_notes: >
+          This is a limitation statement, not a blanket rejection of generative
+          audio. Keep the contrast on inspectability and authorship.
+        interaction_prompt: What is the last sound you could describe but could not reach quickly?
+        authoring_metadata:
+          story_state: felt_problem
+          claim_mode: product_tension
+          source_refs:
+            - Agentic-Music-Studio.pdf#page=2
+          why_it_matters: Make the loss of sound-shaping control concrete before the reveal.
+
+      - id: reveal
+        number: 3
+        chapter: reveal
+        layout: manifesto
+        lanes: [surface, flow]
+        projected_copy:
+          eyebrow: The proposition
+          headline: Describe it. Hear it. Shape it. Keep it yours.
+          support: Your sound comes from editable code — not generated audio.
+        visual:
+          type: verb_loop
+          verbs: [Describe, Hear, Shape, Keep]
+        spoken_copy: >
+          Agentic Music Studio starts with the sound you’re reaching for —
+          “darker,” “more bite,” “stranger before the drop” — and turns it into
+          a playable result with code you can inspect, edit, and reproduce. We
+          have a working proof, and we are looking for musicians, tool builders,
+          and audio researchers to help shape what comes next.
+        speaker_notes: >
+          This is the approved reveal. Stress “keep it yours.” The no-model claim
+          applies to the sound path; a model may parse intent into an inspectable spec.
+        interaction_prompt: null
+        authoring_metadata:
+          story_state: reveal
+          claim_mode: source_backed_with_invitation
+          source_refs:
+            - live-presentation-language-audition.md
+            - Agentic-Music-Studio.pdf#pages=1-2
+          why_it_matters: Name the alternative only after the room feels the problem.
+
+      - id: mechanism
+        number: 4
+        chapter: approach
+        layout: pipeline
+        lanes: [flow, internal_dependencies]
+        projected_copy:
+          eyebrow: How it works
+          headline: A sound description becomes code you can hear and edit.
+          support: Every step leaves something the musician can inspect or change.
+        visual:
+          type: pipeline
+          stages:
+            - label: Describe
+              text: “Darker. More bite.”
+            - label: Make it explicit
+              text: Targets, limits, seed.
+            - label: Write
+              text: Inspectable music code.
+            - label: Render
+              text: Deterministic audio.
+            - label: Steer
+              text: Hear, edit, critique.
+        spoken_copy: >
+          The musician describes a direction. The studio makes that direction
+          explicit in a shared spec, writes readable code, renders sound from a
+          fixed seed, and shows what changed. The musician hears it, edits it,
+          or asks for another move.
+        speaker_notes: >
+          “Spec” is now earned because the audience has seen why a black box is
+          insufficient. Avoid explaining package architecture on this slide.
+        interaction_prompt: null
+        authoring_metadata:
+          story_state: mechanism
+          claim_mode: source_backed
+          source_refs:
+            - Agentic-Music-Studio.pdf#page=2
+          why_it_matters: Give the room a retellable five-step loop.
+
+      - id: proof
+        number: 5
+        chapter: proof
+        layout: proof
+        lanes: [components, external_dependencies, lifecycle]
+        projected_copy:
+          eyebrow: Working proof
+          headline: The prototype makes sound today.
+          support: Real WAV audio. Seeded code. A loop you can steer.
+        visual:
+          type: audio_proof
+          audio:
+            label: Dark violin · strange
+            src: intent-engine/audio/01_dark_violin_strange.wav
+          facts:
+            - value: "2"
+              label: deterministic packages
+            - value: "14"
+              label: tests in the PDF snapshot
+            - value: "0"
+              label: generative models in the sound path
+        spoken_copy: >
+          The current proof renders playable audio from the example “dark violin
+          stochastic synth, bring strangeness.” It has a small intent engine, a
+          deterministic synthesis and measurement core, and a steering loop.
+          This is a proof of the motion, not yet a finished DAW product.
+        speaker_notes: >
+          Play the audio if the room permits. The 14-test count belongs to the
+          dated PDF snapshot; do not present it as a current repository-wide total.
+        interaction_prompt: What would you try to change first after hearing this texture?
+        authoring_metadata:
+          story_state: working_evidence
+          claim_mode: source_backed_dated_snapshot
+          source_refs:
+            - Agentic-Music-Studio.pdf#pages=2-4
+            - intent-engine/audio/01_dark_violin_strange.wav
+          why_it_matters: Replace possibility language with an audible artifact.
+
+      - id: measurement
+        number: 6
+        chapter: insight
+        layout: evidence
+        lanes: [internal_dependencies, risk_questions, external_dependencies]
+        projected_copy:
+          eyebrow: What the proof taught us
+          headline: A meter is not a feeling.
+          support: Measure the sound. Ask listeners about the experience.
+        visual:
+          type: evidence_split
+          measured:
+            label: Measured
+            value: 1.3% drift
+            text: The improved centroid held across analyzer settings.
+          felt:
+            label: Still open
+            value: “Strange?”
+            text: A listener study must test whether the proxy matches the feeling.
+        spoken_copy: >
+          The first analyzer moved by 6.1 percent when its settings changed. The
+          improved method brought that to 1.3 percent. That makes the measurement
+          more stable. It does not prove that a listener will call the result
+          dark or strange. We want the studio to show that difference honestly.
+        speaker_notes: >
+          Keep analyzer stability and felt experience separate. The listener-study
+          question remains deliberately open.
+        interaction_prompt: null
+        authoring_metadata:
+          story_state: epistemic_boundary
+          claim_mode: measured_plus_open_question
+          source_refs:
+            - Agentic-Music-Studio.pdf#page=3
+          why_it_matters: Make honesty part of the product rather than a footnote.
+
+      - id: steering
+        number: 7
+        chapter: insight
+        layout: tradeoff
+        lanes: [flow, internal_dependencies, risk_questions]
+        projected_copy:
+          eyebrow: Steering
+          headline: Every creative move has a trade-off.
+          support: “More bite” changed the sound — and changed what was sacrificed.
+        visual:
+          type: tradeoff
+          before:
+            label: Baseline
+            centroid: 499 Hz
+            dissonance: "1.37"
+          after:
+            label: More bite
+            centroid: 558 Hz
+            dissonance: "9.30"
+          consequence: More bite traded away some darkness.
+        spoken_copy: >
+          “More bite” was not a universal improvement. It raised dissonance and
+          brightness, which moved the texture away from darkness. A useful studio
+          should show that cost so the musician can choose the trade-off rather
+          than accept a hidden optimization.
+        speaker_notes: >
+          Do not introduce “Pareto navigation” unless the room asks for the formal term.
+        interaction_prompt: null
+        authoring_metadata:
+          story_state: consequence
+          claim_mode: source_backed
+          source_refs:
+            - Agentic-Music-Studio.pdf#page=3
+          why_it_matters: Show why steering must remain a human judgment surface.
+
+      - id: workday
+        number: 8
+        chapter: use
+        layout: timeline
+        lanes: [flow, components, lifecycle]
+        projected_copy:
+          eyebrow: A day in the studio
+          headline: The work stays musical.
+          support: Sketch. Audition. Sculpt. Perform. Keep the trail.
+        visual:
+          type: timeline
+          steps:
+            - label: Sketch
+              text: Name the direction.
+            - label: Audition
+              text: Hear a seeded render.
+            - label: Sculpt
+              text: Critique or edit.
+            - label: Perform
+              text: Move the sound live.
+            - label: Keep
+              text: Save code, seed, audio, notes.
+        spoken_copy: >
+          A musician begins with a direction, auditions a render, says “less mud,
+          more bite,” and can still open the code to make a precise change. Later,
+          the same movement can be performed live and saved with its seed,
+          measurements, audio, and notes.
+        speaker_notes: >
+          This is a product-use inference from the proven loop, not evidence of a
+          completed DAW integration or validated daily workflow.
+        interaction_prompt: Where would this loop fit — or break — in your current practice?
+        authoring_metadata:
+          story_state: lived_workflow
+          claim_mode: product_inference
+          source_refs:
+            - Agentic-Music-Studio.pdf#pages=2-4
+            - Agentic-Music-Studio-presentation.lanes.json
+          why_it_matters: Help collaborators imagine using the loop before discussing roadmap.
+
+      - id: collaborators
+        number: 9
+        chapter: collaboration
+        layout: roles
+        lanes: [external_dependencies, lifecycle, risk_questions]
+        projected_copy:
+          eyebrow: Where you can change the work
+          headline: Three kinds of collaborators can test what matters next.
+          support: Bring practice, interfaces, or evidence.
+        visual:
+          type: roles
+          roles:
+            - label: Musicians
+              ask: Pressure-test the language and the steering loop.
+              proof: Does it preserve flow and control?
+            - label: Tool builders
+              ask: Connect the shared spec to real creative surfaces.
+              proof: Can one path serve a DAW, code, and controllers?
+            - label: Audio researchers
+              ask: Design the listening and measurement evidence.
+              proof: Do the proxies match what people hear?
+        spoken_copy: >
+          Musicians can tell us whether the interaction respects real creative
+          practice. Tool builders can test how the shared spec connects to DAWs,
+          live coding, and controllers. Audio researchers can help separate stable
+          measurements from felt effects with listening evidence.
+        speaker_notes: >
+          These are invitations, not validated adoption segments. Ask the room
+          which contribution matches its practice.
+        interaction_prompt: Which of these questions is already yours?
+        authoring_metadata:
+          story_state: collaborator_choice
+          claim_mode: invitation
+          source_refs:
+            - Agentic-Music-Studio.pdf#page=4
+          why_it_matters: Turn open work into specific collaborator-owned questions.
+
+      - id: invitation
+        number: 10
+        chapter: close
+        layout: invitation
+        lanes: [surface, flow, lifecycle, risk_questions]
+        projected_copy:
+          eyebrow: The invitation
+          headline: Bring one sound your current setup makes hard to reach.
+          support: We will start there.
+        visual:
+          type: invitation
+          prompt: One sound direction
+          examples:
+            - darker without losing detail
+            - stranger before the drop
+            - more bite without more mud
+          footer: Musician · tool builder · audio researcher
+        spoken_copy: >
+          If you work in a DAW, build audio tools, live code, or study perception,
+          bring one sound direction that is hard to reach without losing the
+          thread. We can use it to test the loop together and decide what this
+          studio needs to become next.
+        speaker_notes: >
+          End on the invitation. Do not repeat the architecture or claim product readiness.
+        interaction_prompt: What sound direction would you bring?
+        authoring_metadata:
+          story_state: action
+          claim_mode: invitation
+          source_refs:
+            - Agentic-Music-Studio.pdf
+            - live-presentation-language-audition.md
+          why_it_matters: Give prospective collaborators a low-friction first move.

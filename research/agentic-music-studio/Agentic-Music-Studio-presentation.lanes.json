@@ -2,7 +2,7 @@
   "xray_version": "0.2.0-seed",
   "example_id": "agentic-music-studio-presentation",
   "mode": "artifact",
-  "target_boundary": "A product-view local HTML presentation about research/agentic-music-studio/Agentic-Music-Studio.pdf, reframed around problem, solution, insights, leverage, and a musician day-in-the-life.",
+  "target_boundary": "A live collaborator presentation generated from Agentic-Music-Studio-presentation.schema.yaml, grounded in Agentic-Music-Studio.pdf, and written first for musicians who work in a DAW.",
   "renderer_level": "L0",
   "layer_interaction": [
     "stacked",
@@ -11,34 +11,35 @@
   ],
   "reader_contract": {
     "reader_baseline": "newcomer",
-    "target_public": "A reader who wants to understand the product opportunity, not only the research note: musicians, tool builders, researchers, or product collaborators.",
+    "target_public": "DAW-using musicians first, followed by audio tool builders, live coders, and researchers who can test the workflow, interfaces, measurements, and listening claims.",
     "assumed_knowledge": [
       "The reader knows that software can render audio from code.",
       "The reader can follow a left-to-right pipeline diagram.",
       "The reader does not need prior knowledge of Xenakis, Sethares, TidalCycles, or NIME."
     ],
-    "reader_reward": "The reader can explain the customer problem, why the product exists, how the spec-centered solution works, what insights were learned, how others can leverage it, and what a musician's day with the studio feels like.",
+    "reader_reward": "The reader can retell the creative problem, distinguish the working proof from open research, and choose one concrete way to collaborate.",
     "opening_contract": {
       "must_start_with": [
-        "Start with the musician's problem: choosing between control and speed.",
-        "Make the product promise visible before introducing implementation details."
+        "Start with the familiar gap between hearing a sound direction and reaching it in a DAW.",
+        "Use musician-native language before introducing the spec or measurement system."
       ],
       "must_not_start_with": [
         "Do not start with a generic research summary.",
+        "Do not frame ordinary DAW work as engineering.",
         "Do not imply that a model generates audio.",
-        "Do not bury the reproducible spec behind decorative visuals."
+        "Do not project authoring metadata, source labels, or validation controls."
       ],
-      "failure_message": "If the deck does not explain the product problem and product use, it fails the revised request."
+      "failure_message": "If the deck does not sound natural to a musician or end in a concrete collaborator invitation, it fails the approved live-presentation intent."
     }
   },
   "reader_terms": [
     {
-      "term": "Product bet",
-      "plain_meaning": "Musicians should be able to move fast from intent to sound without losing inspectable craft.",
-      "why_it_matters": "It frames the deck around the user problem rather than around implementation alone.",
-      "source_or_lane": "Product framing inference from Agentic-Music-Studio.pdf and LEARNING-PACK.md; surface lane",
+      "term": "Creative gap",
+      "plain_meaning": "A musician can hear the direction they want while the DAW still asks them to translate it into synth settings, effects, and automation.",
+      "why_it_matters": "It opens from lived creative friction rather than engineering terminology.",
+      "source_or_lane": "Operator-approved live-presentation audition; surface lane",
       "authority": "inferred",
-      "misuse_warning": "Do not treat the product bet as proven market demand; it is a presentation framing around the source proof."
+      "misuse_warning": "Do not treat this framing as measured market demand or a universal musician experience."
     },
     {
       "term": "Agentic music studio",
@@ -100,9 +101,9 @@
   "layer_reader_outcomes": [
     {
       "layer": "surface",
-      "as_a_reader": "As a newcomer, I want to know the product problem first.",
-      "should_understand": "Musicians should not have to choose between expressive control and fast exploration.",
-      "because_it_matters_for": "framing the studio as a product opportunity rather than only a technical proof."
+      "as_a_reader": "As a musician, I want the opening to begin from a familiar creative moment.",
+      "should_understand": "The studio addresses the gap between knowing how a track should feel and turning that feeling into sound while preserving the ability to shape it.",
+      "because_it_matters_for": "deciding whether the presentation understands real DAW work."
     },
     {
       "layer": "flow",
@@ -118,9 +119,9 @@
     },
     {
       "layer": "external_dependencies",
-      "as_a_reader": "As a builder, I want to know how other people can leverage the work.",
-      "should_understand": "The pattern can support musicians, tool builders, researchers, live coders, educators, and product teams.",
-      "because_it_matters_for": "making the deck useful beyond the original proof artifact."
+      "as_a_reader": "As a potential collaborator, I want a concrete question I can help test.",
+      "should_understand": "Musicians test workflow and control, tool builders test creative surfaces, and researchers test measurements and felt effects.",
+      "because_it_matters_for": "turning interest into a bounded contribution."
     },
     {
       "layer": "lifecycle",
@@ -136,17 +137,18 @@
     }
   ],
   "readability_dynamics": {
-    "max_words_per_paragraph": 58,
+    "max_words_per_paragraph": 48,
     "max_consecutive_dense_blocks": 1,
     "require_scan_anchor_every_n_blocks": 2,
     "allowed_visual_treatments": [
       "slide deck",
+      "editorial cover",
       "left-to-right pipeline",
-      "problem-solution path",
-      "product insight cards",
+      "audible proof",
+      "measured-versus-felt split",
+      "trade-off comparison",
       "day-in-the-life timeline",
-      "evidence boundary rail",
-      "open-work gate list"
+      "collaborator role cards"
     ]
   },
   "lanes": {
@@ -159,7 +161,7 @@
         "The LEARNING-PACK frames the core idea as supplying intent and taste while the agent does deterministic engineering."
       ],
       "inference": [
-        "The product-view deck should open with the musician's problem: control versus speed."
+        "The live deck should open with the DAW-native gap between knowing how a track should feel and turning that feeling into sound."
       ]
     },
     "properties": {
@@ -182,7 +184,7 @@
         "Definitions.md defines communication process as a speech-act plus initiative-profile."
       ],
       "inference": [
-        "The presentation groups leverage audiences around reusable product patterns."
+        "The presentation turns open product and research questions into three collaborator-owned paths."
       ]
     },
     "internal_dependencies": {
@@ -215,7 +217,7 @@
         "The source says human hears, reads/edits code, and critiques, then loops back."
       ],
       "inference": [
-        "The deck adds a musician day-in-the-life path to make the pipeline feel like product use."
+        "The deck uses a musician workday and one final sound-direction prompt to make the loop actionable."
       ]
     },
     "lifecycle": {
@@ -226,7 +228,7 @@
         "The PDF says the method used research towers, a tensioned multi-agent design dispatch, layered build plans, adversarial verification, and refresh cycles."
       ],
       "inference": [
-        "The open-work slide orders follow-up as product validation gates rather than missing features."
+        "The collaborator slide assigns open gates to musicians, tool builders, and audio researchers without claiming those groups have adopted the work."
       ]
     },
     "risk_questions": {
@@ -237,8 +239,8 @@
         "Can open-vocabulary intent be governed without vocabulary drift?",
         "Can roughness become as analyzer-independent as darkness?",
         "How should a human steer trade-offs beyond weighted-sum tuning?",
-        "Which leverage audiences are real adoption paths versus presentation hypotheses?",
-        "Does the day-in-life story match actual musician workflow?"
+        "Which collaborator paths are real participation routes versus presentation hypotheses?",
+        "Does the musician-first language and day-in-life story match actual DAW practice?"
       ]
     },
     "visual_composition": {
@@ -249,7 +251,7 @@
         "The x-ray validator requires source-backed and inference markers, reader terms, reader outcomes, and the L0 static HTML/SVG marker."
       ],
       "inference": [
-        "A deck with keyboard/button navigation, source markers, inline SVG diagrams, and no remote dependencies fits the user's request for an HTML presentation."
+        "A PDF-inspired deck with keyboard navigation, hidden presenter notes, inline SVG, local audio, and no remote dependencies fits the approved live-presentation transport."
       ]
     }
   }

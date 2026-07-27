@@ -3,1243 +3,1387 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Agentic Music Studio Presentation</title>
+  <meta name="presentation-schema" content="Agentic-Music-Studio-presentation.schema.yaml">
+  <meta name="presentation-schema-digest" content="e7a15a064bb9">
+  <title>Agentic Music Studio — Collaborator Presentation</title>
   <style>
     :root {
       color-scheme: light;
-      --paper: #f7f6f1;
-      --ink: #161a1d;
-      --muted: #626a70;
-      --line: #d6d0c3;
-      --panel: #fffdf8;
-      --panel-strong: #f1eadb;
-      --teal: #0d6f73;
-      --teal-soft: #d8eeee;
-      --rose: #9b3158;
-      --rose-soft: #f3dce5;
-      --gold: #9c6b17;
-      --gold-soft: #f4e6c8;
-      --green: #326f46;
-      --green-soft: #dcebdc;
-      --blue: #2b5f8c;
-      --blue-soft: #dfeaf4;
-      --shadow: 0 18px 48px rgba(40, 34, 22, 0.14);
-      --radius: 8px;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      letter-spacing: 0;
+      --paper: #fdfaf3;
+      --paper-deep: #f5ead0;
+      --ink: #211b16;
+      --muted: #665f55;
+      --oxblood: #b41422;
+      --burgundy: #8f1118;
+      --ochre: #c7ad7a;
+      --rust: #743216;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+      --line: rgba(33, 27, 22, 0.18);
+      --shadow: 0 24px 80px rgba(67, 45, 25, 0.16);
     }
 
-    * {
-      box-sizing: border-box;
-      letter-spacing: 0;
-    }
+    * { box-sizing: border-box; }
 
-    html,
-    body {
-      min-height: 100%;
+    html, body {
+      width: 100%;
+      height: 100%;
     }
 
     body {
       margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      line-height: 1.45;
       overflow: hidden;
+      background: #221d19;
+      color: var(--ink);
+      font-family: var(--sans);
     }
 
-    button,
-    input {
-      font: inherit;
+    button, input, audio { font: inherit; }
+
+    button {
+      color: inherit;
+      cursor: pointer;
     }
 
-    .xray-inputs {
+    .xray-compatibility,
+    .authoring-contract {
+      display: none !important;
+    }
+
+    .presentation {
       position: fixed;
-      inset: auto auto 0 0;
-      inline-size: 1px;
-      block-size: 1px;
-      opacity: 0.01;
-      pointer-events: none;
-    }
-
-    .deck {
-      min-height: 100vh;
-      display: grid;
-      grid-template-rows: auto 1fr;
+      inset: 0;
+      width: auto;
+      height: auto;
+      min-height: 540px;
+      isolation: isolate;
       background:
-        linear-gradient(90deg, rgba(13, 111, 115, 0.08), transparent 34%),
-        linear-gradient(0deg, rgba(156, 107, 23, 0.09), transparent 42%),
+        radial-gradient(circle at 16% 12%, rgba(180, 20, 34, 0.1), transparent 27%),
+        radial-gradient(circle at 85% 82%, rgba(199, 173, 122, 0.2), transparent 31%),
         var(--paper);
     }
 
-    .topbar {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+    .presentation::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.16;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(33, 27, 22, 0.05) 0, rgba(33, 27, 22, 0.05) 1px, transparent 1px, transparent 4px);
+      mix-blend-mode: multiply;
+    }
+
+    .masthead {
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 20;
+      height: 64px;
+      padding: 0 clamp(24px, 4vw, 64px);
+      display: flex;
       align-items: center;
-      gap: 18px;
-      padding: 16px 22px;
+      justify-content: space-between;
       border-bottom: 1px solid var(--line);
-      background: rgba(255, 253, 248, 0.86);
-      backdrop-filter: blur(10px);
-      position: relative;
-      z-index: 5;
+      background: rgba(253, 250, 243, 0.88);
+      backdrop-filter: blur(14px);
     }
 
     .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
       min-width: 0;
     }
 
     .brand strong {
-      display: block;
-      font-size: 0.92rem;
-      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 1.05rem;
     }
 
     .brand span {
-      display: block;
-      font-size: 1.05rem;
-      font-weight: 800;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    .controls {
-      display: inline-grid;
-      grid-template-columns: auto auto auto;
-      gap: 8px;
+    .masthead-actions {
+      display: flex;
       align-items: center;
-    }
-
-    .nav-button {
-      min-width: 68px;
-      min-height: 38px;
-      border: 1px solid #bdb5a6;
-      background: #fffaf0;
-      color: var(--ink);
-      border-radius: var(--radius);
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .nav-button:hover {
-      background: var(--teal-soft);
-      border-color: var(--teal);
+      gap: 8px;
     }
 
     .counter {
-      min-width: 74px;
-      min-height: 38px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-      color: var(--muted);
-      font-weight: 800;
+      min-width: 62px;
+      text-align: center;
       font-variant-numeric: tabular-nums;
-    }
-
-    .workspace {
-      min-height: 0;
-      display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
-    }
-
-    .rail {
-      border-right: 1px solid var(--line);
-      background: rgba(255, 253, 248, 0.76);
-      padding: 18px;
-      overflow: auto;
-    }
-
-    .rail h2 {
-      font-size: 0.9rem;
-      margin: 0 0 10px;
-    }
-
-    .layer-toggles {
-      display: grid;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-
-    .layer-toggles label {
-      display: grid;
-      grid-template-columns: 18px minmax(0, 1fr);
-      gap: 8px;
-      align-items: center;
-      min-height: 38px;
-      padding: 8px 10px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-      font-size: 0.88rem;
-      cursor: pointer;
-    }
-
-    .layer-toggles input {
-      accent-color: var(--teal);
-    }
-
-    .source-box {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-      padding: 12px;
-      display: grid;
-      gap: 10px;
-      font-size: 0.86rem;
       color: var(--muted);
-    }
-
-    .source-box strong {
-      color: var(--ink);
-    }
-
-    .source-mark {
-      display: inline-flex;
-      align-items: center;
-      min-height: 24px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid currentColor;
-      font-size: 0.78rem;
+      font-size: 0.85rem;
       font-weight: 800;
-      width: fit-content;
     }
 
-    .source-mark.source {
-      color: var(--green);
-      background: var(--green-soft);
-    }
-
-    .source-mark.infer {
-      color: var(--rose);
-      background: var(--rose-soft);
-      border-style: dashed;
-    }
-
-    .progress {
-      margin-top: 16px;
-      display: grid;
-      gap: 6px;
-    }
-
-    .dot {
-      display: grid;
-      grid-template-columns: 28px minmax(0, 1fr);
-      gap: 8px;
-      align-items: center;
-      min-height: 30px;
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      text-align: left;
-      cursor: pointer;
-      padding: 2px 0;
-    }
-
-    .dot b {
-      width: 26px;
-      height: 26px;
+    .icon-button {
+      width: 38px;
+      height: 38px;
       display: grid;
       place-items: center;
       border: 1px solid var(--line);
       border-radius: 50%;
-      background: var(--panel);
-      font-size: 0.75rem;
+      background: rgba(253, 250, 243, 0.72);
     }
 
-    .dot span {
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      font-size: 0.82rem;
-    }
-
-    .dot.is-active {
-      color: var(--ink);
-      font-weight: 800;
-    }
-
-    .dot.is-active b {
-      background: var(--ink);
-      color: white;
-      border-color: var(--ink);
+    .icon-button:hover,
+    .icon-button:focus-visible {
+      border-color: var(--oxblood);
+      color: var(--oxblood);
+      outline: none;
     }
 
     .slides {
-      position: relative;
-      min-height: 0;
-      overflow: hidden;
+      position: absolute;
+      inset: 64px 0 0;
     }
 
     .slide {
       position: absolute;
       inset: 0;
+      padding: clamp(44px, 7vh, 78px) clamp(36px, 7vw, 108px) clamp(50px, 8vh, 82px);
       display: grid;
-      grid-template-rows: auto 1fr;
-      gap: 22px;
-      padding: 42px 54px;
+      grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+      grid-template-rows: 1fr auto;
+      gap: clamp(24px, 4vw, 72px);
       opacity: 0;
-      transform: translateX(22px);
-      pointer-events: none;
-      transition: opacity 180ms ease, transform 180ms ease;
-      overflow: auto;
+      visibility: hidden;
+      transform: translateY(18px);
+      transition: opacity 260ms ease, transform 260ms ease, visibility 260ms;
+      overflow: hidden;
     }
 
     .slide.is-active {
       opacity: 1;
-      transform: translateX(0);
-      pointer-events: auto;
+      visibility: visible;
+      transform: translateY(0);
     }
 
-    .slide-title {
-      max-width: 1040px;
+    .slide-copy {
+      align-self: center;
+      max-width: 760px;
     }
 
     .eyebrow {
-      margin: 0 0 8px;
-      color: var(--teal);
-      font-size: 0.84rem;
-      font-weight: 900;
+      margin: 0 0 18px;
+      color: var(--burgundy);
+      font-size: clamp(0.72rem, 1vw, 0.9rem);
+      font-weight: 850;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
     }
 
-    h1,
-    h2,
-    h3,
-    p {
+    h1, h2 {
       margin: 0;
+      font-family: var(--serif);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
     }
 
     h1 {
-      font-size: 3.5rem;
-      line-height: 0.98;
-      max-width: 980px;
+      font-size: clamp(3.6rem, 6.6vw, 7.2rem);
+      line-height: 0.93;
     }
 
     h2 {
-      font-size: 2.35rem;
-      line-height: 1.05;
-      max-width: 940px;
+      font-size: clamp(3rem, 5.2vw, 5.9rem);
+      line-height: 0.96;
     }
 
-    h3 {
-      font-size: 1.05rem;
-      line-height: 1.2;
+    .support {
+      max-width: 680px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: clamp(1.08rem, 1.65vw, 1.5rem);
+      line-height: 1.4;
     }
 
-    .lede {
-      margin-top: 16px;
-      max-width: 760px;
-      color: #374046;
-      font-size: 1.16rem;
+    .slide-visual {
+      align-self: center;
+      min-width: 0;
     }
 
-    .slide-body {
-      align-self: stretch;
+    .slide-folio {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .slide-folio span:nth-child(2) {
+      text-align: center;
+    }
+
+    .slide-folio::before {
+      content: "";
+      position: absolute;
+      left: clamp(36px, 7vw, 108px);
+      right: clamp(36px, 7vw, 108px);
+      bottom: calc(clamp(50px, 8vh, 82px) + 26px);
+      height: 1px;
+      background: var(--line);
+    }
+
+    .layout-cover {
+      grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+    }
+
+    .layout-cover h1 {
+      font-size: clamp(3.3rem, 5vw, 5.7rem);
+      line-height: 0.95;
+    }
+
+    .layout-manifesto {
+      grid-template-columns: minmax(0, 1.2fr) minmax(380px, 0.8fr);
+    }
+
+    .card-label {
+      margin: 0;
+      color: var(--burgundy);
+      font-size: 0.76rem;
+      font-weight: 850;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .soundline {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 18px;
+      align-items: center;
+      color: var(--rust);
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-style: italic;
+    }
+
+    .soundline svg {
+      width: 100%;
+      overflow: visible;
+    }
+
+    .soundline path {
+      fill: none;
+      stroke-linecap: round;
+    }
+
+    .soundline-ghost {
+      stroke: var(--ochre);
+      stroke-width: 18;
+      opacity: 0.26;
+    }
+
+    .soundline-main {
+      stroke: var(--oxblood);
+      stroke-width: 4;
+    }
+
+    .soundline circle {
+      fill: var(--paper);
+      stroke: var(--oxblood);
+      stroke-width: 4;
+    }
+
+    .contrast-grid,
+    .evidence-grid,
+    .trade-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .contrast-card,
+    .evidence-card,
+    .trade-card,
+    .role-card,
+    .audio-card,
+    .fact,
+    .invitation-card {
+      border: 1px solid var(--line);
+      background: rgba(253, 250, 243, 0.78);
+      box-shadow: var(--shadow);
+    }
+
+    .contrast-card {
+      min-height: 240px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .contrast-card > p:last-child {
+      margin: 42px 0 0;
+      font-family: var(--serif);
+      font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+      line-height: 1.08;
+    }
+
+    .contrast-fast {
+      border-top: 8px solid var(--ochre);
+    }
+
+    .contrast-control {
+      border-top: 8px solid var(--oxblood);
+    }
+
+    .verb-loop {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 46px 24px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .verb {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 3.5rem);
+      font-weight: 700;
+    }
+
+    .verb:last-of-type {
+      color: var(--oxblood);
+    }
+
+    .verb-arrow {
+      color: var(--ochre);
+      font-size: 1.7rem;
+    }
+
+    .layout-pipeline,
+    .layout-timeline,
+    .layout-roles {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .layout-pipeline .slide-copy,
+    .layout-timeline .slide-copy,
+    .layout-roles .slide-copy {
+      align-self: end;
+      max-width: 1100px;
+    }
+
+    .layout-pipeline .slide-visual,
+    .layout-timeline .slide-visual,
+    .layout-roles .slide-visual {
+      align-self: start;
+    }
+
+    .pipeline-grid,
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .pipeline-stage,
+    .timeline-step {
+      position: relative;
+      min-height: 176px;
+      padding: 22px 18px;
+      border-top: 3px solid var(--ochre);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .pipeline-stage:nth-child(5),
+    .timeline-step:nth-child(5) {
+      border-top-color: var(--oxblood);
+    }
+
+    .stage-number,
+    .timeline-step > span {
+      color: var(--burgundy);
+      font-size: 0.75rem;
+      font-weight: 850;
+      letter-spacing: 0.1em;
+    }
+
+    .pipeline-stage h3,
+    .timeline-step h3,
+    .role-card h3 {
+      margin: 22px 0 10px;
+      font-family: var(--serif);
+      font-size: clamp(1.25rem, 1.6vw, 1.7rem);
+      line-height: 1.1;
+    }
+
+    .pipeline-stage p,
+    .timeline-step p,
+    .role-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .proof-grid {
       display: grid;
       gap: 18px;
-      align-content: start;
     }
 
-    .two-col {
+    .audio-card {
+      padding: 24px;
+      border-top: 8px solid var(--oxblood);
+    }
+
+    .audio-card audio {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .wave-bars {
+      height: 86px;
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      margin-top: 18px;
+    }
+
+    .wave-bars i {
+      flex: 1;
+      height: var(--h);
+      min-width: 3px;
+      background: linear-gradient(180deg, var(--oxblood), var(--rust));
+      border-radius: 999px;
+      opacity: 0.84;
+    }
+
+    .fact-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 18px;
-      align-items: stretch;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
     }
 
-    .three-col {
+    .fact {
+      min-height: 132px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .fact strong {
+      color: var(--burgundy);
+      font-family: var(--serif);
+      font-size: 2.8rem;
+      line-height: 1;
+    }
+
+    .fact span {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.3;
+    }
+
+    .evidence-card {
+      min-height: 300px;
+      padding: 28px;
+    }
+
+    .evidence-card strong {
+      display: block;
+      margin: 48px 0 16px;
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 4vw, 4.8rem);
+      line-height: 1;
+    }
+
+    .evidence-card > p:last-child {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .evidence-card.measured {
+      border-top: 8px solid var(--ochre);
+    }
+
+    .evidence-card.felt {
+      border-top: 8px solid var(--oxblood);
+    }
+
+    .tradeoff {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trade-card {
+      padding: 24px;
+    }
+
+    .trade-card dl {
+      margin: 28px 0 0;
+      display: grid;
+      gap: 16px;
+    }
+
+    .trade-card dl div {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+    }
+
+    .trade-card dt {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.72rem;
+    }
+
+    .trade-card dd {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .trade-consequence {
+      margin: 0;
+      padding: 18px 20px;
+      color: var(--paper);
+      background: var(--burgundy);
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    .role-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
     }
 
-    .panel {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 253, 248, 0.9);
-      box-shadow: var(--shadow);
-      padding: 18px;
-      min-width: 0;
+    .role-card {
+      min-height: 230px;
+      padding: 24px;
+      border-top: 6px solid var(--ochre);
     }
 
-    .panel.soft {
-      background: var(--panel-strong);
+    .role-card:nth-child(2) {
+      border-top-color: var(--rust);
     }
 
-    .panel h3 {
-      margin-bottom: 8px;
+    .role-card:nth-child(3) {
+      border-top-color: var(--oxblood);
     }
 
-    .panel p,
-    .panel li {
-      color: #3f474d;
-      font-size: 0.98rem;
+    .layout-invitation {
+      grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
     }
 
-    .big-thesis {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 310px;
-      gap: 20px;
-      align-items: center;
-      min-height: 410px;
-    }
-
-    .thesis-card {
-      border-left: 8px solid var(--teal);
-      padding: 20px;
-      background: var(--panel);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .thesis-card p {
-      font-size: 1.45rem;
-      line-height: 1.22;
-      color: var(--ink);
-    }
-
-    .seal {
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      border: 2px solid var(--ink);
-      border-radius: 50%;
-      background: #fffaf0;
-      box-shadow: var(--shadow);
-      text-align: center;
+    .invitation-card {
       padding: 28px;
+      border-top: 8px solid var(--oxblood);
     }
 
-    .seal strong {
-      display: block;
-      font-size: 1.95rem;
-      line-height: 1;
-      color: var(--rose);
-    }
-
-    .seal span {
-      display: block;
-      margin-top: 10px;
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .pipeline {
+    .invitation-card ul {
+      margin: 28px 0;
+      padding: 0;
+      list-style: none;
       display: grid;
-      grid-template-columns: repeat(5, minmax(130px, 1fr));
       gap: 12px;
-      align-items: stretch;
     }
 
-    .stage {
-      position: relative;
-      min-height: 210px;
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-rows: auto auto 1fr;
-      gap: 10px;
+    .invitation-card li {
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+      font-family: var(--serif);
+      font-size: 1.2rem;
     }
 
-    .stage:not(:last-child)::after {
-      content: "";
+    .invitation-footer {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .progress {
       position: absolute;
-      top: 50%;
-      right: -13px;
-      width: 14px;
-      height: 2px;
-      background: var(--ink);
-      z-index: 2;
+      z-index: 22;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: rgba(33, 27, 22, 0.12);
     }
 
-    .stage .num {
-      width: 34px;
-      height: 34px;
+    .progress span {
+      display: block;
+      width: 10%;
+      height: 100%;
+      background: var(--oxblood);
+      transition: width 220ms ease;
+    }
+
+    .notes-panel {
+      position: absolute;
+      z-index: 40;
+      right: 24px;
+      bottom: 28px;
+      width: min(520px, calc(100vw - 48px));
+      max-height: 72vh;
+      padding: 22px;
+      overflow: auto;
+      border: 1px solid rgba(253, 250, 243, 0.22);
+      background: rgba(33, 27, 22, 0.96);
+      color: var(--paper);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      transform: translateY(22px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 180ms ease, transform 180ms ease, visibility 180ms;
+    }
+
+    body.show-notes .notes-panel {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .notes-panel .card-label {
+      color: var(--ochre);
+    }
+
+    .notes-panel h2 {
+      margin: 8px 0 12px;
+      color: var(--paper);
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+
+    .notes-panel p {
+      margin: 0 0 18px;
+      color: rgba(253, 250, 243, 0.82);
+      line-height: 1.55;
+    }
+
+    .notes-panel .prompt {
+      padding: 12px 14px;
+      border-left: 4px solid var(--oxblood);
+      background: rgba(253, 250, 243, 0.08);
+    }
+
+    .overview {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
       display: grid;
       place-items: center;
-      border-radius: 50%;
-      background: var(--teal-soft);
-      color: var(--teal);
-      font-weight: 900;
+      padding: 32px;
+      background: rgba(33, 27, 22, 0.82);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 160ms ease, visibility 160ms;
     }
 
-    .stage h3 {
-      font-size: 1.12rem;
+    body.show-overview .overview {
+      opacity: 1;
+      visibility: visible;
     }
 
-    .stage p {
-      color: #3f474d;
-      font-size: 0.93rem;
-    }
-
-    .code-block {
-      border: 1px solid #c5bba8;
-      border-radius: var(--radius);
-      background: #211f1a;
-      color: #fff6df;
-      padding: 16px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 0.91rem;
-      line-height: 1.5;
+    .overview-card {
+      width: min(980px, 100%);
+      max-height: 82vh;
       overflow: auto;
+      padding: 28px;
+      background: var(--paper);
+      box-shadow: 0 28px 100px rgba(0, 0, 0, 0.42);
     }
 
-    .callout {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--blue-soft);
-      padding: 18px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .callout strong {
-      color: var(--blue);
-      font-size: 1.05rem;
-    }
-
-    .package-map {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 16px;
-    }
-
-    .package {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 18px;
-      background: var(--panel);
-      min-height: 260px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .package ul,
-    .finding-list,
-    .open-list,
-    .terms-list {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    .package li,
-    .finding-list li,
-    .open-list li,
-    .terms-list li {
-      margin-bottom: 8px;
-    }
-
-    .meter-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 340px;
+    .overview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 18px;
-      align-items: center;
+      margin-bottom: 20px;
     }
 
-    .metric-table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-      border-radius: var(--radius);
-      background: var(--panel);
-      border: 1px solid var(--line);
+    .overview-header h2 {
+      font-size: 2.2rem;
     }
 
-    .metric-table th,
-    .metric-table td {
-      text-align: left;
-      padding: 13px 14px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
-    }
-
-    .metric-table th {
-      color: var(--muted);
-      font-size: 0.86rem;
-      background: #f7efe0;
-    }
-
-    .metric-table tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .metric-table strong {
-      font-size: 1.2rem;
-      color: var(--ink);
-    }
-
-    .gauge {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .gauge svg {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .trade {
-      display: grid;
-      gap: 16px;
-    }
-
-    .trade-row {
-      display: grid;
-      grid-template-columns: 120px minmax(0, 1fr) 112px;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .bar {
-      height: 22px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #efe8dc;
-      overflow: hidden;
-    }
-
-    .fill {
-      height: 100%;
-      background: var(--teal);
-    }
-
-    .fill.rose {
-      background: var(--rose);
-    }
-
-    .matrix {
+    .overview-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .finding {
-      min-height: 182px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-      padding: 16px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .finding b {
-      color: var(--teal);
-    }
-
-    .taxonomy {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 10px;
     }
 
-    .process {
-      min-height: 122px;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: var(--panel);
-      padding: 12px;
+    .overview-grid button {
+      min-height: 78px;
       display: grid;
-      gap: 6px;
-    }
-
-    .process b {
-      color: var(--gold);
-      font-size: 0.86rem;
-    }
-
-    .process span {
-      font-size: 0.88rem;
-      color: #3f474d;
-    }
-
-    .evidence-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      gap: 18px;
-    }
-
-    .evidence-list {
-      display: grid;
+      grid-template-columns: 42px 1fr;
       gap: 12px;
-    }
-
-    .evidence-item {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 14px;
-      background: var(--panel);
-      display: grid;
-      gap: 8px;
-    }
-
-    .open-list {
-      display: grid;
-      gap: 10px;
-      padding-left: 0;
-      list-style: none;
-    }
-
-    .open-list li {
-      margin: 0;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
-      padding: 14px;
-    }
-
-    .open-list strong {
-      color: var(--rose);
-    }
-
-    .status-loop {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr auto 1fr;
-      gap: 10px;
       align-items: center;
-    }
-
-    .loop-node {
-      min-height: 124px;
+      text-align: left;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--panel);
+      background: transparent;
       padding: 14px;
-      display: grid;
-      gap: 8px;
     }
 
-    .loop-arrow {
-      font-weight: 900;
-      font-size: 1.8rem;
-      color: var(--teal);
+    .overview-grid button:hover,
+    .overview-grid button:focus-visible {
+      border-color: var(--oxblood);
+      outline: none;
     }
 
-    .layer-fragment {
-      transition: opacity 160ms ease, filter 160ms ease;
+    .overview-grid button span {
+      color: var(--burgundy);
+      font-weight: 850;
     }
 
-    body:not(.show-surface) .layer-fragment[data-lane~="surface"],
-    body:not(.show-flow) .layer-fragment[data-lane~="flow"],
-    body:not(.show-deps) .layer-fragment[data-lane~="internal_dependencies"],
-    body:not(.show-deps) .layer-fragment[data-lane~="external_dependencies"],
-    body:not(.show-risk) .layer-fragment[data-lane~="risk_questions"] {
-      opacity: 0.28;
-      filter: grayscale(0.35);
-    }
-
-    .footer-note {
-      color: var(--muted);
-      font-size: 0.85rem;
-      align-self: end;
-    }
-
-    @media (max-width: 1120px) {
-      .workspace {
-        grid-template-columns: 220px minmax(0, 1fr);
-      }
-
+    @media (max-width: 1080px) {
       .slide {
-        padding: 34px 34px;
-      }
-
-      h1 {
-        font-size: 2.7rem;
-      }
-
-      h2 {
-        font-size: 2rem;
-      }
-
-      .pipeline,
-      .taxonomy {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .stage:not(:last-child)::after {
-        content: none;
-      }
-    }
-
-    @media (max-width: 860px) {
-      body {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto 1fr auto;
+        gap: 22px;
         overflow: auto;
       }
 
-      .deck {
-        min-height: 100vh;
+      .slide-copy {
+        align-self: end;
       }
 
-      .topbar {
+      h1 { font-size: clamp(3.2rem, 8vw, 5.8rem); }
+      h2 { font-size: clamp(2.6rem, 6.4vw, 4.7rem); }
+
+      .slide-visual {
+        align-self: start;
+      }
+    }
+
+    @media (max-width: 760px) {
+      body { overflow: auto; }
+      .presentation {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        height: auto;
+        min-height: 100svh;
+      }
+      .masthead { padding: 0 16px; }
+      .brand span { display: none; }
+      .slides { position: relative; min-height: calc(100svh - 64px); }
+      .slide {
+        padding: 32px 18px 72px;
+        min-height: calc(100svh - 64px);
+      }
+      .contrast-grid,
+      .evidence-grid,
+      .trade-grid,
+      .fact-grid,
+      .role-grid,
+      .overview-grid {
         grid-template-columns: 1fr;
       }
-
-      .workspace {
-        grid-template-columns: 1fr;
-      }
-
-      .rail {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-        max-height: none;
-      }
-
-      .progress {
+      .pipeline-grid,
+      .timeline {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-
-      .slides {
-        min-height: 920px;
+      .pipeline-stage:last-child,
+      .timeline-step:last-child {
+        grid-column: 1 / -1;
       }
+      .soundline { grid-template-columns: 1fr; }
+      .soundline span { display: none; }
+      .verb-loop { justify-content: flex-start; }
+      .slide-folio::before { left: 18px; right: 18px; }
+    }
 
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media print {
+      body { overflow: visible; background: white; }
+      .presentation { width: auto; height: auto; }
+      .masthead, .progress, .notes-panel, .overview { display: none !important; }
+      .slides { position: static; }
       .slide {
-        padding: 26px 18px 44px;
-      }
-
-      h1 {
-        font-size: 2.2rem;
-      }
-
-      h2 {
-        font-size: 1.7rem;
-      }
-
-      .big-thesis,
-      .two-col,
-      .three-col,
-      .package-map,
-      .meter-grid,
-      .matrix,
-      .evidence-grid,
-      .status-loop {
-        grid-template-columns: 1fr;
-      }
-
-      .seal {
-        max-width: 260px;
-      }
-
-      .loop-arrow {
-        display: none;
+        position: relative;
+        min-height: 100vh;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        break-after: page;
       }
     }
   </style>
 </head>
-<body class="show-surface show-flow show-deps show-risk">
-  <div class="xray-inputs" aria-hidden="true">
+<body>
+  <div class="xray-compatibility" aria-hidden="true">
     <input id="toggle-surface" type="checkbox" checked>
     <input id="toggle-flow" type="checkbox" checked>
     <input id="toggle-deps" type="checkbox" checked>
     <input id="toggle-risk" type="checkbox" checked>
   </div>
+  <div class="authoring-contract" aria-hidden="true">
+    source-backed · inference · L0 static HTML/SVG · reader terms · reader outcomes · why it matters
+  </div>
 
-  <div class="deck">
-    <header class="topbar">
+  <main class="presentation">
+    <header class="masthead">
       <div class="brand">
-        <strong>DOMAINSPEC V2 RESEARCH</strong>
-        <span>Agentic Music Studio</span>
+        <strong>Agentic Music Studio</strong>
+        <span>A working proof looking for collaborators</span>
       </div>
-      <div class="controls" aria-label="Presentation controls">
-        <button class="nav-button" id="prevSlide" type="button">Prev</button>
-        <div class="counter" id="slideCounter">01 / 10</div>
-        <button class="nav-button" id="nextSlide" type="button">Next</button>
+      <div class="masthead-actions">
+        <button class="icon-button" id="previous" type="button" aria-label="Previous slide">←</button>
+        <span class="counter" id="counter">01 / 10</span>
+        <button class="icon-button" id="next" type="button" aria-label="Next slide">→</button>
+        <button class="icon-button" id="notes-toggle" type="button" aria-label="Toggle presenter notes" aria-pressed="false">N</button>
+        <button class="icon-button" id="overview-toggle" type="button" aria-label="Open slide overview" aria-pressed="false">O</button>
       </div>
     </header>
 
-    <div class="workspace">
-      <aside class="rail">
-        <h2>Layers</h2>
-        <div class="layer-toggles">
-          <label for="surfaceControl"><input id="surfaceControl" type="checkbox" checked data-toggle="surface"> Surface</label>
-          <label for="flowControl"><input id="flowControl" type="checkbox" checked data-toggle="flow"> Flow</label>
-          <label for="depsControl"><input id="depsControl" type="checkbox" checked data-toggle="deps"> Dependencies</label>
-          <label for="riskControl"><input id="riskControl" type="checkbox" checked data-toggle="risk"> Risk</label>
+    <div class="slides" id="slides">
+
+      <section
+        class="slide layout-cover is-active"
+        data-slide
+        data-slide-id="opening"
+        data-lane="surface risk_questions"
+        aria-hidden="false"
+      >
+        <div class="slide-copy">
+          <p class="eyebrow">Agentic Music Studio</p>
+          <h1>You know how the track should feel. Turning that feeling into sound is the hard part.</h1>
+
         </div>
-        <div class="source-box">
-          <span class="source-mark source">source-backed</span>
-          <p><strong>Source:</strong> Agentic-Music-Studio.pdf, cross-checked as a 4-page PDF created from Agentic-Music-Studio.md.</p>
-          <span class="source-mark infer">inference</span>
-          <p><strong>Format:</strong> L0 static HTML/SVG presentation with local reader terms and reader outcomes.</p>
+        <div class="slide-visual">
+
+      <div class="soundline" aria-hidden="true">
+        <span>hear</span>
+        <svg viewBox="0 0 760 180" role="img" aria-label="A sound wave becoming an editable path">
+          <path class="soundline-ghost" d="M5 90 C45 10,75 170,115 90 S185 10,225 90 S295 170,335 90 S405 10,445 90 S515 170,555 90 S625 10,665 90 S725 170,755 90"/>
+          <path class="soundline-main" d="M5 90 C45 10,75 170,115 90 S185 10,225 90 S295 170,335 90 S405 10,445 90 S515 170,555 90 S625 10,665 90 S725 170,755 90"/>
+          <circle cx="555" cy="90" r="11"/>
+          <circle cx="665" cy="90" r="11"/>
+        </svg>
+        <span>find</span>
+      </div>
+
         </div>
-        <div class="progress" id="slideDots" aria-label="Slides"></div>
-      </aside>
+        <footer class="slide-folio">
+          <span>01</span>
+          <span>Agentic Music Studio</span>
+          <span>10</span>
+        </footer>
+      </section>
 
-      <main class="slides" id="slides">
-        <section class="slide is-active" data-lane="surface risk_questions" data-title="Product Bet">
-          <div class="slide-title">
-            <p class="eyebrow">Product bet</p>
-            <h1>Musicians should not have to choose between control and speed.</h1>
-            <p class="lede">Agentic Music Studio is a product direction for turning high-level musical intent into deterministic, inspectable code that the musician can hear, edit, replay, and steer.</p>
-          </div>
-          <div class="slide-body big-thesis">
-            <div class="thesis-card layer-fragment" data-lane="surface">
-              <p>The musician supplies intent and taste. The agent does the engineering grind over one shared spec. The sound still comes from authored, seeded code.</p>
+
+      <section
+        class="slide layout-split"
+        data-slide
+        data-slide-id="tension"
+        data-lane="surface risk_questions"
+        aria-hidden="true"
+      >
+        <div class="slide-copy">
+          <p class="eyebrow">The shortcut</p>
+          <h2>The sound arrives fast. But can you still shape it?</h2>
+          <p class="support">Change one choice. Replay it. Perform it.</p>
+        </div>
+        <div class="slide-visual">
+          <div class="contrast-grid">
+            <article class="contrast-card contrast-fast">
+              <p class="card-label">Fast result</p>
+              <p>A finished waveform arrives.</p>
+            </article>
+
+            <article class="contrast-card contrast-control">
+              <p class="card-label">Creative control</p>
+              <p>Change one choice. Replay it. Perform it.</p>
+            </article>
             </div>
-            <div class="seal layer-fragment" data-lane="risk_questions">
-              <strong>Craft stays</strong>
-              <span>black-box audio stays out</span>
+        </div>
+        <footer class="slide-folio">
+          <span>02</span>
+          <span>Agentic Music Studio</span>
+          <span>10</span>
+        </footer>
+      </section>
+
+
+      <section
+        class="slide layout-manifesto"
+        data-slide
+        data-slide-id="reveal"
+        data-lane="surface flow"
+        aria-hidden="true"
+      >
+        <div class="slide-copy">
+          <p class="eyebrow">The proposition</p>
+          <h2>Describe it. Hear it. Shape it. Keep it yours.</h2>
+          <p class="support">Your sound comes from editable code — not generated audio.</p>
+        </div>
+        <div class="slide-visual">
+          <div class="verb-loop"><span class="verb">Describe</span><span class="verb-arrow" aria-hidden="true">→</span><span class="verb">Hear</span><span class="verb-arrow" aria-hidden="true">→</span><span class="verb">Shape</span><span class="verb-arrow" aria-hidden="true">→</span><span class="verb">Keep</span></div>
+        </div>
+        <footer class="slide-folio">
+          <span>03</span>
+          <span>Agentic Music Studio</span>
+          <span>10</span>
+        </footer>
+      </section>
+
+
+      <section
+        class="slide layout-pipeline"
+        data-slide
+        data-slide-id="mechanism"
+        data-lane="flow internal_dependencies"
+        aria-hidden="true"
+      >
+        <div class="slide-copy">
+          <p class="eyebrow">How it works</p>
+          <h2>A sound description becomes code you can hear and edit.</h2>
+          <p class="support">Every step leaves something the musician can inspect or change.</p>
+        </div>
+        <div class="slide-visual">
+          <div class="pipeline-grid">
+            <article class="pipeline-stage">
+              <span class="stage-number">01</span>
+              <h3>Describe</h3>
+              <p>“Darker. More bite.”</p>
+            </article>
+
+            <article class="pipeline-stage">
+              <span class="stage-number">02</span>
+              <h3>Make it explicit</h3>
+              <p>Targets, limits, seed.</p>
+            </article>
+
+            <article class="pipeline-stage">
+              <span class="stage-number">03</span>
+              <h3>Write</h3>
+              <p>Inspectable music code.</p>
+            </article>
+
+            <article class="pipeline-stage">
+              <span class="stage-number">04</span>
+              <h3>Render</h3>
+              <p>Deterministic audio.</p>
+            </article>
+
+            <article class="pipeline-stage">
+              <span class="stage-number">05</span>
+              <h3>Steer</h3>
+              <p>Hear, edit, critique.</p>
+            </article>
             </div>
-          </div>
-        </section>
+        </div>
+        <footer class="slide-folio">
+          <span>04</span>
+          <span>Agentic Music Studio</span>
+          <span>10</span>
+        </footer>
+      </section>
 
-        <section class="slide" data-lane="surface risk_questions" data-title="Problem">
-          <div class="slide-title">
-            <p class="eyebrow">Problem</p>
-            <h2>Aesthetic intent is easy to say and hard to engineer.</h2>
-            <p class="lede">A musician can say "dark violin stochastic synth, bring strangeness" in one breath. Turning that into reproducible sound usually means either endless parameter work or surrendering the result to a black box.</p>
+
+      <section
+        class="slide layout-proof"
+        data-slide
+        data-slide-id="proof"
+        data-lane="components external_dependencies lifecycle"
+        aria-hidden="true"
+      >
+        <div class="slide-copy">
+          <p class="eyebrow">Working proof</p>
+          <h2>The prototype makes sound today.</h2>
+          <p class="support">Real WAV audio. Seeded code. A loop you can steer.</p>
+        </div>
+        <div class="slide-visual">
+
+      <div class="proof-grid">
+        <article class="audio-card">
+          <p class="card-label">Dark violin · strange</p>
+          <div class="wave-bars" aria-hidden="true">
+            <i style="--h:22%"></i><i style="--h:48%"></i><i style="--h:75%"></i><i style="--h:38%"></i><i style="--h:90%"></i><i style="--h:56%"></i><i style="--h:28%"></i><i style="--h:68%"></i><i style="--h:98%"></i><i style="--h:46%"></i><i style="--h:72%"></i><i style="--h:32%"></i><i style="--h:82%"></i><i style="--h:52%"></i><i style="--h:24%"></i><i style="--h:64%"></i><i style="--h:88%"></i><i style="--h:42%"></i><i style="--h:70%"></i><i style="--h:30%"></i>
           </div>
-          <div class="slide-body">
-            <div class="pipeline">
-              <article class="stage layer-fragment" data-lane="surface risk_questions">
-                <span class="num">1</span>
-                <h3>Intent is rich</h3>
-                <p>Musicians speak in feel, gesture, references, texture, tension, and timing.</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="risk_questions">
-                <span class="num">2</span>
-                <h3>Tools are literal</h3>
-                <p>Most production surfaces ask for knobs, notes, routing, automation, or prompts.</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="risk_questions external_dependencies">
-                <span class="num">3</span>
-                <h3>Metrics are hidden</h3>
-                <p>When the sound changes, the artist rarely sees what perceptual target moved.</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="risk_questions">
-                <span class="num">4</span>
-                <h3>AI can erase craft</h3>
-                <p>Prompt-to-audio can be fast, but the artifact is hard to inspect, diff, or replay.</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="surface">
-                <span class="num">5</span>
-                <h3>The need</h3>
-                <p>Keep expressive control while letting software handle the tedious search.</p>
-              </article>
+          <audio controls preload="metadata" src="intent-engine/audio/01_dark_violin_strange.wav">
+            Your browser does not support embedded audio.
+          </audio>
+        </article>
+        <div class="fact-grid">
+            <article class="fact">
+              <strong>2</strong>
+              <span>deterministic packages</span>
+            </article>
+
+            <article class="fact">
+              <strong>14</strong>
+              <span>tests in the PDF snapshot</span>
+            </article>
+
+            <article class="fact">
+              <strong>0</strong>
+              <span>generative models in the sound path</span>
+            </article>
             </div>
-            <div class="callout layer-fragment" data-lane="risk_questions">
-              <strong>Problem statement</strong>
-              <p>The product challenge is not "generate music." It is "make intent executable while preserving authorship."</p>
+      </div>
+
+        </div>
+        <footer class="slide-folio">
+          <span>05</span>
+          <span>Agentic Music Studio</span>
+          <span>10</span>
+        </footer>
+      </section>
+
+
+      <section
+        class="slide layout-evidence"
+        data-slide
+        data-slide-id="measurement"
+        data-lane="internal_dependencies risk_questions external_dependencies"
+        aria-hidden="true"
+      >
+        <div class="slide-copy">
+          <p class="eyebrow">What the proof taught us</p>
+          <h2>A meter is not a feeling.</h2>
+          <p class="support">Measure the sound. Ask listeners about the experience.</p>
+        </div>
+        <div class="slide-visual">
+          <div class="evidence-grid">
+            <article class="evidence-card measured">
+              <p class="card-label">Measured</p>
+              <strong>1.3% drift</strong>
+              <p>The improved centroid held across analyzer settings.</p>
+            </article>
+
+            <article class="evidence-card felt">
+              <p class="card-label">Still open</p>
+              <strong>“Strange?”</strong>
+              <p>A listener study must test whether the proxy matches the feeling.</p>
+            </article>
             </div>
-          </div>
-        </section>
+        </div>
+        <footer class="slide-folio">
+          <span>06</span>
+          <span>Agentic Music Studio</span>
+          <span>10</span>
+        </footer>
+      </section>
 
-        <section class="slide" data-lane="flow internal_dependencies" data-title="Solution">
-          <div class="slide-title">
-            <p class="eyebrow">How we solve it</p>
-            <h2>Make the spec the product center of gravity.</h2>
-            <p class="lede">Every interface edits one reproducible musical spec. The agent writes inspectable code and searches real measurements. The musician judges and steers.</p>
-          </div>
-          <div class="slide-body">
-            <div class="pipeline">
-              <article class="stage layer-fragment" data-lane="surface flow">
-                <span class="num">1</span>
-                <h3>Say the intent</h3>
-                <p>"Dark violin stochastic synth, bring strangeness."</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="flow internal_dependencies">
-                <span class="num">2</span>
-                <h3>Compile to spec</h3>
-                <p>Closed vocabulary, targets, constraints, seed, and editable fields.</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="flow components">
-                <span class="num">3</span>
-                <h3>Write code</h3>
-                <p>The agent emits Tidal-style deterministic code the musician can read.</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="flow external_dependencies">
-                <span class="num">4</span>
-                <h3>Search targets</h3>
-                <p>Objective search tunes synth parameters against measured features.</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="flow risk_questions">
-                <span class="num">5</span>
-                <h3>Steer by taste</h3>
-                <p>The musician hears it, edits it, critiques it, and loops back.</p>
-              </article>
+
+      <section
+        class="slide layout-tradeoff"
+        data-slide
+        data-slide-id="steering"
+        data-lane="flow internal_dependencies risk_questions"
+        aria-hidden="true"
+      >
+        <div class="slide-copy">
+          <p class="eyebrow">Steering</p>
+          <h2>Every creative move has a trade-off.</h2>
+          <p class="support">“More bite” changed the sound — and changed what was sacrificed.</p>
+        </div>
+        <div class="slide-visual">
+
+      <div class="tradeoff">
+        <div class="trade-grid">
+            <article class="trade-card">
+              <p class="card-label">Baseline</p>
+              <dl>
+                <div><dt>centroid</dt><dd>499 Hz</dd></div>
+                <div><dt>dissonance</dt><dd>1.37</dd></div>
+              </dl>
+            </article>
+
+            <article class="trade-card">
+              <p class="card-label">More bite</p>
+              <dl>
+                <div><dt>centroid</dt><dd>558 Hz</dd></div>
+                <div><dt>dissonance</dt><dd>9.30</dd></div>
+              </dl>
+            </article>
             </div>
-            <div class="code-block" aria-label="Product pipeline">INTENT -> SPEC -> PROGRAM -> RENDER -> STEER
-human taste -> editable target -> inspectable code -> deterministic audio -> critique loop</div>
-          </div>
-        </section>
+        <p class="trade-consequence">More bite traded away some darkness.</p>
+      </div>
 
-        <section class="slide" data-lane="components internal_dependencies" data-title="What Exists">
-          <div class="slide-title">
-            <p class="eyebrow">What exists today</p>
-            <h2>The proof already renders sound.</h2>
-            <p class="lede">The current build is small by design: one timbre engine, one intent path, measurable targets, and a steering loop that proves the core product motion.</p>
-          </div>
-          <div class="slide-body package-map">
-            <article class="package layer-fragment" data-lane="components internal_dependencies external_dependencies">
-              <span class="source-mark source">source-backed</span>
-              <h3>studio-core</h3>
-              <ul>
-                <li>GENDYN dynamic stochastic synthesis.</li>
-                <li>Sethares sensory-dissonance features.</li>
-                <li>Spectral features and a feature meter.</li>
-                <li>Gradient-free objective search.</li>
-              </ul>
-            </article>
-            <article class="package layer-fragment" data-lane="components internal_dependencies">
-              <span class="source-mark source">source-backed</span>
-              <h3>intent-engine</h3>
-              <ul>
-                <li>Intent to agent-written code to sound.</li>
-                <li>Small Tidal-flavoured DSL.</li>
-                <li>Closed-vocabulary resolver.</li>
-                <li>Critique plus hand-edit steering loop.</li>
-              </ul>
-            </article>
-          </div>
-        </section>
+        </div>
+        <footer class="slide-folio">
+          <span>07</span>
+          <span>Agentic Music Studio</span>
+          <span>10</span>
+        </footer>
+      </section>
 
-        <section class="slide" data-lane="internal_dependencies risk_questions external_dependencies" data-title="Insights">
-          <div class="slide-title">
-            <p class="eyebrow">Product insights</p>
-            <h2>The important discoveries are product-shaping, not just technical.</h2>
-            <p class="lede">The work surfaced four constraints that should guide the studio experience.</p>
-          </div>
-          <div class="slide-body matrix">
-            <article class="finding layer-fragment" data-lane="internal_dependencies">
-              <b>1. Effects are objectives</b>
-              <p>Darkness and strangeness should be open goals composed over closed measurable primitives, not hard-coded primitives themselves.</p>
-            </article>
-            <article class="finding layer-fragment" data-lane="external_dependencies internal_dependencies">
-              <b>2. The floor must be measured</b>
-              <p>Peak-picking drifted 6.1 percent on GENDYN. Multitaper moment centroid brought drift to 1.3 percent.</p>
-            </article>
-            <article class="finding layer-fragment" data-lane="risk_questions">
-              <b>3. Honesty is a feature</b>
-              <p>The UI must label analyzer-independent claims, proxies, and felt listener claims differently.</p>
-            </article>
-            <article class="finding layer-fragment" data-lane="flow risk_questions">
-              <b>4. Steering is trade-off navigation</b>
-              <p>"More bite" raises measurable dissonance and centroid. The product should show the cost of each move.</p>
-            </article>
-          </div>
-        </section>
 
-        <section class="slide" data-lane="surface flow risk_questions" data-title="Why">
-          <div class="slide-title">
-            <p class="eyebrow">Why we are doing it</p>
-            <h2>The goal is not to automate taste. It is to make musical intent executable.</h2>
-            <p class="lede">Musicians should be able to work at the level of feeling and structure while retaining the right to inspect, edit, reject, replay, and perform the result.</p>
-          </div>
-          <div class="slide-body two-col">
-            <article class="panel soft layer-fragment" data-lane="surface">
-              <h3>For the musician</h3>
-              <p>Stay in the artistic loop. The product handles parameter search, but the musician keeps judgment, authorship, and final say.</p>
+      <section
+        class="slide layout-timeline"
+        data-slide
+        data-slide-id="workday"
+        data-lane="flow components lifecycle"
+        aria-hidden="true"
+      >
+        <div class="slide-copy">
+          <p class="eyebrow">A day in the studio</p>
+          <h2>The work stays musical.</h2>
+          <p class="support">Sketch. Audition. Sculpt. Perform. Keep the trail.</p>
+        </div>
+        <div class="slide-visual">
+          <div class="timeline">
+            <article class="timeline-step">
+              <span>1</span>
+              <h3>Sketch</h3>
+              <p>Name the direction.</p>
             </article>
-            <article class="panel layer-fragment" data-lane="flow">
-              <h3>For the artifact</h3>
-              <p>The piece becomes source-like: diffable, forkable, replayable, and teachable instead of a one-off opaque output.</p>
-            </article>
-            <article class="panel layer-fragment" data-lane="risk_questions">
-              <h3>For trust</h3>
-              <p>The studio exposes what it optimized and what remains only a proxy, so the musician can argue with the machine intelligently.</p>
-            </article>
-            <article class="panel layer-fragment" data-lane="internal_dependencies">
-              <strong>Why it matters</strong>
-              <p>The product value is a new division of labor: human taste, machine engineering, shared evidence.</p>
-            </article>
-          </div>
-        </section>
 
-        <section class="slide" data-lane="components flow external_dependencies" data-title="Leverage">
-          <div class="slide-title">
-            <p class="eyebrow">How others can leverage it</p>
-            <h2>It is more than one app surface. It is a reusable studio pattern.</h2>
-            <p class="lede">The product can be adopted as a musician workflow, a research harness, a live-coding companion, or a design pattern for other creative tools.</p>
-          </div>
-          <div class="slide-body three-col">
-            <article class="panel layer-fragment" data-lane="components flow">
-              <h3>Musicians</h3>
-              <p>Use voice, code, critique, gesture, and annotation as different ways to edit one piece rather than jump between disconnected tools.</p>
+            <article class="timeline-step">
+              <span>2</span>
+              <h3>Audition</h3>
+              <p>Hear a seeded render.</p>
             </article>
-            <article class="panel layer-fragment" data-lane="external_dependencies">
-              <h3>Tool builders</h3>
-              <p>Reuse the spec-as-lingua-franca pattern: every interface writes the same reproducible document, every meter reads back from it.</p>
-            </article>
-            <article class="panel layer-fragment" data-lane="risk_questions">
-              <h3>Researchers</h3>
-              <p>Swap in measurable objectives, run listener studies, and test which proxies actually predict felt effects.</p>
-            </article>
-            <article class="panel layer-fragment" data-lane="components">
-              <h3>Live coders</h3>
-              <p>Keep rule authoring as the high-craft surface while letting the agent propose measurable parameter moves.</p>
-            </article>
-            <article class="panel layer-fragment" data-lane="external_dependencies">
-              <h3>Educators</h3>
-              <p>Show how timbre, tuning, spectrum, dissonance, and stochastic processes become audible decisions.</p>
-            </article>
-            <article class="panel layer-fragment" data-lane="flow">
-              <h3>Product teams</h3>
-              <p>Borrow the communication-process taxonomy: command, declaration, objective, example, critique, annotation, performance, and feedback.</p>
-            </article>
-          </div>
-        </section>
 
-        <section class="slide" data-lane="flow components lifecycle" data-title="Musician Day">
-          <div class="slide-title">
-            <p class="eyebrow">Day in the life</p>
-            <h2>A musician works with it like a co-engineer, not a slot machine.</h2>
-            <p class="lede">The studio should feel like moving between intention, audition, edit, performance, and versioned craft.</p>
-          </div>
-          <div class="slide-body">
-            <div class="pipeline">
-              <article class="stage layer-fragment" data-lane="surface flow">
-                <span class="num">AM</span>
-                <h3>Sketch</h3>
-                <p>"I need a dark, unstable string texture that gets stranger before the drop."</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="components flow">
-                <span class="num">10</span>
-                <h3>Audition</h3>
-                <p>The agent writes code, renders candidates, and shows spectrum plus dissonance meters.</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="flow internal_dependencies">
-                <span class="num">12</span>
-                <h3>Sculpt</h3>
-                <p>The musician says "less mud, more bite" and hand-edits the stochastic bounds.</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="flow external_dependencies">
-                <span class="num">PM</span>
-                <h3>Perform</h3>
-                <p>A controller sweeps darkness live while the spec keeps the movement reproducible.</p>
-              </article>
-              <article class="stage layer-fragment" data-lane="lifecycle">
-                <span class="num">END</span>
-                <h3>Commit</h3>
-                <p>The piece is saved as code, spec, seed, measurements, audio, and notes.</p>
-              </article>
+            <article class="timeline-step">
+              <span>3</span>
+              <h3>Sculpt</h3>
+              <p>Critique or edit.</p>
+            </article>
+
+            <article class="timeline-step">
+              <span>4</span>
+              <h3>Perform</h3>
+              <p>Move the sound live.</p>
+            </article>
+
+            <article class="timeline-step">
+              <span>5</span>
+              <h3>Keep</h3>
+              <p>Save code, seed, audio, notes.</p>
+            </article>
             </div>
-            <div class="callout layer-fragment" data-lane="risk_questions visual_composition">
-              <strong>Reader terms and reader outcomes</strong>
-              <p>Spec means a reproducible musical document; objective search means deterministic tuning against targets; proxy metric means a measurement that still needs listening judgment.</p>
-            </div>
-          </div>
-        </section>
+        </div>
+        <footer class="slide-folio">
+          <span>08</span>
+          <span>Agentic Music Studio</span>
+          <span>10</span>
+        </footer>
+      </section>
 
-        <section class="slide" data-lane="lifecycle risk_questions" data-title="Open Work">
-          <div class="slide-title">
-            <p class="eyebrow">Product roadmap</p>
-            <h2>The proof is working; the product gates are clear.</h2>
-            <p class="lede">The next work is not random feature growth. Each item turns a product risk into a sharper interface or stronger claim.</p>
-          </div>
-          <div class="slide-body two-col">
-            <ul class="open-list">
-              <li class="layer-fragment" data-lane="risk_questions lifecycle"><strong>Spectralize-v2.</strong> Make roughness and strangeness as stable as darkness.</li>
-              <li class="layer-fragment" data-lane="risk_questions lifecycle"><strong>O1 felt-match.</strong> Prove whether dissonance predicts what listeners call strange.</li>
-              <li class="layer-fragment" data-lane="risk_questions lifecycle"><strong>Steering-v2.</strong> Replace weighted-sum steering with explicit Pareto navigation or preference learning.</li>
-              <li class="layer-fragment" data-lane="risk_questions lifecycle"><strong>Scope expansion.</strong> Add open vocabulary, rhythm, pitch, sequencer, and scale modules.</li>
-            </ul>
-            <div class="panel layer-fragment" data-lane="surface lifecycle">
-              <h3>Product status</h3>
-              <p>v1 proves the loop: intent goes in, inspectable code renders sound, objective search tunes measurable targets, and the human steers. The next gates decide how broadly that loop generalizes.</p>
-            </div>
-          </div>
-        </section>
 
-        <section class="slide" data-lane="surface flow lifecycle risk_questions" data-title="Close">
-          <div class="slide-title">
-            <p class="eyebrow">Product takeaway</p>
-            <h2>The studio is a new creative contract.</h2>
-            <p class="lede">Human taste sets direction. Agentic engineering turns it into reproducible sound. Evidence keeps both sides honest.</p>
-          </div>
-          <div class="slide-body">
-            <div class="status-loop">
-              <article class="loop-node layer-fragment" data-lane="surface">
-                <h3>Problem</h3>
-                <p>Intent is expressive; production machinery is literal.</p>
-              </article>
-              <div class="loop-arrow">></div>
-              <article class="loop-node layer-fragment" data-lane="flow internal_dependencies">
-                <h3>Solution</h3>
-                <p>One spec, deterministic code, measured search, visible feedback.</p>
-              </article>
-              <div class="loop-arrow">></div>
-              <article class="loop-node layer-fragment" data-lane="flow lifecycle">
-                <h3>Leverage</h3>
-                <p>A workflow musicians can use and builders can reuse.</p>
-              </article>
+      <section
+        class="slide layout-roles"
+        data-slide
+        data-slide-id="collaborators"
+        data-lane="external_dependencies lifecycle risk_questions"
+        aria-hidden="true"
+      >
+        <div class="slide-copy">
+          <p class="eyebrow">Where you can change the work</p>
+          <h2>Three kinds of collaborators can test what matters next.</h2>
+          <p class="support">Bring practice, interfaces, or evidence.</p>
+        </div>
+        <div class="slide-visual">
+          <div class="role-grid">
+            <article class="role-card">
+              <p class="card-label">Musicians</p>
+              <h3>Pressure-test the language and the steering loop.</h3>
+              <p>Does it preserve flow and control?</p>
+            </article>
+
+            <article class="role-card">
+              <p class="card-label">Tool builders</p>
+              <h3>Connect the shared spec to real creative surfaces.</h3>
+              <p>Can one path serve a DAW, code, and controllers?</p>
+            </article>
+
+            <article class="role-card">
+              <p class="card-label">Audio researchers</p>
+              <h3>Design the listening and measurement evidence.</h3>
+              <p>Do the proxies match what people hear?</p>
+            </article>
             </div>
-            <p class="footer-note layer-fragment" data-lane="external_dependencies risk_questions">Built on the PDF's named foundations: Xenakis dynamic stochastic synthesis, Sethares dissonance, Thomson multitaper estimation, TidalCycles live-coding, and NIME interface design.</p>
-          </div>
-        </section>
-      </main>
+        </div>
+        <footer class="slide-folio">
+          <span>09</span>
+          <span>Agentic Music Studio</span>
+          <span>10</span>
+        </footer>
+      </section>
+
+
+      <section
+        class="slide layout-invitation"
+        data-slide
+        data-slide-id="invitation"
+        data-lane="surface flow lifecycle risk_questions"
+        aria-hidden="true"
+      >
+        <div class="slide-copy">
+          <p class="eyebrow">The invitation</p>
+          <h2>Bring one sound your current setup makes hard to reach.</h2>
+          <p class="support">We will start there.</p>
+        </div>
+        <div class="slide-visual">
+
+      <div class="invitation-card">
+        <p class="card-label">One sound direction</p>
+        <ul><li>darker without losing detail</li><li>stranger before the drop</li><li>more bite without more mud</li></ul>
+        <p class="invitation-footer">Musician · tool builder · audio researcher</p>
+      </div>
+
+        </div>
+        <footer class="slide-folio">
+          <span>10</span>
+          <span>Agentic Music Studio</span>
+          <span>10</span>
+        </footer>
+      </section>
+
     </div>
+
+    <aside class="notes-panel" id="notes-panel" aria-label="Presenter notes">
+      <p class="card-label">Spoken copy</p>
+      <h2 id="spoken-copy"></h2>
+      <p class="card-label">Speaker notes</p>
+      <p id="speaker-notes"></p>
+      <div id="interaction-wrap">
+        <p class="card-label">Interaction prompt</p>
+        <p class="prompt" id="interaction-prompt"></p>
+      </div>
+    </aside>
+
+    <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+  </main>
+
+  <div class="overview" id="overview" aria-hidden="true">
+    <section class="overview-card">
+      <header class="overview-header">
+        <h2>Presentation map</h2>
+        <button class="icon-button" id="overview-close" type="button" aria-label="Close slide overview">×</button>
+      </header>
+      <div class="overview-grid"><button type="button" data-overview-target="opening"><span>01</span>You know how the track should feel. Turning that feeling into sound is the hard part.</button><button type="button" data-overview-target="tension"><span>02</span>The sound arrives fast. But can you still shape it?</button><button type="button" data-overview-target="reveal"><span>03</span>Describe it. Hear it. Shape it. Keep it yours.</button><button type="button" data-overview-target="mechanism"><span>04</span>A sound description becomes code you can hear and edit.</button><button type="button" data-overview-target="proof"><span>05</span>The prototype makes sound today.</button><button type="button" data-overview-target="measurement"><span>06</span>A meter is not a feeling.</button><button type="button" data-overview-target="steering"><span>07</span>Every creative move has a trade-off.</button><button type="button" data-overview-target="workday"><span>08</span>The work stays musical.</button><button type="button" data-overview-target="collaborators"><span>09</span>Three kinds of collaborators can test what matters next.</button><button type="button" data-overview-target="invitation"><span>10</span>Bring one sound your current setup makes hard to reach.</button></div>
+    </section>
   </div>
 
+  <script id="presentation-notes" type="application/json">{"opening": {"spoken_copy": "You know when a track needs to feel darker, stranger, sharper, or more alive. But finding the synth settings, effects, and automation that get you there can pull you out of the music.\n", "speaker_notes": "Hold after the headline. Do not define the product yet. Let the room recognize the familiar gap between hearing a direction and reaching it.\n", "interaction_prompt": null}, "tension": {"spoken_copy": "Prompt-to-audio can give you a result quickly. But when you want to change one choice, replay it exactly, or perform it, you may have only a finished waveform \u2014 not something you can keep shaping.\n", "speaker_notes": "This is a limitation statement, not a blanket rejection of generative audio. Keep the contrast on inspectability and authorship.\n", "interaction_prompt": "What is the last sound you could describe but could not reach quickly?"}, "reveal": {"spoken_copy": "Agentic Music Studio starts with the sound you\u2019re reaching for \u2014 \u201cdarker,\u201d \u201cmore bite,\u201d \u201cstranger before the drop\u201d \u2014 and turns it into a playable result with code you can inspect, edit, and reproduce. We have a working proof, and we are looking for musicians, tool builders, and audio researchers to help shape what comes next.\n", "speaker_notes": "This is the approved reveal. Stress \u201ckeep it yours.\u201d The no-model claim applies to the sound path; a model may parse intent into an inspectable spec.\n", "interaction_prompt": null}, "mechanism": {"spoken_copy": "The musician describes a direction. The studio makes that direction explicit in a shared spec, writes readable code, renders sound from a fixed seed, and shows what changed. The musician hears it, edits it, or asks for another move.\n", "speaker_notes": "\u201cSpec\u201d is now earned because the audience has seen why a black box is insufficient. Avoid explaining package architecture on this slide.\n", "interaction_prompt": null}, "proof": {"spoken_copy": "The current proof renders playable audio from the example \u201cdark violin stochastic synth, bring strangeness.\u201d It has a small intent engine, a deterministic synthesis and measurement core, and a steering loop. This is a proof of the motion, not yet a finished DAW product.\n", "speaker_notes": "Play the audio if the room permits. The 14-test count belongs to the dated PDF snapshot; do not present it as a current repository-wide total.\n", "interaction_prompt": "What would you try to change first after hearing this texture?"}, "measurement": {"spoken_copy": "The first analyzer moved by 6.1 percent when its settings changed. The improved method brought that to 1.3 percent. That makes the measurement more stable. It does not prove that a listener will call the result dark or strange. We want the studio to show that difference honestly.\n", "speaker_notes": "Keep analyzer stability and felt experience separate. The listener-study question remains deliberately open.\n", "interaction_prompt": null}, "steering": {"spoken_copy": "\u201cMore bite\u201d was not a universal improvement. It raised dissonance and brightness, which moved the texture away from darkness. A useful studio should show that cost so the musician can choose the trade-off rather than accept a hidden optimization.\n", "speaker_notes": "Do not introduce \u201cPareto navigation\u201d unless the room asks for the formal term.\n", "interaction_prompt": null}, "workday": {"spoken_copy": "A musician begins with a direction, auditions a render, says \u201cless mud, more bite,\u201d and can still open the code to make a precise change. Later, the same movement can be performed live and saved with its seed, measurements, audio, and notes.\n", "speaker_notes": "This is a product-use inference from the proven loop, not evidence of a completed DAW integration or validated daily workflow.\n", "interaction_prompt": "Where would this loop fit \u2014 or break \u2014 in your current practice?"}, "collaborators": {"spoken_copy": "Musicians can tell us whether the interaction respects real creative practice. Tool builders can test how the shared spec connects to DAWs, live coding, and controllers. Audio researchers can help separate stable measurements from felt effects with listening evidence.\n", "speaker_notes": "These are invitations, not validated adoption segments. Ask the room which contribution matches its practice.\n", "interaction_prompt": "Which of these questions is already yours?"}, "invitation": {"spoken_copy": "If you work in a DAW, build audio tools, live code, or study perception, bring one sound direction that is hard to reach without losing the thread. We can use it to test the loop together and decide what this studio needs to become next.\n", "speaker_notes": "End on the invitation. Do not repeat the architecture or claim product readiness.\n", "interaction_prompt": "What sound direction would you bring?"}}</script>
   <script>
-    const slides = Array.from(document.querySelectorAll(".slide"));
-    const counter = document.getElementById("slideCounter");
-    const dots = document.getElementById("slideDots");
-    const prev = document.getElementById("prevSlide");
-    const next = document.getElementById("nextSlide");
-    let index = 0;
+    (() => {
+      const slides = Array.from(document.querySelectorAll("[data-slide]"));
+      const notes = JSON.parse(document.getElementById("presentation-notes").textContent);
+      const counter = document.getElementById("counter");
+      const progress = document.getElementById("progress");
+      const spoken = document.getElementById("spoken-copy");
+      const speakerNotes = document.getElementById("speaker-notes");
+      const promptWrap = document.getElementById("interaction-wrap");
+      const prompt = document.getElementById("interaction-prompt");
+      const notesToggle = document.getElementById("notes-toggle");
+      const overviewToggle = document.getElementById("overview-toggle");
+      const overview = document.getElementById("overview");
+      let index = 0;
 
-    function pad(value) {
-      return String(value).padStart(2, "0");
-    }
+      function pad(value) {
+        return String(value).padStart(2, "0");
+      }
 
-    function renderDots() {
-      dots.innerHTML = "";
-      slides.forEach((slide, i) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "dot";
-        button.innerHTML = `<b>${pad(i + 1)}</b><span>${slide.dataset.title}</span>`;
-        button.addEventListener("click", () => show(i));
-        dots.appendChild(button);
+      function show(nextIndex, updateHash = true) {
+        index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+        slides.forEach((slide, slideIndex) => {
+          const active = slideIndex === index;
+          slide.classList.toggle("is-active", active);
+          slide.setAttribute("aria-hidden", String(!active));
+        });
+        const slide = slides[index];
+        const slideNotes = notes[slide.dataset.slideId];
+        counter.textContent = `${pad(index + 1)} / ${pad(slides.length)}`;
+        progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+        spoken.textContent = slideNotes.spoken_copy;
+        speakerNotes.textContent = slideNotes.speaker_notes;
+        prompt.textContent = slideNotes.interaction_prompt || "";
+        promptWrap.hidden = !slideNotes.interaction_prompt;
+        if (window.innerWidth > 760) window.scrollTo(0, 0);
+        if (updateHash) history.replaceState(null, "", `#${slide.dataset.slideId}`);
+      }
+
+      function toggleNotes(force) {
+        const nextState = typeof force === "boolean" ? force : !document.body.classList.contains("show-notes");
+        document.body.classList.toggle("show-notes", nextState);
+        notesToggle.setAttribute("aria-pressed", String(nextState));
+      }
+
+      function toggleOverview(force) {
+        const nextState = typeof force === "boolean" ? force : !document.body.classList.contains("show-overview");
+        document.body.classList.toggle("show-overview", nextState);
+        overviewToggle.setAttribute("aria-pressed", String(nextState));
+        overview.setAttribute("aria-hidden", String(!nextState));
+      }
+
+      document.getElementById("previous").addEventListener("click", () => show(index - 1));
+      document.getElementById("next").addEventListener("click", () => show(index + 1));
+      notesToggle.addEventListener("click", () => toggleNotes());
+      overviewToggle.addEventListener("click", () => toggleOverview());
+      document.getElementById("overview-close").addEventListener("click", () => toggleOverview(false));
+
+      document.querySelectorAll("[data-overview-target]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const targetIndex = slides.findIndex((slide) => slide.dataset.slideId === button.dataset.overviewTarget);
+          if (targetIndex >= 0) show(targetIndex);
+          toggleOverview(false);
+        });
       });
-    }
 
-    function show(nextIndex) {
-      index = Math.max(0, Math.min(slides.length - 1, nextIndex));
-      slides.forEach((slide, i) => {
-        slide.classList.toggle("is-active", i === index);
+      window.addEventListener("hashchange", () => {
+        const targetId = window.location.hash.slice(1);
+        const targetIndex = slides.findIndex((slide) => slide.dataset.slideId === targetId);
+        if (targetIndex >= 0 && targetIndex !== index) show(targetIndex, false);
       });
-      Array.from(dots.children).forEach((dot, i) => {
-        dot.classList.toggle("is-active", i === index);
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+          event.preventDefault();
+          show(index + 1);
+        }
+        if (event.key === "ArrowLeft" || event.key === "PageUp") {
+          event.preventDefault();
+          show(index - 1);
+        }
+        if (event.key === "Home") show(0);
+        if (event.key === "End") show(slides.length - 1);
+        if (event.key.toLowerCase() === "n") toggleNotes();
+        if (event.key.toLowerCase() === "o") toggleOverview();
+        if (event.key === "Escape") {
+          toggleNotes(false);
+          toggleOverview(false);
+        }
       });
-      counter.textContent = `${pad(index + 1)} / ${pad(slides.length)}`;
-    }
 
-    prev.addEventListener("click", () => show(index - 1));
-    next.addEventListener("click", () => show(index + 1));
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowRight" || event.key === "PageDown") show(index + 1);
-      if (event.key === "ArrowLeft" || event.key === "PageUp") show(index - 1);
-      if (event.key === "Home") show(0);
-      if (event.key === "End") show(slides.length - 1);
-    });
-
-    const classByToggle = {
-      surface: "show-surface",
-      flow: "show-flow",
-      deps: "show-deps",
-      risk: "show-risk"
-    };
-
-    document.querySelectorAll("[data-toggle]").forEach((input) => {
-      input.addEventListener("change", () => {
-        document.body.classList.toggle(classByToggle[input.dataset.toggle], input.checked);
-      });
-    });
-
-    renderDots();
-    show(0);
+      const requestedId = window.location.hash.slice(1);
+      const requestedIndex = slides.findIndex((slide) => slide.dataset.slideId === requestedId);
+      show(requestedIndex >= 0 ? requestedIndex : 0, false);
+    })();
   </script>
 </body>
 </html>

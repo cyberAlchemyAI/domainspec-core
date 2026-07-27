@@ -1,0 +1,145 @@
+{
+  "dispatch_id": "2026-07-26-akashic-contract-architecture",
+  "schema_version": "0.7.0",
+  "dispatch_type": "research",
+  "goal": "Research the contracts already present in Akashic Records, distinguish current, proposed, deferred, and missing contract families, and produce an audited public-safe Design delta. After dispatch closeout, the parent will integrate only accepted evidence-backed changes into the public Architecture and Validation Contracts without implementing schemas, skills, workflows, or ontology machinery.",
+  "context": "The public Akashic repository has an authored-complete Phase-0 candidate covering SourceRecord, ClaimRecord, validation, deterministic Inventory projection, selectors, receipts, and authority separation, but it has no runtime evidence and five technical owner bindings remain unresolved. Phase-1 agent pull-request and context-packet contracts are named but not designed; semantic graph, RDF/SHACL, and Olog remain later admission questions. Private Inventory is a discovery lead only, so every public claim must be re-verified against current public artifacts or primary external sources, and private paths must not enter the public Design.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "anti_bias_global": "minimal Phase-0 contract closure versus cross-phase provenance richness versus operational agent contribution safety",
+  "working_folder": "ops/development/2026-07-26-akashic-contract-architecture/",
+  "groups": [
+    {
+      "group_id": "contract_explorers",
+      "n": 3,
+      "robot_talks": false,
+      "anti_bias": "composite of methodology, source-corpus, and temporal-prior. Abramsky runs structural and formal analysis over the current Akashic contract artifacts and modern schema specifications, while Peirce runs historical-lineage and semantic provenance analysis over bibliographic, evidence, and annotation standards; a schema-minimality bias in Abramsky would be exposed by Peirce's provenance requirements. Abramsky runs record, validator, selector, and projection interface analysis, while Ashby runs empirical operational analysis over modern GitHub and agent contribution controls; a Phase-0-only bias in Abramsky would be exposed by Ashby's pull-request and post-merge failure cases. Peirce runs evidence identity and interpretation lineage analysis, while Ashby runs bounded context-packet and control-plane analysis; a provenance-maximalist bias in Peirce would be exposed by Ashby's least-privilege and agent-throughput constraints.",
+      "agents": [
+        {
+          "agent_name": "Abramsky, Samson",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 5200,
+          "angle": "Formal structural contract lane: enumerate the current Phase-0 authored-record, shape, cross-record, identity, rights, validation-fact, projection, selector, receipt, persistence, concurrency, and version interfaces; compare them with primary modern schema-contract sources and identify only contract gaps that change an observable invariant or failure boundary.",
+          "initial_prompt": "Work read-only. Inspect the current public Akashic selectors in the strategy packet: Define SPEC/interfaces/operations/queries/mappings and Design ARCHITECTURE/VALIDATION-CONTRACTS/manifests/witnesses. Use primary sources for any external schema or compatibility precedent. Produce a contract matrix with: contract ID/family, phase, producer, consumer, bound inputs, outputs, invariant, deterministic diagnostic or residue, authority effect, version/compatibility owner, current status, positive witness, negative witness, and exact citations. Separate source-backed fact, inference, and open question. Test whether a central contract catalogue, compatibility matrix, deprecation rule, or migration admission contract adds distinct observable behavior; do not invent implementation or owner bindings. Inventory lead: the prior Akashic result is high-confidence but blocked and non-authority; verify its public sources directly. Return a concise report for the synthesizer, not file edits."
+        },
+        {
+          "agent_name": "Peirce, Charles Sanders",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 5200,
+          "angle": "Provenance and knowledge-library contract lane: trace source identity, contributor attribution, claim/evidence selectors, interpretations, rights basis, validation facts, assessments, owner decisions, publication, and ontology-candidate handoffs across historical-lineage and current primary standards without collapsing any lifecycle state.",
+          "initial_prompt": "Work read-only. Begin from the public Akashic research findings and current Define/Design authority boundaries, then consult primary provenance, bibliographic identity, annotation, and knowledge-organization standards where relevant. Determine which provenance and lifecycle contracts are already present, which are only implied, and which should remain deferred. Produce the same contract matrix fields as the other explorers and include a strict non-collapse map among authored fact, source description, claim, evidence selector, validation fact, assessment, owner decision, publication effect, Inventory projection, ontology candidate, and promoted meaning. Inventory leads: ontology population must flow from selected source-backed claims through explicit owner gates, and deterministic retrieval does not confer authority. Verify load-bearing claims at their public or primary sources; do not copy private Inventory paths into proposed public text. Return source-backed facts, inferences, open questions, and smallest positive/negative witnesses; do not edit files."
+        },
+        {
+          "agent_name": "Ashby, W. Ross",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 5200,
+          "angle": "Operational agent-contribution contract lane: model the Phase-1 issue-to-PR, trusted base-policy packet, add-content, deterministic checks, review-content, human-owner decision, merge, post-merge rebuild, receipt, and downstream agent-packet seams using current GitHub control primitives and least-authority failure analysis.",
+          "initial_prompt": "Work read-only. Treat the existing Akashic Phase-1 loop as a proposal, not deployed behavior. Use current primary GitHub documentation and other primary control/provenance sources only where they directly constrain issue forms, pull requests, required checks, CODEOWNERS or rulesets, permissions, merge, trusted post-merge generation, and immutable receipts. Define the minimum contracts needed for agents to propose and read content safely: task/issue contract, base-policy packet, content candidate, validation report, review finding, owner decision, merge receipt, regeneration receipt, and digest-bound context packet. For each, provide producer/consumer, preconditions, postconditions, authority effect, threat or failure boundary, versioning, and positive/negative witness. Explicitly identify which belong outside Phase 0. Inventory lead: generated projections and packets are non-authority, and agent capability profiles should remain content-free. Return a cited operational matrix plus residue; do not edit files or claim controls are configured."
+        }
+      ]
+    },
+    {
+      "group_id": "contract_synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Noether, Emmy",
+          "role": "synthesizer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 7000,
+          "initial_prompt": "Reconcile all explorer returns into one candidate contract architecture. Preserve disagreements and distinguish current authored contract, proposed Design clarification, later-phase candidate, killed duplicate, and open owner decision. Produce: (1) a complete phase-labelled contract catalogue; (2) a producer-consumer dependency map; (3) a lifecycle and authority non-collapse map; (4) a version/compatibility/migration policy candidate; (5) smallest positive and single-fault negative witnesses; (6) exact public Design deltas for ARCHITECTURE.md and VALIDATION-CONTRACTS.md, with a new CONTRACT-CATALOG.md only if it earns a distinct consumer and validation purpose. Every load-bearing statement must cite explorer evidence; private Inventory may explain research selection but may not appear in public-ready text. Do not edit target files."
+        }
+      ]
+    },
+    {
+      "group_id": "contract_reviewers",
+      "n": 3,
+      "robot_talks": false,
+      "anti_bias": "attack-vector. Popper runs precedent ownership, while Sattler runs non-vacuity; a novelty or local-naming bias in Popper would be exposed when Sattler demands a concrete positive and negative witness. Popper runs precedent ownership, while Quine runs definitional soundness; a build-from-owned label that merely renames an existing Akashic surface would be exposed by Quine's collapse test. Sattler runs witness falsification, while Quine runs lifecycle and vocabulary collapse; a mechanically testable but semantically duplicated contract accepted by Sattler would be exposed by Quine.",
+      "agents": [
+        {
+          "agent_name": "Popper, Karl",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4200,
+          "angle": "Precedent gate: verify the actual owner or standard for every proposed contract family and label it already-deployed, build-from-owned, or precedent-clean; precedent never kills a useful candidate.",
+          "initial_prompt": "Attack only the precedent gate. Receive the synthesized contract catalogue and the Inventory selected/excluded boundary. Independently verify current Akashic ownership and all load-bearing external precedents using the exact public artifact or primary source. For every contract candidate, name the owner/precedent and classify it already-deployed, build-from-owned, or precedent-clean; an empty Inventory match is never precedent-clean. Flag unsupported or secondary-source claims, stale GitHub mechanism claims, and any private source that cannot support public Design. Precedent findings cannot issue KILL; return corrections and source replacements to the synthesizer."
+        },
+        {
+          "agent_name": "Sattler, Christian",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4200,
+          "angle": "Non-vacuity gate: require each proposed contract family or Design delta to change a named producer-consumer behavior and survive one smallest positive witness plus one single-fault negative witness; no discriminating witness means KILL.",
+          "initial_prompt": "Attack only the non-vacuity gate. For every proposed new contract row or Design section, build the smallest positive case and the smallest single-fault negative. Demand observable inputs, outputs, invariant, diagnostic/residue, and authority effect. KILL candidates that do not change behavior, cannot discriminate pass from fail, or merely restate a general principle. Pay special attention to contract registry, version compatibility, migration admission, context-packet freshness, owner decisions, graph/Olog admission, and receipt boundaries. Preserve typed negatives with the exact fact that zeroed the candidate."
+        },
+        {
+          "agent_name": "Quine, Willard Van Orman",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4200,
+          "angle": "Definitional-soundness gate: test whether proposed contract families collapse authored records, provenance values, validation facts, receipts, assessments, owner decisions, workflow controls, projections, graph edges, and ontology authority into one re-skinned concept; tautological or duplicate candidates receive KILL.",
+          "initial_prompt": "Attack only definitional soundness. Check the synthesized catalogue for renamed duplicates, mixed lifecycle states, hidden authority transfer, phase leakage, and words such as contract, evidence, receipt, review, decision, publication, promotion, graph, and ontology being used at inconsistent levels. A generated projection must not become authored identity; a validator result must not become assessment; a GitHub receipt must not become semantic approval; a context packet must not become capability identity; an ontology candidate must not become promoted meaning. Issue KILL only for tautology or collapse, with the exact replacement or merge target. Return a correction matrix to the synthesizer."
+        }
+      ]
+    },
+    {
+      "group_id": "contract_writer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Adámek, Jiří",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 6500,
+          "initial_prompt": "Write findings.md only in the dispatch working folder after the synthesizer has answered reviewer findings. The report must be understandable to a non-programmer while retaining an exact contract catalogue. Include: direct answer; current contract inventory; missing/deferred/killed contract matrix; phase map; agent contribution contracts; authority non-collapse; compatibility/version/migration policy; proposed public-safe Design delta; positive/negative witness plan; five-column verdict matrix with owner, witnessed, sound, verdict; unresolved owners and dissent; and one concrete next action. Cite every load-bearing claim to public Akashic artifacts, explorer returns, or primary external sources. Mention private Inventory only as non-authority preflight, never by leaking private paths into public-ready text. Do not edit the public target Design."
+        }
+      ]
+    },
+    {
+      "group_id": "contract_auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4200,
+          "initial_prompt": "Audit findings.md only against the dispatch goal. APPROVE only if the report inventories current contracts without treating authored Design as runtime proof; separates Phase 0, Phase 1, and later semantic contracts; preserves attribution/validation/retrieval/authority non-collapse; cites public target artifacts or primary external sources; includes the verdict matrix and discriminating positive/negative witnesses; keeps private paths and claims out of public-ready text; and states exact Design deltas without implementing them. Otherwise return one bounded revision request to the writer. Your decision is the dispatch final-approval verdict, not implementation or publication authorization."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "contract_explorers",
+      "to": "contract_synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "contract_synthesizer",
+      "to": "contract_reviewers",
+      "type": "zig-zag",
+      "loop_cap": 1
+    },
+    {
+      "from": "contract_reviewers",
+      "to": "contract_writer",
+      "type": "sequential"
+    },
+    {
+      "from": "contract_writer",
+      "to": "contract_auditor",
+      "type": "sequential"
+    },
+    {
+      "from": "contract_auditor",
+      "to": "contract_writer",
+      "type": "feedback",
+      "loop_cap": 1
+    }
+  ]
+}
