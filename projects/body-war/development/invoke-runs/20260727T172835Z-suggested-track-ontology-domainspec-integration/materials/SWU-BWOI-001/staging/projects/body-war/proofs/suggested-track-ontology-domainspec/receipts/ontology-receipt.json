@@ -1,0 +1,56 @@
+{
+  "authority_effect": "none",
+  "diagnostic_contract": [
+    "ONTOLOGY_DUPLICATE_ID",
+    "ONTOLOGY_EDGE_TARGET_MISSING",
+    "ONTOLOGY_ENTRY_INVALID",
+    "ONTOLOGY_EVIDENCE_DIGEST_MISMATCH",
+    "ONTOLOGY_EVIDENCE_SOURCE_MISSING",
+    "ONTOLOGY_EXECUTABLE_LOGIC_FORBIDDEN",
+    "ONTOLOGY_GOVERNANCE_METADATA_MISSING",
+    "ONTOLOGY_REQUIRED_ENTRY_MISSING",
+    "ONTOLOGY_REQUIRED_RELATION_MISSING",
+    "ONTOLOGY_TRANSITION_FORBIDDEN"
+  ],
+  "entry_digests": [
+    {
+      "id": "body-war.ontology.CreateSuggestedTrack",
+      "sha256": "4361026b8e71bd5e665da94997d5f16f661986ab580311517f7dada86d47f5d4"
+    },
+    {
+      "id": "body-war.ontology.SuggestedTrack",
+      "sha256": "62f34533f7623169b92dbdc2aba038c245a6750cf408c2a868ee00e4531ca181"
+    },
+    {
+      "id": "body-war.ontology.SuggestedTrackStatus.needs_evidence",
+      "sha256": "8ab14fc4956c3421b3141ee084a171382028d6947f747614634e72e9cb414724"
+    }
+  ],
+  "entry_set_digest": "e950f681bfc484fcc00213a51d7be303394bc34fee00537867a649aaa517d77c",
+  "legal_transition": {
+    "from": "none",
+    "result": "accepted",
+    "to": "needs_evidence"
+  },
+  "negative_control": {
+    "diagnostic": "ONTOLOGY_TRANSITION_FORBIDDEN",
+    "from": "needs_evidence",
+    "result": "rejected",
+    "to": "source_backed"
+  },
+  "ontology_status": "candidate-local",
+  "release_admission": "not-granted",
+  "schema_version": "1.0.0",
+  "source_bindings": [
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/operations.md",
+      "sha256": "ef1fcf8bc4021824c5180c3cda07a967c3c9b5e26a1ef17afa464c3717771fee"
+    },
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/states.md",
+      "sha256": "400772f889ba3663f770eaeb03be88e106742a99643c140b44116083eaff373e"
+    }
+  ],
+  "status": "pass",
+  "test_id": "T-ONTOLOGY-001"
+}

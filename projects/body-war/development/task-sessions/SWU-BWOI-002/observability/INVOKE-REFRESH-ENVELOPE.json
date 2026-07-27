@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-07-27T19:16:11Z",
+  "run_id": "invoke-refresh-bwoi-002-20260727",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "refresh",
+  "request_summary": "Synchronize the passing DomainSpec witness into the exact work-pack, task, Craft ledger, and human-view targets.",
+  "execution_status": "pass",
+  "outputs": [
+    "projects/body-war/development/task-sessions/SWU-BWOI-002/closeout/refresh-report.json",
+    "projects/body-war/development/task-sessions/SWU-BWOI-002/closeout/INVOKE-REFRESH-RECEIPT.md",
+    "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+    "projects/body-war/.craft/ledger.yml",
+    "projects/body-war/CRAFT.md"
+  ],
+  "changed_files": {
+    "closeout_targets": 4,
+    "owner_receipts": 2
+  },
+  "validation": [
+    "applied material package pass",
+    "refresh handoff ready",
+    "DomainSpec tests 3/3",
+    "Body War application tests 3/3",
+    "Craft ledger, indexes, and view pass",
+    "git diff check pass"
+  ],
+  "observer": {
+    "quality_bar": "pass",
+    "signals": [
+      "quality-pass",
+      "workflow-gap",
+      "useful-pattern"
+    ],
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      "The successor closeout row still aliased its terminal and owner receipts before this Refresh repaired it."
+    ],
+    "reflection_trigger": "workflow-gap-recurrence",
+    "recommendation": "Schedule Invoke Plan-generation maintenance after the current bounded proof track."
+  }
+}

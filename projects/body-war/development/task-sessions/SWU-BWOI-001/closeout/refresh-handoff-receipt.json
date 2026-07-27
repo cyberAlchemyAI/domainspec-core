@@ -1,0 +1,38 @@
+{
+  "activationSource": "continuation",
+  "blockers": [],
+  "handoffStatus": "ready",
+  "materialPackage": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "expectedPackageDigest": "8c142522bf01589438cc4eb08e459dbd65af8ecc5373124767d26414f1b67437",
+    "expectedPackageId": "body-war:SWU-BWOI-001:closeout-refresh",
+    "lifecycleOwner": "body-war-workflow-owner",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "8c142522bf01589438cc4eb08e459dbd65af8ecc5373124767d26414f1b67437",
+    "packageId": "body-war:SWU-BWOI-001:closeout-refresh",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "internal",
+    "receiptPresent": true,
+    "required": true,
+    "schemaValid": true,
+    "validatedPaths": [
+      "projects/body-war/.craft/ledger.yml",
+      "projects/body-war/CRAFT.md",
+      "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-ONTOLOGY.md"
+    ],
+    "validationCommands": [
+      "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/ontology.test.ts)",
+      "npm --prefix projects/body-war/app test",
+      "git diff --check -- projects/body-war"
+    ]
+  },
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "explicit",
+  "mutationReady": true,
+  "phaseStatus": "pass",
+  "schemaVersion": "1.0.0"
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": "task-session-until-blocker.preflight.v1",
+  "chain_id": "body-war-bwoi-all-20260727T192300Z",
+  "captured_at": "2026-07-27T19:23:00Z",
+  "trigger": "all work pack",
+  "stop_condition": "first-blocker-or-frontier-complete",
+  "runtime": "local",
+  "work_pack": {
+    "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+    "sha256": "173516c153166620009af9e2c1de016550514fbb1c8cb666f1dd485465a943c5"
+  },
+  "selector": {
+    "source": "scope-matched-continuity",
+    "cursor": ".arcanum/task-session/continuity/body-war-bwoi-ontology.json",
+    "cursor_sha256": "d2f7d72f2f13bbbf11fcc6e9e28402d6d19a3f2dc8fe130f2186579442b4d59c",
+    "first_selector": "SWU-BWOI-003"
+  },
+  "captured_frontier": [
+    {
+      "selector": "SWU-BWOI-003",
+      "task": "TASK-BWOI-INTEGRATION",
+      "task_sha256": "472c38bbf805281d5b17bf4a1de10e1a8bdf939ac95c92375fcd7be8d7f500a6",
+      "wave": "W2",
+      "wave_sha256": "d04cc019411ae698e48666cb30d4725b8c90fef99e1d061c37e3b21f7218fded",
+      "dependencies": {
+        "status": "pass",
+        "receipts": [
+          {
+            "path": "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json",
+            "sha256": "071e397041e3dfe9c0777c92dff20fa92ea63af61990b51ec1b13d2bf878dc88"
+          },
+          {
+            "path": "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/domainspec-receipt.json",
+            "sha256": "d1484bb6d8ee6a637e3eba4ee4b38336582b36fbf9ef901d087946415f46f756"
+          }
+        ]
+      },
+      "write_scope": "declared",
+      "validation_surface": "declared",
+      "closeout_contract": "complete",
+      "readiness": "uniquely-ready"
+    },
+    {
+      "selector": "TASK-BWOI-VERIFY",
+      "task": "TASK-BWOI-VERIFY",
+      "task_sha256": "cb6eecb5c9de243502ee6c74e889d937470b9163fadfa6e52f1ce44e4b9554e4",
+      "wave": "W3",
+      "wave_sha256": "df19bf949d78f13491590e07a14252eb49b6485716e74948b2225cf8732439f2",
+      "dependencies": {
+        "status": "ready-after-SWU-BWOI-003",
+        "declared": true
+      },
+      "write_scope": "missing",
+      "validation_surface": "declared",
+      "closeout_contract": "missing",
+      "readiness": "blocked-at-frontier-preflight"
+    }
+  ],
+  "session_budget": 2,
+  "preconditions": {
+    "exact_work_pack": "pass",
+    "finite_ordered_frontier": "pass",
+    "dependency_model": "pass",
+    "candidate_write_scopes": "block",
+    "candidate_validation_surfaces": "pass",
+    "candidate_closeout_contracts": "block",
+    "first_candidate_uniquely_ready": "pass",
+    "budget_within_frontier": "pass"
+  },
+  "blocker": {
+    "fingerprint": "1cd2068a263e3649e093c2efed1f362777f849c3ed645b750ea78a5c0585e1d6",
+    "selector": "TASK-BWOI-VERIFY",
+    "class": "missing-controlling-evidence",
+    "details": [
+      "verification report write scope is not declared",
+      "exact closeout target inventory is not declared",
+      "allowed closeout delta classes are not declared",
+      "expected owner receipt is not declared",
+      "terminal successor or explicit no-successor policy is not declared"
+    ]
+  },
+  "result": "BLOCK"
+}

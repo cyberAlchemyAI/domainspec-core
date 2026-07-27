@@ -1,0 +1,45 @@
+{
+  "admissionVerdict": "admit",
+  "allowedWrites": [
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/bridge.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/bridge.schema.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/executable-duplication.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/promoted-required.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/stale-ontology-digest.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/profile.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/receipts/bridge-admission-receipt.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/integration-receipt.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/bridge-validator.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/integration-runner.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/tests/integration.test.ts"
+  ],
+  "authorityClass": "private",
+  "controllingPaths": [
+    "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+    "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-INTEGRATION.md",
+    "projects/body-war/development/task-sessions/SWU-BWOI-003/context-pack.json"
+  ],
+  "dependencyIds": [
+    "domainspec-receipt",
+    "ontology-receipt"
+  ],
+  "executionMode": "routed-mutation",
+  "lifecycleOwner": "private Body War BWOI integration owner via task-session",
+  "liveValidationRequired": true,
+  "materialPackageDigest": "8f3ffc1a7e18ba0031653e6887e126376e58c38c1fccf73aee829ae96d6971b0",
+  "materialReceiptDigest": "7e8d2704c1b4097675b776b2c47313722b59756a556121a996f327eb6e993595",
+  "mutationReady": true,
+  "producerSchemaDigest": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+  "publicationClass": "private",
+  "reasons": [],
+  "requestDigest": "229e50222c646b8910884067115f0f715ceaecb4f03c6a1132ffd020130a8b66",
+  "schemaVersion": "1.0.0",
+  "swuId": "SWU-BWOI-003",
+  "taskId": "TASK-BWOI-INTEGRATION",
+  "validationCommands": [
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/*.test.ts)",
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/integration.test.ts)",
+    "git diff --check -- projects/body-war",
+    "npm --prefix projects/body-war/app test"
+  ]
+}

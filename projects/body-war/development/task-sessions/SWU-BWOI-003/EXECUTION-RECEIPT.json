@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "capability": "task-session",
+  "mode": "execute",
+  "task_id": "TASK-BWOI-INTEGRATION",
+  "swu_id": "SWU-BWOI-003",
+  "result": "pass",
+  "execution_owner": "local-fallback",
+  "context_pack": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-003/context-pack.json",
+    "strict_coverage": true,
+    "semantic_dependencies": []
+  },
+  "material_package": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-003/material/MATERIAL-RECEIPT.json",
+    "status": "pass"
+  },
+  "mutation_admission": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-003/mutation-admission-receipt.json",
+    "verdict": "admit",
+    "mutation_ready": true
+  },
+  "files_updated": [
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/bridge.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/bridge.schema.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/executable-duplication.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/promoted-required.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/stale-ontology-digest.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/profile.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/receipts/bridge-admission-receipt.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/integration-receipt.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/bridge-validator.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/integration-runner.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/tests/integration.test.ts"
+  ],
+  "validation": [
+    {
+      "command": "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/integration.test.ts)",
+      "result": "pass",
+      "evidence": "4 integration tests passed"
+    },
+    {
+      "command": "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/*.test.ts)",
+      "result": "pass",
+      "evidence": "11 proof tests passed"
+    },
+    {
+      "command": "npm --prefix projects/body-war/app test",
+      "result": "pass",
+      "evidence": "3 application tests passed"
+    },
+    {
+      "command": "git diff --check -- projects/body-war",
+      "result": "pass",
+      "evidence": "no whitespace errors"
+    }
+  ],
+  "acceptance": {
+    "exact_parent_receipt_digests": "pass",
+    "ontology_node_module_clause_build_digests": "pass",
+    "candidate_state_profile": "pass",
+    "same_domainspec_case_and_observation": "pass",
+    "stale_ontology_digest": {
+      "result": "rejected",
+      "diagnostic": "BRIDGE_STALE_ONTOLOGY_DIGEST"
+    },
+    "insufficient_ontology_state": {
+      "result": "rejected",
+      "diagnostic": "BRIDGE_ONTOLOGY_STATE_INSUFFICIENT"
+    },
+    "executable_logic_duplication": {
+      "result": "rejected",
+      "diagnostic": "BRIDGE_EXECUTABLE_LOGIC_FORBIDDEN"
+    },
+    "input_only_fixtures": "pass",
+    "bridge_receipt_sha256": "c7e737627e736ac661b0e8b3f60db52d81b1612fbdad5e13c8b48a7836a62b20",
+    "integration_receipt_sha256": "3f1400be86ca218a6266a89c800d1bb6845a2ca32ebcff122d8e14fb9c24993f",
+    "authority_effect": "none",
+    "release_admission": "not-granted"
+  },
+  "blockers": [],
+  "residue": [
+    "The integration proves one experimental CT-2 seam, not the complete SuggestedTrack workflow.",
+    "Ontology promotion, source-backed geometry, pilot readiness, production parity, and release admission remain outside this SWU.",
+    "TASK-BWOI-VERIFY remains unexecuted.",
+    "The Architecture example module id differs from the canonical completed DomainSpec receipt; current canonical receipt and runner identity controlled execution without rewriting source design prose."
+  ],
+  "closeout_sync": {
+    "required": true,
+    "status": "pending-owner",
+    "route": "invoke:refresh:apply-approved",
+    "expected_owner_receipt": "projects/body-war/development/task-sessions/SWU-BWOI-003/closeout/INVOKE-REFRESH-RECEIPT.md",
+    "allowed_delta_classes": [
+      "evidence_added",
+      "status_changed",
+      "route_changed"
+    ],
+    "returned_successor": "TASK-BWOI-VERIFY",
+    "execute_successor": false
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "capability": "task-session",
+  "mode": "execute",
+  "task_id": "TASK-BWOI-DOMAINSPEC",
+  "swu_id": "SWU-BWOI-002",
+  "result": "pass",
+  "execution_owner": "local-fallback",
+  "context_pack": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-002/context-pack.json",
+    "strict_coverage": true,
+    "semantic_dependencies": []
+  },
+  "material_package": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-002/material-package-receipt.json",
+    "status": "pass"
+  },
+  "mutation_admission": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-002/mutation-admission-receipt.json",
+    "verdict": "admitted",
+    "mutation_ready": true
+  },
+  "files_updated": [
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/domainspec/project.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/domainspec/feature.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/domainspec/nodes/new-suggestion-needs-evidence.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/domainspec/nodes/create-suggested-track.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/domainspec/nodes/suggested-track-created.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/domainspec/fixtures/ct2-input.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/domainspec/generated/graph.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/domainspec/generated/source-manifest.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/domainspec/generated/build-receipt.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/domainspec/generated/logic-projection.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/domainspec-ct2-runner.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/tests/domainspec.test.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/domainspec-receipt.json"
+  ],
+  "validation": [
+    {
+      "command": "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/domainspec.test.ts)",
+      "result": "pass",
+      "evidence": "3 tests passed on each of two full process executions"
+    },
+    {
+      "command": "sha256sum projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/domainspec-receipt.json",
+      "result": "pass",
+      "evidence": "d1484bb6d8ee6a637e3eba4ee4b38336582b36fbf9ef901d087946415f46f756 on both executions"
+    },
+    {
+      "command": "npm --prefix projects/body-war/app test",
+      "result": "pass",
+      "evidence": "3 application tests passed"
+    },
+    {
+      "command": "git diff --check -- projects/body-war",
+      "result": "pass",
+      "evidence": "no whitespace errors"
+    }
+  ],
+  "acceptance": {
+    "canonical_build": "pass",
+    "node_projection": "pass",
+    "decode_and_typecheck": "pass",
+    "case_set_identity": "pass",
+    "memory_repository_comparison": "pass",
+    "stronger_backend_mutation": {
+      "result": "rejected",
+      "diagnostic": "SFOL_PROOF_NONPASS_STATE"
+    },
+    "input_only_fixture": "pass",
+    "deterministic_receipt": "pass",
+    "receipt_sha256": "d1484bb6d8ee6a637e3eba4ee4b38336582b36fbf9ef901d087946415f46f756",
+    "authority_effect": "none",
+    "release_admission": "not-granted"
+  },
+  "blockers": [],
+  "residue": [
+    "The proof covers one experimental CT-2 function seam, not the complete SuggestedTrack workflow.",
+    "Ontology promotion, source-backed geometry, pilot readiness, production parity, and release admission remain outside this SWU.",
+    "The digest-bound integration witness remains unexecuted."
+  ],
+  "closeout_sync": {
+    "required": true,
+    "status": "pending-owner",
+    "route": "invoke:refresh:apply-approved",
+    "expected_owner_receipt": "projects/body-war/development/task-sessions/SWU-BWOI-002/closeout/INVOKE-REFRESH-RECEIPT.md",
+    "allowed_delta_classes": [
+      "evidence_added",
+      "status_changed",
+      "route_changed"
+    ],
+    "returned_successor": "SWU-BWOI-003",
+    "execute_successor": false
+  }
+}

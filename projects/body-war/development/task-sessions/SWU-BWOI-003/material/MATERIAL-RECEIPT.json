@@ -1,0 +1,33 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "private Body War BWOI integration owner via task-session",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "8f3ffc1a7e18ba0031653e6887e126376e58c38c1fccf73aee829ae96d6971b0",
+  "packageId": "body-war-bwoi-003-integration-apply-20260727",
+  "patchVerdict": "pass",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "private",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/bridge.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/bridge.schema.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/executable-duplication.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/promoted-required.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/stale-ontology-digest.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/profile.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/receipts/bridge-admission-receipt.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/integration-receipt.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/bridge-validator.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/integration-runner.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/tests/integration.test.ts"
+  ],
+  "validationCommands": [
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/integration.test.ts)",
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/*.test.ts)",
+    "npm --prefix projects/body-war/app test",
+    "git diff --check -- projects/body-war"
+  ]
+}

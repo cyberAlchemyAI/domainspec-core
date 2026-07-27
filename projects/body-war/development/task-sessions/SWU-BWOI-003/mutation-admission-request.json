@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1.0.0",
+  "executionMode": "routed-mutation",
+  "taskId": "TASK-BWOI-INTEGRATION",
+  "swuId": "SWU-BWOI-003",
+  "controlArtifacts": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "sha256": "784104a91dad0d660ebab51745081f4ba00aa2d745093a8d6a35c797cb8d84ec",
+      "sizeBytes": 9854,
+      "role": "work-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-INTEGRATION.md",
+      "sha256": "472c38bbf805281d5b17bf4a1de10e1a8bdf939ac95c92375fcd7be8d7f500a6",
+      "sizeBytes": 4711,
+      "role": "task-contract",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/development/task-sessions/SWU-BWOI-003/context-pack.json",
+      "sha256": "83d817d1f9c91eb14646ebb58cd6421ebc449d5f003e8c97933ded78b0a9f698",
+      "sizeBytes": 2595,
+      "role": "context-pack",
+      "authorityClass": "private"
+    }
+  ],
+  "dependencyFrontier": [
+    {
+      "dependencyId": "ontology-receipt",
+      "artifactRef": {
+        "path": "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json",
+        "sha256": "071e397041e3dfe9c0777c92dff20fa92ea63af61990b51ec1b13d2bf878dc88",
+        "sizeBytes": 1836
+      }
+    },
+    {
+      "dependencyId": "domainspec-receipt",
+      "artifactRef": {
+        "path": "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/domainspec-receipt.json",
+        "sha256": "d1484bb6d8ee6a637e3eba4ee4b38336582b36fbf9ef901d087946415f46f756",
+        "sizeBytes": 3899
+      }
+    }
+  ],
+  "materialPackage": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-003/material/MATERIAL-PACKAGE.json",
+    "sha256": "7d486b99f10279e34cccadd8ec5cd00e9025fa92c323807da56d85fd674977a9",
+    "sizeBytes": 12954
+  },
+  "materialReceipt": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-003/material/MATERIAL-RECEIPT.json",
+    "sha256": "7e8d2704c1b4097675b776b2c47313722b59756a556121a996f327eb6e993595",
+    "sizeBytes": 2037
+  },
+  "producerReceiptSchema": {
+    "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+    "sizeBytes": 1719
+  },
+  "allowedWrites": [
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/bridge.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/bridge.schema.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/executable-duplication.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/promoted-required.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/fixtures/stale-ontology-digest.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/profile.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/bridge/receipts/bridge-admission-receipt.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/integration-receipt.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/bridge-validator.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/integration-runner.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/tests/integration.test.ts"
+  ],
+  "validationCommands": [
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/integration.test.ts)",
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/*.test.ts)",
+    "npm --prefix projects/body-war/app test",
+    "git diff --check -- projects/body-war"
+  ],
+  "lifecycleOwner": "private Body War BWOI integration owner via task-session",
+  "authorityClass": "private",
+  "publicationClass": "private"
+}
+

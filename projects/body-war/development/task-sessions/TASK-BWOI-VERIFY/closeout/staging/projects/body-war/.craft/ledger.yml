@@ -1,0 +1,1181 @@
+ledger_id: body-war.craft
+schema_ref: ../../arcanum/arcana/craft/templates/ledger.schema.yml
+schema_version: 0.2.0
+status: candidate-local
+source_of_truth: projects/body-war/.craft/ledger.yml
+human_view: projects/body-war/CRAFT.md
+
+indexes:
+  by_id:
+    CTX-BODY-WAR-ROOT: contexts[0]
+    CTX-BODY-WAR-ARCH-AUDIT: contexts[1]
+    CTX-BODY-WAR-SUGGESTED-TRACKS: contexts[2]
+    DEC-ARCH-BOUNDARY-001: decisions[0]
+    BLK-STRAVA-ACTIVITY-001: typed_items[1]
+    GAP-TAQUARAL-GEOMETRY-001: gaps[0]
+    ART-ARCH-BOUNDARY-DECISION: artifacts[8]
+    ART-ARCHITECTURE-AUDIT: artifacts[9]
+    ART-MVP-ONESHOT-FORECAST: artifacts[10]
+    ART-PILOT-DOMAINSPEC-COVERAGE: artifacts[11]
+    ART-PILOT-DOMAINSPEC-BACKLOG: artifacts[12]
+    ART-PARQUE-MVP-DESIGN: artifacts[13]
+    ART-PARQUE-MVP-LAYERING: artifacts[14]
+    ART-PARQUE-MVP-WORK-PACK: artifacts[15]
+    ART-PARQUE-MVP-EXECUTION-PACK: artifacts[16]
+    ART-AUTH-USER-MANAGEMENT-REFINE: artifacts[17]
+    ART-AUTH-USER-MANAGEMENT-RESULT: artifacts[18]
+    ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION: artifacts[19]
+    ART-TROQAR-PRODUCT-ARCH-README: artifacts[20]
+    ART-TROQAR-OPERATIONS-CAPABILITIES: artifacts[21]
+    ART-TROQAR-DOMAINSPEC-SPEC: artifacts[22]
+    ART-TROQAR-DOMAIN-MODEL: artifacts[23]
+    ART-TROQAR-ARCHITECTURE: artifacts[24]
+    ART-TROQAR-UI-UX: artifacts[25]
+    ART-TROQAR-VISUAL-DEFINITIONS: artifacts[26]
+    ART-TROQAR-BACKEND-SPEC: artifacts[27]
+    ART-TROQAR-GAP-BLOCKER-REVIEW: artifacts[28]
+    ART-TROQAR-REFINE-DISPATCH: artifacts[29]
+    ART-TROQAR-PRODUCTION-UI-TASK-SESSION: artifacts[30]
+    ART-TROQAR-PRODUCTION-UI-REVIEW: artifacts[31]
+    ART-TROQAR-PRODUCTION-LOGIN-HANDOFF: artifacts[32]
+    RCT-TROQAR-PRODUCTION-UI-001: receipts[5]
+    DEC-BODY-WAR-AUTH-FIRST-001: decisions[1]
+    GAP-TROQAR-PAGE-PRIORITY-001: gaps[2]
+    GAP-TROQAR-SCORE-AUTHORITY-001: gaps[3]
+    GAP-TROQAR-BACKEND-PROVIDER-001: gaps[4]
+    GAP-TROQAR-GLOSSARY-PROMOTION-001: gaps[5]
+    RCT-BODY-WAR-AUTH-REFINE-001: receipts[3]
+    RCT-BODY-WAR-AUTH-IMPLEMENTED-001: receipts[4]
+    HND-TROQAR-PRODUCT-ARCH-REFINE-001: route_handoffs[3]
+    ART-SUGGESTED-TRACK-ARCHITECTURE-PLAN: artifacts[33]
+    ART-SUGGESTED-TRACK-REFINE-DISPATCH: artifacts[34]
+    ART-SUGGESTED-TRACK-RESULT: artifacts[35]
+    ART-SUGGESTED-TRACK-RUNTIME-HANDOFF: artifacts[36]
+    ART-SUGGESTED-TRACK-RUN-MANIFEST: artifacts[37]
+    HND-SUGGESTED-TRACK-SLICE-1-001: route_handoffs[4]
+    ART-SUGGESTED-TRACK-DECISION-BUILD-DISPATCH: artifacts[38]
+    ART-SUGGESTED-TRACK-DECISION-BUILD-HANDOFF: artifacts[39]
+    ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT: artifacts[40]
+    ART-SUGGESTED-TRACK-DECISION-BUILD-MANIFEST: artifacts[41]
+    HND-SUGGESTED-TRACK-ONE-GO-BUILD-001: route_handoffs[5]
+    RCT-SUGGESTED-TRACK-DECISION-BUILD-REFINE-001: receipts[6]
+    ART-SUGGESTED-TRACK-ONE-GO-CONTEXT: artifacts[42]
+    ART-SUGGESTED-TRACK-ONE-GO-RESULT: artifacts[43]
+    RCT-SUGGESTED-TRACK-ONE-GO-BUILD-001: receipts[7]
+    ART-BWOI-INVOKE-WORK-PACK: artifacts[44]
+    ART-BWOI-ONTOLOGY-RECEIPT: artifacts[45]
+    ART-BWOI-ONTOLOGY-TASK-SESSION: artifacts[46]
+    ART-BWOI-DOMAINSPEC-RECEIPT: artifacts[47]
+    ART-BWOI-DOMAINSPEC-TASK-SESSION: artifacts[48]
+    ART-BWOI-INTEGRATION-RECEIPT: artifacts[49]
+    ART-BWOI-INTEGRATION-TASK-SESSION: artifacts[50]
+    ART-BWOI-VERIFY-REPORT: artifacts[51]
+    ART-BWOI-VERIFY-TASK-SESSION: artifacts[52]
+    RCT-BWOI-ONTOLOGY-001: receipts[8]
+    RCT-BWOI-DOMAINSPEC-002: receipts[9]
+    RCT-BWOI-INTEGRATION-003: receipts[10]
+    RCT-BWOI-VERIFY-004: receipts[11]
+  open_decisions: []
+  blocking_decisions: []
+  active_blockers:
+    - BLK-STRAVA-ACTIVITY-001
+  active_gaps:
+    - GAP-TAQUARAL-GEOMETRY-001
+    - GAP-TROQAR-PAGE-PRIORITY-001
+    - GAP-TROQAR-SCORE-AUTHORITY-001
+    - GAP-TROQAR-BACKEND-PROVIDER-001
+    - GAP-TROQAR-GLOSSARY-PROMOTION-001
+  next_moves:
+    - context_id: CTX-BODY-WAR-ROOT
+      next_move: Configure the Hostinger Traefik deployment manually from ONLINE-DEPLOY-MANUAL.md, then run the online deploy receipt before validating real Strava activity evidence.
+    - context_id: CTX-BODY-WAR-ARCH-AUDIT
+      next_move: Recompose architecture-boundary decision into CTX-BODY-WAR-ROOT and proceed to bounded MVP work-pack planning.
+    - context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+      next_move: The BWOI three-witness experiment is closed; any promotion, release, deployment, or wider formalization requires a new bounded plan and explicit authorization.
+  artifacts_by_path:
+    projects/body-war/docs/decisions/architecture-import-boundary.md: ART-ARCH-BOUNDARY-DECISION
+    projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md: ART-ARCHITECTURE-AUDIT
+    projects/body-war/docs/features/parque-taquaral-online-mvp/DISCOVERY.md: ART-VICTOR-DISCOVERY-SUMMARY
+    projects/body-war/docs/features/parque-taquaral-online-mvp/MVP-ONESHOT-FORECAST.md: ART-MVP-ONESHOT-FORECAST
+    projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md: ART-PILOT-DOMAINSPEC-COVERAGE
+    projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md: ART-PILOT-DOMAINSPEC-BACKLOG
+    projects/body-war/docs/features/parque-taquaral-online-mvp/DESIGN.md: ART-PARQUE-MVP-DESIGN
+    projects/body-war/docs/features/parque-taquaral-online-mvp/IMPLEMENTATION-LAYERING.md: ART-PARQUE-MVP-LAYERING
+    projects/body-war/docs/features/parque-taquaral-online-mvp/WORK-PACK.md: ART-PARQUE-MVP-WORK-PACK
+    projects/body-war/docs/features/parque-taquaral-online-mvp/EXECUTION-PACK.md: ART-PARQUE-MVP-EXECUTION-PACK
+    projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-DISPATCH.json: ART-AUTH-USER-MANAGEMENT-REFINE
+    projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md: ART-AUTH-USER-MANAGEMENT-RESULT
+    development/refinement-runs/20260621T-typescript-domainspec-invariant/task-session/20260621T-auth-workpack-oneshot/RESULT.md: ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION
+    projects/body-war/docs/features/troqar-product-architecture/README.md: ART-TROQAR-PRODUCT-ARCH-README
+    projects/body-war/docs/features/troqar-product-architecture/OPERATIONS-CAPABILITIES.md: ART-TROQAR-OPERATIONS-CAPABILITIES
+    projects/body-war/docs/features/troqar-product-architecture/SPEC.md: ART-TROQAR-DOMAINSPEC-SPEC
+    projects/body-war/docs/features/troqar-product-architecture/domain.md: ART-TROQAR-DOMAIN-MODEL
+    projects/body-war/docs/features/troqar-product-architecture/ARCHITECTURE.md: ART-TROQAR-ARCHITECTURE
+    projects/body-war/docs/features/troqar-product-architecture/ui-spec.md: ART-TROQAR-UI-UX
+    projects/body-war/docs/features/troqar-product-architecture/VISUAL-DEFINITIONS.md: ART-TROQAR-VISUAL-DEFINITIONS
+    projects/body-war/docs/features/troqar-product-architecture/backend.md: ART-TROQAR-BACKEND-SPEC
+    projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md: ART-TROQAR-GAP-BLOCKER-REVIEW
+    projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json: ART-TROQAR-REFINE-DISPATCH
+    projects/body-war/development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+    projects/body-war/docs/features/troqar-product-architecture/UI-REVIEW.md: ART-TROQAR-PRODUCTION-UI-REVIEW
+    projects/body-war/docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json: ART-TROQAR-PRODUCTION-LOGIN-HANDOFF
+    projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md: ART-SUGGESTED-TRACK-ARCHITECTURE-PLAN
+    projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/REFINE-DISPATCH.json: ART-SUGGESTED-TRACK-REFINE-DISPATCH
+    projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md: ART-SUGGESTED-TRACK-RESULT
+    projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md: ART-SUGGESTED-TRACK-RUNTIME-HANDOFF
+    projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUN-MANIFEST.md: ART-SUGGESTED-TRACK-RUN-MANIFEST
+    projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/REFINE-DISPATCH.json: ART-SUGGESTED-TRACK-DECISION-BUILD-DISPATCH
+    projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUNTIME-HANDOFF.md: ART-SUGGESTED-TRACK-DECISION-BUILD-HANDOFF
+    projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md: ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT
+    projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUN-MANIFEST.md: ART-SUGGESTED-TRACK-DECISION-BUILD-MANIFEST
+    projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/CONTEXT-PACK.md: ART-SUGGESTED-TRACK-ONE-GO-CONTEXT
+    projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/TASK-SESSION-RESULT.md: ART-SUGGESTED-TRACK-ONE-GO-RESULT
+    projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md: ART-BWOI-INVOKE-WORK-PACK
+    projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json: ART-BWOI-ONTOLOGY-RECEIPT
+    projects/body-war/development/task-sessions/SWU-BWOI-001/TASK-SESSION-RESULT.md: ART-BWOI-ONTOLOGY-TASK-SESSION
+    projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/domainspec-receipt.json: ART-BWOI-DOMAINSPEC-RECEIPT
+    projects/body-war/development/task-sessions/SWU-BWOI-002/TASK-SESSION-RESULT.md: ART-BWOI-DOMAINSPEC-TASK-SESSION
+    projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/integration-receipt.json: ART-BWOI-INTEGRATION-RECEIPT
+    projects/body-war/development/task-sessions/SWU-BWOI-003/TASK-SESSION-RESULT.md: ART-BWOI-INTEGRATION-TASK-SESSION
+    projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/VERIFICATION-REPORT.md: ART-BWOI-VERIFY-REPORT
+    projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/TASK-SESSION-RESULT.md: ART-BWOI-VERIFY-TASK-SESSION
+
+contexts:
+  - context_id: CTX-BODY-WAR-ROOT
+    parent_id: root
+    title: Body War MVP Readiness
+    purpose: Track Body War MVP decisions, blockers, gaps, route evidence, and recomposition while the product moves from prototype evidence to governed architecture.
+    stage: auth-consumer-implemented
+    gate: flag
+    next_move: Configure the Hostinger Traefik deployment manually from ONLINE-DEPLOY-MANUAL.md, then run the online deploy receipt before validating real Strava activity evidence; keep geometry/game mechanics deferred.
+    owned_artifacts:
+      - ART-BODY-WAR-CRAFT-LEDGER
+      - ART-BODY-WAR-CRAFT-VIEW
+      - ART-REVIEW-AUDIT-DISPATCH
+      - ART-REVIEW-AUDIT-SPEC
+      - ART-CRAFT-REFINE-DISPATCH
+      - ART-VICTOR-DISCOVERY-SUMMARY
+      - ART-ARCH-BOUNDARY-DECISION
+      - ART-ARCHITECTURE-AUDIT
+      - ART-MVP-ONESHOT-FORECAST
+      - ART-PILOT-DOMAINSPEC-COVERAGE
+      - ART-PILOT-DOMAINSPEC-BACKLOG
+      - ART-PARQUE-MVP-DESIGN
+      - ART-PARQUE-MVP-LAYERING
+      - ART-PARQUE-MVP-WORK-PACK
+      - ART-PARQUE-MVP-EXECUTION-PACK
+      - ART-AUTH-USER-MANAGEMENT-REFINE
+      - ART-AUTH-USER-MANAGEMENT-RESULT
+      - ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION
+      - ART-TROQAR-PRODUCT-ARCH-README
+      - ART-TROQAR-OPERATIONS-CAPABILITIES
+      - ART-TROQAR-DOMAINSPEC-SPEC
+      - ART-TROQAR-DOMAIN-MODEL
+      - ART-TROQAR-ARCHITECTURE
+      - ART-TROQAR-UI-UX
+      - ART-TROQAR-VISUAL-DEFINITIONS
+      - ART-TROQAR-BACKEND-SPEC
+      - ART-TROQAR-GAP-BLOCKER-REVIEW
+      - ART-TROQAR-REFINE-DISPATCH
+      - ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+      - ART-TROQAR-PRODUCTION-UI-REVIEW
+      - ART-TROQAR-PRODUCTION-LOGIN-HANDOFF
+    notes: Root context created by /craft start for Body War.
+  - context_id: CTX-BODY-WAR-ARCH-AUDIT
+    parent_id: CTX-BODY-WAR-ROOT
+    title: Parque Taquaral Architecture Review Audit
+    purpose: Refine and close the architecture/import-boundary blocker before Body War MVP implementation starts.
+    stage: closed
+    gate: pass
+    next_move: Recompose architecture-boundary decision into CTX-BODY-WAR-ROOT and proceed to bounded MVP work-pack planning.
+    owned_artifacts:
+      - ART-REVIEW-AUDIT-DISPATCH
+      - ART-REVIEW-AUDIT-SPEC
+      - ART-ARCH-BOUNDARY-DECISION
+      - ART-ARCHITECTURE-AUDIT
+    notes: Child context closed after user selected Body War-owned TypeScript workspace with DomainSpec path alias.
+  - context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    parent_id: CTX-BODY-WAR-ROOT
+    title: Suggested Track Expansion
+    purpose: Govern the TROQAR route where users suggest tracks, Strava activity is consulted live, and only consented evidence can promote a suggestion toward a source-backed track.
+    stage: three-witness-experiment-complete
+    gate: flag
+    next_move: The BWOI three-witness experiment is closed; any promotion, release, deployment, or wider formalization requires a new bounded plan and explicit authorization.
+    owned_artifacts:
+      - ART-SUGGESTED-TRACK-ARCHITECTURE-PLAN
+      - ART-SUGGESTED-TRACK-REFINE-DISPATCH
+      - ART-SUGGESTED-TRACK-RESULT
+      - ART-SUGGESTED-TRACK-RUNTIME-HANDOFF
+      - ART-SUGGESTED-TRACK-RUN-MANIFEST
+      - ART-SUGGESTED-TRACK-DECISION-BUILD-DISPATCH
+      - ART-SUGGESTED-TRACK-DECISION-BUILD-HANDOFF
+      - ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT
+      - ART-SUGGESTED-TRACK-DECISION-BUILD-MANIFEST
+      - ART-SUGGESTED-TRACK-ONE-GO-CONTEXT
+      - ART-SUGGESTED-TRACK-ONE-GO-RESULT
+      - ART-BWOI-INVOKE-WORK-PACK
+      - ART-BWOI-ONTOLOGY-RECEIPT
+      - ART-BWOI-ONTOLOGY-TASK-SESSION
+      - ART-BWOI-DOMAINSPEC-RECEIPT
+      - ART-BWOI-DOMAINSPEC-TASK-SESSION
+      - ART-BWOI-INTEGRATION-RECEIPT
+      - ART-BWOI-INTEGRATION-TASK-SESSION
+      - ART-BWOI-VERIFY-REPORT
+      - ART-BWOI-VERIFY-TASK-SESSION
+    notes: Child context created after operator clarified that a new Craft space means a child node below the Body War project, not a separate .craft ledger.
+
+artifacts:
+  - artifact_id: ART-BODY-WAR-CRAFT-LEDGER
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/.craft/ledger.yml
+    artifact_type: ledger-source
+    status: active
+    notes: Structured Craft source of truth for Body War.
+  - artifact_id: ART-BODY-WAR-CRAFT-VIEW
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/CRAFT.md
+    artifact_type: human-view
+    status: active
+    notes: Human-readable view generated from the ledger, not source of truth.
+  - artifact_id: ART-REVIEW-AUDIT-DISPATCH
+    owner_context_id: CTX-BODY-WAR-ARCH-AUDIT
+    path: projects/body-war/development/dispatches/20260610-body-war-parque-taquaral-review-audit.dispatch.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Dispatch validation pass; route-shape evidence only.
+  - artifact_id: ART-REVIEW-AUDIT-SPEC
+    owner_context_id: CTX-BODY-WAR-ARCH-AUDIT
+    path: projects/body-war/development/dispatches/20260610-body-war-parque-taquaral-review-audit.spec.md
+    artifact_type: review-audit-spec
+    status: active
+    notes: Review/audit spec for DomainSpec TypeScript architecture boundary.
+  - artifact_id: ART-CRAFT-REFINE-DISPATCH
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/development/dispatches/20260610-body-war-craft-refine-validate-summary.dispatch.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Validated route for Craft-ledger baseline, refine gap/blocker closure, validation, and Victor-style summary synthesis.
+  - artifact_id: ART-VICTOR-DISCOVERY-SUMMARY
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/DISCOVERY.md
+    artifact_type: discovery-summary
+    status: active
+    notes: Victor-style reasoning summary for what Body War will build and how it should be built.
+  - artifact_id: ART-STRAVA-PILOT-WORK-PACK
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/strava-linked-pilot/WORK-PACK.md
+    artifact_type: work-pack
+    status: blocked
+    notes: OAuth passed; activity import/submission blocked by zero activities.
+  - artifact_id: ART-DOMAINSPEC-ARCHITECTURE
+    owner_context_id: CTX-BODY-WAR-ARCH-AUDIT
+    path: implementation/domainspec/architecture/ARCHITECTURE.md
+    artifact_type: source-contract
+    status: active
+    notes: DomainSpec Functional TypeScript architecture source authority.
+  - artifact_id: ART-ARCH-BOUNDARY-DECISION
+    owner_context_id: CTX-BODY-WAR-ARCH-AUDIT
+    path: projects/body-war/docs/decisions/architecture-import-boundary.md
+    artifact_type: decision-record
+    status: pass
+    notes: Decision gate record selecting Body War-owned TypeScript workspace with DomainSpec path alias.
+  - artifact_id: ART-ARCHITECTURE-AUDIT
+    owner_context_id: CTX-BODY-WAR-ARCH-AUDIT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md
+    artifact_type: architecture-audit
+    status: pass
+    notes: Closure evidence for DEC-ARCH-BOUNDARY-001 and BLK-ARCH-BOUNDARY-001.
+  - artifact_id: ART-MVP-ONESHOT-FORECAST
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/MVP-ONESHOT-FORECAST.md
+    artifact_type: readiness-forecast
+    status: active
+    notes: Predicts one-shot MVP decisions and missing specs before WORK-PACK.md or implementation mutation.
+  - artifact_id: ART-PILOT-DOMAINSPEC-COVERAGE
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md
+    artifact_type: coverage-synthesis
+    status: active
+    notes: Subagent-joined DomainSpec coverage matrix for the hosted friend preview.
+  - artifact_id: ART-PILOT-DOMAINSPEC-BACKLOG
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md
+    artifact_type: spec-backlog
+    status: active
+    notes: Ordered P0 spec backlog and implementation-contract choices before app mutation.
+  - artifact_id: ART-PARQUE-MVP-DESIGN
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/DESIGN.md
+    artifact_type: architecture-bundle
+    status: active
+    notes: Invoke design-mode six-view architecture bundle for the hosted friend preview.
+  - artifact_id: ART-PARQUE-MVP-LAYERING
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/IMPLEMENTATION-LAYERING.md
+    artifact_type: implementation-layering
+    status: active
+    notes: L0-L3 layering model for W0 specs, hosted flow build, preview reliability, and pilot-readiness split.
+  - artifact_id: ART-PARQUE-MVP-WORK-PACK
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/WORK-PACK.md
+    artifact_type: work-pack
+    status: active
+    notes: Invoke plan-mode work-pack; executable for W0 spec authoring and blocked for app mutation until W0 closes.
+  - artifact_id: ART-PARQUE-MVP-EXECUTION-PACK
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/EXECUTION-PACK.md
+    artifact_type: execution-pack
+    status: active
+    notes: Medium-complexity execution-pack with W0-W3 waves and app-mutation gate.
+  - artifact_id: ART-AUTH-USER-MANAGEMENT-REFINE
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-DISPATCH.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Validated reusable auth/user-management refine dispatch. Body War is the first intended consumer for login plus Strava connection; track and game mechanics are deferred.
+  - artifact_id: ART-AUTH-USER-MANAGEMENT-RESULT
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md
+    artifact_type: refine-result
+    status: pass
+    notes: Completed auth/user-management refine synthesis selecting hybrid browser/service auth, Strava activity-summary import, and task-session SWU ordering.
+  - artifact_id: ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: development/refinement-runs/20260621T-typescript-domainspec-invariant/task-session/20260621T-auth-workpack-oneshot/RESULT.md
+    artifact_type: implementation-result
+    status: pass
+    notes: Auth one-shot replaced the legacy auth runtime with a TypeScript auth-user-management package and wired Body War to server-owned session plus Strava provider adapter.
+  - artifact_id: ART-TROQAR-PRODUCT-ARCH-README
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/README.md
+    artifact_type: architecture-packet-index
+    status: active
+    notes: App-wide TROQAR product architecture packet entrypoint.
+  - artifact_id: ART-TROQAR-OPERATIONS-CAPABILITIES
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/OPERATIONS-CAPABILITIES.md
+    artifact_type: capability-catalog
+    status: active
+    notes: Operations and capabilities listed before domain/page/backend design.
+  - artifact_id: ART-TROQAR-DOMAINSPEC-SPEC
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/SPEC.md
+    artifact_type: domainspec-feature-spec
+    status: active
+    notes: DomainSpec feature spec for the app-wide TROQAR product architecture.
+  - artifact_id: ART-TROQAR-DOMAIN-MODEL
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/domain.md
+    artifact_type: domain-model
+    status: active
+    notes: App-wide domain model, bounded contexts, entities, value objects, and invariants.
+  - artifact_id: ART-TROQAR-ARCHITECTURE
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/ARCHITECTURE.md
+    artifact_type: architecture-bundle
+    status: active
+    notes: Six-view architecture design for all TROQAR app pages and backend modules.
+  - artifact_id: ART-TROQAR-UI-UX
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/ui-spec.md
+    artifact_type: ui-ux-spec
+    status: active
+    notes: Route table, page inventory, component inventory, data flow, states, and accessibility rules.
+  - artifact_id: ART-TROQAR-VISUAL-DEFINITIONS
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/VISUAL-DEFINITIONS.md
+    artifact_type: visual-guide-definitions
+    status: active
+    notes: Local translation of the TROQAR visual guide source note into UI tokens and component rules.
+  - artifact_id: ART-TROQAR-BACKEND-SPEC
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/backend.md
+    artifact_type: backend-spec
+    status: active
+    notes: Backend module, storage, security, observability, and acceptance definitions.
+  - artifact_id: ART-TROQAR-GAP-BLOCKER-REVIEW
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md
+    artifact_type: gap-blocker-review
+    status: flag
+    notes: Local refine-style gap review preserving active Strava and geometry residue and naming new planning gaps.
+  - artifact_id: ART-TROQAR-REFINE-DISPATCH
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Validated formal Refine route for the TROQAR product architecture gap/blocker review; execution waits for operator confirmation.
+  - artifact_id: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Production login UI task session completed SWU-PUI-001 through SWU-PUI-005 with Studio handoff and Playwright validation.
+  - artifact_id: ART-TROQAR-PRODUCTION-UI-REVIEW
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/UI-REVIEW.md
+    artifact_type: ui-review-receipt
+    status: pass
+    notes: Review receipt for the production login-first TROQAR UI, including browser and mobile evidence.
+  - artifact_id: ART-TROQAR-PRODUCTION-LOGIN-HANDOFF
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json
+    artifact_type: studio-handoff-bundle
+    status: pass
+    notes: Studio Prototype Gate bundle for the production login-first UI; accepted variant B, rev-0001, with no missing refs.
+  - artifact_id: ART-SUGGESTED-TRACK-ARCHITECTURE-PLAN
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md
+    artifact_type: architecture-plan
+    status: flag
+    notes: SuggestedTrack-first architecture plan; runtime implementation has not started.
+  - artifact_id: ART-SUGGESTED-TRACK-REFINE-DISPATCH
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/REFINE-DISPATCH.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Validated refine dispatch for the SuggestedTrack-first route; pass is route-shape evidence only.
+  - artifact_id: ART-SUGGESTED-TRACK-RESULT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md
+    artifact_type: refine-result
+    status: flag
+    notes: Strategy result selecting SuggestedTrack -> EvidenceRequest -> ActivityEvidenceCandidate -> SourceBackedTrack.
+  - artifact_id: ART-SUGGESTED-TRACK-RUNTIME-HANDOFF
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md
+    artifact_type: runtime-handoff
+    status: blocked-awaiting-confirmation
+    notes: Handoff for Task Session Slice 1; app mutation waits for confirmation.
+  - artifact_id: ART-SUGGESTED-TRACK-RUN-MANIFEST
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUN-MANIFEST.md
+    artifact_type: run-manifest
+    status: pass
+    notes: Manifest records JSON, dispatch-spec, and diff validation for the refinement packet.
+  - artifact_id: ART-SUGGESTED-TRACK-DECISION-BUILD-DISPATCH
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/REFINE-DISPATCH.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Validated Refine dispatch for the confirmed decision-slate and one-go build handoff route.
+  - artifact_id: ART-SUGGESTED-TRACK-DECISION-BUILD-HANDOFF
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUNTIME-HANDOFF.md
+    artifact_type: runtime-handoff
+    status: ready-for-task-session
+    notes: Handoff to one bounded Task Session with required preflight docs/gate update before app mutation.
+  - artifact_id: ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md
+    artifact_type: refine-result
+    status: pass
+    notes: "Confirmed Refine result: decision slate closed enough for one-go Task Session handoff."
+  - artifact_id: ART-SUGGESTED-TRACK-DECISION-BUILD-MANIFEST
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUN-MANIFEST.md
+    artifact_type: run-manifest
+    status: pass
+    notes: Manifest indexes stage artifacts and completed subagent receipts for the decision-build route.
+  - artifact_id: ART-SUGGESTED-TRACK-ONE-GO-CONTEXT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/CONTEXT-PACK.md
+    artifact_type: task-session-context-pack
+    status: pass
+    notes: Context pack for the one-go SuggestedTrack build; strict obligation coverage passed.
+  - artifact_id: ART-SUGGESTED-TRACK-ONE-GO-RESULT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/TASK-SESSION-RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Task Session result for SuggestedTrack docs, schema, migration, seed, API, UI, tests, and validation.
+  - artifact_id: ART-BWOI-INVOKE-WORK-PACK
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md
+    artifact_type: work-pack
+    status: pass
+    notes: Three-witness experimental proof track complete through reproducibility and claim-ceiling verification; authority and release effects remain none.
+  - artifact_id: ART-BWOI-ONTOLOGY-RECEIPT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json
+    artifact_type: ontology-test-receipt
+    status: pass
+    notes: Deterministic candidate-local CT-2 ontology witness with authority_effect none and release admission not granted.
+  - artifact_id: ART-BWOI-ONTOLOGY-TASK-SESSION
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/SWU-BWOI-001/TASK-SESSION-RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Bounded execution and closeout evidence for the standalone ontology witness.
+  - artifact_id: ART-BWOI-DOMAINSPEC-RECEIPT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/domainspec-receipt.json
+    artifact_type: domainspec-test-receipt
+    status: pass
+    notes: Deterministic canonical CT-2 witness against the Body War memory repository with stronger-claim mutation rejection, authority_effect none, and release admission not granted.
+  - artifact_id: ART-BWOI-DOMAINSPEC-TASK-SESSION
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/SWU-BWOI-002/TASK-SESSION-RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Bounded execution and closeout evidence for the standalone canonical DomainSpec CT-2 witness.
+  - artifact_id: ART-BWOI-INTEGRATION-RECEIPT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/integration-receipt.json
+    artifact_type: integration-test-receipt
+    status: pass
+    notes: Deterministic exact-digest composition of the ontology and canonical DomainSpec CT-2 witnesses with authority_effect none and release admission not granted.
+  - artifact_id: ART-BWOI-INTEGRATION-TASK-SESSION
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/SWU-BWOI-003/TASK-SESSION-RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Bounded execution and closeout evidence for the digest-bound integration witness.
+  - artifact_id: ART-BWOI-VERIFY-REPORT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/VERIFICATION-REPORT.md
+    artifact_type: verification-report
+    status: pass
+    notes: Two-run reproducibility, input-only fixture, case identity, claim-ceiling, and external-tree immutability audit for the three-witness experiment.
+  - artifact_id: ART-BWOI-VERIFY-TASK-SESSION
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/TASK-SESSION-RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Bounded closure-only verification execution and closeout evidence for the BWOI experiment.
+
+descriptions:
+  - description_id: DESC-BODY-WAR-001
+    context_id: CTX-BODY-WAR-ROOT
+    description: Body War is an MVP candidate with a restored project scaffold, an app-backed Strava prototype, selected hybrid scoring, and a current review/audit gate before architecture implementation.
+    status: active
+    evidence: projects/body-war/docs/decisions/mvp-readiness.md
+  - description_id: DESC-BODY-WAR-ARCH-001
+    context_id: CTX-BODY-WAR-ARCH-AUDIT
+    description: The Parque Taquaral online MVP should be reviewed against DomainSpec Functional TypeScript architecture methods before implementation; the current Python/static app is prototype evidence, not target architecture readiness.
+    status: active
+    evidence: projects/body-war/development/dispatches/20260610-body-war-parque-taquaral-review-audit.spec.md
+  - description_id: DESC-BODY-WAR-AUTH-FIRST-001
+    context_id: CTX-BODY-WAR-ROOT
+    description: "Operator pivot: defer track geometry and game mechanics; make login, auth/session, and Strava connection possible first through a reusable auth/user-management project."
+    status: active
+    evidence: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md
+  - description_id: DESC-TROQAR-PRODUCT-ARCH-001
+    context_id: CTX-BODY-WAR-ROOT
+    description: "Operator requested an app-wide TROQAR product architecture packet: operations and capabilities first, then DomainSpec domain, UI/UX, visual, and backend definitions for all pages."
+    status: active
+    evidence: projects/body-war/docs/features/troqar-product-architecture/README.md
+  - description_id: DESC-SUGGESTED-TRACKS-001
+    context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    description: "Operator clarified that suggested-track expansion should be governed as a Body War child node: users can suggest tracks, consult Strava activities, and attach evidence only with consent."
+    status: active
+    evidence: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md
+  - description_id: DESC-SUGGESTED-TRACKS-DECISION-BUILD-001
+    context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    description: "Operator confirmed the decision-slate route: connected-runner suggestions, login before submit, idempotent Taquaral seed, operator-only promotion, existing Postgres/Drizzle, and one-go docs/schema/API/UI/tests build without source-backed geometry or pilot-ready overclaim."
+    status: active
+    evidence: projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md
+
+definitions:
+  - definition_id: DEF-BODY-WAR-CRAFT-001
+    scope_id: CTX-BODY-WAR-ROOT
+    term: Body War Craft ledger
+    statement: A project-local Craft ledger that records Body War recursive development state, blockers, decisions, gaps, next moves, and recomposition evidence.
+    status: candidate
+    evidence: ../../arcanum/arcana/craft/SKILL.md
+  - definition_id: DEF-ARCH-BOUNDARY-001
+    scope_id: CTX-BODY-WAR-ARCH-AUDIT
+    term: DomainSpec TypeScript import boundary
+    statement: The future Body War TypeScript package or app boundary through which Body War imports or references DomainSpec architecture methods without copying their ownership.
+    status: candidate
+    evidence: implementation/domainspec/architecture/ARCHITECTURE.md
+  - definition_id: DEF-TAQUARAL-CONTEXT-001
+    scope_id: CTX-BODY-WAR-ROOT
+    term: Parque Taquaral pilot context
+    statement: The selected physical MVP context for Body War review, not a sourced GPS route or official track geometry claim.
+    status: candidate
+    evidence: operator supplied Google Maps link, 2026-06-10
+  - definition_id: DEF-TROQAR-PRODUCT-ARCH-001
+    scope_id: CTX-BODY-WAR-ROOT
+    term: TROQAR product architecture packet
+    statement: The project-local app-wide DomainSpec design surface that maps TROQAR capabilities, domain concepts, pages, UI/UX, visual definitions, and backend contracts before implementation planning.
+    status: candidate
+    evidence: projects/body-war/docs/features/troqar-product-architecture/README.md
+  - definition_id: DEF-SUGGESTED-TRACK-001
+    scope_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    term: SuggestedTrack
+    statement: A route or place users want TROQAR to support; it may be seeded or user-submitted before any Strava activity evidence is attached.
+    status: candidate
+    evidence: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md
+  - definition_id: DEF-TRACK-EVIDENCE-CANDIDATE-001
+    scope_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    term: TrackEvidenceCandidate
+    statement: A consented activity summary attached to a SuggestedTrack as evidence; raw Strava consult data remains ephemeral until the runner explicitly attaches it.
+    status: candidate
+    evidence: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md
+
+typed_items:
+  - item_id: BLK-ARCH-BOUNDARY-001
+    kind: blocker
+    base_type: architecture_blocker
+    context_type: body-war.domainspec_import_boundary
+    primary_lane: architecture
+    secondary_lanes:
+      - tech
+      - validator
+    source_id: CTX-BODY-WAR-ARCH-AUDIT
+    target_id: CTX-BODY-WAR-ROOT
+    status: resolved
+    refinement_status: resolved
+    default_role: architecture_reviewer
+    delegation_route: architecture-pattern-inventory
+    closure_condition: ARCHITECTURE-AUDIT.md selects a Body War TypeScript package/app boundary and the approved DomainSpec method import/reference mechanism.
+    evidence: ART-ARCHITECTURE-AUDIT
+    decision_ref: DEC-ARCH-BOUNDARY-001
+    reason: User selected option 1; architecture method boundary is explicit for MVP planning.
+  - item_id: BLK-STRAVA-ACTIVITY-001
+    kind: blocker
+    base_type: evidence_blocker
+    context_type: body-war.strava_activity_submission
+    primary_lane: validator
+    secondary_lanes:
+      - tech
+      - product
+    source_id: CTX-BODY-WAR-ROOT
+    target_id: CTX-BODY-WAR-ROOT
+    status: active
+    refinement_status: refined
+    default_role: validation_reviewer
+    delegation_route: task-session
+    closure_condition: A real Strava run imports and submits as track evidence without exposing tokens.
+    evidence: ART-STRAVA-PILOT-WORK-PACK
+    decision_ref: none
+    reason: OAuth success is not full activity-submission readiness.
+  - item_id: ENA-REVIEW-AUDIT-001
+    kind: enabler
+    base_type: route_shape_enabler
+    context_type: body-war.review_audit_dispatch_pass
+    primary_lane: governance
+    secondary_lanes:
+      - validator
+    source_id: CTX-BODY-WAR-ARCH-AUDIT
+    target_id: CTX-BODY-WAR-ROOT
+    status: active
+    refinement_status: refined
+    default_role: governance_reviewer
+    delegation_route: dispatch-spec
+    closure_condition: Dispatch validation remains pass and is treated as route-shape evidence only.
+    evidence: ART-REVIEW-AUDIT-DISPATCH
+    decision_ref: none
+    reason: The audit route is explicit, gated, observable, and non-executing.
+
+decisions:
+  - decision_id: DEC-ARCH-BOUNDARY-001
+    scope_id: CTX-BODY-WAR-ARCH-AUDIT
+    decision_type: blocker
+    question: Which TypeScript architecture/import boundary will Body War use to consume DomainSpec methods?
+    description: Closed architecture/import-boundary decision that unblocks MVP work-pack planning while keeping DomainSpec method ownership outside Body War.
+    options:
+      - body-war-own-typescript-workspace-with-domainspec-path-alias
+      - shared-domainspec-method-package
+      - documentation-only-reference-until-export-exists
+    selected: body-war-own-typescript-workspace-with-domainspec-path-alias
+    rationale: User selected option 1. This unblocks MVP planning fastest while preserving DomainSpec as method authority through explicit TypeScript path aliases or source references.
+    evidence: projects/body-war/docs/decisions/architecture-import-boundary.md
+    status: closed
+    blocking: false
+    impact: MVP implementation can proceed in a Body War-owned TypeScript workspace; shared DomainSpec package extraction remains future hardening.
+    owner: Body War architecture
+    links:
+      - label: decision record
+        target: projects/body-war/docs/decisions/architecture-import-boundary.md
+        kind: path
+      - label: architecture audit
+        target: ART-ARCHITECTURE-AUDIT
+        kind: artifact-id
+      - label: closed blocker
+        target: BLK-ARCH-BOUNDARY-001
+        kind: row-id
+  - decision_id: DEC-BODY-WAR-AUTH-FIRST-001
+    scope_id: CTX-BODY-WAR-ROOT
+    decision_type: priority_pivot
+    question: What should Body War prioritize before track geometry and game mechanics?
+    description: The operator chose to defer track and game work and prioritize login, auth/session, and Strava connection through a reusable auth/user-management project.
+    options:
+      - auth-user-management-first
+      - continue-track-and-game-mvp
+      - implement-body-war-direct-auth-without-reusable-foundation
+    selected: auth-user-management-first
+    rationale: Login/auth and Strava connection are the smallest production prerequisite for a usable hosted preview, and a reusable auth project can serve later projects.
+    evidence: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-SEED-PROPOSAL.md
+    status: closed
+    blocking: false
+    impact: Body War's next move shifts from broad W0 track/game spec execution to real Strava activity validation through the auth-backed pilot.
+    owner: Body War product and auth-user-management
+    links:
+      - label: auth-user-management refine route
+        target: ART-AUTH-USER-MANAGEMENT-REFINE
+        kind: artifact-id
+      - label: reusable auth ledger
+        target: projects/auth-user-management/.craft/ledger.yml
+        kind: path
+
+gaps:
+  - gap_id: GAP-TAQUARAL-GEOMETRY-001
+    scope_id: CTX-BODY-WAR-ROOT
+    summary: Parque Taquaral is selected as pilot context, but no sourced track geometry or lap boundary exists.
+    severity: flag
+    treatment: defer
+    owner: Body War product
+    status: active
+    evidence: projects/body-war/development/dispatches/20260610-body-war-parque-taquaral-review-audit.spec.md
+  - gap_id: GAP-DOMAINSPEC-EXPORT-001
+    scope_id: CTX-BODY-WAR-ARCH-AUDIT
+    summary: DomainSpec methods are available as architecture docs, but a typed package export for Body War has not been selected.
+    severity: flag
+    treatment: defer
+    owner: architecture-pattern-inventory
+    status: resolved
+    evidence: projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md
+  - gap_id: GAP-TROQAR-PAGE-PRIORITY-001
+    scope_id: CTX-BODY-WAR-ROOT
+    summary: App-wide TROQAR pages are defined, but the first implementation order across Home, Connect, Map, Routes, Activities, Challenges, Community, Rankings, Profile, Notifications, Operator, Sponsor, and Store is not selected.
+    severity: flag
+    treatment: invoke-plan
+    owner: Body War product architecture
+    status: active
+    evidence: projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md
+  - gap_id: GAP-TROQAR-SCORE-AUTHORITY-001
+    scope_id: CTX-BODY-WAR-ROOT
+    summary: Zone Score and fastest-time controller both exist in source evidence; the authority switch or hybrid rule needs an explicit decision before full territory scoring implementation.
+    severity: flag
+    treatment: decision-gate
+    owner: Body War product/game rules
+    status: active
+    evidence: projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md
+  - gap_id: GAP-TROQAR-BACKEND-PROVIDER-001
+    scope_id: CTX-BODY-WAR-ROOT
+    summary: Hosted runtime, managed storage, secret store, and provider/schema choices are not selected for the app-wide backend architecture.
+    severity: flag
+    treatment: invoke-plan
+    owner: Body War backend/security
+    status: active
+    evidence: projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md
+  - gap_id: GAP-TROQAR-GLOSSARY-PROMOTION-001
+    scope_id: CTX-BODY-WAR-ROOT
+    summary: App-wide TROQAR product architecture terms are local candidate definitions and have not been promoted into a canonical glossary.
+    severity: note
+    treatment: definitions-governance
+    owner: Body War definitions
+    status: active
+    evidence: projects/body-war/docs/features/troqar-product-architecture/INVOKE-TRANSPORT.md
+
+route_handoffs:
+  - handoff_id: HND-DISPATCH-REVIEW-AUDIT-001
+    context_id: CTX-BODY-WAR-ARCH-AUDIT
+    capability_ref: dispatch-spec
+    mode: validate
+    objective: Validate the Body War Parque Taquaral review/audit route.
+    source_artifacts:
+      - projects/body-war/development/dispatches/20260610-body-war-parque-taquaral-review-audit.dispatch.json
+    ledger_conditions:
+      - implementation blocked until review/audit spec pass
+    expected_outputs:
+      - dispatch validation result
+    expected_receipt_fields:
+      - validation_result
+      - dispatch_id
+      - promotion_guardrail_status
+    status: completed
+  - handoff_id: HND-ARCH-AUDIT-001
+    context_id: CTX-BODY-WAR-ARCH-AUDIT
+    capability_ref: architecture-pattern-inventory
+    mode: review-audit
+    objective: Select or document the Body War TypeScript boundary for importing or referencing DomainSpec architecture methods.
+    source_artifacts:
+      - implementation/domainspec/architecture/ARCHITECTURE.md
+      - implementation/domainspec/architecture/pattern-library/README.md
+      - implementation/domainspec/architecture/pattern-library/DEPENDENCY-RULES.md
+    ledger_conditions:
+      - BLK-ARCH-BOUNDARY-001
+    expected_outputs:
+      - projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md
+    expected_receipt_fields:
+      - artifacts
+      - validation_result
+      - blockers
+      - residue
+    status: completed
+  - handoff_id: HND-CRAFT-REFINE-VALIDATE-001
+    context_id: CTX-BODY-WAR-ROOT
+    capability_ref: dispatch-spec
+    mode: validate
+    objective: Validate the Craft -> Refine -> gap/blocker validation -> Victor summary route.
+    source_artifacts:
+      - projects/body-war/development/dispatches/20260610-body-war-craft-refine-validate-summary.dispatch.json
+      - projects/body-war/docs/features/parque-taquaral-online-mvp/DISCOVERY.md
+    ledger_conditions:
+      - BLK-ARCH-BOUNDARY-001
+      - BLK-STRAVA-ACTIVITY-001
+      - GAP-TAQUARAL-GEOMETRY-001
+      - GAP-DOMAINSPEC-EXPORT-001
+    expected_outputs:
+      - dispatch validation result
+      - Victor-style Body War discovery summary
+    expected_receipt_fields:
+      - validation_result
+      - artifacts
+      - blockers
+      - residue
+    status: completed
+  - handoff_id: HND-TROQAR-PRODUCT-ARCH-REFINE-001
+    context_id: CTX-BODY-WAR-ROOT
+    capability_ref: refine
+    mode: strategy-proposal
+    objective: Validate the TROQAR product architecture packet through the canonical Refine loop and return refined gaps/blockers before implementation planning.
+    source_artifacts:
+      - projects/body-war/docs/features/troqar-product-architecture/README.md
+      - projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md
+      - projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json
+    ledger_conditions:
+      - BLK-STRAVA-ACTIVITY-001
+      - GAP-TAQUARAL-GEOMETRY-001
+      - GAP-TROQAR-PAGE-PRIORITY-001
+      - GAP-TROQAR-SCORE-AUTHORITY-001
+      - GAP-TROQAR-BACKEND-PROVIDER-001
+      - GAP-TROQAR-GLOSSARY-PROMOTION-001
+    expected_outputs:
+      - confirmed Refine stage receipts or blocked reason
+      - refined gap/blocker synthesis
+    expected_receipt_fields:
+      - dispatch_id
+      - confirmation_status
+      - stage_artifacts
+      - blockers
+      - residue
+    status: blocked-awaiting-confirmation
+  - handoff_id: HND-SUGGESTED-TRACK-SLICE-1-001
+    context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    capability_ref: task-session
+    mode: spec-and-schema
+    objective: Execute Slice 1 for SuggestedTrack expansion with specs, Drizzle/Postgres schema, generated migration, and Volta do Taquaral needs_evidence seed.
+    source_artifacts:
+      - projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md
+      - projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md
+    ledger_conditions:
+      - BLK-STRAVA-ACTIVITY-001 remains open until consented activity evidence is submitted.
+      - GAP-TAQUARAL-GEOMETRY-001 remains open until sourced geometry exists.
+      - Strava consult must stay ephemeral until explicit evidence attachment consent.
+    expected_outputs:
+      - SuggestedTrack feature specs
+      - Drizzle/Postgres schema and generated migration
+      - Volta do Taquaral seed with needs_evidence status
+    expected_receipt_fields:
+      - artifacts
+      - validation_result
+      - blockers
+      - residue
+    status: blocked-awaiting-confirmation
+  - handoff_id: HND-SUGGESTED-TRACK-ONE-GO-BUILD-001
+    context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    capability_ref: task-session
+    mode: one-go-build
+    objective: Build SuggestedTrack docs, Drizzle/Postgres schema, generated migration, idempotent Taquaral seed, API, connected-runner UI, and tests in one governed pass.
+    source_artifacts:
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUNTIME-HANDOFF.md
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S09-INVOKE-PLAN.md
+    ledger_conditions:
+      - Preflight docs/work-pack gate update must happen before app mutation.
+      - BLK-STRAVA-ACTIVITY-001 remains open until real consented activity evidence is submitted.
+      - GAP-TAQUARAL-GEOMETRY-001 remains open until source-backed geometry exists.
+      - Do not reuse legacy JSON-file /api/submissions as the new evidence-candidate persistence path.
+      - Do not claim source_backed or pilot_ready from suggested-track metadata alone.
+    expected_outputs:
+      - SuggestedTrack feature docs and status/API/UI/test contracts
+      - Drizzle/Postgres schema and generated migration
+      - Idempotent Volta do Taquaral needs_evidence seed
+      - SuggestedTrack API and connected-runner UI
+      - SuggestedTrack-specific tests and validation receipt
+    expected_receipt_fields:
+      - artifacts
+      - validation_result
+      - blockers
+      - residue
+      - files_touched
+    status: completed
+
+receipts:
+  - receipt_id: RCT-DISPATCH-REVIEW-AUDIT-001
+    handoff_id: HND-DISPATCH-REVIEW-AUDIT-001
+    producer: dispatch-spec
+    status: pass
+    artifacts:
+      - projects/body-war/development/dispatches/20260610-body-war-parque-taquaral-review-audit.dispatch.json
+      - projects/body-war/development/dispatches/20260610-body-war-parque-taquaral-review-audit.spec.md
+    validation_result: Dispatch route validates with VALIDATION=pass; no implementation is implied.
+    audit_reference: ART-REVIEW-AUDIT-DISPATCH
+    residue: Superseded by architecture-boundary decision and ARCHITECTURE-AUDIT.md.
+  - receipt_id: RCT-CRAFT-REFINE-VALIDATE-001
+    handoff_id: HND-CRAFT-REFINE-VALIDATE-001
+    producer: dispatch-spec
+    status: pass
+    artifacts:
+      - projects/body-war/development/dispatches/20260610-body-war-craft-refine-validate-summary.dispatch.json
+      - projects/body-war/docs/features/parque-taquaral-online-mvp/DISCOVERY.md
+    validation_result: Dispatch route validates with VALIDATION=pass; summary artifact exists; architecture/import-boundary decision is now closed; Strava activity evidence remains blocked.
+    audit_reference: ART-CRAFT-REFINE-DISPATCH
+    residue: Strava activity submission and Parque Taquaral geometry remain open.
+  - receipt_id: RCT-ARCH-BOUNDARY-DECISION-001
+    handoff_id: HND-ARCH-AUDIT-001
+    producer: decision-gate
+    status: pass
+    artifacts:
+      - projects/body-war/docs/decisions/architecture-import-boundary.md
+      - projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md
+    validation_result: User selected Body War-owned TypeScript workspace with DomainSpec path alias; architecture audit records import/reference mechanism and closes the architecture blocker for implementation planning.
+    audit_reference: ART-ARCHITECTURE-AUDIT
+    residue: Shared DomainSpec method package remains a future hardening option, not an MVP blocker.
+  - receipt_id: RCT-BODY-WAR-AUTH-REFINE-001
+    handoff_id: external-auth-user-management-refine
+    producer: refine
+    status: pass
+    artifacts:
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/stages/09-invoke-plan/PLAN.md
+    validation_result: Auth-user-management refine completed; Body War first-consumer route is login, server-owned session, Strava connection, and recent activity summary import before track/game work.
+    audit_reference: ART-AUTH-USER-MANAGEMENT-RESULT
+    residue: Superseded by RCT-BODY-WAR-AUTH-IMPLEMENTED-001; real Strava activity submission evidence remains open.
+  - receipt_id: RCT-BODY-WAR-AUTH-IMPLEMENTED-001
+    handoff_id: ONE-SHOT-AUTH-FOUNDATION-001
+    producer: codex-goal
+    status: pass
+    artifacts:
+      - projects/body-war/app/server.ts
+      - projects/body-war/app/static/app.js
+      - projects/body-war/app/static/index.html
+      - projects/body-war/app/tests/auth-consumer.test.ts
+      - development/refinement-runs/20260621T-typescript-domainspec-invariant/task-session/20260621T-auth-workpack-oneshot/RESULT.md
+    validation_result: Auth npm validate, Body War npm check, runtime language policy check, JSON/YAML/dispatch/diff checks passed; Body War now consumes TypeScript auth-user-management for server-owned session, CSRF guard, Strava connection, and activity summary import.
+    audit_reference: ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION
+    residue: Real consenting Strava activity import/submission remains required to close BLK-STRAVA-ACTIVITY-001.
+  - receipt_id: RCT-TROQAR-PRODUCTION-UI-001
+    handoff_id: SWU-PUI-001-through-SWU-PUI-005
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md
+      - projects/body-war/docs/features/troqar-product-architecture/UI-REVIEW.md
+      - projects/body-war/docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json
+      - projects/body-war/app/e2e/troqar-product-architecture/ui.spec.ts
+    validation_result: Studio check/test, Body War build/check/test:ui, JSON parse, JS syntax, and diff checks passed; production login-first UI is implemented and browser-falsified.
+    audit_reference: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+    residue: Real Strava activity submission and sourced geometry remain active gaps; this closes the UI production-login path only.
+  - receipt_id: RCT-SUGGESTED-TRACK-DECISION-BUILD-REFINE-001
+    handoff_id: HND-SUGGESTED-TRACK-ONE-GO-BUILD-001
+    producer: refine
+    status: pass
+    artifacts:
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUN-MANIFEST.md
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S09-INVOKE-PLAN.md
+    validation_result: Refine dispatch validates with VALIDATION=pass; stage artifacts and subagent receipts complete; one-go Task Session handoff is ready with preflight gate before app mutation.
+    audit_reference: ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT
+    residue: Source-backed geometry, pilot-ready status, real activity evidence, and territory scoring remain deferred outside the one-go build.
+  - receipt_id: RCT-SUGGESTED-TRACK-ONE-GO-BUILD-001
+    handoff_id: HND-SUGGESTED-TRACK-ONE-GO-BUILD-001
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/TASK-SESSION-RESULT.md
+      - projects/body-war/docs/features/parque-taquaral-online-mvp/SPEC.md
+      - projects/body-war/app/drizzle/0001_lyrical_living_mummy.sql
+      - projects/body-war/app/server.ts
+      - projects/body-war/app/static/app.js
+      - projects/body-war/app/tests/auth-consumer.test.ts
+      - projects/body-war/app/e2e/body-war-auth.e2e.ts
+      - projects/body-war/app/e2e/troqar-product-architecture/ui.spec.ts
+    validation_result: "PASS: validate, test, e2e with managed Postgres, exact e2e with Postgres up, test:ui, and git diff --check all passed for the SuggestedTrack scope."
+    audit_reference: ART-SUGGESTED-TRACK-ONE-GO-RESULT
+    residue: Real consenting Strava activity evidence and source-backed geometry remain open; legacy /api/submissions remains only for old preview compatibility.
+  - receipt_id: RCT-BWOI-ONTOLOGY-001
+    handoff_id: SWU-BWOI-001
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/SWU-BWOI-001/TASK-SESSION-RESULT.md
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/tests/ontology.test.ts
+    validation_result: "PASS: ontology tests 4/4 on two executions, byte-identical receipt, Body War application tests 3/3, and scoped diff check."
+    audit_reference: ART-BWOI-ONTOLOGY-TASK-SESSION
+    residue: Ontology remains candidate-local with no authority or release effect; DomainSpec and integration witnesses remain unexecuted.
+  - receipt_id: RCT-BWOI-DOMAINSPEC-002
+    handoff_id: SWU-BWOI-002
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/SWU-BWOI-002/TASK-SESSION-RESULT.md
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/domainspec-receipt.json
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/tests/domainspec.test.ts
+    validation_result: "PASS: DomainSpec tests 3/3 on two executions, byte-identical receipt, stronger backend mutation rejected, Body War application tests 3/3, and scoped diff check."
+    audit_reference: ART-BWOI-DOMAINSPEC-TASK-SESSION
+    residue: The proof covers one experimental CT-2 function seam with no authority or release effect; the digest-bound integration witness remains unexecuted.
+  - receipt_id: RCT-BWOI-INTEGRATION-003
+    handoff_id: SWU-BWOI-003
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/SWU-BWOI-003/TASK-SESSION-RESULT.md
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/integration-receipt.json
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/tests/integration.test.ts
+    validation_result: "PASS: integration tests 4/4, full proof suite 11/11, exact parent and nested digest binding, three typed negative controls, Body War application tests 3/3, and scoped diff check."
+    audit_reference: ART-BWOI-INTEGRATION-TASK-SESSION
+    residue: The composition proves one experimental CT-2 function seam with no authority or release effect; reproducibility and claim-ceiling verification remains unexecuted.
+  - receipt_id: RCT-BWOI-VERIFY-004
+    handoff_id: TASK-BWOI-VERIFY
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/TASK-SESSION-RESULT.md
+      - projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/VERIFICATION-REPORT.md
+      - projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/RECEIPT-DIGESTS.json
+    validation_result: "PASS: full proof suite 11/11 twice, four byte-identical receipt hashes, input-only fixtures, exact case identity, four retained claim ceilings, unchanged ontology/DomainSpec trees, Body War application tests 3/3, and scoped diff check."
+    audit_reference: ART-BWOI-VERIFY-REPORT
+    residue: The evidence closes one experimental CT-2 seam only; promotion, release, deployment, production parity, and wider SuggestedTrack claims remain outside scope.
+
+relations:
+  - relation_id: REL-CONTAINS-ARCH-AUDIT-001
+    source_id: CTX-BODY-WAR-ROOT
+    target_id: CTX-BODY-WAR-ARCH-AUDIT
+    type: contains
+    status: active
+    reason: Architecture audit is a child context of Body War MVP readiness.
+    evidence: DEC-ARCH-BOUNDARY-001
+  - relation_id: REL-BLOCKS-ARCH-BOUNDARY-001
+    source_id: BLK-ARCH-BOUNDARY-001
+    target_id: CTX-BODY-WAR-ROOT
+    type: blocks
+    status: resolved
+    reason: DomainSpec TypeScript import/reference boundary was selected by decision gate.
+    evidence: RCT-ARCH-BOUNDARY-DECISION-001
+  - relation_id: REL-INFORMS-DISPATCH-001
+    source_id: RCT-DISPATCH-REVIEW-AUDIT-001
+    target_id: CTX-BODY-WAR-ARCH-AUDIT
+    type: informs
+    status: active
+    reason: Dispatch pass informs route shape only, not implementation readiness.
+    evidence: HND-DISPATCH-REVIEW-AUDIT-001
+  - relation_id: REL-INFORMS-SUMMARY-001
+    source_id: ART-VICTOR-DISCOVERY-SUMMARY
+    target_id: CTX-BODY-WAR-ROOT
+    type: informs
+    status: active
+    reason: Discovery summary gives the reasoning frame for what to build and how to build it.
+    evidence: RCT-CRAFT-REFINE-VALIDATE-001
+  - relation_id: REL-INFORMS-REFINE-ROUTE-001
+    source_id: RCT-CRAFT-REFINE-VALIDATE-001
+    target_id: CTX-BODY-WAR-ARCH-AUDIT
+    type: informs
+    status: active
+    reason: The validated route sends the architecture blocker through refine and decision-gate before task-session implementation.
+    evidence: HND-CRAFT-REFINE-VALIDATE-001
+  - relation_id: REL-RECOMPOSE-ARCH-AUDIT-001
+    source_id: CTX-BODY-WAR-ARCH-AUDIT
+    target_id: CTX-BODY-WAR-ROOT
+    type: informs
+    status: resolved
+    reason: Architecture child context returns selected TypeScript boundary and audit evidence to the root MVP readiness context.
+    evidence: RCT-ARCH-BOUNDARY-DECISION-001
+  - relation_id: REL-BODY-WAR-AUTH-FIRST-CONSUMER-001
+    source_id: ART-AUTH-USER-MANAGEMENT-REFINE
+    target_id: CTX-BODY-WAR-ROOT
+    type: informs
+    status: active
+    reason: The reusable auth-user-management route makes Body War the first consumer for login and Strava connection before track/game work resumes.
+    evidence: RCT-BODY-WAR-AUTH-IMPLEMENTED-001
+  - relation_id: REL-TROQAR-PRODUCT-ARCHITECTURE-001
+    source_id: ART-TROQAR-PRODUCT-ARCH-README
+    target_id: CTX-BODY-WAR-ROOT
+    type: informs
+    status: active
+    reason: The app-wide TROQAR product architecture packet maps capabilities, pages, domains, UI/UX, visual definitions, backend contracts, and refine residue before implementation planning.
+    evidence: ART-TROQAR-GAP-BLOCKER-REVIEW
+  - relation_id: REL-TROQAR-REFINE-STRATEGY-001
+    source_id: ART-TROQAR-REFINE-DISPATCH
+    target_id: CTX-BODY-WAR-ROOT
+    type: informs
+    status: blocked-awaiting-confirmation
+    reason: The formal Refine route validates, but canonical Refine runtime execution requires operator confirmation after the strategy preview.
+    evidence: HND-TROQAR-PRODUCT-ARCH-REFINE-001
+  - relation_id: REL-TROQAR-PRODUCTION-UI-001
+    source_id: RCT-TROQAR-PRODUCTION-UI-001
+    target_id: CTX-BODY-WAR-ROOT
+    type: informs
+    status: active
+    reason: Production login-first UI implementation and validation provide the current hosted-preview entry surface while preserving Strava activity and geometry residue.
+    evidence: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+  - relation_id: REL-CONTAINS-SUGGESTED-TRACKS-001
+    source_id: CTX-BODY-WAR-ROOT
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: contains
+    status: active
+    reason: Suggested-track expansion is a child node under Body War, not a separate Craft ledger.
+    evidence: ART-SUGGESTED-TRACK-RESULT
+  - relation_id: REL-SUGGESTED-TRACK-DECISION-BUILD-001
+    source_id: ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: informs
+    status: active
+    reason: Confirmed Refine result supersedes the Slice 1-only next move with a one-go Task Session handoff that starts with preflight docs/gate update.
+    evidence: RCT-SUGGESTED-TRACK-DECISION-BUILD-REFINE-001
+  - relation_id: REL-BWOI-ONTOLOGY-WITNESS-001
+    source_id: RCT-BWOI-ONTOLOGY-001
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: informs
+    status: active
+    reason: The standalone candidate-local ontology witness establishes the W0 ordering evidence while granting no ontology promotion or release authority.
+    evidence: ART-BWOI-ONTOLOGY-RECEIPT
+  - relation_id: REL-BWOI-DOMAINSPEC-WITNESS-002
+    source_id: RCT-BWOI-DOMAINSPEC-002
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: informs
+    status: active
+    reason: The standalone canonical DomainSpec witness establishes W1 behavior evidence against the current memory repository while granting no promotion or release authority.
+    evidence: ART-BWOI-DOMAINSPEC-RECEIPT
+  - relation_id: REL-BWOI-INTEGRATION-WITNESS-003
+    source_id: RCT-BWOI-INTEGRATION-003
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: informs
+    status: active
+    reason: The digest-bound W2 integration witness composes the two standalone receipts while granting no promotion or release authority.
+    evidence: ART-BWOI-INTEGRATION-RECEIPT
+  - relation_id: REL-BWOI-VERIFY-004
+    source_id: RCT-BWOI-VERIFY-004
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: informs
+    status: active
+    reason: The closure-only W3 audit establishes reproducibility and claim-ceiling preservation for the experimental three-witness seam without promotion or release effect.
+    evidence: ART-BWOI-VERIFY-REPORT
+
+recomposition:
+  - child_id: CTX-BODY-WAR-ARCH-AUDIT
+    parent_id: CTX-BODY-WAR-ROOT
+    summary: Architecture/import-boundary child context is closed. Body War will use a Body War-owned TypeScript workspace/app with DomainSpec path alias or explicit source references.
+    evidence: RCT-ARCH-BOUNDARY-DECISION-001
+    residue: Strava activity submission remains blocked; Parque Taquaral geometry remains deferred; shared DomainSpec method package is future hardening.
+    next_parent_move: Create the Parque Taquaral online MVP WORK-PACK.md for a bounded implementation slice.
+    status: pass
+  - child_id: projects/auth-user-management
+    parent_id: CTX-BODY-WAR-ROOT
+    summary: Auth-user-management implementation completed and Body War now consumes reusable server-owned session, CSRF guard, Strava connection, and recent activity summary import.
+    evidence: RCT-BODY-WAR-AUTH-IMPLEMENTED-001
+    residue: Strava real activity submission remains blocked until a consenting activity imports and submits without token leakage; track geometry remains deferred.
+    next_parent_move: Validate a real consenting Strava activity import and submission through the auth-backed pilot.
+    status: pass
+  - child_id: projects/body-war/docs/features/troqar-product-architecture
+    parent_id: CTX-BODY-WAR-ROOT
+    summary: App-wide TROQAR architecture, operations, DomainSpec domain model, UI/UX, visual definitions, backend contracts, and local gap review are now anchored as Body War design artifacts.
+    evidence: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+    residue: Strava activity evidence, sourced geometry, score authority, backend provider choice, broader page ordering, and glossary promotion remain open.
+    next_parent_move: Use the production login UI as hosted preview entry, then validate real Strava activity import/submission without exposing tokens.
+    status: flag

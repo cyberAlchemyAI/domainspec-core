@@ -1,0 +1,36 @@
+{
+  "schema_version": "arcanum.continuation_handoff.v1",
+  "handoff_id": "body-war-bwoi-all-verify-contract",
+  "source": {
+    "capability": "task-session-until-blocker",
+    "result": "BLOCK",
+    "chain_state": "projects/body-war/development/task-session-chains/20260727T192300Z-bwoi-all/CHAIN-STATE.json",
+    "blocker_fingerprint": "1cd2068a263e3649e093c2efed1f362777f849c3ed645b750ea78a5c0585e1d6"
+  },
+  "target_scope": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration",
+  "blocker_class": "missing-controlling-evidence",
+  "probable_routes": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "work-pack-lifecycle-owner",
+      "authorization_status": "not-authorized-by-series-handoff",
+      "required_changes": [
+        "declare the TASK-BWOI-VERIFY verification-report write scope",
+        "add an exact TASK-BWOI-VERIFY closeout target inventory",
+        "declare allowed closeout delta classes and owner validation",
+        "declare a distinct expected Invoke owner receipt",
+        "declare terminal no-successor policy"
+      ],
+      "expected_result": "a refreshed work pack that passes whole-frontier preflight"
+    }
+  ],
+  "selection": {
+    "status": "recommended-not-dispatched",
+    "reason": "The blocker has one lifecycle owner but this outer spell cannot impersonate Invoke or derive non-closeout mutation authority."
+  },
+  "unblock_action": "Run Invoke Refresh apply-approved for this exact work pack, then rerun Task Session all work pack.",
+  "implementation_mutation_performed": false
+}

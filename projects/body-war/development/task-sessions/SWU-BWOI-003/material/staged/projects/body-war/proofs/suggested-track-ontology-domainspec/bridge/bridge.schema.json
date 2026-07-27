@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://body-war.local/schemas/ontology-domainspec-bridge/v1",
+  "title": "BodyWarOntologyDomainSpecBridge",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "feature_id",
+    "ontology_context",
+    "domainspec_context",
+    "bindings",
+    "authority_effect",
+    "release_admission",
+    "bridge_digest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "body-war-ontology-bridge/v1"
+    },
+    "feature_id": {
+      "const": "body-war-suggested-track"
+    },
+    "ontology_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validation_receipt_digest",
+        "entries"
+      ],
+      "properties": {
+        "validation_receipt_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "entry_id",
+              "entry_digest",
+              "observed_state"
+            ],
+            "properties": {
+              "entry_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "entry_digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "observed_state": {
+                "enum": [
+                  "candidate",
+                  "promoted"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "domainspec_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validation_receipt_digest",
+        "profile_digest",
+        "graph_digest",
+        "source_manifest_digest",
+        "build_receipt_digest"
+      ],
+      "properties": {
+        "validation_receipt_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "profile_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "graph_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_manifest_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "build_receipt_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "node_id",
+          "node_digest",
+          "module_id",
+          "module_digest",
+          "clause_id",
+          "clause_digest",
+          "interprets",
+          "required_ontology_state"
+        ],
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "node_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "module_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "module_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "clause_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clause_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "interprets": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required_ontology_state": {
+            "enum": [
+              "candidate",
+              "promoted"
+            ]
+          }
+        }
+      }
+    },
+    "authority_effect": {
+      "const": "none"
+    },
+    "release_admission": {
+      "const": "not-granted"
+    },
+    "bridge_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}
+

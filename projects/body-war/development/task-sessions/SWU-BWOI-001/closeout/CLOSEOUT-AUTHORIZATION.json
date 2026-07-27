@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_id": "closeout:SWU-BWOI-001:invoke-refresh-apply-approved",
+  "source_receipt": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-001/EXECUTION-RECEIPT.json",
+    "sha256": "b37c14c8407f376eedf3aa9020018a1cad15d4461b165fa42ff203d3d45b323e"
+  },
+  "route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved"
+  },
+  "scope": "projects/body-war",
+  "targets": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "baseline_sha256": "c8ce2412004a2a622b3ca15879b820fdca90c49a296823e193f85dd33a67e83f"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-ONTOLOGY.md",
+      "baseline_sha256": "1e66c3584d97a2e466db64bfc290e22748da205b3465edf4e4020c7ceba83e57"
+    },
+    {
+      "path": "projects/body-war/.craft/ledger.yml",
+      "baseline_sha256": "3028fc2b72286cfeea4fc90559b93940f03f28a2ee4f75ba43caacefd2c247f6"
+    },
+    {
+      "path": "projects/body-war/CRAFT.md",
+      "baseline_sha256": "60bd82b269f1d17e4d4291b73de3ea76ef7488dab5b25975ca0e2dc472e8f754"
+    }
+  ],
+  "allowed_delta_classes": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "validation_commands": [
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/ontology.test.ts)",
+    "npm --prefix projects/body-war/app test",
+    "git diff --check -- projects/body-war"
+  ],
+  "successor": {
+    "swu_id": "SWU-BWOI-002",
+    "unique": true,
+    "execute": false
+  },
+  "forbidden_effects": [
+    "implementation",
+    "authority-change",
+    "promotion",
+    "publication",
+    "deployment",
+    "destructive-cleanup",
+    "policy-or-risk-acceptance"
+  ],
+  "baseline_revalidation": "pass",
+  "authorization_status": "derived"
+}

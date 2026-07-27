@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "id": "body-war.ontology.SuggestedTrackStatus.needs_evidence",
+  "kind": "state",
+  "label": "needs_evidence",
+  "definition": "The suggestion exists but has no accepted source-backed evidence.",
+  "status": "candidate-local",
+  "evidence": [
+    {
+      "source": "projects/body-war/docs/features/parque-taquaral-online-mvp/states.md",
+      "selector": "SuggestedTrackLifecycle needs_evidence and Allowed Transitions",
+      "sha256": "400772f889ba3663f770eaeb03be88e106742a99643c140b44116083eaff373e"
+    }
+  ],
+  "confidence": {
+    "level": "high",
+    "basis": "The Body War lifecycle contract directly defines this state and its entry transition."
+  },
+  "next_gate": "Attach consented activity evidence before any later review or source-backed claim.",
+  "contradiction_path": "Reject this entry if creation no longer enters needs_evidence or if creation can directly grant source_backed.",
+  "relations": []
+}
+

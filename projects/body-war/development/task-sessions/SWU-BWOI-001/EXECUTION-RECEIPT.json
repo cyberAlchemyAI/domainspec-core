@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "capability": "task-session",
+  "mode": "execute",
+  "task_id": "TASK-BWOI-ONTOLOGY",
+  "swu_id": "SWU-BWOI-001",
+  "result": "pass",
+  "execution_owner": "local-fallback",
+  "context_pack": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-001/context-pack.json",
+    "strict_coverage": true
+  },
+  "mutation_admission": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-001/mutation-admission-receipt.json",
+    "verdict": "admit",
+    "mutation_ready": true
+  },
+  "files_updated": [
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/entry.schema.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/entries/CreateSuggestedTrack.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/entries/SuggestedTrack.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/entries/needs_evidence.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/transition-policy.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/fixtures/legal-transition.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/fixtures/invalid-transition.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/ontology-validator.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/tests/ontology.test.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json"
+  ],
+  "validation": [
+    {
+      "command": "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/ontology.test.ts)",
+      "result": "pass",
+      "evidence": "4 tests passed on each of two executions"
+    },
+    {
+      "command": "sha256sum projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json",
+      "result": "pass",
+      "evidence": "071e397041e3dfe9c0777c92dff20fa92ea63af61990b51ec1b13d2bf878dc88 on both executions"
+    },
+    {
+      "command": "npm --prefix projects/body-war/app test",
+      "result": "pass",
+      "evidence": "3 application tests passed"
+    },
+    {
+      "command": "git diff --check -- projects/body-war",
+      "result": "pass",
+      "evidence": "no whitespace errors"
+    }
+  ],
+  "acceptance": {
+    "positive_entry_set": "pass",
+    "illegal_transition": {
+      "result": "rejected",
+      "diagnostic": "ONTOLOGY_TRANSITION_FORBIDDEN"
+    },
+    "deterministic_receipt": "pass",
+    "ontology_status": "candidate-local",
+    "authority_effect": "none",
+    "release_admission": "not-granted"
+  },
+  "blockers": [],
+  "residue": [
+    "Ontology promotion remains outside this experimental witness.",
+    "DomainSpec and integration witnesses remain unexecuted."
+  ],
+  "closeout_sync": {
+    "required": true,
+    "status": "pending-owner",
+    "route": "invoke:refresh:apply-approved",
+    "expected_owner_receipt": "projects/body-war/development/task-sessions/SWU-BWOI-001/closeout/INVOKE-REFRESH-RECEIPT.md",
+    "allowed_delta_classes": [
+      "evidence_added",
+      "status_changed",
+      "route_changed"
+    ],
+    "returned_successor": "SWU-BWOI-002",
+    "execute_successor": false
+  }
+}
+

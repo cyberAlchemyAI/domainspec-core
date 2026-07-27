@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_id": "closeout:SWU-BWOI-003:invoke-refresh-apply-approved",
+  "source_receipt": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-003/EXECUTION-RECEIPT.json",
+    "sha256": "dcfd6430094a52ec43648c5522f8253320af70e5351e3c33368417aba2a2e13d"
+  },
+  "route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved"
+  },
+  "scope": "projects/body-war",
+  "targets": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "baseline_sha256": "784104a91dad0d660ebab51745081f4ba00aa2d745093a8d6a35c797cb8d84ec"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-INTEGRATION.md",
+      "baseline_sha256": "472c38bbf805281d5b17bf4a1de10e1a8bdf939ac95c92375fcd7be8d7f500a6"
+    },
+    {
+      "path": "projects/body-war/.craft/ledger.yml",
+      "baseline_sha256": "c99f34b3573c4d974f0569ef33234f900cb569ef93766feab34b7841631e015d"
+    },
+    {
+      "path": "projects/body-war/CRAFT.md",
+      "baseline_sha256": "cca73edc7ab5ddb4ad78047beb43712948f0fb038f9cca497bc9150698c210ae"
+    }
+  ],
+  "allowed_delta_classes": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "validation_commands": [
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/*.test.ts)",
+    "npm --prefix projects/body-war/app test",
+    "python3 YAML and embedded-index validation",
+    "git diff --check -- projects/body-war"
+  ],
+  "successor": {
+    "swu_id": "TASK-BWOI-VERIFY",
+    "unique": true,
+    "execute": false
+  },
+  "forbidden_effects": [
+    "implementation",
+    "authority-change",
+    "promotion",
+    "publication",
+    "deployment",
+    "destructive-cleanup",
+    "policy-or-risk-acceptance"
+  ],
+  "inventory_lookup": {
+    "index": ".arcanum/inventory/index.json",
+    "lookup_readiness": "ready",
+    "direct_bwoi_closeout_match": false,
+    "authority_effect": "none"
+  },
+  "dispatch_trace": {
+    "mode": "sequential",
+    "steps": [
+      "task-session",
+      "continuation-router",
+      "invoke-refresh"
+    ],
+    "subagent_strategy": "none",
+    "promotion_guardrail": "pass"
+  },
+  "baseline_revalidation": "pass",
+  "authorization_status": "derived",
+  "derived_at": "2026-07-27T20:26:01Z"
+}

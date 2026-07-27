@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-07-27T19:23:00Z",
+  "run_id": "task-session-until-blocker-bwoi-all-20260727",
+  "sigil": "task-session-until-blocker",
+  "tier": "spells",
+  "mode": "execute",
+  "request_summary": "Execute all remaining units in the exact Body War BWOI work pack until the first blocker or frontier completion.",
+  "execution_status": "block",
+  "outputs": [
+    "projects/body-war/development/task-session-chains/20260727T192300Z-bwoi-all/PREFLIGHT.json",
+    "projects/body-war/development/task-session-chains/20260727T192300Z-bwoi-all/CHAIN-STATE.json",
+    "projects/body-war/development/task-session-chains/20260727T192300Z-bwoi-all/CONTINUATION-HANDOFF.json",
+    "projects/body-war/development/task-session-chains/20260727T192300Z-bwoi-all/CHAIN-RESULT.md"
+  ],
+  "changed_files": {
+    "chain_evidence": 4,
+    "implementation_files": 0,
+    "work_pack_targets": 0
+  },
+  "validation": [
+    "exact work-pack digest captured",
+    "finite ordered frontier captured with budget two",
+    "both parent receipts pass with authority none and release not granted",
+    "SWU-BWOI-003 is uniquely ready and has a complete closeout contract",
+    "TASK-BWOI-VERIFY write scope is missing",
+    "TASK-BWOI-VERIFY closeout contract is missing",
+    "no implementation mutation occurred"
+  ],
+  "observer": {
+    "quality_bar": "pass",
+    "signals": [
+      "quality-pass",
+      "workflow-gap",
+      "useful-pattern"
+    ],
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      "The closure-only Verify task was admitted to the work pack without a declared write scope or complete Task Session closeout contract."
+    ],
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "Refresh the exact work pack through Invoke before resuming the captured chain."
+  }
+}

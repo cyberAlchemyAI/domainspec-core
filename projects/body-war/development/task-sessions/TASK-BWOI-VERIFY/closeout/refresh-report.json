@@ -1,0 +1,100 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "continuation",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "derived-closeout-authorization",
+  "handoffStatus": "ready",
+  "inventoryLookup": {
+    "lookupReadiness": "ready",
+    "directBwoiCloseoutMatch": false,
+    "authorityEffect": "none"
+  },
+  "dispatchTrace": {
+    "status": "pass",
+    "mode": "sequential",
+    "subagentStrategy": "none",
+    "promotionGuardrail": "pass"
+  },
+  "sourceSignals": [
+    {
+      "id": "BWOI-VERIFY-EXECUTION-PASS",
+      "source_path": "projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/TASK-SESSION-RESULT.md",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+        "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-VERIFY.md",
+        "projects/body-war/.craft/ledger.yml",
+        "projects/body-war/CRAFT.md"
+      ],
+      "claim": "TASK-BWOI-VERIFY passed two-run reproducibility and all semantic and boundary checks.",
+      "evidence": "Verification report, digest tables, Task Session result",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+    "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-VERIFY.md",
+    "projects/body-war/.craft/ledger.yml",
+    "projects/body-war/CRAFT.md"
+  ],
+  "deltaSummary": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "appliedChanges": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "sha256": "a64bb291e1b34358699b1c46dcd2f88dda7a8bf6544bf5d9bee2649e494b0e24"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-VERIFY.md",
+      "sha256": "a2c7471bd92de7a3949d47d62926a191146237537dbf58e947bd126981ecb58e"
+    },
+    {
+      "path": "projects/body-war/.craft/ledger.yml",
+      "sha256": "fdd34c9ac566a4aebffd51b1eea7c01a3ed9f784cbc603d40858907eb54c52c2"
+    },
+    {
+      "path": "projects/body-war/CRAFT.md",
+      "sha256": "6242ea28c4d7683e67b16d6b7345544f52e6890a1959d2e581413c783fe5be71"
+    }
+  ],
+  "skippedChanges": [
+    "Pre-existing unrelated Craft by_id omission was preserved as residue rather than repaired outside scope."
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "body-war:TASK-BWOI-VERIFY:closeout-refresh",
+    "packageDigest": "4975e43ddf56f22916f22beef923d97f6826210f9454a18e02ccba15105ce11b",
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "lifecycleOwner": "body-war-workflow-owner",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "mutationReady": true,
+  "blockers": [],
+  "nextRoute": null,
+  "terminalRoute": true,
+  "validation": [
+    "full proof suite pass 11/11 on each of two owner executions",
+    "four receipt hashes byte-identical",
+    "Body War application test pass 3/3",
+    "Craft YAML and new embedded indexes pass",
+    "staged/live target parity pass",
+    "proof, CyberAlchemy ontology, and DomainSpec v2 trees unchanged",
+    "git diff check pass"
+  ]
+}

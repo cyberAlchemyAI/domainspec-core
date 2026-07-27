@@ -62,6 +62,19 @@ indexes:
     ART-SUGGESTED-TRACK-ONE-GO-CONTEXT: artifacts[42]
     ART-SUGGESTED-TRACK-ONE-GO-RESULT: artifacts[43]
     RCT-SUGGESTED-TRACK-ONE-GO-BUILD-001: receipts[7]
+    ART-BWOI-INVOKE-WORK-PACK: artifacts[44]
+    ART-BWOI-ONTOLOGY-RECEIPT: artifacts[45]
+    ART-BWOI-ONTOLOGY-TASK-SESSION: artifacts[46]
+    ART-BWOI-DOMAINSPEC-RECEIPT: artifacts[47]
+    ART-BWOI-DOMAINSPEC-TASK-SESSION: artifacts[48]
+    ART-BWOI-INTEGRATION-RECEIPT: artifacts[49]
+    ART-BWOI-INTEGRATION-TASK-SESSION: artifacts[50]
+    ART-BWOI-VERIFY-REPORT: artifacts[51]
+    ART-BWOI-VERIFY-TASK-SESSION: artifacts[52]
+    RCT-BWOI-ONTOLOGY-001: receipts[8]
+    RCT-BWOI-DOMAINSPEC-002: receipts[9]
+    RCT-BWOI-INTEGRATION-003: receipts[10]
+    RCT-BWOI-VERIFY-004: receipts[11]
   open_decisions: []
   blocking_decisions: []
   active_blockers:
@@ -78,7 +91,7 @@ indexes:
     - context_id: CTX-BODY-WAR-ARCH-AUDIT
       next_move: Recompose architecture-boundary decision into CTX-BODY-WAR-ROOT and proceed to bounded MVP work-pack planning.
     - context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
-      next_move: Use the implemented SuggestedTrack flow in hosted preview testing to collect real consented Strava activity evidence; keep source-backed geometry and pilot-ready promotion deferred.
+      next_move: The BWOI three-witness experiment is closed; any promotion, release, deployment, or wider formalization requires a new bounded plan and explicit authorization.
   artifacts_by_path:
     projects/body-war/docs/decisions/architecture-import-boundary.md: ART-ARCH-BOUNDARY-DECISION
     projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md: ART-ARCHITECTURE-AUDIT
@@ -117,6 +130,15 @@ indexes:
     projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUN-MANIFEST.md: ART-SUGGESTED-TRACK-DECISION-BUILD-MANIFEST
     projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/CONTEXT-PACK.md: ART-SUGGESTED-TRACK-ONE-GO-CONTEXT
     projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/TASK-SESSION-RESULT.md: ART-SUGGESTED-TRACK-ONE-GO-RESULT
+    projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md: ART-BWOI-INVOKE-WORK-PACK
+    projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json: ART-BWOI-ONTOLOGY-RECEIPT
+    projects/body-war/development/task-sessions/SWU-BWOI-001/TASK-SESSION-RESULT.md: ART-BWOI-ONTOLOGY-TASK-SESSION
+    projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/domainspec-receipt.json: ART-BWOI-DOMAINSPEC-RECEIPT
+    projects/body-war/development/task-sessions/SWU-BWOI-002/TASK-SESSION-RESULT.md: ART-BWOI-DOMAINSPEC-TASK-SESSION
+    projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/integration-receipt.json: ART-BWOI-INTEGRATION-RECEIPT
+    projects/body-war/development/task-sessions/SWU-BWOI-003/TASK-SESSION-RESULT.md: ART-BWOI-INTEGRATION-TASK-SESSION
+    projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/VERIFICATION-REPORT.md: ART-BWOI-VERIFY-REPORT
+    projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/TASK-SESSION-RESULT.md: ART-BWOI-VERIFY-TASK-SESSION
 
 contexts:
   - context_id: CTX-BODY-WAR-ROOT
@@ -176,9 +198,9 @@ contexts:
     parent_id: CTX-BODY-WAR-ROOT
     title: Suggested Track Expansion
     purpose: Govern the TROQAR route where users suggest tracks, Strava activity is consulted live, and only consented evidence can promote a suggestion toward a source-backed track.
-    stage: one-go-build-complete
+    stage: three-witness-experiment-complete
     gate: flag
-    next_move: Use the implemented SuggestedTrack flow in hosted preview testing to collect real consented Strava activity evidence; keep source-backed geometry and pilot-ready promotion deferred.
+    next_move: The BWOI three-witness experiment is closed; any promotion, release, deployment, or wider formalization requires a new bounded plan and explicit authorization.
     owned_artifacts:
       - ART-SUGGESTED-TRACK-ARCHITECTURE-PLAN
       - ART-SUGGESTED-TRACK-REFINE-DISPATCH
@@ -191,6 +213,15 @@ contexts:
       - ART-SUGGESTED-TRACK-DECISION-BUILD-MANIFEST
       - ART-SUGGESTED-TRACK-ONE-GO-CONTEXT
       - ART-SUGGESTED-TRACK-ONE-GO-RESULT
+      - ART-BWOI-INVOKE-WORK-PACK
+      - ART-BWOI-ONTOLOGY-RECEIPT
+      - ART-BWOI-ONTOLOGY-TASK-SESSION
+      - ART-BWOI-DOMAINSPEC-RECEIPT
+      - ART-BWOI-DOMAINSPEC-TASK-SESSION
+      - ART-BWOI-INTEGRATION-RECEIPT
+      - ART-BWOI-INTEGRATION-TASK-SESSION
+      - ART-BWOI-VERIFY-REPORT
+      - ART-BWOI-VERIFY-TASK-SESSION
     notes: Child context created after operator clarified that a new Craft space means a child node below the Body War project, not a separate .craft ledger.
 
 artifacts:
@@ -458,6 +489,60 @@ artifacts:
     artifact_type: task-session-result
     status: pass
     notes: Task Session result for SuggestedTrack docs, schema, migration, seed, API, UI, tests, and validation.
+  - artifact_id: ART-BWOI-INVOKE-WORK-PACK
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md
+    artifact_type: work-pack
+    status: pass
+    notes: Three-witness experimental proof track complete through reproducibility and claim-ceiling verification; authority and release effects remain none.
+  - artifact_id: ART-BWOI-ONTOLOGY-RECEIPT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json
+    artifact_type: ontology-test-receipt
+    status: pass
+    notes: Deterministic candidate-local CT-2 ontology witness with authority_effect none and release admission not granted.
+  - artifact_id: ART-BWOI-ONTOLOGY-TASK-SESSION
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/SWU-BWOI-001/TASK-SESSION-RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Bounded execution and closeout evidence for the standalone ontology witness.
+  - artifact_id: ART-BWOI-DOMAINSPEC-RECEIPT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/domainspec-receipt.json
+    artifact_type: domainspec-test-receipt
+    status: pass
+    notes: Deterministic canonical CT-2 witness against the Body War memory repository with stronger-claim mutation rejection, authority_effect none, and release admission not granted.
+  - artifact_id: ART-BWOI-DOMAINSPEC-TASK-SESSION
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/SWU-BWOI-002/TASK-SESSION-RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Bounded execution and closeout evidence for the standalone canonical DomainSpec CT-2 witness.
+  - artifact_id: ART-BWOI-INTEGRATION-RECEIPT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/integration-receipt.json
+    artifact_type: integration-test-receipt
+    status: pass
+    notes: Deterministic exact-digest composition of the ontology and canonical DomainSpec CT-2 witnesses with authority_effect none and release admission not granted.
+  - artifact_id: ART-BWOI-INTEGRATION-TASK-SESSION
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/SWU-BWOI-003/TASK-SESSION-RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Bounded execution and closeout evidence for the digest-bound integration witness.
+  - artifact_id: ART-BWOI-VERIFY-REPORT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/VERIFICATION-REPORT.md
+    artifact_type: verification-report
+    status: pass
+    notes: Two-run reproducibility, input-only fixture, case identity, claim-ceiling, and external-tree immutability audit for the three-witness experiment.
+  - artifact_id: ART-BWOI-VERIFY-TASK-SESSION
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/TASK-SESSION-RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Bounded closure-only verification execution and closeout evidence for the BWOI experiment.
 
 descriptions:
   - description_id: DESC-BODY-WAR-001
@@ -913,6 +998,50 @@ receipts:
     validation_result: "PASS: validate, test, e2e with managed Postgres, exact e2e with Postgres up, test:ui, and git diff --check all passed for the SuggestedTrack scope."
     audit_reference: ART-SUGGESTED-TRACK-ONE-GO-RESULT
     residue: Real consenting Strava activity evidence and source-backed geometry remain open; legacy /api/submissions remains only for old preview compatibility.
+  - receipt_id: RCT-BWOI-ONTOLOGY-001
+    handoff_id: SWU-BWOI-001
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/SWU-BWOI-001/TASK-SESSION-RESULT.md
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/tests/ontology.test.ts
+    validation_result: "PASS: ontology tests 4/4 on two executions, byte-identical receipt, Body War application tests 3/3, and scoped diff check."
+    audit_reference: ART-BWOI-ONTOLOGY-TASK-SESSION
+    residue: Ontology remains candidate-local with no authority or release effect; DomainSpec and integration witnesses remain unexecuted.
+  - receipt_id: RCT-BWOI-DOMAINSPEC-002
+    handoff_id: SWU-BWOI-002
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/SWU-BWOI-002/TASK-SESSION-RESULT.md
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/domainspec-receipt.json
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/tests/domainspec.test.ts
+    validation_result: "PASS: DomainSpec tests 3/3 on two executions, byte-identical receipt, stronger backend mutation rejected, Body War application tests 3/3, and scoped diff check."
+    audit_reference: ART-BWOI-DOMAINSPEC-TASK-SESSION
+    residue: The proof covers one experimental CT-2 function seam with no authority or release effect; the digest-bound integration witness remains unexecuted.
+  - receipt_id: RCT-BWOI-INTEGRATION-003
+    handoff_id: SWU-BWOI-003
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/SWU-BWOI-003/TASK-SESSION-RESULT.md
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/integration-receipt.json
+      - projects/body-war/proofs/suggested-track-ontology-domainspec/tests/integration.test.ts
+    validation_result: "PASS: integration tests 4/4, full proof suite 11/11, exact parent and nested digest binding, three typed negative controls, Body War application tests 3/3, and scoped diff check."
+    audit_reference: ART-BWOI-INTEGRATION-TASK-SESSION
+    residue: The composition proves one experimental CT-2 function seam with no authority or release effect; reproducibility and claim-ceiling verification remains unexecuted.
+  - receipt_id: RCT-BWOI-VERIFY-004
+    handoff_id: TASK-BWOI-VERIFY
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/TASK-SESSION-RESULT.md
+      - projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/VERIFICATION-REPORT.md
+      - projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/RECEIPT-DIGESTS.json
+    validation_result: "PASS: full proof suite 11/11 twice, four byte-identical receipt hashes, input-only fixtures, exact case identity, four retained claim ceilings, unchanged ontology/DomainSpec trees, Body War application tests 3/3, and scoped diff check."
+    audit_reference: ART-BWOI-VERIFY-REPORT
+    residue: The evidence closes one experimental CT-2 seam only; promotion, release, deployment, production parity, and wider SuggestedTrack claims remain outside scope.
 
 relations:
   - relation_id: REL-CONTAINS-ARCH-AUDIT-001
@@ -999,6 +1128,34 @@ relations:
     status: active
     reason: Confirmed Refine result supersedes the Slice 1-only next move with a one-go Task Session handoff that starts with preflight docs/gate update.
     evidence: RCT-SUGGESTED-TRACK-DECISION-BUILD-REFINE-001
+  - relation_id: REL-BWOI-ONTOLOGY-WITNESS-001
+    source_id: RCT-BWOI-ONTOLOGY-001
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: informs
+    status: active
+    reason: The standalone candidate-local ontology witness establishes the W0 ordering evidence while granting no ontology promotion or release authority.
+    evidence: ART-BWOI-ONTOLOGY-RECEIPT
+  - relation_id: REL-BWOI-DOMAINSPEC-WITNESS-002
+    source_id: RCT-BWOI-DOMAINSPEC-002
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: informs
+    status: active
+    reason: The standalone canonical DomainSpec witness establishes W1 behavior evidence against the current memory repository while granting no promotion or release authority.
+    evidence: ART-BWOI-DOMAINSPEC-RECEIPT
+  - relation_id: REL-BWOI-INTEGRATION-WITNESS-003
+    source_id: RCT-BWOI-INTEGRATION-003
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: informs
+    status: active
+    reason: The digest-bound W2 integration witness composes the two standalone receipts while granting no promotion or release authority.
+    evidence: ART-BWOI-INTEGRATION-RECEIPT
+  - relation_id: REL-BWOI-VERIFY-004
+    source_id: RCT-BWOI-VERIFY-004
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: informs
+    status: active
+    reason: The closure-only W3 audit establishes reproducibility and claim-ceiling preservation for the experimental three-witness seam without promotion or release effect.
+    evidence: ART-BWOI-VERIFY-REPORT
 
 recomposition:
   - child_id: CTX-BODY-WAR-ARCH-AUDIT

@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_id": "closeout:SWU-BWOI-002:invoke-refresh-apply-approved",
+  "source_receipt": {
+    "path": "projects/body-war/development/task-sessions/SWU-BWOI-002/EXECUTION-RECEIPT.json",
+    "sha256": "b91e37509d1d853d1ff080729c4f3577322980d0e1c530dec6a1cc14b336beb8"
+  },
+  "route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved"
+  },
+  "scope": "projects/body-war",
+  "targets": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "baseline_sha256": "392480456ada3315aebf9a11fe113a2731623176c6b348786384b6eee7d3b4ce"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-DOMAINSPEC.md",
+      "baseline_sha256": "aa2e700ac1aadc71fccec827d88a7cf48702b3fd402384652b5399fb77c8184a"
+    },
+    {
+      "path": "projects/body-war/.craft/ledger.yml",
+      "baseline_sha256": "606ec6bfca0c94233b920173a87c5b879ad5c6b3ded699a9ce9706d8e4f222b6"
+    },
+    {
+      "path": "projects/body-war/CRAFT.md",
+      "baseline_sha256": "e6ba16eb254f457d59bf6ca22d32dc1401ff662d4a6da11f99aca1939ce39414"
+    }
+  ],
+  "allowed_delta_classes": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "validation_commands": [
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/domainspec.test.ts)",
+    "npm --prefix projects/body-war/app test",
+    "git diff --check -- projects/body-war"
+  ],
+  "successor": {
+    "swu_id": "SWU-BWOI-003",
+    "unique": true,
+    "execute": false
+  },
+  "forbidden_effects": [
+    "implementation",
+    "authority-change",
+    "promotion",
+    "publication",
+    "deployment",
+    "destructive-cleanup",
+    "policy-or-risk-acceptance"
+  ],
+  "baseline_revalidation": "pass",
+  "authorization_status": "derived",
+  "derived_at": "2026-07-27T19:12:36Z"
+}

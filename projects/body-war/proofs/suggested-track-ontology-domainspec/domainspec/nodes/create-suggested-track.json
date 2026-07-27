@@ -1,0 +1,252 @@
+{
+  "schema_version": "minted-node/v1",
+  "node_id": "body-war.CreateSuggestedTrack",
+  "feature_id": "body-war",
+  "kind": "Operation",
+  "intent": "Create a SuggestedTrack candidate that remains explicitly evidence-bound.",
+  "body": {
+    "state_change": "yes",
+    "logic": {
+      "schema_version": "domainspec-node-logic/v1",
+      "language_version": "domainspec-sfol/v1",
+      "module_id": "body-war.CreateSuggestedTrack.logic",
+      "source": {
+        "feature_id": "body-war",
+        "node_id": "body-war.CreateSuggestedTrack",
+        "source_id": "body-war.CreateSuggestedTrack",
+        "source_path": "nodes/create-suggested-track.json"
+      },
+      "declarations": [
+        {
+          "tag": "record",
+          "declaration_id": "body-war.CreateSuggestedTrackResult",
+          "fields": [
+            {
+              "name": "status",
+              "sort": {
+                "tag": "primitive",
+                "name": "string"
+              },
+              "required": true,
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.declarations[0].fields.status",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            },
+            {
+              "name": "geometryAuthority",
+              "sort": {
+                "tag": "primitive",
+                "name": "string"
+              },
+              "required": true,
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.declarations[0].fields.geometryAuthority",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            },
+            {
+              "name": "sourceBacked",
+              "sort": {
+                "tag": "primitive",
+                "name": "boolean"
+              },
+              "required": true,
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.declarations[0].fields.sourceBacked",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            },
+            {
+              "name": "pilotReady",
+              "sort": {
+                "tag": "primitive",
+                "name": "boolean"
+              },
+              "required": true,
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.declarations[0].fields.pilotReady",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            }
+          ],
+          "span": {
+            "source_id": "body-war.CreateSuggestedTrack",
+            "path": "body.logic.declarations[0]",
+            "start": {"line": 1, "column": 1},
+            "end": {"line": 1, "column": 8}
+          }
+        }
+      ],
+      "clauses": [
+        {
+          "clause_id": "body-war.CT-2",
+          "kind": "function",
+          "status": "admitted",
+          "inputs": [
+            {
+              "name": "principalId",
+              "sort": {"tag": "primitive", "name": "string"},
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.clauses[0].inputs.principalId",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            },
+            {
+              "name": "name",
+              "sort": {"tag": "primitive", "name": "string"},
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.clauses[0].inputs.name",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            },
+            {
+              "name": "placeLabel",
+              "sort": {"tag": "primitive", "name": "string"},
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.clauses[0].inputs.placeLabel",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            },
+            {
+              "name": "city",
+              "sort": {"tag": "primitive", "name": "string"},
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.clauses[0].inputs.city",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            },
+            {
+              "name": "country",
+              "sort": {"tag": "primitive", "name": "string"},
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.clauses[0].inputs.country",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            },
+            {
+              "name": "distanceHintMeters",
+              "sort": {"tag": "primitive", "name": "integer"},
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.clauses[0].inputs.distanceHintMeters",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            },
+            {
+              "name": "publicNote",
+              "sort": {"tag": "primitive", "name": "string"},
+              "span": {
+                "source_id": "body-war.CreateSuggestedTrack",
+                "path": "body.logic.clauses[0].inputs.publicNote",
+                "start": {"line": 1, "column": 1},
+                "end": {"line": 1, "column": 8}
+              }
+            }
+          ],
+          "result_sort": {
+            "tag": "named",
+            "declaration_id": "body-war.CreateSuggestedTrackResult"
+          },
+          "expression": {
+            "tag": "record",
+            "declaration_id": "body-war.CreateSuggestedTrackResult",
+            "fields": [
+              {
+                "name": "status",
+                "value": {
+                  "tag": "literal",
+                  "value": {"tag": "string", "value": "needs_evidence"},
+                  "span": {
+                    "source_id": "body-war.CreateSuggestedTrack",
+                    "path": "body.logic.clauses[0].expression.status",
+                    "start": {"line": 1, "column": 1},
+                    "end": {"line": 1, "column": 8}
+                  }
+                }
+              },
+              {
+                "name": "geometryAuthority",
+                "value": {
+                  "tag": "literal",
+                  "value": {"tag": "string", "value": "needs_evidence"},
+                  "span": {
+                    "source_id": "body-war.CreateSuggestedTrack",
+                    "path": "body.logic.clauses[0].expression.geometryAuthority",
+                    "start": {"line": 1, "column": 1},
+                    "end": {"line": 1, "column": 8}
+                  }
+                }
+              },
+              {
+                "name": "sourceBacked",
+                "value": {
+                  "tag": "literal",
+                  "value": {"tag": "boolean", "value": false},
+                  "span": {
+                    "source_id": "body-war.CreateSuggestedTrack",
+                    "path": "body.logic.clauses[0].expression.sourceBacked",
+                    "start": {"line": 1, "column": 1},
+                    "end": {"line": 1, "column": 8}
+                  }
+                }
+              },
+              {
+                "name": "pilotReady",
+                "value": {
+                  "tag": "literal",
+                  "value": {"tag": "boolean", "value": false},
+                  "span": {
+                    "source_id": "body-war.CreateSuggestedTrack",
+                    "path": "body.logic.clauses[0].expression.pilotReady",
+                    "start": {"line": 1, "column": 1},
+                    "end": {"line": 1, "column": 8}
+                  }
+                }
+              }
+            ],
+            "span": {
+              "source_id": "body-war.CreateSuggestedTrack",
+              "path": "body.logic.clauses[0].expression",
+              "start": {"line": 1, "column": 1},
+              "end": {"line": 1, "column": 8}
+            }
+          },
+          "observation_sort": null,
+          "span": {
+            "source_id": "body-war.CreateSuggestedTrack",
+            "path": "body.logic.clauses[0]",
+            "start": {"line": 1, "column": 1},
+            "end": {"line": 1, "column": 8}
+          }
+        }
+      ]
+    }
+  },
+  "connections": [
+    {
+      "edge_id": "body-war.edge.create-produces-created",
+      "type": "produces",
+      "to": "body-war.SuggestedTrackCreated"
+    }
+  ]
+}

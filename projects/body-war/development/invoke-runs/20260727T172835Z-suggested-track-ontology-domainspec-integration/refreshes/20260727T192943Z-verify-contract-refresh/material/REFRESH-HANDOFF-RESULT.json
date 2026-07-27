@@ -1,0 +1,37 @@
+{
+  "activationSource": "direct-user",
+  "blockers": [],
+  "handoffStatus": "ready",
+  "materialPackage": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "expectedPackageDigest": "1190185a3d4561b7713dd5eb806eb8fb329b5b8779fe045539282c671631f64c",
+    "expectedPackageId": "body-war-bwoi-verify-contract-refresh-apply-20260727",
+    "lifecycleOwner": "private Body War BWOI planning owner via invoke:refresh",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "1190185a3d4561b7713dd5eb806eb8fb329b5b8779fe045539282c671631f64c",
+    "packageId": "body-war-bwoi-verify-contract-refresh-apply-20260727",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "private",
+    "receiptPresent": true,
+    "required": true,
+    "schemaValid": true,
+    "validatedPaths": [
+      "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-VERIFY.md"
+    ],
+    "validationCommands": [
+      ".agents/skills/inventory/scripts/validate-index-json.sh .arcanum/inventory/index.json",
+      "python3 .agents/skills/invoke/scripts/material_package_validator.py MATERIAL-PACKAGE.json --root REPOSITORY --schema-dir .agents/skills/invoke/schemas",
+      "python3 .agents/skills/invoke/scripts/refresh_material_handoff.py REFRESH-HANDOFF-REQUEST.json --receipt-schema .agents/skills/invoke/schemas/material-package-receipt.schema.json",
+      "git diff --check -- projects/body-war"
+    ]
+  },
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "explicit",
+  "mutationReady": true,
+  "phaseStatus": "pass",
+  "schemaVersion": "1.0.0"
+}

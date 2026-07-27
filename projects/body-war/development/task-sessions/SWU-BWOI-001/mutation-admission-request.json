@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0.0",
+  "executionMode": "routed-mutation",
+  "taskId": "TASK-BWOI-ONTOLOGY",
+  "swuId": "SWU-BWOI-001",
+  "controlArtifacts": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "sha256": "c8ce2412004a2a622b3ca15879b820fdca90c49a296823e193f85dd33a67e83f",
+      "sizeBytes": 9017,
+      "role": "work-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-ONTOLOGY.md",
+      "sha256": "1e66c3584d97a2e466db64bfc290e22748da205b3465edf4e4020c7ceba83e57",
+      "sizeBytes": 3676,
+      "role": "task-contract",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/development/task-sessions/SWU-BWOI-001/context-pack.json",
+      "sha256": "4410b205ad8d5a172bc68edb07143fcb7c53db00d5c61e84e451ceb44f04215b",
+      "sizeBytes": 3829,
+      "role": "context-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "sha256": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4",
+      "sizeBytes": 5868,
+      "role": "source",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/waves/W0.md",
+      "sha256": "b97465ca1895d4675895fc71ac2243acd993c7c928bf8b0f763c773b67604af6",
+      "sizeBytes": 676,
+      "role": "source",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/operations.md",
+      "sha256": "ef1fcf8bc4021824c5180c3cda07a967c3c9b5e26a1ef17afa464c3717771fee",
+      "sizeBytes": 2175,
+      "role": "source",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/states.md",
+      "sha256": "400772f889ba3663f770eaeb03be88e106742a99643c140b44116083eaff373e",
+      "sizeBytes": 1413,
+      "role": "source",
+      "authorityClass": "private"
+    },
+    {
+      "path": "cyberAlchemy/ontology/README.md",
+      "sha256": "7fedb2396b79478b36f0907ccbbe412a2231b8f062d8971806f3eeb3b415eb30",
+      "sizeBytes": 4349,
+      "role": "source",
+      "authorityClass": "private"
+    }
+  ],
+  "dependencyFrontier": [],
+  "materialPackage": {
+    "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/materials/SWU-BWOI-001/material-package.json",
+    "sha256": "0fe46aa42aa27bda99d17213b09898381167af06f888998c13a6e58a6c54a7e2",
+    "sizeBytes": 12421
+  },
+  "materialReceipt": {
+    "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/materials/SWU-BWOI-001/material-package-receipt.json",
+    "sha256": "747c4a9326916fbd0f1ec47c0b31e83a8b85dd0a8b33557ad99f4445c0df8f83",
+    "sizeBytes": 1735
+  },
+  "producerReceiptSchema": {
+    "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+    "sizeBytes": 1719
+  },
+  "allowedWrites": [
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/entry.schema.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/entries/CreateSuggestedTrack.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/entries/SuggestedTrack.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/entries/needs_evidence.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/transition-policy.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/fixtures/legal-transition.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/fixtures/invalid-transition.json",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/ontology-validator.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/tests/ontology.test.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json"
+  ],
+  "validationCommands": [
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/ontology.test.ts)",
+    "git diff --check -- projects/body-war"
+  ],
+  "lifecycleOwner": "body-war-proof-owner",
+  "authorityClass": "private",
+  "publicationClass": "internal"
+}

@@ -1,0 +1,101 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "continuation",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "derived-closeout-authorization",
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    {
+      "id": "BWOI-DOMAINSPEC-EXECUTION-PASS",
+      "source_path": "projects/body-war/development/task-sessions/SWU-BWOI-002/EXECUTION-RECEIPT.json",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+        "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-DOMAINSPEC.md",
+        "projects/body-war/.craft/ledger.yml",
+        "projects/body-war/CRAFT.md"
+      ],
+      "claim": "SWU-BWOI-002 passed all declared validation and produced a deterministic standalone DomainSpec receipt.",
+      "evidence": "Task Session execution receipt and DomainSpec receipt",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+    "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-DOMAINSPEC.md",
+    "projects/body-war/.craft/ledger.yml",
+    "projects/body-war/CRAFT.md"
+  ],
+  "deltaSummary": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "proposedChanges": [
+    "Mark SWU-BWOI-002 complete.",
+    "Select the unique dependency-ready successor SWU-BWOI-003.",
+    "Index the standalone proof receipt and Task Session result.",
+    "Separate the successor terminal result and owner receipt paths."
+  ],
+  "appliedChanges": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "sha256": "173516c153166620009af9e2c1de016550514fbb1c8cb666f1dd485465a943c5"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-DOMAINSPEC.md",
+      "sha256": "3da39c3ad810c45da639d07d835d1fe7a4eb59579a6d679e883892ffab18564b"
+    },
+    {
+      "path": "projects/body-war/.craft/ledger.yml",
+      "sha256": "c99f34b3573c4d974f0569ef33234f900cb569ef93766feab34b7841631e015d"
+    },
+    {
+      "path": "projects/body-war/CRAFT.md",
+      "sha256": "cca73edc7ab5ddb4ad78047beb43712948f0fb038f9cca497bc9150698c210ae"
+    }
+  ],
+  "skippedChanges": [],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "body-war:SWU-BWOI-002:closeout-refresh",
+    "packageDigest": "f6bfa3bbe186177371d3a575e870b2ecbe468f9d0301467a03aaacd72600ac26",
+    "validatedPaths": [
+      "projects/body-war/.craft/ledger.yml",
+      "projects/body-war/CRAFT.md",
+      "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-DOMAINSPEC.md"
+    ],
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "validationCommands": [
+      "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/domainspec.test.ts)",
+      "npm --prefix projects/body-war/app test",
+      "python3 YAML/index validation",
+      "git diff --check -- projects/body-war"
+    ],
+    "lifecycleOwner": "body-war-workflow-owner",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "mutationReady": true,
+  "blockers": [],
+  "nextRoute": "task-session:execute SWU-BWOI-003",
+  "validation": [
+    "DomainSpec test pass 3/3",
+    "Body War application test pass 3/3",
+    "Craft YAML, embedded indexes, and human view pass",
+    "git diff check pass"
+  ]
+}

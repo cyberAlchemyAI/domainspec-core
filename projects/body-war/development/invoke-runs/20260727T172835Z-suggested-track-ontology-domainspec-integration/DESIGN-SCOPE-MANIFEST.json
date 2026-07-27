@@ -1,0 +1,202 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "body-war:suggested-track-ontology-domainspec-integration:design",
+  "target_id": "body-war:suggested-track-ct2-proof-track",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+        "digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "approved-spec",
+        "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+        "digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+      },
+      {
+        "selector": "approved-glossary",
+        "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/GLOSSARY.md",
+        "digest": "295f1e4061deb9bd5a14080852ee7f2f8695bec59c99a4937e94ea0f96594a29"
+      },
+      {
+        "selector": "ct2-rule",
+        "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/operations.md",
+        "digest": "ef1fcf8bc4021824c5180c3cda07a967c3c9b5e26a1ef17afa464c3717771fee"
+      },
+      {
+        "selector": "suggested-track-transition",
+        "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/states.md",
+        "digest": "400772f889ba3663f770eaeb03be88e106742a99643c140b44116083eaff373e"
+      },
+      {
+        "selector": "ontology-authority-ceiling",
+        "path": "cyberAlchemy/ontology/README.md",
+        "digest": "7fedb2396b79478b36f0907ccbbe412a2231b8f062d8971806f3eeb3b415eb30"
+      },
+      {
+        "selector": "node-logic-envelope",
+        "path": "projects/domainspec-v2/impl/spec/sfol-profile/node-logic-envelope.schema.json",
+        "digest": "f50d9978193bfaeca0b8005750e7f08686210d809bb8823af117c6248f49a5ea"
+      },
+      {
+        "selector": "development-profile",
+        "path": "projects/domainspec-v2/impl/spec/sfol-profile/minted-project-profile.json",
+        "digest": "17384f4161df05461ac193ab6df369a20f189233a3f27fb111b437845b468918"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "projects/body-war/app/static",
+        "reason": "No rendered semantic contract changes are planned.",
+        "evidence_ref": "SPEC.md#non-goals"
+      },
+      {
+        "selector": "cyberAlchemy/ontology/entries",
+        "reason": "The track authors Body War local fixtures and does not mutate the CyberAlchemy candidate pack.",
+        "evidence_ref": "SPEC.md#canonical-source-boundary"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "source:approved-spec",
+      "selector": "SPEC.md",
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    },
+    {
+      "source_id": "source:operations-ct2",
+      "selector": "operations.md#createsuggestedtrack",
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/operations.md",
+      "digest": "ef1fcf8bc4021824c5180c3cda07a967c3c9b5e26a1ef17afa464c3717771fee"
+    },
+    {
+      "source_id": "source:states-transition",
+      "selector": "states.md#allowed-transitions",
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/states.md",
+      "digest": "400772f889ba3663f770eaeb03be88e106742a99643c140b44116083eaff373e"
+    },
+    {
+      "source_id": "source:ontology-ceiling",
+      "selector": "ontology/README.md#rule",
+      "path": "cyberAlchemy/ontology/README.md",
+      "digest": "7fedb2396b79478b36f0907ccbbe412a2231b8f062d8971806f3eeb3b415eb30"
+    },
+    {
+      "source_id": "source:node-logic-schema",
+      "selector": "node-logic-envelope.schema.json",
+      "path": "projects/domainspec-v2/impl/spec/sfol-profile/node-logic-envelope.schema.json",
+      "digest": "f50d9978193bfaeca0b8005750e7f08686210d809bb8823af117c6248f49a5ea"
+    },
+    {
+      "source_id": "source:development-profile",
+      "selector": "minted-project-profile.json",
+      "path": "projects/domainspec-v2/impl/spec/sfol-profile/minted-project-profile.json",
+      "digest": "17384f4161df05461ac193ab6df369a20f189233a3f27fb111b437845b468918"
+    }
+  ],
+  "human_actors": [],
+  "rendered_surfaces": [],
+  "interfaces": [
+    {
+      "interface_id": "interface:domainspec-v2-compiler",
+      "kind": "local-compiler-api",
+      "peer": "domainspec-v2",
+      "direction": "outbound",
+      "contract_ref": "minted-project-profile.json",
+      "source_selector": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "source_digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    },
+    {
+      "interface_id": "interface:body-war-backend-adapter",
+      "kind": "local-test-adapter",
+      "peer": "body-war-app",
+      "direction": "outbound",
+      "contract_ref": "createSuggestedTrack",
+      "source_selector": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "source_digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    }
+  ],
+  "stores": [],
+  "queues": [],
+  "writers": [],
+  "normative_rules": [
+    {
+      "rule_id": "rule:canonical-body-logic",
+      "verb": "must",
+      "subject": "DomainSpec body.logic",
+      "object": "remain the only executable CT-2 source",
+      "enforcement_hint": "reject duplicated executable rule material in the bridge",
+      "source_selector": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "source_digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    },
+    {
+      "rule_id": "rule:bridge-admission",
+      "verb": "must",
+      "subject": "bridge admission",
+      "object": "authorize execution only for exact ontology entry and clause digests",
+      "enforcement_hint": "fail closed before DomainSpec execution",
+      "source_selector": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "source_digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    },
+    {
+      "rule_id": "rule:creation-state",
+      "verb": "must",
+      "subject": "state transition",
+      "object": "produce needs_evidence from none for CT-2",
+      "enforcement_hint": "compare DS-SFOL evaluation with backend observation",
+      "source_selector": "projects/body-war/docs/features/parque-taquaral-online-mvp/states.md",
+      "source_digest": "400772f889ba3663f770eaeb03be88e106742a99643c140b44116083eaff373e"
+    }
+  ],
+  "effects": [],
+  "data_and_log_sinks": [],
+  "deployment_targets": [],
+  "compatibility_boundaries": [
+    {
+      "boundary_id": "compatibility:ontology-bridge-v1",
+      "old_contract": "domainspec-node-logic-v1-without-ontology-binding",
+      "new_contract": "body-war-ontology-bridge-v1-sidecar",
+      "source_selector": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "source_digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    }
+  ],
+  "quality_claims": [
+    {
+      "claim_id": "quality:deterministic-rebuild",
+      "source_kind": "required-development-witness",
+      "threshold_or_tradeoff": "two unchanged builds and integrations must produce byte-identical receipts",
+      "required": true,
+      "source_selector": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "source_digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    }
+  ],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "acceptance:ontology-standalone",
+      "selector": "T-ONTOLOGY-001",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "source_digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    },
+    {
+      "claim_id": "acceptance:domainspec-standalone",
+      "selector": "T-DOMAINSPEC-001",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "source_digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    },
+    {
+      "claim_id": "acceptance:integration",
+      "selector": "T-INTEGRATION-001",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "source_digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "ee7a284299683c87453d8215236c1315053d5ba009d78d9a5be4cde34dee40aa",
+  "authored_by": "codex-invoke-design-author"
+}

@@ -1,0 +1,103 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "continuation",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "derived-closeout-authorization",
+  "handoffStatus": "ready",
+  "inventoryLookup": {
+    "lookupReadiness": "ready",
+    "directBwoiCloseoutMatch": false,
+    "authorityEffect": "none"
+  },
+  "dispatchTrace": {
+    "status": "pass",
+    "mode": "sequential",
+    "subagentStrategy": "none",
+    "promotionGuardrail": "pass"
+  },
+  "sourceSignals": [
+    {
+      "id": "BWOI-INTEGRATION-EXECUTION-PASS",
+      "source_path": "projects/body-war/development/task-sessions/SWU-BWOI-003/EXECUTION-RECEIPT.json",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+        "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-INTEGRATION.md",
+        "projects/body-war/.craft/ledger.yml",
+        "projects/body-war/CRAFT.md"
+      ],
+      "claim": "SWU-BWOI-003 passed exact digest composition and all declared negative controls.",
+      "evidence": "Task Session execution receipt, bridge admission receipt, and integration receipt",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+    "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-INTEGRATION.md",
+    "projects/body-war/.craft/ledger.yml",
+    "projects/body-war/CRAFT.md"
+  ],
+  "deltaSummary": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "appliedChanges": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "sha256": "8c41029e33df433a586ac0b672121c0a74957ed588d088ddb420b3663c16005d"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-INTEGRATION.md",
+      "sha256": "9c95356aac2addeef850f340f5ccd57d2ed41d9672eab9b96abc75de803eaf6e"
+    },
+    {
+      "path": "projects/body-war/.craft/ledger.yml",
+      "sha256": "35cc635ae05fd8109b9f0d9285e1770034b7e6f992cd91e8d85c8e1aba66f93e"
+    },
+    {
+      "path": "projects/body-war/CRAFT.md",
+      "sha256": "7c07f18b4bb96309cdd49e5973fea161cd5ae527878dc7146d1b48490fc7b12f"
+    }
+  ],
+  "skippedChanges": [
+    "Pre-existing unrelated Craft by_id omission was preserved as residue rather than repaired outside scope."
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "body-war:SWU-BWOI-003:closeout-refresh",
+    "packageDigest": "fbad4defa888d933604269a84df5fd17626b446dcdb9b5e3198c80c8950fc566",
+    "validatedPaths": [
+      "projects/body-war/.craft/ledger.yml",
+      "projects/body-war/CRAFT.md",
+      "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-INTEGRATION.md"
+    ],
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "lifecycleOwner": "body-war-workflow-owner",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "mutationReady": true,
+  "blockers": [],
+  "nextRoute": "task-session:execute TASK-BWOI-VERIFY",
+  "validation": [
+    "full proof suite pass 11/11",
+    "Body War application test pass 3/3",
+    "Craft YAML and new embedded indexes pass",
+    "staged/live target parity pass",
+    "git diff check pass"
+  ]
+}

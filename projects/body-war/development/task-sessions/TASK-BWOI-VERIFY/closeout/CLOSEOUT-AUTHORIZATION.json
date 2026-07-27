@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_id": "closeout:TASK-BWOI-VERIFY:invoke-refresh-apply-approved",
+  "source_receipt": {
+    "path": "projects/body-war/development/task-sessions/TASK-BWOI-VERIFY/TASK-SESSION-RESULT.md",
+    "sha256": "85b987fd51caff5728ab4cea1dd53391af88776abf82c3b6107039af62a228bc"
+  },
+  "route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved"
+  },
+  "scope": "projects/body-war",
+  "targets": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "baseline_sha256": "8c41029e33df433a586ac0b672121c0a74957ed588d088ddb420b3663c16005d"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-VERIFY.md",
+      "baseline_sha256": "a3694cd307aa7072d6198dc4e93011600873c4684f6eb4bbac31333a456bc369"
+    },
+    {
+      "path": "projects/body-war/.craft/ledger.yml",
+      "baseline_sha256": "35cc635ae05fd8109b9f0d9285e1770034b7e6f992cd91e8d85c8e1aba66f93e"
+    },
+    {
+      "path": "projects/body-war/CRAFT.md",
+      "baseline_sha256": "7c07f18b4bb96309cdd49e5973fea161cd5ae527878dc7146d1b48490fc7b12f"
+    }
+  ],
+  "allowed_delta_classes": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "validation_commands": [
+    "full proof suite twice with identical receipt digests",
+    "npm --prefix projects/body-war/app test",
+    "python3 YAML and embedded-index validation",
+    "git diff --check -- projects/body-war"
+  ],
+  "successor": null,
+  "terminal_route": true,
+  "forbidden_effects": [
+    "implementation",
+    "authority-change",
+    "promotion",
+    "publication",
+    "deployment",
+    "destructive-cleanup",
+    "policy-or-risk-acceptance"
+  ],
+  "inventory_lookup": {
+    "index": ".arcanum/inventory/index.json",
+    "lookup_readiness": "ready",
+    "direct_bwoi_closeout_match": false,
+    "authority_effect": "none"
+  },
+  "dispatch_trace": {
+    "mode": "sequential",
+    "steps": [
+      "task-session",
+      "continuation-router",
+      "invoke-refresh"
+    ],
+    "subagent_strategy": "none",
+    "promotion_guardrail": "pass"
+  },
+  "baseline_revalidation": "pass",
+  "authorization_status": "derived",
+  "derived_at": "2026-07-27T20:35:27Z"
+}

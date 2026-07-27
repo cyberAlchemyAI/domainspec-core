@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "id": "body-war.ontology.CreateSuggestedTrack",
+  "kind": "operation",
+  "label": "CreateSuggestedTrack",
+  "definition": "Create a connected-runner route suggestion without granting source-backed or pilot-ready status.",
+  "status": "candidate-local",
+  "evidence": [
+    {
+      "source": "projects/body-war/docs/features/parque-taquaral-online-mvp/operations.md",
+      "selector": "CreateSuggestedTrack CT-2 through CT-4",
+      "sha256": "ef1fcf8bc4021824c5180c3cda07a967c3c9b5e26a1ef17afa464c3717771fee"
+    }
+  ],
+  "confidence": {
+    "level": "high",
+    "basis": "The Body War operation contract directly names the creation rules."
+  },
+  "next_gate": "Bind this meaning to canonical DomainSpec logic through the experimental bridge.",
+  "contradiction_path": "Reject this entry if CT-2, CT-3, or CT-4 changes in the canonical operation contract.",
+  "relations": [
+    {
+      "type": "produces",
+      "target": "body-war.ontology.SuggestedTrack"
+    },
+    {
+      "type": "establishes",
+      "target": "body-war.ontology.SuggestedTrackStatus.needs_evidence"
+    }
+  ]
+}
+

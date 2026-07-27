@@ -1,0 +1,28 @@
+{
+  "schema_version": "invoke.material-package.v1",
+  "package_id": "SWU-BWOI-002-domainspec-ct2",
+  "lifecycle_owner": "invoke",
+  "execution_owner": "task-session",
+  "selected_swu": "SWU-BWOI-002",
+  "staging_root": "projects/body-war/development/task-sessions/SWU-BWOI-002/material-package/staging",
+  "final_root": "projects/body-war/proofs/suggested-track-ontology-domainspec",
+  "files": [
+    "domainspec/project.json",
+    "domainspec/feature.json",
+    "domainspec/nodes/new-suggestion-needs-evidence.json",
+    "domainspec/nodes/create-suggested-track.json",
+    "domainspec/nodes/suggested-track-created.json",
+    "domainspec/fixtures/ct2-input.json",
+    "src/domainspec-ct2-runner.ts",
+    "tests/domainspec.test.ts"
+  ],
+  "validation": [
+    "all listed files exist",
+    "all JSON sources decode",
+    "fixture contains inputs only",
+    "runner imports generic DS-SFOL APIs and the current memory repository",
+    "runner and test contain no preceding-proof or composition-data imports"
+  ],
+  "authority_effect": "none",
+  "release_admission": "not-granted"
+}

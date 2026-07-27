@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "TASK-BWOI-ONTOLOGY",
+  "swu_id": "SWU-BWOI-001",
+  "mode": "lean",
+  "strict_coverage": true,
+  "dependency_frontier": [],
+  "obligations": [
+    {"id": "O-001", "status": "covered"},
+    {"id": "O-002", "status": "covered"},
+    {"id": "O-003", "status": "covered"},
+    {"id": "O-004", "status": "covered"},
+    {"id": "O-005", "status": "covered"},
+    {"id": "O-006", "status": "covered"},
+    {"id": "O-007", "status": "covered"},
+    {"id": "O-008", "status": "covered"},
+    {"id": "O-009", "status": "covered"},
+    {"id": "O-010", "status": "covered"}
+  ],
+  "selected_sources": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/WORK-PACK.md",
+      "sha256": "c8ce2412004a2a622b3ca15879b820fdca90c49a296823e193f85dd33a67e83f",
+      "selectors": ["Control Fields", "Validation Strategy", "Task Session Closeout Sync Contract"]
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/tasks/TASK-BWOI-ONTOLOGY.md",
+      "sha256": "1e66c3584d97a2e466db64bfc290e22748da205b3465edf4e4020c7ceba83e57",
+      "selectors": ["SWU-BWOI-001", "Write scope", "Done criteria", "Validation"]
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/work-pack/waves/W0.md",
+      "sha256": "b97465ca1895d4675895fc71ac2243acd993c7c928bf8b0f763c773b67604af6",
+      "selectors": ["Entry Gate", "Exit Gate"]
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "sha256": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4",
+      "selectors": ["Rule Under Test", "Canonical Source Boundary", "T-ONTOLOGY-001"]
+    },
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/operations.md",
+      "sha256": "ef1fcf8bc4021824c5180c3cda07a967c3c9b5e26a1ef17afa464c3717771fee",
+      "selectors": ["CreateSuggestedTrack", "CT-2", "CT-3", "CT-4"]
+    },
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/states.md",
+      "sha256": "400772f889ba3663f770eaeb03be88e106742a99643c140b44116083eaff373e",
+      "selectors": ["SuggestedTrackLifecycle", "Allowed Transitions"]
+    },
+    {
+      "path": "cyberAlchemy/ontology/README.md",
+      "sha256": "7fedb2396b79478b36f0907ccbbe412a2231b8f062d8971806f3eeb3b415eb30",
+      "selectors": ["Purpose", "Rule"]
+    },
+    {
+      "path": "projects/body-war/.craft/ledger.yml",
+      "sha256": "3028fc2b72286cfeea4fc90559b93940f03f28a2ee4f75ba43caacefd2c247f6",
+      "selectors": ["CTX-BODY-WAR-SUGGESTED-TRACKS"]
+    },
+    {
+      "path": "projects/body-war/CRAFT.md",
+      "sha256": "60bd82b269f1d17e4d4291b73de3ea76ef7488dab5b25975ca0e2dc472e8f754",
+      "selectors": ["CTX-BODY-WAR-SUGGESTED-TRACKS"]
+    }
+  ],
+  "write_scope": [
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/src/ontology-validator.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/tests/ontology.test.ts",
+    "projects/body-war/proofs/suggested-track-ontology-domainspec/receipts/ontology-receipt.json"
+  ],
+  "forbidden_scope": [
+    "cyberAlchemy/ontology/",
+    "projects/domainspec-v2/",
+    "projects/body-war/app/"
+  ],
+  "validation_commands": [
+    "(cd projects/domainspec-v2/impl && node --import tsx --test ../../body-war/proofs/suggested-track-ontology-domainspec/tests/ontology.test.ts)",
+    "git diff --check -- projects/body-war"
+  ],
+  "claim_ceiling": "experimental candidate-local ontology witness only",
+  "blockers": []
+}

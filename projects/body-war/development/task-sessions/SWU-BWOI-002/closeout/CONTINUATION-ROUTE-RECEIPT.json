@@ -1,0 +1,61 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "body-war:SWU-BWOI-002:closeout",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "pass",
+    "receipt": "projects/body-war/development/task-sessions/SWU-BWOI-002/EXECUTION-RECEIPT.json",
+    "blocker_fingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "projects/body-war/development/task-sessions/SWU-BWOI-002/closeout/CLOSEOUT-AUTHORIZATION.json"
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "body-war-workflow-owner",
+      "evidence": [
+        "EXECUTION-RECEIPT.json requires closeout synchronization",
+        "WORK-PACK.md declares invoke:refresh:apply-approved",
+        "CLOSEOUT-AUTHORIZATION.json binds exact targets and delta classes"
+      ],
+      "required_inputs": [
+        "terminal execution receipt",
+        "four target baselines",
+        "applied material package and receipt",
+        "validation surface",
+        "unique successor"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "projects/body-war/development/task-sessions/SWU-BWOI-002/closeout/INVOKE-REFRESH-RECEIPT.md",
+      "fallback": "stop with unsynchronized Task Session result"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The work-pack contract names one exact closeout owner route and all bound inputs passed."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "local-inline-owner-boundary",
+    "owner_receipt": "projects/body-war/development/task-sessions/SWU-BWOI-002/closeout/INVOKE-REFRESH-RECEIPT.md",
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "task-session",
+    "mode": "execute",
+    "target": "SWU-BWOI-003"
+  }
+}
