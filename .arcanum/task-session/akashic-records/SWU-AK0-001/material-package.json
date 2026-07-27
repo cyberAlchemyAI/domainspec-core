@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "akashic-SWU-AK0-001-20260727",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "task-session",
+  "authority_class": "public",
+  "publication_class": "public",
+  "source_artifacts": [
+    {
+      "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+      "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+      "size_bytes": 6058,
+      "authority_class": "public"
+    },
+    {
+      "path": "development/phase-0-content-contract/plan/work-pack/tasks/TASK-AK-PROFILES.md",
+      "sha256": "c9a93758b87ae4b2db73b680d56b13c4f31408bf586e05f3a9348e8eb9805616",
+      "size_bytes": 5146,
+      "authority_class": "public"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "package-lock.json",
+      "operation": "create",
+      "output_ref": {
+        "path": "package-lock.json",
+        "sha256": "624d46332266b27bf99f031a01ba40ff003c0ac9a5721a0877639070751f77b3",
+        "size_bytes": 268
+      }
+    },
+    {
+      "target_path": "package.json",
+      "operation": "create",
+      "output_ref": {
+        "path": "package.json",
+        "sha256": "bdd4b0edc116212c60276a6c4a45bbe94ffa2a7252aafdfaa308d87358f5f46b",
+        "size_bytes": 313
+      }
+    },
+    {
+      "target_path": "src/cli.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "src/cli.mjs",
+        "sha256": "8bf5cb4ca29dc4f26b2d830921b9f509b3fe4566f7cba9441848b0de55928365",
+        "size_bytes": 2565
+      }
+    },
+    {
+      "target_path": "src/profiles.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "src/profiles.mjs",
+        "sha256": "11a7245e2054ae072ebd1ac9f99b97636353430a9ae367267e0b2ac43c3a5b03",
+        "size_bytes": 2440
+      }
+    },
+    {
+      "target_path": "test/profiles.test.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "test/profiles.test.mjs",
+        "sha256": "d2403d99531a9181c0684693bb0e1d5cd85091ac396d1bb2053d9f57d7317db6",
+        "size_bytes": 2155
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "package-lock.json",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "package.json",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "src/cli.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "src/profiles.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "test/profiles.test.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "work-pack",
+      "artifact_ref": {
+        "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+        "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+        "size_bytes": 6058
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "task-session",
+    "scope_paths": [
+      "package-lock.json",
+      "package.json",
+      "src/cli.mjs",
+      "src/profiles.mjs",
+      "test/profiles.test.mjs"
+    ],
+    "authority_classes": [
+      "public"
+    ],
+    "publication_classes": [
+      "public"
+    ]
+  },
+  "validation_commands": [
+    "npm run akashic -- profile",
+    "npm run akashic -- profile --selector-bundle-version akashic-selector-bundle/v999 --records /definitely/unreadable/records",
+    "npm test -- test/profiles.test.mjs"
+  ]
+}

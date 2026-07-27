@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-07-27T00:55:18Z",
+  "run_id": "distill-akashic-phase0-plan-20260726-r5",
+  "session_id": "2026-07-26-akashic-phase0-plan",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "validate",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "transmutation",
+    "mode": "validate",
+    "alias": null
+  },
+  "lineage": {
+    "parent_run_id": "invoke-plan-akashic-phase0-20260726",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "plan"
+    }
+  },
+  "invocation_source": "invoked-by",
+  "command": null,
+  "request": {
+    "raw": null,
+    "summary": "Validate the exact final Akashic Phase-0 work-pack after the Plan gate transition.",
+    "intent": "Prove SWU atomicity, recomposition, first-unit narrowness, final-byte provenance, closeout synchronization, and the non-authority claim ceiling."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/akashic-records/development/phase-0-content-contract/plan/DISTILL-VALIDATION.md",
+      "projects/akashic-records/development/phase-0-content-contract/plan/distill/EXECUTION-RECEIPT.json",
+      "projects/akashic-records/development/phase-0-content-contract/plan/distill/VALIDATION-RESULT.json"
+    ],
+    "files_changed": [],
+    "validation": [
+      "execution-path:true-subagent",
+      "r4-full-input-provenance:16-of-16",
+      "r5-final-byte-provenance:4-of-4",
+      "required-roles:2-of-2-pass",
+      "swu-atomicity:pass",
+      "first-unit-narrowness:pass",
+      "recomposition:pass",
+      "dispatch-lifecycle:pass",
+      "claim-ceiling:pass",
+      "verdict:pass"
+    ],
+    "notes": "The Distill roles were read-only. Invoke reconciled their findings. No implementation SWU was executed."
+  },
+  "evidence": {
+    "status": "complete",
+    "distill_run_request_ref": {
+      "path": "projects/akashic-records/development/phase-0-content-contract/plan/distill/RUN-REQUEST-R5.json",
+      "sha256": "8c7b5884967f1d69d7c04e7531a008321a3175372b1cdb3d503fbc65280d3cb1",
+      "size_bytes": 1228
+    },
+    "runtime_event_refs": [
+      {
+        "path": "projects/akashic-records/development/phase-0-content-contract/plan/distill/RUNTIME-EVENTS.jsonl",
+        "sha256": "dd7fabcc12c733ee95449329ea2b2affc791a91564ff89a8714357f9160a2eae",
+        "size_bytes": 3277
+      }
+    ],
+    "execution_receipt_ref": {
+      "path": "projects/akashic-records/development/phase-0-content-contract/plan/distill/EXECUTION-RECEIPT.json",
+      "sha256": "25ff5d2441424a8516ef2a6346043e311e1716ab54fb7cc9662bbf1853cafcfb",
+      "size_bytes": 4506
+    },
+    "validation_result_ref": {
+      "path": "projects/akashic-records/development/phase-0-content-contract/plan/distill/VALIDATION-RESULT.json",
+      "sha256": "76c96080562997f314a077ccb5f5b776cbcbf66bb37f1680ab366303a5fc8a5c",
+      "size_bytes": 2383
+    },
+    "references": [
+      "projects/akashic-records/development/phase-0-content-contract/plan/distill/PROPOSER-R5.md",
+      "projects/akashic-records/development/phase-0-content-contract/plan/distill/BALANCER-R5.md",
+      "projects/akashic-records/development/phase-0-content-contract/plan/WORK-PACK.md"
+    ]
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "Admit only SWU-AK0-001 through a later Task Session."
+  },
+  "target_artifact": "projects/akashic-records/development/phase-0-content-contract/plan/WORK-PACK.md"
+}

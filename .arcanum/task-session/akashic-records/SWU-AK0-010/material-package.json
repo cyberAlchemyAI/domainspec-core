@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "akashic-SWU-AK0-010-20260727",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "task-session",
+  "authority_class": "public",
+  "publication_class": "public",
+  "source_artifacts": [
+    {
+      "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+      "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+      "size_bytes": 6058,
+      "authority_class": "public"
+    },
+    {
+      "path": "development/phase-0-content-contract/plan/work-pack/tasks/TASK-AK-QUERY.md",
+      "sha256": "a96d705b3deb906df7e5c2f8131a479fb069f951eaecb670f78c601e67279dc5",
+      "size_bytes": 5716,
+      "authority_class": "public"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "src/cli.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "src/cli.mjs",
+        "sha256": "8504e9a3665b91adce290abb612bfcd8a431fb7f67e4d07c0479a2b5545e90c1",
+        "size_bytes": 7535
+      }
+    },
+    {
+      "target_path": "src/get-record.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "src/get-record.mjs",
+        "sha256": "bee689b667753522c0b4970f7a29160f13f201148417174120bdfde1ccb9f705",
+        "size_bytes": 1847
+      }
+    },
+    {
+      "target_path": "test/get-record.test.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "test/get-record.test.mjs",
+        "sha256": "24c5679fbbb5a5a8c67aa04ce012e101dfbf3203479f9880085e3fede87e97cc",
+        "size_bytes": 3131
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "src/cli.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "src/get-record.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "test/get-record.test.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "work-pack",
+      "artifact_ref": {
+        "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+        "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+        "size_bytes": 6058
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "task-session",
+    "scope_paths": [
+      "src/cli.mjs",
+      "src/get-record.mjs",
+      "test/get-record.test.mjs"
+    ],
+    "authority_classes": [
+      "public"
+    ],
+    "publication_classes": [
+      "public"
+    ]
+  },
+  "validation_commands": [
+    "npm audit --omit=dev",
+    "npm test",
+    "npm test -- test/get-record.test.mjs"
+  ]
+}

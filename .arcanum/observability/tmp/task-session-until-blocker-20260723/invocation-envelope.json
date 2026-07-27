@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-07-23T18:54:47Z",
+  "run_id": "task-session-20260723T185447Z-until-blocker-flow-gap",
+  "session_id": "2026-07-23-task-session-until-blocker-maintenance",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "request": {
+    "raw": null,
+    "summary": "The maintainer corrected Task Session because an explicit until-blocker request stopped after one passing SWU and returned a manual Refresh step.",
+    "intent": "A single until-blocker request should drive a sequence of separate one-SWU Task Sessions, each with automatic owner-joined closeout, until a genuine blocker."
+  },
+  "execution": {
+    "status": "partial",
+    "outputs": [
+      "The selected SWU implementation passed its focused and full validation.",
+      "Required closeout synchronization blocked because its exact target inventory and receipt contract were absent.",
+      "The successor SWU was not started."
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/impl/test-derivation-engine/src/bte/development-engine.ts",
+      "projects/domainspec-v2/impl/test-derivation-engine/src/bte/development-engine.test.ts"
+    ],
+    "validation": [
+      "Focused suite passed 8/8.",
+      "Full BTE verification passed 30/30.",
+      "Task Session closeout-sync record returned block."
+    ],
+    "notes": "The implementation result is pass. The observed gap is lifecycle flow: a deterministic successor exists, but the current invocation surface has no first-class sequential outer loop and the work pack omitted required closeout inputs."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [
+      "An explicit whole ordered stream was narrowed to one SWU without routing to a lifecycle owner for the outer loop.",
+      "The user received a separate manual Refresh action after deterministic implementation success."
+    ],
+    "workflow_gaps": [
+      {
+        "category": "trigger",
+        "severity": "high",
+        "summary": "Task Session has no formal until-blocker selector or owner route for a sequence of separate sessions.",
+        "evidence": "The canonical flags cap execution at one SWU, while existing telemetry includes successful execute-until-blocker runs."
+      },
+      {
+        "category": "process",
+        "severity": "high",
+        "summary": "No Spellcraft-owned outer loop consumes a joined closeout receipt and starts the next fresh Task Session.",
+        "evidence": "Task Session correctly forbids recursive next-SWU execution, and prior reflection rejected recursion without installing an alternative composition."
+      },
+      {
+        "category": "input",
+        "severity": "high",
+        "summary": "Invoke-authored work packs do not necessarily declare the closeout inventory, baseline selectors, validation, and expected owner receipt required by Task Session.",
+        "evidence": "The latest closeout-sync record has all four declared inputs null."
+      },
+      {
+        "category": "output-contract",
+        "severity": "medium",
+        "summary": "The report exposed the workflow-contract defect as the next project blocker instead of distinguishing it from implementation readiness.",
+        "evidence": "Implementation passed, but the overall result was BLOCK solely because the owner closeout contract was absent."
+      }
+    ],
+    "output_contract_drift": true,
+    "reflection_trigger": "manual",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "arcanum/arcana/task-session/SKILL.md"
+}

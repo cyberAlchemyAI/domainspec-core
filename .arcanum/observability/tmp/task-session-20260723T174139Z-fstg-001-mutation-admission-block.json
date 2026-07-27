@@ -1,0 +1,146 @@
+{
+  "schema_version": "arcanum.observability.invocation.v1",
+  "timestamp": "2026-07-23T17:45:26Z",
+  "run_id": "task-session-20260723T174139Z-fstg-001-mutation-admission-block",
+  "session_id": "20260723T174139Z-declared-subset-mode",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute",
+    "alias": null
+  },
+  "command": "task-session all until blocker",
+  "request": {
+    "raw": "all until blocker",
+    "summary": "Execute the Financial Settlement executable-test-generation SWUs sequentially until the first real blocker.",
+    "intent": "Start at selected SWU-FSTG-001, validate each bounded unit, synchronize evidence, and stop at the first unmet hard gate."
+  },
+  "execution": {
+    "status": "blocked_before_implementation_mutation",
+    "outputs": [
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/context-pack.md",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/context-pack.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/mutation-admission-request.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/mutation-admission-receipt.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/execution-receipt.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/continuation-handoff.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/closeout-sync.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/continuation-route.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/CONTINUATION-ROUTE-RESULT.md",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/TASK-SESSION-REPORT.md"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/",
+      ".arcanum/observability/tmp/task-session-20260723T174139Z-fstg-001-mutation-admission-block.json"
+    ],
+    "validation": [
+      "selected-swu:pass",
+      "strict-context-coverage:8/8:pass",
+      "mutation-admission:block",
+      "no-session-implementation-mutation:pass",
+      "closeout-sync:block-missing-owner-inputs",
+      "continuation-route:not-authorized",
+      "subagent-closeout:n/a"
+    ],
+    "notes": "The canonical Task Session verifier blocked routed mutation because the upstream Invoke package lacks materialPackage, materialReceipt, and producerReceiptSchema. No implementation write or test execution occurred."
+  },
+  "task_session": {
+    "task": "TASK-FSTG-SUBSET",
+    "swu": "SWU-FSTG-001",
+    "resolution_mode": "explicit",
+    "resolution_source": "visible-session-context",
+    "session_recovery": "visible",
+    "candidate_count": 1,
+    "ambiguity_count": 0,
+    "stale_exclusions": 0,
+    "cross_scope_rejects": 0,
+    "context_source_count": 7,
+    "strict_coverage": "pass",
+    "fallback_search": "none",
+    "decision_count": 0,
+    "gate_result": "block",
+    "runtime": "local",
+    "adapter": "none",
+    "files_changed_count": 10,
+    "implementation_files_changed_count": 0,
+    "validation_commands": [
+      "python3 .agents/skills/task-session/scripts/verify-mutation-readiness.py <request> --repository-root . --request-schema .agents/skills/task-session/schemas/mutation-admission-request.schema.json --receipt-schema .agents/skills/task-session/schemas/mutation-admission-receipt.schema.json --output <receipt>",
+      "npx vitest run projects/domainspec-v2/impl/test-derivation-engine/src/bte/development-engine.test.ts",
+      "npm --prefix projects/domainspec-v2/impl run verify:bte"
+    ],
+    "validation_result": "block-before-post-mutation-validation",
+    "completion_status": "blocked-missing-invoke-material-handoff",
+    "follow_up_count": 1,
+    "mutation_admission": {
+      "mode": "routed-mutation",
+      "verdict": "block",
+      "receipt": "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/mutation-admission-receipt.json",
+      "request_digest": "sha256:1d43bc03c8b775b0d29506e27ff90899f3e39d37f9e05f54e6fd757ac2fa8d0a",
+      "material_package_digest": null,
+      "producer_schema_digest": null,
+      "live_validation_required": true,
+      "block_reasons": [
+        "missing materialPackage",
+        "missing materialReceipt",
+        "missing producerReceiptSchema"
+      ]
+    },
+    "closeout_sync": {
+      "required": true,
+      "result": "block",
+      "authorization": "not-derivable",
+      "owner_dispatch": "blocked",
+      "owner_receipt": null
+    },
+    "continuation_handoff": "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/continuation-handoff.json",
+    "blocker_fingerprint": "sha256:e44de58c1289c7d88de3b7b77d9f0ef1bd5156802af02b88a6473761ca1b5eb4",
+    "probable_routes": [
+      "invoke:refresh:apply-approved"
+    ],
+    "continuation_selection": "not-authorized",
+    "continuation_dispatch": "not-requested",
+    "returned_next_route": "invoke:refresh projects/domainspec-v2/development/financial-settlement-executable-test-generation",
+    "continuity_cursor": null,
+    "subagent_closeout": {
+      "status": "n/a",
+      "spawned": 0,
+      "joined": 0,
+      "closed": 0,
+      "blocked": 0,
+      "timed_out": 0,
+      "handed_off": 0,
+      "open": 0
+    },
+    "experiment_harness": "not_applicable"
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "invoke-to-task-session-material-handoff",
+        "severity": "high",
+        "summary": "The newly authored Invoke plan is implementation-specific but lacks the producer material package required by Task Session v0.7 routed-mutation admission.",
+        "evidence": "INVOKE-EVIDENCE.json declares mutation_runtime_ready=false and the canonical verifier reports three required properties absent."
+      },
+      {
+        "category": "closeout-sync-inputs",
+        "severity": "medium",
+        "summary": "The work pack lacks exact closeout inventory, baselines, validation, and expected owner receipt, so Task Session cannot derive its required bookkeeping authorization.",
+        "evidence": "closeout-sync.json records an empty inventory and authorization=not-derivable."
+      }
+    ],
+    "useful_patterns": [
+      "Until-blocker execution stops before the first implementation write when mutation admission fails.",
+      "Pre-existing dirty implementation targets are preserved and distinguished from Task Session evidence writes."
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "Run Invoke Refresh to produce the missing material and closeout contracts, then rerun SWU-FSTG-001."
+  },
+  "target_artifact": "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/SWU-FSTG-001/20260723T174139Z-declared-subset-mode/TASK-SESSION-REPORT.md"
+}

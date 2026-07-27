@@ -1,0 +1,129 @@
+{
+  "schema_version": "arcanum.observability.invocation.v1",
+  "timestamp": "2026-07-23T23:19:37Z",
+  "run_id": "task-session-20260723T231937Z-aci-conformance-block",
+  "session_id": "019f8843-f356-7791-b0be-c2e5219b4cdc",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "resume-nearest",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "resume-nearest",
+    "alias": null
+  },
+  "command": "task-session",
+  "request": {
+    "raw": "task-session",
+    "summary": "Resume the nearest evidence-backed reasoning-engine work unit.",
+    "intent": "Execute at most one admitted SWU and stop at the first hard gate."
+  },
+  "execution": {
+    "status": "blocked_before_context_and_implementation_mutation",
+    "outputs": [
+      "cyberAlchemy-v2/development/agent-reasoning-engine/planning/work-pack/session-evidence/resume-nearest/20260723T231937Z-aci-conformance-block/decision-admissibility-request.json",
+      "cyberAlchemy-v2/development/agent-reasoning-engine/planning/work-pack/session-evidence/resume-nearest/20260723T231937Z-aci-conformance-block/decision-admissibility-receipt.json",
+      "cyberAlchemy-v2/development/agent-reasoning-engine/planning/work-pack/session-evidence/resume-nearest/20260723T231937Z-aci-conformance-block/DECISION.md",
+      "cyberAlchemy-v2/development/agent-reasoning-engine/planning/work-pack/session-evidence/resume-nearest/20260723T231937Z-aci-conformance-block/execution-receipt.json",
+      "cyberAlchemy-v2/development/agent-reasoning-engine/planning/work-pack/session-evidence/resume-nearest/20260723T231937Z-aci-conformance-block/TASK-SESSION-REPORT.md",
+      ".arcanum/task-session/continuity/019f8843-f356-7791-b0be-c2e5219b4cdc.json"
+    ],
+    "files_changed": [
+      "cyberAlchemy-v2/development/agent-reasoning-engine/planning/work-pack/session-evidence/resume-nearest/20260723T231937Z-aci-conformance-block/",
+      ".arcanum/task-session/continuity/019f8843-f356-7791-b0be-c2e5219b4cdc.json",
+      ".arcanum/observability/tmp/task-session-20260723T231937Z-aci-conformance-block.json"
+    ],
+    "validation": [
+      "visible-work-pack-resolution:pass",
+      "live-selected-swu:block",
+      "future-closeout-contract:block",
+      "decision-admissibility:gate",
+      "implementation-mutation:none",
+      "subagent-closeout:n/a"
+    ],
+    "notes": "The live work pack explicitly selects no SWU and authorizes no implementation. Task Session preserved the block and routed one human next-route decision."
+  },
+  "task_session": {
+    "task": "TASK-ARE-ACI-CONFORMANCE-001",
+    "swu": null,
+    "resolution_mode": "resume-nearest",
+    "resolution_source": "visible-session-context",
+    "session_recovery": "visible",
+    "candidate_count": 1,
+    "ambiguity_count": 0,
+    "stale_exclusions": 0,
+    "cross_scope_rejects": 0,
+    "context_source_count": 0,
+    "strict_coverage": "n/a",
+    "fallback_search": "none",
+    "decision_count": 1,
+    "gate_result": "block",
+    "runtime": "local",
+    "adapter": "none",
+    "files_changed_count": 7,
+    "implementation_files_changed_count": 0,
+    "validation_commands": [
+      "python3 .agents/skills/task-session/scripts/resolve-nearest-swu.py --repo-root . --cwd . --from cyberAlchemy-v2/development/agent-reasoning-engine/planning/WORK-PACK.md --list-nearest",
+      "python3 .agents/skills/decision-gate/scripts/prefilter-options.py <request> --request-schema .agents/skills/decision-gate/schemas/option-admissibility-request.schema.json --receipt-schema .agents/skills/decision-gate/schemas/option-admissibility-receipt.schema.json",
+      "git diff --check -- cyberAlchemy-v2/development/agent-reasoning-engine/planning"
+    ],
+    "validation_result": "block-before-context-and-implementation-mutation",
+    "completion_status": "blocked-unselected-swu-and-unbound-closeout",
+    "follow_up_count": 1,
+    "closeout_sync": {
+      "required": false,
+      "result": "no-op",
+      "authorization": "not-needed",
+      "owner_dispatch": "not-requested",
+      "owner_receipt": null
+    },
+    "continuation_handoff": "TS-ARE-ACI-CONFORMANCE-BLOCK-20260723T231937Z",
+    "blocker_fingerprint": "sha256:ca7f9769694bd914faabe6b40914ae14ac6624dd39af65cb92d03c8187299be8",
+    "probable_routes": [
+      "decision-gate:blocker",
+      "invoke:refresh:proposal-only after option A or new external evidence"
+    ],
+    "continuation_selection": "blocked-human-choice",
+    "continuation_dispatch": "not-requested",
+    "returned_next_route": "decision-gate:blocker",
+    "continuity_cursor": ".arcanum/task-session/continuity/019f8843-f356-7791-b0be-c2e5219b4cdc.json",
+    "subagent_closeout": {
+      "status": "n/a",
+      "spawned": 0,
+      "joined": 0,
+      "closed": 0,
+      "blocked": 0,
+      "timed_out": 0,
+      "handed_off": 0,
+      "open": 0
+    },
+    "experiment_harness": "not_applicable"
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "selection-handoff",
+        "severity": "medium",
+        "summary": "The plan exposes two closed candidates but intentionally selects no successor.",
+        "evidence": "WORK-PACK.md sets selected_swu=none and states neither candidate is automatic."
+      },
+      {
+        "category": "closeout-sync-inputs",
+        "severity": "high",
+        "summary": "No future mutation candidate has an exact closeout inventory, baselines, allowed deltas, validation commands, owner receipts, and successor.",
+        "evidence": "WORK-PACK.md sets closeoutSyncStatus=block."
+      }
+    ],
+    "useful_patterns": [
+      "Resume-nearest honors visible session context without treating a plan candidate as selected.",
+      "The no-write terminal result preserves dirty user planning changes."
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "Resolve the one Decision Gate choice; option A is the bounded route for immediate local learning."
+  },
+  "target_artifact": "cyberAlchemy-v2/development/agent-reasoning-engine/planning/work-pack/session-evidence/resume-nearest/20260723T231937Z-aci-conformance-block/TASK-SESSION-REPORT.md"
+}

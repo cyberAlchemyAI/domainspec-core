@@ -1,0 +1,63 @@
+{
+  "schema_version": "arcanum.sigil_invocation.v1",
+  "timestamp": "2026-07-24T00:40:21Z",
+  "run_id": "domainspec-subagents-strategy-20260724T004021Z-confirmation-readiness-gap",
+  "session_id": "2026-07-23-invoke-lifecycle-churn-research",
+  "sigil": "domainspec-subagents-strategy",
+  "tier": "arcana",
+  "mode": "propose",
+  "capability": {
+    "id": "domainspec-subagents-strategy",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "propose",
+    "alias": "subagent-strategy"
+  },
+  "request": {
+    "raw": null,
+    "summary": "Prepare a governed Invoke lifecycle research dispatch without asking the human to reconfirm because of preventable form-version drift.",
+    "intent": "Keep one consequential human delegation gate while validating the exact live dispatch form before confirmation."
+  },
+  "execution": {
+    "status": "blocked",
+    "outputs": [
+      "ops/development/2026-07-23-invoke-lifecycle-churn-research/dispatch-sheet.json"
+    ],
+    "files_changed": [
+      "ops/development/2026-07-23-invoke-lifecycle-churn-research/dispatch-sheet.json"
+    ],
+    "validation": [
+      "inventory-lookup:ready",
+      "initial-human-confirmation:received-before-live-form-admission",
+      "live-form-version:0.7.0",
+      "selected-runtime-version:0.6.0-stale",
+      "repaired-check-tension:PASS-PASS",
+      "registration:not-run"
+    ],
+    "notes": "The first confirmation was invalidated after the live form owner exposed stale shape and version assumptions. Pairwise tension restoration and changing the review loop cap were material edits, so the second confirmation was correctly required under exact-digest freeze. The preventable defect was late form admission."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [
+      "The strategy requested confirmation before the exact persisted sheet passed the live form owner."
+    ],
+    "workflow_gaps": [
+      {
+        "category": "confirmation",
+        "severity": "high",
+        "summary": "The human gate was reached before deterministic confirmation-readiness validation.",
+        "evidence": "A confirmed semantic proposal was later rematerialized into the live 0.7.0 groups and connections shape, changing its digest and forcing a second confirmation."
+      },
+      {
+        "category": "profile",
+        "severity": "high",
+        "summary": "A stale personal runtime claimed schema 0.6.0 while the canonical DomainSpec adapter and registrar required 0.7.0.",
+        "evidence": "/home/vrondelli/.codex/skills/domainspec-subagents-strategy/SKILL.md differs materially from implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/SKILL.md."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "reflect-now"
+  },
+  "target_artifact": "ops/development/2026-07-23-invoke-lifecycle-churn-research/dispatch-sheet.json"
+}

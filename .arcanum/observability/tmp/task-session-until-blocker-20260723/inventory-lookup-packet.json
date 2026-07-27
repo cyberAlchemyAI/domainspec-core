@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "sigil-maintenance-inventory-lookup-packet/v1",
+  "targetSigilId": "task-session",
+  "contractArea": [
+    "trigger",
+    "process",
+    "closeout synchronization",
+    "continuation",
+    "output contract",
+    "anti-patterns"
+  ],
+  "queryTerms": [
+    "task-session",
+    "until blocker",
+    "sequential SWU",
+    "closeout",
+    "continuation",
+    "work-pack",
+    "invoke refresh"
+  ],
+  "inventory": {
+    "root": ".arcanum/inventory",
+    "machineIndex": ".arcanum/inventory/index.json",
+    "machineIndexFirst": true,
+    "parseable": true,
+    "lookupReadiness": "ready",
+    "validator": ".agents/skills/inventory/scripts/validate-index-json.sh",
+    "validatorResult": "pass",
+    "warnings": 72,
+    "sourceCoverage": "partial",
+    "repositoryLocalValidatorGap": ".arcanum/inventory/scripts/validate-index-json.sh is absent; the installed canonical/generated validator passed."
+  },
+  "selectedMatches": [
+    {
+      "id": "domainspec-v2-saga-removal-final-result-synthesis",
+      "path": ".arcanum/inventory/entries/domainspec-v2-saga-removal-final-result-synthesis.md",
+      "reason": "Provides a verified multi-unit Task Session closeout precedent with preserved evidence and a final zero-active-reference check.",
+      "authority": "non-authority inventory read model"
+    },
+    {
+      "id": "domainspec-v2-r3c-second-corpus-dispatch-closeout-synthesis",
+      "path": ".arcanum/inventory/entries/domainspec-v2-r3c-second-corpus-dispatch-closeout-synthesis.md",
+      "reason": "Shows a parent Task Session closing after an owner-bounded child route and synchronized evidence.",
+      "authority": "non-authority inventory read model"
+    },
+    {
+      "id": "domainspec-v2-r3c-backend-card-triage-dispatch-closeout-synthesis",
+      "path": ".arcanum/inventory/entries/domainspec-v2-r3c-backend-card-triage-dispatch-closeout-synthesis.md",
+      "reason": "Shows validation-backed Task Session closeout with a separately gated successor.",
+      "authority": "non-authority inventory read model"
+    }
+  ],
+  "excludedMatches": [
+    {
+      "id": "entries-evidence-cards-2026-06-21-schema-taxonomy-view-primitives-cards",
+      "reason": "The word continuation refers to a human-continuation view, not Task Session lifecycle continuation."
+    },
+    {
+      "id": "domainspec-v2-compound-domain-structure-calibration-generation-003-closeout-synthesis",
+      "reason": "This result intentionally has no automatic successor and therefore does not support the ready-successor loop."
+    },
+    {
+      "id": "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+      "reason": "It routes destructive cleanup to Task Session but does not evidence sequential Task Session closeout."
+    }
+  ],
+  "telemetryEvidence": {
+    "source": ".arcanum/observability/by-sigil/task-session.jsonl",
+    "relevantPatterns": [
+      "A prior execute-until-blocker run completed nine ordered SWUs.",
+      "A prior execute-all-low-complexity-plan run completed a linear feature slice.",
+      "Current canonical Task Session still caps one invocation at one SWU and returns the successor without executing it."
+    ]
+  },
+  "gaps": [
+    "Inventory has closeout precedents but no reusable outer-loop spell for sequential Task Sessions.",
+    "Prior reflection explicitly rejected recursive Task Session auto-resume but did not supply a Spellcraft-owned replacement.",
+    "The current work-pack template does not guarantee the closeout-sync contract required by Task Session."
+  ],
+  "designConsequence": "Preserve Task Session as one SWU and move repeated execution into a reusable Spellcraft-owned outer loop. Add a targeted Task Session trigger/handoff rule so an explicit until-blocker request routes to that spell instead of being silently narrowed.",
+  "nonAuthorityNotice": "Inventory matches inform reflection only. The current sigil contract, telemetry, user correction, and lifecycle-owner validation control any change."
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": "arcanum.sigil_invocation.v1",
+  "timestamp": "2026-07-24T02:18:48Z",
+  "run_id": "domainspec-subagents-strategy-20260724T021848Z-invoke-lifecycle-churn-result",
+  "session_id": "2026-07-23-invoke-lifecycle-churn-research",
+  "sigil": "domainspec-subagents-strategy",
+  "tier": "arcana",
+  "mode": "execute",
+  "capability": {
+    "id": "domainspec-subagents-strategy",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute",
+    "alias": "subagent-strategy"
+  },
+  "request": {
+    "raw": null,
+    "summary": "Rerun the confirmed Invoke lifecycle-churn research dispatch through registration, execution, audit, closeout, and post-result projection.",
+    "intent": "Produce an evidence-bounded redesign candidate while preserving one human gate, exact-digest admission, one-SWU execution, and public-private boundaries."
+  },
+  "execution": {
+    "status": "partial",
+    "outputs": [
+      "ops/development/2026-07-23-invoke-lifecycle-churn-research/research.md",
+      "ops/development/2026-07-23-invoke-lifecycle-churn-research/findings.md",
+      ".arcanum/inventory/entries/invoke-lifecycle-churn-research-strategy-result-synthesis.md"
+    ],
+    "files_changed": [
+      "ops/development/2026-07-23-invoke-lifecycle-churn-research/dispatch-sheet.json",
+      "ops/development/2026-07-23-invoke-lifecycle-churn-research/research.md",
+      "ops/development/2026-07-23-invoke-lifecycle-churn-research/findings.md",
+      "telemetry/agents/subagents-dispatch.yaml",
+      ".arcanum/inventory/entries/invoke-lifecycle-churn-research-strategy-result-synthesis.md",
+      ".arcanum/inventory/index.json",
+      ".arcanum/inventory/index.md",
+      ".arcanum/inventory/log.md"
+    ],
+    "validation": [
+      "confirmation-readiness:pass-schema-0.7.0-no-ledger-mutation",
+      "tension:pass-pass",
+      "human-confirmation:one",
+      "registration:pass",
+      "agent-lifecycle:8-joined-0-open",
+      "research-transcript:present",
+      "findings-diff-check:pass",
+      "artifact-audit:revise",
+      "closeout:loop_ceiling_reached",
+      "inventory-updater:9-groups-pass",
+      "inventory-human-index:7-groups-pass",
+      "inventory-lookup-readiness:ready"
+    ],
+    "notes": "The strategy lifecycle completed without authority bypass. One synthesis/reviewer revision and one writer/auditor revision were used. The final re-audit found that same-epoch plan repair could change epoch-bound controls without supersession; the declared loop ceiling was honored, parent approval was withheld, and the dispatch closed loop_ceiling_reached."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "quality-bar",
+        "severity": "high",
+        "summary": "The findings' allowed-edge relation still permits same-epoch plan repair to contradict execution-epoch immutability.",
+        "evidence": "The final auditor required any change to epoch-bound plan digest, role identity, controlling path, allowed write, dependency, or validation surface to create a replacement epoch and take the superseded edge."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "ops/development/2026-07-23-invoke-lifecycle-churn-research/findings.md"
+}

@@ -3,7 +3,7 @@ id: cyberalchemy-orchestrator-reasoning-engine-purpose-strategy-result-synthesis
 kind: page
 type: synthesis
 title: CyberAlchemy Orchestrator purpose and reasoning-engine classification result
-updated: 2026-07-22
+updated: 2026-07-23
 status: verified
 confidence: high
 dispatch_id: 2026-07-22-cyberalchemy-orchestrator-purpose
@@ -38,7 +38,11 @@ evidence_set_ids: []
 residue:
   - init-tension-gate-double-pass-chat-only-no-durable-gate-artifact
   - api-ui-and-agent-pool-checks-skipped-for-missing-dependencies
-  - repository-owned-execution-runtime-and-semantic-reasoning-layer-unbuilt
+  - aci-runtime-blocked
+  - bus-no-post-remediation-pass
+  - acp-discovery-only
+  - apt-mutation-blocked
+  - object-level-whole-engine-integration-unbuilt
 ---
 
 # CyberAlchemy Orchestrator purpose and reasoning-engine classification result
@@ -88,6 +92,19 @@ The broader build-from-owned direction is an orchestration and
 epistemic-governance substrate that could support governed collective reasoning.
 The claim graph, semantic inference/revision loop, knowledge-provenance runtime,
 and execution runtime remain proposed or unbuilt.
+
+## Current-state addendum — 2026-07-23
+
+The frozen `ca560b866b16440b3186f960ecc41d91e42dd03a` acceptance result above
+remains historical evidence. The remote has since advanced to
+`origin/master@6e5936b6d02f4d10c10d215d51a588b5520aa57f`.
+
+The newer state accepts ACI ADR-001 for its W0 decision scope and exposes
+candidate seams through Bus Contracts, agent communication protocols, and APT.
+Those advances improve the architecture and ownership vocabulary; they do not
+establish an integrated reasoning runtime. ACI runtime remains blocked, Bus has
+no post-remediation `PASS`, the protocol surface remains discovery, and APT
+mutation remains blocked.
 
 ## Classification boundary
 

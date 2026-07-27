@@ -1,0 +1,39 @@
+{
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "authoredPhaseStatus": "pass",
+  "requestedHandoff": "ready",
+  "expectedPackageId": "akashic-SWU-AK0-009-20260727",
+  "expectedPackageDigest": "5aca9881c7e49493f8932200d037ebed08fd0c4722295a929259e3b72b7b2480",
+  "materialReceipt": {
+    "authorityClass": "public",
+    "dependencyResult": "pass",
+    "lifecycleOwner": "task-session",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "5aca9881c7e49493f8932200d037ebed08fd0c4722295a929259e3b72b7b2480",
+    "packageId": "akashic-SWU-AK0-009-20260727",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "public",
+    "reasons": [],
+    "schemaVersion": "1.0.0",
+    "validatedPaths": [
+      "src/cli.mjs",
+      "src/query-common.mjs",
+      "src/select-content.mjs",
+      "test/fixtures/selectors/empty-language.json",
+      "test/fixtures/selectors/invalid.json",
+      "test/fixtures/selectors/missing-record.json",
+      "test/fixtures/selectors/source-a-claims.json",
+      "test/fixtures/selectors/unsupported.json",
+      "test/select-content.test.mjs"
+    ],
+    "validationCommands": [
+      "node src/cli.mjs select --selector test/fixtures/selectors/source-a-claims.json",
+      "npm audit --omit=dev",
+      "npm test",
+      "npm test -- test/select-content.test.mjs"
+    ]
+  }
+}

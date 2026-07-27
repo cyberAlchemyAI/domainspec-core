@@ -1,0 +1,76 @@
+{
+  "schema_version": "arcanum.sigil_invocation.v1",
+  "timestamp": "2026-07-24T15:25:03Z",
+  "run_id": "inventory-20260724T152503Z-maintenance-gap",
+  "session_id": "2026-07-24-inventory-maintenance",
+  "sigil": "inventory",
+  "tier": "arcana",
+  "mode": "reflect",
+  "capability": {
+    "id": "inventory",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "reflect",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Reflect on repeated Inventory workflow problems and propose a bounded maintenance scope.",
+    "intent": "Separate current conformance from inherited warning debt, make lookup validation portable, and remove stale observability conclusions."
+  },
+  "execution": {
+    "status": "partial",
+    "outputs": [
+      "Read-only Inventory lookup packet",
+      "Current index and observability audit"
+    ],
+    "files_changed": [
+      ".arcanum/observability/tmp/inventory-20260724T152503Z-maintenance-gap.json"
+    ],
+    "validation": [
+      "canonical validate-index-json.sh: PASS",
+      "lookup_readiness=ready",
+      "index entries=210",
+      "validator failures=0",
+      "validator warnings=72",
+      "installed package validator path: missing"
+    ],
+    "notes": "The current index is structurally conformant. The maintenance gap is workflow-level: clean adds re-emit inherited repository-wide tag debt, the documented package-relative validator is absent from the installed package, and Inventory reflection state still reports a historical kind-validation failure that no longer reproduces."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [
+      "A clean append is judged by repository-wide inherited tag debt without identifying whether the invocation introduced any warning."
+    ],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "high",
+        "summary": "Append validation does not distinguish introduced warnings from historical repository debt.",
+        "evidence": "inventory-update.cjs scans the complete resulting index and prints all 72 distinct uncontrolled-tag warnings after each changed add; 44 of 210 entries carry at least one such tag."
+      },
+      {
+        "category": "process",
+        "severity": "high",
+        "summary": "The documented package-relative lookup validator is not present in the installed Inventory package.",
+        "evidence": "The Inventory contract requires scripts/validate-index-json.sh, the canonical Arcanum source has it, and .arcanum/inventory/scripts/validate-index-json.sh does not exist."
+      },
+      {
+        "category": "reflection",
+        "severity": "medium",
+        "summary": "Inventory reflection state contains a stale conformance conclusion.",
+        "evidence": "The state says 15 rows fail kind validation, while the current validator reports zero failures and lookup_readiness=ready."
+      },
+      {
+        "category": "observability",
+        "severity": "medium",
+        "summary": "Repeated inherited-warning gaps obscure whether a particular Inventory invocation was clean.",
+        "evidence": "Nine workflow gaps were already recorded across fourteen Inventory signals, with inherited controlled-tag warnings repeatedly named as the residue."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "reflect-now"
+  },
+  "target_artifact": ".arcanum/inventory/index.json"
+}

@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "akashic-SWU-AK0-012-20260727",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "task-session",
+  "authority_class": "public",
+  "publication_class": "public",
+  "source_artifacts": [
+    {
+      "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+      "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+      "size_bytes": 6058,
+      "authority_class": "public"
+    },
+    {
+      "path": "development/phase-0-content-contract/plan/work-pack/tasks/TASK-AK-QUERY.md",
+      "sha256": "a96d705b3deb906df7e5c2f8131a479fb069f951eaecb670f78c601e67279dc5",
+      "size_bytes": 5716,
+      "authority_class": "public"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "src/cli.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "src/cli.mjs",
+        "sha256": "d584d3bd6dab8838205c7f4bcff1b41cb485fd85f4ae1a78182703a5f6338f48",
+        "size_bytes": 17432
+      }
+    },
+    {
+      "target_path": "src/explain-projection.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "src/explain-projection.mjs",
+        "sha256": "2cfc9d93c3585fdb22cbd18bc84702cc030c6a254a85c73f42df43228830a9df",
+        "size_bytes": 3443
+      }
+    },
+    {
+      "target_path": "test/explain-projection.test.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "test/explain-projection.test.mjs",
+        "sha256": "bcb2e764864e4fd399eb2180b98e0966251ad195993c88e3b49f5d480a0e13d7",
+        "size_bytes": 3900
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "src/cli.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "src/explain-projection.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "test/explain-projection.test.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "work-pack",
+      "artifact_ref": {
+        "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+        "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+        "size_bytes": 6058
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "task-session",
+    "scope_paths": [
+      "src/cli.mjs",
+      "src/explain-projection.mjs",
+      "test/explain-projection.test.mjs"
+    ],
+    "authority_classes": [
+      "public"
+    ],
+    "publication_classes": [
+      "public"
+    ]
+  },
+  "validation_commands": [
+    "node src/cli.mjs explain entry:claim:a1",
+    "npm audit --omit=dev",
+    "npm test",
+    "npm test -- test/explain-projection.test.mjs"
+  ]
+}

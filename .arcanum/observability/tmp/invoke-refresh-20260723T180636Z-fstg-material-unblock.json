@@ -1,0 +1,132 @@
+{
+  "schema_version": "arcanum.observability.invocation.v1",
+  "timestamp": "2026-07-23T18:06:36Z",
+  "run_id": "invoke-refresh-20260723T180636Z-fstg-material-unblock",
+  "session_id": "20260723T174139Z-declared-subset-mode",
+  "spell": "invoke",
+  "mode": "refresh",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh",
+    "alias": null
+  },
+  "request": {
+    "raw": "refresh apply-approved",
+    "summary": "Apply the exact Invoke refresh needed to remove the SWU-FSTG-001 Task Session material blocker.",
+    "intent": "Produce receipt-bound execution material, prove Task Session admission, update Invoke readiness evidence, and return without applying implementation."
+  },
+  "execution": {
+    "status": "pass",
+    "activation_source": "direct-user",
+    "mutation_mode": "apply-approved",
+    "mutation_mode_source": "explicit",
+    "phase_status": "pass",
+    "handoff_status": "ready",
+    "mutation_ready": true,
+    "outputs": [
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/INVOKE-EVIDENCE.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/refresh-report.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/REFRESH-APPLY-RECEIPT.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/EXECUTION-DISPATCH.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/material/MATERIAL-PACKAGE.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/material/MATERIAL-RECEIPT.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/material/REFRESH-HANDOFF-RESULT.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/ADMISSION-PROBE-RECEIPT.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/apply-material/MATERIAL-PACKAGE.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/apply-material/MATERIAL-RECEIPT.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/apply-material/REFRESH-HANDOFF-RESULT.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/CAPABILITY-STATUS-RESULT.json"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/INVOKE-EVIDENCE.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/",
+      ".arcanum/observability/tmp/invoke-refresh-20260723T180636Z-fstg-material-unblock.json"
+    ],
+    "source_signal_count": 5,
+    "delta_classes": [
+      "evidence_added",
+      "blocker_resolved",
+      "status_changed",
+      "route_changed"
+    ],
+    "target_artifact_count": 1,
+    "proposed_change_count": 0,
+    "applied_change_count": 1,
+    "skipped_change_count": 3,
+    "blockers_by_scope": {
+      "refresh-authoring": 0,
+      "apply-authorization": 0,
+      "target-lifecycle": 1,
+      "audit": 0
+    },
+    "validation": [
+      "dispatch-spec:pass",
+      "execution-material-validator:pass",
+      "execution-refresh-handoff:pass",
+      "staged-focused-vitest-2.1.9:8/8-pass",
+      "task-session-admission-probe:admit",
+      "refresh-apply-validator:pass",
+      "refresh-apply-handoff:pass",
+      "invoke-evidence-staged-parity:pass",
+      "capability-resolver:artifact-pass-runtime-true-registry-false"
+    ],
+    "notes": "The Refresh evidence update is applied. Three exact implementation post-images remain staged for Task Session; live implementation and SWU status are unchanged."
+  },
+  "invoke": {
+    "mode_contract": ".agents/skills/invoke/refresh.md",
+    "target_artifact": {
+      "name": "financial-settlement-executable-test-generation",
+      "type": "feature-development-plan",
+      "owner_cycle": "projects/domainspec-v2"
+    },
+    "dispatch_techniques": [
+      "sequence",
+      "artifact_contract_bridge",
+      "execution_receipt_handoff",
+      "owner_boundary_check",
+      "concrete_path_evidence",
+      "validation_loop",
+      "residue_ledger"
+    ],
+    "dispatch_validation": "pass",
+    "dispatch_path": "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/EXECUTION-DISPATCH.json",
+    "distill_result": "skipped",
+    "distill_reason": "One exact readiness record for one already-selected atomic SWU; the plan Distill remains pass.",
+    "context_builder": "reused-strict-8-of-8",
+    "inventory_lookup": "one existing Invoke evidence target plus exact session and material receipts",
+    "material_package": {
+      "refresh_apply_package_id": "dsv2-fstg-refresh-evidence-apply-20260723",
+      "refresh_apply_digest": "8b69a5109ad9740cb6268b9904c4dd0da37fd12e204fdbcd4ba0775c3b389567",
+      "refresh_apply_validated_paths": 1,
+      "execution_package_id": "dsv2-fstg-swu-001-20260723T174139Z",
+      "execution_package_digest": "a096012153a1813bf8a5599d84289d743e2693d80bcc067716b23abfdde7fcb2",
+      "execution_validated_paths": 3,
+      "dependency_result": "pass",
+      "owner_boundary_result": "pass",
+      "publication_boundary_result": "pass"
+    },
+    "capability_axes": {
+      "artifact_authored": "pass",
+      "registry_released": false,
+      "mutation_runtime_ready": true
+    },
+    "next_route": "task-session:execute:SWU-FSTG-001",
+    "subagent_closeout": "n/a"
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "useful_patterns": [
+      "A failed Task Session admission can be repaired with an exact producer package and verified by a non-authoritative admission probe.",
+      "Invoke can stage exact implementation post-images while preserving Task Session ownership of live application and validation."
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "Return to Task Session for SWU-FSTG-001."
+  },
+  "target_artifact": "projects/domainspec-v2/development/financial-settlement-executable-test-generation/refreshes/2026-07-23-task-session-material-unblock/REFRESH-REPORT.md"
+}

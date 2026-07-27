@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "akashic-TASK-AK-VERIFY-20260727",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "task-session",
+  "authority_class": "public",
+  "publication_class": "public",
+  "source_artifacts": [
+    {
+      "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+      "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+      "size_bytes": 6058,
+      "authority_class": "public"
+    },
+    {
+      "path": "development/phase-0-content-contract/plan/work-pack/tasks/TASK-AK-VERIFY.md",
+      "sha256": "63ea4321fd5726a174e6c7a5525a2d67dc90d019b736731043479da824ff986f",
+      "size_bytes": 2184,
+      "authority_class": "public"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/CLOSURE-VERIFICATION.json",
+      "operation": "create",
+      "output_ref": {
+        "path": "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/CLOSURE-VERIFICATION.json",
+        "sha256": "05f97fe8ceb60642b30f8e22559bc68b69f1173aa3a67031714bd5157465110a",
+        "size_bytes": 7151
+      }
+    },
+    {
+      "target_path": "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/WITNESS-MAP.md",
+      "operation": "create",
+      "output_ref": {
+        "path": "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/WITNESS-MAP.md",
+        "sha256": "4e157891c333fdb3a164c3e7f4452fc6571cc69d9a4c588e40ecdc09cb0fea77",
+        "size_bytes": 2367
+      }
+    },
+    {
+      "target_path": "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/verify.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/verify.mjs",
+        "sha256": "2ac24b3e530df7febe03b9911614268450cb1abdde20c57b7457384a58a60190",
+        "size_bytes": 21152
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/CLOSURE-VERIFICATION.json",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/WITNESS-MAP.md",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/verify.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "work-pack",
+      "artifact_ref": {
+        "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+        "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+        "size_bytes": 6058
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "task-session",
+    "scope_paths": [
+      "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/CLOSURE-VERIFICATION.json",
+      "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/WITNESS-MAP.md",
+      "development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/verify.mjs"
+    ],
+    "authority_classes": [
+      "public"
+    ],
+    "publication_classes": [
+      "public"
+    ]
+  },
+  "validation_commands": [
+    "git diff --check",
+    "node development/phase-0-content-contract/plan/task-session/TASK-AK-VERIFY/verify.mjs",
+    "npm audit --omit=dev",
+    "npm test"
+  ]
+}

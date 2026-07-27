@@ -1,0 +1,39 @@
+{
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "authoredPhaseStatus": "pass",
+  "requestedHandoff": "ready",
+  "expectedPackageId": "akashic-SWU-AK0-003-20260727",
+  "expectedPackageDigest": "ee15094af10d9b3277ca468c8a1cfeae837f1747f6a011f3807cd1df2e381b1d",
+  "materialReceipt": {
+    "authorityClass": "public",
+    "dependencyResult": "pass",
+    "lifecycleOwner": "task-session",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "ee15094af10d9b3277ca468c8a1cfeae837f1747f6a011f3807cd1df2e381b1d",
+    "packageId": "akashic-SWU-AK0-003-20260727",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "public",
+    "reasons": [],
+    "schemaVersion": "1.0.0",
+    "validatedPaths": [
+      "package-lock.json",
+      "package.json",
+      "src/canonical-json.mjs",
+      "src/load-records.mjs",
+      "test/fixtures/input/a.json",
+      "test/fixtures/input/b.json",
+      "test/fixtures/input/duplicate-key.json",
+      "test/load-records.test.mjs"
+    ],
+    "validationCommands": [
+      "git diff --check",
+      "node --check src/canonical-json.mjs && node --check src/load-records.mjs",
+      "npm audit --omit=dev",
+      "npm test",
+      "npm test -- test/load-records.test.mjs"
+    ]
+  }
+}

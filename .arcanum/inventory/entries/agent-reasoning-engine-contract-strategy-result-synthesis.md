@@ -3,7 +3,7 @@ id: agent-reasoning-engine-contract-strategy-result-synthesis
 kind: page
 type: synthesis
 title: Agent reasoning-engine contract research result
-updated: 2026-07-22
+updated: 2026-07-23
 status: verified
 confidence: high
 dispatch_id: 2026-07-22-agent-reasoning-engine-contract
@@ -32,9 +32,9 @@ selectors:
 evidence_card_ids: []
 evidence_set_ids: []
 residue:
-  - executable-semantic-evaluator-witness-absent
-  - applicability-precedence-and-exception-owner-unresolved
-  - challenge-closure-policy-unresolved
+  - whole-engine-promotion-absent
+  - higher-layer-actor-runtime-and-real-effect-absent
+  - aci-reasoning-binding-unresolved
   - anti-bias-vector-dimensions-and-efficacy-unwitnessed
   - installed-register-dispatch-appender-projection-stale
 ---
@@ -56,10 +56,11 @@ defeat a problem-level conclusion.
 The smallest defensible first build/test slice is
 **`semantic-judgment evaluator@1`**: a deterministic, replayable evaluator over
 one finite, owner-authorized rule catalog with typed abstention, defeat,
-deferral, escalation, invalidation, and a non-authorizing positive result. Its
-current status is **UNWITNESSED CANDIDATE** because the dispatch produced a
-research contract, not executable witness evidence. The general pre-action
-reasoning-engine label remains KILL for the first slice.
+deferral, escalation, invalidation, and a non-authorizing positive result. At
+this research dispatch's 2026-07-22 closeout, its status was **UNWITNESSED
+CANDIDATE** because the dispatch produced a research contract, not executable
+witness evidence. The general pre-action reasoning-engine label remained KILL
+for the first slice.
 
 The accepted architecture keeps three non-substitutable layers:
 
@@ -73,6 +74,19 @@ The accepted architecture keeps three non-substitutable layers:
 The witness invariant is strict: entry `block` or `defer` produces zero actor
 and evaluator calls; entry `pass` permits only the bounded run; no effect occurs
 without both a positive semantic outcome and an exact-effect Gate `pass`.
+
+## Current-state addendum — 2026-07-23
+
+The original research conclusion was historically correct. SWU-ARE-001 now
+supplies a bounded local L0 witness for `semantic-judgment evaluator@1`: two
+rule families, typed counterfactuals, byte-identical replay, persisted order,
+and a test-only idempotent effect boundary pass under its terminal receipt.
+
+The explicit
+[`G-ARE-L0` owner receipt](../../../cyberAlchemy-v2/development/agent-reasoning-engine/decisions/g-are-l0-promotion/PROMOTION-RECEIPT.json)
+now promotes that bounded L0 witness. This does not promote the whole reasoning
+engine: the actor runtime, real effect adapter, executable ACI binding,
+higher-layer durability, and anti-bias efficacy remain absent.
 
 ## Effort and anti-bias boundary
 
@@ -107,10 +121,12 @@ challenge contract provide contestability, not proof or authority.
 
 ## Promotion boundary
 
-Promotion requires executable positive, negative, abstention, defeat, timeout,
-consensus-invariance, catalog-drift, revocation, cycle, replay, revalidation, and
-exact-effect fixtures; a second independently authored rule family running
-through unchanged evaluator code; persisted gate/event ordering; executable or
-pinned applicability and challenge closure; and explicit spec-owner plus
-decision-gate admission. Until then, describe this as an accepted research
-contract for an evaluator candidate, not as a functioning reasoning engine.
+The accepted promotion contract requires executable positive, negative,
+abstention, defeat, timeout, consensus-invariance, catalog-drift, revocation,
+cycle, replay, revalidation, and exact-effect fixtures; a second independently
+authored rule family running through unchanged evaluator code; persisted
+gate/event ordering; executable or pinned applicability and challenge closure;
+and explicit spec-owner plus decision-gate admission. The bounded L0 witness
+satisfies part of this evidence family but does not provide the missing
+whole-engine admission. Describe it as a witnessed local evaluator candidate,
+not a functioning or promoted reasoning engine.

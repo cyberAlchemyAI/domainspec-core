@@ -1,0 +1,46 @@
+{
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "authoredPhaseStatus": "pass",
+  "requestedHandoff": "ready",
+  "expectedPackageId": "akashic-SWU-AK0-002-20260727",
+  "expectedPackageDigest": "f9becfce8c7510c0a6e37cdf828c971ede9ca385dc17fffe732f161c76f97d0d",
+  "materialReceipt": {
+    "authorityClass": "public",
+    "dependencyResult": "pass",
+    "lifecycleOwner": "task-session",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "f9becfce8c7510c0a6e37cdf828c971ede9ca385dc17fffe732f161c76f97d0d",
+    "packageId": "akashic-SWU-AK0-002-20260727",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "public",
+    "reasons": [],
+    "schemaVersion": "1.0.0",
+    "validatedPaths": [
+      "package-lock.json",
+      "package.json",
+      "schema/content-record.schema.json",
+      "src/diagnostics.mjs",
+      "src/validate-records.mjs",
+      "test/fixtures/shape/invalid-attribution.case.json",
+      "test/fixtures/shape/invalid-evidence.case.json",
+      "test/fixtures/shape/invalid-kind.case.json",
+      "test/fixtures/shape/invalid-lifecycle.case.json",
+      "test/fixtures/shape/invalid-relation.case.json",
+      "test/fixtures/shape/invalid-selector.case.json",
+      "test/fixtures/shape/invalid-unknown.case.json",
+      "test/fixtures/shape/valid-claim.json",
+      "test/fixtures/shape/valid-source.json",
+      "test/shape.test.mjs"
+    ],
+    "validationCommands": [
+      "git diff --check",
+      "node --check src/diagnostics.mjs && node --check src/validate-records.mjs",
+      "npm audit --omit=dev",
+      "npm test",
+      "npm test -- test/shape.test.mjs"
+    ]
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "akashic-SWU-AK0-011-20260727",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "task-session",
+  "authority_class": "public",
+  "publication_class": "public",
+  "source_artifacts": [
+    {
+      "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+      "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+      "size_bytes": 6058,
+      "authority_class": "public"
+    },
+    {
+      "path": "development/phase-0-content-contract/plan/work-pack/tasks/TASK-AK-QUERY.md",
+      "sha256": "a96d705b3deb906df7e5c2f8131a479fb069f951eaecb670f78c601e67279dc5",
+      "size_bytes": 5716,
+      "authority_class": "public"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "src/cli.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "src/cli.mjs",
+        "sha256": "42253a7713b913d81110bdacb63c3e21926d8f141cf1e05da12f80bf93e0a4ca",
+        "size_bytes": 15751
+      }
+    },
+    {
+      "target_path": "src/reverse-source.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "src/reverse-source.mjs",
+        "sha256": "968af4a1e609752fab8e00fb9e5194327fa9f3c1eafacc75e45d1f3aeb578f40",
+        "size_bytes": 3249
+      }
+    },
+    {
+      "target_path": "test/reverse-source.test.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "test/reverse-source.test.mjs",
+        "sha256": "855158798b10e94f690f1fe4a80d5390655b72b44abc440b9091a9a012044112",
+        "size_bytes": 3145
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "src/cli.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "src/reverse-source.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "test/reverse-source.test.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "work-pack",
+      "artifact_ref": {
+        "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+        "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+        "size_bytes": 6058
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "task-session",
+    "scope_paths": [
+      "src/cli.mjs",
+      "src/reverse-source.mjs",
+      "test/reverse-source.test.mjs"
+    ],
+    "authority_classes": [
+      "public"
+    ],
+    "publication_classes": [
+      "public"
+    ]
+  },
+  "validation_commands": [
+    "node src/cli.mjs reverse-source source:a",
+    "npm audit --omit=dev",
+    "npm test",
+    "npm test -- test/reverse-source.test.mjs"
+  ]
+}

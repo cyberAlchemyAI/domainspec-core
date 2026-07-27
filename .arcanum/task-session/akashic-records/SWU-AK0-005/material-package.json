@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "akashic-SWU-AK0-005-20260727",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "task-session",
+  "authority_class": "public",
+  "publication_class": "public",
+  "source_artifacts": [
+    {
+      "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+      "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+      "size_bytes": 6058,
+      "authority_class": "public"
+    },
+    {
+      "path": "development/phase-0-content-contract/plan/work-pack/tasks/TASK-AK-PROJECT.md",
+      "sha256": "87cea6c5e24c722bff097d9487c412c9c914d91484a51112592b5c804f9ecfe5",
+      "size_bytes": 7738,
+      "authority_class": "public"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "schema/generated-documents.schema.json",
+      "operation": "update",
+      "output_ref": {
+        "path": "schema/generated-documents.schema.json",
+        "sha256": "90a2edb9724d2c9afd8dacae037392be9a702981982503caf41fa4395ef7ba4f",
+        "size_bytes": 13829
+      }
+    },
+    {
+      "target_path": "schema/query-contracts.schema.json",
+      "operation": "update",
+      "output_ref": {
+        "path": "schema/query-contracts.schema.json",
+        "sha256": "a643d7a3a877a4440e096df1db31cb6ddca36de2ac04fdd62bb4ee56be24aecd",
+        "size_bytes": 25065
+      }
+    },
+    {
+      "target_path": "src/validate-outputs.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "src/validate-outputs.mjs",
+        "sha256": "1f67e20e06ba6327ab451f041ecb64d275fa95cbf2730e9af548b996f9165d65",
+        "size_bytes": 3925
+      }
+    },
+    {
+      "target_path": "test/fixtures/output-contracts/positives.json",
+      "operation": "update",
+      "output_ref": {
+        "path": "test/fixtures/output-contracts/positives.json",
+        "sha256": "aec9fab6f9b0b65058ed356841dec280dbfa415fb5d5f85a22a34602244c248a",
+        "size_bytes": 10190
+      }
+    },
+    {
+      "target_path": "test/output-contracts.test.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "test/output-contracts.test.mjs",
+        "sha256": "acb2a153f447f154f1c3d0e1552767682c82ff4545e731140935277b59af9356",
+        "size_bytes": 4110
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "schema/generated-documents.schema.json",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "schema/query-contracts.schema.json",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "src/validate-outputs.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "test/fixtures/output-contracts/positives.json",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "test/output-contracts.test.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "work-pack",
+      "artifact_ref": {
+        "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+        "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+        "size_bytes": 6058
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "task-session",
+    "scope_paths": [
+      "schema/generated-documents.schema.json",
+      "schema/query-contracts.schema.json",
+      "src/validate-outputs.mjs",
+      "test/fixtures/output-contracts/positives.json",
+      "test/output-contracts.test.mjs"
+    ],
+    "authority_classes": [
+      "public"
+    ],
+    "publication_classes": [
+      "public"
+    ]
+  },
+  "validation_commands": [
+    "npm audit --omit=dev",
+    "npm test",
+    "npm test -- test/output-contracts.test.mjs",
+    "npm test -- test/select-content.test.mjs"
+  ]
+}

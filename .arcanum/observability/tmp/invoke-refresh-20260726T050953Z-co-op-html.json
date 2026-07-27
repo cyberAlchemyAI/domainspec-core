@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-07-26T05:09:53Z",
+  "run_id": "invoke-refresh-20260726T050953Z-co-op-html",
+  "session_id": "2026-07-25-co-op-engine-browser-artifact",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "refresh",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "refresh",
+    "alias": null
+  },
+  "command": null,
+  "request": {
+    "raw": null,
+    "summary": "Apply an Invoke Refresh that adds a fourteen-project static HTML page/presentation prototype as a separate L0 SWU.",
+    "intent": "Keep the existing admission contract selected, add the HTML prototype as planned-unselected, preserve strict context bindings, and do not execute target work."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/REFRESH-REPORT.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/refresh-report.json",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/WORK-PACK.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/SWU-MANIFEST.json",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/tasks/TASK-COOP-L0-HTML-PROTOTYPE.md"
+    ],
+    "files_changed": [
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/IMPLEMENTATION-LAYERING.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/WORK-PACK.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/EXECUTION-PACK.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/SWU-MANIFEST.json",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/CLOSEOUT-SYNC-CONTRACT.json",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/VALIDATION-STRATEGY.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/PLAN-DISTILL-VALIDATION.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/session-evidence/20260726T044915Z-swu-coop-001/"
+    ],
+    "validation": [
+      "dispatch-spec:pass-zero-flags-zero-blocks",
+      "context-builder:strict-10-of-10-refresh-obligations",
+      "distill:standard-two-rounds-pass",
+      "material-package:pass-ready-15-paths",
+      "refresh-handoff:mutation-ready",
+      "applied-bytes-equal-staged:pass",
+      "selected-swu-singularity:pass",
+      "fourteen-project-fixture:pass",
+      "strict-context-digests:pass",
+      "local-links:pass",
+      "target-implementation-absence:pass",
+      "scoped-diff-hygiene:pass"
+    ],
+    "notes": "The refresh changed planning and session evidence only. SWU-COOP-001 remains selected. SWU-COOP-002 is planned-unselected with a one-file future write scope; no HTML or deployment was created."
+  },
+  "observer": {
+    "signals": [
+      "quality-pass",
+      "workflow-gap",
+      "rework",
+      "useful-pattern"
+    ],
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "runtime-surface",
+        "severity": "medium",
+        "summary": "Repository-local generated adapters for context-builder, dispatch-spec, and signal-observer were absent, so installed canonical Codex copies were used.",
+        "evidence": "The named .agents skill paths were missing while /home/vrondelli/.codex/skills copies were readable; the dispatch and result record the fallback."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/REFRESH-REPORT.md"
+}

@@ -1,0 +1,69 @@
+{
+  "timestamp": "2026-07-27T14:49:12Z",
+  "run_id": "sigil-maintenance-loop-20260727T144912Z-subagent-evidence-closure",
+  "session_id": "2026-07-27-subagent-evidence-closure-maintenance",
+  "sigil": "sigil-maintenance-loop",
+  "tier": "spell",
+  "capability": {
+    "id": "sigil-maintenance-loop",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "update",
+    "alias": null
+  },
+  "mode": "update",
+  "request": {
+    "raw": "Improve the workflow gap using sigil-development.",
+    "summary": "Improve the subagent research workflow so incomplete upstream evidence cannot reach the writer as if it were ready.",
+    "intent": "Add a bounded owner-typed handoff gate, research evidence closure, correct repair routing, and regression evidence."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      ".arcanum/observability/reflections/20260727T144607Z-domainspec-subagents-strategy-evidence-closure-reflection.md",
+      ".arcanum/observability/maintenance/20260727T144607Z-domainspec-subagents-strategy-evidence-closure-maintenance.md",
+      "arcanum/arcana/subagent-strategy/development/fixtures/strategy-handoff-gap-complex.expected.md"
+    ],
+    "files_changed": [
+      "arcanum/arcana/subagent-strategy/SKILL.md",
+      "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md",
+      "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/SKILL.md",
+      "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/runtime-composition.json",
+      "implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-strategy-runtime-composition.cjs",
+      ".arcanum/observability/reflections/20260727T144607Z-domainspec-subagents-strategy-evidence-closure-reflection.md",
+      ".arcanum/observability/maintenance/20260727T144607Z-domainspec-subagents-strategy-evidence-closure-maintenance.md"
+    ],
+    "validation": [
+      "strategy runtime composition fixtures passed 26 of 26",
+      "registrar safety suite passed 111 of 111",
+      "Codex and Claude public plus overlay parity passed",
+      "Experiment Harness validation passed",
+      "handoff-gap complex regime passed",
+      "scoped diff check passed"
+    ],
+    "notes": "The update preserves the existing confirmation-readiness edits and keeps selector semantics in the private research owner. Structural validation passed; live repaired-dispatch evidence remains pending."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "live-evidence",
+        "severity": "low",
+        "summary": "No live consuming dispatch has yet demonstrated needs_feedback followed by ready.",
+        "evidence": "The deterministic complex regime passes, while the public validation record remains flag pending a repaired medium or complex runtime body."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "run-live-regression"
+  },
+  "evidence": {
+    "inventory_lookup_status": "pass",
+    "observer_pass": "independent helper",
+    "reflection_decision": "targeted-update",
+    "approved_scope": "owner-typed handoff readiness, research evidence closure, repair routing, direct telemetry attribution, focused fixture, runtime parity",
+    "reusable_evidence": "flag"
+  },
+  "target_artifact": ".arcanum/observability/maintenance/20260727T144607Z-domainspec-subagents-strategy-evidence-closure-maintenance.md"
+}

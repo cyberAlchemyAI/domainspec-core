@@ -1,5 +1,95 @@
 # Inventory Log
 
+## 2026-07-27 sync — CyberAlchemy precedent added to Akashic graph strategy
+
+- Trigger: the human requested that the confirmation-ready periodic-table
+  graph-schema strategy also inspect `cyberAlchemy-v2`.
+- Source pass: inspected the private source map; ontology node, relation,
+  canonical-kind, allowed-edge, edge-definition, relationship-crosswalk, and
+  projection surfaces; and the ontology-candidate-graph prototype Design,
+  queries, domain records, and planned validation contracts.
+- Finding boundary: reusable hypotheses include endpoint-complete relation
+  contracts, forbidden-collapse fields, closed-world forward-edge storage,
+  inverse read directions, non-composing conflict edges, instance-level cycle
+  checks, policy-indeterminate relation candidates, immutable projections, and
+  typed-negative fixtures. The sources are candidate/planned, the runtime proof
+  is absent, and an edge-catalog collision remains unresolved.
+- Strategy revision: added Riehl as a fourth explorer for a public-safe transfer
+  ledger classifying each CyberAlchemy mechanic as portable-as-is, adapt,
+  private-only, contradicted/colliding, unproved, or reject.
+- Public/private boundary: CyberAlchemy authority kinds, owner routes, CAV2
+  identifiers, private paths, and collision-prone vocabulary cannot enter a
+  proposed public Akashic contract by inheritance.
+- Gate: the first sheet digest and `PASS + PASS` receipt were superseded. The
+  revised schema `0.7.0` sheet passed form validation at
+  `22ea00a1bb16ddea2cbb2e068dabc6423dcc868446c4ed286f44aed4a808c7d6`;
+  two fresh independent tension agents returned `PASS + PASS` over all six
+  explorer pairs and three reviewer pairs.
+- State: human confirmation pending; dispatch unregistered and not run; no
+  dispatch-ledger or Akashic L0 mutation occurred.
+- Inventory: refreshed the strategy entry, machine summary/source/residue
+  projection, human index row, and generated timestamp in place. Entry count
+  remains 228.
+- Next action: the human may reply `confirmed` to authorize registration and
+  execution of the revised frozen sheet.
+
+## 2026-07-27 ingest — Akashic periodic-table graph-schema research strategy
+
+- Mode: machine-index-first lookup followed by strategy-result filing.
+- Target: `projects/akashic-records`; no target-local Inventory exists, so the
+  parent Inventory supplied adjacent non-authority evidence only.
+- P1: synthesis, isolation, and parallelism apply across corpus/query,
+  typed-edge, and ingestion/change-impact explorer lanes, followed by one
+  synthesizer, three independent skeptic gates, one writer, and one auditor.
+- Proposal: derive the smallest executable Akashic record, edge, query,
+  commit-pinned ingestion, selector-verification, extraction, and
+  upstream-impact extension from the `jarulraj/periodic-table` witness.
+- Gate: form validation passed under dispatch schema `0.7.0`; exact sheet
+  SHA-256 is
+  `f60b194b64961248066ccd08a29277f9f7c45fddffb9d7beeb27b97ed9d250b3`;
+  independent check-tension returned `PASS + PASS`.
+- State: human confirmation pending; dispatch unregistered and not run; no
+  dispatch-ledger mutation and no Akashic L0 mutation occurred.
+- Inventory: added one candidate non-authority strategy-result entry;
+  `index.json` advanced from 227 to 228 entries and the matching `index.md` row
+  was synchronized through deterministic `inventory-update.cjs`. All tags on
+  the new entry were already controlled; updater warnings concerned
+  pre-existing index-wide tag drift.
+- Next action: the human may reply `confirmed` to authorize registration and
+  execution of the exact frozen sheet; any sheet revision re-enters form and
+  two-agent tension validation.
+
+## 2026-07-23 promotion — bounded reasoning-engine L0
+
+- Decision: the human project gatekeeper selected option A and `G-ARE-L0`
+  passed for the private finite `semantic-judgment evaluator@1` witness.
+- Projection: the verified reasoning-engine research read model and its
+  machine/human summaries now distinguish bounded L0 promotion from absent
+  whole-engine promotion.
+- Preserved boundaries: no SWU selected, no implementation authorization, no
+  actor runtime, real effect, ACI compatibility, public mutation, or anti-bias
+  efficacy claim.
+- Next route: documentation-only `invoke:design ACI-REASONING-BINDING`.
+
+## 2026-07-23 refresh — reasoning-engine and orchestrator alignment
+
+- Mode: update two verified non-authority read models after an approved Invoke
+  refresh; no entry ID, kind, type, tag, or historical provenance was removed.
+- Reasoning-engine result: the 2026-07-22 research conclusion remains
+  historically correct; SWU-ARE-001 now supplies one bounded local L0 semantic
+  witness, while whole-engine promotion and higher runtime remain absent.
+- Orchestrator result: preserve the frozen `ca560b8` classification and record
+  `origin/master@6e5936b`; ACI W0 decisions and Bus/ACP/APT seams are candidate
+  alignment evidence, not an implemented reasoning runtime.
+- Projection: synchronized the two machine summaries/residue sets and their
+  human index rows; derived tag/source/status maps are unchanged because those
+  fields are unchanged.
+- Boundary: no public Arcanum, canonical definition, external repository,
+  implementation, promotion, compatibility, real-effect, or anti-bias efficacy
+  claim changed.
+- Validation: full Inventory lookup and projection-conformance checks are
+  required after apply; uncontrolled-tag findings remain warnings.
+
 ## 2026-07-22 ingest — DomainSpec v2 obvious-edge completeness review
 
 - Mode: machine-index-first review preflight followed by accepted dispatch
@@ -3331,3 +3421,785 @@ Artifacts:
 - Next action: route the accepted fixture and falsification outline through
   `research-evidence-harness` before implementing any encoder or semantic
   hierarchy claim.
+
+## 2026-07-23 - Infinity-category and cochain applicability research result
+
+- Mode: machine-index-first preflight followed by a governed repo-wide
+  research dispatch and post-result Inventory ingest.
+- Result: no current surface requires an infinity-category architecture or a
+  general cochain complex. The accepted result keeps only the ordinary
+  functor/Kan/colimit residue witness and the finite nonabelian
+  cocycle/transfer-equivalence witness within their proven ceilings.
+- Boundary: `Para_M(C)`, real-view Čech, Dwyer-Kan localization, homotopy
+  aggregation, contextuality, and information cohomology remain killed as
+  current applications or bounded witness attempts. No architecture,
+  authority, canonical vocabulary, schema, public Arcanum runtime, or
+  implementation change was authorized.
+- Inventory: added
+  `entries/infinity-category-cochain-applicability-research-strategy-result-synthesis.md`
+  and synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Dispatch: exact frozen-sheet double PASS, explicit human confirmation, nine
+  working agents, one bounded synthesis/review loop, one bounded
+  writer/auditor correction, final auditor `ACCEPT`, parent approval, and
+  `exit_reason: resolved`.
+- Validation: primary and authoritative definitions were rechecked; frozen
+  sheet and research transcript hashes stayed stable; updater dry-run and add
+  passed; the updater suite passed 9 groups and the human-index suite passed 7
+  groups; the canonical Inventory validator returned
+  `lookup_readiness=ready` with zero failures.
+- Existing residue: the validator reports 72 historical uncontrolled-tag
+  warnings. The new entry uses only controlled tags and does not repair
+  unrelated history. The standalone research/findings writing skills named by
+  the research workflow are still absent.
+- Next action: run only the `Para_M(C)` composed-map collision fixture if the
+  ordinary model first produces a concrete ambiguity; otherwise stop.
+
+## 2026-07-23 - Invoke lifecycle churn research strategy result
+
+- Mode: machine-index-first preflight followed by governed research dispatch
+  and post-result Inventory ingest.
+- Result: DS-SFOL directly demonstrates late discovery of a missing
+  mode-capable producer boundary; BTE separately corroborates exact-byte and
+  mutable-projection churn. The proposed handoff-readiness and immutable
+  selected-unit epoch design remains `CANDIDATE`.
+- Boundary: no Invoke, Task Session, Refresh, public Arcanum, runtime, schema,
+  or application implementation changed. Inventory and observability remain
+  non-authoritative read models.
+- Dispatch: schema `0.7.0` readiness PASS, double tension PASS, one explicit
+  confirmation, eight working agents, one synthesis/reviewer loop, and one
+  writer/auditor feedback revision.
+- Closeout: the auditor's second review found that same-epoch `plan_repair`
+  could still change epoch-bound controls without supersession. The declared
+  loop was exhausted, parent approval was withheld, and the append-only ledger
+  closed `loop_ceiling_reached`.
+- Inventory: added
+  `entries/invoke-lifecycle-churn-research-strategy-result-synthesis.md` and
+  synchronized machine and human indexes through `inventory-update.cjs`.
+- Validation: updater dry-run and add passed; updater tests passed 9 groups;
+  human-index tests passed 7 groups; canonical Inventory validation returned
+  `lookup_readiness=ready` with zero failures and 72 historical tag warnings.
+- Next action: require every repair that changes epoch-bound controls to create
+  a replacement epoch and take `→ superseded`; only unchanged-epoch evidence
+  or material production may advance handoff readiness. Then rerun the
+  artifact auditor in a new bounded lifecycle.
+
+## 2026-07-24 - Inventory runtime improvement research strategy
+
+- Mode: machine-index-first preflight followed by proposed strategy-result
+  ingest; no research dispatch has been registered or executed.
+- P1 trigger: synthesis, isolation, and parallelism across public/installed
+  ownership, executable warning-and-receipt semantics, and operator
+  portability.
+- Runtime hypothesis: each Inventory operation resolves a package-local
+  validator and emits a deterministic non-authority receipt with package root,
+  validator binding, baseline/candidate index digests, introduced warnings,
+  inherited-warning count, mutation status, and observability outcome.
+- Strategy: three parallel explorers, one synthesizer, three parallel skeptics,
+  one writer, and one evidence auditor. The skeptic gates are precedent,
+  vacuity, and definitional soundness.
+- Gate: live schema `0.7.0` confirmation readiness passed for sheet digest
+  `e9a8eb058a84f973d00a0912fc4a973fd4c58fa06abf3065bb8f8cd2218508d8`;
+  two independent check-tension agents returned PASS after one
+  pre-confirmation pair-evidence repair.
+- State: human confirmation pending; registration, execution, findings, close
+  row, and runtime implementation have not occurred; the dispatch ledger is
+  unchanged.
+- Inventory: added
+  `entries/inventory-runtime-improvement-research-strategy-result-synthesis.md`
+  and synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Validation residue: the new entry uses only controlled tags. The updater
+  emitted 74 repository-wide historical tag warnings; those warnings predate
+  this entry and are not attributed to it. The canonical package validator
+  remains the lookup-readiness authority.
+- Boundary: this proposal does not migrate tags, weaken conformance, expand
+  Inventory authority, publish a runtime, or change public/private ownership.
+- Next action: confirm, revise, or decline the exact checked sheet. Any byte
+  change requires new readiness validation, two new tension verdicts, and new
+  explicit confirmation.
+
+## 2026-07-24 - Invoke Design-phase coverage research result
+
+- Mode: machine-index-first preflight followed by governed research dispatch
+  and post-result Inventory refresh.
+- Result: the final auditor accepted a bounded Design coverage model that keeps
+  six views as navigation, selects UX by changed human semantic consequences,
+  strengthens architecture through risk-triggered extensions, and rejects
+  universal new template families.
+- Non-vacuity repair: the selected model requires a closed digest-bound scope
+  manifest, independent denominator extraction, four dispositions including
+  `block`, exact owners, and two-pass fixed-point selection.
+- Evidence boundary: the detector, denominator extractor, expanded Design
+  validator, receipt schemas, and frozen fixtures do not exist. The current
+  lifecycle package remains `authored-complete` only; `ILP-G01` remains open.
+- Dispatch: schema `0.7.0` readiness PASS at digest
+  `b2dbbf19fa64be1b88cdf75947fc8b5bd6cc0acf8494875c1ecf84f46c31465f`,
+  double tension PASS, one explicit confirmation, ten agents, one
+  synthesis/reviewer loop, final auditor `ACCEPT`, and
+  `exit_reason: resolved`.
+- Inventory: refreshed
+  `entries/invoke-design-phase-coverage-research-strategy-result-synthesis.md`
+  and its human/machine index projections with `research.md`, `findings.md`,
+  and append-only dispatch-ledger sources.
+- Boundary: no canonical Invoke contract, public template, implementation,
+  promotion, publication, commit, or push changed.
+- Next action: route the accepted private findings through Invoke/Spellcraft to
+  define and plan the detector, denominator, validator, generic template
+  changes, and private package manifest without collapsing Design validation
+  into Plan execution evidence.
+
+## 2026-07-24 - Inventory runtime improvement research result
+
+- Mode: confirmed schema `0.7.0` governed research dispatch followed by
+  post-result Inventory ingest.
+- Result: Candidate A was killed as a standalone owner; Candidate B was
+  selected as the smallest implementation target; Candidate C was decomposed
+  to a later transaction-safety slice.
+- Proof ceiling: Candidate B has no admitted runtime receipt and is not
+  implemented, ready, or accepted. Research design resolution is not runtime
+  evidence.
+- Dispatch: exact frozen-sheet confirmation, nine agents across five roles,
+  one whole-dispatch loop, one bounded auditor correction, final auditor
+  `ACCEPT`, parent approval limited to the research design, and
+  `exit_reason: resolved`.
+- Inventory: added
+  `entries/inventory-runtime-improvement-research-result-synthesis.md` and
+  synchronized `index.json` and `index.md` through `inventory-update.cjs`.
+- Validation residue: updater dry-run and add succeeded while reporting 72
+  inherited uncontrolled-tag warnings. The new entry introduced no new tag
+  warning and the historical debt remains visible.
+- Boundary: Inventory remains a non-authority discovery/read-model surface.
+  The selected MVP is explicitly non-atomic, and historical receipts require
+  an externally owned digest-currentness verifier.
+- Next action: decide whether the non-atomic fail-closed MVP is acceptable and
+  assign the currentness-verifier owner before routing implementation.
+
+## 2026-07-24 - Inventory runtime and faceted layout Invoke package
+
+- Mode: Invoke Define, Design, and Plan followed by non-authority Inventory
+  ingest.
+- Result: authored a private candidate package for deterministic append
+  receipts, explicit non-atomic apply observation, new-entry facet admission,
+  derived facet projections, generated runtime sync, and isolated consumer
+  proof.
+- Inventory: added
+  `entries/inventory-runtime-faceted-layout-invoke-package-synthesis.md` and
+  synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Validation residue: updater dry-run and add succeeded while reporting 72
+  inherited uncontrolled-tag warnings. The new entry uses only controlled
+  tags and introduced no new warning.
+- Proof ceiling: Define and Design passed; Plan is flagged and Task Session is
+  blocked until Sigil Development reconciles proposed `SWU-IFR-001` with the
+  already-selected canonical `SWU-INT-001`. No runtime was implemented.
+- Boundary: Inventory remains a non-authority discovery/read-model surface.
+  The ingest does not establish lifecycle acceptance, currentness, promotion,
+  release, commit, push, or publication.
+- Next action: run `sigil-development inventory --update` with
+  `ops/development/2026-07-24-inventory-runtime-faceted-layout/SIGIL-HANDOFF.md`.
+
+## 2026-07-24 - Inventory runtime/faceted-layout Sigil Development acceptance
+
+- Mode: `sigil-development inventory --update` followed by non-authority
+  Inventory ingest.
+- Decision: accepted `runtime-faceted-layout` as the current implementation
+  lane and selected `SWU-IFR-001`.
+- Prior lane: `SWU-INT-001` and its interface/link/index plan remain
+  preserved and deferred; they were not deleted, rejected, or marked complete.
+- Continuation: the canonical public work pack fixes the total order
+  `001 -> 002 -> 003 -> 004 -> 005 -> 006 -> 007 -> VERIFY`, with exactly one
+  ready unit.
+- Inventory: added
+  `entries/inventory-runtime-faceted-layout-sigil-development-result.md` and
+  synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Validation residue: updater dry-run and add succeeded while reporting 72
+  inherited uncontrolled-tag warnings. The new entry uses only controlled
+  tags and introduced no new warning.
+- Proof ceiling: lifecycle selection and public package validation passed;
+  runtime implementation and experiment-harness proof have not started.
+- Boundary: no live consumer Inventory state, promotion, release, commit,
+  push, or publication was authorized.
+- Next action: `task-session SWU-IFR-001`.
+
+## 2026-07-25 - Co-Op Engine portfolio research strategy proposal
+
+- Mode: read-only Inventory lookup followed by an unregistered governed
+  research-strategy proposal and non-authority strategy-result ingest.
+- P1: synthesis, context protection, isolation, and parallelism all justify a
+  dispatch across fourteen project corpora, meeting design, external precedent,
+  website structure, and live-presentation substrate.
+- Strategy: opposed Lane Z portfolio construction and Lane A
+  problem-reframing alternatives feed synthesis, three skeptic gates, a
+  findings writer, and an auditor; the parent remains final approver.
+- Gate: schema `0.7.0` sheet validation passed and two independent
+  check-tension agents returned `PASS + PASS` for sheet digest
+  `fff3ca7739ec6ddf3d875d8f697f2a6475c4d882d64748c36fa2a537d022902e`.
+- Ledger state: human confirmation is pending; the dispatch is unregistered,
+  has not run, and has no close row.
+- Inventory: added
+  `entries/co-op-engine-portfolio-research-strategy-result-synthesis.md` and
+  synchronized `index.json` and `index.md` through
+  `inventory-update.cjs`.
+- Validation residue: updater dry-run and add succeeded. The inherited
+  uncontrolled-tag warning set remains, and this proposed entry adds
+  `co-op-engine`, `project-portfolio`, `live-presentation`, and
+  `two-lane-dialectic` as still-uncontrolled tags; no tag promotion was
+  inferred.
+- Boundary: Inventory is discovery/read-model evidence only. The proposal does
+  not establish project truth, product desirability, meeting effectiveness,
+  Invoke Design readiness, Plan readiness, Whisper copy approval, or public
+  disclosure authority.
+- Next action: the human may reply `confirmed` to authorize registration and
+  execution of the exact frozen sheet, request a revision, or decline it.
+
+## 2026-07-25 - Co-Op Engine strategy goal-context revision
+
+- Trigger: the human clarified that the website page and presentation are the
+  same browser artifact, with recruitment and explanation as its public job.
+- Audience: capable technical builders without internal-framework assumptions,
+  plus domain practitioners such as writers and musicians who want to work
+  with AI and build their own tools.
+- Narrative: added the Veritasium preset as a candidate
+  misconception-to-reveal movement inside Whisper `live_presentation`; the
+  operator voice gate and anti-imitation boundary remain mandatory.
+- Validation: added a black-box UI/browser specification, a
+  conversational-AI/chat-language and copy audit, and an
+  ease-of-understanding/coherence audit that keeps retellability and transfer
+  as human evidence.
+- Inventory consequence: selected current Craft teaching/browser,
+  copy-readability, and conversational-language audit precedents. UX Evidence
+  Validator remains seed-only and was not represented as an implemented
+  harness.
+- Gate: the old digest `fff3ca7739ec6ddf3d875d8f697f2a6475c4d882d64748c36fa2a537d022902e`
+  is superseded. Revised sheet digest
+  `b3762d5c901f8e2b6cfde2fdbde3b1d934f636b743b64c44408cc46ee3d7eef7`
+  passed schema `0.7.0` and two fresh independent tension checks with
+  `PASS + PASS`.
+- Ledger state: still unregistered and not run; human confirmation is pending
+  for the revised exact digest.
+
+## 2026-07-25 - Co-Op Engine research dispatch registered
+
+- Human confirmation was recorded for exact sheet digest
+  `b3762d5c901f8e2b6cfde2fdbde3b1d934f636b743b64c44408cc46ee3d7eef7`
+  at
+  `ops/development/2026-07-25-co-op-engine-portfolio-research/CONFIRMATION.md`.
+- The non-mutating readiness validator returned schema `0.7.0`, the same
+  digest, and `LEDGER_MUTATION=none`.
+- The deterministic registrar appended dispatch
+  `2026-07-25-co-op-engine-portfolio-research` once: 10 agents across six
+  groups.
+- State: registered and running; no close row or result promotion exists yet.
+
+## 2026-07-25 - Co-Op Engine research result inventoried
+
+- Mode: `ingest` / post-result strategy hook.
+- Dispatch:
+  `2026-07-25-co-op-engine-portfolio-research`.
+- Result: `resolved`; ten agents, two synthesis/reviewer loops, final reviewer
+  `PASS + PASS + PASS`, independent findings auditor `PASS`, and parent
+  verification `PASS`.
+- Sources processed: frozen dispatch sheet, tension gate, confirmation receipt,
+  four-explorer transcript, audited findings, and append-only dispatch ledger.
+- Entry created:
+  `entries/co-op-engine-portfolio-research-result-synthesis.md`.
+- Entry updated:
+  `entries/co-op-engine-portfolio-research-strategy-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated; the deterministic add path
+  reported 217 entries after insertion.
+- Contradictions flagged: current `agentic writer studio`, generic
+  `knowledge graph`, `AI collaborator`, public `Agentic Music Studio`, public
+  Veritasium naming, and autonomous-matching interpretations remain typed
+  negatives rather than silently repaired claims.
+- Validation: result addition dry-run and apply passed; inherited
+  uncontrolled-tag warnings remain non-blocking and are not attributed to this
+  controlled-tag result record.
+- Authority: Inventory records discovery and handoff state only. The proposed
+  weekly Experiment Exchange, Writer Story-State Studio, acceptance
+  specifications, implementation, audits, public copy, and publication remain
+  unpromoted.
+- Next route: Invoke Define, then named blocker resolution, Invoke Design,
+  acceptance-contract review, Invoke Plan, bounded implementation, witnessed
+  audits, and Whisper composition.
+
+## 2026-07-26 - Ontology working-prototype gap research strategy inventoried
+
+- Mode: post-result strategy hook after read-only Inventory lookup.
+- Dispatch proposal:
+  `2026-07-26-ontology-working-prototype-gap`.
+- P1: synthesis, context protection, isolation, and parallelism all apply.
+- Lanes: three parallel explorers audit current executable repository paths,
+  formal ontology/governance contracts, and bounded user-visible outcomes;
+  synthesis then zig-zags with precedent, non-vacuity, and
+  definitional-soundness skeptics before writer and advisory auditor stages.
+- Inventory lookup: machine-index-first, validation ready, source coverage
+  partial, zero failures, and 76 inherited uncontrolled-tag warnings.
+- Selected evidence: Ponder categorical/DNG towers, semantic-hierarchy bridge,
+  IOLM workable example, ontology population, machine operationalization, and
+  ontology/authority organizing entries.
+- Design consequence: verify adapter/fixture/policy/validator/runtime gaps
+  against the current checkout and require one finite positive/negative
+  witness before calling the result a working prototype.
+- Sheet:
+  `cyberAlchemy-v2/development/research/2026-07-26-ontology-working-prototype-gap/dispatch-sheet.json`.
+- Frozen SHA-256:
+  `6d96ff4aaac0127b92c46e1677f53743d96c4068ebb1daede45b95945c901f3a`.
+- Gate: form validation `PASS`; independent tension verdicts `PASS + PASS`.
+- Ledger state: unregistered and not run; explicit human confirmation is
+  pending.
+- Entry created:
+  `entries/ontology-working-prototype-gap-research-strategy-result-synthesis.md`.
+- Boundary: Inventory records discovery and handoff state only. No current
+  implementation, ontology promotion, release, or publication is established.
+- Next action: the human may reply `confirmed` to authorize registration and
+  execution of the exact frozen sheet, request revision, or decline.
+
+## 2026-07-26 - Ontology working-prototype gap research dispatch registered
+
+- Human confirmation:
+  `cyberAlchemy-v2/development/research/2026-07-26-ontology-working-prototype-gap/CONFIRMATION.md`.
+- Confirmed sheet SHA-256:
+  `6d96ff4aaac0127b92c46e1677f53743d96c4068ebb1daede45b95945c901f3a`.
+- The live readiness validator returned schema `0.7.0`, the same digest, and
+  `LEDGER_MUTATION=none`.
+- The deterministic registrar appended dispatch
+  `2026-07-26-ontology-working-prototype-gap` once: nine agents across five
+  groups.
+- State: registered and running; no close row or research verdict exists yet.
+
+## 2026-07-26 - Ontology working-prototype gap research result inventoried
+
+- Mode: `ingest` / post-result strategy closeout.
+- Dispatch:
+  `2026-07-26-ontology-working-prototype-gap`.
+- Result: `resolved`; nine registered agents, one bounded loop, three revised
+  skeptic gates without a remaining proposal KILL, auditor
+  `RECOMMEND_ACCEPT`, and parent `ACCEPT`.
+- Sources processed: frozen sheet, tension receipt, confirmation receipt,
+  three-explorer transcript, accepted findings, parent validation receipt, and
+  append-only dispatch ledger.
+- Entry created:
+  `entries/ontology-working-prototype-gap-research-result-synthesis.md`.
+- Accepted boundary: no current working ontology prototype; the smallest next
+  target is a build-from-owned finite candidate-graph validator, owner-named
+  policy evaluator, candidate projection, immutable receipts, and tested write
+  isolation.
+- Current executable baseline: IOLM A1 passes; Python server tests pass 8/8;
+  Node tests remain 46/50 with four binding-mismatch failures; generic
+  Ontology Vault candidate-schema validators pass without runtime authority.
+- Authority: Inventory records discovery and handoff state only. No ontology
+  implementation, relation admission, semantic truth, hierarchy, promotion,
+  publication, release, or production authorization is established.
+- Next route: bounded ontology-owned Define, Design, and Plan for the finite
+  carrier/policy/validator/receipt/write-isolation slices; IOLM repair remains
+  a separate selected product work unit.
+
+## 2026-07-26 - Co-Op project showcase recruitment research strategy inventoried
+
+- Mode: post-result strategy hook after read-only, machine-index-first
+  Inventory lookup.
+- Dispatch proposal:
+  `2026-07-26-co-op-project-showcase-recruitment-research`.
+- Corrected scope: Co-Op Engine is the existing meeting; the researched product
+  is one browser-native project showcase for live presentation, progressive
+  project explanation, and collaborator recruitment.
+- P1: synthesis, context protection, isolation, and parallelism all apply.
+- Lanes: portfolio-first overview-to-detail and live-use research runs against
+  a genuinely different decision-first recruitment route, followed by
+  synthesis, precedent/non-vacuity/definitional skeptics, writer, and advisory
+  auditor.
+- Inventory design consequence: the prior Experiment Exchange recommendation
+  is retained as a typed negative; only its re-verifiable project claim
+  ceilings, audience split, copy guardrails, and audit boundaries seed the new
+  research.
+- Sheet:
+  `ops/development/2026-07-26-co-op-project-showcase-recruitment-research/dispatch-sheet.json`.
+- Frozen SHA-256:
+  `af87013f928a664640923ad3e23087251341df900a4fd4c36722d8e0802555a6`.
+- Gate: form validation `PASS`; independent tension verdicts `PASS + PASS`.
+- Ledger state: unregistered and not run; explicit human confirmation is
+  pending.
+- Entry created:
+  `entries/co-op-project-showcase-recruitment-research-strategy-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated by the deterministic add path.
+- Boundary: Inventory records discovery and handoff state only. No external
+  precedent conclusion, project-claim admission, public copy, implementation,
+  deployment, promotion, or recruitment outcome is established.
+- Next action: the human may reply `confirmed` to authorize registration and
+  execution of the exact frozen sheet, request revision, or decline.
+
+## 2026-07-26 - Co-Op project showcase recruitment research result inventoried
+
+- Mode: `ingest` / post-result strategy closeout.
+- Dispatch:
+  `2026-07-26-co-op-project-showcase-recruitment-research`.
+- Result: `resolved`; ten registered agents, two bounded synthesis/reviewer
+  loops, three final skeptic `PASS` receipts, auditor `RECOMMEND_ACCEPT`, and
+  parent `ACCEPT`.
+- Accepted substrate: compare decision-lens-first and project-index-first over
+  one proof-bounded project-record model; use durable project routes; keep
+  live mode as a view policy over the same facts; separate stable project
+  truth from volatile welcome state.
+- Content coverage: all fourteen projects have source-bounded opening maps,
+  and the next comparative specimen is fixed to three previews, one full
+  detail route, both entrances, recoverable map navigation, and two cold
+  readers.
+- Entry created:
+  `entries/co-op-project-showcase-recruitment-research-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated by the deterministic add path;
+  updater suites passed 9/9 assertion groups and 7/7 index-markdown groups.
+- Authority: Inventory records accepted research and handoff state only. No
+  candidate winner, owner admission, final Whisper copy, implementation,
+  browser proof, comprehension proof, deployment, publication, or recruitment
+  outcome is established.
+- Next route: owner binding, Whisper composition of both candidate openings,
+  Invoke Design of the fixed specimen, then separate browser, copy, and human
+  evidence.
+
+## 2026-07-26 - Akashic Records content-library architecture result inventoried
+
+- Mode: `ingest` / post-result strategy closeout.
+- Dispatch:
+  `2026-07-26-akashic-records-content-library-architecture`.
+- Result: `loop_ceiling_reached`; eleven agents including two tension helpers,
+  one bounded synthesis-reviewer revision, precedent gate `PASS`,
+  non-vacuity and definitional dissent preserved, findings auditor `APPROVE`,
+  and parent approval of the bounded report only.
+- Candidate substrate: contributor-attributed `SourceRecord` and
+  `ClaimRecord` files in Git, deterministic Inventory and context-packet read
+  models, and content-free capability profiles.
+- Typed negatives and deferrals: raw `supported_by`, stored `input_to`,
+  generic `is_part_of`, and `derived_from` are killed for v1; semantic graph,
+  first-class EvidenceAssertion, RDF/SHACL, Ologs, rich record kinds, and a
+  persistent target-local capability registry remain deferred or blocked.
+- Entry created:
+  `entries/akashic-records-content-library-architecture-research-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated by the deterministic add path.
+- Authority: Inventory records an audited research handoff only. It does not
+  bind owners, install a target Inventory, admit ontology meaning, authorize
+  implementation, establish source truth or legal permission, or prove agent
+  PR throughput.
+- Next route: bind Phase-0 schema/validator, source-identity, content, rights,
+  and Inventory-generator owners; then Invoke only one Phase-0
+  contract-and-witness PR.
+
+## 2026-07-26 - CyberAlchemy collaboration portfolio frontend review strategy inventoried
+
+- Mode: post-result strategy hook after read-only, machine-index-first
+  Inventory lookup.
+- Dispatch proposal:
+  `2026-07-26-cyberalchemy-collaboration-portfolio-frontend-review`.
+- P1: synthesis, isolation, and parallelism apply to review of one existing
+  deployed frontend across conversion, information architecture,
+  accessibility, interaction behavior, contact mechanics, and claim
+  boundaries.
+- Lanes: three methodology-tensioned attackers feed one synthesizer, two
+  attack-vector verifiers, one advisory coverage auditor, and parent final
+  approval.
+- Inventory design consequence: prior project-showcase and portfolio results
+  preserve the fourteen-project truth surface and claim ceiling; the prior
+  conversational-language audit supplies a regression check for removing
+  visible process narration without deleting useful state.
+- Sheet:
+  `ops/development/2026-07-26-cyberalchemy-collaboration-portfolio-frontend-review/dispatch-sheet.json`.
+- Frozen SHA-256:
+  `6fe74b0c2fb05b90cf05badd460dafcbcefeb6d7ae633f6a089dd03c6ef7afbc`.
+- Gate: schema `0.7.0` form validation `PASS`; second-round independent
+  tension verdicts `PASS + PASS`. The rejected first round is preserved.
+- Ledger state: unregistered and not run; explicit human confirmation is
+  pending.
+- Entry created:
+  `entries/cyberalchemy-collaboration-portfolio-frontend-review-strategy-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated through the deterministic add
+  path. The existing controlled-tag drift warnings remain visible; they did not
+  block the append.
+- Boundary: no review finding, copy approval, frontend mutation, deployment,
+  comprehension result, recruitment result, or owner-confirmed project welcome
+  is established.
+- Next action: the human may reply `confirmed` to authorize registration and
+  execution of the exact frozen sheet, request revision, or decline.
+
+## 2026-07-26 - CyberAlchemy collaboration portfolio frontend result inventoried
+
+- Mode: post-result hook after governed review closeout, bounded frontend
+  implementation, browser validation, and deployment.
+- Dispatch:
+  `2026-07-26-cyberalchemy-collaboration-portfolio-frontend-review`.
+- Review result: closed `resolved`; seven registered agents, three attacker
+  methods, one synthesis lane, two verifier attack vectors, one coverage
+  auditor, one verifier zig-zag, and parent approval.
+- Accepted surface: remove visible/accessibility-facing Co-Op and meta-cue
+  residue; reposition the page as a CyberAlchemy collaboration portfolio;
+  preserve fourteen project openings and one shared presentation surface; add
+  exact email and LinkedIn inquiry paths; synchronize filters; repair keyboard,
+  live-region, heading, and focus behavior.
+- Frontend source:
+  `projects/co-op-engine/index.html`, SHA-256
+  `477f2ca9a1c1787054e5e0d75b15417e59d7af113a5fdd403a69702e24cc6196`.
+- Browser result: Playwright Firefox local and live black-box checks passed for
+  fourteen project contacts with JavaScript enabled and disabled, twenty
+  presentation stages, native PageDown scrolling, passive live-region silence,
+  synchronized filters, focus restoration, and 390x844 no-overflow behavior.
+- Deployment: exact remote and downloaded bytes match the source; HTTPS,
+  security headers, `coop-engine-site`, Time Capsule continuity, and TROQAR
+  root/API continuity passed.
+- Entry created:
+  `entries/cyberalchemy-collaboration-portfolio-frontend-review-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated by the deterministic add path;
+  updater suites passed 9/9 assertion groups and 7/7 markdown-index groups.
+- Authority: Inventory records the resolved review and bounded receipts only.
+  It does not establish message delivery or response, collaboration fit,
+  current project welcome, recruitment conversion, or project maturity.
+- Residue: Chrome was unavailable; browser claims remain limited to Playwright
+  Firefox plus exact-byte HTTP verification. Cold-reader comprehension and
+  recruitment outcomes remain unproved.
+
+## 2026-07-26 - Akashic contract architecture research strategy inventoried
+
+- Mode: post-result strategy hook after read-only, machine-index-first
+  Inventory lookup.
+- Dispatch proposal: `2026-07-26-akashic-contract-architecture`.
+- P1: synthesis, isolation, and parallelism apply across current content
+  contracts, provenance precedents, agent contribution controls, compatibility,
+  and semantic-admission residue.
+- Lanes: three tensioned explorers feed one synthesizer, three attack-vector
+  reviewers, one findings writer, one findings auditor, and parent final
+  approval.
+- Inventory design consequence: require one phase-labelled contract catalogue
+  with producer, consumer, inputs, outputs, invariant, failure boundary,
+  authority effect, version owner, status, and positive/negative witness.
+- Sheet:
+  `ops/development/2026-07-26-akashic-contract-architecture/dispatch-sheet.json`.
+- Frozen SHA-256:
+  `784c66e67955cf89a69ce39e01d27a5e9056be8123c11fc0c6665ababb257010`.
+- Gate: schema `0.7.0` form validation `PASS`; independent tension verdicts
+  `PASS + PASS`.
+- Ledger state: unregistered and not run; explicit human confirmation is
+  pending.
+- Entry created:
+  `entries/akashic-contract-architecture-research-strategy-result-synthesis.md`.
+- Authority: no research finding, public Design mutation, implementation,
+  owner binding, GitHub control, ontology admission, or runtime result is
+  established.
+- Next action: the human may reply `confirmed` to authorize registration and
+  execution of the exact frozen sheet, request revision, or decline.
+
+## 2026-07-26 - Akashic contract architecture research result inventoried
+
+- Mode: resolved strategy-result ingest after governed research closeout and
+  bounded public Design integration.
+- Dispatch: `2026-07-26-akashic-contract-architecture`.
+- Result: three explorers, one synthesizer, three reviewers, one writer, and
+  one auditor completed; the auditor returned `APPROVE`; the ledger contains
+  one dispatch row and one `resolved` close row.
+- Accepted boundary: Phase 0 remains authored Design only, unaccepted,
+  unimplemented, and owner-blocked; selector, byte, diagnostic, and supported
+  version-tuple profiles remain unresolved.
+- Public integration: Architecture and Validation Contracts now state the four
+  missing profiles, fact/receipt naming, typed Phase-0 negatives, fail-closed
+  tuple lookup, and an external/deferred/non-normative Phase-1 agent
+  contribution seam.
+- Deferred: detailed agent/GitHub contracts, migration, graph, ontology,
+  RDF/SHACL, and Olog; no schema, validator, fixture execution, configured
+  control, owner binding, promotion, or production evidence was added.
+- Entry created:
+  `entries/akashic-contract-architecture-research-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated by the deterministic add path;
+  updater suites passed 9/9 assertion groups and 7/7 markdown-index groups.
+- Authority: this Inventory entry is a non-authority continuation surface, not
+  Design acceptance or runtime proof.
+
+## 2026-07-27 - UI Prototyping Studio architecture and deep-spec review strategy inventoried
+
+- Mode: post-result strategy hook after read-only, machine-index-first
+  Inventory lookup.
+- Dispatch proposal:
+  `2026-07-27-ui-prototyping-studio-architecture-plan-review`.
+- P1: synthesis, isolation, context protection, and parallelism apply across
+  current architecture authority, runtime truth, historical deep-spec intent,
+  and plan executability.
+- Lanes: three methodology-tensioned attackers feed one findings synthesizer,
+  two attack-vector verifiers, one advisory coverage auditor, and parent final
+  approval.
+- Inventory design consequence: require whole-corpus formal, computational,
+  and historical attacks; verify current-head, visible style diff, deterministic
+  e2e, handoff semantics, and explicit deep-spec authority boundaries.
+- Sheet:
+  `projects/ui-prototyping-studio/development/reviews/20260727-architecture-plan-deep-spec-review/dispatch-sheet.json`.
+- Frozen SHA-256:
+  `13b3ef9f9c7aa62300406b9c7bcc7bf8ab17e12e3fc3e8383995538447338140`.
+- Gate: schema `0.7.0` form validation `PASS`; independent tension verdicts
+  `PASS + PASS`.
+- Ledger state: unregistered and not run; explicit human confirmation is
+  pending.
+- Entry created:
+  `entries/ui-prototyping-studio-architecture-plan-deep-spec-review-strategy-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated through the canonical transition
+  functions after the installed append runtime reported
+  `runtime-member-unavailable`; projection-conformance validation then passed
+  with 0 failures and 88 inherited uncontrolled-tag warnings.
+- Boundary: no review finding, architecture mutation, Craft mutation,
+  deep-spec promotion, plan approval, implementation, or release-readiness
+  claim is established.
+- Next action: the human may reply `confirmed` to authorize registration and
+  execution of the exact frozen sheet, request revision, or decline.
+
+## 2026-07-27 - UI Prototyping Studio architecture and deep-spec review result inventoried
+
+- Mode: post-result Inventory hook after human-confirmed governed review.
+- Dispatch:
+  `2026-07-27-ui-prototyping-studio-architecture-plan-review`.
+- Ledger: registered and append-only closed `resolved`; seven agents, one
+  whole-sequence loop, one declared feedback edge.
+- Review outcome: coverage auditor `ACCEPT`; parent final approver `ACCEPT`.
+- Accepted findings: 11 total — 10 MAJOR and 1 MINOR; no CRITICAL survived;
+  F-10, F-12, and F-13 were dropped or refuted.
+- Deep-spec boundary: retained as historical proposal and evidence, not
+  canonical authority.
+- July-plan boundary: strongest current direction, still flagged and
+  unadmitted; proof routing and execution identities require repair before SWU
+  selection.
+- Validation: TypeScript typecheck passed; unit/slice suite passed 62/62. The
+  existing standard browser helper failed before assertions; the temporary
+  local-`tsx` 13/13 diagnostic is not a checked-in receipt.
+- Entry created:
+  `entries/ui-prototyping-studio-architecture-plan-deep-spec-review-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated through the canonical transition
+  functions because the installed append runtime remains unavailable.
+- Boundary: Inventory is a non-authority read model. The result does not
+  authorize implementation, Craft mutation, plan admission, SWU selection,
+  promotion, or release.
+
+## 2026-07-27 - Akashic periodic-table graph-schema research result inventoried
+
+- Mode: post-result Inventory hook after a human-confirmed governed research
+  dispatch.
+- Dispatch:
+  `2026-07-27-akashic-periodic-table-graph-schema`.
+- Ledger: registered and append-only closed `loop_ceiling_reached`; ten
+  logical roles, one synthesizer/reviewer zig-zag, and one bounded writer
+  revision.
+- Result: the smallest surviving proposal keeps Source and Claim as the only
+  semantic content kinds, introduces role-specific principle and relation
+  payloads, admits only `illustrated_by` and `classified_in_domain`, derives
+  co-occurrence by query, and defers pair-specific tension relations.
+- Operational boundary: commit-pinned GitHub ingestion, two local selector
+  profiles, candidate/review separation, six direct-scan operations, and
+  zero/one/many impact are planned, not executed.
+- Audit outcome: not approved. Exact README selectors for `Mo` and `Gr` plus
+  exact JSON Pointers for two Q5 card-tag assertions remain unresolved after
+  the permitted feedback loop.
+- Entry created:
+  `entries/akashic-periodic-table-graph-schema-research-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated through the deterministic add
+  path; historical uncontrolled-tag warnings remain inherited.
+- Boundary: Inventory is a non-authority read model. The result does not
+  change Akashic L0, admit an ontology, authorize implementation, establish
+  runtime proof, or transfer private CyberAlchemy authority vocabulary.
+
+## 2026-07-27 - UI Prototyping Studio interface rework review strategy inventoried
+
+- Mode: post-result Inventory hook for a durable governed review strategy.
+- Dispatch proposal:
+  `2026-07-27-ui-prototyping-studio-interface-rework-review`.
+- Gate: schema `0.7.0` form validation passed and two independent
+  check-tension agents passed the frozen sheet digest with no apontamentos.
+- Strategy: three whole-page attacker methodologies, one synthesizer, two
+  verifier attack vectors, one coverage auditor, and parent final approval.
+- Target: reproduce the current whole-page polling reload and audit workflow
+  continuity, hierarchy, annotation, staged actions, mobile layout,
+  accessibility proxies, and browser evidence boundaries.
+- UX boundary: deterministic failures, soft flags, screenshot review,
+  human-study residue, and not-automatable claims remain separate; UX Lessons
+  capture stays anecdotal and cannot promote a hard gate.
+- Entry created:
+  `entries/ui-prototyping-studio-interface-rework-review-strategy-result-synthesis.md`.
+- Ledger: unregistered; human confirmation remains required.
+- Boundary: Inventory is a non-authority read model. No audit agent has run,
+  no Studio target changed, and no implementation, pattern promotion, Craft
+  mutation, or release authorization occurred.
+
+## 2026-07-27 - UI Prototyping Studio interface rework review result inventoried
+
+- Mode: post-result Inventory hook after a human-confirmed governed review.
+- Dispatch:
+  `2026-07-27-ui-prototyping-studio-interface-rework-review`.
+- Ledger: registered and append-only closed `resolved`; seven agents and one
+  bounded verifier loop.
+- Review outcome: both independent verifiers converged after two exact
+  corrections; coverage auditor `ACCEPT`; parent final approver `ACCEPT`.
+- Accepted result: seven present-interface findings — one CRITICAL, four
+  MAJOR, and two MINOR — plus one separately classified MAJOR future
+  acceptance obligation.
+- Root cause: the rendered polling signature uses an empty absent staged hash
+  while `/state` returns `null`, causing unchanged non-staged states to reload
+  and lose task context. `RevisionApplied` is the stable non-null control.
+- Evidence: final Chromium contract spans five lifecycle states, 1440x900 and
+  390x844, JSON, YAML, screenshots, measurements, traces, console/network,
+  verbatim agent returns, residue, and final audit.
+- UX Lessons: one product-specific anecdote remains unpromoted and confers no
+  hard-gate or reusable-pattern authority.
+- Entry created:
+  `entries/ui-prototyping-studio-interface-rework-review-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated through the consumer-owned
+  deterministic add path because the installed append runtime remains
+  unavailable; historical uncontrolled-tag warnings remain inherited.
+- Boundary: Inventory is a non-authority read model. The audit does not
+  authorize implementation, select an SWU, approve a plan, promote a UX
+  pattern, mutate Craft, or establish deployment or release readiness.
+
+## 2026-07-27 - OEW plan, architecture, and runtime audit strategy inventoried
+
+- Mode: post-result Inventory hook for a durable governed review strategy.
+- Dispatch proposal:
+  `2026-07-27-oew-plan-architecture-runtime-audit`.
+- Gate: schema `0.7.0` form validation passed and two independent
+  check-tension agents passed sheet digest
+  `3006d2961bc89cf099ae72a23034ffd675a7b049440c807a2d4dc2d1475d92f8`
+  with no apontamentos.
+- Strategy: three whole-corpus attacker methodologies, one synthesizer, two
+  verifier attack vectors, one coverage auditor, and parent final approval.
+- Target: audit the ownership gap between the OEW L1 architecture, declared
+  package commands, executable SWU inventories, pinned Understand-Anything
+  toolchain, and current runtime-reuse candidates.
+- Runtime boundary: OEW preparation, Inventory runtime mechanics, Experiment
+  Harness, candidate-graph evidence, workspace Playwright, and Poker-Team are
+  candidates or examples only until current execution plus project-local
+  owner, pin, isolation, cleanup, and receipt boundaries are proved.
+- Entry created:
+  `entries/oew-plan-architecture-runtime-audit-strategy-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated through the consumer-owned
+  deterministic add path; inherited uncontrolled-tag warnings remain.
+- Ledger: unregistered; human confirmation remains required.
+- Boundary: Inventory is a non-authority read model. No audit agent has run,
+  no OEW target changed, and no plan repair, SWU selection, runtime adoption,
+  ontology admission, promotion, release, or implementation was authorized.
+
+## 2026-07-27 - OEW plan, architecture, and runtime audit result inventoried
+
+- Mode: post-result Inventory hook after a human-confirmed governed review.
+- Dispatch:
+  `2026-07-27-oew-plan-architecture-runtime-audit`.
+- Ledger: registered and append-only closed `loop_ceiling_reached`; seven
+  logical agents and one synthesizer-verifier correction loop.
+- Substantive candidate: four MAJOR, zero CRITICAL, zero MINOR findings.
+- Runtime result: current OEW L0 preparation and verification mechanics are
+  real and reusable at the L0 ceiling; no owner-complete private L1
+  bootstrap/build/browser/acceptance lifecycle is currently admitted.
+- Route result: D remains the only authorized route. B is the leading future
+  refresh candidate; expanded A remains contract-equivalent dissent. Neither
+  is approved or selected.
+- Coverage outcome: auditor `RECOMMEND_REJECT`; parent `REJECT`. Complete
+  return preservation, per-attacker whole-corpus ledger, and per-declared-path
+  dispositions remain open.
+- Entry created:
+  `entries/oew-plan-architecture-runtime-audit-result-synthesis.md`.
+- Index: `index.json` and `index.md` updated through the consumer-owned
+  deterministic add path; inherited uncontrolled-tag warnings remain.
+- Boundary: Inventory is a non-authority read model. The rejected audit does
+  not resolve the decision gate, approve a change request, amend the plan,
+  select an SWU, authorize Task Session, implement L1, adopt a runtime, or
+  establish ontology, promotion, release, publication, or production
+  readiness.

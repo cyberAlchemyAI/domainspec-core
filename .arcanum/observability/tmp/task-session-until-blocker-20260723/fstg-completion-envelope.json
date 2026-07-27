@@ -1,0 +1,55 @@
+{
+  "timestamp": "2026-07-23T22:01:06Z",
+  "run_id": "task-session-until-blocker-20260723T213902Z-fstg-completion",
+  "session_id": "2026-07-23-fstg-until-blocker-completion",
+  "sigil": "task-session-until-blocker",
+  "tier": "spell",
+  "mode": "execute",
+  "capability": {
+    "id": "task-session-until-blocker",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "execute",
+    "alias": "all-swus-until-blocker"
+  },
+  "request": {
+    "raw": null,
+    "summary": "Resume the Financial Settlement test-generation frontier after selecting the expected-red verifier and complete all remaining SWUs.",
+    "intent": "Finish implementation and verification through consecutive fresh Task Sessions without another manual refresh."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "SWU-FSTG-004 completed with a deterministic 52-case structural generator and exact expected-red verifier.",
+      "SWU-FSTG-VERIFY completed with the focused, complete BTE, engine, TypeScript, JSON, and whitespace gates green.",
+      "The Invoke lifecycle owner joined both pass receipts and closed the captured work-pack frontier."
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/impl/test-derivation-engine/src/bte/structural-emitter.ts",
+      "projects/domainspec-v2/impl/test-derivation-engine/src/bte/structural-emitter.test.ts",
+      "projects/domainspec-v2/impl/test-derivation-engine/src/bte/financial-settlement-cli.ts",
+      "projects/domainspec-v2/impl/test-derivation-engine/src/bte/financial-settlement-verify.ts",
+      "projects/domainspec-v2/impl/generated-tests/financial-settlement/financial-settlement.structural.test.ts",
+      "projects/domainspec-v2/impl/generated-tests/financial-settlement/financial-settlement.structural.report.json",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/WORK-PACK.md",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/INVOKE-EVIDENCE.json"
+    ],
+    "validation": [
+      "Expected-red verifier: 52 generated, 51 pass, one exact declared red, zero todo, zero skipped.",
+      "Complete BTE verification: 8 files and 40 tests pass; 13 kinds, 16 relationships, and 89 obligations.",
+      "Full engine regression: 18 files and 147 tests pass.",
+      "Targeted TypeScript, generated report JSON, and scoped whitespace checks pass.",
+      "FSTG lifecycle closeout projection: 10 checks pass."
+    ],
+    "notes": "COMPLETE means every selector in the captured resumed frontier was visited and joined. The declared source mapping red and 67 behavioral gaps remain honest residue outside this work pack."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/task-session-until-blocker/20260723T213902Z-fstg-resumed-frontier/CHAIN-RECEIPT.json"
+}

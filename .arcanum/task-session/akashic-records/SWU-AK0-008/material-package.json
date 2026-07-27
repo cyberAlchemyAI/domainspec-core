@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "akashic-SWU-AK0-008-20260727",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "task-session",
+  "authority_class": "public",
+  "publication_class": "public",
+  "source_artifacts": [
+    {
+      "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+      "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+      "size_bytes": 6058,
+      "authority_class": "public"
+    },
+    {
+      "path": "development/phase-0-content-contract/plan/work-pack/tasks/TASK-AK-PROJECT.md",
+      "sha256": "87cea6c5e24c722bff097d9487c412c9c914d91484a51112592b5c804f9ecfe5",
+      "size_bytes": 7738,
+      "authority_class": "public"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "src/cli.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "src/cli.mjs",
+        "sha256": "fdf9b93c06c99444dce91e1aa4dda10f782a8921dfb4f4eceeab222b219baf38",
+        "size_bytes": 11160
+      }
+    },
+    {
+      "target_path": "src/parity.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "src/parity.mjs",
+        "sha256": "a19f186a7aa746f70876ceee437089c1e4657995c5f58211290604f8963548a5",
+        "size_bytes": 6253
+      }
+    },
+    {
+      "target_path": "test/fixtures/parity/mutations.json",
+      "operation": "create",
+      "output_ref": {
+        "path": "test/fixtures/parity/mutations.json",
+        "sha256": "cf42c50ddff0683bb0286fda3192f430fe6aa2692b16eb17f64ebf4f7c1b7ca3",
+        "size_bytes": 534
+      }
+    },
+    {
+      "target_path": "test/parity.test.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "test/parity.test.mjs",
+        "sha256": "39d8402619eed101a263b272ec64e75fe9fab279baec7f20f48956977fd0b49d",
+        "size_bytes": 4321
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "src/cli.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "src/parity.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "test/fixtures/parity/mutations.json",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    },
+    {
+      "target_path": "test/parity.test.mjs",
+      "lifecycle_owner": "task-session",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "work-pack"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "work-pack",
+      "artifact_ref": {
+        "path": "development/phase-0-content-contract/plan/WORK-PACK.md",
+        "sha256": "a41dc57a37f5e12b85752a03ed11f3bb88e23b4ab8505a7610bfadff4a6ccfc8",
+        "size_bytes": 6058
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "task-session",
+    "scope_paths": [
+      "src/cli.mjs",
+      "src/parity.mjs",
+      "test/fixtures/parity/mutations.json",
+      "test/parity.test.mjs"
+    ],
+    "authority_classes": [
+      "public"
+    ],
+    "publication_classes": [
+      "public"
+    ]
+  },
+  "validation_commands": [
+    "node src/cli.mjs parity",
+    "npm audit --omit=dev",
+    "npm test",
+    "npm test -- test/parity.test.mjs"
+  ]
+}

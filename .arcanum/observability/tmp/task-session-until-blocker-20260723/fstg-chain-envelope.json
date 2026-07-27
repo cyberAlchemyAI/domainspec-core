@@ -1,0 +1,60 @@
+{
+  "timestamp": "2026-07-23T19:39:28Z",
+  "run_id": "task-session-until-blocker-20260723T191821Z-fstg",
+  "session_id": "2026-07-23-fstg-until-blocker",
+  "sigil": "task-session-until-blocker",
+  "tier": "spell",
+  "mode": "execute",
+  "capability": {
+    "id": "task-session-until-blocker",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "execute",
+    "alias": "all-swus-until-blocker"
+  },
+  "request": {
+    "raw": null,
+    "summary": "Execute the ordered Financial Settlement test-generation SWUs as fresh Task Sessions until the first genuine blocker.",
+    "intent": "Continue automatically across joined one-SWU sessions while preserving exact lifecycle and stop boundaries."
+  },
+  "execution": {
+    "status": "blocked_at_decision_gate",
+    "outputs": [
+      "SWU-FSTG-002 completed with collecting node and edge evaluators.",
+      "SWU-FSTG-003 completed with the exact Financial Settlement projector.",
+      "SWU-FSTG-004 stopped before mutation on verification-command semantics.",
+      "The Invoke owner joined all two passes and the blocker state."
+    ],
+    "files_changed": [
+      "arcanum/arcana/task-session/SKILL.md",
+      "arcanum/spells/task-session-until-blocker/README.md",
+      "arcanum/spells/invoke/templates/work-pack.md",
+      "projects/domainspec-v2/impl/test-derivation-engine/src/bte/development-engine.ts",
+      "projects/domainspec-v2/impl/test-derivation-engine/src/bte/proof-engine.ts",
+      "projects/domainspec-v2/impl/test-derivation-engine/src/bte/feature-projector.ts",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/WORK-PACK.md",
+      "projects/domainspec-v2/development/financial-settlement-executable-test-generation/INVOKE-EVIDENCE.json"
+    ],
+    "validation": [
+      "Task Session decision fixtures: 25 pass.",
+      "Task Session nearest fixtures: 11 pass.",
+      "Task Session mutation admission fixtures: 9 pass.",
+      "Until-blocker chain fixtures: 8 pass.",
+      "Invoke fixture suite: pass.",
+      "SWU-FSTG-002 focused and full BTE verification: pass.",
+      "SWU-FSTG-003 focused and full BTE verification: pass.",
+      "SWU-FSTG-004 Decision Gate prefilter: two admissible options.",
+      "FSTG closeout projection: 10 checks pass."
+    ],
+    "notes": "BLOCK is the expected successful stop behavior of the outer spell. The unresolved choice changes the terminal semantics of verify:bte:financial-settlement, so no emitter mutation was admitted."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/financial-settlement-executable-test-generation/session-evidence/task-session-until-blocker/20260723T191821Z-fstg-frontier/CHAIN-RECEIPT.json"
+}

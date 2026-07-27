@@ -72,6 +72,8 @@ Controlled tags for this package.
 | `ontology-lifecycle` | Candidate material about ontology lifecycle, CAOL PromotionRecord flow, or lifecycle envelope design. |
 | `promotion-record` | PromotionRecord evidence, fixture, schema, route, or blocker material. |
 | `idempotency` | Owner-scoped idempotency, dedupe, append-only replay, deterministic generation, or duplicate-guard evidence. |
+| `compatibility` | Version-tuple support, directional reader/writer behavior, deprecation, migration, or interoperability boundary material. |
+| `agent-workflow` | Bounded agent task, context, contribution, validation, review, decision, merge, and regeneration interface material. |
 | `evidence-backfill` | Inventory backfill entries created from existing findings or research artifacts. |
 | `verification-weaver` | Candidate testing router, VERIFICATION-WEAVE receipt, owner-lane routing, and validation package material. |
 | `evidence-card` | Inventory evidence-card entries and card bundles. |
