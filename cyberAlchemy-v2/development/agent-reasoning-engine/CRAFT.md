@@ -5,29 +5,38 @@
 
 ## Quick links
 
-- Next move: [run the G-ARE-L0 owner gate](#next-move)
-- Active blockers: none
+- Next move: [revise the ACI-subordinate plan](#next-move)
+- Active blockers: [`BLK-ARE-ACI-MATURITY-001`](#active-external-maturity-blocker)
 - Blocking decisions: none
 - Active gaps: [downstream residue](#active-gaps-and-residue)
-- Terminal artifacts: [readiness](decisions/implementation-readiness/session-evidence/TASK-ARE-READINESS-001-RECEIPT.json), [L0 witness]([repo-root]/cyberAlchemy-v2/implementation/agent-reasoning-engine/generated/runs/evaluator-v1-20260723T-session-001/TERMINAL-RECEIPT.json)
+- Terminal artifacts: [L0 promotion](decisions/g-are-l0-promotion/PROMOTION-RECEIPT.json), [binding decision](decisions/aci-reasoning-binding/BINDING-RECEIPT.json)
 
 ## Context CTX-ARE-ROOT
 
-- **Stage / gate:** `implementation-l0` / `pass`
-- **Readiness:** `G-ARE-POLICY` passes.
-- **L0 execution:** `SWU-ARE-001` completed; its 16-test suite and materialized witness receipt pass.
-- **Promotion:** `G-ARE-L0` evidence condition passes, but promotion remains pending.
+- **Stage / gate:** `aci-binding-selected-plan-revision` / `pass`
+- **L0:** `SWU-ARE-001` completed and its bounded private witness is promoted.
+- **Binding:** `G-ARE-ACI-BINDING` passed with option A, selecting an
+  ACI-subordinate target and an explicitly local-only interim.
 - **Selected work:** none. No downstream SWU is authorized.
+- **Current route:** `invoke:plan ACI-subordinate conformance revision`.
 
-## Closed semantic-witness gap
+## Closed ACI binding decision
 
-`GAP-ARE-SEMANTIC-WITNESS` is closed by the terminal L0 receipt. The evidence
-covers two separately owned rule families, all typed outcomes and negative
-counterfactuals, canonical reasoning receipts, byte-identical replay, persisted
-ordering, zero-call closures, and a fixed idempotent effect test double.
+`DEC-ARE-ACI-BINDING` selected the ACI-subordinate target. Integrated journal
+facts, canonical acceptance identity, replay cursor, and effect intents belong
+to ACI; semantic derivation and reasoning-receipt content remain
+evaluator-owned. The decision is evidenced by
+[`ART-ARE-ACI-BINDING-RECEIPT`](decisions/aci-reasoning-binding/BINDING-RECEIPT.json).
 
-This closes only the lack-of-witness gap. It does not establish a general
-reasoning engine, real effects, actor runtime, anti-bias efficacy, or promotion.
+This closes the local ownership-disposition blocker only. It does not establish
+runtime compatibility or authorize implementation.
+
+## Active external maturity blocker
+
+`BLK-ARE-ACI-MATURITY-001` blocks integrated execution. ACI runtime remains
+blocked, Bus has no later post-remediation `PASS`, ACP is discovery, APT
+mutation is blocked, and cross-repository conformance receipts do not exist.
+Local-only evidence must remain explicitly non-integrated.
 
 ## Active gaps and residue
 
@@ -41,21 +50,15 @@ reasoning engine, real effects, actor runtime, anti-bias efficacy, or promotion.
 
 | ID | Status | Meaning |
 |---|---|---|
-| ART-ARE-READINESS-RECEIPT | pass | Policy-readiness receipt; no implementation claim |
-| ART-ARE-L0-WITNESS-RECEIPT | pass | Private finite semantic witness; no promotion claim |
-| ART-ARE-LEDGER | active | Machine source of truth |
-| ART-ARE-INDEX | active | Rebuildable lookup projection |
-
-## Candidate definitions
-
-- **DEF-ARE-INTENT-RECORD:** local candidate intent projection; not canonical.
-- **DEF-ARE-SEMANTIC-EVALUATOR:** implemented and witnessed at L0; still a local
-  candidate and non-authorizing.
+| ART-ARE-L0-PROMOTION-RECEIPT | pass | Bounded L0 admission; no implementation authority |
+| ART-ARE-ACI-BINDING-DESIGN | pass | Accepted ACI-subordinate target architecture |
+| ART-ARE-ACI-BINDING-RECEIPT | pass | Explicit option-A owner selection |
+| ART-ARE-ACI-ADR-001 | accepted-w0-only | External decision evidence; runtime remains blocked |
+| ART-ARE-ACI-WORK-PACK | blocked | External runtime-maturity evidence |
+| ART-ARE-BUS-ASSESSMENT | fix | Candidate publication seam; no later PASS |
+| ART-ARE-APT-WORK-PACK | mutation-blocked | Candidate lineage seam; no mutation authority |
 
 ## Next move
 
-Run the explicit G-ARE-L0 evidence/owner promotion gate; do not select or authorize a downstream SWU until that gate returns a terminal receipt.
-
-## Open Questions
-
-See [`spec/SPEC.md#open-blockers--owner-decisions`](spec/SPEC.md#open-blockers--owner-decisions).
+Run `invoke:plan ACI-subordinate conformance revision`. Do not select an
+implementation SWU until external-maturity and task-specific gates pass.

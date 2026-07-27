@@ -1,22 +1,28 @@
-# TASK-ARE-PACKAGING-001 — private packaging and rollout
+# TASK-ARE-PACKAGING-001 — private ACI-subordinate packaging and rollout
 
 Layer: L3. Status: deferred until G-ARE-L2.
 
-## SWU-ARE-008 — versioned private interface
+## SWU-ARE-008 — versioned private ACI-subordinate adapter interface
 
 - Execution owner recommendation: `subagent`.
-- Inputs: terminal L2 package APIs/receipts and private interface decision.
-- Outputs: versioned private library/CLI/API adapter and compatibility receipt.
-- Dependencies: G-ARE-L2 and BLK-ARE-ROLLOUT-001 interface scope.
+- Inputs: terminal L2 package APIs/receipts, admitted ACI conformance manifest,
+  exact ACI runtime contract/receipts, and private interface decision.
+- Outputs: versioned private library/CLI/API adapter and bounded ACI conformance
+  receipt; it does not own ACI acceptance or journal state.
+- Dependencies: G-ARE-L2, G-ARE-ACI-CONFORMANCE, and
+  BLK-ARE-ROLLOUT-001 interface scope.
 - Write scope: `cyberAlchemy-v2/implementation/agent-reasoning-engine/interfaces/private/**`.
 
-Algorithm: map versioned request to existing components; preserve typed outcomes,
-digests, full gate records, and non-authority metadata; reject unknown versions,
-missing authorization, and envelope mismatch; expose no real effect unless a
-separate protected-action plan later supplies it.
+Algorithm: map versioned private request to candidate ACI commands through the
+admitted binding contract; receive accepted ACI facts/receipts through read
+adapters; preserve typed semantic outcomes, artifact digests, full gate records,
+and non-authority metadata; reject unknown versions, missing authorization,
+owner receipt drift, and envelope mismatch; expose no direct journal writer or
+real effect port.
 
-Done when compatibility, invalid-version, authorization, privacy, and zero-
-effect contract tests pass. Verification: `node --test cyberAlchemy-v2/implementation/agent-reasoning-engine/interfaces/private/test/*.test.mjs`.
+Done when cross-repository conformance, sole-writer, invalid-version,
+authorization, privacy, replay, and zero-effect contract tests pass.
+Verification: `node --test cyberAlchemy-v2/implementation/agent-reasoning-engine/interfaces/private/test/*.test.mjs`.
 
 ## SWU-ARE-009 — operational readiness
 
@@ -38,12 +44,13 @@ evidence passes. Verification commands are pinned with the future deployment
 profile before this SWU is selected; minimum command:
 `node --test cyberAlchemy-v2/implementation/agent-reasoning-engine/operations/test/*.test.mjs`.
 
-Future write scope is selected only after L2. Public Arcanum, general engine
-promotion, and real effect enablement are separate owner routes.
+Future write scope is selected only after L2 and current ACI conformance. Public
+Arcanum, general engine promotion, ACI runtime lifecycle, and real effect
+enablement are separate owner routes.
 
 Split rationale: a versioned compatibility contract and operational rollout
 evidence have independently reviewable acceptance and may not be bundled.
-Handoff
-context is this task, terminal L2 receipts, private rollout decision, and one
-selected SWU. Return the result shape in
+Handoff context is this task, terminal L2 and ACI conformance receipts, private
+rollout decision, and one selected SWU. No handoff is ready until exact closeout
+synchronization is bound. Return the result shape in
 [`../../EXECUTION-PACK.md`](../../EXECUTION-PACK.md).

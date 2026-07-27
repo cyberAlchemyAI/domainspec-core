@@ -1,6 +1,6 @@
 # TASK-ARE-EVALUATOR-001 — witness semantic-judgment evaluator@1
 
-Layer: L0. Status: **completed; G-ARE-L0 promotion pending**.
+Layer: L0. Status: **completed; G-ARE-L0 promoted**.
 
 Future write scope:
 
@@ -72,7 +72,8 @@ Handoff context: this task, `design/COMPONENT-CONTRACTS.md`,
 - Witness receipt: [`../../../../../implementation/agent-reasoning-engine/generated/runs/evaluator-v1-20260723T-session-001/TERMINAL-RECEIPT.json`](../../../../../implementation/agent-reasoning-engine/generated/runs/evaluator-v1-20260723T-session-001/TERMINAL-RECEIPT.json)
 - Verification: 16 tests passed, 0 failed.
 - Claim ceiling: private finite semantic witness only.
-- Promotion: not performed; route to `G-ARE-L0` owner evaluation.
+- Promotion: [`G-ARE-L0` passed](../../../decisions/g-are-l0-promotion/PROMOTION-RECEIPT.json)
+  for the bounded L0 witness only; no successor SWU is selected or authorized.
 
 ## Open Questions
 

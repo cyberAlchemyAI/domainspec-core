@@ -34,17 +34,30 @@ indexes:
     ART-ARE-CRAFT-REFRESH-RECEIPT: artifacts[8]
     ART-ARE-READINESS-RECEIPT: artifacts[9]
     ART-ARE-L0-WITNESS-RECEIPT: artifacts[10]
+    ART-ARE-ORCHESTRATOR-REMOTE: artifacts[11]
+    ART-ARE-ACI-ADR-001: artifacts[12]
+    ART-ARE-ACI-WORK-PACK: artifacts[13]
+    ART-ARE-BUS-ASSESSMENT: artifacts[14]
+    ART-ARE-APT-WORK-PACK: artifacts[15]
+    ART-ARE-L0-PROMOTION-RECEIPT: artifacts[16]
+    ART-ARE-ACI-BINDING-DESIGN: artifacts[17]
+    ART-ARE-ACI-BINDING-RECEIPT: artifacts[18]
     BLK-ARE-APP-001: typed_items[0]
     BLK-ARE-CHAL-001: typed_items[1]
     BLK-ARE-EFFECT-001: typed_items[2]
+    BLK-ARE-ACI-BINDING-001: typed_items[3]
+    BLK-ARE-ACI-MATURITY-001: typed_items[4]
     DEC-ARE-G6-SCHEMA-SELECTION: decisions[0]
+    DEC-ARE-L0-PROMOTION: decisions[1]
+    DEC-ARE-ACI-BINDING: decisions[2]
     REL-ARE-DISPATCH-INFORMS-ROOT: relations[0]
     REL-ARE-RESEARCH-INFORMS-ROOT: relations[1]
     REL-ARE-ROOT-CONTAINS-SCHEMA-GAP: relations[2]
     REL-ARE-ROOT-CONTAINS-WITNESS-GAP: relations[3]
   open_decisions: []
   blocking_decisions: []
-  active_blockers: []
+  active_blockers:
+    - BLK-ARE-ACI-MATURITY-001
   active_gaps:
     - GAP-ARE-ARTIFACT-DURABILITY
     - GAP-ARE-INCIDENT-READINESS
@@ -53,7 +66,7 @@ indexes:
     - GAP-ARE-ANTI-BIAS-EFFICACY
   next_moves:
     - context_id: CTX-ARE-ROOT
-      next_move: Run the explicit G-ARE-L0 evidence/owner promotion gate; do not select or authorize a downstream SWU until that gate returns a terminal receipt.
+      next_move: Run invoke:plan ACI-subordinate conformance revision; do not select an implementation SWU until external-maturity and task-specific gates pass.
   artifacts_by_path:
     DISPATCH.json: ART-ARE-DISPATCH
     .craft/ledger.yml: ART-ARE-LEDGER
@@ -66,6 +79,14 @@ indexes:
     .craft/artifacts/receipts/craft-refresh.json: ART-ARE-CRAFT-REFRESH-RECEIPT
     decisions/implementation-readiness/session-evidence/TASK-ARE-READINESS-001-RECEIPT.json: ART-ARE-READINESS-RECEIPT
     "[repo-root]/cyberAlchemy-v2/implementation/agent-reasoning-engine/generated/runs/evaluator-v1-20260723T-session-001/TERMINAL-RECEIPT.json": ART-ARE-L0-WITNESS-RECEIPT
+    "[git-ref]/projects/cyberalchemy-orchestrator/origin/master@6e5936b6d02f4d10c10d215d51a588b5520aa57f": ART-ARE-ORCHESTRATOR-REMOTE
+    "[repo-root]/projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/adrs/ADR-001-persistence-replay-and-canonical-contracts.md": ART-ARE-ACI-ADR-001
+    "[repo-root]/projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/WORK-PACK.md": ART-ARE-ACI-WORK-PACK
+    "[repo-root]/projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/discovery/spec-integration-assessment/avaliacao-independente-publication-bridge.md": ART-ARE-BUS-ASSESSMENT
+    "[repo-root]/projects/cyberalchemy-orchestrator/docs/features/agent-provenance-telemetry/WORK-PACK.md": ART-ARE-APT-WORK-PACK
+    decisions/g-are-l0-promotion/PROMOTION-RECEIPT.json: ART-ARE-L0-PROMOTION-RECEIPT
+    design/aci-reasoning-binding/ARCHITECTURE.md: ART-ARE-ACI-BINDING-DESIGN
+    decisions/aci-reasoning-binding/BINDING-RECEIPT.json: ART-ARE-ACI-BINDING-RECEIPT
 
 contexts:
   - context_id: CTX-ARE-ROOT
@@ -75,9 +96,9 @@ contexts:
       Coordinate an evidence-informed private definition, design, and plan for a governed
       agent reasoning engine whose first executable witness will be semantic-judgment
       evaluator@1.
-    stage: implementation-l0
+    stage: aci-binding-selected-plan-revision
     gate: pass
-    next_move: Run the explicit G-ARE-L0 evidence/owner promotion gate; do not select or authorize a downstream SWU until that gate returns a terminal receipt.
+    next_move: Run invoke:plan ACI-subordinate conformance revision; do not select an implementation SWU until external-maturity and task-specific gates pass.
     owned_artifacts:
       - ART-ARE-DISPATCH
       - ART-ARE-LEDGER
@@ -89,6 +110,14 @@ contexts:
       - ART-ARE-CRAFT-REFRESH-RECEIPT
       - ART-ARE-READINESS-RECEIPT
       - ART-ARE-L0-WITNESS-RECEIPT
+      - ART-ARE-ORCHESTRATOR-REMOTE
+      - ART-ARE-ACI-ADR-001
+      - ART-ARE-ACI-WORK-PACK
+      - ART-ARE-BUS-ASSESSMENT
+      - ART-ARE-APT-WORK-PACK
+      - ART-ARE-L0-PROMOTION-RECEIPT
+      - ART-ARE-ACI-BINDING-DESIGN
+      - ART-ARE-ACI-BINDING-RECEIPT
     links:
       - label: Intent-schema evidence gap
         target: GAP-ARE-INTENT-SCHEMA-EVIDENCE
@@ -105,6 +134,12 @@ contexts:
       - label: L0 witness receipt
         target: ART-ARE-L0-WITNESS-RECEIPT
         kind: artifact-id
+      - label: L0 promotion receipt
+        target: ART-ARE-L0-PROMOTION-RECEIPT
+        kind: artifact-id
+      - label: L0 promotion decision
+        target: DEC-ARE-L0-PROMOTION
+        kind: row-id
       - label: Application authority blocker
         target: BLK-ARE-APP-001
         kind: row-id
@@ -114,10 +149,19 @@ contexts:
       - label: Effect gate blocker
         target: BLK-ARE-EFFECT-001
         kind: row-id
+      - label: ACI binding blocker
+        target: BLK-ARE-ACI-BINDING-001
+        kind: row-id
+      - label: ACI W0 decision source
+        target: ART-ARE-ACI-ADR-001
+        kind: artifact-id
     notes: >-
       Run-02 remains the admitted intent evidence. G-ARE-POLICY passes and
       SWU-ARE-001 completed with a passing private L0 witness. The semantic-witness
-      gap is closed, but G-ARE-L0 promotion and all downstream gaps remain open.
+      gap is closed and G-ARE-L0 promotion passed for that bounded layer only.
+      G-ARE-ACI-BINDING selected the ACI-subordinate target. The local
+      design blocker is resolved; external ACI/Bus/ACP/APT maturity and all
+      downstream evidence gaps remain open.
 
 artifacts:
   - artifact_id: ART-ARE-DISPATCH
@@ -194,6 +238,56 @@ artifacts:
     notes: >-
       Terminal SWU-ARE-001 receipt witnessing one private finite semantic relation.
       It does not promote G-ARE-L0 or admit a broader reasoning-engine claim.
+  - artifact_id: ART-ARE-ORCHESTRATOR-REMOTE
+    owner_context_id: CTX-ARE-ROOT
+    path: "[git-ref]/projects/cyberalchemy-orchestrator/origin/master@6e5936b6d02f4d10c10d215d51a588b5520aa57f"
+    artifact_type: external-git-evidence
+    status: observed
+    notes: Remote evidence anchor only; it creates no local or external authority.
+  - artifact_id: ART-ARE-ACI-ADR-001
+    owner_context_id: CTX-ARE-ROOT
+    path: "[repo-root]/projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/adrs/ADR-001-persistence-replay-and-canonical-contracts.md"
+    artifact_type: external-candidate-contract
+    status: accepted-w0-only
+    notes: Accepted ACI W0 decision scope; runtime implementation remains blocked.
+  - artifact_id: ART-ARE-ACI-WORK-PACK
+    owner_context_id: CTX-ARE-ROOT
+    path: "[repo-root]/projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/WORK-PACK.md"
+    artifact_type: external-work-pack
+    status: blocked
+    notes: Current ACI runtime maturity and owner-boundary evidence.
+  - artifact_id: ART-ARE-BUS-ASSESSMENT
+    owner_context_id: CTX-ARE-ROOT
+    path: "[repo-root]/projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/discovery/spec-integration-assessment/avaliacao-independente-publication-bridge.md"
+    artifact_type: external-review
+    status: fix
+    notes: Bus integration assessment has no later post-remediation PASS receipt.
+  - artifact_id: ART-ARE-APT-WORK-PACK
+    owner_context_id: CTX-ARE-ROOT
+    path: "[repo-root]/projects/cyberalchemy-orchestrator/docs/features/agent-provenance-telemetry/WORK-PACK.md"
+    artifact_type: external-work-pack
+    status: mutation-blocked
+    notes: APT is an observational candidate and cannot be imported as runtime authority.
+  - artifact_id: ART-ARE-L0-PROMOTION-RECEIPT
+    owner_context_id: CTX-ARE-ROOT
+    path: decisions/g-are-l0-promotion/PROMOTION-RECEIPT.json
+    artifact_type: promotion-receipt
+    status: pass
+    notes: >-
+      Explicit human-owner admission of the private finite L0 semantic witness.
+      It selects no SWU and authorizes no implementation or broader engine claim.
+  - artifact_id: ART-ARE-ACI-BINDING-DESIGN
+    owner_context_id: CTX-ARE-ROOT
+    path: design/aci-reasoning-binding/ARCHITECTURE.md
+    artifact_type: architecture-binding
+    status: pass
+    notes: Accepted ACI-subordinate target architecture; external runtime and conformance gates remain open.
+  - artifact_id: ART-ARE-ACI-BINDING-RECEIPT
+    owner_context_id: CTX-ARE-ROOT
+    path: decisions/aci-reasoning-binding/BINDING-RECEIPT.json
+    artifact_type: decision-receipt
+    status: pass
+    notes: Explicit option-A owner receipt; no compatibility, implementation, effect, or SWU authority.
 
 descriptions:
   - description_id: DESC-ARE-ROOT
@@ -209,9 +303,11 @@ descriptions:
     description: >-
       The private definition, design, and high-complexity plan are complete. Run-02
       remains the admitted intent evidence. G-ARE-POLICY passes and SWU-ARE-001
-      now witnesses one finite semantic relation; G-ARE-L0 promotion remains pending.
+      witnesses one finite semantic relation. G-ARE-L0 is promoted for that bounded
+      layer. G-ARE-ACI-BINDING selected the ACI-subordinate target; plan
+      revision is next and downstream implementation remains closed.
     status: active
-    evidence: ART-ARE-L0-WITNESS-RECEIPT
+    evidence: ART-ARE-L0-PROMOTION-RECEIPT
 
 definitions:
   - definition_id: DEF-ARE-INTENT-RECORD
@@ -231,8 +327,8 @@ definitions:
       An implemented finite private L0 witness that accepts a frozen bounded request,
       produces one typed semantic judgment plus reasoning receipt, and neither
       authorizes nor performs a real effect.
-    status: candidate-witnessed
-    evidence: ART-ARE-L0-WITNESS-RECEIPT
+    status: candidate-witnessed-l0-promoted
+    evidence: ART-ARE-L0-PROMOTION-RECEIPT
 
 gaps:
   - gap_id: GAP-ARE-INTENT-SCHEMA-EVIDENCE
@@ -374,6 +470,47 @@ typed_items:
     status: resolved
     closure_condition: The effect-gate owner records the required readiness policy and it is linked into the implementation handoff.
     evidence: ART-ARE-READINESS-RECEIPT
+  - item_id: BLK-ARE-ACI-BINDING-001
+    item_type: blocker
+    context_id: CTX-ARE-ROOT
+    summary: The architecture owner selected an ACI-subordinate target while preserving a non-integrated local interim.
+    blocker_type: design
+    lane: target-lifecycle
+    owner: reasoning-engine and ACI architecture owners
+    refinement_status: resolved
+    requires_human: true
+    status: resolved
+    closure_condition: An approved ACI-REASONING-BINDING selects an ACI-subordinate, explicit local-only, or incompatible/rerouted disposition before affected L1/L2 mutation.
+    evidence: ART-ARE-ACI-BINDING-RECEIPT
+    links:
+      - label: Accepted binding design
+        target: ART-ARE-ACI-BINDING-DESIGN
+        kind: artifact-id
+      - label: Binding owner receipt
+        target: ART-ARE-ACI-BINDING-RECEIPT
+        kind: artifact-id
+  - item_id: BLK-ARE-ACI-MATURITY-001
+    item_type: blocker
+    context_id: CTX-ARE-ROOT
+    summary: External ACI runtime, Bus, ACP, APT, and cross-repository conformance evidence is not mature enough for integrated execution.
+    blocker_type: external-dependency
+    lane: target-lifecycle
+    owner: ACI, Bus, ACP, and APT lifecycle owners
+    refinement_status: refined
+    requires_human: false
+    status: active
+    closure_condition: Required external owner receipts and cross-repository conformance evidence pass for the exact selected binding.
+    evidence: ART-ARE-ACI-WORK-PACK
+    links:
+      - label: Bus review maturity
+        target: ART-ARE-BUS-ASSESSMENT
+        kind: artifact-id
+      - label: APT mutation posture
+        target: ART-ARE-APT-WORK-PACK
+        kind: artifact-id
+      - label: Selected binding
+        target: ART-ARE-ACI-BINDING-RECEIPT
+        kind: artifact-id
 decisions:
   - decision_id: DEC-ARE-G6-SCHEMA-SELECTION
     scope_id: CTX-ARE-ROOT
@@ -395,5 +532,45 @@ decisions:
         kind: artifact-id
       - label: Keeper refresh receipt
         target: ART-ARE-CRAFT-REFRESH-RECEIPT
+        kind: artifact-id
+  - decision_id: DEC-ARE-L0-PROMOTION
+    scope_id: CTX-ARE-ROOT
+    question: Should the passing bounded evaluator evidence be admitted as completed L0 so documentation-only binding design may begin?
+    description: The G-ARE-L0 evidence condition passed and the human project gatekeeper selected option A.
+    impact: Promotes only the private finite L0 semantic witness; it selects no SWU and authorizes no implementation, compatibility, effect, or whole-engine claim.
+    options:
+      - promote bounded L0
+      - defer
+      - reject and repair
+    selected_option: promote bounded L0
+    rationale: Explicit user selection A in the active Decision Gate.
+    status: closed
+    blocking: true
+    evidence: ART-ARE-L0-PROMOTION-RECEIPT
+    links:
+      - label: Terminal L0 witness receipt
+        target: ART-ARE-L0-WITNESS-RECEIPT
+        kind: artifact-id
+  - decision_id: DEC-ARE-ACI-BINDING
+    scope_id: CTX-ARE-ROOT
+    question: Which authority disposition governs the reasoning engine after bounded L0 promotion?
+    description: The design mapped ACI-subordinate, local-only, defer, and standalone-reroute options; the human architecture owner selected A.
+    impact: Selects the ACI-subordinate target with an explicitly local-only interim; it grants no compatibility, implementation, effect, or SWU authority.
+    options:
+      - ACI-subordinate target
+      - local-only
+      - defer
+      - standalone reroute
+    selected_option: ACI-subordinate target
+    rationale: Preserve the whole-engine objective without duplicating ACI's accepted one-writer authority.
+    status: closed
+    blocking: true
+    evidence: ART-ARE-ACI-BINDING-RECEIPT
+    links:
+      - label: Binding design
+        target: ART-ARE-ACI-BINDING-DESIGN
+        kind: artifact-id
+      - label: Owner receipt
+        target: ART-ARE-ACI-BINDING-RECEIPT
         kind: artifact-id
 recomposition: []

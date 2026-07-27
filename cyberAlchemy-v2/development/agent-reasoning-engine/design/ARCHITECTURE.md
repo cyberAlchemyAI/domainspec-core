@@ -1,6 +1,6 @@
 ---
 title: Agent Reasoning Engine Candidate Architecture
-status: unwitnessed-candidate-design
+status: candidate-design-with-promoted-bounded-l0-witness
 invoke_mode: design
 scope: private-cav2-development
 authority_effect: none
@@ -9,9 +9,10 @@ authority_effect: none
 # Agent Reasoning Engine candidate architecture
 
 This design turns the approved definition into a six-view architecture. It is a
-plan-ready candidate, not an implementation or evidence that this checkout is a
-reasoning engine. Its first executable witness remains `semantic-judgment
-evaluator@1`, explicitly unwitnessed.
+plan-ready whole-engine candidate, not evidence that this checkout is a promoted
+reasoning engine. Its first executable slice, `semantic-judgment evaluator@1`,
+is promoted as the bounded local L0 witness; every higher runtime and
+integration layer remains candidate.
 
 ## Source contracts
 
@@ -20,8 +21,27 @@ evaluator@1`, explicitly unwitnessed.
 - [`../spec/INTENT-RECORD.md`](../spec/INTENT-RECORD.md)
 - [`../spec/INTENT-SCHEMA-DECISION.md`](../spec/INTENT-SCHEMA-DECISION.md)
 - [`../receipts/engine-define-reconciled.json`](../receipts/engine-define-reconciled.json)
+- [`../../../implementation/agent-reasoning-engine/generated/runs/evaluator-v1-20260723T-session-001/TERMINAL-RECEIPT.json`](../../../implementation/agent-reasoning-engine/generated/runs/evaluator-v1-20260723T-session-001/TERMINAL-RECEIPT.json)
+- [`../decisions/g-are-l0-promotion/PROMOTION-RECEIPT.json`](../decisions/g-are-l0-promotion/PROMOTION-RECEIPT.json)
 - [`../../../authority/definitions/DEFINITIONS.md`](../../../authority/definitions/DEFINITIONS.md), especially CAV2-D34 through D41 and D56
 - [`../../../../projects/cyberalchemy-orchestrator/docs/research/2026-07-22-agent-reasoning-engine-contract/findings.md`](../../../../projects/cyberalchemy-orchestrator/docs/research/2026-07-22-agent-reasoning-engine-contract/findings.md)
+
+### External candidate alignment sources
+
+- [ACI ADR-001](../../../../projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/adrs/ADR-001-persistence-replay-and-canonical-contracts.md)
+  is accepted for its W0 decision scope; the ACI runtime gate remains blocked.
+- The [ACI Work Pack](../../../../projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/WORK-PACK.md)
+  is the current runtime-maturity boundary.
+- [Bus Contracts](../../../../projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/discovery/bus-contracts/README.md)
+  remains draft, and its latest
+  [integration assessment](../../../../projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/discovery/spec-integration-assessment/avaliacao-independente-publication-bridge.md)
+  has no post-remediation `PASS`.
+- The [agent communication protocols](../../../../projects/cyberalchemy-orchestrator/docs/features/agents-communication-infra/discovery/agents-communication-protocols/README.md)
+  surface is discovery only.
+- The [APT Work Pack](../../../../projects/cyberalchemy-orchestrator/docs/features/agent-provenance-telemetry/WORK-PACK.md)
+  is observational and mutation-blocked.
+
+These are comparison evidence, not imported authority or compatibility proof.
 
 ## View 1 — context
 
@@ -90,6 +110,14 @@ The architecture has three non-substitutable layers:
 A stage cannot borrow the authority or claim of another stage. In particular,
 an orchestration success cannot stand in for a semantic outcome, and a positive
 semantic outcome cannot stand in for an effect gate.
+
+Evaluator semantics remain reasoning-engine-owned. The accepted
+[`ACI-REASONING-BINDING`](aci-reasoning-binding/ARCHITECTURE.md) selects an
+ACI-subordinate target: integrated actor-journal facts, canonical acceptance
+identity, replay cursor, and effect intents are ACI-owned; semantic derivation
+and reasoning-receipt content remain evaluator-owned behind the artifact
+boundary. External source maturity and executable conformance still must pass
+before compatibility or runtime claims.
 
 ## View 3 — low-level components
 
@@ -186,6 +214,14 @@ All inter-component records are versioned and digest-bound. A downstream
 consumer rejects unknown versions, missing required digests, stale temporal
 state, and cross-run handle substitution.
 
+The interfaces in this view are logical boundaries.
+`G-ARE-ACI-BINDING` selected the ACI-subordinate target through
+[`BINDING-RECEIPT.json`](../decisions/aci-reasoning-binding/BINDING-RECEIPT.json).
+SWU-ARE-002, SWU-ARE-003, and SWU-ARE-006 still may not implement an integrated
+writer or claim compatibility until the plan binds them to current ACI
+conformance evidence. Local-only witnesses must remain explicitly
+non-integrated.
+
 ## Failure and degraded behavior
 
 | Condition | Required behavior |
@@ -216,6 +252,7 @@ state, and cross-run handle substitution.
 | ARE-DES-005 | Exclude `AntiBiasVector` from witness 1. | Dimensions/interventions/efficacy are not governed or evidenced. | Blocks anti-bias claims, not generic evaluator planning. |
 | ARE-DES-006 | Keep revision-history mechanics outside selected-local intent v1. | No revision-bearing evidence exists. | Future migrations need a separate owner decision. |
 | ARE-DES-007 | Separate historical replay from current revalidation. | Mutable source state cannot be smuggled into replay. | Retention and admission posture remains local. |
+| ARE-DES-008 | Use the selected ACI-subordinate binding for every future integrated journal, receipt, replay, publication, provenance, and effect-intent mapping. | Prevent a second integrated journal or lifecycle authority from being created by local similarity. | External maturity and conformance receipts remain mandatory; local-only evidence cannot satisfy compatibility. |
 
 ## Design validation and handoff
 
@@ -234,4 +271,8 @@ state, and cross-run handle substitution.
   evaluator@1 plus test doubles and immutable fixtures. Applicability and
   challenge-closure policy block implementation, not plan authoring.
 - Layering: plan must produce the required global L0–L3 artifact.
-- Next route: Invoke plan; stop before Task Session or implementation.
+- Binding decision:
+  [`G-ARE-ACI-BINDING` option A](../decisions/aci-reasoning-binding/BINDING-RECEIPT.json)
+  passes for architecture selection only.
+- Next route: Invoke plan for an ACI-subordinate conformance revision; stop
+  before Task Session, SWU selection, or implementation.

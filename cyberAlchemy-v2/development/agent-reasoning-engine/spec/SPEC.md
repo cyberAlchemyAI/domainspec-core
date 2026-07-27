@@ -1,6 +1,6 @@
 ---
 title: Agent Reasoning Engine Specification
-status: unwitnessed-candidate
+status: candidate-with-promoted-bounded-l0-witness
 scope: private-cav2-development
 invoke_mode: define
 discovery_source: projects/cyberalchemy-orchestrator/docs/research/2026-07-22-agent-reasoning-engine-contract/findings.md
@@ -14,15 +14,15 @@ intent_record_selection: selected-local-from-admitted-run-02
 
 ## Definition posture
 
-This document defines a candidate whole-engine boundary. It does not claim that
-the current checkout is a reasoning engine, that the candidate is implemented,
-or that a semantic outcome can authorize an effect.
+This document defines a candidate whole-engine boundary. One finite local
+evaluator slice is implemented and witnessed, but the checkout is not promoted
+as a reasoning engine and a semantic outcome cannot authorize an effect.
 
 | Claim | Posture at this stage |
 |---|---|
 | The repository already has a pre-action reasoning engine | rejected by accepted research |
 | The architecture below is a candidate whole-engine boundary | local candidate |
-| `semantic-judgment evaluator@1` is the finite first build/test slice | **UNWITNESSED CANDIDATE** |
+| `semantic-judgment evaluator@1` is the finite first build/test slice | **PROMOTED BOUNDED L0 WITNESS; whole-engine promotion absent** |
 | The local IntentRecord treatment was selected from the admitted 12+3 run | selected-local candidate; bounded evidence only |
 | The engine reduces bias | not admissible; `AntiBiasVector` is excluded |
 | A receipt or multi-agent consensus proves a conclusion | prohibited |
@@ -99,7 +99,8 @@ engine should be able to:
 - Automatic promotion of definitions, constitutions, schemas, rules, or claims.
 - Model self-authorization, self-grading, or self-selected authority.
 - Treating schema conformance as correctness, approval, or semantic evidence.
-- An effect runtime, external action, or evaluator implementation in this run.
+- A general actor runtime, real effect adapter, promoted engine contract, or
+  executable ACI binding.
 - A claim that challenges, diverse roles, or an `AntiBiasVector` cancel bias.
 - Public mutation or publication of private DomainSpec/CAV2 material.
 
@@ -317,21 +318,34 @@ only the relevant evidence/catalog condition:
 A second independently authored rule family/frame must pass through unchanged
 evaluator code. Effect and replay fixtures remain separate boundary witnesses.
 
+### Bounded L0 evidence — 2026-07-23
+
+The [terminal SWU-ARE-001 receipt](../../../implementation/agent-reasoning-engine/generated/runs/evaluator-v1-20260723T-session-001/TERMINAL-RECEIPT.json)
+records one finite deterministic semantic relation, two independently owned rule
+families, typed counterfactuals, byte-identical replay, persisted order, and a
+test-only idempotent effect boundary. This witnesses the local evaluator slice
+only. The explicit
+[`G-ARE-L0` promotion receipt](../decisions/g-are-l0-promotion/PROMOTION-RECEIPT.json)
+admits that bounded layer. A whole-engine runtime, real effects, ACI
+compatibility, and anti-bias efficacy remain unproved.
+
 ## Open blockers and residue
 
-1. **Applicability owner:** the authority-model owner must supply executable
-   precedence, exception, contradiction, and stale-rule semantics before the
-   evaluator can be implemented.
-2. **Challenge closure:** the challenge-contract owner must select one executable
-   timeout and late-material-defeat policy for the initial catalog.
-3. **Intent record residue:** g6 selected the local whole-field projection from
+1. **ACI integration disposition:** `G-ARE-ACI-BINDING` selected the
+   ACI-subordinate target in
+   [`BINDING-RECEIPT.json`](../decisions/aci-reasoning-binding/BINDING-RECEIPT.json).
+   Integrated journal facts, canonical acceptance identity, replay cursor, and
+   effect intents remain ACI-owned; semantic derivation stays evaluator-owned.
+   External maturity and conformance remain open, so architectural selection is
+   not runtime compatibility.
+2. **Intent record residue:** g6 selected the local whole-field projection from
    admitted run 02. Revision-history item granularity, inter-rater consistency,
    representative fitness, and finer-grained provenance remain unwitnessed and
    cannot be promoted or silently completed.
-4. **Artifact posture:** reasoning receipts and runtime journals remain local
+3. **Artifact posture:** reasoning receipts and runtime journals remain local
    candidates until the artifact-admission owner decides their durability and
    canonical-kind route.
-5. **Anti-bias claim:** blocked until a separate governed intervention and
+4. **Anti-bias claim:** blocked until a separate governed intervention and
    evidence program exists.
 
 ## Invoke define trace
@@ -375,13 +389,15 @@ evaluator code. Effect and replay fixtures remain separate boundary witnesses.
 
 ## Next route
 
-Route this reconciled definition through Invoke design and plan. The plan must
-stop before evaluator implementation and isolate `semantic-judgment
-evaluator@1` as its narrowest reversible first SWU.
+Route `invoke:plan ACI-subordinate conformance revision`. The plan may
+separate local-only evidence from future integrated conformance, but it must not
+select or authorize an implementation SWU while external maturity and
+task-specific gates remain open.
 
 ## Success boundary
 
 This definition stage passes when the candidate boundary, non-substitution
 rules, stable outcome algebra, witness invariant, effort limits, anti-bias
-residue, and first-witness claim are explicit. It does not pass implementation,
-promotion, effect, or reasoning-engine admission.
+residue, and bounded first-witness claim are explicit. The local L0 evaluator
+slice is witnessed; whole-engine implementation, promotion, effect,
+ACI-compatibility, and reasoning-engine admission do not pass.

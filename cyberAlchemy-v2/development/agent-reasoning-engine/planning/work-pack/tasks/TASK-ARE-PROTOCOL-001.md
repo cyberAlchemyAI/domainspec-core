@@ -1,60 +1,76 @@
-# TASK-ARE-PROTOCOL-001 — bounded actor protocol
+# TASK-ARE-PROTOCOL-001 — ACI-subordinate publication/observation protocol
 
-Layer: L1. Depends on G-ARE-L0. Status: planned.
+Layer: L1. Depends on G-ARE-L0 and ACI conformance. Status: **revised;
+integrated work blocked and unselected**.
 
-Future write scope: `cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/actor-protocol/**` and protocol fixtures only.
+Future write scope is limited to private pure mapping code and fixtures. The
+task cannot implement an integrated command/event journal.
 
-## SWU-ARE-002 — immutable journal transitions
+## Integration entry condition
+
+`G-ARE-ACI-BINDING` selected the ACI-subordinate target. Integrated command
+acceptance, events, journal order, join/close state, canonical receipts, replay
+cursors, and effect intents are ACI facts. This task consumes verified facts by
+reference; it does not persist them locally as a competing lifecycle.
+
+Work Bus and APT mappings remain optional candidate interfaces. SWU-ARE-003
+must not import their draft schemas as authority or claim integration from
+shape similarity. Bus acceptance remains distinct from evaluator admission.
+APT is not used by this task.
+
+## SWU-ARE-002 — superseded local integrated journal draft
+
+Status: **superseded; never selectable**.
+
+The prior draft would have persisted a local `RuntimeJournal` for integrated
+actor commands/events. Option A assigns that lifecycle to ACI. The behavior is
+not renamed or silently repurposed:
+
+- outbound semantic-reference mapping is `SWU-ARE-017`;
+- inbound actor-event read projection is `SWU-ARE-018`;
+- ACI journal implementation/evidence remains with the external ACI work-pack.
+
+Verification: plan/Dispatch validation must find no selectable local integrated
+journal SWU or write scope.
+
+## SWU-ARE-003 — Work Bus publication to proposed observation mapping
 
 - Execution owner recommendation: `subagent`.
-- Inputs: passed entry run handle, frozen technique/effort plan, immutable actor
-  commands, required/optional join policy, clock and attempt adapters.
-- Outputs: ordered `RuntimeJournal`, attempt receipts, terminal join/close state.
-- Dependencies: SWU-ARE-012/013/015 and terminal L0 receipt.
-- Write scope: `cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/actor-protocol/src/journal/**`, transition schemas,
-  and `test/journal-*.test.mjs` only.
+- Inputs: admitted Bus conformance profile, ACI-verified publication candidate/
+  submission/receipt refs, issuer/source/transform/time metadata, frozen
+  manifest, and challenge policy.
+- Outputs: versioned proposed observation/challenge handles for the
+  evaluator-owned admitter; no admission, applicability, outcome, or release.
+- Dependencies: SWU-ARE-016, SWU-ARE-018, SWU-ARE-011, and an explicit
+  post-remediation Bus `PASS`.
+- Write scope:
+  `cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/work-bus-observation-mapper/**`
+  and mapping fixtures only.
 
-Algorithm: validate run/plan digests; assign idempotent command ID; persist
-`dispatched` before delivery; record `started`; accept proposed/failed/timed-out
-events; evaluate required/optional joins from frozen policy; cancel remaining
-work at stop/ceiling; persist `closed`. Duplicate commands return the retained
-attempt. Late events are retained as late and never reopen closure.
+Algorithm: verify the owner-receipted Bus/ACI mapping profile; select accepted
+publication facts; preserve candidate/submission/receipt, generation, source,
+transform, and temporal refs; group duplicates without voting; attach
+required-lane and challenge-closure posture; reject malformed or unreleased
+facts; hand immutable proposed handles to the evaluator boundary. Never convert
+`candidate.persisted` or `submission.accepted` into semantic admission.
 
-Failure modes: sequence gap, digest mismatch, duplicate event, lost delivery,
-timeout, partial required lane, late event, crash before/after delivery.
+Failure modes: Bus owner receipt absent/stale, candidate without verified
+receipt, forged/mismatched receipt, stale generation, release too early,
+malformed provenance, disagreement, duplicate claim, required-lane timeout,
+schema-valid unsupported prose, or late challenge.
 
-Done when transition, retry, timeout, partial-failure, late-event, crash-cut,
-and digest tests pass while the journal emits no semantic outcome.
+Done when the Bus happy/negative fixtures pass, every transport output remains
+`proposed`, and evaluator-owned admission—not Bus acceptance or transport—
+returns admitted/rejected/unresolved posture.
 
-Verification: `node --test cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/actor-protocol/test/journal-*.test.mjs`.
+Verification:
+`node --test cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/work-bus-observation-mapper/test/*.test.mjs`.
 
-Split rationale: observation transport can pass independently, so it is
-SWU-ARE-003.
+Split analysis: Bus publication mapping is optional and independently
+reviewable. ACI actor-event projection and evaluator admission have different
+owners and acceptance boundaries.
 
-## SWU-ARE-003 — observation/challenge transport
-
-- Execution owner recommendation: `subagent`.
-- Inputs: closed journal proposals/challenges, issuer/source/transform/time
-  metadata, frozen manifest and challenge policy.
-- Outputs: versioned proposed observation/challenge bundle for the evaluator-
-  owned admitter; no applicability or outcome.
-- Dependencies: SWU-ARE-002 and SWU-ARE-011.
-- Write scope: `cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/actor-protocol/src/transport/**`, transport schemas,
-  and `test/transport-*.test.mjs` only.
-
-Algorithm: select journaled proposal events; preserve provenance and temporal
-scope; group duplicates without voting; attach required-lane completion and
-challenge-closure posture; reject malformed transport records; hand immutable
-bundle to the evaluator boundary. Never merge consensus into confidence.
-
-Failure modes: malformed provenance, missing validator, disagreement, duplicate
-claim, required-lane timeout, schema-valid unsupported prose, late challenge.
-
-Done when all failure/transport fixtures pass and evaluator-owned admission—not
-transport—returns admitted/rejected/unresolved posture.
-
-Verification: `node --test cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/actor-protocol/test/transport-*.test.mjs`.
-
-Handoff context: this task, L0 terminal receipt, architecture component/flow
-contracts, and one selected SWU only. Return the result shape in
-[`../../EXECUTION-PACK.md`](../../EXECUTION-PACK.md); the parent performs the join.
+Handoff context: this task, accepted binding architecture, admitted conformance
+manifest, Bus `PASS`, SWU-ARE-018 receipt, and only SWU-ARE-003. No handoff is
+ready until exact Task Session closeout synchronization is bound. Return the
+result shape in [`../../EXECUTION-PACK.md`](../../EXECUTION-PACK.md).
