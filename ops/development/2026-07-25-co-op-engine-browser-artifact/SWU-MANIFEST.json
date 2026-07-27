@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "work_pack_id": "co-op-engine-l0-trust-and-html-prototypes",
+  "selected_swu_id": "SWU-COOP-001",
+  "swus": [
+    {
+      "swu_id": "SWU-COOP-001",
+      "parent_task": "TASK-COOP-L0-CONTRACT",
+      "layer": "L0",
+      "primary_behavior": "Decide whether one candidate ProjectRecord is admitted under the approved Co-Op card policy.",
+      "acceptance_boundary": "The normalized Poker record is admitted and independent policy, stale, missing-truth, and visibility mutations are rejected with stable intended diagnostics.",
+      "dependencies": [
+        "design-validator-pass",
+        "design-acceptance-review-pass",
+        "strict-context-pack-pass"
+      ],
+      "write_scope": [
+        "projects/co-op-engine/package.json",
+        "projects/co-op-engine/src/contracts/project-record.ts",
+        "projects/co-op-engine/test/fixtures/poker-record.ts",
+        "projects/co-op-engine/test/project-record.test.ts"
+      ],
+      "forbidden_scope": [
+        "arcanum/",
+        "implementation/domainspec/",
+        "any browser UI or route",
+        "any network, persistence, hosting, deployment, or public-release artifact",
+        "any project source outside the four declared files"
+      ],
+      "done_criteria": [
+        "dependency-light private package exposes test:contract",
+        "record, visibility, policy, admission-result, and diagnostic types are explicit",
+        "admission uses injected asOf and stable diagnostic ordering",
+        "approved 72-hour SLA and 30-day expiry rules are enforced",
+        "every required field path has one known visibility class",
+        "normalized Poker positive fixture passes",
+        "independent negative mutations fail for their intended reason",
+        "scoped diff check passes"
+      ],
+      "validation": [
+        "npm --prefix projects/co-op-engine run test:contract",
+        "git diff --check -- projects/co-op-engine"
+      ],
+      "execution_owner": "local-fallback",
+      "expected_result_shape": {
+        "swu_id": "SWU-COOP-001",
+        "result": "pass | flag | block | interrupted",
+        "capability_ref": "goal-or-task-session",
+        "receipt_kind": "native-stage | local-fallback | blocked",
+        "receipt_artifact": "path or none",
+        "files_touched": ["path"],
+        "validation": ["command and result"],
+        "blockers": ["blocker or none"],
+        "residue": ["unresolved evidence or none"],
+        "reroute": "next owner or none",
+        "handoff_note": "parent closeout input"
+      }
+    },
+    {
+      "swu_id": "SWU-COOP-002",
+      "parent_task": "TASK-COOP-L0-HTML-PROTOTYPE",
+      "layer": "L0",
+      "primary_behavior": "Render one self-contained semantic HTML content and information-architecture prototype containing the Co-Op invitation, 45-minute route, and exactly fourteen claim-bounded project opportunities.",
+      "acceptance_boundary": "A real browser at desktop and mobile viewports exposes the complete semantic narrative and fourteen unique project articles, preserves meaning without horizontal overflow, emits no console errors or external requests, and yields review screenshots without implementing exchange behavior.",
+      "dependencies": [
+        "SWU-COOP-001 terminal result pass",
+        "SWU-COOP-001 closeout refresh pass",
+        "explicit selection of SWU-COOP-002",
+        "strict context pack for SWU-COOP-002"
+      ],
+      "write_scope": [
+        "projects/co-op-engine/prototype.html"
+      ],
+      "forbidden_scope": [
+        "arcanum/",
+        "implementation/domainspec/",
+        "any file outside projects/co-op-engine/prototype.html",
+        "JavaScript, forms, offer submission, collaboration transitions, network calls, storage, persistence, hosting, deployment, or public-release artifacts",
+        "private source paths, authoring metadata, participant data, or presenter-only content",
+        "final Whisper copy or claims that browser, privacy, comprehension, coherence, recruitment, meeting, or publication audits passed"
+      ],
+      "done_criteria": [
+        "one dependency-free HTML file opens locally without a build step",
+        "semantic landmarks, skip navigation, heading hierarchy, and anchor navigation are present",
+        "the invitation, experiment-exchange honesty boundary, seven-day loop, 45-minute route, and participation choices are visible",
+        "exactly fourteen unique project articles use the approved display labels and claim ceilings",
+        "every project article has current bounded description, explicit limitation, seven-day act, and human contribution ask",
+        "no script, form, external resource, network request, browser storage, private metadata, or operational exchange state exists",
+        "desktop and mobile browser probes show no horizontal overflow or missing project content",
+        "console and request review are clean and desktop/mobile screenshots are captured",
+        "scoped diff check passes"
+      ],
+      "validation": [
+        "bash /home/vrondelli/.codex/skills/playwright/scripts/playwright_cli.sh -s=coop-html-l0 open file:///home/vrondelli/projects/domainspec-core/projects/co-op-engine/prototype.html",
+        "bash /home/vrondelli/.codex/skills/playwright/scripts/playwright_cli.sh -s=coop-html-l0 snapshot",
+        "bash /home/vrondelli/.codex/skills/playwright/scripts/playwright_cli.sh -s=coop-html-l0 resize 390 844",
+        "bash /home/vrondelli/.codex/skills/playwright/scripts/playwright_cli.sh -s=coop-html-l0 snapshot",
+        "bash /home/vrondelli/.codex/skills/playwright/scripts/playwright_cli.sh -s=coop-html-l0 console error",
+        "bash /home/vrondelli/.codex/skills/playwright/scripts/playwright_cli.sh -s=coop-html-l0 requests",
+        "bash /home/vrondelli/.codex/skills/playwright/scripts/playwright_cli.sh -s=coop-html-l0 screenshot",
+        "git diff --check -- projects/co-op-engine/prototype.html"
+      ],
+      "execution_owner": "local-fallback",
+      "selection_status": "planned-unselected",
+      "expected_result_shape": {
+        "swu_id": "SWU-COOP-002",
+        "result": "pass | flag | block | interrupted",
+        "capability_ref": "goal-or-task-session",
+        "receipt_kind": "native-stage | local-fallback | blocked",
+        "receipt_artifact": "path or none",
+        "files_touched": ["path"],
+        "validation": ["command and result"],
+        "blockers": ["blocker or none"],
+        "residue": ["unresolved evidence or none"],
+        "reroute": "next owner or none",
+        "handoff_note": "parent closeout input"
+      }
+    }
+  ]
+}

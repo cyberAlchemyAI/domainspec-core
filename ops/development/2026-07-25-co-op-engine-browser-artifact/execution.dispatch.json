@@ -1,0 +1,419 @@
+{
+  "dispatch_id": "2026-07-25-co-op-engine-browser-artifact-define",
+  "parent_dispatch_id": "2026-07-25-co-op-engine-portfolio-research",
+  "intent": {
+    "raw": "Invoke Define, resolve blockers, then continue through Design, acceptance review, Plan plus Distill, one selected SWU, strict context packs, and codex-goal-profile.",
+    "objective": "Author an evidence-bounded Define package for one Co-Op Engine browser artifact that is both page and presentation, then stop at unresolved human product decisions.",
+    "target_artifact": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "context-builder",
+      "inventory",
+      "dispatch-spec",
+      "distill",
+      "decision-gate",
+      "whisper"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "validation_loop",
+    "handle_handoff",
+    "residue_ledger",
+    "owner_boundary_check",
+    "concrete_path_evidence",
+    "artifact_contract_bridge",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The accepted research dispatch is already closed. Define authoring and its human decision gate are sequential and do not benefit from new delegated agents.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "none"
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Validate the Define route",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "owner_boundary_check",
+        "artifact_contract_bridge",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/execution.dispatch.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S1.dispatch-validation"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-25-co-op-engine-browser-artifact/dispatch-validation.json",
+      "stop_conditions": [
+        "block on invalid route, technique, owner, evidence, or promotion boundary"
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Build bounded Define context",
+      "capability_ref": "context-builder",
+      "mode": "standard-strict",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S1"
+      ],
+      "techniques": [
+        "sequence",
+        "handle_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S1.dispatch-validation"
+        },
+        {
+          "kind": "external_context",
+          "ref": "ops/development/2026-07-25-co-op-engine-portfolio-research/findings.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/CONTEXT.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block if a selected source closes no Define obligation",
+        "block if private evidence is copied into a public artifact"
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Select the Define template",
+      "capability_ref": "inventory",
+      "capability_status": "candidate",
+      "mode": "lookup-validate",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S2"
+      ],
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/CONTEXT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/TEMPLATE-SELECTION.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block an unresolved eligible-template tie",
+        "block treating Inventory selection as lifecycle authority"
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Author the candidate Define package",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "synthesis",
+      "parallel": false,
+      "depends_on_steps": [
+        "S3"
+      ],
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/TEMPLATE-SELECTION.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/CONTEXT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/GLOSSARY.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block if a proposed mechanism is presented as approved",
+        "block implementation or public-copy claims",
+        "block silent resolution of named research questions"
+      ]
+    },
+    {
+      "step_id": "S5",
+      "name": "Distill the Define scope",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "parallel": false,
+      "depends_on_steps": [
+        "S4"
+      ],
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "roles": [
+        "Proposer",
+        "Balancer"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/DEFINE-DISTILL-VALIDATION.md"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "one coherent Define unit remains",
+        "implementation details are deferred",
+        "unresolved human decisions stay visible"
+      ],
+      "evidence_artifact": "ops/development/2026-07-25-co-op-engine-browser-artifact/DEFINE-DISTILL-VALIDATION.md",
+      "stop_conditions": [
+        "block Design handoff if a consequential mechanism decision remains unresolved"
+      ]
+    },
+    {
+      "step_id": "S6",
+      "name": "Resolve human blocker decisions",
+      "capability_ref": "decision-gate",
+      "capability_status": "candidate",
+      "mode": "product-definition",
+      "pattern": "decision",
+      "parallel": false,
+      "depends_on_steps": [
+        "S5"
+      ],
+      "techniques": [
+        "sequence",
+        "residue_ledger",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/DEFINE-DISTILL-VALIDATION.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "D-001-product-mechanism"
+        }
+      ],
+      "join_policy": "human_gate",
+      "evidence_artifact": "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md",
+      "stop_conditions": [
+        "ask exactly one blocker question at a time",
+        "do not treat explanation, silence, or route confirmation as a product choice",
+        "block Design until all Define-critical decisions are resolved"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1-route",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "The full Define dispatch validates with explicit private-context, owner, evidence, and promotion boundaries.",
+      "requires_role_receipts": [
+        "S1.dispatch-validation"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2-define-contract",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Spec, glossary, template selection, context, layering seed or gap, technique trace, Distill result, and decision ledger exist without implementation claims.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3-product-mechanism",
+      "kind": "human_approval",
+      "owner": "product owner",
+      "condition": "A real product mechanism is selected from the Experiment Exchange and Clinic-only alternatives.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "G4-design-handoff",
+      "kind": "promotion_guardrail",
+      "owner": "invoke and product owner",
+      "condition": "No Design handoff occurs while a Define-critical decision or owner assignment remains unresolved.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "2026-07-25-co-op-engine-portfolio-research",
+    "trace_events": [
+      "dispatch_validated",
+      "define_context_built",
+      "template_selected",
+      "define_artifacts_authored",
+      "define_distill_completed",
+      "decision_asked",
+      "decision_recorded",
+      "define_handoff_blocked_or_opened"
+    ],
+    "signal_grouping": "dispatch_id + step_id + run_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-private-evidence",
+        "kind": "external_context",
+        "from_owner": "private parent research package",
+        "to_owner": "private Invoke Define package",
+        "applies_to_steps": [
+          "S2",
+          "S4",
+          "S5",
+          "S6"
+        ],
+        "contract": "Private project evidence may inform this package but cannot be copied into a reusable public Arcanum derivative without owner-routed scrubbing.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2-authoring-product",
+        "kind": "capability_handoff",
+        "from_owner": "Invoke",
+        "to_owner": "Co-Op product lifecycle owner",
+        "applies_to_steps": [
+          "S4",
+          "S6"
+        ],
+        "contract": "Invoke authors candidates and records decisions; the product owner approves mechanism, policy, naming, and Design handoff.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3-human-decision",
+        "kind": "human_approval",
+        "from_owner": "decision-gate",
+        "to_owner": "product owner",
+        "applies_to_steps": [
+          "S6"
+        ],
+        "contract": "A selected real option with recorded rationale is required; explanation, silence, or generic route confirmation is not consent.",
+        "on_violation": "ask"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Co-Op product owner",
+      "execution": "Invoke authors Define artifacts only",
+      "validation": "Dispatch Spec plus artifact and link checks",
+      "evidence": "accepted research package and explicit human decision record",
+      "memory": "Inventory remains non-authority discovery context",
+      "promotion": "human owner approval after later witnessed audits"
+    },
+    "receipts": [
+      {
+        "receipt_id": "define-route-validation",
+        "producer": "dispatch-spec",
+        "required_fields": [
+          "dispatch_id",
+          "status",
+          "validation",
+          "blockers"
+        ],
+        "stores": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/dispatch-validation.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "product-mechanism-decision",
+        "producer": "product owner through decision-gate",
+        "required_fields": [
+          "status",
+          "approval_record",
+          "blockers",
+          "handoff_note"
+        ],
+        "stores": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "research, Define artifacts, proposed acceptance contracts, and candidate copy rules",
+        "target": "implemented product, validated audit, public copy, publication, or reusable public Arcanum package",
+        "rule": "Each target requires its named downstream lifecycle owner and witnessed evidence; no automatic promotion.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No implementation mutation in Invoke Define.",
+    "No public copy from research or Define artifacts.",
+    "No autonomous matching, AI collaborator, generic knowledge graph, or agentic writer-studio claim.",
+    "No Design handoff before explicit product mechanism and owner decisions."
+  ]
+}

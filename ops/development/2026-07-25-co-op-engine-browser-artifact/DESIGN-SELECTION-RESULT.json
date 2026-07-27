@@ -1,0 +1,377 @@
+{
+  "concerns": [
+    {
+      "concern_id": "concern:authority",
+      "disposition": "required",
+      "output_id": "architecture:authority-trust",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "co-op-design-owner",
+        "contributing_owners": [
+          "project-owners",
+          "privacy-auditor"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md",
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/GLOSSARY.md",
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "authority",
+      "rationale": "Record admission, restricted deployment, and owner veto are privileged decisions.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:authority",
+        "signal:effect:restricted-production-deployment",
+        "signal:normative-rule:claim-ceiling",
+        "signal:normative-rule:record-admission"
+      ]
+    },
+    {
+      "concern_id": "concern:security",
+      "disposition": "required",
+      "output_id": "architecture:security-abuse",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "co-op-design-owner",
+        "contributing_owners": [
+          "privacy-auditor",
+          "sites-access-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "security",
+      "rationale": "Restricted hosting and field-level visibility create explicit trust and abuse boundaries.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:security",
+        "signal:interface:sites-access-control"
+      ]
+    },
+    {
+      "concern_id": "concern:state-event",
+      "disposition": "required",
+      "output_id": "architecture:state-event",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "co-op-design-owner",
+        "contributing_owners": [
+          "project-owners",
+          "participants"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "state-event",
+      "rationale": "Reciprocity, expiry, stale, refresh, appointment, and receipt semantics require legal and forbidden transitions.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:state-event",
+        "signal:normative-rule:reciprocal-transition"
+      ]
+    },
+    {
+      "concern_id": "concern:persistence",
+      "disposition": "required",
+      "output_id": "architecture:persistence-concurrency",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "co-op-design-owner",
+        "contributing_owners": [
+          "project-owners",
+          "participants",
+          "privacy-auditor"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "persistence",
+      "rationale": "Compiled truth, session drafts, and receipts have different writers, retention, and concurrency rules.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:persistence",
+        "signal:store:admitted-record-bundle",
+        "signal:store:receipt-ledger",
+        "signal:store:session-draft-store",
+        "signal:writer:exchange-state-machine",
+        "signal:writer:participant-draft-controller",
+        "signal:writer:record-compiler"
+      ]
+    },
+    {
+      "concern_id": "concern:failure",
+      "disposition": "required",
+      "output_id": "architecture:failure-compensation",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "co-op-design-owner",
+        "contributing_owners": [
+          "sites-access-owner",
+          "participants"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "failure",
+      "rationale": "Deployment and offer submission are external effects with timeout, refusal, and recovery obligations.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:failure",
+        "signal:effect:participant-offer-submission"
+      ]
+    },
+    {
+      "concern_id": "concern:integration",
+      "disposition": "required",
+      "output_id": "architecture:integration-versioning",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "co-op-design-owner",
+        "contributing_owners": [
+          "project-owners",
+          "sites-access-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "integration",
+      "rationale": "Browser history, project-source adapters, and hosting evolve independently and need explicit contracts.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:integration",
+        "signal:interface:browser-route",
+        "signal:interface:project-source-adapter"
+      ]
+    },
+    {
+      "concern_id": "concern:rollout",
+      "disposition": "required",
+      "output_id": "architecture:migration-rollout",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "co-op-design-owner",
+        "contributing_owners": [
+          "privacy-auditor",
+          "publication-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "rollout",
+      "rationale": "Access-restricted production and later public release are separate release states.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:rollout",
+        "signal:deployment:sites-restricted-production"
+      ]
+    },
+    {
+      "concern_id": "concern:privacy-data",
+      "disposition": "required",
+      "output_id": "architecture:data-lifecycle",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "co-op-design-owner",
+        "contributing_owners": [
+          "privacy-auditor",
+          "participants"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "privacy-data",
+      "rationale": "Visibility classes must survive DOM, network, storage, export, screenshot, and trace surfaces.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:privacy-data",
+        "signal:data-log-sink:browser-session-memory",
+        "signal:data-log-sink:diagnostic-trace",
+        "signal:data-log-sink:rendered-dom"
+      ]
+    },
+    {
+      "concern_id": "concern:performance",
+      "disposition": "required",
+      "output_id": "architecture:quality",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "co-op-design-owner",
+        "contributing_owners": [
+          "cold-readers",
+          "privacy-auditor"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/CONTEXT.md",
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/GLOSSARY.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "performance",
+      "rationale": "Black-box, comprehension, and copy quality claims require explicit measurable scenarios.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:performance",
+        "signal:quality-claim:black-box-browser-contract",
+        "signal:quality-claim:copy-coherence-contract",
+        "signal:quality-claim:two-profile-comprehension-contract"
+      ]
+    },
+    {
+      "concern_id": "concern:ux",
+      "disposition": "required",
+      "output_id": "ux-plan",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "ux-plan-owner",
+        "contributing_owners": [
+          "technical-builder-reader",
+          "domain-practitioner-reader",
+          "facilitator"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "ux",
+      "rationale": "Natural people read, navigate, decide, act, and recover through new semantic browser surfaces.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:ux",
+        "signal:human-actor:domain-practitioner",
+        "signal:human-actor:facilitator",
+        "signal:human-actor:project-owner",
+        "signal:human-actor:technical-builder",
+        "signal:rendered-surface:facilitated-presentation",
+        "signal:rendered-surface:offer-composer",
+        "signal:rendered-surface:presenter-notes",
+        "signal:rendered-surface:receipt-view",
+        "signal:rendered-surface:self-guided-page"
+      ]
+    },
+    {
+      "concern_id": "concern:validation",
+      "disposition": "required",
+      "output_id": "validation-contracts",
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "artifact_owner": "plan-work-pack-owner",
+        "contributing_owners": [
+          "privacy-auditor",
+          "cold-readers",
+          "copy-reviewer"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "validation",
+      "rationale": "Planned witnesses must remain separate from Plan execution evidence and cover known-good, known-bad, and false-positive cases.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "concern:validation",
+        "signal:acceptance-readiness-claim:privacy-negative-fixtures-planned",
+        "signal:acceptance-readiness-claim:projection-equivalence-fixtures-planned",
+        "signal:acceptance-readiness-claim:state-transition-fixtures-planned",
+        "signal:normative-rule:visibility-projection"
+      ]
+    }
+  ],
+  "denominator_receipt_digest": "3c72ded0ee54ebfb22dd4c2780a1c3c3f4bafd601ff26d1ce3d1cb26af746704",
+  "diagnostics": [],
+  "evidence_state": "design-validator-pass",
+  "fixed_point": true,
+  "manifest_id": "co-op-engine-browser-design-v1",
+  "manifest_input_digest": "f2a4f30c2c68f56fe62c2cd3388afd74553f9b07cdebbef8581b336c11ab19e3",
+  "pass_1_digest": "692971953d2bfcd2320f6990fb2c391dfc01c557a711944827307ee3e8b819a7",
+  "pass_2_digest": "692971953d2bfcd2320f6990fb2c391dfc01c557a711944827307ee3e8b819a7",
+  "result_digest": "741ca6074abbe50afb90018c758560a053be152a8a4aaea298c54126ec5da8cf",
+  "schema_version": "1.0.0",
+  "selected_outputs": [
+    "architecture",
+    "architecture:authority-trust",
+    "architecture:data-lifecycle",
+    "architecture:failure-compensation",
+    "architecture:integration-versioning",
+    "architecture:migration-rollout",
+    "architecture:persistence-concurrency",
+    "architecture:quality",
+    "architecture:security-abuse",
+    "architecture:state-event",
+    "ux-plan",
+    "validation-contracts"
+  ],
+  "verdict": "pass"
+}

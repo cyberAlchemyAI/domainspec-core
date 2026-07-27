@@ -1,0 +1,118 @@
+{
+  "dispatch_id": "2026-07-26-cyberalchemy-collaboration-portfolio-frontend-review",
+  "schema_version": "0.7.0",
+  "dispatch_type": "review",
+  "goal": "Review the deployed CyberAlchemy frontend and produce verified change requests that remove visible Co-Op Engine and meta-conversation framing, reposition the page as a collaboration-recruitment portfolio, and make hello@cyberalchemize.com and the CyberAlchemy LinkedIn page clear, safe contact paths.",
+  "context": "The current source is projects/co-op-engine/index.html and the public target is https://cyberalchemize.com/. The page already presents fourteen projects and has a working presentation mode, but its visible brand, meeting copy, page-cue narration, and footer still describe a Co-Op review prototype; it has no direct email or LinkedIn action. The user requires a collaboration portfolio for technical builders and domain practitioners such as writers and musicians, with low jargon and no inflated project or recruitment claims. This review is read-only: it produces attacks.md and findings.md; implementation and redeployment happen only after accepted findings.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "anti_bias_global": "conversion clarity versus portfolio comprehension versus accessibility and claim-bounded trust",
+  "working_folder": "ops/development/2026-07-26-cyberalchemy-collaboration-portfolio-frontend-review/",
+  "groups": [
+    {
+      "group_id": "attackers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "methodology",
+      "agents": [
+        {
+          "agent_name": "Peirce, Charles Sanders",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1800,
+          "angle": "Methodology value: task-based conversion walkthrough from arrival to project choice to contact. Against Alexander's hierarchical content trace, it predicts that completeness-preserving structures may hide the primary action and exposes an information-completeness bias; Alexander can expose this method's risk of deleting context needed for an informed choice. Against Kahneman's standards-based black-box falsification, it predicts that formal compliance may still leave contact discovery slow and exposes a compliance-sufficiency bias; Kahneman can expose this method's risk of optimizing speed at the expense of accessible state and trust.",
+          "initial_prompt": "Act as the product and conversion attacker using a task-based walkthrough methodology: arrive cold, identify CyberAlchemy, choose a relevant project, understand a contribution, and reach contact. Read the full current projects/co-op-engine/index.html, inspect https://cyberalchemize.com/, and use only these Inventory fields: the verified showcase result's stable-project-truth versus volatile-welcome-state rule; the prior portfolio result's separation of working UI from recruitment outcome; and the packet gaps for cold-reader and contact conversion evidence. Inventory is non-authority discovery context; every finding must be established against the current source or live behavior. Attack the page as a collaboration-recruitment portfolio: inventory every visible Co-Op Engine reference and meta-conversation label; test whether a first-time visitor understands who CyberAlchemy is, what the fourteen projects are, how they might contribute, and how to contact the team. Treat removal of visible Co-Op branding and addition of mailto:hello@cyberalchemize.com plus https://www.linkedin.com/company/cyberalchemyai/ as fixed requirements. Challenge meeting-centric sections, CTA hierarchy, contact visibility, mobile flow, and proof boundaries. Attack the whole page; do not edit it. Return cited findings with exact file/selector evidence, severity, one-line proposed fix, attempted attacks that survived, and an explicit initial position. After robot talks, provide a final position noting any change. Budget about 1800 tokens."
+        },
+        {
+          "agent_name": "Alexander, Christopher",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1800,
+          "angle": "Methodology value: hierarchical content inventory and progressive-disclosure trace across 10-second, 30-second, and deep-detail layers. Against Peirce's task walkthrough, it predicts that contact-first simplification may erase the evidence needed for self-selection and exposes a conversion-speed bias; Peirce can expose this method's tendency to preserve structure that obscures action. Against Kahneman's standards-based black-box falsification, it predicts that semantically coherent content can justify moving boundary language while preserving meaning and exposes a checkability bias; Kahneman can expose labels or state the content trace misses because assistive technology still announces them.",
+          "initial_prompt": "Act as the information-architecture and copy attacker using a hierarchical content inventory and progressive-disclosure trace methodology. Read the entire current projects/co-op-engine/index.html and the live page. Use only these Inventory fields: the verified showcase result's 10-second, 30-second, and deep-detail grammar; its requirement that all fourteen projects share one truth surface; the prior conversational-language audit's regression check against process narration and direct-address coaching; and the packet gap that no current cold-reader retellability evidence exists. Inventory is non-authority discovery context; every finding must be established against the current source or live behavior. Attack visible meta-narration such as Page cue, Orienting, Choosing, Opening, Testing, Inviting, and Closing; distinguish visitor-facing copy from useful internal data-stage metadata and presentation controls. Test whether the page works as a CyberAlchemy portfolio and recruitment surface for technical builders plus writers, musicians, and other domain practitioners without jargon. Treat removal of visible Co-Op branding and inclusion of the supplied email and LinkedIn destinations as fixed. Attack the whole page, including every project opening; do not edit it. Return exact cited findings, severity, one-line proposed fix, KEEP/FIX candidates, survived attacks, and initial/final robot-talk positions. Budget about 1800 tokens."
+        },
+        {
+          "agent_name": "Kahneman, Daniel",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1800,
+          "angle": "Methodology value: standards-based DOM and black-box falsification over keyboard, focus, accessible names, responsive state, link destinations, console, and network. Against Peirce's task walkthrough, it predicts that a faster funnel can silently regress accessible state or overclaim trust and exposes a happy-path bias; Peirce can expose formally passing mechanics that still make contact hard to discover. Against Alexander's content trace, it predicts that visually removed narration can survive in accessible names or scripts and exposes a visual-semantic bias; Alexander can expose this method's tendency to preserve boundary text that harms comprehension.",
+          "initial_prompt": "Act as the accessibility, interaction, and trust attacker using a standards-based DOM and black-box falsification methodology. Read the full current HTML, inspect the live page, and examine output/playwright/ux-validator/co-op-showcase-20260726/deployment/live-acceptance.json. Use only these Inventory fields: the prior portfolio result's separation of browser, copy, human-understanding, and recruitment evidence; the conversational-language audit's rule to preserve useful navigation/status aids while removing coaching; and the packet gaps for missing mailto/LinkedIn black-box coverage. Inventory is non-authority discovery context; every finding must be established against the current source or live behavior. Attack keyboard/focus behavior, aria-live behavior, presentation state, heading and link semantics, contact-link safety and clarity, mobile CTA access, privacy implications, and unsupported claims. Treat removal of visible Co-Op branding and meta-conversation labels as fixed, but identify any hidden or accessible names that also require renaming. Specify black-box checks for mailto:hello@cyberalchemize.com and https://www.linkedin.com/company/cyberalchemyai/. Attack the whole page; do not edit it. Return cited findings with severity and proposed fix, survived attacks, and explicit initial/final robot-talk positions. Budget about 1800 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "MacIntyre, Alasdair",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2400,
+          "initial_prompt": "Synthesize the attackers' complete initial and final robot-talk positions into candidate review findings. Use the packet's selected-versus-excluded boundary and unresolved gaps, but verify every candidate against the literal current source or live behavior cited by the attackers. Deduplicate findings; distinguish fixed requirements (remove visible Co-Op branding and meta-conversation labels, add the supplied email and LinkedIn contact paths) from optional structural recommendations (for example, whether the 45-minute meeting route remains as a generic collaboration process). Rank only CRITICAL, MAJOR, or MINOR under the review taxonomy. Preserve the fourteen-project portfolio, presentation capability, low-jargon audience, accessibility, and claim boundaries. Prepare a candidate per-artifact KEEP/FIX matrix and ordered change-request list for the verifiers; do not edit the frontend. Budget about 2400 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "verifiers",
+      "n": 2,
+      "anti_bias": "attack-vector",
+      "agents": [
+        {
+          "agent_name": "Popper, Karl",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1800,
+          "angle": "Scope and literal-evidence falsification: likely to reject findings that infer more than the user's fixed requirements, erase useful project or presentation content, or treat Inventory summaries as proof; expects to disagree with the browser verifier on recommendations that are semantically justified but not behaviorally testable.",
+          "initial_prompt": "Falsify the candidate findings against the literal user requirements, projects/co-op-engine/index.html, and current live page. Use only the packet's source references and non-authority notice. For each candidate, verify the quoted evidence, severity, and proposed fix; drop anything not established. Specifically challenge over-removal: the user requires no visible Co-Op Engine/meta-conversation framing and a collaboration portfolio, but did not automatically require deleting all useful presentation or collaboration-process mechanics. Check all fourteen projects remain understandable and claims remain proof-bounded. Return objections or an explicit no-objection verdict for each finding; do not edit files. Budget about 1800 tokens."
+        },
+        {
+          "agent_name": "Quine, Willard Van Orman",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1800,
+          "angle": "Behavioral counterexample and accessibility falsification: likely to reject recommendations that cannot be covered by black-box tests or that break focus, presentation, link safety, responsive layout, or accessible naming; expects to disagree with the scope verifier where literal copy compliance still leaves a broken visitor action.",
+          "initial_prompt": "Falsify the candidate findings through browser and accessibility counterexamples. Inspect the current page and existing live-acceptance evidence, then determine whether each proposed change can be verified without claiming comprehension or recruitment outcomes. Require concrete black-box acceptance checks for no visible or accessible Co-Op residue, no visible meta-cue strip, preserved project filtering/details/presentation/focus/mobile behavior, a mailto link whose href is exactly mailto:hello@cyberalchemize.com, and a LinkedIn link whose destination is exactly https://www.linkedin.com/company/cyberalchemyai/ with safe external-link behavior. Drop findings whose evidence or severity fails. Return objections or an explicit no-objection verdict for each finding; do not edit files. Budget about 1800 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "coverage-auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.6-terra",
+          "token_budget": 1400,
+          "initial_prompt": "Act only as the downstream coverage auditor. Read the full working folder after verification. Confirm attacks.md preserves all three attackers' initial and final positions plus verifier returns; every declared lens attacked the whole target; all fourteen projects, the hero/nav, meeting/process section, join CTA, proof boundary, footer, presentation controls, mobile behavior, accessible names, and the two exact contact destinations were covered; refuted findings were dropped; surviving findings quote the current artifact and carry severity plus one-line fix; and the zero-findings red flag was fired if applicable. Recommend accept or reject to the parent final approver. Do not create new findings or edit the frontend. Budget about 1400 tokens."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "attackers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "verifiers",
+      "type": "zig-zag",
+      "loop_cap": 1
+    },
+    {
+      "from": "synthesizer",
+      "to": "attackers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "verifiers",
+      "to": "coverage-auditor",
+      "type": "sequential"
+    }
+  ]
+}

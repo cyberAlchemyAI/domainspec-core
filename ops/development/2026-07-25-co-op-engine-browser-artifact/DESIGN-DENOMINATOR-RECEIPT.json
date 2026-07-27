@@ -1,0 +1,543 @@
+{
+  "authored_concern_ids": [
+    "concern:authority",
+    "concern:failure",
+    "concern:integration",
+    "concern:performance",
+    "concern:persistence",
+    "concern:privacy-data",
+    "concern:rollout",
+    "concern:security",
+    "concern:state-event",
+    "concern:ux",
+    "concern:validation"
+  ],
+  "denominator_signal_ids": [
+    "concern:authority",
+    "concern:failure",
+    "concern:integration",
+    "concern:performance",
+    "concern:persistence",
+    "concern:privacy-data",
+    "concern:rollout",
+    "concern:security",
+    "concern:state-event",
+    "concern:ux",
+    "concern:validation",
+    "signal:acceptance-readiness-claim:privacy-negative-fixtures-planned",
+    "signal:acceptance-readiness-claim:projection-equivalence-fixtures-planned",
+    "signal:acceptance-readiness-claim:state-transition-fixtures-planned",
+    "signal:data-log-sink:browser-session-memory",
+    "signal:data-log-sink:diagnostic-trace",
+    "signal:data-log-sink:rendered-dom",
+    "signal:deployment:sites-restricted-production",
+    "signal:effect:participant-offer-submission",
+    "signal:effect:restricted-production-deployment",
+    "signal:human-actor:domain-practitioner",
+    "signal:human-actor:facilitator",
+    "signal:human-actor:project-owner",
+    "signal:human-actor:technical-builder",
+    "signal:interface:browser-route",
+    "signal:interface:project-source-adapter",
+    "signal:interface:sites-access-control",
+    "signal:normative-rule:claim-ceiling",
+    "signal:normative-rule:reciprocal-transition",
+    "signal:normative-rule:record-admission",
+    "signal:normative-rule:visibility-projection",
+    "signal:quality-claim:black-box-browser-contract",
+    "signal:quality-claim:copy-coherence-contract",
+    "signal:quality-claim:two-profile-comprehension-contract",
+    "signal:rendered-surface:facilitated-presentation",
+    "signal:rendered-surface:offer-composer",
+    "signal:rendered-surface:presenter-notes",
+    "signal:rendered-surface:receipt-view",
+    "signal:rendered-surface:self-guided-page",
+    "signal:store:admitted-record-bundle",
+    "signal:store:receipt-ledger",
+    "signal:store:session-draft-store",
+    "signal:writer:exchange-state-machine",
+    "signal:writer:participant-draft-controller",
+    "signal:writer:record-compiler"
+  ],
+  "detector_id": "invoke-design-scope-extractor",
+  "detector_owner": "spellcraft",
+  "detector_version": "1.0.0",
+  "diagnostics": [],
+  "extracted_signals": [
+    {
+      "attributes": {
+        "evidence_state": "authored-complete",
+        "selector": "route-dom-network-storage-export-screenshot-trace"
+      },
+      "signal_class": "acceptance-readiness-claim",
+      "signal_id": "signal:acceptance-readiness-claim:privacy-negative-fixtures-planned",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "evidence_state": "authored-complete",
+        "selector": "same-record-self-guided-and-facilitated"
+      },
+      "signal_class": "acceptance-readiness-claim",
+      "signal_id": "signal:acceptance-readiness-claim:projection-equivalence-fixtures-planned",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "evidence_state": "authored-complete",
+        "selector": "interest-candidate-pair-bilateral-appointment-receipt"
+      },
+      "signal_class": "acceptance-readiness-claim",
+      "signal_id": "signal:acceptance-readiness-claim:state-transition-fixtures-planned",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "data_classes": [
+          "assigned_collaborator",
+          "participant_private"
+        ],
+        "retention_hint": "current session only unless an explicit reciprocal submission succeeds"
+      },
+      "signal_class": "data-log-sink",
+      "signal_id": "signal:data-log-sink:browser-session-memory",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "data_classes": [
+          "public",
+          "owner_private"
+        ],
+        "retention_hint": "build or validation run only; participant-private fields prohibited"
+      },
+      "signal_class": "data-log-sink",
+      "signal_id": "signal:data-log-sink:diagnostic-trace",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "data_classes": [
+          "public",
+          "meeting_visible"
+        ],
+        "retention_hint": "document lifetime; browser caches must contain only permitted projection"
+      },
+      "signal_class": "data-log-sink",
+      "signal_id": "signal:data-log-sink:rendered-dom",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "environment": "Sites production",
+        "release_mode": "access-restricted until all audit and publication gates pass"
+      },
+      "signal_class": "deployment",
+      "signal_id": "signal:deployment:sites-restricted-production",
+      "source_digest": "5e6a58144c323d24a841080d699488f9eeb916fd8b6b8fe7c30f6ab4185ba946",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md"
+    },
+    {
+      "attributes": {
+        "external": true,
+        "privileged": false,
+        "reversible": false
+      },
+      "signal_class": "effect",
+      "signal_id": "signal:effect:participant-offer-submission",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "external": true,
+        "privileged": true,
+        "reversible": true
+      },
+      "signal_class": "effect",
+      "signal_id": "signal:effect:restricted-production-deployment",
+      "source_digest": "5e6a58144c323d24a841080d699488f9eeb916fd8b6b8fe7c30f6ab4185ba946",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md"
+    },
+    {
+      "attributes": {
+        "acts": true,
+        "assistive_operation": true,
+        "decides": true,
+        "natural_person": true,
+        "navigates": true,
+        "reads": true,
+        "recovers": true,
+        "surfaces": [
+          "self-guided-page",
+          "offer-composer",
+          "receipt-view"
+        ]
+      },
+      "signal_class": "human-actor",
+      "signal_id": "signal:human-actor:domain-practitioner",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "acts": true,
+        "assistive_operation": true,
+        "decides": true,
+        "natural_person": true,
+        "navigates": true,
+        "reads": true,
+        "recovers": true,
+        "surfaces": [
+          "facilitated-presentation",
+          "presenter-notes",
+          "appointment-readback"
+        ]
+      },
+      "signal_class": "human-actor",
+      "signal_id": "signal:human-actor:facilitator",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "acts": true,
+        "assistive_operation": false,
+        "decides": true,
+        "natural_person": true,
+        "navigates": true,
+        "reads": true,
+        "recovers": true,
+        "surfaces": [
+          "card-review",
+          "appointment-readback",
+          "receipt-view"
+        ]
+      },
+      "signal_class": "human-actor",
+      "signal_id": "signal:human-actor:project-owner",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "acts": true,
+        "assistive_operation": true,
+        "decides": true,
+        "natural_person": true,
+        "navigates": true,
+        "reads": true,
+        "recovers": true,
+        "surfaces": [
+          "self-guided-page",
+          "offer-composer",
+          "receipt-view"
+        ]
+      },
+      "signal_class": "human-actor",
+      "signal_id": "signal:human-actor:technical-builder",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "projection-mode-and-selected-project",
+        "direction": "bidirectional",
+        "kind": "browser-local semantic route",
+        "peer": "history-and-url"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:browser-route",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "claim-ceiling-and-source-selector",
+        "direction": "inbound",
+        "kind": "build-time source adapter",
+        "peer": "owner-admitted-project-records"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:project-source-adapter",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "restricted-first-deployment",
+        "direction": "bidirectional",
+        "kind": "authenticated hosting access-control",
+        "peer": "sites-production"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:sites-access-control",
+      "source_digest": "5e6a58144c323d24a841080d699488f9eeb916fd8b6b8fe7c30f6ab4185ba946",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "reject stronger wording and forbidden umbrella terms",
+        "object": "owner-admitted-claim-ceiling",
+        "subject": "copy-and-projection",
+        "verb": "validate"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:claim-ceiling",
+      "source_digest": "40a022de41d6540e53e1cd04bc89e1be32fd0a64f7480094014baf3d9cc4b078",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/GLOSSARY.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "require both confirmations and complete appointment terms",
+        "object": "bilateral-appointment-state",
+        "subject": "candidate-pair",
+        "verb": "transition"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:reciprocal-transition",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "schema validation plus owner decision before record compilation",
+        "object": "owner-verified-project-record",
+        "subject": "portfolio-truth-owner",
+        "verb": "admit"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:record-admission",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "unclassified or disallowed fields are absent before view-model creation",
+        "object": "all-observable-surfaces",
+        "subject": "visibility-projector",
+        "verb": "validate"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:visibility-projection",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "required": true,
+        "source_kind": "planned acceptance",
+        "threshold_or_tradeoff": "known-good passes and known-bad or false-positive fixtures fail for the intended reason across routes, DOM, keyboard, history, network, and screenshots"
+      },
+      "signal_class": "quality-claim",
+      "signal_id": "signal:quality-claim:black-box-browser-contract",
+      "source_digest": "8ba10b7f20ba73f4224b240bf1bb59800a36df803a62ab07b24b33dd67f92949",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/CONTEXT.md"
+    },
+    {
+      "attributes": {
+        "required": true,
+        "source_kind": "planned editorial acceptance",
+        "threshold_or_tradeoff": "project voices remain distinct, claim ceilings hold, jargon has bridges, and unnecessary meta-narration is absent"
+      },
+      "signal_class": "quality-claim",
+      "signal_id": "signal:quality-claim:copy-coherence-contract",
+      "source_digest": "40a022de41d6540e53e1cd04bc89e1be32fd0a64f7480094014baf3d9cc4b078",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/GLOSSARY.md"
+    },
+    {
+      "attributes": {
+        "required": true,
+        "source_kind": "planned human acceptance",
+        "threshold_or_tradeoff": "both a technical builder and a writer or musician can retell the problem, witness, limit, ask, and next action without internal-framework fluency"
+      },
+      "signal_class": "quality-claim",
+      "signal_id": "signal:quality-claim:two-profile-comprehension-contract",
+      "source_digest": "8ba10b7f20ba73f4224b240bf1bb59800a36df803a62ab07b24b33dd67f92949",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/CONTEXT.md"
+    },
+    {
+      "attributes": {
+        "modality": "responsive browser presentation projection",
+        "semantic_change": "new",
+        "semantic_contract_ref": "SPEC.md#selected-meeting-route"
+      },
+      "signal_class": "rendered-surface",
+      "signal_id": "signal:rendered-surface:facilitated-presentation",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "modality": "structured conversational form",
+        "semantic_change": "new",
+        "semantic_contract_ref": "SPEC.md#state-contract"
+      },
+      "signal_class": "rendered-surface",
+      "signal_id": "signal:rendered-surface:offer-composer",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "modality": "facilitator-only browser panel",
+        "semantic_change": "new",
+        "semantic_contract_ref": "SPEC.md#projection-invariants"
+      },
+      "signal_class": "rendered-surface",
+      "signal_id": "signal:rendered-surface:presenter-notes",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "modality": "browser evidence summary",
+        "semantic_change": "new",
+        "semantic_contract_ref": "SPEC.md#state-contract"
+      },
+      "signal_class": "rendered-surface",
+      "signal_id": "signal:rendered-surface:receipt-view",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "modality": "responsive browser document",
+        "semantic_change": "new",
+        "semantic_contract_ref": "SPEC.md#self-guided-route"
+      },
+      "signal_class": "rendered-surface",
+      "signal_id": "signal:rendered-surface:self-guided-page",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "authority": "project-owner-veto-and-portfolio-owner-admission",
+        "data_classes": [
+          "public",
+          "meeting_visible",
+          "owner_private"
+        ],
+        "writers": [
+          "record-compiler"
+        ]
+      },
+      "signal_class": "store",
+      "signal_id": "signal:store:admitted-record-bundle",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "authority": "project-owner-and-participant",
+        "data_classes": [
+          "assigned_collaborator",
+          "participant_private",
+          "owner_private"
+        ],
+        "writers": [
+          "exchange-state-machine"
+        ]
+      },
+      "signal_class": "store",
+      "signal_id": "signal:store:receipt-ledger",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "authority": "participant",
+        "data_classes": [
+          "participant_private",
+          "assigned_collaborator"
+        ],
+        "writers": [
+          "participant-draft-controller"
+        ]
+      },
+      "signal_class": "store",
+      "signal_id": "signal:store:session-draft-store",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "concurrency": "optimistic revision check and idempotent transition identifier",
+        "targets": [
+          "receipt-ledger"
+        ]
+      },
+      "signal_class": "writer",
+      "signal_id": "signal:writer:exchange-state-machine",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "concurrency": "one browser session with explicit discard",
+        "targets": [
+          "session-draft-store"
+        ]
+      },
+      "signal_class": "writer",
+      "signal_id": "signal:writer:participant-draft-controller",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    },
+    {
+      "attributes": {
+        "concurrency": "single deterministic build from reviewed sources",
+        "targets": [
+          "admitted-record-bundle"
+        ]
+      },
+      "signal_class": "writer",
+      "signal_id": "signal:writer:record-compiler",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37",
+      "source_selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md"
+    }
+  ],
+  "inspected_selectors": [
+    {
+      "path": "ops/development/2026-07-25-co-op-engine-browser-artifact/CONTEXT.md",
+      "selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/CONTEXT.md",
+      "source_digest": "8ba10b7f20ba73f4224b240bf1bb59800a36df803a62ab07b24b33dd67f92949"
+    },
+    {
+      "path": "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md",
+      "selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/DECISIONS.md",
+      "source_digest": "5e6a58144c323d24a841080d699488f9eeb916fd8b6b8fe7c30f6ab4185ba946"
+    },
+    {
+      "path": "ops/development/2026-07-25-co-op-engine-browser-artifact/GLOSSARY.md",
+      "selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/GLOSSARY.md",
+      "source_digest": "40a022de41d6540e53e1cd04bc89e1be32fd0a64f7480094014baf3d9cc4b078"
+    },
+    {
+      "path": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md",
+      "selector": "ops/development/2026-07-25-co-op-engine-browser-artifact/SPEC.md",
+      "source_digest": "5964310e47692df81cdbe66eb68e103fd328628790d7899fbdebd4afd9b03a37"
+    },
+    {
+      "path": "ops/development/2026-07-25-co-op-engine-portfolio-research/findings.md",
+      "selector": "ops/development/2026-07-25-co-op-engine-portfolio-research/findings.md",
+      "source_digest": "fc203d4e125452180a2c3b1c6594da66fa9d542ca4bd2a7503b19fe1eba59cc8"
+    }
+  ],
+  "manifest_authored_by": "vrondelli",
+  "manifest_id": "co-op-engine-browser-design-v1",
+  "manifest_input_digest": "f2a4f30c2c68f56fe62c2cd3388afd74553f9b07cdebbef8581b336c11ab19e3",
+  "missing_detector_inputs": [],
+  "receipt_digest": "3c72ded0ee54ebfb22dd4c2780a1c3c3f4bafd601ff26d1ce3d1cb26af746704",
+  "schema_version": "1.0.0",
+  "unbound_signal_ids": [],
+  "validator_owner": "invoke-design-selection-validator",
+  "verdict": "pass"
+}

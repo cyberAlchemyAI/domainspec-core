@@ -1,0 +1,53 @@
+{
+  "activationSource": "direct-user",
+  "blockers": [],
+  "handoffStatus": "ready",
+  "materialPackage": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "expectedPackageDigest": "be620fbf3d2105c0857f9fedd72d280e59582ff0f94aa65a0a1b6348998503be",
+    "expectedPackageId": "co-op-engine-l0-html-refresh-20260726T050953Z",
+    "lifecycleOwner": "co-op-engine-product-owner",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "be620fbf3d2105c0857f9fedd72d280e59582ff0f94aa65a0a1b6348998503be",
+    "packageId": "co-op-engine-l0-html-refresh-20260726T050953Z",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "internal",
+    "receiptPresent": true,
+    "required": true,
+    "schemaValid": true,
+    "validatedPaths": [
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/CLOSEOUT-SYNC-CONTRACT.json",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/EXECUTION-PACK.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/IMPLEMENTATION-LAYERING.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/PLAN-DISTILL-VALIDATION.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/SWU-MANIFEST.json",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/VALIDATION-STRATEGY.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/WORK-PACK.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/session-evidence/20260726T044915Z-swu-coop-001/CONTEXT-PACK.index.json",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/session-evidence/20260726T044915Z-swu-coop-001/CONTEXT-PACK.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/shared/context.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/shared/cross-task-decisions.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/shared/cross-task-gaps.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/shared/traceability.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/tasks/TASK-COOP-L0-HTML-PROTOTYPE.md",
+      "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/waves/W2.md"
+    ],
+    "validationCommands": [
+      "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/refresh.dispatch.json",
+      "python3 -m json.tool ops/development/2026-07-25-co-op-engine-browser-artifact/SWU-MANIFEST.json",
+      "python3 -m json.tool ops/development/2026-07-25-co-op-engine-browser-artifact/CLOSEOUT-SYNC-CONTRACT.json",
+      "python3 -m json.tool ops/development/2026-07-25-co-op-engine-browser-artifact/session-evidence/20260726T044915Z-swu-coop-001/CONTEXT-PACK.index.json",
+      "jq -e '.selected_swu_id == \"SWU-COOP-001\" and ([.swus[] | select(.selection_status? == \"planned-unselected\")] | length) == 1' ops/development/2026-07-25-co-op-engine-browser-artifact/SWU-MANIFEST.json",
+      "test \"$(rg -o '\\| `[a-z0-9-]+` \\|' ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/tasks/TASK-COOP-L0-HTML-PROTOTYPE.md | wc -l)\" -eq 14",
+      "git diff --check -- ops/development/2026-07-25-co-op-engine-browser-artifact"
+    ]
+  },
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "mutationReady": true,
+  "phaseStatus": "pass",
+  "schemaVersion": "1.0.0"
+}

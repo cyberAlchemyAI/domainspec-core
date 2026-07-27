@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0.0",
+  "concerns": [
+    {
+      "concern_id": "concern:authority",
+      "primary_class": "authority",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["project-owners", "privacy-auditor"],
+        "artifact_owner": "co-op-design-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Record admission, restricted deployment, and owner veto are privileged decisions."
+    },
+    {
+      "concern_id": "concern:security",
+      "primary_class": "security",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["privacy-auditor", "sites-access-owner"],
+        "artifact_owner": "co-op-design-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Restricted hosting and field-level visibility create explicit trust and abuse boundaries."
+    },
+    {
+      "concern_id": "concern:state-event",
+      "primary_class": "state-event",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["project-owners", "participants"],
+        "artifact_owner": "co-op-design-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Reciprocity, expiry, stale, refresh, appointment, and receipt semantics require legal and forbidden transitions."
+    },
+    {
+      "concern_id": "concern:persistence",
+      "primary_class": "persistence",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["project-owners", "participants", "privacy-auditor"],
+        "artifact_owner": "co-op-design-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Compiled truth, session drafts, and receipts have different writers, retention, and concurrency rules."
+    },
+    {
+      "concern_id": "concern:failure",
+      "primary_class": "failure",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["sites-access-owner", "participants"],
+        "artifact_owner": "co-op-design-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Deployment and offer submission are external effects with timeout, refusal, and recovery obligations."
+    },
+    {
+      "concern_id": "concern:integration",
+      "primary_class": "integration",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["project-owners", "sites-access-owner"],
+        "artifact_owner": "co-op-design-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Browser history, project-source adapters, and hosting evolve independently and need explicit contracts."
+    },
+    {
+      "concern_id": "concern:rollout",
+      "primary_class": "rollout",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["privacy-auditor", "publication-owner"],
+        "artifact_owner": "co-op-design-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Access-restricted production and later public release are separate release states."
+    },
+    {
+      "concern_id": "concern:privacy-data",
+      "primary_class": "privacy-data",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["privacy-auditor", "participants"],
+        "artifact_owner": "co-op-design-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Visibility classes must survive DOM, network, storage, export, screenshot, and trace surfaces."
+    },
+    {
+      "concern_id": "concern:performance",
+      "primary_class": "performance",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["cold-readers", "privacy-auditor"],
+        "artifact_owner": "co-op-design-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Black-box, comprehension, and copy quality claims require explicit measurable scenarios."
+    },
+    {
+      "concern_id": "concern:ux",
+      "primary_class": "ux",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["technical-builder-reader", "domain-practitioner-reader", "facilitator"],
+        "artifact_owner": "ux-plan-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Natural people read, navigate, decide, act, and recover through new semantic browser surfaces."
+    },
+    {
+      "concern_id": "concern:validation",
+      "primary_class": "validation",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "ownership": {
+        "accountable_owner": "vrondelli",
+        "contributing_owners": ["privacy-auditor", "cold-readers", "copy-reviewer"],
+        "artifact_owner": "plan-work-pack-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "rationale": "Planned witnesses must remain separate from Plan execution evidence and cover known-good, known-bad, and false-positive cases."
+    }
+  ]
+}

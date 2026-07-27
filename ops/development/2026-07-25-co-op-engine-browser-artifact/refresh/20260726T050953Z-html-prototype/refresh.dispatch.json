@@ -1,0 +1,358 @@
+{
+  "dispatch_id": "2026-07-26-co-op-engine-l0-html-refresh",
+  "parent_dispatch_id": "2026-07-25-co-op-engine-browser-artifact-define",
+  "intent": {
+    "raw": "Invoke refresh: add an HTML prototype using the projects as L0.",
+    "objective": "Apply an evidence-bounded Plan refresh that adds one unselected L0 HTML-prototype SWU while preserving the selected admission-contract handoff.",
+    "target_artifact": "ops/development/2026-07-25-co-op-engine-browser-artifact/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "context-builder",
+      "distill",
+      "dispatch-spec",
+      "task-session"
+    ],
+    "operator_sentence": "Keep the contract proof selected; add a single-file fourteen-project HTML page/presentation prototype as the next L0 candidate."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "handle_handoff",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "residue_ledger",
+    "concrete_path_evidence",
+    "artifact_contract_bridge",
+    "execution_receipt_handoff",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "The route is a serial artifact refresh with one bounded scope and no independent research lane.",
+    "explanation": "No new delegated work is required; Distill roles are simulated locally because no subagent dispatch was authorized.",
+    "context": [
+      "The fourteen-project research dispatch is already closed.",
+      "The new source signal changes Plan scope but does not require new source discovery."
+    ],
+    "binding_mode": "descriptive",
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "none",
+    "receipt_requirements": []
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "R1",
+      "name": "Select strict refresh evidence",
+      "capability_ref": "context-builder",
+      "mode": "standard-strict",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "handle_handoff",
+        "concrete_path_evidence",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/REFRESH-INTENT.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "ops/development/2026-07-25-co-op-engine-portfolio-research/findings.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/WORK-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/REFRESH-CONTEXT.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block when any refresh obligation lacks evidence",
+        "block if private project material is routed to public output"
+      ]
+    },
+    {
+      "step_id": "R2",
+      "name": "Distill the HTML prototype boundary",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "parallel": false,
+      "depends_on_steps": [
+        "R1"
+      ],
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "roles": [
+        "Proposer",
+        "Balancer"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/REFRESH-CONTEXT.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/IMPLEMENTATION-LAYERING.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/REFRESH-DISTILL-VALIDATION.md"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "one primary browser behavior",
+        "one-file write scope",
+        "no interaction or audit behavior",
+        "recomposition into admitted L1 projections"
+      ],
+      "evidence_artifact": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/REFRESH-DISTILL-VALIDATION.md",
+      "stop_conditions": [
+        "block if the unit bundles independently verifiable interaction, persistence, deployment, or final-copy behavior"
+      ]
+    },
+    {
+      "step_id": "R3",
+      "name": "Validate the staged material package",
+      "capability_ref": "invoke",
+      "mode": "refresh-apply-approved",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": [
+        "R2"
+      ],
+      "techniques": [
+        "artifact_contract_bridge",
+        "owner_boundary_check",
+        "concrete_path_evidence",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/REFRESH-DISTILL-VALIDATION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/material-receipt.json"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/material-receipt.json",
+      "stop_conditions": [
+        "block on package identity, digest, path, dependency, owner, publication, or validation-contract failure"
+      ]
+    },
+    {
+      "step_id": "R4",
+      "name": "Apply and report the scoped refresh",
+      "capability_ref": "invoke",
+      "mode": "refresh",
+      "pattern": "synthesis",
+      "parallel": false,
+      "depends_on_steps": [
+        "R3"
+      ],
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "residue_ledger",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/material-receipt.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/WORK-PACK.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/refresh-report.json"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "do not execute or select SWU-COOP-002",
+        "do not create projects/co-op-engine/prototype.html",
+        "do not claim any browser or human audit passed"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "RG1-context",
+      "kind": "quality",
+      "owner": "context-builder",
+      "condition": "Every refresh obligation is mapped to selected evidence.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "RG2-atomicity",
+      "kind": "validation",
+      "owner": "distill",
+      "condition": "The HTML prototype is a one-file, one-behavior SWU and the selected contract SWU remains narrower and first.",
+      "requires_role_receipts": [
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/REFRESH-DISTILL-VALIDATION.md"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "RG3-material",
+      "kind": "validation",
+      "owner": "invoke",
+      "condition": "The exact staged package and handoff receipt pass every apply-approved gate.",
+      "requires_role_receipts": [
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/material-receipt.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "RG4-lifecycle",
+      "kind": "promotion_guardrail",
+      "owner": "Co-Op Engine product owner",
+      "condition": "Refresh changes Plan artifacts only; implementation, selection, audits, deployment, and publication remain separate.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "2026-07-25-co-op-engine-browser-artifact-define",
+    "trace_events": [
+      "refresh_context_selected",
+      "refresh_distill_completed",
+      "material_package_validated",
+      "refresh_handoff_resolved",
+      "refresh_artifacts_applied",
+      "refresh_validation_completed"
+    ],
+    "signal_grouping": "dispatch_id + step_id + run_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "RB1-private-source",
+        "kind": "external_context",
+        "from_owner": "private portfolio research",
+        "to_owner": "private Co-Op Engine Plan",
+        "applies_to_steps": [
+          "R1",
+          "R2",
+          "R4"
+        ],
+        "contract": "Research-derived project copy remains internal planning substrate and does not become public-ready copy.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "RB2-authoring-execution",
+        "kind": "capability_handoff",
+        "from_owner": "Invoke refresh",
+        "to_owner": "Task Session or native goal",
+        "applies_to_steps": [
+          "R4"
+        ],
+        "contract": "Invoke may add the SWU plan but cannot select or execute the HTML target.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "RB3-approval",
+        "kind": "human_approval",
+        "from_owner": "direct user",
+        "to_owner": "Co-Op Engine product lifecycle",
+        "applies_to_steps": [
+          "R3",
+          "R4"
+        ],
+        "contract": "Approval covers only the exact declared planning and evidence paths.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Co-Op Engine product owner",
+      "execution": "Task Session or explicitly started native goal",
+      "validation": "Dispatch Spec, Distill, material-package validators, scoped plan checks",
+      "evidence": "direct user signal plus accepted Define, Design, Plan, and research artifacts",
+      "memory": "memory guidance informs refresh defaults but does not own project truth",
+      "promotion": "publication owner after witnessed audits and D-005"
+    },
+    "receipts": [
+      {
+        "receipt_id": "refresh-material-receipt",
+        "producer": "invoke material-package validator",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers"
+        ],
+        "stores": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/material-receipt.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "refresh-result",
+        "producer": "invoke refresh",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "handoff_note"
+        ],
+        "stores": [
+          "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/refresh-report.json"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "refreshed Plan and prototype task",
+        "target": "implemented HTML, passing browser audit, final copy, deployed or public product",
+        "rule": "Each target requires separate selection, execution, evidence, and owner approval.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Exactly one SWU remains selected: SWU-COOP-001.",
+    "The HTML file is planned but not created.",
+    "Research-derived copy remains provisional and internal.",
+    "No browser, comprehension, copy, privacy, meeting, recruitment, deployment, or publication claim is promoted."
+  ]
+}

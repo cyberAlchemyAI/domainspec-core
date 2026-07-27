@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "work_pack_id": "co-op-engine-l0-trust-and-html-prototypes",
+  "contracts": [
+    {
+      "swu_id": "SWU-COOP-001",
+      "lifecycle_owner_route": "invoke:refresh:apply-approved",
+      "terminal_source_receipt_contract": {
+        "path": "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/receipts/SWU-COOP-001.source-receipt.json",
+        "required_fields": [
+          "swu_id",
+          "result",
+          "capability_ref",
+          "receipt_kind",
+          "receipt_artifact",
+          "files_touched",
+          "validation",
+          "blockers",
+          "residue",
+          "reroute",
+          "handoff_note"
+        ]
+      },
+      "declared_target_inventory": [
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/WORK-PACK.md",
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/tasks/TASK-COOP-L0-CONTRACT.md",
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/waves/W1.md",
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/PLAN-TRANSPORT.md",
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/receipts/SWU-COOP-001.source-receipt.json",
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/receipts/SWU-COOP-001.closeout.json"
+      ],
+      "baseline_binding": "Use SHA-256 values from the validated strict runtime index for existing targets and assert both receipt paths absent before mutation.",
+      "allowed_delta_classes": [
+        "evidence_added",
+        "blocker_opened",
+        "blocker_resolved",
+        "status_changed",
+        "route_changed"
+      ],
+      "owner_validation": [
+        "npm --prefix projects/co-op-engine run test:contract",
+        "git diff --check -- projects/co-op-engine",
+        "validate receipt required fields and strict-index baseline bindings"
+      ],
+      "expected_owner_receipt": {
+        "path": "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/receipts/SWU-COOP-001.closeout.json",
+        "schema": "invoke-refresh-closeout-v1"
+      },
+      "successor_policy": {
+        "type": "none",
+        "reason": "L1 requires a refreshed Plan and new explicitly selected SWU."
+      }
+    },
+    {
+      "swu_id": "SWU-COOP-002",
+      "lifecycle_owner_route": "invoke:refresh:apply-approved",
+      "terminal_source_receipt_contract": {
+        "path": "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/receipts/SWU-COOP-002.source-receipt.json",
+        "required_fields": [
+          "swu_id",
+          "result",
+          "capability_ref",
+          "receipt_kind",
+          "receipt_artifact",
+          "files_touched",
+          "validation",
+          "blockers",
+          "residue",
+          "reroute",
+          "handoff_note"
+        ]
+      },
+      "declared_target_inventory": [
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/WORK-PACK.md",
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/tasks/TASK-COOP-L0-HTML-PROTOTYPE.md",
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/waves/W2.md",
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/refresh/20260726T050953Z-html-prototype/REFRESH-REPORT.md",
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/receipts/SWU-COOP-002.source-receipt.json",
+        "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/receipts/SWU-COOP-002.closeout.json"
+      ],
+      "baseline_binding": "Use SHA-256 values from a future validated strict runtime index for existing targets and assert both SWU-COOP-002 receipt paths absent before mutation.",
+      "allowed_delta_classes": [
+        "evidence_added",
+        "blocker_opened",
+        "blocker_resolved",
+        "status_changed",
+        "route_changed"
+      ],
+      "owner_validation": [
+        "Playwright CLI desktop and mobile semantic snapshots",
+        "Playwright CLI console, request, overflow, and screenshot review",
+        "git diff --check -- projects/co-op-engine/prototype.html",
+        "validate receipt required fields and future strict-index baseline bindings"
+      ],
+      "expected_owner_receipt": {
+        "path": "ops/development/2026-07-25-co-op-engine-browser-artifact/work-pack/receipts/SWU-COOP-002.closeout.json",
+        "schema": "invoke-refresh-closeout-v1"
+      },
+      "successor_policy": {
+        "type": "none",
+        "reason": "L1 requires a refreshed Plan; prototype evidence cannot admit application implementation."
+      }
+    }
+  ]
+}
