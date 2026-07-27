@@ -1,0 +1,784 @@
+{
+  "dispatch_id": "2026-07-24-inventory-runtime-faceted-layout",
+  "intent": {
+    "raw": "Define, design, and plan the Inventory runtime and improved entry organization.",
+    "objective": "Deliver a deterministic append-transition receipt runtime and a stable faceted layout for new Inventory entries without inflating Inventory authority, migrating legacy state, or claiming atomicity or currentness.",
+    "target_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "inventory",
+      "sigil-development",
+      "task-session",
+      "dispatch-spec",
+      "distill"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "authority_split_gate",
+    "state_namespace_boundary",
+    "artifact_contract_bridge",
+    "concrete_path_evidence",
+    "observability_grouping",
+    "memory_promotion_split"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "Implementation is deliberately sequential and admits exactly one lifecycle-owned SWU after the preceding receipt. This authoring run requested no delegated implementation.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "none"
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Validate the Inventory update route",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "authority_split_gate",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/execution.dispatch.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S1.dispatch-validation"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/dispatch-validation.json",
+      "stop_conditions": [
+        "block on route, technique, owner, boundary, or receipt failure"
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Reconcile canonical Inventory lifecycle ownership",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "decision",
+      "parallel": false,
+      "depends_on_steps": [
+        "S1"
+      ],
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "authority_split_gate",
+        "handle_handoff",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S1.dispatch-validation"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/SIGIL-HANDOFF.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "arcanum/arcana/inventory/development/WORK-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "S2.owner-acceptance"
+        }
+      ],
+      "join_policy": "human_gate",
+      "evidence_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/W0/owner-acceptance.json",
+      "stop_conditions": [
+        "block until SWU-IFR-001 is explicitly sequenced, merged, or superseded against SWU-INT-001",
+        "block ambiguous canonical or generated source placement",
+        "perform no canonical mutation before acceptance"
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Implement the canonical receipt kernel",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S2"
+      ],
+      "techniques": [
+        "sequence",
+        "scu_swu_reduction",
+        "artifact_contract_bridge",
+        "validation_loop",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "S2.owner-acceptance"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/tasks/TASK-IFR-001-RECEIPT-KERNEL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S3.SWU-IFR-001"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/SWU-IFR-001/receipt.json",
+      "stop_conditions": [
+        "block non-canonical serialization",
+        "block nondeterministic receipt bytes",
+        "block CLI or consumer mutation in the receipt-kernel unit"
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Implement the no-write append transition",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S3"
+      ],
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "validation_loop",
+        "state_namespace_boundary",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S3.SWU-IFR-001"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/tasks/TASK-IFR-002-DRY-RUN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S4.SWU-IFR-002"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/SWU-IFR-002/receipt.json",
+      "stop_conditions": [
+        "block any dry-run write",
+        "block unresolved package root or helper path",
+        "block missing baseline, candidate, or warning-delta evidence"
+      ]
+    },
+    {
+      "step_id": "S5",
+      "name": "Implement observable sequential apply",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S4"
+      ],
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "residue_ledger",
+        "state_namespace_boundary",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S4.SWU-IFR-002"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/tasks/TASK-IFR-003-APPLY-OBSERVATION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S5.SWU-IFR-003"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/SWU-IFR-003/receipt.json",
+      "stop_conditions": [
+        "block hidden or unattributed writes",
+        "block a failed apply that omits partial-mutation risk",
+        "block any atomicity or recovery claim"
+      ]
+    },
+    {
+      "step_id": "S6",
+      "name": "Admit new faceted records and paths",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S5"
+      ],
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "validation_loop",
+        "state_namespace_boundary",
+        "memory_promotion_split",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S5.SWU-IFR-003"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/tasks/TASK-IFR-004-FACET-ADMISSION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S6.SWU-IFR-004"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/SWU-IFR-004/receipt.json",
+      "stop_conditions": [
+        "block traversal, normalized collision, or unstable path segments",
+        "block tag or concept combinations as physical directories",
+        "block a new-field requirement on legacy entries",
+        "block any Inventory promotion claim"
+      ]
+    },
+    {
+      "step_id": "S7",
+      "name": "Implement exact facet projections",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S6"
+      ],
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "validation_loop",
+        "memory_promotion_split",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S6.SWU-IFR-004"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/tasks/TASK-IFR-005-FACET-PROJECTIONS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S7.SWU-IFR-005"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/SWU-IFR-005/receipt.json",
+      "stop_conditions": [
+        "block projection drift from admitted entries",
+        "block conflation of record_class with existing type",
+        "block derived maps acting as semantic authority"
+      ]
+    },
+    {
+      "step_id": "S8",
+      "name": "Bound and synchronize the generated runtime",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S7"
+      ],
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "state_namespace_boundary",
+        "validation_loop",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S5.SWU-IFR-003"
+        },
+        {
+          "kind": "receipt",
+          "ref": "S7.SWU-IFR-005"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/tasks/TASK-IFR-006-RUNTIME-SYNC.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S8.SWU-IFR-006"
+        }
+      ],
+      "join_policy": "all",
+      "evidence_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/SWU-IFR-006/receipt.json",
+      "stop_conditions": [
+        "block undeclared generated runtime members",
+        "block generated-to-canonical reverse mutation",
+        "block consumer Inventory-state mutation during sync"
+      ]
+    },
+    {
+      "step_id": "S9",
+      "name": "Prove the installed consumer boundary",
+      "capability_ref": "sigil-development",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": [
+        "S8"
+      ],
+      "techniques": [
+        "sequence",
+        "recomposition_proof",
+        "validation_loop",
+        "state_namespace_boundary",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S8.SWU-IFR-006"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/tasks/TASK-IFR-007-CONSUMER-PROOF.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S9.SWU-IFR-007"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/SWU-IFR-007/receipt.json",
+      "stop_conditions": [
+        "block a proof that depends on the source checkout",
+        "block unrelated-CWD failure",
+        "block installed dry-run consumer mutation",
+        "block private evidence in the public package"
+      ]
+    },
+    {
+      "step_id": "S10",
+      "name": "Recompose and close the bounded Inventory update",
+      "capability_ref": "sigil-development",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": [
+        "S9"
+      ],
+      "techniques": [
+        "sequence",
+        "recomposition_proof",
+        "validation_loop",
+        "residue_ledger",
+        "authority_split_gate",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S9.SWU-IFR-007"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/shared/TRACEABILITY.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/tasks/TASK-IFR-VERIFY.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S10.final-audit"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/VERIFY/receipt.json",
+      "stop_conditions": [
+        "block incomplete AC-01 through AC-10 recomposition",
+        "block missing residue for atomicity, currentness, or migration",
+        "do not infer promotion, release, commit, push, or publication"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G0-route",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "route, technique, boundary, and receipt contracts validate",
+      "requires_role_receipts": [
+        "S1.dispatch-validation"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G1-owner-baseline",
+      "kind": "decision",
+      "owner": "Sigil Development",
+      "condition": "the proposed lane is explicitly reconciled with canonical SWU-INT-001 and source placement is accepted",
+      "requires_role_receipts": [
+        "S2.owner-acceptance"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2-L0-receipt",
+      "kind": "quality",
+      "owner": "Sigil Development",
+      "condition": "receipt schema, canonical serializer, digest, and deterministic byte fixtures pass",
+      "requires_role_receipts": [
+        "S3.SWU-IFR-001"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3-L1-dry-run",
+      "kind": "quality",
+      "owner": "Sigil Development",
+      "condition": "full append computation is reproducible from unrelated CWD with zero writes",
+      "requires_role_receipts": [
+        "S4.SWU-IFR-002"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G4-L2-apply-facets",
+      "kind": "quality",
+      "owner": "Sigil Development",
+      "condition": "sequential apply is attributable and new facet admission/projections conform without legacy migration",
+      "requires_role_receipts": [
+        "S5.SWU-IFR-003",
+        "S6.SWU-IFR-004",
+        "S7.SWU-IFR-005"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G5-L3-package-proof",
+      "kind": "quality",
+      "owner": "Sigil Development",
+      "condition": "manifest-bound generated runtime and isolated installed-consumer acceptance pass",
+      "requires_role_receipts": [
+        "S8.SWU-IFR-006",
+        "S9.SWU-IFR-007"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G6-close",
+      "kind": "promotion_guardrail",
+      "owner": "maintainer and Sigil Development",
+      "condition": "recomposition, residue, privacy, and claim-bound audit pass without inferring promotion",
+      "requires_role_receipts": [
+        "S10.final-audit"
+      ],
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "dispatch_validated",
+      "owner_baseline_reconciled",
+      "receipt_kernel_validated",
+      "dry_run_computed",
+      "apply_write_observed",
+      "facet_record_admitted_or_rejected",
+      "facet_projection_validated",
+      "runtime_sync_validated",
+      "installed_consumer_proved",
+      "final_audit_issued"
+    ],
+    "signal_grouping": "dispatch_id + step_id + swu_id + run_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-authoring-lifecycle",
+        "kind": "capability_handoff",
+        "from_owner": "Invoke",
+        "to_owner": "Sigil Development",
+        "applies_to_steps": [
+          "S2",
+          "S3",
+          "S4",
+          "S5",
+          "S6",
+          "S7",
+          "S8",
+          "S9",
+          "S10"
+        ],
+        "contract": "Invoke supplies private design and SWU contracts; Sigil Development accepts and mutates public canonical Inventory sources.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2-canonical-generated",
+        "kind": "state_write",
+        "from_owner": "public canonical Inventory package",
+        "to_owner": "installed generated Inventory runtime",
+        "applies_to_steps": [
+          "S8",
+          "S9"
+        ],
+        "contract": "Sync may update only manifest-declared generated members and may never reverse-write canonical source.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3-runtime-consumer",
+        "kind": "state_write",
+        "from_owner": "installed generated Inventory runtime",
+        "to_owner": "consumer-local Inventory state",
+        "applies_to_steps": [
+          "S9"
+        ],
+        "contract": "Dry-run and proof setup must not mutate consumer Inventory state; apply writes only the receipt-declared managed set.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B4-evidence-authority",
+        "kind": "evidence_return",
+        "from_owner": "Task Session and runtime receipt producers",
+        "to_owner": "Inventory read models and private planning evidence",
+        "applies_to_steps": [
+          "S3",
+          "S4",
+          "S5",
+          "S6",
+          "S7",
+          "S8",
+          "S9",
+          "S10"
+        ],
+        "contract": "Receipts and Inventory projections remain historical non-authority evidence and cannot prove currentness or promotion.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B5-private-public",
+        "kind": "external_context",
+        "from_owner": "private Invoke and research packages",
+        "to_owner": "public Arcanum",
+        "applies_to_steps": [
+          "S2",
+          "S3",
+          "S4",
+          "S5",
+          "S6",
+          "S7",
+          "S8",
+          "S9",
+          "S10"
+        ],
+        "contract": "Only generic sanitized contracts and synthetic fixtures enter public Arcanum.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Sigil Development owns acceptance, canonical mutation, validation, generated sync, and readiness",
+      "execution": "Task Session owns exactly one admitted SWU at a time",
+      "validation": "deterministic schema, fixture, sync, and installed-consumer validators",
+      "evidence": "immutable operation and Task Session receipts",
+      "memory": "Inventory is a non-authoritative discovery and read-model surface",
+      "promotion": "explicit Sigil Development lifecycle decision plus human maintainer"
+    },
+    "receipts": [
+      {
+        "receipt_id": "owner-acceptance",
+        "producer": "Sigil Development",
+        "required_fields": [
+          "run_id",
+          "status",
+          "approval_record",
+          "artifacts",
+          "validation_result",
+          "blockers",
+          "residue"
+        ],
+        "protocol_fields": [
+          "canonical_work_pack_decision",
+          "source_placement",
+          "generated_scope"
+        ],
+        "stores": [
+          "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/W0"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "swu-closure",
+        "producer": "Task Session under Sigil Development",
+        "required_fields": [
+          "run_id",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "protocol_fields": [
+          "swu_id",
+          "files_touched",
+          "source_receipt",
+          "closeout_sync"
+        ],
+        "stores": [
+          "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "inventory-operation",
+        "producer": "Inventory runtime",
+        "required_fields": [
+          "run_id",
+          "status",
+          "validation",
+          "artifacts",
+          "blockers"
+        ],
+        "protocol_fields": [
+          "operation_id",
+          "mode",
+          "baseline_digest",
+          "candidate_digest",
+          "planned_or_observed_writes",
+          "partial_mutation_possible"
+        ],
+        "stores": [
+          "operation-selected receipt path"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "final-audit",
+        "producer": "Sigil Development",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "residue",
+          "audit_reference"
+        ],
+        "protocol_fields": [
+          "traceability_result"
+        ],
+        "stores": [
+          "ops/development/2026-07-24-inventory-runtime-faceted-layout/work-pack/session-evidence/VERIFY"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "private-planning",
+        "owner": "Invoke authoring package",
+        "write_policy": "private plan and evidence only"
+      },
+      {
+        "namespace": "public-canonical-inventory",
+        "owner": "Sigil Development",
+        "write_policy": "generic canonical Arcanum source only"
+      },
+      {
+        "namespace": "generated-inventory-runtime",
+        "owner": "declared Inventory sync runtime",
+        "write_policy": "manifest-managed generated members only"
+      },
+      {
+        "namespace": "consumer-inventory-state",
+        "owner": "consumer repository",
+        "write_policy": "explicit operation mode and receipt-declared managed set only"
+      },
+      {
+        "namespace": "inventory-read-models",
+        "owner": "Inventory updater and validator",
+        "write_policy": "derived non-authoritative projections only"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "Inventory operation receipts, entries, indexes, and facet projections",
+        "target": "ontology, glossary, sigil, spell, release, or currentness authority",
+        "rule": "Inventory evidence may be discovered and cited but requires a separate owner-specific lifecycle decision before any promotion or currentness claim.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Invoke authors this package but mutates no canonical Inventory source.",
+    "Plan quality does not imply lifecycle acceptance or Task Session admission.",
+    "A runtime receipt proves one historical operation, not currentness.",
+    "Inventory records, indexes, facet maps, and receipts do not promote ontology, glossary, sigil, or spell authority.",
+    "Sequential apply is explicitly non-atomic and must preserve partial-mutation evidence.",
+    "Legacy entries remain valid and unmigrated.",
+    "Private evidence never becomes public canonical content.",
+    "Validation and closure do not imply promotion, release, commit, push, or publication."
+  ]
+}

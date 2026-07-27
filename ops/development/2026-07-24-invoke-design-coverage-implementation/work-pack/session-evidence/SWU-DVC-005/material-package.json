@@ -1,0 +1,99 @@
+{
+  "approval": {
+    "authority_classes": [
+      "public"
+    ],
+    "class": "explicit-apply",
+    "owner": "spellcraft",
+    "publication_classes": [
+      "public"
+    ],
+    "scope_paths": [
+      "arcanum/spells/invoke/development/fixtures/design-selection/run_fixture_matrix.py",
+      "arcanum/spells/invoke/development/run-design-selection-fixtures.sh"
+    ]
+  },
+  "authority_class": "public",
+  "changes": [
+    {
+      "operation": "update",
+      "output_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-005/staged/arcanum/spells/invoke/development/run-design-selection-fixtures.sh",
+        "sha256": "20d62f65734a4e05725ac77935521a6f52c9dbe64070cc664cce0d2093e5b637",
+        "size_bytes": 173
+      },
+      "target_path": "arcanum/spells/invoke/development/run-design-selection-fixtures.sh"
+    },
+    {
+      "operation": "update",
+      "output_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-005/staged/arcanum/spells/invoke/development/fixtures/design-selection/run_fixture_matrix.py",
+        "sha256": "1e6c0155e304c0a7c097ac046eff792772d1fd28b270fbd38f068f0ded7d550b",
+        "size_bytes": 29073
+      },
+      "target_path": "arcanum/spells/invoke/development/fixtures/design-selection/run_fixture_matrix.py"
+    }
+  ],
+  "dependencies": [
+    {
+      "artifact_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-004/execution-receipt.json",
+        "sha256": "f886c5048f9e0af47f195804c057b982f67bfae4679f1a5bbdcdd349d27766c8",
+        "size_bytes": 1207
+      },
+      "dependency_id": "SWU-DVC-004"
+    }
+  ],
+  "lifecycle_owner": "spellcraft",
+  "mirror_groups": [],
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "package_id": "invoke-design-coverage-swu-dvc-005",
+  "publication_class": "public",
+  "schema_version": "1.0.0",
+  "source_artifacts": [
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-005-FIXTURE-RUNNER.md",
+      "sha256": "81fc738b5ff050c7a00f81d3f6152180052c7570c3955b4ac996aa419208fda7",
+      "size_bytes": 1934
+    },
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+      "sha256": "71d63165a287d3a05fdffe94f74735bdc79235fa18b8875c0586ec12ef552df9",
+      "size_bytes": 9620
+    },
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-005/context-pack.json",
+      "sha256": "dc7c83ecb7774ececb04cb8cf559e8b08e416e24b0fa4c3c5dea34a623f74f4f",
+      "size_bytes": 1468
+    }
+  ],
+  "target_inventory": [
+    {
+      "authority_class": "public",
+      "dependency_ids": [
+        "SWU-DVC-004"
+      ],
+      "lifecycle_owner": "spellcraft",
+      "publication_class": "public",
+      "target_path": "arcanum/spells/invoke/development/run-design-selection-fixtures.sh"
+    },
+    {
+      "authority_class": "public",
+      "dependency_ids": [
+        "SWU-DVC-004"
+      ],
+      "lifecycle_owner": "spellcraft",
+      "publication_class": "public",
+      "target_path": "arcanum/spells/invoke/development/fixtures/design-selection/run_fixture_matrix.py"
+    }
+  ],
+  "validation_commands": [
+    "arcanum/spells/invoke/development/run-design-selection-fixtures.sh",
+    "arcanum/spells/invoke/development/run-design-selection-fixtures.sh --group mutations",
+    "git diff --check -- arcanum/spells/invoke/development/run-design-selection-fixtures.sh arcanum/spells/invoke/development/fixtures/design-selection"
+  ]
+}

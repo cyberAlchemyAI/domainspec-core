@@ -1,0 +1,33 @@
+{
+  "admissionVerdict": "admit",
+  "allowedWrites": [
+    "arcanum/spells/invoke/development/fixtures/design-selection/SOURCE-TRACE.md",
+    "arcanum/spells/invoke/development/fixtures/design-selection/fixture-denominator-receipt.json",
+    "arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json"
+  ],
+  "authorityClass": "public",
+  "controllingPaths": [
+    "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+    "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-001/context-pack.json",
+    "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-001-FIXTURE-DENOMINATOR.md"
+  ],
+  "dependencyIds": [],
+  "executionMode": "reusable-mutation",
+  "lifecycleOwner": "spellcraft",
+  "liveValidationRequired": true,
+  "materialPackageDigest": "13ee1e2d1925afe4edb067a727095eb855a26fd9dab49e7ca65f129ab5aaa7e9",
+  "materialReceiptDigest": "e5af2e32a1845a8e8c62f3112307fa757a352e8350b02e1b3aca9ef487e6b24c",
+  "mutationReady": true,
+  "producerSchemaDigest": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+  "publicationClass": "public",
+  "reasons": [],
+  "requestDigest": "cf63307a7b5c296bd265d7e34eb784e027c5815294ae7587db8cd0f9df542f5b",
+  "schemaVersion": "1.0.0",
+  "swuId": "SWU-DVC-001",
+  "taskId": "TASK-DVC-001",
+  "validationCommands": [
+    "git diff --check -- arcanum/spells/invoke/development/fixtures/design-selection",
+    "jq -e '(.cases | length) >= 24 and ([.cases[].fixture_id] | unique | length) == (.cases | length)' arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+    "python3 -m json.tool arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json"
+  ]
+}

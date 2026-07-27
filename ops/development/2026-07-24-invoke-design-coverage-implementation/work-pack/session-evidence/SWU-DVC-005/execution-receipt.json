@@ -1,0 +1,26 @@
+{
+  "schema_version": "task-session-execution-receipt.v1",
+  "task_id": "TASK-DVC-005",
+  "swu_id": "SWU-DVC-005",
+  "result": "pass",
+  "execution_result": "pass",
+  "mutation_admission": {"receipt": "mutation-admission-receipt.json", "admission_verdict": "admit", "mutation_ready": true, "revalidated_after_repair": true},
+  "files_touched": [
+    "arcanum/spells/invoke/development/run-design-selection-fixtures.sh",
+    "arcanum/spells/invoke/development/fixtures/design-selection/run_fixture_matrix.py",
+    "arcanum/spells/invoke/development/fixtures/design-selection/results/latest-summary.json",
+    "arcanum/spells/invoke/development/fixtures/design-selection/results/latest-summary.md"
+  ],
+  "validation": [
+    {"check": "28 frozen cases", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "27 predicate and field mutations", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "repeat result digests", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "frozen corpus digest unchanged", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "public denylist and scoped diff", "criticality": "acceptance-critical", "result": "pass"}
+  ],
+  "corpus_digest": "347618abe9ae700fb515a127d4d5a75a78665013dbc68fd637bd5bd7200a5c74",
+  "blockers": [],
+  "residue": [],
+  "experiment_harness": "deterministic-controls-pass-live-spell-run-pending",
+  "next_swu": "SWU-DVC-006A"
+}

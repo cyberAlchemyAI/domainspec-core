@@ -1,0 +1,105 @@
+schema_version: 1
+manifest_id: invoke-design-coverage-implementation-2026-07-24
+target_id: invoke-design-mode
+status: authored-complete
+independent_denominator_receipt: null
+target_footprint:
+  roots:
+    - path: arcanum/spells/invoke
+      digest_kind: git_commit_plus_inclusion_digests
+      digest: 0f7d268b5c2c8b54b53ffe7ff6eb592bf2ebc8c6
+  inclusions:
+    - selector: arcanum/spells/invoke/README.md
+      digest: e0875ff2c5e4b1922e34ec9a80d4007d7a21e579dffcf1b17d7234dd9b49f991
+    - selector: arcanum/spells/invoke/design.md
+      digest: 05e8ac1e650fc50153eb177cec244193854af912d683581947bcc415ed5b3bb3
+    - selector: arcanum/spells/invoke/templates/domainspec-spec/architecture-bundle.md
+      digest: 52367a3085f4570303a72ad67d40548cb574a43af44d7042546a8f4456090c02
+    - selector: arcanum/spells/invoke/templates/architecture/architecture.md
+      digest: fce92c997d0db455f5dd5353712432460fe615510b90e90f04fdc419ddbde167
+    - selector: arcanum/spells/invoke/templates/ux-plan/ux-plan.md
+      digest: 7614b0c3c22738ead28d250f3142b8bfc573f5ee94a80d1d40ccb70cbafb4d1c
+    - selector: arcanum/spells/invoke/development/run-validation-fixtures.sh
+      digest: aa09a0efd524d8252473e42e922958e14f5b4a8e8238b4c412f8579e3b305303
+  exclusions:
+    - selector: projects/**
+      reason: private consumers are evidence sources, not public implementation targets
+      evidence_ref: DEFINE.md#scope
+    - selector: .agents/skills/invoke/**
+      reason: generated runtime projection, synchronized after canonical validation
+      evidence_ref: DEFINE.md#constraints
+    - selector: .claude/skills/invoke/**
+      reason: generated runtime projection, synchronized after canonical validation
+      evidence_ref: DEFINE.md#constraints
+source_contracts:
+  - path: ops/development/2026-07-24-invoke-lifecycle-progress-update/research/2026-07-24-design-phase-coverage/findings.md
+    digest: 20b70f20067e9137974a0321758c43eb7d802ac9366ad230498f13aecd1155dd
+    selector: Closed scope and denominator proposal through Validator and frozen-fixture requirements
+human_actors:
+  - actor_id: invoke-developer
+    reads: [design dispositions, diagnostics, selected companions, evidence state]
+    decides: [repair scope, supply owner, accept bounded recommendation]
+    acts: [author Design, route to Plan, stop on block]
+    surfaces: [Markdown result, CLI diagnostics, generated runtime skill]
+rendered_surfaces:
+  - surface_id: invoke-design-result
+    modality: text
+    semantic_contract_ref: UX-PLAN.md
+interfaces:
+  - interface_id: invoke-define-to-design
+    kind: artifact
+    peer: invoke-define
+    direction: input
+    contract_ref: arcanum/spells/invoke/design.md
+  - interface_id: invoke-design-to-plan
+    kind: artifact-and-receipt
+    peer: invoke-plan
+    direction: output
+    contract_ref: DESIGN.md#6-dependency-and-interface-view
+stores:
+  - store_id: repository-artifacts
+    authority: lifecycle-owner-controlled
+    data_classes: [public-generic-contract, private-authoring-evidence]
+    writers: [spellcraft, invoke-author]
+queues: []
+writers:
+  - writer_id: spellcraft
+    targets: [arcanum/spells/invoke/**]
+    concurrency: serialized-lifecycle
+  - writer_id: bootstrap-arcanum
+    targets: [.agents/skills/invoke/**, .claude/skills/invoke/**, .codex/**]
+    concurrency: canonical-after-validation
+normative_rules:
+  - rule_id: DVC-N01
+    verb: reject
+    subject: validator
+    object: missing unknown stale self-issued or unbound evidence
+    enforcement_hint: design_selection_validator
+  - rule_id: DVC-N02
+    verb: require
+    subject: selector
+    object: unchanged two-pass fixed point
+    enforcement_hint: exact result digest comparison
+effects:
+  - effect_id: write-public-contracts
+    reversible: true
+    external: false
+    privileged: true
+data_and_log_sinks:
+  - sink_id: invoke-observability
+    data_classes: [paths, verdicts, gap counts]
+    retention_hint: repository policy; public signals must be sanitized
+deployment_targets: []
+compatibility_boundaries:
+  - boundary_id: generated-runtime-parity
+    old_new_contracts: [canonical Invoke, generated runtime profiles]
+quality_claims:
+  - claim_id: DVC-Q01
+    source_kind: deterministic-validation
+    threshold_or_tradeoff: exact expected selection for every frozen fixture
+acceptance_and_readiness_claims:
+  - claim_id: DVC-A01
+    selector: DEFINE.md#acceptance
+unknowns: []
+input_digest: 2366a03f4f03b6bed2c17d3600bbdad575e43a64e2ef0e84e4becdc74ba66d59
+authored_by: invoke

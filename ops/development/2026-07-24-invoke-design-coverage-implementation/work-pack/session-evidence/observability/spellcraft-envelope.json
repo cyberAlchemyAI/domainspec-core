@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-07-24T19:17:08Z",
+  "run_id": "spellcraft-20260724T191708Z-invoke-design-coverage",
+  "session_id": "invoke-design-coverage-implementation",
+  "capability": {
+    "id": "spellcraft",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute-all"
+  },
+  "request": {
+    "summary": "Execute every approved Invoke Design-coverage work-pack task through final audit."
+  },
+  "execution": {
+    "status": "completed-with-flag",
+    "outputs": [
+      "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/final-audit.json",
+      "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-008/EXPERIMENT-REPORT.md"
+    ],
+    "files_changed": [
+      "arcanum/spells/invoke/",
+      ".agents/skills/invoke/",
+      ".claude/skills/invoke/",
+      "ops/development/2026-07-24-invoke-design-coverage-implementation/"
+    ],
+    "validation": [
+      "14 of 14 implementation SWUs terminal pass",
+      "28 frozen cases and 27 mutations pass",
+      "aggregate Invoke validation pass",
+      "Experiment Harness profile validation pass",
+      "canonical/generated parity pass",
+      "four-case composed live proof pass",
+      "scoped public scan pass",
+      "repo-wide diagnostic flag"
+    ],
+    "notes": "Implementation is complete. Promotion remains false because four pre-existing local-path references outside the work-pack write scope require owner classification or repair."
+  },
+  "evidence": {
+    "final_audit": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/final-audit.json",
+    "experiment_report": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-008/EXPERIMENT-REPORT.md"
+  },
+  "observer": {
+    "quality_bar_status": "pass-with-residue",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "public-hygiene",
+        "severity": "medium",
+        "summary": "Four pre-existing local-path references remain outside the DVC write scope.",
+        "evidence": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-008/leakage-report.json"
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-present",
+    "recommendation": "Classify or repair the public-hygiene residue, then rerun the final audit before promotion."
+  }
+}

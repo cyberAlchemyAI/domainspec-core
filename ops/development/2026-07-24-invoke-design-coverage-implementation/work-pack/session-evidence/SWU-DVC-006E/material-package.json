@@ -1,0 +1,80 @@
+{
+  "approval": {
+    "authority_classes": [
+      "public"
+    ],
+    "class": "explicit-apply",
+    "owner": "spellcraft",
+    "publication_classes": [
+      "public"
+    ],
+    "scope_paths": [
+      "arcanum/spells/invoke/development/run-validation-fixtures.sh"
+    ]
+  },
+  "authority_class": "public",
+  "changes": [
+    {
+      "operation": "update",
+      "output_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-006E/staged/aggregate-runner-delta.md",
+        "sha256": "91a7aea03ae9f19a6e079e2bd65aa1cd1edcbb0cb7a5d362388fe7ff92ccbe22",
+        "size_bytes": 1005
+      },
+      "target_path": "arcanum/spells/invoke/development/run-validation-fixtures.sh"
+    }
+  ],
+  "dependencies": [
+    {
+      "artifact_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-006D/execution-receipt.json",
+        "sha256": "e8c26510850fb7f956af1abbf76cd386d3387915e6908a9591cc5fb79ae3597a",
+        "size_bytes": 1271
+      },
+      "dependency_id": "SWU-DVC-006D"
+    }
+  ],
+  "lifecycle_owner": "spellcraft",
+  "mirror_groups": [],
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "package_id": "invoke-design-coverage-swu-dvc-006e",
+  "publication_class": "public",
+  "schema_version": "1.0.0",
+  "source_artifacts": [
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-006-CONTRACTS-AND-TEMPLATES.md",
+      "sha256": "f8396b175a02d4db1344522f5502717662b6482492ff5f617d463dd5018b9d41",
+      "size_bytes": 4797
+    },
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+      "sha256": "8b787339c58916edfd279b93cca43dea9f2ba425b6e1a4717d998fcb3a4ed99a",
+      "size_bytes": 9983
+    },
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-006E/context-pack.json",
+      "sha256": "f9b80d0340654fc3732048d43f13fd0fc12600944eff3ae1e9a191c51acce9ff",
+      "size_bytes": 1303
+    }
+  ],
+  "target_inventory": [
+    {
+      "authority_class": "public",
+      "dependency_ids": [
+        "SWU-DVC-006D"
+      ],
+      "lifecycle_owner": "spellcraft",
+      "publication_class": "public",
+      "target_path": "arcanum/spells/invoke/development/run-validation-fixtures.sh"
+    }
+  ],
+  "validation_commands": [
+    "arcanum/spells/invoke/development/run-design-selection-fixtures.sh",
+    "arcanum/spells/invoke/development/run-validation-fixtures.sh",
+    "git diff --check -- arcanum/spells/invoke/development/run-validation-fixtures.sh"
+  ]
+}

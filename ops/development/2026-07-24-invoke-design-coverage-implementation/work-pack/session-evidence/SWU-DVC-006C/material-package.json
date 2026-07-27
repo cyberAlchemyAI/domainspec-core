@@ -1,0 +1,80 @@
+{
+  "approval": {
+    "authority_classes": [
+      "public"
+    ],
+    "class": "explicit-apply",
+    "owner": "spellcraft",
+    "publication_classes": [
+      "public"
+    ],
+    "scope_paths": [
+      "arcanum/spells/invoke/templates/ux-plan/ux-plan.md"
+    ]
+  },
+  "authority_class": "public",
+  "changes": [
+    {
+      "operation": "update",
+      "output_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-006C/staged/arcanum/spells/invoke/templates/ux-plan/ux-plan.md",
+        "sha256": "05f612d1836148964d19d1067d1091b8097eba3f01282d73eb18ac82936461a7",
+        "size_bytes": 4814
+      },
+      "target_path": "arcanum/spells/invoke/templates/ux-plan/ux-plan.md"
+    }
+  ],
+  "dependencies": [
+    {
+      "artifact_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-006B/execution-receipt.json",
+        "sha256": "b1410570e822242c334a36d7b897897236022ed54ac0b97dd09442a681bcc3b5",
+        "size_bytes": 1067
+      },
+      "dependency_id": "SWU-DVC-006B"
+    }
+  ],
+  "lifecycle_owner": "spellcraft",
+  "mirror_groups": [],
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "package_id": "invoke-design-coverage-swu-dvc-006c",
+  "publication_class": "public",
+  "schema_version": "1.0.0",
+  "source_artifacts": [
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-006-CONTRACTS-AND-TEMPLATES.md",
+      "sha256": "ef18115d50ee25c8f1008473e4b0d5d6fcabd69bf02c4877a3fad7e03ec33027",
+      "size_bytes": 3980
+    },
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+      "sha256": "da7057e0194e4efb736fdd8ac4740c4a6322f8f83d53738722a5639657e94fa6",
+      "size_bytes": 9739
+    },
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-006C/context-pack.json",
+      "sha256": "8900d20bb11936938ace8b583ca5f93af2f6a46298e73b90d6e1a6a06d97c3a7",
+      "size_bytes": 1287
+    }
+  ],
+  "target_inventory": [
+    {
+      "authority_class": "public",
+      "dependency_ids": [
+        "SWU-DVC-006B"
+      ],
+      "lifecycle_owner": "spellcraft",
+      "publication_class": "public",
+      "target_path": "arcanum/spells/invoke/templates/ux-plan/ux-plan.md"
+    }
+  ],
+  "validation_commands": [
+    "UX semantic trigger and output contract checks",
+    "arcanum/spells/invoke/development/run-design-selection-fixtures.sh --group validator",
+    "git diff --check -- arcanum/spells/invoke/templates/ux-plan/ux-plan.md"
+  ]
+}

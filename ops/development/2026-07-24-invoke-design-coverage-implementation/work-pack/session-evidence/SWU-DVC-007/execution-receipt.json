@@ -1,0 +1,82 @@
+{
+  "schema_version": "task-session-execution-receipt.v1",
+  "task_id": "TASK-DVC-007",
+  "swu_id": "SWU-DVC-007",
+  "result": "pass",
+  "execution_result": "pass",
+  "mutation_admission": {
+    "receipt": "mutation-admission-receipt.json",
+    "admission_verdict": "admit",
+    "mutation_ready": true
+  },
+  "generated_surfaces": {
+    ".agents/skills/invoke": {
+      "baseline_tree_sha256": "164b6a7206f7c9feadf655a21fbdfb5e52b0a63064e9e5ea43ba213ec89bb772",
+      "result_tree_sha256": "7480063d4c88bd34a9fbdd24308e9f24edd8f1a2a7575d4794a23e3fe660994c",
+      "staged_tree_sha256": "7480063d4c88bd34a9fbdd24308e9f24edd8f1a2a7575d4794a23e3fe660994c"
+    },
+    ".claude/skills/invoke": {
+      "baseline_tree_sha256": "70713dbc8227433b208fad75f75a29d7b44949fe5d5fffbba6cda9f781a272e0",
+      "result_tree_sha256": "4e7fede6086c17e07317dec71d730acf5ee8ab745a3769ec7cb996211c37ecaf",
+      "staged_tree_sha256": "4e7fede6086c17e07317dec71d730acf5ee8ab745a3769ec7cb996211c37ecaf"
+    }
+  },
+  "changed_generated_paths": [
+    ".agents/skills/invoke/README.md",
+    ".agents/skills/invoke/SKILL.md",
+    ".agents/skills/invoke/design.md",
+    ".agents/skills/invoke/schemas/design-denominator-receipt.schema.json",
+    ".agents/skills/invoke/schemas/design-scope-manifest.schema.json",
+    ".agents/skills/invoke/schemas/design-selection-result.schema.json",
+    ".agents/skills/invoke/scripts/design_scope_extractor.py",
+    ".agents/skills/invoke/scripts/design_selection_validator.py",
+    ".agents/skills/invoke/templates/architecture/architecture.md",
+    ".agents/skills/invoke/templates/domainspec-spec/architecture-bundle.md",
+    ".agents/skills/invoke/templates/ux-plan/ux-plan.md",
+    ".claude/skills/invoke/README.md",
+    ".claude/skills/invoke/SKILL.md",
+    ".claude/skills/invoke/design.md",
+    ".claude/skills/invoke/schemas/design-denominator-receipt.schema.json",
+    ".claude/skills/invoke/schemas/design-scope-manifest.schema.json",
+    ".claude/skills/invoke/schemas/design-selection-result.schema.json",
+    ".claude/skills/invoke/scripts/design_scope_extractor.py",
+    ".claude/skills/invoke/scripts/design_selection_validator.py",
+    ".claude/skills/invoke/templates/architecture/architecture.md",
+    ".claude/skills/invoke/templates/domainspec-spec/architecture-bundle.md",
+    ".claude/skills/invoke/templates/ux-plan/ux-plan.md"
+  ],
+  "validation": [
+    {
+      "check": "fresh staged repo-codex and Claude generation",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "check": "full Invoke-directory byte parity",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "check": "DVC and generated public scan",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "check": "aggregate Invoke validation",
+      "criticality": "acceptance-critical",
+      "result": "pass",
+      "report": "arcanum/spells/invoke/development/runs/20260724T190807Z.md"
+    },
+    {
+      "check": "make bump-check",
+      "criticality": "diagnostic",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "repo-wide diagnostic found pre-existing local-path references in canonical Invoke development documentation outside this SWU write scope"
+  ],
+  "experiment_harness": "deterministic-controls-pass-live-spell-run-pending",
+  "next_swu": "SWU-DVC-008"
+}

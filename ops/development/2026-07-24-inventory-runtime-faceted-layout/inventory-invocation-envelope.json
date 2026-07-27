@@ -1,0 +1,72 @@
+{
+  "schema_version": "arcanum.sigil_invocation.v1",
+  "timestamp": "2026-07-24T18:10:23Z",
+  "run_id": "inventory-inventory-runtime-faceted-layout-20260724T181023Z",
+  "session_id": "2026-07-24-inventory-runtime-faceted-layout",
+  "sigil": "inventory",
+  "tier": "arcana",
+  "mode": "ingest",
+  "capability": {
+    "id": "inventory",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "ingest",
+    "alias": null
+  },
+  "lineage": {
+    "parent_run_id": "invoke-inventory-runtime-faceted-layout-20260724T175103Z",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "plan"
+    }
+  },
+  "request": {
+    "raw": "Ingest the Invoke result into the local Inventory.",
+    "summary": "Append one non-authority synthesis pointer for the Inventory runtime and faceted-layout plan.",
+    "intent": "Make the plan discoverable without claiming implementation, lifecycle acceptance, currentness, or promotion."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      ".arcanum/inventory/entries/inventory-runtime-faceted-layout-invoke-package-synthesis.md",
+      ".arcanum/inventory/index.json",
+      ".arcanum/inventory/index.md",
+      ".arcanum/inventory/log.md"
+    ],
+    "files_changed": [
+      ".arcanum/inventory/entries/inventory-runtime-faceted-layout-invoke-package-synthesis.md",
+      ".arcanum/inventory/index.json",
+      ".arcanum/inventory/index.md",
+      ".arcanum/inventory/log.md"
+    ],
+    "validation": [
+      "updater dry-run pass",
+      "updater append pass",
+      "updater tests pass: 16 assertion groups",
+      "lookup_readiness ready",
+      "projection failures 0",
+      "historical tag warnings 72",
+      "new uncontrolled tags 0"
+    ],
+    "notes": "The entry is a non-authority planning pointer. Existing unrelated Inventory changes were preserved."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "tag-hygiene",
+        "severity": "low",
+        "summary": "The live Inventory retains 72 inherited uncontrolled-tag warnings.",
+        "evidence": ".arcanum/inventory/log.md"
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "false",
+    "recommendation": "Use this entry for discovery only and route implementation through Sigil Development owner reconciliation."
+  },
+  "target_artifact": ".arcanum/inventory/entries/inventory-runtime-faceted-layout-invoke-package-synthesis.md"
+}

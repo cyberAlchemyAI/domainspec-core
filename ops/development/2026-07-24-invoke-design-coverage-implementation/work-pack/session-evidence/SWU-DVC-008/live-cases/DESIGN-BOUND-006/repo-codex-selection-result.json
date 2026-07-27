@@ -1,0 +1,226 @@
+{
+  "concerns": [
+    {
+      "concern_id": "concern:authority",
+      "disposition": "required",
+      "output_id": "architecture:authority-trust",
+      "ownership": {
+        "accountable_owner": "authority-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "source.txt"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "authority",
+      "rationale": "authority disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:effect:effect-privileged"
+      ]
+    },
+    {
+      "concern_id": "concern:state-event",
+      "disposition": "required",
+      "output_id": "architecture:state-event",
+      "ownership": {
+        "accountable_owner": "workflow-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "source.txt"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "state-event",
+      "rationale": "state-event disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:interface:interface-1"
+      ]
+    },
+    {
+      "concern_id": "concern:persistence",
+      "disposition": "required",
+      "output_id": "architecture:persistence-concurrency",
+      "ownership": {
+        "accountable_owner": "persistence-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "source.txt"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "persistence",
+      "rationale": "persistence disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:queue:queue-1",
+        "signal:store:store-1",
+        "signal:writer:writer-1",
+        "signal:writer:writer-2"
+      ]
+    },
+    {
+      "concern_id": "concern:failure",
+      "disposition": "required",
+      "output_id": "architecture:failure-compensation",
+      "ownership": {
+        "accountable_owner": "workflow-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "source.txt"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "failure",
+      "rationale": "failure disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:effect:effect-external"
+      ]
+    },
+    {
+      "concern_id": "concern:privacy-data",
+      "disposition": "required",
+      "output_id": "architecture:data-lifecycle",
+      "ownership": {
+        "accountable_owner": "data-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "source.txt"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "privacy-data",
+      "rationale": "privacy-data disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:data-log-sink:sink-1"
+      ]
+    },
+    {
+      "concern_id": "concern:ux",
+      "disposition": "required",
+      "output_id": "ux-plan",
+      "ownership": {
+        "accountable_owner": "ux-plan-owner",
+        "artifact_owner": "ux-plan-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "source.txt"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "ux",
+      "rationale": "ux disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:human-actor:actor-1",
+        "signal:rendered-surface:surface-1"
+      ]
+    },
+    {
+      "concern_id": "concern:validation",
+      "disposition": "required",
+      "output_id": "validation-contracts",
+      "ownership": {
+        "accountable_owner": "design-owner",
+        "artifact_owner": "plan-work-pack-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "source.txt"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "validation",
+      "rationale": "validation disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:acceptance-readiness-claim:acceptance-1",
+        "signal:normative-rule:rule-validation"
+      ]
+    }
+  ],
+  "denominator_receipt_digest": "251b543b482036462e03439cfad9628f47d53ec856c555863104a39871d05088",
+  "diagnostics": [],
+  "evidence_state": "design-validator-pass",
+  "fixed_point": true,
+  "manifest_id": "manifest:design-bound-006",
+  "manifest_input_digest": "55d8313e86eb897359a0846ebedc0f995f25d2a31ba938981d31c60177f81aa3",
+  "pass_1_digest": "5813e7830c624578af6c164b37a7ee9e1f2c8ea8b9f84dca0d8053a53ae8d453",
+  "pass_2_digest": "5813e7830c624578af6c164b37a7ee9e1f2c8ea8b9f84dca0d8053a53ae8d453",
+  "result_digest": "c932951b2369fa3e74e953ade148b5c8cf407d3306fc707bd9bc68bc02e9ad4c",
+  "schema_version": "1.0.0",
+  "selected_outputs": [
+    "architecture",
+    "architecture:authority-trust",
+    "architecture:data-lifecycle",
+    "architecture:failure-compensation",
+    "architecture:persistence-concurrency",
+    "architecture:state-event",
+    "ux-plan",
+    "validation-contracts"
+  ],
+  "verdict": "pass"
+}

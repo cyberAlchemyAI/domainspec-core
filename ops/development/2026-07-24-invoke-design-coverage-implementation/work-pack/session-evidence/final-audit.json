@@ -1,0 +1,108 @@
+{
+  "schema_version": "invoke.dvc-final-audit.v1",
+  "task_id": "TASK-DVC-VERIFY",
+  "result": "flag",
+  "implementation_result": "pass",
+  "promotion_ready": false,
+  "receipt_chain": {
+    "expected_swu_count": 14,
+    "terminal_passing_swu_count": 14,
+    "status": "pass"
+  },
+  "traceability": {
+    "requirement_count": 14,
+    "status": "pass-with-external-residue",
+    "report": "SWU-DVC-008/recomposition.json"
+  },
+  "validation": [
+    {
+      "check": "frozen corpus digest",
+      "result": "pass",
+      "digest": "347618abe9ae700fb515a127d4d5a75a78665013dbc68fd637bd5bd7200a5c74"
+    },
+    {
+      "check": "Design-selection fixtures",
+      "result": "pass",
+      "cases": 28,
+      "mutations": 27
+    },
+    {
+      "check": "aggregate Invoke validation",
+      "result": "pass",
+      "report": "arcanum/spells/invoke/development/runs/20260724T191845Z.md"
+    },
+    {
+      "check": "Experiment Harness profile validation",
+      "result": "pass",
+      "profile_id": "invoke-live",
+      "lifecycle_owner": "invoke"
+    },
+    {
+      "check": "canonical to repo-codex and Claude generated parity",
+      "result": "pass",
+      "receipt": "SWU-DVC-007/execution-receipt.json"
+    },
+    {
+      "check": "four-case composed live proof",
+      "result": "pass",
+      "receipt": "SWU-DVC-008/live-proof.json"
+    },
+    {
+      "check": "Design and Plan evidence-state separation",
+      "result": "pass",
+      "report": "SWU-DVC-008/evidence-state-trace.json"
+    },
+    {
+      "check": "DVC and generated public scan",
+      "result": "pass",
+      "report": "SWU-DVC-008/leakage-report.json"
+    },
+    {
+      "check": "repo-wide public-path diagnostic",
+      "result": "pass",
+      "hit_count": 0,
+      "classification": "known-local-and-private-path-bindings-repaired",
+      "receipt": "ops/development/2026-07-26-invoke-public-hygiene-repair/receipt.json"
+    },
+    {
+      "check": "expanded consumer-adapter diagnostic",
+      "result": "flag",
+      "hit_count": 29,
+      "file_count": 10,
+      "classification": "historical-consumer-bindings-require-owner-migration"
+    },
+    {
+      "check": "make bump-check",
+      "result": "pass"
+    },
+    {
+      "check": "scoped diff check",
+      "result": "pass"
+    },
+    {
+      "check": "Spellcraft and Task Session chain observability",
+      "result": "pass",
+      "ledger_lines": [
+        324,
+        325
+      ]
+    }
+  ],
+  "authority": {
+    "inventory_is_authoritative": false,
+    "observability_is_authoritative": false,
+    "commit_performed": false,
+    "push_performed": false,
+    "release_performed": false,
+    "promotion_performed": false
+  },
+  "residue": [
+    {
+      "severity": "flag",
+      "owner": "invoke-distill-consumer-adapter-owner",
+      "summary": "The four original private/local bindings are repaired; 29 historical projects/ide-extension bindings across 10 executable fixture and receipt files require a governed consumer-adapter extraction.",
+      "evidence": "SWU-DVC-008/leakage-report.json"
+    }
+  ],
+  "recommended_next_lifecycle_decision": "define-and-execute-invoke-distill-consumer-adapter-extraction"
+}

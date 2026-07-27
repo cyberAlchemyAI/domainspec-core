@@ -1,0 +1,104 @@
+{
+  "schema_version": "inventory.owner-acceptance.v1",
+  "run_id": "sigil-development-inventory-update-20260724T181900Z",
+  "status": "pass",
+  "decision": "supersede-current-selection",
+  "approval_record": {
+    "request": "sigil-development inventory --update",
+    "authority": "Sigil Development lifecycle owner"
+  },
+  "baseline": {
+    "arcanum_head": "0f7d268b5c2c8b54b53ffe7ff6eb592bf2ebc8c6",
+    "handoff": {
+      "path": "ops/development/2026-07-24-inventory-runtime-faceted-layout/SIGIL-HANDOFF.md",
+      "sha256": "90b230d5f4815cf62c19d7404a56be897850b2adf1e0353edef7442d4e1b8e13",
+      "size_bytes": 4328
+    },
+    "invoke_work_pack": {
+      "path": "ops/development/2026-07-24-inventory-runtime-faceted-layout/WORK-PACK.md",
+      "sha256": "9224f4976e2de4551358980deeb9b9eb37a3dd4c3870032aa5773008667a9c4a",
+      "size_bytes": 11545
+    },
+    "prior_canonical_work_pack": {
+      "path": "arcanum/arcana/inventory/development/WORK-PACK.md",
+      "sha256": "49b9514bbc432226d6ba6c16f621d9706386362dcfa602f05b7af745a33b78a9",
+      "size_bytes": 6010
+    }
+  },
+  "canonical_work_pack_decision": {
+    "selected_lane": "runtime-faceted-layout",
+    "selected_unit": "SWU-IFR-001",
+    "prior_lane": "inventory-interface-link-index",
+    "prior_unit": "SWU-INT-001",
+    "prior_disposition": "preserved-deferred",
+    "successor_order": [
+      "SWU-IFR-001",
+      "SWU-IFR-002",
+      "SWU-IFR-003",
+      "SWU-IFR-004",
+      "SWU-IFR-005",
+      "SWU-IFR-006",
+      "SWU-IFR-007",
+      "TASK-IFR-VERIFY"
+    ]
+  },
+  "source_placement": {
+    "lifecycle_package": "arcanum/arcana/inventory/development/runtime-faceted-layout/",
+    "canonical_runtime_root": "arcanum/arcana/inventory/",
+    "first_write_scope": [
+      "arcanum/arcana/inventory/schemas/inventory.operation-receipt.v1.schema.json",
+      "arcanum/arcana/inventory/lib/operation-receipt.cjs",
+      "arcanum/arcana/inventory/test/operation-receipt.test.cjs"
+    ]
+  },
+  "generated_scope": {
+    "admission_unit": "SWU-IFR-006",
+    "managed": [
+      "bin/",
+      "lib/",
+      "schemas/",
+      "scripts/validate-index-json.sh",
+      "scripts/validate_projection_conformance.py",
+      "runtime-manifest.json"
+    ],
+    "consumer_owned_forbidden": [
+      "entries/",
+      "queries/",
+      "raw/",
+      "receipts/",
+      "index.json",
+      "index.md",
+      "schema.md",
+      "tags.md",
+      "log.md"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "arcanum/arcana/inventory/development/runtime-faceted-layout/OWNER-ACCEPTANCE.md",
+      "sha256": "8f4f59ffb21744e064919b3b44777ae6344c36dca82aa9d6665cd88c3a6fc1b9",
+      "size_bytes": 1859
+    },
+    {
+      "path": "arcanum/arcana/inventory/development/runtime-faceted-layout/WORK-PACK.md",
+      "sha256": "66ec1f81bbac2b6c0adada6fa4b3be158ea2511b77f6d9eafb667cbb31d4791a",
+      "size_bytes": 3450
+    }
+  ],
+  "validation_result": "pass",
+  "validation": [
+    "14 public Markdown files before validation report; zero broken local links",
+    "exactly one ready SWU",
+    "public/private path scan pass",
+    "scoped git diff check pass",
+    "Inventory lookup readiness ready with zero failures and 72 inherited warnings",
+    "Inventory updater/index tests pass: 16 assertion groups"
+  ],
+  "observer_status": "local-fallback-pass",
+  "blockers": [],
+  "residue": [
+    "The generated repository-local Codex sigil-development package is absent; the installed/canonical contract was used.",
+    "Atomicity, currentness verification, legacy migration, promotion, release, commit, push, and publication remain outside the accepted lane."
+  ],
+  "handoff_note": "Task Session may select only SWU-IFR-001. No runtime source was changed by this lifecycle acceptance."
+}

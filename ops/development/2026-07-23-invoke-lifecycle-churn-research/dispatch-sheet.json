@@ -1,0 +1,149 @@
+{
+  "dispatch_id": "2026-07-23-invoke-lifecycle-churn-research",
+  "schema_version": "0.7.0",
+  "dispatch_type": "research",
+  "goal": "Determine the smallest defensible redesign of the Invoke and Task Session lifecycle that stops repeated plan refreshes while preserving fail-closed evidence admission, one-SWU execution, and public-private authority boundaries.",
+  "context": "Recent telemetry and DS-SFOL and BTE evidence show a recurring cycle: planning appears complete, Task Session discovers missing or stale implementation material, closeout routes back through Refresh, and exact joined receipts become stale again. This research must separate local run validity from lifecycle progress, resolve implementation-material ownership, and examine external primary-source precedents for durable workflows, immutable planning, optimistic concurrency, versioning, and idempotent materialization. The outputs are private research input for a later sanitized Spellcraft change; no Invoke or Task Session mutation is authorized.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "meta": true,
+  "anti_bias_global": "simplify lifecycle progress without weakening evidence admission",
+  "working_folder": "ops/development/2026-07-23-invoke-lifecycle-churn-research/",
+  "groups": [
+    {
+      "group_id": "explorers",
+      "n": 2,
+      "anti_bias": "composite methodology + source-corpus",
+      "robot_talks": false,
+      "agents": [
+        {
+          "agent_name": "Ashby, W. Ross",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 5000,
+          "angle": "Empirical internal causal archaeology over current Invoke and Task Session contracts, central and temporary telemetry, and DS-SFOL and BTE receipts; derive sanitized generic public invariants from private evidence, explicitly verify that no private paths, vocabulary, or prose enter proposed canonical Arcanum changes, treat reproducible local transition failures as primary, and resist importing generic solutions. Ashby runs empirical causal reconstruction on local contracts and receipts, Simon runs historical-comparative precedent over external primary-source workflow systems on the composite methodology + source-corpus axis; a local-overfitting bias in Ashby would be exposed by Simon, while a solution-transplant bias in Simon would be exposed by Ashby.",
+          "initial_prompt": "Perform a read-only internal causal audit of Invoke lifecycle churn. Inspect the current canonical arcanum/spells/invoke README, define, design, plan, and refresh contracts; arcanum/arcana/task-session SKILL and README; implementation-material schemas and validators; the current workflow-reflect report; central and temporary telemetry; DS-SFOL Task Session evidence; BTE refresh evidence; and relevant Inventory leads. Build a causal transition graph, an artifact-owner table, concrete cycle witnesses, and an earliest-detection analysis. Derive public-safe generic invariants from the private evidence, explicitly separating private evidence from any proposed public wording. Identify the smallest candidate fixes and what each would fail to solve. Do not edit files. Return evidence-backed prose with precise repository citations suitable for verbatim inclusion under an Agent section in research.md."
+        },
+        {
+          "agent_name": "Simon, Herbert",
+          "role": "explorer",
+          "model": "gpt-5.6-terra",
+          "token_budget": 5000,
+          "angle": "Comparative primary-source research into durable workflow execution, event histories, immutable plan snapshots, optimistic concurrency, versioning, retry and idempotence, and materialization ownership; seek transferable mechanisms without assuming external systems share Arcanum's authority model. Ashby runs empirical causal reconstruction on local contracts and receipts, Simon runs historical-comparative precedent over external primary-source workflow systems on the composite methodology + source-corpus axis; a local-overfitting bias in Ashby would be exposed by Simon, while a solution-transplant bias in Simon would be exposed by Ashby.",
+          "initial_prompt": "Perform read-only external research using primary or official sources only. Compare mechanisms from durable workflow systems and reproducible build or deployment systems that prevent plan-execution-refresh churn: immutable workflow or plan snapshots, event histories, activity retry and idempotence, signals or explicit transition events, optimistic concurrency or compare-and-swap, workflow versioning, and clear materialization ownership. Suitable sources include official Temporal or Cadence semantics, official cloud durable-workflow documentation, authoritative event-sourcing material, and official Bazel or Nix material where directly relevant. Cite direct sources and dates. Translate findings into patterns and anti-patterns applicable to Invoke and Task Session without transplanting an external architecture wholesale. Do not edit files. Return evidence-backed prose with links suitable for verbatim inclusion under an Agent section in research.md."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "anti_bias": "force a minimal causal model and kill options that do not remove a demonstrated cycle",
+      "agents": [
+        {
+          "agent_name": "Senge, Peter",
+          "role": "synthesizer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 5000,
+          "angle": "Reconcile local causal evidence with external mechanisms into the smallest lifecycle model that assigns owners, epochs, invalidation classes, and completion transitions without broadening authority.",
+          "initial_prompt": "Synthesize the two explorer returns plus the recorded Inventory selection and exclusion rationale. Produce: a minimal causal model of the churn; a current-state transition map; candidate redesign options; an explicit option-kill table; a recommended smallest redesign; required owner, witness, soundness, and verdict fields for every new boundary; migration and compatibility constraints; and falsifiable acceptance criteria. Distinguish local-run validity from lifecycle progress and separate semantic invalidation from byte drift. Preserve one-SWU Task Session execution and fail-closed gates. Do not write files. Your result will be challenged by three independent reviewers."
+        }
+      ]
+    },
+    {
+      "group_id": "reviewers",
+      "n": 3,
+      "anti_bias": "attack-vector",
+      "agents": [
+        {
+          "agent_name": "Schön, Donald",
+          "role": "skeptic",
+          "model": "codex-auto-review",
+          "token_budget": 3000,
+          "angle": "Precedent-fit attack: test whether the synthesis selectively borrows external workflow language without preserving the actual guarantees or respecting Arcanum's local authority boundary. Schön runs owner/precedent verification, Popper runs executable-witness falsification on the attack-vector axis; Schön's reuse bias is exposed if owned machinery cannot produce a witness, while Popper's novelty bias is exposed by an already-owned working mechanism. Schön runs owner/precedent verification, Tetlock runs definitional-collapse analysis on the attack-vector axis; Schön's owner-match bias is exposed if the concept is only nominally similar, while Tetlock's collapse bias is exposed by a materially distinct owned contract.",
+          "initial_prompt": "Review the synthesis as a precedent-fit skeptic. Check every imported durable-workflow, build-system, event-history, versioning, or idempotence analogy against the explorer evidence. Identify cargo-cult transfer, hidden architectural expansion, missing compatibility constraints, and any public-private leakage. Require the smallest locally justified mechanism. Return concrete objections, severity, and exact revision requests. Do not write files."
+        },
+        {
+          "agent_name": "Popper, Karl",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3000,
+          "angle": "Non-vacuity attack: determine whether the proposed lifecycle invariants and acceptance criteria can actually fail on known churn witnesses and whether they prevent false completion rather than merely relabeling Refresh. Schön runs owner/precedent verification, Popper runs executable-witness falsification on the attack-vector axis; Schön's reuse bias is exposed if owned machinery cannot produce a witness, while Popper's novelty bias is exposed by an already-owned working mechanism. Popper runs executable-witness falsification, Tetlock runs definitional-collapse analysis on the attack-vector axis; Popper's mechanism bias is exposed if a runnable proposal only renames the loop, while Tetlock's semantic-purity bias is exposed by a minimal witness with distinct authority and state effects.",
+          "initial_prompt": "Review the synthesis as a non-vacuity skeptic. Attempt to construct counterexamples using the known missing-material, stale joined-receipt, repeated Refresh, byte-drift, and run-local observability cases. Test whether each proposed invariant has an independent denominator, a fail-closed missing-input witness, an earliest-detection point, and a falsifiable acceptance test. Reject any proposal that merely renames Refresh or makes completion circular. Return concrete objections, severity, and exact revision requests. Do not write files."
+        },
+        {
+          "agent_name": "Tetlock, Philip",
+          "role": "skeptic",
+          "model": "gpt-5.6-terra",
+          "token_budget": 3000,
+          "angle": "Definitional-soundness attack: test whether plan epoch, material owner, semantic invalidation, byte drift, run validity, lifecycle progress, and completion are mutually distinct, observable, and assigned to one authority. Schön runs owner/precedent verification, Tetlock runs definitional-collapse analysis on the attack-vector axis; Schön's owner-match bias is exposed if the concept is only nominally similar, while Tetlock's collapse bias is exposed by a materially distinct owned contract. Popper runs executable-witness falsification, Tetlock runs definitional-collapse analysis on the attack-vector axis; Popper's mechanism bias is exposed if a runnable proposal only renames the loop, while Tetlock's semantic-purity bias is exposed by a minimal witness with distinct authority and state effects.",
+          "initial_prompt": "Review the synthesis as a definitional-soundness skeptic. Audit every proposed state, artifact, owner, epoch, invalidation class, transition, and verdict. Find overloaded terms, circular definitions, unobservable states, split ownership, and contradictions with existing Invoke or Task Session boundaries. Require a precise state vocabulary and transition table that can be implemented without private project language entering public Arcanum. Return concrete objections, severity, and exact revision requests. Do not write files."
+        }
+      ]
+    },
+    {
+      "group_id": "writer",
+      "n": 1,
+      "anti_bias": "write only the converged result and preserve claim-to-evidence traceability",
+      "agents": [
+        {
+          "agent_name": "Noether, Emmy",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 5000,
+          "angle": "Turn the converged causal model into a decision-grade private findings artifact whose proposed public changes are generic, minimal, and traceable to independent evidence.",
+          "initial_prompt": "After research.md exists and the revised synthesis and reviewer attacks are supplied, write only ops/development/2026-07-23-invoke-lifecycle-churn-research/findings.md using apply_patch. Follow the repository research findings contract: open with Goal, TL;DR, and Context; close with Open Questions and named owners; include a Connections block deriving from ./research.md. Include the demonstrated current loop, causal model, selected redesign, alternatives killed, a transition table, an owner-witness-soundness-verdict matrix, migration and compatibility constraints, fixture and telemetry requirements, falsifiable acceptance criteria, and sanitized public-safe Spellcraft change requests. Every load-bearing claim must cite the corresponding research.md Agent heading and, where applicable, the direct local or external source. Do not edit research.md or any canonical Invoke or Task Session file."
+        }
+      ]
+    },
+    {
+      "group_id": "auditor",
+      "n": 1,
+      "anti_bias": "accept only if the artifact removes demonstrated churn without weakening gates or leaking private authority",
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "codex-auto-review",
+          "token_budget": 3500,
+          "angle": "Final fail-closed audit of evidence traceability, lifecycle soundness, minimality, public-private hygiene, and implementable next-step precision.",
+          "initial_prompt": "Audit findings.md against research.md, the converged synthesis, and the reviewer objections. Verify that the selected redesign addresses every demonstrated churn witness; distinguishes local validity from lifecycle progress and semantic invalidation from byte drift; assigns one owner to every material and transition; preserves one-SWU execution and fail-closed evidence admission; contains falsifiable tests and migration constraints; and exposes no private prose as proposed public canonical text. Return ACCEPT with concise grounds or REVISE with one bounded revision prompt. Do not write files."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "explorers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "reviewers",
+      "type": "zig-zag",
+      "loop_cap": 1
+    },
+    {
+      "from": "synthesizer",
+      "to": "explorers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "reviewers",
+      "to": "writer",
+      "type": "sequential"
+    },
+    {
+      "from": "writer",
+      "to": "auditor",
+      "type": "sequential"
+    },
+    {
+      "from": "auditor",
+      "to": "writer",
+      "type": "feedback",
+      "loop_cap": 1
+    }
+  ]
+}

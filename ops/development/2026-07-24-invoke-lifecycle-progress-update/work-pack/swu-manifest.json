@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "work_pack": "ops/development/2026-07-24-invoke-lifecycle-progress-update/WORK-PACK.md",
+  "selected_swu": "SWU-ILP-001",
+  "mutation_handoff_readiness": "blocked",
+  "blocker": "ILP-G01",
+  "swus": [
+    {
+      "swu_id": "SWU-ILP-001",
+      "parent_task": "TASK-ILP-001",
+      "task_contract": "tasks/TASK-ILP-001-AUTHORITY-DECISION.md",
+      "primary_behavior": "ratify transition-admission owner and public source placement",
+      "dependencies": [],
+      "write_scope": ["work-pack/session-evidence/SWU-ILP-001/"],
+      "validation": ["authority boundary review", "public/private review"],
+      "execution_owner": "manual",
+      "state": "selected_gated"
+    },
+    {
+      "swu_id": "SWU-ILP-002",
+      "parent_task": "TASK-ILP-002",
+      "task_contract": "tasks/TASK-ILP-002-EPOCH-CONTRACT.md",
+      "primary_behavior": "validate immutable epoch and declared control graph",
+      "dependencies": ["SWU-ILP-001"],
+      "write_scope": ["owner-approved Invoke epoch schema, validator, and fixtures"],
+      "validation": ["lifecycle progress epoch fixture group"],
+      "execution_owner": "local-fallback",
+      "state": "pending"
+    },
+    {
+      "swu_id": "SWU-ILP-003",
+      "parent_task": "TASK-ILP-003",
+      "task_contract": "tasks/TASK-ILP-003-TRANSITION-VALIDATOR.md",
+      "primary_behavior": "admit one allowed append-only transition",
+      "dependencies": ["SWU-ILP-001", "SWU-ILP-002"],
+      "write_scope": ["owner-approved transition schema, validator, and fixtures"],
+      "validation": ["transition edge, supersession, and churn fixture group"],
+      "execution_owner": "local-fallback",
+      "state": "pending"
+    },
+    {
+      "swu_id": "SWU-ILP-004",
+      "parent_task": "TASK-ILP-004",
+      "task_contract": "tasks/TASK-ILP-004-MODE-READINESS.md",
+      "primary_behavior": "compute one mode-compatible handoff-readiness verdict",
+      "dependencies": ["SWU-ILP-002", "SWU-ILP-003"],
+      "write_scope": ["Invoke local execution contract, readiness schema, validator, and fixtures"],
+      "validation": ["readiness mode fixture group"],
+      "execution_owner": "local-fallback",
+      "state": "pending"
+    },
+    {
+      "swu_id": "SWU-ILP-005",
+      "parent_task": "TASK-ILP-005",
+      "task_contract": "tasks/TASK-ILP-005-PLAN-INTEGRATION.md",
+      "primary_behavior": "gate Plan mutation routing on admitted ready epoch",
+      "dependencies": ["SWU-ILP-002", "SWU-ILP-003", "SWU-ILP-004"],
+      "write_scope": ["Invoke Plan canonical contract, fixtures, and generated mirrors"],
+      "validation": ["Plan route matrix fixture group"],
+      "execution_owner": "local-fallback",
+      "state": "pending"
+    },
+    {
+      "swu_id": "SWU-ILP-006A",
+      "parent_task": "TASK-ILP-006",
+      "task_contract": "tasks/TASK-ILP-006-REFRESH-AND-DRIFT.md",
+      "primary_behavior": "classify changed paths independently",
+      "dependencies": ["SWU-ILP-003", "SWU-ILP-005"],
+      "write_scope": ["Invoke change-impact schema, classifier, and fixtures"],
+      "validation": ["change-impact fixture group"],
+      "execution_owner": "local-fallback",
+      "state": "pending"
+    },
+    {
+      "swu_id": "SWU-ILP-006B",
+      "parent_task": "TASK-ILP-006",
+      "task_contract": "tasks/TASK-ILP-006-REFRESH-AND-DRIFT.md",
+      "primary_behavior": "enforce one Refresh transition kind and postcondition",
+      "dependencies": ["SWU-ILP-006A"],
+      "write_scope": ["Invoke Refresh canonical contract, schemas, fixtures, and generated mirrors"],
+      "validation": ["Refresh transition-kind fixture group"],
+      "execution_owner": "local-fallback",
+      "state": "pending"
+    },
+    {
+      "swu_id": "SWU-ILP-007",
+      "parent_task": "TASK-ILP-007",
+      "task_contract": "tasks/TASK-ILP-007-TASK-SESSION-CONSUMPTION.md",
+      "primary_behavior": "bind Task Session admission to one ready epoch",
+      "dependencies": ["SWU-ILP-004", "SWU-ILP-005", "SWU-ILP-006B"],
+      "write_scope": ["Task Session canonical contract, mutation admission schemas/verifier, fixtures, and mirrors"],
+      "validation": ["Task Session mutation-admission and lifecycle fixture groups"],
+      "execution_owner": "local-fallback",
+      "state": "pending"
+    },
+    {
+      "swu_id": "SWU-ILP-008A",
+      "parent_task": "TASK-ILP-008",
+      "task_contract": "tasks/TASK-ILP-008-LEGACY-AND-PROGRESS.md",
+      "primary_behavior": "freshly revalidate legacy plans without inferred readiness",
+      "dependencies": ["SWU-ILP-007"],
+      "write_scope": ["owner-approved Invoke legacy adapter and fixtures"],
+      "validation": ["legacy admission fixture group"],
+      "execution_owner": "local-fallback",
+      "state": "pending"
+    },
+    {
+      "swu_id": "SWU-ILP-008B",
+      "parent_task": "TASK-ILP-008",
+      "task_contract": "tasks/TASK-ILP-008-LEGACY-AND-PROGRESS.md",
+      "primary_behavior": "project transition-derived progress and churn",
+      "dependencies": ["SWU-ILP-008A"],
+      "write_scope": ["owner-approved observer and Workflow Reflect signal contracts and fixtures"],
+      "validation": ["progress denominator and churn fixture group"],
+      "execution_owner": "local-fallback",
+      "state": "pending"
+    },
+    {
+      "swu_id": "SWU-ILP-009",
+      "parent_task": "TASK-ILP-009",
+      "task_contract": "tasks/TASK-ILP-009-LIVE-PROOF.md",
+      "primary_behavior": "prove live admission without repair Refresh while exact drift still blocks",
+      "dependencies": ["SWU-ILP-008A", "SWU-ILP-008B"],
+      "write_scope": ["owner-approved generic fixture/run paths", "work-pack/session-evidence/SWU-ILP-009/"],
+      "validation": ["generic live receipt-chain audit"],
+      "execution_owner": "local-fallback",
+      "state": "pending"
+    }
+  ]
+}
+

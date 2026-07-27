@@ -1,0 +1,19 @@
+{
+  "schema_version": "task-session-execution-receipt.v1",
+  "task_id": "TASK-DVC-003",
+  "swu_id": "SWU-DVC-003",
+  "result": "pass",
+  "execution_result": "pass",
+  "mutation_admission": {"receipt": "mutation-admission-receipt.json", "admission_verdict": "admit", "mutation_ready": true, "revalidated_after_repair": true},
+  "files_touched": ["arcanum/spells/invoke/scripts/design_scope_extractor.py"],
+  "validation": [
+    {"check": "Python compile", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "deterministic receipt replay", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "4 exact negative controls", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "exact staged bytes and scoped diff", "criticality": "acceptance-critical", "result": "pass"}
+  ],
+  "blockers": [],
+  "residue": [],
+  "experiment_harness": "pending-reusable-behavior-validation",
+  "next_swu": "SWU-DVC-004"
+}

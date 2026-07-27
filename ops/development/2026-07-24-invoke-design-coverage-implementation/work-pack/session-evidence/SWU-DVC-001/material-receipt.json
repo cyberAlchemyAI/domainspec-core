@@ -1,0 +1,24 @@
+{
+  "authorityClass": "public",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "spellcraft",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "13ee1e2d1925afe4edb067a727095eb855a26fd9dab49e7ca65f129ab5aaa7e9",
+  "packageId": "invoke-design-coverage-swu-dvc-001",
+  "patchVerdict": "pass",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "public",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "arcanum/spells/invoke/development/fixtures/design-selection/SOURCE-TRACE.md",
+    "arcanum/spells/invoke/development/fixtures/design-selection/fixture-denominator-receipt.json",
+    "arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json"
+  ],
+  "validationCommands": [
+    "python3 -m json.tool arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+    "jq -e '(.cases | length) >= 24 and ([.cases[].fixture_id] | unique | length) == (.cases | length)' arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+    "git diff --check -- arcanum/spells/invoke/development/fixtures/design-selection"
+  ]
+}

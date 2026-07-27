@@ -1,0 +1,774 @@
+{
+  "dispatch_id": "2026-07-24-invoke-lifecycle-progress-update",
+  "intent": {
+    "raw": "Define, design, and plan the full Invoke lifecycle progress update.",
+    "objective": "Prevent late missing-producer discovery and lifecycle churn through one immutable selected-unit epoch, mode-compatible readiness, append-only transitions, and live proof without weakening exact admission.",
+    "target_artifact": "ops/development/2026-07-24-invoke-lifecycle-progress-update/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "spellcraft",
+      "sigil-development",
+      "task-session",
+      "workflow-reflect",
+      "dispatch-spec",
+      "distill"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "authority_split_gate",
+    "state_namespace_boundary",
+    "artifact_contract_bridge",
+    "concrete_path_evidence",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "This authoring run did not request delegated implementation. Later execution selects one lifecycle-owned SWU at a time.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "none"
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Validate lifecycle update route",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "authority_split_gate",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/execution.dispatch.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S1.dispatch-validation"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-24-invoke-lifecycle-progress-update/dispatch-validation.json",
+      "stop_conditions": [
+        "block on route, technique, owner, boundary, or receipt failure"
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Ratify transition authority and source placement",
+      "capability_ref": "spellcraft",
+      "mode": "design",
+      "pattern": "decision",
+      "parallel": false,
+      "depends_on_steps": [
+        "S1"
+      ],
+      "techniques": [
+        "sequence",
+        "authority_split_gate",
+        "owner_boundary_check",
+        "state_namespace_boundary",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S1.dispatch-validation"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/tasks/TASK-ILP-001-AUTHORITY-DECISION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "S2.SWU-ILP-001"
+        }
+      ],
+      "join_policy": "human_gate",
+      "evidence_artifact": "work-pack/session-evidence/SWU-ILP-001/decision-receipt.json",
+      "stop_conditions": [
+        "block competing or unnamed transition owner",
+        "block ambiguous public source placement",
+        "perform no canonical mutation"
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Implement immutable epoch validation",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S2"
+      ],
+      "techniques": [
+        "sequence",
+        "scu_swu_reduction",
+        "validation_loop",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "S2.SWU-ILP-001"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/tasks/TASK-ILP-002-EPOCH-CONTRACT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S3.SWU-ILP-002"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-ILP-002/receipt.json",
+      "stop_conditions": [
+        "block incomplete declared control graph",
+        "block unresolved paths or changed control digest"
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Implement transition admission validation",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S3"
+      ],
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "authority_split_gate",
+        "residue_ledger",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S3.SWU-ILP-002"
+        },
+        {
+          "kind": "decision",
+          "ref": "S2.SWU-ILP-001"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/tasks/TASK-ILP-003-TRANSITION-VALIDATOR.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S4.SWU-ILP-003"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-ILP-003/receipt.json",
+      "stop_conditions": [
+        "block any unlisted edge",
+        "block same-epoch control repair",
+        "block unchanged churn progress"
+      ]
+    },
+    {
+      "step_id": "S5",
+      "name": "Implement mode-compatible readiness",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S4"
+      ],
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "validation_loop",
+        "owner_boundary_check",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S4.SWU-ILP-003"
+        },
+        {
+          "kind": "receipt",
+          "ref": "S3.SWU-ILP-002"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/tasks/TASK-ILP-004-MODE-READINESS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S5.SWU-ILP-004"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-ILP-004/receipt.json",
+      "stop_conditions": [
+        "block incompatible producer",
+        "block producer-validator-consumer role collapse",
+        "preserve exact packaged-mode validation"
+      ]
+    },
+    {
+      "step_id": "S6",
+      "name": "Integrate Plan epoch and route gate",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S5"
+      ],
+      "techniques": [
+        "sequence",
+        "handle_handoff",
+        "validation_loop",
+        "execution_receipt_handoff",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S5.SWU-ILP-004"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/tasks/TASK-ILP-005-PLAN-INTEGRATION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S6.SWU-ILP-005"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-ILP-005/receipt.json",
+      "stop_conditions": [
+        "block authored-pass routing without admitted ready epoch",
+        "block multiple selected units"
+      ]
+    },
+    {
+      "step_id": "S7",
+      "name": "Integrate drift classification and Refresh kinds",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S6"
+      ],
+      "techniques": [
+        "sequence",
+        "scu_swu_reduction",
+        "validation_loop",
+        "artifact_contract_bridge",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S6.SWU-ILP-005"
+        },
+        {
+          "kind": "receipt",
+          "ref": "S4.SWU-ILP-003"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/tasks/TASK-ILP-006-REFRESH-AND-DRIFT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S7.SWU-ILP-006A"
+        },
+        {
+          "kind": "receipt",
+          "ref": "S7.SWU-ILP-006B"
+        }
+      ],
+      "join_policy": "all",
+      "evidence_artifact": "work-pack/session-evidence/TASK-ILP-006/receipts.json",
+      "stop_conditions": [
+        "execute 006A and 006B in separate Task Sessions",
+        "block writer self-classification",
+        "block mixed Refresh kinds or target implementation"
+      ]
+    },
+    {
+      "step_id": "S8",
+      "name": "Integrate Task Session ready-epoch consumption",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S7"
+      ],
+      "techniques": [
+        "sequence",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S7.SWU-ILP-006B"
+        },
+        {
+          "kind": "receipt",
+          "ref": "S5.SWU-ILP-004"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/tasks/TASK-ILP-007-TASK-SESSION-CONSUMPTION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S8.SWU-ILP-007"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-ILP-007/receipt.json",
+      "stop_conditions": [
+        "block stale or mismatched epoch evidence before write",
+        "preserve one SWU and live admission"
+      ]
+    },
+    {
+      "step_id": "S9",
+      "name": "Implement legacy admission and progress projection",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S8"
+      ],
+      "techniques": [
+        "sequence",
+        "scu_swu_reduction",
+        "observability_grouping",
+        "state_namespace_boundary",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S8.SWU-ILP-007"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/tasks/TASK-ILP-008-LEGACY-AND-PROGRESS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S9.SWU-ILP-008A"
+        },
+        {
+          "kind": "receipt",
+          "ref": "S9.SWU-ILP-008B"
+        }
+      ],
+      "join_policy": "all",
+      "evidence_artifact": "work-pack/session-evidence/TASK-ILP-008/receipts.json",
+      "stop_conditions": [
+        "execute 008A and 008B in separate lifecycle sessions",
+        "block inferred historical readiness",
+        "block telemetry authority"
+      ]
+    },
+    {
+      "step_id": "S10",
+      "name": "Run generic live topology proof",
+      "capability_ref": "task-session",
+      "mode": "execute-one",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "S9"
+      ],
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "execution_receipt_handoff",
+        "concrete_path_evidence",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S9.SWU-ILP-008A"
+        },
+        {
+          "kind": "receipt",
+          "ref": "S9.SWU-ILP-008B"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/tasks/TASK-ILP-009-LIVE-PROOF.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S10.SWU-ILP-009"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-ILP-009/receipt.json",
+      "stop_conditions": [
+        "one SWU only",
+        "block if repair Refresh is required before admission",
+        "block if obsolete exact join does not reject"
+      ]
+    },
+    {
+      "step_id": "S11",
+      "name": "Recompose, audit, and reflect",
+      "capability_ref": "workflow-reflect",
+      "capability_status": "candidate",
+      "mode": "all",
+      "pattern": "synthesis",
+      "parallel": false,
+      "depends_on_steps": [
+        "S10"
+      ],
+      "techniques": [
+        "sequence",
+        "recomposition_proof",
+        "residue_ledger",
+        "observability_grouping",
+        "authority_split_gate"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "S10.SWU-ILP-009"
+        },
+        {
+          "kind": "ledger",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/shared/TRACEABILITY.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-lifecycle-progress-update/work-pack/tasks/TASK-ILP-VERIFY.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S11.final-audit"
+        },
+        {
+          "kind": "ledger",
+          "ref": "S11.residue"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/TASK-ILP-VERIFY/final-audit.json",
+      "stop_conditions": [
+        "block missing ILP requirement evidence",
+        "block private leakage or authority collapse",
+        "never auto-promote or publish"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G0-route",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "route, technique, boundary, and receipt contracts validate",
+      "requires_role_receipts": [
+        "S1.dispatch-validation"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G1-authority",
+      "kind": "decision",
+      "owner": "Spellcraft and Arcanum governance",
+      "condition": "one transition-admission owner and exact public source placement are ratified",
+      "requires_role_receipts": [
+        "S2.SWU-ILP-001"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2-contracts",
+      "kind": "quality",
+      "owner": "Spellcraft and transition-admission owner",
+      "condition": "epoch, transition, role, and readiness causal fixtures pass",
+      "requires_role_receipts": [
+        "S3.SWU-ILP-002",
+        "S4.SWU-ILP-003",
+        "S5.SWU-ILP-004"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3-integration",
+      "kind": "quality",
+      "owner": "Spellcraft and Sigil Development",
+      "condition": "Plan, Refresh, drift, and Task Session integrations pass without authority collapse",
+      "requires_role_receipts": [
+        "S6.SWU-ILP-005",
+        "S7.SWU-ILP-006A",
+        "S7.SWU-ILP-006B",
+        "S8.SWU-ILP-007"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G4-close",
+      "kind": "promotion_guardrail",
+      "owner": "maintainer and lifecycle owners",
+      "condition": "legacy, progress, live proof, privacy, and recomposition evidence pass without inferring promotion",
+      "requires_role_receipts": [
+        "S9.SWU-ILP-008A",
+        "S9.SWU-ILP-008B",
+        "S10.SWU-ILP-009",
+        "S11.final-audit"
+      ],
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "dispatch_validated",
+      "authority_decision_recorded",
+      "epoch_candidate_validated",
+      "transition_admitted_or_rejected",
+      "readiness_assessed",
+      "swu_selected",
+      "mutation_admission_evaluated",
+      "churn_key_evaluated",
+      "live_topology_proved",
+      "final_audit_issued"
+    ],
+    "signal_grouping": "dispatch_id + step_id + goal_id + epoch_id + unit_id + transition_id + blocker_fingerprint"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-authoring-lifecycle",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "spellcraft or sigil-development",
+        "applies_to_steps": [
+          "S2",
+          "S3",
+          "S4",
+          "S5",
+          "S6",
+          "S7",
+          "S8",
+          "S9"
+        ],
+        "contract": "Invoke supplies design and SWU contracts; lifecycle owners accept and mutate.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2-transition-authority",
+        "kind": "evidence_return",
+        "from_owner": "capability receipt producers",
+        "to_owner": "ratified transition-admission owner",
+        "applies_to_steps": [
+          "S3",
+          "S4",
+          "S5",
+          "S6",
+          "S7",
+          "S8",
+          "S9",
+          "S10"
+        ],
+        "contract": "Capabilities submit immutable receipts; only the ratified owner admits lifecycle edges.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3-private-public",
+        "kind": "external_context",
+        "from_owner": "private research package",
+        "to_owner": "public Arcanum",
+        "applies_to_steps": [
+          "S2",
+          "S3",
+          "S4",
+          "S5",
+          "S6",
+          "S7",
+          "S8",
+          "S9",
+          "S10",
+          "S11"
+        ],
+        "contract": "Only generic sanitized invariants and synthetic fixtures enter public Arcanum.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B4-observation-authority",
+        "kind": "state_write",
+        "from_owner": "transition-admission owner",
+        "to_owner": "observability, Inventory, projections, status, and cursors",
+        "applies_to_steps": [
+          "S9",
+          "S11"
+        ],
+        "contract": "Read models may reference admitted transition IDs but cannot admit, rewrite, or infer progress.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Spellcraft or Sigil Development per source target",
+      "execution": "Task Session for exactly one admitted epoch and SWU",
+      "validation": "independent deterministic validators by declared axis",
+      "evidence": "immutable capability and transition receipts",
+      "memory": "no promotion in scope",
+      "promotion": "explicit lifecycle owner plus human maintainer"
+    },
+    "receipts": [
+      {
+        "receipt_id": "swu-closure",
+        "producer": "selected lifecycle capability",
+        "required_fields": [
+          "run_id",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "protocol_fields": [
+          "swu_id",
+          "files_touched",
+          "source_receipt",
+          "closeout_sync"
+        ],
+        "stores": [
+          "work-pack/session-evidence"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "epoch-transition",
+        "producer": "ratified transition-admission owner",
+        "required_fields": [
+          "run_id",
+          "status",
+          "artifacts",
+          "validation_result",
+          "audit_reference"
+        ],
+        "protocol_fields": [
+          "transition_id",
+          "goal_id",
+          "epoch_id",
+          "unit_id",
+          "from_state",
+          "to_state",
+          "evidence_receipts",
+          "admitted_by"
+        ],
+        "stores": [
+          "owner-approved append-only transition store"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "final-audit",
+        "producer": "workflow-reflect with lifecycle owners",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "residue",
+          "audit_reference"
+        ],
+        "stores": [
+          "work-pack/session-evidence",
+          "observability"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "private-planning",
+        "owner": "Invoke authoring package",
+        "write_policy": "private plan and evidence only"
+      },
+      {
+        "namespace": "public-arcanum",
+        "owner": "Spellcraft or Sigil Development",
+        "write_policy": "submodule first, generic canonical source only"
+      },
+      {
+        "namespace": "transition-history",
+        "owner": "ratified transition-admission owner",
+        "write_policy": "append-only admitted edges"
+      },
+      {
+        "namespace": "generated-and-read-models",
+        "owner": "declared generators and observers",
+        "write_policy": "derived, synchronized, and non-authoritative"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Invoke authors this package but mutates no canonical target.",
+    "An authored-valid plan does not imply mutation-handoff readiness.",
+    "No lifecycle edge exists without the ratified transition-owner receipt.",
+    "Exact digest mismatch remains fail-closed.",
+    "Private evidence never becomes public canonical content.",
+    "Validation, live proof, and closure do not imply promotion, release, commit, push, or publication."
+  ]
+}

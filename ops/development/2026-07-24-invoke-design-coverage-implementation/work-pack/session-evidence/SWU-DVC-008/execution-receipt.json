@@ -1,0 +1,63 @@
+{
+  "schema_version": "task-session-execution-receipt.v1",
+  "task_id": "TASK-DVC-008",
+  "swu_id": "SWU-DVC-008",
+  "result": "pass-with-residue",
+  "execution_result": "pass",
+  "mutation_admission": {
+    "receipt": "mutation-admission-receipt.json",
+    "admission_verdict": "admit",
+    "mutation_ready": true
+  },
+  "validation": [
+    {
+      "check": "four-case composed Define to Design to Plan proof",
+      "criticality": "acceptance-critical",
+      "result": "pass",
+      "report": "live-proof.json"
+    },
+    {
+      "check": "canonical, repo-codex, and Claude runtime behavior parity",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "check": "Design and Plan evidence-state ceiling",
+      "criticality": "acceptance-critical",
+      "result": "pass",
+      "report": "evidence-state-trace.json"
+    },
+    {
+      "check": "DVC-R01 through DVC-R14 recomposition",
+      "criticality": "acceptance-critical",
+      "result": "pass-with-external-residue",
+      "report": "recomposition.json"
+    },
+    {
+      "check": "Design-selection and aggregate regression",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "check": "scoped DVC/generated public scan",
+      "criticality": "acceptance-critical",
+      "result": "pass",
+      "report": "leakage-report.json"
+    },
+    {
+      "check": "make bump-check",
+      "criticality": "diagnostic",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "repo-wide diagnostic found four pre-existing local-path references outside the DVC write scope; promotion readiness must remain flagged until their owner classifies or repairs them"
+  ],
+  "experiment_harness": {
+    "result": "pass",
+    "profile": "DVC Define -> Design -> Plan boundary proof",
+    "report": "EXPERIMENT-REPORT.md"
+  },
+  "next_task": "TASK-DVC-VERIFY"
+}

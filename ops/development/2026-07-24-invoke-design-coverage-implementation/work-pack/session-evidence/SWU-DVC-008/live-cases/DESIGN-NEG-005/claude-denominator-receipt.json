@@ -1,0 +1,183 @@
+{
+  "authored_concern_ids": [
+    "authored:expected-writer-2",
+    "authored:persistence-omission"
+  ],
+  "denominator_signal_ids": [
+    "authored:expected-writer-2",
+    "authored:persistence-omission",
+    "signal:acceptance-readiness-claim:acceptance-1",
+    "signal:data-log-sink:sink-1",
+    "signal:effect:effect-external",
+    "signal:effect:effect-privileged",
+    "signal:human-actor:actor-1",
+    "signal:interface:interface-1",
+    "signal:normative-rule:rule-validation",
+    "signal:queue:queue-1",
+    "signal:rendered-surface:surface-1",
+    "signal:store:store-1",
+    "signal:writer:writer-1"
+  ],
+  "detector_id": "invoke-design-scope-extractor",
+  "detector_owner": "spellcraft",
+  "detector_version": "1.0.0",
+  "diagnostics": [],
+  "extracted_signals": [
+    {
+      "attributes": {
+        "evidence_state": "authored-complete",
+        "selector": "source.txt"
+      },
+      "signal_class": "acceptance-readiness-claim",
+      "signal_id": "signal:acceptance-readiness-claim:acceptance-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "attributes": {
+        "data_classes": [
+          "operator-evidence"
+        ],
+        "retention_hint": "bounded"
+      },
+      "signal_class": "data-log-sink",
+      "signal_id": "signal:data-log-sink:sink-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "attributes": {
+        "external": true,
+        "privileged": false,
+        "reversible": false
+      },
+      "signal_class": "effect",
+      "signal_id": "signal:effect:effect-external",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "attributes": {
+        "external": false,
+        "privileged": true,
+        "reversible": true
+      },
+      "signal_class": "effect",
+      "signal_id": "signal:effect:effect-privileged",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "attributes": {
+        "acts": true,
+        "assistive_operation": true,
+        "decides": true,
+        "natural_person": true,
+        "navigates": true,
+        "reads": true,
+        "recovers": true,
+        "surfaces": [
+          "surface-1"
+        ]
+      },
+      "signal_class": "human-actor",
+      "signal_id": "signal:human-actor:actor-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "attributes": {
+        "contract_ref": "contract-1",
+        "direction": "bidirectional",
+        "kind": "operator-contract",
+        "peer": "synthetic-peer"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:interface-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "fixture runner",
+        "object": "validate output",
+        "subject": "validator",
+        "verb": "must"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:rule-validation",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "attributes": {
+        "consumers": [
+          "worker-1"
+        ],
+        "ordering": "fifo",
+        "producers": [
+          "writer-1"
+        ]
+      },
+      "signal_class": "queue",
+      "signal_id": "signal:queue:queue-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "attributes": {
+        "modality": "text",
+        "semantic_change": "changed",
+        "semantic_contract_ref": "semantic-contract-1"
+      },
+      "signal_class": "rendered-surface",
+      "signal_id": "signal:rendered-surface:surface-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "attributes": {
+        "authority": "persistence-owner",
+        "data_classes": [
+          "synthetic-record"
+        ],
+        "writers": [
+          "writer-1",
+          "writer-2"
+        ]
+      },
+      "signal_class": "store",
+      "signal_id": "signal:store:store-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "attributes": {
+        "concurrency": "serialized",
+        "targets": [
+          "store-1"
+        ]
+      },
+      "signal_class": "writer",
+      "signal_id": "signal:writer:writer-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    }
+  ],
+  "inspected_selectors": [
+    {
+      "path": "source.txt",
+      "selector": "source.txt",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063"
+    }
+  ],
+  "manifest_authored_by": "invoke-design-author",
+  "manifest_id": "manifest:design-neg-005",
+  "manifest_input_digest": "f2f485e10242a632c15dfc90472e86cf1b9da7d76f00f886227407fa4bc2db79",
+  "missing_detector_inputs": [],
+  "receipt_digest": "fc77ca6281f29fa482339a7fd0f3fee01c04951f81f64e4f4210cf4275546339",
+  "schema_version": "1.0.0",
+  "unbound_signal_ids": [],
+  "validator_owner": "invoke-design-selection-validator",
+  "verdict": "pass"
+}

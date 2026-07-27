@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "invoke-design-coverage-swu-dvc-001",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "spellcraft",
+  "authority_class": "public",
+  "publication_class": "public",
+  "source_artifacts": [
+    {
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-001-FIXTURE-DENOMINATOR.md",
+      "sha256": "5e5a37a9c02c87a1c52e711514fa0338f8b7897fdde07b8bab16e05fd3931e2a",
+      "size_bytes": 3300,
+      "authority_class": "public"
+    },
+    {
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+      "sha256": "42c4a91b5dd47a159c2c626a3dafc1a45b208a1c1f65a5d5fc742374acae502b",
+      "size_bytes": 9488,
+      "authority_class": "public"
+    },
+    {
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-001/context-pack.json",
+      "sha256": "4d7b454b84ceb12bde1d933a13f941b2aef2649fe5ce3513626c089a69d9fcec",
+      "size_bytes": 1753,
+      "authority_class": "public"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+      "operation": "create",
+      "output_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-001/staged/arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+        "sha256": "0f1bb59a12888c42550a1bcecf63179788edb2b01048e782c4b3722aa304e6e5",
+        "size_bytes": 24731
+      }
+    },
+    {
+      "target_path": "arcanum/spells/invoke/development/fixtures/design-selection/SOURCE-TRACE.md",
+      "operation": "create",
+      "output_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-001/staged/arcanum/spells/invoke/development/fixtures/design-selection/SOURCE-TRACE.md",
+        "sha256": "86fbe3692442983e18a45e7ab223417cee59eab5ea72d648c417f991136dd8e6",
+        "size_bytes": 1486
+      }
+    },
+    {
+      "target_path": "arcanum/spells/invoke/development/fixtures/design-selection/fixture-denominator-receipt.json",
+      "operation": "create",
+      "output_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-001/staged/arcanum/spells/invoke/development/fixtures/design-selection/fixture-denominator-receipt.json",
+        "sha256": "efc02141c2e3c6555a1eeb115b296aa842fc07c5cb402a4fa89190b55b23a0ec",
+        "size_bytes": 688
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+      "lifecycle_owner": "spellcraft",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": []
+    },
+    {
+      "target_path": "arcanum/spells/invoke/development/fixtures/design-selection/SOURCE-TRACE.md",
+      "lifecycle_owner": "spellcraft",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": []
+    },
+    {
+      "target_path": "arcanum/spells/invoke/development/fixtures/design-selection/fixture-denominator-receipt.json",
+      "lifecycle_owner": "spellcraft",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": []
+    }
+  ],
+  "dependencies": [],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "spellcraft",
+    "scope_paths": [
+      "arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+      "arcanum/spells/invoke/development/fixtures/design-selection/SOURCE-TRACE.md",
+      "arcanum/spells/invoke/development/fixtures/design-selection/fixture-denominator-receipt.json"
+    ],
+    "authority_classes": ["public"],
+    "publication_classes": ["public"]
+  },
+  "validation_commands": [
+    "python3 -m json.tool arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+    "jq -e '(.cases | length) >= 24 and ([.cases[].fixture_id] | unique | length) == (.cases | length)' arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+    "git diff --check -- arcanum/spells/invoke/development/fixtures/design-selection"
+  ]
+}

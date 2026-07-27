@@ -1,0 +1,30 @@
+{
+  "schema_version": "task-session-context-pack.v1",
+  "task_id": "TASK-DVC-001",
+  "swu_id": "SWU-DVC-001",
+  "strict_coverage": true,
+  "work_pack": "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+  "task_contract": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-001-FIXTURE-DENOMINATOR.md",
+  "sources": [
+    "ops/development/2026-07-24-invoke-design-coverage-implementation/DEFINE.md",
+    "ops/development/2026-07-24-invoke-design-coverage-implementation/DESIGN.md",
+    "ops/development/2026-07-24-invoke-design-coverage-implementation/UX-PLAN.md",
+    "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/shared/CONTEXT.md"
+  ],
+  "constraints": [
+    "freeze implementation-independent expectations before schemas or algorithms",
+    "use generic public-safe fixture identifiers and synthetic inputs",
+    "do not change frozen expectations in later implementation SWUs",
+    "do not infer promotion, publication, commit, or push authority"
+  ],
+  "write_scope": [
+    "arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+    "arcanum/spells/invoke/development/fixtures/design-selection/SOURCE-TRACE.md",
+    "arcanum/spells/invoke/development/fixtures/design-selection/fixture-denominator-receipt.json"
+  ],
+  "validation": [
+    "python3 -m json.tool arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+    "jq -e '(.cases | length) >= 24 and ([.cases[].fixture_id] | unique | length) == (.cases | length)' arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+    "git diff --check -- arcanum/spells/invoke/development/fixtures/design-selection"
+  ]
+}

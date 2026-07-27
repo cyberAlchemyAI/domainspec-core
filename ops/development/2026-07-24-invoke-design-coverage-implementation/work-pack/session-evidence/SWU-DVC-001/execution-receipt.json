@@ -1,0 +1,30 @@
+{
+  "schema_version": "task-session-execution-receipt.v1",
+  "task_id": "TASK-DVC-001",
+  "swu_id": "SWU-DVC-001",
+  "result": "pass",
+  "execution_result": "pass",
+  "mutation_admission": {
+    "receipt": "mutation-admission-receipt.json",
+    "admission_verdict": "admit",
+    "mutation_ready": true
+  },
+  "files_touched": [
+    "arcanum/spells/invoke/development/fixtures/design-selection/fixture-matrix.json",
+    "arcanum/spells/invoke/development/fixtures/design-selection/SOURCE-TRACE.md",
+    "arcanum/spells/invoke/development/fixtures/design-selection/fixture-denominator-receipt.json"
+  ],
+  "validation": [
+    {"check": "fixture matrix JSON parse", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "28 unique fixture ids and 27 unique mutation ids", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "canonical corpus digest", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "public denylist scan", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "scoped diff check", "criticality": "acceptance-critical", "result": "pass"}
+  ],
+  "corpus_digest": "347618abe9ae700fb515a127d4d5a75a78665013dbc68fd637bd5bd7200a5c74",
+  "blockers": [],
+  "residue": [],
+  "experiment_harness": "pending-reusable-behavior-validation",
+  "authority_effect": "test-denominator-only",
+  "next_swu": "SWU-DVC-002A"
+}

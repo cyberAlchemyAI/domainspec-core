@@ -1,0 +1,57 @@
+{
+  "schema_version": "task-session.execution-receipt.v1",
+  "task": "repair-known-invoke-public-hygiene-residue",
+  "result": "pass-with-follow-up-residue",
+  "context_pack": {
+    "markdown": "CONTEXT-PACK.md",
+    "json": "context-pack.json",
+    "strict_coverage": "pass"
+  },
+  "baselines": {
+    "distill_evidence_readme": "dbc03d32f3afbff0a9c6c95435c4cdaf718bc19ad5a8c0a802fb05afab5b61fe",
+    "template_example_runbook": "8154f7a8a3196f13a1247d1f452e519ff0f32ed5d32f4fb1ce9876b5a4d68a92",
+    "shared_context": "0ea1cb4c1f04f08017270eedb844a8fe2073264feb4abbd3a6db366eff89502f"
+  },
+  "results": {
+    "distill_evidence_readme": "c0cefc23e032bdaf7d7336e60d9abdfcccb142cb5201e9a92d7b12df526cf274",
+    "template_example_runbook": "67e43b9f6d63981eb72e3857410051da6f66514c03abeae026cead4fb1404c22",
+    "shared_context": "e9d52086e29d439dcd8935a119e465f7a278cc40e5c7a1721741549b1c71aa8e"
+  },
+  "validation": [
+    {
+      "check": "known four-hit public-hygiene denominator",
+      "result": "pass",
+      "remaining_hits": 0
+    },
+    {
+      "check": "Invoke aggregate validation",
+      "result": "pass",
+      "report": "arcanum/spells/invoke/development/runs/20260726T185802Z.md"
+    },
+    {
+      "check": "Experiment Harness profile validation",
+      "result": "pass",
+      "profile_id": "invoke-live"
+    },
+    {
+      "check": "scoped diff check",
+      "result": "pass"
+    },
+    {
+      "check": "make bump-check",
+      "result": "pass"
+    }
+  ],
+  "follow_up": {
+    "classification": "consumer-adapter-extraction",
+    "pattern": "projects/ide-extension",
+    "hit_count": 29,
+    "file_count": 10,
+    "promotion_effect": "flag"
+  },
+  "authority": {
+    "commit_performed": false,
+    "push_performed": false,
+    "promotion_performed": false
+  }
+}

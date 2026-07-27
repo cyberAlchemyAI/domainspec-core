@@ -1,0 +1,89 @@
+{
+  "approval": {
+    "authority_classes": [
+      "public"
+    ],
+    "class": "explicit-apply",
+    "owner": "spellcraft",
+    "publication_classes": [
+      "public"
+    ],
+    "scope_paths": [
+      "arcanum/spells/invoke/scripts/design_selection_validator.py"
+    ]
+  },
+  "authority_class": "public",
+  "changes": [
+    {
+      "operation": "update",
+      "output_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-004/staged/arcanum/spells/invoke/scripts/design_selection_validator.py",
+        "sha256": "aa3fac079a2b0a715fe366e8faaef2484b4eb9936c29455e5c6b20ef5580a746",
+        "size_bytes": 23779
+      },
+      "target_path": "arcanum/spells/invoke/scripts/design_selection_validator.py"
+    }
+  ],
+  "dependencies": [
+    {
+      "artifact_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-002C/execution-receipt.json",
+        "sha256": "a93d12e4a605f5253c76da211fa89b5d72f41b2a3d2f88761de116d06c4fb0b9",
+        "size_bytes": 846
+      },
+      "dependency_id": "SWU-DVC-002C"
+    },
+    {
+      "artifact_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-003/execution-receipt.json",
+        "sha256": "82bf70854a97b2c728d7cff5acdfaa81dc5101b21cb6f9732ffaa4fd839f0ed2",
+        "size_bytes": 957
+      },
+      "dependency_id": "SWU-DVC-003"
+    }
+  ],
+  "lifecycle_owner": "spellcraft",
+  "mirror_groups": [],
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "package_id": "invoke-design-coverage-swu-dvc-004",
+  "publication_class": "public",
+  "schema_version": "1.0.0",
+  "source_artifacts": [
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-004-VALIDATOR.md",
+      "sha256": "e45a7822bbee8f40107f07b87730ed777f250773e5757ba15f082e0050f44f8a",
+      "size_bytes": 3120
+    },
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+      "sha256": "71d63165a287d3a05fdffe94f74735bdc79235fa18b8875c0586ec12ef552df9",
+      "size_bytes": 9620
+    },
+    {
+      "authority_class": "public",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-004/context-pack.json",
+      "sha256": "a0e27cee3e0661010bd448847b67edfbfbb1c1e7a084ab9302689709ced9cc13",
+      "size_bytes": 1252
+    }
+  ],
+  "target_inventory": [
+    {
+      "authority_class": "public",
+      "dependency_ids": [
+        "SWU-DVC-002C",
+        "SWU-DVC-003"
+      ],
+      "lifecycle_owner": "spellcraft",
+      "publication_class": "public",
+      "target_path": "arcanum/spells/invoke/scripts/design_selection_validator.py"
+    }
+  ],
+  "validation_commands": [
+    "python3 -m py_compile arcanum/spells/invoke/scripts/design_selection_validator.py",
+    "validator binding/ownership/fixed-point fixture group",
+    "validator mutation fixture group"
+  ]
+}

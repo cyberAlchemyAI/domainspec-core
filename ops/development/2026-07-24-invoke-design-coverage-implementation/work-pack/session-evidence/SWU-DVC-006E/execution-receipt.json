@@ -1,0 +1,51 @@
+{
+  "schema_version": "task-session-execution-receipt.v1",
+  "task_id": "TASK-DVC-006",
+  "swu_id": "SWU-DVC-006E",
+  "result": "pass",
+  "execution_result": "pass",
+  "mutation_admission": {
+    "receipt": "mutation-admission-receipt.json",
+    "admission_verdict": "admit",
+    "mutation_ready": true
+  },
+  "baseline_sha256": "aa09a0efd524d8252473e42e922958e14f5b4a8e8238b4c412f8579e3b305303",
+  "result_sha256": "966d1c9243558b8ecfdce1c078748a7e914218696afbd50f5f03e83a7e20b75e",
+  "files_touched": [
+    "arcanum/spells/invoke/development/run-validation-fixtures.sh"
+  ],
+  "validation": [
+    {
+      "check": "Design-selection child suite",
+      "criticality": "acceptance-critical",
+      "result": "pass-28-cases-27-mutations"
+    },
+    {
+      "check": "aggregate Invoke validation",
+      "criticality": "acceptance-critical",
+      "result": "pass",
+      "report": "arcanum/spells/invoke/development/runs/20260724T191546Z.md"
+    },
+    {
+      "check": "child report path surfaced",
+      "criticality": "acceptance-critical",
+      "result": "pass",
+      "report": "arcanum/spells/invoke/development/fixtures/design-selection/results/latest-summary.json"
+    },
+    {
+      "check": "shell syntax and scoped diff",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "check": "Experiment Harness report metadata",
+      "criticality": "lifecycle-critical",
+      "result": "pass",
+      "details": "aggregate report exposes invoke-live profile ID and invoke lifecycle owner"
+    }
+  ],
+  "blockers": [],
+  "residue": [],
+  "experiment_harness": "deterministic-controls-pass-live-spell-run-pending",
+  "next_swu": "SWU-DVC-007"
+}

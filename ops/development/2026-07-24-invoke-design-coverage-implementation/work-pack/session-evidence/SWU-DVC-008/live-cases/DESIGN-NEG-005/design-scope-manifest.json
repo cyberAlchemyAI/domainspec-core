@@ -1,0 +1,162 @@
+{
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "acceptance-1",
+      "evidence_state": "authored-complete",
+      "selector": "source.txt",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    }
+  ],
+  "authored_by": "invoke-design-author",
+  "compatibility_boundaries": [],
+  "data_and_log_sinks": [
+    {
+      "data_classes": [
+        "operator-evidence"
+      ],
+      "retention_hint": "bounded",
+      "sink_id": "sink-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    }
+  ],
+  "deployment_targets": [],
+  "effects": [
+    {
+      "effect_id": "effect-privileged",
+      "external": false,
+      "privileged": true,
+      "reversible": true,
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    },
+    {
+      "effect_id": "effect-external",
+      "external": true,
+      "privileged": false,
+      "reversible": false,
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    }
+  ],
+  "human_actors": [
+    {
+      "actor_id": "actor-1",
+      "acts": true,
+      "assistive_operation": true,
+      "decides": true,
+      "natural_person": true,
+      "navigates": true,
+      "reads": true,
+      "recovers": true,
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt",
+      "surfaces": [
+        "surface-1"
+      ]
+    }
+  ],
+  "input_digest": "f2f485e10242a632c15dfc90472e86cf1b9da7d76f00f886227407fa4bc2db79",
+  "interfaces": [
+    {
+      "contract_ref": "contract-1",
+      "direction": "bidirectional",
+      "interface_id": "interface-1",
+      "kind": "operator-contract",
+      "peer": "synthetic-peer",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    }
+  ],
+  "manifest_id": "manifest:design-neg-005",
+  "normative_rules": [
+    {
+      "enforcement_hint": "fixture runner",
+      "object": "validate output",
+      "rule_id": "rule-validation",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt",
+      "subject": "validator",
+      "verb": "must"
+    }
+  ],
+  "quality_claims": [],
+  "queues": [
+    {
+      "consumers": [
+        "worker-1"
+      ],
+      "ordering": "fifo",
+      "producers": [
+        "writer-1"
+      ],
+      "queue_id": "queue-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt"
+    }
+  ],
+  "rendered_surfaces": [
+    {
+      "modality": "text",
+      "semantic_change": "changed",
+      "semantic_contract_ref": "semantic-contract-1",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt",
+      "surface_id": "surface-1"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_contracts": [
+    {
+      "digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "path": "source.txt",
+      "selector": "source.txt",
+      "source_id": "source-1"
+    }
+  ],
+  "stores": [
+    {
+      "authority": "persistence-owner",
+      "data_classes": [
+        "synthetic-record"
+      ],
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt",
+      "store_id": "store-1",
+      "writers": [
+        "writer-1",
+        "writer-2"
+      ]
+    }
+  ],
+  "target_footprint": {
+    "exclusions": [],
+    "inclusions": [
+      {
+        "digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+        "path": "source.txt",
+        "selector": "source.txt"
+      }
+    ],
+    "roots": [
+      {
+        "digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+        "path": "source.txt"
+      }
+    ]
+  },
+  "target_id": "target:design-neg-005",
+  "unknowns": [],
+  "writers": [
+    {
+      "concurrency": "serialized",
+      "source_digest": "d966998bff73f27130a15b477955f956f9e92f52d0e2e560bd244fef733f4063",
+      "source_selector": "source.txt",
+      "targets": [
+        "store-1"
+      ],
+      "writer_id": "writer-1"
+    }
+  ]
+}

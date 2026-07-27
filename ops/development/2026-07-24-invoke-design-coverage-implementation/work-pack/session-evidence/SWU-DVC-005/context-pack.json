@@ -1,0 +1,30 @@
+{
+  "constraints": [
+    "apply only exact staged bytes after admissionVerdict=admit",
+    "preserve unrelated dirty changes",
+    "do not infer promotion, publication, commit, or push authority"
+  ],
+  "dependency_frontier": [
+    "SWU-DVC-004"
+  ],
+  "schema_version": "task-session-context-pack.v1",
+  "sources": [
+    "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+    "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-005-FIXTURE-RUNNER.md",
+    "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/shared/CONTEXT.md"
+  ],
+  "strict_coverage": true,
+  "swu_id": "SWU-DVC-005",
+  "task_contract": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-005-FIXTURE-RUNNER.md",
+  "task_id": "TASK-DVC-005",
+  "validation": [
+    "arcanum/spells/invoke/development/run-design-selection-fixtures.sh",
+    "arcanum/spells/invoke/development/run-design-selection-fixtures.sh --group mutations",
+    "git diff --check -- arcanum/spells/invoke/development/run-design-selection-fixtures.sh arcanum/spells/invoke/development/fixtures/design-selection"
+  ],
+  "work_pack": "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+  "write_scope": [
+    "arcanum/spells/invoke/development/fixtures/design-selection/run_fixture_matrix.py",
+    "arcanum/spells/invoke/development/run-design-selection-fixtures.sh"
+  ]
+}

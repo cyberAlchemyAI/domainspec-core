@@ -1,0 +1,80 @@
+{
+  "approval": {
+    "authority_classes": [
+      "private"
+    ],
+    "class": "explicit-apply",
+    "owner": "spellcraft",
+    "publication_classes": [
+      "internal"
+    ],
+    "scope_paths": [
+      "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-008/expected-live-proof.json"
+    ]
+  },
+  "authority_class": "private",
+  "changes": [
+    {
+      "operation": "create",
+      "output_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-008/staged/live-proof-expectations.json",
+        "sha256": "c8821d04a7a278c7334de28443bdf651f9af3dc85569b59ce8b2bd328b292aa9",
+        "size_bytes": 1050
+      },
+      "target_path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-008/expected-live-proof.json"
+    }
+  ],
+  "dependencies": [
+    {
+      "artifact_ref": {
+        "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-007/execution-receipt.json",
+        "sha256": "b1e8e98c23ed436b8065be89f870553c6cbed4c400d30e1b52c2de84970821a2",
+        "size_bytes": 3390
+      },
+      "dependency_id": "SWU-DVC-007"
+    }
+  ],
+  "lifecycle_owner": "spellcraft",
+  "mirror_groups": [],
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "package_id": "invoke-design-coverage-swu-dvc-008",
+  "publication_class": "internal",
+  "schema_version": "1.0.0",
+  "source_artifacts": [
+    {
+      "authority_class": "private",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-008-LIVE-PROOF.md",
+      "sha256": "77c0f73db8b896a26bbec2288d4b53b85b52e9deb1dabeeaf37f7bc61dc5c579",
+      "size_bytes": 2142
+    },
+    {
+      "authority_class": "private",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+      "sha256": "20119c9f157a0a78f24bf3e8df8130f86847374ad86eb9d9f9d6f9b3c3e54388",
+      "size_bytes": 10267
+    },
+    {
+      "authority_class": "private",
+      "path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-008/context-pack.json",
+      "sha256": "e3d42a453c7048b541144ee29881bba77b11f88efab359a67e0ccf1a5f26b8e7",
+      "size_bytes": 1348
+    }
+  ],
+  "target_inventory": [
+    {
+      "authority_class": "private",
+      "dependency_ids": [
+        "SWU-DVC-007"
+      ],
+      "lifecycle_owner": "spellcraft",
+      "publication_class": "internal",
+      "target_path": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-008/expected-live-proof.json"
+    }
+  ],
+  "validation_commands": [
+    "arcanum/spells/invoke/development/run-design-selection-fixtures.sh",
+    "arcanum/spells/invoke/development/run-validation-fixtures.sh",
+    "git diff --check -- arcanum/spells/invoke .agents/skills/invoke .claude/skills/invoke"
+  ]
+}

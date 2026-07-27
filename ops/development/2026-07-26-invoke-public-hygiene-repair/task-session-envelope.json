@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-07-26T18:59:34Z",
+  "run_id": "task-session-20260726T185934Z-invoke-public-hygiene-repair",
+  "session_id": "invoke-public-hygiene-repair",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute"
+  },
+  "request": {
+    "summary": "Repair the known Invoke public-hygiene findings and rerun the terminal validation."
+  },
+  "execution": {
+    "status": "completed-with-follow-up",
+    "outputs": [
+      "ops/development/2026-07-26-invoke-public-hygiene-repair/RESULT.md",
+      "ops/development/2026-07-26-invoke-public-hygiene-repair/receipt.json",
+      "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/final-audit.json"
+    ],
+    "files_changed": [
+      "arcanum/spells/invoke/development/distill-execution-evidence/README.md",
+      "arcanum/spells/invoke/development/TEMPLATE-EXAMPLE-RUNBOOK.md",
+      "arcanum/spells/invoke/development/distill-execution-evidence/work-pack/shared/context.md",
+      "ops/development/2026-07-26-invoke-public-hygiene-repair/",
+      "ops/development/2026-07-24-invoke-design-coverage-implementation/"
+    ],
+    "validation": [
+      "known four-hit public-hygiene denominator pass",
+      "Invoke aggregate validation pass",
+      "Experiment Harness profile validation pass",
+      "scoped diff check pass",
+      "make bump-check pass"
+    ],
+    "notes": "The known findings are repaired. A strengthened scan found 29 historical consumer-project bindings across 10 files, retained as a separately owned adapter-extraction follow-up."
+  },
+  "evidence": {
+    "context_pack": "ops/development/2026-07-26-invoke-public-hygiene-repair/context-pack.json",
+    "receipt": "ops/development/2026-07-26-invoke-public-hygiene-repair/receipt.json"
+  },
+  "observer": {
+    "quality_bar_status": "pass-with-follow-up",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "public-consumer-adapter",
+        "severity": "medium",
+        "summary": "Historical projects/ide-extension bindings remain across executable fixtures and receipts.",
+        "evidence": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/session-evidence/SWU-DVC-008/leakage-report.json"
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-present",
+    "recommendation": "Define an Invoke/Distill consumer-adapter extraction before promotion."
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "arcanum.sigil_invocation.v1",
+  "timestamp": "2026-07-24T18:04:57Z",
+  "run_id": "invoke-inventory-runtime-faceted-layout-20260724T175103Z",
+  "session_id": "2026-07-24-inventory-runtime-faceted-layout",
+  "sigil": "invoke",
+  "tier": "spell",
+  "mode": "plan",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "plan",
+    "alias": null
+  },
+  "request": {
+    "raw": "invoke define design and plan",
+    "summary": "Define, design, and plan the Inventory runtime and improved entry organization.",
+    "intent": "Produce a lifecycle-ready private authoring package without implementing or silently superseding the current canonical Inventory work pack."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "ops/development/2026-07-24-inventory-runtime-faceted-layout/SPEC.md",
+      "ops/development/2026-07-24-inventory-runtime-faceted-layout/ARCHITECTURE.md",
+      "ops/development/2026-07-24-inventory-runtime-faceted-layout/WORK-PACK.md",
+      "ops/development/2026-07-24-inventory-runtime-faceted-layout/SIGIL-HANDOFF.md",
+      "ops/development/2026-07-24-inventory-runtime-faceted-layout/execution.dispatch.json"
+    ],
+    "files_changed": [
+      "ops/development/2026-07-24-inventory-runtime-faceted-layout/"
+    ],
+    "validation": [
+      "Define pass",
+      "Design six-view pass",
+      "glossary consistency pass",
+      "Dispatch Spec pass with zero blocks and zero flags",
+      "Distill plan-quality pass",
+      "seven mutation SWUs pass atomicity and closeout checks"
+    ],
+    "notes": "Authoring is complete. Plan is flagged and Task Session is blocked until Sigil Development reconciles SWU-IFR-001 with the existing canonical SWU-INT-001."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "generated-runtime",
+        "severity": "low",
+        "summary": "Generated .agents companion packages were absent; canonical contracts were used.",
+        "evidence": "ops/development/2026-07-24-inventory-runtime-faceted-layout/CONTEXT.md"
+      },
+      {
+        "category": "lifecycle",
+        "severity": "medium",
+        "summary": "Sigil Development owner acceptance is pending.",
+        "evidence": "ops/development/2026-07-24-inventory-runtime-faceted-layout/SIGIL-HANDOFF.md"
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "false",
+    "recommendation": "Run Sigil Development in update mode with SIGIL-HANDOFF.md; make no source mutation before owner acceptance."
+  },
+  "target_artifact": "ops/development/2026-07-24-inventory-runtime-faceted-layout/INVOKE-RESULT.md"
+}

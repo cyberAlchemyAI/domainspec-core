@@ -1,0 +1,171 @@
+{
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "acceptance-1",
+      "evidence_state": "authored-complete",
+      "selector": "source.txt",
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt"
+    }
+  ],
+  "authored_by": "invoke-design-author",
+  "compatibility_boundaries": [],
+  "data_and_log_sinks": [
+    {
+      "data_classes": [
+        "operator-evidence"
+      ],
+      "retention_hint": "bounded",
+      "sink_id": "sink-1",
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt"
+    }
+  ],
+  "deployment_targets": [],
+  "effects": [
+    {
+      "effect_id": "effect-privileged",
+      "external": false,
+      "privileged": true,
+      "reversible": true,
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt"
+    },
+    {
+      "effect_id": "effect-external",
+      "external": true,
+      "privileged": false,
+      "reversible": false,
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt"
+    }
+  ],
+  "human_actors": [
+    {
+      "actor_id": "actor-1",
+      "acts": true,
+      "assistive_operation": true,
+      "decides": true,
+      "natural_person": true,
+      "navigates": true,
+      "reads": true,
+      "recovers": true,
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt",
+      "surfaces": [
+        "surface-1"
+      ]
+    }
+  ],
+  "input_digest": "55d8313e86eb897359a0846ebedc0f995f25d2a31ba938981d31c60177f81aa3",
+  "interfaces": [
+    {
+      "contract_ref": "contract-1",
+      "direction": "bidirectional",
+      "interface_id": "interface-1",
+      "kind": "operator-contract",
+      "peer": "synthetic-peer",
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt"
+    }
+  ],
+  "manifest_id": "manifest:design-bound-006",
+  "normative_rules": [
+    {
+      "enforcement_hint": "fixture runner",
+      "object": "validate output",
+      "rule_id": "rule-validation",
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt",
+      "subject": "validator",
+      "verb": "must"
+    }
+  ],
+  "quality_claims": [],
+  "queues": [
+    {
+      "consumers": [
+        "worker-1"
+      ],
+      "ordering": "fifo",
+      "producers": [
+        "writer-1"
+      ],
+      "queue_id": "queue-1",
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt"
+    }
+  ],
+  "rendered_surfaces": [
+    {
+      "modality": "text",
+      "semantic_change": "changed",
+      "semantic_contract_ref": "semantic-contract-1",
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt",
+      "surface_id": "surface-1"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_contracts": [
+    {
+      "digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "path": "source.txt",
+      "selector": "source.txt",
+      "source_id": "source-1"
+    }
+  ],
+  "stores": [
+    {
+      "authority": "persistence-owner",
+      "data_classes": [
+        "synthetic-record"
+      ],
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt",
+      "store_id": "store-1",
+      "writers": [
+        "writer-1",
+        "writer-2"
+      ]
+    }
+  ],
+  "target_footprint": {
+    "exclusions": [],
+    "inclusions": [
+      {
+        "digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+        "path": "source.txt",
+        "selector": "source.txt"
+      }
+    ],
+    "roots": [
+      {
+        "digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+        "path": "source.txt"
+      }
+    ]
+  },
+  "target_id": "target:design-bound-006",
+  "unknowns": [],
+  "writers": [
+    {
+      "concurrency": "serialized",
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt",
+      "targets": [
+        "store-1"
+      ],
+      "writer_id": "writer-1"
+    },
+    {
+      "concurrency": "optimistic",
+      "source_digest": "720b2a9564d874265bd23743e410ae9b08db3c35cbf2a4d8de77a4a1f8f8aba1",
+      "source_selector": "source.txt",
+      "targets": [
+        "store-1"
+      ],
+      "writer_id": "writer-2"
+    }
+  ]
+}

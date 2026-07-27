@@ -1,0 +1,479 @@
+{
+  "dispatch_id": "2026-07-24-invoke-design-coverage-implementation",
+  "intent": {
+    "raw": "Define, design, and plan implementation of the accepted Invoke Design-phase coverage update.",
+    "objective": "Implement a closed, independently-denominated, deterministic two-pass Design selection gate with bounded architecture and UX routing while preserving evidence and lifecycle authority.",
+    "target_artifact": "ops/development/2026-07-24-invoke-design-coverage-implementation/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "spellcraft",
+      "dispatch-spec",
+      "distill",
+      "task-session",
+      "signal-observer"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "authority_split_gate",
+    "artifact_contract_bridge",
+    "concrete_path_evidence",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The authoring route is complete in one owner context and implementation is intentionally serialized by canonical dependencies and overlapping write scopes.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "none"
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Validate the implementation route",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "authority_split_gate",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-07-24-invoke-design-coverage-implementation/execution.dispatch.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "S1.dispatch-validation"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-24-invoke-design-coverage-implementation/dispatch-validation.json",
+      "stop_conditions": [
+        "block invalid route, boundary, receipt, or technique mapping"
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Freeze independent fixture denominator",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S1"],
+      "techniques": [
+        "sequence",
+        "scu_swu_reduction",
+        "validation_loop",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {"kind": "receipt", "ref": "S1.dispatch-validation"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-001-FIXTURE-DENOMINATOR.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "S2.SWU-DVC-001"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-DVC-001/receipt.json",
+      "stop_conditions": [
+        "block missing source trace or expected disposition",
+        "block fixture expectations derived from implementation"
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Implement public schemas",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S2"],
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "validation_loop",
+        "authority_split_gate",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {"kind": "receipt", "ref": "S2.SWU-DVC-001"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-002-SCHEMAS.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "S3.SWU-DVC-002A"},
+        {"kind": "receipt", "ref": "S3.SWU-DVC-002B"},
+        {"kind": "receipt", "ref": "S3.SWU-DVC-002C"}
+      ],
+      "join_policy": "all",
+      "evidence_artifact": "work-pack/session-evidence/TASK-DVC-002/receipt-set.json",
+      "stop_conditions": [
+        "block schema overlap that collapses author, detector, validator, or evidence-state boundaries"
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Implement extractor",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S3"],
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {"kind": "receipt", "ref": "S3.SWU-DVC-002A"},
+        {"kind": "receipt", "ref": "S3.SWU-DVC-002B"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-003-EXTRACTOR.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "S4.SWU-DVC-003"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-DVC-003/receipt.json",
+      "stop_conditions": [
+        "block incomplete field-class inspection, duplicate signals, or self-authored denominator"
+      ]
+    },
+    {
+      "step_id": "S5",
+      "name": "Implement selection validator and fixture runner",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["S4"],
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "authority_split_gate",
+        "artifact_contract_bridge",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {"kind": "receipt", "ref": "S4.SWU-DVC-003"},
+        {"kind": "receipt", "ref": "S3.SWU-DVC-002C"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-004-VALIDATOR.md"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-005-FIXTURE-RUNNER.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "S5.SWU-DVC-004"},
+        {"kind": "receipt", "ref": "S5.SWU-DVC-005"}
+      ],
+      "join_policy": "all",
+      "evidence_artifact": "work-pack/session-evidence/W1/validation-receipt-set.json",
+      "stop_conditions": [
+        "block any frozen expectation mismatch",
+        "block surviving predicate mutation",
+        "block false N/A or changed pass two"
+      ]
+    },
+    {
+      "step_id": "S6",
+      "name": "Integrate Design and companion contracts",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S5"],
+      "techniques": [
+        "sequence",
+        "handle_handoff",
+        "owner_boundary_check",
+        "validation_loop",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {"kind": "receipt", "ref": "S5.SWU-DVC-004"},
+        {"kind": "receipt", "ref": "S5.SWU-DVC-005"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-006-CONTRACTS-AND-TEMPLATES.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "S6.SWU-DVC-006A"},
+        {"kind": "receipt", "ref": "S6.SWU-DVC-006B"},
+        {"kind": "receipt", "ref": "S6.SWU-DVC-006C"},
+        {"kind": "receipt", "ref": "S6.SWU-DVC-006D"},
+        {"kind": "receipt", "ref": "S6.SWU-DVC-006E"}
+      ],
+      "join_policy": "all",
+      "evidence_artifact": "work-pack/session-evidence/TASK-DVC-006/receipt-set.json",
+      "stop_conditions": [
+        "block evidence-state collapse",
+        "block universal companion selection",
+        "block private content in public sources"
+      ]
+    },
+    {
+      "step_id": "S7",
+      "name": "Synchronize generated runtime projections",
+      "capability_ref": "spellcraft",
+      "mode": "validate",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S6"],
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "concrete_path_evidence",
+        "validation_loop",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {"kind": "receipt", "ref": "S6.SWU-DVC-006A"},
+        {"kind": "receipt", "ref": "S6.SWU-DVC-006B"},
+        {"kind": "receipt", "ref": "S6.SWU-DVC-006C"},
+        {"kind": "receipt", "ref": "S6.SWU-DVC-006D"},
+        {"kind": "receipt", "ref": "S6.SWU-DVC-006E"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-007-GENERATED-PARITY.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "S7.SWU-DVC-007"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-DVC-007/receipt.json",
+      "stop_conditions": [
+        "block generated-first mutation",
+        "block parity or public/private scan failure"
+      ]
+    },
+    {
+      "step_id": "S8",
+      "name": "Run live proof and final audit",
+      "capability_ref": "spellcraft",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["S7"],
+      "techniques": [
+        "sequence",
+        "recomposition_proof",
+        "validation_loop",
+        "residue_ledger",
+        "observability_grouping",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {"kind": "receipt", "ref": "S7.SWU-DVC-007"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-008-LIVE-PROOF.md"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-24-invoke-design-coverage-implementation/work-pack/tasks/TASK-DVC-VERIFY.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "S8.SWU-DVC-008"},
+        {"kind": "receipt", "ref": "S8.final-audit"}
+      ],
+      "join_policy": "all",
+      "evidence_artifact": "work-pack/session-evidence/final-audit.json",
+      "stop_conditions": [
+        "block failed recomposition, leakage, regression, or evidence ceiling",
+        "do not infer promotion, publication, commit, or push"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G0-route",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "route, techniques, boundaries, and receipts validate",
+      "requires_role_receipts": ["S1.dispatch-validation"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G1-denominator",
+      "kind": "quality",
+      "owner": "Spellcraft",
+      "condition": "independent fixture denominator is frozen before implementation",
+      "requires_role_receipts": ["S2.SWU-DVC-001"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2-determinism",
+      "kind": "quality",
+      "owner": "Spellcraft",
+      "condition": "schemas, extractor, validator, frozen fixtures, and mutations pass",
+      "requires_role_receipts": [
+        "S3.SWU-DVC-002A",
+        "S3.SWU-DVC-002B",
+        "S3.SWU-DVC-002C",
+        "S4.SWU-DVC-003",
+        "S5.SWU-DVC-004",
+        "S5.SWU-DVC-005"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3-contracts",
+      "kind": "quality",
+      "owner": "Spellcraft",
+      "condition": "Design, architecture, and UX contracts preserve exact selection and evidence boundaries",
+      "requires_role_receipts": [
+        "S6.SWU-DVC-006A",
+        "S6.SWU-DVC-006B",
+        "S6.SWU-DVC-006C",
+        "S6.SWU-DVC-006D",
+        "S6.SWU-DVC-006E"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G4-close",
+      "kind": "promotion_guardrail",
+      "owner": "Spellcraft and human maintainer",
+      "condition": "parity, live proof, recomposition, leakage, and lifecycle audit pass without inferring promotion",
+      "requires_role_receipts": [
+        "S7.SWU-DVC-007",
+        "S8.SWU-DVC-008",
+        "S8.final-audit"
+      ],
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-authoring-lifecycle",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "spellcraft",
+        "applies_to_steps": ["S2", "S3", "S4", "S5", "S6", "S7", "S8"],
+        "contract": "Invoke authors the package; Spellcraft owns every public source mutation and lifecycle receipt.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2-private-public",
+        "kind": "external_context",
+        "from_owner": "private authoring and research",
+        "to_owner": "public Arcanum",
+        "applies_to_steps": ["S2", "S3", "S4", "S5", "S6", "S7", "S8"],
+        "contract": "Only generic schemas, components, templates, and sanitized fixtures enter public Arcanum.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3-canonical-generated",
+        "kind": "state_write",
+        "from_owner": "Spellcraft canonical source",
+        "to_owner": "bootstrap-generated runtime profiles",
+        "applies_to_steps": ["S6", "S7", "S8"],
+        "contract": "Generated profiles update only after canonical validation and remain projections.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B4-evidence-authority",
+        "kind": "evidence_return",
+        "from_owner": "extractor and validators",
+        "to_owner": "Invoke Design and Plan",
+        "applies_to_steps": ["S3", "S4", "S5", "S6", "S8"],
+        "contract": "Design validation opens only design-validator-pass; Plan evidence and promotion remain separate.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Spellcraft",
+      "execution": "Task Session only when Spellcraft selects one SWU",
+      "validation": "deterministic extractor, selection validator, fixture runner, and parity checks",
+      "evidence": "version-bound receipts under task session evidence",
+      "memory": "Inventory and observability are read models only",
+      "promotion": "Spellcraft lifecycle plus explicit human maintainer decision"
+    },
+    "receipts": [
+      {
+        "receipt_id": "swu-closeout",
+        "producer": "Spellcraft-selected execution owner",
+        "required_fields": [
+          "run_id",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "protocol_fields": [
+          "swu_id",
+          "files_touched"
+        ],
+        "stores": ["work-pack/session-evidence"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "final-audit",
+        "producer": "Spellcraft",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "residue",
+          "audit_reference"
+        ],
+        "protocol_fields": [
+          "recomposition",
+          "public_private_scan"
+        ],
+        "stores": ["work-pack/session-evidence", "observability"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "private-authoring",
+        "owner": "Invoke package",
+        "write_policy": "private Define Design Plan and evidence references only"
+      },
+      {
+        "namespace": "public-canonical-invoke",
+        "owner": "Spellcraft",
+        "write_policy": "generic canonical source and fixtures only"
+      },
+      {
+        "namespace": "generated-runtime",
+        "owner": "bootstrap owner",
+        "write_policy": "derived after canonical validation"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Invoke authors this package but mutates no canonical target.",
+    "Frozen fixtures precede implementation and cannot be rewritten to create a pass.",
+    "Design validation cannot imply Plan evidence, registry release, runtime readiness, or promotion.",
+    "Private evidence never becomes public canonical content.",
+    "Validation does not imply promotion, publication, commit, push, or submodule pointer update."
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "dispatch_validated",
+      "fixture_denominator_frozen",
+      "schemas_validated",
+      "denominator_extracted",
+      "selection_validated",
+      "contract_integration_validated",
+      "generated_parity_validated",
+      "live_recomposition_audited"
+    ],
+    "signal_grouping": "dispatch_id + step_id + swu_id + manifest_id + input_digest + receipt_digest"
+  }
+}

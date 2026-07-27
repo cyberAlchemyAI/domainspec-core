@@ -1,0 +1,18 @@
+{
+  "schema_version": "task-session-execution-receipt.v1",
+  "task_id": "TASK-DVC-002",
+  "swu_id": "SWU-DVC-002C",
+  "result": "pass",
+  "execution_result": "pass",
+  "mutation_admission": {"receipt": "mutation-admission-receipt.json", "admission_verdict": "admit", "mutation_ready": true},
+  "files_touched": ["arcanum/spells/invoke/schemas/design-selection-result.schema.json"],
+  "validation": [
+    {"check": "schema JSON parse", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "1 valid and 4 invalid result controls", "criticality": "acceptance-critical", "result": "pass"},
+    {"check": "exact staged bytes and scoped diff", "criticality": "acceptance-critical", "result": "pass"}
+  ],
+  "blockers": [],
+  "residue": [],
+  "experiment_harness": "pending-reusable-behavior-validation",
+  "next_swu": "SWU-DVC-003"
+}
