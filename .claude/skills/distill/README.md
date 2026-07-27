@@ -61,13 +61,13 @@ If the user does not choose a budget, the default is Standard.
 
 ## Modes
 
-| Mode       | Use When                                                     | Shape                                                                                          |
-| ---------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| Compact    | The user wants a quick bounded pass.                         | One proposal track, one recursive round, always-on gates only.                                 |
-| Standard   | Default planning depth is enough.                            | One Proposer, one Balancer, two recursive rounds, one reconciliation pass.                     |
-| Tournament | Multiple possible designs should compete.                    | Several proposal tracks, each balanced, followed by evidence-based pitch-off.                  |
-| Deep       | The context is high-risk, broad, or strategically important. | More rounds, stronger cycle checks, triggered techniques, premortem, and possible human gates. |
-| Validate   | An existing design needs review.                             | Balancer-led critique with optional Proposer repair and readiness verdict.                     |
+| Mode | Use When | Shape |
+| --- | --- | --- |
+| Compact | The user wants a quick bounded pass. | One proposal track, one recursive round, always-on gates only. |
+| Standard | Default planning depth is enough. | One Proposer, one Balancer, two recursive rounds, one reconciliation pass. |
+| Tournament | Multiple possible designs should compete. | Several proposal tracks, each balanced, followed by evidence-based pitch-off. |
+| Deep | The context is high-risk, broad, or strategically important. | More rounds, stronger cycle checks, triggered techniques, premortem, and possible human gates. |
+| Validate | An existing design needs review. | Balancer-led critique with optional Proposer repair and readiness verdict. |
 
 All modes must keep finite proposal tracks, finite recursive rounds, cycle guards, and a recorded reason for skipped techniques.
 

@@ -34,7 +34,7 @@ Use this sigil when:
 - the work needs a clear relationship between broad concept layers and the first coherent unit,
 - multiple possible designs should compete before convergence,
 - the output needs a navigable next route such as implementation-layering, robot-talks, decision-gate, invoke design, invoke plan, or task-session.
-  </applicability>
+</applicability>
 
 <non-applicability>
 Do not use this sigil when:
@@ -44,7 +44,7 @@ Do not use this sigil when:
 - the request only needs a summary or explanation,
 - there is no meaningful output artifact to optimize toward,
 - the user needs factual discovery as the primary work rather than planning optimization.
-  </non-applicability>
+</non-applicability>
 
 <inputs>
 Expected inputs, if available:
@@ -56,7 +56,9 @@ Expected inputs, if available:
 - constraints: time, cost, quality, governance, risk, implementation, audience, or domain limits,
 - existing artifacts: specs, notes, code, diagrams, plans, or decisions that should count as evidence,
 - budget preference: Compact, Standard, Tournament, Deep, or Validate.
-  </inputs>
+- optional evidence context: accepted event schema, append-only event ledger,
+  and observed-ledger digest when downstream handoff is evidence-gated.
+</inputs>
 
 <first-action>
 Before decomposing, confirm intent and budget:
@@ -96,7 +98,7 @@ Both paths must preserve the same role trace:
 - Balancer objection category,
 - reconciliation decision,
 - stable disagreement, if one remains.
-  </runtime-role-policy>
+</runtime-role-policy>
 
 <process>
 1. Confirm design intent, target context, output artifact, optimization goal, and budget.
@@ -131,7 +133,14 @@ Both paths must preserve the same role trace:
 12. In Tournament mode, compare viable tracks by fit, option value, risk, cost, assumptions, and elimination conditions.
 13. Select the optimization point where the unit is small enough to work with and large enough to remain meaningful in context.
 14. Run closeout techniques: recomposition proof, frame-expiry note, premortem when required, navigable result check.
-15. Return pass, flag, or block and route the result to the next lifecycle owner.
+15. When an accepted evidence context is present, emit the fixed runtime
+    boundaries through `scripts/emit-runtime-event.py`: capability probe,
+    Proposer start/result, Balancer start/result, reconciliation, and
+    termination. Preserve stable distinct native invocation references for
+    true subagents and null native references for role simulation.
+16. Derive evidence-emission status independently from the Distill verdict:
+    `complete`, `partial`, `failed`, `not-required`, or `not-configured`.
+17. Return pass, flag, or block and route the result to the next lifecycle owner.
 </process>
 
 <technique-pack>
@@ -146,7 +155,7 @@ Technique activation trace must include:
 - emitted output,
 - decision,
 - readiness effect.
-  </technique-pack>
+</technique-pack>
 
 <cycle-guards>
 Stop or gate when:
@@ -189,7 +198,7 @@ A successful execution must:
 - select a smallest coherent unit with closure and recomposition proof,
 - defer complexity that lacks a named tension or confirmed evolution profile,
 - return a navigable result with start-here guidance, unresolved tensions, and next route.
-  </quality-bar>
+</quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -201,15 +210,24 @@ Avoid:
 - skipping the output artifact because the concept map feels complete,
 - running Tournament mode without assumptions and elimination conditions,
 - letting true-subagent and role-simulation paths produce different trace contracts,
+- folding an invoked Distill execution only into caller telemetry,
+- emitting child telemetry for a skipped or not-required Distill route,
+- appending more than one Distill signal for the same child run,
+- claiming complete evidence emission when the accepted resolver cannot close
+  the full role/process boundary sequence,
+- allowing runtime-event or telemetry evidence to set the Distill verdict or
+  mutation readiness,
 - claiming pass readiness when the result has no navigation guide,
 - routing to implementation when a blocker decision or cross-layer tension remains.
-  </anti-patterns>
+</anti-patterns>
 
 <observability>
 For meaningful executions, emit or prepare usage telemetry when the local observability package is available.
 
 Recommended signal fields:
 
+- child run id and direct or invoked-by lineage,
+- parent run id plus caller capability and mode when invoked by another capability,
 - objective-output confirmation,
 - target context,
 - selected mode,
@@ -220,8 +238,31 @@ Recommended signal fields:
 - verdict,
 - objective-output drift,
 - navigation closeout status,
+- execution-evidence status and available request, runtime-event, receipt, and validator references,
+- evidence-emission status: complete, partial, failed, not-required, or
+  not-configured,
+- telemetry append status,
 - next route.
-  </observability>
+
+For a meaningful direct Distill execution, Distill owns the post-run append
+through `scripts/observe-direct-invocation.sh`. A direct envelope has
+`invocation_source: direct`, no caller lineage, and records evidence-emission
+status under `evidence.emission_status`. Signal Observer deduplicates the row by
+the direct Distill run ID.
+
+When another capability invokes Distill, Distill must prepare a child invocation
+envelope with its own run ID. The caller owns the post-run append through
+`signal-observer` and must link the row to the caller run with
+`lineage.relation: invoked-by`. A completed, partial, blocked, or failed
+meaningful Distill run produces one Distill telemetry row in addition to the
+caller's row.
+A skipped or not-required Distill route produces no child row; the caller
+records the skip rationale instead.
+
+Telemetry and runtime-event evidence remain non-authoritative. Missing or failed
+telemetry is visible residue and cannot change the Distill verdict or authorize
+downstream mutation.
+</observability>
 
 <output-contract>
 Return:
@@ -247,7 +288,8 @@ Return:
 - Premortem: <likely failure reason and guardrail | skipped with reason>
 - Frame-expiry note: <context change that invalidates this optimization point>
 - Navigation guide: <where to start, what changed, what remains unresolved, and how to use the result>
+- Evidence emission: <complete | partial | failed | not-required | not-configured; evidence references or diagnostic>
+- Telemetry: <recorded | failed with residue | not configured; direct or caller-owned>
 - Next route: implementation-layering | robot-talks | decision-gate | invoke design | invoke plan | task-session | deferred
 ```
-
 </output-contract>
