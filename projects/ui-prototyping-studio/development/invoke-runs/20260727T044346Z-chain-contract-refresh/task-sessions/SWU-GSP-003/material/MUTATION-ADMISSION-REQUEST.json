@@ -1,0 +1,90 @@
+{
+  "allowedWrites": [
+    "projects/ui-prototyping-studio/backend/e2e/governed-state-projection.spec.ts",
+    "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts"
+  ],
+  "authorityClass": "private",
+  "controlArtifacts": [
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/work-pack/tasks/TASK-GSP-003-current-head-projection.md",
+      "role": "task-contract",
+      "sha256": "6549a2033a55e43fa7d589652f1ba3c728bfb981ed14811f442e48d0a0956c21",
+      "sizeBytes": 1676
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md",
+      "role": "work-pack",
+      "sha256": "ed197c694d2d6d02f2fa649bc69eaa549f60640f114a4c732dd8f63d570ac57b",
+      "sizeBytes": 9311
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-003/context-pack.json",
+      "role": "context-pack",
+      "sha256": "75a7adf36ed4728f3f6434140f8a1f3d9ce71b271501aa6be8ca86015cb9303b",
+      "sizeBytes": 1746
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+      "role": "source",
+      "sha256": "82729faa0b09138736c48dde11d8391a7b84d92a5becf9e12999d5d767c62d69",
+      "sizeBytes": 28975
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/current-html.ts",
+      "role": "source",
+      "sha256": "57e998430661bd180f23b39dc582fc98bb577422ec3289190a09414f9daf426c",
+      "sizeBytes": 1288
+    }
+  ],
+  "dependencyFrontier": [
+    {
+      "artifactRef": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/CHAIN-STATE.json",
+        "sha256": "67541124b068ab5ca31ae039fb71abb770dcae6d22404a406923205da2d8bd85",
+        "sizeBytes": 1883
+      },
+      "dependencyId": "chain-preflight"
+    },
+    {
+      "artifactRef": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/closeout/SWU-GSP-002/OWNER-RECEIPT.json",
+        "sha256": "a9995f9212792eececdb91ad4b38dcd5632acc2a373af54108b9421f6b9c4b02",
+        "sizeBytes": 1325
+      },
+      "dependencyId": "gsp-002-closeout"
+    }
+  ],
+  "executionMode": "routed-mutation",
+  "lifecycleOwner": "private UI Prototyping Studio implementation via task-session",
+  "materialPackage": {
+    "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-003/material/MATERIAL-PACKAGE.json",
+    "sha256": "ddfa6b0fa2ebfbf6337b6e23f19103f0ac7fe1a00761f9b1c32f5ed6b76219ca",
+    "sizeBytes": 7333
+  },
+  "materialReceipt": {
+    "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-003/material/MATERIAL-RECEIPT.json",
+    "sha256": "d31d2ef575d2515890edbf4bd18c2e5e806994976c3bc11ba947945fffd6adc2",
+    "sizeBytes": 1308
+  },
+  "producerReceiptSchema": {
+    "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+    "sizeBytes": 1719
+  },
+  "publicationClass": "private",
+  "schemaVersion": "1.0.0",
+  "swuId": "SWU-GSP-003",
+  "taskId": "TASK-GSP-003",
+  "validationCommands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \\\"src/**/*.test.ts\\\"",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test e2e/governed-state-projection.spec.ts --reporter=list"
+  ]
+}

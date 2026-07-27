@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "swu_id": "SWU-GSP-003",
+  "work_pack": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md",
+  "source_receipt_contract": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/schemas/task-session-result.schema.json",
+  "expected_owner_receipt_contract": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/schemas/closeout-owner-receipt.schema.json",
+  "target_baselines": {
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md": "ed197c694d2d6d02f2fa649bc69eaa549f60640f114a4c732dd8f63d570ac57b",
+    "projects/ui-prototyping-studio/.craft/ledger.yml": "178fa7d6feb7052b8656bfd9e7ab1b29526a1519ffc7b813daa232d584498c9e",
+    "projects/ui-prototyping-studio/CRAFT.md": "cb289427dbab7a3d52c49e08f5daa952135de404a21e8b801c542b28991fec65"
+  },
+  "allowed_delta_classes": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "owner_validation": [
+    "cd projects/ui-prototyping-studio && python3 development/invoke-runs/20260727T044346Z-chain-contract-refresh/scripts/validate-chain-contract.py",
+    "python3 -c \"import yaml; yaml.safe_load(open('projects/ui-prototyping-studio/.craft/ledger.yml'))\"",
+    "git diff --check -- projects/ui-prototyping-studio"
+  ],
+  "next_candidate": "SWU-GSP-004",
+  "result": "pass"
+}

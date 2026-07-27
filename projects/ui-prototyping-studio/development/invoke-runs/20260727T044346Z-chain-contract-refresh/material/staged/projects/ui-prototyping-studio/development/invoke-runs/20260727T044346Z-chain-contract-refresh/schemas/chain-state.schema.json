@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ui-prototyping-studio.chain-state.schema.json",
+  "title": "UI Prototyping Studio Until Blocker Chain State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "chain_id",
+    "work_pack",
+    "captured_frontier",
+    "session_budget",
+    "current_expected_selector",
+    "visited_selectors",
+    "task_session_receipts",
+    "closeout_owner_receipts",
+    "continuity_cursor_fingerprints",
+    "initial_target_baselines",
+    "stop_reason",
+    "final_next_route"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "chain_id": {"const": "ups-gsp-20260727"},
+    "work_pack": {"minLength": 1, "type": "string"},
+    "captured_frontier": {
+      "items": {"pattern": "^SWU-GSP-00[1-7]$", "type": "string"},
+      "maxItems": 7,
+      "minItems": 7,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "session_budget": {"const": 7},
+    "current_expected_selector": {
+      "oneOf": [
+        {"pattern": "^SWU-GSP-00[1-7]$", "type": "string"},
+        {"type": "null"}
+      ]
+    },
+    "visited_selectors": {
+      "items": {"pattern": "^SWU-GSP-00[1-7]$", "type": "string"},
+      "type": "array",
+      "uniqueItems": true
+    },
+    "task_session_receipts": {
+      "items": {"type": "string"},
+      "type": "array",
+      "uniqueItems": true
+    },
+    "closeout_owner_receipts": {
+      "items": {"type": "string"},
+      "type": "array",
+      "uniqueItems": true
+    },
+    "continuity_cursor_fingerprints": {
+      "items": {"type": "string"},
+      "type": "array",
+      "uniqueItems": true
+    },
+    "initial_target_baselines": {
+      "additionalProperties": {
+        "pattern": "^(ABSENT|[a-f0-9]{64})$",
+        "type": "string"
+      },
+      "minProperties": 3,
+      "type": "object"
+    },
+    "stop_reason": {
+      "oneOf": [{"type": "string"}, {"type": "null"}]
+    },
+    "final_next_route": {
+      "oneOf": [{"type": "string"}, {"type": "null"}]
+    }
+  }
+}

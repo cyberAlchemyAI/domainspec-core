@@ -14,6 +14,7 @@ test("N3: in-preview Accept advances head; Revert walks it back — no terminal 
     const before = await (await request.get(`http://127.0.0.1:${pv.port}/state`)).json();
     expect(before.head).toBe("rev-0000"); // staged, not yet accepted
 
+    await page.locator("#ack-accept").check();
     await page.getByRole("button", { name: /accept/i }).click();
     await expect.poll(async () => (await (await request.get(`http://127.0.0.1:${pv.port}/state`)).json()).head)
       .not.toBe("rev-0000"); // head advanced via the browser Accept
@@ -21,6 +22,7 @@ test("N3: in-preview Accept advances head; Revert walks it back — no terminal 
     // the recorded state now offers an in-browser Revert
     await expect(page.getByRole("button", { name: /revert/i })).toHaveCount(1);
     const accepted = await (await request.get(`http://127.0.0.1:${pv.port}/state`)).json();
+    await page.locator("#ack-revert").check();
     await page.getByRole("button", { name: /revert/i }).click();
     await expect.poll(async () => (await (await request.get(`http://127.0.0.1:${pv.port}/state`)).json()).head)
       .not.toBe(accepted.head); // revert appended a new head (append-only walk-back)

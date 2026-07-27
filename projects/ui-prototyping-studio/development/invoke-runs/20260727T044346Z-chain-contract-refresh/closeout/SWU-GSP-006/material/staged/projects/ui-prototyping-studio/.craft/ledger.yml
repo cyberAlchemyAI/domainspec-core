@@ -1,0 +1,1886 @@
+ledger_id: ui-prototyping-studio.craft
+schema_ref: ../../../arcanum/arcana/craft/templates/ledger.schema.yml
+schema_version: 0.2.0
+status: active
+source_of_truth: projects/ui-prototyping-studio/.craft/ledger.yml
+human_view: projects/ui-prototyping-studio/CRAFT.md
+indexes:
+  by_id:
+    CTX-UPS-ROOT: contexts[0]
+    CTX-UPS-DEEP-SPEC: contexts[1]
+    DEC-EXECUTION-SCOPE-001: decisions[0]
+    DEC-ONE-SHOT-SCOPE-002: decisions[1]
+    DEC-OQ1-TRUST-METER: decisions[2]
+    DEC-OQ2-SAW-DIFF: decisions[3]
+    DEC-OQ3-HANDOFF-CARRY: decisions[4]
+    DEC-OQ4-IMPORT-INTEGRITY: decisions[5]
+    BLK-FIXTURE-CORPUS-001: typed_items[0]
+    BLK-IDENTITY-TYPES-002: typed_items[1]
+    BLK-FAILURE-STATES-003: typed_items[2]
+    BLK-INVARIANTS-UNCALIBRATED-004: typed_items[3]
+    ENA-DEEP-SPEC-ROUTE-001: typed_items[4]
+    ENA-L0-SPINE-EXISTS-002: typed_items[5]
+    GAP-ERGONOMICS-UNPROVEN-001: gaps[0]
+    GAP-COMPONENT-REGISTRY-002: gaps[1]
+    GAP-CONFLICT-ALGEBRA-003: gaps[2]
+    GAP-CONTRACT-DRIFT-004: gaps[3]
+    GAP-DOCS-CODE-SPLIT-005: gaps[4]
+    CTX-UPS-EXTRACTION: contexts[2]
+    DEC-DEPRECATE-PIVOT-007: decisions[6]
+    ART-EXTRACTION-PLAN: artifacts[14]
+    ART-LEAN-SPEC: artifacts[15]
+    ART-README: artifacts[16]
+    ART-PROVENANCE: artifacts[17]
+    DEC-FRESH-MINIMAL-008: decisions[7]
+    DEC-INTERFACE-MODEL-009: decisions[8]
+    DEC-GENERATOR-PORT-010: decisions[9]
+    ENA-GENERATOR-PORT-003: typed_items[6]
+    DEC-RUNTIME-CLAUDE-CODE-011: decisions[10]
+    DEC-CLI-NOT-MCP-012: decisions[11]
+    GAP-ANNOTATION-UX-006: gaps[5]
+    ART-GLOSSARY: artifacts[18]
+    ART-STATES: artifacts[19]
+    ART-OPERATIONS: artifacts[20]
+    ART-INTERFACES: artifacts[21]
+    ART-ARCHITECTURE: artifacts[22]
+    DEC-INPROTO-ANNOTATION-013: decisions[12]
+    DEC-ATOMIC-IDS-014: decisions[13]
+    ART-MUTEXEC-RESULT: artifacts[23]
+    ART-MUTEXEC-DESIGN: artifacts[24]
+    ART-MUTEXEC-PLAN: artifacts[25]
+    DEC-MUTATION-EXEC-015: decisions[14]
+    GAP-ACCEPTANCE-CHECK-007: gaps[6]
+    ART-C1-CRITERION: artifacts[26]
+    ART-C1-SPIKE-RESULT: artifacts[27]
+    ART-C1-SPIKE-CODE: artifacts[28]
+    DEC-C1-SPIKE-SURVIVED-016: decisions[15]
+    GAP-V3-NODE-IDENTITY-008: gaps[7]
+    DEC-R2-CSS-ATTRIBUTION-017: decisions[16]
+    DEC-EXT-DOMAINSPEC-BREAK-018: decisions[17]
+    DEC-EXT-GIT-HISTORY-019: decisions[18]
+    DEC-EXT-COMMIT-POLICY-020: decisions[19]
+    ART-WORK-PACK: artifacts[29]
+    ART-BACKEND-STANDALONE: artifacts[30]
+    GAP-HANDOFF-DOC-REFS-009: gaps[8]
+    ART-M0C-CANONICALIZER: artifacts[31]
+    ART-M0B-ARTIFACT-PORT: artifacts[32]
+    ART-M1-ADMISSION: artifacts[33]
+    ART-X2-STUDIO-CLI: artifacts[34]
+    ART-M2-TWO-GATE: artifacts[35]
+    ART-M0A-SCHEMA: artifacts[36]
+    CTX-UPS-GSP-EXECUTION: contexts[5]
+    ART-GSP-REVIEW-20260727: artifacts[97]
+    ART-GSP-JULY-PROPOSAL: artifacts[98]
+    ART-GSP-AMENDED-WORK-PACK: artifacts[99]
+    ART-GSP-REFRESH-PROPOSAL: artifacts[100]
+    ART-GSP-CHAIN-CONTRACT: artifacts[101]
+    DEC-GSP-PLAN-APPROVAL-028: decisions[30]
+    DEC-GSP-PROOF-ROUTE-029: decisions[31]
+    DEC-GSP-CONFIRMATION-ACTOR-030: decisions[32]
+    DEC-GSP-CHAIN-ORDER-031: decisions[33]
+    GAP-GSP-RELEASE-UNBOUND-023: gaps[22]
+  open_decisions: []
+  blocking_decisions: []
+  active_blockers:
+  - BLK-FIXTURE-CORPUS-001
+  - BLK-IDENTITY-TYPES-002
+  - BLK-FAILURE-STATES-003
+  - BLK-INVARIANTS-UNCALIBRATED-004
+  active_gaps:
+  - GAP-ERGONOMICS-UNPROVEN-001
+  - GAP-COMPONENT-REGISTRY-002
+  - GAP-CONFLICT-ALGEBRA-003
+  - GAP-DOCS-CODE-SPLIT-005
+  - GAP-ACCEPTANCE-CHECK-007
+  - GAP-V3-NODE-IDENTITY-008
+  - GAP-HANDOFF-DOC-REFS-009
+  - GAP-GSP-RELEASE-UNBOUND-023
+  next_moves:
+  - context_id: CTX-UPS-ROOT
+    next_move: Finish the bounded chain with selected SWU-GSP-007 after passing GSP-001 through GSP-006 receipts.
+  - context_id: CTX-UPS-EXTRACTION
+    next_move: None; standalone extraction is recomposed and superseded by CTX-UPS-GSP-EXECUTION.
+  - context_id: CTX-UPS-GSP-EXECUTION
+    next_move: Run Task Session for selected SWU-GSP-007; reconcile active docs and execute the full completion audit.
+  artifacts_by_path:
+    projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-DISPATCH.json: ART-DEEP-SPEC-DISPATCH
+    projects/ui-prototyping-studio/development/deep-spec-dispatch/SYNTHESIZED-DEEP-DESIGN.md: ART-SYNTH-DEEP-DESIGN
+    projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-PROPOSAL.md: ART-DEEP-SPEC-PROPOSAL
+    projects/ui-prototyping-studio/development/deep-spec-dispatch/ONE-SHOT-IMPLEMENTATION-PLAN.md: ART-ONE-SHOT-PLAN
+    projects/ui-prototyping-studio/development/deep-spec-dispatch/RESULT.md: ART-DEEP-SPEC-RESULT
+    projects/ui-prototyping-studio/development/standalone-extraction/EXTRACTION-PLAN.md: ART-EXTRACTION-PLAN
+    projects/ui-prototyping-studio/SPEC.md: ART-LEAN-SPEC
+    projects/ui-prototyping-studio/glossary.md: ART-GLOSSARY
+    projects/ui-prototyping-studio/states.md: ART-STATES
+    projects/ui-prototyping-studio/operations.md: ART-OPERATIONS
+    projects/ui-prototyping-studio/interfaces.md: ART-INTERFACES
+    projects/ui-prototyping-studio/ARCHITECTURE.md: ART-ARCHITECTURE
+    projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/RESULT.md: ART-MUTEXEC-RESULT
+    projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/stages/06-design.md: ART-MUTEXEC-DESIGN
+    projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/stages/09-plan.md: ART-MUTEXEC-PLAN
+    projects/ui-prototyping-studio/development/spikes/c1-validator-criterion/criterion.md: ART-C1-CRITERION
+    projects/ui-prototyping-studio/development/spikes/c1-validator-criterion/RUN-RESULT.md: ART-C1-SPIKE-RESULT
+    projects/ui-prototyping-studio/development/spikes/c1-validator-criterion/run_spike.py: ART-C1-SPIKE-CODE
+    projects/ui-prototyping-studio/WORK-PACK.md: ART-WORK-PACK
+    projects/ui-prototyping-studio/development/reviews/20260727-architecture-plan-deep-spec-review/findings.md: ART-GSP-REVIEW-20260727
+    projects/ui-prototyping-studio/development/invoke-runs/20260710T012443Z-governed-state-projection/WORK-PACK.md: ART-GSP-JULY-PROPOSAL
+    projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md: ART-GSP-AMENDED-WORK-PACK
+    projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/REFRESH-PATCH-PROPOSAL.md: ART-GSP-REFRESH-PROPOSAL
+    projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/REFRESH-PATCH-PROPOSAL.md: ART-GSP-CHAIN-CONTRACT
+contexts:
+- context_id: CTX-UPS-ROOT
+  parent_id: root
+  title: UI Prototyping Studio Deep-Spec Readiness
+  purpose: Track the UI Prototyping Studio feature from an architecture-strong / evidence-sparse spec toward one-shot implementation readiness, keeping the deepened design, residuality invariants, UX evidence, open decisions, blockers, and gaps explicit.
+  stage: execute
+  gate: pass
+  next_move: Run task-session for selected SWU-GSP-001 from the amended 2026-07-27 work-pack; do not execute a later SWU without its dependency receipt.
+  owned_artifacts:
+  - ART-LEAN-SPEC
+  - ART-UPS-CRAFT-LEDGER
+  - ART-UPS-CRAFT-VIEW
+  - ART-EXISTING-SPEC
+  - ART-DEEP-SPEC-PROPOSAL
+  - ART-ONE-SHOT-PLAN
+  - ART-DEEP-SPEC-RESULT
+  - ART-README
+  - ART-PROVENANCE
+  - ART-GLOSSARY
+  - ART-STATES
+  - ART-OPERATIONS
+  - ART-INTERFACES
+  - ART-ARCHITECTURE
+  - ART-WORK-PACK
+  - ART-GSP-REVIEW-20260727
+  - ART-GSP-AMENDED-WORK-PACK
+  - ART-GSP-REFRESH-PROPOSAL
+  - ART-GSP-CHAIN-CONTRACT
+  notes: Root context created by /craft for the ui-prototyping-studio feature, seeded from dispatch ui-prototyping-studio-deep-spec-001.
+- context_id: CTX-UPS-DEEP-SPEC
+  parent_id: CTX-UPS-ROOT
+  title: Deep-Spec Dispatch Exploration
+  purpose: Deepen the spec via a dialectical zig-zag exploration (novel vs defend) hardened by residuality stressors, UX evidence, a planned Playwright suite, and a context-isolated naive-user walkthrough, ending in a candid one-shot readiness verdict.
+  stage: closed
+  gate: flag
+  next_move: Recompose the conditional readiness verdict and carried residue into CTX-UPS-ROOT and route the open decisions to decision-gate.
+  owned_artifacts:
+  - ART-DEEP-SPEC-DISPATCH
+  - ART-DEEP-SPEC-README
+  - ART-SYNTH-DEEP-DESIGN
+  - ART-RESIDUALITY
+  - ART-UX-EVIDENCE
+  - ART-PLAYWRIGHT-PLAN
+  - ART-COLD-START
+  - ART-DEEP-SPEC-LIFECYCLE
+  notes: Child context closed after the workflow run (wf_ee6ffee8-68a, 12 agents) produced all artifacts and a CONDITIONAL readiness verdict. Subagent lifecycle pass.
+- context_id: CTX-UPS-EXTRACTION
+  parent_id: CTX-UPS-ROOT
+  title: Standalone Extraction
+  purpose: 'Claude Code-native standalone via a `studio` CLI (no MCP server): keep the working L0 governance core, wrap it in a CLI both Claude Code and the human drive, ship an operating skill; MVP visual review = `studio preview` (no React SPA). Build on existing code; full-vision spec + vendored reference archived to provenance/.'
+  stage: closed
+  gate: pass
+  next_move: None; the standalone backend, CLI, and browser surface exist, and remaining trust repairs are owned by CTX-UPS-GSP-EXECUTION.
+  owned_artifacts:
+  - ART-EXTRACTION-PLAN
+  notes: Opened after the operator reframed ui-prototyping-studio as a whole new project because domainspec is being deprecated.
+- context_id: CTX-UPS-UX-REFINE
+  parent_id: CTX-UPS-ROOT
+  title: UI/UX Interaction Surface + Operating SKILL Refine
+  purpose: Full refine (14-agent workflow) of the interaction surface + operating SKILL.md, ergonomics-first. Tournament A/B/C of review surfaces; dialectic agent-autonomy vs human-control; dual-walkthrough toy-game; non-executed build plan.
+  stage: design
+  gate: flag
+  next_move: 'PLAN-NEXT whole work pack DONE (N1-N11). All 3 audit gaps resolved/mitigated (F1 export-gate-to-core is the keystone — HTTP door closed). UI dead-end closed (in-preview accept/revert). Unit 61/61 + e2e 13/13. Studio is now consistent: docs match build, governance holes closed. Pending (your go): commit (branch+submodule-first); MAKE-MVP DOC public-republish now unblocked (F1+README done).'
+  owned_artifacts:
+  - ART-UX-REFINE-RESULT
+  - ART-UX-SKILL-DRAFT
+  - ART-UX-INTERACTION-DESIGN
+  - ART-UX-BUILD-PLAN
+  notes: Surface choice flipped A(overlay)->C(local web page); B(TUI) eliminated. Workflow wf_d237687a-482 / task wqgd6s4wz.
+- context_id: CTX-UPS-TYPE-TAXONOMY
+  parent_id: CTX-UPS-ROOT
+  title: Operating-contract artifact-type decision (vs Craft)
+  purpose: 'Decide whether the project-local operating-contract artifact class (#6) needs a new framework type; compare with Craft. Outcome: defer the type, name it now.'
+  stage: design
+  gate: pass
+  next_move: Add a one-line denotational note to 06-SKILL-draft.md now; defer artifact_type:operating-contract behind a sharpened trigger (2nd instance OR skill-contract validator branch); optional Craft typed_item for governance.
+  owned_artifacts:
+  - ART-TYPE-REFINE-RESULT
+  notes: Refine run 20260617-operating-contract-type; lean 3-advocate tournament. Craft types ledger conditions, not artifact kinds.
+- context_id: CTX-UPS-GSP-EXECUTION
+  parent_id: CTX-UPS-ROOT
+  title: Governed State Projection Implementation
+  purpose: Execute the parent-accepted architecture-review repairs through seven one-behavior SWUs while keeping implementation, human-study evidence, and release authorization separate.
+  stage: execute
+  gate: pass
+  next_move: Run Task Session for selected SWU-GSP-007 after the joined GSP-006 implementation and closeout receipts.
+  owned_artifacts:
+  - ART-GSP-REVIEW-20260727
+  - ART-GSP-JULY-PROPOSAL
+  - ART-GSP-AMENDED-WORK-PACK
+  - ART-GSP-REFRESH-PROPOSAL
+  - ART-GSP-CHAIN-CONTRACT
+  notes: GSP-006 separates export confirmation, evidence completeness, integration readiness, and implementation readiness; typecheck and unit/slice 72/72 pass. Its joined Invoke closeout selects final SWU-GSP-007; human-study evidence and release authorization remain unbound.
+artifacts:
+- artifact_id: ART-UPS-CRAFT-LEDGER
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/.craft/ledger.yml
+  artifact_type: ledger-source
+  status: active
+  notes: Structured Craft source of truth for the UI Prototyping Studio feature.
+- artifact_id: ART-UPS-CRAFT-VIEW
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/CRAFT.md
+  artifact_type: human-view
+  status: active
+  notes: Human-readable view generated from the ledger; not source of truth.
+- artifact_id: ART-EXISTING-SPEC
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/provenance/legacy-domainspec-spec/SPEC.md
+  artifact_type: legacy-spec
+  status: superseded
+  notes: Full-vision DomainSpec spec (79KB). Archived as provenance; superseded for this release by the lean L0->L2 SPEC.md.
+- artifact_id: ART-DEEP-SPEC-DISPATCH
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-DISPATCH.json
+  artifact_type: dispatch-route
+  status: pass
+  notes: Dispatch route ui-prototyping-studio-deep-spec-001 validates VALIDATION=pass. Route-shape evidence only.
+- artifact_id: ART-DEEP-SPEC-README
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/README.md
+  artifact_type: route-readme
+  status: active
+  notes: Human-readable explanation of the route shape, lanes, gates, and artifacts.
+- artifact_id: ART-SYNTH-DEEP-DESIGN
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/SYNTHESIZED-DEEP-DESIGN.md
+  artifact_type: design
+  status: active
+  notes: Load-bearing synthesized design resolving the zig-zag dialectic into domainspec UI types. Proposal, not canonical.
+- artifact_id: ART-DEEP-SPEC-PROPOSAL
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-PROPOSAL.md
+  artifact_type: spec-proposal
+  status: flag
+  notes: Deepened spec resolving the shallow areas. PROPOSAL held behind gate g8-final-approval; does not mutate SPEC.md.
+- artifact_id: ART-ONE-SHOT-PLAN
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/ONE-SHOT-IMPLEMENTATION-PLAN.md
+  artifact_type: implementation-plan
+  status: flag
+  notes: Layered one-shot plan. Readiness CONDITIONAL - one-shot realistic only at L0->L2 scope.
+- artifact_id: ART-RESIDUALITY
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/RESIDUALITY-STRESSORS.md
+  artifact_type: resilience-spec
+  status: active
+  notes: Stressors, desired residue, attractors, and the eight proposed invariants Inv-1..8 (proposed, not calibrated).
+- artifact_id: ART-UX-EVIDENCE
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/UX-EVIDENCE-REPORT.md
+  artifact_type: ux-evidence-report
+  status: active
+  notes: Validator-safe checks across layers L0-L6 plus UX-FIXTURE-PLAN.md. 11 hard gates specified-but-unpromoted.
+- artifact_id: ART-PLAYWRIGHT-PLAN
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/PLAYWRIGHT-TEST-PLAN.md
+  artifact_type: test-plan
+  status: done
+  notes: 'Whole Playwright suite in planned mode (no execution). FX-* fixture IDs do not yet exist in apps/web/e2e. [BUILT+RUN 2026-06-18: wired @playwright/test + playwright.config.ts + e2e/ (helpers, fixtures, 4 specs). 8/8 pass — governance(3 CLI), smoke, human-loop(annotate click->postMessage->/comment->pending through the sandboxed frame), auto(3). MUTATION-TESTED: bypassing the export-confirm gate makes the governance test FAIL, proving it bites; restored. Unit suite still 53/53; tsc clean. test:e2e script added.]'
+- artifact_id: ART-COLD-START
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/COLD-START-USABILITY-FINDINGS.md
+  artifact_type: usability-findings
+  status: active
+  notes: Context-isolated naive-user walkthrough. Task 3 (confirm identity/DNA) found effectively impossible in current UI.
+- artifact_id: ART-DEEP-SPEC-RESULT
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/RESULT.md
+  artifact_type: dispatch-result
+  status: active
+  notes: Summary, readiness verdict, artifact map, and carried residue for the deep-spec run.
+- artifact_id: ART-DEEP-SPEC-LIFECYCLE
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/SUBAGENT-LIFECYCLE.json
+  artifact_type: lifecycle-ledger
+  status: pass
+  notes: AFK-safe closeout ledger; all 12 delegated agents joined and closed.
+- artifact_id: ART-EXTRACTION-PLAN
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/standalone-extraction/EXTRACTION-PLAN.md
+  artifact_type: extraction-plan
+  status: active
+  notes: Verified coupling assessment + phased plan to make the project standalone. Backend is a clean lift; frontend is plain React+CSS prop-driven; e2e moves with adapted playwright config.
+- artifact_id: ART-LEAN-SPEC
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/SPEC.md
+  artifact_type: feature-spec
+  status: active
+  notes: Lean L0->L2 spec (166 lines) distilled from the deep-spec proposal + one-shot plan. The buildable contract for this release.
+- artifact_id: ART-README
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/README.md
+  artifact_type: readme
+  status: active
+  notes: 'Project entry: what it is, scope L0->L2, what is spine vs provenance, run instructions.'
+- artifact_id: ART-PROVENANCE
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/provenance/
+  artifact_type: archive
+  status: active
+  notes: 'Archived, not spine: legacy-domainspec-spec/ (19 full-vision aspect docs) + open-design-reference/ (200-file vendored design-skills tree).'
+- artifact_id: ART-GLOSSARY
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/glossary.md
+  artifact_type: glossary
+  status: active
+  notes: Lean L0->L2 glossary aspect, CLI-native; authored via invoke define from SPEC.md + archived doc + code. Consistent with SPEC canonical names.
+- artifact_id: ART-STATES
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/states.md
+  artifact_type: states
+  status: active
+  notes: Lean L0->L2 states aspect, CLI-native; authored via invoke define from SPEC.md + archived doc + code. Consistent with SPEC canonical names.
+- artifact_id: ART-OPERATIONS
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/operations.md
+  artifact_type: operations
+  status: active
+  notes: Lean L0->L2 operations aspect, CLI-native; authored via invoke define from SPEC.md + archived doc + code. Consistent with SPEC canonical names.
+- artifact_id: ART-INTERFACES
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/interfaces.md
+  artifact_type: interfaces
+  status: active
+  notes: Lean L0->L2 interfaces aspect, CLI-native; authored via invoke define from SPEC.md + archived doc + code. Consistent with SPEC canonical names.
+- artifact_id: ART-ARCHITECTURE
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/ARCHITECTURE.md
+  artifact_type: architecture
+  status: active
+  notes: 'Architecture vision (invoke design): governance harness around Claude Code as the generation engine, studio CLI as the only seam, hexagonal core, deferred extension points. Decisions reference the ledger, not re-decided.'
+- artifact_id: ART-MUTEXEC-RESULT
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/RESULT.md
+  artifact_type: refine-result
+  status: active
+  notes: Chosen mutation-execution model (Approach C, admission-boundary determinism, two-gate apply). Proposal; status flag (named residue).
+- artifact_id: ART-MUTEXEC-DESIGN
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/stages/06-design.md
+  artifact_type: design
+  status: active
+  notes: The execution-model design + validator set V1-V9b + apply state machine.
+- artifact_id: ART-MUTEXEC-PLAN
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/stages/09-plan.md
+  artifact_type: implementation-plan
+  status: active
+  notes: 7-layer MWU->hardening plan; all contract changes tagged [PROPOSAL].
+- artifact_id: ART-C1-CRITERION
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/spikes/c1-validator-criterion/criterion.md
+  artifact_type: experiment-criterion
+  status: active
+  notes: FROZEN pre-registered criterion for the C-1 spike (V3 whole-tree od-id scope validator). experiment-propose dispatch 2026-06-16-c1-validator-spike-criterion; designer+skeptic, 2 zig-zag iterations, VALID-to-freeze. Run/adjudication is the separate downstream step.
+- artifact_id: ART-C1-SPIKE-RESULT
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/spikes/c1-validator-criterion/RUN-RESULT.md
+  artifact_type: experiment-run-result
+  status: active
+  notes: 'C-1 spike RUN: verdict SURVIVED (verified by parent re-run + v3 integrity inspection — no expect-label leakage; deterministic). V3 whole-tree od-id-attributed fence matched all 11 fixtures incl. held-out.'
+- artifact_id: ART-C1-SPIKE-CODE
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/spikes/c1-validator-criterion/run_spike.py
+  artifact_type: spike-code
+  status: active
+  notes: 'Self-contained Python spike: canonicalizer + v3 fence + 11 fixtures + fixtures.lock + adjudication. Proof-of-concept, not shipping code.'
+- artifact_id: ART-WORK-PACK
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/WORK-PACK.md
+  artifact_type: work-pack
+  status: active
+  notes: 'Comprehensive program work-pack (invoke plan): 14 SWUs in 8 waves (extraction X1/X2, mutation L0-L3 M0a/b/c-M1-M2-M3, UX U1/U2, preview/annotate P, e2e E, meta Z, optional de-register X4), implementation-detail for algorithmic SWUs, layering + validation strategy, deferred roadmap (R2/UX research, L4-L6). All [PROPOSAL]; one task-session per SWU.'
+- artifact_id: ART-BACKEND-STANDALONE
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/backend/
+  artifact_type: code
+  status: flag
+  notes: 'SWU-X1 executed: module moved out of domainspec (plain move, accept-breakage), fastify bootstrap + package.json + tsconfig + .gitignore added. pnpm install + tsc --noEmit clean; slice test 8/9 PASS. 1 FAIL = exportDesignHandoff existsSync on STORIES.md/UI-SPEC.md/TEST-SPEC.md which the lean project archived to provenance (GAP-DOCS-CODE-SPLIT-005). Uncommitted.'
+- artifact_id: ART-M0C-CANONICALIZER
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/domain/canonicalize.ts
+  artifact_type: code
+  status: active
+  notes: 'SWU-M0c DONE (verified): shared HTML canonicalizer domainspec-html-canon v1.4.0 — pure, dep-free, idempotent; parseHtml/serialize/canonicalizeHtml/canonicalHash. 6 unit tests pass. Unblocks M1.'
+- artifact_id: ART-M0B-ARTIFACT-PORT
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/artifact-content-port.ts
+  artifact_type: code
+  status: active
+  notes: 'SWU-M0b DONE (verified): ArtifactContentPort (readHtml/stageHtml/commitHtml/discardStagedHtml) + file adapter (content-addressed staged/committed). 4 unit tests pass. removeRevision deferred to M3.'
+- artifact_id: ART-M1-ADMISSION
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/admission.ts
+  artifact_type: code
+  status: active
+  notes: 'SWU-M1 DONE (verified): the whole-tree od-id-attributed V3 scope fence ported from the C-1 spike to TS over the M0c canonicalizer. admitScope(baseline,candidate,taskScope)->REJECT|NOT_REJECT: integrity (forge/re-tag vs baseline binding), whole-tree diff attribution (out-of-scope/unattributable->REJECT), CSS rule-text diff + selector resolution. 9 fixture tests pass (GOOD/BAD/forge/CSS/deletion/identity). Two real bugs found+fixed by tests (style node in generic diff; CSS selector-set vs rule-text). Carries GAP-V3-NODE-IDENTITY-008.'
+- artifact_id: ART-X2-STUDIO-CLI
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/backend/src/cli/studio.ts
+  artifact_type: code
+  status: active
+  notes: 'SWU-X2 DONE (verified by running): the `studio` CLI over the orchestration module. Drives the full L0 loop end-to-end — open->prompt->variants->baseline->comment->synthesize->approve->apply->revisions->handoff->state=RevisionRecorded. JSON stdout, non-zero exit on UiPrototypingStudioError, gates enforced in the core. STUDIO_DOCS_ROOT=provenance makes handoff green (sidesteps X1 flag). Drift: two-gate apply/accept is M2 (uses existing apply for now); `variants generate` is the deterministic stub (the --fake surface).'
+- artifact_id: ART-M2-TWO-GATE
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/two-gate-apply.ts
+  artifact_type: code
+  status: active
+  notes: 'SWU-M2 (core) DONE (verified): the two-gate apply machine — validateAndStage (M1 admitScope -> M0b stage at temp ref / RevisionApplied, reject writes nothing) + acceptStaged (commit EXACTLY the previewed hash, idempotency-at-verdict, CANDIDATE_HASH_MISMATCH fail-closed) + discardStaged. 5 unit tests pass. Added error codes CANDIDATE_HASH_MISMATCH/NO_STAGED_CANDIDATE. DRIFT: live-session wiring (replace the L0 bookkeeping apply; needs M0a odId-on-tasks + real variant HTML) deferred.'
+- artifact_id: ART-M0A-SCHEMA
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/domain/models.ts
+  artifact_type: code
+  status: active
+  notes: 'SWU-M0a DONE (verified, additive): MutationTask += odId + MutationChangeType union; added DiffSummaryHonest/OdDiffFragment + ExecutionProvenance; RevisionManifestEntry += optional diffSummaryHonest/candidateHtmlHash/executionProvenance; synthesize populates odId. tsc clean, 32/33 (only X1 flag). Determinism preserved (taskId unchanged). Unblocks M2-wire (tasks now carry the scope od-ids).'
+- artifact_id: ART-UX-REFINE-RESULT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/RESULT.md
+  artifact_type: refinement-result
+  status: flag
+  notes: Final synthesis. Surface=C; SKILL drafted; ships BLOCKING F-CRIT-1 + 3 required fixes; ergonomics floor unproven.
+- artifact_id: ART-UX-SKILL-DRAFT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/06-SKILL-draft.md
+  artifact_type: skill-draft
+  status: draft
+  notes: 'Parent-assembled full SKILL draft (s6 skill-author draft was truncated at s7 review, R-S7-3). F-CRIT-1 honest-authority correction baked in. PROPOSAL — not installed. [2026-06-17 invoke refresh: added Quality bar (closes the conformance-audit FLAG->PASS), the operating-contract denotational note (DEC-024), and an Inputs&result section. Behavior harness authored at development/operating-skill-harness/.]'
+- artifact_id: ART-UX-INTERACTION-DESIGN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/stages/06-interaction-design.md
+  artifact_type: interaction-design
+  status: pass
+  notes: 'Interaction-designer half of the s6 dialectic: 12-step who-leads-when map, accept-diff two-gate UX, error/empty/decision-paralysis states, a11y floor.'
+- artifact_id: ART-UX-BUILD-PLAN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/stages/09-plan.md
+  artifact_type: implementation-plan
+  status: pass
+  notes: 'Non-executed build plan: PRE render GET; (b) preview --annotate MWU; (a) honest-interim SKILL install; (c) wire existing two-gate engine for accept-diff (single-gate honest label first); (d) L1 a11y floor. EXISTS-vs-PROPOSAL tagged.'
+- artifact_id: ART-UX-REFINE-MANIFEST
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/RUN-MANIFEST.md
+  artifact_type: run-manifest
+  status: flag
+  notes: Run manifest + stage ledger + tournament scores + subagent closeout (14 agents, pass).
+- artifact_id: ART-UX-REVIEW-FINDINGS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/review/findings.md
+  artifact_type: review-findings
+  status: resolved
+  notes: '7 surviving change requests + 1 build-blocking ROUTE; dispatch 2026-06-16-ups-skill-design-review closed resolved. Per-artifact: design FIX, SKILL FIX, RESULT KEEP, s2 FIX(precondition).'
+- artifact_id: ART-UX-REVIEW-ATTACKS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/review/attacks.md
+  artifact_type: review-attacks
+  status: resolved
+  notes: Verbatim attacker returns (2 rounds, robot-talks) + collapse map.
+- artifact_id: ART-UX-REFRESH-REPORT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/REFRESH-REPORT.md
+  artifact_type: refresh-report
+  status: applied
+  notes: 'invoke refresh: 7 doc-fix Fs APPLIED to run drafts (F1/F3/F4/F5/F6/F7/F8); F2 routed open. Typed deltas mapped to review/findings.md.'
+- artifact_id: ART-UX-PLAN-FIXES
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/PLAN-FIXES.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'invoke plan: closes the doc-fix Fs (applied+guarded); isolates F2 core identity-gate decision (decision-gate) + S1 SKILL install + B-PRE guard; sequences into WORK-PACK build waves.'
+- artifact_id: ART-TYPE-REFINE-RESULT
+  owner_context_id: CTX-UPS-TYPE-TAXONOMY
+  path: development/refinement-runs/20260617-operating-contract-type/RESULT.md
+  artifact_type: refinement-result
+  status: pass
+  notes: 'Decision: defer framework artifact_type; record one-line denotational note now; interim skill-contract-family + optional Craft typed_item. #6 prior upheld, trigger sharpened.'
+- artifact_id: ART-TYPE-TOURNAMENT
+  owner_context_id: CTX-UPS-TYPE-TAXONOMY
+  path: development/refinement-runs/20260617-operating-contract-type/stages/05-tournament.md
+  artifact_type: tournament
+  status: pass
+  notes: 3-registry x-ray + A/B/D advocates + pareto judgment (naming vs typing split).
+- artifact_id: ART-UX-SKILL-HARNESS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/operating-skill-harness/VALIDATION-EXPERIMENT.md
+  artifact_type: validation-experiment
+  status: proposal
+  notes: 'Behavior-contract harness for the operating SKILL: M1-M5 mechanizable checks (never-do + Quality bar) over a session transcript + R1-R3 human rubric. Runner self-tested (pass/violation). Lifecycle owner: experiment-harness/sigil-development.'
+- artifact_id: ART-UX-SKILL-HARNESS-RUNNER
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/operating-skill-harness/run-validation-fixtures.sh
+  artifact_type: script
+  status: proposal
+  notes: 'Runner: parses a JSONL transcript, enforces M1 (agent-never-gates), M2 data-od-id, M3 comment fields, M4 no nonexistent verbs, M5 stop-at-gate; emits QUALITY_BAR_STATUS/ANTI_PATTERN_HITS_JSON/WORKFLOW_GAPS_JSON; non-zero on block/fail.'
+- artifact_id: ART-UX-SKILL-TEST-WIRING-PLAN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/operating-skill-harness/TEST-WIRING-PLAN.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Plan: test the SKILL (harness on real transcript) -> wire it (capture adapter TW1, test surface WW1, M2 real-path WW2) -> install gated on harness-green + F2 (WW3). Medium; layered L0-L3.'
+- artifact_id: ART-UX-SKILL-FIRST-TEST
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/operating-skill-harness/FIRST-TEST-RESULT.md
+  artifact_type: validation-report
+  status: pass
+  notes: 'First test: live CLI session drove to RevisionRecorded/rev-0001, agent never gated, harness pass (M1/M3/M4/M5/M6). Trust-but-verify caught a shape-vs-success gap (nested batchId masked failed approve/apply) -> fixed: nested parse + per-call ok + runner M6. M2 unexercised (stub path).'
+- artifact_id: ART-UX-CAPTURE-ADAPTER
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/operating-skill-harness/capture-session.sh
+  artifact_type: script
+  status: pass
+  notes: 'TW1 done: runs one studio verb under an actor, appends a transcript JSONL line with nested-field-safe args + ok flag. Validated.'
+- artifact_id: ART-UX-TESTSKILL-SCRIPT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/package.json
+  artifact_type: script
+  status: pass
+  notes: 'WW1 done: backend test:skill script runs the harness runner. Validated (green exit 0, violation exit 1).'
+- artifact_id: ART-REGISTER-HTML-RESULT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260617-variants-register-html/RESULT.md
+  artifact_type: refinement-result
+  status: pass
+  notes: Design+plan for the missing variants register HTML ingestion. Ingestion=Option A (--label/--file); data-od-id = agent-stamps + core-validates (OD_ID_MISSING, the good mirror of F2); SWU MR1, no F2 dependency, lifts WW2.
+- artifact_id: ART-REGISTER-HTML-PLAN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260617-variants-register-html/stages/09-plan.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'SWU MR1: registerVariants use-case + gate + CLI + harness M2 closure. Deps M0b/M0c exist; buildable now.'
+- artifact_id: ART-MR1-REGISTER-VARIANTS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/register-variants.ts
+  artifact_type: code
+  status: pass
+  notes: 'MR1 done: registerVariants use-case. canonicalize M0c then data-od-id gate OD_ID_MISSING then stage+commit M0b then htmlArtifactRef set to committed ref. Fail-closed. 4 unit tests pass, tsc clean, full suite 37/37, e2e GOOD to VariantsReady with committed refs and BAD to OD_ID_MISSING.'
+- artifact_id: ART-MR1-REGISTER-TESTS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/register-variants.test.ts
+  artifact_type: test
+  status: pass
+  notes: GOOD admit plus readHtml, BAD OD_ID_MISSING, idempotent content-addressed ref, no-port fail-closed.
+- artifact_id: ART-WW3-LIVE-SKILL
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: .claude/skills/ui-prototyping-studio/SKILL.md
+  artifact_type: operating-contract
+  status: installed
+  notes: 'WW3 done: live operating SKILL installed (Claude Code auto-discovery). Inner block from 06-SKILL-draft.md post all fixes (Quality bar, F1 honest authority, F3 authorship, F8, denotational note). variants register row updated to MR1 reality. Installed under DEC-F2 interim posture (spine sole control, disclosed); harness green.'
+- artifact_id: ART-G018-REGISTER-PAIRS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/cli/studio.ts
+  artifact_type: code
+  status: pass
+  notes: 'GAP-018: repeatable --label/--file register (Option-A) + --from dir. Validated.'
+- artifact_id: ART-MW1-RESULT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260617-m2-wire-two-gate/RESULT.md
+  artifact_type: refinement-result
+  status: pass
+  notes: 'M2-wire design+plan. Surfaced: current apply is HTML-free + inferred-diff. Decisions: store-method staged persistence, full-doc candidate ingestion via apply --candidate-from, honest DiffSummaryHonest. SWU MW1; no F2 dep; chain dep MR1.'
+- artifact_id: ART-MW1-PLAN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260617-m2-wire-two-gate/stages/09-plan.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'SWU MW1 a/b/c: staged persistence + applyAndStage/acceptStagedRevision/discardStagedRevision + CLI apply --candidate-from/accept/discard + honest diff. Toy-game fixtures.'
+- artifact_id: ART-MW1-USECASES
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/apply-and-stage.ts
+  artifact_type: code
+  status: pass
+  notes: 'MW1: applyAndStage (gate 2A) + accept-staged-revision + discard-staged-revision + current-html resolver + admission.diffByOdId (honest diff). tsc clean; full suite 42/42; e2e two-gate loop green.'
+- artifact_id: ART-MW1-STAGED-STORE
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/ports.ts
+  artifact_type: code
+  status: pass
+  notes: 'MW1: StagedCandidateRecord + saveStagedCandidate/getStagedCandidate/clearStagedCandidate on the port; impl in file + in-memory stores.'
+- artifact_id: ART-MW1-TESTS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/m2-wire.test.ts
+  artifact_type: test
+  status: pass
+  notes: '5 toy-game tests: admit+staged head-not-advanced, accept commits+head+1+honest diff, out-of-scope REJECT, discard then NO_STAGED_CANDIDATE, auto-apply forbidden.'
+- artifact_id: ART-MW1-SKILL-REFRESH
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: .claude/skills/ui-prototyping-studio/SKILL.md
+  artifact_type: operating-contract
+  status: installed
+  notes: 'Post-MW1 refresh: apply/accept/discard two-gate now EXIST (removed the false do-not-exist + single-gate caveat); batch apply marked legacy.'
+- artifact_id: ART-CYCLE-CLOSE-FINDINGS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/cycle-close-research/findings.md
+  artifact_type: research-findings
+  status: resolved
+  notes: 'Cycle-close research (dispatch 2026-06-17, closed resolved). Answer: close the cycle with Deliverable 1 = THREE docs (true README+path-print, F2 tester disclosure, governance-scoped test protocol); Deliverable 2 (rendered diff + preview --annotate + onboarding) tests the first principle next. reset + handoff-commit demoted out of the test-floor (delivery-hygiene). Deferred: e2e/M3/F2-code/SWU-Z. One human decision: revisit DEC-020 for a handoff commit.'
+- artifact_id: ART-CYCLE-CLOSE-RETURNS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/cycle-close-research/research.md
+  artifact_type: research-returns
+  status: resolved
+  notes: 3 explorers x 2 rounds (Goldratt/Alexander/Grove) + collapse map.
+- artifact_id: ART-PLAN-D1-D2-D3
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/PLAN-D1-D2-D3.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Execution plan from cycle-close research: D1 (3 docs, close cycle) -> DEC-D3-COMMIT (blocker, decision-gate) -> D3 (handoff commit + run governance test) -> D2 (visual build: rendered diff + preview --annotate + onboarding) -> D3c (visual evidence). L0-L3 layering + SWU manifest + validation. D1 runnable now; only blocker is the commit-policy decision (gates delivery, not authoring/build).'
+- artifact_id: ART-D1A-README-RUNSEAM
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: README.md
+  artifact_type: doc
+  status: pass
+  notes: 'D1a: true README Running section (real cd backend && pnpm studio … path) + run-seam: register/apply/accept print openPaths/openPath (abs .html). Per-run-dir STUDIO_DATA isolation documented + verified. ArtifactContentPort.pathForRef added. tsc clean, suite 42/42, e2e openPath resolves to a real file.'
+- artifact_id: ART-D1B-TESTER-BRIEF
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: TESTER-BRIEF.md
+  artifact_type: doc
+  status: pass
+  notes: 'D1b: one-page tester safety/consent brief — F2 self-disposal interim risk disclosed (bounded/reversible/supervised); scope = governance not visual.'
+- artifact_id: ART-D1C-TEST-PROTOCOL
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: TEST-PROTOCOL.md
+  artifact_type: doc
+  status: pass
+  notes: 'D1c: governance-scoped test protocol — 9 tasks + feedback form, explicit governance-not-visual scope line, fresh-STUDIO_DATA-dir per run, the task-8 self-disposal safety check. Distinct from D2 onboarding (Wittgenstein boundary).'
+- artifact_id: ART-PUBLIC-STUDIO
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: arcanum/projects/ui-prototyping-studio/
+  artifact_type: published
+  status: public
+  notes: 'Curated public copy in arcanum (PUBLIC, commit 4d0e4c8, pushed). Contents: backend (CLI + L0-L2 mutation core, two-gate apply/accept, honest diff), spec+aspect docs, operating SKILL, tester brief + protocol. Excluded (private): provenance/, .craft/, CRAFT.md, development/, WORK-PACK.md. node_modules/.data/dist gitignored. Private parent retains full dev context (copy, not move).'
+- artifact_id: ART-PUBLIC-OPEN-DESIGN-REFS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: arcanum/projects/ui-prototyping-studio/provenance/open-design-reference/
+  artifact_type: published
+  status: public
+  notes: 'Published (arcanum f8c231f, pushed; parent gitlink b2cd8d5 merged+pushed). Two vendored doc refs under their ORIGINAL licenses, verbatim upstream LICENSE files + PROVENANCE + a VENDORED-LICENSES.md: voltagent-design-md = VoltAgent/awesome-design-md (MIT, public-CSS disclaimer carried); skills-references/open-design = nexu-io/open-design (Apache-2.0, NOTICE with frontmatter-modification statement per 4(b)). legacy-domainspec-spec still EXCLUDED. Licensing VERIFIED via upstream LICENSE fetch: operator believed all-MIT; actual = MIT + Apache-2.0.'
+- artifact_id: ART-PLAN-STUDIO-PREVIEW
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/PLAN-STUDIO-PREVIEW.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Build plan: fill gaps + serve the studio as live HTML in VSCode. L0 G1 baseline-commit-idempotent (GAP-015) + G2 handoff-export-standalone (GAP-009); L1 P1 studio preview <sid> (ephemeral fastify route + no-build page, variants in sandboxed iframes, open in VSCode Simple Browser); L2 P2 rendered before/after diff at the gate; L3 P3 click-to-annotate (defer). = research D2/Surface C made concrete. Uses the published open-design refs as the generation grounding.'
+- artifact_id: ART-MAKE-MVP-PLAN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/MAKE-MVP-PLAN.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Consolidated MVP sequence (refine 20260617-make-mvp-consolidation): G1 baseline-commit, G2 handoff-export, P1 studio preview (see in VSCode), P2 rendered diff, DOC refresh+republish. Done = design UI + see it live in VSCode, no documented step erroring. Recomposition-proven; deferrals (F2/P3/OD-id/e2e/M3/SWU-Z) named. Distillation not discovery — next is execution.'
+- artifact_id: ART-G1-BASELINE-COMMIT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/select-or-commit-baseline.ts
+  artifact_type: code
+  status: pass
+  notes: 'G1: baseline commit (no label) now commits the already-selected baseline (idempotent select->commit). tsc clean, suite green, e2e: commit -> {mode:committed,label:B}.'
+- artifact_id: ART-G2-HANDOFF-OPTIONAL
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts
+  artifact_type: code
+  status: pass
+  notes: 'G2: feature-doc refs advisory (non-gating); handoff export succeeds in the lean project, records bundle.missingRefs. e2e: export -> head rev-0001, missingRefs=[STORIES,UI-SPEC,TEST-SPEC].'
+- artifact_id: ART-P1-P2-PREVIEW
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/cli/studio.ts
+  artifact_type: code
+  status: pass
+  notes: 'P1+P2: studio preview <sid> --port — loopback node:http server (NOT scoped fastify) serving a no-build page: variants in sandboxed iframes + (when staged) before/after + honest od-id diff. Open in VSCode Simple Browser. Verified: page renders 3 variants + pending diff; raw routes serve real before/after HTML.'
+- artifact_id: ART-PLAN-CLOSED-LOOP
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/PLAN-CLOSED-LOOP.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Feasibility=YES. Closed loop: select in preview -> Claude Code auto picks up (B next-turn-drain now / A /loop watch for automatic) -> propose+STAGE -> preview updates; human ACCEPTS. CL1 capture, CL2 drain, CL3 watch, CL4 auto-refresh, CL5 F2 token. Governance: auto up to stage; accept always human. RE-RAISES F2 to pre-req for unsupervised.'
+- artifact_id: ART-TWO-MODES-RUN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260617-two-modes-exploit-explore-hil/RESULT.md
+  artifact_type: refinement-result
+  status: pass
+  notes: 'Two operating modes on the closed loop: AUTO (exploit/explore cycles) + HUMAN-in-the-loop, composed as a handoff pipeline (human anchors the fitness signal, AUTO cycles against it). Resolved "exploit toward what": human-anchored composite fitness = human objective + heuristic gate + self-critique ordering + pause-to-human. Plan ML1-ML5 added to PLAN-CLOSED-LOOP. Both modes keep export as the only human-required edge (DEC-026).'
+- artifact_id: ART-UX-CONSTRAINTS-RUN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260618-ux-constraints-exploit-explore-spec/RESULT.md
+  artifact_type: refinement-result
+  status: pass
+  notes: 'UX-constraint exploit/explore fitness specced as DEFERRED. Same existing constraint layers, two uses: explore=boundary (diverge within valid region), exploit=gradient (climb soft scores above hard gates). Gate correctness (a11y+layout+deterministic-flow) / score taste (cognitive+laws-of-ux). Signal informs candidate selection only, never disposal (DEC-026). SPEC.md L5+ DEFERRED row + subsection + OQ-5; PLAN ML2+ forward-ref. Deferral dep: ux-evidence-validator + axe/layout runner in-cycle. No code.'
+- artifact_id: ART-CL5-REVERT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/revert-revision.ts
+  artifact_type: implementation
+  status: done
+  notes: CL5 reversibility keystone BUILT + verified 2026-06-18. revert-revision.ts (append inverse revision at prior candidateHtmlHash; append-only, no destructive rewind; re-revertible) + studio revert [--to] CLI verb + handoff export --confirm gate (the one irreversible edge, exit 3 without confirm). 5 unit tests (revert-revision.test.ts) + e2e CLI round-trip. Backend suite 47/47. Realizes DEC-REVERSIBILITY-NOT-GATING-026.
+- artifact_id: ART-CL1-ANNOTATE
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/cli/studio.ts
+  artifact_type: implementation
+  status: done
+  notes: 'CL1 BUILT+verified 2026-06-18: /annotate/variant/:label trusted click->postMessage wrapper (raw stays sandboxed) + POST /comment (browser->studio write) + overlay form. e2e: click->comment->pending=1.'
+- artifact_id: ART-CL2-PENDING
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/list-pending-comments.ts
+  artifact_type: implementation
+  status: done
+  notes: 'CL2 BUILT+verified: studio pending = head comments not yet batched; idempotent; clears on synthesize.'
+- artifact_id: ART-CL4-REFRESH
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/cli/studio.ts
+  artifact_type: implementation
+  status: done
+  notes: 'CL4 BUILT+verified: preview /state + poll-refresh (reloads only on state/head/staged change).'
+- artifact_id: ART-AUTO-CYCLE
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/run-cycle.ts
+  artifact_type: implementation
+  status: done
+  notes: 'ML1/ML2/ML3 BUILT+verified: run-cycle.ts one exploit/explore cycle; agent candidate HTML + self-critique score; M1 fence (exploit=head od-ids, explore=+candidate od-ids); AUTO-ACCEPTS top score (reversible, DEC-026); empty-objective start gate. studio cycle/watch CLI. Lighter fitness per decision; UX-constraint backing deferred (OQ-5). 6 tests + e2e.'
+- artifact_id: ART-SKILL-REWRITE
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: .claude/skills/ui-prototyping-studio/SKILL.md
+  artifact_type: operating-contract
+  status: done
+  notes: 'SKILL rewritten 2026-06-18 to the reversibility model (DEC-026/027): posture = every change reversible / human owns the one irreversible edge (export); two modes (HUMAN accepts, AUTO auto-accepts); accept reframed (false "never call this" removed); never-do spine RELOCATED to export-confirm + honest-trail + scope-fence + objective-start-gate; honest-authority note rewritten (safety=reversibility not identity gate); new verbs documented (revert/cycle/pending/watch/preview+annotate). Resolves the pre-publish SKILL conflict flagged after DEC-027.'
+- artifact_id: ART-E2E-SUITE
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/e2e/
+  artifact_type: test
+  status: done
+  notes: 'Playwright e2e suite for the closed loop: governance.spec (export-confirm/revert-restores/auto-accept-revertible), smoke, human-loop (annotate->comment->pending), auto-cycle (exploit/explore/start-gate). 8/8 pass. Governance falsifiers mutation-verified to bite. [+blind-naive-user.spec 2026-06-18: black-box, browser-only body, asserts only on what a cold-start user SEES (no CLI/JSON in body). Findings encoded: page orients via plain-language next step; annotate->comment is the only completable UI action + confirms visibly; staged screen shows real before/after ("Go"->"Continue"), not a hash; ERGONOMIC CEILING asserted — user is told "studio accept" but has no clickable control (loop not UI-completable today). 12/12 e2e total.]'
+- artifact_id: ART-SPEC-ARCH-SYNC
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: SPEC.md
+  artifact_type: spec
+  status: done
+  notes: 'SPEC+ARCHITECTURE synced 2026-06-18 to built reality: appended Operating-model-update (DEC-026/027 reversibility + two modes + full verb surface + 53u/12e2e test reality); corrected INV-7 escaping (render not persistence) + buildDiffSummary status (legacy not deleted); reconciled F2 (cycle = sanctioned auto-accept, INV-4 scopes to human apply path); embedded Known-gaps table (F1-F13 + UI dead-end).'
+- artifact_id: ART-PLAN-NEXT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/PLAN-NEXT.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Prioritized post-build plan from the gap-audit: P0 N1 export-gate-to-core (F1), N2 HTTP-surface decision (F7); P1 N3 in-preview accept/revert (UI dead-end+F6), N4 revert wrong-target (F5); P2 N5-N9 accuracy+AUTO soundness; P3 N10-N11 low. N1 keystone.'
+- artifact_id: ART-GAP-AUDIT-001
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260618-spec-arch-update-gap-audit/stages/08-gap-audit.md
+  artifact_type: reference
+  status: proposal
+  notes: 'Independent gap-auditor subagent (a9403c5d28449d6e1, read-only) — 13 file-cited findings, 5/5 HIGH parent-trust-but-verified true, 0 rejected. Headline: F1 HTTP /handoff/export bypasses the --confirm edge (reversibility checkpoint reachable over 0.0.0.0:8787); F2 cycle no auto-actor guard. P11 helper.'
+- artifact_id: ART-PLAN-NEXT-EXECUTED
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/PLAN-NEXT.md
+  artifact_type: implementation
+  status: done
+  notes: 'PLAN-NEXT whole work pack executed 2026-06-18: N1 export-gate-to-core (F1), N2 HTTP kept+gated+tested (F7), N3 in-preview Accept/Discard/Revert (UI dead-end closed; export stays button-less terminal), N4 revert wrong-target (F5), N5 doc-sync, N6 score validation (F9), N7 core cycle ceiling (F10), N8 doc corrections (F3/F8), N9 no-double-fold test (F11), N10 corrupt-file guard (F12), N11 preview free-port (F13). Unit 61/61, e2e 13/13, tsc clean.'
+- artifact_id: ART-UIIDENTITYINDEX-DESIGN
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: development/component-registry-spec/UIIdentityIndex-DESIGN.md
+  artifact_type: design
+  status: active
+  notes: 'A1 (goal loop 2026-06-24). UIIdentityIndex = repo-scoped derived read-model over the append-only event log; closes GAP-COMPONENT-REGISTRY-002 R-1 and specifies the BLK-IDENTITY-TYPES-002 identity/DNA types. MERGED into SYNTHESIZED-DEEP-DESIGN §2.4 (R-1 CLOSED, R-7 approach decided).'
+- artifact_id: ART-STUDIO-READINESS-PLAN
+  owner_context_id: CTX-UPS-ROOT
+  path: development/component-registry-spec/STUDIO-READINESS-PLAN.md
+  artifact_type: implementation-plan
+  status: draft
+  notes: 'Goal B (goal loop 2026-06-24). Test/use/integration readiness route: B1 close GAP-CONTRACT-DRIFT-004, B2 BLK-FIXTURE-CORPUS-001, B3 formalize CLI integration contract (DEC-CLI-NOT-MCP-012), B4 GAP-DOCS-CODE-SPLIT-005 decision. Non-executed.'
+- artifact_id: ART-FIXTURE-CORPUS
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/backend/e2e/fixtures/corpus/CORPUS.md
+  artifact_type: test-fixture
+  status: active
+  notes: 'B2 (goal loop 2026-06-24). Checked-in fixture corpus: troqar-login a/b/c.html (od-id stamped) + toy-game-theme baseline/desaturated-candidate (honest-diff blind-spot fixture) + comments.json (incl odId:null untagged capture). Proven end-to-end against the live CLI (register->baseline->comment->synthesize->apply; theme candidate -> diff 0-changed as documented). PARTIAL on BLK-FIXTURE-CORPUS-001: corpus now exists, but FX-* IDs + @axe-core/playwright + 11 calibrated gates remain.'
+- artifact_id: ART-INTEGRATION-CONTRACT
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/INTEGRATION.md
+  artifact_type: contract
+  status: active
+  notes: 'B3 (goal loop 2026-06-24). Studio CLI integration contract (DEC-CLI-NOT-MCP-012): verb catalog, stdout JSON / stderr {code,message,details} / exit codes, env isolation (STUDIO_DATA/STUDIO_DOCS_ROOT), the two-gate loop, invariants, the integration readiness block. The surface other apps drive; additive over L0.'
+- artifact_id: ART-GSP-REVIEW-20260727
+  owner_context_id: CTX-UPS-GSP-EXECUTION
+  path: projects/ui-prototyping-studio/development/reviews/20260727-architecture-plan-deep-spec-review/findings.md
+  artifact_type: review-change-requests
+  status: pass
+  notes: Parent-accepted review input with 11 findings; not implementation or release proof.
+- artifact_id: ART-GSP-JULY-PROPOSAL
+  owner_context_id: CTX-UPS-GSP-EXECUTION
+  path: projects/ui-prototyping-studio/development/invoke-runs/20260710T012443Z-governed-state-projection/WORK-PACK.md
+  artifact_type: historical-implementation-plan
+  status: superseded
+  notes: Retained as historical proposal evidence; do not execute directly.
+- artifact_id: ART-GSP-AMENDED-WORK-PACK
+  owner_context_id: CTX-UPS-GSP-EXECUTION
+  path: projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md
+  artifact_type: implementation-plan
+  status: active
+  notes: Owner-approved execution contract with seven one-to-one task/SWU mappings; GSP-001 through GSP-006 are joined complete and final SWU-GSP-007 is selected.
+- artifact_id: ART-GSP-REFRESH-PROPOSAL
+  owner_context_id: CTX-UPS-GSP-EXECUTION
+  path: projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/REFRESH-PATCH-PROPOSAL.md
+  artifact_type: invoke-refresh-proposal
+  status: active
+  notes: Exact apply-approved planning and Craft mutation scope; no implementation source.
+- artifact_id: ART-GSP-CHAIN-CONTRACT
+  owner_context_id: CTX-UPS-GSP-EXECUTION
+  path: projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/REFRESH-PATCH-PROPOSAL.md
+  artifact_type: invoke-refresh-proposal
+  status: active
+  notes: Narrow apply-approved control-plane amendment that serializes the captured frontier and binds per-SWU closeout contracts.
+descriptions:
+- description_id: DESC-UPS-001
+  context_id: CTX-UPS-ROOT
+  description: The UI Prototyping Studio spec is architecture-strong and governance-clear but evidence-sparse. A deep-spec dispatch deepened it and produced a one-shot plan, but readiness is conditional - only the L0->L2 survival/trust floor is realistically one-shot-buildable; L3-L6 are net-new builds.
+  status: active
+  evidence: ART-DEEP-SPEC-RESULT
+- description_id: DESC-UPS-DEEP-SPEC-001
+  context_id: CTX-UPS-DEEP-SPEC
+  description: A dialectical zig-zag exploration (challenger vs defender), hardened by residuality, UX evidence, a planned Playwright suite, and a context-isolated naive-user walkthrough, synthesized into a deepened design + proposal + plan + candid readiness verdict.
+  status: active
+  evidence: ART-SYNTH-DEEP-DESIGN
+- description_id: DESC-UPS-FRESH-MINIMAL-001
+  context_id: CTX-UPS-ROOT
+  description: 'Restructured to a fresh-minimal standalone: lean L0->L2 SPEC + README at root, .craft ledger, development/ (deep-spec + extraction plan); the 19 full-vision aspect docs and the 200-file vendored design reference were archived under provenance/.'
+  status: active
+  evidence: ART-LEAN-SPEC
+- description_id: DESC-UPS-ASPECTS-001
+  context_id: CTX-UPS-ROOT
+  description: Authored lean companion aspect files (glossary, states, operations, interfaces) for the lean SPEC via invoke define — CLI-native, L0->L2 scope, grounded in code; the 79KB-era full-vision aspects remain archived in provenance/.
+  status: active
+  evidence: ART-OPERATIONS
+- description_id: DESC-UPS-MUTEXEC-FOLD-001
+  context_id: CTX-UPS-EXTRACTION
+  description: 'Folded DEC-MUTATION-EXEC-015 (Approach C) into the spec spine: SPEC, operations, states, interfaces, glossary, ARCHITECTURE, and EXTRACTION-PLAN now carry the four-lane admission-boundary model, the V1-V9b validator suite, the two-gate apply (RevisionApplied staged-preview -> accept-diff -> RevisionRecorded), the schema deltas (odId/MutationChangeType, DiffSummaryHonest, ExecutionProvenance), and the artifact content port. All contract changes tagged [PROPOSAL].'
+  status: active
+  evidence: projects/ui-prototyping-studio/SPEC.md
+- description_id: DESC-UPS-DECISION-GATE-001
+  context_id: CTX-UPS-ROOT
+  description: 'Decision-gate 2026-06-16: closed DEC-ONE-SHOT-SCOPE-002 (L0->L2), DEC-OQ1-TRUST-METER (no meter in MVP + research), DEC-OQ2-SAW-DIFF (accept-diff gate is the proxy); deferred DEC-OQ3-HANDOFF-CARRY (moot till L5) + DEC-OQ4-IMPORT-INTEGRITY (hardening); opened+closed DEC-R2-CSS-ATTRIBUTION-017 as separate spike. No open/blocking decisions remain. Two separated research tracks named: (1) UX/ergonomics, (2) CSS-attribution/node-identity spike.'
+  status: active
+  evidence: projects/ui-prototyping-studio/development/DECISION-GATE-2026-06-16.md
+- description_id: DESC-UPS-PLAN-REFRESH-001
+  context_id: CTX-UPS-EXTRACTION
+  description: 'invoke refresh of EXTRACTION-PLAN.md (2026-06-16): 4 typed deltas mapped to new signals — L1 gains C-1-spike-SURVIVED evidence + GAP-V3-NODE-IDENTITY-008 caveat (signal DEC-C1-SPIKE-SURVIVED-016); L4 reframed from ''the C-1 spike'' to research-track-2 R2/calibration (signals DEC-C1-SPIKE-SURVIVED-016 + DEC-R2-CSS-ATTRIBUTION-017); RESIDUE-B marked partially cleared (L0-L3 build now); status banner records decision-gate PASS (scope L0->L2) + the two separated research tracks. Proposal-only default overridden: deltas record established facts, not speculation.'
+  status: active
+  evidence: projects/ui-prototyping-studio/development/standalone-extraction/EXTRACTION-PLAN.md
+- description_id: DESC-UPS-TASKSESSION-BLOCK-001
+  context_id: CTX-UPS-EXTRACTION
+  description: 'task-session ''run all open tasks'' returned BLOCK (no mutation): not one bounded task + no WORK-PACK with SWUs + consequential cross-submodule mutation. Operator chose to formalize a WORK-PACK first. Resolved at the gate: D-EXT-2 accept-breakage, D-EXT-4 plain-move, commit-policy uncommitted. Assumptions at defaults: D-EXT-1 docs-at-root, D-EXT-3 pnpm-workspace, D-EXT-5 node-pin (confirm at authoring). Next route: invoke plan -> WORK-PACK (P1->P5 + L0-L6 as discrete SWUs).'
+  status: active
+  evidence: projects/ui-prototyping-studio/development/standalone-extraction/EXTRACTION-PLAN.md
+- description_id: DESC-UPS-WORKPACK-001
+  context_id: CTX-UPS-ROOT
+  description: 'invoke plan authored the comprehensive WORK-PACK.md: 14 SWUs across 8 dependency waves with write-scope + verification each, implementation-detail for the algorithmic SWUs (schema, canonicalizer, validator/V3 fence, two-gate machine), layering (L0->L3 buildable now, L4+ research-gated), validation strategy, and a deferred roadmap. Honors all standing decisions incl. DEC-018/019/020.'
+  status: active
+  evidence: projects/ui-prototyping-studio/WORK-PACK.md
+- description_id: DESC-UPS-M0-BATCH-001
+  context_id: CTX-UPS-EXTRACTION
+  description: 'task-session ''execute all possible SWUs'' batch 1: X1 (backend lift, FLAG on GAP-HANDOFF-DOC-REFS-009), M0b (artifact content port), M0c (shared canonicalizer) implemented + VERIFIED (tsc --noEmit clean; 18/19 backend tests pass, the 1 fail = the X1 handoff flag). All additive/clean; uncommitted (DEC-020). Remaining: M0a (coupled schema), X2 (CLI), M1-M3, U1/U2, P, E, Z.'
+  status: active
+  evidence: projects/ui-prototyping-studio/backend
+- description_id: DESC-UPS-M1-DONE-001
+  context_id: CTX-UPS-EXTRACTION
+  description: 'SWU-M1 (V3 scope fence) ported to TS + verified — 9 fixtures pass; the load-bearing risk of Approach C is now real working code, not a Python spike. Full backend suite 27/28 (only the accepted X1 handoff-doc drift fails). Done this session: X1(flag), M0b, M0c, M1. Uncommitted (DEC-020).'
+  status: active
+  evidence: projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/admission.test.ts
+- description_id: DESC-UPS-X2-DONE-001
+  context_id: CTX-UPS-EXTRACTION
+  description: SWU-X2 (studio CLI) done + verified by running the full L0 loop end-to-end (open..handoff, final state RevisionRecorded/rev-0001). The project now has a runnable testable surface. Two CLI bugs found+fixed by the run (snapshot .session access; single-word command parse). Backend tsc clean. Uncommitted.
+  status: active
+  evidence: projects/ui-prototyping-studio/backend/src/cli/studio.ts
+- description_id: DESC-UPS-M2-DONE-001
+  context_id: CTX-UPS-EXTRACTION
+  description: 'SWU-M2 core (two-gate apply machine) done + verified (5 unit tests): validate->stage->accept(commit-exact-hash)->/discard, fail-closed on hash mismatch / no-staged. Added 2 error codes. The admission-boundary determinism of Approach C is now executable: M1 fence + M0b port + M2 machine compose. Backend 32/33 (only accepted X1 drift). Uncommitted.'
+  status: active
+  evidence: projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/two-gate-apply.test.ts
+- description_id: DESC-UPS-M0A-DONE-001
+  context_id: CTX-UPS-EXTRACTION
+  description: 'SWU-M0a (schema migration) done + verified (additive, suite still 32/33). With M0b/M0c/M1/M2-core, the entire L0->L2 mutation CORE LOGIC is now built and unit-verified. The remaining ''L2 live'' work (M2-wire) is integration: there is no current-HTML storage in the session/store yet, so the live CLI apply can''t validate a candidate against a baseline. That plumbing (head HTML ref + generation writing HTML + applyAndStage/acceptStaged use-cases + CLI) is the bounded next step; doing it half-wired would break the green suite, so it is scoped as the next task rather than rushed here.'
+  status: active
+  evidence: projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/domain/models.ts
+definitions:
+- definition_id: DEF-CONFORMANCE-DELTA-001
+  scope_id: CTX-UPS-ROOT
+  term: Conformance Delta
+  statement: The field-level diff between a candidate variant's UIVisualSignature and the committed baseline's, surfaced as governance FitnessSignals (preference -1|0|1) and reviewed instead of the full 24-field genome. Proposed (Lane A, dominant pareto) as the primary exploit-conformance review surface; resolves O-004.
+  status: candidate
+  evidence: ART-SYNTH-DEEP-DESIGN
+- definition_id: DEF-ONE-SHOT-FLOOR-001
+  scope_id: CTX-UPS-ROOT
+  term: L0->L2 survival/trust floor
+  statement: The validator-layer scope (L0 smoke, L1 accessibility, L2 layout integrity) that genuinely exists or is additive against existing code, and is the only scope s10 judged realistically buildable in one shot.
+  status: candidate
+  evidence: ART-DEEP-SPEC-RESULT
+- definition_id: DEF-EVIDENCE-FLOOR-001
+  scope_id: CTX-UPS-ROOT
+  term: Ergonomics-evidence floor
+  statement: The rule that every non-trivial UX claim is classified (hard_gate | soft_flag | screenshot_review | human_study | not_automatable) with a named proxy_limit, never asserted; hard gates only for deterministic or standards-backed failures.
+  status: candidate
+  evidence: ART-UX-EVIDENCE
+typed_items:
+- item_id: BLK-FIXTURE-CORPUS-001
+  kind: blocker
+  base_type: artifact_blocker
+  context_type: ui-prototyping-studio.fixture_corpus_absent
+  primary_lane: qa
+  secondary_lanes:
+  - validator
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: validation_reviewer
+  delegation_route: ux-evidence-validator
+  closure_condition: The FX-* fixture corpus is authored under apps/web/e2e, @axe-core/playwright is added as a dependency, and a calibrate pass promotes the 11 specified hard gates.
+  evidence: ART-UX-EVIDENCE
+  decision_ref: none
+  progress_note: 'B2 (goal loop 2026-06-24, ART-FIXTURE-CORPUS): a real fixture corpus now exists under backend/e2e/fixtures/corpus and drives the live CLI loop end-to-end — no longer "zero fixtures beyond two L0 specs." REMAINING for closure: FX-* IDs, @axe-core/playwright dependency, and the 11 calibrated hard gates. Status stays active.'
+  reason: The plan's strict-superset gate suite is aspirational - zero FX-* IDs exist in e2e and axe is not installed, so the suite it claims to extend does not exist beyond two L0 specs.
+- item_id: BLK-IDENTITY-TYPES-002
+  kind: blocker
+  base_type: design_blocker
+  context_type: ui-prototyping-studio.identity_conformance_types_absent
+  primary_lane: tech
+  secondary_lanes:
+  - architecture
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: architecture_reviewer
+  delegation_route: task-session
+  closure_condition: models.ts gains UIElementIdentity, UIElementInstance, UIVisualSignature, FieldDelta, FitnessSignal/Vector, PrototypeGenome, and ConfirmUIDecisionEvidence, with an IdentityEvidencePanel surface.
+  evidence: ART-COLD-START
+  decision_ref: none
+  design_ref: ART-UIIDENTITYINDEX-DESIGN  # A1 (goal loop 2026-06-24) specifies these identity/DNA types; implementation still pending (A2).
+  reason: L4 identity/conformance is net-new greenfield, not additive; DiffSummary is only {added,changed,removed} counts and no identity types exist. s8 proves the current absence makes confirm-identity effectively impossible. Atomic-design components (atoms->organisms) are the natural L4 vocabulary for UIElementIdentity/conformance (DEC-ATOMIC-IDS-014); the light data-od-id stamping in MVP is the seed.
+- item_id: BLK-FAILURE-STATES-003
+  kind: blocker
+  base_type: design_blocker
+  context_type: ui-prototyping-studio.failure_recovery_states_absent
+  primary_lane: tech
+  secondary_lanes:
+  - qa
+  - product
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: design_reviewer
+  delegation_route: task-session
+  closure_condition: Named failure/recovery states (GenerationFailed, SynthesisTimedOut, SourceStale, ApplyConflicted) are added to the state machines and mock-api gains failure injection (delay/abort/5xx) for L3/L5 gating.
+  evidence: ART-RESIDUALITY
+  decision_ref: none
+  reason: Both state machines and mock-api.ts model only the happy path (grep-verified); no failure injection exists, so L3/L5 require new domain + mock work, not additive layers.
+- item_id: BLK-INVARIANTS-UNCALIBRATED-004
+  kind: blocker
+  base_type: validation_blocker
+  context_type: ui-prototyping-studio.invariants_proposed_not_calibrated
+  primary_lane: validator
+  secondary_lanes:
+  - governance
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: validation_reviewer
+  delegation_route: residuality-spec
+  closure_condition: Inv-1..8 are calibrated against authored fixtures and folded into the canonical SPEC before any layer that depends on them is built.
+  evidence: ART-RESIDUALITY
+  decision_ref: none
+  reason: The eight invariants are proposed-not-calibrated and the SPEC is unmutated; building against them would code to uncalibrated invariants.
+- item_id: ENA-DEEP-SPEC-ROUTE-001
+  kind: enabler
+  base_type: route_shape_enabler
+  context_type: ui-prototyping-studio.dispatch_validated
+  primary_lane: governance
+  secondary_lanes:
+  - validator
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: governance_reviewer
+  delegation_route: dispatch-spec
+  closure_condition: The deep-spec dispatch remains VALIDATION=pass and is treated as route-shape evidence only.
+  evidence: ART-DEEP-SPEC-DISPATCH
+  decision_ref: none
+  reason: The exploration route is explicit, gated, observable, subagent-lifecycle pass, and non-promoting.
+- item_id: ENA-L0-SPINE-EXISTS-002
+  kind: enabler
+  base_type: knowledge_enabler
+  context_type: ui-prototyping-studio.l0_spine_real
+  primary_lane: tech
+  secondary_lanes:
+  - validator
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: tech_reviewer
+  delegation_route: task-session
+  closure_condition: The L0->L2 one-shot builds on the verified spine (10-state StudioSessionState in models.ts, governance enforcement in mock-api.ts, two real e2e specs).
+  evidence: ART-DEEP-SPEC-RESULT
+  decision_ref: none
+  reason: 'Ground-truth verified by s10: L0 genuinely exists and governance (auto-apply forbidden, approval-before-apply, stale checks) is real, enabling a realistic scoped one-shot.'
+- item_id: ENA-GENERATOR-PORT-003
+  kind: enabler
+  base_type: design_enabler
+  context_type: ui-prototyping-studio.cli_seam
+  primary_lane: tech
+  secondary_lanes:
+  - product
+  source_id: CTX-UPS-EXTRACTION
+  target_id: CTX-UPS-ROOT
+  status: proposed
+  refinement_status: refined
+  default_role: tech_reviewer
+  delegation_route: task-session
+  closure_condition: A `studio` CLI wraps the orchestration module; Claude Code registers generated HTML via `studio variants register`; a deterministic fake drives e2e; an operating SKILL.md lets Claude Code drive the loop; gate enforcement (INV-3/4/5/8) lives server-side behind the CLI.
+  evidence: ART-EXTRACTION-PLAN
+  decision_ref: DEC-CLI-NOT-MCP-012
+  reason: 'Claude Code-native via a CLI (no MCP server): Claude Code generates/registers; the human drives the same CLI gates; deterministic synthesis + server-side gate enforcement preserved.'
+decisions:
+- decision_id: DEC-EXECUTION-SCOPE-001
+  scope_id: CTX-UPS-DEEP-SPEC
+  decision_type: selection
+  question: How should the validated deep-spec dispatch be executed?
+  description: Choice at the g0-charter gate between running the full route now, lane-by-lane with pauses, dialectic-only, or route-only.
+  options:
+  - Run the full route now
+  - Run lane by lane, pause at synthesis
+  - Just the dialectic lanes first
+  - Stop here - route only
+  default_option: Run the full route now
+  selected: Run the full route now
+  rationale: Operator approved subagent spend for maximum-depth exploration and to test one-shot design/planning ability.
+  status: closed
+  blocking: false
+  impact: 12 subagents ran end-to-end producing all artifacts and the readiness verdict.
+  owner: operator
+- decision_id: DEC-ONE-SHOT-SCOPE-002
+  scope_id: CTX-UPS-ROOT
+  decision_type: selection
+  question: What scope should the first one-shot implementation target?
+  description: s10 readiness judges a full L0-L6 one-shot unrealistic but an L0->L2 survival/trust floor realistic, with L3-L6 demoted to per-layer task-sessions.
+  options:
+  - L0->L2 survival/trust floor (recommended)
+  - Full L0-L6 one shot
+  - Defer until fixtures + types + failure states exist
+  default_option: L0->L2 survival/trust floor (recommended)
+  selected: L0->L2 survival/trust floor
+  rationale: Deep-spec verdict + C-1 spike proved L0->L2's hardest piece (V3 fence) buildable; L3-L6 net-new and deferred.
+  status: closed
+  blocking: true
+  impact: Determines whether implementation can begin one-shot at a safe altitude or must wait on net-new builds.
+  owner: operator
+- decision_id: DEC-OQ1-TRUST-METER
+  scope_id: CTX-UPS-ROOT
+  decision_type: blocker
+  question: Does a session-level override/accuracy trust meter help or harm trust calibration?
+  description: OQ-1 from s8. Gates the L6 trust meter; plan says do not ship the trust meter unvalidated.
+  options:
+  - Ship a validated trust meter
+  - No trust meter in MVP
+  - Defer to a human study
+  default_option: Defer to a human study
+  selected: No trust meter in MVP; open question routed to the UX/ergonomics research track
+  rationale: Not armchair-decidable; plan forbids shipping unvalidated. MVP ships no meter; whether to add one is research (with GAP-ERGONOMICS-UNPROVEN-001).
+  status: closed
+  blocking: true
+  impact: Blocks L6 ergonomics acceptance.
+  owner: operator
+- decision_id: DEC-OQ2-SAW-DIFF
+  scope_id: CTX-UPS-ROOT
+  decision_type: blocker
+  question: What is the minimal non-theater proxy that a human actually saw the diff before an irreversible apply?
+  description: OQ-2 from s6/s7 + s8. Gates L6 and the apply-gate acceptance.
+  options:
+  - Scroll/viewport proxy
+  - Explicit per-change acknowledgement
+  - Timed exposure threshold
+  default_option: Explicit per-change acknowledgement
+  selected: The accept-diff gate is the saw-the-diff proxy
+  rationale: 'Resolved by DEC-MUTATION-EXEC-015: accept-diff previews DiffSummaryHonest on the staged candidate and commits exactly the previewed candidateHtmlHash (seen==recorded). Non-theater ''felt'' validation folds into the L6 ergonomics research, not a blocker.'
+  status: closed
+  blocking: true
+  impact: Blocks L6 and the apply-approval ergonomics.
+  owner: operator
+- decision_id: DEC-OQ3-HANDOFF-CARRY
+  scope_id: CTX-UPS-ROOT
+  decision_type: blocker
+  question: On operator handoff, does session-scoped tuning carry-with-attribution, reset, or prompt?
+  description: OQ-3 from decision-gate -> s9. Directly blocks Inv-8 (operator provenance) in L5.
+  options:
+  - Carry with attribution
+  - Reset on handoff
+  - Prompt the operator
+  default_option: Prompt the operator
+  selected: Deferred — moot until L5
+  rationale: No session-scoped tuning exists in L0->L2 (preference-learning is L4/L5 behind the D-009 proof gate); nothing to carry/reset. Re-open when L5 tuning is designed.
+  status: superseded
+  blocking: true
+  impact: Blocks L5 Inv-8 operator-provenance invariant.
+  owner: operator
+- decision_id: DEC-OQ4-IMPORT-INTEGRITY
+  scope_id: CTX-UPS-ROOT
+  decision_type: deferral
+  question: Is artifact import-integrity (forged anchor / re-imported handoff) in the MVP or deferred?
+  description: OQ-4 from s9. An unresolved scope boundary rather than a layer blocker.
+  options:
+  - In MVP
+  - Deferred to hardening
+  default_option: Deferred to hardening
+  selected: Deferred to post-MVP hardening
+  rationale: Within-session forge is already caught by frozenBaselineBinding integrity (spike-verified); cross-import/forged-anchor integrity is hardening, out of L0->L2.
+  status: superseded
+  blocking: false
+  impact: Sets the MVP scope boundary for import integrity.
+  owner: operator
+- decision_id: DEC-DEPRECATE-PIVOT-007
+  scope_id: CTX-UPS-ROOT
+  decision_type: selection
+  question: Should ui-prototyping-studio be a docs-only project or a whole standalone project including its code?
+  description: 'Reframed mid-move: domainspec is being deprecated, so the code should not be orphaned in a sunsetting monorepo.'
+  options:
+  - Spec project only (docs)
+  - Whole standalone project incl. code
+  default_option: Whole standalone project incl. code
+  selected: Whole standalone project incl. code
+  rationale: domainspec is being deprecated; ui-prototyping-studio must stand on its own. Coupling verified low (backend node+fastify only; frontend plain React+CSS).
+  status: closed
+  blocking: false
+  impact: Supersedes the earlier docs-only move; triggers CTX-UPS-EXTRACTION and resolves the docs/code split by relocating the code too.
+  owner: operator
+- decision_id: DEC-FRESH-MINIMAL-008
+  scope_id: CTX-UPS-ROOT
+  decision_type: selection
+  question: Migrate all 220 docs, or start the standalone project minimal keeping only what the deep-spec result says is real?
+  description: '220 docs were mostly overhead: 200 were a vendored design-skills reference tree, 19 the full-vision spec the deep-spec judged mostly paper. Only the L0 code + the L0->L2 plan are validated assets.'
+  options:
+  - Fresh minimal (keep code + plan, archive rest)
+  - Greenfield rebuild incl. code
+  - Migrate everything as-is
+  default_option: Fresh minimal (keep code + plan, archive rest)
+  selected: Fresh minimal (keep code + plan, archive rest)
+  rationale: Build on the validated L0 code; treat the full-vision spec and vendored reference as provenance, not spine; write a lean L0->L2 SPEC from the deep-spec proposal.
+  status: closed
+  blocking: false
+  impact: Root spine is now README + lean SPEC + .craft + development; 19 vision docs and 200 reference files moved to provenance/. Code extraction (P1-P5) remains.
+  owner: operator
+- decision_id: DEC-INTERFACE-MODEL-009
+  scope_id: CTX-UPS-ROOT
+  decision_type: selection
+  question: What is the primary interaction model for the studio?
+  description: How humans/agents drive the studio.
+  options:
+  - Human workbench + embedded assistant
+  - Agent-operable service (API/MCP)
+  - Dual surface
+  default_option: Human workbench + embedded assistant
+  selected: Human workbench + embedded assistant
+  rationale: Designer-in-the-loop ergonomics; agent proposes inside the UI, human disposes at the governance gates. Matches the current React+REST shape. Agent-operable API/MCP is a possible later surface, out of scope now.
+  status: closed
+  blocking: false
+  impact: Build the human web workbench as primary; no agent-facing API/MCP surface this release.
+  owner: operator
+- decision_id: DEC-GENERATOR-PORT-010
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: Where should the real generation agent (the LLM) come in?
+  description: GenerateVariants is currently a deterministic stub; ports.ts injects only a storage port, so no LLM seam exists.
+  options:
+  - Add generator port now
+  - Keep stub for L0-L2, port later
+  - Just record as a gap
+  default_option: Add generator port now
+  selected: Add generator port now
+  rationale: Make it a real agentic tool sooner; a VariantGeneratorPort abstracts a Claude-backed generator (app) and a deterministic fake (e2e). Mutation synthesis stays deterministic - generation is the only LLM seam.
+  status: closed
+  blocking: false
+  impact: Adds extraction phase P1.5 (generator port). Replaces the GenerateVariants stub; introduces the single LLM seam (Claude-backed).
+  owner: operator
+- decision_id: DEC-RUNTIME-CLAUDE-CODE-011
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: What is the runtime for the generation agent and the product shape?
+  description: Whether the studio owns its own LLM (standalone) or is operated through Claude Code in VSCode.
+  options:
+  - Claude Code-native (run in VSCode)
+  - Standalone app (own the model)
+  - Port-agnostic now
+  - Both, Claude Code first
+  default_option: Claude Code-native (run in VSCode)
+  selected: Claude Code-native (run in VSCode)
+  rationale: 'The embedded assistant IS Claude Code: no API key, no agent loop to build, dogfoods the Arcanum/Claude-Code workflow. Studio = governance harness + review surface; Claude Code = generation/mutation engine. Coupled to Claude Code (not a standalone product); a standalone Anthropic-SDK adapter stays a future option behind the same port.'
+  status: closed
+  blocking: false
+  impact: Generator port's real adapter = MCP/Claude-Code bridge. Adds an MCP server + operating SKILL.md; the web app becomes the local human review surface, not a product shell. Removes @anthropic-ai/sdk from this release.
+  owner: operator
+- decision_id: DEC-CLI-NOT-MCP-012
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: Operate the backend via an MCP server, or a CLI?
+  description: Refines DEC-RUNTIME-CLAUDE-CODE-011. For a single-user, local, Claude-Code-driven tool, MCP's typed-schema/cross-client/resource benefits don't pay off; Claude Code already has Bash.
+  options:
+  - studio CLI (no MCP)
+  - MCP server
+  default_option: studio CLI (no MCP)
+  selected: studio CLI (no MCP)
+  rationale: Nothing to run (no server/protocol), Claude Code calls it via Bash, the human drives the same commands (true dogfooding), trivially testable, matches the repo's CLI-heavy ecosystem. The orchestration core already exists; the CLI is a thin wrapper. Also lets MVP drop the React SPA (preview HTML + CLI gates).
+  status: closed
+  blocking: false
+  impact: Seam = `studio` CLI + operating SKILL.md (no MCP server). MVP needs no React review SPA. Generator seam collapses to `studio variants register` (Claude Code supplies HTML) + a deterministic fake.
+  owner: operator
+- decision_id: DEC-INPROTO-ANNOTATION-013
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: How do humans annotate prototypes — hand-typed CSS selectors, a React form, or directly on the rendered components?
+  description: 'Ground truth: today the prototype HTML isn''t rendered in the workbench and AnnotationPanel makes the human type a CSS selector (e2e fills ''#state''). That violates ergonomics-first.'
+  options:
+  - In-prototype click-to-annotate via `studio preview` overlay
+  - Manual selector form (current)
+  - CLI `comment add` only
+  default_option: In-prototype click-to-annotate via `studio preview` overlay
+  selected: In-prototype click-to-annotate via `studio preview` overlay
+  rationale: 'Generation produces HTML, so the prototype itself is the natural annotation surface. `studio preview` serves the HTML from an ephemeral local server and injects a click-to-annotate overlay: click element -> capture selector+label -> {severity,intent,note} -> CaptureCommentEvent. Comments land directly on components, no hand-typed selectors, no React SPA. `comment add` stays the headless path; both produce the identical CommentEvent contract.'
+  status: closed
+  blocking: false
+  impact: '`studio preview --annotate` gains an injected overlay + ephemeral local callback server. Resolves GAP-ANNOTATION-UX-006 in-design (in scope, not deferred). The existing selector-typing React AnnotationPanel is superseded; no SPA needed.'
+  owner: operator
+- decision_id: DEC-ATOMIC-IDS-014
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: Does adopting atomic-design components help annotation / element selection?
+  description: CSS selectors are brittle across regeneration; AnnotationTarget.odId (a stable-id slot) already exists end-to-end but is unused and generated HTML emits no stable ids.
+  options:
+  - 'Light: stamp stable data-od-id now, full atomic design at L4'
+  - Full atomic-design system now (atoms->organisms + registry + conformance)
+  - Keep brittle CSS selectors
+  default_option: 'Light: stamp stable data-od-id now, full atomic design at L4'
+  selected: 'Light: stamp stable data-od-id now, full atomic design at L4'
+  rationale: Generator stamps a stable data-od-id (minimal component-role convention) -> overlay captures odId as primary target (selector fallback) -> comment targets survive regeneration. Cheap (odId slot already plumbed; mostly a generation-contract line in the operating skill). Full atomic-design taxonomy + component registry + UIElementIdentity/conformance-delta is the L4 realization of the same idea, deferred.
+  status: closed
+  blocking: false
+  impact: AnnotationTarget.odId becomes the primary annotation target (selector fallback). Operating skill requires data-od-id stamping. Atomic design named as the L4 vocabulary unifying identity (BLK-IDENTITY-TYPES-002), registry (GAP-COMPONENT-REGISTRY-002), and conformance-delta.
+  owner: operator
+- decision_id: DEC-MUTATION-EXEC-015
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: What is the mutation-execution model — how does ApplyApprovedBatch turn approved MutationTasks into the next revision HTML?
+  description: 'Full refine (run 20260615-mutation-execution-mechanics): tournament A(deterministic) vs B(agentic) vs C(hybrid), dialectic, toy-game falsification. Apply today does no HTML mutation.'
+  options:
+  - A deterministic patch
+  - B agentic regeneration
+  - 'C hybrid: agentic-propose + deterministic-validate'
+  default_option: 'C hybrid: agentic-propose + deterministic-validate'
+  selected: 'C hybrid: agentic-propose + deterministic-validate'
+  rationale: 'Claude Code proposes the mutated HTML behind the CLI seam (non-deterministic/expressive lane); determinism is RECOVERED at the ADMISSION boundary in the pure core — a clock-free validator suite (V1-V9b) admits a candidate and the human accepts the exact staged diff they previewed (two gates: approve-intent + accept-diff via the dormant RevisionApplied state). A and B kept as Pareto-frontier config (C->A, C->B), not redesign. Pareto scores: A audit5/expr2/cc2, B audit2.5/expr5/cc5, C audit4/expr4/cc5/ergonomics5.'
+  status: closed
+  blocking: false
+  impact: 'Schema: add odId + MutationChangeType union to MutationTask (GAP-1); DiffSummaryHonest + per-od-id fragments, delete buildDiffSummary (D5); add htmlArtifactRef+candidateHtmlHash+ExecutionProvenance to RevisionManifestEntry (GAP-2). Apply becomes produce->validate->stage->human-accept->record (all-or-nothing, fail-closed, bounded retry). 7-layer plan; all [PROPOSAL].'
+  owner: operator
+- decision_id: DEC-C1-SPIKE-SURVIVED-016
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: approval
+  question: Does the C-1 spike clear the V3-fence scope dimension of RESIDUE-B?
+  description: RUN of the frozen criterion (2026-06-16-c1-validator-spike-criterion). Verdict SURVIVED, parent-verified (re-run deterministic; v3 has no expect-label access; real diff/attribution/integrity/CSS algorithm; adversarial reason-isolation probes pass).
+  options:
+  - SURVIVED — V3 fence buildable on the closed set
+  - FALSIFIED — repair a horn
+  default_option: SURVIVED — V3 fence buildable on the closed set
+  selected: SURVIVED — V3 fence buildable on the closed set
+  rationale: A pure, deterministic whole-tree od-id-attributed V3 fence correctly REJECTs every out-of-scope/forge/held-out case and ADMITs every in-scope (incl. CSS) case on the 11-fixture closed set, via a single stable alignment-key primitive. Generalization NOT established (criterion's own bound).
+  status: closed
+  blocking: false
+  impact: 'The V3-fence scope dimension of RESIDUE-B clears (buildable). Still OPEN in RESIDUE-B (criterion non-goals): the V2-vs-CSS R2 mechanism choice (R2-a/R2-b) and the S/B/k/c calibration. New caveats: alignment-key is brittle to legitimate structural reordering; CSS attribution is conservative (needs real cascade for arbitrary stylesheets).'
+  owner: operator
+- decision_id: DEC-R2-CSS-ATTRIBUTION-017
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: deferral
+  question: How does V3 attribute CSS-rule changes — R2-a (declare style allowance + attribute) or R2-b (resolved-style hash in cascade)?
+  description: The C-1 spike used a conservative CSS attribution that passed the closed set but won't generalize (cascade/specificity + reordering-robust node identity needed).
+  options:
+  - Separate as a focused spike
+  - Decide R2-a now
+  - Decide R2-b now
+  default_option: Separate as a focused spike
+  selected: Separate as a focused spike
+  rationale: Decide with evidence, not blind. A pre-registered spike (like C-1) on cascade/specificity + node identity (GAP-V3-NODE-IDENTITY-008) decides R2-a vs R2-b; doesn't block L0 substrate.
+  status: closed
+  blocking: false
+  impact: R2 mechanism stays open pending the CSS-attribution/node-identity spike; L0 build proceeds without it (V3 fence is L1).
+  owner: operator
+- decision_id: DEC-EXT-DOMAINSPEC-BREAK-018
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: deferral
+  question: 'D-EXT-2: keep domainspec building green, or accept breakage after the module is removed?'
+  options:
+  - Minimal de-registration (keep green)
+  - Accept breakage (deprecating)
+  default_option: Accept breakage (deprecating)
+  selected: Accept breakage (deprecating)
+  rationale: domainspec is being deprecated; spending effort to keep its build green after the extraction is not worth it. P4 de-registration becomes optional cleanup, not a requirement.
+  status: closed
+  blocking: false
+  impact: Resolved at the task-session gate (2026-06-16); applies when the extraction WORK-PACK executes.
+  owner: operator
+- decision_id: DEC-EXT-GIT-HISTORY-019
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: 'D-EXT-4: how to carry git history for the moved code?'
+  options:
+  - Plain move
+  - git filter-repo across the boundary
+  default_option: Plain move
+  selected: Plain move
+  rationale: Move files on disk; per-file history stays in the domainspec submodule git and is recoverable there. filter-repo not worth it for line-level blame across the move.
+  status: closed
+  blocking: false
+  impact: Resolved at the task-session gate (2026-06-16); applies when the extraction WORK-PACK executes.
+  owner: operator
+- decision_id: DEC-EXT-COMMIT-POLICY-020
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: approval
+  question: Commit policy during extraction execution?
+  options:
+  - Leave changes uncommitted for review
+  - Commit submodule-first per discipline
+  default_option: Leave changes uncommitted for review
+  selected: Leave changes uncommitted for review
+  rationale: All file changes land in the working tree for operator review; no commits, no submodule gitlink bump by the agent.
+  status: closed
+  blocking: false
+  impact: Resolved at the task-session gate (2026-06-16); applies when the extraction WORK-PACK executes.
+  owner: operator
+- decision_id: DEC-DOCS-CODE-SPLIT-022
+  scope_id: CTX-UPS-ROOT
+  decision_type: approval
+  question: Where should the handoff bundle reference the moved spec, given the submodule cannot depend on a parent path?
+  options:
+  - Path-free logical id (ui-prototyping-studio:SPEC.md)
+  - In-submodule stub pointers
+  - Neutralize/drop spec paths
+  - Wait for extraction P4 (prior default)
+  default_option: Path-free logical id (ui-prototyping-studio:SPEC.md)
+  selected: Path-free logical id (ui-prototyping-studio:SPEC.md)
+  rationale: Repoint the 5 source-file refs (handoff mock-api + server.test assertions, PRODUCT-COMPONENTS-IDEA links, 2 code-tag drift reports) from docs/features/ui-prototyping-studio/* to stable path-free logical ids. Submodule stays self-contained, no parent coupling, decoupled from extraction timing. Generated data regenerates. Submodule commit 6f57151.
+  status: closed
+  blocking: false
+  impact: Supersedes resolved-by-extraction-P4 for the reference problem; GAP-DOCS-CODE-SPLIT-005 resolved without waiting for P4. Establishes the reusable pattern (submodule carries a logical spec id; the umbrella resolves it). Canonical spec home = projects/ui-prototyping-studio/.
+  owner: operator
+- decision_id: DEC-UX-SURFACE-C-021
+  scope_id: CTX-UPS-UX-REFINE
+  decision_type: design
+  question: Which review surface should a cold-start human use to dispose of agent-generated UI variants — A (browser overlay), B (TUI), or C (local web review page)?
+  options:
+  - 'A: studio preview --annotate in-DOM overlay'
+  - 'B: terminal/TUI review'
+  - 'C: same-origin local web review page (Fastify render GET + static 3-region page)'
+  default_option: A
+  selected: C
+  rationale: C won on Pareto + first-principle/fixed-obligation tie-break (build-cost re-classed from a flat ergonomic axis to a gating constraint per review F6); disputed build-cost verified against runnable code. B dominated on the two cold-start axes; A deferred as a named upgrade hook (its in-DOM data-od-id capture).
+  status: decided
+  blocking: false
+  impact: Sets the interaction surface; A overlay becomes a deferred upgrade.
+  owner: refine
+- decision_id: DEC-UX-SKILL-AUTHORITY-HONEST-022
+  scope_id: CTX-UPS-UX-REFINE
+  decision_type: governance
+  question: How should the operating SKILL state its authority, given the core does not distinguish Claude Code from the human at the durable gates?
+  options:
+  - Keep "refused server-side" claim (FALSE)
+  - 'State honestly: scope enforced, identity NOT; the SKILL never-do spine is the sole self-disposal control'
+  default_option: Keep "refused server-side" claim (FALSE)
+  selected: 'State honestly: scope enforced, identity NOT; the SKILL never-do spine is the sole self-disposal control'
+  rationale: 'F-CRIT-1: approve has zero actor-class check; apply refuses only literal "system:auto"; route defaults actor to "web-ui". The "refused server-side" backstop does not exist. SKILL draft corrected; real identity gate routed to core owners (R-S7-1/P-c3).'
+  status: decided
+  blocking: true
+  impact: BLOCKING correction owed before build; the SKILL discipline is currently the only control on agent self-disposal.
+  owner: refine
+- decision_id: DEC-UX-REVIEW-FIX-BEFORE-BUILD-023
+  scope_id: CTX-UPS-UX-REFINE
+  decision_type: governance
+  question: Is the SKILL draft + interaction design ready to build, or must fixes land first?
+  options:
+  - Build now
+  - FIX the CRITICAL/MAJOR change requests first, then build
+  default_option: FIX the CRITICAL/MAJOR change requests first, then build
+  selected: FIX the CRITICAL/MAJOR change requests first, then build
+  rationale: Review dispatch 2026-06-16-ups-skill-design-review closed resolved with 1 CRITICAL (F1 design phantom backstop), 2 MAJOR (F3 SKILL authorship silence, F4 s2 propagation), 3 MINOR, and 1 build-blocking ROUTE (F2 core identity gate / R-S7-1). FIX verdicts on design + SKILL + s2 must land before task-session build; F2 is a separate core decision.
+  status: decided
+  blocking: true
+  impact: Gates the build phase on the F1/F3/F4 doc fixes; F2 routed to core owners.
+  owner: refine
+- decision_id: DEC-UX-OPERATING-CONTRACT-TYPE-024
+  scope_id: CTX-UPS-TYPE-TAXONOMY
+  decision_type: taxonomy
+  question: Do we need to define another type for the project-local operating-contract artifact class?
+  options:
+  - Define artifact_type:operating-contract now
+  - Reuse skill-contract + field / Craft typed_item
+  - Defer the type; record a denotational note now
+  default_option: Defer the type; record a denotational note now
+  selected: Defer the type; record a denotational note now
+  rationale: 'Separated typing(enforcement) from naming(denotation). Typing buys nothing now (constitution candidate, no validator; n=1 unreviewed) -> defer behind sharpened trigger (2nd instance OR skill-contract validator branch). Naming need is per-reader -> fix now with a one-line note. Craft types conditions not kinds; it can track but not classify. Interim: skill-contract-family + optional Craft typed_item. #6 prior upheld.'
+  status: decided
+  blocking: false
+  impact: No framework mutation now; cheap denotational note recommended; type deferred behind trigger.
+  owner: refine
+- decision_id: DEC-F2-IDENTITY-GATE-INTERIM-025
+  scope_id: CTX-UPS-UX-REFINE
+  decision_type: governance-risk-acceptance
+  question: How should the core handle the human-vs-agent identity gate (F2/R-S7-1) before the SKILL installs live?
+  options:
+  - Honest interim + token target
+  - Per-session token first (no install until enforced)
+  - Actor allowlist / deny-agent (weak)
+  - OS-user / out-of-band identity
+  default_option: Honest interim + token target
+  selected: Honest interim + token target
+  rationale: 'Risk is a BOUNDED, reversible, harness-detected accountability breach (agent records an in-scope revision the human did not truly approve). Compensating controls already exist: the scope fence (V3) caps damage to in-scope, append-only revisions are reversible/visible, the SKILL never-do spine forbids it, and the success-aware harness detects an agent-actor gate verb. The only REAL enforcement (per-session human-only token) needs the W7 web page, so over-building it before install is premature. Accept the disclosed interim risk now; token is the named fast-follow when autonomy/injection surface grows. Allowlist is spoofable (agent sets STUDIO_ACTOR); OS-user is env-dependent.'
+  status: decided
+  blocking: true
+  impact: UNBLOCKS WW3 install (allowed once harness green; risk documented, not core-enforced). Token gate becomes a tracked fast-follow.
+  owner: human:operator
+- decision_id: DEC-WW3-INSTALL-026
+  scope_id: CTX-UPS-UX-REFINE
+  decision_type: rollout
+  question: Install the corrected operating SKILL live?
+  options:
+  - Install now
+  - Hold until token gate
+  default_option: Install now
+  selected: Install now
+  rationale: 'Operator approved ("install skill"). All gates satisfied: F2 interim accepted+disclosed (DEC-025), harness green, F1/F3/QB fixes applied. Installed to .claude/skills/ui-prototyping-studio/SKILL.md. Residual risk = the accepted interim (spine sole control, scope-fenced/reversible/harness-detected). Token gate remains the tracked fast-follow.'
+  status: decided
+  blocking: true
+  impact: Operating SKILL is LIVE; Claude Code operates the studio under it. Token gate fast-follow when autonomy/injection surface grows.
+  owner: human:operator
+- decision_id: DEC-D3-COMMIT-POLICY-027
+  scope_id: CTX-UPS-UX-REFINE
+  decision_type: policy
+  question: Lift DEC-EXT-COMMIT-POLICY-020 to allow a handoff commit so D1 is deliverable to humans, or keep uncommitted?
+  options:
+  - Allow handoff commit (deliver)
+  - Keep uncommitted
+  default_option: null
+  selected: Allow handoff commit (deliver) — curated public subset
+  rationale: 'Surfaced by the cycle-close research (Popper: not a test-necessity but the deliverer precondition; Kuhn: two-gate chain + live SKILL currently untracked). PENDING human decision via decision-gate before D3a. RESOLVED 2026-06-17: operator chose to publish a CURATED public subset to arcanum (public submodule) + commit/push. Boundary-verified: provenance (vendored 3rd-party + legacy domainspec spec), .craft ledger, development, CRAFT.md, WORK-PACK.md EXCLUDED. arcanum commit 4d0e4c8 pushed; parent gitlink bumped (17ef944) after make bump-check. Reverses DEC-EXT-COMMIT-POLICY-020 for this scope only.'
+  status: decided
+  blocking: true
+  impact: Gates delivery (D3a handoff commit). Does NOT gate D1 authoring or D2 build.
+  owner: human:operator
+- decision_id: DEC-REVERSIBILITY-NOT-GATING-026
+  context_id: CTX-UPS-UX-REFINE
+  date: '2026-06-17'
+  status: accepted
+  statement: Control is reversibility, not identity-gating. The studio does NOT distinguish human from agent. The agent may run the full loop including accept; safety = every in-studio action is undoable (discard for staged, revert for accepted) and visible (preview auto-refresh). The single human checkpoint is export/handoff (the one irreversible, downstream-consumed edge). Supersedes DEC-F2-INTERIM-025.
+  supersedes: DEC-F2-INTERIM-025
+  consequences: 'F2 identity gate dropped (not built). New build: revert-revision use case (append inverse revision at prior candidateHtmlHash; append-only, no destructive head rewind) + explicit human confirm on handoff export. Installed SKILL never-do line "agent must never accept" must be rewritten before publish (flagged follow-up).'
+- decision_id: DEC-AUTO-BUILD-027
+  context_id: CTX-UPS-UX-REFINE
+  date: '2026-06-18'
+  status: accepted
+  statement: 'Batched build decision (one pass): build everything buildable now (CL1,CL2,CL4 + AUTO ML1-ML5); AUTO default autonomy = auto-accept under reversibility; AUTO fitness = lighter (agent self-critique + human objective). Only the UX-constraint fitness backing (OQ-5) stays deferred.'
+  consequences: 'Closed loop fully real: annotate->comment->pending->cycle/synthesize->accept->revert; AUTO exploit/explore cycles auto-accept the top self-critique score, reversible via CL5. Honest limits: explore auto-accepts top-scored (one staged slot, not K presented); stop dials live in the agent /loop not core; ML2+ UX-constraint backing deferred (OQ-5). Backend 53/53 + e2e verified.'
+- decision_id: DEC-GSP-PLAN-APPROVAL-028
+  scope_id: CTX-UPS-GSP-EXECUTION
+  decision_type: approval
+  question: Should the parent-accepted architecture review become the amended governed-state projection execution contract?
+  description: The July package is flagged and internally contradictory; the accepted review supplies verified repair inputs and a dependency-safe sequence.
+  options:
+  - Approve amended work-pack for execution
+  - Keep proposal-only
+  selected: Approve amended work-pack for execution
+  rationale: The operator directly requested the next steps and full implementation after accepting the governed review.
+  status: closed
+  blocking: false
+  impact: Admits the amended work-pack and selects exactly SWU-GSP-001; it does not authorize release.
+  owner: operator
+  evidence: projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/REFRESH-PATCH-PROPOSAL.md
+- decision_id: DEC-GSP-PROOF-ROUTE-029
+  scope_id: CTX-UPS-GSP-EXECUTION
+  decision_type: selection
+  question: Which checked-in proof route must precede current-head projection?
+  description: The old board required Playwright before the shared helper repair while separately permitting a focused local route.
+  options:
+  - Shared checked-in local-tsx helper first
+  - Duplicate local launch logic in each focused spec
+  selected: Shared checked-in local-tsx helper first
+  rationale: One deterministic fail-fast helper serves every browser witness and avoids duplicated process semantics.
+  status: closed
+  blocking: false
+  impact: Makes SWU-GSP-001 the sole selected unit and every browser-dependent SWU its consumer.
+  owner: operator
+  evidence: projects/ui-prototyping-studio/development/reviews/20260727-architecture-plan-deep-spec-review/findings.md
+- decision_id: DEC-GSP-CONFIRMATION-ACTOR-030
+  scope_id: CTX-UPS-GSP-EXECUTION
+  decision_type: selection
+  question: Is durable-action acknowledgment actor-neutral or human-only?
+  description: Existing DEC-REVERSIBILITY-NOT-GATING-026 permits agent acceptance, while the July copy used human-specific language.
+  options:
+  - Actor-neutral explicit acknowledgment
+  - Human-only acknowledgment
+  selected: Actor-neutral explicit acknowledgment
+  rationale: Reversibility and existing route authorization are the control; acknowledgment records inspection intent and does not grant authority.
+  status: closed
+  blocking: false
+  impact: Task GSP-005 must avoid a new identity gate and retain a separate export boundary.
+  owner: operator
+  evidence: DEC-REVERSIBILITY-NOT-GATING-026
+- decision_id: DEC-GSP-CHAIN-ORDER-031
+  scope_id: CTX-UPS-GSP-EXECUTION
+  decision_type: sequencing
+  question: How is the approved seven-unit frontier made deterministic for until-blocker execution?
+  description: The first amended pack left multiple dependency-ready successors after GSP-003 and GSP-001, which violates the Task Session series contract.
+  options:
+  - Serialize the already-approved table order
+  - Stop after each branch and request a new selector
+  selected: Serialize the already-approved table order
+  rationale: This is a reversible control-plane constraint that preserves every task scope and makes successor selection auditable.
+  status: closed
+  blocking: false
+  impact: GSP-001 through GSP-007 now execute in table order with one receipt and one joined closeout per unit.
+  owner: operator
+  evidence: projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md
+gaps:
+- gap_id: GAP-ERGONOMICS-UNPROVEN-001
+  scope_id: CTX-UPS-ROOT
+  summary: 'Ergonomics floor (the first principle) unproven. SEPARATED RESEARCH TRACK 1 (UX/ergonomics): bundles OQ-1 trust meter + the non-theater ''felt'' half of OQ-2 + L6 human-study. Decide via evidence, not armchair.'
+  severity: flag
+  treatment: separated-research
+  owner: UX/ergonomics research track
+  status: active
+  evidence: ART-COLD-START
+- gap_id: GAP-COMPONENT-REGISTRY-002
+  scope_id: CTX-UPS-ROOT
+  summary: Component-registry persistence/indexing entity is unspecified (R-1); the typed version edge is decided but the storage/match/index entity is not. Atomic-design component set is the natural registry shape (DEC-ATOMIC-IDS-014, L4).
+  severity: flag
+  treatment: resolved-by-design-merge
+  owner: synthesis-architect
+  status: resolved
+  evidence: ART-UIIDENTITYINDEX-DESIGN
+  notes: 'RESOLVED 2026-06-24: R-1 (persistence/index entity) specified as UIIdentityIndex (repo-scoped derived read-model) and MERGED into SYNTHESIZED-DEEP-DESIGN §2.4 (R-1 row marked CLOSED; R-7 fill-approach decided). Remaining work is A2 implementation (models.ts types + projection), gated on L4 — a build node, not a design hole.'
+- gap_id: GAP-CONFLICT-ALGEBRA-003
+  scope_id: CTX-UPS-ROOT
+  summary: Full conflict algebra for CommentEvent -> MutationTask beyond the deterministic sort/dedup/co-locate fold is unspecified (R-2).
+  severity: flag
+  treatment: defer
+  owner: synthesis-architect
+  status: active
+  evidence: ART-DEEP-SPEC-PROPOSAL
+- gap_id: GAP-CONTRACT-DRIFT-004
+  scope_id: CTX-UPS-ROOT
+  summary: 'RESOLVED by DEC-MUTATION-EXEC-015 fold: RevisionApplied is now the staged-preview/accept-diff state and RevisionRecorded is the committed head — two distinct, meaningful states. The two-gate apply machine makes the distinction load-bearing, not drift.'
+  severity: flag
+  treatment: resolved-by-fold
+  owner: spec calibration pass
+  status: resolved
+  evidence: ART-DEEP-SPEC-RESULT
+- gap_id: GAP-DOCS-CODE-SPLIT-005
+  scope_id: CTX-UPS-ROOT
+  summary: 'Transitional: docs moved to projects/ while code still sits in domainspec. Per DEC-DEPRECATE-PIVOT-007 the code is being extracted too (CTX-UPS-EXTRACTION); the 8 stale domainspec doc-path refs move with the code in P4 and resolve naturally. Tracked until extraction P4 lands.'
+  severity: flag
+  treatment: resolved-by-logical-id-repoint
+  owner: operator
+  status: resolved
+  decision_ref: DEC-DOCS-CODE-SPLIT-022
+  evidence: implementation/domainspec/backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts
+  resolution_note: 'RESOLVED 2026-06-24 (DEC-DOCS-CODE-SPLIT-022, B4): the 5 source-file refs in the submodule were repointed from docs/features/ui-prototyping-studio/* to path-free logical ids (ui-prototyping-studio:SPEC.md) — submodule commit 6f57151 — so the submodule stays self-contained with no parent-path dependency, decoupled from extraction-P4 timing. Generated data (.data/telemetry) regenerates. Canonical spec home = projects/ui-prototyping-studio/.'
+- gap_id: GAP-ANNOTATION-UX-006
+  scope_id: CTX-UPS-EXTRACTION
+  summary: 'RESOLVED in design by DEC-INPROTO-ANNOTATION-013: `studio preview --annotate` injects a click-to-annotate overlay so comments are captured directly on rendered components (no hand-typed selectors, no SPA). Build it in P1.5/preview. Supersedes the manual-selector AnnotationPanel.'
+  severity: low
+  treatment: addressed-by-design
+  owner: operator
+  status: resolved
+  evidence: projects/ui-prototyping-studio/SPEC.md
+- gap_id: GAP-ACCEPTANCE-CHECK-007
+  scope_id: CTX-UPS-EXTRACTION
+  summary: 'Toy-game TG-2: acceptanceText (e.g. ''button >= 44x44px'') is natural language and is NOT machine-checked by the validator suite — V-acceptance is a presence/proxy check only, so ''accepted'' does not prove the intent was met. Priced as residue; the human accept-diff gate is the real backstop. Also TG-3: V2 may false-reject idiomatic CSS sizing (spike R2-a/R2-b).'
+  severity: medium
+  treatment: defer-to-spike
+  owner: operator
+  status: active
+  evidence: projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/stages/08-toy-game.md
+- gap_id: GAP-V3-NODE-IDENTITY-008
+  scope_id: CTX-UPS-EXTRACTION
+  summary: 'Spike caveats for production V3: (1) the alignment-key (tag + sibling-index path) is brittle to LEGITIMATE structural reordering — a moved node reads as delete+insert; real R2 needs a more robust node identity. (2) CSS attribution is conservative (selector→od-id node); arbitrary stylesheets need real cascade/specificity. Surfaced by the SURVIVED spike; belongs to L1/R2 build. SEPARATED RESEARCH TRACK 2 (CSS-attribution/node-identity spike): decides DEC-R2-CSS-ATTRIBUTION-017 (R2-a vs R2-b) with evidence.'
+  severity: medium
+  treatment: separated-spike
+  owner: operator
+  status: active
+  evidence: projects/ui-prototyping-studio/development/spikes/c1-validator-criterion/RUN-RESULT.md
+- gap_id: GAP-HANDOFF-DOC-REFS-009
+  scope_id: CTX-UPS-EXTRACTION
+  summary: 'exportDesignHandoff requires SPEC.md+STORIES.md+UI-SPEC.md+TEST-SPEC.md to exist under a feature-docs root and emits docs/features/ui-prototyping-studio/* refs. The lean standalone project consolidated those into SPEC.md + aspect files and archived the rest to provenance/, so the existsSync gate fails (slice test 1/9). FOLLOW-UP SWU: reconcile the handoff doc-ref contract (constants + required-files list + featureDocsRootDir + the slice-test assertion) with the lean doc set. A small decision: point at lean SPEC/aspects, or at provenance/legacy-domainspec-spec/. RESOLVED 2026-06-17 by G2 (advisory refs + missingRefs).'
+  severity: medium
+  treatment: build-G1/G2 in PLAN-STUDIO-PREVIEW
+  owner: operator
+  status: resolved
+  evidence: projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts
+- gap_id: GAP-CORE-IDENTITY-GATE-010
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'Durable gates (approve, apply) have NO human-vs-agent identity check: approve-mutation-batch.ts accepts any non-empty approvedBy; apply-approved-batch.ts:33 refuses only literal "system:auto" while the route defaults actor to "web-ui". Core cannot refuse agent self-disposal; only scope is enforced. The SKILL never-do spine is the sole control. ROUTE: core owners (R-S7-1/P-c3) — add a real identity signal at durable routes. [2026-06-17 DEC-F2-IDENTITY-GATE-INTERIM-025: risk ACCEPTED as honest interim (scope fence + spine + harness + append-only compensate; risk disclosed). WW3 install unblocked once harness green. Per-session human-only token (needs W7 page) is the tracked fast-follow, trigger = unattended runs / untrusted HTML.] [2026-06-17 RE-RAISED by PLAN-CLOSED-LOOP: a watch-loop auto-pickup increases agent autonomy -> the F2 token becomes a PRE-REQ for unsupervised auto-pickup (CL5), not just interim.] [2026-06-17 RESOLVED — SUPERSEDED by owner principle: control is REVERSIBILITY, not gating. F2 identity gate will NOT be built (DEC-F2-INTERIM-025 superseded). Replaced by reversibility invariant: revert for accepts + a human confirm only at the irreversible export edge. See PLAN-CLOSED-LOOP CL5.]'
+  severity: high
+  treatment: route-to-core-owners
+  owner: core
+  status: resolved
+  evidence: development/refinement-runs/20260616-ui-ux-interaction-skill/RESULT.md §3 (F-CRIT-1); approve-mutation-batch.ts; apply-approved-batch.ts:33
+- gap_id: GAP-SKILL-DRAFT-UNREVIEWED-011
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'The s6 skill-author SKILL draft handed to s7 design-review was TRUNCATED (R-S7-3): the never-do spine, refusal narration, two-layer scoping rule, and DC-1 propagation were UNREVIEWED. A full parent-assembled draft (06-SKILL-draft.md) now exists but has not passed design-review. FOLLOW-UP: the next domainspec-subagents-strategy REVIEW must red-team the full draft. [RESOLVED 2026-06-16 by review dispatch 2026-06-16-ups-skill-design-review — full draft red-teamed, both verifiers + coverage auditor passed.]'
+  severity: medium
+  treatment: next-review-pass
+  owner: refine
+  status: resolved
+  evidence: development/refinement-runs/20260616-ui-ux-interaction-skill/stages/07-design-review.md (R-S7-3); development/refinement-runs/20260616-ui-ux-interaction-skill/06-SKILL-draft.md
+- gap_id: GAP-UX-ERGONOMICS-FLOOR-012
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'The ergonomics floor (ODQ-7/R1) is UNPROVEN: no ergonomic gain asserted anywhere (charter clause 5); the s8 toy-game only prepares falsification evidence, not proof. Extends GAP-ERGONOMICS-UNPROVEN-001. ALSO R-S7-2/R2: the keyboard-annotation-over-iframe AT-reachability harness is UNBUILT (keyboard-native a11y claim is Tier-B/provisional; comment add is the AT floor). DEFERRED, non-blocking: a real cold-start ergonomics study.'
+  severity: medium
+  treatment: deferred-research
+  owner: refine
+  status: open
+  evidence: development/refinement-runs/20260616-ui-ux-interaction-skill/stages/08-toy-game-walkthrough.md; development/refinement-runs/20260616-ui-ux-interaction-skill/RESULT.md §3
+- gap_id: GAP-DESIGN-PHANTOM-BACKSTOP-012
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'F1 (CRITICAL, review): stages/06-interaction-design.md step-7 cell (:219) "Claude Code refused server-side if it tries (AUTO_APPLY_FORBIDDEN lineage / INV-3)" is categorically FALSE for the approve gate (zero actor check) — reasserts the F-CRIT-1 phantom backstop on the BUILD-consumed step table. Design self-contradicts (§3 vs R3 ledger :383). s2 (:141/:74/:191) propagates the same overclaim with no forward-correction (F4 MAJOR, precondition). FIX before build: rewrite step-7 (+siblings) to state scope-enforced/identity-not; add forward-correction banner to s2. [RESOLVED 2026-06-16 by invoke refresh — F1 applied to design step-7/§5.1; F4 forward-correction applied to s2. See REFRESH-REPORT.md.]'
+  severity: critical
+  treatment: fix-before-build
+  owner: refine
+  status: resolved
+  evidence: development/refinement-runs/20260616-ui-ux-interaction-skill/review/findings.md F1+F4; 06-interaction-design.md:219; backend approve-mutation-batch.ts
+- gap_id: GAP-SKILL-AUTHORSHIP-SILENCE-013
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'F3 (MAJOR, review): the SKILL never-do spine (06-SKILL-draft.md :105-108) forbids the agent EXECUTING a durable verb but is silent on the agent AUTHORING the decision the human enacts. The SKILL-fixable core of A2 exploits X1 (recommendatory narration at gates), X2 (agent authors the verbatim gate command string), X4 ("offer don''t decide" undefined / sole-next-step framing), X5 ("on the human''s behalf" laundering beyond comment add). FIX: add an authorship clause to the spine. Survives the F1 fix. The irreducible relay residue routes to the core (see GAP-CORE-IDENTITY-GATE-010 / R-S7-1). [RESOLVED 2026-06-16 by invoke refresh — F3 authorship rule added to the SKILL never-do spine + must-NOT. See REFRESH-REPORT.md.]'
+  severity: high
+  treatment: fix-before-build
+  owner: refine
+  status: resolved
+  evidence: development/refinement-runs/20260616-ui-ux-interaction-skill/review/findings.md F3; 06-SKILL-draft.md:79-80,105-108; studio.ts:24
+- gap_id: GAP-SKILL-HARNESS-M2-UNEXERCISED-014
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'WW2 BLOCKED: M2 (data-od-id on registered variants) cannot be exercised — the stub generateVariants (generate-variants.ts:56) produces variants with only a dangling htmlArtifactRef path, NO HTML body and NO data-od-id, and the CLI `variants register` just calls that stub (ignores HTML). UNBLOCK: implement a real `variants register` HTML-ingestion path (accept HTML, write via the M0b artifact content port, stamp/verify data-od-id) — a planned-but-unbuilt feature (WORK-PACK ''real generation = Claude Code via variants register, M-later''). Until then M2 is structurally unprovable. [2026-06-17 DESIGNED: refine run 20260617-variants-register-html -> SWU MR1 lifts this (registerVariants + OD_ID_MISSING gate via M0b/M0c). Still blocked until MR1 is built; no F2 dependency.] RESOLVED 2026-06-17 by MR1 task-session: variants register HTML ingestion built; data-od-id is now CORE-ENFORCED via OD_ID_MISSING server-side, not just a documentary harness check. WW2 lifted. CLI variants register --from dir (repeatable --label/--file deferred, parser is last-wins). RESOLVED 2026-06-17 by MR1 task-session: variants register HTML ingestion built; data-od-id is now CORE-ENFORCED via OD_ID_MISSING server-side, not just a documentary harness check. WW2 lifted. CLI variants register --from dir (repeatable --label/--file deferred, parser is last-wins).'
+  severity: high
+  treatment: resolved-MR1
+  owner: experiment-harness
+  status: resolved
+  evidence: development/operating-skill-harness/FIRST-TEST-RESULT.md
+- gap_id: GAP-SKILL-BASELINE-COMMIT-REDUNDANT-015
+  scope_id: CTX-UPS-UX-REFINE
+  summary: baseline commit after baseline select errors BASELINE_SELECTION_REQUIRED; select already satisfies the gate. Loop/SKILL should not call commit redundantly, or commit needs the label. RESOLVED 2026-06-17 by G1.
+  severity: low
+  treatment: build-G1/G2 in PLAN-STUDIO-PREVIEW
+  owner: refine
+  status: resolved
+  evidence: development/operating-skill-harness/FIRST-TEST-RESULT.md
+- gap_id: GAP-OD-ID-GRANULARITY-017
+  scope_id: CTX-UPS-UX-REFINE
+  summary: MVP register gate is coarse (rejects only zero-data-od-id HTML); a per-component requirement (every annotatable structural element carries an od-id) is a follow-up.
+  severity: low
+  treatment: follow-up
+  owner: refine
+  status: open
+  evidence: development/refinement-runs/20260617-variants-register-html/stages/05-design.md §3
+- gap_id: GAP-CLI-REGISTER-PARSER-018
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'CLI parse is last-wins so the planned Option-A repeatable --label/--file is not yet supported; MR1 shipped --from dir reading label.html. Follow-up: a repeatable-flag parser for per-variant register. RESOLVED 2026-06-17: CLI variants register now supports repeated --label X --file path (scanned from raw argv) AND --from dir. tsc clean, full suite green, e2e 3-variant register -> VariantsReady.'
+  severity: low
+  treatment: resolved
+  owner: refine
+  status: resolved
+  evidence: backend/src/cli/studio.ts variants register
+- gap_id: GAP-M2-WIRE-CHAIN-MR1-019
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'MW1 live two-gate apply requires MR1-registered variants (real HTML); stub generate variants leave current-HTML unresolvable. Chain dep MR1 -> MW1. RESOLVED 2026-06-17 by MW1: applyAndStage resolves current HTML from MR1-registered variants and fails closed (CURRENT_HTML_UNRESOLVABLE) when only stub variants exist; the chain is honored, not violated.'
+  severity: medium
+  treatment: honored
+  owner: refine
+  status: resolved
+  evidence: development/refinement-runs/20260617-m2-wire-two-gate/stages/05-design.md
+- gap_id: GAP-EXPORT-HTTP-UNGATED-F1
+  owner_context_id: CTX-UPS-UX-REFINE
+  status: resolved
+  summary: '[2026-06-18 gap-audit, HIGH] HTTP POST /handoff/export calls exportDesignHandoff with no --confirm; gate is CLI-only; server binds 0.0.0.0:8787 -> the DEC-026 irreversible-edge checkpoint is bypassable over HTTP. Fix: move confirm into the core use-case (PLAN-NEXT N1). Violates ARCHITECTURE §4 gate-in-core. || RESOLVED 2026-06-18 (N1): confirm gate moved into exportDesignHandoff use-case; CLI+HTTP both refuse unconfirmed; fastify-inject test proves it.'
+- gap_id: GAP-LEGACY-HTTP-UNTESTED-F7
+  owner_context_id: CTX-UPS-UX-REFINE
+  status: mitigated
+  summary: '[2026-06-18 gap-audit, MED] legacy Fastify route surface is untested + lacks the new gates while network-bound. Decide gate-to-parity or remove (PLAN-NEXT N2). || MITIGATED 2026-06-18 (N2): critical export route gated (N1) + fastify-inject tested; other routes call already-gated use-cases. Surface kept (conservative default), broader route test suite still optional.'
+- gap_id: GAP-REVERT-WRONGTARGET-F5
+  owner_context_id: CTX-UPS-UX-REFINE
+  status: resolved
+  summary: '[2026-06-18 gap-audit, HIGH] revert --to <rev> with no candidateHtmlHash silently restores baseline instead of erroring (revert-revision.ts:84,104). Fix: explicit error (PLAN-NEXT N4). || RESOLVED 2026-06-18 (N4): revert --to with no candidateHtmlHash now throws REVISION_NOT_FOUND; unit test.'
+- gap_id: GAP-GSP-RELEASE-UNBOUND-023
+  scope_id: CTX-UPS-GSP-EXECUTION
+  summary: Completing the governed-state projection work-pack does not bind a release owner, human-study ergonomics verdict, or release authorization.
+  severity: flag
+  treatment: defer
+  owner: Studio release owner
+  status: active
+  evidence: projects/ui-prototyping-studio/development/reviews/20260727-architecture-plan-deep-spec-review/findings.md
+route_handoffs:
+- handoff_id: HND-DEEP-SPEC-VALIDATE-001
+  context_id: CTX-UPS-DEEP-SPEC
+  capability_ref: dispatch-spec
+  mode: validate
+  objective: Validate the deep-exploration dispatch route for the UI Prototyping Studio.
+  source_artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-DISPATCH.json
+  ledger_conditions:
+  - exploration blocked until route validates pass
+  expected_outputs:
+  - dispatch validation result
+  expected_receipt_fields:
+  - validation_result
+  - dispatch_id
+  - promotion_guardrail_status
+  status: completed
+- handoff_id: HND-DEEP-SPEC-EXEC-001
+  context_id: CTX-UPS-DEEP-SPEC
+  capability_ref: refine
+  mode: execute
+  objective: Execute the validated dispatch end to end via a 12-agent workflow and produce the deepened design, evidence artifacts, proposal, plan, and readiness verdict.
+  source_artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-DISPATCH.json
+  ledger_conditions:
+  - BLK-FIXTURE-CORPUS-001
+  - BLK-IDENTITY-TYPES-002
+  - BLK-FAILURE-STATES-003
+  - BLK-INVARIANTS-UNCALIBRATED-004
+  expected_outputs:
+  - 12 dispatch artifacts
+  - subagent lifecycle ledger
+  expected_receipt_fields:
+  - artifacts
+  - validation_result
+  - residue
+  status: completed
+- handoff_id: HND-READINESS-001
+  context_id: CTX-UPS-ROOT
+  capability_ref: implementation-readiness
+  mode: decision
+  objective: Judge whether the deep-spec proposal and one-shot plan are ready for one-shot implementation.
+  source_artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/ONE-SHOT-IMPLEMENTATION-PLAN.md
+  ledger_conditions:
+  - DEC-ONE-SHOT-SCOPE-002
+  expected_outputs:
+  - readiness verdict
+  - next-route menu
+  expected_receipt_fields:
+  - validation_result
+  - residue
+  status: completed
+receipts:
+- receipt_id: RCT-DEEP-SPEC-VALIDATE-001
+  handoff_id: HND-DEEP-SPEC-VALIDATE-001
+  producer: dispatch-spec
+  status: pass
+  artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-DISPATCH.json
+  validation_result: Dispatch route validates with VALIDATION=pass; 11 steps, 9 gates, subagent_strategy required/approved, promotion guardrail pass. Route-shape evidence only.
+  audit_reference: ART-DEEP-SPEC-DISPATCH
+  residue: none
+- receipt_id: RCT-DEEP-SPEC-EXEC-001
+  handoff_id: HND-DEEP-SPEC-EXEC-001
+  producer: refine
+  status: pass
+  artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/SYNTHESIZED-DEEP-DESIGN.md
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/RESIDUALITY-STRESSORS.md
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/UX-EVIDENCE-REPORT.md
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/PLAYWRIGHT-TEST-PLAN.md
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/COLD-START-USABILITY-FINDINGS.md
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/SUBAGENT-LIFECYCLE.json
+  validation_result: 12 agents ran end to end (run wf_ee6ffee8-68a); subagent lifecycle pass (all joined and closed); all artifacts produced as proposals; SPEC.md unmutated.
+  audit_reference: ART-DEEP-SPEC-RESULT
+  residue: R-1, R-2, R-3, R-4, R-5, R-7 carried; Inv-1..8 proposed-not-calibrated; OQ-1..4 open.
+- receipt_id: RCT-READINESS-001
+  handoff_id: HND-READINESS-001
+  producer: implementation-readiness
+  status: flag
+  artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/RESULT.md
+  validation_result: CONDITIONAL. A full L0-L6 one-shot is not realistic; an L0->L2 one-shot is. L3-L5 are net-new backend/mock/type builds; L6 ergonomics payoff is human-study-gated.
+  audit_reference: ART-DEEP-SPEC-RESULT
+  residue: Scope decision, four open questions, fixture corpus, identity types, failure states, and invariant calibration all precede a full build.
+relations:
+- relation_id: REL-CONTAINS-DEEP-SPEC-001
+  source_id: CTX-UPS-ROOT
+  target_id: CTX-UPS-DEEP-SPEC
+  type: contains
+  status: active
+  reason: The deep-spec dispatch exploration is a child context of the feature readiness root.
+  evidence: ART-DEEP-SPEC-DISPATCH
+- relation_id: REL-BLOCKS-FIXTURE-001
+  source_id: BLK-FIXTURE-CORPUS-001
+  target_id: CTX-UPS-ROOT
+  type: blocks
+  status: active
+  reason: Without the FX-* fixture corpus and axe, the strict-superset gate suite the plan relies on does not exist.
+  evidence: ART-UX-EVIDENCE
+- relation_id: REL-BLOCKS-IDENTITY-001
+  source_id: BLK-IDENTITY-TYPES-002
+  target_id: CTX-UPS-ROOT
+  type: blocks
+  status: active
+  reason: L4 identity/conformance types are absent from models.ts; the largest build chunk is greenfield.
+  evidence: ART-COLD-START
+- relation_id: REL-INFORMS-READINESS-001
+  source_id: RCT-READINESS-001
+  target_id: CTX-UPS-ROOT
+  type: informs
+  status: active
+  reason: The conditional readiness verdict sets the next move - scope to L0->L2 and route open decisions to decision-gate.
+  evidence: ART-DEEP-SPEC-RESULT
+- relation_id: REL-RECOMPOSE-DEEP-SPEC-001
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  type: informs
+  status: resolved
+  reason: The deep-spec child context returns the deepened design, evidence, proposal, plan, and readiness verdict to the feature readiness root.
+  evidence: RCT-READINESS-001
+- relation_id: REL-CONTAINS-EXTRACTION-001
+  source_id: CTX-UPS-ROOT
+  target_id: CTX-UPS-EXTRACTION
+  type: contains
+  status: resolved
+  reason: Standalone extraction produced the current backend, CLI, and browser surface and is recomposed into the root.
+  evidence: ART-BACKEND-STANDALONE
+- relation_id: REL-CONTAINS-GSP-EXECUTION-001
+  source_id: CTX-UPS-ROOT
+  target_id: CTX-UPS-GSP-EXECUTION
+  type: contains
+  status: active
+  reason: The governed-state projection repair is the selected current execution child.
+  evidence: ART-GSP-AMENDED-WORK-PACK
+- relation_id: REL-GSP-WORKPACK-SUPERSEDES-JULY-001
+  source_id: ART-GSP-AMENDED-WORK-PACK
+  target_id: ART-GSP-JULY-PROPOSAL
+  type: supersedes
+  status: active
+  reason: The amended plan repairs proof ordering, identity drift, ownership boundaries, and the completion graph while preserving the July package as history.
+  evidence: ART-GSP-REVIEW-20260727
+recomposition:
+- child_id: CTX-UPS-DEEP-SPEC
+  parent_id: CTX-UPS-ROOT
+  summary: The deep-spec dispatch exploration is complete. It produced a deepened design (conformance-delta review surface, identity/DNA rejection lifecycle, failure/recovery states), residuality invariants Inv-1..8, UX evidence across L0-L6, a planned Playwright suite, and a context-isolated naive-user walkthrough, synthesized into a deep-spec proposal and a one-shot plan with a CONDITIONAL readiness verdict.
+  evidence: RCT-READINESS-001
+  residue: Ergonomics floor unproven (R-5); four open decisions OQ-1..4; fixture corpus, identity types, and failure states do not exist; invariants Inv-1..8 proposed-not-calibrated; component-registry and conflict-algebra gaps; contract drift on RevisionApplied/RevisionRecorded.
+  next_parent_move: Open a decision-gate on the one-shot scope (recommend L0->L2) and on OQ-1..4, then route L3/L4/L5 to per-layer task-sessions and the fixture corpus to ux-evidence-validator calibrate.
+  status: pass
+- child_id: CTX-UPS-EXTRACTION
+  parent_id: CTX-UPS-ROOT
+  summary: Standalone extraction delivered the active backend, CLI, artifact store, reversible two-gate mutation flow, preview HTTP surface, and checked-in unit/browser suites.
+  evidence: ART-PLAN-NEXT-EXECUTED
+  residue: Current browser projection, style diff, evidence harness, action framing, and handoff readiness defects are transferred to CTX-UPS-GSP-EXECUTION.
+  next_parent_move: Execute the amended governed-state projection work-pack from selected SWU-GSP-001.
+  status: pass

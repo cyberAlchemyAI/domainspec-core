@@ -94,11 +94,29 @@ export interface OdDiffFragment {
   changed: number;
   removed: number;
 }
+export interface StyleDiffEvidence {
+  lane: "style";
+  attribution: "global-unattributed";
+  changed: boolean;
+  addedRules: number;
+  removedRules: number;
+  before: string;
+  after: string;
+}
+export interface UnattributedDiffEvidence {
+  lane: "unattributed";
+  added: number;
+  changed: number;
+  removed: number;
+}
 export interface DiffSummaryHonest {
   fragments: OdDiffFragment[];
   added: number;
   changed: number;
   removed: number;
+  style: StyleDiffEvidence;
+  unattributed: UnattributedDiffEvidence;
+  visibleChangeCount: number;
 }
 
 /** [PROPOSAL] How a candidate revision was produced — the non-replayable proposer record
@@ -140,8 +158,18 @@ export interface HandoffBundle {
   uiSpecRef: string;
   testSpecRef: string;
   sourceRefs?: string[];
-  /** [G2] advisory: feature-doc refs not present under the docs root (lean project); non-gating. */
-  missingRefs?: string[];
+  /** Feature-doc refs not present under the configured evidence root. */
+  missingRefs: string[];
+  /** Current accepted visible-change evidence carried into downstream handoff. */
+  diffSummaryHonest?: DiffSummaryHonest;
+  /** The irreversible export action had an explicit, actor-neutral confirmer. */
+  exportConfirmed: boolean;
+  /** True exactly when `missingRefs.length === 0`. */
+  evidenceComplete: boolean;
+  /** Complete refs plus an accepted content hash and honest diff at the exported head. */
+  integrationReady: boolean;
+  /** Integration-ready head with applied tasks and no unresolved comments. */
+  implementationReady: boolean;
 }
 
 /**

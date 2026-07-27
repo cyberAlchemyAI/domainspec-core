@@ -558,6 +558,20 @@ function mapHandoffBundle(bundle: HandoffBundle) {
     exportProfile: bundle.exportProfile,
     sourceRefs: bundle.sourceRefs ? [...bundle.sourceRefs] : [],
     missingRefs: bundle.missingRefs ? [...bundle.missingRefs] : [],
+    diffSummaryHonest: bundle.diffSummaryHonest
+      ? {
+          ...bundle.diffSummaryHonest,
+          fragments: bundle.diffSummaryHonest.fragments.map((fragment) => ({
+            ...fragment,
+          })),
+          style: { ...bundle.diffSummaryHonest.style },
+          unattributed: { ...bundle.diffSummaryHonest.unattributed },
+        }
+      : undefined,
+    exportConfirmed: bundle.exportConfirmed === true,
+    evidenceComplete: bundle.evidenceComplete === true,
+    integrationReady: bundle.integrationReady === true,
+    implementationReady: bundle.implementationReady === true,
   };
 }
 

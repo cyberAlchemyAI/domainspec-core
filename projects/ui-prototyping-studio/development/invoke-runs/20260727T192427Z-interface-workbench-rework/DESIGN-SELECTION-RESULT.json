@@ -1,0 +1,385 @@
+{
+  "concerns": [
+    {
+      "concern_id": "concern:authority",
+      "disposition": "required",
+      "output_id": "architecture:authority-trust",
+      "ownership": {
+        "accountable_owner": "authority-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/ui-prototyping-studio/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "authority",
+      "rationale": "authority disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:effect:effect-accept-or-revert-revision"
+      ]
+    },
+    {
+      "concern_id": "concern:security",
+      "disposition": "required",
+      "output_id": "architecture:security-abuse",
+      "ownership": {
+        "accountable_owner": "security-risk-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/ui-prototyping-studio/ARCHITECTURE.md",
+          "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "security",
+      "rationale": "Keyed projection updates must preserve escaping, iframe sandboxing, and the existing application gate boundary.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:security"
+      ]
+    },
+    {
+      "concern_id": "concern:state-event",
+      "disposition": "required",
+      "output_id": "architecture:state-event",
+      "ownership": {
+        "accountable_owner": "workflow-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "state-event",
+      "rationale": "state-event disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:interface:workbench-governed-actions",
+        "signal:interface:workbench-state-poll",
+        "signal:normative-rule:rule-staged-state-noncurrent",
+        "signal:normative-rule:rule-terminal-export-separation"
+      ]
+    },
+    {
+      "concern_id": "concern:persistence",
+      "disposition": "required",
+      "output_id": "architecture:persistence-concurrency",
+      "ownership": {
+        "accountable_owner": "persistence-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/ui-prototyping-studio/ARCHITECTURE.md",
+          "projects/ui-prototyping-studio/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "persistence",
+      "rationale": "persistence disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:store:studio-session-and-artifact-state",
+        "signal:writer:existing-browser-action-writer",
+        "signal:writer:existing-cli-writer"
+      ]
+    },
+    {
+      "concern_id": "concern:failure",
+      "disposition": "required",
+      "output_id": "architecture:failure-compensation",
+      "ownership": {
+        "accountable_owner": "workflow-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "output/playwright/ux-validator/20260727-ui-prototyping-studio-interface-review/findings.md",
+          "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "failure",
+      "rationale": "Poll, projection, or action failures must preserve work, expose bounded recovery, and never partially imply a governed transition.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:failure"
+      ]
+    },
+    {
+      "concern_id": "concern:reliability",
+      "disposition": "required",
+      "output_id": "architecture:quality",
+      "ownership": {
+        "accountable_owner": "service-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "output/playwright/ux-validator/20260727-ui-prototyping-studio-interface-review/findings.md",
+          "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "reliability",
+      "rationale": "Continuity across unchanged polls and one real transition is the primary trust contract.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:reliability"
+      ]
+    },
+    {
+      "concern_id": "concern:integration",
+      "disposition": "required",
+      "output_id": "architecture:integration-versioning",
+      "ownership": {
+        "accountable_owner": "interface-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "integration",
+      "rationale": "integration disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:compatibility:preview-update-contract",
+        "signal:interface:server-projection-version"
+      ]
+    },
+    {
+      "concern_id": "concern:rollout",
+      "disposition": "not-applicable-with-rationale",
+      "output_id": null,
+      "ownership": {
+        "accountable_owner": "release-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": true,
+        "evidence_selectors": [
+          "projects/ui-prototyping-studio/.craft/ledger.yml",
+          "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md"
+        ],
+        "required_predicate": false
+      },
+      "primary_class": "rollout",
+      "rationale": "The target is a local loopback workbench and release ownership remains explicitly unbound.",
+      "revisit_condition": null,
+      "selected": false,
+      "signal_ids": [
+        "authored:rollout"
+      ]
+    },
+    {
+      "concern_id": "concern:privacy-data",
+      "disposition": "not-applicable-with-rationale",
+      "output_id": null,
+      "ownership": {
+        "accountable_owner": "data-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": true,
+        "evidence_selectors": [
+          "projects/ui-prototyping-studio/ARCHITECTURE.md",
+          "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md"
+        ],
+        "required_predicate": false
+      },
+      "primary_class": "privacy-data",
+      "rationale": "The bounded rework adds no data class, external sink, telemetry, retention rule, or remote service.",
+      "revisit_condition": null,
+      "selected": false,
+      "signal_ids": [
+        "authored:privacy-data"
+      ]
+    },
+    {
+      "concern_id": "concern:performance",
+      "disposition": "required",
+      "output_id": "architecture:quality",
+      "ownership": {
+        "accountable_owner": "service-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "output/playwright/ux-validator/20260727-ui-prototyping-studio-interface-review/findings.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "performance",
+      "rationale": "performance disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:quality-claim:continuity-threshold"
+      ]
+    },
+    {
+      "concern_id": "concern:ux",
+      "disposition": "required",
+      "output_id": "ux-plan",
+      "ownership": {
+        "accountable_owner": "ux-plan-owner",
+        "artifact_owner": "ux-plan-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "ux",
+      "rationale": "ux disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:human-actor:studio-operator",
+        "signal:rendered-surface:active-canvas-and-contextual-inspector",
+        "signal:rendered-surface:governed-workbench-shell",
+        "signal:rendered-surface:lifecycle-and-action-spine",
+        "signal:rendered-surface:staged-and-recorded-review"
+      ]
+    },
+    {
+      "concern_id": "concern:validation",
+      "disposition": "required",
+      "output_id": "validation-contracts",
+      "ownership": {
+        "accountable_owner": "design-owner",
+        "artifact_owner": "plan-work-pack-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "validation",
+      "rationale": "validation disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:acceptance-readiness-claim:bounded-semantic-accessibility-contract",
+        "signal:acceptance-readiness-claim:governance-nonregression-contract",
+        "signal:acceptance-readiness-claim:stable-poll-and-transition-contract",
+        "signal:effect:effect-keyed-workbench-update",
+        "signal:normative-rule:rule-bounded-accessibility-evidence",
+        "signal:normative-rule:rule-preserve-admission-authority",
+        "signal:normative-rule:rule-zero-unchanged-navigation"
+      ]
+    }
+  ],
+  "denominator_receipt_digest": "f250f4e6576a4d070794ff108f756b2b99f117c829f8a2d7dc454896d4035098",
+  "diagnostics": [],
+  "evidence_state": "design-validator-pass",
+  "fixed_point": true,
+  "manifest_id": "manifest:ups-interface-workbench-rework-v1",
+  "manifest_input_digest": "63f1a4bdb9e30a3711db42654d46a7fad91fe1b6b096318122433aa5d6f963df",
+  "pass_1_digest": "74ca227552aa66e934068a6b6fc1e0f7e9e7cb93839e0b609e66d3bde18d8855",
+  "pass_2_digest": "74ca227552aa66e934068a6b6fc1e0f7e9e7cb93839e0b609e66d3bde18d8855",
+  "result_digest": "7125c8b9c980946a6a5927bafc1e334ca80c47d93ba523aa6525a25ed1695b99",
+  "schema_version": "1.0.0",
+  "selected_outputs": [
+    "architecture",
+    "architecture:authority-trust",
+    "architecture:failure-compensation",
+    "architecture:integration-versioning",
+    "architecture:persistence-concurrency",
+    "architecture:quality",
+    "architecture:security-abuse",
+    "architecture:state-event",
+    "ux-plan",
+    "validation-contracts"
+  ],
+  "verdict": "pass"
+}

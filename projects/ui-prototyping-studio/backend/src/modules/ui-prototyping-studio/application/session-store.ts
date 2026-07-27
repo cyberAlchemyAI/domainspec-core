@@ -196,6 +196,10 @@ function cloneHandoffBundle(bundle: HandoffBundle): HandoffBundle {
     requirementRefs: [...bundle.requirementRefs],
     acceptanceRefs: [...bundle.acceptanceRefs],
     sourceRefs: bundle.sourceRefs ? [...bundle.sourceRefs] : undefined,
-    missingRefs: bundle.missingRefs ? [...bundle.missingRefs] : undefined,
+    missingRefs: bundle.missingRefs ? [...bundle.missingRefs] : [],
+    exportConfirmed: bundle.exportConfirmed === true,
+    evidenceComplete: bundle.evidenceComplete === true,
+    integrationReady: bundle.integrationReady === true,
+    implementationReady: bundle.implementationReady === true,
   };
 }

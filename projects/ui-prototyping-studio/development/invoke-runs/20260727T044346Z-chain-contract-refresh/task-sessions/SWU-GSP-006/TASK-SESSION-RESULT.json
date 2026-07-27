@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "swu_id": "SWU-GSP-006",
+  "result": "pass",
+  "selected": true,
+  "allowed_writes": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/domain/models.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/ui-prototyping-studio.slice.test.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/session-store.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/interface/http-routes.ts"
+  ],
+  "files_touched": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/domain/models.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/ui-prototyping-studio.slice.test.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/session-store.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/interface/http-routes.ts"
+  ],
+  "validation": [
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \"src/**/*.test.ts\"",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    }
+  ],
+  "acceptance_evidence": [
+    "Confirmed export with missing refs records exportConfirmed=true and all readiness predicates false.",
+    "evidenceComplete is exactly missingRefs.length === 0.",
+    "Integration readiness requires complete refs plus accepted content and honest diff evidence.",
+    "Implementation readiness additionally requires applied tasks and no unresolved comments.",
+    "Older persisted and HTTP-projected bundles fail closed to false readiness.",
+    "Positive fixture proves readiness without any release-authorization field.",
+    "Typecheck and full unit/slice 72/72 pass."
+  ],
+  "blockers": [],
+  "residue": [
+    "Active docs, Craft state, and the full completion audit remain selected for SWU-GSP-007.",
+    "Human-study evidence and release authorization remain explicitly unbound."
+  ],
+  "next_candidate": "SWU-GSP-007"
+}

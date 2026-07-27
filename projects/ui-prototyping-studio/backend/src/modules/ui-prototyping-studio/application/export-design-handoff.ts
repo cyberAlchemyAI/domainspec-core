@@ -18,9 +18,8 @@ export interface ExportDesignHandoffInput {
   exportProfile?: string;
   requestedBy: string;
   /**
-   * N1 — export is the one IRREVERSIBLE edge (downstream consumption). The human confirmation lives HERE,
-   * in the core use-case, so EVERY adapter (CLI, HTTP) inherits it — not only the CLI (closes F1, restores
-   * ARCHITECTURE §4 "gates live in the core, never in the adapter"). Must be a non-empty confirming actor.
+   * Export is the irreversible downstream edge. Actor-neutral confirmation
+   * lives in the core use case so every adapter inherits the same gate.
    */
   confirmedBy?: string;
 }
@@ -57,12 +56,12 @@ export function makeExportDesignHandoffUseCase(
   return function exportDesignHandoff(
     input: ExportDesignHandoffInput,
   ): ExportDesignHandoffResult {
-    // N1 (gate-in-core): the irreversible edge requires an explicit human confirmation. Enforced here so no
-    // adapter can reach export unconfirmed (the HTTP route previously bypassed the CLI-only `--confirm`).
+    // Confirmation acknowledges this export only; it does not grant authority
+    // and is deliberately excluded from all readiness predicates below.
     if (!input.confirmedBy || input.confirmedBy.trim().length === 0) {
       throw createUiPrototypingStudioError(
         "HANDOFF_CONFIRMATION_REQUIRED",
-        "Export is the one irreversible edge — an explicit human confirmation is required",
+        "Export is the one irreversible edge — explicit confirmation is required",
         { sessionId: input.sessionId },
       );
     }
@@ -104,6 +103,20 @@ export function makeExportDesignHandoffUseCase(
     const missingRefs = refsForExistenceCheck(refs).filter(
       (ref) => !existsSync(resolveRefPath(options.featureDocsRootDir, ref)),
     );
+    const headRevision = revisions.find(
+      (revision) => revision.revisionId === session.revisionHeadId,
+    );
+    const evidenceComplete = missingRefs.length === 0;
+    // Monotone positive-evidence predicates: adding their required evidence
+    // can move false -> true; confirmation is not one of their inputs.
+    const integrationReady =
+      evidenceComplete &&
+      Boolean(headRevision?.candidateHtmlHash) &&
+      Boolean(headRevision?.diffSummaryHonest);
+    const implementationReady =
+      integrationReady &&
+      (headRevision?.appliedTaskIds.length ?? 0) > 0 &&
+      (headRevision?.unresolvedCommentIds.length ?? 0) === 0;
 
     const bundle: HandoffBundle = {
       sessionId: session.sessionId,
@@ -118,14 +131,19 @@ export function makeExportDesignHandoffUseCase(
       testSpecRef: refs.testSpecRef,
       sourceRefs: refs.sourceRefs,
       missingRefs,
+      diffSummaryHonest: headRevision?.diffSummaryHonest,
+      exportConfirmed: true,
+      evidenceComplete,
+      integrationReady,
+      implementationReady,
     };
 
     const nextSession: StudioSession = {
       ...session,
       integration: {
-        uiPhaseBridgeReady: true,
-        generateTestsUiReady: true,
-        uiImplementReady: true,
+        uiPhaseBridgeReady: integrationReady,
+        generateTestsUiReady: implementationReady,
+        uiImplementReady: implementationReady,
       },
       state: "RevisionRecorded",
     };

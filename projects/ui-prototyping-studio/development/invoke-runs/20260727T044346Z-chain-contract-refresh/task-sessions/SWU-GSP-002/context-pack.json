@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "TASK-GSP-002",
+  "swu_id": "SWU-GSP-002",
+  "strict_coverage": true,
+  "objective": "Fresh persisted reads and fail-closed sequential/concurrent writes",
+  "dependency_receipts": [
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-001/TASK-SESSION-RESULT.json",
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/closeout/SWU-GSP-001/OWNER-RECEIPT.json"
+  ],
+  "write_scope": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts"
+  ],
+  "validation_commands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \"src/**/*.test.ts\""
+  ],
+  "decision": {
+    "id": "GSP-002-PERSISTENCE-COORDINATION",
+    "selected": "reload under an exclusive per-operation lock",
+    "consequence": "consequential",
+    "reversibility": "reversible",
+    "reason": "Concurrent adapter writes fail closed instead of silently replacing bytes loaded before another process changed them."
+  },
+  "closeout": {
+    "route": "invoke:refresh:apply-approved",
+    "next_candidate": "SWU-GSP-003"
+  }
+}

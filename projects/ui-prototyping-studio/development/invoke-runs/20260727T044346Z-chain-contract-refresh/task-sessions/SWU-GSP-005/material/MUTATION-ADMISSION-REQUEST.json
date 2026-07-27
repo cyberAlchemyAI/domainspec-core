@@ -1,0 +1,90 @@
+{
+  "allowedWrites": [
+    "projects/ui-prototyping-studio/backend/e2e/action-annotation-mobile.spec.ts",
+    "projects/ui-prototyping-studio/backend/e2e/governed-state-projection.spec.ts",
+    "projects/ui-prototyping-studio/backend/e2e/preview-accept.spec.ts",
+    "projects/ui-prototyping-studio/backend/src/cli/studio.ts"
+  ],
+  "authorityClass": "private",
+  "controlArtifacts": [
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/work-pack/tasks/TASK-GSP-005-action-annotation-mobile.md",
+      "role": "task-contract",
+      "sha256": "bd4e07e85ea2d0b627dd1fe272fe0a0ae98ef52ef4fe6adf45012660382f1d11",
+      "sizeBytes": 1495
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md",
+      "role": "work-pack",
+      "sha256": "0bf4875d54189cfc4a3284d608f7be15afaa6ad077d85e6d3eaee0be9b2534fd",
+      "sizeBytes": 9704
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-005/context-pack.json",
+      "role": "context-pack",
+      "sha256": "b2926244ded777c88c2e9e1adb7330fc38db6f1949cb473ace0dd6b978cda6a0",
+      "sizeBytes": 1739
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+      "role": "source",
+      "sha256": "ba792a2aa8fd4b00994f7caecbf5070d97bb86d6b58169ac369fb6c8d7a191c7",
+      "sizeBytes": 35271
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+      "role": "source",
+      "sha256": "e5b3ba8b180c101c0a3655d6ea19d8d806237af1d672943151e4417e2a021579",
+      "sizeBytes": 5577
+    }
+  ],
+  "dependencyFrontier": [
+    {
+      "artifactRef": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/CHAIN-STATE.json",
+        "sha256": "3ccb019c8a96c3975fc752fb4c63f29be639bea3dc39f131a565bb602fcee713",
+        "sizeBytes": 2655
+      },
+      "dependencyId": "chain-preflight"
+    },
+    {
+      "artifactRef": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/closeout/SWU-GSP-004/OWNER-RECEIPT.json",
+        "sha256": "7bd3a4b014e37c7e14e2f791287abc57a0abd8a85fca93a73b492b208cae7d84",
+        "sizeBytes": 1309
+      },
+      "dependencyId": "gsp-004-closeout"
+    }
+  ],
+  "executionMode": "routed-mutation",
+  "lifecycleOwner": "private UI Prototyping Studio implementation via task-session",
+  "materialPackage": {
+    "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-005/material/MATERIAL-PACKAGE.json",
+    "sha256": "a13534e4392848c50267f0293c3355aabe031fdbf42e830c38f0923af9a7a1c4",
+    "sizeBytes": 7044
+  },
+  "materialReceipt": {
+    "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-005/material/MATERIAL-RECEIPT.json",
+    "sha256": "3ab98e4bde132be4668ab6c0b39df6616c7eb27f8ffc6061a0e580eaa0a7939a",
+    "sizeBytes": 1278
+  },
+  "producerReceiptSchema": {
+    "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+    "sizeBytes": 1719
+  },
+  "publicationClass": "private",
+  "schemaVersion": "1.0.0",
+  "swuId": "SWU-GSP-005",
+  "taskId": "TASK-GSP-005",
+  "validationCommands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \"src/**/*.test.ts\"",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test e2e/action-annotation-mobile.spec.ts e2e/preview-accept.spec.ts e2e/governed-state-projection.spec.ts --reporter=list"
+  ]
+}

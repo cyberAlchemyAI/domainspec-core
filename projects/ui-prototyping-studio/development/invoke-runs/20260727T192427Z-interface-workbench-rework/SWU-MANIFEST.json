@@ -1,0 +1,26 @@
+{
+  "schema_version": "invoke.plan-swu-manifest.v1",
+  "target": "ui-prototyping-studio-interface-workbench",
+  "complexity": "medium",
+  "selected_swu": null,
+  "recommended_first_candidate": "SWU-UPW-001",
+  "swus": [
+    {"swu_id":"SWU-UPW-001","parent_task":"TASK-UPW-PROJECTION","layer":"L0","wave":"W0","primary_behavior":"deterministic canonical whole and region projection digests","dependencies":[],"successor":"SWU-UPW-002","status":"not-started"},
+    {"swu_id":"SWU-UPW-002","parent_task":"TASK-UPW-PROJECTION","layer":"L0","wave":"W0","primary_behavior":"coherent projection snapshot acquisition","dependencies":["SWU-UPW-001"],"successor":"SWU-UPW-003","status":"not-started"},
+    {"swu_id":"SWU-UPW-003","parent_task":"TASK-UPW-PROJECTION","layer":"L0","wave":"W0","primary_behavior":"versioned state endpoint with same-snapshot compatibility fields","dependencies":["SWU-UPW-002"],"successor":"SWU-UPW-004","status":"not-started"},
+    {"swu_id":"SWU-UPW-004","parent_task":"TASK-UPW-COORDINATOR","layer":"L0","wave":"W1","primary_behavior":"stable shell with inert unchanged polling","dependencies":["SWU-UPW-003"],"successor":"SWU-UPW-005","status":"not-started"},
+    {"swu_id":"SWU-UPW-005","parent_task":"TASK-UPW-COORDINATOR","layer":"L0","wave":"W1","primary_behavior":"action-aware queued trailing refresh","dependencies":["SWU-UPW-004"],"successor":"SWU-UPW-006","status":"not-started"},
+    {"swu_id":"SWU-UPW-006","parent_task":"TASK-UPW-COORDINATOR","layer":"L0","wave":"W1","primary_behavior":"rollback-capable keyed region commit","dependencies":["SWU-UPW-005"],"successor":"SWU-UPW-007","status":"not-started"},
+    {"swu_id":"SWU-UPW-007","parent_task":"TASK-UPW-COORDINATOR","layer":"L0","wave":"W1","primary_behavior":"identity-bound local context reconciliation","dependencies":["SWU-UPW-006"],"successor":"SWU-UPW-008","status":"not-started"},
+    {"swu_id":"SWU-UPW-008","parent_task":"TASK-UPW-REGIONS","layer":"L1","wave":"W2","primary_behavior":"lifecycle and next-action spine region","dependencies":["SWU-UPW-007"],"successor":"SWU-UPW-009","status":"not-started"},
+    {"swu_id":"SWU-UPW-009","parent_task":"TASK-UPW-REGIONS","layer":"L1","wave":"W2","primary_behavior":"current governed canvas region","dependencies":["SWU-UPW-008"],"successor":"SWU-UPW-010","status":"not-started"},
+    {"swu_id":"SWU-UPW-010","parent_task":"TASK-UPW-REGIONS","layer":"L1","wave":"W2","primary_behavior":"state-specific contextual inspector region","dependencies":["SWU-UPW-009"],"successor":"SWU-UPW-011","status":"not-started"},
+    {"swu_id":"SWU-UPW-011","parent_task":"TASK-UPW-REGIONS","layer":"L1","wave":"W2","primary_behavior":"staged review and named comparison region","dependencies":["SWU-UPW-010"],"successor":"SWU-UPW-012","status":"not-started"},
+    {"swu_id":"SWU-UPW-012","parent_task":"TASK-UPW-REGIONS","layer":"L1","wave":"W2","primary_behavior":"governed action and scoped feedback region","dependencies":["SWU-UPW-011"],"successor":"SWU-UPW-013","status":"not-started"},
+    {"swu_id":"SWU-UPW-013","parent_task":"TASK-UPW-REGIONS","layer":"L1","wave":"W2","primary_behavior":"collapsed secondary historical lineage region","dependencies":["SWU-UPW-012"],"successor":"SWU-UPW-014","status":"not-started"},
+    {"swu_id":"SWU-UPW-014","parent_task":"TASK-UPW-RESPONSIVE-COPY","layer":"L1","wave":"W3","primary_behavior":"390x844 semantic task order without overflow","dependencies":["SWU-UPW-013"],"successor":"SWU-UPW-015","status":"not-started"},
+    {"swu_id":"SWU-UPW-015","parent_task":"TASK-UPW-RESPONSIVE-COPY","layer":"L1","wave":"W3","primary_behavior":"state/action copy and secondary CLI disclosure matrix","dependencies":["SWU-UPW-014"],"successor":"SWU-UPW-016","status":"not-started"},
+    {"swu_id":"SWU-UPW-016","parent_task":"TASK-UPW-HARDENING","layer":"L2","wave":"W4","primary_behavior":"bounded keyboard focus live-region and color semantics","dependencies":["SWU-UPW-015"],"successor":"SWU-UPW-017","status":"not-started"},
+    {"swu_id":"SWU-UPW-017","parent_task":"TASK-UPW-HARDENING","layer":"L2","wave":"W4","primary_behavior":"sandbox and local route-family fail-closed validation","dependencies":["SWU-UPW-016"],"successor":null,"status":"not-started"}
+  ]
+}

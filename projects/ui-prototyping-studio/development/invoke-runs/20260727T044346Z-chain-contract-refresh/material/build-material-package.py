@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+"""Build the exact material package for the Studio chain-contract refresh."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+
+
+REPO_ROOT = Path(__file__).resolve().parents[6]
+REFRESH_ROOT = Path(__file__).resolve().parent.parent
+STAGED_PREFIX = REFRESH_ROOT.relative_to(REPO_ROOT) / "material" / "staged"
+OUTPUT = Path(__file__).resolve().parent / "MATERIAL-PACKAGE.json"
+
+PACKAGE_ID = "ups-gsp-chain-contract-refresh-apply-20260727"
+LIFECYCLE_OWNER = (
+    "private UI Prototyping Studio planning and Craft owner via invoke:refresh"
+)
+PLAN_RUN = (
+    "projects/ui-prototyping-studio/development/invoke-runs/"
+    "20260727T042935Z-architecture-review-refresh"
+)
+CHAIN_RUN = (
+    "projects/ui-prototyping-studio/development/invoke-runs/"
+    "20260727T044346Z-chain-contract-refresh"
+)
+
+UPDATE_TARGETS = [
+    f"{PLAN_RUN}/WORK-PACK.md",
+    f"{PLAN_RUN}/EXECUTION-PACK.md",
+    *[
+        f"{PLAN_RUN}/work-pack/tasks/{name}"
+        for name in (
+            "TASK-GSP-001-evidence-harness.md",
+            "TASK-GSP-002-store-freshness.md",
+            "TASK-GSP-003-current-head-projection.md",
+            "TASK-GSP-004-visible-change-diff.md",
+            "TASK-GSP-005-action-annotation-mobile.md",
+            "TASK-GSP-006-handoff-readiness.md",
+            "TASK-GSP-007-docs-craft-closeout.md",
+        )
+    ],
+    "projects/ui-prototyping-studio/.craft/ledger.yml",
+    "projects/ui-prototyping-studio/CRAFT.md",
+]
+
+CREATE_TARGETS = [
+    f"{CHAIN_RUN}/schemas/task-session-result.schema.json",
+    f"{CHAIN_RUN}/schemas/closeout-owner-receipt.schema.json",
+    f"{CHAIN_RUN}/schemas/chain-state.schema.json",
+    f"{CHAIN_RUN}/scripts/validate-chain-contract.py",
+]
+
+TARGETS = UPDATE_TARGETS + CREATE_TARGETS
+DEPENDENCIES = {
+    "previous-owner-receipt": f"{PLAN_RUN}/material/REFRESH-HANDOFF-RESULT.json",
+    "accepted-work-pack": f"{PLAN_RUN}/WORK-PACK.md",
+    "accepted-findings": (
+        "projects/ui-prototyping-studio/development/reviews/"
+        "20260727-architecture-plan-deep-spec-review/findings.md"
+    ),
+    "strict-context-pack": f"{CHAIN_RUN}/context-pack.json",
+    "refresh-proposal": f"{CHAIN_RUN}/REFRESH-PATCH-PROPOSAL.md",
+}
+
+
+def exact_ref(path: str) -> dict[str, object]:
+    content = (REPO_ROOT / path).read_bytes()
+    return {
+        "path": path,
+        "sha256": hashlib.sha256(content).hexdigest(),
+        "size_bytes": len(content),
+    }
+
+
+def main() -> None:
+    dependency_ids = list(DEPENDENCIES)
+    staged_paths = {
+        target: (STAGED_PREFIX / target).as_posix() for target in TARGETS
+    }
+    document = {
+        "schema_version": "1.0.0",
+        "package_id": PACKAGE_ID,
+        "mutation_mode": "apply-approved",
+        "mutation_state": "materialized",
+        "lifecycle_owner": LIFECYCLE_OWNER,
+        "authority_class": "private",
+        "publication_class": "private",
+        "source_artifacts": [
+            {**exact_ref(path), "authority_class": "private"}
+            for path in list(DEPENDENCIES.values()) + UPDATE_TARGETS
+        ],
+        "changes": [
+            {
+                "target_path": target,
+                "operation": (
+                    "create" if target in CREATE_TARGETS else "update"
+                ),
+                "output_ref": exact_ref(staged_paths[target]),
+            }
+            for target in TARGETS
+        ],
+        "target_inventory": [
+            {
+                "target_path": target,
+                "lifecycle_owner": LIFECYCLE_OWNER,
+                "authority_class": "private",
+                "publication_class": "private",
+                "dependency_ids": dependency_ids,
+            }
+            for target in TARGETS
+        ],
+        "dependencies": [
+            {
+                "dependency_id": dependency_id,
+                "artifact_ref": exact_ref(path),
+            }
+            for dependency_id, path in DEPENDENCIES.items()
+        ],
+        "mirror_groups": [],
+        "approval": {
+            "class": "explicit-apply",
+            "owner": LIFECYCLE_OWNER,
+            "scope_paths": TARGETS,
+            "authority_classes": ["private"],
+            "publication_classes": ["private"],
+        },
+        "validation_commands": [
+            (
+                "cd projects/ui-prototyping-studio && python3 "
+                "development/invoke-runs/20260727T044346Z-chain-contract-refresh/"
+                "scripts/validate-chain-contract.py"
+            ),
+            (
+                "python3 -c \"import yaml; "
+                "yaml.safe_load(open('projects/ui-prototyping-studio/.craft/"
+                "ledger.yml'))\""
+            ),
+            "git diff --check -- projects/ui-prototyping-studio",
+        ],
+    }
+    OUTPUT.write_text(
+        json.dumps(document, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+if __name__ == "__main__":
+    main()

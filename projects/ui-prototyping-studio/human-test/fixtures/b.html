@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Variant B — Split signup</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; padding: 24px; background: #111827; color: #f8fafc; font: 16px/1.5 system-ui, sans-serif; display: grid; place-items: center; }
+    [data-od-id="card.root"] { width: min(100%, 720px); display: grid; grid-template-columns: 1.1fr .9fr; overflow: hidden; border-radius: 22px; background: #1f2937; box-shadow: 0 24px 70px #0007; }
+    .story, .form { padding: clamp(24px, 6vw, 44px); }
+    .story { background: linear-gradient(145deg, #312e81, #4338ca); }
+    [data-od-id="badge.kicker"] { color: #c7d2fe; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; }
+    h1 { margin: 10px 0; font-size: clamp(30px, 6vw, 48px); line-height: 1; }
+    [data-od-id="card.subtitle"] { color: #dbeafe; }
+    label { display: grid; gap: 7px; color: #dbe4f0; font-weight: 650; }
+    input { width: 100%; min-height: 46px; padding: 10px 12px; border: 1px solid #56647b; border-radius: 10px; background: #111827; color: white; font: inherit; }
+    [data-od-id="cta.primary"] { width: 100%; min-height: 48px; margin-top: 14px; border: 0; border-radius: 10px; background: #fbbf24; color: #172033; font: inherit; font-weight: 800; }
+    [data-od-id="trust.note"] { color: #9ba9bc; font-size: 13px; text-align: center; }
+    @media (max-width: 560px) { [data-od-id="card.root"] { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main data-od-id="card.root">
+    <section class="story">
+      <p data-od-id="badge.kicker">Decisions with receipts</p>
+      <h1 data-od-id="card.title">Prototype without losing the why.</h1>
+      <p data-od-id="card.subtitle">Keep intent, diffs, and handoff evidence in the same loop.</p>
+    </section>
+    <section class="form">
+      <label data-od-id="field.email">Work email
+        <input type="email" placeholder="you@example.com">
+      </label>
+      <button data-od-id="cta.primary" type="button">Create workspace</button>
+      <p data-od-id="trust.note">Local-first prototype · no card</p>
+    </section>
+  </main>
+</body>
+</html>

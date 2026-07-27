@@ -1,8 +1,11 @@
 import {
+  closeSync,
   existsSync,
   mkdirSync,
+  openSync,
   readFileSync,
   renameSync,
+  unlinkSync,
   writeFileSync,
 } from "node:fs";
 import { dirname } from "node:path";
@@ -10,6 +13,7 @@ import { dirname } from "node:path";
 import type { StagedCandidateRecord, StudioSessionStorePort } from "../application/ports.js";
 import type {
   CommentEvent,
+  DiffSummaryHonest,
   HandoffBundle,
   MutationBatch,
   MutationTask,
@@ -48,79 +52,96 @@ export function createFileBackedStudioSessionStore(
   options: CreateFileBackedStudioSessionStoreOptions,
 ): StudioSessionStorePort {
   const filePath = options.filePath;
-  let documentState = loadDocument(filePath);
+  // Preserve the constructor's fail-loud corrupt-file check.
+  loadDocument(filePath);
 
-  const persist = () => {
-    writeDocument(filePath, documentState);
+  const readFresh = () => loadDocument(filePath);
+  const mutate = <T>(
+    mutation: (document: PersistentStoreDocument) => T,
+  ): T => {
+    return withDocumentLock(filePath, () => {
+      const document = loadDocument(filePath);
+      const result = mutation(document);
+      writeDocument(filePath, document);
+      return result;
+    });
   };
 
   return {
     allocateSessionId() {
-      documentState.counters.session += 1;
-      persist();
-      return `ups-session-${String(documentState.counters.session).padStart(4, "0")}`;
+      return mutate((document) => {
+        document.counters.session += 1;
+        return `ups-session-${String(document.counters.session).padStart(4, "0")}`;
+      });
     },
     allocateCommentId() {
-      documentState.counters.comment += 1;
-      persist();
-      return `ups-comment-${String(documentState.counters.comment).padStart(5, "0")}`;
+      return mutate((document) => {
+        document.counters.comment += 1;
+        return `ups-comment-${String(document.counters.comment).padStart(5, "0")}`;
+      });
     },
     allocateBatchId() {
-      documentState.counters.batch += 1;
-      persist();
-      return `ups-batch-${String(documentState.counters.batch).padStart(5, "0")}`;
+      return mutate((document) => {
+        document.counters.batch += 1;
+        return `ups-batch-${String(document.counters.batch).padStart(5, "0")}`;
+      });
     },
     allocateRevisionId(_parentRevisionId) {
-      documentState.counters.revision += 1;
-      persist();
-      return `rev-${String(documentState.counters.revision).padStart(4, "0")}`;
+      return mutate((document) => {
+        document.counters.revision += 1;
+        return `rev-${String(document.counters.revision).padStart(4, "0")}`;
+      });
     },
     saveSession(session) {
-      documentState.sessions[session.sessionId] = cloneSession(session);
-      persist();
+      mutate((document) => {
+        document.sessions[session.sessionId] = cloneSession(session);
+      });
     },
     getSession(sessionId) {
-      const session = documentState.sessions[sessionId];
+      const session = readFresh().sessions[sessionId];
       return session ? cloneSession(session) : null;
     },
     saveVariants(sessionId, variants) {
-      documentState.variantsBySession[sessionId] = variants.map((variant) =>
-        cloneVariant(variant),
-      );
-      persist();
+      mutate((document) => {
+        document.variantsBySession[sessionId] = variants.map((variant) =>
+          cloneVariant(variant),
+        );
+      });
     },
     listVariants(sessionId) {
-      const variants = documentState.variantsBySession[sessionId] ?? [];
+      const variants = readFresh().variantsBySession[sessionId] ?? [];
       return variants.map((variant) => cloneVariant(variant));
     },
     appendComment(comment) {
-      const comments = documentState.commentsBySession[comment.sessionId] ?? [];
-      comments.push(cloneComment(comment));
-      documentState.commentsBySession[comment.sessionId] = comments;
-      persist();
+      mutate((document) => {
+        const comments = document.commentsBySession[comment.sessionId] ?? [];
+        comments.push(cloneComment(comment));
+        document.commentsBySession[comment.sessionId] = comments;
+      });
     },
     listComments(sessionId, revisionId) {
-      const comments = documentState.commentsBySession[sessionId] ?? [];
+      const comments = readFresh().commentsBySession[sessionId] ?? [];
       return comments
         .filter((comment) => comment.revisionId === revisionId)
         .map((comment) => cloneComment(comment));
     },
     saveBatch(batch) {
-      const batches = documentState.batchesBySession[batch.sessionId] ?? [];
-      const nextBatches = batches.filter(
-        (candidate) => candidate.batchId !== batch.batchId,
-      );
-      nextBatches.push(cloneBatch(batch));
-      documentState.batchesBySession[batch.sessionId] = nextBatches;
-      persist();
+      mutate((document) => {
+        const batches = document.batchesBySession[batch.sessionId] ?? [];
+        const nextBatches = batches.filter(
+          (candidate) => candidate.batchId !== batch.batchId,
+        );
+        nextBatches.push(cloneBatch(batch));
+        document.batchesBySession[batch.sessionId] = nextBatches;
+      });
     },
     getBatch(sessionId, batchId) {
-      const batches = documentState.batchesBySession[sessionId] ?? [];
+      const batches = readFresh().batchesBySession[sessionId] ?? [];
       const batch = batches.find((candidate) => candidate.batchId === batchId);
       return batch ? cloneBatch(batch) : null;
     },
     getDraftBatch(sessionId, batchId) {
-      const batches = documentState.batchesBySession[sessionId] ?? [];
+      const batches = readFresh().batchesBySession[sessionId] ?? [];
       const candidates = batches.filter((batch) => batch.status === "draft");
 
       if (batchId) {
@@ -134,41 +155,68 @@ export function createFileBackedStudioSessionStore(
       return latest ? cloneBatch(latest) : null;
     },
     listBatches(sessionId) {
-      const batches = documentState.batchesBySession[sessionId] ?? [];
+      const batches = readFresh().batchesBySession[sessionId] ?? [];
       return batches.map((batch) => cloneBatch(batch));
     },
     appendRevision(entry) {
-      const revisions = documentState.revisionsBySession[entry.sessionId] ?? [];
-      revisions.push(cloneRevision(entry));
-      documentState.revisionsBySession[entry.sessionId] = revisions;
-      persist();
+      mutate((document) => {
+        const revisions = document.revisionsBySession[entry.sessionId] ?? [];
+        revisions.push(cloneRevision(entry));
+        document.revisionsBySession[entry.sessionId] = revisions;
+      });
     },
     listRevisions(sessionId) {
-      const revisions = documentState.revisionsBySession[sessionId] ?? [];
+      const revisions = readFresh().revisionsBySession[sessionId] ?? [];
       return revisions.map((entry) => cloneRevision(entry));
     },
     saveHandoffBundle(bundle) {
-      documentState.handoffBySession[bundle.sessionId] =
-        cloneHandoffBundle(bundle);
-      persist();
+      mutate((document) => {
+        document.handoffBySession[bundle.sessionId] =
+          cloneHandoffBundle(bundle);
+      });
     },
     getHandoffBundle(sessionId) {
-      const bundle = documentState.handoffBySession[sessionId];
+      const bundle = readFresh().handoffBySession[sessionId];
       return bundle ? cloneHandoffBundle(bundle) : null;
     },
     saveStagedCandidate(sessionId, record) {
-      documentState.stagedBySession[sessionId] = { ...record };
-      persist();
+      mutate((document) => {
+        document.stagedBySession[sessionId] = { ...record };
+      });
     },
     getStagedCandidate(sessionId) {
-      const record = documentState.stagedBySession[sessionId];
+      const record = readFresh().stagedBySession[sessionId];
       return record ? { ...record } : null;
     },
     clearStagedCandidate(sessionId) {
-      delete documentState.stagedBySession[sessionId];
-      persist();
+      mutate((document) => {
+        delete document.stagedBySession[sessionId];
+      });
     },
   };
+}
+
+function withDocumentLock<T>(filePath: string, operation: () => T): T {
+  mkdirSync(dirname(filePath), { recursive: true });
+  const lockPath = `${filePath}.lock`;
+  let lockDescriptor: number;
+  try {
+    lockDescriptor = openSync(lockPath, "wx");
+  } catch (cause) {
+    if ((cause as NodeJS.ErrnoException).code === "EEXIST") {
+      throw new Error(
+        `Studio data file is locked by another writer: ${filePath}. Refusing to overwrite concurrent state.`,
+      );
+    }
+    throw cause;
+  }
+
+  try {
+    return operation();
+  } finally {
+    closeSync(lockDescriptor);
+    unlinkSync(lockPath);
+  }
 }
 
 function loadDocument(filePath: string): PersistentStoreDocument {
@@ -328,6 +376,7 @@ function cloneRevision(entry: RevisionManifestEntry): RevisionManifestEntry {
     diffSummary: {
       ...entry.diffSummary,
     },
+    diffSummaryHonest: cloneDiffSummaryHonest(entry.diffSummaryHonest),
   };
 }
 
@@ -341,6 +390,24 @@ function cloneHandoffBundle(bundle: HandoffBundle): HandoffBundle {
     requirementRefs: [...bundle.requirementRefs],
     acceptanceRefs: [...bundle.acceptanceRefs],
     sourceRefs: bundle.sourceRefs ? [...bundle.sourceRefs] : undefined,
-    missingRefs: bundle.missingRefs ? [...bundle.missingRefs] : undefined,
+    missingRefs: bundle.missingRefs ? [...bundle.missingRefs] : [],
+    diffSummaryHonest: cloneDiffSummaryHonest(bundle.diffSummaryHonest),
+    exportConfirmed: bundle.exportConfirmed === true,
+    evidenceComplete: bundle.evidenceComplete === true,
+    integrationReady: bundle.integrationReady === true,
+    implementationReady: bundle.implementationReady === true,
   };
+}
+
+function cloneDiffSummaryHonest(
+  diff: DiffSummaryHonest | undefined,
+): DiffSummaryHonest | undefined {
+  return diff
+    ? {
+        ...diff,
+        fragments: diff.fragments.map((fragment) => ({ ...fragment })),
+        style: { ...diff.style },
+        unattributed: { ...diff.unattributed },
+      }
+    : undefined;
 }

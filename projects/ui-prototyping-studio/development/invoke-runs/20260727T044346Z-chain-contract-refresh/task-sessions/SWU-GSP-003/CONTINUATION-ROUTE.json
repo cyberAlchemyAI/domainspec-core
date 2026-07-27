@@ -1,0 +1,55 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "ups-gsp-003-closeout",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "pass",
+    "receipt": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-003/TASK-SESSION-RESULT.json",
+    "blocker_fingerprint": "ce98bc214f5f06f916bd7a945d89a0cc0ef120c17a46840e095e9f7578afb13c",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "Common Task Session Closeout Contract plus receipt-bound deterministic closeout authorization"
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "private UI Prototyping Studio planning and Craft owner",
+      "evidence": [
+        "Passing SWU-GSP-003 Task Session receipt",
+        "Unchanged closeout baselines",
+        "Unique declared successor SWU-GSP-004"
+      ],
+      "required_inputs": ["source receipt", "target inventory", "baseline manifest", "allowed delta classes", "owner validation"],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "schemas/closeout-owner-receipt.schema.json",
+      "fallback": "stop before selecting SWU-GSP-004"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The source receipt changes status, evidence, and route projections in the exact declared closeout inventory."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "inline native owner invocation",
+    "owner_receipt": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/closeout/SWU-GSP-003/OWNER-RECEIPT.json",
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "task-session",
+    "mode": "execute",
+    "target": "SWU-GSP-004"
+  }
+}

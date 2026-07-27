@@ -1,0 +1,119 @@
+{
+  "dispatch_id": "2026-07-27-ui-prototyping-studio-architecture-plan-review",
+  "schema_version": "0.7.0",
+  "dispatch_type": "review",
+  "goal": "Review whether UI Prototyping Studio's current architecture and executable plan form one coherent, current, evidence-bounded contract when reconciled with the deep-spec proposal, the July governed-state projection plan, the Craft ledger, and the live standalone implementation. Produce verified change requests, per-artifact KEEP/FIX verdicts, an explicit authority and supersession recommendation, and a dependency-safe next-plan recommendation without implementing fixes or promoting any proposal.",
+  "context": "The Studio has a working reversible standalone CLI and browser surface, but its root architecture/spec/work-pack, Craft state, June deep-spec package, and July governed-state projection package represent different moments and authority levels. Current source still appears to split governed current-head state from primary preview and annotation, omit style changes from component diff evidence, and depend on a failing Corepack/pnpm e2e helper; typecheck and unit evidence alone cannot establish browser trust. The review must preserve useful deep-spec intent while distinguishing historical proposal, current reproducibility, admission, and release authority. Inventory is non-authority discovery context; every surviving finding must quote and verify the current target.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "anti_bias_global": "architecture-plan coherence tested by distinct methodologies and independent attack-vectors under claim less than or equal to proof",
+  "working_folder": "projects/ui-prototyping-studio/development/reviews/20260727-architecture-plan-deep-spec-review/",
+  "groups": [
+    {
+      "group_id": "attackers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "methodology",
+      "agents": [
+        {
+          "agent_name": "Alexander, Christopher",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2200,
+          "angle": "Formal contract and governance methodology. Alexander/Turing pair: Alexander runs formal authority and invariant comparison while Turing runs computational runtime falsification on the methodology axis; Alexander's textual-coherence bias would be exposed by Turing's executable counterexample, while Turing's runtime-sufficiency bias would be exposed by Alexander's authority mismatch. Alexander/Beer pair: Alexander runs synchronic contract analysis while Beer runs historical supersession tracing on the methodology axis; Alexander's present-document bias would be exposed by Beer's chronology, while Beer's evolution bias would be exposed by Alexander's governing constraints.",
+          "initial_prompt": "Act as the formal-contract and governance attacker. Read every current_artifact_evidence path in projects/ui-prototyping-studio/development/reviews/20260727-architecture-plan-deep-spec-review/strategy-inventory-packet.json, including all files beneath the named July task and wave directories; attack the whole corpus, not a partition. Use only the packet's selected Inventory entry, selectors, gaps, exclusions, and non-authority notice as discovery context. Verify literal current artifacts before making a finding. Trace source-of-truth, proposal, evidence, admission, supersession, and release-authority claims across .craft/ledger.yml, CRAFT.md, ARCHITECTURE.md, SPEC.md, root WORK-PACK.md, PLAN-NEXT.md, the full deep-spec package, the full July governed-state package, and the live code selectors. Attack contradictions such as human-disposes-every-durable-change versus AUTO, read-only preview versus browser mutation controls, proposal labels on built mechanisms, stale blockers/statuses, and whether deep-spec intent is referenced or silently abandoned. Require an explicit recommended authority hierarchy without promoting any proposal. Do not edit targets. Return CRITICAL/MAJOR/MINOR findings with exact file and quoted evidence, one-line proposed fix, per-artifact KEEP/FIX candidates, survived attacks, and an explicit initial position. After robot talks, return a final position and identify any change. Budget about 2200 tokens."
+        },
+        {
+          "agent_name": "Turing, Alan",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2200,
+          "angle": "Computational and empirical falsification methodology. Turing/Alexander pair: Turing runs executable state and test probes while Alexander runs formal authority comparison on the methodology axis; Turing's happy-path and runtime-sufficiency bias would be exposed by Alexander's contract checks, while Alexander's document-coherence bias would be exposed by Turing's counterexamples. Turing/Beer pair: Turing runs current-head reproducibility probes while Beer runs historical supersession tracing on the methodology axis; Turing's snapshot bias would be exposed by Beer's chronology, while Beer's narrative-continuity bias would be exposed by Turing's current bytes and command results.",
+          "initial_prompt": "Act as the mechanics, correctness, and operability attacker using computational and empirical falsification. Read every current_artifact_evidence path in the strategy-inventory-packet.json and attack the whole architecture-plan corpus. Inventory is discovery-only; establish findings from current files and safely reproducible checks. Inspect preview projection and annotation behavior in backend/src/cli/studio.ts, current-html resolution, admission diff behavior, e2e helper launch mechanics, plan acceptance commands, and claimed test or readiness states. Run read-only checks where safe; isolate STUDIO_DATA and transient browser artifacts outside governed target data, and do not edit source or docs. Distinguish harness failure from product failure, receipt from present reproducibility, and unit proof from browser proof. Specifically test the plan dependency tension in which SWU-GSP-001 requires a Playwright witness while SWU-GSP-004 owns the Corepack-independent e2e helper repair, plus any inconsistent SWU numbering, dependency, write scope, or acceptance command. Return cited CRITICAL/MAJOR/MINOR findings, one-line fixes, per-artifact KEEP/FIX candidates, exact commands/results or defended non-execution, survived attacks, and initial and post-robot-talk final positions. Budget about 2200 tokens."
+        },
+        {
+          "agent_name": "Beer, Stafford",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2200,
+          "angle": "Historical lineage and supersession methodology. Beer/Alexander pair: Beer traces design evolution and decision carry-forward while Alexander performs synchronic governing-contract comparison on the methodology axis; Beer's continuity-story bias would be exposed by Alexander's literal authority boundaries, while Alexander's presentism would be exposed by Beer's decision chronology. Beer/Turing pair: Beer traces intended migrations across architecture generations while Turing probes current runtime bytes on the methodology axis; Beer's intent-preservation bias would be exposed by Turing's current counterexamples, while Turing's snapshot bias would be exposed by Beer's unresolved decisions and carried residue.",
+          "initial_prompt": "Act as the ownership, reference-integrity, and plan-evolution attacker using a historical lineage and supersession methodology. Read every current_artifact_evidence path in strategy-inventory-packet.json and attack the whole corpus. Inventory is non-authority discovery context; verify all findings against current artifacts. Reconstruct the chronology from the flagged June deep-spec result and conditional L0-L2 readiness, through standalone extraction and implemented reversible core, to the July governed-state projection proposal and present Craft state. Determine which deep-spec decisions, invariants, UX fixtures, and residue remain live, which were implemented under different seams, which are obsolete, and which are unowned. Attack root WORK-PACK and Craft next moves for stale chronology; attack the July plan for missing authority linkage, dependency safety, and silent renumbering; attack any claim that the deep spec is canonical or fully implemented. Preserve valuable deep-spec intent where evidence supports it and recommend explicit retire/reference/promote-later relationships rather than deletion by default. Do not edit targets. Return cited severity-ranked findings with one-line fixes, per-artifact KEEP/FIX candidates, survived attacks, an authority/supersession map candidate, and initial/final robot-talk positions. Budget about 2200 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Noether, Emmy",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3000,
+          "initial_prompt": "Synthesize all attackers' complete initial and final robot-talk positions into candidate verified change requests. Read strategy-inventory-packet.json and preserve its selected-versus-excluded boundary, gaps, residue, and non-authority notice; recheck all load-bearing claims against literal current artifacts or reproducible evidence rather than Inventory summaries. Deduplicate by underlying defect, distinguish stale documentation from runtime defects and evidence-harness blockers, and preserve useful deep-spec intent without granting it authority. Rank only CRITICAL, MAJOR, or MINOR under the review taxonomy. Build a per-artifact KEEP/FIX matrix spanning Craft, root architecture/spec/plan, deep-spec primary artifacts, July governed-state artifacts, and live implementation selectors. End with (1) an explicit authority and supersession recommendation, (2) a dependency-safe next-plan recommendation, and (3) a change-request list ordered by severity. A FIX verdict is a deliverable, not implementation. Do not edit Studio targets. Budget about 3000 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "verifiers",
+      "n": 2,
+      "robot_talks": true,
+      "anti_bias": "attack-vector",
+      "agents": [
+        {
+          "agent_name": "Russell, Bertrand",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2000,
+          "angle": "Definitional attack-vector over authority, proposal, evidence, readiness, current, implemented, and superseded. Russell/Schön pair: Russell runs definitional and scope falsification while Schön runs reproducible counter-example falsification on the attack-vector axis; Russell's literal-label bias would be exposed by Schön's executable workflow, while Schön's empirical happy-path bias would be exposed by Russell's authority and claim-boundary distinctions.",
+          "initial_prompt": "Falsify every candidate finding through the definitional attack-vector. Check exact meanings and uses of authority, source of truth, proposal, evidence, admission, current, implemented, ready, release, superseded, and historical across the literal target artifacts. Use strategy-inventory-packet.json only for selectors and source references; Inventory cannot validate a finding. Reject severity inflation, inferred promotion, conflation of Craft state with runtime truth, and any recommendation that turns the deep-spec proposal or July plan into canonical authority without an owned gate. Verify quotes and paths; drop refuted findings rather than softening them. Require the final authority/supersession recommendation to distinguish current state authority, architecture contract, proposal evidence, reproducibility receipts, and execution authorization. Return objections or explicit no-objection verdicts per candidate, with corrected severity or one-line fix where supported. Do not edit files. Budget about 2000 tokens."
+        },
+        {
+          "agent_name": "Schön, Donald",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2000,
+          "angle": "Counter-example attack-vector over a fresh operator's architecture-to-plan-to-validation path. Schön/Russell pair: Schön runs reproducible workflow and failure-path falsification while Russell runs definitional and scope falsification on the attack-vector axis; Schön's happy-path and local-environment bias would be exposed by Russell's authority semantics, while Russell's textual-compliance bias would be exposed by Schön's runnable counterexamples.",
+          "initial_prompt": "Falsify every candidate finding through counter-examples and a fresh-operator walkthrough. Starting from the claimed current authority, try to identify one executable SWU, its dependency, write scope, validation command, receipt, and completion boundary without inventing missing semantics. Independently verify current-head projection, style/global diff, e2e helper reproducibility, and handoff-readiness claims where safe; isolate transient data and do not edit target files. Use the Inventory packet only to find selectors and known risks. Reject findings that mistake a Corepack harness failure for failed product behavior, treat passing unit tests as browser proof, or recommend an ordering that cannot produce its own acceptance evidence. Verify every quote, severity, and proposed fix; drop refuted findings. Return objections or explicit no-objection verdicts per candidate plus the smallest reproducible acceptance sequence for the surviving next-plan recommendation. Budget about 2000 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "coverage-auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.6-terra",
+          "token_budget": 1600,
+          "initial_prompt": "Act only as downstream coverage auditor. Read the full working folder after verification. Confirm attacks.md preserves all attackers' initial and final robot-talk positions and both verifier returns; all three attackers read and attacked the complete declared corpus; Inventory-informed coverage included current-head, visible style diff, deterministic e2e, handoff semantics, and the deep-spec boundary; excluded Body War/TROQAR and Open Design material did not become target authority; refuted findings were dropped; each surviving finding carries file, quote, severity, and one-line fix; per-artifact KEEP/FIX verdicts cover Craft, root docs, deep-spec, July plan, and live implementation; and the authority/supersession plus dependency-safe next-plan recommendations remain claim-bounded. Fire the zero-findings red flag if required. Recommend accept or reject to the parent final approver; do not create new findings or edit Studio targets. Budget about 1600 tokens."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "attackers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "verifiers",
+      "type": "zig-zag",
+      "loop_cap": 1
+    },
+    {
+      "from": "synthesizer",
+      "to": "attackers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "verifiers",
+      "to": "coverage-auditor",
+      "type": "sequential"
+    }
+  ]
+}

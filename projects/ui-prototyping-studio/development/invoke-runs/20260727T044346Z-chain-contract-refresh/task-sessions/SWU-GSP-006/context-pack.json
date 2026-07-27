@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "TASK-GSP-006",
+  "swu_id": "SWU-GSP-006",
+  "strict_coverage": true,
+  "objective": "Separate export, evidence completeness, integration readiness, and implementation readiness",
+  "dependency_receipts": [
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-005/TASK-SESSION-RESULT.json",
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/closeout/SWU-GSP-005/OWNER-RECEIPT.json"
+  ],
+  "write_scope": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/domain/models.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/ui-prototyping-studio.slice.test.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/session-store.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/interface/http-routes.ts"
+  ],
+  "validation_commands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \"src/**/*.test.ts\""
+  ],
+  "decision": {
+    "id": "GSP-006-READINESS-PREDICATES",
+    "selected": "monotone evidence conjunctions independent of export confirmation",
+    "consequence": "consequential",
+    "reversibility": "reversible",
+    "reason": "It prevents an acknowledged irreversible action from being misreported as downstream readiness."
+  },
+  "closeout": {
+    "route": "invoke:refresh:apply-approved",
+    "next_candidate": "SWU-GSP-007"
+  }
+}

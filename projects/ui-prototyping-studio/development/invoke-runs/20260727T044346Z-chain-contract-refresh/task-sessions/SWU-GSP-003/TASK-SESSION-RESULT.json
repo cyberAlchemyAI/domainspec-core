@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "swu_id": "SWU-GSP-003",
+  "result": "pass",
+  "selected": true,
+  "allowed_writes": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+    "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+    "projects/ui-prototyping-studio/backend/e2e/governed-state-projection.spec.ts"
+  ],
+  "files_touched": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+    "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+    "projects/ui-prototyping-studio/backend/e2e/governed-state-projection.spec.ts"
+  ],
+  "validation": [
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \"src/**/*.test.ts\"",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test e2e/governed-state-projection.spec.ts --reporter=list",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    }
+  ],
+  "acceptance_evidence": [
+    "Application projection reuses resolveCurrentHtml and owns current-head selection.",
+    "Primary preview and annotation share current content and revision identity after Accept and Revert.",
+    "Historical variants are explicitly labeled lineage/reference.",
+    "Unavailable current content is explicit and disables annotation.",
+    "An already-running preview projects an external Accept without restart.",
+    "Final focused Playwright passes 2/2 and full units pass 68/68."
+  ],
+  "blockers": [],
+  "residue": [
+    "Style/global diff evidence remains selected for SWU-GSP-004."
+  ],
+  "next_candidate": "SWU-GSP-004"
+}

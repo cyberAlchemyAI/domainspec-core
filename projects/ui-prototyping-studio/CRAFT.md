@@ -2,10 +2,10 @@
 id: ui-prototyping-studio-craft-view
 feature: ui-prototyping-studio
 title: "UI Prototyping Studio Craft Ledger (human view)"
-summary: Indexed navigation surface for the feature's Craft ledger; tracks the deep-spec readiness state, open decisions, blockers, and gaps.
+summary: Indexed navigation surface for the receipt-complete governed-state projection implementation and preserved historical deep-spec state.
 status: active
 node_type: craft-view
-updatedAt: 2026-06-15
+updatedAt: 2026-07-27
 ---
 
 # UI Prototyping Studio Craft Ledger
@@ -15,34 +15,80 @@ source of truth; this page is an indexed navigation surface.
 
 ## Quick Links
 
-- Current next move: [approve the extraction plan, then execute](#next-move) — the deep-spec decision-gate stays queued behind it.
-- Active work: [CTX-UPS-EXTRACTION](#context-ctx-ups-extraction) — fresh-minimal standalone ([DEC-FRESH-MINIMAL-008](#decision-dec-fresh-minimal-008)): lean [SPEC.md](SPEC.md) + [README.md](README.md) in place, full-vision spec + reference tree archived to `provenance/`; code extraction next ([EXTRACTION-PLAN.md](development/standalone-extraction/EXTRACTION-PLAN.md)).
-- Blocking decision (deep-spec): [DEC-ONE-SHOT-SCOPE-002](#decision-dec-one-shot-scope-002) (recommend L0→L2).
-- Open questions: [OQ-1](#decision-dec-oq1-trust-meter) · [OQ-2](#decision-dec-oq2-saw-diff) · [OQ-3](#decision-dec-oq3-handoff-carry) · [OQ-4](#decision-dec-oq4-import-integrity).
+- Current next move: no implementation SWU is selected. A human-study,
+  accessibility, or release-owner route requires separate explicit authority.
+- Completed implementation context:
+  [`CTX-UPS-GSP-EXECUTION`](#context-ctx-ups-gsp-execution) using the
+  [amended work-pack](development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md).
+- Execution decisions: amended plan approved; shared local-`tsx` proof route;
+  actor-neutral explicit acknowledgment; deterministic seven-unit chain order.
+- Historical packages: June deep spec and July governed-state package remain
+  proposal/evidence history, not current execution authority.
 - Active blockers: [fixtures](#blocker-blk-fixture-corpus-001) · [identity types](#blocker-blk-identity-types-002) · [failure states](#blocker-blk-failure-states-003) · [invariants](#blocker-blk-invariants-uncalibrated-004).
 - Active gaps: [ergonomics unproven](#gap-gap-ergonomics-unproven-001) · [component registry](#gap-gap-component-registry-002) · [conflict algebra](#gap-gap-conflict-algebra-003) · [contract drift](#gap-gap-contract-drift-004) · [docs/code split](#gap-gap-docs-code-split-005).
 - Key artifacts: [deep-spec proposal](development/deep-spec-dispatch/DEEP-SPEC-PROPOSAL.md) · [one-shot plan](development/deep-spec-dispatch/ONE-SHOT-IMPLEMENTATION-PLAN.md) · [synthesized design](development/deep-spec-dispatch/SYNTHESIZED-DEEP-DESIGN.md) · [result + verdict](development/deep-spec-dispatch/RESULT.md).
 
+## Current Execution State
+
+### <a id="context-ctx-ups-gsp-execution"></a>CTX-UPS-GSP-EXECUTION — Governed State Projection Implementation
+
+- Stage: `closed`
+- Gate: `pass`
+- Completed: `SWU-GSP-001` (typecheck, focused helper 2/2, standard Playwright
+  15/15, joined closeout).
+- Completed: `SWU-GSP-002` (independent-process freshness 3/3, unit/slice
+  65/65, joined closeout).
+- Completed: `SWU-GSP-003` (application projection, unit/slice 68/68, focused
+  Playwright 2/2, joined closeout).
+- Completed: `SWU-GSP-004` (explicit style/global/unattributed diff evidence,
+  unit/slice 71/71, focused CSS-only Playwright 1/1, joined closeout).
+- Completed: `SWU-GSP-005` (actor-neutral action acknowledgment, constrained
+  annotation, 390px layout, focused Playwright 6/6, full Playwright 21/21,
+  joined closeout).
+- Completed: `SWU-GSP-006` (separate export/evidence/integration/implementation
+  facts, unit/slice 72/72, joined closeout).
+- Completed: `SWU-GSP-007` (receipt-driven docs and Craft reconciliation;
+  typecheck, unit/slice 72/72, Playwright 21/21, stale-claim review clean,
+  joined closeout).
+- Selected unit: none; the captured implementation series has no successor.
+- Plan:
+  [2026-07-27 amended work-pack](development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md).
+- Review input:
+  [accepted findings](development/reviews/20260727-architecture-plan-deep-spec-review/findings.md).
+- Sequence: evidence harness → persisted freshness → application projection →
+  visible diff → action/annotation/mobile → handoff readiness → receipt-driven
+  docs/Craft closeout.
+- Boundary: implementation completion does not prove human ergonomics, full
+  accessibility, publication, deployment, or release authorization.
+
+The older sections below preserve dated Craft history. Where their next moves,
+counts, or “current” wording disagree with this section and the source ledger,
+this section and `.craft/ledger.yml` control.
+
 ## Contexts
 
-### <a id="context-ctx-ups-root"></a>CTX-UPS-ROOT — UI Prototyping Studio Deep-Spec Readiness
+### <a id="context-ctx-ups-root"></a>CTX-UPS-ROOT — UI Prototyping Studio
 
-- Stage: `plan`
-- Gate: `flag`
-- Purpose: move the feature from an architecture-strong / evidence-sparse spec toward one-shot implementation readiness, keeping the deepened design, residuality invariants, UX evidence, open decisions, blockers, and gaps explicit.
+- Stage: `closed`
+- Gate: `pass`
+- Purpose: preserve the receipt-complete amended governed-state projection
+  repair while keeping proposal, evidence, implementation, human-study, and
+  release authority boundaries explicit.
 
 #### <a id="next-move"></a>Next Move
 
-Approve [EXTRACTION-PLAN.md](development/standalone-extraction/EXTRACTION-PLAN.md), then
-execute the standalone extraction (P1 backend → P2 web → P3 e2e → P4 de-register → P5
-meta). The deep-spec `decision-gate` on the one-shot scope + OQ-1..4 stays queued behind it.
+No implementation SWU is selected. Human-study evidence, broader
+accessibility evidence, and release ownership remain separate routes that
+require explicit selection and owners.
 
-### <a id="context-ctx-ups-extraction"></a>CTX-UPS-EXTRACTION — Standalone Extraction
+### <a id="context-ctx-ups-extraction"></a>CTX-UPS-EXTRACTION — Standalone Extraction (closed)
 
-- Stage: `plan`
-- Gate: `flag`
+- Stage: `closed`
+- Gate: `pass`
 - Purpose: extract the feature **code** out of the deprecating `implementation/domainspec` monorepo and stand `ui-prototyping-studio` up as a self-contained, runnable project (per [DEC-DEPRECATE-PIVOT-007](#decision-dec-deprecate-pivot-007)).
-- Plan: [EXTRACTION-PLAN.md](development/standalone-extraction/EXTRACTION-PLAN.md). Backend = clean lift; frontend = plain React+CSS prop-driven; e2e moves with adapted Playwright config.
+- Result: the standalone backend, CLI, preview, reversible mutation core, and
+  checked-in tests exist. Remaining trust defects recomposed into
+  `CTX-UPS-GSP-EXECUTION`.
 
 ### <a id="decision-dec-deprecate-pivot-007"></a>DEC-DEPRECATE-PIVOT-007 — whole standalone project (closed)
 

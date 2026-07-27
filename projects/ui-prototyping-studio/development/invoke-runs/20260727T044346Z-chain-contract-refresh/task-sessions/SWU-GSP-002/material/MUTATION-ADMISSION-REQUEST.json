@@ -1,0 +1,81 @@
+{
+  "allowedWrites": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts"
+  ],
+  "authorityClass": "private",
+  "controlArtifacts": [
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/work-pack/tasks/TASK-GSP-002-store-freshness.md",
+      "role": "task-contract",
+      "sha256": "841a1a9da32cc0ccbc054c458aed7116220e31e36765a5dd7b3589dcd9119b60",
+      "sizeBytes": 1384
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md",
+      "role": "work-pack",
+      "sha256": "4c8d97e4f14afc37653e275b4f60254974ce39a92e124e697793cdad31c8fdf2",
+      "sizeBytes": 9118
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-002/context-pack.json",
+      "role": "context-pack",
+      "sha256": "612ea962c86fd7dcc3978814cdc1ae162c5e58cee5e4c00c893b582c9f470d0c",
+      "sizeBytes": 1634
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+      "role": "source",
+      "sha256": "f775994dc136615d50f30a445ea54cae71507b59a07e8f68590444105f017c4b",
+      "sizeBytes": 10169
+    }
+  ],
+  "dependencyFrontier": [
+    {
+      "artifactRef": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/CHAIN-STATE.json",
+        "sha256": "eb2cdac0fde4dc4a1e85375bb401320b57ecc1e0877a3bfaa9385c54b90745d0",
+        "sizeBytes": 1497
+      },
+      "dependencyId": "chain-preflight"
+    },
+    {
+      "artifactRef": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/closeout/SWU-GSP-001/OWNER-RECEIPT.json",
+        "sha256": "d9ad17664ad7b10c1a298cd881808681788e7367aff1a32a1f1740f73f9da131",
+        "sizeBytes": 1325
+      },
+      "dependencyId": "gsp-001-closeout"
+    }
+  ],
+  "executionMode": "routed-mutation",
+  "lifecycleOwner": "private UI Prototyping Studio implementation via task-session",
+  "materialPackage": {
+    "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-002/material/MATERIAL-PACKAGE.json",
+    "sha256": "d7c406a222b68da059b00334881fbf2ad8712824369e62e7619fabe6dfb5c42d",
+    "sizeBytes": 5262
+  },
+  "materialReceipt": {
+    "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-002/material/MATERIAL-RECEIPT.json",
+    "sha256": "a5e206604584bf781510fb072937b4c2b9dbf2355ae51a2d5c107f99941422fa",
+    "sizeBytes": 1172
+  },
+  "producerReceiptSchema": {
+    "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+    "sizeBytes": 1719
+  },
+  "publicationClass": "private",
+  "schemaVersion": "1.0.0",
+  "swuId": "SWU-GSP-002",
+  "taskId": "TASK-GSP-002",
+  "validationCommands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \\\"src/**/*.test.ts\\\""
+  ]
+}

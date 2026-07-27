@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "swu_id": "SWU-GSP-002",
+  "result": "pass",
+  "selected": true,
+  "allowed_writes": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts"
+  ],
+  "files_touched": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts"
+  ],
+  "validation": [
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \"src/**/*.test.ts\"",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    }
+  ],
+  "acceptance_evidence": [
+    "Every store query reloads current persisted bytes.",
+    "Every store mutation reloads under an exclusive per-operation writer lock.",
+    "A pre-existing reader observes external Stage, Accept, and Revert child-process writes.",
+    "Sequential writers preserve deterministic counters.",
+    "Corrupt bytes and overlapping writer locks fail closed.",
+    "Full unit/slice suite passes 65/65."
+  ],
+  "blockers": [],
+  "residue": [
+    "The lock is intentionally fail-fast rather than a queued multi-writer transaction manager."
+  ],
+  "next_candidate": "SWU-GSP-003"
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "TASK-GSP-003",
+  "swu_id": "SWU-GSP-003",
+  "strict_coverage": true,
+  "objective": "Application-owned current-head preview and annotation projection",
+  "dependency_receipts": [
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-002/TASK-SESSION-RESULT.json",
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/closeout/SWU-GSP-002/OWNER-RECEIPT.json"
+  ],
+  "write_scope": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+    "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+    "projects/ui-prototyping-studio/backend/e2e/governed-state-projection.spec.ts"
+  ],
+  "validation_commands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \"src/**/*.test.ts\"",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test e2e/governed-state-projection.spec.ts --reporter=list"
+  ],
+  "decision": {
+    "id": "GSP-003-PROJECTION-SHAPE",
+    "selected": "serializable application projection with legacy route aliases",
+    "consequence": "consequential",
+    "reversibility": "reversible",
+    "reason": "It removes current-truth decisions from the adapter while preserving existing route consumers."
+  },
+  "closeout": {
+    "route": "invoke:refresh:apply-approved",
+    "next_candidate": "SWU-GSP-004"
+  }
+}

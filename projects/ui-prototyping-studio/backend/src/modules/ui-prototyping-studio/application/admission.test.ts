@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { admitScope } from "./admission.js";
+import { admitScope, diffByOdId } from "./admission.js";
 
 // TaskScope: cta.primary (A) + card.hint (B) in-scope; card.title (X), card.footer (Z) out-of-scope.
 const SCOPE = ["cta.primary", "card.hint"];
@@ -53,4 +53,29 @@ test("M1 HELD-2: un-anchored out-of-scope edit (wrapper class) → REJECT", () =
 // discrimination: identity (no change) admits; always-reject would fail this
 test("M1 identity: no change → NOT_REJECT", () => {
   assert.equal(admitScope(BASE, BASE, SCOPE), "NOT_REJECT");
+});
+
+test("honest diff reports CSS-only change in an explicit global lane", () => {
+  const candidate = BASE.replace(
+    ".cta{padding:8px}",
+    ".cta{padding:16px}",
+  );
+  const diff = diffByOdId(BASE, candidate);
+
+  assert.equal(diff.added, 0);
+  assert.equal(diff.changed, 0);
+  assert.equal(diff.removed, 0);
+  assert.equal(diff.style.changed, true);
+  assert.equal(diff.style.attribution, "global-unattributed");
+  assert.equal(diff.style.addedRules, 1);
+  assert.equal(diff.style.removedRules, 1);
+  assert.equal(diff.visibleChangeCount, 1);
+});
+
+test("honest diff keeps unattributed structural evidence explicit", () => {
+  const candidate = BASE.replace('class="wrap"', 'class="wrap changed"');
+  const diff = diffByOdId(BASE, candidate);
+
+  assert.equal(diff.unattributed.changed, 1);
+  assert.equal(diff.visibleChangeCount, 1);
 });

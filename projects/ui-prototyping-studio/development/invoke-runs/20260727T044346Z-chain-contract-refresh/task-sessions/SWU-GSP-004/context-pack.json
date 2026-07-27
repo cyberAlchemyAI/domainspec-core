@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "TASK-GSP-004",
+  "swu_id": "SWU-GSP-004",
+  "strict_coverage": true,
+  "objective": "Explicit style/global/unattributed visible-change evidence",
+  "dependency_receipts": [
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-003/TASK-SESSION-RESULT.json",
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/closeout/SWU-GSP-003/OWNER-RECEIPT.json"
+  ],
+  "write_scope": [
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/domain/models.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/admission.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/admission.test.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts",
+    "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+    "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+    "projects/ui-prototyping-studio/backend/e2e/fixtures/style-only.html",
+    "projects/ui-prototyping-studio/backend/e2e/visible-change-diff.spec.ts"
+  ],
+  "validation_commands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \"src/**/*.test.ts\"",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test e2e/visible-change-diff.spec.ts --reporter=list"
+  ],
+  "closeout": {
+    "route": "invoke:refresh:apply-approved",
+    "next_candidate": "SWU-GSP-005"
+  }
+}

@@ -3,8 +3,7 @@ import { mkdirSync, readFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { dirname, join, resolve } from "node:path";
 
-import { diffByOdId } from "../modules/ui-prototyping-studio/application/admission.js";
-import { resolveCurrentHtml } from "../modules/ui-prototyping-studio/application/current-html.js";
+import { buildGovernedStateProjection } from "../modules/ui-prototyping-studio/application/governed-state-projection.js";
 
 import { isUiPrototypingStudioError } from "../modules/ui-prototyping-studio/domain/errors.js";
 import type { VariantLabel } from "../modules/ui-prototyping-studio/domain/models.js";
@@ -201,66 +200,112 @@ function main(): void {
         const session = studio.getSessionSnapshot({ sessionId });
         const variants = studio.listSessionVariants({ sessionId });
         const staged = store.getStagedCandidate(sessionId);
+        const projection = buildGovernedStateProjection({
+          session,
+          store,
+          artifact: artifactContentStore,
+        });
+        const revisions = store.listRevisions(sessionId);
+        const headRevision = revisions.find(
+          (revision) => revision.revisionId === session.revisionHeadId,
+        );
+        const diffRecap = (
+          diff: typeof projection.structuralDiff | undefined,
+        ): string => diff
+          ? `+${diff.added} added · ~${diff.changed} changed · -${diff.removed} removed · style ${diff.style.changed ? "changed" : "unchanged"} · ${diff.visibleChangeCount} visible change(s)`
+          : "diff evidence unavailable";
+        const currentCard = projection.currentHead.available
+          ? `<figure id="current-head" class="card current"><figcaption>${esc(projection.currentHead.label)}</figcaption>`
+            + `<iframe sandbox src="${projection.currentHead.route}" title="current head"></iframe></figure>`
+          : `<section id="current-head" class="unavailable"><h2>Current head unavailable</h2>`
+            + `<p>No committed prototype content resolves for ${esc(projection.currentHead.revisionId)}.</p></section>`;
         const cards = variants.map((v) => {
           const isBaseline = session.baseline?.label === v.variantLabel;
-          return `<figure class="card"><figcaption>${v.variantLabel}${isBaseline ? " · baseline" : ""} <span class="muted">${esc(v.status)}</span></figcaption>`
+          return `<figure class="card historical"><figcaption>${v.variantLabel}${isBaseline ? " · baseline lineage" : " · historical variant"} <span class="muted">${esc(v.status)}</span></figcaption>`
             + `<iframe sandbox src="/raw/variant/${v.variantLabel}" title="variant ${v.variantLabel}"></iframe></figure>`;
         }).join("");
+        const history = cards
+          ? `<section class="history"><h2>Historical variant lineage</h2><p class="muted">Reference inputs; these cards are not the current head.</p><div class="grid">${cards}</div></section>`
+          : "";
         let pending = "";
         if (staged) {
-          const current = resolveCurrentHtml(session, store, artifactContentStore);
-          const candidate = artifactContentStore.readHtml(staged.stagedRef);
-          const diff = current !== null && candidate !== null ? diffByOdId(current, candidate) : null;
+          const diff = projection.structuralDiff;
           const frags = diff ? diff.fragments.map((f) => `<li><code>${esc(String(f.odId))}</code>: +${f.added} ~${f.changed} -${f.removed}</li>`).join("") : "<li>(diff unavailable)</li>";
+          const styleEvidence = diff
+            ? `<li><strong>Style/global evidence</strong>: ${diff.style.changed ? "changed" : "unchanged"} · +${diff.style.addedRules} -${diff.style.removedRules} rules · attribution ${diff.style.attribution}</li>`
+            : "";
+          const unattributedEvidence = diff
+            ? `<li><strong>Unattributed structural evidence</strong>: +${diff.unattributed.added} ~${diff.unattributed.changed} -${diff.unattributed.removed}</li>`
+            : "";
           pending = `<section class="pending"><h2>Pending change — review before you accept</h2>`
-            + `<p class="muted">Honest per-component diff: ${diff ? `+${diff.added} added · ~${diff.changed} changed · -${diff.removed} removed` : "n/a"}</p>`
-            + `<ul class="diff">${frags}</ul>`
+            + `<p class="muted">Per-component structural diff: ${diff ? `+${diff.added} added · ~${diff.changed} changed · -${diff.removed} removed` : "n/a"}</p>`
+            + `<ul class="diff">${frags}${styleEvidence}${unattributedEvidence}</ul>`
+            + `<p><strong>Visible change evidence:</strong> ${diff?.visibleChangeCount ?? "n/a"}</p>`
             + `<div class="grid two"><figure class="card"><figcaption>before (current)</figcaption><iframe sandbox src="/raw/baseline"></iframe></figure>`
             + `<figure class="card"><figcaption>after (candidate)</figcaption><iframe sandbox src="/raw/staged"></iframe></figure></div>`
-            // N3: complete the loop IN the browser — accept/discard are reversible, so they get buttons.
-            // Export (the one irreversible edge) deliberately has NO button; it stays terminal + --confirm.
-            + `<p><button id="btn-accept">Accept this change</button> <button id="btn-discard">Discard</button> <span id="act-msg" class="muted"></span></p>`
+            + `<dl class="action-context" data-action="accept"><dt>Candidate identity</dt><dd><code>${esc(projection.staged.candidateHtmlHash ?? "unavailable")}</code></dd>`
+            + `<dt>Target state</dt><dd><code>RevisionRecorded</code></dd><dt>Diff recap</dt><dd>${esc(diffRecap(diff))}</dd></dl>`
+            + `<label class="ack"><input id="ack-accept" type="checkbox"> I acknowledge this candidate identity, target state, and diff recap.</label>`
+            // Acknowledgment records inspection intent; it neither identifies the actor class nor grants authority.
+            + `<p><button id="btn-accept" data-identity="${esc(projection.staged.candidateHtmlHash ?? "")}" data-state="RevisionRecorded" disabled>Accept this change</button> <button id="btn-discard">Discard</button> <span id="act-msg" class="muted"></span></p>`
+            // Export deliberately has no browser mutation; it stays terminal-only.
             + `<p class="muted">Export (the one irreversible step) stays terminal-only: <code>studio handoff export ${esc(sessionId)} --confirm</code></p></section>`;
         }
-        // N3: on a recorded head, offer Revert in-browser (reversible). Export still has no button here.
         const recorded = (!staged && session.revisionHeadId && session.revisionHeadId !== "rev-0000")
-          ? `<section class="recorded"><p>Head is at <code>${esc(session.revisionHeadId)}</code>. <button id="btn-revert">Revert last change</button> <span id="act-msg2" class="muted"></span></p></section>`
+          ? `<section class="recorded"><h2>Revert current head</h2>`
+            + `<dl class="action-context" data-action="revert"><dt>Revision identity</dt><dd><code>${esc(session.revisionHeadId)}</code></dd>`
+            + `<dt>Target state</dt><dd><code>RevisionRecorded</code></dd><dt>Diff recap</dt><dd>Undo current-head evidence: ${esc(diffRecap(headRevision?.diffSummaryHonest))}</dd></dl>`
+            + `<label class="ack"><input id="ack-revert" type="checkbox"> I acknowledge this revision identity, target state, and diff recap.</label>`
+            + `<p><button id="btn-revert" data-identity="${esc(session.revisionHeadId)}" data-state="RevisionRecorded" disabled>Revert last change</button> <span id="act-msg2" class="muted"></span></p></section>`
           : "";
-        // CL1: annotate panel — click a component in the (trusted, script-injected) baseline wrapper to comment.
-        const annotate = session.baseline
+        // CL1: annotation is bound to the exact same current-head content and revision as the primary preview.
+        const annotate = projection.annotation.available
           ? `<section class="annotate"><h2>Annotate <span class="muted">— click a component to comment</span></h2>`
-            + `<iframe id="annot" sandbox="allow-scripts" src="/annotate/variant/${session.baseline.label}" title="annotate"></iframe>`
-            + `<form id="cf" class="cf" hidden><p>Target: <code id="cf-od"></code></p>`
-            + `<input name="severity" value="medium"><input name="intent" placeholder="intent (e.g. reword)">`
-            + `<input name="note" placeholder="note"><button type="submit">Add comment</button> <span id="cf-msg" class="muted"></span></form></section>`
-          : "";
-        // CL4: poll /state; reload only when state/head/staged changes (no janky full meta-refresh).
-        const pollScript = `<script>let last=null;setInterval(async()=>{try{const r=await fetch('/state');const s=await r.json();`
-          + `const sig=s.state+'|'+s.head+'|'+s.stagedHash;if(last!==null&&last!==sig)location.reload();last=sig;}catch(e){}},1500);</script>`;
-        const cfScript = session.baseline
+            + `<p class="muted">Target revision <code>${esc(projection.annotation.revisionId)}</code> · <strong id="captured-count">${projection.annotation.capturedCommentCount}</strong> captured comment(s)</p>`
+            + `<iframe id="annot" sandbox="allow-scripts" src="${projection.annotation.route}" title="annotate current head"></iframe>`
+            + `<form id="cf" class="cf"><p>Selected target: <code id="cf-od">none selected</code></p>`
+            + `<label>Severity <select name="severity" disabled><option value="low">low</option><option value="medium" selected>medium</option><option value="high">high</option><option value="blocker">blocker</option></select></label>`
+            + `<input name="intent" placeholder="intent (e.g. reword)" disabled>`
+            + `<input name="note" placeholder="note" disabled><button type="submit" disabled>Add comment</button> <span id="cf-msg" class="muted">Select a prototype component first.</span></form></section>`
+          : `<section class="annotate unavailable"><h2>Annotation unavailable</h2><p>Resolve a current prototype head before selecting a target.</p></section>`;
+        // CL4: seed the poll signature from the rendered bytes so a write between render and first poll
+        // is detected instead of being mistaken for the initial state.
+        const renderedSignature = [
+          session.state,
+          session.revisionHeadId,
+          projection.staged.candidateHtmlHash,
+        ].join("|");
+        const pollScript = `<script>let last=${JSON.stringify(renderedSignature)};setInterval(async()=>{try{const r=await fetch('/state');const s=await r.json();`
+          + `const sig=s.state+'|'+s.head+'|'+s.stagedHash;if(last!==sig)location.reload();last=sig;}catch(e){}},1500);</script>`;
+        const cfScript = projection.annotation.available
           ? `<script>const cf=document.getElementById('cf'),od=document.getElementById('cf-od'),msg=document.getElementById('cf-msg');let cur=null;`
-            + `window.addEventListener('message',e=>{if(e.data&&e.data.odId){cur=e.data;od.textContent=e.data.odId;cf.hidden=false;}});`
+            + `const controls=cf.querySelectorAll('select,input,button');`
+            + `window.addEventListener('message',e=>{if(e.data&&e.data.odId){cur=e.data;od.textContent=e.data.odId;controls.forEach(x=>x.disabled=false);msg.textContent='Target selected.';}});`
             + `cf&&cf.addEventListener('submit',async ev=>{ev.preventDefault();const f=new FormData(cf);`
             + `const body={odId:cur.odId,selector:cur.selector,elementLabel:cur.label||cur.odId,severity:f.get('severity'),intent:f.get('intent'),note:f.get('note')};`
             + `const r=await fetch('/comment',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});`
             + `msg.textContent=r.ok?'captured ✓':('error '+r.status);if(r.ok)cf.reset();});</script>`
           : "";
-        // N3: wire the in-browser Accept/Discard/Revert buttons to their POST routes (reversible verbs only).
-        const actScript = `<script>function post(u,m){return fetch(u,{method:'POST'}).then(r=>{var e=document.getElementById(m);`
+        const actScript = `<script>function post(u,m,b){var o={method:'POST'};if(b){o.headers={'content-type':'application/json'};o.body=JSON.stringify(b);}return fetch(u,o).then(r=>{var e=document.getElementById(m);`
           + `if(e)e.textContent=r.ok?'done ✓':('error '+r.status);if(r.ok)setTimeout(()=>location.reload(),300);});}`
-          + `var a=document.getElementById('btn-accept');a&&a.addEventListener('click',()=>post('/accept','act-msg'));`
+          + `function bindAck(boxId,buttonId,path,msg,action){var box=document.getElementById(boxId),button=document.getElementById(buttonId);`
+          + `if(!box||!button)return;box.addEventListener('change',()=>{button.disabled=!box.checked;});`
+          + `button.addEventListener('click',()=>post(path,msg,{action:action,acknowledged:box.checked,expectedIdentity:button.dataset.identity,expectedState:button.dataset.state}));}`
+          + `bindAck('ack-accept','btn-accept','/accept','act-msg','accept');`
           + `var d=document.getElementById('btn-discard');d&&d.addEventListener('click',()=>post('/discard','act-msg'));`
-          + `var v=document.getElementById('btn-revert');v&&v.addEventListener('click',()=>post('/revert','act-msg2'));</script>`;
+          + `bindAck('ack-revert','btn-revert','/revert','act-msg2','revert');</script>`;
         return `<!doctype html><html><head><meta charset="utf-8"><title>studio · ${esc(sessionId)}</title>`
-          + `<style>body{font-family:system-ui;margin:0;background:#fafafa;color:#111}header{padding:16px 24px;background:#111;color:#fff}`
-          + `.muted{color:#888;font-weight:400}main{padding:24px}.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.two{grid-template-columns:1fr 1fr}`
+          + `<style>*{box-sizing:border-box}body{font-family:system-ui;margin:0;background:#fafafa;color:#111;overflow-wrap:anywhere}header{padding:16px 24px;background:#111;color:#fff}`
+          + `.muted{color:#888;font-weight:400}main{padding:24px;min-width:0}.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.grid>*{min-width:0}.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}`
           + `.card{margin:0;border:1px solid #e5e5e5;border-radius:10px;background:#fff;overflow:hidden}figcaption{padding:8px 12px;font-weight:600;border-bottom:1px solid #eee}`
-          + `iframe{width:100%;height:340px;border:0;background:#fff}.pending{margin-top:32px;padding:16px;border:2px solid #f0b000;border-radius:12px;background:#fffdf5}`
-          + `.annotate{margin-top:32px;padding:16px;border:1px solid #cdd;border-radius:12px;background:#f5fbff}.cf{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.cf input{padding:6px 8px;border:1px solid #ccc;border-radius:6px}`
-          + `.diff{font-family:ui-monospace,monospace}code{background:#f0f0f0;padding:1px 5px;border-radius:4px}</style></head><body>`
+          + `.current{border:2px solid #111}.history{margin-top:32px}.historical{opacity:.86}.unavailable{padding:16px;border:1px dashed #999;border-radius:10px}`
+          + `iframe{width:100%;height:340px;border:0;background:#fff}.pending,.recorded{margin-top:32px;padding:16px;border:2px solid #f0b000;border-radius:12px;background:#fffdf5}`
+          + `.annotate{margin-top:32px;padding:16px;border:1px solid #cdd;border-radius:12px;background:#f5fbff}.cf{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}.cf input,.cf select{padding:6px 8px;border:1px solid #ccc;border-radius:6px}`
+          + `.diff{font-family:ui-monospace,monospace}.action-context{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px 12px}.action-context dt{font-weight:700}.action-context dd{margin:0}.ack{display:block;margin:14px 0}code{background:#f0f0f0;padding:1px 5px;border-radius:4px}`
+          + `@media(max-width:600px){header,main{padding:16px}.grid,.two{grid-template-columns:minmax(0,1fr)}iframe{height:280px}.cf{display:grid;grid-template-columns:minmax(0,1fr)}.cf>*{width:100%;min-width:0}.action-context{grid-template-columns:minmax(0,1fr)}}</style></head><body>`
           + `<header><strong>ui-prototyping-studio</strong> · ${esc(sessionId)} · <span class="muted">${esc(session.state)}</span><br>`
           + `<span class="muted">${esc(stateSentence[session.state] ?? "")}</span></header>`
-          + `<main><div class="grid">${cards || "<p>No variants yet — register some.</p>"}</div>${annotate}${pending}${recorded}</main>${pollScript}${cfScript}${actScript}</body></html>`;
+          + `<main>${currentCard}${history}${annotate}${pending}${recorded}</main>${pollScript}${cfScript}${actScript}</body></html>`;
       };
       // CL1: inject ONLY a trusted click→postMessage handler into the (already-trusted, registered)
       // variant HTML. Raw /raw/* stays fully sandboxed; this wrapper alone gets sandbox="allow-scripts".
@@ -301,24 +346,115 @@ function main(): void {
             });
             return;
           }
-          // N3: complete the loop in-browser — accept/discard/revert are reversible, so the preview drives them.
-          // Export is NOT here: it stays terminal-only (`handoff export --confirm`), the one irreversible edge.
-          if (req.method === "POST" && (url === "/accept" || url === "/discard" || url === "/revert")) {
+          if (req.method === "POST" && url === "/discard") {
             try {
-              if (url === "/accept") studio.acceptStagedRevision({ sessionId, acceptedAt: new Date().toISOString(), requestedBy: "web-ui" });
-              else if (url === "/discard") studio.discardStagedRevision({ sessionId, requestedBy: "web-ui" });
-              else studio.revertRevision({ sessionId, requestedBy: "web-ui", revertedAt: new Date().toISOString() });
+              studio.discardStagedRevision({
+                sessionId,
+                requestedBy: "web-ui",
+              });
               sendJson(200, { ok: true });
             } catch (err) {
               sendJson(isUiPrototypingStudioError(err) ? 400 : 500, { ok: false, error: isUiPrototypingStudioError(err) ? err.code : String(err) });
             }
             return;
           }
+          // Accept/Revert are durable revision writes. The server binds an actor-neutral
+          // acknowledgment to the live identity and target state before invoking the core.
+          if (
+            req.method === "POST" &&
+            (url === "/accept" || url === "/revert")
+          ) {
+            let raw = "";
+            req.on("data", (chunk) => {
+              raw += chunk;
+            });
+            req.on("end", () => {
+              try {
+                const body = JSON.parse(raw || "{}") as Record<string, unknown>;
+                const action = url.slice(1);
+                const snapshot = studio.getSessionSnapshot({ sessionId });
+                const liveProjection = buildGovernedStateProjection({
+                  session: snapshot,
+                  store,
+                  artifact: artifactContentStore,
+                });
+                const expectedIdentity = action === "accept"
+                  ? liveProjection.staged.candidateHtmlHash
+                  : liveProjection.currentHead.revisionId;
+                const expectedState = "RevisionRecorded";
+                if (
+                  body.acknowledged !== true ||
+                  body.action !== action
+                ) {
+                  sendJson(428, {
+                    ok: false,
+                    error: "ACTION_ACKNOWLEDGMENT_REQUIRED",
+                  });
+                  return;
+                }
+                if (
+                  typeof expectedIdentity !== "string" ||
+                  body.expectedIdentity !== expectedIdentity ||
+                  body.expectedState !== expectedState
+                ) {
+                  sendJson(409, {
+                    ok: false,
+                    error: "ACTION_CONTEXT_STALE",
+                    expectedIdentity,
+                    expectedState,
+                  });
+                  return;
+                }
+                if (action === "accept") {
+                  studio.acceptStagedRevision({
+                    sessionId,
+                    acceptedAt: new Date().toISOString(),
+                    requestedBy: "web-ui:acknowledged",
+                  });
+                } else {
+                  studio.revertRevision({
+                    sessionId,
+                    requestedBy: "web-ui:acknowledged",
+                    revertedAt: new Date().toISOString(),
+                  });
+                }
+                sendJson(200, {
+                  ok: true,
+                  acknowledgment: {
+                    action,
+                    identity: expectedIdentity,
+                    targetState: expectedState,
+                  },
+                });
+              } catch (err) {
+                sendJson(isUiPrototypingStudioError(err) ? 400 : 500, {
+                  ok: false,
+                  error: isUiPrototypingStudioError(err)
+                    ? err.code
+                    : String(err),
+                });
+              }
+            });
+            return;
+          }
           const session = studio.getSessionSnapshot({ sessionId });
+          const projection = buildGovernedStateProjection({
+            session,
+            store,
+            artifact: artifactContentStore,
+          });
           if (url === "/state") {
             // CL4: cheap change signal for the page's poll-refresh.
             const staged = store.getStagedCandidate(sessionId);
-            sendJson(200, { state: session.state, head: session.revisionHeadId, stagedHash: staged?.candidateHtmlHash ?? null });
+            sendJson(200, {
+              state: session.state,
+              head: session.revisionHeadId,
+              stagedHash: staged?.candidateHtmlHash ?? null,
+              projection,
+            });
+          } else if (url === "/annotate/current") {
+            const html = projection.currentHead.html;
+            sendHtml(html === null ? null : html + annotateClickScript);
           } else if (url.startsWith("/annotate/variant/")) {
             const label = url.slice("/annotate/variant/".length);
             const v = studio.listSessionVariants({ sessionId }).find((x) => x.variantLabel === label);
@@ -331,8 +467,11 @@ function main(): void {
           } else if (url === "/raw/staged") {
             const staged = store.getStagedCandidate(sessionId);
             sendHtml(staged ? artifactContentStore.readHtml(staged.stagedRef) : null);
+          } else if (url === "/raw/current") {
+            sendHtml(projection.currentHead.html);
           } else if (url === "/raw/baseline") {
-            sendHtml(resolveCurrentHtml(session, store, artifactContentStore));
+            // Compatibility alias. Current truth is selected by the application projection.
+            sendHtml(projection.currentHead.html);
           } else {
             sendHtml(renderPage());
           }

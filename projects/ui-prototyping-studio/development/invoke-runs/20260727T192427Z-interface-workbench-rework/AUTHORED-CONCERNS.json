@@ -1,0 +1,61 @@
+{
+  "schema_version": "invoke.design-authored-concerns.v1",
+  "concerns": [
+    {
+      "concern_id": "authored:security",
+      "primary_class": "security",
+      "disposition": "required",
+      "required_predicate": true,
+      "evidence_selectors": [
+        "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md",
+        "projects/ui-prototyping-studio/ARCHITECTURE.md"
+      ],
+      "rationale": "Keyed projection updates must preserve escaping, iframe sandboxing, and the existing application gate boundary."
+    },
+    {
+      "concern_id": "authored:failure",
+      "primary_class": "failure",
+      "disposition": "required",
+      "required_predicate": true,
+      "evidence_selectors": [
+        "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md",
+        "output/playwright/ux-validator/20260727-ui-prototyping-studio-interface-review/findings.md"
+      ],
+      "rationale": "Poll, projection, or action failures must preserve work, expose bounded recovery, and never partially imply a governed transition."
+    },
+    {
+      "concern_id": "authored:reliability",
+      "primary_class": "reliability",
+      "disposition": "required",
+      "required_predicate": true,
+      "evidence_selectors": [
+        "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md",
+        "output/playwright/ux-validator/20260727-ui-prototyping-studio-interface-review/findings.md"
+      ],
+      "rationale": "Continuity across unchanged polls and one real transition is the primary trust contract."
+    },
+    {
+      "concern_id": "authored:privacy-data",
+      "primary_class": "privacy-data",
+      "disposition": "not-applicable-with-rationale",
+      "required_predicate": false,
+      "evidence_selectors": [
+        "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md",
+        "projects/ui-prototyping-studio/ARCHITECTURE.md"
+      ],
+      "rationale": "The bounded rework adds no data class, external sink, telemetry, retention rule, or remote service."
+    },
+    {
+      "concern_id": "authored:rollout",
+      "primary_class": "rollout",
+      "disposition": "not-applicable-with-rationale",
+      "required_predicate": false,
+      "evidence_selectors": [
+        "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/SPEC.md",
+        "projects/ui-prototyping-studio/.craft/ledger.yml"
+      ],
+      "rationale": "The target is a local loopback workbench and release ownership remains explicitly unbound."
+    }
+  ]
+}
+

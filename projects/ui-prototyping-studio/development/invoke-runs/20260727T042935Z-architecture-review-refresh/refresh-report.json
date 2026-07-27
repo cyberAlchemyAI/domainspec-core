@@ -1,0 +1,125 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    {
+      "id": "UPS-RFR-001",
+      "signal_type": "evidence_added",
+      "source_path": "../../reviews/20260727-architecture-plan-deep-spec-review/findings.md",
+      "claim": "Eleven parent-accepted review findings are available as implementation inputs."
+    },
+    {
+      "id": "UPS-RFR-002",
+      "signal_type": "artifact_drift",
+      "source_path": "../20260710T012443Z-governed-state-projection/WORK-PACK.md",
+      "claim": "The July proposal has contradictory proof ordering and unstable task/SWU identity."
+    },
+    {
+      "id": "UPS-RFR-003",
+      "signal_type": "route_changed",
+      "source_path": "REFRESH-PATCH-PROPOSAL.md",
+      "claim": "The checked-in shared local-tsx helper is the selected first proof route."
+    },
+    {
+      "id": "UPS-RFR-004",
+      "signal_type": "status_changed",
+      "source_path": "../../../.craft/ledger.yml",
+      "claim": "Stale extraction routing is replaced by one active GSP execution context."
+    },
+    {
+      "id": "UPS-RFR-005",
+      "signal_type": "blocker_resolved",
+      "source_path": "../../../.craft/ledger.yml",
+      "claim": "Confirmation is actor-neutral explicit acknowledgment under the existing reversibility decision."
+    },
+    {
+      "id": "UPS-RFR-006",
+      "signal_type": "blocker_opened",
+      "source_path": "WORK-PACK.md",
+      "claim": "Human-study ergonomics and release authorization remain outside implementation completion."
+    }
+  ],
+  "targetArtifacts": [
+    "WORK-PACK.md",
+    "EXECUTION-PACK.md",
+    "DISTILL-VALIDATION.md",
+    "work-pack/tasks/",
+    "../20260710T012443Z-governed-state-projection/README.md",
+    "../../../.craft/ledger.yml",
+    "../../../CRAFT.md"
+  ],
+  "deltaSummary": [
+    {"class": "evidence_added", "count": 1},
+    {"class": "artifact_drift", "count": 1},
+    {"class": "route_changed", "count": 1},
+    {"class": "status_changed", "count": 1},
+    {"class": "blocker_resolved", "count": 1},
+    {"class": "blocker_opened", "count": 1}
+  ],
+  "proposedChanges": 13,
+  "appliedChanges": 13,
+  "skippedChanges": [
+    "Studio implementation source",
+    "root active product docs before receipts",
+    "optional Open Design evidence profile",
+    "release authorization"
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "ups-gsp-architecture-review-refresh-apply-20260727",
+    "packageDigest": "437fc45276594ac6e2146659f02f3cca3da3cb5edad47e09751dfbebd362638c",
+    "expectedPackageId": "ups-gsp-architecture-review-refresh-apply-20260727",
+    "expectedPackageDigest": "437fc45276594ac6e2146659f02f3cca3da3cb5edad47e09751dfbebd362638c",
+    "validatedPaths": 13,
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "lifecycleOwner": "private UI Prototyping Studio planning and Craft owner via invoke:refresh",
+    "authorityClass": "private",
+    "publicationClass": "private",
+    "receiptPath": "material/MATERIAL-RECEIPT.json"
+  },
+  "mutationReady": true,
+  "blockers": [
+    {
+      "id": "UPS-GSP-TARGET-LIFECYCLE-001",
+      "scope": "target-lifecycle",
+      "owner": "task-session",
+      "status": "open",
+      "claim": "Seven implementation SWUs remain."
+    },
+    {
+      "id": "UPS-GSP-AUDIT-001",
+      "scope": "audit",
+      "owner": "completion audit",
+      "status": "open",
+      "claim": "Full type, unit, browser, independent-process, and docs/Craft verification follows GSP-007."
+    }
+  ],
+  "distillValidation": {
+    "status": "skipped",
+    "reason": "The accepted governed review already decomposed the defects; this refresh deterministically creates seven one-behavior units."
+  },
+  "validation": [
+    "context-builder-standard-strict:10/10:pass",
+    "material-package:pass",
+    "refresh-material-handoff:ready",
+    "live-staged-parity:13/13:pass",
+    "craft-yaml-and-required-indexes:pass",
+    "git-diff-check:pass"
+  ],
+  "result": "pass",
+  "nextRoute": "task-session:SWU-GSP-001"
+}

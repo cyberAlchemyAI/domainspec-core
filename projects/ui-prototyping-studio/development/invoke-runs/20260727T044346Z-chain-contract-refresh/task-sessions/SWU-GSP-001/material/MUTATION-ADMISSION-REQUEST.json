@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "1.0.0",
+  "executionMode": "routed-mutation",
+  "taskId": "TASK-GSP-001",
+  "swuId": "SWU-GSP-001",
+  "controlArtifacts": [
+    {
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/work-pack/tasks/TASK-GSP-001-evidence-harness.md",
+      "sha256": "aacbdccb3b239a0bdb2a31242210108f32e0ff3fd4050c803570a03de7dc6532",
+      "sizeBytes": 1442,
+      "role": "task-contract",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md",
+      "sha256": "2d6e51cb3637b38dfa991b9a427b8cddb59398442b18bc0de62c07ab2ec7e12b",
+      "sizeBytes": 8827,
+      "role": "work-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-001/context-pack.json",
+      "sha256": "865886efcf27b5995134b8c4f1c07be1ee48573314b8f83fe1295edaffc4b253",
+      "sizeBytes": 1487,
+      "role": "context-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/ui-prototyping-studio/backend/e2e/helpers.ts",
+      "sha256": "bbe0cde0ddd48e385e4ef03c1e2cdf050c648823b88d1d52f874213da00dd009",
+      "sizeBytes": 6551,
+      "role": "source",
+      "authorityClass": "private"
+    }
+  ],
+  "dependencyFrontier": [
+    {
+      "dependencyId": "chain-preflight",
+      "artifactRef": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/CHAIN-STATE.json",
+        "sha256": "2468976be27c57878ea7ab5094310cb36a57188ab1989468347391aa9a9cbb78",
+        "sizeBytes": 1103
+      }
+    },
+    {
+      "dependencyId": "chain-contract-owner-receipt",
+      "artifactRef": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/material/REFRESH-HANDOFF-RESULT.json",
+        "sha256": "63f8ce34aae3a1c80cf51feb00b0853f03ab28618f9df53dfdc2317364fd9a0f",
+        "sizeBytes": 3426
+      }
+    }
+  ],
+  "materialPackage": {
+    "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-001/material/MATERIAL-PACKAGE.json",
+    "sha256": "36399d910e8ef94a44da51782bc74dfecefc5125871e4557f826c8b67f4544fd",
+    "sizeBytes": 4707
+  },
+  "materialReceipt": {
+    "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-001/material/MATERIAL-RECEIPT.json",
+    "sha256": "cde68d89375b98234e60f05a72ab28477b8a2ce010483f1b3b311f5b760f9d15",
+    "sizeBytes": 1011
+  },
+  "producerReceiptSchema": {
+    "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+    "sizeBytes": 1719
+  },
+  "allowedWrites": [
+    "projects/ui-prototyping-studio/backend/e2e/helpers.ts",
+    "projects/ui-prototyping-studio/backend/e2e/helpers.spec.ts"
+  ],
+  "validationCommands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test e2e/helpers.spec.ts --reporter=list",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test --reporter=list"
+  ],
+  "lifecycleOwner": "private UI Prototyping Studio implementation via task-session",
+  "authorityClass": "private",
+  "publicationClass": "private"
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "TASK-GSP-005",
+  "swu_id": "SWU-GSP-005",
+  "strict_coverage": true,
+  "objective": "Actor-neutral action acknowledgment and inspectable annotation/mobile review",
+  "dependency_receipts": [
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-004/TASK-SESSION-RESULT.json",
+    "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/closeout/SWU-GSP-004/OWNER-RECEIPT.json"
+  ],
+  "write_scope": [
+    "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+    "projects/ui-prototyping-studio/backend/e2e/action-annotation-mobile.spec.ts",
+    "projects/ui-prototyping-studio/backend/e2e/preview-accept.spec.ts",
+    "projects/ui-prototyping-studio/backend/e2e/governed-state-projection.spec.ts"
+  ],
+  "validation_commands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \"src/**/*.test.ts\"",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test e2e/action-annotation-mobile.spec.ts e2e/preview-accept.spec.ts e2e/governed-state-projection.spec.ts --reporter=list"
+  ],
+  "decision": {
+    "id": "DEC-GSP-CONFIRMATION-ACTOR-030",
+    "selected": "actor-neutral acknowledgment bound to action identity and target state",
+    "consequence": "consequential",
+    "reversibility": "reversible",
+    "reason": "It records inspection intent without inventing an identity class or granting authority."
+  },
+  "closeout": {
+    "route": "invoke:refresh:apply-approved",
+    "next_candidate": "SWU-GSP-006"
+  }
+}

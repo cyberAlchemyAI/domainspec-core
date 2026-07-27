@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "swu_id": "SWU-GSP-005",
+  "result": "pass",
+  "selected": true,
+  "allowed_writes": [
+    "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+    "projects/ui-prototyping-studio/backend/e2e/action-annotation-mobile.spec.ts",
+    "projects/ui-prototyping-studio/backend/e2e/preview-accept.spec.ts",
+    "projects/ui-prototyping-studio/backend/e2e/governed-state-projection.spec.ts"
+  ],
+  "files_touched": [
+    "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+    "projects/ui-prototyping-studio/backend/e2e/action-annotation-mobile.spec.ts",
+    "projects/ui-prototyping-studio/backend/e2e/preview-accept.spec.ts",
+    "projects/ui-prototyping-studio/backend/e2e/governed-state-projection.spec.ts"
+  ],
+  "validation": [
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \"src/**/*.test.ts\"",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test e2e/action-annotation-mobile.spec.ts e2e/preview-accept.spec.ts e2e/governed-state-projection.spec.ts --reporter=list",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test --reporter=list",
+      "criticality": "noncritical",
+      "result": "pass"
+    }
+  ],
+  "acceptance_evidence": [
+    "Accept and Revert buttons cannot post before explicit actor-neutral acknowledgment.",
+    "Server-side action routes reject absent acknowledgment with 428 and stale identity/state with 409.",
+    "Pending and recorded action contexts show identity, target state, and diff recap before the durable write.",
+    "Export remains terminal-only with no browser mutation.",
+    "Annotation is unavailable without resolved content and disabled until a real target is selected; severity values are constrained.",
+    "The 390px comparison stacks without horizontal document overflow.",
+    "Typecheck, unit/slice 71/71, focused Playwright 6/6, and full Playwright 21/21 pass."
+  ],
+  "blockers": [],
+  "residue": [
+    "Handoff evidence completeness and readiness predicates remain selected for SWU-GSP-006."
+  ],
+  "next_candidate": "SWU-GSP-006"
+}

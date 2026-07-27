@@ -1,6 +1,10 @@
 # UI Prototyping Studio
 
-Accountable UI exploration: generate 1–3 bounded variants → intentionally select a baseline → annotate with canonical comments → synthesize a deterministic mutation draft → **explicit human approval** → apply → append-only revision manifest → hand off. Governance is a feature, not friction; **ergonomics is the first principle**.
+Accountable UI exploration: generate 1–3 bounded variants → intentionally
+select a baseline → annotate with canonical comments → synthesize a
+deterministic mutation draft → explicit approval → validate and stage →
+acknowledge Accept or Revert → append-only revision manifest → confirmed
+handoff. Governance is a feature, not friction.
 
 This is a **standalone project** (extracted from the now-deprecated `domainspec` monorepo). It is deliberately scoped to what is real and buildable today.
 
@@ -8,28 +12,40 @@ This is a **standalone project** (extracted from the now-deprecated `domainspec`
 
 | Path | What it is |
 |------|-----------|
-| [SPEC.md](SPEC.md) | **Lean spec** — the L0→L2 survival/trust floor (this release). The buildable contract. |
+| [SPEC.md](SPEC.md) | Receipt-backed contract for the current bounded implementation floor and its explicit evidence gaps. |
 | [CRAFT.md](CRAFT.md) · [.craft/](.craft/) | Craft ledger — live project state (contexts, decisions, blockers, gaps). Source of truth = `.craft/ledger.yml`. |
 | [ide-ergonomics-experience-prototype.html](ide-ergonomics-experience-prototype.html) | Interactive click-through prototype for the IDE Ergonomics presentation: highlighted chat phrase → route card → candidate/side-node/handoff/delegation previews → durable workbench outputs. |
-| [development/deep-spec-dispatch/](development/deep-spec-dispatch/) | The deep-spec exploration that produced the design + plan + readiness verdict ([RESULT.md](development/deep-spec-dispatch/RESULT.md), [DEEP-SPEC-PROPOSAL.md](development/deep-spec-dispatch/DEEP-SPEC-PROPOSAL.md), [ONE-SHOT-IMPLEMENTATION-PLAN.md](development/deep-spec-dispatch/ONE-SHOT-IMPLEMENTATION-PLAN.md)). |
+| [development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md](development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md) | Current implementation contract. Joined Task Session and Invoke closeout receipts under the sibling `20260727T044346Z-chain-contract-refresh/` run own completion evidence. |
+| [development/deep-spec-dispatch/](development/deep-spec-dispatch/) | Dated June deep-spec exploration and proposal evidence. Useful design history, not current execution or release authority. |
 | [development/standalone-extraction/](development/standalone-extraction/) | The plan to bring the code over and make this project runnable. |
 | `provenance/` | Archive, not spine: the 19-doc full-vision DomainSpec spec (`legacy-domainspec-spec/`) and a vendored design-skills reference tree (`open-design-reference/`). Mine for detail; do not treat as current. |
 
-## Scope (this release): L0→L2
+## Proven implementation scope
 
-Per the deep-spec readiness verdict, only **L0** exists in code (the 10-state session machine + governance enforcement). This release hardens that working floor:
+The 2026-07-27 governed-state implementation is locally reproducible across
+the working L0 loop and selected trust/layout properties:
 
-- **L0** — the working exploration loop + governance invariants (auto-apply forbidden, approval-before-apply, append-only manifest, variantCount 1–3).
-- **L1** — accessibility (keyboard, ARIA, focus, labels).
-- **L2** — layout integrity (no overflow/clip/overlap, target size, responsive).
+- current persisted head drives preview and annotation;
+- CSS/global/unattributed changes cannot disappear behind zero structural
+  counts;
+- browser Accept/Revert requires an actor-neutral, live action-context
+  acknowledgment;
+- annotation remains disabled until a real target is selected;
+- the 390px before/after comparison stacks without horizontal overflow;
+- export confirmation, evidence completeness, integration readiness, and
+  implementation readiness are separate facts.
 
-**Deferred** (design only, see `development/deep-spec-dispatch/`): L3 interaction-flow gates · L4 identity/DNA + conformance-delta · L5 fitness scoring · L6 human-evidence/trust. Plus open questions OQ-1..4.
+This does not establish the full L1 accessibility suite, human ergonomics, or
+release authorization. Those remain explicit evidence/authority gaps.
 
 ## Status
 
-- Spec spine + Craft ledger: **in place**.
-- **Backend lifted and runnable** — the full mutation loop works through the `studio` CLI: generate/register variants (real HTML), select a baseline, comment, synthesize, **approve → apply → accept** (two-gate, with an honest per-component diff), record, hand off. Backend is node + fastify + TypeScript (run via `tsx`).
-- **Shipped:** the browser **preview + click-to-annotate** surface (`studio preview <sid>`), AUTO `cycle`/`watch` verbs, in-preview **Accept/Revert** controls, and a Playwright e2e suite (`pnpm test:e2e`). Export stays the one terminal, `--confirm` edge (no button). (A full `web/` SPA scaffold is still deferred — the preview is a no-build loopback page, not an SPA.)
+- Spec spine + Craft ledger: in place; `.craft/ledger.yml` is state authority.
+- Backend and no-build loopback preview: implemented and locally reproducible.
+- Current completion audit: TypeScript no-emit pass, unit/slice **72/72**,
+  Playwright **21/21**, including the independent-process freshness and 390px
+  layout witnesses.
+- Publication/release: **not authorized**. “Implemented” here is not “shipped.”
 
 ## Running
 
@@ -37,10 +53,26 @@ Per the deep-spec readiness verdict, only **L0** exists in code (the 10-state se
 
 Requires Node ≥ 20 and pnpm. The CLI lives in `backend/`:
 
+For the guided human path:
+
+```bash
+./human-test.sh
+```
+
+The script creates an isolated temporary session, launches the preview, pauses
+for your annotation/approval/Accept/Revert choices, verifies each resulting
+state, demonstrates the export-confirmation boundary, and saves a feedback
+form with the run artifacts. Use `./human-test.sh --no-open` when you want to
+open the printed URL yourself. `./human-test.sh --self-check` validates the
+harness without claiming human-study evidence.
+
+For manual CLI operation:
+
 ```bash
 cd backend
 pnpm install
 pnpm test            # node:test suite (unit + slice)
+pnpm test:e2e        # Playwright over the local preview/CLI seams
 
 # Drive the studio. STUDIO_DATA is the data FILE inside a fresh per-run DIR, so the session
 # state AND the artifacts (under <dir>/artifacts) are fully isolated and reset together.
@@ -62,9 +94,24 @@ pnpm studio batch approve ups-session-0001 ups-batch-00001
 pnpm studio apply ups-session-0001 ups-batch-00001 --candidate-from ./candidate.html   # -> openPath to view the staged diff
 pnpm studio accept ups-session-0001              # -> head advances by one; openPath to the committed HTML
 pnpm studio revisions ups-session-0001
-pnpm studio handoff export ups-session-0001
+pnpm studio handoff export ups-session-0001 --confirm
 ```
 
-**Seeing the result in a browser:** run `studio preview <sid>` and open the printed loopback URL in VSCode's Simple Browser — it renders the variants (sandboxed), the staged before/after + honest diff, a click-to-annotate panel, and in-preview **Accept/Revert** buttons. (`register`/`apply`/`accept` also print an `openPath` to the rendered `.html` on disk if you prefer `xdg-open`.) Variant HTML should be self-contained (inline styles) to render faithfully.
+For the exact receipt commands:
+
+```bash
+cd backend
+./node_modules/.bin/tsc -p tsconfig.json --noEmit
+./node_modules/.bin/tsx --test "src/**/*.test.ts"
+./node_modules/.bin/playwright test --reporter=list
+```
+
+**Seeing the result in a browser:** run `studio preview <sid>` and open the
+printed loopback URL. It renders the current head, labeled historical
+variants, staged before/after evidence, and click-to-annotate. Browser
+Accept/Revert shows candidate/revision identity, target state, and diff recap;
+the caller must acknowledge that exact context before the request is posted,
+and the server rejects absent or stale context. This acknowledgment records
+inspection intent—it does not grant authority. Export remains terminal-only.
 
 **Reset:** point `STUDIO_DATA` at a file inside a fresh **directory** per run (e.g. `/tmp/ups-run-2/studio.json`) — both the session state and the artifacts live under that directory, so a new dir is a clean slate. To reset in place: `rm -rf "$(dirname "$STUDIO_DATA")"`.

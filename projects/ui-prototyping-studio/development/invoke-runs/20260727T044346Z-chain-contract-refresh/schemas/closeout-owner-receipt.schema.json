@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ui-prototyping-studio.closeout-owner-receipt.schema.json",
+  "title": "UI Prototyping Studio Invoke Refresh Closeout Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_receipt",
+    "swu_id",
+    "route",
+    "result",
+    "target_inventory",
+    "baseline_manifest",
+    "delta_classes",
+    "validation",
+    "next_candidate"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "source_receipt": {"minLength": 1, "type": "string"},
+    "swu_id": {"pattern": "^SWU-GSP-00[1-7]$", "type": "string"},
+    "route": {"const": "invoke:refresh:apply-approved"},
+    "result": {"enum": ["pass", "block"]},
+    "target_inventory": {
+      "items": {"type": "string"},
+      "minItems": 3,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "baseline_manifest": {"minLength": 1, "type": "string"},
+    "delta_classes": {
+      "items": {
+        "enum": [
+          "evidence_added",
+          "blocker_opened",
+          "blocker_resolved",
+          "status_changed",
+          "route_changed"
+        ]
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "validation": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {"minLength": 1, "type": "string"},
+          "result": {"enum": ["pass", "fail"]}
+        },
+        "required": ["command", "result"],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "next_candidate": {
+      "oneOf": [
+        {"pattern": "^SWU-GSP-00[2-7]$", "type": "string"},
+        {"type": "null"}
+      ]
+    }
+  }
+}

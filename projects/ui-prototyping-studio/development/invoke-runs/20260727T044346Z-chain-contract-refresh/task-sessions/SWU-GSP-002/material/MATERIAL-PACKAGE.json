@@ -1,0 +1,115 @@
+{
+  "approval": {
+    "authority_classes": [
+      "private"
+    ],
+    "class": "explicit-apply",
+    "owner": "private UI Prototyping Studio implementation via task-session",
+    "publication_classes": [
+      "private"
+    ],
+    "scope_paths": [
+      "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+      "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts"
+    ]
+  },
+  "authority_class": "private",
+  "changes": [
+    {
+      "operation": "update",
+      "output_ref": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-002/material/staged/projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+        "sha256": "9e1857b45a8b875fac4acc740beaa0fc0dcc75e94c10a6a2146a47c060c0a002",
+        "size_bytes": 11370
+      },
+      "target_path": "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts"
+    },
+    {
+      "operation": "create",
+      "output_ref": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-002/material/staged/projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts",
+        "sha256": "90681da5bee1aecd279beeb1d0ebbf34c2ad77b7aad3fe21df83d1688094f32a",
+        "size_bytes": 4709
+      },
+      "target_path": "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts"
+    }
+  ],
+  "dependencies": [
+    {
+      "artifact_ref": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/CHAIN-STATE.json",
+        "sha256": "eb2cdac0fde4dc4a1e85375bb401320b57ecc1e0877a3bfaa9385c54b90745d0",
+        "size_bytes": 1497
+      },
+      "dependency_id": "chain-preflight"
+    },
+    {
+      "artifact_ref": {
+        "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/closeout/SWU-GSP-001/OWNER-RECEIPT.json",
+        "sha256": "d9ad17664ad7b10c1a298cd881808681788e7367aff1a32a1f1740f73f9da131",
+        "size_bytes": 1325
+      },
+      "dependency_id": "gsp-001-closeout"
+    }
+  ],
+  "lifecycle_owner": "private UI Prototyping Studio implementation via task-session",
+  "mirror_groups": [],
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "package_id": "ups-gsp-002-store-freshness-20260727",
+  "publication_class": "private",
+  "schema_version": "1.0.0",
+  "source_artifacts": [
+    {
+      "authority_class": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/work-pack/tasks/TASK-GSP-002-store-freshness.md",
+      "sha256": "841a1a9da32cc0ccbc054c458aed7116220e31e36765a5dd7b3589dcd9119b60",
+      "size_bytes": 1384
+    },
+    {
+      "authority_class": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md",
+      "sha256": "4c8d97e4f14afc37653e275b4f60254974ce39a92e124e697793cdad31c8fdf2",
+      "size_bytes": 9118
+    },
+    {
+      "authority_class": "private",
+      "path": "projects/ui-prototyping-studio/development/invoke-runs/20260727T044346Z-chain-contract-refresh/task-sessions/SWU-GSP-002/context-pack.json",
+      "sha256": "612ea962c86fd7dcc3978814cdc1ae162c5e58cee5e4c00c893b582c9f470d0c",
+      "size_bytes": 1634
+    },
+    {
+      "authority_class": "private",
+      "path": "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+      "sha256": "f775994dc136615d50f30a445ea54cae71507b59a07e8f68590444105f017c4b",
+      "size_bytes": 10169
+    }
+  ],
+  "target_inventory": [
+    {
+      "authority_class": "private",
+      "dependency_ids": [
+        "chain-preflight",
+        "gsp-001-closeout"
+      ],
+      "lifecycle_owner": "private UI Prototyping Studio implementation via task-session",
+      "publication_class": "private",
+      "target_path": "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts"
+    },
+    {
+      "authority_class": "private",
+      "dependency_ids": [
+        "chain-preflight",
+        "gsp-001-closeout"
+      ],
+      "lifecycle_owner": "private UI Prototyping Studio implementation via task-session",
+      "publication_class": "private",
+      "target_path": "projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts"
+    }
+  ],
+  "validation_commands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts",
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsx --test \\\"src/**/*.test.ts\\\""
+  ]
+}

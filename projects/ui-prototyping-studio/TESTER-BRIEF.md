@@ -1,45 +1,68 @@
-# Tester Brief — read before you test (1 page)
+# Tester Brief — read before you test
 
-Thank you for testing the **UI Prototyping Studio**. This page is your safety + consent note. It is short
-on purpose. Read it, then follow [TEST-PROTOCOL.md](TEST-PROTOCOL.md).
+Thank you for testing UI Prototyping Studio. This is the safety and consent
+boundary for the guided local protocol in [TEST-PROTOCOL.md](TEST-PROTOCOL.md).
 
-## What you're testing (and what you're NOT)
+## What you are testing
 
-You are testing the **governance loop**: can you, a human, *supervise* an AI agent (Claude Code) as it
-proposes UI changes — and stay in control of every decision that sticks? Specifically: you generate
-variants, pick a baseline, leave comments, and then **you alone** approve / apply / accept each durable
-change.
+You are testing a **governance and control loop**: can an authorized actor
+understand what is current, inspect a proposed UI change, acknowledge the exact
+Accept/Revert context, preserve an append-only history, and distinguish export
+confirmation from readiness?
 
-A browser **preview + click-to-annotate** surface now ships (`studio preview <sid>`), with in-preview
-Accept/Revert controls. The *polished* visual styling is still maturing, so your feedback here is primarily
-about the **control surface** — staying in control of every durable change — not the pixels.
+The locally implemented surface includes:
 
-## The one safety caveat — please understand this before you consent
+- current-head preview and labeled history;
+- click-to-annotate on actual `data-od-id` targets;
+- staged before/after evidence;
+- browser Accept/Revert with live action-context acknowledgment; and
+- terminal-confirmed handoff export.
 
-The studio's core enforces **what** can change (an out-of-scope edit is rejected) but does **not** yet
-enforce **who** is acting. Concretely:
+The protocol is not a release trial and is not evidence that the styling,
+accessibility, or human ergonomics are production-ready.
 
-- The durable gates (`approve`, `apply`, `accept`) have **no human-vs-agent identity check**. The CLI runs
-  every command under one actor (`STUDIO_ACTOR`, default `cli-user`) — so the system **cannot tell your
-  command apart from the agent's**.
-- This means: **if the agent ignored its instructions, it could approve + apply + accept its own change,
-  and the core would not stop it.** The only thing preventing that is the agent's written operating
-  contract (its "never-do" rules) — not the code.
+## The authority caveat
 
-Why it's still safe to test:
-- **Bounded:** an out-of-scope change is always rejected (the scope fence is real, server-enforced).
-- **Reversible + visible:** every change is an append-only revision you can see in `revisions`.
-- **Your job:** you are the supervisor. Watch that **you** are the one approving/applying/accepting. If
-  you ever see a revision recorded that *you* did not approve, that is exactly the issue we want you to
-  report — note it and flag it.
+The Studio does not infer a human-vs-agent identity from a CLI or browser
+caller. Its core enforces state, scope, staleness, exact candidate/revision
+identity, and the required acknowledgment, but caller identity alone grants no
+authority.
 
-A real identity gate is a planned next step; for this test it is deliberately deferred and disclosed (so
-you can give informed consent). By proceeding you acknowledge this caveat.
+In particular:
+
+- Browser Accept/Revert stays disabled until the exact live action context is
+  acknowledged; the server also rejects missing acknowledgment and stale
+  candidate/revision or target state.
+- That acknowledgment records inspection intent. It does not prove who clicked
+  or authorize an otherwise unauthorized route.
+- Direct CLI operations remain governed by the route/operator context; the core
+  does not manufacture a human-vs-agent identity gate.
+- Handoff export requires explicit confirmation in the core, but confirmation
+  does not set evidence, integration, implementation, or release readiness.
+
+For this supervised protocol, you should know which actor or route is issuing
+each durable command. If a revision is recorded outside the route you intended
+to authorize, stop and report it.
+
+## Why the local trial is bounded
+
+- Admission rejects required out-of-scope or stale candidates.
+- A staged candidate is not head until accepted.
+- Accept and Revert bind current identity/state and append history.
+- Everything runs locally under a fresh `STUDIO_DATA` directory.
+- Handoff output contains explicit missing-reference and readiness fields.
+
+These controls support a bounded trial. They are not a substitute for a bound
+human-study owner, accessibility audit, or release owner.
 
 ## Ground rules
 
-- Use a **fresh `STUDIO_DATA` path per run** (the protocol tells you how) so each run starts clean.
-- Everything runs locally on your machine; nothing is sent anywhere.
-- If something is confusing, that's data — write it down. Confusion is a finding, not your fault.
+- Use a fresh `STUDIO_DATA` file inside a fresh directory per run.
+- Keep the preview on its printed loopback address.
+- Know which authorized route is driving durable operations.
+- Treat confusion, unexpected state, or a revision you did not intend as a
+  finding.
+- Do not interpret a passing local run or `implementationReady: true` as
+  release authorization.
 
-Ready? → [TEST-PROTOCOL.md](TEST-PROTOCOL.md)
+Ready? Continue with [TEST-PROTOCOL.md](TEST-PROTOCOL.md).

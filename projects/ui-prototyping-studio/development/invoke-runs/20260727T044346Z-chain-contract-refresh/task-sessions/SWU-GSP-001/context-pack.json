@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "TASK-GSP-001",
+  "swu_id": "SWU-GSP-001",
+  "strict_coverage": true,
+  "objective": "Deterministic local CLI and fail-fast preview evidence startup",
+  "write_scope": [
+    "projects/ui-prototyping-studio/backend/e2e/helpers.ts",
+    "projects/ui-prototyping-studio/backend/e2e/helpers.spec.ts"
+  ],
+  "validation_commands": [
+    "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test --reporter=list"
+  ],
+  "accepted_equivalents": [
+    {
+      "declared": "/health startup probe",
+      "accepted": "/state startup probe",
+      "reason": "The existing endpoint proves listener readiness and valid session-backed server operation without expanding product scope."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "GSP-001-READINESS-PROBE",
+      "selected": "existing /state endpoint",
+      "consequence": "nonconsequential",
+      "reversibility": "reversible"
+    },
+    {
+      "id": "GSP-001-HELPER-WITNESS",
+      "selected": "one helper-focused Playwright spec",
+      "consequence": "nonconsequential",
+      "reversibility": "reversible"
+    }
+  ],
+  "closeout": {
+    "route": "invoke:refresh:apply-approved",
+    "targets": [
+      "projects/ui-prototyping-studio/development/invoke-runs/20260727T042935Z-architecture-review-refresh/WORK-PACK.md",
+      "projects/ui-prototyping-studio/.craft/ledger.yml",
+      "projects/ui-prototyping-studio/CRAFT.md"
+    ],
+    "next_candidate": "SWU-GSP-002"
+  }
+}

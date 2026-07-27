@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "swu_id": "SWU-GSP-001",
+  "result": "pass",
+  "selected": true,
+  "allowed_writes": [
+    "projects/ui-prototyping-studio/backend/e2e/helpers.ts",
+    "projects/ui-prototyping-studio/backend/e2e/helpers.spec.ts"
+  ],
+  "files_touched": [
+    "projects/ui-prototyping-studio/backend/e2e/helpers.ts",
+    "projects/ui-prototyping-studio/backend/e2e/helpers.spec.ts"
+  ],
+  "validation": [
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/tsc -p tsconfig.json --noEmit",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test e2e/helpers.spec.ts --reporter=list",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    },
+    {
+      "command": "cd projects/ui-prototyping-studio/backend && ./node_modules/.bin/playwright test --reporter=list",
+      "criticality": "acceptance-critical",
+      "result": "pass"
+    }
+  ],
+  "acceptance_evidence": [
+    "Local backend node_modules/.bin/tsx is the only production helper executable.",
+    "Failed CLI results retain command, args, code, signal, raw stdout, compatibility output, and separate stderr.",
+    "Premature preview exit rejects promptly with actionable diagnostics.",
+    "Preview readiness uses the accepted existing /state endpoint.",
+    "Final standard Playwright route passes 15/15."
+  ],
+  "blockers": [],
+  "residue": [
+    "Human-study ergonomics and release authorization remain outside this implementation receipt."
+  ],
+  "next_candidate": "SWU-GSP-002"
+}

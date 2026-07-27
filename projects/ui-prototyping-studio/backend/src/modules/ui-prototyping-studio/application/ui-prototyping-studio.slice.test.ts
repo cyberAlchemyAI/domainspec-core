@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import test from "node:test";
@@ -435,6 +435,11 @@ test("UPS-CON-008 UPS-CON-009 UPS-CON-010 UPS-OP-009 UPS-OP-010 UPS-QRY-005 UPS-
     exported.bundle.testSpecRef,
     "docs/features/ui-prototyping-studio/TEST-SPEC.md",
   );
+  assert.equal(exported.bundle.exportConfirmed, true);
+  assert.ok(exported.bundle.missingRefs.length > 0);
+  assert.equal(exported.bundle.evidenceComplete, false);
+  assert.equal(exported.bundle.integrationReady, false);
+  assert.equal(exported.bundle.implementationReady, false);
 
   const handoff = context.getHandoffBundle({
     sessionId: session.sessionId,
@@ -444,9 +449,9 @@ test("UPS-CON-008 UPS-CON-009 UPS-CON-010 UPS-OP-009 UPS-OP-010 UPS-QRY-005 UPS-
   const snapshot = context.getSessionSnapshot({
     sessionId: session.sessionId,
   });
-  assert.equal(snapshot.integration.uiPhaseBridgeReady, true);
-  assert.equal(snapshot.integration.generateTestsUiReady, true);
-  assert.equal(snapshot.integration.uiImplementReady, true);
+  assert.equal(snapshot.integration.uiPhaseBridgeReady, false);
+  assert.equal(snapshot.integration.generateTestsUiReady, false);
+  assert.equal(snapshot.integration.uiImplementReady, false);
 });
 
 test("ui-prototyping-studio handoff export can use a target-specific profile", () => {
@@ -492,6 +497,81 @@ test("ui-prototyping-studio handoff export can use a target-specific profile", (
   assert.deepEqual(exported.bundle.sourceRefs, [
     "projects/body-war/docs/features/troqar-product-architecture/VISUAL-DEFINITIONS.md",
   ]);
+  assert.equal(exported.bundle.exportConfirmed, true);
+  assert.equal(exported.bundle.evidenceComplete, false);
+  assert.equal(exported.bundle.integrationReady, false);
+  assert.equal(exported.bundle.implementationReady, false);
+});
+
+test("complete refs and an accepted honest head satisfy readiness without implying release", () => {
+  const featureDocsRootDir = mkdtempSync(join(tmpdir(), "ups-handoff-ready-"));
+  writeCompleteHandoffDocs(featureDocsRootDir);
+  const context = createTestContext(featureDocsRootDir);
+  const session = prepareBaselineReadySession(context, 1);
+  const approvedDraft = prepareApprovedBatch(context, session.sessionId);
+  const applied = context.applyApprovedBatch({
+    sessionId: session.sessionId,
+    batchId: approvedDraft.batchId,
+    applyRequestedBy: "test-suite",
+  });
+  const readyRevisionId = context.store.allocateRevisionId(
+    applied.revision.revisionId,
+  );
+  context.store.appendRevision({
+    ...applied.revision,
+    revisionId: readyRevisionId,
+    parentRevisionId: applied.revision.revisionId,
+    candidateHtmlHash: "a".repeat(64),
+    diffSummaryHonest: {
+      fragments: [
+        {
+          odId: "cta.primary",
+          added: 0,
+          changed: 1,
+          removed: 0,
+        },
+      ],
+      added: 0,
+      changed: 1,
+      removed: 0,
+      style: {
+        lane: "style",
+        attribution: "global-unattributed",
+        changed: false,
+        addedRules: 0,
+        removedRules: 0,
+        before: "",
+        after: "",
+      },
+      unattributed: {
+        lane: "unattributed",
+        added: 0,
+        changed: 0,
+        removed: 0,
+      },
+      visibleChangeCount: 1,
+    },
+  });
+  context.store.saveSession({
+    ...applied.session,
+    revisionHeadId: readyRevisionId,
+  });
+
+  const exported = context.exportDesignHandoff({
+    sessionId: session.sessionId,
+    requestedBy: "test-suite",
+    confirmedBy: "agent:authorized-route",
+  });
+
+  assert.deepEqual(exported.bundle.missingRefs, []);
+  assert.equal(exported.bundle.exportConfirmed, true);
+  assert.equal(exported.bundle.evidenceComplete, true);
+  assert.equal(exported.bundle.integrationReady, true);
+  assert.equal(exported.bundle.implementationReady, true);
+  assert.equal(exported.session.integration.uiPhaseBridgeReady, true);
+  assert.equal(exported.session.integration.generateTestsUiReady, true);
+  assert.equal(exported.session.integration.uiImplementReady, true);
+  assert.equal("releaseAuthorized" in exported.bundle, false);
 });
 
 function prepareBaselineReadySession(
@@ -563,6 +643,24 @@ function prepareApprovedBatch(
   return approved.batch;
 }
 
+function writeCompleteHandoffDocs(rootDir: string): void {
+  const docsDir = join(
+    rootDir,
+    "docs",
+    "features",
+    "ui-prototyping-studio",
+  );
+  mkdirSync(docsDir, { recursive: true });
+  for (const fileName of [
+    "STORIES.md",
+    "SPEC.md",
+    "UI-SPEC.md",
+    "TEST-SPEC.md",
+  ]) {
+    writeFileSync(join(docsDir, fileName), `# ${fileName}\n`, "utf8");
+  }
+}
+
 function createTestContext(featureDocsRootOverride?: string) {
   const store = createInMemoryStudioSessionStore();
   const featureDocsRootDir = featureDocsRootOverride ?? resolve(
@@ -573,6 +671,7 @@ function createTestContext(featureDocsRootOverride?: string) {
   );
 
   return {
+    store,
     initializeSession: makeInitializeStudioSessionUseCase(store),
     submitPrompt: makeSubmitStudioPromptUseCase(store),
     generateVariants: makeGenerateStudioVariantsUseCase(store),

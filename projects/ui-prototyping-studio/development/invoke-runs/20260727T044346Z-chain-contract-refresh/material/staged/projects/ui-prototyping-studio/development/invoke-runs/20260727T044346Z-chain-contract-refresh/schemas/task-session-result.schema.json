@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ui-prototyping-studio.task-session-result.schema.json",
+  "title": "UI Prototyping Studio Task Session Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "swu_id",
+    "result",
+    "selected",
+    "allowed_writes",
+    "files_touched",
+    "validation",
+    "acceptance_evidence",
+    "blockers",
+    "residue",
+    "next_candidate"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "swu_id": {"pattern": "^SWU-GSP-00[1-7]$", "type": "string"},
+    "result": {
+      "enum": ["pass", "flag", "block", "interrupted"]
+    },
+    "selected": {"const": true},
+    "allowed_writes": {
+      "items": {"type": "string"},
+      "minItems": 1,
+      "type": "array"
+    },
+    "files_touched": {
+      "items": {"type": "string"},
+      "type": "array"
+    },
+    "validation": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {"minLength": 1, "type": "string"},
+          "criticality": {
+            "enum": ["acceptance-critical", "noncritical"]
+          },
+          "result": {"enum": ["pass", "fail", "not-run"]}
+        },
+        "required": ["command", "criticality", "result"],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "acceptance_evidence": {
+      "items": {"type": "string"},
+      "type": "array"
+    },
+    "blockers": {
+      "items": {"type": "string"},
+      "type": "array"
+    },
+    "residue": {
+      "items": {"type": "string"},
+      "type": "array"
+    },
+    "next_candidate": {
+      "oneOf": [
+        {"pattern": "^SWU-GSP-00[2-7]$", "type": "string"},
+        {"type": "null"}
+      ]
+    }
+  }
+}
