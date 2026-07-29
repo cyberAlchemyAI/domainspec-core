@@ -4203,3 +4203,492 @@ Artifacts:
   select an SWU, authorize Task Session, implement L1, adopt a runtime, or
   establish ontology, promotion, release, publication, or production
   readiness.
+
+## 2026-07-27 - Body War SuggestedTrack prototype-gap research result inventoried
+
+- Mode: post-result Inventory hook after a human-confirmed governed research
+  dispatch.
+- Dispatch:
+  `2026-07-27-body-war-suggested-track-prototype-gap`.
+- Ledger: registered and append-only closed `resolved`; nine agents and one
+  synthesizer/reviewer revision loop.
+- Current execution: commit
+  `b7d60c96d5ace267f5aed8eb9921756aad1f66d3`; validation pass; Node `3/3`;
+  disposable local Docker Postgres e2e pass with cleanup; Chromium `7/7`.
+- Accepted answer: the fake-provider developer path can be tested now.
+  Moderated participant testing remains blocked on LP-01 visible affirmative
+  consent and exact Help-to-track binding.
+- Hosted boundary: RF-02, HOST-01, and a one-attempt WITNESS-01 remain
+  separately gated. RF-01 blocks repeat/retry-capable hosted use, not the
+  first supervised single witness. Unmoderated use remains unadmitted.
+- Audit: reviewer confrontation converged; evidence closure `ready`; auditor
+  `RECOMMEND_ACCEPT`; parent `ACCEPT`.
+- Entry created:
+  `entries/body-war-suggested-track-testable-prototype-gap-research-result-synthesis.md`.
+- Historical strategy entry: the earlier confirmation-ready candidate entry is
+  preserved as the pre-run strategy read model; this result entry is the
+  current outcome read model.
+- Boundary: Inventory is non-authority. No application change, LP-01
+  selection, participant action, deployment, real Strava use, blocker closure,
+  accessibility claim, geometry/scoring acceptance, promotion, pilot,
+  production, release, or shipment was authorized.
+
+## 2026-07-28 - Body War login-to-score Invoke plan review strategy inventoried
+
+- Mode: post-result Inventory hook for a durable governed review proposal.
+- Dispatch proposal:
+  `2026-07-28-body-war-login-score-plan-review`.
+- Gate: schema `0.8.0` form validation passed and two independent
+  check-tension agents passed sheet digest
+  `8e6ba449f84200e8f906d49cd672e4166aa3446e1d5a500cef409163fda52051`
+  with no apontamentos.
+- Strategy: two whole-corpus attacker methodologies, one synthesizer, one
+  literal verifier, one findings writer, and parent final approval.
+- Target: the new Body War Invoke package mapping login, SuggestedTrack
+  confirmation, selected Strava geometry, and ScorePreview.
+- Inventory consequence: LP-01, RF-02, HOST-01, WITNESS-01, and RF-01 remain
+  separate regression probes; raw Body War artifacts remain authority.
+- Entry created:
+  `entries/body-war-login-score-invoke-plan-review-strategy-result-synthesis.md`.
+- Ledger: unregistered; exact human confirmation remains required.
+- Boundary: Inventory is a non-authority read model. No review findings,
+  Distill pass, SWU selection, application change, score-policy decision,
+  participant/live Strava action, deployment, promotion, release, or
+  production claim is authorized.
+
+## 2026-07-28 - Body War login-to-score Invoke plan review result inventoried
+
+- Mode: post-result Inventory hook after governed review closeout and
+  Plan-only reconciliation.
+- Dispatch:
+  `2026-07-28-body-war-login-score-plan-review`.
+- Ledger: one registered dispatch row and one append-only close row;
+  `exit_reason: resolved`; five registered agents; one whole-dispatch loop.
+- Review: two parallel whole-corpus attacks plus robot-talk, synthesis,
+  literal-byte verification, writer, and parent approval.
+- Outcome: ten verified change requests, no surviving CRITICAL finding; the
+  proposed mandatory SWU-JSP-005 split was refuted and dropped.
+- Reconciliation: all six MAJOR requests and three MINOR requests were applied
+  to the Invoke package. The remaining MINOR evidence-state terminology fix is
+  blocked by the live manifest `1.0.0` enum and remains explicit residue.
+- Validation: deterministic Design extraction and fixed-point selection pass;
+  Dispatch Spec passes with zero blocks and zero flags.
+- Prototype boundary: W0 owner decisions -> L0 complete-window fixture score
+  -> L1 moderated local -> L2 real gateway -> L3 separately admitted hosted
+  witness -> L4 later repeat/promotion work.
+- Entry created:
+  `entries/body-war-login-score-invoke-plan-review-result-synthesis.md`.
+- Historical strategy entry: preserved as the pre-confirmation proposal read
+  model; this result entry is the current closed-dispatch outcome.
+- Boundary: Inventory is non-authority. No SWU is selected; application code,
+  owner decisions, live Strava use, hosting, participant execution,
+  promotion, production, release, and shipment remain unperformed and
+  unauthorized.
+
+## 2026-07-28 - Authority, human memory, and Augmentor integration research strategy inventoried
+
+- Mode: post-result Inventory hook for a durable governed research proposal.
+- Dispatch proposal:
+  `2026-07-28-authority-memory-augmentor-integration`.
+- Gate: schema `0.8.0` form validation passed and two independent
+  check-tension agents passed sheet digest
+  `31485376626d836b76cdd3adb38d18b100feb82d6411959a052dbb3293c2bdf5`
+  with no apontamentos.
+- Strategy: four parallel owner-partitioned explorer lanes cover private
+  authority, human-facing IDE/browser ergonomics, the bounded semantic
+  evaluator protocol, and current ResonantOS runtime/upstream ownership;
+  synthesis, three attack gates, exact-binding closure, writer, auditor, and
+  parent final approval follow.
+- Inventory consequence: use the existing Human Knowledge/AI Memory,
+  knowledge-reference, Living Archive review/promotion, and bounded evaluator
+  contracts as build-from-owned seeds; require current source verification and
+  a public-safe projection/private-adapter split.
+- Consumer lookup: no product-local machine Inventory index exists; the nearby
+  `agentsofthefree` Markdown index was excluded as a different product.
+- Entry created:
+  `entries/authority-memory-augmentor-integration-research-strategy-result-synthesis.md`.
+- Ledger: unregistered; exact human confirmation remains required.
+- Boundary: Inventory is non-authority. No research run, product change,
+  authority promotion, IDE product decision, ResonantOS issue change,
+  reasoning-engine implementation/effect/ACI admission, deployment, release,
+  or production claim is authorized.
+
+## 2026-07-28 - Augmentor user, graph, and reasoning strategy revision inventoried
+
+- Mode: post-result Inventory hook for a materially revised durable research
+  proposal.
+- Dispatch proposal:
+  `2026-07-28-authority-memory-augmentor-integration`.
+- Revision: the unconfirmed first proposal is superseded. The current objective
+  prioritizes Augmentor and agent experience through protected user
+  understanding, an incremental rebuildable graph, bounded graph-plus-model
+  reasoning, visible correction/forgetting, and explicit overhead budgets.
+- Gate: schema `0.8.0` form validation passed and two independent
+  check-tension agents passed sheet digest
+  `0bd725cd09976d731c650c00b05c50cdf96b7290671f50993277ea9af5ca8e3a`
+  with no apontamentos.
+- Strategy: four parallel explorer lanes cover user understanding, graph
+  evolution, reasoning support, and ResonantOS-owned Augmentor delivery;
+  synthesis, duplication/non-vacuity/non-collapse attacks, cited-synthesis
+  closure, writer, narrow auditor, and parent approval follow.
+- Inventory consequence: current User/Translate/Guide files must be read
+  directly because no matching machine-index entry exists. Selected graph,
+  reasoning, IDE Ergonomics, and Living Archive entries remain discovery-only.
+- Consumer lookup: no product-local machine Inventory index exists; the nearby
+  `agentsofthefree` Markdown index remains excluded as a different product.
+- Current entry:
+  `entries/augmentor-user-graph-reasoning-research-strategy-result-synthesis.md`.
+- Superseded entry:
+  `entries/authority-memory-augmentor-integration-research-strategy-result-synthesis.md`.
+- Ledger: unregistered; exact human confirmation remains required.
+- Boundary: Inventory is non-authority. No research run, product change,
+  durable user-profile write, graph service, public Arcanum promotion,
+  reasoning-engine implementation, issue change, deployment, release, or
+  production claim is authorized.
+
+## 2026-07-28 - Augmentor user, graph, and bounded reasoning result inventoried
+
+- Mode: post-result Inventory hook after a human-confirmed governed research
+  dispatch.
+- Dispatch:
+  `2026-07-28-authority-memory-augmentor-integration`.
+- Ledger: registered and append-only closed `resolved`; ten governed roles,
+  one explorer evidence-feedback route, and two synthesizer/reviewer loops.
+- Accepted architecture: explicit request/session handles remain outside a
+  memory-owned disposable semantic index; a bounded query feeds one
+  operation-specific deterministic result and an optional claim-grounded
+  provider presentation.
+- V0 witness: a rollback-required deployment question produces a source-bound
+  two-node/one-edge projection, typed `missing_premise`, visible refusal to
+  recommend deployment, and distinct exclusion, correction, forgetting,
+  memory-off, pending-source, and accepted-source reruns.
+- Review: Gödel and Quine passed. Lakatos's sole final residue was mechanically
+  closed by using the cited validator's bare 64-character lowercase-hex
+  digest wire format.
+- Audit: evidence closure `ready`; Brandenburg `RECOMMEND_ACCEPT`, reconfirmed
+  after the bounded writer contract correction; parent `ACCEPT`.
+- Entry created:
+  `entries/augmentor-user-graph-reasoning-research-result-synthesis.md`.
+- Historical strategy entries remain the pre-run proposal read models; this
+  result entry is the current closed-dispatch outcome.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`. Shared validation passed with lookup readiness `ready`, zero
+  failures, and 102 inherited uncontrolled-tag warnings. Updater tests passed
+  9 assertion groups; human-index tests passed 7 groups.
+- Boundary: Inventory is non-authority. No ResonantOS implementation, durable
+  preference store, graph service, current-source refresh, executable budget
+  proof, measured human benefit, private reasoning-engine authorization,
+  ontology promotion, deployment, production readiness, or release is
+  established.
+
+## 2026-07-28 - Augmentor routing and multi-session strategy inventoried
+
+- Mode: post-result Inventory hook for a durable research proposal.
+- Dispatch proposal:
+  `2026-07-28-augmentor-routing-session-fabric`.
+- P1: synthesis, context protection, isolation, and parallelism all require a
+  governed research dispatch.
+- Strategy: four parallel explorer lanes cover formal session/background-run
+  state, bounded capability routing, one-interface human ergonomics, and
+  current ResonantOS verification; synthesis, three adversarial gates,
+  cited-synthesis closure, writer, auditor, and parent approval follow.
+- Inventory consequence: the route is build-from-owned over the verified
+  Augmentor result, candidate IDE Ergonomics spine, and ResonantOS Living
+  Archive seam. Current consumer bytes must be checked directly because no
+  Inventory result covers threads, projects, goal workspaces, and delegation
+  as one routing architecture.
+- Consumer target: `../workspace-resonantos` was absent; the current checkout
+  resolved to `../workspace-resonant/2.0.0-alpha`. Its seven upstream commits
+  affect Agent Control/public-submit rather than the inspected chat scope.
+- Gate: schema `0.8.0` readiness and Dispatch Spec passed. Independent
+  check-tension verdicts passed frozen sheet digest
+  `78849ca1bd09a13daab93629d9ac2bf1ac5d6571063d75a6d05397242065235e`
+  with no apontamentos.
+- Entry created:
+  `entries/augmentor-routing-session-fabric-research-strategy-result-synthesis.md`.
+- Ledger: unregistered; exact human confirmation remains required.
+- Boundary: Inventory is non-authority. No research run, product change,
+  Necronomicon or Spellcraft change, IDE product decision, ResonantOS
+  implementation, reusable capability authoring, deployment, or release is
+  authorized.
+
+## 2026-07-28 - Augmentor routing and multi-session result inventoried
+
+- Mode: post-result Inventory hook for an auditor-accepted research blueprint.
+- Dispatch:
+  `2026-07-28-augmentor-routing-session-fabric`.
+- Execution: four explorers, one synthesizer, three skeptics, one writer, and
+  one auditor completed all five waves. Reviewer evidence closure returned
+  `ready`; one bounded notification-control repair and one bounded
+  citation-only writer revision closed.
+- Result: one shell over separate project, thread, interaction, immutable route
+  decision, current-owner run correlation, artifact, notification, and memory
+  boundaries. Runtime state remains ResonantOS-owned and public-neutral;
+  Necronomicon is admitted routing precedent, not a consumer session store.
+- Acceptance boundary: v0 is infrastructure only. The first product acceptance
+  contract is a live two-child browser witness in which the main conversation
+  continues while governed subagent-strategy and Whisper work run, one child
+  receives a targeted clarification, results remain independently consumable,
+  and no focus, context, secret, artifact, or memory bleed occurs.
+- Quality boundary: v2 owns the labeled routing corpus, confusion matrix,
+  asymmetric error costs, owner/confirmation correctness, and attention,
+  latency, token, storage, restoration, cancellation, and notification-control
+  measurements.
+- Audit: Brandenburg returned `RECOMMEND_ACCEPT` after verifying the four
+  citation repairs. Parent accepted the research artifact; the append-only
+  dispatch ledger closed with `exit_reason: resolved`.
+- Entry created:
+  `entries/augmentor-routing-session-fabric-research-result-synthesis.md`.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`; uncontrolled-tag warnings are inherited and non-blocking.
+- Boundary: Inventory is non-authority. No ResonantOS implementation, accepted
+  runtime schema, passing browser witness, measured routing quality, product
+  change, Necronomicon or Spellcraft change, reusable capability authoring,
+  deployment, production readiness, or release is established.
+
+## 2026-07-28 - Augmentor Subagent Strategy integration proposal inventoried
+
+- Mode: post-result Inventory hook for a durable research proposal.
+- Dispatch proposal:
+  `2026-07-28-augmentor-subagent-strategy-integration`.
+- P1: synthesis, context protection, isolation, and parallelism require a
+  governed research dispatch.
+- Strategy: four parallel explorer lanes cover the portable lifecycle and
+  private-adapter boundary, current ResonantOS integration, conversational
+  human control, and primary-source protocol plus degraded-mode precedent.
+  Synthesis, three adversarial gates, evidence closure, findings writer,
+  auditor, and parent approval follow.
+- Inventory consequence: the route builds from the verified Augmentor
+  routing/session result, candidate IDE Ergonomics spine, and candidate
+  ResonantOS Living Archive seam. A second scheduler, registry, session store,
+  or imported private DomainSpec authority is an explicit reject condition.
+- Current source boundary: public Subagent Strategy, Dispatch Spec,
+  Orchestrate, and the private DomainSpec adapter exist. The clean
+  `../workspace-resonant/2.0.0-alpha` consumer remains seven commits behind
+  `origin/dev`, has current host owners for threads, goals, compute,
+  delegation, workspaces, artifacts, permissions, providers, and persistence,
+  but still uses one global transient chat-run guard.
+- Gate: schema `0.8.0` confirmation readiness and Dispatch Spec passed.
+  Independent checker and reviewer verdicts passed frozen sheet digest
+  `e2720d7f325c432ef041e575d82830e616885923874eeb8d5a006c305c8a5786`
+  with no apontamentos.
+- Entry created:
+  `entries/augmentor-subagent-strategy-integration-research-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`; inherited uncontrolled-tag warnings remain non-blocking.
+- Ledger: unregistered; exact human confirmation remains required.
+- Boundary: Inventory is non-authority. No research run, product change,
+  public capability promotion, private authority transfer, ResonantOS
+  implementation, deployment, production readiness, or release is
+  authorized.
+
+## 2026-07-29 - Augmentor Subagent Strategy integration result inventoried
+
+- Mode: post-result Inventory hook for an auditor-accepted research blueprint.
+- Dispatch:
+  `2026-07-28-augmentor-subagent-strategy-integration`.
+- Execution: four explorers, one synthesizer, three reviewers, one writer, and
+  one auditor completed all five waves. Reviewer evidence closure returned
+  `ready`; the auditor returned `RECOMMEND_ACCEPT`.
+- Result: Augmentor owns side-effect-free proposal and control projections
+  only. Public Subagent Strategy supplies lifecycle semantics, Dispatch Spec
+  validates, Orchestrate reconciles native actions, and existing ResonantOS
+  delegation, workspace, compute, goal, provider, artifact, thread,
+  permission, and persistence owners retain execution and terminal truth.
+- Classification: `StrategyProposal` and `RouteDecision` are
+  `BUILD-FROM-OWNED + NOVEL-ATTEMPT`. The current ceiling is
+  `NO_WITNESS_CURRENT`.
+- Acceptance boundary: the first product proof is an owner-backed two-child
+  Strategy-plus-Whisper browser witness with one blocked child, one successful
+  child, a blocked dependent gate, reload reconciliation, targeted
+  clarification, selective consumption, and no context, focus, artifact, or
+  memory bleed. Cancellation remains a separate control test.
+- Evidence: the derived 71-event owner-evidence causal stream validates
+  `PASS`. The original narrative event log and its failed strict-validator
+  receipt remain preserved as typed residue.
+- Entry created:
+  `entries/augmentor-subagent-strategy-integration-research-result-synthesis.md`.
+- Index: the repository-owned deterministic appender tests passed; dry-run and
+  apply synchronized `index.json` and `index.md`. Projection conformance
+  passed with zero failures and 111 inherited uncontrolled-tag warnings.
+- Runtime residue: the generated skill wrapper incorrectly resolved its own
+  package as the Inventory root and returned `inventory-state-unavailable`
+  before reading or writing the consumer index. The repository-owned
+  deterministic appender was therefore used; no failed wrapper write
+  occurred.
+- Boundary: Inventory is non-authority. No ResonantOS implementation, accepted
+  runtime profile, passing browser witness, product change, public capability
+  promotion, private authority transfer, deployment, production readiness, or
+  release is established.
+
+## 2026-07-29 - OEW runtime rebuild lessons research strategy inventoried
+
+- Mode: post-result Inventory hook for a durable research proposal.
+- Dispatch proposal:
+  `2026-07-29-oew-runtime-rebuild-lessons`.
+- P1: synthesis, isolation, context protection, and parallelism are required
+  to distinguish empirical source/runtime failures from blockers amplified by
+  exact-byte ownership and work-pack granularity.
+- Strategy: three parallel explorer lanes own clean-runtime reproduction,
+  blocker/Refresh chronology, and a minimum no-new-package architecture.
+  Exact-binding synthesis, two independent adversarial gates, findings writer,
+  auditor, and parent approval follow.
+- Candidate boundary: compare the current
+  `007T -> 013B -> 014 -> 014V` chain, a thin private adapter in the existing
+  upstream pnpm workspace, a static or Node-native first prototype lane, and a
+  new generalized runtime. Require a `KEEP/REBUILD/DELETE/DEFER` disposition
+  for each affected artifact and an executable Poker-Team browser witness.
+- Inventory consequence: the route builds from the prior OEW runtime-audit
+  strategy and its coverage-rejected result. Generic Inventory runtime and
+  Studio interface work were excluded from the load-bearing set.
+- Gate: schema `0.8.0` confirmation readiness, two independent tension checks,
+  and the capability-bound Dispatch Spec passed. Frozen sheet digest:
+  `6b78fbef290285df6d55791d41e7939a7662ca00a20da05f20e4ec673fc29d6f`.
+- Entry created:
+  `entries/oew-runtime-rebuild-lessons-research-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`; inherited uncontrolled-tag warnings remain non-blocking.
+- Ledger: unregistered; exact human confirmation remains required. The active
+  Goal is paused at `SWU-OEW-007T`, and the declared implementation target
+  hashes remain unchanged from preflight.
+- Boundary: Inventory is non-authority. No source, lock, package, plan,
+  browser, ontology, deployment, production-readiness, or release mutation is
+  established.
+
+## 2026-07-29 - OEW runtime rebuild lessons research result inventoried
+
+- Mode: post-result Inventory hook for an auditor-approved research dispatch.
+- Dispatch:
+  `2026-07-29-oew-runtime-rebuild-lessons`.
+- Execution: three explorers, one synthesizer, two skeptics, one findings
+  writer, and one auditor completed five dependency waves with zero feedback
+  loops. Exact-binding evidence closure returned `ready`; the auditor returned
+  `APPROVE`; the paired ledger close row records `resolved`.
+- Result: package manifests and SHA pins are reproducibility guards, not the
+  direct runtime failure. A clean isolated replay passed frozen install,
+  explicit core build, and dashboard tests, then reproduced 48
+  strict-TypeScript errors in three OEW overlay modules before Vite.
+- Topology: the frozen upstream archive retained eight manifests, the overlay
+  owns zero, OEW has one existing dependency-free command registry, and recent
+  work added zero manifests.
+- Churn: four Task Sessions were consumed; three were blocked build or
+  reproducibility sessions and none reached a browser. The audited lower bound
+  is at least 56 governance path-write events versus 28 runtime implementation
+  writes.
+- Candidate outcome: retain the current chain for eventual independent L1
+  verification; use the thin upstream adapter as the smallest
+  build-from-owned next target; retain Node-native only as an L0 diagnostic;
+  remove a generalized runtime from the prototype critical path. The thin
+  adapter remains `KILLED-PENDING-WITNESS`.
+- Missing behavior: strict typing repair, fail-closed `/oew-data/*` routing,
+  forced focused typed-test discovery, and one exact Playwright runner and
+  receipt, all with zero new manifests.
+- Runtime residue: the first writer-gate reduction globbed the type-owner
+  `evidence-closure.json` as an agent receipt and blocked. Isolated runtime
+  receipts allowed the unchanged gate to pass; both receipts remain preserved.
+- Entry created:
+  `entries/oew-runtime-rebuild-lessons-research-result-synthesis.md`.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`; lookup validation remains subject to inherited uncontrolled-tag
+  warnings.
+- Boundary: Inventory is non-authority. No working browser prototype,
+  implementation authorization, SWU selection, ontology correctness,
+  promotion, deployment, production readiness, or release is established.
+
+## 2026-07-29 - Augmentor unified agent architecture research strategy inventoried
+
+- Mode: post-result Inventory hook for a durable research proposal.
+- Dispatch proposal:
+  `2026-07-29-augmentor-unified-agent-architecture`.
+- P1: synthesis, context protection, isolation, and parallelism are required
+  to reconcile accepted Augmentor memory/reasoning, routing/session, and
+  Subagent Strategy results with current authority, ontology, Inventory,
+  Living Archive, IDE, user-guide, and ResonantOS owners.
+- Strategy: three parallel explorer lanes own authority/knowledge,
+  runtime/control, and human experience. Exact-binding synthesis, three
+  independent adversarial gates, findings writer, auditor, and parent approval
+  follow.
+- Required output: a current-versus-target architecture, non-collapsing object
+  catalog, and exact connection catalog where every edge names producer,
+  artifact or event, consumer, authority owner, selector, timing, and failure
+  behavior.
+- Witness: ground one ordinary-language turn in explicit user context, produce
+  a bounded judgment, receive one approval for two isolated children, preserve
+  parent conversation, support targeted clarification, partial result/blocker,
+  reload, selective consumption, and a separately authorized memory-intake
+  candidate.
+- Inventory consequence: the route builds from verified Augmentor
+  user-graph/reasoning, routing/session, Subagent Strategy, and bounded
+  reasoning results plus candidate IDE Ergonomics, Living Archive,
+  Inventory-to-ontology, ontology-operationalization, and CyberAlchemy v2
+  authority evidence. Superseded unexecuted strategies are excluded.
+- Gate: schema `0.8.0` confirmation readiness, capability-bound Dispatch Spec,
+  and two independent tension checks passed. Frozen sheet digest:
+  `b0afdd343460cc3fd23ad00a100fa4a11f7b58351e010e12f41926d5a526c379`.
+- Entry created:
+  `entries/augmentor-unified-agent-architecture-research-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`; projection conformance passed with zero failures and 111
+  inherited uncontrolled-tag warnings.
+- Ledger: unregistered; exact human confirmation remains required.
+- Boundary: Inventory is non-authority. No research execution, product code,
+  public capability, private authority, memory, ontology, promotion,
+  deployment, production readiness, or release mutation is established.
+
+## 2026-07-29 - Augmentor unified agent architecture research result inventoried
+
+- Mode: post-result Inventory hook after confirmed governed research.
+- Dispatch: `2026-07-29-augmentor-unified-agent-architecture`.
+- Result: `GO — BUILD_FROM_OWNED + EXPLICIT ABSENT ADAPTERS` with
+  `NO_WITNESS_CURRENT`.
+- Architecture: one conversational Augmentor projection over retained
+  authority/knowledge, runtime/control, and human-experience owners; no second
+  router, scheduler, session, job, workspace, artifact, memory, graph-truth,
+  reasoning, ontology, effect, or promotion owner.
+- Knowledge path: provider review precedes Inventory; Inventory validates a
+  handoff candidate only; ontology candidates, authority decisions, transition
+  evidence, canonical artifacts, and governed projections remain separate.
+- Witness: literal future bytes, digests, event order, counter checkpoints,
+  browser selectors/actions, accessibility assertions, and measurement
+  contracts are specified but unimplemented and unexecuted.
+- Review: precedent, non-vacuity, and non-collapse gates passed after two
+  bounded synthesis revisions. Evidence closure returned `ready`.
+- Audit: one selector-only writer feedback loop repaired three line ranges;
+  final verdict `RECOMMEND_ACCEPT`.
+- Orchestration: nine native actions across five waves; the 63-event causal
+  stream validates `PASS`.
+- Entry created:
+  `entries/augmentor-unified-agent-architecture-research-result-synthesis.md`.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`; inherited uncontrolled-tag warnings remain.
+- Boundary: Inventory is non-authority. No product implementation, current
+  fixture, browser proof, production integration, durable memory write,
+  evaluator capability, ontology/authority promotion, deployment, release, or
+  readiness is established.
+
+## 2026-07-29 - Body War business-view novice-comprehension review inventoried
+
+- Mode: post-result Inventory hook after confirmed governed review.
+- Dispatch:
+  `2026-07-29-body-war-business-view-novice-comprehension-review`.
+- Result: three HIGH change requests and one MEDIUM protocol-admission blocker
+  accepted; ledger closed `resolved`.
+- Instrument boundary: generate a separate learner-only comprehension task;
+  keep keys, audits, rubrics, stalls, results, and human records reviewer-only
+  and unshipped.
+- Projection boundary: distinguish blocked owner decision, explicit
+  non-promotion, and projection; preserve Relation owner; use residue/profile
+  only as removable view inputs.
+- Narrative boundary: relation-local copy, A/B branch parity, unordered
+  relation groups, and native no-JavaScript access.
+- Evidence boundary: a pinned browser receipt may admit one exact stimulus to
+  an agent novice protocol but cannot prove human comprehension.
+- Entries created:
+  `entries/body-war-business-view-novice-comprehension-review-result-synthesis.md`
+  and
+  `entries/evidence-cards/2026-07-29-body-war-business-view-novice-comprehension-cards.md`.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`; inherited uncontrolled-tag warnings remain.
+- Boundary: Inventory is non-authority. No ontology or HTML implementation,
+  novice run, browser admission, human witness, promotion, release, or
+  production readiness is established.

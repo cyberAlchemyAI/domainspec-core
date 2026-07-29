@@ -1,0 +1,272 @@
+{
+  "schema_version": "body-war-comprehension-browser-receipt/v1",
+  "status": "pass",
+  "started_at": "2026-07-29T20:30:27.176Z",
+  "completed_at": "2026-07-29T20:30:34.762Z",
+  "artifacts": {
+    "task": {
+      "path": "projects/body-war/ontology/business/BUSINESS-COMPREHENSION-TASK.html",
+      "sha256": "a3b4a903c0f9a879e223cf8163e5f8da2bfab4b128f4cd94591fe09ed4fd295d",
+      "size_bytes": 4107
+    },
+    "stimulus": {
+      "path": "projects/body-war/ontology/business/BUSINESS-JOURNEY-EXPERIMENT.html",
+      "sha256": "2484193e538aa6ae1c8b1b2542e7b5052374aec2aed9410b87c20726e1d5833d",
+      "size_bytes": 93977
+    },
+    "task_catalog": {
+      "path": "projects/body-war/ontology/business/authoring/comprehension-task-catalog.mjs",
+      "sha256": "ce589fb801faaeae9493941a688a57615addad8697853d07d8f81386f0e25797",
+      "size_bytes": 2292
+    },
+    "task_generator": {
+      "path": "projects/body-war/ontology/business/scripts/generate-comprehension-task.mjs",
+      "sha256": "4c64910eff0d7e702cf0d076e5d0b8263530569fa38bbdefcf2694bc5574d594",
+      "size_bytes": 4018
+    },
+    "stimulus_catalog": {
+      "path": "projects/body-war/ontology/business/authoring/view-catalog.mjs",
+      "sha256": "72ea9a819b6dad2f229cca84a071e9b0466b1330a76fd6408f8391eb6cf17b72",
+      "size_bytes": 18492
+    },
+    "stimulus_generator": {
+      "path": "projects/body-war/ontology/business/scripts/generate-views.mjs",
+      "sha256": "de27476ba304d8774d6fd59a1e40f26b4e70c5a7db69a36e2b1bdf0e37389184",
+      "size_bytes": 51517
+    },
+    "profile": {
+      "path": "projects/body-war/ontology/business/profile.json",
+      "sha256": "cba6f78a7306dea9fbd6d97fd3d5d228d501e81839c20248e901f3067ec0b739",
+      "size_bytes": 5392
+    },
+    "residue": {
+      "path": "projects/body-war/ontology/business/residue.json",
+      "sha256": "796b56b8d7ad0e341646ac3df0970317e958509c0e6a2d712502d8e2ca65032f",
+      "size_bytes": 4480
+    },
+    "relations": {
+      "path": "projects/body-war/ontology/business/relations/relations.json",
+      "sha256": "234ad4152b731edcb03cd1b45dfa21570bd37df741090ca6ca0940fd98c0ce00",
+      "size_bytes": 216899
+    },
+    "node_manifest": {
+      "path": "projects/body-war/ontology/business/nodes/manifest.json",
+      "sha256": "3cffc5cea2d5abff02ce1b28e87ed80519795fa3074e47e1ec2030c3214f4fdb",
+      "size_bytes": 12221
+    }
+  },
+  "instrument_identity": {
+    "task_id": "body-war.business-view-reading.v1",
+    "task_digest": "bf1e8f58d313a22d570f131c1e7ec9cc7db9efca686e1b51054537f3df71484b",
+    "loci_digest": "45d96637a12da3ec250c65bcdbfd9c654b0b9e0ebacdd991a9bfe3e29d74bbea",
+    "prompt_digest": "535b1a853745a3e2842d9d8da248f53665dd8e36750024bc6771b8d7d1e03090",
+    "stimulus_contract_digest": "e0abedbee412d21dddedd3491767d519230dd36fd2bf20e826e65c6b3497c429",
+    "matched_arm_identity": "byte-identical"
+  },
+  "runtime": {
+    "node": "v22.12.0",
+    "playwright_version": "1.59.1",
+    "playwright_module_path": "/home/vrondelli/.nvm/versions/node/v22.12.0/lib/node_modules/playwright",
+    "browser_name": "chromium",
+    "browser_version": "147.0.7727.15",
+    "browser_revision": "1217",
+    "executable_path": "/home/vrondelli/.cache/ms-playwright/chromium-1217/chrome-linux64/chrome",
+    "executable_sha256": "696170a79640ec5b50c7518140ace06c69a49cfb295bf527d4a85e26a12b89a7",
+    "viewport_modes": [
+      {
+        "width": 1280,
+        "height": 900,
+        "device_pixel_ratio": 1
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "device_pixel_ratio": 2
+      }
+    ],
+    "modes": [
+      "javascript",
+      "no-javascript",
+      "reduced-motion",
+      "print"
+    ],
+    "isolation": "fresh incognito browser context per mode; loopback random-port server; only exact task and stimulus paths admitted"
+  },
+  "request_paths": [
+    "/BUSINESS-COMPREHENSION-TASK.html",
+    "/BUSINESS-JOURNEY-EXPERIMENT.html"
+  ],
+  "assertions": [
+    {
+      "id": "task-loci-count",
+      "status": "pass",
+      "detail": "six learner loci"
+    },
+    {
+      "id": "matched-arm-fields",
+      "status": "pass",
+      "detail": "task, loci, prompt, and stimulus are the matched-arm identity fields"
+    },
+    {
+      "id": "negative-leakage:REVIEWER_ONLY_ANSWER_KEY",
+      "status": "pass",
+      "detail": "REVIEWER_ONLY_ANSWER_KEY is absent from learner bytes"
+    },
+    {
+      "id": "negative-leakage:REVIEWER_ONLY_COVERAGE_AUDIT",
+      "status": "pass",
+      "detail": "REVIEWER_ONLY_COVERAGE_AUDIT is absent from learner bytes"
+    },
+    {
+      "id": "negative-leakage:REVIEWER_ONLY_CORRECTNESS_RUBRIC",
+      "status": "pass",
+      "detail": "REVIEWER_ONLY_CORRECTNESS_RUBRIC is absent from learner bytes"
+    },
+    {
+      "id": "negative-leakage:REVIEWER_ONLY_STALL_RESULT",
+      "status": "pass",
+      "detail": "REVIEWER_ONLY_STALL_RESULT is absent from learner bytes"
+    },
+    {
+      "id": "negative-leakage:REVIEWER_ONLY_HUMAN_RECORD",
+      "status": "pass",
+      "detail": "REVIEWER_ONLY_HUMAN_RECORD is absent from learner bytes"
+    },
+    {
+      "id": "negative-leakage:expected_relation_ids",
+      "status": "pass",
+      "detail": "expected_relation_ids is absent from learner bytes"
+    },
+    {
+      "id": "negative-leakage:must_reject_invented_sequence",
+      "status": "pass",
+      "detail": "must_reject_invented_sequence is absent from learner bytes"
+    },
+    {
+      "id": "task-stimulus-only",
+      "status": "pass",
+      "detail": "all six task loci load without reviewer resources"
+    },
+    {
+      "id": "task-stimulus-link",
+      "status": "pass",
+      "detail": "task points to the exact journey stimulus"
+    },
+    {
+      "id": "js-progressive-tabs",
+      "status": "pass",
+      "detail": "ordinary links are enhanced into two tabs and panels"
+    },
+    {
+      "id": "js-single-visible-story",
+      "status": "pass",
+      "detail": "one story is visible after enhancement"
+    },
+    {
+      "id": "keyboard-tab-navigation",
+      "status": "pass",
+      "detail": "ArrowRight selects and reveals the second story"
+    },
+    {
+      "id": "detail-toggle",
+      "status": "pass",
+      "detail": "ontology details can be expanded"
+    },
+    {
+      "id": "visible-authority:Blocked — owner decision required",
+      "status": "pass",
+      "detail": "Blocked — owner decision required exists in the rendered stimulus"
+    },
+    {
+      "id": "visible-authority:Explicitly does not promote",
+      "status": "pass",
+      "detail": "Explicitly does not promote exists in the rendered stimulus"
+    },
+    {
+      "id": "visible-authority:Projection only",
+      "status": "pass",
+      "detail": "Projection only exists in the rendered stimulus"
+    },
+    {
+      "id": "visible-authority:Relation owner",
+      "status": "pass",
+      "detail": "Relation owner exists in the rendered stimulus"
+    },
+    {
+      "id": "visible-authority:Blocking owner",
+      "status": "pass",
+      "detail": "Blocking owner exists in the rendered stimulus"
+    },
+    {
+      "id": "visible-authority:Next gate",
+      "status": "pass",
+      "detail": "Next gate exists in the rendered stimulus"
+    },
+    {
+      "id": "visible-authority:status: candidate-local",
+      "status": "pass",
+      "detail": "status: candidate-local exists in the rendered stimulus"
+    },
+    {
+      "id": "visible-authority:authority_effect: none",
+      "status": "pass",
+      "detail": "authority_effect: none exists in the rendered stimulus"
+    },
+    {
+      "id": "visible-authority:release_admission: not-granted",
+      "status": "pass",
+      "detail": "release_admission: not-granted exists in the rendered stimulus"
+    },
+    {
+      "id": "native-no-js-stories",
+      "status": "pass",
+      "detail": "both complete stories are visible without JavaScript"
+    },
+    {
+      "id": "native-no-js-links",
+      "status": "pass",
+      "detail": "ordinary story links exist without JavaScript"
+    },
+    {
+      "id": "responsive-relation-layout",
+      "status": "pass",
+      "detail": "relation sentence collapses to one column at 390 CSS pixels"
+    },
+    {
+      "id": "reduced-motion",
+      "status": "pass",
+      "detail": "reduced-motion disables smooth scrolling"
+    },
+    {
+      "id": "print-all-stories",
+      "status": "pass",
+      "detail": "print mode exposes both stories"
+    },
+    {
+      "id": "print-controls-hidden",
+      "status": "pass",
+      "detail": "print mode hides interaction controls"
+    },
+    {
+      "id": "runtime-isolation",
+      "status": "pass",
+      "detail": "loopback server served only the exact task and stimulus"
+    }
+  ],
+  "screenshots": {
+    "task": {
+      "path": "receipts/comprehension-browser-task.png",
+      "sha256": "ac88b5c10f738986784cef8332f01ee9e094b36b88bcd30f280581da5b7a3a20",
+      "size_bytes": 196974
+    },
+    "journey": {
+      "path": "receipts/comprehension-browser-journey.png",
+      "sha256": "fc8c1a4601504b07aa429560dfaf31f623954159438bdbccebd53e5719fcf584",
+      "size_bytes": 1192515
+    }
+  },
+  "failure": null,
+  "agent_pretest_state": "not-run",
+  "human_witness_state": "not-authorized",
+  "claim_ceiling": "Pinned browser structure and interaction evidence only; no human comprehension, score correctness, ontology authority, promotion, release, or production evidence."
+}

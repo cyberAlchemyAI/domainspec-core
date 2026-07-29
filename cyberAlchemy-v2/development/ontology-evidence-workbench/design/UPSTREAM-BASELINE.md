@@ -53,20 +53,32 @@ The implementation package will own:
 ## L1 Overlay Build Contract
 
 L0's retained source and viewer archives are immutable inputs, not proof of an
-L1 overlay build. Before any L1 feature SWU, the private OEW bootstrap must:
+L1 overlay build. Before any L1 feature SWU, the private OEW provisioner must:
 
 1. verify the retained L0 handle, upstream lock, Node bytes, and exact pnpm
    `10.6.2` bytes;
 2. create a fresh digest-named workroot outside any workspace package graph;
 3. declare either `online` or an independently admitted `isolated-store` mode,
    use the effective frozen lock, and forbid workspace/global fallback;
-4. verify patch and overlay preimages, apply exactly once, record postimages,
-   and reject drift or reapplication;
-5. run dashboard Vitest and `tsc -b && vite build`;
-6. emit an immutable build handle binding inputs, tools, mode, test/build
-   results, output digest, protected equality, cleanup, and residue;
-7. clean the workroot on every exit and let a distinct verifier recompute the
-   retained evidence.
+4. verify a self-owned fixture overlay/patch, apply exactly once, record
+   pre/postimages, and reject drift or reapplication;
+5. emit an immutable toolchain handle binding inputs, tools, mode, patch
+   mechanics, protected equality, cleanup, and residue;
+6. clean the workroot on every exit and let a distinct verifier recompute the
+   toolchain evidence.
+
+After completed SWU-OEW-007 and the first-working-version SWU-OEW-008F have
+produced the complete feature overlay, the final-build unit must:
+
+1. consume the verified toolchain handle and exact first-working-version
+   overlay manifest/patch bytes;
+2. create a new digest-named workroot with the same fallback prohibitions;
+3. verify and apply the complete overlay exactly once;
+4. run dashboard Vitest and `tsc -b && vite build`;
+5. emit an immutable build handle binding the final source bytes, tools, mode,
+   test/build results, output digest, protected equality, cleanup, and residue;
+6. clean on every exit and let a distinct verifier recompute the retained
+   build evidence before browser acceptance.
 
 Rollback is deletion of the disposable workroot and rejection of its handle;
 the immutable L0 pin/archive remains unchanged. No L1 run may silently replace
@@ -79,8 +91,10 @@ that the future build succeeds in this repository, that upstream remains
 unchanged, or that its security/accessibility claims satisfy OEW. Those are
 Plan witnesses.
 
-Fresh `verify:upstream` validates retained L0 bytes only. It cannot satisfy the
-L1 overlay, typed-build, browser, teardown, or independent-verifier contracts.
+Fresh `verify:upstream` validates retained L0 bytes only. The 006P toolchain
+receipt validates materialization mechanics only. Neither can satisfy the
+post-feature overlay, typed-build, browser, teardown, or final independent-
+verifier contracts.
 
 ## Open Questions
 

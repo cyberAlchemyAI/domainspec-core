@@ -1,0 +1,74 @@
+{
+  "schema": "augmentor.unified-agent.profile@0.1.0",
+  "package_id": "augmentor-unified-agent-ontology",
+  "version": "0.1.0",
+  "status": "candidate-local",
+  "authority_effect": "none",
+  "release_admission": "not-granted",
+  "scope": "private-domainspec-core",
+  "runtime_repository": {
+    "path": "../workspace-resonant/2.0.0-alpha",
+    "commit": "6f92af7b32b17d2eef66230d463eb8b6a21a98f7",
+    "owner_contract": "docs/architecture/MODULE-OWNERSHIP.md",
+    "mutation_effect": "none"
+  },
+  "owner_routes": {
+    "package": "cyberalchemy-v2-ontology-route",
+    "meaning": "owner-selection-required:augmentor-meaning",
+    "runtime": "resonantos-module-ownership",
+    "route_shape": "dispatch-spec",
+    "execution_lifecycle": "orchestrate",
+    "trusted_memory": "provider-and-archive-review-owners",
+    "authority": "authority-kind-specific-named-owner"
+  },
+  "contract_refs": [
+    "CAV2-NODE-MODEL",
+    "CAV2-RELATION-MODEL",
+    "CAV2-BRANCH-AS-VIEW",
+    "CAV2-PACKAGE-MODEL",
+    "CAV2-AUTHORITY-KINDS"
+  ],
+  "views": [
+    {
+      "id": "augmentor-experience",
+      "path": "views/experience.json",
+      "view_role": "meaning"
+    },
+    {
+      "id": "augmentor-runtime",
+      "path": "views/runtime.json",
+      "view_role": "system"
+    },
+    {
+      "id": "augmentor-knowledge",
+      "path": "views/knowledge.json",
+      "view_role": "evidence"
+    },
+    {
+      "id": "augmentor-authority-bridge",
+      "path": "views/authority-bridge.json",
+      "view_role": "bridge"
+    }
+  ],
+  "allowed_runtime_modes": [
+    "inline"
+  ],
+  "allowed_outputs": [
+    "candidate-node-set",
+    "candidate-relation-set",
+    "interpretive-view",
+    "validation-report",
+    "validation-receipt",
+    "residue-report"
+  ],
+  "blocked_outputs": [
+    "source-mutation",
+    "runtime-conformance-verdict",
+    "authority-decision",
+    "promotion-verdict",
+    "canonical-write",
+    "resonantos-projection",
+    "release-admission"
+  ],
+  "claim_ceiling": "source-bound candidate model; no working routing, durable memory, reasoning engine, promotion, release, or production readiness"
+}

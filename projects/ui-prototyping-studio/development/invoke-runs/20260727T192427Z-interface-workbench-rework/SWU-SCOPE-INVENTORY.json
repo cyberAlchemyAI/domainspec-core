@@ -1,0 +1,271 @@
+{
+  "schema_version": "invoke.plan-swu-scope-inventory.v1",
+  "target": "ui-prototyping-studio-interface-workbench",
+  "applies_to": "task-session implementation-source mutation before invoke refresh closeout",
+  "path_base": "projects/ui-prototyping-studio",
+  "omitted_paths_policy": "unauthorized",
+  "preflight_binding": {
+    "existing_path": "record sha256 of exact bytes before source mutation",
+    "create_if_absent_path": "record the literal ABSENT sentinel before source mutation; block if present",
+    "mismatch_policy": "block before source mutation and route to Invoke Plan refresh"
+  },
+  "shared_forbidden_paths": [
+    ".craft/ledger.yml",
+    "CRAFT.md",
+    "SPEC.md",
+    "ARCHITECTURE.md",
+    "development/invoke-runs/20260727T192427Z-interface-workbench-rework",
+    "backend/src/modules/ui-prototyping-studio/domain/models.ts",
+    "backend/src/modules/ui-prototyping-studio/application/accept-staged-revision.ts",
+    "backend/src/modules/ui-prototyping-studio/application/revert-revision.ts",
+    "backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts"
+  ],
+  "swus": [
+    {
+      "swu_id": "SWU-UPW-001",
+      "existing_paths": [],
+      "create_if_absent_paths": [
+        "backend/src/modules/ui-prototyping-studio/application/workbench-projection-version.ts",
+        "backend/src/modules/ui-prototyping-studio/application/workbench-projection-version.test.ts"
+      ],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-002",
+      "existing_paths": [
+        "backend/src/modules/ui-prototyping-studio/application/ports.ts",
+        "backend/src/modules/ui-prototyping-studio/application/session-store.ts",
+        "backend/src/modules/ui-prototyping-studio/infrastructure/file-studio-session-store.ts",
+        "backend/src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts"
+      ],
+      "create_if_absent_paths": [
+        "backend/src/modules/ui-prototyping-studio/application/workbench-projection-snapshot.ts",
+        "backend/src/modules/ui-prototyping-studio/application/workbench-projection-snapshot.test.ts"
+      ],
+      "additional_forbidden_paths": [
+        "backend/src/modules/ui-prototyping-studio/infrastructure/file-artifact-content-store.ts"
+      ]
+    },
+    {
+      "swu_id": "SWU-UPW-003",
+      "existing_paths": [
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+        "backend/src/cli/studio.ts",
+        "backend/e2e/governed-state-projection.spec.ts"
+      ],
+      "create_if_absent_paths": [],
+      "additional_forbidden_paths": [
+        "backend/src/modules/ui-prototyping-studio/application/workbench-route-admission.ts"
+      ]
+    },
+    {
+      "swu_id": "SWU-UPW-004",
+      "existing_paths": [
+        "backend/src/cli/studio.ts"
+      ],
+      "create_if_absent_paths": [
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts",
+        "backend/e2e/workbench-continuity.spec.ts"
+      ],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-005",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts",
+        "backend/e2e/workbench-continuity.spec.ts"
+      ],
+      "create_if_absent_paths": [],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-006",
+      "existing_paths": [],
+      "create_if_absent_paths": [
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-context-plan.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-context-plan.test.ts"
+      ],
+      "additional_forbidden_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts"
+      ]
+    },
+    {
+      "swu_id": "SWU-UPW-007",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts",
+        "backend/e2e/workbench-continuity.spec.ts"
+      ],
+      "create_if_absent_paths": [],
+      "additional_forbidden_paths": [
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-context-plan.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-context-plan.test.ts"
+      ]
+    },
+    {
+      "swu_id": "SWU-UPW-008",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts"
+      ],
+      "create_if_absent_paths": [
+        "backend/e2e/workbench-regions.spec.ts"
+      ],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-009",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts",
+        "backend/e2e/workbench-regions.spec.ts"
+      ],
+      "create_if_absent_paths": [],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-010",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts",
+        "backend/e2e/workbench-regions.spec.ts"
+      ],
+      "create_if_absent_paths": [],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-011",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts",
+        "backend/e2e/workbench-regions.spec.ts"
+      ],
+      "create_if_absent_paths": [],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-012",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts",
+        "backend/e2e/workbench-regions.spec.ts"
+      ],
+      "create_if_absent_paths": [],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-013",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts",
+        "backend/e2e/workbench-regions.spec.ts"
+      ],
+      "create_if_absent_paths": [],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-014",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts",
+        "backend/e2e/action-annotation-mobile.spec.ts"
+      ],
+      "create_if_absent_paths": [
+        "backend/e2e/workbench-responsive.spec.ts"
+      ],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-015",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts"
+      ],
+      "create_if_absent_paths": [
+        "backend/e2e/workbench-copy.spec.ts"
+      ],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-016",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts"
+      ],
+      "create_if_absent_paths": [
+        "backend/e2e/workbench-accessibility.spec.ts"
+      ],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-017",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts",
+        "backend/e2e/workbench-accessibility.spec.ts"
+      ],
+      "create_if_absent_paths": [],
+      "additional_forbidden_paths": []
+    },
+    {
+      "swu_id": "SWU-UPW-018",
+      "existing_paths": [
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts",
+        "backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts"
+      ],
+      "create_if_absent_paths": [
+        "backend/src/modules/ui-prototyping-studio/application/workbench-route-admission.ts",
+        "backend/src/modules/ui-prototyping-studio/application/workbench-route-admission.test.ts"
+      ],
+      "additional_forbidden_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts"
+      ]
+    },
+    {
+      "swu_id": "SWU-UPW-019",
+      "existing_paths": [
+        "backend/src/cli/studio.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.ts",
+        "backend/src/modules/ui-prototyping-studio/interface/workbench-shell.test.ts"
+      ],
+      "create_if_absent_paths": [
+        "backend/e2e/workbench-security.spec.ts"
+      ],
+      "additional_forbidden_paths": [
+        "backend/src/modules/ui-prototyping-studio/application/workbench-route-admission.ts",
+        "backend/src/modules/ui-prototyping-studio/application/workbench-route-admission.test.ts"
+      ]
+    }
+  ]
+}

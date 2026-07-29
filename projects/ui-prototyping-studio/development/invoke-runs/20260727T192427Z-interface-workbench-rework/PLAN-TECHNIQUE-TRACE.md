@@ -1,35 +1,38 @@
 # Invoke Plan Dispatch Technique Trace
 
-## Result
-
-Status: `pass-for-draft`
-
-The Plan route is a straightforward non-mutating
-`invoke plan -> explicit SWU choice -> task-session` handoff. It does not need
-a full Dispatch Spec document for execution choreography because all future
-mutation is serial and one-SWU-at-a-time. Automatic Plan Distill does require a
-separate governed validation dispatch and human confirmation before the final
-Plan gate can pass.
+Status: `fresh-distill-block`
 
 ## Selected Techniques
 
-| Technique | Activation | Applied artifact or gate | Validation expectation |
+| Technique | Activation | Applied artifact/gate | Literal validation |
 | --- | --- | --- | --- |
-| `sequence` | projection identity precedes refresh; refresh precedes regions; regions precede hardening | `EXECUTION-PACK.md`, wave files | every non-first SWU consumes a declared predecessor receipt |
-| `scu_swu_reduction` | the UI rework contains independently verifiable mechanics and regions | `SWU-MANIFEST.json`, task files | one primary behavior and one independent acceptance boundary per SWU |
-| `recomposition_proof` | atomic SWUs must still close the approved six-region Design | `PLAN-DISTILL.md` | every SWU maps to DDR, view, and witness obligations |
-| `validation_loop` | each behavior needs positive and negative evidence before promotion | task validation tables, `PLAN-VALIDATION-STRATEGY.md` | each SWU has a runnable check and expected receipt |
-| `owner_boundary_check` | Invoke cannot execute or select implementation | `WORK-PACK.md`, `PLAN-TRANSPORT.md` | `selected_swu: none`; Task Session owns later mutation |
-| `handle_handoff` | runtime context must be bounded | task source anchors and design links | Task Session/Context Builder receives handles, not copied repository context |
-| `residue_ledger` | human/cross-browser/release and shared-Inventory gaps remain | `work-pack/shared/cross-task-gaps.md` | every gap has an owner and route |
-| `execution_receipt_handoff` | Task Session closeout must be deterministic | `WORK-PACK.md` closeout table | every mutation SWU declares source receipt, targets, baseline, deltas, owner validation, receipt, and successor |
+| `sequence` | projection/continuity/regions/hardening/closure order | manifest, execution pack, W0–W5 | known acyclic edges; semantic vs serialization distinct |
+| `scu_swu_reduction` | prior 016/017 bundles failed | 19-SWU manifest and tasks | one behavior, one assertion, split rationale each |
+| `recomposition_proof` | splits must preserve the approved Design | acceptance matrix, traceability, Plan Distill | every SWU maps back to Design/assertions |
+| `validation_loop` | every SWU needs positive and negative evidence | acceptance matrix, validation strategy | exact spec/test name, positive, mutant, receipt |
+| `concrete_path_evidence` | PD-01 scope ambiguity | scope inventory | exact repo-relative paths and preflight bindings |
+| `owner_boundary_check` | Invoke cannot execute/select | work-pack, transport | `selected_swu: null`; Task Session blocked |
+| `handle_handoff` | future execution context must be bounded | task source/scope/assertion/closeout refs | handles only, no pregenerated runtime pack |
+| `residue_ledger` | human/release and fresh review remain | cross-task gaps | every residue has owner/effect |
+| `execution_receipt_handoff` | PD-10 deterministic closeout | closeout inventory | schemas, target permissions, receipts, successor |
 
-## Skipped Techniques
+## Full Dispatch Decision
 
-- Full execution dispatch JSON: skipped for the implementation route because
-  there is no planned parallel mutation or cross-owner write; the Plan Distill
-  validation dispatch is governed separately.
-- `fanout`, `tournament`, and `dialectic`: skipped for execution; overlapping
-  runtime files require serial SWUs.
-- `authority_split_gate`: represented directly by `owner_boundary_check`
-  because no authority transfer or promotion is proposed.
+A full dispatch was required because validation used true Proposer/Balancer,
+synthesis, verifier, and coverage-auditor roles. Dispatch
+`2026-07-27-ui-prototyping-studio-plan-redistill-review` was form-valid,
+double-PASS tension checked, explicitly confirmed, registered, executed, and
+closed as a verified change-request review.
+
+Distill returned BLOCK. `scu_swu_reduction` failed for 016, 017, and 019;
+`execution_receipt_handoff` failed because closeout fields are not literally
+addressable and W5 lacks an executable schema/decision contract.
+
+## Skipped
+
+- Execution fan-out: skipped because product mutation is not authorized and
+  overlapping source scopes serialize.
+- Tournament: skipped for Plan authoring because verified findings prescribe a
+  bounded repair; fresh Distill uses validate mode.
+- Authority split gate: represented by the explicit Invoke/Distill/Task
+  Session/human owner boundaries; no authority promotion is proposed.

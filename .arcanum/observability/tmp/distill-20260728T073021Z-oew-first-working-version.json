@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-07-28T07:30:21Z",
+  "run_id": "distill-20260728T073020Z-oew-first-working-version",
+  "session_id": "2026-07-28-oew-first-working-version-refresh",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "standard",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "standard",
+    "alias": null
+  },
+  "lineage": {
+    "parent_run_id": "invoke-refresh-20260728T073020Z-oew-first-working-version",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "refresh"
+    }
+  },
+  "evidence": {
+    "status": "partial",
+    "distill_run_request_ref": {
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench/refresh/2026-07-28-first-working-version/distill-run-request.json",
+      "sha256": "b7d0d075fec5c3b89d63b80d1eab97ce6278b03284cdced46266424f8c0e8624",
+      "size_bytes": 1329
+    },
+    "runtime_event_refs": [],
+    "refs": [
+      "cyberAlchemy-v2/development/ontology-evidence-workbench/refresh/2026-07-28-first-working-version/DISTILL-VALIDATION.md",
+      "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/DISTILL-VALIDATION.md",
+      "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/swu-manifest.json"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Distill the OEW L1 plan to the clearest path to a working Poker evidence-review UI.",
+    "intent": "Test vertical-slice atomicity, package and entrypoint ownership, recomposition, cognitive load, and the evidence ceiling."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "two-round local Proposer and Balancer reconciliation",
+      "four-unit recomposition proof",
+      "single-package-root guard",
+      "first-working-version navigation result"
+    ],
+    "files_changed": [
+      "cyberAlchemy-v2/development/ontology-evidence-workbench/refresh/2026-07-28-first-working-version/DISTILL-VALIDATION.md",
+      "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/DISTILL-VALIDATION.md"
+    ],
+    "validation": [
+      "mode:standard",
+      "role-path:local-simulation-no-subagent-authorization",
+      "rounds:2-of-2",
+      "vertical-slice-atomicity:pass",
+      "recomposition:pass",
+      "command-entrypoint-closure:pass",
+      "package-root-count:one",
+      "selected-swu:null"
+    ],
+    "notes": "Artifact validation passed. Runtime boundary events were not configured, so child execution evidence is partial; that does not change the Plan verdict or authorize implementation."
+  },
+  "observer": {
+    "signals": [
+      "quality-pass",
+      "rework",
+      "useful-pattern"
+    ],
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "observability",
+        "severity": "low",
+        "summary": "The local Distill review has durable artifacts but no runtime-event boundary stream.",
+        "evidence": "DISTILL-VALIDATION.md and distill-run-request.json exist; runtime_event_refs is empty."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "cyberAlchemy-v2/development/ontology-evidence-workbench/refresh/2026-07-28-first-working-version/DISTILL-VALIDATION.md"
+}

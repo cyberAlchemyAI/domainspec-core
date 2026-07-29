@@ -1,8 +1,8 @@
 # TASK-OEW-WORKBENCH-001 — Trust-Aware Interface Overlay
 
 Layer/wave: L1 / W1
-Dependencies: SWU-OEW-006B verified L1 build handle
-State: replanned; blocked until 006B is selected and passes
+Dependencies: SWU-OEW-006P verified L1 toolchain handle
+State: SWU-OEW-007 and SWU-OEW-008F complete; SWU-OEW-007T uniquely selected for typed-overlay repair
 Implementation seam: OEW-owned overlay applied to the pinned upstream source;
 upstream files remain generated build inputs.
 
@@ -14,21 +14,120 @@ contracts; stores source selection by exact evidence reference; reuses upstream
 graph/layout/search primitives; and renders feature-specific trust/evidence
 surfaces.
 
-Each region is an independent SWU because data admission, trust display,
-inspector semantics, view parity, navigation, tour, and responsive behavior
-have different acceptance boundaries.
+The former plan made each UI region a separate execution selector. That
+decomposition is retained below as historical design detail, but 008–013 are
+no longer executable candidates. Their shared store, entrypoint, overlay,
+package registry, and Poker journey made the coordination cost larger than the
+component risk and exposed an undeclared-runner blocker before UI mutation.
 
-All units consume the immutable build interface admitted by 006B. They may add
-only their declared overlay/test bytes; they may not provision tools, alter the
-effective lock, reuse a workspace installation, or accept their own build.
+The current Plan recomposes the unimplemented regions into one vertical UI
+source unit. It consumes the immutable toolchain interface admitted by 006P
+and the exact-source store admitted by 007. It may add only its declared
+overlay/test bytes; it may not provision tools, alter the effective lock,
+reuse a workspace installation, or claim a final build. SWU-OEW-013B owns the
+post-feature build and independent verifier.
 
-## Smallest Working Units
+## Completed First Working Version Source Unit
+
+### SWU-OEW-008F — Assemble the Poker Evidence Review Workbench
+
+- Primary behavior: deliver one coherent local review journey over the
+  verified Poker candidate evidence.
+- Dependencies: completed 006P and 007 receipts.
+- User-visible flow:
+  1. persistent source/adapter/candidate/authority trust rail;
+  2. `F1 → R1 → D1` exact grounding trace with `D2` conflict residue;
+  3. exact inspector for relation, mapping loss, policy, diagnostics, path,
+     digest, and receipt;
+  4. equivalent Graph, Outline, and Table selection;
+  5. search, filters, keyboard commands, deep-link recovery, Poker tour,
+     receipt drawer, and responsive/reduced-motion shell.
+- Target inventory:
+  - `.../upstream/overlay/first-working-version-manifest.json`
+  - `.../upstream/overlay/packages/dashboard/src/oew/TrustRail.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/TrustRail.test.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/trust.css`
+  - `.../upstream/overlay/packages/dashboard/src/oew/EvidenceInspector.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/EvidenceInspector.test.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/inspector.css`
+  - `.../upstream/overlay/packages/dashboard/src/oew/EvidenceWorkspace.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/EvidenceOutline.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/EvidenceTable.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/viewParity.ts`
+  - `.../upstream/overlay/packages/dashboard/src/oew/viewParity.test.ts`
+  - `.../upstream/overlay/packages/dashboard/src/oew/CommandPalette.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/EvidenceFilters.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/keyboard.ts`
+  - `.../upstream/overlay/packages/dashboard/src/oew/navigation.test.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/PokerTour.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/tours/poker-o13.json`
+  - `.../upstream/overlay/packages/dashboard/src/oew/PokerTour.test.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/OewApp.tsx`
+  - `.../upstream/overlay/packages/dashboard/src/oew/oew.css`
+  - `.../upstream/overlay/packages/dashboard/src/oew/responsive.test.tsx`
+  - `.../test/trust-rail.test.mjs`
+  - `.../test/evidence-inspector.test.mjs`
+  - `.../test/view-parity.test.mjs`
+  - `.../test/navigation.test.mjs`
+  - `.../test/poker-tour.test.mjs`
+  - `.../test/responsive.test.mjs`
+- Validation:
+  `npm run test:trust-rail && npm run test:evidence-inspector && npm run test:view-parity && npm run test:navigation && npm run test:poker-tour && npm run test:responsive`.
+- Done: all focused commands execute under pinned Node, the new manifest binds
+  completed 007 plus all 008F source, the Poker journey is internally
+  coherent, protected equality passes, and no final-build/browser claim is
+  emitted.
+- Expected handle: `oew-first-working-version-source/v1`.
+- Split analysis: individual components remain focused assertions inside this
+  unit, but none is a usable prototype or owns a stable independent runtime
+  boundary. Final build, browser lifecycle, and independent verification
+  remain separately falsifiable in 013B, 014, and 014V.
+- Closeout: shared contract; receipt
+  `session-evidence/SWU-OEW-008F/receipt.json`.
+- Result: PASS — 28/28 live targets equal admitted staging, 18/18 focused
+  tests pass, the package registry is unchanged, and protected equality holds.
+- Handoff: the captured four-unit series advances once to selected
+  `SWU-OEW-013B`; a fresh Task Session preflight remains mandatory.
+
+## Active Typed-Input Repair
+
+### SWU-OEW-007T — Repair the Strict Overlay Boundary
+
+- Primary behavior: repair only the strict TypeScript boundary exposed by
+  013B attempt 003, then rebind the exact current input bytes without producing
+  the final build.
+- Dependencies: completed 007 and 008F receipts.
+- Exact target inventory:
+  - `.../upstream/overlay/packages/dashboard/src/oew/types.ts`
+  - `.../upstream/overlay/packages/dashboard/src/oew/loadOewBundle.ts`
+  - `.../upstream/overlay/packages/dashboard/src/oew/store.ts`
+  - `.../upstream/overlay/overlay-manifest.json`
+  - `.../upstream/overlay/first-working-version-manifest.json`
+  - `.../upstream/L1-BUILD.lock.json`
+- Read-only validators: existing `test/ui-store.test.mjs`; no test-file change.
+- Validation: `npm run test:ui-store`, then in the exact fresh locked workroot
+  `pnpm --filter @understand-anything/dashboard build`, expanded
+  `tsc -b && vite build`.
+- Done: the three strict source errors are repaired without `any`, tsconfig,
+  package, generated-build, or unrelated changes; both manifests bind current
+  bytes while retaining completed-007 historical receipt/preimage bindings;
+  the lock retains `owner_swu`, `consumer_swu`, `build_owner_swu`, and
+  `runtime_owner_swu` as `SWU-OEW-013B` and records `SWU-OEW-007T` only as
+  mutation/binding owner.
+- Expected handle: `oew-typed-overlay-repair/v1`.
+- Split analysis: source fixes and their exact bindings close one typed-input
+  behavior. Final build execution and verification remain owned by 013B.
+- Closeout: shared contract; receipt
+  `session-evidence/SWU-OEW-007T/receipt.json`.
+- Handoff: stop; report 013B eligible without selecting it.
+
+## Superseded Component Decomposition
 
 ### SWU-OEW-007 — Load Exact OEW Read Models
 
 - Primary behavior: verify/load graph, sidecar, and adapter receipt into a
   source-reference-indexed UI store.
-- Dependencies: 006B.
+- Dependencies: 006P.
 - Target inventory:
   - `.../upstream/overlay/overlay-manifest.json`
   - `.../upstream/patches/0001-oew-entrypoint.patch`
@@ -45,7 +144,7 @@ effective lock, reuse a workspace installation, or accept their own build.
 - Closeout: shared contract; receipt `session-evidence/SWU-OEW-007/receipt.json`.
 - Historical result: `BLOCK`; the former target graph lacked its validation
   seam and no implementation target was mutated. This refreshed unit is
-  unselected and may run only after 006B passes and a new human selection is
+  unselected and may run only after 006P passes and a new human selection is
   made.
 
 ### SWU-OEW-008 — Render Receipt-Backed Trust Rail
@@ -157,8 +256,23 @@ normalized in `swu-manifest.json`.
 
 The former selection source under
 `planning/work-pack/decisions/G-OEW-L1-SELECTION/` is retained as historical
-evidence only. The repaired graph has no selected SWU. Every future unit needs
-explicit selection and a fresh Task Session preflight.
+evidence only, as is the consumed 006B selector. The repaired graph has no
+selected SWU. The component records 008–013 are retained as blocked or
+unexecuted history and are superseded by 008F. They cannot be selected.
+
+## Execution State
+
+- SWU-OEW-007: PASS — exact graph/sidecar/receipt loading, eight-source-reference store, 3/3 tests, 6/6 target parity, protected equality.
+- SWU-OEW-008: BLOCK — `test:trust-rail` resolves to an absent undeclared
+  runner; pinned Node cannot directly execute the declared `.test.tsx`; no
+  implementation mutation; protected equality 12,989/12,989.
+- SWU-OEW-009 through 013: unexecuted and superseded by 008F.
+- SWU-OEW-008F: PASS — complete source slice, 18/18 focused tests, 28/28
+  staged/live parity, unchanged package registry, and protected equality.
+- SWU-OEW-007T: selected for a fresh Task Session preflight; no source
+  implementation or typed-build evidence exists yet.
+- Next route: Task Session for only `SWU-OEW-007T`; 013B remains blocked and
+  may be reported eligible only after passing 007T closeout.
 
 ## Open Questions
 

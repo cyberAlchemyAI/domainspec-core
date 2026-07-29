@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f4ec">
+  <title>The Creative Exchange</title>
+  <style>
+    :root {
+      --paper: #f7f4ec;
+      --ink: #11131d;
+      --muted: #625f59;
+      --line: #d2cec5;
+      --panel: #efede7;
+      --lime: #c6ff3d;
+      --lime-deep: #9fd91c;
+      --blue: #2c5bff;
+      --coral: #ff755d;
+      --shadow: 0 20px 54px rgb(17 19 29 / 10%);
+      --serif: Iowan Old Style, Palatino Linotype, Book Antiqua, Palatino, Georgia, serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .deck {
+      min-height: 100vh;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .corner-orbit {
+      position: fixed;
+      z-index: -1;
+      width: clamp(116px, 18vw, 278px);
+      aspect-ratio: 1;
+      top: clamp(-81px, -9vw, -38px);
+      right: clamp(-60px, -5vw, -26px);
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: var(--lime);
+    }
+
+    .corner-orbit::after {
+      content: "";
+      position: absolute;
+      inset: 18%;
+      border: 1px solid rgb(17 19 29 / 28%);
+      border-radius: inherit;
+    }
+
+    .slide {
+      display: none;
+      min-height: 100vh;
+      padding: clamp(28px, 4vw, 66px) clamp(28px, 6vw, 116px) clamp(90px, 10vw, 132px);
+      animation: arrive 360ms cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    .slide[aria-hidden="false"] {
+      display: grid;
+      align-content: center;
+    }
+
+    .frame {
+      width: min(100%, 1260px);
+      margin: auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 clamp(24px, 4vh, 48px);
+      color: var(--ink);
+      font-size: clamp(.66rem, .75vw, .78rem);
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: .72rem;
+      height: .72rem;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 0 1px var(--ink);
+      content: "";
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    h1 {
+      max-width: 1050px;
+      margin-bottom: clamp(26px, 4vh, 42px);
+      font-family: var(--serif);
+      font-size: clamp(3.2rem, 8.3vw, 8.2rem);
+      font-weight: 700;
+      letter-spacing: -.075em;
+      line-height: .88;
+    }
+
+    h1 .underline {
+      display: inline;
+      text-decoration: underline;
+      text-decoration-color: var(--lime-deep);
+      text-decoration-thickness: .12em;
+      text-underline-offset: .075em;
+    }
+
+    .lede {
+      max-width: 710px;
+      margin-bottom: 0;
+      font-size: clamp(1.15rem, 1.85vw, 1.72rem);
+      letter-spacing: -.025em;
+      line-height: 1.44;
+    }
+
+    .prompt {
+      max-width: 860px;
+      margin-top: clamp(28px, 5vh, 64px);
+      padding: clamp(20px, 2.5vw, 30px);
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--line);
+      font-size: clamp(1rem, 1.45vw, 1.35rem);
+      font-weight: 700;
+      line-height: 1.42;
+    }
+
+    .prompt strong {
+      color: var(--blue);
+    }
+
+    .exchange-grid,
+    .lens-grid,
+    .action-grid {
+      display: grid;
+      gap: clamp(12px, 1.55vw, 22px);
+    }
+
+    .exchange-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: 1120px;
+    }
+
+    .exchange-card,
+    .action-card {
+      min-height: clamp(200px, 20vw, 270px);
+      padding: clamp(21px, 2.35vw, 34px);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--paper) 86%, white);
+      box-shadow: 0 10px 28px rgb(17 19 29 / 4%);
+    }
+
+    .exchange-card:nth-child(2) { background: var(--lime); }
+    .exchange-card:nth-child(3) { background: #e7e7ff; }
+
+    .card-index {
+      display: block;
+      margin-bottom: clamp(32px, 4vw, 66px);
+      font-size: .77rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin-bottom: 12px;
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.2vw, 3.3rem);
+      letter-spacing: -.055em;
+      line-height: .94;
+    }
+
+    .card-copy {
+      max-width: 24ch;
+      margin-bottom: 0;
+      color: #2e313c;
+      font-size: clamp(.98rem, 1.35vw, 1.2rem);
+      line-height: 1.42;
+    }
+
+    .question-strip {
+      max-width: 1120px;
+      margin-top: clamp(18px, 2.4vh, 30px);
+      color: var(--muted);
+      font-size: clamp(1rem, 1.35vw, 1.22rem);
+      line-height: 1.45;
+    }
+
+    .lens-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      max-width: 1280px;
+    }
+
+    .lens {
+      min-height: clamp(220px, 26vw, 300px);
+      padding: clamp(20px, 2.05vw, 31px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--ink);
+      border-radius: 18px;
+      background: var(--paper);
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+    }
+
+    .lens:hover,
+    .lens:focus-visible,
+    .lens[aria-pressed="true"] {
+      background: var(--lime);
+      box-shadow: var(--shadow);
+      transform: translateY(-7px) rotate(-.55deg);
+    }
+
+    .lens:nth-child(2):hover,
+    .lens:nth-child(2):focus-visible,
+    .lens:nth-child(2)[aria-pressed="true"] { background: #cbd7ff; }
+    .lens:nth-child(3):hover,
+    .lens:nth-child(3):focus-visible,
+    .lens:nth-child(3)[aria-pressed="true"] { background: #ffd7ce; }
+    .lens:nth-child(4):hover,
+    .lens:nth-child(4):focus-visible,
+    .lens:nth-child(4)[aria-pressed="true"] { background: #f3caff; }
+
+    .lens h2 {
+      max-width: 8ch;
+      position: relative;
+      z-index: 1;
+    }
+
+    .lens p {
+      max-width: 21ch;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 0;
+      font-size: clamp(.92rem, 1.16vw, 1.05rem);
+      line-height: 1.43;
+    }
+
+    #lenses-title {
+      margin-bottom: clamp(10px, 1.5vh, 18px);
+    }
+
+    .agency-ribbon {
+      display: flex;
+      flex-wrap: wrap;
+      width: fit-content;
+      max-width: 100%;
+      margin: 0 0 clamp(18px, 2.4vh, 30px);
+      font-size: clamp(.68rem, .8vw, .84rem);
+      font-weight: 850;
+      letter-spacing: .085em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .agency-ribbon span {
+      padding: .72rem .88rem;
+      border: 1px solid var(--ink);
+      margin: 0 -1px -1px 0;
+      background: var(--lime);
+    }
+
+    .wildcard {
+      max-width: 1280px;
+      margin: clamp(19px, 2.6vh, 33px) 0 0;
+      padding-top: clamp(17px, 2vh, 24px);
+      border-top: 1px solid var(--ink);
+      font-size: clamp(1rem, 1.5vw, 1.35rem);
+      font-weight: 750;
+      line-height: 1.45;
+    }
+
+    .wildcard span {
+      color: var(--coral);
+    }
+
+    .action-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: 1160px;
+    }
+
+    .action-card {
+      min-height: clamp(230px, 23vw, 292px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .action-card:nth-child(1) { border-top: 7px solid var(--blue); }
+    .action-card:nth-child(2) { border-top: 7px solid var(--coral); }
+    .action-card:nth-child(3) { border-top: 7px solid var(--lime-deep); }
+
+    .action-card h2 {
+      max-width: 8ch;
+      margin-bottom: 0;
+    }
+
+    .action-card p {
+      max-width: 20ch;
+      margin-bottom: 0;
+      font-size: clamp(.96rem, 1.25vw, 1.1rem);
+      line-height: 1.4;
+    }
+
+    .send-off {
+      max-width: 1160px;
+      margin: clamp(25px, 4vh, 48px) 0 0;
+      padding-right: clamp(0px, 14vw, 210px);
+      font-family: var(--serif);
+      font-size: clamp(1.55rem, 2.65vw, 2.7rem);
+      font-weight: 700;
+      letter-spacing: -.05em;
+      line-height: 1.05;
+    }
+
+    .send-off em {
+      color: var(--blue);
+      font-style: normal;
+    }
+
+    .whisper-example .frame {
+      max-width: 1280px;
+    }
+
+    .whisper-example .eyebrow {
+      margin-bottom: clamp(10px, 1.6vh, 18px);
+    }
+
+    .whisper-intro {
+      display: grid;
+      grid-template-columns: minmax(260px, .75fr) minmax(0, 1.35fr);
+      align-items: end;
+      gap: clamp(22px, 4vw, 64px);
+      margin-bottom: clamp(18px, 2.7vh, 31px);
+    }
+
+    .whisper-intro h1 {
+      margin-bottom: 0;
+      font-size: clamp(3.6rem, 6.4vw, 6.4rem);
+    }
+
+    .whisper-opening {
+      max-width: 660px;
+      margin-bottom: 0;
+      font-size: clamp(.92rem, 1.32vw, 1.16rem);
+      line-height: 1.42;
+    }
+
+    .whisper-opening strong {
+      display: block;
+      margin-bottom: 7px;
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 2.2vw, 2.25rem);
+      letter-spacing: -.045em;
+      line-height: 1.02;
+    }
+
+    .whisper-record {
+      display: grid;
+      grid-template-columns: 1.32fr 1fr 1fr;
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.2vw, 16px);
+    }
+
+    .record-card {
+      min-height: 0;
+      padding: clamp(15px, 1.65vw, 22px);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--paper) 88%, white);
+    }
+
+    .record-card--vision {
+      grid-row: span 2;
+      background: #e7e7ff;
+    }
+
+    .record-card--now { background: var(--lime); }
+    .record-card--limit { background: #ffd7ce; }
+
+    .record-label {
+      display: block;
+      margin-bottom: clamp(11px, 1.3vh, 16px);
+      color: #171826;
+      font-size: clamp(.72rem, .84vw, .86rem);
+      font-weight: 850;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .record-card p {
+      max-width: 38ch;
+      margin-bottom: 0;
+      color: #171826;
+      font-size: clamp(.9rem, 1.12vw, 1.06rem);
+      font-weight: 520;
+      line-height: 1.37;
+    }
+
+    .record-card--vision p {
+      font-size: clamp(1rem, 1.28vw, 1.18rem);
+      line-height: 1.42;
+    }
+
+    .navigation {
+      position: fixed;
+      z-index: 5;
+      right: clamp(20px, 3.6vw, 58px);
+      bottom: clamp(20px, 3.2vw, 48px);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-button,
+    .dot {
+      border: 1px solid var(--ink);
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
+    }
+
+    .nav-button {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .nav-button:hover:not(:disabled),
+    .nav-button:focus-visible:not(:disabled) {
+      background: var(--ink);
+      color: var(--paper);
+      transform: translateY(-2px);
+    }
+
+    .nav-button:disabled {
+      cursor: not-allowed;
+      opacity: .32;
+    }
+
+    .dots {
+      display: flex;
+      gap: 7px;
+      margin: 0 4px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    .dot[aria-current="true"],
+    .dot:hover,
+    .dot:focus-visible {
+      background: var(--lime-deep);
+      transform: scale(1.2);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 4px;
+    }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 840px) {
+      body { overflow: auto; }
+      .slide { min-height: 100svh; padding-bottom: 104px; }
+      .navigation { top: 18px; bottom: auto; }
+      .exchange-grid,
+      .action-grid { grid-template-columns: 1fr; }
+      .lens-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .exchange-card { min-height: 170px; }
+      .lens { min-height: 230px; }
+      .action-card { min-height: 190px; }
+      .whisper-intro { grid-template-columns: 1fr; gap: 12px; }
+      .whisper-record { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .record-card--vision { grid-row: auto; grid-column: span 2; }
+    }
+
+    @media (max-width: 500px) {
+      h1 { font-size: clamp(3rem, 15.5vw, 4.8rem); }
+      .lens-grid { grid-template-columns: 1fr; }
+      .lens { min-height: 186px; }
+      .lens h2 { max-width: 12ch; }
+      .corner-orbit { opacity: .72; }
+      .navigation { top: 18px; right: 18px; bottom: auto; }
+      .dots { display: none; }
+      .nav-button { width: 42px; height: 42px; }
+      .whisper-record { grid-template-columns: 1fr; }
+      .record-card--vision { grid-column: auto; }
+      .whisper-example .eyebrow { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="The Creative Exchange">
+    <div class="corner-orbit" aria-hidden="true"></div>
+
+    <section class="slide" id="slide-1" aria-hidden="false" aria-labelledby="opening-title">
+      <div class="frame">
+        <p class="eyebrow">The Creative Exchange</p>
+        <h1 id="opening-title">What becomes more valuable when making becomes <span class="underline">abundant?</span></h1>
+        <p class="lede">AI helps us make more, faster. But more output does not automatically create more opportunity.</p>
+        <p class="prompt"><strong>Turn to someone near you.</strong> Name one thing people will value more—not less—when AI is everywhere.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" aria-hidden="true" aria-labelledby="exchange-title">
+      <div class="frame">
+        <p class="eyebrow">The Creative Exchange</p>
+        <h1 id="exchange-title">Start with an <span class="underline">exchange.</span></h1>
+        <div class="exchange-grid">
+          <article class="exchange-card">
+            <span class="card-index">Bring</span>
+            <h2>A gift</h2>
+            <p class="card-copy">What creative capacity is already here?</p>
+          </article>
+          <article class="exchange-card">
+            <span class="card-index">Find</span>
+            <h2>A desire</h2>
+            <p class="card-copy">Who needs it enough to show up, contribute, or support it?</p>
+          </article>
+          <article class="exchange-card">
+            <span class="card-index">Make</span>
+            <h2>A bridge</h2>
+            <p class="card-copy">What turns that meeting into a living exchange?</p>
+          </article>
+        </div>
+        <p class="question-strip">Make it concrete: the people, the value, the moment, and why it happens now.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" aria-hidden="true" aria-labelledby="lenses-title">
+      <div class="frame">
+        <p class="eyebrow">The Creative Exchange</p>
+        <h1 id="lenses-title">Choose a way <span class="underline">in.</span></h1>
+        <p class="agency-ribbon"><span>Credit</span><span>Consent</span><span>Ownership</span><span>Fair value</span></p>
+        <div class="lens-grid" aria-label="Four ways in">
+          <button class="lens" type="button" aria-pressed="false" aria-label="Build a tool. How might a tool turn creative capacity into collective opportunity?">
+            <h2>Build a tool</h2>
+            <p>How might a tool turn creative capacity into collective opportunity?</p>
+          </button>
+          <button class="lens" type="button" aria-pressed="false" aria-label="Change the money. How might creators earn, share, or own value differently?">
+            <h2>Change the money</h2>
+            <p>How might creators earn, share, or own value differently?</p>
+          </button>
+          <button class="lens" type="button" aria-pressed="false" aria-label="Learn together. How might people learn to make and work in the AI era?">
+            <h2>Learn together</h2>
+            <p>How might people learn to make and work in the AI era?</p>
+          </button>
+          <button class="lens" type="button" aria-pressed="false" aria-label="Keep agency. Credit, consent, ownership, and fair value. How might creators be named, decide what they share, set the terms, and benefit when their work shapes an AI future?">
+            <h2>Keep agency</h2>
+            <p>How might creators be named, decide what they share, set the terms, and benefit when their work shapes an AI future?</p>
+          </button>
+        </div>
+        <p class="wildcard"><span>No marketplaces. No simple matching.</span> Imagine a new condition for creative life.</p>
+      </div>
+    </section>
+
+    <section class="slide whisper-example" id="slide-4" aria-hidden="true" aria-labelledby="whisper-title">
+      <div class="frame">
+        <p class="eyebrow">Whisper · writing and story systems</p>
+        <div class="whisper-intro">
+          <h1 id="whisper-title">Whisper</h1>
+          <p class="whisper-opening"><strong>What if a story could remember itself?</strong>A writing studio where intent stays visible and the world behind a story can become explorable—not another box that turns a prompt into prose.</p>
+        </div>
+        <div class="whisper-record">
+          <article class="record-card record-card--vision">
+            <span class="record-label">Vision</span>
+            <p>An agentic writer studio—where AI can carry out bounded, reviewable steps—with a knowledge graph: a map of characters, places, encounters, timelines, and connections that stays available while people write and read.</p>
+          </article>
+          <article class="record-card record-card--now">
+            <span class="record-label">Current artifact</span>
+            <p>A reviewable composition lifecycle that preserves audience, structure, voice, evidence, movement, review, and what the team learned.</p>
+          </article>
+          <article class="record-card record-card--limit">
+            <span class="record-label">Not yet</span>
+            <p>Not a finished writer studio or a live story knowledge graph. Broader transports and quality outcomes remain unproved.</p>
+          </article>
+          <article class="record-card">
+            <span class="record-label">Next experiment</span>
+            <p>Keep one bounded story map synchronized with one narrative excerpt as characters move, meet, and remember.</p>
+          </article>
+          <article class="record-card">
+            <span class="record-label">Possible collaborators</span>
+            <p>Writers, editors, narrative designers, readers, and knowledge-graph thinkers.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <nav class="navigation" aria-label="Ideas">
+      <button class="nav-button" type="button" data-direction="previous" aria-label="Back">←</button>
+      <div class="dots" aria-label="Choose an idea">
+        <button class="dot" type="button" data-slide="0" aria-current="true" aria-label="Beginning"></button>
+        <button class="dot" type="button" data-slide="1" aria-current="false" aria-label="Exchange"></button>
+        <button class="dot" type="button" data-slide="2" aria-current="false" aria-label="Four possibilities"></button>
+        <button class="dot" type="button" data-slide="3" aria-current="false" aria-label="Whisper example"></button>
+      </div>
+      <button class="nav-button" type="button" data-direction="next" aria-label="Forward">→</button>
+    </nav>
+    <p class="sr-only" aria-live="polite" id="slide-announcement"></p>
+  </main>
+
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const dots = Array.from(document.querySelectorAll('.dot'));
+      const previous = document.querySelector('[data-direction="previous"]');
+      const next = document.querySelector('[data-direction="next"]');
+      const announcement = document.querySelector('#slide-announcement');
+      const lenses = Array.from(document.querySelectorAll('.lens'));
+      let activeIndex = 0;
+
+      function showSlide(index, announce = true) {
+        activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, slideIndex) => {
+          const active = slideIndex === activeIndex;
+          slide.setAttribute('aria-hidden', String(!active));
+          slide.toggleAttribute('inert', !active);
+        });
+        dots.forEach((dot, dotIndex) => dot.setAttribute('aria-current', String(dotIndex === activeIndex)));
+        previous.disabled = activeIndex === 0;
+        next.disabled = activeIndex === slides.length - 1;
+        if (announce) {
+          announcement.textContent = slides[activeIndex].querySelector('h1').textContent.trim();
+        }
+      }
+
+      previous.addEventListener('click', () => showSlide(activeIndex - 1));
+      next.addEventListener('click', () => showSlide(activeIndex + 1));
+      dots.forEach((dot) => dot.addEventListener('click', () => showSlide(Number(dot.dataset.slide))));
+
+      document.addEventListener('keydown', (event) => {
+        if (event.target.matches('button.lens')) return;
+        if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+          event.preventDefault();
+          showSlide(activeIndex + 1);
+        }
+        if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+          event.preventDefault();
+          showSlide(activeIndex - 1);
+        }
+        if (event.key === 'Home') {
+          event.preventDefault();
+          showSlide(0);
+        }
+        if (event.key === 'End') {
+          event.preventDefault();
+          showSlide(slides.length - 1);
+        }
+      });
+
+      lenses.forEach((lens) => lens.addEventListener('click', () => {
+        const isSelected = lens.getAttribute('aria-pressed') === 'true';
+        lenses.forEach((item) => item.setAttribute('aria-pressed', 'false'));
+        lens.setAttribute('aria-pressed', String(!isSelected));
+      }));
+
+      showSlide(0, false);
+    })();
+  </script>
+</body>
+</html>

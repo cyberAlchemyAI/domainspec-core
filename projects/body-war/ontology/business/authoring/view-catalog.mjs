@@ -95,7 +95,7 @@ export const journeyStories = [
         short_label: "Connect",
         title: "Connect a runner",
         summary:
-          "Authentication changes the candidate auth state and lets the ontology speak about a connected runner.",
+          "These relations show authentication participation, workflow membership, callback containment, provider connection, and the connected-runner state transition.",
         relation_ids: [
           "body-war.relation.visitor-authenticates",
           "body-war.relation.workflow-13",
@@ -109,7 +109,7 @@ export const journeyStories = [
         short_label: "Choose",
         title: "Choose and confirm one SuggestedTrack",
         summary:
-          "A connected runner can propose and select one track, bind one activity, and record an explicit confirmation governed by consent.",
+          "These relations associate a connected runner with track proposal, selection, one activity binding, explicit confirmation, and consent governance.",
         relation_ids: [
           "body-war.relation.connected-proposes-track",
           "body-war.relation.workflow-14",
@@ -129,7 +129,7 @@ export const journeyStories = [
         short_label: "Geometry",
         title: "Form private candidate geometry",
         summary:
-          "Confirmed evidence supports a candidate geometry path, while the privacy policy remains visible as a required constraint.",
+          "Displayed relations connect confirmed candidate evidence, geometry sampling, geometry derivation, and the required privacy-policy constraint.",
         relation_ids: [
           "body-war.relation.candidate-supports-geometry",
           "body-war.relation.fetch-geometry-consumes-confirmation",
@@ -144,7 +144,7 @@ export const journeyStories = [
         short_label: "Preview",
         title: "Build and explain a ScorePreview",
         summary:
-          "Candidate geometry becomes canonical preview input under an exact score policy, then produces a preliminary read model.",
+          "Displayed relations connect candidate geometry, a score input snapshot, the score policy, a preliminary ScorePreview, and its limited Zone Score projection.",
         relation_ids: [
           "body-war.relation.snapshot-consumes-geometry",
           "body-war.relation.snapshot-consumes-policy",
@@ -174,11 +174,11 @@ export const journeyStories = [
     eyebrow: "Evidence meaning path",
     title: "From an imported activity to a territory preview",
     question:
-      "How can provider activity data become submitted evidence and affect a preview controller read model?",
+      "Which typed relations place provider activity data, submitted evidence, preview acceptance, and a controller projection in this view?",
     summary:
       "See where ProviderAccount, RunActivity, evidence submission, preview acceptance, and controller projection meet.",
     reading_note:
-      "After EvidenceSubmission, preview acceptance and controller projection are sibling meaning branches. Neither branch feeds the other in this view.",
+      "EvidenceSubmission is a shared endpoint for sibling meaning branches A and B. Neither branch feeds the other in this view.",
     forbidden_claim:
       "This path does not prove live provider import, verified evidence, verified controller selection, or territory ownership.",
     chapters: [
@@ -198,7 +198,7 @@ export const journeyStories = [
         short_label: "Submit",
         title: "Submit activity evidence",
         summary:
-          "A run and a territory become an evidence submission plus a submitted event.",
+          "Displayed relations show Submit Evidence using a run and a territory, and producing an EvidenceSubmission plus an Evidence Submitted event.",
         relation_ids: [
           "body-war.relation.operation-12",
           "body-war.relation.operation-13",
@@ -300,9 +300,9 @@ export const graphViews = [
     title: "Candidate calculation: geometry to ScorePreview",
     question: "How does confirmed evidence support private geometry, canonical score input, and an explained preliminary score?",
     represents:
-      "The geometry/calculation half of the candidate journey. Operations point to the inputs they use and the candidate outputs they create; blocked arrows expose owner-gated work.",
+      "A relation-local geometry and calculation view. Operations point to declared inputs and candidate outputs; residue annotations expose unresolved owner routes.",
     forbidden_claim:
-      "The graph is not a completed runtime sequence. Candidate geometry and ScorePreview remain non-promoting, and numeric output remains blocked until score and privacy policies are ratified.",
+      "The graph is not a completed runtime sequence. Candidate geometry and ScorePreview remain non-promoting; displayed score and privacy residue remains unresolved.",
     relation_ids: [
       "body-war.relation.candidate-supports-geometry",
       "body-war.relation.fetch-geometry-consumes-confirmation",
@@ -325,9 +325,9 @@ export const graphViews = [
   {
     view_id: "activity-evidence-to-controller",
     title: "Activity evidence to controller projection",
-    question: "How can one runner activity become preview evidence and affect a controller read model?",
+    question: "Which relations connect one runner activity, preview evidence, and a controller read model?",
     represents:
-      "The evidence-submission and preview-controller chain. Operations point to the inputs they consume and the evidence, events, or projections they produce.",
+      "A relation-local evidence-submission and preview-controller view. Operations point to declared inputs and the evidence, events, or projections they produce.",
     forbidden_claim:
       "Preview-accepted evidence and preview-controlled state are not verified evidence or verified territory control.",
     relation_ids: [

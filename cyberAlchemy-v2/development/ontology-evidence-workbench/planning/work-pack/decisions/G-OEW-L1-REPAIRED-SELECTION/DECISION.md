@@ -1,6 +1,6 @@
 # Decision Gate — G-OEW-L1-REPAIRED-SELECTION
 
-Status: **PENDING**
+Status: **RESOLVED — OPTION A**
 
 ## Question
 
@@ -29,12 +29,20 @@ This does not select 007 or any successor.
 
 Keep the current verified native-viewer prototype and perform no L1 mutation.
 
-## Unresolved Selection
+## Resolved Selection
 
-- Selected option: none
-- Selected SWU: none
-- Implementation authorized: false
+- Selected option: A
+- Selected SWU: `SWU-OEW-006B`
+- Selection source: direct user instruction, 2026-07-27
+- Implementation authorized: true, for one fresh Task Session over
+  `SWU-OEW-006B`
 - Mutation runtime ready: false
+
+The same direct instruction authorizes Task Session Until Blocker to capture
+the finite repaired L1 frontier (`006B`, `007`–`014`, `014V`) and continue one
+fresh Task Session at a time. This series authorization does not preselect a
+successor inside the current Task Session: each successor must still be unique,
+dependency-ready, receipt-backed, and selected by the chain cursor.
 
 ## Boundaries
 

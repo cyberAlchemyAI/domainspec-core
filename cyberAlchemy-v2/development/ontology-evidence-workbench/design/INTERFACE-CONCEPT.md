@@ -4,6 +4,25 @@ The interface should feel like a calm scientific instrument: dark ink canvas,
 high-contrast evidence cards, subtle depth, and motion only when it teaches
 relationship or state.
 
+## First Working Version Target
+
+The first version opens directly into the verified Poker Team candidate run and
+supports one complete review journey:
+
+1. confirm `SOURCE ✓`, `ADAPTER ✓`, `CANDIDATE ONLY`, and `AUTHORITY: NONE`;
+2. select `F1` and trace exact grounding through `R1` to `D1`;
+3. retain `D2 contradicts D1` as visible residue;
+4. inspect exact relations, policy disposition, diagnostics, source path, and
+   digest in the inspector;
+5. switch among Graph, Outline, and Table without changing selection;
+6. search/filter and complete the Poker walkthrough;
+7. open the receipt drawer and verify why each trust label is present.
+
+Done means that journey works in the final pinned dashboard build and passes
+the automated desktop, tablet, mobile, keyboard, reduced-motion, and
+accessibility checks. It does not include code context, editing, promotion,
+public hosting, collaboration, or a manual usability/accessibility pass.
+
 ## Desktop Layout
 
 ```text

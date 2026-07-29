@@ -7,93 +7,102 @@
   "wave": "W1",
   "capability_ref": "task-session",
   "execution_owner": "task-session-local-fallback",
-  "result": "block",
-  "state": "blocked-preflight-validation-entrypoint",
+  "result": "pass",
+  "state": "completed-awaiting-owner-closeout",
   "design_result_digest": "5326089bad0c06931508a4243385a36fcd78482ac008d73a6e869f0c2468a2e3",
-  "selection": {
-    "decision_receipt": {
-      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/decisions/G-OEW-L1-SELECTION/decision-receipt.json",
-      "sha256": "b4b1043ca20b460c2d7c17426a0ec2901f17d5f5062f569dbd2beb2519999f03",
-      "result": "pass"
-    },
-    "refresh_receipt": {
-      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/decisions/G-OEW-L1-SELECTION/refresh-A/refresh-receipt.json",
-      "sha256": "9a418e28b9d356bf00b152853ff5afa1250b355649fffb1afb48c9354de2f419",
-      "result": "pass"
-    },
-    "captured_frontier_member": true,
-    "current_expected_selector": true,
-    "result": "pass"
-  },
   "predecessor_receipts": [
     {
-      "swu_id": "SWU-OEW-006",
-      "gate": "G-OEW-L0",
-      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/session-evidence/SWU-OEW-006/attempt-003/INVOKE-REFRESH-RECEIPT.json",
-      "sha256": "6e4b5ebb9c00c76664678e48b4aa3e49392164df815486f06472e17695fde688",
+      "swu_id": "SWU-OEW-006P",
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/session-evidence/SWU-OEW-006P/receipt.json",
+      "sha256": "2e4c811aab8de7a1d4c34a4afbf03ab022d446a22b658bd982da6d7a1d544293",
       "result": "pass"
     }
   ],
-  "context_pack": {
-    "path": "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/session-evidence/SWU-OEW-007/context-pack.json",
-    "sha256": "348d392d71288632ad33eda426b45140de0f5e19d64f0ea4a9d562b0e2b714c9"
+  "mutation_admission": {
+    "receipt": "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/session-evidence/SWU-OEW-007/attempt-001/mutation-admission-receipt.json",
+    "receipt_sha256": "0605b23f108f0ab1692c441b50300617d5816d2f2ea57a7343da0c338ccd1ccd",
+    "admission_verdict": "admit",
+    "mutation_ready": true,
+    "allowed_writes": 6
   },
-  "preflight": {
-    "path": "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/session-evidence/SWU-OEW-007/preflight.json",
-    "sha256": "be3e24277d2aac8fb8a48c0a1cee0abc47e95ab2cc7a8844eac9be9ae131e2a4",
-    "result": "block"
-  },
-  "implementation_targets": [],
-  "implementation_files_touched": [],
-  "implementation_mutation": false,
-  "validation": {
-    "command": "npm run test:ui-store",
-    "cwd": "cyberAlchemy-v2/implementation/ontology-evidence-workbench",
-    "exit_code": 1,
-    "failure": "Missing script: test:ui-store",
-    "package_sha256": "2e2d593ede66572ab0fd2760b27aa53a19f60aa01e40f8c231be01b34b7b2c70",
-    "result": "block"
-  },
-  "protected_set": {
-    "started": false,
-    "reason": "preflight blocked execution before the first implementation mutation",
-    "last_closed_contract_sha256": "4c169dc30c24ee949be617cc617384a76a0efbfb55be7bcafc4cae8855295fda",
-    "last_closed_compiler_sha256": "c89379bea1ab10349e3e8d4701ca373221dfa502c06dedd26cbf52c97f33bf9c"
-  },
-  "decision_gate": {
-    "decision_id": "DG-OEW-007-L1-VALIDATION-SEAM",
-    "decision": {
-      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/session-evidence/SWU-OEW-007/validation-entrypoint-decision/DECISION.md",
-      "sha256": "8c1c885dd91cb14684a48883e7bf096ae0e936838eff49d3b5868fa76c6e2385"
+  "files_touched": [
+    {
+      "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/overlay/overlay-manifest.json",
+      "sha256": "de72ae8e6f2e1a3650b2403fe8415eb168e9c51639c39bf24b424df3337f8668",
+      "operation": "create"
     },
-    "admissibility_request": {
-      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/session-evidence/SWU-OEW-007/validation-entrypoint-decision/option-admissibility-request.json",
-      "sha256": "b5e8db1a0ed2deda6edebe85cc6c46c02d6ce30d22b578f5ea30369279393af3"
+    {
+      "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/patches/0001-oew-entrypoint.patch",
+      "sha256": "b1ef7f9bcecb48292dcb43baec40357a2b0b56a2e57b9ea977fdafc5cfdaa142",
+      "operation": "create"
     },
-    "admissibility_receipt": {
-      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench/planning/work-pack/session-evidence/SWU-OEW-007/validation-entrypoint-decision/option-admissibility-receipt.json",
-      "sha256": "7381656c8aca32e2243e2a8157975309440ed2fbbc5ab953802eac2c2d23a6a0",
-      "route_outcome": "gate"
+    {
+      "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/overlay/packages/dashboard/src/oew/types.ts",
+      "sha256": "f1f0168c7816f552e2cc538ad3cbb4f92a65f71f897cf98b3a330213b5e18c02",
+      "operation": "create"
     },
-    "recommended_option": "OEW-007-A-AMEND-FIRST-SWU",
-    "selected_option": null,
-    "result": "block"
-  },
-  "blockers": [
-    "SWU-OEW-007 declares an acceptance-critical npm script that does not exist.",
-    "The shared package script registry and a typed overlay test runner are outside the selected target inventory.",
-    "Multiple structurally admissible repairs exist and require the work-pack owner's choice."
+    {
+      "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/overlay/packages/dashboard/src/oew/loadOewBundle.ts",
+      "sha256": "8f7a0cd16db296a980508e99183cf4f07ed4a44a8410818ec11286249eb35ef7",
+      "operation": "create"
+    },
+    {
+      "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/overlay/packages/dashboard/src/oew/store.ts",
+      "sha256": "bcd0bcb33a284f59f1b8b0b83b627b46f7f4efb5a14dfce4f976d2b5e11e50d6",
+      "operation": "create"
+    },
+    {
+      "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/test/ui-store.test.mjs",
+      "sha256": "112c8c2d358aa8db6476490b20ecac7b4ff000c6e047252d32e3bd7b7e03bf5f",
+      "operation": "create"
+    }
   ],
+  "implementation_mutation": true,
+  "specialized_output": {
+    "handle": "oew-ui-store/v1",
+    "graph_nodes": 4,
+    "graph_edges": 4,
+    "exact_source_refs": 8,
+    "overlay_files_declared": 24,
+    "entrypoint_patch_reapply_rejected": true,
+    "result": "pass"
+  },
+  "validation": {
+    "focused": {
+      "command": "npm run test:ui-store",
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "result": "pass"
+    },
+    "staged_live_parity": {
+      "targets": 6,
+      "equal": 6,
+      "different": 0,
+      "result": "pass"
+    },
+    "protected_set": {
+      "before_sha256": "a70943eaa1030c135c15da44e17c0ddb37d51d6920af8bb39e948dc9fee31a4d",
+      "after_sha256": "a70943eaa1030c135c15da44e17c0ddb37d51d6920af8bb39e948dc9fee31a4d",
+      "comparison_sha256": "1dd168ce6d3384ba038dce7a2218ee7aaa169f6aaa86098df9eb9264032b9b76",
+      "entry_count": 12989,
+      "equal": true,
+      "result": "pass"
+    }
+  },
+  "blockers": [],
   "successor": {
-    "candidate": null,
-    "eligible": false,
-    "reason": "the first L1 selector is blocked before execution"
+    "candidate": "SWU-OEW-008",
+    "eligible": true,
+    "selected": false,
+    "reason": "bounded serial cursor after passing 007"
   },
   "next_route": {
-    "capability": "decision-gate",
-    "mode": "resolve",
-    "target": "DG-OEW-007-L1-VALIDATION-SEAM"
+    "capability": "invoke",
+    "mode": "refresh",
+    "target": "SWU-OEW-007 owner closeout and chain advancement",
+    "mutation_mode": "apply-approved"
   },
-  "evidence_ceiling": "The L1 series is selected but not mutation-runtime-ready. SWU-OEW-007 stopped before source mutation because its required validation entrypoint is absent and repairing it exceeds the selected target inventory. No L1 implementation, browser, accessibility, authority, promotion, publication, deployment, release, or production claim is supported.",
+  "evidence_ceiling": "Private exact-source read model and cumulative overlay contract only; no rendered trust, inspector, view parity, browser, authority, release, or production claim.",
   "authority_effect": "none"
 }

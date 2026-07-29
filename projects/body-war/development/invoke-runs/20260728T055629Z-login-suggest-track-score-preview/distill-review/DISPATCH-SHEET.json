@@ -1,0 +1,103 @@
+{
+  "dispatch_id": "2026-07-28-body-war-login-score-plan-review",
+  "schema_version": "0.8.0",
+  "dispatch_type": "review",
+  "goal": "Red-team the existing Body War login-to-score-preview Invoke package and return verified change requests that make the smallest prototype route coherent, testable, privacy-bounded, and authority-honest.",
+  "context": "The target is the completed draft Invoke package in projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview. The current application already proves a fake-provider suggestion/evidence loop, while affirmative consent, exact track binding, real Strava activity retrieval, geometry, score normalization, and hosted evidence remain distinct gaps. Reviewers are read-only and must verify every surviving finding against current artifacts; they do not implement fixes or authorize any SWU.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "working_folder": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/distill-review/",
+  "groups": [
+    {
+      "group_id": "attackers",
+      "n": 2,
+      "robot_talks": true,
+      "anti_bias": "methodology (formal specification completeness vs adversarial operational falsification)",
+      "predicted_disagreements": [
+        {
+          "pair": [
+            0,
+            1
+          ],
+          "statement": "Agent 0 runs formal contract and recomposition analysis while agent 1 runs adversarial runtime, privacy, and usability failure analysis on the methodology axis; a specification-completeness bias in agent 0 would be exposed by agent 1's concrete failure traces, while an anecdotal-failure bias in agent 1 would be exposed by agent 0's dependency and authority proofs."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Abramsky, Samson",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1800,
+          "angle": "formal specification completeness, SWU atomicity, dependency closure, and authority-bound recomposition",
+          "initial_prompt": "Attack the full target corpus from a formal methodology. Read every Invoke artifact named in the dispatch context and verify current source selectors. Inventory packet consequence: explicitly test whether LP-01, RF-02, HOST-01, WITNESS-01, and RF-01 stay distinct and whether the wider journey improperly reuses the closed BWOI experiment. Hunt missing preconditions, task-shaped SWUs, incomplete state/operation/interface mappings, unbound decision parameters, non-recomposing evidence, and authority inflation. Return findings with exact file evidence, severity, one-line fix, and defended zero-findings attempts. Do not edit files. Budget about 1800 tokens."
+        },
+        {
+          "agent_name": "Ashby, W. Ross",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1800,
+          "angle": "adversarial runtime, privacy, geometry-validity, score-explanation, concurrency, and participant failure traces",
+          "initial_prompt": "Attack the full target corpus from an adversarial operational methodology. Read every Invoke artifact named in the dispatch context and verify current source selectors. Inventory packet consequence: use the known consent/binding, real-provider, hosted, receipt, and retry gaps as regression probes, not as proof. Construct concrete failure traces for OAuth/token refresh, activity ownership, raw stream handling, geometry derivation, partial success/idempotency, sparse history scoring, responsive consent, and evidence-lane confusion. Return findings with exact file evidence, severity, one-line fix, and defended zero-findings attempts. Do not edit files. Budget about 1800 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Moss, Lawrence S.",
+          "role": "synthesizer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1600,
+          "initial_prompt": "Consume both attackers' initial and robot-talk final positions. Deduplicate candidate findings, preserve exact citations and severity, separate implementation blockers from later residue, and build a candidate change-request list. Inventory summaries are discovery only; every candidate must remain grounded in the current target artifacts. Do not edit files. Budget about 1600 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "verifier",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Rittel, Horst",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1500,
+          "initial_prompt": "Verify each synthesized finding against literal current artifact bytes and, when applicable, run the named deterministic check. Drop refuted findings rather than softening them. Confirm severity, proposed fix, evidence-lane boundary, and whether the fix is required for the working local prototype or only a later real-provider/hosted route. Return a frozen verification report; raise no new uncited claim. Do not edit files. Budget about 1500 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "writer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Jacobs, Bart",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1600,
+          "initial_prompt": "Using only verified surviving findings, prepare the final findings.md content: per-artifact change-request tables with evidence, severity, proposed fix, KEEP/FIX verdicts, and a severity-ordered closing list. Include refuted findings only in a dropped-findings note. Preserve the claim that review findings do not implement fixes or authorize execution. Return content to the parent; do not edit source files. Budget about 1600 tokens."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "attackers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "verifier",
+      "type": "zig-zag",
+      "loop_cap": 2
+    },
+    {
+      "from": "verifier",
+      "to": "writer",
+      "type": "sequential"
+    }
+  ]
+}
+

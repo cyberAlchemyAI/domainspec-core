@@ -1,0 +1,853 @@
+{
+  "schema": "augmentor.unified-agent.nodes@0.1.0",
+  "package_id": "augmentor-unified-agent-ontology",
+  "nodes": [
+    {
+      "concept_id": "aug.concept.augmentor_interface",
+      "label": "Augmentor",
+      "concept_role": "projection object",
+      "branches": [
+        "experience",
+        "runtime",
+        "knowledge"
+      ],
+      "description": "Trusted Strategist identity and conversational projection over host-mediated context, routing, execution, memory, and artifact owners.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-AUGMENTOR-MANIFEST",
+        "SRC-AUGMENTOR-CHAT-CONTRACT",
+        "SRC-AUGMENTOR-ACCEPTANCE"
+      ],
+      "owner_route": "resonantos-product-governance-plus-module-owners",
+      "candidate_status": "reviewed-candidate",
+      "runtime_posture": "observed",
+      "confidence": {
+        "evidence_confidence": "high",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Reconcile the product identity and capability boundary against the manifest, chat contract, module ownership, and current acceptance evidence.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.augmentor_presents_thread"
+        ],
+        "owner_route": "resonantos-product-governance-plus-module-owners",
+        "resolution_gate": "resonantos-product-owner-review",
+        "blocking_questions": [],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "The unified context, route, approval, multi-Run, and knowledge adapters remain absent."
+      ],
+      "forbidden_collapse": [
+        "Augmentor is not a second router, scheduler, session store, memory provider, graph-truth store, reasoning authority, ontology writer, effect authority, or promotion authority.",
+        "One interface does not imply one owner or one state model."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.conversation_thread",
+      "label": "ConversationThread",
+      "concept_role": "workflow object",
+      "branches": [
+        "experience",
+        "runtime"
+      ],
+      "description": "Host-owned conversation identity and transcript boundary presented through Augmentor.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-AUGMENTOR-MANIFEST",
+        "SRC-AUGMENTOR-CHAT-CONTRACT",
+        "SRC-RESONANT-CONTEXT-MEMORY"
+      ],
+      "owner_route": "resonantos-chat-module",
+      "candidate_status": "reviewed-candidate",
+      "runtime_posture": "observed",
+      "confidence": {
+        "evidence_confidence": "high",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Reconcile the thread claim against the current ResonantOS chat and context-memory contracts.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.thread_contains_interaction"
+        ],
+        "owner_route": "resonantos-chat-module",
+        "resolution_gate": "runtime-owner-review",
+        "blocking_questions": [],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "Unified Interaction identity is not implemented."
+      ],
+      "forbidden_collapse": [
+        "ConversationThread is not a Run.",
+        "Thread switching does not reparent child work."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.interaction",
+      "label": "Interaction",
+      "concept_role": "workflow object",
+      "branches": [
+        "experience",
+        "runtime"
+      ],
+      "description": "One active concern within a ConversationThread, with explicit continuation or fresh-start semantics.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-AUGMENTOR-CHAT-CONTRACT"
+      ],
+      "owner_route": "owner-selection-required:interaction-resolver",
+      "candidate_status": "candidate",
+      "runtime_posture": "absent",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Require a host identity contract and ambiguity behavior before treating Interaction as runtime state.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.interaction_composes_context"
+        ],
+        "owner_route": "owner-selection-required:interaction-resolver",
+        "resolution_gate": "host-adapter-selection",
+        "blocking_questions": [
+          "Which ResonantOS owner persists Interaction identity?"
+        ],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "InteractionResolverAdapter is absent."
+      ],
+      "forbidden_collapse": [
+        "Interaction is not a Thread.",
+        "Interaction is not a Run or child transcript."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.source_record",
+      "label": "SourceRecord",
+      "concept_role": "evidence object",
+      "branches": [
+        "experience",
+        "knowledge"
+      ],
+      "description": "Immutable reference to provider-owned source bytes using ownerRef, sourceRef, and digest.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-RESONANT-MEMORY-PROVIDER",
+        "SRC-RESONANT-MEMORY-HOST",
+        "SRC-RESONANT-MODULE-OWNERSHIP"
+      ],
+      "owner_route": "provider-named-by-ownerRef",
+      "candidate_status": "reviewed-candidate",
+      "runtime_posture": "observed",
+      "confidence": {
+        "evidence_confidence": "high",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Re-read provider-owned bytes at the bound digest and preserve contradictions instead of overwriting them.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.source_supports_context",
+          "aug.relation.index_derives_from_source"
+        ],
+        "owner_route": "provider-named-by-ownerRef",
+        "resolution_gate": "provider-disposition",
+        "blocking_questions": [],
+        "challenge_residue_route": "AUG-RES-005"
+      },
+      "residue": [
+        "No universal provider review/write adapter exists."
+      ],
+      "forbidden_collapse": [
+        "A source reference is not a copied source.",
+        "An index or projection is not source truth."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.disposable_semantic_index",
+      "label": "DisposableSemanticIndex",
+      "concept_role": "projection object",
+      "branches": [
+        "knowledge"
+      ],
+      "description": "Rebuildable derived retrieval state compiled from source digests under explicit bounds.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-CAV2-PACKAGE-MODEL"
+      ],
+      "owner_route": "owner-selection-required:derived-index",
+      "candidate_status": "blocked",
+      "runtime_posture": "absent",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "blocked"
+      },
+      "challenge_contract": {
+        "challenge_response": "Invalidate on source digest drift and require a selected owner before implementation.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.index_derives_from_source",
+          "aug.relation.context_uses_bounded_index_projection"
+        ],
+        "owner_route": "owner-selection-required:derived-index",
+        "resolution_gate": "derived-index-owner-decision",
+        "blocking_questions": [
+          "Who owns compilation, invalidation, storage bounds, and rebuild receipts?"
+        ],
+        "challenge_residue_route": "AUG-RES-002"
+      },
+      "residue": [
+        "Compiler, index owner, projection owner, and production adapter are absent."
+      ],
+      "forbidden_collapse": [
+        "DisposableSemanticIndex is not a SourceRecord.",
+        "Retrieval ranking is not reasoning or authority."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.context_snapshot",
+      "label": "ContextSnapshot",
+      "concept_role": "evidence object",
+      "branches": [
+        "experience",
+        "runtime",
+        "knowledge"
+      ],
+      "description": "Immutable launch input containing selected selectors, horizon, and a digest of exact composed bytes.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-RESONANT-CONTEXT-MEMORY",
+        "SRC-RESONANT-MEMORY-PROVIDER"
+      ],
+      "owner_route": "resonantos-request-session-host",
+      "candidate_status": "candidate",
+      "runtime_posture": "absent",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Recompose exact bytes from valid handles and source digests; reject stale or tombstoned inputs.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.source_supports_context",
+          "aug.relation.interaction_composes_context",
+          "aug.relation.context_classified_by_route"
+        ],
+        "owner_route": "resonantos-request-session-host",
+        "resolution_gate": "snapshot-composer-contract",
+        "blocking_questions": [
+          "Which host component owns immutable composition and snapshot persistence?"
+        ],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "SnapshotComposerAdapter is absent."
+      ],
+      "forbidden_collapse": [
+        "ContextSnapshot is not provider-owned source truth.",
+        "A later parent turn cannot silently mutate a child snapshot."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.route_decision",
+      "label": "RouteDecision",
+      "concept_role": "workflow object",
+      "branches": [
+        "experience",
+        "runtime"
+      ],
+      "description": "Immutable classification over input and configuration digests that selects an inline, helper, serial, parallel, install, or blocked presentation path.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-AUGMENTOR-COMMANDS",
+        "SRC-IDE-ERGONOMICS",
+        "SRC-ARCANUM-USER-GUIDE"
+      ],
+      "owner_route": "owner-selection-required:resonantos-route-decision",
+      "candidate_status": "candidate",
+      "runtime_posture": "absent",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Reclassify from the same frozen input and configuration; missing capability must block or offer paths.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.context_classified_by_route",
+          "aug.relation.route_may_project_strategy"
+        ],
+        "owner_route": "owner-selection-required:resonantos-route-decision",
+        "resolution_gate": "route-owner-and-adapter-selection",
+        "blocking_questions": [
+          "Which host owner controls route configuration and durable decision identity?"
+        ],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "DeterministicRouteAdapter and production owner are absent."
+      ],
+      "forbidden_collapse": [
+        "RouteDecision is not StrategyProposal.",
+        "RouteDecision is not approval, Dispatch, Run, or execution."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.strategy_proposal",
+      "label": "StrategyProposal",
+      "concept_role": "projection object",
+      "branches": [
+        "experience",
+        "runtime"
+      ],
+      "description": "Exact preview bytes and digest for proposed roles, context, dependencies, and forbidden effects.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-IDE-ERGONOMICS",
+        "SRC-ARCANUM-USER-GUIDE"
+      ],
+      "owner_route": "owner-selection-required:proposal-projection",
+      "candidate_status": "candidate",
+      "runtime_posture": "absent",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Invalidate the proposal digest on any edit and require a new exact approval.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.route_may_project_strategy",
+          "aug.relation.proposal_requires_exact_approval"
+        ],
+        "owner_route": "owner-selection-required:proposal-projection",
+        "resolution_gate": "proposal-owner-and-ui-contract",
+        "blocking_questions": [],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "No owner-backed proposal projection exists in ResonantOS."
+      ],
+      "forbidden_collapse": [
+        "StrategyProposal is not ApprovalRecord.",
+        "Preview, edit, or decline performs no launch or effect."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.approval_record",
+      "label": "ApprovalRecord",
+      "concept_role": "evidence object",
+      "branches": [
+        "experience",
+        "runtime",
+        "authority-bridge"
+      ],
+      "description": "Consumer-owned approval of exact proposal and Dispatch digests.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-AUGMENTOR-ACCEPTANCE",
+        "SRC-IDE-ERGONOMICS"
+      ],
+      "owner_route": "consumer-plus-owner-selection-required:approval-registrar",
+      "candidate_status": "candidate",
+      "runtime_posture": "absent",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Compare exact proposal and Dispatch digests; reject stale, partial, or widened approval.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.proposal_requires_exact_approval",
+          "aug.relation.approval_binds_dispatch"
+        ],
+        "owner_route": "consumer-plus-owner-selection-required:approval-registrar",
+        "resolution_gate": "approval-registrar-selection",
+        "blocking_questions": [
+          "Which owner persists approval identity and invalidation?"
+        ],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "ApprovalRegistrarAdapter is absent."
+      ],
+      "forbidden_collapse": [
+        "ApprovalRecord is not route validation.",
+        "ApprovalRecord is not execution or effect permission outside its exact scope."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.dispatch",
+      "label": "Dispatch",
+      "concept_role": "workflow object",
+      "branches": [
+        "runtime"
+      ],
+      "description": "Frozen capability-bound route shape validated by Dispatch Spec before execution preflight.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-ARCANUM-USER-GUIDE"
+      ],
+      "owner_route": "dispatch-spec",
+      "candidate_status": "reviewed-candidate",
+      "runtime_posture": "observed",
+      "confidence": {
+        "evidence_confidence": "high",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Revalidate the frozen Dispatch shape and authorization without spawning.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.approval_binds_dispatch",
+          "aug.relation.dispatch_precedes_run"
+        ],
+        "owner_route": "dispatch-spec",
+        "resolution_gate": "dispatch-spec-validation",
+        "blocking_questions": [],
+        "challenge_residue_route": "AUG-RES-004"
+      },
+      "residue": [
+        "No production adapter binds Dispatch to ResonantOS host operations."
+      ],
+      "forbidden_collapse": [
+        "Dispatch is not Run.",
+        "Shape validation is not approval or execution."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.run",
+      "label": "Run",
+      "concept_role": "workflow object",
+      "branches": [
+        "experience",
+        "runtime"
+      ],
+      "description": "Host-owned execution correlation for a parent or child operation, distinct from Thread and Interaction.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-AUGMENTOR-COMMANDS",
+        "SRC-RESONANT-MODULE-OWNERSHIP"
+      ],
+      "owner_route": "selected-resonantos-host-operation-owner",
+      "candidate_status": "candidate",
+      "runtime_posture": "designed",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Reconcile state from the host owner by immutable Run and action identity; never infer terminal state from UI text.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.dispatch_precedes_run",
+          "aug.relation.runs_reduce_through_join"
+        ],
+        "owner_route": "selected-resonantos-host-operation-owner",
+        "resolution_gate": "orchestrate-to-host-binding",
+        "blocking_questions": [
+          "Which exact host operation owns each Run kind?"
+        ],
+        "challenge_residue_route": "AUG-RES-004"
+      },
+      "residue": [
+        "Durable parent-child Run projection and restart reconciliation are absent."
+      ],
+      "forbidden_collapse": [
+        "Run is not ConversationThread or Interaction.",
+        "UI cards do not own Run truth."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.lifecycle_join",
+      "label": "LifecycleJoin",
+      "concept_role": "workflow object",
+      "branches": [
+        "runtime"
+      ],
+      "description": "Orchestrate-owned reduction of normalized child receipts for gates, reconciliation, and closeout.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-ARCANUM-USER-GUIDE"
+      ],
+      "owner_route": "orchestrate",
+      "candidate_status": "reviewed-candidate",
+      "runtime_posture": "observed",
+      "confidence": {
+        "evidence_confidence": "high",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Reduce exactly one normalized receipt per expected action and block on missing or mismatched identities.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.runs_reduce_through_join",
+          "aug.relation.join_separates_consumption"
+        ],
+        "owner_route": "orchestrate",
+        "resolution_gate": "orchestrate-join-contract",
+        "blocking_questions": [],
+        "challenge_residue_route": "AUG-RES-004"
+      },
+      "residue": [
+        "Product integration of the join contract is absent."
+      ],
+      "forbidden_collapse": [
+        "LifecycleJoin is not artifact delivery or consumption.",
+        "Partial success cannot fabricate dependent-gate success."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.result_consumption",
+      "label": "ResultConsumption",
+      "concept_role": "workflow object",
+      "branches": [
+        "experience",
+        "runtime",
+        "knowledge"
+      ],
+      "description": "Explicit Open, Attach, or Keep-separate operation over an owner-backed artifact or blocker reference.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-IDE-ERGONOMICS"
+      ],
+      "owner_route": "owner-selection-required:result-consumption",
+      "candidate_status": "candidate",
+      "runtime_posture": "absent",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Verify that consumption changes only the selected attachment target and no lifecycle, sibling, notification, or memory state.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.join_separates_consumption",
+          "aug.relation.consumption_does_not_imply_intake"
+        ],
+        "owner_route": "owner-selection-required:result-consumption",
+        "resolution_gate": "result-consumption-adapter-selection",
+        "blocking_questions": [],
+        "challenge_residue_route": "AUG-RES-004"
+      },
+      "residue": [
+        "ResultConsumptionAdapter is absent."
+      ],
+      "forbidden_collapse": [
+        "Consumption is not lifecycle reconciliation.",
+        "Attachment is not memory intake or provider acceptance."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.memory_intake_request",
+      "label": "MemoryIntakeRequest",
+      "concept_role": "workflow object",
+      "branches": [
+        "experience",
+        "knowledge",
+        "authority-bridge"
+      ],
+      "description": "Separately authorized request for provider review of a correction, addition, deletion, or evidence intake.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-AUGMENTOR-MANIFEST",
+        "SRC-AUGMENTOR-ARCHIVE-HANDOFF",
+        "SRC-RESONANT-MEMORY-PROVIDER",
+        "SRC-RESONANT-MEMORY-HOST"
+      ],
+      "owner_route": "provider-and-archive-review-owners",
+      "candidate_status": "reviewed-candidate",
+      "runtime_posture": "observed",
+      "confidence": {
+        "evidence_confidence": "high",
+        "commitment_confidence": "accepted-research"
+      },
+      "challenge_contract": {
+        "challenge_response": "Require provider disposition and a changed source digest or admitted evidence before durable claims.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.consumption_does_not_imply_intake",
+          "aug.relation.intake_requests_provider_review"
+        ],
+        "owner_route": "provider-and-archive-review-owners",
+        "resolution_gate": "provider-review",
+        "blocking_questions": [],
+        "challenge_residue_route": "AUG-RES-005"
+      },
+      "residue": [
+        "The joined intake-to-Inventory handoff remains absent."
+      ],
+      "forbidden_collapse": [
+        "MemoryIntakeRequest is not accepted source truth.",
+        "UI deletion or local draft is not durable correction."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.ontology_candidate",
+      "label": "OntologyCandidate",
+      "concept_role": "projection object",
+      "branches": [
+        "knowledge",
+        "authority-bridge"
+      ],
+      "description": "Non-authoritative meaning proposal formed only after source-bound evidence is fit for ontology review.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-CAV2-NODE-MODEL",
+        "SRC-CAV2-PACKAGE-MODEL"
+      ],
+      "owner_route": "cyberalchemy-v2-ontology-route",
+      "candidate_status": "candidate",
+      "runtime_posture": "designed",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "candidate"
+      },
+      "challenge_contract": {
+        "challenge_response": "Preserve supporting and contradicting evidence, then route unresolved meaning to the ontology owner.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.source_supports_candidate",
+          "aug.relation.candidate_requests_named_owner"
+        ],
+        "owner_route": "cyberalchemy-v2-ontology-route",
+        "resolution_gate": "ontology-candidate-review",
+        "blocking_questions": [],
+        "challenge_residue_route": "AUG-RES-007"
+      },
+      "residue": [
+        "Inventory-to-ontology conversion adapter is absent."
+      ],
+      "forbidden_collapse": [
+        "OntologyCandidate is not Inventory validation.",
+        "OntologyCandidate is not AuthorityDecision or canonical meaning."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.authority_decision",
+      "label": "AuthorityDecision",
+      "concept_role": "authority object",
+      "branches": [
+        "authority-bridge"
+      ],
+      "description": "Scoped decision by one authority-kind-specific named owner against an exact canonical selector.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-CAV2-DEFINITIONS",
+        "SRC-CAV2-AUTHORITY-KINDS",
+        "SRC-CAV2-PACKAGE-MODEL"
+      ],
+      "owner_route": "authority-kind-specific-named-owner",
+      "candidate_status": "blocked",
+      "runtime_posture": "absent",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "blocked"
+      },
+      "challenge_contract": {
+        "challenge_response": "Resolve one named owner and exact selector; no ontology or model output may supply the decision.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.candidate_requests_named_owner"
+        ],
+        "owner_route": "authority-kind-specific-named-owner",
+        "resolution_gate": "owner-decision",
+        "blocking_questions": [
+          "Which authority kind, owner, selector, schema, and cardinality apply?"
+        ],
+        "challenge_residue_route": "AUG-RES-007"
+      },
+      "residue": [
+        "Authority resolver, decision schema, transition registrar, and canonical writer are absent."
+      ],
+      "forbidden_collapse": [
+        "AuthorityDecision is not OntologyCandidate.",
+        "A transition or audit record is not the canonical authority artifact."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.reasoning_request",
+      "label": "ReasoningRequest",
+      "concept_role": "workflow object",
+      "branches": [
+        "runtime",
+        "authority-bridge"
+      ],
+      "description": "Future frozen request containing problem frame, authority snapshot, catalog manifest, and exact input digests.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-REASONING-ARCHITECTURE",
+        "SRC-REASONING-SPEC"
+      ],
+      "owner_route": "owner-selection-required:reasoning-applicability-and-catalog",
+      "candidate_status": "deferred",
+      "runtime_posture": "deferred",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "deferred"
+      },
+      "challenge_contract": {
+        "challenge_response": "Reject missing authority, catalog, fact, or digest state before any evaluator call.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.context_frames_reasoning",
+          "aug.relation.reasoning_yields_judgment"
+        ],
+        "owner_route": "owner-selection-required:reasoning-applicability-and-catalog",
+        "resolution_gate": "reasoning-entry-gate",
+        "blocking_questions": [
+          "Who owns applicability, catalog selection, and the Augmentor request adapter?"
+        ],
+        "challenge_residue_route": "AUG-RES-006"
+      },
+      "residue": [
+        "Excluded from the initial Augmentor runtime witness."
+      ],
+      "forbidden_collapse": [
+        "ReasoningRequest is not a model prompt assembled from unowned facts.",
+        "Entry-gate permission is not effect permission."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.judgment_receipt",
+      "label": "JudgmentReceipt",
+      "concept_role": "evidence object",
+      "branches": [
+        "runtime",
+        "authority-bridge"
+      ],
+      "description": "Future immutable derivation receipt for a bounded evaluator outcome under frozen inputs.",
+      "source_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-REASONING-ARCHITECTURE",
+        "SRC-REASONING-SPEC"
+      ],
+      "owner_route": "agent-reasoning-engine-route",
+      "candidate_status": "deferred",
+      "runtime_posture": "deferred",
+      "confidence": {
+        "evidence_confidence": "medium",
+        "commitment_confidence": "deferred"
+      },
+      "challenge_contract": {
+        "challenge_response": "Reproduce the finite derivation from frozen digests; invalidate on source, authority, catalog, or temporal drift.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.reasoning_yields_judgment",
+          "aug.relation.judgment_may_inform_route",
+          "aug.relation.judgment_does_not_authorize_approval"
+        ],
+        "owner_route": "agent-reasoning-engine-route",
+        "resolution_gate": "independent-exact-effect-gate",
+        "blocking_questions": [
+          "Which independent operation-specific effect owner, gate, and runtime apply?"
+        ],
+        "challenge_residue_route": "AUG-RES-006"
+      },
+      "residue": [
+        "No Augmentor evaluator adapter or effect integration is admitted."
+      ],
+      "forbidden_collapse": [
+        "JudgmentReceipt is not approval.",
+        "JudgmentReceipt is not an effect gate, effect owner, effect runtime, or authority."
+      ]
+    }
+  ]
+}

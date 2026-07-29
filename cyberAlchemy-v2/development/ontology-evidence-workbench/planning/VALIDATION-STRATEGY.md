@@ -13,12 +13,15 @@
    and usability separately owned.
 7. **Isolation:** exact protected-path digest set before/after.
 8. **Receipt:** independent adapter/browser/package receipt verification.
-9. **L1 materialization:** exact Node/pnpm bytes, effective frozen lock,
-   declared online or admitted isolated-store mode, no workspace fallback,
-   patch pre/postimages, typed test/build, cleanup, and residue.
+9. **L1 materialization:** early exact Node/pnpm/effective-lock and
+   fixture-patch proof; after feature source, a separate clean workroot,
+   complete overlay pre/postimages, typed test/build, cleanup, and residue.
 10. **Lifecycle:** owned browser binaries, minimal environment, child
     PID/port ledger, outbound observation, `finally` teardown, port release,
     and a verifier distinct from the producer.
+11. **Frontier readiness:** before selection, resolve every active package
+    command to an existing entrypoint or a target owned by that same SWU;
+    require one package root and closed dependency order.
 
 ## Mandatory Positive and Negative Fixtures
 
@@ -32,7 +35,9 @@
 | UI parity | F1/R1/D1, D2 conflict, indeterminate edge | disagreement across surfaces |
 | code context | explicit scope/map | implicit cross-namespace edge or evidence digest change |
 | accessibility | keyboard/axe/reduced motion | graph-only fact, focus loss, color-only status |
-| L1 bootstrap | fresh workroot, exact tools/lock, patch-once, Vitest + typed build | ambient workspace/cache fallback, wrong tool, patch drift/reapply, failed cleanup |
+| L1 provisioner | fresh workroot, exact tools/lock, self-owned fixture patch-once, cleanup | ambient workspace/cache fallback, wrong tool, patch drift/reapply, failed cleanup |
+| L1 UI frontier | completed 007 store plus complete 008F vertical slice and six owned runners | missing runner, cross-SWU ownership, unsupported direct TSX execution, second package root |
+| L1 final build | complete 007 + 008F overlay, fresh workroot, patch-once, Vitest + typed build, independent verifier | pre-feature handle, final-source drift, producer-only acceptance, failed cleanup |
 | browser lifecycle | admitted build handle, pinned browsers, owned PIDs/ports, clean teardown | reused server, inherited broad environment, orphan PID, occupied port, producer self-verification |
 
 ## Exact Poker Oracle
@@ -63,8 +68,9 @@ network/console assertions, and automated accessibility. Manual screen-reader
 and usability states remain `NOT_RUN` until named human results exist. Neither
 browser state grants product/authority/release readiness.
 
-The browser producer cannot close G-OEW-L1. `SWU-OEW-014V` must independently
-recompute the build-handle binding, browser results, protected equality,
+The browser producer cannot close G-OEW-L1. It must consume the verified
+`SWU-OEW-013B` build handle. `SWU-OEW-014V` must independently recompute that
+build-handle binding, browser results, protected equality,
 outbound assertions, owned-child teardown, port release, residue, and
 `authority_effect:none`.
 

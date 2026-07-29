@@ -165,8 +165,11 @@ test("interactive journey experiment defaults to plain language with inspectable
   );
   assert.match(html, /<title>Body War — Journey Ontology Experiment<\/title>/);
   assert.match(html, /<body>/);
-  assert.equal((html.match(/<button[^>]+role="tab"/g) ?? []).length, 2);
-  assert.equal((html.match(/<article[^>]+role="tabpanel"/g) ?? []).length, 2);
+  assert.equal((html.match(/<a class="story-tab"/g) ?? []).length, 2);
+  assert.equal((html.match(/data-story-panel=/g) ?? []).length, 2);
+  assert.doesNotMatch(html, /<button[^>]+role="tab"/);
+  assert.match(html, /setAttribute\('role','tab'\)/);
+  assert.match(html, /setAttribute\('role','tabpanel'\)/);
   assert.match(html, /Expand all ontology details/);
   assert.match(html, /<details class="ontology-details">/);
   assert.doesNotMatch(
@@ -176,7 +179,16 @@ test("interactive journey experiment defaults to plain language with inspectable
   assert.match(html, /chapter order is a guided explanation/i);
   assert.match(html, /Sibling branch A/);
   assert.match(html, /Sibling branch B/);
+  assert.match(
+    html,
+    /href="#activity-to-territory-preview-preview-evidence"><span>A<\/span>Review/,
+  );
+  assert.match(
+    html,
+    /href="#activity-to-territory-preview-controller-preview"><span>B<\/span>Project/,
+  );
   assert.match(html, /Neither branch feeds the other/);
+  assert.doesNotMatch(html, /After EvidenceSubmission/);
   assert.match(html, /0 new ontology edges/);
   assert.match(html, /data-relation-id="body-war\.relation\.select-reads-track"/);
   assert.match(
@@ -189,10 +201,56 @@ test("interactive journey experiment defaults to plain language with inspectable
   assert.match(html, /ProviderAccount/);
   assert.match(html, /<code>consumes<\/code>/);
   assert.match(html, /body-war\.product-ontology-owner/);
+  assert.match(html, /<ul class="relation-list">/);
+  assert.doesNotMatch(html, /<ol class="relation-list">/);
+  assert.match(html, /Blocked — owner decision required/);
+  assert.match(html, /Explicitly does not promote/);
+  assert.match(html, /Projection only/);
+  assert.match(html, /<dt>Relation owner<\/dt>/);
+  assert.match(html, /<dt>Blocking owner<\/dt>/);
+  assert.match(html, /<dt>Next gate<\/dt>/);
+  assert.match(html, /data-residue-id="body-war\.residue\.geometry-privacy"/);
+  assert.match(html, /data-residue-id="body-war\.residue\.geometry-promotion"/);
+  assert.match(html, /body-war\.data-privacy-owner/);
+  assert.match(html, /DEC-JSP-002 decision-gate/);
+  assert.match(html, /status: candidate-local/);
+  assert.match(html, /authority_effect: none/);
+  assert.match(html, /release_admission: not-granted/);
   assert.doesNotMatch(html, /class="mermaid"|```mermaid/);
   assert.match(html, /ArrowRight/);
   assert.match(html, /prefers-reduced-motion/);
   assert.match(html, /@media print/);
+});
+
+test("journey residue joins preserve zero, one, and multiple endpoint matches", async () => {
+  const relationSet = JSON.parse(
+    await readFile(
+      path.join(packageRoot, "relations/relations.json"),
+      "utf8",
+    ),
+  );
+  const residue = JSON.parse(
+    await readFile(path.join(packageRoot, "residue.json"), "utf8"),
+  );
+  const matchCount = (relationId) => {
+    const relation = relationSet.relations.find(
+      (candidate) => candidate.relation_id === relationId,
+    );
+    assert.ok(relation);
+    return residue.items.filter((item) =>
+      item.affected_concepts.some(
+        (conceptId) =>
+          conceptId === relation.source_concept ||
+          conceptId === relation.target_concept,
+      ),
+    ).length;
+  };
+  assert.equal(matchCount("body-war.relation.visitor-authenticates"), 0);
+  assert.equal(
+    matchCount("body-war.relation.calculate-preview-consumes-policy"),
+    1,
+  );
+  assert.equal(matchCount("body-war.relation.candidate-supports-geometry"), 2);
 });
 
 test("plain-language phrases cover the admitted relation vocabulary", async () => {

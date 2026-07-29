@@ -1,33 +1,48 @@
 # Invoke Plan Result
 
-Date: 2026-07-27
+Date: 2026-07-28
 Mode: Refresh / apply-approved
 Canonical capability: `invoke`
-Phase status: pass for refreshed Plan authoring; implementation unselected
+Phase status: pass for first-working-version authoring; implementation
+unselected
 
 ## Outcome
 
-The approved Evidence Constellation design is decomposed into four independently
-valuable layers, ten task contracts (nine mutation parents plus terminal
-verification), four waves, and 22 atomic SWUs. The work
-pack keeps the verified ontology bundle authoritative, uses an immutable
-Understand-Anything pin only as a presentation substrate, and preserves exact
-relations and policy state in a lossless sidecar.
+The OEW L1 target is now explicit: one private local Poker evidence-review
+workbench built on the pinned Understand-Anything dashboard. It keeps a
+persistent `SOURCE ✓ / ADAPTER ✓ / CANDIDATE ONLY / AUTHORITY NONE` rail,
+traces `F1 → R1 → D1` while showing `D2 contradicts D1`, exposes exact
+evidence and policy residue, provides graph/outline/table parity, and supports
+search, filtering, keyboard/deep-link recovery, a guided Poker tour, receipt
+access, and responsive/reduced-motion behavior.
+
+The completed toolchain and UI-store foundation is preserved. The unexecuted
+component plan is replaced by one coherent source unit followed by independent
+build and browser evidence:
+
+```text
+SWU-OEW-008F  complete usable UI source
+  → SWU-OEW-013B  clean immutable build + independent build verification
+  → SWU-OEW-014   automated browser/accessibility evidence
+  → SWU-OEW-014V  independent acceptance verification
+```
 
 ## Coverage
 
-- six architecture views: complete;
-- glossary consistency: pass;
-- implementation layering: L0 through L3;
-- work-pack form: split, medium complexity;
-- task contracts: ten;
-- planned SWUs: 22;
-- task-shaped SWUs: zero;
-- exact target inventories: 106 unique targets;
-- validation and closeout contracts: present for every mutation SWU;
-- refresh Dispatch Spec technique trace: pass;
-- refresh Distill validation: pass at the Standard-budget assumption;
-- implementation root: present with retained L0 evidence; L1 outputs absent.
+- first working version and Poker journey: explicit;
+- implementation layering: L0 through L3 preserved;
+- completed prerequisites: `SWU-OEW-006P` and `SWU-OEW-007`;
+- remaining L1 frontier: four dependency-ordered SWUs;
+- historical blocked selector: `SWU-OEW-008`, preserved;
+- superseded unexecuted selectors: `SWU-OEW-009` through `013`, plus the
+  unexecuted component form of `008`;
+- package roots: exactly one;
+- package mutations in the active frontier: zero;
+- registered active commands checked: ten;
+- command-to-entrypoint closure: pass;
+- refresh Dispatch Spec: pass;
+- refresh Distill validation: pass;
+- implementation work performed by this refresh: none.
 
 ## Layer Result
 
@@ -38,7 +53,7 @@ relations and policy state in a lossless sidecar.
 | L2 | separately approved scoped code graph and code-context lane | adds code navigation without conflating code analysis with ontology evidence |
 | L3 | upstream upgrade, performance, packaging, terminal audit | hardens a local prototype without inflating it to release readiness |
 
-## Refresh Result
+## Prior Refresh Result — Superseded Build Ordering
 
 - inserted clean-build predecessor: `SWU-OEW-006B`;
 - changed 007 dependency to the verified L1 build handle;
@@ -47,16 +62,26 @@ relations and policy state in a lossless sidecar.
 - invalidated the historical 007 selection;
 - preserved L0 implementation and evidence unchanged.
 
+## First Working Version Repair
+
+- retained the passing 006P toolchain and 007 exact UI store;
+- retained the 008 preflight blocker without manufacturing implementation
+  evidence;
+- collapsed six unexecuted component selectors into `SWU-OEW-008F`;
+- kept final build, browser production, and independent verification separate;
+- bound the existing package registry to same-SWU-owned runner entrypoints;
+- invalidated the earlier series selection for the refreshed graph.
+
 ## Selection Boundary
 
-- Recommended first candidate: `SWU-OEW-006B`
+- Recommended first candidate: `SWU-OEW-008F`
 - Selected SWU: none
 - `implementation_authorized`: false
 - `mutationRuntimeReady`: false
-- Next route: Plan-owner review, then explicit human selection of
-  `SWU-OEW-006B`
+- Next route:
+  `G-OEW-L1-FIRST-WORKING-VERSION-SELECTION`
 
-The prior 007 series selection cannot authorize the repaired graph. Refresh
+The prior split-build selection cannot authorize this refreshed graph. Refresh
 approval, SWU selection, Task Session preflight, and implementation remain
 separate transitions.
 

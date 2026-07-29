@@ -1,0 +1,107 @@
+{
+  "schema_version": "body-war-business-comprehension-protocol/v1",
+  "protocol_id": "body-war.business-view-reading.v1",
+  "learner_allowlist": [
+    "schema_version",
+    "task_id",
+    "title",
+    "audience",
+    "stimulus",
+    "prompt",
+    "response_note",
+    "loci",
+    "submission",
+    "evidence_ceiling"
+  ],
+  "learner_deny_markers": [
+    "REVIEWER_ONLY_ANSWER_KEY",
+    "REVIEWER_ONLY_COVERAGE_AUDIT",
+    "REVIEWER_ONLY_CORRECTNESS_RUBRIC",
+    "REVIEWER_ONLY_STALL_RESULT",
+    "REVIEWER_ONLY_HUMAN_RECORD",
+    "expected_relation_ids",
+    "must_reject_invented_sequence"
+  ],
+  "matched_arms": {
+    "fields": [
+      "task",
+      "loci",
+      "prompt",
+      "stimulus"
+    ],
+    "identity_rule": "byte-identical"
+  },
+  "answer_key": {
+    "locate": {
+      "expected_relation_ids": [
+        "body-war.relation.confirm-consumes-activity"
+      ]
+    },
+    "trace": {
+      "expected_relation_ids": [
+        "body-war.relation.candidate-supports-geometry",
+        "body-war.relation.fetch-geometry-consumes-confirmation",
+        "body-war.relation.fetch-geometry-produces-sample",
+        "body-war.relation.derive-consumes-sample",
+        "body-war.relation.derive-produces-geometry"
+      ]
+    },
+    "retell": {
+      "expected_relation_ids": [
+        "body-war.relation.operation-7"
+      ]
+    },
+    "distinguish": {
+      "expected_branches": [
+        "preview-evidence",
+        "controller-preview"
+      ],
+      "must_reject_invented_sequence": true
+    },
+    "boundary": {
+      "expected_relation_ids": [
+        "body-war.relation.geometry-does-not-promote",
+        "body-war.relation.preview-does-not-promote"
+      ],
+      "requires_owner_and_gate": true
+    },
+    "vocabulary": {
+      "required_tones": [
+        "Blocked — owner decision required",
+        "Explicitly does not promote",
+        "Projection only"
+      ]
+    }
+  },
+  "scoring": {
+    "unit": "edge-local",
+    "scores": [
+      "exact keyed relation or edge identity",
+      "correct sibling-branch identity",
+      "correct authority or non-promotion boundary",
+      "explicit rejection of an invented sequence or branch feed"
+    ],
+    "does_not_score": [
+      "paraphrase overlap"
+    ]
+  },
+  "stall_contract": {
+    "loci": [
+      "locate",
+      "trace",
+      "retell",
+      "distinguish",
+      "boundary",
+      "vocabulary"
+    ],
+    "severity": [
+      "blocker",
+      "friction",
+      "cosmetic"
+    ],
+    "zero_stalls_valid": true,
+    "correctness_is_separate": true
+  },
+  "authority_ceiling": "Reviewer-side structural protocol only; no human comprehension, ontology authority, promotion, release, or production evidence."
+}
+

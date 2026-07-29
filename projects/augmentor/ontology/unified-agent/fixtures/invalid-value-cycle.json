@@ -1,0 +1,24 @@
+{
+  "fixture_id": "AUG-FIXTURE-INVALID-VALUE-CYCLE",
+  "expected": "fail",
+  "relation": {
+    "relation_id": "aug.relation.invalid_value_cycle",
+    "predicate": "mutually_constrains",
+    "predicate_scope": "project-local",
+    "source_concept": "aug.concept.route_decision",
+    "target_concept": "aug.concept.approval_record",
+    "direction": "symmetric",
+    "owner_route": "owner-selection-required",
+    "evidence_refs": [
+      "SRC-CAV2-RELATION-MODEL"
+    ],
+    "authority_effect": "none",
+    "value_effect": "value-constraining",
+    "cycle_policy": "cycle-permitted",
+    "runtime_posture": "absent",
+    "description": "Invalid fixture: value-constraining cycle without a governed exception.",
+    "forbidden_collapse": [
+      "A cycle cannot silently become permission."
+    ]
+  }
+}

@@ -1,13 +1,27 @@
-# Cross-Task Gaps And Residue
+# Cross-Task Gaps And Deferrals
 
-| Gap | Blocking now | Owner | Route |
-| --- | --- | --- | --- |
-| Plan Distill has not run against this draft | yes for plan pass and Task Session | Invoke + Distill | governed Plan Distill dispatch |
-| No SWU is selected | yes for mutation only | human/lifecycle owner | explicit SWU selection after Plan pass |
-| Shared Inventory projections contain concurrent edits | no for Plan | Inventory owner | reconcile before post-result ingest |
-| Browser evidence may initially be Chromium-only | no when stated | later validation owner | separate cross-browser route |
-| Human orientation/resumption/trust evidence is absent | no for implementation Plan; yes for human claims | human-study owner | run only after automated behavior passes |
-| Accessibility certification and release readiness are absent | no for implementation Plan; yes for those claims | respective owners | separate governed routes |
+## Current blocker
 
-No acceptance-critical implementation detail is intentionally deferred inside
-SWU-UPW-001–017.
+| ID | Owner | Repair/evidence |
+| --- | --- | --- |
+| B-PLAN-REDISTILL | Invoke Plan | apply `plan-redistill-review/findings.md`, regenerate affected artifacts, and obtain a fresh Distill pass |
+| B-SWU-ATOMICITY | Invoke Plan | split 016, 017, and 019 into independently receiptable children |
+| B-CLOSEOUT-CONTRACT | Invoke Plan | materialize addressable closeout selectors/schemas and deterministic W5 validation/routing |
+
+## Mutation-only gate
+
+| ID | Owner | Requirement |
+| --- | --- | --- |
+| B-SWU-SELECTION | human/lifecycle owner | select one exact SWU only after Plan pass |
+
+## Deferred, non-blocking for Plan
+
+- Human orientation, comprehension, trust, workload, confidence, delight, and
+  real-task success: separate human-study owner after automated closure.
+- Cross-browser behavior: only configured Chromium is planned here.
+- Accessibility certification: exact bounded assertions only.
+- Remote origins, framework migration, push transport, durable browser
+  authority, release, deployment, and production readiness: out of scope.
+- High-contrast/zoom generalization beyond named fixtures: future evidence.
+
+Inventory proposals remain discovery-only and have no authority effect.

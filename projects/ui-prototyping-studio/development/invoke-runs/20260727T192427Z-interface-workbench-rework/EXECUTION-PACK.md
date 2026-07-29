@@ -1,39 +1,69 @@
 # Execution Pack: Interface Workbench Rework
 
-## Planning Control
+Status: `blocked-by-plan-distill`
 
-| Field | Value |
-| --- | --- |
-| planningGateStatus | block-pending-plan-distill-and-swu-selection |
-| complexity | medium |
-| baselineWave | W0 |
-| activePlanRef | `WORK-PACK.md` |
-| workPackManifest | `WORK-PACK.md` |
-| layeringArtifact | `IMPLEMENTATION-LAYERING.md` |
-| specRef | `SPEC.md` |
-| activeLayerWindow | L0 |
-| readinessProfile | pilot |
-| selectedSWU | none |
+## Choreography
 
-## Wave Choreography
+```text
+W0: 001 -> 002 -> 003
+  semantic chain
 
-| Wave | Layer | Question | SWUs/tasks | Entry | Exit |
-| --- | --- | --- | --- | --- | --- |
-| [W0](work-pack/waves/W0.md) | L0 | Is projection identity coherent and reproducible? | SWU-UPW-001–003 / TASK-UPW-PROJECTION | Design pass | version/snapshot/state receipts |
-| [W1](work-pack/waves/W1.md) | L0 | Can stable refresh preserve governed work? | SWU-UPW-004–007 / TASK-UPW-COORDINATOR | W0 pass | inert/trailing/rollback/context receipts |
-| [W2](work-pack/waves/W2.md) | L1 | Do six regions recompose without coarse rerender? | SWU-UPW-008–013 / TASK-UPW-REGIONS | W1 pass | six region receipts |
-| [W3](work-pack/waves/W3.md) | L1 | Does mobile order and copy preserve the active task? | SWU-UPW-014–015 / TASK-UPW-RESPONSIVE-COPY | W2 pass | responsive and copy receipts |
-| [W4](work-pack/waves/W4.md) | L2 | Do bounded semantics and security fail correctly? | SWU-UPW-016–017 / TASK-UPW-HARDENING | W3 pass | accessibility/security receipts |
-| [W5](work-pack/waves/W5.md) | L2 | Does the whole workbench close without regression? | TASK-UPW-VERIFY exemption | W4 pass | full-suite and audit receipts |
+W1: 004 -> 005 -> 006 -> 007
+  006 semantically consumes 004; follows 005 for serialization
+  007 semantically consumes 005 + 006
 
-## Parallelization Boundary
+W2: 008 -> 009 -> 010 -> 011 -> 012 -> 013
+  all consume 007; 012 also consumes 005
+  arrows after 008 are serialization-only shared-file order
 
-Mutation is serial. Multiple SWUs touch `studio.ts`,
-`interface/workbench-shell.ts`, or the same E2E fixtures; shared files do not
-justify a parallel merge. A future Task Session executes exactly one selected
-SWU and synchronizes its receipt before any successor becomes a candidate.
+W3: 014 -> 015
+  014 consumes all regions
+  015 consumes state-bearing regions and follows 014 for serialization
 
-## Closure
+W4: 016 -> 017 -> 018 -> 019
+  candidate only: 016 interaction/status and 017 visual/targets require splits
+  018 route admission; semantically consumes 003, follows 017 only for order
+  candidate only: 019 sandbox/safe sinks requires a split and fuller context
 
-W5 may close the implementation evidence cycle but cannot admit L3, select a
-human study, certify accessibility, or authorize release.
+W5: closure-only verification -> exact closure JSON
+```
+
+`SWU-MANIFEST.json` is authoritative for semantic `dependencies`,
+`serialization_after`, and successor identity.
+
+## Admission Per SWU
+
+1. Invoke Plan must apply the verified change requests and a new fresh Plan
+   Distill must pass.
+2. Human selects exactly one `selected_swu`.
+3. Context Builder resolves only that task, scope row, assertion row, closeout
+   row, Design anchors, and dependency receipts.
+4. Task Session hashes every exact existing target and binds future paths to
+   `ABSENT`; any mismatch blocks before mutation.
+5. The worker returns `task-session.swu-result.v1` with the exact acceptance
+   field.
+6. Invoke Refresh synchronizes only the row targets/fields and returns
+   `invoke.refresh.v1`.
+7. The successor becomes a candidate, never selected.
+
+## Parallelism
+
+No parallel product mutation is planned. The manifest nevertheless distinguishes
+behavioral dependencies from safe serialization so future planners do not
+mistake shared-file ordering for semantic coupling.
+
+## Failure And Recovery
+
+- Scope mismatch: no mutation; route to Invoke Plan refresh.
+- Source validation failure: rollback/recover per SWU, emit blocking receipt,
+  and do not synchronize a pass.
+- Refresh conflict: preserve terminal execution receipt as residue; leave
+  successor blocked.
+- Closure failure: W5 records the exact failing receipt/assertion and opens a
+  new plan route; it does not repair product source.
+
+## Authority
+
+This pack choreographs a blocked candidate only. It neither selects an SWU nor
+executes code. Current gate remains blocked by
+`plan-redistill-review/findings.md`.

@@ -1,0 +1,73 @@
+{
+  "view_id": "aug.view.authority_bridge",
+  "view_role": "bridge",
+  "title": "Augmentor authority and reasoning bridge view",
+  "description": "Cross-plane view that routes candidate meaning and bounded judgment toward retained owners without allowing ontology or reasoning to authorize effects.",
+  "owner_route": "authority-kind-specific-named-owner-plus-independent-effect-owner",
+  "source_refs": [
+    "SRC-AUA-ARCHITECTURE",
+    "SRC-CAV2-DEFINITIONS",
+    "SRC-CAV2-NODE-MODEL",
+    "SRC-CAV2-RELATION-MODEL",
+    "SRC-CAV2-BRANCH-VIEW",
+    "SRC-CAV2-PACKAGE-MODEL",
+    "SRC-CAV2-AUTHORITY-KINDS",
+    "SRC-REASONING-ARCHITECTURE",
+    "SRC-REASONING-SPEC"
+  ],
+  "node_refs": [
+    "aug.concept.context_snapshot",
+    "aug.concept.route_decision",
+    "aug.concept.approval_record",
+    "aug.concept.memory_intake_request",
+    "aug.concept.ontology_candidate",
+    "aug.concept.authority_decision",
+    "aug.concept.reasoning_request",
+    "aug.concept.judgment_receipt"
+  ],
+  "relation_refs": [
+    "aug.relation.candidate_requests_named_owner",
+    "aug.relation.context_frames_reasoning",
+    "aug.relation.reasoning_yields_judgment",
+    "aug.relation.judgment_may_inform_route",
+    "aug.relation.judgment_does_not_authorize_approval"
+  ],
+  "sequences": [
+    {
+      "sequence_id": "AUG-AUTH-CANDIDATE",
+      "label": "Candidate-to-owner bridge",
+      "steps": [
+        "aug.concept.memory_intake_request",
+        "aug.concept.ontology_candidate",
+        "aug.concept.authority_decision"
+      ]
+    },
+    {
+      "sequence_id": "AUG-AUTH-REASONING",
+      "label": "Non-authorizing reasoning bridge",
+      "steps": [
+        "aug.concept.context_snapshot",
+        "aug.concept.reasoning_request",
+        "aug.concept.judgment_receipt",
+        "aug.concept.route_decision"
+      ]
+    }
+  ],
+  "allowed_readings": [
+    "Authority kinds route candidates to owners; they do not decide candidates.",
+    "A bounded evaluator may own reproducible derivation under frozen inputs.",
+    "A current valid judgment may inform a separate route decision.",
+    "Every authority decision and protected effect requires its own exact owner and gate."
+  ],
+  "forbidden_authority_moves": [
+    "Ontology cannot decide authority.",
+    "JudgmentReceipt cannot become ApprovalRecord.",
+    "A positive semantic outcome cannot become an effect gate, owner, or runtime.",
+    "A transition or audit record cannot become the canonical artifact.",
+    "Private CAV2 owner bindings cannot be projected into public or product surfaces by proximity."
+  ],
+  "residue": [
+    "AUG-RES-006",
+    "AUG-RES-007"
+  ]
+}

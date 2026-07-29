@@ -1,0 +1,241 @@
+{
+  "schema_version": "invoke.plan-swu-acceptance-matrix.v1",
+  "target": "ui-prototyping-studio-interface-workbench",
+  "evidence_state": "planned-unexecuted",
+  "receipt_schema": "task-session.swu-result.v1",
+  "ownership_rule": "each assertion_id has exactly one primary_swu; shared witnesses are regression or recomposition checks only",
+  "assertions": [
+    {
+      "assertion_id": "UPW-A-001-DIGEST",
+      "primary_swu": "SWU-UPW-001",
+      "design_refs": ["ARCHITECTURE.md#workbench-projection", "UPW-FIX-001", "UPW-FIX-019"],
+      "spec_path": "backend/src/modules/ui-prototyping-studio/application/workbench-projection-version.test.ts",
+      "selector_or_test_name": "canonical projection digest golden vectors",
+      "positive_assertion": "whole and region digests recompute from their exact canonical objects, including literal null staged identity",
+      "negative_mutant": "changed object with retained hash and changed whole with retained region hash are rejected",
+      "receipt_field": "validation.assertions.UPW_A_001_DIGEST"
+    },
+    {
+      "assertion_id": "UPW-A-002-COHERENCE",
+      "primary_swu": "SWU-UPW-002",
+      "design_refs": ["ARCHITECTURE.md#workbench-projection", "DDR-01", "UPW-FIX-016"],
+      "spec_path": "backend/src/modules/ui-prototyping-studio/application/workbench-projection-snapshot.test.ts",
+      "selector_or_test_name": "store token retries torn projection reads",
+      "positive_assertion": "equal before and after store-owned tokens admit one snapshot",
+      "negative_mutant": "three consecutive mismatched token pairs produce ProjectionSnapshotUnstableError after one initial attempt plus exactly two retries and emit no snapshot",
+      "receipt_field": "validation.assertions.UPW_A_002_COHERENCE"
+    },
+    {
+      "assertion_id": "UPW-A-003-STATE",
+      "primary_swu": "SWU-UPW-003",
+      "design_refs": ["ARCHITECTURE.md#workbench-projection", "UPW-FIX-001", "UPW-FIX-019"],
+      "spec_path": "backend/e2e/governed-state-projection.spec.ts",
+      "selector_or_test_name": "UPW-003 versioned state compatibility",
+      "positive_assertion": "/state version and compatibility fields derive from one accepted snapshot and current hard-coded route constructors",
+      "negative_mutant": "compatibility head from a later read fails equality with the projection snapshot",
+      "receipt_field": "validation.assertions.UPW_A_003_STATE"
+    },
+    {
+      "assertion_id": "UPW-A-004-INERT",
+      "primary_swu": "SWU-UPW-004",
+      "design_refs": ["ARCHITECTURE.md#stable-shell", "UPW-FIX-002"],
+      "spec_path": "backend/e2e/workbench-continuity.spec.ts",
+      "selector_or_test_name": "UPW-004 unchanged poll is inert",
+      "positive_assertion": "two poll intervals cause zero main-document navigation, region patch, focus movement, scroll change, and announcement",
+      "negative_mutant": "whole-document reload on unchanged version increments the navigation counter",
+      "receipt_field": "validation.assertions.UPW_A_004_INERT"
+    },
+    {
+      "assertion_id": "UPW-A-005-TRAILING",
+      "primary_swu": "SWU-UPW-005",
+      "design_refs": ["DDR-03", "UPW-FIX-004", "UPW-FIX-005", "UPW-FIX-018"],
+      "spec_path": "backend/e2e/workbench-continuity.spec.ts",
+      "selector_or_test_name": "UPW-005 action queues one trailing refresh",
+      "positive_assertion": "an action completing during an older poll obtains one trailing fetch and applies the unseen version once",
+      "negative_mutant": "duplicate response and missing trailing-slot mutants respectively double-patch or remain stale",
+      "receipt_field": "validation.assertions.UPW_A_005_TRAILING"
+    },
+    {
+      "assertion_id": "UPW-A-006-CONTEXT-PLAN",
+      "primary_swu": "SWU-UPW-006",
+      "design_refs": ["ARCHITECTURE.md#context-reconciler", "UPW-FIX-003", "UPW-FIX-006"],
+      "spec_path": "backend/src/modules/ui-prototyping-studio/interface/workbench-context-plan.test.ts",
+      "selector_or_test_name": "identity-bound context transition plan",
+      "positive_assertion": "valid target, drafts, focus, scroll, and expansion bindings produce preserve operations without mutating live DOM",
+      "negative_mutant": "changed head, target, candidate, revision, frame source, or region identity produces only the matching typed invalidation and reason",
+      "receipt_field": "validation.assertions.UPW_A_006_CONTEXT_PLAN"
+    },
+    {
+      "assertion_id": "UPW-A-007-ATOMIC-COMMIT",
+      "primary_swu": "SWU-UPW-007",
+      "design_refs": ["DDR-02", "UPW-FIX-015", "UPW-FIX-017"],
+      "spec_path": "backend/e2e/workbench-continuity.spec.ts",
+      "selector_or_test_name": "UPW-007 renderer failure rolls back regions and context",
+      "positive_assertion": "prepared regions and the typed context plan commit together before applied versions advance",
+      "negative_mutant": "renderer N failure restores every mount, context value, and prior whole and region version",
+      "receipt_field": "validation.assertions.UPW_A_007_ATOMIC_COMMIT"
+    },
+    {
+      "assertion_id": "UPW-A-008-SPINE",
+      "primary_swu": "SWU-UPW-008",
+      "design_refs": ["UX-PLAN.md#lifecycle-and-action-spine", "ARCHITECTURE.md#view-5-state-and-event"],
+      "spec_path": "backend/e2e/workbench-regions.spec.ts",
+      "selector_or_test_name": "UPW-008 lifecycle spine",
+      "positive_assertion": "[data-region=spine] exposes exact [data-testid=lifecycle-state], current identity, progress, connection state, and [data-testid=next-action] for every lifecycle state",
+      "negative_mutant": "RevisionApplied shown as current or next action shown without its prerequisite identity fails the state matrix",
+      "receipt_field": "validation.assertions.UPW_A_008_SPINE"
+    },
+    {
+      "assertion_id": "UPW-A-009-CANVAS",
+      "primary_swu": "SWU-UPW-009",
+      "design_refs": ["UX-PLAN.md#active-canvas", "ARCHITECTURE.md#stable-shell"],
+      "spec_path": "backend/e2e/workbench-regions.spec.ts",
+      "selector_or_test_name": "UPW-009 current governed canvas",
+      "positive_assertion": "[data-region=canvas] iframe[data-current-head] carries the current-head accessible name and keeps its source stable while current-head identity is unchanged",
+      "negative_mutant": "binding the canvas to the first historical variant or navigating it on an unrelated region change fails identity and navigation counters",
+      "receipt_field": "validation.assertions.UPW_A_009_CANVAS"
+    },
+    {
+      "assertion_id": "UPW-A-010-INSPECTOR",
+      "primary_swu": "SWU-UPW-010",
+      "design_refs": ["UX-PLAN.md#contextual-inspector", "UPW-FIX-008"],
+      "spec_path": "backend/e2e/workbench-regions.spec.ts",
+      "selector_or_test_name": "UPW-010 contextual inspector",
+      "positive_assertion": "[data-region=inspector] renders only the state-valid annotation, comment, batch, staged, or revision context and exposes disabled reasons",
+      "negative_mutant": "staged controls in BaselineReady or an annotation form without current-head identity fail region admission",
+      "receipt_field": "validation.assertions.UPW_A_010_INSPECTOR"
+    },
+    {
+      "assertion_id": "UPW-A-011-REVIEW",
+      "primary_swu": "SWU-UPW-011",
+      "design_refs": ["UX-PLAN.md#staged-review", "UPW-FIX-007"],
+      "spec_path": "backend/e2e/workbench-regions.spec.ts",
+      "selector_or_test_name": "UPW-011 staged review",
+      "positive_assertion": "[data-region=review] presents candidate identity, diff recap, and distinct Before current and After candidate frame names",
+      "negative_mutant": "swapped frame routes, identical frame names, or missing candidate identity fails the staged-review assertion",
+      "receipt_field": "validation.assertions.UPW_A_011_REVIEW"
+    },
+    {
+      "assertion_id": "UPW-A-012-ACTIONS",
+      "primary_swu": "SWU-UPW-012",
+      "design_refs": ["UX-PLAN.md#interaction-rules", "UPW-FIX-009", "UPW-FIX-014"],
+      "spec_path": "backend/e2e/workbench-regions.spec.ts",
+      "selector_or_test_name": "UPW-012 governed actions",
+      "positive_assertion": "[data-region=actions] routes Accept, Discard, and Revert through existing handlers with exact live identity and acknowledgment gates",
+      "negative_mutant": "missing or stale acknowledgment, browser Export, or feedback written to the wrong state scope is rejected",
+      "receipt_field": "validation.assertions.UPW_A_012_ACTIONS"
+    },
+    {
+      "assertion_id": "UPW-A-013-HISTORY",
+      "primary_swu": "SWU-UPW-013",
+      "design_refs": ["UX-PLAN.md#historical-lineage", "UPW-FIX-013"],
+      "spec_path": "backend/e2e/workbench-regions.spec.ts",
+      "selector_or_test_name": "UPW-013 historical lineage",
+      "positive_assertion": "[data-region=history] is labelled non-current, collapsed after a current head exists, follows active work in DOM order, and preserves expansion across unrelated updates",
+      "negative_mutant": "expanded-by-default history before active work or expansion reset after unchanged identity fails the history contract",
+      "receipt_field": "validation.assertions.UPW_A_013_HISTORY"
+    },
+    {
+      "assertion_id": "UPW-A-014-RESPONSIVE",
+      "primary_swu": "SWU-UPW-014",
+      "design_refs": ["UX-PLAN.md#responsive-contract", "UPW-FIX-013"],
+      "spec_path": "backend/e2e/workbench-responsive.spec.ts",
+      "selector_or_test_name": "UPW-014 mobile semantic order",
+      "positive_assertion": "at 390x844 spine, canvas, inspector or review, actions, then collapsed history appear without document horizontal overflow or covered content",
+      "negative_mutant": "desktop chronology forced onto mobile or any scrollWidth greater than clientWidth fails",
+      "receipt_field": "validation.assertions.UPW_A_014_RESPONSIVE"
+    },
+    {
+      "assertion_id": "UPW-A-015-COPY",
+      "primary_swu": "SWU-UPW-015",
+      "design_refs": ["UX-PLAN.md#content-rules", "FR-14", "UPW-FIX-020"],
+      "spec_path": "backend/e2e/workbench-copy.spec.ts",
+      "selector_or_test_name": "UPW-015 state and action copy matrix",
+      "positive_assertion": "current head, staged candidate, recorded revision, historical, browser actions, and secondary CLI details match the literal state matrix",
+      "negative_mutant": "unqualified approved, ready, safe, complete, or browser Export wording fails",
+      "receipt_field": "validation.assertions.UPW_A_015_COPY"
+    },
+    {
+      "assertion_id": "UPW-A-016-INTERACTION",
+      "primary_swu": "SWU-UPW-016",
+      "design_refs": ["UX-PLAN.md#accessibility-contract", "UPW-FIX-008", "UPW-FIX-009", "UPW-FIX-010", "UPW-FIX-021", "UPW-FIX-022"],
+      "spec_path": "backend/e2e/workbench-accessibility.spec.ts",
+      "selector_or_test_name": "UPW-016 keyboard focus and scoped status",
+      "positive_assertion": "keyboard and pointer use the same handlers; focus persists or moves to the new task heading; only #cf-msg, #act-msg, and #act-msg2 are polite atomic status scopes; the tested blocking error alone is assertive",
+      "negative_mutant": "pointer-only activation, lost focus, unrelated live region, or recoverable error promoted to assertive fails",
+      "receipt_field": "validation.assertions.UPW_A_016_INTERACTION"
+    },
+    {
+      "assertion_id": "UPW-A-017-VISUAL",
+      "primary_swu": "SWU-UPW-017",
+      "design_refs": ["UX-PLAN.md#accessibility-contract", "UPW-FIX-011", "UPW-FIX-012", "UPW-FIX-022"],
+      "spec_path": "backend/e2e/workbench-accessibility.spec.ts",
+      "selector_or_test_name": "UPW-017 visual perceivability and targets",
+      "positive_assertion": "sampled light-surface normal text is at least 4.5:1, outer actions meet 24x24 CSS pixels or record the allowed exception, visible focus is perceivable, and text or state survives removal of color cues",
+      "negative_mutant": "low contrast, undersized target without exception, invisible focus, or color-only state fails calibrated checks",
+      "receipt_field": "validation.assertions.UPW_A_017_VISUAL"
+    },
+    {
+      "assertion_id": "UPW-A-018-ROUTES",
+      "primary_swu": "SWU-UPW-018",
+      "design_refs": ["ARCHITECTURE.md#security-and-abuse-view", "UPW-FIX-024"],
+      "spec_path": "backend/src/modules/ui-prototyping-studio/application/workbench-route-admission.test.ts",
+      "selector_or_test_name": "allowlisted local projection route families",
+      "positive_assertion": "only exact /raw/current, /annotate/current, /raw/staged, and domain-valid /raw/variant/{label} families are admitted before versioning",
+      "negative_mutant": "external, protocol-relative, encoded traversal, query-smuggled, and unknown family routes return ProjectionRouteRejectedError and no projection",
+      "receipt_field": "validation.assertions.UPW_A_018_ROUTES"
+    },
+    {
+      "assertion_id": "UPW-A-019-RENDERING",
+      "primary_swu": "SWU-UPW-019",
+      "design_refs": ["ARCHITECTURE.md#security-and-abuse-view", "UPW-FIX-023"],
+      "spec_path": "backend/e2e/workbench-security.spec.ts",
+      "selector_or_test_name": "UPW-019 sandbox and safe sinks",
+      "positive_assertion": "raw frames have an empty sandbox token set, annotation alone has exact allow-scripts, and outer server data is rendered through textContent, explicit nodes, and allowlisted attributes",
+      "negative_mutant": "removed or expanded sandbox token and raw outer-shell HTML sink each fail before admission",
+      "receipt_field": "validation.assertions.UPW_A_019_RENDERING"
+    }
+  ],
+  "shared_witnesses": [
+    {
+      "design_ref": "UPW-FIX-003",
+      "primary_assertion": "UPW-A-006-CONTEXT-PLAN",
+      "shared_recomposition_swus": ["SWU-UPW-004", "SWU-UPW-007", "SWU-UPW-014"]
+    },
+    {
+      "design_ref": "UPW-FIX-008",
+      "primary_assertion": "UPW-A-010-INSPECTOR",
+      "shared_recomposition_swus": ["SWU-UPW-016"]
+    },
+    {
+      "design_ref": "UPW-FIX-009",
+      "primary_assertion": "UPW-A-012-ACTIONS",
+      "shared_recomposition_swus": ["SWU-UPW-016"]
+    },
+    {
+      "design_ref": "UPW-FIX-010",
+      "primary_assertion": "UPW-A-016-INTERACTION",
+      "shared_recomposition_swus": ["SWU-UPW-008", "SWU-UPW-013"]
+    },
+    {
+      "design_ref": "UPW-FIX-013",
+      "primary_assertion": "UPW-A-014-RESPONSIVE",
+      "shared_recomposition_swus": ["SWU-UPW-013"]
+    },
+    {
+      "design_ref": "UPW-FIX-014",
+      "primary_assertion": "UPW-A-012-ACTIONS",
+      "shared_recomposition_swus": ["SWU-UPW-003", "SWU-UPW-015"]
+    },
+    {
+      "design_ref": "UPW-FIX-022 textual and non-color assertion",
+      "primary_assertion": "UPW-A-017-VISUAL",
+      "shared_recomposition_swus": ["SWU-UPW-016"]
+    },
+    {
+      "design_ref": "UPW-FIX-022 urgency and live-scope assertion",
+      "primary_assertion": "UPW-A-016-INTERACTION",
+      "shared_recomposition_swus": ["SWU-UPW-017"]
+    }
+  ]
+}

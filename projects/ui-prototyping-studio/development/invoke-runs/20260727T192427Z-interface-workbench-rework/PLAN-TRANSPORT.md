@@ -1,8 +1,8 @@
 ---
 artifact: ui-prototyping-studio-interface-workbench-plan-transport
-status: blocked-on-plan-repair
-source_stage: invoke-plan
-target_stage: task-session
+status: blocked-by-fresh-plan-distill
+source_stage: invoke-plan-remediation
+target_stage: deferred-invoke-plan-remediation
 authority_effect: none
 ---
 
@@ -11,14 +11,22 @@ authority_effect: none
 ## Authored Outputs
 
 - `PLAN-CONTEXT.md`
-- `PLAN-TEMPLATE-SELECTION.md`
 - `PLAN-TECHNIQUE-TRACE.md`
 - `IMPLEMENTATION-LAYERING.md`
 - `IMPLEMENTATION-PLAN.md`
 - `WORK-PACK.md`
 - `SWU-MANIFEST.json`
+- `SWU-SCOPE-INVENTORY.json`
+- `SWU-ACCEPTANCE-MATRIX.json`
+- `CLOSEOUT-SYNC-INVENTORY.json`
 - `EXECUTION-PACK.md`
 - `PLAN-VALIDATION-STRATEGY.md`
+- `PLAN-ARTIFACT-VALIDATION.json`
+- `PLAN-REMEDIATION-RECEIPT.md`
+- `PLAN-REDISTILL-STRATEGY.md`
+- `PLAN-REDISTILL-CHECK-TENSION.md`
+- `plan-redistill-dispatch-sheet.json`
+- `plan-redistill-strategy-inventory-packet.json`
 - split task, wave, and shared context files
 
 ## Gate State
@@ -28,22 +36,31 @@ authority_effect: none
 | Design evidence | `design-validator-pass` |
 | Design Distill | pass |
 | Plan complexity/output | medium/split |
-| L0–L3 layering | authored |
-| task implementation detail | authored |
-| SWU manifest | 17 candidates; none selected |
-| Task Session closeout sync | authored |
-| Plan Distill | BLOCK; nine MAJOR and one MINOR verified findings |
+| L0–L3 layering | remediated |
+| task implementation detail | blocked: 016, 017, and 019 require splits |
+| exact scope coverage | 19/19 candidate rows authored |
+| exact acceptance coverage | 19/19 primary assertions authored |
+| closeout sync coverage | blocked: rows are enumerated but field selectors and W5 contract are not executable |
+| selected SWU | none |
+| fresh Plan Distill | BLOCK; four MAJOR and two MINOR findings |
 | Task Session admission | blocked |
+
+These are Plan-authoring claims only. “Authored” does not mean Distill-validated
+or implementation-executed.
 
 ## Recommended First Candidate
 
-`SWU-UPW-001` is recommended because deterministic projection identity is
-reversible, independently testable, and a prerequisite for every live refresh
-behavior. This recommendation is not selection.
+`SWU-UPW-001` remains recommended as the narrowest reversible trust-building
+unit. This is not selection.
 
 ## Next Route
 
-Repair PD-01–10 in `plan-distill-review/findings.md`, regenerate the affected
-Plan projections, and rerun governed Plan Distill against the new literal
-bytes. Do not ask the human to select an SWU until that new Plan Distill passes.
-Task Session must not execute while `selected_swu` is `none`.
+1. Preserve the verified review at `plan-redistill-review/findings.md`.
+2. Obtain explicit authorization for another Invoke Plan remediation.
+3. Apply the required splits and closeout/W5 repairs; regenerate every affected
+   denominator and recomposition proof.
+4. Run mechanical validation and a new governed Plan Distill.
+5. Only on pass may the human select one SWU for Task Session preflight.
+
+Current owner: **deferred Invoke Plan remediation**. No product implementation,
+SWU selection, human study, release, or authority promotion is authorized.

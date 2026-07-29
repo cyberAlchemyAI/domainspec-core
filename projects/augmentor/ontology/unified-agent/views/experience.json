@@ -1,0 +1,85 @@
+{
+  "view_id": "aug.view.experience",
+  "view_role": "meaning",
+  "title": "Augmentor experience view",
+  "description": "Interpretive view of one conversational interface that grounds, routes, previews, and presents work while retained owners keep control.",
+  "owner_route": "owner-selection-required:augmentor-meaning",
+  "source_refs": [
+    "SRC-AUA-ARCHITECTURE",
+    "SRC-AUGMENTOR-MANIFEST",
+    "SRC-AUGMENTOR-CHAT-CONTRACT",
+    "SRC-AUGMENTOR-ACCEPTANCE",
+    "SRC-IDE-ERGONOMICS",
+    "SRC-ARCANUM-USER-GUIDE"
+  ],
+  "node_refs": [
+    "aug.concept.augmentor_interface",
+    "aug.concept.conversation_thread",
+    "aug.concept.interaction",
+    "aug.concept.source_record",
+    "aug.concept.context_snapshot",
+    "aug.concept.route_decision",
+    "aug.concept.strategy_proposal",
+    "aug.concept.approval_record",
+    "aug.concept.result_consumption",
+    "aug.concept.memory_intake_request"
+  ],
+  "relation_refs": [
+    "aug.relation.augmentor_presents_thread",
+    "aug.relation.thread_contains_interaction",
+    "aug.relation.interaction_composes_context",
+    "aug.relation.source_supports_context",
+    "aug.relation.context_classified_by_route",
+    "aug.relation.route_may_project_strategy",
+    "aug.relation.proposal_requires_exact_approval",
+    "aug.relation.consumption_does_not_imply_intake"
+  ],
+  "sequences": [
+    {
+      "sequence_id": "AUG-EXP-ORDINARY",
+      "label": "Grounded ordinary conversation",
+      "steps": [
+        "aug.concept.augmentor_interface",
+        "aug.concept.conversation_thread",
+        "aug.concept.interaction",
+        "aug.concept.source_record",
+        "aug.concept.context_snapshot",
+        "aug.concept.route_decision"
+      ]
+    },
+    {
+      "sequence_id": "AUG-EXP-CONSEQUENTIAL",
+      "label": "Consequential-work preview",
+      "steps": [
+        "aug.concept.route_decision",
+        "aug.concept.strategy_proposal",
+        "aug.concept.approval_record"
+      ]
+    },
+    {
+      "sequence_id": "AUG-EXP-RESULT",
+      "label": "Selective result use and optional intake",
+      "steps": [
+        "aug.concept.result_consumption",
+        "aug.concept.memory_intake_request"
+      ]
+    }
+  ],
+  "allowed_readings": [
+    "The transcript remains the primary interface.",
+    "Source rationale, strategy, Run status, artifacts, and knowledge controls may be progressively disclosed.",
+    "Low-confidence or missing-capability routes offer honest paths instead of silently launching.",
+    "Memory intake is a separate explicit action after result consumption."
+  ],
+  "forbidden_authority_moves": [
+    "The interface cannot make a route, proposal, status card, source chip, or graph authoritative.",
+    "A proposal cannot become approval because it is displayed.",
+    "A result attachment cannot become memory intake or provider acceptance.",
+    "The experience view cannot claim browser accessibility or runtime behavior without executable evidence."
+  ],
+  "residue": [
+    "AUG-RES-001",
+    "AUG-RES-003",
+    "AUG-RES-005"
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "augmentor.unified-agent.relation@0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "relation_id",
+    "predicate",
+    "predicate_scope",
+    "source_concept",
+    "target_concept",
+    "direction",
+    "owner_route",
+    "evidence_refs",
+    "authority_effect",
+    "value_effect",
+    "cycle_policy",
+    "runtime_posture",
+    "description",
+    "forbidden_collapse"
+  ],
+  "properties": {
+    "relation_id": {
+      "type": "string",
+      "pattern": "^aug\\.relation\\.[a-z0-9_]+$"
+    },
+    "predicate": {
+      "type": "string",
+      "minLength": 1
+    },
+    "predicate_scope": {
+      "const": "project-local"
+    },
+    "source_concept": {
+      "type": "string"
+    },
+    "target_concept": {
+      "type": "string"
+    },
+    "direction": {
+      "enum": [
+        "directed",
+        "symmetric",
+        "view-only"
+      ]
+    },
+    "owner_route": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "authority_effect": {
+      "enum": [
+        "none",
+        "staging",
+        "projection",
+        "owner-decision",
+        "blocked"
+      ]
+    },
+    "value_effect": {
+      "enum": [
+        "value-free",
+        "value-constraining",
+        "unknown"
+      ]
+    },
+    "cycle_policy": {
+      "enum": [
+        "acyclic",
+        "cycle-permitted",
+        "unknown"
+      ]
+    },
+    "runtime_posture": {
+      "enum": [
+        "observed",
+        "designed",
+        "absent",
+        "blocked",
+        "deferred"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "forbidden_collapse": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

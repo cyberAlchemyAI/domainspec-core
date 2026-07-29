@@ -1,0 +1,212 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "handoffStatus": "ready",
+  "executionPath": "invoke refresh -> validated material apply -> invoke plan remediation",
+  "dispatchTrace": "REFRESH-TECHNIQUE-TRACE.md",
+  "sourceEvidence": [
+    "plan-distill-review/findings.md",
+    "PLAN-DISTILL.md",
+    "plan-distill-review/COVERAGE-AUDIT.md"
+  ],
+  "sourceSignals": [
+    {
+      "id": "UPS-REFRESH-01",
+      "sourcePath": "PLAN-DISTILL.md#Verdict",
+      "signalType": "status_changed",
+      "targetArtifacts": ["WORK-PACK.md", "PLAN-CONTEXT.md", "IMPLEMENTATION-PLAN.md", "EXECUTION-PACK.md"],
+      "claim": "Plan Distill completed as BLOCK with nine MAJOR and one MINOR finding",
+      "evidence": "PLAN-DISTILL.md and accepted findings",
+      "confidence": "high",
+      "mutationSafety": "safe"
+    },
+    {
+      "id": "UPS-REFRESH-02",
+      "sourcePath": "WORK-PACK.md and companion controls",
+      "signalType": "artifact_drift",
+      "targetArtifacts": ["WORK-PACK.md", "PLAN-CONTEXT.md", "IMPLEMENTATION-PLAN.md", "EXECUTION-PACK.md"],
+      "claim": "control fields still described Plan Distill as pending",
+      "evidence": "literal pre-refresh control bytes",
+      "confidence": "high",
+      "mutationSafety": "safe"
+    },
+    {
+      "id": "UPS-REFRESH-03",
+      "sourcePath": "plan-distill-review/findings.md",
+      "signalType": "route_changed",
+      "targetArtifacts": ["WORK-PACK.md", "PLAN-CONTEXT.md", "IMPLEMENTATION-PLAN.md", "EXECUTION-PACK.md", "PLAN-TECHNIQUE-TRACE.md", "PLAN-TRANSPORT.md"],
+      "claim": "current owner is Invoke Plan remediation, not Task Session",
+      "evidence": "nine blocking Plan findings require re-authoring and fresh Distill",
+      "confidence": "high",
+      "mutationSafety": "safe"
+    },
+    {
+      "id": "UPS-REFRESH-04",
+      "sourcePath": "plan-distill-review/findings.md#PD-10",
+      "signalType": "blocker_opened",
+      "targetArtifacts": ["WORK-PACK.md", "PLAN-TRANSPORT.md"],
+      "claim": "closeout synchronization cannot remain pass",
+      "evidence": "verified missing target inventories and W5 report contract",
+      "confidence": "high",
+      "mutationSafety": "safe"
+    },
+    {
+      "id": "UPS-REFRESH-05",
+      "sourcePath": "plan-distill-review/findings.md#PD-05-PD-06",
+      "signalType": "blocker_opened",
+      "targetArtifacts": ["WORK-PACK.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "claim": "SWU-UPW-016 and 017 require split and regenerated choreography",
+      "evidence": "verified independent acceptance boundaries",
+      "confidence": "high",
+      "mutationSafety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "WORK-PACK.md",
+    "PLAN-CONTEXT.md",
+    "IMPLEMENTATION-PLAN.md",
+    "EXECUTION-PACK.md",
+    "PLAN-TECHNIQUE-TRACE.md",
+    "PLAN-TRANSPORT.md"
+  ],
+  "targetInventory": {
+    "owner": "invoke:ui-prototyping-studio-interface-workbench",
+    "authorityClass": "private",
+    "publicationClass": "internal",
+    "count": 6
+  },
+  "deltaSummary": [
+    {"delta": "status_changed", "count": 4},
+    {"delta": "artifact_drift", "count": 4},
+    {"delta": "route_changed", "count": 6},
+    {"delta": "blocker_opened", "count": 2}
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "synchronized verified Plan BLOCK state",
+    "made Invoke Plan remediation the current owner",
+    "blocked Task Session closeout synchronization under PD-10",
+    "preserved SWU-UPW-001 as recommendation-only",
+    "made the full remediation-to-execution route explicit"
+  ],
+  "skippedChanges": [
+    "PD-01-10 substantive Plan repair",
+    "SWU manifest, task, and wave regeneration",
+    "SWU selection",
+    "product-code execution",
+    "Craft, shared Inventory, release, and deployment mutation"
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "ups-interface-workbench-route-clarity-20260727",
+    "packageDigest": "a814ab8aeed268847789535d562bda18543d726510be33fb312a6845c82b5a2c",
+    "expectedPackageId": "ups-interface-workbench-route-clarity-20260727",
+    "expectedPackageDigest": "a814ab8aeed268847789535d562bda18543d726510be33fb312a6845c82b5a2c",
+    "validatedPaths": [
+      "EXECUTION-PACK.md",
+      "IMPLEMENTATION-PLAN.md",
+      "PLAN-CONTEXT.md",
+      "PLAN-TECHNIQUE-TRACE.md",
+      "PLAN-TRANSPORT.md",
+      "WORK-PACK.md"
+    ],
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "validationCommands": [
+      "python3 -m json.tool refresh-report.json",
+      "python3 -m json.tool SWU-MANIFEST.json",
+      "git diff --check -- run-root",
+      "route-invariant grep"
+    ],
+    "lifecycleOwner": "invoke:ui-prototyping-studio-interface-workbench",
+    "authorityClass": "private",
+    "publicationClass": "internal",
+    "receiptPath": "refresh-route-clarity/material-package-receipt.json"
+  },
+  "mutationReady": true,
+  "result": {
+    "status": "applied",
+    "authorityEffect": "none",
+    "selectedSwu": null,
+    "implementationExecuted": false
+  },
+  "blockerScopes": {
+    "refresh-authoring": 0,
+    "apply-authorization": 0,
+    "target-lifecycle": 3,
+    "audit": 1
+  },
+  "blockers": [
+    {
+      "id": "B-PLAN-REPAIR",
+      "scope": "target-lifecycle",
+      "owner": "Invoke Plan",
+      "status": "open",
+      "claim": "repair PD-01-10 and regenerate affected Plan projections"
+    },
+    {
+      "id": "B-PLAN-REDISTILL",
+      "scope": "audit",
+      "owner": "Invoke/Distill",
+      "status": "deferred",
+      "claim": "validate repaired literal Plan bytes"
+    },
+    {
+      "id": "B-SWU-SELECTION",
+      "scope": "target-lifecycle",
+      "owner": "human/lifecycle owner",
+      "status": "deferred",
+      "claim": "select one exact SWU only after Plan pass"
+    },
+    {
+      "id": "B-TASK-SESSION",
+      "scope": "target-lifecycle",
+      "owner": "Task Session",
+      "status": "blocked",
+      "claim": "admit only a selected SWU from a passing Plan"
+    }
+  ],
+  "distillValidation": {
+    "status": "skipped",
+    "reason": "bounded status-and-route synchronization uses the completed Plan Distill as source evidence; repaired Plan requires fresh governed Distill",
+    "childTelemetryEmitted": false
+  },
+  "capabilityStatus": "not-evaluated",
+  "observability": {
+    "status": "recorded",
+    "ledger": ".arcanum/observability/signals/sigil-invocations.jsonl",
+    "ledgerLine": 406,
+    "qualityBar": "pass",
+    "antiPatternHits": 0,
+    "reflectionTrigger": "output-threshold",
+    "recommendation": "reflect-now",
+    "blocking": false
+  },
+  "validation": [
+    {"check": "material-package", "status": "pass"},
+    {"check": "refresh-handoff", "status": "pass"},
+    {"check": "staged-apply-parity", "status": "pass"},
+    {"check": "json", "status": "pass"},
+    {"check": "route-invariants", "status": "pass"},
+    {"check": "whitespace", "status": "pass"}
+  ],
+  "nextRoute": "invoke plan",
+  "nextRouteDetail": {
+    "mode": "remediation",
+    "source": "plan-distill-review/findings.md",
+    "stopCondition": "repaired Plan package ready for fresh governed Plan Distill",
+    "notNext": "task-session"
+  }
+}

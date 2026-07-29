@@ -1,0 +1,82 @@
+{
+  "timestamp": "2026-07-28T07:02:06Z",
+  "run_id": "distill-invoked-20260728-ui-workbench-plan-redistill",
+  "session_id": "ups-interface-workbench-plan-remediation-20260727",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "validate",
+  "lineage": {
+    "parent_run_id": "arcanum-hook-019fa694-c609-7602-9b88-d8b5b48c0842",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spells",
+      "mode": "plan"
+    }
+  },
+  "evidence": {
+    "status": "partial",
+    "emission_status": "partial",
+    "refs": [
+      "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/plan-redistill-dispatch-sheet.json",
+      "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/plan-redistill-review/attacks.md",
+      "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/plan-redistill-review/verification.md",
+      "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/plan-redistill-review/findings.md",
+      "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/plan-redistill-review/review-result.json"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Validate the remediated UI Prototyping Studio interface-workbench Invoke Plan against the verified prior findings and literal Invoke Plan contract.",
+    "intent": "Return a fresh Plan Distill verdict without executing product work or selecting an SWU."
+  },
+  "execution": {
+    "status": "blocked",
+    "outputs": [
+      "Proposer and Balancer initial and reconciled positions",
+      "verified change-request findings",
+      "coverage-audit and parent final-approval disposition",
+      "machine-readable review result",
+      "Plan gate updated to BLOCK"
+    ],
+    "files_changed": [
+      "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/plan-redistill-review/",
+      "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/PLAN-DISTILL.md",
+      "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/WORK-PACK.md",
+      "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/PLAN-TRANSPORT.md"
+    ],
+    "validation": [
+      "confirmed dispatch sheet digest remained 26fdb030f425635a5ec4373d794113ccc7ec280aad9ff7af41bff551ee59d8df",
+      "Proposer and Balancer ran as true subagents and completed one robot-talk reconciliation",
+      "synthesis and literal verifier completed",
+      "coverage auditor identified stale-candidate denominator omissions",
+      "parent final findings disposition covers PD 10/10, SWUs 19/19, tasks 6/6, waves 6/6, layers 4/4, and UPW-FIX-001 through 024",
+      "selected_swu remains null and all 19 candidate statuses remain not-started",
+      "scoped git diff check passed"
+    ],
+    "notes": "Distill returned BLOCK with four MAJOR and two MINOR findings. The verifier's first transport call failed before evidence and one explicit user-authorized retry succeeded. Runtime-event boundary emission was not configured for this subagent review, so evidence emission is partial; this does not alter the verdict."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "observability",
+        "severity": "low",
+        "summary": "The invoked Distill review has durable role and validation artifacts but no fixed runtime-event boundary stream.",
+        "evidence": "review-result.json and attacks.md exist; no Distill runtime event receipt was produced."
+      },
+      {
+        "category": "output-contract",
+        "severity": "medium",
+        "summary": "The governed review artifacts establish the verdict and navigation but do not materialize every field of the generic Distill markdown output contract in one artifact.",
+        "evidence": "PLAN-DISTILL.md records findings and next route while role trace and denominator details remain split across review artifacts."
+      }
+    ],
+    "output_contract_drift": true,
+    "reflection_trigger": "manual",
+    "recommendation": "Use the verified findings for a separately authorized Invoke Plan remediation; do not route to Task Session."
+  },
+  "target_artifact": "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/WORK-PACK.md"
+}
