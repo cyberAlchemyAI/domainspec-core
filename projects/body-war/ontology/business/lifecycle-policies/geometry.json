@@ -1,0 +1,56 @@
+{
+  "schema_version": "body-war-business-lifecycle-policy/v1",
+  "policy_id": "body-war.lifecycle.geometry",
+  "subject_concept": "body-war.business.value.track-geometry",
+  "state_concepts": [
+    "body-war.business.state.geometry.missing",
+    "body-war.business.state.geometry.placeholder",
+    "body-war.business.state.geometry.draft",
+    "body-war.business.state.geometry.source-backed",
+    "body-war.business.state.geometry.validated"
+  ],
+  "transitions": [
+    {
+      "from": "missing",
+      "to": "placeholder",
+      "trigger": "Prototype track metadata is created without route-shape evidence.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "missing",
+      "to": "draft",
+      "trigger": "A draft route artifact is created with explicit draft posture.",
+      "prototype_availability": "blocked"
+    },
+    {
+      "from": "placeholder",
+      "to": "draft",
+      "trigger": "A route artifact is attached without source-backed promotion.",
+      "prototype_availability": "blocked"
+    },
+    {
+      "from": "draft",
+      "to": "source-backed",
+      "trigger": "Operator-owned promotion accepts named source evidence.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "source-backed",
+      "to": "validated",
+      "trigger": "Validation evidence satisfies the declared geometry use.",
+      "prototype_availability": "out-of-scope"
+    }
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/docs/features/troqar-product-architecture/states.md",
+      "selector": "Geometry State",
+      "sha256": "11f623a4d73b1ab9aedb1e4922af63270d2ffd64379a7094f3bb914b85475ab4"
+    }
+  ],
+  "owner_route": "body-war.territory-catalog-owner",
+  "authority_effect": "none",
+  "forbidden_collapse": [
+    "Geometry posture is independent of SuggestedTrack status and GeometryCandidate lifecycle; candidate_from_activity cannot skip to source-backed."
+  ]
+}

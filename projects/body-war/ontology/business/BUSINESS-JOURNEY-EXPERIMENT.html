@@ -1,0 +1,1536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Body War — Journey Ontology Experiment</title>
+<style>
+:root{color-scheme:light;--ink:#10243e;--muted:#5e6d7d;--paper:#f7f7f2;--card:#fff;--line:#dce2e6;--accent:#ff5d3b;--accent-dark:#b92e18;--blue:#176b87;--green:#26734d;--amber:#9a5b00;--red:#a92d29;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--paper)}button,input,a{font:inherit}a{color:var(--blue)}
+.site-header{background:linear-gradient(135deg,#10243e 0%,#163b52 62%,#176b87 100%);color:#fff;padding:24px clamp(20px,6vw,88px) 54px}.topline{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1240px;margin:0 auto 60px}.brand{font-weight:850;letter-spacing:.04em}.projection-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.38);border-radius:999px;padding:7px 12px;font-size:.78rem;font-weight:750}.projection-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:#ffb59f}
+.hero{max-width:900px;margin:0 auto 0 0}.hero .eyebrow,.story-header .eyebrow{margin:0 0 10px;text-transform:uppercase;letter-spacing:.13em;font-size:.74rem;font-weight:850;color:#ffb59f}.hero h1{max-width:760px;margin:0;font-size:clamp(2.4rem,6vw,5.2rem);line-height:.96;letter-spacing:-.055em}.hero p{max-width:760px;margin:24px 0 0;font-size:clamp(1rem,2vw,1.25rem);line-height:1.6;color:#d9e6eb}
+.workspace{max-width:1240px;margin:-28px auto 80px;padding:0 24px}.control-deck{position:sticky;top:12px;z-index:10;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:18px;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 50px rgba(16,36,62,.13)}
+.story-tabs{display:flex;gap:8px;flex-wrap:wrap}.story-tabs button{appearance:none;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:11px 15px;font-weight:780;cursor:pointer}.story-tabs button[aria-selected="true"]{color:#fff;background:var(--ink);border-color:var(--ink)}.story-tabs button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #ffad98;outline-offset:3px}
+.detail-toggle{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.88rem;font-weight:750;white-space:nowrap}.detail-toggle input{width:20px;height:20px;accent-color:var(--accent)}
+.story-panel{padding-top:42px}.story-panel[hidden]{display:none}.story-header{max-width:900px}.story-header .eyebrow{color:var(--accent-dark)}.story-header h2{margin:0;font-size:clamp(2rem,4vw,3.6rem);line-height:1;letter-spacing:-.04em}.story-question{font-size:1.2rem;font-weight:720;line-height:1.45}.story-header>p:last-of-type{color:var(--muted);line-height:1.6}.story-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.story-facts span{border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 11px;font-size:.8rem;font-weight:760;color:var(--muted)}
+.chapter-nav{margin:32px 0;padding:18px 20px;background:#edf4f4;border-radius:18px}.chapter-nav>p{margin:0 0 12px;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:850;color:var(--muted)}.chapter-nav ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:0;padding:0}.chapter-nav a{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:780;padding:10px;border-radius:10px}.chapter-nav a:hover{background:#fff}.chapter-nav a span{display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:var(--ink);color:#fff;font-size:.75rem}
+.sequence-note{margin:24px 0 42px;padding:16px 18px;border-left:4px solid var(--blue);background:#e9f3f6;color:#24485a;line-height:1.5}.chapter{scroll-margin-top:120px;margin:0 0 64px}.chapter-heading{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;margin-bottom:20px}.chapter-number{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--accent);color:#fff;font-size:1.1rem;font-weight:900;box-shadow:0 8px 20px rgba(255,93,59,.25)}.chapter-kicker{margin:0 0 5px;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;font-weight:850;color:var(--accent-dark)}.chapter h3{margin:0;font-size:clamp(1.4rem,3vw,2rem);letter-spacing:-.025em}.chapter-heading p:last-child{margin:8px 0 0;color:var(--muted);line-height:1.5}
+.relation-list{list-style:none;margin:0;padding:0;display:grid;gap:14px;min-width:0}.relation-card{position:relative;min-width:0;padding:18px;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:18px;background:var(--card);box-shadow:0 8px 24px rgba(16,36,62,.055)}.relation-card.gate{border-left-color:var(--amber)}.relation-card.projection{border-left-color:var(--blue)}.relation-card.boundary{border-left-color:var(--red);background:#fff9f8}
+.relation-reading{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.72fr) minmax(0,1fr);gap:18px;align-items:center;min-width:0}.friendly-node{min-width:0;min-height:86px;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:#fafbf8}.friendly-node strong{font-size:1rem;line-height:1.25;overflow-wrap:anywhere}.node-kind{margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em;font-size:.64rem;font-weight:850;color:var(--muted)}
+.friendly-arrow{text-align:center;color:var(--ink)}.friendly-arrow>span{display:block;font-weight:850;font-size:.9rem}.friendly-arrow svg{display:block;width:100%;height:28px;overflow:visible}.friendly-arrow line{stroke:currentColor;stroke-width:2.5}.friendly-arrow path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5}.friendly-arrow small{display:inline-block;margin-top:3px;color:var(--green);font-size:.68rem;font-weight:820;text-transform:uppercase;letter-spacing:.05em}.gate .friendly-arrow small{color:var(--amber)}.projection .friendly-arrow small{color:var(--blue)}.boundary .friendly-arrow small{color:var(--red)}
+.ontology-details{margin:16px 0 0;padding-top:14px;border-top:1px dashed var(--line)}.ontology-details summary{width:max-content;max-width:100%;cursor:pointer;color:var(--blue);font-size:.76rem;font-weight:800}.ontology-details dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0 0}.ontology-details dl div{min-width:0;padding:8px 10px;border-radius:9px;background:#f2f4f5}.ontology-details .wide{grid-column:span 2}.ontology-details dt{font-size:.65rem;font-weight:850;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.ontology-details dd{margin:4px 0 0;overflow-wrap:anywhere;font-size:.72rem}.ontology-details code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.branch-note{margin:-24px 0 42px;padding:16px 18px;border:1px solid #cbd8b9;border-radius:14px;background:#f2f7e9;color:#3f522c;line-height:1.5}
+.story-boundary{margin-top:30px;padding:24px;border-radius:18px;background:#241f24;color:#fff}.story-boundary span{font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;font-weight:850;color:#ffb59f}.story-boundary p{margin:9px 0 0;line-height:1.55}.support-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}.support-links a{font-weight:760}
+@media(max-width:760px){.site-header{padding:20px 20px 48px}.topline{margin-bottom:44px}.workspace{padding:0 14px}.control-deck{position:relative;top:auto;grid-template-columns:1fr}.story-tabs{display:grid}.story-tabs button{text-align:left}.relation-reading{grid-template-columns:1fr;gap:8px}.friendly-arrow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;text-align:left;padding:0 12px}.friendly-arrow svg{width:48px;transform:rotate(90deg)}.friendly-arrow small{grid-column:1/-1}.ontology-details dl{grid-template-columns:1fr 1fr}.ontology-details .wide{grid-column:1/-1}.chapter-nav ol{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.topline{align-items:flex-start;flex-direction:column}.chapter-nav ol{grid-template-columns:1fr}.ontology-details dl{grid-template-columns:1fr}.ontology-details .wide{grid-column:1}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{.site-header{padding:16mm;color:#000;background:#fff}.topline{margin-bottom:15mm}.projection-badge{border-color:#777}.hero p{color:#333}.workspace{max-width:none;margin:0;padding:0 12mm}.control-deck,.support-links{display:none}.story-panel[hidden]{display:block}.story-panel{break-before:page}.story-panel:first-of-type{break-before:auto}.chapter{break-before:page}.relation-card{break-inside:avoid;box-shadow:none}.ontology-details>dl{display:grid!important}}
+</style>
+</head>
+<body>
+<header class="site-header">
+<div class="topline"><div class="brand">BODY WAR · BUSINESS ONTOLOGY</div><div class="projection-badge">Experimental generated view</div></div>
+<div class="hero">
+<p class="eyebrow">Start with the story, inspect the ontology when needed</p>
+<h1>See how Body War meaning connects.</h1>
+<p>This experiment turns exact ontology relations into short visual sentences. It helps people review the intended business story without beginning with IDs, predicates, or one giant graph.</p>
+</div>
+</header>
+<main class="workspace">
+<section class="control-deck" aria-label="Experiment controls">
+<div class="story-tabs" role="tablist" aria-label="Choose a business story">
+<button type="button" id="tab-login-to-score-preview" role="tab" aria-selected="true" aria-controls="story-login-to-score-preview" tabindex="0" data-story-target="login-to-score-preview">From login to a score preview</button>
+<button type="button" id="tab-activity-to-territory-preview" role="tab" aria-selected="false" aria-controls="story-activity-to-territory-preview" tabindex="-1" data-story-target="activity-to-territory-preview">From an imported activity to a territory preview</button>
+</div>
+<label class="detail-toggle" for="ontology-detail-toggle"><input id="ontology-detail-toggle" type="checkbox"><span>Expand all ontology details</span></label>
+</section>
+<noscript><p class="sequence-note">JavaScript is disabled. Both stories remain available when printing; enable JavaScript to switch stories on screen.</p></noscript>
+<article class="story-panel" id="story-login-to-score-preview" role="tabpanel" aria-labelledby="tab-login-to-score-preview">
+<header class="story-header">
+<p class="eyebrow">Prototype meaning path</p>
+<h2>From login to a score preview</h2>
+<p class="story-question">What business meaning connects a visitor, a suggested track, consented evidence, candidate geometry, and a preliminary score?</p>
+<p>Follow the candidate journey in five review chapters. Each arrow is backed by an existing typed relation.</p>
+<div class="story-facts"><span>5 review chapters</span><span>32 exact typed relations</span><span>0 new ontology edges</span></div>
+</header>
+<nav class="chapter-nav" aria-label="From login to a score preview chapters">
+<p>Jump to a chapter</p>
+<ol>
+<li><a href="#login-to-score-preview-connect"><span>1</span>Connect</a></li>
+<li><a href="#login-to-score-preview-choose-confirm"><span>2</span>Choose</a></li>
+<li><a href="#login-to-score-preview-geometry"><span>3</span>Geometry</a></li>
+<li><a href="#login-to-score-preview-score-preview"><span>4</span>Preview</a></li>
+<li><a href="#login-to-score-preview-limits"><span>5</span>Limits</a></li>
+</ol>
+</nav>
+<div class="sequence-note" role="note"><strong>How to read this:</strong> chapter order is a guided explanation. Only each labeled arrow is an ontology relation; the page does not assert operation-to-operation runtime sequence.</div>
+<section class="chapter" id="login-to-score-preview-connect" aria-labelledby="login-to-score-preview-connect-title">
+<div class="chapter-heading">
+<span class="chapter-number" aria-hidden="true">1</span>
+<div>
+<p class="chapter-kicker">Review chapter 1 · 5 typed relations</p>
+<h3 id="login-to-score-preview-connect-title">Connect a runner</h3>
+<p>Authentication changes the candidate auth state and lets the ontology speak about a connected runner.</p>
+</div>
+</div>
+<ol class="relation-list">
+<li class="relation-card gate" data-relation-id="body-war.relation.visitor-authenticates">
+<div class="relation-reading" aria-label="Anonymous Visitor takes part in Login To ScorePreview Workflow. Typed predicate participates_in.">
+<div class="friendly-node source-node">
+<span class="node-kind">actor</span>
+<strong>Anonymous Visitor</strong>
+</div>
+<div class="friendly-arrow">
+<span>takes part in</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Owner gate visible</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">workflow</span>
+<strong>Login To ScorePreview Workflow</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>participates_in</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.visitor-authenticates</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.actor.anonymous-visitor</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.workflow.login-to-score-preview</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card gate" data-relation-id="body-war.relation.workflow-13">
+<div class="relation-reading" aria-label="Login To ScorePreview Workflow includes Authenticate Via Strava. Typed predicate contains.">
+<div class="friendly-node source-node">
+<span class="node-kind">workflow</span>
+<strong>Login To ScorePreview Workflow</strong>
+</div>
+<div class="friendly-arrow">
+<span>includes</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Owner gate visible</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">operation</span>
+<strong>Authenticate Via Strava</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>contains</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.workflow-13</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.workflow.login-to-score-preview</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.operation.authenticate-via-strava</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.authenticate-contains-callback">
+<div class="relation-reading" aria-label="Authenticate Via Strava includes Complete Strava OAuth. Typed predicate contains.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Authenticate Via Strava</strong>
+</div>
+<div class="friendly-arrow">
+<span>includes</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">operation</span>
+<strong>Complete Strava OAuth</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>contains</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.authenticate-contains-callback</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.authenticate-via-strava</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.operation.complete-strava-oauth</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-5">
+<div class="relation-reading" aria-label="Complete Strava OAuth changes the state of Auth Connected. Typed predicate changes_state_of.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Complete Strava OAuth</strong>
+</div>
+<div class="friendly-arrow">
+<span>changes the state of</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">lifecycle_state</span>
+<strong>Auth Connected</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>changes_state_of</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-5</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.complete-strava-oauth</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.state.auth.connected</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.runner-becomes-connected">
+<div class="relation-reading" aria-label="Runner becomes after authentication Connected Runner. Typed predicate becomes.">
+<div class="friendly-node source-node">
+<span class="node-kind">actor</span>
+<strong>Runner</strong>
+</div>
+<div class="friendly-arrow">
+<span>becomes after authentication</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">actor</span>
+<strong>Connected Runner</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>becomes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.runner-becomes-connected</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.actor.runner</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.actor.connected-runner</code></dd></div>
+</dl>
+</details>
+</li>
+</ol>
+</section>
+<section class="chapter" id="login-to-score-preview-choose-confirm" aria-labelledby="login-to-score-preview-choose-confirm-title">
+<div class="chapter-heading">
+<span class="chapter-number" aria-hidden="true">2</span>
+<div>
+<p class="chapter-kicker">Review chapter 2 · 11 typed relations</p>
+<h3 id="login-to-score-preview-choose-confirm-title">Choose and confirm one SuggestedTrack</h3>
+<p>A connected runner can propose and select one track, bind one activity, and record an explicit confirmation governed by consent.</p>
+</div>
+</div>
+<ol class="relation-list">
+<li class="relation-card candidate" data-relation-id="body-war.relation.connected-proposes-track">
+<div class="relation-reading" aria-label="Connected Runner proposes SuggestedTrack. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">actor</span>
+<strong>Connected Runner</strong>
+</div>
+<div class="friendly-arrow">
+<span>proposes</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>SuggestedTrack</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.connected-proposes-track</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.actor.connected-runner</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.suggested-track</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card gate" data-relation-id="body-war.relation.workflow-14">
+<div class="relation-reading" aria-label="Login To ScorePreview Workflow contains as a step or responsibility Select SuggestedTrack. Typed predicate contains.">
+<div class="friendly-node source-node">
+<span class="node-kind">workflow</span>
+<strong>Login To ScorePreview Workflow</strong>
+</div>
+<div class="friendly-arrow">
+<span>contains as a step or responsibility</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Owner gate visible</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">operation</span>
+<strong>Select SuggestedTrack</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>contains</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.workflow-14</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.workflow.login-to-score-preview</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.operation.select-suggested-track</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.select-reads-track">
+<div class="relation-reading" aria-label="Select SuggestedTrack reads without changing SuggestedTrack. Typed predicate reads.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Select SuggestedTrack</strong>
+</div>
+<div class="friendly-arrow">
+<span>reads without changing</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>SuggestedTrack</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>reads</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.select-reads-track</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.select-suggested-track</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.suggested-track</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card gate" data-relation-id="body-war.relation.workflow-15">
+<div class="relation-reading" aria-label="Login To ScorePreview Workflow contains as a step or responsibility Confirm Track With Activity. Typed predicate contains.">
+<div class="friendly-node source-node">
+<span class="node-kind">workflow</span>
+<strong>Login To ScorePreview Workflow</strong>
+</div>
+<div class="friendly-arrow">
+<span>contains as a step or responsibility</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Owner gate visible</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">operation</span>
+<strong>Confirm Track With Activity</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>contains</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.workflow-15</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.workflow.login-to-score-preview</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.operation.confirm-track-with-activity</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.confirm-consumes-track">
+<div class="relation-reading" aria-label="Confirm Track With Activity uses as input SuggestedTrack. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Confirm Track With Activity</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses as input</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>SuggestedTrack</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.confirm-consumes-track</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.confirm-track-with-activity</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.suggested-track</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.confirm-consumes-activity">
+<div class="relation-reading" aria-label="Confirm Track With Activity uses as input RunActivity. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Confirm Track With Activity</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses as input</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>RunActivity</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.confirm-consumes-activity</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.confirm-track-with-activity</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.run-activity</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.confirm-operation-governed-consent">
+<div class="relation-reading" aria-label="Confirm Track With Activity is constrained by Consent Contract. Typed predicate governed_by.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Confirm Track With Activity</strong>
+</div>
+<div class="friendly-arrow">
+<span>is constrained by</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">policy</span>
+<strong>Consent Contract</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>governed_by</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.confirm-operation-governed-consent</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.confirm-track-with-activity</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.policy.consent-contract</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.confirm-produces-confirmation">
+<div class="relation-reading" aria-label="Confirm Track With Activity creates or emits RunnerConfirmation. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Confirm Track With Activity</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates or emits</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>RunnerConfirmation</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.confirm-produces-confirmation</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.confirm-track-with-activity</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.runner-confirmation</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.connected-confirms">
+<div class="relation-reading" aria-label="Connected Runner records an explicit RunnerConfirmation. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">actor</span>
+<strong>Connected Runner</strong>
+</div>
+<div class="friendly-arrow">
+<span>records an explicit</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>RunnerConfirmation</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.connected-confirms</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.actor.connected-runner</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.runner-confirmation</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.confirmation-governed-consent">
+<div class="relation-reading" aria-label="RunnerConfirmation must obey Consent Contract. Typed predicate governed_by.">
+<div class="friendly-node source-node">
+<span class="node-kind">entity</span>
+<strong>RunnerConfirmation</strong>
+</div>
+<div class="friendly-arrow">
+<span>must obey</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">policy</span>
+<strong>Consent Contract</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>governed_by</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.confirmation-governed-consent</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.entity.runner-confirmation</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.policy.consent-contract</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.confirmation-produces-candidate">
+<div class="relation-reading" aria-label="RunnerConfirmation creates candidate evidence ActivityEvidenceCandidate. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">entity</span>
+<strong>RunnerConfirmation</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates candidate evidence</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>ActivityEvidenceCandidate</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.confirmation-produces-candidate</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.entity.runner-confirmation</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.activity-evidence-candidate</code></dd></div>
+</dl>
+</details>
+</li>
+</ol>
+</section>
+<section class="chapter" id="login-to-score-preview-geometry" aria-labelledby="login-to-score-preview-geometry-title">
+<div class="chapter-heading">
+<span class="chapter-number" aria-hidden="true">3</span>
+<div>
+<p class="chapter-kicker">Review chapter 3 · 6 typed relations</p>
+<h3 id="login-to-score-preview-geometry-title">Form private candidate geometry</h3>
+<p>Confirmed evidence supports a candidate geometry path, while the privacy policy remains visible as a required constraint.</p>
+</div>
+</div>
+<ol class="relation-list">
+<li class="relation-card gate" data-relation-id="body-war.relation.candidate-supports-geometry">
+<div class="relation-reading" aria-label="ActivityEvidenceCandidate supports as evidence GeometryCandidate. Typed predicate supports.">
+<div class="friendly-node source-node">
+<span class="node-kind">entity</span>
+<strong>ActivityEvidenceCandidate</strong>
+</div>
+<div class="friendly-arrow">
+<span>supports as evidence</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Owner gate visible</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>GeometryCandidate</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>supports</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.candidate-supports-geometry</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.entity.activity-evidence-candidate</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.geometry-candidate</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.fetch-geometry-consumes-confirmation">
+<div class="relation-reading" aria-label="Fetch Selected Activity Geometry uses RunnerConfirmation. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Fetch Selected Activity Geometry</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>RunnerConfirmation</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.fetch-geometry-consumes-confirmation</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.fetch-selected-activity-geometry</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.runner-confirmation</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.fetch-geometry-produces-sample">
+<div class="relation-reading" aria-label="Fetch Selected Activity Geometry supplies candidate input ActivityGeometrySample. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Fetch Selected Activity Geometry</strong>
+</div>
+<div class="friendly-arrow">
+<span>supplies candidate input</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">value_object</span>
+<strong>ActivityGeometrySample</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.fetch-geometry-produces-sample</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.fetch-selected-activity-geometry</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.value.activity-geometry-sample</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.derive-consumes-sample">
+<div class="relation-reading" aria-label="Derive GeometryCandidate uses ActivityGeometrySample. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Derive GeometryCandidate</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">value_object</span>
+<strong>ActivityGeometrySample</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.derive-consumes-sample</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.derive-geometry-candidate</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.value.activity-geometry-sample</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.derive-produces-geometry">
+<div class="relation-reading" aria-label="Derive GeometryCandidate creates candidate geometry GeometryCandidate. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Derive GeometryCandidate</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates candidate geometry</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>GeometryCandidate</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.derive-produces-geometry</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.derive-geometry-candidate</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.geometry-candidate</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.geometry-governed-privacy">
+<div class="relation-reading" aria-label="Derive GeometryCandidate must obey Geometry Privacy Policy. Typed predicate governed_by.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Derive GeometryCandidate</strong>
+</div>
+<div class="friendly-arrow">
+<span>must obey</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">policy</span>
+<strong>Geometry Privacy Policy</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>governed_by</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.geometry-governed-privacy</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.derive-geometry-candidate</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.policy.geometry-privacy</code></dd></div>
+</dl>
+</details>
+</li>
+</ol>
+</section>
+<section class="chapter" id="login-to-score-preview-score-preview" aria-labelledby="login-to-score-preview-score-preview-title">
+<div class="chapter-heading">
+<span class="chapter-number" aria-hidden="true">4</span>
+<div>
+<p class="chapter-kicker">Review chapter 4 · 8 typed relations</p>
+<h3 id="login-to-score-preview-score-preview-title">Build and explain a ScorePreview</h3>
+<p>Candidate geometry becomes canonical preview input under an exact score policy, then produces a preliminary read model.</p>
+</div>
+</div>
+<ol class="relation-list">
+<li class="relation-card boundary" data-relation-id="body-war.relation.snapshot-consumes-geometry">
+<div class="relation-reading" aria-label="Build ScoreInputSnapshot uses GeometryCandidate. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Build ScoreInputSnapshot</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>GeometryCandidate</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.snapshot-consumes-geometry</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.build-score-input-snapshot</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.geometry-candidate</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.snapshot-consumes-policy">
+<div class="relation-reading" aria-label="Build ScoreInputSnapshot must use the exact ScorePolicy. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Build ScoreInputSnapshot</strong>
+</div>
+<div class="friendly-arrow">
+<span>must use the exact</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">policy</span>
+<strong>ScorePolicy</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.snapshot-consumes-policy</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.build-score-input-snapshot</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.policy.score-policy</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.snapshot-produces-snapshot">
+<div class="relation-reading" aria-label="Build ScoreInputSnapshot creates canonical input ScoreInputSnapshot. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Build ScoreInputSnapshot</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates canonical input</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">value_object</span>
+<strong>ScoreInputSnapshot</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.snapshot-produces-snapshot</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.build-score-input-snapshot</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.value.score-input-snapshot</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.calculate-preview-consumes-snapshot">
+<div class="relation-reading" aria-label="Calculate ScorePreview uses ScoreInputSnapshot. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Calculate ScorePreview</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">value_object</span>
+<strong>ScoreInputSnapshot</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.calculate-preview-consumes-snapshot</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.calculate-score-preview</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.value.score-input-snapshot</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.calculate-preview-consumes-policy">
+<div class="relation-reading" aria-label="Calculate ScorePreview must obey ScorePolicy. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Calculate ScorePreview</strong>
+</div>
+<div class="friendly-arrow">
+<span>must obey</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">policy</span>
+<strong>ScorePolicy</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.calculate-preview-consumes-policy</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.calculate-score-preview</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.policy.score-policy</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.calculate-preview-produces-preview">
+<div class="relation-reading" aria-label="Calculate ScorePreview creates a preliminary ScorePreview. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Calculate ScorePreview</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates a preliminary</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">outcome</span>
+<strong>ScorePreview</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.calculate-preview-produces-preview</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.calculate-score-preview</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.outcome.score-preview</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card gate" data-relation-id="body-war.relation.project-preview-reads-preview">
+<div class="relation-reading" aria-label="Project ScorePreview reads without changing ScorePreview. Typed predicate reads.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Project ScorePreview</strong>
+</div>
+<div class="friendly-arrow">
+<span>reads without changing</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Owner gate visible</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">outcome</span>
+<strong>ScorePreview</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>reads</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>projection</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.project-preview-reads-preview</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.project-score-preview</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.outcome.score-preview</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card gate" data-relation-id="body-war.relation.score-preview-projects-zone-score">
+<div class="relation-reading" aria-label="ScorePreview shows a limited view of Zone Score. Typed predicate projects.">
+<div class="friendly-node source-node">
+<span class="node-kind">outcome</span>
+<strong>ScorePreview</strong>
+</div>
+<div class="friendly-arrow">
+<span>shows a limited view of</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Owner gate visible</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">metric</span>
+<strong>Zone Score</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>projects</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>projection</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.score-preview-projects-zone-score</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.outcome.score-preview</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.metric.zone-score</code></dd></div>
+</dl>
+</details>
+</li>
+</ol>
+</section>
+<section class="chapter" id="login-to-score-preview-limits" aria-labelledby="login-to-score-preview-limits-title">
+<div class="chapter-heading">
+<span class="chapter-number" aria-hidden="true">5</span>
+<div>
+<p class="chapter-kicker">Review chapter 5 · 2 typed relations</p>
+<h3 id="login-to-score-preview-limits-title">Keep the claim boundary visible</h3>
+<p>Candidate geometry and a score preview remain useful without becoming source-backed track authority.</p>
+</div>
+</div>
+<ol class="relation-list">
+<li class="relation-card boundary" data-relation-id="body-war.relation.geometry-does-not-promote">
+<div class="relation-reading" aria-label="GeometryCandidate does not establish Source-Backed Track. Typed predicate does_not_promote.">
+<div class="friendly-node source-node">
+<span class="node-kind">entity</span>
+<strong>GeometryCandidate</strong>
+</div>
+<div class="friendly-arrow">
+<span>does not establish</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">outcome</span>
+<strong>Source-Backed Track</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>does_not_promote</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.geometry-does-not-promote</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.entity.geometry-candidate</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.outcome.source-backed-track</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.preview-does-not-promote">
+<div class="relation-reading" aria-label="ScorePreview does not establish Source-Backed Track. Typed predicate does_not_promote.">
+<div class="friendly-node source-node">
+<span class="node-kind">outcome</span>
+<strong>ScorePreview</strong>
+</div>
+<div class="friendly-arrow">
+<span>does not establish</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">outcome</span>
+<strong>Source-Backed Track</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>does_not_promote</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.preview-does-not-promote</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.outcome.score-preview</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.outcome.source-backed-track</code></dd></div>
+</dl>
+</details>
+</li>
+</ol>
+</section>
+<aside class="story-boundary">
+<span>What this story cannot prove</span>
+<p>Chapter order is an explanatory review path. It does not prove UI order, live Strava activity retrieval, persistence, numeric score correctness, or runtime completion.</p>
+</aside>
+</article>
+<article class="story-panel" id="story-activity-to-territory-preview" role="tabpanel" aria-labelledby="tab-activity-to-territory-preview">
+<header class="story-header">
+<p class="eyebrow">Evidence meaning path</p>
+<h2>From an imported activity to a territory preview</h2>
+<p class="story-question">How can provider activity data become submitted evidence and affect a preview controller read model?</p>
+<p>See where ProviderAccount, RunActivity, evidence submission, preview acceptance, and controller projection meet.</p>
+<div class="story-facts"><span>4 review chapters</span><span>15 exact typed relations</span><span>0 new ontology edges</span></div>
+</header>
+<nav class="chapter-nav" aria-label="From an imported activity to a territory preview chapters">
+<p>Jump to a chapter</p>
+<ol>
+<li><a href="#activity-to-territory-preview-import"><span>1</span>Import</a></li>
+<li><a href="#activity-to-territory-preview-submit"><span>2</span>Submit</a></li>
+<li><a href="#activity-to-territory-preview-preview-evidence"><span>3</span>Review</a></li>
+<li><a href="#activity-to-territory-preview-controller-preview"><span>4</span>Project</a></li>
+</ol>
+</nav>
+<div class="sequence-note" role="note"><strong>How to read this:</strong> chapter order is a guided explanation. Only each labeled arrow is an ontology relation; the page does not assert operation-to-operation runtime sequence.</div>
+<div class="branch-note" role="note"><strong>Branching meaning:</strong> After EvidenceSubmission, preview acceptance and controller projection are sibling meaning branches. Neither branch feeds the other in this view.</div>
+<section class="chapter" id="activity-to-territory-preview-import" aria-labelledby="activity-to-territory-preview-import-title">
+<div class="chapter-heading">
+<span class="chapter-number" aria-hidden="true">1</span>
+<div>
+<p class="chapter-kicker">Review chapter 1 · 2 typed relations</p>
+<h3 id="activity-to-territory-preview-import-title">Import activity summaries</h3>
+<p>The import operation uses a ProviderAccount and creates or emits RunActivity records.</p>
+</div>
+</div>
+<ol class="relation-list">
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-7">
+<div class="relation-reading" aria-label="Import Activities uses as input ProviderAccount. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Import Activities</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses as input</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>ProviderAccount</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-7</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.import-activities</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.provider-account</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-8">
+<div class="relation-reading" aria-label="Import Activities creates or emits RunActivity. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Import Activities</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates or emits</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>RunActivity</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-8</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.import-activities</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.run-activity</code></dd></div>
+</dl>
+</details>
+</li>
+</ol>
+</section>
+<section class="chapter" id="activity-to-territory-preview-submit" aria-labelledby="activity-to-territory-preview-submit-title">
+<div class="chapter-heading">
+<span class="chapter-number" aria-hidden="true">2</span>
+<div>
+<p class="chapter-kicker">Review chapter 2 · 4 typed relations</p>
+<h3 id="activity-to-territory-preview-submit-title">Submit activity evidence</h3>
+<p>A run and a territory become an evidence submission plus a submitted event.</p>
+</div>
+</div>
+<ol class="relation-list">
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-12">
+<div class="relation-reading" aria-label="Submit Evidence uses as input RunActivity. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Submit Evidence</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses as input</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>RunActivity</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-12</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.submit-evidence</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.run-activity</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-13">
+<div class="relation-reading" aria-label="Submit Evidence uses as input TerritoryUnit. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Submit Evidence</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses as input</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>TerritoryUnit</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-13</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.submit-evidence</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.territory-unit</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-14">
+<div class="relation-reading" aria-label="Submit Evidence creates or emits EvidenceSubmission. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Submit Evidence</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates or emits</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>EvidenceSubmission</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-14</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.submit-evidence</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.evidence-submission</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-15">
+<div class="relation-reading" aria-label="Submit Evidence creates or emits EvidenceSubmitted. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Submit Evidence</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates or emits</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">event</span>
+<strong>EvidenceSubmitted</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-15</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.submit-evidence</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.event.evidence-submitted</code></dd></div>
+</dl>
+</details>
+</li>
+</ol>
+</section>
+<section class="chapter" id="activity-to-territory-preview-preview-evidence" aria-labelledby="activity-to-territory-preview-preview-evidence-title">
+<div class="chapter-heading">
+<span class="chapter-number" aria-hidden="true">A</span>
+<div>
+<p class="chapter-kicker">Sibling branch A · 3 typed relations</p>
+<h3 id="activity-to-territory-preview-preview-evidence-title">Apply the preview evidence policy</h3>
+<p>Preview acceptance consumes the submission, emits a candidate event, and remains constrained by policy.</p>
+</div>
+</div>
+<ol class="relation-list">
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-16">
+<div class="relation-reading" aria-label="Auto-Accept Preview Evidence uses as input EvidenceSubmission. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Auto-Accept Preview Evidence</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses as input</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>EvidenceSubmission</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-16</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.auto-accept-preview-evidence</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.evidence-submission</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-17">
+<div class="relation-reading" aria-label="Auto-Accept Preview Evidence creates or emits EvidencePreviewAccepted. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Auto-Accept Preview Evidence</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates or emits</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">event</span>
+<strong>EvidencePreviewAccepted</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-17</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.auto-accept-preview-evidence</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.event.evidence-preview-accepted</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.preview-policy-governs-autoaccept">
+<div class="relation-reading" aria-label="Auto-Accept Preview Evidence is constrained by Preview Evidence Policy. Typed predicate governed_by.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Auto-Accept Preview Evidence</strong>
+</div>
+<div class="friendly-arrow">
+<span>is constrained by</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">policy</span>
+<strong>Preview Evidence Policy</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>governed_by</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.preview-policy-governs-autoaccept</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.auto-accept-preview-evidence</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.policy.preview-evidence</code></dd></div>
+</dl>
+</details>
+</li>
+</ol>
+</section>
+<section class="chapter" id="activity-to-territory-preview-controller-preview" aria-labelledby="activity-to-territory-preview-controller-preview-title">
+<div class="chapter-heading">
+<span class="chapter-number" aria-hidden="true">B</span>
+<div>
+<p class="chapter-kicker">Sibling branch B · 6 typed relations</p>
+<h3 id="activity-to-territory-preview-controller-preview-title">Project a candidate controller</h3>
+<p>The controller computation consumes evidence and creates a state, event, basis, and territory projection.</p>
+</div>
+</div>
+<ol class="relation-list">
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-21">
+<div class="relation-reading" aria-label="Compute Controller uses as input EvidenceSubmission. Typed predicate consumes.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Compute Controller</strong>
+</div>
+<div class="friendly-arrow">
+<span>uses as input</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>EvidenceSubmission</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>consumes</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-21</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.compute-controller</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.evidence-submission</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-22">
+<div class="relation-reading" aria-label="Compute Controller creates or emits ControllerState. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Compute Controller</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates or emits</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">value_object</span>
+<strong>ControllerState</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-22</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.compute-controller</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.value.controller-state</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.operation-23">
+<div class="relation-reading" aria-label="Compute Controller creates or emits ControllerUpdated. Typed predicate produces.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Compute Controller</strong>
+</div>
+<div class="friendly-arrow">
+<span>creates or emits</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">event</span>
+<strong>ControllerUpdated</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>produces</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.operation-23</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.compute-controller</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.event.controller-updated</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card boundary" data-relation-id="body-war.relation.controller-governed-selection">
+<div class="relation-reading" aria-label="Compute Controller is constrained by Controller Selection Policy. Typed predicate governed_by.">
+<div class="friendly-node source-node">
+<span class="node-kind">operation</span>
+<strong>Compute Controller</strong>
+</div>
+<div class="friendly-arrow">
+<span>is constrained by</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Claim limit</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">policy</span>
+<strong>Controller Selection Policy</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>governed_by</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>blocked</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.controller-governed-selection</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.operation.compute-controller</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.policy.controller-selection</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card candidate" data-relation-id="body-war.relation.controller-records-basis">
+<div class="relation-reading" aria-label="ControllerState records Control Basis. Typed predicate records.">
+<div class="friendly-node source-node">
+<span class="node-kind">value_object</span>
+<strong>ControllerState</strong>
+</div>
+<div class="friendly-arrow">
+<span>records</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Candidate meaning</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">value_object</span>
+<strong>Control Basis</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>records</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.controller-records-basis</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.value.controller-state</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.value.control-basis</code></dd></div>
+</dl>
+</details>
+</li>
+<li class="relation-card projection" data-relation-id="body-war.relation.controller-projects-territory">
+<div class="relation-reading" aria-label="ControllerState projects as a read model TerritoryUnit. Typed predicate projects.">
+<div class="friendly-node source-node">
+<span class="node-kind">value_object</span>
+<strong>ControllerState</strong>
+</div>
+<div class="friendly-arrow">
+<span>projects as a read model</span>
+<svg viewBox="0 0 180 28" aria-hidden="true" focusable="false"><line x1="4" y1="14" x2="164" y2="14"></line><path d="M154 4 L168 14 L154 24"></path></svg>
+<small>Projection only</small>
+</div>
+<div class="friendly-node target-node">
+<span class="node-kind">entity</span>
+<strong>TerritoryUnit</strong>
+</div>
+</div>
+<details class="ontology-details">
+<summary>Inspect ontology details</summary>
+<dl>
+<div><dt>Predicate</dt><dd><code>projects</code></dd></div>
+<div><dt>Authority effect</dt><dd><code>none</code></dd></div>
+<div><dt>Relation</dt><dd><code>body-war.relation.controller-projects-territory</code></dd></div>
+<div><dt>Owner</dt><dd><code>body-war.product-ontology-owner</code></dd></div>
+<div class="wide"><dt>Source concept</dt><dd><code>body-war.business.value.controller-state</code></dd></div>
+<div class="wide"><dt>Target concept</dt><dd><code>body-war.business.entity.territory-unit</code></dd></div>
+</dl>
+</details>
+</li>
+</ol>
+</section>
+<aside class="story-boundary">
+<span>What this story cannot prove</span>
+<p>This path does not prove live provider import, verified evidence, verified controller selection, or territory ownership.</p>
+</aside>
+</article>
+<footer class="support-links">
+<span>2 stories · 47 displayed relation occurrences · generated from existing ontology data.</span>
+<a href="BUSINESS-VIEWS.html">Open the printable relation gallery</a>
+<a href="BUSINESS-VIEWS.md">Open the complete ontology review</a>
+</footer>
+</main>
+<script>
+const tabs=[...document.querySelectorAll('[role="tab"]')];
+const panels=[...document.querySelectorAll('[role="tabpanel"]')];
+function activateStory(storyId,{focus=false}={}){for(const tab of tabs){const active=tab.dataset.storyTarget===storyId;tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;if(active&&focus)tab.focus()}for(const panel of panels){panel.hidden=panel.id!==`story-${storyId}`}}
+tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activateStory(tab.dataset.storyTarget));tab.addEventListener('keydown',(event)=>{let next=index;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index-1+tabs.length)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();activateStory(tabs[next].dataset.storyTarget,{focus:true})})});
+const detailToggle=document.querySelector('#ontology-detail-toggle');const ontologyDetails=[...document.querySelectorAll('details.ontology-details')];detailToggle.addEventListener('change',()=>{for(const detail of ontologyDetails)detail.open=detailToggle.checked});
+activateStory(tabs[0].dataset.storyTarget);
+window.addEventListener('beforeprint',()=>{for(const detail of ontologyDetails)detail.open=true});
+</script>
+</body>
+</html>

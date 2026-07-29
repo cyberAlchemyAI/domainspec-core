@@ -1,0 +1,56 @@
+{
+  "schema_version": "body-war-business-lifecycle-policy/v1",
+  "policy_id": "body-war.lifecycle.challenge",
+  "subject_concept": "body-war.business.entity.challenge",
+  "state_concepts": [
+    "body-war.business.state.challenge.available",
+    "body-war.business.state.challenge.active",
+    "body-war.business.state.challenge.complete",
+    "body-war.business.state.challenge.rewarded",
+    "body-war.business.state.challenge.expired"
+  ],
+  "transitions": [
+    {
+      "from": "available",
+      "to": "active",
+      "trigger": "Eligible runner enrolls.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "active",
+      "to": "complete",
+      "trigger": "Completion evidence satisfies challenge criteria.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "complete",
+      "to": "rewarded",
+      "trigger": "Declared rewards are issued.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "available",
+      "to": "expired",
+      "trigger": "Challenge window closes before enrollment.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "active",
+      "to": "expired",
+      "trigger": "Challenge window closes before accepted completion.",
+      "prototype_availability": "out-of-scope"
+    }
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/docs/features/troqar-product-architecture/states.md",
+      "selector": "Challenge State",
+      "sha256": "11f623a4d73b1ab9aedb1e4922af63270d2ffd64379a7094f3bb914b85475ab4"
+    }
+  ],
+  "owner_route": "body-war.community-owner",
+  "authority_effect": "none",
+  "forbidden_collapse": [
+    "Challenge completion and reward do not establish territory control or verified score unless separately governed."
+  ]
+}

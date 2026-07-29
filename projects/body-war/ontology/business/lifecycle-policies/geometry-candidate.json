@@ -1,0 +1,57 @@
+{
+  "schema_version": "body-war-business-lifecycle-policy/v1",
+  "policy_id": "body-war.lifecycle.geometry-candidate",
+  "subject_concept": "body-war.business.entity.geometry-candidate",
+  "state_concepts": [
+    "body-war.business.state.geometry-candidate.absent",
+    "body-war.business.state.geometry-candidate.fetch-pending",
+    "body-war.business.state.geometry-candidate.derived-candidate",
+    "body-war.business.state.geometry-candidate.unavailable",
+    "body-war.business.state.geometry-candidate.rejected",
+    "body-war.business.state.geometry-candidate.superseded"
+  ],
+  "transitions": [
+    {
+      "from": "absent",
+      "to": "fetch-pending",
+      "trigger": "Validated runner confirmation authorizes selected-activity geometry use.",
+      "prototype_availability": "fixture-only"
+    },
+    {
+      "from": "fetch-pending",
+      "to": "derived-candidate",
+      "trigger": "Aligned streams pass validation and the ratified privacy filter.",
+      "prototype_availability": "fixture-only"
+    },
+    {
+      "from": "fetch-pending",
+      "to": "unavailable",
+      "trigger": "Ownership, scope, provider, stream, or validation failure.",
+      "prototype_availability": "fixture-only"
+    },
+    {
+      "from": "derived-candidate",
+      "to": "rejected",
+      "trigger": "Candidate fails later validation or review.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "derived-candidate",
+      "to": "superseded",
+      "trigger": "A newer candidate replaces it while retaining provenance.",
+      "prototype_availability": "blocked"
+    }
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/ONTOLOGY-MAP.md",
+      "selector": "GeometryCandidate state machine",
+      "sha256": "ed8d3ae954cffe1c3f11eee681ced6624587080ef20b80cc94b47dd18b7a6e09"
+    }
+  ],
+  "owner_route": "body-war.data-privacy-owner",
+  "authority_effect": "none",
+  "forbidden_collapse": [
+    "derived-candidate is principal-private candidate evidence, not source-backed or public geometry."
+  ]
+}

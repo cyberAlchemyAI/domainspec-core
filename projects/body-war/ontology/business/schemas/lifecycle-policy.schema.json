@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "body-war://business-ontology/lifecycle-policy.schema.json",
+  "title": "Body War business lifecycle policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "subject_concept",
+    "state_concepts",
+    "transitions",
+    "source_refs",
+    "owner_route",
+    "authority_effect",
+    "forbidden_collapse"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "body-war-business-lifecycle-policy/v1"
+    },
+    "policy_id": {
+      "type": "string",
+      "pattern": "^body-war\\.lifecycle\\.[a-z0-9.-]+$"
+    },
+    "subject_concept": {
+      "type": "string",
+      "pattern": "^body-war\\.business\\.[a-z0-9.-]+$"
+    },
+    "state_concepts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^body-war\\.business\\.state\\.[a-z0-9.-]+$"
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "from",
+          "to",
+          "trigger",
+          "prototype_availability"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "minLength": 1
+          },
+          "to": {
+            "type": "string",
+            "minLength": 1
+          },
+          "trigger": {
+            "type": "string",
+            "minLength": 1
+          },
+          "prototype_availability": {
+            "enum": [
+              "available",
+              "fixture-only",
+              "blocked",
+              "out-of-scope"
+            ]
+          }
+        }
+      }
+    },
+    "source_refs": {
+      "type": "array",
+      "minItems": 1
+    },
+    "owner_route": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authority_effect": {
+      "const": "none"
+    },
+    "forbidden_collapse": {
+      "type": "array",
+      "minItems": 1
+    }
+  }
+}

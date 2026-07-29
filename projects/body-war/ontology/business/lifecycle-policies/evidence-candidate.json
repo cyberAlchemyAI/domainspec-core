@@ -1,0 +1,49 @@
+{
+  "schema_version": "body-war-business-lifecycle-policy/v1",
+  "policy_id": "body-war.lifecycle.evidence-candidate",
+  "subject_concept": "body-war.business.entity.activity-evidence-candidate",
+  "state_concepts": [
+    "body-war.business.state.evidence-candidate.submitted",
+    "body-war.business.state.evidence-candidate.operator-review",
+    "body-war.business.state.evidence-candidate.accepted",
+    "body-war.business.state.evidence-candidate.rejected"
+  ],
+  "transitions": [
+    {
+      "from": "none",
+      "to": "submitted",
+      "trigger": "Runner ownership and exact consent binding succeed.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "submitted",
+      "to": "operator-review",
+      "trigger": "Operator begins reviewing the redacted candidate.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "operator-review",
+      "to": "accepted",
+      "trigger": "Operator accepts the candidate as useful evidence.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "operator-review",
+      "to": "rejected",
+      "trigger": "Operator rejects the candidate with a reason.",
+      "prototype_availability": "out-of-scope"
+    }
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/states.md",
+      "selector": "EvidenceCandidateLifecycle",
+      "sha256": "400772f889ba3663f770eaeb03be88e106742a99643c140b44116083eaff373e"
+    }
+  ],
+  "owner_route": "body-war.route-expansion-owner",
+  "authority_effect": "none",
+  "forbidden_collapse": [
+    "Candidate accepted means useful evidence only; it does not automatically promote route geometry or scoring."
+  ]
+}

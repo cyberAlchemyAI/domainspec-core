@@ -1,0 +1,56 @@
+{
+  "schema_version": "body-war-business-lifecycle-policy/v1",
+  "policy_id": "body-war.lifecycle.controller",
+  "subject_concept": "body-war.business.value.controller-state",
+  "state_concepts": [
+    "body-war.business.state.controller.neutral",
+    "body-war.business.state.controller.preview-controlled",
+    "body-war.business.state.controller.verified-controlled",
+    "body-war.business.state.controller.contested",
+    "body-war.business.state.controller.expired"
+  ],
+  "transitions": [
+    {
+      "from": "neutral",
+      "to": "preview-controlled",
+      "trigger": "Controller computation selects preview-accepted evidence under preview policy.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "neutral",
+      "to": "verified-controlled",
+      "trigger": "Controller computation selects verified evidence under adopted metric policy.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "verified-controlled",
+      "to": "contested",
+      "trigger": "Eligible invasion opens.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "contested",
+      "to": "verified-controlled",
+      "trigger": "Defense succeeds under adopted policy.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "verified-controlled",
+      "to": "expired",
+      "trigger": "Caducity policy expires ownership.",
+      "prototype_availability": "blocked"
+    }
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/docs/features/troqar-product-architecture/states.md",
+      "selector": "Controller State",
+      "sha256": "11f623a4d73b1ab9aedb1e4922af63270d2ffd64379a7094f3bb914b85475ab4"
+    }
+  ],
+  "owner_route": "body-war.control-competition-owner",
+  "authority_effect": "none",
+  "forbidden_collapse": [
+    "A controller projection must retain basis and metric and must not convert preview evidence into verified control."
+  ]
+}

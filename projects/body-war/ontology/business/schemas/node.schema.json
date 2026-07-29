@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "body-war://business-ontology/node.schema.json",
+  "title": "Body War business ontology candidate node",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "concept_id",
+    "label",
+    "definition",
+    "concept_role",
+    "business_kind",
+    "branch_roles",
+    "source_refs",
+    "owner_route",
+    "candidate_status",
+    "confidence",
+    "challenge_contract",
+    "residue",
+    "forbidden_collapse"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "body-war-business-node/v1"
+    },
+    "concept_id": {
+      "type": "string",
+      "pattern": "^body-war\\.business\\.[a-z0-9.-]+$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "definition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "concept_role": {
+      "enum": [
+        "authority object",
+        "evidence object",
+        "workflow object",
+        "projection object",
+        "residue object"
+      ]
+    },
+    "business_kind": {
+      "enum": [
+        "actor",
+        "bounded_context",
+        "capability",
+        "entity",
+        "value_object",
+        "operation",
+        "query",
+        "event",
+        "lifecycle_state",
+        "policy",
+        "metric",
+        "ledger",
+        "premise",
+        "outcome",
+        "external_system",
+        "interface",
+        "workflow"
+      ]
+    },
+    "branch_roles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "const": "business"
+      }
+    },
+    "source_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source_ref"
+      }
+    },
+    "owner_route": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_status": {
+      "enum": [
+        "candidate",
+        "reviewed-candidate",
+        "deferred",
+        "blocked",
+        "projected"
+      ]
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_confidence",
+        "commitment_confidence",
+        "basis"
+      ],
+      "properties": {
+        "evidence_confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "commitment_confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "challenge_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "challenge_response",
+        "valid_challenge_modes",
+        "contradiction_edges",
+        "validation_edges",
+        "owner_route",
+        "resolution_gate",
+        "blocking_questions",
+        "challenge_residue_route"
+      ],
+      "properties": {
+        "challenge_response": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valid_challenge_modes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "evidence",
+              "contradiction",
+              "owner_review"
+            ]
+          }
+        },
+        "contradiction_edges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation_edges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "owner_route": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resolution_gate": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "challenge_residue_route": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "residue": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "forbidden_collapse": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "selector",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selector": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}

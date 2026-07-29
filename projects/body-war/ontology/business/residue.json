@@ -1,0 +1,106 @@
+{
+  "schema_version": "body-war-business-ontology-residue/v1",
+  "authority_effect": "none",
+  "questions_are_nodes": false,
+  "items": [
+    {
+      "residue_id": "body-war.residue.score-policy",
+      "status": "blocked",
+      "owner_route": "body-war.score-policy-owner",
+      "blocking_questions": [
+        "What target and floor pace define pace normalization?",
+        "What distance cap and geometry-membership tolerance define distance normalization?",
+        "What window anchor, timezone, eligible activity types, visibility scope, aggregation, bootstrap rule, history scope, missing-data behavior, and rounding are ratified?",
+        "Does the selected policy govern only ScorePreview or also controller/conquest decisions?"
+      ],
+      "next_gate": "DEC-JSP-001 decision-gate",
+      "affected_concepts": [
+        "body-war.business.policy.score-policy",
+        "body-war.business.value.score-input-snapshot",
+        "body-war.business.outcome.score-preview",
+        "body-war.business.metric.zone-score",
+        "body-war.business.operation.calculate-score-preview"
+      ]
+    },
+    {
+      "residue_id": "body-war.residue.geometry-privacy",
+      "status": "blocked",
+      "owner_route": "body-war.data-privacy-owner",
+      "blocking_questions": [
+        "Which geometry-use consent language and Strava scope are ratified?",
+        "What privacy filter, precision, simplification, retention, visibility, and deletion behavior applies?",
+        "Which active sinks are permitted to receive raw streams, and how is their absence proven?"
+      ],
+      "next_gate": "DEC-JSP-002 decision-gate",
+      "affected_concepts": [
+        "body-war.business.value.activity-geometry-sample",
+        "body-war.business.entity.geometry-candidate",
+        "body-war.business.policy.geometry-privacy",
+        "body-war.business.operation.fetch-selected-activity-geometry",
+        "body-war.business.operation.derive-geometry-candidate"
+      ]
+    },
+    {
+      "residue_id": "body-war.residue.geometry-promotion",
+      "status": "deferred",
+      "owner_route": "body-war.track-policy-owner",
+      "blocking_questions": [
+        "What evidence and operator review can promote candidate_from_activity to source-backed?",
+        "What validation evidence permits public geometry or GPS-validated language?"
+      ],
+      "next_gate": "future operator-policy decision",
+      "affected_concepts": [
+        "body-war.business.entity.suggested-track",
+        "body-war.business.entity.geometry-candidate",
+        "body-war.business.outcome.source-backed-track"
+      ]
+    },
+    {
+      "residue_id": "body-war.residue.controller-authority",
+      "status": "blocked",
+      "owner_route": "body-war.game-rules-owner",
+      "blocking_questions": [
+        "Does the pilot controller use fastest verified time, preview fastest time, a ratified Zone Score, or another metric?",
+        "Which evidence basis may affect public controller state?"
+      ],
+      "next_gate": "game-rule decision-gate",
+      "affected_concepts": [
+        "body-war.business.value.controller-metric",
+        "body-war.business.policy.controller-selection",
+        "body-war.business.value.controller-state",
+        "body-war.business.metric.zone-score"
+      ]
+    },
+    {
+      "residue_id": "body-war.residue.validation-anti-cheat",
+      "status": "deferred",
+      "owner_route": "body-war.run-validation-owner",
+      "blocking_questions": [
+        "Which validations are automatic, operator-reviewed, or rejected?",
+        "What anomaly thresholds and appeal path apply?"
+      ],
+      "next_gate": "validation-policy design",
+      "affected_concepts": [
+        "body-war.business.policy.anti-cheat",
+        "body-war.business.actor.anti-cheat-reviewer",
+        "body-war.business.operation.review-evidence"
+      ]
+    },
+    {
+      "residue_id": "body-war.residue.economy-sponsor",
+      "status": "deferred",
+      "owner_route": "body-war.product-scope-owner",
+      "blocking_questions": [
+        "Is RunCoin earn/spend/purchase behavior in the next product scope?",
+        "What sponsor value and fairness constraints apply to sponsored zones?"
+      ],
+      "next_gate": "product-scope review",
+      "affected_concepts": [
+        "body-war.business.value.runcoin",
+        "body-war.business.entity.sponsored-zone",
+        "body-war.business.capability.economy",
+        "body-war.business.capability.sponsored-zones"
+      ]
+    }
+  ]
+}

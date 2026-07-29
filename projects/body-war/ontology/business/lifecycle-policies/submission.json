@@ -1,0 +1,62 @@
+{
+  "schema_version": "body-war-business-lifecycle-policy/v1",
+  "policy_id": "body-war.lifecycle.submission",
+  "subject_concept": "body-war.business.entity.evidence-submission",
+  "state_concepts": [
+    "body-war.business.state.submission.draft",
+    "body-war.business.state.submission.submitted",
+    "body-war.business.state.submission.preview-accepted",
+    "body-war.business.state.submission.verified",
+    "body-war.business.state.submission.rejected"
+  ],
+  "transitions": [
+    {
+      "from": "draft",
+      "to": "submitted",
+      "trigger": "Backend receives authenticated runner-owned evidence.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "submitted",
+      "to": "preview-accepted",
+      "trigger": "Preview evidence policy accepts the submission for preview display.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "submitted",
+      "to": "verified",
+      "trigger": "Operator or validation owner records accepted verification evidence.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "submitted",
+      "to": "rejected",
+      "trigger": "Operator or validation policy records rejection and reason.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "preview-accepted",
+      "to": "verified",
+      "trigger": "Later owner review accepts verification evidence.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "preview-accepted",
+      "to": "rejected",
+      "trigger": "Later owner review rejects the evidence.",
+      "prototype_availability": "out-of-scope"
+    }
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/docs/features/troqar-product-architecture/states.md",
+      "selector": "Submission State",
+      "sha256": "11f623a4d73b1ab9aedb1e4922af63270d2ffd64379a7094f3bb914b85475ab4"
+    }
+  ],
+  "owner_route": "body-war.activity-evidence-owner",
+  "authority_effect": "none",
+  "forbidden_collapse": [
+    "preview-accepted must never be displayed or interpreted as verified."
+  ]
+}

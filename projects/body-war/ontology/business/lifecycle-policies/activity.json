@@ -1,0 +1,62 @@
+{
+  "schema_version": "body-war-business-lifecycle-policy/v1",
+  "policy_id": "body-war.lifecycle.activity",
+  "subject_concept": "body-war.business.entity.run-activity",
+  "state_concepts": [
+    "body-war.business.state.activity.not-loaded",
+    "body-war.business.state.activity.loading",
+    "body-war.business.state.activity.empty",
+    "body-war.business.state.activity.ready",
+    "body-war.business.state.activity.provider-error"
+  ],
+  "transitions": [
+    {
+      "from": "not-loaded",
+      "to": "loading",
+      "trigger": "Connected runner requests recent activities.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "loading",
+      "to": "empty",
+      "trigger": "Provider returns no run-like activities.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "loading",
+      "to": "ready",
+      "trigger": "Provider returns UI-safe run-like activity summaries.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "loading",
+      "to": "provider-error",
+      "trigger": "Provider query, scope, refresh, or network operation fails.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "empty",
+      "to": "loading",
+      "trigger": "Runner retries activity refresh.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "provider-error",
+      "to": "loading",
+      "trigger": "Runner retries after recovery or reconnect.",
+      "prototype_availability": "available"
+    }
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/docs/features/troqar-product-architecture/states.md",
+      "selector": "Activity State",
+      "sha256": "11f623a4d73b1ab9aedb1e4922af63270d2ffd64379a7094f3bb914b85475ab4"
+    }
+  ],
+  "owner_route": "body-war.activity-evidence-owner",
+  "authority_effect": "none",
+  "forbidden_collapse": [
+    "Activity ready means redacted summaries are queryable; it does not prove ownership validation, geometry availability, evidence acceptance, or scoring."
+  ]
+}

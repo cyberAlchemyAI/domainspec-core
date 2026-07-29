@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "body-war://business-ontology/relation.schema.json",
+  "title": "Body War business ontology candidate relation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "relation_id",
+    "predicate",
+    "source_concept",
+    "target_concept",
+    "direction",
+    "owner_route",
+    "evidence_refs",
+    "authority_effect",
+    "value_effect",
+    "cycle_policy",
+    "forbidden_collapse"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "body-war-business-relation/v1"
+    },
+    "relation_id": {
+      "type": "string",
+      "pattern": "^body-war\\.relation\\.[a-z0-9.-]+$"
+    },
+    "predicate": {
+      "enum": [
+        "becomes",
+        "owns",
+        "participates_in",
+        "provides",
+        "contains",
+        "depends_on",
+        "consumes",
+        "produces",
+        "reads",
+        "changes_state_of",
+        "transitions_to",
+        "governed_by",
+        "validates",
+        "calculates",
+        "measures",
+        "supports",
+        "exposes",
+        "maps_to",
+        "records",
+        "projects",
+        "controls",
+        "contests",
+        "defends",
+        "awards",
+        "notifies",
+        "fulfills",
+        "does_not_promote"
+      ]
+    },
+    "source_concept": {
+      "type": "string",
+      "pattern": "^body-war\\.business\\.[a-z0-9.-]+$"
+    },
+    "target_concept": {
+      "type": "string",
+      "pattern": "^body-war\\.business\\.[a-z0-9.-]+$"
+    },
+    "direction": {
+      "enum": [
+        "directed",
+        "symmetric",
+        "view-only"
+      ]
+    },
+    "owner_route": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "selector",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "selector": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "authority_effect": {
+      "enum": [
+        "none",
+        "staging",
+        "projection",
+        "owner-decision",
+        "blocked"
+      ]
+    },
+    "value_effect": {
+      "enum": [
+        "value-free",
+        "value-constraining",
+        "unknown"
+      ]
+    },
+    "cycle_policy": {
+      "enum": [
+        "acyclic",
+        "cycle-permitted",
+        "unknown"
+      ]
+    },
+    "forbidden_collapse": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

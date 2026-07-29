@@ -1,0 +1,78 @@
+{
+  "schema_version": "body-war-business-lifecycle-policy/v1",
+  "policy_id": "body-war.lifecycle.score-preview",
+  "subject_concept": "body-war.business.outcome.score-preview",
+  "state_concepts": [
+    "body-war.business.state.score-preview.unavailable",
+    "body-war.business.state.score-preview.snapshot-pending",
+    "body-war.business.state.score-preview.calculation-pending",
+    "body-war.business.state.score-preview.available",
+    "body-war.business.state.score-preview.incomplete-projection",
+    "body-war.business.state.score-preview.blocked-policy",
+    "body-war.business.state.score-preview.blocked-geometry",
+    "body-war.business.state.score-preview.failed",
+    "body-war.business.state.score-preview.superseded"
+  ],
+  "transitions": [
+    {
+      "from": "unavailable",
+      "to": "snapshot-pending",
+      "trigger": "Admissible GeometryCandidate and exact policy become available.",
+      "prototype_availability": "fixture-only"
+    },
+    {
+      "from": "snapshot-pending",
+      "to": "calculation-pending",
+      "trigger": "Canonical complete-window snapshot is persisted.",
+      "prototype_availability": "fixture-only"
+    },
+    {
+      "from": "snapshot-pending",
+      "to": "incomplete-projection",
+      "trigger": "Snapshot records single_activity_projection.",
+      "prototype_availability": "fixture-only"
+    },
+    {
+      "from": "snapshot-pending",
+      "to": "blocked-policy",
+      "trigger": "Policy is absent, incomplete, or stale.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "snapshot-pending",
+      "to": "blocked-geometry",
+      "trigger": "No admissible GeometryCandidate is available.",
+      "prototype_availability": "available"
+    },
+    {
+      "from": "calculation-pending",
+      "to": "available",
+      "trigger": "Deterministic calculation succeeds under exact policy and snapshot.",
+      "prototype_availability": "fixture-only"
+    },
+    {
+      "from": "calculation-pending",
+      "to": "failed",
+      "trigger": "Calculation invariant fails.",
+      "prototype_availability": "fixture-only"
+    },
+    {
+      "from": "available",
+      "to": "superseded",
+      "trigger": "A newer policy, geometry, or snapshot result replaces it.",
+      "prototype_availability": "blocked"
+    }
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/ONTOLOGY-MAP.md",
+      "selector": "ScorePreview state machine",
+      "sha256": "ed8d3ae954cffe1c3f11eee681ced6624587080ef20b80cc94b47dd18b7a6e09"
+    }
+  ],
+  "owner_route": "body-war.score-policy-owner",
+  "authority_effect": "none",
+  "forbidden_collapse": [
+    "available means preview_only; it does not establish Zone Score, controller, conquest, source-backed route, or production authority."
+  ]
+}

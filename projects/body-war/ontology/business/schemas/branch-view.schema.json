@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "body-war://business-ontology/branch-view.schema.json",
+  "title": "Body War business branch view",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "branch_id",
+    "view_role",
+    "source_refs",
+    "allowed_readings",
+    "forbidden_authority_moves",
+    "owner_route",
+    "residue"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "body-war-business-branch-view/v1"
+    },
+    "branch_id": {
+      "const": "body-war.branch.business"
+    },
+    "view_role": {
+      "const": "meaning"
+    },
+    "source_refs": {
+      "type": "array",
+      "minItems": 1
+    },
+    "allowed_readings": {
+      "type": "array",
+      "minItems": 1
+    },
+    "forbidden_authority_moves": {
+      "type": "array",
+      "minItems": 1
+    },
+    "owner_route": {
+      "type": "string",
+      "minLength": 1
+    },
+    "residue": {
+      "type": "array"
+    }
+  }
+}

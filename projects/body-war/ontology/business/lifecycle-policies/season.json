@@ -1,0 +1,43 @@
+{
+  "schema_version": "body-war-business-lifecycle-policy/v1",
+  "policy_id": "body-war.lifecycle.season",
+  "subject_concept": "body-war.business.entity.season",
+  "state_concepts": [
+    "body-war.business.state.season.preseason",
+    "body-war.business.state.season.active",
+    "body-war.business.state.season.closing",
+    "body-war.business.state.season.closed"
+  ],
+  "transitions": [
+    {
+      "from": "preseason",
+      "to": "active",
+      "trigger": "Ranking window opens.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "active",
+      "to": "closing",
+      "trigger": "Season close begins and snapshot production starts.",
+      "prototype_availability": "out-of-scope"
+    },
+    {
+      "from": "closing",
+      "to": "closed",
+      "trigger": "Immutable ranking snapshot and declared rewards are finalized.",
+      "prototype_availability": "out-of-scope"
+    }
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/docs/features/troqar-product-architecture/states.md",
+      "selector": "Season State",
+      "sha256": "11f623a4d73b1ab9aedb1e4922af63270d2ffd64379a7094f3bb914b85475ab4"
+    }
+  ],
+  "owner_route": "body-war.progression-owner",
+  "authority_effect": "none",
+  "forbidden_collapse": [
+    "Closing seasonal ranking does not reset permanent profile XP or badges."
+  ]
+}
