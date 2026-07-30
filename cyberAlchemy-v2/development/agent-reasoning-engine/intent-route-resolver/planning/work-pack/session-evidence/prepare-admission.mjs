@@ -25,7 +25,12 @@ function fail(message) {
 }
 
 function parseArgs(values) {
-  const result = {changes: [], validations: [], dependencies: []};
+  const result = {
+    changes: [],
+    validations: [],
+    dependencies: [],
+    executionOutputs: [],
+  };
   for (let index = 0; index < values.length; index += 1) {
     const key = values[index];
     const value = values[index + 1];
@@ -34,6 +39,7 @@ function parseArgs(values) {
     if (key === "--change") result.changes.push(value);
     else if (key === "--validation") result.validations.push(value);
     else if (key === "--dependency") result.dependencies.push(value);
+    else if (key === "--execution-output") result.executionOutputs.push(value);
     else result[key.slice(2)] = value;
   }
   for (const required of ["task-id", "swu-id", "task-file", "run-id"]) {
@@ -87,6 +93,8 @@ function main() {
   const dependencies = args.dependencies.map(splitPair);
   const validationCommands = [...new Set(args.validations)].sort();
   const materialWrites = changes.map(([target]) => target).sort();
+  const executionOutputs = [...new Set(args.executionOutputs)].sort();
+  const allowedWrites = [...materialWrites, ...executionOutputs].sort();
   const owner = "agent-reasoning-engine-implementation-owner";
 
   const context = {
@@ -112,8 +120,8 @@ function main() {
     execution_contract: {
       writeProfile: "material-bound",
       materialWrites,
-      executionOutputs: [],
-      allowedWrites: materialWrites,
+      executionOutputs,
+      allowedWrites,
       validationCommands,
       lifecycleOwner: owner,
       authorityClass: "private",
@@ -228,8 +236,8 @@ See \`cyberAlchemy-v2/development/agent-reasoning-engine/intent-route-resolver/O
     materialReceipt: exact(materialReceiptPath),
     producerReceiptSchema: exact(receiptSchema),
     materialWrites,
-    executionOutputs: [],
-    allowedWrites: materialWrites,
+    executionOutputs,
+    allowedWrites,
     validationCommands,
     lifecycleOwner: owner,
     authorityClass: "private",
