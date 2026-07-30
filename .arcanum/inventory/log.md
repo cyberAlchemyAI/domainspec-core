@@ -4692,3 +4692,490 @@ Artifacts:
 - Boundary: Inventory is non-authority. No ontology or HTML implementation,
   novice run, browser admission, human witness, promotion, release, or
   production readiness is established.
+
+## 2026-07-30 - Refine dialectic-for-tension explanation inventoried
+
+- Mode: source-backed Inventory ingest from an operator-requested explanation.
+- Source boundary: canonical Refine skill, refinement loop, and deterministic
+  dispatch generator remained read-only.
+- Entry created:
+  `entries/refine-dialectic-for-tension-synthesis.md`.
+- Content: explains the `dialectic_for_tension` trigger, its `dialectic`,
+  `zig_zag`, and `residue_ledger` techniques, stage effects,
+  permission-gated critic role, use/avoid boundary, and one clearly marked
+  illustrative example.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`; all tags on the new record are controlled.
+- Boundary: the entry is a candidate explanatory synthesis, not a canonical
+  definition, dispatch authorization, subagent approval, execution receipt,
+  ontology decision, or promotion record.
+
+## 2026-07-30 - Body War ontology relationship-coverage research strategy inventoried
+
+- Mode: post-strategy Inventory hook before human confirmation.
+- Dispatch:
+  `2026-07-30-body-war-business-ontology-relationship-coverage`.
+- P1: synthesis, isolation, parallelism, and context protection justify three
+  explorer lenses, synthesis, three opposed skeptic gates, writing, and audit.
+- Preliminary orientation: 237 actual node files, 231 explicit relations, 193
+  endpoint-covered nodes, and 44 explicit zero-degree nodes; the dispatch must
+  independently reproduce or correct this count.
+- Evidence boundary: exact-binding keeps explicit graph degree separate from
+  lifecycle-policy membership, provenance, branch roles, residue impact,
+  challenge metadata, runtime dependency, and authority movement.
+- Gate state: Dispatch Spec passed without flags; schema 0.8.0 readiness and
+  independent check-tension PASS/PASS bind sheet digest
+  `fd1b1abd94aa3581a4cf1cca1a4192e496348191c47aa97c60448a0cf8212f19`.
+- Human confirmation, registration, execution, findings, approval, and ledger
+  appends remain pending.
+- Entry created:
+  `entries/body-war-business-ontology-relationship-coverage-research-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`; 111 inherited uncontrolled-tag warnings remain.
+- Boundary: Inventory is non-authority. No final count, isolate verdict,
+  ontology relation, validator mutation, promotion, implementation, release,
+  or production readiness is established.
+
+## 2026-07-30 - Body War ontology UI black-box review strategy inventoried
+
+- Mode: machine-index-first review preflight and durable strategy-result hook.
+- Dispatch: `2026-07-30-body-war-ontology-ui-black-box-review`.
+- P1: synthesis, isolation, and parallelism apply across cold-reader,
+  color/accessibility, and focus-scene branch-pivot attack lanes.
+- Design boundary: `focus scene` is removable UI projection behavior. The
+  current graph exposes one `branch:business` tag; five existing tour scenes
+  are the first focus hypothesis, one-hop neighborhoods are the fallback, and
+  type layers are not presumed to be branches.
+- Route: three parallel attackers, one synthesizer, two opposed verifiers, one
+  writer, and parent final approval.
+- Gate: the schema `0.8.0` sheet passed non-mutating form validation at SHA-256
+  `da2b2f72c55c92884688119a843a81ff753cc1e816ca6cf8ea3e6b2b8ceeba77`;
+  two independent digest-bound tension agents returned `PASS + PASS`.
+- State: confirmation-ready; human confirmation pending; dispatch unregistered
+  and not run; dispatch ledger unchanged.
+- Entry created:
+  `entries/body-war-ontology-ui-black-box-review-strategy-result-synthesis.md`.
+- Index: canonical Inventory projection functions added the entry to
+  `index.json` and `index.md`; full conformance validation passed with zero
+  failures and inherited uncontrolled-tag warnings.
+- Boundary: Inventory is non-authority. No viewer or ontology edit, human
+  comprehension, promotion, release, deployment, or production readiness is
+  established.
+
+## 2026-07-30 - Body War ontology relationship-coverage result inventoried
+
+- Mode: post-result Inventory hook after governed research closeout.
+- Dispatch:
+  `2026-07-30-body-war-business-ontology-relationship-coverage`.
+- Accepted result: 237 actual node files, 231 explicit relations, 193
+  endpoint-covered nodes, 44 explicit zero-degree nodes, zero dangling
+  endpoints, and 61 weak components.
+- Classification: 24 lifecycle-policy members, 10 P0 premise source defects,
+  6 standalone values, 1 predicate-unresolved privacy-consent association, 1
+  deferred operator, and 2 open owner decisions.
+- Decision: universal explicit incidence rejected; no relation proposed;
+  review-classification completeness policy and validator changes remain
+  unimplemented owner-gated recommendations.
+- Validation: all three reviewers passed after one bounded zig-zag, the
+  auditor returned `RECOMMEND_ACCEPT`, six ontology tests passed, the package
+  validator passed, and orchestration causal evidence validated.
+- Ledger: append-only dispatch close recorded as `resolved` for nine agents and
+  one loop.
+- Entry created:
+  `entries/body-war-business-ontology-relationship-coverage-research-result-synthesis.md`.
+- Index: deterministic dry-run and add synchronized `index.json` and
+  `index.md`; inherited uncontrolled-tag warnings remain.
+- Boundary: Inventory is non-authority. The package remains `candidate-local`
+  with `authority_effect: none` and `release_admission: not-granted`; no
+  ontology, schema, validator, test, application, promotion, release, runtime,
+  production, or authority mutation is established.
+
+## 2026-07-30 - Body War ontology UI black-box review completed
+
+- Updated
+  `entries/body-war-ontology-ui-black-box-review-strategy-result-synthesis.md`
+  from candidate strategy to verified review result.
+- Joined and closed seven agents across attack, synthesis, verification, and
+  writer waves; one bounded verifier-to-synthesizer repair loop was used.
+- Retained five evidence-backed UI change requests: bounded hybrid focus
+  scenes, directed portals and atomic pivots, keyboard/forced-colors parity,
+  atomic tour state, and source-literal vocabulary.
+- Preserved the review boundary: target bytes and ontology were not mutated;
+  human comprehension, implementation, promotion, release, deployment, and
+  production remain unestablished or unauthorized.
+- Evidence:
+  `projects/body-war/development/reviews/20260730-ontology-ui-black-box/{attacks.md,synthesis.md,findings.md,EXECUTION-RECEIPT.json,PARENT-APPROVAL.json}`.
+
+## 2026-07-30 - Arcanum ResonantOS add-on research strategy inventoried
+
+- Mode: machine-index-first research preflight and durable strategy-result
+  hook.
+- Dispatch: `2026-07-30-arcanum-resonantos-addon`.
+- P1: synthesis, context protection, isolation, and parallelism apply across
+  the canonical installer, current consumer workspace, nested product add-on
+  runtime, and browser-first security and validation obligations.
+- Target residue: the requested `../workspace-resonantos` path is absent; the
+  evidence-supported candidate is `../workspace-resonant`, whose workspace
+  root already has Arcanum runtime surfaces while the nested
+  `2.0.0-alpha` Git checkout is seven cached commits behind `origin/dev`.
+- Route: three parallel explorers for Arcanum installation, ResonantOS product
+  architecture, and security plus executable witness; one synthesizer; three
+  opposed reviewers; one writer; one auditor; parent final approval.
+- Gate: the schema `0.8.0` sheet passed non-mutating form validation at SHA-256
+  `974e2dbd902f8fd1013a574892e8e19a856f05025b4bffb9c1a3919cda025bc2`;
+  Dispatch Spec passed; two independent digest-bound tension helpers returned
+  `PASS + PASS`.
+- State: confirmation-ready; human confirmation pending; dispatch
+  unregistered and not run; dispatch ledger unchanged.
+- Entry created:
+  `entries/arcanum-resonantos-addon-research-strategy-result-synthesis.md`.
+- Index: the installed append runtime was unavailable and its baseline
+  correctly exposed the entry-without-row atomicity gap. The current
+  projections were snapshotted, both candidate projections were generated
+  from the live record as one recoverable transition, and full conformance
+  validation passed with zero failures and 115 inherited uncontrolled-tag
+  warnings.
+- Boundary: Inventory is non-authority. No Arcanum install or sync, ResonantOS
+  product mutation, private DomainSpec or Saturn transfer, deployment,
+  promotion, release, or readiness is established or authorized.
+
+## 2026-07-30 revision — Explicit Arcanum add-on and Augmentor end state
+
+- Trigger: the human requested that the research objective state the expected
+  end result, selected integration type, and how the add-on works with
+  Augmentor.
+- Desired topology: Bootstrap-installed public Arcanum capabilities are
+  exposed through a ResonantOS-native add-on; Augmentor is the conversational
+  proposal and owner-state projection over retained runtime owners.
+- Interaction contract under research: explicit command precedence, eligible
+  ordinary-language classification, side-effect-free digest-bound proposal,
+  edit or decline without execution, exact approval, owner-backed child work,
+  targeted clarification, parent-chat continuity, reload reconciliation, and
+  separate result consumption or memory admission.
+- Non-collapse: Augmentor is not an installer, add-on registry, router,
+  scheduler, execution owner, workspace, artifact owner, session store,
+  approval authority, or memory path.
+- Research output: select, narrow, or kill the topology; choose the initial
+  public capability catalog; produce exact contracts, implementation slices,
+  owner decisions, kill criteria, and a two-child Subagent Strategy plus
+  Whisper witness where current contracts support it.
+- Gate: the prior frozen digest and tension verdicts were retired by the sheet
+  revision. The revised schema `0.8.0` sheet passed non-mutating readiness at
+  SHA-256
+  `5f04fec36cd2962dbeea7138807d9c485177e69e5f3e4960ec32a3a7de313ac6`;
+  Dispatch Spec passed; two fresh independent digest-bound helpers returned
+  `PASS + PASS`; the ledger remains unchanged and human confirmation is
+  pending.
+- Boundary: this revision changes only the research proposal and its Inventory
+  projection. It does not implement, install, sync, deploy, promote, release,
+  or establish readiness for either product.
+
+## 2026-07-30 - Arcanum ResonantOS add-on research completed
+
+- Dispatch: `2026-07-30-arcanum-resonantos-addon`.
+- Selected type: `BUILD-FROM-OWNED + NOVEL-ATTEMPT`.
+- Topology: Bootstrap retains generated public Arcanum installation and
+  refresh; ResonantOS retains native add-on, grant, bridge, execution, state,
+  artifact, lifecycle, readiness, promotion, and release ownership; Augmentor
+  remains a proposal, human-intent, and owner-state projection.
+- Claim ceiling: no current add-on, validated manifest, route, adapter,
+  execution, browser witness, readiness, promotion, deployment, or release.
+- Review: precedent, non-vacuity, and boundary reviewers required one synthesis
+  repair and then returned `PASS + PASS + PASS`.
+- Closure: exact-binding evidence returned `ready`; the auditor returned
+  `RECOMMEND_ACCEPT`; the parent gate passed; 119 causal events validated with
+  zero errors.
+- Ledger: exactly one dispatch row and one resolved close row for 13 role
+  invocations and one bounded loop.
+- Residue: corrected target still needs owner confirmation; product `dev` is
+  seven cached commits stale; manifest remains unvalidated; Strategy is absent;
+  Whisper is drifted with no product adapter; coordinator action-ID
+  rematerialization and the close-row `invoked_by` mismatch are retained.
+- Entry created:
+  `entries/arcanum-resonantos-addon-research-result-synthesis.md`.
+- Boundary: Inventory is non-authority. No Arcanum install or sync, product
+  mutation, private authority transfer, deployment, promotion, release, or
+  readiness is established or authorized.
+
+## 2026-07-30 - Arcanum add-on Invoke Distill review confirmation readiness
+
+- P1: parallel isolation requires two independent full-corpus validation
+  receipts before parent reconciliation.
+- Dispatch type: live `review`.
+- Lanes: constructive formal Proposer and adversarial operational Balancer,
+  both read-only and parallel; parent remains final approver.
+- Inventory lookup: owner machine index passed; the target repository has no
+  machine Inventory. Selected add-on research, Distill enforcement review, and
+  Invoke plan-review precedents changed the exact-evidence and attack
+  requirements.
+- Sheet:
+  `ops/development/2026-07-30-arcanum-addon-invoke-distill-review/DISPATCH-SHEET.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `f3ada9f189c26482029cebcd2aa14633db915b4596c4cbe8e065082837df72d5`;
+  both independent check-tension roles returned PASS.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; the ledger remains unchanged.
+- Entry created:
+  `entries/arcanum-addon-invoke-distill-review-strategy-result-synthesis.md`.
+- Boundary: the earlier product-side Dispatch Spec confirmation cannot bind
+  this later schema sheet. No product, Bootstrap, runtime, browser, SWU,
+  readiness, promotion, deployment, or release authority is established.
+
+## 2026-07-30 - Arcanum add-on Invoke Distill review completed
+
+- Dispatch: `2026-07-30-arcanum-addon-invoke-distill-review`; exact confirmed
+  sheet SHA-256
+  `f3ada9f189c26482029cebcd2aa14633db915b4596c4cbe8e065082837df72d5`.
+- Native run: `run-20260730-f3ada9f1`; two read-only agents spawned once each,
+  joined, and closed; 15 causal events validated with zero errors.
+- Review outcome: both bounded executions passed, both validation verdicts
+  blocked, and the deterministic reducer returned `gate_block` with zero next
+  actions.
+- Findings: missing durable L0 continuation receipt; linearized uninstall and
+  rollback; absent degradation and lifecycle-separation witnesses; incomplete
+  aggregate atomicity; BOOT-002 partial-apply risk; and partial governance
+  synchronization risk.
+- Reconciliation: Invoke added the L0 decision receipt, isolated lifecycle
+  branches, degradation SWU, exact planned witnesses/counters, complete
+  atomicity mapping, BOOT-002 split condition, and one complete authority
+  receipt contract.
+- Claim ceiling: B-DESIGN-001 remains blocked because the repaired bytes have
+  not received independent revalidation. Governance, Bootstrap, owner,
+  adapter, and retention blockers also remain. No SWU is selected.
+- Ledger: one dispatch row and one resolved close row. `resolved` accepts the
+  verified FIX change-request list; it is not a Distill pass.
+- Entry created:
+  `entries/arcanum-addon-invoke-distill-review-result-synthesis.md`.
+- Boundary: Inventory is non-authority. No product implementation, package
+  refresh, runtime/browser witness, readiness, promotion, deployment, or
+  release authority is established.
+
+## 2026-07-30 - Arcanum add-on Plan revalidation confirmation readiness
+
+- P1: parallel isolation requires two fresh current-byte validation receipts
+  before `B-DESIGN-001` may close.
+- Dispatch type: live `review`.
+- Lanes: formal closure Proposer and adversarial failure-falsification
+  Balancer, both read-only and parallel; parent remains final approver.
+- Inventory lookup: owner machine index passed; target Inventory is
+  unavailable. The prior review result, accepted add-on research result, and
+  Invoke Distill enforcement review require fresh identities, literal
+  aggregate corpus binding, and regression checks for every prior finding.
+- Sheet:
+  `ops/development/2026-07-30-arcanum-addon-plan-revalidation/DISPATCH-SHEET.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `cc655251c83bb1fba988921680870be78bcad5644fc43c77729aafa286905646`;
+  Dispatch Spec passed; both independent check-tension roles returned PASS.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; the ledger remains unchanged.
+- Entry created:
+  `entries/arcanum-addon-plan-revalidation-strategy-result-synthesis.md`.
+- Boundary: no Plan validation, blocker closure, SWU selection, product or
+  Bootstrap mutation, browser witness, readiness, promotion, deployment, or
+  release authority is established.
+
+## 2026-07-30 - Invoke one-shot workflow research confirmation readiness
+
+- P1: local causal evidence, external workflow precedents, and formal protocol
+  design require parallel isolation and adversarial synthesis.
+- Dispatch type: live `research`.
+- Lanes: three explorers, one synthesizer, three distinct skeptic gates, one
+  findings writer, and one auditor; parent remains final approver.
+- Inventory lookup: machine index readiness passed with zero failures and 118
+  historical-tag warnings. Selected OEW runtime rebuild, Body War plan review,
+  and Invoke/Distill review results changed the causal, precedent, replay, and
+  non-collapse obligations.
+- Sheet:
+  `ops/development/2026-07-30-invoke-one-shot-workflow-research/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `3891a7ea4941a9cf97d21c25076cac9dae924d3e90153e5520a5d0a31c8170be`;
+  Dispatch Spec passed; both independent check-tension roles returned PASS.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; the ledger remains unchanged by this proposal.
+- Entry created:
+  `entries/invoke-one-shot-workflow-research-strategy-result-synthesis.md`.
+- Residue: the consumer Inventory append runtime is not installed, so the
+  strategy entry, human index, machine index, and log were updated through the
+  current deterministic projection functions and then validated directly.
+- Boundary: no research findings, capability mutation, work-pack execution,
+  product readiness, authority, promotion, release, or deployment is
+  established.
+
+## 2026-07-30 - Invoke one-shot workflow research completed
+
+- Conclusion: the repeated loop is caused by a missing exact, version-bound
+  handoff between authored Plan intent and the object admitted by Task Session,
+  compounded by using generic Refresh for planning repair, projection sync, and
+  material production.
+- Accepted architecture: extend Work Pack Readiness Audit phases 1-4 with a
+  deterministic non-authoritative admission projection; retain Task Session
+  Until Blocker as the finite-frontier coordinator, one fresh Task Session per
+  SWU, exact material ownership, Decision Gate approval bindings, and
+  Continuation Router closeout verification.
+- Evidence: nine confirmed agents completed five governed groups and two
+  declared feedback loops. The auditor approved the revised findings at SHA-256
+  `ba739376af94416d3c880bece01fe6698d60c615a4caf0ae64b0d1b4668617ce`.
+- Fixtures: 19 machine-checkable contracts bind 16 frozen inputs. They remain
+  proposed, unverified, and unexecuted; the achieved ceiling is
+  `frozen-input-contractual-readiness`.
+- Runtime residue: the native reducer reused action IDs across later waves and
+  could not reopen a blocked gate after an authorized feedback followup. Both
+  preserved causal evidence streams validate, but those runner defects remain.
+- Dispatch: `2026-07-30-invoke-one-shot-workflow` was registered once and closed
+  once as `resolved`, with nine agents and two feedback loops.
+- Entry created:
+  `entries/invoke-one-shot-workflow-research-findings-synthesis.md`.
+- Boundary: research is complete; implementation design, work-pack approval,
+  fixture execution, capability mutation, promotion, publication, deployment,
+  and production-readiness claims remain outside this result.
+
+## 2026-07-30 - Body War Atlas into OEW timing dialectic confirmation readiness
+
+- P1: parallelism and isolation require independent attacks on incorporating
+  the Body War Atlas into OEW now versus sequencing it later.
+- Dispatch type: live `review`.
+- Lanes: empirical integration-now proof and adversarial sequencing-later
+  analysis, both read-only and parallel; parent remains final approver.
+- Inventory lookup: machine index readiness passed. The accepted Body War OEW
+  black-box review, novice-comprehension boundary, verified OEW rebuild lessons,
+  and flagged runtime audit constrain the timing decision to exact slices and
+  exact obligations.
+- Sheet:
+  `projects/body-war/development/reviews/20260730-oew-integration-timing-dialectic/DISPATCH-SHEET.json`.
+- Gate: schema `0.8.0` passed at SHA-256
+  `10bcc373dedafd387198d275149067d5e11b48b6c921b70ae7652da1c186f337`;
+  Dispatch Spec passed; both independent check-tension roles returned PASS.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; the ledger remains unchanged.
+- Entry created:
+  `entries/body-war-oew-integration-timing-dialectic-strategy-result-synthesis.md`.
+- Boundary: no timing decision, Body War or OEW mutation, implementation
+  readiness, promotion, release, or production authority is established.
+
+## 2026-07-30 - Body War Atlas into OEW timing dialectic completed
+
+- Result: `split-now-and-later`.
+- Selected now: the exact OEW-native four-node focus-scene and literal
+  directed-portal design and acceptance contract.
+- Deferred: code incorporation until one bounded Work Pack owns the overlapping
+  source/build/gateway/browser surface and resolves ordering against
+  `SWU-OEW-007T`.
+- Rejected: static atlas embedding, duplicated shared projection data, and a
+  launcher as the default next implementation slice.
+- Execution: two read-only explorer agents completed independent attacks and
+  one bounded robot-talk confrontation; both receipts passed the native join
+  gate and the causal event stream validated.
+- Dispatch: one registered row and one resolved close row; two agents and one
+  loop.
+- Entry created:
+  `entries/body-war-oew-integration-timing-dialectic-review-result-synthesis.md`.
+- Boundary: no Body War or OEW product mutation, Work Pack execution,
+  comprehension, accessibility conformance, authority, promotion, release,
+  deployment, or production claim is established.
+
+## 2026-07-30 - Arcanum add-on repair revalidation confirmation readiness
+
+- P1: parallelism and isolation require an independent dependency-closure lane
+  and lifecycle-falsification lane over the same repaired bytes.
+- Dispatch type: live `review`.
+- Lanes: `Abramsky, Samson` constructs the exact SWU and wave-join closure
+  proof; `Ashby, W. Ross` attacks typed lifecycle baselines, security
+  recomposition, authority, and evidence inflation. Both are read-only,
+  parallel explorers; parent remains final approver.
+- Inventory lookup: machine index readiness passed with zero failures and 120
+  historical-tag warnings. Selected prior review, owner-topology, and
+  current-byte enforcement entries shaped the eight-finding regression matrix.
+  The stale prior revalidation strategy projection was excluded as proof.
+- Sheet:
+  `ops/development/2026-07-30-arcanum-addon-repair-revalidation/DISPATCH-SHEET.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `a850483e486e6d09f6baab804628ea2fd89244ee6fd69bd4115c96ef1c7ca6a1`;
+  Dispatch Spec passed; both independent check-tension roles returned PASS.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; the ledger remains unchanged.
+- Entry created:
+  `entries/arcanum-addon-repair-revalidation-strategy-result-synthesis.md`.
+- Boundary: no review result, `B-DESIGN-001` closure, SWU selection, product or
+  Bootstrap mutation, browser witness, readiness, promotion, deployment, or
+  release authority is established.
+
+## 2026-07-30 - DomainSpec v2 implementation structure enforcement research confirmation readiness
+
+- P1: synthesis, context protection, isolation, and parallelism require
+  independent local-precedent, ontology/authority, and
+  TypeScript/Python/Rust tooling lanes.
+- Dispatch type: live `research`.
+- Lanes: `van Lamsweerde, Axel` classifies existing DomainSpec mechanisms;
+  `Spivak, David` derives candidate obligation and authority boundaries;
+  `Turing, Alan` compares current language-native enforcement. Synthesis is
+  attacked by precedent, non-vacuity, and non-collapse reviewers before
+  exact-binding evidence closure, writing, and audit.
+- Inventory lookup: owner machine-index readiness passed. Accepted language
+  enforcement, verified evolvable validation, medium-confidence composability,
+  and closed backend-card triage entries shaped the lanes. The absent
+  `projects/domainspec-v2` root machine index remains explicit residue.
+- Sheet:
+  `projects/domainspec-v2/development/research/2026-07-30-implementation-structure-enforcement/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `f6e4c78fb46eddfd7809e8465bfaab93dbb47ad6a56bc06a7695640a87ae77d2`;
+  Dispatch Spec passed; both independent check-tension roles returned PASS.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; the dispatch ledger remains unchanged.
+- Entry created:
+  `entries/domainspec-v2-implementation-structure-enforcement-research-strategy-result-synthesis.md`.
+- Boundary: no implementation rule, linter installation, package change,
+  ontology or authority movement, generated projection, promotion,
+  publication, deployment, release, or production claim is established.
+
+## 2026-07-30 - Arcanum add-on repair revalidation completed
+
+- Both read-only agents bound the exact 75-file corpus and completed lifecycle
+  closeout; the deterministic reducer returned `gate_block`.
+- Seven findings closed. `NEW-001` survived as MAJOR because executable SWU
+  steps consumed no fresh selection input.
+- The review ledger has one registered row and one resolved close row.
+- Entry created:
+  `entries/arcanum-addon-repair-revalidation-result-synthesis.md`.
+- Boundary: `B-DESIGN-001`, SWU selection, implementation, browser, readiness,
+  promotion, deployment, and release remain unproven.
+
+## 2026-07-30 - Arcanum add-on Invoke SWU re-entry repair completed
+
+- Ten exact Plan targets were applied through validated material handoffs.
+- The v3 route has 25 unique selection-bound SWU admissions and zero
+  independently selectable joins, readiness nodes, or BOOT-002 postconditions.
+- The runtime validator accepted one current selection, atomically rejected
+  replay, and rejected selection path/content mismatch.
+- The current corpus contains 77 files at
+  `5fad9693428f841a10cec7d2ee0c5e599826ea204a75ac57177fe70f55f466a0`.
+- Entry created:
+  `entries/arcanum-addon-invoke-reentry-repair-result-synthesis.md`.
+- Boundary: fresh independent exact-byte revalidation and five target
+  lifecycle blockers remain; no SWU, implementation, or browser evidence is
+  admitted.
+
+## 2026-07-30 - Arcanum add-on selection revalidation confirmation readiness
+
+- P1: parallelism and isolation require an independent formal-mapping lane and
+  executable-admission-falsification lane over the same current bytes.
+- Dispatch type: live `review`.
+- Lanes: `Nyquist, Harry` proves exact one-to-one selection closure;
+  `Niqui, Milad` attacks replay, substitution, drift, sibling, internal-node,
+  crash, authority, lifecycle, and browser-bypass paths. Both are read-only,
+  parallel explorers; parent remains final approver.
+- Inventory lookup: machine index readiness passed with zero failures and 121
+  historical-tag warnings. The completed repair review, completed Invoke
+  repair, and owner-topology entries shaped the lanes; older corpus-bound
+  strategy projections were excluded as proof.
+- Sheet:
+  `ops/development/2026-07-30-arcanum-addon-selection-revalidation/DISPATCH-SHEET.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `6df73de5703c0a7740bb070c495d908482df468ff5f3b10b52492b17eb690274`;
+  Dispatch Spec passed; both independent check-tension roles returned PASS.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; the ledger remains unchanged.
+- Entry created:
+  `entries/arcanum-addon-selection-revalidation-strategy-result-synthesis.md`.
+- Boundary: no review result, `B-DESIGN-001` closure, SWU selection, product or
+  Bootstrap mutation, browser witness, readiness, promotion, deployment, or
+  release authority is established.
