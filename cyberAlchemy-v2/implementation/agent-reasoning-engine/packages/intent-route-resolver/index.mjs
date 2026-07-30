@@ -22,3 +22,8 @@ export {
   computeCatalogDigest,
   sealCapabilityCatalog,
 } from "./src/catalog.mjs";
+
+export {
+  evaluateEligibility,
+  evaluatePredicate,
+} from "./src/eligibility.mjs";
