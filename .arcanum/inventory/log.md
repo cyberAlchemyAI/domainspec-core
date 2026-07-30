@@ -5179,3 +5179,26 @@ Artifacts:
 - Boundary: no review result, `B-DESIGN-001` closure, SWU selection, product or
   Bootstrap mutation, browser witness, readiness, promotion, deployment, or
   release authority is established.
+
+## 2026-07-30 - DomainSpec v2 implementation structure enforcement research completed
+
+- Dispatch: nine native agents completed three explorer lanes, synthesis,
+  three independent review gates, findings writing, and final audit.
+- Feedback: one precedent-owner return and one auditor-to-writer repair used
+  the two declared bounded loops.
+- Accepted boundary: one canonical Rule identity maps to one admitted
+  implementation binding and callable entry point; a bound use case depends
+  directly on that Rule leaf. Universal one-file, one-export, arrow-only, and
+  filename-as-proof laws were rejected.
+- Language profiles: bounded TypeScript, Python, and Rust enforcement stacks
+  were specified but not implemented or executed.
+- Final audit: `ACCEPT` at findings SHA-256
+  `ba6f3a537cf4abd408aedf46eb308f8d8e0574fc56adb6331a41a45ab7550027`.
+- Ledger: one registered row and one `resolved` close row.
+- Entry created:
+  `entries/domainspec-v2-implementation-structure-enforcement-research-result-synthesis.md`.
+- Inventory validation: lookup-ready with zero failures and 125 inherited
+  uncontrolled-tag warnings; this entry reuses the strategy entry's tag set.
+- Boundary: no implementation, linter installation, canonical ontology or
+  authority movement, promotion, publication, deployment, release, or
+  production claim is established.
