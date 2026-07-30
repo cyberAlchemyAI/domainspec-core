@@ -14,7 +14,7 @@ The direct-user refresh applied exactly three validated material targets:
 The material package
 `oew-focus-ab-test-admission-20260730T203656Z` passed schema, dependency,
 owner, publication, path, and digest validation. Its canonical package digest
-is `0f8ad135a8d467af595bb9fb64843c348aaae31bdd7aedf3346918596c819b11`.
+is `61a0a8ac1e4ed813077621580c98b0dece265053ed538783bcd26983caaf745e`.
 All three live targets equal the validated staged outputs.
 
 `SWU-OEW-FOCUS-TEST-001` is the sole selected SWU. Its browser run is

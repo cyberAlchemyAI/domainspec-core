@@ -50,6 +50,8 @@ const expectedPortalKeys = [
 ].sort();
 const literalPortalSelector =
   '[data-testid="knowledge-focus-portals"] button[data-source="presentation:body-war.business.context.identity-consent"][data-target="presentation:body-war.business.capability.auth-consent"]';
+const identityConsentNodeId =
+  "presentation:body-war.business.context.identity-consent";
 
 function sha256(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
@@ -271,6 +273,12 @@ async function goBack(page) {
     undefined,
     { timeout: 15_000 },
   );
+  await page.waitForFunction(
+    (nodeId) =>
+      document.querySelector(`.react-flow__node[data-id="${nodeId}"]`) !== null,
+    identityConsentNodeId,
+    { timeout: 15_000 },
+  );
   return await renderedScene(page);
 }
 
@@ -486,6 +494,7 @@ export async function validateBodyWarFocusAb(
     restoredSourceState = interactionState(await goBack(page));
     assert.equal(restoredSourceState.breadcrumb, null);
     assert.equal(restoredSourceState.back, null);
+    assert.ok(restoredSourceState.node_ids.includes(identityConsentNodeId));
     assertions.push({
       id: "AB04-pointer-back",
       result: "pass",
