@@ -14,3 +14,11 @@ export {
   ROUTABLE_INTENT_SCHEMA_VERSION,
   admitRouteRequest,
 } from "./src/request.mjs";
+
+export {
+  CATALOG_SCHEMA_VERSION,
+  PREDICATE_OPERATORS,
+  admitCapabilityCatalog,
+  computeCatalogDigest,
+  sealCapabilityCatalog,
+} from "./src/catalog.mjs";
