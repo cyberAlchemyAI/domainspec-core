@@ -197,6 +197,51 @@ export function validateOutputLogicalPath(logicalPath) {
   return { normalized, attemptId: parts[3] };
 }
 
+export function validatePatchSpecs(patches) {
+  if (!Array.isArray(patches) || patches.length === 0) {
+    throw new ThinBuildError("PATCH_BINDINGS_MISSING");
+  }
+  const seenPaths = new Set();
+  return patches.map((patch, index) => {
+    if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
+      throw new ThinBuildError("PATCH_BINDING_INVALID", String(index));
+    }
+    const path = normalizedRelativePath(patch.path);
+    const target = normalizedRelativePath(patch.target);
+    if (
+      !path.startsWith("upstream/patches/") ||
+      !digestPattern.test(patch.sha256 ?? "") ||
+      !digestPattern.test(patch.preimage_sha256 ?? "") ||
+      !digestPattern.test(patch.postimage_sha256 ?? "") ||
+      patch.apply_exactly_once !== true ||
+      seenPaths.has(path)
+    ) {
+      throw new ThinBuildError("PATCH_BINDING_INVALID", path);
+    }
+    seenPaths.add(path);
+    return {...patch, path, target};
+  });
+}
+
+export function expectedTypedSourceDigest(path, typedDigest, buildLock) {
+  const rebindings = [
+    [
+      "/upstream/overlay/overlay-manifest.json",
+      buildLock?.feature_inputs?.swu_007?.overlay_manifest?.sha256,
+    ],
+    [
+      "/upstream/overlay/first-working-version-manifest.json",
+      buildLock?.feature_inputs?.swu_008f?.first_working_version_manifest?.sha256,
+    ],
+  ];
+  const rebound = rebindings.find(([suffix]) => path.endsWith(suffix));
+  if (!rebound) return typedDigest;
+  if (!digestPattern.test(rebound[1] ?? "")) {
+    throw new ThinBuildError("BUILD_LOCK_REBINDING_MISSING", path);
+  }
+  return rebound[1];
+}
+
 async function command(program, args, cwd, id, env = {}) {
   const started = process.hrtime.bigint();
   let exitCode = 0;
@@ -428,12 +473,32 @@ export async function buildThinPrototype({
   if (typedHandle.result !== "pass" || typedHandle.source_changes?.length !== 5) {
     throw new ThinBuildError("TYPED_HANDLE_NOT_PASS");
   }
+  const buildLockPath = join(
+    effectiveImplementationRoot,
+    "upstream/L1-BUILD.lock.json",
+  );
+  const buildLock = await readJson(buildLockPath, "BUILD_LOCK_INVALID");
+  if (
+    buildLock.schema_version !== "oew.l1-build-lock.v1" ||
+    buildLock.binding_owner_swu !== "SWU-OEW-FOCUS-002" ||
+    buildLock.feature_inputs?.focus_scene?.swu_id !== "SWU-OEW-FOCUS-002"
+  ) {
+    throw new ThinBuildError("BUILD_LOCK_NOT_FOCUS_PREVIEW");
+  }
+  const buildLockArtifact = await artifact(
+    buildLockPath,
+    "upstream/L1-BUILD.lock.json",
+  );
   for (const change of typedHandle.source_changes) {
     const current = await artifact(
       resolve(repositoryRoot, change.path),
       change.path,
     );
-    requireExact(current.sha256, change.after_sha256, "TYPED_SOURCE_DRIFT");
+    requireExact(
+      current.sha256,
+      expectedTypedSourceDigest(change.path, change.after_sha256, buildLock),
+      "TYPED_SOURCE_DRIFT",
+    );
     if (
       Object.entries(originalTypedDigests).some(
         ([name, digest]) => change.path.endsWith(`/${name}`) && digest === current.sha256,
@@ -497,15 +562,35 @@ export async function buildThinPrototype({
     effectiveImplementationRoot,
     "upstream/overlay/first-working-version-manifest.json",
   );
-  const patchPath = join(
-    effectiveImplementationRoot,
-    "upstream/patches/0001-oew-entrypoint.patch",
-  );
   const overlay = await readJson(overlayManifestPath, "OVERLAY_MANIFEST_INVALID");
   const firstWorking = await readJson(firstWorkingPath, "FIRST_WORKING_INVALID");
   const overlayArtifact = await artifact(
     overlayManifestPath,
     "upstream/overlay/overlay-manifest.json",
+  );
+  const firstWorkingArtifact = await artifact(
+    firstWorkingPath,
+    "upstream/overlay/first-working-version-manifest.json",
+  );
+  requireExact(
+    overlayArtifact.sha256,
+    buildLock.feature_inputs.swu_007.overlay_manifest.sha256,
+    "BUILD_LOCK_OVERLAY_DRIFT",
+  );
+  requireExact(
+    overlayArtifact.size_bytes,
+    buildLock.feature_inputs.swu_007.overlay_manifest.size_bytes,
+    "BUILD_LOCK_OVERLAY_SIZE_DRIFT",
+  );
+  requireExact(
+    firstWorkingArtifact.sha256,
+    buildLock.feature_inputs.swu_008f.first_working_version_manifest.sha256,
+    "BUILD_LOCK_FIRST_WORKING_DRIFT",
+  );
+  requireExact(
+    firstWorkingArtifact.size_bytes,
+    buildLock.feature_inputs.swu_008f.first_working_version_manifest.size_bytes,
+    "BUILD_LOCK_FIRST_WORKING_SIZE_DRIFT",
   );
   requireExact(
     firstWorking.overlay_manifest?.sha256,
@@ -522,9 +607,38 @@ export async function buildThinPrototype({
     overlay,
     firstWorking,
   );
-  const patchSpec = overlay.patches?.[0];
-  const patchArtifact = await artifact(patchPath, "upstream/patches/0001-oew-entrypoint.patch");
-  requireExact(patchArtifact.sha256, patchSpec?.sha256, "PATCH_DIGEST_DRIFT");
+  const patchBindings = [];
+  for (const spec of validatePatchSpecs(overlay.patches)) {
+    const path = join(effectiveImplementationRoot, spec.path);
+    const bound = await artifact(path, spec.path);
+    requireExact(bound.sha256, spec.sha256, "PATCH_DIGEST_DRIFT");
+    if (Number.isInteger(spec.size_bytes)) {
+      requireExact(bound.size_bytes, spec.size_bytes, "PATCH_SIZE_DRIFT");
+    }
+    patchBindings.push({spec, path, artifact: bound});
+  }
+  for (const binding of buildLock.feature_inputs.focus_scene.files) {
+    const current = await artifact(
+      join(effectiveImplementationRoot, binding.path),
+      binding.path,
+    );
+    requireExact(current.sha256, binding.sha256, "FOCUS_BINDING_DRIFT");
+    requireExact(current.size_bytes, binding.size_bytes, "FOCUS_BINDING_SIZE_DRIFT");
+  }
+  const lockedFocusPatch = buildLock.feature_inputs.focus_scene.patch;
+  const currentFocusPatch = patchBindings.find(
+    ({artifact: current}) => current.path === lockedFocusPatch.path,
+  )?.artifact;
+  requireExact(
+    currentFocusPatch?.sha256,
+    lockedFocusPatch.sha256,
+    "FOCUS_PATCH_BINDING_DRIFT",
+  );
+  requireExact(
+    currentFocusPatch?.size_bytes,
+    lockedFocusPatch.size_bytes,
+    "FOCUS_PATCH_BINDING_SIZE_DRIFT",
+  );
   const packageArtifact = await artifact(
     join(effectiveImplementationRoot, "package.json"),
     "package.json",
@@ -546,7 +660,9 @@ export async function buildThinPrototype({
       typedReceipt: typedReceiptArtifact.sha256,
       closeout: closeoutArtifact.sha256,
       archive: archive.sha256,
+      buildLock: buildLockArtifact.sha256,
       overlay: overlayArtifact.sha256,
+      patches: patchBindings.map((binding) => binding.artifact.sha256),
       output: outputLogical,
     }),
   );
@@ -586,30 +702,39 @@ export async function buildThinPrototype({
       const copied = await artifact(destination, source.destination);
       requireExact(copied.sha256, source.sha256, "OVERLAY_COPY_MISMATCH");
     }
-    const patchTarget = join(sourceRoot, patchSpec.target);
-    const preimage = await artifact(patchTarget, patchSpec.target);
-    requireExact(preimage.sha256, patchSpec.preimage_sha256, "PATCH_PREIMAGE_DRIFT");
-    const patch = await command(
-      "patch",
-      ["-p1", "-i", patchPath],
-      sourceRoot,
-      "entry-patch",
-    );
-    commands.push(commandReceipt(patch));
-    if (patch.exit_code !== 0) throw new ThinBuildError("PATCH_FAILED");
-    requireExact(
-      (await artifact(patchTarget, patchSpec.target)).sha256,
-      patchSpec.postimage_sha256,
-      "PATCH_POSTIMAGE_DRIFT",
-    );
-    const reapply = await command(
-      "patch",
-      ["-p1", "--dry-run", "-i", patchPath],
-      sourceRoot,
-      "entry-patch-reapply",
-    );
-    commands.push(commandReceipt(reapply));
-    if (reapply.exit_code === 0) throw new ThinBuildError("PATCH_REAPPLY_ACCEPTED");
+    for (const [index, binding] of patchBindings.entries()) {
+      const patchTarget = join(sourceRoot, binding.spec.target);
+      await assertContained(sourceRoot, patchTarget, "PATCH_TARGET_ESCAPE");
+      const preimage = await artifact(patchTarget, binding.spec.target);
+      requireExact(
+        preimage.sha256,
+        binding.spec.preimage_sha256,
+        "PATCH_PREIMAGE_DRIFT",
+      );
+      const patch = await command(
+        "patch",
+        ["-p1", "-i", binding.path],
+        sourceRoot,
+        `overlay-patch-${index + 1}`,
+      );
+      commands.push(commandReceipt(patch));
+      if (patch.exit_code !== 0) throw new ThinBuildError("PATCH_FAILED");
+      requireExact(
+        (await artifact(patchTarget, binding.spec.target)).sha256,
+        binding.spec.postimage_sha256,
+        "PATCH_POSTIMAGE_DRIFT",
+      );
+      const reapply = await command(
+        "patch",
+        ["-p1", "--dry-run", "-i", binding.path],
+        sourceRoot,
+        `overlay-patch-${index + 1}-reapply`,
+      );
+      commands.push(commandReceipt(reapply));
+      if (reapply.exit_code === 0) {
+        throw new ThinBuildError("PATCH_REAPPLY_ACCEPTED");
+      }
+    }
 
     const install = await command(
       node.path,
@@ -735,13 +860,12 @@ export default defineConfig({
           lockPath,
           "upstream/L1-TOOLCHAIN.lock.json",
         ),
+        build_lock: buildLockArtifact,
         source_archive: archive,
         overlay_manifest: overlayArtifact,
-        first_working_manifest: await artifact(
-          firstWorkingPath,
-          "upstream/overlay/first-working-version-manifest.json",
-        ),
-        entry_patch: patchArtifact,
+        first_working_manifest: firstWorkingArtifact,
+        entry_patch: patchBindings[0].artifact,
+        patches: patchBindings.map((binding) => binding.artifact),
         package_registry: packageArtifact,
         overlay_files: overlayArtifacts,
       },

@@ -1,7 +1,12 @@
 {
   "schema_version": "oew.l1-build-lock.v1",
   "owner_swu": "SWU-OEW-013B",
-  "purpose": "Bind the verified L1 toolchain and the complete 007 plus 008F feature bytes for one fresh final dashboard build.",
+  "mutation_owner_swu": "SWU-OEW-FOCUS-002",
+  "binding_owner_swu": "SWU-OEW-FOCUS-002",
+  "consumer_swu": "SWU-OEW-013B",
+  "build_owner_swu": "SWU-OEW-013B",
+  "runtime_owner_swu": "SWU-OEW-013B",
+  "purpose": "Bind the verified L1 toolchain, the 007T-adopted typed inputs, the 008F workbench, and the native focus-scene source. FOCUS-002 may consume these bytes for a compatibility preview without closing the legacy final-build owner.",
   "upstream": {
     "commit": "2cda14e89535049e49120198886bc0b82e9e630f",
     "lock": {
@@ -131,27 +136,52 @@
       },
       "overlay_manifest": {
         "path": "upstream/overlay/overlay-manifest.json",
-        "sha256": "de72ae8e6f2e1a3650b2403fe8415eb168e9c51639c39bf24b424df3337f8668",
-        "size_bytes": 2914
+        "sha256": "4ae2740a7ba7104678f8081504d4a8a957b5f151eedf8bd5f8659d5a18744562",
+        "size_bytes": 4699,
+        "previous_binding": {
+          "sha256": "b37aae042162078bc7122f62587f371cfc8dbe397c90987df280fefff29a3d14",
+          "size_bytes": 3676,
+          "owner_swu": "SWU-OEW-007T"
+        },
+        "historical_preimage": {
+          "sha256": "de72ae8e6f2e1a3650b2403fe8415eb168e9c51639c39bf24b424df3337f8668",
+          "size_bytes": 2914,
+          "owner_swu": "SWU-OEW-007"
+        }
       },
       "files": [
         {
           "path": "upstream/overlay/packages/dashboard/src/oew/types.ts",
           "destination": "understand-anything-plugin/packages/dashboard/src/oew/types.ts",
-          "sha256": "f1f0168c7816f552e2cc538ad3cbb4f92a65f71f897cf98b3a330213b5e18c02",
-          "size_bytes": 5025
+          "sha256": "43ad0122f4e23e0dac8d2acb6191b1ad152f15a065186141659f95bc2c5c56ef",
+          "size_bytes": 8208,
+          "historical_preimage": {
+            "sha256": "f1f0168c7816f552e2cc538ad3cbb4f92a65f71f897cf98b3a330213b5e18c02",
+            "size_bytes": 5025,
+            "owner_swu": "SWU-OEW-007"
+          }
         },
         {
           "path": "upstream/overlay/packages/dashboard/src/oew/loadOewBundle.ts",
           "destination": "understand-anything-plugin/packages/dashboard/src/oew/loadOewBundle.ts",
-          "sha256": "8f7a0cd16db296a980508e99183cf4f07ed4a44a8410818ec11286249eb35ef7",
-          "size_bytes": 1941
+          "sha256": "89933692fea5ff52fb231b58bf9a4152719c3de1685796f83ddc6f30482d51b4",
+          "size_bytes": 4317,
+          "historical_preimage": {
+            "sha256": "8f7a0cd16db296a980508e99183cf4f07ed4a44a8410818ec11286249eb35ef7",
+            "size_bytes": 1941,
+            "owner_swu": "SWU-OEW-007"
+          }
         },
         {
           "path": "upstream/overlay/packages/dashboard/src/oew/store.ts",
           "destination": "understand-anything-plugin/packages/dashboard/src/oew/store.ts",
-          "sha256": "bcd0bcb33a284f59f1b8b0b83b627b46f7f4efb5a14dfce4f976d2b5e11e50d6",
-          "size_bytes": 1659
+          "sha256": "bdccbd4136eb111566ba1ba9d1ad4586a7812b8774f409428beac9a733f5e8b4",
+          "size_bytes": 3342,
+          "historical_preimage": {
+            "sha256": "bcd0bcb33a284f59f1b8b0b83b627b46f7f4efb5a14dfce4f976d2b5e11e50d6",
+            "size_bytes": 1659,
+            "owner_swu": "SWU-OEW-007"
+          }
         }
       ]
     },
@@ -170,11 +200,21 @@
       },
       "first_working_version_manifest": {
         "path": "upstream/overlay/first-working-version-manifest.json",
-        "sha256": "f1db9b4aa2264efc5fe3c06893bd2f3d7ba310520be28bd64302994eb2091c62",
-        "size_bytes": 7779,
+        "sha256": "5fdb50e010c76ee9970b6ec92e64595990cbf74310602e8710ff676c25f4454d",
+        "size_bytes": 10143,
         "handle": "oew-first-working-version-source/v1",
-        "target_count": 28,
-        "bound_file_count": 27
+        "target_count": 32,
+        "bound_file_count": 30,
+        "previous_binding": {
+          "sha256": "c94532fd6edb68757459271ba197b4afce63932d8f0ec415541b5d3eae21642f",
+          "size_bytes": 8685,
+          "owner_swu": "SWU-OEW-007T"
+        },
+        "historical_preimage": {
+          "sha256": "f1db9b4aa2264efc5fe3c06893bd2f3d7ba310520be28bd64302994eb2091c62",
+          "size_bytes": 7779,
+          "owner_swu": "SWU-OEW-008F"
+        }
       },
       "bound_file_policy": {
         "path_root": ".",
@@ -185,6 +225,59 @@
         "focused_runner_prefix": "test/",
         "focused_runners_are_validation_inputs_not_upstream_copies": true
       }
+    },
+    "swu_007t": {
+      "adoption_mode": "reuse-current-validated-bytes",
+      "mutation_owner_swu": "SWU-OEW-007T",
+      "binding_owner_swu": "SWU-OEW-007T",
+      "source_receipt": {
+        "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-thin-prototype/planning/work-pack/session-evidence/SWU-OEWTP-001/20260729T190254Z/receipt.json",
+        "sha256": "d73daefe339fda5b9f30861ce1b9bc84f9a9405eb8af903cdab69befac46c7d0",
+        "result": "pass",
+        "authority_effect": "none"
+      },
+      "typed_admission": {
+        "path": "generated/runs/SWU-OEWTP-001/20260729T190254Z/typed-admission.json",
+        "sha256": "fa73d9c5db75092e058279daec7982ff004acbc6ee4bf534f076110f3231cb6c",
+        "result": "pass",
+        "typescript_diagnostic_count": 0
+      }
+    },
+    "focus_scene": {
+      "swu_id": "SWU-OEW-FOCUS-002",
+      "binding_owner_swu": "SWU-OEW-FOCUS-002",
+      "files": [
+        {
+          "path": "upstream/overlay/packages/dashboard/src/knowledgeFocusScene.ts",
+          "destination": "understand-anything-plugin/packages/dashboard/src/knowledgeFocusScene.ts",
+          "sha256": "2fee843bc6924e3681cfecb3408dbecb48b8dfb9f6cc45b62f0dae4496d58422",
+          "size_bytes": 6834
+        },
+        {
+          "path": "upstream/overlay/packages/dashboard/src/components/KnowledgeFocusPortals.tsx",
+          "destination": "understand-anything-plugin/packages/dashboard/src/components/KnowledgeFocusPortals.tsx",
+          "sha256": "7db9b51dfd5754936c29c1e901e75e5fae452d9b3a96b3292f5e2b93866fc3bc",
+          "size_bytes": 4062
+        },
+        {
+          "path": "test/focus-scene.test.mjs",
+          "validation_only": true,
+          "sha256": "b3ba30b62e12c21c669013ae8a099b6671923e59f1ff18581447f6c4900f6769",
+          "size_bytes": 5275
+        }
+      ],
+      "patch": {
+        "path": "upstream/patches/0002-knowledge-focus-scene.patch",
+        "sha256": "e96cda5da5789727b39effa30a35da8a9bb7058b01a0198a5420491faa72d916",
+        "size_bytes": 8690,
+        "target": "understand-anything-plugin/packages/dashboard/src/components/KnowledgeGraphView.tsx",
+        "preimage_sha256": "8f8b0e400002c44bf7c5fc5a70467f4153e8ec570fbb1f387473e3a910a52ec6",
+        "postimage_sha256": "774912c0fbb49d95fa2d8abca94fe584d6bec2df5a294801cc2f64eac01969e7",
+        "apply_exactly_once": true,
+        "reapply_must_fail": true
+      },
+      "claim_ceiling": "structural focus source plus compatibility preview binding only",
+      "authority_effect": "none"
     },
     "entrypoint_patch": {
       "path": "upstream/patches/0001-oew-entrypoint.patch",

@@ -30,7 +30,7 @@ import {
 } from "./serve-oew-prototype.mjs";
 
 const implementationRoot = resolve(import.meta.dirname, "..");
-const buildHandle =
+const defaultBuildHandle =
   "generated/runs/SWU-OEWTP-002/20260729T190700Z/thin-prototype-build-handle.json";
 const adapterRun = "generated/runs/BODY-WAR-ONTOLOGY-001";
 const tokenPattern = /([?&]token=)[^&\s]+/g;
@@ -125,7 +125,13 @@ async function portReleased(baseUrl) {
   }
 }
 
-export async function validateBodyWarBrowser(rawOutput) {
+export async function validateBodyWarBrowser(
+  rawOutput,
+  {
+    buildHandle =
+      process.env.OEW_BODY_WAR_BUILD_HANDLE ?? defaultBuildHandle,
+  } = {},
+) {
   const output = validateOutput(rawOutput);
   const temporary = await mkdtemp(join(tmpdir(), "oew-body-war-browser-"));
   const temporaryScreenshot = join(temporary, "browser-witness.png");
@@ -251,13 +257,84 @@ export async function validateBodyWarBrowser(rawOutput) {
       evidence: "Body War business capability tour started",
     });
 
+    const portals = page.getByTestId("knowledge-focus-portals");
+    await portals.waitFor({ timeout: 15_000 });
+    await page.waitForFunction(
+      () =>
+        document.querySelectorAll(".react-flow__node").length === 4 &&
+        document.querySelectorAll(".react-flow__edge").length === 0 &&
+        document.querySelectorAll(
+          '[data-testid="knowledge-focus-portals"] button[data-source]',
+        ).length === 6,
+      undefined,
+      { timeout: 15_000 },
+    );
+    assert.equal(
+      await page.getByText("SuggestedTrack", { exact: true }).count(),
+      0,
+    );
+    assertions.push({
+      id: "BW05-exact-focus-scene",
+      result: "pass",
+      evidence: "4 scene nodes, 0 internal edges, 6 boundary portals; SuggestedTrack absent",
+    });
+
+    const literalPortal = portals.locator(
+      'button[data-source="presentation:body-war.business.context.identity-consent"][data-target="presentation:body-war.business.capability.auth-consent"]',
+    );
+    await literalPortal.waitFor();
+    await page.waitForFunction(
+      () => {
+        const portal = document.querySelector(
+          '[data-testid="knowledge-focus-portals"] button[data-source="presentation:body-war.business.context.identity-consent"][data-target="presentation:body-war.business.capability.auth-consent"]',
+        );
+        return (
+          portal?.getAttribute("data-source-relation") === "owns" &&
+          portal?.getAttribute("data-authority-effect") === "none"
+        );
+      },
+      undefined,
+      { timeout: 15_000 },
+    );
+    assert.match(
+      await literalPortal.innerText(),
+      /Identity and Consent —related → Authentication and Consent/,
+    );
+    assertions.push({
+      id: "BW06-literal-portal-evidence",
+      result: "pass",
+      evidence: "related portal retains source relation owns and authority none",
+    });
+
+    await literalPortal.click();
+    await page
+      .getByRole("button", { name: /Back to Identity and Consent/ })
+      .waitFor({ timeout: 15_000 });
+    assert.match(await portals.innerText(), /Focus scene/i);
+    await page
+      .getByRole("button", { name: /Back to Identity and Consent/ })
+      .click();
+    await page.waitForFunction(
+      () =>
+        !document.querySelector(
+          '[aria-label="Focus breadcrumb"]',
+        ),
+      undefined,
+      { timeout: 15_000 },
+    );
+    assertions.push({
+      id: "BW07-portal-pivot-back",
+      result: "pass",
+      evidence: "pointer pivot exposes a local Back path and Back restores the source focus",
+    });
+
     const origins = [...new Set(requests.map(({ origin }) => origin))];
     assert.deepEqual(origins, [gateway.baseUrl]);
     assert.deepEqual(failedResponses, []);
     assert.deepEqual(consoleErrors, []);
     assert.deepEqual(pageErrors, []);
     assertions.push({
-      id: "BW05-loopback-clean",
+      id: "BW08-loopback-clean",
       result: "pass",
       evidence: "one loopback origin, zero failed responses, zero console/page errors",
     });
@@ -265,6 +342,9 @@ export async function validateBodyWarBrowser(rawOutput) {
       path: temporaryScreenshot,
       fullPage: true,
     });
+  } catch (error) {
+    await rm(temporary, { recursive: true, force: true });
+    throw error;
   } finally {
     if (page && !page.isClosed()) await page.close();
     pageClosed = true;
@@ -291,6 +371,10 @@ export async function validateBodyWarBrowser(rawOutput) {
       adapter_run: adapterRun,
       adapter_receipt_sha256:
         gateway.adapter.artifacts["adapter-receipt.json"].sha256,
+      build_handle: await artifact(
+        join(implementationRoot, buildHandle),
+        buildHandle,
+      ),
       build_tree_sha256: gateway.build.identity.tree_sha256,
     },
     observations: {
@@ -298,6 +382,9 @@ export async function validateBodyWarBrowser(rawOutput) {
       relations: 231,
       layers: 17,
       tour_steps: 5,
+      focus_scene_nodes: 4,
+      focus_scene_internal_edges: 0,
+      focus_scene_portals: 6,
       request_count: requests.length,
       outbound_requests: 0,
       failed_responses: 0,

@@ -6,10 +6,12 @@ import test from "node:test";
 
 import {
   ThinBuildError,
+  expectedTypedSourceDigest,
   normalizedRelativePath,
   parseBuildArgs,
   treeIdentity,
   validateOutputLogicalPath,
+  validatePatchSpecs,
   validateTypedReceipt,
 } from "../scripts/build-thin-prototype.mjs";
 
@@ -91,6 +93,83 @@ test("predecessor receipt rejects failure, partial inventory, and diagnostics", 
       issue("TYPED_RECEIPT_INVALID"),
     );
   }
+});
+
+test("patch bindings retain declared order and reject incomplete or duplicate rows", () => {
+  const digest = "a".repeat(64);
+  const secondDigest = "b".repeat(64);
+  const patches = [
+    {
+      path: "upstream/patches/0001.patch",
+      target: "src/App.tsx",
+      sha256: digest,
+      preimage_sha256: digest,
+      postimage_sha256: secondDigest,
+      apply_exactly_once: true,
+    },
+    {
+      path: "upstream/patches/0002.patch",
+      target: "src/View.tsx",
+      sha256: secondDigest,
+      preimage_sha256: digest,
+      postimage_sha256: secondDigest,
+      apply_exactly_once: true,
+    },
+  ];
+  assert.deepEqual(
+    validatePatchSpecs(patches).map(({path}) => path),
+    ["upstream/patches/0001.patch", "upstream/patches/0002.patch"],
+  );
+  assert.throws(() => validatePatchSpecs([]), issue("PATCH_BINDINGS_MISSING"));
+  assert.throws(
+    () => validatePatchSpecs([patches[0], patches[0]]),
+    issue("PATCH_BINDING_INVALID"),
+  );
+  assert.throws(
+    () => validatePatchSpecs([{...patches[0], apply_exactly_once: false}]),
+    issue("PATCH_BINDING_INVALID"),
+  );
+});
+
+test("only the two typed manifests may rebind through the focus build lock", () => {
+  const typed = "a".repeat(64);
+  const overlay = "b".repeat(64);
+  const first = "c".repeat(64);
+  const lock = {
+    feature_inputs: {
+      swu_007: {overlay_manifest: {sha256: overlay}},
+      swu_008f: {first_working_version_manifest: {sha256: first}},
+    },
+  };
+  assert.equal(
+    expectedTypedSourceDigest(
+      "root/upstream/overlay/overlay-manifest.json",
+      typed,
+      lock,
+    ),
+    overlay,
+  );
+  assert.equal(
+    expectedTypedSourceDigest(
+      "root/upstream/overlay/first-working-version-manifest.json",
+      typed,
+      lock,
+    ),
+    first,
+  );
+  assert.equal(
+    expectedTypedSourceDigest("root/upstream/overlay/src/oew/store.ts", typed, lock),
+    typed,
+  );
+  assert.throws(
+    () =>
+      expectedTypedSourceDigest(
+        "root/upstream/overlay/overlay-manifest.json",
+        typed,
+        {},
+      ),
+    issue("BUILD_LOCK_REBINDING_MISSING"),
+  );
 });
 
 test("tree identity is stable and rejects symlinked outputs", async () => {
