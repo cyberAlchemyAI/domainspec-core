@@ -42,7 +42,8 @@ Rejected:
 ```text
 completed 007T → completed FOCUS-001 → completed FOCUS-002 preview
                                       ↘ unsynchronized 013B → 014 → 014V
-                                      ↘ selected FOCUS-TEST-001
+                                      ↘ completed FOCUS-TEST-001
+                                         (automated; human comparison pending)
 ```
 
 ### SWU-OEW-FOCUS-001 — Native scene source and build binding
@@ -185,6 +186,19 @@ Closeout:
 - publish the terminal Task Session receipt beside the novice protocol;
 - mark only this SWU completed when automated acceptance passes;
 - select no successor and leave the human comparison pending.
+
+Accepted automated evidence:
+
+- attempt: `20260730T203656Z`;
+- result:
+  `generated/runs/BODY-WAR-ONTOLOGY-FOCUS-AB-001/20260730T203656Z/result.json`
+  (`sha256:a163a7ed0f5a503367faaf5304f520a3fe10e69266329971f6871bab82634043`);
+- terminal Task Session receipt:
+  `planning/work-pack/session-evidence/SWU-OEW-FOCUS-TEST-001/20260730T203656Z/receipt.json`
+  (`sha256:c2774dc15cfe90843b3efa2c50fbc4a0b21410f473d29be595c4ddf8074f7e74`);
+- automated acceptance: pass;
+- human comparison: pending;
+- successor: none.
 
 ## Claim ceiling
 
