@@ -1,0 +1,293 @@
+{
+  "dispatch_id": "one-shot-admission-prototype-candidate-local",
+  "intent": {
+    "raw": "Plan and execute the complete one-shot admission prototype after the user selected Candidate-Local Prototype Fast Lane option A.",
+    "objective": "Implement and validate the bounded WPRA projection, approved-epoch chain, private frozen-input replay, and generated-package parity without claiming synchronized governance.",
+    "target_artifact": "ops/development/2026-07-30-one-shot-admission-prototype/WORK-PACK.md",
+    "operator_sentence": "Execute the frozen candidate-local frontier and stop at the first acceptance-critical failure."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "authority_split_gate"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The parent executes the finite candidate-local work pack directly; one separately bounded helper already published the required Handoff Notice.",
+    "binding_mode": "descriptive",
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "all",
+    "authorization": "not_needed",
+    "permission_prompt": "",
+    "receipt_requirements": []
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s0",
+      "name": "Publish deferred-governance Handoff Notice",
+      "capability_ref": "handoff-notice",
+      "capability_status": "candidate",
+      "mode": "publish",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": ["owner_boundary_check", "residue_ledger"],
+      "inputs": [
+        {"kind": "decision", "ref": "DECISION-GATE.md#option-a"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": ".arcanum/handoff-notices/notices/HN-3EB333B0A9DB.json"}
+      ],
+      "stop_conditions": ["stop unless the notice digest and authority boundary validate"]
+    },
+    {
+      "step_id": "s1",
+      "name": "Author the finite candidate-local work pack",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s0"],
+      "techniques": ["sequence", "scu_swu_reduction", "owner_boundary_check", "handle_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": ".arcanum/handoff-notices/notices/HN-3EB333B0A9DB.json"},
+        {"kind": "artifact", "ref": "../2026-07-30-invoke-one-shot-workflow-research/findings.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"}
+      ],
+      "stop_conditions": ["stop if the work pack widens beyond the accepted prototype"]
+    },
+    {
+      "step_id": "s2",
+      "name": "Distill and validate the plan",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["s1"],
+      "techniques": ["scu_swu_reduction", "recomposition_proof", "validation_loop"],
+      "inputs": [
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "DISTILL-VALIDATION.md"}
+      ],
+      "evidence_artifact": "DISTILL-VALIDATION.md",
+      "stop_conditions": ["stop on a task-shaped SWU, broken recomposition, or hidden acceptance-critical gap"]
+    },
+    {
+      "step_id": "s3",
+      "name": "Implement public WPRA candidate",
+      "capability_ref": "spellcraft",
+      "mode": "candidate-local-implement",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s2"],
+      "techniques": ["sequence", "validation_loop", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": "DISTILL-VALIDATION.md"},
+        {"kind": "artifact", "ref": "work-pack/tasks/TASK-WPRA-CONTRACT.md"},
+        {"kind": "artifact", "ref": "work-pack/tasks/TASK-WPRA-RUNTIME.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "receipts/SWU-OAP-002.json"}
+      ],
+      "stop_conditions": ["stop on v1 regression, private literal, or schema/runtime failure"]
+    },
+    {
+      "step_id": "s4",
+      "name": "Implement approved-epoch chain candidate",
+      "capability_ref": "spellcraft",
+      "mode": "candidate-local-implement",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s3"],
+      "techniques": ["sequence", "validation_loop", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": "receipts/SWU-OAP-002.json"},
+        {"kind": "artifact", "ref": "work-pack/tasks/TASK-CHAIN-CONTRACT.md"},
+        {"kind": "artifact", "ref": "work-pack/tasks/TASK-CHAIN-RUNTIME.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "receipts/SWU-OAP-005.json"}
+      ],
+      "stop_conditions": ["stop if any invalid transition can expose a next Task Session selector"]
+    },
+    {
+      "step_id": "s5",
+      "name": "Execute private frozen-input replay",
+      "capability_ref": "experiment-harness",
+      "capability_status": "candidate",
+      "mode": "run",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["s4"],
+      "techniques": ["validation_loop", "authority_split_gate", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": "receipts/SWU-OAP-005.json"},
+        {"kind": "artifact", "ref": "work-pack/tasks/TASK-INTEGRATION.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "runs/aggregate.json"}
+      ],
+      "evidence_artifact": "runs/aggregate.json",
+      "stop_conditions": ["stop on a Body War product write, failed fixture, or public/private leakage"]
+    },
+    {
+      "step_id": "s6",
+      "name": "Sync only the two generated spell packages",
+      "capability_ref": "arcanum-bootstrap",
+      "capability_status": "candidate",
+      "mode": "package-sync",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s5"],
+      "techniques": ["handle_handoff", "owner_boundary_check", "validation_loop"],
+      "inputs": [
+        {"kind": "receipt", "ref": "runs/aggregate.json"},
+        {"kind": "artifact", "ref": "work-pack/tasks/TASK-SYNC.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "receipts/SWU-OAP-008.json"}
+      ],
+      "stop_conditions": ["stop if package sync touches any other generated skill"]
+    },
+    {
+      "step_id": "s7",
+      "name": "Close candidate validation",
+      "capability_ref": "experiment-harness",
+      "capability_status": "candidate",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["s6"],
+      "techniques": ["recomposition_proof", "validation_loop", "residue_ledger"],
+      "inputs": [
+        {"kind": "receipt", "ref": "receipts/SWU-OAP-008.json"},
+        {"kind": "artifact", "ref": "work-pack/tasks/TASK-VERIFY.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "receipts/SWU-OAP-009.json"},
+        {"kind": "artifact", "ref": "PROTOTYPE-VALIDATION.md"}
+      ],
+      "evidence_artifact": "PROTOTYPE-VALIDATION.md",
+      "stop_conditions": ["stop on any acceptance-critical validation failure"]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-notice",
+      "kind": "policy",
+      "owner": "parent",
+      "condition": "HN-3EB333B0A9DB validates and grants no authority.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-plan",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Dispatch validation and Distill both pass before product mutation.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-public-private",
+      "kind": "policy",
+      "owner": "spellcraft",
+      "condition": "Public Arcanum remains project-neutral and private replay evidence stays outside Arcanum.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-validation",
+      "kind": "validation",
+      "owner": "experiment-harness",
+      "condition": "All declared schema, unit, integration, package parity, whitespace, and boundary checks pass.",
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-fast-lane",
+        "kind": "capability_handoff",
+        "from_owner": "user Decision Gate option A",
+        "to_owner": "parent candidate-local route",
+        "applies_to_steps": ["s3", "s4", "s5", "s6", "s7"],
+        "contract": "Directly execute only the frozen candidate-local work pack; defer lifecycle choreography but never validation.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-public-private",
+        "kind": "state_write",
+        "from_owner": "private consuming evidence",
+        "to_owner": "public Arcanum",
+        "applies_to_steps": ["s3", "s4", "s5"],
+        "contract": "Private project paths, values, and prose never enter public Arcanum artifacts.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "spellcraft",
+      "execution": "parent candidate-local route",
+      "validation": "experiment-harness",
+      "evidence": "candidate-local receipts",
+      "promotion": "not authorized"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-prototype",
+        "producer": "parent candidate-local route",
+        "required_fields": ["run_id", "status", "artifacts", "validation", "blockers", "residue"],
+        "stores": ["receipts/"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "public-arcanum",
+        "owner": "spellcraft",
+        "write_policy": "Only the declared public spell candidate paths may be written; private fixture content is forbidden.",
+        "allowed_steps": ["s3", "s4", "s6"],
+        "forbidden_steps": ["s5"]
+      },
+      {
+        "namespace": "private-integration-evidence",
+        "owner": "parent repository",
+        "write_policy": "Only private fixture inputs, run outputs, and candidate receipts may be written; public spell sources are read-only.",
+        "allowed_steps": ["s5", "s7"],
+        "forbidden_steps": ["s3", "s4", "s6"]
+      }
+    ]
+  },
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "handoff_notice_verified",
+      "plan_authored",
+      "distill_validated",
+      "swu_started",
+      "swu_validated",
+      "prototype_closed"
+    ],
+    "signal_grouping": "dispatch_id and swu_id"
+  },
+  "promotion_guardrails": [
+    "Candidate-local evidence does not synchronize governance.",
+    "No registry, promotion, publication, release, deployment, or production-readiness claim is authorized."
+  ]
+}

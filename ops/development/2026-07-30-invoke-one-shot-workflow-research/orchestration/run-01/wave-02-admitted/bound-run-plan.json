@@ -1,0 +1,62 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-07-30-invoke-one-shot-workflow",
+  "run_id": "invoke-one-shot-20260730T170256Z",
+  "state": "wave_ready",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "synthesis",
+    "role_ids": [
+      "synthesizer"
+    ],
+    "parallel": false,
+    "join_policy": "all",
+    "depends_on_waves": [
+      "explorers"
+    ],
+    "gate_after": "g-synthesis",
+    "on_incomplete": "block"
+  },
+  "action_artifacts": [
+    "actions/spawn-0004.json"
+  ],
+  "actions": [
+    {
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "action_id": "spawn-0004",
+      "action": "spawn",
+      "dispatch_id": "2026-07-30-invoke-one-shot-workflow",
+      "run_id": "invoke-one-shot-20260730T170256Z",
+      "wave_id": "synthesis",
+      "step_id": "s2-synthesize",
+      "applies_to_steps": [
+        "s2-synthesize"
+      ],
+      "role": "synthesizer",
+      "agent_ordinal": 0,
+      "agent_count": 1,
+      "capability_ref": "research",
+      "target": "dispatch-sheet.json#synthesizer",
+      "mode": "synthesize",
+      "mutation_policy": "read-only",
+      "write_scope": [],
+      "forbidden_write_scopes": [
+        ".agents/",
+        ".claude/",
+        "arcanum/",
+        "cyberAlchemy-v2/",
+        "projects/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "ops/development/2026-07-30-invoke-one-shot-workflow-research/receipts/explorer-local-forensics.json",
+        "ops/development/2026-07-30-invoke-one-shot-workflow-research/receipts/explorer-precedents.json",
+        "ops/development/2026-07-30-invoke-one-shot-workflow-research/receipts/explorer-protocol.json",
+        "ops/development/2026-07-30-invoke-one-shot-workflow-research/research.md"
+      ],
+      "output_refs": [
+        "ops/development/2026-07-30-invoke-one-shot-workflow-research/receipts/synthesis.json"
+      ]
+    }
+  ]
+}
