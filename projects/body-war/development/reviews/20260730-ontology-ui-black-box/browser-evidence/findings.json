@@ -1,0 +1,58 @@
+{
+  "schema_version": "body-war.ontology-ui-black-box.findings.v0.1",
+  "run_id": "body-war-ontology-ui-black-box-20260730t033255z",
+  "summary": {
+    "fix": 5,
+    "keep": 4,
+    "drop": 0
+  },
+  "findings": [
+    {
+      "id": "CR-1",
+      "severity": "high",
+      "decision": "FIX",
+      "title": "Deterministic focus scenes",
+      "baseline": "Tour step 1 and non-tour Focus both retain the 237-node and 231-edge canvas.",
+      "primary_evidence": "attackers/branch-pivot/measurements.json"
+    },
+    {
+      "id": "CR-2",
+      "severity": "high",
+      "decision": "FIX",
+      "title": "Keyboard-reachable semantic navigation",
+      "baseline": "Sequential focus enters graph relations; sampled relation focus is invisible and connection rows are not keyboard controls.",
+      "primary_evidence": "attackers/cold-reader/focus-order.json"
+    },
+    {
+      "id": "CR-3",
+      "severity": "high",
+      "decision": "FIX",
+      "title": "Persistent selected relation and atomic pivot",
+      "baseline": "Graph relation activation has no persistent visible selected-relation state.",
+      "primary_evidence": "attackers/color-accessibility/active-relation-default.png"
+    },
+    {
+      "id": "CR-4",
+      "severity": "medium",
+      "decision": "FIX",
+      "title": "Atomic tour state",
+      "baseline": "Tour step 2 retains an out-of-scene selection from step 1.",
+      "primary_evidence": "attackers/branch-pivot/page-2026-07-30T04-13-21-728Z.png"
+    },
+    {
+      "id": "CR-5",
+      "severity": "medium",
+      "decision": "FIX",
+      "title": "Source-consistent vocabulary without color dependence",
+      "baseline": "Search and detail kinds differ; forced colors removes persistent overview kind differentiation.",
+      "primary_evidence": "attackers/color-accessibility/active-relation-forced-colors.png"
+    }
+  ],
+  "kept": [
+    "Breadcrumb and Back behavior in inspector traversal",
+    "Visible directed relation wording in inspector traversal",
+    "Explicit candidate and authority text where currently rendered",
+    "Clean captured console and successful dynamic graph requests"
+  ],
+  "claim_ceiling": "Structural browser pretest only."
+}

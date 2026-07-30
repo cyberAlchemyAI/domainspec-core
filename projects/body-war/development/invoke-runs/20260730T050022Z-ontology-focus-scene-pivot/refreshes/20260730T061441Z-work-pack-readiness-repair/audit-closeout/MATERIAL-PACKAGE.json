@@ -1,0 +1,100 @@
+{
+  "approval": {
+    "authority_classes": [
+      "private"
+    ],
+    "class": "explicit-apply",
+    "owner": "private Body War OFSP planning owner via invoke:refresh",
+    "publication_classes": [
+      "private"
+    ],
+    "scope_paths": [
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md"
+    ]
+  },
+  "authority_class": "private",
+  "changes": [
+    {
+      "operation": "update",
+      "output_ref": {
+        "path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/refreshes/20260730T061441Z-work-pack-readiness-repair/audit-closeout/staged/projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md",
+        "sha256": "69edc415a325f71ea614e59e8c597d3628bc41aeb7b8760762130dc500db3b2f",
+        "size_bytes": 9850
+      },
+      "target_path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md"
+    }
+  ],
+  "dependencies": [
+    {
+      "artifact_ref": {
+        "path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/readiness-runs/post-refresh-r2/work-pack-readiness-report.json",
+        "sha256": "3d4eac1c1d82e22038cf20f441a7ba50588800813925ff465d62b9b6c3b6bb97",
+        "size_bytes": 27330
+      },
+      "dependency_id": "post-refresh-readiness-audit"
+    },
+    {
+      "artifact_ref": {
+        "path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/refreshes/20260730T061441Z-work-pack-readiness-repair/REFRESH-HANDOFF-RESULT.json",
+        "sha256": "9e97926eeea46a1edc7fe6e0133bf432d166458f698cc4af4bc390e1b15d92c9",
+        "size_bytes": 2846
+      },
+      "dependency_id": "prior-refresh-handoff"
+    }
+  ],
+  "lifecycle_owner": "private Body War OFSP planning owner via invoke:refresh",
+  "mirror_groups": [],
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "package_id": "body-war-ofsp-work-pack-audit-closeout-20260730T061441Z",
+  "publication_class": "private",
+  "schema_version": "1.0.0",
+  "source_artifacts": [
+    {
+      "authority_class": "private",
+      "path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md",
+      "sha256": "4070dd3edfb16bc55643f3308bb33f7378841d36495d0ea01345b50c8b4bad3e",
+      "size_bytes": 9650
+    },
+    {
+      "authority_class": "private",
+      "path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/readiness-runs/post-refresh-r2/work-pack-readiness-report.json",
+      "sha256": "3d4eac1c1d82e22038cf20f441a7ba50588800813925ff465d62b9b6c3b6bb97",
+      "size_bytes": 27330
+    },
+    {
+      "authority_class": "private",
+      "path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/readiness-runs/post-refresh-r2/REFRESH-SIGNAL-PACK.json",
+      "sha256": "2f2833e6cd066ce1c09e64c56ef29e19a082ad45ce18326344de187dbe9f96ae",
+      "size_bytes": 17124
+    },
+    {
+      "authority_class": "private",
+      "path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/refreshes/20260730T061441Z-work-pack-readiness-repair/MATERIAL-RECEIPT.json",
+      "sha256": "b29d9af53a9d7fcb6289dcda696951e77dcbf99a6a9e7cffe4c4c8abf80b3dbd",
+      "size_bytes": 2315
+    },
+    {
+      "authority_class": "private",
+      "path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/refreshes/20260730T061441Z-work-pack-readiness-repair/REFRESH-HANDOFF-RESULT.json",
+      "sha256": "9e97926eeea46a1edc7fe6e0133bf432d166458f698cc4af4bc390e1b15d92c9",
+      "size_bytes": 2846
+    }
+  ],
+  "target_inventory": [
+    {
+      "authority_class": "private",
+      "dependency_ids": [
+        "post-refresh-readiness-audit",
+        "prior-refresh-handoff"
+      ],
+      "lifecycle_owner": "private Body War OFSP planning owner via invoke:refresh",
+      "publication_class": "private",
+      "target_path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md"
+    }
+  ],
+  "validation_commands": [
+    "python3 arcanum/spells/work-pack-readiness-audit/scripts/audit_work_pack.py --config <final-config> --output-dir <final-audit-run>",
+    "git diff --check -- projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md"
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "schema_version": "body-war-view-atlas-browser-receipt/v1",
+  "status": "fail",
+  "started_at": "2026-07-30T05:36:18.600Z",
+  "completed_at": "2026-07-30T05:36:22.287Z",
+  "artifacts": {
+    "atlas": {
+      "path": "projects/body-war/ontology/business/BUSINESS-VIEW-ATLAS.html",
+      "sha256": "678cba651efb9bc7fb62b523139ec64daac34eca4d016a7d3aefacc54d140934",
+      "size_bytes": 843223
+    },
+    "atlas_catalog": {
+      "path": "projects/body-war/ontology/business/authoring/view-atlas-catalog.mjs",
+      "sha256": "9139690a402aba1ab4e3fd26dc644ca48e3120195cf784e22ec1689f16b20026",
+      "size_bytes": 5127
+    },
+    "projection": {
+      "path": "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+      "sha256": "f672d87d0270647e2a4995ea20b95352afecb5631beffbe03bdfb2bf971279c2",
+      "size_bytes": 7398
+    },
+    "renderer": {
+      "path": "projects/body-war/ontology/business/scripts/render-view-atlas.mjs",
+      "sha256": "8d98d2081f24fba62c6a7870c44e553f2f35f28b6950dd625525a207c339e4d3",
+      "size_bytes": 21038
+    },
+    "generator": {
+      "path": "projects/body-war/ontology/business/scripts/generate-views.mjs",
+      "sha256": "ff2f879259548718c66ffc155017d2ad430e924da6a8ebebb15488f92875d57a",
+      "size_bytes": 52870
+    },
+    "coverage_receipt": {
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-coverage-receipt.json",
+      "sha256": "962dc0b5fcf37ce1469bed8f5bc0ee1809548f23cc99f003e64d2a02e6683161",
+      "size_bytes": 1765
+    },
+    "profile": {
+      "path": "projects/body-war/ontology/business/profile.json",
+      "sha256": "cba6f78a7306dea9fbd6d97fd3d5d228d501e81839c20248e901f3067ec0b739",
+      "size_bytes": 5392
+    },
+    "relations": {
+      "path": "projects/body-war/ontology/business/relations/relations.json",
+      "sha256": "234ad4152b731edcb03cd1b45dfa21570bd37df741090ca6ca0940fd98c0ce00",
+      "size_bytes": 216899
+    },
+    "business_view": {
+      "path": "projects/body-war/ontology/business/views/business.json",
+      "sha256": "2897b9490c27960104a0dcdcbda899e6752795ab1f737cf181e7bc3f075d3d60",
+      "size_bytes": 2704
+    }
+  },
+  "runtime": {
+    "node": "v22.12.0",
+    "playwright_version": "1.59.1",
+    "playwright_module_path": "/home/vrondelli/.nvm/versions/node/v22.12.0/lib/node_modules/playwright",
+    "browser_name": "chromium",
+    "browser_version": "147.0.7727.15",
+    "browser_revision": "1217",
+    "executable_path": "/home/vrondelli/.cache/ms-playwright/chromium-1217/chrome-linux64/chrome",
+    "executable_sha256": "696170a79640ec5b50c7518140ace06c69a49cfb295bf527d4a85e26a12b89a7",
+    "viewport_modes": [
+      {
+        "width": 1365,
+        "height": 900,
+        "device_pixel_ratio": 1
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "device_pixel_ratio": 2
+      }
+    ],
+    "modes": [
+      "javascript",
+      "no-javascript",
+      "reduced-motion",
+      "print"
+    ],
+    "isolation": "fresh incognito context per mode; loopback random-port server; exact atlas path only; server and browser closed at completion"
+  },
+  "request_paths": [
+    "/BUSINESS-VIEW-ATLAS.html"
+  ],
+  "assertions": [
+    {
+      "id": "coverage-precondition",
+      "status": "pass",
+      "detail": "the exact deterministic coverage receipt passes before browser execution"
+    },
+    {
+      "id": "desktop-exact-structure",
+      "status": "pass",
+      "detail": "desktop DOM contains six lenses, 237 nodes, and 231 relations"
+    },
+    {
+      "id": "desktop-overview-default",
+      "status": "pass",
+      "detail": "enhanced default shows the six-lens overview without a selected lens"
+    },
+    {
+      "id": "lens-activation",
+      "status": "pass",
+      "detail": "ordinary lens anchor activates exactly one editorial lens"
+    },
+    {
+      "id": "overview-recovery",
+      "status": "pass",
+      "detail": "ordinary overview anchor restores the search and six-lens overview"
+    },
+    {
+      "id": "search-exact-runner",
+      "status": "pass",
+      "detail": "search returns the one canonical Runner target"
+    },
+    {
+      "id": "search-focus-transfer",
+      "status": "pass",
+      "detail": "search navigation focuses the canonical Runner node"
+    },
+    {
+      "id": "portal-original-direction",
+      "status": "pass",
+      "detail": "the portal exposes its original source-lens to target-lens direction"
+    }
+  ],
+  "console_errors": [],
+  "page_errors": [],
+  "screenshots": {
+    "overview": {
+      "path": "receipts/view-atlas-overview.png",
+      "sha256": "501758b78542b5d9c7beb4a018d90e5c0e01e09cb063908ff4df2c18796d4b89",
+      "size_bytes": 557451
+    },
+    "portal": null
+  },
+  "failure": {
+    "name": "Error",
+    "message": "locator.click: Error: strict mode violation: locator('#relation-body-war\\\\.relation\\\\.provider-belongs-runner').locator('a[href=\"#node-body-war.business.entity.provider-account\"]') resolved to 2 elements:\n    1) <a href=\"#node-body-war.business.entity.provider-account\">ProviderAccount</a> aka locator('[id=\"relation-body-war.relation.provider-belongs-runner\"]').getByRole('link', { name: 'ProviderAccount' })\n    2) <a href=\"#node-body-war.business.entity.provider-account\">Open target endpoint</a> aka locator('[id=\"relation-body-war.relation.provider-belongs-runner\"] > .portal-actions > a:nth-child(2)')\n\nCall log:\n\u001b[2m  - waiting for locator('#relation-body-war\\\\.relation\\\\.provider-belongs-runner').locator('a[href=\"#node-body-war.business.entity.provider-account\"]')\u001b[22m\n",
+    "stack": "locator.click: Error: strict mode violation: locator('#relation-body-war\\\\.relation\\\\.provider-belongs-runner').locator('a[href=\"#node-body-war.business.entity.provider-account\"]') resolved to 2 elements:\n    1) <a href=\"#node-body-war.business.entity.provider-account\">ProviderAccount</a> aka locator('[id=\"relation-body-war.relation.provider-belongs-runner\"]').getByRole('link', { name: 'ProviderAccount' })\n    2) <a href=\"#node-body-war.business.entity.provider-account\">Open target endpoint</a> aka locator('[id=\"relation-body-war.relation.provider-belongs-runner\"] > .portal-actions > a:nth-child(2)')\n\nCall log:\n\u001b[2m  - waiting for locator('#relation-body-war\\\\.relation\\\\.provider-belongs-runner').locator('a[href=\"#node-body-war.business.entity.provider-account\"]')\u001b[22m\n\n    at /home/vrondelli/projects/domainspec-core/projects/body-war/ontology/business/scripts/validate-view-atlas-browser.mjs:235:6"
+  },
+  "human_comprehension_state": "not-run",
+  "accessibility_conformance_state": "not-claimed",
+  "authority_effect": "none",
+  "release_admission": "not-granted",
+  "claim_ceiling": "Pinned browser structure and interaction evidence only; no human comprehension, accessibility conformance, ontology promotion, release, deployment, or production evidence."
+}

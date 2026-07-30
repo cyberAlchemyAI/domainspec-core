@@ -1,0 +1,98 @@
+{
+  "schema_version": "body-war-task-session-execution-receipt/v1",
+  "task_id": "body-war-business-ontology-view-atlas",
+  "swu_id": "SWU-BWVA-003",
+  "status": "pass",
+  "finished_at": "2026-07-30T05:41:24Z",
+  "mutation_admission": {
+    "verdict": "admit",
+    "attempt": 3,
+    "request_digest": "e76264c2969c2f08bf01dcfde84dcc26fd6f171957fdf1a846070a2da2d036fa",
+    "material_package_digest": "74edd385aee4e3d2541d6d852145df36511eccffb645f3048a9d7ba36a887721"
+  },
+  "dependency_receipt": "projects/body-war/development/task-sessions/SWU-BWVA-002/EXECUTION-RECEIPT.json",
+  "material_exactness": "pass",
+  "browser_runtime": {
+    "playwright_version": "1.59.1",
+    "browser": "chromium",
+    "browser_revision": "1217",
+    "browser_version": "147.0.7727.15",
+    "executable_path": "/home/vrondelli/.cache/ms-playwright/chromium-1217/chrome-linux64/chrome",
+    "executable_sha256": "696170a79640ec5b50c7518140ace06c69a49cfb295bf527d4a85e26a12b89a7"
+  },
+  "validation": [
+    {
+      "command": "node projects/body-war/ontology/business/scripts/validate-view-atlas-browser.mjs",
+      "status": "pass",
+      "passed": 21,
+      "failed": 0,
+      "modes": [
+        "desktop",
+        "mobile",
+        "no-javascript",
+        "reduced-motion",
+        "print"
+      ]
+    },
+    {
+      "command": "node projects/body-war/ontology/business/scripts/generate-views.mjs --check",
+      "status": "pass",
+      "summary": "all three generated HTML projections current"
+    },
+    {
+      "command": "node --test atlas projection, atlas render, and existing view tests",
+      "status": "pass",
+      "passed": 21,
+      "failed": 0
+    },
+    {
+      "command": "node projects/body-war/ontology/business/scripts/validate.mjs",
+      "status": "pass",
+      "summary": "237 nodes, 231 relations, 11 lifecycle policies, 34 sources, 6 residue items"
+    },
+    {
+      "command": "git diff --check -- scoped Body War atlas paths",
+      "status": "pass"
+    }
+  ],
+  "outputs": {
+    "browser_receipt": {
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-browser-receipt.json",
+      "sha256": "1ba089ef3dbb7dd029c82cb36d0e3cdeb753c22d4d337acdef7e0675534690a7"
+    },
+    "overview_screenshot": {
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-overview.png",
+      "sha256": "501758b78542b5d9c7beb4a018d90e5c0e01e09cb063908ff4df2c18796d4b89"
+    },
+    "portal_screenshot": {
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-portal.png",
+      "sha256": "39ece035f1a2b08ebeb2316ca8c201b02f3b30a4bc17c3ac2587307751831c18"
+    },
+    "browser_harness": {
+      "path": "projects/body-war/ontology/business/scripts/validate-view-atlas-browser.mjs",
+      "sha256": "6b399358036014ca2514564628676aaf348c4114538dae36e15648a916eb1a74"
+    }
+  },
+  "failed_attempts_preserved": [
+    {
+      "attempt": 1,
+      "path": "projects/body-war/development/task-sessions/SWU-BWVA-003/attempts/attempt-1-browser-receipt.json",
+      "sha256": "5621dd69c0134588ee7eab02dfc9ebc3773bb096ee329b5eae68a9fc474bbbea"
+    },
+    {
+      "attempt": 2,
+      "path": "projects/body-war/development/task-sessions/SWU-BWVA-003/attempts/attempt-2-browser-receipt.json",
+      "sha256": "2a62fc96b987391062397d34530afb7c1b9a4f45993448ddc6c5f1891caac98b"
+    }
+  ],
+  "semantic_input_digests": {
+    "nodes": "f74785ed18002fe0636519685711de8cd2f85e59f0eadb7de58d84faec399229",
+    "relations": "234ad4152b731edcb03cd1b45dfa21570bd37df741090ca6ca0940fd98c0ce00",
+    "lifecycle_policies": "62e5a3e499f553d305d9c214f040d9430afbc35bccf7088a16da66cdaae12438",
+    "profile": "cba6f78a7306dea9fbd6d97fd3d5d228d501e81839c20248e901f3067ec0b739",
+    "residue": "796b56b8d7ad0e341646ac3df0970317e958509c0e6a2d712502d8e2ca65032f",
+    "business_view": "2897b9490c27960104a0dcdcbda899e6752795ab1f737cf181e7bc3f075d3d60"
+  },
+  "blockers": [],
+  "claim_ceiling": "Pinned local browser structure and interaction evidence only; no human comprehension, accessibility conformance, ontology promotion, release, deployment, or production evidence."
+}

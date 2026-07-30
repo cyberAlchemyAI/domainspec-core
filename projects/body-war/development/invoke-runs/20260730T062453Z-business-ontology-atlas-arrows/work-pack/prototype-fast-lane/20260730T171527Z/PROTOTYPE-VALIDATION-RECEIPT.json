@@ -1,0 +1,177 @@
+{
+  "schema_version": "body-war.prototype-fast-lane-validation.v1",
+  "created_at": "2026-07-30T17:15:27Z",
+  "status": "pass",
+  "execution_lane": "candidate-local-prototype-fast-lane",
+  "work_pack": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/WORK-PACK.md",
+  "ordered_scope": [
+    "SWU-BWAA-001",
+    "SWU-BWAA-002",
+    "SWU-BWAA-005",
+    "SWU-BWAA-003",
+    "SWU-BWAA-004"
+  ],
+  "product_result": "complete-for-local-prototype-testing",
+  "governance_synchronization": "complete-candidate-local",
+  "handoff_notice": {
+    "code": "HN-09A63FD11D94",
+    "digest": "09a63fd11d944736caae8090a664838e6b2a9071bc894668fd5d6831c0d85ae1",
+    "message": ".arcanum/handoff-notices/notices/HN-09A63FD11D94.md",
+    "status": "open",
+    "next_owner": "sigil-development",
+    "integrity": "pass",
+    "transport": "local-only"
+  },
+  "behaviors": {
+    "directed_lens_flows": {
+      "status": "pass",
+      "flow_count": 13,
+      "portal_relation_count": 109
+    },
+    "exact_relation_arrows": {
+      "status": "pass",
+      "relation_arrow_count": 231
+    },
+    "source_backed_reference_briefs": {
+      "status": "pass",
+      "node_briefs": 237,
+      "relation_briefs": 231,
+      "lens_briefs": 6,
+      "predicate_briefs": 23
+    },
+    "whole_ontology_overview": {
+      "status": "pass",
+      "lens_count": 6,
+      "semantic_lane_count": 13,
+      "lane_relation_count": 109
+    },
+    "responsive_static_browser_acceptance": {
+      "status": "pass",
+      "assertions_passed": 43,
+      "assertions_failed": 0
+    }
+  },
+  "coverage": {
+    "node_count": 237,
+    "relation_count": 231,
+    "internal_relation_count": 122,
+    "portal_relation_count": 109,
+    "zero_degree_node_count": 44
+  },
+  "live_validation": [
+    {
+      "command": "node projects/body-war/ontology/business/scripts/generate-views.mjs",
+      "result": "pass",
+      "evidence": "regenerated six graph views, one featured relation example, two journey stories, five lifecycle views, and three HTML projections"
+    },
+    {
+      "command": "node --test projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs projects/body-war/ontology/business/tests/business-views.test.mjs projects/body-war/ontology/business/tests/business-ontology.test.mjs",
+      "result": "pass",
+      "evidence": "34 passed, 0 failed"
+    },
+    {
+      "command": "node projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "result": "pass",
+      "evidence": "237 nodes, 231 relations, 13 directed lens flows, 109 portal relations, and 44 zero-degree nodes"
+    },
+    {
+      "command": "node projects/body-war/ontology/business/scripts/validate-view-atlas-browser.mjs",
+      "result": "pass",
+      "evidence": "43 passed, 0 failed; bound to SWU-BWAA-003 revalidation evidence and accepted by the terminal SWU-BWAA-004 receipt across JavaScript, no-JavaScript, desktop, mobile, reduced-motion, 200 percent text, print, and network-isolation modes"
+    },
+    {
+      "command": "git diff --check -- declared atlas implementation, test, generated artifact, browser receipt, and screenshot targets",
+      "result": "pass",
+      "evidence": "no scoped whitespace errors"
+    },
+    {
+      "command": "visual sanity inspection of declared desktop overview and mobile exact-relation screenshots",
+      "result": "pass",
+      "evidence": "both screenshots are nonblank and show the expected atlas surfaces"
+    }
+  ],
+  "browser_evidence": {
+    "receipt": {
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-browser-receipt.json",
+      "sha256": "9ebe5c590308e1f14f265996c59c962dc246347642abd41d2014aa95a2114969"
+    },
+    "playwright_version": "1.59.1",
+    "chromium_revision": "1217",
+    "console_errors": 0,
+    "page_errors": 0,
+    "failed_requests": 0,
+    "external_requests": 0,
+    "browser_closed": true,
+    "loopback_server_closed": true,
+    "screenshots": [
+      {
+        "path": "projects/body-war/ontology/business/receipts/view-atlas-arrow-overview.png",
+        "sha256": "d59422c3b86f814acefa42d60999c0e92b1ced573568bfd4474be61423eedcc7"
+      },
+      {
+        "path": "projects/body-war/ontology/business/receipts/view-atlas-arrow-relation-mobile.png",
+        "sha256": "11b88c052be9dd4b95ebff2b02c93be6e28123a3ce9303b81b4808377a0d85b7"
+      }
+    ]
+  },
+  "lifecycle_evidence": {
+    "work_pack_status": "implementation-complete-candidate-local",
+    "work_pack_gate_status": "pass-candidate-local-implementation",
+    "closeout_sync_status": "pass",
+    "continuation_state": "implementation-complete-candidate-local",
+    "continuation_next_route": "none:candidate-local-prototype-complete",
+    "terminal_receipts_present": 5,
+    "final_swu_receipt": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-004.receipt.json",
+      "sha256": "abc959f00c3ef1fa5a4fd1f91c7a13dd19e79c0a9fef759bdee0c0b46d486b89",
+      "result": "pass"
+    }
+  },
+  "validated_artifacts": [
+    {
+      "path": "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+      "sha256": "2552fcee789edba182d86ce906ea20214c4f9fa43a71095094da5e2f3c23e1e6"
+    },
+    {
+      "path": "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "sha256": "0479bb0c7f4c3fa25e77f2127a972c87f71b08844304ef7b6e22456875a007bd"
+    },
+    {
+      "path": "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+      "sha256": "3e4f1a8f26d6f4bf0067460b2ca0f262e53b3ab19282cb13289a1d02c622aadd"
+    },
+    {
+      "path": "projects/body-war/ontology/business/scripts/render-view-atlas.mjs",
+      "sha256": "ce2aad02f4d393788f44f3f7651d12b41b5027b7635364f23e6a3349ac6f4775"
+    },
+    {
+      "path": "projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs",
+      "sha256": "1974983d7a921c0c704962c960e01646cad4d6d75faceec05ad500946bcd2e5c"
+    },
+    {
+      "path": "projects/body-war/ontology/business/BUSINESS-VIEW-ATLAS.html",
+      "sha256": "aa57fe2081f57bab2d8351fbb708b949dcf595d8cf6809ecd60f1eec6c526e75"
+    },
+    {
+      "path": "projects/body-war/ontology/business/scripts/validate-view-atlas-browser.mjs",
+      "sha256": "ec260fae5d5c433490c2821ccb3401e882bf2d6237eb7019c57fda39a8de85b8"
+    },
+    {
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-coverage-receipt.json",
+      "sha256": "d1ff9073f3b6ffa86e4de71adccfa3ad4c314f18910896e6cfd603392a1c3b63"
+    }
+  ],
+  "repairs_during_validation": [
+    "reference briefs now open on pointer hover and keyboard focus, while click or Enter persists the disclosure",
+    "reference briefs remain source-visible without JavaScript and reopen for print media"
+  ],
+  "blockers": [],
+  "residue": [
+    "SWU-BWAA-001 and SWU-BWAA-002 remain flag-complete with their non-product lifecycle residues explicitly recorded in the canonical Work Pack and Continuation.",
+    "Automatic Task Session prepare, reconciliation, and closeout hooks remain deferred to HN-09A63FD11D94.",
+    "Human comprehension and formal accessibility-conformance studies were not run."
+  ],
+  "authority_effect": "none",
+  "release_admission": "not-granted",
+  "claim_ceiling": "Complete candidate-local ontology atlas prototype and browser evidence for local testing only; no ontology promotion, human comprehension, accessibility conformance, release, deployment, or production claim."
+}

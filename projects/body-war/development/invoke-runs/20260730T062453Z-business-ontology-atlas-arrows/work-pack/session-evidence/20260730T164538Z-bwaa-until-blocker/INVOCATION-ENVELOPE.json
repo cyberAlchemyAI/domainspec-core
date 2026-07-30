@@ -1,0 +1,62 @@
+{
+  "timestamp": "2026-07-30T16:49:35Z",
+  "run_id": "task-session-until-blocker-bwaa-20260730T164538Z",
+  "session_id": "20260730T164538Z-bwaa-until-blocker",
+  "sigil": "task-session-until-blocker",
+  "tier": "spells",
+  "mode": "execute",
+  "evidence": {
+    "status": "partial",
+    "refs": [
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T164538Z-bwaa-until-blocker/CHAIN-REPORT.md",
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T164538Z-bwaa-until-blocker/SWU-BWAA-001-DRIFT-RECEIPT.json",
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T164538Z-bwaa-until-blocker/CONTINUATION-HANDOFF.json"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Execute the ordered Body War atlas-arrows Work Pack until the first blocker.",
+    "intent": "Run one fresh Task Session per SWU and stop on the first governed blocker."
+  },
+  "execution": {
+    "status": "blocked",
+    "outputs": [
+      "Frozen five-SWU frontier",
+      "Persisted SWU-BWAA-001 closeout prerequisite preflight",
+      "Write-target drift receipt",
+      "Stable continuation handoff"
+    ],
+    "files_changed": [
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T164538Z-bwaa-until-blocker"
+    ],
+    "validation": [
+      "SWU-BWAA-001 semantic locks remained exact",
+      "Selective generated-skill sync previews reported no package delta",
+      "Observed product postimages equal the admitted staged package outputs",
+      "Observed coverage receipt reports 13 flows and 109 assigned portal relations",
+      "Task Session terminal receipt remains absent"
+    ],
+    "notes": "The chain did not mutate product targets. Concurrent write-target drift invalidated the selected context before mutation admission, so execution stopped at SWU-BWAA-001."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "input",
+        "severity": "high",
+        "summary": "Live write targets changed after baseline capture and before Task Session admission.",
+        "evidence": "SWU-BWAA-001-DRIFT-RECEIPT.json binds all three expected preimages and observed staged-equivalent postimages."
+      },
+      {
+        "category": "process",
+        "severity": "high",
+        "summary": "Staged-equivalent product bytes and coverage evidence exist without a Task Session terminal receipt or writer attribution.",
+        "evidence": "The closeout receipt path is absent while the three targets and coverage receipt have new timestamps and hashes."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "timestamp": "2026-07-30T06:28:39Z",
+  "run_id": "invoke-refresh-body-war-ofsp-readiness-20260730T061441Z",
+  "session_id": "20260730T050022Z-ontology-focus-scene-pivot",
+  "sigil": "invoke",
+  "tier": "spell",
+  "mode": "refresh",
+  "lineage": {
+    "parent_run_id": "spellcraft-work-pack-readiness-audit-20260730T062839Z",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "work-pack-readiness-audit",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "audit"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/refreshes/20260730T061441Z-work-pack-readiness-repair/REFRESH-REPORT.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/refreshes/20260730T061441Z-work-pack-readiness-repair/REFRESH-APPLY-RECEIPT.json",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/readiness-runs/post-refresh-final-handoff/work-pack-readiness-report.json"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Use the reusable readiness audit evidence to refresh the Body War ontology focus-scene work pack.",
+    "intent": "Apply exact plan repairs while preserving runtime and authority blockers."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "REFRESH-REPORT.md",
+      "refresh-report.json",
+      "REFRESH-APPLY-RECEIPT.json",
+      "three material package and handoff receipt pairs",
+      "final readiness report"
+    ],
+    "files_changed": [
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/CONTINUATION.json",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/TASK-SESSION-RECEIPT.schema.json",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/"
+    ],
+    "validation": [
+      "three material package receipts pass and handoffs are ready",
+      "12 admitted deltas applied across 11 unique paths",
+      "private receipt adversaries 8/8",
+      "final plan contracts 29/29 pass",
+      "final receipt semantics pass",
+      "final handoff route pass",
+      "final runtime admission remains block 0/29"
+    ],
+    "notes": "Refresh apply is complete and ready. Target implementation remains blocked by 22 material-package and seven Task Session task-class admission gaps; selected_swu remains none."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "high",
+        "summary": "Task Session lacks a truthful admitted route for output-only and audit-only work.",
+        "evidence": "Final audit retains seven non-material task-class blockers."
+      },
+      {
+        "category": "input",
+        "severity": "high",
+        "summary": "Material units require per-selection exact material packages.",
+        "evidence": "Final audit retains 22 material-package admission blockers."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md"
+}

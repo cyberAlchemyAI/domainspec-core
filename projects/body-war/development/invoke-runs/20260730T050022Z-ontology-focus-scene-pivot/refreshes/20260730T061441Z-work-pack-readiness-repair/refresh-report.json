@@ -1,0 +1,176 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    {
+      "id": "OFSP-WPA-COMMANDS",
+      "signal_type": "blocker_opened",
+      "source_path": "readiness-runs/pre-refresh-r2/REFRESH-SIGNAL-PACK.json",
+      "claim": "24 units lacked exact argv contracts"
+    },
+    {
+      "id": "OFSP-WPA-CLOSURE",
+      "signal_type": "blocker_opened",
+      "source_path": "readiness-runs/pre-refresh-r2/REFRESH-SIGNAL-PACK.json",
+      "claim": "three closure tasks were rows rather than full contracts"
+    },
+    {
+      "id": "OFSP-WPA-RECEIPT",
+      "signal_type": "blocker_opened",
+      "source_path": "readiness-runs/pre-refresh-r2/REFRESH-SIGNAL-PACK.json",
+      "claim": "terminal receipt semantics were fail-open"
+    },
+    {
+      "id": "OFSP-WPA-ATTEMPTS",
+      "signal_type": "blocker_opened",
+      "source_path": "readiness-runs/pre-refresh-r2/REFRESH-SIGNAL-PACK.json",
+      "claim": "five attempt lifecycles lacked identity and teardown"
+    },
+    {
+      "id": "OFSP-WPA-RUNTIME",
+      "signal_type": "blocker_opened",
+      "source_path": "readiness-runs/post-refresh-final-handoff/REFRESH-SIGNAL-PACK.json",
+      "claim": "22 material and seven non-material units remain runtime blocked"
+    },
+    {
+      "id": "OFSP-WPA-HANDOFF",
+      "signal_type": "artifact_drift",
+      "source_path": "CONTINUATION.json",
+      "claim": "continuation exposed a ready route while work pack was blocked"
+    }
+  ],
+  "targetArtifacts": [
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/CONTINUATION.json",
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/TASK-SESSION-RECEIPT.schema.json",
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md",
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/shared/CLOSEOUT-CONTRACT.md",
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/shared/COMMAND-MATRIX.json",
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/shared/CONTEXT.md",
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/shared/test-task-session-receipt.py",
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/shared/validate-task-session-receipt.py",
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/tasks/TASK-CLOSURE.md",
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/tasks/TASK-FOUNDATION.md",
+    "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/tasks/TASK-PACKAGE.md"
+  ],
+  "deltaSummary": [
+    {
+      "delta": "evidence_added",
+      "count": 4
+    },
+    {
+      "delta": "blocker_resolved",
+      "count": 42
+    },
+    {
+      "delta": "status_changed",
+      "count": 2
+    },
+    {
+      "delta": "route_changed",
+      "count": 1
+    }
+  ],
+  "proposedChanges": [
+    "repair ten readiness-contract paths",
+    "close the same-scope work-pack audit status",
+    "repair the stale continuation route"
+  ],
+  "appliedChanges": [
+    {
+      "package_id": "body-war-ofsp-work-pack-readiness-repair-20260730T061441Z",
+      "path_count": 10,
+      "signal_ids": [
+        "OFSP-WPA-COMMANDS",
+        "OFSP-WPA-CLOSURE",
+        "OFSP-WPA-RECEIPT",
+        "OFSP-WPA-ATTEMPTS"
+      ]
+    },
+    {
+      "package_id": "body-war-ofsp-work-pack-audit-closeout-20260730T061441Z",
+      "path_count": 1,
+      "signal_ids": [
+        "OFSP-WPA-RUNTIME"
+      ]
+    },
+    {
+      "package_id": "body-war-ofsp-continuation-route-repair-20260730T061441Z",
+      "path_count": 1,
+      "signal_ids": [
+        "OFSP-WPA-HANDOFF"
+      ]
+    }
+  ],
+  "skippedChanges": [],
+  "materialPackages": [
+    {
+      "packageId": "body-war-ofsp-work-pack-readiness-repair-20260730T061441Z",
+      "packageDigest": "a574c24a7c793155a08f5a8c7fc823a6ea352cdb6187f6116a4c8c1d4093e063",
+      "patchVerdict": "pass",
+      "mutationHandoff": "ready",
+      "validatedPathCount": 10
+    },
+    {
+      "packageId": "body-war-ofsp-work-pack-audit-closeout-20260730T061441Z",
+      "packageDigest": "37c2c238dd0045b4846d18d52a1dc4f91cbc3abf63f8ff251de33fae5e5e064f",
+      "patchVerdict": "pass",
+      "mutationHandoff": "ready",
+      "validatedPathCount": 1
+    },
+    {
+      "packageId": "body-war-ofsp-continuation-route-repair-20260730T061441Z",
+      "packageDigest": "e000ec4433c07914693355ad26b808f6bac2ad90e9f707831716346560be5cfb",
+      "patchVerdict": "pass",
+      "mutationHandoff": "ready",
+      "validatedPathCount": 1
+    }
+  ],
+  "mutationReady": true,
+  "targetLifecycleReady": false,
+  "blockers": [
+    {
+      "id": "OFSP-MATERIAL-PACKAGE-ADMISSION",
+      "scope": "target-lifecycle",
+      "owner": "invoke material producer plus selected Task Session",
+      "status": "open",
+      "claim": "22 material SWUs lack current exact material-package admission"
+    },
+    {
+      "id": "OFSP-NON-MATERIAL-TASK-ADMISSION",
+      "scope": "target-lifecycle",
+      "owner": "task-session lifecycle via sigil-development",
+      "status": "open",
+      "claim": "four output-only and three audit-only units have no truthful routed execution mode"
+    }
+  ],
+  "nextRoute": "sigil-development:task-session-runtime-contract-repair",
+  "validation": [
+    {
+      "check": "public spell experiment harness",
+      "result": "pass",
+      "detail": "9/9"
+    },
+    {
+      "check": "private terminal receipt adversaries",
+      "result": "pass",
+      "detail": "8/8"
+    },
+    {
+      "check": "final work-pack readiness audit",
+      "result": "block-runtime-only",
+      "detail": "plan 29/29 pass; receipt pass; handoff pass; runtime 0/29"
+    },
+    {
+      "check": "selected SWU",
+      "result": "none"
+    }
+  ]
+}

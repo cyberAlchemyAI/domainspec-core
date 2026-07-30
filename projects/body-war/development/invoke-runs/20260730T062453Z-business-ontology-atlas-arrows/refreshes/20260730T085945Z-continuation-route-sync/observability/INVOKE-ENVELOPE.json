@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-07-30T09:04:43Z",
+  "run_id": "invoke-refresh-body-war-continuation-route-sync-20260730T085945Z",
+  "session_id": "20260730T085945Z-continuation-route-sync",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh"
+  },
+  "mode": "refresh",
+  "request": {
+    "summary": "Synchronize the Body War ontology atlas continuation route with its owning Invoke and Refresh reports."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "CONTINUATION.json",
+      "REFRESH-REPORT.md",
+      "refresh-report.json",
+      "material package, handoff, and apply receipts"
+    ],
+    "files_changed": [
+      "one approved continuation target",
+      "refresh evidence and observability artifacts"
+    ],
+    "validation": [
+      "one-target material package pass",
+      "refresh handoff ready",
+      "live and staged continuation bytes exact",
+      "next_route-only semantic delta",
+      "selection and authority ceilings preserved"
+    ],
+    "notes": "The refresh synchronizes planning state only. It selects and executes no SWU."
+  },
+  "evidence": {
+    "status": "complete",
+    "material_receipt_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T085945Z-continuation-route-sync/material/MATERIAL-RECEIPT.json",
+      "sha256": "79e501a7e461c69677b6eb4f7c750e951097bf18a89688147e790d435814eb3d",
+      "size_bytes": 1291
+    },
+    "handoff_result_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T085945Z-continuation-route-sync/material/REFRESH-HANDOFF-RESULT.json",
+      "sha256": "4c7d3286d8046d8602b084815de49f0939b8a860248ab4f8ddc16e77156b3d1e",
+      "size_bytes": 1812
+    },
+    "apply_receipt_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T085945Z-continuation-route-sync/APPLY-RECEIPT.json",
+      "sha256": "217eb26c7d10df25d35164214dc97d1d0de55e2a37220045a6990e7cae83b785",
+      "size_bytes": 379
+    },
+    "refresh_report_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T085945Z-continuation-route-sync/refresh-report.json",
+      "sha256": "a57406aad079c7fff8b08a02c2148f51dfa8c144d7cc8ba57a4ca69eeadd781c",
+      "size_bytes": 3399
+    }
+  },
+  "observer": {
+    "signals": [
+      "quality-pass",
+      "useful-pattern",
+      "rework"
+    ],
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none",
+    "rework_note": "One validation command used an incorrect relative evidence path and was immediately rerun with the explicit path before closeout."
+  },
+  "target_artifact": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/CONTINUATION.json"
+}

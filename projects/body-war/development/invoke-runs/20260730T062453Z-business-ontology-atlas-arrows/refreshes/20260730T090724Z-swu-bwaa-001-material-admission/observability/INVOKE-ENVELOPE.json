@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-07-30T09:15:22Z",
+  "run_id": "invoke-refresh-bwaa-swu001-20260730T090724Z",
+  "session_id": "20260730T090724Z-swu-bwaa-001-material-admission",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh"
+  },
+  "mode": "refresh",
+  "request": {
+    "raw": null,
+    "summary": "Refresh the blocked SWU-BWAA-001 route with exact producer material and Task Session admission evidence.",
+    "intent": "Resolve the missing-material-admission blocker without applying live product changes."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "three exact staged implementation post-images",
+      "strict Context Builder pack and exact target inventory",
+      "passing Invoke material package and producer receipt",
+      "ready Refresh material handoff",
+      "admitted Task Session 1.2 probe",
+      "closeout-owner contract and Task Session handoff"
+    ],
+    "files_changed": [
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission"
+    ],
+    "validation": [
+      "Inventory lookup readiness passed",
+      "strict context coverage passed",
+      "read-only helper completed and joined",
+      "staged projection tests passed 8 of 8",
+      "staged coverage validator passed with 13 flows and 109 portal IDs",
+      "material package validator passed with no reasons",
+      "Refresh handoff returned ready and mutationReady true",
+      "Task Session admission probe returned admit and mutationReady true",
+      "live three-target preimage hashes remained unchanged"
+    ],
+    "notes": "Invoke materialized execution inputs only. Task Session retains live mutation, validation, terminal receipt, and successor boundaries."
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      {
+        "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/refresh-report.json",
+        "sha256": "f49144481a53ca44d153ff9be0da18cbeb35277551590466e34df2151f825269",
+        "size_bytes": 4768
+      },
+      {
+        "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/material/MATERIAL-RECEIPT.json",
+        "sha256": "56a77500e3692a369a421c246c59fa983d7f3fea6f89edee44bb546e9e679e95",
+        "size_bytes": 1214
+      },
+      {
+        "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/TASK-SESSION-ADMISSION-PROBE-RECEIPT.json",
+        "sha256": "b57852262772e8c2fc707356028a0915a64f391be0ada94aa6ee9f14890fee5d",
+        "size_bytes": 2697
+      },
+      {
+        "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/TASK-SESSION-HANDOFF.json",
+        "sha256": "5ece8a61bdc2fc367051a82170eaf7f5d49234c715a159a0bad03823eb50e41e",
+        "size_bytes": 3628
+      }
+    ]
+  },
+  "observer": {
+    "signals": [
+      "quality-pass",
+      "rework",
+      "useful-pattern"
+    ],
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "medium",
+        "summary": "Refresh producer evidence initially exceeded Task Session 1.2's exact controlling-source and dependency frontiers.",
+        "evidence": "The first admission probe blocked on context-contract and frontier mismatches; narrowing producer sources to the three controls and dependencies to the empty SWU frontier produced admit."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/TASK-SESSION-HANDOFF.json"
+}

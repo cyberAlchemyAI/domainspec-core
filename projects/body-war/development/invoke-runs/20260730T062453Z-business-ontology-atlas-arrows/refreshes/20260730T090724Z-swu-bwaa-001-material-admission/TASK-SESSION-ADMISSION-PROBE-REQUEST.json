@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.2.0",
+  "executionMode": "routed-mutation",
+  "taskId": "TASK-BWAA-001",
+  "swuId": "SWU-BWAA-001",
+  "controlArtifacts": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/tasks/TASK-BWAA-001.md",
+      "sha256": "345e50e558ef216f0056ef3509e4973798c7dbfedb99472445a5057f85adb731",
+      "sizeBytes": 5024,
+      "role": "task-contract",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/WORK-PACK.md",
+      "sha256": "b2c9cd539888e7d62b094d04da219c4c927fd4e5a588949efb392f5a7416790e",
+      "sizeBytes": 8256,
+      "role": "work-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/CONTEXT-PACK.json",
+      "sha256": "6b54fa2b3310b5685087904de8b570b90c953dffeb36ad2cb03d71cf443fba0d",
+      "sizeBytes": 6676,
+      "role": "context-pack",
+      "authorityClass": "private"
+    }
+  ],
+  "dependencyFrontier": [],
+  "materialPackage": {
+    "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/material/MATERIAL-PACKAGE.json",
+    "sha256": "a99e33d185e87896515309ee73424d8d58af4a4c5998d02112764c9ec3b3045b",
+    "sizeBytes": 4716
+  },
+  "materialReceipt": {
+    "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/material/MATERIAL-RECEIPT.json",
+    "sha256": "56a77500e3692a369a421c246c59fa983d7f3fea6f89edee44bb546e9e679e95",
+    "sizeBytes": 1214
+  },
+  "producerReceiptSchema": {
+    "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+    "sizeBytes": 1719
+  },
+  "materialWrites": [
+    "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+    "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+    "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+  ],
+  "executionOutputs": [
+    "projects/body-war/ontology/business/receipts/view-atlas-coverage-receipt.json",
+    "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-001.receipt.json"
+  ],
+  "allowedWrites": [
+    "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+    "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+    "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+    "projects/body-war/ontology/business/receipts/view-atlas-coverage-receipt.json",
+    "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-001.receipt.json"
+  ],
+  "validationCommands": [
+    "node --test projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+    "node projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+    "git diff --check -- projects/body-war/ontology/business/scripts/view-atlas-projection.mjs projects/body-war/ontology/business/scripts/validate-view-atlas.mjs projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+  ],
+  "lifecycleOwner": "body-war.product-ontology-owner",
+  "authorityClass": "private",
+  "publicationClass": "internal"
+}

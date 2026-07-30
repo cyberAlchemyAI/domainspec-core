@@ -1,0 +1,363 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "body-war:business-ontology-atlas-arrows:design",
+  "target_id": "body-war.business-ontology-atlas-arrows",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "projects/body-war/ontology/business/scripts/render-view-atlas.mjs",
+        "digest": "8d98d2081f24fba62c6a7870c44e553f2f35f28b6950dd625525a207c339e4d3"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "existing typed SVG arrow implementation",
+        "path": "projects/body-war/ontology/business/scripts/generate-views.mjs",
+        "digest": "ff2f879259548718c66ffc155017d2ad430e924da6a8ebebb15488f92875d57a"
+      },
+      {
+        "selector": "pure lens and portal projection",
+        "path": "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+        "digest": "f672d87d0270647e2a4995ea20b95352afecb5631beffbe03bdfb2bf971279c2"
+      },
+      {
+        "selector": "atlas renderer contract tests",
+        "path": "projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs",
+        "digest": "bb9cd83e07a73fa19c17bff3083ac103fdb1b3324c2b420d4a791467205bd9bc"
+      },
+      {
+        "selector": "pinned browser validation seam",
+        "path": "projects/body-war/ontology/business/scripts/validate-view-atlas-browser.mjs",
+        "digest": "6b399358036014ca2514564628676aaf348c4114538dae36e15648a916eb1a74"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "projects/body-war/ontology/business/nodes",
+        "reason": "canonical candidate node inputs are read-only",
+        "evidence_ref": "SPEC.md#Non-Goals"
+      },
+      {
+        "selector": "projects/body-war/ontology/business/relations",
+        "reason": "admitted relation tuples are read-only",
+        "evidence_ref": "SPEC.md#Non-Goals"
+      },
+      {
+        "selector": "projects/body-war/ontology/business/lifecycle-policies",
+        "reason": "lifecycle meaning is outside arrow projection authority",
+        "evidence_ref": "SPEC.md#Non-Goals"
+      },
+      {
+        "selector": "projects/body-war/ontology/business/views/business.json",
+        "reason": "the business meaning branch remains unchanged",
+        "evidence_ref": "SPEC.md#Authority-Boundary"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "source:approved-arrow-spec",
+      "selector": "complete approved Define contract",
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "source_id": "source:arrow-glossary",
+      "selector": "projection vocabulary and forbidden collapses",
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/GLOSSARY.md",
+      "digest": "bd102d583adf515500796ec4381458fe90fa0d0d26e95619fc1c38208446d8ab"
+    },
+    {
+      "source_id": "source:prior-atlas-architecture",
+      "selector": "completed projection model and witnesses",
+      "path": "projects/body-war/development/invoke-runs/20260730T051037Z-business-ontology-view-atlas/ARCHITECTURE.md",
+      "digest": "c7844775c4ed1667bfbd0d93424d41079fc9e07efa4db6e14f8151e0d67975c6"
+    },
+    {
+      "source_id": "source:prior-atlas-ux",
+      "selector": "human navigation and responsive semantics",
+      "path": "projects/body-war/development/invoke-runs/20260730T051037Z-business-ontology-view-atlas/UX-PLAN.md",
+      "digest": "9f77f33bce25c3d70134f9526bca586122e325c6ae822d79ac3942d42bbf99b5"
+    },
+    {
+      "source_id": "source:completed-atlas-frontier",
+      "selector": "completed prior Invoke and evidence boundary",
+      "path": "projects/body-war/development/invoke-runs/20260730T051037Z-business-ontology-view-atlas/INVOKE-REPORT.md",
+      "digest": "b167fb8fca7edba39614264424ef79ee216e4c816011ecaca72ebb43b7b2a178"
+    },
+    {
+      "source_id": "source:coverage-receipt",
+      "selector": "exact current ontology projection denominator",
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-coverage-receipt.json",
+      "digest": "962dc0b5fcf37ce1469bed8f5bc0ee1809548f23cc99f003e64d2a02e6683161"
+    },
+    {
+      "source_id": "source:human-view-boundary",
+      "selector": "authority and browser admission boundaries",
+      "path": ".arcanum/inventory/entries/body-war-business-view-novice-comprehension-review-result-synthesis.md",
+      "digest": "efc899f4f6a83ab810f616c78da2b1be99cf4b9d5fcf1be56f44325ee5ca05e5"
+    },
+    {
+      "source_id": "source:profile",
+      "selector": "candidate-local authority and release ceiling",
+      "path": "projects/body-war/ontology/business/profile.json",
+      "digest": "cba6f78a7306dea9fbd6d97fd3d5d228d501e81839c20248e901f3067ec0b739"
+    }
+  ],
+  "human_actors": [
+    {
+      "actor_id": "actor:ontology-reader",
+      "natural_person": true,
+      "reads": true,
+      "decides": false,
+      "acts": true,
+      "recovers": true,
+      "navigates": true,
+      "assistive_operation": true,
+      "surfaces": [
+        "surface:atlas-arrow-overview",
+        "surface:atlas-relation-arrow",
+        "surface:atlas-reference-brief"
+      ],
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    }
+  ],
+  "rendered_surfaces": [
+    {
+      "surface_id": "surface:atlas-arrow-overview",
+      "modality": "static HTML and inline SVG with progressive enhancement",
+      "semantic_contract_ref": "SPEC.md#Overview-diagram",
+      "semantic_change": "changed",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "surface_id": "surface:atlas-relation-arrow",
+      "modality": "static HTML labels with decorative inline SVG shaft and arrowhead",
+      "semantic_contract_ref": "SPEC.md#Relation-diagram",
+      "semantic_change": "changed",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "surface_id": "surface:atlas-reference-brief",
+      "modality": "source-backed semantic HTML disclosure with hover focus touch no-JavaScript and print access",
+      "semantic_contract_ref": "SPEC.md#Reference-brief",
+      "semantic_change": "changed",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    }
+  ],
+  "interfaces": [
+    {
+      "interface_id": "interface:portals-to-lens-flow",
+      "kind": "deterministic local projection",
+      "peer": "existing view atlas projection",
+      "direction": "inbound",
+      "contract_ref": "SPEC.md#Lens-flow",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "interface_id": "interface:arrow-projection-to-html",
+      "kind": "generated static document",
+      "peer": "browser reader",
+      "direction": "outbound",
+      "contract_ref": "SPEC.md#Interface-Contracts",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    }
+  ],
+  "stores": [],
+  "queues": [],
+  "writers": [
+    {
+      "writer_id": "writer:atlas-arrow-generator",
+      "targets": [
+        "BUSINESS-VIEW-ATLAS.html",
+        "view-atlas-coverage-receipt.json",
+        "view-atlas-browser-receipt.json",
+        "arrow screenshots"
+      ],
+      "concurrency": "single deterministic generation and validation process",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    }
+  ],
+  "normative_rules": [
+    {
+      "rule_id": "rule:aggregate-only-overview",
+      "verb": "must group without synthesizing",
+      "subject": "overview lens-flow projection",
+      "object": "109 portal relation IDs into 13 ordered lens pairs",
+      "enforcement_hint": "pure grouping tests and total conservation",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "rule_id": "rule:exact-arrow-direction",
+      "verb": "must preserve",
+      "subject": "every relation arrow",
+      "object": "canonical identity source target direction predicate effect and owner",
+      "enforcement_hint": "exact tuple and accessible-sentence tests",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "rule_id": "rule:source-backed-reference-brief",
+      "verb": "must expose without inventing",
+      "subject": "node relation lens and predicate reference briefs",
+      "object": "available source data blockers residue related incidence and explicit missing-data statements across pointer keyboard touch no-JavaScript and print",
+      "enforcement_hint": "projection parity renderer coverage and pinned browser mode assertions",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "rule_id": "rule:text-carries-meaning",
+      "verb": "must expose",
+      "subject": "arrow presentation",
+      "object": "direction predicate effect and portal meaning without color or geometry dependence",
+      "enforcement_hint": "static DOM and browser assertions",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "rule_id": "rule:authority-none",
+      "verb": "must not admit",
+      "subject": "arrow projection",
+      "object": "ontology relation lifecycle promotion or release mutation",
+      "enforcement_hint": "read-only exclusions and semantic digest guards",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "effect:local-generated-arrow-projection",
+      "reversible": true,
+      "external": false,
+      "privileged": false,
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    }
+  ],
+  "data_and_log_sinks": [
+    {
+      "sink_id": "sink:arrow-validation-receipts",
+      "data_classes": [
+        "source and output digests",
+        "arrow assertion results",
+        "local browser runtime facts",
+        "local screenshots"
+      ],
+      "retention_hint": "repository-local evidence retained with the candidate projection",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    }
+  ],
+  "deployment_targets": [],
+  "compatibility_boundaries": [
+    {
+      "boundary_id": "compatibility:text-atlas-to-progressive-arrows",
+      "old_contract": "exact relation cards and portal navigation without graphical arrow shafts",
+      "new_contract": "same exact cards and navigation plus bounded overview relation arrows and source-backed reference briefs",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    }
+  ],
+  "quality_claims": [
+    {
+      "claim_id": "quality:arrow-conservation",
+      "source_kind": "source-derived structural invariant",
+      "threshold_or_tradeoff": "13 directed aggregate groups total 109 portal IDs and 231 exact relation arrows preserve the completed atlas denominator",
+      "required": true,
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "claim_id": "quality:responsive-arrow-reading",
+      "source_kind": "authored human-interface requirement",
+      "threshold_or_tradeoff": "source precedes target at desktop mobile no-JavaScript and print without horizontal document overflow",
+      "required": true,
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "claim_id": "quality:reference-brief-parity",
+      "source_kind": "source-derived semantic and interaction invariant",
+      "threshold_or_tradeoff": "237 node 231 relation six lens and 23 predicate briefs retain source data blockers residue and exact incidence across hover focus touch no-JavaScript and print without invented definitions",
+      "required": true,
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    }
+  ],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "acceptance:overview-groups",
+      "selector": "AC-BWAA-001",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "claim_id": "acceptance:relation-arrows",
+      "selector": "AC-BWAA-002",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "claim_id": "acceptance:tuple-preservation",
+      "selector": "AC-BWAA-003",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "claim_id": "acceptance:text-meaning",
+      "selector": "AC-BWAA-004",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "claim_id": "acceptance:responsive-static",
+      "selector": "AC-BWAA-005",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "claim_id": "acceptance:atlas-non-regression",
+      "selector": "AC-BWAA-006",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "claim_id": "acceptance:semantic-lock",
+      "selector": "AC-BWAA-007",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "claim_id": "acceptance:pinned-evidence",
+      "selector": "AC-BWAA-008",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    },
+    {
+      "claim_id": "acceptance:source-backed-reference-brief",
+      "selector": "AC-BWAA-009",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md",
+      "source_digest": "0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "60c8b021c964e856ead647d1efd89ba25f9c369a138f943feae6e6bee648a1c2",
+  "authored_by": "codex-invoke-design-author"
+}

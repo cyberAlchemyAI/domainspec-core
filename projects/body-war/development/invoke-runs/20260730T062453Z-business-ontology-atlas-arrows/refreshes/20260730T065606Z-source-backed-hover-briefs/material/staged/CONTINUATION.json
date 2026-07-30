@@ -1,0 +1,52 @@
+{
+  "schema_version": "body-war.invoke-continuation.v1",
+  "run_id": "20260730T062453Z-business-ontology-atlas-arrows",
+  "state": "awaiting-explicit-selection",
+  "authority_effect": "none",
+  "release_admission": "not-granted",
+  "automatic_execution": false,
+  "selected_swu": null,
+  "first_selectable_swu": "SWU-BWAA-001",
+  "selection_allowed": true,
+  "selection_requires": [
+    "explicit-user-selection",
+    "BWAA-SKILL-MIRROR-current-at-preflight",
+    "current-digest-locks",
+    "task-session-preflight",
+    "mutation-admission"
+  ],
+  "completed_gates": [
+    "define-pass",
+    "design-validator-pass",
+    "design-distill-pass",
+    "plan-distill-pass",
+    "work-pack-plan-contract-pass"
+  ],
+  "blockers": [
+    {
+      "id": "BWAA-DRIFT",
+      "scope": "target-lifecycle-preflight",
+      "state": "conditional",
+      "trigger": "semantic or write-target digest differs at Task Session preflight"
+    },
+    {
+      "id": "BWAA-PREDECESSOR",
+      "scope": "target-lifecycle-preflight",
+      "state": "conditional",
+      "trigger": "required predecessor receipt is absent or failed"
+    },
+    {
+      "id": "BWAA-RUNTIME",
+      "scope": "target-lifecycle-browser",
+      "state": "conditional",
+      "trigger": "shared Playwright runtime is unavailable for SWU-BWAA-004"
+    },
+    {
+      "id": "BWAA-SKILL-MIRROR",
+      "scope": "target-lifecycle-preflight",
+      "state": "resolved-currently-conditional",
+      "trigger": "generated .agents/skills capability mirror is missing or drifted"
+    }
+  ],
+  "next_route": "select-SWU-BWAA-001-then-task-session"
+}

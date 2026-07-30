@@ -1,0 +1,60 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "bwaa-001-closeout-20260730T165351Z",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "flag",
+    "receipt": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-001.receipt.json",
+    "blocker_fingerprint": "none-product-pass-audit-residue-bwaa-001-context-baseline-binding",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "Current user requested implementation of the complete declared work-pack frontier; Task Session derived a narrower receipt-bound closeout authorization."
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "Body War atlas planning owner",
+      "evidence": [
+        "SWU-BWAA-001 terminal receipt",
+        "declared closeout target inventory",
+        "unique declared successor SWU-BWAA-002"
+      ],
+      "required_inputs": [
+        "source terminal receipt",
+        "two target baselines",
+        "allowed delta classes",
+        "validation commands"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "body-war.invoke-closeout-owner-receipt.v1",
+      "fallback": "stop before SWU-BWAA-002"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The owner, exact targets, deltas, validation, and unique successor were declared before synchronization."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "inline-owner-isolation",
+    "owner_receipt": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T165351Z-swu-bwaa-001-closeout/INVOKE-OWNER-RECEIPT.json",
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "task-session",
+    "mode": "execute",
+    "target": "SWU-BWAA-002"
+  }
+}

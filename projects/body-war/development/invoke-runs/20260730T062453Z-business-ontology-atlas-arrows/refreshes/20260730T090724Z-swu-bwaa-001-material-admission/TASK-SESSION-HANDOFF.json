@@ -1,0 +1,68 @@
+{
+  "schema_version": "body-war.invoke-to-task-session-handoff.v1",
+  "created_at": "2026-07-30T09:15:22Z",
+  "source_capability": "invoke",
+  "source_mode": "refresh",
+  "target_capability": "task-session",
+  "task_id": "TASK-BWAA-001",
+  "swu_id": "SWU-BWAA-001",
+  "status": "ready",
+  "mutation_ready": true,
+  "admission_probe": {
+    "verdict": "admit",
+    "receipt": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/TASK-SESSION-ADMISSION-PROBE-RECEIPT.json",
+      "sha256": "b57852262772e8c2fc707356028a0915a64f391be0ada94aa6ee9f14890fee5d",
+      "size_bytes": 2697
+    },
+    "reasons": []
+  },
+  "material": {
+    "package_id": "body-war-bwaa-swu-001-material-admission-20260730T090724Z",
+    "canonical_package_digest": "905e2b76c704f0ed114b5601ae230e7fc8f3e812c68851bcd8b8164313e49e13",
+    "package": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/material/MATERIAL-PACKAGE.json",
+      "sha256": "a99e33d185e87896515309ee73424d8d58af4a4c5998d02112764c9ec3b3045b",
+      "size_bytes": 4716
+    },
+    "receipt": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/material/MATERIAL-RECEIPT.json",
+      "sha256": "56a77500e3692a369a421c246c59fa983d7f3fea6f89edee44bb546e9e679e95",
+      "size_bytes": 1214
+    },
+    "producer_receipt_schema": {
+      "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+      "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+      "size_bytes": 1719
+    }
+  },
+  "context_pack": {
+    "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/CONTEXT-PACK.json",
+    "sha256": "6b54fa2b3310b5685087904de8b570b90c953dffeb36ad2cb03d71cf443fba0d",
+    "size_bytes": 6676,
+    "strict_coverage": true
+  },
+  "closeout_owner_contract": {
+    "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/CLOSEOUT-OWNER-CONTRACT.json",
+    "sha256": "357b45c72cac995d167de307926aa3d633fd53bdaa77775c9dadcd6d852e4b34",
+    "size_bytes": 2746
+  },
+  "material_writes": [
+    "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+    "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+    "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+  ],
+  "execution_outputs": [
+    "projects/body-war/ontology/business/receipts/view-atlas-coverage-receipt.json",
+    "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-001.receipt.json"
+  ],
+  "validation_commands": [
+    "node --test projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+    "node projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+    "git diff --check -- projects/body-war/ontology/business/scripts/view-atlas-projection.mjs projects/body-war/ontology/business/scripts/validate-view-atlas.mjs projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+  ],
+  "live_product_mutation_started": false,
+  "successor_selection_authorized": false,
+  "authority_effect": "none",
+  "release_admission": "not-granted"
+}

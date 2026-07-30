@@ -1,0 +1,91 @@
+{
+  "schema_version": "invoke-refresh-signals.v1",
+  "evidence_date": "2026-07-30",
+  "activation_source": "direct-user",
+  "signals": [
+    {
+      "id": "BWAA-REFRESH-HOVER-001",
+      "source_path": "direct-user:2026-07-30",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "SPEC.md",
+        "ARCHITECTURE.md",
+        "UX-PLAN.md",
+        "WORK-PACK.md"
+      ],
+      "claim": "brief source-backed explanations must be available on hover and keyboard focus",
+      "evidence": "the user explicitly requested definitions and related data inside the interactive presentation",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "BWAA-REFRESH-NODE-DATA-002",
+      "source_path": "projects/body-war/ontology/business/schemas/node.schema.json",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "SPEC.md",
+        "ARCHITECTURE.md",
+        "UX-PLAN.md"
+      ],
+      "claim": "node briefs can be source-backed without schema mutation",
+      "evidence": "237 of 237 nodes have definitions; 29 are blocked; 21 carry blocking questions",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "BWAA-REFRESH-RELATION-DATA-003",
+      "source_path": "projects/body-war/ontology/business/schemas/relation.schema.json",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "SPEC.md",
+        "ARCHITECTURE.md",
+        "UX-PLAN.md"
+      ],
+      "claim": "relation briefs must not invent definitions",
+      "evidence": "231 relations have exact tuple/effect fields and complete projection phrases, but the relation schema has no definition field",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "BWAA-REFRESH-ATOMICITY-004",
+      "source_path": "HELPER-RECEIPT.md",
+      "signal_type": "status_changed",
+      "target_artifacts": [
+        "IMPLEMENTATION-LAYERING.md",
+        "WORK-PACK.md",
+        "EXECUTION-PACK.md",
+        "DISTILL-VALIDATION.md"
+      ],
+      "claim": "the Plan grows from four to five SWUs without changing the first selectable unit",
+      "evidence": "reference-brief rendering is independently testable and would make SWU 002 or 003 task-shaped if bundled",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "BWAA-REFRESH-BLOCKERS-005",
+      "source_path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/WORK-PACK.md#Blocker-And-Gap-Ledger",
+      "signal_type": "blocker_opened",
+      "target_artifacts": [
+        "WORK-PACK.md",
+        "CONTINUATION.json"
+      ],
+      "claim": "existing blockers remain and generated skill-mirror loss is a new conditional preflight blocker",
+      "evidence": "BWAA-DRIFT, BWAA-PREDECESSOR, and BWAA-RUNTIME remain open conditionally; 539 generated skill entries are currently deleted",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "BWAA-REFRESH-BLOCKERS-006",
+      "source_path": ".agents/skills/invoke/SKILL.md",
+      "signal_type": "blocker_resolved",
+      "target_artifacts": [
+        "WORK-PACK.md",
+        "CONTINUATION.json"
+      ],
+      "claim": "the generated skill mirror is present again but mirror loss remains a conditional Task Session preflight blocker",
+      "evidence": "invoke, context-builder, and dispatch-spec generated skill entrypoints are present at the final pre-apply check; unrelated task-session modifications remain untouched",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ]
+}

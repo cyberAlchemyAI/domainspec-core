@@ -1,0 +1,41 @@
+{
+  "schema_version": "body-war.invoke-closeout-owner-receipt.v1",
+  "run_id": "invoke-refresh-bwaa-003-closeout-20260730T170512Z",
+  "timestamp": "2026-07-30T17:05:12Z",
+  "capability": "invoke",
+  "mode": "refresh",
+  "transition_kind": "closeout-sync",
+  "activation_source": "continuation",
+  "mutation_mode": "apply-approved",
+  "result": "pass",
+  "source_receipt": {
+    "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-003.receipt.json",
+    "sha256": "2ef9369ad100732b296f4421c07c52777d358ddbee4a431bf6343e9e7246ee3d"
+  },
+  "target_inventory": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/WORK-PACK.md",
+      "baseline_sha256": "a0069175dbece0f02715cedac991244eabdb0a16b749e1affbbf211503bdea42",
+      "final_sha256": "395985ad688405f76d4cf114d17265177965e7293a37899dcba1fe4946b640b2"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/CONTINUATION.json",
+      "baseline_sha256": "87d38cb180b2cc0738c83e7dd03cbd4858ab11067149b644cb03b524dd1136d1",
+      "final_sha256": "e72d3e1e3ad0879d986d1d7eafd982cbe50a4821ad24a3ce6ba5acb2fc8a96c9"
+    }
+  ],
+  "applied_deltas": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "validation": [
+    "source receipt JSON parse pass",
+    "continuation JSON parse pass",
+    "scoped diff check pass",
+    "unique successor SWU-BWAA-004"
+  ],
+  "next_route": "task-session:execute:SWU-BWAA-004",
+  "authority_effect": "none",
+  "release_admission": "not-granted"
+}

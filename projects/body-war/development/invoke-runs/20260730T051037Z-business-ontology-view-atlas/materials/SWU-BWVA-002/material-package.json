@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "body-war-business-ontology-view-atlas-SWU-BWVA-002",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "body-war.product-ontology-owner",
+  "authority_class": "private",
+  "publication_class": "internal",
+  "source_artifacts": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260730T051037Z-business-ontology-view-atlas/work-pack/tasks/SWU-BWVA-002.md",
+      "sha256": "e24a7c98a534f307892bc3a684e8b9aa046df630762a5200a90e77c5ef5c455b",
+      "size_bytes": 2717,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260730T051037Z-business-ontology-view-atlas/work-pack/shared/EXECUTION-CONTROL.md",
+      "sha256": "9b52900a82fa7321db2ded74d9c5b64665017d9da6b0d696362c7d706479a1c7",
+      "size_bytes": 535,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260730T051037Z-business-ontology-view-atlas/work-pack/contexts/SWU-BWVA-002.context.json",
+      "sha256": "adc77bd8227444f47ad9718f907bd257bb715eb966c4d9e170e4abd4f1c93f35",
+      "size_bytes": 1607,
+      "authority_class": "private"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "projects/body-war/ontology/business/scripts/generate-views.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "projects/body-war/development/invoke-runs/20260730T051037Z-business-ontology-view-atlas/materials/SWU-BWVA-002/outputs/projects/body-war/ontology/business/scripts/generate-views.mjs",
+        "sha256": "ff2f879259548718c66ffc155017d2ad430e924da6a8ebebb15488f92875d57a",
+        "size_bytes": 52870
+      }
+    },
+    {
+      "target_path": "projects/body-war/ontology/business/scripts/render-view-atlas.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "projects/body-war/development/invoke-runs/20260730T051037Z-business-ontology-view-atlas/materials/SWU-BWVA-002/outputs/projects/body-war/ontology/business/scripts/render-view-atlas.mjs",
+        "sha256": "8d98d2081f24fba62c6a7870c44e553f2f35f28b6950dd625525a207c339e4d3",
+        "size_bytes": 21038
+      }
+    },
+    {
+      "target_path": "projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "projects/body-war/development/invoke-runs/20260730T051037Z-business-ontology-view-atlas/materials/SWU-BWVA-002/outputs/projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs",
+        "sha256": "bb9cd83e07a73fa19c17bff3083ac103fdb1b3324c2b420d4a791467205bd9bc",
+        "size_bytes": 4841
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "projects/body-war/ontology/business/scripts/generate-views.mjs",
+      "lifecycle_owner": "body-war.product-ontology-owner",
+      "authority_class": "private",
+      "publication_class": "internal",
+      "dependency_ids": [
+        "SWU-BWVA-001"
+      ]
+    },
+    {
+      "target_path": "projects/body-war/ontology/business/scripts/render-view-atlas.mjs",
+      "lifecycle_owner": "body-war.product-ontology-owner",
+      "authority_class": "private",
+      "publication_class": "internal",
+      "dependency_ids": [
+        "SWU-BWVA-001"
+      ]
+    },
+    {
+      "target_path": "projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs",
+      "lifecycle_owner": "body-war.product-ontology-owner",
+      "authority_class": "private",
+      "publication_class": "internal",
+      "dependency_ids": [
+        "SWU-BWVA-001"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "SWU-BWVA-001",
+      "artifact_ref": {
+        "path": "projects/body-war/development/task-sessions/SWU-BWVA-001/EXECUTION-RECEIPT.json",
+        "sha256": "950ad824433bce9a6006164c6122bdc470489a5d535b2810cbb0e93903d3274d",
+        "size_bytes": 2366
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "body-war.product-ontology-owner",
+    "scope_paths": [
+      "projects/body-war/ontology/business/scripts/generate-views.mjs",
+      "projects/body-war/ontology/business/scripts/render-view-atlas.mjs",
+      "projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs"
+    ],
+    "authority_classes": [
+      "private"
+    ],
+    "publication_classes": [
+      "internal"
+    ]
+  },
+  "validation_commands": [
+    "node projects/body-war/ontology/business/scripts/generate-views.mjs",
+    "node projects/body-war/ontology/business/scripts/generate-views.mjs --check",
+    "node --test projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs projects/body-war/ontology/business/tests/business-views.test.mjs",
+    "node projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+    "node projects/body-war/ontology/business/scripts/validate.mjs"
+  ]
+}

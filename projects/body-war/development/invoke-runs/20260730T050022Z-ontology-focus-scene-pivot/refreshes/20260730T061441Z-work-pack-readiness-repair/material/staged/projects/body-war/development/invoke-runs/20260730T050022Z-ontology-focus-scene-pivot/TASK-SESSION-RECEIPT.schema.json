@@ -1,0 +1,292 @@
+{
+  "$id": "body-war.invoke.task-session-terminal-receipt.v2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "pass"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "artifacts": {
+            "minItems": 1
+          },
+          "blockers": {
+            "maxItems": 0
+          },
+          "teardown_result": {
+            "enum": [
+              "pass",
+              "not-applicable"
+            ]
+          },
+          "validation": {
+            "minItems": 1
+          },
+          "validation_result": {
+            "const": "pass"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "block"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "blockers": {
+            "minItems": 1
+          },
+          "validation_result": {
+            "enum": [
+              "block",
+              "not-run"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "interrupted"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "blockers": {
+            "minItems": 1
+          },
+          "validation_result": {
+            "const": "not-run"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "artifacts": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "size_bytes": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "path",
+          "sha256",
+          "size_bytes"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "attempt_id": {
+      "minLength": 1,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "authority_effect": {
+      "const": "none"
+    },
+    "blockers": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "capability_ref": {
+      "const": "task-session"
+    },
+    "claim_ceiling": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "dispatch_id": {
+      "const": "body-war-ontology-focus-scene-pivot-20260730"
+    },
+    "execution_class": {
+      "enum": [
+        "material-mutation",
+        "output-only",
+        "audit-only",
+        "read-only-validation"
+      ]
+    },
+    "expected_closeout_receipt": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "files_touched": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "handoff_note": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "residue": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "run_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "body-war.invoke.task-session-terminal-receipt.v2"
+    },
+    "session_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "flag",
+        "block",
+        "interrupted"
+      ]
+    },
+    "step_id": {
+      "enum": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ]
+    },
+    "successor": {
+      "minLength": 1,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "teardown_result": {
+      "enum": [
+        "pass",
+        "block",
+        "not-applicable"
+      ]
+    },
+    "terminal_receipt_kind": {
+      "const": "task-session-terminal"
+    },
+    "unit_id": {
+      "pattern": "^(SWU-OFSP-[0-9]{3}|TASK-VERIFY|TASK-AUDIT-ALIGNMENT|TASK-AUDIT-LAYERING)$",
+      "type": "string"
+    },
+    "validation": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "argv": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "cwd": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "exit_code": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "cwd",
+          "argv",
+          "exit_code"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "validation_result": {
+      "enum": [
+        "pass",
+        "flag",
+        "block",
+        "not-run"
+      ]
+    },
+    "work_pack_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "session_id",
+    "dispatch_id",
+    "step_id",
+    "capability_ref",
+    "terminal_receipt_kind",
+    "status",
+    "unit_id",
+    "work_pack_sha256",
+    "successor",
+    "execution_class",
+    "files_touched",
+    "artifacts",
+    "validation",
+    "validation_result",
+    "blockers",
+    "residue",
+    "attempt_id",
+    "teardown_result",
+    "expected_closeout_receipt",
+    "authority_effect",
+    "claim_ceiling",
+    "handoff_note"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-07-30T05:48:26Z",
+  "run_id": "implementation-readiness-body-war-focus-scene-20260730T054826Z",
+  "session_id": "20260730T050022Z-ontology-focus-scene-pivot",
+  "sigil": "implementation-readiness",
+  "tier": "spell",
+  "mode": "dry-run",
+  "capability": {
+    "id": "implementation-readiness",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "dry-run",
+    "alias": null
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/IMPLEMENTATION-READINESS-DRY-RUN.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/EXECUTION-DISPATCH.json"
+    ]
+  },
+  "request": {
+    "raw": "can we do a dry run for each tasks to see if we are missing something?",
+    "summary": "Dry-run every Body War ontology focus-scene SWU and closure task without executing implementation.",
+    "intent": "Find missing dependencies, inputs, commands, runtime bindings, receipts, closeout contracts, and blocker decisions before selecting the first SWU."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "IMPLEMENTATION-READINESS-DRY-RUN.md"
+    ],
+    "files_changed": [
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/IMPLEMENTATION-READINESS-DRY-RUN.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/observability/IMPLEMENTATION-READINESS-ENVELOPE.json"
+    ],
+    "validation": [
+      "Reviewed 26 numeric SWUs and three closure tasks.",
+      "Verified a finite, unique, acyclic 29-unit successor frontier.",
+      "Verified live graph, upstream archive, Node, pinned pnpm, Playwright, and Chromium identities.",
+      "Confirmed exact executable commands in five of 26 numeric SWUs.",
+      "Adversarially tested the terminal receipt schema.",
+      "Confirmed zero product tasks executed and zero product files changed."
+    ],
+    "notes": "Audit completed. Readiness verdict is block-before-execution; selected_swu remains none."
+  },
+  "observer": {
+    "quality_bar_status": "block",
+    "anti_pattern_hits": [
+      "Planning pass was not treated as current Task Session runtime readiness.",
+      "Validation outcome prose was not treated as an executable command.",
+      "Schema presence was not treated as fail-closed receipt validation."
+    ],
+    "workflow_gaps": [
+      {
+        "id": "missing-mutation-admission",
+        "severity": "high",
+        "summary": "No producer-validated material package or mutation-admission inputs exist for the routed SWUs."
+      },
+      {
+        "id": "missing-command-matrix",
+        "severity": "high",
+        "summary": "Twenty-one of 26 numeric SWUs lack exact executable validation commands."
+      },
+      {
+        "id": "output-only-runtime-mismatch",
+        "severity": "high",
+        "summary": "Seven output-only units cannot satisfy the current minimum materialWrites admission shape."
+      },
+      {
+        "id": "receipt-closeout-contract",
+        "severity": "high",
+        "summary": "Terminal and owner-closeout receipts are conflated and the terminal schema is fail-open."
+      }
+    ],
+    "output_contract_drift": true,
+    "reflection_trigger": "severe-gap",
+    "recommendation": "repair-work-pack-before-selection"
+  },
+  "target_artifact": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/IMPLEMENTATION-READINESS-DRY-RUN.md"
+}

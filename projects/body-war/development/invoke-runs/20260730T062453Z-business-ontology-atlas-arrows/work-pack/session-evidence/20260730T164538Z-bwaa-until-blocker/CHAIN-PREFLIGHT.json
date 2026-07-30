@@ -1,0 +1,66 @@
+{
+  "schema_version": "task-session-until-blocker.preflight.v1",
+  "chain_id": "20260730T164538Z-bwaa-until-blocker",
+  "work_pack": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/WORK-PACK.md",
+  "work_pack_sha256": "b2c9cd539888e7d62b094d04da219c4c927fd4e5a588949efb392f5a7416790e",
+  "captured_frontier": [
+    "SWU-BWAA-001",
+    "SWU-BWAA-002",
+    "SWU-BWAA-005",
+    "SWU-BWAA-003",
+    "SWU-BWAA-004"
+  ],
+  "session_budget": 5,
+  "first_candidate": "SWU-BWAA-001",
+  "first_candidate_uniquely_ready": true,
+  "status": "invalidated-after-pass",
+  "per_swu": [
+    {
+      "swu_id": "SWU-BWAA-001",
+      "dependencies": "ready",
+      "task_contract": "pass-plan-level",
+      "material_admission": "invalidated-by-live-write-target-drift",
+      "closeout_preflight": "pass"
+    },
+    {
+      "swu_id": "SWU-BWAA-002",
+      "dependencies": "blocked-on-001",
+      "task_contract": "pass-plan-level",
+      "material_admission": "not-yet-evaluated",
+      "closeout_preflight": "not-yet-evaluated"
+    },
+    {
+      "swu_id": "SWU-BWAA-005",
+      "dependencies": "blocked-on-002",
+      "task_contract": "pass-plan-level",
+      "material_admission": "not-yet-evaluated",
+      "closeout_preflight": "not-yet-evaluated"
+    },
+    {
+      "swu_id": "SWU-BWAA-003",
+      "dependencies": "blocked-on-005",
+      "task_contract": "pass-plan-level",
+      "material_admission": "not-yet-evaluated",
+      "closeout_preflight": "not-yet-evaluated"
+    },
+    {
+      "swu_id": "SWU-BWAA-004",
+      "dependencies": "blocked-on-003",
+      "task_contract": "pass-plan-level",
+      "material_admission": "not-yet-evaluated",
+      "closeout_preflight": "not-yet-evaluated"
+    }
+  ],
+  "first_session_context": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/CONTEXT-PACK.json",
+  "first_session_material_receipt": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/material/MATERIAL-RECEIPT.json",
+  "first_session_admission_probe": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/TASK-SESSION-ADMISSION-PROBE-RECEIPT.json",
+  "first_session_closeout_preflight": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T164538Z-bwaa-until-blocker/CLOSEOUT-PREFLIGHT.json",
+  "blockers": [
+    "SWU-BWAA-001 live write targets changed after baseline capture and before Task Session mutation admission",
+    "the observed postimages equal the staged package, but no Task Session terminal receipt or writer attribution exists",
+    "WORK-PACK.md requires Invoke Refresh rather than in-session drift adoption"
+  ],
+  "product_mutation_started": false,
+  "observed_external_product_mutation": true,
+  "drift_receipt": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T164538Z-bwaa-until-blocker/SWU-BWAA-001-DRIFT-RECEIPT.json"
+}

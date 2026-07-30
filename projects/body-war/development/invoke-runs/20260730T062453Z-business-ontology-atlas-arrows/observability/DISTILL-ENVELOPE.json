@@ -1,0 +1,79 @@
+{
+  "timestamp": "2026-07-30T06:39:52Z",
+  "run_id": "distill-body-war-business-ontology-atlas-arrows-20260730T062453Z",
+  "session_id": "20260730T062453Z-business-ontology-atlas-arrows",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "validate",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "validate",
+    "alias": null
+  },
+  "lineage": {
+    "parent_run_id": "invoke-body-war-business-ontology-atlas-arrows-20260730T062453Z",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spells",
+      "mode": "define-design-plan"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "distill_run_request_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/observability/distill-run-request.json",
+      "sha256": "d990b6b2d3989c4c9c81f6076351e20c8b6e5d155bf63f5841b71cb2b076a3ab",
+      "size_bytes": 1699
+    },
+    "runtime_event_refs": [],
+    "execution_receipt_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/observability/DISTILL-EXECUTION-RECEIPT.json",
+      "sha256": "92bb7f853bc7b10ee77ea65c9dda7f6c3f022aa4004e9a3bdec44e66cd997757",
+      "size_bytes": 989
+    },
+    "validation_result_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/DISTILL-VALIDATION.md",
+      "sha256": "fdd9cb3b94f4f16e129d854c3fb62b2267a69cc758d6b342aa108a0581a2c6ff",
+      "size_bytes": 3069
+    }
+  },
+  "request": {
+    "raw": null,
+    "summary": "Validate the four-SWU arrow atlas Plan for atomicity, first-unit narrowness, recomposition, and hidden gaps.",
+    "intent": "Prevent a task-shaped renderer plan from reaching mutation-capable handoff."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/DISTILL-VALIDATION.md"
+    ],
+    "files_changed": [
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/DISTILL-VALIDATION.md",
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/observability/distill-run-request.json",
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/observability/DISTILL-EXECUTION-RECEIPT.json",
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/observability/DISTILL-ENVELOPE.json"
+    ],
+    "validation": [
+      "four unique SWU IDs",
+      "four task-local implementation-detail specs",
+      "four closeout rows",
+      "four layer-mapped waves",
+      "zero task-shaped SWUs",
+      "scoped git diff check"
+    ],
+    "notes": "Standard validate mode completed in two rounds; verdict pass with zero open gaps."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/DISTILL-VALIDATION.md"
+}

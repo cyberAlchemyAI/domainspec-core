@@ -1,0 +1,61 @@
+{
+  "timestamp": "2026-07-30T09:01:59Z",
+  "run_id": "task-session-until-blocker-bwaa-20260730T085748Z",
+  "session_id": "20260730T085748Z-bwaa-all-until-blocker",
+  "sigil": "task-session-until-blocker",
+  "tier": "arcana",
+  "mode": "execute",
+  "evidence": {
+    "status": "partial",
+    "refs": [
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T085748Z-bwaa-all-until-blocker/CHAIN-REPORT.md",
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T085748Z-bwaa-all-until-blocker/SWU-BWAA-001-MUTATION-ADMISSION-RECEIPT.json",
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T085748Z-bwaa-all-until-blocker/CONTINUATION-HANDOFF.json"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Execute the approved Body War business ontology atlas arrows plan through its finite SWU frontier.",
+    "intent": "Run one bounded Task Session per SWU until the frontier completes or a governed blocker is reached."
+  },
+  "execution": {
+    "status": "blocked",
+    "outputs": [
+      "Frozen five-SWU frontier",
+      "Strict SWU-BWAA-001 context pack",
+      "Canonical mutation-admission block receipt",
+      "Stable continuation handoff"
+    ],
+    "files_changed": [
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T085748Z-bwaa-all-until-blocker"
+    ],
+    "validation": [
+      "Task Session 1.2 mutation-readiness verifier returned the expected block receipt",
+      "Projection test baseline passed: 6 passed, 0 failed",
+      "Atlas validator baseline passed: 237 nodes, 231 relations, 44 zero-degree nodes",
+      "Planned product target SHA-256 digests remained unchanged"
+    ],
+    "notes": "No inner Task Session selector was invoked and no product mutation began because SWU-BWAA-001 lacks its required material package, producer receipt, producer schema binding, and closeout owner contract."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "input",
+        "severity": "high",
+        "summary": "The first routed material-bound SWU has no admissible implementation material package.",
+        "evidence": "SWU-BWAA-001-MUTATION-ADMISSION-RECEIPT.json records admissionVerdict block, mutationReady false, and null material/producer digests."
+      },
+      {
+        "category": "process",
+        "severity": "high",
+        "summary": "The lifecycle-owner closeout contract is unresolved before first mutation.",
+        "evidence": "CLOSEOUT-PREFLIGHT.json records a block with no expected owner receipt contract or owner validation commands."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  }
+}
