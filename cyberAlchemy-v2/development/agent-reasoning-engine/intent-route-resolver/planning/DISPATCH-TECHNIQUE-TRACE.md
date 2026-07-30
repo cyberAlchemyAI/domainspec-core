@@ -2,9 +2,9 @@
 
 | Technique | Applied to | Validation expectation | Status |
 |---|---|---|---|
-| `sequence` | W0 -> W1 -> W2 -> W3 | no downstream SWU starts before dependency closeout | pass |
-| `scu_swu_reduction` | five SWUs | each unit has one independently acceptable behavior | pass |
-| `recomposition_proof` | SWU-001 through SWU-005 | units recompose into one L0 disposition witness | pass |
+| `sequence` | W0 -> W1 -> W2 -> W3 -> W4 | no downstream SWU starts before dependency closeout | pass |
+| `scu_swu_reduction` | seven SWUs | each unit has one independently acceptable behavior | pass |
+| `recomposition_proof` | SWU-001 through SWU-007 | units recompose into one standalone L0 adapter witness | pass |
 | `validation_loop` | every SWU and final witness | named command/evidence closes each boundary | pass |
 | `execution_receipt_handoff` | Task Session -> Invoke refresh | exact terminal and owner receipt paths exist | pass |
 | `authority_split_gate` | disposition -> host decision -> owner execution | implementation cannot gain approval/execution authority | pass |

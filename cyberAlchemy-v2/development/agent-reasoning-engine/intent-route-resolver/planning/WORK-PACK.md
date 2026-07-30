@@ -12,13 +12,13 @@ docType: work-pack
 
 | Field | Value |
 |---|---|
-| workPackGateStatus | flag |
+| workPackGateStatus | pass |
 | complexity | medium |
 | outputMode | split |
 | executionPackRef | `EXECUTION-PACK.md` |
 | layeringArtifactRef | `IMPLEMENTATION-LAYERING.md` |
 | dispatchTechniqueTrace | `DISPATCH-TECHNIQUE-TRACE.md` |
-| distillValidationStatus | revalidation-pending |
+| distillValidationStatus | pass |
 | swuAtomicityStatus | pass |
 | firstUnitNarrownessStatus | pass |
 | closeoutSyncStatus | pass |
@@ -161,9 +161,8 @@ gate can pass.
 
 ## Distill validation
 
-See [DISTILL-VALIDATION.md](DISTILL-VALIDATION.md). The earlier five-unit
-validation is superseded by the user-approved standalone-adapter boundary.
-Seven-unit atomicity revalidation is required before the Plan gate returns to
+See [DISTILL-VALIDATION.md](DISTILL-VALIDATION.md). The independent Balancer
+accepted the seven-unit standalone-adapter route; terminal revalidation is
 pass.
 
 ## Handoff
