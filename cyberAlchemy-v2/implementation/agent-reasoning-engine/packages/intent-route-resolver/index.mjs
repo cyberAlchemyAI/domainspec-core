@@ -39,3 +39,13 @@ export {
   resolveJson,
   resolveJsonValue,
 } from "./src/json-port.mjs";
+
+export {
+  SELECTED_LOCAL_MAPPING_SCHEMA_VERSION,
+  SELECTED_LOCAL_RECORD_SCHEMA_VERSION,
+  admitSelectedLocalMappingProfile,
+  admitSelectedLocalRecord,
+  computeSelectedLocalMappingProfileDigest,
+  mapSelectedLocalIntent,
+  sealSelectedLocalMappingProfile,
+} from "./src/selected-local.mjs";
