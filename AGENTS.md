@@ -42,6 +42,40 @@ After selecting any objective route:
   conversation. Never report background work as complete while an agent is open,
   unjoined, or missing its validation receipt.
 
+## Candidate-Local Prototype Fast Lane
+
+Use this lane only when the user explicitly prioritizes rapid local prototype
+testing and explicitly asks to defer lifecycle bookkeeping, governance
+synchronization, or receipt choreography. The parent must name the bounded
+project/work-pack scope before mutating files. This lane is never an implicit
+default.
+
+- The parent may execute the finite candidate-local Work Pack directly without
+  pausing between SWUs for Invoke Refresh, Task Session admission, closeout sync,
+  Continuation Router, or per-SWU lifecycle receipts.
+- Before product mutation, dispatch one bounded background helper to publish a
+  `handoff-notice` for the deferred governance work. The helper may write only
+  collaboration evidence and must not touch product code, `AGENTS.md`, Arcanum
+  sources, Git, or external transports.
+- Preserve the Work Pack's implementation order, product write boundaries,
+  source/semantic invariants, privacy constraints, and exact validation commands.
+  Validation is not deferrable: run unit, integration, generation, scoped
+  whitespace, and browser acceptance checks declared by the Work Pack.
+- Reuse the shared browser runtime. Do not add a package root merely to obtain
+  Playwright, and do not make external network requests unless the user separately
+  authorizes that exact integration.
+- Stop for destructive actions, credentials, irreversible external effects,
+  public/private boundary crossings, authority or promotion changes, deployment,
+  production release, ambiguous product behavior, or a failed acceptance-critical
+  validation. Speed mode does not override those boundaries.
+- Current staged-equivalent or partially implemented bytes may be adopted only
+  after the parent inspects them and reruns the relevant live validation. Do not
+  claim ownership of earlier unattributed writes.
+- At the end, return one consolidated prototype validation report and the Handoff
+  Notice locator. Defer lifecycle reconciliation to the notice's next owner; do
+  not misstate candidate-local prototype evidence as synchronized governance,
+  publication, release, deployment, or production readiness.
+
 ## Shared Browser Runtime
 
 A user-global Playwright runtime is available for browser validation without creating
@@ -79,6 +113,11 @@ another repository package root.
   define/design/plan/handoff/refresh · `task-session` runs one bounded task/SWU ·
   `tools/arcanum` is the deterministic resolver/validator/handoff/legacy adapter ·
   prefer native skills/subagents over nested model-backed CLI.
+- For one generated Codex or Claude skill, use
+  `arcanum/tools/sync-generated-skill-package.sh --target . --sigil <id> --apply`
+  or `--spell <id> --apply`. It stages generation outside the repository and syncs
+  only that package. Never use a partial `bootstrap_arcanum.sh --force --target .`
+  with `repo-codex`; that mode replaces the complete `.agents/skills/` surface.
 
 ### 3. Definitions / vocabulary governance
 - 🛠 USE skill: `definitions-governance`.
