@@ -33,3 +33,9 @@ export {
   resolveIntentRoute,
   verifyDispositionDigest,
 } from "./src/resolve.mjs";
+
+export {
+  RUNTIME_PORT_PROTOCOL_VERSION,
+  resolveJson,
+  resolveJsonValue,
+} from "./src/json-port.mjs";
