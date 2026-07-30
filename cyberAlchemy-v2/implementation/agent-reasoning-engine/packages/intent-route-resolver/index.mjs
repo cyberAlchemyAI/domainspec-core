@@ -27,3 +27,9 @@ export {
   evaluateEligibility,
   evaluatePredicate,
 } from "./src/eligibility.mjs";
+
+export {
+  DISPOSITION_SCHEMA_VERSION,
+  resolveIntentRoute,
+  verifyDispositionDigest,
+} from "./src/resolve.mjs";
