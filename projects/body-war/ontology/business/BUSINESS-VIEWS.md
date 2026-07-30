@@ -34,6 +34,10 @@ For a progressive-disclosure review, open the
 [interactive journey experiment](BUSINESS-JOURNEY-EXPERIMENT.html). It begins
 with ordinary-language stories and reveals ontology metadata on request.
 
+For a complete indexed reading surface, open the
+[whole-ontology view atlas](BUSINESS-VIEW-ATLAS.html). It assigns every current
+node to one removable editorial lens and preserves every admitted relation.
+
 ## Relation sentence example
 
 The visible phrase makes the business meaning readable; the predicate under the

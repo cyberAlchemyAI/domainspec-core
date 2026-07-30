@@ -10,6 +10,14 @@ import {
   predicatePhrases,
   relationPhraseOverrides,
 } from "../authoring/view-catalog.mjs";
+import {
+  viewAtlasBoundary,
+  viewAtlasDispositionLabels,
+  viewAtlasIsolateDispositions,
+  viewAtlasLenses,
+} from "../authoring/view-atlas-catalog.mjs";
+import { projectViewAtlas } from "./view-atlas-projection.mjs";
+import { renderViewAtlasHtml } from "./render-view-atlas.mjs";
 
 const packageRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -22,6 +30,10 @@ const htmlOutputPath = path.join(packageRoot, "BUSINESS-VIEWS.html");
 const journeyExperimentOutputPath = path.join(
   packageRoot,
   "BUSINESS-JOURNEY-EXPERIMENT.html",
+);
+const viewAtlasOutputPath = path.join(
+  packageRoot,
+  "BUSINESS-VIEW-ATLAS.html",
 );
 const generatedViewRoot = path.join(packageRoot, "generated", "views");
 
@@ -84,6 +96,12 @@ const relationById = new Map(
     relation,
   ]),
 );
+const viewAtlasProjection = projectViewAtlas({
+  nodes,
+  relations: relationSet.relations,
+  lenses: viewAtlasLenses,
+  isolateDispositions: viewAtlasIsolateDispositions,
+});
 
 const lifecycleNames = (await readdir(lifecycleRoot))
   .filter((name) => name.endsWith(".json"))
@@ -851,6 +869,10 @@ const lines = [
   "[interactive journey experiment](BUSINESS-JOURNEY-EXPERIMENT.html). It begins",
   "with ordinary-language stories and reveals ontology metadata on request.",
   "",
+  "For a complete indexed reading surface, open the",
+  "[whole-ontology view atlas](BUSINESS-VIEW-ATLAS.html). It assigns every current",
+  "node to one removable editorial lens and preserves every admitted relation.",
+  "",
   "## Relation sentence example",
   "",
   "The visible phrase makes the business meaning readable; the predicate under the",
@@ -941,12 +963,25 @@ const svgArtifacts = [
 ];
 const htmlRendered = renderPrintableHtml();
 const journeyExperimentRendered = renderJourneyExperimentHtml();
+const viewAtlasRendered = renderViewAtlasHtml({
+  projection: viewAtlasProjection,
+  nodes,
+  relations: relationSet.relations,
+  profile: packageProfile,
+  dispositionLabels: viewAtlasDispositionLabels,
+  boundary: viewAtlasBoundary,
+  phraseFor,
+});
 const artifacts = [
   { outputPath, content: rendered },
   { outputPath: htmlOutputPath, content: htmlRendered },
   {
     outputPath: journeyExperimentOutputPath,
     content: journeyExperimentRendered,
+  },
+  {
+    outputPath: viewAtlasOutputPath,
+    content: viewAtlasRendered,
   },
   ...svgArtifacts,
 ];
@@ -979,16 +1014,24 @@ if (process.argv.includes("--check")) {
     );
   }
   process.stdout.write(
-    `business views current: ${graphViews.length} graph views, ${featuredRelationExamples.length} featured relation example, ${journeyStories.length} journey stories, ${lifecycleViewPolicyIds.length} lifecycle views, and 2 HTML projections\n`,
+    `business views current: ${graphViews.length} graph views, ${featuredRelationExamples.length} featured relation example, ${journeyStories.length} journey stories, ${lifecycleViewPolicyIds.length} lifecycle views, and 3 HTML projections\n`,
   );
 } else {
   await mkdir(generatedViewRoot, { recursive: true });
   await Promise.all(
-    artifacts.map((artifact) =>
-      writeFile(artifact.outputPath, artifact.content),
-    ),
+    artifacts.map(async (artifact) => {
+      let current = null;
+      try {
+        current = await readFile(artifact.outputPath, "utf8");
+      } catch {
+        // A missing generated artifact is created below.
+      }
+      if (current !== artifact.content) {
+        await writeFile(artifact.outputPath, artifact.content);
+      }
+    }),
   );
   process.stdout.write(
-    `generated ${graphViews.length} graph views, ${featuredRelationExamples.length} featured relation example, ${journeyStories.length} journey stories, ${lifecycleViewPolicyIds.length} lifecycle views, and 2 HTML projections\n`,
+    `generated ${graphViews.length} graph views, ${featuredRelationExamples.length} featured relation example, ${journeyStories.length} journey stories, ${lifecycleViewPolicyIds.length} lifecycle views, and 3 HTML projections\n`,
   );
 }
