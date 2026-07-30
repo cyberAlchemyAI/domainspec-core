@@ -1,7 +1,7 @@
 ---
 module: intent-route-resolver
 version: current
-status: candidate-ready
+status: l0-witness-complete
 updatedAt: 2026-07-30
 docType: work-pack
 ---
@@ -23,7 +23,7 @@ docType: work-pack
 | firstUnitNarrownessStatus | pass |
 | closeoutSyncStatus | pass |
 | activeLayerWindow | L0 |
-| lastUpdatedAt | 2026-07-30T17:24:57-03:00 |
+| lastUpdatedAt | 2026-07-30T18:46:49-03:00 |
 | readinessProfile | pilot |
 
 ## Objective summary
@@ -64,23 +64,23 @@ ResonantOS/Augmentor product implementation.
 
 | Task | Goal | Layer | Complexity | Waves | Gate | Status |
 |---|---|---|---|---|---|---|
-| [TASK-IRR-CONTRACT-001](work-pack/tasks/TASK-IRR-CONTRACT-001.md) | implement request and catalog contract validators | L0 | medium | W1 | SWU-IRR-001 selected | not-started |
-| [TASK-IRR-RESOLVE-001](work-pack/tasks/TASK-IRR-RESOLVE-001.md) | implement deterministic eligibility, dominance, disposition, and clarification | L0 | medium | W2 | waits for W1 | not-started |
-| [TASK-IRR-ADAPTER-001](work-pack/tasks/TASK-IRR-ADAPTER-001.md) | implement the generic JSON port, selected-local mapper, and add-on manifest | L0 | medium | W3 | waits for W2 | not-started |
-| [TASK-IRR-WITNESS-001](work-pack/tasks/TASK-IRR-WITNESS-001.md) | materialize the fixed portable L0 witness | L0 | medium | W4 | waits for adapter | not-started |
-| [TASK-IRR-VERIFY](work-pack/tasks/TASK-IRR-VERIFY.md) | closure audit | L0 | medium | W4 | ready after witness | not-started |
+| [TASK-IRR-CONTRACT-001](work-pack/tasks/TASK-IRR-CONTRACT-001.md) | implement request and catalog contract validators | L0 | medium | W1 | SWU-IRR-001 and SWU-IRR-002 terminal receipts pass | completed |
+| [TASK-IRR-RESOLVE-001](work-pack/tasks/TASK-IRR-RESOLVE-001.md) | implement deterministic eligibility, dominance, disposition, and clarification | L0 | medium | W2 | SWU-IRR-003 and SWU-IRR-004 terminal receipts pass | completed |
+| [TASK-IRR-ADAPTER-001](work-pack/tasks/TASK-IRR-ADAPTER-001.md) | implement the generic JSON port, selected-local mapper, and add-on manifest | L0 | medium | W3 | SWU-IRR-005 and SWU-IRR-006 terminal receipts pass | completed |
+| [TASK-IRR-WITNESS-001](work-pack/tasks/TASK-IRR-WITNESS-001.md) | materialize the fixed portable L0 witness | L0 | medium | W4 | SWU-IRR-007 Node and Chromium receipt passes | completed |
+| [TASK-IRR-VERIFY](work-pack/tasks/TASK-IRR-VERIFY.md) | closure audit | L0 | medium | W4 | closure audit receipt passes | completed |
 
 ## Shared SWU manifest
 
 | SWU | Parent | Primary behavior | Dependencies | Write scope | Done criteria | Validation | Owner | Status |
 |---|---|---|---|---|---|---|---|---|
-| SWU-IRR-001 | TASK-IRR-CONTRACT-001 | validate and canonicalize JSON-only `RouteRequest@1` | W0 | package metadata/index, `src/canonical-json.mjs`, `src/request.mjs`, request tests | exact v1 accepted; malformed/version/posture/non-JSON cases rejected; bytes stable | `node --test .../test/request.test.mjs` | local-fallback | selected |
-| SWU-IRR-002 | TASK-IRR-CONTRACT-001 | validate and freeze `CapabilityRouteCatalogSnapshot@1` | SWU-IRR-001 | `src/catalog.mjs`, catalog fixtures/tests, index export | owner/digest/IDs/operators/dominance graph fail closed | `node --test .../test/catalog.test.mjs` | local-fallback | planned |
-| SWU-IRR-003 | TASK-IRR-RESOLVE-001 | evaluate route eligibility and explicit dominance | SWU-IRR-002 | `src/eligibility.mjs`, eligibility tests, index export | exclusion precedence, conditional routes, and dominance are deterministic | `node --test .../test/eligibility.test.mjs` | local-fallback | planned |
-| SWU-IRR-004 | TASK-IRR-RESOLVE-001 | classify and assemble one canonical `RouteDisposition@1` | SWU-IRR-003 | `src/resolve.mjs`, resolver tests, index export | all four kinds and one-question ambiguity pass; permutation invariant | `node --test .../test/resolve.test.mjs` | local-fallback | planned |
-| SWU-IRR-005 | TASK-IRR-ADAPTER-001 | expose a generic JSON runtime port | SWU-IRR-004 | `src/json-port.mjs`, port tests, index/package exports | parse/version/shape failures are typed and canonical bytes are stable | `node --test .../test/json-port.test.mjs` | local-fallback | planned |
-| SWU-IRR-006 | TASK-IRR-ADAPTER-001 | map selected-local intent and declare the add-on surface | SWU-IRR-005 | `src/selected-local.mjs`, mapper tests, `addon-manifest.json`, package exports | posture/evidence/digest preserved; missing mapping unresolved; permissions empty | `node --test .../test/selected-local.test.mjs` | local-fallback | planned |
-| SWU-IRR-007 | TASK-IRR-WITNESS-001 | execute and materialize the portable L0 witness matrix | SWU-IRR-006 | fixture runner, literal JSON fixtures/tests, private generated run directory | receipt records all fixtures, Node/Chromium bytes, zero-call/import audit, hashes, claim ceiling | full package suite plus browser witness and digest verification | local-fallback | planned |
+| SWU-IRR-001 | TASK-IRR-CONTRACT-001 | validate and canonicalize JSON-only `RouteRequest@1` | W0 | package metadata/index, `src/canonical-json.mjs`, `src/request.mjs`, request tests | exact v1 accepted; malformed/version/posture/non-JSON cases rejected; bytes stable | `node --test .../test/request.test.mjs` | local-fallback | completed |
+| SWU-IRR-002 | TASK-IRR-CONTRACT-001 | validate and freeze `CapabilityRouteCatalogSnapshot@1` | SWU-IRR-001 | `src/catalog.mjs`, catalog fixtures/tests, index export | owner/digest/IDs/operators/dominance graph fail closed | `node --test .../test/catalog.test.mjs` | local-fallback | completed |
+| SWU-IRR-003 | TASK-IRR-RESOLVE-001 | evaluate route eligibility and explicit dominance | SWU-IRR-002 | `src/eligibility.mjs`, eligibility tests, index export | exclusion precedence, conditional routes, and dominance are deterministic | `node --test .../test/eligibility.test.mjs` | local-fallback | completed |
+| SWU-IRR-004 | TASK-IRR-RESOLVE-001 | classify and assemble one canonical `RouteDisposition@1` | SWU-IRR-003 | `src/resolve.mjs`, resolver tests, index export | all four kinds and one-question ambiguity pass; permutation invariant | `node --test .../test/resolve.test.mjs` | local-fallback | completed |
+| SWU-IRR-005 | TASK-IRR-ADAPTER-001 | expose a generic JSON runtime port | SWU-IRR-004 | `src/json-port.mjs`, port tests, index/package exports | parse/version/shape failures are typed and canonical bytes are stable | `node --test .../test/json-port.test.mjs` | local-fallback | completed |
+| SWU-IRR-006 | TASK-IRR-ADAPTER-001 | map selected-local intent and declare the add-on surface | SWU-IRR-005 | `src/selected-local.mjs`, mapper tests, `addon-manifest.json`, package exports | posture/evidence/digest preserved; missing mapping unresolved; permissions empty | `node --test .../test/selected-local.test.mjs` | local-fallback | completed |
+| SWU-IRR-007 | TASK-IRR-WITNESS-001 | execute and materialize the portable L0 witness matrix | SWU-IRR-006 | fixture runner, literal JSON fixtures/tests, private generated run directory | receipt records all fixtures, Node/Chromium bytes, zero-call/import audit, hashes, claim ceiling | full package suite plus browser witness and digest verification | local-fallback | completed |
 
 The full source anchors, exact path inventory, split analysis, and expected
 receipt shape are in the linked task files.
@@ -127,7 +127,8 @@ The shared `terminal-v1` contract requires `run_id`, `swu_id`, `dispatch_id`,
 
 ## Blockers and deferred decisions
 
-No blocker prevents L0 SWU-IRR-001.
+No blocker remains inside the completed L0 frontier. The following items remain
+explicitly deferred to later owners.
 
 | ID | Class | Description | Owner route |
 |---|---|---|---|
@@ -167,10 +168,11 @@ pass.
 
 ## Handoff
 
-- Current selected unit: `SWU-IRR-001`
-- Mutation authorized by this Invoke run: **no**
-- Next action: explicit Task Session execution request for SWU-IRR-001 after
-  Plan validation and user authorization
+- Current selected unit: none; the seven-unit L0 frontier is closed
+- Mutation executed by Task Session: **yes**, under per-unit admission,
+  terminal, and lifecycle-owner receipts
+- Next action: separate L0 owner evaluation; define and plan installation only
+  after selecting a concrete consumer runtime
 - Successor route after portable witness: separate owner evaluation; consumer
   installation must be defined/planned in its own runtime context
 
