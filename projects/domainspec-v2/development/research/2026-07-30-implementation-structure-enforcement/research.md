@@ -650,3 +650,72 @@ Kill a proposed enforcement when it:
 Official documentation supports the capability and limitation matrix. It does not prove project fit, installed versions, cross-language parity, acceptable developer cost, or runtime correctness.
 
 The fixture, profiles, obligation manifest, and receipt schema are proposal-level research. Nothing was installed, implemented, executed, promoted, or made authoritative. The highest supported claim is: these profiles are plausible minimal candidates for an executable comparison after exact version pinning, implementation, negative-control execution, and receipt reconciliation.
+
+## Agent 1 feedback — supplemental owner check
+
+## Supplemental owner check — feedback loop 1/1
+
+Two review locators were stale:
+
+- Supported profiles live at `projects/domainspec-v2/definitions/minted-project/supported-profiles.yml`, not `definitions/supported-profiles/`.
+- The financial-settlement sidecar lives at `projects/domainspec-v2/impl/test-derivation-engine/bindings/financial-settlement.json`, not beneath `src/bindings/`.
+
+### Owner reconciliation
+
+| Concern | Exact evidence | Owner classification |
+|---|---|---|
+| Implementation profiles | `definitions/minted-project/supported-profiles.yml:1-7` names owner `definitions/minted-project`, role `minted-project-profile-admission`, and `release_admission: not-granted`. Lines 18-67 define the experimental admitted profile, formation schemas, relationships, effective conditions, and non-goals. | **Policy owner already deployed; proposed implementation-conformance profile is build-from-owned.** Extend or companion this registry; do not create a parallel profile registry. |
+| Consumer profile binding | `impl/spec/minted-project/project.schema.json:3-35,45` defines a consumer-owned project source binding one profile and its profile/kind/relationship digests. | **Consumer source owner already deployed.** It selects a governed profile; it is not itself a second profile authority. |
+| Minted compiler | `impl/tools/minted-project/compiler.ts:287-339` selects the canonical or explicitly handled development registry; lines 366-453 validate project schema, registry digests, profile identity, profile digest, and admitted relationships. | **Implementation validation owner already deployed.** Adapt this compiler for profile-bound mapping reconciliation rather than creating another compiler. |
+| Derivation bindings | `impl/test-derivation-engine/src/bindings/index.ts:1-6,30-49,51-81` defines the obligation-to-module/symbol/strategy projection and explicitly says it identifies the target, never the expected answer. `bindings/financial-settlement.json:1-14,17-43,98-128` contains concrete mappings, emitter strategies, fixtures, and explicit coverage gaps. | **Test-derivation projection already deployed.** It owns emitter strategy, fixtures, and honest coverage-gap handling—not general implementation identity authority. |
+| Code-tag mapping | `impl/governance/tags/CODE-TAG-SCHEMA.md:1-7,27-51` explicitly calls itself the canonical source-annotation contract and maps implementation symbols to DomainSpec concepts and canonical relationship edges. | **Best existing canonical implementation-mapping owner, but still reformulation-pending in v2.** It is the only checked artifact that explicitly claims source-symbol mapping ownership. |
+| Code-tag migration state | `IMPORT-MANIFEST.md:34-46` says tag tooling/schema/docs were imported verbatim with reformulation pending, must be retargeted to v2, and its v1 waiver entries reset. | The code-tag owner cannot yet be called precedent-clean or release-admitted. Its intended ownership survives, but current paths/data require reconciliation. |
+| Code-tag waivers | `CODE-TAG-WAIVERS.md:1-10,12-40` defines temporary, owned, expiring code-tag exceptions. `validate-code-tags.ts:513-629` validates required fields and expiry; lines 632-660 apply exact code/file/concept selectors. `code-tag-waivers.yaml:1-29` contains four owned waivers expiring in December 2026. | **Scoped suppression owner already deployed.** The earlier “no suppression owner” claim must be narrowed to “no general cross-tool exception owner.” Current waiver data is v1 migration residue under the active Import Manifest. |
+| Obligation IR | `impl/test-derivation-engine/src/ir/types.ts:68-100` defines a content-addressed `ObligationKey`, existing `RuleType` union, and `Obligation` with canonical parameters and source anchor. | **Canonical derivation IR already deployed.** Reuse it; do not add a second obligation representation. |
+| RuleSet | `impl/test-derivation-engine/src/rules/index.ts:1-56` defines pure deterministic derivation and versioned `RuleSet`; lines 692-729 define total, deterministic `derive(G, Δ)`. | **Rule derivation owner already deployed.** A proposed `EnforcementRuleSet` must extend this versioned owner or be a profile configuration projected into it—not a parallel registry. |
+| Transition derivation | `src/rules/index.ts:132-208` derives valid and invalid transition obligations. `src/emit/spec.ts:41-67` classifies both as `derivable-needs-harness`. `src/emit/tests.ts:330-347` identifies them as outside the pure slice. The binding sidecar repeats this at `bindings/financial-settlement.json:125-128`. | **Obligation derivation already deployed; runtime enforcement remains application-owned.** A profile may configure transition derivation but cannot claim state effects, scheduling, or execution. |
+| Active migration ledger | `IMPORT-MANIFEST.md:1-20` is explicitly active and defines the v1→v2 verdict/status vocabulary. Lines 22-46 track engine and validator/tag migration; lines 95-97 define the freeze gate. | **Migration owner already deployed.** Reuse it for any profile/tag/binding migration; do not create another generic migration ledger. |
+| Private derivation moat | `IMPORT-MANIFEST.md:6,24-27` marks `impl/test-derivation-engine/src/rules` private and never publishable to Arcanum. | **Private DomainSpec implementation owner.** Public routes may reference its receipt, not absorb its logic or prose. |
+| Generated projections | `impl/tools/minted-project/compiler.ts:574-629` labels the compiled graph `generated-semantic-read-model` and source manifest `generated-provenance-read-model`, each bound to source/profile/registry digests. | **Generated secondary evidence, never canonical source authority.** |
+| Minted build receipts | `impl/tools/minted-project/views.ts:46-77,130-175` defines and constructs `generated-verification-evidence` with profile, registry, source-set, artifact, and generator digests. Lines 186-280 verify schema, staleness, language binding, and provenance. `impl/spec/minted-project/build-receipt.schema.json:3-40` fixes this boundary. The checked example at `impl/spec/features/ui-profile-create-player/generated/build-receipt.json:1-20` is `status: pass`. | **Receipt/provenance owner already deployed.** Extend its digest/reference pattern; do not create a replacement receipt system or treat a generated receipt as authority/promotion. |
+| Private/public boundary | `cyberAlchemy-v2/SOURCE-MAP.md:14-19,23-33` distinguishes public Arcanum authority from private implementation evidence and requires boundary scrub, owner review, and canonical back-references. Lines 54-58 keep public generalization owner-gated. | **Boundary already defined.** DomainSpec mapping metadata, diagnostics, fixtures, and engine internals stay private. |
+| Public Arcanum projection | `arcanum/formulae/dispatch-spec/TECHNIQUE-CATALOG.md:96-103` permits stable evidence references and summaries, not full foreign state. `arcanum/arcana/verification-weaver/README.md:3-17,49-60` limits the public capability to routing/recomposition and blocks private implementation material and generated artifacts as authority. | **Public routing/projection owner only.** Arcanum may link owner-held receipts and bounded summaries; it does not inherit DomainSpec mapping or enforcement authority. |
+
+## Minimal canonical-mapping rule
+
+Select **source-local DomainSpec code tags conforming to `CODE-TAG-SCHEMA.md` as the sole canonical implementation-symbol mapping owner**, after the Import Manifest’s v2 reformulation obligations are completed.
+
+The reconciliation rule is:
+
+1. The supported-profile registry owns which mapping policy is admitted; it does not enumerate project symbols.
+2. Code tags own the canonical tuple of implementation symbol, DomainSpec concept, and declared relationship edge.
+3. Extracted tag indexes or any future mapping manifest are generated/reconciled projections of those source annotations, never independent sources.
+4. Derivation binding sidecars retain only obligation selection, emitter strategy, fixtures, and coverage-gap semantics. Their current `module` and `symbol` fields must be derived from, or fail-closed reconciled against, the canonical code-tag mapping. During migration, duplicated values must match exactly and bind the tag-extraction digest.
+5. Existing `ObligationKey`, `Obligation`, and versioned `RuleSet` remain the derivation identities. Mapping artifacts reference them; they do not redefine them.
+6. The minted compiler validates profile admission, registry bindings, mapping agreement, and digests. Generated mapping views and build receipts remain evidence projections.
+7. The active Import Manifest records the one-time sidecar/tag reconciliation and eventual retirement of duplicated mapping fields.
+
+This selection avoids both a second implementation-mapping registry and the inverse mistake of making a test-emitter sidecar authoritative over production symbols.
+
+## Evaluator boundary
+
+A shared evaluator may:
+
+- normalize native diagnostics;
+- compare code tags, binding projections, profiles, obligations, and receipt digests;
+- emit agreement, disagreement, and explicit residue referencing raw owner artifacts.
+
+It must not:
+
+- parse/compile as a second language compiler;
+- execute TypeScript, Python, Rust, or other native tools;
+- schedule tasks or CI;
+- derive a replacement RuleSet or Obligation IR;
+- perform application State Machine transitions;
+- replace minted receipts, tag waivers, or the Import Manifest.
+
+## Corrected claim ceiling
+
+The supplemental evidence establishes the existing owners and a minimal non-duplicative reconciliation rule. It does **not** establish that the v2 code-tag owner has completed reformulation, that current waivers are acceptable for a new profile, that a new implementation-conformance profile is release-admitted, or that any reconciliation/compiler change has been implemented.
+
+No files were changed, no validation command was executed, and no authority, promotion, or lifecycle state changed.
