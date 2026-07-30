@@ -1,0 +1,48 @@
+{
+  "schema_version": "invoke.plan.result.v1",
+  "target_id": "arcanum-addon",
+  "complexity": "high",
+  "output_mode": "split",
+  "work_pack": "development/arcanum-addon/plan/WORK-PACK.md",
+  "implementation_layering": "development/arcanum-addon/plan/IMPLEMENTATION-LAYERING.md",
+  "execution_pack": "development/arcanum-addon/plan/EXECUTION-PACK.md",
+  "implementation_dispatch": "development/arcanum-addon/plan/DISPATCH.json",
+  "distill_dispatch": "development/arcanum-addon/plan/DISTILL-DISPATCH.json",
+  "dispatch_validation": {
+    "implementation": "pass",
+    "distill_preflight": "pass",
+    "distill_closeout": "block-verified-findings"
+  },
+  "repository_validation": {
+    "json_syntax": "pass",
+    "markdown_local_targets": "pass",
+    "diff_check": "pass",
+    "docs_check": "pass",
+    "test_docs": "pass-224",
+    "orchestrate_event_evidence": "pass-15-events",
+    "browser_first_scope": "pass-deferred-planning-package"
+  },
+  "environment_note": "Validation ran under Node 22.12.0 although the repository declares Node >=22.13.0; npm emitted an engine warning.",
+  "work_pack_gate": "block",
+  "selected_swu": null,
+  "distill_validation": "block-joined-findings-reconciled-revalidation-required",
+  "distill_runtime": {
+    "run_id": "run-20260730-f3ada9f1",
+    "proposer": "joined-closed-validation-block",
+    "balancer": "joined-closed-validation-block",
+    "gate": "gate_block",
+    "next_action_count": 0
+  },
+  "distill_observability": "not-configured-visible-residue",
+  "closeout_sync": "pass-authored-not-executed",
+  "blockers": [
+    "B-GOV-001",
+    "B-DESIGN-001",
+    "B-BOOT-001",
+    "B-OWNER-001",
+    "B-ADAPTER-001",
+    "B-RETENTION-001"
+  ],
+  "claim_ceiling": "Plan artifacts are authored and navigable; no SWU is selected and no mutation, runtime, readiness, promotion, or release is authorized.",
+  "next_route": "resolve-independent-blockers-and-separately-authorize-distill-revalidation"
+}

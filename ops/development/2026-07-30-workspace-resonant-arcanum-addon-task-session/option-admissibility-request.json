@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "DEC-ARC-TS-001",
+  "candidates": [
+    {
+      "optionId": "OPT-REVALIDATE",
+      "label": "Authorize a fresh independent validation of the reconciled Plan",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": "domainspec-subagents-strategy exact confirmation over a new digest-bound dispatch sheet",
+      "evidence": [
+        "WORK-PACK.md B-DESIGN-001 requires separately authorized revalidation",
+        "DISTILL-VALIDATION.md keeps the gate blocked pending independent revalidation"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OPT-DEFER",
+      "label": "Keep the authored Plan blocked and defer implementation",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "PLAN-RESULT.json limits the claim to authored planning with no selected SWU or mutation authority"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OPT-STOP",
+      "label": "Stop the add-on implementation objective",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "other",
+      "ownerGate": null,
+      "evidence": [
+        "Task Session permits an explicit stop when a blocker-level choice remains unresolved"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OPT-BYPASS-VALIDATION",
+      "label": "Treat authored reconciliation as independent validation and start implementation",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "irreversible",
+      "hazardClass": "authority",
+      "ownerGate": null,
+      "evidence": [
+        "DISTILL-VALIDATION.md states parent review does not replace independent validation"
+      ],
+      "rejectionReasons": [
+        "Contradicts the current Plan validation verdict and would bypass an authority gate"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "dispatch_id": "2026-07-30-arcanum-addon-selection-revalidation",
+  "schema_version": "0.8.0",
+  "dispatch_type": "review",
+  "goal": "Independently revalidate the current ResonantOS Arcanum add-on Invoke corpus, proving that the machine-enforced per-SWU selection repair closes NEW-001 while all earlier findings remain closed, without product mutation, SWU selection, or browser execution.",
+  "context": "The target is the complete 77-file corpus under /home/vrondelli/projects/workspace-resonant/2.0.0-alpha-arcanum-addon-plan/development/arcanum-addon at source commit 80dcd79677ad73b21dbaded12e0e9cd47aace82b and aggregate corpus SHA-256 5fad9693428f841a10cec7d2ee0c5e599826ea204a75ac57177fe70f55f466a0. The prior review closed F-001 through F-006 and NEW-BAL-001 but preserved NEW-001 because SWU re-entry was prose-only. Invoke Refresh then added a selection schema and runtime validator, bound exactly 25 SWU admissions to 25 unique selection inputs, kept internal nodes non-selectable, and preserved work-pack block plus selectedSWU none. Both fresh reviewers must inspect the same literal current corpus, treat prior reports and Inventory as attack prompts rather than proof, and return read-only receipts.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "working_folder": "ops/development/2026-07-30-arcanum-addon-selection-revalidation/",
+  "groups": [
+    {
+      "group_id": "selection-revalidation-reviewers",
+      "n": 2,
+      "anti_bias": "methodology (formal exact-mapping closure proof vs executable adversarial admission falsification)",
+      "predicted_disagreements": [
+        {
+          "pair": [
+            0,
+            1
+          ],
+          "statement": "Agent 0 proves literal one-to-one coverage between the 25 SWUs, selection inputs, route steps, gates, terminal echoes, and joins while agent 1 attempts executable replay, substitution, drift, sibling, internal-node, and crash counter-examples on the methodology axis; agent 0's structural PASS would be exposed by agent 1 if the runtime accepts a forbidden start, while agent 1's demanded control would be exposed by agent 0 if it is already implied by a smaller complete route invariant."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Nyquist, Harry",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4200,
+          "angle": "formal one-to-one closure proof over all exact SWUs, selection inputs, gate bindings, terminal echoes, internal-node exclusions, wave joins, and prior findings",
+          "initial_prompt": "Act as the exact-byte selection-revalidation Proposer for dispatch 2026-07-30-arcanum-addon-selection-revalidation. Work read-only. Read every file under /home/vrondelli/projects/workspace-resonant/2.0.0-alpha-arcanum-addon-plan/development/arcanum-addon/define, /design, and /plan and independently reproduce the 77-file aggregate digest 5fad9693428f841a10cec7d2ee0c5e599826ea204a75ac57177fe70f55f466a0 using the sorted absolute-path sha256sum stream. Confirm HEAD and origin/dev are both 80dcd79677ad73b21dbaded12e0e9cd47aace82b. Read /home/vrondelli/projects/domainspec-core/ops/development/2026-07-30-arcanum-addon-repair-revalidation/findings.md only as the eight-finding regression checklist and /home/vrondelli/projects/domainspec-core/ops/development/2026-07-30-arcanum-addon-invoke-reentry-repair/REFRESH-REPORT.md only as an attack lead, never as proof. Prove from current bytes: exactly 25 declared SWUs; exactly 25 unique SWU-producing steps; exactly 25 unique literal selection inputs; g-swu-reentry applies to those 25 admissions; path/content, dispatch, Plan, work-pack, source, dependency, predecessor-closeout, operator, session, run, expiry, and single-use bindings are validator-enforced; terminal SWU receipts echo selection ID and receipt digest; joins, readiness, and s14-boot-post-refresh have no independent selection; W0-W4 joins and VERIFY closure remain complete; workPackGateStatus is block and selectedSWU is none. Regression-test F-001 through F-006, NEW-001, and NEW-BAL-001, then search for new CRITICAL or MAJOR topology, authority, lifecycle, evidence, or status defects. Run the repository's static and runtime selection tests when safe, using only temporary state outside the target. Return a structured read-only receipt with dispatch_id, role=Proposer, exact corpus digest/count, status and validation PASS or BLOCK, an eight-row closure matrix with exact current file/line evidence, machine invariants and commands, new findings and one-line repairs, blockers, residue, and handoff note. PASS only if all eight findings are closed and no new CRITICAL or MAJOR survives. Do not edit files, create a real selection under the target, implement, launch a browser, mutate network state, or claim readiness."
+        },
+        {
+          "agent_name": "Niqui, Milad",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4200,
+          "angle": "executable adversarial falsification of selection admission, atomic single-use claims, path/content identity, lifecycle drift, sibling isolation, and internal-node exclusion",
+          "initial_prompt": "Act as the exact-byte selection-revalidation Balancer for dispatch 2026-07-30-arcanum-addon-selection-revalidation. Work read-only. Read every file under /home/vrondelli/projects/workspace-resonant/2.0.0-alpha-arcanum-addon-plan/development/arcanum-addon/define, /design, and /plan and independently reproduce the 77-file aggregate digest 5fad9693428f841a10cec7d2ee0c5e599826ea204a75ac57177fe70f55f466a0 using the sorted absolute-path sha256sum stream. Confirm HEAD and origin/dev are both 80dcd79677ad73b21dbaded12e0e9cd47aace82b. Read /home/vrondelli/projects/domainspec-core/ops/development/2026-07-30-arcanum-addon-repair-revalidation/findings.md only as the eight-finding regression checklist and /home/vrondelli/projects/domainspec-core/ops/development/2026-07-30-arcanum-addon-invoke-reentry-repair/REFRESH-REPORT.md only as an attack lead, never as proof. Attempt concrete counter-examples against the current schema and validator: all 25 selection files pre-created; same selection replayed in the same or different session; receipt path naming SWU A with content selecting SWU B; wrong step; dispatch, source, Plan, work-pack, dependency, or predecessor-closeout drift; expired or self-issued selection; two sibling SWUs in one session; manual and verification bypass; s14-boot-post-refresh becoming selectable; claim created before a simulated crash; malformed claims; symlink/path substitution if relevant; and any route reaching implementation or browser before required deterministic/security closure. Use only isolated temporary state outside the target for executable tests. Confirm all rejected attempts leave task-start, owner-attempt, and mutation counters at zero. Cross-check the complete SWU/wave topology and regression-test F-001 through F-006, NEW-001, and NEW-BAL-001. Return a structured read-only receipt with dispatch_id, role=Balancer, exact corpus digest/count, status and validation PASS or BLOCK, an eight-row closure matrix with exact current file/line evidence, counter-example traces and commands, new findings and one-line repairs, blockers, residue, and handoff note. PASS only if every forbidden trace fails closed, all eight findings are closed, and no new CRITICAL or MAJOR survives. Do not edit files, create a real selection under the target, implement, launch a browser, mutate network state, or claim readiness."
+        }
+      ]
+    }
+  ],
+  "connections": []
+}

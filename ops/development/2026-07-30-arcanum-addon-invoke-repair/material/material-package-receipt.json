@@ -1,0 +1,35 @@
+{
+  "authorityClass": "public",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "resonantos-planning-owner",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "f89bb5e36a06f8f252024290112f109260eb50e1344f2863caacd415ba3d53eb",
+  "packageId": "arcanum-addon-invoke-repair-20260730-v1",
+  "patchVerdict": "pass",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "development/arcanum-addon/design/DESIGN-RESULT.json",
+    "development/arcanum-addon/design/DISTILL-VALIDATION.md",
+    "development/arcanum-addon/design/VALIDATION-CONTRACTS.md",
+    "development/arcanum-addon/plan/DISPATCH.json",
+    "development/arcanum-addon/plan/DISTILL-VALIDATION.md",
+    "development/arcanum-addon/plan/PLAN-RESULT.json",
+    "development/arcanum-addon/plan/WORK-PACK.md",
+    "development/arcanum-addon/plan/work-pack/shared/CLOSEOUT-SYNC.md",
+    "development/arcanum-addon/plan/work-pack/tasks/TASK-4-LIFECYCLE-ACCEPTANCE.md"
+  ],
+  "validationCommands": [
+    "jq empty on changed JSON outputs",
+    "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py <staged DISPATCH.json>",
+    "node material/validate-repair.mjs <staged output root>",
+    "node material/validate-markdown-links.mjs <overlay root> <changed markdown paths>",
+    "git diff --no-index --check <staged inputs> <staged outputs>",
+    "npm run docs:check",
+    "npm run test:docs",
+    "sorted absolute-path define/design/plan aggregate sha256sum"
+  ]
+}
