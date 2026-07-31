@@ -1,0 +1,1460 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architecture Ontology Canvas</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f6f3ea;
+      --muted: #939aa9;
+      --faint: #646b78;
+      --surface: #11151d;
+      --surface-2: #171c25;
+      --surface-3: #202633;
+      --line: #2a3140;
+      --line-bright: #3b4558;
+      --cyan: #63d8e5;
+      --cyan-dim: #173a42;
+      --lime: #b6e875;
+      --lime-dim: #283b22;
+      --amber: #f6bd61;
+      --amber-dim: #45341e;
+      --violet: #b8a2ff;
+      --violet-dim: #312b4d;
+      --red: #ff7b7b;
+      --red-dim: #492426;
+      --blue: #7ca9ff;
+      --blue-dim: #223354;
+      --shadow: 0 24px 64px rgba(0, 0, 0, 0.34);
+      --radius: 16px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+
+    body {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% -8%, rgba(99, 216, 229, 0.12), transparent 34%),
+        radial-gradient(circle at 92% 8%, rgba(184, 162, 255, 0.1), transparent 31%),
+        #090c12;
+    }
+
+    button, input, select { font: inherit; }
+    button { color: inherit; }
+
+    .app {
+      display: grid;
+      grid-template-rows: 68px minmax(0, 1fr);
+      width: 100%;
+      height: 100%;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(10, 13, 19, 0.88);
+      backdrop-filter: blur(18px);
+      z-index: 8;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      min-width: 272px;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(99, 216, 229, 0.46);
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(99, 216, 229, 0.2), rgba(184, 162, 255, 0.09));
+      box-shadow: inset 0 0 22px rgba(99, 216, 229, 0.08);
+    }
+
+    .brand-mark svg { width: 22px; height: 22px; }
+    .brand-copy { min-width: 0; }
+    .eyebrow { color: var(--cyan); font-size: 10px; font-weight: 750; letter-spacing: 0.16em; text-transform: uppercase; }
+    h1 { margin: 2px 0 0; font-size: 16px; line-height: 1.15; letter-spacing: -0.015em; }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 10px;
+      border: 1px solid var(--line-bright);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(23, 28, 37, 0.8);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .status-pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 10px rgba(246, 189, 97, 0.55); }
+    .status-pill.ready::before { background: var(--lime); box-shadow: 0 0 10px rgba(182, 232, 117, 0.52); }
+    .status-pill.error::before { background: var(--red); }
+
+    .top-metrics { display: flex; align-items: center; gap: 5px; margin-left: auto; }
+    .metric { padding: 6px 9px; color: var(--muted); font-size: 11px; border-left: 1px solid var(--line); }
+    .metric strong { color: var(--ink); font-weight: 720; }
+
+    .icon-button {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      cursor: pointer;
+      transition: 140ms ease;
+    }
+
+    .icon-button:hover, .icon-button:focus-visible { border-color: var(--cyan); background: var(--surface-2); outline: none; }
+
+    .workspace {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .sidebar, .inspector {
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      background: rgba(14, 18, 25, 0.9);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+      border: 1px solid var(--line-bright);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 180ms ease, opacity 160ms ease;
+      z-index: 8;
+    }
+
+    .sidebar {
+      left: 12px;
+      display: flex;
+      width: min(292px, calc(100vw - 24px));
+      flex-direction: column;
+      transform: translateX(calc(-100% - 24px));
+    }
+
+    .inspector {
+      right: 12px;
+      width: min(390px, calc(100vw - 24px));
+      overflow-y: auto;
+      transform: translateX(calc(100% + 24px));
+    }
+
+    .sidebar.open, .inspector.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
+
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 52px;
+      padding: 8px 10px 8px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .drawer-head strong { display: block; color: var(--ink); font-size: 13px; }
+    .drawer-head span { color: var(--faint); font-size: 9.5px; }
+    .drawer-close { flex: 0 0 auto; font-size: 17px; }
+
+    .sidebar-section { padding: 16px; border-bottom: 1px solid var(--line); }
+    .section-label { margin-bottom: 9px; color: var(--faint); font-size: 10px; font-weight: 750; letter-spacing: 0.13em; text-transform: uppercase; }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 38px;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0c1016;
+    }
+
+    .search:focus-within { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(99, 216, 229, 0.08); }
+    .search svg { width: 15px; color: var(--faint); flex: 0 0 auto; }
+    .search input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--ink); background: transparent; font-size: 12px; }
+    .search kbd { color: var(--faint); font-size: 10px; }
+
+    .view-nav { display: grid; gap: 6px; }
+
+    .view-button {
+      display: grid;
+      grid-template-columns: 32px 1fr auto;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+      min-height: 50px;
+      padding: 7px 10px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .view-button:hover { background: var(--surface-2); }
+    .view-button.active { border-color: rgba(99, 216, 229, 0.3); background: linear-gradient(90deg, rgba(99, 216, 229, 0.14), rgba(99, 216, 229, 0.04)); }
+    .view-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; color: var(--cyan); background: var(--cyan-dim); }
+    .view-button[data-view="profiles"] .view-icon { color: var(--violet); background: var(--violet-dim); }
+    .view-button[data-view="facts"] .view-icon { color: var(--lime); background: var(--lime-dim); }
+    .view-button[data-view="findings"] .view-icon { color: var(--red); background: var(--red-dim); }
+    .view-title { display: block; font-size: 12px; font-weight: 680; }
+    .view-subtitle { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; }
+    .view-key { color: var(--faint); font-size: 10px; }
+
+    .navigator { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 14px 10px 10px; }
+    .navigator-head { display: flex; justify-content: space-between; padding: 0 6px 9px; }
+    .navigator-count { color: var(--faint); font-size: 10px; }
+    .node-list { min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--line-bright) transparent; }
+
+    .node-list-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 8px;
+      border: 0;
+      border-radius: 8px;
+      color: var(--muted);
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .node-list-button:hover, .node-list-button.active { color: var(--ink); background: var(--surface-2); }
+    .node-list-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); flex: 0 0 auto; }
+    .node-list-button[data-kind="property"] .node-list-dot { background: var(--violet); }
+    .node-list-button[data-kind="fact"] .node-list-dot { background: var(--lime); }
+    .node-list-button[data-kind="finding"] .node-list-dot { background: var(--red); }
+    .node-list-button[data-kind="meta-type"] .node-list-dot { background: var(--cyan); }
+    .node-list-button[data-maturity="candidate"] .node-list-dot { background: var(--violet); }
+    .node-list-button[data-maturity="deferred"] .node-list-dot { background: var(--amber); }
+    .node-list-button[data-maturity="superseded"] .node-list-dot { background: var(--red); }
+    .node-list-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
+
+    .canvas-shell { position: absolute; inset: 0; min-width: 0; min-height: 0; overflow: hidden; background: #0a0e14; }
+
+    .canvas-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.38;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(120, 135, 160, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120, 135, 160, 0.08) 1px, transparent 1px),
+        linear-gradient(rgba(120, 135, 160, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120, 135, 160, 0.025) 1px, transparent 1px);
+      background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+    }
+
+    .canvas-toolbar {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(14, 18, 25, 0.9);
+      box-shadow: var(--shadow);
+      pointer-events: auto;
+    }
+
+    .toolbar-button {
+      min-width: 32px;
+      height: 30px;
+      padding: 0 9px;
+      border: 0;
+      border-radius: 8px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .toolbar-button:hover, .toolbar-button.active { color: var(--ink); background: var(--surface-3); }
+    .toolbar-spacer { flex: 1; }
+
+    .profile-select {
+      height: 30px;
+      padding: 0 28px 0 9px;
+      border: 0;
+      border-radius: 8px;
+      color: var(--ink);
+      outline: 0;
+      background: var(--surface-3);
+      font-size: 11px;
+    }
+
+    .view-description {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      max-width: min(440px, 58%);
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: var(--muted);
+      background: rgba(10, 14, 20, 0.88);
+      box-shadow: var(--shadow);
+      font-size: 11px;
+      line-height: 1.45;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .view-description strong { color: var(--ink); }
+
+    #ontology-canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+    #ontology-canvas.is-panning { cursor: grabbing; }
+
+    .graph-edge { stroke: #455064; stroke-width: 1.5; fill: none; opacity: 0.8; }
+    .graph-edge.relation { stroke: var(--violet); stroke-dasharray: 7 5; opacity: 0.55; }
+    .graph-edge.constraint { stroke: var(--violet); opacity: 0.5; }
+    .graph-edge.fact { stroke: var(--lime); opacity: 0.72; }
+    .graph-edge.violation { stroke: var(--red); opacity: 0.76; }
+    .graph-edge.dimmed { opacity: 0.08; }
+    .edge-label { fill: var(--muted); font-size: 9px; paint-order: stroke; stroke: #0a0e14; stroke-width: 4px; stroke-linejoin: round; }
+
+    .graph-node { cursor: pointer; outline: none; }
+    .graph-node .node-rect { fill: rgba(20, 26, 35, 0.98); stroke: #3a4558; stroke-width: 1.2; rx: 13; filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.28)); transition: 120ms ease; }
+    .graph-node:hover .node-rect, .graph-node:focus-visible .node-rect { stroke: var(--cyan); stroke-width: 1.8; }
+    .graph-node.selected .node-rect { stroke: var(--cyan); stroke-width: 2.4; filter: drop-shadow(0 0 16px rgba(99, 216, 229, 0.18)); }
+    .graph-node.property .node-rect { stroke: #554d7a; fill: rgba(28, 24, 43, 0.98); }
+    .graph-node.profile .node-rect { stroke: #6558a0; fill: rgba(34, 28, 53, 0.98); }
+    .graph-node.fact .node-rect { stroke: #426039; fill: rgba(22, 34, 24, 0.98); }
+    .graph-node.finding .node-rect { stroke: #713a3d; fill: rgba(45, 23, 26, 0.98); }
+    .graph-node.meta-type .node-rect { stroke: #3b6571; fill: rgba(18, 31, 38, 0.98); }
+    .graph-node.meta-type.maturity-candidate .node-rect { stroke: #6558a0; fill: rgba(34, 28, 53, 0.98); }
+    .graph-node.meta-type.maturity-deferred .node-rect { stroke: #765c34; fill: rgba(49, 38, 24, 0.98); }
+    .graph-node.meta-type.maturity-superseded .node-rect { stroke: #713a3d; fill: rgba(45, 23, 26, 0.98); }
+    .graph-node.meta-group .node-rect { stroke: #49586e; fill: rgba(24, 30, 41, 0.98); }
+    .graph-node.broken .node-rect { stroke: var(--red); }
+    .graph-node.dimmed { opacity: 0.16; }
+    .node-accent { fill: var(--cyan); }
+    .graph-node.property .node-accent, .graph-node.profile .node-accent { fill: var(--violet); }
+    .graph-node.fact .node-accent { fill: var(--lime); }
+    .graph-node.finding .node-accent, .graph-node.broken .node-accent { fill: var(--red); }
+    .graph-node.meta-type.maturity-candidate .node-accent { fill: var(--violet); }
+    .graph-node.meta-type.maturity-deferred .node-accent { fill: var(--amber); }
+    .graph-node.meta-type.maturity-superseded .node-accent { fill: var(--red); }
+    .graph-node.meta-group .node-accent { fill: var(--blue); }
+    .node-title { fill: var(--ink); font-size: 12px; font-weight: 720; pointer-events: none; }
+    .node-plain { fill: #c5ccd7; font-size: 9.5px; pointer-events: none; }
+    .node-badge { fill: var(--faint); font-size: 8px; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; pointer-events: none; }
+    .node-count { fill: var(--muted); font-size: 9px; pointer-events: none; }
+
+    .inspector-head { position: relative; padding: 20px 54px 16px 20px; border-bottom: 1px solid var(--line); }
+    .inspector-close { position: absolute; top: 12px; right: 12px; }
+    .inspector-kicker { color: var(--cyan); font-size: 10px; font-weight: 760; letter-spacing: 0.13em; text-transform: uppercase; }
+    .inspector h2 { margin: 6px 0 5px; font-size: 20px; letter-spacing: -0.025em; }
+    .inspector-id { color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; overflow-wrap: anywhere; }
+    .inspector-body { padding: 18px 20px 32px; }
+    .inspector-empty { display: grid; place-items: center; min-height: 70%; padding: 32px; color: var(--muted); text-align: center; }
+    .inspector-empty svg { width: 52px; margin-bottom: 14px; color: var(--line-bright); }
+    .inspector-empty strong { display: block; margin-bottom: 6px; color: var(--ink); }
+
+    .detail-section { margin-bottom: 22px; }
+    .detail-section h3 { margin: 0 0 9px; color: var(--faint); font-size: 10px; font-weight: 760; letter-spacing: 0.12em; text-transform: uppercase; }
+    .detail-grid { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 8px 10px; margin: 0; font-size: 11px; }
+    .detail-grid dt { color: var(--faint); }
+    .detail-grid dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
+    .detail-copy { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { padding: 5px 7px; border: 1px solid var(--line); border-radius: 7px; color: var(--muted); background: var(--surface); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9px; }
+    .tag.cyan { border-color: rgba(99, 216, 229, 0.26); color: var(--cyan); background: var(--cyan-dim); }
+    .tag.red { border-color: rgba(255, 123, 123, 0.24); color: var(--red); background: var(--red-dim); }
+
+    .property-list { display: grid; gap: 7px; }
+    .property-row { padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px; background: rgba(17, 21, 29, 0.86); }
+    .property-row-head { display: flex; align-items: start; justify-content: space-between; gap: 8px; }
+    .property-name { color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9.5px; overflow-wrap: anywhere; }
+    .property-value { margin-top: 5px; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
+    .property-value.bad { color: var(--red); }
+    .origin { flex: 0 0 auto; color: var(--faint); font-size: 8px; }
+
+    .warning-card { padding: 11px 12px; border: 1px solid rgba(246, 189, 97, 0.26); border-radius: 10px; color: #d9c69f; background: rgba(69, 52, 30, 0.46); font-size: 10.5px; line-height: 1.5; }
+    .danger-card { padding: 11px 12px; border: 1px solid rgba(255, 123, 123, 0.24); border-radius: 10px; color: #f6b3b3; background: rgba(73, 36, 38, 0.52); font-size: 10.5px; line-height: 1.5; }
+
+    .legend { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; color: var(--faint); font-size: 9px; }
+    .legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .legend i { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); }
+    .legend .property-key i { background: var(--violet); }
+    .legend .fact-key i { background: var(--lime); }
+    .legend .finding-key i { background: var(--red); }
+
+    .modal-backdrop { position: fixed; inset: 0; display: none; place-items: center; padding: 20px; background: rgba(3, 5, 8, 0.78); backdrop-filter: blur(8px); z-index: 20; }
+    .modal-backdrop.open { display: grid; }
+    .modal { width: min(620px, 100%); max-height: min(760px, calc(100vh - 40px)); overflow: auto; padding: 24px; border: 1px solid var(--line-bright); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
+    .modal h2 { margin: 0 0 8px; font-size: 20px; }
+    .modal p { color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .modal h3 { margin: 20px 0 6px; color: var(--ink); font-size: 12px; }
+    .modal .plain-model { display: grid; gap: 7px; margin: 14px 0 4px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .modal .plain-model strong { color: var(--ink); }
+    .guide-link { display: inline-flex; margin-top: 14px; color: var(--cyan); font-size: 11px; text-decoration: none; }
+    .guide-link:hover, .guide-link:focus-visible { text-decoration: underline; outline: none; }
+    .shortcut-grid { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-top: 18px; font-size: 11px; }
+    .shortcut-grid span:nth-child(odd) { color: var(--muted); }
+    kbd { padding: 2px 6px; border: 1px solid var(--line-bright); border-radius: 5px; color: var(--ink); background: var(--surface-3); font-family: inherit; font-size: 9px; }
+
+    .toast { position: absolute; top: 68px; left: 50%; transform: translate(-50%, -12px); z-index: 15; padding: 9px 12px; border: 1px solid var(--line-bright); border-radius: 9px; color: var(--ink); background: var(--surface-2); box-shadow: var(--shadow); font-size: 11px; opacity: 0; pointer-events: none; transition: 180ms ease; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 1080px) { .top-metrics .metric:nth-child(n+4) { display: none; } }
+
+    @media (max-width: 820px) {
+      .sidebar, .inspector { top: 8px; bottom: 8px; }
+      .sidebar { left: 8px; width: min(292px, calc(100vw - 16px)); }
+      .inspector { right: 8px; width: min(390px, calc(100vw - 16px)); }
+      .canvas-toolbar { right: auto; display: grid; grid-template-columns: max-content max-content; }
+      .canvas-toolbar .toolbar-spacer { display: none; }
+      .canvas-toolbar #meta-type-filter-group { grid-column: 1 / -1; justify-self: start; }
+      .canvas-toolbar > .toolbar-group:last-child .section-label { display: none; }
+      .brand { min-width: 0; }
+      .status-pill, .top-metrics { display: none; }
+      .view-description { max-width: calc(100% - 36px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="5" cy="6" r="2.25"/><circle cx="18.5" cy="5" r="2.25"/><circle cx="12" cy="18" r="2.25"/>
+            <path d="M7 7.2l3.6 8.6M16.7 6.7l-3.5 9.1M7.2 6h9"/>
+          </svg>
+        </div>
+        <div class="brand-copy">
+          <div class="eyebrow">DomainSpec · candidate view</div>
+          <h1>Architecture Ontology Canvas</h1>
+        </div>
+      </div>
+      <div id="app-status" class="status-pill">Loading ontology</div>
+      <div class="top-metrics" aria-label="Ontology metrics">
+        <div class="metric"><strong id="metric-types">—</strong> meta-types</div>
+        <div class="metric"><strong id="metric-properties">—</strong> properties</div>
+        <div class="metric"><strong id="metric-relations">—</strong> relations</div>
+        <div class="metric"><strong id="metric-profiles">—</strong> profiles</div>
+        <div class="metric"><strong id="metric-findings">—</strong> findings</div>
+      </div>
+      <button id="help-button" class="icon-button" aria-label="Open canvas help" title="Help and keyboard shortcuts">?</button>
+    </header>
+
+    <main class="workspace">
+      <aside id="navigation-drawer" class="sidebar" aria-label="Canvas navigation" aria-hidden="true">
+        <div class="drawer-head">
+          <div><strong>Explore the graph</strong><span>Choose a view or find a node</span></div>
+          <button id="close-navigation" class="icon-button drawer-close" aria-label="Close Explore panel" title="Close">×</button>
+        </div>
+        <section class="sidebar-section">
+          <div class="section-label">Find anything</div>
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg>
+            <input id="search-input" type="search" placeholder="Types, properties, IDs…" autocomplete="off">
+            <kbd>/</kbd>
+          </label>
+        </section>
+
+        <section class="sidebar-section">
+          <div class="section-label">Graph lenses</div>
+          <nav class="view-nav">
+            <button class="view-button active" data-view="metaTypes">
+              <span class="view-icon">◇</span>
+              <span><span class="view-title">DomainSpec meta-types</span><span class="view-subtitle">Canonical DS-D1 inventory</span></span>
+              <span class="view-key">1</span>
+            </button>
+            <button class="view-button" data-view="types">
+              <span class="view-icon">⌘</span>
+              <span><span class="view-title">Architecture types</span><span class="view-subtitle">Realization model</span></span>
+              <span class="view-key">2</span>
+            </button>
+            <button class="view-button" data-view="profiles">
+              <span class="view-icon">◆</span>
+              <span><span class="view-title">Profile properties</span><span class="view-subtitle">Expected architecture</span></span>
+              <span class="view-key">3</span>
+            </button>
+            <button class="view-button" data-view="facts">
+              <span class="view-icon">◎</span>
+              <span><span class="view-title">Observed facts</span><span class="view-subtitle">TypeScript projection</span></span>
+              <span class="view-key">4</span>
+            </button>
+            <button class="view-button" data-view="findings">
+              <span class="view-icon">!</span>
+              <span><span class="view-title">Violations</span><span class="view-subtitle">Expected vs observed</span></span>
+              <span class="view-key">5</span>
+            </button>
+          </nav>
+        </section>
+
+        <section class="navigator">
+          <div class="navigator-head"><span class="section-label" style="margin:0">Navigator</span><span id="navigator-count" class="navigator-count">0 items</span></div>
+          <div id="node-list" class="node-list"></div>
+        </section>
+      </aside>
+
+      <section class="canvas-shell" aria-label="Interactive architecture ontology graph">
+        <div class="canvas-toolbar">
+          <div class="toolbar-group">
+            <button id="open-navigation" class="toolbar-button" aria-expanded="false" aria-controls="navigation-drawer" title="Open Explore panel (N)">☰ Explore</button>
+          </div>
+          <div class="toolbar-group" aria-label="Canvas controls">
+            <button id="zoom-out" class="toolbar-button" aria-label="Zoom out">−</button>
+            <button id="zoom-in" class="toolbar-button" aria-label="Zoom in">+</button>
+            <button id="fit-graph" class="toolbar-button" title="Fit graph (F)">Fit</button>
+            <button id="reset-layout" class="toolbar-button" title="Reset dragged nodes">Reset</button>
+          </div>
+          <div id="relation-toggle-group" class="toolbar-group">
+            <button id="toggle-relations" class="toolbar-button active">Relations on</button>
+          </div>
+          <div id="meta-type-filter-group" class="toolbar-group">
+            <label for="meta-type-filter" class="section-label" style="margin:0 3px 0 6px">Show</label>
+            <select id="meta-type-filter" class="profile-select">
+              <option value="active">Active backend · 13</option>
+              <option value="ui">UI candidate/deferred · 11</option>
+              <option value="all">All staged · 24</option>
+              <option value="history">Superseded history · 1</option>
+            </select>
+          </div>
+          <div class="toolbar-spacer"></div>
+          <div id="profile-select-group" class="toolbar-group">
+            <label for="profile-select" class="section-label" style="margin:0 3px 0 6px">Profile</label>
+            <select id="profile-select" class="profile-select">
+              <option value="typescript">TypeScript strict</option>
+              <option value="python">Python strict</option>
+              <option value="rust">Rust strict</option>
+            </select>
+          </div>
+        </div>
+
+        <svg id="ontology-canvas" data-testid="ontology-canvas" role="application" aria-label="Pan and zoom architecture ontology canvas">
+          <defs>
+            <marker id="arrow-default" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#58657b"/></marker>
+            <marker id="arrow-relation" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8b78d6"/></marker>
+            <marker id="arrow-fact" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#82a95f"/></marker>
+            <marker id="arrow-violation" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#d96767"/></marker>
+          </defs>
+          <g id="viewport"></g>
+        </svg>
+
+        <div id="view-description" class="view-description"><strong>DomainSpec meta-types.</strong> Loading the canonical inventory projection…</div>
+      </section>
+
+      <aside id="inspector" class="inspector" aria-label="Selected item details" aria-hidden="true"></aside>
+    </main>
+  </div>
+
+  <div id="help-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div class="modal">
+      <div class="eyebrow">Canvas guide</div>
+      <h2 id="help-title">Navigate the ontology</h2>
+      <p>An ontology is a shared vocabulary: it defines which kinds of things exist, which properties can describe them, and which relationships can connect them.</p>
+      <div class="plain-model">
+        <span><strong>DomainSpec</strong> says what a concept means.</span>
+        <span><strong>The architecture ontology</strong> says what can be inspected in code.</span>
+        <span><strong>A profile</strong> says what TypeScript, Python, Rust, or a project expects.</span>
+        <span><strong>An observation</strong> supplies typed facts from an adapter or fixture.</span>
+        <span><strong>A finding</strong> explains where expectation and observation differ.</span>
+      </div>
+      <p>Each node gives you the plain-language meaning first. Click it to open the exact contract and its authority boundary. Drag nodes to explore relationships, drag empty space to pan, and use the wheel to zoom.</p>
+      <a class="guide-link" href="BEGINNER-GUIDE.html" target="_blank" rel="noopener">Read the detailed beginner guide →</a>
+      <h3>Keyboard and canvas controls</h3>
+      <div class="shortcut-grid">
+        <span>Open or close Explore</span><span><kbd>N</kbd></span>
+        <span>Switch graph lenses</span><span><kbd>1</kbd>–<kbd>5</kbd></span>
+        <span>Focus search</span><span><kbd>/</kbd></span>
+        <span>Fit current graph</span><span><kbd>F</kbd></span>
+        <span>Close help or clear selection</span><span><kbd>Esc</kbd></span>
+        <span>Inspect focused node</span><span><kbd>Enter</kbd></span>
+      </div>
+      <button id="close-help" class="toolbar-button" style="margin-top:22px;background:var(--surface-3)">Close</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    const NS = "http://www.w3.org/2000/svg";
+    const paths = {
+      ontology: "ontology.json",
+      metaTypes: "domain-meta-types.projection.json",
+      base: "profiles/base-domain.profile.json",
+      typescript: "profiles/typescript-strict.profile.json",
+      python: "profiles/python-strict.profile.json",
+      rust: "profiles/rust-strict.profile.json",
+      facts: "examples/typescript-observed-facts.json",
+      evaluation: "examples/typescript-evaluation.expected.json",
+    };
+
+    const dom = {
+      status: document.querySelector("#app-status"),
+      canvas: document.querySelector("#ontology-canvas"),
+      viewport: document.querySelector("#viewport"),
+      navigation: document.querySelector("#navigation-drawer"),
+      openNavigation: document.querySelector("#open-navigation"),
+      inspector: document.querySelector("#inspector"),
+      search: document.querySelector("#search-input"),
+      nodeList: document.querySelector("#node-list"),
+      navigatorCount: document.querySelector("#navigator-count"),
+      profile: document.querySelector("#profile-select"),
+      description: document.querySelector("#view-description"),
+      relationToggle: document.querySelector("#toggle-relations"),
+      relationToggleGroup: document.querySelector("#relation-toggle-group"),
+      metaTypeFilter: document.querySelector("#meta-type-filter"),
+      metaTypeFilterGroup: document.querySelector("#meta-type-filter-group"),
+      profileGroup: document.querySelector("#profile-select-group"),
+      help: document.querySelector("#help-modal"),
+      toast: document.querySelector("#toast"),
+    };
+
+    const state = {
+      data: null,
+      view: "metaTypes",
+      selectedId: null,
+      search: "",
+      profile: "typescript",
+      metaTypeFilter: "active",
+      showRelations: true,
+      transform: {x: 0, y: 0, k: 1},
+      graph: {nodes: [], edges: []},
+      positionCache: new Map(),
+      gesture: null,
+      raf: null,
+    };
+
+    const fetchJson = async (path) => {
+      const response = await fetch(path, {cache: "no-store"});
+      if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
+      return response.json();
+    };
+
+    const load = async () => {
+      try {
+        const [ontology, metaTypes, base, typescript, python, rust, facts, evaluation] = await Promise.all(Object.values(paths).map(fetchJson));
+        state.data = {ontology, metaTypes, profiles: {base, typescript, python, rust}, facts, evaluation};
+        dom.status.textContent = "Live JSON · candidate";
+        dom.status.classList.add("ready");
+        document.querySelector("#metric-types").textContent = metaTypes.counts.staged;
+        document.querySelector("#metric-properties").textContent = ontology.property_definitions.length;
+        document.querySelector("#metric-relations").textContent = ontology.relation_definitions.length;
+        document.querySelector("#metric-profiles").textContent = Object.keys(state.data.profiles).length;
+        document.querySelector("#metric-findings").textContent = evaluation.finding_count;
+        render({fit: true});
+      } catch (error) {
+        dom.status.textContent = "Data load blocked";
+        dom.status.classList.add("error");
+        dom.description.innerHTML = `<strong>Unable to load the ontology.</strong> ${escapeHtml(error.message)}. Serve this file over HTTP from its containing directory.`;
+        console.error(error);
+      }
+    };
+
+    const escapeHtml = (value) => String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+
+    const short = (value, max = 28) => {
+      const text = String(value ?? "");
+      return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+    };
+
+    const tail = (id) => String(id).split(".").at(-1);
+    const conceptPlainCopy = {
+      "architecture.ArchitectureElement": "Anything in the codebase this model can describe.",
+      "architecture.DomainConceptImplementation": "Code that realizes one named domain concept.",
+      "architecture.RuleImplementation": "A yes-or-no check that can allow or block behavior.",
+      "architecture.OperationImplementation": "Code that changes the state of the system.",
+      "architecture.QueryImplementation": "Code that reads information without changing it.",
+      "architecture.StateMachineImplementation": "Code that defines states and the moves between them.",
+      "architecture.InterfaceImplementation": "A boundary that exposes operations or queries.",
+      "architecture.AdapterImplementation": "Code that connects an outside system to an interface.",
+      "architecture.ArchitectureProfile": "A named set of architecture expectations.",
+      "architecture.Constraint": "One testable expectation about a property.",
+      "architecture.LanguageProjection": "How one language turns code into ontology facts.",
+      "architecture.ObservationProjection": "Typed facts supplied by an adapter or fixture.",
+    };
+    const propertyPlainCopy = {
+      "source.language": "Which programming language this code uses.",
+      "source.path": "Where this code lives in the repository.",
+      "source.filename_case": "How the file name is written.",
+      "source.primary_concept_count": "How many main concepts this file implements.",
+      "binding.concept_id": "Which named domain concept this code implements.",
+      "binding.current": "Whether the concept-to-code link is still current.",
+      "symbol.primary_callable_count": "How many main entry points implement the concept.",
+      "symbol.public_callable_count": "How many callable entry points are public.",
+      "callable.form": "The syntax used to define the main callable.",
+      "callable.return_semantics": "What kind of result the callable promises.",
+      "callable.helper_policy": "Where supporting helper code is allowed.",
+      "dependency.resolution": "How directly one code element reaches another.",
+      "dependency.direction": "Whether a dependency points toward or away from the core.",
+      "state.representation": "How the language represents the possible states.",
+      "state.exhaustive": "Whether every admitted state is handled.",
+      "transition.negative_fixture_present": "Whether an invalid state move is tested.",
+      "interface.versioned": "Whether the boundary names a supported version.",
+    };
+    const factPlainCopy = {
+      MaxAmountRule: "A Rule example that satisfies the selected checks.",
+      ProcessPayment: "An Operation that depends on two Rule examples.",
+      LegacyLimitRule: "A Rule example with architecture problems to inspect.",
+    };
+    const wrapWords = (value, maxCharacters = 36, maxLines = 2) => {
+      const words = String(value ?? "").trim().split(/\s+/).filter(Boolean);
+      const lines = [];
+      let line = "";
+      for (const word of words) {
+        const candidate = line ? `${line} ${word}` : word;
+        if (candidate.length <= maxCharacters || !line) {
+          line = candidate;
+          continue;
+        }
+        lines.push(line);
+        line = word;
+        if (lines.length === maxLines) break;
+      }
+      if (lines.length < maxLines && line) lines.push(line);
+      const consumed = lines.join(" ").replace(/…$/, "");
+      if (consumed.length < words.join(" ").length && lines.length) lines[lines.length - 1] = `${short(lines.at(-1), maxCharacters - 1)}…`;
+      return lines.slice(0, maxLines);
+    };
+    const conceptMap = () => new Map(state.data.ontology.concept_types.map((item) => [item.concept_id, item]));
+
+    const isSubtype = (actual, expected) => {
+      const byId = conceptMap();
+      let cursor = byId.get(actual);
+      while (cursor) {
+        if (cursor.concept_id === expected) return true;
+        cursor = cursor.extends ? byId.get(cursor.extends) : null;
+      }
+      return false;
+    };
+
+    const resolvedProfile = (language = state.profile) => {
+      const base = state.data.profiles.base;
+      const child = state.data.profiles[language];
+      return {
+        ...child,
+        constraints: [
+          ...base.constraints.map((constraint) => ({...constraint, origin_profile: base.profile_id})),
+          ...child.constraints.map((constraint) => ({...constraint, origin_profile: child.profile_id})),
+        ],
+      };
+    };
+
+    const inheritedProperties = (type) => state.data.ontology.property_definitions.filter((property) =>
+      property.applies_to.kind === "node" && property.applies_to.types.some((expected) => isSubtype(type, expected))
+    );
+
+    const matchingConstraints = (type, language = state.profile) => resolvedProfile(language).constraints.filter((constraint) =>
+      constraint.constraint_kind === "node-property" && constraint.applies_to.some((expected) => isSubtype(type, expected))
+    );
+
+    const typePositions = {
+      "architecture.ArchitectureElement": [450, 90],
+      "architecture.DomainConceptImplementation": [335, 245],
+      "architecture.AdapterImplementation": [760, 245],
+      "architecture.RuleImplementation": [80, 430],
+      "architecture.OperationImplementation": [335, 430],
+      "architecture.QueryImplementation": [590, 430],
+      "architecture.StateMachineImplementation": [845, 430],
+      "architecture.InterfaceImplementation": [1100, 430],
+      "architecture.ArchitectureProfile": [1380, 70],
+      "architecture.Constraint": [1380, 190],
+      "architecture.LanguageProjection": [1380, 310],
+      "architecture.ObservationProjection": [1380, 430],
+    };
+
+    const metaTypeGroupCatalog = {
+      "active:structural": {label: "Active · Structural", plain: "Identity, value, and finite-shape concepts.", edge: "structural"},
+      "active:behavioral": {label: "Active · Behavioral", plain: "Actions, decisions, formulas, and orchestration.", edge: "behavioral"},
+      "active:connective": {label: "Active · Connective", plain: "Boundaries, past facts, and shape translations.", edge: "connective"},
+      "active:lifecycle": {label: "Active · Lifecycle", plain: "Explicit state and transition concepts.", edge: "lifecycle"},
+      "candidate:ui": {label: "Candidate · UI", plain: "Shape-evidenced UI labels that are not active yet.", edge: "candidate"},
+      "deferred:ui": {label: "Deferred · UI", plain: "UI labels awaiting a merge or split decision.", edge: "deferred"},
+      "superseded:behavioral": {label: "Superseded history", plain: "Retired identifiers preserved for historical integrity.", edge: "history"},
+    };
+
+    const visibleMetaTypes = () => state.data.metaTypes.meta_types.filter((metaType) => {
+      if (state.metaTypeFilter === "active") return metaType.maturity === "active";
+      if (state.metaTypeFilter === "ui") return metaType.maturity === "candidate" || metaType.maturity === "deferred";
+      if (state.metaTypeFilter === "history") return metaType.maturity === "superseded";
+      return metaType.maturity !== "superseded";
+    });
+
+    const buildMetaTypeGraph = () => {
+      const entries = visibleMetaTypes();
+      const grouped = new Map();
+      for (const metaType of entries) {
+        const key = `${metaType.maturity}:${metaType.category}`;
+        const groupEntries = grouped.get(key) ?? [];
+        groupEntries.push(metaType);
+        grouped.set(key, groupEntries);
+      }
+      const nodes = [{
+        id: "meta-root",
+        label: "DS-D1 Meta-Type System",
+        plain: "The canonical DomainSpec node alphabet, shown without changing its authority.",
+        subtitle: state.data.metaTypes.projection_id,
+        badge: "canonical inventory",
+        kind: "meta-group",
+        data: {...state.data.metaTypes, count: entries.length},
+        x: 120,
+        y: 55,
+      }];
+      const edges = [];
+      let laneY = 210;
+      for (const [groupKey, groupEntries] of grouped) {
+        const group = metaTypeGroupCatalog[groupKey] ?? {label: groupKey, plain: "A maturity and category grouping.", edge: "contains"};
+        const rows = Math.max(1, Math.ceil(groupEntries.length / 5));
+        const groupId = `meta-group:${groupKey}`;
+        nodes.push({
+          id: groupId,
+          label: group.label,
+          plain: group.plain,
+          subtitle: groupKey,
+          badge: "registry group",
+          kind: "meta-group",
+          data: {group_key: groupKey, count: groupEntries.length},
+          x: 120,
+          y: laneY + (rows - 1) * 72,
+        });
+        edges.push({id: `meta-root:${groupKey}`, from: "meta-root", to: groupId, label: group.edge, kind: "inheritance", data: {group_key: groupKey}});
+        groupEntries.forEach((metaType, index) => {
+          const nodeId = `meta:${metaType.meta_type_id}`;
+          nodes.push({
+            id: nodeId,
+            label: metaType.label,
+            plain: metaType.plain_language,
+            subtitle: metaType.meta_type_id,
+            badge: metaType.maturity,
+            kind: "meta-type",
+            maturity: metaType.maturity,
+            data: metaType,
+            x: 370 + (index % 5) * 250,
+            y: laneY + Math.floor(index / 5) * 145,
+          });
+          edges.push({id: `${groupId}:${metaType.meta_type_id}`, from: groupId, to: nodeId, label: metaType.category, kind: "inheritance", data: metaType});
+        });
+        laneY += rows * 145 + 95;
+      }
+      return {nodes, edges};
+    };
+
+    const buildTypeGraph = () => {
+      const nodes = state.data.ontology.concept_types.map((concept) => ({
+        id: concept.concept_id,
+        label: concept.label,
+        plain: conceptPlainCopy[concept.concept_id] ?? "A concept used to describe code architecture.",
+        subtitle: concept.abstract ? "abstract type" : concept.concept_role,
+        badge: concept.candidate_status,
+        kind: "concept",
+        data: concept,
+        x: typePositions[concept.concept_id]?.[0] ?? 600,
+        y: typePositions[concept.concept_id]?.[1] ?? 300,
+      }));
+      const edges = state.data.ontology.concept_types.filter((concept) => concept.extends).map((concept) => ({
+        id: `extends:${concept.concept_id}`,
+        from: concept.extends,
+        to: concept.concept_id,
+        label: "extends",
+        kind: "inheritance",
+      }));
+      if (state.showRelations) {
+        for (const relation of state.data.ontology.relation_definitions) {
+          for (const from of relation.source_types) {
+            for (const to of relation.target_types) {
+              if (from === "architecture.ArchitectureElement" && to === "architecture.ArchitectureElement") continue;
+              edges.push({id: `${relation.relation_id}:${from}:${to}`, from, to, label: tail(relation.relation_id), kind: "relation", data: relation});
+            }
+          }
+        }
+      }
+      return {nodes, edges};
+    };
+
+    const buildProfileGraph = () => {
+      const profile = resolvedProfile();
+      const baseId = state.data.profiles.base.profile_id;
+      const childId = profile.profile_id;
+      const properties = [...new Set(profile.constraints.map((constraint) => constraint.property_id))];
+      const nodes = [
+        {id: baseId, label: "Portable domain", plain: "Rules that every supported language should share.", subtitle: "base profile", badge: "portable", kind: "profile", data: state.data.profiles.base, x: 260, y: 105},
+        {id: childId, label: `${state.profile[0].toUpperCase()}${state.profile.slice(1)} strict`, plain: `Extra expectations for ${state.profile} code.`, subtitle: "language profile", badge: state.profile, kind: "profile", data: profile, x: 700, y: 105},
+      ];
+      properties.forEach((propertyId, index) => {
+        const property = state.data.ontology.property_definitions.find((item) => item.property_id === propertyId);
+        const col = index % 4;
+        const row = Math.floor(index / 4);
+        nodes.push({
+          id: `property:${propertyId}`,
+          label: tail(propertyId).replaceAll("_", " "),
+          plain: propertyPlainCopy[propertyId] ?? property?.semantics ?? "A property the profile can check.",
+          subtitle: propertyId,
+          badge: property?.value_type?.kind ?? "property",
+          kind: "property",
+          data: property,
+          x: 80 + col * 245,
+          y: 300 + row * 145,
+        });
+      });
+      const edges = profile.constraints.map((constraint) => ({
+        id: `constraint:${constraint.constraint_id}`,
+        from: constraint.origin_profile,
+        to: `property:${constraint.property_id}`,
+        label: constraint.operator,
+        kind: "constraint",
+        data: constraint,
+      }));
+      return {nodes, edges};
+    };
+
+    const buildFactsGraph = () => {
+      const findingsBySubject = new Map();
+      for (const finding of state.data.evaluation.findings) {
+        const items = findingsBySubject.get(finding.subject_id) ?? [];
+        items.push(finding);
+        findingsBySubject.set(finding.subject_id, items);
+      }
+      const initial = [[160, 260], [520, 180], [880, 310]];
+      const nodes = state.data.facts.elements.map((element, index) => ({
+        id: element.element_id,
+        label: tail(element.element_id),
+        plain: factPlainCopy[tail(element.element_id)] ?? `Supplied example classified as ${tail(element.type)}.`,
+        subtitle: tail(element.type),
+        badge: findingsBySubject.has(element.element_id) ? `${findingsBySubject.get(element.element_id).length} findings` : "conforming sample",
+        kind: "fact",
+        broken: findingsBySubject.has(element.element_id),
+        data: element,
+        x: initial[index]?.[0] ?? 160 + index * 280,
+        y: initial[index]?.[1] ?? 260,
+      }));
+      const edges = state.data.facts.relations.map((relation) => ({
+        id: relation.relation_id,
+        from: relation.from,
+        to: relation.to,
+        label: relation.properties["dependency.resolution"] ?? tail(relation.type),
+        kind: findingsBySubject.has(relation.relation_id) ? "violation" : "fact",
+        data: relation,
+      }));
+      return {nodes, edges};
+    };
+
+    const buildFindingsGraph = () => {
+      const evaluation = state.data.evaluation;
+      const subjectIds = [...new Set(evaluation.findings.map((finding) => finding.subject_id))];
+      const nodes = [];
+      subjectIds.forEach((subjectId, index) => {
+        const isRelation = subjectId.startsWith("dependency.");
+        nodes.push({
+          id: `subject:${subjectId}`,
+          label: tail(subjectId),
+          plain: isRelation ? "A supplied dependency that breaks an architecture expectation." : factPlainCopy[tail(subjectId)] ?? "A supplied example with architecture problems to inspect.",
+          subtitle: isRelation ? "violating dependency" : "violating architecture element",
+          badge: "failure subject",
+          kind: "fact",
+          broken: true,
+          data: isRelation ? state.data.facts.relations.find((item) => item.relation_id === subjectId) : state.data.facts.elements.find((item) => item.element_id === subjectId),
+          x: 420 + index * 330,
+          y: 300,
+        });
+      });
+      evaluation.findings.forEach((finding, index) => {
+        const angle = (index / evaluation.findings.length) * Math.PI * 2 - Math.PI / 2;
+        const radius = index === evaluation.findings.length - 1 ? 410 : 300;
+        nodes.push({
+          id: `finding:${finding.constraint_id}`,
+          label: tail(finding.property_id).replaceAll("_", " "),
+          plain: `Expected ${formatValue(finding.expected)}; found ${formatValue(finding.actual)}.`,
+          subtitle: `${short(finding.actual, 18)} → ${short(finding.expected, 18)}`,
+          badge: finding.severity,
+          kind: "finding",
+          data: finding,
+          x: 570 + Math.cos(angle) * radius,
+          y: 330 + Math.sin(angle) * radius,
+        });
+      });
+      const edges = evaluation.findings.map((finding) => ({
+        id: `violates:${finding.constraint_id}`,
+        from: `subject:${finding.subject_id}`,
+        to: `finding:${finding.constraint_id}`,
+        label: "violates",
+        kind: "violation",
+        data: finding,
+      }));
+      return {nodes, edges};
+    };
+
+    const buildGraph = () => ({metaTypes: buildMetaTypeGraph, types: buildTypeGraph, profiles: buildProfileGraph, facts: buildFactsGraph, findings: buildFindingsGraph}[state.view]());
+
+    const cacheKey = () => `${state.view}:${state.profile}:${state.showRelations}:${state.metaTypeFilter}`;
+
+    const applyCachedPositions = (graph) => {
+      const cache = state.positionCache.get(cacheKey());
+      if (!cache) return graph;
+      for (const node of graph.nodes) {
+        const position = cache.get(node.id);
+        if (position) Object.assign(node, position);
+      }
+      return graph;
+    };
+
+    const savePositions = () => state.positionCache.set(cacheKey(), new Map(state.graph.nodes.map((node) => [node.id, {x: node.x, y: node.y}])));
+
+    const createSvg = (name, attrs = {}) => {
+      const element = document.createElementNS(NS, name);
+      for (const [key, value] of Object.entries(attrs)) element.setAttribute(key, value);
+      return element;
+    };
+
+    const nodeMatchesSearch = (node) => {
+      if (!state.search) return true;
+      return JSON.stringify(node.data ?? {}).toLowerCase().includes(state.search) || `${node.id} ${node.label} ${node.plain} ${node.subtitle}`.toLowerCase().includes(state.search);
+    };
+
+    const renderCanvas = () => {
+      dom.viewport.replaceChildren();
+      const byId = new Map(state.graph.nodes.map((node) => [node.id, node]));
+      const queryActive = Boolean(state.search);
+      const matching = new Set(state.graph.nodes.filter(nodeMatchesSearch).map((node) => node.id));
+
+      for (const edge of state.graph.edges) {
+        const source = byId.get(edge.from);
+        const target = byId.get(edge.to);
+        if (!source || !target) continue;
+        const group = createSvg("g");
+        const dimmed = queryActive && !matching.has(source.id) && !matching.has(target.id);
+        const line = createSvg("line", {
+          x1: source.x, y1: source.y, x2: target.x, y2: target.y,
+          class: `graph-edge ${edge.kind} ${dimmed ? "dimmed" : ""}`,
+          "marker-end": `url(#arrow-${edge.kind === "relation" || edge.kind === "constraint" ? "relation" : edge.kind === "fact" ? "fact" : edge.kind === "violation" ? "violation" : "default"})`,
+        });
+        group.append(line);
+        const label = createSvg("text", {x: (source.x + target.x) / 2, y: (source.y + target.y) / 2 - 7, class: "edge-label", "text-anchor": "middle"});
+        label.textContent = edge.label;
+        group.append(label);
+        group.addEventListener("click", (event) => { event.stopPropagation(); renderInspector({id: edge.id, label: edge.label, kind: "edge", data: edge.data, edge}); });
+        dom.viewport.append(group);
+      }
+
+      for (const node of state.graph.nodes) {
+        const width = node.kind === "finding" ? 218 : node.kind === "meta-group" ? 250 : 230;
+        const height = 94;
+        const group = createSvg("g", {
+          class: `graph-node ${node.kind} ${node.maturity ? `maturity-${node.maturity}` : ""} ${node.broken ? "broken" : ""} ${state.selectedId === node.id ? "selected" : ""} ${queryActive && !matching.has(node.id) ? "dimmed" : ""}`,
+          transform: `translate(${node.x - width / 2} ${node.y - height / 2})`,
+          tabindex: "0",
+          role: "button",
+          "aria-label": `${node.label}. ${node.plain ?? node.subtitle}`,
+          "data-node-id": node.id,
+        });
+        group.append(createSvg("rect", {width, height, class: "node-rect"}));
+        group.append(createSvg("rect", {x: 0, y: 0, width: 4, height, rx: 2, class: "node-accent"}));
+        const badge = createSvg("text", {x: 15, y: 17, class: "node-badge"});
+        badge.textContent = short(node.badge, 24);
+        group.append(badge);
+        const title = createSvg("text", {x: 15, y: 38, class: "node-title"});
+        title.textContent = short(node.label, 29);
+        group.append(title);
+        const plain = createSvg("text", {x: 15, y: 58, class: "node-plain"});
+        wrapWords(node.plain ?? node.subtitle, node.kind === "finding" ? 32 : 35).forEach((line, index) => {
+          const span = createSvg("tspan", {x: 15, dy: index === 0 ? 0 : 13});
+          span.textContent = line;
+          plain.append(span);
+        });
+        group.append(plain);
+        const count = countForNode(node);
+        if (count) {
+          const countText = createSvg("text", {x: width - 13, y: 17, class: "node-count", "text-anchor": "end"});
+          countText.textContent = count;
+          group.append(countText);
+        }
+        group.addEventListener("pointerdown", (event) => startNodeDrag(event, node));
+        group.addEventListener("click", (event) => { event.stopPropagation(); selectNode(node.id); });
+        group.addEventListener("dblclick", (event) => { event.stopPropagation(); focusNode(node); });
+        group.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectNode(node.id); } });
+        dom.viewport.append(group);
+      }
+
+      applyTransform();
+    };
+
+    const countForNode = (node) => {
+      if (node.kind === "meta-group") return `${node.data?.count ?? 0} types`;
+      if (node.kind === "meta-type") return ({
+        "candidate-mapped": "candidate map",
+        "profiled-unmapped": "profile only",
+        unsupported: "unmapped",
+        "not-admitted": "not admitted",
+        superseded: "retired",
+      })[node.data.mapping_status] ?? "";
+      if (node.kind === "concept") return `${inheritedProperties(node.id).length} props`;
+      if (node.kind === "profile") return `${node.data.constraints?.length ?? 0} rules`;
+      if (node.kind === "fact") return `${Object.keys(node.data?.properties ?? {}).length} facts`;
+      return "";
+    };
+
+    const renderNavigator = () => {
+      const nodes = state.graph.nodes.filter(nodeMatchesSearch);
+      dom.navigatorCount.textContent = `${nodes.length} item${nodes.length === 1 ? "" : "s"}`;
+      dom.nodeList.innerHTML = nodes.map((node) => `
+        <button class="node-list-button ${state.selectedId === node.id ? "active" : ""}" data-node-list-id="${escapeHtml(node.id)}" data-kind="${node.kind}" data-maturity="${escapeHtml(node.maturity ?? "")}" title="${escapeHtml(node.plain ?? node.subtitle)}">
+          <span class="node-list-dot"></span><span class="node-list-text">${escapeHtml(node.label)}</span>
+        </button>`).join("");
+      dom.nodeList.querySelectorAll("[data-node-list-id]").forEach((button) => button.addEventListener("click", () => {
+        selectNode(button.dataset.nodeListId);
+        const node = state.graph.nodes.find((item) => item.id === button.dataset.nodeListId);
+        if (node) focusNode(node, 1.25);
+        closeNavigation();
+      }));
+    };
+
+    const renderViewState = () => {
+      document.querySelectorAll(".view-button").forEach((button) => button.classList.toggle("active", button.dataset.view === state.view));
+      dom.relationToggleGroup.style.display = state.view === "types" ? "flex" : "none";
+      dom.metaTypeFilterGroup.style.display = state.view === "metaTypes" ? "flex" : "none";
+      dom.profileGroup.style.display = state.view === "metaTypes" ? "none" : "flex";
+      const descriptions = {
+        metaTypes: `<strong>DomainSpec meta-types.</strong> This lens shows the canonical DS-D1 inventory. ${state.metaTypeFilter === "active" ? "All 13 active backend types are visible." : state.metaTypeFilter === "ui" ? "Candidate and deferred UI labels are visible but remain non-active." : state.metaTypeFilter === "history" ? "Only the superseded Saga tombstone is visible." : "All 24 staged labels are visible; the retired Saga tombstone stays in History."} Candidate mappings are evidence-backed alignments, not formation or admission.`,
+        types: "<strong>Type graph.</strong> See what each architecture kind means and how the kinds inherit or relate. Click a node for its exact contract.",
+        profiles: `<strong>${state.profile[0].toUpperCase()}${state.profile.slice(1)} profile.</strong> See which properties this language expects, on top of the portable rules shared by every language.`,
+        facts: "<strong>Supplied example facts.</strong> These hand-authored facts have the shape a future adapter should emit. Green examples satisfy their checks; red examples need attention.",
+        findings: "<strong>Violations.</strong> See exactly where the supplied facts differ from the selected architecture expectations.",
+      };
+      dom.description.innerHTML = descriptions[state.view];
+    };
+
+    const render = ({fit = false} = {}) => {
+      if (!state.data) return;
+      state.graph = applyCachedPositions(buildGraph());
+      if (state.selectedId && !state.graph.nodes.some((node) => node.id === state.selectedId)) state.selectedId = null;
+      renderViewState();
+      renderCanvas();
+      renderNavigator();
+      if (state.selectedId) renderInspector(state.graph.nodes.find((node) => node.id === state.selectedId));
+      else renderInspector(null);
+      if (fit) requestAnimationFrame(fitGraph);
+    };
+
+    const closeInspector = () => {
+      state.selectedId = null;
+      dom.inspector.classList.remove("open");
+      dom.inspector.setAttribute("aria-hidden", "true");
+      dom.inspector.replaceChildren();
+    };
+
+    const renderInspector = (node) => {
+      if (!node) {
+        closeInspector();
+        return;
+      }
+      const renderers = {concept: conceptInspector, property: propertyInspector, profile: profileInspector, fact: factInspector, finding: findingInspector, edge: edgeInspector, "meta-type": metaTypeInspector, "meta-group": metaGroupInspector};
+      dom.inspector.innerHTML = renderers[node.kind]?.(node) ?? genericInspector(node);
+      dom.inspector.classList.add("open");
+      dom.inspector.setAttribute("aria-hidden", "false");
+      dom.inspector.querySelector("[data-close-inspector]")?.addEventListener("click", () => {
+        closeInspector();
+        renderCanvas();
+        renderNavigator();
+      });
+    };
+
+    const inspectorFrame = (kicker, title, id, body) => `<div class="inspector-head"><button class="icon-button drawer-close inspector-close" data-close-inspector aria-label="Close details" title="Close">×</button><div class="inspector-kicker">${escapeHtml(kicker)}</div><h2>${escapeHtml(title)}</h2><div class="inspector-id">${escapeHtml(id)}</div></div><div class="inspector-body">${body}</div>`;
+
+    const metaTypeInspector = (node) => {
+      const metaType = node.data;
+      const mappingLabel = ({
+        "candidate-mapped": "candidate alignment",
+        "profiled-unmapped": "profiled, realization type missing",
+        unsupported: "explicitly unsupported",
+        "not-admitted": "not admitted",
+        superseded: "superseded tombstone",
+      })[metaType.mapping_status] ?? metaType.mapping_status;
+      const boundary = metaType.mapping_status === "candidate-mapped"
+        ? "This reciprocal mapping is evidence-supported but still candidate. It does not prove DomainSpec formation, binding, admission, or source-code conformance."
+        : metaType.maturity === "active"
+          ? "Visible does not mean implemented. This active semantic type has an explicit coverage disposition so it cannot disappear silently."
+          : "Inventory visibility does not activate, promote, or admit this type.";
+      return inspectorFrame(`DomainSpec meta-type · ${metaType.maturity}`, metaType.label, metaType.meta_type_id, `
+        <section class="detail-section"><h3>Plain meaning</h3><p class="detail-copy">${escapeHtml(metaType.plain_language)}</p></section>
+        <section class="detail-section"><h3>Canonical registry</h3><dl class="detail-grid"><dt>Category</dt><dd>${escapeHtml(metaType.category)}</dd><dt>Maturity</dt><dd>${escapeHtml(metaType.maturity)}</dd><dt>Criterion</dt><dd>${escapeHtml(metaType.criterion_schema ?? "—")}</dd><dt>Replacement</dt><dd>${escapeHtml(metaType.replacement_ref ?? "—")}</dd></dl></section>
+        <section class="detail-section"><h3>Implementation coverage</h3><dl class="detail-grid"><dt>Status</dt><dd>${escapeHtml(mappingLabel)}</dd><dt>Architecture type</dt><dd>${escapeHtml(metaType.architecture_type_id ?? "—")}</dd><dt>Evidence</dt><dd>${escapeHtml((metaType.evidence_refs ?? []).join(", ") || "—")}</dd></dl><p class="detail-copy" style="margin-top:10px">${escapeHtml(metaType.mapping_reason)}</p></section>
+        <section class="detail-section"><h3>Owner and review trigger</h3><dl class="detail-grid"><dt>Owner</dt><dd>${escapeHtml(metaType.owner_route)}</dd><dt>Review when</dt><dd>${escapeHtml(metaType.review_trigger)}</dd></dl></section>
+        <section class="${metaType.maturity === "active" ? "warning-card" : "danger-card"}"><strong>Authority boundary</strong><br>${escapeHtml(boundary)}</section>`);
+    };
+
+    const metaGroupInspector = (node) => inspectorFrame("Meta-type inventory group", node.label, node.id, `
+      <section class="detail-section"><h3>What this group means</h3><p class="detail-copy">${escapeHtml(node.plain)}</p></section>
+      <section class="detail-section"><h3>Visible entries</h3><p class="detail-copy">${escapeHtml(node.data?.count ?? 0)} meta-type${node.data?.count === 1 ? "" : "s"} in the current filter.</p></section>
+      <section class="warning-card">This is a read-model grouping for navigation. It is not a new DomainSpec meta-type or authority category.</section>`);
+
+    const conceptInspector = (node) => {
+      const concept = node.data;
+      const properties = inheritedProperties(concept.concept_id);
+      const constraints = matchingConstraints(concept.concept_id);
+      const relations = state.data.ontology.relation_definitions.filter((relation) =>
+        [...relation.source_types, ...relation.target_types].some((type) => isSubtype(concept.concept_id, type) || isSubtype(type, concept.concept_id))
+      );
+      return inspectorFrame("Architecture concept", concept.label, concept.concept_id, `
+        <section class="detail-section"><h3>Contract</h3><dl class="detail-grid">
+          <dt>Role</dt><dd>${escapeHtml(concept.concept_role)}</dd><dt>Status</dt><dd>${escapeHtml(concept.candidate_status)}</dd>
+          <dt>Abstract</dt><dd>${concept.abstract ? "yes" : "no"}</dd><dt>Extends</dt><dd>${escapeHtml(concept.extends ?? "—")}</dd>
+          <dt>Evidence</dt><dd>${escapeHtml(concept.confidence.evidence_confidence)}</dd><dt>Commitment</dt><dd>${escapeHtml(concept.confidence.commitment_confidence)}</dd>
+        </dl></section>
+        ${"canonical_mapping_status" in concept ? `<section class="detail-section"><h3>DomainSpec meta-type alignment</h3><dl class="detail-grid"><dt>Meta-type</dt><dd>${escapeHtml(concept.canonical_meta_type_ref ?? "none")}</dd><dt>Status</dt><dd>${escapeHtml(concept.canonical_mapping_status)}</dd></dl><p class="detail-copy" style="margin-top:10px">${concept.canonical_meta_type_ref ? "This is a reciprocal candidate alignment, not semantic formation or admission." : "This architecture role intentionally does not claim a canonical DomainSpec meta-type."}</p></section>` : ""}
+        <section class="detail-section"><h3>Owner route</h3><p class="detail-copy">${escapeHtml(concept.owner_route)}</p></section>
+        <section class="detail-section"><h3>Applicable properties · ${properties.length}</h3><div class="tag-list">${properties.map((property) => `<span class="tag cyan">${escapeHtml(property.property_id)}</span>`).join("") || "—"}</div></section>
+        <section class="detail-section"><h3>${state.profile} constraints · ${constraints.length}</h3><div class="property-list">${constraints.map(constraintCard).join("") || '<p class="detail-copy">No selected-profile constraints.</p>'}</div></section>
+        <section class="detail-section"><h3>Relation participation</h3><div class="tag-list">${relations.map((relation) => `<span class="tag">${escapeHtml(relation.relation_id)}</span>`).join("") || "—"}</div></section>
+        <section class="detail-section"><h3>Challenge gate</h3><p class="detail-copy">${escapeHtml(concept.challenge_contract.resolution_gate)}</p></section>
+        <section class="danger-card"><strong>Forbidden collapse</strong><br>${escapeHtml(concept.forbidden_collapse)}</section>`);
+    };
+
+    const constraintCard = (constraint) => `<div class="property-row"><div class="property-row-head"><span class="property-name">${escapeHtml(constraint.property_id)}</span><span class="origin">${escapeHtml(tail(constraint.origin_profile))}</span></div><div class="property-value">${escapeHtml(constraint.operator)} ${escapeHtml(formatValue(constraint.expected))}</div></div>`;
+
+    const propertyInspector = (node) => {
+      const property = node.data;
+      const constraints = resolvedProfile().constraints.filter((constraint) => constraint.property_id === property.property_id);
+      return inspectorFrame("Property definition", property.label, property.property_id, `
+        <section class="detail-section"><h3>Meaning</h3><p class="detail-copy">${escapeHtml(property.semantics)}</p></section>
+        <section class="detail-section"><h3>Type and scope</h3><dl class="detail-grid"><dt>Value type</dt><dd>${escapeHtml(property.value_type.kind)}</dd><dt>Applies to</dt><dd>${escapeHtml(property.applies_to.kind)}</dd><dt>Types</dt><dd>${escapeHtml(property.applies_to.types.join(", "))}</dd><dt>Observed at</dt><dd>${escapeHtml(property.observation_stage)}</dd></dl></section>
+        <section class="detail-section"><h3>Selected-profile expectations</h3><div class="property-list">${constraints.map(constraintCard).join("") || '<p class="detail-copy">Not constrained by this profile.</p>'}</div></section>
+        <section class="detail-section"><h3>Owner route</h3><p class="detail-copy">${escapeHtml(property.owner_route)}</p></section>
+        <section class="danger-card"><strong>Forbidden inference</strong><br>${escapeHtml(property.forbidden_inference)}</section>`);
+    };
+
+    const profileInspector = (node) => {
+      const profile = node.id === state.data.profiles.base.profile_id ? state.data.profiles.base : resolvedProfile();
+      const constraints = profile.constraints ?? [];
+      return inspectorFrame("Architecture profile", node.label, profile.profile_id, `
+        <section class="detail-section"><h3>Profile</h3><dl class="detail-grid"><dt>Language</dt><dd>${escapeHtml(profile.language)}</dd><dt>Status</dt><dd>${escapeHtml(profile.status)}</dd><dt>Extends</dt><dd>${escapeHtml((profile.extends ?? []).join(", ") || "—")}</dd><dt>Authority</dt><dd>${escapeHtml(profile.authority_effect)}</dd></dl></section>
+        <section class="detail-section"><h3>Constraints · ${constraints.length}</h3><div class="property-list">${constraints.map((constraint) => constraintCard({...constraint, origin_profile: constraint.origin_profile ?? profile.profile_id})).join("")}</div></section>
+        <section class="warning-card">A candidate profile configures expected architecture properties. It does not admit semantic types or become a universal architecture.</section>`);
+    };
+
+    const factInspector = (node) => {
+      const fact = node.data ?? {};
+      const id = fact.element_id ?? fact.relation_id ?? node.id;
+      const findings = state.data.evaluation.findings.filter((finding) => finding.subject_id === id);
+      return inspectorFrame(node.broken ? "Supplied fact · violations" : "Supplied fact", node.label, id, `
+        <section class="detail-section"><h3>Fact contract</h3><dl class="detail-grid"><dt>Type</dt><dd>${escapeHtml(fact.type ?? "relation")}</dd><dt>Findings</dt><dd>${findings.length}</dd><dt>Authority</dt><dd>none</dd></dl></section>
+        <section class="detail-section"><h3>Properties</h3><div class="property-list">${Object.entries(fact.properties ?? {}).map(([key, value]) => `<div class="property-row"><div class="property-name">${escapeHtml(key)}</div><div class="property-value">${escapeHtml(formatValue(value))}</div></div>`).join("")}</div></section>
+        ${findings.length ? `<section class="detail-section"><h3>Findings</h3><div class="property-list">${findings.map((finding) => `<div class="property-row"><div class="property-name">${escapeHtml(finding.constraint_id)}</div><div class="property-value bad">${escapeHtml(formatValue(finding.actual))} → expected ${escapeHtml(formatValue(finding.expected))}</div></div>`).join("")}</div></section>` : '<section class="warning-card">This sample element has no findings under the selected TypeScript evaluation.</section>'}`);
+    };
+
+    const findingInspector = (node) => {
+      const finding = node.data;
+      const property = state.data.ontology.property_definitions.find((item) => item.property_id === finding.property_id);
+      return inspectorFrame("Architecture violation", property?.label ?? finding.property_id, finding.constraint_id, `
+        <section class="detail-section"><h3>Mismatch</h3><dl class="detail-grid"><dt>Subject</dt><dd>${escapeHtml(finding.subject_id)}</dd><dt>Property</dt><dd>${escapeHtml(finding.property_id)}</dd><dt>Expected</dt><dd>${escapeHtml(formatValue(finding.expected))}</dd><dt>Observed</dt><dd style="color:var(--red)">${escapeHtml(formatValue(finding.actual))}</dd><dt>Severity</dt><dd>${escapeHtml(finding.severity)}</dd></dl></section>
+        <section class="detail-section"><h3>Property meaning</h3><p class="detail-copy">${escapeHtml(property?.semantics ?? "No property definition resolved.")}</p></section>
+        <section class="detail-section"><h3>Observation stage</h3><p class="detail-copy">${escapeHtml(property?.observation_stage ?? "—")}</p></section>
+        <section class="danger-card"><strong>Boundary</strong><br>${escapeHtml(property?.forbidden_inference ?? "A finding is evidence, not authority.")}</section>`);
+    };
+
+    const edgeInspector = (node) => {
+      const edge = node.edge;
+      const data = node.data ?? {};
+      return inspectorFrame("Graph edge", edge.label, edge.id, `
+        <section class="detail-section"><h3>Endpoints</h3><dl class="detail-grid"><dt>From</dt><dd>${escapeHtml(edge.from)}</dd><dt>To</dt><dd>${escapeHtml(edge.to)}</dd><dt>Kind</dt><dd>${escapeHtml(edge.kind)}</dd></dl></section>
+        ${data.constraint_id ? `<section class="detail-section"><h3>Constraint</h3><div class="property-list">${constraintCard(data)}</div></section>` : ""}
+        ${data.owner_route ? `<section class="detail-section"><h3>Owner route</h3><p class="detail-copy">${escapeHtml(data.owner_route)}</p></section>` : ""}
+        ${data.forbidden_collapse ? `<section class="danger-card"><strong>Forbidden collapse</strong><br>${escapeHtml(data.forbidden_collapse)}</section>` : ""}`);
+    };
+
+    const genericInspector = (node) => inspectorFrame(node.kind, node.label, node.id, `<pre>${escapeHtml(JSON.stringify(node.data, null, 2))}</pre>`);
+    const formatValue = (value) => Array.isArray(value) ? value.join(" | ") : typeof value === "object" && value !== null ? JSON.stringify(value) : String(value ?? "null");
+
+    const selectNode = (id) => {
+      state.selectedId = id;
+      const node = state.graph.nodes.find((item) => item.id === id);
+      renderCanvas();
+      renderNavigator();
+      renderInspector(node);
+    };
+
+    const screenToWorld = (clientX, clientY) => {
+      const rect = dom.canvas.getBoundingClientRect();
+      return {x: (clientX - rect.left - state.transform.x) / state.transform.k, y: (clientY - rect.top - state.transform.y) / state.transform.k};
+    };
+
+    const startNodeDrag = (event, node) => {
+      if (event.button !== 0) return;
+      event.stopPropagation();
+      event.currentTarget.setPointerCapture(event.pointerId);
+      const point = screenToWorld(event.clientX, event.clientY);
+      state.gesture = {kind: "node", node, dx: node.x - point.x, dy: node.y - point.y};
+    };
+
+    dom.canvas.addEventListener("pointerdown", (event) => {
+      if (event.target.closest(".graph-node")) return;
+      state.gesture = {kind: "pan", startX: event.clientX, startY: event.clientY, originX: state.transform.x, originY: state.transform.y};
+      dom.canvas.classList.add("is-panning");
+      if (event.target === dom.canvas) { closeNavigation(); closeInspector(); renderCanvas(); renderNavigator(); }
+    });
+
+    window.addEventListener("pointermove", (event) => {
+      if (!state.gesture) return;
+      if (state.gesture.kind === "pan") {
+        state.transform.x = state.gesture.originX + event.clientX - state.gesture.startX;
+        state.transform.y = state.gesture.originY + event.clientY - state.gesture.startY;
+        applyTransform();
+      } else {
+        const point = screenToWorld(event.clientX, event.clientY);
+        state.gesture.node.x = point.x + state.gesture.dx;
+        state.gesture.node.y = point.y + state.gesture.dy;
+        savePositions();
+        scheduleCanvasRender();
+      }
+    });
+
+    window.addEventListener("pointerup", () => { state.gesture = null; dom.canvas.classList.remove("is-panning"); });
+
+    dom.canvas.addEventListener("wheel", (event) => {
+      event.preventDefault();
+      const rect = dom.canvas.getBoundingClientRect();
+      const cursorX = event.clientX - rect.left;
+      const cursorY = event.clientY - rect.top;
+      const oldK = state.transform.k;
+      const nextK = Math.max(0.3, Math.min(2.8, oldK * Math.exp(-event.deltaY * 0.001)));
+      const worldX = (cursorX - state.transform.x) / oldK;
+      const worldY = (cursorY - state.transform.y) / oldK;
+      state.transform.k = nextK;
+      state.transform.x = cursorX - worldX * nextK;
+      state.transform.y = cursorY - worldY * nextK;
+      applyTransform();
+    }, {passive: false});
+
+    const scheduleCanvasRender = () => {
+      if (state.raf) return;
+      state.raf = requestAnimationFrame(() => { state.raf = null; renderCanvas(); });
+    };
+
+    const applyTransform = () => dom.viewport.setAttribute("transform", `translate(${state.transform.x} ${state.transform.y}) scale(${state.transform.k})`);
+
+    const fitGraph = () => {
+      if (!state.graph.nodes.length) return;
+      const rect = dom.canvas.getBoundingClientRect();
+      const xs = state.graph.nodes.map((node) => node.x);
+      const ys = state.graph.nodes.map((node) => node.y);
+      const minX = Math.min(...xs) - 170;
+      const maxX = Math.max(...xs) + 170;
+      const minY = Math.min(...ys) - 145;
+      const maxY = Math.max(...ys) + 185;
+      const k = Math.max(0.3, Math.min(1.25, Math.min(rect.width / (maxX - minX), rect.height / (maxY - minY)) * 0.9));
+      state.transform = {k, x: (rect.width - (maxX - minX) * k) / 2 - minX * k, y: (rect.height - (maxY - minY) * k) / 2 - minY * k};
+      applyTransform();
+    };
+
+    const focusNode = (node, scale = Math.max(1.15, state.transform.k)) => {
+      const rect = dom.canvas.getBoundingClientRect();
+      state.transform = {k: scale, x: rect.width / 2 - node.x * scale, y: rect.height / 2 - node.y * scale};
+      applyTransform();
+    };
+
+    const zoomBy = (factor) => {
+      const rect = dom.canvas.getBoundingClientRect();
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const oldK = state.transform.k;
+      const nextK = Math.max(0.3, Math.min(2.8, oldK * factor));
+      const worldX = (cx - state.transform.x) / oldK;
+      const worldY = (cy - state.transform.y) / oldK;
+      state.transform = {k: nextK, x: cx - worldX * nextK, y: cy - worldY * nextK};
+      applyTransform();
+    };
+
+    const switchView = (view) => {
+      closeNavigation();
+      if (state.view === view) return;
+      state.view = view;
+      state.selectedId = null;
+      state.search = "";
+      dom.search.value = "";
+      render({fit: true});
+    };
+
+    const setNavigationOpen = (open) => {
+      dom.navigation.classList.toggle("open", open);
+      dom.navigation.setAttribute("aria-hidden", String(!open));
+      dom.openNavigation.setAttribute("aria-expanded", String(open));
+    };
+    const openNavigation = () => setNavigationOpen(true);
+    const closeNavigation = () => setNavigationOpen(false);
+
+    document.querySelectorAll(".view-button").forEach((button) => button.addEventListener("click", () => switchView(button.dataset.view)));
+    dom.openNavigation.addEventListener("click", () => setNavigationOpen(!dom.navigation.classList.contains("open")));
+    document.querySelector("#close-navigation").addEventListener("click", closeNavigation);
+    document.querySelector("#zoom-in").addEventListener("click", () => zoomBy(1.22));
+    document.querySelector("#zoom-out").addEventListener("click", () => zoomBy(0.82));
+    document.querySelector("#fit-graph").addEventListener("click", fitGraph);
+    document.querySelector("#reset-layout").addEventListener("click", () => { state.positionCache.delete(cacheKey()); render({fit: true}); showToast("Layout reset"); });
+    dom.relationToggle.addEventListener("click", () => { state.showRelations = !state.showRelations; dom.relationToggle.classList.toggle("active", state.showRelations); dom.relationToggle.textContent = `Relations ${state.showRelations ? "on" : "off"}`; render({fit: true}); });
+    dom.metaTypeFilter.addEventListener("change", () => { state.metaTypeFilter = dom.metaTypeFilter.value; state.selectedId = null; render({fit: true}); });
+    dom.profile.addEventListener("change", () => { state.profile = dom.profile.value; state.selectedId = null; render({fit: state.view === "profiles"}); });
+    dom.search.addEventListener("input", () => { state.search = dom.search.value.trim().toLowerCase(); renderCanvas(); renderNavigator(); });
+
+    const openHelp = () => { dom.help.classList.add("open"); document.querySelector("#close-help").focus(); };
+    const closeHelp = () => dom.help.classList.remove("open");
+    document.querySelector("#help-button").addEventListener("click", openHelp);
+    document.querySelector("#close-help").addEventListener("click", closeHelp);
+    dom.help.addEventListener("click", (event) => { if (event.target === dom.help) closeHelp(); });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.target.matches("input, select") && event.key !== "Escape") return;
+      if (event.key === "/") { event.preventDefault(); openNavigation(); requestAnimationFrame(() => dom.search.focus()); }
+      if (event.key.toLowerCase() === "n") setNavigationOpen(!dom.navigation.classList.contains("open"));
+      if (["1", "2", "3", "4", "5"].includes(event.key)) switchView(["metaTypes", "types", "profiles", "facts", "findings"][Number(event.key) - 1]);
+      if (event.key.toLowerCase() === "f") fitGraph();
+      if (event.key === "Escape") { closeHelp(); closeNavigation(); closeInspector(); renderCanvas(); renderNavigator(); dom.search.blur(); }
+    });
+
+    window.addEventListener("resize", fitGraph);
+
+    const showToast = (message) => {
+      dom.toast.textContent = message;
+      dom.toast.classList.add("show");
+      clearTimeout(showToast.timeout);
+      showToast.timeout = setTimeout(() => dom.toast.classList.remove("show"), 1300);
+    };
+
+    load();
+  </script>
+</body>
+</html>

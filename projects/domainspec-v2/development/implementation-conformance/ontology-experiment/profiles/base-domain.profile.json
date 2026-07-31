@@ -1,0 +1,64 @@
+{
+  "schema_version": "domainspec-architecture-profile/v1",
+  "profile_id": "architecture.base-domain",
+  "status": "candidate",
+  "language": "portable",
+  "extends": [],
+  "constraints": [
+    {
+      "constraint_id": "portable.one-primary-concept-per-source",
+      "constraint_kind": "node-property",
+      "applies_to": ["architecture.DomainConceptImplementation"],
+      "property_id": "source.primary_concept_count",
+      "operator": "equals",
+      "expected": 1,
+      "severity": "error"
+    },
+    {
+      "constraint_id": "portable.semantic-binding-required",
+      "constraint_kind": "node-property",
+      "applies_to": ["architecture.DomainConceptImplementation"],
+      "property_id": "binding.concept_id",
+      "operator": "required",
+      "expected": true,
+      "severity": "error"
+    },
+    {
+      "constraint_id": "portable.binding-must-be-current",
+      "constraint_kind": "node-property",
+      "applies_to": ["architecture.DomainConceptImplementation"],
+      "property_id": "binding.current",
+      "operator": "equals",
+      "expected": true,
+      "severity": "error"
+    },
+    {
+      "constraint_id": "portable.one-primary-callable",
+      "constraint_kind": "node-property",
+      "applies_to": ["architecture.DomainConceptImplementation"],
+      "property_id": "symbol.primary_callable_count",
+      "operator": "equals",
+      "expected": 1,
+      "severity": "error"
+    },
+    {
+      "constraint_id": "portable.helper-policy-explicit",
+      "constraint_kind": "node-property",
+      "applies_to": ["architecture.DomainConceptImplementation"],
+      "property_id": "callable.helper_policy",
+      "operator": "one_of",
+      "expected": ["no-helpers", "private-helpers-allowed", "separate-source-units"],
+      "severity": "error"
+    },
+    {
+      "constraint_id": "portable.rule-is-boolean-guard",
+      "constraint_kind": "node-property",
+      "applies_to": ["architecture.RuleImplementation"],
+      "property_id": "callable.return_semantics",
+      "operator": "equals",
+      "expected": "boolean",
+      "severity": "error"
+    }
+  ],
+  "authority_effect": "none"
+}
