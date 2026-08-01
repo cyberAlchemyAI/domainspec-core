@@ -5202,3 +5202,15 @@ Artifacts:
 - Boundary: no implementation, linter installation, canonical ontology or
   authority movement, promotion, publication, deployment, release, or
   production claim is established.
+
+## 2026-08-01 - Learning graph and next-route guide research completed
+
+- Frozen sheet: schema `0.8.0`, SHA-256 `f4b08fedd0dd0c6fdecd420bb36b4a3f8a9d2765a55558dce848467f550612de`.
+- Dispatch: registered once and ledger-closed once as `resolved`; 13 native invocations completed six logical stages and two declared feedback loops.
+- Result: the final auditor returned `ACCEPT` for an exact-bound, regenerable learner projection rather than a canonical `LearningGraph` ontology.
+- Guide: Whisper produced `findings.md` with the learner loop, repaired node/relation contracts, all eight experiment-family dispositions, exact HTML and fixture bindings, positive and abstention witnesses, and a non-executing next-route suggestion.
+- Witness: `MaxAmountRule` supports only supplied-fixture absence of a reported finding; `LegacyLimitRule` requires `ABSTAIN` from semantic or real-source identity claims.
+- Next route: the exact string `TypeScript adapter owner` is display-only and still requires a separately governed native parser/compiler witness, real source digest, owner-resolved current binding, and explicit unsupported set.
+- Orchestration: 119 causal events passed `validate_run_evidence.py`; no agent remained unjoined.
+- Entry updated: `entries/learning-graph-next-route-guide-research-strategy-result-synthesis.md`.
+- Boundary: no human-comprehension or accessibility proof, real TypeScript adapter behavior, owner admission, ontology promotion, route execution, release, deployment, or production readiness is established.
