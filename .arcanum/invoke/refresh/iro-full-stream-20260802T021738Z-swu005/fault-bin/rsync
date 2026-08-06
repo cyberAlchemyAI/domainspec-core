@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -u
+
+staged_claude_source="false"
+claude_destination="false"
+for argument in "$@"; do
+  case "$argument" in
+    /tmp/arcanum-skill-sync.*/.claude/skills/intent-route-resolver/)
+      staged_claude_source="true"
+      ;;
+    /tmp/intent-route-resolver-rollback-consumer-*/.claude/skills/intent-route-resolver/)
+      claude_destination="true"
+      ;;
+  esac
+done
+
+if [[ "$staged_claude_source" == "true" && "$claude_destination" == "true" ]]; then
+  printf '%s\n' "injected Claude package apply failure" >&2
+  exit 79
+fi
+
+exec /usr/bin/rsync "$@"

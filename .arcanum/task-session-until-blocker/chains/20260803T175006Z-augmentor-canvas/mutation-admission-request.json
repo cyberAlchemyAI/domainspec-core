@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.2.0",
+  "executionMode": "routed-mutation",
+  "taskId": "WP-AUG-CANVAS-001",
+  "swuId": "SWU-CANVAS-001",
+  "controlArtifacts": [
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/2026-08-03-canvas-workspace/WORK-PACK.md",
+      "sha256": "0ffb516e8070fa53f3df2af0c0a8c1154b4b9d1b924a2138d14179eb74dee07d",
+      "sizeBytes": 10114,
+      "role": "work-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/2026-08-03-canvas-workspace/stages/09-plan.md",
+      "sha256": "6711b5b0e83d6cabc508a4575060f68a2938870d6262c5e41da5c4faefd8bc13",
+      "sizeBytes": 1581,
+      "role": "task-contract",
+      "authorityClass": "private"
+    },
+    {
+      "path": ".arcanum/task-session-until-blocker/chains/20260803T175006Z-augmentor-canvas/context-pack.md",
+      "sha256": "d0a3838ebc2f105c9c904d0d4914c8355b0ce642d4a5f33dbeb235355f831034",
+      "sizeBytes": 5834,
+      "role": "context-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/2026-08-03-canvas-workspace/stages/08-distill-repair.md",
+      "sha256": "0a1addea12da33fb47cbfcdc6797011bf02a40ad5d7368ac164b3c44f61b5f5e",
+      "sizeBytes": 3197,
+      "role": "source",
+      "authorityClass": "private"
+    }
+  ],
+  "dependencyFrontier": [],
+  "materialWrites": [
+    "projects/augmentor/ontology/unified-agent/visualization/template.html",
+    "projects/augmentor/ontology/unified-agent/tests/visualization.test.mjs",
+    "projects/augmentor/ontology/unified-agent/tests/visualization.browser.mjs"
+  ],
+  "executionOutputs": [
+    "projects/augmentor/ontology/unified-agent/ontology-visualization.html"
+  ],
+  "allowedWrites": [
+    "projects/augmentor/ontology/unified-agent/visualization/template.html",
+    "projects/augmentor/ontology/unified-agent/tests/visualization.test.mjs",
+    "projects/augmentor/ontology/unified-agent/tests/visualization.browser.mjs",
+    "projects/augmentor/ontology/unified-agent/ontology-visualization.html"
+  ],
+  "validationCommands": [
+    "node projects/augmentor/ontology/unified-agent/scripts/validate.mjs",
+    "node projects/augmentor/ontology/unified-agent/scripts/build-visualization.mjs",
+    "node projects/augmentor/ontology/unified-agent/scripts/build-visualization.mjs --check",
+    "node --test projects/augmentor/ontology/unified-agent/tests/unified-agent-ontology.test.mjs projects/augmentor/ontology/unified-agent/tests/visualization.test.mjs",
+    "node projects/augmentor/ontology/unified-agent/tests/visualization.browser.mjs \"$(npm root -g)/playwright\""
+  ],
+  "lifecycleOwner": "invoke",
+  "authorityClass": "private",
+  "publicationClass": "private"
+}
+

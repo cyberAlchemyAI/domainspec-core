@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "learning-projection-a001-owner-admission",
+  "candidates": [
+    {
+      "optionId": "provide-current-owner-receipt",
+      "label": "Provide a current learner-view mutation-admission receipt for the exact W0 scope",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "learner-view-navigation-owner",
+      "evidence": [
+        "WORK-PACK.md A-001 requires exact scope, ceiling, validation, baseline, and supersession policy",
+        "W0.md requires the separately owned mutation-admission receipt before selection becomes active"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "prepare-owner-admission-request",
+      "label": "Prepare a bounded request for the learner-view owner without executing SWUs",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "learner-view-navigation-owner",
+      "evidence": [
+        "A request may bind the exact candidate scope but cannot self-issue owner authority",
+        "The chain remains blocked until the owner returns the typed receipt"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "defer-series",
+      "label": "Defer the captured ten-SWU series",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "No SWU has been selected or executed and all product bytes remain unchanged"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "treat-chat-selection-as-admission",
+      "label": "Treat the select-all chat message as learner-view owner admission",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "irreversible",
+      "hazardClass": "authority",
+      "ownerGate": "learner-view-navigation-owner",
+      "evidence": [],
+      "rejectionReasons": [
+        "The Work Pack separates user SWU selection from learner-view mutation admission",
+        "Ambient assent and free-form approval cannot satisfy a protected owner gate"
+      ]
+    },
+    {
+      "optionId": "execute-swu-001-before-w0",
+      "label": "Begin SWU-LGP-001 before W0 passes",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "irreversible",
+      "hazardClass": "authority",
+      "ownerGate": "learner-view-navigation-owner",
+      "evidence": [],
+      "rejectionReasons": [
+        "Task Session and task-session-until-blocker both require the first candidate to be dependency-ready",
+        "TASK-LGP-CONTRACT declares A-001 as a precondition"
+      ]
+    }
+  ]
+}

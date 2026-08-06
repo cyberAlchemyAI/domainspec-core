@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-08-04T20:43:32Z",
+  "run_id": "task-session-wcsb-002-20260804",
+  "session_id": "2026-08-04-wavedb-reviewed-source-build-swu-002",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "lineage": {
+    "parent_run_id": "task-session-until-blocker-wcsb-20260804",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "task-session-until-blocker",
+      "kind": "spell",
+      "tier": "spells",
+      "mode": "execute"
+    }
+  },
+  "request": {
+    "summary": "Execute one immutable reviewed-source WaveDB build attempt.",
+    "intent": "Bind source, dependencies, toolchain, build output, load proof, upstream tests, and canary evidence before any addon handoff."
+  },
+  "execution": {
+    "status": "blocked",
+    "outputs": [
+      "exact source and toolchain binding",
+      "successful native addon compilation and load check",
+      "upstream test log ending in the concurrent-write test",
+      "fail-closed source-build block receipt",
+      "SWU-WCSB-002 terminal receipt and synchronized owner closeout"
+    ],
+    "files_changed": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcsb-20260804-01/",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build/",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md"
+    ],
+    "validation": [
+      "exact commit and source closure checks passed",
+      "npm clean install without lifecycle scripts passed",
+      "generated source and native build checks passed",
+      "exactly one addon was produced and loaded successfully",
+      "upstream suite failed to complete the first concurrent-write integration test",
+      "pass receipt is absent, no successor is selected, and Craft tracked diff count is zero"
+    ],
+    "notes": "Task Session stopped at WCSB-UPSTREAM-CONCURRENT-WRITE-STALL. Empty-value canary, final scope audit, addon handoff, parent refresh, and Craft integration were not admitted."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "validation",
+        "severity": "high",
+        "summary": "The upstream concurrent-write integration test remained CPU-active without completing for more than sixteen minutes.",
+        "evidence": "execution/source-build/logs/20-upstream-tests.log and source-build-block-receipt.json"
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "Route the stall to the WaveDB source owner before allocating a new immutable attempt ID."
+  },
+  "target_artifact": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/terminal-receipt.json"
+}

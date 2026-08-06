@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-08-03T21:49:55Z",
+  "run_id": "20260803T214844Z-oca-safe-core-l2-boundary",
+  "session_id": null,
+  "sigil": "task-session-until-blocker",
+  "tier": "arcana",
+  "mode": "execute",
+  "lineage": {
+    "parent_run_id": "OCA-START-001",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "decision-gate",
+      "kind": "sigil",
+      "tier": "arcana",
+      "mode": "blocker"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      ".arcanum/task-session-until-blocker/chains/20260803T214844Z-oca-safe-core-l2-boundary/chain-preflight.json",
+      "ops/development/2026-08-03-orchestrate-capacity-aware-admission/planning/WORK-PACK.md",
+      "ops/development/2026-08-03-orchestrate-capacity-aware-admission/planning/SWU-MANIFEST.json",
+      "ops/development/2026-08-03-orchestrate-capacity-aware-admission/decisions/OCA-START-001.md"
+    ]
+  },
+  "request": {
+    "raw": "Start safe core through the L2 boundary.",
+    "summary": "Execute the six-unit OCA safe-core frontier until the first blocker or L2-boundary completion.",
+    "intent": "Run one fresh receipt-gated Task Session per declared unit without entering true host-reservation L2 or L3."
+  },
+  "execution": {
+    "status": "blocked",
+    "outputs": [
+      "Failed chain preflight bound to the exact frontier and approval evidence"
+    ],
+    "files_changed": [
+      ".arcanum/task-session-until-blocker/chains/20260803T214844Z-oca-safe-core-l2-boundary/chain-preflight.json",
+      ".arcanum/task-session-until-blocker/chains/20260803T214844Z-oca-safe-core-l2-boundary/invocation-envelope.json"
+    ],
+    "validation": [
+      "Exact Work Pack and SWU manifest digests captured",
+      "Canonical and generated Orchestrate target scopes confirmed clean",
+      "OCA package search confirmed the v2 objective-execution manifest is absent"
+    ],
+    "notes": "Stopped before Task Session and product mutation because a chain consumer may not infer the missing Work Pack Readiness Audit epoch."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "input",
+        "severity": "high",
+        "summary": "The approved execution decision is not accompanied by a v2 objective-execution manifest and epoch-bound approval receipt.",
+        "evidence": "The exact OCA package contains neither an objective-execution manifest nor the digests required by the chain-config approved_epoch contract."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  }
+}

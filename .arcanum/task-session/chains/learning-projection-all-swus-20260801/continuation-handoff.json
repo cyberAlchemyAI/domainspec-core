@@ -1,0 +1,33 @@
+{
+  "schema": "task-session-continuation-handoff/v1",
+  "handoff_id": "learning-projection-all-swus-a001-block",
+  "source_result": "BLOCK",
+  "source_receipt": ".arcanum/task-session/chains/learning-projection-all-swus-20260801/chain-preflight.json",
+  "target_scope": "cyberAlchemy-v2/development/research/2026-08-01-learning-graph-next-route-guide/invoke/WORK-PACK.md",
+  "blocker_class": "protected-owner-approval",
+  "blocker_fingerprint": "A-001:learner-view-mutation-admission:absent:work-pack-b662194f",
+  "controlling_evidence": [
+    "WORK-PACK.md sha256:b662194f51a067689bac6d03c7153479dd1e6bd593e44ab80c94e042ceead404",
+    "SWU-MANIFEST.json sha256:6fc1befa9884d8dbc641b3be9f386b4c4730bc44e7f31e47cc2db1891a4347d6",
+    "W0.md sha256:7d4afb4690ee97a28fd0b89130c0a8e60685dac4b23e1b835e2c26156dbabad9",
+    "GAPS.md sha256:8288d92bbdeb209dad07a68d9d703724659909f6fde2bf0c10df5083545bfbec"
+  ],
+  "unblock_actions": [
+    "provide a current learner-view-navigation-owner mutation-admission receipt for the exact W0 scope",
+    "or authorize preparation of a bounded owner-admission request and remain blocked pending its acceptance",
+    "or defer the series"
+  ],
+  "probable_routes": [
+    "learner-view-navigation-owner:mutation-admission",
+    "decision-gate:defer"
+  ],
+  "optional_route_authorized": true,
+  "authorized_route": "prepare-owner-admission-request",
+  "owner_request": {
+    "path": ".arcanum/task-session/chains/learning-projection-all-swus-20260801/owner-admission-request.json",
+    "sha256": "a3c464c6e63d468e77eaa20e56211ad050d53be3f189ad748890da0cb9f18b99",
+    "status": "pending-owner-review"
+  },
+  "next_route_advice": "The bounded request is prepared. The learner-view-navigation-owner must independently review it and produce the typed W0 receipt or a block with residue; then re-run task-session-until-blocker from the same Work Pack.",
+  "authority_effect": "none"
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "20260802T012047Z-oew-semantic-navigation-preflight-block",
+  "source": {
+    "capability": "task-session-until-blocker",
+    "mode": "execute",
+    "result": "block",
+    "receipt": ".arcanum/task-session-until-blocker/chains/20260802T012047Z-oew-semantic-navigation.json",
+    "blocker_fingerprint": "sha256:7c241887ebee864d8a9226698c1186a36dffaa14458c75df89cde432b9592789",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": false,
+    "exact_route": null,
+    "evidence": null
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved-profile",
+      "owner": "Invoke",
+      "evidence": [
+        "DECISION-GATE-RESULT.json passes all four decisions and explicitly names Invoke Refresh as the next step.",
+        "WORK-PACK.md, SWU-MANIFEST.json and MUTATION-ADMISSION-CONTRACT.json remain blocked and unsynchronized."
+      ],
+      "required_inputs": [
+        "Approved Body War profile SHA-256 2eb373d41154004cdcf4d4a448edbe4ea341934f2e77750903e8e92a54e871e8",
+        "Decision Gate result SHA-256 1d0ee10e5ef79fe5064900e6fdec9341ea5d5299487104ee0fa79cb2e49e2ec0",
+        "Current Work Pack, SWU manifest and mutation-admission contract",
+        "The existing twenty-one-SWU dependency and validation declarations"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": false,
+      "authorization_status": "not-required",
+      "expected_receipt": "Invoke Refresh receipt that reconciles the approved profile, sets an evidence-backed executable gate, selects exactly one ready SWU, refreshes mutation admission, and exposes frozen readiness inputs for a fresh Task Session preflight.",
+      "fallback": "stop:user-input if refresh discovers a new consequential product or authority decision"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The blocked execution authority and stale plan fields are owned by Invoke, and the four product decisions are already approved."
+  },
+  "dispatch": {
+    "status": "not-requested",
+    "runtime": null,
+    "owner_receipt": null,
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "target": "ontology-evidence-workbench-semantic-navigation approved profile reconciliation"
+  }
+}

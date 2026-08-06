@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-08-05T16:01:45Z",
+  "run_id": "invoke-refresh-wcsb-003-node26-20260805",
+  "session_id": "wavedb-reviewed-source-build",
+  "sigil": "invoke",
+  "tier": "spell",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "refresh",
+    "alias": null
+  },
+  "mode": "refresh",
+  "request": {
+    "raw": null,
+    "summary": "Apply the preflight-bound SWU-WCSB-003 BLOCK closeout to six WaveDB source-build plan targets.",
+    "intent": "Synchronize evidence and status without admitting an addon, selecting a successor, or changing Craft authority."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Validated six-target material package and handoff receipts",
+      "Applied Work Pack, Execution Pack, task, wave, traceability, and gap updates",
+      "Invoke Refresh owner receipt returning no next route"
+    ],
+    "files_changed": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/EXECUTION-PACK.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-03-NODE26.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/shared/traceability.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/shared/cross-task-gaps.md"
+    ],
+    "validation": [
+      "all six live target baselines matched preflight hashes",
+      "material package patchVerdict pass and mutationHandoff ready",
+      "handoff phaseStatus pass and mutationReady true",
+      "all six live targets match staged outputs",
+      "zero selected SWUs and zero Selected: yes task flags",
+      "scoped whitespace passed"
+    ],
+    "notes": "Bookkeeping passed while the source-build result remains BLOCK. No same-pack successor or parent refresh was admitted."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  }
+}

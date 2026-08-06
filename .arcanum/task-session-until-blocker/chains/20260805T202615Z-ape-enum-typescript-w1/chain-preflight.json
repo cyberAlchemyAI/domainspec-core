@@ -1,0 +1,123 @@
+{
+  "schema_version": "domainspec.task-session-until-blocker.chain-preflight.v0.1",
+  "chain_id": "20260805T202615Z-ape-enum-typescript-w1",
+  "result": "BLOCK",
+  "authority_effect": "none",
+  "mutation_admitted": false,
+  "work_pack": {
+    "path": "projects/domainspec-v2/development/architecture-pattern-enforcement/WORK-PACK.md",
+    "sha256": "0281af4b5983fe10d3578679ac0c47aae616030a524cbc1c7eb004e39a7e6818",
+    "size_bytes": 5515
+  },
+  "swu_manifest": {
+    "path": "projects/domainspec-v2/development/architecture-pattern-enforcement/work-pack/shared/SWU-MANIFEST.json",
+    "sha256": "5759b663e29933fdda826d74367ff666aae9805af3b4e7af8e88a41f3f92e8cb",
+    "size_bytes": 29023
+  },
+  "task_contract": {
+    "path": "projects/domainspec-v2/development/architecture-pattern-enforcement/work-pack/tasks/TASK-APE-L1-ENUM-TYPESCRIPT.md",
+    "sha256": "c3b74d70b381273274d7d80a07bcaf78e4f05c1cda79f7245dfc64a50ae37732",
+    "size_bytes": 6847
+  },
+  "closeout_contract": {
+    "path": "projects/domainspec-v2/development/architecture-pattern-enforcement/work-pack/shared/CLOSEOUT-CONTRACT.md",
+    "sha256": "02b34a3738409c82b07b45e6e7164afc1dbe49957f27ec2c5da02687eef43b9c",
+    "size_bytes": 1535
+  },
+  "dependency_receipt": {
+    "path": "projects/domainspec-v2/development/architecture-pattern-enforcement/instances/enum/receipts/SWU-APE-ONT-006.json",
+    "sha256": "82a829b20db54b1f3c676106ea901d44e652520ed0929b5a43ad1c2e850c71ca",
+    "size_bytes": 15021,
+    "result": "pass"
+  },
+  "captured_frontier": [
+    "SWU-APE-ENUM-TS-001",
+    "SWU-APE-ENUM-TS-001A",
+    "SWU-APE-ENUM-TS-001B",
+    "SWU-APE-ENUM-TS-002",
+    "SWU-APE-ENUM-TS-003",
+    "SWU-APE-ENUM-TS-004"
+  ],
+  "run_budget": {
+    "max_task_session_requests": 6,
+    "stop_condition": "first-blocker-or-frontier-complete"
+  },
+  "current_expected_selector": "SWU-APE-ENUM-TS-001",
+  "ordered_selectors_invoked": [],
+  "last_completed_selector": null,
+  "visited_selectors": [],
+  "task_session_receipts": [],
+  "closeout_receipts": [],
+  "continuity_cursor_fingerprints": [],
+  "preflight_checks": [
+    {
+      "id": "exact-work-pack-bound",
+      "result": "PASS",
+      "evidence": "Work Pack, manifest, TypeScript task, closeout contract, and ONT-006 dependency bytes are captured."
+    },
+    {
+      "id": "finite-frontier-bound",
+      "result": "PASS",
+      "evidence": "Six unique W1 selectors form one declared dependency chain from TS-001 through TS-004."
+    },
+    {
+      "id": "unit-contracts-complete",
+      "result": "PASS",
+      "evidence": "Every captured selector declares dependencies, bounded write scope, acceptance, validation, owner validation, expected receipt, and successor policy."
+    },
+    {
+      "id": "first-candidate-unique",
+      "result": "PASS",
+      "evidence": "The Work Pack and manifest both identify only SWU-APE-ENUM-TS-001 after the passing ONT-006 receipt."
+    },
+    {
+      "id": "w2-boundary-excluded",
+      "result": "PASS",
+      "evidence": "Python and Rust are not in the captured serial frontier because TS-004 requires a new exact confirmation and opens a parallel fan-out."
+    },
+    {
+      "id": "dirty-worktree-isolated",
+      "result": "PASS",
+      "evidence": "The repository contains unrelated user changes; all captured W1 product targets are currently absent except the existing TypeScript profile later owned by TS-001B."
+    },
+    {
+      "id": "ts-001-validation-contract-resolvable",
+      "result": "BLOCK",
+      "terminal_code": "DECISION_VALIDATION_CONTRACT_MISSING",
+      "evidence": "TS-001 declares 'decision schema and independent owner review', but no repository-local TypeScript representation decision schema, validator path, exact command, or expected owner-review receipt is named or present in the bounded project sources."
+    }
+  ],
+  "approval_evidence": {
+    "source": "current-session-user-invocation",
+    "scope": "execute the current DomainSpec work pack through task-session-until-blocker",
+    "semantic_decision": "owned as-const Enum protocol using defineEnum, composeEnum, and EnumValue",
+    "w2_parallel_confirmation": "not granted by this chain preflight"
+  },
+  "stop_reason": {
+    "terminal_code": "DECISION_VALIDATION_CONTRACT_MISSING",
+    "claim": "A fresh Task Session cannot prove the acceptance-critical TS-001 decision contract without inventing a schema or owner-review receipt.",
+    "owner_boundary": "Task Session Until Blocker may not author the missing plan/validation contract or widen TS-001 beyond its one-file decision write scope."
+  },
+  "remaining_frontier": [
+    "SWU-APE-ENUM-TS-001",
+    "SWU-APE-ENUM-TS-001A",
+    "SWU-APE-ENUM-TS-001B",
+    "SWU-APE-ENUM-TS-002",
+    "SWU-APE-ENUM-TS-003",
+    "SWU-APE-ENUM-TS-004"
+  ],
+  "next_owner_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "target": "projects/domainspec-v2/development/architecture-pattern-enforcement/WORK-PACK.md",
+    "required_result": "Repair TS-001 planning with an exact owner-owned decision schema, executable validator, expected independent owner-review receipt, and updated bounded write/closeout inventories; then rerun readiness audit.",
+    "authorization_effect": "none"
+  },
+  "changed_files": [
+    ".arcanum/task-session-until-blocker/chains/20260805T202615Z-ape-enum-typescript-w1/chain-preflight.json"
+  ],
+  "residue": [
+    "No Task Session was launched and no TypeScript decision/provider/profile/adapter/fixture/runner product file was changed.",
+    "The user's owned as-const protocol choice remains valid intent evidence but is not misreported as a schema-validated TS-001 terminal receipt."
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "timestamp": "2026-08-05T21:13:31.512Z",
+  "run_id": "invoke-refresh-capi-wavedb-0.15.9-runtime-order-20260805",
+  "session_id": "craft-wavedb-api-20260805T184540Z",
+  "sigil": "invoke",
+  "tier": "spell",
+  "mode": "refresh",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "refresh",
+    "alias": null
+  },
+  "command": null,
+  "lineage": {
+    "parent_run_id": "20260805T184540Z-craft-wavedb-api",
+    "relation": "refreshes",
+    "caller": null
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/refreshes/20260805T205803Z-wavedb-0.15.9-runtime-order/REFRESH-REPORT.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/refreshes/20260805T205803Z-wavedb-0.15.9-runtime-order/refresh-report.json",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/refreshes/20260805T205803Z-wavedb-0.15.9-runtime-order/material/material-receipt.json",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/refreshes/20260805T205803Z-wavedb-0.15.9-runtime-order/material/handoff-result.json"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Refresh the current Craft API Work Pack with the verified WaveDB 0.15.9 runtime order.",
+    "intent": "Order immutable 0.15.9 ingestion, independent fresh-process verification, exact API runtime pinning, and only then API construction without starting execution."
+  },
+  "execution": {
+    "status": "completed-with-gated-target-lifecycle",
+    "outputs": [
+      "refreshed split Work Pack",
+      "refreshed runtime task",
+      "refreshed W1 wave",
+      "refreshed execution pack",
+      "validated material package and mutation handoff",
+      "Invoke Refresh report and machine receipt"
+    ],
+    "files_changed": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/waves/W1.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/EXECUTION-PACK.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/refreshes/20260805T205803Z-wavedb-0.15.9-runtime-order/**"
+    ],
+    "validation": [
+      "inventory lookup readiness passed with no failures",
+      "Dispatch Spec passed with no flags or blocks after one documented metadata repair",
+      "material package and handoff resolver passed",
+      "all four live targets matched the validated outputs byte-for-byte",
+      "SWU-CAPI-000 through SWU-CAPI-009 and the exact WaveDB 0.15.9 pins were present",
+      "Work Pack gate remained blocked with allowedRoutes empty",
+      "JSON, whitespace, receipt-integrity, ledger-scope, implementation-scope, and Git-head checks passed"
+    ],
+    "notes": "No Craft snapshot ingestion or API implementation ran. The Invoke mutation handoff is ready, but the Work Pack target lifecycle remains blocked pending owner selection and a separately authorized Task Session."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "rework": [
+      "The first Dispatch Spec validation flagged missing installed local-extension metadata for inventory; the repaired dispatch then passed without flags or blocks."
+    ],
+    "useful_patterns": [
+      "Insert a stable runtime predecessor instead of renumbering existing work units.",
+      "Keep Invoke mutation readiness separate from target Work Pack execution readiness.",
+      "Synchronize all coupled split Work Pack surfaces through one digest-bound material package."
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "Route owner selection through decision-gate; authorize only SWU-CAPI-000 through a later Task Session if selected."
+  },
+  "target_artifact": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+  "dedupe_key": "invoke-refresh-capi-wavedb-0.15.9-runtime-order-20260805:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

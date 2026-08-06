@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-08-04T17:40:52Z",
+  "run_id": "distill-ape-plan-20260804",
+  "session_id": "2026-08-04-ape-ontology-guided-invoke",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "validate",
+  "capability": {"id":"distill","kind":"sigil","tier":"arcana","mode":"validate","alias":null},
+  "lineage": {
+    "parent_run_id": "invoke-ape-ontology-guided-20260804",
+    "relation": "invoked-by",
+    "caller": {"id":"invoke","kind":"spell","tier":"spell","mode":"define-design-plan"}
+  },
+  "evidence": {
+    "status": "complete",
+    "emission_status": "complete",
+    "distill_run_request_ref": {"path":"projects/domainspec-v2/development/architecture-pattern-enforcement/DISTILL-RUN-REQUEST.json","sha256":"624370b8789c202630ad63ed555b66bec13c05c8dbf837e8d0aa7edf9b088e00","size_bytes":2004},
+    "runtime_event_refs": [{"path":"projects/domainspec-v2/development/architecture-pattern-enforcement/DISTILL-RUNTIME-EVENTS.jsonl","sha256":"a3e4f19a2149ae49bbfd2a47195b0b3d6905c91c82d28d0b39fcabf9783215c5","size_bytes":1892}],
+    "execution_receipt_ref": {"path":"projects/domainspec-v2/development/architecture-pattern-enforcement/DISTILL-EXECUTION-RECEIPT.json","sha256":"ac571e6834d677e777f397b30b3ecb9d6c04ed620a20ca7790b09a3f22a5cb34","size_bytes":7312},
+    "validation_result_ref": {"path":"projects/domainspec-v2/development/architecture-pattern-enforcement/DISTILL-VALIDATION-RESULT.json","sha256":"413fd1dd5631c6408a7b6e7d2209783a394476386e5d2bc7a494aa16e4951ec7","size_bytes":1901}
+  },
+  "request": {
+    "raw": null,
+    "summary": "Validate the ontology-guided APE Design and split Work Pack for ownership, coverage, atomicity, recomposition, and evidence boundaries.",
+    "intent": "Close package authoring without selecting an SWU or authorizing implementation mutation."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/domainspec-v2/development/architecture-pattern-enforcement/DESIGN-DISTILL-VALIDATION.md",
+      "projects/domainspec-v2/development/architecture-pattern-enforcement/PLAN-DISTILL-VALIDATION.md",
+      "projects/domainspec-v2/development/architecture-pattern-enforcement/DISTILL-EXECUTION-RECEIPT.json",
+      "projects/domainspec-v2/development/architecture-pattern-enforcement/DISTILL-VALIDATION-RESULT.json"
+    ],
+    "files_changed": [],
+    "validation": [
+      "Design fixed point: pass",
+      "seventeen unselected one-behavior SWUs: pass",
+      "dispatch schema: pass",
+      "authority non-collapse: pass",
+      "mutation handoff allowed: false"
+    ],
+    "notes": "The read-only Balancer flagged ownership, coverage, provider, historical-preservation, and atomicity defects. The Invoke parent repaired the package and the second round passed."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {"category":"quality-bar","severity":"low","summary":"Ontology operators, provider capabilities, and language evidence remain future work.","evidence":"RESIDUE.md assigns every gap to an unselected SWU and owner."}
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/architecture-pattern-enforcement/WORK-PACK.md"
+}

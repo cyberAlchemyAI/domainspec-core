@@ -1,0 +1,77 @@
+{
+  "timestamp": "2026-08-04T18:02:14Z",
+  "run_id": "distill-openai-audition-plan-20260804T180214Z",
+  "session_id": "2026-08-04-openai-stock-voice-audition",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "validate",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "validate",
+    "alias": null
+  },
+  "lineage": {
+    "parent_run_id": "invoke-openai-audition-20260804T180214Z",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "define-design-plan"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "emission_status": "complete",
+    "distill_run_request_ref": {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/DISTILL-RUN-REQUEST.json",
+      "sha256": "1c7c4796c284f83b9728a4d7b57e1bd5baf934a2d5882e07cbe79d672dcd8b8c",
+      "size_bytes": 1608
+    },
+    "execution_receipt_ref": {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/DISTILL-EXECUTION-RECEIPT.json",
+      "sha256": "ed1e4c41cb760cc9f4bc1866564c81918a260eeab8b14c9510464ff7e40e6560",
+      "size_bytes": 1689
+    },
+    "validation_result_ref": {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/PLAN-DISTILL-VALIDATION.md",
+      "sha256": "1d438984dcf844b7359e003dabf8203d5e3b78961f1da471fdad96a647dfaf31",
+      "size_bytes": 2525
+    }
+  },
+  "request": {
+    "raw": null,
+    "summary": "Validate atomicity, first-unit narrowness, recomposition, navigation, gaps, and authority boundaries in the OpenAI audition Plan.",
+    "intent": "Balance the complete Plan without selecting an SWU or resolving owner decisions."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "PLAN-PROPOSER-RESULT.md",
+      "PLAN-BALANCER-RESULT.md",
+      "PLAN-DISTILL-VALIDATION.md",
+      "DISTILL-EXECUTION-RECEIPT.json"
+    ],
+    "files_changed": [],
+    "validation": [
+      "8 atomic SWUs: pass",
+      "First-unit narrowness: pass",
+      "Recomposition: pass",
+      "Navigation: pass",
+      "Authority split: pass",
+      "6 round-one objections: repaired or preserved as blockers"
+    ],
+    "notes": "Local role simulation was used because no multi-agent dispatch was authorized. Plan authoring passes; selected SWU remains none and provider admission remains not_ready."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/PLAN-DISTILL-VALIDATION.md"
+}

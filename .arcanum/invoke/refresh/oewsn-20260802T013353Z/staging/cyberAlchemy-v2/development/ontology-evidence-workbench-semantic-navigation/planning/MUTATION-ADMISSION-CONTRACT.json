@@ -1,0 +1,46 @@
+{
+  "schema_version": "oewsn.mutation-admission.v1",
+  "status": "selected-awaiting-task-session-preflight",
+  "work_pack": "WORK-PACK.md",
+  "selected_swu": "SWU-OEWSN-004",
+  "decision_gate": {
+    "path": "decisions/DECISION-GATE-RESULT.json",
+    "sha256": "1d0ee10e5ef79fe5064900e6fdec9341ea5d5299487104ee0fa79cb2e49e2ec0",
+    "result": "PASS",
+    "decisions_resolved": 4
+  },
+  "approved_profile": {
+    "path": "decisions/BODY-WAR-PROFILE-APPROVED.json",
+    "sha256": "2eb373d41154004cdcf4d4a448edbe4ea341934f2e77750903e8e92a54e871e8",
+    "authority_effect": "none"
+  },
+  "caller_scope_authorized": true,
+  "mutation_ready": false,
+  "required_before_mutation": [
+    "runtime Context Builder handoff pack covers every SWU obligation",
+    "attempt ID, material write inventory, generated output inventory and closeout inventory are exact and disjoint",
+    "baseline SHA-256 values for every material and closeout target are recorded",
+    "Task Session validates material writes union execution outputs equals allowed writes for SWU-OEWSN-004",
+    "a schema-valid mutation-admission receipt returns admissionVerdict=admit and mutationReady=true immediately before the first product write",
+    "shared Playwright API, Chromium executable/revision/path/digest are resolved live only when a later selected SWU requires browser evidence"
+  ],
+  "satisfied_before_task_session": [
+    "OD-01 through OD-04 are owner-approved and digest-bound",
+    "workPackGateStatus is refreshed to pass-for-task-session-preflight",
+    "SWU-OEWSN-004 is selected and predecessor SWU-OEWSN-021 is complete",
+    "all mutation SWUs declare disjoint material_write_scope and execution_output_inventory fields whose union is write_scope"
+  ],
+  "forbidden": [
+    "ontology or authority-spine mutation",
+    "historical focus-scene development package mutation",
+    "new package manifest or runtime root",
+    "external network or token persistence",
+    "promotion, publication, release, deployment or production effect",
+    "human comprehension, trust, workload, preference or task-success claim"
+  ],
+  "material_inventory_source": "SWU-MANIFEST.json#/swus/*/material_write_scope",
+  "execution_output_inventory_source": "SWU-MANIFEST.json#/swus/*/execution_output_inventory",
+  "allowed_write_inventory_source": "SWU-MANIFEST.json#/swus/*/write_scope",
+  "closeout_inventory_source": "CLOSEOUT-SYNC-INVENTORY.json#/entries",
+  "admission_result": "ready-for-task-session-preflight-not-product-mutation"
+}

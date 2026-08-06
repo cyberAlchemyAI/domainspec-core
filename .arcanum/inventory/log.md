@@ -1,5 +1,87 @@
 # Inventory Log
 
+## 2026-08-05 ingest — Cyberalchemy orchestrator, recursive Work, and reasoning-engine research result
+
+- Mode: post-dispatch result filing from auditor-accepted exact-binding research.
+- Result: the target is a substantial governed orchestration/control-plane implementation; protocol compilation passed 13/13, while FastAPI-dependent suites remain execution-unverified.
+- Recursive Work: separately frozen untracked proposal-only material; current primitives are precedents and partial analogies, not a recursive kernel or promoted specification.
+- ARE: retained only as a documentation-only, ACI-subordinate, gate-adjacent semantic seam with separate reasoning-entry, artifact, and exact-effect owners; prior L0 evidence was inspected, not freshly executed here.
+- Dispatch: nine roles, final reviewer PASS/PASS/PASS, auditor ACCEPT after one bounded writer repair, valid 64-event stream, one resolved close row.
+- Residue: open RWO/ontology/WGQ questions, unselected owners, missing cross-repository schemas/conformance, absent recursive compiler/fixtures, incomplete target runtime validation.
+- Boundary: candidate non-authority Inventory result only; no implementation, owner assignment, target binding, promotion, publication, deployment, production, or effect claim.
+
+## 2026-08-04 ingest — Cyberalchemy orchestrator, recursive Work, and reasoning-engine research strategy
+
+- Mode: machine-index-first preflight followed by confirmation-ready
+  strategy-result filing.
+- Target: the current implemented state of `projects/cyberalchemy-orchestrator`,
+  its recursive-Work and workflow-graph proposals and hypotheses, integration
+  with the proposed recursive Work model, and then the separately owned private
+  agent-reasoning-engine.
+- P1: synthesis, context protection, isolation, and parallelism apply across
+  three read-only explorer lanes, one synthesizer, three independent reviewers,
+  exact-binding closure, one writer, and one auditor.
+- Evidence boundary: target tracked evidence is commit-frozen; untracked
+  recursive-Work material is separately digest-frozen and remains
+  proposal-only; parent-private reasoning sources remain read-only.
+- Gate: schema `0.8.0`, Dispatch Spec, and independent tension checks all pass
+  for sheet SHA-256
+  `d5e3487689a35b2d1a487991255a1296c784782507787001bd60d016a312e0e5`.
+- State: human confirmation pending; route authorization remains
+  `requires_user_permission`; dispatch unregistered and unexecuted; ledger
+  unchanged; no target binding, code, authority, Git, publication, promotion,
+  release, or deployment mutation occurred.
+- Inventory: the parent index is lookup-ready; the target has no local machine
+  Inventory, so this route uses direct current source and does not infer novelty
+  or precedent cleanliness.
+- Next action: the human may reply exactly `confirmed` to authorize
+  registration and execution of the frozen material strategy.
+
+## 2026-08-01 ingest — Unified canvas browser-neutral digest research strategy
+
+- Mode: machine-index-first lookup followed by strategy-result filing.
+- Target: the DomainSpec v2 unified ontology canvas browser render blocker.
+- Finding boundary: current inspection shows SHA-256 is used for deterministic
+  source, graph, and layout fingerprints and identities, not secrecy. Local-only
+  scope does not alone decide whether those evidence semantics can be removed.
+- Proposal: compare complete removal, synchronous browser-neutral SHA-256,
+  asynchronous Web Crypto, a non-cryptographic stable hash, and injected or
+  precomputed digests, including exact Node/browser parity and negative controls.
+- Gate: schema `0.8.0` validation passed at sheet SHA-256
+  `83bcf1ea10af37c3ca266f98557a44b042f15a355d0a052076367d9431e5e98e`;
+  two independent tension checks returned `PASS + PASS`.
+- State: human confirmation pending; dispatch unregistered and not run; no
+  product, Work Pack, dispatch-ledger, Git, publication, release, or production
+  mutation occurred.
+- Inventory: added one candidate non-authority strategy-result entry; remaining
+  uncontrolled-tag warnings are repository-wide validation residue.
+- Next action: the human may reply exactly `confirmed` to authorize
+  registration and execution of the frozen sheet.
+
+## 2026-08-01 ingest — TypeSafe custom-role governed research result
+
+- Mode: post-dispatch synthesis update to the existing strategy-result entry.
+- Repository: `/home/vrondelli/projects/domainspec-core`.
+- Inventory root: `.arcanum/inventory/`.
+- Sources processed: completed findings, current public-evidence capture,
+  second-round reviewer verdicts, exact-binding closure, and final orchestration
+  event validation.
+- Result: the auditor accepted **Member of Technical Staff, Agent Task Evals &
+  Environments** as a conditional task-qualification proposal. The role must be
+  killed or absorbed if TypeSafe's existing teams already own the complete path.
+- Boundary: this is task-level environment, runner, replay, failure, and economic
+  evidence around model use; it does not establish frontier-model training,
+  general model evaluation, deployed-agent reliability, TypeSafe internal
+  ownership, individual seniority, submission, hiring, or production readiness.
+- Dispatch: one registered dispatch row, one resolved close row, nine governed
+  research agents, two tension helpers, two feedback loops, and 93 valid final
+  orchestration events.
+- Projection: synchronized the existing human and machine summaries, source maps,
+  selectors, and residue without creating a second result entry.
+- Validation: full Inventory index validation and JSON/projection conformance are
+  required after apply; repository-wide uncontrolled-tag findings may remain
+  warnings.
+
 ## 2026-07-27 sync — CyberAlchemy precedent added to Akashic graph strategy
 
 - Trigger: the human requested that the confirmation-ready periodic-table
@@ -5203,6 +5285,200 @@ Artifacts:
   authority movement, promotion, publication, deployment, release, or
   production claim is established.
 
+## 2026-07-30 - Intent router Bootstrap and runtime integration confirmation readiness
+
+- P1: synthesis, isolation, and parallelism apply across public Bootstrap plus
+  generated Claude and Codex runtimes, the separate orchestrator control
+  plane, and the private reasoning-engine stack.
+- Lanes: `Hewitt, Carl` audits Bootstrap and cross-runtime behavior parity;
+  `Simon, Herbert` traces the orchestrator adapter seam; `Ashby, W. Ross`
+  classifies the reasoning-engine layer contribution.
+- Review: `Lakatos, Imre`, `Gödel, Kurt`, and
+  `Quine, Willard Van Orman` separately attack owner duplication,
+  non-vacuity, and definitional plus public-private collapse.
+- Inventory lookup: the owner machine index passed with zero failures; four
+  adjacent result entries shaped the lanes, while the nested orchestrator
+  machine index is unavailable and retained as residue.
+- Sheet:
+  `research/2026-07-30-intent-router-bootstrap-runtime-integration/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `d3111f7d67bd8032a496888fa8ef81f297ea9d9af477f96c018130fbb9e74070`;
+  Dispatch Spec passed; both independent check-tension roles returned `PASS`.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; the ledger remains unchanged.
+- Entry created:
+  `entries/intent-router-bootstrap-runtime-integration-research-strategy-result-synthesis.md`.
+- Boundary: no public extraction, Bootstrap or generated-runtime mutation,
+  orchestrator integration, reasoning-engine promotion, deployment, or release
+  authority is established.
+
+## 2026-07-30 - Intent router Bootstrap and runtime integration research completed
+
+- Dispatch: nine native agents completed three read-only explorer lanes,
+  synthesis, three independent reviewer gates, findings writing, and final
+  audit.
+- Repairs: the reviewer/synthesizer zig-zag used its two-loop ceiling to close
+  ownership, evidence-vocabulary, and executable-parity contract defects. The
+  declared auditor-to-writer feedback edge then narrowed one owner sentence,
+  corrected the current component label, added exact selectors, and bound the
+  acceptance addendum by SHA-256.
+- Current result: the private standalone resolver passed 34 tests with zero
+  failures. Direct current Bootstrap integration is killed because no
+  canonical public resolver sigil or spell exists.
+- Selected future topology: after separate extraction and canonical-acceptance
+  decisions, one generic zero-authority public source may generate thin Claude
+  and Codex packages and feed a future thin advisory orchestrator adapter.
+- Claim ceiling: this advances deterministic pre-inference capability routing
+  only. It does not establish semantic judgment, object-level inference,
+  runtime integration, or a whole reasoning engine.
+- Final audit: `ACCEPT`; the normative acceptance-addendum SHA-256 is
+  `ae914daf71331ddc787d8b562d78ceddabd10ad2526b568de07ecd92f2707e94`.
+- Ledger: exactly one registered dispatch row and one `resolved` close row.
+- Entry created:
+  `entries/intent-router-bootstrap-runtime-integration-research-result-synthesis.md`.
+- Boundary: no public extraction, canonical acceptance, product or Bootstrap
+  mutation, generated package, orchestrator integration, private reasoning
+  admission, promotion, publication, installation, deployment, release, or
+  production claim is established.
+
+## 2026-07-31 - Body War OEW UX/UI quality-loop review confirmation readiness
+
+- P1: synthesis, isolation, parallelism, and context protection apply across
+  contrast/non-color recovery, readability/task hierarchy, navigation-state
+  architecture, opposed verification, and coverage audit.
+- Lanes: `Tversky, Amos`, `Simon, Herbert`, and `Alexander, Christopher`
+  attack the whole current interface through computational, empirical, and
+  formal methodologies; `Gigerenzer, Gerd` and `Wittgenstein, Ludwig` verify
+  proxy validity and semantic scope.
+- Reuse boundary: the strategy includes a frozen project profile, evidence
+  classes, baseline-to-current rerun, and portability gate; it remains an
+  uncalibrated candidate until a Body War post-update round and fixture corpus
+  pass.
+- Inventory lookup: machine-index-first lookup passed with zero failures and
+  125 inherited uncontrolled-tag warnings; four prior entries shaped the
+  attack lenses and browser-versus-human evidence boundary.
+- Sheet:
+  `cyberAlchemy-v2/development/ontology-evidence-workbench-focus-scene/reviews/2026-07-31-ux-ui-quality-loop/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `76cf42d74ea0c12855aa5acbbd37274f36aa85cdb0bb22fee8a5a5636efe4b2b`;
+  Dispatch Spec passed; both independent check-tension roles returned `PASS`.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; this proposal did not append the dispatch
+  ledger.
+- Entry created:
+  `entries/body-war-oew-ux-ui-quality-loop-review-strategy-result-synthesis.md`.
+- Boundary: no UI or ontology mutation, audit execution, human-comprehension or
+  complete-accessibility proof, protocol promotion, implementation, release,
+  deployment, or production claim is established.
+
+## 2026-07-31 - Ontological Way Clear artifact-readiness research confirmation readiness
+
+- P1: synthesis, isolation, parallelism, and context protection apply across
+  definitions, criteria, requirements, Definitions of Done, architecture,
+  designs, UX plans, and three independent falsification gates.
+- Lanes: `Tarski, Alfred`, `Simon, Herbert`, and `Alexander, Christopher`
+  independently research formal semantics, lifecycle acceptance, and
+  architecture/design/UX evidence; synthesis is followed by precedent,
+  non-vacuity, and definitional attacks.
+- Inventory lookup: machine-index validation passed before drafting. Seven
+  discovery leads shaped artifact-kind ClosureProfiles, evidence-before-clear,
+  explicit world assumptions, and a finite false-clear/false-block witness.
+- Sheet:
+  `cyberAlchemy-v2/development/research/2026-07-31-ontological-way-clear-artifact-readiness/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `b5e49e809567b30f9072948b872dc56329d76622b5ea3dc2507e7b357ac5cc83`;
+  Dispatch Spec passed; both independent check-tension roles returned `PASS`.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; this proposal did not append the dispatch
+  ledger.
+- Entry created:
+  `entries/ontological-way-clear-artifact-readiness-research-strategy-result-synthesis.md`.
+- Boundary: no research finding, canonical definition or ontology, artifact
+  readiness verdict, implementation, public extraction, promotion,
+  publication, release, deployment, or production claim is established.
+
+## 2026-07-31 - Body War OEW UX/UI quality-loop review completed
+
+- Exact confirmed review sheet: schema `0.8.0`, SHA-256
+  `76cf42d74ea0c12855aa5acbbd37274f36aa85cdb0bb22fee8a5a5636efe4b2b`.
+- Dispatch: registered and ledger-closed `resolved`; eight agents executed five
+  dependency waves and one bounded coverage-manifest feedback loop.
+- Browser baseline: Chromium `1217`, Playwright `1.59.1`, loopback-only, with
+  scenario/profile/target/runtime/fixture digests in `BASELINE-COVERAGE.json`.
+- Findings: twelve verifier-corrected requests (two critical, five high, five
+  medium) plus bounded KEEP evidence and explicit coverage residue.
+- Audit: final coverage-auditor verdict `ACCEPT`; native event validation
+  passed for 92 events.
+- Entry updated:
+  `entries/body-war-oew-ux-ui-quality-loop-review-strategy-result-synthesis.md`.
+- Boundary: no product or ontology mutation, product acceptance, human
+  comprehension, complete accessibility, capability promotion, release,
+  deployment, or production claim is established.
+
+## 2026-07-31 - Evidence-Bound Evaluation Query research completed
+
+- Exact confirmed research sheet: schema `0.8.0`, SHA-256
+  `b5e49e809567b30f9072948b872dc56329d76622b5ea3dc2507e7b357ac5cc83`.
+- Dispatch: registered once and ledger-closed once as `resolved`; nine agents
+  completed five dependency waves and one synthesizer/reviewer repair loop.
+- Result: the private paper-evaluated candidate survives as Evidence-Bound
+  Evaluation Query (`EBEQ`) with seven separate purpose-specific profiles.
+- Evidence: exact-binding closure is `ready`; the independent auditor returned
+  `ACCEPT`; native causal validation passed for 63 events.
+- Entry created:
+  `entries/ontological-way-clear-artifact-readiness-research-result-synthesis.md`.
+- Observability: one signal was appended with a partial quality bar and
+  `gap-threshold` reflection trigger because the verbatim native feedback
+  prompt is encrypted at rest and could not be placed in the close row.
+- Boundary: no runtime evaluator, schema, fixture execution, implementation,
+  canonical definition, ontology promotion, OEW Plan admission, public
+  extraction, publication, release, deployment, or production claim is
+  established.
+
+## 2026-07-31 - Dual-Residue Experiment feasibility review confirmation readiness
+
+- P1: synthesis, isolation, parallelism, and context protection apply across formal protocol fidelity, executable/statistical mechanics, and repository ownership/context fit.
+- Lanes: `Abramsky, Samson`, `Saxe, Andrew`, and `Ashby, W. Ross` attack in parallel; `Shannon, Claude` synthesizes; `Popper, Karl` and `Russell, Bertrand` verify; `Brandenburg, Martin` is the dedicated final approver.
+- Inventory lookup: the owner machine index passed with zero failures; four domain/claim-boundary matches plus one operational review precedent shaped the lanes. The target Inventory is unavailable and remains explicit residue.
+- Sheet: `development/review/2026-07-31-dual-residue-experiment-feasibility/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256 `a0218865ca67aa800df9f182269f527bf4e5ec2f08e8a91eb9ff407303acfad7`; Dispatch Spec passed; both independent check-tension roles returned `PASS`.
+- State: exact-sheet human confirmation is pending; the dispatch is unregistered and unexecuted; this proposal did not append the dispatch ledger.
+- Entry created: `entries/dual-residue-experiment-feasibility-review-strategy-result-synthesis.md`.
+- Boundary: no review finding, feasibility verdict, target mutation, training run, experiment promotion, release, deployment, or production claim is established.
+
+## 2026-07-31 - Dual-Residue Experiment feasibility review completed
+
+- Exact confirmed sheet: schema `0.8.0`, SHA-256 `a0218865ca67aa800df9f182269f527bf4e5ec2f08e8a91eb9ff407303acfad7`.
+- Dispatch: registered once and ledger-closed once as `resolved`; seven agents completed four waves and one verification zig-zag.
+- Result: `NOT-YET-FEASIBLE`; the repository remains architecturally fit as a candidate-local evidence harness rather than an authority source.
+- Findings: five KEEP and five CRITICAL dispositions plus dependency-ordered repairs for claim identity, treatment fidelity, corpus custody, paired statistics, optimization validity, freeze, and owner review.
+- Audit: dedicated auditor `ACCEPT`; Orchestrate reached terminal state `complete`; the target remained clean and read-only.
+- Entry updated: `entries/dual-residue-experiment-feasibility-review-strategy-result-synthesis.md`.
+- Boundary: no target fix, training run, empirical validation, canonical promotion, theorem claim, release, deployment, or production readiness is established.
+
+## 2026-08-01 - TypeSafe custom-role research confirmation readiness
+
+- P1: synthesis, context protection, isolation, and parallelism apply across the whole repository, three focal authority surfaces, a supplied candidate profile, and current TypeSafe evidence.
+- Lanes: `Wiener, Norbert` maps CyberAlchemy v2 reliability and authority; `Spivak, David` audits DomainSpec v2 typed-intent and traceability receipts; `Simon, Herbert` maps Arcanum and repository-wide operational evidence against live TypeSafe needs.
+- Review: `Lakatos, Imre`, `Popper, Karl`, and `Quine, Willard Van Orman` independently attack role precedent, first-90-day non-vacuity, and title or claim collapse.
+- Inventory lookup: the machine index passed with zero failures; six selected leads shaped the evidence lanes, proof ceilings, exact-binding requirement, and public/private boundary. No TypeSafe-specific Inventory match exists.
+- Sheet: `research/2026-08-01-typesafe-reliable-autonomy-role/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256 `890fae707f01964e1158a71c774794766d50c094b5ce1abb596379e7577a0638`; Dispatch Spec passed; both independent check-tension roles returned `PASS`.
+- State: Orchestrate is `authorization_pending` with zero eligible actions; exact-sheet human confirmation is absent; the dispatch is unregistered and unexecuted; the dispatch ledger was not mutated.
+- Entry created: `entries/typesafe-reliable-autonomy-role-research-strategy-result-synthesis.md`.
+- Boundary: no candidate fit, TypeSafe role, application, employment, frontier-model capability, product mutation, authority change, public publication, submission, deployment, or production claim is established.
+
+## 2026-08-01 - Learning graph and next-route guide research confirmation readiness
+
+- P1: synthesis, isolation, parallelism, and context protection apply across the primary DomainSpec ontology/HTML, current cyberAlchemy-v2 experiment owners, and learner-question/comprehension evidence.
+- Lanes: `Hewitt, Carl`, `Spivak, David`, and `Halford, Graeme` explore in parallel; `Bateson, Gregory` synthesizes; `Hacking, Ian`, `Popper, Karl`, and `Wittgenstein, Ludwig` attack precedent, non-vacuity, and definitional collapse; `Senge, Peter` is the evidence-gated Whisper writer; `Brandenburg, Martin` audits.
+- Inventory lookup: the machine index passed with zero failures and partial source coverage; selected leads shaped the projection-first hypothesis, exact-binding contract, first learner witness, and authority boundary. Semantic-hierarchy/categorical towers and imported historical material are deferred.
+- Sheet: `cyberAlchemy-v2/development/research/2026-08-01-learning-graph-next-route-guide/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256 `f4b08fedd0dd0c6fdecd420bb36b4a3f8a9d2765a55558dce848467f550612de`; Dispatch Spec passed; both independent check-tension roles returned `PASS` with no apontamentos.
+- State: exact-sheet human confirmation is pending; the dispatch is unregistered and unexecuted; Whisper has not run; this proposal did not append the dispatch ledger.
+- Entry created: `entries/learning-graph-next-route-guide-research-strategy-result-synthesis.md`.
+- Boundary: no learning graph, candidate node/relation finding, human-comprehension proof, ontology/HTML change, governed-route confirmation/execution, promotion, publication, release, deployment, or production claim is established.
+
 ## 2026-08-01 - Learning graph and next-route guide research completed
 
 - Frozen sheet: schema `0.8.0`, SHA-256 `f4b08fedd0dd0c6fdecd420bb36b4a3f8a9d2765a55558dce848467f550612de`.
@@ -5214,3 +5490,247 @@ Artifacts:
 - Orchestration: 119 causal events passed `validate_run_evidence.py`; no agent remained unjoined.
 - Entry updated: `entries/learning-graph-next-route-guide-research-strategy-result-synthesis.md`.
 - Boundary: no human-comprehension or accessibility proof, real TypeScript adapter behavior, owner admission, ontology promotion, route execution, release, deployment, or production readiness is established.
+
+## 2026-08-02 - Tower exam learning graph review completed
+
+- P1: synthesis, isolation, parallelism, and context protection applied across tower structure, learner-task falsification, and source/memory residue.
+- Lanes: `Lawvere, F. William`, `Simon, Herbert`, and `Bateson, Gregory` ran read-only in parallel; the parent joined receipts, verified current selectors, and accepted the change-request list.
+- Sheet: `ops/development/2026-08-02-tower-exam-learning-graph-review/DISPATCH-SHEET.json`.
+- Gate: schema `0.8.0` readiness and check-tension passed at SHA-256 `2461719c8a1411f0f312549e2633a554f0793ea5f10292eb882306ae502bba29`; exact-digest human confirmation was recorded.
+- Dispatch: registered once and ledger-closed once as `resolved`; three agents joined and closed in one loop.
+- Result: five tower-derived node families and four typed relation families were selected for Refine; the seven-question evidence-routing toy game is viable; doctrinal answer scoring is blocked pending page-local tower extensions.
+- Entry created: `entries/tower-exam-learning-graph-review-strategy-result-synthesis.md`.
+- Boundary: no HTML implementation, Research Tower extension, doctrinal correctness, browser/accessibility proof, learner-effectiveness claim, ontology promotion, publication, release, deployment, or production readiness is established.
+
+## 2026-08-02 - Agent identity and sovereign data paper research confirmation readiness
+
+- P1: synthesis, context protection, isolation, and parallelism apply across the
+  supplied DOCX, current belief-change evidence, agent-identity and
+  sovereign-data standards, and live CyberAlchemy-v2 authority boundaries.
+- Lanes: `Kahneman, Daniel`, `Hewitt, Carl`, and `Wiener, Norbert` explore in
+  parallel; `Simon, Herbert` synthesizes; `Lakatos, Imre`, `Popper, Karl`, and
+  `Quine, Willard Van Orman` attack precedent, non-vacuity, and definitional
+  collapse; `Senge, Peter` writes; `Brandenburg, Martin` audits.
+- Inventory lookup: the owner machine index passed with zero failures; four
+  selected entries, five evidence cards, and one EvidenceSet shaped the
+  identity-as-provenance, sovereign-store, visible-user-control, and
+  owner-routed promotion boundaries. The target CAV2 Inventory has no local
+  machine index.
+- Sheet:
+  `cyberAlchemy-v2/development/research/2026-08-02-agent-identity-sovereign-data-paper/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `b97cca7d120e58b1f2b8add6bd4aae61b259d31d93e5c79bef70081388390a52`;
+  independent checker and reviewer both returned `PASS` with no apontamentos.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; the dispatch ledger was not mutated.
+- Entry created:
+  `entries/agent-identity-sovereign-data-paper-research-strategy-result-synthesis.md`.
+- Boundary: no paper claim is validated; no identity, data, consent, authority,
+  ontology, definition, implementation, publication, release, deployment, or
+  production decision is established.
+
+## 2026-08-03 - Anime.js agent knowledge vault research confirmation readiness
+
+- P1: synthesis, context protection, isolation, and parallelism apply across
+  the complete official Anime.js documentation/repository corpus, recent local
+  ontology models, and evidence-bound agent work lessons.
+- Lanes: `Feynman, Richard`, `Mac Lane, Saunders`, and `Ahrens, Sönke` explore
+  in parallel; `Shannon, Claude` synthesizes; `Popper, Karl`, `Russell,
+  Bertrand`, and `Quine, Willard Van Orman` attack precedent, non-vacuity, and
+  definitional/evidence collapse; `Simon, Herbert` writes; `Loregian, Fosco`
+  audits.
+- Inventory lookup: the machine index passed with zero failures, 136 inherited
+  tag warnings, and partial source coverage. Six selected recent-model leads
+  shaped the source/version/lesson distinctions, isolated package boundary,
+  exact-binding contract, fixtures, validators, views, and non-authority floor.
+  No Anime.js-specific Inventory match exists.
+- Sheet:
+  `projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `2f5702d5b2dc030d56d8d16e0e80467d823e79dc250e0402a142b1a2c10d56fd`;
+  Dispatch Spec passed with no flags; independent checker and reviewer both
+  returned `PASS` with no apontamentos.
+- State: exact-sheet human confirmation is pending; the dispatch is
+  unregistered and unexecuted; the dispatch ledger was not mutated; the
+  candidate Anime.js ontology has not been built.
+- Entry created:
+  `entries/animejs-agent-knowledge-vault-research-strategy-result-synthesis.md`.
+- Boundary: no documentation mirror, validated operational lesson, ontology
+  admission, external publication, promotion, release, deployment, or
+  production decision is established.
+
+## 2026-08-03 - Anime.js agent knowledge vault research blocked at reviewer gate
+
+- Dispatch: the exact confirmed schema `0.8.0` sheet was registered, seven
+  research agents were spawned, and the ledger was closed exactly once with
+  `exit_reason: loop_ceiling_reached` after both permitted loops were consumed.
+- Evidence: the official-source lane returned digest-bound expansion contracts
+  for 418 of 418 documentation routes and 348 pinned Anime.js v4.5.0 repository
+  rows; neither returned manifest was materialized as a candidate ontology.
+- Review: precedent `PASS`, non-vacuity `FAIL`, definitional `PASS`.
+- Blockers: `QRY-003` emits an undeclared abstention code, and a retained
+  relation can still claim a consumer without a finite behavior-changing
+  mutation witness.
+- Orchestration: the normalized deterministic reducer returned `gate_block`
+  with no next actions; its 51-event causal log passed validation.
+- Downstream: the findings writer and auditor were not spawned; no
+  `findings.md` was accepted and no Anime.js ontology package was created.
+- Entry created:
+  `entries/animejs-agent-knowledge-vault-research-blocked-result-synthesis.md`.
+- Boundary: no documentation mirror, verified operational Anime.js lesson,
+  ontology admission, external publication, promotion, release, deployment,
+  or production decision is established.
+
+## 2026-08-03 - Pre-Task-Session readiness-gap research blocked at explorer gate
+
+- Dispatch: the exact confirmed schema `0.8.0` sheet was registered once; two
+  explorers completed and the third required spawn was rejected by the native
+  host thread limit.
+- Gate: the deterministic reducer returned `gate_block` for `g-explorers`, with
+  no eligible downstream action.
+- Evidence: incident forensics and adoption archaeology are preserved verbatim
+  in `research.md`; the formal contract lane is absent, so the partial evidence
+  was not synthesized or audited.
+- Runtime residue: the causal event validator cannot join a block receipt after
+  a failed host spawn and therefore reports `join_without_host_result` plus
+  `gate_missing_joined_receipt` for the same required action.
+- Closeout: the ledger has one `error` close row, counts two actually spawned
+  explorers and zero loops, and no dispatch agent remains open.
+- Downstream: no synthesizer, skeptic, writer, or auditor started; no
+  `findings.md` or implementation artifact was created.
+- Entry created:
+  `entries/pre-task-session-readiness-gap-research-blocked-result-synthesis.md`.
+- Boundary: this is a blocked research attempt, not a final causal verdict,
+  validated gate design, implementation, repaired route, publication,
+  promotion, deployment, or readiness decision.
+
+## 2026-08-03 - OEWSN SWU006 typed-test failure research confirmation readiness
+
+- P1: synthesis, context protection, isolation, and parallelism apply across
+  the candidate patch/test chain, build failure path, lifecycle receipts,
+  observer signal, and code-versus-skill owner decision.
+- Lanes: `Hewitt, Carl`, `Beer, Stafford`, and `van Lamsweerde, Axel`
+  explore candidate cause, diagnostic chronology, and prevention ownership in
+  parallel; `Turing, Alan` synthesizes; `Lakatos, Imre`, `Popper, Karl`, and
+  `Quine, Willard Van Orman` attack precedent, non-vacuity, and definitional
+  collapse; `Ahrens, Sönke` writes; `Brandenburg, Martin` audits.
+- Inventory lookup: the machine index passed with zero failures and 141
+  inherited tag warnings. Three selected leads shaped a local exact-binding
+  reconstruction instead of another broad OEW survey; the current SWU006
+  incident remains an unindexed direct-source gap.
+- Sheet:
+  `cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/research/2026-08-03-swu006-typed-test-failure-prevention/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `0eedc6bc6eca0933cea5ccce8c8aa7c5e55e0c15b6b8b6b22e96bc69ada18b9c`;
+  Dispatch Spec passed; independent checker and reviewer both returned `PASS`
+  with no apontamentos.
+- State: human confirmation is pending; the dispatch is unregistered and
+  unexecuted; the dispatch ledger was not mutated; no build retry, code, skill,
+  planning, or product change was authorized.
+- Entry created:
+  `entries/oewsn-swu006-typed-test-failure-research-strategy-result-synthesis.md`.
+- Boundary: no exact failing assertion, accepted root cause, build retry,
+  implementation, SWU006 completion, SWU007 selection, ontology promotion,
+  publication, release, deployment, or production decision is established.
+## 2026-08-03 — OEWSN SWU006 typed-test failure research closed
+
+- Authored `queries/oewsn-swu006-typed-test-failure-research-result-synthesis.md` as a draft result read model, but did not index it: the deterministic append candidate blocked before writing because its staged repository omitted 32 already-indexed external source paths.
+- Dispatch `2026-08-03-oewsn-swu006-typed-test-failure-research` closed `resolved` after nine agents across five waves; auditor verdict `APPROVE` and causal event validation `pass` over 65 events.
+- Findings prove a bound DOM-test versus Node-environment incompatibility and an independent diagnostic-retention gap. They recommend existing-owner deltas only; the exact repair and mandatory no-network fixtures remain unimplemented and separately gated.
+- Inventory remains a non-authority read model and grants no build retry, implementation, SWU006 completion, SWU007 advancement, promotion, publication, release, deployment, or production authority.
+- The live Inventory index remained unchanged and validated ready after the blocked append; Inventory maintenance owns the unrelated staging defect.
+
+## 2026-08-04 - WaveDB for Craft runtime research closed
+
+- Dispatch `2026-08-04-wavedb-craft-runtime-research` closed `resolved` after
+  ten agents across five waves and one bounded auditor-to-writer correction.
+- Decision: advance only an unexecuted, candidate-local, digest-bound WaveDB
+  projection experiment; keep the YAML-authority transactional sidecar on
+  `HOLD`; keep canonical-store replacement `KILL` for this route.
+- Evidence: WaveDB was pinned at commit
+  `01c77e8b70f71de9b72480e73a3a179f6e93a009`; Craft sources were pinned at
+  Arcanum commit `07b01c9dd4e918ae0b0d83f6a2cde52ea8f9a295` with per-file blobs.
+- Validation: final `findings.md` SHA-256 is
+  `958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0`;
+  the binding audit passed; the 70-event native dispatch stream validated with
+  zero errors.
+- Entry created:
+  `entries/wavedb-craft-runtime-research-result-synthesis.md`.
+- Boundary: WaveDB was not installed, built, or executed. No Craft runtime,
+  adapter, authority change, publication, promotion, deployment, production,
+  durability, packaging, security, or license decision is established.
+
+## 2026-08-05 - Arcanum building-system research confirmation readiness
+
+- P1: synthesis, context protection, isolation, and parallelism apply across
+  current Invoke, readiness, Task Session, Craft, dispatch, capability-building,
+  lifecycle, and observability contracts.
+- Lanes: `Hewitt, Carl`, `van Lamsweerde, Axel`, and `Beer, Stafford` explore
+  runtime archaeology, formal owner and gate contracts, and recursive-state plus
+  capability closure in parallel; synthesis, three rejection gates, writing,
+  and audit follow in bounded waves.
+- Inventory lookup: the machine index passed with zero failures and 146 inherited
+  uncontrolled-tag warnings; selected prior results shaped the live-byte lane,
+  Craft authority boundary, exact-binding evidence contract, and capacity-safe
+  initial wave.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `e5687e005f2e7b104e000feaa43f5d2a7ec08813f32d674c1e3ab2e222d6737c`;
+  capability-bound Dispatch Spec passed; independent checker and reviewer both
+  passed Tests 1 through 5 with no apontamentos.
+- State: exact-sheet human confirmation is pending; the research dispatch is
+  unregistered and unexecuted; the dispatch ledger was not mutated; no
+  `findings.md` exists.
+- Entry created:
+  `entries/arcanum-building-system-research-strategy-result-synthesis.md`.
+- Boundary: no current integration or bug claim is yet a research finding; no
+  canonical or generated skill, Craft, product, authority, Git, publication,
+  promotion, deployment, release, or production mutation is established.
+
+## 2026-08-05 - Whisper ontology and runtime research confirmation readiness
+
+- P1: parallelism, synthesis, and isolation apply across a formal
+  ontology/constraint lane and an executable runtime/co-op-engine adapter lane.
+- Lanes: `Spivak, David` and `Hewitt, Carl` explore the two fronts in parallel;
+  `Ashby, W. Ross` synthesizes; `Hacking, Ian`, `Popper, Karl`, and
+  `Wittgenstein, Ludwig` attack precedent, non-vacuity, and definitional
+  collapse; `Bourbaki, Nicolas` writes; `Lakatos, Imre` audits.
+- Inventory lookup: the machine index passed with zero failures and 146 inherited
+  uncontrolled-tag warnings. Selected prior results forced exact binding, a
+  finite positive/negative/indeterminate/denied-write witness, and canonical
+  Arcanum versus candidate co-op-engine separation.
+- Sheet:
+  `projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/dispatch-sheet.json`.
+- Gate: schema `0.8.0` readiness passed at SHA-256
+  `226f61a43f0849a34e22a8a81893295a80456148969370570816bedd0b272b2b`;
+  capability-bound Dispatch Spec passed; independent checker and reviewer both
+  passed Tests 1 through 5 with no apontamentos.
+- State: human confirmation is pending; the dispatch is unregistered and
+  unexecuted; the dispatch ledger was not mutated; no ontology, runtime, product,
+  browser, deployment, or findings artifact exists.
+- Entry created:
+  `entries/whisper-ontology-runtime-research-strategy-result-synthesis.md`.
+- Boundary: no canonical meaning, relation admission, implementation authority,
+  publication, promotion, deployment, release, or production readiness is
+  established.
+
+## 2026-08-05 - Whisper ontology and runtime research blocked at reviewer loop ceiling
+
+- Dispatch: the exact confirmed schema `0.8.0` sheet was registered once; six
+  agents executed across the explorer, synthesizer, and reviewer waves; the
+  writer and auditor were correctly withheld.
+- Review: precedent and definitional gates passed, while the non-vacuity gate
+  failed after both allowed repair loops.
+- Blocker: the proposed runtime sequence uses values outside the declared
+  `pending_gate` and `outcome_ceiling` enums and resolves correction state
+  without an explicit event or reducer rule, so `RS26` and live/replay equality
+  are not uniquely reducible.
+- Orchestration: the dispatch ledger has exactly one registration and one close
+  row with `exit_reason: loop_ceiling_reached`; the 49-event causal stream
+  validates.
+- Downstream: no `findings.md`, ontology, runtime implementation, co-op product
+  change, public-site change, deployment, publication, promotion, or release
+  was produced.
+- Entry created:
+  `entries/whisper-ontology-runtime-research-blocked-result-synthesis.md`.
+- Boundary: this is a non-authority research projection with a typed blocker,
+  not design freeze, implementation readiness, or production proof.

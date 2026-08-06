@@ -1,0 +1,139 @@
+{
+  "schema_version": "arcanum.task_session_until_blocker.chain.v1",
+  "chain_id": "20260802T014636Z-oewsn",
+  "created_at": "2026-08-02T01:46:36Z",
+  "updated_at": "2026-08-02T01:46:36Z",
+  "result": "BLOCK",
+  "work_pack": {
+    "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/WORK-PACK.md",
+    "sha256": "780c46ae8ecb63dc9089d4bbae0466b07ebb9326fe775ea5c8a0bb330f5827fa",
+    "captured_sha256": "7be3858376089a74e2668e661ceba72dbb94ec015155a9b99f9795b615362bd1"
+  },
+  "stop_condition": "first-blocker-or-frontier-complete",
+  "requested_scope": "implement the whole OEW semantic-navigation package after approved-profile refresh",
+  "captured_frontier_status": "captured",
+  "captured_frontier": [
+    "SWU-OEWSN-004", "SWU-OEWSN-005", "SWU-OEWSN-006", "SWU-OEWSN-007", "SWU-OEWSN-008", "SWU-OEWSN-009", "SWU-OEWSN-010", "SWU-OEWSN-011", "SWU-OEWSN-012", "SWU-OEWSN-013", "SWU-OEWSN-014", "SWU-OEWSN-019", "SWU-OEWSN-015", "SWU-OEWSN-016", "SWU-OEWSN-020", "SWU-OEWSN-017", "SWU-OEWSN-018"
+  ],
+  "session_budget": 17,
+  "sessions_used": 1,
+  "current_expected_selector": "SWU-OEWSN-004",
+  "visited_selectors": ["SWU-OEWSN-004"],
+  "joined_task_session_receipts": [
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/session-evidence/SWU-OEWSN-004/20260802T014636Z/receipt.json"
+  ],
+  "joined_closeout_owner_receipts": [
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/refresh-runs/20260802T014636Z-SWU-OEWSN-004-closeout/material-receipt.json"
+  ],
+  "continuity_cursor_fingerprints": [
+    "sha256:860c7b05200719d548c466265ac5360db7342709caaaa5b3669b8b0dfb8244e5"
+  ],
+  "inputs": {
+    "swu_manifest": {
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/SWU-MANIFEST.json",
+      "captured_sha256": "cb3776fc5b1dc52e29bdf53e0cec18836a4f3e8eaaba65c24bdf22a00beb8613",
+      "closeout_sha256": "754d70e6705fcb6b613d7ff8fc3b66edfc9ff35283183b475bef3902b0ea8ebd",
+      "total_swus": 21,
+      "manual_swus": 4,
+      "executable_swus": 17,
+      "selected_swu": "SWU-OEWSN-004",
+      "mutation_authorized": false
+    },
+    "mutation_admission_contract": {
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/MUTATION-ADMISSION-CONTRACT.json",
+      "sha256": "35d2f1c685d46280d840b964b1ea0741ec2d770a73ba10bf34659685c251a785",
+      "status": "selected-awaiting-task-session-preflight",
+      "admission_result": "ready-for-task-session-preflight-not-product-mutation"
+    },
+    "invoke_refresh": {
+      "path": ".arcanum/invoke/refresh/oewsn-20260802T013353Z/material-receipt.json",
+      "package_digest": "723131ac1ddde6433df936923a5c5680a485cebf1615f18b3895439933a138f5",
+      "result": "pass"
+    }
+  },
+  "preflight": {
+    "decision_and_profile_refresh": "pass",
+    "selected_swu": "pass-SWU-OEWSN-004",
+    "dependency_frontier": "pass",
+    "material_output_partition": "pass",
+    "material_baselines": "pass-six-targets",
+    "closeout_contract": "pass",
+    "strict_context_builder_handoff": "block-O-03",
+    "fresh_build_reachability": "block-immutable-binding-targets-outside-scope",
+    "mutation_admission": "block-before-material-package"
+  },
+  "selector_results": [{
+    "selector": "SWU-OEWSN-004",
+    "task_session_result": "BLOCK",
+    "execution_receipt": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/session-evidence/SWU-OEWSN-004/20260802T014636Z/receipt.json",
+    "product_files_changed": [],
+    "closeout_result": "PASS",
+    "closeout_owner_receipt": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/refresh-runs/20260802T014636Z-SWU-OEWSN-004-closeout/material-receipt.json",
+    "continuity_cursor": ".arcanum/task-session-until-blocker/chains/20260802T014636Z-oewsn.continuity-cursor.json"
+  }],
+  "blocker": {
+    "selector": "SWU-OEWSN-004",
+    "gate": "write-scope-and-build-admission",
+    "dependency_id": "BLK-OEWSN-004-BUILD-BINDING-SCOPE",
+    "required_paths": [
+      "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/overlay/first-working-version-manifest.json",
+      "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/L1-BUILD.lock.json"
+    ],
+    "observed_state": "overlay-manifest is mutable but its mandatory digest/size bindings are not admitted material targets",
+    "owner": "invoke",
+    "fingerprint": "sha256:6a2984874ec2261100535493fc15312010aa98df50fdb1f94ab1d09a39da92ad",
+    "unblock_action": "Approve one exact Invoke repair: consistently rebind both immutable artifacts or introduce a separately owned semantic-navigation build binding, then regenerate admission and rerun SWU-004."
+  },
+  "stop_reason": "first-task-session-blocked-before-product-mutation",
+  "remaining_captured_frontier": [
+    "SWU-OEWSN-004", "SWU-OEWSN-005", "SWU-OEWSN-006", "SWU-OEWSN-007", "SWU-OEWSN-008", "SWU-OEWSN-009", "SWU-OEWSN-010", "SWU-OEWSN-011", "SWU-OEWSN-012", "SWU-OEWSN-013", "SWU-OEWSN-014", "SWU-OEWSN-019", "SWU-OEWSN-015", "SWU-OEWSN-016", "SWU-OEWSN-020", "SWU-OEWSN-017", "SWU-OEWSN-018"
+  ],
+  "decision_gate": {
+    "result": "BLOCK",
+    "decision_id": "DG-OEWSN-004-BUILD-BINDING-REPAIR",
+    "admissible_routing": "gate",
+    "admissible_options": [
+      "REBIND_EXISTING_L1_INPUTS",
+      "ADD_SEMANTIC_NAV_BUILD_BINDING",
+      "DEFER_PACKAGE"
+    ],
+    "selected_option": null,
+    "admissibility_receipt": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/decisions/admissibility/SWU-OEWSN-004-build-binding-repair-receipt.json",
+    "decision_artifact": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/decisions/SWU-OEWSN-004-BUILD-BINDING-REPAIR.md"
+  },
+  "next_route": {
+    "capability": "decision-gate",
+    "mode": "resolve",
+    "target": "select SWU-OEWSN-004 build-binding repair ownership",
+    "dispatch_status": "waiting-for-user"
+  },
+  "effects": {
+    "product_files_changed": [],
+    "planning_authority_changed": true,
+    "task_sessions_started": 1,
+    "closeouts_requested": 1,
+    "closeouts_joined": 1,
+    "continuity_cursor_emitted": true,
+    "mutation_authorized": false
+  },
+  "subagent_closeout": {
+    "result": "pass",
+    "spawned": 0,
+    "reused": 1,
+    "joined": 1,
+    "closed": 1,
+    "blocked": 0,
+    "timed_out": 0,
+    "handed_off": 0,
+    "open": 0,
+    "receipt_shape": "read-only independent build-binding verdict joined into parent preflight"
+  },
+  "observability_receipt": {
+    "status": "recorded",
+    "ledger": ".arcanum/observability/signals/sigil-invocations.jsonl",
+    "line": 485,
+    "dedupe_key": "task-session-until-blocker-20260802T014636Z-oewsn:signal-observer:0.1.0",
+    "reflection_trigger": "manual",
+    "recommendation": "targeted-update"
+  }
+}

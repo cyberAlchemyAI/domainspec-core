@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "iro-full-stream-swu-iro-004-canonical-acceptance-v1",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "public-arcanum-owner",
+  "authority_class": "public",
+  "publication_class": "public",
+  "source_artifacts": [
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/PUBLIC-BOUNDARY.json",
+      "sha256": "b17d5008f4d5380601449c7d3b5b97e2c9eee8d0cfd37ea5299d0eefd996a835",
+      "size_bytes": 665,
+      "authority_class": "public"
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/SOURCE-LICENSE-API-RECEIPT.json",
+      "sha256": "ebd67b75efa3781ef0427767509ab4d6af85e1a42d13a34d6c434b465f141f3b",
+      "size_bytes": 1059,
+      "authority_class": "public"
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/addon-manifest.json",
+      "sha256": "ebc019dd7e874de6d6c878187fd20cdcd7f0941267f886891feb083dce46ca32",
+      "size_bytes": 1045,
+      "authority_class": "public"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "arcanum/arcana/intent-route-resolver/**",
+      "operation": "create",
+      "output_ref": {
+        "path": ".arcanum/invoke/refresh/iro-full-stream-20260802T021738Z-swu004/canonical-promotion-inventory.json",
+        "sha256": "35b8848c123113cf62d567259e8283ce0904448497db0c7ff5c8fd8b36b7fc91",
+        "size_bytes": 5987
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "arcanum/arcana/intent-route-resolver/**",
+      "lifecycle_owner": "public-arcanum-owner",
+      "authority_class": "public",
+      "publication_class": "public",
+      "dependency_ids": [
+        "IRO-003-terminal",
+        "IRO-003-closeout-owner",
+        "IRO-004-clean-worktree"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "IRO-003-terminal",
+      "artifact_ref": {
+        "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/terminal-receipt.json",
+        "sha256": "94256cf4a8bcda164b4053e0a59f9390efe65e3e9d4e0a9950f1c37d1fab3e78",
+        "size_bytes": 15542
+      }
+    },
+    {
+      "dependency_id": "IRO-003-closeout-owner",
+      "artifact_ref": {
+        "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-owner-receipt.json",
+        "sha256": "3a3f138236eb6911cd45c8f9fe4e96db12d415b753607520dc44fdd951f539b3",
+        "size_bytes": 1968
+      }
+    },
+    {
+      "dependency_id": "IRO-004-clean-worktree",
+      "artifact_ref": {
+        "path": ".arcanum/invoke/refresh/iro-full-stream-20260802T021738Z-swu004/clean-worktree-receipt.json",
+        "sha256": "caaaaad53f7e060fc2d180b65976766e978d1fbed7643498928b47ce483428c5",
+        "size_bytes": 1239
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "public-arcanum-owner",
+    "scope_paths": [
+      "arcanum/arcana/intent-route-resolver/**"
+    ],
+    "authority_classes": [
+      "public"
+    ],
+    "publication_classes": [
+      "public"
+    ]
+  },
+  "validation_commands": [
+    "npm test --prefix arcana/intent-route-resolver",
+    "npm run check:source --prefix arcana/intent-route-resolver",
+    "node arcana/intent-route-resolver/scripts/scan-boundary.mjs",
+    "node arcana/intent-route-resolver/scripts/compute-closure-digest.mjs",
+    "git diff --check -- arcana/intent-route-resolver",
+    "git status --short -- arcana/intent-route-resolver"
+  ]
+}

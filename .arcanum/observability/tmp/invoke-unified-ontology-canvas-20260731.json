@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-08-01T01:42:22Z",
+  "run_id": "invoke-unified-ontology-canvas-20260731",
+  "session_id": "2026-07-31-unified-ontology-canvas-invoke",
+  "sigil": "invoke",
+  "tier": "spell",
+  "mode": "define-design-plan",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "define-design-plan",
+    "alias": null
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      {
+        "path": "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/INVOKE-RESULT.md",
+        "sha256": "54492b61c6d8d80dd0a5c245542e3bd6fcbba03952ded52cfae0b408ec4217a4",
+        "size_bytes": 1804
+      },
+      {
+        "path": "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/VALIDATION-REPORT.md",
+        "sha256": "2f35dfb6f8d9683afc51dd67fc29a740754a22c60732a9a5099ea92a3fda5e1d",
+        "size_bytes": 2077
+      }
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Define, design, and plan one canvas that contains all ontology graphs.",
+    "intent": "Author an implementation-ready but mutation-blocked package for a deterministic unified ontology canvas."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/SPEC.md",
+      "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/ARCHITECTURE.md",
+      "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/UX-PLAN.md",
+      "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/WORK-PACK.md",
+      "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/INVOKE-RESULT.md"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/"
+    ],
+    "validation": [
+      "Design denominator and fixed-point replay: pass",
+      "Dispatch Spec: pass",
+      "Distill execution and validator result: pass",
+      "15 atomic mutation SWUs plus terminal VERIFY: pass",
+      "JSON schemas, exact refs, local links, and scoped whitespace: pass",
+      "Mutation handoff allowed: false"
+    ],
+    "notes": "The package assembles all profiles and graph families once; emphasis does not change graph identity. No product bytes were modified and no SWU was selected."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "observability",
+        "severity": "low",
+        "summary": "The generated Invoke-to-Distill wrapper resolves an absent .agents/framework path.",
+        "evidence": "The wrapper failed before append; the repository-canonical observer recorded the same validated child envelope at ledger line 466."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/INVOKE-RESULT.md"
+}

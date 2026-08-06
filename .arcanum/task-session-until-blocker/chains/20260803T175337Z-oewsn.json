@@ -1,0 +1,146 @@
+{
+  "schema_version": "arcanum.task_session_until_blocker.chain.v1",
+  "chain_id": "20260803T175337Z-oewsn",
+  "created_at": "2026-08-03T17:53:37Z",
+  "updated_at": "2026-08-03T18:12:09Z",
+  "result": "BLOCK",
+  "work_pack": {
+    "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/WORK-PACK.md",
+    "captured_sha256": "f14c7c96554973d6899d0a905d69ecbbc3cca9eb3f4a57e4d57fdf97961bed3b",
+    "captured_size_bytes": 19656,
+    "closeout_sha256": "3b53e7bc5482dab09eae5f5ce8ca4976588d696fa49a846d54b0694693ed2195",
+    "closeout_size_bytes": 20712
+  },
+  "stop_condition": "first-blocker-or-frontier-complete",
+  "requested_scope": "continue the approved OEW semantic-navigation Work Pack after exact SWU006 fetch authorization",
+  "captured_frontier": [
+    "SWU-OEWSN-006", "SWU-OEWSN-007", "SWU-OEWSN-008", "SWU-OEWSN-009",
+    "SWU-OEWSN-010", "SWU-OEWSN-011", "SWU-OEWSN-012", "SWU-OEWSN-013",
+    "SWU-OEWSN-014", "SWU-OEWSN-019", "SWU-OEWSN-015", "SWU-OEWSN-016",
+    "SWU-OEWSN-020", "SWU-OEWSN-017", "SWU-OEWSN-018"
+  ],
+  "session_budget": 15,
+  "sessions_used": 1,
+  "current_expected_selector": null,
+  "visited_selectors": ["SWU-OEWSN-006"],
+  "joined_task_session_receipts": [
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/session-evidence/SWU-OEWSN-006/20260803T175337Z/receipt.json"
+  ],
+  "joined_closeout_owner_receipts": [
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/refresh-runs/20260803T180618Z-SWU-OEWSN-006-closeout/material-receipt.json"
+  ],
+  "continuation_receipts": [
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/refresh-runs/20260803T180618Z-SWU-OEWSN-006-closeout/continuation-route.json"
+  ],
+  "predecessor_chain": {
+    "path": ".arcanum/task-session-until-blocker/chains/20260803T165509Z-oewsn.json",
+    "result": "BLOCK",
+    "repair_status": "dependency-fetch-authorization-recorded-by-invoke-refresh"
+  },
+  "inputs": {
+    "swu_manifest": {"path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/SWU-MANIFEST.json", "captured_sha256": "af8c5b46e3e4df67cfb82d5e7b034a9e18767252d11cdc39ba829503b15f737c", "captured_size_bytes": 75806, "selected_swu": "SWU-OEWSN-006", "mutation_authorized": false},
+    "mutation_admission_contract": {"path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/MUTATION-ADMISSION-CONTRACT.json", "captured_sha256": "a9921fb81e3214e01c3d9eb7d1806d5fc41cd0fdc605894838bb0efe5b584cd4", "captured_size_bytes": 13374, "selected_swu": "SWU-OEWSN-006", "admission_result": "ready-for-fresh-swu-006-task-session-preflight-not-product-mutation"},
+    "dependency_fetch_authorization": {"authorization_id": "SWU-OEWSN-006-IMMUTABLE-LOCKFILE-FETCH-20260803", "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/refresh-runs/20260803T174821Z-SWU-OEWSN-006-dependency-fetch-authorization/source-evidence/direct-user-authorization.json", "sha256": "4fee6aa0522643957968595845101ff7ca81fc606536edfec856af3fcb061f4c", "status": "consumed-block", "attempts_allowed": 1, "attempts_used": 1},
+    "invoke_authorization_refresh": {"path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/refresh-runs/20260803T174821Z-SWU-OEWSN-006-dependency-fetch-authorization/refresh-report.json", "result": "PASS"}
+  },
+  "preflight": {
+    "exact_work_pack_scope": "pass",
+    "finite_ordered_frontier": "pass-15-units",
+    "dependency_frontier": "pass",
+    "material_write_algebra": "pass-2-material-plus-5-output",
+    "closeout_contract": "pass-4-targets",
+    "first_selector": "pass-SWU-OEWSN-006",
+    "network_authorization": "pass-exact-one-attempt-lockfile-only"
+  },
+  "selector_results": [
+    {
+      "selector": "SWU-OEWSN-006",
+      "task_session_result": "BLOCK",
+      "execution_receipt": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/session-evidence/SWU-OEWSN-006/20260803T175337Z/receipt.json",
+      "candidate_material_live": [
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/OEWSN-BUILD.SWU-OEWSN-006.binding.json",
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/patches/0004-oew-semantic-navigation-keyboard.patch"
+      ],
+      "retained_build_outputs": [],
+      "acceptance_gate": "focused-typed-tests",
+      "acceptance_result": "BLOCK-AFTER-ADMITTED-MATERIAL-ADOPTION",
+      "blocker_id": "BLK-OEWSN-006-TYPED-TESTS-FAILED",
+      "blocker_fingerprint": "sha256:8f667a884cab6667bbfb3b7093d76ccc535733e8454da0b8ecb39c5406caad17",
+      "closeout_result": "PASS",
+      "closeout_owner_receipt": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/refresh-runs/20260803T180618Z-SWU-OEWSN-006-closeout/material-receipt.json",
+      "next_selector": null
+    }
+  ],
+  "blocker": {
+    "selector": "SWU-OEWSN-006",
+    "gate": "focused-typed-tests",
+    "dependency_id": "BLK-OEWSN-006-TYPED-TESTS-FAILED",
+    "evidence": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/session-evidence/SWU-OEWSN-006/20260803T175337Z/receipt.json",
+    "evidence_sha256": "224d298dec48459c748e94262e3349048512d6b687695efca97e82b68c3e9ebf",
+    "observed_state": "The single authorized immutable-lockfile generalized build reached the focused typed-test gate and terminated with TYPED_TESTS_FAILED. It retained no build handle, dashboard, patch snapshot or browser evidence.",
+    "owner": "OEW semantic-navigation implementation plus explicit network authority for any fresh-store retry",
+    "fingerprint": "sha256:8f667a884cab6667bbfb3b7093d76ccc535733e8454da0b8ecb39c5406caad17",
+    "unblock_action": "Diagnose patch0004 under a new bounded admission and obtain one new exact immutable-lockfile fetch authorization before any fresh-store generalized-build retry."
+  },
+  "final_continuity_cursor": {
+    "path": ".arcanum/task-session/continuity/oewsn-semantic-navigation.json",
+    "sha256": "9d639d0f07b72218d485d41dac5e146601add28523dccafd37298eed534e70c1",
+    "size_bytes": 919,
+    "source_swu": "SWU-OEWSN-006",
+    "source_result": "BLOCK",
+    "next_swu": null,
+    "blocker_fingerprint": "sha256:8f667a884cab6667bbfb3b7093d76ccc535733e8454da0b8ecb39c5406caad17"
+  },
+  "stop_reason": "first-task-session-blocked-at-SWU-OEWSN-006-focused-typed-tests-after-one-authorized-build-attempt",
+  "remaining_captured_frontier": [
+    "SWU-OEWSN-007", "SWU-OEWSN-008", "SWU-OEWSN-009", "SWU-OEWSN-010",
+    "SWU-OEWSN-011", "SWU-OEWSN-012", "SWU-OEWSN-013", "SWU-OEWSN-014",
+    "SWU-OEWSN-019", "SWU-OEWSN-015", "SWU-OEWSN-016", "SWU-OEWSN-020",
+    "SWU-OEWSN-017", "SWU-OEWSN-018"
+  ],
+  "approval_boundary": {
+    "source": "direct user one-attempt SWU006 immutable-lockfile fetch confirmation",
+    "authorized_scope": "one SWU006 generalized-build dependency fetch limited to immutable upstream pnpm-lock.yaml entries after fresh admission",
+    "forbidden": ["second SWU006 fetch attempt", "SWU007 or later fetch", "tokens or credential persistence", "unrelated network", "frontier expansion", "historical overlay rewrite", "authority promotion", "publication", "deployment"]
+  },
+  "next_route": {
+    "capability": "task-session",
+    "mode": "diagnose-and-repair",
+    "target": "SWU-OEWSN-006 patch0004 typed-test failure",
+    "authorization_status": "not-derived-by-terminal-chain"
+  },
+  "effects": {
+    "task_sessions_started": 1,
+    "closeouts_requested": 1,
+    "closeouts_joined": 1,
+    "continuity_cursor_emitted": true,
+    "candidate_product_material_adopted": true,
+    "retained_build_outputs": 0,
+    "publication_or_deployment_effect": false
+  },
+  "subagent_closeout": {
+    "result": "PASS",
+    "spawned": 0,
+    "reused": 1,
+    "joined": 1,
+    "closed": 1,
+    "blocked": 0,
+    "timed_out": 0,
+    "handed_off": 0,
+    "open": 0
+  },
+  "observability_receipt": {
+    "result": "RECORDED",
+    "envelope_path": ".arcanum/observability/runs/task-session-until-blocker-20260803T175337Z-oewsn.json",
+    "envelope_sha256": "8bbe72d60755bd1ded132bf99f7d35c1c84a7c43d41d4874b910e0088a40b1be",
+    "envelope_size_bytes": 5176,
+    "signal_ledger_path": ".arcanum/observability/signals/sigil-invocations.jsonl",
+    "signal_ledger_line": 508,
+    "hook_ledger_path": ".arcanum/observability/hooks/hook-operations.jsonl",
+    "hook_ledger_lines": [1064, 1065],
+    "dedupe_key": "task-session-until-blocker-20260803T175337Z-oewsn:signal-observer:0.1.0",
+    "quality_bar_status": "partial",
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  }
+}

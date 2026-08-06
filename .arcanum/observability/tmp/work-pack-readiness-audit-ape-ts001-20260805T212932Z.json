@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-08-05T21:39:25Z",
+  "run_id": "work-pack-readiness-audit-ape-ts001-20260805T212932Z",
+  "session_id": "ape-enum-typescript-w1",
+  "sigil": "work-pack-readiness-audit",
+  "tier": "spell",
+  "mode": "plan-once",
+  "capability": {"id": "work-pack-readiness-audit", "kind": "spell", "tier": "spell", "mode": "plan-once", "alias": null},
+  "command": null,
+  "lineage": {"parent_run_id": "invoke-refresh-ape-ts001-validation-contract-20260805", "relation": "continuation-of", "caller": null},
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "projects/domainspec-v2/development/architecture-pattern-enforcement/refreshes/20260805T205406Z-ts001-validation-contract-apply-approved/readiness/20260805T212932Z-ts001-plan-once/run-2/plan-semantic-manifest.json",
+      "projects/domainspec-v2/development/architecture-pattern-enforcement/refreshes/20260805T205406Z-ts001-validation-contract-apply-approved/readiness/20260805T212932Z-ts001-plan-once/run-2/selection-handoff.json",
+      "projects/domainspec-v2/development/architecture-pattern-enforcement/refreshes/20260805T205406Z-ts001-validation-contract-apply-approved/readiness/20260805T212932Z-ts001-plan-once/run-2/work-pack-readiness-report-v2.json"
+    ]
+  },
+  "request": {"raw": "execute next route", "summary": "Run a fresh plan-once readiness audit after the TS001 validation-contract refresh.", "intent": "Prove the current seven-unit Work Pack frontier before any unit selection or mutation."},
+  "execution": {
+    "status": "completed",
+    "outputs": ["plan semantic manifest", "selection handoff", "work-pack readiness report"],
+    "files_changed": ["projects/domainspec-v2/development/architecture-pattern-enforcement/refreshes/20260805T205406Z-ts001-validation-contract-apply-approved/readiness/20260805T212932Z-ts001-plan-once/**"],
+    "validation": ["PLAN_SEMANTIC_READY with seven units and no selected unit", "run-2 and run-3 outputs are byte-identical", "source snapshot captured 20 artifacts with drift false", "mutation_ready false and authority_effect none"],
+    "notes": "Run 1 retained a correct fail-closed result for a newline-contaminated route digest; the exact canonical digest was repaired before two deterministic passing runs."
+  },
+  "observer": {"quality_bar_status": "pass", "anti_pattern_hits": [], "workflow_gaps": [], "output_contract_drift": false, "signals": ["quality-pass", "rework", "useful-pattern"], "reflection_trigger": "none", "recommendation": "none"},
+  "target_artifact": "projects/domainspec-v2/development/architecture-pattern-enforcement/WORK-PACK.md",
+  "dedupe_key": "work-pack-readiness-audit-ape-ts001-20260805T212932Z:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

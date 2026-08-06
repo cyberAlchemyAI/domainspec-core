@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-08-04T20:43:32Z",
+  "run_id": "task-session-until-blocker-wcsb-20260804",
+  "session_id": "2026-08-04-wavedb-reviewed-source-build-chain",
+  "sigil": "task-session-until-blocker",
+  "tier": "spells",
+  "mode": "execute",
+  "request": {
+    "summary": "Run the two-task reviewed-source build chain until its first blocker.",
+    "intent": "Execute only the selected SWU, synchronize its owner closeout, follow one admitted successor, and stop without retry when a real blocker appears."
+  },
+  "execution": {
+    "status": "blocked",
+    "outputs": [
+      "SWU-WCSB-001 PASS terminal and owner receipts",
+      "SWU-WCSB-002 BLOCK terminal and owner receipts",
+      "two-transition chain record",
+      "continuity cursor with no successor"
+    ],
+    "files_changed": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/chains/wcsb-source-build-20260804/",
+      ".arcanum/task-session/continuity/wavedb-reviewed-source-build.json"
+    ],
+    "validation": [
+      "both Task Session terminal receipts are content-bound",
+      "both Invoke Refresh owner receipts are content-bound",
+      "continuation route and continuity schemas passed",
+      "chain stopped at the first blocker with returned successor null",
+      "all scoped JSON and whitespace checks passed"
+    ],
+    "notes": "The chain consumed its two-session frontier and stopped at the WaveDB upstream concurrent-write stall. No retry, cleanup, parent refresh, or Craft mutation occurred."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "validation",
+        "severity": "high",
+        "summary": "The source-build chain cannot advance until the upstream concurrent-write stall is diagnosed or fixed.",
+        "evidence": "SWU-WCSB-002 terminal receipt and transition-002.json"
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "Preserve the failed attempt and begin any future run under a newly planned immutable attempt ID after source-owner action."
+  },
+  "target_artifact": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/chains/wcsb-source-build-20260804/chain.json"
+}

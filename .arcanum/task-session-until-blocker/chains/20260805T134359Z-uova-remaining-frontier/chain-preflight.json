@@ -1,0 +1,138 @@
+{
+  "schema_version": "task-session-until-blocker.preflight-result.v1",
+  "chain_id": "20260805T134359Z-uova-remaining-frontier",
+  "result": "BLOCK",
+  "terminal_code": "APPROVED_EPOCH_FRONTIER_NOT_BOUND",
+  "authority_effect": "none",
+  "work_pack_ref": {
+    "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260804T174425Z-unified-ontology-view-architecture/stages/09-invoke-plan/WORK-PACK.md",
+    "sha256": "be19791ab48a02503f94205557a0fb2ad148426aa12c696d6def7e82e24f2744",
+    "size_bytes": 6989
+  },
+  "swu_manifest_ref": {
+    "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260804T174425Z-unified-ontology-view-architecture/stages/09-invoke-plan/SWU-MANIFEST.md",
+    "sha256": "dbd50ec160665da57ff0c5bf9e27f0f72ddd019b68fdcda76428812cf004c383",
+    "size_bytes": 6708
+  },
+  "continuity_ref": {
+    "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260804T174425Z-unified-ontology-view-architecture/session-evidence/task-session-continuity.json",
+    "sha256": "da9be9f1dd431fa0de0f6029fa43ff110cf3b30784401d55b6ec0dfdf2dcf4ad",
+    "size_bytes": 1473
+  },
+  "captured_frontier": [
+    "SWU-UOVA-002",
+    "SWU-UOVA-003",
+    "SWU-UOVA-004",
+    "SWU-UOVA-005",
+    "SWU-UOVA-006",
+    "SWU-UOVA-007",
+    "SWU-UOVA-008",
+    "SWU-UOVA-009",
+    "SWU-UOVA-010",
+    "SWU-UOVA-011",
+    "SWU-UOVA-012",
+    "SWU-UOVA-013",
+    "SWU-UOVA-014",
+    "SWU-UOVA-015",
+    "SWU-UOVA-016",
+    "SWU-UOVA-017",
+    "SWU-UOVA-018",
+    "SWU-UOVA-019",
+    "SWU-UOVA-020",
+    "SWU-UOVA-021",
+    "SWU-UOVA-022",
+    "SWU-UOVA-023"
+  ],
+  "session_budget": {
+    "requested": 22,
+    "maximum_valid": 22,
+    "consumed": 0
+  },
+  "first_candidate": "SWU-UOVA-002",
+  "selectors_invoked": [],
+  "last_completed_selector": "SWU-UOVA-001",
+  "preconditions": {
+    "exact_work_pack_scope": "pass",
+    "finite_ordered_dependency_aware_frontier": "pass",
+    "unique_first_candidate": "pass",
+    "bounded_session_budget": "pass",
+    "remaining_frontier_approved_epoch": "block",
+    "remaining_frontier_execution_bindings": "block",
+    "remaining_frontier_closeout_bindings": "block",
+    "remaining_frontier_exact_approval": "block"
+  },
+  "incompatible_existing_evidence": [
+    {
+      "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260804T174425Z-unified-ontology-view-architecture/refreshes/20260804T203022Z-swu-uova-001-admission/readiness/audit-output/plan-semantic-manifest.json",
+      "sha256": "22847ede45b711347dfb822a46d2ee1cb0e6c03bc54cd23bbcbdcfa20a25dbd5",
+      "size_bytes": 4147,
+      "reason": "Scoped only to SWU-UOVA-001; ready_frontier and unit contract cover 001, and runner-required whole-frontier epoch, plan graph, execution bindings, and closeout bindings are absent."
+    },
+    {
+      "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260804T174425Z-unified-ontology-view-architecture/refreshes/20260804T203022Z-swu-uova-001-admission/readiness/selection-receipt.json",
+      "sha256": "ee6075391b63a7ef230c3e5ac439e01e0e1221a7e60a338af3468d1a32c0c12b",
+      "size_bytes": 1023,
+      "reason": "Selects SWU-UOVA-001 only and is not remaining-frontier approval."
+    },
+    {
+      "path": "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260804T174425Z-unified-ontology-view-architecture/refreshes/20260804T203022Z-swu-uova-001-admission/source-evidence/direct-user.json",
+      "sha256": "a8a7673216ba51630547e57dc44b4db7114d12eef2fa07ebf5d65cfef1b1ce0a",
+      "size_bytes": 730,
+      "reason": "Explicitly authorizes admission-only for SWU-UOVA-001, not a 002-023 chain epoch."
+    }
+  ],
+  "blockers": [
+    {
+      "code": "APPROVED_EPOCH_MANIFEST_MISSING",
+      "detail": "No byte-current manifest binds SWU-UOVA-002 through SWU-UOVA-023 to epoch_binding, canonical_plan_graph.finite_frontier, execution_bindings, and closeout_bindings consumable by run_chain.py."
+    },
+    {
+      "code": "FRONTIER_APPROVAL_MISSING",
+      "detail": "No exact approval receipt binds the 22-unit frontier, budget 22, approved risk ceiling, flag allowlist, persistence, and compensation policy."
+    },
+    {
+      "code": "PER_UNIT_CONTRACTS_NOT_EXACT",
+      "detail": "Planning prose supplies behaviors and broad scopes, but the remaining units lack exact target inventories, live byte baselines, structured validations, receipt destinations, and closeout owner contracts required before the first implementation mutation."
+    }
+  ],
+  "helper_closeout": {
+    "result": "pass",
+    "spawned": 1,
+    "joined": 1,
+    "closed": 1,
+    "open": 0,
+    "writes": 0
+  },
+  "stop_reason": "Chain preflight failed before any Task Session or product mutation.",
+  "remaining_frontier": [
+    "SWU-UOVA-002",
+    "SWU-UOVA-003",
+    "SWU-UOVA-004",
+    "SWU-UOVA-005",
+    "SWU-UOVA-006",
+    "SWU-UOVA-007",
+    "SWU-UOVA-008",
+    "SWU-UOVA-009",
+    "SWU-UOVA-010",
+    "SWU-UOVA-011",
+    "SWU-UOVA-012",
+    "SWU-UOVA-013",
+    "SWU-UOVA-014",
+    "SWU-UOVA-015",
+    "SWU-UOVA-016",
+    "SWU-UOVA-017",
+    "SWU-UOVA-018",
+    "SWU-UOVA-019",
+    "SWU-UOVA-020",
+    "SWU-UOVA-021",
+    "SWU-UOVA-022",
+    "SWU-UOVA-023"
+  ],
+  "next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "target": "UOVA remaining-frontier approved epoch plus SWU-UOVA-002 selected-unit admission"
+  },
+  "smallest_unblock_action": "Invoke Refresh and Work-Pack Readiness must issue a current 002-023 approved-epoch manifest with exact per-unit execution/closeout bindings, bind exact frontier approval and budget, and admit SWU-UOVA-002 as the first session."
+}

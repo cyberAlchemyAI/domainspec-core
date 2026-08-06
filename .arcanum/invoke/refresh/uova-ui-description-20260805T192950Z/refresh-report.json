@@ -1,0 +1,99 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    "SIG-UOVA-UI-001",
+    "SIG-UOVA-UI-002",
+    "SIG-UOVA-UI-003",
+    "SIG-UOVA-UI-004",
+    "SIG-UOVA-UI-005"
+  ],
+  "targetArtifacts": [
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/PLAN-DELTA.md",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/RECEIPT.json",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/REFRESH-REPORT.md",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/SOURCE-SIGNALS.json",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/TARGET-INVENTORY.json",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/TECHNIQUE-TRACE.json",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/UI-API-CONTRACT.md",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/UI-API-INVENTORY.json",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/UI-CONFORMANCE-MATRIX.md",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/UI-VALIDATION-CONTRACT.md"
+  ],
+  "deltaSummary": [
+    {"signal_type": "evidence_added", "count": 2},
+    {"signal_type": "artifact_drift", "count": 1},
+    {"signal_type": "route_changed", "count": 1},
+    {"signal_type": "blocker_opened", "count": 1}
+  ],
+  "proposedChanges": [
+    "Add a successor development-only UI description layer.",
+    "Rebind 58 UI contracts to UOVARR-005, 006, 007, and 009.",
+    "Bind relation-bearing View Models to RelationRef and relation_digest.",
+    "Preserve zero Adapter and general State Indicator instances.",
+    "Amend four SWUs by delta without changing frontier order or dependencies."
+  ],
+  "appliedChanges": [
+    "Created ten exact successor-stage artifacts and validated their final bytes."
+  ],
+  "skippedChanges": [
+    "Completed R06 and R09 artifacts and receipts were preserved.",
+    "DomainSpec canonical sources and product/runtime code were not changed.",
+    "Distill was skipped because no behavior boundary, order, dependency, or recomposition changed."
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "uova-ui-description-refresh-20260805T192950Z",
+    "packageDigest": "964f1ccccb13759c53e1f02ee4bd4808db254c0b4d64ef1826e57a330032fa2d",
+    "expectedPackageId": "uova-ui-description-refresh-20260805T192950Z",
+    "expectedPackageDigest": "964f1ccccb13759c53e1f02ee4bd4808db254c0b4d64ef1826e57a330032fa2d",
+    "validatedPaths": 10,
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "validationCommands": 6,
+    "lifecycleOwner": "invoke",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "mutationReady": true,
+  "blockers": [
+    {
+      "id": "BLK-UOVARR-ADMISSION-EXACT-BASELINES",
+      "scope": "target-lifecycle",
+      "owner": "invoke:refresh work-pack admission",
+      "status": "open",
+      "claim": "Exact runtime targets, byte baselines, execution bindings, and closeout bindings remain required before Task Session."
+    },
+    {
+      "id": "BLK-UOVARR-008-BODY-WAR-DENOMINATOR",
+      "scope": "target-lifecycle",
+      "owner": "Body War ontology/work-pack owner",
+      "status": "open",
+      "claim": "UOVARR-008 requires an authoritative denominator decision."
+    }
+  ],
+  "validation": [
+    "strict Context Builder coverage 7/7",
+    "material package pass with 10 validated paths",
+    "refresh handoff pass and ready",
+    "58 unique contracts equal 52 UI instances plus 6 Mappings",
+    "DomainSpec profile PASS across 66 synthetic cases with 0 mismatches",
+    "exact staged/applied byte parity",
+    "scoped whitespace pass"
+  ],
+  "result": "pass",
+  "nextRoute": "invoke:refresh work-pack admission for UOVARR-001"
+}

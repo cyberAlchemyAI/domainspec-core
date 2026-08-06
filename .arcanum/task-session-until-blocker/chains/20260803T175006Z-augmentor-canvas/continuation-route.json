@@ -1,0 +1,61 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "20260803T175006Z-augmentor-canvas-preflight-block",
+  "source": {
+    "capability": "task-session-until-blocker",
+    "mode": "execute",
+    "result": "block",
+    "receipt": ".arcanum/task-session-until-blocker/chains/20260803T175006Z-augmentor-canvas/chain.json",
+    "blocker_fingerprint": "sha256:dc6f25a4a9f4d30cb539efaee3d0fd6c69ccd3801222954b231c46853d91d647",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": false,
+    "exact_route": null,
+    "evidence": null
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "proposal-only",
+      "owner": "Invoke",
+      "evidence": [
+        "The SWU-CANVAS-001 routed-mutation verifier blocks because the Invoke-owned material package, material receipt, and producer receipt schema are absent.",
+        "The Work Pack closeout section omits the exact synchronization inventory, baselines, allowed closeout delta classes, owner validation, and expected owner receipt."
+      ],
+      "required_inputs": [
+        "WP-AUG-CANVAS-001 SHA-256 0ffb516e8070fa53f3df2af0c0a8c1154b4b9d1b924a2138d14179eb74dee07d",
+        "SWU-CANVAS-001 three-path material write inventory and generated HTML execution output",
+        "Stage 08 repaired design and live product baselines",
+        "Task Session mutation-admission request/receipt schema 1.2.0",
+        "Task Session closeout-sync contract fields"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": false,
+      "authorization_status": "not-required",
+      "expected_receipt": "Invoke proposal receipt that supplies a schema-valid material package, material receipt, producer receipt schema, exact closeout synchronization inventory, owner validation, and expected owner receipt for SWU-CANVAS-001, or returns a precise owner blocker.",
+      "fallback": "stop:user-input if Invoke exposes a new consequential design, scope, authority, or publication decision"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The missing artifacts and closeout contract are unambiguously owned by Invoke; proposal-only does not authorize product mutation."
+  },
+  "dispatch": {
+    "status": "not-requested",
+    "runtime": null,
+    "owner_receipt": null,
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "target": "WP-AUG-CANVAS-001/SWU-CANVAS-001 material and closeout contract"
+  }
+}
+

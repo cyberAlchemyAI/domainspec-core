@@ -1,0 +1,59 @@
+{
+  "schema_version": "oewsn.mutation-admission.v1",
+  "status": "selected-dedicated-binding-awaiting-task-session-preflight",
+  "work_pack": "WORK-PACK.md",
+  "selected_swu": "SWU-OEWSN-004",
+  "decision_gate": {
+    "path": "decisions/DECISION-GATE-RESULT.json",
+    "sha256": "1d0ee10e5ef79fe5064900e6fdec9341ea5d5299487104ee0fa79cb2e49e2ec0",
+    "result": "PASS",
+    "decisions_resolved": 4
+  },
+  "approved_profile": {
+    "path": "decisions/BODY-WAR-PROFILE-APPROVED.json",
+    "sha256": "2eb373d41154004cdcf4d4a448edbe4ea341934f2e77750903e8e92a54e871e8",
+    "authority_effect": "none"
+  },
+  "build_binding_decision": {
+    "path": "decisions/admissibility/SWU-OEWSN-004-build-binding-repair-selection.json",
+    "sha256": "54c41a4f4a17cf164dcefed429c50a9e4d8e3aa42b6cee0ace877cabf6747249",
+    "result": "PASS",
+    "selected_option": "ADD_SEMANTIC_NAV_BUILD_BINDING",
+    "product_mutation_authorized": false
+  },
+  "caller_scope_authorized": true,
+  "mutation_ready": false,
+  "required_before_mutation": [
+    "runtime Context Builder handoff pack covers every SWU obligation",
+    "attempt ID, material write inventory, generated output inventory and closeout inventory are exact and disjoint",
+    "baseline SHA-256 values for every material and closeout target are recorded",
+    "OEWSN-BUILD.binding.json binds the exact immutable L1 lock, first-working manifest, base overlay manifest and patches 0001-0002",
+    "the semantic-navigation builder verifies the historical base before applying additive files and rejects any collision",
+    "the semantic build output contract names one exact build handle, dashboard dist and terminal receipt for the attempt",
+    "Task Session validates material writes union execution outputs equals allowed writes for SWU-OEWSN-004",
+    "a schema-valid mutation-admission receipt returns admissionVerdict=admit and mutationReady=true immediately before the first product write",
+    "shared Playwright API, Chromium executable/revision/path/digest are resolved live only when a later selected SWU requires browser evidence"
+  ],
+  "satisfied_before_task_session": [
+    "OD-01 through OD-04 are owner-approved and digest-bound",
+    "workPackGateStatus is refreshed to pass-for-task-session-preflight",
+    "Decision Gate option 2 resolves G-04 in planning without changing historical build inputs",
+    "SWU-OEWSN-004 is selected and predecessor SWU-OEWSN-021 is complete",
+    "all mutation SWUs declare disjoint material_write_scope and execution_output_inventory fields whose union is write_scope"
+  ],
+  "forbidden": [
+    "ontology or authority-spine mutation",
+    "historical focus-scene development package mutation",
+    "mutation of upstream/L1-BUILD.lock.json, upstream/overlay/overlay-manifest.json, upstream/overlay/first-working-version-manifest.json or upstream/patches/0001-0002",
+    "weakening, bypassing or silently regenerating historical build identity checks",
+    "new package manifest or runtime root",
+    "external network or token persistence",
+    "promotion, publication, release, deployment or production effect",
+    "human comprehension, trust, workload, preference or task-success claim"
+  ],
+  "material_inventory_source": "SWU-MANIFEST.json#/swus/*/material_write_scope",
+  "execution_output_inventory_source": "SWU-MANIFEST.json#/swus/*/execution_output_inventory",
+  "allowed_write_inventory_source": "SWU-MANIFEST.json#/swus/*/write_scope",
+  "closeout_inventory_source": "CLOSEOUT-SYNC-INVENTORY.json#/entries",
+  "admission_result": "ready-for-task-session-preflight-not-product-mutation"
+}
