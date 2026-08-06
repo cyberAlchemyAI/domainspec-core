@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OAIA-DG-001-use-scope",
+  "candidates": [
+    {
+      "optionId": "OAIA-SCOPE-PRIVATE-LOCAL",
+      "label": "Private local audition only",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "spend",
+      "ownerGate": "audition-owner-and-account-owner",
+      "evidence": [
+        "WORK-PACK.md#objective-summary",
+        "WORK-PACK.md#blockers",
+        "UX-PLAN.md#decision-boundary"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-SCOPE-PUBLIC-CANDIDATE",
+      "label": "Public-video candidate audition",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "publication",
+      "ownerGate": "audition-owner-and-publication-owner",
+      "evidence": [
+        "WORK-PACK.md#blockers",
+        "OPENAI-SPEECH-CONTRACT.md#observed-interface",
+        "UX-PLAN.md#decision-boundary"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-SCOPE-OFFLINE-ONLY",
+      "label": "Keep rendering deferred; continue offline L0 only",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md#gate-checks",
+        "WORK-PACK.md#swu-execution-handoff"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-SCOPE-STOP",
+      "label": "Stop the OpenAI audition route",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md#objective-summary"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

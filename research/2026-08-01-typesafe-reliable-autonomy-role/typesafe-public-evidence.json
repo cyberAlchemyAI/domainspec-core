@@ -1,0 +1,97 @@
+{
+  "schema_version": "typesafe-public-evidence.v0.1",
+  "captured_at_utc": "2026-08-01T04:34:38Z",
+  "capture_method": "HTTPS GET with curl --compressed; response bytes hashed before extraction",
+  "sources": [
+    {
+      "url": "https://typesafe.ai/",
+      "sha256": "a2c2d921dd1dc50a647d36f123820c633379c6152e8cf7e0ff357237baa61b73",
+      "byte_count": 384903,
+      "selectors": [
+        {
+          "pattern": "intelligence should be a resource accessible to all",
+          "posture": "current public homepage statement"
+        },
+        {
+          "pattern": "actually gets things done",
+          "posture": "current public homepage statement"
+        }
+      ]
+    },
+    {
+      "url": "https://api.ashbyhq.com/posting-api/job-board/typesafe-ai",
+      "sha256": "e8ce00ecf83f513bbb2f868d05538104a1c60fd9563f783f8c153ddaf6298faf",
+      "byte_count": 78778,
+      "selectors": [
+        {
+          "jsonpath": "$.jobs[*].title",
+          "observed_count": 9,
+          "posture": "current public opening list"
+        },
+        {
+          "jsonpath": "$.jobs[?(@.title=='Member of Staff')]",
+          "published_at": "2026-07-25T16:32:54.426+00:00",
+          "department": "Create your own role",
+          "location": "San Francisco Office",
+          "employment_type": "FullTime",
+          "job_url": "https://jobs.ashbyhq.com/typesafe-ai/cbc0b60a-1613-4b0d-b38a-04fc5558152c",
+          "bound_claims": [
+            "frontier model lab building reliable and general AI systems for economically valuable automation",
+            "published ambition for real-world reliability, decision-making, and autonomy in production",
+            "complete strategic ownership rather than ticket execution",
+            "first-principles and lived-experience problem solving",
+            "understanding current-generation LLM joys and limitations",
+            "5+ years professional expertise in high-performing teams",
+            "fully in-person San Francisco",
+            "visa sponsorship offered"
+          ]
+        },
+        {
+          "jsonpath": "$.jobs[?(@.title=='Member of Technical Staff, Synthetic Data')]",
+          "published_at": "2026-07-13T17:57:03.429+00:00",
+          "job_url": "https://jobs.ashbyhq.com/typesafe-ai/df3dbf1b-9a47-4d8a-88a8-d28c8b8a2ef0",
+          "bound_claims": [
+            "datasets and internal evaluation, debugging, and data-inspection interfaces",
+            "evaluation frameworks across model iterations",
+            "experiments relating data, training choices, and interventions to model behavior",
+            "real-world translation into model and system improvements"
+          ]
+        },
+        {
+          "jsonpath": "$.jobs[?(@.title=='Product Engineer')]",
+          "published_at": "2026-07-13T17:58:21.220+00:00",
+          "job_url": "https://jobs.ashbyhq.com/typesafe-ai/f21f0f84-b0c9-4b63-9f61-3aad6ab0eca4",
+          "bound_claims": [
+            "customer-facing features from prototype to production",
+            "product quality, reliability, performance, and instrumentation",
+            "product, design, and customer collaboration"
+          ]
+        },
+        {
+          "jsonpath": "$.jobs[?(@.title=='Senior Backend/Platform Engineer')]",
+          "job_url": "https://jobs.ashbyhq.com/typesafe-ai/d15fb33c-0679-4822-be50-2afb75320e4b",
+          "bound_claims": [
+            "inference APIs and resilient multi-cloud model serving",
+            "storage abstractions, uptime, backward compatibility, and on-call quality"
+          ]
+        },
+        {
+          "jsonpath": "$.jobs[?(@.title=='Infrastructure Engineer, Kubernetes Specialist')]",
+          "job_url": "https://jobs.ashbyhq.com/typesafe-ai/4da613b6-6d56-4e8d-8cc4-fad8ca57e4ce",
+          "bound_claims": [
+            "Kubernetes, networking, GPU infrastructure, monitoring, tracing, logging, SLOs, and incident response"
+          ]
+        },
+        {
+          "jsonpath": "$.jobs[?(@.title=='Developer Advocate')]",
+          "job_url": "https://jobs.ashbyhq.com/typesafe-ai/4537eb37-94a3-43d6-9760-6f41c125aba4",
+          "bound_claims": [
+            "developer voice, documentation, SDK and API references, feedback programs, demos, and education"
+          ]
+        }
+      ]
+    }
+  ],
+  "interpretation_boundary": "These public postings establish advertised scope, not TypeSafe's private roadmap or actual internal ownership. The proposed role remains conditional on an internal overlap check.",
+  "external_effects": "none; no application, contact, or submission occurred"
+}

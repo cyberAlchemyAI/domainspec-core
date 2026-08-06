@@ -1,0 +1,87 @@
+{
+  "schema_version": "oava001-readiness-evidence.v1",
+  "objective": {
+    "acceptance": [
+      "one valid candidate passes",
+      "five one-cause mutants fail with exact stable codes",
+      "source media, AutoAds, and canonical Anime.js vault remain byte-identical"
+    ],
+    "claim_ceiling": "candidate-local-contractual-readiness"
+  },
+  "planning_artifacts": [
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md",
+      "sha256": "7f51a91b8eba20ce95706f2d2a2b492f75128518ef362e590ca497b7a84e1d00",
+      "size_bytes": 7225
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF.md",
+      "sha256": "6d0bee5d6b3c0200c119e954ee75781b2151ff86dc479094499e8beace728414",
+      "size_bytes": 1412
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/execution-contract.json",
+      "sha256": "c84bfe1214b9b469446985dca48563a992bc84605cc453b6107996698f65b399",
+      "size_bytes": 14313
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/tasks/TASK-OAVA-CONTRACTS.md",
+      "sha256": "5e0b1e337951253f81b23bc801fc569db599c4dd3568784809875c85af72426b",
+      "size_bytes": 5308
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/shared/GAPS.md",
+      "sha256": "10b1093d14dcdde37e93a1c20cb6ec7a575c4a37e8b6aa9d53d1b3f59c5b17b6",
+      "size_bytes": 699
+    }
+  ],
+  "closure_receipts": {
+    "define": "existing-refinement-define-closed",
+    "plan": "invoke-oava001-work-pack-v2.0.2-route-partition-repair:pass"
+  },
+  "authority": {
+    "owner": "task-session",
+    "material": "invoke:plan:apply-approved-after-selection",
+    "validation": "node-test-exact-command",
+    "receipt": "task-session-governance-terminal-receipt-v1",
+    "closeout": "invoke:refresh:apply-approved"
+  },
+  "receipt": {
+    "terminal_schema": ".agents/skills/task-session/schemas/governance-terminal-receipt.schema.json",
+    "semantic_validator": ".agents/skills/task-session/scripts/task-session-governance-runner.py",
+    "expected": "execution-runs/20260806-oava001-v2/task-session/governance-terminal-receipt.json"
+  },
+  "closeout": {
+    "allowed_delta": [
+      "evidence_added",
+      "status_changed",
+      "route_changed"
+    ],
+    "owner_contract": {
+      "owner": "invoke:refresh:apply-approved",
+      "successor": "SWU-OAVA-002",
+      "successor_executed": false
+    }
+  },
+  "status": {
+    "artifact_authored": "authored",
+    "registry_released": "unreleased",
+    "mutation_runtime_ready": "pending-selection",
+    "audit_verdict": "pending",
+    "plan_artifact": "authored",
+    "audit": "pending-route-partition-epoch",
+    "approval": "confirmed-by-current-user-request",
+    "chain": "not-started"
+  },
+  "approval": {
+    "decision": "execute-confirmed"
+  },
+  "risk": {
+    "maximum": "bounded-write"
+  },
+  "continuity": {
+    "canonical_successor": "SWU-OAVA-001",
+    "equivalence": "plan-once-v1",
+    "router_verification": "pending-closeout"
+  }
+}

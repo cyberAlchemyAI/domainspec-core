@@ -1,0 +1,105 @@
+{
+  "timestamp": "2026-08-03T19:49:45Z",
+  "run_id": "whisper-20260803T194945Z-podcast-presentation-final",
+  "session_id": "2026-08-03-ontology-authority-agent-context-presentation",
+  "sigil": "whisper",
+  "tier": "spell",
+  "mode": "live_presentation_html_derivative",
+  "capability": {
+    "id": "whisper",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "live_presentation_html_derivative",
+    "alias": "Whisper"
+  },
+  "lineage": {
+    "parent_run_id": "whisper-20260803T192012Z-podcast-voice-reaudition",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "whisper",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "live_presentation"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "research/2026-08-03-ontology-authority-agent-context-presentation/live-presentation-language-audition-podcast-v2.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/podcast-voice-revision-plan.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation-validation.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation.html",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation-html-validation.md"
+    ]
+  },
+  "request": {
+    "raw": "voice approved",
+    "summary": "Approve the reflective solo-podcast voice and generate the complete story-led presentation.",
+    "intent": "Create a meaningful fifteen-minute narration that moves with the eight images and can be animated as one story."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Complete twelve-moment podcast narration and visual score",
+      "Animated twelve-slide HTML derivative using all eight images",
+      "Presenter notes containing the full spoken story",
+      "Editorial, timing, responsive-layout, interaction, and preview validation"
+    ],
+    "files_changed": [
+      "research/2026-08-03-ontology-authority-agent-context-presentation/live-presentation-language-audition-podcast-v2.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/podcast-voice-revision-plan.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation-validation.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation.html",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation-html-validation.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/whisper-podcast-presentation-final-envelope.json"
+    ],
+    "validation": [
+      "explicit operator voice approval: pass",
+      "single approval-record narrative spine: pass",
+      "twelve moments and twelve narration surfaces: pass",
+      "spoken copy: 1781 words",
+      "estimated narration at 145 wpm: 12 minutes 17 seconds",
+      "eight local images resolved: pass",
+      "progressive reveals: 21",
+      "1440x900 layouts: 12/12 pass",
+      "1280x720 layouts: 12/12 pass after one title correction",
+      "390x844 layouts: 12/12 pass",
+      "console and page errors: none",
+      "managed loopback preview: pass",
+      "source and authority claim ceilings: pass"
+    ],
+    "notes": "The deck tells one human story while retaining the DomainSpec, Body War, CyberAlchemy v2, and Augmentor evidence ceilings. Presenter notes are hidden by default but share the projected browser window."
+  },
+  "observer": {
+    "quality_bar_status": "pass-with-residue",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "quality-bar",
+        "severity": "low",
+        "summary": "The podcast pacing has not been rehearsed in a live room.",
+        "evidence": "The timing budget is estimated from word count and programmed pauses; no live delivery receipt exists."
+      },
+      {
+        "category": "quality-bar",
+        "severity": "low",
+        "summary": "Presenter notes are not a separate-screen presenter view.",
+        "evidence": "The notes drawer is hidden by default but would be visible if opened in the mirrored projection window."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "output-threshold",
+    "recommendation": "live-rehearsal"
+  },
+  "target_artifact": "research/2026-08-03-ontology-authority-agent-context-presentation/presentation.html",
+  "intent_state": "frozen",
+  "human_gate": "approved",
+  "transport_proof_status": "candidate",
+  "selected_candidate": "reflective-solo-podcast-through-one-approval-record",
+  "delivery_flow": "complete",
+  "derivative_fan_out_count": 2,
+  "invalidated_run_id": "whisper-20260803T190653Z-ontology-html-presentation",
+  "next_route": "live-rehearsal-or-use"
+}

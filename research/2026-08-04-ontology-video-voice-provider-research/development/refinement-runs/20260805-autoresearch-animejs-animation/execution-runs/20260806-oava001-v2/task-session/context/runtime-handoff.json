@@ -1,0 +1,310 @@
+{
+  "identity": {
+    "task_or_swu": "SWU-OAVA-001",
+    "source_reference": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md",
+    "session_or_run_id": "oava001-ts-20260806-001",
+    "session_evidence_path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session",
+    "runtime_handoff": "runtime",
+    "repository_revision": "ab46061bf14db23a01054c2fd3fafec60fb5eb2f",
+    "evidence_date": "2026-08-06"
+  },
+  "task_id": "TASK-OAVA-CONTRACTS",
+  "swu_id": "SWU-OAVA-001",
+  "strict_coverage": true,
+  "fallback_exploration": {
+    "status": "named-gaps-only",
+    "allowed_gap_ids": []
+  },
+  "obligations": [
+    {
+      "id": "OAVA001-SCHEMA",
+      "status": "covered",
+      "summary": "Reject closed-schema violations before semantic checks.",
+      "selected_evidence": [
+        {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/contracts/animation-hypothesis-candidate.schema.json",
+          "selector": "$ root and additionalProperties",
+          "excerpt_summary": "The candidate and its typed nested objects are closed."
+        }
+      ],
+      "resolution": ""
+    },
+    {
+      "id": "OAVA001-SOURCE",
+      "status": "covered",
+      "summary": "Bind candidate and live files to the exact three-artifact source snapshot.",
+      "selected_evidence": [
+        {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/execution-contract.json",
+          "selector": "/source_snapshot",
+          "excerpt_summary": "Exact paths, sizes, hashes, and aggregate snapshot digest."
+        }
+      ],
+      "resolution": ""
+    },
+    {
+      "id": "OAVA001-PROOF",
+      "status": "covered",
+      "summary": "Reject proof states above planned_motion.",
+      "selected_evidence": [
+        {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/stages/06-design.md",
+          "selector": "Candidate contract and proof ledger",
+          "excerpt_summary": "Proof states remain atomic and execution has not occurred."
+        }
+      ],
+      "resolution": ""
+    },
+    {
+      "id": "OAVA001-CONTRADICTION",
+      "status": "covered",
+      "summary": "Require an explicit falsifier and reproposal rule.",
+      "selected_evidence": [
+        {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/tasks/TASK-OAVA-CONTRACTS.md",
+          "selector": "Algorithm and failure precedence",
+          "excerpt_summary": "Missing contradiction fails at the schema boundary."
+        }
+      ],
+      "resolution": ""
+    },
+    {
+      "id": "OAVA001-REDUCED",
+      "status": "covered",
+      "summary": "Standard and reduced-motion final states must have identical semantics.",
+      "selected_evidence": [
+        {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/VALIDATION-CONTRACTS.md",
+          "selector": "L0 S6 relation witness",
+          "excerpt_summary": "Reduced motion reaches the same semantic endpoint without path travel."
+        }
+      ],
+      "resolution": ""
+    },
+    {
+      "id": "OAVA001-CAUSAL",
+      "status": "covered",
+      "summary": "One valid fixture and five single-cause mutants have exact expected codes.",
+      "selected_evidence": [
+        {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/tasks/TASK-OAVA-CONTRACTS.md",
+          "selector": "Edge cases and causal fixtures",
+          "excerpt_summary": "Each mutant changes one cause and binds one stable diagnostic."
+        }
+      ],
+      "resolution": ""
+    },
+    {
+      "id": "OAVA001-GOVERNANCE",
+      "status": "covered",
+      "summary": "Use one exact material-bound, single-use admission and emit no successor execution.",
+      "selected_evidence": [
+        {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/readiness-attempt-002/selection-receipt.json",
+          "selector": "$",
+          "excerpt_summary": "Selection is binding-backed for the current plan epoch and unit digest."
+        }
+      ],
+      "resolution": ""
+    }
+  ],
+  "selected_sources": [
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md",
+      "selectors": [
+        "Control Fields",
+        "Active SWU handoff",
+        "Task Session Closeout Sync Contract"
+      ],
+      "obligations": [
+        "OAVA001-GOVERNANCE"
+      ],
+      "evidence_kind": "contract"
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/tasks/TASK-OAVA-CONTRACTS.md",
+      "selectors": [
+        "SWU-OAVA-001"
+      ],
+      "obligations": [
+        "OAVA001-SCHEMA",
+        "OAVA001-SOURCE",
+        "OAVA001-PROOF",
+        "OAVA001-CONTRADICTION",
+        "OAVA001-REDUCED",
+        "OAVA001-CAUSAL"
+      ],
+      "evidence_kind": "contract"
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/execution-contract.json",
+      "selectors": [
+        "/source_snapshot",
+        "/execution_binding",
+        "/execution_policy"
+      ],
+      "obligations": [
+        "OAVA001-SOURCE",
+        "OAVA001-GOVERNANCE"
+      ],
+      "evidence_kind": "contract"
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/contracts/animation-hypothesis-candidate.schema.json",
+      "selectors": [
+        "$"
+      ],
+      "obligations": [
+        "OAVA001-SCHEMA",
+        "OAVA001-PROOF",
+        "OAVA001-CONTRADICTION",
+        "OAVA001-REDUCED"
+      ],
+      "evidence_kind": "contract"
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/VALIDATION-CONTRACTS.md",
+      "selectors": [
+        "L0 S6 relation witness",
+        "Causal mutants"
+      ],
+      "obligations": [
+        "OAVA001-REDUCED",
+        "OAVA001-CAUSAL"
+      ],
+      "evidence_kind": "test"
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/readiness-attempt-002/audit-output/plan-semantic-manifest.json",
+      "selectors": [
+        "/plan_epoch_id",
+        "/unit_contract_digests/SWU-OAVA-001"
+      ],
+      "obligations": [
+        "OAVA001-GOVERNANCE"
+      ],
+      "evidence_kind": "decision"
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/readiness-attempt-002/selection-receipt.json",
+      "selectors": [
+        "$"
+      ],
+      "obligations": [
+        "OAVA001-GOVERNANCE"
+      ],
+      "evidence_kind": "decision"
+    }
+  ],
+  "architecture_guidance": [
+    "Keep the validator dependency-free and deterministic.",
+    "Treat source, proof, contradiction, and reduced-motion checks as fail-closed trust boundaries.",
+    "Do not consult or write the Anime.js vault in OAVA-001."
+  ],
+  "related_feature_context": "OAVA-002 consultation and all runtime/browser work are outside the captured frontier.",
+  "constraints_and_non_goals": [
+    "No source-media modification.",
+    "No AutoAds or canonical Anime.js vault writes.",
+    "No network, package installation, browser, Git, publication, deployment, or successor execution.",
+    "Passing results do not imply runtime or visual proof."
+  ],
+  "write_scope": [
+    "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/contracts/animation-hypothesis-candidate.schema.json",
+    "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/source-snapshot.json",
+    "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.valid.json",
+    "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.source-drift.json",
+    "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.unknown-field.json",
+    "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.proof-inflation.json",
+    "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.missing-contradiction.json",
+    "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.reduced-motion-mismatch.json",
+    "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/validate-candidate.mjs",
+    "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/candidate.test.mjs"
+  ],
+  "validation_surface": [
+    "node --test prototype/test/candidate.test.mjs"
+  ],
+  "gaps_and_blockers": [
+    {
+      "id": "B-001",
+      "status": "resolved",
+      "summary": "Anime.js runtime is vendored but not consumed by OAVA-001.",
+      "runtime_fallback_allowed": false
+    },
+    {
+      "id": "B-002",
+      "status": "deferred",
+      "summary": "Playwright pinning belongs to later OAVA-006.",
+      "runtime_fallback_allowed": false
+    },
+    {
+      "id": "B-003",
+      "status": "deferred",
+      "summary": "Named visual reviewer belongs to later OAVA-007.",
+      "runtime_fallback_allowed": false
+    }
+  ],
+  "authority_precedence": [
+    "current plan semantic manifest and selection receipt",
+    "WORK-PACK.md and work-pack/execution-contract.json",
+    "TASK-OAVA-CONTRACTS.md",
+    "source schema and design/validation selectors"
+  ],
+  "execution_contract": {
+    "writeProfile": "material-bound",
+    "materialWrites": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/contracts/animation-hypothesis-candidate.schema.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/source-snapshot.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.valid.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.source-drift.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.unknown-field.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.proof-inflation.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.missing-contradiction.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.reduced-motion-mismatch.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/validate-candidate.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/candidate.test.mjs"
+    ],
+    "executionOutputs": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session/governance-terminal-receipt.json"
+    ],
+    "allowedWrites": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/contracts/animation-hypothesis-candidate.schema.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/source-snapshot.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.valid.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.source-drift.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.unknown-field.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.proof-inflation.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.missing-contradiction.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.reduced-motion-mismatch.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/validate-candidate.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/candidate.test.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session/governance-terminal-receipt.json"
+    ],
+    "validationCommands": [
+      "node --test prototype/test/candidate.test.mjs"
+    ],
+    "structuredValidationContracts": [
+      {
+        "command_id": "validate-SWU-OAVA-001",
+        "argv": [
+          "node",
+          "--test",
+          "prototype/test/candidate.test.mjs"
+        ],
+        "cwd": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation",
+        "timeout_seconds": 60,
+        "max_output_bytes": 1048576
+      }
+    ],
+    "lifecycleOwner": "task-session",
+    "authorityClass": "private",
+    "publicationClass": "internal",
+    "planEpochId": "epoch-16669a0ad6d7fda7c96d7a75",
+    "unitContractDigest": "54f57bf4b6302713a684432fd38a63000e249946e82e730c2b5b2db9c1e5bdb2",
+    "attemptId": "oava001-ts-20260806-001",
+    "validationContractDigest": "68eddf6533510bf964ec06ace29e2d2e2cbecf5482c63cf0f1af109a10687fcb"
+  },
+  "output_paths": {
+    "markdown": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session/context/runtime-handoff.md",
+    "json_index": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session/context/runtime-handoff.json"
+  }
+}

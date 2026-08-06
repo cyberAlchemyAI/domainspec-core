@@ -1,0 +1,63 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "OAVA-B001-CONTINUATION-20260805",
+  "source": {
+    "capability": "task-session",
+    "mode": "b001-acquisition",
+    "result": "completed",
+    "receipt": "acquisition-receipt.json",
+    "blocker_fingerprint": "0d512564e63f2a13108f02fe1bd048262b6c73ac931ad55eec34385053ca2eba",
+    "legacy_adaptation": true
+  },
+  "authorization": {
+    "requested": false,
+    "exact_route": null,
+    "evidence": null
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "invoke",
+      "evidence": [
+        "acquisition-receipt.json records official Anime.js v4.5.0 bytes and provenance",
+        "validation-receipt.json passes integrity, byte equality, syntax, license, and offline checks",
+        "../../WORK-PACK.md and ../../RUNTIME-HANDOFF.md still describe B-001 as unresolved"
+      ],
+      "required_inputs": [
+        "exact target inventory",
+        "delta scope limited to B-001 synchronization",
+        "refresh validation",
+        "exact invoke:refresh:apply-approved authorization"
+      ],
+      "missing_inputs": [
+        "Invoke Refresh proposal",
+        "exact invoke:refresh:apply-approved authorization"
+      ],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "missing",
+      "expected_receipt": "Invoke Refresh terminal receipt identifying synchronized planning artifacts and validation",
+      "fallback": "Leave the installed dependency and its receipts intact; do not rerun acquisition or claim the planning blocker is synchronized."
+    }
+  ],
+  "selection": {
+    "status": "not-authorized",
+    "candidate_rank": 1,
+    "reason": "The owner route is unambiguous, but no exact apply-approved authorization or Work-Pack execution binding exists."
+  },
+  "dispatch": {
+    "status": "not-authorized",
+    "runtime": null,
+    "owner_receipt": null,
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "target": "B-001 state in WORK-PACK.md and RUNTIME-HANDOFF.md"
+  }
+}

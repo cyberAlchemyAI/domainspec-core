@@ -1,0 +1,68 @@
+{
+  "schema_version": "task-session.governance-evaluation-request.v1",
+  "request_id": "oava001-closeout-preflight-002",
+  "evaluation_kind": "closeout-preflight",
+  "policy_ref": {
+    "path": "arcanum/arcana/task-session/decision-validation-policy.json",
+    "sha256": "f339f258b7862095f31064712df784ea145184d9b75eb15fcaf0127d7c18b63f",
+    "size_bytes": 3273
+  },
+  "input": {
+    "sync_expected": true,
+    "terminal_source_receipt_contract": {
+      "schema": "task-session.governance-terminal-receipt.v1",
+      "task_id": "TASK-OAVA-CONTRACTS",
+      "swu_id": "SWU-OAVA-001",
+      "required_result": "pass"
+    },
+    "declared_target_inventory": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF.md",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/closeouts/SWU-OAVA-001.json"
+    ],
+    "baseline_state": [
+      {
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md",
+        "state": "present",
+        "sha256": "f6f2aff1b3d8cbdf05c05c207ffe75afbadff935ca581c52179944e2790013b2",
+        "size_bytes": 7128
+      },
+      {
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF.md",
+        "state": "present",
+        "sha256": "6d0bee5d6b3c0200c119e954ee75781b2151ff86dc479094499e8beace728414",
+        "size_bytes": 1412
+      },
+      {
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/closeouts/SWU-OAVA-001.json",
+        "state": "absent",
+        "sha256": null,
+        "size_bytes": null
+      }
+    ],
+    "allowed_delta_classes": [
+      "evidence_added",
+      "status_changed",
+      "route_changed"
+    ],
+    "validation_commands": [
+      "node --test prototype/test/candidate.test.mjs",
+      "validate closeout JSON and staged/applied identity",
+      "verify source, AutoAds, and canonical Anime.js vault zero delta"
+    ],
+    "expected_owner_receipt": {
+      "owner": "invoke:refresh:apply-approved",
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/closeouts/SWU-OAVA-001.json"
+    },
+    "successor_selection": {
+      "requested": true,
+      "declared": true,
+      "dependency_ready": true,
+      "candidate_count": 1,
+      "unit_id": "SWU-OAVA-002",
+      "condition": "only after a passing OAVA-001 terminal receipt",
+      "execute": false
+    }
+  },
+  "output_path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session/governance-evaluation-receipt-v2.0.1.json"
+}

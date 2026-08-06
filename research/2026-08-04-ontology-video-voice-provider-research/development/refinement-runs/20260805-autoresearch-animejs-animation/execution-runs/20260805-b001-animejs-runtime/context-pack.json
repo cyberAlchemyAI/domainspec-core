@@ -1,0 +1,87 @@
+{
+  "identity": {
+    "task_or_swu": "B-001 dependency acquisition",
+    "source_reference": "../../WORK-PACK.md#B-001",
+    "session_or_run_id": "20260805-b001-animejs-runtime",
+    "session_evidence_path": "execution-runs/20260805-b001-animejs-runtime",
+    "runtime_handoff": "runtime",
+    "repository_revision": "ab46061bf14db23a01054c2fd3fafec60fb5eb2f",
+    "evidence_date": "2026-08-05"
+  },
+  "strict_coverage": "pass",
+  "fallback_exploration": {
+    "status": "named-gaps-only",
+    "allowed_gap_ids": []
+  },
+  "obligations": [
+    {
+      "id": "OB-001",
+      "status": "covered",
+      "summary": "Acquire the separately authorized exact Anime.js v4.5.0 bytes.",
+      "selected_evidence": [{"path": "../../WORK-PACK.md", "selector": "Blockers / B-001", "excerpt_summary": "Acquire exact v4.5.0 and record provenance."}],
+      "resolution": ""
+    },
+    {
+      "id": "OB-002",
+      "status": "covered",
+      "summary": "Install one local runtime without CDN or runtime network.",
+      "selected_evidence": [{"path": "../../work-pack/tasks/TASK-OAVA-PROTOTYPE.md", "selector": "SWU-OAVA-003", "excerpt_summary": "Local-only runtime admission constraints."}],
+      "resolution": ""
+    },
+    {
+      "id": "OB-003",
+      "status": "covered",
+      "summary": "Prove latest package version and package integrity from the official registry.",
+      "selected_evidence": [{"path": "https://registry.npmjs.org/animejs/-/animejs-4.5.0.tgz", "selector": "registry metadata", "excerpt_summary": "latest=4.5.0, MIT, fixed tarball integrity and shasum."}],
+      "resolution": ""
+    },
+    {
+      "id": "OB-004",
+      "status": "covered",
+      "summary": "Vendor the self-contained ESM bundle and MIT license.",
+      "selected_evidence": [{"path": "package/dist/bundles/anime.esm.js", "selector": "package member", "excerpt_summary": "Self-contained ESM bundle with v4.5.0 MIT header."}],
+      "resolution": ""
+    },
+    {
+      "id": "OB-005",
+      "status": "resolved",
+      "summary": "Keep OAVA-003 outside this prerequisite-only run.",
+      "selected_evidence": [{"path": "../../WORK-PACK.md", "selector": "SWUs / OAVA-003", "excerpt_summary": "OAVA-003 also depends on OAVA-002 and owns later validation artifacts."}],
+      "resolution": "B-001 acquisition is not OAVA-003 completion."
+    }
+  ],
+  "selected_sources": [
+    {"path": "../../WORK-PACK.md", "selectors": ["SWUs", "Blockers / B-001"], "obligations": ["OB-001", "OB-002", "OB-005"], "evidence_kind": "contract"},
+    {"path": "../../work-pack/tasks/TASK-OAVA-PROTOTYPE.md", "selectors": ["SWU-OAVA-003"], "obligations": ["OB-002", "OB-005"], "evidence_kind": "contract"},
+    {"path": "../../../../../../../projects/animejs/ontology/agent-knowledge-vault/README.md", "selectors": ["Version context"], "obligations": ["OB-003"], "evidence_kind": "decision"},
+    {"path": "https://registry.npmjs.org/animejs/-/animejs-4.5.0.tgz", "selectors": ["registry metadata", "package.json", "dist/bundles/anime.esm.js", "LICENSE.md"], "obligations": ["OB-003", "OB-004"], "evidence_kind": "code"}
+  ],
+  "write_scope": [
+    "../../prototype/vendor/anime.esm.js",
+    "../../prototype/vendor/LICENSE.animejs.md",
+    "./acquisition-receipt.json",
+    "./context-pack.md",
+    "./context-pack.json",
+    "./validation-receipt.json"
+  ],
+  "validation_surface": [
+    "tarball SHA-512 equals npm registry integrity",
+    "vendored files equal unpacked package files byte-for-byte",
+    "bundle header reports v4.5.0 and MIT",
+    "bundle contains no URL or dynamic network primitive",
+    "receipt SHA-256 values equal installed files"
+  ],
+  "gaps_and_blockers": [
+    {"id": "OAVA-003-DEPENDENCY", "status": "deferred", "summary": "OAVA-003 remains dependent on OAVA-002 and separate admission.", "runtime_fallback_allowed": false}
+  ],
+  "authority_precedence": [
+    "user install authorization",
+    "Work Pack B-001 and OAVA-003 constraints",
+    "official npm registry package metadata and bytes",
+    "ontology vault version context"
+  ],
+  "output_paths": {
+    "markdown": "execution-runs/20260805-b001-animejs-runtime/context-pack.md",
+    "json_index": "execution-runs/20260805-b001-animejs-runtime/context-pack.json"
+  }
+}

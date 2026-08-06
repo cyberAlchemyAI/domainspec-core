@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-08-03T19:06:53Z",
+  "run_id": "whisper-20260803T190653Z-ontology-html-presentation",
+  "session_id": "2026-08-03-ontology-authority-agent-context-presentation",
+  "sigil": "whisper",
+  "tier": "spell",
+  "mode": "live_presentation_html_derivative",
+  "capability": {
+    "id": "whisper",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "live_presentation_html_derivative",
+    "alias": "Whisper"
+  },
+  "lineage": {
+    "parent_run_id": "whisper-20260803T175400Z-ontology-authority-agent-context-presentation",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "whisper",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "live_presentation"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation-validation.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation-html-validation.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/images/README.md"
+    ]
+  },
+  "request": {
+    "raw": "now createa html presentation for it",
+    "summary": "Create the HTML derivative of the approved ontology presentation and eight-image series.",
+    "intent": "Deliver a self-contained, presenter-ready browser artifact without changing the approved voice, meaning, timing, or authority boundaries."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Self-contained twelve-slide HTML presentation",
+      "Keyboard, touch, timer, fullscreen, notes, reveal, and print controls",
+      "Playwright browser validation report",
+      "Four browser-rendered validation screenshots"
+    ],
+    "files_changed": [
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation.html",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation-html-validation.md"
+    ],
+    "validation": [
+      "operator voice approval inherited from frozen parent intent: pass",
+      "twelve slides and twelve note surfaces: pass",
+      "eight local image assets resolved: pass",
+      "projected internal-path scan: pass",
+      "1440x900 layouts: 12/12 pass",
+      "1280x720 layouts: 12/12 pass",
+      "representative 390x844 layouts: pass",
+      "progressive reveals, navigation, notes and timer: pass",
+      "console errors, page errors and failed requests: none",
+      "scoped whitespace check: pass"
+    ],
+    "notes": "The HTML is a local candidate presentation derivative. Exact labels remain editable HTML overlays. Presenter notes are hidden by default but share the projected browser window when opened."
+  },
+  "observer": {
+    "quality_bar_status": "pass-with-residue",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "quality-bar",
+        "severity": "low",
+        "summary": "The HTML presentation has not been tested with a live audience.",
+        "evidence": "Static, browser, timing, source, and surface checks pass, but no live-room comprehension, pacing, or retell receipt exists."
+      },
+      {
+        "category": "quality-bar",
+        "severity": "low",
+        "summary": "Presenter notes are not a separate-screen presenter view.",
+        "evidence": "The notes drawer is hidden by default and works correctly, but opening it on a mirrored display would expose the notes to the audience."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "output-threshold",
+    "recommendation": "reflect-now"
+  },
+  "target_artifact": "research/2026-08-03-ontology-authority-agent-context-presentation/presentation.html",
+  "intent_state": "frozen",
+  "human_gate": "approved",
+  "transport_proof_status": "candidate",
+  "selected_candidate": "governed-knowledge-space-agent-context",
+  "delivery_flow": "active",
+  "derivative_fan_out_count": 2
+}

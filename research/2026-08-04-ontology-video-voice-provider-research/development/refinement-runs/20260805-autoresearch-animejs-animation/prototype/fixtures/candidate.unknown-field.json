@@ -1,0 +1,125 @@
+{
+  "schema_version": "animation-hypothesis-candidate.v0.1",
+  "candidate_id": "oava-s6-edge-draw-v1",
+  "scene_beat_ref": {
+    "sequence_id": "S6",
+    "beat_id": "S6-04:29-04:39",
+    "time_interval": "04:29-04:39",
+    "source_package_digest": "24cccc54c882532eb8d5506c60482c44517efb8066f3ff01918e05c1c61e48fa",
+    "script_digest": "ee5a3d5b2eae53cc712d2904971164a52d4e7ca248881ab2d1490cece7610784",
+    "caption_digest": "aea66578bc3a192fa8c34f94088acee3880515d1f5dd416a31a38aee5c530358",
+    "image_ref": {
+      "path": "2026-08-03-ontology-authority-agent-context-presentation/images/03-arrow-is-a-contract.png",
+      "sha256": "c0135e0a5505cb8ffd7f094fc34586c39fa3f4b4780e92f72b0c23a8efc59cc7"
+    },
+    "required_layers": [
+      "rule-node",
+      "enforces-edge",
+      "operation-node",
+      "caption-surface"
+    ],
+    "next_transition_ref": "S6-04:39-04:50"
+  },
+  "hypothesis": {
+    "statement": "A left-to-right edge draw makes the typed relation Rule enforces Operation explicit without implying runtime proof.",
+    "rationale": "The motion follows the spoken verb and preserves the source meaning.",
+    "motion_family": "typed-relation-edge-draw",
+    "target_elements": [
+      "rule-node",
+      "enforces-edge",
+      "operation-node"
+    ],
+    "planned_state_machine": [
+      "relation-hidden",
+      "relation-drawing-left-to-right",
+      "rule-enforces-operation"
+    ],
+    "duration_ms": 10000
+  },
+  "semantic_contract": {
+    "invariants": [
+      "Rule remains the relation source",
+      "Operation remains the relation target",
+      "the edge label is enforces",
+      "meaning does not imply runtime proof"
+    ],
+    "negative_animation_constraints": [
+      "never reverse the relation direction",
+      "never modify the source image",
+      "never add a success flourish"
+    ],
+    "semantic_end_states": [
+      "rule-enforces-operation"
+    ],
+    "reduced_motion_state_machine": [
+      "relation-hidden",
+      "rule-enforces-operation"
+    ]
+  },
+  "consultation": {
+    "request_id": "oava001-contract-only",
+    "audience": "animejs-knowledge-consult-read",
+    "query_scope": "No runtime consultation is executed by OAVA-001.",
+    "version_context": {
+      "library": "animejs",
+      "version": "4.5.0",
+      "runtime_used": false
+    },
+    "evidence_bindings": [
+      "work-pack/execution-contract.json#/source_snapshot"
+    ],
+    "status": "abstain",
+    "claim_limit": "Candidate structure and planned motion only; no Anime.js execution claim."
+  },
+  "proof_ledger": [
+    {
+      "claim": "The selected source beat says Rule enforces Operation.",
+      "proof_state": "source_observed",
+      "evidence_refs": [
+        "educational-video-production-script.md#sequence-6"
+      ],
+      "limitations": [
+        "Source observation does not prove an animation implementation."
+      ],
+      "owner": "source-authority"
+    },
+    {
+      "claim": "The proposed edge draw has a planned standard and reduced-motion endpoint.",
+      "proof_state": "planned_motion",
+      "evidence_refs": [
+        "stages/06-design.md#selected-bounded-witness"
+      ],
+      "limitations": [
+        "No runtime or browser witness exists in OAVA-001."
+      ],
+      "owner": "ontology-video-motion-design"
+    }
+  ],
+  "contradiction": {
+    "falsifier": "Any reversed direction, source drift, or unequal standard/reduced semantic endpoint falsifies this candidate.",
+    "known_conflicts": [],
+    "resolution_status": "clear",
+    "reproposal_requirement": "Repair the single failed invariant and submit a new candidate identity."
+  },
+  "prototype_scope": {
+    "included": "Sequence 6 edge relation only",
+    "excluded": "runtime, browser, voice, vault writes, owner review"
+  },
+  "witness_spec": {
+    "standard_terminal": "rule-enforces-operation",
+    "reduced_terminal": "rule-enforces-operation"
+  },
+  "tournament_binding": {
+    "selection": "S6",
+    "status": "candidate-local"
+  },
+  "owner_review": {
+    "status": "not-requested",
+    "claim_effect": "none"
+  },
+  "lineage": {
+    "work_pack_id": "WP-OAVA-S6-001",
+    "swu_id": "SWU-OAVA-001"
+  },
+  "unexpected_oava_field": "must be rejected"
+}

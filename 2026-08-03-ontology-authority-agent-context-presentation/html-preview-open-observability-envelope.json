@@ -1,0 +1,84 @@
+{
+  "timestamp": "2026-08-03T19:14:06Z",
+  "run_id": "html-preview-server-20260803T191406Z-ontology-presentation",
+  "session_id": "2026-08-03-ontology-authority-agent-context-presentation",
+  "sigil": "html-preview-server",
+  "tier": "formulae",
+  "mode": "open",
+  "capability": {
+    "id": "html-preview-server",
+    "kind": "sigil",
+    "tier": "formulae",
+    "mode": "open",
+    "alias": "HTML Preview Server"
+  },
+  "lineage": {
+    "parent_run_id": "whisper-20260803T190653Z-ontology-html-presentation",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "whisper",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "live_presentation_html_derivative"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation.html",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/presentation-html-validation.md"
+    ]
+  },
+  "request": {
+    "raw": "$html-preview-server",
+    "summary": "Open the existing ontology HTML presentation through a verified managed loopback preview.",
+    "intent": "Provide a directly usable local URL while preserving exact-target, loopback-only, and open-only boundaries."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Managed loopback server started",
+      "Exact target bytes verified over HTTP",
+      "Verified presentation URL navigated with shared Chromium"
+    ],
+    "files_changed": [],
+    "validation": [
+      "target kind: file",
+      "root policy: containing-directory",
+      "port policy: dynamic",
+      "server state: started",
+      "host policy: 127.0.0.1 only",
+      "HTTP status: 200",
+      "exact target hash equality: pass",
+      "browser navigation: observed",
+      "observed title: 1/12 Knowledge spaces - Ontologies as Knowledge Spaces",
+      "active slide: slide-1",
+      "all presentation images loaded: pass",
+      "console errors: 1 missing optional favicon",
+      "page errors: none"
+    ],
+    "notes": "The server remains running until an explicit stop. The concrete URL is loopback-only. Browser navigation was observed in headless Chromium; the user-facing handoff is the clickable URL."
+  },
+  "observer": {
+    "quality_bar_status": "pass-with-residue",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "quality-bar",
+        "severity": "low",
+        "summary": "The browser requests an optional favicon that is not present.",
+        "evidence": "Chromium reports one 404 console message at http://127.0.0.1:39913/favicon.ico; the HTML document and all slide images load successfully."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "continue"
+  },
+  "target_artifact": "research/2026-08-03-ontology-authority-agent-context-presentation/presentation.html",
+  "server_state": "started",
+  "http_verification_status": "pass",
+  "browser_navigation": "observed",
+  "console_error_count": 1,
+  "root_policy": "containing-directory",
+  "port_policy": "dynamic"
+}

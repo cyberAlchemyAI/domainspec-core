@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OAIA-DG-002-accent-locale",
+  "candidates": [
+    {
+      "optionId": "OAIA-ACCENT-CLEAR-INTERNATIONAL",
+      "label": "Clear international English",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "audition-owner",
+      "evidence": [
+        "OPENAI-SPEECH-CONTRACT.md#observed-interface",
+        "UX-PLAN.md#human-question",
+        "chat:user:voice-tone-accent-most-important"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-ACCENT-LIGHT-BRAZILIAN",
+      "label": "English with a light Brazilian accent",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "audition-owner",
+      "evidence": [
+        "OPENAI-SPEECH-CONTRACT.md#observed-interface",
+        "UX-PLAN.md#human-question",
+        "chat:user:voice-tone-accent-most-important"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-ACCENT-GENERAL-AMERICAN",
+      "label": "General American English",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "audition-owner",
+      "evidence": [
+        "OPENAI-SPEECH-CONTRACT.md#observed-interface",
+        "UX-PLAN.md#human-question"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-ACCENT-PROVIDER-NATIVE",
+      "label": "Allow the selected stock voice's native variation",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "audition-owner",
+      "evidence": [
+        "UX-PLAN.md#owner-preselection-surface",
+        "WORK-PACK.md#blockers"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-ACCENT-DEFER",
+      "label": "Defer accent selection and keep rendering blocked",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md#blockers"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-ACCENT-STOP",
+      "label": "Stop the OpenAI audition route",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md#objective-summary"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

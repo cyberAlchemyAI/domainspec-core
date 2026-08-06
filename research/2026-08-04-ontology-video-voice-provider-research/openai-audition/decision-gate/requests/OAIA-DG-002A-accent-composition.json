@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OAIA-DG-002A-accent-composition",
+  "candidates": [
+    {
+      "optionId": "OAIA-ACCENT-COMBINED-INTERNATIONAL-BRAZILIAN",
+      "label": "One combined direction: clear international English with a subtle, natural Brazilian accent",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "audition-owner",
+      "evidence": [
+        "OPENAI-SPEECH-CONTRACT.md#observed-interface",
+        "SPEC.md#non-negotiable-invariants",
+        "UX-PLAN.md#human-question",
+        "chat:user:selection-1-and-2"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-ACCENT-TWO-VARIANTS",
+      "label": "Two separate accent variants: clear international English and light Brazilian-accented English",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "audition-owner",
+      "evidence": [
+        "SPEC.md#non-negotiable-invariants",
+        "UX-PLAN.md#human-question",
+        "chat:user:selection-1-and-2"
+      ],
+      "rejectionReasons": [
+        "The current protocol admits exactly one stock voice and configuration for two identical-setting repetitions.",
+        "Two accent variants would turn the audition into a preference carousel and require a scoped protocol revision through Invoke."
+      ]
+    },
+    {
+      "optionId": "OAIA-ACCENT-CLEAR-INTERNATIONAL",
+      "label": "Clear international English only",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "audition-owner",
+      "evidence": [
+        "OPENAI-SPEECH-CONTRACT.md#observed-interface",
+        "UX-PLAN.md#human-question"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-ACCENT-LIGHT-BRAZILIAN",
+      "label": "English with a light, natural Brazilian accent only",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "audition-owner",
+      "evidence": [
+        "OPENAI-SPEECH-CONTRACT.md#observed-interface",
+        "UX-PLAN.md#human-question"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-ACCENT-DEFER",
+      "label": "Defer accent selection and keep rendering blocked",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md#blockers"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-ACCENT-STOP",
+      "label": "Stop the OpenAI audition route",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md#objective-summary"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

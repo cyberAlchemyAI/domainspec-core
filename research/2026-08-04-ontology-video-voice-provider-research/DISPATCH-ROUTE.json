@@ -1,0 +1,821 @@
+{
+  "dispatch_id": "2026-08-04-ontology-video-voice-provider-research-route",
+  "intent": {
+    "raw": "Research possible AI voice and text-to-speech providers for the existing ontology educational video.",
+    "objective": "After explicit confirmation, execute a capability-bound research pipeline that produces an exact-bound provider comparison, a shortlist of at most three audition candidates, and a reproducible blind-audition protocol without creating accounts, using credentials, uploading the script, generating audio, cloning a voice, or claiming a completed video.",
+    "target_artifact": "research/2026-08-04-ontology-video-voice-provider-research/findings.md",
+    "operator_sentence": "Find voices worth auditioning, while refusing to turn documentation or marketing samples into proof of how the finished narration will sound."
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "observability_grouping"
+  ],
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Explore capability, governance, and production fit",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "explore",
+      "pattern": "fanout",
+      "parallel": true,
+      "roles": [
+        "technical-capability-explorer",
+        "rights-privacy-explorer",
+        "production-audition-explorer"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "external_context",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json"
+        },
+        {
+          "kind": "external_context",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/strategy-inventory-packet.json"
+        },
+        {
+          "kind": "external_context",
+          "ref": "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-voiceover.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-production-script.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-audition.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-captions.vtt"
+        },
+        {
+          "kind": "external_context",
+          "ref": "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-validation.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-technical-capability.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-rights-privacy.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-production-audition.json"
+        }
+      ],
+      "join_policy": "all",
+      "stop_conditions": [
+        "stop if a load-bearing provider claim lacks a current first-party source and exact source-local selector",
+        "stop if any agent attempts account creation, payment, credential use, upload, synthesis, cloning, or mutation outside the declared findings artifact"
+      ]
+    },
+    {
+      "step_id": "s2",
+      "name": "Synthesize an exact-bound provider comparison",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "synthesize",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "sequence"
+      ],
+      "depends_on_steps": [
+        "s1"
+      ],
+      "roles": [
+        "voice-provider-synthesizer"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-technical-capability.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-rights-privacy.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-production-audition.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-synthesis.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop if more than eight providers remain in the comparison or more than three remain in the audition shortlist",
+        "stop if subjective voice quality is scored without comparable generated waveform evidence"
+      ]
+    },
+    {
+      "step_id": "s3",
+      "name": "Attack precedent, non-vacuity, and definitional soundness",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "review",
+      "pattern": "validation",
+      "parallel": true,
+      "techniques": [
+        "sequence"
+      ],
+      "depends_on_steps": [
+        "s2"
+      ],
+      "roles": [
+        "precedent-reviewer",
+        "non-vacuity-reviewer",
+        "definitional-soundness-reviewer"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-synthesis.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-non-vacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-definitional-soundness.json"
+        }
+      ],
+      "join_policy": "all",
+      "evidence_artifact": "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-group-evidence.json",
+      "stop_conditions": [
+        "stop if an existing owner decision is found and its scope is not resolved",
+        "stop if no surviving provider supports a reproducible audition witness",
+        "stop if the comparison collapses hard gates and subjective preferences into one best-provider score"
+      ]
+    },
+    {
+      "step_id": "s4",
+      "name": "Write evidence-closed provider research findings",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "write-findings",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "sequence"
+      ],
+      "depends_on_steps": [
+        "s3"
+      ],
+      "roles": [
+        "voice-provider-writer"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-non-vacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-definitional-soundness.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/evidence-closure.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/research.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/findings.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-writer.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop unless exact-binding evidence closure returns ready",
+        "stop if findings imply provider endorsement, account action, audio synthesis, voice cloning, or completed video evidence"
+      ]
+    },
+    {
+      "step_id": "s5",
+      "name": "Audit the provider comparison and audition plan",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "audit",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "sequence"
+      ],
+      "depends_on_steps": [
+        "s4"
+      ],
+      "roles": [
+        "voice-provider-auditor"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/findings.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-writer.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-audit.json"
+        }
+      ],
+      "evidence_artifact": "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-audit.json",
+      "stop_conditions": [
+        "stop if the audit verdict cannot bind to findings.md and the exact evidence-closure digest",
+        "allow only the declared bounded writer revision route"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-explorer-evidence",
+      "kind": "validation",
+      "owner": "domainspec-subagents-strategy",
+      "condition": "All explorer returns are joined and preserve current official-source selectors, local fixture bindings, explicit unknowns, volatile-claim dates, and the no-account/no-upload/no-generation boundary.",
+      "applies_after_wave": "explorers",
+      "requires_role_receipts": [
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-technical-capability.json",
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-rights-privacy.json",
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-production-audition.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-synthesis",
+      "kind": "quality",
+      "owner": "research",
+      "condition": "The synthesis joins all explorers, preserves disagreements and unknowns, compares no more than eight providers, shortlists no more than three audition candidates, and does not infer subjective voice quality.",
+      "applies_after_wave": "synthesizer",
+      "requires_role_receipts": [
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-synthesis.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-evidence-closure",
+      "kind": "validation",
+      "owner": "domainspec-subagents-strategy",
+      "condition": "All three reviewer joins complete and exact-binding closure returns ready; provider-evidence defects are repaired through the declared explorer-feedback edge before writer launch.",
+      "applies_after_wave": "reviewers",
+      "requires_role_receipts": [
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-precedent.json",
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-non-vacuity.json",
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-definitional-soundness.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-writer",
+      "kind": "validation",
+      "owner": "research",
+      "condition": "findings.md is the writer's only mutation and contains the exact-bound decision aid, verdict matrix, shortlist, and blind-audition protocol without a voice-quality winner claim.",
+      "applies_after_wave": "writer",
+      "requires_role_receipts": [
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-writer.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-final-approval",
+      "kind": "human_approval",
+      "owner": "parent",
+      "condition": "The parent accepts the research findings only after the auditor completes and the parent independently checks current-source binding, typed unknowns, shortlist scope, audition reproducibility, and the no-audio-production claim ceiling.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "research_dispatch_registered",
+      "subagent_spawned",
+      "wave_joined",
+      "evidence_closure_checked",
+      "writer_started",
+      "auditor_completed",
+      "subagent_closed",
+      "research_dispatch_closed"
+    ],
+    "signal_grouping": "dispatch_id and wave_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-provider-source",
+        "kind": "artifact_import",
+        "from_owner": "external provider product, policy, pricing, terms, privacy, security, and consent documentation owners",
+        "to_owner": "repository-local voice-provider research",
+        "applies_to_steps": [
+          "s1",
+          "s2",
+          "s3",
+          "s4",
+          "s5"
+        ],
+        "contract": "External documentation is time-scoped evidence for comparison, not repository authority, legal advice, provider endorsement, or permission to upload, synthesize, clone, purchase, publish, or deploy.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-video-fixture",
+        "kind": "external_context",
+        "from_owner": "existing ontology educational-video text package",
+        "to_owner": "production-fit and audition research",
+        "applies_to_steps": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "contract": "The approved script, captions, image rhythm, and semantic boundaries are read-only evaluation fixtures; provider research may derive a test protocol but may not rewrite or upload them.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "domainspec-subagents-strategy and research type owner",
+      "execution": "Orchestrate through host-native operations only after explicit confirmation",
+      "validation": "Dispatch Spec, exact-binding evidence closure, three skeptic gates, independent audit, and parent final approval",
+      "evidence": "Current first-party provider sources plus exact local production fixtures, without legal, commercial, or production authority",
+      "memory": "Inventory and memory are read-only discovery leads and cannot establish provider facts or decisions",
+      "promotion": "The operator retains provider selection and any later account, payment, synthesis, cloning, publication, or production decision"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-exact-binding-closure",
+        "producer": "domainspec-subagents-strategy",
+        "required_fields": [
+          "dispatch_id",
+          "status",
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/evidence-closure.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-final-audit",
+        "producer": "voice-provider-auditor",
+        "required_fields": [
+          "dispatch_id",
+          "status",
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-audit.json"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "research/2026-08-04-ontology-video-voice-provider-research",
+        "owner": "research dispatch",
+        "write_policy": "The strategist writes research.md and receipts; the writer writes findings.md only; all other research agents are read-only."
+      },
+      {
+        "namespace": "research/2026-08-03-ontology-authority-agent-context-presentation",
+        "owner": "existing educational-video package",
+        "write_policy": "Read-only for this provider research dispatch."
+      },
+      {
+        "namespace": "external provider accounts, services, voices, and media",
+        "owner": "provider and operator",
+        "write_policy": "No account, payment, credential, upload, synthesis, cloning, publication, deployment, or production action is admitted."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "provider research findings and blind-audition plan",
+        "target": "provider selection, account creation, purchase, voice cloning, script upload, audio synthesis, public use, or finished video production",
+        "rule": "Research findings are a decision aid only; each target requires a separate operator decision, current terms review, appropriate authorization, and direct audio or production evidence.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not treat Inventory, memory, marketing samples, provider comparisons, or official documentation as proof of subjective voice quality.",
+    "Do not create provider accounts, accept terms, purchase, use credentials, upload the script or a voice, call APIs, synthesize audio, or clone a voice.",
+    "Do not collapse generated-audio ownership, commercial-use permission, privacy, retention, security, or voice-cloning consent.",
+    "Do not present a desk-research shortlist as the operator's final provider choice.",
+    "Do not claim an audio recording, mix, render, completed video, audience comprehension result, publication, deployment, or production readiness exists."
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Current provider capability, volatile prices and policies, rights and privacy constraints, and reproducible production fit require independent source corpora and adversarial gates while keeping raw provider research out of the parent context.",
+    "explanation": "Three explorers independently cover current technical capability, rights and data governance, and exact-fixture production testing; a synthesizer reconciles them; three skeptics attack precedent, non-vacuity, and definitional collapse; a writer persists evidence-closed findings; and an auditor checks the claim ceiling.",
+    "context": [
+      "The existing text package fixes 12:30, 1,543 English words, a reflective solo narrator, 120-130 words per minute, eight image worlds, and 89 caption cues.",
+      "Inventory contains no current TTS-provider comparison or provider owner decision.",
+      "Desk research may shortlist audition candidates but cannot establish subjective voice fit without comparable rendered audio from a fixed excerpt."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "technical-capability-explorer",
+        "purpose": "Compare current documented TTS capability, workflow, availability, and price from official sources.",
+        "owns": "Technical explorer receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/",
+          "arcanum/",
+          "cyberAlchemy-v2/"
+        ],
+        "input_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-technical-capability.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "rights-privacy-explorer",
+        "purpose": "Compare current documented rights, consent, privacy, retention, security, and commercial-use constraints from official sources.",
+        "owns": "Rights and privacy explorer receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/",
+          "arcanum/",
+          "cyberAlchemy-v2/"
+        ],
+        "input_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-rights-privacy.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "production-audition-explorer",
+        "purpose": "Bind the exact educational-video text package to a reproducible production and blind-listening protocol.",
+        "owns": "Production-audition explorer receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-voiceover.md",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/",
+          "arcanum/",
+          "cyberAlchemy-v2/"
+        ],
+        "input_refs": [
+          "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-voiceover.md",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-production-script.md",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-audition.md",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-captions.vtt",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-validation.md"
+        ],
+        "output_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-production-audition.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "voice-provider-synthesizer",
+        "purpose": "Reconcile capability, governance, and production evidence into an exact-bound comparison and audition shortlist.",
+        "owns": "Provider synthesis receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+        "capability_mode": "synthesize",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/",
+          "arcanum/",
+          "cyberAlchemy-v2/"
+        ],
+        "depends_on_roles": [
+          "technical-capability-explorer",
+          "rights-privacy-explorer",
+          "production-audition-explorer"
+        ],
+        "input_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-technical-capability.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-rights-privacy.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-production-audition.json"
+        ],
+        "output_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-synthesis.json"
+        ],
+        "applies_to_steps": [
+          "s2"
+        ]
+      },
+      {
+        "role_id": "precedent-reviewer",
+        "purpose": "Verify whether a repository owner or prior accepted artifact already constrains the provider decision.",
+        "owns": "Precedent reviewer receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/",
+          "arcanum/",
+          "cyberAlchemy-v2/"
+        ],
+        "depends_on_roles": [
+          "voice-provider-synthesizer"
+        ],
+        "input_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-synthesis.json"
+        ],
+        "output_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-precedent.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "non-vacuity-reviewer",
+        "purpose": "Require a reproducible fixed-excerpt witness for every shortlisted audition candidate.",
+        "owns": "Non-vacuity reviewer receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/",
+          "arcanum/",
+          "cyberAlchemy-v2/"
+        ],
+        "depends_on_roles": [
+          "voice-provider-synthesizer"
+        ],
+        "input_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-synthesis.json"
+        ],
+        "output_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-non-vacuity.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "definitional-soundness-reviewer",
+        "purpose": "Prevent the comparison from collapsing capability, quality, cost, rights, privacy, retention, consent, and final choice.",
+        "owns": "Definitional-soundness reviewer receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/",
+          "arcanum/",
+          "cyberAlchemy-v2/"
+        ],
+        "depends_on_roles": [
+          "voice-provider-synthesizer"
+        ],
+        "input_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-synthesis.json"
+        ],
+        "output_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-definitional-soundness.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "voice-provider-writer",
+        "purpose": "Write the evidence-closed provider comparison and audition plan without producing audio.",
+        "owns": "findings.md and writer receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-04-ontology-video-voice-provider-research/findings.md",
+        "capability_mode": "write-findings",
+        "agent_count": 1,
+        "mutation_policy": "artifact-only",
+        "write_scope": [
+          "research/2026-08-04-ontology-video-voice-provider-research/findings.md"
+        ],
+        "forbidden_write_scopes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/research.md",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/",
+          "arcanum/",
+          "cyberAlchemy-v2/"
+        ],
+        "depends_on_roles": [
+          "precedent-reviewer",
+          "non-vacuity-reviewer",
+          "definitional-soundness-reviewer"
+        ],
+        "input_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-precedent.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-non-vacuity.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/reviewer-definitional-soundness.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/evidence-closure.json"
+        ],
+        "output_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-writer.json"
+        ],
+        "applies_to_steps": [
+          "s4"
+        ]
+      },
+      {
+        "role_id": "voice-provider-auditor",
+        "purpose": "Audit exact source binding, category separation, shortlist scope, audition reproducibility, and claim ceiling.",
+        "owns": "Final audit recommendation receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-04-ontology-video-voice-provider-research/findings.md",
+        "capability_mode": "audit",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/",
+          "research/2026-08-03-ontology-authority-agent-context-presentation/",
+          "arcanum/",
+          "cyberAlchemy-v2/"
+        ],
+        "depends_on_roles": [
+          "voice-provider-writer"
+        ],
+        "input_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/findings.md",
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-writer.json"
+        ],
+        "output_refs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/receipts/provider-audit.json"
+        ],
+        "applies_to_steps": [
+          "s5"
+        ]
+      }
+    ],
+    "execution_waves": [
+      {
+        "wave_id": "explorers",
+        "role_ids": [
+          "technical-capability-explorer",
+          "rights-privacy-explorer",
+          "production-audition-explorer"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "gate_after": "g-explorer-evidence",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "synthesizer",
+        "role_ids": [
+          "voice-provider-synthesizer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "explorers"
+        ],
+        "gate_after": "g-synthesis",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "reviewers",
+        "role_ids": [
+          "precedent-reviewer",
+          "non-vacuity-reviewer",
+          "definitional-soundness-reviewer"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "synthesizer"
+        ],
+        "gate_after": "g-evidence-closure",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "writer",
+        "role_ids": [
+          "voice-provider-writer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "reviewers"
+        ],
+        "gate_after": "g-writer",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "auditor",
+        "role_ids": [
+          "voice-provider-auditor"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "writer"
+        ],
+        "on_incomplete": "block"
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "Approved by chat-confirmation-20260804T144739Z-7581d95f for frozen sheet SHA-256 7581d95f0f57dbfcf1b3e04d1f7f50feec800b7634a75f08f339cf6a981b35be; the operator replied `confirm`, explicitly approving the exact PASS/PASS material strategy.",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "capability_target",
+      "capability_mode",
+      "wave_id",
+      "write_scope",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  }
+}

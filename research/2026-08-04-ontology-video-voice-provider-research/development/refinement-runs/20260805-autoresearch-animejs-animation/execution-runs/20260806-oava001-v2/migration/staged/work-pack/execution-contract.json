@@ -1,0 +1,262 @@
+{
+  "schema_version": "2.0.0",
+  "work_pack_id": "WP-OAVA-S6-001",
+  "admission_timing": "selected-unit-at-task-session",
+  "evidence_ceiling": "candidate-local-contractual-readiness",
+  "active_frontier": [
+    "SWU-OAVA-001"
+  ],
+  "objective": {
+    "acceptance": [
+      "one valid candidate passes",
+      "five one-cause mutants return their exact stable codes",
+      "source, AutoAds, and canonical Anime.js vault boundaries remain byte-identical"
+    ]
+  },
+  "owner": {
+    "lifecycle_owner": "task-session",
+    "closeout_owner": "invoke:refresh:apply-approved",
+    "authority_class": "private",
+    "publication_class": "internal"
+  },
+  "material": {
+    "producer_owner": "invoke:plan:apply-approved",
+    "binding_timing": "after-selection",
+    "write_profile": "material-bound"
+  },
+  "validation": {
+    "command_id": "validate-SWU-OAVA-001",
+    "argv": [
+      "node",
+      "--test",
+      "prototype/test/candidate.test.mjs"
+    ],
+    "cwd": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation",
+    "timeout_seconds": 60,
+    "max_output_bytes": 1048576
+  },
+  "receipt": {
+    "terminal_schema": ".agents/skills/task-session/schemas/governance-terminal-receipt.schema.json",
+    "semantic_validator": ".agents/skills/task-session/scripts/task-session-governance-runner.py",
+    "required_result": "pass"
+  },
+  "closeout": {
+    "allowed_delta_policy": [
+      "evidence_added",
+      "status_changed",
+      "route_changed"
+    ],
+    "owner": "invoke:refresh:apply-approved",
+    "successor": "SWU-OAVA-002",
+    "successor_executed": false,
+    "compensation": {
+      "mode": "none",
+      "rationale": "The task has only repository-local reversible file writes and stops on failed validation."
+    }
+  },
+  "status": {
+    "artifact_authored": "authored",
+    "registry_released": "unreleased",
+    "mutation_runtime_ready": "pending-selection",
+    "audit_verdict": "pending",
+    "plan_artifact": "authored",
+    "audit": "pending",
+    "approval": "confirmed-by-current-user-request",
+    "chain": "not-started"
+  },
+  "risk": {
+    "maximum": "bounded-write"
+  },
+  "decision": {
+    "selection": "pending"
+  },
+  "continuity": {
+    "cursor": "SWU-OAVA-001",
+    "completed": [],
+    "joined_closeouts": [],
+    "projected_successor": "SWU-OAVA-001",
+    "equivalence_version": "1"
+  },
+  "source_snapshot": {
+    "schema_version": "oava-source-snapshot.v1",
+    "aggregate_sha256": "24cccc54c882532eb8d5506c60482c44517efb8066f3ff01918e05c1c61e48fa",
+    "artifacts": [
+      {
+        "path": "2026-08-03-ontology-authority-agent-context-presentation/educational-video-production-script.md",
+        "sha256": "ee5a3d5b2eae53cc712d2904971164a52d4e7ca248881ab2d1490cece7610784",
+        "size_bytes": 31752
+      },
+      {
+        "path": "2026-08-03-ontology-authority-agent-context-presentation/educational-video-captions.vtt",
+        "sha256": "aea66578bc3a192fa8c34f94088acee3880515d1f5dd416a31a38aee5c530358",
+        "size_bytes": 12214
+      },
+      {
+        "path": "2026-08-03-ontology-authority-agent-context-presentation/images/03-arrow-is-a-contract.png",
+        "sha256": "c0135e0a5505cb8ffd7f094fc34586c39fa3f4b4780e92f72b0c23a8efc59cc7",
+        "size_bytes": 1669908
+      }
+    ]
+  },
+  "execution_policy": {
+    "work_pack_id": "WP-OAVA-S6-001",
+    "route_policy": "automatic-in-scope",
+    "allowed_routes": [
+      {
+        "route_id": "task-session-SWU-OAVA-001",
+        "frontier_swu": "SWU-OAVA-001",
+        "capability": "task-session",
+        "mode": "execute",
+        "target": "SWU-OAVA-001",
+        "write_scope": [
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/contracts/animation-hypothesis-candidate.schema.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/source-snapshot.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.valid.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.source-drift.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.unknown-field.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.proof-inflation.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.missing-contradiction.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.reduced-motion-mismatch.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/validate-candidate.mjs",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/candidate.test.mjs",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session/governance-terminal-receipt.json"
+        ],
+        "effect_class": "repository-local-reversible",
+        "required_inputs": [
+          "plan-semantic-manifest.json",
+          "selection-receipt.json",
+          "mutation-admission-receipt.json",
+          "material-package.json"
+        ],
+        "expected_receipt": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session/governance-terminal-receipt.json"
+      },
+      {
+        "route_id": "invoke-refresh-SWU-OAVA-001",
+        "frontier_swu": "SWU-OAVA-001",
+        "capability": "invoke",
+        "mode": "refresh",
+        "target": "WP-OAVA-S6-001",
+        "write_scope": [
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF.md",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/closeouts/SWU-OAVA-001.json"
+        ],
+        "effect_class": "repository-local-reversible",
+        "required_inputs": [
+          "governance-terminal-receipt.json",
+          "validation-receipt.json",
+          "source-zero-delta-receipt.json"
+        ],
+        "expected_receipt": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/closeout/invoke-refresh-receipt.json"
+      }
+    ],
+    "allowed_routes_digest": "96bad9c28b6bb1bcf191e73b98e8ab0eb7a278b03ceed7bdf8128f60bb1dfe24",
+    "automatic_decisions": [
+      "internal-tool-selection",
+      "capability-owner-routing",
+      "reversible-local-default",
+      "fresh-task-session-resumption"
+    ],
+    "stop_decisions": [
+      "product-or-semantic-choice",
+      "scope-expansion",
+      "destructive-or-irreversible-effect",
+      "credentials-or-secret-access",
+      "external-message-or-network-effect",
+      "cost-policy-or-risk-acceptance",
+      "authority-promotion-publication-deployment",
+      "failed-acceptance-critical-validation"
+    ],
+    "scope_source": "exact-work-pack-and-captured-frontier",
+    "validation_policy": "owner-gates-remain-mandatory"
+  },
+  "execution_entry": {
+    "entry_state": "selection-ready",
+    "selected_unit": null,
+    "route_id": null,
+    "next_owner": {
+      "capability": "implementation-readiness",
+      "mode": "execute",
+      "target": "WP-OAVA-S6-001"
+    },
+    "blocker_code": null,
+    "authority_effect": "none"
+  },
+  "execution_binding": {
+    "unit_id": "SWU-OAVA-001",
+    "task_id": "TASK-OAVA-CONTRACTS",
+    "swu_id": "SWU-OAVA-001",
+    "dependencies": [],
+    "canonical_successors": [
+      "__complete__"
+    ],
+    "lifecycle_owner": "task-session",
+    "authority_class": "private",
+    "publication_class": "internal",
+    "attempt_contract": {
+      "id_policy": "attempt-id-equals-task-session-run-id",
+      "collision_policy": "reject-existing-different-ticket",
+      "success_teardown": "retain-terminal-receipt",
+      "failure_teardown": "retain-block-receipt"
+    },
+    "command": {
+      "argv": [
+        "node",
+        "--test",
+        "prototype/test/candidate.test.mjs"
+      ],
+      "cwd": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation",
+      "risk_class": "bounded-write"
+    },
+    "validation_contracts": [
+      {
+        "command_id": "validate-SWU-OAVA-001",
+        "argv": [
+          "node",
+          "--test",
+          "prototype/test/candidate.test.mjs"
+        ],
+        "cwd": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation",
+        "timeout_seconds": 60,
+        "max_output_bytes": 1048576
+      }
+    ],
+    "material_writes": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/contracts/animation-hypothesis-candidate.schema.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/source-snapshot.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.valid.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.source-drift.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.unknown-field.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.proof-inflation.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.missing-contradiction.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.reduced-motion-mismatch.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/validate-candidate.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/candidate.test.mjs"
+    ],
+    "execution_outputs": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session/governance-terminal-receipt.json"
+    ],
+    "allowed_writes": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/contracts/animation-hypothesis-candidate.schema.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/source-snapshot.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.valid.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.source-drift.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.unknown-field.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.proof-inflation.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.missing-contradiction.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/fixtures/candidate.reduced-motion-mismatch.json",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/validate-candidate.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/candidate.test.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session/governance-terminal-receipt.json"
+    ],
+    "material_package": {
+      "package_ref": null,
+      "producer_owner_ref": "invoke:plan:apply-approved",
+      "producer_receipt_ref": null,
+      "schema_ref": null,
+      "declared_sha256": null,
+      "target_inventory_ref": null
+    },
+    "byte_baselines": []
+  }
+}

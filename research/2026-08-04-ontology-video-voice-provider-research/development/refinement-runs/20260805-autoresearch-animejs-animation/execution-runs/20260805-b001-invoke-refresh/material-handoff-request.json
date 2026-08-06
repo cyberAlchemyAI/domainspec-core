@@ -1,0 +1,32 @@
+{
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "authoredPhaseStatus": "pass",
+  "requestedHandoff": "ready",
+  "expectedPackageId": "oava-b001-invoke-refresh-20260805",
+  "expectedPackageDigest": "f4a8df7b3eb30d7e1c8a1f907c704ee74d510ce20c245f96be771a4bc672bd66",
+  "materialReceipt": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "lifecycleOwner": "invoke",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "f4a8df7b3eb30d7e1c8a1f907c704ee74d510ce20c245f96be771a4bc672bd66",
+    "packageId": "oava-b001-invoke-refresh-20260805",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "internal",
+    "reasons": [],
+    "schemaVersion": "1.0.0",
+    "validatedPaths": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF.md",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md"
+    ],
+    "validationCommands": [
+      "cmp --silent execution-runs/20260805-b001-invoke-refresh/staging/WORK-PACK.md WORK-PACK.md",
+      "cmp --silent execution-runs/20260805-b001-invoke-refresh/staging/RUNTIME-HANDOFF.md RUNTIME-HANDOFF.md",
+      "python3 -m json.tool execution-runs/20260805-b001-invoke-refresh/refresh-report.json",
+      "rg -n 'B-001|OAVA-003|B-002|B-003|selected SWU' WORK-PACK.md RUNTIME-HANDOFF.md"
+    ]
+  }
+}

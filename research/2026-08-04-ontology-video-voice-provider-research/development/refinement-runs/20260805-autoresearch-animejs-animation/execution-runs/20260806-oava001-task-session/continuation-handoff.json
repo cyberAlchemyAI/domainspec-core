@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "handoff_id": "oava001-schema-invalid-fe9e62a18d220d79",
+  "created_at": "2026-08-06T03:01:57Z",
+  "source": {
+    "capability": "task-session",
+    "result": "BLOCK",
+    "receipt": {
+      "path": "execution-runs/20260806-oava001-task-session/fast-entry-receipt.json",
+      "sha256": "8837ac3def88c7e13cb59d990b87edfe7a8b50d0e9ed0e6a91cf60956ca20bd9",
+      "size_bytes": 1030
+    }
+  },
+  "target_scope": {
+    "work_pack": "WORK-PACK.md",
+    "work_pack_sha256": "9a637ef64d788907af126205e3928aea828a4b86aa3bad49e691e6b88c15646d",
+    "task": "work-pack/tasks/TASK-OAVA-CONTRACTS.md",
+    "task_sha256": "30d9218bc72154a5df70f8deff5b7c9d805f424af710d2176db1b99249e423f3",
+    "swu_id": "SWU-OAVA-001"
+  },
+  "blocker": {
+    "class": "missing-execution-admission",
+    "code": "SCHEMA_INVALID",
+    "fingerprint": "fe9e62a18d220d792f7fbfdbd8ee4f74b6aaa5b4a8e92732d63d238d82451ca2",
+    "detail": "The selected Work Pack has no schema-valid execution policy, execution-entry projection, or ExecutionIntentBinding for SWU-OAVA-001."
+  },
+  "controlling_evidence": [
+    "WORK-PACK.md declares selected SWU as none.",
+    "SWU-OAVA-001 exists with bounded write scope, done criteria, and validation.",
+    "The fast-entry guard read all four logical inputs and stopped before Context Builder or mutation."
+  ],
+  "next_route_advice": [
+    {
+      "rank": 1,
+      "capability": "implementation-readiness",
+      "mode": "execute",
+      "target": "SWU-OAVA-001 in this exact Work Pack",
+      "effect": "Materialize a current execution policy, selected-unit projection, execution-entry projection, and route-bound ExecutionIntentBinding."
+    },
+    {
+      "rank": 2,
+      "capability": "task-session",
+      "mode": "execute",
+      "target": "SWU-OAVA-001",
+      "precondition": "Resume only from a schema-valid TASK_READY fast-entry receipt."
+    }
+  ],
+  "unblock_actions": [
+    "Bind the exact Work Pack semantic identity and SWU-OAVA-001 frontier selection.",
+    "Emit the schema-valid execution policy, execution-entry projection, and ExecutionIntentBinding required by Task Session v0.8.1.",
+    "Bind the declared OAVA-001 write scope, done criteria, validation command, producer material contract, target baselines, and closeout receipt contract before mutation admission.",
+    "Rerun the fast-entry classifier and require TASK_READY before Context Builder."
+  ],
+  "dispatch": {
+    "requested": false,
+    "performed": false,
+    "reason": "The Task Session request did not include --follow-next-route or authorization for the owner route."
+  },
+  "authority_effect": "none"
+}

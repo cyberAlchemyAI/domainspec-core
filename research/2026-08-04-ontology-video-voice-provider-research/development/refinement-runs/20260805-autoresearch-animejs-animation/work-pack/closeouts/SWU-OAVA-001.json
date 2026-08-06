@@ -1,0 +1,71 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "oava001-terminal-closeout-20260806",
+  "source": {
+    "phase": "terminal",
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "pass",
+    "receipt": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/task-session/governance-run-v2.0.2/commit-receipt.json",
+    "blocker_fingerprint": "27fc669eaccba526cec0a66c46c38eb6f54390edfd21b7334c69310d4e6e8c21",
+    "legacy_adaptation": false,
+    "pre_execution_context": null
+  },
+  "authorization": {
+    "source": "ad-hoc-exact-route",
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "direct user confirmation to repair and execute the OAVA Work Pack",
+    "authorization_prompt_required": false,
+    "work_pack_binding": null,
+    "binding": null
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "invoke",
+      "evidence": [
+        "passing committed SWU-OAVA-001 transaction",
+        "PROCEED closeout preflight",
+        "exact three-target closeout inventory"
+      ],
+      "required_inputs": [
+        "commit receipt",
+        "closeout preflight receipt",
+        "validated Invoke material package"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "execution-runs/20260806-oava001-v2/closeout/invoke-refresh-receipt.json",
+      "fallback": "block closeout without changing the passing implementation result"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The Work Pack declares one exact lifecycle owner and all preflight inputs are present."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "inline-owner-isolated-material-package",
+    "owner_receipt": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava001-v2/closeout/invoke-refresh-receipt.json",
+    "owner_receipt_ref": null,
+    "join_validation": "pass",
+    "helper_closeout": "pass",
+    "dispatch_count": 1,
+    "join_count": 1,
+    "router_mutations": []
+  },
+  "owner_boundary": "pass",
+  "control_handle": null,
+  "returned_next_route": {
+    "capability": "invoke",
+    "mode": "plan",
+    "target": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/EXECUTION-PACK.md#SWU-OAVA-002"
+  }
+}
