@@ -1,0 +1,64 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-08-05-arcanum-structural-governance-research",
+  "run_id": "structural-governance-run-01",
+  "state": "wave_ready",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "auditor",
+    "role_ids": [
+      "auditor"
+    ],
+    "parallel": false,
+    "join_policy": "all",
+    "depends_on_waves": [
+      "writer"
+    ],
+    "gate_after": null,
+    "on_incomplete": "block"
+  },
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0009",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s6-audit"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-05-arcanum-structural-governance-research",
+      "forbidden_write_scopes": [
+        ".agents/",
+        ".claude/",
+        "arcanum/",
+        "implementation/",
+        "cyberAlchemy-v2/",
+        "projects/",
+        ".craft/",
+        "CRAFT.md",
+        "telemetry/agents/",
+        ".git/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-05-arcanum-structural-governance-research/findings.md",
+        "ops/development/2026-08-05-arcanum-structural-governance-research/receipts/writer.json"
+      ],
+      "mode": "audit",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "ops/development/2026-08-05-arcanum-structural-governance-research/receipts/audit.json"
+      ],
+      "role": "auditor",
+      "run_id": "structural-governance-run-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s6-audit",
+      "target": "ops/development/2026-08-05-arcanum-structural-governance-research/dispatch-sheet.json#auditor",
+      "wave_id": "auditor",
+      "write_scope": []
+    }
+  ],
+  "action_artifacts": [
+    "actions/spawn-0009.json"
+  ]
+}

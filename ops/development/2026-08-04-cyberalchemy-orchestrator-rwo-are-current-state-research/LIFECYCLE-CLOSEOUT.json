@@ -1,0 +1,33 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.lifecycle-closeout.v0.1",
+  "dispatch_id": "2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state",
+  "run_id": "run-2026-08-05-cyberalchemy-rwo-are-01",
+  "state": "complete",
+  "actions": [
+    {"action_id":"spawn-0001","role":"implementation-explorer","agent_id":"/root/rwo_impl_spawn_0001","terminal":true,"closed":true,"receipt":"receipts/implementation-explorer.json"},
+    {"action_id":"spawn-0002","role":"proposal-explorer","agent_id":"/root/rwo_proposal_spawn_0002","terminal":true,"closed":true,"receipt":"receipts/proposal-explorer.json"},
+    {"action_id":"spawn-0003","role":"integration-explorer","agent_id":"/root/rwo_integration_spawn_0003","terminal":true,"closed":true,"receipt":"receipts/integration-explorer.json"},
+    {"action_id":"spawn-0004","role":"state-synthesizer","agent_id":"/root/rwo_synthesis_spawn_0004","terminal":true,"closed":true,"receipt":"receipts/state-synthesis.json"},
+    {"action_id":"spawn-0005","role":"precedent-reviewer","agent_id":"/root/rwo_precedent_spawn_0005","terminal":true,"closed":true,"receipt":"receipts/reviewer-precedent.json"},
+    {"action_id":"spawn-0006","role":"non-vacuity-reviewer","agent_id":"/root/rwo_nonvacuity_spawn_0006","terminal":true,"closed":true,"receipt":"receipts/reviewer-non-vacuity.json"},
+    {"action_id":"spawn-0007","role":"definitional-reviewer","agent_id":"/root/rwo_definitional_spawn_0007","terminal":true,"closed":true,"receipt":"receipts/reviewer-definitional.json"},
+    {"action_id":"spawn-0008","role":"findings-writer","agent_id":"/root/rwo_writer_spawn_0008","terminal":true,"closed":true,"receipt":"receipts/findings-writer.json"},
+    {"action_id":"spawn-0009","role":"findings-auditor","agent_id":"/root/rwo_audit_spawn_0009","terminal":true,"closed":true,"receipt":"receipts/findings-audit.json"}
+  ],
+  "feedback": {
+    "synthesis_review_turns": 2,
+    "auditor_writer_revisions": 1,
+    "whole_sequence_loops_used": 1,
+    "prompts": "feedback-prompts.json"
+  },
+  "runtime_evidence": {
+    "events": "orchestrate/run-2026-08-05-cyberalchemy-rwo-are-01/events.jsonl",
+    "validation": "orchestrate/run-2026-08-05-cyberalchemy-rwo-are-01/event-validation.json",
+    "status": "pass"
+  },
+  "runtime_residue": [
+    "The native coordinator allocated duplicate action IDs after successive reductions. Duplicate actions were never executed; globally unique spawn-0005 through spawn-0009 bindings and explicit repair receipts preserve the causal run.",
+    "Reviewer feedback turns reuse the originally spawned native agents; they are recorded as feedback prompts rather than duplicate spawn or terminal lifecycle events."
+  ]
+}
+

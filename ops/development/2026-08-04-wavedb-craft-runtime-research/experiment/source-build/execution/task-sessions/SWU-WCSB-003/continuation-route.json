@@ -1,0 +1,51 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "wcsb-003-node26-blocked-closeout-20260805",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "block",
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-003/terminal-receipt.json",
+    "blocker_fingerprint": "4d0501f938fcb1394ac6921dede11b32bcd149bbceb0a06889928ee01f9764c8",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "Task Session closeout contract, direct Node 26 authorization, and terminal BLOCK receipt"
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "wavedb-source-build-invoke-owner",
+      "evidence": [
+        "terminal receipt requires Node 26 blocker synchronization",
+        "preflight binds six targets and their live baselines",
+        "the blocked SWU has no same-pack successor or parent refresh"
+      ],
+      "required_inputs": ["source receipt", "six-target preflight", "material package and receipt", "handoff receipt", "owner validation"],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "Invoke Refresh owner receipt preserving both attempts and returning no successor",
+      "fallback": "leave owner artifacts stale and block closeout"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "One exact bookkeeping owner route was declared and fully bound."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "inline-native-skill",
+    "owner_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-003/invoke-refresh-receipt.json",
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": null
+}

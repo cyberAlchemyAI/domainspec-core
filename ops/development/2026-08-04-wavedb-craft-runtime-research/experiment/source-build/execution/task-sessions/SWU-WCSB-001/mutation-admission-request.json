@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.2.0",
+  "executionMode": "routed-mutation",
+  "taskId": "TASK-WCSB-01",
+  "swuId": "SWU-WCSB-001",
+  "controlArtifacts": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+      "sha256": "a5c0c5876982789b98222c6dcb5231f5cf9ab3541083253c44138f94a49b92ad",
+      "sizeBytes": 9334,
+      "role": "work-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-01-RUNNER.md",
+      "sha256": "53b8ff353c97b805d396ed2241a1550bebc56bf5d062356d062bc71a555bc883",
+      "sizeBytes": 4713,
+      "role": "task-contract",
+      "authorityClass": "private"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/context-pack.json",
+      "sha256": "af36c90c2e8b97ed343f587af0dacadadfd7bd5e61f043ef1efa551a4c34c0af",
+      "sizeBytes": 3820,
+      "role": "context-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/design/ARCHITECTURE.md",
+      "sha256": "c4392f1fba46e68b95dcc5e5f6d349c13b7078efb2d60bd27d441aeb601c5ed6",
+      "sizeBytes": 9101,
+      "role": "source",
+      "authorityClass": "private"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/design/SOURCE-CONTRACTS.md",
+      "sha256": "b730430e919e7a98288321c30f6b5399fa76dcdb3a718ecce9f9bb45b4ba74f8",
+      "sizeBytes": 1602,
+      "role": "source",
+      "authorityClass": "private"
+    }
+  ],
+  "dependencyFrontier": [],
+  "materialPackage": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/materials/SWU-WCSB-001/material-package.json",
+    "sha256": "e75d01e3f72ca417edb4f5b97277bb57f5ee2d23a668143fd3da4a57714af4d2",
+    "sizeBytes": 8744
+  },
+  "materialReceipt": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/materials/SWU-WCSB-001/material-package-receipt.json",
+    "sha256": "d631d1b20a0503525f5eef8115bfb4e672db501fa6da352a033503bb7ad8e62d",
+    "sizeBytes": 1850
+  },
+  "producerReceiptSchema": {
+    "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "89b842ac515c03f7b12b04ab3bfdd2e9d473005b5c863eae237bc2f5ee980b66",
+    "sizeBytes": 4078
+  },
+  "materialWrites": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.gitignore",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/run_source_build.py",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/source-build-receipt.schema.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/cases.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/fixture_driver.py",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/run-fixtures.sh",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py"
+  ],
+  "executionOutputs": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/terminal-receipt.json"
+  ],
+  "allowedWrites": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.gitignore",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/terminal-receipt.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/run_source_build.py",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/source-build-receipt.schema.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/cases.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/fixture_driver.py",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/run-fixtures.sh",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py"
+  ],
+  "validationCommands": [
+    "python3 -m py_compile runtime/run_source_build.py runtime/validate_source_build.py runtime/tests/fixtures/fixture_driver.py",
+    "python3 runtime/run_source_build.py --help",
+    "python3 runtime/validate_source_build.py --help",
+    "bash runtime/tests/run-fixtures.sh",
+    "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.gitignore ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime"
+  ],
+  "lifecycleOwner": "wavedb-source-build-invoke-owner",
+  "authorityClass": "private",
+  "publicationClass": "internal"
+}

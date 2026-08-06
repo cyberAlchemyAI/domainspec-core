@@ -1,0 +1,290 @@
+{
+  "schema_version": "arcanum.research-evidence-closure.v0.1",
+  "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+  "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+  "status": "pass",
+  "decision": "writer_admitted_with_closed_corrections",
+  "research_owner": "/root",
+  "claim_ceiling": "static first-party source review plus unexecuted synthetic fixture design; no WaveDB installation, build, runtime, durability, benchmark, security, license, publication, promotion, or production proof",
+  "immutable_sources": {
+    "wavedb": {
+      "repository": "vijayee/WaveDB",
+      "commit": "01c77e8b70f71de9b72480e73a3a179f6e93a009",
+      "readme_blob": "cc11106438a926849ed91cac18a773ccae2fba19",
+      "readme_sha256": "140880186286dc723118526d110075fe2520655cc112e4e9f694e15915c35095",
+      "node_manifest_sha256": "82e87aaaac10113cb1294732bf149356f6f7df76ecde0259181999c6a3fe9dc3"
+    },
+    "arcanum": {
+      "commit": "07b01c9dd4e918ae0b0d83f6a2cde52ea8f9a295",
+      "blobs": {
+        "arcana/craft/SKILL.md": "d7df17c75d5c644799dd5cb8cd2299df393222bd",
+        "arcana/craft/ARCHITECTURE.md": "e5a37d792200adefbea838fa53efaa3b2bb285e2",
+        "arcana/craft/README.md": "ff4a8eaacda0677a6e9a93bf18fcbe7bd12ad2bb",
+        "arcana/craft/templates/ledger.schema.yml": "3dd789e27cc711299104d8532c0f6b94c6619ae3",
+        "arcana/craft/templates/schemas/ledger-core.schema.yml": "0fad7f0c356fa4d276ab9106c57a94b810690141",
+        "arcana/craft/templates/schemas/index.schema.yml": "cbd7b6c67591abda5aa8d97f490c6d12c6480dd5",
+        "arcana/craft/examples/product-launch-CRAFT.md": "87866a77d26286b164fbf4e5f4bc5fde3a17b7bf",
+        "arcana/craft/examples/product-launch-ledger.yml": "97d5e014562a73d953f9e77a5fb29c1f8f7f97c2",
+        "development/craft/CRAFT-REFINE-RUNTIME-STRATEGY.md": "d6c777edfd0881a88941f3a5b0371a48b1a85e03",
+        "development/craft/CRAFT-RUNTIME-DESIGN.md": "26e355aab6dc3bb73d35d233e094d66e5cb31543"
+      }
+    },
+    "frozen_research": {
+      "path": "research.md",
+      "sha256": "1a5999ab113e7d22a52022e18a817912f1575ffe2db2b0422e76bb0762af55bd"
+    }
+  },
+  "admitted_claims": [
+    {
+      "id": "AUTH-001",
+      "claim": "Canonical Craft authority remains arcanum/arcana/craft/; .craft/ledger.yml is sole project-local source truth; CRAFT.md and index are derived.",
+      "source": "Arcanum commit and blobs above",
+      "selector": "SKILL.md:33-71,312-316; ARCHITECTURE.md:39-79,241-261",
+      "explorer_ref": "research.md:53-78",
+      "scope": "canonical contract inspection",
+      "proof_status": "observed",
+      "verdict": "BOUND"
+    },
+    {
+      "id": "AUTH-002",
+      "claim": "arcanum/development/craft documents are historical evidence only.",
+      "source": "Arcanum historical blobs above",
+      "selector": "CRAFT-REFINE-RUNTIME-STRATEGY.md:3-90,146-149; CRAFT-RUNTIME-DESIGN.md:16-20",
+      "explorer_ref": "research.md:164-166,192-193",
+      "scope": "historical evidence",
+      "proof_status": "observed",
+      "verdict": "BOUND"
+    },
+    {
+      "id": "WDB-001",
+      "claim": "Hierarchical paths and bounded iterators are source-observed and plausible for projection namespaces.",
+      "source": "WaveDB commit above",
+      "selector": "src/HBTrie/path.h:19-57; src/Database/database_iterator.h:31-55",
+      "explorer_ref": "research.md:23",
+      "scope": "first-party static source",
+      "proof_status": "observed",
+      "verdict": "BOUND"
+    },
+    {
+      "id": "WDB-002",
+      "claim": "Normal batches share one WAL record/transaction, but true failure atomicity is not established.",
+      "source": "WaveDB commit above",
+      "selector": "src/Database/batch.h:30-35; database.c:2931-3064; wal_manager.c:1646-1737,1865-1873",
+      "explorer_ref": "research.md:24,210",
+      "scope": "first-party static source",
+      "proof_status": "observed",
+      "verdict": "HOLD"
+    },
+    {
+      "id": "WDB-003",
+      "claim": "Iterator MVCC and database_snapshot persistence checkpoint are distinct.",
+      "source": "WaveDB commit above",
+      "selector": "database.c:1890-1931,2587-2604; database_iterator.c:792-873",
+      "explorer_ref": "research.md:25,209,268",
+      "scope": "first-party static source",
+      "proof_status": "observed",
+      "verdict": "BOUND for one iterator scan; HOLD broader snapshot claims"
+    },
+    {
+      "id": "WDB-004",
+      "claim": "WAL modes exist but crash and power durability remain unexecuted.",
+      "source": "WaveDB commit above",
+      "selector": "wal.h:58-60; wal_manager.c:263-299,1475-1627; README.md:129-146",
+      "explorer_ref": "research.md:26,211-212",
+      "scope": "first-party static source",
+      "proof_status": "observed",
+      "verdict": "HOLD"
+    },
+    {
+      "id": "WDB-005",
+      "claim": "Corruption paths can return a valid prefix; in-place successful recovery is unsafe for Craft.",
+      "source": "WaveDB commit above",
+      "selector": "wal_manager.c:320-432,1646-1737",
+      "explorer_ref": "research.md:24,214",
+      "scope": "first-party static failure-path inspection",
+      "proof_status": "observed",
+      "verdict": "KILL in-place recovery; BOUND quarantine/rebuild plan"
+    },
+    {
+      "id": "WDB-006",
+      "claim": "Reviewed Node package identity is @vijayee/wavedb@0.15.8, while README install text is unscoped; installation remains unverified.",
+      "source": "WaveDB commit and Node manifest digest above",
+      "selector": "bindings/nodejs/package.json:1-29; README.md:351-356",
+      "explorer_ref": "research.md:29,223",
+      "scope": "static package metadata",
+      "proof_status": "observed",
+      "verdict": "HOLD; KILL unscoped install"
+    },
+    {
+      "id": "WDB-007",
+      "claim": "Encryption implementation is present but reopen, rotation, key loss, and asymmetric behavior are unresolved.",
+      "source": "WaveDB commit above",
+      "selector": "encryption.c:32-112,265-281; database_config.h:36-49,200-214",
+      "explorer_ref": "research.md:30,220-221",
+      "scope": "static security inspection",
+      "proof_status": "observed",
+      "verdict": "HOLD"
+    },
+    {
+      "id": "LIC-001",
+      "claim": "Node binding has MIT text; core and dependency license closure is incomplete.",
+      "source": "WaveDB commit above",
+      "selector": "README.md:561-563; bindings/nodejs/LICENSE:1-20; .gitmodules:1-12",
+      "explorer_ref": "research.md:31,33,223",
+      "scope": "static repository inspection",
+      "proof_status": "observed",
+      "verdict": "HOLD publication"
+    },
+    {
+      "id": "FIX-001",
+      "claim": "Synthetic YAML and CRAFT.md inputs are finite test witnesses.",
+      "source": "frozen research digest above",
+      "selector": "research.md:270-490",
+      "explorer_ref": "Agent 4",
+      "scope": "unexecuted fixture design",
+      "proof_status": "unverified",
+      "verdict": "BOUND as input only"
+    },
+    {
+      "id": "POST-001",
+      "claim": "Only projection/cache may advance to a candidate-local prototype.",
+      "source": "cross-source synthesis plus all three reviews",
+      "selector": "research.md:160,201-224,493-524",
+      "explorer_ref": "receipts/wavedb-craft-synthesis.json and reviewer receipts",
+      "scope": "research recommendation",
+      "proof_status": "observed",
+      "verdict": "BOUND"
+    },
+    {
+      "id": "POST-002",
+      "claim": "Transactional sidecar retaining YAML authority is not an admitted implementation slice.",
+      "source": "cross-source synthesis plus reviews",
+      "selector": "research.md:161,206-233",
+      "explorer_ref": "reviewer receipts",
+      "scope": "design residue",
+      "proof_status": "unverified",
+      "verdict": "HOLD"
+    },
+    {
+      "id": "POST-003",
+      "claim": "WaveDB canonical replacement is outside this authority-preserving route.",
+      "source": "Craft contract plus WaveDB failure evidence",
+      "selector": "research.md:162,199,201-224",
+      "explorer_ref": "Agents 2 and 3",
+      "scope": "route decision",
+      "proof_status": "observed",
+      "verdict": "KILL for this route"
+    }
+  ],
+  "fixture_closure": {
+    "ledger_fixture_sha256": "39ab11452f8983999a8f2154bd9255e2e0ed8363243b804c3d67dc48f1a51af7",
+    "craft_md_fixture_sha256": "2ccd199aaa6d75e64e26f5cd9a12a9d90c0c4585a167d3bce171350de3c4f85a",
+    "method": "independent extraction from frozen research code blocks with LF and one terminal newline",
+    "unresolved": [
+      "H_S requires frozen YAML parser/version/options",
+      "H_P values require complete key/value manifest",
+      "index JSON hash requires materialized complete I0"
+    ]
+  },
+  "closed_review_corrections": [
+    {
+      "ids": [
+        "PR-006"
+      ],
+      "resolution": "Prototype v0 has no mutable active-generation pointer. It selects an isolated digest-named test generation from freshly validated YAML and refuses to serve it until full verification passes."
+    },
+    {
+      "ids": [
+        "PR-007",
+        "NC-13"
+      ],
+      "resolution": "WaveDB stores only receipt_refs/<import-id> with externally owned artifact path and digest; database values are never Craft receipts."
+    },
+    {
+      "ids": [
+        "NC-07"
+      ],
+      "resolution": "Any WaveDB open/read/scan/batch/checkpoint/reopen/projection comparison is adapter observation only, never Craft validation, acceptance, promotion, authority, or readiness."
+    },
+    {
+      "ids": [
+        "NC-12"
+      ],
+      "resolution": "source/ledger.yml and rows are immutable verification copies for one digest epoch and may not reconstruct, restore, mutate, or replace YAML."
+    },
+    {
+      "ids": [
+        "PR-008",
+        "PR-009"
+      ],
+      "resolution": "Pointers were repaired and local Arcanum commit/blob identities pinned above."
+    },
+    {
+      "ids": [
+        "NV-002",
+        "NV-003"
+      ],
+      "resolution": "Only literal L0 and C0 hashes are closed here. H_S, H_P, I0 and all sorted key/value digests remain mandatory Work Pack outputs, not claims."
+    },
+    {
+      "ids": [
+        "NV-004"
+      ],
+      "resolution": "Iterator test must record explicit open barrier, first item, B1 completion, remaining old-stream bytes, and full new-stream bytes."
+    },
+    {
+      "ids": [
+        "NV-005"
+      ],
+      "resolution": "Wrong-workspace test seeds a beta sentinel, proves direct beta visibility, and requires alpha-bound rejection before row emission."
+    },
+    {
+      "ids": [
+        "NV-006"
+      ],
+      "resolution": "No derived-view import API exists in v0; test only that edited CRAFT.md is overwritten from unchanged YAML and is never ingested."
+    },
+    {
+      "ids": [
+        "NV-007",
+        "NV-008"
+      ],
+      "resolution": "Rename preflight test batch-preflight-rejection. True mid-apply remains HOLD. Crash phases prove only that an unverified isolated generation is never served; no power-loss claim."
+    },
+    {
+      "ids": [
+        "NV-009"
+      ],
+      "resolution": "Multi-writer adapter support is excluded and HOLD. A/B race is a WaveDB observation only, not lease/CAS proof."
+    },
+    {
+      "ids": [
+        "NV-010"
+      ],
+      "resolution": "Corruption controls recompute projection and derived hashes before output, require zero output, quarantine, fresh rebuild, and exact post-rebuild hashes."
+    },
+    {
+      "ids": [
+        "NV-011"
+      ],
+      "resolution": "Schema migration is excluded from v0 acceptance and remains HOLD; disposable test cleanup is not workspace deletion proof."
+    },
+    {
+      "ids": [
+        "NV-012"
+      ],
+      "resolution": "Packaging and license closure are separate publication gates and do not gate the source-level recommendation; implementation cannot begin installation without exact package and owner approval."
+    }
+  ],
+  "writer_constraints": [
+    "Write only findings.md; never edit research.md.",
+    "State that no WaveDB code was installed, built, or executed.",
+    "Recommend only an isolated digest-bound projection experiment, not a ready runtime.",
+    "Use no active-generation pointer in v0; direct-select a verified digest-named test generation.",
+    "Use receipt references and digests only; never database-resident Craft receipts.",
+    "Mark every unexecuted acceptance control as planned or HOLD.",
+    "Keep transactional sidecar HOLD and canonical replacement KILL.",
+    "Report H_L and C0 hashes as independently derived fixture constants; keep H_S, H_P and I0 hashes unresolved until materialized."
+  ]
+}
+

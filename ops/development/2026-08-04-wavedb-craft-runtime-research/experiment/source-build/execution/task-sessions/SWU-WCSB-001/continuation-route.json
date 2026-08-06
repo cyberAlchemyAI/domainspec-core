@@ -1,0 +1,61 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "wcsb-001-closeout-20260804",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "pass",
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/terminal-receipt.json",
+    "blocker_fingerprint": "f48a5357955f80fb9ca5a377a4a10a7c6ce2362cdc1d944072f52432de1ad22f",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "Task Session closeout contract plus terminal pass receipt"
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "wavedb-source-build-invoke-owner",
+      "evidence": [
+        "terminal receipt explicitly names the closeout owner",
+        "preflight binds three targets and their live baselines",
+        "SWU-WCSB-002 is the unique declared dependency-ready successor"
+      ],
+      "required_inputs": [
+        "source receipt",
+        "target inventory and baselines",
+        "material package and receipt",
+        "owner validation"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "invoke-refresh owner receipt with one unique successor",
+      "fallback": "stop with closeout blocked"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The terminal contract names one exact owner route and all required inputs are present."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "inline-native-skill",
+    "owner_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/invoke-refresh-receipt.json",
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "task-session",
+    "mode": "execute",
+    "target": "SWU-WCSB-002"
+  }
+}
+

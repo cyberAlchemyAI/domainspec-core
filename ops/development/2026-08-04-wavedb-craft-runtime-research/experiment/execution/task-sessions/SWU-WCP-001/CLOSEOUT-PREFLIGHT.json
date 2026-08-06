@@ -1,0 +1,47 @@
+{
+  "schema_version": "candidate-local-1.0.0",
+  "preflight_id": "WCP-L0-20260804-01-SWU-WCP-001-closeout",
+  "work_pack": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/plan/WORK-PACK.md",
+    "sha256": "36c994207a5bb2674bd3344b86cd574be0582075ea84b48fba9dbdf7b87a2adb"
+  },
+  "source_receipt_contract": "terminal-receipt.json with explicit BLOCK/PASS, validation, blocker fingerprint, files, and next route",
+  "target_inventory": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/plan/WORK-PACK.md",
+      "baseline": "36c994207a5bb2674bd3344b86cd574be0582075ea84b48fba9dbdf7b87a2adb"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/wp0-provenance",
+      "baseline": "absent"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/task-sessions/SWU-WCP-001/terminal-receipt.json",
+      "baseline": "absent"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/task-sessions/SWU-WCP-001/invoke-refresh-receipt.json",
+      "baseline": "absent"
+    }
+  ],
+  "allowed_delta_classes": [
+    "evidence_added",
+    "blocker_opened",
+    "status_changed",
+    "route_changed"
+  ],
+  "owner_route": "invoke:refresh:apply-approved",
+  "owner_validation": [
+    "re-hash Work Pack baseline",
+    "validate source receipt and output scope",
+    "prove Work Pack already records blocker for no-op or apply only declared fields",
+    "select SWU-WCP-002 only on source PASS"
+  ],
+  "expected_owner_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/task-sessions/SWU-WCP-001/invoke-refresh-receipt.json",
+  "successor_policy": {
+    "on_pass": "SWU-WCP-002",
+    "on_flag": null,
+    "on_block": null
+  },
+  "verdict": "pass"
+}

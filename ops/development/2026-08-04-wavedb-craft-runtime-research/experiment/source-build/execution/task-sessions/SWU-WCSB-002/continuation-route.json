@@ -1,0 +1,52 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "wcsb-002-blocked-closeout-20260804",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "block",
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/terminal-receipt.json",
+    "blocker_fingerprint": "45cd63d16533daf8981417680348e78c5e553a9d83e8fe17150e68255e6708cd",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "Task Session blocker closeout contract and terminal block receipt"
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "wavedb-source-build-invoke-owner",
+      "evidence": [
+        "terminal receipt requires blocker synchronization",
+        "preflight binds three targets and their live baselines",
+        "the failed SWU has no same-pack successor"
+      ],
+      "required_inputs": ["source receipt", "target inventory and baselines", "material package and receipt", "owner validation"],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "Invoke Refresh owner receipt preserving source block and returning no successor",
+      "fallback": "leave owner artifacts stale and block closeout"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "One exact bookkeeping owner route is declared and fully bound."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "inline-native-skill",
+    "owner_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/invoke-refresh-receipt.json",
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": null
+}
+

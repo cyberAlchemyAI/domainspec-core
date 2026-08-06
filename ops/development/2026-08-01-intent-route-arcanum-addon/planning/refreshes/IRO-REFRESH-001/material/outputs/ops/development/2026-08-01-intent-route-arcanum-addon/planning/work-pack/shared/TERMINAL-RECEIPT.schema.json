@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/iro/terminal-receipt/1-0-0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "stream_id", "epoch_id", "unit_id", "status", "source_refs", "validation", "writes", "blockers", "successor_projection", "lifecycle_state", "evidence_ceiling"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "stream_id": {"const": "IRO-FULL-STREAM"},
+    "epoch_id": {"type": "string", "minLength": 1},
+    "unit_id": {"type": "string", "pattern": "^SWU-IRO-(00[1-9]|VERIFY)$"},
+    "status": {"enum": ["pass", "block"]},
+    "source_refs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/exactRef"}},
+    "validation": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/validation"}},
+    "writes": {"type": "array", "items": {"$ref": "#/$defs/exactRef"}},
+    "blockers": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "successor_projection": {"type": ["string", "null"]},
+    "lifecycle_state": {"enum": ["candidate", "canonical", "generated", "installed", "consumer-admitted", "private-admitted", "verified"]},
+    "evidence_ceiling": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "exactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command", "exit_code", "result"],
+      "properties": {
+        "command": {"type": "string", "minLength": 1},
+        "exit_code": {"type": "integer"},
+        "result": {"enum": ["pass", "fail"]}
+      }
+    }
+  }
+}

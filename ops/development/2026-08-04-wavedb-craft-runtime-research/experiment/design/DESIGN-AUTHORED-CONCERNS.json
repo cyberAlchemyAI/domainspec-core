@@ -1,0 +1,101 @@
+{
+  "concerns": [
+    {
+      "concern_id": "authored:authority",
+      "primary_class": "authority",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "Craft authority and package admission must be enforced outside WaveDB",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#owner-gates"]
+    },
+    {
+      "concern_id": "authored:security",
+      "primary_class": "security",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "a downloaded native addon and isolated corruption controls cross a security boundary",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#owner-gates"]
+    },
+    {
+      "concern_id": "authored:state-event",
+      "primary_class": "state-event",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "manifest-last admission and terminal blocked/quarantined states require explicit transition rules",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#corrected-v0-architecture"]
+    },
+    {
+      "concern_id": "authored:persistence",
+      "primary_class": "persistence",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "the experiment writes an embedded store while preserving YAML authority",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#finite-v0-work-pack"]
+    },
+    {
+      "concern_id": "authored:failure",
+      "primary_class": "failure",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "partial writes, process termination, and corruption must return zero output and quarantine",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#non-vacuous-negative-controls"]
+    },
+    {
+      "concern_id": "authored:reliability",
+      "primary_class": "reliability",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "repeatable exact readback and negative controls are the experiment's core proof",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#bounded-closeout"]
+    },
+    {
+      "concern_id": "authored:integration",
+      "primary_class": "integration",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "the adapter is a strict boundary between Craft filesystem authority and WaveDB",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#exact-v0-key-value-and-codec-proposal"]
+    },
+    {
+      "concern_id": "authored:migration",
+      "primary_class": "migration",
+      "required_predicate": false,
+      "disposition": "not-applicable-with-rationale",
+      "rationale": "v0 has no schema migration, downgrade, or canonical data conversion",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#hold-and-kill-residue"]
+    },
+    {
+      "concern_id": "authored:rollout",
+      "primary_class": "rollout",
+      "required_predicate": false,
+      "disposition": "not-applicable-with-rationale",
+      "rationale": "the candidate is not deployed, promoted, published, or released",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#claim-ceiling"]
+    },
+    {
+      "concern_id": "authored:privacy-data",
+      "primary_class": "privacy-data",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "receipts and logs need purpose, retention, and an explicit no-database boundary",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#recovery-quarantine-and-observation-receipts"]
+    },
+    {
+      "concern_id": "authored:performance",
+      "primary_class": "performance",
+      "required_predicate": false,
+      "disposition": "recommended",
+      "rationale": "latency and size are descriptive observations only",
+      "revisit_condition": "a later owner proposes a performance acceptance claim",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#recovery-quarantine-and-observation-receipts"]
+    },
+    {
+      "concern_id": "authored:validation",
+      "primary_class": "validation",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "every stage requires exact positive and negative oracles",
+      "evidence_selectors": ["ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#finite-v0-work-pack"]
+    }
+  ]
+}

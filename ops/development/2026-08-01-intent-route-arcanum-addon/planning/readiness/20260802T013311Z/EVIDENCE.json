@@ -1,0 +1,519 @@
+{
+  "schema_version": "1.0.0",
+  "epoch_label": "20260802T013311Z",
+  "stream_id": "IRO-FULL-STREAM",
+  "objective": {
+    "summary": "Coordinate the complete intent-route add-on objective through ten owner-routed units with exact receipts and pause gates.",
+    "authority_effect": "none",
+    "evidence_ceiling": "frozen-input-contractual-readiness"
+  },
+  "authority": {
+    "owner": {
+      "coordinator": "intent-route-planning-owner",
+      "rule": "each material lifecycle remains with its named owner"
+    },
+    "material": {
+      "contract": "per-unit owner material declarations; unresolved locator placeholders are activation blockers, not inferred paths"
+    },
+    "validation": {
+      "contract": "exact unit commands from EXECUTION-CONTRACT.json; WPRA executes none"
+    },
+    "receipt": {
+      "terminal": "TERMINAL-RECEIPT.schema.json",
+      "closeout_owner": "CLOSEOUT-OWNER-RECEIPT.schema.json",
+      "decision_bundle": "DECISION-BUNDLE.schema.json"
+    },
+    "closeout": {
+      "target_mode": "exact-subset-only",
+      "baseline": "sha256-or-absent",
+      "delta_classes": [
+        "evidence_added",
+        "blocker_opened",
+        "blocker_resolved",
+        "status_changed",
+        "route_changed"
+      ],
+      "successor": "exactly-one"
+    }
+  },
+  "units": {
+    "SWU-IRO-001": {
+      "material_package": {
+        "contract_id": "SWU-IRO-001-owner-material-v1",
+        "status": "contract-only-unmaterialized",
+        "owner_ref": "intent-route-planning-owner",
+        "target_inventory": [
+          "planning/work-pack/session-evidence/SWU-IRO-001/<run-id>/**"
+        ],
+        "activation_gate": "explicit native Goal start and decision-gate execution",
+        "authority_effect": "none"
+      },
+      "material_digest": "5fbb6f54f6a495c731b506ec1223411387cc8484045b6db3e6174e1197c30504",
+      "producer_receipt": {
+        "required": true,
+        "status": "not-yet-issued",
+        "owner_ref": "intent-route-planning-owner"
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "target_inventory": [
+        "planning/work-pack/session-evidence/SWU-IRO-001/<run-id>/**"
+      ],
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-001/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-001/closeout-owner-receipt.json"
+      ],
+      "successor": "SWU-IRO-002"
+    },
+    "SWU-IRO-002": {
+      "material_package": {
+        "contract_id": "SWU-IRO-002-owner-material-v1",
+        "status": "contract-only-unmaterialized",
+        "owner_ref": "candidate-lifecycle-owner",
+        "target_inventory": [
+          "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+        ],
+        "activation_gate": "explicit candidate-mutation approval",
+        "authority_effect": "none"
+      },
+      "material_digest": "e933134fcda5ef33cc07aac076724add09359f7a2df5fe8d51264f55a074bb6c",
+      "producer_receipt": {
+        "required": true,
+        "status": "not-yet-issued",
+        "owner_ref": "candidate-lifecycle-owner"
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "target_inventory": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+      ],
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-002/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-002/closeout-owner-receipt.json"
+      ],
+      "successor": "SWU-IRO-003"
+    },
+    "SWU-IRO-003": {
+      "material_package": {
+        "contract_id": "SWU-IRO-003-owner-material-v1",
+        "status": "contract-only-unmaterialized",
+        "owner_ref": "candidate-lifecycle-owner",
+        "target_inventory": [
+          "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+        ],
+        "activation_gate": "passing IRO-002 joined closeout",
+        "authority_effect": "none"
+      },
+      "material_digest": "a7750fa2e45a3d4ef7498828967d89c81be3d2224907c942bd9237da70114973",
+      "producer_receipt": {
+        "required": true,
+        "status": "not-yet-issued",
+        "owner_ref": "candidate-lifecycle-owner"
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "target_inventory": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+      ],
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-003/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-003/closeout-owner-receipt.json"
+      ],
+      "successor": "SWU-IRO-004"
+    },
+    "SWU-IRO-004": {
+      "material_package": {
+        "contract_id": "SWU-IRO-004-owner-material-v1",
+        "status": "contract-only-unmaterialized",
+        "owner_ref": "public-arcanum-owner",
+        "target_inventory": [
+          "arcanum/arcana/intent-route-resolver/**"
+        ],
+        "activation_gate": "explicit public owner approval and clean-worktree receipt",
+        "authority_effect": "none"
+      },
+      "material_digest": "9e093754e65b202d962bc807c0aa8579d543fd72a7361cdcb2e02397a546be98",
+      "producer_receipt": {
+        "required": true,
+        "status": "not-yet-issued",
+        "owner_ref": "public-arcanum-owner"
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "target_inventory": [
+        "arcanum/arcana/intent-route-resolver/**"
+      ],
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-004/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-004/closeout-owner-receipt.json"
+      ],
+      "successor": "SWU-IRO-005"
+    },
+    "SWU-IRO-005": {
+      "material_package": {
+        "contract_id": "SWU-IRO-005-owner-material-v1",
+        "status": "contract-only-unmaterialized",
+        "owner_ref": "arcanum-bootstrap-owner",
+        "target_inventory": [
+          "isolated temporary repo-codex root",
+          "isolated temporary claude root"
+        ],
+        "activation_gate": "passing canonical receipt",
+        "authority_effect": "none"
+      },
+      "material_digest": "fc94d469dcc923ca370065ae64a471e7e1803c2bd5b926ea4af5050f80cf8af6",
+      "producer_receipt": {
+        "required": true,
+        "status": "not-yet-issued",
+        "owner_ref": "arcanum-bootstrap-owner"
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "target_inventory": [
+        "isolated temporary repo-codex root",
+        "isolated temporary claude root"
+      ],
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-005/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-005/closeout-owner-receipt.json"
+      ],
+      "successor": "SWU-IRO-006"
+    },
+    "SWU-IRO-006": {
+      "material_package": {
+        "contract_id": "SWU-IRO-006-owner-material-v1",
+        "status": "contract-only-unmaterialized",
+        "owner_ref": "addon-lifecycle-owner",
+        "target_inventory": [
+          "owner-bound disposable Git repository from IRO-001"
+        ],
+        "activation_gate": "disposable-consumer locator and owner approval",
+        "authority_effect": "none"
+      },
+      "material_digest": "9611811455ac145adf03b4416647f944f73305b609b598346dd29ccbaa539b54",
+      "producer_receipt": {
+        "required": true,
+        "status": "not-yet-issued",
+        "owner_ref": "addon-lifecycle-owner"
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "target_inventory": [
+        "owner-bound disposable Git repository from IRO-001"
+      ],
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-006/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-006/closeout-owner-receipt.json"
+      ],
+      "successor": "SWU-IRO-007"
+    },
+    "SWU-IRO-007": {
+      "material_package": {
+        "contract_id": "SWU-IRO-007-owner-material-v1",
+        "status": "contract-only-unmaterialized",
+        "owner_ref": "resonantos-planning-owner",
+        "target_inventory": [
+          "<owner-approved-resonantos-worktree>/development/arcanum-addon/**"
+        ],
+        "activation_gate": "exact ResonantOS worktree planning-scope approval",
+        "authority_effect": "none"
+      },
+      "material_digest": "73348187583aaa9bf52bb6b4c2dd48cf5d34ad1828cc321cebd620f1aabbcd3e",
+      "producer_receipt": {
+        "required": true,
+        "status": "not-yet-issued",
+        "owner_ref": "resonantos-planning-owner"
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "target_inventory": [
+        "<owner-approved-resonantos-worktree>/development/arcanum-addon/**"
+      ],
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-007/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-007/closeout-owner-receipt.json"
+      ],
+      "successor": "SWU-IRO-008"
+    },
+    "SWU-IRO-008": {
+      "material_package": {
+        "contract_id": "SWU-IRO-008-owner-material-v1",
+        "status": "contract-only-unmaterialized",
+        "owner_ref": "cyberalchemy-orchestrator-owner",
+        "target_inventory": [
+          "<owner-approved-cyberalchemy-orchestrator-adapter-scope>"
+        ],
+        "activation_gate": "orchestrator, catalog, and normalization bindings",
+        "authority_effect": "none"
+      },
+      "material_digest": "78a8ab8c3bf3f50e2b61b5448302c7ac62f51f151d66cff49d682313ac7a8dc5",
+      "producer_receipt": {
+        "required": true,
+        "status": "not-yet-issued",
+        "owner_ref": "cyberalchemy-orchestrator-owner"
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "target_inventory": [
+        "<owner-approved-cyberalchemy-orchestrator-adapter-scope>"
+      ],
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-008/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-008/closeout-owner-receipt.json"
+      ],
+      "successor": "SWU-IRO-009"
+    },
+    "SWU-IRO-009": {
+      "material_package": {
+        "contract_id": "SWU-IRO-009-owner-material-v1",
+        "status": "contract-only-unmaterialized",
+        "owner_ref": "private-cav2-aci-owner",
+        "target_inventory": [
+          "<owner-approved-private-CAV2-ACI-entry-boundary-scope>"
+        ],
+        "activation_gate": "private owner and exact field-binding approval",
+        "authority_effect": "none"
+      },
+      "material_digest": "9b8b28554ec41b31b631298b195bb941caaa2385eb9e4eac81be9147f35281e5",
+      "producer_receipt": {
+        "required": true,
+        "status": "not-yet-issued",
+        "owner_ref": "private-cav2-aci-owner"
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "target_inventory": [
+        "<owner-approved-private-CAV2-ACI-entry-boundary-scope>"
+      ],
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-009/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-009/closeout-owner-receipt.json"
+      ],
+      "successor": "SWU-IRO-VERIFY"
+    },
+    "SWU-IRO-VERIFY": {
+      "material_package": {
+        "contract_id": "SWU-IRO-VERIFY-owner-material-v1",
+        "status": "contract-only-unmaterialized",
+        "owner_ref": "verification-owner",
+        "target_inventory": [],
+        "activation_gate": "passing IRO-009 joined closeout",
+        "authority_effect": "none"
+      },
+      "material_digest": "2ff90869707368918a8fd6c52ee0f9c1136440af11df117d1fe8aa7ced729e78",
+      "producer_receipt": {
+        "required": true,
+        "status": "not-yet-issued",
+        "owner_ref": "verification-owner"
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "target_inventory": [],
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-VERIFY/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-VERIFY/closeout-owner-receipt.json"
+      ],
+      "successor": "__complete__"
+    }
+  },
+  "receipts": {
+    "terminal_schema": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TERMINAL-RECEIPT.schema.json"
+    },
+    "semantic_validator": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py",
+      "contract": "unit, dependency, capability, output, pause, and successor binding"
+    },
+    "expected": [
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-001/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-001/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-002/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-002/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-003/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-003/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-004/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-004/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-005/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-005/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-006/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-006/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-007/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-007/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-008/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-008/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-009/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-009/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-VERIFY/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T013311Z/SWU-IRO-VERIFY/closeout-owner-receipt.json"
+    ],
+    "closeout_owner_schema": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-OWNER-RECEIPT.schema.json"
+    }
+  },
+  "runtime": {
+    "requested_mode": "owner-routed-task-session",
+    "admission_status": "projection-only-unapproved",
+    "selected_unit": null,
+    "mutation_ready": false
+  },
+  "statuses": {
+    "artifact_authored": {
+      "value": "contract-repaired",
+      "evidence": "IRO-REFRESH-001"
+    },
+    "registry_released": {
+      "value": "unreleased",
+      "evidence": "no release receipt"
+    },
+    "mutation_runtime_ready": {
+      "value": "not-ready",
+      "evidence": "WPRA is non-authoritative"
+    },
+    "audit_verdict": {
+      "value": "pending",
+      "evidence": "this field is frozen before the audit runs"
+    },
+    "plan_artifact": {
+      "value": "contract-repaired",
+      "evidence": "IRO-REFRESH-001"
+    },
+    "audit": {
+      "value": "pending",
+      "evidence": "this field is frozen before the audit runs"
+    },
+    "approval": {
+      "value": "unapproved",
+      "evidence": "no Goal-start or later owner approval receipt"
+    },
+    "chain": {
+      "value": "not-started",
+      "evidence": "Goal authoring does not start execution"
+    }
+  },
+  "approval": {
+    "owner_ref": "decision-gate",
+    "decision_gate": {
+      "status": "pending",
+      "authority_effect": "none"
+    },
+    "run_budget": {
+      "max_task_session_requests": 10
+    }
+  },
+  "risk": {
+    "maximum": "bounded-write",
+    "network_calls": 0,
+    "repair_cycles_per_unit": 1,
+    "browser_launches": 2
+  },
+  "continuity": {
+    "cursor": "root",
+    "projected_next": {
+      "unit_id": "SWU-IRO-001",
+      "authority_effect": "none"
+    },
+    "equivalence_validator": {
+      "id": "wpra-projection-v1"
+    },
+    "continuation_router_verification": {
+      "status": "not-run",
+      "required_after_terminal_receipt": true
+    }
+  },
+  "closure": {
+    "design_status": "design-validator-pass",
+    "refresh_status": "pass",
+    "context_status": "pass"
+  },
+  "claim_ceiling": "A passing report proves only a deterministic frozen-input contractual projection; it selects and executes no unit."
+}

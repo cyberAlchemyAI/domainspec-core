@@ -1,0 +1,53 @@
+{
+  "schema_version": "candidate-local-invoke-refresh-receipt.v1",
+  "run_id": "invoke-refresh-wcnd-close-pass-20260805",
+  "completed_at": "2026-08-05T16:35:24Z",
+  "mode": "refresh",
+  "activation_source": "direct-user",
+  "mutation_mode": "apply-approved",
+  "phase_status": "pass",
+  "handoff_status": "ready",
+  "source_result_preserved": {
+    "swu": "SWU-WCND-001",
+    "result": "PASS",
+    "receipt": "execution/task-sessions/SWU-WCND-001/terminal-receipt.json",
+    "sha256": "2b511b306cd00a3d9ae34b9024742c9506e461712204d834c0a686c0498e5ce4"
+  },
+  "applied_target": {
+    "path": "plan/WORK-PACK.md",
+    "sha256": "45b3e0babee78f9663d4e03bc881f305a5937d4d5994b5425aa451091dbcf371",
+    "size_bytes": 11576,
+    "staged_bytes_equal": true
+  },
+  "material_receipt": {
+    "path": "execution/task-sessions/SWU-WCND-001/closeout/material-package-receipt.json",
+    "sha256": "0425c9ade254d3f52729ef2ba43222230320b32a760f035d9a3a05a9a20cf557",
+    "size_bytes": 1608,
+    "package_digest": "cdb116e36cd671832d7c4ecac2b140a380cede9acaed9de90b3eec73aca6c7cc",
+    "patch_verdict": "pass"
+  },
+  "handoff_receipt": {
+    "path": "execution/task-sessions/SWU-WCND-001/closeout/handoff-receipt.json",
+    "sha256": "c11640c9497e9459c56a9f91009e58120e4998bf43d18856e7fbb73c933f8d78",
+    "size_bytes": 2110,
+    "mutation_ready": true
+  },
+  "validation": {
+    "material_package": "pass",
+    "handoff_gate": "ready",
+    "target_digest": "pass",
+    "selection_consistency": "pass-zero-selected-swu",
+    "whitespace": "pass",
+    "craft_diff": "zero",
+    "nvm_default": "unchanged",
+    "living_wavedb_processes": 0
+  },
+  "blockers": [],
+  "residue": [
+    "The npm artifact is not provenance-bound to one reviewed source tree.",
+    "The prior full-upstream-suite concurrency stall remains valid and unresolved.",
+    "The passing npm addon is byte-identical to the prior Node 26 source-build addon.",
+    "Craft integration and addon handoff require a new direct decision."
+  ],
+  "next_route": null
+}

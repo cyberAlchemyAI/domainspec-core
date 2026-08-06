@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "context-builder.refresh.v1",
+  "task": "invoke refresh current Craft Consultation API Work Pack with WaveDB 0.15.9 runtime steps",
+  "mode": "standard",
+  "strict": true,
+  "status": "pass",
+  "obligationCoveragePercent": 100,
+  "noiseRatio": 0,
+  "obligations": [
+    {"id": "O1", "status": "covered", "claim": "bind exact 0.15.9 package and Node runtime without source-provenance inflation"},
+    {"id": "O2", "status": "covered", "claim": "preserve the 0.15.8 Craft import as baseline only"},
+    {"id": "O3", "status": "covered", "claim": "order re-ingestion, fresh-process verification, API pinning, and read-only construction"},
+    {"id": "O4", "status": "covered", "claim": "refresh exactly four coupled runtime-plan projections"},
+    {"id": "O5", "status": "covered", "claim": "preserve blockers, authority boundaries, and claim ceilings"},
+    {"id": "O6", "status": "covered", "claim": "require exact material validation and live post-apply checks"}
+  ],
+  "selectedSources": [
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md", "sha256": "c5a5f7bdef3e46d240ca5675e324e33eb852a77b7110a99dfee2b7d4e7ecc109", "selectors": ["Control fields", "SWU execution handoff", "Task Session closeout sync contract", "Blockers", "Distill and gate verdict"], "obligations": ["O3", "O4", "O5", "O6"]},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md", "sha256": "48e39eb423c061eee330c8d741e4e8c2ac253dffc6e1327149e7e1ffd2331a2d", "selectors": ["SWU-CAPI-001", "SWU-CAPI-002", "SWU-CAPI-003"], "obligations": ["O3", "O4", "O5", "O6"]},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/waves/W1.md", "sha256": "79bd9850a692a69875d90b6b30bb35b0f2146dc68968f8d404c57a4c2764d17e", "selectors": ["entire bounded wave"], "obligations": ["O3", "O4"]},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/EXECUTION-PACK.md", "sha256": "14f6eeabdef590709c279066245e0988231bba1203fa650a62c9634cf177c5e2", "selectors": ["Planning control fields", "Waves", "Closure obligations"], "obligations": ["O3", "O4", "O5"]},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26-0.15.9/npm-diagnostic-receipt.json", "sha256": "6243febc06f345d0fa22b8b1210742c19e7d4cda74ca6a840e36f8d32428918c", "selectors": ["artifact", "environment", "gates", "comparison", "residue"], "obligations": ["O1", "O5"]},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/terminal-receipt.json", "sha256": "eb07d1a14c4dacb30a272240057432c87f8acc430a6b064e0096f99e6107553c", "selectors": ["diagnostic_receipt", "validation", "effects", "residue"], "obligations": ["O1", "O5", "O6"]},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json", "sha256": "97dd371843771bf752124fbe7d6cbc886d785128ab690dc31da48813d228810f", "selectors": ["dependency", "scope", "database", "verification", "authority", "claimCeiling"], "obligations": ["O2", "O3", "O5"]}
+  ],
+  "targetArtifacts": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/waves/W1.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/EXECUTION-PACK.md"
+  ],
+  "excluded": [
+    {"path": "stages/** and review/**", "reason": "immutable historical Refine evidence"},
+    {"path": "DATA-MODEL.md and other design contracts", "reason": "0.15.9 Craft snapshot evidence does not yet exist"},
+    {"path": "RESULT.md and RUNTIME-HANDOFF.md", "reason": "historical run outcome; new Refresh report carries the updated continuation"},
+    {"path": "Craft ledgers, existing WaveDB attempts, implementation/**", "reason": "outside refresh scope and mutation authority"}
+  ],
+  "distill": {"status": "skipped", "reason": "narrow dependency-order repair with one stable predecessor and no new product behavior"},
+  "blockers": []
+}

@@ -1,0 +1,202 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "intent-route-arcanum-addon-design-v1",
+  "target_id": "intent-route-arcanum-addon",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+        "digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "addon-define-spec",
+        "path": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+        "digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+      },
+      {
+        "selector": "addon-glossary",
+        "path": "ops/development/2026-08-01-intent-route-arcanum-addon/define/GLOSSARY.md",
+        "digest": "da4ed5b32688a0e04e54dd526426f7821402596411f2eb0d1ec7b9d907b94812"
+      },
+      {
+        "selector": "accepted-evidence-closure",
+        "path": "research/2026-07-30-intent-router-bootstrap-runtime-integration/EVIDENCE-CLOSURE.md",
+        "digest": "941cfc66ecea147aa802ef6168e82ebabfe0969418d788ea5ae01da27c706dde"
+      },
+      {
+        "selector": "accepted-validation-addendum",
+        "path": "research/2026-07-30-intent-router-bootstrap-runtime-integration/acceptance-contract-addendum.md",
+        "digest": "ae914daf71331ddc787d8b562d78ceddabd10ad2526b568de07ecd92f2707e94"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "arcanum/**",
+        "reason": "Public canonical mutation requires separate extraction and acceptance authority.",
+        "evidence_ref": "define/SPEC.md#scope"
+      },
+      {
+        "selector": ".agents/skills/** and .claude/skills/**",
+        "reason": "Generated runtime packages follow canonical acceptance.",
+        "evidence_ref": "define/SPEC.md#expected-end-state"
+      },
+      {
+        "selector": "cyberAlchemy-v2/** and consumer product source",
+        "reason": "Private and consumer integration remain separate owner gates.",
+        "evidence_ref": "define/SPEC.md#scope"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "iro-define-spec",
+      "selector": "full-file",
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    },
+    {
+      "source_id": "iro-accepted-closure",
+      "selector": "full-file",
+      "path": "research/2026-07-30-intent-router-bootstrap-runtime-integration/EVIDENCE-CLOSURE.md",
+      "digest": "941cfc66ecea147aa802ef6168e82ebabfe0969418d788ea5ae01da27c706dde"
+    },
+    {
+      "source_id": "iro-accepted-validation",
+      "selector": "full-file",
+      "path": "research/2026-07-30-intent-router-bootstrap-runtime-integration/acceptance-contract-addendum.md",
+      "digest": "ae914daf71331ddc787d8b562d78ceddabd10ad2526b568de07ecd92f2707e94"
+    }
+  ],
+  "human_actors": [],
+  "rendered_surfaces": [],
+  "interfaces": [
+    {
+      "interface_id": "canonical-sigil-closure",
+      "kind": "local-library",
+      "peer": "arcanum-bootstrap",
+      "direction": "outbound",
+      "contract_ref": "intent-route-sigil-closure-v1",
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    },
+    {
+      "interface_id": "runtime-json-port",
+      "kind": "local-process",
+      "peer": "arbitrary-agentic-runtime-adapter",
+      "direction": "bidirectional",
+      "contract_ref": "intent-route.runtime-port@1",
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    },
+    {
+      "interface_id": "catalog-projection",
+      "kind": "local-library",
+      "peer": "named-capability-and-dispatch-owners",
+      "direction": "inbound",
+      "contract_ref": "digest-bound-read-only-route-catalog-v1",
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    },
+    {
+      "interface_id": "confirmed-dispatch-binding",
+      "kind": "authenticated-owner-boundary",
+      "peer": "existing-orchestrator-workflow-binding-owner",
+      "direction": "outbound",
+      "contract_ref": "existing-canonical-dispatch-group-seat",
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    }
+  ],
+  "stores": [],
+  "queues": [],
+  "writers": [],
+  "normative_rules": [
+    {
+      "rule_id": "non-authorizing",
+      "subject": "intent-route-resolver-and-adapters",
+      "verb": "must-not-authorize",
+      "object": "dispatch-binding-execution-or-effects",
+      "enforcement_hint": "zero-authority manifest static imports and negative call counters",
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    },
+    {
+      "rule_id": "terminal-disposition",
+      "subject": "admitted-resolver-invocation",
+      "verb": "must-return-terminal",
+      "object": "candidate-ambiguous-no-match-or-invalid",
+      "enforcement_hint": "closed algebra and exhaustive fixtures",
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    },
+    {
+      "rule_id": "profile-parity",
+      "subject": "generated-claude-and-codex-packages",
+      "verb": "must-validate",
+      "object": "per-case-canonical-byte-parity",
+      "enforcement_hint": "frozen 15-case matrices and cross-profile response comparison",
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "advisory-disposition",
+      "external": false,
+      "privileged": false,
+      "reversible": true,
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    }
+  ],
+  "data_and_log_sinks": [],
+  "deployment_targets": [
+    {
+      "deployment_id": "generated-runtime-packages",
+      "environment": "isolated-codex-and-claude-profile-roots",
+      "release_mode": "selective-bootstrap-projection-with-exact-rollback",
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    }
+  ],
+  "compatibility_boundaries": [
+    {
+      "boundary_id": "private-to-public-safe-contract",
+      "old_contract": "private tested resolver precedent",
+      "new_contract": "fresh project-agnostic public-safe protocol and implementation",
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    },
+    {
+      "boundary_id": "generated-profile-parity",
+      "old_contract": "no runtime packages",
+      "new_contract": "one canonical closure projected to Claude and Codex",
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    }
+  ],
+  "quality_claims": [
+    {
+      "claim_id": "byte-parity-required",
+      "source_kind": "frozen-cross-runtime-acceptance-design",
+      "threshold_or_tradeoff": "per-case canonical response bytes equal with zero failed cases",
+      "required": true,
+      "source_selector": "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+      "source_digest": "ce29e60f0412225def1c22a88ac467016ae4221123d8168324ec66c1c12112b9"
+    }
+  ],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "future-78-case-contract",
+      "selector": "accepted-addendum-78-logical-cases",
+      "evidence_state": "authored-complete",
+      "source_selector": "research/2026-07-30-intent-router-bootstrap-runtime-integration/acceptance-contract-addendum.md",
+      "source_digest": "ae914daf71331ddc787d8b562d78ceddabd10ad2526b568de07ecd92f2707e94"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "2b16b96532968369a4a40312c1b512f47bfda1491ce2ead32ac90855961fc916",
+  "authored_by": "invoke-design-author"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "domainspec.invoke.mutation-admission-contract.v0.1",
+  "package_id": "orchestrate-capacity-aware-admission",
+  "mutation_authorized": false,
+  "selected_swu_id": "SWU-OCA-001",
+  "requirements": [
+    "Execute Task Session for exactly one selected SWU.",
+    "Build an execution-time Context Builder pack from current canonical bytes.",
+    "Bind a material package or receipt to the selected SWU, exact write scope, producer schema, and unique attempt ID.",
+    "Capture current target digests, Arcanum submodule HEAD, branch, and unrelated dirty-path classification before mutation.",
+    "Reject stale, missing, synthetic, or cross-SWU material bindings.",
+    "Run the SWU owner validation and Invoke Refresh closeout before selecting a successor."
+  ],
+  "forbidden_inference": [
+    "This authored Work Pack is not mutation authorization.",
+    "The selected SWU is not automatically admitted.",
+    "A predecessor pass does not authorize its successor.",
+    "A fabricated owner receipt is never acceptable."
+  ],
+  "current_handoff": {
+    "next_capability": "task-session",
+    "next_unit": "SWU-OCA-001",
+    "mode": "preflight-only-until-material-binding-passes"
+  }
+}

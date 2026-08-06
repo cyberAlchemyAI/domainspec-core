@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "craft-ledger-inventory-drift.v1",
+  "capturedAt": "2026-08-06T01:38:45.654Z",
+  "verdict": "block",
+  "expected": {
+    "ledgerCount": 27,
+    "recordCount": 55,
+    "source": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json",
+    "sha256": "97dd371843771bf752124fbe7d6cbc886d785128ab690dc31da48813d228810f"
+  },
+  "observed": {
+    "ledgerCount": 28,
+    "projectedRecordCount": 57,
+    "added": [
+      {
+        "path": "projects/cyberalchemy-orchestrator/tools/test-derivation-engine/.craft/ledger.yml",
+        "sizeBytes": 25043,
+        "sha256": "0effd055c9f25ea3e46de7e5280585f987e9734411ae1639d9c53171b8ed6b84",
+        "nestedRepository": "projects/cyberalchemy-orchestrator/.git",
+        "trackedByParentRepository": false,
+        "filesystemBirthTime": "2026-07-23T03:26:21.958706845-03:00"
+      }
+    ],
+    "removed": [],
+    "changed": []
+  },
+  "interpretation": "The earlier preflight rechecked only the 27 manifest-listed files and therefore did not test for additions. The extra path predates this run and lies inside a nested repository; evidence does not decide whether it is a current owner ledger or an intentionally excluded projection.",
+  "requiredDecision": "Choose and document whether nested-repository Craft ledgers belong to this snapshot scope. Then refresh the Work Pack with a fresh immutable attempt ID; do not overwrite the blocked -01 attempt.",
+  "authorityEffect": "none"
+}

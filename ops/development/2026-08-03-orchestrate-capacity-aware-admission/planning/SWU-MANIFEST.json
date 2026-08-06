@@ -1,0 +1,70 @@
+{
+  "schema_version": "domainspec.invoke.swu-manifest.v0.1",
+  "package_id": "orchestrate-capacity-aware-admission",
+  "selected_swu_id": "SWU-OCA-001",
+  "mutation_authorized": false,
+  "execution_order": [
+    "SWU-OCA-001",
+    "SWU-OCA-002",
+    "SWU-OCA-003",
+    "SWU-OCA-004",
+    "SWU-OCA-005",
+    "TASK-OCA-VERIFY"
+  ],
+  "units": [
+    {
+      "id": "SWU-OCA-001",
+      "task_ref": "work-pack/tasks/TASK-OCA-01-ADMISSION-SEAM.md",
+      "wave_ref": "work-pack/waves/W1-L0-ADMISSION.md",
+      "layer": "L0",
+      "primary_behavior": "Admit the complete requested wave or emit no actions.",
+      "depends_on": [],
+      "status": "selected-not-authorized"
+    },
+    {
+      "id": "SWU-OCA-002",
+      "task_ref": "work-pack/tasks/TASK-OCA-02-FAILURE-EVIDENCE.md",
+      "wave_ref": "work-pack/waves/W2-L0-FAILURE-EVIDENCE.md",
+      "layer": "L0",
+      "primary_behavior": "Close a failed spawn causally without an agent identity and force gate block.",
+      "depends_on": ["SWU-OCA-001"],
+      "status": "planned"
+    },
+    {
+      "id": "SWU-OCA-003",
+      "task_ref": "work-pack/tasks/TASK-OCA-03-CODEX-PROVIDER.md",
+      "wave_ref": "work-pack/waves/W3-L1-CODEX-PROVIDER.md",
+      "layer": "L1",
+      "primary_behavior": "Expose exact host-owned capacity evidence or an honest advisory or unknown result.",
+      "depends_on": ["SWU-OCA-001", "SWU-OCA-002"],
+      "status": "planned"
+    },
+    {
+      "id": "SWU-OCA-004",
+      "task_ref": "work-pack/tasks/TASK-OCA-04-ROUTE-OPTIONS.md",
+      "wave_ref": "work-pack/waves/W4-L1-ROUTE-OPTIONS.md",
+      "layer": "L1",
+      "primary_behavior": "Project only feasible alternatives without mutating the approved route.",
+      "depends_on": ["SWU-OCA-003"],
+      "status": "planned"
+    },
+    {
+      "id": "SWU-OCA-005",
+      "task_ref": "work-pack/tasks/TASK-OCA-05-GENERATED-PARITY.md",
+      "wave_ref": "work-pack/waves/W5-L1-GENERATED-PARITY.md",
+      "layer": "L1",
+      "primary_behavior": "Regenerate every supported Orchestrate projection from canonical source.",
+      "depends_on": ["SWU-OCA-001", "SWU-OCA-002", "SWU-OCA-003", "SWU-OCA-004"],
+      "status": "planned"
+    },
+    {
+      "id": "TASK-OCA-VERIFY",
+      "task_ref": "work-pack/tasks/TASK-OCA-VERIFY.md",
+      "wave_ref": "work-pack/waves/W6-VERIFY.md",
+      "layer": "L2-boundary",
+      "primary_behavior": "Verify recomposition, public-private boundaries, regressions, and unchanged deferred claims.",
+      "depends_on": ["SWU-OCA-001", "SWU-OCA-002", "SWU-OCA-003", "SWU-OCA-004", "SWU-OCA-005"],
+      "status": "planned-read-only"
+    }
+  ]
+}

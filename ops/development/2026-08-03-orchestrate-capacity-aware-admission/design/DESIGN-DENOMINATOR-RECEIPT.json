@@ -1,0 +1,321 @@
+{
+  "authored_concern_ids": [
+    "authored:capacity-authority",
+    "authored:capacity-data",
+    "authored:capacity-failure",
+    "authored:capacity-integration",
+    "authored:capacity-migration-na",
+    "authored:capacity-persistence",
+    "authored:capacity-quality",
+    "authored:capacity-reliability-na",
+    "authored:capacity-rollout-na",
+    "authored:capacity-security-recommended",
+    "authored:capacity-state-event",
+    "authored:capacity-ux-na",
+    "authored:capacity-validation"
+  ],
+  "denominator_signal_ids": [
+    "authored:capacity-authority",
+    "authored:capacity-data",
+    "authored:capacity-failure",
+    "authored:capacity-integration",
+    "authored:capacity-migration-na",
+    "authored:capacity-persistence",
+    "authored:capacity-quality",
+    "authored:capacity-reliability-na",
+    "authored:capacity-rollout-na",
+    "authored:capacity-security-recommended",
+    "authored:capacity-state-event",
+    "authored:capacity-ux-na",
+    "authored:capacity-validation",
+    "signal:acceptance-readiness-claim:design-closed-before-capacity-plan",
+    "signal:compatibility:orchestrate-capacity-contract-version",
+    "signal:data-log-sink:native-run-event-and-receipt-log",
+    "signal:effect:native-agent-spawn",
+    "signal:interface:capacity-admission-receipt",
+    "signal:interface:host-capacity-evidence-provider",
+    "signal:interface:pre-agent-failure-receipt",
+    "signal:normative-rule:rule:host-owns-capacity",
+    "signal:normative-rule:rule:logical-close-not-release",
+    "signal:normative-rule:rule:no-silent-topology-revision",
+    "signal:normative-rule:rule:whole-wave-zero-or-all",
+    "signal:quality-claim:whole-wave-prevention-overhead",
+    "signal:store:orchestrate-run-evidence",
+    "signal:writer:native-dispatch-writer"
+  ],
+  "detector_id": "invoke-design-scope-extractor",
+  "detector_owner": "spellcraft",
+  "detector_version": "1.0.0",
+  "diagnostics": [],
+  "extracted_signals": [
+    {
+      "attributes": {
+        "evidence_state": "authored-complete",
+        "selector": "six views deterministic selection planned witnesses and explicit host gaps"
+      },
+      "signal_class": "acceptance-readiness-claim",
+      "signal_id": "signal:acceptance-readiness-claim:design-closed-before-capacity-plan",
+      "source_digest": "1fcafc902de156a098c9d88f50951538a8abba117c2b528c6d00f4a3954eb031",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/SPEC.md"
+    },
+    {
+      "attributes": {
+        "new_contract": "candidate v0.2 consumes versioned capacity evidence before compile and admits a null-agent blocked failure receipt",
+        "old_contract": "Orchestrate v0.1 preflight compiles a validated whole wave without capacity input and normalized receipts require an agent identity"
+      },
+      "signal_class": "compatibility",
+      "signal_id": "signal:compatibility:orchestrate-capacity-contract-version",
+      "source_digest": "ae5389407e09933ce333a1a9df314b081d72f4f36795d8c127adcb8c277c4c04",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/interfaces.md"
+    },
+    {
+      "attributes": {
+        "data_classes": [
+          "generic-capacity-classification",
+          "opaque-host-handle",
+          "action-identity",
+          "safe-failure-class"
+        ],
+        "retention_hint": "existing run-evidence retention; no provider-private quota tier secret or unrelated agent content"
+      },
+      "signal_class": "data-log-sink",
+      "signal_id": "signal:data-log-sink:native-run-event-and-receipt-log",
+      "source_digest": "92b6f1e06955c4e90eda119a132ce908b982e64b0c6e75eb2896fdfb4fc41253",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/events.md"
+    },
+    {
+      "attributes": {
+        "external": true,
+        "privileged": false,
+        "reversible": false
+      },
+      "signal_class": "effect",
+      "signal_id": "signal:effect:native-agent-spawn",
+      "source_digest": "62e9bb15378f5e15282a209324187d18d5ea1843f887468c2e38a166836d4a4f",
+      "source_selector": "arcanum/runtime/orchestrate/hosts/codex-native.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "orchestrateCapacity.CapacityAdmissionReceipt candidate-v0",
+        "direction": "outbound",
+        "kind": "deterministic runtime artifact interface",
+        "peer": "wave compiler and caller router"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:capacity-admission-receipt",
+      "source_digest": "ae5389407e09933ce333a1a9df314b081d72f4f36795d8c127adcb8c277c4c04",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/interfaces.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "orchestrateCapacity.CapacityEvidenceProvider candidate-v0",
+        "direction": "inbound",
+        "kind": "host-owned immutable evidence interface",
+        "peer": "native host profile"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:host-capacity-evidence-provider",
+      "source_digest": "ae5389407e09933ce333a1a9df314b081d72f4f36795d8c127adcb8c277c4c04",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/interfaces.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "orchestrateCapacity.PreAgentFailureReceipt candidate-v0",
+        "direction": "bidirectional",
+        "kind": "causal validation interface",
+        "peer": "native spawn driver and gate reducer"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:pre-agent-failure-receipt",
+      "source_digest": "ae5389407e09933ce333a1a9df314b081d72f4f36795d8c127adcb8c277c4c04",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/interfaces.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "unknown advisory inferred or stale evidence blocks strict admission",
+        "object": "current host-owned evidence",
+        "subject": "Orchestrate capacity evaluator",
+        "verb": "authorizes-admission-only-from"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:rule:host-owns-capacity",
+      "source_digest": "ae5389407e09933ce333a1a9df314b081d72f4f36795d8c127adcb8c277c4c04",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/interfaces.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "only host-owned release evidence may set released",
+        "object": "physical released slot",
+        "subject": "agent_closed event",
+        "verb": "prevents-state-transition"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:rule:logical-close-not-release",
+      "source_digest": "d7167316a3e2d4472bcf40498b7c24ff0f44b240772ba6ecb27701da4e906adc",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/states.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "new route bytes revalidate and renew confirmation when required",
+        "object": "material topology or session change",
+        "subject": "capacity route projector",
+        "verb": "requires-approval-for"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:rule:no-silent-topology-revision",
+      "source_digest": "77d9eccc4720e920119166ed6fecaff8ee22e4581baeef1d3e862e8f0a29f8aa",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/operations.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "blocked preflight emits zero actions and zero spawn attempts",
+        "object": "wave action emission",
+        "subject": "blocked capacity decision",
+        "verb": "prevents-state-transition"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:rule:whole-wave-zero-or-all",
+      "source_digest": "77d9eccc4720e920119166ed6fecaff8ee22e4581baeef1d3e862e8f0a29f8aa",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/operations.md"
+    },
+    {
+      "attributes": {
+        "required": true,
+        "source_kind": "required runtime quality contract",
+        "threshold_or_tradeoff": "blocked evidence emits zero action documents and zero spawn attempts; evaluator is deterministic and side-effect free; no latency claim until measured"
+      },
+      "signal_class": "quality-claim",
+      "signal_id": "signal:quality-claim:whole-wave-prevention-overhead",
+      "source_digest": "77d9eccc4720e920119166ed6fecaff8ee22e4581baeef1d3e862e8f0a29f8aa",
+      "source_selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/operations.md"
+    },
+    {
+      "attributes": {
+        "authority": "Orchestrate run evidence owner; non-authority for host capacity",
+        "data_classes": [
+          "capacity-evidence-reference",
+          "admission-decision",
+          "action",
+          "event",
+          "receipt",
+          "gate-decision"
+        ],
+        "writers": [
+          "native-dispatch-writer"
+        ]
+      },
+      "signal_class": "store",
+      "signal_id": "signal:store:orchestrate-run-evidence",
+      "source_digest": "5ae21868ee0b2c446620ebeef5a87a0b951a8c096d15c242f84a2200152db3ad",
+      "source_selector": "arcanum/runtime/orchestrate/SKILL.md"
+    },
+    {
+      "attributes": {
+        "concurrency": "one append sequence per run; immutable decision before action emission",
+        "targets": [
+          "one exact native run evidence directory"
+        ]
+      },
+      "signal_class": "writer",
+      "signal_id": "signal:writer:native-dispatch-writer",
+      "source_digest": "3bfbcf1a947d45ac77c1b917f1fe8c26ca6419124f0fd549ebcca829accb2d70",
+      "source_selector": "arcanum/runtime/orchestrate/scripts/native_dispatch_coordinator.py"
+    }
+  ],
+  "inspected_selectors": [
+    {
+      "path": "arcanum/runtime/orchestrate/SKILL.md",
+      "selector": "arcanum/runtime/orchestrate/SKILL.md",
+      "source_digest": "5ae21868ee0b2c446620ebeef5a87a0b951a8c096d15c242f84a2200152db3ad"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/hosts/codex-native.md",
+      "selector": "arcanum/runtime/orchestrate/hosts/codex-native.md",
+      "source_digest": "62e9bb15378f5e15282a209324187d18d5ea1843f887468c2e38a166836d4a4f"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/schemas/receipt.schema.json",
+      "selector": "arcanum/runtime/orchestrate/schemas/receipt.schema.json",
+      "source_digest": "8eeb4acb6274a7343aa4ad3d89f1705af660dc8b82883028927eb15198e694e4"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/schemas/run-event.schema.json",
+      "selector": "arcanum/runtime/orchestrate/schemas/run-event.schema.json",
+      "source_digest": "56b9c6728e85b5dd60c006d994bb3f720016a83ed119b3ba6bb702976f15cf85"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/scripts/native_dispatch_coordinator.py",
+      "selector": "arcanum/runtime/orchestrate/scripts/native_dispatch_coordinator.py",
+      "source_digest": "3bfbcf1a947d45ac77c1b917f1fe8c26ca6419124f0fd549ebcca829accb2d70"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/scripts/validate_run_evidence.py",
+      "selector": "arcanum/runtime/orchestrate/scripts/validate_run_evidence.py",
+      "source_digest": "f8215bb035a4deb148244685adae8069e6e18440349c74ed37c7c80165708443"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/tests/partial-wave/test_partial_wave_recovery.py",
+      "selector": "arcanum/runtime/orchestrate/tests/partial-wave/test_partial_wave_recovery.py",
+      "source_digest": "727532bb1f60776e23971c532d568c47944e2af5ca364cf51c7f84b8580454b7"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/tests/preflight/test_preflight_contract.py",
+      "selector": "arcanum/runtime/orchestrate/tests/preflight/test_preflight_contract.py",
+      "source_digest": "011bad859313e39cf1991632b2daeb8bc3c268c48e3bc25a0ccedd7acf54663e"
+    },
+    {
+      "path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/SPEC.md",
+      "selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/SPEC.md",
+      "source_digest": "1fcafc902de156a098c9d88f50951538a8abba117c2b528c6d00f4a3954eb031"
+    },
+    {
+      "path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/events.md",
+      "selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/events.md",
+      "source_digest": "92b6f1e06955c4e90eda119a132ce908b982e64b0c6e75eb2896fdfb4fc41253"
+    },
+    {
+      "path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/interfaces.md",
+      "selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/interfaces.md",
+      "source_digest": "ae5389407e09933ce333a1a9df314b081d72f4f36795d8c127adcb8c277c4c04"
+    },
+    {
+      "path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/mappings.md",
+      "selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/mappings.md",
+      "source_digest": "82997092dfd860dc35dd9ef7b2649ca7169d77fa368949cc8f296ef61fc4008e"
+    },
+    {
+      "path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/operations.md",
+      "selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/operations.md",
+      "source_digest": "77d9eccc4720e920119166ed6fecaff8ee22e4581baeef1d3e862e8f0a29f8aa"
+    },
+    {
+      "path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/states.md",
+      "selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/states.md",
+      "source_digest": "d7167316a3e2d4472bcf40498b7c24ff0f44b240772ba6ecb27701da4e906adc"
+    },
+    {
+      "path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/design/PLANNED-WITNESSES.json",
+      "selector": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/design/PLANNED-WITNESSES.json",
+      "source_digest": "d976f6eb14d4047ddb802b5d63513836fdcdd90118eb73cfeb4c472122450325"
+    },
+    {
+      "path": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/native-run/run-01/events.jsonl",
+      "selector": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/native-run/run-01/events.jsonl",
+      "source_digest": "648a5925e8320d13f4158186cf3e417ae2e1dc85dfdd87bf7b5416b98ea71af1"
+    },
+    {
+      "path": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/native-run/run-01/evidence-validation.json",
+      "selector": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/native-run/run-01/evidence-validation.json",
+      "source_digest": "b665e49e5f431542c2c028b6eeb21f04f11e099b843e2435d5c8c2a65736845e"
+    }
+  ],
+  "manifest_authored_by": "invoke-design-author-orchestrate-capacity",
+  "manifest_id": "design-scope.orchestrate-capacity-aware-admission.2026-08-03",
+  "manifest_input_digest": "9529eb27331203cfa0c21dd36311b9348345ac33ae5f99af4cc6260b3fac3d48",
+  "missing_detector_inputs": [],
+  "receipt_digest": "fd1424a7ab62c242202271146de98795cf8f297a8daa4c8c06a39511d751d83c",
+  "schema_version": "1.0.0",
+  "unbound_signal_ids": [],
+  "validator_owner": "invoke-design-selection-validator",
+  "verdict": "pass"
+}

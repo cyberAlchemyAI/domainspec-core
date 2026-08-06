@@ -1,0 +1,113 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    {
+      "id": "node26-toolchain-selected",
+      "signal_type": "route_changed",
+      "claim": "Direct user selected one exact Node 26 diagnostic attempt.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "stale-plan-selectors",
+      "signal_type": "artifact_drift",
+      "claim": "Execution Pack and TASK-WCSB-01 retained stale SWU-WCSB-001 selectors after terminal closeout.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "plan/WORK-PACK.md",
+    "plan/EXECUTION-PACK.md",
+    "plan/work-pack/waves/W0-SOURCE-BUILD.md",
+    "plan/work-pack/shared/traceability.md",
+    "plan/work-pack/shared/cross-task-gaps.md",
+    "plan/work-pack/tasks/TASK-WCSB-01-RUNNER.md",
+    "plan/work-pack/tasks/TASK-WCSB-03-NODE26.md",
+    "plan/node26-retry.dispatch.json"
+  ],
+  "deltaSummary": [
+    "evidence_added",
+    "status_changed",
+    "route_changed",
+    "artifact_drift"
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "added SWU-WCSB-003 Node 26 diagnostic contract",
+    "selected exact attempt wcsb-20260805-node26-01",
+    "added and validated serial Node 26 retry dispatch",
+    "updated W0 traceability and gap projections",
+    "cleared stale SWU-WCSB-001 selectors"
+  ],
+  "skippedChanges": [
+    "original Node 22 dispatch and evidence remain immutable",
+    "runner and validator remain unchanged because their CLI already supports exact Node/npm pins",
+    "parent experiment and Craft remain outside refresh scope"
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "wavedb-reviewed-source-build:node26-retry-20260805",
+    "packageDigest": "e962126022d6f2bd3c695bd4abd1b53d9ac52acb11b510f25af2bc560a92b8f8",
+    "selectorFixPackageId": "wavedb-reviewed-source-build:node26-selector-fix-20260805",
+    "selectorFixPackageDigest": "fe0979d316013e38a44486389459fbd1ae657a248129f47c7f42a91c002a473c",
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "lifecycleOwner": "wavedb-source-build-invoke-owner",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "mutationReady": true,
+  "blockers": [
+    {
+      "id": "node26-execution-pending",
+      "scope": "target-lifecycle",
+      "owner": "task-session",
+      "status": "open",
+      "claim": "Node 26 plan authoring passed; live build and tests remain unexecuted."
+    }
+  ],
+  "nextRoute": "task-session:execute SWU-WCSB-003",
+  "dispatchTrace": {
+    "fullDispatch": "plan/node26-retry.dispatch.json",
+    "validation": "pass",
+    "techniques": [
+      "sequence",
+      "validation_loop",
+      "owner_boundary_check",
+      "execution_receipt_handoff",
+      "concrete_path_evidence",
+      "residue_ledger"
+    ],
+    "subagents": "none"
+  },
+  "distill": {
+    "status": "skipped",
+    "reason": "The refresh adds one already-atomic controlled-variable SWU with one primary behavior and one terminal acceptance boundary."
+  },
+  "validation": [
+    "strict Context Builder coverage 8/8",
+    "Inventory lookup readiness pass",
+    "both material package receipts pass",
+    "both handoff receipts ready",
+    "all live target bytes match staged package outputs",
+    "Dispatch Spec pass with zero blocks and flags",
+    "exactly one selected SWU manifest row",
+    "scoped whitespace pass",
+    "Craft tracked diff count zero"
+  ]
+}

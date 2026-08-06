@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.2.0",
+  "executionMode": "routed-mutation",
+  "taskId": "TASK-WCSB-03",
+  "swuId": "SWU-WCSB-003",
+  "controlArtifacts": [
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md", "sha256": "04c1549a464458f8f8a767088b3153ebe1e6499e01040e5f967fe5ee2aac30fe", "sizeBytes": 11564, "role": "work-pack", "authorityClass": "private"},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-03-NODE26.md", "sha256": "4d60c3768924479334f96e496aaf1cf5e7a8ef8610b4b7408af2030b2c440592", "sizeBytes": 4641, "role": "task-contract", "authorityClass": "private"},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-003/context-pack.json", "sha256": "6078173e70100276a4fa24422899d1596fe83e82ec23e56e05cfe37bc92ae0a1", "sizeBytes": 6044, "role": "context-pack", "authorityClass": "private"},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/run_source_build.py", "sha256": "190787d812ebd3eccd0c86b6e11acf0321e516092703ec636a380afb1b188867", "sizeBytes": 20745, "role": "source", "authorityClass": "private"},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py", "sha256": "5ed3e1d1ff666c7870694a2656bce45ca1ab8230e79c6d484dba7184960aeddb", "sizeBytes": 9601, "role": "source", "authorityClass": "private"},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/source-build-receipt.schema.json", "sha256": "01642c798b3e5d186d0ee7e67bcc637f6f4ebfbffff4c991c4a054e0029d644c", "sizeBytes": 1289, "role": "source", "authorityClass": "private"},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/node26-retry.dispatch.json", "sha256": "c95d17bbcc7bf91aec1e2e744b19baf508dd92ccdae8e79e7491e56395f7a46c", "sizeBytes": 8793, "role": "source", "authorityClass": "private"}
+  ],
+  "dependencyFrontier": [
+    {"dependencyId": "SWU-WCSB-001-terminal", "artifactRef": {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/terminal-receipt.json", "sha256": "add3c1afdee9968d809a5aaac18bce7fbd169b5821a1151d27aeccc1dc8adbe5", "sizeBytes": 4184}},
+    {"dependencyId": "SWU-WCSB-002-terminal", "artifactRef": {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/terminal-receipt.json", "sha256": "ed69bc22fb5fde7ab8b62865e47437f8a689b7acdfa62b0c641a405eccc88252", "sizeBytes": 4621}},
+    {"dependencyId": "Node26-invoke-refresh", "artifactRef": {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/refreshes/20260805T153202Z-node26-retry/invoke-refresh-receipt.json", "sha256": "2102ac4d99b6c96815ea2b796db70e529449a569715cd6d7a16833276156f347", "sizeBytes": 2039}},
+    {"dependencyId": "Node26-dispatch-validation", "artifactRef": {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/node26-dispatch-validation.json", "sha256": "10d08d93623686f7af6e2e46a642a8af52e1ff485c5005267f2e45c25f2e4d46", "sizeBytes": 58}}
+  ],
+  "materialWrites": [],
+  "executionOutputs": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcsb-20260805-node26-01",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build-node26",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-003/terminal-receipt.json"
+  ],
+  "allowedWrites": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcsb-20260805-node26-01",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build-node26",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-003/terminal-receipt.json"
+  ],
+  "validationCommands": [
+    "source /home/vrondelli/.nvm/nvm.sh && nvm use 26.6.0 && node --version && npm --version",
+    "source /home/vrondelli/.nvm/nvm.sh && nvm use 26.6.0 && python3 ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/run_source_build.py --execute --workspace-root . --source-build-root ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build --attempt-id wcsb-20260805-node26-01 --evidence-dir execution/source-build-node26 --source-url https://github.com/vijayee/WaveDB.git --source-commit 01c77e8b70f71de9b72480e73a3a179f6e93a009 --expected-package-lock-sha256 26fbf0839106a0521f1ad6785764cefa3d39aedd9ff8412c982689c09b109f95 --expected-package-json-sha256 82e87aaaac10113cb1294732bf149356f6f7df76ecde0259181999c6a3fe9dc3 --expected-binding-gyp-sha256 5a326bf16ce349808572fcd213344868edeabf70fb75a10f56c1c9f429d5b90f --expected-build-js-sha256 ff00fe3c9c3dbfc5401c611feac70a8148a92f158bfaa6ec30acbfade214d1bc --expected-copy-sources-js-sha256 466f86b07e370a4cfcde0ff3d4f4639564344247f08d480ba6ed4d2c6b3e420a --expected-node v26.6.0 --expected-npm 11.18.0 --expected-python 3.12.3 --expected-gcc 13.3.0 --expected-gxx 13.3.0 --expected-make 4.3 --expected-ld 2.42 --openssl-root /usr --validator ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py --forbidden-path arcanum/arcana/craft --forbidden-path arcanum/development/craft --forbidden-path .git/HEAD --forbidden-path .git/index --forbidden-path ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcsb-20260804-01 --forbidden-path ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build",
+    "python3 ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build-node26/source-build-receipt.json --source-build-root ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build --expected-source-commit 01c77e8b70f71de9b72480e73a3a179f6e93a009 --expected-lockfile-sha256 26fbf0839106a0521f1ad6785764cefa3d39aedd9ff8412c982689c09b109f95",
+    "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution"
+  ],
+  "lifecycleOwner": "wavedb-source-build-invoke-owner",
+  "authorityClass": "private",
+  "publicationClass": "internal"
+}

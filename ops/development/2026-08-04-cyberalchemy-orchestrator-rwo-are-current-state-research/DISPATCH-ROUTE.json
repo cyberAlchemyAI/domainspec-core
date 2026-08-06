@@ -1,0 +1,881 @@
+{
+  "dispatch_id": "2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Research the current state of cyberalchemy-orchestrator, its implemented state, proposals, hypotheses and open questions, how it integrates with the new work orchestrator, and then with the agent-reasoning-engine.",
+    "objective": "Produce an exact-source, owner-preserving current-state and integration assessment that separates implemented evidence from proposal and hypothesis, and selects, narrows, defers, or kills candidate seams into the recursive work orchestrator and private agent-reasoning-engine.",
+    "target_artifact": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/findings.md",
+    "arcanum_vocabulary": [
+      "domainspec-subagents-strategy",
+      "dispatch-spec",
+      "orchestrate",
+      "inventory",
+      "exact-binding evidence closure"
+    ]
+  },
+  "mode": "research",
+  "techniques": [
+    "sequence",
+    "zig_zag",
+    "dialectic",
+    "concrete_path_evidence",
+    "execution_receipt_handoff",
+    "authority_split_gate"
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Synthesis across tracked implementation, untracked proposal, tracked discovery and target-model hypotheses, and a separately owned private reasoning-engine stack; independent current-state, proposal, and integration investigations can run in parallel.",
+    "explanation": "Three independent explorer lanes protect implementation truth, proposal truth, and integration truth from collapsing into one architectural narrative. A synthesizer must reconcile them, three skeptics attack ownership, non-vacuity, and definitional soundness, and a bounded writer/auditor tail persists and checks the exact-binding result.",
+    "context": [
+      "The target repository is a separate nested repository frozen at b42228fcf4a5a6dadefbbfb53dfaa3c3edb28108 for tracked evidence.",
+      "The recursive-work-orchestrator sources are untracked and proposal-only; their SHA-256 identities are frozen separately.",
+      "The private agent-reasoning-engine has a bounded L0 evaluator witness but no whole-engine or executable cross-repository promotion.",
+      "All research outputs stay in the private parent repository; no product, target ledger, target ACI binding, authority, publication, deployment, or release mutation is permitted."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "implementation-explorer",
+        "purpose": "Verify the current tracked orchestrator implementation and its strongest evidence-backed capability claims.",
+        "owns": "Current implementation matrix and explorer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/implementations/",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "input_refs": [
+          "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/dispatch-sheet.json",
+          "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": [
+          "receipts/implementation-explorer.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "proposal-explorer",
+        "purpose": "Classify recursive-work, workflow-graph, and autonomous-agent-graph proposals, hypotheses, non-decisions, and open residue.",
+        "owns": "Proposal and residue matrix plus explorer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "input_refs": [
+          "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/dispatch-sheet.json",
+          "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": [
+          "receipts/proposal-explorer.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "integration-explorer",
+        "purpose": "Map current and proposed work-orchestrator concepts into agent-reasoning-engine layers without duplicating authority.",
+        "owns": "Two exact-binding integration matrices and explorer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "cyberAlchemy-v2/development/agent-reasoning-engine/",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "input_refs": [
+          "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/dispatch-sheet.json",
+          "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": [
+          "receipts/integration-explorer.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "state-synthesizer",
+        "purpose": "Reconcile the three evidence domains into one current-state and integration model without erasing disagreements or claim ceilings.",
+        "owns": "Evidence-bound synthesis receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/",
+        "capability_mode": "synthesize",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [
+          "implementation-explorer",
+          "proposal-explorer",
+          "integration-explorer"
+        ],
+        "input_refs": [
+          "receipts/implementation-explorer.json",
+          "receipts/proposal-explorer.json",
+          "receipts/integration-explorer.json"
+        ],
+        "output_refs": [
+          "receipts/state-synthesis.json"
+        ],
+        "applies_to_steps": [
+          "s2"
+        ]
+      },
+      {
+        "role_id": "precedent-reviewer",
+        "purpose": "Verify current owners and detect duplication or false novelty in every proposed seam.",
+        "owns": "Precedent and owner-classification receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [
+          "state-synthesizer"
+        ],
+        "input_refs": [
+          "receipts/state-synthesis.json"
+        ],
+        "output_refs": [
+          "receipts/reviewer-precedent.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "non-vacuity-reviewer",
+        "purpose": "Require finite positive, negative, retry, replay, blocked-path, and integration witnesses for every retained claim.",
+        "owns": "Non-vacuity and counterexample receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [
+          "state-synthesizer"
+        ],
+        "input_refs": [
+          "receipts/state-synthesis.json"
+        ],
+        "output_refs": [
+          "receipts/reviewer-non-vacuity.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "definitional-reviewer",
+        "purpose": "Prevent workflow, orchestration, persistence, semantic evaluation, evidence, authority, and effects from collapsing into one concept or owner.",
+        "owns": "Definitional and authority non-collapse receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [
+          "state-synthesizer"
+        ],
+        "input_refs": [
+          "receipts/state-synthesis.json"
+        ],
+        "output_refs": [
+          "receipts/reviewer-definitional.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "findings-writer",
+        "purpose": "Persist the evidence-closed current-state and integration assessment.",
+        "owns": "findings.md and writer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/findings.md",
+        "capability_mode": "write-findings",
+        "agent_count": 1,
+        "mutation_policy": "artifact-only",
+        "write_scope": [
+          "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/findings.md"
+        ],
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [
+          "precedent-reviewer",
+          "non-vacuity-reviewer",
+          "definitional-reviewer"
+        ],
+        "input_refs": [
+          "receipts/state-synthesis.json",
+          "receipts/reviewer-precedent.json",
+          "receipts/reviewer-non-vacuity.json",
+          "receipts/reviewer-definitional.json",
+          "receipts/evidence-closure.json"
+        ],
+        "output_refs": [
+          "receipts/findings-writer.json"
+        ],
+        "applies_to_steps": [
+          "s5"
+        ]
+      },
+      {
+        "role_id": "findings-auditor",
+        "purpose": "Accept the exact-binding findings or return one bounded writer repair.",
+        "owns": "Final audit receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/findings.md",
+        "capability_mode": "audit",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [
+          "findings-writer"
+        ],
+        "input_refs": [
+          "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/findings.md",
+          "receipts/findings-writer.json",
+          "receipts/evidence-closure.json"
+        ],
+        "output_refs": [
+          "receipts/findings-audit.json"
+        ],
+        "applies_to_steps": [
+          "s6"
+        ]
+      }
+    ],
+    "execution_waves": [
+      {
+        "wave_id": "exploration",
+        "role_ids": [
+          "implementation-explorer",
+          "proposal-explorer",
+          "integration-explorer"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "gate_after": "g-explorer-evidence",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "synthesis",
+        "role_ids": [
+          "state-synthesizer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "exploration"
+        ],
+        "gate_after": "g-synthesis",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "review",
+        "role_ids": [
+          "precedent-reviewer",
+          "non-vacuity-reviewer",
+          "definitional-reviewer"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "synthesis"
+        ],
+        "gate_after": "g-review-and-evidence-closure",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "writing",
+        "role_ids": [
+          "findings-writer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "review"
+        ],
+        "gate_after": "g-findings",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "audit",
+        "role_ids": [
+          "findings-auditor"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "writing"
+        ],
+        "on_incomplete": "block"
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "Confirm the frozen nine-agent current-state and integration research strategy to register and execute it?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "capability_target",
+      "capability_mode",
+      "wave_id",
+      "write_scope",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Run three current-state and integration evidence lanes",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "explore",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "concrete_path_evidence",
+        "owner_boundary_check"
+      ],
+      "roles": [
+        "implemented-state",
+        "proposal-and-residue",
+        "cross-owner-integration"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/dispatch-sheet.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/strategy-inventory-packet.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/implementation-explorer.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/proposal-explorer.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/integration-explorer.json"
+        }
+      ],
+      "join_policy": "all",
+      "stop_conditions": [
+        "stop if the frozen target commit or untracked proposal digests no longer match",
+        "stop if a lane cannot cite exact current source selectors",
+        "stop if any lane attempts a product, target ledger, target host binding, authority, publication, deployment, or release mutation"
+      ]
+    },
+    {
+      "step_id": "s2",
+      "name": "Synthesize one evidence-bounded state and integration model",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "synthesize",
+      "pattern": "synthesis",
+      "parallel": false,
+      "depends_on_steps": [
+        "s1"
+      ],
+      "techniques": [
+        "sequence",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/implementation-explorer.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/proposal-explorer.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/integration-explorer.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/state-synthesis.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop if implementation, proposal, tracked discovery, and private reasoning evidence are merged into one status",
+        "stop if the synthesis omits a major disagreement or an explicit open owner decision"
+      ]
+    },
+    {
+      "step_id": "s3",
+      "name": "Run three adversarial ownership, witness, and definition gates",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "review",
+      "pattern": "dialectic",
+      "parallel": true,
+      "depends_on_steps": [
+        "s2"
+      ],
+      "techniques": [
+        "dialectic",
+        "zig_zag",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "roles": [
+        "precedent-and-owner-skeptic",
+        "non-vacuity-skeptic",
+        "definitional-and-authority-skeptic"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/state-synthesis.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-non-vacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-definitional.json"
+        }
+      ],
+      "join_policy": "all",
+      "convergence_criteria": [
+        "all three reviewer gates return PASS after at most two synthesis-review turns",
+        "every retained integration seam has an owner, finite witness or counterexample, and non-collapse rule",
+        "all implementation and proposal claims retain exact identities and proof statuses"
+      ],
+      "stop_conditions": [
+        "stop if reviewer disagreement survives the loop ceiling",
+        "stop if missing source evidence cannot be repaired through the confirmed explorer feedback edge"
+      ]
+    },
+    {
+      "step_id": "s4",
+      "name": "Close exact-binding evidence before writing",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "evidence-closure",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": [
+        "s2",
+        "s3"
+      ],
+      "techniques": [
+        "concrete_path_evidence",
+        "artifact_contract_bridge",
+        "authority_split_gate"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/state-synthesis.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-non-vacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-definitional.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/evidence-closure.json"
+        }
+      ],
+      "evidence_artifact": "receipts/evidence-closure.json",
+      "stop_conditions": [
+        "stop if a load-bearing row lacks immutable source identity, exact selector, explorer-return reference, evidence scope, or proof status",
+        "stop if an unresolved owner conflict is phrased as an integration recommendation"
+      ]
+    },
+    {
+      "step_id": "s5",
+      "name": "Write the current-state and integration findings",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "write-findings",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s4"
+      ],
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/evidence-closure.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/state-synthesis.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-non-vacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-definitional.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/findings.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/findings-writer.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop if the writer exceeds the single-file write scope",
+        "stop if findings introduces a claim or recommendation absent from evidence closure"
+      ]
+    },
+    {
+      "step_id": "s6",
+      "name": "Audit and accept or return one bounded findings revision",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "audit",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": [
+        "s5"
+      ],
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/findings.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/findings-writer.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/evidence-closure.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/findings-audit.json"
+        }
+      ],
+      "evidence_artifact": "receipts/findings-audit.json",
+      "stop_conditions": [
+        "stop after one bounded auditor-to-writer revision",
+        "stop if final audit verdict is not ACCEPT"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-explorer-evidence",
+      "kind": "validation",
+      "owner": "orchestrate",
+      "condition": "All three explorer agents are joined and closed with exact-source receipts before synthesis starts.",
+      "applies_after_wave": "exploration",
+      "requires_role_receipts": [
+        "receipts/implementation-explorer.json",
+        "receipts/proposal-explorer.json",
+        "receipts/integration-explorer.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-synthesis",
+      "kind": "quality",
+      "owner": "orchestrate",
+      "condition": "The synthesis preserves all four evidence ceilings and produces both exact-binding integration matrices before review starts.",
+      "applies_after_wave": "synthesis",
+      "requires_role_receipts": [
+        "receipts/state-synthesis.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-review-and-evidence-closure",
+      "kind": "validation",
+      "owner": "orchestrate",
+      "condition": "All reviewers pass and the parent records an exact-binding evidence-closure receipt before writing starts.",
+      "applies_after_wave": "review",
+      "requires_role_receipts": [
+        "receipts/reviewer-precedent.json",
+        "receipts/reviewer-non-vacuity.json",
+        "receipts/reviewer-definitional.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-findings",
+      "kind": "quality",
+      "owner": "orchestrate",
+      "condition": "The writer produces only the declared findings artifact and writer receipt from evidence-closed inputs.",
+      "applies_after_wave": "writing",
+      "requires_role_receipts": [
+        "receipts/findings-writer.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-final-audit",
+      "kind": "quality",
+      "owner": "Loregian, Fosco",
+      "condition": "The final auditor returns ACCEPT after at most one bounded writer revision.",
+      "requires_role_receipts": [
+        "receipts/findings-audit.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-human-authorization",
+      "kind": "human_approval",
+      "owner": "human operator",
+      "condition": "No research role may spawn and no ledger row may append until the user confirms the materially frozen strategy.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "parent",
+      "condition": "Research cannot implement, select, authorize, promote, publish, deploy, release, or claim target ACI binding, reasoning-engine integration, or production readiness.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch_registered",
+      "action_attempted",
+      "host_spawn_returned",
+      "agent_wait_registered",
+      "wait_attempted",
+      "agent_terminal",
+      "agent_closed",
+      "wave_gate_evaluated",
+      "evidence_closure_recorded",
+      "final_audit_recorded",
+      "dispatch_closed"
+    ],
+    "signal_grouping": "dispatch_id and step_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-target-read-only",
+        "kind": "artifact_import",
+        "from_owner": "cyberalchemy-orchestrator owners",
+        "to_owner": "private parent research dispatch",
+        "applies_to_steps": [
+          "s1",
+          "s2",
+          "s3",
+          "s4",
+          "s5",
+          "s6"
+        ],
+        "contract": "Tracked target bytes and separately hashed untracked proposal bytes are immutable research inputs. No delegated role may edit the target, register its ledger, invoke its host bridge, or create an ACI host-binding envelope.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-private-reasoning-source",
+        "kind": "artifact_import",
+        "from_owner": "cyberAlchemy-v2 reasoning-engine owners",
+        "to_owner": "private parent research dispatch",
+        "applies_to_steps": [
+          "s1",
+          "s2",
+          "s3",
+          "s4",
+          "s5",
+          "s6"
+        ],
+        "contract": "Private reasoning-engine sources may inform private research outputs only; no private path, prose, or authority contract may be published into the nested target repository.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-evidence-return",
+        "kind": "evidence_return",
+        "from_owner": "research roles",
+        "to_owner": "parent orchestrator",
+        "applies_to_steps": [
+          "s1",
+          "s2",
+          "s3",
+          "s4",
+          "s5",
+          "s6"
+        ],
+        "contract": "Every delegated role returns a structured receipt; prose alone cannot open a dependent wave.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-human-authorization",
+        "kind": "human_approval",
+        "from_owner": "human operator",
+        "to_owner": "orchestrate",
+        "applies_to_steps": [
+          "s1"
+        ],
+        "contract": "No research role may spawn until the human confirms the exact materially frozen strategy.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "domainspec-subagents-strategy",
+      "execution": "orchestrate after explicit human confirmation",
+      "validation": "dispatch-spec, registrar readiness, two independent tension gates, evidence closure, reviewers, and final auditor",
+      "evidence": "exact-binding research closure owned by the parent",
+      "memory": "Inventory and memory are non-authority discovery projections",
+      "promotion": "not granted"
+    },
+    "receipts": [
+      {
+        "receipt_id": "research-role-receipts",
+        "producer": "each delegated research role",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "working-folder receipts"
+        ],
+        "on_missing": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Inventory and memory are discovery only and cannot replace direct current sources.",
+    "Untracked recursive-work files remain proposal-only regardless of design completeness or research quality.",
+    "Tracked code and passing tests establish only their executed or inspected scope, not production, deployment, or whole-product completion.",
+    "Orchestration and workflow routing cannot be described as semantic judgment or a whole reasoning engine.",
+    "A positive semantic evaluator result cannot authorize effects or expand ACI ownership.",
+    "The target host-binding mechanism is an integration surface to analyze, not authorization for this parent-owned research dispatch.",
+    "No research output may be copied to the target repository because it contains private cyberAlchemy-v2 paths and authority analysis."
+  ]
+}

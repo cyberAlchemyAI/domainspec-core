@@ -1,0 +1,120 @@
+{
+  "schema_version": "candidate-local-1.0.0",
+  "receipt_id": "WCP-L0-20260804-01-SWU-WCP-001-invoke-refresh",
+  "mode": "refresh",
+  "owner_route": "invoke:refresh:apply-approved",
+  "activation_source": "continuation",
+  "mutation_mode": "apply-approved",
+  "mutation_mode_source": "explicit",
+  "approval_evidence": "parent-authorized exact Work Pack closeout fields and owner receipt path for SWU-WCP-001",
+  "phase_status": "pass",
+  "phase_status_basis": {
+    "artifact_complete": true,
+    "refresh_authoring_blocker_count": 0
+  },
+  "handoff_status": "ready",
+  "mutation_ready": true,
+  "source_terminal_result": "BLOCK",
+  "source_failure_code": "PACKAGE_PROVENANCE_MISMATCH",
+  "source_receipt": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/task-sessions/SWU-WCP-001/terminal-receipt.json",
+    "sha256": "fe08942eb5b3eca1e897bc3aad7bb6a64784c1900b32fe1c4988470482057739"
+  },
+  "closeout_preflight": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/task-sessions/SWU-WCP-001/CLOSEOUT-PREFLIGHT.json",
+    "sha256": "4ce773487fcfb859756830a18320f8267f07b520a3dd005bb28f044739686928",
+    "verdict": "pass"
+  },
+  "supporting_evidence": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/wp0-provenance/RESULT.md",
+      "sha256": "561a0add173d760c4da430ccaca497bd7012ada275ed54498d8d79dfa54d09ca"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/wp0-provenance/comparison.json",
+      "sha256": "5a966328559da2ace3ae6474c5a3dc0a452853d2e825851fc904919f0b5babae"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/wp0-provenance/registry-metadata.json",
+      "sha256": "858766225e26482aef1cb276581a2cebde3801f7cd4717fe1aabd9b17c5cec25"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/task-sessions/SWU-WCP-001/continuation-handoff.json",
+      "sha256": "ae31d57b6fd2e71953ff810bc2edbefc2ac0a52d2010b0ec3ad29cd8c61fa625"
+    }
+  ],
+  "target_artifact": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/plan/WORK-PACK.md",
+    "before_sha256": "36c994207a5bb2674bd3344b86cd574be0582075ea84b48fba9dbdf7b87a2adb",
+    "after_sha256": "50a60320c383b95c8ce2cec8c58d3da93b60723a95e889e4982095b252502d47"
+  },
+  "applied_deltas": [
+    {
+      "delta_class": "status_changed",
+      "target": "WORK-PACK.md#task-status-board",
+      "claim": "TASK-WCP-01 changed from not-started to blocked"
+    },
+    {
+      "delta_class": "status_changed",
+      "target": "WORK-PACK.md#swu-execution-handoff",
+      "claim": "SWU-WCP-001 changed from selected to blocked"
+    },
+    {
+      "delta_class": "evidence_added",
+      "target": "WORK-PACK.md#gate-checks",
+      "claim": "terminal receipt path, PACKAGE_PROVENANCE_MISMATCH, and no-successor result recorded"
+    }
+  ],
+  "preserved_controls": {
+    "selected_swu": "SWU-WCP-001",
+    "native_mutation_admission": "block",
+    "successor": null,
+    "remaining_frontier_executed": false
+  },
+  "blocker_scopes": {
+    "refresh-authoring": 0,
+    "apply-authorization": 0,
+    "target-lifecycle": 1,
+    "audit": 0
+  },
+  "target_lifecycle_blockers": [
+    {
+      "id": "B-WCP-PROV-001",
+      "status": "open",
+      "owner": "package/security owner",
+      "claim": "registry package/source provenance does not close"
+    }
+  ],
+  "validation": [
+    {
+      "check": "work-pack baseline",
+      "status": "pass",
+      "evidence": "before_sha256 equals the required closeout preflight baseline"
+    },
+    {
+      "check": "source terminal receipt",
+      "status": "pass",
+      "evidence": "BLOCK, PACKAGE_PROVENANCE_MISMATCH, acceptance-critical validation, no successor, and no forbidden effects"
+    },
+    {
+      "check": "supporting provenance",
+      "status": "pass",
+      "evidence": "comparison.json independently records no install, native build, or addon load"
+    },
+    {
+      "check": "work-pack controls and links",
+      "status": "pass",
+      "evidence": "selectedSWU preserved, nativeMutationAdmission remains block, and local Markdown link targets resolve"
+    },
+    {
+      "check": "output scope",
+      "status": "pass",
+      "evidence": "only declared Work Pack status/evidence fields and this owner receipt were written"
+    }
+  ],
+  "next_swu": null,
+  "next_route": "decision-gate:blocker",
+  "owner_terminal_verdict": "PASS",
+  "claim_ceiling": "Task Session BLOCK closeout synchronization only; no WaveDB install, build, runtime, projection, promotion, publication, deployment, or production evidence",
+  "completed_at": "2026-08-04T18:28:25Z"
+}

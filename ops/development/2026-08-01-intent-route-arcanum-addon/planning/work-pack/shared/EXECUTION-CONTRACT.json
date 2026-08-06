@@ -1,0 +1,539 @@
+{
+  "budgets": {
+    "browser_launches": 2,
+    "network_calls": 0,
+    "repair_cycles_per_unit": 1,
+    "simultaneous_helpers": 1,
+    "task_session_requests": 10
+  },
+  "capability_allowlist": {
+    "arcanum-bootstrap": [
+      "SWU-IRO-005"
+    ],
+    "context-builder": [
+      "SWU-IRO-001"
+    ],
+    "decision-gate": [
+      "SWU-IRO-001"
+    ],
+    "invoke:refresh": [
+      "SWU-IRO-001",
+      "SWU-IRO-007"
+    ],
+    "shared-playwright": [
+      "SWU-IRO-003",
+      "SWU-IRO-005"
+    ],
+    "sigil-development": [
+      "SWU-IRO-002",
+      "SWU-IRO-003",
+      "SWU-IRO-004"
+    ],
+    "task-session": [
+      "SWU-IRO-001",
+      "SWU-IRO-002",
+      "SWU-IRO-003",
+      "SWU-IRO-004",
+      "SWU-IRO-005",
+      "SWU-IRO-006",
+      "SWU-IRO-007",
+      "SWU-IRO-008",
+      "SWU-IRO-009",
+      "SWU-IRO-VERIFY"
+    ]
+  },
+  "chain_runtime": {
+    "approval_receipt": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/goal-start-approval.json",
+    "chain_config": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/chain-config.json",
+    "chain_preflight": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/chain-preflight.json",
+    "chain_record": ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/chain.json",
+    "state_directory": ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>",
+    "transition_receipts": [
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/transitions/000001.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/transitions/000002.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/transitions/000003.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/transitions/000004.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/transitions/000005.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/transitions/000006.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/transitions/000007.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/transitions/000008.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/transitions/000009.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-<epoch-id>/transitions/000010.json"
+    ]
+  },
+  "closeout": {
+    "admitted_delta_classes": [
+      "evidence_added",
+      "blocker_opened",
+      "blocker_resolved",
+      "status_changed",
+      "route_changed"
+    ],
+    "allowed_target_classes": [
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/EXECUTION-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CROSS-TASK-GAPS.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CROSS-TASK-DECISIONS.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TRACEABILITY.md",
+      "current-unit fixed coordinator receipts"
+    ],
+    "baseline_rule": "Each exact target binds its pre-mutation SHA-256; a create binds the literal absent sentinel.",
+    "commands": [
+      "python3 ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py --root .",
+      "python3 -m json.tool <terminal-or-owner-receipt>",
+      "git diff --check -- <exact-closeout-targets>"
+    ]
+  },
+  "contract_id": "IRO-FULL-STREAM",
+  "coordinator_root": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>",
+  "epoch_policy": "Regenerate WPRA after any semantic owner, material, validation, receipt, closeout, or successor change.",
+  "evidence_ceiling": "frozen-input-contractual-readiness",
+  "execution_authority": "none",
+  "ordered_units": [
+    "SWU-IRO-001",
+    "SWU-IRO-002",
+    "SWU-IRO-003",
+    "SWU-IRO-004",
+    "SWU-IRO-005",
+    "SWU-IRO-006",
+    "SWU-IRO-007",
+    "SWU-IRO-008",
+    "SWU-IRO-009",
+    "SWU-IRO-VERIFY"
+  ],
+  "receipt_schemas": {
+    "chain_config": ".agents/skills/task-session-until-blocker/schemas/chain-config.schema.json",
+    "chain_transition": ".agents/skills/task-session-until-blocker/schemas/chain-transition.schema.json",
+    "closeout_owner": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-OWNER-RECEIPT.schema.json",
+    "closeout_preflight": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-PREFLIGHT.schema.json",
+    "closeout_sync_request": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-SYNC-REQUEST.schema.json",
+    "continuation_route": ".agents/skills/continuation-router/continuation-route.schema.json",
+    "continuity_cursor": ".agents/skills/task-session/continuity.schema.json",
+    "decision_bundle": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/DECISION-BUNDLE.schema.json",
+    "goal_start_approval": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/GOAL-START-APPROVAL.schema.json",
+    "mutation_admission_receipt": ".agents/skills/task-session/schemas/mutation-admission-receipt.schema.json",
+    "mutation_admission_request": ".agents/skills/task-session/schemas/mutation-admission-request.schema.json",
+    "terminal": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TERMINAL-RECEIPT.schema.json"
+  },
+  "runtime_evidence_contract": {
+    "continuity_cursor_template": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-<unit-id>.json",
+    "iro_001_additional_outputs": [
+      "OPTION-ADMISSIBILITY-REQUEST.json",
+      "OPTION-ADMISSIBILITY-RECEIPT.json",
+      "DECISION.json",
+      "DECISION-SUMMARY.md",
+      "decision-bundle.json"
+    ],
+    "per_unit_outputs": [
+      "CONTEXT-PACK.md",
+      "CONTEXT-PACK.json",
+      "closeout-preflight.json",
+      "mutation-admission-request.json",
+      "mutation-admission-receipt.json",
+      "terminal-receipt.json",
+      "closeout-sync-request.json",
+      "closeout-owner-receipt.json",
+      "continuation-route.json"
+    ],
+    "terminal_write_rule": "terminal-receipt.json is the final unit-local write before closeout routing",
+    "write_profile": "execution-output-only until an owner-approved material package replaces the current unit contract"
+  },
+  "schema_version": "1.1.0",
+  "units": [
+    {
+      "capabilities": [
+        "context-builder",
+        "decision-gate",
+        "task-session",
+        "invoke:refresh"
+      ],
+      "continuity_cursor": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-SWU-IRO-001.json",
+      "coordinator_outputs": [
+        "SWU-IRO-001/terminal-receipt.json",
+        "SWU-IRO-001/closeout-owner-receipt.json"
+      ],
+      "depends_on": [],
+      "extra_receipts": [
+        "SWU-IRO-001/OPTION-ADMISSIBILITY-REQUEST.json",
+        "SWU-IRO-001/OPTION-ADMISSIBILITY-RECEIPT.json",
+        "SWU-IRO-001/DECISION.json",
+        "SWU-IRO-001/DECISION-SUMMARY.md"
+      ],
+      "owner_material_scope": [],
+      "pause_before_successor": "explicit candidate-mutation approval",
+      "runtime_outputs": [
+        "SWU-IRO-001/CONTEXT-PACK.md",
+        "SWU-IRO-001/CONTEXT-PACK.json",
+        "SWU-IRO-001/closeout-preflight.json",
+        "SWU-IRO-001/mutation-admission-request.json",
+        "SWU-IRO-001/mutation-admission-receipt.json",
+        "SWU-IRO-001/terminal-receipt.json",
+        "SWU-IRO-001/closeout-sync-request.json",
+        "SWU-IRO-001/closeout-owner-receipt.json",
+        "SWU-IRO-001/continuation-route.json",
+        "SWU-IRO-001/OPTION-ADMISSIBILITY-REQUEST.json",
+        "SWU-IRO-001/OPTION-ADMISSIBILITY-RECEIPT.json",
+        "SWU-IRO-001/DECISION.json",
+        "SWU-IRO-001/DECISION-SUMMARY.md",
+        "SWU-IRO-001/decision-bundle.json"
+      ],
+      "successor": "SWU-IRO-002",
+      "task_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-GATE-001.md",
+      "unit_id": "SWU-IRO-001",
+      "validation_commands": [
+        "python3 -m json.tool <decision-json>",
+        "python3 -m json.tool <terminal-receipt>",
+        "python3 -m json.tool <closeout-owner-receipt>",
+        "verify exact source/profile digests and zero non-evidence writes"
+      ]
+    },
+    {
+      "capabilities": [
+        "task-session",
+        "sigil-development"
+      ],
+      "continuity_cursor": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-SWU-IRO-002.json",
+      "coordinator_outputs": [
+        "SWU-IRO-002/terminal-receipt.json",
+        "SWU-IRO-002/closeout-owner-receipt.json"
+      ],
+      "depends_on": [
+        "SWU-IRO-001"
+      ],
+      "extra_receipts": [],
+      "owner_material_scope": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+      ],
+      "pause_before_successor": null,
+      "runtime_outputs": [
+        "SWU-IRO-002/CONTEXT-PACK.md",
+        "SWU-IRO-002/CONTEXT-PACK.json",
+        "SWU-IRO-002/closeout-preflight.json",
+        "SWU-IRO-002/mutation-admission-request.json",
+        "SWU-IRO-002/mutation-admission-receipt.json",
+        "SWU-IRO-002/terminal-receipt.json",
+        "SWU-IRO-002/closeout-sync-request.json",
+        "SWU-IRO-002/closeout-owner-receipt.json",
+        "SWU-IRO-002/continuation-route.json"
+      ],
+      "successor": "SWU-IRO-003",
+      "task_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CANDIDATE-001.md",
+      "unit_id": "SWU-IRO-002",
+      "validation_commands": [
+        "validate candidate schemas and manifest",
+        "scan candidate for private terms/imports",
+        "verify source license and API receipt",
+        "git diff --check -- <exact-candidate-targets>"
+      ]
+    },
+    {
+      "capabilities": [
+        "task-session",
+        "sigil-development",
+        "shared-playwright"
+      ],
+      "continuity_cursor": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-SWU-IRO-003.json",
+      "coordinator_outputs": [
+        "SWU-IRO-003/terminal-receipt.json",
+        "SWU-IRO-003/closeout-owner-receipt.json"
+      ],
+      "depends_on": [
+        "SWU-IRO-002"
+      ],
+      "extra_receipts": [],
+      "owner_material_scope": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+      ],
+      "pause_before_successor": "explicit public Arcanum owner approval plus clean-worktree receipt",
+      "runtime_outputs": [
+        "SWU-IRO-003/CONTEXT-PACK.md",
+        "SWU-IRO-003/CONTEXT-PACK.json",
+        "SWU-IRO-003/closeout-preflight.json",
+        "SWU-IRO-003/mutation-admission-request.json",
+        "SWU-IRO-003/mutation-admission-receipt.json",
+        "SWU-IRO-003/terminal-receipt.json",
+        "SWU-IRO-003/closeout-sync-request.json",
+        "SWU-IRO-003/closeout-owner-receipt.json",
+        "SWU-IRO-003/continuation-route.json"
+      ],
+      "successor": "SWU-IRO-004",
+      "task_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CANDIDATE-001.md",
+      "unit_id": "SWU-IRO-003",
+      "validation_commands": [
+        "run frozen JSON and core cases",
+        "run permutation and uncertainty metamorphic cases",
+        "run Node portability witness",
+        "run shared Chromium witness and record executable digest"
+      ]
+    },
+    {
+      "capabilities": [
+        "task-session",
+        "sigil-development"
+      ],
+      "continuity_cursor": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-SWU-IRO-004.json",
+      "coordinator_outputs": [
+        "SWU-IRO-004/terminal-receipt.json",
+        "SWU-IRO-004/closeout-owner-receipt.json"
+      ],
+      "depends_on": [
+        "SWU-IRO-003"
+      ],
+      "extra_receipts": [],
+      "owner_material_scope": [
+        "arcanum/arcana/intent-route-resolver/**"
+      ],
+      "pause_before_successor": null,
+      "runtime_outputs": [
+        "SWU-IRO-004/CONTEXT-PACK.md",
+        "SWU-IRO-004/CONTEXT-PACK.json",
+        "SWU-IRO-004/closeout-preflight.json",
+        "SWU-IRO-004/mutation-admission-request.json",
+        "SWU-IRO-004/mutation-admission-receipt.json",
+        "SWU-IRO-004/terminal-receipt.json",
+        "SWU-IRO-004/closeout-sync-request.json",
+        "SWU-IRO-004/closeout-owner-receipt.json",
+        "SWU-IRO-004/continuation-route.json"
+      ],
+      "successor": "SWU-IRO-005",
+      "task_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CANONICAL-001.md",
+      "unit_id": "SWU-IRO-004",
+      "validation_commands": [
+        "verify clean public Arcanum worktree and owner receipt",
+        "run public repository validation",
+        "scan license API and private boundary",
+        "verify no generated-package mutation"
+      ]
+    },
+    {
+      "capabilities": [
+        "task-session",
+        "arcanum-bootstrap",
+        "shared-playwright"
+      ],
+      "continuity_cursor": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-SWU-IRO-005.json",
+      "coordinator_outputs": [
+        "SWU-IRO-005/terminal-receipt.json",
+        "SWU-IRO-005/closeout-owner-receipt.json"
+      ],
+      "depends_on": [
+        "SWU-IRO-004"
+      ],
+      "extra_receipts": [],
+      "owner_material_scope": [
+        "isolated temporary repo-codex root",
+        "isolated temporary claude root"
+      ],
+      "pause_before_successor": "disposable-consumer locator and owner approval",
+      "runtime_outputs": [
+        "SWU-IRO-005/CONTEXT-PACK.md",
+        "SWU-IRO-005/CONTEXT-PACK.json",
+        "SWU-IRO-005/closeout-preflight.json",
+        "SWU-IRO-005/mutation-admission-request.json",
+        "SWU-IRO-005/mutation-admission-receipt.json",
+        "SWU-IRO-005/terminal-receipt.json",
+        "SWU-IRO-005/closeout-sync-request.json",
+        "SWU-IRO-005/closeout-owner-receipt.json",
+        "SWU-IRO-005/continuation-route.json"
+      ],
+      "successor": "SWU-IRO-006",
+      "task_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CANONICAL-001.md",
+      "unit_id": "SWU-IRO-005",
+      "validation_commands": [
+        "generate repo-codex package in isolation",
+        "generate claude package in isolation",
+        "run frozen 15 plus 15 wrapper matrices",
+        "compare canonical response bytes and prove rollback after injected failure"
+      ]
+    },
+    {
+      "capabilities": [
+        "task-session"
+      ],
+      "continuity_cursor": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-SWU-IRO-006.json",
+      "coordinator_outputs": [
+        "SWU-IRO-006/terminal-receipt.json",
+        "SWU-IRO-006/closeout-owner-receipt.json"
+      ],
+      "depends_on": [
+        "SWU-IRO-005"
+      ],
+      "extra_receipts": [],
+      "owner_material_scope": [
+        "owner-bound disposable Git repository from IRO-001"
+      ],
+      "pause_before_successor": "exact ResonantOS worktree planning-scope approval",
+      "runtime_outputs": [
+        "SWU-IRO-006/CONTEXT-PACK.md",
+        "SWU-IRO-006/CONTEXT-PACK.json",
+        "SWU-IRO-006/closeout-preflight.json",
+        "SWU-IRO-006/mutation-admission-request.json",
+        "SWU-IRO-006/mutation-admission-receipt.json",
+        "SWU-IRO-006/terminal-receipt.json",
+        "SWU-IRO-006/closeout-sync-request.json",
+        "SWU-IRO-006/closeout-owner-receipt.json",
+        "SWU-IRO-006/continuation-route.json"
+      ],
+      "successor": "SWU-IRO-007",
+      "task_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CONSUMER-001.md",
+      "unit_id": "SWU-IRO-006",
+      "validation_commands": [
+        "prove install presence and execution",
+        "prove disable and uninstall or failure rollback",
+        "prove zero product effects",
+        "verify exact clean-state recovery digest"
+      ]
+    },
+    {
+      "capabilities": [
+        "task-session",
+        "invoke:refresh"
+      ],
+      "continuity_cursor": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-SWU-IRO-007.json",
+      "coordinator_outputs": [
+        "SWU-IRO-007/terminal-receipt.json",
+        "SWU-IRO-007/closeout-owner-receipt.json"
+      ],
+      "depends_on": [
+        "SWU-IRO-006"
+      ],
+      "extra_receipts": [],
+      "owner_material_scope": [
+        "<owner-approved-resonantos-worktree>/development/arcanum-addon/**"
+      ],
+      "pause_before_successor": "orchestrator owner plus catalog and normalization bindings",
+      "runtime_outputs": [
+        "SWU-IRO-007/CONTEXT-PACK.md",
+        "SWU-IRO-007/CONTEXT-PACK.json",
+        "SWU-IRO-007/closeout-preflight.json",
+        "SWU-IRO-007/mutation-admission-request.json",
+        "SWU-IRO-007/mutation-admission-receipt.json",
+        "SWU-IRO-007/terminal-receipt.json",
+        "SWU-IRO-007/closeout-sync-request.json",
+        "SWU-IRO-007/closeout-owner-receipt.json",
+        "SWU-IRO-007/continuation-route.json"
+      ],
+      "successor": "SWU-IRO-008",
+      "task_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CONSUMER-001.md",
+      "unit_id": "SWU-IRO-007",
+      "validation_commands": [
+        "verify exact ResonantOS worktree and baseline",
+        "validate planning-only material package",
+        "verify duplicate resolver ownership removed",
+        "verify zero product-code writes"
+      ]
+    },
+    {
+      "capabilities": [
+        "task-session"
+      ],
+      "continuity_cursor": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-SWU-IRO-008.json",
+      "coordinator_outputs": [
+        "SWU-IRO-008/terminal-receipt.json",
+        "SWU-IRO-008/closeout-owner-receipt.json"
+      ],
+      "depends_on": [
+        "SWU-IRO-007"
+      ],
+      "extra_receipts": [],
+      "owner_material_scope": [
+        "<owner-approved-cyberalchemy-orchestrator-adapter-scope>"
+      ],
+      "pause_before_successor": "private CAV2/ACI owner and exact field-binding approval",
+      "runtime_outputs": [
+        "SWU-IRO-008/CONTEXT-PACK.md",
+        "SWU-IRO-008/CONTEXT-PACK.json",
+        "SWU-IRO-008/closeout-preflight.json",
+        "SWU-IRO-008/mutation-admission-request.json",
+        "SWU-IRO-008/mutation-admission-receipt.json",
+        "SWU-IRO-008/terminal-receipt.json",
+        "SWU-IRO-008/closeout-sync-request.json",
+        "SWU-IRO-008/closeout-owner-receipt.json",
+        "SWU-IRO-008/continuation-route.json"
+      ],
+      "successor": "SWU-IRO-009",
+      "task_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CONSUMER-001.md",
+      "unit_id": "SWU-IRO-008",
+      "validation_commands": [
+        "run frozen 27-case adapter matrix",
+        "verify timeout size stderr digest disable and rollback",
+        "verify conflict auth runtime and effect-receipt negatives",
+        "verify zero dispatch ACI-fallback bind and spawn authority"
+      ]
+    },
+    {
+      "capabilities": [
+        "task-session"
+      ],
+      "continuity_cursor": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-SWU-IRO-009.json",
+      "coordinator_outputs": [
+        "SWU-IRO-009/terminal-receipt.json",
+        "SWU-IRO-009/closeout-owner-receipt.json"
+      ],
+      "depends_on": [
+        "SWU-IRO-008"
+      ],
+      "extra_receipts": [],
+      "owner_material_scope": [
+        "<owner-approved-private-CAV2-ACI-entry-boundary-scope>"
+      ],
+      "pause_before_successor": null,
+      "runtime_outputs": [
+        "SWU-IRO-009/CONTEXT-PACK.md",
+        "SWU-IRO-009/CONTEXT-PACK.json",
+        "SWU-IRO-009/closeout-preflight.json",
+        "SWU-IRO-009/mutation-admission-request.json",
+        "SWU-IRO-009/mutation-admission-receipt.json",
+        "SWU-IRO-009/terminal-receipt.json",
+        "SWU-IRO-009/closeout-sync-request.json",
+        "SWU-IRO-009/closeout-owner-receipt.json",
+        "SWU-IRO-009/continuation-route.json"
+      ],
+      "successor": "SWU-IRO-VERIFY",
+      "task_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-PRIVATE-001.md",
+      "unit_id": "SWU-IRO-009",
+      "validation_commands": [
+        "run private conformance",
+        "scan private and public import boundaries",
+        "verify no second journal or selection lifecycle",
+        "verify explicit CAV2 promotion or admission receipt"
+      ]
+    },
+    {
+      "capabilities": [
+        "task-session"
+      ],
+      "continuity_cursor": ".arcanum/task-session/continuity/IRO-FULL-STREAM-<epoch-id>-SWU-IRO-VERIFY.json",
+      "coordinator_outputs": [
+        "SWU-IRO-VERIFY/terminal-receipt.json",
+        "SWU-IRO-VERIFY/closeout-owner-receipt.json"
+      ],
+      "depends_on": [
+        "SWU-IRO-009"
+      ],
+      "extra_receipts": [],
+      "owner_material_scope": [],
+      "pause_before_successor": null,
+      "runtime_outputs": [
+        "SWU-IRO-VERIFY/CONTEXT-PACK.md",
+        "SWU-IRO-VERIFY/CONTEXT-PACK.json",
+        "SWU-IRO-VERIFY/closeout-preflight.json",
+        "SWU-IRO-VERIFY/mutation-admission-request.json",
+        "SWU-IRO-VERIFY/mutation-admission-receipt.json",
+        "SWU-IRO-VERIFY/terminal-receipt.json",
+        "SWU-IRO-VERIFY/closeout-sync-request.json",
+        "SWU-IRO-VERIFY/closeout-owner-receipt.json",
+        "SWU-IRO-VERIFY/continuation-route.json"
+      ],
+      "successor": "__complete__",
+      "task_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-VERIFY.md",
+      "unit_id": "SWU-IRO-VERIFY",
+      "validation_commands": [
+        "validate every terminal and owner receipt",
+        "verify exact closure source browser runtime and rollback evidence",
+        "verify scoped write inventories and authority counters",
+        "downgrade every unsupported lifecycle claim"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion":"refine-design-critic-receipt.v1",
+  "action_id":"spawn-0002",
+  "agent_id":"/root/craft_authority_spawn_0002",
+  "dispatch_id":"20260805T184540Z-craft-wavedb-api",
+  "run_id":"run-2026-08-05-craft-api-review-01",
+  "wave_id":"wave-design-critics",
+  "step_id":"s07-interrogation-design-review",
+  "role_id":"craft-authority-critic",
+  "capability_ref":"interrogation",
+  "capability_target":"stages/06-design.md",
+  "capability_mode":"refine-design-review",
+  "spawn_status":"pass",
+  "join_status":"pass",
+  "close_status":"pass",
+  "write_scope":[],
+  "status":"fail",
+  "validation":"fail",
+  "findings":[
+    {"finding_id":"AUTH-PRIV-001","target":"space_id privacy","severity":"MAJOR","evidence":"The documented unkeyed hash combines caller-known snapshot digest with a guessable private source path.","counter_example":"A caller performs an offline dictionary attack over likely repository paths.","repair":"Use a secret-keyed PRF/HMAC or random snapshot-local mapping and test dictionary resistance."},
+    {"finding_id":"AUTH-PRIV-002","target":"metadata disclosure","severity":"MAJOR","evidence":"Space metadata includes source SHA-256 and exact byte length even when raw permission is separate.","counter_example":"A list-only caller hashes suspected private content and confirms it from digest/length.","repair":"Gate digest and exact length behind provenance/raw authorization; expose only opaque snapshot binding otherwise."},
+    {"finding_id":"AUTH-FRESH-003","target":"freshness definition","severity":"MAJOR","evidence":"Prose could be read as comparing each source byte digest to the manifest-record digest rather than its manifest entry source_sha256.","counter_example":"A conforming implementation can never report fresh or can diverge silently.","repair":"Compare each current source byte digest with that path entry's source_sha256; bind full scope, snapshot, observer, authorization, and time."},
+    {"finding_id":"AUTH-SCHEMA-004","target":"row capability errors","severity":"MINOR","evidence":"409 capability_unavailable and 422 unsupported_schema overlap for legacy 0.1.","counter_example":"Two implementations return different statuses for the same authorized row request.","repair":"Use 409 whenever advertised capability is off; reserve 422 only for an explicit schema-validation operation, which v1 does not expose."}
+  ],
+  "survived_attacks":["Craft YAML remains sole authority","freshness grants no effect","row identity is family scoped","0.3 ID fields match core schema","private adapter stays private","no implementation or promotion is authorized"],
+  "artifacts":["stages/06-design.md","API-CONTRACT.md","DATA-MODEL.md","SECURITY-BOUNDARY.md","arcanum/arcana/craft/templates/ledger.schema.yml","arcanum/arcana/craft/templates/schemas/ledger-core.schema.yml"],
+  "blockers":["identifier and metadata leakage","freshness interoperability"],
+  "residue":["authentication, deployment, builder, observer, replacement, and 0.1 normalization owners remain unresolved"],
+  "reroute":"parent design repair then final review",
+  "handoff_note":"Preserve authority split and family identity; repair path-derived IDs, metadata disclosure, and freshness comparison."
+}

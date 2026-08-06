@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "wavedb-pinned-npm-diagnostic.v1",
+  "completedAt": "2026-08-05T20:35:58Z",
+  "attemptId": "wcnd-20260805-node26-02",
+  "executionResult": "pass",
+  "authorization": "first regenerate the package version a new npm version is available",
+  "artifact": {
+    "specifier": "@vijayee/wavedb@0.15.9",
+    "sha1": "0ab012ef85fb69bdb2aff54e65ddcb1fb10cd881",
+    "sha256": "e8156c107117c8bc7f3394ceb16dff439c87c0cb4f8991033dad960b13ae396f",
+    "sri": "sha512-qoRqZUti9Rjs9UT4rj8cQKNv2Gdr8bJ25p6miU4dKojLeBMfzkgQqp+D/fd2PsaItXyhgMLrlx/wQUmyj/W8hA==",
+    "registryGitHeadAnnotation": "96c62fc370434fd2d6762279d3b7e11c9f34ad68",
+    "sourceBinding": null,
+    "identityKind": "opaque-verified-npm-tarball"
+  },
+  "environment": {
+    "node": "v26.6.0",
+    "npm": "11.18.0",
+    "platform": "linux",
+    "architecture": "x64",
+    "nvmDefaultChanged": false
+  },
+  "gates": {
+    "taskSessionMutationAdmission": "pass-after-one-repaired-retry",
+    "registryIdentity": "pass",
+    "independentTarballHashBeforeScripts": "pass",
+    "packedManifest": "pass",
+    "installAndNativeBuildWithin180Seconds": "pass",
+    "addonLoadWithin20Seconds": "pass-after-inspection-probe-repair",
+    "basicStringAndBinary": "pass",
+    "emptyString": "pass",
+    "batchCloseReopen": "pass",
+    "concurrent100WritesAndReadbackWithin30Seconds": "pass",
+    "scopeAudit": "pass"
+  },
+  "canaries": {
+    "basic": {"durationMs": 44, "assertions": 2},
+    "empty": {"durationMs": 31, "assertions": 2},
+    "batchReopen": {"durationMs": 41, "assertions": 2},
+    "concurrentWrites": {"durationMs": 128, "writes": 100, "reads": 100, "assertions": 100}
+  },
+  "evidence": [
+    {"path": "registry-metadata.json", "sha256": "e4ae08adc90f11aca3daca4de4458a1660a509f803b302227448813747f0abb0", "sizeBytes": 766},
+    {"path": "baseline.json", "sha256": "f7d860a341b76f0919b07e0cffee42c15b5251a1148c87ddbe8edbd8bdb5371e", "sizeBytes": 849},
+    {"path": "tarball-receipt.json", "sha256": "4e4cd2b951f2b09ed7b453306f470e2d29ea7053068394ddc4c2b3c9e793c881", "sizeBytes": 1640},
+    {"path": "install-receipt.json", "sha256": "d54f3203a2cd69e16a1dcb452d8c42996c6e2d0e176c976e595da25919638b73", "sizeBytes": 2804},
+    {"path": "addon-load-receipt.json", "sha256": "a4ea7a6c11c56aaaaae29b44a2da814dd11eb7dd867cd78f85a543a1086e79fa", "sizeBytes": 1662},
+    {"path": "basic.json", "sha256": "5a7d4a2db394837fbbb4c70983cde1536fff8130349d1365d18fb612c415acab", "sizeBytes": 674},
+    {"path": "empty.json", "sha256": "547c5037c7711bd5150f44c1a4ecfcde1e1e094b00eddd4223e65696e7b6ab43", "sizeBytes": 674},
+    {"path": "batch-reopen.json", "sha256": "c02aa25884daa76574fcbcd0d17109d665131e56e44cb702e96a6aa110cb3f73", "sizeBytes": 710},
+    {"path": "concurrent-writes.json", "sha256": "1e0aaa434c9362bbad0338dc0206b628f9fb7ee35762e09467320f97538096f6", "sizeBytes": 738},
+    {"path": "prior-version-comparison.json", "sha256": "336f1c623a55caffd2e8bb2b8851e4eb7f09672633a3ae641fce07016a0c90ef", "sizeBytes": 805},
+    {"path": "scope-audit.json", "sha256": "c78c0360e36696281d59f02916851321237a15489d02e26b9b77bd45ae0ad93a", "sizeBytes": 3173}
+  ],
+  "comparison": {
+    "priorVersion": "0.15.8",
+    "packedFileTreeDifferenceCount": 4,
+    "differentSourceFileCount": 3,
+    "priorAddonSha256": "cbd5ebdab82635cf95ced5b0d3d3b50de7c224a6d99ebc2aa1dad57afb2ea8c9",
+    "currentAddonSha256": "4846a91117cfeaee42011e401e65448216d85c0ebd04fc860585e3a32e17bb3b",
+    "addonBytesEqual": false,
+    "versionOnlyChange": false
+  },
+  "claimCeiling": "one pinned npm 0.15.9 tarball passed four named black-box canaries on one local Linux x86_64 Node 26 environment",
+  "residue": [
+    "the exact reviewed source tree represented by the npm tarball remains unverified",
+    "the prior full-upstream-suite concurrency stall remains a valid unresolved observation",
+    "the install emitted deprecated-dependency and compiler warnings, including possible use-after-free warnings in an untested subtree API",
+    "the first addon inspection probe failed after module load because package.json is not an exported subpath; the corrected exported-path probe passed",
+    "the attempt, compiled dependency tree, logs, and runtime stores are preserved"
+  ],
+  "craftSnapshotRegenerated": false,
+  "craftIntegrationAdmitted": false,
+  "apiRuntimePinUpdated": false,
+  "addonHandoff": null,
+  "gitCommitOrPush": false,
+  "publication": false,
+  "deployment": false,
+  "subagents": {"spawned": 0, "joined": 0, "open": 0}
+}

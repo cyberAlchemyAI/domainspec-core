@@ -1,0 +1,31 @@
+{
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "authoredPhaseStatus": "pass",
+  "requestedHandoff": "ready",
+  "expectedPackageId": "wavedb-pinned-npm-diagnostic:close-pass-20260805",
+  "expectedPackageDigest": "cdb116e36cd671832d7c4ecac2b140a380cede9acaed9de90b3eec73aca6c7cc",
+  "materialReceipt": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "lifecycleOwner": "wavedb-pinned-npm-diagnostic-invoke-owner",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "cdb116e36cd671832d7c4ecac2b140a380cede9acaed9de90b3eec73aca6c7cc",
+    "packageId": "wavedb-pinned-npm-diagnostic:close-pass-20260805",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "internal",
+    "reasons": [],
+    "schemaVersion": "1.0.0",
+    "validatedPaths": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md"
+    ],
+    "validationCommands": [
+      "jq -e '.execution_result == \"pass\" and .next_route.capability == \"invoke\" and .next_route.mode == \"refresh\"' ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/terminal-receipt.json",
+      "jq -e '.executionResult == \"pass\" and .craftIntegrationAdmitted == false and .addonHandoff == null' ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26/npm-diagnostic-receipt.json",
+      "rg -n 'status: completed-local-diagnostic|executionEntryState.*closed-pass|selectedSWU.*none|state: closed-pass|selectedUnit: null|nextOwner: null' ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md",
+      "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md"
+    ]
+  }
+}

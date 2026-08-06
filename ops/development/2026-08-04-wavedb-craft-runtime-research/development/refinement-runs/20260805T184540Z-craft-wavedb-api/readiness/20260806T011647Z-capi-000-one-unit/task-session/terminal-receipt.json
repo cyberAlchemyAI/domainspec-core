@@ -1,0 +1,118 @@
+{
+  "schema_version": "task-session-terminal-receipt.v1",
+  "completed_at": "2026-08-06T01:41:30Z",
+  "session_id": "task-session-3a17208a3e7f3959a229",
+  "task_id": "TASK-RUNTIME",
+  "swu_id": "SWU-CAPI-000",
+  "execution_result": "block",
+  "terminal_code": "CURRENT_LEDGER_INVENTORY_MISMATCH",
+  "stop_decision": "failed-acceptance-critical-validation",
+  "claim_ceiling": "No WaveDB 0.15.9 Craft snapshot was constructed. The immutable -01 attempt stopped before store creation because discovered current ledger scope did not equal the frozen 27-ledger baseline.",
+  "context_pack": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/context-pack.json",
+    "sha256": "455a824865506818490c4744eb6eb694d1d9551fd288aedcf8ad75f3d20b6792",
+    "size_bytes": 6242,
+    "strict_coverage": true
+  },
+  "automatic_execution": {
+    "action": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session-action.json",
+      "sha256": "7c3a58c907a1bf3b4e672aa2f3f656a3d877e17d7995b94a43575d382d8136de",
+      "size_bytes": 3001
+    },
+    "authorization_source": "work-pack-binding",
+    "authorization_prompt_required": false,
+    "automatic_decision": "fresh-task-session-resumption"
+  },
+  "mutation_admission": {
+    "request": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/mutation-admission-request.json",
+      "sha256": "45a87206fa12c6d696cf3c1352bc4f8d0c32c764ca6000a00eb44d06d7d40ffa",
+      "size_bytes": 8327
+    },
+    "receipt": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/mutation-admission-receipt-repair-01.json",
+      "sha256": "6d3ea9b9fd0034e872629181efb43fe0d789c6b2c24cb8aff3bf84993d925522",
+      "size_bytes": 3601
+    },
+    "verdict": "admit",
+    "profile": "plan-once-selected-unit",
+    "single_use": true,
+    "attempt_id": "wcli-20260805-node26-0.15.9-01"
+  },
+  "material": {
+    "package": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/material/material-package.json",
+      "sha256": "d8955e251106fdf924554f9274c9716daaad705665cc8ac7fb5105798170673a",
+      "size_bytes": 6804
+    },
+    "producer_receipt": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/material/material-receipt-repair-01.json",
+      "sha256": "24fb454923a6c67cd94f0c4c00b900e1e8d11d7f11604d6a5e07aaeffeffc5c0",
+      "size_bytes": 3434
+    },
+    "applied_builder_sha256": "ab48eefd31fa9915497cd75ff0f4c070221a32b53883ecceb0eeb04b60fc026c"
+  },
+  "experiment_receipt": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01/receipt.json",
+    "sha256": "c959ea4d76d77f1885c7cc428f9492e16a191e6cf6310419fcf9091a0c60bf42",
+    "size_bytes": 3086,
+    "verdict": "block"
+  },
+  "blocker": {
+    "class": "product-or-semantic-choice",
+    "expected_ledger_count": 27,
+    "observed_ledger_count": 28,
+    "expected_record_count": 55,
+    "observed_projected_record_count": 57,
+    "added_path": "projects/cyberalchemy-orchestrator/tools/test-derivation-engine/.craft/ledger.yml",
+    "added_path_sha256": "0effd055c9f25ea3e46de7e5280585f987e9734411ae1639d9c53171b8ed6b84",
+    "nested_repository": true,
+    "ambiguity": "Evidence does not decide whether nested-repository ledgers are current owner inputs or intentionally excluded projections."
+  },
+  "inventory_drift": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/inventory-drift.json",
+    "sha256": "677d336c5bb1600814946d4ef76e94074322d6e1256e56f8e9a25cb45c6390e3",
+    "size_bytes": 1526
+  },
+  "validation": {
+    "material_identity": "pass",
+    "builder_syntax": "pass",
+    "node_version": "pass-v26.6.0",
+    "pinned_package_load": "pass-before-scope-check",
+    "exact_source_inventory": "block",
+    "database_construction": "not-run",
+    "immediate_readback": "not-run",
+    "same_process_reopen": "not-run",
+    "successor_admission": "blocked"
+  },
+  "effects": {
+    "network": "none",
+    "builder_created": true,
+    "store_created": false,
+    "block_receipt_created": true,
+    "source_ledgers_mutated": false,
+    "prior_attempts_overwritten": false,
+    "api_code_mutated": false,
+    "public_craft_mutated": false,
+    "publication": false,
+    "deployment": false,
+    "successor_admitted": false
+  },
+  "closeout": {
+    "status": "blocked-no-successor",
+    "work_pack_synchronized": false,
+    "fresh_attempt_required": true,
+    "blocked_attempt_must_be_retained": true
+  },
+  "blockers": [
+    "Define whether nested-repository Craft ledgers belong to the snapshot scope.",
+    "Refresh the Work Pack and task contract with an exact scope and a fresh immutable attempt ID before retrying."
+  ],
+  "next_route": {
+    "capability": "decision-gate",
+    "mode": "blocker",
+    "target": "Craft snapshot nested-repository ledger scope",
+    "dispatch_authorized": false
+  }
+}

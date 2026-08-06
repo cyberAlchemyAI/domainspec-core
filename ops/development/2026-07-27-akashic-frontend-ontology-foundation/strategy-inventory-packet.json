@@ -2,9 +2,11 @@
   "schema_version": "strategy-inventory-packet/v1",
   "packet_id": "strategy-inventory-packet:akashic-frontend-ontology-foundation",
   "repository": "projects/akashic-records",
+  "owner_repository": ".",
+  "consumer_repository": "projects/akashic-records",
   "dispatch_type": "research",
-  "lookup_status": "inventory_unavailable",
-  "lookup_readiness": "blocked",
+  "lookup_status": "owner_ready_consumer_inventory_unavailable",
+  "lookup_readiness": "partial",
   "query_terms": [
     "Akashic frontend",
     "knowledge graph profile",
@@ -19,16 +21,128 @@
     "Q1-Q6",
     "provenance",
     "digest-bound UI",
-    "public private boundary"
+    "public private boundary",
+    "final approver",
+    "agent pool",
+    "predicted disagreement",
+    "confirmation readiness"
   ],
-  "inventory_root": "projects/akashic-records/.arcanum/inventory",
+  "inventory_root": ".arcanum/inventory",
   "machine_index": {
+    "path": ".arcanum/inventory/index.json",
+    "present": true,
+    "parseable": true,
+    "lookup_readiness": "ready",
+    "projection_conformance": "pass"
+  },
+  "consumer_machine_index": {
     "path": "projects/akashic-records/.arcanum/inventory/index.json",
     "present": false,
     "parseable": false,
     "projection_conformance": "not_run"
   },
-  "selected_inventory_entries": [],
+  "selected_inventory_entries": [
+    {
+      "id": "akashic-records-content-library-architecture-research-result-synthesis",
+      "path": ".arcanum/inventory/entries/akashic-records-content-library-architecture-research-result-synthesis.md",
+      "selectors": [
+        "findings.md#executive-decision",
+        "findings.md#candidate-contentrecord-schema",
+        "findings.md#candidate-allowed-relations",
+        "findings.md#unresolved-dissent-and-owner-bindings"
+      ],
+      "summary": "Audited but non-converged research recommends Git-authored SourceRecord and ClaimRecord files with deterministic read models, defers semantic graphs and Ologs, and blocks implementation until witness, identity, and owner constraints are resolved.",
+      "sources": [
+        "projects/akashic-records/research/2026-07-26-akashic-records-architecture/findings.md"
+      ],
+      "status": "block",
+      "confidence": "high",
+      "obligation_fit": "Prevents the frontend research from presenting the earlier Source/Claim candidate or deferred Olog layer as an already accepted final schema."
+    },
+    {
+      "id": "akashic-contract-architecture-research-result-synthesis",
+      "path": ".arcanum/inventory/entries/akashic-contract-architecture-research-result-synthesis.md",
+      "selectors": [
+        "#accepted-contract-boundary",
+        "#accepted-design-delta",
+        "#agent-contribution-boundary",
+        "#residue-and-next-owner-route"
+      ],
+      "summary": "Auditor-approved research separates the current Phase-0 boundary from unresolved selector, byte, diagnostic, and supported-tuple profiles and keeps agent contribution external and non-normative.",
+      "sources": [
+        "ops/development/2026-07-26-akashic-contract-architecture/findings.md",
+        "projects/akashic-records/development/phase-0-content-contract/design/ARCHITECTURE.md",
+        "projects/akashic-records/development/phase-0-content-contract/design/VALIDATION-CONTRACTS.md"
+      ],
+      "status": "verified",
+      "confidence": "high",
+      "obligation_fit": "Defines which current contracts may be presented and which contribution, graph, RDF, SHACL, or Olog claims remain deferred."
+    },
+    {
+      "id": "akashic-periodic-table-graph-schema-research-result-synthesis",
+      "path": ".arcanum/inventory/entries/akashic-periodic-table-graph-schema-research-result-synthesis.md",
+      "selectors": [
+        "#smallest-surviving-v1-design",
+        "#evidence-and-execution-boundary",
+        "#unresolved-audit-blocker",
+        "#continuation"
+      ],
+      "summary": "Loop-ceiling research narrows a candidate v1 to Source/Claim roles, two reviewed predicates, direct-scan queries, and commit-pinned ingestion, but remains unapproved until four exact fixture selectors are captured.",
+      "sources": [
+        "projects/akashic-records/research/2026-07-27-periodic-table-graph-schema/findings.md"
+      ],
+      "status": "candidate",
+      "confidence": "medium",
+      "obligation_fit": "Forces this research to reconcile the desired richer graph with the smallest prior survivor and its unresolved exact-selector blocker."
+    },
+    {
+      "id": "ui-prototyping-studio-ux-ui-upgrade-research-strategy-result-synthesis",
+      "path": ".arcanum/inventory/entries/ui-prototyping-studio-ux-ui-upgrade-research-strategy-result-synthesis.md",
+      "selectors": [
+        "auditor=PASS",
+        "top_upgrade=current-head-projection"
+      ],
+      "summary": "Accepted UX research emphasizes current-head projection, visible-change integrity, preview-state coherence, deterministic end-to-end evidence, mobile behavior, and stable selector obligations.",
+      "sources": [
+        "projects/ui-prototyping-studio/development/research/20260709-ux-ui-upgrade-research/findings.md"
+      ],
+      "status": "closed",
+      "confidence": "high",
+      "obligation_fit": "Provides reusable browser-state and testing questions while explicitly not proving Akashic usability or implementation."
+    },
+    {
+      "id": "interactive-ontology-learning-map-strategy-result-synthesis",
+      "path": ".arcanum/inventory/entries/interactive-ontology-learning-map-strategy-result-synthesis.md",
+      "selectors": [
+        "#accepted-architecture",
+        "#concrete-witness-and-build-recommendation",
+        "#public-and-authority-boundary"
+      ],
+      "summary": "Auditor-accepted private precedent defines a read-only projection architecture with non-collapsing classification planes, derived views, typed negative witnesses, and deterministic acceptance contracts; executable and public gates remain not run.",
+      "sources": [
+        "cyberAlchemy-v2/development/research/2026-07-14-interactive-ontology-learning-map/findings.md"
+      ],
+      "status": "verified",
+      "confidence": "high",
+      "obligation_fit": "Provides projection and public-private boundary precedent without authorizing copied private vocabulary, runtime claims, or publication."
+    },
+    {
+      "id": "domainspec-subagents-research-review-inventory-preflight",
+      "path": ".arcanum/inventory/entries/domainspec-subagents-research-review-inventory-preflight-synthesis.md",
+      "selectors": [
+        "domainspec-subagents-strategy#Research And Review Inventory Preflight",
+        "research#Inventory Preflight Consumption"
+      ],
+      "summary": "The live strategy design requires machine-index-first discovery and routes selected entries, exclusions, and gaps into lanes without treating Inventory as proof or authority.",
+      "sources": [
+        "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/SKILL.md",
+        "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md"
+      ],
+      "status": "verified",
+      "confidence": "high",
+      "obligation_fit": "Binds the current proposal to dual-repository Inventory lookup and explicit operational readiness terms."
+    }
+  ],
   "selected_evidence_card_ids": [],
   "selected_evidence_set_ids": [],
   "direct_source_fallbacks": [
@@ -132,6 +246,8 @@
     "No live network Git transport, authentication, write workflow, deployment, or agent-execution surface is proven."
   ],
   "design_consequences": [
+    "The owner Inventory is a validated discovery read model, while the consumer Akashic Inventory remains unavailable; selected entries are leads and their current sources must still be checked.",
+    "The final approver remains the parent; every working identity is unique and drawn from the live agent pool, pairwise disagreements are sheet-native, and human confirmation follows only after v0.8 validation and double tension PASS.",
     "The revised research must run in the private parent repository because exact-bound verbatim explorer returns may cite private ontology paths.",
     "Every CyberAlchemy-derived pattern must receive a reuse, adapt, or reject verdict; candidate ontology status never becomes Akashic authority by proximity.",
     "The public result must be an Akashic-owned graph profile, not a dependency on CyberAlchemy vocabulary, schemas, or implementation.",
@@ -140,7 +256,8 @@
     "The implementation plan should include stable data-od-id targets and Playwright checks without translating browser reachability into usability or release claims."
   ],
   "residue": [
-    "inventory_unavailable",
+    "consumer_inventory_unavailable",
+    "owner_inventory_selected_leads_are_non_authority",
     "private_precedent_requires_boundary_scrub",
     "cyberalchemy_ontology_is_candidate_not_authority",
     "current Akashic README status is stale"

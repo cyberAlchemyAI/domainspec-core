@@ -1,0 +1,52 @@
+{
+  "schema_version": "arcanum-structural-governance.result-inventory-hook.v1",
+  "status": "blocked",
+  "authority_effect": "none",
+  "attempted_at": "2026-08-05T20:43:00Z",
+  "candidate_record": {
+    "id": "arcanum-structural-governance-research-strategy-result-synthesis",
+    "record_source": ".arcanum/inventory/tmp/arcanum-structural-governance-research-strategy-result-synthesis.record.json",
+    "record_sha256": "9b9d1ef2562df1c93da0b5b0255f2969dbf6df368270b600085c8ed2eadf0673",
+    "candidate_page": ".arcanum/inventory/tmp/arcanum-structural-governance-research-strategy-result-synthesis.candidate.md",
+    "candidate_page_sha256": "bba4661eb643e957b692d2cdaf9358701ebc026522415c3e7b2e8f8ef2abf0d7",
+    "result_findings_sha256": "689cbb99c1f508eb768b2b42b202bc7ed9362a876128742bd2f0f6628edcfa03"
+  },
+  "baseline": {
+    "lookup_readiness": "ready",
+    "failure_count": 0,
+    "warning_count": 146,
+    "index_json_sha256": "fe9362db0cfc8aeb5664334d70285884f1c9f77bd40e607ff221f7c2ffd7ab84",
+    "index_md_sha256": "2878edcb430d79aaf3810d02bb82c9798265753866a9f58ee990ba644495a699"
+  },
+  "dry_run": {
+    "status": "candidate-blocked",
+    "reason_code": "candidate-not-ready",
+    "operation_fingerprint": "caa7fc199bc3c818f156b899ea91b45a87040c28490105477c18ce86772ba6d5",
+    "receipt_sha256": "3438cc9f75867f13d16c008243b78567fd93c4bc3bc8cc5ab66eb1916e78ca29",
+    "candidate_disposition": "added",
+    "candidate_lookup_readiness": "blocked",
+    "write_attempted": false,
+    "write_committed": false
+  },
+  "operator_input_correction": {
+    "initial_relative_root_attempt": "baseline-blocked because the library resolved a relative validator path against its changed working directory",
+    "direct_baseline_validation": "pass",
+    "corrected_absolute_root_attempt": "candidate-blocked",
+    "product_state_changed": false
+  },
+  "blocker": "The deterministic append path cannot atomically admit a new entries/ result page: the staged candidate record requires the target page to exist, while placing an unindexed new page under entries/ would make the ready baseline fail source-coverage validation. The hook preserved audited candidate-local bytes and did not touch current Inventory projections.",
+  "write": {
+    "attempted": false,
+    "committed": false,
+    "observed_changed_paths": [],
+    "manual_bypass": false,
+    "index_bytes_preserved": true
+  },
+  "residue": [
+    "audited result page and record remain candidate-local under .arcanum/inventory/tmp",
+    "human index does not link the structural-governance result entry",
+    "inventory log does not record proposal state",
+    "repair the deterministic updater to stage the new page together with projections before retrying",
+    "no currentness authority promotion publication release deployment or production claim"
+  ]
+}

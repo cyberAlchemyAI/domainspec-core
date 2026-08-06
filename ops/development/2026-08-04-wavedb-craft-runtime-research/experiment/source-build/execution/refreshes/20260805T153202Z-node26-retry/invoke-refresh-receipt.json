@@ -1,0 +1,56 @@
+{
+  "schema_version": "candidate-local-invoke-refresh-receipt.v1",
+  "run_id": "invoke-refresh-wcsb-node26-20260805",
+  "mode": "refresh",
+  "activation_source": "direct-user",
+  "mutation_mode": "apply-approved",
+  "phase_status": "pass",
+  "handoff_status": "ready",
+  "source_result_preserved": {
+    "swu": "SWU-WCSB-002",
+    "result": "BLOCK",
+    "receipt": "execution/task-sessions/SWU-WCSB-002/terminal-receipt.json",
+    "blocker": "WCSB-UPSTREAM-CONCURRENT-WRITE-STALL"
+  },
+  "selection": {
+    "swu": "SWU-WCSB-003",
+    "attempt_id": "wcsb-20260805-node26-01",
+    "node": "v26.6.0",
+    "npm": "11.18.0"
+  },
+  "artifacts": [
+    "plan/WORK-PACK.md",
+    "plan/EXECUTION-PACK.md",
+    "plan/work-pack/tasks/TASK-WCSB-03-NODE26.md",
+    "plan/node26-retry.dispatch.json",
+    "plan/node26-dispatch-validation.json"
+  ],
+  "material_receipts": [
+    {
+      "path": "execution/refreshes/20260805T153202Z-node26-retry/material-package-receipt.json",
+      "sha256": "ed7e1e5b7e55d2bbe637fc5e786dc60c1fb32fc2952978967d7b3288b6f34275",
+      "package_digest": "e962126022d6f2bd3c695bd4abd1b53d9ac52acb11b510f25af2bc560a92b8f8"
+    },
+    {
+      "path": "execution/refreshes/20260805T153202Z-node26-retry/selector-fix-material-package-receipt.json",
+      "sha256": "5ac7dabe82de394d39d69dbf246410699cf7d430fbf15728240669c75c0de001",
+      "package_digest": "fe0979d316013e38a44486389459fbd1ae657a248129f47c7f42a91c002a473c"
+    }
+  ],
+  "validation": {
+    "context_coverage": "pass-8-of-8",
+    "material_packages": "pass",
+    "handoff_gates": "ready",
+    "dispatch_spec": "pass-zero-blocks-zero-flags",
+    "selection_consistency": "pass-one-selected-swu",
+    "whitespace": "pass",
+    "craft_diff": "zero"
+  },
+  "blockers": [],
+  "residue": [
+    "Node 26 execution evidence does not exist yet.",
+    "Node 26 is Current and not LTS as of the observed release metadata.",
+    "A passing local attempt would still require separate parent and Craft owner routes."
+  ],
+  "next_route": "task-session:execute SWU-WCSB-003"
+}

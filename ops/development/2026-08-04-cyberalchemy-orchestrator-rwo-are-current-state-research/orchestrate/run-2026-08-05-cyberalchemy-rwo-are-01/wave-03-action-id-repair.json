@@ -1,0 +1,45 @@
+{
+  "schema": "arcanum.orchestrate.action-id-repair.v1",
+  "dispatch_id": "2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state",
+  "run_id": "run-2026-08-05-cyberalchemy-rwo-are-01",
+  "wave_id": "review",
+  "status": "repaired-before-host-action",
+  "defect": "native_dispatch_coordinator numbered the next wave from the current one-action run plan and emitted replayed identifiers spawn-0002 through spawn-0004",
+  "replay_policy": "block",
+  "spawn_attempt_count_before_repair": 0,
+  "raw_actions": [
+    {
+      "path": "wave-02-reduce/actions/spawn-0002.json",
+      "sha256": "d4c0d775915a942105c77c2d45192bacb0305991ac032f1c8e12d2fa9612936f",
+      "corrected_action_id": "spawn-0005"
+    },
+    {
+      "path": "wave-02-reduce/actions/spawn-0003.json",
+      "sha256": "4280ebc49df58bf69e2f5d31d0deba13cd7d6e262aaad83a9055b174a5eddf13",
+      "corrected_action_id": "spawn-0006"
+    },
+    {
+      "path": "wave-02-reduce/actions/spawn-0004.json",
+      "sha256": "23bbcd1719119707c1c8133d4e57423af89528dff65134af2af959aa14009ea0",
+      "corrected_action_id": "spawn-0007"
+    }
+  ],
+  "changed_fields": [
+    "action_id"
+  ],
+  "unchanged_material": [
+    "role",
+    "capability",
+    "target",
+    "mode",
+    "mutation policy",
+    "write and forbidden scopes",
+    "inputs",
+    "outputs",
+    "wave topology",
+    "prompts"
+  ],
+  "residue": [
+    "native_dispatch_coordinator multi-wave action numbering requires owner repair"
+  ]
+}

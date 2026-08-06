@@ -1,0 +1,91 @@
+{
+  "schema_version": "domainspec.invoke.closeout-sync-inventory.v0.1",
+  "lifecycle_owner": "invoke:refresh:apply-approved",
+  "successor_policy": "receipt-gated-never-auto-authorized",
+  "allowed_delta_classes": [
+    "evidence_added",
+    "blocker_opened",
+    "blocker_resolved",
+    "status_changed",
+    "route_changed"
+  ],
+  "rows": [
+    {
+      "swu_id": "SWU-OCA-001",
+      "planning_targets": [
+        "planning/WORK-PACK.md",
+        "planning/SWU-MANIFEST.json",
+        "planning/EXECUTION-PACK.md",
+        "planning/MUTATION-ADMISSION-CONTRACT.json",
+        "planning/work-pack/tasks/TASK-OCA-01-ADMISSION-SEAM.md",
+        "planning/work-pack/waves/W1-L0-ADMISSION.md"
+      ],
+      "terminal_source": "Task Session receipt plus capacity fixture result",
+      "expected_receipt": "planning/work-pack/session-evidence/SWU-OCA-001/<attempt-id>/refresh-receipt.json",
+      "permitted_field_changes": ["task status", "SWU status", "activePlanRef", "selected_swu_id", "current_handoff.next_unit", "evidence and blocker references"],
+      "successor": "SWU-OCA-002"
+    },
+    {
+      "swu_id": "SWU-OCA-002",
+      "planning_targets": [
+        "planning/WORK-PACK.md",
+        "planning/SWU-MANIFEST.json",
+        "planning/EXECUTION-PACK.md",
+        "planning/MUTATION-ADMISSION-CONTRACT.json",
+        "planning/IMPLEMENTATION-LAYERING.md",
+        "planning/work-pack/tasks/TASK-OCA-02-FAILURE-EVIDENCE.md",
+        "planning/work-pack/waves/W2-L0-FAILURE-EVIDENCE.md"
+      ],
+      "terminal_source": "Task Session receipt plus causal validator result",
+      "expected_receipt": "planning/work-pack/session-evidence/SWU-OCA-002/<attempt-id>/refresh-receipt.json",
+      "permitted_field_changes": ["task status", "SWU status", "activePlanRef", "activeLayerWindow L0 to L1", "selected_swu_id", "current_handoff.next_unit", "evidence and blocker references"],
+      "successor": "SWU-OCA-003"
+    },
+    {
+      "swu_id": "SWU-OCA-003",
+      "planning_targets": [
+        "planning/WORK-PACK.md",
+        "planning/SWU-MANIFEST.json",
+        "planning/EXECUTION-PACK.md",
+        "planning/MUTATION-ADMISSION-CONTRACT.json",
+        "planning/work-pack/tasks/TASK-OCA-03-CODEX-PROVIDER.md",
+        "planning/work-pack/waves/W3-L1-CODEX-PROVIDER.md"
+      ],
+      "terminal_source": "Task Session receipt plus provider fixture matrix",
+      "expected_receipt": "planning/work-pack/session-evidence/SWU-OCA-003/<attempt-id>/refresh-receipt.json",
+      "permitted_field_changes": ["task status", "SWU status", "activePlanRef", "selected_swu_id", "current_handoff.next_unit", "evidence and blocker references"],
+      "successor": "SWU-OCA-004"
+    },
+    {
+      "swu_id": "SWU-OCA-004",
+      "planning_targets": [
+        "planning/WORK-PACK.md",
+        "planning/SWU-MANIFEST.json",
+        "planning/EXECUTION-PACK.md",
+        "planning/MUTATION-ADMISSION-CONTRACT.json",
+        "planning/work-pack/tasks/TASK-OCA-04-ROUTE-OPTIONS.md",
+        "planning/work-pack/waves/W4-L1-ROUTE-OPTIONS.md"
+      ],
+      "terminal_source": "Task Session receipt plus route-option fixture matrix",
+      "expected_receipt": "planning/work-pack/session-evidence/SWU-OCA-004/<attempt-id>/refresh-receipt.json",
+      "permitted_field_changes": ["task status", "SWU status", "activePlanRef", "selected_swu_id", "current_handoff.next_unit", "evidence and blocker references"],
+      "successor": "SWU-OCA-005"
+    },
+    {
+      "swu_id": "SWU-OCA-005",
+      "planning_targets": [
+        "planning/WORK-PACK.md",
+        "planning/SWU-MANIFEST.json",
+        "planning/EXECUTION-PACK.md",
+        "planning/MUTATION-ADMISSION-CONTRACT.json",
+        "planning/IMPLEMENTATION-LAYERING.md",
+        "planning/work-pack/tasks/TASK-OCA-05-GENERATED-PARITY.md",
+        "planning/work-pack/waves/W5-L1-GENERATED-PARITY.md"
+      ],
+      "terminal_source": "Task Session receipt plus generated parity matrix",
+      "expected_receipt": "planning/work-pack/session-evidence/SWU-OCA-005/<attempt-id>/refresh-receipt.json",
+      "permitted_field_changes": ["task status", "SWU status", "activePlanRef", "activeLayerWindow L1 to L2-boundary", "selected_swu_id", "current_handoff.next_unit", "evidence and blocker references"],
+      "successor": "TASK-OCA-VERIFY"
+    }
+  ]
+}

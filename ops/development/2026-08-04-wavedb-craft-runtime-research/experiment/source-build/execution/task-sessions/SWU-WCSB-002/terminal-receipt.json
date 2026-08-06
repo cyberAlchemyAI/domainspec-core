@@ -1,0 +1,94 @@
+{
+  "schema_version": "task-session-terminal-receipt.v1",
+  "completed_at": "2026-08-04T20:36:53Z",
+  "task_id": "TASK-WCSB-02",
+  "swu_id": "SWU-WCSB-002",
+  "execution_result": "block",
+  "claim_ceiling": "partial-local-source-build-evidence-only",
+  "mutation_admission": {
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/mutation-admission-receipt.json",
+    "sha256": "c5c830c31666acba33ae2d6d1d93ae11ea190d186395897da3a2e58e9b28eee5",
+    "size_bytes": 4380,
+    "verdict": "admit",
+    "write_profile": "execution-output-only"
+  },
+  "source_build_receipt": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build/source-build-block-receipt.json",
+    "sha256": "b808662eda1dbbc8a09f79c926f595ce87395dace66ee178298cfce0fa495f75",
+    "size_bytes": 10714,
+    "verdict": "block",
+    "failure_code": "UPSTREAM_TESTS_COMMAND_FAILED",
+    "addon_handoff": null
+  },
+  "partial_evidence": {
+    "source_manifest": {"sha256": "d86e76152a157fb31c5d4ff60453631798a041b6586dac80216366b4086f6456", "size_bytes": 186389},
+    "dependency_manifest": {"sha256": "040c91e0ae459e791815f12aa13a5f9edfa2a24bca5cb3679c5c52e295a45e69", "size_bytes": 364069},
+    "generated_source_manifest": {"sha256": "75887675eb823fbd0e2f3e850acdc51df111d205404ad4b0a970c8cd58308512", "size_bytes": 32051},
+    "build_manifest": {"sha256": "b2b2d1af2794bf9565bc8000a645c4f33efdeef761439b9042fa090604baf666", "size_bytes": 47395},
+    "addon": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcsb-20260804-01/source/bindings/nodejs/build/Release/wavedb.node",
+      "sha256": "6552d6a0ba0fa4bd2af06ccd22ddf3b455d1ce4f2703b61aac430e883e4f1b28",
+      "size_bytes": 1220936,
+      "load_observation": "pass",
+      "handoff_admitted": false
+    },
+    "upstream_log": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build/logs/20-upstream-tests.log",
+      "sha256": "8bc7da8350c8129e567fb2e2453ba5619d0a413f5a0e4c47ea24fe89415ffbcb",
+      "size_bytes": 48081
+    }
+  },
+  "validation": {
+    "source_identity": "pass",
+    "recursive_submodules": "pass",
+    "lockfile_and_dependency_install": "pass",
+    "toolchain_identity": "pass",
+    "generated_source": "pass",
+    "native_build": "pass",
+    "addon_cardinality_and_hash": "pass",
+    "addon_load": "pass",
+    "upstream_tests": "block",
+    "upstream_failure": "the first WaveDB Integration concurrent-write case exceeded 16 minutes without completion and was terminated as a failed acceptance command",
+    "empty_value_canary": "not-run-after-blocker",
+    "runner_scope_audit": "not-run-after-blocker",
+    "terminal_pass_receipt_validator": "not-run-pass-receipt-absent",
+    "source_build_pass_receipt": "absent",
+    "craft_tracked_diff": "none-observed",
+    "scoped_whitespace": "pass"
+  },
+  "effects": {
+    "network_fetch": "performed-within-admitted-scope",
+    "dependency_materialization": "performed-within-attempt",
+    "native_build": "performed-within-attempt",
+    "addon_load": "performed-within-attempt",
+    "temporary_test_store": "preserved-by-failed-test-process-exit",
+    "craft_access": "not-observed",
+    "workspace_git_mutation": "not-observed",
+    "publication": false,
+    "deployment": false,
+    "destructive_cleanup": false
+  },
+  "blockers": [
+    {
+      "id": "WCSB-UPSTREAM-CONCURRENT-WRITE-STALL",
+      "class": "acceptance-critical-upstream-runtime",
+      "status": "open",
+      "evidence": "20-upstream-tests.log ends in the first WaveDB Integration concurrent-write case with Mocha failure marker 1 and no completion summary",
+      "smallest_unblock": "WaveDB source owner diagnoses or fixes the concurrent-write runtime failure, followed by a newly planned immutable attempt ID"
+    }
+  ],
+  "residue": [
+    "The compiled addon is partial evidence only and must not be admitted to Craft or the parent runtime experiment.",
+    "The empty-value canary and final scope audit remain unrun because the upstream suite blocked first.",
+    "The failed attempt and temporary test store are preserved; destructive cleanup is not authorized."
+  ],
+  "subagents": {"result": "n/a", "spawned": 0, "joined": 0, "open": 0},
+  "next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "purpose": "record the blocker and remove active build selection",
+    "same_pack_successor": null,
+    "parent_refresh_admitted": false
+  }
+}

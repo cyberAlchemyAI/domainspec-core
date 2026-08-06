@@ -1,0 +1,76 @@
+{
+  "schema_version": "arcanum.research-evidence-closure.v0.1",
+  "dispatch_id": "2026-08-03-pre-task-session-readiness-gap-research",
+  "run_id": "pre-task-readiness-20260803T183017Z",
+  "contract": "exact-binding",
+  "status": "blocked",
+  "validation_result": "block",
+  "writer_launch_allowed": false,
+  "findings_artifact_created": false,
+  "defect": {
+    "class": "host_capacity/thread_cap",
+    "owner": "parent/orchestrator",
+    "failed_action_id": "spawn-0003",
+    "failed_role": "explorer-contract",
+    "observed_error": "agent thread limit reached",
+    "implicit_retry_permitted": false
+  },
+  "completed_evidence": [
+    {
+      "action_id": "spawn-0001",
+      "role": "explorer-incident",
+      "receipt": "receipts/explorer-incident.json",
+      "return": "research.md#agent-1--hewitt-carl",
+      "status": "pass"
+    },
+    {
+      "action_id": "spawn-0002",
+      "role": "explorer-adoption",
+      "receipt": "receipts/explorer-adoption.json",
+      "return": "research.md#agent-2--beer-stafford",
+      "status": "pass"
+    }
+  ],
+  "missing_evidence": [
+    {
+      "action_id": "spawn-0003",
+      "role": "explorer-contract",
+      "required_output": "Formal owner-preserving readiness contract, gate-location comparison, and positive plus single-fault fixtures",
+      "receipt": "receipts/explorer-contract.json",
+      "status": "block"
+    }
+  ],
+  "gate_decision": {
+    "path": "native-run/run-01/wave-01-reduction/gate-decision.json",
+    "gate_id": "g-explorers",
+    "decision": "gate_block",
+    "next_action_ids": []
+  },
+  "causal_event_validation": {
+    "path": "native-run/run-01/evidence-validation.json",
+    "status": "block",
+    "reason": "The validator requires every gate-required action to have a receipt joined from a successful host spawn; a host-rejected spawn can have neither a successful host result nor such a join."
+  },
+  "feedback_decision": {
+    "eligible_declared_edge": null,
+    "reason": "The failure occurred before synthesis; no downstream return existed that could activate a declared feedback edge.",
+    "loops_used": 0,
+    "loops_remaining": 0
+  },
+  "downstream_not_started": [
+    "synthesizer",
+    "skeptics",
+    "writer",
+    "auditor"
+  ],
+  "blockers": [
+    "The required explorer-contract return is absent because the only permitted spawn attempt was rejected by the host thread limit.",
+    "Exact-binding evidence closure cannot admit synthesis or findings without all three required explorer lanes."
+  ],
+  "residue": [
+    "Two explorer returns are partial evidence only and were not synthesized or audited.",
+    "The causal event validator reports join_without_host_result and gate_missing_joined_receipt for the host-rejected required action; the reducer's gate_block remains the terminal orchestration decision.",
+    "The earliest owner-preserving gate and finite fixture contract remain unresolved by this dispatch.",
+    "A recovery requires a fresh, explicitly admitted dispatch; this closed run cannot be retried implicitly."
+  ]
+}

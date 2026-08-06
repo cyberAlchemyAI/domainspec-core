@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "craft-ledger-inventory-drift.v1",
+  "attemptId": "wcli-20260805-node26-0.15.9-02",
+  "observedAt": "2026-08-06T03:07:11Z",
+  "expected": {
+    "ledgerCount": 28,
+    "recordCount": 57,
+    "scope": "preserved 27-ledger baseline plus the selected nested test-derivation-engine ledger"
+  },
+  "observed": {
+    "ledgerCount": 29,
+    "projectedRecordCount": 59
+  },
+  "added": [
+    {
+      "path": "projects/domainspec-v2/development/architecture-pattern-enforcement/goal-runs/20260806T010816Z-whole-work-pack/rounds/010-ts003-task-session/staged/projects/domainspec-v2/impl/test-derivation-engine/.craft/ledger.yml",
+      "sha256": "0effd055c9f25ea3e46de7e5280585f987e9734411ae1639d9c53171b8ed6b84",
+      "sizeBytes": 25043,
+      "classification": "generated-staged-copy",
+      "basis": [
+        "the path is beneath a Task Session staged output tree",
+        "the bytes exactly duplicate the selected authoritative nested ledger",
+        "the builder receipt contract already declares historical or staged copies excluded"
+      ]
+    }
+  ],
+  "removed": [],
+  "changed": [],
+  "inference": {
+    "kind": "implementation-filter-gap",
+    "claim": "The selected 28-ledger authority scope is unchanged; collectLedgerPaths excludes staging but not staged directories.",
+    "authorityEffect": "none"
+  },
+  "databaseCreated": false,
+  "sourceLedgersMutated": false,
+  "nextRequiredAttempt": "fresh immutable attempt after Work Pack refresh; -02 may not be reused"
+}

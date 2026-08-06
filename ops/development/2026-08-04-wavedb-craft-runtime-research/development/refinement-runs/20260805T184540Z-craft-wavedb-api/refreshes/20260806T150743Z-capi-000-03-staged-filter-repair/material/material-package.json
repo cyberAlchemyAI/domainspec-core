@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "capi-refresh-swu-capi-000-03-staged-filter-repair-20260806T150743Z",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "craft-consultation-api-plan-owner",
+  "authority_class": "private",
+  "publication_class": "internal",
+  "source_artifacts": [
+    {
+      "path": "inputs/ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+      "sha256": "72e48df1a10ca632385bbc1ce733e8a0f7f7aedba7408e99afab79f9f1a9f474",
+      "size_bytes": 14075,
+      "authority_class": "private"
+    },
+    {
+      "path": "inputs/ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md",
+      "sha256": "1087301916e2fd77dc94fa46fab68c59b4d30ba8c419e802a9432aa7938321e7",
+      "size_bytes": 6314,
+      "authority_class": "private"
+    },
+    {
+      "path": "sources/authorization/authorization.json",
+      "sha256": "c4aae569c4875fd78ab9620046c1b18a8ad88f662e9a9b21760ee592ae8b67c9",
+      "size_bytes": 1677,
+      "authority_class": "private"
+    },
+    {
+      "path": "sources/task-session/terminal-receipt-02.json",
+      "sha256": "d44aed7040adf09e2a6b44cf29ef8e03be23632d27867f9b616f6c37c786e35c",
+      "size_bytes": 6487,
+      "authority_class": "private"
+    },
+    {
+      "path": "sources/experiment/receipt-02.json",
+      "sha256": "068f928864ec5be048e56577cf903b9b8cb9d242ab89576217f0d5376dab7780",
+      "size_bytes": 3436,
+      "authority_class": "private"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+      "operation": "update",
+      "output_ref": {
+        "path": "outputs/ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+        "sha256": "c3f5469818acccab319d82efa6d2de9f1b7d6935405203bad297622c733e5ea7",
+        "size_bytes": 15208
+      }
+    },
+    {
+      "target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md",
+      "operation": "update",
+      "output_ref": {
+        "path": "outputs/ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md",
+        "sha256": "9fd826b1086b9647e665438d16e70662a3da3107d755740505e1f44937543cc6",
+        "size_bytes": 6721
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+      "lifecycle_owner": "craft-consultation-api-plan-owner",
+      "authority_class": "private",
+      "publication_class": "internal",
+      "dependency_ids": [
+        "CAPI-000-03-AUTHORIZATION",
+        "CAPI-000-BLOCKED-02"
+      ]
+    },
+    {
+      "target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md",
+      "lifecycle_owner": "craft-consultation-api-plan-owner",
+      "authority_class": "private",
+      "publication_class": "internal",
+      "dependency_ids": [
+        "CAPI-000-03-AUTHORIZATION",
+        "CAPI-000-BLOCKED-02",
+        "CAPI-000-EXPERIMENT-02"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "CAPI-000-03-AUTHORIZATION",
+      "artifact_ref": {
+        "path": "sources/authorization/authorization.json",
+        "sha256": "c4aae569c4875fd78ab9620046c1b18a8ad88f662e9a9b21760ee592ae8b67c9",
+        "size_bytes": 1677
+      }
+    },
+    {
+      "dependency_id": "CAPI-000-BLOCKED-02",
+      "artifact_ref": {
+        "path": "sources/task-session/terminal-receipt-02.json",
+        "sha256": "d44aed7040adf09e2a6b44cf29ef8e03be23632d27867f9b616f6c37c786e35c",
+        "size_bytes": 6487
+      }
+    },
+    {
+      "dependency_id": "CAPI-000-EXPERIMENT-02",
+      "artifact_ref": {
+        "path": "sources/experiment/receipt-02.json",
+        "sha256": "068f928864ec5be048e56577cf903b9b8cb9d242ab89576217f0d5376dab7780",
+        "size_bytes": 3436
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "craft-consultation-api-plan-owner",
+    "scope_paths": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md"
+    ],
+    "authority_classes": [
+      "private"
+    ],
+    "publication_classes": [
+      "internal"
+    ]
+  },
+  "validation_commands": [
+    "material package schema and exact path validation",
+    "refresh material handoff readiness",
+    "live target hashes equal declared input baselines before apply",
+    "live targets byte-match staged outputs after apply",
+    "exact one -03 route and 28-ledger/57-record contract present",
+    "attempt-specific closeout receipt path present",
+    "all JSON parse and scoped trailing whitespace checks pass",
+    "immutable -01 and -02 evidence hashes remain unchanged",
+    "no successor, API, Craft-source, publication, or deployment mutation"
+  ]
+}

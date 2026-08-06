@@ -1,0 +1,41 @@
+{
+  "activationSource": "direct-user",
+  "authoredPhaseStatus": "pass",
+  "expectedPackageDigest": "3d39f9546bf0c86e522a323ab4f73e6f052d1322c56310fdd8fa764232a70efb",
+  "expectedPackageId": "iro-refresh-002-runtime-admission-contract-v1",
+  "materialReceipt": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "lifecycleOwner": "intent-route-planning-owner",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "3d39f9546bf0c86e522a323ab4f73e6f052d1322c56310fdd8fa764232a70efb",
+    "packageId": "iro-refresh-002-runtime-admission-contract-v1",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "internal",
+    "reasons": [],
+    "schemaVersion": "1.0.0",
+    "validatedPaths": [
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/EXECUTION-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/goals/IRO-FULL-STREAM/GOAL-SIDECAR.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/goals/IRO-FULL-STREAM/IRO-FULL-STREAM.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-PREFLIGHT.schema.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-SYNC-REQUEST.schema.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-SYNC.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/EXECUTION-CONTRACT.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/GOAL-START-APPROVAL.schema.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/RUNTIME-EVIDENCE.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py"
+    ],
+    "validationCommands": [
+      "python3 ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py --self-test",
+      "python3 ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py --root .",
+      "python3 -m json.tool ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/EXECUTION-CONTRACT.json",
+      "git diff --check -- ops/development/2026-08-01-intent-route-arcanum-addon/planning"
+    ]
+  },
+  "mutationMode": "apply-approved",
+  "requestedHandoff": "ready"
+}

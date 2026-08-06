@@ -1,0 +1,64 @@
+{
+  "allowed_routes": [
+    {
+      "capability": "task-session",
+      "effect_class": "repository-local-reversible",
+      "expected_receipt": "task-session/terminal-receipt.json",
+      "frontier_swu": "SWU-CAPI-000",
+      "mode": "execute",
+      "required_inputs": [
+        "plan-semantic-manifest.json",
+        "selection-receipt.json",
+        "material-package.json",
+        "mutation-admission-receipt.json"
+      ],
+      "route_id": "CAPI-AUTO-SWU-CAPI-000-WCLI-0.15.9-02",
+      "target": "SWU-CAPI-000",
+      "write_scope": [
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-02/import-ledgers-byte-normalized.js",
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-02/store",
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-02/receipt.json"
+      ]
+    }
+  ],
+  "allowed_routes_digest": "37ea2fecff962c6da72d56e03c397ca16ba22a3389e4d8c71188facb3c7bbfe2",
+  "authority_effect": "none",
+  "automatic_decisions": [
+    "internal-tool-selection",
+    "capability-owner-routing",
+    "fresh-task-session-resumption"
+  ],
+  "completion_continuity": {
+    "authority_effect": "none",
+    "completed_prefix": [],
+    "continuity_digest": "0031973d254a4c18b252da332585db905902f80c192cec43daf814ff1047db13",
+    "next_unit": "SWU-CAPI-000",
+    "plan_epoch_id": "epoch-62cdc9995a5486cba03c6dee",
+    "source_audit_id": "CAPI-AUTO-SWU-CAPI-000-20260806T025009Z",
+    "source_projection_digest": "4553a9e1553808a8d70366cd4acc395a28821b1f0a6b316e4e1a5301c066522b",
+    "work_pack_semantic_digest": "ad405d2e50a387698d2a91a6f49e10b5d89c5fe656073a773aa56ac16e4a6e42"
+  },
+  "frontier": [
+    "SWU-CAPI-000"
+  ],
+  "schema_version": "1.1.0",
+  "scope_source": "exact-work-pack-and-captured-frontier",
+  "stop_decisions": [
+    "product-or-semantic-choice",
+    "scope-expansion",
+    "destructive-or-irreversible-effect",
+    "credentials-or-secret-access",
+    "external-message-or-network-effect",
+    "cost-policy-or-risk-acceptance",
+    "authority-promotion-publication-deployment",
+    "failed-acceptance-critical-validation"
+  ],
+  "validation_commands": [
+    "{\"argv\":[\"/home/vrondelli/.nvm/versions/node/v26.6.0/bin/node\",\"--check\",\"ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-02/import-ledgers-byte-normalized.js\"],\"command_id\":\"capi-000-builder-syntax\",\"cwd\":\".\",\"timeout_seconds\":20}",
+    "{\"argv\":[\"jq\",\"-e\",\".verdict == \\\"pass\\\" and .attemptId == \\\"wcli-20260805-node26-0.15.9-02\\\" and .environment.node == \\\"v26.6.0\\\" and .dependency.version == \\\"0.15.9\\\" and .scope.ledgerCount == 28 and .database.recordCount == 57 and .verification.completeImmediateByteReadback == \\\"pass\\\" and .verification.completeByteReadbackAfterReopen == \\\"pass\\\" and .verification.sourceImmutabilityBeforeAfter == \\\"pass\\\" and .authority.craftFilesMutated == false\",\"ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-02/receipt.json\"],\"command_id\":\"capi-000-receipt-semantics\",\"cwd\":\".\",\"timeout_seconds\":20}",
+    "{\"argv\":[\"git\",\"diff\",\"--check\",\"--\",\"ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-02\",\"ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-02\"],\"command_id\":\"capi-000-scoped-whitespace\",\"cwd\":\".\",\"timeout_seconds\":20}"
+  ],
+  "validation_policy": "owner-gates-remain-mandatory",
+  "work_pack_id": "WP-CAPI-20260805",
+  "work_pack_semantic_digest": "ad405d2e50a387698d2a91a6f49e10b5d89c5fe656073a773aa56ac16e4a6e42"
+}

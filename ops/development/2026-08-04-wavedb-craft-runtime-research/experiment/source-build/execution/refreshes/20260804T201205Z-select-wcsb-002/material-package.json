@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "wavedb-reviewed-source-build:select-SWU-WCSB-002",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "wavedb-source-build-invoke-owner",
+  "authority_class": "private",
+  "publication_class": "internal",
+  "source_artifacts": [
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md", "sha256": "679c8674d03303a9870ce3b1eec053cd740b8311dcba95631ad0c7268cf36175", "size_bytes": 9458, "authority_class": "private"},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md", "sha256": "be56f5d030cb4884846378f24bea6a9baa70cf420297eccb0b53d21ded01720e", "size_bytes": 3341, "authority_class": "private"}
+  ],
+  "changes": [
+    {
+      "target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md",
+      "operation": "update",
+      "output_ref": {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/refreshes/20260804T201205Z-select-wcsb-002/staging/TASK-WCSB-02-EXECUTE.md", "sha256": "1df7e9db7f3daf3d844951bc11e12d49896b864df5542771e7bbcffb3637b037", "size_bytes": 3584}
+    }
+  ],
+  "target_inventory": [
+    {"target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md", "lifecycle_owner": "wavedb-source-build-invoke-owner", "authority_class": "private", "publication_class": "internal", "dependency_ids": []}
+  ],
+  "dependencies": [],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "wavedb-source-build-invoke-owner",
+    "scope_paths": ["ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md"],
+    "authority_classes": ["private"],
+    "publication_classes": ["internal"]
+  },
+  "validation_commands": [
+    "rg -n 'Status: `selected`|Selected: yes' plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md",
+    "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md"
+  ]
+}

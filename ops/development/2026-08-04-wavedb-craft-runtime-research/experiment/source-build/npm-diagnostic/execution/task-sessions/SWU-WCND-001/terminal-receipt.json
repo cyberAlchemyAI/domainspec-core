@@ -1,0 +1,67 @@
+{
+  "schema_version": "task-session-terminal-receipt.v1",
+  "completed_at": "2026-08-05T16:35:24Z",
+  "task_id": "TASK-WCND-01",
+  "swu_id": "SWU-WCND-001",
+  "execution_result": "pass",
+  "claim_ceiling": "one-pinned-npm-tarball-named-local-node26-canaries-only",
+  "mutation_admission": {
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/mutation-admission-receipt.json",
+    "sha256": "694601f8b997964c05b62940d97e70c38f5863256827d40833b1b17199fe289e",
+    "size_bytes": 3169,
+    "verdict": "admit",
+    "write_profile": "execution-output-only"
+  },
+  "diagnostic_receipt": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26/npm-diagnostic-receipt.json",
+    "sha256": "468697ca92291eddfad832a39fc9b0ac3886c9a3b9d084dd4dbe41ef4659b670",
+    "size_bytes": 3928,
+    "verdict": "pass",
+    "artifact": "@vijayee/wavedb@0.15.8",
+    "addon_handoff": null
+  },
+  "validation": {
+    "registry_identity": "pass",
+    "tarball_identity_before_scripts": "pass",
+    "native_install_build": "pass",
+    "addon_load": "pass",
+    "basic_string_binary": "pass",
+    "empty_string": "pass",
+    "batch_reopen": "pass",
+    "concurrent_100_write_readback": "pass",
+    "scope_audit": "pass",
+    "source_provenance_binding": "unresolved-not-a-pass-gate-for-this-opaque-artifact-route",
+    "prior_full_suite_blocker": "preserved-not-invalidated"
+  },
+  "effects": {
+    "network_fetch": "exact package metadata, pinned tarball, and declared dependency resolution",
+    "dependency_materialization": "attempt-local",
+    "native_build": "attempt-local",
+    "addon_load": "attempt-local",
+    "runtime_stores": "four attempt-local stores preserved",
+    "craft_access": "not-observed",
+    "craft_mutation": "none",
+    "nvm_default_change": "none",
+    "workspace_git_head_or_index_change": "none",
+    "publication": false,
+    "deployment": false,
+    "destructive_cleanup": false
+  },
+  "blockers": [],
+  "residue": [
+    "The npm and prior Node 26 source-build addons are byte-identical; the divergent result therefore cannot be attributed to a different native addon.",
+    "The JavaScript wrapper text is also identical after line-ending normalization.",
+    "The fresh isolated npm canary passed, while the prior same-shaped case stalled in the full upstream test process; lifecycle or cross-test context remains a live explanation, not a proved root cause.",
+    "Compiler warnings and deprecated transitive dependencies remain outside the named acceptance surface.",
+    "Craft integration and addon handoff were not authorized and remain absent."
+  ],
+  "subagents": {"result": "n/a", "spawned": 0, "joined": 0, "open": 0},
+  "next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "purpose": "record the bounded PASS and remove active diagnostic selection",
+    "same_pack_successor": null,
+    "parent_refresh_admitted": false
+  }
+}

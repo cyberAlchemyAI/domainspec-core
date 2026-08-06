@@ -1,0 +1,52 @@
+{
+  "admissionVerdict": "admit",
+  "allowedWrites": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcnd-20260805-node26-01",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/terminal-receipt.json"
+  ],
+  "authorityClass": "private",
+  "controllingPaths": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/context-pack.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/DECISION.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/PLAN-RECEIPT.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/allowed-routes.json"
+  ],
+  "dependencyIds": [
+    "DG-WCNPM-001",
+    "WCP-provenance-result",
+    "WCSB-Node26-terminal"
+  ],
+  "executionMode": "routed-mutation",
+  "executionOutputs": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcnd-20260805-node26-01",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/terminal-receipt.json"
+  ],
+  "lifecycleOwner": "wavedb-npm-diagnostic-invoke-owner",
+  "liveValidationRequired": true,
+  "materialPackageDigest": null,
+  "materialReceiptDigest": null,
+  "materialWrites": [],
+  "mutationReady": true,
+  "producerSchemaDigest": null,
+  "publicationClass": "internal",
+  "reasons": [],
+  "requestDigest": "c3b0f90107ce10ced8b37be4c567c3054753b9995f10bc27afa52ecd5fc869e7",
+  "schemaVersion": "1.2.0",
+  "swuId": "SWU-WCND-001",
+  "taskId": "TASK-WCND-01",
+  "validationCommands": [
+    "exact Craft, prior attempt, NVM default, process, pass-receipt, and output-scope audits",
+    "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic",
+    "npm pack @vijayee/wavedb@0.15.8 --ignore-scripts --json",
+    "npm view @vijayee/wavedb@0.15.8 version dist.shasum dist.integrity dist.tarball gitHead --json",
+    "sha1sum and sha512/SRI comparison against the exact pinned tarball",
+    "source /home/vrondelli/.nvm/nvm.sh && nvm use 26.6.0 && node --version && npm --version",
+    "timeout --signal=TERM --kill-after=5s 180s npm install <verified-local-tarball> --save-exact --foreground-scripts --no-audit --fund=false",
+    "timeout --signal=TERM --kill-after=5s 20s node -e require('@vijayee/wavedb')",
+    "timeout --signal=TERM --kill-after=5s 30s node harness.js basic|empty|batch-reopen|concurrent-writes"
+  ],
+  "writeProfile": "execution-output-only"
+}

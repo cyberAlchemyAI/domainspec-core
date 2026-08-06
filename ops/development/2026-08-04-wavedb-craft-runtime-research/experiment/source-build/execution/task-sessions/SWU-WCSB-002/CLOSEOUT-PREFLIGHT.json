@@ -1,0 +1,21 @@
+{
+  "schema_version": "task-session-closeout-preflight.v1",
+  "result": "pass",
+  "work_pack": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+  "task_id": "TASK-WCSB-02",
+  "swu_id": "SWU-WCSB-002",
+  "owner_route": "invoke:refresh:apply-approved",
+  "target_baselines": [
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md", "sha256": "679c8674d03303a9870ce3b1eec053cd740b8311dcba95631ad0c7268cf36175", "size_bytes": 9458},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md", "sha256": "1df7e9db7f3daf3d844951bc11e12d49896b864df5542771e7bbcffb3637b037", "size_bytes": 3584},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md", "sha256": "f770904bcccd4e3201d75e8bce1ff7edc76df168cb6d6e65d7c9d10c781f826f", "size_bytes": 946}
+  ],
+  "source_receipt_contract": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/terminal-receipt.json",
+    "required_fields": ["schema_version", "task_id", "swu_id", "execution_result", "source_build_receipt", "validation", "blockers", "residue", "next_route"]
+  },
+  "allowed_delta_classes": ["evidence_added", "blocker_opened", "status_changed", "route_changed"],
+  "owner_validation": ["source-build terminal receipt validator", "target baseline digest comparison", "exact final state and parent route", "scoped whitespace"],
+  "expected_owner_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/invoke-refresh-receipt.json",
+  "successor_policy": {"pass": null, "block": null, "unique": true, "same_work_pack": true, "parent_route_on_pass": "invoke:refresh:apply-approved"}
+}

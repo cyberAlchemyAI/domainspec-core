@@ -1,0 +1,112 @@
+{
+  "schema_version": "task-session-context-pack.v1",
+  "task_id": "TASK-RUNTIME",
+  "swu_id": "SWU-CAPI-000",
+  "strict_coverage": true,
+  "coverage_summary": {
+    "covered": 12,
+    "total": 12,
+    "status": "pass"
+  },
+  "resolution": {
+    "mode": "explicit",
+    "source": "automatic-work-pack-binding",
+    "authorization": "direct user continue request bound through plan-once execution intent"
+  },
+  "controlling_artifacts": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/TASK.md",
+      "sha256": "ccf58e6e73491b8b4d977380ba50f6899305bf049323d19e2baa1a570987824d",
+      "size_bytes": 1687,
+      "role": "task-contract"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/CONTEXT-PACK.md",
+      "sha256": "3c9daf54cc82e8e1d4eac7ebec17f3afd7368b3bec5bbee4616750342d3b3e9e",
+      "size_bytes": 1451,
+      "role": "context-pack-markdown"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+      "sha256": "499c2f102b0485b0450fd0bc8bf1895817f7704793789a839b864a491071669d",
+      "size_bytes": 12906,
+      "role": "work-pack"
+    }
+  ],
+  "selected_sources": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/source-contract.json",
+      "sha256": "40b2449cebfeee77e4c5ae8a148a3d42001ca23a9b69927cd806e3fb5f683565",
+      "size_bytes": 7475,
+      "selectors": ["/objective", "/material", "/validation", "/risk", "/closeout"]
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/audit-output-repair-04/plan-semantic-manifest.json",
+      "sha256": "c9dee00e9c56f3cb2b06a03ee19a0184a15079d4572b4965b240c02bf7d0d418",
+      "size_bytes": 3734,
+      "selectors": ["/plan_epoch_id", "/unit_contract_digests/SWU-CAPI-000", "/ready_frontier"]
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/selection-receipt.json",
+      "sha256": "2ccd5d58fb9e2ad06fa189d96cbdf299a103c9fd5fbe0c9a9f810da60f7d3246",
+      "size_bytes": 964,
+      "selectors": ["/selectionVerdict", "/selectionIntentSource", "/planEpochId", "/unitContractDigest"]
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md",
+      "sha256": "e635aa9fd50b70ad16423801f0b44f7668bba318e31820c2da42cdf66431e13f",
+      "size_bytes": 5982,
+      "selectors": ["SWU-CAPI-000"]
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26-0.15.9/npm-diagnostic-receipt.json",
+      "sha256": "6243febc06f345d0fa22b8b1210742c19e7d4cda74ca6a840e36f8d32428918c",
+      "size_bytes": 4483,
+      "selectors": ["/artifact", "/environment", "/gates"]
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/terminal-receipt.json",
+      "sha256": "eb07d1a14c4dacb30a272240057432c87f8acc430a6b064e0096f99e6107553c",
+      "size_bytes": 3873,
+      "selectors": ["/execution_result", "/diagnostic_receipt"]
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json",
+      "sha256": "97dd371843771bf752124fbe7d6cbc886d785128ab690dc31da48813d228810f",
+      "size_bytes": 8494,
+      "selectors": ["/scope/ledgers", "/scope/ledgerCount", "/database/recordCount"]
+    }
+  ],
+  "obligation_map": [
+    {"obligation": "exact-unit-selection", "source": "selection-receipt.json", "status": "covered"},
+    {"obligation": "plan-epoch-binding", "source": "plan-semantic-manifest.json", "status": "covered"},
+    {"obligation": "package-and-addon-identity", "source": "npm-diagnostic-receipt.json", "status": "covered"},
+    {"obligation": "exact-ledger-baseline", "source": "wcli-20260805-node26-04/receipt.json", "status": "covered"},
+    {"obligation": "bounded-write-scope", "source": "WORK-PACK.md and source-contract.json", "status": "covered"},
+    {"obligation": "successor-stop", "source": "source-contract.json", "status": "covered"}
+  ],
+  "execution_contract": {
+    "writeProfile": "material-bound",
+    "materialWrites": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/import-ledgers-byte-normalized.js"
+    ],
+    "executionOutputs": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/store",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01/receipt.json"
+    ],
+    "allowedWrites": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/import-ledgers-byte-normalized.js",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/store",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01/receipt.json"
+    ],
+    "validationCommands": [
+      "node-v26.6.0 --check admitted builder",
+      "jq exact pass-receipt semantics",
+      "git diff --check on the two admitted attempt roots"
+    ],
+    "lifecycleOwner": "experiment-harness",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "blockers": []
+}

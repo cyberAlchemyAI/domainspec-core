@@ -1,0 +1,40 @@
+{
+  "authored_concern_ids": ["authored:ux"],
+  "denominator_signal_ids": [
+    "authored:ux",
+    "signal:acceptance-readiness-claim:design-contract-closure",
+    "signal:compatibility:craft-schema-generations",
+    "signal:data-log-sink:authorized-http-response",
+    "signal:effect:http-read-response",
+    "signal:interface:craft-http-v1",
+    "signal:normative-rule:authorize-before-enumeration",
+    "signal:normative-rule:validate-derived-provenance",
+    "signal:store:immutable-wavedb-snapshot"
+  ],
+  "detector_id": "invoke-design-scope-extractor",
+  "detector_owner": "spellcraft",
+  "detector_version": "1.0.0",
+  "diagnostics": [],
+  "extracted_signals": [
+    {"attributes": {"evidence_state": "authored-complete", "selector": "API-CONTRACT.md plus DATA-MODEL.md plus SECURITY-BOUNDARY.md"}, "signal_class": "acceptance-readiness-claim", "signal_id": "signal:acceptance-readiness-claim:design-contract-closure", "source_digest": "f5b0771390fd42641ccf83960f0650f40bebc97f707b8dae990d49b9a499d847", "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/stages/02-define.md"},
+    {"attributes": {"new_contract": "craft-ledger-0.3.0", "old_contract": "craft-ledger-0.1-or-0.2.0"}, "signal_class": "compatibility", "signal_id": "signal:compatibility:craft-schema-generations", "source_digest": "f5b0771390fd42641ccf83960f0650f40bebc97f707b8dae990d49b9a499d847", "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/stages/02-define.md"},
+    {"attributes": {"data_classes": ["space-metadata", "raw-ledger-bytes", "provenance"], "retention_hint": "caller-controlled; server logs exclude content and source paths"}, "signal_class": "data-log-sink", "signal_id": "signal:data-log-sink:authorized-http-response", "source_digest": "f5b0771390fd42641ccf83960f0650f40bebc97f707b8dae990d49b9a499d847", "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/stages/02-define.md"},
+    {"attributes": {"external": true, "privileged": false, "reversible": true}, "signal_class": "effect", "signal_id": "signal:effect:http-read-response", "source_digest": "f5b0771390fd42641ccf83960f0650f40bebc97f707b8dae990d49b9a499d847", "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/stages/02-define.md"},
+    {"attributes": {"contract_ref": "API-CONTRACT.md", "direction": "inbound", "kind": "authenticated-read-api", "peer": "authorized-local-agent-or-tool"}, "signal_class": "interface", "signal_id": "signal:interface:craft-http-v1", "source_digest": "f5b0771390fd42641ccf83960f0650f40bebc97f707b8dae990d49b9a499d847", "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/stages/02-define.md"},
+    {"attributes": {"enforcement_hint": "policy adapter and concealment-safe contract tests", "object": "authorize before revealing a space", "subject": "consultation API", "verb": "must"}, "signal_class": "normative-rule", "signal_id": "signal:normative-rule:authorize-before-enumeration", "source_digest": "f5b0771390fd42641ccf83960f0650f40bebc97f707b8dae990d49b9a499d847", "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/stages/02-define.md"},
+    {"attributes": {"enforcement_hint": "fixture and reopen contract tests", "object": "validate manifest and record digests before returning data", "subject": "consultation API", "verb": "must"}, "signal_class": "normative-rule", "signal_id": "signal:normative-rule:validate-derived-provenance", "source_digest": "f5b0771390fd42641ccf83960f0650f40bebc97f707b8dae990d49b9a499d847", "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/stages/02-define.md"},
+    {"attributes": {"authority": "derived-read-model-only", "data_classes": ["raw-ledger-bytes", "source-metadata", "snapshot-manifest"], "writers": []}, "signal_class": "store", "signal_id": "signal:store:immutable-wavedb-snapshot", "source_digest": "f5b0771390fd42641ccf83960f0650f40bebc97f707b8dae990d49b9a499d847", "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/stages/02-define.md"}
+  ],
+  "inspected_selectors": [
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/stages/02-define.md", "selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/stages/02-define.md", "source_digest": "f5b0771390fd42641ccf83960f0650f40bebc97f707b8dae990d49b9a499d847"}
+  ],
+  "manifest_authored_by": "refine-parent-invoke-design-author",
+  "manifest_id": "manifest:craft-wavedb-api-design",
+  "manifest_input_digest": "98ac922392b50e1bc9d4c683611d17065086375ac4ef1534bde440675345dd4c",
+  "missing_detector_inputs": [],
+  "receipt_digest": "ecc5677cf37852c8e97809c6fc769867b9eda5fa9bf2ddc5e95823cf54f612e3",
+  "schema_version": "1.0.0",
+  "unbound_signal_ids": [],
+  "validator_owner": "invoke-design-selection-validator",
+  "verdict": "pass"
+}

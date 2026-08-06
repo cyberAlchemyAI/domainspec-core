@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "craft-api-execution-authorization.v1",
+  "authorizationId": "AUTH-CAPI-000-03-STAGED-FILTER-20260806T150743Z",
+  "authorizedAt": "2026-08-06T15:07:43Z",
+  "source": {
+    "kind": "direct-user",
+    "verbatim": "Authorize fresh -03 staged-filter repair."
+  },
+  "owner": "craft-consultation-api-plan-owner",
+  "target": {
+    "workPackId": "WP-CAPI-20260805",
+    "taskId": "TASK-RUNTIME",
+    "swuId": "SWU-CAPI-000",
+    "attemptId": "wcli-20260805-node26-0.15.9-03"
+  },
+  "authorizedChanges": [
+    "refresh WORK-PACK.md and work-pack/tasks/TASK-RUNTIME.md from the closed -02 state to one selected -03 route",
+    "derive the -03 builder from the immutable -02 builder by changing only the attempt identifier and adding the literal staged directory name to the existing exclusion set",
+    "perform one material-bound Task Session attempt under Node v26.6.0 with the pinned local @vijayee/wavedb@0.15.9 package",
+    "synchronize the resulting terminal evidence through the declared closeout owner"
+  ],
+  "authorityScope": {
+    "ledgerCount": 28,
+    "recordCount": 57,
+    "sourceSelectionChanged": false,
+    "filterRepair": {
+      "directoryComponent": "staged",
+      "classification": "generated-staged-copy",
+      "effect": "exclude from authority-ledger discovery"
+    }
+  },
+  "forbiddenEffects": [
+    "modify or delete attempts -01 or -02",
+    "change the selected Craft source-ledger set",
+    "start SWU-CAPI-001 or another successor",
+    "modify API product code or canonical Craft sources",
+    "perform network access, publication, deployment, promotion, or release"
+  ],
+  "successorAuthorized": false,
+  "singleAttempt": true
+}

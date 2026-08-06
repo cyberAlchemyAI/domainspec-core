@@ -1,0 +1,79 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "task-session-local-experiment-runner",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "fa3bc067ef5a07a0a81fe5b4c5faf46c86fbb403bb650af5f7d906ea2144cb7a",
+  "packageId": "capi-swu-000-staged-filter-repair-20260806T150743Z",
+  "patchVerdict": "pass",
+  "planBinding": {
+    "attempt_id": "wcli-20260805-node26-0.15.9-03",
+    "plan_epoch_id": "epoch-c3264e7b6537f57838bc8bf5",
+    "selection_receipt_digest": "7148ae8f36386b6912f01b9f4dcb363a0c987b8bf8d9e403b547d0bf4086040b",
+    "swu_id": "SWU-CAPI-000",
+    "target_baselines": [
+      {
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-03/import-ledgers-byte-normalized.js",
+        "sha256": null,
+        "size_bytes": null,
+        "state": "absent"
+      }
+    ],
+    "task_id": "TASK-RUNTIME",
+    "unit_contract_digest": "bee651da7b19740f28a48252bc575db2216aef203d626e69d8160aa955f55229",
+    "validation_contract_digest": "bc437e61a8796933b9479ea195aa0fcb5ca79758dee6e459d465a319229dced3",
+    "validation_contracts": [
+      {
+        "argv": [
+          "/home/vrondelli/.nvm/versions/node/v26.6.0/bin/node",
+          "--check",
+          "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-03/import-ledgers-byte-normalized.js"
+        ],
+        "command_id": "capi-000-builder-syntax",
+        "cwd": ".",
+        "max_output_bytes": 8192,
+        "timeout_seconds": 20
+      },
+      {
+        "argv": [
+          "jq",
+          "-e",
+          ".verdict == \"pass\" and .attemptId == \"wcli-20260805-node26-0.15.9-03\" and .environment.node == \"v26.6.0\" and .dependency.version == \"0.15.9\" and .scope.ledgerCount == 28 and .database.recordCount == 57 and .verification.completeImmediateByteReadback == \"pass\" and .verification.completeByteReadbackAfterReopen == \"pass\" and .verification.sourceImmutabilityBeforeAfter == \"pass\" and .authority.craftFilesMutated == false",
+          "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-03/receipt.json"
+        ],
+        "command_id": "capi-000-receipt-semantics",
+        "cwd": ".",
+        "max_output_bytes": 8192,
+        "timeout_seconds": 20
+      },
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "--",
+          "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-03",
+          "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-03"
+        ],
+        "command_id": "capi-000-scoped-whitespace",
+        "cwd": ".",
+        "max_output_bytes": 8192,
+        "timeout_seconds": 20
+      }
+    ]
+  },
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-03/import-ledgers-byte-normalized.js"
+  ],
+  "validationCommands": [
+    "prove exact builder delta from immutable -02",
+    "node-v26.6.0 --check admitted builder",
+    "jq exact pass-receipt semantics",
+    "git diff --check on the two admitted attempt roots"
+  ]
+}

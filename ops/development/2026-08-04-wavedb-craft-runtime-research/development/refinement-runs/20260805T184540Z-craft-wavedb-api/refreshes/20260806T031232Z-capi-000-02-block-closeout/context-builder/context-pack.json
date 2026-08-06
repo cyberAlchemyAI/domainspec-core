@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "context-builder-session-evidence",
+  "task": "Invoke Refresh closeout for blocked SWU-CAPI-000 attempt -02",
+  "mode": "lean",
+  "strict": true,
+  "coverage": {
+    "obligationCount": 5,
+    "covered": 5,
+    "unresolved": 0,
+    "verdict": "pass"
+  },
+  "obligations": [
+    {
+      "id": "O1",
+      "status": "covered",
+      "claim": "Preserve the Task Session block and immutable -02 experiment evidence."
+    },
+    {
+      "id": "O2",
+      "status": "covered",
+      "claim": "Keep the selected 28-ledger and 57-record source contract unchanged."
+    },
+    {
+      "id": "O3",
+      "status": "covered",
+      "claim": "Synchronize only the Work Pack and SWU-CAPI-000 owner receipt."
+    },
+    {
+      "id": "O4",
+      "status": "covered",
+      "claim": "Remove the consumed automatic route without admitting a retry or successor."
+    },
+    {
+      "id": "O5",
+      "status": "covered",
+      "claim": "Record the literal staged-directory filter gap and the exact fresh-attempt requirement."
+    }
+  ],
+  "selectedSources": [
+    {
+      "path": "readiness/20260806T025009Z-capi-000-include-28-retry-02/task-session/terminal-receipt.json",
+      "selectors": [
+        "/execution_result",
+        "/terminal_code",
+        "/blocker",
+        "/effects",
+        "/next_route"
+      ],
+      "obligations": [
+        "O1",
+        "O2",
+        "O4",
+        "O5"
+      ]
+    },
+    {
+      "path": "readiness/20260806T025009Z-capi-000-include-28-retry-02/task-session/closeout-preflight.json",
+      "selectors": [
+        "/targetInventory",
+        "/admittedDeltaClasses",
+        "/forbiddenEffects"
+      ],
+      "obligations": [
+        "O3",
+        "O4"
+      ]
+    },
+    {
+      "path": "readiness/20260806T025009Z-capi-000-include-28-retry-02/task-session/inventory-drift-02.json",
+      "selectors": [
+        "/addedPath",
+        "/classification",
+        "/scope"
+      ],
+      "obligations": [
+        "O1",
+        "O2",
+        "O5"
+      ]
+    },
+    {
+      "path": "experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-02/receipt.json",
+      "selectors": [
+        "/verdict",
+        "/attemptId",
+        "/scope",
+        "/database",
+        "/authority"
+      ],
+      "obligations": [
+        "O1",
+        "O2",
+        "O4"
+      ]
+    },
+    {
+      "path": "WORK-PACK.md",
+      "selectors": [
+        "Work-Pack execution policy",
+        "SWU execution handoff",
+        "Runtime promotion order",
+        "Blockers"
+      ],
+      "obligations": [
+        "O2",
+        "O3",
+        "O4",
+        "O5"
+      ]
+    }
+  ],
+  "writeScope": [
+    "WORK-PACK.md",
+    "work-pack/execution-receipts/SWU-CAPI-000.refresh.json"
+  ],
+  "nonGoals": [
+    "repair or run the importer",
+    "create a -03 attempt",
+    "start SWU-CAPI-001",
+    "modify API product code or canonical Craft sources",
+    "publish or deploy"
+  ]
+}

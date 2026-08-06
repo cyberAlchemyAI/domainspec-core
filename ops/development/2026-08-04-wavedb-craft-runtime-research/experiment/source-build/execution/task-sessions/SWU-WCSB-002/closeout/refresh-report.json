@@ -1,0 +1,40 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {"artifactComplete": true, "refreshAuthoringBlockerCount": 0},
+  "activationSource": "continuation",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "explicit",
+  "handoffStatus": "blocked",
+  "sourceSignals": [
+    {
+      "id": "WCSB-UPSTREAM-CONCURRENT-WRITE-STALL",
+      "source_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/terminal-receipt.json",
+      "signal_type": "blocker_opened",
+      "claim": "The first upstream WaveDB Integration concurrent-write test did not complete; the pass receipt, canary, and final scope audit are absent.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md"
+  ],
+  "deltaSummary": ["evidence_added", "blocker_opened", "status_changed", "route_changed"],
+  "appliedChanges": ["record SWU-WCSB-002 block", "clear selected SWU", "preserve failed attempt and remove retry route"],
+  "materialPackage": {
+    "packageId": "wavedb-reviewed-source-build:SWU-WCSB-002:blocked-closeout",
+    "packageDigest": "c462c53758b1c6e0cfb8aa49015c78a58be4b631dd34bd09d4de677530d1ae7f",
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "validatedPathCount": 3
+  },
+  "mutationReady": true,
+  "blockers": [
+    {"id": "WCSB-UPSTREAM-CONCURRENT-WRITE-STALL", "scope": "target-lifecycle", "owner": "WaveDB source owner", "status": "open", "claim": "diagnose or fix concurrent-write failure before a newly planned attempt"}
+  ],
+  "nextRoute": "stop:user-input-or-source-owner-diagnosis",
+  "validation": ["source block receipt", "material and handoff receipts", "three live target identities", "no selected SWU", "scoped whitespace"]
+}
+

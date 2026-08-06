@@ -1,0 +1,66 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-08-05-arcanum-cav2-integration-research",
+  "run_id": "cav2-integration-run-01",
+  "state": "wave_ready",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "synthesis",
+    "role_ids": [
+      "synthesizer"
+    ],
+    "parallel": false,
+    "join_policy": "all",
+    "depends_on_waves": [
+      "explorers"
+    ],
+    "gate_after": "g-synthesis",
+    "on_incomplete": "block"
+  },
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0004",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s2-synthesize"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-05-arcanum-cav2-integration-research",
+      "forbidden_write_scopes": [
+        ".agents/",
+        ".claude/",
+        "arcanum/",
+        "implementation/",
+        "cyberAlchemy-v2/",
+        "projects/",
+        ".craft/",
+        "CRAFT.md",
+        "telemetry/agents/",
+        ".git/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-05-arcanum-cav2-integration-research/receipts/explorer-authority.json",
+        "ops/development/2026-08-05-arcanum-cav2-integration-research/receipts/explorer-operational.json",
+        "ops/development/2026-08-05-arcanum-cav2-integration-research/receipts/explorer-systems.json",
+        "ops/development/2026-08-05-arcanum-cav2-integration-research/research.md"
+      ],
+      "mode": "synthesize",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "ops/development/2026-08-05-arcanum-cav2-integration-research/receipts/synthesis.json"
+      ],
+      "role": "synthesizer",
+      "run_id": "cav2-integration-run-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s2-synthesize",
+      "target": "ops/development/2026-08-05-arcanum-cav2-integration-research/dispatch-sheet.json#synthesizer",
+      "wave_id": "synthesis",
+      "write_scope": []
+    }
+  ],
+  "action_artifacts": [
+    "../wave-01-reduction/next-actions.json#spawn-0004"
+  ]
+}

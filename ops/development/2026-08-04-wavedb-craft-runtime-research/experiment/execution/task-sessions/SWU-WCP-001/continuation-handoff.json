@@ -1,0 +1,38 @@
+{
+  "schema_version": "candidate-local-1.0.0",
+  "source_capability": "task-session",
+  "source_mode": "execute",
+  "source_result": "BLOCK",
+  "target_scope": "SWU-WCP-001",
+  "blocker_class": "package-provenance",
+  "blocker_fingerprint": "5b60290d587d390439f8d78ee74910b47ef5294481ab2fcba338793dc4132bfd",
+  "controlling_evidence": [
+    "execution/wp0-provenance/registry-metadata.json",
+    "execution/wp0-provenance/comparison.json",
+    "plan/WORK-PACK.md@36c994207a5bb2674bd3344b86cd574be0582075ea84b48fba9dbdf7b87a2adb"
+  ],
+  "probable_routes": [
+    {
+      "rank": 1,
+      "route": "decision-gate:blocker",
+      "owner": "user and package/security owner",
+      "risk": "consequential scope selection",
+      "authorization": "pending",
+      "expected_receipt": "execution/decisions/PACKAGE-PROVENANCE.md with selected option"
+    },
+    {
+      "rank": 2,
+      "route": "stop:user-input",
+      "owner": "package/security owner",
+      "risk": "none",
+      "authorization": "not-needed",
+      "expected_receipt": "corrected external provenance or explicit stop"
+    }
+  ],
+  "selected_route": "decision-gate:blocker",
+  "dispatch": "not-requested",
+  "unblock_actions": [
+    "provide corrected exact registry/source provenance",
+    "or authorize a separately designed source-build route"
+  ]
+}

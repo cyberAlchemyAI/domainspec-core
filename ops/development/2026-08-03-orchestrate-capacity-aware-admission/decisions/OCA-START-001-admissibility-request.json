@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OCA-START-001",
+  "candidates": [
+    {
+      "optionId": "OCA-START-SAFE-CORE",
+      "label": "Start the L0/L1 safe-core stream one SWU at a time",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "operator-explicit-selection+task-session:mutation-admission",
+      "evidence": [
+        "planning/WORK-PACK.md#first-unit-narrowness",
+        "planning/MUTATION-ADMISSION-CONTRACT.json",
+        "planning/PLAN-DISTILL.md#final-checks",
+        "planning/work-pack/tasks/TASK-OCA-01-ADMISSION-SEAM.md"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OCA-DEFER-SAFE-CORE",
+      "label": "Keep the package ready but defer implementation",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "planning/MUTATION-ADMISSION-CONTRACT.json#mutation_authorized=false"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OCA-STOP-WORK",
+      "label": "Stop this improvement stream without deleting its evidence",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "planning/WORK-PACK.md#validation-and-handoff"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OCA-IMPLEMENT-FULL-ARCHITECTURE-NOW",
+      "label": "Implement L0 through L3 in one authorization",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": null,
+      "evidence": [
+        "planning/IMPLEMENTATION-LAYERING.md#layer-decisions",
+        "planning/WORK-PACK.md#blockers-and-gaps"
+      ],
+      "rejectionReasons": [
+        "L2 has no admitted host reservation or physical-release contract.",
+        "L3 has no executable consumer-adoption or release work pack.",
+        "The current Work Pack authorizes at most one receipt-gated SWU at a time."
+      ]
+    }
+  ]
+}

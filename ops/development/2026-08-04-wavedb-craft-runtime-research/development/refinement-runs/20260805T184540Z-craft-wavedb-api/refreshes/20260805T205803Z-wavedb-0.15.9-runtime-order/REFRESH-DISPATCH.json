@@ -1,0 +1,171 @@
+{
+  "dispatch_id": "invoke-refresh-craft-api-wavedb-0.15.9-20260805T205803Z",
+  "parent_dispatch_id": "20260805T184540Z-craft-wavedb-api",
+  "intent": {
+    "raw": "invoke refresh the current work pack with this steps",
+    "objective": "Refresh the split Craft Consultation API Work Pack so a verified WaveDB 0.15.9 package is re-ingested and fresh-process verified before dependency pinning and read-only API construction.",
+    "target_artifact": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+    "arcanum_vocabulary": ["invoke", "refresh", "work-pack", "material package", "owner boundary", "receipt"],
+    "operator_sentence": "Apply only the four declared split Work Pack runtime-plan deltas; preserve blocked execution and all authority boundaries."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "artifact_contract_bridge",
+    "validation_loop",
+    "concrete_path_evidence",
+    "owner_boundary_check",
+    "residue_ledger"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The governed Invoke route is one sequential local refresh. One AGENTS.md-required bounded read-only helper supplied a delta critique outside the governed dispatch composition and is recorded separately.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed"
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {
+        "agent_id": "craft_api_refresh_delta",
+        "role_id": "bounded-read-only-delta-critic",
+        "capability_ref": "invoke",
+        "capability_target": "Craft Consultation API split Work Pack runtime order",
+        "capability_mode": "refresh-read-only-critique",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "helper-receipt.json",
+        "close_status": "closed",
+        "residue": "none"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "CAPI-RF-S1",
+      "name": "Resolve the exact current split Work Pack",
+      "capability_ref": "inventory",
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "installed_skill": ".agents/skills/inventory/SKILL.md",
+        "version": "0.1.0"
+      },
+      "mode": "lookup",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": ["concrete_path_evidence", "owner_boundary_check"],
+      "inputs": [{"kind": "intent", "ref": "direct user Invoke Refresh request"}],
+      "outputs": [{"kind": "frame", "ref": "context-builder/context-pack.json#targetArtifacts"}],
+      "join_policy": "none",
+      "stop_conditions": ["block if current Work Pack resolution is ambiguous or Inventory lookup readiness fails"]
+    },
+    {
+      "step_id": "CAPI-RF-S2",
+      "name": "Bind source evidence and refresh obligations",
+      "capability_ref": "context-builder",
+      "mode": "standard-strict",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["CAPI-RF-S1"],
+      "techniques": ["sequence", "concrete_path_evidence", "residue_ledger"],
+      "inputs": [
+        {"kind": "frame", "ref": "context-builder/context-pack.json#targetArtifacts"},
+        {"kind": "receipt", "ref": "../../../../experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/terminal-receipt.json"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "context-builder/context-pack.md"},
+        {"kind": "artifact", "ref": "context-builder/context-pack.json"}
+      ],
+      "join_policy": "none",
+      "stop_conditions": ["block unless every refresh obligation has exact selector-level coverage"]
+    },
+    {
+      "step_id": "CAPI-RF-S3",
+      "name": "Stage and validate the exact material package",
+      "capability_ref": "invoke",
+      "mode": "refresh-apply-approved",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["CAPI-RF-S2"],
+      "techniques": ["artifact_contract_bridge", "owner_boundary_check", "concrete_path_evidence"],
+      "inputs": [
+        {"kind": "artifact", "ref": "context-builder/context-pack.json"},
+        {"kind": "human_answer", "ref": "direct user approval for the declared four-path refresh scope"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "material/material-package.json"},
+        {"kind": "receipt", "ref": "material/material-receipt.json"},
+        {"kind": "receipt", "ref": "material/handoff-result.json"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "material/material-receipt.json",
+      "stop_conditions": ["block unless approval scope, changes, target inventory, dependencies, owner boundary, and publication boundary pass exactly"]
+    },
+    {
+      "step_id": "CAPI-RF-S4",
+      "name": "Apply, validate, and report the refresh",
+      "capability_ref": "invoke",
+      "mode": "refresh-closeout",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["CAPI-RF-S3"],
+      "techniques": ["sequence", "validation_loop", "artifact_contract_bridge", "residue_ledger"],
+      "inputs": [
+        {"kind": "receipt", "ref": "material/handoff-result.json"},
+        {"kind": "artifact", "ref": "material/outputs"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "refresh-report.json"},
+        {"kind": "artifact", "ref": "REFRESH-REPORT.md"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "refresh-report.json",
+      "stop_conditions": ["block on target drift, failed exact-output comparison, stale dependency order, widened allowed routes, Craft/implementation mutation, or validation failure"]
+    }
+  ],
+  "gates": [
+    {"gate_id": "CAPI-RF-G1-context", "kind": "validation", "owner": "context-builder", "condition": "strict context coverage passes for the four exact targets and three runtime receipts", "on_fail": "block"},
+    {"gate_id": "CAPI-RF-G2-material", "kind": "human_approval", "owner": "invoke refresh", "condition": "direct-user apply approval, material changes, and target inventory normalize to exactly the same four private internal paths", "on_fail": "block"},
+    {"gate_id": "CAPI-RF-G3-validation", "kind": "validation", "owner": "invoke refresh", "condition": "material validator, handoff resolver, target hash checks, dependency-order assertions, JSON checks, and scoped whitespace checks pass", "on_fail": "block"},
+    {"gate_id": "CAPI-RF-G4-authority", "kind": "promotion_guardrail", "owner": "Craft and implementation owners", "condition": "refresh does not mutate Craft ledgers, WaveDB attempts, implementation code, allowed routes, publication, deployment, or production state", "on_fail": "block"}
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "20260805T184540Z-craft-wavedb-api",
+    "trace_events": ["refresh_context_bound", "refresh_material_validated", "refresh_targets_applied", "refresh_closeout_recorded"],
+    "signal_grouping": "dispatch_id + package_id + four-path target inventory"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {"boundary_id": "CAPI-RF-B1-inventory", "kind": "artifact_import", "from_owner": "inventory", "to_owner": "invoke", "applies_to_steps": ["CAPI-RF-S1", "CAPI-RF-S2"], "contract": "Inventory supplies discovery selectors only; direct work-pack and receipt bytes decide the refresh.", "on_violation": "block"},
+      {"boundary_id": "CAPI-RF-B2-material", "kind": "state_write", "from_owner": "invoke staging", "to_owner": "Craft Consultation API plan owner", "applies_to_steps": ["CAPI-RF-S3", "CAPI-RF-S4"], "contract": "Only the four declared private internal planning paths may be updated after a ready material handoff.", "on_violation": "block"},
+      {"boundary_id": "CAPI-RF-B3-evidence", "kind": "evidence_return", "from_owner": "WaveDB npm diagnostic Task Session", "to_owner": "Invoke Refresh", "applies_to_steps": ["CAPI-RF-S2", "CAPI-RF-S3"], "contract": "0.15.9 evidence opens a planned re-ingestion predecessor only; it does not prove Craft snapshot or API integration.", "on_violation": "block"}
+    ],
+    "authority": {
+      "lifecycle": "invoke owns refresh authoring; the Craft Consultation API plan owner owns the target artifacts",
+      "execution": "none in this refresh; future Task Session only after a separate execution request and admission",
+      "validation": "dispatch-spec plus Invoke material validators and live target checks",
+      "evidence": "direct WaveDB and Craft receipts",
+      "memory": "Inventory and memory are discovery only",
+      "promotion": "separate Craft, implementation, publication, deployment, and production owners"
+    },
+    "receipts": [
+      {"receipt_id": "CAPI-RF-R1-material", "producer": "invoke material package validator", "required_fields": ["artifacts", "validation_result", "status", "residue"], "stores": ["material/material-receipt.json", "material/handoff-result.json"], "on_missing": "block"},
+      {"receipt_id": "CAPI-RF-R2-closeout", "producer": "invoke refresh", "required_fields": ["artifacts", "validation_result", "status", "approval_record", "residue", "handoff_note"], "stores": ["refresh-report.json"], "on_missing": "block"}
+    ],
+    "state_namespaces": [
+      {"namespace": "craft-api-work-pack-refresh", "owner": "invoke refresh", "write_policy": "refresh evidence plus four exact planning targets only"}
+    ],
+    "promotion_splits": [
+      {"source": "WaveDB 0.15.9 local diagnostic and refreshed plan", "target": "Craft snapshot, API implementation, deployment, or production", "rule": "requires later owner-routed execution and receipts; never inferred from refresh", "on_violation": "block"}
+    ]
+  },
+  "promotion_guardrails": [
+    "Craft ledger YAML remains source authority and unchanged.",
+    "The existing 0.15.8 Craft snapshot and all prior attempts remain immutable evidence.",
+    "The refreshed Work Pack remains blocked with an empty allowed-route projection.",
+    "No API package, dependency, server, publication, deployment, or production state is created by this refresh."
+  ]
+}

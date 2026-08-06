@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-05T16:32:15Z",
+  "purpose": "bound interpretation of the passing isolated npm canary against the preserved Node 26 source-build blocker",
+  "nativeAddon": {
+    "npmArtifactSha256": "cbd5ebdab82635cf95ced5b0d3d3b50de7c224a6d99ebc2aa1dad57afb2ea8c9",
+    "priorSourceBuildSha256": "cbd5ebdab82635cf95ced5b0d3d3b50de7c224a6d99ebc2aa1dad57afb2ea8c9",
+    "byteIdentity": "equal"
+  },
+  "javascriptWrapper": {
+    "priorSourceRawSha256": "11131d357c24788e9258815c6a0f2b0a54cacb682e3707e89d4b341de12c29c5",
+    "npmArtifactRawSha256": "19726116fb4a4c7f3aeedc67d0af11bd95418de3cc737c1a7a4bb6d73760da7b",
+    "normalizedLfSha256": "11131d357c24788e9258815c6a0f2b0a54cacb682e3707e89d4b341de12c29c5",
+    "semanticTextComparison": "equal after removing CR line-ending bytes",
+    "difference": "the npm artifact uses CRLF line endings while the prior checkout uses LF"
+  },
+  "concurrencyShape": {
+    "priorTestPath": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcsb-20260805-node26-01/source/bindings/nodejs/test/integration.test.js",
+    "priorTestSha256": "e268037b21ecca57da47f0dc0c0add092f8c25ec31cac5421be33cc5ab48323f",
+    "priorTestSizeBytes": 5143,
+    "sharedShape": "100 async put calls collected before Promise.all, followed by exact readback",
+    "materialContextDifference": "the npm diagnostic runs the canary in a fresh isolated process and store; the prior observation occurred within the full upstream test command after earlier suites and cases"
+  },
+  "priorBlockEvidence": {
+    "logPath": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build-node26/logs/20-upstream-tests.log",
+    "logSha256": "012e05ee5e912ca1d09027680981809e576134511920c4fc90dd804e729b5f13",
+    "logSizeBytes": 46706,
+    "status": "preserved-and-not-invalidated"
+  },
+  "interpretation": {
+    "supported": "the pinned npm artifact passes the named isolated Node 26 black-box canaries",
+    "notSupported": [
+      "the npm artifact contains a different or fixed native addon",
+      "the package version alone caused the different result",
+      "the prior full-suite stall is resolved",
+      "the npm tarball is provenance-bound to one reviewed source tree"
+    ]
+  }
+}

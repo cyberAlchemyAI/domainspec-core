@@ -1,0 +1,85 @@
+{
+  "schema_version": "arcanum-building-system.dispatch-closeout.v1",
+  "dispatch_id": "2026-08-05-arcanum-building-system-research",
+  "route_dispatch_id": "2026-08-05-arcanum-building-system-research-route",
+  "run_id": "arcanum-building-system-research-run-01",
+  "status": "pass",
+  "completed_waves": [
+    "explorers",
+    "synthesis",
+    "reviewers",
+    "evidence-closure",
+    "writer",
+    "auditor"
+  ],
+  "action_receipts": [
+    "receipts/explorer-runtime.json",
+    "receipts/explorer-contract.json",
+    "receipts/explorer-closure.json",
+    "receipts/synthesis.json",
+    "receipts/skeptic-precedent.json",
+    "receipts/skeptic-non-vacuity.json",
+    "receipts/skeptic-definitional.json",
+    "receipts/writer.json",
+    "receipts/auditor.json"
+  ],
+  "agents_spawned": 9,
+  "agent_tree": {
+    "explorer": 3,
+    "synthesizer": 1,
+    "skeptic": 3,
+    "writer": 1,
+    "auditor": 1,
+    "helpers": 0
+  },
+  "loops_used": 1,
+  "final_approver": "parent",
+  "final_verdict": "ACCEPT",
+  "outputs": [
+    {
+      "path": "research.md",
+      "sha256": "ac5ed3eb4b0fb3e785955d42bd8fa2d7801261143b9587af97ee1d2c41697986"
+    },
+    {
+      "path": "synthesis-revision-1.md",
+      "sha256": "7af7e974bd9e9d548110096c45eeeea50f54d3653d36f7e334cec23f9bb40149"
+    },
+    {
+      "path": "findings.md",
+      "sha256": "358a7e4ff595b56e9356b7b935b85be96a713cfcd836d9f6bb245e698fc701de"
+    }
+  ],
+  "evidence_closure": {
+    "path": "receipts/evidence-closure.json",
+    "sha256": "1a807b54c58a032b85bcb005d8bf702761309172c6d0538d3a39ec79ca8d9b13",
+    "claim_ids": 110,
+    "unbound_positive_claims": 0,
+    "status": "ready"
+  },
+  "final_audit": {
+    "path": "receipts/auditor.json",
+    "sha256": "b43e56c162195f4db402352027092282e85c0389080f1c5b6075cac708acc3d1",
+    "status": "pass",
+    "verdict": "APPROVE"
+  },
+  "native_run_evidence": {
+    "path": "native-run/run-01/run-evidence-validation.json",
+    "sha256": "1d9d3e65c826b831fe6e49e2738423e8538a822350eec65edf1d224c8d8a60ea",
+    "event_count": 90,
+    "status": "pass"
+  },
+  "ledger": {
+    "path": "telemetry/agents/subagents-dispatch.yaml",
+    "dispatch_row": 5079,
+    "close_row": 5108,
+    "dispatch_rows_for_id": 1,
+    "close_rows_for_dispatch": 1
+  },
+  "inventory_result_hook": {
+    "path": "RESULT-INVENTORY-HOOK-RECEIPT.json",
+    "status": "blocked",
+    "write_attempted": false,
+    "index_bytes_preserved": true
+  },
+  "claim_ceiling": "Research complete and auditor-approved. The full Invoke-to-real-Refresh synchronized positive path, exact multi-unit loop owner, exact runtime material producer, registry-release owner, generated parity, canonical fixes for both Orchestrate defects, immutable live patch identity, implementation, promotion, publication, release, deployment, and production remain unestablished."
+}

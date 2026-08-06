@@ -1,0 +1,704 @@
+{
+  "dispatch_id": "20260805T184540Z-craft-wavedb-api",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "refine an API for Craft using the new ingested data",
+    "objective": "Produce a non-executed, implementation-ready design and Work Pack for a read-only Craft consultation API over the verified WaveDB snapshot while preserving source-ledger authority, schema-version compatibility, privacy, provenance, and runtime failure boundaries.",
+    "target_artifact": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/RESULT.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec",
+      "Craft source ledger",
+      "derived read model",
+      "snapshot provenance",
+      "owner boundary"
+    ],
+    "operator_sentence": "refine an API for Craft using the new ingested data",
+    "preset": "standard",
+    "research_mode": "research-if-gap-appears"
+  },
+  "mode": "mixed",
+  "route_menu": {
+    "context_hint": "The verified store supports exact snapshot retrieval, but row normalization, refresh effects, write authority, and public/private placement are not yet proven.",
+    "items": [
+      {
+        "id": "read-only-contract-first",
+        "label": "Read-only contract first",
+        "description": "Selected smallest coherent unit: snapshot discovery and consultation with provenance, followed by schema-aware row queries only when normalization validates.",
+        "capability_ref": "invoke",
+        "pattern": "sequence"
+      },
+      {
+        "id": "private-refresh-service",
+        "label": "Private refresh service",
+        "description": "Deferred: adds a separately authorized rebuild command after freshness, locking, atomic replacement, and failure recovery are designed.",
+        "capability_ref": "decision-gate",
+        "pattern": "decision"
+      },
+      {
+        "id": "read-write-craft-api",
+        "label": "Read-write Craft API",
+        "description": "Rejected for this refinement: WaveDB is not Craft authority and no deterministic source-ledger mutation route is admitted.",
+        "capability_ref": "decision-gate",
+        "pattern": "decision"
+      }
+    ],
+    "selected_item_id": "read-only-contract-first"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "conditional_component",
+    "data_quality_completeness",
+    "route_menu",
+    "approval_checkpoint",
+    "dialectic",
+    "zig_zag",
+    "residue_ledger",
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference",
+    "toy_game",
+    "assessment_failure_reference",
+    "memory_loop",
+    "data_quality_deduplication",
+    "protected_context_flag",
+    "system_agnostic_standard",
+    "local_nuance_coordination",
+    "authority_split_gate",
+    "state_namespace_boundary",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "scu_swu_reduction",
+    "recomposition_proof"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The ten Refine stages form an ordered evidence, critique, repair, and planning chain.",
+      "techniques": ["sequence", "frame_handoff", "handle_handoff", "validation_loop", "owner_boundary_check", "observability_grouping", "minimum_component_catalog", "conditional_component", "data_quality_completeness"],
+      "applies_to_steps": ["s01-context-builder", "s02-invoke-define", "s03-interrogation-review", "s04-research-decision", "s05-distill", "s06-invoke-design", "s07-interrogation-design-review", "s08-distill-repair", "s09-invoke-plan", "s10-final-synthesis"],
+      "validation_expectation": "Every non-first step consumes prior evidence, every stage returns a native receipt or blocked reason, and missing evidence blocks synthesis."
+    },
+    {
+      "overlay_id": "route_menu_for_ambiguity",
+      "trigger": "Read-only consultation, projection refresh, source mutation, and public/private placement have different owners and effects.",
+      "techniques": ["route_menu", "approval_checkpoint", "authority_split_gate", "conditional_component"],
+      "applies_to_steps": ["s01-context-builder", "s02-invoke-define", "s06-invoke-design", "s09-invoke-plan"],
+      "validation_expectation": "The read-only MVP is selected explicitly; refresh, mutation, and placement decisions remain separate and gated."
+    },
+    {
+      "overlay_id": "dialectic_for_tension",
+      "trigger": "API usefulness conflicts with source authority, privacy, freshness honesty, and storage limitations.",
+      "techniques": ["dialectic", "zig_zag", "residue_ledger", "owner_boundary_check"],
+      "applies_to_steps": ["s03-interrogation-review", "s07-interrogation-design-review"],
+      "validation_expectation": "Named critic roles converge only when useful reads do not inherit write or promotion authority and stable disagreements remain residue."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The ingested store currently contains raw documents and metadata, while row families and schema versions vary across ledgers.",
+      "techniques": ["x_ray", "component_descriptor", "entity_component_reference", "concrete_path_evidence"],
+      "applies_to_steps": ["s01-context-builder", "s06-invoke-design"],
+      "validation_expectation": "The design names raw snapshot, normalized row, index, provenance, adapter, service, and transport components with concrete source handles."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "The API design can be falsified cheaply with fixture queries and known WaveDB failure modes before implementation planning.",
+      "techniques": ["toy_game", "validation_loop", "assessment_failure_reference", "recomposition_proof"],
+      "applies_to_steps": ["s08-distill-repair"],
+      "validation_expectation": "Positive and negative scenarios cover reopen, mixed return types, stale snapshots, missing and duplicate IDs, unauthorized writes, and boundary leakage."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "One passing import and three failed attempts contain material design constraints that must not be erased.",
+      "techniques": ["memory_loop", "residue_ledger", "data_quality_deduplication"],
+      "applies_to_steps": ["s01-context-builder", "s03-interrogation-review", "s08-distill-repair", "s10-final-synthesis"],
+      "validation_expectation": "The passing receipt and failed batch/type assumptions remain linked as evidence, not rewritten as success."
+    },
+    {
+      "overlay_id": "protected_context_for_private_ledgers",
+      "trigger": "The snapshot includes private DomainSpec and project ledgers while Arcanum is public.",
+      "techniques": ["protected_context_flag", "system_agnostic_standard", "local_nuance_coordination", "state_namespace_boundary"],
+      "applies_to_steps": ["s01-context-builder", "s02-invoke-define", "s06-invoke-design", "s07-interrogation-design-review", "s08-distill-repair", "s09-invoke-plan", "s10-final-synthesis"],
+      "validation_expectation": "No private ledger content enters public Arcanum artifacts; generic contracts and private adapters keep separate owners and paths."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Three independent failure surfaces need adversarial review after the initial design: API contract coherence, Craft authority/privacy, and WaveDB runtime correctness.",
+    "explanation": "Three read-only Interrogation critics can review one exact design corpus in parallel and return bounded receipts before parent-owned repair. The Refine parent retains definition, design, planning, synthesis, and all mutation authority.",
+    "context": [
+      "The snapshot proof covers 27 current owner ledgers but not row-level normalization.",
+      "Live ledgers include multiple schema generations.",
+      "A 55-record atomic batch silently reopened without the manifest.",
+      "Large values may return as Buffer even when written as strings.",
+      "Private DomainSpec data must not leak into public Arcanum surfaces."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "refine",
+    "roles": [
+      {
+        "role_id": "api-contract-critic",
+        "purpose": "Attack resource boundaries, stable identifiers, filters, pagination, errors, freshness semantics, cache behavior, and contract testability.",
+        "owns": "One read-only API-contract review receipt; no design, source, implementation, or final-synthesis authority.",
+        "capability_ref": "interrogation",
+        "capability_target": "stages/06-design.md",
+        "capability_mode": "refine-design-review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["arcanum", "cyberAlchemy-v2", "implementation", "projects", "ops", ".git"],
+        "input_refs": ["stages/06-design.md", "API-CONTRACT.md", "DATA-MODEL.md"],
+        "output_refs": ["receipt:api-contract-critic"],
+        "applies_to_steps": ["s07-interrogation-design-review"]
+      },
+      {
+        "role_id": "craft-authority-critic",
+        "purpose": "Attack source-ledger authority collapse, schema drift, row-ID ambiguity, stale projection claims, private-data leakage, and accidental write or promotion effects.",
+        "owns": "One read-only Craft authority review receipt; no ledger, schema, runtime, implementation, or final-synthesis authority.",
+        "capability_ref": "interrogation",
+        "capability_target": "stages/06-design.md",
+        "capability_mode": "refine-design-review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["arcanum", "cyberAlchemy-v2", "implementation", "projects", "ops", ".git"],
+        "input_refs": ["stages/06-design.md", "API-CONTRACT.md", "DATA-MODEL.md", "SECURITY-BOUNDARY.md"],
+        "output_refs": ["receipt:craft-authority-critic"],
+        "applies_to_steps": ["s07-interrogation-design-review"]
+      },
+      {
+        "role_id": "wavedb-runtime-critic",
+        "purpose": "Attack reopen durability, batch behavior, mixed string/Buffer reads, snapshot replacement, locking, concurrency, corruption detection, and failure recovery assumptions.",
+        "owns": "One read-only WaveDB adapter review receipt; no dependency, store, implementation, or final-synthesis authority.",
+        "capability_ref": "interrogation",
+        "capability_target": "stages/06-design.md",
+        "capability_mode": "refine-design-review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["arcanum", "cyberAlchemy-v2", "implementation", "projects", "ops", ".git"],
+        "input_refs": ["stages/06-design.md", "DATA-MODEL.md", "SECURITY-BOUNDARY.md"],
+        "output_refs": ["receipt:wavedb-runtime-critic"],
+        "applies_to_steps": ["s07-interrogation-design-review"]
+      }
+    ],
+    "execution_waves": [
+      {
+        "wave_id": "wave-design-critics",
+        "role_ids": ["api-contract-critic", "craft-authority-critic", "wavedb-runtime-critic"],
+        "parallel": true,
+        "join_policy": "all",
+        "depends_on_waves": [],
+        "gate_after": "g07-subagent-join",
+        "on_incomplete": "block"
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "all",
+    "authorization": "approved",
+    "authorization_evidence": {
+      "kind": "direct-user-confirmation",
+      "quote": "Confirm the ten-stage Craft API refinement and three read-only design critics.",
+      "scope": "The displayed ten-stage route and exactly three read-only design critics; no external research, product mutation, Craft-ledger mutation, deployment, publication, or Git operation."
+    },
+    "permission_prompt": "Confirm the ten-stage Craft API refinement and three read-only design critics?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "capability_target",
+      "capability_mode",
+      "wave_id",
+      "write_scope",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "flag",
+    "dispatch_id": "2026-08-05-craft-wavedb-api-design-review",
+    "orchestrate_run_id": "run-2026-08-05-craft-api-review-01",
+    "review_gate": "gate_block",
+    "parent_disposition": "all findings accepted and repaired",
+    "agents": [
+      {
+        "agent_id": "/root/craft_api_contract_spawn_0001",
+        "role_id": "api-contract-critic",
+        "capability_ref": "interrogation",
+        "capability_target": "stages/06-design.md",
+        "capability_mode": "refine-design-review",
+        "wave_id": "wave-design-critics",
+        "write_scope": [],
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "status": "fail",
+        "receipt_artifact": "receipt:api-contract-critic",
+        "receipt_file": "review/critic-receipts/api-contract-critic.json"
+      },
+      {
+        "agent_id": "/root/craft_authority_spawn_0002",
+        "role_id": "craft-authority-critic",
+        "capability_ref": "interrogation",
+        "capability_target": "stages/06-design.md",
+        "capability_mode": "refine-design-review",
+        "wave_id": "wave-design-critics",
+        "write_scope": [],
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "status": "fail",
+        "receipt_artifact": "receipt:craft-authority-critic",
+        "receipt_file": "review/critic-receipts/craft-authority-critic.json"
+      },
+      {
+        "agent_id": "/root/wavedb_runtime_spawn_0003",
+        "role_id": "wavedb-runtime-critic",
+        "capability_ref": "interrogation",
+        "capability_target": "stages/06-design.md",
+        "capability_mode": "refine-design-review",
+        "wave_id": "wave-design-critics",
+        "write_scope": [],
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "status": "fail",
+        "receipt_artifact": "receipt:wavedb-runtime-critic",
+        "receipt_file": "review/critic-receipts/wavedb-runtime-critic.json"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "xray",
+      "techniques": ["x_ray", "minimum_component_catalog", "frame_handoff", "memory_loop", "protected_context_flag", "concrete_path_evidence"],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"},
+        {"kind": "artifact", "ref": "REFINE-SEED-PROPOSAL.md"},
+        {"kind": "receipt", "ref": "experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json"},
+        {"kind": "receipt", "ref": "experiment/craft-ledger-import/execution/wcli-20260805-node26-01/receipt.json"},
+        {"kind": "artifact", "ref": "arcanum/arcana/craft/templates/ledger.schema.yml"},
+        {"kind": "artifact", "ref": "arcanum/arcana/craft/templates/schemas/ledger-core.schema.yml"}
+      ],
+      "outputs": [
+        {"kind": "frame", "ref": "context-builder-frame"},
+        {"kind": "handle", "ref": "context-builder-runtime-handoff"}
+      ],
+      "evidence_artifact": "stages/01-context.md",
+      "stop_conditions": ["Block if source authority, data sensitivity, schema coverage, or evidence provenance cannot be resolved without copying private ledger content."]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": ["frame_handoff", "route_menu", "component_descriptor", "owner_boundary_check", "authority_split_gate", "state_namespace_boundary"],
+      "inputs": [
+        {"kind": "frame", "ref": "context-builder-frame"},
+        {"kind": "artifact", "ref": "REFINE-SEED-PROPOSAL.md"}
+      ],
+      "outputs": [{"kind": "artifact", "ref": "stages/02-define.md"}],
+      "evidence_artifact": "stages/02-define.md",
+      "stop_conditions": ["Block if the API cannot be defined without assigning WaveDB source authority or write effects."]
+    },
+    {
+      "step_id": "s03-interrogation-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "dialectic",
+      "techniques": ["dialectic", "zig_zag", "validation_loop", "residue_ledger", "owner_boundary_check"],
+      "roles": ["usefulness-proposer", "authority-and-privacy-critic", "runtime-reliability-critic", "parent-synthesizer"],
+      "convergence_criteria": [
+        "The API is useful for snapshot consultation without owning Craft truth.",
+        "Private data, freshness, schema compatibility, and stable IDs have explicit owners and failure behavior.",
+        "WaveDB limitations are constraints, not silently repaired claims.",
+        "Stable disagreements remain named residue."
+      ],
+      "inputs": [{"kind": "artifact", "ref": "stages/02-define.md"}],
+      "outputs": [{"kind": "ledger", "ref": "refine-review-ledger"}],
+      "evidence_artifact": "stages/03-review.md",
+      "stop_conditions": ["Stop alternation after one critique and one parent synthesis; block unresolved authority or privacy contradictions."]
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": ["approval_checkpoint", "conditional_component", "protected_context_flag", "residue_ledger"],
+      "inputs": [{"kind": "ledger", "ref": "refine-review-ledger"}],
+      "outputs": [{"kind": "decision", "ref": "research-decision"}],
+      "evidence_artifact": "stages/04-research.md",
+      "stop_conditions": ["External research is blocked unless a named material gap receives separate operator confirmation."]
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Initial Distill",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": ["scu_swu_reduction", "recomposition_proof", "minimum_component_catalog", "owner_boundary_check", "residue_ledger"],
+      "roles": ["read-contract", "projection-model", "storage-adapter", "security-boundary", "synthesis"],
+      "convergence_criteria": [
+        "The selected unit is a read-only contract over a provenance-bound snapshot.",
+        "Row-level queries are conditional on version-aware normalization.",
+        "Refresh and source mutation remain separate deferred capabilities.",
+        "The unit recomposes into Craft without taking authority from YAML."
+      ],
+      "inputs": [
+        {"kind": "decision", "ref": "research-decision"},
+        {"kind": "ledger", "ref": "refine-review-ledger"}
+      ],
+      "outputs": [{"kind": "frame", "ref": "distill-frame"}],
+      "evidence_artifact": "stages/05-distill.md"
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Redefine and Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": ["sequence", "frame_handoff", "handle_handoff", "x_ray", "component_descriptor", "entity_component_reference", "system_agnostic_standard", "local_nuance_coordination", "state_namespace_boundary"],
+      "inputs": [{"kind": "frame", "ref": "distill-frame"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/06-design.md"},
+        {"kind": "artifact", "ref": "API-CONTRACT.md"},
+        {"kind": "artifact", "ref": "DATA-MODEL.md"},
+        {"kind": "artifact", "ref": "SECURITY-BOUNDARY.md"}
+      ],
+      "evidence_artifact": "stages/06-design.md",
+      "stop_conditions": ["Block if the design requires public/private data collapse, unguarded refresh or mutation, or unsupported WaveDB durability assumptions."]
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Governed three-critic design review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "parallel": true,
+      "join_policy": "all",
+      "techniques": ["validation_loop", "dialectic", "zig_zag", "residue_ledger", "owner_boundary_check", "execution_receipt_handoff"],
+      "roles": ["api-contract-critic", "craft-authority-critic", "wavedb-runtime-critic", "parent-repair-synthesizer"],
+      "convergence_criteria": [
+        "Endpoint semantics are deterministic, versioned, testable, and explicit about freshness.",
+        "WaveDB remains a derived read model and no API read gains source-write or promotion authority.",
+        "Private data and generic public contracts stay in separate namespaces.",
+        "Batch persistence and mixed return-type behavior have explicit adapter and test rules.",
+        "All three critic receipts are joined and terminal before repair."
+      ],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/06-design.md"},
+        {"kind": "artifact", "ref": "API-CONTRACT.md"},
+        {"kind": "artifact", "ref": "DATA-MODEL.md"},
+        {"kind": "artifact", "ref": "SECURITY-BOUNDARY.md"}
+      ],
+      "outputs": [
+        {"kind": "ledger", "ref": "design-review-ledger"},
+        {"kind": "receipt", "ref": "receipt:api-contract-critic"},
+        {"kind": "receipt", "ref": "receipt:craft-authority-critic"},
+        {"kind": "receipt", "ref": "receipt:wavedb-runtime-critic"}
+      ],
+      "evidence_artifact": "stages/07-design-review.md",
+      "stop_conditions": ["Block if any critic is unjoined, unclosed, missing its receipt, or finds an unresolved authority, privacy, or durability violation."]
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill Repair and toy scenarios",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "toy_game",
+      "techniques": ["toy_game", "validation_loop", "assessment_failure_reference", "recomposition_proof", "residue_ledger", "data_quality_completeness"],
+      "inputs": [
+        {"kind": "ledger", "ref": "design-review-ledger"},
+        {"kind": "receipt", "ref": "receipt:api-contract-critic"},
+        {"kind": "receipt", "ref": "receipt:craft-authority-critic"},
+        {"kind": "receipt", "ref": "receipt:wavedb-runtime-critic"}
+      ],
+      "outputs": [
+        {"kind": "frame", "ref": "repair-frame"},
+        {"kind": "artifact", "ref": "stages/08-toy-scenarios.md"}
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md",
+      "stop_conditions": [
+        "Block if a read request can mutate Craft or refresh the store.",
+        "Block if a stale or hash-mismatched snapshot can be presented as current truth.",
+        "Block if missing or duplicate row IDs can produce an authoritative-looking result.",
+        "Block if private source content can enter a public artifact or response without an explicit policy owner.",
+        "Block if the adapter relies on the failed multi-record batch path."
+      ]
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": ["sequence", "scu_swu_reduction", "recomposition_proof", "validation_loop", "route_menu", "approval_checkpoint", "owner_boundary_check", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "frame", "ref": "repair-frame"},
+        {"kind": "artifact", "ref": "stages/08-toy-scenarios.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/09-plan.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"}
+      ],
+      "evidence_artifact": "stages/09-plan.md",
+      "stop_conditions": ["Block if the plan mixes public contract publication, private adapter implementation, source mutation, deployment, or promotion into an implicitly authorized action."]
+    },
+    {
+      "step_id": "s10-final-synthesis",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": ["validation_loop", "owner_boundary_check", "residue_ledger", "observability_grouping", "data_quality_completeness", "recomposition_proof"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/09-plan.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/10-final-review.md"},
+        {"kind": "artifact", "ref": "RESULT.md"}
+      ],
+      "evidence_artifact": "stages/10-final-review.md",
+      "stop_conditions": ["Block pass if required stage artifacts or receipts are absent, the critic lifecycle is open, or claims exceed non-executed design and planning evidence."]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g00-dispatch-validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json passes the dispatch schema and governance validator before any runtime-backed stage starts.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g01-strategy-authorization",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "The operator explicitly confirms the ten-stage route and three read-only capability-bound critics.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-native-capability-handles",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Each runtime-backed stage resolves its native capability handle and expected receipt before execution; unavailable owners record exact blocked reasons.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g03-craft-source-authority",
+      "kind": "promotion_guardrail",
+      "owner": "craft",
+      "condition": ".craft/ledger.yml remains source authority; WaveDB, API responses, indexes, plans, and receipts remain derived evidence or views.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-public-private-boundary",
+      "kind": "policy",
+      "owner": "repository-maintainer",
+      "condition": "Private ledger contents and private runtime details are not written into public Arcanum; generic contracts and private adapters have separate owner paths.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g05-research-confirmation",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "External research runs only after a named material gap and separate operator confirmation.",
+      "on_fail": "defer"
+    },
+    {
+      "gate_id": "g06-stage-receipts",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "Every selected stage has its expected artifact plus a native receipt or an explicit blocked reason before downstream consumption.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g07-subagent-join",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "All three design critics return declared receipts and reach terminal join and close states before Distill Repair.",
+      "applies_after_wave": "wave-design-critics",
+      "requires_role_receipts": ["receipt:api-contract-critic", "receipt:craft-authority-critic", "receipt:wavedb-runtime-critic"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g08-read-only-api-ceiling",
+      "kind": "quality",
+      "owner": "interrogation",
+      "condition": "The selected API design exposes no source mutation, projection refresh, promotion, publication, or deployment effect and fails closed on unsupported schema or stale provenance.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g09-final-synthesis-readiness",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "Final synthesis cites all stage artifacts and receipts, records residue, and claims only design and non-executed plan readiness.",
+      "on_fail": "block"
+    }
+  ],
+  "native_stage_receipts": [
+    {"dispatch_id": "20260805T184540Z-craft-wavedb-api", "step_id": "s01-context-builder", "capability_ref": "context-builder", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["stages/01-context.md"], "validation": ["pending strategy confirmation"], "observer_status": "not_run", "blockers": ["g01-strategy-authorization"], "residue": "none yet", "handoff_note": "Run only after confirmation."},
+    {"dispatch_id": "20260805T184540Z-craft-wavedb-api", "step_id": "s02-invoke-define", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["stages/02-define.md"], "validation": ["pending prior frame"], "observer_status": "not_run", "blockers": ["g01-strategy-authorization"], "residue": "none yet", "handoff_note": "Run only after s01 passes."},
+    {"dispatch_id": "20260805T184540Z-craft-wavedb-api", "step_id": "s03-interrogation-review", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["stages/03-review.md"], "validation": ["pending define artifact"], "observer_status": "not_run", "blockers": ["g01-strategy-authorization"], "residue": "none yet", "handoff_note": "Run only after s02 passes."},
+    {"dispatch_id": "20260805T184540Z-craft-wavedb-api", "step_id": "s04-research-decision", "capability_ref": "refine", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["stages/04-research.md"], "validation": ["pending review ledger"], "observer_status": "not_run", "blockers": ["g01-strategy-authorization"], "residue": "none yet", "handoff_note": "Local-first; external research separately gated."},
+    {"dispatch_id": "20260805T184540Z-craft-wavedb-api", "step_id": "s05-distill", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["stages/05-distill.md"], "validation": ["pending research decision"], "observer_status": "not_run", "blockers": ["g01-strategy-authorization"], "residue": "none yet", "handoff_note": "Run only after s04 records a decision."},
+    {"dispatch_id": "20260805T184540Z-craft-wavedb-api", "step_id": "s06-invoke-design", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["stages/06-design.md", "API-CONTRACT.md", "DATA-MODEL.md", "SECURITY-BOUNDARY.md"], "validation": ["pending distill frame"], "observer_status": "not_run", "blockers": ["g01-strategy-authorization"], "residue": "none yet", "handoff_note": "Run only after s05 passes."},
+    {"dispatch_id": "20260805T184540Z-craft-wavedb-api", "step_id": "s07-interrogation-design-review", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["stages/07-design-review.md"], "validation": ["pending explicit subagent permission and design artifacts"], "observer_status": "not_run", "blockers": ["g01-strategy-authorization"], "residue": "none yet", "handoff_note": "Parent spawns, joins, gates, and closes all approved critics."},
+    {"dispatch_id": "20260805T184540Z-craft-wavedb-api", "step_id": "s08-distill-repair", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["stages/08-distill-repair.md", "stages/08-toy-scenarios.md"], "validation": ["pending critic join gate"], "observer_status": "not_run", "blockers": ["g01-strategy-authorization"], "residue": "none yet", "handoff_note": "Run only after g07 passes."},
+    {"dispatch_id": "20260805T184540Z-craft-wavedb-api", "step_id": "s09-invoke-plan", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["stages/09-plan.md", "IMPLEMENTATION-LAYERING.md", "WORK-PACK.md", "EXECUTION-PACK.md"], "validation": ["pending repair frame"], "observer_status": "not_run", "blockers": ["g01-strategy-authorization"], "residue": "none yet", "handoff_note": "Planning only; no implementation."},
+    {"dispatch_id": "20260805T184540Z-craft-wavedb-api", "step_id": "s10-final-synthesis", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["stages/10-final-review.md", "RESULT.md"], "validation": ["pending complete stage evidence"], "observer_status": "not_run", "blockers": ["g01-strategy-authorization"], "residue": "none yet", "handoff_note": "Refine parent owns final synthesis after final review."}
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "refine.strategy.proposed",
+      "refine.strategy.confirmed",
+      "refine.stage.started",
+      "refine.stage.receipt.recorded",
+      "refine.subagent.spawned",
+      "refine.subagent.joined",
+      "refine.subagent.closed",
+      "refine.gate.evaluated",
+      "refine.research.decision.recorded",
+      "refine.synthesis.completed"
+    ],
+    "signal_grouping": "All stage, critic, gate, residue, and synthesis events carry dispatch_id=20260805T184540Z-craft-wavedb-api and step_id where applicable."
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "craft-source-vs-wavedb-projection",
+        "kind": "artifact_import",
+        "from_owner": "craft",
+        "to_owner": "candidate-private-runtime-adapter",
+        "applies_to_steps": ["s01-context-builder", "s02-invoke-define", "s06-invoke-design", "s07-interrogation-design-review", "s08-distill-repair", "s09-invoke-plan", "s10-final-synthesis"],
+        "contract": "Craft YAML remains source authority; imported raw bytes, metadata, normalized rows, indexes, responses, and receipts are derived and provenance-bound.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "public-contract-vs-private-data",
+        "kind": "state_write",
+        "from_owner": "private-domainspec-runtime",
+        "to_owner": "public-arcanum",
+        "applies_to_steps": ["s01-context-builder", "s06-invoke-design", "s07-interrogation-design-review", "s09-invoke-plan", "s10-final-synthesis"],
+        "contract": "Private ledger contents, paths, identities, and runtime configuration cannot be written to public Arcanum; only separately reviewed system-agnostic contracts may cross.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "strategy-permission",
+        "kind": "human_approval",
+        "from_owner": "refine",
+        "to_owner": "operator",
+        "applies_to_steps": ["s01-context-builder", "s07-interrogation-design-review"],
+        "contract": "No runtime-backed stage or subagent begins until the operator confirms this exact route and roles.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "critic-receipt-return",
+        "kind": "evidence_return",
+        "from_owner": "interrogation-critics",
+        "to_owner": "refine",
+        "applies_to_steps": ["s07-interrogation-design-review", "s08-distill-repair"],
+        "contract": "Each critic returns a capability-bound receipt and reaches terminal join and close state before parent repair.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine",
+      "execution": "not authorized during refinement; future task-session owner must be selected by the final plan",
+      "validation": "dispatch-spec for route shape and each native stage capability for its artifact",
+      "evidence": "source Craft ledgers and immutable WaveDB diagnostic/import receipts",
+      "memory": "Craft owner ledgers and Refine residue; neither is replaced by WaveDB",
+      "promotion": "Craft/Arcanum owners through a separate maintainer-approved route"
+    },
+    "receipts": [
+      {
+        "receipt_id": "native-stage-receipt",
+        "producer": "each native stage capability",
+        "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "handoff_note"],
+        "stores": ["RUN-MANIFEST.md", "evidence-index.json"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "design-critic-receipts",
+        "producer": "approved interrogation subagents",
+        "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "handoff_note"],
+        "stores": ["stages/07-design-review.md", "evidence-index.json"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "craft-source-ledgers",
+        "owner": "each scoped Craft project",
+        "write_policy": "read-only during refinement; source of truth"
+      },
+      {
+        "namespace": "wavedb-experiment-store",
+        "owner": "WaveDB-to-Craft experiment",
+        "write_policy": "read-only evidence during refinement; disposable derived snapshot"
+      },
+      {
+        "namespace": "craft-api-refinement-run",
+        "owner": "refine",
+        "write_policy": "refinement artifacts only after route permission; strategy artifacts before permission"
+      },
+      {
+        "namespace": "future-api-implementation",
+        "owner": "unselected until final plan and maintainer decision",
+        "write_policy": "no writes during refinement"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "private Craft API refinement evidence",
+        "target": "public Arcanum API contract",
+        "rule": "Only generic reviewed contract material may cross through a separate public maintainer route; private data and runtime details remain excluded.",
+        "on_violation": "block"
+      },
+      {
+        "source": "passing local WaveDB snapshot experiment",
+        "target": "Craft runtime integration or production service",
+        "rule": "Requires a separately authorized implementation task, compatibility tests, security review, deployment evidence, and explicit Craft owner admission.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "This route produces design and non-executed planning evidence only.",
+    "WaveDB never becomes Craft source authority.",
+    "API reads do not authorize source mutation, refresh, promotion, publication, deployment, or release.",
+    "Private DomainSpec ledger content cannot enter public Arcanum artifacts.",
+    "A passing Refine synthesis does not admit Craft runtime integration or production readiness."
+  ]
+}

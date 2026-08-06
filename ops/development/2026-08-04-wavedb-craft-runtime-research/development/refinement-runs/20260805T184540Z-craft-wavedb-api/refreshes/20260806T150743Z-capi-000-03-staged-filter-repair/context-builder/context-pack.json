@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "context-builder-session-evidence",
+  "task": "Invoke Refresh for authorized SWU-CAPI-000 -03 staged-filter repair",
+  "mode": "lean",
+  "strict": true,
+  "coverage": {
+    "obligationCount": 6,
+    "covered": 6,
+    "unresolved": 0,
+    "verdict": "pass"
+  },
+  "obligations": [
+    {
+      "id": "O1",
+      "status": "covered",
+      "claim": "Bind the direct user authorization to one immutable -03 attempt."
+    },
+    {
+      "id": "O2",
+      "status": "covered",
+      "claim": "Preserve the selected 28-ledger and 57-record authority scope."
+    },
+    {
+      "id": "O3",
+      "status": "covered",
+      "claim": "Repair only literal staged-directory exclusion plus the fresh attempt identity."
+    },
+    {
+      "id": "O4",
+      "status": "covered",
+      "claim": "Preserve immutable -01 and -02 evidence and the -02 closeout receipt."
+    },
+    {
+      "id": "O5",
+      "status": "covered",
+      "claim": "Refresh exactly WORK-PACK.md and TASK-RUNTIME.md."
+    },
+    {
+      "id": "O6",
+      "status": "covered",
+      "claim": "Admit no successor, API work, Craft-source mutation, publication, or deployment."
+    }
+  ],
+  "selectedSources": [
+    {
+      "path": "authorizations/20260806T150743Z-capi-000-03-staged-filter-repair/authorization.json",
+      "selectors": [
+        "/target",
+        "/authorizedChanges",
+        "/authorityScope",
+        "/forbiddenEffects"
+      ],
+      "obligations": [
+        "O1",
+        "O2",
+        "O3",
+        "O4",
+        "O6"
+      ]
+    },
+    {
+      "path": "readiness/20260806T025009Z-capi-000-include-28-retry-02/task-session/terminal-receipt.json",
+      "selectors": [
+        "/terminal_code",
+        "/blocker",
+        "/effects",
+        "/closeout"
+      ],
+      "obligations": [
+        "O2",
+        "O3",
+        "O4"
+      ]
+    },
+    {
+      "path": "experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-02/receipt.json",
+      "selectors": [
+        "/verdict",
+        "/attemptId",
+        "/error",
+        "/successorAdmitted"
+      ],
+      "obligations": [
+        "O3",
+        "O4"
+      ]
+    },
+    {
+      "path": "WORK-PACK.md",
+      "selectors": [
+        "Work-Pack execution policy",
+        "SWU execution handoff",
+        "Task Session closeout sync contract",
+        "Blockers"
+      ],
+      "obligations": [
+        "O2",
+        "O4",
+        "O5",
+        "O6"
+      ]
+    },
+    {
+      "path": "work-pack/tasks/TASK-RUNTIME.md",
+      "selectors": [
+        "SWU-CAPI-000",
+        "Synchronization"
+      ],
+      "obligations": [
+        "O2",
+        "O3",
+        "O5",
+        "O6"
+      ]
+    }
+  ],
+  "writeScope": [
+    "WORK-PACK.md",
+    "work-pack/tasks/TASK-RUNTIME.md"
+  ],
+  "nonGoals": [
+    "apply or execute the builder inside Invoke Refresh",
+    "change the selected Craft ledger set",
+    "overwrite prior attempts or closeout receipts",
+    "start SWU-CAPI-001",
+    "modify API product code or canonical Craft sources",
+    "publish or deploy"
+  ]
+}

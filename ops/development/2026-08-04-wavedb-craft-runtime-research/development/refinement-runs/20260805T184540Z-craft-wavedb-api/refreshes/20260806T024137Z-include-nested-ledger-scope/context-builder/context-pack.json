@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "context-builder-session-evidence",
+  "task": "Invoke Refresh for CAPI-SCOPE-INCLUDE-28",
+  "mode": "lean",
+  "strict": true,
+  "coverage": {
+    "obligationCount": 5,
+    "covered": 5,
+    "unresolved": 0,
+    "verdict": "pass"
+  },
+  "obligations": [
+    {"id": "O1", "status": "covered", "claim": "Bind user option 2 to one exact added ledger."},
+    {"id": "O2", "status": "covered", "claim": "Preserve immutable -01 block evidence."},
+    {"id": "O3", "status": "covered", "claim": "Refresh exactly two planning targets."},
+    {"id": "O4", "status": "covered", "claim": "Admit only fresh SWU-CAPI-000 attempt -02."},
+    {"id": "O5", "status": "covered", "claim": "Keep successors and product implementation unauthorized."}
+  ],
+  "selectedSources": [
+    {"path": "decision-gates/20260806T024137Z-include-nested-ledger/decision-result.json", "selectors": ["/selectedOption", "/authorityBoundary", "/remainingBlockers"], "obligations": ["O1", "O3", "O4", "O5"]},
+    {"path": "readiness/20260806T011647Z-capi-000-one-unit/task-session/inventory-drift.json", "selectors": ["/discovery", "/scopeDelta"], "obligations": ["O1", "O2", "O3"]},
+    {"path": "readiness/20260806T011647Z-capi-000-one-unit/task-session/terminal-receipt.json", "selectors": ["/phase", "/execution_result", "/stop_reason"], "obligations": ["O2", "O4"]},
+    {"path": "WORK-PACK.md", "selectors": ["Work-Pack execution policy", "SWU execution handoff", "Runtime promotion order"], "obligations": ["O3", "O4", "O5"]},
+    {"path": "work-pack/tasks/TASK-RUNTIME.md", "selectors": ["SWU-CAPI-000", "SWU-CAPI-001"], "obligations": ["O3", "O4", "O5"]}
+  ],
+  "writeScope": [
+    "WORK-PACK.md",
+    "work-pack/tasks/TASK-RUNTIME.md"
+  ],
+  "nonGoals": [
+    "mutate any Craft ledger",
+    "rewrite the -01 attempt",
+    "start SWU-CAPI-001",
+    "implement the API",
+    "publish or deploy"
+  ]
+}

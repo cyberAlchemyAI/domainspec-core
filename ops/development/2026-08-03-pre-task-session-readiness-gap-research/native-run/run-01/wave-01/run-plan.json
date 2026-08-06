@@ -1,0 +1,135 @@
+{
+  "action_artifacts": [
+    "actions/spawn-0001.json",
+    "actions/spawn-0002.json",
+    "actions/spawn-0003.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0001",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1-explore"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-03-pre-task-session-readiness-gap-research-orchestration",
+      "forbidden_write_scopes": [
+        ".agents/",
+        ".claude/",
+        "arcanum/",
+        "cyberAlchemy-v2/",
+        "implementation/",
+        "projects/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/dispatch-sheet.json",
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/strategy-inventory-packet.json"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-incident.json"
+      ],
+      "role": "explorer-incident",
+      "run_id": "pre-task-readiness-20260803T183017Z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1-explore",
+      "target": "dispatch-sheet.json#explorers-agent-0",
+      "wave_id": "explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0002",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1-explore"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-03-pre-task-session-readiness-gap-research-orchestration",
+      "forbidden_write_scopes": [
+        ".agents/",
+        ".claude/",
+        "arcanum/",
+        "cyberAlchemy-v2/",
+        "implementation/",
+        "projects/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/dispatch-sheet.json",
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/strategy-inventory-packet.json"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-adoption.json"
+      ],
+      "role": "explorer-adoption",
+      "run_id": "pre-task-readiness-20260803T183017Z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1-explore",
+      "target": "dispatch-sheet.json#explorers-agent-1",
+      "wave_id": "explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0003",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1-explore"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-03-pre-task-session-readiness-gap-research-orchestration",
+      "forbidden_write_scopes": [
+        ".agents/",
+        ".claude/",
+        "arcanum/",
+        "cyberAlchemy-v2/",
+        "implementation/",
+        "projects/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/dispatch-sheet.json",
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/strategy-inventory-packet.json"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-contract.json"
+      ],
+      "role": "explorer-contract",
+      "run_id": "pre-task-readiness-20260803T183017Z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1-explore",
+      "target": "dispatch-sheet.json#explorers-agent-2",
+      "wave_id": "explorers",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "2026-08-03-pre-task-session-readiness-gap-research-orchestration",
+  "run_id": "pre-task-readiness-20260803T183017Z",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [],
+    "gate_after": "g-explorers",
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": true,
+    "role_ids": [
+      "explorer-incident",
+      "explorer-adoption",
+      "explorer-contract"
+    ],
+    "wave_id": "explorers"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}

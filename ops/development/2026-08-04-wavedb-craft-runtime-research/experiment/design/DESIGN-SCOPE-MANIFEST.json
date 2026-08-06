@@ -1,0 +1,243 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "wcp-design-scope-20260804",
+  "target_id": "wcp-candidate-projection-experiment",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+        "digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "canonical Craft operating contract",
+        "path": "arcanum/arcana/craft/SKILL.md",
+        "digest": "f3f5d9deabc5c8630513590ccfc8eb0ae0d99e16ea3bf90d910bef27eb9558b3"
+      },
+      {
+        "selector": "canonical Craft architecture baseline",
+        "path": "arcanum/arcana/craft/ARCHITECTURE.md",
+        "digest": "c306e2326162a13630981030d26bc1993832815cc6acffccaacecbf14cc71bbe"
+      },
+      {
+        "selector": "canonical Craft schema entrypoint",
+        "path": "arcanum/arcana/craft/templates/ledger.schema.yml",
+        "digest": "c4d238f9ad2c8d15872f458f113273f294b461d3efd8cdee7165262828721cf0"
+      },
+      {
+        "selector": "canonical Craft ledger schema",
+        "path": "arcanum/arcana/craft/templates/schemas/ledger-core.schema.yml",
+        "digest": "18ae9bf9866ec0fc8401b72a1bed6b5b3160f1ec6930fef344219962f8a3a504"
+      },
+      {
+        "selector": "canonical Craft index schema",
+        "path": "arcanum/arcana/craft/templates/schemas/index.schema.yml",
+        "digest": "029de07c13b249adea76bb6f0913fa881a6896e6ea7b9547fb6157cbed2e638a"
+      },
+      {
+        "selector": "frozen research and fixture source",
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/research.md",
+        "digest": "1a5999ab113e7d22a52022e18a817912f1575ffe2db2b0422e76bb0762af55bd"
+      },
+      {
+        "selector": "research evidence closure",
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/receipts/evidence-closure.json",
+        "digest": "59d74b990e50444e04c1a8661a124e8fbba1bd9706ce2f316f38c6f3e4047f0d"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "arcanum/development/craft/**",
+        "reason": "historical promotion evidence only; it cannot override canonical Craft",
+        "evidence_ref": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#claim-ceiling"
+      },
+      {
+        "selector": "every real .craft/ ledger and canonical Craft source write",
+        "reason": "experiment is candidate-local and never mutates source authority",
+        "evidence_ref": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#finite-v0-work-pack"
+      },
+      {
+        "selector": "publication promotion deployment and production claims",
+        "reason": "outside the admitted owner route",
+        "evidence_ref": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md#owner-gates"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "craft-skill",
+      "selector": "storage and authority contract",
+      "path": "arcanum/arcana/craft/SKILL.md",
+      "digest": "f3f5d9deabc5c8630513590ccfc8eb0ae0d99e16ea3bf90d910bef27eb9558b3"
+    },
+    {
+      "source_id": "craft-architecture",
+      "selector": "current architecture and non-goals",
+      "path": "arcanum/arcana/craft/ARCHITECTURE.md",
+      "digest": "c306e2326162a13630981030d26bc1993832815cc6acffccaacecbf14cc71bbe"
+    },
+    {
+      "source_id": "wcp-findings",
+      "selector": "audited codec experiment and claim ceiling",
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    },
+    {
+      "source_id": "wcp-research",
+      "selector": "source review and frozen fixture",
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/research.md",
+      "digest": "1a5999ab113e7d22a52022e18a817912f1575ffe2db2b0422e76bb0762af55bd"
+    },
+    {
+      "source_id": "wcp-evidence-closure",
+      "selector": "exact source binding receipt",
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/receipts/evidence-closure.json",
+      "digest": "59d74b990e50444e04c1a8661a124e8fbba1bd9706ce2f316f38c6f3e4047f0d"
+    }
+  ],
+  "human_actors": [],
+  "rendered_surfaces": [],
+  "interfaces": [
+    {
+      "interface_id": "candidate-adapter-api",
+      "kind": "bounded native-addon adapter",
+      "peer": "WaveDB Node binding",
+      "direction": "bidirectional",
+      "contract_ref": "experiment/define/interfaces.md",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    }
+  ],
+  "stores": [
+    {
+      "store_id": "canonical-yaml",
+      "authority": "sole Craft source of truth",
+      "data_classes": ["Craft ledger bytes"],
+      "writers": ["external Craft owner only"],
+      "source_selector": "arcanum/arcana/craft/SKILL.md",
+      "source_digest": "f3f5d9deabc5c8630513590ccfc8eb0ae0d99e16ea3bf90d910bef27eb9558b3"
+    },
+    {
+      "store_id": "isolated-wavedb-generation",
+      "authority": "none disposable projection only",
+      "data_classes": ["exact YAML copy", "normalized rows", "lookup indexes", "derived comparison bytes", "closed manifest"],
+      "writers": ["candidate projection adapter"],
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    }
+  ],
+  "queues": [],
+  "writers": [
+    {
+      "writer_id": "candidate-projection-adapter",
+      "targets": ["isolated digest-named WaveDB generation", "external experiment receipts"],
+      "concurrency": "single admitted writer; concurrent A/B is observation only",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    }
+  ],
+  "normative_rules": [
+    {
+      "rule_id": "admit-exact-package-only",
+      "verb": "admit",
+      "subject": "package and security owner gate",
+      "object": "only an exact registry artifact and source correspondence before installation",
+      "enforcement_hint": "WP-0 blocks on any metadata or content mismatch",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    },
+    {
+      "rule_id": "preserve-yaml-authority",
+      "verb": "preserve",
+      "subject": "candidate adapter",
+      "object": "canonical YAML bytes before and after every operation",
+      "enforcement_hint": "exact pre/post digest guard",
+      "source_selector": "arcanum/arcana/craft/SKILL.md",
+      "source_digest": "f3f5d9deabc5c8630513590ccfc8eb0ae0d99e16ea3bf90d910bef27eb9558b3"
+    },
+    {
+      "rule_id": "require-complete-verification",
+      "verb": "require",
+      "subject": "query admission",
+      "object": "fresh YAML digest and complete stored key/value verification",
+      "enforcement_hint": "zero output unless every exact oracle passes",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "registry-artifact-download",
+      "reversible": true,
+      "external": true,
+      "privileged": false,
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    },
+    {
+      "effect_id": "isolated-native-build-and-store-write",
+      "reversible": true,
+      "external": false,
+      "privileged": false,
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    },
+    {
+      "effect_id": "isolated-copy-corruption-control",
+      "reversible": true,
+      "external": false,
+      "privileged": false,
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    }
+  ],
+  "data_and_log_sinks": [
+    {
+      "sink_id": "external-experiment-evidence",
+      "data_classes": ["package metadata", "toolchain identity", "fixture hashes", "run events", "failure codes", "observation receipts"],
+      "retention_hint": "candidate-local until owner closeout; never copied into WaveDB",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    }
+  ],
+  "deployment_targets": [],
+  "compatibility_boundaries": [
+    {
+      "boundary_id": "craft-authority-preservation",
+      "old_contract": "Craft uses canonical YAML plus derived human and machine views",
+      "new_contract": "the same authority contract plus a disposable candidate projection that cannot write back",
+      "source_selector": "arcanum/arcana/craft/ARCHITECTURE.md",
+      "source_digest": "c306e2326162a13630981030d26bc1993832815cc6acffccaacecbf14cc71bbe"
+    }
+  ],
+  "quality_claims": [
+    {
+      "claim_id": "descriptive-latency-and-size-only",
+      "source_kind": "candidate observation",
+      "threshold_or_tradeoff": "record environment-bound values without a performance gate or production claim",
+      "required": false,
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    }
+  ],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "package-provenance-gate",
+      "selector": "registry identity integrity gitHead and reviewed source tree agree before install",
+      "evidence_state": "authored-complete",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    },
+    {
+      "claim_id": "complete-zero-output-admission",
+      "selector": "fresh YAML and every stored key/value verify before any row output",
+      "evidence_state": "authored-complete",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "9a7351c8277d4f31c5c12252db66003c017650d1d8aea430008964022339af00",
+  "authored_by": "codex-invoke-design-author"
+}

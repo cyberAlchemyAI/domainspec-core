@@ -1,4 +1,4 @@
-# Akashic frontend and ontology foundation — proposed private research strategy
+# Akashic frontend and ontology foundation — completed private research strategy
 
 ## P1 trigger decision
 
@@ -100,20 +100,34 @@ No working agent self-approves. The whole dispatch has one run ceiling.
 
 ## Inventory preflight
 
-Status: `inventory_unavailable`. Akashic has no
-`.arcanum/inventory/index.json`; no Inventory entry, evidence-card, or
-EvidenceSet ID was selected, and absence does not establish clean precedent.
+Status: `owner_ready_consumer_inventory_unavailable`. The active parent
+Inventory parses, conforms, and reports `lookup_readiness=ready`; Akashic still
+has no repository-local `.arcanum/inventory/index.json`. The selected parent
+entries are discovery leads, not proof or authority, and the working agents
+must verify their current source selectors.
 
-Direct public-source fallbacks are the seven-principle feed, feed schema, Q1-Q6
-implementation, CLI, and current-generation pointer. Four private,
-precedent-only sources are selected: CyberAlchemy's ontology boundary, node
+Selected leads cover three prior Akashic results: the blocked content-library
+architecture, the verified Phase-0 contract boundary, and the unapproved
+periodic-table graph candidate. They also cover verified UI Studio browser-state
+lessons, the private Interactive Ontology Learning Map projection precedent,
+and the current research/review Inventory-preflight contract. Their main
+consequence is negative as well as positive: Source/Claim-only is not already
+the accepted final ontology; the richer graph, Olog, browser, agent, and GitHub
+layers remain unproven; and browser automation evidence cannot establish human
+usability.
+
+Direct Akashic-source fallbacks remain the seven-principle feed, feed schema,
+Q1-Q6 implementation, CLI, and current-generation pointer. Four private,
+precedent-only sources remain selected: CyberAlchemy's ontology boundary, node
 contract, relation contract, and allowed-edge catalog. The private candidate
 graph implementation is excluded as an unselected runtime dependency.
 
 Concrete consequence: exact-bound research remains in this private folder.
 Every borrowed pattern must be explicitly reused, adapted, or rejected; the
 recommendation crossing into Akashic must use project-owned vocabulary and
-contain no private paths or prose.
+contain no private paths or prose. Operationally, `parent` remains the final
+approver, all eight working identities are unique members of the live pool, and
+pairwise disagreements live in the admitted sheet instead of companion prose.
 
 ## Evidence contract
 
@@ -124,22 +138,37 @@ routes to the declared explorer feedback edge; it cannot be repaired by prose.
 
 ## Gate and ledger state
 
-- Candidate sheet: materialized in the private parent repository, not
-  registered.
-- Form owner: live schema `0.7.0`; confirmation-readiness validation passed for
-  SHA-256 `789a834684bccc989fd37f9041d7fb3b0b40da38ed3344152ffb67885e71cb50`
+- Candidate sheet: registered and executed at the confirmed digest.
+- Form owner: live schema `0.8.0`; confirmation-readiness validation passed for
+  SHA-256 `25b4490aefa50f1075454733b86a30482c53663df1d17ea618d0fc56ae5c32c3`
   with `LEDGER_MUTATION=none`.
-- Check-tension: double PASS from independent checker and reviewer on that same
-  admitted digest; neither returned apontamentos.
-- Human confirmation: the previous confirmation is invalidated by the exact
-  sheet change; a new explicit confirmation is required after double PASS.
-- Ledger: no dispatch or close row exists.
-- Closeout expectation after a confirmed run: exactly one dispatch append and
-  one close append, plus `research.md`, `findings.md`, evidence-closure state,
-  and an updated strategy result.
+- Check-tension: independent checker
+  `/root/akashic_v08_tension_checker` and reviewer
+  `/root/akashic_v08_tension_reviewer` both returned PASS on that exact digest;
+  neither returned apontamentos.
+- Dispatch Spec: `DISPATCH-ROUTE.json` passes the capability-bound route
+  validator. Its authorization is `approved` by
+  `chat-confirmation-20260731T151523Z-25b4490a`.
+- Human confirmation: received for this exact digest; no additional routine
+  confirmation is required.
+- Ledger: exactly one dispatch row and one resolved close row are appended
+  after the parent acceptance receipt was materialized.
+- Evidence closure: `ready` and `pass`; all eight native action receipts were
+  joined, the final reducer reached `complete`, and the event validator passed
+  all 68 lifecycle events.
+- Independent audit: `ACCEPT`; no writer revision or synthesis/reviewer loop
+  was required.
 
-## Next human action
+## Result
 
-Reply `confirmed` to freeze, register, and run exact corrected digest
-`789a834684bccc989fd37f9041d7fb3b0b40da38ed3344152ffb67885e71cb50`;
-otherwise request another revision or decline.
+The parent accepts the bounded research recommendation: build the read-only
+Reviewed Principle Explorer first, backed by an allowlisted same-machine
+adapter and an Akashic-owned candidate graph profile. Defer the graph canvas
+and all write, authority, publication, deployment, live Git, and agent-execution
+capabilities. This is a research proposal only; it is not implementation,
+promotion, release, deployment, production-readiness, or human-usability proof.
+
+The run used eight working agents and zero feedback loops. Its durable outputs
+are `research.md`, `synthesis.md`, `reviews.md`, `findings.md`, the strict native
+run receipts, `receipts/evidence-closure.json`,
+`receipts/findings-audit.json`, and `receipts/final-approval.json`.

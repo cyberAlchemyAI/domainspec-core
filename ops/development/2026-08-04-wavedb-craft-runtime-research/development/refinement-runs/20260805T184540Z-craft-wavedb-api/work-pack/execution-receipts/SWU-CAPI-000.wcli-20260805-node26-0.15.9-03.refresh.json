@@ -1,0 +1,39 @@
+{
+  "schema_version": "invoke.refresh-owner-receipt.v1",
+  "run_id": "20260806T152627Z-capi-000-03-pass-closeout",
+  "route_tuple": "invoke:refresh:apply-approved",
+  "source_receipt_ref": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T150743Z-capi-000-staged-filter-repair-03/task-session/terminal-receipt.json",
+    "sha256": "89ab8babfe15a169c16c1694b58ee7e9055e3c7f6fd6875e6d0c6c139a04e5f6"
+  },
+  "material_package_receipt_ref": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T150743Z-capi-000-staged-filter-repair-03/task-session/material/material-receipt.json",
+    "sha256": "ed637751d0fd036464a78933c03f904e1087be4823e297f3cb4b6270a5bbe15a"
+  },
+  "target_inventory": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/execution-receipts/SWU-CAPI-000.wcli-20260805-node26-0.15.9-03.refresh.json"
+  ],
+  "baseline_state": {
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md": "c3f5469818acccab319d82efa6d2de9f1b7d6935405203bad297622c733e5ea7",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/execution-receipts/SWU-CAPI-000.wcli-20260805-node26-0.15.9-03.refresh.json": "absent"
+  },
+  "applied_delta_classes": [
+    "evidence_added",
+    "blocker_resolved",
+    "status_changed",
+    "route_changed"
+  ],
+  "validation": [
+    "pass: Task Session terminal and experiment receipts parse, pass, and remain content-bound",
+    "pass: Work Pack preserves the selected 28-ledger and 57-record source contract",
+    "pass: Work Pack records SWU-CAPI-000 complete and SWU-CAPI-001 dependency-ready but not selected",
+    "pass: allowed routes, automatic decisions, selected unit, and route id are empty",
+    "pass: immutable -01 and -02 evidence remains unchanged",
+    "pass: live targets match the validated staged outputs after apply",
+    "pass: scoped git diff --check"
+  ],
+  "result": "pass",
+  "returned_next_route": "stop:no-successor-authorized; SWU-CAPI-001 is dependency-ready and requires separate selection",
+  "receipt_digest": "a1c245ecfd105b1919de65a6dad16f8f963b5c3e7933710f22487a1ae1d68ba0"
+}

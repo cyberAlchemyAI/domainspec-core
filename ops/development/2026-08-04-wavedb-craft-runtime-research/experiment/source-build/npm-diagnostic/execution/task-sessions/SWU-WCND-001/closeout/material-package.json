@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "wavedb-pinned-npm-diagnostic:close-pass-20260805",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "wavedb-pinned-npm-diagnostic-invoke-owner",
+  "authority_class": "private",
+  "publication_class": "internal",
+  "source_artifacts": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md",
+      "sha256": "f8401dcfa76a827e2bc7ee18beaac617e89579b651f61bf67c2bdb0530f9eff9",
+      "size_bytes": 10338,
+      "authority_class": "private"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/context-pack.json",
+      "sha256": "ee500d08449433e327ec4a0b7745f00ef37717161056fd458164816a6efafe9d",
+      "size_bytes": 4637,
+      "authority_class": "private"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/closeout-preflight.json",
+      "sha256": "dc2d926223e6db8c0345d33ac1d7ad79d703bf71a5f1b84f2d80c50f2ba5f0ec",
+      "size_bytes": 717,
+      "authority_class": "private"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/terminal-receipt.json",
+      "sha256": "2b511b306cd00a3d9ae34b9024742c9506e461712204d834c0a686c0498e5ce4",
+      "size_bytes": 3072,
+      "authority_class": "private"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26/npm-diagnostic-receipt.json",
+      "sha256": "468697ca92291eddfad832a39fc9b0ac3886c9a3b9d084dd4dbe41ef4659b670",
+      "size_bytes": 3928,
+      "authority_class": "private"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md",
+      "operation": "update",
+      "output_ref": {
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/closeout/staging/WORK-PACK.md",
+        "sha256": "45b3e0babee78f9663d4e03bc881f305a5937d4d5994b5425aa451091dbcf371",
+        "size_bytes": 11576
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md",
+      "lifecycle_owner": "wavedb-pinned-npm-diagnostic-invoke-owner",
+      "authority_class": "private",
+      "publication_class": "internal",
+      "dependency_ids": []
+    }
+  ],
+  "dependencies": [],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "wavedb-pinned-npm-diagnostic-invoke-owner",
+    "scope_paths": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md"
+    ],
+    "authority_classes": ["private"],
+    "publication_classes": ["internal"]
+  },
+  "validation_commands": [
+    "jq -e '.execution_result == \"pass\" and .next_route.capability == \"invoke\" and .next_route.mode == \"refresh\"' ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/terminal-receipt.json",
+    "jq -e '.executionResult == \"pass\" and .craftIntegrationAdmitted == false and .addonHandoff == null' ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26/npm-diagnostic-receipt.json",
+    "rg -n 'status: completed-local-diagnostic|executionEntryState.*closed-pass|selectedSWU.*none|state: closed-pass|selectedUnit: null|nextOwner: null' ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md",
+    "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md"
+  ]
+}

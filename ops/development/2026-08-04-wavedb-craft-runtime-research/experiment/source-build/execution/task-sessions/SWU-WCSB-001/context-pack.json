@@ -1,0 +1,58 @@
+{
+  "schema_version": "task-session-context-pack.v1",
+  "task_id": "TASK-WCSB-01",
+  "swu_id": "SWU-WCSB-001",
+  "strict_coverage": true,
+  "sources": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-01-RUNNER.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/context-pack.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/design/ARCHITECTURE.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/design/SOURCE-CONTRACTS.md"
+  ],
+  "constraints": {
+    "network": "forbidden",
+    "native_build": "forbidden",
+    "addon_load": "forbidden",
+    "craft_access": "forbidden",
+    "git_mutation": "forbidden",
+    "publication": "forbidden",
+    "deployment": "forbidden"
+  },
+  "execution_contract": {
+    "writeProfile": "material-bound",
+    "materialWrites": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.gitignore",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/run_source_build.py",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/source-build-receipt.schema.json",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/cases.json",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/fixture_driver.py",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/run-fixtures.sh",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py"
+    ],
+    "executionOutputs": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/terminal-receipt.json"
+    ],
+    "allowedWrites": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.gitignore",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/terminal-receipt.json",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/run_source_build.py",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/source-build-receipt.schema.json",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/cases.json",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/fixture_driver.py",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/run-fixtures.sh",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py"
+    ],
+    "validationCommands": [
+      "python3 -m py_compile runtime/run_source_build.py runtime/validate_source_build.py runtime/tests/fixtures/fixture_driver.py",
+      "python3 runtime/run_source_build.py --help",
+      "python3 runtime/validate_source_build.py --help",
+      "bash runtime/tests/run-fixtures.sh",
+      "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.gitignore ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime"
+    ],
+    "lifecycleOwner": "wavedb-source-build-invoke-owner",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  }
+}
+

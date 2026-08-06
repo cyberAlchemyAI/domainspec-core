@@ -1,0 +1,96 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "cr-0d64641a956644cac47ca44b",
+  "source": {
+    "phase": "terminal",
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "block",
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T025009Z-capi-000-include-28-retry-02/task-session/terminal-receipt.json",
+    "blocker_fingerprint": "0d64641a956644cac47ca44b34724390516a146c165aaffbca3cb0de2e4983d5",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "source": "ad-hoc-exact-route",
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "user-authorized automatic Work-Pack attempt plus exact Task Session closeout preflight",
+    "authorization_prompt_required": false,
+    "work_pack_binding": null,
+    "binding": null
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "craft-consultation-api-plan-owner",
+      "evidence": [
+        "the terminal receipt requires Work Pack synchronization",
+        "the closeout preflight binds exactly two owner targets and forbids successor execution",
+        "the -02 experiment receipt proves no database was created"
+      ],
+      "required_inputs": [
+        "Task Session terminal receipt",
+        "Task Session closeout preflight",
+        "inventory drift receipt",
+        "immutable -02 experiment receipt"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "work-pack/execution-receipts/SWU-CAPI-000.refresh.json",
+      "fallback": "stop:user-input without changing Work Pack execution state"
+    },
+    {
+      "rank": 2,
+      "capability": "stop",
+      "mode": "user-input",
+      "mutation_mode": null,
+      "owner": "craft-consultation-api-plan-owner",
+      "evidence": [
+        "a fresh immutable attempt is not authorized by the consumed -02 route"
+      ],
+      "required_inputs": [
+        "explicit authorization for a fresh attempt"
+      ],
+      "missing_inputs": [
+        "fresh attempt authorization"
+      ],
+      "mutation_risk": "none",
+      "approval_required": true,
+      "authorization_status": "missing",
+      "expected_receipt": "one exact retry authorization or a decision to remain blocked",
+      "fallback": "retain the blocked Work Pack and both immutable failed attempts"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The closeout route and target inventory are exact, authorized, and required to synchronize the consumed blocked attempt without admitting new execution."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "inline-native-owner",
+    "owner_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/execution-receipts/SWU-CAPI-000.refresh.json",
+    "owner_receipt_ref": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/execution-receipts/SWU-CAPI-000.refresh.json",
+      "sha256": "8af374e381b35582f7a70fa2bb39039eff83ba01770ec7c285c8207a4b669959",
+      "size_bytes": 2428
+    },
+    "join_validation": "pass",
+    "helper_closeout": "n/a",
+    "dispatch_count": 1,
+    "join_count": 1,
+    "router_mutations": []
+  },
+  "owner_boundary": "pass",
+  "control_handle": null,
+  "returned_next_route": {
+    "capability": "decision-gate",
+    "mode": "blocker",
+    "target": "authorize a fresh immutable SWU-CAPI-000 attempt with literal staged-directory exclusion"
+  }
+}

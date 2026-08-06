@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "stream_id": "IRO-FULL-STREAM",
+  "unit_id": "SWU-IRO-003",
+  "route": "invoke:refresh:apply-approved",
+  "source_terminal_ref": {
+    "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/terminal-receipt.json",
+    "sha256": "94256cf4a8bcda164b4053e0a59f9390efe65e3e9d4e0a9950f1c37d1fab3e78",
+    "size_bytes": 15542
+  },
+  "targets": [
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md",
+      "baseline": "4c63878b217b8976e87ceee00ab3be2d87a9910ffc32f0475611cfce92583d5c",
+      "delta_class": "status_changed",
+      "expected_post_state": "sha256:ae16132a2e48591de14d5c34036e306df2b884fbfd3ebfa0877a4ce672e577a0; IRO-003 pass and IRO-004 projected only through a clean public Arcanum worktree"
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/EXECUTION-PACK.md",
+      "baseline": "f9c585861f15ca09e92bcfa8e5211817ea80dfe578431026c7e26a3b85e7a374",
+      "delta_class": "route_changed",
+      "expected_post_state": "sha256:2bc010ce22c35f5c48f7a5bf5740704d17ddd4edea676e8255a8c6e01295756a; completed IRO-003 route and clean-worktree IRO-004 projection"
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TRACEABILITY.md",
+      "baseline": "5ab1945ebc2546691164f6a04d92d26ce018ca5de40f5d72755267dd24e6eb47",
+      "delta_class": "evidence_added",
+      "expected_post_state": "sha256:3c3f98a9bbbc05791bbe2f675d0d55b3483f57d40ecd2b096e58495e0d6a903a; IRO-003 core, portability, browser, and claim-ceiling evidence recorded"
+    }
+  ],
+  "validation_commands": [
+    "python3 ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py --root .",
+    "python3 -m json.tool ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/terminal-receipt.json",
+    "python3 -m json.tool ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-owner-receipt.json",
+    "git diff --check -- ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md ops/development/2026-08-01-intent-route-arcanum-addon/planning/EXECUTION-PACK.md ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TRACEABILITY.md"
+  ],
+  "expected_owner_receipt_path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-owner-receipt.json",
+  "canonical_successor": "SWU-IRO-004",
+  "authority_effect": "none"
+}

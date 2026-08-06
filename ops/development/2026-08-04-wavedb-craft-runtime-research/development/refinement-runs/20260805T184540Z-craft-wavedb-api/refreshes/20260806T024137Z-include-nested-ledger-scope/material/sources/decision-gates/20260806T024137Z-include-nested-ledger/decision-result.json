@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "DG-CAPI-LEDGER-SCOPE-20260806",
+  "result": "PASS",
+  "resolvedAt": "2026-08-06T02:41:37Z",
+  "selectedOption": {
+    "optionId": "CAPI-SCOPE-INCLUDE-28",
+    "optionKind": "action",
+    "label": "Include the nested test-derivation-engine ledger",
+    "hazardClass": "authority",
+    "ownerGate": "craft-consultation-api-plan-owner"
+  },
+  "decisionSource": {
+    "kind": "direct-user",
+    "rawResponse": "2",
+    "resolvedPresentationOrdinal": 2,
+    "mappedOptionId": "CAPI-SCOPE-INCLUDE-28"
+  },
+  "rationale": [
+    "The user selected the inclusive current-source scope after the -01 inventory-drift stop.",
+    "The newly included ledger is named and content-bound, so the change is exact rather than an open-ended discovery rule.",
+    "A new immutable -02 attempt preserves the failed -01 evidence and prevents scope repair from rewriting history."
+  ],
+  "admissibility": {
+    "request": "option-admissibility-request.json",
+    "receipt": "option-admissibility-receipt.json",
+    "requestDigest": "de266cf8ee6b387317200415f4fab004f66ea9d2875abe820551c4f7912e14fb",
+    "routeOutcome": "gate"
+  },
+  "authorityBoundary": {
+    "selectionRecorded": true,
+    "workPackMutationAuthorized": true,
+    "taskSessionAuthorized": true,
+    "runtimeExecutionAuthorized": true,
+    "successorAuthorized": false,
+    "authorizedTarget": "SWU-CAPI-000",
+    "authorizedAttempt": "wcli-20260805-node26-0.15.9-02",
+    "authorizedScope": "refresh the current Work Pack to exactly 28 ledgers and 57 records, then perform one fresh SWU-CAPI-000 Task Session attempt"
+  },
+  "remainingBlockers": [
+    "The apply-approved Invoke Refresh must validate and apply the exact Work Pack and TASK-RUNTIME delta before execution.",
+    "The fresh Task Session must independently admit the -02 material package against live target baselines.",
+    "CAPI-B003 remains open until the immutable 0.15.9 snapshot passes all declared validations.",
+    "SWU-CAPI-001 and every later unit remain unauthorized and may not auto-start."
+  ],
+  "deferredDecisions": [
+    "authentication principal and session ownership",
+    "secret-provider port ownership",
+    "deployment locking, sealing, replacement, recovery, and environment matrix"
+  ],
+  "assumptions": [
+    "The additional ledger remains byte-identical to SHA-256 0effd055c9f25ea3e46de7e5280585f987e9734411ae1639d9c53171b8ed6b84 at execution admission.",
+    "The numbered response maps to the two-option presentation in the preceding assistant message, not the prefilter's sorted option list."
+  ],
+  "nextStep": {
+    "route": "invoke:refresh:apply-approved",
+    "target": "Craft API Work Pack and TASK-RUNTIME scope projection",
+    "scopeCeiling": "two planning artifacts, then one fresh SWU-CAPI-000 -02 attempt; no successor, product code, canonical Craft source, publication, or deployment"
+  }
+}

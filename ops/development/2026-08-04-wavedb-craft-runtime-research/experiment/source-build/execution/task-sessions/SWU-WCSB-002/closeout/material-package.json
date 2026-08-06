@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "wavedb-reviewed-source-build:SWU-WCSB-002:blocked-closeout",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "wavedb-source-build-invoke-owner",
+  "authority_class": "private",
+  "publication_class": "internal",
+  "source_artifacts": [
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/terminal-receipt.json", "sha256": "ed69bc22fb5fde7ab8b62865e47437f8a689b7acdfa62b0c641a405eccc88252", "size_bytes": 4621, "authority_class": "private"},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md", "sha256": "679c8674d03303a9870ce3b1eec053cd740b8311dcba95631ad0c7268cf36175", "size_bytes": 9458, "authority_class": "private"},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md", "sha256": "1df7e9db7f3daf3d844951bc11e12d49896b864df5542771e7bbcffb3637b037", "size_bytes": 3584, "authority_class": "private"},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md", "sha256": "f770904bcccd4e3201d75e8bce1ff7edc76df168cb6d6e65d7c9d10c781f826f", "size_bytes": 946, "authority_class": "private"}
+  ],
+  "changes": [
+    {"target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md", "operation": "update", "output_ref": {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/closeout/staging/WORK-PACK.md", "sha256": "6593f742f44592c01d6f37d1cab7fc48fb16fcfbea6c2e45e09cd671a24ad90e", "size_bytes": 9897}},
+    {"target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md", "operation": "update", "output_ref": {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/closeout/staging/TASK-WCSB-02-EXECUTE.md", "sha256": "a76cf02c33339d03ae19b9a0d19f77e07d4635897f2aa22887157fa9a1db15b9", "size_bytes": 3951}},
+    {"target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md", "operation": "update", "output_ref": {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/closeout/staging/W0-SOURCE-BUILD.md", "sha256": "27465369995a1c2a392266e1988821297c5b2e632c50de3f907f67c5f96daa03", "size_bytes": 1170}}
+  ],
+  "target_inventory": [
+    {"target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md", "lifecycle_owner": "wavedb-source-build-invoke-owner", "authority_class": "private", "publication_class": "internal", "dependency_ids": []},
+    {"target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md", "lifecycle_owner": "wavedb-source-build-invoke-owner", "authority_class": "private", "publication_class": "internal", "dependency_ids": []},
+    {"target_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md", "lifecycle_owner": "wavedb-source-build-invoke-owner", "authority_class": "private", "publication_class": "internal", "dependency_ids": []}
+  ],
+  "dependencies": [],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "wavedb-source-build-invoke-owner",
+    "scope_paths": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md"
+    ],
+    "authority_classes": ["private"],
+    "publication_classes": ["internal"]
+  },
+  "validation_commands": [
+    "jq -e '.execution_result == \"block\" and .swu_id == \"SWU-WCSB-002\"' execution/task-sessions/SWU-WCSB-002/terminal-receipt.json",
+    "rg -n 'selectedSWU.*none|SWU-WCSB-002.*blocked|WCSB-UPSTREAM-CONCURRENT-WRITE-STALL' plan/WORK-PACK.md",
+    "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md"
+  ]
+}

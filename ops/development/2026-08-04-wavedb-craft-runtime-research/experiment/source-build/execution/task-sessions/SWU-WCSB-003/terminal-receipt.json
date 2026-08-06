@@ -1,0 +1,114 @@
+{
+  "schema_version": "task-session-terminal-receipt.v1",
+  "completed_at": "2026-08-05T15:55:54Z",
+  "task_id": "TASK-WCSB-03",
+  "swu_id": "SWU-WCSB-003",
+  "execution_result": "block",
+  "claim_ceiling": "partial-local-node26-source-build-evidence-only",
+  "mutation_admission": {
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-003/mutation-admission-receipt.json",
+    "sha256": "5fb2c442f8417c6626ec3f83edf283e189a91aa28c720105497b40092e805ab4",
+    "size_bytes": 4889,
+    "verdict": "admit",
+    "write_profile": "execution-output-only"
+  },
+  "toolchain": {
+    "node": "v26.6.0",
+    "npm": "11.18.0",
+    "python": "3.12.3",
+    "gcc": "13.3.0",
+    "gxx": "13.3.0",
+    "make": "4.3",
+    "ld": "2.42",
+    "openssl_root": "/usr",
+    "nvm_default_before": "22 -> v22.13.0",
+    "nvm_default_after": "22 -> v22.13.0"
+  },
+  "source_build_receipt": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build-node26/source-build-block-receipt.json",
+    "sha256": "de939bc2d617f522c45fb4739c7509cac8c6d934d9063c5a3b38197cecefa753",
+    "size_bytes": 10868,
+    "verdict": "block",
+    "failure_code": "UPSTREAM_TESTS_COMMAND_FAILED",
+    "addon_handoff": null
+  },
+  "partial_evidence": {
+    "source_manifest": {"sha256": "d86e76152a157fb31c5d4ff60453631798a041b6586dac80216366b4086f6456", "size_bytes": 186389},
+    "dependency_manifest": {"sha256": "bd0983eba16498accf8d88af1fe7d37fe4eae93fea7f9e3d91a8ab022ac25f1b", "size_bytes": 364069},
+    "generated_source_manifest": {"sha256": "75887675eb823fbd0e2f3e850acdc51df111d205404ad4b0a970c8cd58308512", "size_bytes": 32051},
+    "build_manifest": {"sha256": "b3ebebc851290976322982dd52321158d174b52ce4f3004e0bc89c95d798eda7", "size_bytes": 47402},
+    "addon": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcsb-20260805-node26-01/source/bindings/nodejs/build/Release/wavedb.node",
+      "sha256": "cbd5ebdab82635cf95ced5b0d3d3b50de7c224a6d99ebc2aa1dad57afb2ea8c9",
+      "size_bytes": 1223576,
+      "load_observation": "pass",
+      "handoff_admitted": false
+    },
+    "upstream_log": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build-node26/logs/20-upstream-tests.log",
+      "sha256": "012e05ee5e912ca1d09027680981809e576134511920c4fc90dd804e729b5f13",
+      "size_bytes": 46706
+    }
+  },
+  "validation": {
+    "source_identity": "pass",
+    "recursive_submodules": "pass",
+    "lockfile_and_dependency_install": "pass",
+    "toolchain_identity": "pass",
+    "generated_source": "pass",
+    "native_build": "pass",
+    "addon_cardinality_and_hash": "pass",
+    "addon_load": "pass",
+    "upstream_tests": "block",
+    "upstream_failure": "the WaveDB Integration concurrent-write case made no file progress while its verified Mocha process remained near one core of CPU for 338.233 seconds; the operator then sent SIGTERM only to that child",
+    "upstream_exit_code_interpretation": "-15 records the controlled operator SIGTERM and is not evidence of an upstream crash or assertion failure",
+    "empty_value_canary": "not-run-after-blocker",
+    "runner_scope_audit": "not-run-after-blocker",
+    "terminal_pass_receipt_validator": "not-run-pass-receipt-absent",
+    "source_build_pass_receipt": "absent",
+    "previous_node22_receipt": "unchanged-sha256-b808662eda1dbbc8a09f79c926f595ce87395dace66ee178298cfce0fa495f75",
+    "previous_node22_log": "unchanged-sha256-8bc7da8350c8129e567fb2e2453ba5619d0a413f5a0e4c47ea24fe89415ffbcb",
+    "previous_node22_addon": "unchanged-sha256-6552d6a0ba0fa4bd2af06ccd22ddf3b455d1ce4f2703b61aac430e883e4f1b28",
+    "nvm_default_alias": "unchanged",
+    "craft_tracked_diff": "none-observed",
+    "scoped_whitespace": "pending-closeout-audit"
+  },
+  "effects": {
+    "node_install": "v26.6.0 installed through existing user-local NVM; default alias unchanged",
+    "network_fetch": "performed-within-admitted-scope",
+    "dependency_materialization": "performed-within-attempt",
+    "native_build": "performed-within-attempt",
+    "addon_load": "performed-within-attempt",
+    "verified_test_child_termination": "SIGTERM after 338.233-second liveness observation",
+    "temporary_test_store": "/tmp/wavedb-integration-1785944869024-2isb9brlg preserved",
+    "craft_access": "not-observed",
+    "workspace_git_mutation": "not-observed",
+    "publication": false,
+    "deployment": false,
+    "destructive_cleanup": false
+  },
+  "blockers": [
+    {
+      "id": "WCSB-NODE26-CONCURRENT-WRITE-LIVELOCK",
+      "class": "acceptance-critical-upstream-runtime",
+      "status": "open",
+      "evidence": "the upstream log reaches WaveDB Integration concurrent operations / should handle concurrent writes; the verified child used about one CPU core with nine threads while the fresh DB and WAL stopped changing for the 338.233-second observation",
+      "smallest_unblock": "WaveDB source owner diagnoses or fixes the concurrent-write native runtime path, with thread-level instrumentation or a debugger trace, before any newly planned immutable source attempt"
+    }
+  ],
+  "residue": [
+    "The Node 26 addon is partial compilation/load evidence only and must not be admitted to Craft or the parent runtime experiment.",
+    "The empty-value canary, test manifest, final scope audit, and pass receipt are absent because the upstream suite blocked first.",
+    "The failed attempt and temporary test store are preserved; destructive cleanup is not authorized.",
+    "The reproduction under both Node 22 and Node 26 is evidence against treating the issue as Node-22-only, but it does not prove the root cause."
+  ],
+  "subagents": {"result": "n/a", "spawned": 0, "joined": 0, "open": 0},
+  "next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "purpose": "record the Node 26 blocker and remove active build selection",
+    "same_pack_successor": null,
+    "parent_refresh_admitted": false
+  }
+}

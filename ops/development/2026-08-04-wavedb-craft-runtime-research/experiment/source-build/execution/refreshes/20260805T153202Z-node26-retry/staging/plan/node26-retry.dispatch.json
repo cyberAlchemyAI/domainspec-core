@@ -1,0 +1,278 @@
+{
+  "dispatch_id": "wcsb-node26-retry-20260805",
+  "parent_dispatch_id": "wcsb-source-build-route-20260804",
+  "intent": {
+    "raw": "update to node 26",
+    "objective": "Execute one immutable WaveDB reviewed-source diagnostic build under exact Node v26.6.0 and npm 11.18.0 without rewriting the Node 22 result.",
+    "target_artifact": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-03-NODE26.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "task-session",
+      "source-build",
+      "execution receipt",
+      "owner boundary"
+    ],
+    "operator_sentence": "Validate this serial retry, execute SWU-WCSB-003 once, stop at the first acceptance blocker, and preserve Craft and promotion boundaries."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "validation_loop",
+    "owner_boundary_check",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "residue_ledger"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "One controlled-variable local diagnostic has no independent parallel work and the user did not request delegation.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed"
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "N26-S1",
+      "name": "Validate Node 26 retry route",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "experiment/source-build/plan/node26-retry.dispatch.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "experiment/source-build/plan/node26-dispatch-validation.json"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "experiment/source-build/plan/node26-dispatch-validation.json",
+      "stop_conditions": [
+        "block on route technique boundary or promotion validation failure"
+      ]
+    },
+    {
+      "step_id": "N26-S2",
+      "name": "Execute immutable Node 26 diagnostic",
+      "capability_ref": "task-session",
+      "mode": "execute",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "N26-S1"
+      ],
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "execution_receipt_handoff",
+        "concrete_path_evidence",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "experiment/source-build/plan/node26-dispatch-validation.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "experiment/source-build/plan/work-pack/tasks/TASK-WCSB-03-NODE26.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "execution/task-sessions/SWU-WCSB-002/terminal-receipt.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "execution/source-build-node26/source-build-receipt.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "execution/task-sessions/SWU-WCSB-003/terminal-receipt.json"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "execution/task-sessions/SWU-WCSB-003/terminal-receipt.json",
+      "stop_conditions": [
+        "block on toolchain source dependency build load test canary scope or receipt failure",
+        "block on previous-attempt mutation fallback retry Craft access NVM default change publication or deployment"
+      ]
+    },
+    {
+      "step_id": "N26-S3",
+      "name": "Synchronize Node 26 result",
+      "capability_ref": "invoke",
+      "mode": "refresh",
+      "pattern": "handoff",
+      "parallel": false,
+      "depends_on_steps": [
+        "N26-S2"
+      ],
+      "techniques": [
+        "owner_boundary_check",
+        "execution_receipt_handoff",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "execution/task-sessions/SWU-WCSB-003/terminal-receipt.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "execution/task-sessions/SWU-WCSB-003/invoke-refresh-receipt.json"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "execution/task-sessions/SWU-WCSB-003/invoke-refresh-receipt.json",
+      "stop_conditions": [
+        "do not convert a blocked diagnostic into addon handoff or parent admission"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "N26-G0-route",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "Node 26 retry dispatch passes",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "N26-G1-attempt",
+      "kind": "validation",
+      "owner": "task-session",
+      "condition": "SWU-WCSB-003 binds the exact toolchain and passes every acceptance stage",
+      "requires_role_receipts": [
+        "execution/task-sessions/SWU-WCSB-003/terminal-receipt.json",
+        "execution/task-sessions/SWU-WCSB-003/invoke-refresh-receipt.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "N26-G2-authority",
+      "kind": "promotion_guardrail",
+      "owner": "parent experiment Invoke owner",
+      "condition": "Node 26 diagnostic evidence remains separate from Craft package publication deployment and production authority",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "wcsb-source-build-route-20260804",
+    "trace_events": [
+      "node26_retry_validated",
+      "node26_attempt_started",
+      "node26_attempt_closed",
+      "node26_closeout_joined"
+    ],
+    "signal_grouping": "dispatch_id + swu_id + attempt_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "N26-B1-refresh-to-task",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": [
+          "N26-S2"
+        ],
+        "contract": "Task Session executes only SWU-WCSB-003 under the exact approved attempt and toolchain.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "N26-B2-task-to-closeout",
+        "kind": "evidence_return",
+        "from_owner": "task-session",
+        "to_owner": "invoke",
+        "applies_to_steps": [
+          "N26-S3"
+        ],
+        "contract": "Invoke Refresh synchronizes the terminal result without changing the source result or admitting Craft use.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke for retry authoring and closeout",
+      "execution": "task-session for SWU-WCSB-003",
+      "validation": "dispatch-spec plus source-build validators",
+      "evidence": "fresh attempt and Task Session receipts",
+      "memory": "inventory discovery only",
+      "promotion": "separate package Craft deployment and production owners"
+    },
+    "receipts": [
+      {
+        "receipt_id": "N26-R1-attempt",
+        "producer": "task-session",
+        "required_fields": [
+          "run_id",
+          "status",
+          "artifacts",
+          "validation",
+          "validation_result",
+          "blockers",
+          "residue"
+        ],
+        "stores": [
+          "execution/task-sessions/SWU-WCSB-003/terminal-receipt.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "N26-R2-closeout",
+        "producer": "invoke",
+        "required_fields": [
+          "run_id",
+          "status",
+          "artifacts",
+          "validation",
+          "validation_result",
+          "handoff_note",
+          "residue"
+        ],
+        "stores": [
+          "execution/task-sessions/SWU-WCSB-003/invoke-refresh-receipt.json"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "node26-source-build-attempt",
+        "owner": "task-session SWU-WCSB-003",
+        "write_policy": "only wcsb-20260805-node26-01 source-build-node26 and SWU-WCSB-003 evidence"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "Node 26 local diagnostic evidence",
+        "target": "Craft package publication deployment or production",
+        "rule": "not authorized by this dispatch",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "The Node 22 failed attempt remains immutable historical evidence.",
+    "A Node 26 addon is candidate evidence only until every gate passes and a separate owner admits it.",
+    "No Craft authority publication deployment or production state changes."
+  ]
+}

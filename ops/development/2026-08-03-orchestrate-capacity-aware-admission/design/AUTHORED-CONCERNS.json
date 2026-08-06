@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0.0",
+  "concerns": [
+    {
+      "concern_id": "authored:capacity-authority",
+      "primary_class": "authority",
+      "disposition": "required",
+      "required_predicate": true,
+      "selected": true,
+      "evidence_selectors": ["ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/interfaces.md"],
+      "ownership": {"accountable_owner": "authority-owner", "contributing_owners": ["host-profile-owner", "orchestrate-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "Only the host may assert capacity; Orchestrate may validate and consume but never synthesize that authority.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-state-event",
+      "primary_class": "state-event",
+      "disposition": "required",
+      "required_predicate": true,
+      "selected": true,
+      "evidence_selectors": ["ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/states.md", "ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/events.md"],
+      "ownership": {"accountable_owner": "workflow-owner", "contributing_owners": ["evidence-validator-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "Admission, no-agent failure, and logical versus physical lifecycle need explicit non-collapsing states and causal events.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-persistence",
+      "primary_class": "persistence",
+      "disposition": "required",
+      "required_predicate": true,
+      "selected": true,
+      "evidence_selectors": ["arcanum/runtime/orchestrate/scripts/native_dispatch_coordinator.py"],
+      "ownership": {"accountable_owner": "persistence-owner", "contributing_owners": ["orchestrate-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "Admission evidence and decisions must be immutable and ordered before persisted actions under concurrent allocation pressure.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-failure",
+      "primary_class": "failure",
+      "disposition": "required",
+      "required_predicate": true,
+      "selected": true,
+      "evidence_selectors": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/native-run/run-01/events.jsonl"],
+      "ownership": {"accountable_owner": "workflow-owner", "contributing_owners": ["native-host-owner", "evidence-validator-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "A host rejection can still occur after admission and must close without a fabricated agent identity or hidden partial wave.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-integration",
+      "primary_class": "integration",
+      "disposition": "required",
+      "required_predicate": true,
+      "selected": true,
+      "evidence_selectors": ["arcanum/runtime/orchestrate/hosts/codex-native.md"],
+      "ownership": {"accountable_owner": "interface-owner", "contributing_owners": ["host-profile-owner", "consumer-router-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "Generic evidence, Codex binding, strict schema versions, and consumer route handles evolve independently.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-data",
+      "primary_class": "privacy-data",
+      "disposition": "required",
+      "required_predicate": true,
+      "selected": true,
+      "evidence_selectors": ["ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/mappings.md"],
+      "ownership": {"accountable_owner": "data-owner", "contributing_owners": ["host-profile-owner", "run-evidence-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "Public evidence must exclude provider-private quota, tier, secret, and unrelated agent-context data.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-quality",
+      "primary_class": "performance",
+      "disposition": "required",
+      "required_predicate": true,
+      "selected": true,
+      "evidence_selectors": ["ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/operations.md"],
+      "ownership": {"accountable_owner": "service-owner", "contributing_owners": ["validation-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "The no-spawn and bounded-observation overhead contract needs measurable fixture evidence before adoption.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-validation",
+      "primary_class": "validation",
+      "disposition": "required",
+      "required_predicate": true,
+      "selected": true,
+      "evidence_selectors": ["ops/development/2026-08-03-orchestrate-capacity-aware-admission/design/PLANNED-WITNESSES.json"],
+      "ownership": {"accountable_owner": "design-owner", "contributing_owners": ["orchestrate-owner", "host-profile-owner"], "artifact_owner": "plan-work-pack-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "Strict schemas and both positive and negative causal fixtures are acceptance-critical.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-security-recommended",
+      "primary_class": "security",
+      "disposition": "recommended",
+      "required_predicate": false,
+      "selected": false,
+      "evidence_selectors": ["ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/interfaces.md"],
+      "ownership": {"accountable_owner": "security-risk-owner", "contributing_owners": ["host-profile-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "Forgery controls matter if capacity evidence crosses a trust boundary, but no external or secret-bearing provider is selected now.",
+      "revisit_condition": "Select the security extension if evidence becomes remotely supplied, signed, tenant-scoped, or secret-bearing."
+    },
+    {
+      "concern_id": "authored:capacity-reliability-na",
+      "primary_class": "reliability",
+      "disposition": "not-applicable-with-rationale",
+      "required_predicate": false,
+      "selected": false,
+      "evidence_selectors": ["ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/SPEC.md"],
+      "ownership": {"accountable_owner": "service-owner", "contributing_owners": ["orchestrate-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "This candidate makes no availability, durability, SLO, or degraded-service claim.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-migration-na",
+      "primary_class": "migration",
+      "disposition": "not-applicable-with-rationale",
+      "required_predicate": false,
+      "selected": false,
+      "evidence_selectors": ["ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/interfaces.md"],
+      "ownership": {"accountable_owner": "migration-owner", "contributing_owners": ["interface-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "Versioned candidate contracts add new run evidence; they do not convert stored production state.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-rollout-na",
+      "primary_class": "rollout",
+      "disposition": "not-applicable-with-rationale",
+      "required_predicate": false,
+      "selected": false,
+      "evidence_selectors": ["ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/SPEC.md"],
+      "ownership": {"accountable_owner": "release-owner", "contributing_owners": ["orchestrate-owner"], "artifact_owner": "architecture-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "No package release, public publication, deployment, or production rollout is authorized.",
+      "revisit_condition": null
+    },
+    {
+      "concern_id": "authored:capacity-ux-na",
+      "primary_class": "ux",
+      "disposition": "not-applicable-with-rationale",
+      "required_predicate": false,
+      "selected": false,
+      "evidence_selectors": ["ops/development/2026-08-03-orchestrate-capacity-aware-admission/define/mappings.md"],
+      "ownership": {"accountable_owner": "ux-plan-owner", "contributing_owners": ["consumer-router-owner"], "artifact_owner": "ux-plan-owner", "validator_owner": "invoke-design-selection-validator"},
+      "rationale": "This package defines a neutral receipt and route-option contract, not a changed rendered human surface.",
+      "revisit_condition": null
+    }
+  ]
+}
+

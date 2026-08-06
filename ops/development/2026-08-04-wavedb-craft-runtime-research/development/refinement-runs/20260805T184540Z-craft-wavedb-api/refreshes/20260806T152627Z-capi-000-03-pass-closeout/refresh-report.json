@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0.0",
+  "mode": "refresh",
+  "mutationMode": "apply-approved",
+  "activationSource": "continuation",
+  "result": "pass",
+  "sourceResult": "pass",
+  "phaseStatus": "pass",
+  "handoffStatus": "ready",
+  "mutationReady": true,
+  "deltaSummary": "Synchronized accepted immutable attempt -03, completed SWU-CAPI-000, resolved the staged-filter blocker, and removed the consumed route without selecting or admitting SWU-CAPI-001.",
+  "sourceEvidence": [
+    {
+      "kind": "task-session-terminal",
+      "path": "../../readiness/20260806T150743Z-capi-000-staged-filter-repair-03/task-session/terminal-receipt.json",
+      "sha256": "89ab8babfe15a169c16c1694b58ee7e9055e3c7f6fd6875e6d0c6c139a04e5f6"
+    },
+    {
+      "kind": "experiment-pass",
+      "path": "../../../../../experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-03/receipt.json",
+      "sha256": "544e6bcd81ede733c2e313e18f04ca61a6b5da76e2cc21aff15ddde5d26f046f"
+    }
+  ],
+  "targetArtifacts": [
+    {
+      "path": "../../WORK-PACK.md",
+      "sha256": "72ca5698a2bbcba8dc70c707c5cfac914d36cebc4efeadea41df11cab49f1174",
+      "sizeBytes": 14303
+    },
+    {
+      "path": "../../work-pack/execution-receipts/SWU-CAPI-000.wcli-20260805-node26-0.15.9-03.refresh.json",
+      "sha256": "b5a1a1abb012ba9db9ab5563b3ebf2ea3cf71f5de61eb758c54277044b6559d0",
+      "sizeBytes": 2623
+    }
+  ],
+  "materialPackage": {
+    "id": "capi-refresh-swu-capi-000-03-pass-closeout-20260806T152627Z",
+    "digest": "d1f2fea85bcf2f0b7e02aae4223438483418f71e5262280f214aa401ee78fe98",
+    "manifest": "material/material-package.json",
+    "receipt": "material/material-receipt.json",
+    "receiptSha256": "d86da0484951598ae4aee6a2fdd68a366b180b79d2ba0607e01b054322c783f3",
+    "handoffResult": "material/handoff-result.json",
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass"
+  },
+  "validation": [
+    "strict context coverage pass",
+    "material package schema pass",
+    "refresh material handoff ready",
+    "live target baselines matched before apply",
+    "owner receipt canonical digest pass",
+    "two live targets byte-matched staged outputs",
+    "Work Pack retained 28-ledger and 57-record scope",
+    "SWU-CAPI-000 completed and SWU-CAPI-001 dependency-ready but unselected",
+    "allowed routes, automatic decisions, selected unit, and route id are empty",
+    "all new JSON parses and scoped whitespace passes",
+    "immutable -01 and -02 evidence remains unchanged"
+  ],
+  "skippedChanges": [
+    "SWU-CAPI-001 execution",
+    "API implementation",
+    "canonical Craft-source mutation",
+    "network integration",
+    "publication",
+    "deployment"
+  ],
+  "blockers": [
+    {
+      "id": "CAPI-B003",
+      "state": "open",
+      "summary": "Accepted snapshot exists; separately launched reader evidence remains missing."
+    }
+  ],
+  "nextRoute": null,
+  "targetLifecycleStatus": "runtime-snapshot-accepted"
+}

@@ -1,0 +1,36 @@
+{
+  "activationSource": "direct-user",
+  "authoredPhaseStatus": "pass",
+  "requestedHandoff": "ready",
+  "expectedPackageId": "capi-refresh-wavedb-0.15.9-runtime-order-20260805T205803Z",
+  "expectedPackageDigest": "35a10a74ea21a0bca322ca850ec9715d85c3953483e64d1d872c6a3cfb45a98b",
+  "materialReceipt": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "lifecycleOwner": "craft-consultation-api-plan-owner",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "35a10a74ea21a0bca322ca850ec9715d85c3953483e64d1d872c6a3cfb45a98b",
+    "packageId": "capi-refresh-wavedb-0.15.9-runtime-order-20260805T205803Z",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "internal",
+    "reasons": [],
+    "schemaVersion": "1.0.0",
+    "validatedPaths": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/EXECUTION-PACK.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/waves/W1.md"
+    ],
+    "validationCommands": [
+      "python3 .agents/skills/invoke/scripts/material_package_validator.py <material-package> --root <material-root> --schema-dir .agents/skills/invoke/schemas",
+      "python3 .agents/skills/invoke/scripts/refresh_material_handoff.py <handoff-request> --receipt-schema .agents/skills/invoke/schemas/material-package-receipt.schema.json",
+      "compare all four live target hashes to the material output refs after apply",
+      "verify workPackGateStatus=block, executionEntry.state=blocked, allowedRoutes=[], and SWU-CAPI-000 through SWU-CAPI-009",
+      "verify 0.15.9 digest/SRI/addon pins and 000 -> 001 -> pin gate -> 002 dependency order",
+      "parse all refresh JSON and reject trailing whitespace in targets",
+      "verify Craft ledger, implementation, public Arcanum, Git history, publication, and deployment scopes remain untouched"
+    ]
+  }
+}

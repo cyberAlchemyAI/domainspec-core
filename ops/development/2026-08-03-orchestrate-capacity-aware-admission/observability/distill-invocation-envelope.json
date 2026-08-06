@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-08-03T20:04:14Z",
+  "run_id": "distill-20260803T193012Z-orchestrate-capacity-aware-admission-plan",
+  "session_id": "2026-08-03-orchestrate-capacity-aware-admission",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "standard",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "standard",
+    "alias": "Distill"
+  },
+  "lineage": {
+    "parent_run_id": "invoke-define-design-plan-20260803T193012Z-orchestrate-capacity-aware-admission",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spells",
+      "mode": "define-design-plan"
+    }
+  },
+  "evidence": {
+    "status": "partial",
+    "emission_status": "read-only-helper-no-structured-runtime-events",
+    "refs": [
+      "ops/development/2026-08-03-orchestrate-capacity-aware-admission/planning/PLAN-DISTILL.md",
+      "ops/development/2026-08-03-orchestrate-capacity-aware-admission/planning/WORK-PACK.md",
+      "ops/development/2026-08-03-orchestrate-capacity-aware-admission/planning/SWU-MANIFEST.json"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Validate and recursively balance the capacity-aware Orchestrate implementation plan.",
+    "intent": "Prove that each SWU is atomic, exact, authority-safe, and recomposes without hidden host assumptions."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "four-round Proposer and Balancer validation",
+      "snapshot-only first unit",
+      "five atomic implementation SWUs",
+      "exact closeout and no-downgrade contracts"
+    ],
+    "files_changed": [
+      "ops/development/2026-08-03-orchestrate-capacity-aware-admission/planning/"
+    ],
+    "validation": [
+      "round-1:block-and-repaired",
+      "round-2:block-and-repaired",
+      "round-3:block-and-repaired",
+      "round-4:pass",
+      "swu-atomicity:pass-five-units",
+      "task-shaped-swu-count:0",
+      "first-unit-narrowness:pass",
+      "recomposition:pass",
+      "authority-boundaries:pass",
+      "closeout-sync:pass"
+    ],
+    "notes": "The Balancer was a bounded read-only native helper. Mutation remains unauthorized and live host capacity, reservation, release, and reuse remain deferred."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "observability",
+        "severity": "low",
+        "summary": "The read-only Balancer emitted chat receipts rather than structured Distill runtime events.",
+        "evidence": "The consolidated recursive receipt is persisted in planning/PLAN-DISTILL.md."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/planning/WORK-PACK.md"
+}
