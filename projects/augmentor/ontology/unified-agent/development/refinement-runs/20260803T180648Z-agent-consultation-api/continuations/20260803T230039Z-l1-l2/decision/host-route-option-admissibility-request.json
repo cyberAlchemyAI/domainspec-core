@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "DG-L12-001",
+  "candidates": [
+    {
+      "optionId": "NEW_NAMED_BRIDGE_SERVICE",
+      "label": "Create a dedicated Augmentor consultation host service and scoped read capability",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "ResonantOS product and host owner approval of the named service, exact route, scoped capability, readable projection location, and issue acceptance",
+      "evidence": [
+        "ResonantOS docs/architecture/MODULE-OWNERSHIP.md requires one primary owner service for every host route",
+        "ResonantOS docs/architecture/ALPHA_RUNTIME_BOUNDARY.md makes the authenticated capability-gated Node bridge the only Alpha privileged path"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "EXTEND_MEMORY_HOST_SERVICE",
+      "label": "Add consultation reads to the existing memory host service under a distinct route capability",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "ResonantOS product, host, and memory owners approve the new responsibility, route, capability, readable projection location, and issue acceptance",
+      "evidence": [
+        "memory-host-service already owns approved local source roots and read-oriented memory routes",
+        "MODULE-OWNERSHIP.md requires splitting a route service when it mixes unrelated policy responsibilities"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "CORE_ONLY_NO_ALPHA_ROUTE",
+      "label": "Place the adapter only in src/core without an Alpha bridge route",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "other",
+      "ownerGate": null,
+      "evidence": [],
+      "rejectionReasons": [
+        "src/core is supporting shared code and cannot own privileged Alpha filesystem or host behavior",
+        "this option cannot produce the requested L1 host witness in the current two-component Alpha runtime"
+      ]
+    },
+    {
+      "optionId": "DEFER_L1_L2",
+      "label": "Keep L1 and L2 planned but do not mutate the consumer",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "other",
+      "ownerGate": null,
+      "evidence": [
+        "the completed L0 API remains a valid candidate-local evidence boundary without consumer integration"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "STOP_L1_L2",
+      "label": "Stop this L1-L2 continuation",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "other",
+      "ownerGate": null,
+      "evidence": [
+        "stopping preserves the completed L0 evidence and creates no new authority or product state"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}
+

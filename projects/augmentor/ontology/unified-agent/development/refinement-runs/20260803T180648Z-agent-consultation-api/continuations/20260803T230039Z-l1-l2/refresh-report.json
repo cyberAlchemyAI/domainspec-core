@@ -1,0 +1,163 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "continuation",
+  "mutationMode": "proposal-only",
+  "mutationModeSource": "default-non-user",
+  "handoffStatus": "gated",
+  "sourceSignals": [
+    {
+      "id": "RF-L12-001",
+      "signalType": "evidence_added",
+      "claim": "The exact seven-unit L0 epoch completed."
+    },
+    {
+      "id": "RF-L12-002",
+      "signalType": "status_changed",
+      "claim": "B-001 is resolved for L0 only and the work-pack text is stale."
+    },
+    {
+      "id": "RF-L12-003",
+      "signalType": "blocker_opened",
+      "claim": "The completed approval epoch excludes L1 and later layers."
+    },
+    {
+      "id": "RF-L12-004",
+      "signalType": "artifact_drift",
+      "claim": "src/core/runtime.ts is not the current ResonantOS Alpha privileged-host integration path."
+    },
+    {
+      "id": "RF-L12-005",
+      "signalType": "blocker_opened",
+      "claim": "Required L1-L2 owners are unselected."
+    },
+    {
+      "id": "RF-L12-006",
+      "signalType": "blocker_opened",
+      "claim": "The consumer projection allowlist and leakage policy are unapproved."
+    },
+    {
+      "id": "RF-L12-007",
+      "signalType": "route_changed",
+      "claim": "The current Alpha requires a named capability-gated Node bridge service and focused tests."
+    },
+    {
+      "id": "RF-L12-008",
+      "signalType": "blocker_opened",
+      "claim": "Fixed production limits require measurements from the executed L1 witness."
+    },
+    {
+      "id": "RF-L12-009",
+      "signalType": "no_op",
+      "claim": "APPROVE_EXACT_EPOCH has no new exact epoch to bind and cannot replay or expand the completed L0 epoch."
+    }
+  ],
+  "targetArtifacts": [
+    "WORK-PACK.md",
+    "IMPLEMENTATION-LAYERING.md",
+    "work-pack/tasks/TASK-ACAPI-04-HOST.md",
+    "work-pack/tasks/TASK-ACAPI-05-HARDENING.md",
+    "one-go/execution/completion-receipt.json",
+    "one-go/decision/decision-gate-approval-receipt.json",
+    "workspace-resonant/2.0.0-alpha/docs/architecture/MODULE-OWNERSHIP.md",
+    "workspace-resonant/2.0.0-alpha/docs/architecture/ALPHA_RUNTIME_BOUNDARY.md"
+  ],
+  "deltaSummary": [
+    "mark L0 complete without widening its epoch",
+    "replace stale src/core runtime registration with an owner-selected Alpha bridge route",
+    "gate all consumer projection bytes on an exact approved field and leakage policy",
+    "measure before setting fixed production limits"
+  ],
+  "proposedChanges": [
+    "apply REFRESH-PATCH-PROPOSAL.md after DG-L12-001 and DG-L12-002 pass",
+    "generate a new six-unit L1-L2 readiness and epoch package"
+  ],
+  "appliedChanges": [],
+  "skippedChanges": [
+    "no canonical work-pack mutation",
+    "no ResonantOS product mutation",
+    "no L1-L2 epoch generation",
+    "no deployment, release, or L3 work"
+  ],
+  "materialPackage": {
+    "required": false,
+    "receiptPresent": false,
+    "schemaValid": false,
+    "patchVerdict": "not-applicable",
+    "mutationHandoff": "gated",
+    "packageId": "",
+    "packageDigest": "",
+    "expectedPackageId": "",
+    "expectedPackageDigest": "",
+    "validatedPaths": [],
+    "dependencyResult": "not-applicable",
+    "ownerBoundaryResult": "reject",
+    "publicationBoundaryResult": "pass",
+    "validationCommands": [],
+    "lifecycleOwner": "Augmentor planning owner",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "mutationReady": false,
+  "blockers": [
+    {
+      "id": "DG-L12-001",
+      "scope": "target-lifecycle",
+      "owner": "ResonantOS product and host owner",
+      "status": "open",
+      "claim": "Select the current Alpha host ownership route."
+    },
+    {
+      "id": "DG-L12-002",
+      "scope": "target-lifecycle",
+      "owner": "private ontology owner plus consumer data owner",
+      "status": "open",
+      "claim": "Approve exact neutral consumer fields and leakage rules."
+    },
+    {
+      "id": "L12-APPLY",
+      "scope": "apply-authorization",
+      "owner": "Augmentor planning owner",
+      "status": "open",
+      "claim": "No validated apply material package exists for the refreshed planning targets."
+    },
+    {
+      "id": "L12-MATERIAL",
+      "scope": "target-lifecycle",
+      "owner": "Task Session lifecycle owner",
+      "status": "open",
+      "claim": "No material or admission package exists for SWU-007, 008, 009, 010, 013, or 011."
+    },
+    {
+      "id": "L12-EPOCH",
+      "scope": "apply-authorization",
+      "owner": "human decision gate",
+      "status": "open",
+      "claim": "No digest-bound L1-L2 epoch has been emitted or approved."
+    },
+    {
+      "id": "B-004",
+      "scope": "target-lifecycle",
+      "owner": "consultation service owner",
+      "status": "deferred",
+      "claim": "Production limits remain unmeasured until the L1 witness executes."
+    },
+    {
+      "id": "L12-AUDIT",
+      "scope": "audit",
+      "owner": "validation owner",
+      "status": "deferred",
+      "claim": "Independent readiness must rerun after all six material packages exist."
+    }
+  ],
+  "nextRoute": "decision-gate:DG-L12-001",
+  "validation": [
+    "Decision Gate option request and generated receipt schema validation",
+    "read-only helper audit",
+    "consumer worktree cleanliness check"
+  ]
+}

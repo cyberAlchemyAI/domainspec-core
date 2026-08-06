@@ -10,7 +10,8 @@
     "SRC-AUGMENTOR-CHAT-CONTRACT",
     "SRC-AUGMENTOR-ACCEPTANCE",
     "SRC-IDE-ERGONOMICS",
-    "SRC-ARCANUM-USER-GUIDE"
+    "SRC-ARCANUM-USER-GUIDE",
+    "SRC-INTENT-ROUTE-CONSUMPTION"
   ],
   "node_refs": [
     "aug.concept.augmentor_interface",
@@ -18,6 +19,7 @@
     "aug.concept.interaction",
     "aug.concept.source_record",
     "aug.concept.context_snapshot",
+    "aug.concept.route_disposition",
     "aug.concept.route_decision",
     "aug.concept.strategy_proposal",
     "aug.concept.approval_record",
@@ -29,6 +31,7 @@
     "aug.relation.thread_contains_interaction",
     "aug.relation.interaction_composes_context",
     "aug.relation.source_supports_context",
+    "aug.relation.augmentor_presents_route_disposition",
     "aug.relation.context_classified_by_route",
     "aug.relation.route_may_project_strategy",
     "aug.relation.proposal_requires_exact_approval",
@@ -69,10 +72,12 @@
     "The transcript remains the primary interface.",
     "Source rationale, strategy, Run status, artifacts, and knowledge controls may be progressively disclosed.",
     "Low-confidence or missing-capability routes offer honest paths instead of silently launching.",
+    "Augmentor may present candidate, ambiguous, no-match, or invalid state without becoming the resolver or route owner.",
     "Memory intake is a separate explicit action after result consumption."
   ],
   "forbidden_authority_moves": [
     "The interface cannot make a route, proposal, status card, source chip, or graph authoritative.",
+    "Displaying a RouteDisposition cannot make it a RouteDecision or approval.",
     "A proposal cannot become approval because it is displayed.",
     "A result attachment cannot become memory intake or provider acceptance.",
     "The experience view cannot claim browser accessibility or runtime behavior without executable evidence."

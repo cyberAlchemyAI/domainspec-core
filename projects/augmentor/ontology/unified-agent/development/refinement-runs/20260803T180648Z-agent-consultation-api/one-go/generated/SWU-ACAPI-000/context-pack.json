@@ -1,0 +1,29 @@
+{
+  "schema_version": "augmentor.consultation.task-context@0.1.0",
+  "task_id": "TASK-ACAPI-00",
+  "swu_id": "SWU-ACAPI-000",
+  "strict_coverage": true,
+  "execution_contract": {
+    "writeProfile": "material-bound",
+    "materialWrites": [
+      "projects/augmentor/ontology/unified-agent/scripts/validate.mjs"
+    ],
+    "executionOutputs": [
+      "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/receipts/SWU-ACAPI-000.json"
+    ],
+    "allowedWrites": [
+      "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/receipts/SWU-ACAPI-000.json",
+      "projects/augmentor/ontology/unified-agent/scripts/validate.mjs"
+    ],
+    "validationCommands": [
+      "[\"node\",\"projects/augmentor/ontology/unified-agent/scripts/validate.mjs\"]",
+      "[\"node\",\"projects/augmentor/ontology/unified-agent/tests/unified-agent-ontology.test.mjs\"]",
+      "[\"node\",\"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/scripts/check-validator-determinism.mjs\"]"
+    ],
+    "lifecycleOwner": "augmentor-consultation-candidate-owner",
+    "authorityClass": "private",
+    "publicationClass": "private"
+  },
+  "successor": "SWU-ACAPI-001",
+  "stop_policy": "first-blocker-or-frontier-complete"
+}

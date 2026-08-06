@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "augmentor.consultation.l1-l2-implementation-completion@0.1.0",
+  "completedAt": "2026-08-04T01:12:17-03:00",
+  "status": "complete",
+  "terminal": "L2_COMPLETE",
+  "authorization": {
+    "userResolution": "../decision/L1-L2-USER-RESOLUTION.json",
+    "confirmation": "APPROVE_EXACT_EPOCH"
+  },
+  "consumer": {
+    "root": "/home/vrondelli/projects/workspace-resonant/2.0.0-alpha",
+    "branch": "feat/augmentor-consultation-api",
+    "baseCommit": "80dcd79677ad73b21dbaded12e0e9cd47aace82b",
+    "route": "POST /augmentor/consultation",
+    "capability": "augmentor-consultation-read",
+    "state": "implemented-uncommitted"
+  },
+  "units": {
+    "SWU-ACAPI-007": "verified host context, route-scoped client authentication, digest-bound projection loader",
+    "SWU-ACAPI-008": "total machine-readable answer policy",
+    "SWU-ACAPI-009": "local capability and selected-client HTTP bridge witnesses",
+    "SWU-ACAPI-010": "principal, policy, registry, projection, contract, query, and limit isolated immutable LRU cache",
+    "SWU-ACAPI-013": "AbortSignal propagation and deadline checks during projection scan",
+    "SWU-ACAPI-011": "denial, revocation, stale, malformed, cancellation, timeout, isolation, transport, and leakage checks plus metrics"
+  },
+  "projection": {
+    "recordCount": 22,
+    "canonicalOutputDigest": "235af912339c8fae0c21f21e1ace40eab37d5141bd3e9d37365497f016937e49",
+    "installedProjectionByteDigest": "2544b0ac676c2914382f9cbca705489a848784032a24450181d88da399078428",
+    "installedManifestByteDigest": "d9b25dcb76a5fd16f541dd58b566244df093f5003b9c8c120c8b0a5e6a69a96c",
+    "installedRoot": "/home/vrondelli/ResonantOS_User/Augmentor/Consultation/Projection",
+    "containsFixtureData": false
+  },
+  "accessModel": {
+    "keyType": "256-bit random bearer token",
+    "storedForm": "sha256 digest only",
+    "scope": "exact consultation route",
+    "administration": "operator-local grant, list, and revoke CLI",
+    "remoteBoundary": "non-loopback keys require TLS and an active IP allowlist"
+  },
+  "validation": [
+    { "command": "node --test --test-concurrency=1 browser-first/test/augmentor-consultation.test.mjs", "result": "pass", "tests": 7, "node": "v22.13.0" },
+    { "command": "node --test --test-concurrency=1 browser-first/test/augmentor-consultation.test.mjs browser-first/test/bridge-server.test.mjs browser-first/test/bridge-route-capability-audit.test.mjs browser-first/test/bridge-capability-token-consistency.test.mjs", "result": "pass", "tests": 22, "node": "v22.13.0" },
+    { "command": "npm run test:browser-first", "result": "pass", "node": "v22.13.0" },
+    { "command": "npm test -- --run", "result": "pass-on-rerun-after-one-transient-memory-provider-test", "node": "v22.13.0" },
+    { "command": "npm run build", "result": "pass", "node": "v22.13.0" },
+    { "command": "npm run test:security-pipeline", "result": "pass", "tests": 29, "node": "v22.13.0" },
+    { "command": "npm run test:module-ownership", "result": "pass" },
+    { "command": "npm run docs:check && npm run test:docs", "result": "pass", "tests": 224 },
+    { "command": "npm run verify:alpha", "result": "pass", "node": "v22.13.0" },
+    { "command": "node --test projects/augmentor/ontology/unified-agent/development/consultation-api/tests/*.test.mjs", "result": "pass", "tests": 25 }
+  ],
+  "helper": {
+    "id": "consultation_api_integration_map",
+    "role": "read-only integration map",
+    "productWrites": 0,
+    "resolvedFindings": ["real projection", "route-scoped authentication exception", "Node v22.13.0 verification"]
+  },
+  "claimCeiling": "L2 implementation and local/runtime integration evidence only; no commit, push, deployment, DNS, release, promotion, or non-loopback production proof"
+}

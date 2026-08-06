@@ -1,0 +1,204 @@
+{
+  "dispatch_id": "20260804T173900Z-publish-rich-consultation",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Define, design, and plan publication of the new Augmentor document and rich consultation API to the existing site.",
+    "objective": "Execute a serial, fail-closed release from exact local rich-consultation bytes to the existing protected production route, preserving owner, credential, rollback, and evidence boundaries.",
+    "target_artifact": "plan/WORK-PACK.md",
+    "operator_sentence": "Publish the rich Agent API page and consultation family 1.1.0 as one protected release, then prove the exact deployed generation."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "authority_split_gate",
+    "protected_action_mapping",
+    "artifact_contract_bridge",
+    "state_namespace_boundary",
+    "approval_semantics_map",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The implementation chain is serial across exact owner boundaries. No parallel or delegated runtime is required by this plan.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": []
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "native_stage_receipts": [
+    {"step_id": "s0-baseline", "capability_ref": "task-session", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["session receipt for SWU-AUGPUB-000"], "validation": ["exact target inventory and baseline binding"]},
+    {"step_id": "s1-local-candidate", "capability_ref": "task-session", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["receipts for SWU-AUGPUB-001 through 003"], "validation": ["bundle closure, full local suites, dry-run and rollback rehearsal"]},
+    {"step_id": "s2-external-gate", "capability_ref": "task-session", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["exact production authorization or rejection"], "validation": ["candidate, target, current and rollback generation named"]},
+    {"step_id": "s3-production", "capability_ref": "task-session", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["deployment or rollback receipt"], "validation": ["owned release script and production acceptance"]},
+    {"step_id": "s4-closeout", "capability_ref": "task-session", "receipt_kind": "native-stage", "status": "not_run", "artifacts": ["deployment receipt and terminal closeout"], "validation": ["secret-free evidence layers and residue"]}
+  ],
+  "steps": [
+    {
+      "step_id": "s0-baseline",
+      "name": "Freeze exact publication baseline",
+      "capability_ref": "task-session",
+      "mode": "single-swu",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["concrete_path_evidence", "owner_boundary_check", "scu_swu_reduction"],
+      "inputs": [
+        {"kind": "artifact", "ref": "plan/WORK-PACK.md#swu-augpub-000--baseline-and-blocker-proof"},
+        {"kind": "receipt", "ref": "design/DESIGN-SELECTION-RESULT.json"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "task-session/SWU-AUGPUB-000 baseline receipt"}
+      ],
+      "join_policy": "none",
+      "stop_conditions": ["block on digest drift, competing production route, missing rollback generation, or attempted product write"]
+    },
+    {
+      "step_id": "s1-local-candidate",
+      "name": "Close and prove the local candidate",
+      "capability_ref": "task-session",
+      "mode": "until-blocker-local",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s0-baseline"],
+      "techniques": ["artifact_contract_bridge", "validation_loop", "recomposition_proof", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": "task-session/SWU-AUGPUB-000 baseline receipt"},
+        {"kind": "artifact", "ref": "plan/WORK-PACK.md#swu-augpub-001--release-closure-repair"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "complete candidate release manifest"},
+        {"kind": "receipt", "ref": "task-session/SWU-AUGPUB-003 candidate admission receipt"}
+      ],
+      "join_policy": "none",
+      "stop_conditions": ["block on any failed closure, local validation, dry-run, rollback rehearsal, secret handling, or external transport"]
+    },
+    {
+      "step_id": "s2-external-gate",
+      "name": "Authorize the exact production effect",
+      "capability_ref": "task-session",
+      "mode": "await-exact-external-effect-authorization",
+      "pattern": "decision",
+      "parallel": false,
+      "depends_on_steps": ["s1-local-candidate"],
+      "techniques": ["authority_split_gate", "protected_action_mapping", "approval_semantics_map"],
+      "inputs": [
+        {"kind": "receipt", "ref": "task-session/SWU-AUGPUB-003 candidate admission receipt"}
+      ],
+      "outputs": [
+        {"kind": "decision", "ref": "exact production authorization or rejection"}
+      ],
+      "join_policy": "human_gate",
+      "stop_conditions": ["block unless the authorization names candidate digest, production target, current generation, rollback generation and allowed effect"]
+    },
+    {
+      "step_id": "s3-production",
+      "name": "Publish and verify the protected generation",
+      "capability_ref": "task-session",
+      "mode": "external-single-release",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s2-external-gate"],
+      "techniques": ["validation_loop", "state_namespace_boundary", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "decision", "ref": "exact production authorization"},
+        {"kind": "artifact", "ref": "complete candidate release manifest"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "deployment or rollback receipt"},
+        {"kind": "trace_event", "ref": "production acceptance evidence"}
+      ],
+      "join_policy": "none",
+      "stop_conditions": ["rollback on any start, health, rich-query, byte, auth, restart, topology, CSP or homepage-isolation failure"]
+    },
+    {
+      "step_id": "s4-closeout",
+      "name": "Close the release and preserve residue",
+      "capability_ref": "task-session",
+      "mode": "closeout",
+      "pattern": "handoff",
+      "parallel": false,
+      "depends_on_steps": ["s3-production"],
+      "techniques": ["residue_ledger", "handle_handoff", "observability_grouping"],
+      "inputs": [
+        {"kind": "receipt", "ref": "deployment or rollback receipt"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "deployment/DEPLOYMENT-RECEIPT.md appended section"},
+        {"kind": "handoff", "ref": "monitoring, human replay, or incident route"}
+      ],
+      "join_policy": "none",
+      "stop_conditions": ["do not claim publication completion after rollback or with missing mandatory production checks"]
+    }
+  ],
+  "gates": [
+    {"gate_id": "g0-dispatch-valid", "kind": "validation", "owner": "dispatch-spec", "condition": "This dispatch validates against the live schema and technique catalog.", "on_fail": "block"},
+    {"gate_id": "g1-design-valid", "kind": "quality", "owner": "invoke-design-selection-validator", "condition": "Design selection evidence is design-validator-pass and every required output is authored.", "on_fail": "block"},
+    {"gate_id": "g2-candidate-admitted", "kind": "validation", "owner": "validation-owner", "condition": "AUGPUB-000 through 003 pass with an exact candidate receipt and no external effect.", "on_fail": "block"},
+    {"gate_id": "g3-external-authorized", "kind": "human_approval", "owner": "production-operator", "condition": "The exact candidate, target, current generation, rollback generation and one release effect are explicitly authorized.", "on_fail": "ask"},
+    {"gate_id": "g4-production-accepted", "kind": "promotion_guardrail", "owner": "production-validation-owner", "condition": "AUGPUB-004 and 005 prove the current generation or restore the previous generation.", "on_fail": "block"},
+    {"gate_id": "g5-closeout", "kind": "quality", "owner": "repository-closeout-owner", "condition": "The receipt contains exact evidence, rollback locator, boundaries and residue without secrets.", "on_fail": "flag"}
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "baseline_frozen",
+      "release_closure_passed",
+      "candidate_validated",
+      "external_effect_decided",
+      "production_switched_or_rolled_back",
+      "production_validated",
+      "release_closed"
+    ],
+    "signal_grouping": "20260804T173900Z-publish-rich-consultation"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {"boundary_id": "producer-to-packager", "kind": "artifact_import", "from_owner": "Augmentor neutral projection owner", "to_owner": "deployment packager owner", "applies_to_steps": ["s1-local-candidate"], "contract": "Only the exact seven-file 1.1 consumer bundle crosses as one digest-bound unit.", "on_violation": "block"},
+      {"boundary_id": "local-to-production", "kind": "human_approval", "from_owner": "local validation owner", "to_owner": "production operator", "applies_to_steps": ["s2-external-gate", "s3-production"], "contract": "Local proof hands off an exact candidate; only a later named authorization permits one remote switch.", "on_violation": "block"},
+      {"boundary_id": "production-to-evidence", "kind": "evidence_return", "from_owner": "production validation owner", "to_owner": "repository closeout owner", "applies_to_steps": ["s3-production", "s4-closeout"], "contract": "Return hashes, statuses, generation ids, rollback and residue; never credentials.", "on_violation": "block"}
+    ],
+    "authority": {
+      "lifecycle": "Invoke Plan and later Task Session",
+      "execution": "Task Session within admitted unit; production operator for AUGPUB-004",
+      "validation": "producer, consumer, browser and production validation owners",
+      "evidence": "Task Session closeout and deployment receipt owners",
+      "memory": "none",
+      "promotion": "production operator only for the named release generation"
+    },
+    "receipts": [
+      {"receipt_id": "candidate-admission", "producer": "SWU-AUGPUB-003", "required_fields": ["run_id", "session_id", "artifacts", "validation_result", "status", "blockers", "residue", "handoff_note"], "on_missing": "block"},
+      {"receipt_id": "production-result", "producer": "SWU-AUGPUB-004-005", "required_fields": ["run_id", "session_id", "artifacts", "validation_result", "approval_record", "status", "blockers", "residue", "handoff_note"], "on_missing": "block"},
+      {"receipt_id": "release-closeout", "producer": "SWU-AUGPUB-006", "required_fields": ["run_id", "session_id", "artifacts", "validation_result", "status", "residue", "handoff_note"], "on_missing": "flag"}
+    ],
+    "state_namespaces": [
+      {"namespace": "domainspec-candidate", "owner": "Augmentor producer/page owner", "write_policy": "generator-owned source and outputs only after Task Session admission"},
+      {"namespace": "resonantos-consumer", "owner": "ResonantOS consultation owner", "write_policy": "consumer runtime/docs only after exact baseline admission"},
+      {"namespace": "production-releases", "owner": "production operator", "write_policy": "one immutable release through the owned script after exact authorization"},
+      {"namespace": "deployment-evidence", "owner": "repository closeout owner", "write_policy": "secret-free append-only release receipt"}
+    ],
+    "promotion_splits": [
+      {"source": "local candidate evidence", "target": "production execution", "rule": "requires exact external-effect authorization after AUGPUB-003", "on_violation": "block"},
+      {"source": "production switch", "target": "publication completion", "rule": "requires AUGPUB-005 acceptance and AUGPUB-006 closeout", "on_violation": "block"}
+    ]
+  },
+  "promotion_guardrails": [
+    "A Plan artifact is not product mutation, deployment, release or production evidence.",
+    "Local validation cannot authorize or prove the production switch.",
+    "A rollback receipt cannot be reported as publication completion.",
+    "The API remains read-only evidence retrieval and does not become a reasoning engine or authority.",
+    "No credential may enter source, candidate, command output, observability or receipt artifacts."
+  ]
+}

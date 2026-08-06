@@ -232,7 +232,7 @@ export const validatePackage = async () => {
 
   const viewDocuments = await Promise.all(profile.views.map((view) => readJson(view.path)));
   const viewRoles = new Set();
-  const viewDigests = {};
+  let viewDigests;
   profile.views.forEach((profileView, index) => {
     const view = viewDocuments[index];
     validateClosedSchema(view, viewSchema, `views[${index}]`, errors);
@@ -267,9 +267,11 @@ export const validatePackage = async () => {
     if (!viewRoles.has(role)) push(errors, "views", `missing ${role} view`);
   }
 
-  await Promise.all(profile.views.map(async (view) => {
-    viewDigests[view.id] = sha256(await readBytes(view.path));
-  }));
+  const viewDigestEntries = await Promise.all(profile.views.map(async (view) => [
+    view.id,
+    sha256(await readBytes(view.path))
+  ]));
+  viewDigests = Object.fromEntries(viewDigestEntries);
 
   const counts = {
     sources: sourcesDocument.sources.length,

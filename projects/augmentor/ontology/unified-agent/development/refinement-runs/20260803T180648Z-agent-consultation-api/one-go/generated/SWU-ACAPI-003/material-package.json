@@ -1,0 +1,94 @@
+{
+  "schema_version": "augmentor.consultation.material-package@0.1.0",
+  "package_id": "material-swu-acapi-003",
+  "task_id": "TASK-ACAPI-02",
+  "swu_id": "SWU-ACAPI-003",
+  "source_artifacts": [
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-02-PROJECTION.md",
+      "sha256": "b2c4665f24b742e1e9566a7fad8288a3ad4547821cc167015b49fa4783803948",
+      "size_bytes": 3019,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/WORK-PACK.md",
+      "sha256": "2d53e5ed9550dd04eeb1a009b6f7079e9efa9f81c612e00d3e49da10223e014d",
+      "size_bytes": 15934,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-003/context-pack.json",
+      "sha256": "26ec2a8acaf0b0ab5c6823a7a75a1dc66874c63087ba074732f0872435ded3f6",
+      "size_bytes": 1730,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/material-map.json",
+      "sha256": "e27c11b9766de3d926b499fd232ff28c856b97f57861812641ee34234197f2a4",
+      "size_bytes": 7002,
+      "authority_class": "private"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "SWU-ACAPI-002",
+      "artifact_ref": {
+        "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-002/material-package.json",
+        "sha256": "fd1db9a20f4b85dab5dd3e9992117552f6f1d0004638dbeef9bd8542ca45493a",
+        "size_bytes": 18544
+      }
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/projection.schema.json",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "2b65227bbfc3bbcefb6a4ff0b25d6e0ccec45c3d3575c5f2f83c090d56f610e9",
+      "content": "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"augmentor.consultation.projection@0.1.0\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\"schemaVersion\", \"records\", \"structuredConflicts\"],\n  \"properties\": {\n    \"schemaVersion\": {\"const\": \"augmentor.consultation.projection@0.1.0\"},\n    \"records\": {\n      \"type\": \"array\",\n      \"minItems\": 1,\n      \"items\": {\n        \"type\": \"object\",\n        \"additionalProperties\": false,\n        \"required\": [\"id\", \"kind\", \"label\", \"summary\", \"viewIds\", \"fields\", \"fieldProvenance\", \"sourceHandles\", \"confidence\"],\n        \"properties\": {\n          \"id\": {\"type\": \"string\", \"pattern\": \"^rec-[a-f0-9]{12}$\"},\n          \"kind\": {\"type\": \"string\", \"minLength\": 1},\n          \"label\": {\"type\": \"string\", \"minLength\": 1},\n          \"summary\": {\"type\": \"string\", \"minLength\": 1},\n          \"viewIds\": {\"type\": \"array\", \"minItems\": 1, \"uniqueItems\": true, \"items\": {\"type\": \"string\", \"minLength\": 1}},\n          \"fields\": {\"type\": \"object\", \"additionalProperties\": false, \"properties\": {\"responsibility\": {\"type\": \"string\"}, \"boundary\": {\"type\": \"string\"}}},\n          \"fieldProvenance\": {\n            \"type\": \"object\",\n            \"additionalProperties\": false,\n            \"required\": [\"label\", \"summary\"],\n            \"properties\": {\n              \"label\": {\"type\": \"string\", \"pattern\": \"^src-[a-f0-9]{12}$\"},\n              \"summary\": {\"type\": \"string\", \"pattern\": \"^src-[a-f0-9]{12}$\"},\n              \"responsibility\": {\"type\": \"string\", \"pattern\": \"^src-[a-f0-9]{12}$\"},\n              \"boundary\": {\"type\": \"string\", \"pattern\": \"^src-[a-f0-9]{12}$\"}\n            }\n          },\n          \"sourceHandles\": {\"type\": \"array\", \"minItems\": 1, \"uniqueItems\": true, \"items\": {\"type\": \"string\", \"pattern\": \"^src-[a-f0-9]{12}$\"}},\n          \"confidence\": {\n            \"type\": \"object\", \"additionalProperties\": false,\n            \"required\": [\"level\", \"ownerRef\", \"basis\", \"assessedAt\", \"sourceHandle\"],\n            \"properties\": {\"level\": {\"enum\": [\"low\", \"medium\", \"high\"]}, \"ownerRef\": {\"type\": \"string\"}, \"basis\": {\"type\": \"string\"}, \"assessedAt\": {\"type\": \"string\"}, \"sourceHandle\": {\"type\": \"string\", \"pattern\": \"^src-[a-f0-9]{12}$\"}}\n          }\n        }\n      }\n    },\n    \"structuredConflicts\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\", \"additionalProperties\": false,\n        \"required\": [\"subjectId\", \"predicate\", \"statementIds\"],\n        \"properties\": {\"subjectId\": {\"type\": \"string\"}, \"predicate\": {\"type\": \"string\"}, \"statementIds\": {\"type\": \"array\", \"minItems\": 2, \"uniqueItems\": true, \"items\": {\"type\": \"string\"}}}\n      }\n    }\n  }\n}\n"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/projection-manifest.schema.json",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "f1de0ea2bd78d47c2b920277a43c35ce91ccbe76e57e863f27b0064adcee7690",
+      "content": "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"augmentor.consultation.projection-manifest@0.1.0\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\"schemaVersion\", \"compilerVersion\", \"allowlistDigest\", \"opaqueIdMapVersion\", \"inputSources\", \"recordCounts\", \"generatedAt\", \"outputDigest\", \"ownerApprovalRef\"],\n  \"properties\": {\n    \"schemaVersion\": {\"const\": \"augmentor.consultation.projection-manifest@0.1.0\"},\n    \"compilerVersion\": {\"const\": \"fixture-compiler@0.1.0\"},\n    \"allowlistDigest\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"},\n    \"opaqueIdMapVersion\": {\"const\": \"sha256-prefix@1.0.0\"},\n    \"inputSources\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"sourceHandle\", \"sha256\"], \"properties\": {\"sourceHandle\": {\"type\": \"string\", \"pattern\": \"^src-[a-f0-9]{12}$\"}, \"sha256\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"}}}},\n    \"recordCounts\": {\"type\": \"object\", \"additionalProperties\": {\"type\": \"integer\", \"minimum\": 0}},\n    \"generatedAt\": {\"type\": \"string\", \"minLength\": 1},\n    \"outputDigest\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"},\n    \"ownerApprovalRef\": {\"const\": \"fixture-only:aug-consultation-l0\"}\n  }\n}\n"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/projection-cases.json",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "a80b5db3109e30f32959adc900b128de8d145421a9ebd8312362eb076985dd43",
+      "content": "{\n  \"valid\": [\n    {\n      \"schemaVersion\": \"augmentor.consultation.projection@0.1.0\",\n      \"records\": [\n        {\n          \"id\": \"rec-aaaaaaaaaaaa\",\n          \"kind\": \"concept\",\n          \"label\": \"Session router\",\n          \"summary\": \"Chooses an allowed capability route.\",\n          \"viewIds\": [\"runtime\"],\n          \"fields\": {\"responsibility\": \"Select a route\", \"boundary\": \"Does not execute work\"},\n          \"fieldProvenance\": {\"label\": \"src-bbbbbbbbbbbb\", \"summary\": \"src-bbbbbbbbbbbb\", \"responsibility\": \"src-bbbbbbbbbbbb\", \"boundary\": \"src-bbbbbbbbbbbb\"},\n          \"sourceHandles\": [\"src-bbbbbbbbbbbb\"],\n          \"confidence\": {\"level\": \"high\", \"ownerRef\": \"fixture-owner\", \"basis\": \"fixture assertion\", \"assessedAt\": \"2026-08-03T00:00:00Z\", \"sourceHandle\": \"src-bbbbbbbbbbbb\"}\n        }\n      ],\n      \"structuredConflicts\": []\n    }\n  ],\n  \"invalid\": [\n    {\"name\": \"raw-path\", \"value\": {\"schemaVersion\": \"augmentor.consultation.projection@0.1.0\", \"records\": [{\"id\": \"rec-aaaaaaaaaaaa\", \"kind\": \"concept\", \"label\": \"X\", \"summary\": \"Y\", \"viewIds\": [\"runtime\"], \"fields\": {}, \"fieldProvenance\": {\"label\": \"src-bbbbbbbbbbbb\", \"summary\": \"src-bbbbbbbbbbbb\"}, \"sourceHandles\": [\"src-bbbbbbbbbbbb\"], \"confidence\": {\"level\": \"high\", \"ownerRef\": \"fixture-owner\", \"basis\": \"fixture\", \"assessedAt\": \"2026-08-03T00:00:00Z\", \"sourceHandle\": \"src-bbbbbbbbbbbb\"}, \"path\": \"/private/source\"}], \"structuredConflicts\": []}},\n    {\"name\": \"missing-provenance\", \"value\": {\"schemaVersion\": \"augmentor.consultation.projection@0.1.0\", \"records\": [{\"id\": \"rec-aaaaaaaaaaaa\", \"kind\": \"concept\", \"label\": \"X\", \"summary\": \"Y\", \"viewIds\": [\"runtime\"], \"fields\": {}, \"fieldProvenance\": {\"label\": \"src-bbbbbbbbbbbb\"}, \"sourceHandles\": [\"src-bbbbbbbbbbbb\"], \"confidence\": {\"level\": \"high\", \"ownerRef\": \"fixture-owner\", \"basis\": \"fixture\", \"assessedAt\": \"2026-08-03T00:00:00Z\", \"sourceHandle\": \"src-bbbbbbbbbbbb\"}}], \"structuredConflicts\": []}}\n  ]\n}\n"
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/projection.schema.json",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "2b65227bbfc3bbcefb6a4ff0b25d6e0ccec45c3d3575c5f2f83c090d56f610e9"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/projection-manifest.schema.json",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "f1de0ea2bd78d47c2b920277a43c35ce91ccbe76e57e863f27b0064adcee7690"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/projection-cases.json",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "a80b5db3109e30f32959adc900b128de8d145421a9ebd8312362eb076985dd43"
+    }
+  ],
+  "validation_commands": [
+    "[\"node\",\"projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-contract.mjs\",\"--scope\",\"projection\"]"
+  ],
+  "lifecycle_owner": "augmentor-consultation-candidate-owner",
+  "authority_class": "private",
+  "publication_class": "private"
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": "augmentor.consultation.task-session-source@0.1.0",
+  "receipt_id": "task-session-swu-acapi-006-5763602f",
+  "run_id": "augmentor-consultation-l0-5763602f",
+  "unit_id": "SWU-ACAPI-006",
+  "task_id": "TASK-ACAPI-03",
+  "status": "PASS",
+  "approval_epoch": "epoch-cdd98012d74d842a5763602f",
+  "admission_receipt_ref": {
+    "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-006/mutation-admission-receipt.json",
+    "sha256": "9909b3bb346e578693e8d91a09d30864c8ffae705c3689ac479288eda755f95a",
+    "size_bytes": 3186
+  },
+  "material_package_ref": {
+    "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-006/material-package.json",
+    "sha256": "2e7764cbc2d5915713d57958b24154a287fad4585ac6f4155ad5bae3b509ac4c",
+    "size_bytes": 19974
+  },
+  "artifacts": [
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/src/consultation-boundary.mjs",
+      "sha256": "0388575b231c0a866c78bd6d2159d4c1fad67b3d22968af8726424acaf3bfec0"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/src/projection-reader.mjs",
+      "sha256": "8033a533c38c1f94a51952bb46e7a7109fdbe8a7a9c04044db721048bcfcb7e0"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/consultation-boundary.test.mjs",
+      "sha256": "f07d92f7ca5a6a19e94fba1ee083d860e30a07aafc1461f40d88e35ca07016fb"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/question-scenarios.test.mjs",
+      "sha256": "06bdb04a2e5b1d797c1ffd37e96a767e9ec6f684bc9f8cd294577fcb4488dbb0"
+    }
+  ],
+  "validation": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/consultation-boundary.test.mjs",
+        "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/question-scenarios.test.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "projects/augmentor/ontology/unified-agent/scripts/validate.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "projects/augmentor/ontology/unified-agent/tests/unified-agent-ontology.test.mjs"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "validation_result": "PASS",
+  "blockers": [],
+  "successor": null,
+  "successor_executed": false,
+  "authority_effect": "none"
+}

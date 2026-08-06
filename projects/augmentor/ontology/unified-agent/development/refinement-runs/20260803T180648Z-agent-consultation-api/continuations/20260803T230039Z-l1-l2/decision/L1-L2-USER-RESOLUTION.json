@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "augmentor.consultation.l1-l2-user-resolution@0.1.0",
+  "resolvedAt": "2026-08-04T03:53:01Z",
+  "source": "current-user-direct-implementation-instruction",
+  "sourceText": "can we just implement it until the end, and create the api that anyone that i want can consult",
+  "decisions": [
+    {
+      "decisionId": "DG-L12-001",
+      "selectedOption": "NEW_NAMED_BRIDGE_SERVICE",
+      "rationale": "A dedicated API with selected-client access requires one narrow owner and must not inherit memory mutation or provider invocation authority."
+    },
+    {
+      "decisionId": "DG-L12-002",
+      "selectedOption": "STRICT_OPAQUE_CONSUMER_V1",
+      "rationale": "Selected clients may consult only an approved neutral projection; access permission must not expose private ontology internals."
+    },
+    {
+      "decisionId": "DG-L12-003",
+      "selectedOption": "HASHED_REVOCABLE_CLIENT_KEYS",
+      "rationale": "Anyone selected by the owner receives an individual high-entropy key whose stored form is a hash and whose grant can be disabled or removed."
+    }
+  ],
+  "ownerBindings": {
+    "product": "ResonantOS Augmentor product owner",
+    "host": "augmentor-consultation-host-service",
+    "projectionData": "strict neutral consultation projection",
+    "answerPolicy": "augmentor-consultation-answer-policy",
+    "service": "augmentor-consultation-service",
+    "security": "ResonantOS bridge capability and consultation access-key boundary"
+  },
+  "implementationBoundary": {
+    "consumerRepository": "/home/vrondelli/projects/workspace-resonant/2.0.0-alpha",
+    "consumerBranch": "feat/augmentor-consultation-api",
+    "route": "POST /augmentor/consultation",
+    "bridgeCapability": "augmentor-consultation-read",
+    "accessModel": "bridge authentication plus route capability plus per-client access key",
+    "throughLayer": "L2",
+    "deployment": false,
+    "nonLoopbackExposure": false,
+    "publication": false,
+    "l3Operations": false
+  },
+  "authorityEffect": "none"
+}

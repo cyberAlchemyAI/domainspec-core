@@ -11,6 +11,10 @@ index is explanatory and carries no authority effect.
 | `SourceRecord` | evidence | experience, knowledge | observed | provider named by `ownerRef` |
 | `DisposableSemanticIndex` | projection | knowledge | absent | derived-index owner required |
 | `ContextSnapshot` | evidence | experience, runtime, knowledge | absent | ResonantOS request/session host |
+| `IntentRouteRequest` | evidence | experience, runtime | absent | ResonantOS intent-request normalizer owner required |
+| `RouteCatalogProjection` | projection | runtime | absent | ResonantOS route-catalog projector owner required |
+| `ResolverInvocation` | workflow | runtime | designed | ResonantOS host owner plus intent-route adapter policy |
+| `RouteDisposition` | evidence | experience, runtime, authority bridge | designed | public intent-route resolver plus consumer verification |
 | `RouteDecision` | workflow | experience, runtime | absent | ResonantOS route owner required |
 | `StrategyProposal` | projection | experience, runtime | absent | proposal projection owner required |
 | `ApprovalRecord` | evidence | experience, runtime, authority bridge | absent | consumer plus registrar owner required |
@@ -29,6 +33,11 @@ index is explanatory and carries no authority effect.
 - `Augmentor interface ≠ router ≠ scheduler ≠ memory or authority owner`
 - `ConversationThread ≠ Interaction ≠ Run`
 - `SourceRecord ≠ DisposableSemanticIndex ≠ ContextSnapshot`
+- `ContextSnapshot ≠ IntentRouteRequest ≠ ReasoningRequest`
+- `RouteCatalogProjection ≠ route registry ≠ DisposableSemanticIndex`
+- `ResolverInvocation ≠ router authority ≠ workflow binding ≠ execution`
+- `RouteDisposition ≠ RouteDecision ≠ StrategyProposal ≠ ApprovalRecord`
+- `RouteDisposition ≠ JudgmentReceipt`
 - `RouteDecision ≠ StrategyProposal ≠ ApprovalRecord`
 - `Dispatch ≠ Run`
 - `LifecycleJoin ≠ ResultConsumption`

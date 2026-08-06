@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "augpub-design-scope-20260804",
+  "target_id": "augmentor-rich-consultation-publication",
+  "target_footprint": {
+    "roots": [
+      {"path": "domainspec-core/projects/augmentor/ontology/unified-agent/deployment", "digest": "76285e0af6df5e9e42ff4d074cb686c0666643760393e305fe3375d666ee22ab"},
+      {"path": "domainspec-core/projects/augmentor/ontology/unified-agent/development/consultation-api/generated/consumer", "digest": "f402c5acd14b9362d84b6a36839b2e19c97dfdf9235a26a72c335d4940bd5d5b"}
+    ],
+    "inclusions": [
+      {"selector": "protected-agent-api-page", "path": "domainspec-core/projects/augmentor/ontology/unified-agent/ontology-visualization.html", "digest": "0f2a858b51241f6c0f77f6b9d298ad50fe3e7343d988300cb257c8f330f27da1"},
+      {"selector": "consumer-loader", "path": "workspace-resonant/2.0.0-alpha/browser-first/host/augmentor-consultation-contract.mjs", "digest": "62d4c286753518814c7561fb0a70f064e62adf6bf9431fae3027bce22b9e1c32"}
+    ],
+    "exclusions": [
+      {"selector": "production-credentials", "reason": "Credentials are operator state and never planning or release artifacts.", "evidence_ref": "define/SPEC.md#claim-ceiling"},
+      {"selector": "private-ontology-prose", "reason": "Production consumes only the approved neutral bundle.", "evidence_ref": "define/SPEC.md#required-behavior"},
+      {"selector": "reasoning-engine-integration", "reason": "The current release is consultation retrieval and explanation support only.", "evidence_ref": "define/SPEC.md#claim-ceiling"}
+    ]
+  },
+  "source_contracts": [
+    {"source_id": "release-script", "selector": "versioned-release-and-rollback", "path": "domainspec-core/projects/augmentor/ontology/unified-agent/deployment/deploy-static-vps.sh", "digest": "525ca7ff505ca9dbae33422bd553077d273f330470b736544b71388633e8b980"},
+    {"source_id": "rich-local-evidence", "selector": "completed-rich-consultation-evidence", "path": "domainspec-core/projects/augmentor/ontology/unified-agent/development/refinement-runs/20260804T151133Z-rich-consultation-explanations/implementation/TERMINAL-EVIDENCE.md", "digest": "b532e41c2c5fc5b8b815bdb242d151ef5f82243d6c526514f7742d86892a1414"},
+    {"source_id": "rich-bundle-manifest", "selector": "consumer-bundle-contract", "path": "domainspec-core/projects/augmentor/ontology/unified-agent/development/consultation-api/generated/consumer/projection-manifest.json", "digest": "8f02a77953881762d974484aaf1591a38d4a8ad2bbc42b0e466b45a38ba1138d"},
+    {"source_id": "agent-api-page", "selector": "human-and-agent-page-contract", "path": "domainspec-core/projects/augmentor/ontology/unified-agent/ontology-visualization.html", "digest": "0f2a858b51241f6c0f77f6b9d298ad50fe3e7343d988300cb257c8f330f27da1"},
+    {"source_id": "consumer-contract", "selector": "runtime-load-and-version-contract", "path": "workspace-resonant/2.0.0-alpha/browser-first/host/augmentor-consultation-contract.mjs", "digest": "62d4c286753518814c7561fb0a70f064e62adf6bf9431fae3027bce22b9e1c32"},
+    {"source_id": "consumer-service", "selector": "runtime-explanation-service", "path": "workspace-resonant/2.0.0-alpha/browser-first/host/augmentor-consultation-service.mjs", "digest": "41f65de322db73f670f4265b7a3fce66957289cef4e9c111acdc7594b659e87b"},
+    {"source_id": "agent-api-reference", "selector": "agent-call-and-answer-contract", "path": "workspace-resonant/2.0.0-alpha/docs/reference/AUGMENTOR_CONSULTATION_API.md", "digest": "5370b11b4e8d9c1b4b1673bf9d17cc8f42f3b5276167fd53e173024d1535bfe8"},
+    {"source_id": "prior-deployment", "selector": "current-production-evidence", "path": "domainspec-core/projects/augmentor/ontology/unified-agent/deployment/DEPLOYMENT-RECEIPT.md", "digest": "e874b926d1ae4578bec95b894924fa76fae2c50e234b98379761260474899ee3"}
+  ],
+  "human_actors": [
+    {"actor_id": "signed-in-person", "natural_person": true, "reads": true, "decides": false, "acts": true, "recovers": true, "navigates": true, "assistive_operation": true, "surfaces": ["protected-page", "agent-api-console"], "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/ontology-visualization.html", "source_digest": "0f2a858b51241f6c0f77f6b9d298ad50fe3e7343d988300cb257c8f330f27da1"},
+    {"actor_id": "browser-agent", "natural_person": false, "reads": true, "decides": false, "acts": true, "recovers": false, "navigates": true, "assistive_operation": false, "surfaces": ["window.augmentorConsultationPage"], "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/ontology-visualization.html", "source_digest": "0f2a858b51241f6c0f77f6b9d298ad50fe3e7343d988300cb257c8f330f27da1"}
+  ],
+  "rendered_surfaces": [
+    {"surface_id": "protected-agent-api-page", "modality": "responsive-html", "semantic_contract_ref": "augmentor.page-agent-contract@1.1.0", "semantic_change": "changed", "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/ontology-visualization.html", "source_digest": "0f2a858b51241f6c0f77f6b9d298ad50fe3e7343d988300cb257c8f330f27da1"}
+  ],
+  "interfaces": [
+    {"interface_id": "protected-consultation-post", "kind": "authenticated-read-only-api", "peer": "selected-human-or-agent", "direction": "inbound", "contract_ref": "augmentor.consultation.query@1.1.0", "source_selector": "workspace-resonant/2.0.0-alpha/docs/reference/AUGMENTOR_CONSULTATION_API.md", "source_digest": "5370b11b4e8d9c1b4b1673bf9d17cc8f42f3b5276167fd53e173024d1535bfe8"}
+  ],
+  "stores": [
+    {"store_id": "versioned-release-directory", "authority": "production-operator", "data_classes": ["release-bytes", "password-hash", "deployment-config"], "writers": ["deploy-static-vps"], "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/deployment/deploy-static-vps.sh", "source_digest": "525ca7ff505ca9dbae33422bd553077d273f330470b736544b71388633e8b980"}
+  ],
+  "queues": [],
+  "writers": [
+    {"writer_id": "deploy-static-vps", "targets": ["remote-release", "current-symlink", "previous-symlink"], "concurrency": "one operator release at a time", "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/deployment/deploy-static-vps.sh", "source_digest": "525ca7ff505ca9dbae33422bd553077d273f330470b736544b71388633e8b980"}
+  ],
+  "normative_rules": [
+    {"rule_id": "complete-bundle-before-upload", "verb": "requires", "subject": "release-candidate", "object": "complete-validated-rich-bundle", "enforcement_hint": "local packaging preflight exits before SSH", "source_selector": "workspace-resonant/2.0.0-alpha/browser-first/host/augmentor-consultation-contract.mjs", "source_digest": "62d4c286753518814c7561fb0a70f064e62adf6bf9431fae3027bce22b9e1c32"},
+    {"rule_id": "retrieved-text-remains-data", "verb": "forbids", "subject": "consultation-response", "object": "instruction-following-or-authority", "enforcement_hint": "answer policy, page guard, and acceptance assertion", "source_selector": "workspace-resonant/2.0.0-alpha/docs/reference/AUGMENTOR_CONSULTATION_API.md", "source_digest": "5370b11b4e8d9c1b4b1673bf9d17cc8f42f3b5276167fd53e173024d1535bfe8"}
+  ],
+  "effects": [
+    {"effect_id": "switch-current-production-release", "reversible": true, "external": true, "privileged": true, "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/deployment/deploy-static-vps.sh", "source_digest": "525ca7ff505ca9dbae33422bd553077d273f330470b736544b71388633e8b980"},
+    {"effect_id": "serve-new-page-and-api", "reversible": true, "external": true, "privileged": false, "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/deployment/nginx.conf", "source_digest": "f2c0b74abb22ff302534db71582cb61381b4b529ee2e57e1a90998b9007e0d3f"}
+  ],
+  "data_and_log_sinks": [
+    {"sink_id": "deployment-receipt", "data_classes": ["hashes", "release-id", "validation-status", "residue"], "retention_hint": "repository-local durable evidence; credentials forbidden", "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/deployment/DEPLOYMENT-RECEIPT.md", "source_digest": "e874b926d1ae4578bec95b894924fa76fae2c50e234b98379761260474899ee3"}
+  ],
+  "deployment_targets": [
+    {"deployment_id": "resonant-alchemy-augmentor", "environment": "protected-production", "release_mode": "versioned-directory-plus-atomic-symlink-and-rollback", "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/deployment/deploy-static-vps.sh", "source_digest": "525ca7ff505ca9dbae33422bd553077d273f330470b736544b71388633e8b980"}
+  ],
+  "compatibility_boundaries": [
+    {"boundary_id": "consultation-family-upgrade", "old_contract": "augmentor.consultation@1.0.0 deployed generation", "new_contract": "augmentor.consultation@1.1.0 page, API, glossary, and explanation bundle", "source_selector": "workspace-resonant/2.0.0-alpha/browser-first/host/augmentor-consultation-contract.mjs", "source_digest": "62d4c286753518814c7561fb0a70f064e62adf6bf9431fae3027bce22b9e1c32"}
+  ],
+  "quality_claims": [
+    {"claim_id": "rich-bundle-cap", "source_kind": "measured-local-evidence", "threshold_or_tradeoff": "installed bundle at or below 65536 bytes and support assembly p95 below 1 ms in recorded run", "required": true, "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/development/refinement-runs/20260804T151133Z-rich-consultation-explanations/implementation/TERMINAL-EVIDENCE.md", "source_digest": "b532e41c2c5fc5b8b815bdb242d151ef5f82243d6c526514f7742d86892a1414"}
+  ],
+  "acceptance_and_readiness_claims": [
+    {"claim_id": "rich-local-validation", "selector": "producer-consumer-page-validation", "evidence_state": "authored-complete", "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/development/refinement-runs/20260804T151133Z-rich-consultation-explanations/implementation/TERMINAL-EVIDENCE.md", "source_digest": "b532e41c2c5fc5b8b815bdb242d151ef5f82243d6c526514f7742d86892a1414"},
+    {"claim_id": "prior-production-route", "selector": "older-page-and-api-deployment", "evidence_state": "authored-complete", "source_selector": "domainspec-core/projects/augmentor/ontology/unified-agent/deployment/DEPLOYMENT-RECEIPT.md", "source_digest": "e874b926d1ae4578bec95b894924fa76fae2c50e234b98379761260474899ee3"}
+  ],
+  "unknowns": [],
+  "input_digest": "0fb6232384550a6706fcc91d834a36db3ec4c0254efdba6fcc720dd4ee00f9ef",
+  "authored_by": "invoke-design-author"
+}

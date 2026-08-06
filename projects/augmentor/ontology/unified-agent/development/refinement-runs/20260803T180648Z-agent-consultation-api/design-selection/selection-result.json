@@ -1,0 +1,138 @@
+{
+  "concerns": [
+    {
+      "concern_id": "concern:security",
+      "disposition": "required",
+      "output_id": "architecture:security-abuse",
+      "ownership": {
+        "accountable_owner": "security-risk-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "security",
+      "rationale": "security disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:interface:interface:native-agent-tool"
+      ]
+    },
+    {
+      "concern_id": "concern:integration",
+      "disposition": "required",
+      "output_id": "architecture:integration-versioning",
+      "ownership": {
+        "accountable_owner": "interface-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "integration",
+      "rationale": "integration disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:compatibility:compatibility:shared-service-adapters",
+        "signal:interface:interface:answer-policy",
+        "signal:interface:interface:projection-reader"
+      ]
+    },
+    {
+      "concern_id": "concern:ux",
+      "disposition": "not-applicable-with-rationale",
+      "output_id": null,
+      "ownership": {
+        "accountable_owner": "ux-plan-owner",
+        "artifact_owner": "ux-plan-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": true,
+        "evidence_selectors": [
+          "stages/02-define.md#Non-goals"
+        ],
+        "required_predicate": false
+      },
+      "primary_class": "ux",
+      "rationale": "The API design adds no rendered semantic surface; user-facing answer wording remains owned by the existing answering-agent surface.",
+      "revisit_condition": null,
+      "selected": false,
+      "signal_ids": [
+        "authored:ux"
+      ]
+    },
+    {
+      "concern_id": "concern:validation",
+      "disposition": "required",
+      "output_id": "validation-contracts",
+      "ownership": {
+        "accountable_owner": "design-owner",
+        "artifact_owner": "plan-work-pack-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md",
+          "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/05-distill.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "validation",
+      "rationale": "validation disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:acceptance-readiness-claim:acceptance:design-contract-authored",
+        "signal:normative-rule:rule:evidence-only",
+        "signal:normative-rule:rule:verify-policy-first"
+      ]
+    }
+  ],
+  "denominator_receipt_digest": "bb4333c761d162fc5ea1d1d815cfdadc4f1271ef13fefe826673ef1a51758edf",
+  "diagnostics": [],
+  "evidence_state": "design-validator-pass",
+  "fixed_point": true,
+  "manifest_id": "manifest:augmentor-agent-consultation-api",
+  "manifest_input_digest": "a177ccce800a9e9fa4f1621cc5a2b95f506698513b57eac95db5a1b004e754db",
+  "pass_1_digest": "a132bf83bc48db42e68bd30b84aa435eaf82edb556ee5800ed8d939d4e32c88c",
+  "pass_2_digest": "a132bf83bc48db42e68bd30b84aa435eaf82edb556ee5800ed8d939d4e32c88c",
+  "result_digest": "e5b72c072392917fd1477dddbd30c3fe45a4cf4758c1e1f157a698c5b897d710",
+  "schema_version": "1.0.0",
+  "selected_outputs": [
+    "architecture",
+    "architecture:integration-versioning",
+    "architecture:security-abuse",
+    "validation-contracts"
+  ],
+  "verdict": "pass"
+}

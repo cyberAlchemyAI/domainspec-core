@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "augmentor.consultation.explanation-support@1.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "profile", "bundleDigest", "packs", "glossaryEntries", "omittedSections"],
+  "properties": {
+    "schemaVersion": {"const": "augmentor.consultation.explanation-support@1.1.0"},
+    "profile": {"enum": ["brief", "guided", "deep"]},
+    "bundleDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "packs": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"$ref": "#/$defs/pack"}},
+    "glossaryEntries": {"type": "array", "minItems": 2, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/glossaryEntry"}},
+    "omittedSections": {"type": "array", "maxItems": 16, "uniqueItems": true, "items": {"enum": ["additionalPacks", "illustrativeScenario", "analogy", "glossaryEntries", "explanationSupport"]}}
+  },
+  "$defs": {
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "posture", "text", "verifiedAt", "sourceHandle", "doesNotEstablish"],
+      "properties": {
+        "scope": {"const": "ontology-model"},
+        "posture": {"enum": ["observed", "designed", "absent", "deferred", "unknown"]},
+        "text": {"type": "string", "minLength": 1, "maxLength": 1600},
+        "verifiedAt": {"type": "string", "minLength": 1, "maxLength": 64},
+        "sourceHandle": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"},
+        "doesNotEstablish": {"type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 80}}
+      }
+    },
+    "textWithSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "sourceHandle"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "sourceHandle": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"}
+      }
+    },
+    "example": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "text", "sourceHandles"],
+      "properties": {
+        "kind": {"enum": ["illustrative", "source-derived"]},
+        "text": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "sourceHandles": {"type": "array", "maxItems": 8, "uniqueItems": true, "items": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"}}
+      }
+    },
+    "analogy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "limitation", "sourceHandle"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1, "maxLength": 1600},
+        "limitation": {"type": "string", "minLength": 1, "maxLength": 1600},
+        "sourceHandle": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"}
+      }
+    },
+    "pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recordId", "state", "process", "boundary", "glossaryRefs", "keywords"],
+      "properties": {
+        "recordId": {"type": "string", "pattern": "^rec-[a-f0-9]{12}$"},
+        "state": {"$ref": "#/$defs/state"},
+        "process": {"$ref": "#/$defs/textWithSource"},
+        "illustrativeScenario": {"$ref": "#/$defs/example"},
+        "analogy": {"$ref": "#/$defs/analogy"},
+        "boundary": {"$ref": "#/$defs/textWithSource"},
+        "glossaryRefs": {"type": "array", "minItems": 2, "maxItems": 5, "uniqueItems": true, "items": {"type": "string", "pattern": "^term-[a-f0-9]{12}$"}},
+        "keywords": {"type": "array", "minItems": 1, "maxItems": 12, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 80}}
+      }
+    },
+    "glossaryEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "term", "plainMeaning", "formalName", "whyItMatters", "sourceHandles", "authorityEffect", "forbiddenInferences"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^term-[a-f0-9]{12}$"},
+        "term": {"type": "string", "minLength": 1, "maxLength": 80},
+        "plainMeaning": {"type": "string", "minLength": 1, "maxLength": 600},
+        "formalName": {"type": ["string", "null"], "maxLength": 120},
+        "whyItMatters": {"type": "string", "minLength": 1, "maxLength": 600},
+        "sourceHandles": {"type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"}},
+        "authorityEffect": {"const": "none"},
+        "forbiddenInferences": {"type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 80}}
+      }
+    }
+  }
+}

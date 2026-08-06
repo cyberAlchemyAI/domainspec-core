@@ -1,0 +1,70 @@
+{
+  "schema_version": "augmentor.consultation.material-package@0.1.0",
+  "package_id": "material-swu-acapi-000",
+  "task_id": "TASK-ACAPI-00",
+  "swu_id": "SWU-ACAPI-000",
+  "source_artifacts": [
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-00-VALIDATOR.md",
+      "sha256": "00e21460de9c0cd32b68cad3536bc12c03c679e659de997b225a10958d916e81",
+      "size_bytes": 1431,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/WORK-PACK.md",
+      "sha256": "2d53e5ed9550dd04eeb1a009b6f7079e9efa9f81c612e00d3e49da10223e014d",
+      "size_bytes": 15934,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-000/context-pack.json",
+      "sha256": "b7a9f8ab705e7fbb9354c21bb28d49da903958ef60353308130047ac7f2b7adb",
+      "size_bytes": 1410,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/material-map.json",
+      "sha256": "e27c11b9766de3d926b499fd232ff28c856b97f57861812641ee34234197f2a4",
+      "size_bytes": 7002,
+      "authority_class": "private"
+    }
+  ],
+  "dependencies": [],
+  "changes": [
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/scripts/validate.mjs",
+      "operation": "replace_text",
+      "before_sha256": "1033aa8ed5be778287c9678fde9c9b9827a8870bc6f2b36954b91e46129b30ae",
+      "after_sha256": "306bc07f0146686eda0651c2856de7c7d7f8d9fcca040d6d98ab247bfe8cfc5f",
+      "replacements": [
+        {
+          "find": "  const viewDigests = {};",
+          "replace": "  let viewDigests;"
+        },
+        {
+          "find": "  await Promise.all(profile.views.map(async (view) => {\n    viewDigests[view.id] = sha256(await readBytes(view.path));\n  }));",
+          "replace": "  const viewDigestEntries = await Promise.all(profile.views.map(async (view) => [\n    view.id,\n    sha256(await readBytes(view.path))\n  ]));\n  viewDigests = Object.fromEntries(viewDigestEntries);"
+        }
+      ]
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/scripts/validate.mjs",
+      "before": {
+        "state": "present",
+        "sha256": "1033aa8ed5be778287c9678fde9c9b9827a8870bc6f2b36954b91e46129b30ae",
+        "size_bytes": 12736
+      },
+      "after_sha256": "306bc07f0146686eda0651c2856de7c7d7f8d9fcca040d6d98ab247bfe8cfc5f"
+    }
+  ],
+  "validation_commands": [
+    "[\"node\",\"projects/augmentor/ontology/unified-agent/scripts/validate.mjs\"]",
+    "[\"node\",\"projects/augmentor/ontology/unified-agent/tests/unified-agent-ontology.test.mjs\"]",
+    "[\"node\",\"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/scripts/check-validator-determinism.mjs\"]"
+  ],
+  "lifecycle_owner": "augmentor-consultation-candidate-owner",
+  "authority_class": "private",
+  "publication_class": "private"
+}

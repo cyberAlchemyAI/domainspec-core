@@ -10,6 +10,7 @@ routes.
 | `runtime.json` | system | Which retained owner controls each route, approval, Run, join, and consumption step? |
 | `knowledge.json` | evidence | How do provider-owned sources become bounded context and non-authoritative candidates? |
 | `authority-bridge.json` | bridge | Where must ontology, judgment, approval, authority, and effects remain separate? |
+| `intent-route.json` | system | How may Augmentor consume a deterministic zero-authority disposition while product and runtime owners remain separate? |
 
 ## Cross-View Map
 
@@ -40,6 +41,12 @@ AUTHORITY BRIDGE
 ContextSnapshot → ReasoningRequest → JudgmentReceipt
                                       │
                                       └─ may inform; never authorizes
+
+INTENT ROUTE
+ContextSnapshot → IntentRouteRequest ─┐
+                                      ├→ ResolverInvocation → RouteDisposition
+RouteCatalogProjection ───────────────┘                         │
+                                                                └─ may inform RouteDecision; never approves
 ```
 
 ## Shared Reading Rules
@@ -51,3 +58,5 @@ ContextSnapshot → ReasoningRequest → JudgmentReceipt
 - A source, index, Inventory package, ontology candidate, decision record, and
   canonical artifact remain distinct objects.
 - All current package relations retain `authority_effect: none`.
+- `RouteDisposition` remains separate from product `RouteDecision`, semantic
+  `JudgmentReceipt`, exact `ApprovalRecord`, and every execution object.

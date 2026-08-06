@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_id": "distill-receipt-20260804T173900Z-augpub",
+  "run_id": "distill-validate-20260804T173900Z-augpub-plan",
+  "request_ref": {
+    "path": "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/observability/DISTILL-RUN-REQUEST.json",
+    "sha256": "a5285980744aa78a36c2eabb670f1cf1af9117b417497684fcb69aa8536e2cb5",
+    "size_bytes": 1483
+  },
+  "event_refs": ["local-role-simulation:proposer", "local-role-simulation:balancer"],
+  "role_trace": [
+    {
+      "role": "proposer",
+      "execution_path": "role_simulation",
+      "invocation_ref": null,
+      "evidence_refs": ["plan/DISTILL-VALIDATION.md#proposer"],
+      "result_ref": {"path": "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/plan/DISTILL-VALIDATION.md", "sha256": "51709049461f6e136b1932aa3d4b5df3cb3e4db14240a3f9c8850b98fdacce76", "size_bytes": 1632}
+    },
+    {
+      "role": "balancer",
+      "execution_path": "role_simulation",
+      "invocation_ref": null,
+      "evidence_refs": ["plan/DISTILL-VALIDATION.md#balancer-challenges"],
+      "result_ref": {"path": "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/plan/DISTILL-VALIDATION.md", "sha256": "51709049461f6e136b1932aa3d4b5df3cb3e4db14240a3f9c8850b98fdacce76", "size_bytes": 1632}
+    }
+  ],
+  "objections": [
+    {"statement": "A production switch cannot share one unit with acceptance and closeout because the switch would be mistaken for completed publication.", "objection_id": "obj-separate-switch", "category": "process", "evidence_refs": ["plan/DISTILL-VALIDATION.md#balancer-challenges"]},
+    {"statement": "Requiring agent-run public authenticated browser replay would invite credential handling outside the release evidence boundary.", "objection_id": "obj-public-auth", "category": "authority", "evidence_refs": ["plan/DISTILL-VALIDATION.md#balancer-challenges"]}
+  ],
+  "reconciliations": [
+    {"statement": "Production switch, production validation, and repository closeout remain separate SWUs with explicit receipts.", "objection_ref": "obj-separate-switch", "disposition": "accept", "evidence_refs": ["plan/WORK-PACK.md#swu-manifest"]},
+    {"statement": "Exact-byte, internal API, denial, and optional human authenticated replay are recorded as separate evidence layers.", "objection_ref": "obj-public-auth", "disposition": "accept", "evidence_refs": ["plan/WORK-PACK.md#swu-augpub-005--production-validation"]}
+  ],
+  "technique_trace": [
+    {"technique": "scu_swu_reduction", "status": "applied", "evidence_refs": ["plan/WORK-PACK.md#swu-manifest"]},
+    {"technique": "recomposition_proof", "status": "applied", "evidence_refs": ["plan/WORK-PACK.md#recomposition"]},
+    {"technique": "owner_boundary_check", "status": "applied", "evidence_refs": ["plan/WORK-PACK.md#task-session-closeout-sync"]},
+    {"technique": "authority_split_gate", "status": "applied", "evidence_refs": ["plan/IMPLEMENTATION-PLAN.md#global-gates"]}
+  ],
+  "termination": {"reason": "Proposer and Balancer agree after one bounded validation round; no block or structural contradiction remains.", "round_count": 1},
+  "verdict": "pass",
+  "gaps": ["Production external-effect authorization remains a later operator gate, not a planning defect.", "Public authenticated browser replay may remain explicit human-owned residue."],
+  "recomposition": {
+    "summary": "Seven serial units produce one complete rich release or one complete rollback without collapsing local, operator, and evidence authority.",
+    "result_ref": {"path": "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/plan/WORK-PACK.md", "sha256": "6a1e3a28c551631f153f19d387e3e693685ca8da46c073eb255fb57143d1b2b3", "size_bytes": 9103}
+  },
+  "next_route": {"capability": "task-session", "status": "ready"},
+  "reviewed_input_provenance": [
+    {"path": "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/plan/IMPLEMENTATION-PLAN.md", "sha256": "74b631824d0301c576276d68e2a509441b0a2be0f32f9bc0af22465471097e50", "size_bytes": 5391},
+    {"path": "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/plan/WORK-PACK.md", "sha256": "6a1e3a28c551631f153f19d387e3e693685ca8da46c073eb255fb57143d1b2b3", "size_bytes": 9103},
+    {"path": "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/design/DESIGN-SELECTION-RESULT.json", "sha256": "b8e9e53caf77e732eb1d7626298f04914cc25ca64260346a48b864e44bfb9a15", "size_bytes": 11267}
+  ]
+}

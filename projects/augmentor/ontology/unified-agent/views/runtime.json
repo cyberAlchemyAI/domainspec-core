@@ -11,10 +11,18 @@
     "SRC-AUGMENTOR-COMMANDS",
     "SRC-AUGMENTOR-CHAT-TEST",
     "SRC-RESONANT-MODULE-OWNERSHIP",
-    "SRC-ARCANUM-USER-GUIDE"
+    "SRC-ARCANUM-USER-GUIDE",
+    "SRC-INTENT-ROUTE-RESOLVER-README",
+    "SRC-INTENT-ROUTE-RESOLVER-MANIFEST",
+    "SRC-INTENT-ROUTE-ADAPTER-RECEIPT",
+    "SRC-INTENT-ROUTE-CONSUMPTION"
   ],
   "node_refs": [
     "aug.concept.context_snapshot",
+    "aug.concept.intent_route_request",
+    "aug.concept.route_catalog_projection",
+    "aug.concept.resolver_invocation",
+    "aug.concept.route_disposition",
     "aug.concept.route_decision",
     "aug.concept.strategy_proposal",
     "aug.concept.approval_record",
@@ -25,6 +33,12 @@
   ],
   "relation_refs": [
     "aug.relation.context_classified_by_route",
+    "aug.relation.context_projects_intent_route_request",
+    "aug.relation.intent_route_request_submitted_to_resolver",
+    "aug.relation.catalog_bounds_resolver_invocation",
+    "aug.relation.resolver_invocation_yields_disposition",
+    "aug.relation.disposition_may_inform_route_decision",
+    "aug.relation.disposition_does_not_authorize_approval",
     "aug.relation.route_may_project_strategy",
     "aug.relation.proposal_requires_exact_approval",
     "aug.relation.approval_binds_dispatch",
@@ -38,10 +52,22 @@
       "label": "Approval and preflight",
       "steps": [
         "aug.concept.context_snapshot",
+        "aug.concept.intent_route_request",
+        "aug.concept.resolver_invocation",
+        "aug.concept.route_disposition",
         "aug.concept.route_decision",
         "aug.concept.strategy_proposal",
         "aug.concept.approval_record",
         "aug.concept.dispatch"
+      ]
+    },
+    {
+      "sequence_id": "AUG-RUN-ROUTE-CATALOG",
+      "label": "Finite catalog resolution boundary",
+      "steps": [
+        "aug.concept.route_catalog_projection",
+        "aug.concept.resolver_invocation",
+        "aug.concept.route_disposition"
       ]
     },
     {
@@ -57,12 +83,14 @@
   ],
   "allowed_readings": [
     "Dispatch Spec owns route-shape validation.",
+    "The intent resolver supplies a zero-authority disposition before any separately owned product route decision.",
     "Orchestrate owns preflight, persisted actions, joins, gates, and closeout.",
     "A selected ResonantOS module or host service must own each runtime operation.",
     "LifecycleJoin and ResultConsumption remain separate even when shown in one interface."
   ],
   "forbidden_authority_moves": [
     "Approval cannot validate an invalid Dispatch.",
+    "RouteDisposition cannot become RouteDecision, StrategyProposal, ApprovalRecord, Dispatch, Run, or JudgmentReceipt.",
     "Dispatch cannot be treated as a Run.",
     "A UI Run card cannot own or fabricate runtime state.",
     "Join success cannot imply artifact attachment, memory intake, or a protected effect.",

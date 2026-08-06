@@ -17,19 +17,19 @@ test("source-bound unified-agent package validates", async () => {
   const receipt = await validatePackage();
   assert.equal(receipt.status, "pass", receipt.violations.join("\n"));
   assert.deepEqual(receipt.counts, {
-    sources: 21,
-    nodes: 18,
-    relations: 21,
-    views: 4,
+    sources: 25,
+    nodes: 22,
+    relations: 28,
+    views: 5,
     residue: 7
   });
 });
 
-test("all four interpretive views are populated", async () => {
+test("all five interpretive views are populated", async () => {
   const profile = await readJson("profile.json");
   assert.deepEqual(
     profile.views.map((view) => view.view_role).sort(),
-    ["bridge", "evidence", "meaning", "system"]
+    ["bridge", "evidence", "meaning", "system", "system"]
   );
   for (const descriptor of profile.views) {
     const view = await readJson(descriptor.path);
@@ -45,6 +45,13 @@ test("valid boundary fixture names the non-collapse invariants", async () => {
   assert.equal(fixture.expected, "pass");
   for (const required of [
     "ConversationThread != Run",
+    "IntentRouteRequest != ReasoningRequest",
+    "RouteCatalogProjection != DisposableSemanticIndex",
+    "ResolverInvocation != Run",
+    "RouteDisposition != RouteDecision",
+    "RouteDisposition != JudgmentReceipt",
+    "RouteDisposition != ApprovalRecord",
+    "RouteDisposition != Dispatch",
     "StrategyProposal != ApprovalRecord",
     "LifecycleJoin != ResultConsumption",
     "ResultConsumption != MemoryIntakeRequest",

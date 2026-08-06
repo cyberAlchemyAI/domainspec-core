@@ -142,12 +142,164 @@
         "SRC-IDE-ERGONOMICS"
       ],
       "authority_effect": "none",
+      "value_effect": "value-constraining",
+      "cycle_policy": "acyclic",
+      "runtime_posture": "absent",
+      "description": "An immutable snapshot and owned route configuration may produce one product handling decision directly; resolver-mediated handling instead preserves a separate RouteDisposition edge.",
+      "forbidden_collapse": [
+        "Classification is not proposal, approval, Dispatch, or launch."
+      ]
+    },
+    {
+      "relation_id": "aug.relation.context_projects_intent_route_request",
+      "predicate": "projects_to",
+      "predicate_scope": "project-local",
+      "source_concept": "aug.concept.context_snapshot",
+      "target_concept": "aug.concept.intent_route_request",
+      "direction": "directed",
+      "owner_route": "owner-selection-required:resonantos-intent-request-normalizer",
+      "evidence_refs": [
+        "SRC-INTENT-ROUTE-RESOLVER-README",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
+      ],
+      "authority_effect": "none",
+      "value_effect": "value-constraining",
+      "cycle_policy": "acyclic",
+      "runtime_posture": "absent",
+      "description": "A product-owned normalizer may project current frozen intent into one closed routing request without inventing unresolved discriminators.",
+      "forbidden_collapse": [
+        "Projection is not semantic repair, route selection, approval, or authorization."
+      ]
+    },
+    {
+      "relation_id": "aug.relation.intent_route_request_submitted_to_resolver",
+      "predicate": "submitted_to",
+      "predicate_scope": "project-local",
+      "source_concept": "aug.concept.intent_route_request",
+      "target_concept": "aug.concept.resolver_invocation",
+      "direction": "directed",
+      "owner_route": "resonantos-host-owner-plus-intent-route-adapter-policy",
+      "evidence_refs": [
+        "SRC-INTENT-ROUTE-RESOLVER-MANIFEST",
+        "SRC-INTENT-ROUTE-ADAPTER-RECEIPT",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
+      ],
+      "authority_effect": "none",
+      "value_effect": "value-constraining",
+      "cycle_policy": "acyclic",
+      "runtime_posture": "designed",
+      "description": "The authenticated adapter may submit one size-bounded closed request to the pinned resolver process after integrity checks pass.",
+      "forbidden_collapse": [
+        "Submission does not make the adapter the request owner, router, approval gate, workflow binder, or executor."
+      ]
+    },
+    {
+      "relation_id": "aug.relation.catalog_bounds_resolver_invocation",
+      "predicate": "bounds",
+      "predicate_scope": "project-local",
+      "source_concept": "aug.concept.route_catalog_projection",
+      "target_concept": "aug.concept.resolver_invocation",
+      "direction": "directed",
+      "owner_route": "owner-selection-required:resonantos-route-catalog-projector",
+      "evidence_refs": [
+        "SRC-INTENT-ROUTE-RESOLVER-README",
+        "SRC-INTENT-ROUTE-RESOLVER-MANIFEST",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
+      ],
+      "authority_effect": "none",
+      "value_effect": "value-constraining",
+      "cycle_policy": "acyclic",
+      "runtime_posture": "absent",
+      "description": "One exact finite catalog and content digest bound the routes the resolver invocation is permitted to compare.",
+      "forbidden_collapse": [
+        "A finite catalog is not capability discovery, a route decision, eligibility grant, or execution permission."
+      ]
+    },
+    {
+      "relation_id": "aug.relation.resolver_invocation_yields_disposition",
+      "predicate": "yields",
+      "predicate_scope": "project-local",
+      "source_concept": "aug.concept.resolver_invocation",
+      "target_concept": "aug.concept.route_disposition",
+      "direction": "directed",
+      "owner_route": "public-intent-route-resolver-plus-consumer-verification",
+      "evidence_refs": [
+        "SRC-INTENT-ROUTE-RESOLVER-README",
+        "SRC-INTENT-ROUTE-RESOLVER-MANIFEST",
+        "SRC-INTENT-ROUTE-ADAPTER-RECEIPT"
+      ],
+      "authority_effect": "none",
+      "value_effect": "value-constraining",
+      "cycle_policy": "acyclic",
+      "runtime_posture": "designed",
+      "description": "The pure resolver relation yields one canonical candidate, ambiguous, no-match, or invalid disposition bound to exact inputs and closure.",
+      "forbidden_collapse": [
+        "Resolver output is not semantic judgment, product interpretation, approval, workflow binding, or execution."
+      ]
+    },
+    {
+      "relation_id": "aug.relation.augmentor_presents_route_disposition",
+      "predicate": "presents",
+      "predicate_scope": "project-local",
+      "source_concept": "aug.concept.augmentor_interface",
+      "target_concept": "aug.concept.route_disposition",
+      "direction": "directed",
+      "owner_route": "resonantos-product-governance-plus-presentation-owner",
+      "evidence_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
+      ],
+      "authority_effect": "none",
       "value_effect": "value-free",
       "cycle_policy": "acyclic",
       "runtime_posture": "absent",
-      "description": "An immutable snapshot and route configuration produce one non-authorizing classification.",
+      "description": "Augmentor may render verified disposition state and collect clarification or continuation intent while retained owners keep control.",
       "forbidden_collapse": [
-        "Classification is not proposal, approval, Dispatch, or launch."
+        "Presentation cannot edit catalog or disposition bytes, resolve ambiguity, interpret candidate as approval, bind a workflow, or start work."
+      ]
+    },
+    {
+      "relation_id": "aug.relation.disposition_may_inform_route_decision",
+      "predicate": "may_inform",
+      "predicate_scope": "project-local",
+      "source_concept": "aug.concept.route_disposition",
+      "target_concept": "aug.concept.route_decision",
+      "direction": "directed",
+      "owner_route": "owner-selection-required:resonantos-route-decision",
+      "evidence_refs": [
+        "SRC-AUA-ARCHITECTURE",
+        "SRC-INTENT-ROUTE-ADAPTER-RECEIPT",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
+      ],
+      "authority_effect": "none",
+      "value_effect": "value-constraining",
+      "cycle_policy": "acyclic",
+      "runtime_posture": "absent",
+      "description": "A verified candidate disposition may inform a separately owned product route decision; other dispositions clarify or stop without fallback.",
+      "forbidden_collapse": [
+        "RouteDisposition cannot become RouteDecision, choose a product handler, or silently advance an ambiguous, no-match, or invalid result."
+      ]
+    },
+    {
+      "relation_id": "aug.relation.disposition_does_not_authorize_approval",
+      "predicate": "does_not_authorize",
+      "predicate_scope": "project-local",
+      "source_concept": "aug.concept.route_disposition",
+      "target_concept": "aug.concept.approval_record",
+      "direction": "directed",
+      "owner_route": "consumer-plus-owner-selection-required:approval-registrar",
+      "evidence_refs": [
+        "SRC-INTENT-ROUTE-RESOLVER-MANIFEST",
+        "SRC-INTENT-ROUTE-ADAPTER-RECEIPT",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
+      ],
+      "authority_effect": "none",
+      "value_effect": "value-constraining",
+      "cycle_policy": "acyclic",
+      "runtime_posture": "designed",
+      "description": "No disposition substitutes for exact consumer approval or any independent operation-specific authorization and effect gate.",
+      "forbidden_collapse": [
+        "Candidate cannot approve a proposal, authorize an effect, register a Dispatch, or launch a Run."
       ]
     },
     {
@@ -161,7 +313,8 @@
       "evidence_refs": [
         "SRC-AUA-ARCHITECTURE",
         "SRC-IDE-ERGONOMICS",
-        "SRC-ARCANUM-USER-GUIDE"
+        "SRC-ARCANUM-USER-GUIDE",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
       ],
       "authority_effect": "none",
       "value_effect": "value-free",

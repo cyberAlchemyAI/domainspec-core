@@ -1,0 +1,490 @@
+{
+  "dispatch_id": "2026-08-03-canvas-workspace",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Make the node-card font easier to read and refine the idea that everything is the canvas, with supporting elements inside it and independently minimizable.",
+    "objective": "Produce an implementation-ready, non-executed design and plan for a canvas-first ontology workspace with readable graph cards and accessible collapsible support panels.",
+    "target_artifact": "projects/augmentor/ontology/unified-agent/ontology-visualization.html",
+    "arcanum_vocabulary": [
+      "canvas workspace",
+      "explanation dock",
+      "details dock",
+      "evidence tray",
+      "focus canvas",
+      "candidate-local",
+      "authority_effect:none"
+    ],
+    "operator_sentence": "Refine the idea that everything is the canvas and the other elements are inside it and can be minimized."
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "The operator selected a canvas-first direction; the remaining design choice is how support content behaves around the graph.",
+    "items": [
+      {
+        "id": "canvas_docked_panels",
+        "label": "Canvas with docked panels",
+        "description": "Keep the graph persistent while explanation, details, and evidence open as collapsible edge panels. Recommended for state continuity and keyboard access.",
+        "capability_ref": "invoke",
+        "pattern": "xray"
+      },
+      {
+        "id": "canvas_floating_cards",
+        "label": "Canvas with floating cards",
+        "description": "Allow movable overlay cards. More flexible, but collision, persistence, focus order, and mobile behavior become substantially harder.",
+        "capability_ref": "invoke",
+        "pattern": "xray"
+      },
+      {
+        "id": "canvas_modal_drawers",
+        "label": "Canvas with modal drawers",
+        "description": "Show one full-height drawer at a time. Simpler on mobile, but weak for comparing explanations and selected-node details on desktop.",
+        "capability_ref": "invoke",
+        "pattern": "xray"
+      }
+    ],
+    "selected_item_id": "canvas_docked_panels"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "data_quality_completeness",
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference",
+    "route_menu",
+    "one_or_more_option_set",
+    "approval_checkpoint",
+    "toy_game",
+    "assessment_failure_reference",
+    "delegation_boundary",
+    "execution_receipt_handoff",
+    "state_namespace_boundary"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The refinement must preserve the canonical ten-stage progression and explicit owner handoffs.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "minimum_component_catalog",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10"],
+      "validation_expectation": "Every stage consumes prior evidence, emits an owner-native artifact or blocked reason, and preserves the candidate-local ontology boundary."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The important uncertainty is the hidden relationship among persistent canvas state, dock visibility, selection, focus, viewport, and mobile presentation.",
+      "techniques": ["x_ray", "component_descriptor", "entity_component_reference"],
+      "applies_to_steps": ["s6"],
+      "validation_expectation": "The design artifact contains a component map, state model, desktop layout, mobile layout, and focus-return contract."
+    },
+    {
+      "overlay_id": "route_menu_for_ambiguity",
+      "trigger": "Docked, floating, and modal support surfaces have materially different accessibility and state-continuity trade-offs.",
+      "techniques": ["route_menu", "one_or_more_option_set", "approval_checkpoint"],
+      "applies_to_steps": ["s6", "s9"],
+      "validation_expectation": "The selected docked-panel approach is justified against the rejected floating and modal alternatives."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "The selected layout can be tested cheaply with one inspect-minimize-reopen-focus scenario before implementation planning.",
+      "techniques": ["toy_game", "validation_loop", "assessment_failure_reference"],
+      "applies_to_steps": ["s8"],
+      "validation_expectation": "A scenario artifact proves state continuity and records failure conditions for desktop and mobile."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The screenshot shows card legibility failure, while the proposed canvas/panel model creates independent desktop, mobile, focus, and occlusion risks.",
+    "explanation": "One read-only UX evidence reviewer can pressure-test the design independently without creating overlapping product writes. The parent retains route ownership and final synthesis.",
+    "context": [
+      "Current SVG node labels are single-line and visually collide at the existing scale.",
+      "The prior validator found and repaired a mobile sticky-content obstruction, so panel occlusion must be challenged explicitly.",
+      "The user prefers a browser-visible canvas mental model over a conventional stack of page cards."
+    ],
+    "binding_mode": "descriptive",
+    "roles": [
+      {
+        "role_id": "canvas-evidence-reviewer",
+        "purpose": "Review the proposed canvas, dock, tray, card-type, keyboard, and mobile state contracts using browser-observable evidence boundaries.",
+        "owns": "A read-only UX risk and acceptance receipt; no design authority and no product mutation.",
+        "capability_ref": "ux-evidence-validator",
+        "capability_target": "projects/augmentor/ontology/unified-agent/ontology-visualization.html",
+        "capability_mode": "spec",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/augmentor/ontology/unified-agent",
+          "output/playwright/ux-validator",
+          ".git"
+        ],
+        "input_refs": ["stages/06-design.md", "REFINE-SEED-PROPOSAL.md"],
+        "output_refs": ["receipt:canvas-evidence-review"],
+        "applies_to_steps": ["s7"]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "Confirm the standard Refine route and one read-only UX evidence reviewer?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "hard-gate risks",
+      "soft UX flags",
+      "desktop/mobile acceptance conditions",
+      "residue",
+      "reroute"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "flag",
+    "agents": [
+      {
+        "agent_id": "/root/ontology_html_review",
+        "role_id": "canvas-evidence-reviewer",
+        "capability_ref": "ux-evidence-validator",
+        "capability_target": "projects/augmentor/ontology/unified-agent/ontology-visualization.html",
+        "capability_mode": "spec",
+        "spawn_status": "spawned",
+        "join_status": "closed_without_result",
+        "close_status": "closed",
+        "residue": "No terminal receipt returned after bounded wait and one simplified follow-up; no writes reported.",
+        "reroute": "/root/beginner_explanations"
+      },
+      {
+        "agent_id": "/root/beginner_explanations",
+        "role_id": "canvas-evidence-reviewer",
+        "capability_ref": "ux-evidence-validator",
+        "capability_target": "projects/augmentor/ontology/unified-agent/ontology-visualization.html",
+        "capability_mode": "spec",
+        "spawn_status": "spawned",
+        "join_status": "closed_without_result",
+        "close_status": "closed",
+        "residue": "Rerouted attempt did not return a terminal receipt within the bounded review window; no writes reported.",
+        "reroute": "/root/canvas_design_reviewer"
+      },
+      {
+        "agent_id": "/root/canvas_design_reviewer",
+        "role_id": "canvas-evidence-reviewer",
+        "capability_ref": "ux-evidence-validator",
+        "capability_target": "projects/augmentor/ontology/unified-agent/ontology-visualization.html",
+        "capability_mode": "spec",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "stages/07-design-review.md",
+        "close_status": "already_closed",
+        "residue": "Human comprehension, visual trust, graph navigation efficiency, and low-vision text-alternative adequacy remain open.",
+        "reroute": "none"
+      }
+    ]
+  },
+  "native_stage_receipts": [
+    { "dispatch_id": "2026-08-03-canvas-workspace", "step_id": "s1", "capability_ref": "context-builder", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/01-context.md", "stages/01-context.index.json"], "validation": ["six of six evidence obligations covered with ceilings"], "observer_status": "complete", "blockers": [] },
+    { "dispatch_id": "2026-08-03-canvas-workspace", "step_id": "s2", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/02-define.md"], "validation": ["semantic and presentation namespaces separated"], "observer_status": "complete", "blockers": [] },
+    { "dispatch_id": "2026-08-03-canvas-workspace", "step_id": "s3", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "flag", "artifacts": ["stages/03-review.md"], "validation": ["definition pressure test complete; risks carried forward"], "observer_status": "complete", "blockers": [], "residue": "Human comprehension and intermediate-width evidence remain open." },
+    { "dispatch_id": "2026-08-03-canvas-workspace", "step_id": "s4", "capability_ref": "refine", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/04-research.md"], "validation": ["no new external-context gap identified"], "observer_status": "complete", "blockers": [] },
+    { "dispatch_id": "2026-08-03-canvas-workspace", "step_id": "s5", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/05-distill.md"], "validation": ["two-round reduction and recomposition proof complete"], "observer_status": "complete", "blockers": [] },
+    { "dispatch_id": "2026-08-03-canvas-workspace", "step_id": "s6", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/06-design.md"], "validation": ["six design views, state map, selected model, desktop and mobile contracts present"], "observer_status": "complete", "blockers": [], "residue": "Authored design is not product implementation or browser proof." },
+    { "dispatch_id": "2026-08-03-canvas-workspace", "step_id": "s7", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "flag", "artifacts": ["stages/07-design-review.md"], "validation": ["approved read-only helper receipt joined", "five hard-gate risks named"], "observer_status": "complete", "blockers": [], "residue": "Human comprehension, balance, navigation, and low-vision adequacy." },
+    { "dispatch_id": "2026-08-03-canvas-workspace", "step_id": "s8", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/08-distill-repair.md", "stages/08-toy-scenario.md"], "validation": ["five review risks repaired", "ten-turn model scenario preserves semantic invariant"], "observer_status": "complete", "blockers": [], "residue": "Model-only scenario; browser proof awaits implementation." },
+    { "dispatch_id": "2026-08-03-canvas-workspace", "step_id": "s9", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/09-plan.md", "stages/09-plan-distill.md", "IMPLEMENTATION-LAYERING.md", "WORK-PACK.md"], "validation": ["seven SWUs have distinct concerns, exact scopes, commands, and closeout gates"], "observer_status": "complete", "blockers": [], "handoff_note": "Explicitly admit Task Session at SWU-CANVAS-001; no implementation authorization is implied." },
+    { "dispatch_id": "2026-08-03-canvas-workspace", "step_id": "s10", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/10-final-review.md", "RESULT.md"], "validation": ["grounding, non-execution, authority, helper, stage, and residue audit complete"], "observer_status": "complete", "blockers": [], "residue": "Overall Refine result remains flag because human and post-implementation evidence are open." }
+  ],
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard-strict",
+      "pattern": "sequential",
+      "techniques": ["minimum_component_catalog", "data_quality_completeness", "frame_handoff"],
+      "inputs": [{ "kind": "intent", "ref": "REFINE-SEED-PROPOSAL.md" }],
+      "outputs": [{ "kind": "artifact", "ref": "stages/01-context.md" }],
+      "stop_conditions": ["No evidence baseline and no blocked reason -> block"]
+    },
+    {
+      "step_id": "s2",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "depends_on_steps": ["s1"],
+      "techniques": ["sequence", "frame_handoff"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/01-context.md" }],
+      "outputs": [{ "kind": "artifact", "ref": "stages/02-define.md" }],
+      "stop_conditions": ["Canvas and panel state are collapsed into ontology state -> block", "No artifact and no blocked reason -> block"]
+    },
+    {
+      "step_id": "s3",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "depends_on_steps": ["s2"],
+      "techniques": ["validation_loop", "owner_boundary_check"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/02-define.md" }],
+      "outputs": [{ "kind": "artifact", "ref": "stages/03-review.md" }],
+      "evidence_artifact": "stages/03-review.md",
+      "stop_conditions": ["Unresolved blocking definition gap -> block"]
+    },
+    {
+      "step_id": "s4",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "decision",
+      "depends_on_steps": ["s3"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/03-review.md" }],
+      "outputs": [{ "kind": "decision", "ref": "stages/04-research.md" }],
+      "stop_conditions": ["External research starts without a new named gap and operator confirmation -> block"]
+    },
+    {
+      "step_id": "s5",
+      "name": "Distill coherent canvas unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "depends_on_steps": ["s3", "s4"],
+      "techniques": ["scu_swu_reduction", "recomposition_proof"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/03-review.md" },
+        { "kind": "decision", "ref": "stages/04-research.md" }
+      ],
+      "outputs": [{ "kind": "artifact", "ref": "stages/05-distill.md" }],
+      "stop_conditions": ["Selected unit cannot recompose into the existing generated visualization -> block"]
+    },
+    {
+      "step_id": "s6",
+      "name": "Invoke Design canvas workspace",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "xray",
+      "depends_on_steps": ["s5"],
+      "techniques": ["x_ray", "component_descriptor", "entity_component_reference", "route_menu"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/05-distill.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/06-design.md" },
+        { "kind": "handle", "ref": "stages/06-design.md#component-state-map" },
+        { "kind": "decision", "ref": "stages/06-design.md#selected-panel-model" }
+      ],
+      "stop_conditions": ["Design omits desktop or mobile panel behavior -> block", "Design loses exact ontology labels or authority boundaries -> block"]
+    },
+    {
+      "step_id": "s7",
+      "name": "Interrogation design-review with UX evidence sidecar",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "depends_on_steps": ["s6"],
+      "techniques": ["validation_loop", "delegation_boundary", "execution_receipt_handoff"],
+      "roles": ["canvas-evidence-reviewer"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/06-design.md" },
+        { "kind": "receipt", "ref": "receipt:canvas-evidence-review" }
+      ],
+      "outputs": [{ "kind": "artifact", "ref": "stages/07-design-review.md" }],
+      "evidence_artifact": "stages/07-design-review.md",
+      "stop_conditions": ["Read-only helper receipt is missing after approved spawn -> block", "Panel occlusion or focus-return contract remains unresolved -> block"]
+    },
+    {
+      "step_id": "s8",
+      "name": "Distill Repair and canvas toy scenario",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "toy_game",
+      "depends_on_steps": ["s7"],
+      "techniques": ["toy_game", "validation_loop", "assessment_failure_reference"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/07-design-review.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/08-distill-repair.md" },
+        { "kind": "artifact", "ref": "stages/08-toy-scenario.md" }
+      ],
+      "evidence_artifact": "stages/08-toy-scenario.md",
+      "stop_conditions": ["Scenario loses selection, filter, explanation, or keyboard focus state -> block"]
+    },
+    {
+      "step_id": "s9",
+      "name": "Invoke non-executed implementation plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "depends_on_steps": ["s8"],
+      "techniques": ["sequence", "approval_checkpoint", "state_namespace_boundary"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/08-distill-repair.md" }],
+      "outputs": [{ "kind": "artifact", "ref": "stages/09-plan.md" }],
+      "stop_conditions": ["Plan mutates product files or claims implementation -> block", "Plan omits exact validation commands -> block"]
+    },
+    {
+      "step_id": "s10",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "depends_on_steps": ["s9"],
+      "techniques": ["owner_boundary_check", "observability_grouping", "residue_ledger"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/09-plan.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "RESULT.md" },
+        { "kind": "ledger", "ref": "evidence-index.json" }
+      ],
+      "stop_conditions": ["Final synthesis is not grounded in stage artifacts -> block", "Product implementation is reported as complete -> block"]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1_dispatch_validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json validates before any runtime-backed stage or helper starts.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g2_operator_confirmation",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "The operator explicitly confirms the standard ten-stage route and one read-only UX evidence reviewer.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g3_stage_receipts",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Every stage records an owner-native artifact or explicit blocked reason.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g4_canvas_state_boundary",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Panel visibility, selection, focus, zoom, and filters remain ephemeral visualization state and never become ontology, memory, routing, or authority state.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g5_design_acceptance",
+      "kind": "quality",
+      "owner": "interrogation",
+      "condition": "Design names card typography, layout, dock states, focus return, mobile single-sheet behavior, and synchronized text alternative.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g6_non_execution",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "Refine produces design and plan artifacts only; product implementation requires a separately admitted execution route.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "strategy_confirmed",
+      "stage_started",
+      "stage_receipt",
+      "research_decision",
+      "subagent_spawned",
+      "subagent_joined",
+      "subagent_closed",
+      "toy_game_result",
+      "final_synthesis"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "operator-to-refine-runtime",
+        "kind": "human_approval",
+        "from_owner": "operator",
+        "to_owner": "refine",
+        "applies_to_steps": ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10"],
+        "contract": "No stage or helper starts until the operator confirms the displayed strategy.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "refine-to-ux-reviewer",
+        "kind": "capability_handoff",
+        "from_owner": "refine",
+        "to_owner": "ux-evidence-validator",
+        "applies_to_steps": ["s7"],
+        "contract": "The helper receives only the seed and design artifact, remains read-only, and returns a structured UX risk receipt without changing product or evidence files.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "refine-to-future-implementation",
+        "kind": "state_write",
+        "from_owner": "refine",
+        "to_owner": "future-task-session",
+        "applies_to_steps": ["s9", "s10"],
+        "contract": "Refine may name product edits in a plan but cannot perform or report them as implemented.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine-parent",
+      "execution": "future separately admitted task-session",
+      "validation": "dispatch-spec plus stage capability owners",
+      "evidence": "ux-evidence-validator and parent synthesis",
+      "memory": "none",
+      "promotion": "none"
+    },
+    "receipts": [
+      {
+        "receipt_id": "canvas-evidence-review",
+        "producer": "ux-evidence-validator-helper",
+        "required_fields": ["dispatch_id", "capability_ref", "status", "validation", "residue"],
+        "stores": ["RUN-MANIFEST.md", "evidence-index.json"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "native-stage-receipt",
+        "producer": "each-stage-capability-owner",
+        "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "blockers"],
+        "stores": ["RUN-MANIFEST.md", "evidence-index.json"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/augmentor/ontology/unified-agent/development/refinement-runs/2026-08-03-canvas-workspace",
+        "owner": "refine",
+        "write_policy": "Refine and stage owners may write only declared run artifacts after strategy confirmation."
+      },
+      {
+        "namespace": "projects/augmentor/ontology/unified-agent/visualization",
+        "owner": "future-task-session",
+        "write_policy": "No writes during the Refine route."
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Candidate-local visualization only; no routing, runtime, memory, reasoning, authority, release, or production claim.",
+    "Refine artifacts are design evidence, not product implementation evidence.",
+    "Human visual preference and comprehension remain residue after browser-observable checks.",
+    "The concurrent ontology validation receipt is outside this run's write scope."
+  ]
+}

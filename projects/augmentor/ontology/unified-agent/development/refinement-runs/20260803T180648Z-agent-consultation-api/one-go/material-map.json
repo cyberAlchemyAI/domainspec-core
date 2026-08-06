@@ -1,0 +1,102 @@
+{
+  "schema_version": "augmentor.consultation.material-map@0.1.0",
+  "target_root": "projects/augmentor/ontology/unified-agent/development/consultation-api",
+  "frontier": ["SWU-ACAPI-000", "SWU-ACAPI-001", "SWU-ACAPI-002", "SWU-ACAPI-003", "SWU-ACAPI-004", "SWU-ACAPI-005", "SWU-ACAPI-006"],
+  "units": [
+    {
+      "unit_id": "SWU-ACAPI-000",
+      "task_id": "TASK-ACAPI-00",
+      "task_contract": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-00-VALIDATOR.md",
+      "dependencies": [],
+      "successor": "SWU-ACAPI-001",
+      "changes": [
+        {
+          "target_path": "projects/augmentor/ontology/unified-agent/scripts/validate.mjs",
+          "operation": "replace_text",
+          "replacements": [
+            {"find": "  const viewDigests = {};", "replace": "  let viewDigests;"},
+            {"find": "  await Promise.all(profile.views.map(async (view) => {\n    viewDigests[view.id] = sha256(await readBytes(view.path));\n  }));", "replace": "  const viewDigestEntries = await Promise.all(profile.views.map(async (view) => [\n    view.id,\n    sha256(await readBytes(view.path))\n  ]));\n  viewDigests = Object.fromEntries(viewDigestEntries);"}
+          ]
+        }
+      ],
+      "execution_outputs": [],
+      "validation_commands": [
+        ["node", "projects/augmentor/ontology/unified-agent/scripts/validate.mjs"],
+        ["node", "projects/augmentor/ontology/unified-agent/tests/unified-agent-ontology.test.mjs"],
+        ["node", "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/scripts/check-validator-determinism.mjs"]
+      ]
+    },
+    {
+      "unit_id": "SWU-ACAPI-001",
+      "task_id": "TASK-ACAPI-01",
+      "task_contract": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-01-CONTRACTS.md",
+      "dependencies": ["SWU-ACAPI-000"],
+      "successor": "SWU-ACAPI-002",
+      "source_files": ["schemas/query.schema.json", "fixtures/query-cases.json", "scripts/validate-contract.mjs"],
+      "execution_outputs": [],
+      "validation_commands": [["node", "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-contract.mjs", "--scope", "query"]]
+    },
+    {
+      "unit_id": "SWU-ACAPI-002",
+      "task_id": "TASK-ACAPI-01",
+      "task_contract": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-01-CONTRACTS.md",
+      "dependencies": ["SWU-ACAPI-001"],
+      "successor": "SWU-ACAPI-003",
+      "source_files": ["schemas/result.schema.json", "schemas/evidence-statement.schema.json", "fixtures/result-cases.json"],
+      "execution_outputs": [],
+      "validation_commands": [["node", "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-contract.mjs", "--scope", "result"]]
+    },
+    {
+      "unit_id": "SWU-ACAPI-003",
+      "task_id": "TASK-ACAPI-02",
+      "task_contract": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-02-PROJECTION.md",
+      "dependencies": ["SWU-ACAPI-002"],
+      "successor": "SWU-ACAPI-004",
+      "source_files": ["schemas/projection.schema.json", "schemas/projection-manifest.schema.json", "fixtures/projection-cases.json"],
+      "execution_outputs": [],
+      "validation_commands": [["node", "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-contract.mjs", "--scope", "projection"]]
+    },
+    {
+      "unit_id": "SWU-ACAPI-004",
+      "task_id": "TASK-ACAPI-02",
+      "task_contract": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-02-PROJECTION.md",
+      "dependencies": ["SWU-ACAPI-003"],
+      "successor": "SWU-ACAPI-005",
+      "source_files": ["scripts/build-fixture-projection.mjs", "scripts/validate-projection-leakage.mjs", "fixtures/source/ontology.json", "tests/projection-compiler.test.mjs", "tests/projection-leakage.test.mjs"],
+      "execution_outputs": [
+        "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/generated/projection.json",
+        "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/generated/projection-manifest.json"
+      ],
+      "validation_commands": [
+        ["node", "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/build-fixture-projection.mjs"],
+        ["node", "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/build-fixture-projection.mjs", "--check"],
+        ["node", "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-projection-leakage.mjs"],
+        ["node", "--test", "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/projection-compiler.test.mjs", "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/projection-leakage.test.mjs"]
+      ]
+    },
+    {
+      "unit_id": "SWU-ACAPI-005",
+      "task_id": "TASK-ACAPI-03",
+      "task_contract": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-03-SERVICE.md",
+      "dependencies": ["SWU-ACAPI-004"],
+      "successor": "SWU-ACAPI-006",
+      "source_files": ["src/effective-limits.mjs", "src/status-resolver.mjs", "tests/effective-limits.test.mjs", "tests/status-resolver.test.mjs"],
+      "execution_outputs": [],
+      "validation_commands": [["node", "--test", "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/effective-limits.test.mjs", "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/status-resolver.test.mjs"]]
+    },
+    {
+      "unit_id": "SWU-ACAPI-006",
+      "task_id": "TASK-ACAPI-03",
+      "task_contract": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-03-SERVICE.md",
+      "dependencies": ["SWU-ACAPI-005"],
+      "successor": "__complete__",
+      "source_files": ["src/projection-reader.mjs", "src/consultation-boundary.mjs", "tests/consultation-boundary.test.mjs", "tests/question-scenarios.test.mjs"],
+      "execution_outputs": [],
+      "validation_commands": [
+        ["node", "--test", "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/consultation-boundary.test.mjs", "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/question-scenarios.test.mjs"],
+        ["node", "projects/augmentor/ontology/unified-agent/scripts/validate.mjs"],
+        ["node", "projects/augmentor/ontology/unified-agent/tests/unified-agent-ontology.test.mjs"]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "augmentor.rich-explanations.task-receipt@1.0.0",
+  "unitId": "SWU-RCE-000",
+  "result": "PASS",
+  "attemptId": "rce-rich-explanations-20260804-rce000",
+  "primaryBehavior": "Declared fixture-only 0.1.0 and exact live 1.0.0 families and added a live evidence-statement identity without changing API behavior.",
+  "outputs": {
+    "schemaReadmeSha256": "8aebb88a4b750bb9737568c42530c7e0d80b0f543e8628756994f3eeb1670405",
+    "matrixSha256": "acb8a0996cad8adbde359b3a856a8b5226856e76af67a36241319e5d2e4f64aa",
+    "driftTestSha256": "9073bef9d5a03df41bd91dad1ebf79c07a4424de93e76d935fc1d828b1574126",
+    "consumerContractSha256": "71636fcde2e53b724c891e1844ec509609073f4c6ad86f7f3ae7fcde7c2b3980",
+    "projectionBytesSha256": "2544b0ac676c2914382f9cbca705489a848784032a24450181d88da399078428"
+  },
+  "validation": [
+    {"command": "build-consumer-projection.mjs --check", "result": "pass", "outputDigest": "235af912339c8fae0c21f21e1ace40eab37d5141bd3e9d37365497f016937e49"},
+    {"command": "node --test consultation-api/tests/*.test.mjs", "result": "pass", "tests": 26},
+    {"command": "node --test augmentor-consultation.test.mjs augmentor-consultation-deployment.test.mjs", "result": "pass", "tests": 8}
+  ],
+  "closeout": {"status": "NO_OP", "reason": "The Work Pack already declares RCE-001 as the unique successor; no plan status mutation is required."},
+  "nextUnit": "SWU-RCE-001"
+}

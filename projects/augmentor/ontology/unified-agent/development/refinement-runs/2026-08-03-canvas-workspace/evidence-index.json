@@ -1,0 +1,51 @@
+{
+  "schema": "arcanum.refine-evidence-index@0.1.0",
+  "run_id": "2026-08-03-canvas-workspace",
+  "status": "complete-flag",
+  "authority_effect": "none",
+  "product_mutation": "not-authorized-and-not-performed",
+  "artifacts": [
+    {"artifact": "REFINE-SEED-PROPOSAL.md", "owner": "refine", "status": "present"},
+    {"artifact": "REFINE-DISPATCH.json", "owner": "dispatch-spec", "status": "validation-pass"},
+    {"artifact": "RUNTIME-HANDOFF.md", "owner": "refine", "status": "complete-flag"},
+    {"artifact": "RUN-MANIFEST.md", "owner": "refine", "status": "complete-flag"},
+    {"artifact": "IMPLEMENTATION-LAYERING.md", "owner": "invoke-plan", "status": "non-executed"},
+    {"artifact": "WORK-PACK.md", "owner": "invoke-plan", "status": "ready-for-owner-admission"},
+    {"artifact": "RESULT.md", "owner": "refine", "status": "flag"}
+  ],
+  "stages": [
+    {"step_id": "s1", "capability_ref": "context-builder", "status": "pass", "artifacts": ["stages/01-context.md", "stages/01-context.index.json"]},
+    {"step_id": "s2", "capability_ref": "invoke", "status": "pass", "artifacts": ["stages/02-define.md"]},
+    {"step_id": "s3", "capability_ref": "interrogation", "status": "flag", "artifacts": ["stages/03-review.md"]},
+    {"step_id": "s4", "capability_ref": "refine", "status": "pass", "artifacts": ["stages/04-research.md"]},
+    {"step_id": "s5", "capability_ref": "distill", "status": "pass", "artifacts": ["stages/05-distill.md"]},
+    {"step_id": "s6", "capability_ref": "invoke", "status": "pass", "artifacts": ["stages/06-design.md"]},
+    {"step_id": "s7", "capability_ref": "interrogation", "status": "flag", "artifacts": ["stages/07-design-review.md"], "helper_receipt": "/root/canvas_design_reviewer"},
+    {"step_id": "s8", "capability_ref": "distill", "status": "pass", "artifacts": ["stages/08-distill-repair.md", "stages/08-toy-scenario.md"]},
+    {"step_id": "s9", "capability_ref": "invoke", "status": "pass", "artifacts": ["stages/09-plan.md", "stages/09-plan-distill.md", "IMPLEMENTATION-LAYERING.md", "WORK-PACK.md"]},
+    {"step_id": "s10", "capability_ref": "interrogation", "status": "pass", "artifacts": ["stages/10-final-review.md", "RESULT.md"]}
+  ],
+  "helper_lifecycle": {
+    "status": "flag",
+    "terminal_agent": "/root/canvas_design_reviewer",
+    "terminal_receipt": "stages/07-design-review.md",
+    "interrupted_attempts": ["/root/ontology_html_review", "/root/beginner_explanations"],
+    "writes": "none"
+  },
+  "validation": {
+    "research_mode": "no-research",
+    "dispatch_validator": "initial-pass-closeout-flag-with-residue",
+    "context_obligations": "6/6 covered",
+    "toy_scenario": "pass-model-only",
+    "plan_distill": "pass",
+    "product_browser_evidence": "not-run-because-product-not-implemented"
+  },
+  "residue": [
+    "beginner comprehension",
+    "perceived visual balance and trust",
+    "graph navigation efficiency",
+    "low-vision text-alternative adequacy",
+    "post-implementation browser acceptance"
+  ],
+  "next_route": "task-session:WP-AUG-CANVAS-001/SWU-CANVAS-001"
+}

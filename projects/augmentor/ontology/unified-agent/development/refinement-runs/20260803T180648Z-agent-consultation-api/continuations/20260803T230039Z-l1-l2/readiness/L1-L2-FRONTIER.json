@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "augmentor.consultation.l1-l2-frontier@0.1.0",
+  "frontierId": "frontier-acapi-l1-l2-20260803",
+  "status": "gated",
+  "sourceWorkPack": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/WORK-PACK.md",
+  "completedPredecessor": {
+    "epochId": "epoch-cdd98012d74d842a5763602f",
+    "terminalSwu": "SWU-ACAPI-006",
+    "status": "complete",
+    "extendsToL1OrLater": false
+  },
+  "units": [
+    {
+      "id": "SWU-ACAPI-007",
+      "layer": "L1",
+      "dependsOn": ["SWU-ACAPI-006", "DG-L12-001", "DG-L12-002", "B-002", "B-003"],
+      "behavior": "Inject verified host context and expose the evidence-only consultation boundary through the selected owned Alpha route.",
+      "status": "blocked"
+    },
+    {
+      "id": "SWU-ACAPI-008",
+      "layer": "L1",
+      "dependsOn": ["SWU-ACAPI-007"],
+      "behavior": "Map every closed consultation result to answer, qualify, clarify, or abstain.",
+      "status": "blocked"
+    },
+    {
+      "id": "SWU-ACAPI-009",
+      "layer": "L1",
+      "dependsOn": ["SWU-ACAPI-008"],
+      "behavior": "Prove supported, denied, stale, conflict, and embedded-instruction question-to-answer behavior through the Alpha host.",
+      "status": "blocked"
+    },
+    {
+      "id": "SWU-ACAPI-010",
+      "layer": "L2",
+      "dependsOn": ["SWU-ACAPI-009"],
+      "behavior": "Reuse immutable evidence only inside one principal, policy, access, projection, contract, and limit class.",
+      "status": "blocked"
+    },
+    {
+      "id": "SWU-ACAPI-013",
+      "layer": "L2",
+      "dependsOn": ["SWU-ACAPI-010"],
+      "behavior": "Propagate deadline and cancellation through scan, join, hydration, and result formation.",
+      "status": "blocked"
+    },
+    {
+      "id": "SWU-ACAPI-011",
+      "layer": "L2",
+      "dependsOn": ["SWU-ACAPI-013"],
+      "behavior": "Prove fail-closed semantics under denial, drift, timeout, oversized input, conflict, and prompt injection while emitting measurement evidence.",
+      "status": "blocked"
+    }
+  ],
+  "executionOrder": [
+    "SWU-ACAPI-007",
+    "SWU-ACAPI-008",
+    "SWU-ACAPI-009",
+    "SWU-ACAPI-010",
+    "SWU-ACAPI-013",
+    "SWU-ACAPI-011"
+  ],
+  "terminal": "L2_COMPLETE",
+  "excluded": [
+    "L3 transport or additional operations",
+    "deployment",
+    "release",
+    "promotion",
+    "fixed production defaults before measurement"
+  ],
+  "nextExecutableUnit": null,
+  "nextGate": "DG-L12-001",
+  "mutationAuthority": false
+}

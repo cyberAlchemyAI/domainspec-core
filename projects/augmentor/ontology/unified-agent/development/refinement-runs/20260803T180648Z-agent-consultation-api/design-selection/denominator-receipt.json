@@ -1,0 +1,122 @@
+{
+  "authored_concern_ids": [
+    "authored:ux"
+  ],
+  "denominator_signal_ids": [
+    "authored:ux",
+    "signal:acceptance-readiness-claim:acceptance:design-contract-authored",
+    "signal:compatibility:compatibility:shared-service-adapters",
+    "signal:interface:interface:answer-policy",
+    "signal:interface:interface:native-agent-tool",
+    "signal:interface:interface:projection-reader",
+    "signal:normative-rule:rule:evidence-only",
+    "signal:normative-rule:rule:verify-policy-first"
+  ],
+  "detector_id": "invoke-design-scope-extractor",
+  "detector_owner": "spellcraft",
+  "detector_version": "1.0.0",
+  "diagnostics": [],
+  "extracted_signals": [
+    {
+      "attributes": {
+        "evidence_state": "authored-complete",
+        "selector": "stages/05-distill.md#Closure-And-Recomposition-Proof"
+      },
+      "signal_class": "acceptance-readiness-claim",
+      "signal_id": "signal:acceptance-readiness-claim:acceptance:design-contract-authored",
+      "source_digest": "3376c4fdc33c64b4d8ca0a30be40b464de1d87ca5d9c0826c7cf1c93a3160110",
+      "source_selector": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/05-distill.md"
+    },
+    {
+      "attributes": {
+        "new_contract": "optional-http-json-adapter",
+        "old_contract": "native-agent-tool-adapter"
+      },
+      "signal_class": "compatibility",
+      "signal_id": "signal:compatibility:compatibility:shared-service-adapters",
+      "source_digest": "ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4",
+      "source_selector": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "AnsweringAgentContract",
+        "direction": "outbound",
+        "kind": "consumer-contract",
+        "peer": "answering-agent-owner"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:interface:answer-policy",
+      "source_digest": "ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4",
+      "source_selector": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "ConsultationBoundary",
+        "direction": "bidirectional",
+        "kind": "authenticated-agent-tool",
+        "peer": "host-answering-agent"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:interface:native-agent-tool",
+      "source_digest": "ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4",
+      "source_selector": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "ProjectionReader",
+        "direction": "outbound",
+        "kind": "read-only-projection-port",
+        "peer": "neutral-projection-owner"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:interface:projection-reader",
+      "source_digest": "ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4",
+      "source_selector": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "response schema and forbidden-operation fixtures",
+        "object": "return bounded evidence without writes or conclusions",
+        "subject": "consultation-service",
+        "verb": "must"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:rule:evidence-only",
+      "source_digest": "3376c4fdc33c64b4d8ca0a30be40b464de1d87ca5d9c0826c7cf1c93a3160110",
+      "source_selector": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/05-distill.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "closed request validator plus AccessPolicyPort fixture",
+        "object": "validate caller policy before retrieving protected fields",
+        "subject": "consultation-service",
+        "verb": "must"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:rule:verify-policy-first",
+      "source_digest": "ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4",
+      "source_selector": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md"
+    }
+  ],
+  "inspected_selectors": [
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md",
+      "selector": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md",
+      "source_digest": "ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/05-distill.md",
+      "selector": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/05-distill.md",
+      "source_digest": "3376c4fdc33c64b4d8ca0a30be40b464de1d87ca5d9c0826c7cf1c93a3160110"
+    }
+  ],
+  "manifest_authored_by": "refine-parent-invoke-design",
+  "manifest_id": "manifest:augmentor-agent-consultation-api",
+  "manifest_input_digest": "a177ccce800a9e9fa4f1621cc5a2b95f506698513b57eac95db5a1b004e754db",
+  "missing_detector_inputs": [],
+  "receipt_digest": "bb4333c761d162fc5ea1d1d815cfdadc4f1271ef13fefe826673ef1a51758edf",
+  "schema_version": "1.0.0",
+  "unbound_signal_ids": [],
+  "validator_owner": "invoke-design-selection-validator",
+  "verdict": "pass"
+}

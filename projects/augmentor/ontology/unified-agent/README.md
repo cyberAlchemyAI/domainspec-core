@@ -47,9 +47,26 @@ decision.
   intake, and ontology handoff.
 - `views/authority-bridge.json` maps the non-authorizing reasoning and
   authority boundaries.
+- `views/intent-route.json` maps Augmentor intent through the deterministic,
+  zero-authority resolver boundary and retained product/runtime owners.
 - `views/README.md` gives a compact human-readable cross-view map.
 - `NODE-INDEX.md` provides the review index for all candidate concepts.
 - `residue.json` preserves missing owners, adapters, and witnesses.
+- `explanations/beginner.json` gives every node and lane six progressive
+  explanation lenses. The interface presents them as **What it means**,
+  **What exists today**, **How it works**, **Show an example**,
+  **Compare it to something familiar**, and **What it cannot do** while
+  preserving the canonical fields underneath.
+  Each node also has a short friendly name. Direct explanations use familiar
+  words and leave examples and metaphors to their optional lenses.
+- `ontology-visualization.html` is a standalone, source-generated interactive
+  view of the complete ontology.
+- `visualization/template.html` owns the visualization layout and interaction
+  behavior without external assets or network dependencies. Beginner copy is
+  shown first; canonical names, formal definitions, IDs, owner routes, and
+  source references stay inside collapsed technical details.
+- `scripts/build-visualization.mjs` embeds the current ontology sources and
+  detects stale generated output.
 - `scripts/validate.mjs` validates hashes, contracts, endpoints, views, and
   forbidden authority movement.
 
@@ -76,6 +93,23 @@ StrategyProposal
 → LifecycleJoin
 → ResultConsumption
 ```
+
+Intent routing expands the classification seam without replacing its owners:
+
+```text
+ContextSnapshot → IntentRouteRequest ─┐
+                                      ├→ ResolverInvocation
+RouteCatalogProjection ───────────────┘          │
+                                                 ▼
+                                         RouteDisposition
+                                                 │ may inform
+                                                 ▼
+                                          RouteDecision
+```
+
+`RouteDisposition` is always zero-authority and remains distinct from
+`RouteDecision`, `StrategyProposal`, `ApprovalRecord`, `Dispatch`, `Run`, and
+`JudgmentReceipt`.
 
 Knowledge evolution:
 
@@ -104,9 +138,17 @@ effect runtime.
 Run:
 
 ```bash
+node projects/augmentor/ontology/unified-agent/scripts/build-visualization.mjs --check
 node projects/augmentor/ontology/unified-agent/scripts/validate.mjs
 node projects/augmentor/ontology/unified-agent/tests/unified-agent-ontology.test.mjs
+node --test projects/augmentor/ontology/unified-agent/tests/visualization.test.mjs
+node projects/augmentor/ontology/unified-agent/tests/visualization.browser.mjs "$(npm root -g)/playwright"
 ```
+
+The project-specific UX evidence runner accepts the Playwright module root,
+managed preview URL, generated HTML path, and an output directory. It captures
+screenshots, an interaction trace, ARIA output, layout measurements, findings,
+and explicit human-review residue under `output/playwright/ux-validator/`.
 
 Passing validation proves package shape, source-digest integrity, endpoint
 resolution, view resolution, and the declared non-authority boundaries. It does

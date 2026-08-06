@@ -34,7 +34,8 @@
         ],
         "contradiction_edges": [],
         "validation_edges": [
-          "aug.relation.augmentor_presents_thread"
+          "aug.relation.augmentor_presents_thread",
+          "aug.relation.augmentor_presents_route_disposition"
         ],
         "owner_route": "resonantos-product-governance-plus-module-owners",
         "resolution_gate": "resonantos-product-owner-review",
@@ -267,7 +268,8 @@
         "validation_edges": [
           "aug.relation.source_supports_context",
           "aug.relation.interaction_composes_context",
-          "aug.relation.context_classified_by_route"
+          "aug.relation.context_classified_by_route",
+          "aug.relation.context_projects_intent_route_request"
         ],
         "owner_route": "resonantos-request-session-host",
         "resolution_gate": "snapshot-composer-contract",
@@ -285,6 +287,200 @@
       ]
     },
     {
+      "concept_id": "aug.concept.intent_route_request",
+      "label": "IntentRouteRequest",
+      "concept_role": "evidence object",
+      "branches": [
+        "experience",
+        "runtime"
+      ],
+      "description": "Closed, versioned routing input projected from current user intent and bound to one request identity; unresolved discriminators remain explicit, while malformed, inconsistent, or unknown-field input is rejected instead of guessed.",
+      "source_refs": [
+        "SRC-INTENT-ROUTE-RESOLVER-README",
+        "SRC-INTENT-ROUTE-RESOLVER-MANIFEST",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
+      ],
+      "owner_route": "owner-selection-required:resonantos-intent-request-normalizer",
+      "candidate_status": "reviewed-candidate",
+      "runtime_posture": "absent",
+      "confidence": {
+        "evidence_confidence": "high",
+        "commitment_confidence": "candidate"
+      },
+      "challenge_contract": {
+        "challenge_response": "Rebuild the request from the same frozen interaction and schema; preserve explicit unresolved values and reject unknown fields, missing schema-required fields, inconsistent values, stale identity, or any inferred replacement value.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.context_projects_intent_route_request",
+          "aug.relation.intent_route_request_submitted_to_resolver"
+        ],
+        "owner_route": "owner-selection-required:resonantos-intent-request-normalizer",
+        "resolution_gate": "product-normalizer-owner-and-browser-witness",
+        "blocking_questions": [
+          "Which ResonantOS product owner constructs and rejects the closed request from current Augmentor intent?"
+        ],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "The protocol is defined, but no ResonantOS request normalizer is installed or witnessed in Augmentor."
+      ],
+      "forbidden_collapse": [
+        "IntentRouteRequest is not ContextSnapshot or ReasoningRequest.",
+        "Normalization cannot invent unresolved facts, select a route, approve work, or authorize an effect."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.route_catalog_projection",
+      "label": "RouteCatalogProjection",
+      "concept_role": "projection object",
+      "branches": [
+        "runtime"
+      ],
+      "description": "Finite, closed, read-only projection of product routes with an exact content digest for one resolver comparison.",
+      "source_refs": [
+        "SRC-INTENT-ROUTE-RESOLVER-README",
+        "SRC-INTENT-ROUTE-RESOLVER-MANIFEST",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
+      ],
+      "owner_route": "owner-selection-required:resonantos-route-catalog-projector",
+      "candidate_status": "reviewed-candidate",
+      "runtime_posture": "absent",
+      "confidence": {
+        "evidence_confidence": "high",
+        "commitment_confidence": "candidate"
+      },
+      "challenge_contract": {
+        "challenge_response": "Reproject the finite route set from the same product-owned registry and verify canonical bytes and digest before resolver use.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.catalog_bounds_resolver_invocation"
+        ],
+        "owner_route": "owner-selection-required:resonantos-route-catalog-projector",
+        "resolution_gate": "product-catalog-owner-and-projection-witness",
+        "blocking_questions": [
+          "Which ResonantOS owner projects the finite catalog, invalidates stale digests, and controls which product routes are visible?"
+        ],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "The catalog protocol is defined, but no product-owned route projector or shipped catalog is witnessed."
+      ],
+      "forbidden_collapse": [
+        "RouteCatalogProjection is not the route registry, a DisposableSemanticIndex, or source truth.",
+        "Catalog membership does not grant eligibility, approval, workflow binding, or execution."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.resolver_invocation",
+      "label": "ResolverInvocation",
+      "concept_role": "workflow object",
+      "branches": [
+        "runtime"
+      ],
+      "description": "Guarded host call that verifies the pinned public resolver package, sends one bounded request and catalog, and accepts one exactly bound disposition response.",
+      "source_refs": [
+        "SRC-INTENT-ROUTE-RESOLVER-MANIFEST",
+        "SRC-INTENT-ROUTE-ADAPTER-RECEIPT",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
+      ],
+      "owner_route": "resonantos-host-owner-plus-intent-route-adapter-policy",
+      "candidate_status": "reviewed-candidate",
+      "runtime_posture": "designed",
+      "confidence": {
+        "evidence_confidence": "high",
+        "commitment_confidence": "candidate"
+      },
+      "challenge_contract": {
+        "challenge_response": "Re-run the frozen adapter acceptance with exact executable, entrypoint, protocol, closure, request, catalog, timeout, size, stdout, stderr, and environment bindings.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.intent_route_request_submitted_to_resolver",
+          "aug.relation.catalog_bounds_resolver_invocation",
+          "aug.relation.resolver_invocation_yields_disposition"
+        ],
+        "owner_route": "resonantos-host-owner-plus-intent-route-adapter-policy",
+        "resolution_gate": "exact-install-policy-and-consumer-acceptance",
+        "blocking_questions": [
+          "When will the independently validated package be installed at the pinned entrypoint and the disabled consumer policy be explicitly enabled?"
+        ],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "The adapter has local candidate evidence, but the package is not installed or enabled in ResonantOS or the orchestrator."
+      ],
+      "forbidden_collapse": [
+        "ResolverInvocation is not route discovery, semantic repair, ranking, authorization, persistence, Dispatch, scheduling, spawning, or execution.",
+        "A passing adapter receipt is not product installation, enablement, release, deployment, or production readiness."
+      ]
+    },
+    {
+      "concept_id": "aug.concept.route_disposition",
+      "label": "RouteDisposition",
+      "concept_role": "evidence object",
+      "branches": [
+        "experience",
+        "runtime",
+        "authority-bridge"
+      ],
+      "description": "Canonical zero-authority resolver result—candidate, ambiguous, no-match, or invalid—bound to the exact request, catalog, protocol, and package closure.",
+      "source_refs": [
+        "SRC-INTENT-ROUTE-RESOLVER-README",
+        "SRC-INTENT-ROUTE-RESOLVER-MANIFEST",
+        "SRC-INTENT-ROUTE-ADAPTER-RECEIPT",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
+      ],
+      "owner_route": "public-intent-route-resolver-plus-consumer-verification",
+      "candidate_status": "reviewed-candidate",
+      "runtime_posture": "designed",
+      "confidence": {
+        "evidence_confidence": "high",
+        "commitment_confidence": "candidate"
+      },
+      "challenge_contract": {
+        "challenge_response": "Recompute canonical disposition bytes from the same request and catalog, then verify request, catalog, protocol, closure, and authority-effect bindings at the consumer boundary.",
+        "valid_challenge_modes": [
+          "evidence",
+          "contradiction",
+          "owner_review"
+        ],
+        "contradiction_edges": [],
+        "validation_edges": [
+          "aug.relation.resolver_invocation_yields_disposition",
+          "aug.relation.augmentor_presents_route_disposition",
+          "aug.relation.disposition_may_inform_route_decision",
+          "aug.relation.disposition_does_not_authorize_approval"
+        ],
+        "owner_route": "public-intent-route-resolver-plus-consumer-verification",
+        "resolution_gate": "consumer-install-and-product-route-witness",
+        "blocking_questions": [
+          "Can Augmentor display each disposition branch without re-ranking, filling facts, fabricating fallback, or treating candidate as approval?"
+        ],
+        "challenge_residue_route": "AUG-RES-003"
+      },
+      "residue": [
+        "No installed and enabled Augmentor product path has witnessed candidate, ambiguous, no-match, and invalid disposition handling."
+      ],
+      "forbidden_collapse": [
+        "RouteDisposition is not RouteDecision, StrategyProposal, ApprovalRecord, Dispatch, Run, ReasoningRequest, or JudgmentReceipt.",
+        "Candidate does not authorize continuation, and ambiguity cannot be resolved silently."
+      ]
+    },
+    {
       "concept_id": "aug.concept.route_decision",
       "label": "RouteDecision",
       "concept_role": "workflow object",
@@ -292,12 +488,13 @@
         "experience",
         "runtime"
       ],
-      "description": "Immutable classification over input and configuration digests that selects an inline, helper, serial, parallel, install, or blocked presentation path.",
+      "description": "Immutable product-owned handling decision that interprets current context, owned configuration, and—when used—a verified zero-authority disposition into an inline, helper, serial, parallel, install, or blocked presentation path.",
       "source_refs": [
         "SRC-AUA-ARCHITECTURE",
         "SRC-AUGMENTOR-COMMANDS",
         "SRC-IDE-ERGONOMICS",
-        "SRC-ARCANUM-USER-GUIDE"
+        "SRC-ARCANUM-USER-GUIDE",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
       ],
       "owner_route": "owner-selection-required:resonantos-route-decision",
       "candidate_status": "candidate",
@@ -307,7 +504,7 @@
         "commitment_confidence": "accepted-research"
       },
       "challenge_contract": {
-        "challenge_response": "Reclassify from the same frozen input and configuration; missing capability must block or offer paths.",
+        "challenge_response": "Re-evaluate from the same frozen context, owned configuration, and exact verified disposition when present; missing capability or non-candidate disposition must clarify, block, or stop without semantic fallback.",
         "valid_challenge_modes": [
           "evidence",
           "contradiction",
@@ -316,19 +513,21 @@
         "contradiction_edges": [],
         "validation_edges": [
           "aug.relation.context_classified_by_route",
+          "aug.relation.disposition_may_inform_route_decision",
           "aug.relation.route_may_project_strategy"
         ],
         "owner_route": "owner-selection-required:resonantos-route-decision",
         "resolution_gate": "route-owner-and-adapter-selection",
         "blocking_questions": [
-          "Which host owner controls route configuration and durable decision identity?"
+          "Which host owner controls product route interpretation, configuration, and durable decision identity?"
         ],
         "challenge_residue_route": "AUG-RES-003"
       },
       "residue": [
-        "DeterministicRouteAdapter and production owner are absent."
+        "The public resolver does not close this product seam; the product RouteDecision adapter and production owner remain absent."
       ],
       "forbidden_collapse": [
+        "RouteDecision is not RouteDisposition.",
         "RouteDecision is not StrategyProposal.",
         "RouteDecision is not approval, Dispatch, Run, or execution."
       ]
@@ -345,7 +544,8 @@
       "source_refs": [
         "SRC-AUA-ARCHITECTURE",
         "SRC-IDE-ERGONOMICS",
-        "SRC-ARCANUM-USER-GUIDE"
+        "SRC-ARCANUM-USER-GUIDE",
+        "SRC-INTENT-ROUTE-CONSUMPTION"
       ],
       "owner_route": "owner-selection-required:proposal-projection",
       "candidate_status": "candidate",
@@ -411,7 +611,8 @@
         "contradiction_edges": [],
         "validation_edges": [
           "aug.relation.proposal_requires_exact_approval",
-          "aug.relation.approval_binds_dispatch"
+          "aug.relation.approval_binds_dispatch",
+          "aug.relation.disposition_does_not_authorize_approval"
         ],
         "owner_route": "consumer-plus-owner-selection-required:approval-registrar",
         "resolution_gate": "approval-registrar-selection",
@@ -796,6 +997,7 @@
         "Excluded from the initial Augmentor runtime witness."
       ],
       "forbidden_collapse": [
+        "ReasoningRequest is not IntentRouteRequest or ResolverInvocation.",
         "ReasoningRequest is not a model prompt assembled from unowned facts.",
         "Entry-gate permission is not effect permission."
       ]

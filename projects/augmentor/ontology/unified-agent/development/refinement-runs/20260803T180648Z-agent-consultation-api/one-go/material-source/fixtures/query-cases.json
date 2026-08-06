@@ -1,0 +1,28 @@
+{
+  "valid": [
+    {
+      "schemaVersion": "augmentor.consultation.query@0.1.0",
+      "requestId": "req-1",
+      "questionId": "question-1",
+      "operation": "search",
+      "query": {"text": "session routing", "kind": "concept"},
+      "scope": {"viewIds": ["runtime"]},
+      "limits": {"maxCandidates": 20, "maxRecords": 5, "maxSources": 10, "maxBytes": 32768, "maxTokens": 4096, "maxMillis": 500}
+    },
+    {
+      "schemaVersion": "augmentor.consultation.query@0.1.0",
+      "requestId": "req-2",
+      "questionId": "question-2",
+      "operation": "lookup",
+      "query": {"id": "concept-1"},
+      "scope": {"viewIds": ["knowledge"], "maxFreshnessAgeSeconds": 3600},
+      "limits": {"maxCandidates": 1, "maxRecords": 1, "maxSources": 4, "maxBytes": 8192, "maxTokens": 1024, "maxMillis": 200}
+    }
+  ],
+  "invalid": [
+    {"name": "model-supplied-identity", "value": {"schemaVersion": "augmentor.consultation.query@0.1.0", "requestId": "r", "questionId": "q", "operation": "search", "query": {"text": "x"}, "scope": {"viewIds": ["runtime"]}, "limits": {"maxCandidates": 1, "maxRecords": 1, "maxSources": 1, "maxBytes": 256, "maxTokens": 64, "maxMillis": 1}, "principal": {"token": "forbidden"}}},
+    {"name": "protected-operation", "value": {"schemaVersion": "augmentor.consultation.query@0.1.0", "requestId": "r", "questionId": "q", "operation": "write", "query": {"text": "x"}, "scope": {"viewIds": ["runtime"]}, "limits": {"maxCandidates": 1, "maxRecords": 1, "maxSources": 1, "maxBytes": 256, "maxTokens": 64, "maxMillis": 1}}},
+    {"name": "raw-path", "value": {"schemaVersion": "augmentor.consultation.query@0.1.0", "requestId": "r", "questionId": "q", "operation": "search", "query": {"text": "x", "path": "../private"}, "scope": {"viewIds": ["runtime"]}, "limits": {"maxCandidates": 1, "maxRecords": 1, "maxSources": 1, "maxBytes": 256, "maxTokens": 64, "maxMillis": 1}}},
+    {"name": "unbounded-limit", "value": {"schemaVersion": "augmentor.consultation.query@0.1.0", "requestId": "r", "questionId": "q", "operation": "search", "query": {"text": "x"}, "scope": {"viewIds": ["runtime"]}, "limits": {"maxCandidates": 1001, "maxRecords": 1, "maxSources": 1, "maxBytes": 256, "maxTokens": 64, "maxMillis": 1}}}
+  ]
+}
