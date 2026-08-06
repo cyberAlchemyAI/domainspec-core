@@ -5,6 +5,35 @@ export const OEW_GRAPH_VERSION = "1.0.0";
 export const OEW_UPSTREAM_COMMIT =
   "2cda14e89535049e49120198886bc0b82e9e630f";
 
+/**
+ * @typedef {Readonly<{source_relation_id: string, scene_digest: string}>} RelationRef
+ */
+/** @typedef {Readonly<Record<string, unknown>>} RelationFacet */
+/** @typedef {ReadonlyMap<string, RelationFacet>} RelationFacetIndex */
+/**
+ * @typedef {Readonly<{
+ *   scene_digest: string,
+ *   source_graph_digest: string,
+ *   relation_ids: readonly string[],
+ *   relation_count: number,
+ *   facet_set_digest: string,
+ *   digest_profile: "oew.relation-digest.v1",
+ *   canonicalization_version: "rfc8785",
+ *   hash_algorithm: "sha256"
+ * }>} RelationIndexReceipt
+ */
+/**
+ * @typedef {
+ *   | Readonly<{status: "resolved", ref: RelationRef, facet: RelationFacet}>
+ *   | Readonly<{status: "missing", ref: RelationRef}>
+ *   | Readonly<{
+ *       status: "stale-scene",
+ *       ref: RelationRef,
+ *       actual_scene_digest: string
+ *     }>
+ * } RelationResolution
+ */
+
 /** @typedef {Record<string, unknown>} OewRecord */
 /**
  * @typedef {object} OewHashes

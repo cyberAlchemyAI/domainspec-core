@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.6"
   },
   "scripts": {
-    "test": "node --test",
+    "test": "node --experimental-strip-types --test \"**/*.test.mjs\"",
     "test:source-admission": "node --test test/source-admission.test.mjs",
     "test:native-viewer": "node --test test/native-viewer-boundary.test.mjs test/native-viewer-poker.test.mjs && node scripts/serve-native-viewer.mjs verify --receipt generated/runs/SWU-OEW-006/native-viewer-receipt.json",
     "verify:adapter": "node scripts/verify-adapter-receipt.mjs generated/runs/SWU-OEW-004/adapter-receipt.json",
