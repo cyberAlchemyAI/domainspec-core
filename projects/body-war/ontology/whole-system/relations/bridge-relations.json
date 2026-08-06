@@ -1,0 +1,731 @@
+{
+  "schema_version": "body-war-business-system-bridges/v1",
+  "relation_count": 25,
+  "relations": [
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.activity-import-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.operation.import-activities",
+      "system_concept": "body-war.system.endpoint.activities",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.import-activities.json",
+          "selector": "body-war.business.operation.import-activities",
+          "sha256": "512dc7e15cdf0f3b55d11361ab50b1b091e8ab873a078473e46833ef03d3bc40"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleActivities",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The endpoint returns redacted activity summaries for a connected runner.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.activity-list-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.query.activity-list",
+      "system_concept": "body-war.system.endpoint.activities",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/query.activity-list.json",
+          "selector": "body-war.business.query.activity-list",
+          "sha256": "ef1c0267c15ed2fa8bce1d681021c5783e292d6ee41180e71854fd4f566384e6"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleActivities",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The activity query is implemented through the same endpoint.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.auth-capability-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.capability.auth-consent",
+      "system_concept": "body-war.system.module.browser-session-adapter",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/capability.auth-consent.json",
+          "selector": "body-war.business.capability.auth-consent",
+          "sha256": "002f2ae5cd06aa31e28b48071bed1e87bb4a8cfeb7cd964dad368456d940906f"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/src/auth/browser-session.ts",
+          "selector": "export function createBrowserSessionAdapter",
+          "sha256": "13fddf295bd61be0902ecd3050279abc276bd5e8d95437dd603bc0a28123c70c"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The adapter implements browser-session and request guard concerns for the prototype.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.auth-status-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.query.auth-status",
+      "system_concept": "body-war.system.endpoint.status",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/query.auth-status.json",
+          "selector": "body-war.business.query.auth-status",
+          "sha256": "a7a80e9ff33d4e900d47b6ec00bc3ae8d671321a77419d6177b4df20d179d74f"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleStatus",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The runtime provides a configuration-safe status projection.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.auth-tested",
+      "predicate": "tested_by",
+      "business_concept": "body-war.business.capability.auth-consent",
+      "system_concept": "body-war.system.test.auth-consumer-tests",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/capability.auth-consent.json",
+          "selector": "body-war.business.capability.auth-consent",
+          "sha256": "002f2ae5cd06aa31e28b48071bed1e87bb4a8cfeb7cd964dad368456d940906f"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/tests/auth-consumer.test.ts",
+          "selector": "Body War local fake-Strava auth flow creates safe profile and cookies",
+          "sha256": "58b9e7bddb4b661e023b611b4fbf34a743d16d716ecfc78a51f1b12598e23cb6"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The unit/consumer suite tests the fake-provider authentication boundary.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.browser-workflow-tested",
+      "predicate": "tested_by",
+      "business_concept": "body-war.business.workflow.suggested-track-expansion",
+      "system_concept": "body-war.system.test.browser-e2e-tests",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/workflow.suggested-track-expansion.json",
+          "selector": "body-war.business.workflow.suggested-track-expansion",
+          "sha256": "0d8aa236ef8ab54b6b7bca0c83d2d0015f71724d5978c48666ee541e351019a2"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/e2e/troqar-product-architecture/ui.spec.ts",
+          "selector": "submits one activity as preview evidence through visible controls",
+          "sha256": "ca8f1e9f2b06c476e329a833dc5dfd986ed5dce38ccddc88005cecb2ba1bc69f"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The browser test covers the user-visible candidate flow.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.candidate-attach-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.operation.attach-activity-evidence-candidate",
+      "system_concept": "body-war.system.endpoint.suggested-track-evidence",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.attach-activity-evidence-candidate.json",
+          "selector": "body-war.business.operation.attach-activity-evidence-candidate",
+          "sha256": "3967514887a9200831ea48d288189a657b58909ecfada1fc124c03424b404035"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleSuggestedTrackEvidenceCreate",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The endpoint records explicit consent and a redacted evidence candidate.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.candidate-persisted",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.entity.activity-evidence-candidate",
+      "system_concept": "body-war.system.table.activity-evidence-candidates",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/entity.activity-evidence-candidate.json",
+          "selector": "body-war.business.entity.activity-evidence-candidate",
+          "sha256": "ee4c0967e41248a23f4306e67e9a18783b565bcca529f3593c26eb65459be43d"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/src/infrastructure/postgres/schema.ts",
+          "selector": "body_war_activity_evidence_candidates",
+          "sha256": "909fb15a5aab1b417c0455f194e7a120d117d41b0ef283f0e69f1bf6f1823fec"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "Candidate evidence and consent fields have a durable schema.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.evidence-submit-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.operation.submit-evidence",
+      "system_concept": "body-war.system.endpoint.submissions",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.submit-evidence.json",
+          "selector": "body-war.business.operation.submit-evidence",
+          "sha256": "f12036d585672e943d588e53b3ee8f30a7c6b9b205194ce21fa674dab4dbc50a"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleSubmission",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "partial",
+      "note": "Submission is implemented as prototype evidence and does not become verified evidence or territory authority.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.geometry-derive-gap",
+      "predicate": "drifts_from",
+      "business_concept": "body-war.business.operation.derive-geometry-candidate",
+      "system_concept": "body-war.system.gap.geometry-score-gap",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.derive-geometry-candidate.json",
+          "selector": "body-war.business.operation.derive-geometry-candidate",
+          "sha256": "6bdb22ce4ec22689b68c9b42e7e1c0ab1db3460e37f4d6321f1a5a7a9ce03d8e"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "route_geometry: \"not_claimed\"",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "gap",
+      "note": "Attaching activity evidence does not derive or promote geometry.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.geometry-fetch-gap",
+      "predicate": "drifts_from",
+      "business_concept": "body-war.business.operation.fetch-selected-activity-geometry",
+      "system_concept": "body-war.system.gap.geometry-score-gap",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.fetch-selected-activity-geometry.json",
+          "selector": "body-war.business.operation.fetch-selected-activity-geometry",
+          "sha256": "1dcf9e9d33cc477f24f638a015215bccbb68da84257c3668cb5567be0f5f8f65"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "route_geometry: \"deferred\"",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "gap",
+      "note": "No source-authorized route geometry acquisition is present in the current runtime.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.http-api-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.interface.http-api",
+      "system_concept": "body-war.system.interface.http-api",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/interface.http-api.json",
+          "selector": "body-war.business.interface.http-api",
+          "sha256": "93d3582979dacda8eab194298c93239f8cd28431592228f34d079a96728d374c"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "export async function handleRequest",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The current server exposes the implemented HTTP boundary, not every design-time route.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.login-score-workflow-partial",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.workflow.login-to-score-preview",
+      "system_concept": "body-war.system.component.browser-ui",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/workflow.login-to-score-preview.json",
+          "selector": "body-war.business.workflow.login-to-score-preview",
+          "sha256": "f578e1bfda8ea7996b07c2774ec67c9180d2566ac7a4010356e01f7da799b979"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/e2e/troqar-product-architecture/ui.spec.ts",
+          "selector": "connects fake Strava and renders safe profile, activity, and evidence UI",
+          "sha256": "ca8f1e9f2b06c476e329a833dc5dfd986ed5dce38ccddc88005cecb2ba1bc69f"
+        }
+      ],
+      "alignment_status": "partial",
+      "note": "Login through evidence candidate submission is visible; geometry derivation and explained score projection remain absent.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.oauth-complete-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.operation.complete-strava-oauth",
+      "system_concept": "body-war.system.endpoint.strava-callback",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.complete-strava-oauth.json",
+          "selector": "body-war.business.operation.complete-strava-oauth",
+          "sha256": "243cd26b0b24aac3bfdb6038d7c57fc28d0a1545ee682aab2e2f47fd58267502"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleStravaCallback",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The endpoint completes the fake or configured provider callback and binds a session.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.oauth-start-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.operation.start-strava-oauth",
+      "system_concept": "body-war.system.endpoint.strava-start",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.start-strava-oauth.json",
+          "selector": "body-war.business.operation.start-strava-oauth",
+          "sha256": "d9f82c4d278e60b8cc7f6610468394138946e257a9574cd8659684d13d369b3b"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleStravaStart",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The endpoint starts the provider flow.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.profile-summary-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.query.profile-summary",
+      "system_concept": "body-war.system.endpoint.profile",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/query.profile-summary.json",
+          "selector": "body-war.business.query.profile-summary",
+          "sha256": "2e041b1cf6a5798bea2a8d55957cec1182be7b998f6fb2c8d2a90d69c5092aa9"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleProfile",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "partial",
+      "note": "The current profile endpoint is safe but does not yet project full score, XP, league, badge, or streak state.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.provider-account-persisted",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.entity.provider-account",
+      "system_concept": "body-war.system.table.provider-accounts",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/entity.provider-account.json",
+          "selector": "body-war.business.entity.provider-account",
+          "sha256": "20fcb81240ed295599cfa56b6b53fcbf6d5be628c0b366c57770be81d97f370b"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/src/infrastructure/postgres/schema.ts",
+          "selector": "body_war_provider_accounts",
+          "sha256": "909fb15a5aab1b417c0455f194e7a120d117d41b0ef283f0e69f1bf6f1823fec"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "Provider identity and connection status have a durable schema.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.score-preview-gap",
+      "predicate": "drifts_from",
+      "business_concept": "body-war.business.operation.calculate-score-preview",
+      "system_concept": "body-war.system.gap.geometry-score-gap",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.calculate-score-preview.json",
+          "selector": "body-war.business.operation.calculate-score-preview",
+          "sha256": "cfac094b47984febb0251f38d6ccc8121d80d80f8a888ce4efc73d3fae3406df"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "composite_score_pending",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "gap",
+      "note": "The runtime explicitly leaves composite scoring pending.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.strava-boundary-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.interface.strava-provider-boundary",
+      "system_concept": "body-war.system.module.strava-oauth-adapter",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/interface.strava-provider-boundary.json",
+          "selector": "body-war.business.interface.strava-provider-boundary",
+          "sha256": "7e603d0a483dddaa46acba9c983ede380b04f827b263901d50e6c137ff90ac01"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/src/auth/strava-oauth.ts",
+          "selector": "export function createStravaOAuthAdapter",
+          "sha256": "798e0f401633ebb235d989191c2f00ccff7183c7f50be7e6b857c7f6473f26b4"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "Provider tokens remain in the server-side adapter and repositories.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.suggested-track-create-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.operation.create-suggested-track",
+      "system_concept": "body-war.system.endpoint.suggested-tracks",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.create-suggested-track.json",
+          "selector": "body-war.business.operation.create-suggested-track",
+          "sha256": "09f2c522fca6687c0d1ecba00ff18fc260e67f2c85ef4e0540df948d38385e4f"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleSuggestedTrackCreate",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The endpoint creates a needs-evidence candidate only.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.suggested-track-detail-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.query.get-suggested-track-detail",
+      "system_concept": "body-war.system.endpoint.suggested-track-detail",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/query.get-suggested-track-detail.json",
+          "selector": "body-war.business.query.get-suggested-track-detail",
+          "sha256": "2dfa7d2b69cafa6339765fec7a7bc858de748c7342405c3b88f3d478a3538ceb"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleSuggestedTrackDetail",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The endpoint joins one suggestion to its evidence summary.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.suggested-track-list-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.query.list-suggested-tracks",
+      "system_concept": "body-war.system.endpoint.suggested-tracks",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/query.list-suggested-tracks.json",
+          "selector": "body-war.business.query.list-suggested-tracks",
+          "sha256": "d705d81582dc0ccc2a0eae87cdf04087bb4d8961a9c6b73c75ad929586bbd5b5"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleSuggestedTracksList",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The endpoint returns default and runner-created suggestions.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.suggested-track-persisted",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.entity.suggested-track",
+      "system_concept": "body-war.system.table.suggested-tracks",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/entity.suggested-track.json",
+          "selector": "body-war.business.entity.suggested-track",
+          "sha256": "9a2f5a02cab8eeff33396a4dd66c94889ad330d81854d654027c274cbffe7889"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/src/infrastructure/postgres/schema.ts",
+          "selector": "body_war_suggested_tracks",
+          "sha256": "909fb15a5aab1b417c0455f194e7a120d117d41b0ef283f0e69f1bf6f1823fec"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "Suggested-track candidates have a durable schema.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.suggestion-tested",
+      "predicate": "tested_by",
+      "business_concept": "body-war.business.workflow.suggested-track-expansion",
+      "system_concept": "body-war.system.test.api-e2e-tests",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/workflow.suggested-track-expansion.json",
+          "selector": "body-war.business.workflow.suggested-track-expansion",
+          "sha256": "0d8aa236ef8ab54b6b7bca0c83d2d0015f71724d5978c48666ee541e351019a2"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/e2e/body-war-auth.e2e.ts",
+          "selector": "evidence-candidates",
+          "sha256": "146220cabf8bc68d8c4fd2c3006109d0511fa41cd96f6cdb900fa9dd376da16d"
+        }
+      ],
+      "alignment_status": "supported",
+      "note": "The HTTP E2E flow exercises suggestion creation and candidate attachment.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    },
+    {
+      "schema_version": "body-war-business-system-bridge/v1",
+      "relation_id": "body-war.bridge.track-list-realized",
+      "predicate": "realized_by",
+      "business_concept": "body-war.business.query.track-list",
+      "system_concept": "body-war.system.endpoint.tracks",
+      "business_evidence_refs": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/query.track-list.json",
+          "selector": "body-war.business.query.track-list",
+          "sha256": "52d6e48141d3d561db9f2c4bbd14fae6011c29bf3c01badd5dac40dff736b882"
+        }
+      ],
+      "system_evidence_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "TRACK_STORE",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ],
+      "alignment_status": "partial",
+      "note": "The current catalog is a JSON-backed prototype fixture.",
+      "direction": "directed",
+      "owner_route": "body-war.product-ontology-owner",
+      "authority_effect": "none",
+      "forbidden_collapse": [
+        "This bridge records candidate alignment only; it does not transfer authority, promote either branch, prove production behavior, or close a named gap."
+      ]
+    }
+  ]
+}

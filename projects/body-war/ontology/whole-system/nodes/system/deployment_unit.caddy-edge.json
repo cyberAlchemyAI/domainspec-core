@@ -1,0 +1,28 @@
+{
+  "schema_version": "body-war-system-node/v1",
+  "concept_id": "body-war.system.deployment_unit.caddy-edge",
+  "label": "Caddy Edge Proxy",
+  "definition": "TLS-capable reverse proxy forwarding the public origin to the Body War application service.",
+  "concept_role": "workflow object",
+  "system_kind": "deployment_unit",
+  "branch_roles": [
+    "system"
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/infra/Caddyfile",
+      "selector": "reverse_proxy app:5174",
+      "sha256": "928b746925bc8156638a9bf6eb3a9acf258a390b1ea21786fed2c382ad6344eb"
+    }
+  ],
+  "owner_route": "body-war.product-ontology-owner",
+  "observation_status": "observed",
+  "confidence": {
+    "evidence_confidence": "high",
+    "basis": "Directly bound to the named Body War implementation, test, or deployment selector; ontology inclusion adds no runtime or release authority."
+  },
+  "residue": [],
+  "forbidden_collapse": [
+    "Do not treat this observed system concept as business authority, production proof, deployment, promotion, or release admission."
+  ]
+}

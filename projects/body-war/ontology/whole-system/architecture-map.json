@@ -1,0 +1,423 @@
+{
+  "schema_version": "body-war-system-architecture-map/v1",
+  "observation_status": "observed-with-explicit-gaps",
+  "layers": [
+    {
+      "id": "presentation",
+      "label": "Presentation",
+      "concepts": [
+        "body-war.system.component.browser-ui"
+      ]
+    },
+    {
+      "id": "interface",
+      "label": "HTTP Interface",
+      "concepts": [
+        "body-war.system.component.http-server",
+        "body-war.system.interface.http-api",
+        "body-war.system.endpoint.status",
+        "body-war.system.endpoint.profile",
+        "body-war.system.endpoint.strava-start",
+        "body-war.system.endpoint.strava-callback",
+        "body-war.system.endpoint.logout",
+        "body-war.system.endpoint.activities",
+        "body-war.system.endpoint.suggested-tracks",
+        "body-war.system.endpoint.suggested-track-detail",
+        "body-war.system.endpoint.suggested-track-evidence",
+        "body-war.system.endpoint.tracks",
+        "body-war.system.endpoint.submissions"
+      ]
+    },
+    {
+      "id": "application-adapters",
+      "label": "Application Adapters",
+      "concepts": [
+        "body-war.system.module.browser-session-adapter",
+        "body-war.system.module.strava-oauth-adapter",
+        "body-war.system.interface.body-war-repository-port"
+      ]
+    },
+    {
+      "id": "persistence",
+      "label": "Persistence",
+      "concepts": [
+        "body-war.system.data_store.memory-repository",
+        "body-war.system.data_store.postgres-repository",
+        "body-war.system.job.migration-runner",
+        "body-war.system.data_store.json-prototype-store",
+        "body-war.system.table.runner-profiles",
+        "body-war.system.table.oauth-states",
+        "body-war.system.table.provider-accounts",
+        "body-war.system.table.provider-tokens",
+        "body-war.system.table.suggested-tracks",
+        "body-war.system.table.activity-evidence-candidates"
+      ]
+    },
+    {
+      "id": "external",
+      "label": "External Dependencies",
+      "concepts": [
+        "body-war.system.external_dependency.shared-auth-package",
+        "body-war.system.external_dependency.strava-api"
+      ]
+    },
+    {
+      "id": "deployment",
+      "label": "Deployment",
+      "concepts": [
+        "body-war.system.deployment_unit.app-container",
+        "body-war.system.deployment_unit.postgres-service",
+        "body-war.system.deployment_unit.caddy-edge"
+      ]
+    },
+    {
+      "id": "verification",
+      "label": "Verification And Gaps",
+      "concepts": [
+        "body-war.system.test.auth-consumer-tests",
+        "body-war.system.test.api-e2e-tests",
+        "body-war.system.test.browser-e2e-tests",
+        "body-war.system.gap.geometry-score-gap"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "relation_id": "body-war.system-relation.activities-calls-strava",
+      "predicate": "calls",
+      "source_concept": "body-war.system.endpoint.activities",
+      "target_concept": "body-war.system.module.strava-oauth-adapter",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-activities",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.activities",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-logout",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.logout",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-profile",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.profile",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-status",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.status",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-strava-callback",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.strava-callback",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-strava-start",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.strava-start",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-submissions",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.submissions",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-suggested-track-detail",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.suggested-track-detail",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-suggested-track-evidence",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.suggested-track-evidence",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-suggested-tracks",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.suggested-tracks",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-contains-tracks",
+      "predicate": "contains",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.endpoint.tracks",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.api-e2e-observes-api",
+      "predicate": "tests",
+      "source_concept": "body-war.system.test.api-e2e-tests",
+      "target_concept": "body-war.system.interface.http-api",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.app-container-depends-postgres",
+      "predicate": "depends_on",
+      "source_concept": "body-war.system.deployment_unit.app-container",
+      "target_concept": "body-war.system.deployment_unit.postgres-service",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.app-container-runs-server",
+      "predicate": "runs",
+      "source_concept": "body-war.system.deployment_unit.app-container",
+      "target_concept": "body-war.system.component.http-server",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.browser-e2e-observes-ui",
+      "predicate": "tests",
+      "source_concept": "body-war.system.test.browser-e2e-tests",
+      "target_concept": "body-war.system.component.browser-ui",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.edge-routes-app",
+      "predicate": "routes_to",
+      "source_concept": "body-war.system.deployment_unit.caddy-edge",
+      "target_concept": "body-war.system.deployment_unit.app-container",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.gap-constrains-server",
+      "predicate": "constrains",
+      "source_concept": "body-war.system.gap.geometry-score-gap",
+      "target_concept": "body-war.system.component.http-server",
+      "observation_status": "gap"
+    },
+    {
+      "relation_id": "body-war.system-relation.memory-implements-repository",
+      "predicate": "implements",
+      "source_concept": "body-war.system.data_store.memory-repository",
+      "target_concept": "body-war.system.interface.body-war-repository-port",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.migrations-migrate-database",
+      "predicate": "migrates",
+      "source_concept": "body-war.system.job.migration-runner",
+      "target_concept": "body-war.system.module.postgres-database",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.postgres-implements-repository",
+      "predicate": "implements",
+      "source_concept": "body-war.system.data_store.postgres-repository",
+      "target_concept": "body-war.system.interface.body-war-repository-port",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.postgres-repository-uses-database",
+      "predicate": "uses",
+      "source_concept": "body-war.system.data_store.postgres-repository",
+      "target_concept": "body-war.system.module.postgres-database",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.repository-writes-evidence-candidates",
+      "predicate": "writes",
+      "source_concept": "body-war.system.interface.body-war-repository-port",
+      "target_concept": "body-war.system.table.activity-evidence-candidates",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.repository-writes-oauth-states",
+      "predicate": "writes",
+      "source_concept": "body-war.system.interface.body-war-repository-port",
+      "target_concept": "body-war.system.table.oauth-states",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.repository-writes-profiles",
+      "predicate": "writes",
+      "source_concept": "body-war.system.interface.body-war-repository-port",
+      "target_concept": "body-war.system.table.runner-profiles",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.repository-writes-provider-accounts",
+      "predicate": "writes",
+      "source_concept": "body-war.system.interface.body-war-repository-port",
+      "target_concept": "body-war.system.table.provider-accounts",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.repository-writes-provider-tokens",
+      "predicate": "writes",
+      "source_concept": "body-war.system.interface.body-war-repository-port",
+      "target_concept": "body-war.system.table.provider-tokens",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.repository-writes-suggested-tracks",
+      "predicate": "writes",
+      "source_concept": "body-war.system.interface.body-war-repository-port",
+      "target_concept": "body-war.system.table.suggested-tracks",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.server-configured-by-runtime",
+      "predicate": "configured_by",
+      "source_concept": "body-war.system.component.http-server",
+      "target_concept": "body-war.system.configuration.runtime-configuration",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.server-exposes-api",
+      "predicate": "exposes",
+      "source_concept": "body-war.system.component.http-server",
+      "target_concept": "body-war.system.interface.http-api",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.server-serves-ui",
+      "predicate": "serves",
+      "source_concept": "body-war.system.component.http-server",
+      "target_concept": "body-war.system.component.browser-ui",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.server-uses-repository",
+      "predicate": "uses",
+      "source_concept": "body-war.system.component.http-server",
+      "target_concept": "body-war.system.interface.body-war-repository-port",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.server-uses-session",
+      "predicate": "uses",
+      "source_concept": "body-war.system.component.http-server",
+      "target_concept": "body-war.system.module.browser-session-adapter",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.server-uses-static-assets",
+      "predicate": "uses",
+      "source_concept": "body-war.system.component.http-server",
+      "target_concept": "body-war.system.module.static-asset-server",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.server-uses-strava",
+      "predicate": "uses",
+      "source_concept": "body-war.system.component.http-server",
+      "target_concept": "body-war.system.module.strava-oauth-adapter",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.session-depends-auth",
+      "predicate": "depends_on",
+      "source_concept": "body-war.system.module.browser-session-adapter",
+      "target_concept": "body-war.system.external_dependency.shared-auth-package",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.static-assets-serve-ui",
+      "predicate": "serves",
+      "source_concept": "body-war.system.module.static-asset-server",
+      "target_concept": "body-war.system.component.browser-ui",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.strava-callback-calls-adapter",
+      "predicate": "calls",
+      "source_concept": "body-war.system.endpoint.strava-callback",
+      "target_concept": "body-war.system.module.strava-oauth-adapter",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.strava-calls-api",
+      "predicate": "calls",
+      "source_concept": "body-war.system.module.strava-oauth-adapter",
+      "target_concept": "body-war.system.external_dependency.strava-api",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.strava-depends-auth",
+      "predicate": "depends_on",
+      "source_concept": "body-war.system.module.strava-oauth-adapter",
+      "target_concept": "body-war.system.external_dependency.shared-auth-package",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.strava-start-calls-adapter",
+      "predicate": "calls",
+      "source_concept": "body-war.system.endpoint.strava-start",
+      "target_concept": "body-war.system.module.strava-oauth-adapter",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.submissions-use-json",
+      "predicate": "persists_to",
+      "source_concept": "body-war.system.endpoint.submissions",
+      "target_concept": "body-war.system.data_store.json-prototype-store",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.tracks-use-json",
+      "predicate": "reads",
+      "source_concept": "body-war.system.endpoint.tracks",
+      "target_concept": "body-war.system.data_store.json-prototype-store",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.unit-tests-observe-server",
+      "predicate": "tests",
+      "source_concept": "body-war.system.test.auth-consumer-tests",
+      "target_concept": "body-war.system.component.http-server",
+      "observation_status": "observed"
+    },
+    {
+      "relation_id": "body-war.system-relation.unsafe-endpoints-protected",
+      "predicate": "protects_with",
+      "source_concept": "body-war.system.interface.http-api",
+      "target_concept": "body-war.system.module.browser-session-adapter",
+      "observation_status": "observed"
+    }
+  ],
+  "tests": [
+    "body-war.system.test.api-e2e-tests",
+    "body-war.system.test.auth-consumer-tests",
+    "body-war.system.test.browser-e2e-tests"
+  ],
+  "deployment_units": [
+    "body-war.system.deployment_unit.app-container",
+    "body-war.system.deployment_unit.caddy-edge",
+    "body-war.system.deployment_unit.postgres-service"
+  ],
+  "open_residue": [
+    "BW-WS-GAP-001",
+    "BW-WS-GAP-002",
+    "BW-WS-GAP-003",
+    "BW-WS-GAP-004",
+    "BW-WS-GAP-005",
+    "BW-WS-GAP-006",
+    "BW-WS-GAP-007",
+    "BW-WS-GAP-008",
+    "BW-WS-GAP-009",
+    "BW-WS-GAP-010"
+  ]
+}

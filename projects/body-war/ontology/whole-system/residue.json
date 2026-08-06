@@ -1,0 +1,175 @@
+{
+  "schema_version": "body-war-whole-system-residue/v1",
+  "entries": [
+    {
+      "id": "BW-WS-GAP-001",
+      "status": "open",
+      "label": "Real Strava activity import absent",
+      "detail": "Both memory and Postgres repositories return deterministic synthetic activity summaries; OAuth connectivity does not prove activity ownership or live import.",
+      "source_refs": [
+        {
+          "path": "projects/body-war/app/src/auth/memory-repository.ts",
+          "selector": "fake-activity-",
+          "sha256": "4f1ba3315621586640c6b8cafb03ae00715e58ad6a616745f01b21b86afb2ada"
+        },
+        {
+          "path": "projects/body-war/app/src/auth/drizzle-repository.ts",
+          "selector": "pg-activity-",
+          "sha256": "38eaf706dd96d6d24811ed5d30c388e59571c7629b32a1cf79a684e04692f459"
+        }
+      ]
+    },
+    {
+      "id": "BW-WS-GAP-002",
+      "status": "open",
+      "label": "Visible evidence consent control absent",
+      "detail": "The browser submits a constant affirmative consent value; the user-visible unchecked consent contract remains unresolved.",
+      "source_refs": [
+        {
+          "path": "projects/body-war/app/static/app.js",
+          "selector": "consent_acknowledged: true",
+          "sha256": "1c7e97b46930d2c07ce6dffa1c2b1994cee66b3eec089e93b351eea6217a9986"
+        }
+      ]
+    },
+    {
+      "id": "BW-WS-GAP-003",
+      "status": "open",
+      "label": "Geometry and explained score absent",
+      "detail": "The runtime stops at redacted evidence and explicitly leaves route geometry unclaimed and composite scoring pending.",
+      "source_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "route_geometry: \"deferred\"",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        },
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "composite_score_pending",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ]
+    },
+    {
+      "id": "BW-WS-GAP-004",
+      "status": "open",
+      "label": "Legacy and repository evidence paths coexist",
+      "detail": "The JSON-backed /api/submissions path and repository-backed SuggestedTrack evidence-candidate path have different validation and authority semantics.",
+      "source_refs": [
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "SUBMISSION_STORE",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        },
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "handleSuggestedTrackEvidenceCreate",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ]
+    },
+    {
+      "id": "BW-WS-GAP-005",
+      "status": "open",
+      "label": "Documented and implemented HTTP surfaces drift",
+      "detail": "Design documentation names future routes and /api/profile/me while the observed router exposes a smaller and different surface.",
+      "source_refs": [
+        {
+          "path": "projects/body-war/docs/features/troqar-product-architecture/interfaces.md",
+          "selector": "/api/profile/me",
+          "sha256": "6754b07081a13ff0895491181cb3705d4194f75a34996fbd03e255c63172e3ec"
+        },
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "url.pathname === \"/api/profile\"",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ]
+    },
+    {
+      "id": "BW-WS-GAP-006",
+      "status": "open",
+      "label": "Database foreign-key constraints are not declared",
+      "detail": "Cross-record ownership and identity integrity is currently enforced by application behavior rather than declared database foreign keys.",
+      "source_refs": [
+        {
+          "path": "projects/body-war/app/src/infrastructure/postgres/schema.ts",
+          "selector": "bodyWarActivityEvidenceCandidates",
+          "sha256": "909fb15a5aab1b417c0455f194e7a120d117d41b0ef283f0e69f1bf6f1823fec"
+        }
+      ]
+    },
+    {
+      "id": "BW-WS-GAP-007",
+      "status": "open",
+      "label": "Production compose variants diverge",
+      "detail": "The Caddy production compose omits the separate token-protection secret and names a runtime auth-store variable not consumed by the inspected server.",
+      "source_refs": [
+        {
+          "path": "projects/body-war/infra/docker-compose.prod.yml",
+          "selector": "BODY_WAR_AUTH_STORE",
+          "sha256": "4aa3abc00c893cf1188f03fe64b0ffd37b46bc0d69c103fbad4470056f8c7ffe"
+        },
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "BODY_WAR_TOKEN_PROTECTION_SECRET",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ]
+    },
+    {
+      "id": "BW-WS-GAP-008",
+      "status": "open",
+      "label": "Structured observability absent",
+      "detail": "Named product signals are design intent; observed runtime surfaces are status, health checks, startup console output, deployment receipts, and smoke scripts.",
+      "source_refs": [
+        {
+          "path": "projects/body-war/docs/features/troqar-product-architecture/backend.md",
+          "selector": "auth.provider.connected",
+          "sha256": "951e654d7ed7170032fa8920a7a22c8f5b8aa80eac24e90a427fb050306841c4"
+        },
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "console.log",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ]
+    },
+    {
+      "id": "BW-WS-GAP-009",
+      "status": "open",
+      "label": "Operator promotion path absent",
+      "detail": "Review and source-backed states exist in business and storage models, but no observed operator endpoint implements promotion.",
+      "source_refs": [
+        {
+          "path": "projects/body-war/app/src/auth/types.ts",
+          "selector": "operator_review",
+          "sha256": "1ad27dcc659050682029f81e4938fcf65daf7e76711521a036cfcd1445bd29af"
+        },
+        {
+          "path": "projects/body-war/app/server.ts",
+          "selector": "if (url.pathname.startsWith(\"/api/\"))",
+          "sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+        }
+      ]
+    },
+    {
+      "id": "BW-WS-GAP-010",
+      "status": "open",
+      "label": "SuggestedTrack proof identifiers differ from business graph identifiers",
+      "detail": "The proof ontology and complete business ontology must remain explicitly bridged instead of being merged by similar labels.",
+      "source_refs": [
+        {
+          "path": "projects/body-war/proofs/suggested-track-ontology-domainspec/ontology/entries/SuggestedTrack.json",
+          "selector": "body-war.ontology.SuggestedTrack",
+          "sha256": "c5be8251745f47e6f8c505512c0bef536c5cdaac133f37d0e3847412ed44529a"
+        },
+        {
+          "path": "projects/body-war/ontology/business/nodes/entity.suggested-track.json",
+          "selector": "body-war.business.entity.suggested-track",
+          "sha256": "9a2f5a02cab8eeff33396a4dd66c94889ad330d81854d654027c274cbffe7889"
+        }
+      ]
+    }
+  ]
+}

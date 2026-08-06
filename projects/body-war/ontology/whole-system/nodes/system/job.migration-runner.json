@@ -1,0 +1,28 @@
+{
+  "schema_version": "body-war-system-node/v1",
+  "concept_id": "body-war.system.job.migration-runner",
+  "label": "Migration Runner",
+  "definition": "Checksum-bound migration runner for shared authentication and Body War database schemas.",
+  "concept_role": "workflow object",
+  "system_kind": "job",
+  "branch_roles": [
+    "system"
+  ],
+  "source_refs": [
+    {
+      "path": "projects/body-war/app/src/infrastructure/postgres/migrations.ts",
+      "selector": "export async function applyBodyWarMigrations",
+      "sha256": "287b561e69b442bf848cf97bd4e5ec4e4091174d81747a14872229650bbb5705"
+    }
+  ],
+  "owner_route": "body-war.product-ontology-owner",
+  "observation_status": "observed",
+  "confidence": {
+    "evidence_confidence": "high",
+    "basis": "Directly bound to the named Body War implementation, test, or deployment selector; ontology inclusion adds no runtime or release authority."
+  },
+  "residue": [],
+  "forbidden_collapse": [
+    "Do not treat this observed system concept as business authority, production proof, deployment, promotion, or release admission."
+  ]
+}

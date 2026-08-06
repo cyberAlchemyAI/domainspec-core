@@ -1,0 +1,78 @@
+{
+  "schema_version": "body-war-context-pack/v1",
+  "task": "Implement and test the login-to-explained-score prototype without exceeding geometry, scoring, privacy, or authority evidence.",
+  "obligations": [
+    {
+      "id": "BW-CTX-001",
+      "obligation": "Preserve authentication, browser-session, CSRF, origin, and server-only token boundaries.",
+      "sources": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/capability.auth-consent.json",
+          "selector": "body-war.business.capability.auth-consent",
+          "sha256": "002f2ae5cd06aa31e28b48071bed1e87bb4a8cfeb7cd964dad368456d940906f"
+        },
+        {
+          "path": "projects/body-war/ontology/whole-system/nodes/system/module.browser-session-adapter.json",
+          "selector": "body-war.system.module.browser-session-adapter",
+          "sha256": "1d59466b2240b21f7f8f45278155aa0f534ef6890cf5c1c89eace9f25f3b6a09"
+        }
+      ]
+    },
+    {
+      "id": "BW-CTX-002",
+      "obligation": "Reuse the observed SuggestedTrack and evidence-candidate path and keep consent explicit.",
+      "sources": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/workflow.suggested-track-expansion.json",
+          "selector": "body-war.business.workflow.suggested-track-expansion",
+          "sha256": "0d8aa236ef8ab54b6b7bca0c83d2d0015f71724d5978c48666ee541e351019a2"
+        },
+        {
+          "path": "projects/body-war/ontology/whole-system/nodes/system/endpoint.suggested-track-evidence.json",
+          "selector": "body-war.system.endpoint.suggested-track-evidence",
+          "sha256": "a0be6dabf296bdb7eb30188c69d0b2151133a5d3c55b7c86fb90154dad099bf1"
+        }
+      ]
+    },
+    {
+      "id": "BW-CTX-003",
+      "obligation": "Acquire and derive source-bound activity geometry before any geometry or score claim.",
+      "sources": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.fetch-selected-activity-geometry.json",
+          "selector": "body-war.business.operation.fetch-selected-activity-geometry",
+          "sha256": "1dcf9e9d33cc477f24f638a015215bccbb68da84257c3668cb5567be0f5f8f65"
+        },
+        {
+          "path": "projects/body-war/ontology/whole-system/nodes/system/gap.geometry-score-gap.json",
+          "selector": "body-war.system.gap.geometry-score-gap",
+          "sha256": "a6c318594367536486e6af0bbb5e2d85e2aec58c0eda4035fc98899412090f51"
+        }
+      ]
+    },
+    {
+      "id": "BW-CTX-004",
+      "obligation": "Build a policy-bound score input snapshot and explained preview; do not present it as verified control or source-backed track authority.",
+      "sources": [
+        {
+          "path": "projects/body-war/ontology/business/nodes/operation.calculate-score-preview.json",
+          "selector": "body-war.business.operation.calculate-score-preview",
+          "sha256": "cfac094b47984febb0251f38d6ccc8121d80d80f8a888ce4efc73d3fae3406df"
+        },
+        {
+          "path": "projects/body-war/ontology/whole-system/relations/bridge-relations.json",
+          "selector": "body-war.bridge.score-preview-gap",
+          "sha256": "e8529828596c9f80c205bb6d5341bb2e119b44f7a0dc04b7bf9223ad2d7fef1b"
+        }
+      ]
+    }
+  ],
+  "unresolved_residue": [
+    "BW-WS-GAP-001",
+    "BW-WS-GAP-002",
+    "BW-WS-GAP-003",
+    "BW-WS-GAP-008",
+    "BW-WS-GAP-009"
+  ],
+  "authority_effect": "none"
+}
