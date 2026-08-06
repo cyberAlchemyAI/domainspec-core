@@ -1,0 +1,117 @@
+{
+  "action_artifacts": [
+    "actions/spawn-0001.json",
+    "actions/spawn-0002.json",
+    "actions/spawn-0003.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0001",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "domainspec-subagents-strategy",
+      "dispatch_id": "2026-07-31-dual-residue-experiment-feasibility-review-route",
+      "forbidden_write_scopes": [
+        "telemetry/agents/subagents-dispatch.yaml"
+      ],
+      "input_refs": [
+        "development/review/2026-07-31-dual-residue-experiment-feasibility/dispatch-sheet.json",
+        "development/review/2026-07-31-dual-residue-experiment-feasibility/strategy-inventory-packet.json"
+      ],
+      "mode": "review-attack",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/dual-residue-review/attacker-formal.json"
+      ],
+      "role": "attacker-formal",
+      "run_id": "run-20260731-dual-residue-feasibility-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "review:../dual-residue-experiment",
+      "wave_id": "attack",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0002",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "domainspec-subagents-strategy",
+      "dispatch_id": "2026-07-31-dual-residue-experiment-feasibility-review-route",
+      "forbidden_write_scopes": [
+        "telemetry/agents/subagents-dispatch.yaml"
+      ],
+      "input_refs": [
+        "development/review/2026-07-31-dual-residue-experiment-feasibility/dispatch-sheet.json",
+        "development/review/2026-07-31-dual-residue-experiment-feasibility/strategy-inventory-packet.json"
+      ],
+      "mode": "review-attack",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/dual-residue-review/attacker-mechanics.json"
+      ],
+      "role": "attacker-mechanics",
+      "run_id": "run-20260731-dual-residue-feasibility-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "review:../dual-residue-experiment",
+      "wave_id": "attack",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0003",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "domainspec-subagents-strategy",
+      "dispatch_id": "2026-07-31-dual-residue-experiment-feasibility-review-route",
+      "forbidden_write_scopes": [
+        "telemetry/agents/subagents-dispatch.yaml"
+      ],
+      "input_refs": [
+        "development/review/2026-07-31-dual-residue-experiment-feasibility/dispatch-sheet.json",
+        "development/review/2026-07-31-dual-residue-experiment-feasibility/strategy-inventory-packet.json"
+      ],
+      "mode": "review-attack",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/dual-residue-review/attacker-ownership.json"
+      ],
+      "role": "attacker-ownership",
+      "run_id": "run-20260731-dual-residue-feasibility-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "review:../dual-residue-experiment",
+      "wave_id": "attack",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "2026-07-31-dual-residue-experiment-feasibility-review-route",
+  "run_id": "run-20260731-dual-residue-feasibility-01",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [],
+    "gate_after": "g-attack-returns",
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": true,
+    "role_ids": [
+      "attacker-formal",
+      "attacker-mechanics",
+      "attacker-ownership"
+    ],
+    "wave_id": "attack"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}
