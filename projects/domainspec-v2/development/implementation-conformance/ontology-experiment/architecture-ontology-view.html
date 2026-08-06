@@ -3,452 +3,215 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Architecture Ontology Canvas</title>
+  <title>Unified Architecture Ontology Canvas</title>
   <style>
     :root {
       color-scheme: dark;
-      --ink: #f6f3ea;
-      --muted: #939aa9;
-      --faint: #646b78;
-      --surface: #11151d;
-      --surface-2: #171c25;
-      --surface-3: #202633;
-      --line: #2a3140;
-      --line-bright: #3b4558;
-      --cyan: #63d8e5;
-      --cyan-dim: #173a42;
-      --lime: #b6e875;
-      --lime-dim: #283b22;
-      --amber: #f6bd61;
-      --amber-dim: #45341e;
-      --violet: #b8a2ff;
-      --violet-dim: #312b4d;
-      --red: #ff7b7b;
-      --red-dim: #492426;
-      --blue: #7ca9ff;
-      --blue-dim: #223354;
-      --shadow: 0 24px 64px rgba(0, 0, 0, 0.34);
-      --radius: 16px;
+      --ink: #f4f1e8;
+      --muted: #a2a9b7;
+      --surface: #111722;
+      --surface-raised: #182130;
+      --line: #344156;
+      --meaning: #61d4df;
+      --realization: #9caeff;
+      --expectation: #c5a7ff;
+      --observation: #aadf72;
+      --explanation: #ff9d78;
+      --focus: #ffd166;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-
     * { box-sizing: border-box; }
-
-    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
-
-    body {
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 18% -8%, rgba(99, 216, 229, 0.12), transparent 34%),
-        radial-gradient(circle at 92% 8%, rgba(184, 162, 255, 0.1), transparent 31%),
-        #090c12;
-    }
-
-    button, input, select { font: inherit; }
-    button { color: inherit; }
-
-    .app {
-      display: grid;
-      grid-template-rows: 68px minmax(0, 1fr);
-      width: 100%;
-      height: 100%;
-    }
-
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body { overflow: hidden; color: var(--ink); background: #080c12; }
+    button { font: inherit; color: inherit; }
+    .app { display: grid; grid-template-rows: auto minmax(0, 1fr); width: 100%; height: 100%; }
     .topbar {
       display: flex;
       align-items: center;
-      gap: 18px;
-      padding: 0 20px;
+      gap: 16px;
+      min-height: 72px;
+      padding: 12px 18px;
       border-bottom: 1px solid var(--line);
-      background: rgba(10, 13, 19, 0.88);
-      backdrop-filter: blur(18px);
-      z-index: 8;
+      background: rgba(10, 14, 21, 0.96);
     }
-
-    .brand {
+    .brand { min-width: 250px; }
+    .eyebrow { color: var(--meaning); font-size: 10px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+    h1 { margin: 3px 0 0; font-size: 17px; }
+    .pipeline { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
+    .pipeline span { padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; }
+    .metrics { display: flex; gap: 7px; margin-left: auto; }
+    .metric, .status { padding: 6px 9px; border: 1px solid var(--line); border-radius: 9px; color: var(--muted); font-size: 11px; }
+    .metric strong { color: var(--ink); }
+    .status.ready { color: var(--observation); }
+    .status.error { color: #ff8585; }
+    .workspace { position: relative; min-height: 0; overflow: hidden; }
+    .toolbar { position: absolute; top: 12px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; gap: 8px; z-index: 4; }
+    .toolbar button { padding: 8px 11px; border: 1px solid var(--line); border-radius: 9px; background: rgba(17, 23, 34, .94); cursor: pointer; }
+    .toolbar button:hover, .toolbar button:focus-visible { border-color: var(--meaning); outline: none; }
+    .viewport-controls { display: flex; gap: 5px; padding: 4px; border: 1px solid var(--line); border-radius: 11px; background: rgba(10, 14, 21, .94); }
+    .viewport-controls button { min-width: 34px; padding: 4px 8px; }
+    .viewport-status { align-self: center; color: var(--muted); font-size: 10px; }
+    .filters {
+      position: absolute;
+      top: 56px;
+      left: 12px;
+      right: 12px;
       display: flex;
-      align-items: center;
-      min-width: 272px;
-      gap: 12px;
-    }
-
-    .brand-mark {
-      display: grid;
-      place-items: center;
-      width: 38px;
-      height: 38px;
-      border: 1px solid rgba(99, 216, 229, 0.46);
-      border-radius: 12px;
-      background: linear-gradient(145deg, rgba(99, 216, 229, 0.2), rgba(184, 162, 255, 0.09));
-      box-shadow: inset 0 0 22px rgba(99, 216, 229, 0.08);
-    }
-
-    .brand-mark svg { width: 22px; height: 22px; }
-    .brand-copy { min-width: 0; }
-    .eyebrow { color: var(--cyan); font-size: 10px; font-weight: 750; letter-spacing: 0.16em; text-transform: uppercase; }
-    h1 { margin: 2px 0 0; font-size: 16px; line-height: 1.15; letter-spacing: -0.015em; }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 6px 10px;
-      border: 1px solid var(--line-bright);
-      border-radius: 999px;
-      color: var(--muted);
-      background: rgba(23, 28, 37, 0.8);
-      font-size: 11px;
-      white-space: nowrap;
-    }
-
-    .status-pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 10px rgba(246, 189, 97, 0.55); }
-    .status-pill.ready::before { background: var(--lime); box-shadow: 0 0 10px rgba(182, 232, 117, 0.52); }
-    .status-pill.error::before { background: var(--red); }
-
-    .top-metrics { display: flex; align-items: center; gap: 5px; margin-left: auto; }
-    .metric { padding: 6px 9px; color: var(--muted); font-size: 11px; border-left: 1px solid var(--line); }
-    .metric strong { color: var(--ink); font-weight: 720; }
-
-    .icon-button {
-      display: grid;
-      place-items: center;
-      width: 34px;
-      height: 34px;
+      flex-wrap: wrap;
+      align-items: end;
+      gap: 8px;
+      padding: 9px;
       border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--surface);
-      cursor: pointer;
-      transition: 140ms ease;
+      border-radius: 12px;
+      background: rgba(17, 23, 34, .96);
+      z-index: 4;
     }
-
-    .icon-button:hover, .icon-button:focus-visible { border-color: var(--cyan); background: var(--surface-2); outline: none; }
-
-    .workspace {
-      position: relative;
-      min-height: 0;
-      overflow: hidden;
-    }
-
-    .sidebar, .inspector {
+    .filters label { display: grid; gap: 3px; color: var(--muted); font-size: 9px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+    .filters select, .filters input, .filters button { min-height: 30px; border: 1px solid var(--line); border-radius: 7px; color: var(--ink); background: #0c121c; font: inherit; font-size: 11px; }
+    .filters select, .filters input { min-width: 112px; padding: 4px 26px 4px 7px; }
+    .filters button { padding: 4px 10px; cursor: pointer; }
+    .filter-summary { margin-left: auto; align-self: center; max-width: 300px; color: var(--muted); font-size: 10px; line-height: 1.35; }
+    .canvas-wrap { width: 100%; height: 100%; overflow: auto; background: radial-gradient(circle at 20% 0%, rgba(97,212,223,.08), transparent 30%), #090e16; }
+    #ontology-canvas { display: block; width: max(100%, 1800px); height: max(100%, 1120px); min-width: 1800px; min-height: 1120px; }
+    .band-backdrop { fill: rgba(17, 23, 34, .7); stroke: var(--line); stroke-width: 2; rx: 18; }
+    .band-title { fill: var(--ink); font-size: 20px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .band-subtitle { fill: var(--muted); font-size: 13px; }
+    .graph-edge { fill: none; stroke-width: 2.2; vector-effect: non-scaling-stroke; opacity: .74; }
+    .graph-edge.structural { stroke: #8190a8; }
+    .graph-edge.semantic { stroke: var(--meaning); stroke-dasharray: 10 7; }
+    .graph-edge.evidence { stroke: var(--observation); stroke-dasharray: 2 7; }
+    .graph-edge.is-dimmed { opacity: .08; }
+    .graph-edge.is-emphasized { opacity: 1; stroke-width: 3.4; }
+    .graph-edge.is-filter-dimmed { opacity: .06; }
+    .graph-edge.is-filter-hidden { display: none; }
+    .graph-edge.is-focus-dimmed { opacity: .035; }
+    .graph-edge.is-focus-emphasized { opacity: 1; stroke-width: 4; }
+    .graph-node { cursor: pointer; transition: opacity 120ms ease; }
+    .graph-node .node-card { fill: var(--surface-raised); stroke: var(--line); stroke-width: 2; rx: 13; }
+    .graph-node[data-band="meaning"] .node-card { stroke: var(--meaning); }
+    .graph-node[data-band="realization"] .node-card { stroke: var(--realization); }
+    .graph-node[data-band="expectation"] .node-card { stroke: var(--expectation); }
+    .graph-node[data-band="observation"] .node-card { stroke: var(--observation); }
+    .graph-node[data-band="explanation"] .node-card { stroke: var(--explanation); }
+    .graph-node.is-dimmed { opacity: .23; }
+    .graph-node.is-emphasized .node-card { stroke: var(--focus); stroke-width: 4; filter: drop-shadow(0 0 9px rgba(255,209,102,.38)); }
+    .graph-node.is-filter-dimmed { opacity: .09; }
+    .graph-node.is-filter-hidden { display: none; }
+    .graph-node.is-filter-emphasized .node-card { stroke-width: 4; filter: drop-shadow(0 0 7px rgba(97,212,223,.38)); }
+    .graph-node.is-focus-dimmed { opacity: .06; }
+    .graph-node.is-focus-emphasized .node-card { stroke: var(--focus); stroke-width: 4.5; filter: drop-shadow(0 0 10px rgba(255,209,102,.45)); }
+    .graph-node.is-keyboard-current .node-card, .graph-node:focus-visible .node-card { stroke: var(--focus); stroke-width: 5; filter: drop-shadow(0 0 12px rgba(255,209,102,.58)); }
+    .graph-node:focus { outline: none; }
+    .focus-summary { flex-basis: 100%; color: var(--muted); font-size: 10px; line-height: 1.4; }
+    .focus-gaps { display: flex; flex-basis: 100%; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+    .focus-gaps li { padding: 5px 7px; border: 1px solid #715f33; border-radius: 7px; color: #f2d999; background: #241f13; font-size: 10px; }
+    .node-label { fill: var(--ink); font-size: 13px; font-weight: 760; }
+    .node-plain { fill: var(--muted); font-size: 10px; }
+    .node-meta { fill: #7f8999; font-size: 9px; text-transform: uppercase; letter-spacing: .06em; }
+    .drawer {
       position: absolute;
       top: 12px;
       bottom: 12px;
-      background: rgba(14, 18, 25, 0.9);
-      backdrop-filter: blur(14px);
-      overflow: hidden;
-      border: 1px solid var(--line-bright);
+      left: 12px;
+      width: min(540px, calc(100vw - 24px));
+      padding: 20px;
+      overflow: auto;
+      border: 1px solid var(--line);
       border-radius: 16px;
-      box-shadow: var(--shadow);
+      background: rgba(14, 20, 30, .98);
+      box-shadow: 0 24px 70px rgba(0,0,0,.48);
+      transform: translateX(calc(-100% - 30px));
       opacity: 0;
       pointer-events: none;
-      transition: transform 180ms ease, opacity 160ms ease;
-      z-index: 8;
+      transition: 160ms ease;
+      z-index: 6;
     }
-
-    .sidebar {
-      left: 12px;
-      display: flex;
-      width: min(292px, calc(100vw - 24px));
-      flex-direction: column;
-      transform: translateX(calc(-100% - 24px));
-    }
-
-    .inspector {
-      right: 12px;
-      width: min(390px, calc(100vw - 24px));
-      overflow-y: auto;
-      transform: translateX(calc(100% + 24px));
-    }
-
-    .sidebar.open, .inspector.open {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateX(0);
-    }
-
-    .drawer-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 52px;
-      padding: 8px 10px 8px 16px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .drawer-head strong { display: block; color: var(--ink); font-size: 13px; }
-    .drawer-head span { color: var(--faint); font-size: 9.5px; }
-    .drawer-close { flex: 0 0 auto; font-size: 17px; }
-
-    .sidebar-section { padding: 16px; border-bottom: 1px solid var(--line); }
-    .section-label { margin-bottom: 9px; color: var(--faint); font-size: 10px; font-weight: 750; letter-spacing: 0.13em; text-transform: uppercase; }
-
-    .search {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      height: 38px;
-      padding: 0 11px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: #0c1016;
-    }
-
-    .search:focus-within { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(99, 216, 229, 0.08); }
-    .search svg { width: 15px; color: var(--faint); flex: 0 0 auto; }
-    .search input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--ink); background: transparent; font-size: 12px; }
-    .search kbd { color: var(--faint); font-size: 10px; }
-
-    .view-nav { display: grid; gap: 6px; }
-
-    .view-button {
-      display: grid;
-      grid-template-columns: 32px 1fr auto;
-      align-items: center;
-      gap: 9px;
-      width: 100%;
-      min-height: 50px;
-      padding: 7px 10px;
-      border: 1px solid transparent;
-      border-radius: 11px;
-      background: transparent;
-      text-align: left;
-      cursor: pointer;
-    }
-
-    .view-button:hover { background: var(--surface-2); }
-    .view-button.active { border-color: rgba(99, 216, 229, 0.3); background: linear-gradient(90deg, rgba(99, 216, 229, 0.14), rgba(99, 216, 229, 0.04)); }
-    .view-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; color: var(--cyan); background: var(--cyan-dim); }
-    .view-button[data-view="profiles"] .view-icon { color: var(--violet); background: var(--violet-dim); }
-    .view-button[data-view="facts"] .view-icon { color: var(--lime); background: var(--lime-dim); }
-    .view-button[data-view="findings"] .view-icon { color: var(--red); background: var(--red-dim); }
-    .view-title { display: block; font-size: 12px; font-weight: 680; }
-    .view-subtitle { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; }
-    .view-key { color: var(--faint); font-size: 10px; }
-
-    .navigator { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 14px 10px 10px; }
-    .navigator-head { display: flex; justify-content: space-between; padding: 0 6px 9px; }
-    .navigator-count { color: var(--faint); font-size: 10px; }
-    .node-list { min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--line-bright) transparent; }
-
-    .node-list-button {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-      padding: 8px;
-      border: 0;
-      border-radius: 8px;
-      color: var(--muted);
-      background: transparent;
-      text-align: left;
-      cursor: pointer;
-    }
-
-    .node-list-button:hover, .node-list-button.active { color: var(--ink); background: var(--surface-2); }
-    .node-list-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); flex: 0 0 auto; }
-    .node-list-button[data-kind="property"] .node-list-dot { background: var(--violet); }
-    .node-list-button[data-kind="fact"] .node-list-dot { background: var(--lime); }
-    .node-list-button[data-kind="finding"] .node-list-dot { background: var(--red); }
-    .node-list-button[data-kind="meta-type"] .node-list-dot { background: var(--cyan); }
-    .node-list-button[data-maturity="candidate"] .node-list-dot { background: var(--violet); }
-    .node-list-button[data-maturity="deferred"] .node-list-dot { background: var(--amber); }
-    .node-list-button[data-maturity="superseded"] .node-list-dot { background: var(--red); }
-    .node-list-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
-
-    .canvas-shell { position: absolute; inset: 0; min-width: 0; min-height: 0; overflow: hidden; background: #0a0e14; }
-
-    .canvas-shell::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      opacity: 0.38;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(120, 135, 160, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(120, 135, 160, 0.08) 1px, transparent 1px),
-        linear-gradient(rgba(120, 135, 160, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(120, 135, 160, 0.025) 1px, transparent 1px);
-      background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
-    }
-
-    .canvas-toolbar {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      right: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      pointer-events: none;
-      z-index: 4;
-    }
-
-    .toolbar-group {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(14, 18, 25, 0.9);
-      box-shadow: var(--shadow);
-      pointer-events: auto;
-    }
-
-    .toolbar-button {
-      min-width: 32px;
-      height: 30px;
-      padding: 0 9px;
-      border: 0;
-      border-radius: 8px;
-      color: var(--muted);
-      background: transparent;
-      cursor: pointer;
-      font-size: 11px;
-    }
-
-    .toolbar-button:hover, .toolbar-button.active { color: var(--ink); background: var(--surface-3); }
-    .toolbar-spacer { flex: 1; }
-
-    .profile-select {
-      height: 30px;
-      padding: 0 28px 0 9px;
-      border: 0;
-      border-radius: 8px;
-      color: var(--ink);
-      outline: 0;
-      background: var(--surface-3);
-      font-size: 11px;
-    }
-
-    .view-description {
-      position: absolute;
-      left: 18px;
-      bottom: 18px;
-      max-width: min(440px, 58%);
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-radius: 11px;
-      color: var(--muted);
-      background: rgba(10, 14, 20, 0.88);
-      box-shadow: var(--shadow);
-      font-size: 11px;
-      line-height: 1.45;
-      pointer-events: none;
-      z-index: 3;
-    }
-
-    .view-description strong { color: var(--ink); }
-
-    #ontology-canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; }
-    #ontology-canvas.is-panning { cursor: grabbing; }
-
-    .graph-edge { stroke: #455064; stroke-width: 1.5; fill: none; opacity: 0.8; }
-    .graph-edge.relation { stroke: var(--violet); stroke-dasharray: 7 5; opacity: 0.55; }
-    .graph-edge.constraint { stroke: var(--violet); opacity: 0.5; }
-    .graph-edge.fact { stroke: var(--lime); opacity: 0.72; }
-    .graph-edge.violation { stroke: var(--red); opacity: 0.76; }
-    .graph-edge.dimmed { opacity: 0.08; }
-    .edge-label { fill: var(--muted); font-size: 9px; paint-order: stroke; stroke: #0a0e14; stroke-width: 4px; stroke-linejoin: round; }
-
-    .graph-node { cursor: pointer; outline: none; }
-    .graph-node .node-rect { fill: rgba(20, 26, 35, 0.98); stroke: #3a4558; stroke-width: 1.2; rx: 13; filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.28)); transition: 120ms ease; }
-    .graph-node:hover .node-rect, .graph-node:focus-visible .node-rect { stroke: var(--cyan); stroke-width: 1.8; }
-    .graph-node.selected .node-rect { stroke: var(--cyan); stroke-width: 2.4; filter: drop-shadow(0 0 16px rgba(99, 216, 229, 0.18)); }
-    .graph-node.property .node-rect { stroke: #554d7a; fill: rgba(28, 24, 43, 0.98); }
-    .graph-node.profile .node-rect { stroke: #6558a0; fill: rgba(34, 28, 53, 0.98); }
-    .graph-node.fact .node-rect { stroke: #426039; fill: rgba(22, 34, 24, 0.98); }
-    .graph-node.finding .node-rect { stroke: #713a3d; fill: rgba(45, 23, 26, 0.98); }
-    .graph-node.meta-type .node-rect { stroke: #3b6571; fill: rgba(18, 31, 38, 0.98); }
-    .graph-node.meta-type.maturity-candidate .node-rect { stroke: #6558a0; fill: rgba(34, 28, 53, 0.98); }
-    .graph-node.meta-type.maturity-deferred .node-rect { stroke: #765c34; fill: rgba(49, 38, 24, 0.98); }
-    .graph-node.meta-type.maturity-superseded .node-rect { stroke: #713a3d; fill: rgba(45, 23, 26, 0.98); }
-    .graph-node.meta-group .node-rect { stroke: #49586e; fill: rgba(24, 30, 41, 0.98); }
-    .graph-node.broken .node-rect { stroke: var(--red); }
-    .graph-node.dimmed { opacity: 0.16; }
-    .node-accent { fill: var(--cyan); }
-    .graph-node.property .node-accent, .graph-node.profile .node-accent { fill: var(--violet); }
-    .graph-node.fact .node-accent { fill: var(--lime); }
-    .graph-node.finding .node-accent, .graph-node.broken .node-accent { fill: var(--red); }
-    .graph-node.meta-type.maturity-candidate .node-accent { fill: var(--violet); }
-    .graph-node.meta-type.maturity-deferred .node-accent { fill: var(--amber); }
-    .graph-node.meta-type.maturity-superseded .node-accent { fill: var(--red); }
-    .graph-node.meta-group .node-accent { fill: var(--blue); }
-    .node-title { fill: var(--ink); font-size: 12px; font-weight: 720; pointer-events: none; }
-    .node-plain { fill: #c5ccd7; font-size: 9.5px; pointer-events: none; }
-    .node-badge { fill: var(--faint); font-size: 8px; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; pointer-events: none; }
-    .node-count { fill: var(--muted); font-size: 9px; pointer-events: none; }
-
-    .inspector-head { position: relative; padding: 20px 54px 16px 20px; border-bottom: 1px solid var(--line); }
-    .inspector-close { position: absolute; top: 12px; right: 12px; }
-    .inspector-kicker { color: var(--cyan); font-size: 10px; font-weight: 760; letter-spacing: 0.13em; text-transform: uppercase; }
-    .inspector h2 { margin: 6px 0 5px; font-size: 20px; letter-spacing: -0.025em; }
-    .inspector-id { color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; overflow-wrap: anywhere; }
-    .inspector-body { padding: 18px 20px 32px; }
-    .inspector-empty { display: grid; place-items: center; min-height: 70%; padding: 32px; color: var(--muted); text-align: center; }
-    .inspector-empty svg { width: 52px; margin-bottom: 14px; color: var(--line-bright); }
-    .inspector-empty strong { display: block; margin-bottom: 6px; color: var(--ink); }
-
-    .detail-section { margin-bottom: 22px; }
-    .detail-section h3 { margin: 0 0 9px; color: var(--faint); font-size: 10px; font-weight: 760; letter-spacing: 0.12em; text-transform: uppercase; }
-    .detail-grid { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 8px 10px; margin: 0; font-size: 11px; }
-    .detail-grid dt { color: var(--faint); }
-    .detail-grid dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
-    .detail-copy { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
-
-    .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tag { padding: 5px 7px; border: 1px solid var(--line); border-radius: 7px; color: var(--muted); background: var(--surface); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9px; }
-    .tag.cyan { border-color: rgba(99, 216, 229, 0.26); color: var(--cyan); background: var(--cyan-dim); }
-    .tag.red { border-color: rgba(255, 123, 123, 0.24); color: var(--red); background: var(--red-dim); }
-
-    .property-list { display: grid; gap: 7px; }
-    .property-row { padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px; background: rgba(17, 21, 29, 0.86); }
-    .property-row-head { display: flex; align-items: start; justify-content: space-between; gap: 8px; }
-    .property-name { color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9.5px; overflow-wrap: anywhere; }
-    .property-value { margin-top: 5px; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
-    .property-value.bad { color: var(--red); }
-    .origin { flex: 0 0 auto; color: var(--faint); font-size: 8px; }
-
-    .warning-card { padding: 11px 12px; border: 1px solid rgba(246, 189, 97, 0.26); border-radius: 10px; color: #d9c69f; background: rgba(69, 52, 30, 0.46); font-size: 10.5px; line-height: 1.5; }
-    .danger-card { padding: 11px 12px; border: 1px solid rgba(255, 123, 123, 0.24); border-radius: 10px; color: #f6b3b3; background: rgba(73, 36, 38, 0.52); font-size: 10.5px; line-height: 1.5; }
-
-    .legend { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; color: var(--faint); font-size: 9px; }
-    .legend span { display: inline-flex; align-items: center; gap: 5px; }
-    .legend i { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); }
-    .legend .property-key i { background: var(--violet); }
-    .legend .fact-key i { background: var(--lime); }
-    .legend .finding-key i { background: var(--red); }
-
-    .modal-backdrop { position: fixed; inset: 0; display: none; place-items: center; padding: 20px; background: rgba(3, 5, 8, 0.78); backdrop-filter: blur(8px); z-index: 20; }
-    .modal-backdrop.open { display: grid; }
-    .modal { width: min(620px, 100%); max-height: min(760px, calc(100vh - 40px)); overflow: auto; padding: 24px; border: 1px solid var(--line-bright); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
-    .modal h2 { margin: 0 0 8px; font-size: 20px; }
-    .modal p { color: var(--muted); font-size: 12px; line-height: 1.5; }
-    .modal h3 { margin: 20px 0 6px; color: var(--ink); font-size: 12px; }
-    .modal .plain-model { display: grid; gap: 7px; margin: 14px 0 4px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); color: var(--muted); font-size: 11px; line-height: 1.45; }
-    .modal .plain-model strong { color: var(--ink); }
-    .guide-link { display: inline-flex; margin-top: 14px; color: var(--cyan); font-size: 11px; text-decoration: none; }
-    .guide-link:hover, .guide-link:focus-visible { text-decoration: underline; outline: none; }
-    .shortcut-grid { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-top: 18px; font-size: 11px; }
-    .shortcut-grid span:nth-child(odd) { color: var(--muted); }
-    kbd { padding: 2px 6px; border: 1px solid var(--line-bright); border-radius: 5px; color: var(--ink); background: var(--surface-3); font-family: inherit; font-size: 9px; }
-
-    .toast { position: absolute; top: 68px; left: 50%; transform: translate(-50%, -12px); z-index: 15; padding: 9px 12px; border: 1px solid var(--line-bright); border-radius: 9px; color: var(--ink); background: var(--surface-2); box-shadow: var(--shadow); font-size: 11px; opacity: 0; pointer-events: none; transition: 180ms ease; }
-    .toast.show { opacity: 1; transform: translate(-50%, 0); }
-
-    @media (max-width: 1080px) { .top-metrics .metric:nth-child(n+4) { display: none; } }
-
-    @media (max-width: 820px) {
-      .sidebar, .inspector { top: 8px; bottom: 8px; }
-      .sidebar { left: 8px; width: min(292px, calc(100vw - 16px)); }
-      .inspector { right: 8px; width: min(390px, calc(100vw - 16px)); }
-      .canvas-toolbar { right: auto; display: grid; grid-template-columns: max-content max-content; }
-      .canvas-toolbar .toolbar-spacer { display: none; }
-      .canvas-toolbar #meta-type-filter-group { grid-column: 1 / -1; justify-self: start; }
-      .canvas-toolbar > .toolbar-group:last-child .section-label { display: none; }
+    .drawer.open { transform: translateX(0); opacity: 1; pointer-events: auto; }
+    .drawer-head { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
+    .drawer h2 { margin: 3px 0 0; font-size: 19px; }
+    .drawer p { color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .drawer button { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); cursor: pointer; }
+    .band-guide { display: grid; gap: 9px; margin-top: 18px; }
+    .band-guide div { padding: 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+    .band-guide strong { display: block; margin-bottom: 3px; font-size: 12px; }
+    .band-guide span { color: var(--muted); font-size: 11px; line-height: 1.4; }
+    .navigator { display: grid; gap: 9px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .navigator label { display: grid; gap: 5px; color: var(--muted); font-size: 11px; font-weight: 750; }
+    .navigator input { min-height: 36px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: #090e16; font: inherit; }
+    .navigator-count { color: var(--muted); font-size: 10px; }
+    .navigator-tree { display: grid; gap: 8px; }
+    .navigator-row { padding: 9px; border: 1px solid var(--line); border-radius: 9px; background: #0b111a; }
+    .navigator-row[aria-selected="true"] { border-color: var(--focus); box-shadow: inset 3px 0 var(--focus); }
+    .navigator-row button { width: 100%; height: auto; padding: 0; border: 0; color: var(--ink); background: transparent; text-align: left; }
+    .navigator-row button:focus-visible { outline: 2px solid var(--meaning); outline-offset: 4px; }
+    .navigator-id { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; overflow-wrap: anywhere; }
+    .navigator-meta { margin: 6px 0; color: #c8cfdd; font-size: 10px; overflow-wrap: anywhere; }
+    .navigator-relations { display: grid; gap: 3px; margin: 0; padding-left: 18px; color: var(--muted); font-size: 9px; }
+    .keyboard-help { padding: 10px; border: 1px solid var(--line); border-radius: 9px; color: var(--muted); background: #0b111a; font-size: 11px; line-height: 1.5; }
+    .keyboard-help kbd { padding: 1px 4px; border: 1px solid #59667a; border-radius: 4px; color: var(--ink); background: #111a28; }
+    .boundary { margin-top: 18px; padding: 12px; border: 1px solid #715f33; border-radius: 10px; color: #f2d999; background: #241f13; font-size: 11px; line-height: 1.5; }
+    .details-dialog { width: min(720px, calc(100vw - 32px)); max-height: calc(100vh - 32px); padding: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: #0e141e; box-shadow: 0 28px 90px rgba(0,0,0,.65); }
+    .details-dialog::backdrop { background: rgba(4, 7, 11, .78); }
+    .details-scroll { max-height: calc(100vh - 34px); padding: 20px; overflow: auto; }
+    .details-head { display: flex; align-items: start; justify-content: space-between; gap: 18px; }
+    .details-head h2 { margin: 3px 0 0; font-size: 19px; }
+    .details-head button { min-width: 74px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: var(--surface); cursor: pointer; }
+    .details-grid { display: grid; grid-template-columns: minmax(130px, .4fr) minmax(0, 1fr); gap: 7px 14px; margin: 18px 0; font-size: 12px; }
+    .details-grid dt { color: var(--muted); font-weight: 750; }
+    .details-grid dd { min-width: 0; margin: 0; overflow-wrap: anywhere; }
+    .details-dialog h3 { margin: 18px 0 8px; font-size: 13px; }
+    .details-relations { display: grid; gap: 5px; margin: 0; padding-left: 20px; color: var(--muted); font-size: 11px; }
+    .details-raw { max-height: 220px; margin: 0; padding: 12px; overflow: auto; border: 1px solid var(--line); border-radius: 9px; color: #d5dbea; background: #090e16; font-size: 10px; white-space: pre-wrap; }
+    .loading { display: grid; place-items: center; width: 100%; height: 100%; color: var(--muted); }
+    @media (max-width: 900px) {
+      .pipeline { display: none; }
+      .metric { display: none; }
       .brand { min-width: 0; }
-      .status-pill, .top-metrics { display: none; }
-      .view-description { max-width: calc(100% - 36px); }
+      html, body { height: auto; min-height: 100%; }
+      body { overflow-x: hidden; overflow-y: auto; }
+      .app { grid-template-rows: auto auto; height: auto; min-height: 100svh; }
+      .topbar { flex-wrap: wrap; min-height: 0; padding: 10px 12px; }
+      .metrics { width: 100%; margin-left: 0; }
+      .workspace { display: flex; flex-direction: column; min-height: 0; overflow: visible; }
+      .toolbar {
+        position: static;
+        flex: 0 0 auto;
+        padding: 8px;
+        border-bottom: 1px solid var(--line);
+        background: #0a0e15;
+      }
+      .toolbar > button { flex: 1 1 180px; min-height: 44px; }
+      .viewport-controls { width: 100%; flex-wrap: wrap; }
+      .viewport-controls button { flex: 1 1 44px; min-width: 44px; min-height: 44px; }
+      .viewport-status { flex-basis: 100%; min-height: 1.4em; }
+      .filters {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        flex: 0 0 auto;
+        margin: 0 8px 8px;
+        border-top: 0;
+        border-radius: 0 0 12px 12px;
+      }
+      .filters label, .filters select, .filters input, .filters button { width: 100%; min-width: 0; }
+      .filters select, .filters input, .filters button { min-height: 44px; }
+      .filter-summary, .focus-summary, .focus-gaps { grid-column: 1 / -1; max-width: none; margin-left: 0; }
+      .canvas-wrap { contain: size layout paint; flex: 0 0 auto; width: 100%; min-width: 0; max-width: 100%; height: max(60svh, 420px); min-height: 420px; border-top: 1px solid var(--line); }
+      .drawer {
+        position: fixed;
+        inset: 8px auto 8px 8px;
+        width: calc(100vw - 16px);
+        max-width: 540px;
+        padding: 16px;
+      }
+      .details-dialog { width: calc(100vw - 16px); max-height: calc(100svh - 16px); }
+      .details-scroll { max-height: calc(100svh - 18px); padding: 16px; }
+    }
+    @media (max-width: 420px) {
+      .filters { grid-template-columns: minmax(0, 1fr); }
+      .filter-summary, .focus-summary, .focus-gaps { grid-column: 1; }
+      .details-grid { grid-template-columns: minmax(0, 1fr); gap: 3px; }
+      .details-grid dd { margin-bottom: 8px; }
     }
   </style>
 </head>
@@ -456,1005 +219,1075 @@
   <div class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="5" cy="6" r="2.25"/><circle cx="18.5" cy="5" r="2.25"/><circle cx="12" cy="18" r="2.25"/>
-            <path d="M7 7.2l3.6 8.6M16.7 6.7l-3.5 9.1M7.2 6h9"/>
-          </svg>
-        </div>
-        <div class="brand-copy">
-          <div class="eyebrow">DomainSpec · candidate view</div>
-          <h1>Architecture Ontology Canvas</h1>
-        </div>
+        <div class="eyebrow">One graph · five evidence bands</div>
+        <h1>Architecture Ontology Canvas</h1>
       </div>
-      <div id="app-status" class="status-pill">Loading ontology</div>
-      <div class="top-metrics" aria-label="Ontology metrics">
-        <div class="metric"><strong id="metric-types">—</strong> meta-types</div>
-        <div class="metric"><strong id="metric-properties">—</strong> properties</div>
-        <div class="metric"><strong id="metric-relations">—</strong> relations</div>
-        <div class="metric"><strong id="metric-profiles">—</strong> profiles</div>
-        <div class="metric"><strong id="metric-findings">—</strong> findings</div>
+      <div class="pipeline" aria-label="Meaning to explanation pipeline">
+        <span>Meaning</span><b>→</b><span>Realization</span><b>→</b><span>Expectation</span><b>→</b><span>Observation</span><b>→</b><span>Explanation</span>
       </div>
-      <button id="help-button" class="icon-button" aria-label="Open canvas help" title="Help and keyboard shortcuts">?</button>
+      <div class="metrics" aria-label="Graph metrics">
+        <span class="metric"><strong id="node-count">0</strong> objects</span>
+        <span class="metric"><strong id="edge-count">0</strong> relations</span>
+        <span id="app-status" class="status">Loading exact bundle…</span>
+      </div>
     </header>
-
     <main class="workspace">
-      <aside id="navigation-drawer" class="sidebar" aria-label="Canvas navigation" aria-hidden="true">
-        <div class="drawer-head">
-          <div><strong>Explore the graph</strong><span>Choose a view or find a node</span></div>
-          <button id="close-navigation" class="icon-button drawer-close" aria-label="Close Explore panel" title="Close">×</button>
+      <div class="toolbar">
+        <button id="open-explore" type="button" aria-expanded="false" aria-controls="explore-drawer">☰ Understand this graph</button>
+        <button id="open-help" type="button" aria-haspopup="dialog" aria-controls="help-modal">Keyboard &amp; evidence help</button>
+        <div class="viewport-controls" role="group" aria-label="Canvas viewport controls">
+          <button id="pan-left" type="button" aria-label="Pan left">←</button>
+          <button id="pan-up" type="button" aria-label="Pan up">↑</button>
+          <button id="pan-down" type="button" aria-label="Pan down">↓</button>
+          <button id="pan-right" type="button" aria-label="Pan right">→</button>
+          <button id="zoom-out" type="button" aria-label="Zoom out">−</button>
+          <button id="zoom-in" type="button" aria-label="Zoom in">+</button>
+          <button id="fit-all" type="button">Fit all</button>
+          <button id="fit-selection" type="button">Fit selection</button>
+          <button id="reset-viewport" type="button">Reset</button>
         </div>
-        <section class="sidebar-section">
-          <div class="section-label">Find anything</div>
-          <label class="search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg>
-            <input id="search-input" type="search" placeholder="Types, properties, IDs…" autocomplete="off">
-            <kbd>/</kbd>
-          </label>
-        </section>
-
-        <section class="sidebar-section">
-          <div class="section-label">Graph lenses</div>
-          <nav class="view-nav">
-            <button class="view-button active" data-view="metaTypes">
-              <span class="view-icon">◇</span>
-              <span><span class="view-title">DomainSpec meta-types</span><span class="view-subtitle">Canonical DS-D1 inventory</span></span>
-              <span class="view-key">1</span>
-            </button>
-            <button class="view-button" data-view="types">
-              <span class="view-icon">⌘</span>
-              <span><span class="view-title">Architecture types</span><span class="view-subtitle">Realization model</span></span>
-              <span class="view-key">2</span>
-            </button>
-            <button class="view-button" data-view="profiles">
-              <span class="view-icon">◆</span>
-              <span><span class="view-title">Profile properties</span><span class="view-subtitle">Expected architecture</span></span>
-              <span class="view-key">3</span>
-            </button>
-            <button class="view-button" data-view="facts">
-              <span class="view-icon">◎</span>
-              <span><span class="view-title">Observed facts</span><span class="view-subtitle">TypeScript projection</span></span>
-              <span class="view-key">4</span>
-            </button>
-            <button class="view-button" data-view="findings">
-              <span class="view-icon">!</span>
-              <span><span class="view-title">Violations</span><span class="view-subtitle">Expected vs observed</span></span>
-              <span class="view-key">5</span>
-            </button>
-          </nav>
-        </section>
-
-        <section class="navigator">
-          <div class="navigator-head"><span class="section-label" style="margin:0">Navigator</span><span id="navigator-count" class="navigator-count">0 items</span></div>
-          <div id="node-list" class="node-list"></div>
-        </section>
-      </aside>
-
-      <section class="canvas-shell" aria-label="Interactive architecture ontology graph">
-        <div class="canvas-toolbar">
-          <div class="toolbar-group">
-            <button id="open-navigation" class="toolbar-button" aria-expanded="false" aria-controls="navigation-drawer" title="Open Explore panel (N)">☰ Explore</button>
-          </div>
-          <div class="toolbar-group" aria-label="Canvas controls">
-            <button id="zoom-out" class="toolbar-button" aria-label="Zoom out">−</button>
-            <button id="zoom-in" class="toolbar-button" aria-label="Zoom in">+</button>
-            <button id="fit-graph" class="toolbar-button" title="Fit graph (F)">Fit</button>
-            <button id="reset-layout" class="toolbar-button" title="Reset dragged nodes">Reset</button>
-          </div>
-          <div id="relation-toggle-group" class="toolbar-group">
-            <button id="toggle-relations" class="toolbar-button active">Relations on</button>
-          </div>
-          <div id="meta-type-filter-group" class="toolbar-group">
-            <label for="meta-type-filter" class="section-label" style="margin:0 3px 0 6px">Show</label>
-            <select id="meta-type-filter" class="profile-select">
-              <option value="active">Active backend · 13</option>
-              <option value="ui">UI candidate/deferred · 11</option>
-              <option value="all">All staged · 24</option>
-              <option value="history">Superseded history · 1</option>
-            </select>
-          </div>
-          <div class="toolbar-spacer"></div>
-          <div id="profile-select-group" class="toolbar-group">
-            <label for="profile-select" class="section-label" style="margin:0 3px 0 6px">Profile</label>
-            <select id="profile-select" class="profile-select">
-              <option value="typescript">TypeScript strict</option>
-              <option value="python">Python strict</option>
-              <option value="rust">Rust strict</option>
-            </select>
-          </div>
-        </div>
-
-        <svg id="ontology-canvas" data-testid="ontology-canvas" role="application" aria-label="Pan and zoom architecture ontology canvas">
-          <defs>
-            <marker id="arrow-default" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#58657b"/></marker>
-            <marker id="arrow-relation" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8b78d6"/></marker>
-            <marker id="arrow-fact" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#82a95f"/></marker>
-            <marker id="arrow-violation" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#d96767"/></marker>
-          </defs>
-          <g id="viewport"></g>
-        </svg>
-
-        <div id="view-description" class="view-description"><strong>DomainSpec meta-types.</strong> Loading the canonical inventory projection…</div>
+        <output id="viewport-status" class="viewport-status" aria-live="polite">Viewport loading…</output>
+      </div>
+      <section id="visibility-controls" class="filters" aria-label="Graph visibility filters">
+        <label>Family<select id="filter-family"><option value="all">All families</option><option value="meta-type">Meta-types</option><option value="architecture-type">Architecture types</option><option value="profile">Profiles</option><option value="constraint">Constraints</option><option value="property">Properties</option><option value="fact-element">Fact elements</option><option value="fact-relation">Fact relations</option><option value="finding">Findings</option></select></label>
+        <label>Maturity<select id="filter-maturity"><option value="all">All maturities</option><option value="active">Active</option><option value="candidate">Candidate</option><option value="deferred">Deferred</option><option value="superseded">Superseded</option></select></label>
+        <label>Coverage<select id="filter-coverage"><option value="all">All coverage</option><option value="unsupported">Unsupported</option><option value="candidate-mapped">Candidate mapped</option><option value="profiled-unmapped">Profiled unmapped</option><option value="not-admitted">Not admitted</option><option value="superseded">Superseded</option></select></label>
+        <label>Profile<select id="filter-profile"><option value="all">All profiles</option><option value="architecture.base-domain">Base portable</option><option value="architecture.typescript-strict">TypeScript</option><option value="architecture.python-strict">Python</option><option value="architecture.rust-strict">Rust</option></select></label>
+        <label>Relation<select id="filter-relation"><option value="all">All relations</option></select></label>
+        <label>Non-match<select id="filter-mode"><option value="dim">Dim</option><option value="hide">Hide</option></select></label>
+        <button id="clear-filters" type="button">Clear filters</button>
+        <label>Find object<input id="focus-search" type="search" list="focus-options" placeholder="ID, label, family…"><datalist id="focus-options"></datalist></label>
+        <button id="apply-focus" type="button">Focus trace</button>
+        <button id="clear-focus" type="button">Clear focus</button>
+        <output id="filter-summary" class="filter-summary" aria-live="polite">All graph identities are visible.</output>
+        <output id="focus-summary" class="focus-summary" aria-live="polite">Rule trace is emphasized by default. Select any object to derive its explicit trace.</output>
+        <ul id="focus-gaps" class="focus-gaps" aria-label="Named missing trace hops"></ul>
       </section>
-
-      <aside id="inspector" class="inspector" aria-label="Selected item details" aria-hidden="true"></aside>
+      <div id="canvas-wrap" class="canvas-wrap" tabindex="-1" aria-label="Interactive ontology canvas viewport. Focus a graph node to use arrow navigation; focus this viewport programmatically to enable wheel zoom.">
+        <div id="loading" class="loading">Building one immutable graph…</div>
+        <svg id="ontology-canvas" data-testid="ontology-canvas" role="graphics-document" aria-label="Unified ontology graph: Meaning, Realization, Expectation, Observation, and Explanation" hidden>
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa7ba"/></marker>
+          </defs>
+          <g id="band-layer" data-layer="bands"></g>
+          <g id="edge-layer" data-layer="edges"></g>
+          <g id="node-layer" data-layer="nodes"></g>
+        </svg>
+      </div>
+      <aside id="explore-drawer" class="drawer" aria-hidden="true" aria-labelledby="explore-title" data-modality="nonmodal" inert>
+        <div class="drawer-head">
+          <div><div class="eyebrow">Plain-language guide</div><h2 id="explore-title">What am I looking at?</h2></div>
+          <button id="close-explore" type="button" aria-label="Close guide">×</button>
+        </div>
+        <p>This is one graph, not five replacement views. Every object remains present while the highlighted Rule story shows one exact path through the supplied evidence.</p>
+        <p id="canvas-keyboard-help" class="keyboard-help"><strong>Canvas keyboard:</strong> plain <kbd>Arrow</kbd> keys choose the nearest node in that spatial direction (distance, then ID). <kbd>Alt</kbd>+<kbd>Right</kbd> follows the first typed outgoing relation; <kbd>Alt</kbd>+<kbd>Left</kbd> follows the first typed incoming relation. <kbd>Escape</kbd> clears the trace. These are presentation navigation rules, not ontology semantics.</p>
+        <div class="band-guide">
+          <div><strong>Meaning</strong><span>The DomainSpec meta-types: what each domain concept means and its maturity.</span></div>
+          <div><strong>Realization</strong><span>Candidate architecture types that describe how code can realize those meanings.</span></div>
+          <div><strong>Expectation</strong><span>Portable and language-specific profiles, constraints, and inspectable properties.</span></div>
+          <div><strong>Observation</strong><span>Supplied TypeScript example facts. No source adapter ran to create them here.</span></div>
+          <div><strong>Explanation</strong><span>Expected findings that explain mismatches in that supplied TypeScript example.</span></div>
+        </div>
+        <section class="navigator" aria-labelledby="navigator-title">
+          <div><div class="eyebrow">Equivalent HTML representation</div><h3 id="navigator-title">Graph object navigator</h3></div>
+          <label>Search every graph object<input id="navigator-search" type="search" placeholder="Exact ID, label, family, status…"></label>
+          <output id="navigator-count" class="navigator-count" aria-live="polite">Navigator loading…</output>
+          <div id="navigator-tree" class="navigator-tree" role="tree" aria-label="All ontology graph nodes and their typed relationships"></div>
+        </section>
+        <div class="boundary">Candidate presentation only. Proximity and rendering never create ontology meaning, admission, source truth, release authority, or production evidence.</div>
+      </aside>
+      <dialog id="details-dialog" class="details-dialog" aria-labelledby="details-title" data-modality="modal" inert>
+        <div class="details-scroll">
+          <div class="details-head">
+            <div><div class="eyebrow">Exact supplied contract</div><h2 id="details-title">Object details</h2></div>
+            <button id="close-details" type="button">Close</button>
+          </div>
+          <dl class="details-grid">
+            <dt>Identity</dt><dd id="details-id" data-field="id"></dd>
+            <dt>Kind / family</dt><dd id="details-kind" data-field="kind"></dd>
+            <dt>Plain language</dt><dd id="details-plain" data-field="plain_language"></dd>
+            <dt>Source / derivation</dt><dd id="details-source" data-field="source_ref"></dd>
+            <dt>Statuses</dt><dd id="details-statuses" data-field="statuses"></dd>
+            <dt>Fixture profile</dt><dd id="details-fixture-profile" data-field="fixture_profile_id"></dd>
+            <dt>Evaluation profile</dt><dd id="details-evaluation-profile" data-field="evaluation_profile_id"></dd>
+            <dt>Constraint origin</dt><dd id="details-constraint-origin" data-field="constraint_origin_profile_id"></dd>
+            <dt>Direction</dt><dd id="details-direction" data-field="direction"></dd>
+            <dt>Owner route</dt><dd id="details-owner" data-field="owner_route"></dd>
+            <dt>Claim ceiling</dt><dd id="details-claim" data-field="claim_ceiling"></dd>
+          </dl>
+          <h3>Exact incident relationships</h3>
+          <ul id="details-relations" class="details-relations"></ul>
+          <h3>Raw supplied record</h3>
+          <pre id="details-raw" class="details-raw" data-field="raw"></pre>
+        </div>
+      </dialog>
+      <dialog id="help-modal" class="details-dialog" aria-labelledby="help-title" data-modality="modal" inert>
+        <div class="details-scroll">
+          <div class="details-head">
+            <div><div class="eyebrow">Interaction and evidence boundary</div><h2 id="help-title">Keyboard and evidence help</h2></div>
+            <button id="close-help" type="button">Close</button>
+          </div>
+          <p>Use the one roving canvas node with plain Arrow keys for deterministic spatial navigation. Alt+Right follows a typed outgoing relation; Alt+Left follows a typed incoming relation. Escape clears a graph trace or closes the active surface.</p>
+          <p class="boundary">This local candidate visualizes supplied and candidate records. Navigation never creates ontology meaning, admission, source truth, release authority, or production evidence.</p>
+        </div>
+      </dialog>
     </main>
   </div>
-
-  <div id="help-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="help-title">
-    <div class="modal">
-      <div class="eyebrow">Canvas guide</div>
-      <h2 id="help-title">Navigate the ontology</h2>
-      <p>An ontology is a shared vocabulary: it defines which kinds of things exist, which properties can describe them, and which relationships can connect them.</p>
-      <div class="plain-model">
-        <span><strong>DomainSpec</strong> says what a concept means.</span>
-        <span><strong>The architecture ontology</strong> says what can be inspected in code.</span>
-        <span><strong>A profile</strong> says what TypeScript, Python, Rust, or a project expects.</span>
-        <span><strong>An observation</strong> supplies typed facts from an adapter or fixture.</span>
-        <span><strong>A finding</strong> explains where expectation and observation differ.</span>
-      </div>
-      <p>Each node gives you the plain-language meaning first. Click it to open the exact contract and its authority boundary. Drag nodes to explore relationships, drag empty space to pan, and use the wheel to zoom.</p>
-      <a class="guide-link" href="BEGINNER-GUIDE.html" target="_blank" rel="noopener">Read the detailed beginner guide →</a>
-      <h3>Keyboard and canvas controls</h3>
-      <div class="shortcut-grid">
-        <span>Open or close Explore</span><span><kbd>N</kbd></span>
-        <span>Switch graph lenses</span><span><kbd>1</kbd>–<kbd>5</kbd></span>
-        <span>Focus search</span><span><kbd>/</kbd></span>
-        <span>Fit current graph</span><span><kbd>F</kbd></span>
-        <span>Close help or clear selection</span><span><kbd>Esc</kbd></span>
-        <span>Inspect focused node</span><span><kbd>Enter</kbd></span>
-      </div>
-      <button id="close-help" class="toolbar-button" style="margin-top:22px;background:var(--surface-3)">Close</button>
-    </div>
-  </div>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
   <script type="module">
+    import {BuildUnifiedCanvasProjection} from "./unified-canvas-model.mjs";
+    import {ComputeDeterministicCanvasLayout} from "./unified-canvas-layout.mjs";
+
     const NS = "http://www.w3.org/2000/svg";
-    const paths = {
+    const sources = Object.freeze({
+      meta_types: "domain-meta-types.projection.json",
       ontology: "ontology.json",
-      metaTypes: "domain-meta-types.projection.json",
-      base: "profiles/base-domain.profile.json",
-      typescript: "profiles/typescript-strict.profile.json",
-      python: "profiles/python-strict.profile.json",
-      rust: "profiles/rust-strict.profile.json",
+      profiles: [
+        "profiles/base-domain.profile.json",
+        "profiles/typescript-strict.profile.json",
+        "profiles/python-strict.profile.json",
+        "profiles/rust-strict.profile.json",
+      ],
       facts: "examples/typescript-observed-facts.json",
       evaluation: "examples/typescript-evaluation.expected.json",
-    };
-
+    });
     const dom = {
       status: document.querySelector("#app-status"),
+      loading: document.querySelector("#loading"),
       canvas: document.querySelector("#ontology-canvas"),
-      viewport: document.querySelector("#viewport"),
-      navigation: document.querySelector("#navigation-drawer"),
-      openNavigation: document.querySelector("#open-navigation"),
-      inspector: document.querySelector("#inspector"),
-      search: document.querySelector("#search-input"),
-      nodeList: document.querySelector("#node-list"),
-      navigatorCount: document.querySelector("#navigator-count"),
-      profile: document.querySelector("#profile-select"),
-      description: document.querySelector("#view-description"),
-      relationToggle: document.querySelector("#toggle-relations"),
-      relationToggleGroup: document.querySelector("#relation-toggle-group"),
-      metaTypeFilter: document.querySelector("#meta-type-filter"),
-      metaTypeFilterGroup: document.querySelector("#meta-type-filter-group"),
-      profileGroup: document.querySelector("#profile-select-group"),
+      bands: document.querySelector("#band-layer"),
+      edges: document.querySelector("#edge-layer"),
+      nodes: document.querySelector("#node-layer"),
+      nodeCount: document.querySelector("#node-count"),
+      edgeCount: document.querySelector("#edge-count"),
+      drawer: document.querySelector("#explore-drawer"),
+      openDrawer: document.querySelector("#open-explore"),
+      closeDrawer: document.querySelector("#close-explore"),
+      openHelp: document.querySelector("#open-help"),
       help: document.querySelector("#help-modal"),
-      toast: document.querySelector("#toast"),
+      closeHelp: document.querySelector("#close-help"),
+      navigatorSearch: document.querySelector("#navigator-search"),
+      navigatorCount: document.querySelector("#navigator-count"),
+      navigatorTree: document.querySelector("#navigator-tree"),
+      filterFamily: document.querySelector("#filter-family"),
+      filterMaturity: document.querySelector("#filter-maturity"),
+      filterCoverage: document.querySelector("#filter-coverage"),
+      filterProfile: document.querySelector("#filter-profile"),
+      filterRelation: document.querySelector("#filter-relation"),
+      filterMode: document.querySelector("#filter-mode"),
+      clearFilters: document.querySelector("#clear-filters"),
+      filterSummary: document.querySelector("#filter-summary"),
+      focusSearch: document.querySelector("#focus-search"),
+      focusOptions: document.querySelector("#focus-options"),
+      applyFocus: document.querySelector("#apply-focus"),
+      clearFocus: document.querySelector("#clear-focus"),
+      focusSummary: document.querySelector("#focus-summary"),
+      focusGaps: document.querySelector("#focus-gaps"),
+      details: document.querySelector("#details-dialog"),
+      closeDetails: document.querySelector("#close-details"),
+      canvasWrap: document.querySelector("#canvas-wrap"),
+      viewportStatus: document.querySelector("#viewport-status"),
+      panLeft: document.querySelector("#pan-left"),
+      panUp: document.querySelector("#pan-up"),
+      panDown: document.querySelector("#pan-down"),
+      panRight: document.querySelector("#pan-right"),
+      zoomOut: document.querySelector("#zoom-out"),
+      zoomIn: document.querySelector("#zoom-in"),
+      fitAll: document.querySelector("#fit-all"),
+      fitSelection: document.querySelector("#fit-selection"),
+      resetViewport: document.querySelector("#reset-viewport"),
+      detailsId: document.querySelector("#details-id"),
+      detailsKind: document.querySelector("#details-kind"),
+      detailsPlain: document.querySelector("#details-plain"),
+      detailsSource: document.querySelector("#details-source"),
+      detailsStatuses: document.querySelector("#details-statuses"),
+      detailsFixtureProfile: document.querySelector("#details-fixture-profile"),
+      detailsEvaluationProfile: document.querySelector("#details-evaluation-profile"),
+      detailsConstraintOrigin: document.querySelector("#details-constraint-origin"),
+      detailsDirection: document.querySelector("#details-direction"),
+      detailsOwner: document.querySelector("#details-owner"),
+      detailsClaim: document.querySelector("#details-claim"),
+      detailsRelations: document.querySelector("#details-relations"),
+      detailsRaw: document.querySelector("#details-raw"),
     };
-
+    const defaultFilterInput = Object.freeze({family: "all", maturity: "all", coverage: "all", profile_id: "all", relation: "all", non_match: "dim"});
+    let activeGraph = null;
+    let activeLayout = null;
+    let focusRestore = null;
+    let inspectorOpener = null;
+    let navigationOpener = null;
+    let helpOpener = null;
     const state = {
-      data: null,
-      view: "metaTypes",
-      selectedId: null,
-      search: "",
-      profile: "typescript",
-      metaTypeFilter: "active",
-      showRelations: true,
-      transform: {x: 0, y: 0, k: 1},
-      graph: {nodes: [], edges: []},
-      positionCache: new Map(),
-      gesture: null,
-      raf: null,
+      gesture: {active: false, dragging: false, pointer_id: null, client_x: 0, client_y: 0, start_transform: null},
+      transform: null,
+      keyboard: {current_node_id: "meta:DS-D1.7", last_move: null},
     };
-
-    const fetchJson = async (path) => {
-      const response = await fetch(path, {cache: "no-store"});
-      if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
-      return response.json();
+    const fetchSource = async (sourceRef) => {
+      const response = await fetch(sourceRef, {cache: "no-store"});
+      if (!response.ok) throw new Error(`${sourceRef}: HTTP ${response.status}`);
+      return {source_ref: sourceRef, value: await response.json()};
     };
-
-    const load = async () => {
-      try {
-        const [ontology, metaTypes, base, typescript, python, rust, facts, evaluation] = await Promise.all(Object.values(paths).map(fetchJson));
-        state.data = {ontology, metaTypes, profiles: {base, typescript, python, rust}, facts, evaluation};
-        dom.status.textContent = "Live JSON · candidate";
-        dom.status.classList.add("ready");
-        document.querySelector("#metric-types").textContent = metaTypes.counts.staged;
-        document.querySelector("#metric-properties").textContent = ontology.property_definitions.length;
-        document.querySelector("#metric-relations").textContent = ontology.relation_definitions.length;
-        document.querySelector("#metric-profiles").textContent = Object.keys(state.data.profiles).length;
-        document.querySelector("#metric-findings").textContent = evaluation.finding_count;
-        render({fit: true});
-      } catch (error) {
-        dom.status.textContent = "Data load blocked";
-        dom.status.classList.add("error");
-        dom.description.innerHTML = `<strong>Unable to load the ontology.</strong> ${escapeHtml(error.message)}. Serve this file over HTTP from its containing directory.`;
-        console.error(error);
-      }
+    const svg = (name, attributes = {}) => {
+      const element = document.createElementNS(NS, name);
+      for (const [key, value] of Object.entries(attributes)) element.setAttribute(key, value);
+      return element;
     };
-
-    const escapeHtml = (value) => String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;");
-
-    const short = (value, max = 28) => {
+    const short = (value, limit) => {
       const text = String(value ?? "");
-      return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+      return text.length > limit ? `${text.slice(0, limit - 1)}…` : text;
     };
-
-    const tail = (id) => String(id).split(".").at(-1);
-    const conceptPlainCopy = {
-      "architecture.ArchitectureElement": "Anything in the codebase this model can describe.",
-      "architecture.DomainConceptImplementation": "Code that realizes one named domain concept.",
-      "architecture.RuleImplementation": "A yes-or-no check that can allow or block behavior.",
-      "architecture.OperationImplementation": "Code that changes the state of the system.",
-      "architecture.QueryImplementation": "Code that reads information without changing it.",
-      "architecture.StateMachineImplementation": "Code that defines states and the moves between them.",
-      "architecture.InterfaceImplementation": "A boundary that exposes operations or queries.",
-      "architecture.AdapterImplementation": "Code that connects an outside system to an interface.",
-      "architecture.ArchitectureProfile": "A named set of architecture expectations.",
-      "architecture.Constraint": "One testable expectation about a property.",
-      "architecture.LanguageProjection": "How one language turns code into ontology facts.",
-      "architecture.ObservationProjection": "Typed facts supplied by an adapter or fixture.",
-    };
-    const propertyPlainCopy = {
-      "source.language": "Which programming language this code uses.",
-      "source.path": "Where this code lives in the repository.",
-      "source.filename_case": "How the file name is written.",
-      "source.primary_concept_count": "How many main concepts this file implements.",
-      "binding.concept_id": "Which named domain concept this code implements.",
-      "binding.current": "Whether the concept-to-code link is still current.",
-      "symbol.primary_callable_count": "How many main entry points implement the concept.",
-      "symbol.public_callable_count": "How many callable entry points are public.",
-      "callable.form": "The syntax used to define the main callable.",
-      "callable.return_semantics": "What kind of result the callable promises.",
-      "callable.helper_policy": "Where supporting helper code is allowed.",
-      "dependency.resolution": "How directly one code element reaches another.",
-      "dependency.direction": "Whether a dependency points toward or away from the core.",
-      "state.representation": "How the language represents the possible states.",
-      "state.exhaustive": "Whether every admitted state is handled.",
-      "transition.negative_fixture_present": "Whether an invalid state move is tested.",
-      "interface.versioned": "Whether the boundary names a supported version.",
-    };
-    const factPlainCopy = {
-      MaxAmountRule: "A Rule example that satisfies the selected checks.",
-      ProcessPayment: "An Operation that depends on two Rule examples.",
-      LegacyLimitRule: "A Rule example with architecture problems to inspect.",
-    };
-    const wrapWords = (value, maxCharacters = 36, maxLines = 2) => {
-      const words = String(value ?? "").trim().split(/\s+/).filter(Boolean);
-      const lines = [];
-      let line = "";
+    const lineChunks = (value) => {
+      const words = String(value ?? "").split(/\s+/);
+      const lines = [""];
       for (const word of words) {
-        const candidate = line ? `${line} ${word}` : word;
-        if (candidate.length <= maxCharacters || !line) {
-          line = candidate;
-          continue;
-        }
-        lines.push(line);
-        line = word;
-        if (lines.length === maxLines) break;
+        const current = lines.at(-1);
+        if (`${current} ${word}`.trim().length > 34 && lines.length < 2) lines.push(word);
+        else lines[lines.length - 1] = `${current} ${word}`.trim();
       }
-      if (lines.length < maxLines && line) lines.push(line);
-      const consumed = lines.join(" ").replace(/…$/, "");
-      if (consumed.length < words.join(" ").length && lines.length) lines[lines.length - 1] = `${short(lines.at(-1), maxCharacters - 1)}…`;
-      return lines.slice(0, maxLines);
+      return lines.map((line) => short(line, 37));
     };
-    const conceptMap = () => new Map(state.data.ontology.concept_types.map((item) => [item.concept_id, item]));
-
-    const isSubtype = (actual, expected) => {
-      const byId = conceptMap();
-      let cursor = byId.get(actual);
-      while (cursor) {
-        if (cursor.concept_id === expected) return true;
-        cursor = cursor.extends ? byId.get(cursor.extends) : null;
+    const finite = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
+    const roundViewport = (value) => Math.round(value * 1000) / 1000;
+    const viewportLimits = () => {
+      const width = finite(activeLayout?.bounds.width, 1800);
+      const height = finite(activeLayout?.bounds.height, 1120);
+      return Object.freeze({width, height, min_scale: .5, max_scale: 4, margin_x: width * .1, margin_y: height * .1});
+    };
+    const clampOrigin = (origin, size, extent, margin) => {
+      const minimum = -margin;
+      const maximum = extent - size + margin;
+      if (maximum < minimum) return (extent - size) / 2;
+      return Math.min(maximum, Math.max(minimum, origin));
+    };
+    const normalizeTransform = (candidate) => {
+      const limits = viewportLimits();
+      const requestedScale = finite(candidate?.scale, 1);
+      const scale = Math.min(limits.max_scale, Math.max(limits.min_scale, requestedScale));
+      const width = limits.width / scale;
+      const height = limits.height / scale;
+      const x = clampOrigin(finite(candidate?.x, 0), width, limits.width, limits.margin_x);
+      const y = clampOrigin(finite(candidate?.y, 0), height, limits.height, limits.margin_y);
+      return Object.freeze({x: roundViewport(x), y: roundViewport(y), width: roundViewport(width), height: roundViewport(height), scale: roundViewport(scale)});
+    };
+    const reduceViewportTransform = (current, action) => {
+      const limits = viewportLimits();
+      if (action.type === "reset" || action.type === "fit-all") return normalizeTransform({x: 0, y: 0, scale: 1});
+      if (action.type === "fit-selection") {
+        const box = action.bounds;
+        if (!box) return normalizeTransform(current);
+        const paddedWidth = Math.max(1, box.width + 80);
+        const paddedHeight = Math.max(1, box.height + 80);
+        const scale = Math.min(limits.max_scale, limits.width / paddedWidth, limits.height / paddedHeight);
+        const width = limits.width / scale;
+        const height = limits.height / scale;
+        return normalizeTransform({x: box.x + box.width / 2 - width / 2, y: box.y + box.height / 2 - height / 2, scale});
       }
-      return false;
+      const base = normalizeTransform(current ?? {x: 0, y: 0, scale: 1});
+      if (action.type === "zoom") {
+        const scale = base.scale * finite(action.factor, 1);
+        const nextWidth = limits.width / Math.min(limits.max_scale, Math.max(limits.min_scale, scale));
+        const nextHeight = limits.height / Math.min(limits.max_scale, Math.max(limits.min_scale, scale));
+        return normalizeTransform({x: base.x + (base.width - nextWidth) / 2, y: base.y + (base.height - nextHeight) / 2, scale});
+      }
+      if (action.type === "pan") return normalizeTransform({x: base.x + finite(action.dx, 0), y: base.y + finite(action.dy, 0), scale: base.scale});
+      return base;
     };
-
-    const resolvedProfile = (language = state.profile) => {
-      const base = state.data.profiles.base;
-      const child = state.data.profiles[language];
-      return {
-        ...child,
-        constraints: [
-          ...base.constraints.map((constraint) => ({...constraint, origin_profile: base.profile_id})),
-          ...child.constraints.map((constraint) => ({...constraint, origin_profile: child.profile_id})),
-        ],
+    const selectedNodeIds = () => window.__UOC_FOCUS_RECEIPT__?.selected_node_id ? window.__UOC_FOCUS_RECEIPT__.node_ids : [];
+    const selectionBounds = () => {
+      const positions = selectedNodeIds().map((id) => activeLayout?.positions[id]).filter(Boolean);
+      if (!positions.length) return null;
+      const minX = Math.min(...positions.map((item) => item.x));
+      const minY = Math.min(...positions.map((item) => item.y));
+      const maxX = Math.max(...positions.map((item) => item.x + item.width));
+      const maxY = Math.max(...positions.map((item) => item.y + item.height));
+      return Object.freeze({x: minX, y: minY, width: maxX - minX, height: maxY - minY});
+    };
+    const emitViewportReceipt = (reason) => {
+      const limits = viewportLimits();
+      const transform = state.transform;
+      const finiteTransform = Object.values(transform ?? {}).every(Number.isFinite);
+      dom.viewportStatus.textContent = transform ? `${reason} · ${transform.scale.toFixed(2)}×` : "Viewport unavailable";
+      window.__UOC_VIEWPORT_RECEIPT__ = Object.freeze({
+        ready: Boolean(transform),
+        graph_id: activeGraph?.graph_id ?? null,
+        reason,
+        transform,
+        limits,
+        finite: finiteTransform,
+        bounded: Boolean(transform) && transform.scale >= limits.min_scale && transform.scale <= limits.max_scale,
+        selected_node_id: window.__UOC_FOCUS_RECEIPT__?.selected_node_id ?? null,
+        canvas_intent_active: state.gesture.active,
+        view_box: dom.canvas.getAttribute("viewBox"),
+      });
+      return window.__UOC_VIEWPORT_RECEIPT__;
+    };
+    const applyTransform = (transform, reason = "apply") => {
+      state.transform = normalizeTransform(transform);
+      dom.canvas.setAttribute("viewBox", `${state.transform.x} ${state.transform.y} ${state.transform.width} ${state.transform.height}`);
+      return emitViewportReceipt(reason);
+    };
+    const fitGraph = (scope = "all") => applyTransform(reduceViewportTransform(state.transform, scope === "selection" ? {type: "fit-selection", bounds: selectionBounds()} : {type: "fit-all"}), scope === "selection" ? "fit-selection" : "fit-all");
+    const zoomBy = (factor) => applyTransform(reduceViewportTransform(state.transform, {type: "zoom", factor}), factor > 1 ? "zoom-in" : "zoom-out");
+    const panBy = (dx, dy, reason = "pan") => applyTransform(reduceViewportTransform(state.transform, {type: "pan", dx, dy}), reason);
+    const nodeCenter = (nodeId) => {
+      const position = activeLayout?.positions[nodeId];
+      return position ? Object.freeze({x: position.x + position.width / 2, y: position.y + position.height / 2}) : null;
+    };
+    const spatialNeighbor = (nodeId, key) => {
+      const origin = nodeCenter(nodeId);
+      if (!activeGraph || !origin) return null;
+      const directional = activeGraph.nodes.map((node) => ({id: node.id, center: nodeCenter(node.id)})).filter(({id, center}) => id !== nodeId && center && (
+        key === "ArrowLeft" ? center.x < origin.x :
+        key === "ArrowRight" ? center.x > origin.x :
+        key === "ArrowUp" ? center.y < origin.y :
+        key === "ArrowDown" ? center.y > origin.y : false
+      )).map(({id, center}) => ({id, distance: (center.x - origin.x) ** 2 + (center.y - origin.y) ** 2}));
+      directional.sort((left, right) => left.distance - right.distance || left.id.localeCompare(right.id));
+      return directional[0]?.id ?? null;
+    };
+    const relationNeighbor = (nodeId, direction) => {
+      if (!activeGraph) return null;
+      const edges = (activeGraph.indexes.incident_edges[nodeId] ?? []).map((edgeId) => activeGraph.edges.find((edge) => edge.id === edgeId)).filter((edge) => edge && (direction === "outgoing" ? edge.from === nodeId : edge.to === nodeId));
+      edges.sort((left, right) => `${left.kind}:${left.id}`.localeCompare(`${right.kind}:${right.id}`));
+      const edge = edges[0];
+      return edge ? Object.freeze({node_id: direction === "outgoing" ? edge.to : edge.from, edge_id: edge.id, kind: edge.kind, direction}) : null;
+    };
+    const emitKeyboardReceipt = (move = state.keyboard.last_move) => {
+      const roving = [...dom.nodes.querySelectorAll('[data-node-id][tabindex="0"]')].map((element) => element.dataset.nodeId);
+      window.__UOC_KEYBOARD_RECEIPT__ = Object.freeze({ready: Boolean(activeGraph), graph_id: activeGraph?.graph_id ?? null, current_node_id: state.keyboard.current_node_id, selected_node_id: window.__UOC_FOCUS_RECEIPT__?.selected_node_id ?? null, roving_ids: Object.freeze(roving), tab_stop_count: roving.length, move, application_role_present: Boolean(document.querySelector('[role="application"]'))});
+      return window.__UOC_KEYBOARD_RECEIPT__;
+    };
+    const syncRovingCanvasNode = (nodeId, options = {}) => {
+      const target = dom.nodes.querySelector(`[data-node-id="${CSS.escape(nodeId)}"]`);
+      if (!target) return null;
+      for (const node of dom.nodes.querySelectorAll("[data-node-id]")) {
+        const current = node === target;
+        node.setAttribute("tabindex", current ? "0" : "-1");
+        node.classList.toggle("is-keyboard-current", current);
+        node.dataset.keyboardCurrent = String(current);
+      }
+      state.keyboard.current_node_id = nodeId;
+      if (options.focus) target.focus({preventScroll: true});
+      return emitKeyboardReceipt(options.move ?? state.keyboard.last_move);
+    };
+    const moveCanvasKeyboard = (key, altKey = false) => {
+      const from = state.keyboard.current_node_id;
+      const relation = altKey && key === "ArrowRight" ? relationNeighbor(from, "outgoing") : altKey && key === "ArrowLeft" ? relationNeighbor(from, "incoming") : null;
+      const to = altKey ? relation?.node_id ?? null : spatialNeighbor(from, key);
+      if (!to) return emitKeyboardReceipt(Object.freeze({kind: altKey ? "relation-none" : "spatial-none", key, from, to: null, relation: relation ?? null}));
+      const move = Object.freeze({kind: altKey ? "relation" : "spatial", key, from, to, relation: relation ?? null, tie_break: altKey ? "kind-then-edge-id" : "squared-distance-then-node-id"});
+      state.keyboard.last_move = move;
+      syncRovingCanvasNode(to, {focus: true, move});
+      applyFocus(to);
+      return emitKeyboardReceipt(move);
+    };
+    const findCanvasTrace = (graph, startId) => {
+      const nodeById = new Map(graph.nodes.map((node) => [node.id, node]));
+      const edgeById = new Map(graph.edges.map((edge) => [edge.id, edge]));
+      if (!nodeById.has(startId)) return Object.freeze({graph_id: graph.graph_id, selected_node_id: null, node_ids: Object.freeze([]), edge_ids: Object.freeze([]), missing_hops: Object.freeze([]), relation_kinds: Object.freeze([]), name_only_links: Object.freeze([])});
+      const nodes = new Set([startId]);
+      const edges = new Set();
+      const types = new Set();
+      const constraints = new Set();
+      const properties = new Set();
+      const facts = new Set();
+      const addEdge = (edge) => {
+        edges.add(edge.id);
+        nodes.add(edge.from);
+        nodes.add(edge.to);
       };
-    };
-
-    const inheritedProperties = (type) => state.data.ontology.property_definitions.filter((property) =>
-      property.applies_to.kind === "node" && property.applies_to.types.some((expected) => isSubtype(type, expected))
-    );
-
-    const matchingConstraints = (type, language = state.profile) => resolvedProfile(language).constraints.filter((constraint) =>
-      constraint.constraint_kind === "node-property" && constraint.applies_to.some((expected) => isSubtype(type, expected))
-    );
-
-    const typePositions = {
-      "architecture.ArchitectureElement": [450, 90],
-      "architecture.DomainConceptImplementation": [335, 245],
-      "architecture.AdapterImplementation": [760, 245],
-      "architecture.RuleImplementation": [80, 430],
-      "architecture.OperationImplementation": [335, 430],
-      "architecture.QueryImplementation": [590, 430],
-      "architecture.StateMachineImplementation": [845, 430],
-      "architecture.InterfaceImplementation": [1100, 430],
-      "architecture.ArchitectureProfile": [1380, 70],
-      "architecture.Constraint": [1380, 190],
-      "architecture.LanguageProjection": [1380, 310],
-      "architecture.ObservationProjection": [1380, 430],
-    };
-
-    const metaTypeGroupCatalog = {
-      "active:structural": {label: "Active · Structural", plain: "Identity, value, and finite-shape concepts.", edge: "structural"},
-      "active:behavioral": {label: "Active · Behavioral", plain: "Actions, decisions, formulas, and orchestration.", edge: "behavioral"},
-      "active:connective": {label: "Active · Connective", plain: "Boundaries, past facts, and shape translations.", edge: "connective"},
-      "active:lifecycle": {label: "Active · Lifecycle", plain: "Explicit state and transition concepts.", edge: "lifecycle"},
-      "candidate:ui": {label: "Candidate · UI", plain: "Shape-evidenced UI labels that are not active yet.", edge: "candidate"},
-      "deferred:ui": {label: "Deferred · UI", plain: "UI labels awaiting a merge or split decision.", edge: "deferred"},
-      "superseded:behavioral": {label: "Superseded history", plain: "Retired identifiers preserved for historical integrity.", edge: "history"},
-    };
-
-    const visibleMetaTypes = () => state.data.metaTypes.meta_types.filter((metaType) => {
-      if (state.metaTypeFilter === "active") return metaType.maturity === "active";
-      if (state.metaTypeFilter === "ui") return metaType.maturity === "candidate" || metaType.maturity === "deferred";
-      if (state.metaTypeFilter === "history") return metaType.maturity === "superseded";
-      return metaType.maturity !== "superseded";
-    });
-
-    const buildMetaTypeGraph = () => {
-      const entries = visibleMetaTypes();
-      const grouped = new Map();
-      for (const metaType of entries) {
-        const key = `${metaType.maturity}:${metaType.category}`;
-        const groupEntries = grouped.get(key) ?? [];
-        groupEntries.push(metaType);
-        grouped.set(key, groupEntries);
+      const incident = (nodeId, kinds) => (graph.indexes.incident_edges[nodeId] ?? [])
+        .map((edgeId) => edgeById.get(edgeId))
+        .filter((edge) => edge && kinds.includes(edge.kind));
+      const selected = nodeById.get(startId);
+      if (selected.family === "architecture-type") types.add(startId);
+      for (const edge of incident(startId, ["candidate-aligns-to", "instance-of", "applies-to"])) {
+        addEdge(edge);
+        for (const endpoint of [edge.from, edge.to]) if (nodeById.get(endpoint)?.family === "architecture-type") types.add(endpoint);
       }
-      const nodes = [{
-        id: "meta-root",
-        label: "DS-D1 Meta-Type System",
-        plain: "The canonical DomainSpec node alphabet, shown without changing its authority.",
-        subtitle: state.data.metaTypes.projection_id,
-        badge: "canonical inventory",
-        kind: "meta-group",
-        data: {...state.data.metaTypes, count: entries.length},
-        x: 120,
-        y: 55,
-      }];
-      const edges = [];
-      let laneY = 210;
-      for (const [groupKey, groupEntries] of grouped) {
-        const group = metaTypeGroupCatalog[groupKey] ?? {label: groupKey, plain: "A maturity and category grouping.", edge: "contains"};
-        const rows = Math.max(1, Math.ceil(groupEntries.length / 5));
-        const groupId = `meta-group:${groupKey}`;
-        nodes.push({
-          id: groupId,
-          label: group.label,
-          plain: group.plain,
-          subtitle: groupKey,
-          badge: "registry group",
-          kind: "meta-group",
-          data: {group_key: groupKey, count: groupEntries.length},
-          x: 120,
-          y: laneY + (rows - 1) * 72,
-        });
-        edges.push({id: `meta-root:${groupKey}`, from: "meta-root", to: groupId, label: group.edge, kind: "inheritance", data: {group_key: groupKey}});
-        groupEntries.forEach((metaType, index) => {
-          const nodeId = `meta:${metaType.meta_type_id}`;
-          nodes.push({
-            id: nodeId,
-            label: metaType.label,
-            plain: metaType.plain_language,
-            subtitle: metaType.meta_type_id,
-            badge: metaType.maturity,
-            kind: "meta-type",
-            maturity: metaType.maturity,
-            data: metaType,
-            x: 370 + (index % 5) * 250,
-            y: laneY + Math.floor(index / 5) * 145,
-          });
-          edges.push({id: `${groupId}:${metaType.meta_type_id}`, from: groupId, to: nodeId, label: metaType.category, kind: "inheritance", data: metaType});
-        });
-        laneY += rows * 145 + 95;
+      if (selected.family === "constraint") {
+        constraints.add(startId);
+        for (const edge of incident(startId, ["applies-to"])) {
+          addEdge(edge);
+          const typeId = [edge.from, edge.to].find((id) => nodeById.get(id)?.family === "architecture-type");
+          if (typeId) types.add(typeId);
+        }
       }
-      return {nodes, edges};
-    };
-
-    const buildTypeGraph = () => {
-      const nodes = state.data.ontology.concept_types.map((concept) => ({
-        id: concept.concept_id,
-        label: concept.label,
-        plain: conceptPlainCopy[concept.concept_id] ?? "A concept used to describe code architecture.",
-        subtitle: concept.abstract ? "abstract type" : concept.concept_role,
-        badge: concept.candidate_status,
-        kind: "concept",
-        data: concept,
-        x: typePositions[concept.concept_id]?.[0] ?? 600,
-        y: typePositions[concept.concept_id]?.[1] ?? 300,
-      }));
-      const edges = state.data.ontology.concept_types.filter((concept) => concept.extends).map((concept) => ({
-        id: `extends:${concept.concept_id}`,
-        from: concept.extends,
-        to: concept.concept_id,
-        label: "extends",
-        kind: "inheritance",
-      }));
-      if (state.showRelations) {
-        for (const relation of state.data.ontology.relation_definitions) {
-          for (const from of relation.source_types) {
-            for (const to of relation.target_types) {
-              if (from === "architecture.ArchitectureElement" && to === "architecture.ArchitectureElement") continue;
-              edges.push({id: `${relation.relation_id}:${from}:${to}`, from, to, label: tail(relation.relation_id), kind: "relation", data: relation});
-            }
+      if (selected.family === "property") {
+        properties.add(startId);
+        for (const edge of incident(startId, ["constrains"])) constraints.add([edge.from, edge.to].find((id) => nodeById.get(id)?.family === "constraint"));
+      }
+      if (selected.family === "finding") {
+        for (const edge of incident(startId, ["checks", "explains"])) {
+          addEdge(edge);
+          for (const endpoint of [edge.from, edge.to]) {
+            const family = nodeById.get(endpoint)?.family;
+            if (family === "constraint") constraints.add(endpoint);
+            if (family === "property") properties.add(endpoint);
+            if (family === "fact-element" || family === "fact-relation") facts.add(endpoint);
           }
         }
       }
-      return {nodes, edges};
-    };
-
-    const buildProfileGraph = () => {
-      const profile = resolvedProfile();
-      const baseId = state.data.profiles.base.profile_id;
-      const childId = profile.profile_id;
-      const properties = [...new Set(profile.constraints.map((constraint) => constraint.property_id))];
-      const nodes = [
-        {id: baseId, label: "Portable domain", plain: "Rules that every supported language should share.", subtitle: "base profile", badge: "portable", kind: "profile", data: state.data.profiles.base, x: 260, y: 105},
-        {id: childId, label: `${state.profile[0].toUpperCase()}${state.profile.slice(1)} strict`, plain: `Extra expectations for ${state.profile} code.`, subtitle: "language profile", badge: state.profile, kind: "profile", data: profile, x: 700, y: 105},
-      ];
-      properties.forEach((propertyId, index) => {
-        const property = state.data.ontology.property_definitions.find((item) => item.property_id === propertyId);
-        const col = index % 4;
-        const row = Math.floor(index / 4);
-        nodes.push({
-          id: `property:${propertyId}`,
-          label: tail(propertyId).replaceAll("_", " "),
-          plain: propertyPlainCopy[propertyId] ?? property?.semantics ?? "A property the profile can check.",
-          subtitle: propertyId,
-          badge: property?.value_type?.kind ?? "property",
-          kind: "property",
-          data: property,
-          x: 80 + col * 245,
-          y: 300 + row * 145,
-        });
-      });
-      const edges = profile.constraints.map((constraint) => ({
-        id: `constraint:${constraint.constraint_id}`,
-        from: constraint.origin_profile,
-        to: `property:${constraint.property_id}`,
-        label: constraint.operator,
-        kind: "constraint",
-        data: constraint,
-      }));
-      return {nodes, edges};
-    };
-
-    const buildFactsGraph = () => {
-      const findingsBySubject = new Map();
-      for (const finding of state.data.evaluation.findings) {
-        const items = findingsBySubject.get(finding.subject_id) ?? [];
-        items.push(finding);
-        findingsBySubject.set(finding.subject_id, items);
-      }
-      const initial = [[160, 260], [520, 180], [880, 310]];
-      const nodes = state.data.facts.elements.map((element, index) => ({
-        id: element.element_id,
-        label: tail(element.element_id),
-        plain: factPlainCopy[tail(element.element_id)] ?? `Supplied example classified as ${tail(element.type)}.`,
-        subtitle: tail(element.type),
-        badge: findingsBySubject.has(element.element_id) ? `${findingsBySubject.get(element.element_id).length} findings` : "conforming sample",
-        kind: "fact",
-        broken: findingsBySubject.has(element.element_id),
-        data: element,
-        x: initial[index]?.[0] ?? 160 + index * 280,
-        y: initial[index]?.[1] ?? 260,
-      }));
-      const edges = state.data.facts.relations.map((relation) => ({
-        id: relation.relation_id,
-        from: relation.from,
-        to: relation.to,
-        label: relation.properties["dependency.resolution"] ?? tail(relation.type),
-        kind: findingsBySubject.has(relation.relation_id) ? "violation" : "fact",
-        data: relation,
-      }));
-      return {nodes, edges};
-    };
-
-    const buildFindingsGraph = () => {
-      const evaluation = state.data.evaluation;
-      const subjectIds = [...new Set(evaluation.findings.map((finding) => finding.subject_id))];
-      const nodes = [];
-      subjectIds.forEach((subjectId, index) => {
-        const isRelation = subjectId.startsWith("dependency.");
-        nodes.push({
-          id: `subject:${subjectId}`,
-          label: tail(subjectId),
-          plain: isRelation ? "A supplied dependency that breaks an architecture expectation." : factPlainCopy[tail(subjectId)] ?? "A supplied example with architecture problems to inspect.",
-          subtitle: isRelation ? "violating dependency" : "violating architecture element",
-          badge: "failure subject",
-          kind: "fact",
-          broken: true,
-          data: isRelation ? state.data.facts.relations.find((item) => item.relation_id === subjectId) : state.data.facts.elements.find((item) => item.element_id === subjectId),
-          x: 420 + index * 330,
-          y: 300,
-        });
-      });
-      evaluation.findings.forEach((finding, index) => {
-        const angle = (index / evaluation.findings.length) * Math.PI * 2 - Math.PI / 2;
-        const radius = index === evaluation.findings.length - 1 ? 410 : 300;
-        nodes.push({
-          id: `finding:${finding.constraint_id}`,
-          label: tail(finding.property_id).replaceAll("_", " "),
-          plain: `Expected ${formatValue(finding.expected)}; found ${formatValue(finding.actual)}.`,
-          subtitle: `${short(finding.actual, 18)} → ${short(finding.expected, 18)}`,
-          badge: finding.severity,
-          kind: "finding",
-          data: finding,
-          x: 570 + Math.cos(angle) * radius,
-          y: 330 + Math.sin(angle) * radius,
-        });
-      });
-      const edges = evaluation.findings.map((finding) => ({
-        id: `violates:${finding.constraint_id}`,
-        from: `subject:${finding.subject_id}`,
-        to: `finding:${finding.constraint_id}`,
-        label: "violates",
-        kind: "violation",
-        data: finding,
-      }));
-      return {nodes, edges};
-    };
-
-    const buildGraph = () => ({metaTypes: buildMetaTypeGraph, types: buildTypeGraph, profiles: buildProfileGraph, facts: buildFactsGraph, findings: buildFindingsGraph}[state.view]());
-
-    const cacheKey = () => `${state.view}:${state.profile}:${state.showRelations}:${state.metaTypeFilter}`;
-
-    const applyCachedPositions = (graph) => {
-      const cache = state.positionCache.get(cacheKey());
-      if (!cache) return graph;
-      for (const node of graph.nodes) {
-        const position = cache.get(node.id);
-        if (position) Object.assign(node, position);
-      }
-      return graph;
-    };
-
-    const savePositions = () => state.positionCache.set(cacheKey(), new Map(state.graph.nodes.map((node) => [node.id, {x: node.x, y: node.y}])));
-
-    const createSvg = (name, attrs = {}) => {
-      const element = document.createElementNS(NS, name);
-      for (const [key, value] of Object.entries(attrs)) element.setAttribute(key, value);
-      return element;
-    };
-
-    const nodeMatchesSearch = (node) => {
-      if (!state.search) return true;
-      return JSON.stringify(node.data ?? {}).toLowerCase().includes(state.search) || `${node.id} ${node.label} ${node.plain} ${node.subtitle}`.toLowerCase().includes(state.search);
-    };
-
-    const renderCanvas = () => {
-      dom.viewport.replaceChildren();
-      const byId = new Map(state.graph.nodes.map((node) => [node.id, node]));
-      const queryActive = Boolean(state.search);
-      const matching = new Set(state.graph.nodes.filter(nodeMatchesSearch).map((node) => node.id));
-
-      for (const edge of state.graph.edges) {
-        const source = byId.get(edge.from);
-        const target = byId.get(edge.to);
-        if (!source || !target) continue;
-        const group = createSvg("g");
-        const dimmed = queryActive && !matching.has(source.id) && !matching.has(target.id);
-        const line = createSvg("line", {
-          x1: source.x, y1: source.y, x2: target.x, y2: target.y,
-          class: `graph-edge ${edge.kind} ${dimmed ? "dimmed" : ""}`,
-          "marker-end": `url(#arrow-${edge.kind === "relation" || edge.kind === "constraint" ? "relation" : edge.kind === "fact" ? "fact" : edge.kind === "violation" ? "violation" : "default"})`,
-        });
-        group.append(line);
-        const label = createSvg("text", {x: (source.x + target.x) / 2, y: (source.y + target.y) / 2 - 7, class: "edge-label", "text-anchor": "middle"});
-        label.textContent = edge.label;
-        group.append(label);
-        group.addEventListener("click", (event) => { event.stopPropagation(); renderInspector({id: edge.id, label: edge.label, kind: "edge", data: edge.data, edge}); });
-        dom.viewport.append(group);
-      }
-
-      for (const node of state.graph.nodes) {
-        const width = node.kind === "finding" ? 218 : node.kind === "meta-group" ? 250 : 230;
-        const height = 94;
-        const group = createSvg("g", {
-          class: `graph-node ${node.kind} ${node.maturity ? `maturity-${node.maturity}` : ""} ${node.broken ? "broken" : ""} ${state.selectedId === node.id ? "selected" : ""} ${queryActive && !matching.has(node.id) ? "dimmed" : ""}`,
-          transform: `translate(${node.x - width / 2} ${node.y - height / 2})`,
-          tabindex: "0",
-          role: "button",
-          "aria-label": `${node.label}. ${node.plain ?? node.subtitle}`,
-          "data-node-id": node.id,
-        });
-        group.append(createSvg("rect", {width, height, class: "node-rect"}));
-        group.append(createSvg("rect", {x: 0, y: 0, width: 4, height, rx: 2, class: "node-accent"}));
-        const badge = createSvg("text", {x: 15, y: 17, class: "node-badge"});
-        badge.textContent = short(node.badge, 24);
-        group.append(badge);
-        const title = createSvg("text", {x: 15, y: 38, class: "node-title"});
-        title.textContent = short(node.label, 29);
-        group.append(title);
-        const plain = createSvg("text", {x: 15, y: 58, class: "node-plain"});
-        wrapWords(node.plain ?? node.subtitle, node.kind === "finding" ? 32 : 35).forEach((line, index) => {
-          const span = createSvg("tspan", {x: 15, dy: index === 0 ? 0 : 13});
-          span.textContent = line;
-          plain.append(span);
-        });
-        group.append(plain);
-        const count = countForNode(node);
-        if (count) {
-          const countText = createSvg("text", {x: width - 13, y: 17, class: "node-count", "text-anchor": "end"});
-          countText.textContent = count;
-          group.append(countText);
+      for (const factId of [...facts, ...(selected.family === "fact-element" ? [startId] : [])]) {
+        for (const edge of incident(factId, ["instance-of"])) {
+          addEdge(edge);
+          const typeId = [edge.from, edge.to].find((id) => nodeById.get(id)?.family === "architecture-type");
+          if (typeId) types.add(typeId);
         }
-        group.addEventListener("pointerdown", (event) => startNodeDrag(event, node));
-        group.addEventListener("click", (event) => { event.stopPropagation(); selectNode(node.id); });
-        group.addEventListener("dblclick", (event) => { event.stopPropagation(); focusNode(node); });
-        group.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectNode(node.id); } });
-        dom.viewport.append(group);
       }
-
-      applyTransform();
+      const evaluationProfileIds = Object.entries(graph.indexes.by_profile)
+        .filter(([, profile]) => profile.supplied_evaluation)
+        .map(([profileId]) => profileId);
+      const admittedConstraintIds = new Set(evaluationProfileIds.flatMap((profileId) => graph.indexes.by_profile[profileId].constraint_ids));
+      for (const typeId of types) {
+        for (const edge of incident(typeId, ["candidate-aligns-to", "applies-to", "instance-of"])) {
+          const otherId = edge.from === typeId ? edge.to : edge.from;
+          const family = nodeById.get(otherId)?.family;
+          if (edge.kind === "applies-to" && family === "constraint" && !admittedConstraintIds.has(otherId)) continue;
+          addEdge(edge);
+          if (family === "constraint") constraints.add(otherId);
+          if (family === "property") properties.add(otherId);
+          if (family === "fact-element") facts.add(otherId);
+        }
+      }
+      for (const constraintId of constraints) {
+        for (const edge of incident(constraintId, ["applies-to", "constrains"])) {
+          addEdge(edge);
+          const propertyId = [edge.from, edge.to].find((id) => nodeById.get(id)?.family === "property");
+          if (propertyId) properties.add(propertyId);
+        }
+      }
+      for (const finding of graph.nodes.filter((node) => node.family === "finding")) {
+        const findingEdges = incident(finding.id, ["checks", "explains"]);
+        const exactConstraint = findingEdges.some((edge) => [edge.from, edge.to].some((id) => constraints.has(id)));
+        const matchingFact = findingEdges.some((edge) => [edge.from, edge.to].some((id) => facts.has(id)));
+        if (!exactConstraint && !matchingFact) continue;
+        for (const edge of findingEdges) {
+          const endpointsRelevant = [edge.from, edge.to].some((id) => constraints.has(id) || properties.has(id) || facts.has(id) || id === finding.id);
+          if (endpointsRelevant) addEdge(edge);
+        }
+      }
+      const missingHops = graph.gaps
+        .filter((gap) => nodes.has(gap.from))
+        .map((gap) => Object.freeze({id: gap.id, kind: gap.kind, from: gap.from, reason: gap.reason, owner_route: gap.owner_route}));
+      const nodeIds = [...nodes].sort();
+      const edgeIds = [...edges].sort();
+      const relationKinds = [...new Set(edgeIds.map((id) => edgeById.get(id).kind))].sort();
+      return Object.freeze({
+        graph_id: graph.graph_id,
+        selected_node_id: startId,
+        node_ids: Object.freeze(nodeIds),
+        edge_ids: Object.freeze(edgeIds),
+        missing_hops: Object.freeze(missingHops),
+        relation_kinds: Object.freeze(relationKinds),
+        name_only_links: Object.freeze([]),
+      });
     };
-
-    const countForNode = (node) => {
-      if (node.kind === "meta-group") return `${node.data?.count ?? 0} types`;
-      if (node.kind === "meta-type") return ({
-        "candidate-mapped": "candidate map",
-        "profiled-unmapped": "profile only",
-        unsupported: "unmapped",
-        "not-admitted": "not admitted",
-        superseded: "retired",
-      })[node.data.mapping_status] ?? "";
-      if (node.kind === "concept") return `${inheritedProperties(node.id).length} props`;
-      if (node.kind === "profile") return `${node.data.constraints?.length ?? 0} rules`;
-      if (node.kind === "fact") return `${Object.keys(node.data?.properties ?? {}).length} facts`;
-      return "";
+    const navigatorRowContract = (graph, nodeId) => {
+      const node = graph.nodes.find((item) => item.id === nodeId);
+      if (!node) return null;
+      const relationships = (graph.indexes.incident_edges[nodeId] ?? [])
+        .map((edgeId) => graph.edges.find((edge) => edge.id === edgeId))
+        .filter(Boolean)
+        .map((edge) => Object.freeze({id: edge.id, kind: edge.kind, direction: edge.from === nodeId ? "outgoing" : "incoming", from: edge.from, to: edge.to, other_id: edge.from === nodeId ? edge.to : edge.from}))
+        .sort((left, right) => `${left.direction}:${left.kind}:${left.id}`.localeCompare(`${right.direction}:${right.kind}:${right.id}`));
+      return Object.freeze({id: node.id, family: node.family, label: node.label, plain_language: node.plain_language, statuses: node.statuses ?? Object.freeze({}), relationships: Object.freeze(relationships)});
     };
-
-    const renderNavigator = () => {
-      const nodes = state.graph.nodes.filter(nodeMatchesSearch);
-      dom.navigatorCount.textContent = `${nodes.length} item${nodes.length === 1 ? "" : "s"}`;
-      dom.nodeList.innerHTML = nodes.map((node) => `
-        <button class="node-list-button ${state.selectedId === node.id ? "active" : ""}" data-node-list-id="${escapeHtml(node.id)}" data-kind="${node.kind}" data-maturity="${escapeHtml(node.maturity ?? "")}" title="${escapeHtml(node.plain ?? node.subtitle)}">
-          <span class="node-list-dot"></span><span class="node-list-text">${escapeHtml(node.label)}</span>
-        </button>`).join("");
-      dom.nodeList.querySelectorAll("[data-node-list-id]").forEach((button) => button.addEventListener("click", () => {
-        selectNode(button.dataset.nodeListId);
-        const node = state.graph.nodes.find((item) => item.id === button.dataset.nodeListId);
-        if (node) focusNode(node, 1.25);
-        closeNavigation();
+    const setNavigatorSelection = (nodeId) => {
+      for (const row of dom.navigatorTree.querySelectorAll("[data-navigator-id]")) {
+        const selected = Boolean(nodeId) && row.dataset.navigatorId === nodeId;
+        row.setAttribute("aria-selected", String(selected));
+        row.dataset.selection = selected ? "selected" : "unselected";
+      }
+      return nodeId ?? null;
+    };
+    const searchNavigator = (query = dom.navigatorSearch.value) => {
+      if (!activeGraph) return Object.freeze([]);
+      const normalized = String(query).trim().toLocaleLowerCase();
+      const exact = activeGraph.nodes.find((node) => node.id.toLocaleLowerCase() === normalized);
+      const matchingIds = exact ? [exact.id] : activeGraph.nodes
+        .filter((node) => !normalized || [node.id, node.label, node.plain_language, node.family, JSON.stringify(node.statuses)].some((value) => String(value).toLocaleLowerCase().includes(normalized)))
+        .map((node) => node.id);
+      const matches = new Set(matchingIds);
+      for (const row of dom.navigatorTree.querySelectorAll("[data-navigator-id]")) row.hidden = !matches.has(row.dataset.navigatorId);
+      dom.navigatorCount.textContent = `${matchingIds.length} of ${activeGraph.nodes.length} graph objects reachable.`;
+      window.__UOC_NAVIGATOR_RECEIPT__ = Object.freeze({...window.__UOC_NAVIGATOR_RECEIPT__, ready: true, query: String(query), matching_ids: Object.freeze([...matchingIds]), selected_node_id: window.__UOC_FOCUS_RECEIPT__?.selected_node_id ?? null});
+      return Object.freeze(matchingIds);
+    };
+    const selectNavigatorObject = (nodeId) => {
+      const result = focusNode(nodeId);
+      setNavigatorSelection(result?.selected_node_id ?? null);
+      window.__UOC_NAVIGATOR_RECEIPT__ = Object.freeze({...window.__UOC_NAVIGATOR_RECEIPT__, selected_node_id: result?.selected_node_id ?? null, selection_source: "navigator"});
+      return result;
+    };
+    const renderNavigator = (graph) => {
+      const contracts = graph.nodes.map((node) => navigatorRowContract(graph, node.id)).sort((left, right) => `${left.family}:${left.id}`.localeCompare(`${right.family}:${right.id}`));
+      const rows = contracts.map((contract) => {
+        const row = document.createElement("article");
+        row.className = "navigator-row";
+        row.setAttribute("role", "treeitem");
+        row.setAttribute("aria-selected", "false");
+        row.dataset.navigatorId = contract.id;
+        row.dataset.family = contract.family;
+        row.dataset.statuses = JSON.stringify(contract.statuses);
+        row.dataset.selection = "unselected";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.navigatorSelectId = contract.id;
+        const label = document.createElement("strong");
+        label.textContent = contract.label;
+        const identity = document.createElement("span");
+        identity.className = "navigator-id";
+        identity.textContent = contract.id;
+        button.append(label, identity);
+        button.addEventListener("click", () => selectNavigatorObject(contract.id));
+        const meta = document.createElement("p");
+        meta.className = "navigator-meta";
+        meta.textContent = `Family: ${contract.family}. Statuses: ${JSON.stringify(contract.statuses)}.`;
+        const relations = document.createElement("ul");
+        relations.className = "navigator-relations";
+        relations.setAttribute("aria-label", `Typed relationships for ${contract.id}`);
+        relations.replaceChildren(...contract.relationships.map((relationship) => {
+          const item = document.createElement("li");
+          item.dataset.relationId = relationship.id;
+          item.dataset.relationKind = relationship.kind;
+          item.dataset.relationDirection = relationship.direction;
+          item.textContent = `${relationship.direction}: ${relationship.from} —${relationship.kind}→ ${relationship.to}`;
+          return item;
+        }));
+        row.append(button, meta, relations);
+        return row;
+      });
+      dom.navigatorTree.replaceChildren(...rows);
+      const idSet = contracts.map((contract) => contract.id).sort();
+      window.__UOC_NAVIGATOR_RECEIPT__ = Object.freeze({ready: true, graph_id: graph.graph_id, navigator_ids: Object.freeze(idSet), relation_occurrences: contracts.reduce((total, contract) => total + contract.relationships.length, 0), query: "", matching_ids: Object.freeze(idSet), selected_node_id: null, selection_source: null});
+      searchNavigator("");
+      return window.__UOC_NAVIGATOR_RECEIPT__;
+    };
+    const nodeProfileMatch = (node, profileId) => {
+      if (profileId === "all") return "neutral";
+      if (node.fixture_profile_id) return node.fixture_profile_id === profileId ? "match" : "mismatch";
+      if (node.evaluation_profile_id) return node.evaluation_profile_id === profileId ? "match" : "mismatch";
+      if (node.family === "profile") return node.source_id === profileId ? "match" : "mismatch";
+      if (node.statuses?.owner_profile_id) return node.statuses.owner_profile_id === profileId ? "match" : "mismatch";
+      if (node.constraint_origin_profile_id) return node.constraint_origin_profile_id === profileId ? "match" : "mismatch";
+      return "neutral";
+    };
+    const deriveVisibility = (graph, filterInput) => {
+      const nodeVisibility = {};
+      const nodeProfileMatches = {};
+      for (const node of graph.nodes) {
+        const coverage = node.statuses?.mapping_status ?? node.statuses?.candidate_status ?? "none";
+        const profileMatch = nodeProfileMatch(node, filterInput.profile_id);
+        nodeProfileMatches[node.id] = profileMatch;
+        const matches = (filterInput.family === "all" || node.family === filterInput.family)
+          && (filterInput.maturity === "all" || node.statuses?.maturity === filterInput.maturity)
+          && (filterInput.coverage === "all" || coverage === filterInput.coverage)
+          && profileMatch !== "mismatch";
+        nodeVisibility[node.id] = matches ? "visible" : filterInput.non_match === "hide" ? "hidden" : "dimmed";
+      }
+      const edgeVisibility = {};
+      for (const edge of graph.edges) {
+        const endpoints = [nodeVisibility[edge.from], nodeVisibility[edge.to]];
+        const relationMatches = filterInput.relation === "all" || edge.kind === filterInput.relation;
+        edgeVisibility[edge.id] = relationMatches && endpoints.every((value) => value === "visible")
+          ? "visible"
+          : filterInput.non_match === "hide" || endpoints.includes("hidden") ? "hidden" : "dimmed";
+      }
+      const noEvaluation = ["architecture.python-strict", "architecture.rust-strict"].includes(filterInput.profile_id)
+        ? `No supplied observation/evaluation for ${filterInput.profile_id.replace("architecture.", "").replace("-strict", "")}.`
+        : null;
+      return Object.freeze({graph_id: graph.graph_id, node_visibility: Object.freeze(nodeVisibility), edge_visibility: Object.freeze(edgeVisibility), node_profile_matches: Object.freeze(nodeProfileMatches), profile_notice: noEvaluation});
+    };
+    const currentFilterInput = () => Object.freeze({
+      family: dom.filterFamily.value,
+      maturity: dom.filterMaturity.value,
+      coverage: dom.filterCoverage.value,
+      profile_id: dom.filterProfile.value,
+      relation: dom.filterRelation.value,
+      non_match: dom.filterMode.value,
+    });
+    const applyVisibility = (filterInput = currentFilterInput()) => {
+      if (!activeGraph) return null;
+      const result = deriveVisibility(activeGraph, filterInput);
+      for (const element of dom.nodes.querySelectorAll("[data-node-id]")) {
+        const visibility = result.node_visibility[element.dataset.nodeId];
+        const profileMatch = result.node_profile_matches[element.dataset.nodeId];
+        element.dataset.visibility = visibility;
+        element.dataset.profileMatch = profileMatch;
+        element.classList.toggle("is-filter-hidden", visibility === "hidden");
+        element.classList.toggle("is-filter-dimmed", visibility === "dimmed");
+        element.classList.toggle("is-filter-emphasized", profileMatch === "match");
+      }
+      for (const element of dom.edges.querySelectorAll("[data-edge-id]")) {
+        const visibility = result.edge_visibility[element.dataset.edgeId];
+        element.dataset.visibility = visibility;
+        element.classList.toggle("is-filter-hidden", visibility === "hidden");
+        element.classList.toggle("is-filter-dimmed", visibility === "dimmed");
+      }
+      const nodeCounts = Object.values(result.node_visibility).reduce((counts, value) => ({...counts, [value]: (counts[value] ?? 0) + 1}), {});
+      const edgeCounts = Object.values(result.edge_visibility).reduce((counts, value) => ({...counts, [value]: (counts[value] ?? 0) + 1}), {});
+      dom.filterSummary.textContent = result.profile_notice ?? `${nodeCounts.visible ?? 0} visible, ${nodeCounts.dimmed ?? 0} dimmed, ${nodeCounts.hidden ?? 0} hidden.`;
+      window.__UOC_VISIBILITY_RECEIPT__ = Object.freeze({
+        ready: true,
+        graph_id: result.graph_id,
+        filter_input: filterInput,
+        node_counts: Object.freeze(nodeCounts),
+        edge_counts: Object.freeze(edgeCounts),
+        node_ids: Object.freeze(activeGraph.nodes.map((node) => node.id)),
+        edge_ids: Object.freeze(activeGraph.edges.map((edge) => edge.id)),
+        profile_notice: result.profile_notice,
+      });
+      return result;
+    };
+    const clearVisibility = () => {
+      dom.filterFamily.value = defaultFilterInput.family;
+      dom.filterMaturity.value = defaultFilterInput.maturity;
+      dom.filterCoverage.value = defaultFilterInput.coverage;
+      dom.filterProfile.value = defaultFilterInput.profile_id;
+      dom.filterRelation.value = defaultFilterInput.relation;
+      dom.filterMode.value = defaultFilterInput.non_match;
+      return applyVisibility(defaultFilterInput);
+    };
+    const setFilterInput = (filterInput) => {
+      dom.filterFamily.value = filterInput.family;
+      dom.filterMaturity.value = filterInput.maturity;
+      dom.filterCoverage.value = filterInput.coverage;
+      dom.filterProfile.value = filterInput.profile_id;
+      dom.filterRelation.value = filterInput.relation;
+      dom.filterMode.value = filterInput.non_match;
+      return applyVisibility(filterInput);
+    };
+    const applyFocus = (startId) => {
+      if (!activeGraph) return null;
+      const result = findCanvasTrace(activeGraph, startId);
+      if (!result.selected_node_id) {
+        dom.focusSummary.textContent = `No graph object matches “${dom.focusSearch.value}”. Active filters and graph state were preserved.`;
+        return result;
+      }
+      if (!focusRestore) focusRestore = Object.freeze({
+        filter_input: currentFilterInput(),
+        view_box: dom.canvas.getAttribute("viewBox"),
+        transform: state.transform,
+        scroll_left: dom.canvas.parentElement.scrollLeft,
+        scroll_top: dom.canvas.parentElement.scrollTop,
+      });
+      const focusedNodes = new Set(result.node_ids);
+      const focusedEdges = new Set(result.edge_ids);
+      for (const element of dom.nodes.querySelectorAll("[data-node-id]")) {
+        const included = focusedNodes.has(element.dataset.nodeId);
+        element.dataset.focusState = element.dataset.nodeId === startId ? "selected" : included ? "trace" : "outside";
+        element.classList.toggle("is-focus-emphasized", included);
+        element.classList.toggle("is-focus-dimmed", !included);
+      }
+      for (const element of dom.edges.querySelectorAll("[data-edge-id]")) {
+        const included = focusedEdges.has(element.dataset.edgeId);
+        element.dataset.focusState = included ? "trace" : "outside";
+        element.classList.toggle("is-focus-emphasized", included);
+        element.classList.toggle("is-focus-dimmed", !included);
+      }
+      dom.focusGaps.replaceChildren(...result.missing_hops.map((gap) => {
+        const item = document.createElement("li");
+        item.dataset.gapId = gap.id;
+        item.dataset.gapFrom = gap.from;
+        item.textContent = `${gap.kind}: ${gap.reason} Owner: ${gap.owner_route}.`;
+        return item;
+      }));
+      dom.focusSummary.textContent = result.missing_hops.length
+        ? `${result.node_ids.length} objects and ${result.edge_ids.length} explicit relations; ${result.missing_hops.length} missing hop named below.`
+        : `${result.node_ids.length} objects and ${result.edge_ids.length} explicit relations; no missing hop on this supplied path.`;
+      window.__UOC_FOCUS_RECEIPT__ = Object.freeze({...result, ready: true, restored: false});
+      setNavigatorSelection(startId);
+      syncRovingCanvasNode(startId);
+      return result;
+    };
+    const focusNode = (nodeId) => applyFocus(nodeId);
+    const resolveSearch = (query) => {
+      if (!activeGraph) return null;
+      const normalized = query.trim().toLocaleLowerCase();
+      if (!normalized) return null;
+      return activeGraph.nodes.find((node) => [node.id, node.source_id, node.label].some((value) => String(value).toLocaleLowerCase() === normalized))
+        ?? activeGraph.nodes.find((node) => [node.id, node.source_id, node.label, node.plain_language, node.family, JSON.stringify(node.statuses)].some((value) => String(value).toLocaleLowerCase().includes(normalized)))
+        ?? null;
+    };
+    const focusSearchResult = () => {
+      const node = resolveSearch(dom.focusSearch.value);
+      return applyFocus(node?.id ?? "");
+    };
+    const clearFocus = () => {
+      for (const element of dom.nodes.querySelectorAll("[data-node-id]")) {
+        element.classList.remove("is-focus-emphasized", "is-focus-dimmed");
+        delete element.dataset.focusState;
+      }
+      for (const element of dom.edges.querySelectorAll("[data-edge-id]")) {
+        element.classList.remove("is-focus-emphasized", "is-focus-dimmed");
+        delete element.dataset.focusState;
+      }
+      dom.focusGaps.replaceChildren();
+      dom.focusSearch.value = "";
+      if (focusRestore) {
+        setFilterInput(focusRestore.filter_input);
+        applyTransform(focusRestore.transform, "focus-restore");
+        dom.canvas.parentElement.scrollLeft = focusRestore.scroll_left;
+        dom.canvas.parentElement.scrollTop = focusRestore.scroll_top;
+      }
+      dom.focusSummary.textContent = "Rule trace is emphasized by default. Select any object to derive its explicit trace.";
+      focusRestore = null;
+      setNavigatorSelection(null);
+      window.__UOC_FOCUS_RECEIPT__ = Object.freeze({ready: true, graph_id: activeGraph?.graph_id ?? null, selected_node_id: null, node_ids: Object.freeze([]), edge_ids: Object.freeze([]), missing_hops: Object.freeze([]), relation_kinds: Object.freeze([]), name_only_links: Object.freeze([]), restored: true, filter_input: currentFilterInput(), view_box: dom.canvas.getAttribute("viewBox"), scroll_left: dom.canvas.parentElement.scrollLeft, scroll_top: dom.canvas.parentElement.scrollTop});
+      return window.__UOC_FOCUS_RECEIPT__;
+    };
+    const inspectCanvasObject = (graph, objectId) => {
+      const node = graph.nodes.find((item) => item.id === objectId);
+      const edge = graph.edges.find((item) => item.id === objectId);
+      if (!node && !edge) return null;
+      const incident = (node ? graph.indexes.incident_edges[node.id] ?? [] : [edge.id])
+        .map((edgeId) => graph.edges.find((item) => item.id === edgeId))
+        .filter(Boolean)
+        .map((item) => Object.freeze({
+          id: item.id,
+          kind: item.kind,
+          from: item.from,
+          to: item.to,
+          direction: node ? item.from === node.id ? "outgoing" : "incoming" : `${item.from} -> ${item.to}`,
+          derivation: item.derivation,
+        }));
+      const sourceRef = node?.source_ref ?? edge.derivation;
+      const ownerRoute = node?.raw?.owner_route ?? `Owner remains the source artifact named by ${sourceRef}.`;
+      const contract = {
+        kind: node ? "node" : "edge",
+        id: objectId,
+        family: node?.family ?? edge.kind,
+        label: node?.label ?? edge.kind,
+        plain_language: node?.plain_language ?? `${edge.from} ${edge.kind} ${edge.to}.`,
+        source_ref: sourceRef,
+        statuses: node?.statuses ?? Object.freeze({source_kind: edge.source_kind, semantic_posture: edge.semantic_posture}),
+        fixture_profile_id: node?.fixture_profile_id ?? null,
+        evaluation_profile_id: node?.evaluation_profile_id ?? null,
+        constraint_origin_profile_id: node?.constraint_origin_profile_id ?? null,
+        direction: edge ? Object.freeze({from: edge.from, relation: edge.kind, to: edge.to}) : null,
+        incident_relationships: Object.freeze(incident),
+        raw: node?.raw ?? edge.raw,
+        owner_route: ownerRoute,
+        claim_ceiling: "Local supplied/candidate record only; authority_effect none. No adapter ran; no ontology admission, release, deployment, or production claim.",
+      };
+      return Object.freeze(contract);
+    };
+    const objectElement = (objectId) => [...document.querySelectorAll("[data-node-id], [data-edge-id]")]
+      .find((element) => element.dataset.nodeId === objectId || element.dataset.edgeId === objectId) ?? null;
+    const renderInspection = (contract) => {
+      dom.details.dataset.inspectorId = contract.id;
+      dom.details.dataset.inspectorKind = contract.kind;
+      dom.detailsId.textContent = contract.id;
+      dom.detailsKind.textContent = `${contract.kind} · ${contract.family}`;
+      dom.detailsPlain.textContent = contract.plain_language;
+      dom.detailsSource.textContent = contract.source_ref;
+      dom.detailsStatuses.textContent = JSON.stringify(contract.statuses);
+      dom.detailsFixtureProfile.textContent = contract.fixture_profile_id ?? "not supplied";
+      dom.detailsEvaluationProfile.textContent = contract.evaluation_profile_id ?? "not supplied";
+      dom.detailsConstraintOrigin.textContent = contract.constraint_origin_profile_id ?? "not supplied";
+      dom.detailsDirection.textContent = contract.direction ? `${contract.direction.from} —${contract.direction.relation}→ ${contract.direction.to}` : "node; see incident relationships";
+      dom.detailsOwner.textContent = contract.owner_route;
+      dom.detailsClaim.textContent = contract.claim_ceiling;
+      dom.detailsRaw.textContent = JSON.stringify(contract.raw, null, 2);
+      dom.detailsRelations.replaceChildren(...contract.incident_relationships.map((relation) => {
+        const item = document.createElement("li");
+        item.dataset.relationId = relation.id;
+        item.dataset.direction = relation.direction;
+        item.textContent = `${relation.direction}: ${relation.from} —${relation.kind}→ ${relation.to}; source ${relation.derivation}`;
+        return item;
       }));
     };
-
-    const renderViewState = () => {
-      document.querySelectorAll(".view-button").forEach((button) => button.classList.toggle("active", button.dataset.view === state.view));
-      dom.relationToggleGroup.style.display = state.view === "types" ? "flex" : "none";
-      dom.metaTypeFilterGroup.style.display = state.view === "metaTypes" ? "flex" : "none";
-      dom.profileGroup.style.display = state.view === "metaTypes" ? "none" : "flex";
-      const descriptions = {
-        metaTypes: `<strong>DomainSpec meta-types.</strong> This lens shows the canonical DS-D1 inventory. ${state.metaTypeFilter === "active" ? "All 13 active backend types are visible." : state.metaTypeFilter === "ui" ? "Candidate and deferred UI labels are visible but remain non-active." : state.metaTypeFilter === "history" ? "Only the superseded Saga tombstone is visible." : "All 24 staged labels are visible; the retired Saga tombstone stays in History."} Candidate mappings are evidence-backed alignments, not formation or admission.`,
-        types: "<strong>Type graph.</strong> See what each architecture kind means and how the kinds inherit or relate. Click a node for its exact contract.",
-        profiles: `<strong>${state.profile[0].toUpperCase()}${state.profile.slice(1)} profile.</strong> See which properties this language expects, on top of the portable rules shared by every language.`,
-        facts: "<strong>Supplied example facts.</strong> These hand-authored facts have the shape a future adapter should emit. Green examples satisfy their checks; red examples need attention.",
-        findings: "<strong>Violations.</strong> See exactly where the supplied facts differ from the selected architecture expectations.",
-      };
-      dom.description.innerHTML = descriptions[state.view];
+    const openInspection = (objectId, opener = objectElement(objectId), activation = "programmatic") => {
+      if (!activeGraph) return null;
+      const contract = inspectCanvasObject(activeGraph, objectId);
+      if (!contract) return null;
+      if (dom.details.open) dom.details.close();
+      inspectorOpener = opener;
+      renderInspection(contract);
+      dom.details.inert = false;
+      dom.details.showModal();
+      dom.closeDetails.focus();
+      window.__UOC_INSPECT_RECEIPT__ = Object.freeze({ready: true, graph_id: activeGraph.graph_id, inspected_id: objectId, activation, contract, dialog_open: true, restored_focus_id: null});
+      emitSurfaceReceipt("details", "open");
+      return contract;
     };
-
-    const render = ({fit = false} = {}) => {
-      if (!state.data) return;
-      state.graph = applyCachedPositions(buildGraph());
-      if (state.selectedId && !state.graph.nodes.some((node) => node.id === state.selectedId)) state.selectedId = null;
-      renderViewState();
-      renderCanvas();
-      renderNavigator();
-      if (state.selectedId) renderInspector(state.graph.nodes.find((node) => node.id === state.selectedId));
-      else renderInspector(null);
-      if (fit) requestAnimationFrame(fitGraph);
+    const closeInspection = () => {
+      if (dom.details.open) dom.details.close();
     };
-
-    const closeInspector = () => {
-      state.selectedId = null;
-      dom.inspector.classList.remove("open");
-      dom.inspector.setAttribute("aria-hidden", "true");
-      dom.inspector.replaceChildren();
+    const render = (graph, layout) => {
+      const focus = findCanvasTrace(graph, "meta:DS-D1.7");
+      const focusNodes = new Set(focus.node_ids);
+      const focusEdges = new Set(focus.edge_ids);
+      for (const band of layout.bands) {
+        const group = svg("g", {"data-band": band.id, "data-testid": `band-${band.id}`});
+        group.append(svg("rect", {class: "band-backdrop", x: band.x, y: band.y, width: band.width, height: band.height}));
+        const title = svg("text", {class: "band-title", x: band.x + 16, y: band.y - 34});
+        title.textContent = band.label;
+        const subtitle = svg("text", {class: "band-subtitle", x: band.x + 16, y: band.y - 14});
+        subtitle.textContent = `${band.node_ids.length} graph objects`;
+        group.append(title, subtitle);
+        dom.bands.append(group);
+      }
+      const routeById = new Map(layout.routes.map((route) => [route.edge_id, route]));
+      for (const edge of graph.edges) {
+        const route = routeById.get(edge.id);
+        const path = svg("path", {
+          class: `graph-edge ${route.relation_class} ${focusEdges.has(edge.id) ? "is-emphasized" : "is-dimmed"}`,
+          d: route.path,
+          "data-edge-id": edge.id,
+          "data-edge-kind": edge.kind,
+          "data-pattern": route.pattern,
+          tabindex: "-1",
+          markerend: "url(#arrow)",
+        });
+        const title = svg("title");
+        title.textContent = route.accessible_name;
+        path.append(title);
+        path.addEventListener("dblclick", (event) => openInspection(edge.id, event.currentTarget, "pointer"));
+        dom.edges.append(path);
+      }
+      for (const node of graph.nodes) {
+        const position = layout.positions[node.id];
+        const group = svg("g", {
+          class: `graph-node ${focusNodes.has(node.id) ? "is-emphasized" : "is-dimmed"}`,
+          transform: `translate(${position.x} ${position.y})`,
+          "data-node-id": node.id,
+          "data-family": node.family,
+          "data-band": node.band,
+          "data-source-ref": node.source_ref,
+          "data-maturity": node.statuses?.maturity ?? "",
+          "data-coverage": node.statuses?.mapping_status ?? node.statuses?.candidate_status ?? "",
+          "data-fixture-profile-id": node.fixture_profile_id ?? "",
+          "data-evaluation-profile-id": node.evaluation_profile_id ?? "",
+          "data-constraint-origin-profile-id": node.constraint_origin_profile_id ?? "",
+          tabindex: node.id === state.keyboard.current_node_id ? "0" : "-1",
+          role: "graphics-symbol",
+          "aria-label": `${node.label}. ${node.plain_language}`,
+        });
+        group.append(svg("rect", {class: "node-card", width: position.width, height: position.height}));
+        const label = svg("text", {class: "node-label", x: 12, y: 20});
+        label.textContent = short(node.label, 28);
+        const plainLines = lineChunks(node.plain_language);
+        plainLines.forEach((line, index) => {
+          const text = svg("text", {class: "node-plain", x: 12, y: 39 + index * 12});
+          text.textContent = line;
+          group.append(text);
+        });
+        const meta = svg("text", {class: "node-meta", x: 12, y: position.height - 7});
+        meta.textContent = `${node.family} · ${short(node.source_id, 22)}`;
+        const title = svg("title");
+        title.textContent = `${node.label}: ${node.plain_language}`;
+        group.append(label, meta, title);
+        group.addEventListener("click", () => {
+          dom.focusSearch.value = node.id;
+          focusNode(node.id);
+        });
+        group.addEventListener("dblclick", (event) => openInspection(node.id, event.currentTarget, "pointer"));
+        group.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            event.preventDefault();
+            const currentId = state.keyboard.current_node_id;
+            clearFocus();
+            syncRovingCanvasNode(currentId, {focus: true, move: Object.freeze({kind: "clear", key: "Escape", from: currentId, to: currentId})});
+            return;
+          }
+          if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
+          if (event.altKey && !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+          event.preventDefault();
+          moveCanvasKeyboard(event.key, event.altKey);
+        });
+        dom.nodes.append(group);
+      }
+      dom.canvas.setAttribute("viewBox", `0 0 ${layout.bounds.width} ${layout.bounds.height}`);
+      dom.canvas.dataset.graphId = graph.graph_id;
+      dom.canvas.dataset.layoutId = layout.layout_id;
+      dom.canvas.dataset.verificationStatus = graph.verification_status;
+      dom.nodeCount.textContent = graph.nodes.length;
+      dom.edgeCount.textContent = graph.edges.length;
+      dom.loading.hidden = true;
+      dom.canvas.hidden = false;
     };
-
-    const renderInspector = (node) => {
-      if (!node) {
-        closeInspector();
+    const load = async () => {
+      try {
+        const [metaTypes, ontology, profiles, facts, evaluation] = await Promise.all([
+          fetchSource(sources.meta_types),
+          fetchSource(sources.ontology),
+          Promise.all(sources.profiles.map(fetchSource)),
+          fetchSource(sources.facts),
+          fetchSource(sources.evaluation),
+        ]);
+        const bundle = {meta_types: metaTypes, ontology, profiles, facts, evaluation};
+        const sourceBefore = JSON.stringify(bundle);
+        const graph = BuildUnifiedCanvasProjection(bundle);
+        const layout = ComputeDeterministicCanvasLayout(graph);
+        const sourceMutated = sourceBefore !== JSON.stringify(bundle);
+        if (sourceMutated) throw new Error("Unified render mutated the source bundle.");
+        activeGraph = graph;
+        activeLayout = layout;
+        for (const node of graph.nodes) {
+          const option = document.createElement("option");
+          option.value = node.id;
+          option.label = `${node.label} · ${node.family}`;
+          dom.focusOptions.append(option);
+        }
+        for (const relation of [...new Set(graph.edges.map((edge) => edge.kind))].sort()) {
+          const option = document.createElement("option");
+          option.value = relation;
+          option.textContent = relation;
+          dom.filterRelation.append(option);
+        }
+        render(graph, layout);
+        syncRovingCanvasNode(state.keyboard.current_node_id);
+        renderNavigator(graph);
+        clearVisibility();
+        clearFocus();
+        fitGraph("all");
+        dom.status.textContent = "Ready · local prototype";
+        dom.status.classList.add("ready");
+        window.__UOC_STATIC_RECEIPT__ = Object.freeze({
+          ready: true,
+          graph_id: graph.graph_id,
+          layout_id: layout.layout_id,
+          verification_status: graph.verification_status,
+          node_count: graph.nodes.length,
+          edge_count: graph.edges.length,
+          band_count: layout.bands.length,
+          source_mutated: sourceMutated,
+          authority_effect: graph.authority_effect,
+        });
+      } catch (error) {
+        dom.status.textContent = "Blocked";
+        dom.status.classList.add("error");
+        dom.loading.textContent = `Unable to render the complete graph: ${error.message}`;
+        console.error(error);
+      }
+    };
+    const emitSurfaceReceipt = (surface, event, restoredFocusId = null) => {
+      window.__UOC_SURFACE_RECEIPT__ = Object.freeze({ready: true, surface, event, explore: Object.freeze({open: dom.drawer.classList.contains("open"), modality: dom.drawer.dataset.modality, inert: dom.drawer.inert}), details: Object.freeze({open: dom.details.open, modality: dom.details.dataset.modality, inert: dom.details.inert}), help: Object.freeze({open: dom.help.open, modality: dom.help.dataset.modality, inert: dom.help.inert}), active_element_id: document.activeElement?.id || document.activeElement?.dataset?.nodeId || document.activeElement?.dataset?.edgeId || null, restored_focus_id: restoredFocusId});
+      return window.__UOC_SURFACE_RECEIPT__;
+    };
+    const setNavigationOpen = (open, opener = dom.openDrawer) => {
+      if (open) navigationOpener = opener;
+      dom.drawer.classList.toggle("open", open);
+      dom.drawer.setAttribute("aria-hidden", String(!open));
+      dom.drawer.inert = !open;
+      dom.openDrawer.setAttribute("aria-expanded", String(open));
+      if (open) dom.navigatorSearch.focus({preventScroll: true});
+      else {
+        const restore = navigationOpener;
+        navigationOpener = null;
+        restore?.focus({preventScroll: true});
+      }
+      return emitSurfaceReceipt("explore", open ? "open" : "close", open ? null : dom.openDrawer.id);
+    };
+    const openNavigation = (opener = dom.openDrawer) => setNavigationOpen(true, opener);
+    const openHelp = (opener = dom.openHelp) => {
+      helpOpener = opener;
+      dom.help.inert = false;
+      dom.help.showModal();
+      dom.closeHelp.focus();
+      return emitSurfaceReceipt("help", "open");
+    };
+    const closeHelp = () => { if (dom.help.open) dom.help.close(); };
+    const trapModalTab = (dialog, event) => {
+      if (event.key !== "Tab" || !dialog.open) return;
+      const focusable = [...dialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')].filter((element) => !element.disabled && !element.inert);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (focusable.length === 1 || (!event.shiftKey && document.activeElement === last) || (event.shiftKey && document.activeElement === first)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      }
+    };
+    dom.openDrawer.addEventListener("click", (event) => dom.drawer.classList.contains("open") ? setNavigationOpen(false) : openNavigation(event.currentTarget));
+    dom.closeDrawer.addEventListener("click", () => setNavigationOpen(false));
+    dom.openHelp.addEventListener("click", (event) => openHelp(event.currentTarget));
+    dom.closeHelp.addEventListener("click", closeHelp);
+    dom.navigatorSearch.addEventListener("input", () => searchNavigator());
+    for (const control of [dom.filterFamily, dom.filterMaturity, dom.filterCoverage, dom.filterProfile, dom.filterRelation, dom.filterMode]) control.addEventListener("change", () => applyVisibility());
+    dom.clearFilters.addEventListener("click", clearVisibility);
+    dom.applyFocus.addEventListener("click", focusSearchResult);
+    dom.clearFocus.addEventListener("click", clearFocus);
+    dom.focusSearch.addEventListener("search", () => { if (!dom.focusSearch.value) clearFocus(); });
+    dom.closeDetails.addEventListener("click", closeInspection);
+    const panStep = () => viewportLimits().width / (state.transform?.scale ?? 1) * .12;
+    dom.panLeft.addEventListener("click", () => panBy(-panStep(), 0, "pan-left"));
+    dom.panRight.addEventListener("click", () => panBy(panStep(), 0, "pan-right"));
+    dom.panUp.addEventListener("click", () => panBy(0, -panStep(), "pan-up"));
+    dom.panDown.addEventListener("click", () => panBy(0, panStep(), "pan-down"));
+    dom.zoomIn.addEventListener("click", () => zoomBy(1.25));
+    dom.zoomOut.addEventListener("click", () => zoomBy(.8));
+    dom.fitAll.addEventListener("click", () => fitGraph("all"));
+    dom.fitSelection.addEventListener("click", () => fitGraph("selection"));
+    dom.resetViewport.addEventListener("click", () => applyTransform(reduceViewportTransform(state.transform, {type: "reset"}), "reset"));
+    dom.canvasWrap.addEventListener("focus", () => { state.gesture.active = true; emitViewportReceipt("canvas-activated"); });
+    dom.canvasWrap.addEventListener("blur", () => { state.gesture.active = false; state.gesture.dragging = false; emitViewportReceipt("canvas-deactivated"); });
+    dom.canvasWrap.addEventListener("pointerdown", (event) => {
+      dom.canvasWrap.focus({preventScroll: true});
+      state.gesture.active = true;
+      if (event.target.closest?.("[data-node-id], [data-edge-id]")) {
+        emitViewportReceipt("canvas-activated");
         return;
       }
-      const renderers = {concept: conceptInspector, property: propertyInspector, profile: profileInspector, fact: factInspector, finding: findingInspector, edge: edgeInspector, "meta-type": metaTypeInspector, "meta-group": metaGroupInspector};
-      dom.inspector.innerHTML = renderers[node.kind]?.(node) ?? genericInspector(node);
-      dom.inspector.classList.add("open");
-      dom.inspector.setAttribute("aria-hidden", "false");
-      dom.inspector.querySelector("[data-close-inspector]")?.addEventListener("click", () => {
-        closeInspector();
-        renderCanvas();
-        renderNavigator();
-      });
-    };
-
-    const inspectorFrame = (kicker, title, id, body) => `<div class="inspector-head"><button class="icon-button drawer-close inspector-close" data-close-inspector aria-label="Close details" title="Close">×</button><div class="inspector-kicker">${escapeHtml(kicker)}</div><h2>${escapeHtml(title)}</h2><div class="inspector-id">${escapeHtml(id)}</div></div><div class="inspector-body">${body}</div>`;
-
-    const metaTypeInspector = (node) => {
-      const metaType = node.data;
-      const mappingLabel = ({
-        "candidate-mapped": "candidate alignment",
-        "profiled-unmapped": "profiled, realization type missing",
-        unsupported: "explicitly unsupported",
-        "not-admitted": "not admitted",
-        superseded: "superseded tombstone",
-      })[metaType.mapping_status] ?? metaType.mapping_status;
-      const boundary = metaType.mapping_status === "candidate-mapped"
-        ? "This reciprocal mapping is evidence-supported but still candidate. It does not prove DomainSpec formation, binding, admission, or source-code conformance."
-        : metaType.maturity === "active"
-          ? "Visible does not mean implemented. This active semantic type has an explicit coverage disposition so it cannot disappear silently."
-          : "Inventory visibility does not activate, promote, or admit this type.";
-      return inspectorFrame(`DomainSpec meta-type · ${metaType.maturity}`, metaType.label, metaType.meta_type_id, `
-        <section class="detail-section"><h3>Plain meaning</h3><p class="detail-copy">${escapeHtml(metaType.plain_language)}</p></section>
-        <section class="detail-section"><h3>Canonical registry</h3><dl class="detail-grid"><dt>Category</dt><dd>${escapeHtml(metaType.category)}</dd><dt>Maturity</dt><dd>${escapeHtml(metaType.maturity)}</dd><dt>Criterion</dt><dd>${escapeHtml(metaType.criterion_schema ?? "—")}</dd><dt>Replacement</dt><dd>${escapeHtml(metaType.replacement_ref ?? "—")}</dd></dl></section>
-        <section class="detail-section"><h3>Implementation coverage</h3><dl class="detail-grid"><dt>Status</dt><dd>${escapeHtml(mappingLabel)}</dd><dt>Architecture type</dt><dd>${escapeHtml(metaType.architecture_type_id ?? "—")}</dd><dt>Evidence</dt><dd>${escapeHtml((metaType.evidence_refs ?? []).join(", ") || "—")}</dd></dl><p class="detail-copy" style="margin-top:10px">${escapeHtml(metaType.mapping_reason)}</p></section>
-        <section class="detail-section"><h3>Owner and review trigger</h3><dl class="detail-grid"><dt>Owner</dt><dd>${escapeHtml(metaType.owner_route)}</dd><dt>Review when</dt><dd>${escapeHtml(metaType.review_trigger)}</dd></dl></section>
-        <section class="${metaType.maturity === "active" ? "warning-card" : "danger-card"}"><strong>Authority boundary</strong><br>${escapeHtml(boundary)}</section>`);
-    };
-
-    const metaGroupInspector = (node) => inspectorFrame("Meta-type inventory group", node.label, node.id, `
-      <section class="detail-section"><h3>What this group means</h3><p class="detail-copy">${escapeHtml(node.plain)}</p></section>
-      <section class="detail-section"><h3>Visible entries</h3><p class="detail-copy">${escapeHtml(node.data?.count ?? 0)} meta-type${node.data?.count === 1 ? "" : "s"} in the current filter.</p></section>
-      <section class="warning-card">This is a read-model grouping for navigation. It is not a new DomainSpec meta-type or authority category.</section>`);
-
-    const conceptInspector = (node) => {
-      const concept = node.data;
-      const properties = inheritedProperties(concept.concept_id);
-      const constraints = matchingConstraints(concept.concept_id);
-      const relations = state.data.ontology.relation_definitions.filter((relation) =>
-        [...relation.source_types, ...relation.target_types].some((type) => isSubtype(concept.concept_id, type) || isSubtype(type, concept.concept_id))
-      );
-      return inspectorFrame("Architecture concept", concept.label, concept.concept_id, `
-        <section class="detail-section"><h3>Contract</h3><dl class="detail-grid">
-          <dt>Role</dt><dd>${escapeHtml(concept.concept_role)}</dd><dt>Status</dt><dd>${escapeHtml(concept.candidate_status)}</dd>
-          <dt>Abstract</dt><dd>${concept.abstract ? "yes" : "no"}</dd><dt>Extends</dt><dd>${escapeHtml(concept.extends ?? "—")}</dd>
-          <dt>Evidence</dt><dd>${escapeHtml(concept.confidence.evidence_confidence)}</dd><dt>Commitment</dt><dd>${escapeHtml(concept.confidence.commitment_confidence)}</dd>
-        </dl></section>
-        ${"canonical_mapping_status" in concept ? `<section class="detail-section"><h3>DomainSpec meta-type alignment</h3><dl class="detail-grid"><dt>Meta-type</dt><dd>${escapeHtml(concept.canonical_meta_type_ref ?? "none")}</dd><dt>Status</dt><dd>${escapeHtml(concept.canonical_mapping_status)}</dd></dl><p class="detail-copy" style="margin-top:10px">${concept.canonical_meta_type_ref ? "This is a reciprocal candidate alignment, not semantic formation or admission." : "This architecture role intentionally does not claim a canonical DomainSpec meta-type."}</p></section>` : ""}
-        <section class="detail-section"><h3>Owner route</h3><p class="detail-copy">${escapeHtml(concept.owner_route)}</p></section>
-        <section class="detail-section"><h3>Applicable properties · ${properties.length}</h3><div class="tag-list">${properties.map((property) => `<span class="tag cyan">${escapeHtml(property.property_id)}</span>`).join("") || "—"}</div></section>
-        <section class="detail-section"><h3>${state.profile} constraints · ${constraints.length}</h3><div class="property-list">${constraints.map(constraintCard).join("") || '<p class="detail-copy">No selected-profile constraints.</p>'}</div></section>
-        <section class="detail-section"><h3>Relation participation</h3><div class="tag-list">${relations.map((relation) => `<span class="tag">${escapeHtml(relation.relation_id)}</span>`).join("") || "—"}</div></section>
-        <section class="detail-section"><h3>Challenge gate</h3><p class="detail-copy">${escapeHtml(concept.challenge_contract.resolution_gate)}</p></section>
-        <section class="danger-card"><strong>Forbidden collapse</strong><br>${escapeHtml(concept.forbidden_collapse)}</section>`);
-    };
-
-    const constraintCard = (constraint) => `<div class="property-row"><div class="property-row-head"><span class="property-name">${escapeHtml(constraint.property_id)}</span><span class="origin">${escapeHtml(tail(constraint.origin_profile))}</span></div><div class="property-value">${escapeHtml(constraint.operator)} ${escapeHtml(formatValue(constraint.expected))}</div></div>`;
-
-    const propertyInspector = (node) => {
-      const property = node.data;
-      const constraints = resolvedProfile().constraints.filter((constraint) => constraint.property_id === property.property_id);
-      return inspectorFrame("Property definition", property.label, property.property_id, `
-        <section class="detail-section"><h3>Meaning</h3><p class="detail-copy">${escapeHtml(property.semantics)}</p></section>
-        <section class="detail-section"><h3>Type and scope</h3><dl class="detail-grid"><dt>Value type</dt><dd>${escapeHtml(property.value_type.kind)}</dd><dt>Applies to</dt><dd>${escapeHtml(property.applies_to.kind)}</dd><dt>Types</dt><dd>${escapeHtml(property.applies_to.types.join(", "))}</dd><dt>Observed at</dt><dd>${escapeHtml(property.observation_stage)}</dd></dl></section>
-        <section class="detail-section"><h3>Selected-profile expectations</h3><div class="property-list">${constraints.map(constraintCard).join("") || '<p class="detail-copy">Not constrained by this profile.</p>'}</div></section>
-        <section class="detail-section"><h3>Owner route</h3><p class="detail-copy">${escapeHtml(property.owner_route)}</p></section>
-        <section class="danger-card"><strong>Forbidden inference</strong><br>${escapeHtml(property.forbidden_inference)}</section>`);
-    };
-
-    const profileInspector = (node) => {
-      const profile = node.id === state.data.profiles.base.profile_id ? state.data.profiles.base : resolvedProfile();
-      const constraints = profile.constraints ?? [];
-      return inspectorFrame("Architecture profile", node.label, profile.profile_id, `
-        <section class="detail-section"><h3>Profile</h3><dl class="detail-grid"><dt>Language</dt><dd>${escapeHtml(profile.language)}</dd><dt>Status</dt><dd>${escapeHtml(profile.status)}</dd><dt>Extends</dt><dd>${escapeHtml((profile.extends ?? []).join(", ") || "—")}</dd><dt>Authority</dt><dd>${escapeHtml(profile.authority_effect)}</dd></dl></section>
-        <section class="detail-section"><h3>Constraints · ${constraints.length}</h3><div class="property-list">${constraints.map((constraint) => constraintCard({...constraint, origin_profile: constraint.origin_profile ?? profile.profile_id})).join("")}</div></section>
-        <section class="warning-card">A candidate profile configures expected architecture properties. It does not admit semantic types or become a universal architecture.</section>`);
-    };
-
-    const factInspector = (node) => {
-      const fact = node.data ?? {};
-      const id = fact.element_id ?? fact.relation_id ?? node.id;
-      const findings = state.data.evaluation.findings.filter((finding) => finding.subject_id === id);
-      return inspectorFrame(node.broken ? "Supplied fact · violations" : "Supplied fact", node.label, id, `
-        <section class="detail-section"><h3>Fact contract</h3><dl class="detail-grid"><dt>Type</dt><dd>${escapeHtml(fact.type ?? "relation")}</dd><dt>Findings</dt><dd>${findings.length}</dd><dt>Authority</dt><dd>none</dd></dl></section>
-        <section class="detail-section"><h3>Properties</h3><div class="property-list">${Object.entries(fact.properties ?? {}).map(([key, value]) => `<div class="property-row"><div class="property-name">${escapeHtml(key)}</div><div class="property-value">${escapeHtml(formatValue(value))}</div></div>`).join("")}</div></section>
-        ${findings.length ? `<section class="detail-section"><h3>Findings</h3><div class="property-list">${findings.map((finding) => `<div class="property-row"><div class="property-name">${escapeHtml(finding.constraint_id)}</div><div class="property-value bad">${escapeHtml(formatValue(finding.actual))} → expected ${escapeHtml(formatValue(finding.expected))}</div></div>`).join("")}</div></section>` : '<section class="warning-card">This sample element has no findings under the selected TypeScript evaluation.</section>'}`);
-    };
-
-    const findingInspector = (node) => {
-      const finding = node.data;
-      const property = state.data.ontology.property_definitions.find((item) => item.property_id === finding.property_id);
-      return inspectorFrame("Architecture violation", property?.label ?? finding.property_id, finding.constraint_id, `
-        <section class="detail-section"><h3>Mismatch</h3><dl class="detail-grid"><dt>Subject</dt><dd>${escapeHtml(finding.subject_id)}</dd><dt>Property</dt><dd>${escapeHtml(finding.property_id)}</dd><dt>Expected</dt><dd>${escapeHtml(formatValue(finding.expected))}</dd><dt>Observed</dt><dd style="color:var(--red)">${escapeHtml(formatValue(finding.actual))}</dd><dt>Severity</dt><dd>${escapeHtml(finding.severity)}</dd></dl></section>
-        <section class="detail-section"><h3>Property meaning</h3><p class="detail-copy">${escapeHtml(property?.semantics ?? "No property definition resolved.")}</p></section>
-        <section class="detail-section"><h3>Observation stage</h3><p class="detail-copy">${escapeHtml(property?.observation_stage ?? "—")}</p></section>
-        <section class="danger-card"><strong>Boundary</strong><br>${escapeHtml(property?.forbidden_inference ?? "A finding is evidence, not authority.")}</section>`);
-    };
-
-    const edgeInspector = (node) => {
-      const edge = node.edge;
-      const data = node.data ?? {};
-      return inspectorFrame("Graph edge", edge.label, edge.id, `
-        <section class="detail-section"><h3>Endpoints</h3><dl class="detail-grid"><dt>From</dt><dd>${escapeHtml(edge.from)}</dd><dt>To</dt><dd>${escapeHtml(edge.to)}</dd><dt>Kind</dt><dd>${escapeHtml(edge.kind)}</dd></dl></section>
-        ${data.constraint_id ? `<section class="detail-section"><h3>Constraint</h3><div class="property-list">${constraintCard(data)}</div></section>` : ""}
-        ${data.owner_route ? `<section class="detail-section"><h3>Owner route</h3><p class="detail-copy">${escapeHtml(data.owner_route)}</p></section>` : ""}
-        ${data.forbidden_collapse ? `<section class="danger-card"><strong>Forbidden collapse</strong><br>${escapeHtml(data.forbidden_collapse)}</section>` : ""}`);
-    };
-
-    const genericInspector = (node) => inspectorFrame(node.kind, node.label, node.id, `<pre>${escapeHtml(JSON.stringify(node.data, null, 2))}</pre>`);
-    const formatValue = (value) => Array.isArray(value) ? value.join(" | ") : typeof value === "object" && value !== null ? JSON.stringify(value) : String(value ?? "null");
-
-    const selectNode = (id) => {
-      state.selectedId = id;
-      const node = state.graph.nodes.find((item) => item.id === id);
-      renderCanvas();
-      renderNavigator();
-      renderInspector(node);
-    };
-
-    const screenToWorld = (clientX, clientY) => {
-      const rect = dom.canvas.getBoundingClientRect();
-      return {x: (clientX - rect.left - state.transform.x) / state.transform.k, y: (clientY - rect.top - state.transform.y) / state.transform.k};
-    };
-
-    const startNodeDrag = (event, node) => {
-      if (event.button !== 0) return;
-      event.stopPropagation();
-      event.currentTarget.setPointerCapture(event.pointerId);
-      const point = screenToWorld(event.clientX, event.clientY);
-      state.gesture = {kind: "node", node, dx: node.x - point.x, dy: node.y - point.y};
-    };
-
-    dom.canvas.addEventListener("pointerdown", (event) => {
-      if (event.target.closest(".graph-node")) return;
-      state.gesture = {kind: "pan", startX: event.clientX, startY: event.clientY, originX: state.transform.x, originY: state.transform.y};
-      dom.canvas.classList.add("is-panning");
-      if (event.target === dom.canvas) { closeNavigation(); closeInspector(); renderCanvas(); renderNavigator(); }
+      state.gesture.dragging = true;
+      state.gesture.pointer_id = event.pointerId;
+      state.gesture.client_x = event.clientX;
+      state.gesture.client_y = event.clientY;
+      state.gesture.start_transform = state.transform;
+      dom.canvasWrap.setPointerCapture?.(event.pointerId);
     });
-
-    window.addEventListener("pointermove", (event) => {
-      if (!state.gesture) return;
-      if (state.gesture.kind === "pan") {
-        state.transform.x = state.gesture.originX + event.clientX - state.gesture.startX;
-        state.transform.y = state.gesture.originY + event.clientY - state.gesture.startY;
-        applyTransform();
-      } else {
-        const point = screenToWorld(event.clientX, event.clientY);
-        state.gesture.node.x = point.x + state.gesture.dx;
-        state.gesture.node.y = point.y + state.gesture.dy;
-        savePositions();
-        scheduleCanvasRender();
-      }
+    dom.canvasWrap.addEventListener("pointermove", (event) => {
+      if (!state.gesture.dragging || event.pointerId !== state.gesture.pointer_id) return;
+      const scale = state.gesture.start_transform?.scale ?? 1;
+      panBy((state.gesture.client_x - event.clientX) / scale, (state.gesture.client_y - event.clientY) / scale, "drag-pan");
     });
-
-    window.addEventListener("pointerup", () => { state.gesture = null; dom.canvas.classList.remove("is-panning"); });
-
-    dom.canvas.addEventListener("wheel", (event) => {
+    const endPan = (event) => {
+      if (event.pointerId !== state.gesture.pointer_id) return;
+      state.gesture.dragging = false;
+      state.gesture.pointer_id = null;
+      emitViewportReceipt("pan-complete");
+    };
+    dom.canvasWrap.addEventListener("pointerup", endPan);
+    dom.canvasWrap.addEventListener("pointercancel", endPan);
+    dom.canvasWrap.addEventListener("wheel", (event) => {
+      if (!state.gesture.active || document.activeElement !== dom.canvasWrap) return;
       event.preventDefault();
-      const rect = dom.canvas.getBoundingClientRect();
-      const cursorX = event.clientX - rect.left;
-      const cursorY = event.clientY - rect.top;
-      const oldK = state.transform.k;
-      const nextK = Math.max(0.3, Math.min(2.8, oldK * Math.exp(-event.deltaY * 0.001)));
-      const worldX = (cursorX - state.transform.x) / oldK;
-      const worldY = (cursorY - state.transform.y) / oldK;
-      state.transform.k = nextK;
-      state.transform.x = cursorX - worldX * nextK;
-      state.transform.y = cursorY - worldY * nextK;
-      applyTransform();
+      zoomBy(event.deltaY < 0 ? 1.15 : 1 / 1.15);
     }, {passive: false});
-
-    const scheduleCanvasRender = () => {
-      if (state.raf) return;
-      state.raf = requestAnimationFrame(() => { state.raf = null; renderCanvas(); });
-    };
-
-    const applyTransform = () => dom.viewport.setAttribute("transform", `translate(${state.transform.x} ${state.transform.y}) scale(${state.transform.k})`);
-
-    const fitGraph = () => {
-      if (!state.graph.nodes.length) return;
-      const rect = dom.canvas.getBoundingClientRect();
-      const xs = state.graph.nodes.map((node) => node.x);
-      const ys = state.graph.nodes.map((node) => node.y);
-      const minX = Math.min(...xs) - 170;
-      const maxX = Math.max(...xs) + 170;
-      const minY = Math.min(...ys) - 145;
-      const maxY = Math.max(...ys) + 185;
-      const k = Math.max(0.3, Math.min(1.25, Math.min(rect.width / (maxX - minX), rect.height / (maxY - minY)) * 0.9));
-      state.transform = {k, x: (rect.width - (maxX - minX) * k) / 2 - minX * k, y: (rect.height - (maxY - minY) * k) / 2 - minY * k};
-      applyTransform();
-    };
-
-    const focusNode = (node, scale = Math.max(1.15, state.transform.k)) => {
-      const rect = dom.canvas.getBoundingClientRect();
-      state.transform = {k: scale, x: rect.width / 2 - node.x * scale, y: rect.height / 2 - node.y * scale};
-      applyTransform();
-    };
-
-    const zoomBy = (factor) => {
-      const rect = dom.canvas.getBoundingClientRect();
-      const cx = rect.width / 2;
-      const cy = rect.height / 2;
-      const oldK = state.transform.k;
-      const nextK = Math.max(0.3, Math.min(2.8, oldK * factor));
-      const worldX = (cx - state.transform.x) / oldK;
-      const worldY = (cy - state.transform.y) / oldK;
-      state.transform = {k: nextK, x: cx - worldX * nextK, y: cy - worldY * nextK};
-      applyTransform();
-    };
-
-    const switchView = (view) => {
-      closeNavigation();
-      if (state.view === view) return;
-      state.view = view;
-      state.selectedId = null;
-      state.search = "";
-      dom.search.value = "";
-      render({fit: true});
-    };
-
-    const setNavigationOpen = (open) => {
-      dom.navigation.classList.toggle("open", open);
-      dom.navigation.setAttribute("aria-hidden", String(!open));
-      dom.openNavigation.setAttribute("aria-expanded", String(open));
-    };
-    const openNavigation = () => setNavigationOpen(true);
-    const closeNavigation = () => setNavigationOpen(false);
-
-    document.querySelectorAll(".view-button").forEach((button) => button.addEventListener("click", () => switchView(button.dataset.view)));
-    dom.openNavigation.addEventListener("click", () => setNavigationOpen(!dom.navigation.classList.contains("open")));
-    document.querySelector("#close-navigation").addEventListener("click", closeNavigation);
-    document.querySelector("#zoom-in").addEventListener("click", () => zoomBy(1.22));
-    document.querySelector("#zoom-out").addEventListener("click", () => zoomBy(0.82));
-    document.querySelector("#fit-graph").addEventListener("click", fitGraph);
-    document.querySelector("#reset-layout").addEventListener("click", () => { state.positionCache.delete(cacheKey()); render({fit: true}); showToast("Layout reset"); });
-    dom.relationToggle.addEventListener("click", () => { state.showRelations = !state.showRelations; dom.relationToggle.classList.toggle("active", state.showRelations); dom.relationToggle.textContent = `Relations ${state.showRelations ? "on" : "off"}`; render({fit: true}); });
-    dom.metaTypeFilter.addEventListener("change", () => { state.metaTypeFilter = dom.metaTypeFilter.value; state.selectedId = null; render({fit: true}); });
-    dom.profile.addEventListener("change", () => { state.profile = dom.profile.value; state.selectedId = null; render({fit: state.view === "profiles"}); });
-    dom.search.addEventListener("input", () => { state.search = dom.search.value.trim().toLowerCase(); renderCanvas(); renderNavigator(); });
-
-    const openHelp = () => { dom.help.classList.add("open"); document.querySelector("#close-help").focus(); };
-    const closeHelp = () => dom.help.classList.remove("open");
-    document.querySelector("#help-button").addEventListener("click", openHelp);
-    document.querySelector("#close-help").addEventListener("click", closeHelp);
-    dom.help.addEventListener("click", (event) => { if (event.target === dom.help) closeHelp(); });
-
-    window.addEventListener("keydown", (event) => {
-      if (event.target.matches("input, select") && event.key !== "Escape") return;
-      if (event.key === "/") { event.preventDefault(); openNavigation(); requestAnimationFrame(() => dom.search.focus()); }
-      if (event.key.toLowerCase() === "n") setNavigationOpen(!dom.navigation.classList.contains("open"));
-      if (["1", "2", "3", "4", "5"].includes(event.key)) switchView(["metaTypes", "types", "profiles", "facts", "findings"][Number(event.key) - 1]);
-      if (event.key.toLowerCase() === "f") fitGraph();
-      if (event.key === "Escape") { closeHelp(); closeNavigation(); closeInspector(); renderCanvas(); renderNavigator(); dom.search.blur(); }
+    dom.details.addEventListener("close", () => {
+      const restoredId = inspectorOpener?.dataset.nodeId ?? inspectorOpener?.dataset.edgeId ?? null;
+      dom.details.inert = true;
+      inspectorOpener?.focus();
+      const previous = window.__UOC_INSPECT_RECEIPT__;
+      if (previous) window.__UOC_INSPECT_RECEIPT__ = Object.freeze({...previous, dialog_open: false, restored_focus_id: restoredId});
+      inspectorOpener = null;
+      emitSurfaceReceipt("details", "close", restoredId);
     });
-
-    window.addEventListener("resize", fitGraph);
-
-    const showToast = (message) => {
-      dom.toast.textContent = message;
-      dom.toast.classList.add("show");
-      clearTimeout(showToast.timeout);
-      showToast.timeout = setTimeout(() => dom.toast.classList.remove("show"), 1300);
-    };
-
-    load();
+    dom.details.addEventListener("cancel", () => emitSurfaceReceipt("details", "escape"));
+    dom.details.addEventListener("keydown", (event) => trapModalTab(dom.details, event));
+    dom.help.addEventListener("close", () => {
+      dom.help.inert = true;
+      const restoredId = helpOpener?.id ?? null;
+      helpOpener?.focus();
+      helpOpener = null;
+      emitSurfaceReceipt("help", "close", restoredId);
+    });
+    dom.help.addEventListener("cancel", () => emitSurfaceReceipt("help", "escape"));
+    dom.help.addEventListener("keydown", (event) => trapModalTab(dom.help, event));
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || dom.details.open || dom.help.open || !dom.drawer.classList.contains("open")) return;
+      event.preventDefault();
+      setNavigationOpen(false);
+    });
+    window.__UOC_VISIBILITY_API__ = Object.freeze({deriveVisibility, apply: applyVisibility, clear: clearVisibility});
+    window.__UOC_FOCUS_API__ = Object.freeze({findCanvasTrace, focusNode, apply: applyFocus, clear: clearFocus, search: focusSearchResult});
+    window.__UOC_INSPECT_API__ = Object.freeze({inspectCanvasObject, open: openInspection, close: closeInspection});
+    window.__UOC_VIEWPORT_API__ = Object.freeze({reduceViewportTransform, applyTransform, fitGraph, zoomBy, panBy, reset: () => applyTransform(reduceViewportTransform(state.transform, {type: "reset"}), "reset")});
+    window.__UOC_NAVIGATOR_API__ = Object.freeze({navigatorRowContract, search: searchNavigator, select: selectNavigatorObject, setSelection: setNavigatorSelection});
+    window.__UOC_KEYBOARD_API__ = Object.freeze({spatialNeighbor, relationNeighbor, move: moveCanvasKeyboard, set: (nodeId, focus = false) => syncRovingCanvasNode(nodeId, {focus})});
+    window.__UOC_SURFACE_API__ = Object.freeze({setNavigationOpen, openNavigation, closeNavigation: () => setNavigationOpen(false), openHelp, closeHelp});
+    await load();
   </script>
 </body>
 </html>

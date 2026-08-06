@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 
 import { createHash } from "node:crypto";
+import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const experimentRoot = dirname(fileURLToPath(import.meta.url));
-const repositoryRoot = resolve(experimentRoot, "../../../../..");
+const repositoryRoot = process.env.DOMAINSPEC_REPOSITORY_ROOT
+  ? resolve(process.env.DOMAINSPEC_REPOSITORY_ROOT)
+  : resolve(experimentRoot, "../../../../..");
 const readJson = (relativePath) => JSON.parse(readFileSync(resolve(experimentRoot, relativePath), "utf8"));
 const ontology = readJson("ontology.json");
 const metaTypeProjection = readJson("domain-meta-types.projection.json");
@@ -19,6 +22,8 @@ const profilePaths = [
 const profiles = new Map(profilePaths.map((path) => [path, readJson(path)]));
 const observedFacts = readJson("examples/typescript-observed-facts.json");
 const expectedEvaluation = readJson("examples/typescript-evaluation.expected.json");
+const enumCases = readJson("examples/enum/cases.json");
+const expectedEnumEvaluations = readJson("examples/enum/evaluations.expected.json");
 const errors = [];
 const checks = [];
 
@@ -162,6 +167,45 @@ const isSubtype = (actualType, expectedType) => {
   return false;
 };
 
+const valueMatchesType = (value, valueType) => {
+  if (valueType.kind === "string") return typeof value === "string";
+  if (valueType.kind === "boolean") return typeof value === "boolean";
+  if (valueType.kind === "integer") return Number.isInteger(value) && (valueType.minimum === undefined || value >= valueType.minimum);
+  if (valueType.kind === "enum") return typeof value === "string" && valueType.values.includes(value);
+  if (valueType.kind === "array") return Array.isArray(value) && value.every((item) => valueMatchesType(item, valueType.items));
+  if (valueType.kind === "object") {
+    if (value === null || typeof value !== "object" || Array.isArray(value)) return false;
+    const required = valueType.required ?? [];
+    if (required.some((field) => !(field in value))) return false;
+    const properties = valueType.properties ?? {};
+    if (valueType.additional_properties === false && Object.keys(value).some((field) => !(field in properties))) return false;
+    return Object.entries(value).every(([field, nested]) =>
+      properties[field] !== undefined && valueMatchesType(nested, properties[field]));
+  }
+  return false;
+};
+
+const validateFacts = (facts) => {
+  for (const element of facts.elements) {
+    if (!conceptById.has(element.type)) {
+      errors.push(`observed element has unknown type: ${element.element_id} -> ${element.type}`);
+      continue;
+    }
+    for (const [propertyId, value] of Object.entries(element.properties)) {
+      const property = propertyById.get(propertyId);
+      if (!property) {
+        errors.push(`observed element has unknown property: ${element.element_id} -> ${propertyId}`);
+        continue;
+      }
+      if (property.applies_to.kind !== "node" || !property.applies_to.types.some((type) => isSubtype(element.type, type))) {
+        errors.push(`observed property does not apply: ${element.element_id} -> ${propertyId}`);
+      } else if (!valueMatchesType(value, property.value_type)) {
+        errors.push(`observed property has invalid value type: ${element.element_id} -> ${propertyId}`);
+      }
+    }
+  }
+};
+
 const activeMappingStatuses = new Set(["candidate-mapped", "profiled-unmapped", "unsupported"]);
 const mappedTargets = new Set();
 for (const metaType of metaTypeProjection.meta_types) {
@@ -225,8 +269,33 @@ for (const path of profilePaths) {
   unique(`${profile.profile_id} constraints`, profile.constraints.map(({ constraint_id }) => constraint_id));
   for (const constraint of profile.constraints) {
     allConstraintIds.push(`${profile.profile_id}:${constraint.constraint_id}`);
-    if (!operatorById.has(constraint.operator)) errors.push(`unknown operator: ${constraint.constraint_id} -> ${constraint.operator}`);
-    if (!propertyById.has(constraint.property_id)) errors.push(`unknown property: ${constraint.constraint_id} -> ${constraint.property_id}`);
+    const operator = operatorById.get(constraint.operator);
+    const property = propertyById.get(constraint.property_id);
+    if (!operator) errors.push(`unknown operator: ${constraint.constraint_id} -> ${constraint.operator}`);
+    if (!property) errors.push(`unknown property: ${constraint.constraint_id} -> ${constraint.property_id}`);
+    if (operator && property && !operator.accepted_value_types.includes(property.value_type.kind)) {
+      errors.push(`operator value type mismatch: ${constraint.constraint_id} -> ${property.value_type.kind}`);
+    }
+    const expectedKind = constraint.expected?.kind === "property-ref"
+      ? "property-ref"
+      : constraint.operator === "cardinality"
+        ? "cardinality-spec"
+        : "literal";
+    if (operator && !operator.expected_operand_kinds.includes(expectedKind)) {
+      errors.push(`operator expected operand mismatch: ${constraint.constraint_id} -> ${expectedKind}`);
+    }
+    if (expectedKind === "property-ref") {
+      const expectedProperty = propertyById.get(constraint.expected.property_id);
+      if (!expectedProperty) errors.push(`unknown expected property: ${constraint.constraint_id} -> ${constraint.expected.property_id}`);
+      else if (property && expectedProperty.value_type.kind !== property.value_type.kind) errors.push(`expected property type mismatch: ${constraint.constraint_id}`);
+    }
+    if (expectedKind === "cardinality-spec") {
+      const bounds = constraint.expected;
+      const keys = Object.keys(bounds);
+      if (keys.length === 0 || keys.some((key) => !["exact", "min", "max"].includes(key) || !Number.isInteger(bounds[key]) || bounds[key] < 0)) {
+        errors.push(`invalid cardinality operand: ${constraint.constraint_id}`);
+      }
+    }
     if (constraint.constraint_kind === "node-property") {
       for (const type of constraint.applies_to) if (!conceptById.has(type)) errors.push(`unknown constraint node type: ${constraint.constraint_id} -> ${type}`);
     } else if (constraint.constraint_kind === "relation-property") {
@@ -245,12 +314,31 @@ const evaluateOperator = (operator, actual, expected) => {
   if (operator === "equals") return actual === expected;
   if (operator === "matches") return typeof actual === "string" && new RegExp(expected).test(actual);
   if (operator === "one_of") return Array.isArray(expected) && expected.includes(actual);
-  return false;
+  if (operator === "set_equals") {
+    if (!Array.isArray(actual) || !Array.isArray(expected)) return false;
+    const actualSet = new Set(actual.map((item) => JSON.stringify(item)));
+    const expectedSet = new Set(expected.map((item) => JSON.stringify(item)));
+    return actualSet.size === expectedSet.size && [...actualSet].every((item) => expectedSet.has(item));
+  }
+  if (operator === "unique") return Array.isArray(actual) && new Set(actual.map((item) => JSON.stringify(item))).size === actual.length;
+  if (operator === "non_empty") return (typeof actual === "string" || Array.isArray(actual)) && actual.length > 0;
+  if (operator === "cardinality") {
+    if ((typeof actual !== "string" && !Array.isArray(actual)) || typeof expected !== "object" || expected === null) return false;
+    return (expected.exact === undefined || actual.length === expected.exact)
+      && (expected.min === undefined || actual.length >= expected.min)
+      && (expected.max === undefined || actual.length <= expected.max);
+  }
+  throw new Error(`unsupported evaluator operator: ${operator}`);
 };
+
+const resolveExpected = (constraint, properties) => constraint.expected?.kind === "property-ref"
+  ? properties[constraint.expected.property_id]
+  : constraint.expected;
 
 const evaluate = (profile, facts) => {
   const findings = [];
   let evaluatedAssertions = 0;
+  const evaluatedConstraintIds = new Set();
   const elementById = new Map(facts.elements.map((element) => [element.element_id, element]));
 
   for (const constraint of profile.constraints) {
@@ -258,13 +346,15 @@ const evaluate = (profile, facts) => {
       for (const element of facts.elements) {
         if (!constraint.applies_to.some((type) => isSubtype(element.type, type))) continue;
         evaluatedAssertions += 1;
+        evaluatedConstraintIds.add(constraint.constraint_id);
         const actual = element.properties[constraint.property_id];
-        if (!evaluateOperator(constraint.operator, actual, constraint.expected)) {
+        const expected = resolveExpected(constraint, element.properties);
+        if (!evaluateOperator(constraint.operator, actual, expected)) {
           findings.push({
             constraint_id: constraint.constraint_id,
             subject_id: element.element_id,
             property_id: constraint.property_id,
-            expected: constraint.operator === "required" ? "present" : constraint.expected,
+            expected: constraint.operator === "required" ? "present" : expected,
             actual: actual ?? null,
             severity: constraint.severity,
           });
@@ -283,13 +373,15 @@ const evaluate = (profile, facts) => {
         const targetMatches = constraint.target_types.some((type) => isSubtype(target.type, type));
         if (!sourceMatches || !targetMatches) continue;
         evaluatedAssertions += 1;
+        evaluatedConstraintIds.add(constraint.constraint_id);
         const actual = relation.properties[constraint.property_id];
-        if (!evaluateOperator(constraint.operator, actual, constraint.expected)) {
+        const expected = resolveExpected(constraint, relation.properties);
+        if (!evaluateOperator(constraint.operator, actual, expected)) {
           findings.push({
             constraint_id: constraint.constraint_id,
             subject_id: relation.relation_id,
             property_id: constraint.property_id,
-            expected: constraint.expected,
+            expected,
             actual: actual ?? null,
             severity: constraint.severity,
           });
@@ -303,7 +395,7 @@ const evaluate = (profile, facts) => {
     profile_id: profile.profile_id,
     facts_id: facts.facts_id,
     verdict: findings.length === 0 ? "pass" : "fail",
-    evaluated_constraints: profile.constraints.length,
+    evaluated_constraints: evaluatedConstraintIds.size,
     evaluated_assertions: evaluatedAssertions,
     finding_count: findings.length,
     findings,
@@ -312,11 +404,161 @@ const evaluate = (profile, facts) => {
 };
 
 const typescriptProfile = resolveProfile("profiles/typescript-strict.profile.json");
+validateFacts(observedFacts);
 const actualEvaluation = evaluate(typescriptProfile, observedFacts);
 if (JSON.stringify(actualEvaluation) !== JSON.stringify(expectedEvaluation)) {
   errors.push("TypeScript example evaluation differs from expected projection");
 }
 checks.push(`executable TypeScript example: ${actualEvaluation.evaluated_assertions} assertions, ${actualEvaluation.finding_count} expected findings`);
+
+const enumProfile = resolveProfile(enumCases.profile_path);
+const buildEnumFacts = ({case_id, property_overrides}) => ({
+  schema_version: enumCases.base_facts.schema_version,
+  facts_id: `${enumCases.base_facts.facts_id_prefix}.${case_id}`,
+  elements: enumCases.base_facts.elements.map((element) => ({
+    ...element,
+    properties: {...element.properties, ...property_overrides},
+  })),
+  relations: enumCases.base_facts.relations,
+  authority_effect: enumCases.base_facts.authority_effect,
+});
+const actualEnumEvaluations = {
+  schema_version: "domainspec-enum-evaluation-projection/v1",
+  profile_id: enumProfile.profile_id,
+  cases: enumCases.cases.map((enumCase) => {
+    const {case_id} = enumCase;
+    const facts = buildEnumFacts(enumCase);
+    validateFacts(facts);
+    const evaluation = evaluate(enumProfile, facts);
+    return {
+      case_id,
+      verdict: evaluation.verdict,
+      evaluated_constraints: evaluation.evaluated_constraints,
+      evaluated_assertions: evaluation.evaluated_assertions,
+      findings: evaluation.findings,
+    };
+  }),
+  authority_effect: "none",
+};
+if (JSON.stringify(actualEnumEvaluations) !== JSON.stringify(expectedEnumEvaluations)) {
+  errors.push("Enum evaluation matrix differs from expected projection");
+}
+checks.push(`executable Enum matrix: ${actualEnumEvaluations.cases.length} cases with exact expected findings`);
+
+let compositionResult = null;
+const compositionRunnerPath = resolve(experimentRoot, "examples/enum/composition/check-enum-composition.mjs");
+const compositionRun = spawnSync(process.execPath, [compositionRunnerPath], {
+  cwd: experimentRoot,
+  encoding: "utf8",
+  maxBuffer: 1024 * 1024,
+});
+if (compositionRun.status !== 0) {
+  errors.push(`Enum composition fixtures failed: ${(compositionRun.stderr || compositionRun.stdout).trim()}`);
+} else {
+  try {
+    compositionResult = JSON.parse(compositionRun.stdout);
+    const positiveCases = compositionResult.cases.filter(({case_id}) => case_id.startsWith("positive-"));
+    const negativeCases = compositionResult.cases.filter(({case_id}) => case_id.startsWith("negative-"));
+    const requiredDiagnostics = [
+      "ENUM_COMPOSITION_DUPLICATE_KEY",
+      "ENUM_COMPOSITION_DUPLICATE_VALUE",
+      "ENUM_COMPOSITION_REPEATED_CONTRIBUTION",
+      "ENUM_COMPOSITION_CYCLE",
+      "ENUM_COMPOSITION_COMPONENT_UNRESOLVED",
+      "ENUM_COMPOSITION_DERIVATION_INCOMPLETE",
+      "ENUM_COMPOSITION_RELATION_PROVENANCE_INVALID",
+      "ENUM_COMPOSITION_MEMBER_PROVENANCE_INVALID",
+    ];
+    if (positiveCases.length !== 4 || positiveCases.some(({verdict}) => verdict !== "pass")) {
+      errors.push("Enum composition fixtures must pass direct, two-component, reordered, and nested cases");
+    }
+    if (negativeCases.length !== 8 || negativeCases.some(({verdict}) => verdict !== "fail")) {
+      errors.push("Enum composition fixtures must reject all eight structural and provenance negatives");
+    }
+    if (JSON.stringify(negativeCases.map(({diagnostic}) => diagnostic)) !== JSON.stringify(requiredDiagnostics)) {
+      errors.push("Enum composition fixtures do not preserve the exact diagnostic matrix");
+    }
+    if (compositionResult.order_invariance_equal !== true) {
+      errors.push("Enum composition order changes normalized meaning");
+    }
+    if (compositionResult.authority_effect !== "none") {
+      errors.push("Enum composition fixtures must have authority_effect none");
+    }
+    checks.push(`Enum composition graph: ${positiveCases.length} positives and ${negativeCases.length} exact structural negatives checked`);
+  } catch (error) {
+    errors.push(`Enum composition fixture output is not valid JSON: ${error.message}`);
+  }
+}
+
+const provenanceRunnerPath = resolve(experimentRoot, "examples/enum/provenance/check-observation-projection.mjs");
+const provenanceRun = spawnSync(process.execPath, [provenanceRunnerPath], {
+  cwd: experimentRoot,
+  encoding: "utf8",
+  maxBuffer: 1024 * 1024,
+});
+if (provenanceRun.status !== 0) {
+  errors.push(`observation projection fixtures failed: ${(provenanceRun.stderr || provenanceRun.stdout).trim()}`);
+} else {
+  try {
+    const provenanceResult = JSON.parse(provenanceRun.stdout);
+    const positiveCases = provenanceResult.cases.filter(({case_id}) => case_id.startsWith("positive-"));
+    const negativeCases = provenanceResult.cases.filter(({case_id}) => case_id.startsWith("negative-"));
+    if (positiveCases.length !== 4 || positiveCases.some(({verdict}) => verdict !== "pass")) {
+      errors.push("observation projection fixtures must pass one case for each provenance carrier");
+    }
+    if (negativeCases.length < 3 || negativeCases.some(({verdict}) => verdict !== "fail")) {
+      errors.push("observation projection fixtures must reject every negative case");
+    }
+    if (provenanceResult.deterministic_conflict_pair_equal !== true) {
+      errors.push("observation projection conflict result is order-dependent");
+    }
+    if (provenanceResult.authority_effect !== "none") {
+      errors.push("observation projection fixtures must have authority_effect none");
+    }
+    checks.push(`observation projection provenance: ${positiveCases.length} carriers and ${negativeCases.length} negative cases checked`);
+  } catch (error) {
+    errors.push(`observation projection fixture output is not valid JSON: ${error.message}`);
+  }
+}
+
+const scenarioRunnerPath = resolve(experimentRoot, "examples/enum/scenarios/check-evaluation-scenario.mjs");
+const scenarioRun = spawnSync(process.execPath, [scenarioRunnerPath], {
+  cwd: experimentRoot,
+  encoding: "utf8",
+  maxBuffer: 1024 * 1024,
+});
+if (scenarioRun.status !== 0) {
+  errors.push(`evaluation scenario fixtures failed: ${(scenarioRun.stderr || scenarioRun.stdout).trim()}`);
+} else {
+  try {
+    const scenarioResult = JSON.parse(scenarioRun.stdout);
+    const positiveCases = scenarioResult.cases.filter(({case_id}) => case_id.startsWith("positive-"));
+    const negativeCases = scenarioResult.cases.filter(({case_id}) => case_id.startsWith("negative-"));
+    const requiredBlockers = [
+      "BTE_RECOMPOSITION_OVERLAP",
+      "BTE_EXPECTATION_REWRITTEN",
+      "BTE_RECOMPOSITION_MISSING",
+    ];
+    if (positiveCases.length !== 1 || positiveCases.some(({verdict}) => verdict !== "pass")) {
+      errors.push("evaluation scenario fixtures must pass one total causal scenario");
+    }
+    if (negativeCases.length !== 3 || negativeCases.some(({verdict}) => verdict !== "fail")) {
+      errors.push("evaluation scenario fixtures must reject overlap, expectation rewrite, and partial join");
+    }
+    if (JSON.stringify(scenarioResult.represented_bte_blockers) !== JSON.stringify(requiredBlockers)) {
+      errors.push("evaluation scenario fixtures do not represent the three BTE blocker classes");
+    }
+    if (scenarioResult.total_join_enforced !== true) {
+      errors.push("evaluation scenario fixtures do not enforce a total frozen-case/result join");
+    }
+    if (scenarioResult.authority_effect !== "none") {
+      errors.push("evaluation scenario fixtures must have authority_effect none");
+    }
+    checks.push(`evaluation scenario contract: ${positiveCases.length} causal scenario and ${negativeCases.length} blocker cases checked`);
+  } catch (error) {
+    errors.push(`evaluation scenario fixture output is not valid JSON: ${error.message}`);
+  }
+}
 
 if (ontology.authority_effect !== "none" || actualEvaluation.authority_effect !== "none") errors.push("ontology and evaluation must have authority_effect none");
 checks.push("authority non-collapse controls: checked");
@@ -326,6 +568,8 @@ const result = {
   ontology: "ontology.json",
   profiles: profilePaths.length,
   example_evaluation: actualEvaluation,
+  enum_evaluations: actualEnumEvaluations,
+  enum_composition: compositionResult,
   checks,
   errors,
 };

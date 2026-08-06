@@ -3,118 +3,205 @@ node_type: development-package
 docType: spec
 module: architecture-pattern-enforcement
 feature_code: APE
-status: draft
-updatedAt: 2026-07-12
-vocabulary: DS-D1 meta-types / DS-D2 edges (this is a meta/infrastructure spec — its "concepts" are the program's own artifacts, typed loosely)
+status: candidate
+updatedAt: 2026-08-04
+vocabulary: DS-D1 and DS-D8 references plus package-local implementation-conformance concepts
+semanticAuthority: none
 ---
 
-# Architecture-Pattern Enforcement (APE)
+# Architecture-Pattern Enforcement
 
-## What This Program Owns
+## Intent
 
-The discipline and tooling that **validate and enforce DomainSpec architecture patterns** —
-node-shape (*uniformity*), edge-law (*composability*), and layer boundaries (*layering*) — over a
-project's spec **and** its implementation, and that **carry the same discipline across projects**
-via the shared substrate a mint copies. It owns the *authoring* layer (concept/relationship cards),
-the *checking* layer (validators + engine), and the *governance* layer (candidate → owner-promoted →
-binding). It does **not** own the meta-type or edge-law *definitions* (definitions-governance / R2 /
-R3) nor the authority *promotion decisions* (cav2) — it consumes and routes to them.
+APE makes implementation architecture inspectable and enforceable by resolving
+typed properties from a candidate architecture-property ontology, observing
+real source and native-tool evidence, and evaluating those observations against
+an explicitly selected implementation profile.
 
-> This is a **meta / infrastructure** spec: its "concepts" are the program's own building blocks
-> (schemas, validators, cards, gates), not a business domain. DS-D1 typing is applied loosely.
+The ontology describes architecture meaning. Invoke derives work from missing
+ontology coverage. Work-pack state is not stored in the ontology.
 
-## Module Map
+## Problem
 
-```mermaid
-graph TD
-    Spec[Feature pack: SPEC + aspect docs] --> UV[Node-shape validation / uniformity]
-    Spec --> EV[Edge-law validation / composability]
-    Code[Tagged implementation] --> EV
-    Code --> LV[Layering enforcement / adapter line]
-    Cards[Pattern-library card layer] -.authoring context.-> Spec
-    Cards -.authoring context.-> Code
-    UV --> Gate[CI gates block on violation]
-    EV --> Gate
-    LV --> Gate
-    Gate --> Promo[cav2 promotion: candidate -> binding]
-    Promo --> Mint[Cross-project inheritance via mint]
+The older APE plan proved useful node and edge validators, but it did not model
+the complete implementation properties of each backend meta-type. The broader
+BTE plan consequently had to invent scenario semantics at fixture time. Its
+independent validation-owner attempt found that recomposition overlap,
+expectation rewriting, and frozen-case/result joins were not causally
+representable by the published contracts.
+
+The replacement boundary is:
+
+```text
+canonical DS-D1 / DS-D8 meaning
+  -> candidate implementation realization ontology
+  -> selected portable and language profiles
+  -> real observation projections
+  -> deterministic findings and causal proof evidence
+  -> separate owner decision
 ```
 
-## Capabilities
+## Authority and ownership rules
 
-Primary navigation is capability-driven. Each capability names its **owned handle**, its
-**start-now vs blocked** status (from the findings), and the **promotion it owes**.
+1. DS-D1 owns what a meta-type means and how it forms.
+2. DS-D8 owns canonical relationship signatures.
+3. The implementation-conformance ontology owns no canonical semantic fact.
+4. APE owns candidate architecture design, evidence preparation, plan
+   sequencing, and owner routing—not promotion decisions.
+5. MTCI remains the reusable lifecycle for a genuinely new meta-type. An
+   already-active type uses the realization cycle below and skips new-type
+   admission unless execution exposes a real semantic gap.
+6. BTE owns generic proof mechanics only. It may consume ontology and design
+   identifiers; it may not select properties or expected semantic obligations.
+7. Language adapters report observed or unsupported facts. They do not create
+   portable meaning.
+8. Generated projections, findings, receipts, and passing tests are evidence,
+   never authority.
 
-| Capability | What | Owned handle (evidence) | Status |
+## Candidate capabilities
+
+| ID | Capability | Output | Current state |
 | --- | --- | --- | --- |
-| **C-A Uniformity** (node-shape) | every concept instance matches its meta-type schema criterion | `validate-content.ts`, `instances.ts validate`, engine `lint` (C10); 13 backend `.schema.yml` | **witnessed** on financial-settlement; needs repeatability over a second pack |
-| **C-B Composability** (edge-law) | declared/coded edges use legal verbs + endpoint signatures | root DS-D8 authority, `validate-relationships.ts`, `validate-content.ts`, dynamic `check-code-tag-composability.ts` | static spec graph **witnessed**; bounded dynamic enforcement consumes all 30 active signatures, with 9 mapped code-call rules and 26 explicit unsupported-call-semantics coverage gaps |
-| **C-C Layering** (adapter line) | forbidden cross-layer dependencies cannot be constructed | C6 + AXIOMS A2; v1 DEPENDENCY-RULES / LAYERING-REFERENCE; `containment.ts` (write-path analogy) | **law exists**; post-hoc flagging today, unconstructibility deferred (findings W1) |
-| **C-D Card layer** (authoring) | one concept card per meta-type + one relationship card per edge, as selective context | v1 `architecture/pattern-library/` (25 concept cards + 29 relationship cards + context packs) | **owned, not triaged** — "largest build-from-owned opportunity not yet triaged" (findings E2) |
-| **C-E Promotion** (authority) | move a candidate handle to binding via its owner route | cav2 promotion lifecycle; "has a tree ≠ authority" | **discipline exists**; no v2 pattern has completed the path (findings E1) |
-| **C-F Inheritance** (cross-project) | the substrate (meta-types + edge-law + validators + engine) travels to a new repo; each project authors its own nodes | `mint` skill; substrate/spec split | **design-stage**; depends on C-A/C-B stable |
-| **C-G Drift** (convergence) | critical drift trends down over time, not a single check | C7; `compare-code-tag-drift.ts`; DRIFT-CONVERGENCE.md | **deferred** — needs a committed baseline series (findings W3) |
+| APE.C-A | semantic formation consumption | digest-bound DS-D1 definition and criterion references | active source exists |
+| APE.C-B | semantic relationship consumption | digest-bound DS-D8 signature references | active source exists |
+| APE.C-H | architecture-property modeling | implementation realization types, typed properties, allowed relations, applicability, owner routes | candidate; 5/13 backend realization types represented |
+| APE.C-I | architecture-profile resolution | portable constraints plus TypeScript/Python/Rust realizations | candidate; incomplete |
+| APE.C-J | observation projection | observed, derived, owner-resolved, and unsupported facts with provenance | example JSON only; native adapters absent |
+| APE.C-K | deterministic evaluation | explainable property/relation findings with exact expectations and evidence refs | bounded prototype |
+| APE.C-L | causal proof integration | scenario identity, mutation and expectation lineage, recomposition scope, case/result joins, replay | contract gap; BTE L0B blocked |
+| APE.C-M | per-meta-type completion | one type's portable obligations evidenced across three language profiles, plus separate runtime evidence when applicable | not executed |
+| APE.C-N | ontology-guided progression | exact active-type coverage and evidence-burden selection of the next type | planned |
 
-## Domain Concepts (the program's own artifacts)
+Earlier APE capabilities for cards, CI, inheritance, drift, and
+unconstructibility remain preserved in the historical evidence map. They are
+not deleted, but they no longer determine the first active implementation
+slice.
 
-| Concept | Type (loose) | Key Constraints |
-| --- | --- | --- |
-| Meta-type schema | Value Object | decidable criterion per meta-type; one `.schema.yml` per type; format binding (delta D2) pending |
-| Edge-law | Value Object | 30 active root signatures plus generated/deprecated/deferred sections; owned by `definitions/relationships/relationships.yml`; **R3A landed** |
-| Content validator | Operation | reads an aspect file / feature pack, checks each concept vs criterion + each edge vs signature |
-| Concept card / Relationship card | Entity | human/agent-facing authoring voice of a meta-type / edge; **Evidence** for its definition |
-| Feature pack | Entity | a real domain slice (SPEC + aspect docs + tagged code) — the *fuel* that makes validators non-vacuous |
-| Promotion gate | Rule | blocks candidate → binding until owner-route + evidence clear ("has a tree ≠ authority") |
-| Substrate | Entity | the project-independent set {meta-types, edge-law, validators, engine} a mint carries |
+## Candidate concept registry
 
-## Concept Registry
+These are package-local implementation-conformance concepts. Their loose DS-D1
+classification is explanatory and does not admit new DS-D1 members.
 
-| Concept | ID | Type |
-| --- | --- | --- |
-| MetaTypeSchema | APE.MetaTypeSchema | Value Object |
-| EdgeLaw | APE.EdgeLaw | Value Object |
-| ContentValidator | APE.ContentValidator | Operation |
-| InstanceValidator | APE.InstanceValidator | Operation |
-| ConceptCard | APE.ConceptCard | Entity |
-| RelationshipCard | APE.RelationshipCard | Entity |
-| FeaturePack | APE.FeaturePack | Entity |
-| PromotionGate | APE.PromotionGate | Rule |
-| Substrate | APE.Substrate | Entity |
-| DriftBaseline | APE.DriftBaseline | Entity |
-
-## Feature Concept Graph (typed edges)
-
-| From | Edge | To | Evidence | Notes |
-| --- | --- | --- | --- | --- |
-| APE.ContentValidator | enforces | APE.MetaTypeSchema | findings C-A | uniformity gate |
-| APE.ContentValidator | enforces | APE.EdgeLaw | findings C-B + R3A + `SWU-R3C-001..003` | composability gate; bounded dynamic authority consumption implemented, evidence breadth pending |
-| APE.FeaturePack | contains | APE.ConceptCard | v1 pattern-library | cards are selective context for authoring |
-| APE.PromotionGate | enforces | APE.MetaTypeSchema | cav2 lifecycle | candidate → binding |
-| APE.Substrate | contains | APE.EdgeLaw | mint substrate/spec split | edge-law travels; nodes are per-project |
-| APE.ContentValidator | produces | APE.DriftBaseline | findings W3 | baseline for C-G convergence trend |
-
-## Aspect Docs
-
-| Aspect | Contains |
-| --- | --- |
-| [Architecture](architecture-bundle.md) | the six-view design of the program |
-| [Glossary](GLOSSARY.md) | distilled definitions for the program's concepts |
-| [Layering](implementation-layering.md) | L0–L3 decision model |
-| [Execution](execution-pack.md) · [Work-pack](WORK-PACK.md) | plan + SWUs |
-
-## Cross-Feature Dependencies
-
-| Capability | Depends On | Via | Why |
+| ID | Concept | Loose type | Responsibility |
 | --- | --- | --- | --- |
-| C-B Composability | active root DS-D8 authority | `definitions/relationships/relationships.yml` + dynamic checker | `TASK-R3C-EDGE` now consumes all active signatures dynamically; real-pack breadth and unsupported code-call semantics remain evidence gaps |
-| C-A Uniformity | R2 / backend meta-type promotion | `.schema.yml` criteria | criteria exist; promotion is definitions-governance |
-| C-C Layering (unconstructible) | meta-type formalism (moving) | typed catalog-construction layer | C6 unconstructibility can't be built while formalism moves (findings W1) |
-| C-F Inheritance | C-A + C-B stable | mint substrate | can't replicate an unsettled discipline |
+| APE.CanonicalMetaTypeRef | Canonical Meta-Type Reference | Value Object | exact DS-D1 ID, source path, selector, version, and digest |
+| APE.ImplementationRealizationType | Implementation Realization Type | Value Object | candidate architecture type corresponding to one active DS-D1 member |
+| APE.ImplementationProperty | Implementation Property | Value Object | typed value domain, valid subjects, observation stage, owner, forbidden inference |
+| APE.ArchitectureProfile | Architecture Profile | Value Object | portable or language-local constraints over properties and relations |
+| APE.ImplementationBinding | Implementation Binding | Mapping | exact canonical concept to source/symbol/profile binding |
+| APE.ObservationProjection | Observation Projection | Mapping | normalized observed, derived, owner-resolved, or unsupported facts with provenance |
+| APE.EvaluationScenario | Evaluation Scenario | Value Object | base/mutant inputs, immutable expectations, recomposition scope, and result joins |
+| APE.ConstraintFinding | Constraint Finding | Entity | expected/observed result, origin profile, evidence ref, diagnostic, and owner route |
+| APE.ProofEngineProvider | Proof Engine Provider | Interface | BTE-compatible scenario execution, mutation, receipts, and replay |
+| APE.MetaTypeRealizationCycle | Meta-Type Realization Cycle | Workflow | ontology-first route for one already-active meta-type |
+| APE.TypeCompletionReceipt | Type Completion Receipt | Event | bounded evidence that all applicable obligations closed for selected profiles |
 
-## Produces For
+## Portable invariants
 
-| Consumer | Consumes Capability | Via | What |
-| --- | --- | --- | --- |
-| Any new domainspec repo | C-F Inheritance | mint | inherits the validators + edge-law + engine |
-| definitions-governance | C-A / C-B | Evidence links | concept/relationship cards as definition Evidence |
-| cav2 authority | C-E Promotion | promotion requests | candidate handles seeking binding status |
+- Canonical semantic identity is referenced by stable ID and digest; it is not
+  inferred from filenames, folders, ontology positions, or graph counts.
+- Every required property has a typed value domain, applicable subject,
+  observation stage, owner route, and forbidden inference.
+- Portable properties are separate from language and project conventions.
+- Missing and unsupported are distinct; unsupported required evidence blocks.
+- Observed, derived, and owner-resolved facts use distinct provenance carriers.
+- Profile conflicts block deterministically; file order cannot resolve them.
+- A finding retains subject, property or relation, expected value, observed
+  value, originating profile, raw evidence reference, and owner route.
+- Static structure never proves runtime behavior, effect delivery, persistence,
+  or lifecycle correctness.
+- Three-language parity compares obligation IDs and applicability outcomes,
+  never syntax, AST shape, or majority vote.
+- A receipt cannot admit a profile, accept an exception, promote authority, or
+  release software.
+
+## Profile-local conventions
+
+Folder names, filename case, one-file policies, export visibility, direct-leaf
+imports, and callable form belong to an admitted architecture profile. In
+particular, arrow-functions-only may be a TypeScript profile constraint but is
+not a portable truth about Rule or any other DS-D1 type.
+
+Enum representation is likewise profile-owned. TypeScript `enum`, string
+literal unions, and `as const` objects are not equivalent merely because they
+enumerate names. Python and Rust representations require their own owner-selected
+contracts and native evidence.
+
+Composition is represented separately from portable Enum meaning. A composed
+implementation uses non-canonical representation-unit nodes and directed
+`architecture.composed_from` evidence edges. Leaf member records retain
+code-facing keys and canonical candidate values; composite values are derived
+from exact leaf fact IDs. Cycles, diamonds with repeated contributions,
+unresolved components, duplicate keys, and duplicate values block. Source
+order does not become Enum meaning.
+
+The first TypeScript candidate protocol is an owned runtime const-object
+surface with exact `defineEnum`, `composeEnum`, and `EnumValue` symbol
+identity. It requires runtime freezing, string-only members, named composition
+arguments, stable member origins, and exact provider path/digest binding before
+profile activation. Native `enum`, standalone literal unions, bare `as
+const` objects, arbitrary factories, raw spreads, computed members, and helper
+name impersonation remain typed unsupported unless a later owner decision
+expands the profile.
+
+## Existing meta-type realization cycle
+
+For one active DS-D1 member:
+
+1. Bind the active canonical definition and criterion digests.
+2. Add or repair its candidate implementation realization type.
+3. Define portable properties, allowed relations, applicability, unsupported
+   cases, and non-collapse boundaries.
+4. Define portable and language profiles.
+5. Freeze provenance, composition-graph, conflict, scenario, lineage, and
+   observation contracts.
+6. Select a language protocol, implement its exact provider, and bind the
+   provider digest into the language profile.
+7. Prove TypeScript with real source, exact-cause negatives, and raw native
+   evidence; then freeze the shared observation contract.
+8. Run Python and Rust independently against that frozen contract.
+9. Recompose exact semantic-obligation parity and separate runtime evidence
+   when required.
+10. Emit a bounded completion receipt and derive the next type from remaining
+   ontology/evidence burden.
+
+If a required implementation property would change canonical DS-D1 meaning,
+stop and route the semantic delta to definitions-governance. Do not let an
+architecture profile redefine the type.
+
+## First cycle: Enum
+
+The first active target is `DS-D1.3 Enum`: a closed finite set of named values,
+with no typed fields, designated identity, or transitions. Initial discriminator
+requirements include:
+
+- a positive closed, nonempty, unique named-value set;
+- missing, extra, duplicate, empty, and dynamically unresolved values;
+- a typed-field shape rejected as Value Object-like rather than Enum;
+- transitions rejected as State Machine-like rather than Enum;
+- profile-form violations classified as architecture-profile findings, not
+  canonical Enum formation failures.
+
+Enum is the first target because it has narrow structural semantics. That is a
+planning hypothesis to be verified, not evidence that Enum implementation is
+already complete.
+
+## Acceptance
+
+The APE plan is ready for a later Task Session when:
+
+- the six-view Design and deterministic Design selection pass;
+- the L0-L3 split Work Pack, task details, atomic SWUs, closeout contracts, and
+  dispatch validate;
+- the Work Pack names exactly one receipt-backed nearest candidate and leaves
+  it unselected;
+- completed historical evidence is preserved without being relabeled;
+- ontology, BTE, DS-D1, implementation, promotion, release, and deployment
+  work remain unexecuted by Invoke.
+
+## Non-goals and claim ceiling
+
+This definition does not mutate the ontology, DS-D1, DS-D8, BTE, language
+source, CI, releases, deployments, or public Arcanum. It does not establish
+Enum conformance, all-type completeness, cross-language universality,
+performance, production readiness, or authority promotion.

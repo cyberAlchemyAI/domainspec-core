@@ -104,6 +104,42 @@
       "forbidden_collapse": "Implementation shape does not establish DomainSpec identity, formation, or admission."
     },
     {
+      "concept_id": "architecture.EnumImplementation",
+      "label": "Enum Implementation",
+      "abstract": false,
+      "extends": "architecture.DomainConceptImplementation",
+      "concept_role": "system object",
+      "canonical_meta_type_ref": "DS-D1.3",
+      "canonical_mapping_status": "candidate-alignment",
+      "source_refs": ["experiment.ontology-map", "experiment.property-evaluation-model"],
+      "owner_route": "Enum realization profile owner",
+      "candidate_status": "candidate",
+      "confidence": {"evidence_confidence": "medium", "commitment_confidence": "low"},
+      "challenge_contract": {
+        "valid_challenge_modes": ["evidence", "contradiction", "owner_review"],
+        "resolution_gate": "exact reciprocal DS-D1.3 binding plus finite-value and non-collapse fixtures"
+      },
+      "forbidden_collapse": "A finite-looking constant set is not necessarily an admitted DomainSpec Enum, Value Object, or State Machine."
+    },
+    {
+      "concept_id": "architecture.EnumRepresentationUnit",
+      "label": "Enum Representation Unit",
+      "abstract": false,
+      "extends": "architecture.ArchitectureElement",
+      "concept_role": "evidence object",
+      "canonical_meta_type_ref": null,
+      "canonical_mapping_status": "architecture-role-only",
+      "source_refs": ["cav2.node-model", "cav2.relation-model", "experiment.property-evaluation-model"],
+      "owner_route": "Enum realization profile plus language adapter owner",
+      "candidate_status": "candidate",
+      "confidence": {"evidence_confidence": "medium", "commitment_confidence": "low"},
+      "challenge_contract": {
+        "valid_challenge_modes": ["evidence", "contradiction", "owner_review"],
+        "resolution_gate": "exact member provenance plus acyclic composition fixtures"
+      },
+      "forbidden_collapse": "A representation unit is implementation evidence only; it is not a DomainSpec Enum, canonical value set, module, or source-file identity."
+    },
+    {
       "concept_id": "architecture.RuleImplementation",
       "label": "Rule Implementation",
       "abstract": false,
@@ -446,9 +482,103 @@
       "observation_stage": "interface integration",
       "owner_route": "Interface profile owner",
       "forbidden_inference": "A version field does not prove adapter correctness."
+    },
+    {
+      "property_id": "binding.expected_enum_values",
+      "label": "Owner-resolved expected Enum values",
+      "value_type": {"kind": "array", "items": {"kind": "string"}},
+      "applies_to": {"kind": "node", "types": ["architecture.EnumImplementation"]},
+      "semantics": "Closed named-value set supplied by the accountable canonical binding owner.",
+      "observation_stage": "binding reconciliation",
+      "owner_route": "Enum canonical binding owner",
+      "forbidden_inference": "Expected values must never be inferred from the implementation value set."
+    },
+    {
+      "property_id": "enum.implemented_values",
+      "label": "Implemented Enum values",
+      "value_type": {"kind": "array", "items": {"kind": "string"}},
+      "applies_to": {"kind": "node", "types": ["architecture.EnumImplementation", "architecture.EnumRepresentationUnit"]},
+      "semantics": "Normalized named values observed for a direct unit or derived for a composed unit from total leaf-member fact inputs.",
+      "observation_stage": "native type observation or composition derivation",
+      "owner_route": "language adapter owner",
+      "forbidden_inference": "Observed implementation members cannot define the canonical expected set."
+    },
+    {
+      "property_id": "enum.implemented_members",
+      "label": "Implemented Enum member records",
+      "value_type": {
+        "kind": "array",
+        "items": {
+          "kind": "object",
+          "required": ["key", "value"],
+          "properties": {
+            "key": {"kind": "string"},
+            "value": {"kind": "string"}
+          },
+          "additional_properties": false
+        }
+      },
+      "applies_to": {"kind": "node", "types": ["architecture.EnumImplementation", "architecture.EnumRepresentationUnit"]},
+      "semantics": "Code-facing key and canonical candidate value pairs observed only at direct representation leaves.",
+      "observation_stage": "native type",
+      "owner_route": "language adapter owner",
+      "forbidden_inference": "Member keys, declaration order, or source location do not establish canonical Enum meaning."
+    },
+    {
+      "property_id": "enum.composition_kind",
+      "label": "Enum representation composition kind",
+      "value_type": {"kind": "enum", "values": ["direct", "composed"]},
+      "applies_to": {"kind": "node", "types": ["architecture.EnumImplementation", "architecture.EnumRepresentationUnit"]},
+      "semantics": "Whether a representation owns leaf members directly or derives them through composed_from relations.",
+      "observation_stage": "language adapter graph projection",
+      "owner_route": "Enum realization profile plus language adapter owner",
+      "forbidden_inference": "Composition shape does not change the portable closed value-set meaning."
+    },
+    {
+      "property_id": "structure.typed_field_count",
+      "label": "Typed data field count",
+      "value_type": {"kind": "integer", "minimum": 0},
+      "applies_to": {"kind": "node", "types": ["architecture.DomainConceptImplementation"]},
+      "semantics": "Count of value-bearing typed fields exposed by a realized domain concept.",
+      "observation_stage": "native type",
+      "owner_route": "language adapter owner",
+      "forbidden_inference": "A field count cannot establish Value Object identity or formation."
+    },
+    {
+      "property_id": "identity.component_count",
+      "label": "Identity component count",
+      "value_type": {"kind": "integer", "minimum": 0},
+      "applies_to": {"kind": "node", "types": ["architecture.DomainConceptImplementation"]},
+      "semantics": "Count of owner-resolved identity components exposed by the realization.",
+      "observation_stage": "binding reconciliation",
+      "owner_route": "domain identity owner",
+      "forbidden_inference": "Implementation equality or naming does not establish DomainSpec identity."
+    },
+    {
+      "property_id": "state.transition_count",
+      "label": "Declared transition count",
+      "value_type": {"kind": "integer", "minimum": 0},
+      "applies_to": {"kind": "node", "types": ["architecture.DomainConceptImplementation"]},
+      "semantics": "Count of admitted state transitions carried by the realization.",
+      "observation_stage": "native type plus binding evidence",
+      "owner_route": "State Machine binding owner",
+      "forbidden_inference": "A transition-shaped method cannot establish a DomainSpec State Machine."
     }
   ],
   "relation_definitions": [
+    {
+      "relation_id": "architecture.composed_from",
+      "source_types": ["architecture.EnumImplementation", "architecture.EnumRepresentationUnit"],
+      "target_types": ["architecture.EnumRepresentationUnit"],
+      "direction": "directed",
+      "properties": [],
+      "owner_route": "Enum realization profile plus language adapter owner",
+      "evidence_refs": ["cav2.relation-model", "experiment.property-evaluation-model"],
+      "authority_effect": "none",
+      "value_effect": "value-constraining",
+      "cycle_policy": "acyclic",
+      "forbidden_collapse": "A composition edge records implementation provenance; it does not create canonical Enum membership, ownership, or authority."
+    },
     {
       "relation_id": "architecture.depends_on",
       "source_types": ["architecture.ArchitectureElement"],
@@ -503,10 +633,14 @@
     }
   ],
   "constraint_operators": [
-    {"operator_id": "required", "accepted_value_types": ["string", "boolean", "integer", "enum"]},
-    {"operator_id": "equals", "accepted_value_types": ["string", "boolean", "integer", "enum"]},
-    {"operator_id": "matches", "accepted_value_types": ["string"]},
-    {"operator_id": "one_of", "accepted_value_types": ["string", "enum"]}
+    {"operator_id": "required", "accepted_value_types": ["string", "boolean", "integer", "enum", "array"], "expected_operand_kinds": ["literal"]},
+    {"operator_id": "equals", "accepted_value_types": ["string", "boolean", "integer", "enum"], "expected_operand_kinds": ["literal", "property-ref"]},
+    {"operator_id": "matches", "accepted_value_types": ["string"], "expected_operand_kinds": ["literal"]},
+    {"operator_id": "one_of", "accepted_value_types": ["string", "enum"], "expected_operand_kinds": ["literal"]},
+    {"operator_id": "set_equals", "accepted_value_types": ["array"], "expected_operand_kinds": ["literal", "property-ref"]},
+    {"operator_id": "unique", "accepted_value_types": ["array"], "expected_operand_kinds": ["literal"]},
+    {"operator_id": "non_empty", "accepted_value_types": ["string", "array"], "expected_operand_kinds": ["literal"]},
+    {"operator_id": "cardinality", "accepted_value_types": ["string", "array"], "expected_operand_kinds": ["cardinality-spec"]}
   ],
   "language_projections": [
     {

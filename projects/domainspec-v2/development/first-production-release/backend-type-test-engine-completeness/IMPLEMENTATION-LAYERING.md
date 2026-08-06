@@ -41,7 +41,7 @@ depends on or can repair the other.
 | --- | --- | --- |
 | Plan → L0A repair | validated reconciliation package and explicit user selection of `SWU-BTE-L0A-REPAIR-001` | completed by the passing repair receipt |
 | L0A repair → validation owner | current bytes reproduce the immutable L0A receipt and `verify:bte:contract-publication` passes without rewriting run evidence | passed; route the independent validation owner |
-| L0A → L0B | current passing publication verification plus matching validation-owner red manifest/freeze | no semantic execution; route contract drift to L0A repair and expectation/freeze drift to validation owner |
+| L0A → L0B | current passing publication verification plus real validation-owner fixture/topology bytes and matching red manifest/freeze | no semantic execution; route contract drift to L0A repair and payload/expectation/freeze drift to validation owner |
 | L0B → L1 | exact L0 ValidationReceipt and unchanged publication/Design/seed digests | block formation implementation |
 | L1 → L2 | exact retirement/compatibility receipt; current v1 unchanged | no successor source activation |
 | L2 → L3 | resolver receipt and version-hard source handles | no graph build |

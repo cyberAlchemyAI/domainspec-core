@@ -1,15 +1,15 @@
 {
   "schema_version": "invoke-transport-report/v1",
-  "generated_at": "2026-07-23",
+  "generated_at": "2026-08-04",
   "mode": "refresh",
   "mutation_mode": "apply-approved",
   "spell": "invoke",
   "target": "backend type test-engine completeness",
   "phase": "pass",
-  "handoff_status": "gated-on-explicit-selection",
+  "handoff_status": "gated-on-independent-fixture-freeze",
   "complexity": "high",
-  "source_decision": "work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/decision-gate.json",
-  "refresh_folder": "refreshes/2026-07-23-l0-bootstrap-split",
+  "source_decision": "work-pack/shared/DECISIONS.md#P-BTE-014",
+  "refresh_folder": "refreshes/2026-08-04-l0-red-fixture-payload-scope",
   "outputs": [
     "REQUIREMENTS.md",
     "PLAN.md",
@@ -40,7 +40,7 @@
   },
   "layer_summary": [
     {"layer": "L0A", "result": "machine contract and diagnostic publication"},
-    {"layer": "validation-owner", "result": "red-manifest authoring and freeze against L0A digests"},
+    {"layer": "validation-owner", "result": "immutable fixture/topology authoring, red-manifest binding, and freeze against L0A digests"},
     {"layer": "L0B", "result": "semantic execution and non-admitting ValidationReceipt"},
     {"layer": "L1-L6", "result": "formation, graph, proof unit, and six-catalogue exact core"},
     {"layer": "L7A/L7B", "result": "parallel IOLM and Body War consumer replay"},
@@ -51,29 +51,29 @@
     "swu_bte_001_receipt_sha256": "c74804c056c681e9596fce170c50ac664bdc002492b3fbc6340a13a47f42b1e1",
     "swu_bte_003_receipt_sha256": "2465113b7e18d1e58670df52636a18499b22420f3c36cd460e5179a8f1c4a2c4"
   },
-  "candidate_swu": "SWU-BTE-L0A-001",
+  "candidate_swu": null,
   "selected_swu": null,
-  "candidate_state": "unselected-dependency-ready",
+  "candidate_state": "none-owner-freeze-required",
   "successor_swu": "SWU-BTE-L0B-001",
   "successor_state": "predecessor-and-owner-gated",
   "blockers": {
     "refresh_authoring": 0,
     "apply_authorization": 0,
-    "l0a_runtime": 1,
+    "l0a_runtime": 0,
     "target_lifecycle": 8,
     "audit": 0
   },
   "distill": {
-    "path": "DISTILL-VALIDATION.md",
-    "mode": "validate",
-    "verdict": "pass",
-    "smallest_coherent_unit": "SWU-BTE-L0A-001"
+    "path": "refreshes/2026-08-04-l0-red-fixture-payload-scope/REFRESH-REPORT.md",
+    "mode": "skipped",
+    "verdict": "not-required",
+    "smallest_coherent_unit": "validation-owner fixture/topology freeze"
   },
   "dispatch": {
-    "path": "EXECUTION-DISPATCH.json",
+    "path": "refreshes/2026-08-04-l0-red-fixture-payload-scope/REFRESH-DISPATCH.json",
     "validation": "pass",
     "runtime_authorized": false,
-    "subagents": "none"
+    "subagents": "one independent validation-owner helper; audit joined, freeze rerouted after refresh"
   },
   "deferred_claims": [
     "UI and full-language completeness",
@@ -81,5 +81,5 @@
     "SMT, FOL, Datalog, Cedar, temporal, or universal evaluator scope",
     "release, publication, production, or lifecycle promotion"
   ],
-  "next_route": "operator explicitly selects SWU-BTE-L0A-001; Context Builder emits a strict runtime pack; Task Session executes exactly that SWU"
+  "next_route": "independent validation owner authors immutable package-local fixture/topology bytes, then serializes and freezes the exact red manifest; a later Invoke Refresh validates the freeze before exposing L0B"
 }

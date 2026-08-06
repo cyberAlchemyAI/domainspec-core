@@ -8,9 +8,10 @@ independently frozen red case and emit recomputable, non-admitting evidence?
 ## Entry, Work, Exit
 
 Current L0A publication verification passes and the exact immutable L0A
-publication receipt is preserved. Entry remains blocked until a validation-owner
-red manifest and freeze receipt exist whose governing contract digests match
-that publication. Once selected, execute only
+publication receipt is preserved. Entry remains blocked until validation-owner
+fixture payloads and no-follow topology inputs exist and a red manifest and
+freeze receipt truthfully bind them to the governing publication digests. Once
+selected, execute only
 `SWU-BTE-L0B-001`; published L0A bytes and `validation-inputs/l0/` are read-only.
 
 Exit is a non-admitting `ValidationReceipt` whose raw case set exactly equals
