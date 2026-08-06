@@ -1,0 +1,33 @@
+{
+  "schema_version": "candidate.work-pack.validation-contracts.v1",
+  "contracts": [
+    {
+      "command_id": "validate-state-contract",
+      "argv": ["node", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs"],
+      "cwd": ".",
+      "timeout_seconds": 60,
+      "max_output_bytes": 1048576,
+      "expected_exit_code": 0,
+      "risk_class": "read-only"
+    },
+    {
+      "command_id": "validate-state-contract-self-test",
+      "argv": ["node", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs", "--self-test"],
+      "cwd": ".",
+      "timeout_seconds": 60,
+      "max_output_bytes": 1048576,
+      "expected_exit_code": 0,
+      "risk_class": "read-only"
+    },
+    {
+      "command_id": "validate-json-surfaces",
+      "argv": ["python3", "-m", "json.tool", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json"],
+      "cwd": ".",
+      "timeout_seconds": 30,
+      "max_output_bytes": 1048576,
+      "expected_exit_code": 0,
+      "risk_class": "read-only"
+    }
+  ],
+  "authority_effect": "none"
+}

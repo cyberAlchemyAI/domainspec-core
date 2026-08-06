@@ -1,0 +1,70 @@
+{
+  "schema_version": "candidate.whisper.state-negatives.v1",
+  "cases": [
+    {
+      "case_id": "NEG-STATE-GATE-001",
+      "kind": "invalid_state",
+      "field": "pending_gate",
+      "value": "editorial",
+      "expected_code": "INVALID_STATE_ENUM"
+    },
+    {
+      "case_id": "NEG-STATE-CEILING-001",
+      "kind": "invalid_state",
+      "field": "outcome_ceiling",
+      "value": "absent",
+      "expected_code": "INVALID_STATE_ENUM"
+    },
+    {
+      "case_id": "NEG-EV22-CORRECTION-001",
+      "kind": "ev22_binding",
+      "field": "correction_id",
+      "value": "COR2",
+      "expected_code": "EV22_CORRECTION_BINDING_MISMATCH"
+    },
+    {
+      "case_id": "NEG-EV22-ARTIFACT-001",
+      "kind": "ev22_binding",
+      "field": "artifact_id",
+      "value": "NE1",
+      "expected_code": "EV22_ARTIFACT_BINDING_MISMATCH"
+    },
+    {
+      "case_id": "NEG-EV22-STALE-001",
+      "kind": "ev22_binding",
+      "field": "correction_sha256",
+      "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "expected_code": "EV22_CORRECTION_BINDING_MISMATCH"
+    },
+    {
+      "case_id": "NEG-EV22-MISSING-001",
+      "kind": "ev22_missing_binding",
+      "field": "artifact_sha256",
+      "expected_code": "EV22_ARTIFACT_BINDING_MISMATCH"
+    },
+    {
+      "case_id": "NEG-EV22-ASSESSMENT-001",
+      "kind": "ev22_binding",
+      "field": "assessment_result",
+      "value": "flag",
+      "expected_code": "EV22_ASSESSMENT_NOT_PASS"
+    },
+    {
+      "case_id": "NEG-EV22-PREMATURE-001",
+      "kind": "premature_ev22",
+      "prefix_length": 20,
+      "expected_code": "PRIOR_STATE_MISMATCH"
+    },
+    {
+      "case_id": "NEG-EV22-DUPLICATE-001",
+      "kind": "duplicate_ev22",
+      "expected_code": "PRIOR_STATE_MISMATCH"
+    },
+    {
+      "case_id": "NEG-PROJECTION-MUTATION-001",
+      "kind": "projection_mutation",
+      "expected_code": "PROJECTION_MUTATED_STATE"
+    }
+  ],
+  "authority_effect": "none"
+}

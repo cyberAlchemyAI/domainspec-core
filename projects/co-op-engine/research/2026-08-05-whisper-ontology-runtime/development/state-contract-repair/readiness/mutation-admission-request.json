@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.2.0",
+  "executionMode": "routed-mutation",
+  "taskId": "TASK-WHISPER-RSCH-STATE-001",
+  "swuId": "SWU-WHISPER-RSCH-STATE-001",
+  "controlArtifacts": [
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/work-pack/tasks/TASK-WHISPER-RSCH-STATE-001.md",
+      "sha256": "2b103d331dc73d302b95bd33d9c2d2b05a25d5f02728fe8356aecf06b9c52f81",
+      "sizeBytes": 1479,
+      "role": "task-contract",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/WORK-PACK.md",
+      "sha256": "284997efdd5fb2baf424b42ffa177524eb0019810eac96a7ae4b645e1f59023d",
+      "sizeBytes": 3675,
+      "role": "work-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/readiness/CONTEXT-PACK.json",
+      "sha256": "ddc8cfcb006eaca2c22fcacec810fffebf73219c57c29ef3f03e395548b42d48",
+      "sizeBytes": 3184,
+      "role": "context-pack",
+      "authorityClass": "private"
+    }
+  ],
+  "dependencyFrontier": [
+    {
+      "dependencyId": "blocked-synthesis-r2",
+      "artifactRef": {
+        "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-2.md",
+        "sha256": "83bd534a407ae973b8cf42054b1714ab6ff42482c4a9e2890603ea6b90c7a916",
+        "sizeBytes": 13089
+      }
+    },
+    {
+      "dependencyId": "loop-ceiling-review",
+      "artifactRef": {
+        "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/review-final.md",
+        "sha256": "d0eea5502cb761a1780acac01fef7d78dc1bc6406bd7da1c9d26ea621c6b65c5",
+        "sizeBytes": 1832
+      }
+    }
+  ],
+  "materialPackage": {
+    "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/readiness/material-package.json",
+    "sha256": "d3059762802f82a9b3de0ebd982babb798da09d45e9da317e3c0152205dd7564",
+    "sizeBytes": 4236
+  },
+  "materialReceipt": {
+    "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/readiness/material-producer-receipt.json",
+    "sha256": "c3c014e0d60f50f8313bcc4e951e45fb0b2779a1c17e5e4d88ebe5c0f2bf3183",
+    "sizeBytes": 1584
+  },
+  "producerReceiptSchema": {
+    "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/readiness/producer-receipt.schema.json",
+    "sha256": "fca746403ca5932a5caf664d662fe107a1c54bf706e0a401245e971553048040",
+    "sizeBytes": 1394
+  },
+  "materialWrites": [
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-3.md",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/state.schema.json",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/event-sequence.json",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/negative-fixtures.json",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json"
+  ],
+  "executionOutputs": [
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/execution/task-session-terminal-receipt.json"
+  ],
+  "allowedWrites": [
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-3.md",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/state.schema.json",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/event-sequence.json",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/negative-fixtures.json",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/execution/task-session-terminal-receipt.json"
+  ],
+  "validationCommands": [
+    "node projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs",
+    "node projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs --self-test",
+    "python3 -m json.tool projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json"
+  ],
+  "lifecycleOwner": "task-session",
+  "authorityClass": "private",
+  "publicationClass": "internal"
+}

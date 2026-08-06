@@ -1,0 +1,33 @@
+{
+  "schema_version": "whisper.ontology-runtime.evidence-closure.v0.1",
+  "dispatch_id": "2026-08-05-whisper-ontology-runtime-research",
+  "route_dispatch_id": "2026-08-05-whisper-ontology-runtime-route",
+  "run_id": "run-2026-08-05-whisper-ontology-runtime-01",
+  "status": "block",
+  "gate_id": "g-review-and-evidence-closure",
+  "loop_ceiling": 2,
+  "loops_used": 2,
+  "explorer_returns": [
+    {"id": "OX-01", "artifact": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/research.md#agent-1--ontology-explorer-ox-01", "status": "pass"},
+    {"id": "RX-01", "artifact": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/research.md#agent-2--runtime-explorer-rx-01", "status": "pass"}
+  ],
+  "synthesis_artifacts": [
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis.md",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-1.md",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-2.md"
+  ],
+  "review_receipts": [
+    {"role": "precedent-reviewer", "receipt": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-precedent.json", "verdict": "pass"},
+    {"role": "non-vacuity-reviewer", "receipt": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-non-vacuity.json", "verdict": "fail_at_loop_ceiling"},
+    {"role": "definitional-reviewer", "receipt": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-definitional.json", "verdict": "pass"}
+  ],
+  "blocker": {
+    "code": "WOR-RUNTIME-STATE-REDUCER-INCONSISTENT",
+    "summary": "The proposed exact fixture has inconsistent pending_gate and outcome_ceiling enums and resolves correction_state without an explicit event or reduction rule, so deterministic RS26 and live/replay equality are undefined.",
+    "evidence": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/review-final.md#remaining-blocker"
+  },
+  "writer_eligible": false,
+  "auditor_eligible": false,
+  "authority_effect": "none",
+  "claim_ceiling": "Evidence-backed two-front research and repaired candidate design are preserved; exact-binding findings, implementation-ready design, ontology creation/admission, runtime implementation, co-op product mutation, deployment, publication, release, and production readiness are not established."
+}

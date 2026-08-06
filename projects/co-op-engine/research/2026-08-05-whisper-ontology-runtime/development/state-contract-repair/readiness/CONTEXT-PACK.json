@@ -1,0 +1,50 @@
+{
+  "schema_version": "candidate.context-pack.v1",
+  "task_id": "TASK-WHISPER-RSCH-STATE-001",
+  "swu_id": "SWU-WHISPER-RSCH-STATE-001",
+  "strict_coverage": true,
+  "objective": "Materialize and prove the total deterministic EV01-EV26 candidate state contract.",
+  "sources": [
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/ARCHITECTURE.md",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-2.md",
+    "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/review-final.md"
+  ],
+  "execution_contract": {
+    "writeProfile": "material-bound",
+    "materialWrites": [
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-3.md",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/state.schema.json",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/event-sequence.json",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/negative-fixtures.json",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json"
+    ],
+    "executionOutputs": [
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/execution/task-session-terminal-receipt.json"
+    ],
+    "allowedWrites": [
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-3.md",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/state.schema.json",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/event-sequence.json",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/negative-fixtures.json",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json",
+      "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/execution/task-session-terminal-receipt.json"
+    ],
+    "validationCommands": [
+      "node projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs",
+      "node projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs --self-test",
+      "python3 -m json.tool projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json"
+    ],
+    "lifecycleOwner": "task-session",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "stop_conditions": [
+    "scope expansion",
+    "changed prior research bytes",
+    "failed acceptance-critical validation",
+    "external destructive authority publication deployment or production effect"
+  ],
+  "authority_effect": "none"
+}

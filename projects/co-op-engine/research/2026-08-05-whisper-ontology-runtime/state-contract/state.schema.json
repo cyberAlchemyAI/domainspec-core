@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://co-op-engine.local/schemas/whisper-research-run-state/1-0-0",
+  "title": "CandidateWhisperResearchRunState",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["revision", "lifecycle_phase", "pending_gate", "correction_state", "outcome_ceiling"],
+  "properties": {
+    "revision": {"type": "integer", "minimum": 0, "maximum": 26},
+    "lifecycle_phase": {
+      "enum": [
+        "not_started",
+        "intake_recorded",
+        "intent_frozen",
+        "plan_generation_scheduled",
+        "plan_ready",
+        "audition_generation_scheduled",
+        "awaiting_editorial_decision",
+        "editorial_decision_recorded",
+        "draft_generation_scheduled",
+        "draft_ready",
+        "draft_validation_scheduled",
+        "mechanically_validated",
+        "correction_pending",
+        "graph_validation_scheduled",
+        "graph_validated",
+        "reviewed",
+        "residue_recorded"
+      ]
+    },
+    "pending_gate": {
+      "enum": [
+        "none",
+        "intent_freeze",
+        "editorial_decision",
+        "mechanical_validation",
+        "post_apply_review",
+        "corrected_intent_freeze",
+        "graph_policy_validation",
+        "comprehension_assessment"
+      ]
+    },
+    "correction_state": {"enum": ["none", "open", "resolved"]},
+    "outcome_ceiling": {"enum": ["not_assessed", "pass", "flag", "block"]}
+  }
+}
