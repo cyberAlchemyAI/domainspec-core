@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.dev/animejs/agent-knowledge-vault/source-artifact/1-0-0",
+  "title": "AnimeJsPinnedSourceArtifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "path", "blob_sha1", "size", "kind", "structured_pointer", "evidence_status", "commit_sha"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^artifact:repo:[a-f0-9]{20}$"},
+    "path": {"type": "string", "minLength": 1},
+    "blob_sha1": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "size": {"type": "integer", "minimum": 0},
+    "kind": {"enum": ["source", "type", "test", "example", "package_documentation"]},
+    "structured_pointer": {"type": "string", "pattern": "^https://github\\.com/juliangarnier/anime/blob/"},
+    "evidence_status": {
+      "enum": [
+        "source-observed-not-runtime-executed",
+        "test-present-not-executed",
+        "example-source-present-not-executed",
+        "package-documentation-observed"
+      ]
+    },
+    "commit_sha": {"const": "2c9cf8ea00329f6768c7d7902252ed977d75ce42"}
+  }
+}

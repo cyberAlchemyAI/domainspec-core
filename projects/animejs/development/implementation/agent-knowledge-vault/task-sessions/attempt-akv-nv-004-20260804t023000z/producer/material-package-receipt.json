@@ -1,0 +1,71 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "ontology-vault",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "65f8827c24c4d434e5e386b79e01865574060b293edcd5d3602a7f7c022ac538",
+  "packageId": "invoke-swu-akv-nv-004-attempt-akv-nv-004-20260804t023000z",
+  "patchVerdict": "pass",
+  "planBinding": {
+    "attempt_id": "attempt-akv-nv-004-20260804t023000z",
+    "plan_epoch_id": "epoch-2e4825d8b0d06479174b56aa",
+    "selection_receipt_digest": "6b925336009503a42b86b5ca0e764b7a0560f01234865c79106dcb04cf66f1a6",
+    "swu_id": "SWU-AKV-NV-004",
+    "target_baselines": [
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/schemas/documentation-topic.schema.json",
+        "sha256": null,
+        "size_bytes": null,
+        "state": "absent"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+        "sha256": null,
+        "size_bytes": null,
+        "state": "absent"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/sources/documentation.jsonl",
+        "sha256": null,
+        "size_bytes": null,
+        "state": "absent"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/sources/documentation-manifest.json",
+        "sha256": null,
+        "size_bytes": null,
+        "state": "absent"
+      }
+    ],
+    "task_id": "TASK-AKV-SOURCES",
+    "unit_contract_digest": "329108775936eedda8de36ce45bc5f426436c1715e629139596d5fbdc3dbd4ac",
+    "validation_contract_digest": "cbf89819abf2011c3ced8b229d192047675f11f8048423ef2451b4d421793925",
+    "validation_contracts": [
+      {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+          "--check"
+        ],
+        "command_id": "documentation-ingest",
+        "cwd": ".",
+        "max_output_bytes": 131072,
+        "timeout_seconds": 180
+      }
+    ]
+  },
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "projects/animejs/ontology/agent-knowledge-vault/schemas/documentation-topic.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/sources/documentation-manifest.json",
+    "projects/animejs/ontology/agent-knowledge-vault/sources/documentation.jsonl"
+  ],
+  "validationCommands": [
+    "node projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs --check"
+  ]
+}

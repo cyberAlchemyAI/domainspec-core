@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.dev/animejs/agent-knowledge-vault/relation/1-0-0",
+  "title": "AnimeJsKnowledgeVaultRelation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "source_id",
+    "source_kind",
+    "target_id",
+    "target_kind",
+    "assertion_scope",
+    "evidence_record_ids",
+    "record_state"
+  ],
+  "properties": {
+    "id": {"type": "string", "pattern": "^edge:[a-z0-9:_./-]+$"},
+    "type": {
+      "enum": [
+        "documents",
+        "derivesFrom",
+        "exports",
+        "implementationDescribedBy",
+        "hasTestEvidence",
+        "illustratedBy",
+        "prerequisiteRecipe",
+        "consults",
+        "usesVersion",
+        "producedEvidence",
+        "supportedByEvidence",
+        "contradictedByEvidence",
+        "proposes",
+        "generalizesFrom",
+        "boundedBy",
+        "invalidatedBy",
+        "supersedes"
+      ]
+    },
+    "source_id": {"type": "string", "minLength": 1},
+    "source_kind": {"type": "string", "minLength": 1},
+    "target_id": {"type": "string", "minLength": 1},
+    "target_kind": {"type": "string", "minLength": 1},
+    "version_context_id": {"type": ["string", "null"]},
+    "assertion_scope": {"type": "string", "minLength": 1},
+    "evidence_record_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "record_state": {"enum": ["candidate", "validated", "stale", "failed", "invalidated", "superseded"]}
+  }
+}

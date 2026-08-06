@@ -1,0 +1,79 @@
+{
+  "attempt_id": "20260805-api-akve-007-r1",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "a879887e799acb21a77608cb654eb3c26233100c8791e18ebe651562dcc88117",
+  "generated_at": "2026-08-05T20:45:19.956839Z",
+  "material_package_digest": "dd2f482ea770bba971a53733c2c6a190730fb3b8a74b6f58e28b00cebebccfa7",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-007-r1/producer/material-package.json",
+    "sha256": "eecd5e7e485a85559c3e208e62cc5825d30e08019fe9ddc8aebc91ab6d5b3ed7",
+    "size_bytes": 6459
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-007-r1/producer/material-package-receipt.json",
+    "sha256": "2a60d87104e7613f644b6a0ca63ab1690400f00d72bfc5fb2afc4697ae039fa3",
+    "size_bytes": 2594
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-007-r1/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "71dd8de565933c7e97ff4057cd647241c5a5ab2cd4aa2654087995e8707fed53",
+    "size_bytes": 3488
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/consultation-service.mjs",
+      "sha256": "a2661c4bd6fe6b72fe51eb5f591f7e3b9deb78eabf5de9472d7adf92794c7105",
+      "size_bytes": 9205
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/consultation-cases.json",
+      "sha256": "960b7e8eefefb97ff88338cf0f2ce93431a1e7f1c5eeb323fe04f31e67de7fca",
+      "size_bytes": 485
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/consultation.test.mjs",
+      "sha256": "94455861906971e544e816f210ec3d156f5129600c47ac262ef08cf68699c2fd",
+      "size_bytes": 7843
+    }
+  ],
+  "plan_epoch_id": "epoch-83a5a40930fef7ec76de393e",
+  "publication_class": "internal",
+  "residue": [],
+  "result": "pass",
+  "schema_version": "animejs.agent-knowledge-api.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-007-r1/SELECTION-RECEIPT.json",
+    "sha256": "b94f37abcf04fd19b44a8d5c7120325f999ed7e53c97beb9501bd5677caf2db2",
+    "size_bytes": 950
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKVE-008",
+  "swu_id": "SWU-AKVE-007",
+  "task_id": "TASK-AKVE-05",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/consultation-service.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/consultation-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/consultation.test.mjs"
+  ],
+  "unit_contract_digest": "e57847cb694a4163e1a15f9cbc9094bc2eec76e845b34dff0ea1645a51c62720",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/consultation.test.mjs"
+      ],
+      "command_id": "consultation-service",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 65536,
+      "result": "pass",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "TAP version 13\n# Subtest: bounded consultation returns source-linked records, edges, and explanation path\nok 1 - bounded consultation returns source-linked records, edges, and explanation path\n  ---\n  duration_ms: 2.457952\n  ...\n# Subtest: ambiguous and versionless decisions abstain\nok 2 - ambiguous and versionless decisions abstain\n  ---\n  duration_ms: 0.896245\n  ...\n# Subtest: stale digest returns no partial records\nok 3 - stale digest returns no partial records\n  ---\n  duration_ms: 0.291041\n  ...\n# Subtest: denial is opaque and happens before projection lookup\nok 4 - denial is opaque and happens before projection lookup\n  ---\n  duration_ms: 0.256376\n  ...\n# Subtest: corrupt projection and unsupported claim never fabricate fallback\nok 5 - corrupt projection and unsupported claim never fabricate fallback\n  ---\n  duration_ms: 0.373607\n  ...\n# Subtest: instruction-shaped record remains inert data\nok 6 - instruction-shaped record remains inert data\n  ---\n  duration_ms: 0.354449\n  ...\n# Subtest: request cannot widen host caps or spoof host fields\nok 7 - request cannot widen host caps or spoof host fields\n  ---\n  duration_ms: 0.327849\n  ...\n# Subtest: result and traversal overflow are tagged instead of silently truncated\nok 8 - result and traversal overflow are tagged instead of silently truncated\n  ---\n  duration_ms: 0.374995\n  ...\n# Subtest: missing required query fields are invalid\nok 9 - missing required query fields are invalid\n  ---\n  duration_ms: 0.387767\n  ...\n1..9\n# tests 9\n# suites 0\n# pass 9\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 74.472804\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 60
+    }
+  ]
+}

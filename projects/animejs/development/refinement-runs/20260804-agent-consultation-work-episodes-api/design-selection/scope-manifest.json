@@ -1,0 +1,221 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "manifest:animejs-agent-consultation-work-episodes-api",
+  "target_id": "target:animejs-agent-consultation-work-episodes-api-design",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+        "digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+      },
+      {
+        "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/06-design.md",
+        "digest": "1c63513421c91b70a7979ce0ca2ee9f7265eda55a7b600b89c52c2a5728e4aa6"
+      },
+      {
+        "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/08-distill-repair.md",
+        "digest": "32c666efd5d3be59ef774a11eb1994d0b3df2858065aea468a3612398053dc0c"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "API-CONTRACT.md#Capability-split",
+        "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+        "digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+      },
+      {
+        "selector": "stages/06-design.md#High-level-structure-view",
+        "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/06-design.md",
+        "digest": "1c63513421c91b70a7979ce0ca2ee9f7265eda55a7b600b89c52c2a5728e4aa6"
+      },
+      {
+        "selector": "stages/08-distill-repair.md#Distill-unit-check",
+        "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/08-distill-repair.md",
+        "digest": "32c666efd5d3be59ef774a11eb1994d0b3df2858065aea468a3612398053dc0c"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "rendered-user-interface",
+        "reason": "the target is an agent-callable contract and adds no rendered semantic surface",
+        "evidence_ref": "API-CONTRACT.md#Explicit-exclusions"
+      },
+      {
+        "selector": "lesson-verification",
+        "reason": "Lesson review is a separately owned future route and is unreachable from append",
+        "evidence_ref": "stages/06-design.md#Design-decisions"
+      },
+      {
+        "selector": "transport-deployment-release",
+        "reason": "the candidate is transport-neutral design and planning only",
+        "evidence_ref": "API-CONTRACT.md#Size-privacy-and-abuse-limits"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "source:api-contract",
+      "selector": "API-CONTRACT.md",
+      "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    },
+    {
+      "source_id": "source:design",
+      "selector": "stages/06-design.md",
+      "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/06-design.md",
+      "digest": "1c63513421c91b70a7979ce0ca2ee9f7265eda55a7b600b89c52c2a5728e4aa6"
+    },
+    {
+      "source_id": "source:distill-repair",
+      "selector": "stages/08-distill-repair.md",
+      "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/08-distill-repair.md",
+      "digest": "32c666efd5d3be59ef774a11eb1994d0b3df2858065aea468a3612398053dc0c"
+    }
+  ],
+  "human_actors": [],
+  "rendered_surfaces": [],
+  "interfaces": [
+    {
+      "interface_id": "interface:consultation-tool",
+      "kind": "authenticated-agent-tool",
+      "peer": "agent-host",
+      "direction": "bidirectional",
+      "contract_ref": "animejs-knowledge-consult-request/0.1.0",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "source_digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    },
+    {
+      "interface_id": "interface:episode-append-tool",
+      "kind": "authenticated-agent-tool-append",
+      "peer": "agent-host",
+      "direction": "bidirectional",
+      "contract_ref": "animejs-work-episode-command/0.1.0",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "source_digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    },
+    {
+      "interface_id": "interface:receipt-recovery",
+      "kind": "authenticated-agent-tool-read",
+      "peer": "agent-host",
+      "direction": "bidirectional",
+      "contract_ref": "animejs-work-episode-receipt-read",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "source_digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    },
+    {
+      "interface_id": "interface:neutral-projection",
+      "kind": "read-only-projection-port",
+      "peer": "vault-projection-owner",
+      "direction": "outbound",
+      "contract_ref": "animejs-neutral-projection-manifest/0.1.0",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "source_digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    }
+  ],
+  "stores": [
+    {
+      "store_id": "store:episode-journal",
+      "authority": "canonical-for-accepted-episode-events-only",
+      "data_classes": ["episode-event", "idempotency-binding"],
+      "writers": ["writer:episode-command-service"],
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/06-design.md",
+      "source_digest": "1c63513421c91b70a7979ce0ca2ee9f7265eda55a7b600b89c52c2a5728e4aa6"
+    },
+    {
+      "store_id": "store:episode-snapshots-overlay",
+      "authority": "rebuildable-derived-only",
+      "data_classes": ["versioned-snapshot", "isolated-episode-overlay", "projection-diagnostic"],
+      "writers": ["writer:episode-reducer"],
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/06-design.md",
+      "source_digest": "1c63513421c91b70a7979ce0ca2ee9f7265eda55a7b600b89c52c2a5728e4aa6"
+    }
+  ],
+  "queues": [],
+  "writers": [
+    {
+      "writer_id": "writer:episode-command-service",
+      "targets": ["store:episode-journal"],
+      "concurrency": "atomic compare-and-append with idempotency mapping",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "source_digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    },
+    {
+      "writer_id": "writer:episode-reducer",
+      "targets": ["store:episode-snapshots-overlay"],
+      "concurrency": "deterministic replay keyed by reducer version and last-event digest",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "source_digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    }
+  ],
+  "normative_rules": [
+    {
+      "rule_id": "rule:authorize-before-target",
+      "verb": "authorize",
+      "subject": "capability-adapter",
+      "object": "exact route audience before parsing target identifiers",
+      "enforcement_hint": "cross-capability and cross-principal negative fixtures",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "source_digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    },
+    {
+      "rule_id": "rule:closed-state-transition",
+      "verb": "transition",
+      "subject": "episode-command-service",
+      "object": "episode state only through the closed event transition table",
+      "enforcement_hint": "pure state oracle and exhaustive invalid-transition fixtures",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "source_digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    },
+    {
+      "rule_id": "rule:no-semantic-upcast",
+      "verb": "must",
+      "subject": "episode-api",
+      "object": "append records without changing Task state truth authority or Lesson verification",
+      "enforcement_hint": "semantic closure and zero-Lesson fixtures",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/08-distill-repair.md",
+      "source_digest": "32c666efd5d3be59ef774a11eb1994d0b3df2858065aea468a3612398053dc0c"
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "effect:append-episode-event",
+      "reversible": false,
+      "external": false,
+      "privileged": true,
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "source_digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    }
+  ],
+  "data_and_log_sinks": [
+    {
+      "sink_id": "sink:episode-audit-journal",
+      "data_classes": ["opaque-principal", "policy-epoch", "episode-event", "evidence-digest"],
+      "retention_hint": "owner-defined before implementation admission",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/API-CONTRACT.md",
+      "source_digest": "2a1bdf410b0c96a7351ad49277cf3e52e0e955f6446c473a2db64f52eeebd480"
+    }
+  ],
+  "deployment_targets": [],
+  "compatibility_boundaries": [
+    {
+      "boundary_id": "compatibility:vault-cli-to-native-tools",
+      "old_contract": "candidate-vault-query-cli-read-only",
+      "new_contract": "four-disjoint-native-agent-tool-capabilities",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/06-design.md",
+      "source_digest": "1c63513421c91b70a7979ce0ca2ee9f7265eda55a7b600b89c52c2a5728e4aa6"
+    }
+  ],
+  "quality_claims": [],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "acceptance:critic-repair-authored",
+      "selector": "stages/08-distill-repair.md#Repair-map",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/stages/08-distill-repair.md",
+      "source_digest": "32c666efd5d3be59ef774a11eb1994d0b3df2858065aea468a3612398053dc0c"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "0288fff15c2bd31c3823d2e616f89a38194088d10cbcfc13ed5c048e9eb19567",
+  "authored_by": "refine-parent-invoke-design"
+}

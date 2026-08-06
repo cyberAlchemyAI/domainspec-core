@@ -1,0 +1,213 @@
+{
+  "counts": {
+    "DEFER": 3,
+    "KILL": 0,
+    "MERGE": 5,
+    "RETAIN": 17
+  },
+  "decisions": [
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-006 coverage-status",
+      "disposition": "RETAIN",
+      "name": "documents",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-001"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-001 resolve-task-recipe",
+      "disposition": "RETAIN",
+      "name": "derivesFrom",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-002"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-003 choose-js-or-waapi",
+      "disposition": "RETAIN",
+      "name": "exports",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-003"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-002 explain-api-symbol",
+      "disposition": "RETAIN",
+      "name": "implementationDescribedBy",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-004"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-002 explain-api-symbol",
+      "disposition": "RETAIN",
+      "name": "hasTestEvidence",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-005"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-002 explain-api-symbol",
+      "disposition": "RETAIN",
+      "name": "illustratedBy",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-006"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-001 resolve-task-recipe",
+      "disposition": "RETAIN",
+      "name": "prerequisiteRecipe",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-007"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-001 resolve-task-recipe",
+      "disposition": "RETAIN",
+      "name": "consults",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-008"
+    },
+    {
+      "canonical_representation": "WorkEpisode.task_id canonical; addresses derived and never stored",
+      "consumer": "QRY-005 retrieve-lessons",
+      "disposition": "MERGE",
+      "name": "addresses",
+      "reason": "Duplicate endpoint fields can preserve behavior; choose one canonical representation and derive the other.",
+      "relation_id": "AKV-REL-009"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-005 retrieve-lessons",
+      "disposition": "RETAIN",
+      "name": "usesVersion",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-010"
+    },
+    {
+      "canonical_representation": "Attempt.episode_id canonical; WorkEpisode.attempt_ids is a sorted derived index; contains never stored",
+      "consumer": "QRY-005 retrieve-lessons",
+      "disposition": "MERGE",
+      "name": "contains",
+      "reason": "Duplicate endpoint fields can preserve behavior; choose one canonical representation and derive the other.",
+      "relation_id": "AKV-REL-011"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-005 retrieve-lessons",
+      "disposition": "RETAIN",
+      "name": "producedEvidence",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-012"
+    },
+    {
+      "canonical_representation": "deferred-residue; stored edge forbidden",
+      "consumer": "QRY-004 diagnose-work",
+      "disposition": "DEFER",
+      "name": "observes",
+      "reason": "No closed traversal or output contract currently makes this edge behaviorally observable.",
+      "relation_id": "AKV-REL-013"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-005 retrieve-lessons",
+      "disposition": "RETAIN",
+      "name": "supportedByEvidence",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-014"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-001 and ABSTAIN_CONFLICT",
+      "disposition": "RETAIN",
+      "name": "contradictedByEvidence",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-015"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-004 diagnose-work",
+      "disposition": "RETAIN",
+      "name": "proposes",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-016"
+    },
+    {
+      "canonical_representation": "deferred-residue; stored edge forbidden",
+      "consumer": "QRY-004 diagnose-work",
+      "disposition": "DEFER",
+      "name": "applies",
+      "reason": "No closed traversal or output contract currently makes this edge behaviorally observable.",
+      "relation_id": "AKV-REL-017"
+    },
+    {
+      "canonical_representation": "Outcome.attempt_id canonical; Attempt.outcome_id is a unique reverse-derived lookup; yields never stored",
+      "consumer": "QRY-005 retrieve-lessons",
+      "disposition": "MERGE",
+      "name": "yields",
+      "reason": "Duplicate endpoint fields can preserve behavior; choose one canonical representation and derive the other.",
+      "relation_id": "AKV-REL-018"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-005 retrieve-lessons",
+      "disposition": "RETAIN",
+      "name": "generalizesFrom",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-019"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-001 and stale binding validation",
+      "disposition": "RETAIN",
+      "name": "boundedBy",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-020"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-001 and state transition validation",
+      "disposition": "RETAIN",
+      "name": "invalidatedBy",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-021"
+    },
+    {
+      "canonical_representation": "stored-edge",
+      "consumer": "QRY-001 and supersession DAG validation",
+      "disposition": "RETAIN",
+      "name": "supersedes",
+      "reason": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "relation_id": "AKV-REL-022"
+    },
+    {
+      "canonical_representation": "deferred-residue; stored edge forbidden",
+      "consumer": "QRY-006 and VIEW-unresolved-gaps",
+      "disposition": "DEFER",
+      "name": "exposesGap",
+      "reason": "No closed traversal or output contract currently makes this edge behaviorally observable.",
+      "relation_id": "AKV-REL-023"
+    },
+    {
+      "canonical_representation": "NextQuestion.gap_id canonical; QueryReceipt.next_question_ids is derived; suggestsNextQuestion never stored",
+      "consumer": "QRY-006 next-action output",
+      "disposition": "MERGE",
+      "name": "suggestsNextQuestion",
+      "reason": "Duplicate endpoint fields can preserve behavior; choose one canonical representation and derive the other.",
+      "relation_id": "AKV-REL-024"
+    },
+    {
+      "canonical_representation": "QueryReceipt.evidence_record_ids canonical; citesEvidence never stored",
+      "consumer": "all QRY contracts and VAL-query-replay",
+      "disposition": "MERGE",
+      "name": "citesEvidence",
+      "reason": "Duplicate endpoint fields can preserve behavior; choose one canonical representation and derive the other.",
+      "relation_id": "AKV-REL-025"
+    }
+  ],
+  "schema_version": "animejs.agent-knowledge-vault.relation-decisions.v1",
+  "source_matrix": "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/stages/08-relation-behavior-witness-matrix.json",
+  "stored_edge_policy": "Only RETAIN rows may appear in graph.edges; MERGE rows use the named canonical field and DEFER rows remain explicit residue."
+}

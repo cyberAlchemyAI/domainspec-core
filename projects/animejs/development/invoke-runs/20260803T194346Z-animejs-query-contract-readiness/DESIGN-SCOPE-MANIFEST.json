@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "animejs.akv.query-contract-readiness.design-scope.v1",
+  "target_id": "animejs.akv.query-contract-readiness",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md",
+        "digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "glossary",
+        "path": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/GLOSSARY.md",
+        "digest": "0018c60163922b915e0428cf116e52877592542d75b3e23d0b70129d7ef6a511"
+      },
+      {
+        "selector": "layering-seed",
+        "path": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/IMPLEMENTATION-LAYERING-SEED.md",
+        "digest": "65ca07861f21ec1e61738c2e45a4b8b623e80befca925dd9304d12c6ad1e43e6"
+      },
+      {
+        "selector": "define-result",
+        "path": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/DEFINE-RESULT.md",
+        "digest": "8b231d1c0cc2c6e805af441f2cda1a67df0d19e7b6689f32b2823e0d3987b36a"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "relation-repair",
+        "reason": "The 25 relation rows have independent policy and witness acceptance boundaries and require a later package.",
+        "evidence_ref": "SPEC.md#non-goals"
+      },
+      {
+        "selector": "ontology-root",
+        "reason": "Ontology admission belongs to a separately confirmed Ontology Vault or Harness route.",
+        "evidence_ref": "SPEC.md#candidate-target-boundary"
+      },
+      {
+        "selector": "runtime-execution",
+        "reason": "Invoke Design and Plan author contracts but do not execute fixtures or mutate candidate source.",
+        "evidence_ref": "RUN-MANIFEST.md#claim-ceiling"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "refine-query-matrix",
+      "selector": "terminal-contract-and-eight-fixtures",
+      "path": "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/stages/08-query-contract-matrix.json",
+      "digest": "537e05842d2089ceab84b24e936ab0849292465cbabd6ee36f6dda4cab4df342"
+    },
+    {
+      "source_id": "blocked-task-session-preflight",
+      "selector": "missing-path-command-admission-closeout-contracts",
+      "path": "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/task-sessions/20260803T191537Z-SWU-AKV-NV-001/CLOSEOUT-PREFLIGHT.json",
+      "digest": "8609842f88c8142406381eee0b95e2ec55a83296bde8b1ccd731b436e04245c3"
+    }
+  ],
+  "human_actors": [],
+  "rendered_surfaces": [],
+  "interfaces": [
+    {
+      "interface_id": "query-contract-input",
+      "kind": "immutable-candidate-contract",
+      "peer": "future-query-engine",
+      "direction": "inbound",
+      "contract_ref": "SPEC.md#normative-invariants",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530"
+    },
+    {
+      "interface_id": "validation-receipt-output",
+      "kind": "content-addressed-candidate-evidence",
+      "peer": "task-session-closeout",
+      "direction": "outbound",
+      "contract_ref": "SPEC.md#define-acceptance",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530"
+    }
+  ],
+  "stores": [],
+  "queues": [],
+  "writers": [],
+  "normative_rules": [
+    {
+      "rule_id": "terminal-precedence",
+      "verb": "must-select-terminal",
+      "subject": "each QRY-003 receipt",
+      "object": "exactly one success or one primary abstention by the closed total precedence",
+      "enforcement_hint": "JSON schema plus deterministic validator and eight fixtures",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530"
+    },
+    {
+      "rule_id": "no-authority-effect",
+      "verb": "must-not-authorize",
+      "subject": "candidate validation receipts",
+      "object": "ontology admission promotion publication release or deployment",
+      "enforcement_hint": "candidate path and owner boundary checks",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530"
+    },
+    {
+      "rule_id": "history-immutability",
+      "verb": "must-preserve",
+      "subject": "historical QueryReceipts",
+      "object": "original bytes and original algorithm version",
+      "enforcement_hint": "migration note and validation fixture that rejects rewrite semantics",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530"
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "emit-candidate-validation-receipt",
+      "reversible": true,
+      "external": false,
+      "privileged": false,
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530"
+    }
+  ],
+  "data_and_log_sinks": [],
+  "deployment_targets": [],
+  "compatibility_boundaries": [
+    {
+      "boundary_id": "historical-receipt-to-candidate-v1",
+      "old_contract": "historical stored QueryReceipts with their original algorithm_version",
+      "new_contract": "new QueryReceipts validated by candidate-v1 without rewriting historical bytes",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530"
+    }
+  ],
+  "quality_claims": [],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "define-authored-complete",
+      "selector": "DEFINE-RESULT.md",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/DEFINE-RESULT.md",
+      "source_digest": "8b231d1c0cc2c6e805af441f2cda1a67df0d19e7b6689f32b2823e0d3987b36a"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "51c6b70bec610a003e024e083a340e08943718204b9468da43c5cc5a7b25e725",
+  "authored_by": "invoke-design-author"
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.dev/animejs/agent-knowledge-vault/documentation-topic/2-0-0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["canonical_path", "title", "h1", "heading_selectors", "headings", "topic_kind", "parameters", "returns", "related_topics", "examples", "version_notes", "badges", "status", "http_status", "raw_sha256"],
+  "properties": {
+    "canonical_path": {"type": "string", "pattern": "^/documentation/.+/$"},
+    "title": {"type": "string"},
+    "h1": {"type": ["string", "null"]},
+    "heading_selectors": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^#"}},
+    "headings": {"type": "array", "items": {"type": "string"}},
+    "topic_kind": {"enum": ["family", "callback", "method", "property", "parameter-or-setting", "recipe", "pitfall-guide", "target-kind", "keyframe-guide", "easing-topic", "guide-or-api-topic"]},
+    "parameters": {"enum": ["present", "absent"]},
+    "returns": {"enum": ["present", "absent"]},
+    "related_topics": {"type": "object", "required": ["disposition", "targets"], "properties": {"disposition": {"enum": ["present", "absent"]}, "targets": {"type": "array", "items": {"type": "object", "required": ["path", "label"], "properties": {"path": {"type": "string"}, "label": {"type": "string"}}, "additionalProperties": false}}},
+    "examples": {"enum": ["present-source-only", "absent"]},
+    "version_notes": {"type": "object", "required": ["disposition", "notes"], "properties": {"disposition": {"enum": ["present", "absent"]}, "notes": {"type": "array", "items": {"type": "string"}}},
+    "badges": {"type": "object", "additionalProperties": false, "required": ["js", "waapi", "new"], "properties": {"js": {"type": "boolean"}, "waapi": {"type": "boolean"}, "new": {"type": "boolean"}}},
+    "status": {"const": "semantic-observed"}, "http_status": {"const": 200}, "raw_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

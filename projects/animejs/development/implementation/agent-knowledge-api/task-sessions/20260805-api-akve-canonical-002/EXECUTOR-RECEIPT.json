@@ -1,0 +1,113 @@
+{
+  "bounded_capture": {
+    "max_output_bytes": 65536,
+    "stderr_bytes": 0,
+    "stderr_truncated": false,
+    "stdout_bytes": 1132,
+    "stdout_truncated": false
+  },
+  "idempotency_key": "20260805-api-akve-canonical-002:executor",
+  "outputs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-request.schema.json",
+      "sha256": "71620ae45461e9ae0bd705437561bd45bc4ec93d204cc3d45bb4e53055cef7b5",
+      "size_bytes": 2086
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-result.schema.json",
+      "sha256": "3e5f0794a1503dcb97f3dbe7b8c0eb4704aa010bdecf799aac6ab3a596faea7a",
+      "size_bytes": 2126
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-command.schema.json",
+      "sha256": "98e7a51f518059954fc26a718c72c91a25d8669fa871e1500f9bedcf3a0a789b",
+      "size_bytes": 4303
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-event.schema.json",
+      "sha256": "1e3a84604dbfb3d7a6532ba7b5c2c0085d9a0772977966fb016b7d43e7c5e0df",
+      "size_bytes": 6001
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-result.schema.json",
+      "sha256": "8db4d5217cfd8ed74696d9c0811bf512587a1c28674f6c648f1f86b803a437b2",
+      "size_bytes": 1315
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/status-codes.json",
+      "sha256": "108df6574ead54270a88ce2719adb5fb5bd9f0460613f94aaa5c365ada6f4272",
+      "size_bytes": 1582
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-contract-cases.json",
+      "sha256": "0f43016e068ddc4a3e896bfa4de080d89dd4e6967dc37367a92ddbaa10f2a3c9",
+      "size_bytes": 1278
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs",
+      "sha256": "cf317cbb5eee5c0340c02f75b74866c6873adfb07948b752153acfe25c5a78dd",
+      "size_bytes": 5146
+    }
+  ],
+  "owner_identity": {
+    "capability": "implementation-executor",
+    "subject": "animejs-agent-knowledge-executor"
+  },
+  "receipt_id": "executor-receipt-20260805-api-akve-canonical-002",
+  "residue": [],
+  "result": "pass",
+  "run_id": "20260805-api-akve-canonical-002",
+  "schema_version": "task-session.executor-receipt.v1",
+  "swu_id": "SWU-AKVE-002",
+  "task_id": "TASK-AKVE-01",
+  "terminal_sequence": {
+    "final_executor_write": true,
+    "receipt_path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/EXECUTOR-RECEIPT.json",
+    "sequence_number": 1
+  },
+  "ticket_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/EXECUTION-TICKET.json",
+    "sha256": "e83b495e250e737beafdd14d26ad8f32fda895a0ea0d98d19441701ebe07e2fe",
+    "size_bytes": 11331
+  },
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-request.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-result.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-command.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-event.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-result.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/status-codes.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-contract-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+  ],
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "--test-name-pattern=episode contract",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+      ],
+      "command_id": "episode-contract",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 65536,
+      "result": "pass",
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "node",
+        "--test",
+        "--test-name-pattern=neutral projection",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+      ],
+      "command_id": "neutral-projection-regression",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 65536,
+      "result": "pass",
+      "timeout_seconds": 60
+    }
+  ]
+}

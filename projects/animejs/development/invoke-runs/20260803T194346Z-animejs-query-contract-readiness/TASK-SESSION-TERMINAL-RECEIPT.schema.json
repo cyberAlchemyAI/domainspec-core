@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "animejs.akv.query-contract.task-session-terminal-receipt.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "session_id",
+    "dispatch_id",
+    "step_id",
+    "capability_ref",
+    "terminal_receipt_kind",
+    "status",
+    "unit_id",
+    "work_pack_sha256",
+    "successor",
+    "execution_class",
+    "files_touched",
+    "artifacts",
+    "validation",
+    "validation_result",
+    "blockers",
+    "residue",
+    "attempt_id",
+    "teardown_result",
+    "expected_closeout_receipt",
+    "governance_terminal_receipt",
+    "authority_effect",
+    "claim_ceiling",
+    "handoff_note"
+  ],
+  "properties": {
+    "schema_version": {"const": "animejs.akv.query-contract.task-session-terminal-receipt.v1"},
+    "run_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "dispatch_id": {"const": "animejs-query-contract-readiness-20260803"},
+    "step_id": {"enum": ["s1", "s2", "s3", "s4", "s5"]},
+    "capability_ref": {"const": "task-session"},
+    "terminal_receipt_kind": {"const": "task-session-terminal-projection"},
+    "status": {"enum": ["pass", "flag", "block", "interrupted"]},
+    "unit_id": {"type": "string", "enum": ["SWU-AKV-QRY-001", "SWU-AKV-QRY-002", "SWU-AKV-QRY-003", "SWU-AKV-QRY-004", "SWU-AKV-QRY-005"]},
+    "work_pack_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "successor": {"type": ["string", "null"]},
+    "execution_class": {"const": "material-mutation"},
+    "files_touched": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "size_bytes"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "size_bytes": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "validation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cwd", "argv", "exit_code"],
+        "properties": {
+          "cwd": {"type": "string", "minLength": 1},
+          "argv": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "exit_code": {"type": "integer"}
+        }
+      }
+    },
+    "validation_result": {"enum": ["pass", "flag", "block", "not-run"]},
+    "blockers": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "residue": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "attempt_id": {"type": ["string", "null"], "minLength": 1},
+    "teardown_result": {"enum": ["pass", "block", "not-applicable"]},
+    "expected_closeout_receipt": {"type": "string", "minLength": 1},
+    "governance_terminal_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "authority_effect": {"const": "none"},
+    "claim_ceiling": {"type": "string", "minLength": 1},
+    "handoff_note": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "pass"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "artifacts": {"minItems": 1},
+          "validation": {"minItems": 1},
+          "validation_result": {"const": "pass"},
+          "blockers": {"maxItems": 0},
+          "teardown_result": {"enum": ["pass", "not-applicable"]}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "block"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "blockers": {"minItems": 1},
+          "validation_result": {"enum": ["block", "not-run"]}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "interrupted"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "blockers": {"minItems": 1},
+          "validation_result": {"const": "not-run"}
+        }
+      }
+    }
+  ]
+}

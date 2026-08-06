@@ -1,0 +1,176 @@
+{
+  "admissionProfile": "plan-once-selected-unit",
+  "allowedWrites": [
+    "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/views/documentation-coverage.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/api.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/task-recipes.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/work-lessons.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/unresolved-gaps.json",
+    "projects/animejs/ontology/agent-knowledge-vault/indexes/search.json"
+  ],
+  "authorityClass": "private",
+  "controlArtifacts": [
+    {
+      "authorityClass": "private",
+      "path": "projects/animejs/development/implementation/agent-knowledge-vault/work-pack/tasks/TASK-AKV-GRAPH.md",
+      "role": "task-contract",
+      "sha256": "90fd28c5fe68c1f1a3d7d06585aa9c5ae75d9aa07b295858ae4d2d02d39453f0",
+      "sizeBytes": 2416
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/animejs/development/implementation/agent-knowledge-vault/WORK-PACK.json",
+      "role": "work-pack",
+      "sha256": "0b900d81f6dd107225db997c1d2c53ed0fb7e72b6ead2a615540f258dc5191c2",
+      "sizeBytes": 16584
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/attempt-akv-nv-007-repair-20260804t041000z/CONTEXT-PACK.json",
+      "role": "context-pack",
+      "sha256": "e0c6304b2ca557c0dcdc259a786dc66afdc542d4e25747d5a4fecc87adc2ce47",
+      "sizeBytes": 2358
+    }
+  ],
+  "dependencyFrontier": [
+    {
+      "artifactRef": {
+        "path": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/attempt-akv-nv-006-repair-20260804t040000z/TASK-SESSION-RECEIPT.json",
+        "sha256": "f9c05cc5c98a1fd9f1979de194a8217ebcf5e96ba69fe03b26c98bd6d3063da7",
+        "sizeBytes": 4100
+      },
+      "dependencyId": "AKV-NV-006"
+    }
+  ],
+  "executionMode": "reusable-mutation",
+  "executionOutputs": [],
+  "lifecycleOwner": "ontology-vault",
+  "materialPackage": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/attempt-akv-nv-007-repair-20260804t041000z/producer/material-package.json",
+    "sha256": "8268b34ea5bc2a5f4584949684487e408815afd4bcbb2522a16911f58b0357b7",
+    "sizeBytes": 11150
+  },
+  "materialReceipt": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/attempt-akv-nv-007-repair-20260804t041000z/producer/material-package-receipt.json",
+    "sha256": "e311e8c41ae11867e248a01d5034bd70bad395c9e89ff01f8e764cc4112d12e1",
+    "sizeBytes": 4242
+  },
+  "materialWrites": [
+    "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/views/documentation-coverage.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/api.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/task-recipes.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/work-lessons.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/unresolved-gaps.json",
+    "projects/animejs/ontology/agent-knowledge-vault/indexes/search.json"
+  ],
+  "planAdmission": {
+    "attemptId": "attempt-akv-nv-007-repair-20260804t041000z",
+    "planEpochId": "epoch-acd0e4afd662c4598d70372d",
+    "planManifest": {
+      "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/audit-output-refresh-3/plan-semantic-manifest.json",
+      "sha256": "ee97c01f8bd4dfb7b963e3c5219cb9c85998ac115bb3078e97e98d94d05e12b7",
+      "sizeBytes": 2393
+    },
+    "planManifestSchema": {
+      "path": "arcanum/spells/work-pack-readiness-audit/schemas/plan-semantic-manifest.schema.json",
+      "sha256": "e4245291eecb1df1dd9744a9b5f02d3f20724224a19fd9681801b72f92929d7f",
+      "sizeBytes": 1962
+    },
+    "selectionReceipt": {
+      "path": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/attempt-akv-nv-007-repair-20260804t041000z/SELECTION-RECEIPT.json",
+      "sha256": "528354abc5f38e93a5f2cab1adc03f0ea073e0df746e171407dc1f2d5375ab08",
+      "sizeBytes": 954
+    },
+    "selectionReceiptSchema": {
+      "path": "arcanum/spells/work-pack-readiness-audit/schemas/selection-receipt.schema.json",
+      "sha256": "46b942dc92d1bb192439e862f3ab27003b353f600b685ffed4d07bd5f96cb66a",
+      "sizeBytes": 2810
+    },
+    "structuredValidationContracts": [
+      {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+          "--check"
+        ],
+        "command_id": "views-build",
+        "cwd": ".",
+        "max_output_bytes": 131072,
+        "timeout_seconds": 120
+      },
+      {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/query.mjs",
+          "coverage",
+          "/documentation/animation/"
+        ],
+        "command_id": "coverage-query-smoke",
+        "cwd": ".",
+        "max_output_bytes": 65536,
+        "timeout_seconds": 60
+      }
+    ],
+    "targetBaselines": [
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+        "sha256": "2a9a0b2ed40b8982a81760e0c1e7c3591c16e3e884b5181f388025b38de61e9b",
+        "sizeBytes": 9473,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/views/documentation-coverage.json",
+        "sha256": "19d8719f2675ba32820e602811a64468e4b67024bafad5e2f9fdc8e2ae8d69fa",
+        "sizeBytes": 290191,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/views/api.json",
+        "sha256": "9164d5aa0c7c7bf33ebebb96c2d6f772f6d067b1913ca4be58e77f3d8f6db2ad",
+        "sizeBytes": 229890,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/views/task-recipes.json",
+        "sha256": "5350a285fef8e5ce0f0b71f080d735b355219e468b7e33ac214dced142e016b0",
+        "sizeBytes": 14120,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/views/work-lessons.json",
+        "sha256": "67a61366d41cc06093d6e13261d74d71dcb3afa5e6b68d1579ce4a94d7adfe2a",
+        "sizeBytes": 587,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/views/unresolved-gaps.json",
+        "sha256": "e7b146fef564bdf6f3fcf80110c810af5068ca385c54dda7a8d38e6fb7f2252f",
+        "sizeBytes": 1969,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/indexes/search.json",
+        "sha256": "5894b69ab347f95c47433932bd8e0ec1bfb242a30de2c730d5239dcec231afef",
+        "sizeBytes": 455884,
+        "state": "present"
+      }
+    ],
+    "unitContractDigest": "179b588efdfc7b3f71ad622bad960cc66e34e8582c456b2b77627dd2f8e8aff9",
+    "validationContractDigest": "3b749dd790fadfc2ba6f65ecdbbd95e5a78db08ea8bedc60ffd5508ccbeccbac"
+  },
+  "producerReceiptSchema": {
+    "path": "arcanum/spells/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "89b842ac515c03f7b12b04ab3bfdd2e9d473005b5c863eae237bc2f5ee980b66",
+    "sizeBytes": 4078
+  },
+  "publicationClass": "internal",
+  "schemaVersion": "1.2.0",
+  "swuId": "SWU-AKV-NV-007",
+  "taskId": "TASK-AKV-GRAPH",
+  "validationCommands": [
+    "node projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs --check",
+    "node projects/animejs/ontology/agent-knowledge-vault/scripts/query.mjs coverage /documentation/animation/"
+  ]
+}

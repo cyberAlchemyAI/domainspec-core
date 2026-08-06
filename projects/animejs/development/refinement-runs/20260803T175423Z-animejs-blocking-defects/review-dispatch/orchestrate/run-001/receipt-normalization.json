@@ -1,0 +1,25 @@
+{
+  "normalization_id": "animejs-blocking-defects-review-action-vs-target-status",
+  "rule": "Native receipt status and validation describe whether the bounded review action completed and its return is structurally usable. The reviewed target verdict remains separate in the detailed review artifacts.",
+  "query_contract_critic": {
+    "action_status": "pass",
+    "target_contract_verdict": "fail",
+    "target_blockers": [
+      "UNDECLARED_ABSTENTION_CODE",
+      "QRY003_TERMINAL_MAPPING_INCOMPLETE",
+      "QRY003_ABSTENTION_PRECEDENCE_UNDEFINED",
+      "QUERY_RECEIPT_SUCCESS_NULLABILITY_UNDEFINED"
+    ]
+  },
+  "relation_witness_falsifier": {
+    "action_status": "pass",
+    "target_contract_verdict": "fail",
+    "target_blockers": [
+      "8 relations lack edge-specific deltas",
+      "5 relations require MERGE",
+      "3 relations require DEFER"
+    ]
+  },
+  "review_owner_rule": "A review dispatch closes resolved when the parent accepts the verified change-request list; FIX findings do not make the review action incomplete.",
+  "authority_notice": "This normalization does not lower the Anime.js target blockers or imply ontology readiness."
+}

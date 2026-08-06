@@ -1,0 +1,12 @@
+{
+  "valid_commands": [
+    {"contract": "animejs-work-episode-command/0.1.0", "command_id": "cmd-open", "idempotency_key": "idem-open", "operation": "open_episode", "episode_id": null, "expected_revision": 0, "expected_graph_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "payload": {"task_handle": "task:1", "version_context_handle": "version:1", "goal": "Learn the timeline API", "started_at": "2026-08-05T00:00:00Z", "tags": ["timeline"], "supersedes_episode_id": null}},
+    {"contract": "animejs-work-episode-command/0.1.0", "command_id": "cmd-attempt", "idempotency_key": "idem-attempt", "operation": "append_attempt", "episode_id": "episode:1", "expected_revision": 1, "expected_graph_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "payload": {"ordinal": 1, "action_summary": "Created a timeline", "input_artifact_handles": []}}
+  ],
+  "invalid_cases": [
+    {"name": "host identity spoof", "field": "principal_id", "value": "self-asserted"},
+    {"name": "host policy spoof", "field": "policy_epoch", "value": "self-asserted"},
+    {"name": "caller episode on open", "field": "episode_id", "value": "caller-picked"},
+    {"name": "unknown operation", "field": "operation", "value": "supersede_episode"}
+  ]
+}

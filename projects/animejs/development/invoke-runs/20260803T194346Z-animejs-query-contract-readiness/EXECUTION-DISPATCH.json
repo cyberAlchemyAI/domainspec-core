@@ -1,0 +1,254 @@
+{
+  "dispatch_id": "animejs-query-contract-readiness-20260803",
+  "intent": {
+    "raw": "Execute one explicitly selected Anime.js query-contract SWU only after current material admission.",
+    "objective": "Sequence five independently accepted candidate-local query-contract units with exact receipts and no automatic successor execution.",
+    "target_artifact": "projects/animejs/development/candidates/agent-knowledge-vault/query-contract/",
+    "operator_sentence": "Prepare, admit, select, execute, validate, and close one unit at a time."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "validation_loop",
+    "concrete_path_evidence",
+    "execution_receipt_handoff",
+    "approval_semantics_map",
+    "authority_split_gate",
+    "residue_ledger",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "Each SWU is sequential, bounded, and selected individually; no sibling fan-out or delegated review graph is needed.",
+    "explanation": "Task Session may use its local runtime owner. This dispatch does not authorize or schedule subagents.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": [
+      "task-session terminal projection",
+      "canonical governance terminal receipt",
+      "joined Invoke Refresh receipt"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Close QRY-003 terminal policy",
+      "capability_ref": "task-session",
+      "mode": "execute-explicit-swu",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["sequence", "scu_swu_reduction", "concrete_path_evidence", "validation_loop", "execution_receipt_handoff", "approval_semantics_map", "authority_split_gate"],
+      "inputs": [
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "work-pack/tasks/TASK-AKV-QRY-POLICY.md"},
+        {"kind": "human_answer", "ref": "explicit-selection:SWU-AKV-QRY-001"},
+        {"kind": "receipt", "ref": "current-material-admission:SWU-AKV-QRY-001"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "candidate/policy/qry003-terminal-contract.json"},
+        {"kind": "receipt", "ref": "execution-evidence/SWU-AKV-QRY-001/TERMINAL-RECEIPT.json"},
+        {"kind": "receipt", "ref": "closeout/SWU-AKV-QRY-001/refresh-report.json"}
+      ],
+      "evidence_artifact": "execution-evidence/SWU-AKV-QRY-001/TERMINAL-RECEIPT.json",
+      "stop_conditions": ["stop unless material admission, explicit selection, validation, and closeout join all pass"]
+    },
+    {
+      "step_id": "s2",
+      "name": "Define QueryReceipt schema",
+      "capability_ref": "task-session",
+      "mode": "execute-explicit-swu",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s1"],
+      "techniques": ["sequence", "concrete_path_evidence", "validation_loop", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": "closeout/SWU-AKV-QRY-001/refresh-report.json"},
+        {"kind": "human_answer", "ref": "explicit-selection:SWU-AKV-QRY-002"},
+        {"kind": "receipt", "ref": "current-material-admission:SWU-AKV-QRY-002"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "candidate/schema/query-receipt.schema.json"},
+        {"kind": "receipt", "ref": "execution-evidence/SWU-AKV-QRY-002/TERMINAL-RECEIPT.json"},
+        {"kind": "receipt", "ref": "closeout/SWU-AKV-QRY-002/refresh-report.json"}
+      ],
+      "evidence_artifact": "execution-evidence/SWU-AKV-QRY-002/TERMINAL-RECEIPT.json",
+      "stop_conditions": ["stop unless the unique predecessor, material admission, selection, validation, and closeout join pass"]
+    },
+    {
+      "step_id": "s3",
+      "name": "Bind historical receipt migration",
+      "capability_ref": "task-session",
+      "mode": "execute-explicit-swu",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s2"],
+      "techniques": ["sequence", "concrete_path_evidence", "validation_loop", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": "closeout/SWU-AKV-QRY-002/refresh-report.json"},
+        {"kind": "human_answer", "ref": "explicit-selection:SWU-AKV-QRY-003"},
+        {"kind": "receipt", "ref": "current-material-admission:SWU-AKV-QRY-003"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "candidate/MIGRATION.md"},
+        {"kind": "receipt", "ref": "execution-evidence/SWU-AKV-QRY-003/TERMINAL-RECEIPT.json"},
+        {"kind": "receipt", "ref": "closeout/SWU-AKV-QRY-003/refresh-report.json"}
+      ],
+      "evidence_artifact": "execution-evidence/SWU-AKV-QRY-003/TERMINAL-RECEIPT.json",
+      "stop_conditions": ["stop on historical rewrite semantics or incomplete closeout"]
+    },
+    {
+      "step_id": "s4",
+      "name": "Implement semantic receipt validator",
+      "capability_ref": "task-session",
+      "mode": "execute-explicit-swu",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s3"],
+      "techniques": ["sequence", "concrete_path_evidence", "validation_loop", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": "closeout/SWU-AKV-QRY-003/refresh-report.json"},
+        {"kind": "human_answer", "ref": "explicit-selection:SWU-AKV-QRY-004"},
+        {"kind": "receipt", "ref": "current-material-admission:SWU-AKV-QRY-004"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "candidate/validate-query-receipt.mjs"},
+        {"kind": "receipt", "ref": "execution-evidence/SWU-AKV-QRY-004/TERMINAL-RECEIPT.json"},
+        {"kind": "receipt", "ref": "closeout/SWU-AKV-QRY-004/refresh-report.json"}
+      ],
+      "evidence_artifact": "execution-evidence/SWU-AKV-QRY-004/TERMINAL-RECEIPT.json",
+      "stop_conditions": ["stop on self-test failure, undeclared write, or incomplete closeout"]
+    },
+    {
+      "step_id": "s5",
+      "name": "Replay eight terminal fixtures",
+      "capability_ref": "task-session",
+      "mode": "execute-explicit-swu",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["s4"],
+      "techniques": ["sequence", "concrete_path_evidence", "validation_loop", "execution_receipt_handoff", "residue_ledger"],
+      "inputs": [
+        {"kind": "receipt", "ref": "closeout/SWU-AKV-QRY-004/refresh-report.json"},
+        {"kind": "human_answer", "ref": "explicit-selection:SWU-AKV-QRY-005"},
+        {"kind": "receipt", "ref": "current-material-admission:SWU-AKV-QRY-005"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "candidate/qry003-terminal-cases.json"},
+        {"kind": "artifact", "ref": "candidate/run-terminal-fixtures.mjs"},
+        {"kind": "receipt", "ref": "execution-evidence/SWU-AKV-QRY-005/query-contract-validation.json"},
+        {"kind": "receipt", "ref": "execution-evidence/SWU-AKV-QRY-005/TERMINAL-RECEIPT.json"},
+        {"kind": "receipt", "ref": "closeout/SWU-AKV-QRY-005/refresh-report.json"},
+        {"kind": "handoff", "ref": "invoke:plan:animejs-relation-repair"}
+      ],
+      "evidence_artifact": "execution-evidence/SWU-AKV-QRY-005/query-contract-validation.json",
+      "stop_conditions": ["stop on any case failure, missing output, closeout failure, or attempted successor execution"]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-runtime-admission",
+      "kind": "validation",
+      "owner": "work-pack-readiness-audit",
+      "condition": "The current frontier has plan-contract and runtime-admission pass, exact material evidence, and selected_unit none.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-explicit-selection",
+      "kind": "human_approval",
+      "owner": "human-operator",
+      "condition": "Exactly one dependency-ready SWU is explicitly selected after admission passes.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g-task-session",
+      "kind": "validation",
+      "owner": "task-session",
+      "condition": "Fresh context, mutation admission, exact writes, acceptance-critical validation, governance receipt, and closeout join all pass.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-authority",
+      "kind": "promotion_guardrail",
+      "owner": "ontology-vault-owner",
+      "condition": "No task, receipt, closeout, or successor claims ontology admission or knowledge promotion.",
+      "on_fail": "block"
+    }
+  ],
+  "stop_conditions": [
+    "stop before Task Session while runtime admission is blocked",
+    "stop before mutation without one explicit selected SWU",
+    "stop on any missing dependency, package, command, receipt, closeout, or authority binding",
+    "never execute a successor during closeout"
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "runtime_admission_checked",
+      "swu_explicitly_selected",
+      "task_session_admitted",
+      "validation_completed",
+      "terminal_receipt_joined",
+      "refresh_closeout_joined",
+      "successor_exposed"
+    ],
+    "signal_grouping": "dispatch_id, step_id, unit_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-planning-to-execution",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": ["s1", "s2", "s3", "s4", "s5"],
+        "contract": "Task Session may apply only a current admitted material package for one explicitly selected SWU and must return terminal receipts.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-execution-to-closeout",
+        "kind": "evidence_return",
+        "from_owner": "task-session",
+        "to_owner": "invoke-refresh",
+        "applies_to_steps": ["s1", "s2", "s3", "s4", "s5"],
+        "contract": "Refresh may synchronize only the declared planning inventory and return a separate owner receipt.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke planning and refresh closeout are separate owner actions",
+      "execution": "task-session for one selected SWU",
+      "validation": "task command matrix plus readiness audit",
+      "evidence": "terminal projection, canonical governance receipt, and Refresh receipt",
+      "promotion": "ontology-vault or ontology-harness after separate confirmation"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-task-session-terminal",
+        "producer": "task-session",
+        "required_fields": ["run_id", "session_id", "dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "validation_result", "blockers", "residue", "handoff_note"],
+        "stores": ["execution-evidence/<SWU>/TERMINAL-RECEIPT.json"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-invoke-refresh-closeout",
+        "producer": "invoke-refresh",
+        "required_fields": ["run_id", "capability_ref", "status", "artifacts", "validation", "validation_result", "handoff_note"],
+        "stores": ["closeout/<SWU>/refresh-report.json"],
+        "on_missing": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Candidate query-contract validation does not admit ontology nodes or relations.",
+    "A readiness pass does not select or execute an SWU.",
+    "A Task Session pass does not execute its successor.",
+    "Relation repair and ontology admission require separate lifecycle owners and evidence."
+  ]
+}

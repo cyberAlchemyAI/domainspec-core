@@ -1,0 +1,45 @@
+{
+  "capture_kind": "parent-normalized semantic capture of completed read-only reviewer return",
+  "agent_handle": "agent:/root/anime_episode_integrity_critic",
+  "role_id": "episode-integrity-critic",
+  "target_verdict": "BLOCK",
+  "transition_matrix": [
+    {"case": "duplicate_retry", "expected": "accepted then replayed", "event_delta": [1, 0]},
+    {"case": "idempotency_key_body_collision", "expected": "IDEMPOTENCY_MISMATCH", "event_delta": [0]},
+    {"case": "two_stale_writers", "expected": "accepted then conflict", "event_delta": [1, 0]},
+    {"case": "crash_before_commit", "expected": "not_committed then accepted", "event_delta": [0, 1]},
+    {"case": "crash_after_commit", "expected": "committed_receipt_unavailable then replayed", "event_delta": [1, 0]},
+    {"case": "lost_receipt", "expected": "replayed", "event_delta": [0]},
+    {"case": "revision_gap", "expected": "JOURNAL_GAP", "event_delta": [0]},
+    {"case": "fork", "expected": "JOURNAL_FORK", "event_delta": [0]},
+    {"case": "reordered_events", "expected": "JOURNAL_ORDER_INVALID", "event_delta": [0]},
+    {"case": "digest_mismatch", "expected": "EVENT_DIGEST_MISMATCH", "event_delta": [0]},
+    {"case": "evidence_handle_revocation", "expected": "EVIDENCE_HANDLE_REVOKED or stale EVIDENCE_REVOKED", "event_delta": [0]},
+    {"case": "fabricated_executed_witness", "expected": "EVIDENCE_REQUIRED", "event_delta": [0]},
+    {"case": "duplicate_outcome", "expected": "DUPLICATE_OUTCOME", "event_delta": [0]},
+    {"case": "close_with_dangling_attempt", "expected": "DANGLING_ATTEMPT", "event_delta": [0]},
+    {"case": "post_close_append", "expected": "EPISODE_TERMINAL", "event_delta": [0]},
+    {"case": "reopen", "expected": "REOPEN_FORBIDDEN", "event_delta": [0]},
+    {"case": "supersession_cycle", "expected": "SUPERSESSION_CYCLE", "event_delta": [0]},
+    {"case": "reducer_version_drift", "expected": "REDUCER_VERSION_MISMATCH", "event_delta": [0]},
+    {"case": "projection_lag_or_corruption", "expected": "PROJECTION_PENDING or PROJECTION_CORRUPT", "event_delta": [0]},
+    {"case": "accidental_lesson_verification", "expected": "accepted with NO_LESSON_TRANSITION", "event_delta": [1], "verified_lesson_delta": 0}
+  ],
+  "findings": [
+    {"severity": "BLOCKER", "code": "EP-SUPERSEDE-CONTRACT-SPLIT", "repair": "Keep only open_episode with supersedes_episode_id; remove supersede_episode as a separate operation and issue a fresh episode ID."},
+    {"severity": "BLOCKER", "code": "EP-SUPERSESSION-VOCABULARY-MISMATCH", "repair": "Keep WorkEpisode supersession in the isolated overlay under an overlay-owned relation; do not emit AKV-REL-022 or canonical graph delta."},
+    {"severity": "BLOCKER", "code": "EP-HIDDEN-MUTABLE-BINDINGS", "repair": "Dereference Task and VersionContext once at open and store canonical content-addressed snapshots/digests in EpisodeOpened; later state is an eligibility overlay only."},
+    {"severity": "HIGH", "code": "EP-STATUS-AND-RECOVERY-NOT-CLOSED", "repair": "Publish closed outer status/code tables and a read-only handle-based receipt recovery operation."},
+    {"severity": "HIGH", "code": "EP-GRAPH-DIGEST-POLICY-UNDEFINED", "repair": "Freeze the opening graph digest for the episode in L0; later graph changes affect consultation applicability, not historical episode meaning."},
+    {"severity": "HIGH", "code": "EP-EVIDENCE-STATE-MACHINE-INCOMPLETE", "repair": "Bind unique evidence before outcome; forbid post-outcome attachment; propagate revocation as derived eligibility without rewriting events."},
+    {"severity": "HIGH", "code": "EP-REDUCER-PROJECTION-VERSIONING-GAP", "repair": "Key snapshots by reducer version and last-event digest; require migration receipts and typed pending/failed/corrupt/quarantined read states."}
+  ],
+  "planned_fixture_count": 6,
+  "planned_fixture_status": "planned_not_executed",
+  "blockers": [
+    "canonical supersession command/overlay representation unresolved",
+    "Task and VersionContext open-time binding unresolved",
+    "recovery/reducer/projection status unions not closed"
+  ],
+  "mutation_statement": "Read-only review; no files, Git state, runtime, projection, journal, or external system changed."
+}

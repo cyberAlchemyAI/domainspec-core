@@ -1,0 +1,145 @@
+{
+  "schema_version": "animejs.akv.query-contract.command-matrix.v1",
+  "runtime_policy": {
+    "node": {
+      "executable": "node",
+      "version_policy": "exact Node v22.12.0 at Task Session admission",
+      "hash_policy": "resolve the executable and bind its SHA-256 in the terminal receipt"
+    },
+    "python": {
+      "executable": "python3",
+      "version_policy": "current repository Python 3 runtime captured at Task Session admission",
+      "hash_policy": "resolve the executable and bind its SHA-256 in the terminal receipt"
+    },
+    "jq": {
+      "executable": "jq",
+      "version_policy": "current repository jq runtime captured at Task Session admission",
+      "hash_policy": "resolve the executable and bind its SHA-256 in the terminal receipt"
+    },
+    "rg": {
+      "executable": "rg",
+      "version_policy": "current repository ripgrep runtime captured at Task Session admission",
+      "hash_policy": "resolve the executable and bind its SHA-256 in the terminal receipt"
+    }
+  },
+  "units": [
+    {
+      "unit_id": "SWU-AKV-QRY-001",
+      "commands": [
+        {
+          "cwd": "projects/animejs",
+          "argv": [
+            "jq",
+            "-e",
+            "(.schema_version == \"animejs.akv.qry003-terminal-contract.v1\") and (.algorithm_version == \"qry003-candidate-v1\") and (.abstention_codes == [\"ABSTAIN_UNKNOWN_VERSION\",\"ABSTAIN_RUNTIME_CONTEXT\",\"ABSTAIN_CONFLICT\",\"ABSTAIN_PERFORMANCE_EVIDENCE\",\"ABSTAIN_MISSING_SOURCE\",\"ABSTAIN_AMBIGUOUS_INTENT\"]) and (.primary_precedence == .abstention_codes) and ((.terminal_paths | length) == 8)",
+            "development/candidates/agent-knowledge-vault/query-contract/policy/qry003-terminal-contract.json"
+          ],
+          "expected_exit_code": 0,
+          "timeout_seconds": 30,
+          "environment": {},
+          "runtime_identity": {
+            "executable": "jq",
+            "version_policy": "current repository jq runtime captured at Task Session admission",
+            "hash_policy": "resolve the executable and bind its SHA-256 in the terminal receipt"
+          },
+          "risk_class": "read-only"
+        }
+      ]
+    },
+    {
+      "unit_id": "SWU-AKV-QRY-002",
+      "commands": [
+        {
+          "cwd": "projects/animejs",
+          "argv": [
+            "python3",
+            "-c",
+            "import json,sys; from jsonschema import Draft202012Validator; Draft202012Validator.check_schema(json.load(open(sys.argv[1], encoding='utf-8')))",
+            "development/candidates/agent-knowledge-vault/query-contract/schema/query-receipt.schema.json"
+          ],
+          "expected_exit_code": 0,
+          "timeout_seconds": 30,
+          "environment": {},
+          "runtime_identity": {
+            "executable": "python3",
+            "version_policy": "current repository Python 3 runtime captured at Task Session admission",
+            "hash_policy": "resolve the executable and bind its SHA-256 in the terminal receipt"
+          },
+          "risk_class": "read-only"
+        }
+      ]
+    },
+    {
+      "unit_id": "SWU-AKV-QRY-003",
+      "commands": [
+        {
+          "cwd": "projects/animejs",
+          "argv": [
+            "rg",
+            "--fixed-strings",
+            "Historical receipts are immutable.",
+            "development/candidates/agent-knowledge-vault/query-contract/MIGRATION.md"
+          ],
+          "expected_exit_code": 0,
+          "timeout_seconds": 30,
+          "environment": {},
+          "runtime_identity": {
+            "executable": "rg",
+            "version_policy": "current repository ripgrep runtime captured at Task Session admission",
+            "hash_policy": "resolve the executable and bind its SHA-256 in the terminal receipt"
+          },
+          "risk_class": "read-only"
+        }
+      ]
+    },
+    {
+      "unit_id": "SWU-AKV-QRY-004",
+      "commands": [
+        {
+          "cwd": "projects/animejs",
+          "argv": [
+            "node",
+            "development/candidates/agent-knowledge-vault/query-contract/validate-query-receipt.mjs",
+            "--self-test"
+          ],
+          "expected_exit_code": 0,
+          "timeout_seconds": 60,
+          "environment": {
+            "NODE_NO_WARNINGS": "1"
+          },
+          "runtime_identity": {
+            "executable": "node",
+            "version_policy": "exact Node v22.12.0 at Task Session admission",
+            "hash_policy": "resolve the executable and bind its SHA-256 in the terminal receipt"
+          },
+          "risk_class": "read-only"
+        }
+      ]
+    },
+    {
+      "unit_id": "SWU-AKV-QRY-005",
+      "commands": [
+        {
+          "cwd": "projects/animejs",
+          "argv": [
+            "node",
+            "development/candidates/agent-knowledge-vault/query-contract/run-terminal-fixtures.mjs",
+            "--output",
+            "development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/execution-evidence/SWU-AKV-QRY-005/query-contract-validation.json"
+          ],
+          "expected_exit_code": 0,
+          "timeout_seconds": 120,
+          "environment": {
+            "NODE_NO_WARNINGS": "1"
+          },
+          "runtime_identity": {
+            "executable": "node",
+            "version_policy": "exact Node v22.12.0 at Task Session admission",
+            "hash_policy": "resolve the executable and bind its SHA-256 in the terminal receipt"
+          },
+          "risk_class": "bounded-write"
+        }
+      ]
+    }
+  ]
+}

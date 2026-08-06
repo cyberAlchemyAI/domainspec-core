@@ -1,0 +1,105 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "ontology-vault",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "82357a3d7a7aa9107dab3fe9bbe257ae4ac7d3509c7246d3a7a63e3ad0c5ffbb",
+  "packageId": "invoke-swu-akv-nv-007-attempt-akv-nv-007-repair-20260804t041000z",
+  "patchVerdict": "pass",
+  "planBinding": {
+    "attempt_id": "attempt-akv-nv-007-repair-20260804t041000z",
+    "plan_epoch_id": "epoch-acd0e4afd662c4598d70372d",
+    "selection_receipt_digest": "528354abc5f38e93a5f2cab1adc03f0ea073e0df746e171407dc1f2d5375ab08",
+    "swu_id": "SWU-AKV-NV-007",
+    "target_baselines": [
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+        "sha256": "2a9a0b2ed40b8982a81760e0c1e7c3591c16e3e884b5181f388025b38de61e9b",
+        "size_bytes": 9473,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/views/documentation-coverage.json",
+        "sha256": "19d8719f2675ba32820e602811a64468e4b67024bafad5e2f9fdc8e2ae8d69fa",
+        "size_bytes": 290191,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/views/api.json",
+        "sha256": "9164d5aa0c7c7bf33ebebb96c2d6f772f6d067b1913ca4be58e77f3d8f6db2ad",
+        "size_bytes": 229890,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/views/task-recipes.json",
+        "sha256": "5350a285fef8e5ce0f0b71f080d735b355219e468b7e33ac214dced142e016b0",
+        "size_bytes": 14120,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/views/work-lessons.json",
+        "sha256": "67a61366d41cc06093d6e13261d74d71dcb3afa5e6b68d1579ce4a94d7adfe2a",
+        "size_bytes": 587,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/views/unresolved-gaps.json",
+        "sha256": "e7b146fef564bdf6f3fcf80110c810af5068ca385c54dda7a8d38e6fb7f2252f",
+        "size_bytes": 1969,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/indexes/search.json",
+        "sha256": "5894b69ab347f95c47433932bd8e0ec1bfb242a30de2c730d5239dcec231afef",
+        "size_bytes": 455884,
+        "state": "present"
+      }
+    ],
+    "task_id": "TASK-AKV-GRAPH",
+    "unit_contract_digest": "179b588efdfc7b3f71ad622bad960cc66e34e8582c456b2b77627dd2f8e8aff9",
+    "validation_contract_digest": "3b749dd790fadfc2ba6f65ecdbbd95e5a78db08ea8bedc60ffd5508ccbeccbac",
+    "validation_contracts": [
+      {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+          "--check"
+        ],
+        "command_id": "views-build",
+        "cwd": ".",
+        "max_output_bytes": 131072,
+        "timeout_seconds": 120
+      },
+      {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/query.mjs",
+          "coverage",
+          "/documentation/animation/"
+        ],
+        "command_id": "coverage-query-smoke",
+        "cwd": ".",
+        "max_output_bytes": 65536,
+        "timeout_seconds": 60
+      }
+    ]
+  },
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "projects/animejs/ontology/agent-knowledge-vault/indexes/search.json",
+    "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/views/api.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/documentation-coverage.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/task-recipes.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/unresolved-gaps.json",
+    "projects/animejs/ontology/agent-knowledge-vault/views/work-lessons.json"
+  ],
+  "validationCommands": [
+    "node projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs --check",
+    "node projects/animejs/ontology/agent-knowledge-vault/scripts/query.mjs coverage /documentation/animation/"
+  ]
+}

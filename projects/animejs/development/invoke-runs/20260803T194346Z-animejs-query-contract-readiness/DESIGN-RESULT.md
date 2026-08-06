@@ -1,0 +1,21 @@
+# Invoke Result — Design
+
+- Mode: design
+- Spell: invoke
+- Canonical ID: invoke
+- Scope: library
+- Phase status: pass
+- Mode contract: `.agents/skills/invoke/design.md`
+- Outputs: `ARCHITECTURE.md`, `VALIDATION-CONTRACTS.md`, `DESIGN-TRANSPORT.md`
+- Six views: complete
+- Design denominator: pass, no unbound signals or missing inputs
+- Design selection: pass, fixed point, `design-validator-pass`
+- Required extensions: authority, state-event, failure, quality, integration/versioning, migration/rollout, validation
+- Glossary consistency: pass
+- Distill validation: pass; QRY-001 and QRY-002 are independently acceptable and recompose
+- Planned witnesses: 8 terminal cases; 0 executed
+- Decisions: private candidate root; Node built-ins; material-package gate; split admission states
+- Unresolved gaps: current material packages and receipts do not exist; relation repair and ontology selection remain separate
+- Next route: plan
+- Authority effect: none
+- Product mutation: none

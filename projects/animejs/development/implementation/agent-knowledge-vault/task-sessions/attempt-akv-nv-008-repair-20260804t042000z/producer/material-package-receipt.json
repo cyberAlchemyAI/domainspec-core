@@ -1,0 +1,88 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "ontology-vault",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "37c74357a5968a77d305c056e0e181c064d2236d078a43916ec10a351b22bfdd",
+  "packageId": "invoke-swu-akv-nv-008-attempt-akv-nv-008-repair-20260804t042000z",
+  "patchVerdict": "pass",
+  "planBinding": {
+    "attempt_id": "attempt-akv-nv-008-repair-20260804t042000z",
+    "plan_epoch_id": "epoch-acd0e4afd662c4598d70372d",
+    "selection_receipt_digest": "7c255d10a77e1009bd78a058207250ddb70c52b1c7aaac3d0844b9b94470f6a6",
+    "swu_id": "SWU-AKV-NV-008",
+    "target_baselines": [
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs",
+        "sha256": "8d468cf32ad6cf0c90a9585727b833912df78b61e03867da4a758ff9d014cc3d",
+        "size_bytes": 5935,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/tests/ontology.test.mjs",
+        "sha256": "28ce260a7fc9996cdd22f564507846a305c41afee5e95208f17e2fd9e326029f",
+        "size_bytes": 3019,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/README.md",
+        "sha256": "557cc6052911277106c446bd0d10af8312a5dbe1f78230c058cfaf174c61bb05",
+        "size_bytes": 1814,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/RESIDUE.json",
+        "sha256": "137363043b108e5c437cd25f5ee385cd95654d25276c9d118eafe2a83027d8b2",
+        "size_bytes": 1573,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/receipts/validation-receipt.json",
+        "sha256": "334b9839dfc9b5dc9edb28553b2697fc4d3124e02fd24a12b1ceddd9ecd7503a",
+        "size_bytes": 7302,
+        "state": "present"
+      }
+    ],
+    "task_id": "TASK-AKV-VALIDATE",
+    "unit_contract_digest": "2bcc8f47bdd31c4797ab4447da752d906d0cd1ff0359c7380523afdcc6af11fc",
+    "validation_contract_digest": "f98e755e46feba62803f689eb8b0eff093edc1ba30f49ae95683b6e05c00f390",
+    "validation_contracts": [
+      {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs"
+        ],
+        "command_id": "ontology-validation",
+        "cwd": ".",
+        "max_output_bytes": 262144,
+        "timeout_seconds": 180
+      },
+      {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/tests/ontology.test.mjs"
+        ],
+        "command_id": "ontology-tests",
+        "cwd": ".",
+        "max_output_bytes": 262144,
+        "timeout_seconds": 180
+      }
+    ]
+  },
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "projects/animejs/ontology/agent-knowledge-vault/README.md",
+    "projects/animejs/ontology/agent-knowledge-vault/RESIDUE.json",
+    "projects/animejs/ontology/agent-knowledge-vault/receipts/validation-receipt.json",
+    "projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/tests/ontology.test.mjs"
+  ],
+  "validationCommands": [
+    "node projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs",
+    "node projects/animejs/ontology/agent-knowledge-vault/tests/ontology.test.mjs"
+  ]
+}

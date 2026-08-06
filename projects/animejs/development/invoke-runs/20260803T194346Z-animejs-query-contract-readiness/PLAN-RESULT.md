@@ -1,0 +1,30 @@
+# Invoke Result — Plan
+
+- Mode: plan
+- Spell: invoke
+- Canonical ID: invoke
+- Scope: library
+- Phase status: pass
+- Mode contract: `.agents/skills/invoke/plan.md`
+- Outputs: `IMPLEMENTATION-LAYERING.md`, `WORK-PACK.md`, `PLAN-TRANSPORT.md`
+- Design views: six baseline views plus all seven selected extensions
+- Glossary consistency: pass
+- Dispatch techniques: sequence, SCU/SWU reduction, recomposition, validation, concrete paths, receipt handoff, approval semantics, authority split, residue, observability; dispatch validation pass
+- Distill validation: pass, recomposition pass, runtime blocker count 1
+- Distill telemetry: not configured; no accepted runtime-event ledger supplied
+- Implementation layering: L0–L3 complete; L0 is the next evidence layer
+- Work-pack: split medium
+- Per-layer planning: four layer-mapped waves, with W2 closure-only and W3 deferred owner gate
+- Implementation detail: five complete task specs
+- Smallest working units: five complete
+- SWU atomicity: pass, task-shaped count 0
+- First-unit narrowness: pass, QRY-001
+- Task Session closeout sync: pass at Plan-contract level
+- Template selection: DomainSpec spec, architecture, work-pack, and implementation-layering templates; no tie
+- Validation strategy: one exact command per SWU plus terminal semantic projection and full-frontier readiness audit
+- Decisions: five-way split; private candidate root; no package root/network; separate plan/runtime/selection/ontology states
+- Unresolved gaps: current material packages and producer receipts; relation repair; ontology owner gate
+- Capability ceilings: artifact authored only; no registry, mutation-runtime, promotion, publication, deployment, or production readiness
+- Next route: deferred to Work Pack Readiness Audit; Task Session remains ineligible
+- Authority effect: none
+- Product mutation: none

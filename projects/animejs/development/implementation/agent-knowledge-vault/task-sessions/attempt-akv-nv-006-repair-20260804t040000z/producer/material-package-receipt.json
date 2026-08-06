@@ -1,0 +1,78 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "ontology-vault",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "7a4caf44cee24a79f0b52eddebb13d9fc56880d190d109fffe72544ab67019f0",
+  "packageId": "invoke-swu-akv-nv-006-attempt-akv-nv-006-repair-20260804t040000z",
+  "patchVerdict": "pass",
+  "planBinding": {
+    "attempt_id": "attempt-akv-nv-006-repair-20260804t040000z",
+    "plan_epoch_id": "epoch-acd0e4afd662c4598d70372d",
+    "selection_receipt_digest": "7702cff83323b15e1db7acad26a57cca5f83b061e9c9600fcca74f38b7a49afb",
+    "swu_id": "SWU-AKV-NV-006",
+    "target_baselines": [
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/contracts/node-vocabulary.json",
+        "sha256": "9db98661d2cdc2ebd422d8aba32af13bbbe9eba6f81a21e2a995a364e0948729",
+        "size_bytes": 15245,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/schemas/node.schema.json",
+        "sha256": "347973ace6e5db09bed7f36ab58f52c539520720197c8c8abd4b4246182b288b",
+        "size_bytes": 1149,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/nodes/nodes.json",
+        "sha256": "ec31dfbf1bd87da3a892d2f2fbb7bcd4ddf7e173d3171266724f78a2ab761b5c",
+        "size_bytes": 1821834,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/relations/relations.json",
+        "sha256": "c0eda1d6ee65414e7f34ce42a7855128e9d9cb407284d99148c0c07974f0f3f1",
+        "size_bytes": 245758,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs",
+        "sha256": "3b15e5ed2db0820a916a83ebffc4638d1365903f05d4420891f66c2093405b74",
+        "size_bytes": 9285,
+        "state": "present"
+      }
+    ],
+    "task_id": "TASK-AKV-GRAPH",
+    "unit_contract_digest": "3c37272adb8de81ab17c4c951819f762805ea6dfaa82f52970599ed2c48a8171",
+    "validation_contract_digest": "dee3f08ef273eee1874a450d25e8ca8f86f7b18589c921eadda07aa87b4356dc",
+    "validation_contracts": [
+      {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs",
+          "--check"
+        ],
+        "command_id": "graph-build",
+        "cwd": ".",
+        "max_output_bytes": 131072,
+        "timeout_seconds": 120
+      }
+    ]
+  },
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "projects/animejs/ontology/agent-knowledge-vault/contracts/node-vocabulary.json",
+    "projects/animejs/ontology/agent-knowledge-vault/nodes/nodes.json",
+    "projects/animejs/ontology/agent-knowledge-vault/relations/relations.json",
+    "projects/animejs/ontology/agent-knowledge-vault/schemas/node.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs"
+  ],
+  "validationCommands": [
+    "node projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs --check"
+  ]
+}

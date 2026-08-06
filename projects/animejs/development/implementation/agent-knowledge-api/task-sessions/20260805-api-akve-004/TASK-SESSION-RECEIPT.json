@@ -1,0 +1,85 @@
+{
+  "attempt_id": "20260805-api-akve-004",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "05363839b0d0520909ff7ee9cb2d1009816f1ab6e224d50188e3bb52815eadbb",
+  "generated_at": "2026-08-05T20:25:47.962899Z",
+  "material_package_digest": "9743400b29a10dd72e97603af632723fc938db64b4f481fbf1aaa2c87da82570",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-004/producer/material-package.json",
+    "sha256": "f3900449e842ce9bebb2f7c0f24e77994da4e06bf7db9bbe1152f6b39ab17dc4",
+    "size_bytes": 7223
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-004/producer/material-package-receipt.json",
+    "sha256": "43b840911bfba7dd38423a24d199b6b4682329bb4e8a25a8c07a51c00ae5c7dd",
+    "size_bytes": 2625
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-004/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "8b5eec949fc05bbd79da9ddd902cb355bb77069cde2dc11cea7a0b5303a6ca7f",
+    "size_bytes": 3583
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/canonical-json.mjs",
+      "sha256": "5dfd51c70f0afd01b450465217431269f72949d1f07ba4e6a186d4a7bd7e71d4",
+      "size_bytes": 1493
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/journal.mjs",
+      "sha256": "80d8a9c1e30ec676375f555044ac37c5929a53d2aee07d738c62c44c88114ca2",
+      "size_bytes": 6189
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/journal-cases.json",
+      "sha256": "ff30ade98b24d6fbc1b6129b7b325428c197ab2b83877208d5c722b891ffcb9b",
+      "size_bytes": 453
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/journal.test.mjs",
+      "sha256": "e60d7835147a3356d007fc24e89d6e9eea073772b15c5b61ac86666fbd99da1d",
+      "size_bytes": 4416
+    }
+  ],
+  "plan_epoch_id": "epoch-83a5a40930fef7ec76de393e",
+  "publication_class": "internal",
+  "residue": [],
+  "result": "pass",
+  "schema_version": "animejs.agent-knowledge-api.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-004/SELECTION-RECEIPT.json",
+    "sha256": "4c802fd4e976c009329561e265bb6c57d255d173990f9629631b9bd874d2b1e8",
+    "size_bytes": 950
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKVE-005",
+  "swu_id": "SWU-AKVE-004",
+  "task_id": "TASK-AKVE-03",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/canonical-json.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/journal.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/journal-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/journal.test.mjs"
+  ],
+  "unit_contract_digest": "00526498558d1787d339ae0a5e554ce11929785e967850dfd63c273621926608",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/journal.test.mjs"
+      ],
+      "command_id": "atomic-journal",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 65536,
+      "result": "pass",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "TAP version 13\n# Subtest: canonical JSON is stable and rejects ambiguous values\nok 1 - canonical JSON is stable and rejects ambiguous values\n  ---\n  duration_ms: 1.78511\n  ...\n# Subtest: identical idempotent retry replays one event\nok 2 - identical idempotent retry replays one event\n  ---\n  duration_ms: 2.036258\n  ...\n# Subtest: same key with different request body appends nothing\nok 3 - same key with different request body appends nothing\n  ---\n  duration_ms: 0.907327\n  ...\n# Subtest: two stale writers commit exactly one event\nok 4 - two stale writers commit exactly one event\n  ---\n  duration_ms: 0.705259\n  ...\n# Subtest: crash before commit recovers not_committed and retry appends once\nok 5 - crash before commit recovers not_committed and retry appends once\n  ---\n  duration_ms: 0.829657\n  ...\n# Subtest: crash after commit recovers original receipt without second event\nok 6 - crash after commit recovers original receipt without second event\n  ---\n  duration_ms: 2.491263\n  ...\n# Subtest: journal event is digest chained and semantically inert\nok 7 - journal event is digest chained and semantically inert\n  ---\n  duration_ms: 0.65025\n  ...\n1..7\n# tests 7\n# suites 0\n# pass 7\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 92.274516\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 60
+    }
+  ]
+}

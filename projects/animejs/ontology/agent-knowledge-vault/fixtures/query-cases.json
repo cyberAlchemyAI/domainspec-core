@@ -1,0 +1,104 @@
+{
+  "schema_version": "animejs.agent-knowledge-vault.query-fixtures.v1",
+  "graph_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "generated_at": "2026-08-03T00:00:00.000Z",
+  "cases": [
+    {
+      "id": "QRY003-POS-JS-001",
+      "input": {
+        "version_context": {"exact_version": "4.5.0", "lock_digest": "lock:fixture"},
+        "intent_recognized": true,
+        "candidates": [
+          {"id": "api:animate:js", "compatible": true, "score": 2, "evidence_record_ids": ["evidence:docs:animate"]},
+          {"id": "api:animate:waapi", "compatible": false, "score": 0, "evidence_record_ids": ["evidence:docs:waapi-animate"]}
+        ]
+      },
+      "expected": {"selected_ids": ["api:animate:js"], "abstention_code": null, "subordinate_gaps": [], "next_question_count": 0}
+    },
+    {
+      "id": "QRY003-POS-WAAPI-001",
+      "input": {
+        "version_context": {"exact_version": "4.5.0", "lock_digest": "lock:fixture"},
+        "intent_recognized": true,
+        "candidates": [
+          {"id": "api:animate:js", "compatible": false, "score": 0, "evidence_record_ids": ["evidence:docs:animate"]},
+          {"id": "api:animate:waapi", "compatible": true, "score": 3, "evidence_record_ids": ["evidence:docs:waapi-animate"]}
+        ]
+      },
+      "expected": {"selected_ids": ["api:animate:waapi"], "abstention_code": null, "subordinate_gaps": [], "next_question_count": 0}
+    },
+    {
+      "id": "QRY003-NEG-TIE-001",
+      "input": {
+        "version_context": {"exact_version": "4.5.0", "lock_digest": "lock:fixture"},
+        "intent_recognized": true,
+        "candidates": [
+          {"id": "api:animate:waapi", "compatible": true, "score": 1, "evidence_record_ids": ["evidence:docs:waapi-animate"]},
+          {"id": "api:animate:js", "compatible": true, "score": 1, "evidence_record_ids": ["evidence:docs:animate"]}
+        ]
+      },
+      "expected": {"selected_ids": ["api:animate:js", "api:animate:waapi"], "abstention_code": "ABSTAIN_AMBIGUOUS_INTENT", "subordinate_gaps": [], "next_question_count": 1}
+    },
+    {
+      "id": "QRY003-NEG-VERSION-001",
+      "input": {
+        "version_context": {},
+        "intent_recognized": true,
+        "candidates": [{"id": "api:animate:js", "compatible": true, "score": 1, "evidence_record_ids": ["evidence:docs:animate"]}]
+      },
+      "expected": {"selected_ids": [], "abstention_code": "ABSTAIN_UNKNOWN_VERSION", "subordinate_gaps": [], "next_question_count": 1}
+    },
+    {
+      "id": "QRY003-NEG-UNKNOWN-001",
+      "input": {
+        "version_context": {"exact_version": "4.5.0", "lock_digest": "lock:fixture"},
+        "intent_recognized": true,
+        "missing_sources": [{"id": "gap:unknown-feature", "assertion_scope": "feature:unknown"}],
+        "candidates": []
+      },
+      "expected": {"selected_ids": [], "abstention_code": "ABSTAIN_MISSING_SOURCE", "subordinate_gaps": [], "next_question_count": 1}
+    },
+    {
+      "id": "QRY003-NEG-CONFLICT-001",
+      "input": {
+        "version_context": {"exact_version": "4.5.0", "lock_digest": "lock:fixture"},
+        "intent_recognized": true,
+        "conflicts": [{"id": "conflict:surface-capability", "proposition_ids": ["proposition:a", "proposition:b"]}],
+        "candidates": [{"id": "api:animate:js", "compatible": true, "score": 1, "evidence_record_ids": ["evidence:docs:animate"]}]
+      },
+      "expected": {"selected_ids": [], "abstention_code": "ABSTAIN_CONFLICT", "subordinate_gaps": [], "next_question_count": 1, "conflict_count": 1}
+    },
+    {
+      "id": "QRY003-NEG-PERF-001",
+      "input": {
+        "version_context": {"exact_version": "4.5.0", "lock_digest": "lock:fixture"},
+        "intent_recognized": true,
+        "performance_intent": true,
+        "executed_performance_witness": false,
+        "candidates": [{"id": "api:animate:waapi", "compatible": true, "score": 2, "evidence_record_ids": ["evidence:docs:waapi-animate"]}]
+      },
+      "expected": {"selected_ids": [], "abstention_code": "ABSTAIN_PERFORMANCE_EVIDENCE", "subordinate_gaps": [], "next_question_count": 1}
+    },
+    {
+      "id": "QRY003-NEG-PRECEDENCE-001",
+      "input": {
+        "version_context": {},
+        "requires_runtime_context": true,
+        "runtime_context": {"complete": false},
+        "intent_recognized": true,
+        "performance_intent": true,
+        "executed_performance_witness": false,
+        "conflicts": [{"id": "conflict:one", "proposition_ids": ["p:a", "p:b"]}],
+        "missing_sources": [{"id": "gap:one", "assertion_scope": "feature:one"}],
+        "subordinate_gaps": ["gap:project-context"],
+        "candidates": []
+      },
+      "expected": {
+        "selected_ids": [],
+        "abstention_code": "ABSTAIN_UNKNOWN_VERSION",
+        "subordinate_gaps": ["ABSTAIN_CONFLICT", "ABSTAIN_MISSING_SOURCE", "ABSTAIN_PERFORMANCE_EVIDENCE", "ABSTAIN_RUNTIME_CONTEXT", "gap:project-context"],
+        "next_question_count": 1
+      }
+    }
+  ]
+}

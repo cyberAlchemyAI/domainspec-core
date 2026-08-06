@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "animejs-neutral-projection-record/0.1.0",
+  "title": "Anime.js neutral projection record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_id", "label", "summary", "record_kind", "truth_status"],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 1, "maxLength": 160},
+    "label": {"type": "string", "minLength": 1, "maxLength": 200},
+    "summary": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "record_kind": {"enum": ["documentation", "recipe", "operational_episode", "attempt", "outcome", "evidence_binding", "supersession_reference"]},
+    "source_handle": {"type": "string", "minLength": 1, "maxLength": 256},
+    "relation_name": {"type": "string", "minLength": 1, "maxLength": 120},
+    "evidence_state": {"enum": ["admissible", "unconfirmed", "revoked", "unavailable", "not_applicable"]},
+    "version_bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimum": {"type": ["string", "null"], "maxLength": 80},
+        "maximum": {"type": ["string", "null"], "maxLength": 80},
+        "exact": {"type": ["string", "null"], "maxLength": 80}
+      }
+    },
+    "episode_lifecycle_state": {"enum": ["open", "completed", "failed", "blocked", "abandoned"]},
+    "truth_status": {"enum": ["not_assessed", "episode_local_observation"]},
+    "clearing_criteria": {"type": "array", "maxItems": 20, "items": {"type": "string", "minLength": 1, "maxLength": 500}}
+  }
+}

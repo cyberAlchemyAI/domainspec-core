@@ -1,0 +1,99 @@
+{
+  "action_artifacts": [
+    "actions/spawn-0001.json",
+    "actions/spawn-0002.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0001",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "review",
+      "dispatch_id": "2026-08-03-animejs-blocking-defects-review",
+      "forbidden_write_scopes": [
+        "projects/animejs/development/research/",
+        "projects/animejs/ontology/",
+        "arcanum/",
+        ".arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/review-dispatch/dispatch-sheet.json",
+        "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/evidence-closure.json",
+        "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/reviewer-non-vacuity-final.json",
+        "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/knowledge-vault-synthesis-reviewer-repair.json",
+        "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/CLOSEOUT.json"
+      ],
+      "mode": "review",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/review-dispatch/receipts/query-contract-critic.json"
+      ],
+      "role": "query-contract-critic",
+      "run_id": "animejs-blocking-defects-review-run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/review-dispatch/dispatch-sheet.json",
+      "wave_id": "reviewers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0002",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "review",
+      "dispatch_id": "2026-08-03-animejs-blocking-defects-review",
+      "forbidden_write_scopes": [
+        "projects/animejs/development/research/",
+        "projects/animejs/ontology/",
+        "arcanum/",
+        ".arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/review-dispatch/dispatch-sheet.json",
+        "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/evidence-closure.json",
+        "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/reviewer-non-vacuity-final.json",
+        "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/knowledge-vault-synthesis-reviewer-repair.json",
+        "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/CLOSEOUT.json"
+      ],
+      "mode": "review",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/review-dispatch/receipts/relation-witness-falsifier.json"
+      ],
+      "role": "relation-witness-falsifier",
+      "run_id": "animejs-blocking-defects-review-run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/review-dispatch/dispatch-sheet.json",
+      "wave_id": "reviewers",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "2026-08-03-animejs-blocking-defects-review",
+  "run_id": "animejs-blocking-defects-review-run-001",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [],
+    "gate_after": "g-review-complete",
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": true,
+    "role_ids": [
+      "query-contract-critic",
+      "relation-witness-falsifier"
+    ],
+    "wave_id": "reviewers"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}

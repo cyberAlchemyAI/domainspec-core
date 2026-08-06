@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "animejs-work-episode-event/0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "event_id", "episode_id", "revision", "event_type", "command_id", "request_digest", "principal_id", "policy_epoch", "graph_digest", "recorded_at", "payload", "prior_event_digest", "event_digest"],
+  "properties": {
+    "contract": {"const": "animejs-work-episode-event/0.1.0"},
+    "event_id": {"type": "string", "minLength": 1},
+    "episode_id": {"type": "string", "minLength": 1},
+    "revision": {"type": "integer", "minimum": 1},
+    "event_type": {"enum": ["EpisodeOpened", "AttemptAppended", "EvidenceAttached", "OutcomeRecorded", "EpisodeClosed"]},
+    "command_id": {"type": "string", "minLength": 1},
+    "request_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "principal_id": {"type": "string", "minLength": 1},
+    "policy_epoch": {"type": "string", "minLength": 1},
+    "graph_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "payload": {"type": "object"},
+    "prior_event_digest": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "event_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

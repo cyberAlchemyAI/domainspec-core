@@ -1,0 +1,49 @@
+{
+  "schema_version": "domainspec.inventory-post-result-hook.v1",
+  "run_id": "20260803T175423Z-animejs-blocking-defects",
+  "status": "blocked",
+  "authority_boundary": "inventory-read-model-only",
+  "runtime_sync": {
+    "status": "applied",
+    "managed_member_count": 7,
+    "scope": "generated-runtime-only"
+  },
+  "baseline": {
+    "evidence_state": "observed",
+    "report_sha256": "e7ae67090a99c5220861f28607ca1f5ab9833417dd4afd89419ee5dd2591dcb1",
+    "lookup_readiness": "ready",
+    "failure_count": 0,
+    "warning_count": 141
+  },
+  "candidate": {
+    "evidence_state": "observed",
+    "disposition": "added",
+    "index_sha256": "177ebad0a32670e72639986806ce0b29fe8e59f2fd967f2c669aa6899fb1f7c4",
+    "human_index_sha256": "9563085c70c68c102e0a857acf139e1fbb53ece24332decf2d5055932c72c3ff",
+    "report_sha256": "aeb7f296f47d7e9c298048d35d4de053aab8304a4a23150d7f2d93436e672208",
+    "lookup_readiness": "blocked"
+  },
+  "warning_delta": {
+    "evidence_state": "observed",
+    "introduced": [],
+    "resolved": [],
+    "inherited_count": 141,
+    "inherited_set_sha256": "28663f5efb4592b10c49ebc45cd2ab5df1a784db04ff0abcd6ad5e1caf8ee8ba"
+  },
+  "index_apply_performed": false,
+  "candidate_source": ".arcanum/inventory/queries/2026-08-03-animejs-blocking-defects-refine/result-synthesis.md",
+  "candidate_record": ".arcanum/inventory/tmp/animejs-blocking-defects-refine-result-synthesis.record.json",
+  "dry_run_receipt": "INVENTORY-HOOK-DRY-RUN.json",
+  "diagnosis": {
+    "kind": "tooling_boundary_defect",
+    "evidence": "The dry-run baseline is ready with zero failures; the added candidate has no introduced warning, but staged candidate validation reports repository-relative source paths as escaping because it validates a copied Inventory root under /tmp.",
+    "impact": "The candidate was not added to index.json or index.md.",
+    "target_impact": "None. This blocks only the post-result Inventory projection, not the completed Refine artifacts."
+  },
+  "residue": [
+    "inventory-candidate-not-indexed",
+    "inventory-staged-validation-repository-boundary-defect",
+    "no-currentness-or-promotion-claim"
+  ],
+  "next_owner": "Inventory runtime maintainer"
+}

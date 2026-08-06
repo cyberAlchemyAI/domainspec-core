@@ -1,0 +1,51 @@
+{
+  "schema_version": "arcanum.task-session.continuation-handoff.v1",
+  "session_id": "20260803T191537Z-SWU-AKV-NV-001",
+  "source_capability": "task-session",
+  "source_mode": "execute",
+  "source_result": "BLOCK",
+  "target_scope": "SWU-AKV-NV-001",
+  "blocker_class": "execution-contract-incomplete",
+  "blocker_fingerprint": "d624bdce3186e43f7e6ac01a83c45093d3c491dc01acdd76ed9af8c4b312f132",
+  "controlling_evidence": [
+    {
+      "path": "../../stages/09-invoke-plan.md",
+      "sha256": "a96ce072dedbb7eb74a85ebaa681cf3126df252b97783be6a5fc83d679b7b01a"
+    },
+    {
+      "path": "../../stages/08-query-contract-matrix.json",
+      "sha256": "537e05842d2089ceab84b24e936ab0849292465cbabd6ee36f6dda4cab4df342"
+    }
+  ],
+  "unblock_actions": [
+    "Have Invoke Plan/Refresh produce a formal WORK-PACK.md row for SWU-AKV-NV-001.",
+    "Declare exact material-write and execution-output paths and their allowed union.",
+    "Declare executable validation commands, expected outputs, and acceptance-critical classifications.",
+    "Bind the required material package/producer receipt or explicitly prove an execution-output-only profile.",
+    "Declare the closeout inventory, baselines, validation commands, expected owner receipt, and unique successor policy."
+  ],
+  "probable_routes": [
+    {
+      "rank": 1,
+      "route": "invoke:refresh:proposal-only",
+      "owner": "invoke",
+      "reason": "The current plan must be refreshed into an executable work-pack contract before Task Session can mutate.",
+      "authorization": "not-requested",
+      "mutation_risk": "planning artifact only",
+      "expected_receipt": "Invoke Refresh proposal naming exact SWU contract and closeout inventory"
+    },
+    {
+      "rank": 2,
+      "route": "stop:user-input",
+      "owner": "user",
+      "reason": "Stop if the maintainer does not want the plan hardened into an executable work pack.",
+      "authorization": "available by explicit user instruction",
+      "mutation_risk": "none",
+      "expected_receipt": "user stop or defer instruction"
+    }
+  ],
+  "selection": "not-authorized",
+  "dispatch_performed": false,
+  "cycle_detected": false,
+  "next_route_advice": "invoke:refresh:proposal-only for SWU-AKV-NV-001"
+}

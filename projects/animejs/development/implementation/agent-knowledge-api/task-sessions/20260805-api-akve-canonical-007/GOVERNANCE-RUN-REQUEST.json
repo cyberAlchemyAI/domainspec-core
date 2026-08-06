@@ -1,0 +1,94 @@
+{
+  "admission_profile": "plan-once-selected-unit",
+  "closeout_contract": {
+    "continuation_policy": "emit-cursor-never-execute-successor",
+    "required_owner_capabilities": [
+      "invoke:refresh:apply-approved",
+      "continuation-router:one-hop"
+    ],
+    "terminal_receipt_path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-007/TASK-SESSION-RECEIPT.json"
+  },
+  "control_refs": [
+    {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-007/CONTEXT-PACK.json",
+      "sha256": "cdf0321e686a6c3468df6f22a18130c0b95db2076a67068ffb2c66fce61b84e4",
+      "size_bytes": 1729
+    },
+    {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-007/SELECTION-RECEIPT.json",
+      "sha256": "8d53753a52516b9e99b639f924fb96d8387bec9ff786b6ab07ae9ab37408f3d8",
+      "size_bytes": 950
+    },
+    {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-007/MUTATION-ADMISSION-RECEIPT.json",
+      "sha256": "afe998cc1d5c9be115552c3e395f9723273b8420514f5c8065db082eac5278d4",
+      "size_bytes": 3502
+    }
+  ],
+  "execution_contract": {
+    "allowed_writes": [
+      "projects/animejs/ontology/agent-knowledge-vault/operational/src/consultation-service.mjs",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/consultation-cases.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/tests/consultation.test.mjs"
+    ],
+    "declared_outputs": [
+      "projects/animejs/ontology/agent-knowledge-vault/operational/src/consultation-service.mjs",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/consultation-cases.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/tests/consultation.test.mjs"
+    ],
+    "max_output_bytes": 65536,
+    "timeout_seconds": 60,
+    "validation_commands": [
+      {
+        "argv": [
+          "node",
+          "--test",
+          "projects/animejs/ontology/agent-knowledge-vault/operational/tests/consultation.test.mjs"
+        ],
+        "command_id": "consultation-service",
+        "cwd": ".",
+        "max_output_bytes": 65536,
+        "timeout_seconds": 60
+      }
+    ]
+  },
+  "idempotency_key": "20260805-api-akve-canonical-007:request",
+  "owner_identity": {
+    "capability": "task-session",
+    "subject": "animejs-agent-knowledge-runner"
+  },
+  "plan_admission": {
+    "admission_token": "dd17f71647d49fd496102547aafd00f6937da5c5f62e7eba2c1b9a0123aa877e",
+    "attempt_id": "20260805-api-akve-canonical-007",
+    "consumption_ledger_path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-007/ADMISSION-CONSUMPTION.json",
+    "mutation_admission_receipt_ref": {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-007/MUTATION-ADMISSION-RECEIPT.json",
+      "sha256": "afe998cc1d5c9be115552c3e395f9723273b8420514f5c8065db082eac5278d4",
+      "size_bytes": 3502
+    },
+    "plan_epoch_id": "epoch-ab410b7abe6b64418258652f",
+    "selection_receipt_ref": {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-007/SELECTION-RECEIPT.json",
+      "sha256": "8d53753a52516b9e99b639f924fb96d8387bec9ff786b6ab07ae9ab37408f3d8",
+      "size_bytes": 950
+    },
+    "target_baseline_digest": "ea34a6c4fdb81e5e775a2ede751ae177bc99204f3688b69c1c47ac0327944443",
+    "unit_contract_digest": "6454b676a10bfd41ae3f527049ce0f9142948e95758028992dfe38c8ff98e830",
+    "validation_contract_digest": "70a34e8828836f156b6c77689ca8b90a1fa94bc19bb8702fe2de86f3db514e00"
+  },
+  "request_id": "request-20260805-api-akve-canonical-007",
+  "run_id": "20260805-api-akve-canonical-007",
+  "schema_version": "task-session.governance-run-request.v1",
+  "swu_id": "SWU-AKVE-007",
+  "swu_ref": {
+    "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-05-SERVICES.md",
+    "sha256": "3d95ea71e524ef08315ce816e2d0f5c0967cecfbd78bf5072bbaf76770ad06c8",
+    "size_bytes": 5031
+  },
+  "task_id": "TASK-AKVE-05",
+  "work_pack_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/WORK-PACK.json",
+    "sha256": "359f6f36564f057b824e51f48f7e7e4ddc60a4c70e251d8ff2c16f133692d36f",
+    "size_bytes": 16613
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.dev/animejs/agent-knowledge-vault/node/1-0-0",
+  "title": "AnimeJsKnowledgeVaultNode",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "kind", "record_state", "assertion_scope", "version_context_id", "evidence_record_ids", "payload"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "kind": {
+      "enum": [
+        "DocumentationTopic", "APISymbol", "SourceFact", "Example", "Recipe", "Task", "WorkEpisode", "Attempt", "Symptom", "Diagnosis", "Fix", "Outcome", "Lesson", "EvidenceRecord", "VersionContext", "Inference", "Recommendation", "UnverifiedProposal", "EvidenceGap", "NextQuestion", "QueryReceipt"
+      ]
+    },
+    "record_state": {"enum": ["candidate", "validated", "stale-pending-review", "failed", "invalidated", "superseded"]},
+    "assertion_scope": {"type": "string", "minLength": 1},
+    "version_context_id": {"type": ["string", "null"]},
+    "evidence_record_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "payload": {"type": "object"}
+  }
+}

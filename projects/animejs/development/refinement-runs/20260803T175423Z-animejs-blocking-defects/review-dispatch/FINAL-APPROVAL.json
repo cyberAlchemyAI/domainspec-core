@@ -1,0 +1,33 @@
+{
+  "schema_version": "domainspec.review-final-approval.v1",
+  "dispatch_id": "2026-08-03-animejs-blocking-defects-review",
+  "approver": "parent",
+  "approved_at": "2026-08-03T18:49:00.842Z",
+  "review_verdict": "FIX",
+  "review_dispatch_resolved": true,
+  "reviewed_target_passed": false,
+  "checks": {
+    "query_terminal_paths": 8,
+    "query_planned_fixtures": 8,
+    "relation_rows": 25,
+    "relation_dispositions": {
+      "RETAIN": 17,
+      "MERGE": 5,
+      "DEFER": 3,
+      "KILL": 0
+    },
+    "all_witnesses_executed": false,
+    "orchestrate_gate": "gate_pass"
+  },
+  "accepted_change_requests": [
+    "Normalize the QRY-003 tie result to ABSTAIN_AMBIGUOUS_INTENT.",
+    "Complete terminal mappings, primary-code precedence, receipt nullability, and migration semantics.",
+    "Retain 17 relation candidates, merge five duplicate representations, and defer three underdefined consumer relations.",
+    "Materialize and execute the planned fixtures only in a later authorized task."
+  ],
+  "blockers_carried_forward": [
+    "The reviewed query and relation contracts still fail.",
+    "All proposed fixtures and witnesses remain planned_not_executed.",
+    "Ontology creation remains unauthorized in this Refine run."
+  ]
+}

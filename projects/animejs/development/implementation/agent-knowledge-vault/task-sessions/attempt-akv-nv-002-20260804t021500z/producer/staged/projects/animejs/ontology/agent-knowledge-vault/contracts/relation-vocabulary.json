@@ -1,0 +1,345 @@
+{
+  "relation_count": 17,
+  "relations": [
+    {
+      "cardinality": "source 1..* targets; target 1..* incoming",
+      "consumer": "QRY-006 coverage-status",
+      "expected_mutant_delta": "QRY-006 withholds semantic coverage or reports the binding absent.",
+      "failure_assertion": "The joined evidence IDs for TOPIC-ANIMATE-001 must include ER-DOC-ANIMATE-001.",
+      "mutation": "Remove the documents edge while retaining both nodes.",
+      "name": "documents",
+      "relation_id": "AKV-REL-001",
+      "source_contract": "EvidenceRecord[DocumentationObservation]",
+      "source_kinds": [
+        "EvidenceRecord"
+      ],
+      "target_contract": "DocumentationTopic|APISymbol|Recipe",
+      "target_kinds": [
+        "APISymbol",
+        "DocumentationTopic",
+        "Recipe"
+      ]
+    },
+    {
+      "cardinality": "source 1..* targets; target 0..* incoming",
+      "consumer": "QRY-001 resolve-task-recipe",
+      "expected_mutant_delta": "The Recipe is rejected and QRY-001 returns ABSTAIN_MISSING_SOURCE plus one NextQuestion.",
+      "failure_assertion": "A selected Recipe requires an admissible derivesFrom target.",
+      "mutation": "Remove derivesFrom without replacement evidence.",
+      "name": "derivesFrom",
+      "relation_id": "AKV-REL-002",
+      "source_contract": "SourceFact|Inference|Recipe|Recommendation",
+      "source_kinds": [
+        "Inference",
+        "Recipe",
+        "Recommendation",
+        "SourceFact"
+      ],
+      "target_contract": "EvidenceRecord",
+      "target_kinds": [
+        "EvidenceRecord"
+      ]
+    },
+    {
+      "cardinality": "source 0..* targets; target exactly 1 incoming per versioned identity",
+      "consumer": "QRY-003 choose-js-or-waapi",
+      "expected_mutant_delta": "JS animate is absent from candidate_ids; selection changes or abstains.",
+      "failure_assertion": "Every QRY-003 candidate must be exported by the requested VersionContext.",
+      "mutation": "Remove the exports edge while retaining the symbol node.",
+      "name": "exports",
+      "relation_id": "AKV-REL-003",
+      "source_contract": "VersionContext",
+      "source_kinds": [
+        "VersionContext"
+      ],
+      "target_contract": "APISymbol",
+      "target_kinds": [
+        "APISymbol"
+      ]
+    },
+    {
+      "cardinality": "source 1..* targets; target 1..* incoming",
+      "consumer": "QRY-002 explain-api-symbol",
+      "expected_mutant_delta": "Grounding fails; the mismatched fact is excluded and explanation abstains for missing binding.",
+      "failure_assertion": "The target assertion_scope must name the source APISymbol.",
+      "mutation": "Retarget the edge to a WAAPI SourceFact whose scope does not name the JS symbol.",
+      "name": "implementationDescribedBy",
+      "relation_id": "AKV-REL-004",
+      "source_contract": "APISymbol",
+      "source_kinds": [
+        "APISymbol"
+      ],
+      "target_contract": "SourceFact",
+      "target_kinds": [
+        "SourceFact"
+      ]
+    },
+    {
+      "cardinality": "source 0..* targets; target 0..* incoming",
+      "consumer": "QRY-002 explain-api-symbol",
+      "expected_mutant_delta": "Test presence remains retrievable but runtime-behavior support is withheld.",
+      "failure_assertion": "Runtime behavior requires TestObserved or exact-context ExecutedWitness.",
+      "mutation": "Change evidence_class from TestObserved to TestPresent while retaining the edge.",
+      "name": "hasTestEvidence",
+      "relation_id": "AKV-REL-005",
+      "source_contract": "APISymbol|SourceFact",
+      "source_kinds": [
+        "APISymbol",
+        "SourceFact"
+      ],
+      "target_contract": "EvidenceRecord[TestPresent|TestObserved]",
+      "target_kinds": [
+        "EvidenceRecord",
+        "TestObserved]"
+      ]
+    },
+    {
+      "cardinality": "source 0..* targets; target 1..* incoming",
+      "consumer": "QRY-002 explain-api-symbol",
+      "expected_mutant_delta": "The Example disappears from the symbol explanation; other evidence stays unchanged.",
+      "failure_assertion": "Baseline example IDs contain EX-TIMELINE-001 and mutant IDs do not.",
+      "mutation": "Remove illustratedBy while retaining the Example.",
+      "name": "illustratedBy",
+      "relation_id": "AKV-REL-006",
+      "source_contract": "DocumentationTopic|APISymbol",
+      "source_kinds": [
+        "APISymbol",
+        "DocumentationTopic"
+      ],
+      "target_contract": "Example",
+      "target_kinds": [
+        "Example"
+      ]
+    },
+    {
+      "cardinality": "source 0..* targets; target 0..* incoming",
+      "consumer": "QRY-001 resolve-task-recipe",
+      "expected_mutant_delta": "DAG validation fails and QRY-001 emits ABSTAIN_PREREQUISITE_CYCLE.",
+      "failure_assertion": "Depth-first prerequisite traversal must observe no back-edge.",
+      "mutation": "Add the reverse prerequisite edge to create a two-node cycle.",
+      "name": "prerequisiteRecipe",
+      "relation_id": "AKV-REL-007",
+      "source_contract": "Recipe",
+      "source_kinds": [
+        "Recipe"
+      ],
+      "target_contract": "Recipe",
+      "target_kinds": [
+        "Recipe"
+      ]
+    },
+    {
+      "cardinality": "source 1..* targets; target 0..* incoming",
+      "consumer": "QRY-001 resolve-task-recipe",
+      "expected_mutant_delta": "Recipe binding fails or the motion-path Recipe is withheld.",
+      "failure_assertion": "The motion-path Recipe must consult createMotionPath under the exact context.",
+      "mutation": "Retarget consults to API-MORPHTO-001.",
+      "name": "consults",
+      "relation_id": "AKV-REL-008",
+      "source_contract": "Recipe",
+      "source_kinds": [
+        "Recipe"
+      ],
+      "target_contract": "DocumentationTopic|APISymbol|SourceFact|Example",
+      "target_kinds": [
+        "APISymbol",
+        "DocumentationTopic",
+        "Example",
+        "SourceFact"
+      ]
+    },
+    {
+      "cardinality": "source exactly 1 target; target 0..* incoming",
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_mutant_delta": "The episode is excluded and no verified Lesson is recommended.",
+      "failure_assertion": "Eligible episodes require a usesVersion target exactly equal to the requested context.",
+      "mutation": "Retarget usesVersion to VC-440-001 while querying VC-450-001.",
+      "name": "usesVersion",
+      "relation_id": "AKV-REL-010",
+      "source_contract": "WorkEpisode",
+      "source_kinds": [
+        "WorkEpisode"
+      ],
+      "target_contract": "VersionContext",
+      "target_kinds": [
+        "VersionContext"
+      ]
+    },
+    {
+      "cardinality": "source 0..* targets; target 0..1 incoming Attempt",
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_mutant_delta": "The chain is inadmissible; the Lesson is not recommended.",
+      "failure_assertion": "producedEvidence provenance must name the source Attempt.",
+      "mutation": "Retarget to evidence produced by another Attempt.",
+      "name": "producedEvidence",
+      "relation_id": "AKV-REL-012",
+      "source_contract": "Attempt",
+      "source_kinds": [
+        "Attempt"
+      ],
+      "target_contract": "EvidenceRecord[ObservedWitness|TestObserved|ExecutedWitness|ActionLog]",
+      "target_kinds": [
+        "ActionLog]",
+        "EvidenceRecord",
+        "ExecutedWitness",
+        "TestObserved"
+      ]
+    },
+    {
+      "cardinality": "source 1..* targets when validated; target 0..* incoming",
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_mutant_delta": "The Lesson becomes ineligible and the query abstains from recommending it.",
+      "failure_assertion": "A verified Lesson requires linked TestObserved or ExecutedWitness evidence.",
+      "mutation": "Remove supportedByEvidence.",
+      "name": "supportedByEvidence",
+      "relation_id": "AKV-REL-014",
+      "source_contract": "Diagnosis|Outcome|Lesson|Inference",
+      "source_kinds": [
+        "Diagnosis",
+        "Inference",
+        "Lesson",
+        "Outcome"
+      ],
+      "target_contract": "EvidenceRecord",
+      "target_kinds": [
+        "EvidenceRecord"
+      ]
+    },
+    {
+      "cardinality": "source 0..* targets; target 0..* incoming",
+      "consumer": "QRY-001 and ABSTAIN_CONFLICT",
+      "expected_mutant_delta": "The conflict disappears and the Recipe may be selected unsafely.",
+      "failure_assertion": "Intersecting incompatible evidence must appear in conflicts and force abstention.",
+      "mutation": "Remove contradictedByEvidence while retaining the conflicting record.",
+      "name": "contradictedByEvidence",
+      "relation_id": "AKV-REL-015",
+      "source_contract": "SourceFact|Diagnosis|Recipe|Lesson|Inference",
+      "source_kinds": [
+        "Diagnosis",
+        "Inference",
+        "Lesson",
+        "Recipe",
+        "SourceFact"
+      ],
+      "target_contract": "EvidenceRecord",
+      "target_kinds": [
+        "EvidenceRecord"
+      ]
+    },
+    {
+      "cardinality": "source 0..* targets; target exactly 1 incoming",
+      "consumer": "QRY-004 diagnose-work",
+      "expected_mutant_delta": "Ownership validation fails and the unrelated Fix is omitted.",
+      "failure_assertion": "Every proposed Fix must agree with the selected Diagnosis and diagnosis_id.",
+      "mutation": "Retarget proposes to a Fix owned by another Diagnosis.",
+      "name": "proposes",
+      "relation_id": "AKV-REL-016",
+      "source_contract": "Diagnosis",
+      "source_kinds": [
+        "Diagnosis"
+      ],
+      "target_contract": "Fix",
+      "target_kinds": [
+        "Fix"
+      ]
+    },
+    {
+      "cardinality": "candidate 1..* targets; verified 1..* closed compatible targets",
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_mutant_delta": "The Lesson is excluded from verified recommendations and the query abstains.",
+      "failure_assertion": "Verified Lessons require a compatible closed succeeded episode with admissible witness.",
+      "mutation": "Retarget generalizesFrom to a failed episode.",
+      "name": "generalizesFrom",
+      "relation_id": "AKV-REL-019",
+      "source_contract": "Lesson",
+      "source_kinds": [
+        "Lesson"
+      ],
+      "target_contract": "WorkEpisode",
+      "target_kinds": [
+        "WorkEpisode"
+      ]
+    },
+    {
+      "cardinality": "source 1..* targets; target 0..* incoming",
+      "consumer": "QRY-001 and stale binding validation",
+      "expected_mutant_delta": "The Recipe is excluded and selection abstains for stale or incompatible binding.",
+      "failure_assertion": "Positive selection requires an exact boundedBy context match.",
+      "mutation": "Retarget boundedBy to VC-440-001 while querying VC-450-001.",
+      "name": "boundedBy",
+      "relation_id": "AKV-REL-020",
+      "source_contract": "APISymbol|SourceFact|Recipe|Symptom|Lesson",
+      "source_kinds": [
+        "APISymbol",
+        "Lesson",
+        "Recipe",
+        "SourceFact",
+        "Symptom"
+      ],
+      "target_contract": "VersionContext",
+      "target_kinds": [
+        "VersionContext"
+      ]
+    },
+    {
+      "cardinality": "source 0..* targets; target 0..* incoming",
+      "consumer": "QRY-001 and state transition validation",
+      "expected_mutant_delta": "The Recipe can remain validated and selectable.",
+      "failure_assertion": "An intersecting removal trigger must set record_state=invalidated before selection.",
+      "mutation": "Remove invalidatedBy while retaining the trigger record.",
+      "name": "invalidatedBy",
+      "relation_id": "AKV-REL-021",
+      "source_contract": "DocumentationTopic|APISymbol|SourceFact|Example|Recipe|Symptom|Diagnosis|Fix|Outcome|Lesson|EvidenceRecord|Inference|Recommendation|QueryReceipt",
+      "source_kinds": [
+        "APISymbol",
+        "Diagnosis",
+        "DocumentationTopic",
+        "EvidenceRecord",
+        "Example",
+        "Fix",
+        "Inference",
+        "Lesson",
+        "Outcome",
+        "QueryReceipt",
+        "Recipe",
+        "Recommendation",
+        "SourceFact",
+        "Symptom"
+      ],
+      "target_contract": "EvidenceRecord|VersionContext",
+      "target_kinds": [
+        "EvidenceRecord",
+        "VersionContext"
+      ]
+    },
+    {
+      "cardinality": "source 0..1 target; target 0..1 direct incoming; chains allowed",
+      "consumer": "QRY-001 and supersession DAG validation",
+      "expected_mutant_delta": "REV1 reappears and can change selection or create ambiguity.",
+      "failure_assertion": "A superseded target must be absent from current candidates.",
+      "mutation": "Remove supersedes so both revisions remain valid.",
+      "name": "supersedes",
+      "relation_id": "AKV-REL-022",
+      "source_contract": "VersionContext|Task|Diagnosis|Fix|Lesson|EvidenceGap|NextQuestion|EvidenceRecord|Recipe|SourceFact|QueryReceipt",
+      "source_kinds": [
+        "Diagnosis",
+        "EvidenceGap",
+        "EvidenceRecord",
+        "Fix",
+        "Lesson",
+        "NextQuestion",
+        "QueryReceipt",
+        "Recipe",
+        "SourceFact",
+        "Task",
+        "VersionContext"
+      ],
+      "target_contract": "same exact kind as source",
+      "target_kinds": [
+        "$same-as-source"
+      ]
+    }
+  ],
+  "representation": "stored-directed-edge",
+  "schema_version": "animejs.agent-knowledge-vault.relation-vocabulary.v1"
+}

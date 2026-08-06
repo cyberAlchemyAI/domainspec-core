@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "animejs-neutral-projection-manifest/0.1.0",
+  "title": "Anime.js neutral projection manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "source_graph_digest", "episode_overlay_digest", "compiler_version", "allowlist_digest", "projection_digest", "owner_review_ref", "views"],
+  "properties": {
+    "contract": {"const": "animejs-neutral-projection-manifest/0.1.0"},
+    "source_graph_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "episode_overlay_digest": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "compiler_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[A-Za-z0-9.-]+)?$"},
+    "allowlist_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "projection_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "owner_review_ref": {"type": "string", "minLength": 1, "maxLength": 256},
+    "views": {"type": "array", "uniqueItems": true, "minItems": 1, "items": {"enum": ["documentation", "recipe", "operational_episode"]}}
+  }
+}

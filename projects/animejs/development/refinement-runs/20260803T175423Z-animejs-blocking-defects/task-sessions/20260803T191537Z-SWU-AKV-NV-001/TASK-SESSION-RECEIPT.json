@@ -1,0 +1,83 @@
+{
+  "schema_version": "arcanum.task-session.terminal-receipt.v1",
+  "session_id": "20260803T191537Z-SWU-AKV-NV-001",
+  "task_id": "SWU-AKV-NV-001",
+  "resolution_mode": "resume-nearest",
+  "resolution_source": "visible-session-context",
+  "session_recovery": "visible",
+  "result": "BLOCK",
+  "execution_result": "BLOCK",
+  "gate_verdict": "block-before-mutation",
+  "context_pack": {
+    "markdown": "CONTEXT-PACK.md",
+    "index": "context-pack.index.json",
+    "strict_coverage": "block",
+    "covered_obligations": 4,
+    "total_obligations": 8
+  },
+  "decisions": {
+    "resolved": 0,
+    "blocker_decisions": 0,
+    "decision_gate": "not-applicable",
+    "reason": "The blocker is missing owner evidence, not a choice among two or more structurally admissible implementation options."
+  },
+  "runtime": "local-codex",
+  "adapter": null,
+  "mutation_admission": {
+    "status": "not-reached",
+    "request_formed": false,
+    "reason": "Exact write partitions and producer/profile evidence are absent."
+  },
+  "implementation_mutation": {
+    "attempted": false,
+    "files_changed": []
+  },
+  "session_evidence": [
+    "CONTEXT-PACK.md",
+    "context-pack.index.json",
+    "CLOSEOUT-PREFLIGHT.json",
+    "CONTINUATION-HANDOFF.json",
+    "CONTINUATION-ROUTE.json",
+    "TASK-SESSION-RECEIPT.json",
+    "RESULT.md"
+  ],
+  "validation": {
+    "acceptance_critical": [
+      {"obligation": "exact write scope", "status": "block"},
+      {"obligation": "validation commands", "status": "block"},
+      {"obligation": "mutation admission", "status": "block"},
+      {"obligation": "closeout preflight", "status": "block"}
+    ],
+    "noncritical": [],
+    "accepted_equivalents": []
+  },
+  "closeout_sync": {
+    "status": "block",
+    "authorization": "not-derivable",
+    "preflight": "CLOSEOUT-PREFLIGHT.json",
+    "owner_dispatch": "not-performed",
+    "owner_receipt": null
+  },
+  "continuity_cursor": null,
+  "continuity_cursor_reason": "No joined closeout owner receipt or receipt-backed no-op exists.",
+  "continuation_handoff": "CONTINUATION-HANDOFF.json",
+  "continuation_route_receipt": "CONTINUATION-ROUTE.json",
+  "blocker_fingerprint": "d624bdce3186e43f7e6ac01a83c45093d3c491dc01acdd76ed9af8c4b312f132",
+  "probable_routes": ["invoke:refresh:proposal-only", "stop:user-input"],
+  "optional_continuation": "not-requested",
+  "subagent_closeout": {
+    "status": "n/a",
+    "spawned": 0,
+    "joined": 0,
+    "closed": 0,
+    "blocked": 0,
+    "timed_out": 0,
+    "handed_off": 0,
+    "open": 0
+  },
+  "experiment_harness": "not_applicable",
+  "observer_status": "not_emitted; no task-session observer target was declared and execution stopped before mutation",
+  "returned_next_route": null,
+  "next_route_advice": "invoke:refresh:proposal-only SWU-AKV-NV-001",
+  "evidence_ceiling": "This receipt proves Task Session readiness was evaluated and blocked before implementation. It is not query implementation, fixture execution, ontology, promotion, publication, deployment, or production-readiness evidence."
+}

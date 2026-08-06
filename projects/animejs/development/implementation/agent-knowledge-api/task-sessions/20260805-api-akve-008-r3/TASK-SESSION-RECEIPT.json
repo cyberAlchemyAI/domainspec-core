@@ -1,0 +1,79 @@
+{
+  "attempt_id": "20260805-api-akve-008-r3",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "6667a724aa23abfa9c4e2edc2079dfdd223158c8e6e58aa4af19d9871eb3cf55",
+  "generated_at": "2026-08-05T20:49:28.907776Z",
+  "material_package_digest": "bc9f986a57005292d847cbd9bea0276748bd115213816a4b5a27a2f54056ed01",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-008-r3/producer/material-package.json",
+    "sha256": "a7fff6e2e1250d42ba8809fec5cd3441fbe12da2359362ad9f4f9bf6f4370db0",
+    "size_bytes": 6469
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-008-r3/producer/material-package-receipt.json",
+    "sha256": "2892b793cc14ed7b48b0f3621b9a77d7a609750d662ddd36a7d15e5b7a921c58",
+    "size_bytes": 2599
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-008-r3/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "af5f681e9d440234ab159d45f8c400a29a597094d197902d64bc8f79e3491c94",
+    "size_bytes": 3496
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/episode-service.mjs",
+      "sha256": "ababc57035c8f6be9e2e15bc45907e803715a0c8bc79049945acf73e8c74b995",
+      "size_bytes": 13078
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-service-cases.json",
+      "sha256": "262bbe5acc1b9e8d756cec00d522b5b1e10dabb5b06d99d75033a64a5814234a",
+      "size_bytes": 381
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs",
+      "sha256": "054e2e136839feeba933dbee8e383f27372e53186056666edc6f5be6142b780c",
+      "size_bytes": 11265
+    }
+  ],
+  "plan_epoch_id": "epoch-83a5a40930fef7ec76de393e",
+  "publication_class": "internal",
+  "residue": [],
+  "result": "pass",
+  "schema_version": "animejs.agent-knowledge-api.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-008-r3/SELECTION-RECEIPT.json",
+    "sha256": "352940eb23c8d45db565dc83ec9896ab8dba9f6a618eb33de9388985ed8b5e4a",
+    "size_bytes": 950
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKVE-009",
+  "swu_id": "SWU-AKVE-008",
+  "task_id": "TASK-AKVE-05",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/episode-service.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-service-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs"
+  ],
+  "unit_contract_digest": "719c7dd19113db1f061fc1a6e4b1543070968c435c3acaea9ac57d0714ceb5f9",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs"
+      ],
+      "command_id": "episode-service",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 65536,
+      "result": "pass",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "TAP version 13\n# Subtest: open resolves and stores inert Task and VersionContext snapshots once\nok 1 - open resolves and stores inert Task and VersionContext snapshots once\n  ---\n  duration_ms: 6.597315\n  ...\n# Subtest: identical open retry replays the original episode and event\nok 2 - identical open retry replays the original episode and event\n  ---\n  duration_ms: 1.254487\n  ...\n# Subtest: same open idempotency key with a different body is rejected\nok 3 - same open idempotency key with a different body is rejected\n  ---\n  duration_ms: 0.939058\n  ...\n# Subtest: episode lifecycle binds evidence, outcome, and close with zero Task effect\nok 4 - episode lifecycle binds evidence, outcome, and close with zero Task effect\n  ---\n  duration_ms: 10.230697\n  ...\n# Subtest: raw path evidence and host-field spoofing append nothing\nok 5 - raw path evidence and host-field spoofing append nothing\n  ---\n  duration_ms: 1.251601\n  ...\n# Subtest: committed receipt loss is recoverable only under receipt capability\nok 6 - committed receipt loss is recoverable only under receipt capability\n  ---\n  duration_ms: 0.656285\n  ...\n# Subtest: accepted append receipt remains stable when projection is pending\nok 7 - accepted append receipt remains stable when projection is pending\n  ---\n  duration_ms: 0.808199\n  ...\n# Subtest: denial happens before episode lookup and leaks no target metadata\nok 8 - denial happens before episode lookup and leaks no target metadata\n  ---\n  duration_ms: 0.40282\n  ...\n# Subtest: malformed command fields are rejected before resolution\nok 9 - malformed command fields are rejected before resolution\n  ---\n  duration_ms: 0.529186\n  ...\n1..9\n# tests 9\n# suites 0\n# pass 9\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 97.393137\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 60
+    }
+  ]
+}

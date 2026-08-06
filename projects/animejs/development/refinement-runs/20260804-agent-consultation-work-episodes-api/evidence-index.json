@@ -1,0 +1,88 @@
+{
+  "schema_version": "domainspec.refine-evidence-index.v1",
+  "run_id": "20260804-agent-consultation-work-episodes-api",
+  "target": "animejs-agent-consultation-and-work-episode-api",
+  "status": "pass",
+  "research_mode": "no-research",
+  "authorization": "confirmed-refine-and-confirmed-governed-review",
+  "frontier": {
+    "digest": "9dc0deb34aa2f4c5a992abb01af4f015968ce1461ec4f181f8caacf130f0f947",
+    "material_count": 25,
+    "mutation_runtime_ready": false,
+    "selected_swu": null
+  },
+  "artifacts": {
+    "run_manifest": "RUN-MANIFEST.md",
+    "seed_proposal": "REFINE-SEED-PROPOSAL.md",
+    "dispatch": "REFINE-DISPATCH.json",
+    "dispatch_validation": "DISPATCH-VALIDATION.json",
+    "runtime_handoff": "RUNTIME-HANDOFF.md",
+    "api_contract": "API-CONTRACT.md",
+    "design": "stages/06-design.md",
+    "design_selection": "design-selection/selection-result.json",
+    "critic_repair": "stages/08-distill-repair.md",
+    "toy_scenarios": "stages/08-toy-scenarios.md",
+    "implementation_layering": "IMPLEMENTATION-LAYERING.md",
+    "work_pack": "WORK-PACK.md",
+    "execution_pack": "EXECUTION-PACK.md",
+    "next_route": "NEXT-ROUTE.md",
+    "final_review": "stages/10-final-review.md",
+    "validation": "VALIDATION.json",
+    "result": "RESULT.md",
+    "inventory_hook": "INVENTORY-HOOK.json",
+    "inventory_hook_dry_run": "INVENTORY-HOOK-DRY-RUN.json"
+  },
+  "review_dispatch": {
+    "dispatch_id": "2026-08-04-animejs-agent-api-design-review",
+    "status": "resolved",
+    "reviewed_target_passed": false,
+    "reviewer_count": 2,
+    "critic_verdicts": ["BLOCK", "BLOCK"],
+    "sheet_sha256": "daa56f0a1857f58c8773c63acc47159c21073b91d654da6eb370af9b18a3625e",
+    "ledger_registration_rows": 1,
+    "ledger_close_rows": 1,
+    "repair_authored": true,
+    "independent_rereview": false
+  },
+  "stages": [
+    {"stage": 1, "capability": "context-builder", "artifact": "stages/01-context.md", "receipt": "stages/01.receipt.json", "verdict": "pass"},
+    {"stage": 2, "capability": "invoke:define", "artifact": "stages/02-define.md", "receipt": "stages/02.receipt.json", "verdict": "pass"},
+    {"stage": 3, "capability": "interrogation:refine-review", "artifact": "stages/03-review.md", "receipt": "stages/03.receipt.json", "verdict": "pass"},
+    {"stage": 4, "capability": "refine:no-research", "artifact": "stages/04-research.md", "receipt": "stages/04.receipt.json", "verdict": "pass"},
+    {"stage": 5, "capability": "distill:standard", "artifact": "stages/05-distill.md", "receipt": "stages/05.receipt.json", "verdict": "pass"},
+    {"stage": 6, "capability": "invoke:design", "artifact": "stages/06-design.md", "receipt": "stages/06.receipt.json", "verdict": "pass"},
+    {"stage": 7, "capability": "interrogation:refine-design-review", "artifact": "stages/07-design-review.md", "receipt": "stages/07.receipt.json", "verdict": "target-block"},
+    {"stage": 8, "capability": "distill:validate-repair", "artifact": "stages/08-distill-repair.md", "receipt": "stages/08.receipt.json", "verdict": "pass"},
+    {"stage": 9, "capability": "invoke:plan", "artifact": "stages/09-plan.md", "receipt": "stages/09.receipt.json", "verdict": "pass"},
+    {"stage": 10, "capability": "interrogation+refine:final", "artifact": "stages/10-final-review.md", "receipt": "stages/10.receipt.json", "verdict": "pass"}
+  ],
+  "validation_summary": {
+    "dispatch_validation": "pass",
+    "design_selection": "pass-fixed-point",
+    "markdown_links": "pass",
+    "task_definitions": 10,
+    "closeout_contracts": 10,
+    "planned_scenarios": 30,
+    "executed_scenarios": 0,
+    "operational_implementation_created": false,
+    "inventory_projection": "blocked-before-apply"
+  },
+  "recommended_next_routes": [
+    {
+      "route": "work-pack-readiness-audit",
+      "target_digest": "9dc0deb34aa2f4c5a992abb01af4f015968ce1461ec4f181f8caacf130f0f947",
+      "authorization": "required"
+    },
+    {
+      "route": "task-session",
+      "target": "SWU-AKVE-001",
+      "authorization": "explicit selection required after readiness pass"
+    }
+  ],
+  "residue": [
+    "all implementation and toy-scenario witnesses remain planned_not_executed",
+    "critic repairs were not independently rerun after the one-loop review",
+    "transport deployment retention consumer integration and Lesson admission remain separate owner decisions",
+    "Inventory candidate indexing is blocked by staged validation losing repository-relative source context"
+  ]
+}

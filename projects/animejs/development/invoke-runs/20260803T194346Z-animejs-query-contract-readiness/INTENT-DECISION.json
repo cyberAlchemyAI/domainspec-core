@@ -1,0 +1,22 @@
+{
+  "schema_version": "invoke.interview-decision.v1",
+  "target": "animejs-akv-query-contract-readiness",
+  "mode": "gap-check",
+  "questions_asked": 0,
+  "decisions": [
+    {
+      "id": "INTENT-001",
+      "decision": "Author a Define, Design, and Plan development package without executing product changes.",
+      "evidence": "Direct user request: invoke define design plan a development package so we can do the updates",
+      "approval_scope": "planning artifacts under this run root"
+    },
+    {
+      "id": "INTENT-002",
+      "decision": "Use the nearest blocked query-contract slice and split it into five atomic SWUs.",
+      "evidence": "The prior Task Session selected SWU-AKV-NV-001 but blocked because it was not executable; Distill atomicity requires independently acceptable children.",
+      "approval_scope": "reversible planning choice; no product mutation"
+    }
+  ],
+  "remaining_blocker_ambiguities": [],
+  "verdict": "pass"
+}

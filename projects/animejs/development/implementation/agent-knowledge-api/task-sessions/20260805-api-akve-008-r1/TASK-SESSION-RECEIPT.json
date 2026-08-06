@@ -1,0 +1,81 @@
+{
+  "attempt_id": "20260805-api-akve-008-r1",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "ead86feb4b333cb3e31a4a07296eb950c24662b283dd9bf839a8c9f18483f5a7",
+  "generated_at": "2026-08-05T20:46:22.735038Z",
+  "material_package_digest": "b524b02bc4ce9e3a225bc01eab14ceaa343924b5fbee184f1e5392f66e96da3d",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-008-r1/producer/material-package.json",
+    "sha256": "8b2874e03df3746ee9319c1118f3a7b33bd117fc3bbac3bb38bc1d3f12402add",
+    "size_bytes": 6467
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-008-r1/producer/material-package-receipt.json",
+    "sha256": "3299bbace04b78be0489c0674fab3d973dfe3d9294896ec0d960d00dd28c5396",
+    "size_bytes": 2597
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-008-r1/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "1dbef31d2a7bbd330ed21738f390a06911cba9f4e54d1140aef95db413cc84d0",
+    "size_bytes": 3494
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/episode-service.mjs",
+      "sha256": "900cce1057cdbc3447e5338d8d2e0c9ca7586839496ce4691c690e45348bcee9",
+      "size_bytes": 12959
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-service-cases.json",
+      "sha256": "262bbe5acc1b9e8d756cec00d522b5b1e10dabb5b06d99d75033a64a5814234a",
+      "size_bytes": 381
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs",
+      "sha256": "d7e9de910baa04c59d02f3f9c85a989e75d6a85cc0682ee44d368828244491d7",
+      "size_bytes": 10626
+    }
+  ],
+  "plan_epoch_id": "epoch-83a5a40930fef7ec76de393e",
+  "publication_class": "internal",
+  "residue": [
+    "live validation failed after candidate-local apply"
+  ],
+  "result": "block",
+  "schema_version": "animejs.agent-knowledge-api.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-008-r1/SELECTION-RECEIPT.json",
+    "sha256": "0f4e170caad87bed72e0e59eee8b866fa66a9e6c637bfe1edb7028dfe0f0fa8e",
+    "size_bytes": 950
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKVE-009",
+  "swu_id": "SWU-AKVE-008",
+  "task_id": "TASK-AKVE-05",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/episode-service.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-service-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs"
+  ],
+  "unit_contract_digest": "719c7dd19113db1f061fc1a6e4b1543070968c435c3acaea9ac57d0714ceb5f9",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs"
+      ],
+      "command_id": "episode-service",
+      "cwd": ".",
+      "exit_code": 1,
+      "max_output_bytes": 65536,
+      "result": "block",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "TAP version 13\n# Subtest: open resolves and stores inert Task and VersionContext snapshots once\nok 1 - open resolves and stores inert Task and VersionContext snapshots once\n  ---\n  duration_ms: 7.523366\n  ...\n# Subtest: identical open retry replays the original episode and event\nnot ok 2 - identical open retry replays the original episode and event\n  ---\n  duration_ms: 1.972285\n  location: '/home/vrondelli/projects/domainspec-core/projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs:53:1'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly equal:\n    + actual - expected\n    \n    + undefined\n    - '2026-08-05T00:00:00Z'\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected: '2026-08-05T00:00:00Z'\n  operator: 'strictEqual'\n  stack: |-\n    TestContext.<anonymous> (file:///home/vrondelli/projects/domainspec-core/projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs:58:10)\n    async Test.run (node:internal/test_runner/test:932:9)\n    async Test.processPendingSubtests (node:internal/test_runner/test:629:7)\n  ...\n# Subtest: same open idempotency key with a different body is rejected\nok 3 - same open idempotency key with a different body is rejected\n  ---\n  duration_ms: 0.863103\n  ...\n# Subtest: episode lifecycle binds evidence, outcome, and close with zero Task effect\nok 4 - episode lifecycle binds evidence, outcome, and close with zero Task effect\n  ---\n  duration_ms: 4.587051\n  ...\n# Subtest: raw path evidence and host-field spoofing append nothing\nok 5 - raw path evidence and host-field spoofing append nothing\n  ---\n  duration_ms: 1.252099\n  ...\n# Subtest: committed receipt loss is recoverable only under receipt capability\nok 6 - committed receipt loss is recoverable only under receipt capability\n  ---\n  duration_ms: 0.697464\n  ...\n# Subtest: accepted append receipt remains stable when projection is pending\nok 7 - accepted append receipt remains stable when projection is pending\n  ---\n  duration_ms: 0.426943\n  ...\n# Subtest: denial happens before episode lookup and leaks no target metadata\nok 8 - denial happens before episode lookup and leaks no target metadata\n  ---\n  duration_ms: 0.244539\n  ...\n# Subtest: malformed command fields are rejected before resolution\nok 9 - malformed command fields are rejected before resolution\n  ---\n  duration_ms: 0.649526\n  ...\n1..9\n# tests 9\n# suites 0\n# pass 8\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 117.641985\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 60
+    }
+  ]
+}

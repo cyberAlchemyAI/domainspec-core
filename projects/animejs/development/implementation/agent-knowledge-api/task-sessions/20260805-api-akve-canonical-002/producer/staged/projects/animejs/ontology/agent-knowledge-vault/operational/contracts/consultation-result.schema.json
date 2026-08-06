@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "animejs-knowledge-consult-result/0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "request_id", "graph_digest", "projection_digest", "policy_epoch", "generated_at", "status", "semantic_effect", "task_state_unchanged", "truth_status", "records", "edges", "explanation_path", "diagnostic"],
+  "properties": {
+    "contract": {"const": "animejs-knowledge-consult-result/0.1.0"},
+    "request_id": {"type": "string", "minLength": 1},
+    "graph_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "projection_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "policy_epoch": {"type": "string", "minLength": 1},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["ok", "abstain", "stale", "denied", "invalid_request", "temporary_failure"]},
+    "semantic_effect": {"const": "none"},
+    "task_state_unchanged": {"const": true},
+    "truth_status": {"const": "not_assessed"},
+    "records": {"type": "array", "maxItems": 50, "items": {"$ref": "animejs-neutral-projection-record/0.1.0"}},
+    "edges": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from_record_id", "relation_name", "to_record_id"],
+        "properties": {
+          "from_record_id": {"type": "string", "minLength": 1, "maxLength": 160},
+          "relation_name": {"type": "string", "minLength": 1, "maxLength": 120},
+          "to_record_id": {"type": "string", "minLength": 1, "maxLength": 160}
+        }
+      }
+    },
+    "explanation_path": {"type": "array", "maxItems": 50, "items": {"type": "string", "minLength": 1, "maxLength": 160}},
+    "diagnostic": {"type": ["object", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"not": {"const": "ok"}}}},
+      "then": {"properties": {
+        "records": {"maxItems": 0},
+        "edges": {"maxItems": 0},
+        "explanation_path": {"maxItems": 0},
+        "diagnostic": {"type": "object"}
+      }}
+    }
+  ]
+}

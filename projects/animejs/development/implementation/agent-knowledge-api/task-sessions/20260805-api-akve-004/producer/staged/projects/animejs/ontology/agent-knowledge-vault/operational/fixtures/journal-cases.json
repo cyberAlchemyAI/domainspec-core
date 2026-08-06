@@ -1,0 +1,11 @@
+{
+  "contract": "animejs-journal-cases/0.1.0",
+  "covered_scenarios": ["TS-09", "TS-10", "TS-11", "TS-12", "TS-13"],
+  "invariants": [
+    "same scoped key and same request digest replays one committed event",
+    "same scoped key and different digest appends nothing",
+    "simultaneous stale writers commit at most one event",
+    "before-commit failure recovers as not_committed",
+    "after-commit receipt loss recovers the committed receipt"
+  ]
+}

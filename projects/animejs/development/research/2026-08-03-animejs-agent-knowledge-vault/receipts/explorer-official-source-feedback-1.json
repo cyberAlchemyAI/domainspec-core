@@ -1,0 +1,43 @@
+{
+  "schema_version": "domainspec.research.feedback-receipt.v1",
+  "dispatch_id": "2026-08-03-animejs-agent-knowledge-vault-route",
+  "run_id": "animejs-vault-run-001",
+  "source_action_id": "spawn-0001",
+  "edge": "synthesizer-to-explorers",
+  "traversal": 1,
+  "loop_cap": 1,
+  "status": "pass",
+  "repairs": [
+    {
+      "id": "AKV-FB-001",
+      "status": "ready",
+      "rows": 418,
+      "failures": 0,
+      "semantic_jsonl_sha256": "681f004e04a91ab1a3462e882edff24d09454297f34a41863e81df06e20066fb",
+      "raw_page_set_sha256": "63125e931350f5dbf8552a289ac80d687bb1867e7c94c1e2d6e33904f16befcd"
+    },
+    {
+      "id": "AKV-FB-002",
+      "status": "ready",
+      "rows": 348,
+      "tree_truncated": false,
+      "manifest_jsonl_sha256": "f4026dec178de523262aca34dcddc5e419681b3494f37f496d9da8553d3ebcc0"
+    }
+  ],
+  "artifacts": [
+    "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/explorer-official-source-feedback-1.md",
+    "urn:animejs-doc-semantic-manifest:sha256:681f004e04a91ab1a3462e882edff24d09454297f34a41863e81df06e20066fb",
+    "urn:animejs-v4.5.0-source-manifest:sha256:f4026dec178de523262aca34dcddc5e419681b3494f37f496d9da8553d3ebcc0"
+  ],
+  "feedback_prompt": "Parse all 418 canonical documentation pages and return a lossless semantic manifest; return the complete pinned v4.5.0 source/type/test/example manifest.",
+  "residue": [
+    {
+      "id": "AKV-RES-TMP-001",
+      "path": "/tmp/animejs-doc-urls",
+      "status": "cleaned",
+      "pre_cleanup_sha256": "bdf9379e134140a8f15dff6e637ad91b4d72e7f63c6e0609348c6425ab61b92a",
+      "reason": "Explorer disclosed an out-of-repository temporary URL list created during the initial diagnostic; the parent removed the exact temporary file after inspection."
+    }
+  ],
+  "authority_notice": "This receipt closes the declared source-binding feedback rows only. It does not prove test execution, example execution, runtime behavior, semantic admission, publication, promotion, release, deployment, or production readiness."
+}

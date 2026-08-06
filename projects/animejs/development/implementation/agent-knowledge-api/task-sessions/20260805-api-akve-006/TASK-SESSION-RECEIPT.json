@@ -1,0 +1,87 @@
+{
+  "attempt_id": "20260805-api-akve-006",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "4f43f2477d5bec8c6555bc0bb3598ea52194631b709e897041e8469355c78ff6",
+  "generated_at": "2026-08-05T20:29:06.280840Z",
+  "material_package_digest": "3fae764ccf5940fadc4245d111c962a8ce93070576d7279ab2e7b8df05e2f480",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-006/producer/material-package.json",
+    "sha256": "fcd7fe3bc9a6b8efb73f1fe5b4ed06687b148acb50bfba2bd45cdb3c4c53fc35",
+    "size_bytes": 7232
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-006/producer/material-package-receipt.json",
+    "sha256": "14c33600085243a816c6c992b438c33bed4730c53cd5c778134c8a1a5b04f906",
+    "size_bytes": 2634
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-006/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "2c4e6e8bfb10b9af8ab71618d28db22649a781f1e8d826f6dba994bdf71be77b",
+    "size_bytes": 3586
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/overlay.mjs",
+      "sha256": "b6af54c02e66edd582766098fa4ef3a3db2568eab6b84a267360d0ab0b73bfcd",
+      "size_bytes": 4281
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/projection.mjs",
+      "sha256": "6a3a58a73e43071da7203397240456447afc4a8c91a61ab3d9cba309c777c211",
+      "size_bytes": 4191
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/overlay-cases.json",
+      "sha256": "266d66303675c73292e9f5caeab538e5d148856dccbe96738ccbca765bf74ca8",
+      "size_bytes": 506
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs",
+      "sha256": "b1826d7a4d4afe1789aba0040c21401f2e3c75f79ae698192801e05f61b7f970",
+      "size_bytes": 5961
+    }
+  ],
+  "plan_epoch_id": "epoch-83a5a40930fef7ec76de393e",
+  "publication_class": "internal",
+  "residue": [
+    "live validation failed after candidate-local apply"
+  ],
+  "result": "block",
+  "schema_version": "animejs.agent-knowledge-api.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-006/SELECTION-RECEIPT.json",
+    "sha256": "2a4140bc029377691a57eb5707045df49c0cb0b62d6977221815f9c0a176bb87",
+    "size_bytes": 950
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKVE-007",
+  "swu_id": "SWU-AKVE-006",
+  "task_id": "TASK-AKVE-04",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/overlay.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/projection.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/overlay-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs"
+  ],
+  "unit_contract_digest": "ac99b1bf1218336a3ce370aa0f0d9a8741b95a69f975f101c4c73a4e18f0b534",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs"
+      ],
+      "command_id": "isolated-projection",
+      "cwd": ".",
+      "exit_code": 1,
+      "max_output_bytes": 65536,
+      "result": "block",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "TAP version 13\n# Subtest: overlay is isolated, strips authority, and creates zero Lessons\nok 1 - overlay is isolated, strips authority, and creates zero Lessons\n  ---\n  duration_ms: 11.452605\n  ...\n# Subtest: revoked evidence changes only derived eligibility\nok 2 - revoked evidence changes only derived eligibility\n  ---\n  duration_ms: 0.65772\n  ...\n# Subtest: projection is deterministic and view bounded\nok 3 - projection is deterministic and view bounded\n  ---\n  duration_ms: 11.683737\n  ...\n# Subtest: projection rejects forbidden owner, path, policy, and prompt-role fields without digest\nok 4 - projection rejects forbidden owner, path, policy, and prompt-role fields without digest\n  ---\n  duration_ms: 2.194979\n  ...\n# Subtest: pending and corrupt episodes are explicit while unaffected records remain readable\nok 5 - pending and corrupt episodes are explicit while unaffected records remain readable\n  ---\n  duration_ms: 2.887188\n  ...\n# Subtest: projection compilation writes zero canonical vault bytes\nnot ok 6 - projection compilation writes zero canonical vault bytes\n  ---\n  duration_ms: 2.411392\n  location: '/home/vrondelli/projects/domainspec-core/projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs:84:1'\n  failureType: 'testCodeFailure'\n  error: \"ENOENT: no such file or directory, scandir '/home/vrondelli/projects/domainspec-core/projects/animejs/ontology/agent-knowledge-vault/operational/nodes/'\"\n  code: 'ENOENT'\n  stack: |-\n    async readdir (node:internal/fs/promises:954:18)\n    async walk (file:///home/vrondelli/projects/domainspec-core/projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs:20:25)\n    async treeDigest (file:///home/vrondelli/projects/domainspec-core/projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs:28:3)\n    async Promise.all (index 0)\n    async TestContext.<anonymous> (file:///home/vrondelli/projects/domainspec-core/projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs:86:18)\n    async Test.run (node:internal/test_runner/test:932:9)\n    async Test.processPendingSubtests (node:internal/test_runner/test:629:7)\n  ...\n1..6\n# tests 6\n# suites 0\n# pass 5\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 154.343292\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 60
+    }
+  ]
+}

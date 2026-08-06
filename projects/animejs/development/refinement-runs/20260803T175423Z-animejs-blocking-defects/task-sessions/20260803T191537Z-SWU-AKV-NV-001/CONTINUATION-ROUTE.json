@@ -1,0 +1,74 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "20260803T191537Z-SWU-AKV-NV-001-continuation",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "block",
+    "receipt": "TASK-SESSION-RECEIPT.json",
+    "blocker_fingerprint": "d624bdce3186e43f7e6ac01a83c45093d3c491dc01acdd76ed9af8c4b312f132",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": false,
+    "exact_route": null,
+    "evidence": null
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "proposal-only",
+      "owner": "invoke",
+      "evidence": [
+        "../../stages/09-invoke-plan.md declares the plan non-executed",
+        "CONTEXT-PACK.md blocks exact write scope, validation, mutation admission, and closeout"
+      ],
+      "required_inputs": [
+        "current Refine plan and query contract matrix",
+        "exact executable work-pack output target"
+      ],
+      "missing_inputs": [
+        "explicit continuation dispatch request"
+      ],
+      "mutation_risk": "low",
+      "approval_required": false,
+      "authorization_status": "missing",
+      "expected_receipt": "Invoke Refresh proposal with an exact SWU contract and no implementation mutation",
+      "fallback": "Keep Task Session blocked and ask the maintainer to invoke or authorize the planning owner."
+    },
+    {
+      "rank": 2,
+      "capability": "stop",
+      "mode": "user-input",
+      "mutation_mode": null,
+      "owner": "user",
+      "evidence": [
+        "Task Session cannot infer missing material and closeout contracts"
+      ],
+      "required_inputs": [
+        "explicit stop or defer instruction"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "none",
+      "approval_required": false,
+      "authorization_status": "not-required",
+      "expected_receipt": "User stop or defer instruction",
+      "fallback": "Remain blocked without mutation."
+    }
+  ],
+  "selection": {
+    "status": "not-authorized",
+    "candidate_rank": 1,
+    "reason": "Invoke Refresh is the unique owner fit, but this Task Session was not invoked with --follow-next-route and no continuation dispatch was requested."
+  },
+  "dispatch": {
+    "status": "not-requested",
+    "runtime": null,
+    "owner_receipt": null,
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": null
+}

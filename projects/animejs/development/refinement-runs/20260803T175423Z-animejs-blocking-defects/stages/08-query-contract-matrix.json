@@ -1,0 +1,135 @@
+{
+  "schema_version": "animejs.qry003-terminal-contract-matrix.v1",
+  "run_id": "20260803T175423Z-animejs-blocking-defects",
+  "status": "planned_not_executed",
+  "source_review": "review-dispatch/query-contract-critic.review.json",
+  "selected_repair": {
+    "repair": "Normalize to ABSTAIN_AMBIGUOUS_INTENT",
+    "reason": "It reuses the existing meaning and clearing criterion, minimizes vocabulary, has deterministic semantics, and incurs the lowest migration cost."
+  },
+  "rejected_alternative": {
+    "repair": "Add ABSTAIN_AMBIGUOUS_CHOICE",
+    "reason": "It duplicates intent ambiguity without an evidenced distinct consumer or clearing criterion."
+  },
+  "closed_abstention_vocabulary": [
+    "ABSTAIN_UNKNOWN_VERSION",
+    "ABSTAIN_RUNTIME_CONTEXT",
+    "ABSTAIN_CONFLICT",
+    "ABSTAIN_PERFORMANCE_EVIDENCE",
+    "ABSTAIN_MISSING_SOURCE",
+    "ABSTAIN_AMBIGUOUS_INTENT"
+  ],
+  "primary_precedence": [
+    "ABSTAIN_UNKNOWN_VERSION",
+    "ABSTAIN_RUNTIME_CONTEXT",
+    "ABSTAIN_CONFLICT",
+    "ABSTAIN_PERFORMANCE_EVIDENCE",
+    "ABSTAIN_MISSING_SOURCE",
+    "ABSTAIN_AMBIGUOUS_INTENT"
+  ],
+  "receipt_invariants": {
+    "success": "selected_ids is non-empty and abstention_code is null",
+    "abstention": "abstention_code is one declared non-null code; subordinate gaps remain recorded",
+    "migration": "increment algorithm_version; preserve historical receipts immutably"
+  },
+  "terminal_paths": [
+    {
+      "path": "positive-js",
+      "result": "select JS animate",
+      "abstention_code": null,
+      "change": "Successful receipts require explicit null abstention_code and non-empty selected_ids."
+    },
+    {
+      "path": "positive-waapi",
+      "result": "select waapi.animate",
+      "abstention_code": null,
+      "change": "Apply the same success/null invariant."
+    },
+    {
+      "path": "tie",
+      "current": "ABSTAIN_AMBIGUOUS_CHOICE",
+      "repair": "ABSTAIN_AMBIGUOUS_INTENT",
+      "clearing_criterion": "A discriminating constraint leaves exactly one top-ranked compatible candidate."
+    },
+    {
+      "path": "conflict",
+      "result": "ABSTAIN_CONFLICT",
+      "clearing_criterion": "Partition scopes or resolve with an admissible question-specific witness."
+    },
+    {
+      "path": "missing-version",
+      "result": "ABSTAIN_UNKNOWN_VERSION",
+      "clearing_criterion": "Validated exact VersionContext and lock digest for project claims."
+    },
+    {
+      "path": "unknown-requirement",
+      "result": "ABSTAIN_MISSING_SOURCE for understood feature without binding; ABSTAIN_AMBIGUOUS_INTENT for unrecognized intent",
+      "clearing_criterion": "Exact scoped evidence or a discriminating intent constraint."
+    },
+    {
+      "path": "performance-claim",
+      "result": "ABSTAIN_PERFORMANCE_EVIDENCE",
+      "clearing_criterion": "Controlled matching ExecutedWitness."
+    },
+    {
+      "path": "multiple-simultaneous-failures",
+      "result": "One primary code by total priority; preserve subordinate gaps",
+      "priority": [
+        "ABSTAIN_UNKNOWN_VERSION",
+        "ABSTAIN_RUNTIME_CONTEXT",
+        "ABSTAIN_CONFLICT",
+        "ABSTAIN_PERFORMANCE_EVIDENCE",
+        "ABSTAIN_MISSING_SOURCE",
+        "ABSTAIN_AMBIGUOUS_INTENT"
+      ]
+    }
+  ],
+  "planned_fixtures": [
+    {
+      "id": "QRY003-POS-JS-001",
+      "expected": "Select JS animate; abstention_code=null.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-POS-WAAPI-001",
+      "expected": "Select waapi.animate; abstention_code=null.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-TIE-001",
+      "expected": "Return both candidates with ABSTAIN_AMBIGUOUS_INTENT and one discriminating NextQuestion.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-VERSION-001",
+      "expected": "ABSTAIN_UNKNOWN_VERSION.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-UNKNOWN-001",
+      "expected": "ABSTAIN_MISSING_SOURCE and one evidence-closing NextQuestion.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-CONFLICT-001",
+      "expected": "ABSTAIN_CONFLICT with both propositions preserved.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-PERF-001",
+      "expected": "ABSTAIN_PERFORMANCE_EVIDENCE.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-PRECEDENCE-001",
+      "expected": "ABSTAIN_UNKNOWN_VERSION is primary and subordinate gaps remain recorded.",
+      "execution_status": "planned_not_executed"
+    }
+  ],
+  "validation": {
+    "path_count": 8,
+    "fixture_count": 8,
+    "undeclared_repair_codes": [],
+    "execution_status": "planned_not_executed"
+  }
+}

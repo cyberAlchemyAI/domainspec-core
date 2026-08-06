@@ -1,0 +1,71 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "ontology-vault",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "60fe8ffe8824a00f33291fedc74f2e370b3dddfa199ec99a99ffc0485e936e3d",
+  "packageId": "invoke-swu-akv-nv-005-attempt-akv-nv-005-repair-20260804t034500z",
+  "patchVerdict": "pass",
+  "planBinding": {
+    "attempt_id": "attempt-akv-nv-005-repair-20260804t034500z",
+    "plan_epoch_id": "epoch-acd0e4afd662c4598d70372d",
+    "selection_receipt_digest": "f0d5f36aeafa9bdfe79bfaffa753bfa02ef043ac2ce73b962f06bc245f549112",
+    "swu_id": "SWU-AKV-NV-005",
+    "target_baselines": [
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/schemas/source-artifact.schema.json",
+        "sha256": "644395bb20634df1ef7a44e698dbdec9ef226bcc8c74906ff5e53583931dd311",
+        "size_bytes": 1112,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs",
+        "sha256": "8103133a4cd9a30a4c200e19d199c3944c128ef45b4435ffa2049e3872569cd2",
+        "size_bytes": 5620,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/sources/repository.jsonl",
+        "sha256": "476dfe692311dd3975ad794b7e6ff65c5f8aac37ae81c58e99263e74c745b900",
+        "size_bytes": 146157,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/sources/repository-manifest.json",
+        "sha256": "9b0132f047120acd71064ca0b1523601736959d7bd50fe7b43e7d02c82c0f808",
+        "size_bytes": 1086,
+        "state": "present"
+      }
+    ],
+    "task_id": "TASK-AKV-SOURCES",
+    "unit_contract_digest": "c027e40666120ca840a042aeb362460d1e5dfa47c65dfc9ade40f4f93ee82c1f",
+    "validation_contract_digest": "ba1d1f6845f68aacf8274e7845edea9f60f2944548f88db7cd72c4c95576bcce",
+    "validation_contracts": [
+      {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs",
+          "--check"
+        ],
+        "command_id": "repository-ingest",
+        "cwd": ".",
+        "max_output_bytes": 131072,
+        "timeout_seconds": 120
+      }
+    ]
+  },
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "projects/animejs/ontology/agent-knowledge-vault/schemas/source-artifact.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/sources/repository-manifest.json",
+    "projects/animejs/ontology/agent-knowledge-vault/sources/repository.jsonl"
+  ],
+  "validationCommands": [
+    "node projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs --check"
+  ]
+}

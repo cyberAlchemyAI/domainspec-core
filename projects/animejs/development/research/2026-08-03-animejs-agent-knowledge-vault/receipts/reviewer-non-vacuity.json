@@ -1,0 +1,330 @@
+{
+  "review_id": "AKV-REV-NV-001",
+  "dispatch_id": "2026-08-03-animejs-agent-knowledge-vault-route",
+  "run_id": "animejs-vault-run-001",
+  "action_id": "spawn-0006",
+  "role": "non-vacuity-reviewer",
+  "verdict": "fail",
+  "reason": "The candidate has useful distinctions and proof ceilings, but its query contracts specify inputs and return fields without executable selection, precedence, conflict, invalidation, or abstention semantics. The finite hand-executions therefore require reviewer-supplied judgment. A primitive is non-vacuous only if a fixture can show that adding, removing, or changing it alters retrieval, explanation, next action, diagnosis, validation, invalidation, or abstention.",
+  "finite_witness_results": [
+    {
+      "id": "NV-WIT-001",
+      "scenario": "select JS animate versus waapi.animate",
+      "inputs": {
+        "required_features": [
+          "timeline synchronization"
+        ],
+        "version_context": "v4.5.0"
+      },
+      "expected_decision": "Select JS animate; retain waapi.animate as a distinct incompatible candidate for the stated requirement. Report documented differences and abstain from project-performance claims.",
+      "load_bearing_primitives": [
+        "APISymbol",
+        "VersionContext",
+        "AKV-QRY-003",
+        "exports",
+        "documents",
+        "boundedBy"
+      ],
+      "result": "survives-conditionally",
+      "gap": "No compatibility predicate maps required features to either symbol, and no deterministic tie/unknown rule exists."
+    },
+    {
+      "id": "NV-WIT-002",
+      "scenario": "compose a timeline",
+      "inputs": {
+        "task_intent": "sequence two animations and invoke a callback",
+        "version_context": "v4.5.0"
+      },
+      "expected_decision": "Retrieve createTimeline, then add and call; return exact descendant documentation bindings, prerequisites, and a required local validation witness.",
+      "load_bearing_primitives": [
+        "Recipe",
+        "APISymbol",
+        "requires",
+        "documents",
+        "AKV-QRY-001"
+      ],
+      "result": "survives-conditionally",
+      "gap": "Ordered source/action semantics and prerequisite-cycle rejection are described but not formalized."
+    },
+    {
+      "id": "NV-WIT-003",
+      "scenario": "framework scope cleanup",
+      "inputs": {
+        "task_intent": "clean up Anime.js effects on component unmount",
+        "framework": "unspecified"
+      },
+      "expected_decision": "Retrieve Scope lifecycle guidance and cleanInlineStyles as candidates; ask which framework/lifecycle hook applies and abstain from claiming the cleanup works until a local witness exists.",
+      "load_bearing_primitives": [
+        "Recipe",
+        "EvidenceGap",
+        "NextQuestion",
+        "exposesGap",
+        "suggestsNextQuestion"
+      ],
+      "result": "survives-conditionally",
+      "gap": "No rule distinguishes documentation guidance from a framework-specific verified fix."
+    },
+    {
+      "id": "NV-WIT-004",
+      "scenario": "v3/v4 spelling or shape mismatch",
+      "inputs": {
+        "symptom": "anime({targets, easing, value}) fails under v4",
+        "version_context": "v4.5.0"
+      },
+      "expected_decision": "Diagnose a version-shape mismatch; propose named animate(targets, parameters), ease instead of easing, and to instead of value; require a local rerun before recording success.",
+      "load_bearing_primitives": [
+        "Symptom",
+        "Diagnosis",
+        "Fix",
+        "VersionContext",
+        "AKV-QRY-004",
+        "proposes",
+        "boundedBy"
+      ],
+      "result": "survives-conditionally",
+      "gap": "Mutable migration-wiki evidence has no deterministic priority relative to pinned types/source or conflicting documentation."
+    },
+    {
+      "id": "NV-WIT-005",
+      "scenario": "choose an SVG helper",
+      "inputs": {
+        "task_intent": "animate an element along an SVG path"
+      },
+      "expected_decision": "Choose createMotionPath; reject morphTo and createDrawable for this intent; return its exact SVG binding and validation requirement.",
+      "load_bearing_primitives": [
+        "APISymbol",
+        "Recipe",
+        "AKV-QRY-001",
+        "documents"
+      ],
+      "result": "survives-conditionally",
+      "gap": "No task-intent-to-helper selection table or ambiguity policy exists."
+    },
+    {
+      "id": "NV-WIT-006",
+      "scenario": "record failed attempt and verified fix",
+      "inputs": {
+        "attempt_1": "failed",
+        "attempt_2": "succeeded with executed witness"
+      },
+      "expected_decision": "Preserve both ordered attempts; attach failure and success outcomes separately; allow a verified Lesson only if it generalizes from the WorkEpisode and cites the successful witness plus relevant failure evidence.",
+      "load_bearing_primitives": [
+        "WorkEpisode",
+        "Attempt",
+        "Outcome",
+        "Lesson",
+        "contains",
+        "yields",
+        "generalizesFrom",
+        "supportedBy"
+      ],
+      "result": "survives",
+      "gap": "No current WorkEpisode exists, so the present vault must return zero verified operational Lessons."
+    },
+    {
+      "id": "NV-WIT-007",
+      "scenario": "invalidate lesson after version or source change",
+      "inputs": {
+        "lesson_status": "verified",
+        "old_version": "v4.5.0",
+        "new_source_digest": "changed"
+      },
+      "expected_decision": "Exclude the lesson from compatible verified results, mark it stale-pending-review or invalidated according to the changed assertion scope, expose the changed binding, and request revalidation.",
+      "load_bearing_primitives": [
+        "Lesson",
+        "VersionContext",
+        "invalidates",
+        "boundedBy",
+        "AKV-QRY-005"
+      ],
+      "result": "survives-conditionally",
+      "gap": "No rule chooses stale-pending-review versus invalidated, or identifies which digest changes intersect a lesson's assertion scope."
+    },
+    {
+      "id": "NV-WIT-008",
+      "scenario": "coverage status for unparsed or stale page",
+      "inputs": {
+        "route": "/documentation/example/",
+        "materialization": "returned-not-written",
+        "digest_status": "stale"
+      },
+      "expected_decision": "Return route observed, candidate package row absent, semantic result stale/unreproduced, exact digest gap, and recrawl/reproduction as the next action.",
+      "load_bearing_primitives": [
+        "DocumentationTopic",
+        "EvidenceGap",
+        "AKV-QRY-006"
+      ],
+      "result": "survives-conditionally",
+      "gap": "The base and overlay use deferred, returned-digest-bound, semantic-observed, returned-not-written, stale, and repository-present concepts without one normalized state machine."
+    },
+    {
+      "id": "NV-WIT-009",
+      "scenario": "performance, accessibility, and project-runtime questions",
+      "inputs": {
+        "questions": [
+          "Which implementation is faster here?",
+          "Is this accessible?",
+          "Will this work in my project runtime?"
+        ]
+      },
+      "expected_decision": "Abstain on all three. Documentation may supply considerations only; request controlled performance evidence, accessibility criteria/witnesses, and the project's installed version/runtime/framework details respectively.",
+      "load_bearing_primitives": [
+        "EvidenceGap",
+        "NextQuestion",
+        "AKV-QRY-001",
+        "AKV-QRY-003",
+        "exposesGap",
+        "suggestsNextQuestion"
+      ],
+      "result": "survives",
+      "gap": "Abstention codes and minimum missing-evidence sets are not enumerated."
+    }
+  ],
+  "mutant_results": [
+    {
+      "mutant": "missing source",
+      "expected": "reject fact/recipe/lesson support; expose evidence gap and abstain",
+      "killed": true
+    },
+    {
+      "mutant": "stale version",
+      "expected": "exclude from compatible verified results; request revalidation",
+      "killed": true
+    },
+    {
+      "mutant": "documentation/source conflict",
+      "expected": "return conflict and withhold a unified factual answer",
+      "killed": false,
+      "binding_gap": "No precedence or conflict-resolution algorithm."
+    },
+    {
+      "mutant": "copied prose",
+      "expected": "reject substantial copied text",
+      "killed": false,
+      "binding_gap": "Numeric similarity threshold remains deferred; only obvious copied paragraphs fail closed."
+    },
+    {
+      "mutant": "circular prerequisites",
+      "expected": "reject recipe graph",
+      "killed": false,
+      "binding_gap": "No acyclicity invariant or traversal algorithm."
+    },
+    {
+      "mutant": "decorative relation",
+      "expected": "reject any relation unused by a named query, validator, view, or invalidation rule",
+      "killed": false,
+      "binding_gap": "The relation catalog has domain/range shapes but no consumer map proving behavioral effect."
+    },
+    {
+      "mutant": "unverified issue advice",
+      "expected": "retrieval-only; cannot support Recipe, Fix, or Lesson",
+      "killed": true
+    },
+    {
+      "mutant": "Lesson without WorkEpisode",
+      "expected": "reject verified operational Lesson; candidate guidance may not masquerade as episode-derived learning",
+      "killed": true
+    },
+    {
+      "mutant": "returned-not-written represented as present",
+      "expected": "fail validation with RETURNED_EVIDENCE_MATERIALIZATION_COLLAPSE",
+      "killed": true
+    },
+    {
+      "mutant": "test/example presence represented as execution",
+      "expected": "fail validation with PRESENCE_EXECUTION_COLLAPSE",
+      "killed": true
+    },
+    {
+      "mutant": "unsupported family assignment of 29 shared blobs",
+      "expected": "fail validation with UNSUPPORTED_FAMILY_JOIN",
+      "killed": true
+    }
+  ],
+  "surviving_candidates": [
+    "distinct JS and WAAPI APISymbol identities",
+    "VersionContext bounding",
+    "WorkEpisode/Attempt/Outcome separation",
+    "Lesson generalizesFrom WorkEpisode requirement",
+    "EvidenceGap and NextQuestion routing",
+    "returned-not-written materialization distinction",
+    "test/example presence versus execution distinction",
+    "shared-or-unmatched family disposition",
+    "behavioral/performance/accessibility/project-runtime abstention"
+  ],
+  "killed_or_withheld_candidates": [
+    {
+      "candidate": "generic relation asserted only by domain and range",
+      "decision": "kill until a named query, validator, view, or invalidation transition consumes it"
+    },
+    {
+      "candidate": "supersedes(Node, same-kind Node)",
+      "decision": "kill current shape",
+      "reason": "Node and same-kind Node are insufficiently typed to determine replacement behavior or query exclusion."
+    },
+    {
+      "candidate": "supports from Attempt to Lesson",
+      "decision": "withhold as sufficient support",
+      "reason": "It can bypass the WorkEpisode and executed-outcome requirement unless constrained."
+    },
+    {
+      "candidate": "related-topic links as semantic relevance",
+      "decision": "kill",
+      "reason": "All 418 pages have related links; link presence alone cannot alter semantic selection without a relevance rule."
+    },
+    {
+      "candidate": "verified operational Lesson in the current package",
+      "decision": "kill",
+      "reason": "No WorkEpisode or executed witness exists."
+    },
+    {
+      "candidate": "418-row or 348-row package presence",
+      "decision": "kill",
+      "reason": "Both manifests are returned-not-written until independently reproduced."
+    },
+    {
+      "candidate": "tests/examples executed",
+      "decision": "kill",
+      "reason": "They are present-not-executed."
+    }
+  ],
+  "exact_binding_gaps": [
+    "Define deterministic evidence precedence and conflict output across pinned source/types, mutable documentation, migration wiki, tests, examples, local witnesses, inference, and community proposals.",
+    "Define query algorithms, not only input and return schemas: candidate generation, filtering, ordering, ties, unknowns, and abstention.",
+    "Map every retained relation to at least one query field, validation failure, view change, invalidation transition, or next action.",
+    "Add acyclicity validation for Recipe requires edges.",
+    "Constrain Lesson verification to a WorkEpisode with a succeeded Outcome and admissible executed witness; Attempt supports must not bypass this.",
+    "Define digest-to-assertion-scope invalidation and stale-pending-review versus invalidated transitions.",
+    "Normalize coverage/materialization states for observed, parsed, returned-not-written, reproduced, stale, failed, and absent.",
+    "Enumerate abstention codes and the exact evidence required to clear each.",
+    "Select or implement the deferred copyright-similarity rule.",
+    "Add finite positive/negative fixtures for every witness and mutant above."
+  ],
+  "gate_decision": {
+    "status": "fail",
+    "next_action": "Repair query semantics and add finite mutation fixtures before claiming the candidate package is non-vacuous. The ontology choice and evidence ceilings may proceed as design inputs, but reviewer evidence closure must remain closed."
+  },
+  "normalized_orchestrate_receipt": {
+    "schema_version": "arcanum.native-dispatch-runner.receipt.v0.1",
+    "action_id": "spawn-0006",
+    "dispatch_id": "2026-08-03-animejs-agent-knowledge-vault-route",
+    "run_id": "animejs-vault-run-001",
+    "wave_id": "reviewers",
+    "step_id": "s3",
+    "role": "non-vacuity-reviewer",
+    "capability_ref": "research",
+    "agent_id": "/root/animejs_non_vacuity_reviewer",
+    "status": "fail",
+    "artifacts": [
+      "bounded-review-return:AKV-REV-NV-001",
+      "review-target:AKV-SYN-001",
+      "review-overlay:AKV-SYN-002"
+    ],
+    "validation": "fail",
+    "blockers": [
+      "query semantics are underbound",
+      "four required mutants survive: docs/source conflict, copied prose, circular prerequisites, decorative relations"
+    ]
+  },
+  "mutation_statement": "Read-only review completed; no files or external state were created or changed."
+}

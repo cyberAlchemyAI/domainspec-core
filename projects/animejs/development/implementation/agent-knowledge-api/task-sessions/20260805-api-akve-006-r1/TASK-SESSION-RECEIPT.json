@@ -1,0 +1,85 @@
+{
+  "attempt_id": "20260805-api-akve-006-r1",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "359392be56064a32cc8992afa3d4afad91ffd8bd20cfb0e9305bfb4ef17059c9",
+  "generated_at": "2026-08-05T20:29:38.832516Z",
+  "material_package_digest": "fc3e0ef34998b0b769ebf9f117498b35475864d995f6fb3fa41dc6086287b1a1",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-006-r1/producer/material-package.json",
+    "sha256": "5beb40c28c6e3fa0a52fd8c6302a17bdc9b03e5491a98b8f27ab2d7c360ea4c3",
+    "size_bytes": 7504
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-006-r1/producer/material-package-receipt.json",
+    "sha256": "9eacfd6a6944cb2b267acec2390088d5c8c6db82b7c9af72964a998efc5fabd6",
+    "size_bytes": 2891
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-006-r1/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "2f664c24851cdbf1b4b014943ad8906f912f985796a889cfd15d546b524df1cd",
+    "size_bytes": 3843
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/overlay.mjs",
+      "sha256": "b6af54c02e66edd582766098fa4ef3a3db2568eab6b84a267360d0ab0b73bfcd",
+      "size_bytes": 4281
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/projection.mjs",
+      "sha256": "6a3a58a73e43071da7203397240456447afc4a8c91a61ab3d9cba309c777c211",
+      "size_bytes": 4191
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/overlay-cases.json",
+      "sha256": "266d66303675c73292e9f5caeab538e5d148856dccbe96738ccbca765bf74ca8",
+      "size_bytes": 506
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs",
+      "sha256": "1b296a4591ff1a8c827c2f2ac835f094c025b163de9257b187bca1706ded2c7b",
+      "size_bytes": 5973
+    }
+  ],
+  "plan_epoch_id": "epoch-83a5a40930fef7ec76de393e",
+  "publication_class": "internal",
+  "residue": [],
+  "result": "pass",
+  "schema_version": "animejs.agent-knowledge-api.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-006-r1/SELECTION-RECEIPT.json",
+    "sha256": "2a4140bc029377691a57eb5707045df49c0cb0b62d6977221815f9c0a176bb87",
+    "size_bytes": 950
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKVE-007",
+  "swu_id": "SWU-AKVE-006",
+  "task_id": "TASK-AKVE-04",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/overlay.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/projection.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/overlay-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs"
+  ],
+  "unit_contract_digest": "ac99b1bf1218336a3ce370aa0f0d9a8741b95a69f975f101c4c73a4e18f0b534",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs"
+      ],
+      "command_id": "isolated-projection",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 65536,
+      "result": "pass",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "TAP version 13\n# Subtest: overlay is isolated, strips authority, and creates zero Lessons\nok 1 - overlay is isolated, strips authority, and creates zero Lessons\n  ---\n  duration_ms: 8.904724\n  ...\n# Subtest: revoked evidence changes only derived eligibility\nok 2 - revoked evidence changes only derived eligibility\n  ---\n  duration_ms: 0.414304\n  ...\n# Subtest: projection is deterministic and view bounded\nok 3 - projection is deterministic and view bounded\n  ---\n  duration_ms: 9.190907\n  ...\n# Subtest: projection rejects forbidden owner, path, policy, and prompt-role fields without digest\nok 4 - projection rejects forbidden owner, path, policy, and prompt-role fields without digest\n  ---\n  duration_ms: 1.846149\n  ...\n# Subtest: pending and corrupt episodes are explicit while unaffected records remain readable\nok 5 - pending and corrupt episodes are explicit while unaffected records remain readable\n  ---\n  duration_ms: 2.395415\n  ...\n# Subtest: projection compilation writes zero canonical vault bytes\nok 6 - projection compilation writes zero canonical vault bytes\n  ---\n  duration_ms: 22.867325\n  ...\n1..6\n# tests 6\n# suites 0\n# pass 6\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 124.382827\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 60
+    }
+  ]
+}
