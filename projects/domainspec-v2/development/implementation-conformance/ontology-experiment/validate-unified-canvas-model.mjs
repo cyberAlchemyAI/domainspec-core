@@ -14,6 +14,7 @@ const sourcePaths = Object.freeze({
   rust: `${experimentPath}/profiles/rust-strict.profile.json`,
   facts: `${experimentPath}/examples/typescript-observed-facts.json`,
   evaluation: `${experimentPath}/examples/typescript-evaluation.expected.json`,
+  scene: `${experimentPath}/examples/body-war-suggested-track-lifecycle.scene.json`,
 });
 
 const loadSource = async (sourceRef) => ({
@@ -27,6 +28,7 @@ const loadBundle = async () => ({
   profiles: await Promise.all([sourcePaths.base, sourcePaths.typescript, sourcePaths.python, sourcePaths.rust].map(loadSource)),
   facts: await loadSource(sourcePaths.facts),
   evaluation: await loadSource(sourcePaths.evaluation),
+  scene: await loadSource(sourcePaths.scene),
 });
 
 const expectProjectionError = (operation, code) => {
@@ -66,18 +68,30 @@ const validateProjection = async () => {
     Object.fromEntries(Object.entries(graph.indexes.by_family).map(([family, ids]) => [family, ids.length])),
     {
       "meta-type": 25,
-      "architecture-type": 12,
+      "architecture-type": 14,
       profile: 4,
-      constraint: 24,
-      property: 17,
+      constraint: 33,
+      property: 24,
       "fact-element": 3,
       "fact-relation": 2,
       finding: 8,
+      "scene-artifact": 16,
     },
   );
-  assert.equal(graph.nodes.length, 95);
-  assert.equal(graph.gaps.length, 20);
-  assert.equal(graph.edges.filter((edge) => edge.kind === "candidate-aligns-to").length, 5);
+  assert.equal(graph.nodes.length, 129);
+  assert.equal(graph.edges.length, 209);
+  assert.equal(graph.gaps.length, 19);
+  assert.equal(graph.edges.filter((edge) => edge.kind === "candidate-aligns-to").length, 7);
+  const scene = graph.scenes["body-war.suggested-track-status-and-rule"];
+  assert.equal(scene.authority_effect, "none");
+  assert.equal(scene.steps.length, 12);
+  assert.deepEqual(scene.steps.map((step) => step.order), Array.from({length: 12}, (_, index) => index + 1));
+  assert.equal(graph.indexes.by_scene[scene.scene_id].node_ids.length, 16);
+  assert.equal(graph.indexes.by_scene[scene.scene_id].edge_ids.length, 22);
+  assert.ok(scene.steps.every((step) => graph.indexes.by_id[step.focus_node_id]));
+  assert.ok(scene.steps.flatMap((step) => step.highlight_node_ids).every((nodeId) => graph.indexes.by_id[nodeId]));
+  assert.equal(graph.nodes.find((node) => node.id === "scene:body-war.gap.enum-definition").statuses.artifact_status, "missing");
+  assert.equal(graph.nodes.find((node) => node.id === "scene:body-war.explanation.receipt-authority").raw.claim_ceiling.includes("authority_effect: none"), true);
 
   const typescriptIndex = graph.indexes.by_profile["architecture.typescript-strict"];
   for (const profileId of ["architecture.python-strict", "architecture.rust-strict"]) {
@@ -107,6 +121,14 @@ const validateProjection = async () => {
   const dangling = cloneBundle(bundle);
   dangling.facts.value.relations[0].to = "implementation.missing.Target";
   expectProjectionError(() => BuildUnifiedCanvasProjection(dangling), "dangling-fact-relation");
+
+  const unknownSceneHighlight = cloneBundle(bundle);
+  unknownSceneHighlight.scene.value.steps[0].highlight_node_ids.push("scene:missing");
+  expectProjectionError(() => BuildUnifiedCanvasProjection(unknownSceneHighlight), "unknown-scene-highlight");
+
+  const authorityInflation = cloneBundle(bundle);
+  authorityInflation.scene.value.authority_effect = "promote";
+  expectProjectionError(() => BuildUnifiedCanvasProjection(authorityInflation), "invalid-scene-authority");
 
   process.stdout.write(`PASS unified canvas projection: ${graph.nodes.length} nodes, ${graph.edges.length} edges, ${graph.gaps.length} explicit gaps, structural replay pass\n`);
 };

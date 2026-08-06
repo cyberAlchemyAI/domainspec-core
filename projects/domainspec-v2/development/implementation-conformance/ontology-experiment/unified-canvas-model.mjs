@@ -7,7 +7,9 @@ const FAMILY_BANDS = Object.freeze({
   "fact-element": "observation",
   "fact-relation": "observation",
   finding: "explanation",
+  "scene-artifact": null,
 });
+const BAND_VALUES = new Set(["meaning", "realization", "expectation", "observation", "explanation"]);
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const tail = (value) => String(value).split(/[./]/).at(-1);
@@ -61,6 +63,7 @@ const nodePlainLanguage = (family, raw, ownerProfileId = null) => {
   if (family === "fact-element") return `Supplied TypeScript example classified as ${tail(raw.type)}; no source adapter ran in this canvas.`;
   if (family === "fact-relation") return `Supplied TypeScript relation from ${tail(raw.from)} to ${tail(raw.to)}.`;
   if (family === "finding") return `Expected ${formatValue(raw.expected)}; observed ${formatValue(raw.actual)} under the supplied TypeScript evaluation.`;
+  if (family === "scene-artifact") return raw.plain_language;
   return "Presentation record.";
 };
 
@@ -70,6 +73,7 @@ export const BuildUnifiedCanvasProjection = (input) => {
   const ontologySource = sourceRecord(input?.ontology, "ontology", diagnostics);
   const factsSource = sourceRecord(input?.facts, "facts", diagnostics);
   const evaluationSource = sourceRecord(input?.evaluation, "evaluation", diagnostics);
+  const sceneSource = input?.scene ? sourceRecord(input.scene, "scene", diagnostics) : null;
   const profileSources = Array.isArray(input?.profiles)
     ? input.profiles.map((entry, index) => sourceRecord(entry, `profiles[${index}]`, diagnostics))
     : [];
@@ -80,6 +84,7 @@ export const BuildUnifiedCanvasProjection = (input) => {
   const ontology = ontologySource.value;
   const facts = factsSource.value;
   const evaluation = evaluationSource.value;
+  const scene = sceneSource?.value ?? null;
   const profiles = profileSources.map((entry) => entry.value);
   const metaById = new Map((metaTypes.meta_types ?? []).map((item) => [item.meta_type_id, item]));
   const conceptById = new Map((ontology.concept_types ?? []).map((item) => [item.concept_id, item]));
@@ -106,12 +111,13 @@ export const BuildUnifiedCanvasProjection = (input) => {
       "fact-element": "fact",
       "fact-relation": "fact-relation",
       finding: "finding",
+      "scene-artifact": "scene",
     };
     const id = family === "finding" ? sourceId : `${prefixes[family]}:${sourceId}`;
     addUnique(nodes, nodeIds, {
       id,
       family,
-      band: FAMILY_BANDS[family],
+      band: context.bandOverride ?? FAMILY_BANDS[family],
       source_id: sourceId,
       source_ref: sourceRef,
       label,
@@ -205,6 +211,44 @@ export const BuildUnifiedCanvasProjection = (input) => {
       {value_type: property.value_type?.kind ?? null},
       {authorityEffect: ontology.authority_effect},
     );
+  }
+
+  const sceneSteps = [];
+  if (scene) {
+    if (scene.schema_version !== "domainspec-lifecycle-scene/v1") diagnostics.push({code: "invalid-scene-schema", message: "Scene requires domainspec-lifecycle-scene/v1."});
+    if (typeof scene.scene_id !== "string" || !scene.scene_id) diagnostics.push({code: "invalid-scene-id", message: "Scene requires scene_id."});
+    if (scene.authority_effect !== "none") diagnostics.push({code: "invalid-scene-authority", message: "Explanatory scenes require authority_effect none."});
+    const stepIds = new Set();
+    const stepOrders = new Set();
+    for (const step of scene.steps ?? []) {
+      if (typeof step.step_id !== "string" || !step.step_id || stepIds.has(step.step_id)) diagnostics.push({code: "duplicate-scene-step", id: step.step_id ?? null, message: "Scene step IDs must be present and unique."});
+      else stepIds.add(step.step_id);
+      if (!Number.isInteger(step.order) || step.order < 1 || stepOrders.has(step.order)) diagnostics.push({code: "duplicate-scene-step-order", order: step.order ?? null, message: "Scene step orders must be positive unique integers."});
+      else stepOrders.add(step.order);
+      sceneSteps.push(clone(step));
+    }
+    sceneSteps.sort((left, right) => left.order - right.order || left.step_id.localeCompare(right.step_id));
+    const stepOrdersByNode = new Map();
+    for (const step of sceneSteps) {
+      for (const nodeId of step.highlight_node_ids ?? []) stepOrdersByNode.set(nodeId, [...(stepOrdersByNode.get(nodeId) ?? []), step.order]);
+    }
+    for (const [index, artifact] of (scene.nodes ?? []).entries()) {
+      const graphNodeId = `scene:${artifact.node_id}`;
+      if (!BAND_VALUES.has(artifact.band)) diagnostics.push({code: "invalid-scene-band", id: artifact.node_id, band: artifact.band, message: `Scene artifact ${artifact.node_id} has invalid band ${artifact.band}.`});
+      if (typeof artifact.plain_language !== "string" || !artifact.plain_language) diagnostics.push({code: "invalid-scene-plain-language", id: artifact.node_id, message: `Scene artifact ${artifact.node_id} requires plain_language.`});
+      if (!Array.isArray(artifact.source_refs) || artifact.source_refs.length === 0 || artifact.source_refs.some((ref) => typeof ref.path !== "string" || typeof ref.selector !== "string" || !/^[a-f0-9]{64}$/.test(ref.sha256 ?? ""))) {
+        diagnostics.push({code: "invalid-scene-source-ref", id: artifact.node_id, message: `Scene artifact ${artifact.node_id} requires digest-bound source refs.`});
+      }
+      addNode(
+        "scene-artifact",
+        artifact.node_id,
+        `${sceneSource.source_ref}#/nodes/${index}`,
+        artifact.label,
+        artifact,
+        {artifact_status: artifact.artifact_status, mechanism: artifact.mechanism, scene_id: scene.scene_id, step_orders: stepOrdersByNode.get(graphNodeId) ?? []},
+        {authorityEffect: scene.authority_effect, bandOverride: artifact.band},
+      );
+    }
   }
 
   const fixtureProjection = projectionById.get(facts.projection_id);
@@ -379,6 +423,21 @@ export const BuildUnifiedCanvasProjection = (input) => {
     addEdge("evaluated-under", findingId, `profile:${evaluation.profile_id}`, `${evaluationSource.source_ref}#profile_id`, "source-native", finding);
   }
 
+  if (scene) {
+    for (const [index, edge] of (scene.edges ?? []).entries()) {
+      if (typeof edge.kind !== "string" || !edge.kind || typeof edge.from !== "string" || typeof edge.to !== "string") {
+        diagnostics.push({code: "invalid-scene-edge", index, message: `Scene edge ${index} requires kind, from, and to.`});
+        continue;
+      }
+      addEdge(edge.kind, edge.from, edge.to, `${sceneSource.source_ref}#/edges/${index}`, "scene-reference", edge);
+    }
+    for (const step of sceneSteps) {
+      if (!nodeIds.has(step.focus_node_id)) diagnostics.push({code: "unknown-scene-focus", id: step.step_id, node_id: step.focus_node_id, message: `Scene step ${step.step_id} has unknown focus node ${step.focus_node_id}.`});
+      if (!Array.isArray(step.highlight_node_ids) || step.highlight_node_ids.length === 0) diagnostics.push({code: "missing-scene-highlights", id: step.step_id, message: `Scene step ${step.step_id} requires highlight_node_ids.`});
+      for (const nodeId of step.highlight_node_ids ?? []) if (!nodeIds.has(nodeId)) diagnostics.push({code: "unknown-scene-highlight", id: step.step_id, node_id: nodeId, message: `Scene step ${step.step_id} highlights unknown node ${nodeId}.`});
+    }
+  }
+
   for (const edge of edges) {
     if (!nodeIds.has(edge.from) || !nodeIds.has(edge.to)) diagnostics.push({code: "dangling-edge", id: edge.id, from: edge.from, to: edge.to, message: `Edge ${edge.id} has a missing endpoint.`});
   }
@@ -388,7 +447,8 @@ export const BuildUnifiedCanvasProjection = (input) => {
   edges.sort((left, right) => left.id.localeCompare(right.id));
   gaps.sort((left, right) => left.id.localeCompare(right.id));
   const nodeIndex = Object.fromEntries(nodes.map((node, index) => [node.id, {kind: "node", index}]));
-  const byFamily = Object.fromEntries(Object.keys(FAMILY_BANDS).map((family) => [family, nodes.filter((node) => node.family === family).map((node) => node.id)]));
+  const indexedFamilies = Object.keys(FAMILY_BANDS).filter((family) => family !== "scene-artifact" || scene);
+  const byFamily = Object.fromEntries(indexedFamilies.map((family) => [family, nodes.filter((node) => node.family === family).map((node) => node.id)]));
   const incidentEdges = Object.fromEntries(nodes.map((node) => [node.id, edges.filter((edge) => edge.from === node.id || edge.to === node.id).map((edge) => edge.id)]));
   const byProfile = Object.fromEntries(profiles.map((profile) => {
     const effectiveOwnerIds = new Set([profile.profile_id, ...(profileAncestors.get(profile.profile_id) ?? [])]);
@@ -402,7 +462,26 @@ export const BuildUnifiedCanvasProjection = (input) => {
       supplied_evaluation: ownsEvaluation,
     }];
   }));
-  const indexes = {by_id: nodeIndex, by_family: byFamily, incident_edges: incidentEdges, by_profile: byProfile};
+  const byScene = scene ? {
+    [scene.scene_id]: {
+      node_ids: nodes.filter((node) => node.family === "scene-artifact" && node.statuses.scene_id === scene.scene_id).map((node) => node.id),
+      edge_ids: edges.filter((edge) => edge.source_kind === "scene-reference").map((edge) => edge.id),
+      step_ids: sceneSteps.map((step) => step.step_id),
+    },
+  } : {};
+  const indexes = {by_id: nodeIndex, by_family: byFamily, incident_edges: incidentEdges, by_profile: byProfile, by_scene: byScene};
+  const scenes = scene ? {
+    [scene.scene_id]: {
+      scene_id: scene.scene_id,
+      title: scene.title,
+      status: scene.status,
+      plain_language: scene.plain_language,
+      boundary: scene.boundary,
+      authority_effect: scene.authority_effect,
+      source_ref: sceneSource.source_ref,
+      steps: sceneSteps,
+    },
+  } : {};
   return deepFreeze({
     graph_id: "unified-canvas:prototype",
     verification_status: "prototype-unverified",
@@ -411,5 +490,6 @@ export const BuildUnifiedCanvasProjection = (input) => {
     edges,
     gaps,
     indexes,
+    scenes,
   });
 };

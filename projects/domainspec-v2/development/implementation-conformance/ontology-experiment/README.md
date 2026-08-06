@@ -79,9 +79,17 @@ callable, and boolean return semantics.
 | --- | --- |
 | [BEGINNER-GUIDE.md](BEGINNER-GUIDE.md) | Detailed plain-language source: end-to-end Rule example, canvas tour, authority boundaries, FAQs, and safe extension path. |
 | [BEGINNER-GUIDE.html](BEGINNER-GUIDE.html) | Dependency-free browser reader that renders the beginner guide beside the interactive canvas. |
-| [architecture-ontology-view.html](architecture-ontology-view.html) | Meaning-first pan/zoom canvas with click-open Explore and Details drawers for canonical meta-types, architecture types, profiles, observed facts, and findings. |
+| [architecture-ontology-view.html](architecture-ontology-view.html) | Meaning-first pan/zoom canvas with click-open Explore, Body War lifecycle, and Details drawers over one graph. |
+| [implementation-architecture-types.html](implementation-architecture-types.html) | Guided canvas that projects Financial Settlement business, DomainSpec, proof-bridge, and system nodes from the candidate ontology. Part 7 now includes an ontology-owned six-stage promise-to-proof lifecycle plus its four-lane, four-step semantic box tour. |
+| [implementation-architecture-types-model.mjs](implementation-architecture-types-model.mjs) | Deterministic source-derived projection for the minimal implementation-type view. |
+| [financial-settlement-proof-lifecycle-model.mjs](financial-settlement-proof-lifecycle-model.mjs) | Validates and deep-freezes the candidate business-system bridge ontology, including lifecycle stage closure, planned-versus-current evidence, Rule architecture properties, cross-branch evidence, semantic tour order and membership, forbidden manufactured links, views, gaps, drift, and proof state. |
+| [business-ontology-obligation-scene-model.mjs](business-ontology-obligation-scene-model.mjs) | Resolves the guided business-meaning → Obligation → graph-planes scene and derives the Part 7 tour from typed ontology identities rather than scene-authored tour data. |
+| [examples/financial-settlement-proof-lifecycle.ontology.json](examples/financial-settlement-proof-lifecycle.ontology.json) | Candidate `business-system-bridge` ontology with 62 typed nodes, 155 typed edges, and four views. Its 41-node promise-to-proof view separates one business promise, seven proof concerns, eight evidence strategies, Rule and Operation architecture contracts, handwritten code, an unissued receipt, four evidence gaps, and two drift findings. Markdown is not used as node identity. |
+| [examples/financial-settlement-business-to-obligation.scene.json](examples/financial-settlement-business-to-obligation.scene.json) | Presentation sequence for eleven Financial Settlement stages. It selects the ontology graph and semantic tour views but does not own tour meaning, order, lanes, or targets; the legacy Markdown anchor remains only as provenance for the 79-obligation constellation. |
+| [validate-implementation-architecture-types.mjs](validate-implementation-architecture-types.mjs) | Model, negative-control, browser, interaction, and responsive checks for the minimal view. |
+| [examples/body-war-suggested-track-lifecycle.scene.json](examples/body-war-suggested-track-lifecycle.scene.json) | Twelve-step, source-bound walkthrough of the real Body War `SuggestedTrackStatus` vocabulary and `NewSuggestionNeedsEvidence` Rule. |
 | [domain-meta-types.projection.json](domain-meta-types.projection.json) | Digest-bound, non-authoritative DS-D1 inventory and explicit implementation-coverage projection. |
-| [ontology.json](ontology.json) | Architecture types, 17 property definitions, relations, operators, and language projections. |
+| [ontology.json](ontology.json) | Architecture types, 24 property definitions, relations, operators, and language projections. |
 | [ONTOLOGY-MAP.md](ONTOLOGY-MAP.md) | Human-readable architecture meta-model. |
 | [PROPERTY-EVALUATION-MODEL.md](PROPERTY-EVALUATION-MODEL.md) | How the package queries and evaluates ontology properties. |
 | [profiles/base-domain.profile.json](profiles/base-domain.profile.json) | Portable constraints shared by all languages. |
@@ -93,6 +101,30 @@ callable, and boolean return semantics.
 | [validate-ontology.mjs](validate-ontology.mjs) | Dependency-free ontology validator and sample evaluator. |
 | [TRACEABILITY-AND-DRIFT.md](TRACEABILITY-AND-DRIFT.md) | Remaining design blind spots. |
 | [VALIDATION-REPORT.md](VALIDATION-REPORT.md) | Executed test receipt. |
+
+### Why the Part 7 tour is semantic
+
+The scene stores only `ontology_tour_view_id: financial-settlement.box-tour`.
+The ontology itself owns a `projection.SemanticTour`, four ordered
+`projection.TourStep` nodes, four `projection.ViewLane` nodes, the 20 visible
+box memberships, and every highlighted concept. Each visible box also owns a
+`reasoning_sentence` explaining what inference the reader may make from it and
+where that inference must stop. Each tour step owns three structured
+`from → relation → to` integration sentences. The model derives the three
+representative-pair edges, three supported-path edges, and two missing-link
+edges by finding existing
+proof-to-code edges between the highlighted nodes. No tour step can invent an
+edge, and there is still no direct `P4 -> FS-POST-001` identity.
+
+This makes the tour and its integration narrative reusable semantic data rather
+than explanatory JavaScript. The active tour lists three sentences explaining
+how its highlighted subjects integrate. Eleven statements resolve to typed
+ontology edges; the final missing-by-design statement is required to resolve to
+no edge. Individual box dialogs continue to show the node-owned reasoning
+sentence. The browser is
+one projection of that data. Passing browser checks prove that
+the projection is operable and faithful; they do not prove that a reader
+understood it.
 
 ## Demonstrated Result
 
@@ -111,3 +143,27 @@ This is an executable ontology test over supplied facts. It is not yet a
 source-code adapter: the example observed graph is hand-authored. The next
 implementation step is a TypeScript adapter that extracts the same fact shape
 from real AST and module-resolution evidence.
+
+## Body War Lifecycle Scene
+
+Open the canvas and choose **Body War lifecycle**. The right-hand drawer walks
+through twelve mechanisms without replacing the graph:
+
+1. the real five-value `SuggestedTrackStatus` feature contract;
+2. the missing complete DomainSpec Enum node;
+3. the generic ontology/profile authority split;
+4. TypeScript profile selection;
+5. `ArchitectureRealizationSpec` projection;
+6. proposed `defineEnum({...} as const)` generation;
+7. the current `body-war.NewSuggestionNeedsEvidence` Rule;
+8. Rule realization projection;
+9. proposed one-file arrow Rule and direct Operation import;
+10. independent source observation;
+11. ontology-derived negative controls and conformance evaluation; and
+12. digest-bound evidence, drift routing, and the external owner gate.
+
+The scene deliberately distinguishes current Body War artifacts from proposed
+generated artifacts. It exposes the complete Enum definition as a real blocker
+instead of treating the current TypeScript union and PostgreSQL enum as proof of
+one ontology-to-code pipeline. Its final step preserves the current bridge
+boundary: `authority_effect: none` and `release_admission: not-granted`.

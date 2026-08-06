@@ -17,6 +17,7 @@ const sourcePaths = Object.freeze({
   rust: `${experimentPath}/profiles/rust-strict.profile.json`,
   facts: `${experimentPath}/examples/typescript-observed-facts.json`,
   evaluation: `${experimentPath}/examples/typescript-evaluation.expected.json`,
+  scene: `${experimentPath}/examples/body-war-suggested-track-lifecycle.scene.json`,
 });
 const loadSource = async (sourceRef) => ({source_ref: sourceRef, value: JSON.parse(await readFile(resolve(repositoryRoot, sourceRef), "utf8"))});
 const loadGraph = async () => BuildUnifiedCanvasProjection({
@@ -25,6 +26,7 @@ const loadGraph = async () => BuildUnifiedCanvasProjection({
   profiles: await Promise.all([sourcePaths.base, sourcePaths.typescript, sourcePaths.python, sourcePaths.rust].map(loadSource)),
   facts: await loadSource(sourcePaths.facts),
   evaluation: await loadSource(sourcePaths.evaluation),
+  scene: await loadSource(sourcePaths.scene),
 });
 const overlaps = (left, right) => left.x < right.x + right.width && left.x + left.width > right.x && left.y < right.y + right.height && left.y + left.height > right.y;
 const segmentCrossesInterior = (from, to, rectangle) => {
@@ -80,7 +82,7 @@ const validateNodes = async () => {
 
   const meaningIds = layout.bands.find((band) => band.id === "meaning").node_ids;
   assert.ok(meaningIds.indexOf("meta:DS-D1.1") < meaningIds.indexOf("meta:DS-D1.4"));
-  assert.equal(meaningIds.at(-1), "meta:DS-D1.10");
+  assert.equal(meaningIds.filter((id) => id.startsWith("meta:")).at(-1), "meta:DS-D1.10");
   const realizationIds = layout.bands.find((band) => band.id === "realization").node_ids;
   assert.ok(realizationIds.indexOf("type:architecture.DomainConceptImplementation") < realizationIds.indexOf("type:architecture.OperationImplementation"));
   const expectationIds = layout.bands.find((band) => band.id === "expectation").node_ids;
@@ -89,9 +91,12 @@ const validateNodes = async () => {
   assert.ok(expectationIds.indexOf("profile:architecture.python-strict") < expectationIds.indexOf("profile:architecture.rust-strict"));
   assert.ok(expectationIds.indexOf("profile:architecture.rust-strict") < expectationIds.indexOf("property:source.path"));
   const observationIds = layout.bands.find((band) => band.id === "observation").node_ids;
-  assert.equal(observationIds.length, 5);
+  assert.equal(observationIds.length, 8);
   const explanationIds = layout.bands.find((band) => band.id === "explanation").node_ids;
-  assert.equal(explanationIds.length, 8);
+  assert.equal(explanationIds.length, 12);
+  assert.equal(Object.keys(layout.positions).length, 129);
+  assert.ok(layout.positions["scene:body-war.source.suggested-track-status"]);
+  assert.ok(layout.positions["scene:body-war.explanation.receipt-authority"]);
 
   const unknownBandGraph = structuredClone(graph);
   unknownBandGraph.nodes[0].band = "unknown";

@@ -101,11 +101,11 @@ const runBrowser = async (mode) => {
     const emphasizedNodes = await page.locator("[data-node-id].is-emphasized").count();
     const dimmedNodes = await page.locator("[data-node-id].is-dimmed").count();
     assert.equal(bandCount, 5);
-    assert.equal(nodeCount, 95);
-    assert.equal(edgeCount, 147);
+    assert.equal(nodeCount, 129);
+    assert.equal(edgeCount, 209);
     assert.equal(new Set(nodeIds).size, nodeCount);
     assert.equal(new Set(edgeIds).size, edgeCount);
-    assert.deepEqual(families, ["architecture-type", "constraint", "fact-element", "fact-relation", "finding", "meta-type", "profile", "property"]);
+    assert.deepEqual(families, ["architecture-type", "constraint", "fact-element", "fact-relation", "finding", "meta-type", "profile", "property", "scene-artifact"]);
     assert.equal(receipt.node_count, nodeCount);
     assert.equal(receipt.edge_count, edgeCount);
     assert.equal(receipt.band_count, bandCount);
@@ -114,6 +114,8 @@ const runBrowser = async (mode) => {
     assert.equal(receipt.graph_id, "unified-canvas:prototype");
     assert.equal(receipt.layout_id, "unified-layout:prototype");
     assert.equal(receipt.verification_status, "prototype-unverified");
+    assert.equal(await page.locator("#loading").isVisible(), false, "loading layer must leave layout after the graph is ready");
+    assert.equal(await page.locator("#ontology-canvas").isVisible(), true, "ready graph must be visible");
     for (const generatedField of [
       ["graph", "digest"],
       ["layout", "digest"],
@@ -131,6 +133,7 @@ const runBrowser = async (mode) => {
     let navigatorEvidence = null;
     let canvasKeyboardEvidence = null;
     let surfaceEvidence = null;
+    let sceneEvidence = null;
     let responsiveEvidence = null;
     if (mode === "visibility") {
       await page.waitForFunction(() => window.__UOC_VISIBILITY_RECEIPT__?.ready === true);
@@ -156,11 +159,11 @@ const runBrowser = async (mode) => {
       await selectFilter("#filter-mode", "hide");
       let visibilityReceipt = await selectFilter("#filter-family", "fact-element");
       assert.equal(visibilityReceipt.node_counts.visible, 3);
-      assert.equal(visibilityReceipt.node_counts.hidden, 92);
+      assert.equal(visibilityReceipt.node_counts.hidden, 126);
       assert.ok(visibilityReceipt.edge_counts.hidden > 0);
 
       visibilityReceipt = await selectFilter("#filter-mode", "dim");
-      assert.equal(visibilityReceipt.node_counts.dimmed, 92);
+      assert.equal(visibilityReceipt.node_counts.dimmed, 126);
       assert.equal(visibilityReceipt.node_counts.hidden ?? 0, 0);
 
       await page.click("#clear-filters");
@@ -179,8 +182,8 @@ const runBrowser = async (mode) => {
       await assertIdentitySets();
       await selectFilter("#filter-mode", "hide");
       visibilityReceipt = await selectFilter("#filter-relation", "candidate-aligns-to");
-      assert.equal(visibilityReceipt.edge_counts.visible, 5);
-      assert.equal(visibilityReceipt.edge_counts.hidden, edgeCount - 5);
+      assert.equal(visibilityReceipt.edge_counts.visible, 7);
+      assert.equal(visibilityReceipt.edge_counts.hidden, edgeCount - 7);
 
       const profileAudits = {};
       for (const profileId of ["architecture.python-strict", "architecture.rust-strict"]) {
@@ -209,7 +212,7 @@ const runBrowser = async (mode) => {
       assert.equal(clearedReceipt.edge_counts.visible, edgeCount);
       assert.equal(await page.locator('[data-node-id][data-visibility="visible"]').count(), nodeCount);
       assert.equal(await page.locator('[data-edge-id][data-visibility="visible"]').count(), edgeCount);
-      visibilityEvidence = {graph_ids: graphIds, identity_replays: graphIds.length - 1, family: "pass-hide-and-dim", maturity: "pass", coverage: "pass", relation: "pass-5-candidate-aligns-to", profile_audits: profileAudits, clear: "pass-all-identities-visible"};
+      visibilityEvidence = {graph_ids: graphIds, identity_replays: graphIds.length - 1, family: "pass-hide-and-dim", maturity: "pass", coverage: "pass", relation: "pass-7-candidate-aligns-to", profile_audits: profileAudits, clear: "pass-all-identities-visible"};
     }
     if (mode === "focus") {
       await page.waitForFunction(() => window.__UOC_FOCUS_RECEIPT__?.ready === true);
@@ -282,7 +285,7 @@ const runBrowser = async (mode) => {
       assert.equal((await page.evaluate(() => window.__UOC_FOCUS_RECEIPT__)).selected_node_id, "meta:DS-D1.7");
       await page.click("#clear-focus");
       await assertIdentitySets();
-      focusEvidence = {graph_id: receipt.graph_id, rule_trace: ruleTrace, missing_hop: missingHop, restoration: "pass-filter-viewbox-scroll", entry_mechanisms: "pass-search-and-node-activation", identity_sets: "pass-95-nodes-147-edges", name_only_links: 0};
+      focusEvidence = {graph_id: receipt.graph_id, rule_trace: ruleTrace, missing_hop: missingHop, restoration: "pass-filter-viewbox-scroll", entry_mechanisms: "pass-search-and-node-activation", identity_sets: "pass-129-nodes-209-edges", name_only_links: 0};
     }
     if (mode === "inspect") {
       const findingId = "finding:typescript.rule-arrow-only:implementation.payment.LegacyLimitRule:callable.form";
@@ -530,10 +533,12 @@ const runBrowser = async (mode) => {
     if (mode === "popovers") {
       const hiddenState = await page.evaluate(() => ({
         explore: {inert: document.querySelector("#explore-drawer").inert, aria_hidden: document.querySelector("#explore-drawer").getAttribute("aria-hidden"), modality: document.querySelector("#explore-drawer").dataset.modality},
+        scene: {inert: document.querySelector("#scene-drawer").inert, aria_hidden: document.querySelector("#scene-drawer").getAttribute("aria-hidden"), modality: document.querySelector("#scene-drawer").dataset.modality},
         details: {open: document.querySelector("#details-dialog").open, inert: document.querySelector("#details-dialog").inert, modality: document.querySelector("#details-dialog").dataset.modality},
         help: {open: document.querySelector("#help-modal").open, inert: document.querySelector("#help-modal").inert, modality: document.querySelector("#help-modal").dataset.modality},
       }));
       assert.deepEqual(hiddenState.explore, {inert: true, aria_hidden: "true", modality: "nonmodal"});
+      assert.deepEqual(hiddenState.scene, {inert: true, aria_hidden: "true", modality: "nonmodal"});
       assert.deepEqual(hiddenState.details, {open: false, inert: true, modality: "modal"});
       assert.deepEqual(hiddenState.help, {open: false, inert: true, modality: "modal"});
 
@@ -576,9 +581,63 @@ const runBrowser = async (mode) => {
       const helpTrace = await page.evaluate(() => window.__UOC_SURFACE_RECEIPT__);
       assert.equal(helpTrace.restored_focus_id, "open-help");
       assert.equal(await page.locator("#explore-drawer[inert] #navigator-search").count(), 1);
+      assert.equal(await page.locator("#scene-drawer[inert] #scene-next").count(), 1);
       assert.equal(await page.locator("#details-dialog:not([open])[inert] #close-details").count(), 1);
       assert.equal(await page.locator("#help-modal:not([open])[inert] #close-help").count(), 1);
-      surfaceEvidence = {modalities: {explore: "nonmodal", details: "modal", help: "modal"}, hidden_inert: "pass-all-three", explore: {entry: "navigator-search", escape_restore: exploreTrace.restored_focus_id}, details: {entry: "close-details", trapped: true, escape_restore: detailsTrace.restored_focus_id}, help: {entry: "close-help", trapped: true, escape_restore: helpTrace.restored_focus_id}, hidden_controls_out_of_tab_order: "pass-inert-or-closed"};
+      surfaceEvidence = {modalities: {explore: "nonmodal", scene: "nonmodal", details: "modal", help: "modal"}, hidden_inert: "pass-all-four", explore: {entry: "navigator-search", escape_restore: exploreTrace.restored_focus_id}, details: {entry: "close-details", trapped: true, escape_restore: detailsTrace.restored_focus_id}, help: {entry: "close-help", trapped: true, escape_restore: helpTrace.restored_focus_id}, hidden_controls_out_of_tab_order: "pass-inert-or-closed"};
+    }
+    if (mode === "scene") {
+      assert.equal(await page.locator("#scene-drawer").getAttribute("aria-hidden"), "true");
+      assert.equal(await page.locator("#scene-step-list button").count(), 12);
+      await page.click("#open-scene");
+      assert.equal(await page.locator("#scene-drawer").getAttribute("aria-hidden"), "false");
+      assert.equal(await page.locator("#scene-drawer").evaluate((element) => element.inert), false);
+      assert.equal(await page.locator("#close-scene").evaluate((element) => element === document.activeElement), true);
+      assert.equal(await page.locator("#scene-progress").innerText(), "Step 1 of 12");
+      assert.match(await page.locator("#scene-name").innerText(), /SuggestedTrackStatus/);
+      assert.match(await page.locator("#scene-boundary").innerText(), /not runtime proof/);
+      let sceneReceipt = await page.evaluate(() => window.__UOC_SCENE_RECEIPT__);
+      assert.equal(sceneReceipt.scene_id, "body-war.suggested-track-status-and-rule");
+      assert.equal(sceneReceipt.step_id, "BW-01");
+      assert.deepEqual(sceneReceipt.node_ids, ["scene:body-war.source.suggested-track-status"]);
+      assert.equal(sceneReceipt.authority_effect, "none");
+
+      await page.click("#scene-next");
+      sceneReceipt = await page.evaluate(() => window.__UOC_SCENE_RECEIPT__);
+      assert.equal(sceneReceipt.step_id, "BW-02");
+      assert.equal(sceneReceipt.artifact_status, "missing");
+      assert.equal(await page.locator("#focus-gaps li").count(), 1);
+      assert.match(await page.locator("#scene-step-proof").innerText(), /no round-trip claim/i);
+
+      await page.evaluate(() => window.__UOC_SCENE_API__.goTo(5));
+      sceneReceipt = await page.evaluate(() => window.__UOC_SCENE_RECEIPT__);
+      assert.equal(sceneReceipt.step_id, "BW-06");
+      assert.match(await page.locator("#scene-code").innerText(), /defineEnum/);
+      assert.match(await page.locator("#scene-code").innerText(), /as const/);
+
+      await page.evaluate(() => window.__UOC_SCENE_API__.goTo(8));
+      sceneReceipt = await page.evaluate(() => window.__UOC_SCENE_RECEIPT__);
+      assert.equal(sceneReceipt.step_id, "BW-09");
+      const compositionCode = await page.locator("#scene-code").innerText();
+      assert.match(compositionCode, /newSuggestionNeedsEvidence/);
+      assert.match(compositionCode, /import/);
+      assert.ok(sceneReceipt.node_ids.includes("scene:body-war.realization.operation-import"));
+
+      await page.evaluate(() => window.__UOC_SCENE_API__.goTo(11));
+      sceneReceipt = await page.evaluate(() => window.__UOC_SCENE_RECEIPT__);
+      assert.equal(sceneReceipt.step_id, "BW-12");
+      assert.match(await page.locator("#scene-step-proof").innerText(), /authority_effect none/i);
+      assert.ok(sceneReceipt.node_ids.includes("scene:body-war.explanation.receipt-authority"));
+      assert.equal(await page.locator('[data-node-id^="scene:body-war."]').count(), 16);
+      assert.equal(await page.locator("#ontology-canvas").getAttribute("data-graph-id"), receipt.graph_id);
+
+      await page.keyboard.press("Escape");
+      assert.equal(await page.locator("#scene-drawer").getAttribute("aria-hidden"), "true");
+      assert.equal(await page.locator("#scene-drawer").evaluate((element) => element.inert), true);
+      assert.equal(await page.locator("#open-scene").evaluate((element) => element === document.activeElement), true);
+      const surfaceReceipt = await page.evaluate(() => window.__UOC_SURFACE_RECEIPT__);
+      assert.equal(surfaceReceipt.restored_focus_id, "open-scene");
+      sceneEvidence = {scene_id: sceneReceipt.scene_id, steps: 12, current_and_proposed_separated: "pass", missing_enum_definition_visible: "pass", enum_code: "pass-as-const", rule_composition: "pass-direct-import", negative_control: "pass-source-bound", authority_boundary: "pass-none", graph_identity_preserved: receipt.graph_id};
     }
     if (mode === "responsive") {
       const waitForReflow = () => page.evaluate(() => new Promise((resolveFrame) => requestAnimationFrame(() => requestAnimationFrame(resolveFrame))));
@@ -601,7 +660,7 @@ const runBrowser = async (mode) => {
         return {selector, x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height: Math.round(box.height)};
       };
       const criticalSelectors = [
-        "#open-explore", "#open-help", "#pan-left", "#pan-up", "#pan-down",
+        "#open-explore", "#open-scene", "#open-help", "#pan-left", "#pan-up", "#pan-down",
         "#pan-right", "#zoom-out", "#zoom-in", "#fit-all", "#fit-selection",
         "#reset-viewport", "#filter-family", "#filter-maturity", "#filter-coverage",
         "#filter-profile", "#filter-relation", "#filter-mode", "#clear-filters",
@@ -624,8 +683,8 @@ const runBrowser = async (mode) => {
       assert.deepEqual(bandOrder, ["Meaning", "Realization", "Expectation", "Observation", "Explanation"]);
       const focusReflowDrawerBox = await dialogWithinViewport("#explore-drawer");
       await page.fill("#navigator-search", "");
-      assert.equal(await page.locator('[role="treeitem"]:visible').count(), 95);
-      assert.equal((await page.evaluate(() => window.__UOC_NAVIGATOR_RECEIPT__)).navigator_ids.length, 95);
+      assert.equal(await page.locator('[role="treeitem"]:visible').count(), 129);
+      assert.equal((await page.evaluate(() => window.__UOC_NAVIGATOR_RECEIPT__)).navigator_ids.length, 129);
       await page.keyboard.press("Escape");
 
       const cases = [
@@ -649,7 +708,7 @@ const runBrowser = async (mode) => {
         await page.click("#open-explore");
         await page.waitForTimeout(220);
         const exploreBox = await dialogWithinViewport("#explore-drawer");
-        assert.equal(await page.locator('[role="treeitem"]:visible').count(), 95);
+        assert.equal(await page.locator('[role="treeitem"]:visible').count(), 129);
         await page.keyboard.press("Escape");
         matrix.push({...testCase, document: documentMetrics, critical_control_count: controls.length, control_boxes: controls, popup_boxes: [helpBox, exploreBox]});
       }
@@ -702,6 +761,7 @@ const runBrowser = async (mode) => {
       navigator: navigatorEvidence,
       canvas_keyboard: canvasKeyboardEvidence,
       surfaces: surfaceEvidence,
+      scene: sceneEvidence,
       responsive: responsiveEvidence,
       server_cleanup: cleanupConfirmed,
     };
@@ -712,6 +772,6 @@ const runBrowser = async (mode) => {
 };
 
 const mode = process.argv[process.argv.indexOf("--mode") + 1];
-if (!["static", "visibility", "focus", "inspect", "viewport", "navigator", "canvas-keyboard", "popovers", "responsive"].includes(mode)) throw new Error(`Expected --mode static, visibility, focus, inspect, viewport, navigator, canvas-keyboard, popovers, or responsive; received ${mode ?? "none"}.`);
+if (!["static", "visibility", "focus", "inspect", "viewport", "navigator", "canvas-keyboard", "popovers", "scene", "responsive"].includes(mode)) throw new Error(`Expected --mode static, visibility, focus, inspect, viewport, navigator, canvas-keyboard, popovers, scene, or responsive; received ${mode ?? "none"}.`);
 const receipt = await runBrowser(mode);
 process.stdout.write(`${JSON.stringify(receipt, null, 2)}\n`);
