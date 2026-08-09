@@ -1,0 +1,75 @@
+diff --git a/projects/cyberalchemy-lab/development/refinement-runs/20260809T192255Z-white-canvas-proper-tower/REFINE-DISPATCH.json b/projects/cyberalchemy-lab/development/refinement-runs/20260809T192255Z-white-canvas-proper-tower/REFINE-DISPATCH.json
+--- a/projects/cyberalchemy-lab/development/refinement-runs/20260809T192255Z-white-canvas-proper-tower/REFINE-DISPATCH.json
++++ b/projects/cyberalchemy-lab/development/refinement-runs/20260809T192255Z-white-canvas-proper-tower/REFINE-DISPATCH.json
+@@ -94,6 +94,6 @@
+     "authorization": "approved",
+     "permission_prompt": "The operator confirmed the two read-only reviewers in the presented Refine strategy.",
+-    "receipt_requirements": ["agent_id", "role_id", "spawn_status", "join_status", "close_status", "dispatch_id", "step_id", "capability_ref", "capability_target", "capability_mode", "wave_id", "write_scope", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "reroute", "handoff_note"]
++    "receipt_requirements": ["agent_id", "role_id", "spawn_status", "join_status", "close_status", "dispatch_id", "step_id", "capability_ref", "capability_target", "capability_mode", "wave_id", "write_scope", "receipt_kind", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "reroute", "handoff_note"]
+   },
+   "subagent_lifecycle": {
+     "status": "pass",
+@@ -103,18 +103,30 @@
+       {
+         "agent_id": "/root/white_tower_visual_review",
+         "role_id": "visual-systems-reviewer",
+-        "spawn_status": "pass",
+-        "join_status": "pass",
++        "capability_ref": "interrogation",
++        "capability_target": "white-canvas proper-tower design",
++        "capability_mode": "refine-review",
++        "wave_id": "white-canvas-review",
++        "write_scope": [],
++        "spawn_status": "spawned",
++        "join_status": "completed",
+         "close_status": "closed",
+-        "receipt": "subagents/orchestrate/run-001/receipts/spawn-0001.json"
++        "receipt_artifact": "receipts/visual-systems-review.md",
++        "runtime_receipt_artifact": "subagents/orchestrate/run-001/receipts/spawn-0001.json"
+       },
+       {
+         "agent_id": "/root/white_tower_semantic_review",
+         "role_id": "semantic-accessibility-reviewer",
+-        "spawn_status": "pass",
+-        "join_status": "pass",
++        "capability_ref": "interrogation",
++        "capability_target": "white-canvas proper-tower design",
++        "capability_mode": "refine-review",
++        "wave_id": "white-canvas-review",
++        "write_scope": [],
++        "spawn_status": "spawned",
++        "join_status": "completed",
+         "close_status": "closed",
+-        "receipt": "subagents/orchestrate/run-001/receipts/spawn-0002.json"
++        "receipt_artifact": "receipts/semantic-accessibility-review.md",
++        "runtime_receipt_artifact": "subagents/orchestrate/run-001/receipts/spawn-0002.json"
+       }
+     ],
+     "gate_decision": "subagents/orchestrate/run-001/reduction/gate-decision.json",
+@@ -285,16 +297,16 @@
+     {"gate_id": "g-no-product-mutation", "kind": "promotion_guardrail", "owner": "refine", "condition": "This run writes planning evidence only and stops before implementation, authority, promotion, publication, or deployment.", "on_fail": "block"}
+   ],
+   "native_stage_receipts": [
+-    {"step_id": "s01-context", "status": "pass", "artifact": "stages/01-context-builder.md"},
+-    {"step_id": "s02-define", "status": "pass", "artifact": "stages/02-define.md"},
+-    {"step_id": "s03-review", "status": "pass", "artifact": "stages/03-interrogation-review.md"},
+-    {"step_id": "s04-research", "status": "pass", "artifact": "stages/04-research-decision.md"},
+-    {"step_id": "s05-distill", "status": "pass", "artifact": "stages/05-distill.md"},
+-    {"step_id": "s06-design", "status": "pass", "artifact": "stages/06-design.md"},
+-    {"step_id": "s07-design-review", "status": "pass", "artifact": "stages/07-design-review.md"},
+-    {"step_id": "s08-repair", "status": "pass", "artifact": "stages/08-distill-repair.md"},
+-    {"step_id": "s09-plan", "status": "pass", "artifact": "stages/09-plan.md"},
+-    {"step_id": "s10-synthesis", "status": "pass", "artifact": "stages/10-final-synthesis.md"}
++    {"step_id": "s01-context", "capability_ref": "context-builder", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/01-context-builder.md"]},
++    {"step_id": "s02-define", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/02-define.md"]},
++    {"step_id": "s03-review", "capability_ref": "interrogation", "receipt_kind": "subagent", "status": "pass", "artifacts": ["stages/03-interrogation-review.md", "receipts/visual-systems-review.md", "receipts/semantic-accessibility-review.md"]},
++    {"step_id": "s04-research", "capability_ref": "refine", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/04-research-decision.md"]},
++    {"step_id": "s05-distill", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/05-distill.md"]},
++    {"step_id": "s06-design", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/06-design.md"]},
++    {"step_id": "s07-design-review", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/07-design-review.md"]},
++    {"step_id": "s08-repair", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/08-distill-repair.md"]},
++    {"step_id": "s09-plan", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/09-plan.md"]},
++    {"step_id": "s10-synthesis", "capability_ref": "refine", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/10-final-synthesis.md"]}
+   ],
+   "observability": {
+     "dispatch_id_required": true,

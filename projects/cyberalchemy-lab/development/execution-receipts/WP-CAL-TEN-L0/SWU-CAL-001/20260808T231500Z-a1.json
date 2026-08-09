@@ -1,0 +1,73 @@
+{
+  "schema_version": "cyberalchemy-lab.task-session-receipt/v1",
+  "work_pack_id": "WP-CAL-TEN-L0",
+  "task_id": "TASK-CAL-CONTRACTS",
+  "swu_id": "SWU-CAL-001",
+  "attempt_id": "WP-CAL-TEN-L0/SWU-CAL-001/20260808T231500Z-a1",
+  "attempt_receipt_path": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001/20260808T231500Z-a1.json",
+  "selection_receipt_digest": "43cac5ef32e03b37594fccce3dccc8bd591348952614deb48b151b4e4fc1c40e",
+  "command_binding": {
+    "argv": [
+      "task-session",
+      "execute",
+      "--work-pack",
+      "WP-CAL-TEN-L0",
+      "--swu",
+      "SWU-CAL-001",
+      "--contract",
+      "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+    ],
+    "cwd": ".",
+    "risk_class": "bounded-write"
+  },
+  "runtime_bindings": [
+    {
+      "runtime_ref": "host-native-task-session-v1",
+      "path": "arcanum/arcana/task-session/scripts/task-session-governance-runner.py",
+      "version": "v1",
+      "sha256": "fc7b56798dab38dbbf2d01ed624268359b4aae0e9965a0826c90e4f56d21ce1b"
+    },
+    {
+      "runtime_ref": "node-v22.13.0",
+      "path": "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+      "version": "v22.13.0",
+      "sha256": "af8d5d1e234beb26b3095e6bebf80edc781f79c9435553a383037eccec2716f8"
+    }
+  ],
+  "touched_paths": [
+    {
+      "path": "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+      "before": {"state": "absent", "sha256": null, "size_bytes": null},
+      "after": {"state": "present", "sha256": "d6eb82b9eb24741faa78db066918142fbafdf4a4a4c1f7a16ce1e861f45c8f49", "size_bytes": 1701}
+    },
+    {
+      "path": "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+      "before": {"state": "absent", "sha256": null, "size_bytes": null},
+      "after": {"state": "present", "sha256": "bf2f0f8adeb945d323122016f8e489644d36dfe657afd5c35215b4d2abc7e9f8", "size_bytes": 8231}
+    },
+    {
+      "path": "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs",
+      "before": {"state": "absent", "sha256": null, "size_bytes": null},
+      "after": {"state": "present", "sha256": "6ecd11939c19508030051af406a176873bcaa2e71898c4e7dfbea2391ff3951b", "size_bytes": 4170}
+    }
+  ],
+  "validation_results": [
+    {
+      "command_id": "cal-001-canonical-json",
+      "argv": [
+        "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+        "--test",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+      ],
+      "cwd": ".",
+      "exit_code": 0,
+      "status": "pass"
+    }
+  ],
+  "result": "pass",
+  "authority_effect": "none",
+  "blockers": [],
+  "stop_reason": null,
+  "started_at": "2026-08-08T23:32:00Z",
+  "finished_at": "2026-08-08T23:38:16Z"
+}

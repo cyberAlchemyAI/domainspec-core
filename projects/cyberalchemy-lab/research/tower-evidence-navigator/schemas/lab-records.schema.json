@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberalchemy.lab/schemas/lab-records/1-0-0",
+  "schema_version": "1.0.0",
+  "authority_effect": "none",
+  "fixture_classes": ["synthetic-contract-fixture", "mechanics-only-private-provisional", "owner-selected-real-tower"],
+  "record_kinds": ["SourceSnapshot", "TowerPackageSnapshot", "Claim", "EvidenceAnchor", "DefinitionReference", "ResidueItem", "OntologyCandidate", "ValidationRecord", "PromotionRecord", "Relation"],
+  "common_required": ["schema_version", "id", "record_snapshot_id", "status", "privacy_class", "provenance", "authority_effect", "fixture_class"],
+  "id_policy": "sha256(cal-canonical-json-v1({kind,logical_id,content_binding})) with an explicit kind prefix",
+  "kind_requirements": {
+    "SourceSnapshot": ["logical_source_id", "content_digest", "byte_size", "media_type", "locator", "capture_context", "owner"],
+    "TowerPackageSnapshot": ["tower_logical_id", "ordered_artifacts", "source_bindings", "manifest_digest"],
+    "Claim": ["proposition", "scope", "owner", "claim_ceiling"],
+    "EvidenceAnchor": ["source_snapshot_id", "selector", "selected_bytes_sha256", "role"],
+    "DefinitionReference": ["term_id", "owner_path", "selector", "source_digest", "binding_status"],
+    "ResidueItem": ["question", "scope", "owner", "blocked_claim_ids", "blocked_gate_ids"],
+    "OntologyCandidate": ["proposed_meaning", "scope", "evidence_ceiling", "review_state", "contradiction_path"],
+    "ValidationRecord": ["validator_id", "profile", "exact_inputs", "command", "environment", "result", "violations", "issued_at"],
+    "PromotionRecord": ["primary_candidate_id", "evidence_ids", "owner", "gate_result", "scope", "contradiction", "expiry", "rollback", "decision_ref"],
+    "Relation": ["relation_id", "kind", "from_id", "to_id", "direction"]
+  },
+  "invariants": [
+    "authority_effect is always none in L0",
+    "equal source bytes never merge different logical_source_id values",
+    "open residue cannot be represented as cleared",
+    "PromotionRecord gate_result is block in the synthetic L0 fixture",
+    "compiler identity cannot issue a passing ValidationRecord"
+  ]
+}

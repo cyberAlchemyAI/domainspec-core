@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberalchemy.lab/schemas/projection/1-0-0",
+  "schema_version": "1.0.0",
+  "projection_schema_version": "1.0.0",
+  "authority_effect": "none",
+  "required_keys": ["schema_version", "projection_revision", "tower_snapshot_id", "formula_inputs", "fixture_class", "records", "relations", "adjacency", "privacy", "invalid", "stale", "authority_effect"],
+  "record_required_keys": ["kind", "id", "status", "privacy_class", "privacy_policy_digest", "authority_effect", "fixture_class"],
+  "forbidden_transport_tokens": ["POST", "publication", "deploy", "effectful_transport"],
+  "ordering": {"records": ["kind", "id"], "relations": ["registry_order", "from_id", "to_id", "relation_id"]}
+}

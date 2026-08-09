@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberalchemy.local/schemas/l0-execution-contracts/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "work_pack_id", "objective", "admission_timing", "authority_effect", "runtime_contracts", "receipt_contracts", "stop_contract", "units"],
+  "properties": {
+    "schema_version": {"const": "cyberalchemy-lab.l0-execution-contracts/v1"},
+    "work_pack_id": {"const": "WP-CAL-TEN-L0"},
+    "objective": {"type": "string", "minLength": 1},
+    "admission_timing": {"const": "selected-unit-at-task-session"},
+    "authority_effect": {"const": "none"},
+    "runtime_contracts": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/runtime"},
+      "required": ["node-v22.13.0", "python-v3.12.3", "host-native-task-session-v1"]
+    },
+    "receipt_contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["terminal_schema", "terminal_validator", "closeout_schema", "closeout_validator"],
+      "properties": {
+        "terminal_schema": {"type": "string", "minLength": 1},
+        "terminal_validator": {"type": "string", "minLength": 1},
+        "closeout_schema": {"type": "string", "minLength": 1},
+        "closeout_validator": {"type": "string", "minLength": 1}
+      }
+    },
+    "stop_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classes", "on_stop", "authority_effect"],
+      "properties": {
+        "classes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "on_stop": {"const": "return-blocking-receipt-without-successor-advance"},
+        "authority_effect": {"const": "none"}
+      }
+    },
+    "units": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {"$ref": "#/$defs/unit"}
+    }
+  },
+  "$defs": {
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "version", "sha256", "network_policy"],
+      "properties": {
+        "kind": {"enum": ["process", "host-native-capability"]},
+        "path": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "network_policy": {"const": "forbidden"}
+      }
+    },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["surface", "capability", "mode", "argv", "cwd", "risk_class", "runtime_ref"],
+      "properties": {
+        "surface": {"const": "host-native-capability"},
+        "capability": {"const": "task-session"},
+        "mode": {"const": "execute"},
+        "argv": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "cwd": {"const": "."},
+        "risk_class": {"const": "bounded-write"},
+        "runtime_ref": {"const": "host-native-task-session-v1"}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command_id", "argv", "cwd", "timeout_seconds", "max_output_bytes", "runtime_ref", "acceptance_critical"],
+      "properties": {
+        "command_id": {"type": "string", "minLength": 1},
+        "argv": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "cwd": {"const": "."},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 3600},
+        "max_output_bytes": {"type": "integer", "minimum": 1, "maximum": 16777216},
+        "runtime_ref": {"enum": ["node-v22.13.0", "python-v3.12.3"]},
+        "acceptance_critical": {"const": true}
+      }
+    },
+    "attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id_policy", "collision_policy", "success_teardown", "failure_teardown"],
+      "properties": {
+        "id_policy": {"const": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>"},
+        "collision_policy": {"const": "block-before-write"},
+        "success_teardown": {"const": "remove-temporary-files-and-preserve-terminal-receipt"},
+        "failure_teardown": {"const": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt"}
+      }
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "swu_id", "dependencies", "canonical_successors", "lifecycle_owner", "closeout_owner", "authority_class", "publication_class", "command", "attempt_contract", "material_producer_owner", "material_writes", "execution_outputs", "allowed_writes", "validation_contracts", "attempt_receipt_root", "terminal_receipt_template", "closeout_receipt", "runtime_refs", "stop_classes"],
+      "properties": {
+        "task_id": {"type": "string", "minLength": 1},
+        "swu_id": {"pattern": "^SWU-CAL-0(0[1-9]|10)$"},
+        "dependencies": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "canonical_successors": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "string", "minLength": 1}},
+        "lifecycle_owner": {"const": "task-session"},
+        "closeout_owner": {"const": "invoke:refresh:apply-approved"},
+        "authority_class": {"const": "private"},
+        "publication_class": {"const": "internal"},
+        "command": {"$ref": "#/$defs/command"},
+        "attempt_contract": {"$ref": "#/$defs/attempt"},
+        "material_producer_owner": {"const": "task-session"},
+        "material_writes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "execution_outputs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "allowed_writes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "validation_contracts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/validation"}},
+        "attempt_receipt_root": {"type": "string", "minLength": 1},
+        "terminal_receipt_template": {"type": "string", "pattern": "<attempt-leaf>\\.json$"},
+        "legacy_terminal_receipt": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "result"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"pattern": "^[a-f0-9]{64}$"}, "result": {"const": "block"}}},
+        "closeout_receipt": {"type": "string", "minLength": 1},
+        "runtime_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "stop_classes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}

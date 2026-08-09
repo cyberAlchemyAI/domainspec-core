@@ -36,6 +36,7 @@ import { loadModuleManifests } from './kernel/registry.mjs';
 import { getSchemaValidators } from './kernel/schema-validation.mjs';
 import { createProjectionStore } from './kernel/storage.mjs';
 import { describeOpenRouterAdapter } from './adapters/openrouter.mjs';
+import { loadResearchTowerL0, ResearchTowerWitnessError } from './research-tower/l0-witness.mjs';
 import {
   createDryRunReceipt,
   localOperatorAction,
@@ -58,6 +59,13 @@ import {
 } from './envelopes/manual-session-bridge.mjs';
 
 const PROJECT_ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
+const RESEARCH_TOWER_ASSETS = new Map([
+  ['autonomous-observatory-lab.png', 'image/png'],
+  ['robot-paper-library.png', 'image/png'],
+  ['night-knowledge-observatory.png', 'image/png'],
+  ['robot-cowork-rpg-sprite-sheet.png', 'image/png'],
+  ['cyberalchemy-mark.svg', 'image/svg+xml; charset=utf-8']
+]);
 
 function invalidCraftIndex(message) {
   const error = new Error(message);
@@ -496,6 +504,23 @@ async function serveFile(response, file, contentType) {
   }
 }
 
+async function serveBinary(response, file, contentType) {
+  try {
+    const bytes = await readFile(file);
+    response.writeHead(200, {
+      'content-type': contentType,
+      'cache-control': 'no-store'
+    });
+    response.end(bytes);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      sendText(response, 404, 'Not found');
+      return;
+    }
+    throw error;
+  }
+}
+
 export function createServer(options = {}) {
   const rootDir = options.rootDir || PROJECT_ROOT;
   const stateDir = options.stateDir || path.join(rootDir, '.ide-extension/state');
@@ -503,6 +528,8 @@ export function createServer(options = {}) {
   const publicDir = options.publicDir || path.join(rootDir, 'public');
   const craftDir = options.craftDir || path.join(rootDir, '.craft');
   const evidenceRoot = options.evidenceRoot || path.resolve(rootDir, '../..');
+  const researchTowerRoot = options.researchTowerRoot || path.join(evidenceRoot, 'projects/cyberalchemy-lab/research/tower-evidence-navigator');
+  const researchTowerWitnessDir = options.researchTowerWitnessDir || path.join(evidenceRoot, 'projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001');
   const workspaceRoot = options.workspaceRoot || evidenceRoot;
   const workbenchFile = path.join(stateDir, 'workbench.json');
   const eventsFile = path.join(stateDir, 'events.jsonl');
@@ -581,11 +608,48 @@ export function createServer(options = {}) {
         return;
       }
 
+      if (request.method === 'GET' && url.pathname === '/demo/research-tower') {
+        await serveFile(response, path.join(publicDir, 'demo/research-tower.html'), 'text/html; charset=utf-8');
+        return;
+      }
+
+      if (request.method === 'GET' && url.pathname === '/api/research-tower/l0') {
+        try {
+          sendJson(response, 200, await loadResearchTowerL0({
+            repositoryRoot: evidenceRoot,
+            towerRoot: researchTowerRoot,
+            witnessDir: researchTowerWitnessDir
+          }));
+        } catch (error) {
+          if (error instanceof ResearchTowerWitnessError) {
+            sendJson(response, 409, { error: error.code, message: error.message });
+            return;
+          }
+          throw error;
+        }
+        return;
+      }
+
       if (request.method === 'GET' && url.pathname === '/assets/cyber-alchemy-logo.svg') {
         await serveFile(
           response,
           path.join(publicDir, 'assets/cyber-alchemy-logo.svg'),
           'image/svg+xml; charset=utf-8'
+        );
+        return;
+      }
+
+      if (request.method === 'GET' && url.pathname.startsWith('/assets/research-tower-concepts/')) {
+        const name = url.pathname.slice('/assets/research-tower-concepts/'.length);
+        const contentType = RESEARCH_TOWER_ASSETS.get(name);
+        if (!contentType) {
+          sendText(response, 404, 'Not found');
+          return;
+        }
+        await serveBinary(
+          response,
+          path.join(publicDir, 'assets/research-tower-concepts', name),
+          contentType
         );
         return;
       }

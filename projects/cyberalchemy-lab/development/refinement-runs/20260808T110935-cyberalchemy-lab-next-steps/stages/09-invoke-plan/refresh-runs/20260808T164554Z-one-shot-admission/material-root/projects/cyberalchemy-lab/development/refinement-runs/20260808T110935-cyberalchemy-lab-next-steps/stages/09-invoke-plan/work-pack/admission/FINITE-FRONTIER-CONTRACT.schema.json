@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberalchemy.local/schemas/finite-frontier-contract/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "work_pack_id", "mode", "frontier", "cursor", "outer_controller", "fresh_session_owner", "unit_owner", "closeout_owner", "budgets", "approval", "projection", "transition", "stops", "authority_effect"],
+  "properties": {
+    "schema_version": {"const": "cyberalchemy-lab.finite-frontier-contract/v1"},
+    "work_pack_id": {"const": "WP-CAL-TEN-L0"},
+    "mode": {"const": "finite-frontier"},
+    "frontier": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"pattern": "^SWU-CAL-0(0[1-9]|10)$"}},
+    "cursor": {"const": "SWU-CAL-001"},
+    "outer_controller": {"const": "implementation-readiness"},
+    "fresh_session_owner": {"const": "task-session-until-blocker"},
+    "unit_owner": {"const": "task-session"},
+    "closeout_owner": {"const": "invoke:refresh:apply-approved"},
+    "budgets": {"type": "object", "additionalProperties": false, "required": ["max_task_session_requests", "max_controller_actions"], "properties": {"max_task_session_requests": {"const": 10}, "max_controller_actions": {"const": 20}}},
+    "approval": {"type": "object", "additionalProperties": false, "required": ["owner", "state", "decision_gate_receipt"], "properties": {"owner": {"const": "human-decision-gate"}, "state": {"const": "not-requested"}, "decision_gate_receipt": {"type": "null"}}},
+    "projection": {"type": "object", "additionalProperties": false, "required": ["admission_timing", "entry_ref", "entry_frontier", "preservation_rule"], "properties": {"admission_timing": {"const": "selected-unit-at-task-session"}, "entry_ref": {"type": "string"}, "entry_frontier": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"const": "SWU-CAL-001"}}, "preservation_rule": {"const": "full-frontier-contract-does-not-expand-one-unit-entry"}}},
+    "transition": {"type": "object", "additionalProperties": false, "required": ["selection", "execution", "closeout", "advance"], "properties": {"selection": {"const": "implementation-readiness-selects-only-current-cursor-after-decision-gate"}, "execution": {"const": "one-fresh-task-session-per-unit"}, "closeout": {"const": "invoke-refresh-validates-terminal-receipt-and-plan-only-deltas"}, "advance": {"const": "unique-canonical-successor-only-after-both-receipts-pass"}}},
+    "stops": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "authority_effect": {"const": "none"}
+  }
+}

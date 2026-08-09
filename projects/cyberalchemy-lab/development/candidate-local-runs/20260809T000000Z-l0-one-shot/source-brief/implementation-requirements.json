@@ -1,0 +1,46 @@
+{
+  "brief_version": "1.0.0",
+  "scope": "SWU-CAL-002 through SWU-CAL-010 candidate-local implementation support",
+  "existing_foundation": {
+    "profile_id": "cal-canonical-json-v1",
+    "profile_schema_version": "1.0.0",
+    "module": "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+    "profile": "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+    "tests": "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+  },
+  "common_record_fields": ["schema_version", "id", "record_snapshot_id", "status", "privacy_class", "provenance", "authority_effect", "fixture_class"],
+  "record_kinds": ["SourceSnapshot", "TowerPackageSnapshot", "Claim", "EvidenceAnchor", "DefinitionReference", "ResidueItem", "OntologyCandidate", "ValidationRecord", "PromotionRecord", "Relation"],
+  "fixture_class_vocabulary": ["synthetic-contract-fixture", "mechanics-only-private-provisional", "owner-selected-real-tower"],
+  "relations": [
+    {"kind":"package_contains","from":"TowerPackageSnapshot","to":"any package record","cardinality":"one-to-one-or-more","cycle_policy":"acyclic"},
+    {"kind":"anchored_by","from":"Claim|OntologyCandidate","to":"EvidenceAnchor","cardinality":"one-or-more","cycle_policy":"acyclic"},
+    {"kind":"supports","from":"EvidenceAnchor","to":"Claim|OntologyCandidate","cardinality":"many-to-many","cycle_policy":"acyclic in L0"},
+    {"kind":"references_definition","from":"OntologyCandidate","to":"DefinitionReference","cardinality":"one-or-more","cycle_policy":"acyclic"},
+    {"kind":"derived_from","from":"projection record","to":"input snapshot|record","cardinality":"one-or-more","cycle_policy":"acyclic","owner":"compiler"},
+    {"kind":"blocked_by","from":"PromotionRecord|candidate","to":"open ResidueItem|contradiction|failed ValidationRecord","cardinality":"one-or-more while blocked","cycle_policy":"acyclic"},
+    {"kind":"contradicts","from":"Claim","to":"Claim","cardinality":"symmetric pair","cycle_policy":"only symmetric pair"}
+  ],
+  "fixture_cardinality": {"TowerPackageSnapshot":1,"SourceSnapshot":7,"Claim":1,"DefinitionReference":1,"ResidueItem":1,"EvidenceAnchor":2,"OntologyCandidate":1,"PromotionRecord":1,"input_relations":"exact required closure only"},
+  "selector": {"kind":"utf8-byte-range-v1","required_fields":["kind","start_byte","end_byte_exclusive","selected_bytes_sha256"],"normalization":"none"},
+  "snapshot": {"file":"PACKAGE-SNAPSHOT.json","profile":"normalized-self-v1","zeroed_fields":["manifest entry PACKAGE-SNAPSHOT.json.content_digest","root.manifest_self_digest","root.tower_snapshot_id"],"exclude":"witness output only","reject":["extras","missing","duplicate path","symlink escape","filesystem order","stale self ID","stale tower ID"]},
+  "projection": {"ordering":{"records":"kind,id","relations":"registry order then IDs"},"required_state":["formula inputs","forward adjacency","reverse adjacency","privacy decisions","invalid/stale","authority_effect:none"],"privacy_scan":["unknown key","denied nested key","denied locator/content","byte sentinel","missing record privacy class","missing policy digest","post-filter schema invalid"],"static_transport_forbidden":["POST","publication","effectful transport"]},
+  "mutants": {
+    "M01":"CAL_SOURCE_DIGEST_MISMATCH","M02":"CAL_SELECTOR_INVALID","M03":"CAL_IDENTITY_COLLAPSE","M04":"CAL_TOWER_SNAPSHOT_STALE","M05":"CAL_RELATION_DANGLING","M06":"CAL_KIND_UNSUPPORTED","M07":"CAL_PRIVACY_EXPOSURE","M08":"CAL_PROJECTION_STALE","M09":"CAL_VALIDATION_UNBOUND","M10":"CAL_RESIDUE_STATE_MISMATCH","M11":"CAL_AUTHORITY_EFFECT_FORBIDDEN","M12":"CAL_TRANSPORT_EFFECT_FORBIDDEN","M13":"CAL_TOWER_NOT_ALLOWLISTED","M14":"CAL_PACKAGE_MANIFEST_STALE","M15":"CAL_VALIDATOR_NOT_INDEPENDENT"
+  },
+  "witness": {"path":"projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001","files":["INPUT-LOCK.json","projection.json","validation-records.json","RESULT.md"],"rules":["compile twice in isolation","require byte equality","independent validator identity","exact-input lock","mechanics-only result"]},
+  "validation_commands": [
+    "node --test projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/*.test.mjs",
+    "node projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/build-package-snapshot.mjs --check",
+    "two isolated compile-projection invocations followed by exact byte comparison",
+    "python3 -m json.tool over every emitted JSON receipt/projection"
+  ],
+  "ambiguities": [
+    "JSON Schema dialect and exact envelope field names are not fixed",
+    "ID formulas beyond logical source/digest binding are not fixed",
+    "Privacy class and denied sentinel vocabulary are not fixed",
+    "Final explicit package file allowlist/order is not enumerated",
+    "ValidationRecord storage encoding is not fixed",
+    "INPUT-LOCK exact field layout is not fixed",
+    "Definition/privacy/generator digest-to-file bindings are not fully enumerated"
+  ]
+}

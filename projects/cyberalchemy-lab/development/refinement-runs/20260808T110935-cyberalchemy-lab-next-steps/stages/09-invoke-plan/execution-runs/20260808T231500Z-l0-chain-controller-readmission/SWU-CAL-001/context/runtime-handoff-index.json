@@ -1,0 +1,78 @@
+{
+  "identity": {
+    "task_or_swu": "SWU-CAL-001",
+    "source_reference": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+    "session_or_run_id": "task-session-4f3bb4a4d9f21f2e1c8c",
+    "session_evidence_path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T231500Z-l0-chain-controller-readmission/SWU-CAL-001/context",
+    "runtime_handoff": "runtime",
+    "repository_revision": "8126a2f740f0ef5e924988908847dc2d5d84b48e",
+    "evidence_date": "2026-08-08"
+  },
+  "task_id": "TASK-CAL-CONTRACTS",
+  "swu_id": "SWU-CAL-001",
+  "strict_coverage": true,
+  "execution_contract": {
+    "writeProfile": "material-bound",
+    "materialWrites": [
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+    ],
+    "executionOutputs": [
+      "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001"
+    ],
+    "allowedWrites": [
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs",
+      "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001"
+    ],
+    "validationCommands": [
+      "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node --test projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+    ],
+    "lifecycleOwner": "task-session",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "fallback_exploration": {
+    "status": "none",
+    "allowed_gap_ids": []
+  },
+  "obligations": [
+    {"id": "O1-profile", "status": "covered", "summary": "Closed cal-canonical-json-v1 value vocabulary.", "selected_evidence": [{"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/08-distill-repair.md", "selector": "Repair 1 — Closed canonical JSON profile", "excerpt_summary": "Defines accepted values and rejects broader numbers/keys."}], "resolution": ""},
+    {"id": "O2-rejection", "status": "covered", "summary": "Reject invalid raw/parsed JSON inputs before hashing.", "selected_evidence": [{"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md", "selector": "SWU-CAL-001 Algorithm and Edge/failure cases", "excerpt_summary": "Requires duplicate-key scan and listed rejection classes."}], "resolution": ""},
+    {"id": "O3-serialization", "status": "covered", "summary": "Deterministic compact UTF-8 JSON serialization.", "selected_evidence": [{"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/08-distill-repair.md", "selector": "Repair 1 — Closed canonical JSON profile", "excerpt_summary": "Defines ASCII sorting, array order, ECMAScript escaping, and UTF-8."}], "resolution": ""},
+    {"id": "O4-digest-binding", "status": "covered", "summary": "Profile/schema-tagged SHA-256 primitive only.", "selected_evidence": [{"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/06-invoke-design/ARCHITECTURE.md", "selector": "Package self-binding rule", "excerpt_summary": "Reserves package self-binding for a later snapshot SWU."}], "resolution": ""},
+    {"id": "O5-scope", "status": "covered", "summary": "Exact three-file material scope.", "selected_evidence": [{"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json", "selector": "units[0]", "excerpt_summary": "Names material writes, execution output, and successor."}], "resolution": ""},
+    {"id": "O6-validation", "status": "covered", "summary": "Declared Node test with goldens and rejection cases.", "selected_evidence": [{"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md", "selector": "SWU-CAL-001 Acceptance evidence and Validation", "excerpt_summary": "Requires two golden vectors and the Node test command."}], "resolution": ""},
+    {"id": "O7-boundaries", "status": "covered", "summary": "No scaffold, dependency, IDE, network, Git, or authority effect.", "selected_evidence": [{"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CONTEXT.md", "selector": "Global invariants", "excerpt_summary": "Sets project/effect ceilings."}], "resolution": ""},
+    {"id": "O8-test-vector-choice", "status": "resolved", "summary": "Golden vector literals are intentionally unspecified.", "selected_evidence": [{"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md", "selector": "SWU-CAL-001 Acceptance evidence", "excerpt_summary": "Requires two vectors but does not prescribe their literals."}], "resolution": "Use reversible test-only key-order and UTF-8/escape vectors."}
+  ],
+  "selected_sources": [
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md", "selectors": ["SWU manifest and navigation", "First-unit narrowness", "closeout row 001"], "obligations": ["O5-scope", "O7-boundaries"], "evidence_kind": "contract"},
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md", "selectors": ["SWU-CAL-001"], "obligations": ["O1-profile", "O2-rejection", "O3-serialization", "O5-scope", "O6-validation", "O8-test-vector-choice"], "evidence_kind": "contract"},
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CONTEXT.md", "selectors": ["Global invariants"], "obligations": ["O7-boundaries"], "evidence_kind": "contract"},
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/06-invoke-design/ARCHITECTURE.md", "selectors": ["Package self-binding rule"], "obligations": ["O4-digest-binding"], "evidence_kind": "architecture"},
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/08-distill-repair.md", "selectors": ["Repair 1 — Closed canonical JSON profile"], "obligations": ["O1-profile", "O2-rejection", "O3-serialization", "O4-digest-binding"], "evidence_kind": "decision"},
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json", "selectors": ["units[0]"], "obligations": ["O5-scope", "O6-validation", "O7-boundaries"], "evidence_kind": "contract"}
+  ],
+  "write_scope": [
+    "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+    "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+    "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+  ],
+  "validation_surface": [
+    "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node --test projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+  ],
+  "gaps_and_blockers": [],
+  "authority_precedence": [
+    "L0-EXECUTION-CONTRACTS.json",
+    "TASK-CAL-CONTRACTS.md",
+    "08-distill-repair.md",
+    "CONTEXT.md and ARCHITECTURE.md"
+  ],
+  "output_paths": {
+    "markdown": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T231500Z-l0-chain-controller-readmission/SWU-CAL-001/context/RUNTIME-HANDOFF.md",
+    "json_index": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T231500Z-l0-chain-controller-readmission/SWU-CAL-001/context/runtime-handoff-index.json"
+  }
+}

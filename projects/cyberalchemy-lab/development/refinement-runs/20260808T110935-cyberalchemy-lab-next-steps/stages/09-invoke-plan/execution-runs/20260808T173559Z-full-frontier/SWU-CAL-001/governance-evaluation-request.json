@@ -1,0 +1,37 @@
+{
+  "schema_version": "task-session.governance-evaluation-request.v1",
+  "request_id": "SWU-CAL-001-closeout-preflight",
+  "evaluation_kind": "closeout-preflight",
+  "policy_ref": {
+    "path": ".agents/skills/task-session/decision-validation-policy.json",
+    "sha256": "f339f258b7862095f31064712df784ea145184d9b75eb15fcaf0127d7c18b63f",
+    "size_bytes": 3273
+  },
+  "input": {
+    "sync_expected": true,
+    "terminal_source_receipt_contract": "cyberalchemy-lab.task-session-receipt/v1",
+    "declared_target_inventory": [
+      "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+      "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md",
+      "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W0.md",
+      "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+      "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-001.json"
+    ],
+    "baseline_state": "exact existing digests plus absent:create owner receipt",
+    "allowed_delta_classes": ["evidence_added", "status_changed", "route_changed"],
+    "validation_commands": [
+      "execution receipt validation",
+      "canonical-json Node test",
+      "closeout receipt validation",
+      "execution-entry validation"
+    ],
+    "expected_owner_receipt": "cyberalchemy-lab.closeout-receipt/v1",
+    "successor_selection": {
+      "requested": true,
+      "declared": true,
+      "dependency_ready": true,
+      "candidate_count": 1
+    }
+  },
+  "output_path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/governance-evaluation-receipt.json"
+}

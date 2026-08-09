@@ -1,0 +1,54 @@
+{
+  "schema_version": "cyberalchemy-lab.finite-frontier-contract/v1",
+  "work_pack_id": "WP-CAL-TEN-L0",
+  "mode": "finite-frontier",
+  "frontier": [
+    "SWU-CAL-001",
+    "SWU-CAL-002",
+    "SWU-CAL-003",
+    "SWU-CAL-004",
+    "SWU-CAL-005",
+    "SWU-CAL-006",
+    "SWU-CAL-007",
+    "SWU-CAL-008",
+    "SWU-CAL-009",
+    "SWU-CAL-010"
+  ],
+  "cursor": "SWU-CAL-001",
+  "outer_controller": "implementation-readiness",
+  "fresh_session_owner": "task-session-until-blocker",
+  "unit_owner": "task-session",
+  "closeout_owner": "invoke:refresh:apply-approved",
+  "budgets": {
+    "max_task_session_requests": 10,
+    "max_controller_actions": 20
+  },
+  "approval": {
+    "owner": "human-decision-gate",
+    "state": "not-requested",
+    "decision_gate_receipt": null
+  },
+  "projection": {
+    "admission_timing": "selected-unit-at-task-session",
+    "entry_ref": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+    "entry_frontier": ["SWU-CAL-001"],
+    "preservation_rule": "full-frontier-contract-does-not-expand-one-unit-entry"
+  },
+  "transition": {
+    "selection": "implementation-readiness-selects-only-current-cursor-after-decision-gate",
+    "execution": "one-fresh-task-session-per-unit",
+    "closeout": "invoke-refresh-validates-terminal-receipt-and-plan-only-deltas",
+    "advance": "unique-canonical-successor-only-after-both-receipts-pass"
+  },
+  "stops": [
+    "product-or-semantic-choice",
+    "scope-expansion",
+    "destructive-or-irreversible-effect",
+    "credentials-or-secret-access",
+    "external-message-or-network-effect",
+    "cost-policy-or-risk-acceptance",
+    "authority-promotion-publication-deployment",
+    "failed-acceptance-critical-validation"
+  ],
+  "authority_effect": "none"
+}

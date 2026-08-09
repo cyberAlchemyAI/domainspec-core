@@ -1,0 +1,68 @@
+{
+  "schema_version": "cyberalchemy-lab.task-context/v1",
+  "task_id": "TASK-CAL-CONTRACTS",
+  "swu_id": "SWU-CAL-001",
+  "run_id": "CAL-L0-FULL-FRONTIER-20260808T173559Z",
+  "strict_coverage": true,
+  "builder_mode": "lean",
+  "repository_revision": "8126a2f740f0ef5e924988908847dc2d5d84b48e",
+  "fast_entry_guard": {
+    "decision": "proceed",
+    "code": "TASK_READY",
+    "receipt_id": "feg-0b7b6f4fd9a0438058fb190b",
+    "request_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/fast-execution-entry-request.json",
+      "sha256": "c2bcab55409240acfffcd20e4da4f3a70a41b2574c6dbc056a3500002593df27",
+      "size_bytes": 57833
+    },
+    "receipt_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/fast-execution-entry-receipt.json",
+      "sha256": "f841129e8c942971c1476bfb9ca9258eb51dd6e6ffd2256427e8752a4b4a5bdd",
+      "size_bytes": 1214
+    }
+  },
+  "obligations": [
+    {"id": "CAL001-O1", "status": "covered", "summary": "closed value profile"},
+    {"id": "CAL001-O2", "status": "covered", "summary": "duplicate keys and forbidden numbers rejected before materialization"},
+    {"id": "CAL001-O3", "status": "covered", "summary": "deterministic canonical UTF-8 bytes"},
+    {"id": "CAL001-O4", "status": "covered", "summary": "profile and schema version bind every digest"},
+    {"id": "CAL001-O5", "status": "covered", "summary": "pure dependency-free module boundary"},
+    {"id": "CAL001-O6", "status": "covered", "summary": "exact write partition"},
+    {"id": "CAL001-O7", "status": "covered", "summary": "acceptance-critical Node vectors and golden proofs"},
+    {"id": "CAL001-O8", "status": "covered", "summary": "closeout contract and unique successor"}
+  ],
+  "execution_contract": {
+    "writeProfile": "material-bound",
+    "materialWrites": [
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+    ],
+    "executionOutputs": [
+      "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001.json"
+    ],
+    "allowedWrites": [
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs",
+      "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001.json"
+    ],
+    "validationCommands": [
+      "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node --test projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+    ],
+    "lifecycleOwner": "task-session",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "selected_sources": [
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/08-distill-repair.md", "selector": "Repair 1 — Closed canonical JSON profile", "sha256": "60ae6f32fb6561c0582b92f26b61fcc161fee2b764865cc438b4f5bfb0981f1d"},
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md", "selector": "SWU-CAL-001 — Canonical JSON and digest primitive", "sha256": "42e4d751b0e130780f31bff0256f6c59f954af9c5cab5b4676b59e107e938d3f"},
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json", "selector": "/units/0", "sha256": "0f848764adba5cf0b4a05185964f362a6a16b2ec4ce8c8632265a4212ac423a7"},
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md", "selector": "Objective summary; SWU manifest; closeout synchronization", "sha256": "d8c5993deb19a431971b86ecd035ae842ac3a7f15fb042b34ab9018c1612a71a"},
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/06-invoke-design/ARCHITECTURE.md", "selector": "Package self-binding rule", "sha256": "7e548375372b2cc8953587b61dab667509ed3d732a9080b565a292bcc11efd39"},
+    {"path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/fast-execution-entry-receipt.json", "selector": "typed TASK_READY receipt", "sha256": "f841129e8c942971c1476bfb9ca9258eb51dd6e6ffd2256427e8752a4b4a5bdd"}
+  ],
+  "fallback_exploration": {"status": "none", "allowed_gap_ids": []},
+  "gaps_and_blockers": [],
+  "authority_effect": "none"
+}

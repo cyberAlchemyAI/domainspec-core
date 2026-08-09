@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "cal-projection-contract-v1",
+  "authority_effect": "none",
+  "generator_contract_id": "cal-projection-compiler-v1",
+  "projection_rules": {"stable_record_order": "kind,id", "stable_relation_order": "registry-order,from_id,to_id,relation_id", "output": "canonical-json", "atomic_write": true, "replace_on_failure": false},
+  "revision_inputs": ["projection_schema_version", "tower_snapshot_id", "input_record_snapshot_ids_sorted", "relation_registry_digest", "projection_rules_digest", "generator_contract_digest", "privacy_policy_digest"],
+  "reserved_consumer_contract": {"transport": "static-direct-get-shape-only", "forbidden": ["POST", "publication", "effectful_transport"], "fields": ["projection_revision", "tower_snapshot_id", "records", "relations", "adjacency", "privacy", "invalid", "stale", "authority_effect"]},
+  "claim_ceiling": "synthetic mechanics only; no real source, representative, IDE, authority, effect, readiness, promotion, publication, deployment, or release claim"
+}

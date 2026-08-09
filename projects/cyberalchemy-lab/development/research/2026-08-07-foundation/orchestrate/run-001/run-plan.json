@@ -1,0 +1,135 @@
+{
+  "action_artifacts": [
+    "actions/spawn-0001.json",
+    "actions/spawn-0002.json",
+    "actions/spawn-0003.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0001",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-07-cyberalchemy-lab-foundation",
+      "forbidden_write_scopes": [
+        "projects/",
+        "research/",
+        "arcanum/",
+        "cyberAlchemy-v2/",
+        ".arcanum/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "confirmed-dispatch-sheet",
+        "strategy-inventory-packet",
+        "tower-system-source"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "orchestrate/run-001/receipts/wave-01-explorers/corpus-explorer.json"
+      ],
+      "role": "corpus-explorer",
+      "run_id": "run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "cyberalchemy-lab/corpus-cartography",
+      "wave_id": "wave-01-explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0002",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s2"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-07-cyberalchemy-lab-foundation",
+      "forbidden_write_scopes": [
+        "projects/ide-extension/",
+        "projects/cyberalchemy-lab/",
+        "arcanum/",
+        "cyberAlchemy-v2/",
+        ".arcanum/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "confirmed-dispatch-sheet",
+        "strategy-inventory-packet",
+        "ide-extension-source"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "orchestrate/run-001/receipts/wave-01-explorers/workbench-explorer.json"
+      ],
+      "role": "workbench-explorer",
+      "run_id": "run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s2",
+      "target": "cyberalchemy-lab/workbench-integration-reality",
+      "wave_id": "wave-01-explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0003",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s3"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-07-cyberalchemy-lab-foundation",
+      "forbidden_write_scopes": [
+        "projects/",
+        "research/",
+        "arcanum/",
+        "cyberAlchemy-v2/",
+        ".arcanum/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "confirmed-dispatch-sheet",
+        "strategy-inventory-packet",
+        "ontology-owner-sources"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "orchestrate/run-001/receipts/wave-01-explorers/ontology-explorer.json"
+      ],
+      "role": "ontology-explorer",
+      "run_id": "run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s3",
+      "target": "cyberalchemy-lab/candidate-ontology-governance",
+      "wave_id": "wave-01-explorers",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "2026-08-07-cyberalchemy-lab-foundation",
+  "run_id": "run-001",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [],
+    "gate_after": "g-explorer-evidence",
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": true,
+    "role_ids": [
+      "corpus-explorer",
+      "workbench-explorer",
+      "ontology-explorer"
+    ],
+    "wave_id": "wave-01-explorers"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}
