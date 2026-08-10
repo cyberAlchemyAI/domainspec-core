@@ -4,6 +4,7 @@ import {
   deriveRelationPresentationRecord,
   RelationPresentationError,
 } from "./relationPresentation.ts";
+import {createRelationEncodingRegistry} from "./relationEncoding.ts";
 
 const digest = "a".repeat(64);
 const evidence = [{path: "docs/mappings.md", selector: "Relation", sha256: digest}];
@@ -136,5 +137,26 @@ describe("relation presentation record", () => {
       }),
       "SIDECAR_SOURCE_MISMATCH",
     );
+  });
+
+  it("admits predicate-owned colors without replacing exact text", () => {
+    const registry = createRelationEncodingRegistry({
+      ...encoding,
+      minimum_graphical_contrast: 4.5,
+      colorTokens: {
+        "edge.data.produces": {
+          predicate: "produces",
+          dark: "#1B84B1",
+          dark_contrast: 4.6,
+          light: "#197EA9",
+          light_contrast: 4.7,
+        },
+      },
+      patternTokens: {
+        "edge.pattern.dashed": {label: "dashed", stroke_dasharray: "6 4"},
+      },
+    });
+    expect(registry.predicateColorMap.produces).toBe("edge.data.produces");
+    expect(registry.patternTokens["edge.pattern.dashed"].label).toBe("dashed");
   });
 });

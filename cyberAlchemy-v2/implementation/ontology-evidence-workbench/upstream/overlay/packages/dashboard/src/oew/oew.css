@@ -56,7 +56,14 @@ kbd { background: #0a121c; border: 1px solid var(--oew-line-strong); border-radi
 .oew-node.is-residue { border-color: #98515b; }
 .oew-node.is-selected { box-shadow: 0 0 0 3px #d9fcff, 0 0 34px #49dce766; transform: translate(-50%, -50%) scale(1.05); }
 .oew-graph.is-tracing .oew-node:not(.is-residue):not(.is-selected) { opacity: .76; }
-.oew-edge { background: #0b1722; border: 1px solid var(--oew-line-strong); border-radius: 999px; color: var(--oew-muted); font-family: var(--oew-mono); font-size: .62rem; left: calc((var(--sx) + var(--tx)) / 2); padding: .25rem .42rem; position: absolute; top: calc((var(--sy) + var(--ty)) / 2); transform: translate(-50%, -50%); z-index: 2; }
+.oew-edge { align-items: center; background: #0b1722; border: 1px solid var(--oew-edge-color, var(--oew-line-strong)); border-radius: 999px; color: var(--oew-text); display: flex; flex-wrap: wrap; font-family: var(--oew-mono); font-size: .62rem; gap: .3rem; left: calc((var(--sx) + var(--tx)) / 2); max-width: 14rem; padding: .25rem .42rem; position: absolute; top: calc((var(--sy) + var(--ty)) / 2); transform: translate(-50%, -50%); z-index: 2; }
+.oew-edge small { color: var(--oew-muted); flex-basis: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.oew-edge-color, .oew-relation-cue i, .oew-table-swatch { background: var(--oew-edge-color, var(--oew-line-strong)); border: 1px solid currentColor; border-radius: 50%; display: inline-block; flex: 0 0 auto; height: .7rem; width: .7rem; }
+.oew-relation-geometry { height: 100%; inset: 0; overflow: visible; pointer-events: none; position: absolute; width: 100%; z-index: 1; }
+.oew-exact-relation { cursor: pointer; pointer-events: stroke; }
+.oew-exact-relation polyline { stroke: var(--oew-edge-color, var(--oew-cyan)); stroke-dasharray: var(--oew-edge-dash, none); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+.oew-exact-relation:focus { outline: none; }
+.oew-exact-relation:focus polyline { filter: drop-shadow(0 0 4px var(--oew-edge-color, var(--oew-cyan))); stroke-width: 5; }
 .oew-edge--derives-from { border-color: #469aaa; color: #8cecf3; }
 .oew-edge--contradicts { border-style: dashed; border-color: var(--oew-red); color: #ffabb3; }
 .oew-edge--specializes { border-style: dotted; border-color: var(--oew-amber); color: #ffe297; top: 86%; }
@@ -75,12 +82,14 @@ kbd { background: #0a121c; border: 1px solid var(--oew-line-strong); border-radi
 .oew-conflict-card { border-color: #6d343e; }
 .oew-relation-list button { display: grid; grid-template-columns: 1fr auto; }
 .oew-relation-list small { grid-column: 1 / -1; }
+.oew-relation-cue { align-items: center; display: inline-flex; gap: .35rem; }
 .oew-table-wrap { overflow: auto; padding: 1rem; }
 .oew-table { border-collapse: collapse; font-size: .78rem; width: 100%; }
 .oew-table th { color: var(--oew-muted); font-size: .65rem; letter-spacing: .08em; text-align: left; text-transform: uppercase; }
 .oew-table th, .oew-table td { border-bottom: 1px solid var(--oew-line); padding: .75rem; }
 .oew-table tr.is-selected { background: #102d3d; }
 .oew-table button { background: transparent; border: 0; color: var(--oew-cyan); font-family: var(--oew-mono); font-weight: 800; }
+.oew-table-swatch { margin-right: .35rem; vertical-align: middle; }
 .oew-tour { align-items: center; backdrop-filter: blur(18px); background: #0d1b29ee; border: 1px solid #39546f; border-radius: 1rem; bottom: 1rem; box-shadow: 0 18px 60px #0009; display: grid; gap: 1rem; grid-template-columns: 1fr auto; left: 50%; max-width: 48rem; padding: 1rem 1.1rem; position: fixed; transform: translateX(-50%); width: calc(100% - 2rem); z-index: 30; }
 .oew-tour h3 { margin: .3rem 0; }
 .oew-tour p { color: var(--oew-muted); font-size: .8rem; line-height: 1.45; margin: 0; }
@@ -140,4 +149,10 @@ kbd { background: #0a121c; border: 1px solid var(--oew-line-strong); border-radi
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .001ms !important; }
+}
+
+@media (forced-colors: active) {
+  .oew-edge, .oew-exact-relation polyline { border-color: CanvasText; color: CanvasText; forced-color-adjust: auto; stroke: CanvasText; }
+  .oew-edge-color, .oew-relation-cue i, .oew-table-swatch { background: CanvasText; }
+  .oew-exact-relation polyline { stroke-dasharray: var(--oew-edge-dash, none); }
 }

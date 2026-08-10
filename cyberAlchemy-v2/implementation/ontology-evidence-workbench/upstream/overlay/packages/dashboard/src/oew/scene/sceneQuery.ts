@@ -1,9 +1,17 @@
 import {
+  admitKnowledgeSceneV13,
   finalizeKnowledgeScene,
+  finalizeKnowledgeSceneV13,
   OEW_KNOWLEDGE_SCENE_V12,
+  OEW_KNOWLEDGE_SCENE_V13,
 } from "./relationReference.ts";
+import {
+  compilePortalDrafts,
+  validatePortalSceneV13,
+} from "./portalQuery.ts";
 
 export const OEW_KNOWLEDGE_SCENE_SCHEMA = OEW_KNOWLEDGE_SCENE_V12;
+export const OEW_KNOWLEDGE_SCENE_SCHEMA_V13 = OEW_KNOWLEDGE_SCENE_V13;
 
 const SOURCE_GRAPH_SCHEMA = "oew.compiled-source-graph.v1";
 const VIEW_PACK_SCHEMA = "oew.compiled-view-pack.v1";
@@ -12,16 +20,36 @@ const SCOPE_CAPS = {
   focus: { nodes: 32, internal_relations: 64, portals: 16 },
 };
 
-/** @typedef {Record<string, unknown>} JsonRecord */
+type JsonRecord = Record<string, unknown>;
+type Scope = keyof typeof SCOPE_CAPS;
+type SceneNode = JsonRecord & {source_node_id: string};
+type SceneRelation = JsonRecord & {
+  source_relation_id: string;
+  source_node_id: string;
+  target_node_id: string;
+};
+type CompiledSourceGraph = JsonRecord & {
+  graph_digest: string;
+  nodes: JsonRecord[];
+  relations: JsonRecord[];
+  node_by_id: Record<string, unknown>;
+};
+type CompiledViewPack = JsonRecord & {
+  view_pack_id: string;
+  view_pack_digest: string;
+  graph_digest: string;
+  clusters: JsonRecord[];
+  cluster_by_id: Record<string, unknown>;
+  cluster_id_by_node_id: Record<string, string>;
+  default_cluster_id: string;
+};
+type NavigationFrame = JsonRecord & {focus_node_id?: string};
 
 export class SceneQueryError extends Error {
-  /** @type {string} */
-  code;
-  /** @type {string[]} */
-  issues;
+  code: string;
+  issues: string[];
 
-  /** @param {string[]} issues */
-  constructor(issues = []) {
+  constructor(issues: string[] = []) {
     const stableIssues = [...new Set(issues)].sort();
     super(`OEW scene query rejected: ${stableIssues.join(", ")}`);
     this.name = "SceneQueryError";
@@ -30,34 +58,33 @@ export class SceneQueryError extends Error {
   }
 }
 
-/** @param {unknown} value @returns {value is JsonRecord} */
-const isRecord = (value) =>
+const isRecord = (value: unknown): value is JsonRecord =>
   value !== null && typeof value === "object" && !Array.isArray(value);
 
-/** @param {unknown} value */
-const isNonemptyString = (value) =>
+const isNonemptyString = (value: unknown): value is string =>
   typeof value === "string" && value.trim().length > 0;
 
-/** @param {JsonRecord} node */
-const sceneNode = (node) => {
-  const result = {
-    source_node_id: node.source_node_id,
+const hasOwn = (value: object, key: PropertyKey) =>
+  Object.prototype.hasOwnProperty.call(value, key);
+
+const sceneNode = (node: JsonRecord): SceneNode => {
+  const result: SceneNode = {
+    source_node_id: node.source_node_id as string,
     label: node.label,
     node_kind: node.node_kind,
     role: node.role,
     icon_token: node.icon_token,
-    evidence_refs: [...node.evidence_refs],
+    evidence_refs: [...(node.evidence_refs as unknown[])],
     authority_effect: node.authority_effect,
   };
-  if (Object.hasOwn(node, "summary")) result.summary = node.summary;
+  if (hasOwn(node, "summary")) result.summary = node.summary;
   return result;
 };
 
-/** @param {JsonRecord} relation */
-const sceneRelation = (relation) => ({
-  source_relation_id: relation.source_relation_id,
-  source_node_id: relation.source_node_id,
-  target_node_id: relation.target_node_id,
+const sceneRelation = (relation: JsonRecord): SceneRelation => ({
+  source_relation_id: relation.source_relation_id as string,
+  source_node_id: relation.source_node_id as string,
+  target_node_id: relation.target_node_id as string,
   exact_predicate: relation.exact_predicate,
   source_direction: relation.source_direction,
   presentation_family: relation.presentation_family,
@@ -65,16 +92,19 @@ const sceneRelation = (relation) => ({
   pattern_token: relation.pattern_token,
   visible_label: relation.visible_label,
   direction_label: relation.direction_label,
-  evidence_refs: [...relation.evidence_refs],
-  source_refs: [...relation.source_refs],
+  evidence_refs: [...(relation.evidence_refs as unknown[])],
+  source_refs: [...(relation.source_refs as unknown[])],
   mapping_loss: relation.mapping_loss,
   authority_effect: relation.authority_effect,
   source_digest: relation.source_digest,
 });
 
 /** @param {JsonRecord} sourceGraph @param {JsonRecord} viewPack */
-const validateCompiledInputs = (sourceGraph, viewPack) => {
-  const issues = [];
+const validateCompiledInputs = (
+  sourceGraph: JsonRecord,
+  viewPack: JsonRecord,
+) => {
+  const issues: string[] = [];
   if (
     sourceGraph.schema_version !== SOURCE_GRAPH_SCHEMA ||
     !isNonemptyString(sourceGraph.graph_digest) ||
@@ -102,8 +132,12 @@ const validateCompiledInputs = (sourceGraph, viewPack) => {
 };
 
 /** @param {JsonRecord} viewPack @param {JsonRecord} query @param {string[]} issues */
-const resolveCluster = (viewPack, query, issues) => {
-  if (!Object.hasOwn(SCOPE_CAPS, query.scope)) {
+const resolveCluster = (
+  viewPack: CompiledViewPack,
+  query: JsonRecord,
+  issues: string[],
+) => {
+  if (typeof query.scope !== "string" || !hasOwn(SCOPE_CAPS, query.scope)) {
     issues.push("SCENE_SCOPE_UNSUPPORTED");
     return null;
   }
@@ -132,14 +166,18 @@ const resolveCluster = (viewPack, query, issues) => {
 };
 
 /**
- * Derive a bounded semantic scene. The relevant relation denominator is every
- * exact source relation with at least one endpoint in the visible node set.
+ * Compile the common semantic scene draft without selecting a scene schema or
+ * manufacturing a revision. v1.2 and v1.3 wrappers own their finalization.
  *
  * @param {unknown} sourceGraphInput
  * @param {unknown} viewPackInput
  * @param {unknown} queryInput
  */
-export async function deriveScene(sourceGraphInput, viewPackInput, queryInput) {
+const compileSceneDraft = async (
+  sourceGraphInput: unknown,
+  viewPackInput: unknown,
+  queryInput: unknown,
+) => {
   if (!isRecord(sourceGraphInput)) {
     throw new SceneQueryError(["SCENE_SOURCE_GRAPH_INVALID"]);
   }
@@ -148,30 +186,32 @@ export async function deriveScene(sourceGraphInput, viewPackInput, queryInput) {
   }
   if (!isRecord(queryInput)) throw new SceneQueryError(["SCENE_QUERY_INVALID"]);
 
-  const sourceGraph = sourceGraphInput;
-  const viewPack = viewPackInput;
+  const sourceGraph = sourceGraphInput as CompiledSourceGraph;
+  const viewPack = viewPackInput as CompiledViewPack;
   const query = queryInput;
   const issues = validateCompiledInputs(sourceGraph, viewPack);
   const clusterId = resolveCluster(viewPack, query, issues);
   if (issues.length) throw new SceneQueryError(issues);
+  if (clusterId === null) throw new SceneQueryError(["SCENE_CLUSTER_INVALID"]);
+  const scope = query.scope as Scope;
 
   const cluster = viewPack.cluster_by_id[clusterId];
   if (!isRecord(cluster) || !Array.isArray(cluster.member_node_ids)) {
     throw new SceneQueryError([`SCENE_CLUSTER_INVALID:${clusterId}`]);
   }
-  const visibleNodeIds = [...cluster.member_node_ids].sort((left, right) =>
+  const visibleNodeIds = [...(cluster.member_node_ids as string[])].sort((left, right) =>
     left.localeCompare(right),
   );
   if (visibleNodeIds.length === 0) {
     throw new SceneQueryError([`SCENE_EMPTY:${clusterId}`]);
   }
-  const caps = SCOPE_CAPS[query.scope];
+  const caps = SCOPE_CAPS[scope];
   if (visibleNodeIds.length > caps.nodes) {
     issues.push(`SCENE_NODE_CAP_EXCEEDED:${visibleNodeIds.length}:${caps.nodes}`);
   }
 
   const visible = new Set(visibleNodeIds);
-  const nodes = [];
+  const nodes: SceneNode[] = [];
   for (const nodeId of visibleNodeIds) {
     const node = sourceGraph.node_by_id[nodeId];
     if (!isRecord(node)) {
@@ -181,17 +221,19 @@ export async function deriveScene(sourceGraphInput, viewPackInput, queryInput) {
     }
   }
 
-  const internalRelations = [];
-  const cutRelations = [];
-  const relevantRelationIds = [];
-  const destinationClusterIds = new Set();
+  const internalRelations: SceneRelation[] = [];
+  const cutRelations: SceneRelation[] = [];
+  const relevantRelationIds: string[] = [];
+  const destinationClusterIds = new Set<string>();
   for (const relation of sourceGraph.relations) {
     if (!isRecord(relation) || !isNonemptyString(relation.source_relation_id)) {
       issues.push("SCENE_RELATION_INVALID");
       continue;
     }
-    const sourceVisible = visible.has(relation.source_node_id);
-    const targetVisible = visible.has(relation.target_node_id);
+    const sourceNodeId = relation.source_node_id as string;
+    const targetNodeId = relation.target_node_id as string;
+    const sourceVisible = visible.has(sourceNodeId);
+    const targetVisible = visible.has(targetNodeId);
     if (!sourceVisible && !targetVisible) continue;
     relevantRelationIds.push(relation.source_relation_id);
     if (sourceVisible && targetVisible) {
@@ -200,8 +242,8 @@ export async function deriveScene(sourceGraphInput, viewPackInput, queryInput) {
     }
     cutRelations.push(sceneRelation(relation));
     const outsideNodeId = sourceVisible
-      ? relation.target_node_id
-      : relation.source_node_id;
+      ? targetNodeId
+      : sourceNodeId;
     const destinationClusterId = viewPack.cluster_id_by_node_id[outsideNodeId];
     if (!destinationClusterId) {
       issues.push(`SCENE_BOUNDARY_CLUSTER_UNRESOLVED:${outsideNodeId}`);
@@ -242,15 +284,15 @@ export async function deriveScene(sourceGraphInput, viewPackInput, queryInput) {
   if (issues.length) throw new SceneQueryError(issues);
 
   const scopeToken =
-    query.scope === "focus" ? `${clusterId}:${query.focus_node_id}` : clusterId;
-  const frameId = `frame:${viewPack.view_pack_id}:${query.scope}:${scopeToken}`;
-  const sceneId = `scene:${viewPack.view_pack_id}:${query.scope}:${scopeToken}`;
-  const navigationFrame = {
+    scope === "focus" ? `${clusterId}:${query.focus_node_id}` : clusterId;
+  const frameId = `frame:${viewPack.view_pack_id}:${scope}:${scopeToken}`;
+  const sceneId = `scene:${viewPack.view_pack_id}:${scope}:${scopeToken}`;
+  const navigationFrame: NavigationFrame = {
     frame_id: frameId,
     graph_digest: sourceGraph.graph_digest,
     view_pack_id: viewPack.view_pack_id,
     view_pack_digest: viewPack.view_pack_digest,
-    scope: query.scope,
+    scope,
     selected: { kind: "none" },
     filters: {},
     index_state: {
@@ -260,7 +302,7 @@ export async function deriveScene(sourceGraphInput, viewPackInput, queryInput) {
     },
     viewport: { x: 0, y: 0, zoom: 1 },
     panel: { id: "none", modal: false },
-    expanded_portal_ids: [],
+    expanded_portal_ids: [] as string[],
     focus_fallback_order: [
       "initiating-control",
       "selected-entity",
@@ -268,35 +310,101 @@ export async function deriveScene(sourceGraphInput, viewPackInput, queryInput) {
       "workbench-heading",
     ],
   };
-  if (query.scope === "focus") {
-    navigationFrame.focus_node_id = query.focus_node_id;
+  if (scope === "focus") {
+    navigationFrame.focus_node_id = query.focus_node_id as string;
   }
 
   const completeIndexRows = sourceGraph.nodes.length + sourceGraph.relations.length;
-  return finalizeKnowledgeScene({
-    schema_version: OEW_KNOWLEDGE_SCENE_SCHEMA,
-    scene_id: sceneId,
-    graph_digest: sourceGraph.graph_digest,
-    view_pack_id: viewPack.view_pack_id,
-    view_pack_digest: viewPack.view_pack_digest,
-    scope: query.scope,
-    nodes,
-    internal_relations: internalRelations,
-    cut_relations: cutRelations,
-    clusters: [
-      { cluster_id: clusterId, visible_member_node_ids: visibleNodeIds },
-    ],
-    portals: [],
-    legend: [],
-    navigation_frame: navigationFrame,
-    denominators: {
-      source_nodes: sourceGraph.nodes.length,
-      source_relations: sourceGraph.relations.length,
-      scene_nodes: nodes.length,
-      internal_relations: internalRelations.length,
-      cut_relations: cutRelations.length,
-      complete_index_rows: completeIndexRows,
-      filtered_index_rows: completeIndexRows,
+  return {
+    caps,
+    visibleNodeIds,
+    viewPack,
+    draft: {
+      scene_id: sceneId,
+      graph_digest: sourceGraph.graph_digest,
+      view_pack_id: viewPack.view_pack_id,
+      view_pack_digest: viewPack.view_pack_digest,
+      scope,
+      nodes,
+      internal_relations: internalRelations,
+      cut_relations: cutRelations,
+      clusters: [
+        { cluster_id: clusterId, visible_member_node_ids: visibleNodeIds },
+      ],
+      legend: [],
+      navigation_frame: navigationFrame,
+      denominators: {
+        source_nodes: sourceGraph.nodes.length,
+        source_relations: sourceGraph.relations.length,
+        scene_nodes: nodes.length,
+        internal_relations: internalRelations.length,
+        cut_relations: cutRelations.length,
+        complete_index_rows: completeIndexRows,
+        filtered_index_rows: completeIndexRows,
+      },
     },
+  };
+};
+
+/**
+ * Preserve the existing v1.2 scene API and receipts unchanged.
+ *
+ * @param {unknown} sourceGraphInput
+ * @param {unknown} viewPackInput
+ * @param {unknown} queryInput
+ */
+export async function deriveScene(
+  sourceGraphInput: unknown,
+  viewPackInput: unknown,
+  queryInput: unknown,
+) {
+  const { draft } = await compileSceneDraft(
+    sourceGraphInput,
+    viewPackInput,
+    queryInput,
+  );
+  return finalizeKnowledgeScene({
+    ...draft,
+    schema_version: OEW_KNOWLEDGE_SCENE_SCHEMA,
+    portals: [],
   });
+}
+
+/** @param {unknown} sceneInput */
+export async function admitPortalSceneV13(sceneInput: unknown) {
+  const admitted = await admitKnowledgeSceneV13(sceneInput);
+  await validatePortalSceneV13(admitted);
+  return admitted;
+}
+
+/**
+ * Derive one reference-first v1.3 scene. Portal drafts are complete before the
+ * sole finalization pass, then serialized and admitted before return.
+ *
+ * @param {unknown} sourceGraphInput
+ * @param {unknown} viewPackInput
+ * @param {unknown} queryInput
+ */
+export async function deriveSceneV13(
+  sourceGraphInput: unknown,
+  viewPackInput: unknown,
+  queryInput: unknown,
+) {
+  const { caps, draft, viewPack, visibleNodeIds } = await compileSceneDraft(
+    sourceGraphInput,
+    viewPackInput,
+    queryInput,
+  );
+  const portals = await compilePortalDrafts(
+    draft.cut_relations,
+    visibleNodeIds,
+    viewPack,
+    caps.portals,
+  );
+  const finalized = await finalizeKnowledgeSceneV13({
+    ...draft,
+    schema_version: OEW_KNOWLEDGE_SCENE_SCHEMA_V13,
+    portals,
+  });
+  return admitPortalSceneV13(JSON.parse(JSON.stringify(finalized)));
 }

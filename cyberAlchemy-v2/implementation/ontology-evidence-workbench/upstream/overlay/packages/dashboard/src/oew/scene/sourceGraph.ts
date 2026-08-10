@@ -34,16 +34,49 @@ const RELATION_KEYS = [
   "visible_label",
 ];
 
-/** @typedef {Record<string, unknown>} JsonRecord */
+type JsonRecord = Record<string, unknown>;
+type CanonicalJsonValue =
+  | null
+  | string
+  | boolean
+  | number
+  | CanonicalJsonValue[]
+  | {[key: string]: CanonicalJsonValue};
+type SourceNode = {
+  source_node_id: string;
+  label: string;
+  node_kind: string;
+  role: string;
+  icon_token: string;
+  evidence_refs: string[];
+  source_refs: string[];
+  authority_effect: unknown;
+  source_digest: string;
+  summary?: string;
+};
+type SourceRelation = {
+  source_relation_id: string;
+  source_node_id: string;
+  target_node_id: string;
+  exact_predicate: string;
+  source_direction: string;
+  presentation_family: string;
+  color_token: string;
+  pattern_token: string;
+  visible_label: string;
+  direction_label: string;
+  evidence_refs: string[];
+  source_refs: string[];
+  mapping_loss: string;
+  authority_effect: unknown;
+  source_digest: string;
+};
 
 export class SourceGraphError extends Error {
-  /** @type {string} */
-  code;
-  /** @type {string[]} */
-  issues;
+  code: string;
+  issues: string[];
 
-  /** @param {string[]} issues */
-  constructor(issues = []) {
+  constructor(issues: string[] = []) {
     const stableIssues = [...new Set(issues)].sort();
     super(`OEW source graph rejected: ${stableIssues.join(", ")}`);
     this.name = "SourceGraphError";
@@ -52,16 +85,13 @@ export class SourceGraphError extends Error {
   }
 }
 
-/** @param {unknown} value @returns {value is JsonRecord} */
-const isRecord = (value) =>
+const isRecord = (value: unknown): value is JsonRecord =>
   value !== null && typeof value === "object" && !Array.isArray(value);
 
-/** @param {unknown} value */
-const isNonemptyString = (value) =>
+const isNonemptyString = (value: unknown): value is string =>
   typeof value === "string" && value.trim().length > 0;
 
-/** @param {unknown} value */
-const isEvidenceList = (value) =>
+const isEvidenceList = (value: unknown): value is string[] =>
   Array.isArray(value) &&
   value.length > 0 &&
   value.every(isNonemptyString) &&
@@ -72,16 +102,25 @@ const isEvidenceList = (value) =>
  * @param {string[]} required
  * @param {string[]} allowed
  */
-const hasDeclaredShape = (value, required, allowed) => {
+const hasOwn = (value: object, key: PropertyKey) =>
+  Object.prototype.hasOwnProperty.call(value, key);
+
+const hasDeclaredShape = (
+  value: JsonRecord,
+  required: string[],
+  allowed: string[],
+) => {
   const keys = Object.keys(value);
   return (
-    required.every((key) => Object.hasOwn(value, key)) &&
+    required.every((key) => hasOwn(value, key)) &&
     keys.every((key) => allowed.includes(key))
   );
 };
 
-/** @param {unknown} value @param {Set<object>} [ancestors] */
-const canonicalValue = (value, ancestors = new Set()) => {
+const canonicalValue = (
+  value: unknown,
+  ancestors: Set<object> = new Set(),
+): CanonicalJsonValue => {
   if (
     value === null ||
     typeof value === "string" ||
@@ -100,7 +139,7 @@ const canonicalValue = (value, ancestors = new Set()) => {
   if (isRecord(value)) {
     if (ancestors.has(value)) throw new TypeError("CIRCULAR_JSON_VALUE");
     ancestors.add(value);
-    const result = {};
+    const result: Record<string, CanonicalJsonValue> = {};
     for (const key of Object.keys(value).sort()) {
       const child = value[key];
       if (child === undefined || typeof child === "function" || typeof child === "symbol") {
@@ -114,11 +153,11 @@ const canonicalValue = (value, ancestors = new Set()) => {
   throw new TypeError(`UNSUPPORTED_JSON_VALUE:${typeof value}`);
 };
 
-/** @param {unknown} value */
-export const canonicalJson = (value) => JSON.stringify(canonicalValue(value));
+export const canonicalJson = (value: unknown) =>
+  JSON.stringify(canonicalValue(value));
 
 /** @param {string} text */
-const sha256Hex = async (text) => {
+const sha256Hex = async (text: string) => {
   if (!globalThis.crypto?.subtle) {
     throw new SourceGraphError(["SHA256_UNAVAILABLE"]);
   }
@@ -130,7 +169,7 @@ const sha256Hex = async (text) => {
 };
 
 /** @param {unknown[]} records @param {string} idKey */
-const canonicalRecordOrder = (records, idKey) =>
+const canonicalRecordOrder = (records: unknown[], idKey: string) =>
   [...records].sort((left, right) => {
     const leftId = isRecord(left) && typeof left[idKey] === "string" ? left[idKey] : "";
     const rightId = isRecord(right) && typeof right[idKey] === "string" ? right[idKey] : "";
@@ -143,7 +182,7 @@ const canonicalRecordOrder = (records, idKey) =>
  *
  * @param {unknown} input
  */
-export async function computeSourceGraphDigest(input) {
+export async function computeSourceGraphDigest(input: unknown) {
   if (
     !isRecord(input) ||
     !isNonemptyString(input.schema_version) ||
@@ -163,8 +202,7 @@ export async function computeSourceGraphDigest(input) {
   );
 }
 
-/** @param {unknown} value */
-const deepFreeze = (value) => {
+const deepFreeze = <T>(value: T): T => {
   if (value !== null && typeof value === "object" && !Object.isFrozen(value)) {
     for (const child of Object.values(value)) deepFreeze(child);
     Object.freeze(value);
@@ -172,46 +210,43 @@ const deepFreeze = (value) => {
   return value;
 };
 
-/** @param {JsonRecord} node */
-const copyNode = (node) => {
-  const result = {
-    source_node_id: node.source_node_id,
-    label: node.label,
-    node_kind: node.node_kind,
-    role: node.role,
-    icon_token: node.icon_token,
-    evidence_refs: [...node.evidence_refs],
-    source_refs: [...node.source_refs],
+const copyNode = (node: JsonRecord): SourceNode => {
+  const result: SourceNode = {
+    source_node_id: node.source_node_id as string,
+    label: node.label as string,
+    node_kind: node.node_kind as string,
+    role: node.role as string,
+    icon_token: node.icon_token as string,
+    evidence_refs: [...(node.evidence_refs as string[])],
+    source_refs: [...(node.source_refs as string[])],
     authority_effect: node.authority_effect,
-    source_digest: node.source_digest,
+    source_digest: node.source_digest as string,
   };
-  if (Object.hasOwn(node, "summary")) result.summary = node.summary;
+  if (hasOwn(node, "summary")) result.summary = node.summary as string;
   return result;
 };
 
-/** @param {JsonRecord} relation */
-const copyRelation = (relation) => ({
-  source_relation_id: relation.source_relation_id,
-  source_node_id: relation.source_node_id,
-  target_node_id: relation.target_node_id,
-  exact_predicate: relation.exact_predicate,
-  source_direction: relation.source_direction,
-  presentation_family: relation.presentation_family,
-  color_token: relation.color_token,
-  pattern_token: relation.pattern_token,
-  visible_label: relation.visible_label,
-  direction_label: relation.direction_label,
-  evidence_refs: [...relation.evidence_refs],
-  source_refs: [...relation.source_refs],
-  mapping_loss: relation.mapping_loss,
+const copyRelation = (relation: JsonRecord): SourceRelation => ({
+  source_relation_id: relation.source_relation_id as string,
+  source_node_id: relation.source_node_id as string,
+  target_node_id: relation.target_node_id as string,
+  exact_predicate: relation.exact_predicate as string,
+  source_direction: relation.source_direction as string,
+  presentation_family: relation.presentation_family as string,
+  color_token: relation.color_token as string,
+  pattern_token: relation.pattern_token as string,
+  visible_label: relation.visible_label as string,
+  direction_label: relation.direction_label as string,
+  evidence_refs: [...(relation.evidence_refs as string[])],
+  source_refs: [...(relation.source_refs as string[])],
+  mapping_loss: relation.mapping_loss as string,
   authority_effect: relation.authority_effect,
-  source_digest: relation.source_digest,
+  source_digest: relation.source_digest as string,
 });
 
 /** @param {unknown} input */
-export async function compileSourceGraph(input) {
-  /** @type {string[]} */
-  const issues = [];
+export async function compileSourceGraph(input: unknown) {
+  const issues: string[] = [];
   if (!isRecord(input)) throw new SourceGraphError(["ENVELOPE_INVALID"]);
 
   if (
@@ -241,15 +276,16 @@ export async function compileSourceGraph(input) {
   if (!Array.isArray(input.nodes)) issues.push("NODES_INVALID");
   if (!Array.isArray(input.relations)) issues.push("RELATIONS_INVALID");
   if (issues.length) throw new SourceGraphError(issues);
+  const sourceDigests = input.source_digests as JsonRecord;
+  const nodeCandidates = input.nodes as unknown[];
+  const relationCandidates = input.relations as unknown[];
 
   const actualDigest = await computeSourceGraphDigest(input);
   if (actualDigest !== input.graph_digest) issues.push("GRAPH_DIGEST_MISMATCH");
 
-  /** @type {Record<string, JsonRecord>} */
-  const nodeById = Object.create(null);
-  /** @type {JsonRecord[]} */
-  const nodes = [];
-  input.nodes.forEach((candidate, index) => {
+  const nodeById: Record<string, SourceNode> = Object.create(null);
+  const nodes: SourceNode[] = [];
+  nodeCandidates.forEach((candidate, index) => {
     if (!isRecord(candidate)) {
       issues.push(`NODE_INVALID:${index}`);
       return;
@@ -269,7 +305,7 @@ export async function compileSourceGraph(input) {
     for (const field of ["label", "node_kind", "role", "icon_token"]) {
       if (!isNonemptyString(candidate[field])) issues.push(`NODE_FIELD_INVALID:${id}:${field}`);
     }
-    if (Object.hasOwn(candidate, "summary") && typeof candidate.summary !== "string") {
+    if (hasOwn(candidate, "summary") && typeof candidate.summary !== "string") {
       issues.push(`NODE_FIELD_INVALID:${id}:summary`);
     }
     if (!isEvidenceList(candidate.evidence_refs)) issues.push(`NODE_EVIDENCE_INVALID:${id}`);
@@ -283,11 +319,9 @@ export async function compileSourceGraph(input) {
     nodes.push(copied);
   });
 
-  /** @type {Record<string, JsonRecord>} */
-  const relationById = Object.create(null);
-  /** @type {JsonRecord[]} */
-  const relations = [];
-  input.relations.forEach((candidate, index) => {
+  const relationById: Record<string, SourceRelation> = Object.create(null);
+  const relations: SourceRelation[] = [];
+  relationCandidates.forEach((candidate, index) => {
     if (!isRecord(candidate)) {
       issues.push(`RELATION_INVALID:${index}`);
       return;
@@ -318,10 +352,16 @@ export async function compileSourceGraph(input) {
         issues.push(`RELATION_FIELD_INVALID:${id}:${field}`);
       }
     }
-    if (!["forward", "reverse", "bidirectional"].includes(candidate.source_direction)) {
+    if (
+      typeof candidate.source_direction !== "string" ||
+      !["forward", "reverse", "bidirectional"].includes(candidate.source_direction)
+    ) {
       issues.push(`RELATION_DIRECTION_INVALID:${id}`);
     }
-    if (!["exact", "generalized", "lossy"].includes(candidate.mapping_loss)) {
+    if (
+      typeof candidate.mapping_loss !== "string" ||
+      !["exact", "generalized", "lossy"].includes(candidate.mapping_loss)
+    ) {
       issues.push(`RELATION_MAPPING_LOSS_INVALID:${id}`);
     }
     if (!isEvidenceList(candidate.evidence_refs)) issues.push(`RELATION_EVIDENCE_INVALID:${id}`);
@@ -349,11 +389,11 @@ export async function compileSourceGraph(input) {
   relations.sort((left, right) =>
     left.source_relation_id.localeCompare(right.source_relation_id),
   );
-  const sortedNodeById = Object.create(null);
-  const sortedRelationById = Object.create(null);
-  const sortedSourceDigests = {};
-  for (const key of Object.keys(input.source_digests).sort()) {
-    sortedSourceDigests[key] = input.source_digests[key];
+  const sortedNodeById: Record<string, SourceNode> = Object.create(null);
+  const sortedRelationById: Record<string, SourceRelation> = Object.create(null);
+  const sortedSourceDigests: Record<string, unknown> = {};
+  for (const key of Object.keys(sourceDigests).sort()) {
+    sortedSourceDigests[key] = sourceDigests[key];
   }
   for (const node of nodes) sortedNodeById[node.source_node_id] = node;
   for (const relation of relations) sortedRelationById[relation.source_relation_id] = relation;

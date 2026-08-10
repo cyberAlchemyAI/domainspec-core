@@ -202,3 +202,44 @@ test("missing mappings, duplicate source refs, and authority effects are rejecte
     await rm(modules.workroot, {recursive: true, force: true});
   }
 });
+
+test("optional v1.3 assembler adds a total exact projection without changing legacy fetches", async () => {
+  const modules = await loadModules();
+  try {
+    const scene = {
+      schema_version: "oew.knowledge-scene.v1.3",
+      scene_digest: "a".repeat(64),
+      relation_index_receipt: {relation_ids: ["relation-a", "relation-b"]},
+    };
+    const observed = [];
+    const result = await modules.loader.assembleV13RelationBundle({
+      bundle: {legacy: true},
+      scene,
+      encoding: {registry: true},
+      geometry: {layout: true},
+      assembler: async (input) => {
+        observed.push(input);
+        return {
+          "relation-a": {ref: {source_relation_id: "relation-a", scene_digest: scene.scene_digest}},
+          "relation-b": {ref: {source_relation_id: "relation-b", scene_digest: scene.scene_digest}},
+        };
+      },
+    });
+    assert.equal(observed.length, 1);
+    assert.equal(result.legacy, true);
+    assert.deepEqual(Object.keys(result.relationProjectionBySourceRef), [
+      "relation-a",
+      "relation-b",
+    ]);
+    await assert.rejects(
+      modules.loader.assembleV13RelationBundle({
+        bundle: {},
+        scene,
+        assembler: async () => ({"relation-a": {}}),
+      }),
+      {message: /RELATION_PROJECTION_NOT_TOTAL/},
+    );
+  } finally {
+    await rm(modules.workroot, {recursive: true, force: true});
+  }
+});

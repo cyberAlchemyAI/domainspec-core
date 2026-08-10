@@ -44,16 +44,35 @@ const CLUSTER_KEYS = [
 ];
 const SEQUENCE_KEYS = ["id", "node_ids"];
 
-/** @typedef {Record<string, unknown>} JsonRecord */
+type JsonRecord = Record<string, unknown>;
+type CanonicalJsonValue =
+  | null
+  | string
+  | boolean
+  | number
+  | CanonicalJsonValue[]
+  | {[key: string]: CanonicalJsonValue};
+type Cluster = {
+  id: string;
+  label: string;
+  purpose: string;
+  icon_token: string;
+  member_node_ids: string[];
+  source_refs: string[];
+};
+type Sequence = {id: string; node_ids: string[]};
+type CompiledSourceGraph = JsonRecord & {
+  schema_version: string;
+  graph_digest: string;
+  nodes: unknown[];
+  node_by_id: JsonRecord;
+};
 
 export class ViewPackError extends Error {
-  /** @type {string} */
-  code;
-  /** @type {string[]} */
-  issues;
+  code: string;
+  issues: string[];
 
-  /** @param {string[]} issues */
-  constructor(issues = []) {
+  constructor(issues: string[] = []) {
     const stableIssues = [...new Set(issues)].sort();
     super(`OEW View Pack rejected: ${stableIssues.join(", ")}`);
     this.name = "ViewPackError";
@@ -62,16 +81,13 @@ export class ViewPackError extends Error {
   }
 }
 
-/** @param {unknown} value @returns {value is JsonRecord} */
-const isRecord = (value) =>
+const isRecord = (value: unknown): value is JsonRecord =>
   value !== null && typeof value === "object" && !Array.isArray(value);
 
-/** @param {unknown} value */
-const isNonemptyString = (value) =>
+const isNonemptyString = (value: unknown): value is string =>
   typeof value === "string" && value.trim().length > 0;
 
-/** @param {unknown} value */
-const isNonemptyStringList = (value) =>
+const isNonemptyStringList = (value: unknown): value is string[] =>
   Array.isArray(value) && value.length > 0 && value.every(isNonemptyString);
 
 /**
@@ -79,16 +95,25 @@ const isNonemptyStringList = (value) =>
  * @param {string[]} required
  * @param {string[]} allowed
  */
-const hasDeclaredShape = (value, required, allowed) => {
+const hasOwn = (value: object, key: PropertyKey) =>
+  Object.prototype.hasOwnProperty.call(value, key);
+
+const hasDeclaredShape = (
+  value: JsonRecord,
+  required: string[],
+  allowed: string[],
+) => {
   const keys = Object.keys(value);
   return (
-    required.every((key) => Object.hasOwn(value, key)) &&
+    required.every((key) => hasOwn(value, key)) &&
     keys.every((key) => allowed.includes(key))
   );
 };
 
-/** @param {unknown} value @param {Set<object>} [ancestors] */
-const canonicalValue = (value, ancestors = new Set()) => {
+const canonicalValue = (
+  value: unknown,
+  ancestors: Set<object> = new Set(),
+): CanonicalJsonValue => {
   if (
     value === null ||
     typeof value === "string" ||
@@ -107,7 +132,7 @@ const canonicalValue = (value, ancestors = new Set()) => {
   if (isRecord(value)) {
     if (ancestors.has(value)) throw new TypeError("CIRCULAR_JSON_VALUE");
     ancestors.add(value);
-    const result = {};
+    const result: Record<string, CanonicalJsonValue> = {};
     for (const key of Object.keys(value).sort()) {
       const child = value[key];
       if (
@@ -126,11 +151,11 @@ const canonicalValue = (value, ancestors = new Set()) => {
 };
 
 /** @param {unknown} value */
-export const canonicalViewPackJson = (value) =>
+export const canonicalViewPackJson = (value: unknown) =>
   JSON.stringify(canonicalValue(value));
 
 /** @param {string} text */
-const sha256Hex = async (text) => {
+const sha256Hex = async (text: string) => {
   if (!globalThis.crypto?.subtle) {
     throw new ViewPackError(["SHA256_UNAVAILABLE"]);
   }
@@ -142,17 +167,16 @@ const sha256Hex = async (text) => {
 };
 
 /** @param {unknown} input */
-export async function computeViewPackDigest(input) {
+export async function computeViewPackDigest(input: unknown) {
   if (!isRecord(input)) throw new ViewPackError(["DIGEST_INPUT_INVALID"]);
-  const digestInput = {};
+  const digestInput: JsonRecord = {};
   for (const [key, value] of Object.entries(input)) {
     if (key !== "view_pack_digest") digestInput[key] = value;
   }
   return sha256Hex(canonicalViewPackJson(digestInput));
 }
 
-/** @param {unknown} value */
-const deepFreeze = (value) => {
+const deepFreeze = <T>(value: T): T => {
   if (value !== null && typeof value === "object" && !Object.isFrozen(value)) {
     for (const child of Object.values(value)) deepFreeze(child);
     Object.freeze(value);
@@ -160,22 +184,20 @@ const deepFreeze = (value) => {
   return value;
 };
 
-/** @param {JsonRecord} cluster */
-const copyCluster = (cluster) => ({
-  id: cluster.id,
-  label: cluster.label,
-  purpose: cluster.purpose,
-  icon_token: cluster.icon_token,
-  member_node_ids: [...cluster.member_node_ids].sort((left, right) =>
+const copyCluster = (cluster: JsonRecord): Cluster => ({
+  id: cluster.id as string,
+  label: cluster.label as string,
+  purpose: cluster.purpose as string,
+  icon_token: cluster.icon_token as string,
+  member_node_ids: [...(cluster.member_node_ids as string[])].sort((left, right) =>
     left.localeCompare(right),
   ),
-  source_refs: [...cluster.source_refs],
+  source_refs: [...(cluster.source_refs as string[])],
 });
 
-/** @param {JsonRecord} sequence */
-const copySequence = (sequence) => ({
-  id: sequence.id,
-  node_ids: [...sequence.node_ids],
+const copySequence = (sequence: JsonRecord): Sequence => ({
+  id: sequence.id as string,
+  node_ids: [...(sequence.node_ids as string[])],
 });
 
 /**
@@ -185,9 +207,8 @@ const copySequence = (sequence) => ({
  * @param {unknown} sourceGraph
  * @param {unknown} input
  */
-export async function compileViewPack(sourceGraph, input) {
-  /** @type {string[]} */
-  const issues = [];
+export async function compileViewPack(sourceGraph: unknown, input: unknown) {
+  const issues: string[] = [];
   if (!isRecord(sourceGraph)) throw new ViewPackError(["SOURCE_GRAPH_INVALID"]);
   if (!isRecord(input)) throw new ViewPackError(["VIEW_PACK_INVALID"]);
 
@@ -209,7 +230,9 @@ export async function compileViewPack(sourceGraph, input) {
   if (!isNonemptyString(input.view_pack_id)) issues.push("VIEW_PACK_ID_INVALID");
   if (!isNonemptyString(input.label)) issues.push("VIEW_PACK_LABEL_INVALID");
   if (!isNonemptyString(input.purpose)) issues.push("VIEW_PACK_PURPOSE_INVALID");
-  if (!ROLES.has(input.role)) issues.push("VIEW_PACK_ROLE_INVALID");
+  if (typeof input.role !== "string" || !ROLES.has(input.role)) {
+    issues.push("VIEW_PACK_ROLE_INVALID");
+  }
   if (!isNonemptyStringList(input.allowed_readings)) {
     issues.push("VIEW_PACK_ALLOWED_READINGS_INVALID");
   }
@@ -242,7 +265,7 @@ export async function compileViewPack(sourceGraph, input) {
   if (!Array.isArray(input.clusters) || input.clusters.length === 0) {
     issues.push("VIEW_PACK_CLUSTERS_INVALID");
   }
-  if (Object.hasOwn(input, "sequences") && !Array.isArray(input.sequences)) {
+  if (hasOwn(input, "sequences") && !Array.isArray(input.sequences)) {
     issues.push("VIEW_PACK_SEQUENCES_INVALID");
   }
   if (issues.length) throw new ViewPackError(issues);
@@ -252,31 +275,30 @@ export async function compileViewPack(sourceGraph, input) {
     issues.push("VIEW_PACK_DIGEST_MISMATCH");
   }
 
-  const sourceNodeIds = sourceGraph.nodes
+  const compiledSourceGraph = sourceGraph as CompiledSourceGraph;
+  const sourceNodeIds = compiledSourceGraph.nodes
     .map((node, index) => {
       if (!isRecord(node) || !isNonemptyString(node.source_node_id)) {
         issues.push(`SOURCE_NODE_INVALID:${index}`);
         return null;
       }
-      if (!Object.hasOwn(sourceGraph.node_by_id, node.source_node_id)) {
+      if (!hasOwn(compiledSourceGraph.node_by_id, node.source_node_id)) {
         issues.push(`SOURCE_NODE_INDEX_MISSING:${node.source_node_id}`);
       }
       return node.source_node_id;
     })
-    .filter((nodeId) => nodeId !== null);
+    .filter((nodeId): nodeId is string => nodeId !== null);
   const sourceNodeIdSet = new Set(sourceNodeIds);
   if (sourceNodeIdSet.size !== sourceNodeIds.length) {
     issues.push("SOURCE_NODE_IDS_DUPLICATE");
   }
 
-  /** @type {Record<string, JsonRecord>} */
-  const clusterById = Object.create(null);
-  /** @type {Record<string, string>} */
-  const clusterIdByNodeId = Object.create(null);
-  /** @type {JsonRecord[]} */
-  const clusters = [];
+  const clusterById: Record<string, Cluster> = Object.create(null);
+  const clusterIdByNodeId: Record<string, string> = Object.create(null);
+  const clusters: Cluster[] = [];
+  const clusterCandidates = input.clusters as unknown[];
 
-  input.clusters.forEach((candidate, clusterIndex) => {
+  clusterCandidates.forEach((candidate, clusterIndex) => {
     if (!isRecord(candidate)) {
       issues.push(`CLUSTER_INVALID:${clusterIndex}`);
       return;
@@ -350,11 +372,12 @@ export async function compileViewPack(sourceGraph, input) {
     }
   }
 
-  /** @type {Record<string, JsonRecord>} */
-  const sequenceById = Object.create(null);
-  /** @type {JsonRecord[]} */
-  const sequences = [];
-  for (const [sequenceIndex, candidate] of (input.sequences ?? []).entries()) {
+  const sequenceById: Record<string, Sequence> = Object.create(null);
+  const sequences: Sequence[] = [];
+  const sequenceCandidates = Array.isArray(input.sequences)
+    ? input.sequences
+    : [];
+  for (const [sequenceIndex, candidate] of sequenceCandidates.entries()) {
     if (!isRecord(candidate)) {
       issues.push(`SEQUENCE_INVALID:${sequenceIndex}`);
       continue;
@@ -377,7 +400,7 @@ export async function compileViewPack(sourceGraph, input) {
     const copied = copySequence(candidate);
     sequenceById[sequenceId] = copied;
     sequences.push(copied);
-    const seen = new Set();
+    const seen = new Set<string>();
     if (Array.isArray(candidate.node_ids)) {
       for (const nodeId of candidate.node_ids) {
         if (!isNonemptyString(nodeId)) {
@@ -395,9 +418,9 @@ export async function compileViewPack(sourceGraph, input) {
 
   clusters.sort((left, right) => left.id.localeCompare(right.id));
   sequences.sort((left, right) => left.id.localeCompare(right.id));
-  const sortedClusterById = Object.create(null);
-  const sortedClusterIdByNodeId = Object.create(null);
-  const sortedSequenceById = Object.create(null);
+  const sortedClusterById: Record<string, Cluster> = Object.create(null);
+  const sortedClusterIdByNodeId: Record<string, string> = Object.create(null);
+  const sortedSequenceById: Record<string, Sequence> = Object.create(null);
   for (const cluster of clusters) sortedClusterById[cluster.id] = cluster;
   for (const nodeId of [...sourceNodeIdSet].sort((left, right) =>
     left.localeCompare(right),
@@ -415,8 +438,8 @@ export async function compileViewPack(sourceGraph, input) {
     role: input.role,
     label: input.label,
     purpose: input.purpose,
-    allowed_readings: [...input.allowed_readings],
-    forbidden_readings: [...input.forbidden_readings],
+    allowed_readings: [...(input.allowed_readings as string[])],
+    forbidden_readings: [...(input.forbidden_readings as string[])],
     membership_policy: input.membership_policy,
     unassigned_policy: input.unassigned_policy,
     clusters,
@@ -425,7 +448,7 @@ export async function compileViewPack(sourceGraph, input) {
     default_cluster_id: input.default_cluster_id,
     sequences,
     sequence_by_id: sortedSequenceById,
-    source_refs: [...input.source_refs],
+    source_refs: [...(input.source_refs as string[])],
     authority_effect: "none",
     receipt: {
       schema_version: OEW_VIEW_PACK_RECEIPT_SCHEMA,

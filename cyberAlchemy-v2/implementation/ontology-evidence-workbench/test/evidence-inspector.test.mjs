@@ -51,6 +51,13 @@ test("inspector renders all exact evidence fields and no promotion action", asyn
     "Diagnostics",
     "Exact source",
     "Source digest",
+    "Exact relation ID",
+    "Exact endpoints",
+    "Source direction",
+    "Direction text",
+    "Scene digest",
+    "Relation digest",
+    "Redundant display cues",
     "authority_effect",
   ]) assert.match(source, new RegExp(field));
   assert.doesNotMatch(source, />\\s*(Accept|Promote|Publish)\\s*</i);

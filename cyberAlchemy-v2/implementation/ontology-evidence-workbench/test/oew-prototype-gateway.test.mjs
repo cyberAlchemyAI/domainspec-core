@@ -15,7 +15,7 @@ import { validateRequestTarget } from "../scripts/serve-native-viewer.mjs";
 
 const implementationRoot = resolve(import.meta.dirname, "..");
 const buildHandle =
-  "generated/runs/SWU-OEWTP-002/20260729T190700Z/thin-prototype-build-handle.json";
+  "generated/runs/SWU-OEWTP-002/20260807T133357Z/thin-prototype-build-handle.json";
 const adapterRun = "generated/runs/SWU-OEW-004";
 const issue = (expected) => (error) =>
   error instanceof OewGatewayError && error.issue === expected;

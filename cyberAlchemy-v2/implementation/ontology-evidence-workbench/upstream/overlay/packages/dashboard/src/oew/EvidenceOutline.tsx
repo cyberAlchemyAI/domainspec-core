@@ -39,11 +39,26 @@ export default function EvidenceOutline({model, onSelect}) {
         <h3>Exact relations</h3>
         <ul className="oew-relation-list">
           {relations.map((row) => (
-            <li key={row.sourceRef}>
-              <button onClick={() => onSelect(row.sourceRef)}>
-                <strong>{row.source} → {row.target}</strong>
-                <span>{row.relation}</span>
-                <small>{row.disposition} · {row.mappingLoss}</small>
+            <li key={row.relationProjection?.ref.source_relation_id ?? row.sourceRef}>
+              <button
+                data-source-relation-id={row.relationProjection?.ref.source_relation_id ?? row.sourceRef}
+                onClick={() => onSelect(row.sourceRef)}
+                style={row.relationProjection ? {"--oew-edge-color": row.relationProjection.encoding.color_dark} : {}}
+              >
+                <strong>
+                  {row.relationProjection
+                    ? `${row.relationProjection.endpoints.source_node_id} → ${row.relationProjection.endpoints.target_node_id}`
+                    : `${row.source} → ${row.target}`}
+                </strong>
+                <span className="oew-relation-cue">
+                  <i aria-hidden="true" />
+                  {row.relationProjection?.encoding.visible_label ?? row.relation}
+                </span>
+                <small>
+                  {row.relationProjection
+                    ? `${row.relationProjection.encoding.direction_text} · ${row.relationProjection.encoding.pattern_label} · ${row.relationProjection.ref.source_relation_id}`
+                    : `${row.disposition} · ${row.mappingLoss}`}
+                </small>
               </button>
             </li>
           ))}
