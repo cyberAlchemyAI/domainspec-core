@@ -65,3 +65,21 @@ validated on **one** domain (resonantos) only — mark as such; do not claim gen
 but two gaps are named with owner + repair path: (1) the **signer capability** for the owner-gate (owner: sigil-development);
 (2) **`BLK-CAV2-PUBLIC-PRIVATE-001`** must be resolved before a public-attached mint (owner: decision-gate). MVP (L0+L1)
 routes despite these because they gate L2+/public mints, not the internal MVP.
+
+## Pre-L0 executable planner (refresh 2026-08-07)
+
+Before scaffold compose, implement `SWU-MINT-RUNTIME-PLAN-01` as a dependency-free private runtime:
+
+1. parse and strictly validate one JSON domain manifest;
+2. verify the explicit allowed root, absent target, private posture, and pinned source digests;
+3. verify the owned hardcoded template allowlist and derive the ordered stage/effect inventory;
+4. fail closed on missing, symlinked, or digest-drifted templates and on unsafe, duplicate, or
+   case/prefix-colliding output paths; and
+5. emit canonical JSON describing every planned write, with hashes and sizes, without mutating the
+   target or invoking downstream capabilities.
+
+Acceptance is the runtime's unit test suite plus an integration fixture proving deterministic output,
+zero target writes, strict-schema refusal, digest-drift refusal, existing-target refusal, traversal
+and symlink-escape refusal, public-attach refusal, collision refusal, and confinement of every planned
+effect below the target. P0 does not render Markdown; a typed render IR is the next runtime contract.
+Passing this slice does not satisfy L0, L1, ratification, experiment, or promotion evidence.
