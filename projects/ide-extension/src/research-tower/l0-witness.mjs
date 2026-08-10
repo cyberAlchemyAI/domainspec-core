@@ -65,6 +65,11 @@ const EVIDENCE_SCENE_IDS = new Set([
   'evidence-l1-residue',
   'evidence-l2-closure'
 ]);
+const EVIDENCE_SCENE_CONTRACTS = new Map([
+  ['evidence-l0-corpus', { evidence_state: 'locked-synthetic', implementation_status: 'candidate-local', source_refs: ['source:toy:readme', 'source:toy:tower', 'source:toy:l0'], unavailable_reason: null }],
+  ['evidence-l1-residue', { evidence_state: 'open', implementation_status: 'candidate-local', source_refs: ['source:toy:l1', 'source:toy:residue'], unavailable_reason: null }],
+  ['evidence-l2-closure', { evidence_state: 'blocked', implementation_status: 'candidate-local', source_refs: ['source:toy:l2', 'source:toy:gates'], unavailable_reason: 'No representative source is selected; this view cannot select one or run a workflow.' }]
+]);
 const SYSTEM_LAYER_IDS = new Set([
   'system-l1-substrate',
   'system-l2-construction',
@@ -72,18 +77,46 @@ const SYSTEM_LAYER_IDS = new Set([
   'system-lphi-policy',
   'system-l4-adjudication'
 ]);
+const SEMANTIC_AXES = ['evidence_progression', 'tower_system_architecture'];
+const SYSTEM_VIEW_ANCHOR = 'research/tower-system-taxonomy/SYSTEM-VIEW.md#2-the-layer-stack-bottom-up-one-layer-at-a-time';
+const SYSTEM_LAYER_CONTRACTS = new Map([
+  ['system-l1-substrate', { label: 'System L1 · Substrate', implementation_status: 'unproven-in-lab', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'A runtime-queryable graph and persona artifacts are not available in this Lab witness.' }],
+  ['system-l2-construction', { label: 'System L2 · Construction', implementation_status: 'prior-work-not-live-here', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'Construction methods are not active builders in this canvas.' }],
+  ['system-l3-application', { label: 'System L3 · Application', implementation_status: 'unavailable-in-lab', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'No debate, dispatch, or persona operation runs in this canvas.' }],
+  ['system-lphi-policy', { label: 'System Lφ · Decision policy', implementation_status: 'design-stage-unproven', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'MOGT has no live Lab run and cannot make choices here.' }],
+  ['system-l4-adjudication', { label: 'System L4 · Adjudication', implementation_status: 'governance-only', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'This canvas cannot score, select a winner, or emit a verdict.' }]
+]);
 
 function sceneFailure(message) {
   fail('research_tower_scene_manifest_invalid', message);
 }
 
-function assertSceneDescriptor(scene, sourceIds) {
+function nonEmptyString(value) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+function equalStringArray(actual, expected) {
+  return Array.isArray(actual)
+    && actual.length === expected.length
+    && expected.every((value, index) => actual[index] === value);
+}
+
+function assertSceneDescriptor(scene, sourceIds, claimCeiling) {
+  const contract = scene && EVIDENCE_SCENE_CONTRACTS.get(scene.level_id);
   if (!scene || scene.semantic_axis !== 'evidence_progression'
     || !EVIDENCE_SCENE_IDS.has(scene.level_id)
-    || !scene.scene_kind || !scene.evidence_state || !scene.claim_ceiling
+    || !nonEmptyString(scene.scene_kind) || !nonEmptyString(scene.evidence_state)
+    || !nonEmptyString(scene.implementation_status)
+    || scene.claim_ceiling !== claimCeiling
     || !Array.isArray(scene.source_refs) || scene.source_refs.length === 0
     || !Object.hasOwn(scene, 'unavailable_reason')) {
     sceneFailure('evidence scene is missing a required bound field');
+  }
+  if (!contract || scene.evidence_state !== contract.evidence_state
+    || scene.implementation_status !== contract.implementation_status
+    || !equalStringArray(scene.source_refs, contract.source_refs)
+    || scene.unavailable_reason !== contract.unavailable_reason) {
+    sceneFailure(`evidence scene ${scene.level_id} does not match its closed binding`);
   }
   if (scene.source_refs.some((sourceId) => !sourceIds.has(sourceId))) {
     sceneFailure(`evidence scene ${scene.level_id} references an unbound source`);
@@ -91,14 +124,26 @@ function assertSceneDescriptor(scene, sourceIds) {
   if (scene.level_id === 'L1' || /^L\d+$/u.test(scene.level_id)) {
     sceneFailure('bare numeric level identifiers are forbidden');
   }
+  if (['blocked', 'unavailable'].includes(scene.evidence_state)
+    && !nonEmptyString(scene.unavailable_reason)) {
+    sceneFailure(`evidence scene ${scene.level_id} requires a blocker reason`);
+  }
 }
 
 function assertSystemDescriptor(layer) {
+  const contract = layer && SYSTEM_LAYER_CONTRACTS.get(layer.level_id);
   if (!layer || layer.semantic_axis !== 'tower_system_architecture'
     || !SYSTEM_LAYER_IDS.has(layer.level_id)
-    || !layer.label || !layer.implementation_status || !layer.unavailable_reason
+    || !nonEmptyString(layer.label) || !nonEmptyString(layer.implementation_status)
+    || !nonEmptyString(layer.unavailable_reason)
     || !Array.isArray(layer.source_refs) || layer.source_refs.length === 0) {
     sceneFailure('Tower System descriptor is missing a required boundary field');
+  }
+  if (!contract || layer.label !== contract.label
+    || layer.implementation_status !== contract.implementation_status
+    || layer.unavailable_reason !== contract.unavailable_reason
+    || !equalStringArray(layer.source_refs, contract.source_refs)) {
+    sceneFailure(`Tower System descriptor ${layer.level_id} does not match its closed binding`);
   }
   if (layer.level_id === 'L1' || /^L\d+$/u.test(layer.level_id)) {
     sceneFailure('bare numeric system layer identifiers are forbidden');
@@ -108,8 +153,12 @@ function assertSystemDescriptor(layer) {
 export function validateTowerSceneManifest(manifest, view) {
   if (!view || view.authority_effect !== 'none' || view.status !== 'candidate-local'
     || !Array.isArray(view.sources) || !Array.isArray(view.residues)
+    || !nonEmptyString(view.claim_ceiling)
     || !manifest || manifest.schema_version !== 'cal.tower-scene-manifest.v1'
     || manifest.interaction_contract !== 'read-only'
+    || !Array.isArray(manifest.semantic_axes)
+    || manifest.semantic_axes.length !== SEMANTIC_AXES.length
+    || !SEMANTIC_AXES.every((axis, index) => manifest.semantic_axes[index] === axis)
     || !Array.isArray(manifest.towers) || manifest.towers.length !== 1
     || !Array.isArray(manifest.system_layers)) {
     sceneFailure('only the verified candidate-local L0 read model can build scenes');
@@ -125,7 +174,7 @@ export function validateTowerSceneManifest(manifest, view) {
   }
   const seenSceneIds = new Set();
   tower.scenes.forEach((scene) => {
-    assertSceneDescriptor(scene, sourceIds);
+    assertSceneDescriptor(scene, sourceIds, tower.claim_ceiling);
     if (seenSceneIds.has(scene.level_id)) sceneFailure('evidence scene identifiers must be unique');
     seenSceneIds.add(scene.level_id);
   });
@@ -187,20 +236,20 @@ export function buildTowerSceneManifest(view) {
       source_refs: ['source:toy:l2', 'source:toy:gates'],
       claim_ceiling: view.claim_ceiling,
       content: 'A future external L1 owner may consider real-source selection; this view cannot select a source or run a workflow.',
-      unavailable_reason: null
+      unavailable_reason: 'No representative source is selected; this view cannot select one or run a workflow.'
     }
   ];
   const system_layers = [
-    { level_id: 'system-l1-substrate', label: 'System L1 · Substrate', implementation_status: 'unproven-in-lab', source_refs: ['research/tower-system-taxonomy/SYSTEM-VIEW.md#L1'], unavailable_reason: 'A runtime-queryable graph and persona artifacts are not available in this Lab witness.' },
-    { level_id: 'system-l2-construction', label: 'System L2 · Construction', implementation_status: 'prior-work-not-live-here', source_refs: ['research/tower-system-taxonomy/SYSTEM-VIEW.md#L2'], unavailable_reason: 'Construction methods are not active builders in this canvas.' },
-    { level_id: 'system-l3-application', label: 'System L3 · Application', implementation_status: 'unavailable-in-lab', source_refs: ['research/tower-system-taxonomy/SYSTEM-VIEW.md#L3'], unavailable_reason: 'No debate, dispatch, or persona operation runs in this canvas.' },
-    { level_id: 'system-lphi-policy', label: 'System Lφ · Decision policy', implementation_status: 'design-stage-unproven', source_refs: ['research/tower-system-taxonomy/SYSTEM-VIEW.md#Lphi'], unavailable_reason: 'MOGT has no live Lab run and cannot make choices here.' },
-    { level_id: 'system-l4-adjudication', label: 'System L4 · Adjudication', implementation_status: 'governance-only', source_refs: ['research/tower-system-taxonomy/SYSTEM-VIEW.md#L4'], unavailable_reason: 'This canvas cannot score, select a winner, or emit a verdict.' }
+    { level_id: 'system-l1-substrate', label: 'System L1 · Substrate', implementation_status: 'unproven-in-lab', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'A runtime-queryable graph and persona artifacts are not available in this Lab witness.' },
+    { level_id: 'system-l2-construction', label: 'System L2 · Construction', implementation_status: 'prior-work-not-live-here', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'Construction methods are not active builders in this canvas.' },
+    { level_id: 'system-l3-application', label: 'System L3 · Application', implementation_status: 'unavailable-in-lab', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'No debate, dispatch, or persona operation runs in this canvas.' },
+    { level_id: 'system-lphi-policy', label: 'System Lφ · Decision policy', implementation_status: 'design-stage-unproven', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'MOGT has no live Lab run and cannot make choices here.' },
+    { level_id: 'system-l4-adjudication', label: 'System L4 · Adjudication', implementation_status: 'governance-only', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'This canvas cannot score, select a winner, or emit a verdict.' }
   ].map((layer) => ({ ...layer, semantic_axis: 'tower_system_architecture' }));
   return validateTowerSceneManifest({
     schema_version: 'cal.tower-scene-manifest.v1',
     interaction_contract: 'read-only',
-    semantic_axes: ['evidence_progression', 'tower_system_architecture'],
+    semantic_axes: SEMANTIC_AXES,
     towers: [{
       tower_id: 'tower:toy',
       title: 'Synthetic Research Tower',
