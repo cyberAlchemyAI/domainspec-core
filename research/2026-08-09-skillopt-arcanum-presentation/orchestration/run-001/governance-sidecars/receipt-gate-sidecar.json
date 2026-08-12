@@ -1,0 +1,111 @@
+{
+  "schema_version": "arcanum.governance-defect-sidecar.v0.1",
+  "dispatch_id": "2026-08-09-skillopt-arcanum-presentation-research-route",
+  "run_id": "20260809T232823Z-skillopt-arcanum-presentation-001",
+  "helper_id": "/root/receipt_gate_sidecar",
+  "status": "repair_recommended",
+  "mutation": "none",
+  "root_cause": [
+    "A pass/pass synthesis receipt used the reducer-reserved blockers field for semantic claim restrictions.",
+    "The reducer received the run-wide receipts directory even though the selected-wave run plan expected only spawn-0004."
+  ],
+  "affected_invariant": "A selected-wave reduction requires exactly one normalized receipt for each selected-wave action, with status pass, validation pass, and blockers empty.",
+  "minimal_repair": [
+    "Replace only spawn-0004 receipt blockers with an empty array; claim limits remain preserved by claim_ceiling, forbidden_overclaims, missing_bindings, and exact_binding_closure_candidate.",
+    "Stage only the corrected spawn-0004 receipt in a synthesizer-wave directory.",
+    "Rerun reduction into a fresh output directory and preserve the failed reduction."
+  ],
+  "changed_byte_inventory": {
+    "sidecar_changes": [],
+    "proposed_existing_file": "receipts/spawn-0004.json",
+    "before_sha256": "7c52fb8e89707f2d0c7a8eb0f2eda1d181526df8e92d7940eb003cb021ab8bf5",
+    "after_sha256": "bed271de90a27dbbf0d5f99f6f99dc057de0c47634b1fb839736af2e81de17fe",
+    "field_change": "blockers: six semantic claim restrictions -> []",
+    "new_artifacts": [
+      "receipt-staging/synthesizer-repair/spawn-0004.json",
+      "reduce-synthesizer-repaired/"
+    ]
+  },
+  "required_revalidation": [
+    "JSON and identity validation of corrected receipt",
+    "exact staged action-ID set equals spawn-0004",
+    "fresh reduction returns gate_pass with empty blockers",
+    "next actions match the approved reviewer wave"
+  ],
+  "renewed_owner_acceptance_required": false,
+  "acceptance_reason": "The corrected runtime receipt was created after confirmation and is not itself part of the exact-byte confirmed strategy binding; no semantic claim or route decision changes.",
+  "permanent_regression_fix": [
+    "Validate that pass/pass receipts have blockers empty.",
+    "Document blockers as gate-stopping only and provide a typed claim-restriction field.",
+    "Generate wave-scoped reducer receipt manifests or directories and test prior-wave contamination."
+  ],
+  "followup_diagnosis": {
+    "root_cause": "spawn-0006 and spawn-0007 omitted the required artifacts array; all semantic verdict and identity fields were otherwise admissible.",
+    "affected_invariant": "Every normalized receipt must include an array-of-strings artifacts field before staging and reduction.",
+    "minimal_repair": [
+      "Add truthful exact artifact references to spawn-0006 and spawn-0007 only.",
+      "Leave reviewer verdicts, revision requirements, blockers, identities, timestamps, and spawn-0005 unchanged.",
+      "Restage exactly spawn-0005 through spawn-0007 and reduce into a fresh output directory."
+    ],
+    "changed_byte_inventory": {
+      "spawn-0006_before_sha256": "79239e5eadb2abc3521f3ec7ef48d5d40146aa5389e74b205e0689a6afd094ab",
+      "spawn-0007_before_sha256": "969330036cb00efeb992013d6494e66c47741e3ed05874a703912f516e849f00",
+      "spawn-0006_after_sha256": "afb6e63fccab552934f175222d4385e0783789af7e6bc37ff716edc09a5a981f",
+      "spawn-0007_after_sha256": "6619cb69fd79d24c4377e39a425b40a8737db3a0afa63e6ebad740a3d9384e27",
+      "field_changes": [
+        "spawn-0006: add artifacts array",
+        "spawn-0007: add artifacts array"
+      ]
+    },
+    "required_revalidation": [
+      "Parse/schema check all three reviewer receipts.",
+      "Resolve every new artifact reference.",
+      "Confirm staged action IDs exactly spawn-0005, spawn-0006, and spawn-0007.",
+      "Require gate_pass, empty blockers, and approved writer action."
+    ],
+    "renewed_owner_acceptance_required": false,
+    "acceptance_reason": "The additions encode already-rechecked provenance on post-confirmation runtime receipts and introduce no semantic decision.",
+    "permanent_regression_fix": [
+      "Validate complete receipt schema before persistence and staging.",
+      "Require nonempty provenance artifacts for passing reviewer receipts.",
+      "Report missing fields by action ID.",
+      "Add a parallel-reviewer missing-artifacts regression fixture."
+    ]
+  },
+  "run_evidence_diagnosis": {
+    "root_cause": "events.jsonl is an observational mixed log, not a schema-complete arcanum.run-event.v0.1 causal stream: 45 supported event-name records lack required metadata, 19 records are non-causal governance or feedback residue, and the stream has no direct wait_attempted, receipt_joined, or gate_decided records.",
+    "affected_invariant": "Validated run evidence must prove each action lifecycle and every dependent-wave gate from source-bound, correctly ordered events; reduction completion cannot substitute for missing causal evidence.",
+    "minimal_repair_proposal": [
+      "Preserve events.jsonl and the failed evidence-validation.json unchanged.",
+      "Create a separately named canonical event package only when every normalized or derived row can be mapped to a raw row or exact deterministic source artifact.",
+      "Keep unsupported governance and feedback records in a separate residue manifest rather than relabeling them as causal events.",
+      "Do not synthesize wait_attempted from later agent_terminal records or infer receipt joins and gates from summaries alone."
+    ],
+    "changed_byte_inventory": {
+      "sidecar_helper_changes": [],
+      "raw_events_sha256": "9c94545470e77f8b2d3de5af098093844adf91b705297cb5575e5c28d16dfb63",
+      "failed_validation_sha256": "316dbbf68d11363c8d1f286f4b52cf126485c9272352bb31af6245dd6b7b73f2",
+      "canonical_events_created": false
+    },
+    "required_revalidation": [
+      "Validate canonical rows against the run-event JSON Schema itself.",
+      "Verify the exact nine-action and five-wave lifecycle is nonempty and complete.",
+      "Require attempt, host result, registration, wait, terminal or timeout, close or interrupt, and receipt join for every action.",
+      "Require an exact gate decision before every dependent wave.",
+      "Verify normalization-map hashes and source bindings.",
+      "Run validate_run_evidence.py and validate its resulting receipt."
+    ],
+    "renewed_owner_acceptance_required": true,
+    "acceptance_reason": "Run-evidence acceptance cannot transfer from the raw failed surface to a future canonical evidence package; semantic re-acceptance of findings.md is not automatically required.",
+    "permanent_regression_fix": [
+      "Emit schema-complete causal events at source and validate each record before append.",
+      "Write action_attempted and wait_attempted before their host calls.",
+      "Emit receipt joins and gate decisions from their owning operations.",
+      "Separate governance and feedback telemetry from the causal event stream.",
+      "Make the evidence validator consume the expected run plan so empty or truncated streams cannot pass vacuously."
+    ],
+    "status": "block",
+    "authority_ceiling": "Evidence-capture diagnosis only; no validated-run closeout, publication, promotion, deployment, or permission to invent missing history."
+  },
+  "authority_ceiling": "Governance mechanics only; no research claim, reviewer admission, implementation, promotion, publication, or deployment authority."
+}

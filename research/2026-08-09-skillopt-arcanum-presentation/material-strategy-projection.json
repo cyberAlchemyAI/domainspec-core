@@ -1,0 +1,192 @@
+{
+  "projection_schema": "domainspec.material-strategy.v1",
+  "material_sha256": "1d0f8438ce8796df3ca98dbc8b99d0ded5428343bdb4df05a1b5a7481c34be91",
+  "material": {
+    "dispatch_type": "research",
+    "goal": "Produce an exact-source-bound research brief for a Portuguese 35-minute advanced presentation that explains what SkillOpt reports, what Arcanum currently implements, how they relate, and what remains unproven, with a concrete slides-and-code narrative that does not inflate implementation or novelty claims.",
+    "context": "The local TDC CFP proposes an advanced Portuguese talk connecting SkillOpt with Arcanum through slides and code. Inventory has no direct SkillOpt entry and the existing TO-VLAD3 memo is a dated discussion draft, so paper claims and live Arcanum state must be independently reverified. The evidence contract is exact-binding: every load-bearing paper claim, local capability claim, quotation, and demo step needs a stable source identity plus selector and proof status. The output is presentation research substrate only; it does not author final slides, implement an optimizer, change Arcanum, promote a capability, publish, deploy, or prove audience comprehension.",
+    "max_loops": 2,
+    "final_approver": "parent",
+    "anti_bias_global": "optimizer promise versus current implementation evidence versus presentation usefulness under claim-to-proof limits",
+    "working_folder": "research/2026-08-09-skillopt-arcanum-presentation/",
+    "groups": [
+      {
+        "group_id": "explorers",
+        "anti_bias": "composite source-corpus + methodology + temporal-prior",
+        "predicted_disagreements": [
+          {
+            "pair": [
+              0,
+              1
+            ],
+            "statement": "Agent 0 verifies external SkillOpt experiments and related work while agent 1 audits current local Arcanum architecture and code on the source-corpus and methodology axes; a paper-level optimizer inference from agent 0 would be exposed by agent 1's live implementation-state check, while a local-only assumption from agent 1 would be exposed by agent 0's external evidence."
+          },
+          {
+            "pair": [
+              0,
+              2
+            ],
+            "statement": "Agent 0 reconstructs current primary-source SkillOpt evidence while agent 2 tests audience framing and a teachable slides-and-code witness on the methodology and temporal-prior axes; paper detail that cannot survive a concrete retell is exposed by agent 2, while oversimplified narrative is exposed by agent 0's exact claims."
+          },
+          {
+            "pair": [
+              1,
+              2
+            ],
+            "statement": "Agent 1 traces implemented, planned, absent, and deployed Arcanum surfaces while agent 2 builds an audience-constrained narrative and demo map on the source-corpus and methodology axes; architecture theater is exposed by agent 2's witness demand, while presentation invention is exposed by agent 1's live-source audit."
+          }
+        ],
+        "agents": [
+          {
+            "agent_name": "Turing, Alan",
+            "role": "explorer",
+            "model": "gpt-5.6-sol",
+            "token_budget": 5200,
+            "angle": "verifies SkillOpt's primary paper, official artifacts, experiments, and related-work claims",
+            "initial_prompt": "Read-only exact-binding explorer. Independently verify the current primary SkillOpt source identified as arXiv:2605.23904 and any official project/code artifact linked by the authors. Establish title, authors, version/date, problem formulation, optimizer state and edit operations, rollout/scoring loop, held-out acceptance rule, offline-versus-inference behavior, evaluation tasks/baselines, transfer claims, ablations, limitations, and related-work positioning. Treat every result as paper-reported unless independently reproduced; do not inherit claims from arcanum/TO-VLAD/TO-VLAD3.md. Return structured evidence rows with immutable source identity, URL or digest, page/section/table/figure selector, short paraphrase, proof status, and presentation relevance; include contradictions or version drift. Inventory note: there is no direct SkillOpt match, and the prior model-use entry is only a query lead. Do not write files or modify repositories."
+          },
+          {
+            "agent_name": "Alexander, Christopher",
+            "role": "explorer",
+            "model": "gpt-5.6-sol",
+            "token_budget": 5200,
+            "angle": "audits current public Arcanum lifecycle, runtime, observability, benchmark, and improvement-loop evidence",
+            "initial_prompt": "Read-only exact-binding explorer. Audit the live public Arcanum worktree rather than trusting the dated TO-VLAD3 memo. Start with arcanum/README.md, arcanum/definitions/DEFINITIONS.md, arcanum/registry/SIGILS.md, arcanum/registry/SPELLS.md, arcanum/arcana/sigil-development/SKILL.md, arcanum/arcana/workflow-reflect/SKILL.md, arcanum/arcana/signal-observer/SKILL.md, arcanum/spells/sigil-maintenance-loop/README.md, arcanum/framework/SIGIL-DEVELOPMENT-WORKFLOW.md, arcanum/framework/VALIDATION-EXPERIMENT-PROTOCOL.md, arcanum/framework/observability/ARCHITECTURE-OVERVIEW.md, arcanum/benchmark/ARCHITECTURE.md, and arcanum/benchmark/src/schemas.ts. Trace what is implemented, planned/candidate, absent, and merely deployed or projected; verify whether a scalar grader is wired to sigil improvement, whether graders can be self-authored, and what promotion remains human-owned. Identify one public-safe code/demo witness and exact commands only where current source supports them. Return selector-bound evidence and explicit drift from TO-VLAD3; do not write files or claim runtime proof from inspection."
+          },
+          {
+            "agent_name": "Drucker, Peter",
+            "role": "explorer",
+            "model": "gpt-5.6-sol",
+            "token_budget": 4600,
+            "angle": "tests the Portuguese 35-minute audience narrative, conceptual bridge, and executable demo witness",
+            "initial_prompt": "Read-only presentation explorer. Use arcanum/writing/cfp-tdc-arcanum-skillopt.md as the audience and format contract, arcanum/writing/substack/introducing-arcanum.md as public framing, and the selected Inventory presentation precedent only for structure, never for copying private prose. Build candidate presentation theses and a source-to-slide map for an advanced Portuguese 35-minute slides-and-code talk. Require a concrete prompt-to-named-capability-to-fixture-to-observation-to-controlled-improvement demo witness, but mark every unimplemented step as proposed. Distinguish equivalence, adjacency, complement, and gap between SkillOpt and Arcanum; include teach-back questions, timing, likely misconceptions, and what to cut. Return exact source selectors for every factual slide seed and a public/private safety note. Do not author final slides or write files."
+          }
+        ]
+      },
+      {
+        "group_id": "synthesizer",
+        "agents": [
+          {
+            "agent_name": "Simon, Herbert",
+            "role": "synthesizer",
+            "model": "gpt-5.6-sol",
+            "token_budget": 6500,
+            "initial_prompt": "Reconcile the three exact-binding explorer returns into one candidate presentation research package. Produce: a one-sentence thesis; a SkillOpt-versus-Arcanum equivalence/adjacency/complement/gap matrix; an implemented/planned/absent/deployed Arcanum map; a 35-minute Portuguese slide spine; one minimum slides-and-code demo witness; a claim-evidence table; citation duties; forbidden overclaims; and open decisions. Preserve disagreements and paper-reported versus locally observed versus unverified proof status. Request explorer feedback only for missing primary sources, selectors, quotations, code pointers, or demo bindings through the declared feedback edge. Do not write files."
+          }
+        ]
+      },
+      {
+        "group_id": "reviewers",
+        "anti_bias": "attack-vector",
+        "predicted_disagreements": [
+          {
+            "pair": [
+              0,
+              1
+            ],
+            "statement": "Agent 0 attacks precedent and priority while agent 1 attacks non-vacuity on the attack-vector axis; agent 0 may preserve an owned but useful bridge that agent 1 kills without a runnable witness, while agent 1 exposes precedent-only arguments that never become a demonstration."
+          },
+          {
+            "pair": [
+              0,
+              2
+            ],
+            "statement": "Agent 0 tests ownership and citation duty while agent 2 tests definitional soundness on the attack-vector axis; agent 0 may accept adjacent terminology that agent 2 rejects as collapsed skill, sigil, spell, validation, reflection, or promotion concepts."
+          },
+          {
+            "pair": [
+              1,
+              2
+            ],
+            "statement": "Agent 1 demands a concrete executable witness while agent 2 demands non-collapsing definitions on the attack-vector axis; agent 1 may accept a working demo whose labels are unsound, while agent 2 may preserve a clean taxonomy that agent 1 rejects as presentation-only abstraction."
+          }
+        ],
+        "agents": [
+          {
+            "agent_name": "Popper, Karl",
+            "role": "skeptic",
+            "model": "gpt-5.6-sol",
+            "token_budget": 3000,
+            "angle": "precedent and priority gate",
+            "initial_prompt": "Read-only precedent skeptic. Attack every first, novel, unique, missing-layer, self-evolving, optimizer, and governance-differentiation claim. Verify SkillOpt's cited related work through current primary sources where material, distinguish ownership from deployment, and demote claims to build-from-owned, adjacent, original-to-this-corpus, open, or unsupported. Precedent does not KILL a useful candidate; it fixes ownership and citation duty. Return exact evidence needs and safe replacement wording. Do not write files."
+          },
+          {
+            "agent_name": "Taleb, Nassim Nicholas",
+            "role": "skeptic",
+            "model": "gpt-5.6-sol",
+            "token_budget": 3000,
+            "angle": "non-vacuity and demo-witness gate",
+            "initial_prompt": "Read-only non-vacuity skeptic. Require the smallest concrete slides-and-code witness for each proposed bridge: exact input, capability contract, fixture or held-out task, observed signal, candidate edit, acceptance/rejection gate, and human promotion boundary. KILL or defer any claim that has no source-bound witness, treats inspection as execution, or calls a proposal implemented. Check that a 35-minute audience can retell the causal chain. Return witness verdicts and exact missing evidence. Do not write files."
+          },
+          {
+            "agent_name": "Quine, Willard Van Orman",
+            "role": "skeptic",
+            "model": "gpt-5.6-sol",
+            "token_budget": 3000,
+            "angle": "definitional-soundness and non-collapse gate",
+            "initial_prompt": "Read-only definitional-soundness skeptic. Keep prompt, skill, SkillOpt skill state, Arcanum sigil, spell, capability, fixture, validation, benchmark, observation, reflection, optimizer proposal, acceptance, promotion, publication, deployment, and production distinct. Reject analogies that imply identity where only adjacency or composition exists. Check English-to-Portuguese terminology and the public/private boundary. KILL tautological or re-skinned claims and provide corrected definitions with source selectors. Do not write files."
+          }
+        ]
+      },
+      {
+        "group_id": "writer",
+        "agents": [
+          {
+            "agent_name": "Ahrens, Sönke",
+            "role": "writer",
+            "model": "gpt-5.6-sol",
+            "token_budget": 7600,
+            "initial_prompt": "Write findings.md only after exact-binding evidence closure returns ready. Write in Portuguese, preserving English technical terms where precision requires them. Include: direct answer; audience and one-sentence thesis; verified SkillOpt mechanism/results/limits; current Arcanum implemented-planned-absent-deployed map; equivalence/adjacency/complement/gap table; 35-minute slide spine with timings; minimum code-demo script and fallback; claim-evidence matrix with exact citations; reviewer verdict matrix; forbidden claims; open decisions; and a source appendix. Label paper-reported, locally observed, executed, and unverified evidence. Do not author final slides, edit research.md, change Arcanum, or imply implementation, promotion, publication, deployment, production readiness, or audience comprehension."
+          }
+        ]
+      },
+      {
+        "group_id": "auditor",
+        "agents": [
+          {
+            "agent_name": "Brandenburg, Martin",
+            "role": "auditor",
+            "model": "gpt-5.6-sol",
+            "token_budget": 3600,
+            "initial_prompt": "Audit findings.md only against the dispatch goal and exact-binding contract. Fail missing or non-resolving SkillOpt paper selectors, stale local Arcanum claims, missing implemented/planned/absent/deployed distinctions, equivalence-collapse, unsupported novelty language, self-grader blind spots, a non-runnable demo presented as working, timing over 35 minutes, private prose in public-ready material, or claims beyond research evidence. Return RECOMMEND_ACCEPT or one bounded writer revision with exact defects; do not edit files."
+          }
+        ]
+      }
+    ],
+    "connections": [
+      {
+        "from": "explorers",
+        "to": "synthesizer",
+        "type": "sequential"
+      },
+      {
+        "from": "synthesizer",
+        "to": "reviewers",
+        "type": "zig-zag",
+        "loop_cap": 1
+      },
+      {
+        "from": "synthesizer",
+        "to": "explorers",
+        "type": "feedback",
+        "loop_cap": 1
+      },
+      {
+        "from": "reviewers",
+        "to": "writer",
+        "type": "sequential"
+      },
+      {
+        "from": "writer",
+        "to": "auditor",
+        "type": "sequential"
+      },
+      {
+        "from": "auditor",
+        "to": "writer",
+        "type": "feedback",
+        "loop_cap": 1
+      }
+    ]
+  }
+}
