@@ -1,0 +1,361 @@
+{
+  "dispatch_id": "2026-08-07-rwo-canonical-contract-dialectic-review",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Run a small dual-lane dialectic to determine whether the proposed RWO canonical identity contract needs refinement.",
+    "objective": "Produce verified KEEP/FIX requests for RWO-JCS-SAFEINT-V1 from independent formal-interoperability and adversarial domain-lifecycle concerns before owner acceptance.",
+    "target_artifact": "ops/development/2026-08-07-rwo-canonical-contract-dialectic-review/findings.md",
+    "arcanum_vocabulary": [
+      "domainspec-subagents-strategy",
+      "dispatch-spec",
+      "robot-talks",
+      "orchestrate",
+      "inventory",
+      "decision-gate"
+    ]
+  },
+  "mode": "dialectic",
+  "techniques": [
+    "dialectic",
+    "concrete_path_evidence",
+    "execution_receipt_handoff",
+    "authority_split_gate"
+  ],
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Run and confront two canonical-contract attack lanes",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "review",
+      "pattern": "dialectic",
+      "parallel": true,
+      "techniques": [
+        "dialectic",
+        "concrete_path_evidence",
+        "execution_receipt_handoff",
+        "owner_boundary_check"
+      ],
+      "roles": [
+        "formal-interop-reviewer",
+        "domain-lifecycle-reviewer"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-08-07-rwo-canonical-contract-dialectic-review/dispatch-sheet.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/2026-08-07-rwo-canonical-contract-dialectic-review/strategy-inventory-packet.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/development/decision-gates/20260807T144352Z-rwo-language-contract/DG-RWO-LANG-CONTRACT-001.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/formal-interop-reviewer.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/domain-lifecycle-reviewer.json"
+        }
+      ],
+      "join_policy": "all",
+      "convergence_criteria": [
+        "both lanes return final positions after one bounded confrontation",
+        "every MAJOR finding has current evidence and a discriminating counterexample",
+        "the parent can classify each proposed refinement as retained, refuted, or unresolved without selecting the owner gate"
+      ],
+      "stop_conditions": [
+        "stop if a lane edits the target or exceeds the named source corpus",
+        "stop if a finding lacks current file evidence or an official primary-standard selector",
+        "stop if the lanes remain irreconcilable after one confrontation",
+        "stop on any implementation, ontology, authority, promotion, publication, deployment, or release mutation"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-human-authorization",
+      "kind": "human_approval",
+      "owner": "human operator",
+      "condition": "No review role may spawn and no ledger row may append until the user confirms the validated, double-PASS material strategy.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g-dialectic-convergence",
+      "kind": "quality",
+      "owner": "parent",
+      "condition": "Both reviewers are joined and closed with evidenced final positions and discriminating counterexamples before parent synthesis.",
+      "applies_after_wave": "dialectic-review",
+      "requires_role_receipts": [
+        "receipts/formal-interop-reviewer.json",
+        "receipts/domain-lifecycle-reviewer.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "parent",
+      "condition": "Review evidence cannot select the contract option, mutate target artifacts, unblock Invoke, or claim implementation, authority, promotion, publication, deployment, release, or production readiness.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch_registered",
+      "action_attempted",
+      "host_spawn_returned",
+      "agent_wait_registered",
+      "wait_attempted",
+      "agent_terminal",
+      "agent_closed",
+      "wave_gate_evaluated",
+      "review_findings_recorded",
+      "dispatch_closed"
+    ],
+    "signal_grouping": "dispatch_id and step_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-target-read-only",
+        "kind": "artifact_import",
+        "from_owner": "RWO planning and design owner",
+        "to_owner": "private review dispatch",
+        "applies_to_steps": ["s1"],
+        "contract": "Current contract, language-refinement, and way-maker bytes are immutable review inputs; reviewers return evidence only.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-review-return",
+        "kind": "evidence_return",
+        "from_owner": "review roles",
+        "to_owner": "parent orchestrator",
+        "applies_to_steps": ["s1"],
+        "contract": "Each lane returns a structured lifecycle receipt and final evidenced position; prose without required evidence cannot open synthesis.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-human-authorization",
+        "kind": "human_approval",
+        "from_owner": "human operator",
+        "to_owner": "orchestrate",
+        "applies_to_steps": ["s1"],
+        "contract": "No review role may spawn until the human confirms the materially frozen strategy.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "domainspec-subagents-strategy",
+      "execution": "orchestrate after explicit human confirmation",
+      "validation": "dispatch-spec, register-dispatch readiness, two independent tension verdicts, parent source verification",
+      "evidence": "review findings owned by the parent as non-authority decision input",
+      "memory": "Inventory is a non-authority discovery projection",
+      "promotion": "not granted"
+    },
+    "receipts": [
+      {
+        "receipt_id": "review-lane-receipts",
+        "producer": "each delegated review role",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": ["working-folder receipts"],
+        "on_missing": "block"
+      }
+    ]
+  },
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Two independent concerns can attack the same existing contract in parallel, and their disagreement should be preserved before owner acceptance.",
+    "explanation": "One formal lane attacks cross-language byte reproducibility; one adversarial lane attacks semantic and lifecycle sufficiency. Their bounded confrontation prevents either deterministic serialization or architectural boundary concerns from dominating by default.",
+    "context": [
+      "The RWO contract is a pending Decision Gate artifact, not an accepted owner decision.",
+      "The current Work Pack remains unchanged and implementation has not started.",
+      "Review outputs are private non-authority evidence only."
+    ],
+    "parallelism": "dialectic",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Reply confirmed to authorize registration and the exact two-agent read-only dialectic.",
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "formal-interop-reviewer",
+        "purpose": "Prove or refute unambiguous canonical bytes and fixtures across Python, Rust, and Go.",
+        "owns": "Formal interoperability review receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/development/decision-gates/20260807T144352Z-rwo-language-contract/DG-RWO-LANG-CONTRACT-001.md",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "input_refs": [
+          "ops/development/2026-08-07-rwo-canonical-contract-dialectic-review/dispatch-sheet.json",
+          "ops/development/2026-08-07-rwo-canonical-contract-dialectic-review/strategy-inventory-packet.json"
+        ],
+        "output_refs": ["receipts/formal-interop-reviewer.json"],
+        "applies_to_steps": ["s1"]
+      },
+      {
+        "role_id": "domain-lifecycle-reviewer",
+        "purpose": "Attack semantic sufficiency, evolution, fixture governance, and transport/runtime ownership leakage.",
+        "owns": "Domain and lifecycle review receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/development/decision-gates/20260807T144352Z-rwo-language-contract/DG-RWO-LANG-CONTRACT-001.md",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "cyberAlchemy-v2/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "input_refs": [
+          "ops/development/2026-08-07-rwo-canonical-contract-dialectic-review/dispatch-sheet.json",
+          "ops/development/2026-08-07-rwo-canonical-contract-dialectic-review/strategy-inventory-packet.json"
+        ],
+        "output_refs": ["receipts/domain-lifecycle-reviewer.json"],
+        "applies_to_steps": ["s1"]
+      }
+    ],
+    "execution_waves": [
+      {
+        "wave_id": "dialectic-review",
+        "role_ids": [
+          "formal-interop-reviewer",
+          "domain-lifecycle-reviewer"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "gate_after": "g-dialectic-convergence",
+        "on_incomplete": "block"
+      }
+    ],
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "capability_target",
+      "capability_mode",
+      "wave_id",
+      "write_scope",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {
+        "agent_id": "/root/rwo_formal_interop_review",
+        "role_id": "formal-interop-reviewer",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/development/decision-gates/20260807T144352Z-rwo-language-contract/DG-RWO-LANG-CONTRACT-001.md",
+        "capability_mode": "review",
+        "wave_id": "dialectic-review",
+        "write_scope": [],
+        "lane_name": "Formal interoperability review",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "receipts/formal-interop-reviewer.json",
+        "residue": "No executed Python/Rust/Go vectors; target Inventory source coverage blocked.",
+        "reroute": "human decision gate over the verified change-request list"
+      },
+      {
+        "agent_id": "/root/rwo_domain_lifecycle_review",
+        "role_id": "domain-lifecycle-reviewer",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/development/decision-gates/20260807T144352Z-rwo-language-contract/DG-RWO-LANG-CONTRACT-001.md",
+        "capability_mode": "review",
+        "wave_id": "dialectic-review",
+        "write_scope": [],
+        "lane_name": "Domain and lifecycle review",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "receipts/domain-lifecycle-reviewer.json",
+        "residue": "Target Inventory source coverage blocked; schema/reducer migration owner unresolved; no executed cross-language conformance.",
+        "reroute": "human decision gate over the verified change-request list"
+      }
+    ]
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "2026-08-07-rwo-canonical-contract-dialectic-review",
+      "step_id": "s1",
+      "capability_ref": "domainspec-subagents-strategy",
+      "receipt_kind": "subagent",
+      "status": "pass",
+      "artifacts": [
+        "receipts/formal-interop-reviewer.json"
+      ],
+      "validation": [
+        "Formal corpus and primary-standard review passed; confrontation converged."
+      ],
+      "observer_status": "not_requested",
+      "blockers": [],
+      "residue": "No executed cross-language conformance vectors.",
+      "handoff_note": "Parent synthesis may consume the verified formal change requests."
+    },
+    {
+      "dispatch_id": "2026-08-07-rwo-canonical-contract-dialectic-review",
+      "step_id": "s1",
+      "capability_ref": "domainspec-subagents-strategy",
+      "receipt_kind": "subagent",
+      "status": "pass",
+      "artifacts": [
+        "receipts/domain-lifecycle-reviewer.json"
+      ],
+      "validation": [
+        "Domain/lifecycle corpus review passed; every MAJOR finding has a discriminating scenario; confrontation converged."
+      ],
+      "observer_status": "not_requested",
+      "blockers": [],
+      "residue": "Target Inventory coverage remains blocked and no cross-language vectors were executed.",
+      "handoff_note": "Parent synthesis may consume the verified domain/lifecycle change requests."
+    }
+  ],
+  "promotion_guardrails": [
+    "The review cannot choose or accept the Decision Gate option.",
+    "Inventory and adjacent strategies are discovery context, not proof.",
+    "No review output may mutate the RWO contract, Work Pack, implementation, ontology, authority, publication, deployment, or release state.",
+    "Protobuf/gRPC, journal, retry, ARE, and runtime surfaces remain consumers or separate owners, not canonical kernel identity."
+  ]
+}
