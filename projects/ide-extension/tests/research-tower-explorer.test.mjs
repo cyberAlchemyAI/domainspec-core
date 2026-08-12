@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,15 +8,38 @@ import { createServer } from '../src/server.mjs';
 import {
   loadResearchTowerL0,
   ResearchTowerWitnessError,
-  validateTowerSceneManifest
+  buildVerificationPromptProjections,
+  resolveFixtureSourceBindings,
+  sha256,
+  validateTowerSceneManifest,
+  validateVerificationPromptProjections
 } from '../src/research-tower/l0-witness.mjs';
 
 const repositoryRoot = path.resolve(fileURLToPath(new URL('../../..', import.meta.url)));
 const projectRoot = path.join(repositoryRoot, 'projects/ide-extension');
 const witnessDir = path.join(repositoryRoot, 'projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001');
+const visualAssetDir = path.join(projectRoot, 'public/assets/research-tower-concepts');
+const sourceRoot = path.join(repositoryRoot, 'projects/cyberalchemy-lab/research/tower-evidence-navigator');
 
 function listen(server) { return new Promise((resolve) => server.listen(0, '127.0.0.1', () => resolve(server.address().port))); }
 function close(server) { return new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve())); }
+
+test('approved room assets retain their exact PNG bytes and dimensions', async () => {
+  const contracts = [
+    ['robot-paper-library.png', '1a224bba26856807db877c7af73bba9f3f7eca076561d3befe67f593259d8536', 1672, 941],
+    ['autonomous-observatory-lab.png', '467d5977e960dd4417fbee3d004638f40b0f34a5a9ee0218e02a68c86f063019', 1672, 941],
+    ['night-knowledge-observatory.png', '28b2b703228ac0ab33fa4b44d74ce9e09b304d822fb85a789bf9483ae923bc5f', 1672, 941],
+    ['robot-cowork-rpg-sprite-sheet.png', '04fa18bb405b59380b4be2b5a88bebd88632837e1fd21467e626832f43e37afa', 2172, 724]
+  ];
+  for (const [name, digest, width, height] of contracts) {
+    const bytes = await readFile(path.join(visualAssetDir, name));
+    assert.equal(bytes.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+    assert.equal(bytes.subarray(12, 16).toString('ascii'), 'IHDR');
+    assert.equal(bytes.readUInt32BE(16), width);
+    assert.equal(bytes.readUInt32BE(20), height);
+    assert.equal(sha256(bytes), digest);
+  }
+});
 
 test('L1 explorer exposes only a verified synthetic L0 read model', async () => {
   const view = await loadResearchTowerL0({ repositoryRoot, witnessDir });
@@ -98,6 +121,105 @@ test('scene manifest preserves the synthetic evidence boundary and fails closed'
   assert.throws(() => validateTowerSceneManifest(manifest, { ...view, authority_effect: 'execute' }), (error) => error instanceof ResearchTowerWitnessError && error.code === 'research_tower_scene_manifest_invalid');
 });
 
+test('verification prompts preserve exact floor evidence, gaps, and a non-executable route', async () => {
+  const view = await loadResearchTowerL0({ repositoryRoot, witnessDir });
+  const projectionSet = view.verification_prompts;
+  assert.equal(projectionSet.interaction_contract, 'display-only');
+  assert.equal(projectionSet.authority_effect, 'none');
+  assert.deepEqual(projectionSet.prompts.map((prompt) => prompt.selected_floor_id), [
+    'evidence-l0-corpus',
+    'evidence-l1-residue',
+    'evidence-l2-closure'
+  ]);
+  assert.equal(new Set(projectionSet.prompts.map((prompt) => prompt.verification_question)).size, 3);
+  assert.equal(projectionSet.prompts.every((prompt) => prompt.route_suggestion.executable === false), true);
+  assert.equal(projectionSet.prompts.every((prompt) => prompt.bound_evidence_refs.every((reference) =>
+    reference.status === 'verified' && reference.expected_sha256 === reference.observed_sha256)), true);
+  assert.equal(projectionSet.prompts.every((prompt) => prompt.bound_evidence_refs.every((reference) =>
+    reference.repository_ref === 'git:domainspec-core'
+      && /^[a-f0-9]{40,64}$/u.test(reference.object_id)
+      && reference.path.startsWith('projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/'))), true);
+  assert.equal(projectionSet.prompts.every((prompt) => prompt.known_evidence.length === 1 && prompt.unbound_evidence.length === 1), true);
+
+  const executableRoute = structuredClone(projectionSet);
+  executableRoute.prompts[0].route_suggestion.executable = true;
+  assert.throws(() => validateVerificationPromptProjections(executableRoute, view), (error) => error instanceof ResearchTowerWitnessError && error.code === 'research_tower_scene_manifest_invalid');
+  const commandRoute = structuredClone(projectionSet);
+  commandRoute.prompts[0].route_suggestion.command = 'run';
+  assert.throws(() => validateVerificationPromptProjections(commandRoute, view), (error) => error instanceof ResearchTowerWitnessError && error.code === 'research_tower_scene_manifest_invalid');
+  const exchangedBinding = structuredClone(projectionSet);
+  exchangedBinding.prompts[0].bound_evidence_refs[0] = structuredClone(projectionSet.prompts[1].bound_evidence_refs[0]);
+  assert.throws(() => validateVerificationPromptProjections(exchangedBinding, view), (error) => error instanceof ResearchTowerWitnessError && error.code === 'research_tower_scene_manifest_invalid');
+  const digestMismatch = structuredClone(projectionSet);
+  digestMismatch.prompts[0].bound_evidence_refs[0].observed_sha256 = '0'.repeat(64);
+  assert.throws(() => validateVerificationPromptProjections(digestMismatch, view), (error) => error instanceof ResearchTowerWitnessError && error.code === 'research_tower_scene_manifest_invalid');
+  const exchangedQuestion = structuredClone(projectionSet);
+  exchangedQuestion.prompts[0].verification_question = projectionSet.prompts[1].verification_question;
+  assert.throws(() => validateVerificationPromptProjections(exchangedQuestion, view), (error) => error instanceof ResearchTowerWitnessError && error.code === 'research_tower_scene_manifest_invalid');
+
+  for (const status of ['object_unavailable', 'path_missing', 'digest_mismatch']) {
+    const failedView = structuredClone(view);
+    const failedSource = failedView.sources.find((source) => source.id === 'source:toy:readme');
+    failedSource.binding_status = status;
+    failedSource.observed_sha256 = status === 'digest_mismatch' ? '0'.repeat(64) : null;
+    failedView.verification_prompts = buildVerificationPromptProjections(failedView, failedView.scene_manifest);
+    const failedPrompt = failedView.verification_prompts.prompts[0];
+    assert.equal(failedPrompt.bound_evidence_refs[0].status, status);
+    assert.equal(failedPrompt.known_evidence.every((evidence) => !evidence.bound_ref_ids.includes(failedSource.id)), true);
+    assert.equal(failedPrompt.known_evidence.every((evidence) => evidence.statement.includes('no combined floor claim is presented')), true);
+    assert.equal(failedPrompt.unbound_evidence.some((gap) => gap.statement.includes(status)
+      && gap.statement.includes(failedSource.repository_ref)
+      && gap.statement.includes(failedSource.object_id)
+      && gap.statement.includes(failedSource.path)
+      && gap.statement.includes('Ordinary sourced claim suppressed')), true);
+    assert.doesNotThrow(() => validateVerificationPromptProjections(failedView.verification_prompts, failedView));
+    const leakedClaim = structuredClone(failedView.verification_prompts);
+    leakedClaim.prompts[0].known_evidence = structuredClone(projectionSet.prompts[0].known_evidence);
+    assert.throws(() => validateVerificationPromptProjections(leakedClaim, failedView), (error) => error instanceof ResearchTowerWitnessError && error.code === 'research_tower_scene_manifest_invalid');
+  }
+});
+
+test('exact Git source resolver emits each fail-closed binding state without repairing bytes', async () => {
+  const view = await loadResearchTowerL0({ repositoryRoot, witnessDir });
+  const sourceInputs = view.sources.map((source) => ({
+    id: source.id,
+    record_snapshot_id: source.record_snapshot_id,
+    logical_source_id: source.logical_source_id,
+    locator: source.locator,
+    content_digest: source.content_digest,
+    byte_size: source.byte_size,
+    media_type: source.media_type,
+    status: source.status,
+    provenance: source.provenance
+  }));
+  const objectUnavailable = await resolveFixtureSourceBindings({
+    repositoryRoot, sourceRoot, sources: sourceInputs, readGitObject: async () => null
+  });
+  assert.equal(objectUnavailable.every((source) => source.binding_status === 'object_unavailable' && source.observed_sha256 === null), true);
+  const pathMissing = await resolveFixtureSourceBindings({
+    repositoryRoot, sourceRoot, sources: sourceInputs, readSource: async () => { throw new Error('missing'); }
+  });
+  assert.equal(pathMissing.every((source) => source.binding_status === 'path_missing' && source.observed_sha256 === null), true);
+  const gitPathMissing = await resolveFixtureSourceBindings({
+    repositoryRoot, sourceRoot, sources: sourceInputs, resolveGitPath: async () => null
+  });
+  assert.equal(gitPathMissing.every((source) => source.binding_status === 'path_missing' && source.observed_sha256 === null), true);
+  const digestMismatch = await resolveFixtureSourceBindings({
+    repositoryRoot,
+    sourceRoot,
+    sources: sourceInputs,
+    readSource: async (target) => Buffer.concat([await readFile(target), Buffer.from('changed')])
+  });
+  assert.equal(digestMismatch.every((source) => source.binding_status === 'digest_mismatch'
+    && /^[a-f0-9]{64}$/u.test(source.observed_sha256)
+    && source.observed_sha256 !== source.expected_sha256), true);
+  for (const source of [...objectUnavailable, ...pathMissing, ...gitPathMissing, ...digestMismatch]) {
+    assert.equal(source.repository_ref, 'git:domainspec-core');
+    assert.match(source.object_id, /^[a-f0-9]{40,64}$/u);
+    assert.equal(source.path.startsWith('projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/'), true);
+  }
+});
+
 test('L1 explorer fails closed when its lock is tampered', async () => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'research-tower-lock-'));
   try {
@@ -147,8 +269,24 @@ test('local server serves the explorer and its read-only API', async () => {
     assert.doesNotMatch(html, /data-panel="evidence-detail"/);
     assert.doesNotMatch(html, /data-layout="spatial-canvas"/);
     assert.doesNotMatch(html, /\.scene-stack|\.source-orbit|\.cowork-robots|\.live-lab|#constellation-core/);
-    assert.doesNotMatch(html, /robot-paper-library\.png|robot-cowork-rpg-sprite-sheet\.png|autonomous-observatory-lab\.png|night-knowledge-observatory\.png/);
-    assert.doesNotMatch(html, /data-robot-role|toggle-lab-motion|focus-tower|lab-frame-loop|Decorative cowork loop/);
+    assert.match(html, /data-panel="room-scene"/);
+    assert.match(html, /data-media="room-still"/);
+    assert.match(html, /data-media="ambient-tableau"/);
+    assert.match(html, /robot-paper-library\.png/);
+    assert.match(html, /robot-cowork-rpg-sprite-sheet\.png/);
+    assert.match(html, /autonomous-observatory-lab\.png/);
+    assert.match(html, /night-knowledge-observatory\.png/);
+    assert.match(html, /Illustrative room scene · no live workers or workflow/);
+    assert.match(html, /data-panel="verification-prompt"/);
+    assert.match(html, /data-verification-field="executable">false/);
+    assert.match(html, /data-action="return-to-floor"/);
+    assert.match(html, /Injected render failure after staging/);
+    assert.match(html, /data-frame-count="4" data-frame-width="543" data-frame-height="724" data-source-width="2172"/);
+    assert.match(html, /04fa18bb405b59380b4be2b5a88bebd88632837e1fd21467e626832f43e37afa/);
+    assert.match(html, /animation: ambient-lab-loop 10s steps\(1, end\) infinite/);
+    assert.doesNotMatch(html, /data-robot-role|toggle-lab-motion|focus-tower|lab-frame-loop/);
+    assert.doesNotMatch(html, /https?:\/\/[^'"\s]+\.(?:png|gif|webp)|anime(?:\.min)?\.js|requestAnimationFrame/);
+    assert.doesNotMatch(html, /tabindex=["'][1-9]|aria-modal=|role=["']dialog/);
     assert.doesNotMatch(html, /innerHTML/);
     assert.equal(api.status, 200);
     const payload = await api.json();
@@ -156,5 +294,8 @@ test('local server serves the explorer and its read-only API', async () => {
     assert.equal(payload.scene_manifest.interaction_contract, 'read-only');
     assert.equal(payload.scene_manifest.towers[0].scenes.length, 3);
     assert.equal(payload.scene_manifest.towers[0].scenes[0].source_refs.length > 0, true);
+    assert.equal(payload.verification_prompts.interaction_contract, 'display-only');
+    assert.equal(payload.verification_prompts.prompts.length, 3);
+    assert.equal(payload.verification_prompts.prompts.every((prompt) => prompt.route_suggestion.executable === false), true);
   } finally { await close(server); await rm(stateDir, { recursive: true, force: true }); }
 });

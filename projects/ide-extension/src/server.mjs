@@ -66,6 +66,11 @@ const RESEARCH_TOWER_ASSETS = new Map([
   ['robot-cowork-rpg-sprite-sheet.png', 'image/png'],
   ['cyberalchemy-mark.svg', 'image/svg+xml; charset=utf-8']
 ]);
+const RESEARCH_TOWER_MODULES = new Map([
+  ['/research-tower/world-model.mjs', 'world-model.mjs'],
+  ['/research-tower/world-renderer.mjs', 'world-renderer.mjs'],
+  ['/research-tower/world-bridge.mjs', 'world-bridge.mjs']
+]);
 
 function invalidCraftIndex(message) {
   const error = new Error(message);
@@ -627,6 +632,20 @@ export function createServer(options = {}) {
           }
           throw error;
         }
+        return;
+      }
+
+      if (request.method === 'GET' && RESEARCH_TOWER_MODULES.has(url.pathname)) {
+        await serveFile(
+          response,
+          path.join(rootDir, 'src/research-tower', RESEARCH_TOWER_MODULES.get(url.pathname)),
+          'text/javascript; charset=utf-8'
+        );
+        return;
+      }
+
+      if (url.pathname.startsWith('/research-tower/')) {
+        sendText(response, request.method === 'GET' ? 404 : 405, 'Not found');
         return;
       }
 
