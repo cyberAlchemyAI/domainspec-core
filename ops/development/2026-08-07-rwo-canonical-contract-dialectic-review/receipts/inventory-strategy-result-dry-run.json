@@ -1,0 +1,68 @@
+{
+  "schema_version": "domainspec.inventory-hook-diagnostic@0.1",
+  "underlying_receipt_sha256": "3d6440ddd1320f28f25e17fb52643ea59fe3f87252b3d65861a26faf9aef4de1",
+  "operation": "append",
+  "mode": "dry-run",
+  "status": "candidate-blocked",
+  "reason_code": "candidate-not-ready",
+  "operation_fingerprint": "36ec3e056831cec4079731d1ee9e9dc01a01e9d47ec5c47990bbdf02d81f7705",
+  "timestamp_input": "2026-08-07T15:08:08Z",
+  "inventory_root": ".arcanum/inventory",
+  "inputs": {
+    "evidence_state": "observed",
+    "baseline_index_sha256": "d2478959dd49b82b86ca59851ad587c3686b2f37a0d41323acbc3265d204096f",
+    "baseline_human_index_sha256": "eecd9e2a02261c779c0dddff63b35f7ecbb4d11c79873c0f9ea052c280d091cc",
+    "record_sha256": "384a13e370a5372a52b71d64ff0dd2cbb9bf4426079fcfab3f45014fefc062d7",
+    "normalized_record_sha256": "384a13e370a5372a52b71d64ff0dd2cbb9bf4426079fcfab3f45014fefc062d7"
+  },
+  "baseline": {
+    "evidence_state": "observed",
+    "report_sha256": "e185439e1684c528e2e0c676473995be8b992bb502536d5efef3e7cfee31e97b",
+    "lookup_readiness": "ready",
+    "failure_count": 0,
+    "warning_count": 146
+  },
+  "candidate": {
+    "evidence_state": "observed",
+    "disposition": "added",
+    "index_sha256": "8282743056d5f3378cdc7bcfc526b2627d36d1b805516c1f239c8ab4031edc39",
+    "human_index_sha256": "c1959e29d6d171b01329c16592b4f71e37e41e8eae98b714367cc259535e3e2e",
+    "report_sha256": "e31b9c7e054e08518265b30989d28336ec449ea22b79712eee07fa87a00cee39",
+    "lookup_readiness": "blocked"
+  },
+  "warning_delta": {
+    "evidence_state": "observed",
+    "introduced": [],
+    "resolved": [],
+    "inherited_count": 146,
+    "inherited_set_sha256": "17664d42fc43bad0c2806a3b8c6aa8d2963155642e7f049ada2f1c996127d619"
+  },
+  "write": {
+    "evidence_state": "observed",
+    "attempted": false,
+    "committed": false,
+    "observed_changed_paths": [],
+    "expected_postwrite_digests": {
+      "index.json": "d2478959dd49b82b86ca59851ad587c3686b2f37a0d41323acbc3265d204096f",
+      "index.md": "eecd9e2a02261c779c0dddff63b35f7ecbb4d11c79873c0f9ea052c280d091cc"
+    },
+    "actual_postwrite_digests": {
+      "index.json": "d2478959dd49b82b86ca59851ad587c3686b2f37a0d41323acbc3265d204096f",
+      "index.md": "eecd9e2a02261c779c0dddff63b35f7ecbb4d11c79873c0f9ea052c280d091cc"
+    },
+    "possible_partial_mutation": false,
+    "repair_required": false
+  },
+  "diagnostic": {
+    "candidate_failure": "staged candidate projection existence check reported 32 errors because the updater stages only the Inventory subtree while current indexed source references resolve elsewhere in the repository",
+    "real_index_written": false,
+    "real_human_index_written": false,
+    "candidate_preserved": ".arcanum/inventory/queries/2026-08-07-rwo-canonical-contract-dialectic-review-strategy-result.md"
+  },
+  "authority_boundary": "inventory-read-model-only",
+  "residue": [
+    "candidate-validation-blocked",
+    "post-result-index-sync-pending-tooling-repair",
+    "no-currentness-or-promotion-claim"
+  ]
+}
