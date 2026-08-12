@@ -1,0 +1,687 @@
+{
+  "dispatch_id": "2026-08-09-skillopt-arcanum-presentation-research-route",
+  "intent": {
+    "raw": "Research SkillOpt and Arcanum for an advanced Portuguese presentation using a governed subagent strategy.",
+    "objective": "After explicit confirmation, execute a capability-bound exact-binding research pipeline that produces a presentation-ready research brief without changing Arcanum or claiming unproved implementation.",
+    "target_artifact": "research/2026-08-09-skillopt-arcanum-presentation/findings.md",
+    "arcanum_vocabulary": [
+      "sigil",
+      "spell",
+      "capability",
+      "validation",
+      "observability",
+      "reflection",
+      "promotion"
+    ]
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Three independent source and methodology lanes must be reconciled and adversarially checked before the presentation brief can safely compare SkillOpt with current Arcanum.",
+    "explanation": "The route separates external primary-source verification, current local Arcanum architecture and code inspection, and audience-facing presentation design, then gates synthesis, three distinct skeptic attacks, exact evidence closure, writing, and audit.",
+    "context": [
+      "The TDC CFP fixes an advanced Portuguese 35-minute slides-and-code format.",
+      "The Inventory is degraded and contains no direct SkillOpt entry, so it supplies leads but not evidence.",
+      "The dated TO-VLAD3 memo is a hypothesis and audit lead; live sources and the current SkillOpt paper own factual claims.",
+      "The output is research substrate only; Arcanum mutation, optimizer implementation, promotion, publication, deployment, and production claims are forbidden."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "domainspec-subagents-strategy",
+    "roles": [
+      {
+        "role_id": "skillopt-primary-explorer",
+        "purpose": "Verify SkillOpt's current paper, official artifacts, experiments, limitations, and related-work claims.",
+        "owns": "SkillOpt explorer receipt with exact primary-source bindings.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "arcanum/",
+          "telemetry/agents/subagents-dispatch.yaml"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json",
+          "research/2026-08-09-skillopt-arcanum-presentation/strategy-inventory-packet.json"
+        ],
+        "output_refs": [
+          "receipts/explorer-skillopt.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "arcanum-current-state-explorer",
+        "purpose": "Audit current public Arcanum lifecycle, runtime, benchmark, observability, and improvement-loop evidence.",
+        "owns": "Arcanum current-state explorer receipt with exact local selectors.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "arcanum/",
+          "telemetry/agents/subagents-dispatch.yaml"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json",
+          "research/2026-08-09-skillopt-arcanum-presentation/strategy-inventory-packet.json"
+        ],
+        "output_refs": [
+          "receipts/explorer-arcanum.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "presentation-witness-explorer",
+        "purpose": "Test the 35-minute Portuguese narrative, conceptual bridge, and minimum slides-and-code witness.",
+        "owns": "Presentation explorer receipt with a source-to-slide and demo map.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "arcanum/",
+          "telemetry/agents/subagents-dispatch.yaml"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json",
+          "research/2026-08-09-skillopt-arcanum-presentation/strategy-inventory-packet.json"
+        ],
+        "output_refs": [
+          "receipts/explorer-presentation.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "presentation-research-synthesizer",
+        "purpose": "Reconcile the explorer evidence into a single presentation research package.",
+        "owns": "Cited synthesis and evidence-closure candidate receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json",
+        "capability_mode": "synthesize",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "arcanum/",
+          "telemetry/agents/subagents-dispatch.yaml"
+        ],
+        "depends_on_roles": [
+          "skillopt-primary-explorer",
+          "arcanum-current-state-explorer",
+          "presentation-witness-explorer"
+        ],
+        "input_refs": [
+          "receipts/explorer-skillopt.json",
+          "receipts/explorer-arcanum.json",
+          "receipts/explorer-presentation.json"
+        ],
+        "output_refs": [
+          "receipts/presentation-research-synthesis.json"
+        ],
+        "applies_to_steps": [
+          "s2"
+        ]
+      },
+      {
+        "role_id": "precedent-skeptic",
+        "purpose": "Attack priority, novelty, ownership, and citation-duty claims.",
+        "owns": "Precedent reviewer receipt and corrected ownership labels.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "arcanum/",
+          "telemetry/agents/subagents-dispatch.yaml"
+        ],
+        "depends_on_roles": [
+          "presentation-research-synthesizer"
+        ],
+        "input_refs": [
+          "receipts/presentation-research-synthesis.json"
+        ],
+        "output_refs": [
+          "receipts/reviewer-precedent.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "non-vacuity-skeptic",
+        "purpose": "Attack claims that lack an exact runnable or source-bound witness.",
+        "owns": "Non-vacuity reviewer receipt and witness verdicts.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "arcanum/",
+          "telemetry/agents/subagents-dispatch.yaml"
+        ],
+        "depends_on_roles": [
+          "presentation-research-synthesizer"
+        ],
+        "input_refs": [
+          "receipts/presentation-research-synthesis.json"
+        ],
+        "output_refs": [
+          "receipts/reviewer-non-vacuity.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "definition-skeptic",
+        "purpose": "Attack collapsed terminology and false equivalence between SkillOpt and Arcanum concepts.",
+        "owns": "Definitional-soundness reviewer receipt and corrected term boundaries.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "arcanum/",
+          "telemetry/agents/subagents-dispatch.yaml"
+        ],
+        "depends_on_roles": [
+          "presentation-research-synthesizer"
+        ],
+        "input_refs": [
+          "receipts/presentation-research-synthesis.json"
+        ],
+        "output_refs": [
+          "receipts/reviewer-definition.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "presentation-findings-writer",
+        "purpose": "Write the evidence-closed Portuguese presentation research brief.",
+        "owns": "findings.md and writer receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-09-skillopt-arcanum-presentation/findings.md",
+        "capability_mode": "write-findings",
+        "agent_count": 1,
+        "mutation_policy": "artifact-only",
+        "write_scope": [
+          "research/2026-08-09-skillopt-arcanum-presentation/findings.md"
+        ],
+        "forbidden_write_scopes": [
+          "research/2026-08-09-skillopt-arcanum-presentation/research.md",
+          "arcanum/",
+          "telemetry/agents/subagents-dispatch.yaml"
+        ],
+        "depends_on_roles": [
+          "precedent-skeptic",
+          "non-vacuity-skeptic",
+          "definition-skeptic"
+        ],
+        "input_refs": [
+          "receipts/reviewer-precedent.json",
+          "receipts/reviewer-non-vacuity.json",
+          "receipts/reviewer-definition.json",
+          "receipts/evidence-closure.json"
+        ],
+        "output_refs": [
+          "receipts/presentation-findings-writer.json"
+        ],
+        "applies_to_steps": [
+          "s4"
+        ]
+      },
+      {
+        "role_id": "presentation-findings-auditor",
+        "purpose": "Audit the findings against exact sources, timing, public boundaries, and the dispatch goal.",
+        "owns": "Final audit recommendation receipt.",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-09-skillopt-arcanum-presentation/findings.md",
+        "capability_mode": "audit",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "arcanum/",
+          "telemetry/agents/subagents-dispatch.yaml"
+        ],
+        "depends_on_roles": [
+          "presentation-findings-writer"
+        ],
+        "input_refs": [
+          "research/2026-08-09-skillopt-arcanum-presentation/findings.md",
+          "receipts/presentation-findings-writer.json"
+        ],
+        "output_refs": [
+          "receipts/presentation-findings-audit.json"
+        ],
+        "applies_to_steps": [
+          "s5"
+        ]
+      }
+    ],
+    "execution_waves": [
+      {
+        "wave_id": "explorers",
+        "role_ids": [
+          "skillopt-primary-explorer",
+          "arcanum-current-state-explorer",
+          "presentation-witness-explorer"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "gate_after": "g-explorer-evidence",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "synthesizer",
+        "role_ids": [
+          "presentation-research-synthesizer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "explorers"
+        ],
+        "gate_after": "g-synthesis",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "reviewers",
+        "role_ids": [
+          "precedent-skeptic",
+          "non-vacuity-skeptic",
+          "definition-skeptic"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "synthesizer"
+        ],
+        "gate_after": "g-evidence-closure",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "writer",
+        "role_ids": [
+          "presentation-findings-writer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "reviewers"
+        ],
+        "gate_after": "g-writer",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "auditor",
+        "role_ids": [
+          "presentation-findings-auditor"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "writer"
+        ],
+        "on_incomplete": "block"
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Reply exactly `confirmed` to register and run this SkillOpt-Arcanum presentation research dispatch.",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "capability_target",
+      "capability_mode",
+      "wave_id",
+      "write_scope",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Explore SkillOpt, current Arcanum, and presentation witness",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "owner": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md",
+        "boundary": "DomainSpec research-type dispatch owner"
+      },
+      "mode": "explore",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "external_context",
+          "ref": "research/2026-08-09-skillopt-arcanum-presentation/dispatch-sheet.json"
+        },
+        {
+          "kind": "external_context",
+          "ref": "research/2026-08-09-skillopt-arcanum-presentation/strategy-inventory-packet.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-skillopt.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-arcanum.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-presentation.json"
+        }
+      ],
+      "join_policy": "all",
+      "stop_conditions": [
+        "stop if the SkillOpt primary source cannot be identified or exact selectors cannot be preserved",
+        "stop if any explorer attempts source-tree, ledger, publication, or external-system mutation"
+      ]
+    },
+    {
+      "step_id": "s2",
+      "name": "Synthesize the presentation research package",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "owner": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md",
+        "boundary": "DomainSpec research-type dispatch owner"
+      },
+      "mode": "synthesize",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "sequence"
+      ],
+      "depends_on_steps": [
+        "s1"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-skillopt.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-arcanum.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-presentation.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/presentation-research-synthesis.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop if SkillOpt and Arcanum concepts collapse into false equivalence",
+        "stop if a load-bearing claim lacks an exact source identity and selector"
+      ]
+    },
+    {
+      "step_id": "s3",
+      "name": "Attack precedent, non-vacuity, and definitions",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "owner": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md",
+        "boundary": "DomainSpec research-type dispatch owner"
+      },
+      "mode": "review",
+      "pattern": "validation",
+      "parallel": true,
+      "techniques": [
+        "sequence"
+      ],
+      "depends_on_steps": [
+        "s2"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/presentation-research-synthesis.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-non-vacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-definition.json"
+        }
+      ],
+      "join_policy": "all",
+      "evidence_artifact": "receipts/reviewer-group-evidence.json",
+      "stop_conditions": [
+        "stop when non-vacuity or definitional soundness kills every candidate thesis or demo",
+        "stop when the declared zig-zag or explorer-feedback capacity is exhausted"
+      ]
+    },
+    {
+      "step_id": "s4",
+      "name": "Write exact-bound presentation findings",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "owner": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md",
+        "boundary": "DomainSpec research-type dispatch owner"
+      },
+      "mode": "write-findings",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "sequence"
+      ],
+      "depends_on_steps": [
+        "s3"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-non-vacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-definition.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/evidence-closure.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-09-skillopt-arcanum-presentation/findings.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/presentation-findings-writer.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop unless exact-binding evidence closure returns ready",
+        "stop if writer mutation exceeds findings.md"
+      ]
+    },
+    {
+      "step_id": "s5",
+      "name": "Audit the presentation research brief",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "owner": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md",
+        "boundary": "DomainSpec research-type dispatch owner"
+      },
+      "mode": "audit",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "sequence"
+      ],
+      "depends_on_steps": [
+        "s4"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-09-skillopt-arcanum-presentation/findings.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/presentation-findings-writer.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/presentation-findings-audit.json"
+        }
+      ],
+      "evidence_artifact": "receipts/presentation-findings-audit.json",
+      "stop_conditions": [
+        "stop if the verdict cannot bind to findings.md and its exact source rows",
+        "allow only the declared bounded writer revision route"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-explorer-evidence",
+      "kind": "validation",
+      "owner": "domainspec-subagents-strategy",
+      "condition": "All three explorer returns are joined and closed and preserve exact primary-source or live-source selectors plus proof status.",
+      "applies_after_wave": "explorers",
+      "requires_role_receipts": [
+        "receipts/explorer-skillopt.json",
+        "receipts/explorer-arcanum.json",
+        "receipts/explorer-presentation.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-synthesis",
+      "kind": "quality",
+      "owner": "research",
+      "condition": "The synthesis joins all three lanes, preserves disagreements, separates paper-reported and local states, and binds every load-bearing claim to an explorer receipt.",
+      "applies_after_wave": "synthesizer",
+      "requires_role_receipts": [
+        "receipts/presentation-research-synthesis.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-evidence-closure",
+      "kind": "validation",
+      "owner": "domainspec-subagents-strategy",
+      "condition": "All reviewer receipts are joined and exact-binding evidence closure returns ready; eligible feedback or zig-zag repair must be exhausted before writer launch.",
+      "applies_after_wave": "reviewers",
+      "requires_role_receipts": [
+        "receipts/reviewer-precedent.json",
+        "receipts/reviewer-non-vacuity.json",
+        "receipts/reviewer-definition.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-writer",
+      "kind": "validation",
+      "owner": "research",
+      "condition": "findings.md is the only writer mutation and contains the required Portuguese presentation brief, source bindings, verdict matrix, and claim ceiling.",
+      "applies_after_wave": "writer",
+      "requires_role_receipts": [
+        "receipts/presentation-findings-writer.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-final-approval",
+      "kind": "human_approval",
+      "owner": "parent",
+      "condition": "The parent approves only after an auditor recommendation, independent source inspection, and a complete dispatch closeout receipt.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "research_dispatch_registered",
+      "subagent_spawned",
+      "wave_joined",
+      "evidence_closure_checked",
+      "writer_started",
+      "auditor_completed",
+      "subagent_closed",
+      "research_dispatch_closed"
+    ],
+    "signal_grouping": "dispatch_id and wave_id"
+  },
+  "promotion_guardrails": [
+    "The route produces a research brief, not final slides, production code, optimizer implementation, or audience-comprehension proof.",
+    "SkillOpt claims remain paper-reported unless independently reproduced; Arcanum claims remain source inspection unless executed and receipted.",
+    "Inventory matches remain non-authority discovery leads and cannot authorize the dispatch or prove a claim.",
+    "Public Arcanum source retains capability and lifecycle ownership; private DomainSpec dispatch mechanics and paths must not be copied into a public presentation artifact.",
+    "Validation evidence does not itself promote, publish, deploy, release, or establish production readiness."
+  ]
+}

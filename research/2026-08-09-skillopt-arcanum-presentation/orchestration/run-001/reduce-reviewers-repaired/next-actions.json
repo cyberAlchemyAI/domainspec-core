@@ -1,0 +1,47 @@
+{
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0008",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s4"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-09-skillopt-arcanum-presentation-research-route",
+      "forbidden_write_scopes": [
+        "research/2026-08-09-skillopt-arcanum-presentation/research.md",
+        "arcanum/",
+        "telemetry/agents/subagents-dispatch.yaml"
+      ],
+      "input_refs": [
+        "receipts/reviewer-precedent.json",
+        "receipts/reviewer-non-vacuity.json",
+        "receipts/reviewer-definition.json",
+        "receipts/evidence-closure.json"
+      ],
+      "mode": "write-findings",
+      "mutation_policy": "artifact-only",
+      "output_refs": [
+        "receipts/presentation-findings-writer.json"
+      ],
+      "role": "presentation-findings-writer",
+      "run_id": "20260809T232823Z-skillopt-arcanum-presentation-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s4",
+      "target": "research/2026-08-09-skillopt-arcanum-presentation/findings.md",
+      "wave_id": "writer",
+      "write_scope": [
+        "research/2026-08-09-skillopt-arcanum-presentation/findings.md"
+      ]
+    }
+  ],
+  "decision": "gate_pass",
+  "dispatch_id": "2026-08-09-skillopt-arcanum-presentation-research-route",
+  "next_wave_id": "writer",
+  "run_id": "20260809T232823Z-skillopt-arcanum-presentation-001",
+  "schema_version": "arcanum.native-dispatch-runner.action-set.v0.1",
+  "source_gate_id": "g-evidence-closure",
+  "source_wave_id": "reviewers"
+}
