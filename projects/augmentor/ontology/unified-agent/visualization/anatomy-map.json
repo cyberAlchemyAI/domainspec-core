@@ -1,0 +1,218 @@
+{
+  "schema": "augmentor.ontology-anatomy-map@0.1.0",
+  "title": "A body-shaped guide to the same exact map",
+  "description": "A presentation-only orientation layer over the source-bound ontology records.",
+  "default_representation": "body",
+  "main_path": ["face", "brain-source", "brain-context", "brain-meaning", "route-spine", "work-spine", "evidence-return", "boundary-ring"],
+  "status_grammar": {
+    "observed": "Found in sources",
+    "designed": "Designed, not a live Augmentor path",
+    "absent": "Not built",
+    "blocked": "Blocked at named gate",
+    "deferred": "Planned for later",
+    "mixed": "Mixed state — inspect each part",
+    "selection-ready": "External · planned · not installed"
+  },
+  "regions": [
+    {
+      "id": "face",
+      "label": "Face and voice",
+      "short_label": "Interface",
+      "plain_explanation": "Where a person meets Augmentor and sees a host-owned conversation.",
+      "overview_posture": "mixed",
+      "owner_summary": "Product, chat, and an unresolved interaction owner remain separate.",
+      "limitation": "The interface presents conversation; it is not a Run, router, memory store, reasoning authority, or effect owner.",
+      "source_refs": ["ANATOMY-MAPPING.md#Body map", "ANATOMY-MAPPING.md#Exact relation anchors by region"],
+      "concepts": [
+        {"id": "aug.concept.augmentor_interface", "posture": "observed", "owner": "resonantos-product-governance-plus-module-owners"},
+        {"id": "aug.concept.conversation_thread", "posture": "observed", "owner": "resonantos-chat-module"},
+        {"id": "aug.concept.interaction", "posture": "absent", "owner": "owner-selection-required:interaction-resolver"}
+      ],
+      "relations": [
+        {"id": "aug.relation.augmentor_presents_thread", "posture": "observed", "owner": "resonantos-chat-module"},
+        {"id": "aug.relation.thread_contains_interaction", "posture": "absent", "owner": "resonantos-chat-module"}
+      ]
+    },
+    {
+      "id": "brain-source",
+      "label": "Brain — source lobe",
+      "short_label": "Sources",
+      "plain_explanation": "Provider evidence and an optional disposable lookup aid.",
+      "overview_posture": "mixed",
+      "owner_summary": "The provider owns source records; no derived-index owner is selected.",
+      "limitation": "Retrieval and indexing are not reasoning, truth creation, or authority.",
+      "source_refs": ["ANATOMY-MAPPING.md#Body map", "ANATOMY-MAPPING.md#Exact relation anchors by region"],
+      "concepts": [
+        {"id": "aug.concept.source_record", "posture": "observed", "owner": "provider-named-by-ownerRef"},
+        {"id": "aug.concept.disposable_semantic_index", "posture": "absent", "owner": "owner-selection-required:derived-index"}
+      ],
+      "relations": [
+        {"id": "aug.relation.index_derives_from_source", "posture": "absent", "owner": "owner-selection-required:derived-index"}
+      ]
+    },
+    {
+      "id": "brain-context",
+      "label": "Brain — context lobe",
+      "short_label": "Context",
+      "plain_explanation": "A task-sized packet composed from an interaction and selected evidence.",
+      "overview_posture": "absent",
+      "owner_summary": "The request-session host owns context composition.",
+      "limitation": "Selected context is not copied source authority and cannot manufacture facts.",
+      "source_refs": ["ANATOMY-MAPPING.md#Body map", "ANATOMY-MAPPING.md#Exact relation anchors by region"],
+      "concepts": [
+        {"id": "aug.concept.context_snapshot", "posture": "absent", "owner": "resonantos-request-session-host"}
+      ],
+      "relations": [
+        {"id": "aug.relation.interaction_composes_context", "posture": "absent", "owner": "resonantos-request-session-host"},
+        {"id": "aug.relation.source_supports_context", "posture": "designed", "owner": "provider-named-by-ownerRef"},
+        {"id": "aug.relation.context_uses_bounded_index_projection", "posture": "absent", "owner": "owner-selection-required:derived-index"}
+      ]
+    },
+    {
+      "id": "brain-meaning",
+      "label": "Brain — meaning lobe",
+      "short_label": "Meaning",
+      "plain_explanation": "A candidate map of typed meaning that may request owner review.",
+      "overview_posture": "designed",
+      "owner_summary": "The CyberAlchemy v2 ontology route owns the candidate path.",
+      "limitation": "A candidate is not a promoted ontology, owner decision, or permission to rely.",
+      "source_refs": ["ANATOMY-MAPPING.md#Body map", "ANATOMY-MAPPING.md#Exact relation anchors by region"],
+      "concepts": [
+        {"id": "aug.concept.ontology_candidate", "posture": "designed", "owner": "cyberalchemy-v2-ontology-route"}
+      ],
+      "relations": [
+        {"id": "aug.relation.source_supports_candidate", "posture": "designed", "owner": "inventory-then-cyberalchemy-v2-ontology-route"}
+      ]
+    },
+    {
+      "id": "route-spine",
+      "label": "Spine and nerves — route path",
+      "short_label": "Route spine",
+      "plain_explanation": "Typed requests and dispositions carry route information across distinct owners.",
+      "overview_posture": "mixed",
+      "owner_summary": "Request, catalog, adapter, resolver, and product decision owners stay distinct.",
+      "limitation": "A disposition is not classification truth, approval, Dispatch, or launch.",
+      "source_refs": ["ANATOMY-MAPPING.md#Body map", "ANATOMY-MAPPING.md#Exact relation anchors by region"],
+      "concepts": [
+        {"id": "aug.concept.intent_route_request", "posture": "absent", "owner": "owner-selection-required:resonantos-intent-request-normalizer"},
+        {"id": "aug.concept.route_catalog_projection", "posture": "absent", "owner": "owner-selection-required:resonantos-route-catalog-projector"},
+        {"id": "aug.concept.resolver_invocation", "posture": "designed", "owner": "resonantos-host-owner-plus-intent-route-adapter-policy"},
+        {"id": "aug.concept.route_disposition", "posture": "designed", "owner": "public-intent-route-resolver-plus-consumer-verification"},
+        {"id": "aug.concept.route_decision", "posture": "absent", "owner": "owner-selection-required:resonantos-route-decision"}
+      ],
+      "relations": [
+        {"id": "aug.relation.context_projects_intent_route_request", "posture": "absent", "owner": "owner-selection-required:resonantos-intent-request-normalizer"},
+        {"id": "aug.relation.intent_route_request_submitted_to_resolver", "posture": "designed", "owner": "resonantos-host-owner-plus-intent-route-adapter-policy"},
+        {"id": "aug.relation.catalog_bounds_resolver_invocation", "posture": "absent", "owner": "owner-selection-required:resonantos-route-catalog-projector"},
+        {"id": "aug.relation.resolver_invocation_yields_disposition", "posture": "designed", "owner": "public-intent-route-resolver-plus-consumer-verification"},
+        {"id": "aug.relation.augmentor_presents_route_disposition", "posture": "absent", "owner": "resonantos-product-governance-plus-presentation-owner"},
+        {"id": "aug.relation.disposition_may_inform_route_decision", "posture": "absent", "owner": "owner-selection-required:resonantos-route-decision"}
+      ]
+    },
+    {
+      "id": "work-spine",
+      "label": "Spine and nerves — work path",
+      "short_label": "Work spine",
+      "plain_explanation": "A proposal may reach exact approval, a frozen Dispatch, a host-owned Run, and a lifecycle join.",
+      "overview_posture": "mixed",
+      "owner_summary": "Proposal, approval, Dispatch, host Run, and join owners stay distinct.",
+      "limitation": "Dispatch is not Run; Run is not Thread; join is not result delivery.",
+      "source_refs": ["ANATOMY-MAPPING.md#Body map", "ANATOMY-MAPPING.md#Exact relation anchors by region"],
+      "concepts": [
+        {"id": "aug.concept.strategy_proposal", "posture": "absent", "owner": "owner-selection-required:proposal-projection"},
+        {"id": "aug.concept.approval_record", "posture": "absent", "owner": "consumer-plus-owner-selection-required:approval-registrar"},
+        {"id": "aug.concept.dispatch", "posture": "observed", "owner": "dispatch-spec"},
+        {"id": "aug.concept.run", "posture": "designed", "owner": "selected-resonantos-host-operation-owner"},
+        {"id": "aug.concept.lifecycle_join", "posture": "observed", "owner": "orchestrate"}
+      ],
+      "relations": [
+        {"id": "aug.relation.context_classified_by_route", "posture": "absent", "owner": "owner-selection-required:resonantos-route-decision"},
+        {"id": "aug.relation.route_may_project_strategy", "posture": "absent", "owner": "owner-selection-required:proposal-projection"},
+        {"id": "aug.relation.proposal_requires_exact_approval", "posture": "absent", "owner": "consumer-plus-owner-selection-required:approval-registrar"},
+        {"id": "aug.relation.approval_binds_dispatch", "posture": "designed", "owner": "consumer-plus-dispatch-spec"},
+        {"id": "aug.relation.dispatch_precedes_run", "posture": "blocked", "owner": "dispatch-spec-plus-orchestrate-plus-selected-host-owner"},
+        {"id": "aug.relation.runs_reduce_through_join", "posture": "designed", "owner": "orchestrate"},
+        {"id": "aug.relation.join_separates_consumption", "posture": "absent", "owner": "orchestrate-plus-owner-selection-required:result-consumption"}
+      ]
+    },
+    {
+      "id": "evidence-return",
+      "label": "Circulation — segmented evidence return",
+      "short_label": "Evidence return",
+      "plain_explanation": "Results may be consumed, proposed for memory intake, and reviewed by source owners.",
+      "overview_posture": "mixed",
+      "owner_summary": "Consumption is unresolved; providers and archive owners review intake.",
+      "limitation": "Consumption does not imply intake; an intake request does not write trusted memory; evidence handles carry no authority.",
+      "source_refs": ["ANATOMY-MAPPING.md#Body map", "ANATOMY-MAPPING.md#Exact relation anchors by region"],
+      "concepts": [
+        {"id": "aug.concept.result_consumption", "posture": "absent", "owner": "owner-selection-required:result-consumption"},
+        {"id": "aug.concept.memory_intake_request", "posture": "observed", "owner": "provider-and-archive-review-owners"}
+      ],
+      "shared_concepts": ["aug.concept.source_record"],
+      "relations": [
+        {"id": "aug.relation.consumption_does_not_imply_intake", "posture": "designed", "owner": "provider-and-archive-review-owners"},
+        {"id": "aug.relation.intake_requests_provider_review", "posture": "designed", "owner": "provider-named-by-ownerRef"}
+      ]
+    },
+    {
+      "id": "heart",
+      "label": "Optional reasoning loop — deferred",
+      "short_label": "Future reasoning",
+      "plain_explanation": "A future frozen reasoning request could yield a reproducible judgment receipt.",
+      "overview_posture": "deferred",
+      "owner_summary": "Applicability/catalog ownership is unselected; the reasoning route would own judgment receipts.",
+      "limitation": "Judgment is advice only, never approval, truth, authority, or effect permission. The observed interface works without this heart.",
+      "source_refs": ["ANATOMY-MAPPING.md#Body map", "ANATOMY-MAPPING.md#Exact relation anchors by region"],
+      "topology": {"detached": true, "optional": true, "animated": false, "interrupts_main_path": false},
+      "concepts": [
+        {"id": "aug.concept.reasoning_request", "posture": "deferred", "owner": "owner-selection-required:reasoning-applicability-and-catalog"},
+        {"id": "aug.concept.judgment_receipt", "posture": "deferred", "owner": "agent-reasoning-engine-route"}
+      ],
+      "relations": [
+        {"id": "aug.relation.context_frames_reasoning", "posture": "deferred", "owner": "owner-selection-required:reasoning-applicability-and-catalog"},
+        {"id": "aug.relation.reasoning_yields_judgment", "posture": "deferred", "owner": "agent-reasoning-engine-route"},
+        {"id": "aug.relation.judgment_may_inform_route", "posture": "deferred", "owner": "owner-selection-required:resonantos-route-decision"},
+        {"id": "aug.relation.judgment_does_not_authorize_approval", "posture": "deferred", "owner": "consumer-plus-independent-effect-owner"}
+      ]
+    },
+    {
+      "id": "boundary-ring",
+      "label": "Boundary ring — absent gates",
+      "short_label": "Missing gates",
+      "plain_explanation": "Where exact approval and a named authority decision would be required.",
+      "overview_posture": "absent",
+      "owner_summary": "Approval and authority decisions stay with separately named owners.",
+      "limitation": "No privacy mechanism is claimed. The absent ring cannot approve, promote, authorize, or perform an effect.",
+      "source_refs": ["ANATOMY-MAPPING.md#Body map", "ANATOMY-MAPPING.md#Exact relation anchors by region"],
+      "topology": {"broken": true, "enforced": false},
+      "concepts": [
+        {"id": "aug.concept.authority_decision", "posture": "absent", "owner": "authority-kind-specific-named-owner"}
+      ],
+      "shared_concepts": ["aug.concept.approval_record"],
+      "relations": [
+        {"id": "aug.relation.disposition_does_not_authorize_approval", "posture": "designed", "owner": "consumer-plus-owner-selection-required:approval-registrar"},
+        {"id": "aug.relation.candidate_requests_named_owner", "posture": "blocked", "owner": "authority-kind-specific-named-owner"}
+      ]
+    }
+  ],
+  "external_seams": [
+    {
+      "id": "addon-sdk",
+      "label": "Add-on SDK seam — planned",
+      "short_label": "SDK consultation seam",
+      "posture": "selection-ready",
+      "plain_explanation": "One future request and response boundary could let a separately selected consumer consult Augmentor.",
+      "owner_summary": "Future SDK source, host, grant, consumer, verification, and release owners remain separate.",
+      "limitation": "External · planned · not installed. Only SWU-AOSDK-001 is selection-ready; implementation, host binding, installation, integration, and release are not proven.",
+      "source_refs": ["development/invoke-runs/20260806T183814Z-addon-sdk-ontology-api/WORK-PACK.md#SWU-AOSDK-001"],
+      "ontology_refs": [],
+      "topology": {"disconnected": true, "hands": false, "action_pose": false}
+    }
+  ],
+  "package_disclaimer": {
+    "status": "candidate-local",
+    "authority_effect": "none",
+    "release_admission": "not-granted",
+    "copy": "Candidate design map · authority effect: none · release not granted"
+  }
+}

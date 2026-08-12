@@ -13,12 +13,14 @@ const SOURCES = {
   explanations: path.join(ONTOLOGY_ROOT, "explanations", "beginner.json"),
   glossary: path.join(ONTOLOGY_ROOT, "explanations", "glossary.json"),
   receipt: path.join(ONTOLOGY_ROOT, "receipts", "validation-receipt.json"),
+  anatomyMap: path.join(ONTOLOGY_ROOT, "visualization", "anatomy-map.json"),
 };
 const SCHEMAS = {
   projection: path.join(API_ROOT, "schemas", "consumer-projection.schema.json"),
   manifest: path.join(API_ROOT, "schemas", "consumer-bundle-manifest.schema.json"),
   glossary: path.join(API_ROOT, "schemas", "glossary.schema.json"),
   explanationSupport: path.join(API_ROOT, "schemas", "explanation-support.schema.json"),
+  anatomyFocusMap: path.join(API_ROOT, "schemas", "anatomy-focus-map.schema.json"),
 };
 const ALLOWLIST = [
   "id", "kind", "label", "summary", "viewIds", "fields.responsibility", "fields.boundary",
@@ -51,11 +53,12 @@ function kind(value) {
 }
 
 export async function buildConsumerProjection({ outputRoot = OUTPUT_ROOT, check = false } = {}) {
-  const [nodesText, explanationsText, glossaryText, receiptText, compilerText, ...schemaTexts] = await Promise.all([
+  const [nodesText, explanationsText, glossaryText, receiptText, anatomyMapText, compilerText, ...schemaTexts] = await Promise.all([
     readFile(SOURCES.nodes, "utf8"),
     readFile(SOURCES.explanations, "utf8"),
     readFile(SOURCES.glossary, "utf8"),
     readFile(SOURCES.receipt, "utf8"),
+    readFile(SOURCES.anatomyMap, "utf8"),
     readFile(SCRIPT, "utf8"),
     ...Object.values(SCHEMAS).map((schemaPath) => readFile(schemaPath, "utf8")),
   ]);
@@ -63,12 +66,14 @@ export async function buildConsumerProjection({ outputRoot = OUTPUT_ROOT, check 
   const explanations = JSON.parse(explanationsText);
   const glossarySource = JSON.parse(glossaryText);
   const receipt = JSON.parse(receiptText);
+  const anatomyMapSource = JSON.parse(anatomyMapText);
   const reviewedDate = new Date(receipt.generated_at).toISOString().slice(0, 10);
   const schemaOutputs = schemaTexts.map((schemaText) => `${JSON.stringify(JSON.parse(schemaText))}\n`);
   if (receipt.status !== "pass" || receipt.counts.nodes !== nodes.nodes.length) throw new Error("Ontology validation receipt does not match the node source.");
   const nodeSource = opaque("src", "unified-agent-reviewed-nodes-v1");
   const explanationSource = opaque("src", "unified-agent-beginner-explanations-v1");
   const glossarySourceHandle = opaque("src", "unified-agent-explanation-glossary-v1");
+  const anatomyMapSourceHandle = opaque("src", "unified-agent-anatomy-map-v1");
   const termIds = new Map(glossarySource.terms.map((term) => [term.id, opaque("term", term.id)]));
   const glossary = {
     schemaVersion: "augmentor.consultation.glossary@1.1.0",
@@ -131,23 +136,51 @@ export async function buildConsumerProjection({ outputRoot = OUTPUT_ROOT, check 
       },
     };
   }).sort((left, right) => left.id.localeCompare(right.id));
+  const recordById = new Map(records.map((record) => [record.id, record]));
+  if (!Array.isArray(anatomyMapSource.regions) || anatomyMapSource.regions.length < 1) {
+    throw new Error("Anatomy map must provide at least one source-owned region.");
+  }
+  if (typeof anatomyMapSource.schema !== "string" || !anatomyMapSource.schema) {
+    throw new Error("Anatomy map must provide a mapping version source.");
+  }
+  const anatomyFocusMap = {
+    schemaVersion: "augmentor.consultation.anatomy-focus-map@1.2.0",
+    mappingVersion: anatomyMapSource.schema,
+    mappings: anatomyMapSource.regions.map((region) => {
+      const conceptIds = [
+        ...(region.concepts ?? []).map((concept) => concept.id),
+        ...(region.shared_concepts ?? []),
+      ];
+      const recordIds = [...new Set(conceptIds.map((conceptId) => opaque("rec", conceptId)))].sort();
+      if (!region.id || recordIds.length < 1) throw new Error(`Anatomy region ${region.id ?? "<unknown>"} has no ontology-backed records.`);
+      const mappedRecords = recordIds.map((recordId) => {
+        const record = recordById.get(recordId);
+        if (!record) throw new Error(`Anatomy region ${region.id} references an unknown record ${recordId}.`);
+        return record;
+      });
+      const viewIds = [...new Set(mappedRecords.flatMap((record) => record.viewIds))].sort();
+      if (viewIds.length < 1) throw new Error(`Anatomy region ${region.id} has no compatible consumer views.`);
+      return { anatomyRegionId: region.id, viewIds, recordIds };
+    }),
+  };
   const projection = {
-    schemaVersion: "augmentor.consultation.projection@1.1.0",
+    schemaVersion: "augmentor.consultation.projection@1.2.0",
     records,
     structuredConflicts: [],
   };
   const schemaVersions = {
-    projection: "augmentor.consultation.projection@1.1.0",
-    manifest: "augmentor.consultation.projection-manifest@1.1.0",
+    projection: "augmentor.consultation.projection@1.2.0",
+    manifest: "augmentor.consultation.projection-manifest@1.2.0",
     glossary: "augmentor.consultation.glossary@1.1.0",
     explanationSupport: "augmentor.consultation.explanation-support@1.1.0",
+    anatomyFocusMap: "augmentor.consultation.anatomy-focus-map@1.2.0",
   };
   const schemaDigests = Object.fromEntries(Object.keys(SCHEMAS).map((name, index) => [name, sha256(schemaOutputs[index])]));
   const outputDigest = digestJson(projection);
   const glossaryDigest = digestJson(glossary);
   const manifest = {
-    schemaVersion: "augmentor.consultation.projection-manifest@1.1.0",
-    compilerVersion: "augmentor-neutral-projection-compiler@1.1.0",
+    schemaVersion: "augmentor.consultation.projection-manifest@1.2.0",
+    compilerVersion: "augmentor-neutral-projection-compiler@1.2.0",
     compilerDigest: sha256(compilerText),
     allowlistDigest: digestJson(ALLOWLIST),
     opaqueIdMapVersion: "sha256-prefix@1.0.0",
@@ -155,24 +188,29 @@ export async function buildConsumerProjection({ outputRoot = OUTPUT_ROOT, check 
       { sourceHandle: nodeSource, sha256: sha256(nodesText) },
       { sourceHandle: explanationSource, sha256: sha256(explanationsText) },
       { sourceHandle: glossarySourceHandle, sha256: sha256(glossaryText) },
+      { sourceHandle: anatomyMapSourceHandle, sha256: sha256(anatomyMapText) },
     ],
     schemaVersions,
     schemaDigests,
-    recordCounts: { records: records.length, structuredConflicts: 0, terms: glossary.terms.length },
+    recordCounts: { records: records.length, structuredConflicts: 0, terms: glossary.terms.length, mappings: anatomyFocusMap.mappings.length },
     generatedAt: new Date(receipt.generated_at).toISOString(),
     outputDigest,
     glossaryDigest,
-    bundleDigest: digestJson({ outputDigest, glossaryDigest, schemaVersions, schemaDigests }),
+    anatomyFocusMapVersion: anatomyFocusMap.mappingVersion,
+    anatomyFocusMapDigest: digestJson(anatomyFocusMap),
+    bundleDigest: digestJson({ outputDigest, glossaryDigest, anatomyFocusMapDigest: digestJson(anatomyFocusMap), schemaVersions, schemaDigests }),
     ownerApprovalRef: opaque("approval", "APPROVE_EXACT_EPOCH:augmentor-consultation-l1-l2"),
   };
   const files = {
     "projection.json": `${JSON.stringify(projection)}\n`,
     "glossary.json": `${JSON.stringify(glossary)}\n`,
     "projection-manifest.json": `${JSON.stringify(manifest)}\n`,
+    "anatomy-focus-map.json": `${JSON.stringify(anatomyFocusMap)}\n`,
     "schemas/projection.schema.json": schemaOutputs[0],
     "schemas/projection-manifest.schema.json": schemaOutputs[1],
     "schemas/glossary.schema.json": schemaOutputs[2],
     "schemas/explanation-support.schema.json": schemaOutputs[3],
+    "schemas/anatomy-focus-map.schema.json": schemaOutputs[4],
   };
   if (check) {
     for (const [name, expected] of Object.entries(files)) {
