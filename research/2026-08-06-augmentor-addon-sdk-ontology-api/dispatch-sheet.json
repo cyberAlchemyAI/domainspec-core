@@ -1,0 +1,177 @@
+{
+  "dispatch_id": "2026-08-06-augmentor-addon-sdk-ontology-api",
+  "schema_version": "0.8.0",
+  "dispatch_type": "research",
+  "goal": "Determine the smallest additive, owner-preserving Add-on SDK/API contract that exposes the already-implemented Augmentor ontology consultation capability to eligible add-ons. Produce an exact current-versus-target contract, migration path, security model, and executable acceptance witness without changing the ontology, ResonantOS, authority state, deployment, or release state.",
+  "context": "Current bytes already contain a private candidate ontology and neutral-projection compiler, plus a ResonantOS POST /augmentor/consultation host route, closed query/result contracts, grants, access-key isolation, leakage checks, and tests. The public Add-on SDK v0.1.0 owns manifest types and validation but does not currently model ontology consultation, and its Capability union does not contain the host route's augmentor-consultation-read capability. Research must decide whether the correct seam is an additive manifest contract, host-mediated tool/connector contract, capability addition, or a narrower composition, while keeping augmentorSkills, memoryAccess, raw ontology sources, neutral projections, consultation evidence, answers, grants, and authority decisions distinct.",
+  "max_loops": 2,
+  "final_approver": "parent",
+  "anti_bias_global": "SDK usability and interoperability versus ontology provenance, owner preservation, privacy, and executable fail-closed proof",
+  "working_folder": "research/2026-08-06-augmentor-addon-sdk-ontology-api/",
+  "groups": [
+    {
+      "group_id": "explorers",
+      "n": 3,
+      "anti_bias": "Composite of methodology and source-corpus: empirical SDK/runtime tracing with comparative primary-source API checks, formal ontology/projection modeling, and adversarial privacy and authority analysis.",
+      "predicted_disagreements": [
+        {
+          "pair": [0, 1],
+          "statement": "Agent 0 runs empirical SDK and runtime tracing while agent 1 runs formal ontology and projection modeling on the methodology and source-corpus axes; a bias in agent 0 toward fitting the current manifest shape would be exposed by agent 1 when provenance, projection identity, or claim ceilings disappear, while a bias in agent 1 toward a complete semantic model would be exposed by agent 0 when no existing registry, validator, bridge route, or add-on lifecycle can carry it."
+        },
+        {
+          "pair": [0, 2],
+          "statement": "Agent 0 traces executable Add-on SDK and host seams while agent 2 performs adversarial privacy, grant, and authority analysis on the methodology axis; a bias in agent 0 toward an easy additive field would be exposed by agent 2 if it leaks private sources or widens route authority, while a bias in agent 2 toward maximal restriction would be exposed by agent 0 if existing closed contracts and grants already provide a safe narrow path."
+        },
+        {
+          "pair": [1, 2],
+          "statement": "Agent 1 models source-bound ontology projections while agent 2 attacks privacy and authority escalation on the methodology axis; a bias in agent 1 toward rich semantic exposure would be exposed by agent 2 through leakage, instruction-injection, stale-source, or write-path counterexamples, while a bias in agent 2 toward opaque minimalism would be exposed by agent 1 if provenance and structured conflict semantics become unusable."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Simon, Herbert",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4800,
+          "angle": "Empirical current-byte tracing of the Add-on SDK, manifest validator, capability grants, registry, consultation runtime, and focused tests, checked against official API patterns for discovery, negotiation, versioning, and developer ergonomics.",
+          "initial_prompt": "Act as the current SDK, runtime, and comparative API explorer for dispatch 2026-08-06-augmentor-addon-sdk-ontology-api. Read the exact current sources under ../workspace-resonant/2.0.0-alpha: docs/architecture/ADR-018-addon-sdk-v0.md, docs/architecture/ADR-031-agent-addon-sdk-lessons-from-hermes.md, docs/architecture/MODULE-OWNERSHIP.md, docs/reference/AUGMENTOR_CONSULTATION_API.md, src/core/contracts.ts, src/sdk/addons/, public/addons/augmentor-chat.json, browser-first/host/augmentor-consultation-*.mjs, bridge capability token and server integration, bridge-client mapping, and their focused tests. Establish what is implemented, merely documented, absent, or inconsistent. In particular test the mismatch between the SDK Capability union and the host-only augmentor-consultation-read capability, and distinguish augmentorSkills, memoryAccess, connectors, tools, projection installation, consultation access, and answer policy. Where external comparison is necessary, use only current official specifications or official SDK documentation, prioritizing JSON Schema, MCP capability negotiation, JSON-LD or RDF dataset interchange, and mature extension-manifest permission or API-version patterns; separate sourced precedent from repository-specific inference and do not assume RDF is required. Produce an exact owner and integration matrix; fit/non-fit precedent matrix; candidate additive TypeScript/manifest shapes; validator and registry changes; compatibility/version effects; enable, disable, revoke, upgrade, and uninstall behavior; developer-facing examples; and positive plus negative fixtures. Use exact selectors. Do not edit, fetch, switch branches, install projections, create grants, or call deployed services."
+        },
+        {
+          "agent_name": "Ashby, W. Ross",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4800,
+          "angle": "Formal ontology and neutral-projection modeling across private source contracts, compiler allowlists, opaque provenance, schema closure, structured conflicts, consultation queries/results, and non-authorizing evidence semantics.",
+          "initial_prompt": "Act as the ontology and projection-contract explorer for dispatch 2026-08-06-augmentor-addon-sdk-ontology-api. Read only the relevant current private package under projects/augmentor/ontology/unified-agent/: README.md, profile.json, sources.json, schemas, nodes, relations, views, residue, development/consultation-api/schemas, compiler and leakage scripts, generated consumer manifest/projection/glossary, tests, and the direct refinement or publication receipts needed to classify proof. Map the private ontology source to the public-neutral consumer bundle and the ResonantOS consultation contract without copying private vocabulary into a public SDK. Determine which metadata an add-on may discover or declare: contract family/version, supported views and operations, projection/bundle digest, freshness, limits, source-handle semantics, explanation profiles, answer-policy status, and authorityEffect none. Compare static bundle descriptors, a host-mediated read-only consultation service, tool/connector discovery, and hybrid shapes. Require explicit owners for projection approval and installation. Return exact types, invariants, non-goals, version-negotiation rules, and leakage/semantic-collapse reject tests. Do not edit files or treat a candidate ontology, generated projection, validation pass, or installed bundle as authority, promotion, deployment, or release."
+        },
+        {
+          "agent_name": "Turing, Alan",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4600,
+          "angle": "Adversarial security and lifecycle analysis of add-on discovery, capability grants, route-scoped authentication, remote transport, cache isolation, malformed bundles, stale evidence, injection-shaped ontology text, revocation, downgrade, and privacy leakage.",
+          "initial_prompt": "Act as the adversarial security and lifecycle explorer for dispatch 2026-08-06-augmentor-addon-sdk-ontology-api. Inspect exact current consultation access, contract, answer-policy, cache, host-service, bridge-server, deployment adapter, reference API, Add-on SDK grants/validation, manifest fixtures, module ownership, and focused tests in ../workspace-resonant/2.0.0-alpha, plus private projection leakage and compiler tests only where necessary. Threat-model a malicious or compromised add-on, a stale or mixed-version projection, an instruction-shaped ontology record, an overbroad view request, cache cross-talk, token or path leakage, downgrade, disable/uninstall, insecure remote access, and an attempt to turn evidence into instructions, permission, memory writes, ontology writes, routing, approval, or effects. Decide which manifest metadata may be trusted, which must be host-derived, whether a new SDK capability is safe, and how grant/revocation and degradation must work. Require deterministic negative tests and a browser or bridge witness. Do not edit, mint credentials, start deployment, or expose private source bytes."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Shannon, Claude",
+          "role": "synthesizer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 7000,
+          "initial_prompt": "Reconcile all three explorer returns for dispatch 2026-08-06-augmentor-addon-sdk-ontology-api into one exact-binding decision package. Preserve disagreements and distinguish current implemented bytes from a future SDK contract. Required output: current-state owner and contract map; exact gap list; option matrix covering no SDK change, augmentorSkills reuse, generic tool or connector declaration, additive ontologyConsultation contract, new capability, and hybrid host-derived discovery; selected or killed option with rationale; proposed TypeScript and JSON manifest examples; version and compatibility negotiation; host, registry, validation, grant, UI, projection-installation, query, answer-policy, cache, audit, revocation, disable, upgrade, rollback, and uninstall flows; public/private packaging boundary; threat model; failure/status vocabulary; dependency-ordered implementation slices; exact positive and negative test matrix; one local manifest-to-grant-to-bridge-to-evidence witness; migration and docs obligations; and unresolved owner decisions. The result must reuse the existing neutral-projection and POST /augmentor/consultation owners, unless exact evidence proves a narrower seam. It must not turn augmentorSkills, memoryAccess, a projection, a source handle, or consultation evidence into ontology authority, instructions, approval, routing, memory writes, or permission to act. Bind every load-bearing claim to an explorer receipt and direct selector. Do not edit files."
+        }
+      ]
+    },
+    {
+      "group_id": "reviewers",
+      "n": 3,
+      "anti_bias": "Attack-vector axis: precedent and duplicate ownership, non-vacuity and executable witness, and definitional plus authority-boundary collapse.",
+      "predicted_disagreements": [
+        {
+          "pair": [0, 1],
+          "statement": "Agent 0 attacks precedent and duplicated ownership while agent 1 attacks executable non-vacuity on the attack-vector axis; a bias in agent 0 toward reusing an existing route would be exposed by agent 1 if no add-on can discover, request, invoke, or degrade it through a finite witness, while a bias in agent 1 toward a working demo would be exposed by agent 0 if it creates a second projection store, API, registry, or grant owner."
+        },
+        {
+          "pair": [0, 2],
+          "statement": "Agent 0 attacks false novelty and misplaced ownership while agent 2 attacks definitional and authority collapse on the attack-vector axis; a bias in agent 0 toward structurally reusing memory, skill, connector, or tool fields would be exposed by agent 2 when their meanings differ, while a bias in agent 2 toward extra contract types would be exposed by agent 0 where an existing owner already preserves the distinction."
+        },
+        {
+          "pair": [1, 2],
+          "statement": "Agent 1 requires a finite positive and negative SDK-to-bridge witness while agent 2 requires non-collapsing ontology, evidence, instruction, grant, and authority semantics on the attack-vector axis; a bias in agent 1 toward successful request flow would be exposed by agent 2 if the flow grants action or leaks private meaning, while a bias in agent 2 toward semantic purity would be exposed by agent 1 if no usable add-on contract can be implemented and tested."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Lakatos, Imre",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3200,
+          "angle": "Precedent and duplicate-owner attack across SDK fields, capabilities, bridge routes, projection compiler, registry, grants, memory, skills, connectors, tools, and ontology ownership.",
+          "initial_prompt": "Attack the synthesis for precedent and duplicated ownership only. Locate the existing owner for every proposed manifest field, capability, version registry, projection descriptor, installation action, query interface, cache, grant, revocation, audit event, and UI projection. Treat finding an owner as build-from-owned, not a kill. Reject a second ontology API, projection store, registry, capability owner, memory path, skill semantics, or authority owner; also reject reusing an existing field when its behavioral meaning is materially different. Return exact claim IDs, selectors, verdicts, and minimal repairs. Do not edit files."
+        },
+        {
+          "agent_name": "Gödel, Kurt",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3200,
+          "angle": "Non-vacuity attack requiring an exact manifest-to-validation-to-grant-to-host-consultation-to-answer-policy witness and discriminating failure cases.",
+          "initial_prompt": "Attack the synthesis for non-vacuity only. Require one finite local witness from a concrete add-on manifest through SDK validation, capability review and explicit grant, host-derived consultation availability, closed query, POST /augmentor/consultation, bounded source-backed result, answer policy, disable or revoke, and honest degraded behavior. Require negative fixtures for undeclared capability, ungranted route, disallowed view, stale or malformed bundle, mixed contract version, leakage, instruction-shaped text, cache isolation, and direct write or authority inference. Every step must name current or proposed owner, exact fixture, command, expected observation, and proof status. Kill prose-only manifest additions or a demo that bypasses SDK owners. Do not edit files."
+        },
+        {
+          "agent_name": "Quine, Willard Van Orman",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3200,
+          "angle": "Definitional and authority-boundary attack separating skill guidance, memory access, ontology source, neutral projection, consultation contract, evidence result, composed answer, grant, routing, approval, effect, and promotion.",
+          "initial_prompt": "Attack the synthesis for definitional and authority soundness only. Verify that augmentorSkills, generic skills, tools, connectors, memoryAccess, raw ontology, neutral projection, projection approval, projection installation, consultation contract, source handle, evidence statement, explanation support, answer policy, generated answer, requested capability, reviewed grant, route authentication, routing decision, approval, effect, ontology write, and promotion remain distinct whenever behavior or authority differs. Reject private CAV2 vocabulary in a public SDK, retrieved text as instructions, evidence as permission, a manifest claim as a host fact, Inventory as proof, and validation as deployment or release. Return exact claim IDs, collapse tests, and repairs. Do not edit files."
+        }
+      ]
+    },
+    {
+      "group_id": "writer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "van Lamsweerde, Axel",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 7000,
+          "initial_prompt": "After the strategist provides ready exact-binding evidence closure for dispatch 2026-08-06-augmentor-addon-sdk-ontology-api, write only research/2026-08-06-augmentor-addon-sdk-ontology-api/findings.md. Use the evidence-closed synthesis and reviewer verdicts. Include current state, exact gap, options and decision, owner map, proposed TypeScript and JSON contracts, lifecycle and sequence, public/private boundary, threat model, compatibility and migration, implementation slices, positive and negative tests, the local executable witness, claim ceiling, and unresolved owner decisions. Preserve observed, executed, designed, absent, and blocked status on every load-bearing row. Do not write research.md, receipts, ontology files, ResonantOS files, Inventory, telemetry, Git, deployment, promotion, or release artifacts."
+        }
+      ]
+    },
+    {
+      "group_id": "auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4200,
+          "initial_prompt": "Audit only research/2026-08-06-augmentor-addon-sdk-ontology-api/findings.md against the confirmed dispatch goal and exact-binding evidence closure. Check source and selector reproducibility, current-versus-proposed labeling, SDK and host ownership, public/private leakage, capability and grant semantics, consultation non-authority, version compatibility, lifecycle completeness, threat controls, executable positive and negative witness, implementation sequencing, and claim ceiling. Return APPROVE or one bounded evidence-supported writer revision request. Do not edit files or infer implementation, deployment, promotion, release, or production readiness."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "explorers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "reviewers",
+      "type": "zig-zag",
+      "loop_cap": 2
+    },
+    {
+      "from": "synthesizer",
+      "to": "explorers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "reviewers",
+      "to": "writer",
+      "type": "sequential"
+    },
+    {
+      "from": "writer",
+      "to": "auditor",
+      "type": "sequential"
+    },
+    {
+      "from": "auditor",
+      "to": "writer",
+      "type": "feedback",
+      "loop_cap": 1
+    }
+  ]
+}

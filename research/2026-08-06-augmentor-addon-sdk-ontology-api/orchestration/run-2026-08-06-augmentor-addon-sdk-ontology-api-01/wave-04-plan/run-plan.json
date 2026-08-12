@@ -1,0 +1,62 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-08-06-augmentor-addon-sdk-ontology-api-route",
+  "run_id": "run-2026-08-06-augmentor-addon-sdk-ontology-api-01",
+  "state": "wave_ready",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "write",
+    "role_ids": [
+      "writer-findings"
+    ],
+    "parallel": false,
+    "join_policy": "all",
+    "depends_on_waves": [
+      "review"
+    ],
+    "gate_after": "g-writer",
+    "on_incomplete": "block"
+  },
+  "action_artifacts": [
+    "actions/spawn-0008.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0008",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s5-write"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-06-augmentor-addon-sdk-ontology-api-route",
+      "forbidden_write_scopes": [
+        "projects/augmentor/ontology/",
+        ".arcanum/inventory/",
+        "telemetry/agents/",
+        ".git/"
+      ],
+      "input_refs": [
+        "research/2026-08-06-augmentor-addon-sdk-ontology-api/receipts/reviewer-precedent.json",
+        "research/2026-08-06-augmentor-addon-sdk-ontology-api/receipts/reviewer-non-vacuity.json",
+        "research/2026-08-06-augmentor-addon-sdk-ontology-api/receipts/reviewer-non-collapse.json",
+        "research/2026-08-06-augmentor-addon-sdk-ontology-api/receipts/evidence-closure.json"
+      ],
+      "mode": "write-findings",
+      "mutation_policy": "artifact-only",
+      "output_refs": [
+        "research/2026-08-06-augmentor-addon-sdk-ontology-api/receipts/writer.json"
+      ],
+      "role": "writer-findings",
+      "run_id": "run-2026-08-06-augmentor-addon-sdk-ontology-api-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s5-write",
+      "target": "research/2026-08-06-augmentor-addon-sdk-ontology-api/findings.md",
+      "wave_id": "write",
+      "write_scope": [
+        "research/2026-08-06-augmentor-addon-sdk-ontology-api/findings.md"
+      ]
+    }
+  ]
+}
