@@ -1,0 +1,47 @@
+{
+  "schema": "domainspec.strategy-result-inventory-hook.v1",
+  "dispatch_id": "2026-08-06-arcanum-cav2-integration-wayfinding",
+  "result_kind": "confirmation-ready-strategy",
+  "status": "blocked",
+  "reason_code": "candidate-not-ready",
+  "mode": "append-dry-run",
+  "lookup_baseline": {
+    "status": "ready",
+    "failure_count": 0,
+    "warning_count": 146,
+    "index_json_sha256": "2160d2c19984410f3f878898a8bd0b63916bf3b7fc19805532ce740d2b818e22",
+    "index_md_sha256": "dee9eec55d62c71d85618fe5641962878d7f7eb3ae4efb36b270356e63877f01"
+  },
+  "candidate": {
+    "record_path": ".arcanum/inventory/tmp/arcanum-cav2-integration-wayfinding-strategy-result-synthesis.record.json",
+    "record_sha256": "c11081de5fca940d836f9153b855003433800caa93ed7559c3ff69c8e1c98bd6",
+    "page_path": ".arcanum/inventory/tmp/arcanum-cav2-integration-wayfinding-strategy-result-synthesis.candidate.md",
+    "page_sha256": "a56576596c6e3b2883544fcfe9a4958dd9f0c08f4fe37b3fa9864dbf483ab510",
+    "target_entry_path": ".arcanum/inventory/entries/arcanum-cav2-integration-wayfinding-strategy-result-synthesis.md",
+    "indexed": false,
+    "human_index_linked": false
+  },
+  "dry_run": {
+    "path": "inventory-strategy-result-hook-dry-run.json",
+    "sha256": "fdea2f03245506d6bb8f9a81f6bda907aa5f9051b7e9fdb3a26da43e1a2d50a7",
+    "operation_receipt_sha256": "0796626cccaec8ebd9cc5255f3bf0bed3823c860618fa60a2b57be324a65db9e",
+    "candidate_disposition": "added",
+    "candidate_lookup_readiness": "blocked",
+    "introduced_warning_count": 0
+  },
+  "write": {
+    "attempted": false,
+    "committed": false,
+    "changed_paths": [],
+    "index_bytes_preserved": true,
+    "possible_partial_mutation": false
+  },
+  "effect_on_dispatch_gate": "none; Inventory is a non-authority post-result read model and its fail-closed block does not substitute for or invalidate readiness, tension, or human confirmation",
+  "residue": [
+    "strategy-result-candidate-remains-under-inventory-tmp",
+    "human-and-machine-index-not-updated",
+    "inventory-owner-must-repair-or-admit-atomic-entry-and-projection-staging",
+    "no-manual-bypass-performed"
+  ],
+  "authority_effect": "none"
+}
