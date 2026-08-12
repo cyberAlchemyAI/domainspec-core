@@ -234,16 +234,67 @@ def controlled_tags(path: Path) -> set[str]:
     return set(re.findall(r"(?m)^\|\s*`([^`]+)`\s*\|", path.read_text(encoding="utf-8")))
 
 
-def validate(index_path: Path) -> dict[str, Any]:
+def source_view_receipt(
+    inventory_root: Path,
+    repo_root: Path,
+    source_paths: set[str],
+    entry_paths: list[Any],
+) -> dict[str, Any]:
+    candidates = set(source_paths)
+    candidates.update(path for path in entry_paths if isinstance(path, str))
+    records: list[dict[str, str]] = []
+    for relative in sorted(candidates):
+        candidate, boundary_error = contained_path(inventory_root, relative, repo_root)
+        if boundary_error or candidate is None or not candidate.is_file():
+            continue
+        records.append({
+            "path": candidate.relative_to(repo_root).as_posix(),
+            "sha256": sha256(candidate),
+        })
+    tags_path = inventory_root / "tags.md"
+    if tags_path.is_file():
+        records.append({
+            "path": tags_path.resolve().relative_to(repo_root).as_posix(),
+            "sha256": sha256(tags_path),
+        })
+    records.sort(key=lambda record: record["path"])
+    encoded = json.dumps(
+        records,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    return {
+        "evidence_state": "observed",
+        "file_count": len(records),
+        "sha256": hashlib.sha256(encoded).hexdigest(),
+    }
+
+
+def validate(
+    index_path: Path,
+    source_inventory_root: Path | None = None,
+) -> dict[str, Any]:
     index_path = index_path.resolve()
-    inventory_root = index_path.parent
+    projection_root = index_path.parent
+    inventory_root = (
+        source_inventory_root.resolve()
+        if source_inventory_root is not None
+        else projection_root
+    )
     raw_index = index_path.read_bytes()
     index = json.loads(raw_index)
     config = (
         index.get("validation", {}).get("projection_conformance")
         or DEFAULT_CONFIG
     )
-    repo_root = repository_root(inventory_root, index.get("inventory_root", ".arcanum/inventory"))
+    declared_root = index.get("inventory_root", ".arcanum/inventory")
+    repo_root = repository_root(inventory_root, declared_root)
+    projection_repo_root = repository_root(projection_root, declared_root)
+    if source_inventory_root is not None:
+        expected_source_root = (repo_root / declared_root).resolve()
+        if expected_source_root != inventory_root:
+            raise ValueError("source Inventory root does not match declared inventory_root")
     entries = index.get("entries", [])
     entry_paths = [entry.get("path") for entry in entries]
     entry_ids = [entry.get("id") for entry in entries]
@@ -343,7 +394,11 @@ def validate(index_path: Path) -> dict[str, Any]:
         human_errors.append("human_index is not declared")
         human_rows: dict[str, str] = {}
     else:
-        human_path, boundary_error = contained_path(inventory_root, human_relative, repo_root)
+        human_path, boundary_error = contained_path(
+            projection_root,
+            human_relative,
+            projection_repo_root,
+        )
         if boundary_error:
             human_errors.append(boundary_error)
             human_rows = {}
@@ -403,8 +458,16 @@ def validate(index_path: Path) -> dict[str, Any]:
         if not isinstance(projection_path, str) or not isinstance(metadata_path, str):
             freshness_errors.append(f"projection path/metadata is missing: {projection_path}")
             continue
-        artifact, artifact_boundary = contained_path(inventory_root, projection_path, repo_root)
-        metadata, metadata_boundary = contained_path(inventory_root, metadata_path, repo_root)
+        artifact, artifact_boundary = contained_path(
+            projection_root,
+            projection_path,
+            projection_repo_root,
+        )
+        metadata, metadata_boundary = contained_path(
+            projection_root,
+            metadata_path,
+            projection_repo_root,
+        )
         if artifact_boundary:
             freshness_errors.append(artifact_boundary)
             continue
@@ -455,6 +518,12 @@ def validate(index_path: Path) -> dict[str, Any]:
         warning_count=len(tag_warnings),
     )
 
+    source_view = source_view_receipt(
+        inventory_root,
+        repo_root,
+        source_paths,
+        entry_paths,
+    )
     checks = {
         "source_coverage": source_check,
         "identity": identity_check,
@@ -472,6 +541,7 @@ def validate(index_path: Path) -> dict[str, Any]:
         "lookup_readiness": "ready" if overall == "pass" else "blocked",
         "index": str(index_path),
         "index_sha256": source_digest,
+        "source_view": source_view,
         "checks": checks,
         "failure_count": sum(len(item["errors"]) for item in checks.values()),
         "warning_count": sum(len(item["warnings"]) for item in checks.values()),
@@ -481,13 +551,20 @@ def validate(index_path: Path) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("index_json", nargs="?", default=".arcanum/inventory/index.json")
+    parser.add_argument(
+        "--source-inventory-root",
+        help="resolve governed and repository-relative sources from this Inventory root",
+    )
     parser.add_argument("--report", help="write the full structured report to this path")
     parser.add_argument("--json", action="store_true", help="print the full JSON report")
     args = parser.parse_args()
 
     try:
-        report = validate(Path(args.index_json))
-    except (OSError, json.JSONDecodeError, TypeError) as error:
+        report = validate(
+            Path(args.index_json),
+            Path(args.source_inventory_root) if args.source_inventory_root else None,
+        )
+    except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
         print(f"FAIL: projection conformance could not run: {error}", file=sys.stderr)
         return 1
 
