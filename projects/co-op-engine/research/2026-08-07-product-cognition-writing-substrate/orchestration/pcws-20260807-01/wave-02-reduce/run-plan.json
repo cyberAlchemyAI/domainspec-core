@@ -1,0 +1,28 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-08-07-cyberalchemy-product-cognition-writing-substrate-route",
+  "run_id": "pcws-20260807-01",
+  "state": "wave_ready",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "review",
+    "role_ids": ["precedent-reviewer", "non-vacuity-reviewer", "definitional-reviewer"],
+    "parallel": true,
+    "join_policy": "all",
+    "depends_on_waves": ["synthesis"],
+    "gate_after": "g-review-and-evidence-closure",
+    "on_incomplete": "block"
+  },
+  "action_artifacts": ["actions/spawn-0005.json", "actions/spawn-0006.json", "actions/spawn-0007.json"],
+  "actions": [
+    {
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1", "action_id": "spawn-0005", "action": "spawn", "dispatch_id": "2026-08-07-cyberalchemy-product-cognition-writing-substrate-route", "run_id": "pcws-20260807-01", "wave_id": "review", "step_id": "s3", "applies_to_steps": ["s3"], "role": "precedent-reviewer", "agent_ordinal": 0, "agent_count": 1, "capability_ref": "domainspec-subagents-strategy", "target": "projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/dispatch-sheet.json#groups/reviewers/agents/0", "mode": "review", "mutation_policy": "read-only", "write_scope": [], "forbidden_write_scopes": ["arcanum/", "cyberAlchemy-v2/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"], "input_refs": ["projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/receipts/product-cognition-synthesis.json"], "output_refs": ["projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/receipts/reviewer-precedent.json"]
+    },
+    {
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1", "action_id": "spawn-0006", "action": "spawn", "dispatch_id": "2026-08-07-cyberalchemy-product-cognition-writing-substrate-route", "run_id": "pcws-20260807-01", "wave_id": "review", "step_id": "s3", "applies_to_steps": ["s3"], "role": "non-vacuity-reviewer", "agent_ordinal": 0, "agent_count": 1, "capability_ref": "domainspec-subagents-strategy", "target": "projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/dispatch-sheet.json#groups/reviewers/agents/1", "mode": "review", "mutation_policy": "read-only", "write_scope": [], "forbidden_write_scopes": ["arcanum/", "cyberAlchemy-v2/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"], "input_refs": ["projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/receipts/product-cognition-synthesis.json"], "output_refs": ["projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/receipts/reviewer-non-vacuity.json"]
+    },
+    {
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1", "action_id": "spawn-0007", "action": "spawn", "dispatch_id": "2026-08-07-cyberalchemy-product-cognition-writing-substrate-route", "run_id": "pcws-20260807-01", "wave_id": "review", "step_id": "s3", "applies_to_steps": ["s3"], "role": "definitional-reviewer", "agent_ordinal": 0, "agent_count": 1, "capability_ref": "domainspec-subagents-strategy", "target": "projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/dispatch-sheet.json#groups/reviewers/agents/2", "mode": "review", "mutation_policy": "read-only", "write_scope": [], "forbidden_write_scopes": ["arcanum/", "cyberAlchemy-v2/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"], "input_refs": ["projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/receipts/product-cognition-synthesis.json"], "output_refs": ["projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/receipts/reviewer-definitional.json"]
+    }
+  ]
+}
