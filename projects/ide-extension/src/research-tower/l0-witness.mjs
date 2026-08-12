@@ -1,8 +1,20 @@
 import { createHash } from 'node:crypto';
+import { execFile } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { promisify } from 'node:util';
 
 const REQUIRED_LOCKS = ['fixture', 'package_snapshot', 'relation_registry', 'privacy_policy', 'projection_contract'];
+const execFileAsync = promisify(execFile);
+const SOURCE_OBJECT_CONTRACTS = new Map([
+  ['source:toy:readme', { object_id: '1a3b5747554b232020def052a779b1b06713d27a', path: 'projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/README.md' }],
+  ['source:toy:tower', { object_id: '337b892f2e7835ce2622b365e49af3a2484a30a6', path: 'projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/TOWER.md' }],
+  ['source:toy:l0', { object_id: 'f8445df4d35afe5667d68370024aa193a477b2d3', path: 'projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L0-corpus.md' }],
+  ['source:toy:l1', { object_id: '136aee7deb405fe9998a5e70602bd61690a20fa0', path: 'projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L1-residue-map.md' }],
+  ['source:toy:l2', { object_id: '7bb3224e3dcde5038de17bbd6fb3cf735cc00635', path: 'projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L2-closure-plan.md' }],
+  ['source:toy:gates', { object_id: '500118da1d50d13cbbbd356b62f1db495a5f85f9', path: 'projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/gates/closure-gates.md' }],
+  ['source:toy:residue', { object_id: '0e0134ac348e71564a0876289850f995e7eabb0d', path: 'projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/residue/open-residue.md' }]
+]);
 
 export class ResearchTowerWitnessError extends Error {
   constructor(code, message) {
@@ -43,16 +55,101 @@ async function readLockedInput(repositoryRoot, name, reference) {
   }
 }
 
-function selectSource(source) {
+function selectSource(source, binding) {
   return {
     id: source.id,
+    record_snapshot_id: source.record_snapshot_id,
     logical_source_id: source.logical_source_id,
     locator: source.locator,
     content_digest: source.content_digest,
+    expected_sha256: source.content_digest,
+    repository_ref: binding.repository_ref,
+    object_id: binding.object_id,
+    path: binding.path,
+    observed_sha256: binding.observed_sha256,
+    binding_status: binding.status,
     byte_size: source.byte_size,
     media_type: source.media_type,
-    status: source.status
+    status: source.status,
+    provenance: source.provenance
   };
+}
+
+function containedSourcePath(sourceRoot, locator) {
+  if (!nonEmptyString(locator)) {
+    fail('research_tower_source_binding_invalid', 'source binding locator is missing');
+  }
+  const resolved = path.resolve(sourceRoot, locator);
+  const relative = path.relative(sourceRoot, resolved);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    fail('research_tower_source_binding_invalid', `source binding escapes its fixture root: ${locator}`);
+  }
+  return resolved;
+}
+
+async function gitBytesOrNull(repositoryRoot, args) {
+  try {
+    const { stdout } = await execFileAsync('git', ['-C', repositoryRoot, ...args], { encoding: null, maxBuffer: 4 * 1024 * 1024 });
+    return stdout;
+  } catch {
+    return null;
+  }
+}
+
+export async function resolveFixtureSourceBindings({ repositoryRoot, sourceRoot, sources, readSource = readFile, readGitObject, resolveGitPath } = {}) {
+  if (!Array.isArray(sources) || sources.length === 0) {
+    fail('research_tower_source_binding_invalid', 'fixture source bindings are unavailable');
+  }
+  if (!repositoryRoot || !sourceRoot || SOURCE_OBJECT_CONTRACTS.size !== sources.length) {
+    fail('research_tower_source_binding_invalid', 'source bindings require the complete exact repository contract');
+  }
+  const gitRootBytes = await gitBytesOrNull(repositoryRoot, ['rev-parse', '--show-toplevel']);
+  const gitRoot = gitRootBytes?.toString('utf8').trim();
+  if (!gitRoot || path.resolve(gitRoot) !== path.resolve(repositoryRoot)) {
+    fail('research_tower_source_binding_invalid', 'repository identity does not match the declared repository root');
+  }
+  const repositoryRef = `git:${path.basename(gitRoot)}`;
+  const objectReader = readGitObject || (async (objectId) => gitBytesOrNull(repositoryRoot, ['cat-file', 'blob', objectId]));
+  const pathResolver = resolveGitPath || (async (repositoryPath) => {
+    const result = await gitBytesOrNull(repositoryRoot, ['rev-parse', `HEAD:${repositoryPath}`]);
+    return result?.toString('utf8').trim() || null;
+  });
+  return Promise.all(sources.map(async (source) => {
+    const contract = SOURCE_OBJECT_CONTRACTS.get(source.id);
+    if (!contract || !/^[a-f0-9]{64}$/u.test(source.content_digest || '') || !Number.isInteger(source.byte_size)) {
+      fail('research_tower_source_binding_invalid', `source binding ${source.id || 'unknown'} is malformed`);
+    }
+    const target = containedSourcePath(sourceRoot, source.locator);
+    const repositoryPath = path.relative(repositoryRoot, target).split(path.sep).join('/');
+    if (repositoryPath.startsWith('../') || path.isAbsolute(repositoryPath) || repositoryPath !== contract.path) {
+      fail('research_tower_source_binding_invalid', `source binding ${source.id} does not match its exact repository path`);
+    }
+    const base = { repository_ref: repositoryRef, object_id: contract.object_id, path: contract.path };
+    const objectBytes = await objectReader(contract.object_id, contract.path);
+    if (!objectBytes) {
+      return selectSource(source, { ...base, observed_sha256: null, status: 'object_unavailable' });
+    }
+    const resolvedObjectId = await pathResolver(contract.path);
+    if (!resolvedObjectId) {
+      return selectSource(source, { ...base, observed_sha256: null, status: 'path_missing' });
+    }
+    let pathBytes;
+    try {
+      pathBytes = await readSource(target);
+    } catch {
+      return selectSource(source, { ...base, observed_sha256: null, status: 'path_missing' });
+    }
+    if (resolvedObjectId !== contract.object_id) {
+      return selectSource(source, { ...base, observed_sha256: sha256(pathBytes), status: 'digest_mismatch' });
+    }
+    const objectSha256 = sha256(objectBytes);
+    const pathSha256 = sha256(pathBytes);
+    if (objectSha256 !== source.content_digest || pathSha256 !== source.content_digest
+      || pathBytes.length !== source.byte_size || objectBytes.length !== source.byte_size) {
+      return selectSource(source, { ...base, observed_sha256: pathSha256, status: 'digest_mismatch' });
+    }
+    return selectSource(source, { ...base, observed_sha256: pathSha256, status: 'verified' });
+  }));
 }
 
 function selectRecord(record) {
@@ -86,6 +183,56 @@ const SYSTEM_LAYER_CONTRACTS = new Map([
   ['system-lphi-policy', { label: 'System Lφ · Decision policy', implementation_status: 'design-stage-unproven', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'MOGT has no live Lab run and cannot make choices here.' }],
   ['system-l4-adjudication', { label: 'System L4 · Adjudication', implementation_status: 'governance-only', source_refs: [SYSTEM_VIEW_ANCHOR], unavailable_reason: 'This canvas cannot score, select a winner, or emit a verdict.' }]
 ]);
+const VERIFICATION_PROMPT_CONTRACTS = new Map([
+  ['evidence-l0-corpus', {
+    known_id: 'known:locked-synthetic-source-bindings',
+    known_statement: 'Locked synthetic source anchors expose locators, digests, byte sizes, and media types for this fixture.',
+    gap_id: 'gap:representative-source-and-coverage',
+    gap_statement: 'A representative real source and a corpus-coverage witness have not been selected or bound.',
+    verification_question: 'Which representative real source should be selected and independently bound before any broader corpus claim is reviewed?',
+    route_id: 'candidate-route:external-l1-source-selection',
+    route_label: 'Candidate owner route: external L1 representative-source selection'
+  }],
+  ['evidence-l1-residue', {
+    known_id: 'known:open-representative-selection-residue',
+    known_statement: 'The representative-selection residue is explicitly open and bound to the synthetic L1 and residue snapshots.',
+    gap_id: 'gap:representative-source-selection-decision',
+    gap_statement: 'No representative real tower source, selection rationale, or owner decision is bound.',
+    verification_question: 'Which real tower, if any, should later be selected?',
+    route_id: 'candidate-route:human-owner-source-decision',
+    route_label: 'Candidate owner route: human representative-source decision'
+  }],
+  ['evidence-l2-closure', {
+    known_id: 'known:closure-blocked-by-open-residue',
+    known_statement: 'Closure remains blocked, and the synthetic L2 and gates snapshots bind that refusal.',
+    gap_id: 'gap:closure-witness',
+    gap_statement: 'No representative source, closure decision, or independent closure witness is bound.',
+    verification_question: 'What bound evidence would satisfy the representative-source gate without exceeding the candidate-local claim ceiling?',
+    route_id: 'candidate-route:external-l1-closure-review',
+    route_label: 'Candidate owner route: external L1 closure review'
+  }]
+]);
+const FORBIDDEN_ROUTE_FIELDS = [
+  'endpoint', 'action', 'request_method', 'method', 'dispatch_hook', 'dispatch',
+  'command_binding', 'command', 'execution_status', 'effect', 'score', 'verdict',
+  'promotion', 'authority'
+];
+const SOURCE_BINDING_STATUSES = new Set(['verified', 'object_unavailable', 'path_missing', 'digest_mismatch']);
+
+function verifiedBindingEvidence(reference) {
+  return {
+    evidence_id: `known:verified-binding:${reference.source_snapshot_id}`,
+    statement: `Exact source binding ${reference.source_snapshot_id} remains verified; no combined floor claim is presented while another binding is unavailable.`,
+    bound_ref_ids: [reference.source_snapshot_id]
+  };
+}
+
+function bindingFailureGap(reference) {
+  return {
+    gap_id: `binding-failure:${reference.source_snapshot_id}`,
+    statement: `Source binding ${reference.source_snapshot_id} is ${reference.status}: repository ${reference.repository_ref}; object ${reference.object_id}; path ${reference.path}; expected SHA-256 ${reference.expected_sha256}; observed SHA-256 ${reference.observed_sha256 || 'unavailable'}. Ordinary sourced claim suppressed.`
+  };
+}
 
 function sceneFailure(message) {
   fail('research_tower_scene_manifest_invalid', message);
@@ -261,6 +408,120 @@ export function buildTowerSceneManifest(view) {
   }, view);
 }
 
+export function validateVerificationPromptProjections(projectionSet, view, manifest = view?.scene_manifest) {
+  if (!projectionSet || projectionSet.schema_version !== 'cal.verification-prompt-set.v1'
+    || projectionSet.authority_effect !== 'none' || projectionSet.interaction_contract !== 'display-only'
+    || !Array.isArray(projectionSet.prompts) || projectionSet.prompts.length !== EVIDENCE_SCENE_IDS.size
+    || !view || view.authority_effect !== 'none' || !Array.isArray(view.sources)
+    || !manifest || !Array.isArray(manifest.towers) || manifest.towers.length !== 1) {
+    sceneFailure('verification prompt set is not bound to the candidate-local scene view');
+  }
+  const scenes = new Map(manifest.towers[0].scenes.map((scene) => [scene.level_id, scene]));
+  const sources = new Map(view.sources.map((source) => [source.id, source]));
+  const seen = new Set();
+  projectionSet.prompts.forEach((prompt) => {
+    const contract = prompt && VERIFICATION_PROMPT_CONTRACTS.get(prompt.selected_floor_id);
+    const scene = prompt && scenes.get(prompt.selected_floor_id);
+    if (!contract || !scene || prompt.schema_version !== 'cal.verification-prompt-projection.v1'
+      || seen.has(prompt.selected_floor_id)
+      || !Array.isArray(prompt.bound_evidence_refs)
+      || !Array.isArray(prompt.known_evidence) || prompt.known_evidence.length === 0
+      || !Array.isArray(prompt.unbound_evidence) || prompt.unbound_evidence.length === 0
+      || prompt.verification_question !== contract.verification_question
+      || !prompt.route_suggestion || prompt.route_suggestion.route_id !== contract.route_id
+      || prompt.route_suggestion.label !== contract.route_label || prompt.route_suggestion.executable !== false
+      || FORBIDDEN_ROUTE_FIELDS.some((field) => Object.hasOwn(prompt.route_suggestion, field))) {
+      sceneFailure('verification prompt does not match its closed floor contract');
+    }
+    const expectedRefs = scene.source_refs;
+    const actualRefs = prompt.bound_evidence_refs.map((reference) => reference.source_snapshot_id);
+    if (!equalStringArray(actualRefs, expectedRefs)) {
+      sceneFailure(`verification prompt ${prompt.selected_floor_id} exchanges its source bindings`);
+    }
+    prompt.bound_evidence_refs.forEach((reference) => {
+      const source = sources.get(reference.source_snapshot_id);
+      const statusShapeValid = reference.status === 'verified'
+        ? reference.observed_sha256 === reference.expected_sha256
+        : ['object_unavailable', 'path_missing'].includes(reference.status)
+          ? reference.observed_sha256 === null
+          : reference.status === 'digest_mismatch'
+            && /^[a-f0-9]{64}$/u.test(reference.observed_sha256 || '')
+            && reference.observed_sha256 !== reference.expected_sha256;
+      if (!source || reference.repository_ref !== source.repository_ref
+        || reference.object_id !== source.object_id || reference.path !== source.path
+        || reference.expected_sha256 !== source.expected_sha256
+        || reference.observed_sha256 !== source.observed_sha256
+        || reference.status !== source.binding_status
+        || !nonEmptyString(reference.repository_ref)
+        || !/^[a-f0-9]{40,64}$/u.test(reference.object_id || '')
+        || !nonEmptyString(reference.path) || path.isAbsolute(reference.path) || reference.path.startsWith('../')
+        || !/^[a-f0-9]{64}$/u.test(reference.expected_sha256 || '')
+        || !SOURCE_BINDING_STATUSES.has(reference.status) || !statusShapeValid) {
+        sceneFailure(`verification prompt ${prompt.selected_floor_id} contains an invalid exact source binding`);
+      }
+    });
+    const failures = prompt.bound_evidence_refs.filter((reference) => reference.status !== 'verified');
+    const expectedKnown = failures.length === 0
+      ? [{ evidence_id: contract.known_id, statement: contract.known_statement, bound_ref_ids: expectedRefs }]
+      : prompt.bound_evidence_refs.filter((reference) => reference.status === 'verified').map(verifiedBindingEvidence);
+    const expectedGaps = [
+      { gap_id: contract.gap_id, statement: contract.gap_statement },
+      ...failures.map(bindingFailureGap)
+    ];
+    if (expectedKnown.length === 0 || JSON.stringify(prompt.known_evidence) !== JSON.stringify(expectedKnown)
+      || JSON.stringify(prompt.unbound_evidence) !== JSON.stringify(expectedGaps)) {
+      sceneFailure(`verification prompt ${prompt.selected_floor_id} does not preserve its evidence/gap distinction`);
+    }
+    seen.add(prompt.selected_floor_id);
+  });
+  return projectionSet;
+}
+
+export function buildVerificationPromptProjections(view, manifest = view?.scene_manifest) {
+  if (!view || !manifest || !Array.isArray(view.sources) || !Array.isArray(manifest.towers)) {
+    sceneFailure('verification prompts require the verified scene view');
+  }
+  const sourceById = new Map(view.sources.map((source) => [source.id, source]));
+  const prompts = manifest.towers[0].scenes.map((scene) => {
+    const contract = VERIFICATION_PROMPT_CONTRACTS.get(scene.level_id);
+    if (!contract) sceneFailure(`verification prompt contract is unavailable for ${scene.level_id}`);
+    const boundEvidenceRefs = scene.source_refs.map((sourceId) => {
+      const source = sourceById.get(sourceId);
+      if (!source) sceneFailure(`verification prompt source ${sourceId} is unavailable`);
+      return {
+        source_snapshot_id: source.id,
+        repository_ref: source.repository_ref,
+        object_id: source.object_id,
+        path: source.path,
+        expected_sha256: source.expected_sha256,
+        observed_sha256: source.observed_sha256,
+        status: source.binding_status
+      };
+    });
+    const failures = boundEvidenceRefs.filter((reference) => reference.status !== 'verified');
+    return {
+      schema_version: 'cal.verification-prompt-projection.v1',
+      selected_floor_id: scene.level_id,
+      bound_evidence_refs: boundEvidenceRefs,
+      known_evidence: failures.length === 0
+        ? [{ evidence_id: contract.known_id, statement: contract.known_statement, bound_ref_ids: [...scene.source_refs] }]
+        : boundEvidenceRefs.filter((reference) => reference.status === 'verified').map(verifiedBindingEvidence),
+      unbound_evidence: [
+        { gap_id: contract.gap_id, statement: contract.gap_statement },
+        ...failures.map(bindingFailureGap)
+      ],
+      verification_question: contract.verification_question,
+      route_suggestion: { route_id: contract.route_id, label: contract.route_label, executable: false }
+    };
+  });
+  return validateVerificationPromptProjections({
+    schema_version: 'cal.verification-prompt-set.v1',
+    authority_effect: 'none',
+    interaction_contract: 'display-only',
+    prompts
+  }, view, manifest);
+}
+
 export async function loadResearchTowerL0(options = {}) {
   const repositoryRoot = options.repositoryRoot;
   const witnessDir = options.witnessDir;
@@ -307,6 +568,9 @@ export async function loadResearchTowerL0(options = {}) {
   if (locked.fixture.fixture_class !== 'synthetic-contract-fixture' || locked.fixture.authority_effect !== 'none') {
     fail('research_tower_witness_invalid', 'fixture does not preserve the L0 candidate ceiling');
   }
+  const fixturePath = lockedPath(repositoryRoot, lock.inputs.fixture);
+  const sourceRoot = path.resolve(path.dirname(fixturePath), '..', '..');
+  const verifiedSources = await resolveFixtureSourceBindings({ repositoryRoot, sourceRoot, sources: locked.fixture.source_snapshots });
 
   const view = {
     schema_version: '1.0.0',
@@ -328,12 +592,14 @@ export async function loadResearchTowerL0(options = {}) {
       relation_count: projection.relations.length,
       privacy_policy_id: projection.privacy?.policy_id
     },
-    sources: locked.fixture.source_snapshots.map(selectSource),
+    sources: verifiedSources,
     records: projection.records.map(selectRecord),
     relations: projection.relations.map(({ kind, relation_id, from_id, to_id, direction }) => ({ kind, relation_id, from_id, to_id, direction })),
     residues: locked.fixture.residue_items.map(({ id, status, question, scope, blocked_claim_ids, blocked_gate_ids }) => ({ id, status, question, scope, blocked_claim_ids, blocked_gate_ids })),
     candidates: locked.fixture.ontology_candidates.map(({ id, status, proposed_meaning, scope, evidence_ceiling, contradiction_path }) => ({ id, status, proposed_meaning, scope, evidence_ceiling, contradiction_path })),
     locked_inputs: REQUIRED_LOCKS.map((name) => ({ name, path: lock.inputs[name].path, sha256: lock.inputs[name].sha256 }))
   };
-  return { ...view, scene_manifest: buildTowerSceneManifest(view) };
+  const sceneManifest = buildTowerSceneManifest(view);
+  const completeView = { ...view, scene_manifest: sceneManifest };
+  return { ...completeView, verification_prompts: buildVerificationPromptProjections(completeView, sceneManifest) };
 }
