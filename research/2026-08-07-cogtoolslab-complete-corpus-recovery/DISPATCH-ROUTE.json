@@ -1,0 +1,1062 @@
+{
+  "dispatch_id": "2026-08-07-cogtoolslab-complete-corpus-recovery-route",
+  "intent": {
+    "raw": "Recover the failed CogTools Lab complete-corpus research dispatch.",
+    "objective": "After a fresh explicit confirmation, reuse the 29 closed 2021-2023 rows, repair 36 modern semantic bindings, acquire 25 historical rows, close the one-hop teaching lane, and produce an audited 90-publication synthesis without treating formal analogy as cognitive proof.",
+    "target_artifact": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/findings.md",
+    "arcanum_vocabulary": [
+      "research",
+      "dispatch-spec",
+      "orchestrate",
+      "inventory",
+      "evidence-closure"
+    ],
+    "operator_sentence": "Reuse closed evidence, repair only missing semantic bindings, serialize native waves to host capacity, attack completeness and interpretation, then write only what exact-bound evidence supports."
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "approval_semantics_map",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "The failed run left three independent bounded evidence gaps plus synthesis, attack, writing, and audit work; execution must be replay-safe and no native wave may exceed two agents.",
+    "explanation": "Two paper explorers repair and acquire the missing publication evidence, one teaching explorer closes the source lane, one synthesizer reuses rather than repeats the 29 complete rows, three reviewers run in capacity-safe waves, and writer plus auditor remain evidence-gated.",
+    "context": [
+      "The prior closed dispatch preserved 29 exact-bound middle-period rows and 36 modern URL, byte-count, and digest bindings with missing semantic capsules and selectors.",
+      "Twenty-five historical rows and the one-hop teaching lane did not run.",
+      "The live snapshot still exposes 90 direct publication PDF links; PDF bytes remain transient.",
+      "The prior host accepted two concurrent native spawns and rejected a third, so every recovery wave is capped at two."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "modern-semantic-repair",
+        "purpose": "Repair the 36 byte-bound modern rows with actual paper semantics and exact selectors.",
+        "owns": "36-row modern semantic-repair receipt",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/dispatch-sheet.json",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          "projects/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-program/research.md",
+          "research/2026-08-07-cogtoolslab-complete-corpus-program/EVIDENCE-CLOSURE.md"
+        ],
+        "output_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-modern-repair.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "historical-publications-explorer",
+        "purpose": "Acquire and bind all 25 historical rows without back-projecting later terminology.",
+        "owns": "25-row historical publication receipt",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/dispatch-sheet.json",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          "projects/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "https://cogtoolslab.github.io/papers.html"
+        ],
+        "output_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-historical.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "teaching-research-explorer",
+        "purpose": "Audit seven courses, five one-hop teaching surfaces, public reading papers, and research framing.",
+        "owns": "Teaching-reading and research-framing receipt",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/dispatch-sheet.json",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          "projects/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [
+          "modern-semantic-repair",
+          "historical-publications-explorer"
+        ],
+      "input_refs": [
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-modern-repair.json",
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-historical.json",
+        "https://cogtoolslab.github.io/teaching.html",
+        "https://cogtoolslab.github.io/research.html"
+        ],
+        "output_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-teaching-research.json"
+        ],
+        "applies_to_steps": [
+          "s2"
+        ]
+      },
+      {
+        "role_id": "corpus-synthesizer",
+        "purpose": "Reuse the 29 closed middle rows, reconcile all 90 rows, deduplicate teaching readings, and build a claim-typed crosswalk.",
+        "owns": "Corpus synthesis and closure-candidate receipt",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/dispatch-sheet.json",
+        "capability_mode": "synthesize",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          "projects/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [
+          "modern-semantic-repair",
+          "historical-publications-explorer",
+          "teaching-research-explorer"
+        ],
+        "input_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-program/research.md",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-modern-repair.json",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-historical.json",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-teaching-research.json"
+        ],
+        "output_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-synthesis.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "precedent-reviewer",
+        "purpose": "Verify source and theoretical ownership and block invented novelty or continuity.",
+        "owns": "Precedent and source-owner review receipt",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/dispatch-sheet.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          "projects/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [
+          "corpus-synthesizer"
+        ],
+        "input_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-synthesis.json"
+        ],
+        "output_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-precedent.json"
+        ],
+        "applies_to_steps": [
+          "s4"
+        ]
+      },
+      {
+        "role_id": "non-vacuity-reviewer",
+        "purpose": "Reproduce counts, drift, deduplication, selectors, and stratified paper rereads.",
+        "owns": "Non-vacuity and reproducibility receipt",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/dispatch-sheet.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          "projects/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [
+          "corpus-synthesizer"
+        ],
+        "input_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-synthesis.json"
+        ],
+        "output_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-non-vacuity.json"
+        ],
+        "applies_to_steps": [
+          "s4"
+        ]
+      },
+      {
+        "role_id": "definitional-reviewer",
+        "purpose": "Keep records, renditions, readings, analogy, cognition, and comprehension evidence distinct.",
+        "owns": "Definitional and scope review receipt",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/dispatch-sheet.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          "projects/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [
+          "precedent-reviewer",
+          "non-vacuity-reviewer"
+        ],
+        "input_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-synthesis.json",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-precedent.json",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-non-vacuity.json"
+        ],
+        "output_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-definitional.json"
+        ],
+        "applies_to_steps": [
+          "s5"
+        ]
+      },
+      {
+        "role_id": "findings-writer",
+        "purpose": "Write only the exact-bound findings artifact after evidence closure.",
+        "owns": "findings.md and writer receipt",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/findings.md",
+        "capability_mode": "write-findings",
+        "agent_count": 1,
+        "mutation_policy": "artifact-only",
+        "write_scope": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/findings.md"
+        ],
+        "forbidden_write_scopes": [
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          "projects/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [
+          "precedent-reviewer",
+          "non-vacuity-reviewer",
+          "definitional-reviewer"
+        ],
+        "input_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/evidence-closure.json",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-precedent.json",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-non-vacuity.json",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-definitional.json"
+        ],
+        "output_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/findings-writer.json"
+        ],
+        "applies_to_steps": [
+          "s7"
+        ]
+      },
+      {
+        "role_id": "corpus-auditor",
+        "purpose": "Audit completeness, copyright-safe paraphrase, and claim ceilings.",
+        "owns": "Final audit recommendation receipt",
+        "capability_ref": "research",
+        "capability_target": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/dispatch-sheet.json",
+        "capability_mode": "audit",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": [
+          "research/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          "projects/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [
+          "findings-writer"
+        ],
+        "input_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/findings.md",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/findings-writer.json"
+        ],
+        "output_refs": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-audit.json"
+        ],
+        "applies_to_steps": [
+          "s8"
+        ]
+      }
+    ],
+    "execution_waves": [
+      {
+        "wave_id": "paper-explorers",
+        "role_ids": [
+          "modern-semantic-repair",
+          "historical-publications-explorer"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "gate_after": "g-paper-coverage",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "teaching-explorer",
+        "role_ids": [
+          "teaching-research-explorer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "paper-explorers"
+        ],
+        "gate_after": "g-teaching-coverage",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "synthesizer",
+        "role_ids": [
+          "corpus-synthesizer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "paper-explorers",
+          "teaching-explorer"
+        ],
+        "gate_after": "g-synthesis",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "reviewers-core",
+        "role_ids": [
+          "precedent-reviewer",
+          "non-vacuity-reviewer"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "synthesizer"
+        ],
+        "gate_after": "g-core-review",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "scope-reviewer",
+        "role_ids": [
+          "definitional-reviewer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "reviewers-core"
+        ],
+        "gate_after": "g-evidence-closure",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "writer",
+        "role_ids": [
+          "findings-writer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "reviewers-core",
+          "scope-reviewer"
+        ],
+        "gate_after": "g-findings",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "auditor",
+        "role_ids": [
+          "corpus-auditor"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "writer"
+        ],
+        "on_incomplete": "block"
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "Run the frozen CogTools Lab complete-corpus recovery dispatch?",
+    "receipt_requirements": [
+      "agent_id",
+      "dispatch_id",
+      "role_id",
+      "step_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "status",
+      "capability_ref",
+      "capability_target",
+      "capability_mode",
+      "wave_id",
+      "write_scope",
+      "artifacts",
+      "validation",
+      "blockers",
+      "residue",
+      "handoff_note",
+      "observer_status",
+      "reroute"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Repair modern semantics and acquire the historical corpus",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "explore",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "modern-semantic-repair",
+        "historical-publications-explorer"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/dispatch-sheet.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-program/research.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-program/EVIDENCE-CLOSURE.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "https://cogtoolslab.github.io/papers.html"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-modern-repair.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-historical.json"
+        }
+      ],
+      "join_policy": "all",
+      "stop_conditions": [
+        "stop if either assigned publication partition is incomplete without explicit residue",
+        "stop on any request to persist or republish external PDF bytes"
+      ]
+    },
+    {
+      "step_id": "s2",
+      "name": "Close the one-hop teaching and research-framing lane",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "explore",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s1"
+      ],
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "teaching-research-explorer"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-modern-repair.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-historical.json"
+        },
+        {
+          "kind": "external_context",
+          "ref": "https://cogtoolslab.github.io/teaching.html"
+        },
+        {
+          "kind": "external_context",
+          "ref": "https://cogtoolslab.github.io/research.html"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-teaching-research.json"
+        }
+      ],
+      "stop_conditions": [
+        "record inaccessible or mutable teaching surfaces as residue rather than guessing"
+      ]
+    },
+    {
+      "step_id": "s3",
+      "name": "Reconcile the reusable and recovered corpus evidence",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "synthesize",
+      "pattern": "synthesis",
+      "parallel": false,
+      "depends_on_steps": [
+        "s2"
+      ],
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "corpus-synthesizer"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-program/research.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-modern-repair.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-historical.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-teaching-research.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-synthesis.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop if Tier A does not reconcile to 90 unique rows partitioned 36/29/25"
+      ]
+    },
+    {
+      "step_id": "s4",
+      "name": "Attack precedent and non-vacuity",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "review",
+      "pattern": "dialectic",
+      "parallel": true,
+      "depends_on_steps": [
+        "s3"
+      ],
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "precedent-reviewer",
+        "non-vacuity-reviewer"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-synthesis.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-non-vacuity.json"
+        }
+      ],
+      "join_policy": "all",
+      "convergence_criteria": [
+        "major synthesis claims have owner dispositions",
+        "counts, drift, selectors, and sampled semantics survive concrete checks or are killed"
+      ],
+      "stop_conditions": [
+        "stop after the single declared synthesis-review feedback loop if evidence remains unclosed"
+      ]
+    },
+    {
+      "step_id": "s5",
+      "name": "Attack definitional scope and cognitive-proof boundaries",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "review",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s4"
+      ],
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "definitional-reviewer"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-synthesis.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-non-vacuity.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-definitional.json"
+        }
+      ],
+      "stop_conditions": [
+        "block any collapse of formal analogy, cognitive mechanism, or human comprehension evidence"
+      ]
+    },
+    {
+      "step_id": "s6",
+      "name": "Close exact-binding evidence before writing",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "evidence-closure",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": [
+        "s5"
+      ],
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-synthesis.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-non-vacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-definitional.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/evidence-closure.json"
+        }
+      ],
+      "evidence_artifact": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/evidence-closure.json",
+      "stop_conditions": [
+        "block the writer unless every Tier-A row is bound, explicitly deferred, or killed",
+        "route missing source bytes or selectors only through declared explorer feedback edges"
+      ]
+    },
+    {
+      "step_id": "s7",
+      "name": "Write the closed recovery findings",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "write-findings",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s6"
+      ],
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "findings-writer"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/evidence-closure.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-non-vacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-definitional.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/findings.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/findings-writer.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop if requested wording exceeds the evidence or copyright-safe summary boundary"
+      ]
+    },
+    {
+      "step_id": "s8",
+      "name": "Audit completeness and claim ceilings",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "audit",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": [
+        "s7"
+      ],
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "corpus-auditor"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/findings.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/findings-writer.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-audit.json"
+        }
+      ],
+      "evidence_artifact": "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-audit.json",
+      "stop_conditions": [
+        "return at most one bounded writer revision before parent final approval"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-human-confirmation",
+      "kind": "human_approval",
+      "owner": "parent",
+      "condition": "The current registrar-valid, tension-PASS material strategy is explicitly confirmed before registration or execution.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-paper-coverage",
+      "kind": "validation",
+      "owner": "research",
+      "condition": "Both paper-explorer receipts join; all 36 modern semantic gaps and all 25 historical rows have exact dispositions.",
+      "applies_after_wave": "paper-explorers",
+      "requires_role_receipts": [
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-modern-repair.json",
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-historical.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-teaching-coverage",
+      "kind": "validation",
+      "owner": "research",
+      "condition": "The one-hop teaching and research surfaces have exact accessible counts or explicit residue.",
+      "applies_after_wave": "teaching-explorer",
+      "requires_role_receipts": [
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-teaching-research.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-synthesis",
+      "kind": "quality",
+      "owner": "research",
+      "condition": "The synthesis reuses 29 closed rows, reconciles Tier A to 90 unique rows, and claim-types the crosswalk.",
+      "applies_after_wave": "synthesizer",
+      "requires_role_receipts": [
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-synthesis.json"
+      ],
+      "on_fail": "reroute"
+    },
+    {
+      "gate_id": "g-core-review",
+      "kind": "validation",
+      "owner": "research",
+      "condition": "Precedent and non-vacuity receipts are joined with explicit dispositions.",
+      "applies_after_wave": "reviewers-core",
+      "requires_role_receipts": [
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-precedent.json",
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-non-vacuity.json"
+      ],
+      "on_fail": "reroute"
+    },
+    {
+      "gate_id": "g-evidence-closure",
+      "kind": "validation",
+      "owner": "research",
+      "condition": "All three reviewer receipts are joined and every required row is bound, deferred, or killed before writing.",
+      "applies_after_wave": "scope-reviewer",
+      "requires_role_receipts": [
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-precedent.json",
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-non-vacuity.json",
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/reviewer-definitional.json"
+      ],
+      "on_fail": "reroute"
+    },
+    {
+      "gate_id": "g-findings",
+      "kind": "quality",
+      "owner": "research",
+      "condition": "findings.md and its receipt exist, cite closed evidence, and preserve copyright and cognitive-claim ceilings.",
+      "applies_after_wave": "writer",
+      "requires_role_receipts": [
+        "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/findings-writer.json"
+      ],
+      "on_fail": "reroute"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "dispatch_registered",
+      "subagent_spawned",
+      "wave_joined",
+      "evidence_closure_evaluated",
+      "writer_admitted",
+      "auditor_completed",
+      "subagent_closed",
+      "dispatch_closed"
+    ],
+    "signal_grouping": "dispatch_id, wave_id, role_id, and source tier"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-prior-evidence",
+        "kind": "evidence_return",
+        "from_owner": "closed CogTools Lab dispatch",
+        "to_owner": "recovery explorers and synthesizer",
+        "applies_to_steps": [
+          "s1",
+          "s3"
+        ],
+        "contract": "Reuse only the 29 closed rows and the 36 observed URL, byte-count, and digest bindings; do not treat missing modern semantic capsules as closed evidence.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-external-corpus",
+        "kind": "external_context",
+        "from_owner": "CogTools Lab and linked document owners",
+        "to_owner": "research explorers",
+        "applies_to_steps": [
+          "s1",
+          "s2"
+        ],
+        "contract": "External pages and PDFs are read-only evidence inputs; durable output stores links, digests, selectors, paraphrases, and residue, not PDF bytes or full text.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-evidence-closure",
+        "kind": "evidence_return",
+        "from_owner": "explorers, synthesizer, and reviewers",
+        "to_owner": "findings writer",
+        "applies_to_steps": [
+          "s3",
+          "s4",
+          "s5",
+          "s6",
+          "s7"
+        ],
+        "contract": "The writer receives exact-binding closure; missing paper evidence cannot be repaired by prose.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-human-authorization",
+        "kind": "human_approval",
+        "from_owner": "parent",
+        "to_owner": "orchestrate",
+        "applies_to_steps": [
+          "s1",
+          "s2",
+          "s3",
+          "s4",
+          "s5",
+          "s6",
+          "s7",
+          "s8"
+        ],
+        "contract": "Fresh explicit confirmation authorizes only this frozen recovery dispatch, not publication, promotion, deployment, or human-subject research.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "domainspec-subagents-strategy and research type owner",
+      "execution": "orchestrate",
+      "validation": "dispatch-spec, register-dispatch, check-tension, and research evidence closure",
+      "evidence": "source owners and exact-bound receipts",
+      "memory": "Inventory as non-authority discovery read model",
+      "promotion": "paper and publication owners through a separate route"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-recovery-explorers",
+        "producer": "research explorers",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue"
+        ],
+        "stores": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-modern-repair.json",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-historical.json",
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/explorer-teaching-research.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-evidence-closure",
+        "producer": "research evidence-closure gate",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/evidence-closure.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-final-audit",
+        "producer": "research auditor",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "research/2026-08-07-cogtoolslab-complete-corpus-recovery/receipts/corpus-audit.json"
+        ],
+        "on_missing": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "This recovery is snapshot-bound and does not establish a permanent or exhaustive lab bibliography.",
+    "Document access, hashing, extraction, and presentation do not establish human comprehension or teaching effectiveness.",
+    "Formal, computational, or structural analogy does not prove a cognitive mechanism.",
+    "External paper bytes are not republished or committed.",
+    "Research findings do not edit the deployed paper, Inventory authority, ontology, definitions, publication, release, promotion, or deployment state."
+  ]
+}
