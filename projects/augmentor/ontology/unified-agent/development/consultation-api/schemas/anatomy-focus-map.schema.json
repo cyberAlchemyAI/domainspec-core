@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "augmentor.consultation.anatomy-focus-map@1.2.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "mappingVersion", "mappings"],
+  "properties": {
+    "schemaVersion": {"const": "augmentor.consultation.anatomy-focus-map@1.2.0"},
+    "mappingVersion": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._@-]{0,127}$"},
+    "mappings": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["anatomyRegionId", "viewIds", "recordIds"],
+        "properties": {
+          "anatomyRegionId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+          "viewIds": {"type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"}},
+          "recordIds": {"type": "array", "minItems": 1, "maxItems": 100, "uniqueItems": true, "items": {"type": "string", "pattern": "^rec-[a-f0-9]{12}$"}}
+        }
+      }
+    }
+  }
+}

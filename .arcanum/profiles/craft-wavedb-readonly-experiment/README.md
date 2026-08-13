@@ -1,5 +1,10 @@
 # Craft–WaveDB Read-Only Experiment Goal
 
+Lifecycle note: this directory began as a proposal-only snapshot. The bounded
+experiment was later admitted and completed through `WP-CWE-20260806`. See
+`GOAL-CLOSEOUT.md` for the authoritative execution result; the original profile,
+context pack, and context index remain preserved as pre-admission evidence.
+
 This directory is a proposal-only native Codex Goal package for one finite,
 repository-local experiment. It does not authorize or execute the experiment.
 
@@ -15,20 +20,21 @@ receipt. It does not construct the Craft API.
   and claim ceiling.
 - `context-index.json` — machine-readable source coverage and admission state.
 
-## Current state
+## Proposal snapshot state
 
-Proposal coverage is complete, but runtime readiness is blocked. The source
-Work Pack has `allowedRoutes: []`, the proposed one-shot stream is not admitted,
-and its experiment-local write root and validation commands are not yet owned by
-an applied Invoke Refresh.
+At proposal time, coverage was complete but runtime readiness was blocked. The
+then-current source Work Pack had `allowedRoutes: []`, the proposed one-shot
+stream was not admitted, and its experiment-local write root and validation
+commands were not yet owned by an applied Invoke Refresh.
 
-Do not paste or run the Goal until a reviewed Work Pack refresh:
+That historical Goal was not runnable until a reviewed Work Pack refresh:
 
 1. selects `CRAFT-WAVEDB-READONLY-EXPERIMENT-001` as one ordered stream;
 2. admits the exact capability route and experiment-local write root;
 3. materializes exact validation commands and Task Session bindings; and
 4. receives separate operator authorization to execute the Goal.
 
-The maximum possible result is a repeatable local experiment receipt. It is not
-an API, portable package, npm publication, Docker image, deployment, or
-production-readiness claim.
+Those conditions were later satisfied by the separate executed Work Pack named
+in `GOAL-CLOSEOUT.md`. The completed result remains only a repeatable local
+experiment receipt. It is not an API, portable package, npm publication, Docker
+image, deployment, or production-readiness claim.

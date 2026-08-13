@@ -38,3 +38,73 @@ node_modules
 /grain/
 /projects/akashic-records/
 /projects/cyberalchemy-orchestrator/
+/projects/bolina/
+
+# Local generated agent/governance execution evidence. Canonical source,
+# schemas, fixtures, ontologies, profiles, and package manifests stay tracked.
+**/development/task-sessions/
+**/development/refinement-runs/
+**/development/invoke-runs/
+**/development/implementation-runs/
+**/development/invoke-plan/
+**/development/invoke-refresh/
+**/development/goals/
+**/development/**/execution-runs/
+**/development/**/session-evidence/
+**/development/**/goal-runs/
+**/development/**/runner-run/
+**/development/**/runs/
+**/development/**/receipts/
+**/development/**/TERMINAL-RECEIPT.json
+**/development/**/EXECUTION-STATE.json
+**/development/**/VALIDATION-RECEIPT.json
+**/development/**/*-RECEIPT.json
+**/development/**/*-REQUEST.json
+**/development/**/confirmation-readiness.txt
+**/development/**/*-dry-run.stderr
+**/orchestration/
+**/orchestrate-run/
+**/research/**/orchestrate/
+**/development/reviews/**/orchestrate/
+/.arcanum/observability/tmp/
+/.arcanum/inventory/tmp/
+/.arcanum/task-session/
+/.arcanum/handoff-notices/usage-telemetry.jsonl
+/telemetry/
+
+# Machine-readable dispatch/research proof stays local; final prose remains
+# publishable from the same research packages.
+/research/**/*.json
+/research/**/*.jsonl
+**/research/**/*.json
+**/research/**/*.jsonl
+/ops/development/**/*.json
+/ops/development/**/*.jsonl
+**/development/research/**/*.json
+**/development/research/**/*.jsonl
+**/development/reviews/**/*.json
+**/development/reviews/**/*.jsonl
+
+# Source-shaped JSON remains visible even inside research/ops packages. These
+# negations do not pierce the ignored run directories above.
+!**/package.json
+!**/package-lock.json
+!**/tsconfig*.json
+!**/*.schema.json
+!**/*contract*.json
+!**/*fixture*.json
+!**/*ontology*.json
+!**/*profile*.json
+!**/*manifest*.json
+!**/contracts/**/*.json
+!**/fixtures/**/*.json
+!**/ontology/**/*.json
+!**/profiles/**/*.json
+
+# Evidence directories remain local even when a receipt filename contains a
+# source-shaped word such as "ontology".
+**/research/**/receipts/
+
+# Nested experiment/runtime build state.
+**/.work/
+**/cargo-target/

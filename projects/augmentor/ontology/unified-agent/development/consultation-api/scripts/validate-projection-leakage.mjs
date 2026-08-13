@@ -9,10 +9,12 @@ const targets = [
   "generated/consumer/projection.json",
   "generated/consumer/glossary.json",
   "generated/consumer/projection-manifest.json",
+  "generated/consumer/anatomy-focus-map.json",
   "generated/consumer/schemas/projection.schema.json",
   "generated/consumer/schemas/projection-manifest.schema.json",
   "generated/consumer/schemas/glossary.schema.json",
   "generated/consumer/schemas/explanation-support.schema.json",
+  "generated/consumer/schemas/anatomy-focus-map.schema.json",
 ];
 const forbidden = [
   /\/home\//i,
