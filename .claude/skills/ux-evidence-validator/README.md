@@ -42,38 +42,38 @@ When these are collapsed into one "UX score," the result becomes untrustworthy. 
 
 ## Evidence Model
 
-| Layer                           | Purpose                                                                | Default Status                                  |
-| ------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------- |
-| L0 Smoke                        | Page load, assets, console/network, trace availability.                | Hard gate after calibration.                    |
-| L1 Accessibility                | axe output, ARIA snapshots, role/name/state, keyboard flow, forms.     | Hard gate plus manual review.                   |
-| L2 Layout Integrity             | Overflow, clipping, overlap, target size, responsive screenshots.      | Hard gate after calibration.                    |
-| L3 Interaction Flow             | User-facing locators, task completion, visible state changes.          | Hard gate after calibration.                    |
-| L4 Cognitive and Attention Risk | Density, memory burden, salience, visual hierarchy, change visibility. | Soft flag or screenshot review.                 |
-| L5 Domain Practice              | Ecommerce, service, dashboard, design-system, or platform rule packs.  | Domain-specific soft flag unless deterministic. |
-| L6 Human Evidence               | Workload, comprehension, trust, confidence, real task success.         | Human-study or review residue.                  |
+| Layer | Purpose | Default Status |
+| --- | --- | --- |
+| L0 Smoke | Page load, assets, console/network, trace availability. | Hard gate after calibration. |
+| L1 Accessibility | axe output, ARIA snapshots, role/name/state, keyboard flow, forms. | Hard gate plus manual review. |
+| L2 Layout Integrity | Overflow, clipping, overlap, target size, responsive screenshots. | Hard gate after calibration. |
+| L3 Interaction Flow | User-facing locators, task completion, visible state changes. | Hard gate after calibration. |
+| L4 Cognitive and Attention Risk | Density, memory burden, salience, visual hierarchy, change visibility. | Soft flag or screenshot review. |
+| L5 Domain Practice | Ecommerce, service, dashboard, design-system, or platform rule packs. | Domain-specific soft flag unless deterministic. |
+| L6 Human Evidence | Workload, comprehension, trust, confidence, real task success. | Human-study or review residue. |
 
 ## Development Artifacts
 
-| Artifact                                                                                                   | Purpose                                                              |
-| ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [UX-PLAYWRIGHT-EVIDENCE-RESEARCH-STRATEGY.md](development/UX-PLAYWRIGHT-EVIDENCE-RESEARCH-STRATEGY.md)     | Original research route and source lanes.                            |
-| [ux-playwright-evidence-research.dispatch.json](development/ux-playwright-evidence-research.dispatch.json) | Dispatch route that shaped the research pass.                        |
-| [UX-EVIDENCE-REFERENCE-CARDS.yml](development/UX-EVIDENCE-REFERENCE-CARDS.yml)                             | Normalized source cards and automation candidates.                   |
-| [UX-EVIDENCE-CLAIM-MAP.md](development/UX-EVIDENCE-CLAIM-MAP.md)                                           | Claim classes and proxy limits.                                      |
-| [UX-PLAYWRIGHT-VALIDATOR-SPEC.md](development/UX-PLAYWRIGHT-VALIDATOR-SPEC.md)                             | Future validator/tester contract and evidence output model.          |
-| [UX-PLAYWRIGHT-FIXTURE-PLAN.md](development/UX-PLAYWRIGHT-FIXTURE-PLAN.md)                                 | Known-good, known-bad, domain, and false-positive fixture plan.      |
-| [WORK-PACK.md](development/WORK-PACK.md)                                                                   | Development route from seed package to fixture-calibrated validator. |
+| Artifact | Purpose |
+| --- | --- |
+| [UX-PLAYWRIGHT-EVIDENCE-RESEARCH-STRATEGY.md](development/UX-PLAYWRIGHT-EVIDENCE-RESEARCH-STRATEGY.md) | Original research route and source lanes. |
+| [ux-playwright-evidence-research.dispatch.json](development/ux-playwright-evidence-research.dispatch.json) | Dispatch route that shaped the research pass. |
+| [UX-EVIDENCE-REFERENCE-CARDS.yml](development/UX-EVIDENCE-REFERENCE-CARDS.yml) | Normalized source cards and automation candidates. |
+| [UX-EVIDENCE-CLAIM-MAP.md](development/UX-EVIDENCE-CLAIM-MAP.md) | Claim classes and proxy limits. |
+| [UX-PLAYWRIGHT-VALIDATOR-SPEC.md](development/UX-PLAYWRIGHT-VALIDATOR-SPEC.md) | Future validator/tester contract and evidence output model. |
+| [UX-PLAYWRIGHT-FIXTURE-PLAN.md](development/UX-PLAYWRIGHT-FIXTURE-PLAN.md) | Known-good, known-bad, domain, and false-positive fixture plan. |
+| [WORK-PACK.md](development/WORK-PACK.md) | Development route from seed package to fixture-calibrated validator. |
 
 ## Ownership Model
 
-| Capability                   | Owner                                                   |
-| ---------------------------- | ------------------------------------------------------- |
-| Source claim normalization   | UX Evidence Validator                                   |
-| Browser execution mechanics  | Experiment Harness and future Playwright implementation |
-| Bounded implementation tasks | Task Session                                            |
-| Fixture calibration          | UX Evidence Validator plus Experiment Harness           |
-| Promotion readiness          | Sigil Development                                       |
-| External source freshness    | Future research refresh task-session                    |
+| Capability | Owner |
+| --- | --- |
+| Source claim normalization | UX Evidence Validator |
+| Browser execution mechanics | Experiment Harness and future Playwright implementation |
+| Bounded implementation tasks | Task Session |
+| Fixture calibration | UX Evidence Validator plus Experiment Harness |
+| Promotion readiness | Sigil Development |
+| External source freshness | Future research refresh task-session |
 
 ## Promotion Boundary
 
