@@ -73,7 +73,9 @@ and restores the previous payload and routing files if startup or HTTPS
 validation fails. It checks the container directly, proves the three existing
 public routes still match their selected source bytes, requires anonymous
 DomainSpec requests to return `401`, verifies every authenticated guide file by
-SHA-256, and confirms that the wider private source tree is not deployed.
+SHA-256, confirms that the Nginx worker can read every deployed file and the
+password verifier, and confirms that the wider private source tree is not
+deployed.
 
 Basic Auth protects content transported over HTTPS; it does not make the route
 name undiscoverable and is not evidence that DomainSpec itself is released or

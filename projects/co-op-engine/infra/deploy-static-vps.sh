@@ -228,6 +228,8 @@ cp "$DOMAINSPEC_HTML_FILE" "$SITE_STAGE/domainspec/COMPLETE-GUIDE.html"
 cp "$DOMAINSPEC_MARKDOWN_FILE" "$SITE_STAGE/domainspec/COMPLETE-GUIDE.md"
 cp "$DOMAINSPEC_LANES_FILE" "$SITE_STAGE/domainspec/COMPLETE-GUIDE.lanes.json"
 cp "$DOMAINSPEC_SCHEMA_FILE" "$SITE_STAGE/domainspec/COMPLETE-GUIDE.schema.json"
+find "$SITE_STAGE" -type d -exec chmod 0755 {} +
+find "$SITE_STAGE" -type f -exec chmod 0644 {} +
 
 DOMAIN_PASSWORD="$(tr -d '\r\n' < "$DOMAINSPEC_AUTH_PASSWORD_FILE")"
 DOMAIN_PASSWORD_HASH="$(printf '%s' "$DOMAIN_PASSWORD" | openssl passwd -apr1 -stdin)"
@@ -249,6 +251,8 @@ test "$(sha256sum "$SITE_STAGE/domainspec/COMPLETE-GUIDE.md" | awk '{print $1}')
 test "$(sha256sum "$SITE_STAGE/domainspec/COMPLETE-GUIDE.lanes.json" | awk '{print $1}')" = "$DOMAINSPEC_LANES_SHA256"
 test "$(sha256sum "$SITE_STAGE/domainspec/COMPLETE-GUIDE.schema.json" | awk '{print $1}')" = "$DOMAINSPEC_SCHEMA_SHA256"
 test "$(find "$SITE_STAGE" -type f | wc -l | tr -d ' ')" = "8"
+test -z "$(find "$SITE_STAGE" -type d ! -perm 0755 -print -quit)"
+test -z "$(find "$SITE_STAGE" -type f ! -perm 0644 -print -quit)"
 tar -C "$SITE_STAGE" -czf "$SITE_BUNDLE" .
 
 printf '%s\n' \
@@ -269,7 +273,7 @@ upload "$ENV_FILE" ".env.next"
 upload "$HTPASSWD_FILE" ".domainspec.htpasswd.next"
 
 echo "validating the staged site release"
-if ! remote "set -eu; cd '$REMOTE_DIR'; rm -rf site.next; mkdir site.next; tar -xzf site.tar.gz.next -C site.next; test -f site.next/index.html; test -f site.next/craft/index.html; test -f site.next/bella/index.html; test -f site.next/domainspec/index.html; test -f site.next/domainspec/COMPLETE-GUIDE.html; test -f site.next/domainspec/COMPLETE-GUIDE.md; test -f site.next/domainspec/COMPLETE-GUIDE.lanes.json; test -f site.next/domainspec/COMPLETE-GUIDE.schema.json; test \"\$(sha256sum site.next/index.html | awk '{print \$1}')\" = '$SITE_SOURCE_SHA256'; test \"\$(sha256sum site.next/craft/index.html | awk '{print \$1}')\" = '$CRAFT_SOURCE_SHA256'; test \"\$(sha256sum site.next/bella/index.html | awk '{print \$1}')\" = '$BELLA_SOURCE_SHA256'; test \"\$(sha256sum site.next/domainspec/index.html | awk '{print \$1}')\" = '$DOMAINSPEC_HTML_SHA256'; test \"\$(sha256sum site.next/domainspec/COMPLETE-GUIDE.html | awk '{print \$1}')\" = '$DOMAINSPEC_HTML_SHA256'; test \"\$(sha256sum site.next/domainspec/COMPLETE-GUIDE.md | awk '{print \$1}')\" = '$DOMAINSPEC_MARKDOWN_SHA256'; test \"\$(sha256sum site.next/domainspec/COMPLETE-GUIDE.lanes.json | awk '{print \$1}')\" = '$DOMAINSPEC_LANES_SHA256'; test \"\$(sha256sum site.next/domainspec/COMPLETE-GUIDE.schema.json | awk '{print \$1}')\" = '$DOMAINSPEC_SCHEMA_SHA256'; docker compose --env-file .env.next -f docker-compose.yml.next config -q; docker run --rm --network none --entrypoint nginx -v '$REMOTE_DIR/site.next:/usr/share/nginx/html:ro' -v '$REMOTE_DIR/nginx.conf.next:/etc/nginx/conf.d/default.conf:ro' -v '$REMOTE_DIR/.domainspec.htpasswd.next:/etc/nginx/domainspec.htpasswd:ro' nginx:1.27-alpine -t"
+if ! remote "set -eu; cd '$REMOTE_DIR'; rm -rf site.next; mkdir site.next; tar -xzf site.tar.gz.next -C site.next; test -f site.next/index.html; test -f site.next/craft/index.html; test -f site.next/bella/index.html; test -f site.next/domainspec/index.html; test -f site.next/domainspec/COMPLETE-GUIDE.html; test -f site.next/domainspec/COMPLETE-GUIDE.md; test -f site.next/domainspec/COMPLETE-GUIDE.lanes.json; test -f site.next/domainspec/COMPLETE-GUIDE.schema.json; test -z \"\$(find site.next -type d ! -perm 0755 -print -quit)\"; test -z \"\$(find site.next -type f ! -perm 0644 -print -quit)\"; test \"\$(sha256sum site.next/index.html | awk '{print \$1}')\" = '$SITE_SOURCE_SHA256'; test \"\$(sha256sum site.next/craft/index.html | awk '{print \$1}')\" = '$CRAFT_SOURCE_SHA256'; test \"\$(sha256sum site.next/bella/index.html | awk '{print \$1}')\" = '$BELLA_SOURCE_SHA256'; test \"\$(sha256sum site.next/domainspec/index.html | awk '{print \$1}')\" = '$DOMAINSPEC_HTML_SHA256'; test \"\$(sha256sum site.next/domainspec/COMPLETE-GUIDE.html | awk '{print \$1}')\" = '$DOMAINSPEC_HTML_SHA256'; test \"\$(sha256sum site.next/domainspec/COMPLETE-GUIDE.md | awk '{print \$1}')\" = '$DOMAINSPEC_MARKDOWN_SHA256'; test \"\$(sha256sum site.next/domainspec/COMPLETE-GUIDE.lanes.json | awk '{print \$1}')\" = '$DOMAINSPEC_LANES_SHA256'; test \"\$(sha256sum site.next/domainspec/COMPLETE-GUIDE.schema.json | awk '{print \$1}')\" = '$DOMAINSPEC_SCHEMA_SHA256'; docker compose --env-file .env.next -f docker-compose.yml.next config -q; docker run --rm --network none --entrypoint nginx -v '$REMOTE_DIR/site.next:/usr/share/nginx/html:ro' -v '$REMOTE_DIR/nginx.conf.next:/etc/nginx/conf.d/default.conf:ro' -v '$REMOTE_DIR/.domainspec.htpasswd.next:/etc/nginx/domainspec.htpasswd:ro' nginx:1.27-alpine -t"
 then
   echo "candidate release validation failed; current release was not switched" >&2
   exit 1
@@ -287,10 +291,10 @@ then
   fail_with_rollback "container startup failed"
 fi
 
-echo "checking the container directly"
-if ! remote "cd '$REMOTE_DIR' && docker compose --env-file .env -f docker-compose.yml exec -T site wget -qO- http://127.0.0.1/healthz"
+echo "checking the container and Nginx worker readability directly"
+if ! remote "set -eu; cd '$REMOTE_DIR'; docker compose --env-file .env -f docker-compose.yml exec -T site wget -qO- http://127.0.0.1/healthz; docker compose --env-file .env -f docker-compose.yml exec -T --user 101:101 site sh -c 'test -r /usr/share/nginx/html/index.html && test -r /usr/share/nginx/html/craft/index.html && test -r /usr/share/nginx/html/bella/index.html && test -r /usr/share/nginx/html/domainspec/index.html && test -r /usr/share/nginx/html/domainspec/COMPLETE-GUIDE.html && test -r /usr/share/nginx/html/domainspec/COMPLETE-GUIDE.md && test -r /usr/share/nginx/html/domainspec/COMPLETE-GUIDE.lanes.json && test -r /usr/share/nginx/html/domainspec/COMPLETE-GUIDE.schema.json && test -r /etc/nginx/domainspec.htpasswd'"
 then
-  fail_with_rollback "container health check failed"
+  fail_with_rollback "container health or worker-readability check failed"
 fi
 
 if [ "$DRY_RUN" = "1" ]; then
