@@ -6,7 +6,7 @@
     "title": "DomainSpec v2 User Guide",
     "status": "future-user-documentation-candidate",
     "authority_effect": "none",
-    "revision": "2026-08-13",
+    "revision": "2026-08-14",
     "metrics_snapshot": "2026-08-12",
     "artifacts": {
       "markdown": "COMPLETE-GUIDE.md",
@@ -25,6 +25,7 @@
     "reader_movement": "active",
     "human_gate": "not_applicable",
     "success_signals": [
+      "A newcomer can distinguish DomainSpec as the system, a DomainSpec specification as the description a project creates, and an application framework as something DomainSpec is not.",
       "A newcomer can explain DomainSpec through the Key and Door problem before using internal project vocabulary.",
       "A newcomer can make one meaningful choice in each of the six story beats and explain the consequence.",
       "A newcomer can explain the grammar analogy and where that analogy stops.",
@@ -32,6 +33,7 @@
       "A newcomer can retell the four-node Key and Door example from source through review.",
       "A newcomer can state that the current profile is experimental and limited to four kinds and three relationships.",
       "A reviewer can state what a generated graph, source manifest, Markdown view, and build receipt each establish.",
+      "A newcomer can distinguish the Test Derivation Engine's obligations from architecture enforcement's comparison of selected expectations with observed code facts.",
       "A reader does not mistake legacy Markdown or planned machine-v1 generation for the current JSON route."
     ]
   },
@@ -306,6 +308,7 @@
         "reader_need": "Interpret outputs, status axes, current experiments, and known limits.",
         "section_ids": [
           "walkthrough",
+          "realization",
           "status",
           "latest",
           "risks"
@@ -326,7 +329,7 @@
         "section_id": "mental-model",
         "order": 1,
         "title": "A key, a door, and four questions",
-        "reader_job": "Encounter one ordinary feature problem, see why it needs a shared description, understand the grammar analogy and its limit, then choose a reading path.",
+        "reader_job": "Understand what a domain is, distinguish DomainSpec from the specification a project creates and from an application framework, use the grammar analogy as a compact orientation, and then apply it to one ordinary feature problem.",
         "section_kind": "orientation",
         "availability": "mixed",
         "claim_classes": [
@@ -334,6 +337,7 @@
           "inferred"
         ],
         "must_answer": [
+          "Is DomainSpec a system, a specification, or an application framework?",
           "Why is the ordinary feature sentence still ambiguous?",
           "What practical problem does DomainSpec address?",
           "What does DomainSpec not prove?",
@@ -344,7 +348,7 @@
           "authority/decisions/2026-07-14-minted-project-node-package.md",
           "definitions/minted-project/supported-profiles.yml"
         ],
-        "reader_exit": "The reader can explain DomainSpec with the Key and Door story, state the analogy limit, and choose the next section intentionally."
+        "reader_exit": "The reader can explain that DomainSpec is a domain specification system, identify a DomainSpec specification as the description a project creates, distinguish both from an application framework, retell the Key and Door story, and state the analogy limit."
       },
       {
         "section_id": "working-experience",
@@ -489,8 +493,38 @@
         "reader_exit": "The reader can choose a valid connection without turning every code dependency into a relationship."
       },
       {
-        "section_id": "example",
+        "section_id": "realization",
         "order": 8,
+        "title": "Turn a specification into checks and compare code with it",
+        "reader_job": "Distinguish test-obligation derivation from architecture type enforcement, follow their intended join, and keep today's separate inputs and bounded experiments visible.",
+        "section_kind": "workflow",
+        "availability": "mixed",
+        "claim_classes": [
+          "source-backed",
+          "captured-snapshot",
+          "target-design"
+        ],
+        "must_answer": [
+          "What is an obligation, and what does the Test Derivation Engine produce?",
+          "Which inputs can the derivation engine read today?",
+          "What is architecture type enforcement comparing?",
+          "What does an evidence provider report from an exact target?",
+          "Which join remains planned for the selected JSON profile?",
+          "Who decides what the resulting evidence permits next?"
+        ],
+        "evidence_refs": [
+          "impl/test-derivation-engine/src/README.md",
+          "impl/test-derivation-engine/src/index.ts",
+          "impl/test-derivation-engine/src/sfol/node-source/index.ts",
+          "development/architecture-pattern-enforcement/SPEC.md",
+          "impl/architecture-conformance/factory/README.md",
+          "development/first-production-release/ROADMAP.md"
+        ],
+        "reader_exit": "The reader can explain that derivation names what must be checked, architecture enforcement compares selected expectations with observed code facts, the full JSON-to-evidence join is not yet supported, and neither mechanism grants implementation or release approval."
+      },
+      {
+        "section_id": "example",
+        "order": 9,
         "title": "Broad legacy type example",
         "reader_job": "Use Financial Settlement only as a wider legacy language example.",
         "section_kind": "walkthrough",
@@ -506,27 +540,6 @@
           "impl/spec/features/financial-settlement/SPEC.md"
         ],
         "reader_exit": "The reader can study wider type relations without mistaking legacy Markdown for current source."
-      },
-      {
-        "section_id": "realization",
-        "order": 9,
-        "title": "Compare the design with code",
-        "reader_job": "Understand the separate experimental path from selected expectations to reported code facts.",
-        "section_kind": "workflow",
-        "availability": "current-experimental",
-        "claim_classes": [
-          "source-backed",
-          "captured-snapshot"
-        ],
-        "must_answer": [
-          "What is selected before code is inspected?",
-          "What does an evidence provider report?",
-          "Who decides what the comparison permits next?"
-        ],
-        "evidence_refs": [
-          "development/implementation-conformance/ontology-experiment/PROPERTY-EVALUATION-MODEL.md"
-        ],
-        "reader_exit": "The reader does not treat a proposed realization or isolated pass as production proof."
       },
       {
         "section_id": "boundaries",
@@ -784,7 +797,7 @@
   "xray_version": "0.2.0-seed",
   "example_id": "domainspec-v2-complete-guide",
   "mode": "mixed",
-  "target_boundary": "A pre-release future-user guide to what DomainSpec v2 does, how working on one feature should feel, how the owner-selected JSON source package differs from generated views and the legacy Markdown engine, which repository-local checks exist today, which product surfaces and later paths are target design only, and what must exist before external adoption.",
+  "target_boundary": "A pre-release future-user guide to what DomainSpec v2 does, how working on one feature should feel, how the owner-selected JSON source package differs from generated views and the legacy Markdown engine, how test obligations differ from architecture enforcement findings, which repository-local checks exist today, which product surfaces and joins are target design only, and what must exist before external adoption.",
   "renderer_level": "L0",
   "layer_interaction": [
     "stacked",
@@ -799,11 +812,12 @@
       "The reader can follow a simple system flow and read compact code or data examples.",
       "The reader does not need prior knowledge of DomainSpec, Arcanum, Saturn, DS-D1, DS-D8, or the architecture-conformance experiment."
     ],
-    "reader_reward": "The reader can explain DomainSpec v2 through the Key and Door story, use and limit the grammar analogy, make one meaningful choice at each Frame-Describe-Connect-Check-Review-Evolve beat, trace the checked fixture from editable JSON sources through five generated results, author one of the four kinds supported by the experimental JSON profile, interpret a bounded result, and separate current repository behavior from intended product experience.",
+    "reader_reward": "The reader can explain DomainSpec v2 as a domain specification system, distinguish it from the specification a project creates and from an application framework, use the Key and Door story and grammar analogy, make one meaningful choice at each Frame-Describe-Connect-Check-Review-Evolve beat, trace the checked fixture from editable JSON sources through five generated results, distinguish test-obligation derivation from architecture type enforcement, author one of the four kinds supported by the experimental JSON profile, interpret a bounded result, and separate current repository behavior from intended product experience.",
     "opening_contract": {
       "must_start_with": [
-        "Start with one ordinary feature sentence whose hidden decisions the reader can recognize.",
-        "Let the reader discover the project terms only after the story makes each role necessary.",
+        "Begin with the practical problem of several people needing to agree on one feature, then explain domain with familiar examples.",
+        "State that DomainSpec is the system, a DomainSpec specification is the project description created with it, and an application framework is something different.",
+        "Let the reader discover project-specific terms only after the story makes each role necessary.",
         "Use grammar for system descriptions as the primary analogy and state immediately that valid structure does not prove truth or running behavior.",
         "State that the guide is pre-release and separate current repository behavior from intended product experience.",
         "Keep the page interaction bounded to the reader surface, and state any current-versus-proposed distinction in direct prose after the relevant decision."
@@ -821,11 +835,11 @@
   "reader_terms": [
     {
       "term": "DomainSpec v2",
-      "plain_meaning": "A way for a project to describe the important parts of a system—its data, rules, actions, events, and lifecycles—and show how they connect.",
-      "why_it_matters": "It makes the description consistent enough to check for structural mistakes. Separate experiments can compare selected expectations with supplied code evidence.",
-      "source_or_lane": "COMPLETE-GUIDE.md, A player, a key, and a door; surface lane",
+      "plain_meaning": "A domain specification system: a shared language, structured description format, and set of checks for naming important domain parts and showing how they connect.",
+      "why_it_matters": "It helps people create a description they can review together and check for selected structural mistakes. The description is the specification; DomainSpec is the system used to create and check it.",
+      "source_or_lane": "COMPLETE-GUIDE.md, What is DomainSpec?; surface lane",
       "authority": "source-backed",
-      "misuse_warning": "Do not describe it as a universal compiler or a publicly shipped production system."
+      "misuse_warning": "Do not describe it as an application framework, universal compiler, proof of running behavior, or publicly shipped production system."
     },
     {
       "term": "Feature loop",
@@ -895,15 +909,31 @@
       "term": "Code comparison profile",
       "plain_meaning": "The shared or language-specific expectations selected for one experimental code comparison.",
       "why_it_matters": "It is separate from the minted-project source profile and separates shared meaning from choices specific to TypeScript, Python, or Rust.",
-      "source_or_lane": "COMPLETE-GUIDE.md, Experimental checks for whether code matches selected expectations; flow lane",
+      "source_or_lane": "COMPLETE-GUIDE.md, From a specification to checks and from code back to evidence; flow lane",
       "authority": "source-backed",
       "misuse_warning": "A code comparison profile lists expectations. It is not source-format support, evidence from inspected code, or release authority."
+    },
+    {
+      "term": "Test obligation",
+      "plain_meaning": "One stable, named item derived from a supported declaration that later tests or implementation evidence must account for.",
+      "why_it_matters": "It turns a broad specification into a checklist whose items can be tracked, compared, and connected to later evidence.",
+      "source_or_lane": "COMPLETE-GUIDE.md, From a specification to checks and from code back to evidence; flow lane",
+      "authority": "source-backed",
+      "misuse_warning": "An obligation is not automatically a runnable test, a test result, or proof that the business behavior is correct."
+    },
+    {
+      "term": "Architecture type enforcement",
+      "plain_meaning": "A candidate process that compares selected shared and language-specific expectations for a DomainSpec type with facts gathered from exact code.",
+      "why_it_matters": "It makes code-shape assumptions explicit and reports explainable matches, differences, missing evidence, and unsupported cases.",
+      "source_or_lane": "COMPLETE-GUIDE.md, From a specification to checks and from code back to evidence; internal and external dependency lanes",
+      "authority": "source-backed",
+      "misuse_warning": "The wider Architecture-Pattern Enforcement program is partial. A finding or receipt cannot redefine a DomainSpec type, accept an implementation, or authorize release."
     },
     {
       "term": "Realization",
       "plain_meaning": "One proposed way a DomainSpec type appears in a programming language.",
       "why_it_matters": "It makes language-specific code choices explicit instead of assuming one syntax works everywhere.",
-      "source_or_lane": "COMPLETE-GUIDE.md, Experimental checks for whether code matches selected expectations; lifecycle lane",
+      "source_or_lane": "COMPLETE-GUIDE.md, From a specification to checks and from code back to evidence; lifecycle lane",
       "authority": "source-backed",
       "misuse_warning": "One passing example shows only that the recorded check passed. It does not prove every implementation works."
     },
@@ -936,7 +966,7 @@
     {
       "layer": "surface",
       "as_a_reader": "As a newcomer, I want one plain sentence before internal vocabulary.",
-      "should_understand": "DomainSpec v2 helps a project describe a system and check the description for structural mistakes. The intended experience works one feature at a time and ends in a reviewable result, not an automatic correctness claim.",
+      "should_understand": "DomainSpec v2 is a domain specification system. A DomainSpec specification is the structured description a project creates with it, not an application framework or an automatic correctness claim. The intended experience works one feature at a time and ends in a reviewable result.",
       "because_it_matters_for": "understanding the product and its working rhythm without assuming that it builds or approves the application, or that it is already externally installable."
     },
     {

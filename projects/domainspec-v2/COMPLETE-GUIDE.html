@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A pre-release user guide to DomainSpec v2: understand the product, see the intended working experience, write concepts and connections, and distinguish current capabilities from future design.">
+  <meta name="description" content="A pre-release guide to DomainSpec v2, a domain specification system for creating structured descriptions that people can understand and tools can check.">
   <meta name="color-scheme" content="light dark">
   <title>DomainSpec v2 — Pre-release User Guide</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d2742'/%3E%3Cpath d='M16 19h17c10 0 16 5 16 13s-6 13-16 13H16V19zm10 8v10h7c4 0 7-2 7-5s-3-5-7-5h-7z' fill='%23c7ff68'/%3E%3C/svg%3E">
@@ -220,6 +220,57 @@
       color: #bfc9da;
       font-size: 1rem;
       line-height: 1.65;
+    }
+
+    .hero-definition {
+      max-width: 900px;
+      margin-top: 1.15rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(199, 255, 104, 0.28);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .hero-definition h2 {
+      margin: 0 0 0.45rem;
+      color: var(--lime);
+      font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+      letter-spacing: -0.02em;
+    }
+
+    .hero-definition p {
+      max-width: 820px;
+      margin: 0;
+      color: #eef2f8;
+    }
+
+    .hero-definition p + p {
+      margin-top: 0.65rem;
+      padding-top: 0.65rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.13);
+      color: #cbd4e3;
+    }
+
+    .hero-definition strong {
+      color: #fff;
+    }
+
+    .hero-grammar {
+      max-width: 1100px;
+      margin-top: 1.15rem;
+      color: var(--ink);
+      box-shadow: 0 18px 52px rgba(4, 8, 20, 0.2);
+    }
+
+    .hero-grammar h2 {
+      margin: 0 0 0.45rem;
+      color: var(--ink);
+      font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+      letter-spacing: -0.02em;
+    }
+
+    .hero-grammar .grammar-part strong {
+      color: var(--ink);
     }
 
     .hero-actions,
@@ -1630,6 +1681,15 @@
       margin-top: 0;
     }
 
+    .grammar-conclusion {
+      grid-column: 1 / -1;
+      margin: 0;
+      padding: 0.85rem 1rem;
+      border-left: 4px solid var(--green);
+      border-radius: 12px;
+      background: var(--green-soft);
+    }
+
     .reader-routes {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2217,6 +2277,26 @@
       .type-body dd {
         margin-bottom: 0.35rem;
       }
+
+      .lifecycle-strip,
+      .lifecycle-strip.six-stage,
+      .lifecycle-strip.four-stage {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.45rem;
+        overflow-x: visible;
+      }
+
+      .lifecycle-strip li {
+        min-width: 0;
+        padding: 0.8rem 0.8rem 0.8rem 1.5rem;
+        border-top: 0;
+        border-left: 2px solid var(--blue);
+      }
+
+      .lifecycle-strip li::before {
+        top: 0.95rem;
+        left: -7px;
+      }
     }
 
     @media print {
@@ -2310,10 +2390,32 @@
   <header class="hero" id="top" data-lane="surface visual_composition">
     <div class="hero-inner">
       <h1>DomainSpec v2<br><span>User Guide</span></h1>
-      <p class="lede">Feature ideas often start as ordinary sentences. They feel clear until several people must agree on what exists, what is allowed, what changes, and what should be recorded.</p>
-      <p class="intro-bridge">DomainSpec gives the team a shared structure for those decisions, so they can be checked and reviewed together. Start with a player, a key, and a locked door. Six decisions show the path from a familiar request to a precise description.</p>
+      <p class="lede">Feature ideas often start as ordinary sentences. They feel clear until several people must agree on what exists, what is allowed, what changes, and what should be recorded. The area the team is describing—players and doors, orders and payments—is the domain.</p>
+      <div class="hero-definition" aria-labelledby="what-is-domainspec">
+        <h2 id="what-is-domainspec">What is DomainSpec?</h2>
+        <p><strong>DomainSpec is a domain specification system.</strong> It gives a team a shared language for naming the important parts of a domain, a structured way to record them and their connections, and tools that check supported structural rules.</p>
+        <p>DomainSpec is the system. A DomainSpec specification is the description a project creates with it. It is not an application framework: it does not build or run the feature. Its checks can find selected structural mistakes, but people still decide whether the meaning is right, and the running software must be checked separately.</p>
+      </div>
+      <div class="grammar-analogy hero-grammar" id="grammar-model" role="region" aria-labelledby="grammar-model-title">
+        <div>
+          <h2 id="grammar-model-title">DomainSpec works like grammar for a system description</h2>
+          <p>A language is easier to share when it has known words, roles, and sentence patterns. DomainSpec does a similar job for a system description.</p>
+          <div class="grammar-parts">
+            <div class="grammar-part"><strong>Concepts are the vocabulary</strong><span>The named parts of the feature.</span></div>
+            <div class="grammar-part"><strong>Meta-types are the roles</strong><span>What job each named part performs in the description.</span></div>
+            <div class="grammar-part"><strong>Relationships are the verbs</strong><span>How two parts connect, including direction.</span></div>
+            <div class="grammar-part"><strong>The graph is the sentence map</strong><span>It shows who connects to what, and in which direction.</span></div>
+          </div>
+        </div>
+        <aside class="analogy-limit">
+          <h3>Where the analogy stops</h3>
+          <p>A grammar checker can find a malformed sentence, but it cannot prove the sentence is true. In the same way, DomainSpec can reject some malformed descriptions; it cannot by itself prove the business meaning or the running software.</p>
+        </aside>
+        <p class="grammar-conclusion">DomainSpec helps a team turn a feature idea into a structured description they can check and review. It does not build the feature or decide whether the feature is correct.</p>
+      </div>
+      <p class="intro-bridge">Now, let’s imagine a team designing the Key &amp; Door mechanic for a new game. They want players to unlock a locked door when they have the right key. It sounds simple, but the team still has to decide what allows the unlock, which action changes the door, and how a successful unlock is represented. The feature request below is their starting point. We’ll follow their decisions and see how DomainSpec gives each part a clear place.</p>
       <div class="hero-actions">
-        <a class="primary" href="#working-experience">Help the player unlock the door</a>
+        <a class="primary" href="#working-experience">Design the Key &amp; Door mechanic</a>
       </div>
       <details class="hero-more">
         <summary>Go straight to source or reference</summary>
@@ -2333,7 +2435,7 @@
           <div class="hero-stat"><strong>Pre-release</strong><span>private repository workflow; no stable external install or production authorization</span></div>
         </div>
         <p class="capture-line">
-          <span><strong>Guide revised:</strong> 2026-08-13</span>
+          <span><strong>Guide revised:</strong> 2026-08-14</span>
           <span><strong>Metrics captured:</strong> 2026-08-12</span>
           <span><strong>Project gate:</strong> flag</span>
           <span><strong>First-production-release:</strong> blocked</span>
@@ -2356,15 +2458,15 @@
         <p id="guide-search-status" class="rail-status" role="status" aria-live="polite">Showing all 16 guide sections.</p>
       </div>
       <nav aria-label="Guide sections">
-        <a href="#mental-model">What it is</a>
+        <a href="#what-is-domainspec">What it is &amp; grammar</a>
         <a href="#working-experience">Working experience</a>
         <a href="#authoring">Source package</a>
         <a href="#walkthrough">Checked walkthrough</a>
         <a href="#create">Author a concept</a>
         <a href="#meta-types">Types reference</a>
         <a href="#relationships">Connections reference</a>
+        <a href="#realization">Tests &amp; architecture</a>
         <a href="#example">Legacy type example</a>
-        <a href="#realization">Code experiment</a>
         <a href="#boundaries">Product boundaries</a>
         <a href="#status">Status reference</a>
         <a href="#latest">Development status</a>
@@ -2422,7 +2524,7 @@
         <p class="context-turn">The request tells us what the player needs. It does not yet tell the team how to describe every part or how those parts connect.</p>
       </section>
 
-      <section class="section searchable" id="mental-model" data-lane="surface flow visual_composition" data-search="what is domainspec key door grammar system description concepts types relationships structural check">
+      <section class="section searchable" id="mental-model" data-lane="surface flow visual_composition" data-search="what is domainspec domain specification system application framework key door grammar description concepts types relationships structural check">
         <div class="section-head">
           <div>
             <p class="kicker">01 · The problem</p>
@@ -2467,24 +2569,6 @@
         </div>
         <p>Now decide what each part is and how the four parts connect. The choices will turn this familiar sentence into a description the team can check together.</p>
 
-        <div class="grammar-analogy">
-          <div>
-            <h3 style="margin-top:0">DomainSpec works like grammar for a system description</h3>
-            <p>A language is easier to share when it has known words, roles, and sentence patterns. DomainSpec does a similar job for a system description.</p>
-            <div class="grammar-parts">
-              <div class="grammar-part"><strong>Concepts are the vocabulary</strong><span>The named parts of the feature.</span></div>
-              <div class="grammar-part"><strong>Meta-types are the roles</strong><span>What job each named part performs in the description.</span></div>
-              <div class="grammar-part"><strong>Relationships are the verbs</strong><span>How two parts connect, including direction.</span></div>
-              <div class="grammar-part"><strong>The graph is the sentence map</strong><span>It shows who connects to what, and in which direction.</span></div>
-            </div>
-          </div>
-          <aside class="analogy-limit">
-            <h3>Where the analogy stops</h3>
-            <p>A grammar checker can find a malformed sentence, but it cannot prove the sentence is true. In the same way, DomainSpec can reject some malformed descriptions; it cannot by itself prove the business meaning or the running software.</p>
-          </aside>
-        </div>
-
-        <p class="callout">DomainSpec helps a team turn a feature idea into a structured description they can check and review. It does not build the feature or decide whether the feature is correct.</p>
       </section>
 
       <section class="section searchable" id="working-experience" data-lane="surface flow lifecycle external_dependencies risk_questions visual_composition" data-search="feature request belongs interactive story frame describe connect check review evolve key door choice consequence term source evidence">
@@ -3096,27 +3180,55 @@ specs/key-and-door/nodes/door-unlocked.json       # Event source
         <p class="callout"><strong>Diagnostic boundary, not promised wording.</strong>The authority contract requires unsupported profile, unsupported kind, invalid shape, and inactive relationship failures to remain distinguishable. Current tools may phrase them differently.</p>
       </section>
 
-      <section class="section searchable" id="realization" data-lane="internal_dependencies external_dependencies flow lifecycle risk_questions" data-search="software realization architecture mapping profile provider target observation factory ontology evaluation findings">
+      <section class="section searchable" id="realization" data-lane="internal_dependencies external_dependencies flow lifecycle risk_questions" data-search="test derivation engine checklist obligation planned bridge architecture type enforcement architecture-pattern code shape inspector software realization mapping profile provider target observation factory ontology evaluation findings">
         <div class="section-head">
           <div>
-            <p class="kicker">09 · Compare the design with code</p>
-            <h2>Experimental checks for selected code expectations</h2>
-            <p>A DomainSpec type can look different in TypeScript, Python, and Rust while keeping the same meaning. These experiments separate the shared meaning from the details of each language.</p>
+            <p class="kicker">08 · From description to evidence</p>
+            <h2>Turn a specification into checks—and compare code with it</h2>
+            <p>The Key &amp; Door description says that <code>HasKeyRule</code> gates <code>UnlockDoor</code>. The next questions are different: what must eventually be checked, and what should the code preserve?</p>
           </div>
         </div>
 
-        <ol class="flow-text" aria-label="Flow for comparing a DomainSpec type with code">
-          <li><strong>DomainSpec meaning</strong><br>The shared DS-D1 type rule</li>
-          <li><strong>Proposed code structure</strong><br>A possible type-to-code mapping plus shared expectations</li>
-          <li><strong>Language-specific rules</strong><br>A profile for TypeScript, Python, or Rust</li>
-          <li><strong>Exact code target</strong><br>An evidence collector (provider) inspects named code</li>
-          <li><strong>Observed results</strong><br>Reported facts plus intentionally incorrect test cases</li>
-          <li><strong>Comparison</strong><br>Expected values versus reported values</li>
-          <li><strong>Report</strong><br>A result record (receipt) lists inputs, results, and limits</li>
-          <li><strong>Owner decision</strong><br>The responsible owner decides what happens next</li>
+        <div class="promise">
+          <article class="promise-card">
+            <h3 style="margin-top:0">First: make the checklist</h3>
+            <p>The <strong>Test Derivation Engine</strong> turns supported declarations into stable obligations: small, named items that later tests or implementation evidence must account for.</p>
+            <p>It does not invent missing behavior, generate the application, or decide whether the business meaning is right.</p>
+          </article>
+          <article class="promise-card">
+            <h3 style="margin-top:0">Then: inspect the code shape</h3>
+            <p><strong>Architecture type enforcement</strong> compares selected expectations for a DomainSpec type with facts gathered from exact code. The repository calls the wider program <em>Architecture-Pattern Enforcement</em>.</p>
+            <p>It reports matches, differences, missing evidence, and unsupported cases. It does not approve the implementation.</p>
+          </article>
+        </div>
+
+        <h3>From one description to a decision the evidence can support</h3>
+        <ol class="flow-text" aria-label="Intended flow from a DomainSpec description to a decision supported by evidence">
+          <li><strong>Source description</strong><br>Names the concepts, their roles, and their connections</li>
+          <li><strong>Obligations</strong><br>The checklist maker names what must be accounted for</li>
+          <li><strong>Architecture expectations</strong><br>A selected mapping and profile say what the code should preserve</li>
+          <li><strong>Exact code target</strong><br>An evidence collector inspects named code and tools</li>
+          <li><strong>Observed facts</strong><br>The collector reports what it actually found</li>
+          <li><strong>Findings and receipt</strong><br>Expected and observed facts are compared with their limits</li>
+          <li><strong>Owner decision</strong><br>A responsible person decides what the evidence permits next</li>
         </ol>
 
-        <p class="callout"><strong>Official terms, in context.</strong> An <em>architecture mapping</em> proposes how a type may appear in code. A <em>language profile</em> lists expectations for one language. A <em>provider</em> gathers evidence from the exact <em>target</em>. A <em>receipt</em> records the inputs, checks, results, and strongest conclusion they support.</p>
+        <details class="evidence-drawer">
+          <summary>Which parts work today?</summary>
+          <div>
+            <ul>
+              <li>The selected JSON path can build and verify the Key &amp; Door graph, source manifest, Markdown view, and build receipt.</li>
+              <li>The Test Derivation Engine can turn legacy aspect documents or an explicit normalized <code>SPEC.md</code> into obligations and test material. Supported bindings and formal expressions can produce real assertions; unsupported behavior remains a visible gap.</li>
+              <li>A narrower JSON-to-node-logic projection exists for explicitly admitted logic-bearing nodes. It is not the general test bridge for the four-kind Key &amp; Door profile.</li>
+              <li>The direct selected-JSON-to-obligations path for this guide remains planned. It must use verified machine views rather than treating generated Markdown as new source.</li>
+              <li>Limited local architecture checks exist for selected types and one <code>Rule enforces Operation</code> composition. Wider type coverage, profiles, adapters, integration, and release evidence remain partial.</li>
+            </ul>
+          </div>
+        </details>
+
+        <h3>Architecture type enforcement in plain language</h3>
+        <p>A DomainSpec type can look different in TypeScript, Python, and Rust while keeping the same meaning. Architecture enforcement separates what must remain true everywhere from conventions that belong to one language or project.</p>
+        <p class="callout"><strong>The terms name different jobs.</strong> An <em>obligation</em> names something that must be accounted for. An <em>architecture mapping</em> proposes how a type may appear in code. A <em>profile</em> lists selected expectations. A <em>provider</em> gathers facts from the exact <em>target</em>. A <em>finding</em> explains a match or difference. A <em>receipt</em> records the inputs, results, and limits.</p>
 
         <div class="three-col">
           <article class="card"><h3 style="margin-top:0">Rule</h3><p>It must still make a true/false decision, even though each language writes the callable differently.</p></article>
@@ -3124,8 +3236,8 @@ specs/key-and-door/nodes/door-unlocked.json       # Event source
           <article class="card"><h3 style="margin-top:0">Value Object</h3><p>Equality must still use every owned field and values must stay immutable; hash bytes may differ by language.</p></article>
         </div>
 
-        <h3>How one isolated check run works</h3>
-        <ol class="lifecycle-strip" aria-label="Steps in one isolated factory experiment">
+        <h3>How the code-shape inspector records what it checked</h3>
+        <ol class="lifecycle-strip" aria-label="Steps in one isolated architecture factory experiment">
           <li><strong>Request</strong>names the checks and repository inputs</li>
           <li><strong>Dependencies</strong>providers list every file and tool they need</li>
           <li><strong>Plan</strong>locks the exact files and tool versions</li>
@@ -3136,22 +3248,22 @@ specs/key-and-door/nodes/door-unlocked.json       # Event source
         </ol>
         <p>A repeatability check compares two isolated copies. <code>inspect</code> and <code>init</code> stop instead of guessing when a code mapping is still only a proposal, a type is not active, a referenced file has changed or is missing, or an identifier is invalid. There is no shortcut around these checks.</p>
 
-        <h3>Experimental model for expected and observed code properties</h3>
+        <h3>Where the two mechanisms meet—and where they stop</h3>
         <div class="boundary-map">
           <div class="inside-boundary">
-            <h4>Question it can ask</h4>
-            <p>Given a DomainSpec concept and selected expectations, which code properties should exist, what did the evidence-gathering tool report, and where do they differ?</p>
-            <pre><code>official DS-D1 type registry
-→ read-only type-to-code view
-→ experimental implementation model
-→ shared + language-specific expectations
-→ facts reported about code
-→ comparison
-→ explainable matches and differences</code></pre>
+            <h4>The intended join</h4>
+            <p>Derived obligations say what needs evidence. Architecture expectations say what the implementation should preserve. Observations and findings show what one exact code target actually supports.</p>
+            <pre><code>specification
+→ obligations
+→ expected code shape
+→ observed code facts
+→ findings + receipt
+→ human decision</code></pre>
           </div>
           <div class="outside-boundary">
-            <h4>Boundary it cannot cross</h4>
-            <p><code>architecture.constructed_by</code> belongs to the experimental implementation model. It is not a DS-D8 domain relationship and cannot change the rules for writing a DomainSpec concept.</p>
+            <h4>The current gap</h4>
+            <p>These pieces are not one supported end-to-end path for the selected Key &amp; Door JSON profile yet. The current derivation input and the selected authoring input remain separate, and architecture enforcement is candidate and partial.</p>
+            <p>Generated tests are not test executions. Passing tests and receipts are evidence, not implementation acceptance or release authorization. Experimental <code>architecture.*</code> connections also cannot redefine DomainSpec’s domain relationships.</p>
           </div>
         </div>
       </section>
@@ -3159,7 +3271,7 @@ specs/key-and-door/nodes/door-unlocked.json       # Event source
       <section class="section searchable" id="example" data-lane="components internal_dependencies flow" data-search="financial settlement worked example entity value object enum operation query calculation rule graph">
         <div class="section-head">
           <div>
-            <p class="kicker">08 · Broad legacy type example</p>
+            <p class="kicker">09 · Broad legacy type example</p>
             <h2>Financial Settlement</h2>
             <p>This hand-written normalized Markdown feature shows seven active language types and five connections. It remains useful as a broad legacy example, but it is a migration candidate—not authority for the selected minted-project source format.</p>
           </div>
@@ -3192,7 +3304,7 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
           <div>
             <p class="kicker">12 · Development status</p>
             <h2>Current plans, local results, and known failures</h2>
-            <p>The newest work is a design, not an implementation. Earlier experiments produced repeatable local results, while several broader checks captured on 2026-08-12 failed because stored files, mappings, or hashes did not agree.</p>
+            <p>The derivation engine and limited architecture checks exist separately. The newest end-to-end bridge is still a design, not an implementation. Earlier experiments produced repeatable local results, while several broader checks captured on 2026-08-12 failed because stored files, mappings, or hashes did not agree.</p>
           </div>
         </div>
 
@@ -3200,6 +3312,18 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
           <strong>August 13: machine-view test generation is planned, not built</strong>
           The latest refinement produced a design and an eleven-unit work pack for an ontology-bound machine-view route. No unit was selected or executed, and the current engine does not implement that route. Review the <a href="development/refinement-runs/20260813T025311Z-ontology-machine-view-test-generation/RESULT.md">refinement result</a> and <a href="development/refinement-runs/20260813T025311Z-ontology-machine-view-test-generation/stages/09-invoke-plan/WORK-PACK.md">work pack</a> as planning evidence only.
         </div>
+
+        <details class="evidence-drawer">
+          <summary>Component check snapshot · August 13, 2026</summary>
+          <div>
+            <ul>
+              <li>The Test Derivation Engine suite passes 241 tests across 29 test files.</li>
+              <li>The engine's standalone TypeScript check still fails. Its current errors include imports that cross the package's configured source boundary and strict typing errors. This prevents a clean typecheck claim even though the tests pass.</li>
+              <li>The architecture factory passes its TypeScript check and 69 tests across 19 test files.</li>
+            </ul>
+            <p>These are local component results. They do not create the missing end-to-end bridge, establish a supported user command, accept an implementation, or authorize a release.</p>
+          </div>
+        </details>
 
         <div class="evidence-split">
           <article class="evidence-panel">
@@ -3338,7 +3462,7 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
               <li><a href="impl/spec/minted-project/INDEX.md"><strong>Consumer-source contract index</strong><small>Source and generated record roles</small></a></li>
               <li><a href="impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/project.json"><strong>Key and Door</strong><small>Complete checked independent-node source fixture</small></a></li>
               <li><a href="impl/spec/features/financial-settlement/SPEC.md"><strong>Financial Settlement</strong><small>Broad legacy Markdown example and migration candidate</small></a></li>
-              <li><a href="impl/test-derivation-engine/README.md"><strong>Check generator</strong><small>Legacy document-to-obligation path</small></a></li>
+              <li><a href="impl/test-derivation-engine/src/README.md"><strong>Check generator</strong><small>Legacy document-to-obligation path</small></a></li>
               <li><a href="impl/package.json"><strong>Implementation scripts</strong><small>Repository checks, not a released consumer CLI</small></a></li>
             </ul></div>
           </details>
@@ -3354,7 +3478,8 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
           <details class="source-group">
             <summary>Experimental files for comparing specifications with code</summary>
             <div class="detail-content"><ul class="source-list">
-              <li><a href="development/implementation-conformance/ontology-experiment/README.md"><strong>Ontology experiment</strong><small>Purpose, limits, and date</small></a></li>
+              <li><a href="development/architecture-pattern-enforcement/SPEC.md"><strong>Architecture-Pattern Enforcement</strong><small>Candidate typed architecture-evidence program</small></a></li>
+              <li><a href="development/implementation-conformance/ontology-experiment/README.md"><strong>Ontology experiment</strong><small>Expected and observed property model</small></a></li>
               <li><a href="development/implementation-conformance/ontology-experiment/ontology.json"><strong>Live architecture ontology</strong><small>Current experimental machine-readable data</small></a></li>
               <li><a href="development/implementation-conformance/ontology-experiment/domain-meta-types.projection.json"><strong>Experimental type-to-code view</strong><small>Proposed mappings that cannot approve themselves</small></a></li>
               <li><a href="development/implementation-conformance/ontology-experiment/PROPERTY-EVALUATION-MODEL.md"><strong>Property evaluation model</strong><small>Expected/observed comparison</small></a></li>
@@ -3379,8 +3504,9 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
           <div class="term"><dt>Formation criterion</dt><dd>The information a declaration must contain to count as one type.</dd></div>
           <div class="term"><dt>Relationship signature</dt><dd>An allowed connection, including its direction, endpoint types, location, and quantity limits.</dd></div>
           <div class="term"><dt>Typed concept graph</dt><dd>The map of concepts declared in a specification and the connections allowed between their types.</dd></div>
-          <div class="term"><dt>Obligation</dt><dd>A specific structural check generated from the declaration.</dd></div>
+          <div class="term"><dt>Obligation</dt><dd>One stable, named item derived from a supported declaration that later tests or implementation evidence must account for.</dd></div>
           <div class="term"><dt>Code comparison profile</dt><dd>The shared or language-specific expectations selected for one experimental code comparison. It is separate from the source profile.</dd></div>
+          <div class="term"><dt>Architecture type enforcement</dt><dd>The candidate process of comparing selected expectations for a DomainSpec type with facts gathered from exact code.</dd></div>
           <div class="term"><dt>Realization</dt><dd>One proposed way a DomainSpec type appears in a programming language.</dd></div>
           <div class="term"><dt>Observation</dt><dd>What an evidence-gathering tool reported about the code.</dd></div>
           <div class="term"><dt>Finding</dt><dd>A recorded match or difference between an expectation and an observation.</dd></div>
@@ -3429,8 +3555,8 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
         "create",
         "meta-types",
         "relationships",
-        "example",
         "realization",
+        "example",
         "boundaries",
         "status",
         "latest",

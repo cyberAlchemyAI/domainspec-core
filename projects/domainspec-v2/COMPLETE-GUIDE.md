@@ -2,10 +2,44 @@
 
 Feature ideas often start as ordinary sentences. They feel clear until several people
 must agree on what exists, what is allowed, what changes, and what should be recorded.
+The area the team is describing—players and doors, orders and payments—is the domain.
 
-DomainSpec gives the team a shared structure for those decisions, so they can be
-checked and reviewed together. Start with a player, a key, and a locked door. Six
-decisions show the path from a familiar request to a precise description.
+## What is DomainSpec?
+
+**DomainSpec is a domain specification system.** It gives a team a shared language
+for naming the important parts of a domain, a structured way to record them and their
+connections, and tools that check supported structural rules.
+
+DomainSpec is the system. A DomainSpec specification is the description a project
+creates with it. It is not an application framework: it does not build or run the
+feature. Its checks can find selected structural mistakes, but people still decide
+whether the meaning is right, and the running software must be checked separately.
+
+> ## DomainSpec works like grammar for a system description
+>
+> A language is easier to share when it has known words, roles, and sentence patterns.
+> DomainSpec does a similar job for a system description.
+>
+> - **Concepts are the vocabulary:** The named parts of the feature.
+> - **Meta-types are the roles:** What job each named part performs in the description.
+> - **Relationships are the verbs:** How two parts connect, including direction.
+> - **The graph is the sentence map:** It shows who connects to what, and in which
+>   direction.
+>
+> **Where the analogy stops:** A grammar checker can find a malformed sentence, but it
+> cannot prove the sentence is true. In the same way, DomainSpec can reject some
+> malformed descriptions; it cannot by itself prove the business meaning or the
+> running software.
+>
+> DomainSpec helps a team turn a feature idea into a structured description they can
+> check and review. It does not build the feature or decide whether the feature is
+> correct.
+
+Now, let’s imagine a team designing the Key & Door mechanic for a new game. They want
+players to unlock a locked door when they have the right key. It sounds simple, but the
+team still has to decide what allows the unlock, which action changes the door, and how
+a successful unlock is represented. The feature request below is their starting point.
+We’ll follow their decisions and see how DomainSpec gives each part a clear place.
 
 > **New feature · Key & Door**
 >
@@ -45,27 +79,7 @@ whether the description follows selected structural rules. The team still decide
 whether the description means the right thing. A structural check does not prove that
 the running game behaves correctly.
 
-> DomainSpec helps a team turn a feature idea into a structured description they can
-> check and review. It does not build the feature or decide whether the feature is
-> correct.
-
-## DomainSpec works like grammar for a system description
-
-| In ordinary language | In DomainSpec |
-| --- | --- |
-| Vocabulary | Concepts such as Player and UnlockDoor |
-| Roles in a sentence | Meta-types such as Entity, Rule, Operation, and Event |
-| Verbs | Directed relationships such as `performs`, `enforces`, and `produces` |
-| Sentence structure | The map of concepts and connections—the typed concept graph |
-| Grammar check | A structural check of selected type and connection rules |
-
-The analogy has a firm limit. A grammar checker can find a malformed sentence, but it
-cannot prove the sentence is true. In the same way, DomainSpec can reject some
-malformed descriptions; it cannot by itself prove the business meaning or the running
-software.
-
-The project using DomainSpec owns the meaning. DomainSpec contributes shared roles,
-allowed connections, and repeatable checks for supported inputs.
+## How the current source is organized
 
 In the selected current source direction, people edit JSON:
 
@@ -1014,50 +1028,72 @@ The result record lists which declarations and relationships were processed, ski
 or rejected, plus the exact source references used. It proves only that those inputs
 were structurally accounted for; it does not prove that the business meaning is
 correct and it does not generate an application. See the
-[engine README](impl/test-derivation-engine/README.md).
+[engine README](impl/test-derivation-engine/src/README.md).
 
-## Experimental checks for whether code matches selected expectations
+## From a specification to checks—and from code back to evidence
 
-A DomainSpec type can appear differently in TypeScript, Python, and Rust while keeping
-the same meaning. The experimental implementation checks separate that shared meaning
-from the details of each language.
+The Key and Door description says that `HasKeyRule` gates `UnlockDoor`. The next
+questions are different: what must eventually be checked, and what should the code
+preserve?
 
-```text
-DomainSpec meaning
-        |
-        v
-proposed code structure + shared expectations
-        |
-        v
-language-specific expectations (TypeScript, Python, or Rust)
-        |
-        v
-exact code target + evidence-gathering tool
-        |
-        v
-observed results + intentionally incorrect test cases
-        |
-        v
-report of inputs, checks, results, and limits
-```
+### First: make the checklist
 
-The project uses official terms for these steps:
+The **Test Derivation Engine** turns supported declarations into stable
+**obligations**: small, named items that later tests or implementation evidence must
+account for. In this guide, think of it as the **checklist maker**. It does not invent
+missing behavior, generate the application, or decide whether the business meaning is
+right.
 
-- an **architecture mapping** proposes how a DomainSpec type may appear in code;
-- a **language profile** lists expectations specific to TypeScript, Python, or Rust;
-- a **provider** is the tool that gathers evidence;
-- a **target** is the exact code being checked; and
-- a **receipt** records the inputs, checks, results, and strongest conclusion the
-  evidence supports.
+The current engine reads legacy aspect documents or an explicit normalized `SPEC.md`.
+It can render obligations into test material. Supported bindings and formal expressions
+can become real assertions; unsupported behavior remains a visible gap rather than a
+silent success.
+
+The selected JSON source package used by this guide does not feed that general engine
+path directly. A narrower JSON-to-node-logic projection now exists for explicitly
+admitted logic-bearing nodes, but it is not the test bridge for the four-kind Key and
+Door profile. The direct selected-JSON-to-obligations path remains planned and must use
+verified machine views rather than treating generated Markdown as new source.
+
+### Then: inspect the code shape
+
+**Architecture type enforcement** compares selected expectations for a DomainSpec type
+with facts gathered from exact code. The repository calls the wider program
+**Architecture-Pattern Enforcement**.
+
+A DomainSpec type can look different in TypeScript, Python, and Rust while keeping the
+same meaning. Architecture enforcement separates what must remain true everywhere from
+conventions that belong to one language or project. It reports matches, differences,
+missing evidence, and unsupported cases. It does not approve the implementation.
+
+The terms name different jobs:
+
+- an **obligation** names something that must be accounted for;
+- an **architecture mapping** proposes how a type may appear in code;
+- a **profile** lists selected shared or language-specific expectations;
+- a **provider** gathers facts from the exact **target**;
+- a **finding** explains a match or difference; and
+- a **receipt** records the inputs, results, and limits.
 
 Examples:
 
 - A Rule remains a true/false guard in every language, while its callable syntax may be
   an arrow function, a Python function definition, or a Rust function item.
-- An Enum must preserve its owned list of values, but TypeScript, Python, and Rust
-  need not use the same syntax.
-- A Value Object must compare every owned field and keep its values unchanged, but
-  hash bytes do not need to be equal across languages.
+- An Enum must preserve its owned list of values, but TypeScript, Python, and Rust need
+  not use the same syntax.
+- A Value Object must compare every owned field and keep its values unchanged, but hash
+  bytes do not need to be equal across languages.
+
+### From one description to a decision the evidence can support
+
+```text
+source description
+  -> derived obligations
+  -> expected code shape
+  -> exact code target and observed facts
+  -> findings and receipt
+  -> owner decision
+```
 
 The current checks are grouped by the kind of meaning they preserve:
 
@@ -1075,7 +1111,7 @@ The current checks are grouped by the kind of meaning they preserve:
 | orchestration and lifecycle | Workflow, State Machine |
 | relation composition | Rule `enforces` Operation |
 
-### How one isolated check run works
+### How the code-shape inspector records what it checked
 
 One factory run is an isolated experiment:
 
@@ -1102,46 +1138,38 @@ The isolated code-checking process—called the factory—reports evidence; it c
 approve the result. See the
 [factory README](impl/architecture-conformance/factory/README.md).
 
-## Experimental model for comparing code expectations with reported facts
-
-The requested experiment asks a different question from the official DS-D1 type list:
-
-> Given a DomainSpec concept and a selected set of expectations, which code properties
-> should exist, what did the evidence-gathering tool report, and where do they differ?
-
-Its pipeline is:
+### Where the two mechanisms meet—and where they stop
 
 ```text
-official DS-D1 type list
-  -> read-only type-to-code view
-  -> experimental implementation model
-  -> shared + language-specific expectations
-  -> facts reported about code
-  -> comparison
-  -> explainable matches and differences
+specification
+  -> obligations
+  -> expected code shape
+  -> observed code facts
+  -> findings + receipt
+  -> human decision
 ```
 
-The model contains labels for code forms, code properties, allowed connections,
-comparison operations, and TypeScript/Python/Rust views. A profile supplies the
-expected values. For example, the shared Rule expectations can require one main
-callable with a true/false result; the language profile then names the callable form
-expected in that language.
+Derived obligations say what needs evidence. Architecture expectations say what the
+implementation should preserve. Observations and findings show what one exact code
+target actually supports.
 
-The evaluator compares expected values with reported values. It keeps language rules
-in separate profiles instead of putting every convention into one package. It does
-not guess facts from source code; a separate evidence collector must supply them.
+These pieces are not one supported end-to-end path for the selected Key and Door JSON
+profile yet. The current derivation input and the selected authoring input remain
+separate, and architecture enforcement is candidate and partial. Limited local factory
+checks exist for selected types and one `Rule enforces Operation` composition;
+they do not establish complete type coverage or production behavior.
 
-The most important boundary is:
+Generated tests are not test executions. Passing tests and receipts are evidence, not
+implementation acceptance or release authorization. Experimental `architecture.*`
+connections also belong to the implementation model; they cannot redefine DomainSpec's
+domain relationships.
 
-> A connection such as `architecture.constructed_by` belongs to the experimental
-> implementation model. It is not a DS-D8 domain relationship and cannot change the
-> rules for writing a DomainSpec concept.
-
-Start with the experiment [README](development/implementation-conformance/ontology-experiment/README.md),
-then inspect the [property evaluation model](development/implementation-conformance/ontology-experiment/PROPERTY-EVALUATION-MODEL.md),
-[ontology JSON](development/implementation-conformance/ontology-experiment/ontology.json),
-[meta-type projection](development/implementation-conformance/ontology-experiment/domain-meta-types.projection.json),
-and [runtime profile](development/implementation-conformance/ontology-experiment/RUNTIME-PROFILE.md).
+For the implementation boundary, read the
+[Architecture-Pattern Enforcement specification](development/architecture-pattern-enforcement/SPEC.md)
+and the [factory README](impl/architecture-conformance/factory/README.md). The older
+[implementation-model experiment](development/implementation-conformance/ontology-experiment/README.md)
+shows how expected properties and reported facts are represented; it does not define
+DomainSpec's canonical types or relationships.
 
 ## Worked feature example: Financial Settlement
 
@@ -1182,6 +1210,9 @@ One feature is an example, not proof that every possible domain has the same str
 
 ## Current development status and known failures
 
+The derivation engine and limited architecture checks exist separately. The general
+selected-JSON-to-evidence bridge described below remains planned.
+
 ### August 13: machine-view test generation was designed, not implemented
 
 The latest refinement run defines a possible future route from an owner-approved machine
@@ -1194,6 +1225,18 @@ an explicit CLI migration.
 This is planning evidence, not a product capability. See the
 [refinement result](development/refinement-runs/20260813T025311Z-ontology-machine-view-test-generation/RESULT.md)
 and [work pack](development/refinement-runs/20260813T025311Z-ontology-machine-view-test-generation/stages/09-invoke-plan/WORK-PACK.md).
+
+### Component check snapshot: August 13, 2026
+
+- The Test Derivation Engine suite passes 241 tests across 29 test files.
+- The engine's standalone TypeScript check still fails. Its current errors include
+  imports that cross the package's configured source boundary and strict typing errors.
+  This prevents a clean typecheck claim even though the tests pass.
+- The architecture factory passes its TypeScript check and 69 tests across 19 test
+  files.
+
+These are local component results. They do not create the missing end-to-end bridge,
+establish a supported user command, accept an implementation, or authorize a release.
 
 ### August 7: repeatable same-host code-comparison run
 
@@ -1473,11 +1516,12 @@ wins.
 - [Key and Door source fixture](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/project.json) — complete checked independent-node example.
 - [Guide schema](COMPLETE-GUIDE.schema.json) and [guide manifest](COMPLETE-GUIDE.lanes.json) — reader journey, example posture, source boundaries, and documentation validation contract; neither defines DomainSpec or grants authority.
 - [Financial Settlement](impl/spec/features/financial-settlement/SPEC.md) — broad legacy Markdown type example and migration candidate, not minted-project authority.
-- [Check generator](impl/test-derivation-engine/README.md) — legacy document-to-obligation path.
+- [Check generator](impl/test-derivation-engine/src/README.md) — legacy document-to-obligation path.
 - [Implementation package scripts](impl/package.json) — current repository validation commands, not a released consumer CLI.
 
 ### Experimental files for comparing specifications with code
 
+- [Architecture-Pattern Enforcement specification](development/architecture-pattern-enforcement/SPEC.md) — candidate program for comparing typed architecture expectations with observed implementation evidence.
 - [Implementation-model experiment README](development/implementation-conformance/ontology-experiment/README.md) — purpose, limits, and date.
 - [Current experimental model data](development/implementation-conformance/ontology-experiment/ontology.json) — machine-readable code-property vocabulary.
 - [Experimental type-to-code view](development/implementation-conformance/ontology-experiment/domain-meta-types.projection.json) — proposed mappings that cannot approve themselves.
@@ -1513,10 +1557,14 @@ types, location, and quantity limits.
 **Typed concept graph** — the map of concepts declared in a specification and the
 connections allowed between their types.
 
-**Obligation** — a specific structural check generated from the declaration.
+**Obligation** — one stable, named item derived from a supported declaration that later
+tests or implementation evidence must account for.
 
 **Code comparison profile** — the shared or language-specific expectations selected
 for one experimental code comparison. It is separate from the source profile.
+
+**Architecture type enforcement** — the candidate process of comparing selected
+expectations for a DomainSpec type with facts gathered from exact code.
 
 **Realization** — one proposed way a DomainSpec type appears in a programming
 language.
