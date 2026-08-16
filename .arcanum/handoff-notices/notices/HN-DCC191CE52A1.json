@@ -1,0 +1,90 @@
+{
+  "authority": {
+    "grants": [],
+    "kind": "communication-evidence",
+    "statement": "The notice and locator grant no permission or authority."
+  },
+  "notice_code": "HN-DCC191CE52A1",
+  "notice_digest": "dcc191ce52a1d4133039ac335d56e5d326650a38c6b4914826b0ba6f622132a3",
+  "notice_id": "hn:dcc191ce52a1d4133039ac335d56e5d326650a38c6b4914826b0ba6f622132a3",
+  "payload": {
+    "boundaries": [
+      "Do not checkout master, merge, rebase, reset, stash, or update submodules in the primary dirty checkout without separately inventorying and preserving the current parent and nested-repository work.",
+      "Treat the xdivina change as a parent gitlink movement; do not infer that the feature-branch work is disposable or should be overwritten.",
+      "Do not use FETCH_HEAD as durable proof of the master tip; verify the remote branch directly and bind decisions to stable local or remote refs.",
+      "This notice is communication evidence only and grants no permission to integrate, publish, commit, push, or discard work."
+    ],
+    "created_at": "2026-08-16T11:42:59.150148Z",
+    "from": {
+      "kind": "agent",
+      "label": "Codex"
+    },
+    "key_points": [
+      "A direct git ls-remote query of origin, refs/remotes/origin/master, and the local master branch all resolve to e4a308274816530ed39c01d558ce8966617affb6.",
+      "The latest master commit is 'chore: restore xdivina main pointer', authored on 2026-08-13; it changes only the projects/xdivina gitlink from 933353897bd9b2515b56d87a7966aa8fd63951f2 to dafd786313d129b900f497ea3f20f2188a87ab39.",
+      "The active checkout remains on agent/publish-domainspec-core-changes at c12c767d0ae9c785dd8f8103d3ada2b679d04a74; it has 29 commits unique to the active branch and master has 6 unique commits.",
+      "No checkout, merge, rebase, reset, stash, pull, submodule update, commit, or push was performed; the working bytes and nested repository state were preserved.",
+      "The nested projects/xdivina checkout is still at 933353897bd9b2515b56d87a7966aa8fd63951f2 on codex/agent-control-contract-harness and contains substantial tracked and untracked work.",
+      "This notice supersedes HN-921DEB5D4A3A because that notice used FETCH_HEAD as if it were a durable ref. FETCH_HEAD changed after the initial verification; it is intentionally excluded from the durable proof in this corrected notice."
+    ],
+    "next_actions": [
+      {
+        "action": "Review commit e4a308274816530ed39c01d558ce8966617affb6 and decide whether integration into the active feature branch is desired.",
+        "owner": "domainspec-core repository owner"
+      },
+      {
+        "action": "If integration is authorized, inventory the dirty parent and xdivina checkout first, then use an isolated clean worktree or another explicitly approved preservation strategy before validating the result.",
+        "owner": "next Git synchronization agent"
+      }
+    ],
+    "next_route": {
+      "authorization": "not-granted",
+      "capability": "Git synchronization under SUBMODULE-DISCIPLINE.md",
+      "mode": "integrate only after owner decision and dirty-state isolation",
+      "target": "origin/master into agent/publish-domainspec-core-changes"
+    },
+    "notice_type": "session-handoff",
+    "open_calls": [
+      {
+        "owner": "domainspec-core repository owner",
+        "question": "Should the six master-side commits be integrated into agent/publish-domainspec-core-changes after the dirty parent and xdivina work are isolated or otherwise preserved?",
+        "status": "open"
+      }
+    ],
+    "project_scope": "domainspec-core parent repository and projects/xdivina gitlink",
+    "schema_version": "0.1.0",
+    "source_refs": [
+      {
+        "label": "Master tip verified directly with git ls-remote",
+        "ref": "remote:origin/refs/heads/master@e4a308274816530ed39c01d558ce8966617affb6"
+      },
+      {
+        "label": "Fetched remote-tracking master commit and its one-path gitlink diff",
+        "ref": "git:refs/remotes/origin/master@e4a308274816530ed39c01d558ce8966617affb6"
+      },
+      {
+        "label": "Active divergent parent branch retained without integration",
+        "ref": "git:refs/heads/agent/publish-domainspec-core-changes@c12c767d0ae9c785dd8f8103d3ada2b679d04a74"
+      },
+      {
+        "label": "Current dirty nested checkout that must be preserved",
+        "ref": "projects/xdivina@933353897bd9b2515b56d87a7966aa8fd63951f2"
+      },
+      {
+        "label": "Repository authority for deliberate submodule movement and parent-last discipline",
+        "ref": "SUBMODULE-DISCIPLINE.md"
+      }
+    ],
+    "status": "flag",
+    "subject": "Latest domainspec-core master change verified; integration remains isolated",
+    "supersedes": "HN-921DEB5D4A3A",
+    "to": {
+      "kind": "person",
+      "label": "domainspec-core repository owner"
+    },
+    "why_now": "The latest remote master change was fetched and then independently verified with a direct remote-ref query while the primary checkout remains on a divergent, heavily dirty feature branch whose nested xdivina repository contains uncommitted work."
+  },
+  "repository_fingerprint": "d08ce0aad74b3da120c7f5708abd4e3b1e26397a76221242c310730c4b31cacf",
+  "schema_version": "0.1.0",
+  "transport_claim": "local-artifact-only"
+}

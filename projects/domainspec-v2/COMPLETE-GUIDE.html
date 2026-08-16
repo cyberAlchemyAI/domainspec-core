@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A pre-release guide to DomainSpec v2, a domain specification system for creating structured descriptions that people can understand and tools can check.">
+  <meta name="description" content="A pre-release guide to DomainSpec v2, a system that helps teams agree on feature meaning and carry it toward obligations, test material, code evidence, and bounded proof.">
   <meta name="color-scheme" content="light dark">
   <title>DomainSpec v2 — Pre-release User Guide</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d2742'/%3E%3Cpath d='M16 19h17c10 0 16 5 16 13s-6 13-16 13H16V19zm10 8v10h7c4 0 7-2 7-5s-3-5-7-5h-7z' fill='%23c7ff68'/%3E%3C/svg%3E">
@@ -223,7 +223,7 @@
     }
 
     .hero-definition {
-      max-width: 900px;
+      max-width: 1100px;
       margin-top: 1.15rem;
       padding: 1rem 1.1rem;
       border: 1px solid rgba(199, 255, 104, 0.28);
@@ -253,6 +253,55 @@
 
     .hero-definition strong {
       color: #fff;
+    }
+
+    .hero-proof-path {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.55rem;
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .hero-proof-path li {
+      position: relative;
+      display: flex;
+      min-height: 58px;
+      align-items: center;
+      padding: 0.7rem 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 10px;
+      background: rgba(7, 18, 42, 0.42);
+      color: #f5f8fc;
+      font-size: 0.84rem;
+      font-weight: 760;
+      line-height: 1.3;
+    }
+
+    .hero-proof-path li:not(:last-child)::after {
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      right: -0.48rem;
+      content: "\2192";
+      transform: translateY(-50%);
+      color: var(--lime);
+      font-size: 1rem;
+    }
+
+    .hero-definition .hero-proof-note,
+    .hero-definition .hero-path-status {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.13);
+      color: #cbd4e3;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .hero-definition .hero-path-status {
+      color: #bfc9da;
     }
 
     .hero-grammar {
@@ -2046,6 +2095,14 @@
       color: #fff;
     }
 
+    .story-scene-actions .next-story-step:disabled {
+      border-color: var(--line);
+      background: var(--paper);
+      color: var(--muted);
+      cursor: not-allowed;
+      opacity: 0.72;
+    }
+
     .story-completion {
       margin-top: 1rem;
       padding: 1rem;
@@ -2137,6 +2194,14 @@
 
       .hero-stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-proof-path {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-proof-path li::after {
+        display: none;
       }
 
       .app-shell {
@@ -2246,6 +2311,19 @@
         grid-template-columns: minmax(0, 1fr);
       }
 
+      .hero-proof-path {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-proof-path li:not(:last-child)::after {
+        display: block;
+        top: auto;
+        right: 50%;
+        bottom: -0.7rem;
+        content: "\2193";
+        transform: translateX(50%);
+      }
+
       .term-explanation dl {
         grid-template-columns: minmax(0, 1fr);
       }
@@ -2276,6 +2354,53 @@
 
       .type-body dd {
         margin-bottom: 0.35rem;
+      }
+
+      .responsive-table-wrap {
+        overflow-x: visible;
+      }
+
+      .responsive-table,
+      .responsive-table tbody,
+      .responsive-table tr,
+      .responsive-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .responsive-table thead {
+        display: none;
+      }
+
+      .responsive-table tr {
+        padding: 0.35rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .responsive-table tr:last-child {
+        border-bottom: 0;
+      }
+
+      .responsive-table td {
+        display: grid;
+        grid-template-columns: minmax(5.5rem, 0.8fr) minmax(0, 1.2fr);
+        gap: 0.7rem;
+        padding: 0.55rem 0.7rem;
+        border-bottom: 0;
+      }
+
+      .responsive-table td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .responsive-table code {
+        white-space: normal;
+        overflow-wrap: anywhere;
       }
 
       .lifecycle-strip,
@@ -2390,11 +2515,21 @@
   <header class="hero" id="top" data-lane="surface visual_composition">
     <div class="hero-inner">
       <h1>DomainSpec v2<br><span>User Guide</span></h1>
-      <p class="lede">Feature ideas often start as ordinary sentences. They feel clear until several people must agree on what exists, what is allowed, what changes, and what should be recorded. The area the team is describing—players and doors, orders and payments—is the domain.</p>
+      <p class="lede">A game team begins with a simple idea: a player with the right key can unlock a door. The idea sounds complete until the team asks what counts as the right key, what allows the unlock, what changes, and what gets recorded.</p>
       <div class="hero-definition" aria-labelledby="what-is-domainspec">
         <h2 id="what-is-domainspec">What is DomainSpec?</h2>
-        <p><strong>DomainSpec is a domain specification system.</strong> It gives a team a shared language for naming the important parts of a domain, a structured way to record them and their connections, and tools that check supported structural rules.</p>
-        <p>DomainSpec is the system. A DomainSpec specification is the description a project creates with it. It is not an application framework: it does not build or run the feature. Its checks can find selected structural mistakes, but people still decide whether the meaning is right, and the running software must be checked separately.</p>
+        <p>Different people may answer those questions differently. DomainSpec calls the part of the game they are describing—the player, key, door, and rules around unlocking—the <strong>domain</strong>. It gives the team a shared way to name its parts, record the roles they play, explain how they relate, and state the rules the implementation must respect.</p>
+        <p>From that description, the team can make implementation <strong>obligations</strong> explicit, derive test material from supported declarations, connect results to code evidence, and state precisely what each result proves.</p>
+        <p><strong>DomainSpec is the system that supports this process. A DomainSpec specification is the description the team creates.</strong> DomainSpec is not the game or its application framework, and it does not decide whether the feature is correct.</p>
+        <ol class="hero-proof-path" aria-label="From a shared specification to bounded proof">
+          <li>Shared specification</li>
+          <li>Obligations</li>
+          <li>Derived test material</li>
+          <li>Code evidence</li>
+          <li>Bounded proof</li>
+        </ol>
+        <p class="hero-proof-note"><strong>Proof has a precise limit here.</strong> It says what named inputs, checks, and results support. It does not prove the whole game, approve the implementation, or authorize a release.</p>
+        <p class="hero-path-status"><strong>Today these stages are not one finished path.</strong> The selected JSON authoring route and the current test-derivation route remain separate, and architecture enforcement is still candidate and partial.</p>
       </div>
       <div class="grammar-analogy hero-grammar" id="grammar-model" role="region" aria-labelledby="grammar-model-title">
         <div>
@@ -2411,9 +2546,9 @@
           <h3>Where the analogy stops</h3>
           <p>A grammar checker can find a malformed sentence, but it cannot prove the sentence is true. In the same way, DomainSpec can reject some malformed descriptions; it cannot by itself prove the business meaning or the running software.</p>
         </aside>
-        <p class="grammar-conclusion">DomainSpec helps a team turn a feature idea into a structured description they can check and review. It does not build the feature or decide whether the feature is correct.</p>
+        <p class="grammar-conclusion">DomainSpec helps a team make feature decisions explicit and carry them toward checks and evidence. It does not build the feature or decide whether the feature is correct.</p>
       </div>
-      <p class="intro-bridge">Now, let’s imagine a team designing the Key &amp; Door mechanic for a new game. They want players to unlock a locked door when they have the right key. It sounds simple, but the team still has to decide what allows the unlock, which action changes the door, and how a successful unlock is represented. The feature request below is their starting point. We’ll follow their decisions and see how DomainSpec gives each part a clear place.</p>
+      <p class="intro-bridge">That is the feature we will follow. The request below captures the team’s starting point. From there, we’ll make each decision with them and see how DomainSpec gives every part of the mechanic a clear place.</p>
       <div class="hero-actions">
         <a class="primary" href="#working-experience">Design the Key &amp; Door mechanic</a>
       </div>
@@ -2435,7 +2570,7 @@
           <div class="hero-stat"><strong>Pre-release</strong><span>private repository workflow; no stable external install or production authorization</span></div>
         </div>
         <p class="capture-line">
-          <span><strong>Guide revised:</strong> 2026-08-14</span>
+          <span><strong>Guide revised:</strong> 2026-08-16</span>
           <span><strong>Metrics captured:</strong> 2026-08-12</span>
           <span><strong>Project gate:</strong> flag</span>
           <span><strong>First-production-release:</strong> blocked</span>
@@ -2455,7 +2590,7 @@
       <div class="rail-search">
         <label for="guide-search">Search this guide</label>
         <input id="guide-search" type="search" placeholder="Try “Rule”, “status”, “production”…" autocomplete="off">
-        <p id="guide-search-status" class="rail-status" role="status" aria-live="polite">Showing all 16 guide sections.</p>
+        <p id="guide-search-status" class="rail-status" role="status" aria-live="polite">Showing all 17 guide sections.</p>
       </div>
       <nav aria-label="Guide sections">
         <a href="#what-is-domainspec">What it is &amp; grammar</a>
@@ -2465,6 +2600,7 @@
         <a href="#create">Author a concept</a>
         <a href="#meta-types">Types reference</a>
         <a href="#relationships">Connections reference</a>
+        <a href="#new-meta-type">Propose a new type</a>
         <a href="#realization">Tests &amp; architecture</a>
         <a href="#example">Legacy type example</a>
         <a href="#boundaries">Product boundaries</a>
@@ -2494,7 +2630,7 @@
             <button id="trace-lanes" type="button">Follow recommended path</button>
           </div>
           <p class="rail-note">Turn topics off to focus the guide. “Follow recommended path” keeps the workflow, progress stages, connections, and risks visible.</p>
-          <p id="guide-view-status" class="rail-status" role="status" aria-live="polite">All 16 guide sections are shown.</p>
+          <p id="guide-view-status" class="rail-status" role="status" aria-live="polite">All 17 guide sections are shown.</p>
         </div>
       </details>
     </aside>
@@ -2574,9 +2710,9 @@
       <section class="section searchable" id="working-experience" data-lane="surface flow lifecycle external_dependencies risk_questions visual_composition" data-search="feature request belongs interactive story frame describe connect check review evolve key door choice consequence term source evidence">
         <div class="section-head">
           <div>
-            <p class="kicker">02 · The request arrives</p>
-            <h2>What belongs in Key &amp; Door?</h2>
-            <p>The feature ticket sounds complete, but the team still has to decide which parts belong together. Choose those parts first; then decide what each one is and how they connect.</p>
+            <p class="kicker">02 · Six decisions</p>
+            <h2>Help the team define Key &amp; Door</h2>
+            <p>The request sounds complete, but the team still has to settle six decisions: what belongs in the mechanic, how the player is identified, what the key requirement controls, what success changes and records, what a check can support, and how a later change should be handled.</p>
           </div>
         </div>
 
@@ -2598,50 +2734,52 @@
           </div>
 
           <ol class="story-stepper" aria-label="Key-and-Door decisions">
-            <li><button class="story-step-button" type="button" data-story-step-target="frame" aria-controls="story-frame"><span>1</span>Frame<span class="step-state" data-step-state>Not completed</span></button></li>
-            <li><button class="story-step-button" type="button" data-story-step-target="describe" aria-controls="story-describe"><span>2</span>Describe<span class="step-state" data-step-state>Not completed</span></button></li>
-            <li><button class="story-step-button" type="button" data-story-step-target="connect" aria-controls="story-connect"><span>3</span>Connect<span class="step-state" data-step-state>Not completed</span></button></li>
-            <li><button class="story-step-button" type="button" data-story-step-target="check" aria-controls="story-check"><span>4</span>Check<span class="step-state" data-step-state>Not completed</span></button></li>
-            <li><button class="story-step-button" type="button" data-story-step-target="review" aria-controls="story-review"><span>5</span>Review<span class="step-state" data-step-state>Not completed</span></button></li>
-            <li><button class="story-step-button" type="button" data-story-step-target="evolve" aria-controls="story-evolve"><span>6</span>Evolve<span class="step-state" data-step-state>Not completed</span></button></li>
+            <li><button class="story-step-button" type="button" data-story-step-target="frame" aria-controls="story-frame"><span>1</span>Scope<span class="step-state" data-step-state>Not completed</span></button></li>
+            <li><button class="story-step-button" type="button" data-story-step-target="describe" aria-controls="story-describe"><span>2</span>Identity<span class="step-state" data-step-state>Not completed</span></button></li>
+            <li><button class="story-step-button" type="button" data-story-step-target="connect" aria-controls="story-connect"><span>3</span>Permission<span class="step-state" data-step-state>Not completed</span></button></li>
+            <li><button class="story-step-button" type="button" data-story-step-target="check" aria-controls="story-check"><span>4</span>Outcome<span class="step-state" data-step-state>Not completed</span></button></li>
+            <li><button class="story-step-button" type="button" data-story-step-target="review" aria-controls="story-review"><span>5</span>Evidence<span class="step-state" data-step-state>Not completed</span></button></li>
+            <li><button class="story-step-button" type="button" data-story-step-target="evolve" aria-controls="story-evolve"><span>6</span>Revision<span class="step-state" data-step-state>Not completed</span></button></li>
           </ol>
 
           <article class="story-scene" id="story-frame" data-story-step="frame">
             <div class="story-scene-head">
-              <div><span class="scene-number">1 · Decide the boundary</span><h3>How much of the game belongs in this feature?</h3></div>
+              <div><span class="scene-number">1 · Choose what the team is deciding</span><h3>Which decisions belong in Key &amp; Door?</h3></div>
             </div>
-            <p class="story-prompt">The request is: “A player with the right key should unlock a door, and the system should record that it happened.” What should the team describe first?</p>
-            <div class="story-choice-grid" role="group" aria-label="Choose the Key and Door feature boundary">
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="That boundary is too large. Inventory, combat, and every door rule would hide the one decision the team needs to understand.">The entire game</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Yes. This keeps the rule, action, actor, and result together without pulling the whole game into the discussion.">The player, key rule, unlock action, and resulting event</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="That boundary is too small. The Player alone cannot explain the rule, the state-changing action, or what happened afterward.">Only the Player object</button>
+            <p>The request includes a player, a key, a locked door, and a successful unlock. The game also contains combat, exploration, animation, inventory, and quests.</p>
+            <p class="story-prompt"><strong>What should the team settle together before anyone implements the mechanic?</strong></p>
+            <div class="story-choice-grid" role="group" aria-label="Choose the decisions that belong in Key and Door">
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="That includes several different game behaviors. A conclusion about unlocking would be difficult to separate from combat, exploration, and the rest of the level.">The whole level: combat, exploration, inventory, quests, and every door</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Yes. This gives the team one complete mechanic: the actor, permission decision, state-changing action, and recorded success.">Who acts, what permits the action, what changes, and what records success</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="Appearance and sound are part of the presentation, but they omit who acts, what permits the unlock, what changes, and what the game records.">The door’s appearance, opening animation, and sound effects</button>
             </div>
-            <div class="choice-feedback" data-choice-feedback aria-live="polite">Choose the boundary that keeps one complete behavior visible.</div>
+            <div class="choice-feedback" data-choice-feedback aria-live="polite">Choose the set of decisions that keeps one complete mechanic visible.</div>
             <div class="concept-reveal" data-concept-reveal>
-              <div class="earned-term"><span>DomainSpec calls this</span><span class="term-name">Feature boundary</span><p>The smallest useful area that owns one understandable behavior.</p></div>
+              <div class="earned-term"><span>In this guide</span><span class="term-name">Feature boundary</span><p>The decisions included in one understandable feature conversation.</p></div>
               <div class="term-explanation">
                 <dl>
-                  <dt>In this story</dt><dd>Key and Door owns unlocking, not the whole game.</dd>
+                  <dt>In this story</dt><dd>Key and Door includes one unlock from actor and permission to change and recorded result.</dd>
                   <dt>Easy to confuse with</dt><dd>A project boundary, which can contain many features.</dd>
                   <dt>Why it matters</dt><dd>A check is meaningful only when everyone knows what is inside its scope.</dd>
                 </dl>
-                <details class="evidence-drawer"><summary>See the current feature source</summary><div><p>The current positive fixture has one feature named Key and Door with four node files. The source exists today; choosing its boundary through a guided screen is a proposed experience, not an implemented authoring tool.</p></div></details>
+                <details class="evidence-drawer"><summary>See the current feature source</summary><div><p>The current positive fixture already groups four node files under one Key-and-Door feature. Choosing that boundary through this screen is a teaching simulation, not an implemented authoring tool.</p></div></details>
               </div>
             </div>
-            <div class="story-scene-actions"><span></span><button class="next-story-step" type="button" data-story-next="describe">Next: name the parts →</button></div>
+            <div class="story-scene-actions"><span></span><button class="next-story-step" type="button" data-story-next="describe">Next: keep track of the player →</button></div>
           </article>
 
           <article class="story-scene" id="story-describe" data-story-step="describe">
             <div class="story-scene-head">
-              <div><span class="scene-number">2 · Name the parts</span><h3>Which part must remain the same player over time?</h3></div>
+              <div><span class="scene-number">2 · Keep track of the player</span><h3>What can change without creating a new player?</h3></div>
             </div>
-            <p class="story-prompt">The team names four things: Player, HasKeyRule, UnlockDoor, and DoorUnlocked. Which one needs a stable identity even when other details change?</p>
-            <div class="story-choice-grid" role="group" aria-label="Choose the concept with stable identity">
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Exactly. A Player remains that player across changes, so the checked example gives it the Entity role and identifies it by player_id.">Player</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="HasKeyRule answers an allow-or-block question. It constrains an action; it does not keep a changing identity.">HasKeyRule</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="DoorUnlocked records that something happened. It is a past fact, not an identity-bearing thing.">DoorUnlocked</button>
+            <p>The player picks up a key, moves to another room, loses health, and reloads the game. Those details can change while the game still recognizes the same player.</p>
+            <p class="story-prompt"><strong>Which value should continue identifying that player?</strong></p>
+            <div class="story-choice-grid" role="group" aria-label="Choose the value that continues to identify the player">
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Exactly. player_id can stay stable while the player’s location, health, and inventory change.">The unique <code>player_id</code></button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="The room changes when the player moves, so it cannot establish whether two records refer to the same continuing player.">The player’s current room</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="The carried key can change during play. It describes the player’s current situation, not the player’s continuing identity.">The key the player is carrying</button>
             </div>
-            <div class="choice-feedback" data-choice-feedback aria-live="polite">Look for the thing that remains itself while its state can change.</div>
+            <div class="choice-feedback" data-choice-feedback aria-live="polite">Choose the value that can remain stable while the player’s situation changes.</div>
             <div class="concept-reveal" data-concept-reveal>
               <div class="earned-term"><span>DomainSpec calls this</span><span class="term-name">Entity</span><p>A concept whose identity continues even as its other information changes.</p></div>
               <div class="term-explanation">
@@ -2650,56 +2788,58 @@
                   <dt>Nearby contrast</dt><dd>A Rule decides; an Operation changes state; an Event records what happened.</dd>
                   <dt>Meta-type</dt><dd>DomainSpec’s name for a role such as Entity, Rule, Operation, or Event.</dd>
                 </dl>
-                <details class="evidence-drawer"><summary>See the Player declaration</summary><div><p>The current fixture declares <code>Player</code> as <code>Entity</code> and marks <code>player_id</code> as its identity field. The experimental profile used here supports the four roles in this feature.</p></div></details>
+                <details class="evidence-drawer"><summary>See the Player declaration</summary><div><p>The current fixture declares <code>Player</code> as <code>Entity</code> and marks <code>player_id</code> as its identity field. This is one checked example under the experimental profile, not a rule for every possible game model.</p></div></details>
               </div>
             </div>
-            <div class="story-scene-actions"><button type="button" data-story-prev="frame">← Back</button><button class="next-story-step" type="button" data-story-next="connect">Next: connect them →</button></div>
+            <div class="story-scene-actions"><button type="button" data-story-prev="frame">← Back</button><button class="next-story-step" type="button" data-story-next="connect">Next: place the key decision →</button></div>
           </article>
 
           <article class="story-scene" id="story-connect" data-story-step="connect">
             <div class="story-scene-head">
-              <div><span class="scene-number">3 · Connect the parts</span><h3>What should the key rule control?</h3></div>
+              <div><span class="scene-number">3 · Place the key decision</span><h3>What should HasKeyRule allow or block?</h3></div>
             </div>
-            <p class="story-prompt">HasKeyRule decides whether something may proceed. Which concept should it point to?</p>
-            <div class="story-choice-grid" role="group" aria-label="Choose the target of HasKeyRule">
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="Player is the actor, but the rule gates an action. The connection would point to the wrong kind of concept.">Player</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Correct. The Rule controls whether the Operation may proceed: HasKeyRule enforces UnlockDoor.">UnlockDoor</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="DoorUnlocked is the event produced after the action. The rule must gate the action before that result exists.">DoorUnlocked</button>
+            <p>Before a locked door can open, the game needs a yes-or-no answer about whether the player has the required key.</p>
+            <p class="story-prompt"><strong>Where should that decision sit in the mechanic?</strong></p>
+            <div class="story-choice-grid" role="group" aria-label="Choose what the key decision controls">
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="A player remains the same player whether or not the required key is present. The permission decision should not determine identity.">It controls the player’s continuing identity</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="The success record exists after the action. Letting it control permission would reverse the mechanic’s causal order.">It controls the record created after success</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Correct. The yes-or-no decision belongs immediately before the action that depends on it: HasKeyRule enforces UnlockDoor.">It controls whether the unlock attempt may proceed</button>
             </div>
-            <div class="choice-feedback" data-choice-feedback aria-live="polite">Choose the action that should be allowed or blocked.</div>
+            <div class="choice-feedback" data-choice-feedback aria-live="polite">Choose the part of the mechanic that depends on the yes-or-no answer.</div>
             <div class="concept-reveal" data-concept-reveal>
-              <div class="earned-term"><span>DomainSpec calls this</span><span class="term-name">Relationship</span><p>A named, directed connection between two concepts.</p></div>
+              <div class="earned-term"><span>DomainSpec calls these</span><span class="term-name">Rule and directed relationship</span><p>A Rule makes a decision, and a directed relationship says which concept that decision controls.</p></div>
               <div class="term-explanation">
-                <p>The direction is part of the meaning. In the checked example:</p>
+                <p>The current source declares <code>HasKeyRule</code> as a Rule with a boolean result. The direction of each relationship is part of its meaning:</p>
                 <div class="story-model-line"><span>HasKeyRule</span><span class="verb">enforces</span><span>UnlockDoor</span></div>
                 <div class="story-model-line"><span>Player</span><span class="verb">performs</span><span>UnlockDoor</span></div>
-                <div class="story-model-line"><span>UnlockDoor</span><span class="verb">produces</span><span>DoorUnlocked</span></div>
-                <details class="evidence-drawer"><summary>See the connection declarations</summary><div><p>Each outgoing connection lives in its source node file. The current profile allows only <code>enforces</code>, <code>performs</code>, and <code>produces</code> for these endpoint roles.</p></div></details>
+                <details class="evidence-drawer"><summary>See the connection declarations</summary><div><p>Each outgoing connection lives in its source node file. The current experimental profile admits these exact endpoint roles and relationship directions; it is not a catalogue of every future DomainSpec relationship.</p></div></details>
               </div>
             </div>
-            <div class="story-scene-actions"><button type="button" data-story-prev="describe">← Back</button><button class="next-story-step" type="button" data-story-next="check">Next: test the description →</button></div>
+            <div class="story-scene-actions"><button type="button" data-story-prev="describe">← Back</button><button class="next-story-step" type="button" data-story-next="check">Next: describe a successful unlock →</button></div>
           </article>
 
           <article class="story-scene" id="story-check" data-story-step="check">
             <div class="story-scene-head">
-              <div><span class="scene-number">4 · Check the description</span><h3>Does UnlockDoor change the system?</h3></div>
+              <div><span class="scene-number">4 · Describe a successful unlock</span><h3>What changes, and what records it?</h3></div>
             </div>
-            <p class="story-prompt">UnlockDoor is declared as an Operation. What should its <code>state_change</code> answer be?</p>
-            <div class="story-choice-grid" role="group" aria-label="Choose whether UnlockDoor changes state">
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Yes. UnlockDoor changes the door from locked to unlocked, so the Operation must declare a state change.">Yes</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="That does not satisfy the current Operation formation rule: its schema requires state_change = yes.">No</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="The question is required for an Operation in this profile. Omitting it would leave the declaration malformed.">Not applicable</button>
+            <p>The key decision permits the attempt. Now compare the game immediately before and after the action succeeds.</p>
+            <p class="story-prompt"><strong>Which account matches the team’s mechanic?</strong></p>
+            <div class="story-choice-grid" role="group" aria-label="Choose what changes and what records a successful unlock">
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="This stops at permission. The feature request also requires the successful action to leave the door unlocked.">The requirement passes and permission is reported, but the door remains locked</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Yes. The action changes the door, and a separate past record says that the completed unlock occurred.">The door changes from locked to unlocked, then the game records the unlock</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="The record would claim a success that the described door state does not show. Recording an outcome cannot replace the change itself.">The game records a successful unlock even though the door remains locked</button>
             </div>
-            <div class="choice-feedback" data-choice-feedback aria-live="polite">Connect the declaration to what unlocking actually changes.</div>
+            <div class="choice-feedback" data-choice-feedback aria-live="polite">Choose the account that preserves both the change and the record of its result.</div>
             <div class="concept-reveal" data-concept-reveal>
-              <div class="earned-term"><span>DomainSpec calls this</span><span class="term-name">Structural check</span><p>A repeatable check of whether a description follows selected shape and connection rules.</p></div>
+              <div class="earned-term"><span>DomainSpec calls these</span><span class="term-name">Operation and Event</span><p>An Operation performs a change; an Event records that the completed change occurred.</p></div>
               <div class="term-explanation">
+                <div class="story-model-line"><span>UnlockDoor</span><span class="verb">produces</span><span>DoorUnlocked</span></div>
                 <dl>
-                  <dt>It can find</dt><dd>A required field with the wrong value, an unsupported role, or an invalid connection.</dd>
-                  <dt>It cannot prove</dt><dd>That a player without a key is blocked in the running game.</dd>
-                  <dt>Correction owner</dt><dd>The project author changes source; the check does not silently rewrite meaning.</dd>
+                  <dt>Operation</dt><dd><code>UnlockDoor</code> declares <code>state_change: yes</code>.</dd>
+                  <dt>Event</dt><dd><code>DoorUnlocked</code> declares <code>temporal: past</code>.</dd>
+                  <dt>Why keep them separate?</dt><dd>The action makes the change; the Event records the result after it succeeds.</dd>
                 </dl>
-                <details class="evidence-drawer"><summary>See the Operation rule</summary><div><p>The current Operation body schema requires <code>state_change</code> to equal <code>yes</code>. The checked fixture uses that value; <code>no</code> does not satisfy this formation schema.</p></div></details>
+                <details class="evidence-drawer"><summary>See the Operation and Event declarations</summary><div><p>The current formation schemas and fixture support this description. They can reject a malformed declaration, but the selected JSON check does not run the game to observe the state change.</p></div></details>
               </div>
             </div>
             <div class="story-scene-actions"><button type="button" data-story-prev="connect">← Back</button><button class="next-story-step" type="button" data-story-next="review">Next: read the result →</button></div>
@@ -2707,17 +2847,18 @@
 
           <article class="story-scene" id="story-review" data-story-step="review">
             <div class="story-scene-head">
-              <div><span class="scene-number">5 · Read the result</span><h3>What does a passing check let the team say?</h3></div>
+              <div><span class="scene-number">5 · Read the result</span><h3>What new fact does the passing check add?</h3></div>
             </div>
-            <p class="story-prompt">The selected source compiles and its generated results verify. Which is the strongest honest conclusion?</p>
-            <div class="story-choice-grid" role="group" aria-label="Choose the supported conclusion">
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="The check did not run the game. It cannot prove that the implemented behavior works.">The game now unlocks doors correctly</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Right. The result is bounded to this exact description, profile, source set, and structural check.">This exact description follows the checked structural rules</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="A structural result has no authority to approve a release or production use.">The feature is ready for production</button>
+            <p>Before the check, the team has selected JSON source. Afterward, that exact source and its generated results have been evaluated against the selected profile and structural rules.</p>
+            <p class="story-prompt"><strong>Which fact follows from that result?</strong></p>
+            <div class="story-choice-grid" role="group" aria-label="Choose the fact added by the passing check">
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="No game execution occurred. The result cannot establish how the implemented mechanic behaves while the game runs.">The running game now unlocks the door correctly for every player and key</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="No release decision occurred. A structural result does not carry the authority or wider evidence needed to approve a release.">The feature has enough evidence and authority to be approved for release</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Right. This is the fact added by the check: the exact description follows the structural rules that were evaluated.">The exact description follows the structural rules that were checked</button>
             </div>
-            <div class="choice-feedback" data-choice-feedback aria-live="polite">Choose the conclusion that says exactly what was checked—no more.</div>
+            <div class="choice-feedback" data-choice-feedback aria-live="polite">Choose the conclusion supported by the exact inputs and check—no more.</div>
             <div class="concept-reveal" data-concept-reveal>
-              <div class="earned-term"><span>DomainSpec calls this</span><span class="term-name">Evidence boundary</span><p>The exact inputs, check, and conclusion a result can support.</p></div>
+              <div class="earned-term"><span>In this guide</span><span class="term-name">Evidence boundary</span><p>The line between what this exact result supports and what still needs different evidence or authority.</p></div>
               <div class="term-explanation">
                 <dl>
                   <dt>Generated map</dt><dd>Shows the normalized concepts and connections.</dd>
@@ -2727,22 +2868,23 @@
                 <details class="evidence-drawer"><summary>See the files produced by this check</summary><div><p>The current path generates <code>graph.json</code>, <code>source-manifest.json</code>, a read-only <code>SPEC.md</code> view, its binding record, and <code>build-receipt.json</code>. None of them proves running behavior or grants release authority.</p></div></details>
               </div>
             </div>
-            <div class="story-scene-actions"><button type="button" data-story-prev="check">← Back</button><button class="next-story-step" type="button" data-story-next="evolve">Next: change the story →</button></div>
+            <div class="story-scene-actions"><button type="button" data-story-prev="check">← Back</button><button class="next-story-step" type="button" data-story-next="evolve">Next: change the decision →</button></div>
           </article>
 
           <article class="story-scene" id="story-evolve" data-story-step="evolve">
             <div class="story-scene-head">
-              <div><span class="scene-number">6 · Change the feature</span><h3>A master key arrives. What changes next?</h3></div>
+              <div><span class="scene-number">6 · Change the decision</span><h3>A master key arrives. What must change?</h3></div>
             </div>
-            <p class="story-prompt">The feature must now allow a master key to unlock the door. What is the trustworthy next move?</p>
-            <div class="story-choice-grid" role="group" aria-label="Choose how to evolve the feature">
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="Generated files are read-only views. Editing one would separate the view from the source that owns the meaning.">Edit the generated SPEC.md</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Exactly. Revisit the feature boundary, change project-owned source, rerun the matching checks, and review a result for the new revision.">Change project-owned source and rerun the checks</button>
-              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="There is no continuous service that observes and accepts this change automatically. A person must start and review the new cycle.">Wait for DomainSpec to update it automatically</button>
+            <p>The existing source and generated results belong to the earlier decision: the player needs the required key. The team now decides that a master key should work as well.</p>
+            <p class="story-prompt"><strong>Which sequence keeps the changed decision connected to its result?</strong></p>
+            <div class="story-choice-grid" role="group" aria-label="Choose how to carry the master-key decision into a new result">
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="true" data-feedback="Exactly. The new decision enters project-owned source, and the regenerated result can be reviewed against that source revision.">Change project-owned source → regenerate the results → review the new result</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="Generated SPEC.md is a read-only view. Editing it would separate the visible statement from the source that owns the decision.">Edit generated <code>SPEC.md</code>, leave project-owned source unchanged, and reuse the earlier review</button>
+              <button class="lesson-choice" type="button" data-lesson-choice data-correct="false" data-feedback="The current workflow has no continuous service that discovers this requirement and starts a new revision. A person must change source and rerun the work.">Leave source and results unchanged, then wait for DomainSpec to discover the requirement</button>
             </div>
-            <div class="choice-feedback" data-choice-feedback aria-live="polite">Protect the link between meaning, source, and the result produced from it.</div>
+            <div class="choice-feedback" data-choice-feedback aria-live="polite">Choose the sequence that preserves the link from the team’s decision to source and result.</div>
             <div class="concept-reveal" data-concept-reveal>
-              <div class="earned-term"><span>DomainSpec calls this</span><span class="term-name">Revision-bound result</span><p>A result that speaks only about the exact source revision and check that produced it.</p></div>
+              <div class="earned-term"><span>In this guide</span><span class="term-name">Revision-bound result</span><p>A result that speaks only about the exact source revision and check that produced it.</p></div>
               <div class="term-explanation">
                 <dl>
                   <dt>Today</dt><dd>People change JSON source, rerun repository commands, and compare files or build records.</dd>
@@ -2754,7 +2896,7 @@
             </div>
             <div class="story-completion" data-story-completion>
               <h4>The loop closes, then starts again</h4>
-              <p>Frame one feature, describe its important parts, connect them, check the structure, review only what the result supports, then evolve the project-owned source and repeat.</p>
+              <p>Choose the behavior, preserve identity, place the permission decision, distinguish the change from its record, limit the conclusion, then revise project-owned source and repeat.</p>
             </div>
             <div class="story-scene-actions"><button type="button" data-story-prev="review">← Back</button><a class="primary" href="#authoring">Continue to the real source package →</a></div>
           </article>
@@ -2791,204 +2933,6 @@
             <p><strong>This is not a roadmap.</strong> The proposed experience describes what could make the work easier to follow. It is not implemented capability, a release date, or an approved commitment.</p>
           </div>
         </details>
-      </section>
-
-      <section class="section searchable" id="create" data-lane="flow components internal_dependencies" data-search="create author concept json node source semantic realization workflow steps formation decision tree">
-        <div class="section-head">
-          <div>
-            <p class="kicker">05 · Describe one part of the system</p>
-            <h2>Creating a DomainSpec concept</h2>
-            <p>Describing a concept and implementing it in code are separate jobs. The current JSON route can write and check four concept kinds, then build read-only views. Later, another process can compare an implementation with selected expectations.</p>
-          </div>
-        </div>
-
-        <div class="split">
-          <article class="card">
-            <h3 style="margin-top:0">1. Describe the concept</h3>
-            <p>Explain what the concept means, choose a type, and check whether the selected JSON profile supports it. For its four supported kinds, add the required body and allowed connections, then check the source.</p>
-          </article>
-          <article class="card">
-            <h3 style="margin-top:0">2. Represent and inspect it in code</h3>
-            <p>Propose how the type may appear in code, choose language-specific rules, inspect an exact code target, and record what the check did and did not prove.</p>
-          </article>
-        </div>
-
-        <ol class="steps" aria-label="Ten steps to author a DomainSpec concept">
-          <li><strong>Choose the feature that owns the meaning</strong><span>The feature defines the business idea; the shared type list defines the label.</span></li>
-          <li><strong>Name what the concept means</strong><span>Prefer <code>GenerateSettlement</code> over infrastructure names such as Service or Handler.</span></li>
-          <li><strong>Choose exactly one type</strong><span>Ask what separates it: identity or equality, read or write, boolean or strategy, value or lifecycle, boundary or transform. Stop the JSON route if the type is outside its four supported kinds.</span></li>
-          <li><strong>Give it a stable ID</strong><span>Independent-node records use <code>&lt;feature-id&gt;.&lt;ConceptName&gt;</code>.</span></li>
-          <li><strong>Fill the required <code>body</code> fields</strong><span>In the current JSON route, the node body must match the chosen type's rule.</span></li>
-          <li><strong>State what it means in <code>intent</code></strong><span>This plain-language field carries the project-owned meaning that the structural body cannot express alone.</span></li>
-          <li><strong>Add only allowed connections</strong><span>Use stable IDs, recognized verbs, allowed endpoint types and locations, and valid quantity limits.</span></li>
-          <li><strong>Check the concept and connections</strong><span>Malformed declarations fail; validators must not silently reclassify a guess.</span></li>
-          <li><strong>Generate read-only views</strong><span>The system map, source list, Markdown guide, and result records come from source. Edit the source, then regenerate.</span></li>
-          <li><strong>Build the supported read-only results</strong><span>The current JSON compiler builds and verifies the graph, source manifest, Markdown view, and build receipt. Direct structural-obligation generation is planned, not implemented.</span></li>
-        </ol>
-
-        <div class="callout warning"><strong>Language coverage is wider than source coverage</strong>DomainSpec defines 13 active backend meta-types. The current owner-selected JSON profile can author only Entity, Event, Operation, and Rule, connected with <code>enforces</code>, <code>performs</code>, or <code>produces</code>. Do not invent JSON bodies for the other nine types.</div>
-
-        <h3>Author source nodes, not <code>SPEC.md</code></h3>
-        <p>The smallest relationship to understand is one Rule gating one Operation. In the checked Key and Door fixture, that meaning lives in independent node records.</p>
-        <div class="source-pair">
-          <div>
-            <p class="section-intro"><code>nodes/has-key-rule.json</code></p>
-            <pre><code>{
-  "schema_version": "minted-node/v1",
-  "node_id": "key-and-door.HasKeyRule",
-  "feature_id": "key-and-door",
-  "kind": "Rule",
-  "intent": "Allow the unlock operation only when the player holds the key.",
-  "body": { "formal_return_type": "boolean" },
-  "connections": [{
-    "edge_id": "key-and-door.edge.has-key-rule-enforces-unlock-door",
-    "type": "enforces",
-    "to": "key-and-door.UnlockDoor"
-  }]
-}</code></pre>
-          </div>
-          <div>
-            <p class="section-intro"><code>nodes/unlock-door.json</code></p>
-            <pre><code>{
-  "schema_version": "minted-node/v1",
-  "node_id": "key-and-door.UnlockDoor",
-  "feature_id": "key-and-door",
-  "kind": "Operation",
-  "intent": "Unlock the door when the player holds the required key.",
-  "body": { "state_change": "yes" },
-  "connections": [{
-    "edge_id": "key-and-door.edge.unlock-door-produces-door-unlocked",
-    "type": "produces",
-    "to": "key-and-door.DoorUnlocked"
-  }]
-}</code></pre>
-          </div>
-        </div>
-        <p>These two records explain the connection but are not a complete project by themselves. A complete package also needs <code>project.json</code>, a feature record, and every referenced endpoint node. The complete checked fixture appears under <a href="#authoring">Source package and generated views</a>.</p>
-        <div class="callout"><strong>No promised user command yet</strong>The repository exercises this path through internal compiler, minter, build, and contract tests. There is no supported external command for initializing or building it yet.</div>
-
-        <div class="callout warning">
-          <strong>Automatically filled field—not another source</strong>
-          For an Operation with a <code>creates</code> connection, <code>creation_targets</code> is generated from the map. The one-to-one limit applies to the concept types in the design, not to how many objects the running application may create. This belongs to the full relationship model; the current independent-node JSON profile does not support <code>creates</code> yet.
-        </div>
-
-        <h3>Fast type-selection tree</h3>
-        <div class="decision-tree" role="img" aria-label="Text decision tree for choosing an active backend meta-type">DATA
-├─ stable identity?                         → Entity
-├─ equality is the complete field tuple?    → Value Object
-├─ closed list of named values?             → Enum
-└─ owns legal state transitions?            → State Machine
-
-BEHAVIOR
-├─ changes state?                           → Operation
-├─ read-only retrieval?                     → Query
-├─ returns a derived value?                 → Calculation
-├─ returns block or allow?                  → Rule
-├─ chooses a strategy?                      → Policy
-└─ coordinates ordered Operations?          → Workflow
-
-BOUNDARY
-├─ exposes callable behavior?               → Interface
-├─ announces a past fact?                   → Event
-└─ transforms one shape into another?       → Mapping</div>
-        <p class="callout">If none fits, bring a concrete example that existing types handle incorrectly. Do not invent a label inside one feature. Show which validation or generated result would change, then ask the definitions owner to review the proposal.</p>
-      </section>
-
-      <section class="section searchable" id="relationships" data-lane="components internal_dependencies external_dependencies flow" data-search="relationships graph edges signatures backend ui cross feature multiplicity">
-        <div class="section-head">
-          <div>
-            <p class="kicker">07 · Connect the concepts</p>
-            <h2>The 31 allowed ways to connect concepts</h2>
-            <p>A connection is allowed only when DomainSpec recognizes its verb, the two concept types may be connected in that direction and location, and the number of connections stays within the rule. The official term for that quantity rule is <strong>multiplicity</strong>.</p>
-          </div>
-        </div>
-
-        <div class="callout">
-          <strong>When does a connection deserve its own relationship type?</strong>
-          Give it its own type only when removing it would change validation, a generated check, ownership, a workflow path, or an output file. If it only changes a diagram label or adds convenient reverse navigation, keep it as metadata or generate it automatically.
-        </div>
-
-        <div class="callout warning"><strong>Full language registry versus current JSON profile</strong>The tables below document all active DomainSpec connections. The selected independent-node profile currently supports only <code>Entity —performs→ Operation</code>, <code>Rule —enforces→ Operation</code>, and <code>Operation —produces→ Event</code>. Do not put another connection type in a current node source just because it appears here.</div>
-
-        <div class="relationship-toolbar">
-          <div class="relationship-search">
-            <label for="relationship-query">Find an allowed connection</label>
-            <input id="relationship-query" type="search" placeholder="Try “Workflow”, “cross”, “many-to-one”…" autocomplete="off">
-          </div>
-          <p id="relationship-count" class="result-count" aria-live="polite">31 of 31 connections shown</p>
-        </div>
-
-        <div class="relationship-family" data-relationship-family="backend">
-          <h3>Backend <span class="pill">17</span></h3>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th scope="col">#</th><th scope="col">Allowed connection</th><th scope="col">Where allowed</th><th scope="col">How many</th><th scope="col">Meaning</th></tr></thead>
-              <tbody>
-                <tr class="relationship-row" data-rel-id="1" data-rel-search="entity performs operation same feature many to many initiates"><td>01</td><td class="signature">Entity —performs→ Operation</td><td>same feature</td><td>many-to-many</td><td>An entity or actor initiates an operation.</td></tr>
-                <tr class="relationship-row" data-rel-id="2" data-rel-search="operation produces event same feature one to many completion"><td>02</td><td class="signature">Operation —produces→ Event</td><td>same feature</td><td>one-to-many</td><td>Successful completion causes an event.</td></tr>
-                <tr class="relationship-row" data-rel-id="3" data-rel-search="operation produces for entity cross feature many to many foreign"><td>03</td><td class="signature">Operation —produces-for→ Entity</td><td>cross feature</td><td>many-to-many</td><td>An Operation writes to or creates a view of an Entity in another feature.</td></tr>
-                <tr class="relationship-row" data-rel-id="4" data-rel-search="operation creates entity same feature partial one to one identity"><td>04</td><td class="signature">Operation —creates→ Entity</td><td>same feature</td><td>partial one-to-one</td><td>An operation owns creation of one Entity type.</td></tr>
-                <tr class="relationship-row" data-rel-id="5" data-rel-search="event triggers cross operation cross feature many to many activates"><td>05</td><td class="signature">Event —triggers-cross→ Operation</td><td>cross feature</td><td>many-to-many</td><td>An event activates behavior in another feature.</td></tr>
-                <tr class="relationship-row" data-rel-id="6" data-rel-search="rule enforces operation same cross feature many to many gates"><td>06</td><td class="signature">Rule —enforces→ Operation</td><td>same or cross</td><td>many-to-many</td><td>A boolean Rule gates an Operation.</td></tr>
-                <tr class="relationship-row" data-rel-id="7" data-rel-search="calculation calculates operation same feature many to many derived value"><td>07</td><td class="signature">Calculation —calculates→ Operation</td><td>same feature</td><td>many-to-many</td><td>A Calculation supplies a derived value.</td></tr>
-                <tr class="relationship-row" data-rel-id="8" data-rel-search="event transitions state machine same cross feature many to many lifecycle"><td>08</td><td class="signature">Event —transitions→ State Machine</td><td>same or cross</td><td>many-to-many</td><td>An Event advances a lifecycle.</td></tr>
-                <tr class="relationship-row" data-rel-id="9" data-rel-search="interface exposes operation query same cross feature one to many callable"><td>09</td><td class="signature">Interface —exposes→ Operation | Query</td><td>same or cross</td><td>one-to-many</td><td>A boundary makes behavior callable.</td></tr>
-                <tr class="relationship-row" data-rel-id="10" data-rel-search="workflow orchestrates operation ordered same cross feature one to many"><td>10</td><td class="signature">Workflow —orchestrates→ Operation[]</td><td>same or cross</td><td>ordered one-to-many</td><td>A Workflow coordinates ordered Operations.</td></tr>
-                <tr class="relationship-row" data-rel-id="11" data-rel-search="policy applies operation calculation same feature many to many strategy"><td>11</td><td class="signature">Policy —applies→ Operation | Calculation</td><td>same feature</td><td>many-to-many</td><td>A Policy selects behavior.</td></tr>
-                <tr class="relationship-row" data-rel-id="12" data-rel-search="mapping maps entity interface same cross feature many to many transform"><td>12</td><td class="signature">Mapping —maps→ Entity | Interface</td><td>same or cross</td><td>many-to-many</td><td>A Mapping transforms a boundary or entity shape.</td></tr>
-                <tr class="relationship-row" data-rel-id="13" data-rel-search="entity contains value object same feature one to many embeds"><td>13</td><td class="signature">Entity —contains→ Value Object</td><td>same feature</td><td>one-to-many</td><td>An Entity embeds a Value Object.</td></tr>
-                <tr class="relationship-row" data-rel-id="14" data-rel-search="query calculation operation queries entity same feature many to many reads"><td>14</td><td class="signature">Query | Calculation | Operation —queries→ Entity</td><td>same feature</td><td>many-to-many</td><td>Read-capable behavior reads Entity data.</td></tr>
-                <tr class="relationship-row" data-rel-id="15" data-rel-search="entity emits event same feature one to many source subject"><td>15</td><td class="signature">Entity —emits→ Event</td><td>same feature</td><td>one-to-many</td><td>An Entity is the subject or source of an Event.</td></tr>
-                <tr class="relationship-row" data-rel-id="16" data-rel-search="entity owns entity same cross feature one to many lifecycle custody write ownership"><td>16</td><td class="signature">Entity —owns→ Entity</td><td>same or cross</td><td>one-to-many</td><td>The source has lifecycle, custody, or write ownership.</td></tr>
-                <tr class="relationship-row" data-rel-id="17" data-rel-search="entity belongs to entity same cross feature many to one membership assigned"><td>17</td><td class="signature">Entity —belongs-to→ Entity</td><td>same or cross</td><td>many-to-one</td><td>The source is a member of or assigned to the target.</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="relationship-family" data-relationship-family="ui">
-          <h3>UI signatures <span class="pill">8</span></h3>
-          <p class="section-intro">These verbs are active, but the UI types at their ends remain proposed or deferred. An active connection does not make its endpoint types active.</p>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th scope="col">#</th><th scope="col">Allowed connection</th><th scope="col">How many</th><th scope="col">Meaning</th></tr></thead>
-              <tbody>
-                <tr class="relationship-row" data-rel-id="18" data-rel-search="page renders component ui one to many"><td>18</td><td class="signature">Page —renders→ Component[]</td><td>one-to-many</td><td>A Page renders Components.</td></tr>
-                <tr class="relationship-row" data-rel-id="19" data-rel-search="layout wraps page ui one to many"><td>19</td><td class="signature">Layout —wraps→ Page[]</td><td>one-to-many</td><td>A Layout wraps Pages.</td></tr>
-                <tr class="relationship-row" data-rel-id="20" data-rel-search="component composes component ui one to many children"><td>20</td><td class="signature">Component —composes→ Component[]</td><td>one-to-many</td><td>A Component includes children.</td></tr>
-                <tr class="relationship-row" data-rel-id="21" data-rel-search="component consumes hook ui many to many reactive"><td>21</td><td class="signature">Component —consumes→ Hook</td><td>many-to-many</td><td>A Component consumes reactive behavior.</td></tr>
-                <tr class="relationship-row" data-rel-id="22" data-rel-search="form submits action ui many to one"><td>22</td><td class="signature">Form —submits→ Action</td><td>many-to-one</td><td>A Form delegates submission.</td></tr>
-                <tr class="relationship-row" data-rel-id="23" data-rel-search="adapter shapes view model ui many to many deferred display"><td>23</td><td class="signature">Adapter —shapes→ View Model</td><td>many-to-many</td><td>A deferred Adapter shapes display data.</td></tr>
-                <tr class="relationship-row" data-rel-id="24" data-rel-search="guard protects page ui many to many access"><td>24</td><td class="signature">Guard —protects→ Page</td><td>many-to-many</td><td>A Guard controls UI access behavior.</td></tr>
-                <tr class="relationship-row" data-rel-id="25" data-rel-search="component displays view model ui many to many projection"><td>25</td><td class="signature">Component —displays→ View Model</td><td>many-to-many</td><td>A Component displays data prepared for the screen.</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="relationship-family" data-relationship-family="cross">
-          <h3>UI to backend <span class="pill">6</span></h3>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th scope="col">#</th><th scope="col">Allowed connection</th><th scope="col">How many</th><th scope="col">Meaning</th></tr></thead>
-              <tbody>
-                <tr class="relationship-row" data-rel-id="26" data-rel-search="binding fetches query ui backend many to one retrieves"><td>26</td><td class="signature">Binding —fetches→ Query</td><td>many-to-one</td><td>A Binding retrieves data through a Query.</td></tr>
-                <tr class="relationship-row" data-rel-id="27" data-rel-search="binding mutates operation ui backend many to one state change"><td>27</td><td class="signature">Binding —mutates→ Operation</td><td>many-to-one</td><td>A Binding invokes a state-changing Operation.</td></tr>
-                <tr class="relationship-row" data-rel-id="28" data-rel-search="state indicator reflects state machine ui backend many to one deferred"><td>28</td><td class="signature">State Indicator —reflects→ State Machine</td><td>many-to-one</td><td>A deferred indicator reflects domain lifecycle state.</td></tr>
-                <tr class="relationship-row" data-rel-id="29" data-rel-search="view model derives entity ui backend many to many display data"><td>29</td><td class="signature">View Model —derives→ Entity</td><td>many-to-many</td><td>Display data derives from Entity fields.</td></tr>
-                <tr class="relationship-row" data-rel-id="30" data-rel-search="form contracts interface ui backend many to one"><td>30</td><td class="signature">Form —contracts→ Interface</td><td>many-to-one</td><td>A Form aligns with an Interface contract.</td></tr>
-                <tr class="relationship-row" data-rel-id="31" data-rel-search="guard mirrors rule ui backend many to one authority"><td>31</td><td class="signature">Guard —mirrors→ Rule</td><td>many-to-one</td><td>A client Guard mirrors a backend Rule.</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <p id="relationship-no-results" class="no-results">No allowed connection matches that search.</p>
-
-        <div class="three-col">
-          <article class="card"><h3 style="margin-top:0">Generated automatically</h3><p><code>owned-by</code> is the reverse view of <code>owns</code>. Never write it in source.</p></article>
-          <article class="card"><h3 style="margin-top:0">Postponed</h3><p><code>depends-on</code>, an Operation returning a Value Object, and Event publisher/payload distinctions still lack an example that proves they need separate connection types.</p></article>
-          <article class="card"><h3 style="margin-top:0">Replaced</h3><p>Use <code>enforces</code>, not <code>enforces-cross</code>; the feature locations already show whether the connection crosses features.</p></article>
-        </div>
       </section>
 
       <section class="section searchable" id="authoring" data-lane="components flow internal_dependencies" data-search="minted project independent node files json source compiler graph manifest receipt validation">
@@ -3180,10 +3124,436 @@ specs/key-and-door/nodes/door-unlocked.json       # Event source
         <p class="callout"><strong>Diagnostic boundary, not promised wording.</strong>The authority contract requires unsupported profile, unsupported kind, invalid shape, and inactive relationship failures to remain distinguishable. Current tools may phrase them differently.</p>
       </section>
 
+      <section class="section searchable" id="create" data-lane="flow components internal_dependencies" data-search="create author concept json node source intent kind feature id body formation connection rule">
+        <div class="section-head">
+          <div>
+            <p class="kicker">05 · Describe one part of the system</p>
+            <h2>Turn one team decision into a concept</h2>
+            <p>The team has decided that an unlock attempt is allowed only when the player holds the required key. That decision now needs a stable place in the project so everyone can name it, connect it to the unlock action, and review the same meaning later.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>What DomainSpec calls a concept</strong>
+          A concept is one named part of the system description. Here, <code>HasKeyRule</code> is the team’s name for the decision that allows or blocks <code>UnlockDoor</code>.
+        </div>
+
+        <h3>Answer six questions</h3>
+        <p>The questions begin with the team’s meaning. Their answers become the fields of one source record.</p>
+        <div class="table-wrap responsive-table-wrap">
+          <table class="responsive-table">
+            <thead><tr><th scope="col">Question</th><th scope="col">The team’s answer</th><th scope="col">Where it goes</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">What does this decision mean?</td><td data-label="Team answer">Allow unlocking only when the player holds the required key.</td><td data-label="Source field"><code>intent</code></td></tr>
+              <tr><td data-label="Question">What job does it perform?</td><td data-label="Team answer">It returns a yes-or-no decision that allows or blocks an action.</td><td data-label="Source field"><code>kind: Rule</code></td></tr>
+              <tr><td data-label="Question">Which feature owns it?</td><td data-label="Team answer">Key &amp; Door.</td><td data-label="Source field"><code>feature_id: key-and-door</code></td></tr>
+              <tr><td data-label="Question">What is its stable name?</td><td data-label="Team answer"><code>HasKeyRule</code> inside that feature.</td><td data-label="Source field"><code>node_id: key-and-door.HasKeyRule</code></td></tr>
+              <tr><td data-label="Question">What must every Rule state?</td><td data-label="Team answer">Its formal result is boolean: yes or no.</td><td data-label="Source field"><code>body.formal_return_type</code></td></tr>
+              <tr><td data-label="Question">What does it govern?</td><td data-label="Team answer">The <code>UnlockDoor</code> action.</td><td data-label="Source field"><code>enforces → key-and-door.UnlockDoor</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Assemble the answers into one source node</h3>
+        <p>The checked Key &amp; Door fixture stores those answers in <code>nodes/has-key-rule.json</code>:</p>
+        <pre><code>{
+  "schema_version": "minted-node/v1",
+  "node_id": "key-and-door.HasKeyRule",
+  "feature_id": "key-and-door",
+  "kind": "Rule",
+  "intent": "Allow the unlock operation only when the player holds the key.",
+  "body": { "formal_return_type": "boolean" },
+  "connections": [{
+    "edge_id": "key-and-door.edge.has-key-rule-enforces-unlock-door",
+    "type": "enforces",
+    "to": "key-and-door.UnlockDoor"
+  }]
+}</code></pre>
+
+        <div class="split">
+          <article class="card">
+            <h3 style="margin-top:0">What the current check can establish</h3>
+            <p>Under the selected experimental profile, a check can confirm that this record has the required Rule body and that a Rule may <code>enforce</code> an Operation.</p>
+            <p>It cannot decide whether the rule expresses the right game design, inspect the game’s code, or prove that the player is blocked at runtime.</p>
+          </article>
+          <article class="card">
+            <h3 style="margin-top:0">Where this node belongs</h3>
+            <p>This record is not a complete project. It belongs beside <code>project.json</code>, the Key &amp; Door feature record, and every node it references—including <code>UnlockDoor</code>.</p>
+            <p><a href="#authoring">Review the complete source package →</a></p>
+          </article>
+        </div>
+
+        <div class="callout warning">
+          <strong>The language is larger than this source profile</strong>
+          The current experimental profile accepts source nodes for Entity, Event, Operation, and Rule. DomainSpec has other active types, but this profile does not define their JSON bodies. Choose from the <a href="#meta-types">type catalogue</a>; if no active type preserves the distinction you need, follow the separate <a href="#new-meta-type">new meta-type proposal</a> path instead of inventing a body.
+        </div>
+
+        <div class="callout">
+          <strong>No supported external authoring command yet</strong>
+          Today this example lives in project-owned JSON and is exercised by repository-internal compiler and contract tests. Generated views are read-only: change the source, rebuild the results, and review them again. This guide does not turn those internal APIs into a promised user command.
+        </div>
+      </section>
+
+      <section class="section searchable" id="meta-types" data-lane="components properties" data-search="meta types entity value object enum operation query calculation rule policy workflow interface event mapping state machine page layout component view model hook form action guard binding adapter saga">
+        <div class="section-head">
+          <div>
+            <p class="kicker">06 · The complete set of concept types</p>
+            <h2>The 25 kinds of concepts tracked by DomainSpec v2</h2>
+            <p>DomainSpec calls these categories <strong>meta-types</strong>. Thirteen backend types are active. Nine UI types are proposals, two UI distinctions are postponed, and Saga is kept only as a retired historical ID.</p>
+          </div>
+        </div>
+
+        <div class="callout warning"><strong>Active in the language does not mean writable in the current JSON profile</strong>The selected experimental profile includes Entity, Event, Operation, and Rule only. The other nine active backend types remain valid language definitions, but no supported independent-node <code>body</code> exists for them yet.</div>
+
+        <div class="catalogue-toolbar">
+          <div class="catalogue-search">
+            <label for="meta-type-search">Find a type, required field, or distinction</label>
+            <input id="meta-type-search" type="search" placeholder="Example: identity, boolean, route…" autocomplete="off">
+          </div>
+          <div class="filter-group" aria-label="Filter meta-types by maturity">
+            <button class="filter-button" type="button" data-type-filter="all" aria-pressed="true">All</button>
+            <button class="filter-button" type="button" data-type-filter="active" aria-pressed="false">Active</button>
+            <button class="filter-button" type="button" data-type-filter="candidate" aria-pressed="false">Candidate</button>
+            <button class="filter-button" type="button" data-type-filter="deferred" aria-pressed="false">Deferred</button>
+            <button class="filter-button" type="button" data-type-filter="superseded" aria-pressed="false">Superseded</button>
+          </div>
+        </div>
+        <p class="result-count" id="meta-type-count" aria-live="polite">Showing all 25 retained records.</p>
+        <p class="no-results" id="meta-type-empty" role="status">No meta-type matches this filter.</p>
+
+        <div class="catalogue-groups">
+          <section class="catalogue-group" data-type-group="active">
+            <div class="catalogue-group-head">
+              <h3>Active backend types</h3>
+              <span class="status active">13 active</span>
+            </div>
+            <div class="type-grid">
+              <details class="type-card" data-id="DS-D1.1" data-status="active" data-type-search="entity structural identity fields stable lifecycle">
+                <summary><span class="type-id">D1.1</span><span class="type-title"><strong>Entity</strong><small>Data · keeps its identity as it changes</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>Each item must keep the same ID while its other fields change.</dd><dt>Formation rule</dt><dd>Typed fields with at least one identity field.</dd><dt>Current JSON profile</dt><dd>Included. Use <code>body.fields[].name</code>, <code>type</code>, and boolean <code>identity</code>.</dd><dt>Use another type when</dt><dd>There is no identity and equality is by fields; use Value Object.</dd></dl><a class="source-link" href="impl/spec/meta-types/structural/entity.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.2" data-status="active" data-type-search="value object structural equality no identity immutable tuple">
+                <summary><span class="type-id">D1.2</span><span class="type-title"><strong>Value Object</strong><small>Data · equal when every field matches</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>The complete set of fields determines equality; no tracked identity exists.</dd><dt>Formation rule</dt><dd>Typed fields, no identity, and an explicit equality rule.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>Equal-looking instances still require distinct IDs; use Entity.</dd></dl><a class="source-link" href="impl/spec/meta-types/structural/value-object.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.3" data-status="active" data-type-search="enum structural finite values vocabulary closed list">
+                <summary><span class="type-id">D1.3</span><span class="type-title"><strong>Enum</strong><small>Data · fixed list of named values</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>The concept is a closed set of named values.</dd><dt>Formation rule</dt><dd>A non-empty fixed value set.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>Values carry fields (Entity or Value Object) or move through transitions (State Machine).</dd></dl><a class="source-link" href="impl/spec/meta-types/structural/enum.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.4" data-status="active" data-type-search="operation behavioral write state change yes action mutation">
+                <summary><span class="type-id">D1.4</span><span class="type-title"><strong>Operation</strong><small>Behavior · changes the system's state</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>Running the behavior changes domain state.</dd><dt>Formation rule</dt><dd><code>state_change = yes</code>.</dd><dt>Current JSON profile</dt><dd>Included. Use <code>body.state_change</code>.</dd><dt>Use another type when</dt><dd>The behavior is read-only; use Query.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/operation.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.5" data-status="active" data-type-search="query behavioral read only state change no retrieval">
+                <summary><span class="type-id">D1.5</span><span class="type-title"><strong>Query</strong><small>Behavior · reads without changing state</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>The behavior retrieves a view without changing state.</dd><dt>Formation rule</dt><dd><code>state_change = no</code>.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The behavior changes state; use Operation.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/query.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.6" data-status="active" data-type-search="calculation behavioral return value pure formula deterministic">
+                <summary><span class="type-id">D1.6</span><span class="type-title"><strong>Calculation</strong><small>Behavior · calculates a value without side effects</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>A named pure function calculates a value from inputs.</dd><dt>Formation rule</dt><dd><code>formal_return_type = value</code>.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The result is block or allow; use Rule.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/calculation.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.7" data-status="active" data-type-search="rule behavioral boolean guard blocks allows">
+                <summary><span class="type-id">D1.7</span><span class="type-title"><strong>Rule</strong><small>Behavior · true/false block-or-allow decision</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>The result is a true/false decision that blocks or allows behavior.</dd><dt>Formation rule</dt><dd><code>formal_return_type = boolean</code>.</dd><dt>Current JSON profile</dt><dd>Included. Use <code>body.formal_return_type</code>.</dd><dt>Use another type when</dt><dd>The result selects a strategy; use Policy.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/rule.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.8" data-status="active" data-type-search="policy behavioral strategy selector branch choice">
+                <summary><span class="type-id">D1.8</span><span class="type-title"><strong>Policy</strong><small>Behavior · chooses a strategy or branch</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>The result chooses among behaviors or strategies.</dd><dt>Formation rule</dt><dd><code>formal_return_type = strategy</code>.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The result only blocks or allows; use Rule.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/policy.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.9" data-status="active" data-type-search="workflow behavioral ordered operations orchestration intra cross feature saga">
+                <summary><span class="type-id">D1.9</span><span class="type-title"><strong>Workflow</strong><small>Behavior · coordinates operations in order</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>One concept coordinates several Operations in a defined order.</dd><dt>Formation rule</dt><dd><code>scope</code> is exactly <code>intra-feature</code> or <code>cross-feature</code>.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>There is only one action; use Operation. Saga has been replaced by Workflow.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/workflow.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.11" data-status="active" data-type-search="interface connective boundary api internal external callable">
+                <summary><span class="type-id">D1.11</span><span class="type-title"><strong>Interface</strong><small>Connection · exposes behavior callers can use</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>The concept exposes behavior that internal or external callers can use.</dd><dt>Formation rule</dt><dd><code>interface_kind</code> is present; guidance uses internal or external.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The concept converts fields from one shape to another; use Mapping.</dd></dl><a class="source-link" href="impl/spec/meta-types/connective/interface.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.12" data-status="active" data-type-search="event connective temporal past notification fact happened">
+                <summary><span class="type-id">D1.12</span><span class="type-title"><strong>Event</strong><small>Connection · reports something that happened</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>The concept announces something that already happened.</dd><dt>Formation rule</dt><dd><code>temporal = past</code>.</dd><dt>Current JSON profile</dt><dd>Included. Use <code>body.temporal</code>.</dd><dt>Use another type when</dt><dd>The concept asks for something to happen; use an Operation or command.</dd></dl><a class="source-link" href="impl/spec/meta-types/connective/event.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.13" data-status="active" data-type-search="mapping connective direction inbound outbound bidirectional transform shapes adapter">
+                <summary><span class="type-id">D1.13</span><span class="type-title"><strong>Mapping</strong><small>Connection · converts one data shape into another</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>The concept converts fields from one data shape to another.</dd><dt>Formation rule</dt><dd><code>direction</code> is present; guidance uses inbound, outbound, or bidirectional.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The concept is the exposed boundary itself; use Interface.</dd></dl><a class="source-link" href="impl/spec/meta-types/connective/mapping.schema.yml">Official schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.14" data-status="active" data-type-search="state machine lifecycle transitions states enum">
+                <summary><span class="type-id">D1.14</span><span class="type-title"><strong>State Machine</strong><small>Lifecycle · states and allowed transitions</small></span><span class="status active">active</span></summary>
+                <div class="type-body"><dl><dt>Use when</dt><dd>The concept defines how something may move from one state to another.</dd><dt>Formation rule</dt><dd><code>has_transitions = yes</code>.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The values are only a flat list with no transitions; use Enum.</dd></dl><a class="source-link" href="impl/spec/meta-types/lifecycle/state-machine.schema.yml">Official schema →</a></div>
+              </details>
+            </div>
+          </section>
+
+          <section class="catalogue-group" data-type-group="candidate">
+            <div class="catalogue-group-head">
+              <h3>Proposed UI types</h3>
+              <span class="status candidate">9 proposals</span>
+            </div>
+            <p class="section-intro">These experimental shapes help test whether the proposed UI distinctions are useful. They are not official DomainSpec types and are not ready for approval.</p>
+            <div class="type-grid">
+              <details class="type-card" data-id="DS-D1.15" data-status="candidate" data-type-search="page ui route terminal access content layout inventory">
+                <summary><span class="type-id">D1.15</span><span class="type-title"><strong>Page</strong><small>UI proposal · screen with its own route</small></span><span class="status candidate">candidate</span></summary>
+                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Non-empty route, access context, primary content, layout reference, unit inventory; <code>terminal = true</code>.</dd><dt>Different from</dt><dd>Component, which has no route of its own.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/page.schema.yml">Experimental schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.16" data-status="candidate" data-type-search="layout ui slots shell chrome wraps page">
+                <summary><span class="type-id">D1.16</span><span class="type-title"><strong>Layout</strong><small>UI proposal · reusable page shell</small></span><span class="status candidate">candidate</span></summary>
+                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Finite slots, shared chrome, <code>page_specific_content = false</code>, and <code>wrap_target = Page</code>.</dd><dt>Different from</dt><dd>Page, which owns content for one destination.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/layout.schema.yml">Experimental schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.17" data-status="candidate" data-type-search="component ui visual typed inputs outputs non routable authority false">
+                <summary><span class="type-id">D1.17</span><span class="type-title"><strong>Component</strong><small>UI proposal · reusable visual unit</small></span><span class="status candidate">candidate</span></summary>
+                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Typed inputs and outputs; route, domain-data, validation, and access decision ownership all false.</dd><dt>Different from</dt><dd>Page, Form, Guard, or another more specialized group.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/component.schema.yml">Experimental schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.18" data-status="candidate" data-type-search="view model ui typed fields display source refs domain authority false">
+                <summary><span class="type-id">D1.18</span><span class="type-title"><strong>View Model</strong><small>UI proposal · data shaped for display</small></span><span class="status candidate">candidate</span></summary>
+                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Typed fields, source references, display context and roles, and <code>domain_authority = false</code>.</dd><dt>Different from</dt><dd>Value Object, which defines equality in the domain.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/view-model.schema.yml">Experimental schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.19" data-status="candidate" data-type-search="hook ui reactive lifecycle effects typed inputs returns">
+                <summary><span class="type-id">D1.19</span><span class="type-title"><strong>Hook</strong><small>UI proposal · reusable reactive behavior</small></span><span class="status candidate">candidate</span></summary>
+                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Typed inputs and returns with declared reactive behavior, timing, and effects.</dd><dt>Different from</dt><dd>Binding, which keeps a lasting record of an endpoint and cache interaction.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/hook.schema.yml">Experimental schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.20" data-status="candidate" data-type-search="form ui fields validation errors submission action interface mapping">
+                <summary><span class="type-id">D1.20</span><span class="type-title"><strong>Form</strong><small>UI proposal · fields, validation, and submission</small></span><span class="status candidate">candidate</span></summary>
+                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Typed fields plus validation, error, submission action, target interface, and error mapping.</dd><dt>Different from</dt><dd>Component, which owns only visual inputs and outputs.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/form.schema.yml">Experimental schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.21" data-status="candidate" data-type-search="action ui intent trigger target effect success error outcome">
+                <summary><span class="type-id">D1.21</span><span class="type-title"><strong>Action</strong><small>UI proposal · one user intention and its outcomes</small></span><span class="status candidate">candidate</span></summary>
+                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Intent, trigger, target kind, effect boundary, success outcome, and error outcome.</dd><dt>Different from</dt><dd>A passive event handler that does not define the complete intent and outcome.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/action.schema.yml">Experimental schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.22" data-status="candidate" data-type-search="guard ui protected surface rule fallback enforcement decision authority false">
+                <summary><span class="type-id">D1.22</span><span class="type-title"><strong>Guard</strong><small>UI proposal · mirrors an access Rule</small></span><span class="status candidate">candidate</span></summary>
+                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Protected screen, source Rule, conditions, fallback, scope, and <code>decision_authority = false</code>.</dd><dt>Different from</dt><dd>Rule, which owns the official true/false decision.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/guard.schema.yml">Experimental schema →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.23" data-status="candidate" data-type-search="binding ui endpoint cache mode target trigger parameter result invalidation">
+                <summary><span class="type-id">D1.23</span><span class="type-title"><strong>Binding</strong><small>UI proposal · records a UI/backend interaction</small></span><span class="status candidate">candidate</span></summary>
+                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Mode, target, trigger, parameter/result mapping, cache key, and invalidation.</dd><dt>Different from</dt><dd>A simple endpoint connection, which remains a relationship.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/binding.schema.yml">Experimental schema →</a></div>
+              </details>
+            </div>
+          </section>
+
+          <section class="catalogue-group" data-type-group="deferred">
+            <div class="catalogue-group-head">
+              <h3>Postponed UI distinctions</h3>
+              <span class="status deferred">2 postponed</span>
+            </div>
+            <div class="type-grid">
+              <details class="type-card" data-id="DS-D1.24" data-status="deferred" data-type-search="adapter ui deferred merge mapping boundary shapes">
+                <summary><span class="type-id">D1.24</span><span class="type-title"><strong>Adapter</strong><small>UI postponed · may be the same as Mapping</small></span><span class="status deferred">deferred</span></summary>
+                <div class="type-body"><dl><dt>Current result</dt><dd>The tested structure does not yet require a separate type; it can be represented as Mapping.</dd><dt>Use today</dt><dd>Use Mapping plus UI-boundary details until a concrete example shows that a separate Adapter type would change a check.</dd></dl><a class="source-link" href="definitions/meta-types/meta-types.md#ds-d124--adapter-ui-deferred-merge-candidate">Definition card →</a></div>
+              </details>
+              <details class="type-card" data-id="DS-D1.25" data-status="deferred" data-type-search="state indicator ui deferred split domain state async request loading error">
+                <summary><span class="type-id">D1.25</span><span class="type-title"><strong>State Indicator</strong><small>UI postponed · may describe two different ideas</small></span><span class="status deferred">deferred</span></summary>
+                <div class="type-body"><dl><dt>Current result</dt><dd>Domain-state visualization and async loading/error/empty state do not yet prove one concept.</dd><dt>Use today</dt><dd>Keep the branches separate until the definitions owner resolves the split.</dd></dl><a class="source-link" href="definitions/meta-types/meta-types.md#ds-d125--state-indicator-ui-deferred-split-candidate">Definition card →</a></div>
+              </details>
+            </div>
+          </section>
+
+          <section class="catalogue-group" data-type-group="superseded">
+            <div class="catalogue-group-head">
+              <h3>Retired historical ID</h3>
+              <span class="status superseded">1 retired</span>
+            </div>
+            <div class="type-grid">
+              <details class="type-card" data-id="DS-D1.10" data-status="superseded" data-type-search="saga superseded workflow tombstone id never reuse">
+                <summary><span class="type-id">D1.10</span><span class="type-title"><strong>Saga</strong><small>Retired in favor of Workflow · never reuse this ID</small></span><span class="status superseded">superseded</span></summary>
+                <div class="type-body"><dl><dt>Authoring rule</dt><dd>Do not create Saga concepts. Use Workflow for multi-step orchestration.</dd><dt>History rule</dt><dd>Retain DS-D1.10 forever so historical evidence stays legible; never reuse the ID.</dd></dl><a class="source-link" href="definitions/meta-types/meta-types.md#ds-d110--saga-superseded">Definition card →</a></div>
+              </details>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section searchable" id="relationships" data-lane="components internal_dependencies external_dependencies flow" data-search="relationships graph edges signatures backend ui cross feature multiplicity">
+        <div class="section-head">
+          <div>
+            <p class="kicker">07 · Connect the concepts</p>
+            <h2>The 31 allowed ways to connect concepts</h2>
+            <p>A connection is allowed only when DomainSpec recognizes its verb, the two concept types may be connected in that direction and location, and the number of connections stays within the rule. The official term for that quantity rule is <strong>multiplicity</strong>.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>When does a connection deserve its own relationship type?</strong>
+          Give it its own type only when removing it would change validation, a generated check, ownership, a workflow path, or an output file. If it only changes a diagram label or adds convenient reverse navigation, keep it as metadata or generate it automatically.
+        </div>
+
+        <div class="callout warning"><strong>Full language registry versus current JSON profile</strong>The tables below document all active DomainSpec connections. The selected independent-node profile currently supports only <code>Entity —performs→ Operation</code>, <code>Rule —enforces→ Operation</code>, and <code>Operation —produces→ Event</code>. Do not put another connection type in a current node source just because it appears here.</div>
+
+        <div class="relationship-toolbar">
+          <div class="relationship-search">
+            <label for="relationship-query">Find an allowed connection</label>
+            <input id="relationship-query" type="search" placeholder="Try “Workflow”, “cross”, “many-to-one”…" autocomplete="off">
+          </div>
+          <p id="relationship-count" class="result-count" aria-live="polite">31 of 31 connections shown</p>
+        </div>
+
+        <div class="relationship-family" data-relationship-family="backend">
+          <h3>Backend <span class="pill">17</span></h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">#</th><th scope="col">Allowed connection</th><th scope="col">Where allowed</th><th scope="col">How many</th><th scope="col">Meaning</th></tr></thead>
+              <tbody>
+                <tr class="relationship-row" data-rel-id="1" data-rel-search="entity performs operation same feature many to many initiates"><td>01</td><td class="signature">Entity —performs→ Operation</td><td>same feature</td><td>many-to-many</td><td>An entity or actor initiates an operation.</td></tr>
+                <tr class="relationship-row" data-rel-id="2" data-rel-search="operation produces event same feature one to many completion"><td>02</td><td class="signature">Operation —produces→ Event</td><td>same feature</td><td>one-to-many</td><td>Successful completion causes an event.</td></tr>
+                <tr class="relationship-row" data-rel-id="3" data-rel-search="operation produces for entity cross feature many to many foreign"><td>03</td><td class="signature">Operation —produces-for→ Entity</td><td>cross feature</td><td>many-to-many</td><td>An Operation writes to or creates a view of an Entity in another feature.</td></tr>
+                <tr class="relationship-row" data-rel-id="4" data-rel-search="operation creates entity same feature partial one to one identity"><td>04</td><td class="signature">Operation —creates→ Entity</td><td>same feature</td><td>partial one-to-one</td><td>An operation owns creation of one Entity type.</td></tr>
+                <tr class="relationship-row" data-rel-id="5" data-rel-search="event triggers cross operation cross feature many to many activates"><td>05</td><td class="signature">Event —triggers-cross→ Operation</td><td>cross feature</td><td>many-to-many</td><td>An event activates behavior in another feature.</td></tr>
+                <tr class="relationship-row" data-rel-id="6" data-rel-search="rule enforces operation same cross feature many to many gates"><td>06</td><td class="signature">Rule —enforces→ Operation</td><td>same or cross</td><td>many-to-many</td><td>A boolean Rule gates an Operation.</td></tr>
+                <tr class="relationship-row" data-rel-id="7" data-rel-search="calculation calculates operation same feature many to many derived value"><td>07</td><td class="signature">Calculation —calculates→ Operation</td><td>same feature</td><td>many-to-many</td><td>A Calculation supplies a derived value.</td></tr>
+                <tr class="relationship-row" data-rel-id="8" data-rel-search="event transitions state machine same cross feature many to many lifecycle"><td>08</td><td class="signature">Event —transitions→ State Machine</td><td>same or cross</td><td>many-to-many</td><td>An Event advances a lifecycle.</td></tr>
+                <tr class="relationship-row" data-rel-id="9" data-rel-search="interface exposes operation query same cross feature one to many callable"><td>09</td><td class="signature">Interface —exposes→ Operation | Query</td><td>same or cross</td><td>one-to-many</td><td>A boundary makes behavior callable.</td></tr>
+                <tr class="relationship-row" data-rel-id="10" data-rel-search="workflow orchestrates operation ordered same cross feature one to many"><td>10</td><td class="signature">Workflow —orchestrates→ Operation[]</td><td>same or cross</td><td>ordered one-to-many</td><td>A Workflow coordinates ordered Operations.</td></tr>
+                <tr class="relationship-row" data-rel-id="11" data-rel-search="policy applies operation calculation same feature many to many strategy"><td>11</td><td class="signature">Policy —applies→ Operation | Calculation</td><td>same feature</td><td>many-to-many</td><td>A Policy selects behavior.</td></tr>
+                <tr class="relationship-row" data-rel-id="12" data-rel-search="mapping maps entity interface same cross feature many to many transform"><td>12</td><td class="signature">Mapping —maps→ Entity | Interface</td><td>same or cross</td><td>many-to-many</td><td>A Mapping transforms a boundary or entity shape.</td></tr>
+                <tr class="relationship-row" data-rel-id="13" data-rel-search="entity contains value object same feature one to many embeds"><td>13</td><td class="signature">Entity —contains→ Value Object</td><td>same feature</td><td>one-to-many</td><td>An Entity embeds a Value Object.</td></tr>
+                <tr class="relationship-row" data-rel-id="14" data-rel-search="query calculation operation queries entity same feature many to many reads"><td>14</td><td class="signature">Query | Calculation | Operation —queries→ Entity</td><td>same feature</td><td>many-to-many</td><td>Read-capable behavior reads Entity data.</td></tr>
+                <tr class="relationship-row" data-rel-id="15" data-rel-search="entity emits event same feature one to many source subject"><td>15</td><td class="signature">Entity —emits→ Event</td><td>same feature</td><td>one-to-many</td><td>An Entity is the subject or source of an Event.</td></tr>
+                <tr class="relationship-row" data-rel-id="16" data-rel-search="entity owns entity same cross feature one to many lifecycle custody write ownership"><td>16</td><td class="signature">Entity —owns→ Entity</td><td>same or cross</td><td>one-to-many</td><td>The source has lifecycle, custody, or write ownership.</td></tr>
+                <tr class="relationship-row" data-rel-id="17" data-rel-search="entity belongs to entity same cross feature many to one membership assigned"><td>17</td><td class="signature">Entity —belongs-to→ Entity</td><td>same or cross</td><td>many-to-one</td><td>The source is a member of or assigned to the target.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="relationship-family" data-relationship-family="ui">
+          <h3>UI signatures <span class="pill">8</span></h3>
+          <p class="section-intro">These verbs are active, but the UI types at their ends remain proposed or deferred. An active connection does not make its endpoint types active.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">#</th><th scope="col">Allowed connection</th><th scope="col">How many</th><th scope="col">Meaning</th></tr></thead>
+              <tbody>
+                <tr class="relationship-row" data-rel-id="18" data-rel-search="page renders component ui one to many"><td>18</td><td class="signature">Page —renders→ Component[]</td><td>one-to-many</td><td>A Page renders Components.</td></tr>
+                <tr class="relationship-row" data-rel-id="19" data-rel-search="layout wraps page ui one to many"><td>19</td><td class="signature">Layout —wraps→ Page[]</td><td>one-to-many</td><td>A Layout wraps Pages.</td></tr>
+                <tr class="relationship-row" data-rel-id="20" data-rel-search="component composes component ui one to many children"><td>20</td><td class="signature">Component —composes→ Component[]</td><td>one-to-many</td><td>A Component includes children.</td></tr>
+                <tr class="relationship-row" data-rel-id="21" data-rel-search="component consumes hook ui many to many reactive"><td>21</td><td class="signature">Component —consumes→ Hook</td><td>many-to-many</td><td>A Component consumes reactive behavior.</td></tr>
+                <tr class="relationship-row" data-rel-id="22" data-rel-search="form submits action ui many to one"><td>22</td><td class="signature">Form —submits→ Action</td><td>many-to-one</td><td>A Form delegates submission.</td></tr>
+                <tr class="relationship-row" data-rel-id="23" data-rel-search="adapter shapes view model ui many to many deferred display"><td>23</td><td class="signature">Adapter —shapes→ View Model</td><td>many-to-many</td><td>A deferred Adapter shapes display data.</td></tr>
+                <tr class="relationship-row" data-rel-id="24" data-rel-search="guard protects page ui many to many access"><td>24</td><td class="signature">Guard —protects→ Page</td><td>many-to-many</td><td>A Guard controls UI access behavior.</td></tr>
+                <tr class="relationship-row" data-rel-id="25" data-rel-search="component displays view model ui many to many projection"><td>25</td><td class="signature">Component —displays→ View Model</td><td>many-to-many</td><td>A Component displays data prepared for the screen.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="relationship-family" data-relationship-family="cross">
+          <h3>UI to backend <span class="pill">6</span></h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">#</th><th scope="col">Allowed connection</th><th scope="col">How many</th><th scope="col">Meaning</th></tr></thead>
+              <tbody>
+                <tr class="relationship-row" data-rel-id="26" data-rel-search="binding fetches query ui backend many to one retrieves"><td>26</td><td class="signature">Binding —fetches→ Query</td><td>many-to-one</td><td>A Binding retrieves data through a Query.</td></tr>
+                <tr class="relationship-row" data-rel-id="27" data-rel-search="binding mutates operation ui backend many to one state change"><td>27</td><td class="signature">Binding —mutates→ Operation</td><td>many-to-one</td><td>A Binding invokes a state-changing Operation.</td></tr>
+                <tr class="relationship-row" data-rel-id="28" data-rel-search="state indicator reflects state machine ui backend many to one deferred"><td>28</td><td class="signature">State Indicator —reflects→ State Machine</td><td>many-to-one</td><td>A deferred indicator reflects domain lifecycle state.</td></tr>
+                <tr class="relationship-row" data-rel-id="29" data-rel-search="view model derives entity ui backend many to many display data"><td>29</td><td class="signature">View Model —derives→ Entity</td><td>many-to-many</td><td>Display data derives from Entity fields.</td></tr>
+                <tr class="relationship-row" data-rel-id="30" data-rel-search="form contracts interface ui backend many to one"><td>30</td><td class="signature">Form —contracts→ Interface</td><td>many-to-one</td><td>A Form aligns with an Interface contract.</td></tr>
+                <tr class="relationship-row" data-rel-id="31" data-rel-search="guard mirrors rule ui backend many to one authority"><td>31</td><td class="signature">Guard —mirrors→ Rule</td><td>many-to-one</td><td>A client Guard mirrors a backend Rule.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p id="relationship-no-results" class="no-results">No allowed connection matches that search.</p>
+
+        <div class="three-col">
+          <article class="card"><h3 style="margin-top:0">Generated automatically</h3><p><code>owned-by</code> is the reverse view of <code>owns</code>. Never write it in source.</p></article>
+          <article class="card"><h3 style="margin-top:0">Postponed</h3><p><code>depends-on</code>, an Operation returning a Value Object, and Event publisher/payload distinctions still lack an example that proves they need separate connection types.</p></article>
+          <article class="card"><h3 style="margin-top:0">Replaced</h3><p>Use <code>enforces</code>, not <code>enforces-cross</code>; the feature locations already show whether the connection crosses features.</p></article>
+        </div>
+      </section>
+
+      <section class="section searchable" id="new-meta-type" data-lane="components lifecycle risk_questions external_dependencies" data-search="new meta type propose candidate active profile formation criterion non collapse fixtures owner page component route adapter state indicator">
+        <div class="section-head">
+          <div>
+            <p class="kicker">08 · Change the language</p>
+            <h2>When the existing types are not enough</h2>
+            <p>Most projects should never need a new meta-type. A meta-type changes the vocabulary available to every specification, so a new label begins as a question—not as an official type.</p>
+          </div>
+        </div>
+
+        <div class="split">
+          <article class="card">
+            <h3 style="margin-top:0">A new concept uses the language</h3>
+            <p><code>HasKeyRule</code> belongs to one project and uses the existing Rule meta-type.</p>
+            <p>Create another concept when the project needs another named Rule, Operation, Entity, or other supported kind.</p>
+          </article>
+          <article class="card">
+            <h3 style="margin-top:0">A new meta-type changes the language</h3>
+            <p>A meta-type defines a role that many projects may use. It changes what declarations count as well formed, which connections they may make, and which later checks can distinguish them.</p>
+            <p>That change needs evidence and a definitions-owner decision; one feature cannot approve it for everyone.</p>
+          </article>
+        </div>
+
+        <div class="callout warning">
+          <strong>Try to disprove the proposal first</strong>
+          If an active type plus its properties and relationships preserves the distinction, stop. A different framework word, class name, or diagram label is not enough. The proposal must change a check or another tracked result.
+        </div>
+
+        <h3>Follow a real proposal: should Page be different from Component?</h3>
+        <p>A product team keeps describing <code>InventoryPage</code> and <code>MapPage</code> as Components. It proposes Page as a separate role because a Page owns a destination: a route, primary content, layout, access context, and the units placed on it. A reusable Component does not own a route.</p>
+        <p>That difference is promising, but it is still a candidate. The current Page evidence has not yet been reproduced independently across route frameworks, so Page is not active or promotion-ready.</p>
+
+        <h3>Author the candidate as a question the evidence can answer</h3>
+        <div class="three-col candidate-phases">
+          <article class="card">
+            <span class="pill">Phase 1</span>
+            <h3>Show where the language fails</h3>
+            <p>Try the active types first. Then name the exact failure and compare the closest neighbour.</p>
+            <p>For Page, the question is whether a routeless Component could wrongly satisfy the description of a terminal destination. Page owns the destination; Component does not.</p>
+          </article>
+          <article class="card">
+            <span class="pill">Phase 2</span>
+            <h3>Make the difference testable</h3>
+            <p>Write the separating formation rule, place the candidate in one category, and propose its incoming and outgoing relationship roles.</p>
+            <p>Test a valid Page, a deliberately invalid neighbour, and at least one real project example. Record the exact check or tracked result that changes.</p>
+          </article>
+          <article class="card">
+            <span class="pill">Phase 3</span>
+            <h3>Submit evidence, not a verdict</h3>
+            <p>The human card, candidate schema, fixtures, automated tests, and known limitations form a review packet. They do not allocate an official ID or choose a permanent file home.</p>
+            <p>The definitions owner decides maturity. Even activation does not add the type to every source profile or approve a code form, release, or production use.</p>
+          </article>
+        </div>
+
+        <h3>Keep four decisions separate</h3>
+        <div class="table-wrap responsive-table-wrap">
+          <table class="responsive-table">
+            <thead><tr><th scope="col">Question</th><th scope="col">What a positive result means</th><th scope="col">What it still does not grant</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">Is the idea a candidate?</td><td data-label="Positive result">There is a concrete distinction worth testing.</td><td data-label="Still not granted">Permission to use it as active DomainSpec vocabulary.</td></tr>
+              <tr><td data-label="Question">Is the formation rule checkable?</td><td data-label="Positive result">Valid and invalid declarations can be distinguished structurally.</td><td data-label="Still not granted">Proof that the type is necessary, meaningful, or implemented.</td></tr>
+              <tr><td data-label="Question">Is the meta-type active?</td><td data-label="Positive result">The definitions owner accepted the type under its evidence and challenge contracts.</td><td data-label="Still not granted">Automatic support in every DomainSpec source profile.</td></tr>
+              <tr><td data-label="Question">Does a profile support authoring it?</td><td data-label="Positive result">That profile defines the source shape and admitted connections for the type.</td><td data-label="Still not granted">Runtime behavior, implementation conformance, release approval, or production readiness.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="split">
+          <article class="card">
+            <h3 style="margin-top:0">Why proposals may be merged</h3>
+            <p>Adapter remains a deferred merge-candidate because the tested structure still collapses into Mapping with extra UI-boundary details. A separate label has not yet changed a check.</p>
+          </article>
+          <article class="card">
+            <h3 style="margin-top:0">Why proposals may be split</h3>
+            <p>State Indicator remains deferred because domain-state visualization and loading, error, or empty request state may be two different ideas. One broad label would hide that unresolved boundary.</p>
+          </article>
+        </div>
+
+        <details class="evidence-drawer">
+          <summary>Follow the current definition and evidence contracts</summary>
+          <div class="detail-content">
+            <ul class="source-list">
+              <li><a href="definitions/DEFINITIONS.md#domainspec-v2-d6-meta-type"><strong>Meta-type definition and challenge contract</strong><small>Closure, non-collapse, real-example, and owner gates</small></a></li>
+              <li><a href="definitions/meta-types/meta-types.md"><strong>Human definition cards and maturity ledger</strong><small>Active, candidate, deferred, and superseded distinctions</small></a></li>
+              <li><a href="definitions/meta-types/meta-types.yml"><strong>Machine-readable registry</strong><small>Per-type criteria, challenge contracts, and confirmation contracts</small></a></li>
+              <li><a href="development/meta-type-formalization/DEFINE.md"><strong>Formalization contract</strong><small>Checkable criteria, positive and negative fixtures, edge participation, and proof limits</small></a></li>
+              <li><a href="development/ui-meta-type-formalization/adjudication/verdicts.yml"><strong>Candidate adjudication examples</strong><small>Survival, merge, and split outcomes without authority promotion</small></a></li>
+            </ul>
+            <p><strong>Current boundary:</strong> this is a repository-governed proposal path, not a supported end-user command. A schema, fixture, experiment, relationship entry, or code mapping may support a review; none can approve itself.</p>
+          </div>
+        </details>
+      </section>
+
       <section class="section searchable" id="realization" data-lane="internal_dependencies external_dependencies flow lifecycle risk_questions" data-search="test derivation engine checklist obligation planned bridge architecture type enforcement architecture-pattern code shape inspector software realization mapping profile provider target observation factory ontology evaluation findings">
         <div class="section-head">
           <div>
-            <p class="kicker">08 · From description to evidence</p>
+            <p class="kicker">09 · From description to evidence</p>
             <h2>Turn a specification into checks—and compare code with it</h2>
             <p>The Key &amp; Door description says that <code>HasKeyRule</code> gates <code>UnlockDoor</code>. The next questions are different: what must eventually be checked, and what should the code preserve?</p>
           </div>
@@ -3271,7 +3641,7 @@ specs/key-and-door/nodes/door-unlocked.json       # Event source
       <section class="section searchable" id="example" data-lane="components internal_dependencies flow" data-search="financial settlement worked example entity value object enum operation query calculation rule graph">
         <div class="section-head">
           <div>
-            <p class="kicker">09 · Broad legacy type example</p>
+            <p class="kicker">10 · Broad legacy type example</p>
             <h2>Financial Settlement</h2>
             <p>This hand-written normalized Markdown feature shows seven active language types and five connections. It remains useful as a broad legacy example, but it is a migration candidate—not authority for the selected minted-project source format.</p>
           </div>
@@ -3299,10 +3669,134 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
         <p>Compare the <a href="impl/spec/features/financial-settlement/SPEC.md">legacy normalized feature pack</a> with its <a href="impl/spec/features/financial-settlement/generated/SPEC.md">generated human-readable view</a>, but do not copy this pair as the future consumer package. Use Key and Door for the current independent-node source layout.</p>
       </section>
 
+      <section class="section searchable" id="boundaries" data-lane="surface external_dependencies risk_questions" data-search="is is not authority domainspec arcanum saturn private public source owner">
+        <div class="section-head">
+          <div>
+            <p class="kicker">11 · Product boundary</p>
+            <h2>What it owns—and where it stops</h2>
+            <p>Different files and tools answer different questions. Keeping those responsibilities separate prevents a test or generated file from approving something it cannot approve.</p>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="card">
+            <h3 style="margin-top:0">DomainSpec v2 is</h3>
+            <ul class="check-list">
+              <li>A defined set of concept types.</li>
+              <li>Rules that check what each type must contain.</li>
+              <li>A list of allowed connections between types.</li>
+              <li>A JSON compiler that builds verified views, plus a separate legacy engine that generates structural checks from Markdown.</li>
+              <li>Experiments that compare the design with code evidence.</li>
+              <li>A private project whose decisions apply inside this repository.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 style="margin-top:0">DomainSpec v2 is not</h3>
+            <ul class="cross-list">
+              <li>A general-purpose programming language.</li>
+              <li>A proof that a written description is true in the real world.</li>
+              <li>An LLM that guesses meaning.</li>
+              <li>A universal tool that turns requirements into an application.</li>
+              <li>A claim that all meta-types are implemented.</li>
+              <li>The Saturn control loop or a shipped public product.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Place in the wider private system</h3>
+        <div class="three-col">
+          <div class="card">
+            <span class="pill">What</span>
+            <h4>DomainSpec</h4>
+            <p>What the system is meant to contain and mean, plus the checks that follow from that description.</p>
+          </div>
+          <div class="card">
+            <span class="pill">How</span>
+            <h4>Arcanum</h4>
+            <p>Reusable ways for people and agents to perform controlled work. This is the public pillar.</p>
+          </div>
+          <div class="card">
+            <span class="pill">Loop</span>
+            <h4>Saturn</h4>
+            <p>The separate private loop that compares the design with observed reality and routes corrections.</p>
+          </div>
+        </div>
+        <p class="callout warning"><strong>Private/public boundary.</strong> DomainSpec and Saturn are not publicly shipped. The wider-system documents are private drafts for orientation; they do not define DomainSpec v2.</p>
+
+        <h3>Who owns which part?</h3>
+        <div class="boundary-map" data-lane="external_dependencies">
+          <div class="inside-boundary">
+            <h4>DomainSpec defines and checks</h4>
+            <ul>
+              <li>The shared definitions, type labels, and required information for each type.</li>
+              <li>The allowed DS-D8 connections and their endpoint types.</li>
+              <li>Consistent maps, generated views, and focused structural checks.</li>
+              <li>Methods for validating the description and reporting disagreements between sources.</li>
+            </ul>
+          </div>
+          <div class="outside-boundary">
+            <h4>Other sources and owners decide</h4>
+            <ul>
+              <li>The project's business meaning.</li>
+              <li>What the running code and language tools actually do.</li>
+              <li>Implementation acceptance.</li>
+              <li>Release, deployment, and production satisfaction.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="authority-grid">
+          <div class="authority-card"><h3>Definitions</h3><p>Define the shared language and its required shapes. They cannot claim production behavior.</p></div>
+          <div class="authority-card"><h3>Project source</h3><p>Defines what a feature means. Using DomainSpec does not let a project redefine the shared language.</p></div>
+          <div class="authority-card"><h3>Validators</h3><p>Report whether one exact check passed or failed. A pass is evidence for that check, not proof of the whole application.</p></div>
+          <div class="authority-card"><h3>Generated views</h3><p>Make maps and reports easier to read. They are not the source people edit.</p></div>
+          <div class="authority-card"><h3>Implementation experiment</h3><p>Describes expected code properties and observed differences. It cannot approve a DS-D1 definition.</p></div>
+          <div class="authority-card"><h3>Responsible owner</h3><p>Decides whether an implementation, release, deployment, or production use is accepted.</p></div>
+        </div>
+      </section>
+
+      <section class="section searchable" id="status" data-lane="properties risk_questions" data-search="status axes active candidate mapped ready blocked queue counts ontology properties validation">
+        <div class="section-head">
+          <div>
+            <p class="kicker">12 · Keep status questions separate</p>
+            <h2>A type can be defined without being implemented—or ready</h2>
+            <p>A single “complete” badge would hide important gaps. Ask these six questions separately.</p>
+          </div>
+        </div>
+
+        <div class="status-axes">
+          <div class="axis"><strong>1 · Can the type be used?</strong><span>active · candidate · deferred · superseded<br>Is it officially available in DomainSpec?</span></div>
+          <div class="axis"><strong>2 · Is there a proposed code form?</strong><span>candidate-mapped (proposed) · not-admitted (not formally accepted) · superseded (replaced)<br>Has the experiment proposed how it may appear in code?</span></div>
+          <div class="axis"><strong>3 · Can a tool inspect it?</strong><span>proposed · selected · provider-absent (no evidence tool yet) · bounded proof (limited recorded result)<br>Is there a language-specific form and checker?</span></div>
+          <div class="axis"><strong>4 · Did this exact check pass?</strong><span>pass · fail · expected-red (an intentionally invalid case failed as expected)<br>Did these files satisfy this particular check?</span></div>
+          <div class="axis"><strong>5 · May the next step begin?</strong><span>ready · blocked · excluded<br>Is the next controlled implementation step allowed?</span></div>
+          <div class="axis"><strong>6 · Who can approve the result?</strong><span>none · owner-decided · release-authorized<br>Who may approve the claim or release?</span></div>
+        </div>
+
+        <p class="callout"><strong>Example: Entity.</strong> Entity is an active DomainSpec type. The experiment proposes a way to represent it in code, and a check built from artificial examples passes. But no tool has inspected real target code yet, and no language-level test covers construction, reconstruction, or the full lifecycle. There is also no cross-language comparison, approval, release, or production proof. These facts answer different questions, so they can all be true at once.</p>
+
+        <h3>Captured working-tree snapshot</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Area</th><th>What was observed</th><th>What this shows—and no more</th></tr></thead>
+            <tbody>
+              <tr><td>Type list (DS-D1 registry)</td><td>24 non-retired labels: 13 active, 9 candidate, and 2 deferred; plus the retired Saga ID = 25 retained records.</td><td>The available language inventory only.</td></tr>
+              <tr><td>Allowed connections (DS-D8 registry)</td><td>31 allowed connections, 1 generated reverse view, 3 postponed proposals, and 1 retired alias.</td><td>The currently supported connection patterns, not a complete mathematical law.</td></tr>
+              <tr><td>Experimental type-to-code mapping</td><td>All 13 active types have a proposed code mapping (<code>candidate-mapped</code>); 11 non-active types are <code>not-admitted</code>; Saga is <code>superseded</code>.</td><td>An experimental read-only mapping that cannot approve anything (<code>authority_effect: none</code>).</td></tr>
+              <tr><td>Experimental code-property vocabulary</td><td>27 concept types, 99 properties, 18 relations, 8 operators, and 3 language views.</td><td>An experimental vocabulary for describing code properties.</td></tr>
+              <tr><td>Implementation readiness queue</td><td>0 ready, 13 blocked, 12 excluded.</td><td>No type is implementation-ready through this queue.</td></tr>
+              <tr><td>Experimental factory tasks</td><td>MTF-001 through MTF-029 recorded complete.</td><td>Completion of this limited experimental task list, not implementation of every type.</td></tr>
+              <tr><td>Repeatability</td><td>Two isolated runs on the same host matched for the nine-node reference graph.</td><td>Repeatability on one host and toolchain only.</td></tr>
+              <tr><td>Project and release status</td><td>Project stage: <code>build</code>; gate: <code>flag</code>. First-production-release stage: <code>plan</code>; gate: <code>block</code>.</td><td>Production remains unauthorized.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <section class="section searchable" id="latest" data-lane="properties lifecycle risk_questions external_dependencies" data-search="latest developments august 2026 receipts validation drift pass fail factory candidate evidence">
         <div class="section-head">
           <div>
-            <p class="kicker">12 · Development status</p>
+            <p class="kicker">13 · Development status</p>
             <h2>Current plans, local results, and known failures</h2>
             <p>The derivation engine and limited architecture checks exist separately. The newest end-to-end bridge is still a design, not an implementation. Earlier experiments produced repeatable local results, while several broader checks captured on 2026-08-12 failed because stored files, mappings, or hashes did not agree.</p>
           </div>
@@ -3386,7 +3880,7 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
       <section class="section searchable" id="risks" data-lane="risk_questions properties" data-search="common mistakes risks questions class boolean passing candidate generated saga active ui relationship">
         <div class="section-head">
           <div>
-            <p class="kicker">13 · Limits and troubleshooting</p>
+            <p class="kicker">14 · Limits and troubleshooting</p>
             <h2>Claims and setup assumptions to challenge</h2>
             <p>Most mistakes happen when evidence from one step is treated as proof of a different step.</p>
           </div>
@@ -3415,14 +3909,14 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
       <section class="section searchable" id="extend" data-lane="lifecycle risk_questions external_dependencies" data-search="extend add concept meta type relationship language realization proposal witness governance provider">
         <div class="section-head">
           <div>
-            <p class="kicker">14 · Evolve carefully</p>
+            <p class="kicker">15 · Evolve carefully</p>
             <h2>How to extend DomainSpec responsibly</h2>
             <p>Add a type or connection only when an existing one cannot express an important distinction, and show exactly which check or generated result would change. Writing a required-shape file or an experimental code-mapping record does not make the proposal approved.</p>
           </div>
         </div>
         <div class="authority-grid">
           <article class="authority-card"><h3>Add a concept</h3><p>Use an active type, add its required information and allowed connections, then check both the concept and graph.</p></article>
-          <article class="authority-card"><h3>Propose a meta-type</h3><p>Explain what it means and does not mean, define a checkable rule with a limited set of required conditions, and include valid and intentionally invalid examples plus the person responsible for approval.</p></article>
+          <article class="authority-card"><h3>Propose a meta-type</h3><p>Follow the <a href="#new-meta-type">candidate meta-type path</a>: disprove the need first, separate the nearest neighbour, add discriminating evidence, and preserve the definitions-owner gate.</p></article>
           <article class="authority-card"><h3>Add a relationship</h3><p>Define endpoint types, direction, quantity limits, location, examples, invalid cases, and what validation or output changes without it.</p></article>
           <article class="authority-card"><h3>Add a code form</h3><p>Keep the shared meaning with the type's owner and executable code observations with the owner of the code being inspected.</p></article>
           <article class="authority-card"><h3>Add a code evidence collector</h3><p>List the exact inputs, tools, dependencies, generated checks, deliberately wrong cases, reruns, file-change checks, and result limits. The official name for this collector is a provider.</p></article>
@@ -3433,7 +3927,7 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
       <section class="section searchable" id="sources" data-lane="external_dependencies properties" data-search="sources authority definitions schema validation ontology factory guide glossary">
         <div class="section-head">
           <div>
-            <p class="kicker">15 · Follow the evidence</p>
+            <p class="kicker">16 · Follow the evidence</p>
             <h2>Source map</h2>
             <p>Use this source map when a claim needs confirmation. The page does not define the DomainSpec language; if it disagrees with an authoritative source below, the source wins.</p>
           </div>
@@ -3528,7 +4022,7 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
 
       <section class="section searchable" id="guide-contract" data-lane="visual_composition properties" data-search="visual contract evidence contract source backed inference reader terms outcomes why matters">
     <div class="footer-inner">
-      <p class="kicker">16 · Technical note</p>
+      <p class="kicker">17 · Technical note</p>
       <h2>About this page</h2>
       <p>This self-contained static page (<strong>L0 static HTML/SVG</strong>) uses no remote assets and supports keyboard use and reduced-motion settings. It is a documentation reader, not an implemented DomainSpec authoring application.</p>
       <p>The prose separates what the repository contains today from what a proposed experience could add. It also states where each result stops. This page cannot change official project status (<code>authority_effect: none</code>).</p>
@@ -3537,8 +4031,7 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
       <template id="xray-contract-markers">source-backed inference reader terms reader outcomes why it matters</template>
     </div>
       </section>
-
-  <a class="back-top" href="#top" aria-label="Back to top">↑</a>
+<a class="back-top" href="#top" aria-label="Back to top">↑</a>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -3547,29 +4040,6 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
       skipLink.addEventListener("click", () => {
         requestAnimationFrame(() => mainContent.focus({ preventScroll: true }));
       });
-      const orderedSectionIds = [
-        "mental-model",
-        "working-experience",
-        "authoring",
-        "walkthrough",
-        "create",
-        "meta-types",
-        "relationships",
-        "realization",
-        "example",
-        "boundaries",
-        "status",
-        "latest",
-        "risks",
-        "extend",
-        "sources",
-        "guide-contract"
-      ];
-      orderedSectionIds.forEach((id) => {
-        const section = document.getElementById(id);
-        if (section) mainContent.appendChild(section);
-      });
-
       const initialHashId = decodeURIComponent(window.location.hash.slice(1));
       const initialHashTarget = initialHashId ? document.getElementById(initialHashId) : null;
       if (initialHashTarget) {
@@ -3629,7 +4099,7 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
       const storyRoot = document.getElementById("key-door-story");
       if (storyRoot) {
         storyRoot.classList.add("story-enhanced");
-        const storyStorageKey = "domainspec-guide-key-door-v1";
+        const storyStorageKey = "domainspec-guide-key-door-v2";
         const storyScenes = [...storyRoot.querySelectorAll("[data-story-step]")];
         const storyStepButtons = [...storyRoot.querySelectorAll("[data-story-step-target]")];
         const progressText = document.getElementById("story-progress-text");
@@ -3661,6 +4131,13 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
           progressText.textContent = `${count} of ${storyScenes.length} decisions complete`;
           progressBar.setAttribute("aria-valuenow", String(count));
           progressFill.style.width = `${(count / storyScenes.length) * 100}%`;
+          storyScenes.forEach((scene) => {
+            const nextButton = scene.querySelector("[data-story-next]");
+            if (!nextButton) return;
+            const unlocked = completedStorySteps.has(scene.dataset.storyStep);
+            nextButton.disabled = !unlocked;
+            nextButton.setAttribute("aria-disabled", String(!unlocked));
+          });
           storyStepButtons.forEach((button) => {
             const complete = completedStorySteps.has(button.dataset.storyStepTarget);
             button.classList.toggle("is-complete", complete);
@@ -3856,303 +4333,12 @@ GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
       applyTypeFilter();
     });
   </script>
-
-      <section class="section searchable" id="boundaries" data-lane="surface external_dependencies risk_questions" data-search="is is not authority domainspec arcanum saturn private public source owner">
-        <div class="section-head">
-          <div>
-            <p class="kicker">10 · Product boundary</p>
-            <h2>What it owns—and where it stops</h2>
-            <p>Different files and tools answer different questions. Keeping those responsibilities separate prevents a test or generated file from approving something it cannot approve.</p>
-          </div>
-        </div>
-
-        <div class="split">
-          <div class="card">
-            <h3 style="margin-top:0">DomainSpec v2 is</h3>
-            <ul class="check-list">
-              <li>A defined set of concept types.</li>
-              <li>Rules that check what each type must contain.</li>
-              <li>A list of allowed connections between types.</li>
-              <li>A JSON compiler that builds verified views, plus a separate legacy engine that generates structural checks from Markdown.</li>
-              <li>Experiments that compare the design with code evidence.</li>
-              <li>A private project whose decisions apply inside this repository.</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3 style="margin-top:0">DomainSpec v2 is not</h3>
-            <ul class="cross-list">
-              <li>A general-purpose programming language.</li>
-              <li>A proof that a written description is true in the real world.</li>
-              <li>An LLM that guesses meaning.</li>
-              <li>A universal tool that turns requirements into an application.</li>
-              <li>A claim that all meta-types are implemented.</li>
-              <li>The Saturn control loop or a shipped public product.</li>
-            </ul>
-          </div>
-        </div>
-
-        <h3>Place in the wider private system</h3>
-        <div class="three-col">
-          <div class="card">
-            <span class="pill">What</span>
-            <h4>DomainSpec</h4>
-            <p>What the system is meant to contain and mean, plus the checks that follow from that description.</p>
-          </div>
-          <div class="card">
-            <span class="pill">How</span>
-            <h4>Arcanum</h4>
-            <p>Reusable ways for people and agents to perform controlled work. This is the public pillar.</p>
-          </div>
-          <div class="card">
-            <span class="pill">Loop</span>
-            <h4>Saturn</h4>
-            <p>The separate private loop that compares the design with observed reality and routes corrections.</p>
-          </div>
-        </div>
-        <p class="callout warning"><strong>Private/public boundary.</strong> DomainSpec and Saturn are not publicly shipped. The wider-system documents are private drafts for orientation; they do not define DomainSpec v2.</p>
-
-        <h3>Who owns which part?</h3>
-        <div class="boundary-map" data-lane="external_dependencies">
-          <div class="inside-boundary">
-            <h4>DomainSpec defines and checks</h4>
-            <ul>
-              <li>The shared definitions, type labels, and required information for each type.</li>
-              <li>The allowed DS-D8 connections and their endpoint types.</li>
-              <li>Consistent maps, generated views, and focused structural checks.</li>
-              <li>Methods for validating the description and reporting disagreements between sources.</li>
-            </ul>
-          </div>
-          <div class="outside-boundary">
-            <h4>Other sources and owners decide</h4>
-            <ul>
-              <li>The project's business meaning.</li>
-              <li>What the running code and language tools actually do.</li>
-              <li>Implementation acceptance.</li>
-              <li>Release, deployment, and production satisfaction.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="authority-grid">
-          <div class="authority-card"><h3>Definitions</h3><p>Define the shared language and its required shapes. They cannot claim production behavior.</p></div>
-          <div class="authority-card"><h3>Project source</h3><p>Defines what a feature means. Using DomainSpec does not let a project redefine the shared language.</p></div>
-          <div class="authority-card"><h3>Validators</h3><p>Report whether one exact check passed or failed. A pass is evidence for that check, not proof of the whole application.</p></div>
-          <div class="authority-card"><h3>Generated views</h3><p>Make maps and reports easier to read. They are not the source people edit.</p></div>
-          <div class="authority-card"><h3>Implementation experiment</h3><p>Describes expected code properties and observed differences. It cannot approve a DS-D1 definition.</p></div>
-          <div class="authority-card"><h3>Responsible owner</h3><p>Decides whether an implementation, release, deployment, or production use is accepted.</p></div>
-        </div>
-      </section>
-
-      <section class="section searchable" id="status" data-lane="properties risk_questions" data-search="status axes active candidate mapped ready blocked queue counts ontology properties validation">
-        <div class="section-head">
-          <div>
-            <p class="kicker">11 · Keep status questions separate</p>
-            <h2>A type can be defined without being implemented—or ready</h2>
-            <p>A single “complete” badge would hide important gaps. Ask these six questions separately.</p>
-          </div>
-        </div>
-
-        <div class="status-axes">
-          <div class="axis"><strong>1 · Can the type be used?</strong><span>active · candidate · deferred · superseded<br>Is it officially available in DomainSpec?</span></div>
-          <div class="axis"><strong>2 · Is there a proposed code form?</strong><span>candidate-mapped (proposed) · not-admitted (not formally accepted) · superseded (replaced)<br>Has the experiment proposed how it may appear in code?</span></div>
-          <div class="axis"><strong>3 · Can a tool inspect it?</strong><span>proposed · selected · provider-absent (no evidence tool yet) · bounded proof (limited recorded result)<br>Is there a language-specific form and checker?</span></div>
-          <div class="axis"><strong>4 · Did this exact check pass?</strong><span>pass · fail · expected-red (an intentionally invalid case failed as expected)<br>Did these files satisfy this particular check?</span></div>
-          <div class="axis"><strong>5 · May the next step begin?</strong><span>ready · blocked · excluded<br>Is the next controlled implementation step allowed?</span></div>
-          <div class="axis"><strong>6 · Who can approve the result?</strong><span>none · owner-decided · release-authorized<br>Who may approve the claim or release?</span></div>
-        </div>
-
-        <p class="callout"><strong>Example: Entity.</strong> Entity is an active DomainSpec type. The experiment proposes a way to represent it in code, and a check built from artificial examples passes. But no tool has inspected real target code yet, and no language-level test covers construction, reconstruction, or the full lifecycle. There is also no cross-language comparison, approval, release, or production proof. These facts answer different questions, so they can all be true at once.</p>
-
-        <h3>Captured working-tree snapshot</h3>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Area</th><th>What was observed</th><th>What this shows—and no more</th></tr></thead>
-            <tbody>
-              <tr><td>Type list (DS-D1 registry)</td><td>24 non-retired labels: 13 active, 9 candidate, and 2 deferred; plus the retired Saga ID = 25 retained records.</td><td>The available language inventory only.</td></tr>
-              <tr><td>Allowed connections (DS-D8 registry)</td><td>31 allowed connections, 1 generated reverse view, 3 postponed proposals, and 1 retired alias.</td><td>The currently supported connection patterns, not a complete mathematical law.</td></tr>
-              <tr><td>Experimental type-to-code mapping</td><td>All 13 active types have a proposed code mapping (<code>candidate-mapped</code>); 11 non-active types are <code>not-admitted</code>; Saga is <code>superseded</code>.</td><td>An experimental read-only mapping that cannot approve anything (<code>authority_effect: none</code>).</td></tr>
-              <tr><td>Experimental code-property vocabulary</td><td>27 concept types, 99 properties, 18 relations, 8 operators, and 3 language views.</td><td>An experimental vocabulary for describing code properties.</td></tr>
-              <tr><td>Implementation readiness queue</td><td>0 ready, 13 blocked, 12 excluded.</td><td>No type is implementation-ready through this queue.</td></tr>
-              <tr><td>Experimental factory tasks</td><td>MTF-001 through MTF-029 recorded complete.</td><td>Completion of this limited experimental task list, not implementation of every type.</td></tr>
-              <tr><td>Repeatability</td><td>Two isolated runs on the same host matched for the nine-node reference graph.</td><td>Repeatability on one host and toolchain only.</td></tr>
-              <tr><td>Project and release status</td><td>Project stage: <code>build</code>; gate: <code>flag</code>. First-production-release stage: <code>plan</code>; gate: <code>block</code>.</td><td>Production remains unauthorized.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="section searchable" id="meta-types" data-lane="components properties" data-search="meta types entity value object enum operation query calculation rule policy workflow interface event mapping state machine page layout component view model hook form action guard binding adapter saga">
-        <div class="section-head">
-          <div>
-            <p class="kicker">06 · The complete set of concept types</p>
-            <h2>The 25 kinds of concepts tracked by DomainSpec v2</h2>
-            <p>DomainSpec calls these categories <strong>meta-types</strong>. Thirteen backend types are active. Nine UI types are proposals, two UI distinctions are postponed, and Saga is kept only as a retired historical ID.</p>
-          </div>
-        </div>
-
-        <div class="callout warning"><strong>Active in the language does not mean writable in the current JSON profile</strong>The selected experimental profile includes Entity, Event, Operation, and Rule only. The other nine active backend types remain valid language definitions, but no supported independent-node <code>body</code> exists for them yet.</div>
-
-        <div class="catalogue-toolbar">
-          <div class="catalogue-search">
-            <label for="meta-type-search">Find a type, required field, or distinction</label>
-            <input id="meta-type-search" type="search" placeholder="Example: identity, boolean, route…" autocomplete="off">
-          </div>
-          <div class="filter-group" aria-label="Filter meta-types by maturity">
-            <button class="filter-button" type="button" data-type-filter="all" aria-pressed="true">All</button>
-            <button class="filter-button" type="button" data-type-filter="active" aria-pressed="false">Active</button>
-            <button class="filter-button" type="button" data-type-filter="candidate" aria-pressed="false">Candidate</button>
-            <button class="filter-button" type="button" data-type-filter="deferred" aria-pressed="false">Deferred</button>
-            <button class="filter-button" type="button" data-type-filter="superseded" aria-pressed="false">Superseded</button>
-          </div>
-        </div>
-        <p class="result-count" id="meta-type-count" aria-live="polite">Showing all 25 retained records.</p>
-        <p class="no-results" id="meta-type-empty" role="status">No meta-type matches this filter.</p>
-
-        <div class="catalogue-groups">
-          <section class="catalogue-group" data-type-group="active">
-            <div class="catalogue-group-head">
-              <h3>Active backend types</h3>
-              <span class="status active">13 active</span>
-            </div>
-            <div class="type-grid">
-              <details class="type-card" data-id="DS-D1.1" data-status="active" data-type-search="entity structural identity fields stable lifecycle">
-                <summary><span class="type-id">D1.1</span><span class="type-title"><strong>Entity</strong><small>Data · keeps its identity as it changes</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>Each item must keep the same ID while its other fields change.</dd><dt>Formation rule</dt><dd>Typed fields with at least one identity field.</dd><dt>Current JSON profile</dt><dd>Included. Use <code>body.fields[].name</code>, <code>type</code>, and boolean <code>identity</code>.</dd><dt>Use another type when</dt><dd>There is no identity and equality is by fields; use Value Object.</dd></dl><a class="source-link" href="impl/spec/meta-types/structural/entity.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.2" data-status="active" data-type-search="value object structural equality no identity immutable tuple">
-                <summary><span class="type-id">D1.2</span><span class="type-title"><strong>Value Object</strong><small>Data · equal when every field matches</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>The complete set of fields determines equality; no tracked identity exists.</dd><dt>Formation rule</dt><dd>Typed fields, no identity, and an explicit equality rule.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>Equal-looking instances still require distinct IDs; use Entity.</dd></dl><a class="source-link" href="impl/spec/meta-types/structural/value-object.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.3" data-status="active" data-type-search="enum structural finite values vocabulary closed list">
-                <summary><span class="type-id">D1.3</span><span class="type-title"><strong>Enum</strong><small>Data · fixed list of named values</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>The concept is a closed set of named values.</dd><dt>Formation rule</dt><dd>A non-empty fixed value set.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>Values carry fields (Entity or Value Object) or move through transitions (State Machine).</dd></dl><a class="source-link" href="impl/spec/meta-types/structural/enum.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.4" data-status="active" data-type-search="operation behavioral write state change yes action mutation">
-                <summary><span class="type-id">D1.4</span><span class="type-title"><strong>Operation</strong><small>Behavior · changes the system's state</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>Running the behavior changes domain state.</dd><dt>Formation rule</dt><dd><code>state_change = yes</code>.</dd><dt>Current JSON profile</dt><dd>Included. Use <code>body.state_change</code>.</dd><dt>Use another type when</dt><dd>The behavior is read-only; use Query.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/operation.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.5" data-status="active" data-type-search="query behavioral read only state change no retrieval">
-                <summary><span class="type-id">D1.5</span><span class="type-title"><strong>Query</strong><small>Behavior · reads without changing state</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>The behavior retrieves a view without changing state.</dd><dt>Formation rule</dt><dd><code>state_change = no</code>.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The behavior changes state; use Operation.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/query.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.6" data-status="active" data-type-search="calculation behavioral return value pure formula deterministic">
-                <summary><span class="type-id">D1.6</span><span class="type-title"><strong>Calculation</strong><small>Behavior · calculates a value without side effects</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>A named pure function calculates a value from inputs.</dd><dt>Formation rule</dt><dd><code>formal_return_type = value</code>.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The result is block or allow; use Rule.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/calculation.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.7" data-status="active" data-type-search="rule behavioral boolean guard blocks allows">
-                <summary><span class="type-id">D1.7</span><span class="type-title"><strong>Rule</strong><small>Behavior · true/false block-or-allow decision</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>The result is a true/false decision that blocks or allows behavior.</dd><dt>Formation rule</dt><dd><code>formal_return_type = boolean</code>.</dd><dt>Current JSON profile</dt><dd>Included. Use <code>body.formal_return_type</code>.</dd><dt>Use another type when</dt><dd>The result selects a strategy; use Policy.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/rule.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.8" data-status="active" data-type-search="policy behavioral strategy selector branch choice">
-                <summary><span class="type-id">D1.8</span><span class="type-title"><strong>Policy</strong><small>Behavior · chooses a strategy or branch</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>The result chooses among behaviors or strategies.</dd><dt>Formation rule</dt><dd><code>formal_return_type = strategy</code>.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The result only blocks or allows; use Rule.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/policy.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.9" data-status="active" data-type-search="workflow behavioral ordered operations orchestration intra cross feature saga">
-                <summary><span class="type-id">D1.9</span><span class="type-title"><strong>Workflow</strong><small>Behavior · coordinates operations in order</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>One concept coordinates several Operations in a defined order.</dd><dt>Formation rule</dt><dd><code>scope</code> is exactly <code>intra-feature</code> or <code>cross-feature</code>.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>There is only one action; use Operation. Saga has been replaced by Workflow.</dd></dl><a class="source-link" href="impl/spec/meta-types/behavioral/workflow.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.11" data-status="active" data-type-search="interface connective boundary api internal external callable">
-                <summary><span class="type-id">D1.11</span><span class="type-title"><strong>Interface</strong><small>Connection · exposes behavior callers can use</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>The concept exposes behavior that internal or external callers can use.</dd><dt>Formation rule</dt><dd><code>interface_kind</code> is present; guidance uses internal or external.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The concept converts fields from one shape to another; use Mapping.</dd></dl><a class="source-link" href="impl/spec/meta-types/connective/interface.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.12" data-status="active" data-type-search="event connective temporal past notification fact happened">
-                <summary><span class="type-id">D1.12</span><span class="type-title"><strong>Event</strong><small>Connection · reports something that happened</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>The concept announces something that already happened.</dd><dt>Formation rule</dt><dd><code>temporal = past</code>.</dd><dt>Current JSON profile</dt><dd>Included. Use <code>body.temporal</code>.</dd><dt>Use another type when</dt><dd>The concept asks for something to happen; use an Operation or command.</dd></dl><a class="source-link" href="impl/spec/meta-types/connective/event.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.13" data-status="active" data-type-search="mapping connective direction inbound outbound bidirectional transform shapes adapter">
-                <summary><span class="type-id">D1.13</span><span class="type-title"><strong>Mapping</strong><small>Connection · converts one data shape into another</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>The concept converts fields from one data shape to another.</dd><dt>Formation rule</dt><dd><code>direction</code> is present; guidance uses inbound, outbound, or bidirectional.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The concept is the exposed boundary itself; use Interface.</dd></dl><a class="source-link" href="impl/spec/meta-types/connective/mapping.schema.yml">Official schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.14" data-status="active" data-type-search="state machine lifecycle transitions states enum">
-                <summary><span class="type-id">D1.14</span><span class="type-title"><strong>State Machine</strong><small>Lifecycle · states and allowed transitions</small></span><span class="status active">active</span></summary>
-                <div class="type-body"><dl><dt>Use when</dt><dd>The concept defines how something may move from one state to another.</dd><dt>Formation rule</dt><dd><code>has_transitions = yes</code>.</dd><dt>Current JSON profile</dt><dd>Not included. Do not invent a node body.</dd><dt>Use another type when</dt><dd>The values are only a flat list with no transitions; use Enum.</dd></dl><a class="source-link" href="impl/spec/meta-types/lifecycle/state-machine.schema.yml">Official schema →</a></div>
-              </details>
-            </div>
-          </section>
-
-          <section class="catalogue-group" data-type-group="candidate">
-            <div class="catalogue-group-head">
-              <h3>Proposed UI types</h3>
-              <span class="status candidate">9 proposals</span>
-            </div>
-            <p class="section-intro">These experimental shapes help test whether the proposed UI distinctions are useful. They are not official DomainSpec types and are not ready for approval.</p>
-            <div class="type-grid">
-              <details class="type-card" data-id="DS-D1.15" data-status="candidate" data-type-search="page ui route terminal access content layout inventory">
-                <summary><span class="type-id">D1.15</span><span class="type-title"><strong>Page</strong><small>UI proposal · screen with its own route</small></span><span class="status candidate">candidate</span></summary>
-                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Non-empty route, access context, primary content, layout reference, unit inventory; <code>terminal = true</code>.</dd><dt>Different from</dt><dd>Component, which has no route of its own.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/page.schema.yml">Experimental schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.16" data-status="candidate" data-type-search="layout ui slots shell chrome wraps page">
-                <summary><span class="type-id">D1.16</span><span class="type-title"><strong>Layout</strong><small>UI proposal · reusable page shell</small></span><span class="status candidate">candidate</span></summary>
-                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Finite slots, shared chrome, <code>page_specific_content = false</code>, and <code>wrap_target = Page</code>.</dd><dt>Different from</dt><dd>Page, which owns content for one destination.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/layout.schema.yml">Experimental schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.17" data-status="candidate" data-type-search="component ui visual typed inputs outputs non routable authority false">
-                <summary><span class="type-id">D1.17</span><span class="type-title"><strong>Component</strong><small>UI proposal · reusable visual unit</small></span><span class="status candidate">candidate</span></summary>
-                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Typed inputs and outputs; route, domain-data, validation, and access decision ownership all false.</dd><dt>Different from</dt><dd>Page, Form, Guard, or another more specialized group.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/component.schema.yml">Experimental schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.18" data-status="candidate" data-type-search="view model ui typed fields display source refs domain authority false">
-                <summary><span class="type-id">D1.18</span><span class="type-title"><strong>View Model</strong><small>UI proposal · data shaped for display</small></span><span class="status candidate">candidate</span></summary>
-                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Typed fields, source references, display context and roles, and <code>domain_authority = false</code>.</dd><dt>Different from</dt><dd>Value Object, which defines equality in the domain.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/view-model.schema.yml">Experimental schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.19" data-status="candidate" data-type-search="hook ui reactive lifecycle effects typed inputs returns">
-                <summary><span class="type-id">D1.19</span><span class="type-title"><strong>Hook</strong><small>UI proposal · reusable reactive behavior</small></span><span class="status candidate">candidate</span></summary>
-                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Typed inputs and returns with declared reactive behavior, timing, and effects.</dd><dt>Different from</dt><dd>Binding, which keeps a lasting record of an endpoint and cache interaction.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/hook.schema.yml">Experimental schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.20" data-status="candidate" data-type-search="form ui fields validation errors submission action interface mapping">
-                <summary><span class="type-id">D1.20</span><span class="type-title"><strong>Form</strong><small>UI proposal · fields, validation, and submission</small></span><span class="status candidate">candidate</span></summary>
-                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Typed fields plus validation, error, submission action, target interface, and error mapping.</dd><dt>Different from</dt><dd>Component, which owns only visual inputs and outputs.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/form.schema.yml">Experimental schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.21" data-status="candidate" data-type-search="action ui intent trigger target effect success error outcome">
-                <summary><span class="type-id">D1.21</span><span class="type-title"><strong>Action</strong><small>UI proposal · one user intention and its outcomes</small></span><span class="status candidate">candidate</span></summary>
-                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Intent, trigger, target kind, effect boundary, success outcome, and error outcome.</dd><dt>Different from</dt><dd>A passive event handler that does not define the complete intent and outcome.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/action.schema.yml">Experimental schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.22" data-status="candidate" data-type-search="guard ui protected surface rule fallback enforcement decision authority false">
-                <summary><span class="type-id">D1.22</span><span class="type-title"><strong>Guard</strong><small>UI proposal · mirrors an access Rule</small></span><span class="status candidate">candidate</span></summary>
-                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Protected screen, source Rule, conditions, fallback, scope, and <code>decision_authority = false</code>.</dd><dt>Different from</dt><dd>Rule, which owns the official true/false decision.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/guard.schema.yml">Experimental schema →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.23" data-status="candidate" data-type-search="binding ui endpoint cache mode target trigger parameter result invalidation">
-                <summary><span class="type-id">D1.23</span><span class="type-title"><strong>Binding</strong><small>UI proposal · records a UI/backend interaction</small></span><span class="status candidate">candidate</span></summary>
-                <div class="type-body"><dl><dt>Proposed required shape</dt><dd>Mode, target, trigger, parameter/result mapping, cache key, and invalidation.</dd><dt>Different from</dt><dd>A simple endpoint connection, which remains a relationship.</dd></dl><a class="source-link" href="impl/spec/meta-types/ui/binding.schema.yml">Experimental schema →</a></div>
-              </details>
-            </div>
-          </section>
-
-          <section class="catalogue-group" data-type-group="deferred">
-            <div class="catalogue-group-head">
-              <h3>Postponed UI distinctions</h3>
-              <span class="status deferred">2 postponed</span>
-            </div>
-            <div class="type-grid">
-              <details class="type-card" data-id="DS-D1.24" data-status="deferred" data-type-search="adapter ui deferred merge mapping boundary shapes">
-                <summary><span class="type-id">D1.24</span><span class="type-title"><strong>Adapter</strong><small>UI postponed · may be the same as Mapping</small></span><span class="status deferred">deferred</span></summary>
-                <div class="type-body"><dl><dt>Current result</dt><dd>The tested structure does not yet require a separate type; it can be represented as Mapping.</dd><dt>Use today</dt><dd>Use Mapping plus UI-boundary details until a concrete example shows that a separate Adapter type would change a check.</dd></dl><a class="source-link" href="definitions/meta-types/meta-types.md#ds-d124--adapter-ui-deferred-merge-candidate">Definition card →</a></div>
-              </details>
-              <details class="type-card" data-id="DS-D1.25" data-status="deferred" data-type-search="state indicator ui deferred split domain state async request loading error">
-                <summary><span class="type-id">D1.25</span><span class="type-title"><strong>State Indicator</strong><small>UI postponed · may describe two different ideas</small></span><span class="status deferred">deferred</span></summary>
-                <div class="type-body"><dl><dt>Current result</dt><dd>Domain-state visualization and async loading/error/empty state do not yet prove one concept.</dd><dt>Use today</dt><dd>Keep the branches separate until the definitions owner resolves the split.</dd></dl><a class="source-link" href="definitions/meta-types/meta-types.md#ds-d125--state-indicator-ui-deferred-split-candidate">Definition card →</a></div>
-              </details>
-            </div>
-          </section>
-
-          <section class="catalogue-group" data-type-group="superseded">
-            <div class="catalogue-group-head">
-              <h3>Retired historical ID</h3>
-              <span class="status superseded">1 retired</span>
-            </div>
-            <div class="type-grid">
-              <details class="type-card" data-id="DS-D1.10" data-status="superseded" data-type-search="saga superseded workflow tombstone id never reuse">
-                <summary><span class="type-id">D1.10</span><span class="type-title"><strong>Saga</strong><small>Retired in favor of Workflow · never reuse this ID</small></span><span class="status superseded">superseded</span></summary>
-                <div class="type-body"><dl><dt>Authoring rule</dt><dd>Do not create Saga concepts. Use Workflow for multi-step orchestration.</dd><dt>History rule</dt><dd>Retain DS-D1.10 forever so historical evidence stays legible; never reuse the ID.</dd></dl><a class="source-link" href="definitions/meta-types/meta-types.md#ds-d110--saga-superseded">Definition card →</a></div>
-              </details>
-            </div>
-          </section>
-        </div>
-      </section>
     </main>
   </div>
 
   <footer class="page-footer">
     <div class="footer-inner">
-      DomainSpec v2 Pre-release User Guide · revised 2026-08-13 with metrics captured on 2026-08-12 · cannot change official project status (authority effect: none).
+      DomainSpec v2 Pre-release User Guide · revised 2026-08-16 with metrics captured on 2026-08-12 · cannot change official project status (authority effect: none).
     </div>
   </footer>
 </body>

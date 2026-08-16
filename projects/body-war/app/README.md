@@ -37,6 +37,65 @@ npm run build
 npm start
 ```
 
+## Private Strava geometry export
+
+The one-shot exporter discovers recent activities for the authenticated athlete,
+then retrieves their GPS, distance, and time streams. It does not add a public
+API route and writes private, Git-ignored evidence under `.runtime/geometry/`.
+The legacy local submission store contains fixture-style activity identifiers,
+so it is not the default live source.
+
+Test one activity first:
+
+```bash
+chmod 600 .env data/strava-tokens.json
+npm run geometry:export -- --limit 1
+```
+
+Then export the bounded recent-activity set:
+
+```bash
+npm run geometry:export
+```
+
+By default the exporter inspects one page of 30 recent activities. Use
+`--pages`, `--per-page`, repeated `--activity-id`, or `--help` for an explicitly
+bounded selection. `--source submitted` is available only when a submission
+store contains real numeric Strava activity identifiers; fixture identifiers
+fail before any network request.
+
+The default outputs are `strava-activities.geojson` and `export-report.json`.
+They contain private location evidence and remain candidate inputs only; they
+do not establish source-backed track geometry. If Strava returns no activities
+under `activity:read`, reconnecting with `activity:read_all` is required to
+include activities whose visibility is “Only Me.”
+
+The explicit private-activity reconnect command starts a ten-minute loopback
+callback listener and prints the Strava consent URL. It updates the same ignored
+legacy token store only after state validation, full scope acceptance, and
+the selected athlete-account validation:
+
+```bash
+npm run geometry:reconnect -- --include-private
+```
+
+Run this only when the athlete has explicitly agreed to share “Only Me”
+activities for this private local export.
+
+To add a separately consenting partner, use a fresh authorization session and
+preserve each athlete as a separate token-store entry:
+
+```bash
+npm run geometry:reconnect -- \
+  --include-private \
+  --add-athlete \
+  --public-callback-url https://<temporary-host>/api/auth/strava/callback
+```
+
+After more than one athlete is stored, every export must select one explicitly
+with `--athlete-key`; separate output paths keep private location histories from
+being combined by default.
+
 The Docker E2E harness starts a local Postgres container, applies auth package
 and Body War Drizzle-generated migrations, and runs the fake-Strava login flow:
 

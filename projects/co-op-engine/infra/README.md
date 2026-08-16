@@ -8,7 +8,8 @@ It deploys the Co-Op page as its own service:
 
 - public host: `cyberalchemize.com`;
 - public routes: `/` for the collaboration portfolio, `/craft` for the Craft
-  augmented-physics guide, and `/bella` for the Direito Romano tower canvas;
+  augmented-physics guide, `/bella` for the Direito Romano tower canvas, and
+  `/agent-orchestration-guide` for the beginner guided class;
 - protected route: `/domainspec/` for the private DomainSpec v2 guide;
 - remote directory: `/srv/co-op-engine`;
 - container: `coop-engine-site`;
@@ -36,11 +37,28 @@ DOMAINSPEC_AUTH_PASSWORD_FILE=/absolute/path/to/domainspec-password \
   projects/co-op-engine/infra/deploy-static-vps.sh
 ```
 
-`DEPLOY_SCOPE=domainspec` captures the three current public responses and
-repackages those exact bytes, so a guide-only release cannot accidentally
-publish unrelated local work in `/`, `/craft`, or `/bella`. Omit it, or set
-`DEPLOY_SCOPE=full`, only when the selected local sources for all four routes
-are intentionally being released together.
+To release only the public agent-orchestration class, first run:
+
+```sh
+DEPLOY_SCOPE=agent-orchestration-guide DRY_RUN=1 \
+  projects/co-op-engine/infra/deploy-static-vps.sh
+```
+
+Then repeat without `DRY_RUN=1`. This scope does not require the DomainSpec
+password. It clones the active remote `site` generation, removes any older copy
+of only `/agent-orchestration-guide`, overlays the selected local HTML, proves
+every other remote file stayed byte-identical, validates Nginx against the
+existing verifier, and prepares exact rollback snapshots before the swap. It
+does not replace the Compose file, environment, verifier, image, Traefik router,
+or TLS configuration. Override `AGENT_ORCHESTRATION_GUIDE_FILE` only to select an
+equivalent reviewed source artifact.
+
+`DEPLOY_SCOPE=domainspec` captures the four current public responses and
+repackages those exact bytes, so a private-guide-only release cannot
+accidentally publish unrelated local work in `/`, `/craft`, `/bella`, or
+`/agent-orchestration-guide`. Omit it, or set `DEPLOY_SCOPE=full`, only when the
+selected local sources for every route are intentionally being released
+together.
 
 Only public routing values are written to the remote `.env`; the DomainSpec
 password never enters it. The public pages have no application secrets,

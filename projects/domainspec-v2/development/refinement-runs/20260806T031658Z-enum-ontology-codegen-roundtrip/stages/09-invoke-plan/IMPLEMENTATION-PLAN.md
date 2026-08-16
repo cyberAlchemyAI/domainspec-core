@@ -42,7 +42,7 @@ Do not add another `package.json`. Use the existing
 
 | Wave | Layer | SWUs | Outcome | Promotion gate |
 |---|---|---|---|---|
-| W0 | L0 | ARE-001..005 | independently frozen ontology, definition, catalogue, and target-binding inputs | exact red/green ontology spec plus same-key drift rejection |
+| W0 | L0 | ARE-001, 002, 003, 004, 015, 005 | independently frozen ontology, definition, snapshot-bound active catalogue, historical catalogue regression, and target-binding inputs | exact red/green ontology spec plus same-key and definition-reference drift rejection |
 | W1 | L1 | ARE-006..009 | deterministic safe TypeScript source, pinned compiler/runtime evidence, and observed real source | hostile fixtures die; source reparses; type/runtime/adapter witnesses pass |
 | W2 | L2 | ARE-010..013 | independent evaluator, causal mutation, atomic proof lifecycle, and isolated replay | exact positive/negative results plus reconstructive replay |
 | W3 | L2/L3 assessment | ARE-014 + VERIFY | one complete proof and bounded scale decision | all raw handles reachable; legacy suite green; no expanded claims |
@@ -68,11 +68,30 @@ canonicalize by stable IDs and hash the complete spec
 Any missing/duplicate type, property, operator, owner field, or stale digest
 fails with one exact code. The projector does not modify ontology content.
 
+### Snapshot-bound obligation catalogue derivation
+
+```text
+require the ARE-004 terminal and closeout receipts
+read and validate the exact EnumDefinitionSnapshot/v1 bytes
+recompute its semantic digest while excluding only definition_sha256
+require definition_ref path, byte digest, and semantic digest to match
+read raw ontology/profile handles and validate the Enum denominator independently
+read v1 catalogue and ARE-003 receipt only as immutable predecessor lineage
+reject Stage 08 expectations and compiler/adapter/evaluator imports
+derive expected members only from snapshot.members
+canonicalize language-neutral IDs and values using UTF-8 ordering
+validate positive, same-key payload drift, and isolated definition-reference mutants
+rerun the unchanged v1 catalogue validator as a regression
+```
+
+The v2 catalogue becomes the active expectation input. The v1 catalogue remains
+historical evidence and is not silently rewritten or treated as the active oracle.
+
 ### Portable normalization
 
 ```text
-validate definition snapshot and realization spec independently
-exact-join their pinned type/meta-type references
+validate definition snapshot, realization spec, and active v2 catalogue independently
+exact-join their pinned type/meta-type and definition references
 reject empty members, duplicate IDs, duplicate values, and non-direct scope
 sort members by member_id because order_semantics is none
 emit only portable fields plus input handles
@@ -170,7 +189,8 @@ Stop before mutation or completion when:
 
 ## Current execution state
 
-`selection-ready`: no SWU selected, no code executed. A later explicit request
-to execute routes through `implementation-readiness:execute`, which selects the
-nearest dependency-ready SWU and starts one Task Session.
-
+`selection-ready`: no SWU selected, no code executed. Because this refresh
+changes planning bytes, a later explicit execution request first requires a
+fresh Implementation Readiness audit. Only a passing fresh audit may route to
+`implementation-readiness:execute`, select the nearest dependency-ready SWU,
+and start one Task Session.

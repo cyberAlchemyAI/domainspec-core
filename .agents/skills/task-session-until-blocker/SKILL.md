@@ -130,6 +130,30 @@ it never launches Task Session itself. Repeated cursors, epoch/frontier drift,
 out-of-order or ambiguous successors, risk or budget overflow, missing joins,
 and invalid `NO_OP` proofs stop fail-closed.
 
+For a current WPRA v2 manifest, `chain-config.json` also supplies the exact
+audit-config, execution-contracts, selection-handoff, initial selection request,
+and initial selection receipt refs through `wpra_v2`. The controller accepts
+the canonical `execute-one-swu` Task Session route and `refresh` Work-Pack
+closeout route without rewriting them. It rechecks the complete per-unit
+projection and requires a chain-selection-only epoch approval that binds those
+three frozen semantic artifacts. A selection receipt authorizes only the named
+selector; it never authorizes repository mutation.
+
+Before a WPRA successor can be exposed, the controller validates the closed
+snake-case terminal and closeout-owner receipts against the frozen unit,
+terminal, target-inventory, and declared SWU-successor bindings. Epoch and unit
+digest continuity remain transitively bound by the chain state and frozen plan;
+they are not invented as project-receipt fields. The transition's typed
+`wpra_v2_evidence` object supplies exact selection-request, selection-receipt,
+mutation-request, and mutation-receipt refs. Receipt paths must match the
+successor route, dependency and gate refs are rehashed from the accepted
+selection request, and mutation readiness is re-resolved by Task Session's
+canonical verifier. Material-bound baselines cover only material writes;
+Task Session retains collision and post-validation ownership for declared
+execution outputs, which need not exist at admission. A bare
+`dependency_ready` assertion is never sufficient.
+Native/legacy epoch manifests retain their existing behavior.
+
 `NO_OP` is semantic, not a boolean: before and after inventories must match,
 the observed delta must be empty, the closeout contract must be the approved
 one, and validator identity plus Router verification must be bound.

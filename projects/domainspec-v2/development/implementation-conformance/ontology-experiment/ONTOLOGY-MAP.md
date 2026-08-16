@@ -32,9 +32,9 @@ Active coverage is total and explicit:
 
 | Coverage state | Meta-types |
 | --- | --- |
-| reciprocal candidate alignment | Operation, Query, Rule, Interface, State Machine |
-| profiled but missing a realization type | Calculation, Event |
-| explicitly unsupported | Entity, Value Object, Enum, Policy, Workflow, Mapping |
+| reciprocal candidate alignment | Enum, Operation, Query, Rule, Workflow, Interface, Event, Mapping, State Machine |
+| profiled but missing a realization type | Calculation |
+| explicitly unsupported | Entity, Value Object, Policy |
 
 `architecture.AdapterImplementation` is deliberately not mapped to
 `DS-D1.24 Adapter`. The former is an architecture role; the latter is a
@@ -45,11 +45,19 @@ deferred DomainSpec merge candidate toward Mapping.
 ```text
 ArchitectureElement
 ├── DomainConceptImplementation
+│   ├── EnumImplementation
 │   ├── RuleImplementation
 │   ├── OperationImplementation
 │   ├── QueryImplementation
+│   ├── MappingImplementation
+│   ├── EventImplementation
 │   ├── StateMachineImplementation
+│   ├── WorkflowImplementation
 │   └── InterfaceImplementation
+├── EnumRepresentationUnit
+├── DataShapeContract
+├── StateContract
+├── WorkflowStepContract
 └── AdapterImplementation
 
 ArchitectureProfile
@@ -67,6 +75,7 @@ State Machine, and Interface implementations.
 | Family | Properties | What they let the package understand |
 | --- | --- | --- |
 | placement | `source.language`, `source.path`, `source.filename_case` | where and under which language convention an element lives |
+| realization binding | `representation.protocol_id`, `runtime.provider_sha256` | which profile-selected protocol and exact provider bytes are being evaluated |
 | ownership/cardinality | `source.primary_concept_count`, `binding.concept_id`, `binding.current` | whether one source unit realizes exactly one current semantic concept |
 | source shape | `symbol.primary_callable_count`, `symbol.public_callable_count`, `callable.form` | entry-point and export/public form |
 | behavior classification | `callable.return_semantics` | boolean guard, state change, read model, value, or unit contract |
@@ -74,6 +83,12 @@ State Machine, and Interface implementations.
 | topology | `dependency.resolution`, `dependency.direction` | exact target/directness and layer direction of a dependency |
 | state model | `state.representation`, `state.exhaustive`, `transition.negative_fixture_present` | static state representation versus runtime negative coverage |
 | integration | `interface.versioned` | whether an interface realization binds an explicit contract version |
+| Mapping | `mapping.source_contract_ref`, `mapping.target_contract_ref`, `mapping.direction`, `mapping.correspondence_ref`, `mapping.totality`, `mapping.failure_contract_ref`, `mapping.effect_policy` | exact directional shape correspondence and its fallibility/effect perimeter |
+| Interface | `interface.boundary_kind`, `interface.contract_identity`, `interface.exact_version`, `interface.compatibility_policy_ref`, `interface.exposure_set_ref` | exact versioned multi-member boundary rather than generic callable cardinality |
+| Event | `event.tense`, payload/occurrence/checkpoint/publication/consumer properties | durable past-fact identity without distributed exactly-once inflation |
+| Operation | input/read/write/external-effect/outcome/failure/atomicity/order/guard/Event/continuation properties | ordered state-change evidence through an explicit continuation closure |
+| State Machine | closed/initial/terminal state refs, trigger/guard/effect-intent transition properties, invalid-transition policy, effect-execution boundary | a pure directed lifecycle decision that returns effects for an Operation to execute |
+| Workflow | scope, exact step order, terminal outcomes, failure, continuation, step identity/policy/compensation | explicit orchestration without collapsing step order into State Machine transitions |
 
 Every property defines its value type, applicable node or relation types,
 semantics, observation stage, owner route, and forbidden inference.
@@ -82,10 +97,19 @@ semantics, observation stage, owner route, and forbidden inference.
 
 | Relation | Direction | Important property/boundary |
 | --- | --- | --- |
+| `architecture.composed_from` | Enum implementation or representation unit -> representation unit | carries acyclic implementation provenance without creating canonical Enum membership |
 | `architecture.depends_on` | architecture element -> architecture element | carries resolution and direction; acyclic in this experiment |
 | `architecture.guards` | Rule implementation -> Operation or State Machine implementation | must not be confused with a canonical DomainSpec edge without semantic refs |
 | `architecture.exposes` | Interface implementation -> Operation or Query implementation | endpoint topology is not semantic admission |
+| `architecture.maps_from` / `architecture.maps_to` | Mapping implementation -> exact DataShapeContract | native parameter/return types corroborate but do not author endpoints |
+| `architecture.emits` | Operation implementation -> Event implementation | binds an exact Event, durable checkpoint, order, and outcome |
+| `architecture.consumes` | architecture element -> Event implementation | subscription evidence cannot author consumer meaning |
 | `architecture.implements_interface` | Adapter -> Interface implementation | declaration is not runtime correctness |
+| `architecture.has_state` | State Machine implementation -> State contract | closes state membership without promoting supporting states into meta-types |
+| `architecture.transitions_to` | State contract -> State contract | carries trigger, guard, and effect-intent refs; cycles are topology, not recursive value derivation |
+| `architecture.orchestrates` | Workflow implementation -> Workflow step contract | call syntax cannot author membership |
+| `architecture.precedes` | Workflow step contract -> Workflow step contract | acyclic semantic order is distinct from incidental trace order |
+| `architecture.binds_step` | Workflow step contract -> Operation or nested Workflow | exact binding is descriptor-owned and acyclic |
 
 The distinction between `guards` and `depends_on` matters. Semantically a Rule
 guards an Operation; structurally an Operation usually imports or depends on

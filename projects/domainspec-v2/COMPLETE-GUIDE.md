@@ -1,19 +1,39 @@
 # DomainSpec v2 User Guide (Pre-release)
 
-Feature ideas often start as ordinary sentences. They feel clear until several people
-must agree on what exists, what is allowed, what changes, and what should be recorded.
-The area the team is describing—players and doors, orders and payments—is the domain.
+A game team begins with a simple idea: a player with the right key can unlock a door.
+The idea sounds complete until the team asks what counts as the right key, what allows
+the unlock, what changes, and what gets recorded.
 
 ## What is DomainSpec?
 
-**DomainSpec is a domain specification system.** It gives a team a shared language
-for naming the important parts of a domain, a structured way to record them and their
-connections, and tools that check supported structural rules.
+Different people may answer those questions differently. DomainSpec calls the part of
+the game they are describing—the player, key, door, and rules around unlocking—the
+**domain**. It gives the team a shared way to name its parts, record the roles they
+play, explain how they relate, and state the rules the implementation must respect.
 
-DomainSpec is the system. A DomainSpec specification is the description a project
-creates with it. It is not an application framework: it does not build or run the
-feature. Its checks can find selected structural mistakes, but people still decide
-whether the meaning is right, and the running software must be checked separately.
+From that description, the team can make implementation **obligations** explicit,
+derive test material from supported declarations, connect results to code evidence,
+and state precisely what each result proves.
+
+**DomainSpec is the system that supports this process. A DomainSpec specification is
+the description the team creates.** DomainSpec is not the game or its application
+framework, and it does not decide whether the feature is correct.
+
+```text
+shared specification
+  -> obligations
+  -> derived test material
+  -> code evidence
+  -> bounded proof
+```
+
+**Proof has a precise limit here.** It says what named inputs, checks, and results
+support. It does not prove the whole game, approve the implementation, or authorize a
+release.
+
+**Today these stages are not one finished path.** The selected JSON authoring route
+and the current test-derivation route remain separate, and architecture enforcement is
+still candidate and partial.
 
 > ## DomainSpec works like grammar for a system description
 >
@@ -31,15 +51,12 @@ whether the meaning is right, and the running software must be checked separatel
 > malformed descriptions; it cannot by itself prove the business meaning or the
 > running software.
 >
-> DomainSpec helps a team turn a feature idea into a structured description they can
-> check and review. It does not build the feature or decide whether the feature is
-> correct.
+> DomainSpec helps a team make feature decisions explicit and carry them toward checks
+> and evidence. It does not build the feature or decide whether the feature is correct.
 
-Now, let’s imagine a team designing the Key & Door mechanic for a new game. They want
-players to unlock a locked door when they have the right key. It sounds simple, but the
-team still has to decide what allows the unlock, which action changes the door, and how
-a successful unlock is represented. The feature request below is their starting point.
-We’ll follow their decisions and see how DomainSpec gives each part a clear place.
+That is the feature we will follow. The request below captures the team's starting
+point. From there, we'll make each decision with them and see how DomainSpec gives
+every part of the mechanic a clear place.
 
 > **New feature · Key & Door**
 >
@@ -93,41 +110,49 @@ a separate legacy path. A planned direct JSON-to-test bridge does not exist toda
 Those details matter when you work with the repository, but they are not prerequisites
 for understanding the Key-and-Door story.
 
-## What belongs in Key & Door?
+## Help the team define Key & Door
 
-The feature ticket sounds complete, but the team still has to decide which parts
-belong together. Choose those parts first; then decide what each one is and how they
-connect.
+The request sounds complete, but the team still has to settle six decisions: what
+belongs in the mechanic, how the player is identified, what the key requirement
+controls, what success changes and records, what a check can support, and how a later
+change should be handled.
 
 In the interactive HTML, your choices change only the page. They do not edit source
 files or run repository checks. Today, people carry out the work through files and
 commands in a prepared private checkout.
 
-### 1. Decide what belongs in Key and Door
+### 1. Choose what the team is deciding
 
-The request is: “A player with the right key should unlock a door, and the system
-should record that it happened.”
+The request includes a player, a key, a locked door, and a successful unlock. The game
+also contains combat, exploration, animation, inventory, and quests.
 
-Keep the player, key rule, unlock action, and resulting event together. The entire game
-would hide this one behavior; Player alone cannot explain the rule, action, and result.
+**What should the team settle together before anyone implements the mechanic?**
 
-DomainSpec calls this a **feature boundary**: the smallest useful area that owns one
-understandable behavior. Key and Door owns unlocking, not the whole game.
+The entire level would include several different behaviors. The door's appearance and
+sound would omit the mechanic itself. The team therefore keeps **who acts, what permits
+the action, what changes, and what records success** in this conversation.
+
+In this guide, that decision is called the **feature boundary**. It contains one unlock
+from actor and permission to change and recorded result. “Feature boundary” is guide
+language, not an official DomainSpec meta-type.
 
 <details>
 <summary>See the current feature source</summary>
 
-The current fixture has one Key-and-Door feature with four node files. The source
-exists today; choosing its boundary through a guided screen is a proposed experience,
-not an implemented authoring tool.
+The current fixture already groups four node files under one Key-and-Door feature.
+Choosing that boundary through the interactive screen is a teaching simulation, not
+an implemented authoring tool.
 
 </details>
 
-### 2. Find the part that keeps its identity
+### 2. Keep track of the player
 
-The team names `Player`, `HasKeyRule`, `UnlockDoor`, and `DoorUnlocked`. `Player` must
-remain the same player even when its other information changes. The current example
-identifies it by `player_id`.
+The player picks up a key, moves to another room, loses health, and reloads the game.
+Those details can change while the game still recognizes the same player. A room or
+carried key cannot provide that continuity because both can change. The value that
+continues identifying the player is the unique `player_id`.
+
+**Which value should continue identifying that player?**
 
 DomainSpec calls `Player` an **Entity**: a concept whose identity continues while its
 other information can change. A Rule decides, an Operation changes state, and an Event
@@ -137,17 +162,22 @@ records what happened. **Meta-type** is DomainSpec’s name for one of these rol
 <summary>See the Player declaration</summary>
 
 The current fixture declares `Player` as `Entity` and marks `player_id` as its identity
-field. The experimental profile used here supports the four roles in this feature.
+field. This is one checked example under the experimental profile, not a rule for every
+possible game model.
 
 </details>
 
-### 3. Point the key rule at the action
+### 3. Place the key decision
 
-`HasKeyRule` decides whether something may proceed. It must point to `UnlockDoor`,
-because the Rule controls whether that Operation may proceed.
+Before a locked door can open, the game needs a yes-or-no answer about whether the
+player has the required key. That answer does not determine whether the player remains
+the same person, and it cannot be controlled by a record that exists only after
+success. It controls whether the unlock attempt may proceed.
 
-DomainSpec calls this a **relationship**: a named, directed connection between two
-concepts.
+**Where should that decision sit in the mechanic?**
+
+DomainSpec calls `HasKeyRule` a **Rule**. The source gives it a boolean result and uses
+a directed **relationship** to say what the decision controls:
 
 ```text
 HasKeyRule --enforces--> UnlockDoor
@@ -155,54 +185,71 @@ Player ------performs--> UnlockDoor
 UnlockDoor ---produces--> DoorUnlocked
 ```
 
-Reversing an arrow changes the statement. `HasKeyRule --enforces--> Player` does not
-mean the same thing and is not allowed by the selected profile.
+The first two relationships settle the permission decision: `HasKeyRule` enforces the
+action, while `Player` performs it. Reversing an arrow changes the statement.
 
 <details>
 <summary>See the connection declarations</summary>
 
-Each outgoing connection lives in its source node file. The current profile allows
-only `enforces`, `performs`, and `produces` for these endpoint roles.
+Each outgoing connection lives in its source node file. The current experimental
+profile admits these exact endpoint roles and relationship directions; it is not a
+catalogue of every future DomainSpec relationship.
 
 </details>
 
-### 4. Check what UnlockDoor changes
+### 4. Describe a successful unlock
 
-`UnlockDoor` is an Operation. Its `state_change` answer must be `yes`, because unlocking
-changes the door from locked to unlocked.
+The key decision permits the attempt. Immediately before success, the door is locked;
+immediately afterward, it is unlocked, and the game records that the unlock happened.
+Permission without a changed door would stop too early. A success record while the door
+remains locked would make the record disagree with the described outcome.
 
-DomainSpec calls this a **structural check**: a repeatable check of whether a
-description follows selected shape and connection rules. It can find a required field
-with the wrong value, an unsupported role, or an invalid connection. It cannot prove
-that a player without a key is blocked in the running game.
+**Which account matches the team’s mechanic?**
+
+DomainSpec calls `UnlockDoor` an **Operation** and `DoorUnlocked` an **Event**. The
+Operation performs the change and declares `state_change: yes`. The Event records the
+completed result and declares `temporal: past`.
+
+```text
+UnlockDoor --produces--> DoorUnlocked
+```
 
 <details>
-<summary>See the Operation rule</summary>
+<summary>See the Operation and Event declarations</summary>
 
-The current Operation body schema requires `state_change` to equal `yes`. The checked
-fixture uses that value; `no` does not satisfy this formation schema.
+The current formation schemas and fixture support this description. They can reject a
+malformed declaration, but the selected JSON check does not run the game to observe the
+state change.
 
 </details>
 
-### 5. Say only what the result supports
+### 5. Read the result
 
-The selected source compiles and its generated results verify. The strongest honest
-conclusion is: **this exact description follows the checked structural rules**. The
-check did not run the game, and it did not approve a release.
+Before the check, the team has selected JSON source. Afterward, that exact source and
+its generated results have been evaluated against the selected profile and structural
+rules. The new fact is: **the exact description follows the structural rules that were
+checked**. No game execution or release decision occurred, so neither running behavior
+nor release approval follows from this result.
 
-DomainSpec calls this an **evidence boundary**: the exact inputs, check, and conclusion
-a result can support. The generated map shows normalized concepts and connections. The
-source manifest links them to source files and digests. The build record names the
-source and generated results used in that build.
+**Which fact follows from that result?**
 
-### 6. Change the source when a master key arrives
+In this guide, the **evidence boundary** is the line between what this exact result
+supports and what still needs different evidence or authority. The generated map shows
+normalized concepts and connections. The source manifest links them to source files and
+digests. The build record names the source and generated results used in that build.
 
-A master key should now unlock the door. Revisit the boundary, change project-owned
-source, rerun the checks, and review a result for the new revision. Do not edit the
-generated `SPEC.md`, and do not wait for DomainSpec to update itself automatically.
+### 6. Change the decision
 
-DomainSpec calls the new output a **revision-bound result**: it speaks only about the
-exact source revision and check that produced it.
+The existing source and generated results belong to the earlier decision: the player
+needs the required key. The team now decides that a master key should work as well. The
+accountable sequence is: **change project-owned source → regenerate the results → review
+the new result**. Editing generated `SPEC.md` would separate the view from its source,
+and the current workflow cannot discover the new requirement automatically.
+
+**Which sequence keeps the changed decision connected to its result?**
+
+In this guide, a **revision-bound result** speaks only about the exact source revision
+and check that produced it.
 
 Today, people change JSON source, rerun repository commands, and compare files or build
 records. A proposed difference view would make the changed revision visible while
@@ -212,9 +259,9 @@ decide whether the new meaning is right.
 ### The loop closes, then starts again
 
 ```text
-Frame -> Describe -> Connect -> Check -> Review -> Evolve
-  ^                                                   |
-  +---------------------------------------------------+
+Scope -> Identity -> Permission -> Outcome -> Evidence -> Revision
+  ^                                                       |
+  +-------------------------------------------------------+
 ```
 
 A later change can reopen the boundary or raise a new question. This is a
@@ -241,148 +288,338 @@ This guide is a repository-local, pre-release documentation candidate. There is 
 stable external installation path, public package, or production authorization. It
 cannot change a definition, approve a code form or release, or change official project
 status (`authority_effect: none`). When this guide and a responsible source disagree,
-the responsible source wins. Guide revision: 2026-08-13; metrics snapshot: 2026-08-12.
+the responsible source wins. Guide revision: 2026-08-16; metrics snapshot: 2026-08-12.
 
-## What DomainSpec v2 is—and is not
+## The consumer source package and generated views
 
-### It is
+The owner-selected consumer default is a machine-readable JSON package. A root project
+record points to feature records, and each feature record points to independent concept
+nodes. The current registered profile is still experimental; selection as the default
+source direction is not release admission.
 
-- a small, defined vocabulary for system concepts;
-- clear rules for the information each type must contain;
-- a list of allowed connections between types;
-- repeatable tools for supported inputs that produce normalized graphs, read-only
-  views, or focused structural checks;
-- focused checks of the declared structure generated from that map;
-- experiments for comparing the design with selected facts from code;
-- a way to expose disagreements between sources instead of hiding them; and
-- a private implementation project whose decisions apply only inside this
-  repository.
+### Before you begin: what works today
 
-### It is not
+- This is a private, repository-local workflow. Running its internal tools requires a
+  maintainer-prepared checkout.
+- The only registered consumer profile is experimental. It is not admitted for
+  release.
+- No stable external command exists yet to initialize or build a consumer project.
+- `project.json` binds exact profile and registry digests. Use values supplied by the
+  owned project or tooling; do not guess them or copy them from an older result.
 
-- a general-purpose programming language;
-- a proof that a written description is true in the real world;
-- an LLM that guesses domain meaning;
-- a universal compiler from requirements to applications;
-- a claim that all meta-types have production implementations;
-- an implementation model that can approve DomainSpec definitions by itself;
-- a reason to treat one passing test as proof that the running application is
-  correct; or
-- the Saturn control loop. DomainSpec supplies the structured description; Saturn is
-  the separate private loop that compares the design with observed reality.
+```text
+project.json                                      # project-owned source
+specs/key-and-door/feature.json                   # project-owned source
+specs/key-and-door/nodes/player.json              # Entity source
+specs/key-and-door/nodes/has-key-rule.json        # Rule source + outgoing edge
+specs/key-and-door/nodes/unlock-door.json         # Operation source + outgoing edge
+specs/key-and-door/nodes/door-unlocked.json       # Event source
+.domainspec/generated/graph.json                  # generated read model
+.domainspec/generated/source-manifest.json        # generated provenance
+.domainspec/generated/SPEC.md                     # generated human view
+.domainspec/generated/markdown-view.json          # generated view record
+.domainspec/generated/build-receipt.json          # generated evidence
+```
 
-The useful result today is a checked map of part of a system. The project's official
-term is a **typed composable graph fragment**. It is not a mathematical proof of the
-whole domain, a complete account of behavior, or a universal code generator. The
-[definition registry](definitions/DEFINITIONS.md) and
-[authority model](authority/AUTHORITY-MODEL.md) preserve that boundary explicitly.
+The source records have different jobs:
 
-## Place in the wider private system
+| Record | What it owns |
+| --- | --- |
+| `project.json` | Project ID, selected profile and registry digests, feature paths, and generated-output root. The digests bind exact registry bytes; do not guess or copy stale values. |
+| `specs/<feature>/feature.json` | Feature ID, source layout, and the list of node source paths. |
+| `nodes/*.json` | One concept's stable ID, feature, kind, plain-language intent, required body, and outgoing connections. |
+| `.domainspec/generated/*` | Read-only graph, source map, human view, and build evidence. Regenerate these; never repair them by hand. |
 
-The wider private architecture uses three complementary ideas:
+The current profile, `feature-with-independent-node-files`, supports only:
 
-- **DomainSpec is the what:** the system concepts, their connections, and checks
-  derived from that description.
-- **Arcanum is the how:** reusable steps and tools for work with explicit checks and
-  decision owners.
-- **Saturn is the loop:** the separate idea for comparing the design with reality
-  and routing a correction when they differ.
+- Entity, Event, Operation, and Rule;
+- `enforces`, `performs`, and `produces`; and
+- one source JSON file per node, with connections owned by the source node.
 
-This repository contains the DomainSpec v2 implementation. DomainSpec and Saturn are
-private and are not publicly shipped. Only Arcanum is the public pillar, so private
-DomainSpec or Saturn text must not be copied into it.
+The feature record for the checked example makes the node set explicit:
 
-For orientation only, see the candidate
-[framework concept map](../framework-unification/CONCEPT-MAP.md),
-[Saturn layer map](../../ops/development/2026-06-21-paper-saturn-explainer/SATURN-LAYER-MAP.md),
-and [agentic-system deep dive](../../cyberAlchemy/agentic-system-deep-dive.md).
-These are private draft architecture views. They do not define DomainSpec v2 and do
-not prove that anything has been deployed.
+```json
+{
+  "schema_version": "minted-feature/v1",
+  "feature_id": "key-and-door",
+  "source_layout": "per-node-connections",
+  "node_sources": [
+    "nodes/door-unlocked.json",
+    "nodes/has-key-rule.json",
+    "nodes/player.json",
+    "nodes/unlock-door.json"
+  ]
+}
+```
 
-## Who owns each decision
+The file containing the connection supplies its `from` endpoint when DomainSpec builds
+the consistent map. Every target must resolve to a node in the compiled source set, and
+source paths must remain inside the project. The compiler generates the system map,
+source list, Markdown view, and build record (receipt).
 
-Different sources answer different questions. Keeping them separate prevents a test
-result or generated document from making a decision it is not allowed to make.
+Study the complete, internally checked four-concept example:
 
-| Surface | What it owns | What it cannot do |
+- [Project record](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/project.json)
+- [Feature record](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/feature.json)
+- [Player Entity](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/nodes/player.json)
+- [HasKeyRule Rule](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/nodes/has-key-rule.json)
+- [UnlockDoor Operation](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/nodes/unlock-door.json)
+- [DoorUnlocked Event](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/nodes/door-unlocked.json)
+- [Generated `SPEC.md`](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/SPEC.md)
+
+The source contract and generated-output roles are indexed in
+[impl/spec/minted-project/INDEX.md](impl/spec/minted-project/INDEX.md). There is no
+stable public CLI for this workflow, and the profile has not been admitted for release.
+
+## What the two repository paths generate
+
+Two implemented paths coexist in the repository, but they do not yet join.
+
+### Selected JSON source path
+
+The minted-project compiler resolves the project, feature, and node sources and then
+builds deterministic read-only results:
+
+```text
+project.json -> feature.json -> nodes/*.json
+             -> graph.json + source-manifest.json
+             -> generated SPEC.md + markdown-view.json
+             -> build-receipt.json
+```
+
+Internal tests exercise schema validation, profile and registry bindings, connection
+endpoints, path containment, determinism, provenance, and stale generated bytes. This
+is implemented repository machinery, not yet a supported external command or a released
+product workflow.
+
+### Legacy Markdown derivation path
+
+The older check generator follows the same steps every time for the same inputs:
+
+```text
+parse docs -> normalized graph G -> pure derivation rules
+           -> stable IDs for each generated check
+           -> test specification and runnable structural tests
+```
+
+It accepts:
+
+- legacy aspect documents such as `states.md` and `operations.md`; or
+- a normalized v2 `SPEC.md` when aspect documents are absent, as explicit legacy input.
+
+It generates focused checks—officially called **obligations**—for declared concepts,
+fields, attributes, and relationships. It does not work out business behavior or equations
+from prose. This path uses no LLM and no network, so the same inputs produce the same
+result.
+
+Markdown remains useful here and as generated documentation. The planned
+`machine-v1` route must not read Markdown or use it as a fallback. Its route from the
+minted JSON artifacts into machine-view test generation is designed but not
+implemented; the legacy engine must not be described as silently filling that gap.
+
+For maintainers working in a prepared checkout, these existing commands exercise the
+legacy validators and repository test surface. They are not a user CLI for the selected
+JSON package:
+
+```bash
+npm --prefix projects/domainspec-v2/impl run validate:content
+npm --prefix projects/domainspec-v2/impl run validate:rels
+npm --prefix projects/domainspec-v2/impl run validate
+```
+
+To create a legacy-engine result record (receipt) from a supported feature directory:
+
+```bash
+cd projects/domainspec-v2/impl/test-derivation-engine
+pnpm exec tsx src/cli.ts receipt <feature-directory>
+```
+
+The result record lists which declarations and relationships were processed, skipped,
+or rejected, plus the exact source references used. It proves only that those inputs
+were structurally accounted for; it does not prove that the business meaning is
+correct and it does not generate an application. See the
+[engine README](impl/test-derivation-engine/src/README.md).
+
+## Walk one complete checked feature
+
+Key and Door is the smallest complete example of the selected source layout. This is a
+reading walkthrough, not a promise that a supported onboarding command exists. It lets
+you see the whole current boundary before studying the wider type catalogue.
+
+### Start at the project boundary
+
+The package has six editable source files:
+
+| File | Question it answers |
+| --- | --- |
+| `project.json` | Which project, profile, registry versions, features, and generated directory belong to this build? |
+| `specs/key-and-door/feature.json` | Which node files make up the Key and Door feature? |
+| `nodes/player.json` | Which identity-bearing Entity can act? |
+| `nodes/has-key-rule.json` | Which boolean Rule gates the action? |
+| `nodes/unlock-door.json` | Which state-changing Operation happens? |
+| `nodes/door-unlocked.json` | Which past-tense Event records the result? |
+
+The feature record lists all four nodes. The node files carry the meaning. DomainSpec
+does not recover a missing node from generated Markdown or silently invent one.
+
+### Read the four nodes as one story
+
+```text
+Player ---------[performs]--------> UnlockDoor ---------[produces]--------> DoorUnlocked
+                                         ^
+                                         |
+                                     [enforces]
+                                         |
+                                     HasKeyRule
+```
+
+Each node uses one of the four kinds supported by the current profile:
+
+| Node | Kind | Required body signal | Contribution to the story |
+| --- | --- | --- | --- |
+| `Player` | Entity | At least one field has `identity: true`. | Names the identity-bearing actor. |
+| `HasKeyRule` | Rule | `formal_return_type` is `boolean`. | Decides whether unlocking is allowed. |
+| `UnlockDoor` | Operation | `state_change` is `yes`. | Performs the state-changing action. |
+| `DoorUnlocked` | Event | `temporal` is `past`. | Records that the action happened. |
+
+The node containing a connection owns its outgoing edge. `player.json` owns
+`performs`, `has-key-rule.json` owns `enforces`, and `unlock-door.json` owns
+`produces`. During normalization, the containing node supplies the `from` endpoint;
+the connection record names the `to` endpoint.
+
+### Know where to make a change
+
+| You need to change… | Edit… | Do not edit… |
 | --- | --- | --- |
-| Local definitions | The DomainSpec labels, the rules for forming each type, the allowed relationships, and local project rules. | Claim that code or production behavior exists without evidence and an owner decision. |
-| Project source | The meaning of a project, feature, concept, field, rule, and connection. | Redefine the shared DomainSpec language simply by using it. |
-| JSON compiler and legacy check generator | The JSON compiler checks the experimental consumer package and builds read-only views. The separate legacy engine derives obligations and tests from Markdown input. | Join those paths automatically, prove all business behavior, or establish production correctness. |
-| Generated views | System maps, source lists, Markdown, test descriptions, and result summaries. | Replace the source files people are meant to edit. |
-| Experimental implementation model | Terms for describing code forms, expected properties, observations, and differences. | Approve a DomainSpec definition or an implementation. |
-| Implementation or release owner | The final decision about implementation acceptance, deployment, release, and production use. | Be replaced by an experimental result record. |
+| Project profile, registry bindings, feature list, or generated root | `project.json` | A build receipt copied from another revision. |
+| Which nodes belong to the feature | `feature.json` | The generated graph's node list. |
+| A concept's name, kind, meaning, required body, or outgoing connections | That concept's `nodes/*.json` file | Generated `SPEC.md` or `graph.json`. |
+| A generated result that is stale | The responsible source, then regenerate all bound outputs | The generated result in place. |
 
-The [source-spine file](authority/source-spine.md) lists which sources take
-precedence. The central rule in the
-[authority model](authority/AUTHORITY-MODEL.md) is simple: DomainSpec may describe,
-derive, check, and report differences. It may not approve an implementation or
-production use without direct evidence and the responsible owner's decision.
+### Read the five generated results
 
-DomainSpec v1 and CyberAlchemy v2 are older references only. They can explain history,
-but they do not decide what DomainSpec v2 means.
+| Generated result | Review question it answers |
+| --- | --- |
+| `graph.json` | Which normalized nodes and directed connections did DomainSpec build? |
+| `source-manifest.json` | Which exact source file and digest produced each graph record? |
+| `SPEC.md` | What does the normalized graph look like in a human-readable view? |
+| `markdown-view.json` | Which graph digest, Markdown digest, and generator version bind that view? |
+| `build-receipt.json` | Which profile, registries, source set, generated artifacts, generator, and build result were checked together? |
 
-## Five different things that are easy to confuse
+### Review the result
 
-| Thing | Example | Meaning |
+For the checked fixture, confirm all of the following:
+
+- the project points to one feature and that feature lists all four node files;
+- the graph contains the four expected nodes and three expected connections;
+- every graph node and edge traces back to its owning source file in the source
+  manifest;
+- the generated Markdown says to edit machine sources and rebuild;
+- the Markdown-view record binds the exact graph and Markdown bytes;
+- the build receipt says `status: pass` and binds the exact profile, registries,
+  source set, outputs, and generator; and
+- the conclusion stops at structural formation, normalization, provenance, and
+  repeatable generation for this exact fixture.
+
+`status: pass` does not establish that a player really owns a key, that running code
+unlocks a door, that the domain policy is correct, or that the profile is released.
+
+### If the current profile cannot express your concept
+
+Do not invent a new `kind`, improvise a body for one of the other nine active backend
+types, or use one of the other language relationships as though the profile supported
+it. Keep the intended distinction in project notes, bring a concrete example that the
+current profile cannot represent, state which validation or generated result should
+change, and route the proposal to the responsible definitions or profile owner. The
+full language catalogue is a reference; it is not hidden source-format support.
+
+### Find the layer that failed
+
+| Failure category | First place to inspect | Safe response |
 | --- | --- | --- |
-| Meta-type | `Rule` | An official DomainSpec label plus the information required to use it. |
-| Domain concept | `PayoutEligibilityRule` | One project-owned use of a meta-type in a feature. |
-| Runtime instance | one settlement transaction | A value or object created while software runs; it is not a graph concept. |
-| Architecture concept type | `architecture.RuleImplementation` | An experimental label for how a domain concept may appear in code. |
-| Native language form | a TypeScript arrow function | One language-specific code form; it does not redefine `Rule`. |
+| Unsupported profile | `project.json` and the supported-profile registry | Select only an admitted profile binding or ask the profile owner; do not bypass the check. |
+| Kind outside the profile | The node's `kind` | Use one of the current four kinds only when it preserves the meaning; otherwise raise the missing profile capability. |
+| Invalid body shape | The node's `body` and its formation schema | Correct the source body. Do not ask generated Markdown to supply missing semantics. |
+| Unsupported or inactive relationship | The source node's outgoing connection and the relationship registry | Choose a supported connection only when it expresses the intended relation; otherwise raise a profile proposal. |
+| Missing endpoint | The connection target and `feature.json` node list | Add or correct the owned source node and feature membership. |
+| Path escapes the project | `project.json`, `feature.json`, or the offending relative path | Keep every source and generated path inside the consumer root. |
+| Stale generated bytes | Source manifest, view binding, or receipt | Regenerate the complete bound output set from source; never patch one generated file. |
 
-Two more distinctions matter:
+The authority contract requires unsupported profile, unsupported kind, invalid shape,
+and inactive relationship failures to remain distinguishable. Current tools may use
+different exact wording, so this table identifies the repair boundary rather than
+promising a diagnostic message.
 
-- A **property type** such as `callable.form` describes a fact expected or observed
-  in code; it is
-  not a DomainSpec meta-type.
-- An **observation** reports what a tool saw in code. It is an input to a comparison,
-  not a fact that approves itself.
+## Turn one team decision into a concept
 
-## Ask six separate status questions
+The team has decided that an unlock attempt is allowed only when the player holds the
+required key. That decision now needs a stable place in the project so everyone can
+name it, connect it to the unlock action, and review the same meaning later.
 
-A single label such as “complete” hides important gaps. Ask these six questions
-separately:
+A **concept** is one named part of the system description. Here, `HasKeyRule` is the
+team's name for the decision that allows or blocks `UnlockDoor`.
 
-| Axis | Typical values | Question answered |
+### Answer six questions
+
+The questions begin with the team's meaning. Their answers become the fields of one
+source record.
+
+| Question | The team's answer | Where it goes |
 | --- | --- | --- |
-| Definition status | active; candidate (proposed); deferred (postponed); superseded (replaced) | Is this label officially available in DomainSpec? |
-| Code mapping | candidate-mapped (proposed); not-admitted (not formally accepted); superseded (replaced) | Has the experiment proposed how this type may appear in code? |
-| Language implementation | proposed; selected; provider-absent (no evidence tool yet); bounded proof (limited recorded result) | Is there a form for a target language and a tool that can check it? |
-| Validation | pass; fail; expected-red (an intentionally invalid case failed as expected) | Did the exact current inputs satisfy a particular check? |
-| Next-step readiness | ready, blocked, excluded | May the next controlled implementation step begin? |
-| Approval and release | none, owner-decided, release-authorized | Who may approve the result or release it? |
+| What does this decision mean? | Allow unlocking only when the player holds the required key. | `intent` |
+| What job does it perform? | It returns a yes-or-no decision that allows or blocks an action. | `kind: Rule` |
+| Which feature owns it? | Key & Door. | `feature_id: key-and-door` |
+| What is its stable name? | `HasKeyRule` inside that feature. | `node_id: key-and-door.HasKeyRule` |
+| What must every Rule state? | Its formal result is boolean: yes or no. | `body.formal_return_type` |
+| What does it govern? | The `UnlockDoor` action. | `enforces -> key-and-door.UnlockDoor` |
 
-For example, `Entity` is an active DomainSpec type. The current experiment proposes
-a way to represent it in code, and a test built from artificial examples passes. But
-no tool has inspected real target code yet, and no language-level test covers
-construction, reconstruction, or the full lifecycle. There is also no cross-language
-comparison or approval for release or production. These statements do not conflict
-because they answer different questions.
+### Assemble the answers into one source node
 
-## Current working-tree snapshot
+The checked Key & Door fixture stores those answers in
+`nodes/has-key-rule.json`:
 
-This is a dated picture of a changing working tree, captured on 2026-08-12. Run the
-linked validators again before using these numbers for a current decision.
+```json
+{
+  "schema_version": "minted-node/v1",
+  "node_id": "key-and-door.HasKeyRule",
+  "feature_id": "key-and-door",
+  "kind": "Rule",
+  "intent": "Allow the unlock operation only when the player holds the key.",
+  "body": {
+    "formal_return_type": "boolean"
+  },
+  "connections": [
+    {
+      "edge_id": "key-and-door.edge.has-key-rule-enforces-unlock-door",
+      "type": "enforces",
+      "to": "key-and-door.UnlockDoor"
+    }
+  ]
+}
+```
 
-| Area | What was observed | What this proves—and no more |
-| --- | --- | --- |
-| Type list (DS-D1 registry) | 24 non-retired labels: 13 active backend, 9 candidate UI, and 2 deferred UI; plus the retired Saga ID, for 25 retained records. | The available language inventory only. |
-| Allowed connections (DS-D8 registry) | 31 allowed connections, one generated reverse view, three postponed proposals, and one retired alias. | The currently supported graph connections, not a complete mathematical law. |
-| Experimental type-to-code mapping | 25 records: all 13 active types have a proposed code mapping (`candidate-mapped`); 11 non-active types are `not-admitted`; Saga is `superseded`. | An experimental read-only mapping that cannot approve anything (`authority_effect: none`). |
-| Experimental code-property vocabulary | 27 concept types, 99 property definitions, 18 relation definitions, 8 operators, and 3 language views. | An experimental vocabulary for describing code properties. |
-| Implementation readiness queue | 0 ready, 13 blocked, and 12 excluded. | No meta-type is currently implementation-ready through this queue. |
-| Experimental factory tasks | MTF-001 through MTF-029 recorded complete. | Completion of this limited experimental task list, not implementation of every type. |
-| Same-host repeatability | Two isolated runs on the same host produced the same relevant result for the fixed nine-node example. | Repeatability on one host and toolchain only. |
-| Project and release status | Project stage `build`, gate `flag`; first-production-release stage `plan`, gate `block`. | Production remains unauthorized. |
+### What the current check can establish
 
-The live counts come from
-[meta-types.yml](definitions/meta-types/meta-types.yml),
-[relationships.yml](definitions/relationships/relationships.yml),
-[domain-meta-types.projection.json](development/implementation-conformance/ontology-experiment/domain-meta-types.projection.json),
-[ontology.json](development/implementation-conformance/ontology-experiment/ontology.json), and
-[IMPLEMENTATION-QUEUE.json](development/ontology-form-decisions/IMPLEMENTATION-QUEUE.json).
+Under the selected experimental profile, a check can confirm that this record has the
+required Rule body and that a Rule may `enforce` an Operation. It cannot decide whether
+the rule expresses the right game design, inspect the game's code, or prove that the
+player is blocked at runtime.
+
+This record is not a complete project. It belongs beside `project.json`, the Key & Door
+feature record, and every node it references—including `UnlockDoor`. See
+[The consumer source package and generated views](#the-consumer-source-package-and-generated-views)
+for the complete package.
+
+> **The language is larger than this source profile.** The current experimental
+> profile accepts source nodes for Entity, Event, Operation, and Rule. DomainSpec has
+> other active types, but this profile does not define their JSON bodies. Choose from
+> the type catalogue; if no active type preserves the distinction you need, follow the
+> separate new-meta-type proposal path instead of inventing a body.
+
+There is no supported external authoring command yet. Today this example lives in
+project-owned JSON and is exercised by repository-internal compiler and contract tests.
+Generated views are read-only: change the source, rebuild the results, and review them
+again. This guide does not turn those internal APIs into a promised user command.
 
 ## The 25 kinds of concepts tracked by DomainSpec v2
 
@@ -436,114 +673,6 @@ machine index is
 [definitions/meta-types/meta-types.yml](definitions/meta-types/meta-types.yml). For
 active backend types, the referenced `.schema.yml` files are the official required
 shapes used by the checker.
-
-## How to create a DomainSpec concept
-
-Creating a DomainSpec concept and implementing it in code are separate jobs:
-
-1. **Describe the concept**: write what the concept means, choose its type, and check
-   that the declaration contains the required information.
-2. **Represent and inspect it in code**: propose how the concept should appear in a
-   programming language, inspect an exact code target, and record what the check did
-   and did not prove.
-
-Do not treat these as the same achievement. A valid Rule source record proves that
-the declaration has the required Rule shape. It does not prove that a TypeScript,
-Python, or Rust implementation exists.
-
-> **Language coverage and source coverage are different.** DomainSpec defines 13
-> active backend meta-types. The current owner-selected JSON profile can author only
-> Entity, Event, Operation, and Rule, connected with `enforces`, `performs`, or
-> `produces`. The remaining active types are still part of the language, but they do
-> not yet have a supported body shape in this consumer-source profile.
-
-### Describe the concept, step by step
-
-1. **Choose the feature that owns the meaning.** The feature defines the concrete
-   business idea; the shared type list defines the label.
-2. **Name the concept after what it means.** Prefer `GenerateSettlement` over generic
-   infrastructure names such as `Service` or `Handler`.
-3. **Choose exactly one meta-type.** Ask the question that separates it from nearby
-   types: identity or equality, read or write, boolean or strategy, value or
-   lifecycle, boundary or transformation. For the current JSON route, stop if the
-   chosen type is not one of the four supported kinds.
-4. **Give it a stable ID.** Independent-node records use
-   `<feature-id>.<ConceptName>`, such as `key-and-door.UnlockDoor`.
-5. **Fill the required `body` fields.** In the current JSON route, the node body must
-   match the selected type's rule, called its **formation criterion**.
-6. **State what it means in `intent`.** This plain-language field carries the
-   project-owned meaning that a structural body alone cannot express.
-7. **Add only allowed connections.** Each connection needs a stable ID, recognized
-   verb, allowed source and target types, allowed location, and valid quantity limits.
-8. **Check the concept and its connections.** A guessed or malformed concept must
-   fail rather than being silently reclassified.
-9. **Generate views; do not hand-edit them.** The system map, source list, Markdown,
-   and result records are read-only views of the source.
-10. **Build the read-only results that the current route supports.** The JSON compiler
-    can build and verify a graph, source manifest, Markdown view, and build receipt.
-    Generating structural obligations directly from these machine sources is planned,
-    not implemented. Stronger claims about business behavior need separate evidence.
-
-### Author the source nodes, not `SPEC.md`
-
-The smallest relationship to understand is one Rule gating one Operation. In the
-checked Key and Door fixture, that meaning lives in two independent source files.
-
-`nodes/has-key-rule.json`:
-
-```json
-{
-  "schema_version": "minted-node/v1",
-  "node_id": "key-and-door.HasKeyRule",
-  "feature_id": "key-and-door",
-  "kind": "Rule",
-  "intent": "Allow the unlock operation only when the player holds the key.",
-  "body": {
-    "formal_return_type": "boolean"
-  },
-  "connections": [
-    {
-      "edge_id": "key-and-door.edge.has-key-rule-enforces-unlock-door",
-      "type": "enforces",
-      "to": "key-and-door.UnlockDoor"
-    }
-  ]
-}
-```
-
-`nodes/unlock-door.json`:
-
-```json
-{
-  "schema_version": "minted-node/v1",
-  "node_id": "key-and-door.UnlockDoor",
-  "feature_id": "key-and-door",
-  "kind": "Operation",
-  "intent": "Unlock the door when the player holds the required key.",
-  "body": {
-    "state_change": "yes"
-  },
-  "connections": [
-    {
-      "edge_id": "key-and-door.edge.unlock-door-produces-door-unlocked",
-      "type": "produces",
-      "to": "key-and-door.DoorUnlocked"
-    }
-  ]
-}
-```
-
-These two files show the Rule-to-Operation connection, but they are not a complete
-project by themselves. A complete source package also needs `project.json`, a feature
-record, and every referenced endpoint node. The full four-concept fixture is linked in
-[The consumer source package and generated views](#the-consumer-source-package-and-generated-views).
-Its generated `SPEC.md` explicitly tells readers to edit the machine sources and
-rebuild.
-
-There is no supported external command for initializing or building this package yet.
-The repository currently exercises it through internal compiler, minter, build, and
-contract tests. This guide does not turn those implementation APIs into a promised user
-CLI.
 
 ## How each active backend type is defined
 
@@ -677,6 +806,36 @@ every value from an Enum or State Machine to a visual representation; another br
 models asynchronous loading/error/empty request state. Those may be two different
 concepts, so the proposal remains unresolved.
 
+## A practical decision tree for choosing a meta-type
+
+```text
+Does the concept primarily describe data?
+  |
+  +-- Does it have stable identity? ----------------------> Entity
+  +-- Is equality the complete field tuple? -------------> Value Object
+  +-- Is it a closed list of named values? --------------> Enum
+  +-- Does it own legal transitions between states? -----> State Machine
+
+Does the concept primarily describe behavior?
+  |
+  +-- Does it change state? ------------------------------> Operation
+  +-- Is it read-only retrieval? -------------------------> Query
+  +-- Does it return a derived value? --------------------> Calculation
+  +-- Does it return block/allow? ------------------------> Rule
+  +-- Does it choose a strategy? -------------------------> Policy
+  +-- Does it coordinate ordered Operations? ------------> Workflow
+
+Does the concept primarily connect boundaries?
+  |
+  +-- Does it expose callable behavior? ------------------> Interface
+  +-- Does it announce a past fact? ----------------------> Event
+  +-- Does it transform one shape into another? ----------> Mapping
+```
+
+If none fits, do not invent a new label inside a feature. Bring a concrete example
+that existing types handle incorrectly, show which validation or generated result
+would change, and ask the definitions owner to review the proposal.
+
 ## The 31 allowed ways to connect concepts
 
 A connection is allowed only when:
@@ -770,265 +929,73 @@ See the machine registry
 and the human guide
 [definitions/relationships/relationships.md](definitions/relationships/relationships.md).
 
-## The consumer source package and generated views
+## How to propose a new DomainSpec meta-type
 
-The owner-selected consumer default is a machine-readable JSON package. A root project
-record points to feature records, and each feature record points to independent concept
-nodes. The current registered profile is still experimental; selection as the default
-source direction is not release admission.
+Most projects should never need a new meta-type. A meta-type changes the vocabulary
+available to every specification, so a new label begins as a question—not as an
+official type.
 
-### Before you begin: what works today
+- A **new concept** uses the language. `HasKeyRule` belongs to one project and uses the
+  existing Rule meta-type.
+- A **new meta-type** changes the language for many projects. It changes what counts as
+  a well-formed declaration, where that declaration may connect, and what later checks
+  can distinguish.
 
-- This is a private, repository-local workflow. Running its internal tools requires a
-  maintainer-prepared checkout.
-- The only registered consumer profile is experimental. It is not admitted for
-  release.
-- No stable external command exists yet to initialize or build a consumer project.
-- `project.json` binds exact profile and registry digests. Use values supplied by the
-  owned project or tooling; do not guess them or copy them from an older result.
+> **Try to disprove the proposal first.** If an active type plus its properties and
+> relationships preserves the distinction, stop. A different framework word, class
+> name, or diagram label is not enough. The proposal must change a check or another
+> tracked result.
 
-```text
-project.json                                      # project-owned source
-specs/key-and-door/feature.json                   # project-owned source
-specs/key-and-door/nodes/player.json              # Entity source
-specs/key-and-door/nodes/has-key-rule.json        # Rule source + outgoing edge
-specs/key-and-door/nodes/unlock-door.json         # Operation source + outgoing edge
-specs/key-and-door/nodes/door-unlocked.json       # Event source
-.domainspec/generated/graph.json                  # generated read model
-.domainspec/generated/source-manifest.json        # generated provenance
-.domainspec/generated/SPEC.md                     # generated human view
-.domainspec/generated/markdown-view.json          # generated view record
-.domainspec/generated/build-receipt.json          # generated evidence
-```
+### Follow a real proposal: should Page be different from Component?
 
-The source records have different jobs:
+A product team keeps describing `InventoryPage` and `MapPage` as Components. It
+proposes Page as a separate role because a Page owns a destination: a route, primary
+content, layout, access context, and the units placed on it. A reusable Component does
+not own a route.
 
-| Record | What it owns |
-| --- | --- |
-| `project.json` | Project ID, selected profile and registry digests, feature paths, and generated-output root. The digests bind exact registry bytes; do not guess or copy stale values. |
-| `specs/<feature>/feature.json` | Feature ID, source layout, and the list of node source paths. |
-| `nodes/*.json` | One concept's stable ID, feature, kind, plain-language intent, required body, and outgoing connections. |
-| `.domainspec/generated/*` | Read-only graph, source map, human view, and build evidence. Regenerate these; never repair them by hand. |
+That difference is promising, but it is still a candidate. The current Page evidence
+has not yet been reproduced independently across route frameworks, so Page is not
+active or promotion-ready.
 
-The current profile, `feature-with-independent-node-files`, supports only:
+### Author the candidate as a question the evidence can answer
 
-- Entity, Event, Operation, and Rule;
-- `enforces`, `performs`, and `produces`; and
-- one source JSON file per node, with connections owned by the source node.
+1. **Show where the language fails.** Try the active types first. Then name the exact
+   failure and compare the closest neighbour. For Page, the question is whether a
+   routeless Component could wrongly satisfy the description of a terminal destination.
+   Page owns the destination; Component does not.
+2. **Make the difference testable.** Write the separating formation rule, place the
+   candidate in one category, and propose its incoming and outgoing relationship roles.
+   Test a valid Page, a deliberately invalid neighbour, and at least one real project
+   example. Record the exact check or tracked result that changes.
+3. **Submit evidence, not a verdict.** The human card, candidate schema, fixtures,
+   automated tests, and known limitations form a review packet. They do not allocate an
+   official ID or choose a permanent file home. The definitions owner decides maturity.
+   Even activation does not add the type to every source profile or approve a code form,
+   release, or production use.
 
-The feature record for the checked example makes the node set explicit:
+### Keep four decisions separate
 
-```json
-{
-  "schema_version": "minted-feature/v1",
-  "feature_id": "key-and-door",
-  "source_layout": "per-node-connections",
-  "node_sources": [
-    "nodes/door-unlocked.json",
-    "nodes/has-key-rule.json",
-    "nodes/player.json",
-    "nodes/unlock-door.json"
-  ]
-}
-```
-
-The file containing the connection supplies its `from` endpoint when DomainSpec builds
-the consistent map. Every target must resolve to a node in the compiled source set, and
-source paths must remain inside the project. The compiler generates the system map,
-source list, Markdown view, and build record (receipt).
-
-Study the complete, internally checked four-concept example:
-
-- [Project record](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/project.json)
-- [Feature record](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/feature.json)
-- [Player Entity](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/nodes/player.json)
-- [HasKeyRule Rule](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/nodes/has-key-rule.json)
-- [UnlockDoor Operation](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/nodes/unlock-door.json)
-- [DoorUnlocked Event](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/nodes/door-unlocked.json)
-- [Generated `SPEC.md`](impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/SPEC.md)
-
-The source contract and generated-output roles are indexed in
-[impl/spec/minted-project/INDEX.md](impl/spec/minted-project/INDEX.md). There is no
-stable public CLI for this workflow, and the profile has not been admitted for release.
-
-## Walk one complete checked feature
-
-Key and Door is the smallest complete example of the selected source layout. This is a
-reading walkthrough, not a promise that a supported onboarding command exists. It lets
-you see the whole current boundary before studying the wider type catalogue.
-
-### Start at the project boundary
-
-The package has six editable source files:
-
-| File | Question it answers |
-| --- | --- |
-| `project.json` | Which project, profile, registry versions, features, and generated directory belong to this build? |
-| `specs/key-and-door/feature.json` | Which node files make up the Key and Door feature? |
-| `nodes/player.json` | Which identity-bearing Entity can act? |
-| `nodes/has-key-rule.json` | Which boolean Rule gates the action? |
-| `nodes/unlock-door.json` | Which state-changing Operation happens? |
-| `nodes/door-unlocked.json` | Which past-tense Event records the result? |
-
-The feature record lists all four nodes. The node files carry the meaning. DomainSpec
-does not recover a missing node from generated Markdown or silently invent one.
-
-### Read the four nodes as one story
-
-```text
-Player ---------[performs]--------> UnlockDoor ---------[produces]--------> DoorUnlocked
-                                         ^
-                                         |
-                                     [enforces]
-                                         |
-                                     HasKeyRule
-```
-
-Each node uses one of the four kinds supported by the current profile:
-
-| Node | Kind | Required body signal | Contribution to the story |
-| --- | --- | --- | --- |
-| `Player` | Entity | At least one field has `identity: true`. | Names the identity-bearing actor. |
-| `HasKeyRule` | Rule | `formal_return_type` is `boolean`. | Decides whether unlocking is allowed. |
-| `UnlockDoor` | Operation | `state_change` is `yes`. | Performs the state-changing action. |
-| `DoorUnlocked` | Event | `temporal` is `past`. | Records that the action happened. |
-
-The node containing a connection owns its outgoing edge. `player.json` owns
-`performs`, `has-key-rule.json` owns `enforces`, and `unlock-door.json` owns
-`produces`. During normalization, the containing node supplies the `from` endpoint;
-the connection record names the `to` endpoint.
-
-### Know where to make a change
-
-| You need to change… | Edit… | Do not edit… |
+| Question | What a positive result means | What it still does not grant |
 | --- | --- | --- |
-| Project profile, registry bindings, feature list, or generated root | `project.json` | A build receipt copied from another revision. |
-| Which nodes belong to the feature | `feature.json` | The generated graph's node list. |
-| A concept's name, kind, meaning, required body, or outgoing connections | That concept's `nodes/*.json` file | Generated `SPEC.md` or `graph.json`. |
-| A generated result that is stale | The responsible source, then regenerate all bound outputs | The generated result in place. |
+| Is the idea a candidate? | There is a concrete distinction worth testing. | Permission to use it as active DomainSpec vocabulary. |
+| Is the formation rule checkable? | Valid and invalid declarations can be distinguished structurally. | Proof that the type is necessary, meaningful, or implemented. |
+| Is the meta-type active? | The definitions owner accepted the type under its evidence and challenge contracts. | Automatic support in every DomainSpec source profile. |
+| Does a profile support authoring it? | That profile defines the source shape and admitted connections for the type. | Runtime behavior, implementation conformance, release approval, or production readiness. |
 
-### Read the five generated results
+Current proposals show why this is a real gate. Adapter remains a deferred
+merge-candidate because its tested structure still collapses into Mapping with extra
+UI-boundary details. State Indicator remains deferred because domain-state
+visualization and loading, error, or empty request state may be two different ideas.
 
-| Generated result | Review question it answers |
-| --- | --- |
-| `graph.json` | Which normalized nodes and directed connections did DomainSpec build? |
-| `source-manifest.json` | Which exact source file and digest produced each graph record? |
-| `SPEC.md` | What does the normalized graph look like in a human-readable view? |
-| `markdown-view.json` | Which graph digest, Markdown digest, and generator version bind that view? |
-| `build-receipt.json` | Which profile, registries, source set, generated artifacts, generator, and build result were checked together? |
-
-### Review the result
-
-For the checked fixture, confirm all of the following:
-
-- the project points to one feature and that feature lists all four node files;
-- the graph contains the four expected nodes and three expected connections;
-- every graph node and edge traces back to its owning source file in the source
-  manifest;
-- the generated Markdown says to edit machine sources and rebuild;
-- the Markdown-view record binds the exact graph and Markdown bytes;
-- the build receipt says `status: pass` and binds the exact profile, registries,
-  source set, outputs, and generator; and
-- the conclusion stops at structural formation, normalization, provenance, and
-  repeatable generation for this exact fixture.
-
-`status: pass` does not establish that a player really owns a key, that running code
-unlocks a door, that the domain policy is correct, or that the profile is released.
-
-### If the current profile cannot express your concept
-
-Do not invent a new `kind`, improvise a body for one of the other nine active backend
-types, or use one of the other language relationships as though the profile supported
-it. Keep the intended distinction in project notes, bring a concrete example that the
-current profile cannot represent, state which validation or generated result should
-change, and route the proposal to the responsible definitions or profile owner. The
-full language catalogue is a reference; it is not hidden source-format support.
-
-### Find the layer that failed
-
-| Failure category | First place to inspect | Safe response |
-| --- | --- | --- |
-| Unsupported profile | `project.json` and the supported-profile registry | Select only an admitted profile binding or ask the profile owner; do not bypass the check. |
-| Kind outside the profile | The node's `kind` | Use one of the current four kinds only when it preserves the meaning; otherwise raise the missing profile capability. |
-| Invalid body shape | The node's `body` and its formation schema | Correct the source body. Do not ask generated Markdown to supply missing semantics. |
-| Unsupported or inactive relationship | The source node's outgoing connection and the relationship registry | Choose a supported connection only when it expresses the intended relation; otherwise raise a profile proposal. |
-| Missing endpoint | The connection target and `feature.json` node list | Add or correct the owned source node and feature membership. |
-| Path escapes the project | `project.json`, `feature.json`, or the offending relative path | Keep every source and generated path inside the consumer root. |
-| Stale generated bytes | Source manifest, view binding, or receipt | Regenerate the complete bound output set from source; never patch one generated file. |
-
-The authority contract requires unsupported profile, unsupported kind, invalid shape,
-and inactive relationship failures to remain distinguishable. Current tools may use
-different exact wording, so this table identifies the repair boundary rather than
-promising a diagnostic message.
-
-## What the two repository paths generate
-
-Two implemented paths coexist in the repository, but they do not yet join.
-
-### Selected JSON source path
-
-The minted-project compiler resolves the project, feature, and node sources and then
-builds deterministic read-only results:
-
-```text
-project.json -> feature.json -> nodes/*.json
-             -> graph.json + source-manifest.json
-             -> generated SPEC.md + markdown-view.json
-             -> build-receipt.json
-```
-
-Internal tests exercise schema validation, profile and registry bindings, connection
-endpoints, path containment, determinism, provenance, and stale generated bytes. This
-is implemented repository machinery, not yet a supported external command or a released
-product workflow.
-
-### Legacy Markdown derivation path
-
-The older check generator follows the same steps every time for the same inputs:
-
-```text
-parse docs -> normalized graph G -> pure derivation rules
-           -> stable IDs for each generated check
-           -> test specification and runnable structural tests
-```
-
-It accepts:
-
-- legacy aspect documents such as `states.md` and `operations.md`; or
-- a normalized v2 `SPEC.md` when aspect documents are absent, as explicit legacy input.
-
-It generates focused checks—officially called **obligations**—for declared concepts,
-fields, attributes, and relationships. It does not work out business behavior or equations
-from prose. This path uses no LLM and no network, so the same inputs produce the same
-result.
-
-Markdown remains useful here and as generated documentation. The planned
-`machine-v1` route must not read Markdown or use it as a fallback. Its route from the
-minted JSON artifacts into machine-view test generation is designed but not
-implemented; the legacy engine must not be described as silently filling that gap.
-
-For maintainers working in a prepared checkout, these existing commands exercise the
-legacy validators and repository test surface. They are not a user CLI for the selected
-JSON package:
-
-```bash
-npm --prefix projects/domainspec-v2/impl run validate:content
-npm --prefix projects/domainspec-v2/impl run validate:rels
-npm --prefix projects/domainspec-v2/impl run validate
-```
-
-To create a legacy-engine result record (receipt) from a supported feature directory:
-
-```bash
-cd projects/domainspec-v2/impl/test-derivation-engine
-pnpm exec tsx src/cli.ts receipt <feature-directory>
-```
-
-The result record lists which declarations and relationships were processed, skipped,
-or rejected, plus the exact source references used. It proves only that those inputs
-were structurally accounted for; it does not prove that the business meaning is
-correct and it does not generate an application. See the
-[engine README](impl/test-derivation-engine/src/README.md).
+The current contracts are recorded in the
+[meta-type definition and challenge contract](definitions/DEFINITIONS.md#domainspec-v2-d6-meta-type),
+[human definition cards](definitions/meta-types/meta-types.md),
+[machine-readable registry](definitions/meta-types/meta-types.yml),
+[formalization contract](development/meta-type-formalization/DEFINE.md), and
+[candidate adjudication results](development/ui-meta-type-formalization/adjudication/verdicts.yml).
+This is a repository-governed proposal path, not a supported end-user command. A
+schema, fixture, experiment, relationship entry, or code mapping may support review;
+none can approve itself.
 
 ## From a specification to checks—and from code back to evidence
 
@@ -1208,6 +1175,147 @@ current independent-node source layout.
 
 One feature is an example, not proof that every possible domain has the same structure.
 
+## What DomainSpec v2 is—and is not
+
+### It is
+
+- a small, defined vocabulary for system concepts;
+- clear rules for the information each type must contain;
+- a list of allowed connections between types;
+- repeatable tools for supported inputs that produce normalized graphs, read-only
+  views, or focused structural checks;
+- focused checks of the declared structure generated from that map;
+- experiments for comparing the design with selected facts from code;
+- a way to expose disagreements between sources instead of hiding them; and
+- a private implementation project whose decisions apply only inside this
+  repository.
+
+### It is not
+
+- a general-purpose programming language;
+- a proof that a written description is true in the real world;
+- an LLM that guesses domain meaning;
+- a universal compiler from requirements to applications;
+- a claim that all meta-types have production implementations;
+- an implementation model that can approve DomainSpec definitions by itself;
+- a reason to treat one passing test as proof that the running application is
+  correct; or
+- the Saturn control loop. DomainSpec supplies the structured description; Saturn is
+  the separate private loop that compares the design with observed reality.
+
+The useful result today is a checked map of part of a system. The project's official
+term is a **typed composable graph fragment**. It is not a mathematical proof of the
+whole domain, a complete account of behavior, or a universal code generator. The
+[definition registry](definitions/DEFINITIONS.md) and
+[authority model](authority/AUTHORITY-MODEL.md) preserve that boundary explicitly.
+
+## Place in the wider private system
+
+The wider private architecture uses three complementary ideas:
+
+- **DomainSpec is the what:** the system concepts, their connections, and checks
+  derived from that description.
+- **Arcanum is the how:** reusable steps and tools for work with explicit checks and
+  decision owners.
+- **Saturn is the loop:** the separate idea for comparing the design with reality
+  and routing a correction when they differ.
+
+This repository contains the DomainSpec v2 implementation. DomainSpec and Saturn are
+private and are not publicly shipped. Only Arcanum is the public pillar, so private
+DomainSpec or Saturn text must not be copied into it.
+
+For orientation only, see the candidate
+[framework concept map](../framework-unification/CONCEPT-MAP.md),
+[Saturn layer map](../../ops/development/2026-06-21-paper-saturn-explainer/SATURN-LAYER-MAP.md),
+and [agentic-system deep dive](../../cyberAlchemy/agentic-system-deep-dive.md).
+These are private draft architecture views. They do not define DomainSpec v2 and do
+not prove that anything has been deployed.
+
+## Who owns each decision
+
+Different sources answer different questions. Keeping them separate prevents a test
+result or generated document from making a decision it is not allowed to make.
+
+| Surface | What it owns | What it cannot do |
+| --- | --- | --- |
+| Local definitions | The DomainSpec labels, the rules for forming each type, the allowed relationships, and local project rules. | Claim that code or production behavior exists without evidence and an owner decision. |
+| Project source | The meaning of a project, feature, concept, field, rule, and connection. | Redefine the shared DomainSpec language simply by using it. |
+| JSON compiler and legacy check generator | The JSON compiler checks the experimental consumer package and builds read-only views. The separate legacy engine derives obligations and tests from Markdown input. | Join those paths automatically, prove all business behavior, or establish production correctness. |
+| Generated views | System maps, source lists, Markdown, test descriptions, and result summaries. | Replace the source files people are meant to edit. |
+| Experimental implementation model | Terms for describing code forms, expected properties, observations, and differences. | Approve a DomainSpec definition or an implementation. |
+| Implementation or release owner | The final decision about implementation acceptance, deployment, release, and production use. | Be replaced by an experimental result record. |
+
+The [source-spine file](authority/source-spine.md) lists which sources take
+precedence. The central rule in the
+[authority model](authority/AUTHORITY-MODEL.md) is simple: DomainSpec may describe,
+derive, check, and report differences. It may not approve an implementation or
+production use without direct evidence and the responsible owner's decision.
+
+DomainSpec v1 and CyberAlchemy v2 are older references only. They can explain history,
+but they do not decide what DomainSpec v2 means.
+
+## Five different things that are easy to confuse
+
+| Thing | Example | Meaning |
+| --- | --- | --- |
+| Meta-type | `Rule` | An official DomainSpec label plus the information required to use it. |
+| Domain concept | `PayoutEligibilityRule` | One project-owned use of a meta-type in a feature. |
+| Runtime instance | one settlement transaction | A value or object created while software runs; it is not a graph concept. |
+| Architecture concept type | `architecture.RuleImplementation` | An experimental label for how a domain concept may appear in code. |
+| Native language form | a TypeScript arrow function | One language-specific code form; it does not redefine `Rule`. |
+
+Two more distinctions matter:
+
+- A **property type** such as `callable.form` describes a fact expected or observed
+  in code; it is
+  not a DomainSpec meta-type.
+- An **observation** reports what a tool saw in code. It is an input to a comparison,
+  not a fact that approves itself.
+
+## Ask six separate status questions
+
+A single label such as “complete” hides important gaps. Ask these six questions
+separately:
+
+| Axis | Typical values | Question answered |
+| --- | --- | --- |
+| Definition status | active; candidate (proposed); deferred (postponed); superseded (replaced) | Is this label officially available in DomainSpec? |
+| Code mapping | candidate-mapped (proposed); not-admitted (not formally accepted); superseded (replaced) | Has the experiment proposed how this type may appear in code? |
+| Language implementation | proposed; selected; provider-absent (no evidence tool yet); bounded proof (limited recorded result) | Is there a form for a target language and a tool that can check it? |
+| Validation | pass; fail; expected-red (an intentionally invalid case failed as expected) | Did the exact current inputs satisfy a particular check? |
+| Next-step readiness | ready, blocked, excluded | May the next controlled implementation step begin? |
+| Approval and release | none, owner-decided, release-authorized | Who may approve the result or release it? |
+
+For example, `Entity` is an active DomainSpec type. The current experiment proposes
+a way to represent it in code, and a test built from artificial examples passes. But
+no tool has inspected real target code yet, and no language-level test covers
+construction, reconstruction, or the full lifecycle. There is also no cross-language
+comparison or approval for release or production. These statements do not conflict
+because they answer different questions.
+
+## Current working-tree snapshot
+
+This is a dated picture of a changing working tree, captured on 2026-08-12. Run the
+linked validators again before using these numbers for a current decision.
+
+| Area | What was observed | What this proves—and no more |
+| --- | --- | --- |
+| Type list (DS-D1 registry) | 24 non-retired labels: 13 active backend, 9 candidate UI, and 2 deferred UI; plus the retired Saga ID, for 25 retained records. | The available language inventory only. |
+| Allowed connections (DS-D8 registry) | 31 allowed connections, one generated reverse view, three postponed proposals, and one retired alias. | The currently supported graph connections, not a complete mathematical law. |
+| Experimental type-to-code mapping | 25 records: all 13 active types have a proposed code mapping (`candidate-mapped`); 11 non-active types are `not-admitted`; Saga is `superseded`. | An experimental read-only mapping that cannot approve anything (`authority_effect: none`). |
+| Experimental code-property vocabulary | 27 concept types, 99 property definitions, 18 relation definitions, 8 operators, and 3 language views. | An experimental vocabulary for describing code properties. |
+| Implementation readiness queue | 0 ready, 13 blocked, and 12 excluded. | No meta-type is currently implementation-ready through this queue. |
+| Experimental factory tasks | MTF-001 through MTF-029 recorded complete. | Completion of this limited experimental task list, not implementation of every type. |
+| Same-host repeatability | Two isolated runs on the same host produced the same relevant result for the fixed nine-node example. | Repeatability on one host and toolchain only. |
+| Project and release status | Project stage `build`, gate `flag`; first-production-release stage `plan`, gate `block`. | Production remains unauthorized. |
+
+The live counts come from
+[meta-types.yml](definitions/meta-types/meta-types.yml),
+[relationships.yml](definitions/relationships/relationships.yml),
+[domain-meta-types.projection.json](development/implementation-conformance/ontology-experiment/domain-meta-types.projection.json),
+[ontology.json](development/implementation-conformance/ontology-experiment/ontology.json), and
+[IMPLEMENTATION-QUEUE.json](development/ontology-form-decisions/IMPLEMENTATION-QUEUE.json).
+
 ## Current development status and known failures
 
 The derivation engine and limited architecture checks exist separately. The general
@@ -1329,36 +1437,6 @@ files and run validators. Do not silently update files covered by an older appro
 Their owners must review the changes, rerun the required checks, and request a new
 approval.
 
-## A practical decision tree for choosing a meta-type
-
-```text
-Does the concept primarily describe data?
-  |
-  +-- Does it have stable identity? ----------------------> Entity
-  +-- Is equality the complete field tuple? -------------> Value Object
-  +-- Is it a closed list of named values? --------------> Enum
-  +-- Does it own legal transitions between states? -----> State Machine
-
-Does the concept primarily describe behavior?
-  |
-  +-- Does it change state? ------------------------------> Operation
-  +-- Is it read-only retrieval? -------------------------> Query
-  +-- Does it return a derived value? --------------------> Calculation
-  +-- Does it return block/allow? ------------------------> Rule
-  +-- Does it choose a strategy? -------------------------> Policy
-  +-- Does it coordinate ordered Operations? ------------> Workflow
-
-Does the concept primarily connect boundaries?
-  |
-  +-- Does it expose callable behavior? ------------------> Interface
-  +-- Does it announce a past fact? ----------------------> Event
-  +-- Does it transform one shape into another? ----------> Mapping
-```
-
-If none fits, do not invent a new label inside a feature. Bring a concrete example
-that existing types handle incorrectly, show which validation or generated result
-would change, and ask the definitions owner to review the proposal.
-
 ## Eight conclusions the evidence does not support
 
 Most mistakes happen when evidence from one step is treated as proof of a different
@@ -1459,20 +1537,10 @@ check both the concept and graph.
 
 ### Propose a new meta-type
 
-Bring a concrete example that existing types handle incorrectly. The proposed type
-must change validation or another tracked result. Define:
-
-- the meaning and non-meaning;
-- a checkable rule with a limited set of required conditions;
-- an intentionally invalid case the rule must reject;
-- the connections in which the type may participate;
-- valid and invalid examples;
-- the person responsible for approval and the path for corrections; and
-- evidence that the distinction still matters across more than one framework or body
-  of examples, when that broader use is claimed.
-
-Then ask the definitions owner for formal review. An experimental required-shape file
-or code-mapping record cannot approve itself.
+Use [How to propose a new DomainSpec meta-type](#how-to-propose-a-new-domainspec-meta-type):
+disprove the need first, separate the nearest neighbour, add discriminating evidence,
+and preserve the definitions-owner gate. An experimental required-shape file or
+code-mapping record cannot approve itself.
 
 ### Add a relationship
 

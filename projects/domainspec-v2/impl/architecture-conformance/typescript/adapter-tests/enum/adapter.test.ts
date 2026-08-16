@@ -18,7 +18,7 @@ const shared = {
   providerPath:
     "projects/domainspec-v2/impl/architecture-conformance/typescript/runtime/enum/index.ts",
   profileActivationReceiptPath:
-    "projects/domainspec-v2/development/architecture-pattern-enforcement/instances/enum/receipts/SWU-APE-ENUM-TS-001B.json",
+    "projects/domainspec-v2/development/architecture-pattern-enforcement/instances/enum/receipts/SWU-APE-ENUM-TS-001A.json",
 } as const;
 
 describe("TypeScript Enum observation adapter", () => {
@@ -32,7 +32,7 @@ describe("TypeScript Enum observation adapter", () => {
     expect(projection.authority_effect).toBe("none");
     expect(projection.diagnostics).toEqual([]);
     expect(projection.tool.version).toMatch(/^5\./);
-    expect(projection.raw_evidence_refs).toHaveLength(2);
+    expect(projection.raw_evidence_refs).toHaveLength(3);
     expect(
       projection.facts.find(({ predicate_ref }) => predicate_ref === "enum.implemented_values")?.value,
     ).toEqual(["active", "closed", "draft"]);
@@ -72,5 +72,15 @@ describe("TypeScript Enum observation adapter", () => {
     ).rejects.toMatchObject({
       code: "ADAPTER_PROVIDER_PATH_MISMATCH",
     });
+  });
+
+  it("blocks the former 001A versus 001B activation-binding mismatch", async () => {
+    await expect(projectTypeScriptEnum({
+      ...shared,
+      sourcePath:
+        "projects/domainspec-v2/impl/architecture-conformance/typescript/adapter-tests/enum/fixtures/order-status.ts",
+      profileActivationReceiptPath:
+        "projects/domainspec-v2/development/architecture-pattern-enforcement/instances/enum/receipts/SWU-APE-ENUM-TS-001B.json",
+    })).rejects.toMatchObject({ code: "ADAPTER_ACTIVATION_BINDING_MISMATCH" });
   });
 });

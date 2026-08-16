@@ -1,0 +1,164 @@
+{
+  "runtime_profile_version": "ontology-vault-profile/v1",
+  "profile_id": "lucifers-lights.whisper-story-ontology",
+  "profile_status": "candidate",
+  "repository": "[repo-root] projects/lucifers-lights",
+  "owner_route": "author",
+  "date": "2026-08-09",
+  "ontology_type_selection": {
+    "ontology_type": "knowledge-vault",
+    "selection_source": "inferred",
+    "selection_confidence": "high",
+    "ontology_type_alias": "whisper-story-ontology",
+    "ambiguity_candidates": [
+      "business-domain",
+      "authority-governance"
+    ],
+    "user_selection_required": false,
+    "branch": "none",
+    "rationale": "The primary job is to govern author intent, narrative evidence, commitment state, mysteries, editorial learning, and derivative drift. World modeling and authority routing are supporting concerns rather than the primary ontology job.",
+    "excluded_candidates": {
+      "business-domain": "Would prioritize world meaning and behavior while under-modeling revision evidence, canon commitment, and learning residue.",
+      "authority-governance": "Ownership and promotion gates matter, but they support rather than define the ontology's primary job."
+    }
+  },
+  "source_boundary": {
+    "base_ontology_refs": [
+      "[repo-root] .agents/skills/whisper/SKILL.md",
+      "[repo-root] .agents/skills/ontology-vault/catalogs/ontology-types.json",
+      "[repo-root] projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/findings.md"
+    ],
+    "local_ontology_refs": [
+      "whisper-story-ontology.json",
+      "WHISPER-INTENT.md",
+      "ONTOLOGY-MAP.md"
+    ],
+    "local_owner_refs": [
+      "../PROJECT.md",
+      "../.craft/ledger.yml"
+    ],
+    "source_spine_refs": [
+      "../SOURCE-MAP.md",
+      "../editorial/VOICE-GUIDE.md",
+      "../story-bible/CHARACTERS.md",
+      "../story-bible/LOCATIONS.md",
+      "../story-bible/CONTINUITY.md",
+      "[repo-root] drafts/chapter-01.md"
+    ],
+    "implementation_runtime_refs": [],
+    "implementation_runtime_reason": "This profile governs authoring knowledge only. It proves no Whisper runtime, generation service, storage layer, or production integration.",
+    "allowed_use": [
+      "map project-local narrative knowledge",
+      "validate closed-world kinds, predicates, endpoints, owners, provenance, and confidence states",
+      "prepare premise and confidence reviews",
+      "surface mysteries, reserve material, and derivative drift",
+      "build non-authoritative authoring context for later Whisper composition"
+    ],
+    "blocked_use": [
+      "change manuscript prose",
+      "settle unresolved story questions",
+      "promote canon without author evidence",
+      "modify Craft state outside the Craft owner",
+      "treat generated media as prose authority",
+      "extend Arcanum ontology vocabulary"
+    ]
+  },
+  "runtime_modes": {
+    "allowed": [
+      "inline"
+    ],
+    "default": "inline",
+    "agent_backend": "blocked",
+    "agent_backend_owner": "domainspec-subagents-strategy",
+    "agent_backend_gate": "A future agents run requires a separately shown and confirmed governed dispatch. This profile does not grant that confirmation."
+  },
+  "runtime_outputs": {
+    "allowed": [
+      "ontology-map",
+      "validation-report",
+      "confidence-action-report",
+      "premise-review",
+      "drift-report",
+      "candidate-map-projection",
+      "delegated-evidence-record"
+    ],
+    "blocked": [
+      "promotion-verdict",
+      "spec-mutation",
+      "canonical-source-mutation",
+      "runtime-conformance-verdict",
+      "generated-projection-as-authority",
+      "manuscript-mutation",
+      "publication",
+      "deployment",
+      "audio-generation",
+      "image-generation"
+    ]
+  },
+  "owner_gates": [
+    {
+      "gate_id": "GATE-LL-ONTOLOGY-REVIEW",
+      "movement": "candidate ontology to reviewed project-local ontology",
+      "owner_route": "author",
+      "required_evidence": [
+        "closed-world validation receipt",
+        "human review of Whisper intent, entity set, knowledge roles, and deferred semantics"
+      ],
+      "blocked_until": "The author explicitly accepts the ontology as a working authoring aid."
+    },
+    {
+      "gate_id": "GATE-LL-CANON-COMMITMENT",
+      "movement": "candidate narrative record to author-accepted or frozen baseline",
+      "owner_route": "author",
+      "required_evidence": [
+        "accepted manuscript source",
+        "source-addressable claim",
+        "explicit author commitment"
+      ],
+      "blocked_until": "The relevant manuscript and editorial gate are accepted."
+    },
+    {
+      "gate_id": "GATE-LL-ONTOLOGY-CONVENTION",
+      "movement": "new local kind, predicate, confidence value, or endpoint policy",
+      "owner_route": "ontology-vault convention-update plus author decision",
+      "required_evidence": [
+        "current rule",
+        "proposed rule",
+        "story need",
+        "migration impact",
+        "negative fixture",
+        "rollback path"
+      ],
+      "blocked_until": "A separately recorded convention decision is closed."
+    },
+    {
+      "gate_id": "GATE-LL-DERIVATIVE-PROJECTION",
+      "movement": "accepted prose state into graphic or audio projection",
+      "owner_route": "production after author acceptance",
+      "required_evidence": [
+        "accepted manuscript version",
+        "drift report",
+        "production review"
+      ],
+      "blocked_until": "The Chapter 1 editorial gate closes and known drift is dispositioned."
+    }
+  ],
+  "residue_and_observability": {
+    "residue_route": "../.craft/ledger.yml#gaps",
+    "observability_route": "receipts/",
+    "inventory_read_model_route": "none",
+    "reason": "The project currently uses its Craft ledger for durable open work and ontology receipts for run-local validation. No Inventory projection is claimed."
+  },
+  "authority_ceiling": {
+    "authority_effect": "none",
+    "maximum_claim": "validated candidate-local authoring ontology",
+    "forbidden_claims": [
+      "accepted Chapter 1 canon",
+      "canonical Whisper ontology",
+      "Arcanum vocabulary admission",
+      "working Whisper runtime",
+      "synchronized derivative production",
+      "publication or release readiness"
+    ]
+  }
+}

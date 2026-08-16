@@ -7,28 +7,28 @@
   <title>Augmentor Unified-Agent Ontology</title>
   <style>
     :root {
-      color-scheme: dark;
-      --ink: #f4f1e8;
-      --muted: #a9b0bd;
-      --faint: #747d8c;
-      --canvas: #090d12;
-      --surface: #10161e;
-      --surface-2: #151d27;
-      --surface-3: #1b2531;
-      --line: #2a3745;
-      --line-strong: #425468;
-      --accent: #8eb9d6;
-      --accent-soft: #1b3040;
-      --warning: #d6ad68;
-      --warning-soft: #2a2318;
-      --cyan: #63d5d0;
-      --observed: #6fd2a2;
-      --designed: #75b6ff;
-      --absent: #f0a86e;
-      --blocked: #f07e85;
-      --deferred: #b89af5;
-      --shadow: 0 24px 70px rgba(0, 0, 0, .34);
-      --radius: 18px;
+      color-scheme: light;
+      --ink: #18181b;
+      --muted: #64646d;
+      --faint: #85858f;
+      --canvas: #fbfbfd;
+      --surface: #ffffff;
+      --surface-2: #f7f7f9;
+      --surface-3: #ececf0;
+      --line: #e8e8ed;
+      --line-strong: #d7d7df;
+      --accent: #5b5bd6;
+      --accent-soft: #eeeefc;
+      --warning: #955106;
+      --warning-soft: #fdf3e3;
+      --cyan: #5b5bd6;
+      --observed: #17803d;
+      --designed: #3f61b5;
+      --absent: #a35b06;
+      --blocked: #b42318;
+      --deferred: #7253a6;
+      --shadow: 0 1px 3px rgba(24, 24, 27, .05), 0 10px 28px rgba(24, 24, 27, .04);
+      --radius: 10px;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
@@ -38,10 +38,30 @@
       margin: 0;
       min-width: 0;
       color: var(--ink);
-      background:
-        radial-gradient(circle at 15% -10%, rgba(99, 213, 208, .12), transparent 31rem),
-        radial-gradient(circle at 95% 0%, rgba(142, 185, 214, .1), transparent 30rem),
-        var(--canvas);
+      background: var(--canvas);
+    }
+    body[data-active-page="agent-api"] {
+      color-scheme: light;
+      --ink: #18181b;
+      --muted: #71717a;
+      --faint: #a1a1aa;
+      --canvas: #fbfbfd;
+      --surface: #ffffff;
+      --surface-2: #f7f7f9;
+      --surface-3: #ececf0;
+      --line: #e8e8ed;
+      --line-strong: #dcdce3;
+      --accent: #5b5bd6;
+      --accent-soft: #eeeefc;
+      --warning: #a35b06;
+      --warning-soft: #fdf3e3;
+      --cyan: #5b5bd6;
+      --observed: #17803d;
+      --blocked: #b42318;
+      --shadow: 0 1px 3px rgba(24, 24, 27, .06), 0 6px 16px rgba(24, 24, 27, .05);
+      --radius: 8px;
+      color: var(--ink);
+      background: var(--canvas);
     }
     button, input, select, textarea { font: inherit; }
     button, select { color: inherit; }
@@ -58,8 +78,8 @@
       align-items: center;
       gap: 1rem;
       padding: .8rem clamp(1rem, 3vw, 3rem);
-      border-bottom: 1px solid rgba(255, 255, 255, .08);
-      background: rgba(9, 13, 18, .9);
+      border-bottom: 1px solid var(--line);
+      background: rgba(251, 251, 253, .94);
       backdrop-filter: blur(16px);
     }
     .brand { display: flex; align-items: center; gap: .8rem; min-width: 0; }
@@ -71,7 +91,7 @@
       border: 1px solid var(--line-strong);
       border-radius: 10px;
       color: var(--accent);
-      background: linear-gradient(145deg, var(--surface-3), var(--surface));
+      background: var(--accent);
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-weight: 800;
     }
@@ -95,7 +115,7 @@
       border: 1px solid var(--line);
       border-radius: 999px;
       color: var(--muted);
-      background: rgba(20, 28, 37, .86);
+      background: var(--surface);
       font-size: .73rem;
       font-weight: 700;
       white-space: nowrap;
@@ -111,7 +131,7 @@
       padding: .45rem;
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: rgba(16, 22, 30, .86);
+      background: var(--surface-3);
     }
     .page-link {
       display: inline-flex;
@@ -126,7 +146,7 @@
       font-weight: 800;
     }
     .page-link:hover { color: var(--ink); border-color: var(--line-strong); }
-    .page-link[aria-current="page"] { color: #edf8ff; border-color: var(--accent); background: var(--accent-soft); }
+    .page-link[aria-current="page"] { color: var(--accent); border-color: var(--accent); background: var(--surface); }
     .hero {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
@@ -150,7 +170,7 @@
       padding: .8rem .75rem;
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: linear-gradient(160deg, rgba(27, 37, 49, .94), rgba(16, 22, 30, .9));
+      background: var(--surface);
       box-shadow: var(--shadow);
     }
     .stat-value { display: block; color: var(--ink); font-family: Georgia, serif; font-size: 1.75rem; line-height: 1; }
@@ -164,8 +184,8 @@
       padding: .8rem 1rem;
       border: 1px solid rgba(214, 173, 104, .34);
       border-radius: 12px;
-      color: #ead9b7;
-      background: rgba(42, 35, 24, .94);
+      color: var(--muted);
+      background: var(--warning-soft);
       backdrop-filter: blur(14px);
       font-size: .82rem;
       line-height: 1.5;
@@ -180,7 +200,7 @@
       padding: .85rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(16, 22, 30, .86);
+      background: var(--surface);
     }
     .search-wrap { position: relative; }
     .search-wrap span { position: absolute; left: .9rem; top: 50%; color: var(--faint); transform: translateY(-50%); pointer-events: none; }
@@ -209,7 +229,7 @@
       font-size: .82rem;
       font-weight: 800;
     }
-    .tab[aria-pressed="true"] { border-color: var(--accent); color: #edf8ff; background: var(--accent-soft); }
+    .tab[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
     .tab-count { margin-left: .35rem; color: var(--faint); }
     .tab[aria-pressed="true"] .tab-count { color: var(--accent); }
     .beginner-guide {
@@ -217,7 +237,7 @@
       padding: 1rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: linear-gradient(145deg, rgba(19, 29, 38, .96), rgba(12, 18, 24, .96));
+      background: var(--surface);
       box-shadow: var(--shadow);
     }
     .guide-head { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
@@ -226,10 +246,10 @@
     .guide-status { color: var(--cyan); font-size: .72rem; font-weight: 800; white-space: nowrap; }
     .lens-selector { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
     .lens-button { min-height: 40px; padding: .52rem .72rem; border-radius: 999px; font-size: .76rem; font-weight: 800; }
-    .lens-button[aria-pressed="true"] { border-color: var(--cyan); color: #d1fffc; background: rgba(32, 91, 89, .32); }
+    .lens-button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
     .lane-explanations { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .7rem; margin-top: .85rem; }
     .lane-card { min-height: 152px; padding: .85rem; border-radius: 13px; text-align: left; }
-    .lane-card.active, .lane-card[aria-pressed="true"] { border-color: var(--accent); background: rgba(27, 48, 64, .72); }
+    .lane-card.active, .lane-card[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
     .lane-card-kicker { display: block; margin-bottom: .35rem; color: var(--accent); font-size: .65rem; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
     .lane-card p { margin: .5rem 0 0; color: var(--muted); font-size: .76rem; line-height: 1.48; }
     .proposed-modes { margin-top: .85rem; padding-top: .75rem; border-top: 1px solid var(--line); }
@@ -242,7 +262,7 @@
     .graph-card, .inspector, .residue-section, .linear-section {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: linear-gradient(160deg, rgba(18, 25, 34, .98), rgba(12, 17, 23, .98));
+      background: var(--surface);
       box-shadow: var(--shadow);
     }
     .graph-card { min-width: 0; overflow: hidden; }
@@ -257,12 +277,12 @@
     .card-head h2, .inspector h2, .residue-section h2, .linear-section h2 { margin: 0; font-size: 1rem; }
     .card-head p { max-width: 700px; margin: .35rem 0 0; color: var(--muted); font-size: .8rem; line-height: 1.45; }
     .visible-count { color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .75rem; white-space: nowrap; }
-    .graph-scroll { overflow: auto; background: linear-gradient(rgba(255,255,255,.012) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.012) 1px, transparent 1px); background-size: 24px 24px; }
+    .graph-scroll { overflow: auto; background: var(--surface); }
     #ontology-graph { display: block; width: 100%; min-width: 1180px; height: auto; }
     .plane-group { cursor: pointer; }
     .plane-band { fill: rgba(255, 255, 255, .018); stroke: rgba(255, 255, 255, .055); transition: fill .18s ease, stroke .18s ease; }
     .plane-label { fill: #657183; font-size: 12px; font-weight: 800; letter-spacing: 2.2px; }
-    .plane-group:hover .plane-band, .plane-group:focus .plane-band, .plane-group.active .plane-band { fill: rgba(142, 185, 214, .07); stroke: var(--accent); stroke-width: 2; }
+    .plane-group:hover .plane-band, .plane-group:focus .plane-band, .plane-group.active .plane-band { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
     .plane-group:focus { outline: none; }
     .edge { fill: none; stroke: #526376; stroke-width: 1.6; opacity: .62; cursor: pointer; transition: opacity .18s ease, stroke .18s ease, stroke-width .18s ease; }
     .edge.negative { stroke-dasharray: 6 5; stroke: #c99772; }
@@ -271,8 +291,8 @@
     .edge-group.dim { opacity: .13; }
     .node { cursor: pointer; transition: opacity .18s ease, filter .18s ease; }
     .node.dim { opacity: .16; }
-    .node-card { fill: #151e28; stroke-width: 2; filter: drop-shadow(0 8px 14px rgba(0,0,0,.28)); }
-    .node:hover .node-card, .node.active .node-card { stroke: var(--accent) !important; filter: drop-shadow(0 10px 20px rgba(142,185,214,.2)); }
+    .node-card { fill: #ffffff; stroke-width: 2; filter: drop-shadow(0 2px 5px rgba(24,24,27,.08)); }
+    .node:hover .node-card, .node.active .node-card { stroke: var(--accent) !important; filter: drop-shadow(0 3px 8px rgba(91,91,214,.16)); }
     .node-label { fill: var(--ink); font-size: 13px; font-weight: 800; pointer-events: none; }
     .node-meta { fill: #9aa4b1; font-size: 9.5px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; pointer-events: none; }
     .node-posture { font-size: 9px; font-weight: 900; letter-spacing: .6px; pointer-events: none; }
@@ -287,7 +307,7 @@
     .sequence-panel { padding: .9rem 1.1rem 1rem; border-top: 1px solid var(--line); }
     .section-label { display: block; margin-bottom: .55rem; color: var(--faint); font-size: .67rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
     .sequence-button { padding: .46rem .7rem; border-radius: 999px; font-size: .74rem; font-weight: 750; }
-    .sequence-button[aria-pressed="true"] { border-color: var(--cyan); color: #c9fffc; background: rgba(32, 91, 89, .32); }
+    .sequence-button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
     .legend { padding: .75rem 1.1rem 1rem; }
     .legend-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
     .inspector { min-height: 650px; overflow: hidden; }
@@ -297,7 +317,7 @@
     .inspector-kicker { margin: 0 0 .5rem; color: var(--accent); font-size: .76rem; font-weight: 800; letter-spacing: .01em; }
     .inspector-title { margin: 0 0 .65rem; font-family: inherit; font-size: 1.35rem; line-height: 1.2; }
     .inspector-copy { margin: 0 0 1rem; color: var(--muted); font-size: .86rem; line-height: 1.6; }
-    .beginner-explanation { margin: 0 0 1rem; padding: .85rem; border-left: 3px solid var(--cyan); border-radius: 0 11px 11px 0; background: rgba(32, 91, 89, .16); }
+    .beginner-explanation { margin: 0 0 1rem; padding: .85rem; border-left: 3px solid var(--accent); border-radius: 0 11px 11px 0; background: var(--accent-soft); }
     .beginner-explanation-label { display: block; margin-bottom: .35rem; color: var(--cyan); font-size: .76rem; font-weight: 850; letter-spacing: .01em; }
     .beginner-explanation p { margin: 0; color: #d9e8e7; font-size: .88rem; line-height: 1.62; }
     .technical-label { margin: 0 0 .35rem; color: var(--faint); font-size: .65rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
@@ -328,36 +348,91 @@
     .text-button strong { display: block; color: var(--ink); }
     .text-button span { display: block; margin-top: .22rem; color: var(--faint); overflow-wrap: anywhere; }
     .text-button .beginner-summary { color: var(--muted); line-height: 1.45; }
-    .api-hero { align-items: center; }
-    .api-hero > * { min-width: 0; max-width: 100%; }
-    .api-hero h1, .api-hero .lede, .api-state { overflow-wrap: anywhere; }
-    .api-state {
-      max-width: 430px;
-      padding: 1rem;
-      border: 1px solid rgba(99, 213, 208, .34);
-      border-radius: 14px;
-      color: #d9e8e7;
-      background: rgba(32, 91, 89, .16);
-      font-size: .82rem;
-      line-height: 1.55;
+    body[data-active-page="agent-api"] .topbar {
+      position: static;
+      padding: .7rem clamp(1rem, 3vw, 1.75rem);
+      border-bottom-color: var(--line);
+      background: rgba(251, 251, 253, .9);
+      backdrop-filter: blur(8px);
     }
-    .api-state strong { display: block; margin-bottom: .3rem; color: var(--cyan); }
-    .api-guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 1rem 0; }
-    .api-guide-card, .api-console, .api-result-card, .api-contract-card {
+    body[data-active-page="agent-api"] .brand { gap: .65rem; }
+    body[data-active-page="agent-api"] .brand-mark {
+      width: 26px;
+      height: 26px;
+      border: 0;
+      border-radius: 7px;
+      color: #ffffff;
+      background: linear-gradient(150deg, #6f6ff0, #4a4ac4);
+      box-shadow: 0 1px 2px rgba(24, 24, 27, .04);
+      font-size: .72rem;
+    }
+    body[data-active-page="agent-api"] .brand-title { font-size: .82rem; font-weight: 620; letter-spacing: -.01em; }
+    body[data-active-page="agent-api"] .brand-copy .eyebrow { margin-bottom: .05rem; font-size: .6rem; letter-spacing: .08em; }
+    body[data-active-page="agent-api"] .boundary-chips { display: none; }
+    body[data-active-page="agent-api"] .page { width: min(1180px, 100%); padding: 1rem clamp(1rem, 3vw, 1.75rem) 3.5rem; }
+    body[data-active-page="agent-api"] .page-navigation {
+      width: max-content;
+      max-width: 100%;
+      gap: 2px;
+      padding: 2px;
+      border: 0;
+      border-radius: 7px;
+      background: #ececf0;
+      box-shadow: none;
+    }
+    body[data-active-page="agent-api"] .page-link {
+      min-height: 32px;
+      padding: .35rem .7rem;
+      border-radius: 5px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+    body[data-active-page="agent-api"] .page-link[aria-current="page"] {
+      color: #3f3fae;
+      border-color: transparent;
+      background: var(--surface);
+      box-shadow: 0 1px 2px rgba(24, 24, 27, .04);
+    }
+    .api-hero {
+      display: block;
+      max-width: 780px;
+      padding: clamp(2.4rem, 6vw, 4rem) 0 1.25rem;
+    }
+    .api-hero h1, .api-hero .lede { overflow-wrap: anywhere; }
+    .api-hero h1 { max-width: 720px; font-size: clamp(2.45rem, 6vw, 4.5rem); font-weight: 650; line-height: .96; }
+    .api-hero .lede { max-width: 680px; font-size: clamp(.95rem, 1.5vw, 1.08rem); line-height: 1.6; }
+    .api-boundary-inline {
+      display: inline-flex;
+      gap: .45rem;
+      align-items: center;
+      margin: 1.15rem 0 0;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.5;
+    }
+    .api-boundary-inline::before { content: ""; width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; background: var(--observed); }
+    .api-feature-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; margin: .25rem 0 1rem; }
+    .api-feature {
+      min-width: 0;
+      padding: .85rem .9rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: linear-gradient(160deg, rgba(18, 25, 34, .98), rgba(12, 17, 23, .98));
+      background: var(--surface);
+      box-shadow: 0 1px 2px rgba(24, 24, 27, .04);
+    }
+    .api-feature strong { display: block; margin-bottom: .28rem; color: var(--ink); font-size: .82rem; }
+    .api-feature span { display: block; color: var(--muted); font-size: .76rem; line-height: 1.5; }
+    .api-console, .api-result-card, .api-integration {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
       box-shadow: var(--shadow);
     }
-    .api-guide-card { padding: 1rem; }
-    .api-guide-card span { color: var(--cyan); font-size: .7rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
-    .api-guide-card h2 { margin: .45rem 0 .4rem; font-size: 1rem; }
-    .api-guide-card p { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.55; }
-    .api-workspace { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 1rem; align-items: start; }
-    .api-console, .api-result-card, .api-contract-card { padding: 1.1rem; }
-    .api-console h2, .api-result-card h2, .api-contract-card h2 { margin: 0; font-size: 1rem; }
+    .api-workspace { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: 1rem; align-items: start; }
+    .api-console, .api-result-card { padding: clamp(1rem, 2vw, 1.4rem); }
+    .api-console h2, .api-result-card h2 { margin: 0; font-size: 1.05rem; }
     .api-console-intro, .api-result-intro { margin: .4rem 0 1rem; color: var(--muted); font-size: .82rem; line-height: 1.55; }
-    .api-console code, .api-contract-card code { overflow-wrap: anywhere; word-break: break-word; }
+    .api-console code, .api-integration code { overflow-wrap: anywhere; word-break: break-word; }
     .form-field { display: grid; gap: .45rem; margin-top: .9rem; }
     .form-label, .view-options legend { color: var(--ink); font-size: .8rem; font-weight: 800; }
     .form-help { color: var(--faint); font-size: .74rem; line-height: 1.45; }
@@ -365,13 +440,16 @@
       width: 100%;
       padding: .8rem;
       border: 1px solid var(--line-strong);
-      border-radius: 11px;
+      border-radius: 7px;
       color: var(--ink);
-      background: var(--canvas);
+      background: var(--surface);
       line-height: 1.5;
     }
     textarea { min-height: 118px; resize: vertical; }
-    .view-options { margin: 1rem 0 0; padding: 0; border: 0; }
+    .api-options { margin-top: .9rem; padding: .75rem .85rem; border: 1px solid var(--line); border-radius: 7px; background: var(--surface-2); }
+    .api-options summary { display: flex; justify-content: space-between; gap: 1rem; color: var(--ink); font-size: .78rem; }
+    .api-options summary span { color: var(--faint); font-weight: 650; }
+    .view-options { margin: .8rem 0 0; padding: 0; border: 0; }
     .view-options-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; margin-top: .55rem; }
     .view-option {
       display: flex;
@@ -380,7 +458,7 @@
       min-height: 42px;
       padding: .65rem;
       border: 1px solid var(--line);
-      border-radius: 10px;
+      border-radius: 7px;
       color: var(--muted);
       background: var(--surface-2);
       font-size: .76rem;
@@ -388,38 +466,42 @@
     }
     .view-option input { margin-top: .15rem; accent-color: var(--cyan); }
     .api-actions { display: flex; flex-wrap: wrap; gap: .65rem; align-items: center; margin-top: 1rem; }
-    .button-primary { color: #061313; border-color: var(--cyan); background: var(--cyan); }
-    .button-primary:hover { color: #061313; border-color: #b8fffb; }
+    .button-primary { color: #ffffff; border-color: #4a4ac4; border-radius: 6px; background: var(--accent); box-shadow: 0 1px 2px rgba(24, 24, 27, .04); }
+    .button-primary:hover { color: #ffffff; border-color: #3f3fae; }
     .button:disabled { cursor: wait; opacity: .58; }
     .api-status { min-height: 1.5rem; margin: .8rem 0 0; color: var(--muted); font-size: .78rem; line-height: 1.45; }
     .api-status[data-tone="working"] { color: var(--accent); }
     .api-status[data-tone="success"] { color: var(--observed); }
     .api-status[data-tone="error"] { color: var(--blocked); }
     .api-result-stack { display: grid; gap: .8rem; }
-    .policy-panel { padding: .85rem; border-left: 3px solid var(--cyan); border-radius: 0 11px 11px 0; background: rgba(32, 91, 89, .16); }
+    .policy-panel { padding: .85rem; border-left: 3px solid var(--accent); border-radius: 0 7px 7px 0; background: var(--accent-soft); }
     .policy-panel[data-action="clarify"], .policy-panel[data-action="abstain"] { border-left-color: var(--warning); background: var(--warning-soft); }
     .policy-panel strong { display: block; color: var(--cyan); font-size: .8rem; }
     .policy-panel[data-action="clarify"] strong, .policy-panel[data-action="abstain"] strong { color: var(--warning); }
-    .policy-panel p { margin: .35rem 0 0; color: #d9e8e7; font-size: .82rem; line-height: 1.55; }
+    .policy-panel p { margin: .35rem 0 0; color: var(--ink); font-size: .82rem; line-height: 1.55; }
     .evidence-list { display: grid; gap: .65rem; margin-top: .8rem; }
-    .evidence-item { padding: .8rem; border: 1px solid var(--line); border-radius: 11px; background: var(--surface-2); }
-    .evidence-item p { margin: 0; color: #d7dbe1; font-size: .82rem; line-height: 1.55; }
+    .evidence-item { padding: .8rem; border: 1px solid var(--line); border-radius: 7px; background: var(--surface-2); }
+    .evidence-item p { margin: 0; color: var(--ink); font-size: .82rem; line-height: 1.55; }
     .evidence-sources { display: block; margin-top: .5rem; color: var(--faint); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .68rem; overflow-wrap: anywhere; }
     .teaching-support { display: grid; gap: .8rem; margin-top: .2rem; }
     .teaching-support > h3, .glossary-support > h3 { margin: .2rem 0 0; color: var(--ink); font-size: .92rem; }
-    .teaching-pack, .glossary-support { padding: .85rem; border: 1px solid var(--line); border-radius: 11px; background: var(--surface-2); }
+    .teaching-pack, .glossary-support { padding: .85rem; border: 1px solid var(--line); border-radius: 7px; background: var(--surface-2); }
     .teaching-section + .teaching-section { margin-top: .75rem; padding-top: .75rem; border-top: 1px solid var(--line); }
     .teaching-section h4 { margin: 0 0 .3rem; color: var(--accent); font-size: .73rem; letter-spacing: .03em; text-transform: uppercase; }
-    .teaching-section p, .glossary-entry p { margin: 0; color: #d7dbe1; font-size: .82rem; line-height: 1.58; }
+    .teaching-section p, .glossary-entry p { margin: 0; color: var(--ink); font-size: .82rem; line-height: 1.58; }
     .teaching-section .limitation { margin-top: .4rem; color: var(--muted); }
     .glossary-list { display: grid; gap: .65rem; margin-top: .65rem; }
     .glossary-entry strong { display: block; margin-bottom: .2rem; color: var(--cyan); font-size: .78rem; }
-    .api-empty { padding: 1rem; border: 1px dashed var(--line-strong); border-radius: 11px; color: var(--muted); font-size: .82rem; line-height: 1.55; }
+    .api-empty { padding: 1rem; border: 1px dashed var(--line-strong); border-radius: 7px; color: var(--muted); font-size: .82rem; line-height: 1.55; }
     .api-technical { margin-top: 1rem; }
-    .api-technical pre { max-height: 360px; overflow: auto; padding: .8rem; border: 1px solid var(--line); border-radius: 10px; color: #cbd0d8; background: var(--canvas); font-size: .7rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
-    .api-contract-card { margin-top: 1rem; }
+    .api-technical pre { max-height: 360px; overflow: auto; padding: .8rem; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); background: var(--surface-2); font-size: .7rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .api-more-context { margin-top: .8rem; padding: .75rem .85rem; border: 1px solid var(--line); border-radius: 7px; background: var(--surface-2); }
+    .api-more-context > summary { color: var(--accent); font-size: .78rem; }
+    .api-more-context-body { display: grid; gap: .8rem; margin-top: .8rem; }
+    .api-integration { margin-top: 1rem; padding: .9rem 1rem; }
+    .api-integration > summary { color: var(--ink); font-size: .8rem; }
     .api-contract-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin-top: .85rem; }
-    .api-contract-item { padding: .75rem; border: 1px solid var(--line); border-radius: 10px; }
+    .api-contract-item { min-width: 0; padding: .75rem; border: 1px solid var(--line); border-radius: 7px; background: var(--surface-2); }
     .api-contract-item strong { display: block; color: var(--accent); font-size: .75rem; }
     .api-contract-item p, .api-contract-item code { margin: .35rem 0 0; color: var(--muted); font-size: .74rem; line-height: 1.5; overflow-wrap: anywhere; }
     .footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.3rem .2rem .2rem; color: var(--faint); font-size: .7rem; }
@@ -427,12 +509,300 @@
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     [hidden] { display: none !important; }
 
+    /* Shared clean product shell. The ontology route uses the same neutral
+       surface language as Agent API while keeping its own information model. */
+    .topbar {
+      position: static;
+      padding: .7rem clamp(1rem, 3vw, 1.75rem);
+      border-bottom: 1px solid var(--line);
+      background: rgba(251, 251, 253, .94);
+      backdrop-filter: blur(8px);
+    }
+    .brand { gap: .65rem; }
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      border-radius: 7px;
+      color: #ffffff;
+      background: #5b5bd6;
+      box-shadow: 0 1px 2px rgba(24, 24, 27, .08);
+      font-size: .72rem;
+    }
+    .brand-title { color: var(--ink); font-size: .82rem; font-weight: 650; letter-spacing: -.01em; }
+    .brand-copy .eyebrow { margin-bottom: .05rem; font-size: .6rem; letter-spacing: .08em; }
+    .page { width: min(1240px, 100%); padding: 1rem clamp(1rem, 3vw, 1.75rem) 3.5rem; }
+    .page-navigation {
+      width: max-content;
+      max-width: 100%;
+      gap: 2px;
+      margin-bottom: .5rem;
+      padding: 2px;
+      border: 0;
+      border-radius: 7px;
+      background: var(--surface-3);
+      box-shadow: none;
+    }
+    .page-link { min-height: 32px; padding: .35rem .7rem; border-radius: 5px; font-size: .75rem; font-weight: 650; }
+    .page-link[aria-current="page"] { color: #3f3fae; border-color: transparent; background: var(--surface); box-shadow: 0 1px 2px rgba(24, 24, 27, .05); }
+    .ontology-hero { display: block; max-width: 840px; padding: clamp(2rem, 5vw, 3.75rem) 0 1.35rem; }
+    .ontology-hero h1 { max-width: 820px; font-size: clamp(2.35rem, 5vw, 3.75rem); font-weight: 650; line-height: .98; }
+    .ontology-hero .lede { max-width: 760px; font-size: clamp(.98rem, 1.5vw, 1.1rem); line-height: 1.62; }
+    .representation-switch {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: min(540px, 100%);
+      gap: 3px;
+      margin-bottom: 1rem;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--surface-2);
+    }
+    .representation-button {
+      min-height: 48px;
+      padding: .55rem .75rem;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-weight: 760;
+      text-align: left;
+    }
+    .representation-button span { display: block; margin-top: .12rem; color: var(--faint); font-size: .68rem; font-weight: 560; }
+    .representation-button[aria-pressed="true"] { color: var(--accent); border-color: var(--line); background: var(--surface); box-shadow: 0 1px 2px rgba(24, 24, 27, .06); }
+    .body-view, .technical-view { min-width: 0; }
+    .body-view-heading, .technical-view-heading {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .body-view-heading { margin: 1.5rem 0 1rem; }
+    .body-view-heading h2, .technical-view-heading h2 { margin: .2rem 0 0; font-size: 1.15rem; }
+    .body-view-heading p:not(.section-label), .technical-view-heading p:not(.section-label) { max-width: 720px; margin: .4rem 0 0; color: var(--muted); font-size: .84rem; line-height: 1.55; }
+    .body-projection-note { padding: .4rem .6rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--surface); font-size: .7rem; font-weight: 700; white-space: nowrap; }
+    .body-view-layout { display: block; }
+    .anatomy-stage, .beginner-guide, .graph-card, .inspector, .residue-section, .linear-section {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .anatomy-stage { min-width: 0; padding: clamp(.85rem, 2vw, 1.25rem); overflow: hidden; }
+    .anatomy-caption { margin: 0 0 1rem; padding-bottom: .85rem; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .76rem; line-height: 1.5; }
+    .anatomy-caption strong { color: var(--ink); }
+    .robot-consultation-home { min-width: 0; }
+    .robot-consultation-shell { min-width: 0; margin: 0 auto 1rem; }
+    .robot-consultation-intro {
+      max-width: 760px;
+      margin: 0 auto .75rem;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .robot-consultation-intro strong { color: var(--ink); }
+    .robot-consultation-frame {
+      position: relative;
+      width: min(100%, 880px);
+      height: clamp(500px, 60vw, 570px);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(145deg, #fffdf9, #f7f7fb);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .9);
+      overflow: hidden;
+    }
+    .robot-consultation-frame[data-card-layout="unavailable"] { border-color: #d9a05f; }
+    .robot-chassis-preview {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      width: min(44%, 360px);
+      aspect-ratio: 1122 / 1402;
+      margin: 0;
+      transform: translate(-50%, -50%);
+    }
+    .robot-chassis-image { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
+    .robot-core-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+    .robot-core-button {
+      --core-color: var(--accent);
+      position: absolute;
+      top: var(--core-y);
+      left: var(--core-x);
+      z-index: 4;
+      display: grid;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      color: #fff;
+      background: transparent;
+      cursor: pointer;
+      pointer-events: auto;
+      transform: translate(-50%, -50%);
+    }
+    .robot-core-button::before,
+    .robot-core-button::after { position: absolute; border-radius: 50%; content: ""; }
+    .robot-core-button::before {
+      inset: 4px;
+      border: 2px solid rgba(255, 255, 255, .94);
+      background: linear-gradient(145deg, color-mix(in srgb, var(--core-color) 68%, white), var(--core-color));
+      box-shadow: 0 2px 9px rgba(24, 24, 27, .28);
+    }
+    .robot-core-button::after {
+      inset: -8px;
+      border: 2px solid color-mix(in srgb, var(--core-color) 45%, transparent);
+      opacity: .58;
+    }
+    .robot-core-button:hover::after,
+    .robot-core-button:focus-visible::after,
+    .robot-core-button[data-active="true"]::after {
+      border-width: 3px;
+      opacity: 1;
+    }
+    .robot-core-button[data-active="true"] { z-index: 8; }
+    .robot-core-button[data-pinned="true"]::after { box-shadow: 0 0 0 4px color-mix(in srgb, var(--core-color) 22%, transparent); }
+    .robot-core-number { position: relative; z-index: 1; font-size: .61rem; font-weight: 900; line-height: 1; text-shadow: 0 1px 2px rgba(0, 0, 0, .38); }
+    .robot-core-button[data-organ-id="face"] { --core-x: 50.1%; --core-y: 33%; }
+    .robot-core-button[data-organ-id="brain-source"] { --core-x: 33.65%; --core-y: 22.2%; }
+    .robot-core-button[data-organ-id="brain-context"] { --core-x: 50%; --core-y: 16.8%; }
+    .robot-core-button[data-organ-id="brain-meaning"] { --core-x: 66.15%; --core-y: 22.2%; }
+    .robot-core-button[data-organ-id="route-spine"] { --core-x: 35.9%; --core-y: 52.85%; }
+    .robot-core-button[data-organ-id="work-spine"] { --core-x: 63.6%; --core-y: 53%; }
+    .robot-core-button[data-organ-id="evidence-return"] { --core-x: 48.4%; --core-y: 68.05%; }
+    .robot-core-button[data-organ-id="heart"] { --core-x: 86.4%; --core-y: 75.5%; }
+    .robot-core-button[data-organ-id="boundary-ring"] { --core-x: 49.3%; --core-y: 84.9%; }
+    .robot-core-button[data-organ-id="addon-sdk"] { --core-x: 10.55%; --core-y: 68.85%; }
+    .robot-consultation-card {
+      --card-color: var(--accent);
+      --popover-width: 304px;
+      position: absolute;
+      z-index: 6;
+      box-sizing: border-box;
+      width: min(var(--popover-width), calc(100% - 16px));
+      max-height: calc(100% - 16px);
+      padding: .9rem;
+      border: 1px solid color-mix(in srgb, var(--card-color) 32%, var(--line));
+      border-top: 4px solid var(--card-color);
+      border-radius: 12px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, .98);
+      box-shadow: 0 18px 48px rgba(24, 24, 27, .2);
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
+    .robot-consultation-card[hidden] { display: none; }
+    .robot-consultation-card > * { position: relative; z-index: 1; }
+    .robot-consultation-card::before,
+    .robot-consultation-card::after {
+      position: absolute;
+      z-index: 0;
+      display: block;
+      pointer-events: none;
+      content: "";
+      opacity: 0;
+    }
+    .robot-consultation-card::before {
+      width: 9px;
+      height: 9px;
+      border: 1px solid color-mix(in srgb, var(--card-color) 32%, var(--line));
+      background: rgba(255, 255, 255, .98);
+      transform: rotate(45deg);
+    }
+    .robot-consultation-card::after { width: 11px; height: 2px; background: var(--card-color); }
+    .robot-consultation-card[data-layout="right"]::before,
+    .robot-consultation-card[data-layout="left"]::before,
+    .robot-consultation-card[data-layout="below"]::before,
+    .robot-consultation-card[data-layout="above"]::before,
+    .robot-consultation-card[data-layout^="opposite-"]::before,
+    .robot-consultation-card[data-layout="right"]::after,
+    .robot-consultation-card[data-layout="left"]::after,
+    .robot-consultation-card[data-layout="below"]::after,
+    .robot-consultation-card[data-layout="above"]::after,
+    .robot-consultation-card[data-layout^="opposite-"]::after { opacity: 1; }
+    .robot-consultation-card[data-layout="right"]::before { top: calc(50% - 5px); left: -6px; }
+    .robot-consultation-card[data-layout="right"]::after { top: calc(50% - 1px); left: -11px; }
+    .robot-consultation-card[data-layout="left"]::before { top: calc(50% - 5px); right: -6px; }
+    .robot-consultation-card[data-layout="left"]::after { top: calc(50% - 1px); right: -11px; }
+    .robot-consultation-card[data-layout="below"]::before,
+    .robot-consultation-card[data-layout="opposite-below"]::before { top: -6px; left: calc(50% - 5px); }
+    .robot-consultation-card[data-layout="below"]::after,
+    .robot-consultation-card[data-layout="opposite-below"]::after { top: -11px; left: calc(50% - 1px); width: 2px; height: 11px; }
+    .robot-consultation-card[data-layout="above"]::before,
+    .robot-consultation-card[data-layout="opposite-above"]::before { bottom: -6px; left: calc(50% - 5px); }
+    .robot-consultation-card[data-layout="above"]::after,
+    .robot-consultation-card[data-layout="opposite-above"]::after { bottom: -11px; left: calc(50% - 1px); width: 2px; height: 11px; }
+    .robot-consultation-card[data-mode="preview"] {
+      --popover-width: 244px;
+      max-height: min(178px, calc(100% - 16px));
+      padding: .68rem .72rem;
+      overflow: hidden;
+    }
+    .robot-consultation-card[data-mode="preview"] h2 { font-size: .98rem; }
+    .robot-consultation-card[data-mode="preview"] .robot-card-posture { margin-top: .36rem; }
+    .robot-consultation-card[data-mode="preview"] .robot-card-copy {
+      margin-top: .45rem;
+      font-size: .72rem;
+      line-height: 1.38;
+    }
+    .robot-card-kicker { margin: 0; color: var(--card-color); font-size: .64rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+    .robot-consultation-card h2 { margin: .22rem 0 0; font-size: 1.08rem; line-height: 1.16; }
+    .robot-card-posture { display: inline-flex; margin: .5rem 0 0; padding: .22rem .45rem; border-radius: 999px; color: var(--card-color); background: color-mix(in srgb, var(--card-color) 9%, white); font-size: .68rem; font-weight: 800; }
+    .robot-card-copy { margin: .7rem 0 0; color: var(--ink); font-size: .78rem; line-height: 1.48; }
+    .robot-card-boundary { margin: .7rem 0 0; padding-top: .65rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .72rem; line-height: 1.45; }
+    .robot-card-boundary[hidden] { display: none; }
+    .robot-card-boundary strong { color: var(--ink); }
+    .robot-card-answer { margin-top: .7rem; padding: .65rem; border-radius: 8px; background: var(--accent-soft); }
+    .robot-card-answer[hidden] { display: none; }
+    .robot-card-answer strong { display: block; font-size: .72rem; }
+    .robot-card-answer p { margin: .28rem 0 0; color: var(--muted); font-size: .7rem; line-height: 1.42; }
+    .robot-card-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .42rem; margin-top: .72rem; }
+    .robot-card-form label { grid-column: 1 / -1; color: var(--muted); font-size: .68rem; font-weight: 760; }
+    .robot-card-form input { min-width: 0; min-height: 36px; padding: .42rem .5rem; border: 1px solid var(--line-strong); border-radius: 7px; color: var(--ink); background: var(--surface); font-size: .72rem; }
+    .robot-card-form button { min-height: 36px; padding: .42rem .62rem; border: 0; border-radius: 7px; color: #fff; background: var(--accent); cursor: pointer; font-size: .7rem; font-weight: 800; }
+    .robot-interaction-key { position: absolute; right: 10px; bottom: 10px; z-index: 2; padding: .35rem .52rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: rgba(255, 255, 255, .92); font-size: .62rem; font-weight: 760; }
+    .claim-ceiling { margin: 0; border-color: #ead4b8; color: var(--muted); background: var(--warning-soft); box-shadow: none; }
+    .claim-ceiling strong { color: var(--warning); }
+    .technical-view-heading { margin: 1.5rem 0 1rem; }
+    .technical-view .stats { margin-bottom: 1rem; }
+    .stat { border-color: var(--line); border-radius: 8px; background: var(--surface); box-shadow: none; }
+    .stat-value { color: var(--ink); font-family: inherit; font-weight: 700; }
+    .controls { border-color: var(--line); border-radius: var(--radius); background: var(--surface); }
+    input[type="search"], select { color: var(--ink); background: var(--surface); }
+    .button, .tab, .sequence-button, .text-button, .residue-card, .lens-button, .lane-card { color: var(--muted); background: var(--surface); }
+    .tab[aria-pressed="true"], .lens-button[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+    .beginner-guide { background: var(--surface); box-shadow: none; }
+    .lane-card.active, .lane-card[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+    .graph-card, .inspector, .residue-section, .linear-section { background: var(--surface); box-shadow: var(--shadow); }
+    .graph-scroll { background: var(--surface); }
+    .plane-band { fill: #fafafa; stroke: var(--line); }
+    .plane-label { fill: #71717a; }
+    .plane-group:hover .plane-band, .plane-group:focus .plane-band, .plane-group.active .plane-band { fill: #f4f4fb; stroke: var(--accent); }
+    .edge { stroke: #8b8b96; }
+    .edge.negative { stroke: #9a633b; }
+    .edge-label { fill: #64646d; stroke: #ffffff; }
+    .node-card { fill: #ffffff; filter: drop-shadow(0 2px 5px rgba(24, 24, 27, .08)); }
+    .node:hover .node-card, .node.active .node-card { filter: drop-shadow(0 3px 8px rgba(91, 91, 214, .16)); }
+    .node-meta { fill: #71717a; }
+    .definition-list dd, .detail-list { color: var(--ink); }
+    .technical-record { background: var(--surface-2); }
+    #ontology-inspector:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+    @media (max-width: 920px) {
+    }
+
     @media (max-width: 1080px) {
       .hero { grid-template-columns: 1fr; }
       .stats { max-width: 430px; }
       .workspace { grid-template-columns: 1fr; }
       .inspector { min-height: 0; }
-      .lane-explanations, .proposed-mode-grid, .residue-grid, .api-guide-grid, .api-contract-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .lane-explanations, .proposed-mode-grid, .residue-grid, .api-feature-list, .api-contract-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .api-workspace { grid-template-columns: 1fr; }
     }
     @media (max-width: 720px) {
@@ -440,14 +810,37 @@
       .boundary-chips { display: none; }
       .controls { grid-template-columns: 1fr; }
       .tab { flex: 1 1 44%; }
-      .claim-ceiling, .api-limit { flex-direction: column; gap: .25rem; }
+      .claim-ceiling { flex-direction: column; gap: .25rem; }
       .guide-head { flex-direction: column; }
       .lens-button { min-height: 44px; }
       .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .stat { padding: .7rem .45rem; }
       .stat-value { font-size: 1.45rem; }
-      .lane-explanations, .proposed-mode-grid, .residue-grid, .linear-grid, .api-guide-grid, .api-contract-grid, .view-options-grid { grid-template-columns: 1fr; }
+      .lane-explanations, .proposed-mode-grid, .residue-grid, .linear-grid, .api-feature-list, .api-contract-grid, .view-options-grid { grid-template-columns: 1fr; }
       .footer { flex-direction: column; }
+      .body-view-heading, .technical-view-heading { flex-direction: column; }
+      .body-projection-note { white-space: normal; }
+      .robot-consultation-frame { height: min(500px, 150vw); min-height: 430px; }
+      .robot-chassis-preview { width: calc(100% - 16px); max-width: 360px; }
+      .robot-consultation-card { font-size: .94em; }
+      .robot-interaction-key { display: none; }
+    }
+    @media (max-width: 400px) {
+      .robot-consultation-card[data-mode="pinned"] { display: flex; flex-direction: column; }
+      .robot-consultation-card[data-mode="pinned"] > * { flex: 0 0 auto; }
+      .robot-consultation-card[data-mode="pinned"] .robot-card-posture { margin-top: .36rem; }
+      .robot-consultation-card[data-mode="pinned"] .robot-card-form { order: 1; margin-top: .5rem; }
+      .robot-consultation-card[data-mode="pinned"] .robot-card-answer:not([hidden]) { order: 1; }
+      .robot-consultation-card[data-mode="pinned"] .robot-card-copy {
+        order: 2;
+        display: -webkit-box;
+        margin-top: .52rem;
+        overflow: hidden;
+        line-height: 1.38;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
+      .robot-consultation-card[data-mode="pinned"] .robot-card-boundary { order: 3; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
@@ -459,14 +852,9 @@
     <div class="brand">
       <div class="brand-mark" aria-hidden="true">AØ</div>
       <div class="brand-copy">
-        <p class="eyebrow">Private design map</p>
+        <p class="eyebrow" id="brand-eyebrow">Private design map</p>
         <p class="brand-title" id="package-id">augmentor-unified-agent-ontology</p>
       </div>
-    </div>
-    <div class="boundary-chips" aria-label="Package boundaries">
-      <span class="chip" title="candidate-local"><strong>status</strong> design only</span>
-      <span class="chip" title="authority effect: none"><strong>decisions</strong> none</span>
-      <span class="chip" title="release admission: not-granted"><strong>release</strong> not ready</span>
     </div>
   </header>
 
@@ -477,23 +865,85 @@
     </nav>
 
     <div id="ontology-page" data-testid="ontology-page" data-page-panel="ontology">
-    <section class="hero" aria-labelledby="page-title">
+    <section class="hero ontology-hero" aria-labelledby="page-title">
       <div>
-        <p class="eyebrow">Candidate ontology map · authority effect: none</p>
-        <h1 id="page-title">One interface.<br>Clear responsibilities.</h1>
-        <p class="lede">See how conversation, routing, sessions, parallel work, memory, ontology, and reasoning connect—without hiding who owns each decision.</p>
-      </div>
-      <div class="stats" aria-label="Ontology counts">
-        <div class="stat"><span class="stat-value" id="stat-nodes">—</span><span class="stat-label">nodes</span></div>
-        <div class="stat"><span class="stat-value" id="stat-relations">—</span><span class="stat-label">relations</span></div>
-        <div class="stat"><span class="stat-value" id="stat-views">—</span><span class="stat-label">views</span></div>
-        <div class="stat"><span class="stat-value" id="stat-residue">—</span><span class="stat-label">open questions</span></div>
+        <p class="eyebrow">Augmentor system anatomy</p>
+        <h1 id="page-title">See the whole system.<br>Understand every boundary.</h1>
+        <p class="lede">A body-shaped guide to the same exact ontology map—showing what exists, what is designed, and what is still only planned.</p>
       </div>
     </section>
 
-    <div class="claim-ceiling" data-testid="claim-ceiling">
-      <strong>Important limit</strong>
-      <span id="claim-ceiling-copy">Source-bound candidate model only.</span>
+    <div class="representation-switch" data-testid="representation-switch" role="group" aria-label="Choose an ontology representation">
+      <button class="representation-button" id="body-view-button" data-testid="body-view-button" type="button" aria-pressed="true" aria-controls="body-view">Body view <span>Visual guide</span></button>
+      <button class="representation-button" id="technical-view-button" data-testid="technical-view-button" type="button" aria-pressed="false" aria-controls="technical-view">Technical map <span>Exact records</span></button>
+    </div>
+
+    <section id="body-view" class="body-view" data-testid="body-view" aria-labelledby="body-view-heading">
+      <header class="body-view-heading">
+        <div>
+          <p class="section-label">Beginner orientation</p>
+          <h2 id="body-view-heading">Augmentor, explained as a body</h2>
+          <p>Each numbered core gives a clear explanation, its current state, and the limit on what it can do.</p>
+        </div>
+        <span class="body-projection-note">Presentation only · not one actor</span>
+      </header>
+
+      <div class="body-view-layout">
+        <div class="anatomy-stage" data-testid="anatomy-stage">
+          <p class="anatomy-caption"><strong>Current path:</strong> interface → distributed context → typed routes and work → segmented evidence return. The optional heart sits outside that path.</p>
+          <div class="robot-consultation-home" id="robot-consultation-home">
+            <section class="robot-consultation-shell" id="robot-consultation-shell" data-testid="robot-consultation-shell" aria-labelledby="robot-consultation-title">
+              <p class="robot-consultation-intro" id="robot-consultation-title"><strong>Explore one part at a time.</strong> Hover, focus, or tap a numbered core. Pin it to ask Augmentor about that part.</p>
+              <div class="robot-consultation-frame" id="robot-consultation-frame" data-testid="robot-consultation-frame" data-card-layout="closed">
+                <figure class="robot-chassis-preview" data-testid="robot-chassis-preview">
+                  <img class="robot-chassis-image" data-testid="robot-chassis-image" src="/*__ROBOT_ASSET_DATA_URL__*/" width="1122" height="1402" alt="" aria-hidden="true" draggable="false">
+                  <figcaption class="sr-only">A teaching picture of Augmentor with ten interactive numbered parts.</figcaption>
+                  <div class="robot-core-layer" id="robot-core-controls" data-testid="robot-core-controls" aria-label="Augmentor parts"></div>
+                </figure>
+                <aside class="robot-consultation-card" id="robot-consultation-card" data-testid="robot-consultation-card" role="region" aria-labelledby="robot-card-heading" tabindex="0" hidden>
+                  <p class="robot-card-kicker" id="robot-card-kicker"></p>
+                  <h2 id="robot-card-heading">Augmentor consultation</h2>
+                  <p class="robot-card-posture" id="robot-card-posture"></p>
+                  <p class="robot-card-copy" id="robot-card-copy"></p>
+                  <div class="robot-card-answer" id="robot-card-answer" data-testid="robot-card-answer" hidden>
+                    <strong id="robot-card-answer-title"></strong>
+                    <p id="robot-card-answer-copy"></p>
+                  </div>
+                  <form class="robot-card-form" id="robot-card-form" data-testid="robot-card-form">
+                    <label for="robot-card-question">Ask about this part</label>
+                    <input id="robot-card-question" data-testid="robot-card-question" name="robot-question" maxlength="1000" autocomplete="off" placeholder="What does this part do?">
+                    <button type="submit" data-testid="robot-card-submit">Ask</button>
+                  </form>
+                  <p class="robot-card-boundary" id="robot-card-boundary"></p>
+                </aside>
+                <span class="robot-interaction-key">Hover, focus, or tap a core</span>
+                <p class="sr-only" id="robot-card-announcer" role="status" aria-live="polite"></p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <div class="claim-ceiling" data-testid="claim-ceiling">
+        <strong>Candidate design map</strong>
+        <span id="claim-ceiling-copy">Authority effect: none · release not granted.</span>
+      </div>
+    </section>
+
+    <section id="technical-view" class="technical-view" data-testid="technical-view" aria-labelledby="technical-view-heading" hidden>
+    <header class="technical-view-heading">
+      <div>
+        <p class="section-label">Exact source-bound model</p>
+        <h2 id="technical-view-heading">Technical map</h2>
+        <p>Search, filter, inspect, and read every concept and connection.</p>
+      </div>
+      <button class="button" id="return-body-view" data-testid="return-body-view" type="button" hidden>Return to body view</button>
+    </header>
+    <div class="stats" aria-label="Ontology counts">
+      <div class="stat"><span class="stat-value" id="stat-nodes">—</span><span class="stat-label">nodes</span></div>
+      <div class="stat"><span class="stat-value" id="stat-relations">—</span><span class="stat-label">relations</span></div>
+      <div class="stat"><span class="stat-value" id="stat-views">—</span><span class="stat-label">views</span></div>
+      <div class="stat"><span class="stat-value" id="stat-residue">—</span><span class="stat-label">open questions</span></div>
     </div>
 
     <section class="beginner-guide" data-testid="beginner-guide" aria-labelledby="beginner-guide-title">
@@ -575,7 +1025,7 @@
         </div>
       </article>
 
-      <aside class="inspector" data-testid="ontology-inspector" aria-labelledby="inspector-heading">
+      <aside class="inspector" id="ontology-inspector" data-testid="ontology-inspector" aria-labelledby="inspector-heading" tabindex="-1">
         <header class="inspector-head">
           <h2 id="inspector-heading">Details</h2>
           <button class="clear-button" id="clear-selection" type="button" hidden>Clear selection <span aria-hidden="true">×</span></button>
@@ -607,53 +1057,41 @@
         </div>
       </details>
     </section>
+    </section>
     </div>
 
     <section id="agent-api-page" data-testid="agent-api-page" data-page-panel="agent-api" data-api-endpoint="/augmentor/consultation" data-consultation-state="idle" data-answer-action="" aria-labelledby="agent-api-title" hidden>
       <section class="hero api-hero">
-        <div>
-          <p class="eyebrow">Agent consultation · read only</p>
-          <h1 id="agent-api-title">Ask what Augmentor says.</h1>
-          <p class="lede">An agent can send a question, read reviewed evidence, and use the returned guidance to answer the user. The API does not write the answer or make a decision.</p>
-        </div>
-        <div class="api-state">
-          <strong>What works here</strong>
-          This page calls the protected API with the same signed-in browser session. It reads only the reviewed information made for this page and cannot change memory, sources, or work.
-        </div>
+        <p class="eyebrow">Evidence-backed consultation</p>
+        <h1 id="agent-api-title">Ask Augmentor.<br>Get evidence, not guesswork.</h1>
+        <p class="lede">Consult reviewed knowledge, see the supporting sources, and get clear guidance about what the evidence can—and cannot—support.</p>
+        <p class="api-boundary-inline">Read only. No memory writes, approvals, decisions, or actions.</p>
       </section>
 
-      <div class="api-limit" data-testid="agent-api-limit">
-        <strong>Important limit</strong>
-        <span>The result is evidence for an agent to use. It is not permission, approval, or proof that a planned component is already running.</span>
-      </div>
-
-      <section class="api-guide-grid" aria-label="How the Agent API works">
-        <article class="api-guide-card">
-          <span>Step 1</span>
-          <h2>Ask a clear question</h2>
-          <p>The page sends the question and the selected parts of Augmentor to the consultation API.</p>
+      <section class="api-feature-list" data-testid="agent-api-features" aria-label="Consultation features">
+        <article class="api-feature">
+          <strong>Source-linked evidence</strong>
+          <span>Each returned statement keeps an opaque reference to its reviewed source.</span>
         </article>
-        <article class="api-guide-card">
-          <span>Step 2</span>
-          <h2>Read the evidence</h2>
-          <p>The API returns reviewed statements and short source codes. Text it finds is information, never a command.</p>
+        <article class="api-feature">
+          <strong>Explicit answer policy</strong>
+          <span>The agent is told to answer, qualify, clarify, or abstain.</span>
         </article>
-        <article class="api-guide-card">
-          <span>Step 3</span>
-          <h2>Follow the answer guidance</h2>
-          <p>The agent answers, adds a limitation, asks for clarification, or says the evidence is not enough.</p>
+        <article class="api-feature">
+          <strong>Adjustable depth</strong>
+          <span>Brief, guided, and deep change detail—not truth or authority.</span>
         </article>
       </section>
 
       <section class="api-workspace" aria-label="Agent API console">
         <form class="api-console" id="agent-api-form" data-testid="agent-api-form">
-          <h2>Consult Augmentor</h2>
-          <p class="api-console-intro">Use the form as a person, or call <code>window.augmentorConsultationPage.ask(question)</code> from a browser agent.</p>
+          <h2>Ask a question</h2>
+          <p class="api-console-intro">Check what the reviewed Augmentor knowledge supports today.</p>
 
           <label class="form-field" for="agent-api-question">
             <span class="form-label">Your question</span>
-            <textarea id="agent-api-question" data-testid="agent-api-question" name="question" required maxlength="1000" autocomplete="off">How does the Augmentor reasoning engine work?</textarea>
-            <span class="form-help">Ask about the user experience, work flow, information and memory, or who can decide. Do not include passwords or private information.</span>
+            <textarea id="agent-api-question" data-testid="agent-api-question" name="question" required maxlength="1000" autocomplete="off">What can the Augmentor consultation API explain today?</textarea>
+            <span class="form-help">Ask about the experience, work flow, information, memory, or decision boundaries. Do not include secrets or private information.</span>
           </label>
 
           <label class="form-field" for="agent-api-profile">
@@ -663,18 +1101,21 @@
               <option value="guided" selected>Guided</option>
               <option value="deep">Deep</option>
             </select>
-            <span class="form-help">Guided adds the current state, the process, one clearly labeled scenario, an analogy with its limit, and a short glossary.</span>
+            <span class="form-help">Choose a concise answer, a guided explanation, or deeper supporting context.</span>
           </label>
 
-          <fieldset class="view-options">
-            <legend>Where should Augmentor look?</legend>
-            <div class="view-options-grid">
-              <label class="view-option"><input type="checkbox" name="agent-api-view" value="experience" checked> What the user sees</label>
-              <label class="view-option"><input type="checkbox" name="agent-api-view" value="runtime" checked> How work runs</label>
-              <label class="view-option"><input type="checkbox" name="agent-api-view" value="knowledge" checked> Information and memory</label>
-              <label class="view-option"><input type="checkbox" name="agent-api-view" value="authority-bridge" checked> Who can decide</label>
-            </div>
-          </fieldset>
+          <details class="api-options" data-testid="agent-api-scope-options">
+            <summary>Knowledge areas <span>4 selected by default</span></summary>
+            <fieldset class="view-options">
+              <legend class="sr-only">Where should Augmentor look?</legend>
+              <div class="view-options-grid">
+                <label class="view-option"><input type="checkbox" name="agent-api-view" value="experience" checked> What the user sees</label>
+                <label class="view-option"><input type="checkbox" name="agent-api-view" value="runtime" checked> How work runs</label>
+                <label class="view-option"><input type="checkbox" name="agent-api-view" value="knowledge" checked> Information and memory</label>
+                <label class="view-option"><input type="checkbox" name="agent-api-view" value="authority-bridge" checked> Who can decide</label>
+              </div>
+            </fieldset>
+          </details>
 
           <div class="api-actions">
             <button class="button button-primary" id="agent-api-submit" data-testid="agent-api-submit" type="submit">Consult Augmentor</button>
@@ -684,10 +1125,10 @@
         </form>
 
         <article class="api-result-card" data-testid="agent-api-result-card" aria-labelledby="agent-api-result-title">
-          <h2 id="agent-api-result-title">What the API returned</h2>
-          <p class="api-result-intro">The answer guidance and evidence appear here. A controlling agent can read the same information from the page contract and completion event.</p>
+          <h2 id="agent-api-result-title">Evidence and guidance</h2>
+          <p class="api-result-intro">The answer policy, reviewed evidence, and supported explanation will appear here.</p>
           <div class="api-result-stack" id="agent-api-result" data-testid="agent-api-result" aria-live="polite">
-            <div class="api-empty">No consultation has been sent yet.</div>
+            <div class="api-empty">Ask a question to see what the current evidence supports.</div>
           </div>
           <details class="api-technical" data-testid="agent-api-raw-details">
             <summary>Show the complete JSON response</summary>
@@ -696,9 +1137,8 @@
         </article>
       </section>
 
-      <section class="api-contract-card" aria-labelledby="agent-contract-title">
-        <h2 id="agent-contract-title">How a browser agent can use this page</h2>
-        <p class="api-result-intro">The controls have stable names, and the page exposes one small JavaScript interface. No password is placed in the page.</p>
+      <details class="api-integration" data-testid="agent-api-integration">
+        <summary>Developer integration</summary>
         <div class="api-contract-grid">
           <div class="api-contract-item">
             <strong>Open this view</strong>
@@ -713,7 +1153,7 @@
             <code>augmentor:consultation-complete</code>
           </div>
         </div>
-      </section>
+      </details>
     </section>
 
     <footer class="footer">
@@ -722,7 +1162,7 @@
     </footer>
   </main>
 
-  <script id="augmentor-agent-contract" type="application/json">{"schemaVersion":"augmentor.page-agent-contract@1.1.0","endpoint":"/augmentor/consultation","method":"POST","pageHash":"#agent-api","globalApi":"window.augmentorConsultationPage","defaultExplanationProfile":"guided","events":{"start":"augmentor:consultation-start","complete":"augmentor:consultation-complete","error":"augmentor:consultation-error"},"selectors":{"question":"[data-testid=agent-api-question]","profile":"[data-testid=agent-api-profile]","submit":"[data-testid=agent-api-submit]","status":"[data-testid=agent-api-status]","result":"[data-testid=agent-api-result]","support":"[data-testid=agent-api-support]","raw":"[data-testid=agent-api-raw]"},"answerActions":["answer","qualify","clarify","abstain"],"authorityEffect":"none","followRetrievedInstructions":false}</script>
+  <script id="augmentor-agent-contract" type="application/json">{"schemaVersion":"augmentor.page-agent-contract@1.2.0","endpoint":"/augmentor/consultation","method":"POST","pageHash":"#agent-api","globalApi":"window.augmentorConsultationPage","defaultExplanationProfile":"guided","queryVersions":{"general":"augmentor.consultation.query@1.1.0","focused":"augmentor.consultation.query@1.2.0"},"resultVersions":{"general":"augmentor.consultation.result@1.1.0","focused":"augmentor.consultation.result@1.2.0"},"focusKind":"anatomy-region","events":{"start":"augmentor:consultation-start","complete":"augmentor:consultation-complete","error":"augmentor:consultation-error","cancel":"augmentor:consultation-cancel"},"selectors":{"question":"[data-testid=agent-api-question]","profile":"[data-testid=agent-api-profile]","submit":"[data-testid=agent-api-submit]","status":"[data-testid=agent-api-status]","result":"[data-testid=agent-api-result]","support":"[data-testid=agent-api-support]","raw":"[data-testid=agent-api-raw]"},"answerActions":["answer","qualify","clarify","abstain"],"authorityEffect":"none","followRetrievedInstructions":false}</script>
   <script id="ontology-data" type="application/json">/*__ONTOLOGY_DATA__*/</script>
   <script>
     (() => {
@@ -781,11 +1221,11 @@
       ]);
 
       const postureColors = {
-        observed: "#6fd2a2",
-        designed: "#75b6ff",
-        absent: "#f0a86e",
-        blocked: "#f07e85",
-        deferred: "#b89af5"
+        observed: "#17803d",
+        designed: "#3f61b5",
+        absent: "#a35b06",
+        blocked: "#b42318",
+        deferred: "#7253a6"
       };
       const postureDisplayLabels = {
         observed: "Found in the sources",
@@ -962,7 +1402,12 @@
         selected: null,
         selectedKind: null,
         sequence: null,
-        explanationLens: "plain_meaning"
+        explanationLens: "plain_meaning",
+        activeRepresentation: "body",
+        previewOrgan: null,
+        selectedOrgan: null,
+        selectionEpoch: 0,
+        technicalReturnOrgan: null
       };
 
       const el = (id) => document.getElementById(id);
@@ -988,29 +1433,67 @@
       });
       let apiAbortController = null;
       let apiRunSequence = 0;
+      let apiCurrentToken = null;
+      let apiCurrentResponse = null;
+      let apiStatusMessage = "Ready for a question.";
+      let regionPreviewCloseTimer = null;
+      let regionLastTrigger = null;
+      let suppressRegionPreviewOnce = false;
       let apiState = {
         state: "idle",
-        request: null,
-        response: null,
+        requestId: null,
+        requestedFocus: null,
+        presentationScope: "general-not-region-scoped",
         answerAction: null,
+        resultSummary: null,
         evidenceBrief: "",
-        error: null
+        errorCode: null
       };
 
       const cloneValue = (value) => value == null ? value : JSON.parse(JSON.stringify(value));
+      const pageError = (code, message) => Object.assign(new Error(message), {code});
+      const publicSelection = () => ({
+        previewRegionId: state.previewOrgan,
+        pinnedRegionId: state.selectedOrgan,
+        activeRegionId: state.selectedOrgan ?? state.previewOrgan
+      });
+      const publicApiState = () => ({
+        state: apiState.state,
+        selection: publicSelection(),
+        selectionEpoch: state.selectionEpoch,
+        requestId: apiState.requestId,
+        requestedFocus: cloneValue(apiState.requestedFocus),
+        presentationScope: apiState.presentationScope,
+        answerAction: apiState.answerAction,
+        result: cloneValue(apiState.resultSummary),
+        errorCode: apiState.errorCode
+      });
       const setApiState = (next) => {
         apiState = { ...apiState, ...next };
         apiPanel.dataset.consultationState = apiState.state;
         apiPanel.dataset.answerAction = apiState.answerAction ?? "";
+        apiPanel.dataset.errorCode = apiState.errorCode ?? "";
+        renderRobotConsultationCard();
       };
       const setApiStatus = (message, tone = "") => {
         const status = el("agent-api-status");
+        apiStatusMessage = message;
         status.textContent = message;
         status.dataset.tone = tone;
+        renderRobotConsultationCard();
       };
       const dispatchApiEvent = (name, detail) => {
         document.dispatchEvent(new CustomEvent(name, { detail: cloneValue(detail) }));
       };
+      const safeEventDetail = (token, extra = {}) => ({
+        requestId: token?.requestId ?? null,
+        focus: cloneValue(token?.requestedFocus ?? null),
+        state: extra.state ?? apiState.state,
+        ...(extra.answerAction ? {answerAction: extra.answerAction} : {}),
+        ...(extra.errorCode ? {errorCode: extra.errorCode} : {}),
+        ...(extra.reason ? {reason: extra.reason} : {}),
+        ...(extra.result ? {result: cloneValue(extra.result)} : {})
+      });
       const selectedConsultationViews = () => [...document.querySelectorAll('input[name="agent-api-view"]:checked')]
         .map((input) => input.value);
       const setSelectedConsultationViews = (viewIds) => {
@@ -1023,16 +1506,36 @@
         return random.replace(/[^A-Za-z0-9_-]/g, "").slice(0, 64);
       };
       const explanationProfiles = new Set(["brief", "guided", "deep"]);
-      const makeConsultationRequest = (question, viewIds, explanationProfile) => {
+      const consultationStatuses = new Set(["ok", "partial", "no_match", "insufficient_evidence", "conflict", "stale", "denied", "temporary_failure"]);
+      const safeHandle = /^[A-Za-z0-9][A-Za-z0-9._:@-]{0,255}$/;
+      const sensitiveValue = /(?:\/home\/|\bBearer\s+|-----BEGIN [A-Z ]+PRIVATE KEY-----|\bpassword\s*=)/i;
+      const forbiddenResponseKey = /^(?:authorization|cookie|credentials?|principal|grant|filesystemPath|rawDiagnostics?|cacheKey|privatePath|accessToken|refreshToken)$/i;
+      const containsSensitiveMaterial = (value) => {
+        if (typeof value === "string") return sensitiveValue.test(value);
+        if (Array.isArray(value)) return value.some(containsSensitiveMaterial);
+        if (!value || typeof value !== "object") return false;
+        return Object.entries(value).some(([key, child]) => forbiddenResponseKey.test(key) || containsSensitiveMaterial(child));
+      };
+      const normalizeFocus = (focus) => {
+        if (focus == null) return null;
+        const kind = String(focus.kind ?? "");
+        const id = String(focus.id ?? "");
+        if (kind !== agentContract.focusKind || !pageKnownAnatomyItem(id)) {
+          throw pageError("invalid-focus", "Choose a region shown on this Augmentor page.");
+        }
+        return Object.freeze({kind: agentContract.focusKind, id});
+      };
+      const makeConsultationRequest = (question, viewIds, explanationProfile, requestedFocus) => {
         const token = requestToken();
         return {
-          schemaVersion: "augmentor.consultation.query@1.1.0",
+          schemaVersion: requestedFocus ? agentContract.queryVersions.focused : agentContract.queryVersions.general,
           requestId: `page-${token}`,
           questionId: `question-${token}`,
           operation: "search",
           query: { text: question },
           scope: { viewIds },
           explanation: { profile: explanationProfile },
+          ...(requestedFocus ? {focus: requestedFocus} : {}),
           limits: {
             maxCandidates: 100,
             maxRecords: 5,
@@ -1043,16 +1546,103 @@
           }
         };
       };
-      const validateConsultationPayload = (payload) => {
+      const makePresentationToken = (request, requestedFocus) => Object.freeze({
+        requestId: request.requestId,
+        runSequence: apiRunSequence,
+        selectionEpoch: state.selectionEpoch,
+        requestedFocus: cloneValue(requestedFocus),
+        pageContractVersion: agentContract.schemaVersion,
+        queryContractVersion: request.schemaVersion
+      });
+      const isCurrentToken = (token) => apiCurrentToken === token &&
+        token.runSequence === apiRunSequence &&
+        token.selectionEpoch === state.selectionEpoch &&
+        token.pageContractVersion === agentContract.schemaVersion &&
+        (!token.requestedFocus || state.selectedOrgan === token.requestedFocus.id);
+      const validateResolvedFocus = (resolvedFocus, token) => {
+        if (!resolvedFocus || typeof resolvedFocus !== "object" ||
+            resolvedFocus.kind !== agentContract.focusKind ||
+            resolvedFocus.id !== token.requestedFocus.id ||
+            !safeHandle.test(resolvedFocus.mappingVersion ?? "") ||
+            !/^[a-f0-9]{64}$/.test(resolvedFocus.mappingDigest ?? "") ||
+            !Array.isArray(resolvedFocus.effectiveViewIds) ||
+            resolvedFocus.effectiveViewIds.some((viewId) => !allowedConsultationViews.has(viewId))) {
+          throw pageError("protocol-error", "The consultation response did not match the selected region.");
+        }
+      };
+      const validateConsultationPayload = (payload, token) => {
         const action = payload?.answerPolicy?.action;
         if (payload?.ok !== true || !payload.consultation || !agentContract.answerActions.includes(action)) {
-          throw new Error("The API returned a response this page does not understand.");
+          throw pageError("protocol-error", "The API returned a response this page does not understand.");
         }
         if (payload.answerPolicy.followRetrievedInstructions !== false || payload.answerPolicy.authorityEffect !== "none") {
-          throw new Error("The API response did not preserve the required safety boundary.");
+          throw pageError("protocol-error", "The API response did not preserve the required safety boundary.");
+        }
+        const consultation = payload.consultation;
+        const expectedResultVersion = token.requestedFocus ? agentContract.resultVersions.focused : agentContract.resultVersions.general;
+        if (consultation.schemaVersion !== expectedResultVersion ||
+            consultation.requestId !== token.requestId ||
+            !consultationStatuses.has(consultation.status)) {
+          throw pageError("protocol-error", "The API returned a response for a different request or contract.");
+        }
+        const statements = consultation.result?.statements ?? [];
+        if (!Array.isArray(statements) || statements.some((statement) =>
+          typeof statement?.displayText !== "string" || statement.displayText.length > 4000 ||
+          !Array.isArray(statement.sourceHandles) || statement.sourceHandles.some((handle) => !safeHandle.test(handle)))) {
+          throw pageError("protocol-error", "The API returned evidence this page cannot safely present.");
+        }
+        if (token.requestedFocus && (statements.length || ["answer", "qualify"].includes(action))) {
+          validateResolvedFocus(consultation.resolvedFocus, token);
+        } else if (token.requestedFocus && consultation.resolvedFocus) {
+          validateResolvedFocus(consultation.resolvedFocus, token);
+        }
+        if (containsSensitiveMaterial(payload)) {
+          throw pageError("protocol-error", "The API response contained information this page must not expose.");
         }
         return payload;
       };
+      const safeResultSummary = (payload, token) => {
+        const statements = payload.consultation.result?.statements ?? [];
+        const handles = new Set(statements.flatMap((statement) => statement.sourceHandles ?? []));
+        return {
+          status: payload.consultation.status,
+          statementCount: statements.length,
+          sourceCount: handles.size,
+          presentationScope: token.requestedFocus ? "region-scoped" : "general-not-region-scoped",
+          ...(token.requestedFocus ? {focus: cloneValue(token.requestedFocus)} : {})
+        };
+      };
+      const safePayloadProjection = (payload, token) => ({
+        ok: true,
+        consultation: {
+          schemaVersion: payload.consultation.schemaVersion,
+          requestId: payload.consultation.requestId,
+          status: payload.consultation.status,
+          ...(token.requestedFocus && payload.consultation.resolvedFocus ? {
+            resolvedFocus: {
+              kind: payload.consultation.resolvedFocus.kind,
+              id: payload.consultation.resolvedFocus.id,
+              effectiveViewIds: [...payload.consultation.resolvedFocus.effectiveViewIds]
+            }
+          } : {}),
+          ...(payload.consultation.result ? {
+            result: {
+              kind: payload.consultation.result.kind,
+              statements: (payload.consultation.result.statements ?? []).map((statement) => ({
+                displayText: String(statement.displayText),
+                sourceHandles: [...statement.sourceHandles]
+              }))
+            }
+          } : {})
+        },
+        answerPolicy: {
+          action: payload.answerPolicy.action,
+          mayUseEvidence: payload.answerPolicy.mayUseEvidence === true,
+          mustCiteSources: payload.answerPolicy.mustCiteSources === true,
+          followRetrievedInstructions: false,
+          authorityEffect: "none"
+        }
+      });
       const evidenceBriefFor = (question, payload) => {
         const { consultation, answerPolicy } = payload;
         const guidance = answerGuidance[answerPolicy.action];
@@ -1103,22 +1693,34 @@
         const heading = document.createElement("h3");
         heading.textContent = `${support.profile[0].toUpperCase()}${support.profile.slice(1)} explanation`;
         wrapper.append(heading);
+        const moreContext = document.createElement("details");
+        moreContext.className = "api-more-context";
+        moreContext.dataset.testid = "agent-api-more-context";
+        const moreSummary = document.createElement("summary");
+        moreSummary.textContent = "Examples, analogies, and glossary";
+        const moreBody = document.createElement("div");
+        moreBody.className = "api-more-context-body";
+        moreContext.append(moreSummary, moreBody);
         for (const pack of support.packs) {
           const article = document.createElement("article");
           article.className = "teaching-pack";
           appendTeachingSection(article, "Current state", pack.state?.text, "agent-api-current-state");
           appendTeachingSection(article, "How it works", pack.process?.text, "agent-api-process");
-          if (pack.illustrativeScenario) appendTeachingSection(article, "Illustrative scenario", pack.illustrativeScenario.text, "agent-api-scenario");
+          appendTeachingSection(article, "Important boundary", pack.boundary?.text, "agent-api-boundary");
+          wrapper.append(article);
+
+          const supportingArticle = document.createElement("article");
+          supportingArticle.className = "teaching-pack";
+          if (pack.illustrativeScenario) appendTeachingSection(supportingArticle, "Illustrative scenario", pack.illustrativeScenario.text, "agent-api-scenario");
           if (pack.analogy) {
-            const analogy = appendTeachingSection(article, "Analogy", pack.analogy.text, "agent-api-analogy");
+            const analogy = appendTeachingSection(supportingArticle, "Analogy", pack.analogy.text, "agent-api-analogy");
             const limitation = document.createElement("p");
             limitation.className = "limitation";
             limitation.dataset.testid = "agent-api-analogy-limit";
             limitation.textContent = `Where this comparison stops: ${pack.analogy.limitation}`;
             analogy.append(limitation);
           }
-          appendTeachingSection(article, "Important boundary", pack.boundary?.text, "agent-api-boundary");
-          wrapper.append(article);
+          if (supportingArticle.children.length) moreBody.append(supportingArticle);
         }
         if (Array.isArray(support.glossaryEntries) && support.glossaryEntries.length) {
           const glossary = document.createElement("section");
@@ -1139,11 +1741,12 @@
             list.append(item);
           }
           glossary.append(title, list);
-          wrapper.append(glossary);
+          moreBody.append(glossary);
         }
+        if (moreBody.children.length) wrapper.append(moreContext);
         result.append(wrapper);
       };
-      const renderConsultationPayload = (question, payload) => {
+      const renderConsultationPayload = (question, payload, token) => {
         const { consultation, answerPolicy } = payload;
         const guidance = answerGuidance[answerPolicy.action];
         const statements = Array.isArray(consultation.result?.statements) ? consultation.result.statements : [];
@@ -1194,21 +1797,99 @@
 
         renderExplanationSupport(result, consultation.explanationSupport);
 
-        el("agent-api-raw").textContent = JSON.stringify(payload, null, 2);
+        const resultSummary = safeResultSummary(payload, token);
+        el("agent-api-raw").textContent = JSON.stringify(safePayloadProjection(payload, token), null, 2);
         const evidenceBrief = evidenceBriefFor(question, payload);
+        apiCurrentResponse = cloneValue(payload);
         el("agent-api-copy").disabled = false;
-        setApiState({ state: "complete", response: cloneValue(payload), answerAction: answerPolicy.action, evidenceBrief, error: null });
+        setApiState({
+          state: "complete",
+          requestId: token.requestId,
+          requestedFocus: cloneValue(token.requestedFocus),
+          presentationScope: resultSummary.presentationScope,
+          answerAction: answerPolicy.action,
+          resultSummary,
+          evidenceBrief,
+          errorCode: null
+        });
         setApiStatus(`Consultation complete. The agent should ${answerPolicy.action}.`, "success");
       };
-      const explainHttpFailure = (status) => ({
-        400: "The API could not understand this request.",
-        401: "The page login is missing or has expired. Sign in again, then retry.",
-        413: "The request is too large. Ask a shorter question."
-      })[status] ?? `The consultation service returned HTTP ${status}.`;
       const rejectConsultationInput = (message) => {
-        setApiState({ state: "error", response: null, answerAction: null, evidenceBrief: "", error: message });
+        setApiState({ state: "error", requestId: null, requestedFocus: null, answerAction: null, resultSummary: null, evidenceBrief: "", errorCode: "invalid-request" });
         setApiStatus(message, "error");
-        throw new Error(message);
+        throw pageError("invalid-request", message);
+      };
+      const resetApiPresentation = (message = "Ready to consult Augmentor.") => {
+        apiCurrentResponse = null;
+        setApiState({
+          state: "idle",
+          requestId: null,
+          requestedFocus: null,
+          presentationScope: "general-not-region-scoped",
+          answerAction: null,
+          resultSummary: null,
+          evidenceBrief: "",
+          errorCode: null
+        });
+        el("agent-api-result").replaceChildren();
+        el("agent-api-raw").textContent = "No consultation result is active.";
+        el("agent-api-copy").disabled = true;
+        el("agent-api-submit").disabled = false;
+        setApiStatus(message);
+      };
+      const cancelActiveConsultation = (reason = "cancelled", {reset = true, emit = true} = {}) => {
+        const token = apiCurrentToken;
+        const controller = apiAbortController;
+        const wasLoading = apiState.state === "loading";
+        if (!token && !controller) return false;
+        apiCurrentToken = null;
+        apiAbortController = null;
+        apiRunSequence += 1;
+        controller?.abort();
+        if (reset) resetApiPresentation(reason === "selection-changed" ? "Selection changed. Ask about the newly selected region when ready." : "Consultation cancelled.");
+        if (emit && wasLoading && token) {
+          dispatchApiEvent(agentContract.events.cancel, safeEventDetail(token, {state: "cancelled", reason}));
+        }
+        return true;
+      };
+      const responseIsJson = (response) => /^(?:application\/(?:[a-z0-9.+-]+\+)?json)\b/i.test(response.headers.get("content-type") ?? "");
+      const readDeclaredJson = async (response) => {
+        const text = await response.text();
+        try {
+          return JSON.parse(text);
+        } catch {
+          throw pageError("protocol-error", "The consultation service returned unreadable JSON.");
+        }
+      };
+      const classifyConsultationResponse = async (response) => {
+        const expectedUrl = new URL(agentContract.endpoint, location.href);
+        const receivedUrl = new URL(response.url);
+        if (response.redirected || receivedUrl.origin !== expectedUrl.origin || receivedUrl.pathname !== expectedUrl.pathname) {
+          throw pageError("protocol-error", "The consultation service unexpectedly redirected this request.");
+        }
+        const declaredJson = responseIsJson(response);
+        if (response.status === 401) {
+          throw pageError("authentication-required", "Your page session is missing or expired. Sign in, then try again.");
+        }
+        if (response.status === 403) {
+          throw pageError("access-denied", "This page is not allowed to run that consultation.");
+        }
+        if ([404, 405].includes(response.status) && !declaredJson) {
+          throw pageError("disconnected-route-unavailable", "Consultation is not connected in this preview.");
+        }
+        if (!response.ok) {
+          if (declaredJson) {
+            const envelope = await readDeclaredJson(response);
+            if (containsSensitiveMaterial(envelope)) {
+              throw pageError("protocol-error", "The consultation error contained information this page must not expose.");
+            }
+          }
+          throw pageError("service-error", `The consultation service could not complete this request (HTTP ${response.status}).`);
+        }
+        if (!declaredJson) {
+          throw pageError("protocol-error", "The consultation service returned an unexpected content type.");
+        }
+        return readDeclaredJson(response);
       };
       const consultAugmentor = async (question, options = {}) => {
         const normalizedQuestion = String(question ?? "").trim();
@@ -1221,20 +1902,42 @@
         }
         const explanationProfile = options.explanationProfile ?? el("agent-api-profile").value;
         if (!explanationProfiles.has(explanationProfile)) rejectConsultationInput("Choose brief, guided, or deep explanation depth.");
+        let requestedFocus;
+        try {
+          requestedFocus = normalizeFocus(options.focus);
+        } catch (error) {
+          rejectConsultationInput(error.message);
+        }
+
+        if (requestedFocus) selectRegion(requestedFocus.id, {pin: true});
+        cancelActiveConsultation("superseded", {reset: false, emit: true});
 
         el("agent-api-question").value = normalizedQuestion;
         setSelectedConsultationViews(viewIds);
         el("agent-api-profile").value = explanationProfile;
-        apiAbortController?.abort();
         const controller = new AbortController();
         apiAbortController = controller;
-        const runSequence = ++apiRunSequence;
-        const request = makeConsultationRequest(normalizedQuestion, viewIds, explanationProfile);
-        setApiState({ state: "loading", request: cloneValue(request), response: null, answerAction: null, evidenceBrief: "", error: null });
+        apiRunSequence += 1;
+        const request = makeConsultationRequest(normalizedQuestion, viewIds, explanationProfile, requestedFocus);
+        const token = makePresentationToken(request, requestedFocus);
+        apiCurrentToken = token;
+        apiCurrentResponse = null;
+        setApiState({
+          state: "loading",
+          requestId: request.requestId,
+          requestedFocus: cloneValue(requestedFocus),
+          presentationScope: requestedFocus ? "region-scoped" : "general-not-region-scoped",
+          answerAction: null,
+          resultSummary: null,
+          evidenceBrief: "",
+          errorCode: null
+        });
         el("agent-api-submit").disabled = true;
         el("agent-api-copy").disabled = true;
+        el("agent-api-result").replaceChildren();
+        el("agent-api-raw").textContent = "Waiting for a validated response.";
         setApiStatus("Consulting Augmentor…", "working");
-        dispatchApiEvent(agentContract.events.start, { request });
+        dispatchApiEvent(agentContract.events.start, safeEventDetail(token, {state: "loading"}));
 
         try {
           const response = await fetch(agentContract.endpoint, {
@@ -1244,29 +1947,38 @@
             body: JSON.stringify(request),
             signal: controller.signal
           });
-          const responseText = await response.text();
-          let payload;
-          try {
-            payload = JSON.parse(responseText);
-          } catch {
-            throw new Error("The API returned unreadable data.");
-          }
-          if (!response.ok) throw new Error(payload?.error || explainHttpFailure(response.status));
-          validateConsultationPayload(payload);
-          if (runSequence !== apiRunSequence) return null;
-          renderConsultationPayload(normalizedQuestion, payload);
-          dispatchApiEvent(agentContract.events.complete, { request, response: payload });
+          const payload = await classifyConsultationResponse(response);
+          if (!isCurrentToken(token)) throw new DOMException("Consultation was superseded.", "AbortError");
+          validateConsultationPayload(payload, token);
+          if (!isCurrentToken(token)) throw new DOMException("Consultation was superseded.", "AbortError");
+          renderConsultationPayload(normalizedQuestion, payload, token);
+          dispatchApiEvent(agentContract.events.complete, safeEventDetail(token, {
+            state: "complete",
+            answerAction: payload.answerPolicy.action,
+            result: safeResultSummary(payload, token)
+          }));
           return cloneValue(payload);
         } catch (error) {
-          if (runSequence !== apiRunSequence) throw error;
-          const message = error?.name === "AbortError" ? "The earlier consultation was cancelled." : error.message;
-          setApiState({ state: "error", response: null, answerAction: null, evidenceBrief: "", error: message });
+          if (error?.name === "AbortError" || !isCurrentToken(token)) throw error;
+          const classified = error?.code ? error : pageError("disconnected", "The consultation service could not be reached.");
+          apiCurrentResponse = null;
+          setApiState({
+            state: "error",
+            requestId: token.requestId,
+            requestedFocus: cloneValue(token.requestedFocus),
+            presentationScope: token.requestedFocus ? "region-scoped" : "general-not-region-scoped",
+            answerAction: null,
+            resultSummary: null,
+            evidenceBrief: "",
+            errorCode: classified.code
+          });
+          const message = classified.message;
           setApiStatus(message, "error");
           el("agent-api-raw").textContent = "No usable response.";
-          dispatchApiEvent(agentContract.events.error, { request, error: message });
-          throw error;
+          dispatchApiEvent(agentContract.events.error, safeEventDetail(token, {state: "error", errorCode: classified.code}));
+          throw classified;
         } finally {
-          if (runSequence === apiRunSequence) {
+          if (isCurrentToken(token)) {
             el("agent-api-submit").disabled = false;
             apiAbortController = null;
           }
@@ -1281,8 +1993,14 @@
           else link.removeAttribute("aria-current");
         }
         document.body.dataset.activePage = activePage;
-        document.title = activePage === "agent-api" ? "Augmentor Agent API" : "Augmentor Unified-Agent Ontology";
+        const robotShell = el("robot-consultation-shell");
+        if (activePage === "agent-api") apiPanel.querySelector(".api-hero").after(robotShell);
+        else el("robot-consultation-home").append(robotShell);
+        el("brand-eyebrow").textContent = activePage === "agent-api" ? "Evidence-backed consultation" : "Private design map";
+        el("package-id").textContent = activePage === "agent-api" ? "Augmentor" : data.profile.package_id;
+        document.title = activePage === "agent-api" ? "Ask Augmentor — Evidence-backed consultation" : "Augmentor Unified-Agent Ontology";
         window.scrollTo(0, 0);
+        requestAnimationFrame(renderRobotConsultationCard);
       };
       const svgEl = (name, attributes = {}) => {
         const element = document.createElementNS(svgNS, name);
@@ -1296,6 +2014,635 @@
         return child;
       };
       const compactId = (value) => value.replace(/^aug\.(concept|relation)\./, "");
+      const statusColor = (posture) => posture === "mixed" ? "#5b5bd6" : postureColors[posture] ?? "#85858f";
+      const anatomyRegionById = new Map(data.anatomy.regions.map((region) => [region.id, region]));
+      const externalSeamById = new Map(data.anatomy.external_seams.map((seam) => [seam.id, seam]));
+      const pageKnownAnatomyItem = (regionId) => anatomyRegionById.get(regionId) ?? externalSeamById.get(regionId) ?? null;
+      const robotCoreOrder = Object.freeze([
+        "face", "brain-source", "brain-context", "brain-meaning", "route-spine",
+        "work-spine", "evidence-return", "heart", "boundary-ring", "addon-sdk"
+      ]);
+      const robotPlainCopy = Object.freeze({
+        face: {
+          title: "Conversation",
+          summary: "This is where a person talks with Augmentor and sees the choices and results in one place.",
+          boundary: "The conversation screen cannot choose a path, start work, save information, or approve an action."
+        },
+        "brain-source": {
+          title: "Where information comes from",
+          summary: "This part points to the documents or records behind an answer so a person can check them.",
+          boundary: "A link does not make information true or give Augmentor permission to decide."
+        },
+        "brain-context": {
+          title: "Information for this question",
+          summary: "This part would keep each request focused on the small set of information it actually needs.",
+          boundary: "It cannot fill missing information with invented facts or change the material it points to."
+        },
+        "brain-meaning": {
+          title: "Meaning to review",
+          summary: "This part would organize important ideas into a clear proposal that people can review.",
+          boundary: "A proposal is not accepted information, a final decision, or permission to build or publish."
+        },
+        "route-spine": {
+          title: "What happens next",
+          summary: "This part can show possible next steps, such as answer now, ask a question, offer work, or stop.",
+          boundary: "A suggestion does not make the decision, approve work, or start anything."
+        },
+        "work-spine": {
+          title: "Approved work",
+          summary: "This part keeps planning, approval, running work, and completion checks separate. Important work starts only after a person approves the exact plan.",
+          boundary: "A plan, approved work instructions, a running task, and its completion check are different things."
+        },
+        "evidence-return": {
+          title: "Results and saved information",
+          summary: "This part would show what work produced and let a person choose what to open or use.",
+          boundary: "Opening or using a result does not save it as reviewed information or grant permission to act."
+        },
+        heart: {
+          title: "Optional specialist check",
+          summary: "A future specialist tool could answer one fixed question and show how it reached its advice.",
+          boundary: "Specialist advice is not truth, approval, a final decision, or permission to act."
+        },
+        "boundary-ring": {
+          title: "Final decisions",
+          summary: "This marks where a person or responsible system must make the real decision.",
+          boundary: "The drawn ring is only a picture. It cannot approve work, protect data, or perform an action."
+        },
+        "addon-sdk": {
+          title: "Future product connection",
+          summary: "A future developer connection could let another product ask Augmentor a question and receive a matching response.",
+          boundary: "No developer kit is installed, no product is connected, and nothing here is ready for public use."
+        }
+      });
+      const robotPostureCopy = Object.freeze({
+        observed: "Working evidence exists",
+        mixed: "Partly in place",
+        designed: "Designed, not connected",
+        absent: "Not built",
+        blocked: "Blocked",
+        deferred: "Planned for later",
+        "selection-ready": "Ready to define, not built"
+      });
+      const robotItemPosture = (item) => item?.overview_posture ?? item?.posture ?? "mixed";
+      const cancelRegionPreviewClose = () => {
+        if (regionPreviewCloseTimer !== null) window.clearTimeout(regionPreviewCloseTimer);
+        regionPreviewCloseTimer = null;
+      };
+      const scheduleRegionPreviewClose = () => {
+        cancelRegionPreviewClose();
+        if (state.selectedOrgan) return;
+        regionPreviewCloseTimer = window.setTimeout(() => {
+          const card = el("robot-consultation-card");
+          const activeCore = document.querySelector(".robot-core-button:hover");
+          if (card.matches(":hover") || card.contains(document.activeElement) || activeCore) return;
+          previewRegion(null);
+        }, 180);
+      };
+      const setRobotLayoutUnavailable = (message) => {
+        const frame = el("robot-consultation-frame");
+        const card = el("robot-consultation-card");
+        frame.dataset.cardLayout = "unavailable";
+        frame.dataset.layoutFailure = "layout-unavailable";
+        card.dataset.layout = "layout-unavailable";
+        card.hidden = true;
+        el("robot-card-announcer").textContent = message;
+      };
+      const positionRobotConsultationCard = () => {
+        const frame = el("robot-consultation-frame");
+        const card = el("robot-consultation-card");
+        if (!frame || !card || card.hidden) return;
+        const activeId = state.selectedOrgan ?? state.previewOrgan;
+        const trigger = activeId ? document.querySelector(`.robot-core-button[data-organ-id="${activeId}"]`) : null;
+        const frameRect = frame.getBoundingClientRect();
+        const inset = 8;
+        const halo = 8;
+        const gap = 12;
+        const minimumSpace = 176;
+        card.style.visibility = "hidden";
+        card.style.left = `${inset}px`;
+        card.style.top = `${inset}px`;
+        card.style.width = "";
+        card.style.maxHeight = `calc(100% - ${inset * 2}px)`;
+        frame.dataset.layoutFailure = "";
+
+        if (frameRect.height < minimumSpace || frameRect.width < 120) {
+          setRobotLayoutUnavailable("There is not enough room to show the explanation card without covering its core.");
+          return;
+        }
+        if (!trigger) {
+          card.style.left = `${Math.max(inset, frameRect.width - card.offsetWidth - inset)}px`;
+          card.style.top = `${inset}px`;
+          card.style.visibility = "";
+          card.dataset.layout = "general";
+          frame.dataset.cardLayout = "general";
+          return;
+        }
+
+        const triggerRect = trigger.getBoundingClientRect();
+        const protectedRect = {
+          left: triggerRect.left - frameRect.left - halo,
+          top: triggerRect.top - frameRect.top - halo,
+          right: triggerRect.right - frameRect.left + halo,
+          bottom: triggerRect.bottom - frameRect.top + halo
+        };
+        const coreCenterY = (protectedRect.top + protectedRect.bottom) / 2;
+        if (frameRect.width <= 400) {
+          const useAbove = coreCenterY >= frameRect.height / 2;
+          const available = useAbove
+            ? protectedRect.top - gap - inset
+            : frameRect.height - protectedRect.bottom - gap - inset;
+          const maxHeight = Math.min(frameRect.height * .46, available);
+          if (maxHeight < minimumSpace) {
+            setRobotLayoutUnavailable("There is not enough room to show the explanation card without covering its core.");
+            return;
+          }
+          card.style.width = `${frameRect.width - inset * 2}px`;
+          card.style.maxHeight = `${maxHeight}px`;
+          card.style.left = `${inset}px`;
+          card.style.top = useAbove ? `${inset}px` : `${frameRect.height - maxHeight - inset}px`;
+          card.style.visibility = "";
+          card.dataset.layout = useAbove ? "opposite-above" : "opposite-below";
+          frame.dataset.cardLayout = card.dataset.layout;
+          el("robot-card-announcer").textContent = `${robotPlainCopy[activeId].title} explanation opened.`;
+          return;
+        }
+
+        const cardWidth = card.offsetWidth;
+        const cardHeight = card.offsetHeight;
+        const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(value, maximum));
+        const centeredTop = clamp(coreCenterY - cardHeight / 2, inset, frameRect.height - cardHeight - inset);
+        const coreCenterX = (protectedRect.left + protectedRect.right) / 2;
+        const centeredLeft = clamp(coreCenterX - cardWidth / 2, inset, frameRect.width - cardWidth - inset);
+        const candidates = [
+          {name: "right", left: protectedRect.right + gap, top: centeredTop},
+          {name: "left", left: protectedRect.left - gap - cardWidth, top: centeredTop},
+          {name: "below", left: centeredLeft, top: protectedRect.bottom + gap},
+          {name: "above", left: centeredLeft, top: protectedRect.top - gap - cardHeight}
+        ];
+        const overlapsProtectedCore = (candidate) => !(
+          candidate.left + cardWidth <= protectedRect.left ||
+          candidate.left >= protectedRect.right ||
+          candidate.top + cardHeight <= protectedRect.top ||
+          candidate.top >= protectedRect.bottom
+        );
+        const candidate = candidates.find((item) =>
+          item.left >= inset && item.top >= inset &&
+          item.left + cardWidth <= frameRect.width - inset &&
+          item.top + cardHeight <= frameRect.height - inset &&
+          !overlapsProtectedCore(item)
+        );
+        if (!candidate) {
+          setRobotLayoutUnavailable("There is not enough room to show the explanation card without covering its core.");
+          return;
+        }
+        card.style.left = `${candidate.left}px`;
+        card.style.top = `${candidate.top}px`;
+        card.style.visibility = "";
+        card.dataset.layout = candidate.name;
+        frame.dataset.cardLayout = candidate.name;
+        el("robot-card-announcer").textContent = `${robotPlainCopy[activeId].title} explanation opened.`;
+      };
+      const renderRobotConsultationCard = () => {
+        const card = el("robot-consultation-card");
+        if (!card) return;
+        const activeId = state.selectedOrgan ?? state.previewOrgan;
+        const showApiState = apiState.state !== "idle";
+        if (!activeId && !showApiState) {
+          card.hidden = true;
+          card.dataset.layout = "closed";
+          el("robot-consultation-frame").dataset.cardLayout = "closed";
+          return;
+        }
+        const item = activeId ? pageKnownAnatomyItem(activeId) : null;
+        const content = activeId ? robotPlainCopy[activeId] : {
+          title: "General consultation",
+          summary: "Augmentor is checking reviewed information for a general question.",
+          boundary: "This consultation is read only. It cannot approve work, make a decision, or perform an action."
+        };
+        const posture = item ? robotItemPosture(item) : "mixed";
+        const index = activeId ? robotCoreOrder.indexOf(activeId) + 1 : 0;
+        el("robot-card-kicker").textContent = activeId ? `Part ${String(index).padStart(2, "0")} of 10` : "Augmentor";
+        el("robot-card-heading").textContent = content.title;
+        el("robot-card-posture").textContent = item ? robotPostureCopy[posture] ?? data.anatomy.status_grammar[posture] : "Read-only question";
+        el("robot-card-copy").textContent = content.summary;
+        el("robot-card-boundary").replaceChildren(
+          Object.assign(document.createElement("strong"), {textContent: "Important limit: "}),
+          document.createTextNode(content.boundary)
+        );
+        card.style.setProperty("--card-color", statusColor(posture));
+        card.dataset.organId = activeId ?? "general";
+        const expandedCard = Boolean(state.selectedOrgan) || showApiState;
+        card.dataset.mode = expandedCard ? "pinned" : "preview";
+        card.hidden = false;
+        const form = el("robot-card-form");
+        form.hidden = !state.selectedOrgan;
+        el("robot-card-boundary").hidden = !expandedCard;
+        const answer = el("robot-card-answer");
+        answer.hidden = apiState.state === "idle";
+        if (apiState.state === "loading") {
+          el("robot-card-answer-title").textContent = "Checking reviewed information";
+          el("robot-card-answer-copy").textContent = "Augmentor is looking for evidence that matches this question.";
+        } else if (apiState.state === "complete") {
+          const guidance = answerGuidance[apiState.answerAction];
+          const firstStatement = apiCurrentResponse?.consultation?.result?.statements?.[0]?.displayText;
+          el("robot-card-answer-title").textContent = guidance?.title ?? "Consultation complete";
+          el("robot-card-answer-copy").textContent = firstStatement ? String(firstStatement) : guidance?.copy ?? "No usable statement was returned.";
+        } else if (apiState.state === "error") {
+          el("robot-card-answer-title").textContent = "Augmentor could not answer";
+          el("robot-card-answer-copy").textContent = apiStatusMessage;
+        }
+        positionRobotConsultationCard();
+      };
+      const renderRobotCores = () => {
+        const controls = el("robot-core-controls");
+        if (controls.children.length) return;
+        robotCoreOrder.forEach((id, index) => {
+          const item = pageKnownAnatomyItem(id);
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "robot-core-button";
+          button.dataset.organId = id;
+          button.dataset.robotCore = "true";
+          button.dataset.testid = `robot-core-${id}`;
+          button.style.setProperty("--core-color", statusColor(robotItemPosture(item)));
+          button.setAttribute("aria-label", `${String(index + 1).padStart(2, "0")}. ${robotPlainCopy[id].title}. ${robotPostureCopy[robotItemPosture(item)]}.`);
+          const number = document.createElement("span");
+          number.className = "robot-core-number";
+          number.textContent = String(index + 1).padStart(2, "0");
+          button.append(number);
+          button.addEventListener("mouseenter", () => {
+            cancelRegionPreviewClose();
+            if (!state.selectedOrgan) previewRegion(id);
+          });
+          button.addEventListener("mouseleave", scheduleRegionPreviewClose);
+          button.addEventListener("focus", () => {
+            cancelRegionPreviewClose();
+            regionLastTrigger = button;
+            if (suppressRegionPreviewOnce) {
+              suppressRegionPreviewOnce = false;
+              return;
+            }
+            if (!state.selectedOrgan) previewRegion(id);
+          });
+          button.addEventListener("blur", scheduleRegionPreviewClose);
+          button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            cancelRegionPreviewClose();
+            regionLastTrigger = button;
+            toggleRegionSelection(id);
+          });
+          controls.append(button);
+        });
+      };
+      const anatomyIconParts = {
+        face: [
+          ["path", {class: "icon-fill", d: "M14 23c0-8 4-13 10-13s10 5 10 13v4c0 7-4 12-10 12s-10-5-10-12Z"}],
+          ["circle", {class: "icon-mark", cx: 20, cy: 24, r: 1.5}],
+          ["circle", {class: "icon-mark", cx: 28, cy: 24, r: 1.5}],
+          ["path", {d: "M20 31c2.5 2 5.5 2 8 0"}],
+          ["path", {d: "M33 10h10v8h-5l-4 4"}]
+        ],
+        "brain-source": [
+          ["path", {class: "icon-fill", d: "M24 39V10c-5-4-12 0-11 6-5 1-6 8-2 11-3 5 1 11 6 10 2 3 5 2 7 2Z"}],
+          ["path", {d: "M24 12c4-5 12-1 11 5 5 1 6 8 2 11 3 5-1 10-6 9-2 3-5 2-7 2"}],
+          ["path", {d: "M15 19c3-1 5 0 6 2M13 29c3-2 6-1 8 1"}],
+          ["circle", {class: "icon-mark", cx: 17, cy: 25, r: 2}]
+        ],
+        "brain-context": [
+          ["path", {class: "icon-fill", d: "M24 39V10c-5-4-12 0-11 6-5 1-6 8-2 11-3 5 1 11 6 10 2 3 5 2 7 2Z"}],
+          ["path", {d: "M24 12c4-5 12-1 11 5 5 1 6 8 2 11 3 5-1 10-6 9-2 3-5 2-7 2"}],
+          ["rect", {x: 17, y: 21, width: 14, height: 10, rx: 2}],
+          ["path", {d: "M20 25h8M20 28h5"}]
+        ],
+        "brain-meaning": [
+          ["path", {class: "icon-fill", d: "M24 39V10c-5-4-12 0-11 6-5 1-6 8-2 11-3 5 1 11 6 10 2 3 5 2 7 2Z"}],
+          ["path", {d: "M24 12c4-5 12-1 11 5 5 1 6 8 2 11 3 5-1 10-6 9-2 3-5 2-7 2"}],
+          ["path", {d: "M20 22l8 5-8 5M20 22v10"}],
+          ["circle", {class: "icon-mark", cx: 20, cy: 22, r: 1.7}],
+          ["circle", {class: "icon-mark", cx: 28, cy: 27, r: 1.7}],
+          ["circle", {class: "icon-mark", cx: 20, cy: 32, r: 1.7}]
+        ],
+        "route-spine": [
+          ["path", {d: "M24 7v34M24 15H11m13 9h13M24 33H13"}],
+          ["path", {d: "m11 15 4-4m-4 4 4 4m22 5-4-4m4 4-4 4m-20 5 4-4m-4 4 4 4"}],
+          ["circle", {class: "icon-fill", cx: 24, cy: 24, r: 5}]
+        ],
+        "work-spine": [
+          ["path", {d: "M12 12h8m8 0h8M20 12h8M24 17v5M24 29v5"}],
+          ["rect", {class: "icon-fill", x: 17, y: 6, width: 14, height: 11, rx: 3}],
+          ["rect", {class: "icon-fill", x: 17, y: 22, width: 14, height: 7, rx: 2}],
+          ["rect", {class: "icon-fill", x: 17, y: 34, width: 14, height: 8, rx: 2}]
+        ],
+        "evidence-return": [
+          ["path", {d: "M9 13h9M22 13h8M34 13h5M39 13v9c0 8-6 14-14 14H11"}],
+          ["path", {d: "m16 31-5 5 5 5"}],
+          ["circle", {class: "icon-fill", cx: 11, cy: 13, r: 4}],
+          ["circle", {class: "icon-fill", cx: 25, cy: 13, r: 4}],
+          ["circle", {class: "icon-fill", cx: 38, cy: 13, r: 4}]
+        ],
+        heart: [
+          ["path", {class: "icon-fill", d: "M24 40 10 27C1 18 7 7 17 10c3 1 5 3 7 6 2-3 4-5 7-6 10-3 16 8 7 17Z"}],
+          ["path", {d: "M20 8v8M28 8v8"}],
+          ["path", {d: "M18 25h4m4 0h4"}]
+        ],
+        "boundary-ring": [
+          ["path", {d: "M14 12a18 18 0 0 1 25 9M39 29a18 18 0 0 1-25 8M9 31a18 18 0 0 1 0-14"}],
+          ["path", {d: "M19 19h10v10H19zM24 19v-4"}],
+          ["path", {d: "M6 14h7M35 35h7"}]
+        ],
+        "addon-sdk": [
+          ["path", {d: "M5 15h9l5 6M43 15h-9l-5 6M5 33h9l5-6M43 33h-9l-5-6"}],
+          ["path", {class: "icon-fill", d: "M19 17h10v14H19z"}],
+          ["path", {d: "m23 21-3 3 3 3m2-6 3 3-3 3"}]
+        ]
+      };
+      const anatomyIcon = (id) => {
+        const icon = svgEl("svg", {
+          class: "organ-icon",
+          viewBox: "0 0 48 48",
+          "aria-hidden": "true",
+          focusable: "false",
+          "data-anatomy-icon": id
+        });
+        for (const [name, attributes] of anatomyIconParts[id] ?? []) icon.append(svgEl(name, attributes));
+        return icon;
+      };
+
+      const setRepresentationVisibility = () => {
+        const bodyActive = state.activeRepresentation === "body";
+        el("body-view").hidden = !bodyActive;
+        el("technical-view").hidden = bodyActive;
+        el("body-view-button").setAttribute("aria-pressed", String(bodyActive));
+        el("technical-view-button").setAttribute("aria-pressed", String(!bodyActive));
+        el("return-body-view").hidden = bodyActive || !state.technicalReturnOrgan;
+      };
+
+      const updateRegionControls = () => {
+        document.querySelectorAll("[data-organ-id]").forEach((button) => {
+          const pinned = button.dataset.organId === state.selectedOrgan;
+          const previewed = !state.selectedOrgan && button.dataset.organId === state.previewOrgan;
+          if (button.dataset.robotCore === "true") {
+            button.dataset.active = String(pinned || previewed);
+            button.dataset.pinned = String(pinned);
+            if (pinned) {
+              button.setAttribute("aria-controls", "robot-consultation-card");
+              button.setAttribute("aria-expanded", "true");
+            } else {
+              button.removeAttribute("aria-controls");
+              button.removeAttribute("aria-expanded");
+            }
+            button.tabIndex = state.selectedOrgan && !pinned ? -1 : 0;
+          } else {
+            button.setAttribute("aria-expanded", String(pinned));
+            button.dataset.previewed = String(previewed);
+          }
+        });
+        renderRobotConsultationCard();
+      };
+
+      const previewRegion = (regionId) => {
+        if (regionId !== null && !pageKnownAnatomyItem(regionId)) {
+          throw pageError("invalid-focus", "Choose a region shown on this Augmentor page.");
+        }
+        if (state.selectedOrgan) return publicSelection();
+        if (state.previewOrgan === regionId) return publicSelection();
+        state.selectionEpoch += 1;
+        cancelActiveConsultation("selection-changed", {reset: true, emit: true});
+        state.previewOrgan = regionId;
+        updateRegionControls();
+        return publicSelection();
+      };
+
+      const selectRegion = (regionId, {pin = true} = {}) => {
+        if (!pageKnownAnatomyItem(regionId)) {
+          throw pageError("invalid-focus", "Choose a region shown on this Augmentor page.");
+        }
+        if (!pin) return previewRegion(regionId);
+        if (state.selectedOrgan === regionId && state.previewOrgan === null) return publicSelection();
+        state.selectionEpoch += 1;
+        cancelActiveConsultation("selection-changed", {reset: true, emit: true});
+        state.previewOrgan = null;
+        state.selectedOrgan = regionId;
+        updateRegionControls();
+        renderBodyInspector();
+        return publicSelection();
+      };
+
+      const clearRegionSelection = ({restoreFocus = false} = {}) => {
+        const organId = state.selectedOrgan;
+        if (!organId && !state.previewOrgan) return publicSelection();
+        state.selectionEpoch += 1;
+        cancelActiveConsultation("selection-changed", {reset: true, emit: true});
+        state.previewOrgan = null;
+        state.selectedOrgan = null;
+        updateRegionControls();
+        renderBodyInspector();
+        if (restoreFocus && organId) {
+          const restoreCoreFocus = () => {
+          const preferred = regionLastTrigger?.isConnected && regionLastTrigger.dataset.organId === organId
+            ? regionLastTrigger
+            : document.querySelector(`.robot-core-button[data-organ-id="${organId}"]`);
+          suppressRegionPreviewOnce = true;
+          preferred?.focus();
+          if (document.activeElement !== preferred) suppressRegionPreviewOnce = false;
+          };
+          restoreCoreFocus();
+          if (document.activeElement?.dataset.organId !== organId) requestAnimationFrame(restoreCoreFocus);
+        }
+        if (!restoreFocus) regionLastTrigger = null;
+        return publicSelection();
+      };
+
+      const toggleRegionSelection = (regionId) => {
+        if (state.selectedOrgan === regionId) return clearRegionSelection({restoreFocus: false});
+        return selectRegion(regionId, {pin: true});
+      };
+
+      const closeBodyInspector = ({restoreFocus = true} = {}) => {
+        clearRegionSelection({restoreFocus});
+      };
+
+      const openTechnicalRecord = (kind, id) => {
+        state.technicalReturnOrgan = state.selectedOrgan;
+        state.activeRepresentation = "technical";
+        state.selectedKind = kind;
+        state.selected = id;
+        render();
+        requestAnimationFrame(() => {
+          const inspector = el("ontology-inspector");
+          inspector.dataset.activeRecordId = id;
+          inspector.focus();
+        });
+      };
+
+      const returnToBody = () => {
+        const organId = state.technicalReturnOrgan ?? state.selectedOrgan;
+        state.activeRepresentation = "body";
+        state.technicalReturnOrgan = null;
+        setRepresentationVisibility();
+        requestAnimationFrame(() => document.querySelector(`[data-organ-id="${organId}"]`)?.focus());
+      };
+
+      const setRepresentation = (representation) => {
+        state.activeRepresentation = representation;
+        if (representation === "body") state.technicalReturnOrgan = null;
+        setRepresentationVisibility();
+      };
+
+      const mappedRecordButton = (kind, binding) => {
+        const source = kind === "node" ? nodeById.get(binding.id) : relationById.get(binding.id);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "mapped-record-button";
+        button.dataset.recordKind = kind;
+        button.dataset.recordId = binding.id;
+        button.dataset.testid = `body-record-${compactId(binding.id)}`;
+        const identity = document.createElement("span");
+        const owner = binding.owner ?? source.owner_route;
+        identity.textContent = `${binding.id} · ${owner}`;
+        const status = document.createElement("span");
+        const posture = binding.posture ?? source.runtime_posture;
+        status.textContent = data.anatomy.status_grammar[posture] ?? posture;
+        button.setAttribute("aria-label", `Inspect ${binding.id} in Technical Map. ${status.textContent}. Owned by ${owner}.`);
+        button.append(identity, status);
+        button.addEventListener("click", () => openTechnicalRecord(kind, binding.id));
+        return button;
+      };
+
+      const renderBodyInspector = () => {
+        const heading = el("body-inspector-heading");
+        if (!heading) return;
+        const content = el("body-inspector-content");
+        const close = el("close-body-inspector");
+        content.replaceChildren();
+        close.hidden = !state.selectedOrgan;
+        if (!state.selectedOrgan) {
+          heading.textContent = "Choose a body region";
+          const copy = document.createElement("p");
+          copy.className = "inspector-empty";
+          copy.textContent = "Focus moves through the regions without changing this explanation. Activate one to inspect it.";
+          content.append(copy);
+          return;
+        }
+
+        const region = anatomyRegionById.get(state.selectedOrgan);
+        const seam = externalSeamById.get(state.selectedOrgan);
+        const item = region ?? seam;
+        heading.textContent = item.label;
+        const copy = document.createElement("p");
+        copy.className = "body-inspector-copy";
+        copy.textContent = item.plain_explanation;
+        const definition = document.createElement("dl");
+        definition.className = "body-definition";
+        const entries = [
+          ["Current state", region ? data.anatomy.status_grammar[region.overview_posture] : data.anatomy.status_grammar[seam.posture]],
+          ["Owned by", item.owner_summary],
+          ["Cannot do", item.limitation],
+          ["Source contract", item.source_refs.join(" · ")]
+        ];
+        for (const [term, value] of entries) {
+          const row = document.createElement("div");
+          const dt = document.createElement("dt");
+          const dd = document.createElement("dd");
+          dt.textContent = term;
+          dd.textContent = value;
+          row.append(dt, dd);
+          definition.append(row);
+        }
+        content.append(copy, definition);
+
+        if (region) {
+          const records = document.createElement("section");
+          records.className = "mapped-records";
+          const title = document.createElement("h3");
+          title.textContent = "Inspect exact records in Technical Map";
+          records.append(title);
+          const conceptBindings = [
+            ...region.concepts,
+            ...(region.shared_concepts ?? []).map((id) => {
+              const source = nodeById.get(id);
+              return {id, posture: source.runtime_posture, owner: source.owner_route};
+            })
+          ];
+          for (const binding of conceptBindings) records.append(mappedRecordButton("node", binding));
+          for (const binding of region.relations) records.append(mappedRecordButton("relation", binding));
+          content.append(records);
+        }
+      };
+
+      const renderBodyView = () => {
+        renderRobotCores();
+        if (!document.getElementById("body-region-controls")) {
+          setRepresentationVisibility();
+          return;
+        }
+        const controls = el("body-region-controls");
+        controls.replaceChildren();
+        for (const region of data.anatomy.regions) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "organ-button";
+          button.dataset.regionId = region.id;
+          button.dataset.organId = region.id;
+          button.dataset.testid = `body-region-${region.id}`;
+          button.style.setProperty("--posture-color", statusColor(region.overview_posture));
+          button.setAttribute("aria-expanded", String(state.selectedOrgan === region.id));
+          button.setAttribute("aria-controls", "body-inspector-content");
+          button.setAttribute("aria-label", `${region.label}. ${data.anatomy.status_grammar[region.overview_posture]}. ${region.concepts.length} concepts and ${region.relations.length} relations.`);
+          const kicker = document.createElement("span");
+          kicker.className = "organ-kicker";
+          kicker.textContent = region.short_label;
+          const title = document.createElement("strong");
+          title.className = "organ-title";
+          title.textContent = region.label;
+          const status = document.createElement("span");
+          status.className = "organ-status";
+          status.textContent = data.anatomy.status_grammar[region.overview_posture];
+          button.append(anatomyIcon(region.id), kicker, title, status);
+          button.addEventListener("click", () => {
+            regionLastTrigger = button;
+            toggleRegionSelection(region.id);
+          });
+          controls.append(button);
+        }
+
+        const seamWrap = el("sdk-seam-wrap");
+        seamWrap.replaceChildren();
+        const seam = data.anatomy.external_seams[0];
+        const seamButton = document.createElement("button");
+        seamButton.type = "button";
+        seamButton.className = "sdk-seam-button";
+        seamButton.dataset.organId = seam.id;
+        seamButton.dataset.testid = "body-region-addon-sdk";
+        seamButton.setAttribute("aria-expanded", String(state.selectedOrgan === seam.id));
+        seamButton.setAttribute("aria-controls", "body-inspector-content");
+        seamButton.setAttribute("aria-label", `${seam.label}. ${data.anatomy.status_grammar[seam.posture]}.`);
+        const seamTitle = document.createElement("strong");
+        seamTitle.textContent = seam.label;
+        const seamStatus = document.createElement("span");
+        seamStatus.textContent = data.anatomy.status_grammar[seam.posture];
+        seamButton.append(anatomyIcon(seam.id), seamTitle, seamStatus);
+        seamButton.addEventListener("click", () => {
+          regionLastTrigger = seamButton;
+          toggleRegionSelection(seam.id);
+        });
+        seamWrap.append(seamButton);
+
+        const legend = el("body-status-legend");
+        legend.replaceChildren();
+        for (const posture of ["observed", "designed", "absent", "blocked", "deferred", "mixed"]) {
+          const item = document.createElement("span");
+          item.className = "legend-item";
+          const marker = document.createElement("i");
+          marker.className = "legend-dot";
+          marker.style.background = statusColor(posture);
+          marker.setAttribute("aria-hidden", "true");
+          item.append(marker, document.createTextNode(data.anatomy.status_grammar[posture]));
+          legend.append(item);
+        }
+        renderBodyInspector();
+        setRepresentationVisibility();
+      };
       const normalize = (value) => String(value ?? "").toLowerCase();
       const matches = (values, query) => values.some((value) => normalize(value).includes(query));
       const negativePredicate = (predicate) => predicate.startsWith("does_not_");
@@ -1729,7 +3076,7 @@
         render();
       };
 
-      const clearSelection = () => {
+      const clearTechnicalSelection = () => {
         state.selected = null;
         state.selectedKind = null;
         render();
@@ -1927,6 +3274,7 @@
 
       const render = () => {
         const visible = computeVisible();
+        renderBodyView();
         renderExplanationLenses();
         renderLaneExplanations();
         renderProposedModes();
@@ -1949,7 +3297,7 @@
       el("stat-views").textContent = data.views.length;
       el("stat-residue").textContent = data.residue.length;
       el("package-id").textContent = data.profile.package_id;
-          el("claim-ceiling-copy").textContent = "This is a design map. It does not prove that routing, memory, reasoning, release, or production use works.";
+          el("claim-ceiling-copy").textContent = "Authority effect: none · release not granted.";
           el("claim-ceiling-copy").title = data.profile.claim_ceiling;
       el("bundle-digest").textContent = data.visualization_bundle_digest.slice(0, 16);
 
@@ -1976,11 +3324,35 @@
         el("posture-filter").value = "all";
         render();
       });
-      el("clear-selection").addEventListener("click", clearSelection);
+      el("clear-selection").addEventListener("click", clearTechnicalSelection);
+      el("body-view-button").addEventListener("click", () => setRepresentation("body"));
+      el("technical-view-button").addEventListener("click", () => setRepresentation("technical"));
+      el("return-body-view").addEventListener("click", returnToBody);
       el("agent-api-form").addEventListener("submit", (event) => {
         event.preventDefault();
         consultAugmentor(el("agent-api-question").value).catch(() => {});
       });
+      el("robot-card-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const regionId = state.selectedOrgan ?? state.previewOrgan;
+        if (!regionId) return;
+        if (!state.selectedOrgan) selectRegion(regionId, {pin: true});
+        const question = el("robot-card-question").value.trim();
+        consultAugmentor(question, {focus: {kind: agentContract.focusKind, id: regionId}}).catch(() => {});
+      });
+      el("robot-consultation-card").addEventListener("mouseenter", cancelRegionPreviewClose);
+      el("robot-consultation-card").addEventListener("mouseleave", scheduleRegionPreviewClose);
+      el("robot-consultation-card").addEventListener("focusin", cancelRegionPreviewClose);
+      el("robot-consultation-card").addEventListener("focusout", scheduleRegionPreviewClose);
+      document.addEventListener("pointerdown", (event) => {
+        if (!state.selectedOrgan) return;
+        if (el("robot-consultation-shell").contains(event.target)) return;
+        if (event.target.closest?.("[data-organ-id], #body-inspector")) return;
+        clearRegionSelection({restoreFocus: false});
+      });
+      new ResizeObserver(() => {
+        if (state.selectedOrgan || state.previewOrgan || apiState.state !== "idle") renderRobotConsultationCard();
+      }).observe(el("robot-consultation-frame"));
       el("agent-api-copy").addEventListener("click", async () => {
         try {
           await navigator.clipboard.writeText(apiState.evidenceBrief);
@@ -1991,16 +3363,26 @@
       });
       window.addEventListener("hashchange", renderPageRoute);
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") clearSelection();
+        if (event.key !== "Escape") return;
+        if (state.selectedOrgan || state.previewOrgan) clearRegionSelection({restoreFocus: true});
+        else if (state.activeRepresentation === "body" && state.selectedOrgan) closeBodyInspector();
+        else clearTechnicalSelection();
       });
 
       window.augmentorConsultationPage = Object.freeze({
         schemaVersion: agentContract.schemaVersion,
         contract: Object.freeze(cloneValue(agentContract)),
         ask: consultAugmentor,
-        getState: () => cloneValue(apiState),
-        getExplanationSupport: () => cloneValue(apiState.response?.consultation?.explanationSupport ?? null),
-        open: () => { location.hash = agentContract.pageHash; }
+        cancel: () => cancelActiveConsultation("explicit-cancel", {reset: true, emit: true}),
+        selectRegion,
+        previewRegion,
+        clearSelection: clearRegionSelection,
+        getState: () => cloneValue(publicApiState()),
+        getExplanationSupport: () => cloneValue(apiCurrentResponse?.consultation?.explanationSupport ?? null),
+        open: ({focus = null} = {}) => {
+          if (focus) selectRegion(normalizeFocus(focus).id, {pin: true});
+          location.hash = agentContract.pageHash;
+        }
       });
 
       drawPlanes();

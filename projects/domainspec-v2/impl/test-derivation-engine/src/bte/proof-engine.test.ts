@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+
 import { describe, expect, it } from "vitest";
 
 import { compileDevelopmentProject } from "./development-engine.js";
@@ -84,6 +86,28 @@ describe("BTE development proof core", () => {
         result: "fail",
         duplicate: [duplicate.members[0]!.coverage_key],
       }),
+    );
+  });
+
+  it("rejects a shared expectation/generator oracle", () => {
+    const project = createCompleteDevelopmentProject();
+    const expected = createDevelopmentSpecCatalogues(project)[0]!;
+    const sharedOracle = structuredClone(expected);
+
+    expect(compareDevelopmentCatalogues(expected, sharedOracle)).toEqual({
+      result: "fail",
+      diagnostic: "BTE_EXPECTATION_NOT_INDEPENDENT",
+      missing: [],
+      extra: [],
+      duplicate: [],
+    });
+
+    const expectationSource = readFileSync(
+      new URL("./self-authored-expectations.ts", import.meta.url),
+      "utf8",
+    );
+    expect(expectationSource).not.toMatch(
+      /buildCatalogues|deriveDevelopmentCatalogues/,
     );
   });
 

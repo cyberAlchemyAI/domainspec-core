@@ -1,6 +1,6 @@
 schema_contract:
   id: agent_reasoning_engine.beginner_guide
-  version: "0.2"
+  version: "0.3"
   based_on: whisper.text_intent_substrate@0.1
   purpose: >
     A human-readable and machine-readable writing contract for revising the
@@ -10,7 +10,7 @@ schema_contract:
 text_intent_substrate:
   metadata:
     substrate_version: "0.1"
-    artifact_revision: "0.2"
+    artifact_revision: "0.3"
     schema_id: agent_reasoning_engine.beginner_guide
     transport_type: adjacent_project_onboarding_guide
     transport_proof_status: candidate_unproven
@@ -39,8 +39,9 @@ text_intent_substrate:
         - authorize reasoning-engine implementation
     observed_problem: >
       The first draft is technically useful but introduces internal vocabulary
-      before the reader understands the behavior, while its generic beginner
-      framing would now waste time reteaching familiar orchestration concepts.
+      before the reader understands the behavior. The later cross-project
+      draft improved the audience fit, but its generic stakeholder request did
+      not show how this teammate actually governs multi-agent research.
     current_guide_state: rewritten_pending_teammate_review
     primary_sources:
       current_lifecycle_state:
@@ -65,6 +66,9 @@ text_intent_substrate:
         - ../../../projects/cyberalchemy-orchestrator/docs/features/agent-provenance-telemetry/integration/stage-e/local-orchestration-logging-bridge.md
         - ../../../projects/cyberalchemy-orchestrator/docs/features/agent-provenance-telemetry/integration/stage-f/mandatory-host-wrapper.md
         - ../../../projects/cyberalchemy-orchestrator/definitions/DEFINITIONS.md
+      research_dispatch_governance:
+        - ../../../implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/SKILL.md
+        - ../../../implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md
 
   intake_decisions:
     interview_mode: voice_approval
@@ -75,10 +79,15 @@ text_intent_substrate:
         correction: target_reader_authored_cyberalchemy_orchestrator
         source: user_supplied_context
         effect: previous_voice_approval_superseded_and_intent_marked_volatile
+      - date: 2026-08-13
+        scope: orchestrator_bridge_example
+        correction: replace_generic_stakeholder_request_with_governed_research_dispatch
+        source: user_direction
+        effect: research_dispatch_selected_as_example_without_registering_or_running_one
     operator_voice_approval: approved
     operator_voice_approved_on: 2026-08-13
     previously_approved_direction: concrete_conversational_explanation_first
-    candidate_direction: familiar_orchestrator_boundary_then_engine_difference
+    candidate_direction: concrete_research_dispatch_then_engine_difference
     rejected_direction: governance_manual_opening
     remaining_human_gate: teammate_comprehension
     revised_language_audition:
@@ -106,13 +115,21 @@ text_intent_substrate:
         apply the same admission discipline you use in the orchestrator: the
         reasoning-engine documents currently disagree about the next task, so
         a green suite still does not select an SWU.
+      research_dispatch_example: >
+        Ask whether the Agent Reasoning Engine can use ACI-owned journal facts
+        without becoming a second lifecycle writer. Show the dispatch trigger,
+        read-only Inventory map, validated sheet, two independent challenge
+        passes, explicit human confirmation, registration, research roles,
+        evidence closure, writing, auditing, and closeout. Then stop: closed
+        findings are evidence, not authority, and no current runtime edge feeds
+        them into a reasoning snapshot.
 
   author_objective:
     primary_outcome: >
-      Translate from the teammate's orchestrator mental model to the reasoning
-      engine's distinct semantic role, then give them enough local context to
-      run both packages, trace one example in each, and participate in a scoped
-      code discussion.
+      Use a governed research dispatch from the teammate's orchestration mental
+      model to expose the reasoning engine's distinct semantic role, then give
+      them enough local context to run both packages, trace one example in
+      each, and participate in a scoped code discussion.
     desired_reader_change:
       from: >
         I understand governed dispatch and ACI, but I do not yet know where the
@@ -222,17 +239,19 @@ text_intent_substrate:
       - Which familiar ACI patterns transfer, and where do the analogies stop?
       - How do route advice, semantic recommendation, and effect permission differ?
       - What is and is not currently integrated with cyberalchemy-orchestrator?
+      - How can closed research inform reasoning without becoming automatic input or authority?
       - What should I run and compare first?
       - What may I safely change?
     reader_reward: map_owned_orchestrator_concepts_to_reasoning_engine_boundaries
 
   trajectory_core:
-    narrative_anchor: orchestrator_launch_authority_versus_semantic_judgment
+    narrative_anchor: governed_research_dispatch_versus_semantic_judgment
+    primary_example: can_reasoning_use_aci_journal_facts_without_becoming_a_lifecycle_writer
     secondary_example: a_refund_review_that_must_not_send_a_refund
     transport_type: adjacent_project_onboarding_guide
-    introduction_strategy: familiar_boundary_then_difference_then_current_truth
+    introduction_strategy: concrete_research_dispatch_then_difference_then_current_truth
     body_parts:
-      - orchestrator_to_reasoning_bridge
+      - research_dispatch_to_reasoning_bridge
       - what_exists_today
       - refund_story
       - evaluator_walkthrough
@@ -248,6 +267,10 @@ text_intent_substrate:
       - complete engine is not implemented
       - Advice is not permission.
       - orchestrator launch authorization is not semantic recommendation
+      - explicit human confirmation occurs before dispatch registration
+      - research.md preserves verbatim explorer returns
+      - findings.md is authored only after evidence closure
+      - closed research findings are evidence, not authority or automatic reasoning input
       - existing orchestrator ACI is not current reasoning-engine integration
       - every cross-project analogy states both similarity and difference
       - no real product effect
@@ -264,6 +287,9 @@ text_intent_substrate:
       - treating a passing test as permission to implement
       - treating recommendation or candidate as action approval
       - treating historical evidence as current product readiness
+      - treating research closeout as proof that a finding is true
+      - drawing a current findings-to-reasoning runtime edge
+      - presenting the research-dispatch example as an active registered run
 
   language_policy:
     core_rule: familiar_orchestrator_pattern_then_difference_then_engine_term
@@ -392,9 +418,10 @@ text_intent_substrate:
     max_characters: 18000
     opening_contract:
       job: >
-        Start from the orchestrator boundary the reader already knows, name the
-        different semantic decision this engine explores, then state what works
-        today and the advice-versus-permission limit.
+        Start from the orchestrator boundary the reader already knows, use one
+        concrete governed research dispatch to expose the different semantic
+        decision this engine explores, then state what works today and the
+        advice-versus-permission limit.
       validation_rules:
         first_paragraph_cannot_match:
           - '(?i)^\s*the agent reasoning engine is a private, pre-action design'
@@ -443,18 +470,19 @@ text_intent_substrate:
       no_promotional_call_to_action: true
 
   distill_trace:
-    seed_point: retarget_the_guide_to_the_author_of_cyberalchemy_orchestrator
+    seed_point: replace_generic_request_with_governed_research_dispatch
     target_context: one_cross_project_onboarding_document_for_an_adjacent_system_expert
     output_artifact: standalone_yaml_composition_contract
     optimization_goal: use_familiar_architecture_without_implying_shared_semantics_or_integration
     mode: standard
     mode_selection: assumed_default_then_confirmed_by_revised_voice_approval
-    proposal_tracks: 1
+    proposal_tracks: 2
     recursive_round_budget: 2
     proposer_claim: >
-      Begin at the orchestrator's known confirmation and launch boundary, use it
-      to expose the separate semantic-judgment problem, then move through the
-      two packages, absent ACI integration, and a focused code tour.
+      Use a governed investigation of whether ACI journal facts can inform
+      reasoning without creating a second lifecycle writer. Preserve the
+      confirmation gate and research evidence lifecycle, then show that closed
+      findings still require separate owner admission before semantic judgment.
     balancer_objection:
       category: analogy_integrity_and_audience_over_assumption
       concern: >
@@ -462,14 +490,15 @@ text_intent_substrate:
         and shared words such as gate, receipt, snapshot, replay, and authority
         do not establish shared schemas, owners, or runtime integration.
     reconciliation: >
-      Reuse only source-supported orchestrator patterns, pair every analogy with
-      its stopping point, teach all engine-specific semantics explicitly, and
-      show the integration seam as designed but absent.
-    smallest_coherent_unit: orchestrator_to_reasoning_boundary_path
+      Reuse the source-supported research-dispatch lifecycle, label it as an
+      example rather than an active run, keep Inventory non-authoritative, and
+      place a visible no-current-edge boundary before reasoning input.
+    smallest_coherent_unit: research_dispatch_to_reasoning_boundary_path
     recomposition_proof: >
-      The opening reuses a known launch boundary; the middle introduces the new
-      semantic responsibilities and package behavior; the ending tests whether
-      the reader can distinguish the two systems and enter a scoped task.
+      The opening grounds the boundary in a realistic research dispatch; the
+      middle introduces the new semantic responsibilities and package behavior;
+      the ending tests whether the reader can distinguish governed findings,
+      semantic advice, and permission to act.
     frame_expiry: >
       Refresh this schema when another package becomes implemented, the two
       packages become integrated, tests or commands change, the planning
@@ -477,10 +506,10 @@ text_intent_substrate:
       task, or the user corrects the assumed orchestrator familiarity.
 
   composition_plan:
-    source_candidate_set: orchestrator_bridge_approved_v2
-    selected_unit: orchestrator_to_reasoning_boundary_path
+    source_candidate_set: research_dispatch_bridge_approved_v3
+    selected_unit: research_dispatch_to_reasoning_boundary_path
     construction_sequence:
-      - orchestrator_bridge
+      - research_dispatch_bridge
       - current_truth
       - semantic_gap_and_refund_story
       - evaluator
@@ -491,11 +520,17 @@ text_intent_substrate:
       - first_contribution
       - reference_and_readiness
     parts:
-      - part_id: orchestrator_bridge
+      - part_id: research_dispatch_bridge
         reader_question: Where does this engine begin after the orchestrator ends?
-        job: Use a familiar launch boundary to introduce the separate semantic-judgment boundary.
+        job: Use one governed research dispatch to introduce the separate semantic-judgment boundary.
         must_include:
-          - the orchestrator governs and records agent-work lifecycle
+          - the question asks whether reasoning can use ACI-owned journal facts without becoming a second lifecycle writer
+          - a dispatch trigger and read-only Inventory map precede planning
+          - a validated sheet and two independent challenge passes precede explicit human confirmation
+          - registration and agent work happen only after confirmation
+          - research proceeds through explorers, synthesis, review, evidence closure, writer, auditor, and closeout
+          - research.md holds verbatim explorer returns and findings.md follows evidence closure
+          - closed findings are evidence rather than authority or automatic reasoning input
           - this engine evaluates what follows from fixed facts and rules
           - two small parts work today
           - the complete engine does not
@@ -505,11 +540,13 @@ text_intent_substrate:
           - lifecycle IDs
           - a basic tutorial on ACI, gates, receipts, digests, or SWUs
           - any claim that the projects are integrated
+          - a claim that this example is a registered or active dispatch
+          - an arrow from findings.md to a reasoning snapshot
         analogy:
-          similarity: both preserve explicit boundaries and fail closed
-          difference: orchestrator launch authority is not semantic judgment
-          forbidden_inference: launch-authorized does not mean RecommendedUnderSnapshot or effect-permitted
-        max_new_reasoning_engine_terms: 1
+          similarity: both bind inputs, preserve explicit gates, and fail closed
+          difference: research produces governed evidence while the engine derives a semantic result from owner-admitted fixed inputs
+          forbidden_inference: closed findings do not become true, enter the engine automatically, or permit an effect
+        max_new_reasoning_engine_terms: 2
 
       - part_id: current_truth
         reader_question: What works today?
@@ -752,7 +789,7 @@ text_intent_substrate:
   draft_artifact:
     target_path: BEGINNER-GUIDE.md
     source_schema: BEGINNER-GUIDE-SCHEMA.yml
-    current_mutation_state: rewritten_against_v0.2
+    current_mutation_state: rewritten_against_v0.3
     next_mutation_state: teammate_comprehension_review
     generated_or_authoritative: false
 
@@ -774,8 +811,11 @@ text_intent_substrate:
       - Every local Markdown link and anchor resolves.
       - Both package test commands remain exact and runnable.
       - No paragraph implies whole-engine, integration, release, or action authority.
+      - The research-dispatch example preserves confirmation before registration and the exact research role order.
+      - Inventory is discovery only; research outputs remain evidence with no current edge to reasoning input.
       - Whitespace and final-newline checks pass for the changed guide.
     human_comprehension_questions:
+      - Why does a closed research dispatch not make findings true or feed the reasoning engine automatically?
       - Which decision does the reasoning engine address that governed dispatch does not?
       - How do launch authorization, semantic recommendation, and effect permission differ?
       - What does each package return?
@@ -810,9 +850,9 @@ text_intent_substrate:
     current_result: candidate_onboarding_artifacts_synchronized
     human_gate: teammate_comprehension_pending
     derivative_status:
-      BEGINNER-GUIDE.md: rewritten_against_frozen_v0.2_intent
-      BEGINNER-GUIDE-SCHEMA.lanes.json: synchronized_to_frozen_v0.2_schema
-      BEGINNER-GUIDE-SCHEMA.html: synchronized_to_frozen_v0.2_schema
+      BEGINNER-GUIDE.md: rewritten_against_frozen_v0.3_intent
+      BEGINNER-GUIDE-SCHEMA.lanes.json: synchronized_to_frozen_v0.3_schema
+      BEGINNER-GUIDE-SCHEMA.html: synchronized_to_frozen_v0.3_schema
       active_preview: managed_loopback_evidence_is_external_to_this_schema
     after_acceptance:
       - collect_teammate_comprehension_feedback

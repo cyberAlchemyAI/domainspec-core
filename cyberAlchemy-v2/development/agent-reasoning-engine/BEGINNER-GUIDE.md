@@ -37,29 +37,54 @@ responsibilities differ: orchestration owns launch and lifecycle; this project
 owns route comparison and semantic judgment. Never infer
 `RecommendedUnderSnapshot` from `status=launch-authorized`, or the reverse.
 
-The product and development teams may receive one request from a stakeholder,
-but that request creates different questions. This is a conceptual decision
-map, not deployed wiring between the two projects:
+Start from a concrete research question:
+
+> Can the Agent Reasoning Engine use ACI-owned journal facts without becoming
+> a second lifecycle writer?
+
+That question crosses source ownership, lifecycle recording, reasoning input,
+and evidence. If it needs several source sets, independent viewpoints, or work
+in parallel, [`domainspec-subagents-strategy`](../../../implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/SKILL.md)
+treats it as a research-dispatch candidate. The strategy governs how the
+research is admitted and run. It does not decide whether the eventual finding
+is true.
 
 ```mermaid
-flowchart LR
-    accTitle: One stakeholder request creates separate questions
-    accDescr: One stakeholder request creates separate launch and semantic questions. Neither result permits a product effect or proves project integration.
+flowchart TB
+    accTitle: Governed research dispatch and separate semantic judgment
+    accDescr: A research question enters a confirmed DomainSpec dispatch lifecycle. Closed findings remain evidence. A separate and currently unwired reasoning path asks what follows from fixed evidence and rules.
 
-    subgraph teaching["Conceptual decision map — not runtime wiring"]
-        stakeholder["Stakeholder<br/>brings a request"] --> team["Product team + development team<br/>clarify the request"]
-        team --> launchQuestion{"May agent work launch,<br/>and how is it recorded?"}
-        team --> judgmentQuestion{"What follows from the<br/>fixed facts and rules?"}
-        launchQuestion --> orchestrator["cyberalchemy-orchestrator<br/>LAUNCH + LIFECYCLE"]
-        judgmentQuestion --> reasoning["Agent Reasoning Engine<br/>CANDIDATE WHOLE<br/>BOUNDED PACKAGES ONLY"]
-        orchestrator --> launchResult["Launch authorization<br/>NOT a domain conclusion"]
-        reasoning --> advice["Semantic advice + recorded reasons<br/>NOT EFFECT PERMISSION"]
+    subgraph dispatch["Governed research dispatch — DomainSpec adapter"]
+        question["Research question"] --> trigger["Dispatch trigger check<br/>+ read-only Inventory map"]
+        trigger --> sheet["Validated dispatch sheet<br/>+ two independent challenge passes"]
+        sheet --> confirmation{"Explicit human confirmation?"}
+        confirmation -->|no| stop["STOP<br/>Do not register or start agents"]
+        confirmation -->|yes| register["Register dispatch"]
+        register --> explorers["Run and join explorers"]
+        explorers --> researchLog["Append verbatim explorer returns<br/>to research.md"]
+        researchLog --> review["Synthesize → independent reviews"]
+        review --> closure["Close cited evidence"]
+        closure --> findings["Writer authors findings.md<br/>EVIDENCE, NOT AUTHORITY"]
+        findings --> audit["Auditor → acceptance checks<br/>→ index → closeout"]
+    end
+
+    subgraph semantic["Separate semantic path — no current runtime edge"]
+        snapshot["Owner-admitted evidence + fixed rules<br/>for one reasoning snapshot"] --> reasoning["Agent Reasoning Engine<br/>CANDIDATE WHOLE"]
+        reasoning --> advice["Semantic recommendation<br/>NOT EFFECT PERMISSION"]
     end
 ```
 
-The map stops at two non-substitutable results. It contains no product-change
-edge, no resolver-to-evaluator edge, and no claim that the projects currently
-call each other.
+`domainspec-subagents-strategy` is a DomainSpec dispatch adapter, not the
+orchestrator and not part of the reasoning engine. A successful research
+lifecycle proves that the research process completed under its contract; it
+does not prove its findings true. `research.md` preserves the explorers'
+verbatim returns; `findings.md` is written only after cited evidence closes.
+Both remain research evidence.
+
+There is no implemented edge from `findings.md` to a reasoning snapshot. A
+future owner would have to select and admit evidence before semantic
+evaluation. Even then, the evaluator would return advice, not implementation
+selection or effect permission.
 
 ## 2. What works today?
 
@@ -263,6 +288,7 @@ cyberAlchemy-v2/
 | What may happen next? | [`.craft/ledger.yml`](.craft/ledger.yml) and [`planning/WORK-PACK.md`](planning/WORK-PACK.md) together |
 | What actually runs? | Source and tests under [`implementation/agent-reasoning-engine`](../../implementation/agent-reasoning-engine/) |
 | What is the familiar comparison? | [`projects/cyberalchemy-orchestrator/README.md`](../../../projects/cyberalchemy-orchestrator/README.md) |
+| How is multi-agent research governed? | [`domainspec-subagents-strategy/SKILL.md`](../../../implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/SKILL.md) |
 
 The orchestrator is a comparison source and future dependency, not authority
 for reasoning-engine semantics. Historical receipts prove only their exact

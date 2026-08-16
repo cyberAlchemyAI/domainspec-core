@@ -1,0 +1,784 @@
+ledger_id: lucifers-lights.craft
+schema_ref: ../../../arcanum/arcana/craft/templates/ledger.schema.yml
+schema_version: 0.3.0
+status: active
+source_of_truth: .craft/ledger.yml
+human_view: CRAFT.md
+notes:
+  - Repository-local creative project ledger for the novel and its graphic and audio derivatives.
+  - The current manuscript and generated media remain at repository-root draft paths during bootstrap.
+  - Human editorial acceptance remains distinct from a mechanically valid ledger or applied candidate revision.
+
+indexes:
+  by_id:
+    CTX-LL-ROOT: contexts[0]
+    CTX-LL-MANUSCRIPT: contexts[1]
+    CTX-LL-STORY-BIBLE: contexts[2]
+    CTX-LL-GRAPHIC-NOVEL: contexts[3]
+    CTX-LL-AUDIO: contexts[4]
+    CTX-LL-ONTOLOGY: contexts[5]
+    ART-LL-LEDGER: artifacts[0]
+    ART-LL-CRAFT-VIEW: artifacts[1]
+    ART-LL-PROJECT-BRIEF: artifacts[2]
+    ART-LL-SOURCE-MAP: artifacts[3]
+    ART-LL-CHARACTERS: artifacts[4]
+    ART-LL-LOCATIONS: artifacts[5]
+    ART-LL-CONTINUITY: artifacts[6]
+    ART-LL-VOICE-GUIDE: artifacts[7]
+    ART-LL-REVISION-LOG: artifacts[8]
+    ART-LL-CH01-REVIEW: artifacts[9]
+    ART-LL-CH01-PRE-REVISION: artifacts[10]
+    ART-LL-CH01-MANUSCRIPT: artifacts[11]
+    ART-LL-CH01-SHOT-MANIFEST: artifacts[12]
+    ART-LL-CH01-KEYFRAMES: artifacts[13]
+    ART-LL-CH01-VISUAL-ANCHOR: artifacts[14]
+    ART-LL-CH01-AUDIO-SCRIPT: artifacts[15]
+    ART-LL-CH01-AUDIO-GUIDE: artifacts[16]
+    ART-LL-BOOTSTRAP-VALIDATION: artifacts[17]
+    ART-LL-ONTOLOGY-README: artifacts[18]
+    ART-LL-WHISPER-INTENT: artifacts[19]
+    ART-LL-ONTOLOGY-GRAPH: artifacts[20]
+    ART-LL-ONTOLOGY-MAP: artifacts[21]
+    ART-LL-ONTOLOGY-PROFILE: artifacts[22]
+    ART-LL-ONTOLOGY-VALIDATOR: artifacts[23]
+    ART-LL-ONTOLOGY-NEGATIVES: artifacts[24]
+    ART-LL-ONTOLOGY-VALIDATION: artifacts[25]
+    DESC-LL-ROOT-001: descriptions[0]
+    DESC-LL-MANUSCRIPT-001: descriptions[1]
+    DESC-LL-STORY-BIBLE-001: descriptions[2]
+    DESC-LL-GRAPHIC-NOVEL-001: descriptions[3]
+    DESC-LL-AUDIO-001: descriptions[4]
+    DESC-LL-ONTOLOGY-001: descriptions[5]
+    DEF-LL-LIGHT-001: definitions[0]
+    DEF-LL-OPEN-FAVOR-001: definitions[1]
+    DEF-LL-VESPER-001: definitions[2]
+    DEF-LL-PRIOR-LIGHT-001: definitions[3]
+    DEF-LL-VOICE-TETHER-001: definitions[4]
+    GATE-LL-CH01-EDITORIAL-001: typed_items[0]
+    ENA-LL-CH01-DRAFT-001: typed_items[1]
+    ENA-LL-VISUAL-SEQUENCE-001: typed_items[2]
+    GATE-LL-ONTOLOGY-REVIEW-001: typed_items[3]
+    DEC-LL-OPENING-ENGINE-001: decisions[0]
+    DEC-LL-VOICE-TETHER-001: decisions[1]
+    DEC-LL-VESPER-CITY-001: decisions[2]
+    DEC-LL-SUNRISE-CLOCK-001: decisions[3]
+    DEC-LL-ASSET-HOME-001: decisions[4]
+    DEC-LL-ONTOLOGY-TYPE-001: decisions[5]
+    GAP-LL-VOICE-CONTINUITY-001: gaps[0]
+    GAP-LL-DEADLINE-CONTINUITY-001: gaps[1]
+    GAP-LL-VESPER-CLARITY-001: gaps[2]
+    GAP-LL-STORY-BIBLE-001: gaps[3]
+    GAP-LL-DERIVATIVE-SYNC-001: gaps[4]
+    GAP-LL-AUDIO-RENDER-001: gaps[5]
+    GAP-LL-ONTOLOGY-ACCEPTANCE-001: gaps[6]
+    GAP-LL-ONTOLOGY-DEFERRED-SEMANTICS-001: gaps[7]
+    REL-LL-REVIEW-INFORMS-MANUSCRIPT: relations[0]
+    REL-LL-MANUSCRIPT-INFORMS-BIBLE: relations[1]
+    REL-LL-MANUSCRIPT-INFORMS-GRAPHIC: relations[2]
+    REL-LL-MANUSCRIPT-INFORMS-AUDIO: relations[3]
+    REL-LL-EDITORIAL-GATE-BLOCKS-ROOT: relations[4]
+    REL-LL-INTENT-INFORMS-ONTOLOGY: relations[5]
+    REL-LL-MANUSCRIPT-INFORMS-ONTOLOGY: relations[6]
+    REL-LL-ONTOLOGY-VALIDATION-INFORMS-GRAPH: relations[7]
+    REL-LL-ONTOLOGY-GATE-BLOCKS-CONTEXT: relations[8]
+  open_decisions:
+    - DEC-LL-ASSET-HOME-001
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps:
+    - GAP-LL-VOICE-CONTINUITY-001
+    - GAP-LL-DEADLINE-CONTINUITY-001
+    - GAP-LL-VESPER-CLARITY-001
+    - GAP-LL-STORY-BIBLE-001
+    - GAP-LL-DERIVATIVE-SYNC-001
+    - GAP-LL-AUDIO-RENDER-001
+    - GAP-LL-ONTOLOGY-ACCEPTANCE-001
+    - GAP-LL-ONTOLOGY-DEFERRED-SEMANTICS-001
+  next_moves:
+    - context_id: CTX-LL-ROOT
+      next_move: Read the revised Chapter 1 and either accept it as the project baseline or record targeted corrections.
+    - context_id: CTX-LL-MANUSCRIPT
+      next_move: Run the human editorial read for Vesper clarity, tethered voice, and the sunrise clock.
+    - context_id: CTX-LL-STORY-BIBLE
+      next_move: Update facts only after the Chapter 1 candidate is accepted or later chapters establish new evidence.
+    - context_id: CTX-LL-GRAPHIC-NOVEL
+      next_move: After prose acceptance, compare the shot manifest and selected keyframes against the revised chapter.
+    - context_id: CTX-LL-AUDIO
+      next_move: After prose acceptance, synchronize the ElevenLabs script and generate the three voice auditions.
+    - context_id: CTX-LL-ONTOLOGY
+      next_move: Review the Whisper intent, entity set, knowledge roles, edge policies, and deferred semantics, then accept or correct the candidate ontology.
+  artifacts_by_path:
+    .craft/ledger.yml: ART-LL-LEDGER
+    CRAFT.md: ART-LL-CRAFT-VIEW
+    PROJECT.md: ART-LL-PROJECT-BRIEF
+    SOURCE-MAP.md: ART-LL-SOURCE-MAP
+    story-bible/CHARACTERS.md: ART-LL-CHARACTERS
+    story-bible/LOCATIONS.md: ART-LL-LOCATIONS
+    story-bible/CONTINUITY.md: ART-LL-CONTINUITY
+    editorial/VOICE-GUIDE.md: ART-LL-VOICE-GUIDE
+    editorial/REVISION-LOG.md: ART-LL-REVISION-LOG
+    .craft/artifacts/chapter-01-editorial-review-2026-08-09.md: ART-LL-CH01-REVIEW
+    .craft/artifacts/chapter-01-before-project-revision.md: ART-LL-CH01-PRE-REVISION
+    "[repo-root] drafts/chapter-01.md": ART-LL-CH01-MANUSCRIPT
+    "[repo-root] drafts/graphic-novel/chapter-01/shot-manifest.md": ART-LL-CH01-SHOT-MANIFEST
+    "[repo-root] drafts/graphic-novel/chapter-01/keyframes/": ART-LL-CH01-KEYFRAMES
+    "[repo-root] drafts/graphic-novel/chapter-01/visual-bible/halo-meeting-anchor.png": ART-LL-CH01-VISUAL-ANCHOR
+    "[repo-root] drafts/graphic-novel/chapter-01/audio/elevenlabs-voiceover-studio.csv": ART-LL-CH01-AUDIO-SCRIPT
+    "[repo-root] drafts/graphic-novel/chapter-01/audio/elevenlabs-production-guide.md": ART-LL-CH01-AUDIO-GUIDE
+    .craft/artifacts/bootstrap-validation-2026-08-09.md: ART-LL-BOOTSTRAP-VALIDATION
+    ontology/README.md: ART-LL-ONTOLOGY-README
+    ontology/WHISPER-INTENT.md: ART-LL-WHISPER-INTENT
+    ontology/whisper-story-ontology.json: ART-LL-ONTOLOGY-GRAPH
+    ontology/ONTOLOGY-MAP.md: ART-LL-ONTOLOGY-MAP
+    ontology/runtime-profile.json: ART-LL-ONTOLOGY-PROFILE
+    ontology/scripts/validate.py: ART-LL-ONTOLOGY-VALIDATOR
+    ontology/fixtures/closed-world-negatives.json: ART-LL-ONTOLOGY-NEGATIVES
+    ontology/receipts/validation-2026-08-09.json: ART-LL-ONTOLOGY-VALIDATION
+
+contexts:
+  - context_id: CTX-LL-ROOT
+    parent_id: root
+    title: Lucifer's Lights
+    purpose: Track the novel's manuscript, story continuity, editorial decisions, graphic-novel assets, audio derivatives, gaps, gates, and next moves without conflating them.
+    stage: review-audit
+    gate: flag
+    next_move: Read the revised Chapter 1 and either accept it as the project baseline or record targeted corrections.
+    owned_artifacts:
+      - ART-LL-LEDGER
+      - ART-LL-CRAFT-VIEW
+      - ART-LL-PROJECT-BRIEF
+      - ART-LL-SOURCE-MAP
+      - ART-LL-REVISION-LOG
+      - ART-LL-CH01-REVIEW
+      - ART-LL-BOOTSTRAP-VALIDATION
+    links:
+      - label: Chapter 1 editorial gate
+        target: GATE-LL-CH01-EDITORIAL-001
+        kind: row-id
+      - label: Current manuscript
+        target: ART-LL-CH01-MANUSCRIPT
+        kind: artifact-id
+      - label: Asset-home decision
+        target: DEC-LL-ASSET-HOME-001
+        kind: row-id
+      - label: Whisper ontology
+        target: CTX-LL-ONTOLOGY
+        kind: row-id
+    notes: Root project created after the author requested durable tracking for prose, continuity, and derivative production.
+  - context_id: CTX-LL-MANUSCRIPT
+    parent_id: CTX-LL-ROOT
+    title: Manuscript
+    purpose: Own prose development, chapter baselines, editorial review, voice discipline, and revision history.
+    stage: review-audit
+    gate: flag
+    next_move: Run the human editorial read for Vesper clarity, tethered voice, and the sunrise clock.
+    owned_artifacts:
+      - ART-LL-CH01-MANUSCRIPT
+      - ART-LL-CH01-PRE-REVISION
+      - ART-LL-CH01-REVIEW
+      - ART-LL-VOICE-GUIDE
+    links:
+      - label: Voice continuity gap
+        target: GAP-LL-VOICE-CONTINUITY-001
+        kind: row-id
+      - label: Deadline continuity gap
+        target: GAP-LL-DEADLINE-CONTINUITY-001
+        kind: row-id
+      - label: Vesper clarity gap
+        target: GAP-LL-VESPER-CLARITY-001
+        kind: row-id
+  - context_id: CTX-LL-STORY-BIBLE
+    parent_id: CTX-LL-ROOT
+    title: Story Bible
+    purpose: Record established characters, locations, rules, timelines, prop state, and unresolved questions without inventing future canon.
+    stage: define
+    gate: flag
+    next_move: Update facts only after the Chapter 1 candidate is accepted or later chapters establish new evidence.
+    owned_artifacts:
+      - ART-LL-CHARACTERS
+      - ART-LL-LOCATIONS
+      - ART-LL-CONTINUITY
+    links:
+      - label: Story-bible coverage gap
+        target: GAP-LL-STORY-BIBLE-001
+        kind: row-id
+  - context_id: CTX-LL-GRAPHIC-NOVEL
+    parent_id: CTX-LL-ROOT
+    title: Graphic Novel
+    purpose: Own the visual bible, selected keyframes, shot mapping, lettering handoff, and later motion-comic image timing.
+    stage: validate
+    gate: flag
+    next_move: After prose acceptance, compare the shot manifest and selected keyframes against the revised chapter.
+    owned_artifacts:
+      - ART-LL-CH01-SHOT-MANIFEST
+      - ART-LL-CH01-KEYFRAMES
+      - ART-LL-CH01-VISUAL-ANCHOR
+    links:
+      - label: Derivative sync gap
+        target: GAP-LL-DERIVATIVE-SYNC-001
+        kind: row-id
+  - context_id: CTX-LL-AUDIO
+    parent_id: CTX-LL-ROOT
+    title: Audio and Motion Comic
+    purpose: Own the ElevenLabs performance script, casting guide, voice auditions, narration timing, and later motion-comic audio synchronization.
+    stage: plan
+    gate: flag
+    next_move: After prose acceptance, synchronize the ElevenLabs script and generate the three voice auditions.
+    owned_artifacts:
+      - ART-LL-CH01-AUDIO-SCRIPT
+      - ART-LL-CH01-AUDIO-GUIDE
+    links:
+      - label: Audio-render gap
+        target: GAP-LL-AUDIO-RENDER-001
+        kind: row-id
+      - label: Derivative sync gap
+        target: GAP-LL-DERIVATIVE-SYNC-001
+        kind: row-id
+  - context_id: CTX-LL-ONTOLOGY
+    parent_id: CTX-LL-ROOT
+    title: Whisper Ontology
+    purpose: Govern the project-local authoring ontology for Whisper across intent, story entities, evidence, commitment, mysteries, editorial rules, and derivative drift without changing prose or canonical Arcanum vocabulary.
+    stage: validate
+    gate: flag
+    next_move: Review the Whisper intent, entity set, knowledge roles, edge policies, and deferred semantics, then accept or correct the candidate ontology.
+    owned_artifacts:
+      - ART-LL-ONTOLOGY-README
+      - ART-LL-WHISPER-INTENT
+      - ART-LL-ONTOLOGY-GRAPH
+      - ART-LL-ONTOLOGY-MAP
+      - ART-LL-ONTOLOGY-PROFILE
+      - ART-LL-ONTOLOGY-VALIDATOR
+      - ART-LL-ONTOLOGY-NEGATIVES
+      - ART-LL-ONTOLOGY-VALIDATION
+    links:
+      - label: Ontology graph
+        target: ART-LL-ONTOLOGY-GRAPH
+        kind: artifact-id
+      - label: Human review gate
+        target: GATE-LL-ONTOLOGY-REVIEW-001
+        kind: row-id
+      - label: Acceptance gap
+        target: GAP-LL-ONTOLOGY-ACCEPTANCE-001
+        kind: row-id
+    notes: Knowledge-vault archetype with project-local alias whisper-story-ontology; inline validation passes, but author acceptance and wider semantics remain pending.
+
+artifacts:
+  - artifact_id: ART-LL-LEDGER
+    owner_context_id: CTX-LL-ROOT
+    path: .craft/ledger.yml
+    artifact_type: ledger-source
+    status: active
+    notes: Machine-readable source of truth for project state.
+  - artifact_id: ART-LL-CRAFT-VIEW
+    owner_context_id: CTX-LL-ROOT
+    path: CRAFT.md
+    artifact_type: human-view
+    status: active
+    notes: Linked human-readable projection of the Craft ledger.
+  - artifact_id: ART-LL-PROJECT-BRIEF
+    owner_context_id: CTX-LL-ROOT
+    path: PROJECT.md
+    artifact_type: creative-brief
+    status: active
+    notes: Premise, creative promise, story engine, and boundary.
+  - artifact_id: ART-LL-SOURCE-MAP
+    owner_context_id: CTX-LL-ROOT
+    path: SOURCE-MAP.md
+    artifact_type: source-map
+    status: active
+    notes: Identifies canonical, derived, and historical artifacts.
+  - artifact_id: ART-LL-CHARACTERS
+    owner_context_id: CTX-LL-STORY-BIBLE
+    path: story-bible/CHARACTERS.md
+    artifact_type: story-bible
+    status: active
+    notes: Chapter 1 character facts and unknowns.
+  - artifact_id: ART-LL-LOCATIONS
+    owner_context_id: CTX-LL-STORY-BIBLE
+    path: story-bible/LOCATIONS.md
+    artifact_type: story-bible
+    status: active
+    notes: Vesper and Chapter 1 location facts.
+  - artifact_id: ART-LL-CONTINUITY
+    owner_context_id: CTX-LL-STORY-BIBLE
+    path: story-bible/CONTINUITY.md
+    artifact_type: continuity-ledger
+    status: active
+    notes: Timeline, contract chain, prop state, and unresolved questions.
+  - artifact_id: ART-LL-VOICE-GUIDE
+    owner_context_id: CTX-LL-MANUSCRIPT
+    path: editorial/VOICE-GUIDE.md
+    artifact_type: editorial-guide
+    status: active
+    notes: Tether rule for Lucifer's internal voice and interjections.
+  - artifact_id: ART-LL-REVISION-LOG
+    owner_context_id: CTX-LL-ROOT
+    path: editorial/REVISION-LOG.md
+    artifact_type: revision-log
+    status: active
+    notes: Append-only human history; not project-state authority.
+  - artifact_id: ART-LL-CH01-REVIEW
+    owner_context_id: CTX-LL-MANUSCRIPT
+    path: .craft/artifacts/chapter-01-editorial-review-2026-08-09.md
+    artifact_type: editorial-review
+    status: pass
+    notes: Records author feedback, diagnosis, approved repair scope, and pending human gate.
+  - artifact_id: ART-LL-CH01-PRE-REVISION
+    owner_context_id: CTX-LL-MANUSCRIPT
+    path: .craft/artifacts/chapter-01-before-project-revision.md
+    artifact_type: manuscript-snapshot
+    status: pass
+    notes: Exact pre-project Chapter 1 bytes retained for recovery and comparison.
+  - artifact_id: ART-LL-CH01-MANUSCRIPT
+    owner_context_id: CTX-LL-MANUSCRIPT
+    path: "[repo-root] drafts/chapter-01.md"
+    artifact_type: manuscript
+    status: flag
+    notes: Current canonical Chapter 1 candidate; applied revision awaits author acceptance.
+  - artifact_id: ART-LL-CH01-SHOT-MANIFEST
+    owner_context_id: CTX-LL-GRAPHIC-NOVEL
+    path: "[repo-root] drafts/graphic-novel/chapter-01/shot-manifest.md"
+    artifact_type: shot-manifest
+    status: pass
+    notes: Sixteen selected visual beats; textual drift check remains pending.
+  - artifact_id: ART-LL-CH01-KEYFRAMES
+    owner_context_id: CTX-LL-GRAPHIC-NOVEL
+    path: "[repo-root] drafts/graphic-novel/chapter-01/keyframes/"
+    artifact_type: image-sequence
+    status: pass
+    notes: Sixteen selected 1672x941 keyframes and one retained KF13 variant.
+  - artifact_id: ART-LL-CH01-VISUAL-ANCHOR
+    owner_context_id: CTX-LL-GRAPHIC-NOVEL
+    path: "[repo-root] drafts/graphic-novel/chapter-01/visual-bible/halo-meeting-anchor.png"
+    artifact_type: visual-bible
+    status: pass
+    notes: Approved identity, wardrobe, palette, and Halo location anchor.
+  - artifact_id: ART-LL-CH01-AUDIO-SCRIPT
+    owner_context_id: CTX-LL-AUDIO
+    path: "[repo-root] drafts/graphic-novel/chapter-01/audio/elevenlabs-voiceover-studio.csv"
+    artifact_type: voiceover-script
+    status: flag
+    notes: Valid five-speaker CSV created before the current manuscript revision; sync pending.
+  - artifact_id: ART-LL-CH01-AUDIO-GUIDE
+    owner_context_id: CTX-LL-AUDIO
+    path: "[repo-root] drafts/graphic-novel/chapter-01/audio/elevenlabs-production-guide.md"
+    artifact_type: audio-production-guide
+    status: flag
+    notes: Casting and timing guide created before the current manuscript revision; sync pending.
+  - artifact_id: ART-LL-BOOTSTRAP-VALIDATION
+    owner_context_id: CTX-LL-ROOT
+    path: .craft/artifacts/bootstrap-validation-2026-08-09.md
+    artifact_type: validation-receipt
+    status: pass
+    notes: Structural, chapter-clock, scoped-whitespace, and derivative-inventory checks for the initial project baseline; creative acceptance remains outside this receipt.
+  - artifact_id: ART-LL-ONTOLOGY-README
+    owner_context_id: CTX-LL-ONTOLOGY
+    path: ontology/README.md
+    artifact_type: ontology-guide
+    status: active
+    notes: Entry point, use boundary, validation command, and update discipline for the project-local ontology.
+  - artifact_id: ART-LL-WHISPER-INTENT
+    owner_context_id: CTX-LL-ONTOLOGY
+    path: ontology/WHISPER-INTENT.md
+    artifact_type: text-intent-substrate
+    status: flag
+    notes: Whisper resonance, relevance, trajectory, candidate selection, composition plan, and surface map; author review pending.
+  - artifact_id: ART-LL-ONTOLOGY-GRAPH
+    owner_context_id: CTX-LL-ONTOLOGY
+    path: ontology/whisper-story-ontology.json
+    artifact_type: candidate-ontology
+    status: flag
+    notes: Closed project-local graph and evidence-bearing knowledge records; mechanical policy pass does not grant author acceptance or canonical admission.
+  - artifact_id: ART-LL-ONTOLOGY-MAP
+    owner_context_id: CTX-LL-ONTOLOGY
+    path: ontology/ONTOLOGY-MAP.md
+    artifact_type: ontology-map
+    status: active
+    notes: Human-readable map of type selection, roles, axes, edge rules, premise, gaps, and claim boundary.
+  - artifact_id: ART-LL-ONTOLOGY-PROFILE
+    owner_context_id: CTX-LL-ONTOLOGY
+    path: ontology/runtime-profile.json
+    artifact_type: ontology-runtime-profile
+    status: active
+    notes: Inline source/output boundary, owner gates, residue route, and authority ceiling; no agent or production runtime is granted.
+  - artifact_id: ART-LL-ONTOLOGY-VALIDATOR
+    owner_context_id: CTX-LL-ONTOLOGY
+    path: ontology/scripts/validate.py
+    artifact_type: ontology-validator
+    status: pass
+    notes: Dependency-free validator for sources, profile, graph policy, confidence states, coverage, and promotion limits.
+  - artifact_id: ART-LL-ONTOLOGY-NEGATIVES
+    owner_context_id: CTX-LL-ONTOLOGY
+    path: ontology/fixtures/closed-world-negatives.json
+    artifact_type: validation-fixture
+    status: pass
+    notes: Six negative witnesses proving rejection of unknown kinds, predicates, endpoints, owners, confidence values, and sources.
+  - artifact_id: ART-LL-ONTOLOGY-VALIDATION
+    owner_context_id: CTX-LL-ONTOLOGY
+    path: ontology/receipts/validation-2026-08-09.json
+    artifact_type: validation-receipt
+    status: pass
+    notes: Exact artifact digests, policy-pass result, negative self-test, helper receipt, residue, and authority-effect-none boundary.
+
+descriptions:
+  - description_id: DESC-LL-ROOT-001
+    context_id: CTX-LL-ROOT
+    description: Lucifer's Lights is an active novel project with one complete chapter candidate, a sixteen-frame graphic sequence, and a prepared but unrendered ElevenLabs voiceover package.
+    status: active
+    evidence: ART-LL-PROJECT-BRIEF
+  - description_id: DESC-LL-MANUSCRIPT-001
+    context_id: CTX-LL-MANUSCRIPT
+    description: Chapter 1 has a sound transaction-to-cliffhanger structure; a candidate revision addresses voice tethering, Vesper clarity, and sunrise continuity and now awaits author review.
+    status: active
+    evidence: ART-LL-CH01-REVIEW
+  - description_id: DESC-LL-STORY-BIBLE-001
+    context_id: CTX-LL-STORY-BIBLE
+    description: The initial story bible records only facts established in Chapter 1 and separates current canon, derivative mismatch, reserve material, and unresolved questions.
+    status: active
+    evidence: ART-LL-CONTINUITY
+  - description_id: DESC-LL-GRAPHIC-NOVEL-001
+    context_id: CTX-LL-GRAPHIC-NOVEL
+    description: The image sequence is complete at the selected-keyframe level; lettering, audio timing, motion, and post-revision drift checks remain pending.
+    status: active
+    evidence: ART-LL-CH01-SHOT-MANIFEST
+  - description_id: DESC-LL-AUDIO-001
+    context_id: CTX-LL-AUDIO
+    description: A validated five-speaker ElevenLabs CSV and production guide exist, but no voice audition or synthesized narration has been produced.
+    status: active
+    evidence: ART-LL-CH01-AUDIO-GUIDE
+  - description_id: DESC-LL-ONTOLOGY-001
+    context_id: CTX-LL-ONTOLOGY
+    description: A knowledge-vault ontology with the local alias whisper-story-ontology reuses Whisper composition provenance, adds three bounded candidate story entity kinds, and validates 21 nodes, 40 edges, and 23 knowledge records; author acceptance and wider semantics remain pending.
+    status: active
+    evidence: ART-LL-ONTOLOGY-VALIDATION
+
+definitions:
+  - definition_id: DEF-LL-LIGHT-001
+    scope_id: CTX-LL-ROOT
+    term: Light
+    statement: A bounded service offered when ordinary options fail, governed by an explicit request, price, agreement, performance rule, and consequence.
+    status: active-local
+    evidence: ART-LL-CH01-MANUSCRIPT
+  - definition_id: DEF-LL-OPEN-FAVOR-001
+    scope_id: CTX-LL-ROOT
+    term: open favor
+    statement: Compensation whose future request is unspecified at agreement time; the client may refuse collection but then loses access to future Lights.
+    status: active-local
+    evidence: ART-LL-CH01-MANUSCRIPT
+  - definition_id: DEF-LL-VESPER-001
+    scope_id: CTX-LL-STORY-BIBLE
+    term: Vesper
+    statement: The renamed, rain-soaked city in which Chapter 1 takes place, navigable through both official streets and Lucifer's unofficial network.
+    status: active-local
+    evidence: ART-LL-LOCATIONS
+  - definition_id: DEF-LL-PRIOR-LIGHT-001
+    scope_id: CTX-LL-STORY-BIBLE
+    term: prior Light
+    statement: An older active agreement that takes precedence when a later request would require violating it; the later request is held without payment until canceled or voluntarily amended.
+    status: active-local
+    evidence: ART-LL-CONTINUITY
+  - definition_id: DEF-LL-VOICE-TETHER-001
+    scope_id: CTX-LL-MANUSCRIPT
+    term: voice tether
+    statement: The requirement that a Lucifer aside remain connected to a live person, rule, decision, danger, or clock rather than pausing the scene as a detached essay.
+    status: candidate
+    evidence: ART-LL-VOICE-GUIDE
+
+typed_items:
+  - item_id: GATE-LL-CH01-EDITORIAL-001
+    kind: gate
+    base_type: validation_gate
+    primary_lane: qa
+    source_id: ART-LL-CH01-REVIEW
+    target_id: ART-LL-CH01-MANUSCRIPT
+    status: active
+    requires_human: true
+    closure_condition: The author reads the revised chapter and explicitly accepts Vesper clarity, the tethered interjections, and the carried sunrise deadline as the Chapter 1 baseline.
+    evidence: ART-LL-CH01-REVIEW
+    reason: Mechanical application and checks cannot replace authorial voice approval.
+    links:
+      - label: Current manuscript
+        target: ART-LL-CH01-MANUSCRIPT
+        kind: artifact-id
+  - item_id: ENA-LL-CH01-DRAFT-001
+    kind: enabler
+    base_type: artifact_enabler
+    primary_lane: product
+    source_id: ART-LL-CH01-MANUSCRIPT
+    target_id: CTX-LL-MANUSCRIPT
+    status: pass
+    evidence: ART-LL-CH01-MANUSCRIPT
+    reason: A complete Chapter 1 candidate gives the project a concrete editorial and derivative baseline.
+  - item_id: ENA-LL-VISUAL-SEQUENCE-001
+    kind: enabler
+    base_type: artifact_enabler
+    primary_lane: product
+    source_id: ART-LL-CH01-SHOT-MANIFEST
+    target_id: CTX-LL-GRAPHIC-NOVEL
+    status: pass
+    evidence: ART-LL-CH01-KEYFRAMES
+    reason: The selected sixteen-frame sequence enables later lettering, timing, and motion work after prose synchronization.
+  - item_id: GATE-LL-ONTOLOGY-REVIEW-001
+    kind: gate
+    base_type: authority_gate
+    primary_lane: governance
+    source_id: ART-LL-ONTOLOGY-VALIDATION
+    target_id: ART-LL-ONTOLOGY-GRAPH
+    status: active
+    requires_human: true
+    closure_condition: The author reviews and explicitly accepts the Whisper intent substrate, the three local story entity kinds, the knowledge roles and confidence states, the six edge policies, and the deferred semantics as the project's working authoring ontology.
+    evidence: ART-LL-ONTOLOGY-VALIDATION
+    reason: Mechanical policy validation cannot approve author intent, local canon commitment, or future semantic expansion.
+    links:
+      - label: Ontology map
+        target: ART-LL-ONTOLOGY-MAP
+        kind: artifact-id
+
+decisions:
+  - decision_id: DEC-LL-OPENING-ENGINE-001
+    scope_id: CTX-LL-MANUSCRIPT
+    decision_type: selection
+    question: What dramatic engine should open Lucifer's Lights?
+    description: Selection of a live transaction rather than a front-loaded character or theology essay.
+    options:
+      - request-negotiation-terms-consequence
+      - mythology-monologue
+      - retrospective-origin-story
+    default_option: request-negotiation-terms-consequence
+    selected: request-negotiation-terms-consequence
+    rationale: It reveals Lucifer, the app, the Light economy, Mara's need, and the cost through action.
+    evidence: ART-LL-CH01-MANUSCRIPT
+    status: closed
+    blocking: false
+    impact: Future chapters should establish abstract lore through live choices and consequences whenever possible.
+    owner: author
+  - decision_id: DEC-LL-VOICE-TETHER-001
+    scope_id: CTX-LL-MANUSCRIPT
+    decision_type: approval
+    question: How should Lucifer's internal voice and direct-reader interjections be revised?
+    description: Preserve charismatic instability and direct address while requiring every aside to touch the live scene.
+    options:
+      - preserve-and-tether
+      - remove-most-interjections
+      - retain-without-editing
+    default_option: preserve-and-tether
+    selected: preserve-and-tether
+    rationale: The voice is part of the novel's identity; placement rather than eccentricity caused the pacing disconnection.
+    evidence: ART-LL-CH01-REVIEW
+    status: closed
+    blocking: false
+    impact: Detached essays are compressed or relocated; scene-reading interjections remain.
+    owner: author
+    links:
+      - label: Voice guide
+        target: ART-LL-VOICE-GUIDE
+        kind: artifact-id
+  - decision_id: DEC-LL-VESPER-CITY-001
+    scope_id: CTX-LL-STORY-BIBLE
+    decision_type: approval
+    question: What is Vesper, and when must the reader understand it?
+    description: Establish Vesper explicitly as the city at its first appearance.
+    options:
+      - city-at-first-mention
+      - delay-reveal
+      - rename-location
+    default_option: city-at-first-mention
+    selected: city-at-first-mention
+    rationale: Later passport, train, and two-map references need a clear place anchor rather than an unexplained proper noun.
+    evidence: ART-LL-CH01-REVIEW
+    status: closed
+    blocking: false
+    impact: The opening now says “In the city of Vesper,” and the story bible owns the local place definition.
+    owner: author
+  - decision_id: DEC-LL-SUNRISE-CLOCK-001
+    scope_id: CTX-LL-MANUSCRIPT
+    decision_type: selection
+    question: How should the before-sunrise urgency remain legible through Chapter 1?
+    description: Carry one exact sunrise clock through the request, amendment, station, and cliffhanger.
+    options:
+      - exact-clock-throughline
+      - atmospheric-dawn-only
+      - deadline-only-in-ui
+    default_option: exact-clock-throughline
+    selected: exact-clock-throughline
+    rationale: The chapter already uses precise train, tracker, and clock intervals; an exact 5:38 sunrise makes the larger deadline part of the same pattern.
+    evidence: ART-LL-CH01-REVIEW
+    status: closed
+    blocking: false
+    impact: The amended contract retains sunrise and the station sequence reports 2:43, 2:51, and remaining time.
+    owner: author
+  - decision_id: DEC-LL-ASSET-HOME-001
+    scope_id: CTX-LL-ROOT
+    decision_type: selection
+    question: Should the existing manuscript and generated media be moved physically under projects/lucifers-lights?
+    description: Non-blocking ownership decision. The first bootstrap references existing repository-root draft paths to avoid risky movement or duplicate authority.
+    options:
+      - reference-in-place
+      - move-after-chapter-baseline
+      - copy-and-archive-originals
+    default_option: move-after-chapter-baseline
+    selected: pending
+    rationale: Pending author choice; reference-in-place is the current reversible bootstrap behavior.
+    evidence: ART-LL-SOURCE-MAP
+    status: active
+    blocking: false
+    impact: Project tracking works now; physical consolidation waits for an explicit choice.
+    owner: author
+  - decision_id: DEC-LL-ONTOLOGY-TYPE-001
+    scope_id: CTX-LL-ONTOLOGY
+    decision_type: selection
+    question: Which reusable Ontology Vault archetype should govern the Lucifer's Lights Whisper ontology?
+    description: Select one primary modeling job while keeping the story-specific name as a noncanonical project alias.
+    options:
+      - knowledge-vault
+      - business-domain
+      - authority-governance
+    default_option: knowledge-vault
+    selected: knowledge-vault
+    rationale: The primary need is to govern author intent, narrative evidence, commitment state, mysteries, editorial learning, and derivative drift. World semantics and authority routing remain supporting concerns.
+    evidence: ART-LL-ONTOLOGY-MAP
+    status: closed
+    blocking: false
+    impact: The project uses the local alias whisper-story-ontology without extending the reusable catalog or introducing branch requirements.
+    owner: ontology-vault-routing
+
+gaps:
+  - gap_id: GAP-LL-VOICE-CONTINUITY-001
+    scope_id: CTX-LL-MANUSCRIPT
+    summary: Candidate edits tether the disconnected Lucifer interjections, but the author has not yet accepted the revised voice in a full read.
+    severity: flag
+    treatment: plan
+    owner: whisper-editorial
+    status: active
+    evidence: ART-LL-CH01-REVIEW
+    links:
+      - label: Editorial gate
+        target: GATE-LL-CH01-EDITORIAL-001
+        kind: row-id
+  - gap_id: GAP-LL-DEADLINE-CONTINUITY-001
+    scope_id: CTX-LL-MANUSCRIPT
+    summary: Candidate edits restore the sunrise deadline and countdown, but their felt urgency still requires author review.
+    severity: flag
+    treatment: plan
+    owner: whisper-editorial
+    status: active
+    evidence: ART-LL-CH01-REVIEW
+  - gap_id: GAP-LL-VESPER-CLARITY-001
+    scope_id: CTX-LL-STORY-BIBLE
+    summary: Candidate prose defines Vesper as the city; clarity remains pending author confirmation in context.
+    severity: flag
+    treatment: plan
+    owner: whisper-editorial
+    status: active
+    evidence: ART-LL-CH01-REVIEW
+  - gap_id: GAP-LL-STORY-BIBLE-001
+    scope_id: CTX-LL-STORY-BIBLE
+    summary: The story bible covers Chapter 1 only; wider city history, long-arc rules, and future-character continuity remain intentionally undefined.
+    severity: info
+    treatment: plan
+    owner: author
+    status: active
+    evidence: ART-LL-CONTINUITY
+  - gap_id: GAP-LL-DERIVATIVE-SYNC-001
+    scope_id: CTX-LL-ROOT
+    summary: Graphic and ElevenLabs derivatives predate the current Chapter 1 revision and have not been checked or synchronized against it.
+    severity: flag
+    treatment: plan
+    owner: production
+    status: active
+    evidence: ART-LL-REVISION-LOG
+  - gap_id: GAP-LL-AUDIO-RENDER-001
+    scope_id: CTX-LL-AUDIO
+    summary: No ElevenLabs voice audition, complete narration, measured timing, or synchronized motion-comic audio exists yet.
+    severity: deferred
+    treatment: defer
+    owner: audio-production
+    status: active
+    evidence: ART-LL-CH01-AUDIO-GUIDE
+  - gap_id: GAP-LL-ONTOLOGY-ACCEPTANCE-001
+    scope_id: CTX-LL-ONTOLOGY
+    summary: The ontology passes closed-world mechanical validation, but the author has not accepted its Whisper substrate, entity set, knowledge roles, edge policies, or deferred semantics.
+    severity: flag
+    treatment: plan
+    owner: author
+    status: active
+    evidence: ART-LL-ONTOLOGY-VALIDATION
+    links:
+      - label: Ontology review gate
+        target: GATE-LL-ONTOLOGY-REVIEW-001
+        kind: row-id
+  - gap_id: GAP-LL-ONTOLOGY-DEFERRED-SEMANTICS-001
+    scope_id: CTX-LL-ONTOLOGY
+    summary: Props, typed contracts and requests, organizations, temporal and causal relations, motivation, emotion, theme, place containment, and canonical namespace admission remain deliberately outside the L0 ontology.
+    severity: info
+    treatment: defer
+    owner: ontology-vault
+    status: active
+    evidence: ART-LL-ONTOLOGY-MAP
+
+relations:
+  - relation_id: REL-LL-REVIEW-INFORMS-MANUSCRIPT
+    source_id: ART-LL-CH01-REVIEW
+    target_id: ART-LL-CH01-MANUSCRIPT
+    type: informs
+    status: active
+    reason: The review defines the bounded candidate revision applied to Chapter 1.
+    evidence: ART-LL-CH01-REVIEW
+  - relation_id: REL-LL-MANUSCRIPT-INFORMS-BIBLE
+    source_id: ART-LL-CH01-MANUSCRIPT
+    target_id: CTX-LL-STORY-BIBLE
+    type: informs
+    status: active
+    reason: Current prose evidence constrains recorded characters, locations, rules, and timeline.
+    evidence: ART-LL-CH01-MANUSCRIPT
+  - relation_id: REL-LL-MANUSCRIPT-INFORMS-GRAPHIC
+    source_id: ART-LL-CH01-MANUSCRIPT
+    target_id: CTX-LL-GRAPHIC-NOVEL
+    type: informs
+    status: active
+    reason: The shot sequence and lettering derive from the manuscript but do not own prose.
+    evidence: ART-LL-CH01-SHOT-MANIFEST
+  - relation_id: REL-LL-MANUSCRIPT-INFORMS-AUDIO
+    source_id: ART-LL-CH01-MANUSCRIPT
+    target_id: CTX-LL-AUDIO
+    type: informs
+    status: active
+    reason: The voiceover script derives from the manuscript and must be refreshed after accepted prose changes.
+    evidence: ART-LL-CH01-AUDIO-SCRIPT
+  - relation_id: REL-LL-EDITORIAL-GATE-BLOCKS-ROOT
+    source_id: GATE-LL-CH01-EDITORIAL-001
+    target_id: CTX-LL-ROOT
+    type: blocks
+    status: active
+    reason: The project cannot call Chapter 1 a frozen baseline until the author accepts the candidate revision.
+    evidence: ART-LL-CH01-REVIEW
+  - relation_id: REL-LL-INTENT-INFORMS-ONTOLOGY
+    source_id: ART-LL-WHISPER-INTENT
+    target_id: ART-LL-ONTOLOGY-GRAPH
+    type: informs
+    status: active
+    reason: The Whisper resonance, relevance, trajectory, and surface boundaries constrain the candidate ontology's authoring purpose.
+    evidence: ART-LL-WHISPER-INTENT
+  - relation_id: REL-LL-MANUSCRIPT-INFORMS-ONTOLOGY
+    source_id: ART-LL-CH01-MANUSCRIPT
+    target_id: ART-LL-ONTOLOGY-GRAPH
+    type: informs
+    status: active
+    reason: Chapter 1 supplies direct story evidence while remaining an editorial candidate rather than accepted canon.
+    evidence: ART-LL-CH01-MANUSCRIPT
+  - relation_id: REL-LL-ONTOLOGY-VALIDATION-INFORMS-GRAPH
+    source_id: ART-LL-ONTOLOGY-VALIDATION
+    target_id: ART-LL-ONTOLOGY-GRAPH
+    type: informs
+    status: active
+    reason: The receipt binds the validated graph, profile, edge policy, validator, fixtures, and authority ceiling.
+    evidence: ART-LL-ONTOLOGY-VALIDATION
+  - relation_id: REL-LL-ONTOLOGY-GATE-BLOCKS-CONTEXT
+    source_id: GATE-LL-ONTOLOGY-REVIEW-001
+    target_id: CTX-LL-ONTOLOGY
+    type: blocks
+    status: active
+    reason: The context cannot claim a reviewed working ontology until the author accepts the candidate shape.
+    evidence: ART-LL-ONTOLOGY-VALIDATION
+
+recomposition: []

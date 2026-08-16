@@ -26,6 +26,78 @@
       "language_mismatch_outcome": "unsupported",
       "conflict_policy": "block",
       "owner_route": "architecture-profile-owner"
+    },
+    {
+      "contract_id": "mapping.profile-representation",
+      "applies_to": ["architecture.MappingImplementation"],
+      "meaning_scope": "descriptor-bound",
+      "canonical_effect": "none",
+      "portable_constraint_ids": [],
+      "selection_mode": "owner-decision-and-provider-digest",
+      "missing_decision_outcome": "unselected",
+      "language_mismatch_outcome": "unsupported",
+      "conflict_policy": "block",
+      "owner_route": "mapping-profile-owner"
+    },
+    {
+      "contract_id": "interface.profile-representation",
+      "applies_to": ["architecture.InterfaceImplementation"],
+      "meaning_scope": "descriptor-bound-candidate",
+      "canonical_effect": "none",
+      "portable_constraint_ids": [],
+      "selection_mode": "owner-decision-and-provider-digest",
+      "missing_decision_outcome": "unselected",
+      "language_mismatch_outcome": "unsupported",
+      "conflict_policy": "block",
+      "owner_route": "interface-profile-owner"
+    },
+    {
+      "contract_id": "event.profile-representation",
+      "applies_to": ["architecture.EventImplementation"],
+      "meaning_scope": "descriptor-bound",
+      "canonical_effect": "none",
+      "portable_constraint_ids": [],
+      "selection_mode": "owner-decision-and-provider-digest",
+      "missing_decision_outcome": "unselected",
+      "language_mismatch_outcome": "unsupported",
+      "conflict_policy": "block",
+      "owner_route": "event-profile-owner"
+    },
+    {
+      "contract_id": "operation.profile-representation",
+      "applies_to": ["architecture.OperationImplementation"],
+      "meaning_scope": "descriptor-bound",
+      "canonical_effect": "none",
+      "portable_constraint_ids": [],
+      "selection_mode": "owner-decision-and-provider-digest",
+      "missing_decision_outcome": "unselected",
+      "language_mismatch_outcome": "unsupported",
+      "conflict_policy": "block",
+      "owner_route": "operation-profile-owner"
+    },
+    {
+      "contract_id": "state-machine.profile-representation",
+      "applies_to": ["architecture.StateMachineImplementation"],
+      "meaning_scope": "descriptor-bound-candidate",
+      "canonical_effect": "none",
+      "portable_constraint_ids": [],
+      "selection_mode": "owner-decision-and-provider-digest",
+      "missing_decision_outcome": "unselected",
+      "language_mismatch_outcome": "unsupported",
+      "conflict_policy": "block",
+      "owner_route": "state-machine-profile-owner"
+    },
+    {
+      "contract_id": "workflow.profile-representation",
+      "applies_to": ["architecture.WorkflowImplementation"],
+      "meaning_scope": "descriptor-bound-candidate",
+      "canonical_effect": "none",
+      "portable_constraint_ids": [],
+      "selection_mode": "owner-decision-and-provider-digest",
+      "missing_decision_outcome": "unselected",
+      "language_mismatch_outcome": "unsupported",
+      "conflict_policy": "block",
+      "owner_route": "workflow-profile-owner"
     }
   ],
   "constraints": [
@@ -59,7 +131,7 @@
     {
       "constraint_id": "portable.one-primary-callable",
       "constraint_kind": "node-property",
-      "applies_to": ["architecture.DomainConceptImplementation"],
+      "applies_to": ["architecture.RuleImplementation", "architecture.OperationImplementation", "architecture.QueryImplementation", "architecture.MappingImplementation", "architecture.StateMachineImplementation", "architecture.WorkflowImplementation"],
       "property_id": "symbol.primary_callable_count",
       "operator": "equals",
       "expected": 1,
@@ -68,7 +140,7 @@
     {
       "constraint_id": "portable.helper-policy-explicit",
       "constraint_kind": "node-property",
-      "applies_to": ["architecture.DomainConceptImplementation"],
+      "applies_to": ["architecture.RuleImplementation", "architecture.OperationImplementation", "architecture.QueryImplementation", "architecture.MappingImplementation", "architecture.StateMachineImplementation", "architecture.WorkflowImplementation"],
       "property_id": "callable.helper_policy",
       "operator": "one_of",
       "expected": ["no-helpers", "private-helpers-allowed", "separate-source-units"],

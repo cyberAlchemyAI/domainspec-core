@@ -24,9 +24,9 @@ authority_effect: none
 
 ```text
 W0 ontology/input denominator
-  ARE-001 -> ARE-002 -> ARE-003 -> ARE-004 -> ARE-005
-                                                 |
-                                                 v
+  ARE-001 -> ARE-002 -> ARE-003 -> ARE-004 -> ARE-015 -> ARE-005
+                                                            |
+                                                            v
 W1 positive compiler
   ARE-006 -> ARE-007 -> ARE-008 -> ARE-009
                                       |          |
@@ -47,8 +47,8 @@ receipts, not through simultaneous editing.
 
 ## Wave index
 
-- `work-pack/waves/W0.md` — ontology, definition, obligation, and binding
-  denominator.
+- `work-pack/waves/W0.md` — ontology, definition, snapshot-bound active
+  obligation, historical catalogue regression, and binding denominator.
 - `work-pack/waves/W1.md` — normalizer, emitter, compiler, and observation.
 - `work-pack/waves/W2.md` — evaluator, mutation, proof lifecycle, and replay.
 - `work-pack/waves/W3.md` — exact end-to-end proof and verification.
@@ -65,9 +65,12 @@ After each SWU, Task Session writes the terminal receipt and invokes the exact
 closeout row in `work-pack/shared/CLOSEOUT-CONTRACT.md`. Its successor is named in
 that row; no coordinator infers a different next unit.
 
+Manifest order, declared dependencies, and closeout successors jointly define
+this sequence. Numeric SWU sorting is forbidden: `ARE-015` intentionally occurs
+between `ARE-004` and `ARE-005`.
+
 ## Completion ceiling
 
 W3 completion proves one candidate-local TypeScript direct Enum member-
 bijection path. It is not a canonical ontology promotion, all-Enum completion,
 Python/Rust parity, product-generation integration, release, or deployment.
-

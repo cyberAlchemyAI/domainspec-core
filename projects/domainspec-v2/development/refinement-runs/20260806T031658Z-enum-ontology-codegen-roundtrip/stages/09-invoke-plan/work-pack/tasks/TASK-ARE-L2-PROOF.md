@@ -18,7 +18,7 @@ slice S2, wave W2.
 - Split analysis: exact admission, cardinality preservation, identifier mapping,
   and value comparison are inseparable parts of one bijection decision; splitting
   them would expose partial pass states.
-- Dependencies: SWU-ARE-009 and SWU-ARE-003.
+- Dependencies: SWU-ARE-009 and snapshot-bound active catalogue SWU-ARE-015.
 - Algorithm: validate all case handles; reject caller expectation facts; preserve
   arrays and duplicate counts; map target IDs through binding; construct expected
   and observed relations; compare both directions and per-value; account every

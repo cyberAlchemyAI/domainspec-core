@@ -6,7 +6,7 @@
     "title": "DomainSpec v2 User Guide",
     "status": "future-user-documentation-candidate",
     "authority_effect": "none",
-    "revision": "2026-08-14",
+    "revision": "2026-08-16",
     "metrics_snapshot": "2026-08-12",
     "artifacts": {
       "markdown": "COMPLETE-GUIDE.md",
@@ -228,7 +228,7 @@
         "review",
         "evolve"
       ],
-      "interaction_rule": "Each beat moves directly from a concrete situation to one reader choice, its visible consequence, the DomainSpec term that names what just happened, and the next question. Source detail remains optional.",
+      "interaction_rule": "Each beat moves from a concrete situation to one reader choice, its visible consequence, a source-backed DomainSpec concept or clearly marked guide label, and the next question. The supported choice unlocks sequential Next navigation; the stepper remains available for review. Source detail remains optional.",
       "source_backed_beats": [
         "describe",
         "connect",
@@ -303,6 +303,18 @@
         ]
       },
       {
+        "path_id": "evolve-the-language",
+        "label": "Propose a language change",
+        "reader_need": "Test whether a missing distinction deserves a candidate meta-type without confusing evidence, activation, profile support, implementation, or release.",
+        "section_ids": [
+          "meta-types",
+          "relationships",
+          "new-meta-type",
+          "extend",
+          "sources"
+        ]
+      },
+      {
         "path_id": "review-a-claim",
         "label": "Review a result or claim",
         "reader_need": "Interpret outputs, status axes, current experiments, and known limits.",
@@ -353,8 +365,8 @@
       {
         "section_id": "working-experience",
         "order": 2,
-        "title": "What belongs in Key & Door?",
-        "reader_job": "Make one discriminating choice at each Frame, Describe, Connect, Check, Review, and Evolve beat; see its consequence; and earn one DomainSpec idea while keeping current and designed behavior separate.",
+        "title": "Help the team define Key & Door",
+        "reader_job": "Make one discriminating choice about scope, identity, permission, outcome, evidence, and revision; see its consequence; and encounter a source-backed DomainSpec concept or clearly marked guide label while keeping current and designed behavior separate.",
         "section_kind": "workflow",
         "availability": "mixed",
         "claim_classes": [
@@ -364,7 +376,7 @@
         ],
         "must_answer": [
           "What meaningful choice does the reader make at each moment?",
-          "What visible consequence and DomainSpec idea follow from that choice?",
+          "What visible consequence and source-backed concept or guide label follow from that choice?",
           "What can the repository support today?",
           "Which future surfaces remain design targets?"
         ],
@@ -379,7 +391,7 @@
           "impl/tools/tests/minted-project-contract.test.ts",
           "impl/tools/tests/minted-project-views.test.ts"
         ],
-        "reader_exit": "The reader can retell the loop through the choices they made, explain the six DomainSpec terms introduced by those decisions, and distinguish current behavior from a proposed experience."
+        "reader_exit": "The reader can retell the loop through scope, identity, permission, outcome, evidence, and revision; explain the concepts, relationships, and proof limits introduced by those decisions; and distinguish current behavior from a proposed experience."
       },
       {
         "section_id": "authoring",
@@ -432,25 +444,29 @@
       {
         "section_id": "create",
         "order": 5,
-        "title": "Describe one part of the system",
-        "reader_job": "Author one supported concept with a stable ID, intent, body, and allowed outgoing connection.",
+        "title": "Turn one team decision into a concept",
+        "reader_job": "Follow one team decision into the intent, kind, feature, stable ID, required body, and outgoing connection of one supported source node.",
         "section_kind": "authoring",
-        "availability": "mixed",
+        "availability": "current-experimental",
         "claim_classes": [
-          "source-backed",
-          "target-design"
+          "source-backed"
         ],
         "must_answer": [
-          "How is a concept named and typed?",
-          "What belongs in intent and body?",
-          "How is a connection authored?",
-          "Which guidance describes the full language rather than the current profile?"
+          "How does the project-owned meaning become intent?",
+          "Why is HasKeyRule a Rule?",
+          "How do feature_id and node_id give the concept a stable address?",
+          "Which body field does the Rule formation contract require?",
+          "How does HasKeyRule connect to UnlockDoor?",
+          "What can the current structural check establish and where does it stop?"
         ],
         "evidence_refs": [
           "impl/spec/minted-project/node.schema.json",
-          "impl/spec/minted-project/connection.schema.json"
+          "impl/spec/minted-project/connection.schema.json",
+          "impl/spec/minted-project/formations/rule-body.schema.json",
+          "definitions/minted-project/supported-profiles.yml",
+          "impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/specs/key-and-door/nodes/has-key-rule.json"
         ],
-        "reader_exit": "The reader can recognize a valid current-profile node and knows when to stop rather than invent a body."
+        "reader_exit": "The reader can explain every field in the HasKeyRule source node, place it in the complete project package, and state what its structural result does not prove."
       },
       {
         "section_id": "meta-types",
@@ -493,8 +509,36 @@
         "reader_exit": "The reader can choose a valid connection without turning every code dependency into a relationship."
       },
       {
-        "section_id": "realization",
+        "section_id": "new-meta-type",
         "order": 8,
+        "title": "When the existing types are not enough",
+        "reader_job": "Turn one missing language distinction into a bounded candidate without treating it as active, profile-supported, implemented, or released.",
+        "section_kind": "extension",
+        "availability": "reference",
+        "claim_classes": [
+          "source-backed"
+        ],
+        "must_answer": [
+          "Why do the active types fail to preserve this distinction?",
+          "Which check or tracked result would change?",
+          "What valid and invalid cases separate the candidate from its nearest neighbour?",
+          "Which relationship roles and real project example exercise the candidate?",
+          "Which owner may change its maturity?",
+          "What remains unsupported after language activation?"
+        ],
+        "evidence_refs": [
+          "definitions/DEFINITIONS.md",
+          "definitions/meta-types/meta-types.md",
+          "definitions/meta-types/meta-types.yml",
+          "development/meta-type-formalization/DEFINE.md",
+          "development/ui-meta-type-formalization/adjudication/verdicts.yml",
+          "definitions/minted-project/supported-profiles.yml"
+        ],
+        "reader_exit": "The reader can assemble a candidate proposal, recognize the owner gate, and keep language, profile, realization, and release status separate."
+      },
+      {
+        "section_id": "realization",
+        "order": 9,
         "title": "Turn a specification into checks and compare code with it",
         "reader_job": "Distinguish test-obligation derivation from architecture type enforcement, follow their intended join, and keep today's separate inputs and bounded experiments visible.",
         "section_kind": "workflow",
@@ -524,7 +568,7 @@
       },
       {
         "section_id": "example",
-        "order": 9,
+        "order": 10,
         "title": "Broad legacy type example",
         "reader_job": "Use Financial Settlement only as a wider legacy language example.",
         "section_kind": "walkthrough",
@@ -543,7 +587,7 @@
       },
       {
         "section_id": "boundaries",
-        "order": 10,
+        "order": 11,
         "title": "What DomainSpec owns and where it stops",
         "reader_job": "Separate language, project meaning, generated evidence, implementation acceptance, and release authority.",
         "section_kind": "boundary",
@@ -564,7 +608,7 @@
       },
       {
         "section_id": "status",
-        "order": 11,
+        "order": 12,
         "title": "Keep status questions separate",
         "reader_job": "Read definition, mapping, implementation, validation, readiness, and release status independently.",
         "section_kind": "status",
@@ -581,7 +625,7 @@
       },
       {
         "section_id": "latest",
-        "order": 12,
+        "order": 13,
         "title": "Development status",
         "reader_job": "Read dated repository observations without converting them into release claims.",
         "section_kind": "status",
@@ -600,7 +644,7 @@
       },
       {
         "section_id": "risks",
-        "order": 13,
+        "order": 14,
         "title": "Limits and troubleshooting",
         "reader_job": "Recognize setup gaps, route-specific failures, stale results, and false conclusions.",
         "section_kind": "troubleshooting",
@@ -619,7 +663,7 @@
       },
       {
         "section_id": "extend",
-        "order": 14,
+        "order": 15,
         "title": "Evolve carefully",
         "reader_job": "Propose new types, relationships, or code forms without making them self-approving.",
         "section_kind": "extension",
@@ -637,7 +681,7 @@
       },
       {
         "section_id": "sources",
-        "order": 15,
+        "order": 16,
         "title": "Follow the evidence",
         "reader_job": "Locate the responsible language, source-contract, example, and experiment files.",
         "section_kind": "evidence",
@@ -656,7 +700,7 @@
       },
       {
         "section_id": "guide-contract",
-        "order": 16,
+        "order": 17,
         "title": "Guide composition contract",
         "reader_job": "Understand how the guide schema preserves reader movement and claim boundaries.",
         "section_kind": "technical",
@@ -713,7 +757,7 @@
       "observed_on": "2026-08-13",
       "decision_owner": "Future product and documentation owners",
       "proves": [
-        "The guide contains a coherent proposed user journey through Frame, Describe, Connect, Check, Review, and Evolve.",
+        "The guide contains a coherent proposed user journey through Scope, Identity, Permission, Outcome, Evidence, and Revision while retaining the internal Frame, Describe, Connect, Check, Review, and Evolve beat IDs.",
         "The journey reuses the current Key and Door fixture while distinguishing checked repository behavior from proposed product controls."
       ],
       "does_not_prove": [
@@ -747,7 +791,7 @@
     }
   ],
   "validation_contract": {
-    "last_validated": "2026-08-13",
+    "last_validated": "2026-08-16",
     "required_checks": [
       {
         "check_id": "manifest-schema",
@@ -781,7 +825,7 @@
       },
       {
         "check_id": "learning-interaction",
-        "scope": "Exercise all six story choices, visible feedback and direct DomainSpec-term reveals, progress and reset behavior, perspective tabs by mouse and keyboard, browser-local persistence, reduced-motion compatibility, and a readable no-JavaScript fallback.",
+        "scope": "Exercise all six story choices, visible feedback, source-backed concept or clearly marked guide-label reveals, supported-choice Next gating, free stepper review navigation, progress and reset behavior, perspective tabs by mouse and keyboard, browser-local v2 persistence with v1 isolation, reduced-motion compatibility, and a readable no-JavaScript fallback.",
         "required": true,
         "evidence_ceiling": "The teaching simulation is operable in the checked browsers and modes; it does not prove reader comprehension or demonstrate an implemented DomainSpec authoring product."
       },
@@ -812,11 +856,12 @@
       "The reader can follow a simple system flow and read compact code or data examples.",
       "The reader does not need prior knowledge of DomainSpec, Arcanum, Saturn, DS-D1, DS-D8, or the architecture-conformance experiment."
     ],
-    "reader_reward": "The reader can explain DomainSpec v2 as a domain specification system, distinguish it from the specification a project creates and from an application framework, use the Key and Door story and grammar analogy, make one meaningful choice at each Frame-Describe-Connect-Check-Review-Evolve beat, trace the checked fixture from editable JSON sources through five generated results, distinguish test-obligation derivation from architecture type enforcement, author one of the four kinds supported by the experimental JSON profile, interpret a bounded result, and separate current repository behavior from intended product experience.",
+    "reader_reward": "The reader can explain DomainSpec v2 as a domain specification system, distinguish it from the specification a project creates and from an application framework, use the Key and Door story and grammar analogy, make one meaningful choice about Scope, Identity, Permission, Outcome, Evidence, and Revision, trace the checked fixture from editable JSON sources through five generated results, distinguish test-obligation derivation from architecture type enforcement, author one of the four kinds supported by the experimental JSON profile, interpret a bounded result, and separate current repository behavior from intended product experience.",
     "opening_contract": {
       "must_start_with": [
-        "Begin with the practical problem of several people needing to agree on one feature, then explain domain with familiar examples.",
+        "Begin with one specific game mechanic, show the questions hidden inside its apparently simple request, then explain domain through the same example.",
         "State that DomainSpec is the system, a DomainSpec specification is the project description created with it, and an application framework is something different.",
+        "Introduce the path from a shared specification through obligations, derived test material, code evidence, and bounded proof, while stating that the current authoring and derivation routes are not yet one finished path.",
         "Let the reader discover project-specific terms only after the story makes each role necessary.",
         "Use grammar for system descriptions as the primary analogy and state immediately that valid structure does not prove truth or running behavior.",
         "State that the guide is pre-release and separate current repository behavior from intended product experience.",
@@ -835,8 +880,8 @@
   "reader_terms": [
     {
       "term": "DomainSpec v2",
-      "plain_meaning": "A domain specification system: a shared language, structured description format, and set of checks for naming important domain parts and showing how they connect.",
-      "why_it_matters": "It helps people create a description they can review together and check for selected structural mistakes. The description is the specification; DomainSpec is the system used to create and check it.",
+      "plain_meaning": "A domain specification system that helps a team name the parts of a feature, record their roles and connections, and carry that shared description toward checks and evidence.",
+      "why_it_matters": "It helps people expose disagreements before they disappear into code. The description is the specification; DomainSpec is the system used to create it and perform supported checks.",
       "source_or_lane": "COMPLETE-GUIDE.md, What is DomainSpec?; surface lane",
       "authority": "source-backed",
       "misuse_warning": "Do not describe it as an application framework, universal compiler, proof of running behavior, or publicly shipped production system."
@@ -966,7 +1011,7 @@
     {
       "layer": "surface",
       "as_a_reader": "As a newcomer, I want one plain sentence before internal vocabulary.",
-      "should_understand": "DomainSpec v2 is a domain specification system. A DomainSpec specification is the structured description a project creates with it, not an application framework or an automatic correctness claim. The intended experience works one feature at a time and ends in a reviewable result.",
+      "should_understand": "DomainSpec v2 is a domain specification system. A DomainSpec specification is the shared project description a team creates with it, not an application framework or an automatic correctness claim. The intended experience works one feature at a time and carries explicit decisions toward obligations, test material, code evidence, and bounded proof.",
       "because_it_matters_for": "understanding the product and its working rhythm without assuming that it builds or approves the application, or that it is already externally installable."
     },
     {
@@ -1028,7 +1073,7 @@
         "story problem and hidden-question split",
         "grammar analogy with explicit limit",
         "six-decision guided feature stage",
-        "choice feedback followed by a direct DomainSpec term",
+        "choice feedback followed by a source-backed DomainSpec concept or clearly marked guide label",
     "story, model, source, and evidence perspective tabs",
     "optional source and evidence drawers",
     "progressive disclosure for secondary routes, status facts, and advanced view controls",
@@ -1117,8 +1162,8 @@
         "Setup, a supported initialization or build CLI, and a general source-code adapter are not available."
       ],
       "inference": [
-        "Use Frame, Describe, Connect, Check, Review, and Evolve as the smallest coherent future-user loop around one feature.",
-        "Move the existing Key and Door story through six decisions, each with one discriminating choice, visible consequence, direct DomainSpec term, nearby contrast, and optional source evidence.",
+        "Use Scope, Identity, Permission, Outcome, Evidence, and Revision as the reader-facing loop while retaining Frame, Describe, Connect, Check, Review, and Evolve as stable internal beat IDs.",
+        "Move the existing Key and Door story through six decisions, each with one discriminating choice, visible consequence, source-backed concept or clearly marked guide label, nearby contrast, and optional source evidence.",
         "Let readers switch among story, DomainSpec model, source, and evidence without making repository machinery the narrative spine."
       ]
     },
@@ -1168,7 +1213,7 @@
   },
   "learning_residue": [
     "Lead future users through one concrete feature problem before asking them to inspect the source package or traverse the full language catalogue.",
-    "Keep one checked current-layout example as the newcomer anchor; let each choice and consequence create the need for its DomainSpec term, and explain proposed interaction only after the relevant decision.",
+    "Keep one checked current-layout example as the newcomer anchor; let each choice and consequence create the need for a source-backed DomainSpec concept or clearly marked guide label, and explain proposed interaction only after the relevant decision.",
     "Use the grammar analogy to explain structure, then state that grammatical validity cannot prove business truth or running behavior.",
     "Explain every generated artifact by the review question it answers, not merely by its filename.",
     "State command and prerequisite gaps together so a prepared repository checkout is not mistaken for a released onboarding path.",

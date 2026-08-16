@@ -7,7 +7,7 @@
 
 The selected unit freezes the expected-red `ArchitectureRealizationSpec/v1`
 denominator before projector implementation. The controlling sources are the
-manifest row `/swus/0`, the `SWU-ARE-001` task contract, Design's
+Work-Pack execution policy, manifest row `/swus/0`, the `SWU-ARE-001` task contract, Design's
 `ArchitectureRealizationSpec/v1`, the current ontology concept types, and the
 exact closeout row.
 
