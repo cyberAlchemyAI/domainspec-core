@@ -12,7 +12,7 @@ from .secret_contract import SecretRef
 
 SECRET_EXECUTION_RECEIPT_SCHEMA_ID = "secret-management.secret-execution-receipt"
 SECRET_EXECUTION_SCHEMA_VERSION = "1"
-SECRET_EXECUTION_PROFILE = "fake-local-bounded-consumption/v1"
+SECRET_EXECUTION_PROFILE = "bounded-consumption/v1"
 SECRET_EXECUTION_STATUS = "consumed"
 
 _CONSUMER_DIGEST_DOMAIN = "secret-management.execution-consumer/v1"
@@ -21,6 +21,7 @@ _GENERIC_ERROR = "secret execution denied"
 _GRANT_ID_RE = re.compile(r"gr_[0-9a-f]{32}\Z")
 _CONSUMER_ID_RE = re.compile(r"co_[0-9a-f]{32}\Z")
 _SHA256_RE = re.compile(r"[0-9a-f]{64}\Z")
+_RESOLVABLE_BACKEND_CLASSES = frozenset({"local-encrypted", "test-fake"})
 
 
 class SecretExecutionError(ValueError):
@@ -270,7 +271,10 @@ def consume_secret(
     checked_consumer_id = _consumer_id(consumer_id)
     checked_request_digest = _digest(request_digest)
     checked_now = _epoch_seconds(now_epoch_seconds)
-    if secret_ref.backend_class != "test-fake" or not callable(consumer):
+    if (
+        secret_ref.backend_class not in _RESOLVABLE_BACKEND_CLASSES
+        or not callable(consumer)
+    ):
         _deny()
     current_consumer_digest = _consumer_digest(checked_consumer_id)
     if not grant._authorizes(
