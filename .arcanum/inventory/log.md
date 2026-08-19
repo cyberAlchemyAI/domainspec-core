@@ -6704,15 +6704,15 @@ Artifacts:
   mechanism-first, worked-example-first, and diagnostic-question-first
   methods; one neutral synthesizer; two parallel skeptics for definitional
   soundness and non-vacuity; one findings writer; and one auditor.
-- Gate state: sheet schema `0.8.0`, repaired capability-bound Dispatch Spec,
-  and independent Tests 1-5 tension checks passed against sheet SHA-256
-  `67e5fe082c718111fb0ca7569fed3c06789fcb406675cb51ceebf0ee23497f4d`;
-  the native action-binding audit then blocked confirmation because model and
-  token-budget fields are not represented in the compiled host action.
-- Dispatch state: blocked before confirmation, unregistered, and unexecuted.
-  No action was compiled, no target agent was spawned, and the dispatch ledger
-  was not mutated. The next action is decision gate
-  `DG-AOG-LANG-ACTION-BINDING-002`.
+- Gate state: `LANG-HOST-DEFAULT-AUDITION` replaced unsupported heterogeneous
+  model routing with inherited host-default semantics and marked every
+  token-budget value advisory. Schema `0.8.0`, 9/9 selector binding, repaired
+  capability-bound Dispatch Spec, action-policy compatibility, and two fresh
+  independent Tests 1-5 tension checks passed against sheet SHA-256
+  `972f3895b935360c3bfd0432518ed6bf2055143a9163ec955a442ec42cfd540e`.
+- Dispatch state: confirmation-ready, unregistered, and unexecuted. No action
+  was compiled, no target agent was spawned, and the dispatch ledger was not
+  mutated. The next action is exact post-readiness human reply `confirmed`.
 - Entry created:
   `.arcanum/inventory/entries/agent-orchestration-beginner-language-audition-research-strategy-result-synthesis.md`.
 - Index: deterministic dry-run and apply synchronized `index.json` and
@@ -6723,3 +6723,68 @@ Artifacts:
   source rewrite, HTML integration, browser transport, publication, deployment,
   or production result exists.
 - Next action: obtain exact human confirmation before registration or spawn.
+
+## 2026-08-16 — Agent orchestration beginner-language audition blocked run indexed
+
+- Mode: ingest one additive, non-authority blocked-run result synthesis.
+- Confirmed execution: the exact host-default sheet was confirmed, registered,
+  compiled, and launched through the native Orchestrate prepare/host/record
+  handshake.
+- Admitted evidence: the baseline receipt passed, joined, and closed; gate
+  `g0-baseline` passed.
+- Partial-wave evidence: candidate M at SHA-256
+  `145dcc3eb7d83b788db5ee0a703a88cc6b2c427b4293b70aa9038d2be56a0883`
+  and candidate E at SHA-256
+  `7609b81378197badf88306973a2e137349de1667dddf15a565b1dfe273364e74`
+  completed in isolation and were preserved but not joined.
+- Blocker: the exact candidate Q action was attempted once and the host returned
+  `agent thread limit reached` before an agent identifier. Partial-wave cleanup
+  emitted `run_blocked`; the complete 37-event stream validates `pass`.
+- Downstream state: no candidate-wave join, synthesis, reviews, evidence
+  closure, findings, audit, or Human Gate A exists.
+- Governance sidecar: cleanup was correct; retention-aware capacity admission
+  was missing. Selective digest carry-forward requires a distinct validated
+  recovery and renewed human confirmation.
+- Ledger: one registration row and one `error` close row exist for dispatch
+  `2026-08-16-agent-orchestration-language-audition`.
+- Entry created:
+  `.arcanum/inventory/entries/agent-orchestration-beginner-language-audition-blocked-run-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` at timestamp `2026-08-16T16:45:00Z`, introduced no warnings, and
+  retained 153 inherited warnings.
+- Claim ceiling: validator-clean fail-closed runtime evidence and two preserved
+  drafts only; no guide edit, comprehension proof, publication, deployment, or
+  production result exists.
+- Next action: specify and validate a capacity-safe recovery, then request a new
+  exact human confirmation before registration or target-agent spawn.
+
+## 2026-08-16 — Agent orchestration language-audition Recovery 004 strategy indexed
+
+- Mode: ingest one additive, non-authority recovery strategy-result synthesis.
+- P1: candidate isolation, three-way synthesis, two independent review lenses,
+  evidence-closed writing, and audit still require a governed research dispatch.
+- Adoption boundary: exact M/E bytes are proposed as externally attributed
+  evidence from the blocked run; they are not relabeled as joined receipts.
+  Candidate Q receives a separate closed-input manifest that excludes M/E.
+- Capacity design: one causal recovery dispatch is divided into three fresh-parent
+  segments with child-identity counts `1`, `3`, and `2`. Every segment requires a
+  root-only host inventory witness and an exact passed-gate handoff.
+- Lanes: Halford writes Q; Baez synthesizes; Wittgenstein and Gigerenzer review in
+  parallel on definitional-soundness versus non-vacuity; Hofstadter writes findings;
+  Brandenburg audits before Human Gate A.
+- Gate state: schema `0.8.0` readiness passes at sheet SHA-256
+  `854a184376de2e4c903657d17ab02a4f790fe3b8acd092f6109abfea43c3bd1f`;
+  Dispatch Spec passes with zero blocks and zero flags. Independent tension remains
+  pending because the current parent retains three prior-context children.
+- Dispatch state: unconfirmed, unregistered, and unexecuted. Recovery 004 target-agent
+  spawn count is zero; the dispatch ledger, HTML, deployment, and Git are unchanged.
+- Entry created:
+  `.arcanum/inventory/entries/agent-orchestration-beginner-language-audition-recovery-004-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and `index.md`
+  at timestamp `2026-08-16T17:14:34Z`, introduced no warnings, and retained 153
+  inherited warnings.
+- Claim ceiling: validated recovery proposal only; no continuation proof, tension
+  admission, confirmation, candidate result, synthesis, review, audit, Human Gate A,
+  comprehension, publication, deployment, or production result exists.
+- Next action: run two exact-sheet independent tension verdicts in a fresh parent
+  context; only PASS/PASS may open the exact confirmation request.

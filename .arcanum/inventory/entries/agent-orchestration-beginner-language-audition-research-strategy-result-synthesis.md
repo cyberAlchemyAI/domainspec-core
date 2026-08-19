@@ -43,11 +43,12 @@ selectors:
 evidence_card_ids: []
 evidence_set_ids: []
 residue:
-  - exact-sheet-and-repaired-route-blocked-before-human-confirmation
+  - exact-sheet-and-repaired-route-await-human-confirmation
   - dispatch-unregistered-and-unexecuted
   - no-action-digest-before-authorization
-  - native-action-model-and-token-budget-binding-missing
-  - action-binding-decision-pending
+  - concrete-inherited-model-is-runtime-evidence
+  - token-budgets-advisory-not-host-enforced
+  - post-readiness-confirmation-pending
   - current-guide-not-previously-indexed-as-exact-entry
   - no-intended-reader-session-or-comprehension-evidence
   - governance-regression-fixture-proposed-not-applied
@@ -56,10 +57,12 @@ residue:
 
 # Agent Orchestration Beginner-Language Audition Research Strategy Result
 
-This is a non-authority Inventory read model of a structurally validated but
-action-binding-blocked Whisper research proposal. It does not authorize registration, subagent spawn, guide
-rewrites, HTML mutation, publication, deployment, canonical vocabulary change,
-or a claim that beginners comprehend the course.
+This is a non-authority Inventory read model of a confirmation-ready but
+unconfirmed Whisper research proposal. It uses inherited host-default models,
+advisory output targets, and nine exact sheet-row selectors. It does not
+authorize registration, subagent spawn, guide rewrites, HTML mutation,
+publication, deployment, canonical vocabulary change, or a claim that
+beginners comprehend the course.
 
 ## P1 Trigger Decision
 
@@ -115,13 +118,14 @@ one-job-per-block constraints, and a voice-selection-only Human Gate A.
 ## Gate And Ledger State
 
 - Sheet schema `0.8.0`: confirmation readiness `PASS`
-- Sheet SHA-256: `67e5fe082c718111fb0ca7569fed3c06789fcb406675cb51ceebf0ee23497f4d`
-- Material strategy SHA-256: `32f060bc656d58f9cd89f479b1ca07b6a15681637d733c2d96df52f5cf3ce2cf`
+- Sheet SHA-256: `972f3895b935360c3bfd0432518ed6bf2055143a9163ec955a442ec42cfd540e`
+- Material strategy SHA-256: `343a1c9ac21ef033c998219c6a82fc666ed59038557c55b68be21ce76fa75972`
 - Capability-bound structural route validation: `PASS`
-- Route SHA-256: `5beb4797222828e7f319b9d27dc99960f46f16588b68556bf7aa9dda8b4a8b4e`
-- Independent tension gate: `PASS/PASS`, Tests 1–5
-- Native action-binding audit: `BLOCK`
-- Human confirmation: not requestable until action binding is resolved
+- Route SHA-256: `8b570ff0687a590a275cc8240d162596be4617b7027592f89585f64a5462f33d`
+- Proposal-local selector binding: `PASS`, 9/9 unique rows
+- Independent tension gate: fresh `PASS/PASS`, Tests 1–5
+- Native action-policy audit: `PASS` for declared host-default/advisory policy
+- Human confirmation: pending and requestable
 - Registration, action compilation, and target-agent spawn: none
 - Dispatch ledger mutation: none
 - Expected ledger state after execution: exactly one launch row and one close row
@@ -130,16 +134,15 @@ one-job-per-block constraints, and a voice-selection-only Human Gate A.
 
 Whisper owns language composition, `orchestrate` owns native execution after
 authorization, the parent owns evidence closure and final approval, and
-Inventory is discovery only. Receipt encoding is repaired, but the current
-native action does not bind model or token budget and carries persona, angle,
-and prompt only through an indirect sheet selector. No result may claim exact
-strategy execution, comprehension, transport proof, publication, deployment,
-or production.
+Inventory is discovery only. Receipt encoding is repaired. The strategy makes
+no concrete runtime-model or budget-enforcement claim; identities, angles, and
+prompts remain bound through validated digest-owned selectors. No result may
+claim a specific inherited model, enforced budget, comprehension, transport
+proof, publication, deployment, or production.
 
 ## Next Human Action
 
-Resolve `DG-AOG-LANG-ACTION-BINDING-002`: choose
-`LANG-HOST-DEFAULT-AUDITION` (recommended),
-`LANG-ORCHESTRATE-BINDING-WORKPACK`, or `LANG-AUDITION-HOLD`.
-`LANG-AUDITION-STAGE` authorized proposal preparation only; `confirmed` is not
-currently admissible.
+Decision `DG-AOG-LANG-ACTION-BINDING-002` is resolved as
+`LANG-HOST-DEFAULT-AUDITION`. The next human action is the exact post-readiness
+reply `confirmed`; until then the dispatch remains unregistered and
+unexecuted.

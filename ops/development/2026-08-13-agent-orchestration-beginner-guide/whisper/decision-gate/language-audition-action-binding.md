@@ -4,6 +4,9 @@ status: resolved
 selected_option: LANG-HOST-DEFAULT-AUDITION
 resolved_at: 2026-08-16T15:35:01Z
 decision_source: user-selected exact option and approved implementation
+implementation_status: pass_pending_dispatch_confirmation
+revised_sheet_sha256: 972f3895b935360c3bfd0432518ed6bf2055143a9163ec955a442ec42cfd540e
+revised_route_sha256: 8b570ff0687a590a275cc8240d162596be4617b7027592f89585f64a5462f33d
 target_scope: language-audition action binding before dispatch confirmation
 source_sheet: ../language-tournament/audition/dispatch-sheet.json
 source_sheet_sha256: 67e5fe082c718111fb0ca7569fed3c06789fcb406675cb51ceebf0ee23497f4d
@@ -107,13 +110,16 @@ the reviewed material strategy.
 - Rationale: the experiment compares teaching movements rather than model
   families, so honest host inheritance removes unsupported routing precision
   while preserving the three methodology and two review axes.
-- Remaining blocker: none at this decision gate; the revised material proposal
-  must still pass its fresh readiness, tension, selector-binding, route, and
-  post-validation human-confirmation gates.
-- Consequential mutations after the blocker: none
+- Revised-gate result: schema readiness, material projection, selector binding,
+  structural route validation, action-policy compatibility, and two fresh
+  independent tension verdicts all pass on the revised bytes.
+- Remaining blocker: the separate post-readiness dispatch confirmation gate.
+- Consequential mutations after the blocker: proposal and gate artifacts only
 - Dispatches registered or target agents spawned: none
 - Guide or deployment bytes changed: none
 
 The selected option authorizes revision of the proposal and its gate evidence.
 It does not pre-confirm unvalidated future bytes, register the dispatch, spawn
-target agents, edit the guide, or deploy a derivative.
+target agents, edit the guide, or deploy a derivative. Because the selected
+option changed material model and budget semantics, the router requires the
+exact post-readiness reply `confirmed` before registration.
