@@ -1,0 +1,325 @@
+schema_version: whisper.term-map.v1
+artifact_id: agent-orchestration-language-audition-term-map-run-001
+dispatch_id: 2026-08-16-agent-orchestration-language-audition
+source_bindings:
+  html:
+    path: ops/development/2026-08-13-agent-orchestration-beginner-guide/guided-class.html
+    sha256: 59d38eff75024ea95028ed8b455e19a1cec9859e9735a035b58ea3f82db75446
+  plan:
+    path: ops/development/2026-08-13-agent-orchestration-beginner-guide/whisper/beginner-language-tournament-plan.md
+    sha256: 5a4fcc97b199e94de133e5cd8d7ad68276e3a45a5de0453e58145005a805bd65
+extraction:
+  match_policy: >-
+    Case-insensitive substring match over decoded learner-facing text nodes in
+    document order; script and style content are excluded. Inflected visible
+    forms such as receipts, gates, causal edges, compiles, and fixtures count as
+    the formal term's current first use.
+  sort_key: formal_term_ascii_ascending
+  terms_expected: 24
+  terms_found: 24
+  early_first_use_count: 8
+  early_first_uses:
+    - boundary
+    - causal edge
+    - compile
+    - eligible wave
+    - fixture
+    - gate
+    - receipt
+    - semantic truth
+terms:
+  - formal_term: admitted
+    tier: T1
+    planned_first_lesson: '2'
+    plain_bridge: checked for the expected identity and shape, then accepted into the evidence set
+    treatment: never equate with truth
+    current_first_use:
+      lesson_id: prove
+      position_relation: planned_lesson
+      selector: '#lesson-prove .lesson-intro'
+      source_line: 1341
+      text: 'A convincing result can tempt us to skip the transitions between “returned,” “admitted,” “joined,” and “accepted.” Use four questions to hold the boundary.'
+      text_sha256: 58ec2e8883bd65d428fbc183bb555b550ada9e8eccc58377cb34af98cd392ca9
+  - formal_term: authority
+    tier: T1
+    planned_first_lesson: '1'
+    plain_bridge: permission to make a change or claim
+    treatment: necessary formal term
+    current_first_use:
+      lesson_id: choose
+      position_relation: planned_lesson
+      selector: '#lesson-choose .context-connect .context-item:last-child p'
+      source_line: 1293
+      text: Choosing a dispatch shape does not authorize, register, or execute it. More agents create more explicit boundaries, not more authority.
+      text_sha256: 0eafed0510ef5d4b12ce9a0f7586202a606e34ca778f83974c49023d81bc7eae
+  - formal_term: boundary
+    tier: T1
+    planned_first_lesson: '1'
+    plain_bridge: the decision, permission, or responsibility that must stay separate
+    treatment: prefer the plain phrase first
+    current_first_use:
+      lesson_id: null
+      position_relation: global_surface_before_lesson_1
+      selector: '.hero .lede'
+      source_line: 1194
+      text: One task can look finished while its evidence is still several handoffs behind. Learn to find the last proven step, inspect the code boundary, and stop before a claim outruns its proof.
+      text_sha256: a1668fc3c273c534131da9912d03145a27d0f7eed2997f8850dfa51afc3e2390
+  - formal_term: bounded helper
+    tier: T1
+    planned_first_lesson: '1'
+    plain_bridge: one helper with one clearly limited job whose result the parent can inspect
+    treatment: necessary formal term
+    current_first_use:
+      lesson_id: choose
+      position_relation: planned_lesson
+      selector: '#lesson-choose .context-prompt'
+      source_line: 1283
+      text: 'if you removed the extra roles, what important boundary would disappear? If none would, begin with one bounded helper.'
+      text_sha256: e097840c3a8b2a61081a734a3b9025b4908b3392ef9131f0a16f124bed167ab4
+  - formal_term: causal edge
+    tier: T2
+    planned_first_lesson: '5'
+    plain_bridge: a required “this happened before that” link
+    treatment: repository-depth term
+    current_first_use:
+      matched_form: causal edges
+      lesson_id: relay
+      position_relation: before_planned_lesson
+      selector: '#lesson-relay [data-context-for="relay"] > p:nth-of-type(1)'
+      source_line: 1435
+      text: Strategy, the exact route, material confirmation, route validation, and host preflight sit upstream of this lesson. The trace starts at one persisted action so you can follow a single work ticket without losing the causal edges around it.
+      text_sha256: 38e5c97dcae70aaa3a981f1e88b64bcc4bd7208461091a604c7b81f0091ad3ad
+  - formal_term: closeout
+    tier: T2
+    planned_first_lesson: '3'
+    plain_bridge: the final record of a finished or explicitly stopped route
+    treatment: repository-depth term
+    current_first_use:
+      lesson_id: relay
+      position_relation: planned_lesson
+      selector: '#lesson-relay [data-context-for="relay"] > p:nth-of-type(2)'
+      source_line: 1436
+      text: Planning creates the ticket; the host stage attempts it; terminal accounting closes the worker; evidence handling admits and joins the result; the gate decides one transition. A dependent action then re-enters the same lifecycle—planning it is not closeout.
+      text_sha256: 7ea3ede6ae4bfdc97111f0bb19643921acb2095872654712dd9807b3af94e416
+  - formal_term: compile
+    tier: T1
+    planned_first_lesson: '6'
+    plain_bridge: turn a valid route into concrete work tickets without starting agents
+    treatment: necessary formal term
+    current_first_use:
+      matched_form: compiles
+      lesson_id: code
+      position_relation: before_planned_lesson
+      selector: '#lesson-code .owner-grid .owner-card:first-child p'
+      source_line: 1590
+      text: Validates the dispatch and compiles the first eligible wave into state, run plan, and action files. It does not launch agents.
+      text_sha256: 15ee0570924e99b8896a4b4b944b654d849ffcf2606823e780ccff66c9bbf0ce
+  - formal_term: coordinator
+    tier: T1
+    planned_first_lesson: '4'
+    plain_bridge: code that validates the route and turns eligible work into saved job files
+    treatment: necessary formal term
+    current_first_use:
+      lesson_id: code
+      position_relation: planned_lesson
+      selector: '#lesson-code .lesson-intro'
+      source_line: 1527
+      text: 'The action JSON is a boundary object: the coordinator, driver, parent, host, and later evidence all refer to the same exact job instead of reconstructing it from chat.'
+      text_sha256: e1e77b4f41e6e754e26b71233b5daf028cafd8c2cb9572495bf7fe8a9f6d93c9
+  - formal_term: deterministic
+    tier: T2
+    planned_first_lesson: '6'
+    plain_bridge: the same test input follows the same code path and expected checks
+    treatment: do not imply real-world truth
+    current_first_use:
+      matched_form: deterministic
+      lesson_id: lab
+      position_relation: planned_lesson
+      selector: '#context-lab-title'
+      source_line: 1743
+      text: Fixtures isolate the deterministic half of the runtime
+      text_sha256: 46040d519e0855f64dd76d454d27919efee404a7e3484c39e06d254ed7f5f92e
+  - formal_term: driver
+    tier: T1
+    planned_first_lesson: '4'
+    plain_bridge: code that prepares host requests and records what comes back
+    treatment: necessary formal term
+    current_first_use:
+      lesson_id: code
+      position_relation: planned_lesson
+      selector: '#lesson-code .lesson-intro'
+      source_line: 1527
+      text: 'The action JSON is a boundary object: the coordinator, driver, parent, host, and later evidence all refer to the same exact job instead of reconstructing it from chat.'
+      text_sha256: e1e77b4f41e6e754e26b71233b5daf028cafd8c2cb9572495bf7fe8a9f6d93c9
+  - formal_term: eligible wave
+    tier: T2
+    planned_first_lesson: 6_or_7
+    plain_bridge: a group of tasks now allowed to be planned, not yet started
+    treatment: repository-depth term
+    current_first_use:
+      lesson_id: relay
+      position_relation: before_planned_lesson
+      selector: '#lesson-relay [data-question="relay-limit"] .choice:nth-child(2)'
+      source_line: 1504
+      text: A fresh persisted action plan for the eligible wave
+      text_sha256: 77026938540b4d3fd57768230da45f2ccae416172c3a555225276c294a651d9d
+  - formal_term: fail closed
+    tier: T1
+    planned_first_lesson: '5'
+    plain_bridge: keep what is supported and stop where a required step is missing
+    treatment: necessary formal term
+    current_first_use:
+      lesson_id: null
+      position_relation: global_navigation_before_planned_lesson
+      selector: '[data-open-lesson="fail"] .label'
+      source_line: 1234
+      text: Fail closed
+      text_sha256: eac20c4006bb41e117b00473c9e6f45a3025cbd2dc0e2557a7f981aee05f2a07
+  - formal_term: fixture
+    tier: T1
+    planned_first_lesson: '6'
+    plain_bridge: a saved test example owned by the repository
+    treatment: necessary formal term
+    current_first_use:
+      matched_form: fixture
+      lesson_id: null
+      position_relation: global_navigation_before_planned_lesson
+      selector: '[data-open-lesson="lab"] .label'
+      source_line: 1237
+      text: Use the fixture lab
+      text_sha256: 33f163d66635b4e57bf02ce6be81e5c2142481466640069b23673dc8b063c007
+  - formal_term: gate
+    tier: T1
+    planned_first_lesson: '2'
+    plain_bridge: a decision rule that may allow one declared next step
+    treatment: always pair with “does not start it”
+    current_first_use:
+      matched_form: gates
+      lesson_id: choose
+      position_relation: before_planned_lesson
+      selector: '#lesson-choose .lesson-intro'
+      source_line: 1268
+      text: Before adding roles, gates, and receipts, decide whether the work actually needs them. Governance is useful when it protects a real boundary—not when it merely makes the diagram larger.
+      text_sha256: fd9fa5ef536d2b33688b32b98a8dac419402f4f9a1ca5398c686fd282ba645bd
+  - formal_term: governed dispatch
+    tier: T1
+    planned_first_lesson: '1'
+    plain_bridge: a coordinated multi-agent job with separate roles, checks, and stop points
+    treatment: necessary formal term
+    current_first_use:
+      lesson_id: choose
+      position_relation: planned_lesson
+      selector: '#lesson-choose [data-context-for="choose"] > p:nth-of-type(2)'
+      source_line: 1282
+      text: A governed dispatch earns that extra machinery when independent viewpoints, producer/reviewer separation, parallel results, dependency gates, or isolated write scopes are part of the problem itself.
+      text_sha256: 348825216084bcc5e397724d748dfda2f5dc60969bec9314befd37d55b9de7f0
+  - formal_term: host
+    tier: T1
+    planned_first_lesson: '3'
+    plain_bridge: the runtime that receives the prepared request and tries to start the worker
+    treatment: necessary formal term
+    current_first_use:
+      lesson_id: relay
+      position_relation: planned_lesson
+      selector: '#lesson-relay [data-context-for="relay"] > p:nth-of-type(1)'
+      source_line: 1435
+      text: Strategy, the exact route, material confirmation, route validation, and host preflight sit upstream of this lesson. The trace starts at one persisted action so you can follow a single work ticket without losing the causal edges around it.
+      text_sha256: 38e5c97dcae70aaa3a981f1e88b64bcc4bd7208461091a604c7b81f0091ad3ad
+  - formal_term: joined
+    tier: T1
+    planned_first_lesson: '2'
+    plain_bridge: included in the group of results a decision will evaluate
+    treatment: necessary formal term
+    current_first_use:
+      lesson_id: prove
+      position_relation: planned_lesson
+      selector: '#lesson-prove .lesson-intro'
+      source_line: 1341
+      text: 'A convincing result can tempt us to skip the transitions between “returned,” “admitted,” “joined,” and “accepted.” Use four questions to hold the boundary.'
+      text_sha256: 58ec2e8883bd65d428fbc183bb555b550ada9e8eccc58377cb34af98cd392ca9
+  - formal_term: persisted action
+    tier: T1
+    planned_first_lesson: '3'
+    plain_bridge: a saved work ticket for one exact job
+    treatment: prefer “saved action” after first definition
+    current_first_use:
+      lesson_id: relay
+      position_relation: planned_lesson
+      selector: '#lesson-relay [data-context-for="relay"] > p:nth-of-type(1)'
+      source_line: 1435
+      text: Strategy, the exact route, material confirmation, route validation, and host preflight sit upstream of this lesson. The trace starts at one persisted action so you can follow a single work ticket without losing the causal edges around it.
+      text_sha256: 38e5c97dcae70aaa3a981f1e88b64bcc4bd7208461091a604c7b81f0091ad3ad
+  - formal_term: receipt
+    tier: T1
+    planned_first_lesson: '2'
+    plain_bridge: a structured record of one expected agent result
+    treatment: necessary formal term
+    current_first_use:
+      matched_form: receipts
+      lesson_id: choose
+      position_relation: before_planned_lesson
+      selector: '#lesson-choose .lesson-intro'
+      source_line: 1268
+      text: Before adding roles, gates, and receipts, decide whether the work actually needs them. Governance is useful when it protects a real boundary—not when it merely makes the diagram larger.
+      text_sha256: fd9fa5ef536d2b33688b32b98a8dac419402f4f9a1ca5398c686fd282ba645bd
+  - formal_term: residue
+    tier: T2
+    planned_first_lesson: 2_or_glossary
+    plain_bridge: what remains missing, uncertain, excluded, or owned elsewhere
+    treatment: use the plain phrase before the formal term
+    current_first_use:
+      lesson_id: prove
+      position_relation: planned_lesson
+      selector: '#lesson-prove [data-context-for="prove"] > p:nth-of-type(2) strong'
+      source_line: 1350
+      text: residue
+      text_sha256: de790defb8525b43fb46bfcd1ae09e4d52210a0887fa80c94b1c46a67fb55775
+  - formal_term: schema-valid
+    tier: T2
+    planned_first_lesson: '4'
+    plain_bridge: matches the complete required JSON shape
+    treatment: repository-depth term
+    current_first_use:
+      lesson_id: code
+      position_relation: planned_lesson
+      selector: '#lesson-code .context-connect .context-item:last-child p'
+      source_line: 1546
+      text: The displayed object is shortened and not schema-valid by itself. Persisting or inspecting an action proves preparation, not host acceptance, execution, or compliance.
+      text_sha256: 14379dd412d653801a4b602533c049dc7c6bb8d015bdb5869332b65203102289
+  - formal_term: semantic truth
+    tier: T2
+    planned_first_lesson: details_or_glossary
+    plain_bridge: whether the result's actual claim is correct
+    treatment: prefer the plain question in exercises
+    current_first_use:
+      lesson_id: prove
+      position_relation: audience_surface_before_planned_details_or_glossary
+      selector: '#lesson-prove .context-connect .context-item:last-child p'
+      source_line: 1360
+      text: Receipt admission checks expected files, shape, and action/run identity. It does not prove referenced artifact contents, join, gate passage, or semantic truth.
+      text_sha256: b24aff6e8bd6d82d02cbc6c2d875d83cc932bc54699bfd4b2b7436bfd36b457f
+  - formal_term: terminal accounting
+    tier: T2
+    planned_first_lesson: '3'
+    plain_bridge: recording that the worker finished, failed, or stopped
+    treatment: dual-label the timeline if retained
+    current_first_use:
+      lesson_id: relay
+      position_relation: planned_lesson
+      selector: '#lesson-relay [data-context-for="relay"] > p:nth-of-type(2)'
+      source_line: 1436
+      text: Planning creates the ticket; the host stage attempts it; terminal accounting closes the worker; evidence handling admits and joins the result; the gate decides one transition. A dependent action then re-enters the same lifecycle—planning it is not closeout.
+      text_sha256: 7ea3ede6ae4bfdc97111f0bb19643921acb2095872654712dd9807b3af94e416
+  - formal_term: valid prefix
+    tier: T2
+    planned_first_lesson: '5'
+    plain_bridge: the uninterrupted earlier sequence that still has evidence
+    treatment: repository-depth term
+    current_first_use:
+      lesson_id: fail
+      position_relation: planned_lesson
+      selector: '#context-fail-title'
+      source_line: 1651
+      text: Keep the valid prefix; stop at the first unsupported edge
+      text_sha256: a03872c969783342be717c8f3536bd6526eb0aa635709f6ee6fc605f7d2ad09a
+status: extracted

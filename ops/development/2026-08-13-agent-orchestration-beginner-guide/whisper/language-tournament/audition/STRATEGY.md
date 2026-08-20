@@ -1,12 +1,12 @@
 # Beginner-Language Audition Dispatch Strategy
 
-Status: blocked before confirmation, unregistered, unexecuted
+Status: confirmation-ready, unconfirmed, unregistered, unexecuted
 
 Dispatch ID: `2026-08-16-agent-orchestration-language-audition`
 
-Sheet SHA-256: `67e5fe082c718111fb0ca7569fed3c06789fcb406675cb51ceebf0ee23497f4d`
+Sheet SHA-256: `972f3895b935360c3bfd0432518ed6bf2055143a9163ec955a442ec42cfd540e`
 
-Route SHA-256: `5beb4797222828e7f319b9d27dc99960f46f16588b68556bf7aa9dda8b4a8b4e`
+Route SHA-256: `8b570ff0687a590a275cc8240d162596be4617b7027592f89585f64a5462f33d`
 
 This proposal prepares a small Whisper language audition. It does not rewrite
 any of the seven course routes. It tests three teaching movements on one moment
@@ -52,6 +52,11 @@ question. The review group anti-bias axis is attack vector: definitional
 soundness versus non-vacuous beginner retellability. Complete pairwise predicted
 disagreements are stored in the exact sheet bytes.
 
+All nine rows use `model: host-default`, meaning the native host selects the
+inherited model. The `token_budget` values remain positive schema-required
+output-length targets, but they are advisory self-limits and are not enforced
+by the host. This dispatch compares teaching methodologies, not model families.
+
 ## Dependency Flow
 
 `baseline_extractor` → `candidate_writers` → `audition_synthesizer` ⇄
@@ -87,13 +92,14 @@ reviewers, visible claim limits, and a voice-selection-only Human Gate A.
 
 - Candidate sheet schema: `0.8.0`
 - Sheet confirmation-readiness validator: `PASS`
-- Exact sheet digest: `67e5fe082c718111fb0ca7569fed3c06789fcb406675cb51ceebf0ee23497f4d`
-- Material-strategy digest: `32f060bc656d58f9cd89f479b1ca07b6a15681637d733c2d96df52f5cf3ce2cf`
+- Exact sheet digest: `972f3895b935360c3bfd0432518ed6bf2055143a9163ec955a442ec42cfd540e`
+- Material-strategy digest: `343a1c9ac21ef033c998219c6a82fc666ed59038557c55b68be21ce76fa75972`
 - Dispatch Spec structural route: `PASS`
-- Exact route digest: `5beb4797222828e7f319b9d27dc99960f46f16588b68556bf7aa9dda8b4a8b4e`
-- Independent tension gate: `PASS/PASS`, Tests 1–5
-- Native action-binding audit: `BLOCK`
-- Human confirmation: not requestable while action binding is blocked
+- Exact route digest: `8b570ff0687a590a275cc8240d162596be4617b7027592f89585f64a5462f33d`
+- Proposal-local selector binding: `PASS`, 9/9 unique sheet rows
+- Independent tension gate: fresh `PASS/PASS`, Tests 1–5, revised sheet digest
+- Native action-policy audit: `PASS` for declared host-default/advisory policy
+- Human confirmation: pending; now requestable
 - Registration: none
 - Action compilation: none; authorization is still `requires_user_permission`
 - Spawn attempts: `0`
@@ -102,13 +108,12 @@ reviewers, visible claim limits, and a voice-selection-only Human Gate A.
 - Terminal stop: Human Gate A; no source HTML or deployment mutation
 
 The first route draft failed the capability-bound receipt encoding. One
-governance sidecar diagnosed that mechanical mismatch; the route was repaired
-without changing the sheet's material strategy and revalidated. A later static
-integration audit found a separate non-mechanical blocker: the current native
-action and prepared host request do not bind model or token budget, while
-persona, angle, and prompt are only indirect sheet-selector inputs. Structural
-route validation therefore passes, but exact execution fidelity does not. A
-permanent receipt-encoding fixture remains proposed, not applied.
+governance sidecar diagnosed that mechanical mismatch; the route was repaired.
+A later static integration audit found that the native action does not select a
+model or enforce a token budget. Decision `LANG-HOST-DEFAULT-AUDITION` removed
+those unsupported claims, retained all nine digest-bound persona, angle, and
+prompt selectors, and added a proposal-local 9/9 selector check. A permanent
+receipt-encoding fixture remains proposed, not applied.
 
 ## Claim And Authority Boundary
 
@@ -121,15 +126,10 @@ and reviewer outputs.
 
 ## Next Human Action
 
-Resolve `DG-AOG-LANG-ACTION-BINDING-002` before confirmation. Choose one exact
-option ID:
-
-- `LANG-HOST-DEFAULT-AUDITION` — revise the proposal around honest inherited
-  host models, advisory budgets, and digest-bound sheet selectors; recommended.
-- `LANG-ORCHESTRATE-BINDING-WORKPACK` — defer the audition and separately stage
-  a public Arcanum runtime-binding Work Pack.
-- `LANG-AUDITION-HOLD` — stop at the blocked proposal.
-
-`Explain / more context` is non-committal. The earlier
-`LANG-AUDITION-STAGE` selection authorized preparation only, and `confirmed` is
-not currently admissible.
+Decision `DG-AOG-LANG-ACTION-BINDING-002` is resolved as
+`LANG-HOST-DEFAULT-AUDITION`, and every affected machine gate has been rerun.
+Because model and budget semantics are material strategy fields, the earlier
+option-selection message authorized this revision but cannot precede the
+revised-byte readiness and tension gates. Reply exactly `confirmed` to authorize
+registration and execution through the audit, stopping at Human Gate A. Any
+other response leaves the dispatch unregistered and unexecuted.

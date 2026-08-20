@@ -1,4 +1,4 @@
-"""Opaque references plus candidate-local bounded secret consumption."""
+"""Opaque references and a local SOPS plus age secret store."""
 
 from .execution import (
     SECRET_EXECUTION_PROFILE,
@@ -20,8 +20,27 @@ from .secret_contract import (
     project_secret_ref,
     redacted_secret_ref_envelope,
 )
+from .store import (
+    AGE_BINARY_SHA256,
+    AGE_KEYGEN_BINARY_SHA256,
+    DEFAULT_AGE_BINARY,
+    DEFAULT_AGE_KEYGEN_BINARY,
+    DEFAULT_AGE_KEY_FILE,
+    DEFAULT_SOPS_BINARY,
+    DEFAULT_VAULT_FILE,
+    MAX_SECRET_BYTES,
+    SOPS_BINARY_SHA256,
+    STORE_BACKEND,
+    STORE_EVIDENCE_CEILING,
+    STORE_SCHEMA_VERSION,
+    STORE_STATUS,
+    SecretStoreError,
+    SopsAgeStore,
+)
 
 __all__ = [
+    "AGE_BINARY_SHA256",
+    "AGE_KEYGEN_BINARY_SHA256",
     "REDACTED_SECRET_REF_SCHEMA_ID",
     "REDACTION_PROFILE",
     "REFERENCE_STATUS",
@@ -31,10 +50,23 @@ __all__ = [
     "SECRET_EXECUTION_STATUS",
     "SECRET_REF_SCHEMA_ID",
     "ExecutionGrant",
+    "DEFAULT_AGE_BINARY",
+    "DEFAULT_AGE_KEYGEN_BINARY",
+    "DEFAULT_AGE_KEY_FILE",
+    "DEFAULT_SOPS_BINARY",
+    "DEFAULT_VAULT_FILE",
+    "MAX_SECRET_BYTES",
     "SecretContractError",
     "SecretExecutionError",
+    "SecretStoreError",
     "SecretRef",
     "SecretResolver",
+    "SopsAgeStore",
+    "SOPS_BINARY_SHA256",
+    "STORE_BACKEND",
+    "STORE_EVIDENCE_CEILING",
+    "STORE_SCHEMA_VERSION",
+    "STORE_STATUS",
     "consume_secret",
     "project_secret_ref",
     "redacted_secret_ref_envelope",

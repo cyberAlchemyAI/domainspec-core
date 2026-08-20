@@ -168,7 +168,7 @@ class FakeResolutionAcceptanceTests(unittest.TestCase):
     def test_02_every_pre_resolution_rejection_makes_zero_calls(self) -> None:
         valid_ref = make_ref()
         other_ref = make_ref(opaque_id=OTHER_OPAQUE_ID)
-        local_ref = make_ref(backend_class="local-encrypted")
+        managed_ref = make_ref(backend_class="managed-service")
         cases = [
             (
                 "wrong-reference",
@@ -203,9 +203,9 @@ class FakeResolutionAcceptanceTests(unittest.TestCase):
                 NOW,
             ),
             (
-                "non-test-backend",
-                local_ref,
-                make_grant(local_ref),
+                "unsupported-backend",
+                managed_ref,
+                make_grant(managed_ref),
                 CONSUMER_ID,
                 REQUEST_DIGEST,
                 NOW,
@@ -233,7 +233,7 @@ class FakeResolutionAcceptanceTests(unittest.TestCase):
                     {
                         valid_ref.reference_digest: MATERIAL,
                         other_ref.reference_digest: MATERIAL,
-                        local_ref.reference_digest: MATERIAL,
+                        managed_ref.reference_digest: MATERIAL,
                     }
                 )
                 consumer_count = 0

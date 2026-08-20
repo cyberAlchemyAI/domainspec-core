@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arcanum.dev/schemas/work-pack-readiness-audit/consumer-closure-receipt/1-0-0",
+  "title": "Work Pack Pre-Acceptance Consumer Closure Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "check_results",
+    "failures",
+    "metrics",
+    "exact_inputs",
+    "canonical_consumers",
+    "closure_implementation_sha256",
+    "authority_effect",
+    "selection_performed",
+    "mutation_performed",
+    "configured_unit_commands_executed",
+    "claim_ceiling",
+    "receipt_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "arcanum.wpra.consumer-closure-receipt/1.0.0"},
+    "status": {"enum": ["pass", "block"]},
+    "check_results": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/checkResult"}
+    },
+    "failures": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/failure"}
+    },
+    "metrics": {"type": "object"},
+    "exact_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "execution_contracts",
+        "audit_config",
+        "audit_report",
+        "semantic_manifest",
+        "selection_handoff"
+      ],
+      "properties": {
+        "execution_contracts": {"$ref": "#/$defs/exactArtifactRef"},
+        "audit_config": {"$ref": "#/$defs/exactArtifactRef"},
+        "audit_report": {"$ref": "#/$defs/exactArtifactRef"},
+        "semantic_manifest": {"$ref": "#/$defs/exactArtifactRef"},
+        "selection_handoff": {"$ref": "#/$defs/exactArtifactRef"}
+      }
+    },
+    "canonical_consumers": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/exactArtifactRef"}
+    },
+    "closure_implementation_sha256": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validator", "receipt_schema"],
+      "properties": {
+        "validator": {"$ref": "#/$defs/sha256"},
+        "receipt_schema": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "authority_effect": {"const": "none"},
+    "selection_performed": {"const": false},
+    "mutation_performed": {"const": false},
+    "configured_unit_commands_executed": {"const": false},
+    "claim_ceiling": {"type": "string", "minLength": 1},
+    "receipt_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "pass"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "failures": {"maxItems": 0},
+          "check_results": {
+            "items": {
+              "allOf": [
+                {"$ref": "#/$defs/checkResult"},
+                {"properties": {"status": {"const": "pass"}}}
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "block"}},
+        "required": ["status"]
+      },
+      "then": {"properties": {"failures": {"minItems": 1}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "exactArtifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "checkResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["check_id", "status", "details", "failure_codes"],
+      "properties": {
+        "check_id": {"type": "string", "minLength": 1},
+        "status": {"enum": ["pass", "block", "not-run"]},
+        "details": {"type": "object"},
+        "failure_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"status": {"const": "pass"}},
+            "required": ["status"]
+          },
+          "then": {"properties": {"failure_codes": {"maxItems": 0}}}
+        }
+      ]
+    },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "detail"],
+      "properties": {
+        "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+        "detail": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}
