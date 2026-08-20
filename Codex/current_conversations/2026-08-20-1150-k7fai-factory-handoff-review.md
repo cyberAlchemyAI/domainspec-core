@@ -1,0 +1,8 @@
+- [DECISION] Materialized the Factory.ai findings handoff for Vladimir at `sessions/2026-08-20-1150-factory-ai-vladimir-handoff.md`.
+- [INSIGHT] Factory is being evaluated as an operational execution substrate while DomainSpec, Arcanum, cyberAlchemy-v2, and Lean retain intent, method, authority, evidence, and proof boundaries.
+- [BLOCKER] The generated DomainSpec subagent router declared schema `0.8.0` while the repo-local form owner and appender remained on `0.7.0`.
+- [DECISION] Repair the drift by regenerating Codex and Claude runtime overlays from the repo-local `0.7.0` owner, not by inventing a schema upgrade.
+- [QUESTION] Which findings, if any, survive the requested two-agent review of the handoff?
+- [INSIGHT] Independent verification retained two MAJOR and two MINOR findings; one proposed MAJOR was refuted and dropped.
+- [DECISION] The handoff verdict is FIX, with telemetry evidence separation and complete runtime-adapter preservation as the two load-bearing repairs.
+- [DECISION] Close the review resolved without mutating the reviewed handoff; fix application remains a separate follow-up.

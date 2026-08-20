@@ -1,0 +1,47 @@
+{
+    "dispatch_id":  "2026-08-20-factory-ai-vladimir-handoff-review",
+    "schema_version":  "0.8.0",
+    "dispatch_type":  "review",
+    "goal":  "Red-team the Factory.ai handoff for Vladimir and produce verified change requests against unsupported, inflated, contradictory, or operationally weak claims.",
+    "context":  "The sole target artifact is sessions/2026-08-20-1150-factory-ai-vladimir-handoff.md. The review must transfer the existing findings rather than restart the research, and every surviving finding must quote the handoff and remain bounded by its cited sources. Inventory preflight returned no topic or governance matches and carries machine_index_gap residue because the Bash validator could not run under the broken WSL environment. Output follows the explicitly invoked review contract: one persisted review.md, with no fixes applied to the handoff during this dispatch.",
+    "max_loops":  1,
+    "final_approver":  "parent",
+    "working_folder":  "sessions/2026-08-20-1150-factory-ai-vladimir-review",
+    "groups":  [
+                   {
+                       "group_id":  "attacker",
+                       "n":  1,
+                       "agents":  [
+                                      {
+                                          "agent_name":  "Heunen, Chris",
+                                          "role":  "explorer",
+                                          "model":  "inherit-parent",
+                                          "token_budget":  1800,
+                                          "angle":  "fidelity and governance: attack claim-to-evidence fit, lifecycle authority boundaries, source qualification, and whether recommendations are improperly presented as supported conclusions",
+                                          "initial_prompt":  "Read the entire target handoff at sessions/2026-08-20-1150-factory-ai-vladimir-handoff.md. Attack it from the fidelity/governance lens. Check every load-bearing Factory claim, every claim about DomainSpec/Arcanum/cyberAlchemy-v2/Lean, the complementarity thesis, owner boundaries, evidence limitations, and the three recommended bridges. Use the cited local files and public handles only as needed to test a concrete claim. Return candidate findings only: each must include an exact quotation from the handoff, CRITICAL/MAJOR/MINOR severity, why it fails, and a one-line proposed fix. If no finding survives an attack, state what you attacked and why it held. Do not edit files."
+                                      }
+                                  ]
+                   },
+                   {
+                       "group_id":  "verifier",
+                       "n":  1,
+                       "agents":  [
+                                      {
+                                          "agent_name":  "Rittel, Horst",
+                                          "role":  "skeptic",
+                                          "model":  "inherit-parent",
+                                          "token_budget":  1800,
+                                          "angle":  "literal-evidence verification: attempt to refute every attacker finding against the handoff text, its explicit qualifications, and the cited owner sources",
+                                          "initial_prompt":  "After receiving the attacker\u0027s candidate findings, independently read the entire target handoff at sessions/2026-08-20-1150-factory-ai-vladimir-handoff.md and verify each candidate against the literal artifact and the cited owner sources. Drop findings that are already answered by a qualification, misquote the artifact, exceed the available evidence, or assign unsupported severity. Return only surviving findings with exact handoff quotation, verified severity, verification rationale, and one-line proposed fix; separately list refuted candidate IDs and the refutation reason. Do not edit files."
+                                      }
+                                  ]
+                   }
+               ],
+    "connections":  [
+                        {
+                            "from":  "attacker",
+                            "to":  "verifier",
+                            "type":  "sequential"
+                        }
+                    ]
+}
