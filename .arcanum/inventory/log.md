@@ -6788,3 +6788,68 @@ Artifacts:
   comprehension, publication, deployment, or production result exists.
 - Next action: run two exact-sheet independent tension verdicts in a fresh parent
   context; only PASS/PASS may open the exact confirmation request.
+
+## 2026-08-20 — DomainSpec v2/CyberAlchemy v2 proof-obligation substrate strategy indexed
+
+- Mode: ingest one additive, non-authority research strategy-result synthesis.
+- P1: cross-owner synthesis, context protection, discardable topology attack,
+  and three parallel source lanes require a governed research dispatch.
+- Decision surface: compare one cross-project registry, two owner-independent
+  registries with a derived crosswalk, and a shared record contract with
+  owner-specific canonical catalogs and generated projections. The third is a
+  working hypothesis, not a decision.
+- Lanes: van Lamsweerde inspects DomainSpec v2 current bytes; Beer inspects
+  CyberAlchemy v2 authority; Peirce establishes external precedent; Shannon
+  synthesizes; Lakatos, Popper, and Quine attack the result; Ahrens writes only
+  after exact-binding closure; Brandenburg audits; the parent approves.
+- Gate state: sheet schema `0.8.0` passes at SHA-256
+  `b43f8c46f31d87744c03a14185d74a77188c8bbcf83ba1344fb28a47e03a7033`;
+  the material projection is equivalent; Dispatch Spec passes; two independent
+  tension verdicts return PASS/PASS with zero apontamentos.
+- Dispatch state: confirmation-ready, unconfirmed, unregistered, and
+  unexecuted. Research-agent spawn count is zero and the append-only dispatch
+  ledger is unchanged.
+- Entry created:
+  `.arcanum/inventory/entries/domainspec-v2-cav2-proof-obligation-substrate-research-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` at timestamp `2026-08-20T11:38:27Z`, introduced no warnings, and
+  retained 153 inherited warnings. Apply receipt SHA-256:
+  `effaf0599fc924bb11185407cc5e9a4993b8f7e4e322537dd117f4fb3dce0289`.
+- Authority boundary: Inventory is discovery only. The strategy cannot make a
+  substrate canonical, merge DomainSpec semantics with CyberAlchemy authority,
+  or authorize source, Git, publication, release, deployment, or production
+  mutation.
+- Next action: exact human `confirmed` for the unchanged frozen dispatch sheet.
+
+## 2026-08-20 — DomainSpec v2/CyberAlchemy v2 proof-obligation research result synchronized
+
+- Mode: refresh the existing non-authority strategy-result entry after its
+  governed research route closed; no new authority record was created.
+- Decision: TOP-03, a shared syntax-only envelope with owner-local schemas,
+  catalogs, and derived projections, is conditionally recommended. TOP-02, two
+  independent owner-local registries with a derived crosswalk, activates
+  automatically if the exact shared-owner and two-owner-adoption contract is not
+  ratified. TOP-01, one cross-project semantic registry, is rejected.
+- Run state: nine governed agents completed five waves with one
+  synthesis/review repair loop. Runtime state is `complete`, event validation
+  passed, and the auditor returned `APPROVE`.
+- Result binding: `findings.md` SHA-256
+  `836e22976c4768e81adfa2f983faf8d8dc0c0e9edfa53ffb9945c01851777978`;
+  auditor receipt SHA-256
+  `5820c83cad22724c7aeceed8c53309879fe57a264257effde11a1dc2af047ee1`.
+- Ledger: exactly one dispatch row and one matching close row with
+  `exit_reason: resolved`. A failed first close command exited 127 before any
+  mutation; the bounded governance sidecar diagnosed missing Node on PATH, and
+  the exact staged record was appended once with the verified absolute runtime.
+- Open gates: GATE-01 through GATE-08 and blockers `EVF-READINESS-001`,
+  `EVF-CURRENTNESS-001`, `NEGATIVE-FIXTURE-READINESS-001`, and
+  `PROJECTION-READINESS-001` remain explicit.
+- Index: `index.json` and `index.md` synchronized at
+  `2026-08-20T14:17:02Z`; validation passed with zero failures and retained 153
+  inherited uncontrolled-tag warnings.
+- Authority boundary: the closed research does not establish canonical
+  adoption, a complete proof, discharge, deterministic CAV2 enforcement,
+  implementation, promotion, publication, release, deployment, or production
+  readiness.
+- Next action: begin the non-executed Work Pack at `WP-00`, starting with
+  `GATE-01`.
