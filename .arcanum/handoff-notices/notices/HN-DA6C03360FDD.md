@@ -1,0 +1,78 @@
+# Handoff Notice: Decide a supplemental formation, semantic-answer, and effect-boundary fixture
+
+- Code: `HN-DA6C03360FDD`
+- Status: `open`
+- Type: `session-handoff`
+- To: Vladimir (`person`)
+- From: domainspec-lean-formalization / research-domainspec (`agent-lane`)
+- Project scope: `cyberAlchemy-v2/development/agent-reasoning-engine`
+- Created: `2026-08-24T16:53:15.206971Z`
+- Digest: `da6c03360fdd44a2177e57082ce6b0e0e79cf2186a37df03536c66cfdbaae758`
+- Remote availability: `unverified`
+
+## Why Now
+
+This notice supersedes HN-671D8462532E after independent mechanics and owner-fidelity review. A workspace-local Lean adapter reportedly builds without sorry and passed two reviews, but those Lean bytes and review evidence are not transported by domainspec-core. The owner corpus itself already requires semantic evaluation, exact-effect gating, and effect attempts to remain non-substitutable. The proposed next move is therefore a supplemental private artifact-bundle fixture under the existing Vladimir Gate 0, not a runtime integration, schema adoption, replacement Slice A, or completed T4 test.
+
+## Key Points
+
+- Owner evidence: ProblemFrame admission, semantic evaluation and ReasoningReceipt, exact-effect GateDecision, and effect attempt are separate stages; a ReasoningReceipt authorizes nothing.
+- Adapter report, not transported evidence: workspace-local Lean classifies Ineligible.Defeated as a completed negative semantic answer, missing-required-fact Deferred.Insufficient as answer-blocked, and a recommendation as a positive semantic answer independent of its later effect stage.
+- The adapter-local SemanticReceipt shape reportedly permits ExactEffectStage only under a recommendation. This is a local observation model and not an owner schema or outcome class.
+- For receipts conservatively grouped by this adapter as lacking a formation witness, including OutOfDomain, the receipt alone leaves formulation undetermined. This is an adapter-local evidence posture, not a claim that the owner emits one shared non-admission runtime phase.
+- A realizable frozen input is an artifact bundle, not one ReasoningReceipt: exact receipt bytes plus a digest-resolved ProblemFrame; and, for downstream recommendation-stage cases, the effect envelope, GateDecision, and closure or effect-attempt evidence.
+- The proposed decoder may construct the question and semantic outcome only from bundle components that actually carry or digest-resolve them. JSON decoding, exact-byte digest validation, source-revision binding, production correspondence, and trust in the decoder remain external obligations.
+- This bundle is only a supplemental private negative-control or candidate input under the existing broad Vladimir Gate 0. It neither replaces the existing Slice A nor satisfies the detached-receipt T4 test unless Vladimir explicitly amends that handoff after GO.
+- Proposed DomainSpec constraint if GO, not adopted: keep lifecycle execution outcome separate from semantic result and carry reasoning evidence through route-owned artifacts rather than expanding a terminal pipeline enum with semantic states.
+- Proposed public Arcanum constraint if the later public/private gate passes, not adopted: transport only the generic invariant that semantic evidence does not authorize an effect, using independently authored synthetic public data.
+
+## Open Calls
+
+- [open] Vladimir: Under the existing broad handoff Gate 0, is this artifact-bundle boundary accepted as a supplemental private negative-control or candidate input, deferred, or killed?
+- [open] Vladimir: Should a typed question-formation witness be emitted upstream by ProblemFrame compilation or admission, or should formulation remain a consumer-supplied predicate around the evaluator receipt?
+- [open] Vladimir / Agent Reasoning Engine owner: Where should assembly of the frozen artifact bundle, exact-byte digest validation, and authority to construct a decoded formal input live?
+- [open] Vladimir / artifact-admission owner: Can missing formation evidence and bundle-decoder residue use existing ReasoningReceipt or artifact-admission residue routes without adding another schema or blocker taxonomy?
+
+## Boundaries
+
+- The reported Lean types are a bounded observation model over the inspected owner sequence, not an official Agent Reasoning Engine or DomainSpec schema extension.
+- The Lean build and review results are producer-attested workspace-local evidence. They are not independently reopenable from this domainspec-core notice. Before relying on them as checked evidence, obtain bytes matching the recorded SHA-256 hashes or a later remote locator.
+- The notice does not establish runtime integration, JSON fidelity, authenticated receipts, effect permission, effect success, deployment, or production correspondence.
+- Do not infer question non-formulability from OutOfDomain, and do not infer effect authorization or effect completion from a semantic recommendation.
+- Reuse existing outcomes, ReasoningReceipt fields, unresolved residue, ProblemFrame handles, gate records, and effect records before proposing any new runtime enum, blocker taxonomy, ledger field, or canonical kind.
+- Do not promote adapter-local groupings or enums into canonical vocabulary without definitions governance and an adopted owner consumer.
+- Do not copy private DomainSpec or cyberAlchemy-v2 names, paths, evidence, or prose into public Arcanum; any public fixture must be independently authored with synthetic public data.
+- This candidate remains subordinate to the existing broad handoff Gate 0. It does not replace Slice A, does not satisfy T4, and grants no design, implementation, promotion, publication, or effect authority.
+- Collapse the extra adapter work if the owner already emits a typed formation witness or an independent resolver supplies the same boundary. Do not add receipt or ledger fields if existing handles resolve the exact predicate across a detached handoff.
+
+## Next Actions
+
+- Vladimir: Use the existing broad handoff Gate 0 to return GO, DEFER, or KILL, and on GO decide whether this artifact-bundle boundary is a supplemental private negative-control or candidate input.
+- Agent Reasoning Engine owner, only after GO: Assemble one frozen bundle containing exact ReasoningReceipt bytes, a digest-resolved ProblemFrame, and any recommendation-stage effect envelope, GateDecision, and closure or attempt evidence required by the selected case.
+- domainspec-lean-formalization lane, only after GO and evidence transport: Obtain Lean artifacts matching the recorded hashes, then build and verify a decoder fixture against only the fields supplied by the frozen bundle without changing the owner outcome algebra.
+- Arcanum owner, only after the private fixture and public/private gate: Run or decline the separate synthetic public T4 detached-receipt test; do not treat the private bundle fixture as satisfying T4.
+
+## Source References
+
+- `cyberAlchemy-v2/development/agent-reasoning-engine/spec/SPEC.md` — Owner system boundary, non-substitutable layers, outcome algebra, effect invariant, and open receipt posture.
+- `cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/src/receipt.mjs` — ReasoningReceipt fields, unresolved residue, terminal outcome, frame digest, and exact-byte digest construction.
+- `cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/src/reducer.mjs` — OutOfDomain, Deferred.Insufficient, Ineligible.Defeated, and recommendation behavior; source for checking adapter projection limits.
+- `cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/src/execute.mjs` — Post-receipt effect envelope, exact-effect gate, binding validation, closure, and effect-attempt behavior required by the bundle.
+- `cyberAlchemy-v2/TO-VLAD/SESSION-HANDOFF-claim-ground-evaluation-for-domainspec-arcanum.md` — Existing broad Vladimir Gate 0, Slice A, and detached-receipt T4; this notice is subordinate to that decision.
+- `C:/Users/victo/domainspec-lean-formalization/lean-engineer/AgentReasoningQuestionBoundary.lean` — Producer-attested workspace-local Lean adapter, not transported. SHA-256 8FFD38501AB2E600C938CBDA3F8B094834A7A044946ABAE76C1C6A3690EF4DA7.
+- `C:/Users/victo/domainspec-lean-formalization/theorem/sessions/2026-08-24-1210-agent-reasoning-boundary.md` — Producer-attested workspace-local proof trail, not transported. SHA-256 79E67B1C0214D54C3D44BC809C86214D3D3EF7C646201FD52B19CF7A351407AF.
+
+## Suggested Next Route
+
+- Capability: `decision-gate`
+- Mode: `decide`
+- Target: `existing Vladimir Gate 0 with supplemental formation and artifact-bundle boundary`
+- Authorization: `not-granted`
+
+## Supersedes
+
+- `HN-671D8462532E`
+
+## Authority Boundary
+
+This notice is communication evidence only. The notice and locator grant no permission, authenticate no actor, resolve no open call, select no task, and authorize no mutation, dispatch, Git publication, or external delivery.
