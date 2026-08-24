@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "concerns": [
+    {
+      "concern_id": "authored:failure",
+      "primary_class": "failure",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["SPEC.md#acceptance", "review-final.md#remaining-blocker"],
+      "rationale": "Invalid values or stale correction bindings must reject without semantic state advance.",
+      "ownership": {
+        "accountable_owner": "research-workflow-owner",
+        "contributing_owners": ["task-session-owner", "research-closeout-owner"],
+        "artifact_owner": "candidate-research-contract-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      }
+    },
+    {
+      "concern_id": "authored:reliability",
+      "primary_class": "reliability",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["SPEC.md#required-behavior", "synthesis-revision-2.md#proposed-exact-commandeventstate-sequence"],
+      "rationale": "Fresh reduction and independent replay must converge on identical RS26 bytes and digest.",
+      "ownership": {
+        "accountable_owner": "research-proof-owner",
+        "contributing_owners": ["candidate-research-contract-owner", "task-session-owner"],
+        "artifact_owner": "candidate-research-contract-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      }
+    }
+  ]
+}

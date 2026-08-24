@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "concerns": [
+    {
+      "concern_id": "authored:failure",
+      "primary_class": "failure",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": [
+        "SPEC.md#normative-invariants",
+        "CLOSEOUT-PREFLIGHT.json#blockers"
+      ],
+      "rationale": "Undeclared terminal codes, invalid nullability, stale receipts, or missing material admission must fail closed before mutation.",
+      "ownership": {
+        "accountable_owner": "query-contract-workflow-owner",
+        "contributing_owners": ["task-session-owner", "query-contract-candidate-owner"],
+        "artifact_owner": "query-contract-candidate-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      }
+    },
+    {
+      "concern_id": "authored:reliability",
+      "primary_class": "reliability",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": [
+        "SPEC.md#terminal-paths",
+        "08-query-contract-matrix.json#planned_fixtures"
+      ],
+      "rationale": "The contract must replay all eight terminal paths deterministically and preserve total precedence.",
+      "ownership": {
+        "accountable_owner": "query-contract-service-owner",
+        "contributing_owners": ["query-contract-candidate-owner", "task-session-owner"],
+        "artifact_owner": "query-contract-candidate-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      }
+    }
+  ]
+}

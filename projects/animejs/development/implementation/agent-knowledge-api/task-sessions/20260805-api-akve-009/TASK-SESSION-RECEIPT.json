@@ -1,0 +1,79 @@
+{
+  "attempt_id": "20260805-api-akve-009",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "dc26fa445b4939101725513fe9fadf3226d8b70523a2ec14a6e8a790f1bfc895",
+  "generated_at": "2026-08-05T20:37:20.182833Z",
+  "material_package_digest": "8423c2f4a5a6522c789d5938171ae59c0ad3a32df6cdc17227ff9b302a2fc198",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-009/producer/material-package.json",
+    "sha256": "c348f20e08f5981ced548e64c8240db9bd8e382fb9c3d584a79b65c1d223661c",
+    "size_bytes": 6219
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-009/producer/material-package-receipt.json",
+    "sha256": "93ffdc1ba52a0eab61f85a85041daea36977bd7a8f532d84935040edc6fd3a52",
+    "size_bytes": 2377
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-009/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "c329e2b1276a2b904d7dbf9b128ec69e9847997a434d79b268a83e443f5eaa69",
+    "size_bytes": 3282
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/capability-adapters.mjs",
+      "sha256": "bf6a5d538c534278c97b7580acf3cbb324e3d0526592cc5ddfc67cc020f17869",
+      "size_bytes": 5021
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/capability-cases.json",
+      "sha256": "fe80a807d8081fbe575edc71f30c2edb1a53da1cf8e0bade3e120a1d38ea9af2",
+      "size_bytes": 494
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/security.test.mjs",
+      "sha256": "c8c4f3fc7d64fb5d38171ea72f30013546b9f020e228d0a8a84fb7ba9288d11c",
+      "size_bytes": 6042
+    }
+  ],
+  "plan_epoch_id": "epoch-83a5a40930fef7ec76de393e",
+  "publication_class": "internal",
+  "residue": [],
+  "result": "pass",
+  "schema_version": "animejs.agent-knowledge-api.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-009/SELECTION-RECEIPT.json",
+    "sha256": "f21cbffc7ad3aa2c7db6f86fbba3afd392e8f62edb35087cd514d9fc8ec86b1f",
+    "size_bytes": 950
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKVE-010",
+  "swu_id": "SWU-AKVE-009",
+  "task_id": "TASK-AKVE-06",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/capability-adapters.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/capability-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/security.test.mjs"
+  ],
+  "unit_contract_digest": "2175232c498972dd01542d55269a59995219cef5b86b6534c58913b95663e84f",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/security.test.mjs"
+      ],
+      "command_id": "capability-security",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 65536,
+      "result": "pass",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "TAP version 13\n# Subtest: four exact capability audiences route only to their named port\nok 1 - four exact capability audiences route only to their named port\n  ---\n  duration_ms: 1.294525\n  ...\n# Subtest: complete cross-audience matrix denies before service dispatch\nok 2 - complete cross-audience matrix denies before service dispatch\n  ---\n  duration_ms: 2.594179\n  ...\n# Subtest: append body under read token is denied with zero journal and projection calls\nok 3 - append body under read token is denied with zero journal and projection calls\n  ---\n  duration_ms: 0.24605\n  ...\n# Subtest: foreign target probe is denied before target parsing and leaks nothing\nok 4 - foreign target probe is denied before target parsing and leaks nothing\n  ---\n  duration_ms: 0.483241\n  ...\n# Subtest: wildcard, generic, unknown, and body-directed grants cannot dispatch\nok 5 - wildcard, generic, unknown, and body-directed grants cannot dispatch\n  ---\n  duration_ms: 0.50612\n  ...\n# Subtest: host field spoofing fails after authorization but before service dispatch\nok 6 - host field spoofing fails after authorization but before service dispatch\n  ---\n  duration_ms: 0.355307\n  ...\n1..6\n# tests 6\n# suites 0\n# pass 6\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 75.709359\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 60
+    }
+  ]
+}

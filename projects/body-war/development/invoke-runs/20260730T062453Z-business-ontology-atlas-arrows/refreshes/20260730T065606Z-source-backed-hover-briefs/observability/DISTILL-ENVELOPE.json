@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-07-30T07:11:57Z",
+  "run_id": "distill-body-war-business-ontology-atlas-hover-refresh-20260730T065606Z",
+  "session_id": "20260730T065606Z-source-backed-hover-briefs",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "validate"
+  },
+  "mode": "validate",
+  "lineage": {
+    "parent_run_id": "invoke-refresh-body-war-business-ontology-atlas-hover-20260730T065606Z",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spells",
+      "mode": "refresh"
+    }
+  },
+  "request": {
+    "summary": "Validate the refreshed Body War ontology atlas definition design and five-unit Plan after adding source-backed reference briefs."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "DISTILL-VALIDATION.md",
+      "observability/DISTILL-EXECUTION-RECEIPT.json",
+      "observability/DISTILL-REFRESH-VALIDATION.md"
+    ],
+    "files_changed": [
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/DISTILL-VALIDATION.md"
+    ],
+    "validation": [
+      "five coherent SWUs",
+      "zero task-shaped SWUs",
+      "ordered recomposition 001-002-005-003-004",
+      "four blocker IDs retained",
+      "selected SWU none"
+    ],
+    "notes": "Validation only; implementation and browser evidence remain pending."
+  },
+  "evidence": {
+    "status": "complete",
+    "distill_run_request_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T065606Z-source-backed-hover-briefs/observability/distill-run-request.json",
+      "sha256": "5cd6844071272166dc58239f35947d0b024a593edff51a197a10d1ec63b6ec56",
+      "size_bytes": 634
+    },
+    "execution_receipt_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T065606Z-source-backed-hover-briefs/observability/DISTILL-EXECUTION-RECEIPT.json",
+      "sha256": "3a6e3bc29ab99836f62975db494a68dc4700176ec44c181409566437f3aa1a8d",
+      "size_bytes": 625
+    },
+    "validation_result_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T065606Z-source-backed-hover-briefs/observability/DISTILL-REFRESH-VALIDATION.md",
+      "sha256": "83c77671f2d8ffee3201f07f53add32df3106bf1eee43268a95c21235a2100d8",
+      "size_bytes": 852
+    },
+    "runtime_event_refs": []
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      "generated capability mirror disappeared and was restored during Refresh; retain a conditional preflight guard"
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "stream_id": "IRO-FULL-STREAM",
+  "epoch_id": "epoch-a696eda26311d39018e7ac8f",
+  "unit_id": "SWU-IRO-001",
+  "status": "pass",
+  "source_refs": [
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/CONTEXT-PACK.json",
+      "sha256": "d6963b1af5f652f29dee27eb69420ff29a7633b0e5531bac93757db6d20db663",
+      "size_bytes": 7777
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/mutation-admission-receipt.json",
+      "sha256": "f36657d64bf3298f19c00beeeac6cb8b308c5bdbd9bce63d24d788eef8555c72",
+      "size_bytes": 7042
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/decision-bundle.json",
+      "sha256": "71da4c9bfcacce387274ff1969d867cb190431c8477834b688d101019d76d813",
+      "size_bytes": 6026
+    }
+  ],
+  "validation": [
+    {
+      "command": "python3 .agents/skills/decision-gate/scripts/prefilter-options.py <IRO-001-admissibility-request> --request-schema .agents/skills/decision-gate/schemas/option-admissibility-request.schema.json --receipt-schema .agents/skills/decision-gate/schemas/option-admissibility-receipt.schema.json | cmp - <IRO-001-admissibility-receipt>",
+      "exit_code": 0,
+      "result": "pass"
+    },
+    {
+      "command": "python3 -c 'validate decision-bundle.json with DECISION-BUNDLE.schema.json via Draft202012Validator'",
+      "exit_code": 0,
+      "result": "pass"
+    },
+    {
+      "command": "python3 ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py --root .",
+      "exit_code": 0,
+      "result": "pass"
+    },
+    {
+      "command": "git diff --check -- ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001",
+      "exit_code": 0,
+      "result": "pass"
+    }
+  ],
+  "writes": [
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/CONTEXT-PACK.md",
+      "sha256": "a84d1c4d8c2afe4d34a54653c15f27969ff8accc9dd2dd9dbf1f4c68bac5a1fe",
+      "size_bytes": 1998
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/CONTEXT-PACK.json",
+      "sha256": "d6963b1af5f652f29dee27eb69420ff29a7633b0e5531bac93757db6d20db663",
+      "size_bytes": 7777
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/closeout-preflight.json",
+      "sha256": "b2686e060926432fb3614959ae8d84a26b8601a24221d5cc5b2e0c4561c52c54",
+      "size_bytes": 3384
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/mutation-admission-request.json",
+      "sha256": "cbf3ec0c81b118a549dbd35187cf256bf72adbad9651d9fa15afb94e69baced4",
+      "size_bytes": 7681
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/mutation-admission-receipt.json",
+      "sha256": "f36657d64bf3298f19c00beeeac6cb8b308c5bdbd9bce63d24d788eef8555c72",
+      "size_bytes": 7042
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/OPTION-ADMISSIBILITY-REQUEST.json",
+      "sha256": "6088216c737acbde9d79dce500549831175488b9e206ea2eb693cc5234b2562c",
+      "size_bytes": 2153
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/OPTION-ADMISSIBILITY-RECEIPT.json",
+      "sha256": "cf80f121dea8f225a19d93a229c53248debd30c670b7e6e301c0cdf670dc85c4",
+      "size_bytes": 520
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/DECISION.json",
+      "sha256": "0e30b4366e0d9aa0b586d6dbec83b340ebe8496e197f38d0df30d672bc8aec18",
+      "size_bytes": 8026
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/DECISION-SUMMARY.md",
+      "sha256": "03b8ff75ad267dacfe54a0698a362e624b30d1ab73ef75653962ac831c1d6c48",
+      "size_bytes": 1887
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/decision-bundle.json",
+      "sha256": "71da4c9bfcacce387274ff1969d867cb190431c8477834b688d101019d76d813",
+      "size_bytes": 6026
+    }
+  ],
+  "blockers": [],
+  "successor_projection": "SWU-IRO-002",
+  "lifecycle_state": "candidate",
+  "evidence_ceiling": "no-code-owner-binding-only; candidate bytes are not authored or accepted; no canonical, generated, installed, consumer-admitted, private-admitted, release, deployment, or production claim"
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "task-session-until-blocker.preflight.v1",
+  "chain_id": "20260730T085748Z-bwaa-all-until-blocker",
+  "work_pack": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/WORK-PACK.md",
+  "work_pack_sha256": "b2c9cd539888e7d62b094d04da219c4c927fd4e5a588949efb392f5a7416790e",
+  "captured_frontier": [
+    "SWU-BWAA-001",
+    "SWU-BWAA-002",
+    "SWU-BWAA-005",
+    "SWU-BWAA-003",
+    "SWU-BWAA-004"
+  ],
+  "session_budget": 5,
+  "first_candidate": "SWU-BWAA-001",
+  "first_candidate_uniquely_ready": true,
+  "status": "block",
+  "per_swu": [
+    {"swu_id":"SWU-BWAA-001","dependencies":"ready","task_contract":"pass-plan-level","material_admission":"block-missing-package-and-receipt","closeout_preflight":"block"},
+    {"swu_id":"SWU-BWAA-002","dependencies":"blocked-on-001","task_contract":"pass-plan-level","material_admission":"missing","closeout_preflight":"missing"},
+    {"swu_id":"SWU-BWAA-005","dependencies":"blocked-on-002","task_contract":"pass-plan-level","material_admission":"missing","closeout_preflight":"missing"},
+    {"swu_id":"SWU-BWAA-003","dependencies":"blocked-on-005","task_contract":"pass-plan-level","material_admission":"missing","closeout_preflight":"missing"},
+    {"swu_id":"SWU-BWAA-004","dependencies":"blocked-on-003","task_contract":"pass-plan-level","material_admission":"missing","closeout_preflight":"missing"}
+  ],
+  "blockers": [
+    "missing per-SWU Invoke material package and passing producer receipt",
+    "strict Task Session mutation admission cannot pass",
+    "closeout owner prerequisite package is incomplete",
+    "generated-output isolation for SWU-BWAA-005 and SWU-BWAA-003 is unproven"
+  ],
+  "product_mutation_started": false
+}

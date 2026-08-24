@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0.0",
+  "concerns": [
+    {
+      "concern_id": "authored:authority",
+      "primary_class": "authority",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["SPEC.md#non-negotiable-invariants", "STATES.md#transition-table"],
+      "rationale": "Provider capability, account admission, quality evidence, operator decision, and production release must remain different authorities.",
+      "ownership": {"accountable_owner": "audition-owner", "contributing_owners": ["production-operator"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:security",
+      "primary_class": "security",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["INTERFACES.md#external-openai-speech-api", "SPEC.md#non-negotiable-invariants"],
+      "rationale": "The later render crosses an authenticated metered external interface and must prevent credential disclosure.",
+      "ownership": {"accountable_owner": "security-risk-owner", "contributing_owners": ["audition-runner-owner"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:state-event",
+      "primary_class": "state-event",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["STATES.md", "EVENTS.md"],
+      "rationale": "Admission, rendering, verification, blinding, rejection, and decision have ordered gates and terminal states.",
+      "ownership": {"accountable_owner": "audition-workflow-owner", "contributing_owners": ["production-operator"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:persistence",
+      "primary_class": "persistence",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["OPERATIONS.md#rendercandidate", "MAPPINGS.md#rawresponsetoattempt"],
+      "rationale": "Raw audio and evidence must be uniquely bound, append-only, crash-safe, and protected from overwrite.",
+      "ownership": {"accountable_owner": "audition-runner-owner", "contributing_owners": ["verification-operator"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:failure",
+      "primary_class": "failure",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["OPERATIONS.md#rendercandidate", "INTERFACES.md#responses"],
+      "rationale": "External, metered, non-reversible submission needs explicit timeout, partial-write, no-retry, and rejection behavior.",
+      "ownership": {"accountable_owner": "audition-workflow-owner", "contributing_owners": ["audition-runner-owner"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:reliability",
+      "primary_class": "reliability",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["SPEC.md#non-negotiable-invariants", "OPERATIONS.md#verifycandidate"],
+      "rationale": "Source binding, deterministic request projection, exact fidelity, and repeatable evidence are acceptance-critical.",
+      "ownership": {"accountable_owner": "audition-quality-owner", "contributing_owners": ["verification-operator"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:integration",
+      "primary_class": "integration",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["INTERFACES.md", "MAPPINGS.md", "OPENAI-SPEECH-CONTRACT.md"],
+      "rationale": "The local manifest and runner must map exactly to a drifting provider contract and preserve a refresh boundary.",
+      "ownership": {"accountable_owner": "provider-interface-owner", "contributing_owners": ["audition-runner-owner"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:migration",
+      "primary_class": "migration",
+      "required_predicate": false,
+      "disposition": "not-applicable-with-rationale",
+      "selected": false,
+      "evidence_selectors": ["DEFINE-CONTEXT.md#explicit-exclusions"],
+      "rationale": "The greenfield local audition has no persisted predecessor representation or migration target.",
+      "ownership": {"accountable_owner": "migration-owner", "contributing_owners": ["audition-package-owner"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:rollout",
+      "primary_class": "rollout",
+      "required_predicate": false,
+      "disposition": "not-applicable-with-rationale",
+      "selected": false,
+      "evidence_selectors": ["DEFINE-CONTEXT.md#explicit-exclusions"],
+      "rationale": "Deployment, publication, and full narration are excluded from the audition package.",
+      "ownership": {"accountable_owner": "release-owner", "contributing_owners": ["production-operator"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:privacy-data",
+      "primary_class": "privacy-data",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["DEFINE-CONTEXT.md#evidence-obligation-matrix", "OPERATIONS.md#freezemanifest"],
+      "rationale": "Owned script text leaves local custody and provider/account retention and data-use gates must be explicit before submission.",
+      "ownership": {"accountable_owner": "data-owner", "contributing_owners": ["audition-owner"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:performance",
+      "primary_class": "performance",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["OPERATIONS.md#verifycandidate", "SOURCE-CONTRACTS.md#local-owner-sources"],
+      "rationale": "The bounded audition has explicit duration, fidelity, and listening-quality thresholds; cost and latency remain measured evidence rather than promises.",
+      "ownership": {"accountable_owner": "audition-quality-owner", "contributing_owners": ["verification-operator", "production-operator"], "artifact_owner": "audition-package-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:ux",
+      "primary_class": "ux",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["SPEC.md#blindanddecide", "OPERATIONS.md#blindcandidate"],
+      "rationale": "Blind listening is a human evaluation surface whose order, labels, playback conditions, and rubric can bias the result.",
+      "ownership": {"accountable_owner": "listening-experience-owner", "contributing_owners": ["production-operator"], "artifact_owner": "ux-plan-owner", "validator_owner": "invoke-design-selection-validator"}
+    },
+    {
+      "concern_id": "authored:validation",
+      "primary_class": "validation",
+      "required_predicate": true,
+      "disposition": "required",
+      "selected": true,
+      "evidence_selectors": ["SPEC.md#acceptance", "OPERATIONS.md"],
+      "rationale": "Positive and causal negative fixtures must discriminate safe preparation, rendering, fidelity, blinding, and decision behavior.",
+      "ownership": {"accountable_owner": "design-owner", "contributing_owners": ["audition-quality-owner"], "artifact_owner": "plan-work-pack-owner", "validator_owner": "invoke-design-selection-validator"}
+    }
+  ]
+}

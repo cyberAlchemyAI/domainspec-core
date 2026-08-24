@@ -133,14 +133,19 @@ Lower levels may explain higher levels but cannot redefine them.
 - First example input: existing SWU-OCGP-008 generated run bundle
 - Existing IOLM and Poker Team paths: read-only
 
+## Resolved Questions
+
+1. **L1 integration strategy — resolved 2026-07-28.** Maintain the first
+   working version as an OEW-owned patch overlay over the immutable upstream
+   pin. ADR-OEW-002 owns the pin/overlay boundary and ADR-OEW-007 owns the
+   coherent vertical UI slice. A downstream fork or reusable-component
+   extraction requires new compatibility evidence and a new Design decision.
+
 ## Open Questions
 
-1. After the unmodified-viewer L0 proof, should the L1 UI be maintained as a
-   small downstream fork, a patch stack, or extracted reusable components?
-   The Plan defers this until the compatibility spike yields evidence.
-2. Should the optional code-context lane be generated from only the candidate
+1. Should the optional code-context lane be generated from only the candidate
    engine or from a larger private scope? Default: engine path only.
-3. Which named humans will perform manual keyboard and screen-reader
+2. Which named humans will perform manual keyboard and screen-reader
    acceptance? Automation cannot answer this.
-4. Does a future IOLM owner want to adopt the adapter, keep its current viewer,
+3. Does a future IOLM owner want to adopt the adapter, keep its current viewer,
    or share only a neutral read model? No IOLM change is authorized here.

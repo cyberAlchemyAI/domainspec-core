@@ -1,0 +1,58 @@
+{
+  "schema_version": "animejs.agent-knowledge-vault.query-contracts.v1",
+  "algorithm_version": "animejs-akv-query/1.0.0",
+  "normalization": "Unicode NFKC, lowercase, trim, collapse whitespace; stable identifiers sorted lexicographically",
+  "closed_abstention_vocabulary": [
+    "ABSTAIN_UNKNOWN_VERSION",
+    "ABSTAIN_RUNTIME_CONTEXT",
+    "ABSTAIN_CONFLICT",
+    "ABSTAIN_PERFORMANCE_EVIDENCE",
+    "ABSTAIN_MISSING_SOURCE",
+    "ABSTAIN_AMBIGUOUS_INTENT"
+  ],
+  "primary_precedence": [
+    "ABSTAIN_UNKNOWN_VERSION",
+    "ABSTAIN_RUNTIME_CONTEXT",
+    "ABSTAIN_CONFLICT",
+    "ABSTAIN_PERFORMANCE_EVIDENCE",
+    "ABSTAIN_MISSING_SOURCE",
+    "ABSTAIN_AMBIGUOUS_INTENT"
+  ],
+  "query_contracts": {
+    "QRY-003": {
+      "name": "choose-js-or-waapi",
+      "candidate_ids": [
+        "api:animate:js",
+        "api:animate:waapi"
+      ],
+      "rules": [
+        "Filter to candidates compatible with every required feature.",
+        "Unknown support is incompatible-for-selection, never false.",
+        "Performance, bundle, or frame-budget intent requires a matching controlled executed witness.",
+        "A conflict never resolves by source count.",
+        "Co-select an exact top-score tie and emit ABSTAIN_AMBIGUOUS_INTENT with one discriminating question.",
+        "When multiple failures apply, choose one primary code by the declared total precedence and retain the remainder as subordinate gaps."
+      ],
+      "historical_migration": {
+        "from_algorithm": "research-blueprint/QRY-003",
+        "old_code": "ABSTAIN_AMBIGUOUS_CHOICE",
+        "new_code": "ABSTAIN_AMBIGUOUS_INTENT",
+        "policy": "increment algorithm version; preserve historical receipts immutably"
+      }
+    },
+    "QRY-006": {
+      "name": "coverage-status",
+      "rules": [
+        "Resolve only exact normalized canonical paths.",
+        "Report navigation observation, semantic observation, candidate materialization, and validation separately.",
+        "Do not promote route presence into parameter, return, behavior, runtime, performance, or accessibility truth."
+      ]
+    }
+  },
+  "receipt_invariants": {
+    "success": "abstention_code is null and selected_ids is non-empty",
+    "abstention": "abstention_code is exactly one declared code; subordinate gaps remain recorded",
+    "tie": "selected_ids contains every exact top-score candidate and exactly one discriminating next question",
+    "determinism": "arrays use stable ID ordering and the receipt records the algorithm and graph digest"
+  }
+}

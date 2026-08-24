@@ -1,0 +1,184 @@
+{
+  "mode": "refresh",
+  "spell": "invoke",
+  "runId": "invoke-refresh-oava-b001-20260805",
+  "recordedAt": "2026-08-05T22:23:19Z",
+  "executionPath": "direct-user invoke:refresh:apply-approved",
+  "dispatchTrace": {
+    "path": "dispatch-spec.json",
+    "validationPath": "dispatch-validation.json",
+    "validation": "pass",
+    "techniques": [
+      "sequence",
+      "approval_semantics_map",
+      "artifact_contract_bridge",
+      "validation_loop",
+      "concrete_path_evidence",
+      "owner_boundary_check",
+      "state_namespace_boundary",
+      "execution_receipt_handoff",
+      "observability_grouping"
+    ]
+  },
+  "sourceEvidence": [
+    "../20260805-b001-animejs-runtime/acquisition-receipt.json",
+    "../20260805-b001-animejs-runtime/validation-receipt.json",
+    "../20260805-b001-animejs-runtime/continuation-route.json"
+  ],
+  "targetInventory": [
+    "../../WORK-PACK.md",
+    "../../RUNTIME-HANDOFF.md"
+  ],
+  "refreshScope": "B-001 state only in WORK-PACK.md and RUNTIME-HANDOFF.md",
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "explicit",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    {
+      "id": "OAVA-RS-001",
+      "sourcePath": "../20260805-b001-animejs-runtime/acquisition-receipt.json",
+      "signalType": "evidence_added",
+      "targetArtifacts": ["../../WORK-PACK.md", "../../RUNTIME-HANDOFF.md"],
+      "claim": "Official Anime.js v4.5.0 runtime bytes and MIT license are locally installed with origin and hashes.",
+      "evidence": "Acquisition receipt status acquired with byte-equal installed assets.",
+      "confidence": "high",
+      "mutationSafety": "safe"
+    },
+    {
+      "id": "OAVA-RS-002",
+      "sourcePath": "../20260805-b001-animejs-runtime/validation-receipt.json",
+      "signalType": "blocker_resolved",
+      "targetArtifacts": ["../../WORK-PACK.md", "../../RUNTIME-HANDOFF.md"],
+      "claim": "B-001's acquisition condition is satisfied.",
+      "evidence": "Validation receipt passes integrity, byte equality, syntax, license, and offline checks.",
+      "confidence": "high",
+      "mutationSafety": "safe"
+    },
+    {
+      "id": "OAVA-RS-003",
+      "sourcePath": "../../WORK-PACK.md and ../../RUNTIME-HANDOFF.md pre-apply baselines",
+      "signalType": "artifact_drift",
+      "targetArtifacts": ["../../WORK-PACK.md", "../../RUNTIME-HANDOFF.md"],
+      "claim": "Planning artifacts retained stale B-001-open language after acquisition.",
+      "evidence": "Pre-apply SHA-256 baselines and staged diffs.",
+      "confidence": "high",
+      "mutationSafety": "safe"
+    },
+    {
+      "id": "OAVA-RS-004",
+      "sourcePath": "../20260805-b001-animejs-runtime/continuation-route.json",
+      "signalType": "route_changed",
+      "targetArtifacts": ["../../RUNTIME-HANDOFF.md"],
+      "claim": "The next route returns to explicit Task Session selection of OAVA-001.",
+      "evidence": "The continuation residue requested this exact Invoke refresh; synchronization now removes that residue.",
+      "confidence": "high",
+      "mutationSafety": "safe"
+    }
+  ],
+  "deltaSummary": [
+    {"class": "evidence_added", "count": 1},
+    {"class": "blocker_resolved", "count": 1},
+    {"class": "status_changed", "count": 2},
+    {"class": "route_changed", "count": 1}
+  ],
+  "proposedChanges": [
+    "Record B-001 resolved with exact acquisition and validation evidence.",
+    "Remove stale runtime-missing gate language while preserving ordered SWU dependencies.",
+    "Return the next route to Task Session selection of OAVA-001."
+  ],
+  "appliedChanges": [
+    {
+      "path": "../../WORK-PACK.md",
+      "sha256": "9a637ef64d788907af126205e3928aea828a4b86aa3bad49e691e6b88c15646d"
+    },
+    {
+      "path": "../../RUNTIME-HANDOFF.md",
+      "sha256": "377f87dccab9428d55a0eac65d2b0637220babdcab91fa4a3b8e1a91be0a570e"
+    }
+  ],
+  "skippedChanges": [
+    "Did not select, start, or complete any SWU.",
+    "Did not mark OAVA-003 immediately executable because OAVA-001 and OAVA-002 remain ordered prerequisites.",
+    "Did not modify ontology, runtime, source video, AutoAds, or public Arcanum artifacts."
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "oava-b001-invoke-refresh-20260805",
+    "packageDigest": "f4a8df7b3eb30d7e1c8a1f907c704ee74d510ce20c245f96be771a4bc672bd66",
+    "expectedPackageId": "oava-b001-invoke-refresh-20260805",
+    "expectedPackageDigest": "f4a8df7b3eb30d7e1c8a1f907c704ee74d510ce20c245f96be771a4bc672bd66",
+    "receiptPath": "material-receipt.json",
+    "handoffPath": "material-handoff.json",
+    "validatedPaths": ["../../WORK-PACK.md", "../../RUNTIME-HANDOFF.md"],
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "validationCommands": [
+      "cmp staged and applied WORK-PACK.md",
+      "cmp staged and applied RUNTIME-HANDOFF.md",
+      "parse refresh-report.json",
+      "scan planning claims for B-001, OAVA-003, B-002, B-003, and selected SWU"
+    ],
+    "lifecycleOwner": "invoke",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "mutationReady": true,
+  "blockerScopes": {
+    "refresh-authoring": 0,
+    "apply-authorization": 0,
+    "target-lifecycle": 2,
+    "audit": 0
+  },
+  "blockers": [
+    {
+      "id": "B-002",
+      "scope": "target-lifecycle",
+      "owner": "Task Session",
+      "status": "open",
+      "claim": "OAVA-006 still requires exact shared Playwright rediscovery and pinning."
+    },
+    {
+      "id": "B-003",
+      "scope": "target-lifecycle",
+      "owner": "video owner",
+      "status": "open",
+      "claim": "OAVA-007 still requires a named animation/source reviewer."
+    }
+  ],
+  "distillValidation": {
+    "status": "skipped",
+    "reason": "The refresh is an exact two-file blocker-state delta with no broad or decomposable output."
+  },
+  "capabilityCeilings": "not-evaluated",
+  "observability": {
+    "status": "recorded",
+    "receipt": "signal-observer-receipt.json",
+    "ledger": ".arcanum/observability/signals/sigil-invocations.jsonl",
+    "ledgerLine": 568,
+    "reflectionTrigger": "gap-threshold",
+    "recommendation": "reflect-now",
+    "primaryOutcomeEffect": "none"
+  },
+  "result": "pass",
+  "nextRoute": "task-session:execute SWU-OAVA-001",
+  "validation": [
+    {"check": "material package validator", "status": "pass"},
+    {"check": "refresh material handoff", "status": "pass", "mutationReady": true},
+    {"check": "dispatch spec validator", "status": "pass", "flags": 0},
+    {"check": "live target baseline recheck", "status": "pass"},
+    {"check": "applied bytes equal staging", "status": "pass"},
+    {"check": "refresh report JSON and planning claim scan", "status": "pass"},
+    {"check": "signal observer", "status": "recorded", "ledgerLine": 568}
+  ]
+}

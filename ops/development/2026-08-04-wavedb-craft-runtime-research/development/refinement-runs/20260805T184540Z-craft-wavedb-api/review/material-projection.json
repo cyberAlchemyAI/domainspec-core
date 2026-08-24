@@ -1,0 +1,69 @@
+{
+  "projection_schema": "domainspec.material-strategy.v1",
+  "material_sha256": "41dc9db63dda1a1f8e1f5c4fc02b972cd91f17645bccd8e173b0ac965cff3d2f",
+  "material": {
+    "dispatch_type": "review",
+    "goal": "Red-team the existing Craft consultation API design and return verified change requests before parent-owned repair and planning.",
+    "context": "The design is read-only and binds every response to an immutable derived WaveDB snapshot while Craft YAML remains authoritative. The locally proven runtime is npm @vijayee/wavedb 0.15.8 on Node 26.6.0 using sequential awaited puts, explicit flush, and string-or-Buffer byte normalization; a 55-record atomic batch reopened without its manifest. Review only the declared files and direct receipts, do not inspect private ledger payloads, and do not modify any file.",
+    "max_loops": 1,
+    "final_approver": "parent",
+    "working_folder": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/review",
+    "groups": [
+      {
+        "group_id": "design-critics",
+        "anti_bias": "attack-vector (counter-example vs definitional vs scope)",
+        "predicted_disagreements": [
+          {
+            "pair": [
+              0,
+              1
+            ],
+            "statement": "Agent 0 runs counter-examples against HTTP resources, pagination, errors, cache behavior, and testability while agent 1 runs a definitional attack on source authority, privacy, identity, and freshness on the attack-vector axis; an API can be operationally coherent yet authority-false, while an authority-safe definition can still be unusable or untestable."
+          },
+          {
+            "pair": [
+              0,
+              2
+            ],
+            "statement": "Agent 0 runs counter-examples against observable API behavior while agent 2 runs a scope attack against WaveDB durability, reopen, concurrency, replacement, and recovery assumptions on the attack-vector axis; a contract can pass transport examples while relying on storage behavior outside the proven runtime scope, or a storage caution can over-block a read-only contract that avoids that behavior."
+          },
+          {
+            "pair": [
+              1,
+              2
+            ],
+            "statement": "Agent 1 runs a definitional attack on Craft authority, privacy, and derived identity while agent 2 runs a scope attack on the exact WaveDB evidence ceiling on the attack-vector axis; a strict authority rule can misclassify a safe derived observation, while a narrowly correct runtime statement can still be exposed for allowing projection evidence to masquerade as source truth."
+          }
+        ],
+        "agents": [
+          {
+            "agent_name": null,
+            "role": "skeptic",
+            "model": "gpt-5.6-sol",
+            "token_budget": 3500,
+            "angle": "counter-example attack on resource boundaries, stable identifiers, authorization-filtered pagination, errors, freshness, cache behavior, and executable contract tests",
+            "initial_prompt": "Role ID: api-contract-critic. Read only the run files stages/06-design.md, API-CONTRACT.md, DATA-MODEL.md, plus review/strategy-inventory-packet.json. Inventory only locates risks; verify against the literal current design. Attack resource boundaries, snapshot-local identifiers, conditional row routes, authorization-filtered pagination, errors, freshness, caches, and contract testability with concrete counter-examples. Do not use network sources, inspect ledger payloads, or modify files. Return a bounded receipt with: role_id, status pass|flag|block, findings each containing finding_id, target file/section, exact quoted or precisely paraphrased evidence, severity CRITICAL|MAJOR|MINOR, counter-example, and one-line repair; survived attacks; blockers; residue; handoff_note. A zero-finding return must list every attack attempted."
+          },
+          {
+            "agent_name": null,
+            "role": "skeptic",
+            "model": "gpt-5.6-sol",
+            "token_budget": 3500,
+            "angle": "definitional attack on source-ledger authority, schema drift, row identity, freshness truth, privacy, public/private placement, and accidental effects",
+            "initial_prompt": "Role ID: craft-authority-critic. Read only the run files stages/06-design.md, API-CONTRACT.md, DATA-MODEL.md, SECURITY-BOUNDARY.md; canonical Craft contracts arcanum/arcana/craft/templates/ledger.schema.yml and arcanum/arcana/craft/templates/schemas/ledger-core.schema.yml; plus review/strategy-inventory-packet.json. Inventory is discovery only. Attack definitional collapse among source authority, derived snapshot, freshness, opaque space identity, family-scoped row identity, schema support, private paths/content, public contract placement, and any implicit write/promotion effect. Do not inspect actual ledger payloads, use the network, or modify files. Return the same bounded receipt shape requested for api-contract-critic, with exact current evidence and one-line repairs."
+          },
+          {
+            "agent_name": null,
+            "role": "skeptic",
+            "model": "gpt-5.6-sol",
+            "token_budget": 3500,
+            "angle": "scope attack on manifest closure, mixed value types, failed atomic batch, immutable handles, concurrent readers, replacement, corruption, and recovery claims",
+            "initial_prompt": "Role ID: wavedb-runtime-critic. Read only the run files stages/06-design.md, DATA-MODEL.md, SECURITY-BOUNDARY.md; the passing receipt experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json; the failed receipt experiment/craft-ledger-import/execution/wcli-20260805-node26-01/receipt.json; and the successful importer .work/wcli-20260805-node26-04/import-ledgers-byte-normalized.js. Attack the scope of every claim about reopen durability, string-or-Buffer normalization, complete manifest closure, immutable handles, locking, concurrency, corruption, replacement, and recovery. Treat the exact npm/Node pairing as evidence, not production admission. Do not run destructive checks, use the network, inspect ledger payloads, or modify files. Return the same bounded receipt shape requested for api-contract-critic, with exact receipt/code evidence and one-line repairs."
+          }
+        ]
+      }
+    ],
+    "connections": []
+  }
+}
+

@@ -1,0 +1,37 @@
+{
+  "schema_version": "context-builder.planning-pack.v1",
+  "task": "SWU-OAVA-002",
+  "mode": "standard",
+  "handoff": "none",
+  "session_evidence": true,
+  "strict_coverage": "pass",
+  "obligations": [
+    {"id": "C1", "status": "covered", "summary": "preserve completed OAVA-001 and admit only its successor"},
+    {"id": "C2", "status": "covered", "summary": "keep the unit at L0 and exclude runtime and browser work"},
+    {"id": "C3", "status": "covered", "summary": "reuse the existing consultation capability and typed negatives"},
+    {"id": "C4", "status": "covered", "summary": "bind exact local evidence for S6 edge-draw planning"},
+    {"id": "C5", "status": "covered", "summary": "apply hard gates before scoring and preserve the claim ceiling"},
+    {"id": "C6", "status": "covered", "summary": "declare four exact writes and deterministic validation"},
+    {"id": "C7", "status": "covered", "summary": "preserve source AutoAds and canonical vault bytes"},
+    {"id": "C8", "status": "covered", "summary": "provide selection-ready machine execution and closeout contracts"}
+  ],
+  "selected_sources": [
+    {"path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md", "selectors": ["Purpose and claim boundary", "Excluded successor portfolio"], "obligations": ["C1"]},
+    {"path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/closeouts/SWU-OAVA-001.json", "selectors": ["$"], "obligations": ["C1"]},
+    {"path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/IMPLEMENTATION-LAYERING.md", "selectors": ["L0 — trust"], "obligations": ["C2"]},
+    {"path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/stages/06-design.md", "selectors": ["Architecture", "Prechecks", "Selected bounded witness"], "obligations": ["C2", "C4", "C5"]},
+    {"path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/INTERFACES.md", "selectors": ["buildCandidate", "consultCandidate"], "obligations": ["C3"]},
+    {"path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/STATES.md", "selectors": ["consultation_pending", "consultation_blocked", "tournament_eligible"], "obligations": ["C5"]},
+    {"path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/VALIDATION-CONTRACTS.md", "selectors": ["Negative controls", "Immutable boundaries"], "obligations": ["C7"]},
+    {"path": "projects/animejs/ontology/agent-knowledge-vault/operational/README.md", "selectors": ["Capabilities", "Library surfaces", "Evidence ceiling and exclusions"], "obligations": ["C3", "C7"]},
+    {"path": "projects/animejs/ontology/agent-knowledge-vault/views/task-recipes.json", "selectors": ["recipe:consult:timeline", "recipe:consult:svg"], "obligations": ["C4"]},
+    {"path": "projects/animejs/ontology/agent-knowledge-vault/views/documentation-coverage.json", "selectors": ["topic:documentation:svg/createdrawable"], "obligations": ["C4"]},
+    {"path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-002.md", "selectors": ["Active SWU handoff", "Task Session Closeout Sync Contract"], "obligations": ["C6", "C8"]},
+    {"path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/execution-contract-oava002.json", "selectors": ["/execution_binding", "/execution_policy", "/execution_entry", "/closeout"], "obligations": ["C6", "C8"]}
+  ],
+  "excluded": [
+    {"path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/vendor/anime.esm.js", "reason": "OAVA-003 runtime input; not admitted by OAVA-002"},
+    {"path": "projects/autoads", "reason": "read-only design precedent; no direct implementation dependency"}
+  ],
+  "blockers": []
+}

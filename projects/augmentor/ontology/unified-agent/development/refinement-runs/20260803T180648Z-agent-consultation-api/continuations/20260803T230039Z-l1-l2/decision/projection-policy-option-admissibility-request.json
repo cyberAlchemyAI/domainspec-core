@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "DG-L12-002",
+  "candidates": [
+    {
+      "optionId": "STRICT_OPAQUE_CONSUMER_V1",
+      "label": "Use a hardened consumer projection with opaque ownership and controlled confidence metadata",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "Private ontology owner and ResonantOS consumer data owner approve the exact fields, controlled vocabularies, leakage patterns, compiler identity, output digest, and projection location",
+      "evidence": [
+        "The L0 projection proves the useful evidence fields but its fixture-only compiler and owner approval constants cannot represent a production consumer approval",
+        "Opaque source handles and closed schemas already preserve statement provenance without exposing private paths"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "REVIEWED_L0_SHAPE_V1",
+      "label": "Retain the current L0 field shape and replace only fixture approval with owner-reviewed consumer approval",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "Private ontology owner and ResonantOS consumer data owner approve every current text field, owner reference, confidence basis, leakage pattern, compiler output, and projection location",
+      "evidence": [
+        "The current L0 shape passes fixture schema, leakage, and question-scenario tests",
+        "The current free-form ownerRef and confidence basis fields require explicit content review before consumer use"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "DEFER_CONSUMER_PROJECTION",
+      "label": "Keep the consumer projection unapproved and stop before L1",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "other",
+      "ownerGate": null,
+      "evidence": [
+        "L0 remains valid with its synthetic fixture and no private-to-consumer transfer"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "STOP_CONSUMER_PROJECTION",
+      "label": "Stop the L1-L2 projection continuation",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "other",
+      "ownerGate": null,
+      "evidence": [
+        "Stopping preserves the completed candidate-local boundary and creates no consumer data exposure"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}
+

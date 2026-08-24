@@ -1,0 +1,96 @@
+{
+  "schema_version": "context-builder.runtime-handoff.v1",
+  "task_id": "TASK-OAVA-CONSULTATION",
+  "swu_id": "SWU-OAVA-002",
+  "identity": {
+    "source_reference": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-002.md",
+    "session_or_run_id": "oava002-ts-20260806-001",
+    "runtime_handoff": "runtime",
+    "evidence_date": "2026-08-06"
+  },
+  "strict_coverage": true,
+  "fallback_exploration": {
+    "status": "none",
+    "allowed_gap_ids": []
+  },
+  "obligations": [
+    {"id": "OAVA002-01", "status": "covered", "summary": "Build a deterministic schema-valid candidate from the completed OAVA-001 seed."},
+    {"id": "OAVA002-02", "status": "covered", "summary": "Consult the exact local Anime.js timeline SVG and createDrawable nodes through the existing read capability."},
+    {"id": "OAVA002-03", "status": "covered", "summary": "Preserve stale and every typed non-ok result without fallback evidence."},
+    {"id": "OAVA002-04", "status": "covered", "summary": "Admit only current non-empty exact evidence with request version contradiction and reduced-motion gates."},
+    {"id": "OAVA002-05", "status": "covered", "summary": "Keep the work at L0 with no Anime.js runtime browser network or canonical-vault mutation."},
+    {"id": "OAVA002-06", "status": "covered", "summary": "Run OAVA-002 acceptance and OAVA-001 regression tests."}
+  ],
+  "selected_sources": [
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-002.md",
+      "selectors": ["Active SWU handoff", "Task Session Closeout Sync Contract"],
+      "obligations": ["OAVA002-01", "OAVA002-05", "OAVA002-06"],
+      "evidence_kind": "contract"
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/tasks/TASK-OAVA-CONSULTATION.md",
+      "selectors": ["Required writes", "Acceptance matrix", "Exclusions"],
+      "obligations": ["OAVA002-01", "OAVA002-02", "OAVA002-03", "OAVA002-04", "OAVA002-05", "OAVA002-06"],
+      "evidence_kind": "contract"
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/README.md",
+      "selectors": ["Capabilities", "Evidence ceiling and exclusions"],
+      "obligations": ["OAVA002-02", "OAVA002-03", "OAVA002-05"],
+      "evidence_kind": "architecture"
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/validate-candidate.mjs",
+      "selectors": ["validateCandidate"],
+      "obligations": ["OAVA002-01", "OAVA002-04"],
+      "evidence_kind": "code"
+    }
+  ],
+  "execution_contract": {
+    "writeProfile": "material-bound",
+    "materialWrites": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/build-candidate.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/consult-animejs.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/evaluate-eligibility.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/consultation.test.mjs"
+    ],
+    "executionOutputs": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava002/task-session/governance-terminal-receipt.json"
+    ],
+    "allowedWrites": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/build-candidate.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/consult-animejs.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/evaluate-eligibility.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/consultation.test.mjs",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava002/task-session/governance-terminal-receipt.json"
+    ],
+    "validationCommands": [
+      "node --test prototype/test/consultation.test.mjs",
+      "node --test prototype/test/candidate.test.mjs"
+    ],
+    "lifecycleOwner": "task-session",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "write_scope": [
+    "prototype/lib/build-candidate.mjs",
+    "prototype/lib/consult-animejs.mjs",
+    "prototype/lib/evaluate-eligibility.mjs",
+    "prototype/test/consultation.test.mjs"
+  ],
+  "validation_surface": [
+    "node --test prototype/test/consultation.test.mjs",
+    "node --test prototype/test/candidate.test.mjs"
+  ],
+  "gaps_and_blockers": [],
+  "authority_precedence": [
+    "WORK-PACK-OAVA-002.md and TASK-OAVA-CONSULTATION.md",
+    "selected plan-semantic manifest and receipt",
+    "runtime handoff context evidence"
+  ],
+  "output_paths": {
+    "markdown": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava002/task-session/context/runtime-handoff.md",
+    "json_index": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava002/task-session/context/runtime-handoff.json"
+  }
+}

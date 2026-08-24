@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "manifest:augmentor-agent-consultation-api",
+  "target_id": "target:augmentor-agent-consultation-api-design",
+  "target_footprint": {
+    "roots": [
+      {"path":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md","digest":"ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4"},
+      {"path":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/05-distill.md","digest":"3376c4fdc33c64b4d8ca0a30be40b464de1d87ca5d9c0826c7cf1c93a3160110"}
+    ],
+    "inclusions": [
+      {"selector":"stages/02-define.md#Service-Boundary-and-Evidence-Response-Definition","path":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md","digest":"ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4"},
+      {"selector":"stages/05-distill.md#Current-Smallest-Coherent-Unit","path":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/05-distill.md","digest":"3376c4fdc33c64b4d8ca0a30be40b464de1d87ca5d9c0826c7cf1c93a3160110"}
+    ],
+    "exclusions": [
+      {"selector":"direct-private-ontology-query","reason":"the runtime may read only a neutral bounded projection","evidence_ref":"stages/02-define.md#Non-goals"},
+      {"selector":"rendered-user-interface","reason":"this design changes an agent-callable API and no rendered semantic surface","evidence_ref":"stages/02-define.md#Non-goals"},
+      {"selector":"implementation-and-deployment","reason":"the confirmed Refine run is design and planning only","evidence_ref":"REFINE-SEED-PROPOSAL.md#Write-Scope"}
+    ]
+  },
+  "source_contracts": [
+    {"source_id":"source:define","selector":"stages/02-define.md","path":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md","digest":"ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4"},
+    {"source_id":"source:distill","selector":"stages/05-distill.md","path":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/05-distill.md","digest":"3376c4fdc33c64b4d8ca0a30be40b464de1d87ca5d9c0826c7cf1c93a3160110"}
+  ],
+  "human_actors": [],
+  "rendered_surfaces": [],
+  "interfaces": [
+    {"interface_id":"interface:native-agent-tool","kind":"authenticated-agent-tool","peer":"host-answering-agent","direction":"bidirectional","contract_ref":"ConsultationBoundary","source_selector":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md","source_digest":"ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4"},
+    {"interface_id":"interface:projection-reader","kind":"read-only-projection-port","peer":"neutral-projection-owner","direction":"outbound","contract_ref":"ProjectionReader","source_selector":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md","source_digest":"ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4"},
+    {"interface_id":"interface:answer-policy","kind":"consumer-contract","peer":"answering-agent-owner","direction":"outbound","contract_ref":"AnsweringAgentContract","source_selector":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md","source_digest":"ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4"}
+  ],
+  "stores": [],
+  "queues": [],
+  "writers": [],
+  "normative_rules": [
+    {"rule_id":"rule:verify-policy-first","verb":"must","subject":"consultation-service","object":"validate caller policy before retrieving protected fields","enforcement_hint":"closed request validator plus AccessPolicyPort fixture","source_selector":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md","source_digest":"ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4"},
+    {"rule_id":"rule:evidence-only","verb":"must","subject":"consultation-service","object":"return bounded evidence without writes or conclusions","enforcement_hint":"response schema and forbidden-operation fixtures","source_selector":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/05-distill.md","source_digest":"3376c4fdc33c64b4d8ca0a30be40b464de1d87ca5d9c0826c7cf1c93a3160110"}
+  ],
+  "effects": [],
+  "data_and_log_sinks": [],
+  "deployment_targets": [],
+  "compatibility_boundaries": [
+    {"boundary_id":"compatibility:shared-service-adapters","old_contract":"native-agent-tool-adapter","new_contract":"optional-http-json-adapter","source_selector":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/02-define.md","source_digest":"ce41f0f9b4ace3f370dc2dc531c3888fab0ce33fb98a0a10058815b83f6373a4"}
+  ],
+  "quality_claims": [],
+  "acceptance_and_readiness_claims": [
+    {"claim_id":"acceptance:design-contract-authored","selector":"stages/05-distill.md#Closure-And-Recomposition-Proof","evidence_state":"authored-complete","source_selector":"projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/stages/05-distill.md","source_digest":"3376c4fdc33c64b4d8ca0a30be40b464de1d87ca5d9c0826c7cf1c93a3160110"}
+  ],
+  "unknowns": [],
+  "input_digest": "a177ccce800a9e9fa4f1621cc5a2b95f506698513b57eac95db5a1b004e754db",
+  "authored_by": "refine-parent-invoke-design"
+}

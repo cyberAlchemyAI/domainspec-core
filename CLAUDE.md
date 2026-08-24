@@ -21,6 +21,29 @@ read for it. Read **only** that route's files — never load all docs at once.
 Propose before mutating files; don't silently "fix" items flagged as open/intentional —
 surface them.
 
+## Background Route Delegation
+
+The parent chat owns route selection, scope, user communication, and final claims.
+After selecting any objective route:
+
+- Default non-trivial bounded research, implementation, or validation work to one
+  native background helper so the parent can return control to chat without waiting
+  for the work to finish.
+- Keep simple answers, clarification questions, blocker decisions, and work without
+  a safe bounded target inline.
+- Give every helper the selected route, exact files, read/write scope, forbidden
+  scope, done criteria, and receipt shape. A helper may mutate only when the user's
+  request authorizes that bounded mutation.
+- Treat one bounded helper as a helper, not a governed dispatch. Record it in the
+  parent receipt and close or hand it off explicitly.
+- For two or more agents, dependent waves, or a reusable composition graph, use
+  `dispatch-spec` to validate a capability-bound route, then use `orchestrate` for
+  native spawn, join, gates, and closeout. Apply `domainspec-subagents-strategy`
+  confirmation and ledger rules before spawning.
+- On later chat turns, check active helper/dispatch receipts without blocking the new
+  conversation. Never report background work as complete while an agent is open,
+  unjoined, or missing its validation receipt.
+
 ## Route by Objective
 
 ### 1. Understanding the system / architecture
@@ -46,8 +69,12 @@ surface them.
   defined in `arcanum/definitions/` (open item from the 2026-06-22 session).
 
 ### 4. Dispatching subagents
-- 🛠 USE skill: `domainspec-subagents-strategy` to route; recommend the fan-out, user
-  confirms before dispatch.
+- 🛠 USE `dispatch-spec` to validate the capability-bound route,
+  `domainspec-subagents-strategy` to govern confirmation and registration, and
+  `orchestrate` to execute native spawn/join/close.
+- Recommend the fan-out and wait for the exact user confirmation before a governed
+  multi-agent dispatch. A standing preference for background work is not confirmation
+  of an unshown dispatch document.
 - ⚠️ Record every non-trivial dispatch in `telemetry/agents/subagents-dispatch.yaml` via
   `register-dispatch` (one row at dispatch, one close row at end).
 

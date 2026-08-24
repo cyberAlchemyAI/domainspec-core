@@ -1,0 +1,37 @@
+{
+  "schema_version": "invoke.refresh-owner-receipt.v1",
+  "run_id": "20260806T031232Z-capi-000-02-block-closeout",
+  "route_tuple": "invoke:refresh:apply-approved",
+  "source_receipt_ref": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T025009Z-capi-000-include-28-retry-02/task-session/terminal-receipt.json",
+    "sha256": "d44aed7040adf09e2a6b44cf29ef8e03be23632d27867f9b616f6c37c786e35c"
+  },
+  "material_package_receipt_ref": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T025009Z-capi-000-include-28-retry-02/task-session/material/material-receipt.json",
+    "sha256": "4b89ad1ed1eca1466179d64866977f360fa864ff5e150a60db77af6d5db9c83c"
+  },
+  "target_inventory": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/execution-receipts/SWU-CAPI-000.refresh.json"
+  ],
+  "baseline_state": {
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md": "5d5b236923b1cdb12c70ccb6c77086ca4e8b766023dec287de13f90811a945c9",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/execution-receipts/SWU-CAPI-000.refresh.json": "absent"
+  },
+  "applied_delta_classes": [
+    "evidence_added",
+    "blocker_opened",
+    "status_changed",
+    "route_changed"
+  ],
+  "validation": [
+    "pass: Task Session terminal receipt and immutable -02 experiment receipt parse and remain content-bound",
+    "pass: Work Pack preserves the selected 28-ledger and 57-record source contract",
+    "pass: Work Pack has no allowed route, selected unit, successor admission, or retry authority",
+    "pass: live targets match the validated staged outputs after apply",
+    "pass: scoped git diff --check"
+  ],
+  "result": "pass",
+  "returned_next_route": "decision-gate:blocker authorize a fresh immutable SWU-CAPI-000 attempt with literal staged-directory exclusion",
+  "receipt_digest": "eb886a963a82d2b13ade200fc1a9d1e69c2a2779d902d4233d82df44c50ad7bb"
+}

@@ -1,0 +1,730 @@
+{
+  "approval": {
+    "decision_gate": {
+      "authority_effect": "none",
+      "status": "pending"
+    },
+    "owner_ref": "decision-gate",
+    "run_budget": {
+      "max_task_session_requests": 10
+    }
+  },
+  "authority": {
+    "closeout": {
+      "baseline": "sha256-or-absent",
+      "delta_classes": [
+        "evidence_added",
+        "blocker_opened",
+        "blocker_resolved",
+        "status_changed",
+        "route_changed"
+      ],
+      "successor": "exactly-one",
+      "target_mode": "exact-subset-only"
+    },
+    "material": {
+      "contract": "per-unit owner material declarations; unresolved locator placeholders are activation blockers, not inferred paths"
+    },
+    "owner": {
+      "coordinator": "intent-route-planning-owner",
+      "rule": "each material lifecycle remains with its named owner"
+    },
+    "receipt": {
+      "closeout_owner": "CLOSEOUT-OWNER-RECEIPT.schema.json",
+      "decision_bundle": "DECISION-BUNDLE.schema.json",
+      "terminal": "TERMINAL-RECEIPT.schema.json"
+    },
+    "validation": {
+      "contract": "exact unit commands from EXECUTION-CONTRACT.json; WPRA executes none"
+    }
+  },
+  "claim_ceiling": "A passing report proves only a deterministic frozen-input contractual projection; it selects and executes no unit.",
+  "closure": {
+    "context_status": "pass",
+    "design_status": "design-validator-pass",
+    "refresh_status": "pass"
+  },
+  "continuity": {
+    "continuation_router_verification": {
+      "required_after_terminal_receipt": true,
+      "status": "not-run"
+    },
+    "cursor": "IRO-FULL-STREAM-20260802T021738Z",
+    "equivalence_validator": {
+      "id": "wpra-projection-v1"
+    },
+    "projected_next": {
+      "authority_effect": "none",
+      "unit_id": "SWU-IRO-001"
+    }
+  },
+  "epoch_label": "20260802T021738Z",
+  "objective": {
+    "authority_effect": "none",
+    "evidence_ceiling": "frozen-input-contractual-readiness",
+    "summary": "Coordinate the intent-route add-on through ten owner-routed units with complete Task Session and outer-chain receipt paths."
+  },
+  "receipts": {
+    "chain_config_schema": {
+      "path": ".agents/skills/task-session-until-blocker/schemas/chain-config.schema.json"
+    },
+    "chain_transition_schema": {
+      "path": ".agents/skills/task-session-until-blocker/schemas/chain-transition.schema.json"
+    },
+    "closeout_owner_schema": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-OWNER-RECEIPT.schema.json"
+    },
+    "closeout_preflight_schema": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-PREFLIGHT.schema.json"
+    },
+    "closeout_sync_request_schema": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-SYNC-REQUEST.schema.json"
+    },
+    "continuation_route_schema": {
+      "path": ".agents/skills/continuation-router/continuation-route.schema.json"
+    },
+    "continuity_cursor_schema": {
+      "path": ".agents/skills/task-session/continuity.schema.json"
+    },
+    "expected": [
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/continuation-route.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/OPTION-ADMISSIBILITY-REQUEST.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/OPTION-ADMISSIBILITY-RECEIPT.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/DECISION.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/DECISION-SUMMARY.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/decision-bundle.json",
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-001.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/continuation-route.json",
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-002.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/continuation-route.json",
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-003.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/continuation-route.json",
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-004.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/continuation-route.json",
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-005.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/continuation-route.json",
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-006.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/continuation-route.json",
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-007.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/continuation-route.json",
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-008.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/continuation-route.json",
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-009.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/continuation-route.json",
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-VERIFY.json"
+    ],
+    "expected_outer": [
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/goal-start-approval.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/chain-config.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/chain-preflight.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/chain.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/transitions/000001.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/transitions/000002.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/transitions/000003.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/transitions/000004.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/transitions/000005.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/transitions/000006.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/transitions/000007.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/transitions/000008.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/transitions/000009.json",
+      ".arcanum/task-session-until-blocker/chains/IRO-FULL-STREAM-20260802T021738Z/transitions/000010.json"
+    ],
+    "goal_start_approval_schema": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/GOAL-START-APPROVAL.schema.json"
+    },
+    "mutation_admission_receipt_schema": {
+      "path": ".agents/skills/task-session/schemas/mutation-admission-receipt.schema.json"
+    },
+    "mutation_admission_request_schema": {
+      "path": ".agents/skills/task-session/schemas/mutation-admission-request.schema.json"
+    },
+    "semantic_validator": {
+      "contract": "unit, dependency, capability, output, pause, and successor binding",
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py"
+    },
+    "terminal_schema": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TERMINAL-RECEIPT.schema.json"
+    }
+  },
+  "risk": {
+    "browser_launches": 2,
+    "maximum": "bounded-write",
+    "network_calls": 0,
+    "repair_cycles_per_unit": 1
+  },
+  "runtime": {
+    "admission_status": "projection-only-unapproved",
+    "mutation_ready": false,
+    "outer_chain_outputs_declared": true,
+    "requested_mode": "owner-routed-task-session",
+    "selected_unit": null,
+    "support_outputs_declared": true
+  },
+  "schema_version": "1.0.0",
+  "statuses": {
+    "approval": {
+      "evidence": "no Goal-start or later owner approval receipt",
+      "value": "unapproved"
+    },
+    "artifact_authored": {
+      "evidence": "IRO-REFRESH-002",
+      "value": "runtime-admission-contract-repaired"
+    },
+    "audit": {
+      "evidence": "this field is frozen before the audit runs",
+      "value": "pending"
+    },
+    "audit_verdict": {
+      "evidence": "this field is frozen before the audit runs",
+      "value": "pending"
+    },
+    "chain": {
+      "evidence": "Goal authoring does not start execution",
+      "value": "not-started"
+    },
+    "mutation_runtime_ready": {
+      "evidence": "WPRA is non-authoritative",
+      "value": "not-ready"
+    },
+    "plan_artifact": {
+      "evidence": "IRO-REFRESH-002",
+      "value": "runtime-admission-contract-repaired"
+    },
+    "registry_released": {
+      "evidence": "no release receipt",
+      "value": "unreleased"
+    }
+  },
+  "stream_id": "IRO-FULL-STREAM",
+  "units": {
+    "SWU-IRO-001": {
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/CONTEXT-PACK.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/CONTEXT-PACK.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/closeout-preflight.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/mutation-admission-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/mutation-admission-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/closeout-sync-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/continuation-route.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/OPTION-ADMISSIBILITY-REQUEST.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/OPTION-ADMISSIBILITY-RECEIPT.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/DECISION.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/DECISION-SUMMARY.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/decision-bundle.json",
+        ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-001.json"
+      ],
+      "material_digest": "7365269478e522cbf08edeb6faa98cff94d46782d8269628a46704b24caa4962",
+      "material_package": {
+        "activation_gate": "passing WPRA epoch plus exact Goal-start approval",
+        "authority_effect": "none",
+        "contract_id": "SWU-IRO-001-output-only-v2",
+        "owner_ref": "intent-route-planning-owner",
+        "status": "not-applicable-output-only",
+        "target_inventory": []
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "producer_receipt": {
+        "owner_ref": "intent-route-planning-owner",
+        "required": false,
+        "status": "not-applicable"
+      },
+      "successor": "SWU-IRO-002",
+      "target_inventory": []
+    },
+    "SWU-IRO-002": {
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/CONTEXT-PACK.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/CONTEXT-PACK.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/closeout-preflight.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/mutation-admission-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/mutation-admission-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/closeout-sync-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/continuation-route.json",
+        ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-002.json"
+      ],
+      "material_digest": "e933134fcda5ef33cc07aac076724add09359f7a2df5fe8d51264f55a074bb6c",
+      "material_package": {
+        "activation_gate": "explicit candidate-mutation approval",
+        "authority_effect": "none",
+        "contract_id": "SWU-IRO-002-owner-material-v1",
+        "owner_ref": "candidate-lifecycle-owner",
+        "status": "contract-only-unmaterialized",
+        "target_inventory": [
+          "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+        ]
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "producer_receipt": {
+        "owner_ref": "candidate-lifecycle-owner",
+        "required": true,
+        "status": "not-yet-issued"
+      },
+      "successor": "SWU-IRO-003",
+      "target_inventory": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+      ]
+    },
+    "SWU-IRO-003": {
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/CONTEXT-PACK.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/CONTEXT-PACK.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-preflight.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/mutation-admission-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/mutation-admission-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-sync-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/continuation-route.json",
+        ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-003.json"
+      ],
+      "material_digest": "a7750fa2e45a3d4ef7498828967d89c81be3d2224907c942bd9237da70114973",
+      "material_package": {
+        "activation_gate": "passing IRO-002 joined closeout",
+        "authority_effect": "none",
+        "contract_id": "SWU-IRO-003-owner-material-v1",
+        "owner_ref": "candidate-lifecycle-owner",
+        "status": "contract-only-unmaterialized",
+        "target_inventory": [
+          "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+        ]
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "producer_receipt": {
+        "owner_ref": "candidate-lifecycle-owner",
+        "required": true,
+        "status": "not-yet-issued"
+      },
+      "successor": "SWU-IRO-004",
+      "target_inventory": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+      ]
+    },
+    "SWU-IRO-004": {
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/CONTEXT-PACK.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/CONTEXT-PACK.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/closeout-preflight.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/mutation-admission-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/mutation-admission-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/closeout-sync-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-004/continuation-route.json",
+        ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-004.json"
+      ],
+      "material_digest": "9e093754e65b202d962bc807c0aa8579d543fd72a7361cdcb2e02397a546be98",
+      "material_package": {
+        "activation_gate": "explicit public owner approval and clean-worktree receipt",
+        "authority_effect": "none",
+        "contract_id": "SWU-IRO-004-owner-material-v1",
+        "owner_ref": "public-arcanum-owner",
+        "status": "contract-only-unmaterialized",
+        "target_inventory": [
+          "arcanum/arcana/intent-route-resolver/**"
+        ]
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "producer_receipt": {
+        "owner_ref": "public-arcanum-owner",
+        "required": true,
+        "status": "not-yet-issued"
+      },
+      "successor": "SWU-IRO-005",
+      "target_inventory": [
+        "arcanum/arcana/intent-route-resolver/**"
+      ]
+    },
+    "SWU-IRO-005": {
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/CONTEXT-PACK.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/CONTEXT-PACK.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/closeout-preflight.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/mutation-admission-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/mutation-admission-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/closeout-sync-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-005/continuation-route.json",
+        ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-005.json"
+      ],
+      "material_digest": "fc94d469dcc923ca370065ae64a471e7e1803c2bd5b926ea4af5050f80cf8af6",
+      "material_package": {
+        "activation_gate": "passing canonical receipt",
+        "authority_effect": "none",
+        "contract_id": "SWU-IRO-005-owner-material-v1",
+        "owner_ref": "arcanum-bootstrap-owner",
+        "status": "contract-only-unmaterialized",
+        "target_inventory": [
+          "isolated temporary repo-codex root",
+          "isolated temporary claude root"
+        ]
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "producer_receipt": {
+        "owner_ref": "arcanum-bootstrap-owner",
+        "required": true,
+        "status": "not-yet-issued"
+      },
+      "successor": "SWU-IRO-006",
+      "target_inventory": [
+        "isolated temporary repo-codex root",
+        "isolated temporary claude root"
+      ]
+    },
+    "SWU-IRO-006": {
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/CONTEXT-PACK.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/CONTEXT-PACK.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/closeout-preflight.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/mutation-admission-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/mutation-admission-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/closeout-sync-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-006/continuation-route.json",
+        ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-006.json"
+      ],
+      "material_digest": "9611811455ac145adf03b4416647f944f73305b609b598346dd29ccbaa539b54",
+      "material_package": {
+        "activation_gate": "disposable-consumer locator and owner approval",
+        "authority_effect": "none",
+        "contract_id": "SWU-IRO-006-owner-material-v1",
+        "owner_ref": "addon-lifecycle-owner",
+        "status": "contract-only-unmaterialized",
+        "target_inventory": [
+          "owner-bound disposable Git repository from IRO-001"
+        ]
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "producer_receipt": {
+        "owner_ref": "addon-lifecycle-owner",
+        "required": true,
+        "status": "not-yet-issued"
+      },
+      "successor": "SWU-IRO-007",
+      "target_inventory": [
+        "owner-bound disposable Git repository from IRO-001"
+      ]
+    },
+    "SWU-IRO-007": {
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/CONTEXT-PACK.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/CONTEXT-PACK.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/closeout-preflight.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/mutation-admission-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/mutation-admission-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/closeout-sync-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-007/continuation-route.json",
+        ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-007.json"
+      ],
+      "material_digest": "73348187583aaa9bf52bb6b4c2dd48cf5d34ad1828cc321cebd620f1aabbcd3e",
+      "material_package": {
+        "activation_gate": "exact ResonantOS worktree planning-scope approval",
+        "authority_effect": "none",
+        "contract_id": "SWU-IRO-007-owner-material-v1",
+        "owner_ref": "resonantos-planning-owner",
+        "status": "contract-only-unmaterialized",
+        "target_inventory": [
+          "<owner-approved-resonantos-worktree>/development/arcanum-addon/**"
+        ]
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "producer_receipt": {
+        "owner_ref": "resonantos-planning-owner",
+        "required": true,
+        "status": "not-yet-issued"
+      },
+      "successor": "SWU-IRO-008",
+      "target_inventory": [
+        "<owner-approved-resonantos-worktree>/development/arcanum-addon/**"
+      ]
+    },
+    "SWU-IRO-008": {
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/CONTEXT-PACK.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/CONTEXT-PACK.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/closeout-preflight.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/mutation-admission-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/mutation-admission-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/closeout-sync-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-008/continuation-route.json",
+        ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-008.json"
+      ],
+      "material_digest": "78a8ab8c3bf3f50e2b61b5448302c7ac62f51f151d66cff49d682313ac7a8dc5",
+      "material_package": {
+        "activation_gate": "orchestrator, catalog, and normalization bindings",
+        "authority_effect": "none",
+        "contract_id": "SWU-IRO-008-owner-material-v1",
+        "owner_ref": "cyberalchemy-orchestrator-owner",
+        "status": "contract-only-unmaterialized",
+        "target_inventory": [
+          "<owner-approved-cyberalchemy-orchestrator-adapter-scope>"
+        ]
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "producer_receipt": {
+        "owner_ref": "cyberalchemy-orchestrator-owner",
+        "required": true,
+        "status": "not-yet-issued"
+      },
+      "successor": "SWU-IRO-009",
+      "target_inventory": [
+        "<owner-approved-cyberalchemy-orchestrator-adapter-scope>"
+      ]
+    },
+    "SWU-IRO-009": {
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/CONTEXT-PACK.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/CONTEXT-PACK.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/closeout-preflight.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/mutation-admission-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/mutation-admission-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/closeout-sync-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-009/continuation-route.json",
+        ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-009.json"
+      ],
+      "material_digest": "9b8b28554ec41b31b631298b195bb941caaa2385eb9e4eac81be9147f35281e5",
+      "material_package": {
+        "activation_gate": "private owner and exact field-binding approval",
+        "authority_effect": "none",
+        "contract_id": "SWU-IRO-009-owner-material-v1",
+        "owner_ref": "private-cav2-aci-owner",
+        "status": "contract-only-unmaterialized",
+        "target_inventory": [
+          "<owner-approved-private-CAV2-ACI-entry-boundary-scope>"
+        ]
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "producer_receipt": {
+        "owner_ref": "private-cav2-aci-owner",
+        "required": true,
+        "status": "not-yet-issued"
+      },
+      "successor": "SWU-IRO-VERIFY",
+      "target_inventory": [
+        "<owner-approved-private-CAV2-ACI-entry-boundary-scope>"
+      ]
+    },
+    "SWU-IRO-VERIFY": {
+      "expected_receipts": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/CONTEXT-PACK.md",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/CONTEXT-PACK.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/closeout-preflight.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/mutation-admission-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/mutation-admission-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/closeout-sync-request.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-VERIFY/continuation-route.json",
+        ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-VERIFY.json"
+      ],
+      "material_digest": "2ff90869707368918a8fd6c52ee0f9c1136440af11df117d1fe8aa7ced729e78",
+      "material_package": {
+        "activation_gate": "passing IRO-009 joined closeout",
+        "authority_effect": "none",
+        "contract_id": "SWU-IRO-VERIFY-owner-material-v1",
+        "owner_ref": "verification-owner",
+        "status": "contract-only-unmaterialized",
+        "target_inventory": []
+      },
+      "material_schema": {
+        "kind": "owner-material-contract-v1",
+        "required_fields": [
+          "contract_id",
+          "status",
+          "owner_ref",
+          "target_inventory",
+          "activation_gate",
+          "authority_effect"
+        ]
+      },
+      "producer_receipt": {
+        "owner_ref": "verification-owner",
+        "required": true,
+        "status": "not-yet-issued"
+      },
+      "successor": "__complete__",
+      "target_inventory": []
+    }
+  }
+}

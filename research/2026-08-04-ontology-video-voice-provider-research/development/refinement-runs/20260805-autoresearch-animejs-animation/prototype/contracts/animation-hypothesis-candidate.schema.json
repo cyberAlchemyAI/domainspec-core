@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/candidates/animation-hypothesis-candidate.v0.1.schema.json",
+  "title": "AnimationHypothesisCandidate",
+  "type": "object",
+  "required": ["schema_version", "candidate_id", "scene_beat_ref", "hypothesis", "semantic_contract", "consultation", "proof_ledger", "contradiction", "prototype_scope", "witness_spec", "tournament_binding", "owner_review", "lineage"],
+  "properties": {
+    "schema_version": {"const": "animation-hypothesis-candidate.v0.1"},
+    "candidate_id": {"type": "string", "minLength": 1},
+    "scene_beat_ref": {
+      "type": "object",
+      "required": ["sequence_id", "beat_id", "time_interval", "source_package_digest", "script_digest", "caption_digest", "image_ref", "required_layers", "next_transition_ref"],
+      "properties": {
+        "sequence_id": {"type": "string", "minLength": 1},
+        "beat_id": {"type": "string", "minLength": 1},
+        "time_interval": {"type": "string", "minLength": 1},
+        "source_package_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "script_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "caption_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "image_ref": {"type": "object", "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}, "additionalProperties": false},
+        "required_layers": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "next_transition_ref": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "hypothesis": {
+      "type": "object",
+      "required": ["statement", "rationale", "motion_family", "target_elements", "planned_state_machine", "duration_ms"],
+      "properties": {
+        "statement": {"type": "string", "minLength": 1},
+        "rationale": {"type": "string", "minLength": 1},
+        "motion_family": {"type": "string", "minLength": 1},
+        "target_elements": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "planned_state_machine": {"type": "array", "minItems": 2, "items": {"type": "string", "minLength": 1}},
+        "duration_ms": {"type": "integer", "minimum": 1, "maximum": 10000}
+      },
+      "additionalProperties": false
+    },
+    "semantic_contract": {
+      "type": "object",
+      "required": ["invariants", "negative_animation_constraints", "semantic_end_states", "reduced_motion_state_machine"],
+      "properties": {
+        "invariants": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "negative_animation_constraints": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "semantic_end_states": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "reduced_motion_state_machine": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "consultation": {
+      "type": "object",
+      "required": ["request_id", "audience", "query_scope", "version_context", "evidence_bindings", "status", "claim_limit"],
+      "properties": {
+        "request_id": {"type": "string", "minLength": 1},
+        "audience": {"const": "animejs-knowledge-consult-read"},
+        "query_scope": {"type": "string", "minLength": 1},
+        "version_context": {"type": "object"},
+        "evidence_bindings": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "status": {"enum": ["ok", "abstain", "stale", "denied", "invalid_request", "temporary_failure"]},
+        "claim_limit": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "proof_ledger": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["claim", "proof_state", "evidence_refs", "limitations", "owner"],
+        "properties": {
+          "claim": {"type": "string", "minLength": 1},
+          "proof_state": {"enum": ["source_observed", "documented_capability", "planned_motion", "executed_witness", "subjective_evaluation", "owner_decision"]},
+          "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "limitations": {"type": "array", "items": {"type": "string"}},
+          "owner": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "contradiction": {
+      "type": "object",
+      "required": ["falsifier", "known_conflicts", "resolution_status", "reproposal_requirement"],
+      "properties": {
+        "falsifier": {"type": "string", "minLength": 1},
+        "known_conflicts": {"type": "array", "items": {"type": "string"}},
+        "resolution_status": {"enum": ["clear", "unresolved", "owner_overridden", "contradicted"]},
+        "reproposal_requirement": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "prototype_scope": {"type": "object", "minProperties": 1},
+    "witness_spec": {"type": "object", "minProperties": 1},
+    "tournament_binding": {"type": "object", "minProperties": 1},
+    "owner_review": {"type": "object", "minProperties": 1},
+    "lineage": {"type": "object", "minProperties": 1}
+  },
+  "additionalProperties": false
+}
+

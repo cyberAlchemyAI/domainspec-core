@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-08-03T22:07:50Z",
+  "run_id": "20260803T180648Z-agent-consultation-api-decision-gate-exact-epoch-approved",
+  "session_id": null,
+  "sigil": "decision-gate",
+  "tier": "arcana",
+  "mode": "execute",
+  "evidence": {
+    "status": "complete",
+    "refs": ["one-go/DECISION-GATE.md", "one-go/decision/decision-gate-approval-receipt.json"]
+  },
+  "request": {
+    "summary": "Select APPROVE_EXACT_EPOCH for the frozen candidate-local L0 frontier.",
+    "intent": "Resolve the exact digest-bound human approval blocker."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": ["Decision Gate PASS", "Exact epoch approval receipt persisted"],
+    "files_changed": ["one-go/DECISION-GATE.md", "one-go/decision/decision-gate-approval-receipt.json"],
+    "validation": ["approval receipt schema pass", "epoch, frontier, budget, and risk matched the frozen manifest"],
+    "notes": "Approval is limited to candidate-local L0 and does not authorize excluded integration or release boundaries."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  }
+}

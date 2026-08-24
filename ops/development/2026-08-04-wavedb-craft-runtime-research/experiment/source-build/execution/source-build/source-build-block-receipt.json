@@ -1,0 +1,384 @@
+{
+  "addon_handoff": null,
+  "attempt_id": "wcsb-20260804-01",
+  "claim_ceiling": "one-local-linux-x86_64-reviewed-source-build-observation",
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "clone",
+        "--no-checkout",
+        "--filter=blob:none",
+        "https://github.com/vijayee/WaveDB.git",
+        "/home/vrondelli/projects/domainspec-core/ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcsb-20260804-01/source"
+      ],
+      "cwd": ".",
+      "ended_ns": 1785874758327843187,
+      "exit_code": 0,
+      "id": "01-source",
+      "log": {
+        "path": "execution/source-build/logs/01-source.log",
+        "sha256": "38818469b43ef34c82ee76f0ed38c19f9d5ebfce8b3dba6c2b5c40cb274c3f34",
+        "size_bytes": 170
+      },
+      "stage": "source",
+      "started_ns": 1785874757092816293
+    },
+    {
+      "argv": [
+        "git",
+        "checkout",
+        "--detach",
+        "01c77e8b70f71de9b72480e73a3a179f6e93a009"
+      ],
+      "cwd": "source",
+      "ended_ns": 1785874759365617508,
+      "exit_code": 0,
+      "id": "02-source",
+      "log": {
+        "path": "execution/source-build/logs/02-source.log",
+        "sha256": "908014fcf4c1ace4d1d6d37f4bab2cd373cd6c8f41578dd4afb00b5fc3b2f8d1",
+        "size_bytes": 81
+      },
+      "stage": "source",
+      "started_ns": 1785874758329420704
+    },
+    {
+      "argv": [
+        "git",
+        "submodule",
+        "sync",
+        "--recursive"
+      ],
+      "cwd": "source",
+      "ended_ns": 1785874759403399722,
+      "exit_code": 0,
+      "id": "03-source",
+      "log": {
+        "path": "execution/source-build/logs/03-source.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "stage": "source",
+      "started_ns": 1785874759366537970
+    },
+    {
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init",
+        "--recursive"
+      ],
+      "cwd": "source",
+      "ended_ns": 1785874765909764236,
+      "exit_code": 0,
+      "id": "04-source",
+      "log": {
+        "path": "execution/source-build/logs/04-source.log",
+        "sha256": "a380e37e3a4c384e75756acb9ea2efc8e357e2c9954d70a084dba2b3f993778a",
+        "size_bytes": 1898
+      },
+      "stage": "source",
+      "started_ns": 1785874759404317204
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "source",
+      "ended_ns": 1785874765914091980,
+      "exit_code": 0,
+      "id": "05-source",
+      "log": {
+        "path": "execution/source-build/logs/05-source.log",
+        "sha256": "35e9d826128dcc02205ec2746b5094601f71a325b36bb967d7482080f64dae48",
+        "size_bytes": 41
+      },
+      "stage": "source",
+      "started_ns": 1785874765910488706
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=no"
+      ],
+      "cwd": "source",
+      "ended_ns": 1785874766002536103,
+      "exit_code": 0,
+      "id": "06-source",
+      "log": {
+        "path": "execution/source-build/logs/06-source.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "stage": "source",
+      "started_ns": 1785874765914850272
+    },
+    {
+      "argv": [
+        "git",
+        "submodule",
+        "status",
+        "--recursive"
+      ],
+      "cwd": "source",
+      "ended_ns": 1785874766152019422,
+      "exit_code": 0,
+      "id": "07-source",
+      "log": {
+        "path": "execution/source-build/logs/07-source.log",
+        "sha256": "4112f100874ded7f26f433b175ab940b52b409098d2165cbcb1795bb467056cc",
+        "size_bytes": 398
+      },
+      "stage": "source",
+      "started_ns": 1785874766003413021
+    },
+    {
+      "argv": [
+        "node",
+        "--version"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874766367392977,
+      "exit_code": 0,
+      "id": "08-dependencies",
+      "log": {
+        "path": "execution/source-build/logs/08-dependencies.log",
+        "sha256": "982a3f2042b45aaa560e4cb8d6ffeca7e9d28dc60c6d545fd716dd4b813053fd",
+        "size_bytes": 9
+      },
+      "stage": "dependencies",
+      "started_ns": 1785874766363081647
+    },
+    {
+      "argv": [
+        "npm",
+        "--version"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874766508432732,
+      "exit_code": 0,
+      "id": "09-dependencies",
+      "log": {
+        "path": "execution/source-build/logs/09-dependencies.log",
+        "sha256": "b4a3dfddc038552a4141075dfdf5c44d0bff0b0e8b44d2329a232768a1dcbb50",
+        "size_bytes": 7
+      },
+      "stage": "dependencies",
+      "started_ns": 1785874766368675907
+    },
+    {
+      "argv": [
+        "python3",
+        "--version"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874766512262527,
+      "exit_code": 0,
+      "id": "10-dependencies",
+      "log": {
+        "path": "execution/source-build/logs/10-dependencies.log",
+        "sha256": "5b3e43dc38ca01e3f5a7854ba50d4330864b0c1e0f646650b2c78cf072acc366",
+        "size_bytes": 14
+      },
+      "stage": "dependencies",
+      "started_ns": 1785874766509873496
+    },
+    {
+      "argv": [
+        "gcc",
+        "--version"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874766518557777,
+      "exit_code": 0,
+      "id": "11-dependencies",
+      "log": {
+        "path": "execution/source-build/logs/11-dependencies.log",
+        "sha256": "8497f84b2b8334c413d9c6166bd39d009ba55d2ff60a8f23e66dfa5819c2b048",
+        "size_bytes": 246
+      },
+      "stage": "dependencies",
+      "started_ns": 1785874766513315966
+    },
+    {
+      "argv": [
+        "g++",
+        "--version"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874766524297503,
+      "exit_code": 0,
+      "id": "12-dependencies",
+      "log": {
+        "path": "execution/source-build/logs/12-dependencies.log",
+        "sha256": "59d1cbef41d4ae78d5063d525b7aa13d18dc0493ea00537efc19b2ee398cb5a8",
+        "size_bytes": 246
+      },
+      "stage": "dependencies",
+      "started_ns": 1785874766520277941
+    },
+    {
+      "argv": [
+        "make",
+        "--version"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874766529387923,
+      "exit_code": 0,
+      "id": "13-dependencies",
+      "log": {
+        "path": "execution/source-build/logs/13-dependencies.log",
+        "sha256": "8ee498ee2fc27e8dcdf99191b454077df95e3840d841ec94321748b6d7f36819",
+        "size_bytes": 297
+      },
+      "stage": "dependencies",
+      "started_ns": 1785874766525632559
+    },
+    {
+      "argv": [
+        "ld",
+        "--version"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874766536977817,
+      "exit_code": 0,
+      "id": "14-dependencies",
+      "log": {
+        "path": "execution/source-build/logs/14-dependencies.log",
+        "sha256": "cbb0374a4d23f91537f8588348c460085a38ba5af336bed511060b72a1e76bf7",
+        "size_bytes": 281
+      },
+      "stage": "dependencies",
+      "started_ns": 1785874766530178957
+    },
+    {
+      "argv": [
+        "npm",
+        "ci",
+        "--ignore-scripts",
+        "--no-audit",
+        "--fund=false"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874770768391618,
+      "exit_code": 0,
+      "id": "15-dependencies",
+      "log": {
+        "path": "execution/source-build/logs/15-dependencies.log",
+        "sha256": "fafae7d98e9adc72f01f861ac44c9eca4681daa819014c77559474112b55f54c",
+        "size_bytes": 2049
+      },
+      "stage": "dependencies",
+      "started_ns": 1785874766537962377
+    },
+    {
+      "argv": [
+        "npm",
+        "ls",
+        "--all",
+        "--json"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874771329920161,
+      "exit_code": 0,
+      "id": "16-dependencies",
+      "log": {
+        "path": "execution/source-build/logs/16-dependencies.log",
+        "sha256": "f25faa8758b7440ee986d34657ff07ff8d3f717dcec430a8532222157a002949",
+        "size_bytes": 46751
+      },
+      "stage": "dependencies",
+      "started_ns": 1785874770770145632
+    },
+    {
+      "argv": [
+        "node",
+        "scripts/copy-sources.js"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874771812957556,
+      "exit_code": 0,
+      "id": "17-generated-source",
+      "log": {
+        "path": "execution/source-build/logs/17-generated-source.log",
+        "sha256": "a79216562bef749e49c037389899458b9f76439ed8327458ec5f9622c3b96715",
+        "size_bytes": 552
+      },
+      "stage": "generated-source",
+      "started_ns": 1785874771747491975
+    },
+    {
+      "argv": [
+        "node",
+        "scripts/build.js"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874814427125058,
+      "exit_code": 0,
+      "id": "18-build",
+      "log": {
+        "path": "execution/source-build/logs/18-build.log",
+        "sha256": "5fa2befc7786cb2b41d451446696125f4cebad52fe9f52ff68398a131d6f6345",
+        "size_bytes": 163451
+      },
+      "stage": "build",
+      "started_ns": 1785874771851718131
+    },
+    {
+      "argv": [
+        "node",
+        "-e",
+        "require('./lib/wavedb.js')"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785874814528247775,
+      "exit_code": 0,
+      "id": "19-addon-load",
+      "log": {
+        "path": "execution/source-build/logs/19-addon-load.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "stage": "addon-load",
+      "started_ns": 1785874814492778829
+    },
+    {
+      "argv": [
+        "node",
+        "node_modules/mocha/bin/mocha.js",
+        "test/callback.test.js",
+        "test/graph.test.js",
+        "test/integration.test.js",
+        "test/mvcc.test.js",
+        "test/persistence.test.js",
+        "test/snapshot.test.js",
+        "test/stream.test.js",
+        "test/subtree.test.js",
+        "test/vacuum.test.js",
+        "test/vector.test.js",
+        "test/wavedb.test.js"
+      ],
+      "cwd": "source/bindings/nodejs",
+      "ended_ns": 1785875774037209760,
+      "exit_code": -15,
+      "id": "20-upstream-tests",
+      "log": {
+        "path": "execution/source-build/logs/20-upstream-tests.log",
+        "sha256": "8bc7da8350c8129e567fb2e2453ba5619d0a413f5a0e4c47ea24fe89415ffbcb",
+        "size_bytes": 48081
+      },
+      "stage": "upstream-tests",
+      "started_ns": 1785874814530500049
+    }
+  ],
+  "detail": "command failed: node",
+  "failure_code": "UPSTREAM_TESTS_COMMAND_FAILED",
+  "schema_version": "wavedb-reviewed-source-build-block.v1",
+  "verdict": "block"
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "task-session-continuation.v1",
+  "handoffId": "handoff-arcanum-addon-task-session-20260730",
+  "sourceCapability": "task-session-until-blocker",
+  "sourceMode": "preflight",
+  "sourceResult": "BLOCK",
+  "targetScope": "/home/vrondelli/projects/workspace-resonant/2.0.0-alpha-arcanum-addon-plan/development/arcanum-addon/plan/WORK-PACK.md",
+  "blockerClass": "consequential-decision-and-missing-authority-evidence",
+  "controllingEvidence": {
+    "sourceCommit": "80dcd79677ad73b21dbaded12e0e9cd47aace82b",
+    "originDev": "80dcd79677ad73b21dbaded12e0e9cd47aace82b",
+    "workPackSha256": "5ccff91d61af47ef55163f85d7a49fecf8fc6d9fd927996cc13ce51dc95c044e",
+    "planResultSha256": "a6dc5003e5ae9b4bae0f91fc4bbaa3240c4249f6da7455a05c8b45e95c342089",
+    "distillValidationSha256": "900096b622e076cfb557ad97f0404991892129d5a03809a77ce7299c22d0a1db"
+  },
+  "blockerFingerprint": "task-session-until-blocker|arcanum-addon|B-DESIGN-001+B-GOV-001+B-BOOT-001+B-OWNER-001|80dcd79677ad73b21dbaded12e0e9cd47aace82b|5ccff91d61af47ef55163f85d7a49fecf8fc6d9fd927996cc13ce51dc95c044e",
+  "candidateSelector": "SWU-ARC-GOV-001",
+  "candidateReady": false,
+  "unblockActions": [
+    "Resolve DEC-ARC-TS-001",
+    "If OPT-REVALIDATE is selected, prepare and exactly confirm a new governed independent revalidation dispatch",
+    "On a passing revalidation, bind governing Issue/Project 2 acceptance and owners before selecting GOV-001"
+  ],
+  "probableRoutes": [
+    {
+      "rank": 1,
+      "route": "decision-gate:blocker",
+      "authorization": "current decision required"
+    },
+    {
+      "rank": 2,
+      "route": "domainspec-subagents-strategy:review",
+      "authorization": "only after OPT-REVALIDATE and exact confirmation readiness"
+    },
+    {
+      "rank": 3,
+      "route": "stop:user-input",
+      "authorization": "OPT-DEFER or OPT-STOP"
+    }
+  ],
+  "mutationAuthorized": false,
+  "browserAuthorized": false
+}

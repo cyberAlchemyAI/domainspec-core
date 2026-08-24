@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.0.0",
+  "mode": "refresh",
+  "mutationMode": "apply-approved",
+  "activationSource": "continuation",
+  "result": "pass",
+  "sourceResult": "block",
+  "phaseStatus": "pass",
+  "handoffStatus": "ready",
+  "mutationReady": true,
+  "deltaSummary": "Synchronized blocked immutable attempt -02 into the Work Pack, opened the staged-directory filter blocker, and removed the consumed automatic route without admitting a retry or successor.",
+  "sourceEvidence": [
+    {
+      "kind": "task-session-terminal",
+      "path": "../../readiness/20260806T025009Z-capi-000-include-28-retry-02/task-session/terminal-receipt.json",
+      "sha256": "d44aed7040adf09e2a6b44cf29ef8e03be23632d27867f9b616f6c37c786e35c"
+    },
+    {
+      "kind": "experiment-block",
+      "path": "../../../../../experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-02/receipt.json",
+      "sha256": "068f928864ec5be048e56577cf903b9b8cb9d242ab89576217f0d5376dab7780"
+    }
+  ],
+  "targetArtifacts": [
+    {
+      "path": "../../WORK-PACK.md",
+      "sha256": "72e48df1a10ca632385bbc1ce733e8a0f7f7aedba7408e99afab79f9f1a9f474",
+      "sizeBytes": 14075
+    },
+    {
+      "path": "../../work-pack/execution-receipts/SWU-CAPI-000.refresh.json",
+      "sha256": "8af374e381b35582f7a70fa2bb39039eff83ba01770ec7c285c8207a4b669959",
+      "sizeBytes": 2428
+    }
+  ],
+  "materialPackage": {
+    "id": "capi-refresh-swu-capi-000-02-block-closeout-20260806T031232Z",
+    "digest": "9876ed2207f6bc06a612ed1f1d0b894cbb6bf1a352d024b4f6c0d9df10660712",
+    "manifest": "material/material-package.json",
+    "receipt": "material/material-receipt.json",
+    "receiptSha256": "ec31ea410a2561b20496cec43e569aa0fe6b1669da4125bb4ffd80e5af3b9db2",
+    "handoffResult": "material/handoff-result.json",
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass"
+  },
+  "validation": [
+    "strict context coverage pass",
+    "material package schema pass",
+    "refresh material handoff ready",
+    "live target baselines matched preflight",
+    "owner receipt schema and canonical digest pass",
+    "two live targets byte-matched staged outputs",
+    "Work Pack retained 28-ledger and 57-record scope",
+    "allowed routes, automatic decisions, selected unit, and route id are empty",
+    "no -02 store exists",
+    "all new JSON parses",
+    "scoped trailing whitespace pass"
+  ],
+  "skippedChanges": [
+    "importer repair",
+    "fresh -03 attempt",
+    "snapshot construction",
+    "SWU-CAPI-001",
+    "API implementation",
+    "canonical Craft-source mutation",
+    "publication",
+    "deployment"
+  ],
+  "blockers": [
+    {
+      "id": "CAPI-B003",
+      "state": "open",
+      "summary": "No accepted WaveDB 0.15.9 snapshot or fresh-process reader evidence exists."
+    },
+    {
+      "id": "CAPI-B005",
+      "state": "open",
+      "summary": "The importer must exclude literal staged directory components in a fresh immutable attempt."
+    }
+  ],
+  "nextRoute": {
+    "capability": "decision-gate",
+    "mode": "blocker",
+    "target": "fresh immutable SWU-CAPI-000 attempt with literal staged-directory exclusion",
+    "authorization": "required"
+  },
+  "targetLifecycleStatus": "blocked-after-validation"
+}

@@ -1,0 +1,43 @@
+{
+  "schema": "arcanum.orchestrate.action-id-repair.v1",
+  "dispatch_id": "2026-08-05-whisper-ontology-runtime-route",
+  "run_id": "run-2026-08-05-whisper-ontology-runtime-01",
+  "wave_id": "review",
+  "status": "repaired-before-host-action",
+  "defect": "native_dispatch_coordinator numbered the next wave from the current one-action run plan and emitted identifiers spawn-0002 through spawn-0004, colliding with completed actions",
+  "replay_policy": "block",
+  "spawn_attempt_count_before_repair": 0,
+  "raw_actions": [
+    {
+      "path": "wave-02-reduce/actions/spawn-0002.json",
+      "sha256": "8ec3fd6a316e3971e25093e40eac4c9ec2c26f8a08d59f4a953eef1ea24d16e0",
+      "corrected_action_id": "spawn-0004"
+    },
+    {
+      "path": "wave-02-reduce/actions/spawn-0003.json",
+      "sha256": "bc196dd521c7f75dc83b3ecc387ae480d96e43fb08804cd69d70fda5a0ace27d",
+      "corrected_action_id": "spawn-0005"
+    },
+    {
+      "path": "wave-02-reduce/actions/spawn-0004.json",
+      "sha256": "33d308fea39ba94ed87d95370341dde010c18a1d89af88573cd2e2837c3baf10",
+      "corrected_action_id": "spawn-0006"
+    }
+  ],
+  "changed_fields": ["action_id"],
+  "unchanged_material": [
+    "role",
+    "capability",
+    "target",
+    "mode",
+    "mutation policy",
+    "write and forbidden scopes",
+    "inputs",
+    "outputs",
+    "wave topology",
+    "prompts"
+  ],
+  "residue": [
+    "native_dispatch_coordinator multi-wave action numbering requires owner repair"
+  ]
+}

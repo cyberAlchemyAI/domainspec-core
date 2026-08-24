@@ -1,0 +1,550 @@
+{
+  "capture_kind": "parent-normalized semantic capture of the completed read-only reviewer return",
+  "role_id": "relation-witness-falsifier",
+  "action_id": "spawn-0002",
+  "target_verdict": "fail",
+  "counts": {
+    "total": 25,
+    "planned_discriminating": 17,
+    "merge": 5,
+    "defer": 3,
+    "kill": 0
+  },
+  "scope_reviewed": [
+    "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/evidence-closure.json",
+    "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/reviewer-non-vacuity-final.json",
+    "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/knowledge-vault-synthesis-reviewer-repair.json",
+    "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/CLOSEOUT.json"
+  ],
+  "matrix_rows": [
+    {
+      "row": 1,
+      "relation_id": "AKV-REL-001",
+      "relation_name": "documents",
+      "fixture": {
+        "source": "ER-DOC-ANIMATE-001 validated DocumentationObservation for the animate route",
+        "target": "TOPIC-ANIMATE-001 validated DocumentationTopic for the same route",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-006 coverage-status",
+      "expected_baseline": "Coverage joins the topic to ER-DOC-ANIMATE-001 and reports semantic observation.",
+      "mutation": "Remove the documents edge while retaining both nodes.",
+      "expected_mutant_delta": "QRY-006 withholds semantic coverage or reports the binding absent.",
+      "failure_assertion": "The joined evidence IDs for TOPIC-ANIMATE-001 must include ER-DOC-ANIMATE-001.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 2,
+      "relation_id": "AKV-REL-002",
+      "relation_name": "derivesFrom",
+      "fixture": {
+        "source": "REC-TIMELINE-001 validated timeline Recipe",
+        "target": "ER-DOC-TIMELINE-001 validated guidance EvidenceRecord with intersecting scope",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-001 resolve-task-recipe",
+      "expected_baseline": "The Recipe is selectable and cites the guidance evidence.",
+      "mutation": "Remove derivesFrom without replacement evidence.",
+      "expected_mutant_delta": "The Recipe is rejected and QRY-001 returns ABSTAIN_MISSING_SOURCE plus one NextQuestion.",
+      "failure_assertion": "A selected Recipe requires an admissible derivesFrom target.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 3,
+      "relation_id": "AKV-REL-003",
+      "relation_name": "exports",
+      "fixture": {
+        "source": "VC-450-001 exact Anime.js 4.5.0 VersionContext",
+        "target": "API-JS-ANIMATE-001 validated JS animate symbol",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-003 choose-js-or-waapi",
+      "expected_baseline": "JS animate is generated as a candidate and can win timeline synchronization.",
+      "mutation": "Remove the exports edge while retaining the symbol node.",
+      "expected_mutant_delta": "JS animate is absent from candidate_ids; selection changes or abstains.",
+      "failure_assertion": "Every QRY-003 candidate must be exported by the requested VersionContext.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 4,
+      "relation_id": "AKV-REL-004",
+      "relation_name": "implementationDescribedBy",
+      "fixture": {
+        "source": "API-JS-ANIMATE-001 validated JS animate symbol",
+        "target": "SF-ANIMATE-SIGNATURE-001 pinned SourceFact naming that symbol",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-002 explain-api-symbol",
+      "expected_baseline": "The explanation includes the scoped source description separately from runtime evidence.",
+      "mutation": "Retarget the edge to a WAAPI SourceFact whose scope does not name the JS symbol.",
+      "expected_mutant_delta": "Grounding fails; the mismatched fact is excluded and explanation abstains for missing binding.",
+      "failure_assertion": "The target assertion_scope must name the source APISymbol.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 5,
+      "relation_id": "AKV-REL-005",
+      "relation_name": "hasTestEvidence",
+      "fixture": {
+        "source": "API-JS-ANIMATE-001 validated symbol",
+        "target": "ER-TESTOBS-ANIMATE-001 exact-context TestObserved record",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-002 explain-api-symbol",
+      "expected_baseline": "The record may support runtime-behavior output.",
+      "mutation": "Change evidence_class from TestObserved to TestPresent while retaining the edge.",
+      "expected_mutant_delta": "Test presence remains retrievable but runtime-behavior support is withheld.",
+      "failure_assertion": "Runtime behavior requires TestObserved or exact-context ExecutedWitness.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 6,
+      "relation_id": "AKV-REL-006",
+      "relation_name": "illustratedBy",
+      "fixture": {
+        "source": "API-CREATETIMELINE-001 validated symbol",
+        "target": "EX-TIMELINE-001 validated illustrative Example with execution not observed",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-002 explain-api-symbol",
+      "expected_baseline": "The Example appears as illustrative-only material.",
+      "mutation": "Remove illustratedBy while retaining the Example.",
+      "expected_mutant_delta": "The Example disappears from the symbol explanation; other evidence stays unchanged.",
+      "failure_assertion": "Baseline example IDs contain EX-TIMELINE-001 and mutant IDs do not.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 7,
+      "relation_id": "AKV-REL-007",
+      "relation_name": "prerequisiteRecipe",
+      "fixture": {
+        "source": "REC-TIMELINE-CALLBACK-001 dependent Recipe",
+        "target": "REC-TIMELINE-BASE-001 prerequisite Recipe",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-001 resolve-task-recipe",
+      "expected_baseline": "The base Recipe expands before the callback Recipe.",
+      "mutation": "Add the reverse prerequisite edge to create a two-node cycle.",
+      "expected_mutant_delta": "DAG validation fails and QRY-001 emits ABSTAIN_PREREQUISITE_CYCLE.",
+      "failure_assertion": "Depth-first prerequisite traversal must observe no back-edge.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 8,
+      "relation_id": "AKV-REL-008",
+      "relation_name": "consults",
+      "fixture": {
+        "source": "REC-MOTIONPATH-001 SVG motion-path Recipe",
+        "target": "API-CREATEMOTIONPATH-001 exact-context symbol",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-001 resolve-task-recipe",
+      "expected_baseline": "The Recipe selects createMotionPath and reaches that symbol.",
+      "mutation": "Retarget consults to API-MORPHTO-001.",
+      "expected_mutant_delta": "Recipe binding fails or the motion-path Recipe is withheld.",
+      "failure_assertion": "The motion-path Recipe must consult createMotionPath under the exact context.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 9,
+      "relation_id": "AKV-REL-009",
+      "relation_name": "addresses",
+      "fixture": {
+        "source": "EP-TIMELINE-001 WorkEpisode with task_id=TASK-TIMELINE-001",
+        "target": "TASK-TIMELINE-001 validated Task",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": "The episode is associated with the matching Task.",
+      "mutation": "Remove addresses while leaving WorkEpisode.task_id unchanged.",
+      "expected_mutant_delta": "No edge-specific delta is guaranteed because task_id preserves the association.",
+      "failure_assertion": "No closed rule says whether the edge or task_id is canonical.",
+      "disposition": "MERGE",
+      "rationale": "Duplicate endpoint fields can preserve behavior; choose one canonical representation and derive the other.",
+      "witness_status": "non_retention",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 10,
+      "relation_id": "AKV-REL-010",
+      "relation_name": "usesVersion",
+      "fixture": {
+        "source": "EP-TIMELINE-001 closed WorkEpisode",
+        "target": "VC-450-001 exact VersionContext",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": "A compatible synthetic Lesson can pass the exact-context filter.",
+      "mutation": "Retarget usesVersion to VC-440-001 while querying VC-450-001.",
+      "expected_mutant_delta": "The episode is excluded and no verified Lesson is recommended.",
+      "failure_assertion": "Eligible episodes require a usesVersion target exactly equal to the requested context.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 11,
+      "relation_id": "AKV-REL-011",
+      "relation_name": "contains",
+      "fixture": {
+        "source": "EP-TIMELINE-001 with attempt_ids=[ATT-001,ATT-002]",
+        "target": "ATT-002 with episode_id=EP-TIMELINE-001",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": "ATT-002 participates in the episode chain.",
+      "mutation": "Remove contains while leaving attempt_ids and episode_id unchanged.",
+      "expected_mutant_delta": "No edge-specific query delta is guaranteed.",
+      "failure_assertion": "No closed rule reconciles contains, attempt_ids, and episode_id.",
+      "disposition": "MERGE",
+      "rationale": "Duplicate endpoint fields can preserve behavior; choose one canonical representation and derive the other.",
+      "witness_status": "non_retention",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 12,
+      "relation_id": "AKV-REL-012",
+      "relation_name": "producedEvidence",
+      "fixture": {
+        "source": "ATT-002 succeeded validation Attempt",
+        "target": "ER-EXEC-TIMELINE-001 ExecutedWitness created by ATT-002",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": "The producedEvidence/support chain can satisfy synthetic Lesson eligibility.",
+      "mutation": "Retarget to evidence produced by another Attempt.",
+      "expected_mutant_delta": "The chain is inadmissible; the Lesson is not recommended.",
+      "failure_assertion": "producedEvidence provenance must name the source Attempt.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 13,
+      "relation_id": "AKV-REL-013",
+      "relation_name": "observes",
+      "fixture": {
+        "source": "ATT-DIAG-001 Attempt with an ObservedWitness",
+        "target": "SYM-ANIME-V3-CALL-001 witnessed Symptom",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-004 diagnose-work",
+      "expected_baseline": "The intended design makes the Symptom available through the Attempt.",
+      "mutation": "Remove observes while retaining Symptom.evidence_record_id and the EvidenceRecord.",
+      "expected_mutant_delta": "QRY-004 can still match the standalone Symptom; no closed edge-specific delta exists.",
+      "failure_assertion": "No output contract distinguishes edge traversal from direct Symptom matching.",
+      "disposition": "DEFER",
+      "rationale": "No closed traversal or output contract currently makes this edge behaviorally observable.",
+      "witness_status": "non_retention",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 14,
+      "relation_id": "AKV-REL-014",
+      "relation_name": "supportedByEvidence",
+      "fixture": {
+        "source": "LESSON-SYNTHETIC-001 isolated synthetic verified-Lesson fixture",
+        "target": "ER-EXEC-TIMELINE-001 ExecutedWitness from its succeeded episode",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": "The synthetic Lesson may enter the verified recommendation set.",
+      "mutation": "Remove supportedByEvidence.",
+      "expected_mutant_delta": "The Lesson becomes ineligible and the query abstains from recommending it.",
+      "failure_assertion": "A verified Lesson requires linked TestObserved or ExecutedWitness evidence.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 15,
+      "relation_id": "AKV-REL-015",
+      "relation_name": "contradictedByEvidence",
+      "fixture": {
+        "source": "REC-TIMELINE-001 validated Recipe assertion",
+        "target": "ER-SOURCE-CONFLICT-001 intersecting incompatible EvidenceRecord",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-001 and ABSTAIN_CONFLICT",
+      "expected_baseline": "Both propositions are preserved and QRY-001 returns ABSTAIN_CONFLICT.",
+      "mutation": "Remove contradictedByEvidence while retaining the conflicting record.",
+      "expected_mutant_delta": "The conflict disappears and the Recipe may be selected unsafely.",
+      "failure_assertion": "Intersecting incompatible evidence must appear in conflicts and force abstention.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 16,
+      "relation_id": "AKV-REL-016",
+      "relation_name": "proposes",
+      "fixture": {
+        "source": "DIAG-V3-API-001 validated migration Diagnosis",
+        "target": "FIX-V4-MIGRATION-001 proposed Fix",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-004 diagnose-work",
+      "expected_baseline": "The migration Fix is returned as proposed and requires rerun.",
+      "mutation": "Retarget proposes to a Fix owned by another Diagnosis.",
+      "expected_mutant_delta": "Ownership validation fails and the unrelated Fix is omitted.",
+      "failure_assertion": "Every proposed Fix must agree with the selected Diagnosis and diagnosis_id.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 17,
+      "relation_id": "AKV-REL-017",
+      "relation_name": "applies",
+      "fixture": {
+        "source": "ATT-MIGRATION-001 Attempt whose ActionLog says it applied a Fix",
+        "target": "FIX-V4-MIGRATION-001 proposed Fix",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-004 diagnose-work",
+      "expected_baseline": "The intended design distinguishes applied from merely proposed fixes.",
+      "mutation": "Remove applies while retaining ActionLog and application_status.",
+      "expected_mutant_delta": "No required QRY-004 output changes; the mutant may be invisible.",
+      "failure_assertion": "No closed output derives application state from applies.",
+      "disposition": "DEFER",
+      "rationale": "No closed traversal or output contract currently makes this edge behaviorally observable.",
+      "witness_status": "non_retention",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 18,
+      "relation_id": "AKV-REL-018",
+      "relation_name": "yields",
+      "fixture": {
+        "source": "ATT-002 terminal Attempt with outcome_id=OUT-SUCCESS-001",
+        "target": "OUT-SUCCESS-001 Outcome with attempt_id=ATT-002",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": "The succeeded Outcome participates in Lesson eligibility.",
+      "mutation": "Remove yields while leaving both endpoint IDs unchanged.",
+      "expected_mutant_delta": "No edge-specific delta is guaranteed.",
+      "failure_assertion": "No rule says whether yields, outcome_id, or attempt_id is canonical.",
+      "disposition": "MERGE",
+      "rationale": "Duplicate endpoint fields can preserve behavior; choose one canonical representation and derive the other.",
+      "witness_status": "non_retention",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 19,
+      "relation_id": "AKV-REL-019",
+      "relation_name": "generalizesFrom",
+      "fixture": {
+        "source": "LESSON-SYNTHETIC-001 isolated synthetic Lesson",
+        "target": "EP-TIMELINE-001 closed compatible succeeded episode",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": "The Lesson becomes a candidate and may be verified.",
+      "mutation": "Retarget generalizesFrom to a failed episode.",
+      "expected_mutant_delta": "The Lesson is excluded from verified recommendations and the query abstains.",
+      "failure_assertion": "Verified Lessons require a compatible closed succeeded episode with admissible witness.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 20,
+      "relation_id": "AKV-REL-020",
+      "relation_name": "boundedBy",
+      "fixture": {
+        "source": "REC-TIMELINE-001 v4.5.0 Recipe",
+        "target": "VC-450-001 exact VersionContext",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-001 and stale binding validation",
+      "expected_baseline": "The Recipe survives exact-version filtering.",
+      "mutation": "Retarget boundedBy to VC-440-001 while querying VC-450-001.",
+      "expected_mutant_delta": "The Recipe is excluded and selection abstains for stale or incompatible binding.",
+      "failure_assertion": "Positive selection requires an exact boundedBy context match.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 21,
+      "relation_id": "AKV-REL-021",
+      "relation_name": "invalidatedBy",
+      "fixture": {
+        "source": "REC-DRIFTED-001 Recipe whose required selector was removed",
+        "target": "ER-SELECTOR-REMOVAL-001 intersecting invalidation trigger",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-001 and state transition validation",
+      "expected_baseline": "The Recipe becomes invalidated and is excluded before selection.",
+      "mutation": "Remove invalidatedBy while retaining the trigger record.",
+      "expected_mutant_delta": "The Recipe can remain validated and selectable.",
+      "failure_assertion": "An intersecting removal trigger must set record_state=invalidated before selection.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 22,
+      "relation_id": "AKV-REL-022",
+      "relation_name": "supersedes",
+      "fixture": {
+        "source": "REC-TIMELINE-REV2-001 replacement Recipe",
+        "target": "REC-TIMELINE-REV1-001 prior same-kind Recipe",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-001 and supersession DAG validation",
+      "expected_baseline": "REV1 is superseded and only REV2 remains current.",
+      "mutation": "Remove supersedes so both revisions remain valid.",
+      "expected_mutant_delta": "REV1 reappears and can change selection or create ambiguity.",
+      "failure_assertion": "A superseded target must be absent from current candidates.",
+      "disposition": "RETAIN",
+      "rationale": "Closed query, validator, state transition, or output semantics yield a discriminating planned delta.",
+      "witness_status": "planned_discriminating",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 23,
+      "relation_id": "AKV-REL-023",
+      "relation_name": "exposesGap",
+      "fixture": {
+        "source": "QR-COVERAGE-001 abstaining coverage QueryReceipt",
+        "target": "GAP-MATERIALIZATION-001 open EvidenceGap",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-006 and VIEW-unresolved-gaps",
+      "expected_baseline": "The intended design associates the receipt absence with the Gap.",
+      "mutation": "Remove exposesGap while retaining receipt.absences and the Gap node.",
+      "expected_mutant_delta": "No QueryReceipt gap IDs or closed view transform changes; the mutant can be invisible.",
+      "failure_assertion": "No output assertion ties a receipt absence to a particular Gap edge.",
+      "disposition": "DEFER",
+      "rationale": "No closed traversal or output contract currently makes this edge behaviorally observable.",
+      "witness_status": "non_retention",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 24,
+      "relation_id": "AKV-REL-024",
+      "relation_name": "suggestsNextQuestion",
+      "fixture": {
+        "source": "GAP-MATERIALIZATION-001 open EvidenceGap",
+        "target": "NQ-MATERIALIZE-001 NextQuestion with matching gap_id",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "QRY-006 next-action output",
+      "expected_baseline": "The QueryReceipt includes the NextQuestion for the open gap.",
+      "mutation": "Remove suggestsNextQuestion while retaining gap_id and next_question_ids.",
+      "expected_mutant_delta": "The required output can remain identical through duplicate fields.",
+      "failure_assertion": "No rule reconciles the edge, NextQuestion.gap_id, and QueryReceipt.next_question_ids.",
+      "disposition": "MERGE",
+      "rationale": "Duplicate endpoint fields can preserve behavior; choose one canonical representation and derive the other.",
+      "witness_status": "non_retention",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "row": 25,
+      "relation_id": "AKV-REL-025",
+      "relation_name": "citesEvidence",
+      "fixture": {
+        "source": "QR-RECIPE-001 QueryReceipt with evidence_record_ids=[ER-DOC-TIMELINE-001]",
+        "target": "ER-DOC-TIMELINE-001 consumed EvidenceRecord",
+        "input_context": "closed-contract synthetic fixture; exact VersionContext where applicable"
+      },
+      "consumer": "all QRY contracts and VAL-query-replay",
+      "expected_baseline": "Replay exposes the evidence consumed for the selected Recipe.",
+      "mutation": "Remove citesEvidence while leaving evidence_record_ids unchanged.",
+      "expected_mutant_delta": "All declared QueryReceipt fields can remain identical.",
+      "failure_assertion": "No rule says whether citesEvidence or evidence_record_ids is canonical.",
+      "disposition": "MERGE",
+      "rationale": "Duplicate endpoint fields can preserve behavior; choose one canonical representation and derive the other.",
+      "witness_status": "non_retention",
+      "execution_status": "planned_not_executed"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "CRITICAL",
+      "code": "RWF-CRITICAL-001",
+      "finding": "Only 17 of 25 relation candidates have discriminating deltas derivable from the closed contracts.",
+      "proposed_fix": "Do not retain rows 009, 011, 013, 017, 018, 023, 024, or 025 until their listed merge/defer conditions are closed."
+    },
+    {
+      "severity": "MAJOR",
+      "code": "RWF-MAJOR-002",
+      "finding": "Rows 009, 011, 018, 024, and 025 duplicate endpoint ID fields.",
+      "proposed_fix": "Choose one canonical representation and derive the other, or add fail-closed equality validators and mismatch fixtures."
+    },
+    {
+      "severity": "MAJOR",
+      "code": "RWF-MAJOR-003",
+      "finding": "Rows 013, 017, and 023 name consumers without a closed traversal, output field, or view transform.",
+      "proposed_fix": "Define exact observable consumer behavior before retention."
+    },
+    {
+      "severity": "MAJOR",
+      "code": "RWF-MAJOR-004",
+      "finding": "The synthesis repair's ready claim is superseded by the later blocked closure and loop ceiling.",
+      "proposed_fix": "Treat it only as reviewer input; do not reopen the closed dispatch."
+    },
+    {
+      "severity": "MINOR",
+      "code": "RWF-MINOR-005",
+      "finding": "All 17 witnesses are planned only.",
+      "proposed_fix": "A later authorized owner must materialize and run baseline-versus-mutant fixtures."
+    }
+  ],
+  "surviving_mutants": [
+    {
+      "kind": "duplicate edge and endpoint ID representation",
+      "relations": [
+        "AKV-REL-009",
+        "AKV-REL-011",
+        "AKV-REL-018",
+        "AKV-REL-024",
+        "AKV-REL-025"
+      ]
+    },
+    {
+      "kind": "named consumer without closed traversal/output",
+      "relations": [
+        "AKV-REL-013",
+        "AKV-REL-017",
+        "AKV-REL-023"
+      ]
+    }
+  ],
+  "handoff_note": "Carry 17 RETAIN witness designs; MERGE five duplicate representations and DEFER three underdefined consumer edges.",
+  "mutation_statement": "Read-only review; no files, Git state, telemetry, research receipts, ontology bytes, or external state changed, and no witness was executed."
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": "whisper.ontology-runtime.evidence-closure.v0.2",
+  "dispatch_id": "2026-08-05-whisper-ontology-runtime-research",
+  "repair_route_id": "2026-08-06-whisper-state-contract-repair-and-research-closeout",
+  "status": "pass",
+  "gate_id": "g-review-writer-auditor-evidence-closure-completion",
+  "original_loop_ceiling": 2,
+  "original_loops_used": 2,
+  "explorer_returns": [
+    {"id": "OX-01", "artifact": "research.md#agent-1--ontology-explorer-ox-01", "status": "pass"},
+    {"id": "RX-01", "artifact": "research.md#agent-2--runtime-explorer-rx-01", "status": "pass"}
+  ],
+  "repair_evidence": [
+    {"role": "task-session", "path": "development/state-contract-repair/execution/task-session-terminal-receipt.json", "sha256": "962737bb2dbf42ce175034e0d05ea3a176a5ddc02aa0c847ae2ad11ad4099e53", "size_bytes": 5280, "result": "pass"},
+    {"role": "state-contract-validator", "path": "receipts/state-contract-validation.json", "sha256": "c864078b050c867eb857f4feb9afc0cffd729a25af61acc98c7d02472bc66c98", "size_bytes": 1938, "result": "pass"},
+    {"role": "independent-non-vacuity-reviewer", "path": "receipts/reviewer-non-vacuity-completion.json", "sha256": "b61a2d20c41810684e66e471c673bc5d7b922331b6b2845af5c4dc49f8e92a8c", "size_bytes": 1309, "result": "pass"},
+    {"role": "findings-writer", "path": "receipts/findings-writer.json", "sha256": "0a8136dacf218e0cb4da08c170aa9a982a6eeba1823cf14bdf581960e4a84fef", "size_bytes": 1545, "result": "pass"},
+    {"role": "independent-findings-auditor", "path": "receipts/findings-audit.json", "sha256": "547e652f244b2995573569d56933b4bee22355f8e37748adb9140f9c7222e8c3", "size_bytes": 1489, "result": "pass"}
+  ],
+  "result_artifacts": [
+    {"path": "findings.md", "sha256": "e272a8ac6fe4121a20c4a641895da3e493cb596489bbcd47d64501963d067d4c", "size_bytes": 9157},
+    {"path": "RESULT.md", "sha256": "ddf9a28edca609de8c7e31302fdcb29737873af39bc0cb80ecab47b72451e4ff", "size_bytes": 4329}
+  ],
+  "closed_blocker": {
+    "code": "WOR-RUNTIME-STATE-REDUCER-INCONSISTENT",
+    "original_evidence": "review-final.md#remaining-blocker",
+    "repair_evidence": "receipts/state-contract-validation.json",
+    "review_evidence": "review-completion.md",
+    "status": "closed"
+  },
+  "helper_receipt": {
+    "helper": "whisper_repair_scu_audit",
+    "turns": ["smallest-coherent-unit-boundary-audit", "independent-non-vacuity-review", "independent-findings-audit-and-rerun"],
+    "mutation_policy": "read-only",
+    "files_changed": [],
+    "status": "joined"
+  },
+  "writer_eligible": true,
+  "auditor_eligible": true,
+  "research_complete": true,
+  "authority_effect": "none",
+  "claim_ceiling": "Exact-binding two-front research is complete and the repaired candidate state-contract subset is executable. Ontology creation/admission, runtime/prototype implementation, co-op product/public mutation, publication, deployment, promotion, release, production readiness, and authority are not established."
+}

@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-05T20:33:05Z",
+  "verdict": "pass",
+  "attemptId": "wcnd-20260805-node26-02",
+  "command": "npm install <verified-local-tarball> --save-exact --foreground-scripts --no-audit --fund=false",
+  "externalTimeoutSeconds": 180,
+  "observedDurationSeconds": 49,
+  "exitCode": 0,
+  "timedOut": false,
+  "toolchain": {
+    "node": "v26.6.0",
+    "npm": "11.18.0",
+    "nodeGyp": "9.4.1",
+    "python": "3.12.3",
+    "cc": "Ubuntu GCC 13.3.0",
+    "cxx": "Ubuntu G++ 13.3.0",
+    "openssl": "OpenSSL 3.0.13",
+    "opensslRoot": "/usr",
+    "platform": "linux",
+    "architecture": "x64"
+  },
+  "installedPackage": {
+    "name": "@vijayee/wavedb",
+    "version": "0.15.9",
+    "resolved": "file:../download/vijayee-wavedb-0.15.9.tgz",
+    "integrity": "sha512-qoRqZUti9Rjs9UT4rj8cQKNv2Gdr8bJ25p6miU4dKojLeBMfzkgQqp+D/fd2PsaItXyhgMLrlx/wQUmyj/W8hA==",
+    "installScript": "node scripts/build.js",
+    "buildSource": "tarball-bundled-c_src",
+    "buildSourceObservation": "copy-sources.js could not locate a WaveDB checkout and the documented fallback used pre-populated c_src"
+  },
+  "dependencyEvidence": {
+    "packageLockPath": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcnd-20260805-node26-02/consumer/package-lock.json",
+    "packageLockSha256": "cbed1e848f67b0ece96c35e0c58a4fd6115abbe995787561b88474be7889efa5",
+    "packageLockSizeBytes": 40398,
+    "lockfileVersion": 3,
+    "directBuildDependencies": {
+      "node-addon-api": "7.1.1",
+      "node-gyp": "9.4.1"
+    },
+    "npmLsDepth0ExitCode": 0,
+    "npmLsObservation": "WaveDB resolved to the verified local tarball; npm also reports an extraneous @vijayee/node-addon-api directory containing node-gyp intermediate Makefiles"
+  },
+  "logs": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcnd-20260805-node26-02/npm-logs/2026-08-05T20_31_09_025Z-debug-0.log",
+      "sha256": "cb44c1900ad3e2a32da58343391d1a136b54f60c6f89f579161b9e6a8f650200",
+      "sizeBytes": 56417
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcnd-20260805-node26-02/npm-logs/2026-08-05T20_31_12_951Z-debug-0.log",
+      "sha256": "8167d597e6e17a2020da19cf96c1efd511c3abc4191523fb85d2b7ccf79bdea0",
+      "sizeBytes": 1546
+    }
+  ],
+  "warnings": [
+    "the dependency tree includes deprecated transitive packages",
+    "compiler warnings were emitted, including possible use-after-free warnings in subtree.cc; the admitted basic canaries do not exercise that API",
+    "npm allow-scripts reported that the package is not covered by persistent allowScripts policy even though this explicitly authorized foreground install executed successfully"
+  ]
+}

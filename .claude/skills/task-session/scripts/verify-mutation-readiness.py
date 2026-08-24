@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bind an Invoke material receipt to live Task Session mutation controls."""
+"""Bind routed Task Session writes to live controls and optional material evidence."""
 
 from __future__ import annotations
 
@@ -13,6 +13,14 @@ from jsonschema import Draft202012Validator
 
 
 MUTATION_MODES = {"routed-mutation", "reusable-mutation"}
+PLAN_MANIFEST_SCHEMA_ID = (
+    "https://arcanum.dev/schemas/work-pack-readiness-audit/"
+    "plan-semantic-manifest/1-0-0"
+)
+SELECTION_RECEIPT_SCHEMA_ID = (
+    "https://arcanum.dev/schemas/work-pack-readiness-audit/"
+    "selection-receipt/1-0-0"
+)
 
 
 def canonical_digest(document: Any) -> str:
@@ -61,6 +69,27 @@ def normalized_relative_path(raw_path: str) -> tuple[str | None, str | None]:
     if cleaned in ("", "."):
         return None, f"path escape: {raw_path}"
     return cleaned, None
+
+
+def normalized_write_set(
+    request: dict[str, Any],
+    key: str,
+    label: str,
+) -> tuple[set[str], list[str]]:
+    normalized_paths: set[str] = set()
+    errors: list[str] = []
+    for raw_path in request.get(key, []):
+        normalized, path_error = normalized_relative_path(raw_path)
+        if path_error:
+            errors.append(f"{label} {path_error}")
+            continue
+        assert normalized is not None
+        if normalized in normalized_paths:
+            errors.append(f"duplicate normalized {label} path: {raw_path}")
+        if normalized != raw_path:
+            errors.append(f"non-canonical {label} path: {raw_path}")
+        normalized_paths.add(normalized)
+    return normalized_paths, errors
 
 
 def read_exact_artifact(
@@ -137,6 +166,49 @@ def request_dependency_tuple(dependency: dict[str, Any]) -> tuple[Any, ...]:
     )
 
 
+def context_contract_failures(
+    contract: Any,
+    request: dict[str, Any],
+    write_profile: str,
+    material_writes: set[str],
+    execution_outputs: set[str],
+    allowed_writes: set[str],
+) -> list[str]:
+    if not isinstance(contract, dict):
+        return ["context pack execution contract is missing or invalid"]
+    failures: list[str] = []
+    if contract.get("writeProfile") != write_profile:
+        failures.append("context pack write profile mismatch")
+    for key, label, expected in (
+        ("materialWrites", "material write", material_writes),
+        ("executionOutputs", "execution output", execution_outputs),
+        ("allowedWrites", "allowed write", allowed_writes),
+    ):
+        raw = contract.get(key)
+        if not isinstance(raw, list) or any(not isinstance(item, str) for item in raw):
+            failures.append(f"context pack {label} scope is invalid")
+            continue
+        normalized, errors = normalized_write_set({key: raw}, key, label)
+        failures.extend(f"context pack {error}" for error in errors)
+        if normalized != expected:
+            failures.append(f"context pack {label} scope mismatch")
+    commands = contract.get("validationCommands")
+    if (
+        not isinstance(commands, list)
+        or any(not isinstance(item, str) or not item for item in commands)
+        or commands != request["validationCommands"]
+    ):
+        failures.append("context pack validation surface mismatch")
+    for key, label in (
+        ("lifecycleOwner", "lifecycle owner"),
+        ("authorityClass", "authority class"),
+        ("publicationClass", "publication class"),
+    ):
+        if contract.get(key) != request[key]:
+            failures.append(f"context pack {label} mismatch")
+    return failures
+
+
 def base_receipt(
     request: dict[str, Any],
     request_digest: str | None,
@@ -144,9 +216,14 @@ def base_receipt(
     execution_mode = request.get("executionMode", "invalid")
     if execution_mode not in MUTATION_MODES | {"standalone-nonmutating"}:
         execution_mode = "invalid"
-    return {
-        "schemaVersion": "1.0.0",
+    receipt = {
+        "schemaVersion": "1.2.0",
         "executionMode": execution_mode,
+        "writeProfile": (
+            "nonmutating"
+            if execution_mode == "standalone-nonmutating"
+            else "invalid"
+        ),
         "admissionVerdict": "block",
         "mutationReady": False,
         "taskId": request.get("taskId"),
@@ -173,6 +250,20 @@ def base_receipt(
                 and item["dependencyId"]
             }
         ),
+        "materialWrites": sorted(
+            {
+                item
+                for item in request.get("materialWrites", [])
+                if isinstance(item, str) and item
+            }
+        ),
+        "executionOutputs": sorted(
+            {
+                item
+                for item in request.get("executionOutputs", [])
+                if isinstance(item, str) and item
+            }
+        ),
         "allowedWrites": sorted(
             {
                 item
@@ -193,6 +284,204 @@ def base_receipt(
         "liveValidationRequired": execution_mode in MUTATION_MODES,
         "reasons": [],
     }
+    if request.get("admissionProfile") == "plan-once-selected-unit":
+        plan = request.get("planAdmission", {})
+        receipt.update(
+            {
+                "admissionProfile": "plan-once-selected-unit",
+                "planEpochId": plan.get("planEpochId"),
+                "unitContractDigest": plan.get("unitContractDigest"),
+                "attemptId": plan.get("attemptId"),
+                "planManifestDigest": None,
+                "selectionReceiptDigest": None,
+                "targetBaselineDigest": None,
+                "targetBaselines": plan.get("targetBaselines"),
+                "validationContractDigest": plan.get(
+                    "validationContractDigest"
+                ),
+                "admissionToken": None,
+                "singleUse": True,
+            }
+        )
+    return receipt
+
+
+def live_baseline_failures(
+    repository_root: Path, baselines: list[dict[str, Any]]
+) -> list[str]:
+    failures: list[str] = []
+    root = repository_root.resolve()
+    observed: set[str] = set()
+    for baseline in baselines:
+        normalized, path_error = normalized_relative_path(baseline["path"])
+        if path_error:
+            failures.append(f"target baseline {path_error}")
+            continue
+        assert normalized is not None
+        if normalized != baseline["path"]:
+            failures.append(f"non-canonical target baseline path: {baseline['path']}")
+        if normalized in observed:
+            failures.append(f"duplicate target baseline path: {normalized}")
+        observed.add(normalized)
+        candidate = (root / normalized).resolve(strict=False)
+        try:
+            candidate.relative_to(root)
+        except ValueError:
+            failures.append(f"target baseline path escape: {baseline['path']}")
+            continue
+        if baseline["state"] == "absent":
+            if candidate.exists():
+                failures.append(f"target baseline changed from absent: {normalized}")
+            continue
+        if not candidate.is_file():
+            failures.append(f"target baseline changed from present: {normalized}")
+            continue
+        content = candidate.read_bytes()
+        if byte_digest(content) != baseline["sha256"]:
+            failures.append(f"target baseline digest mismatch: {normalized}")
+        if len(content) != baseline["sizeBytes"]:
+            failures.append(f"target baseline size mismatch: {normalized}")
+    return failures
+
+
+def validate_plan_admission(
+    request: dict[str, Any],
+    repository_root: Path,
+    material_package: dict[str, Any] | None,
+    material_receipt: dict[str, Any] | None,
+    result: dict[str, Any],
+) -> list[str]:
+    if request.get("admissionProfile") != "plan-once-selected-unit":
+        return []
+    plan = request["planAdmission"]
+    failures: list[str] = []
+    documents: dict[str, dict[str, Any] | None] = {}
+    contents: dict[str, bytes | None] = {}
+    for key, label in (
+        ("planManifestSchema", "plan manifest schema"),
+        ("planManifest", "plan semantic manifest"),
+        ("selectionReceiptSchema", "selection receipt schema"),
+        ("selectionReceipt", "selection receipt"),
+    ):
+        content, errors = read_exact_artifact(repository_root, plan[key], label)
+        failures.extend(errors)
+        document = None
+        if content is not None and not errors:
+            document, parse_errors = parse_json_bytes(content, label)
+            failures.extend(parse_errors)
+        contents[key] = content
+        documents[key] = document
+
+    manifest = documents["planManifest"]
+    manifest_schema = documents["planManifestSchema"]
+    selection = documents["selectionReceipt"]
+    selection_schema = documents["selectionReceiptSchema"]
+    if contents["planManifest"] is not None:
+        result["planManifestDigest"] = byte_digest(contents["planManifest"])
+    if contents["selectionReceipt"] is not None:
+        result["selectionReceiptDigest"] = byte_digest(
+            contents["selectionReceipt"]
+        )
+    if manifest is not None and manifest_schema is not None:
+        if manifest_schema.get("$id") != PLAN_MANIFEST_SCHEMA_ID:
+            failures.append("plan manifest schema identity mismatch")
+        failures.extend(schema_errors(manifest, manifest_schema, "plan manifest"))
+    if selection is not None and selection_schema is not None:
+        if selection_schema.get("$id") != SELECTION_RECEIPT_SCHEMA_ID:
+            failures.append("selection receipt schema identity mismatch")
+        failures.extend(
+            schema_errors(selection, selection_schema, "selection receipt")
+        )
+
+    expected_epoch = plan["planEpochId"]
+    expected_unit = plan["unitContractDigest"]
+    if manifest is not None:
+        if manifest.get("plan_epoch_id") != expected_epoch:
+            failures.append("plan manifest epoch mismatch")
+        if not (
+            manifest.get("authority_effect") == "none"
+            and manifest.get("mutation_ready") is False
+            and manifest.get("selected_unit") is None
+        ):
+            failures.append("plan manifest authority ceiling mismatch")
+        if expected_unit not in manifest.get("unit_contract_digests", {}).values():
+            failures.append("unit contract digest is absent from plan manifest")
+    if selection is not None:
+        if not (
+            selection.get("selectionVerdict") == "select"
+            and selection.get("terminalCode") == "SELECTION_READY"
+            and selection.get("authorityEffect") == "none"
+            and selection.get("mutationReady") is False
+        ):
+            failures.append("selection receipt does not select a non-authoritative unit")
+        for key, expected, label in (
+            ("taskId", request["taskId"], "task id"),
+            ("swuId", request["swuId"], "SWU id"),
+            ("planEpochId", expected_epoch, "plan epoch"),
+            ("unitContractDigest", expected_unit, "unit contract digest"),
+        ):
+            if selection.get(key) != expected:
+                failures.append(f"selection receipt {label} mismatch")
+        if selection.get("manifestDigest") != result["planManifestDigest"]:
+            failures.append("selection receipt manifest digest mismatch")
+
+    request_baselines = plan["targetBaselines"]
+    baseline_paths, baseline_path_errors = normalized_write_set(
+        {"targetBaselines": [item["path"] for item in request_baselines]},
+        "targetBaselines",
+        "target baseline",
+    )
+    failures.extend(baseline_path_errors)
+    material_paths, _ = normalized_write_set(
+        request, "materialWrites", "material write"
+    )
+    if baseline_paths != material_paths:
+        failures.append("target baseline inventory does not equal material writes")
+    failures.extend(live_baseline_failures(repository_root, request_baselines))
+    target_digest = canonical_digest(request_baselines)
+    result["targetBaselineDigest"] = target_digest
+
+    validation_digest = canonical_digest(plan["structuredValidationContracts"])
+    if plan["validationContractDigest"] != validation_digest:
+        failures.append("validation contract digest mismatch")
+
+    package_binding = material_package.get("plan_binding") if material_package else None
+    receipt_binding = material_receipt.get("planBinding") if material_receipt else None
+    expected_binding = {
+        "task_id": request["taskId"],
+        "swu_id": request["swuId"],
+        "plan_epoch_id": expected_epoch,
+        "unit_contract_digest": expected_unit,
+        "selection_receipt_digest": result["selectionReceiptDigest"],
+        "attempt_id": plan["attemptId"],
+        "validation_contract_digest": plan["validationContractDigest"],
+        "validation_contracts": plan["structuredValidationContracts"],
+        "target_baselines": [
+            {
+                "path": item["path"],
+                "state": item["state"],
+                "sha256": item["sha256"],
+                "size_bytes": item["sizeBytes"],
+            }
+            for item in request_baselines
+        ],
+    }
+    if package_binding != expected_binding:
+        failures.append("material package plan binding mismatch")
+    if receipt_binding != expected_binding:
+        failures.append("material receipt plan binding mismatch")
+
+    if not failures:
+        result["admissionToken"] = canonical_digest(
+            {
+                "requestDigest": result["requestDigest"],
+                "selectionReceiptDigest": result["selectionReceiptDigest"],
+                "attemptId": plan["attemptId"],
+                "targetBaselineDigest": target_digest,
+                "validationContractDigest": validation_digest,
+            }
+        )
+    return failures
 
 
 def resolve_mutation_admission(
@@ -211,27 +500,56 @@ def resolve_mutation_admission(
         result["liveValidationRequired"] = False
         return result
 
-    artifacts: dict[str, tuple[bytes | None, dict[str, Any] | None]] = {}
-    for key, label in (
-        ("producerReceiptSchema", "producer receipt schema"),
-        ("materialReceipt", "material receipt"),
-        ("materialPackage", "material package"),
-    ):
-        content, errors = read_exact_artifact(repository_root, request[key], label)
-        failures.extend(errors)
-        document: dict[str, Any] | None = None
-        if content is not None and not errors:
-            document, parse_errors = parse_json_bytes(content, label)
-            failures.extend(parse_errors)
-        artifacts[key] = (content, document)
+    material_writes, material_write_errors = normalized_write_set(
+        request, "materialWrites", "material write"
+    )
+    execution_outputs, execution_output_errors = normalized_write_set(
+        request, "executionOutputs", "execution output"
+    )
+    allowed_writes, allowed_write_errors = normalized_write_set(
+        request, "allowedWrites", "allowed write"
+    )
+    failures.extend(material_write_errors)
+    failures.extend(execution_output_errors)
+    failures.extend(allowed_write_errors)
+    if material_writes & execution_outputs:
+        failures.append("material and execution write scopes overlap")
+    if material_writes | execution_outputs != allowed_writes:
+        failures.append("allowed write scope partition mismatch")
+    if material_writes:
+        write_profile = "material-bound"
+    elif execution_outputs:
+        write_profile = "execution-output-only"
+    else:
+        write_profile = "invalid"
+        failures.append("no writable partition declared")
+    result["writeProfile"] = write_profile
 
-    schema_content, producer_schema = artifacts["producerReceiptSchema"]
-    receipt_content, material_receipt = artifacts["materialReceipt"]
-    _, material_package = artifacts["materialPackage"]
-    if schema_content is not None:
-        result["producerSchemaDigest"] = byte_digest(schema_content)
-    if receipt_content is not None:
-        result["materialReceiptDigest"] = byte_digest(receipt_content)
+    artifacts: dict[str, tuple[bytes | None, dict[str, Any] | None]] = {}
+    producer_schema: dict[str, Any] | None = None
+    material_receipt: dict[str, Any] | None = None
+    material_package: dict[str, Any] | None = None
+    if write_profile == "material-bound":
+        for key, label in (
+            ("producerReceiptSchema", "producer receipt schema"),
+            ("materialReceipt", "material receipt"),
+            ("materialPackage", "material package"),
+        ):
+            content, errors = read_exact_artifact(repository_root, request[key], label)
+            failures.extend(errors)
+            document: dict[str, Any] | None = None
+            if content is not None and not errors:
+                document, parse_errors = parse_json_bytes(content, label)
+                failures.extend(parse_errors)
+            artifacts[key] = (content, document)
+
+        schema_content, producer_schema = artifacts["producerReceiptSchema"]
+        receipt_content, material_receipt = artifacts["materialReceipt"]
+        _, material_package = artifacts["materialPackage"]
+        if schema_content is not None:
+            result["producerSchemaDigest"] = byte_digest(schema_content)
+        if receipt_content is not None:
+            result["materialReceiptDigest"] = byte_digest(receipt_content)
 
     for control in request["controlArtifacts"]:
         _, errors = read_exact_artifact(repository_root, control, "control artifact")
@@ -259,6 +577,16 @@ def resolve_mutation_admission(
                     failures.append("context pack SWU id mismatch")
                 if context_pack.get("strict_coverage") is not True:
                     failures.append("context pack strict coverage is not true")
+                failures.extend(
+                    context_contract_failures(
+                        context_pack.get("execution_contract"),
+                        request,
+                        write_profile,
+                        material_writes,
+                        execution_outputs,
+                        allowed_writes,
+                    )
+                )
 
     for dependency in request["dependencyFrontier"]:
         _, errors = read_exact_artifact(
@@ -324,11 +652,13 @@ def resolve_mutation_admission(
             if isinstance(item, dict) and isinstance(item.get("target_path"), str)
         }
         receipt_targets = set(material_receipt.get("validatedPaths", []))
-        allowed_writes = set(request["allowedWrites"])
         if not (
-            allowed_writes == change_targets == inventory_targets == receipt_targets
+            material_writes
+            == change_targets
+            == inventory_targets
+            == receipt_targets
         ):
-            failures.append("allowed write scope mismatch")
+            failures.append("material write scope mismatch")
 
         request_commands = set(request["validationCommands"])
         package_commands = set(material_package.get("validation_commands", []))
@@ -347,6 +677,16 @@ def resolve_mutation_admission(
                 failures.append(f"material package {label} mismatch")
             if material_receipt.get(request_key) != expected:
                 failures.append(f"material receipt {label} mismatch")
+
+    failures.extend(
+        validate_plan_admission(
+            request,
+            repository_root,
+            material_package,
+            material_receipt,
+            result,
+        )
+    )
 
     failures = sorted(set(failures))
     result["reasons"] = failures

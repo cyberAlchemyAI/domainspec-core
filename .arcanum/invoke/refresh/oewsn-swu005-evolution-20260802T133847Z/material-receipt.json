@@ -1,0 +1,34 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "invoke",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "8181da821ccb8805fbe5a7fd8950ca6d6c6325028dc204044438a55cb70bf823",
+  "packageId": "oewsn-swu005-evolution-refresh-20260802T133847Z",
+  "patchVerdict": "pass",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/CLOSEOUT-SYNC-INVENTORY.json",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/EXECUTION-PACK.md",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/MUTATION-ADMISSION-CONTRACT.json",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/SWU-MANIFEST.json",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/WORK-PACK.md",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/tasks/TASK-OEWSN-01B-SEMANTIC-BUILD-EVOLUTION.md",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/tasks/TASK-OEWSN-02-RELATION-UI.md",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/waves/W2-L0-RELATION-UI.md"
+  ],
+  "validationCommands": [
+    "python3 -m json.tool planning/SWU-MANIFEST.json",
+    "python3 -m json.tool planning/MUTATION-ADMISSION-CONTRACT.json",
+    "python3 -m json.tool planning/CLOSEOUT-SYNC-INVENTORY.json",
+    "jq selected SWU-022 and SWU-005 exact material/output algebra and dependency chain",
+    "jq SWU-022 and SWU-005 closeout admission ownership",
+    "bash tools/check_markdown_links.sh on five refreshed Markdown planning files",
+    "sha256sum --check protected binding, builder/test preimages and historical build identities",
+    "git diff --check -- semantic-navigation planning scope"
+  ]
+}

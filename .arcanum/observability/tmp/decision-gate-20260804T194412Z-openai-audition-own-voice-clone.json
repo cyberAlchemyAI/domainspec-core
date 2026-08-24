@@ -1,0 +1,79 @@
+{
+  "timestamp": "2026-08-04T19:44:12Z",
+  "run_id": "decision-gate-openai-audition-20260804T194412Z",
+  "session_id": "2026-08-04-openai-stock-voice-audition",
+  "sigil": "decision-gate",
+  "tier": "arcana",
+  "mode": "pilot-scope-change",
+  "request": {
+    "summary": "Record the owner decision to replace mechanical stock voices with an own-voice clone and route clone-provider selection.",
+    "target_scope": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition"
+  },
+  "execution": {
+    "status": "blocked-awaiting-clone-provider-choice",
+    "decision_count": 8,
+    "blocker_count": 8,
+    "resolved_decision_count": 2,
+    "resolved_subdecision_count": 1,
+    "unresolved_blocker_count": 6,
+    "resolved": [
+      {
+        "decision_id": "OAIA-DG-001-use-scope",
+        "option_id": "OAIA-SCOPE-PRIVATE-LOCAL",
+        "source": "direct-user-chat-response-1"
+      },
+      {
+        "decision_id": "OAIA-DG-002B-two-variant-scope",
+        "option_id": "OAIA-EXPERIMENT-TWO-ACCENT-AB",
+        "source": "direct-user-chat-create-the-two-variants"
+      },
+      {
+        "decision_id": "OAIA-DG-003B-voice-identity",
+        "option_id": "OAIA-VOICE-OWN-CLONE",
+        "source": "direct-user-chat-stock-voices-too-mechanical"
+      }
+    ],
+    "superseded": [
+      {
+        "decision_id": "OAIA-DG-003-shared-stock-voice",
+        "reason": "The owner rejected the tested stock-voice direction as too mechanical."
+      }
+    ],
+    "current_decision_id": "OAIA-DG-003C-clone-provider-method",
+    "admissible_routing": "gate",
+    "admissible_option_count": 5,
+    "user_override": "not-requested",
+    "provider_call_permitted": false,
+    "biometric_recording_or_upload_permitted": false,
+    "output_path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/decision-gate/DECISIONS.md",
+    "identity_admissibility_request": {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/decision-gate/requests/OAIA-DG-003B-voice-identity.json",
+      "sha256": "5f110601a9816a75776b2451e57e7d7f2e63c73d49100ce9f4caba270e02c8dc",
+      "size_bytes": 2320
+    },
+    "identity_admissibility_receipt": {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/decision-gate/receipts/OAIA-DG-003B-voice-identity.json",
+      "sha256": "0f30ceb03c687904efbd0afdc460d6a8d71e64420a048623ff938dde7501d348",
+      "size_bytes": 681
+    },
+    "clone_route_admissibility_request": {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/decision-gate/requests/OAIA-DG-003C-clone-provider-method.json",
+      "sha256": "f9bc6c089241417e114a4398116522f9c1997d9772d840a34ac07461d4405ecd",
+      "size_bytes": 2517
+    },
+    "clone_route_admissibility_receipt": {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/decision-gate/receipts/OAIA-DG-003C-clone-provider-method.json",
+      "sha256": "711be79fe71439830dcb111ec74c0f182a787a4fbe0547610ac9b4ad81302805",
+      "size_bytes": 692
+    },
+    "notes": "Own-voice cloning is selected as the identity strategy. Provider and cloning method remain unresolved. No recording, upload, account action, spend, training, or synthesis is authorized."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "reflection_trigger": "scope-change-requires-new-invoke",
+    "recommendation": "ask-OAIA-DG-003C"
+  },
+  "target_artifact": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/decision-gate/DECISIONS.md"
+}

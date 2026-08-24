@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-08-04T19:10:55Z",
+  "run_id": "distill-pre-execution-prerequisite-plan-20260804",
+  "session_id": "2026-08-04-pre-execution-prerequisite-invoke",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "validate",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "validate",
+    "alias": null
+  },
+  "command": null,
+  "lineage": {
+    "parent_run_id": "invoke-pre-execution-prerequisite-package-20260804",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spells",
+      "mode": "define-design-plan"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "emission_status": "complete",
+    "distill_run_request_ref": {
+      "path": "arcanum/arcana/task-session/development/invoke-runs/20260804T184514Z-pre-execution-owner-prerequisite-fast-path/DISTILL-RUN-REQUEST.json",
+      "sha256": "a56f76eb2d6e6a9fab26c0318dc17593204add58eb554a4628cb87e0a2d4b578",
+      "size_bytes": 2360
+    },
+    "runtime_event_refs": [
+      {
+        "path": "arcanum/arcana/task-session/development/invoke-runs/20260804T184514Z-pre-execution-owner-prerequisite-fast-path/DISTILL-RUNTIME-EVENTS.jsonl",
+        "sha256": "1176b73b1b7c776699db07027b15e947f92f513659b173326a0b22288a4b12c3",
+        "size_bytes": 3896
+      }
+    ],
+    "execution_receipt_ref": {
+      "path": "arcanum/arcana/task-session/development/invoke-runs/20260804T184514Z-pre-execution-owner-prerequisite-fast-path/DISTILL-EXECUTION-RECEIPT.json",
+      "sha256": "55e728e82563ede80f4078805e4572701018e6b65020d736e5c7a740a5359a4f",
+      "size_bytes": 8552
+    },
+    "validation_result_ref": {
+      "path": "arcanum/arcana/task-session/development/invoke-runs/20260804T184514Z-pre-execution-owner-prerequisite-fast-path/DISTILL-VALIDATION-RESULT.json",
+      "sha256": "e12da152b8b05401e9695251fb16f60cdd96dea87c8b438336b77d1e5e4aae63",
+      "size_bytes": 2074
+    }
+  },
+  "request": {
+    "raw": null,
+    "summary": "Validate the pre-execution prerequisite fast-path design and six-SWU plan for atomicity, owner boundaries, effort limits, and recomposition.",
+    "intent": "Close package planning without selecting an SWU or authorizing lifecycle implementation."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "arcanum/arcana/task-session/development/invoke-runs/20260804T184514Z-pre-execution-owner-prerequisite-fast-path/DESIGN-DISTILL-VALIDATION.md",
+      "arcanum/arcana/task-session/development/invoke-runs/20260804T184514Z-pre-execution-owner-prerequisite-fast-path/PLAN-DISTILL-VALIDATION.md",
+      "arcanum/arcana/task-session/development/invoke-runs/20260804T184514Z-pre-execution-owner-prerequisite-fast-path/DISTILL-EXECUTION-RECEIPT.json",
+      "arcanum/arcana/task-session/development/invoke-runs/20260804T184514Z-pre-execution-owner-prerequisite-fast-path/DISTILL-VALIDATION-RESULT.json"
+    ],
+    "files_changed": [],
+    "validation": [
+      "six one-behavior SWUs: pass",
+      "first-unit narrowness: pass",
+      "recomposition: pass",
+      "authority and one-hop boundaries: pass",
+      "mutation handoff allowed: false"
+    ],
+    "notes": "The independent review identified late prerequisite discovery, carried-authorization ambiguity, multi-hop scope, and timing-test risk. The final plan incorporates all four."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "authority",
+        "severity": "medium",
+        "summary": "Exact carried-authorization representation requires lifecycle-owner acceptance before implementation.",
+        "evidence": "RESIDUE.md and SWU-PEP-004/005 preserve the decision."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "reflect-now"
+  },
+  "target_artifact": "arcanum/arcana/task-session/development/invoke-runs/20260804T184514Z-pre-execution-owner-prerequisite-fast-path/WORK-PACK.md",
+  "dedupe_key": "distill-pre-execution-prerequisite-plan-20260804:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": "arcanum.observability.invocation.v1",
+  "timestamp": "2026-08-01T22:45:00-03:00",
+  "run_id": "invoke-refresh-20260801T224500-0300-uoc-prototype-no-digest",
+  "session_id": "uoc-prototype-no-digest",
+  "spell": "invoke",
+  "mode": "refresh",
+  "capability": {"id": "invoke", "kind": "spell", "tier": "spells", "mode": "refresh", "alias": null},
+  "request": {"raw": "invoke refresh then task-session", "summary": "Refresh the blocked unified-canvas route for a local no-checksum prototype.", "intent": "Select one browser-executable corrective prototype SWU, then hand off product mutation to Task Session."},
+  "execution": {
+    "status": "pass",
+    "activation_source": "direct-user",
+    "mutation_mode": "apply-approved",
+    "mutation_mode_source": "default-direct-user",
+    "phase_status": "pass",
+    "handoff_status": "ready",
+    "mutation_ready": true,
+    "source_signal_count": 2,
+    "delta_classes": ["evidence_added", "status_changed", "route_changed"],
+    "target_artifact_count": 8,
+    "applied_change_count": 8,
+    "skipped_change_count": 3,
+    "blockers_by_scope": {"refresh-authoring": 0, "apply-authorization": 0, "target-lifecycle": 1, "audit": 0},
+    "validation": ["context-builder:strict-8-of-8", "material-package:pass", "refresh-handoff:ready", "post-image-parity:pass", "markdown-links:pass", "scoped-whitespace:pass"],
+    "outputs": ["projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/refreshes/2026-08-01-prototype-no-digest/REFRESH-REPORT.md", "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/work-pack/tasks/TASK-UOC-004P-PROTOTYPE-NO-CHECKSUM.md"]
+  },
+  "invoke": {
+    "mode_contract": ".agents/skills/invoke/refresh.md",
+    "dispatch_techniques": ["sequence", "owner_boundary_check", "artifact_contract_bridge", "concrete_path_evidence", "residue_ledger", "execution_receipt_handoff"],
+    "dispatch_validation": "not-required-single-owner-sequence",
+    "distill_result": "skipped",
+    "distill_reason": "One narrow corrective SWU with explicit recomposition.",
+    "context_builder": "strict-8-of-8",
+    "inventory_lookup": "one non-authority strategy match",
+    "next_route": "task-session:execute:SWU-UOC-004P",
+    "subagent_closeout": "pass: one read-only helper joined and closed"
+  },
+  "observer": {"quality_bar_status": "pass", "anti_pattern_hits": [], "workflow_gaps": [], "output_contract_drift": false, "reflection_trigger": "none", "recommendation": "Run Task Session for 004P only."},
+  "target_artifact": "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/refreshes/2026-08-01-prototype-no-digest/REFRESH-REPORT.md"
+}

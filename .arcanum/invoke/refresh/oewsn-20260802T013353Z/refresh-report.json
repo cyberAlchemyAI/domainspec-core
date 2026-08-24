@@ -1,0 +1,86 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "explicit",
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    {"id": "RS-01", "signal_type": "evidence_added", "confidence": "high", "mutation_safety": "safe"},
+    {"id": "RS-02", "signal_type": "blocker_resolved", "confidence": "high", "mutation_safety": "safe"},
+    {"id": "RS-03", "signal_type": "status_changed", "confidence": "high", "mutation_safety": "safe"},
+    {"id": "RS-04", "signal_type": "route_changed", "confidence": "high", "mutation_safety": "safe"},
+    {"id": "RS-05", "signal_type": "artifact_drift", "confidence": "high", "mutation_safety": "safe"}
+  ],
+  "targetArtifacts": [
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/WORK-PACK.md",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/SWU-MANIFEST.json",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/MUTATION-ADMISSION-CONTRACT.json",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/tasks/TASK-OEWSN-00-PROFILE-DECISIONS.md",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/tasks/TASK-OEWSN-01-RELATION-CORE.md",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/waves/W0-OWNER-DECISIONS.md",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/waves/W1-L0-RELATION-CORE.md",
+    "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/shared/cross-task-gaps.md"
+  ],
+  "deltaSummary": [
+    {"class": "evidence_added", "count": 1},
+    {"class": "blocker_resolved", "count": 4},
+    {"class": "status_changed", "count": 6},
+    {"class": "route_changed", "count": 1},
+    {"class": "artifact_drift", "count": 2}
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "closed OD-01 through OD-04 in executable planning state",
+    "selected SWU-OEWSN-004 for Task Session preflight",
+    "made material/output partitions explicit for all 17 implementation/evidence SWUs",
+    "preserved product mutation as not ready until Task Session admission"
+  ],
+  "skippedChanges": [
+    "historical Define, Design and original Plan receipts",
+    "all product, ontology, authority, publication, release and deployment paths"
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "oewsn-owner-decisions-refresh-20260802T013353Z",
+    "packageDigest": "723131ac1ddde6433df936923a5c5680a485cebf1615f18b3895439933a138f5",
+    "expectedPackageId": "oewsn-owner-decisions-refresh-20260802T013353Z",
+    "expectedPackageDigest": "723131ac1ddde6433df936923a5c5680a485cebf1615f18b3895439933a138f5",
+    "validatedPaths": 8,
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "validationCommands": 5,
+    "lifecycleOwner": "invoke",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "mutationReady": true,
+  "blockers": [
+    {
+      "id": "TS-SWU-004-LIVE-ADMISSION",
+      "scope": "target-lifecycle",
+      "owner": "task-session",
+      "status": "open",
+      "claim": "SWU-OEWSN-004 product mutation requires fresh live Task Session admission"
+    }
+  ],
+  "validation": [
+    "material package pass",
+    "refresh handoff pass/ready",
+    "strict context coverage pass",
+    "JSON and manifest write algebra pass",
+    "Markdown links pass",
+    "stale executable gate scan pass",
+    "scoped whitespace pass"
+  ],
+  "nextRoute": "task-session:execute:SWU-OEWSN-004"
+}

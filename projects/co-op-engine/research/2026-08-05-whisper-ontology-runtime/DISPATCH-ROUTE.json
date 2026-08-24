@@ -1,0 +1,301 @@
+{
+  "dispatch_id": "2026-08-05-whisper-ontology-runtime-route",
+  "intent": {
+    "raw": "Research two fronts for Whisper: create an ontology design and a proper runtime design, beginning the candidate idea inside projects/co-op-engine.",
+    "objective": "Execute a confirmation-gated, exact-binding research pipeline that produces an owner-preserving Whisper ontology/runtime handoff without product, authority, publication, deployment, or production mutation.",
+    "target_artifact": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/findings.md",
+    "arcanum_vocabulary": ["domainspec-subagents-strategy", "dispatch-spec", "orchestrate", "inventory", "whisper"],
+    "operator_sentence": "Research first; keep canonical Whisper in Arcanum and use co-op-engine only as a candidate demonstrator seam."
+  },
+  "mode": "research",
+  "techniques": [
+    "sequence",
+    "zig_zag",
+    "dialectic",
+    "owner_boundary_check",
+    "authority_split_gate",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "artifact_contract_bridge"
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Two independent research fronts, multi-source synthesis, adversarial review, and discardable exploration satisfy P1 parallelism, synthesis, and isolation.",
+    "explanation": "Ontology and runtime research need different corpora and methods, then a shared synthesis, three independent rejection gates, evidence closure, writing, and audit.",
+    "context": [
+      "Whisper already has canonical lifecycle prose, schemas, validators, human evidence records, and a generated runtime projection.",
+      "co-op-engine is currently a static public portfolio/deployment surface, not the Whisper runtime owner.",
+      "The proposed output is exact-binding research and a later implementation handoff, not product code."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "ontology-explorer",
+        "purpose": "Research and exact-bind the smallest candidate Whisper ontology and finite graph witness.",
+        "owns": "Ontology explorer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/dispatch-sheet.json#groups/explorers/agents/0",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["arcanum/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"],
+        "input_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/dispatch-sheet.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/strategy-inventory-packet.json"],
+        "output_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/ontology-explorer.json"],
+        "applies_to_steps": ["s1"]
+      },
+      {
+        "role_id": "runtime-explorer",
+        "purpose": "Research and exact-bind the smallest executable Whisper runtime and candidate co-op-engine adapter contract.",
+        "owns": "Runtime explorer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/dispatch-sheet.json#groups/explorers/agents/1",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["arcanum/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"],
+        "input_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/dispatch-sheet.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/strategy-inventory-packet.json"],
+        "output_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/runtime-explorer.json"],
+        "applies_to_steps": ["s1"]
+      },
+      {
+        "role_id": "system-synthesizer",
+        "purpose": "Reconcile ontology and runtime evidence into one owner-preserving candidate system model.",
+        "owns": "Synthesis receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/dispatch-sheet.json#groups/synthesizer",
+        "capability_mode": "synthesize",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["arcanum/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"],
+        "depends_on_roles": ["ontology-explorer", "runtime-explorer"],
+        "input_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/ontology-explorer.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/runtime-explorer.json"],
+        "output_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/system-synthesis.json"],
+        "applies_to_steps": ["s2"]
+      },
+      {
+        "role_id": "precedent-reviewer",
+        "purpose": "Attack precedent, owner duplication, and unsupported novelty.",
+        "owns": "Precedent reviewer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/dispatch-sheet.json#groups/reviewers/agents/0",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["arcanum/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"],
+        "depends_on_roles": ["system-synthesizer"],
+        "input_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/system-synthesis.json"],
+        "output_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-precedent.json"],
+        "applies_to_steps": ["s3"]
+      },
+      {
+        "role_id": "non-vacuity-reviewer",
+        "purpose": "Attack operational emptiness through a finite ontology-plus-runtime witness and failure cases.",
+        "owns": "Non-vacuity reviewer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/dispatch-sheet.json#groups/reviewers/agents/1",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["arcanum/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"],
+        "depends_on_roles": ["system-synthesizer"],
+        "input_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/system-synthesis.json"],
+        "output_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-non-vacuity.json"],
+        "applies_to_steps": ["s3"]
+      },
+      {
+        "role_id": "definitional-reviewer",
+        "purpose": "Attack definitional collapse and authority substitution across ontology, runtime, evidence, adapter, and deployment layers.",
+        "owns": "Definitional reviewer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/dispatch-sheet.json#groups/reviewers/agents/2",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["arcanum/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"],
+        "depends_on_roles": ["system-synthesizer"],
+        "input_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/system-synthesis.json"],
+        "output_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-definitional.json"],
+        "applies_to_steps": ["s3"]
+      },
+      {
+        "role_id": "findings-writer",
+        "purpose": "Write the exact-binding findings after reviewer passage and evidence closure.",
+        "owns": "findings.md and writer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/findings.md",
+        "capability_mode": "write-findings",
+        "agent_count": 1,
+        "mutation_policy": "artifact-only",
+        "write_scope": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/findings.md"],
+        "forbidden_write_scopes": ["arcanum/", "projects/co-op-engine/index.html", "projects/co-op-engine/infra/", "telemetry/agents/", ".arcanum/inventory/"],
+        "depends_on_roles": ["precedent-reviewer", "non-vacuity-reviewer", "definitional-reviewer"],
+        "input_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/system-synthesis.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-precedent.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-non-vacuity.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-definitional.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/evidence-closure.json"],
+        "output_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/findings-writer.json"],
+        "applies_to_steps": ["s5"]
+      },
+      {
+        "role_id": "findings-auditor",
+        "purpose": "Accept the findings or return one bounded writer repair.",
+        "owns": "Final audit receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/findings.md",
+        "capability_mode": "audit",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["arcanum/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"],
+        "depends_on_roles": ["findings-writer"],
+        "input_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/findings.md", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/findings-writer.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/evidence-closure.json"],
+        "output_refs": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/findings-audit.json"],
+        "applies_to_steps": ["s6"]
+      }
+    ],
+    "execution_waves": [
+      {"wave_id": "exploration", "role_ids": ["ontology-explorer", "runtime-explorer"], "parallel": true, "join_policy": "all", "gate_after": "g-explorer-evidence", "on_incomplete": "block"},
+      {"wave_id": "synthesis", "role_ids": ["system-synthesizer"], "parallel": false, "join_policy": "all", "depends_on_waves": ["exploration"], "gate_after": "g-synthesis", "on_incomplete": "block"},
+      {"wave_id": "review", "role_ids": ["precedent-reviewer", "non-vacuity-reviewer", "definitional-reviewer"], "parallel": true, "join_policy": "all", "depends_on_waves": ["synthesis"], "gate_after": "g-review-and-evidence-closure", "on_incomplete": "block"},
+      {"wave_id": "writing", "role_ids": ["findings-writer"], "parallel": false, "join_policy": "all", "depends_on_waves": ["review"], "gate_after": "g-findings", "on_incomplete": "block"},
+      {"wave_id": "audit", "role_ids": ["findings-auditor"], "parallel": false, "join_policy": "all", "depends_on_waves": ["writing"], "on_incomplete": "block"}
+    ],
+    "parallelism": "mixed",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "Confirm the frozen eight-agent Whisper ontology/runtime research strategy to register and execute it?",
+    "receipt_requirements": ["agent_id", "role_id", "spawn_status", "join_status", "close_status", "dispatch_id", "step_id", "capability_ref", "capability_target", "capability_mode", "wave_id", "write_scope", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "reroute", "handoff_note"]
+  },
+  "subagent_lifecycle": {"status": "none", "agents": []},
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Run the ontology and runtime research fronts",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "explore",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": ["concrete_path_evidence", "owner_boundary_check"],
+      "roles": ["ontology-and-constraints", "runtime-and-co-op-adapter"],
+      "inputs": [{"kind": "intent", "ref": "intent.raw"}, {"kind": "artifact", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/dispatch-sheet.json"}, {"kind": "artifact", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/strategy-inventory-packet.json"}],
+      "outputs": [{"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/ontology-explorer.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/runtime-explorer.json"}],
+      "join_policy": "all",
+      "stop_conditions": ["stop if a lane cannot exact-bind current repository claims or primary external precedents", "stop if any lane edits canonical Whisper, co-op-engine, Inventory, the ledger, or external systems", "stop if the ontology lane claims authority or the runtime lane claims existing end-to-end execution"]
+    },
+    {
+      "step_id": "s2",
+      "name": "Synthesize one owner-preserving Whisper system model",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "synthesize",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": ["sequence", "concrete_path_evidence", "execution_receipt_handoff"],
+      "depends_on_steps": ["s1"],
+      "inputs": [{"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/ontology-explorer.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/runtime-explorer.json"}],
+      "outputs": [{"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/system-synthesis.json"}],
+      "stop_conditions": ["stop if semantic, lifecycle, evidence, approval, adapter, deployment, or production owners collapse", "stop if the synthesis omits a major explorer disagreement or open owner decision"]
+    },
+    {
+      "step_id": "s3",
+      "name": "Run three adversarial precedent, witness, and definition gates",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "review",
+      "pattern": "dialectic",
+      "parallel": true,
+      "techniques": ["dialectic", "zig_zag", "execution_receipt_handoff"],
+      "depends_on_steps": ["s2"],
+      "roles": ["precedent-and-owner", "non-vacuity", "definitional-and-authority"],
+      "inputs": [{"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/system-synthesis.json"}],
+      "outputs": [{"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-precedent.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-non-vacuity.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-definitional.json"}],
+      "join_policy": "all",
+      "convergence_criteria": ["all three reviewer gates pass within two synthesis-review turns", "every retained component has an owner and finite witness or counterexample", "canonical Whisper and candidate co-op-engine boundaries remain non-collapsed"],
+      "stop_conditions": ["stop if reviewer disagreement survives the loop ceiling", "stop if missing source evidence cannot be repaired through the confirmed explorer feedback edge"]
+    },
+    {
+      "step_id": "s4",
+      "name": "Close exact-binding evidence before writing",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "evidence-closure",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": ["concrete_path_evidence", "authority_split_gate", "artifact_contract_bridge"],
+      "depends_on_steps": ["s2", "s3"],
+      "inputs": [{"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/system-synthesis.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-precedent.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-non-vacuity.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-definitional.json"}],
+      "outputs": [{"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/evidence-closure.json"}],
+      "evidence_artifact": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/evidence-closure.json",
+      "stop_conditions": ["stop if a load-bearing row lacks immutable source identity, exact selector or pointer, explorer return, evidence scope, or proof status", "stop if an unresolved owner conflict is phrased as implementation-ready"]
+    },
+    {
+      "step_id": "s5",
+      "name": "Write the Whisper ontology/runtime findings",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "write-findings",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["sequence", "artifact_contract_bridge", "execution_receipt_handoff"],
+      "depends_on_steps": ["s4"],
+      "inputs": [{"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/evidence-closure.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/system-synthesis.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-precedent.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-non-vacuity.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-definitional.json"}],
+      "outputs": [{"kind": "artifact", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/findings.md"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/findings-writer.json"}],
+      "stop_conditions": ["stop if the writer exceeds the single-file scope", "stop if findings introduces a claim absent from evidence closure"]
+    },
+    {
+      "step_id": "s6",
+      "name": "Audit and accept or return one bounded findings revision",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "audit",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": ["sequence", "artifact_contract_bridge", "execution_receipt_handoff"],
+      "depends_on_steps": ["s5"],
+      "inputs": [{"kind": "artifact", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/findings.md"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/findings-writer.json"}, {"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/evidence-closure.json"}],
+      "outputs": [{"kind": "receipt", "ref": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/findings-audit.json"}],
+      "evidence_artifact": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/findings-audit.json",
+      "stop_conditions": ["stop after one bounded auditor-to-writer repair", "stop if final audit verdict is not ACCEPT"]
+    }
+  ],
+  "gates": [
+    {"gate_id": "g-explorer-evidence", "kind": "validation", "owner": "orchestrate", "condition": "Both explorer agents are joined and closed with exact-binding receipts before synthesis starts.", "applies_after_wave": "exploration", "requires_role_receipts": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/ontology-explorer.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/runtime-explorer.json"], "on_fail": "block"},
+    {"gate_id": "g-synthesis", "kind": "quality", "owner": "orchestrate", "condition": "Synthesis preserves ontology/runtime tension and emits the required owner, contract, topology, witness, and residue maps before review.", "applies_after_wave": "synthesis", "requires_role_receipts": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/system-synthesis.json"], "on_fail": "block"},
+    {"gate_id": "g-review-and-evidence-closure", "kind": "validation", "owner": "orchestrate", "condition": "All three reviewers pass and the parent records exact-binding evidence closure before writing.", "applies_after_wave": "review", "requires_role_receipts": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-precedent.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-non-vacuity.json", "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/reviewer-definitional.json"], "on_fail": "block"},
+    {"gate_id": "g-findings", "kind": "quality", "owner": "orchestrate", "condition": "The writer produces only the declared findings artifact and receipt from evidence-closed inputs.", "applies_after_wave": "writing", "requires_role_receipts": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/findings-writer.json"], "on_fail": "block"},
+    {"gate_id": "g-final-audit", "kind": "quality", "owner": "Lakatos, Imre", "condition": "The final auditor returns ACCEPT after at most one bounded writer revision.", "requires_role_receipts": ["projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/findings-audit.json"], "on_fail": "block"},
+    {"gate_id": "g-human-authorization", "kind": "human_approval", "owner": "human operator", "condition": "No research role may spawn and no ledger row may append until the user explicitly confirms the materially frozen strategy.", "on_fail": "ask"},
+    {"gate_id": "g-promotion-guardrail", "kind": "promotion_guardrail", "owner": "parent", "condition": "Research cannot create, admit, implement, select, authorize, promote, publish, deploy, release, or claim production readiness for a Whisper ontology, runtime, or co-op-engine application.", "on_fail": "block"}
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": ["dispatch_registered", "action_attempted", "host_spawn_returned", "agent_wait_registered", "wait_attempted", "agent_terminal", "agent_closed", "wave_gate_evaluated", "evidence_closure_recorded", "final_audit_recorded", "dispatch_closed"],
+    "signal_grouping": "dispatch_id and step_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {"boundary_id": "b-canonical-whisper-read-only", "kind": "artifact_import", "from_owner": "public Arcanum Whisper", "to_owner": "candidate co-op-engine research", "applies_to_steps": ["s1", "s2", "s3", "s4", "s5", "s6"], "contract": "Canonical Whisper, generated runtime projections, schemas, validators, fixtures, and public documentation are immutable research inputs. No delegated role may edit or re-own them.", "on_violation": "block"},
+      {"boundary_id": "b-co-op-candidate-only", "kind": "state_write", "from_owner": "candidate research dispatch", "to_owner": "projects/co-op-engine", "applies_to_steps": ["s1", "s2", "s3", "s4", "s5", "s6"], "contract": "Only the declared research folder and later findings.md may be written. index.html, infra, deployment receipts, routes, and live services remain untouched; co-op-engine does not acquire canonical Whisper or ontology authority.", "on_violation": "block"},
+      {"boundary_id": "b-evidence-return", "kind": "evidence_return", "from_owner": "research roles", "to_owner": "parent orchestrator", "applies_to_steps": ["s1", "s2", "s3", "s4", "s5", "s6"], "contract": "Every delegated role returns a structured receipt; prose alone cannot open a dependent wave.", "on_violation": "block"},
+      {"boundary_id": "b-human-authorization", "kind": "human_approval", "from_owner": "human operator", "to_owner": "orchestrate", "applies_to_steps": ["s1"], "contract": "No research role may spawn and no append-only ledger row may be added until explicit confirmation after readiness and double-PASS tension.", "on_violation": "block"}
+    ],
+    "authority": {
+      "lifecycle": "domainspec-subagents-strategy",
+      "execution": "orchestrate after explicit human confirmation",
+      "validation": "dispatch-spec, schema 0.8.0 registrar, two independent tension gates, exact-binding evidence closure, reviewers, auditor, and parent",
+      "evidence": "exact-binding closure owned by the parent research strategist",
+      "memory": "Inventory and prior memory are non-authority discovery projections",
+      "promotion": "not granted"
+    },
+    "receipts": [
+      {"receipt_id": "research-role-receipts", "producer": "each delegated research role", "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "blockers", "residue", "handoff_note"], "stores": ["working-folder receipts"], "on_missing": "block"}
+    ]
+  },
+  "promotion_guardrails": [
+    "Inventory and memory are discovery only and cannot replace direct current sources or primary external precedents.",
+    "The public Arcanum Whisper package remains canonical for the spell; co-op-engine research cannot redefine it.",
+    "A candidate ontology cannot admit canonical meaning, relations, evidence, authority, or promotion.",
+    "A candidate runtime cannot infer editorial approval, comprehension, authorization, deployment, or production from schema or validator passage.",
+    "The co-op-engine adapter may validate transport and display a candidate projection only; it cannot own the Whisper lifecycle, ontology, authority, or effects.",
+    "Research and an accepted findings artifact are not implementation, browser proof, deployment, release, publication, or production readiness."
+  ]
+}

@@ -5,6 +5,11 @@ captured, ordered work-pack frontier as a series of distinct Task Sessions. It
 continues only across uniquely declared, dependency-ready successors and stops
 at the first genuine blocker or when the captured frontier is complete.
 
+Its fresh-session runtime resolves Task Session and Continuation Router from
+canonical `arcana/` sources or sibling generated `skills/` packages. A missing
+dependency blocks explicitly; generated installations do not assume that a
+canonical Arcanum source tree is present.
+
 The spell does not widen Task Session. Each Task Session still owns exactly one
 task or SWU, one validation result, one lifecycle-owner closeout join, one
 continuity cursor, and one terminal receipt.
@@ -91,6 +96,57 @@ Persist one chain record containing:
 
 This state coordinates the series. It does not collapse the inner receipts into
 one synthetic Task Session receipt.
+
+### Approved-epoch candidate runtime
+
+The additive candidate runner at
+[`scripts/run_chain.py`](scripts/run_chain.py) consumes:
+
+- [`chain-config.schema.json`](schemas/chain-config.schema.json), binding the
+  exact WPRA manifest, human/Decision Gate approval receipt, epoch digests,
+  finite frontier, risk ceiling, request budget, flag allowlist, persistence,
+  and compensation policy;
+- [`chain-transition.schema.json`](schemas/chain-transition.schema.json), one
+  hash-linked transition for one fresh Task Session;
+- [`closeout-no-op-proof.schema.json`](schemas/closeout-no-op-proof.schema.json),
+  an exact before/after inventory proof with validator identity and
+  Continuation Router verification.
+
+The runtime stores one immutable `chain.json` and exclusively creates numbered
+transition records. It replays the hash chain on every invocation. A
+preflight or transition receipt exposes either one exact next selector or none;
+it never launches Task Session itself. Repeated cursors, epoch/frontier drift,
+out-of-order or ambiguous successors, risk or budget overflow, missing joins,
+and invalid `NO_OP` proofs stop fail-closed.
+
+`NO_OP` is semantic, not a boolean: before and after inventories must match,
+the observed delta must be empty, the closeout contract must be the approved
+one, and validator identity plus Router verification must be bound.
+Compensation is never automatic. A `none` policy requires rationale; an
+`owner-routed` policy stops and returns the named owner.
+
+This candidate proves finite-frontier control only. Task Session continues to
+own each implementation, Invoke Refresh owns closeout mutation, and the
+approved manifest remains authority-none evidence.
+
+### Work-Pack prerequisite resumption
+
+The additive fresh-session admission at
+[`scripts/fresh_session_resume.py`](scripts/fresh_session_resume.py) handles the
+one detour that is intentionally not a terminal Task Session transition. It
+joins one exact Work-Pack-bound Router admission and one byte-current passing
+prerequisite-owner receipt, then validates a new fast-entry classification.
+Only `task-ready` evidence may produce a durable admission for a new Task
+Session using the original selected unit and captured frontier.
+
+The prerequisite detour does not consume the unit's one terminal Task Session
+receipt slot or the logical finite-frontier request budget. The emitted fresh
+admission is stored by exclusive create in a separate evidence ledger. A
+replayed owner fingerprint, unchanged prerequisite, repeated session cursor,
+changed frontier or budget, stale or mismatched receipt, or reused terminal
+receipt slot blocks without launching Task Session. The controller consumes
+the returned `task-session:execute` admission; this spell never launches a
+process itself and never recursively resumes the guarding session.
 
 ## Phases
 
@@ -221,6 +277,8 @@ Return:
 - no recursive Task Session continuation;
 - no mutation before closeout preflight passes;
 - no continuation without joined inner receipts;
+- no fresh-session admission without exact Router, owner, and reclassification evidence;
+- one exclusive fresh-session admission per prerequisite fingerprint;
 - no cross-scope or frontier-expanding continuation;
 - deterministic stop at the first failed gate;
 - public, project-agnostic contract and fixtures.

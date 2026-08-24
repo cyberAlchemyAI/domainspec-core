@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/iro/decision-bundle/1-0-0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "stream_id", "epoch_id", "unit_id", "profile_ref", "artifacts", "bindings", "status"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "stream_id": {"const": "IRO-FULL-STREAM"},
+    "epoch_id": {"type": "string", "minLength": 1},
+    "unit_id": {"const": "SWU-IRO-001"},
+    "profile_ref": {"$ref": "#/$defs/exactRef"},
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["option_admissibility_request", "option_admissibility_receipt", "decision", "decision_summary"],
+      "properties": {
+        "option_admissibility_request": {"$ref": "#/$defs/exactRef"},
+        "option_admissibility_receipt": {"$ref": "#/$defs/exactRef"},
+        "decision": {"$ref": "#/$defs/exactRef"},
+        "decision_summary": {"$ref": "#/$defs/exactRef"}
+      }
+    },
+    "bindings": {"type": "array", "minItems": 6, "items": {"$ref": "#/$defs/binding"}},
+    "status": {"enum": ["pass", "block"]}
+  },
+  "$defs": {
+    "exactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject", "owner", "path", "contract", "status"],
+      "properties": {
+        "subject": {"enum": ["public_extraction", "canonical_api_name_license_compatibility", "catalog_projector", "request_normalization", "aci_reference_fields", "disposable_consumer"]},
+        "owner": {"type": ["string", "null"]},
+        "path": {"type": ["string", "null"]},
+        "contract": {"type": ["string", "null"]},
+        "status": {"enum": ["bound", "unresolved"]}
+      }
+    }
+  }
+}

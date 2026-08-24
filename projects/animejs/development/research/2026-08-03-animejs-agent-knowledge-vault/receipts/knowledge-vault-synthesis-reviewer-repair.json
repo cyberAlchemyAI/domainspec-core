@@ -1,0 +1,1492 @@
+{
+  "synthesis_id": "AKV-SYN-003",
+  "revision_of": "AKV-SYN-002",
+  "revision_kind": "reviewer-repair-overlay",
+  "zig_zag": {
+    "edge": "synthesizer-reviewers",
+    "traversal": "1/1",
+    "closed": true,
+    "further_repair_loop_available": false
+  },
+  "precedent_normalization": [
+    {
+      "id": "AKV-PREC-006",
+      "previous": "query-semantics-only",
+      "revised": "proposed"
+    },
+    {
+      "id": "AKV-PREC-007",
+      "previous": "constraints-only",
+      "revised": "deferred"
+    }
+  ],
+  "canonicality": {
+    "canonical_records": "Validated node, relation, source and policy records only.",
+    "query_receipts": "Persisted evidence-bearing query outputs, non-authoritative.",
+    "views": "Derived, disposable, non-canonical projections requiring source-graph digest, transform identity, generated_at and freshness state.",
+    "generic_authority_node": "killed",
+    "current_verified_animejs_lessons": 0
+  },
+  "closed_node_vocabulary": {
+    "common_required_fields": [
+      "id",
+      "kind",
+      "record_state",
+      "owner_route",
+      "authority_effect",
+      "release_admission",
+      "created_at",
+      "source_refs"
+    ],
+    "rows": [
+      {
+        "kind": "DocumentationTopic",
+        "invariant": "Exactly one normalized canonical official documentation route observation.",
+        "required_fields": [
+          "canonical_path",
+          "canonical_url",
+          "family_id",
+          "title",
+          "h1",
+          "heading_selectors",
+          "raw_sha256",
+          "captured_at",
+          "observation_id"
+        ],
+        "evidence_class": "DocumentationObservation",
+        "validity": "validated -> stale-pending-review on page-digest change; -> invalidated on route removal, canonical-identity change, or selector disappearance; historical row may -> superseded.",
+        "owner_route": "official-source-ingestion",
+        "misuse_warning": "Route, heading, parameter-section, return-section or example-section presence is not behavioral, runtime or package-version truth."
+      },
+      {
+        "kind": "APISymbol",
+        "invariant": "One version-scoped program identity within an explicit JS, WAAPI, namespace or adapter surface.",
+        "required_fields": [
+          "symbol",
+          "surface",
+          "module_export",
+          "structured_pointer",
+          "version_context_id",
+          "source_fact_ids"
+        ],
+        "evidence_class": "PinnedExportOrTypeBinding",
+        "validity": "validated -> stale-pending-review on compatible source/type drift; -> invalidated on export removal or identity contradiction; -> superseded only by another APISymbol with the same logical identity.",
+        "owner_route": "source-binding",
+        "misuse_warning": "Equal labels, adjacent pages or examples do not establish symbol identity or JS/WAAPI parity."
+      },
+      {
+        "kind": "SourceFact",
+        "invariant": "One scoped proposition derived from immutable official bytes.",
+        "required_fields": [
+          "proposition",
+          "assertion_scope",
+          "evidence_record_ids",
+          "selector_or_structured_pointer",
+          "version_context_id"
+        ],
+        "evidence_class": "SourceDerived",
+        "validity": "validated -> stale-pending-review when intersecting bytes change without a demonstrated contradiction; -> invalidated when selector fails or intersecting evidence contradicts the proposition; same-kind replacement may -> superseded.",
+        "owner_route": "fact-extraction",
+        "misuse_warning": "A SourceFact is not an EvidenceRecord, runtime observation, inference, recommendation or authority grant."
+      },
+      {
+        "kind": "Example",
+        "invariant": "One official example locator plus an original purpose description.",
+        "required_fields": [
+          "locator",
+          "purpose_paraphrase",
+          "evidence_record_id",
+          "version_context_id",
+          "execution_status"
+        ],
+        "evidence_class": "ExampleSourcePresent",
+        "validity": "validated -> stale-pending-review on locator or digest drift; -> invalidated on removal; execution status changes only through a new ExecutedWitness.",
+        "owner_route": "example-ingestion",
+        "misuse_warning": "Source presence does not prove execution, correctness, accessibility, performance or production behavior."
+      },
+      {
+        "kind": "Recipe",
+        "invariant": "Ordered, non-executing guidance with explicit prerequisites, consultation bindings, validation requirement and abstention behavior.",
+        "required_fields": [
+          "task_pattern",
+          "precondition_ids",
+          "ordered_action_steps",
+          "validation_requirement",
+          "unknown_policy",
+          "version_context_ids",
+          "evidence_record_ids"
+        ],
+        "evidence_class": "DocumentationGuidanceOrSourceDerived",
+        "validity": "validated -> stale-pending-review on prerequisite, source or compatible-version drift; -> invalidated on contradicted required action; same-kind revision may -> superseded.",
+        "owner_route": "recipe-review",
+        "misuse_warning": "A Recipe is not a Task, Fix, Recommendation, execution authorization or verified Lesson."
+      },
+      {
+        "kind": "Task",
+        "invariant": "One requested intent with target, constraints and acceptance condition.",
+        "required_fields": [
+          "intent",
+          "target_kind",
+          "constraints",
+          "acceptance_criterion",
+          "requester_ref",
+          "status"
+        ],
+        "evidence_class": "RequesterRecord",
+        "validity": "validated -> invalidated only on cancellation; a materially revised intent becomes a new Task and old Task -> superseded.",
+        "owner_route": "task-session-owner",
+        "misuse_warning": "Intent does not prove feasibility, correctness, execution or completion."
+      },
+      {
+        "kind": "WorkEpisode",
+        "invariant": "Append-only envelope for one bounded execution effort against exactly one Task and VersionContext.",
+        "required_fields": [
+          "task_id",
+          "version_context_id",
+          "started_at",
+          "closed_at",
+          "scope",
+          "status",
+          "attempt_ids"
+        ],
+        "evidence_class": "EpisodeReceipt",
+        "validity": "reproduced while open -> validated when closed and structurally complete; corrupt receipt -> invalidated; correction requires a distinct superseding episode.",
+        "owner_route": "execution-route",
+        "misuse_warning": "Existence or closure is not successful Outcome, production change or Lesson."
+      },
+      {
+        "kind": "Attempt",
+        "invariant": "One ordinal action within exactly one WorkEpisode.",
+        "required_fields": [
+          "episode_id",
+          "ordinal",
+          "action_description",
+          "started_at",
+          "finished_at",
+          "produced_evidence_ids",
+          "outcome_id"
+        ],
+        "evidence_class": "ActionLog",
+        "validity": "append-only; validated when its ordinal and episode ownership are valid; corrupt ordering or cross-episode ownership -> invalidated.",
+        "owner_route": "episode-owner",
+        "misuse_warning": "An Attempt is not Evidence and cannot directly support a Diagnosis or Lesson."
+      },
+      {
+        "kind": "Symptom",
+        "invariant": "A scoped observation statement bound to a witness and VersionContext.",
+        "required_fields": [
+          "observed_statement",
+          "evidence_record_id",
+          "version_context_id",
+          "observed_at"
+        ],
+        "evidence_class": "ObservedWitness",
+        "validity": "validated -> stale-pending-review on context incompatibility; -> invalidated if witness integrity fails.",
+        "owner_route": "diagnostic-route",
+        "misuse_warning": "Observation is not explanation or root cause."
+      },
+      {
+        "kind": "Diagnosis",
+        "invariant": "Defeasible explanation with explicit premises, confidence and contradiction handling.",
+        "required_fields": [
+          "claim",
+          "symptom_ids",
+          "supporting_evidence_ids",
+          "contradicting_evidence_ids",
+          "confidence",
+          "version_context_ids"
+        ],
+        "evidence_class": "Inference",
+        "validity": "validated -> stale-pending-review on potentially affected premise drift; -> invalidated on load-bearing premise invalidation or unresolved direct contradiction; revised diagnosis may -> superseded.",
+        "owner_route": "diagnostic-review",
+        "misuse_warning": "A Diagnosis is not SourceFact, Fix or successful Outcome."
+      },
+      {
+        "kind": "Fix",
+        "invariant": "One candidate change addressing one named Diagnosis.",
+        "required_fields": [
+          "diagnosis_id",
+          "proposed_change",
+          "preconditions",
+          "evidence_record_ids",
+          "application_status"
+        ],
+        "evidence_class": "Proposal",
+        "validity": "validated as proposal -> stale-pending-review on changed preconditions; -> invalidated if diagnosis is invalidated or change becomes incompatible; revised Fix may -> superseded.",
+        "owner_route": "implementation-route",
+        "misuse_warning": "Proposal or application does not imply a successful Outcome."
+      },
+      {
+        "kind": "Outcome",
+        "invariant": "Terminal classification of one Attempt with exact witness references.",
+        "required_fields": [
+          "attempt_id",
+          "status",
+          "criterion",
+          "evidence_record_ids",
+          "observed_at"
+        ],
+        "evidence_class": "TestObservedOrExecutedWitness",
+        "validity": "validated only when status and evidence satisfy the criterion; integrity failure -> invalidated; Outcome is never rewritten.",
+        "owner_route": "validation-route",
+        "misuse_warning": "Success applies only to the declared criterion and environment."
+      },
+      {
+        "kind": "Lesson",
+        "invariant": "Conditional guidance generalized from compatible closed WorkEpisodes with Outcomes.",
+        "required_fields": [
+          "conditional_guidance",
+          "episode_ids",
+          "outcome_ids",
+          "supporting_evidence_ids",
+          "applicability",
+          "confidence",
+          "review_owner",
+          "invalidation_triggers",
+          "lesson_status"
+        ],
+        "evidence_class": "OperationalLesson",
+        "validity": "candidate -> verified only with a closed episode, succeeded Outcome and TestObserved or ExecutedWitness; verified -> stale-pending-review on intersecting drift; -> invalidated on contradiction or failed applicability; revised Lesson may -> superseded.",
+        "owner_route": "lesson-review",
+        "misuse_warning": "Not SourceFact, Recipe, Recommendation or universal truth. Current verified Anime.js Lesson count must remain zero."
+      },
+      {
+        "kind": "EvidenceRecord",
+        "invariant": "Carrier for one bounded evidence assertion, never the assertion itself.",
+        "required_fields": [
+          "evidence_class",
+          "source_identity",
+          "selector_or_structured_pointer",
+          "digest",
+          "assertion_scope",
+          "captured_at",
+          "version_context_id",
+          "materialization_origin"
+        ],
+        "evidence_class": "Carrier",
+        "validity": "returned-not-written -> reproduced -> validated; intersecting drift -> stale-pending-review; integrity or contradiction failure -> invalidated; replacement may -> superseded.",
+        "owner_route": "evidence-ingestion",
+        "misuse_warning": "Evidence status, record presence and authority are separate; present tests/examples are not executed evidence."
+      },
+      {
+        "kind": "VersionContext",
+        "invariant": "Immutable compatibility tuple, not a loose version label.",
+        "required_fields": [
+          "anime_package_version",
+          "commit_sha",
+          "lockfile_digest",
+          "runtime",
+          "browser",
+          "framework",
+          "os"
+        ],
+        "evidence_class": "EnvironmentBinding",
+        "validity": "validated immutable tuple; changed component creates a new VersionContext and old may -> superseded; discovered integrity error -> invalidated.",
+        "owner_route": "environment-capture",
+        "misuse_warning": "Documentation cache markers and mutable-site observations cannot establish release version."
+      },
+      {
+        "kind": "Inference",
+        "invariant": "Explicit premises, rule, conclusion, uncertainty and contradiction policy.",
+        "required_fields": [
+          "premise_ids",
+          "rule",
+          "conclusion",
+          "uncertainty",
+          "contradicting_evidence_ids"
+        ],
+        "evidence_class": "Inferred",
+        "validity": "validated -> stale-pending-review on potentially affected premise drift; -> invalidated when any load-bearing premise is invalidated.",
+        "owner_route": "reasoning-review",
+        "misuse_warning": "Cannot masquerade as SourceFact, Outcome or official guidance."
+      },
+      {
+        "kind": "Recommendation",
+        "invariant": "Project-local choice with alternatives, constraints and evidence ceiling.",
+        "required_fields": [
+          "choice",
+          "alternatives",
+          "constraints",
+          "rationale",
+          "evidence_record_ids",
+          "decision_owner"
+        ],
+        "evidence_class": "ReviewJudgment",
+        "validity": "validated -> stale-pending-review on changed constraints/evidence; -> invalidated by owner withdrawal; replacement may -> superseded.",
+        "owner_route": "project-decision-owner",
+        "misuse_warning": "Not Anime.js authority, Recipe, Fix or execution authorization."
+      },
+      {
+        "kind": "UnverifiedProposal",
+        "invariant": "Retrieval-only third-party proposal with no admissible guidance effect.",
+        "required_fields": [
+          "source_identity",
+          "selector",
+          "proposal_summary",
+          "captured_at",
+          "verification_status"
+        ],
+        "evidence_class": "Unverified",
+        "validity": "validated only as proposal presence; source removal/change -> stale-pending-review or invalidated; promotion requires a new independently admitted record.",
+        "owner_route": "community-source-quarantine",
+        "misuse_warning": "Issue 1105 cannot support Recipe, Fix, Lesson, official guidance, performance or workflow claims."
+      },
+      {
+        "kind": "EvidenceGap",
+        "invariant": "One exact missing binding or witness with affected claim, closure condition and owner.",
+        "required_fields": [
+          "gap_code",
+          "affected_claim",
+          "missing_evidence",
+          "closure_condition",
+          "owner_route",
+          "status"
+        ],
+        "evidence_class": "AbsenceRecord",
+        "validity": "validated while missing; -> superseded when a closure record names the satisfying evidence; never silently deleted.",
+        "owner_route": "named-closure-route",
+        "misuse_warning": "Absence is not negative proof."
+      },
+      {
+        "kind": "NextQuestion",
+        "invariant": "One non-executing question that can close one EvidenceGap.",
+        "required_fields": [
+          "gap_id",
+          "missing_element",
+          "target_artifact",
+          "exact_locator",
+          "reason",
+          "owner_route",
+          "stop_condition"
+        ],
+        "evidence_class": "RoutingRecord",
+        "validity": "validated while its gap remains open; -> superseded when resolved or replaced.",
+        "owner_route": "gap-owner",
+        "misuse_warning": "A question or route suggestion does not authorize or execute work."
+      },
+      {
+        "kind": "QueryReceipt",
+        "invariant": "Immutable persisted output of one deterministic query over one exact graph digest.",
+        "required_fields": [
+          "query_contract_id",
+          "normalized_inputs",
+          "version_context_id",
+          "candidate_ids",
+          "selected_ids",
+          "evidence_record_ids",
+          "conflicts",
+          "absences",
+          "abstention_code",
+          "next_question_ids",
+          "algorithm_version",
+          "source_graph_digest",
+          "generated_at"
+        ],
+        "evidence_class": "DerivedQueryReceipt",
+        "validity": "validated only while source graph digest and algorithm version match; drift -> stale-pending-review; superseding rerun creates a new receipt.",
+        "owner_route": "query-engine",
+        "misuse_warning": "A QueryReceipt is not canonical knowledge, approval, execution or authority."
+      }
+    ]
+  },
+  "derived_view_contract": {
+    "node_status": "not-a-canonical-node",
+    "required_fields": [
+      "view_id",
+      "transform_id",
+      "transform_version",
+      "source_graph_digest",
+      "generated_at",
+      "freshness_state",
+      "output_digest"
+    ],
+    "allowed_states": [
+      "validated",
+      "stale-pending-review",
+      "failed",
+      "superseded"
+    ],
+    "forbidden": "A view may not source SourceFacts, Lessons, authority effects or promotion state."
+  },
+  "closed_relation_vocabulary": [
+    {
+      "id": "AKV-REL-001",
+      "name": "documents",
+      "source": "EvidenceRecord[DocumentationObservation]",
+      "target": "DocumentationTopic|APISymbol|Recipe",
+      "direction": "evidence-to-subject",
+      "cardinality": "source 1..* targets; target 1..* incoming",
+      "cycle_policy": "forbidden by disjoint endpoint kinds",
+      "admissible_evidence": "The source EvidenceRecord itself",
+      "invalidation": "Edge stale/invalid with either endpoint or selector scope",
+      "owner": "official-source-ingestion",
+      "consumers": [
+        "QRY-001",
+        "QRY-002",
+        "QRY-006",
+        "VIEW-documentation-coverage",
+        "VAL-missing-source"
+      ],
+      "forbidden_inference": "Documentation presence proves runtime behavior."
+    },
+    {
+      "id": "AKV-REL-002",
+      "name": "derivesFrom",
+      "source": "SourceFact|Inference|Recipe|Recommendation",
+      "target": "EvidenceRecord",
+      "direction": "assertion-to-evidence",
+      "cardinality": "source 1..* targets; target 0..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Target class must be allowed by source kind",
+      "invalidation": "Load-bearing target invalidation invalidates SourceFact, stales Recipe/Recommendation, and invalidates or stales Inference by scope",
+      "owner": "fact-or-review-owner",
+      "consumers": [
+        "QRY-001",
+        "QRY-002",
+        "QRY-004",
+        "VAL-evidence-scope"
+      ],
+      "forbidden_inference": "Any citation supports any assertion."
+    },
+    {
+      "id": "AKV-REL-003",
+      "name": "exports",
+      "source": "VersionContext",
+      "target": "APISymbol",
+      "direction": "version-to-symbol",
+      "cardinality": "source 0..* targets; target exactly 1 incoming per versioned identity",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Pinned package manifest export or root/module re-export binding",
+      "invalidation": "Export removal invalidates edge and APISymbol identity for that VersionContext",
+      "owner": "source-binding",
+      "consumers": [
+        "QRY-002",
+        "QRY-003",
+        "VIEW-api-surface",
+        "VAL-version-export"
+      ],
+      "forbidden_inference": "Export presence proves feature compatibility or behavior."
+    },
+    {
+      "id": "AKV-REL-004",
+      "name": "implementationDescribedBy",
+      "source": "APISymbol",
+      "target": "SourceFact",
+      "direction": "symbol-to-scoped-source-assertion",
+      "cardinality": "source 1..* targets; target 1..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Pinned SourceDerived fact whose assertion scope names the symbol",
+      "invalidation": "Target invalidation invalidates edge; symbol becomes stale if no valid implementation description remains",
+      "owner": "source-binding",
+      "consumers": [
+        "QRY-002",
+        "QRY-003",
+        "VAL-symbol-grounding"
+      ],
+      "forbidden_inference": "SourceFact is the implementation artifact or runtime proof."
+    },
+    {
+      "id": "AKV-REL-005",
+      "name": "hasTestEvidence",
+      "source": "APISymbol|SourceFact",
+      "target": "EvidenceRecord[TestPresent|TestObserved]",
+      "direction": "subject-to-test-evidence",
+      "cardinality": "source 0..* targets; target 0..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Only test-present or test-observed classes with exact scope",
+      "invalidation": "Digest/scope drift invalidates edge",
+      "owner": "test-ingestion",
+      "consumers": [
+        "QRY-002",
+        "QRY-004",
+        "QRY-005",
+        "VAL-presence-execution"
+      ],
+      "forbidden_inference": "Test presence means execution or passing behavior."
+    },
+    {
+      "id": "AKV-REL-006",
+      "name": "illustratedBy",
+      "source": "DocumentationTopic|APISymbol",
+      "target": "Example",
+      "direction": "subject-to-example",
+      "cardinality": "source 0..* targets; target 1..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "ExampleSourcePresent with exact locator",
+      "invalidation": "Example invalidation invalidates edge",
+      "owner": "example-ingestion",
+      "consumers": [
+        "QRY-002",
+        "VIEW-api-surface",
+        "VAL-example-presence"
+      ],
+      "forbidden_inference": "Example proves behavior."
+    },
+    {
+      "id": "AKV-REL-007",
+      "name": "prerequisiteRecipe",
+      "source": "Recipe",
+      "target": "Recipe",
+      "direction": "dependent-to-prerequisite",
+      "cardinality": "source 0..* targets; target 0..* incoming",
+      "cycle_policy": "global DAG required; self-edge forbidden",
+      "admissible_evidence": "Validated Recipe plus exact prerequisite rationale",
+      "invalidation": "Invalid prerequisite stales dependent Recipe",
+      "owner": "recipe-review",
+      "consumers": [
+        "QRY-001",
+        "VIEW-task-recipes",
+        "VAL-prerequisite-dag"
+      ],
+      "forbidden_inference": "Consulted documentation is a Recipe prerequisite."
+    },
+    {
+      "id": "AKV-REL-008",
+      "name": "consults",
+      "source": "Recipe",
+      "target": "DocumentationTopic|APISymbol|SourceFact|Example",
+      "direction": "recipe-to-consulted-record",
+      "cardinality": "source 1..* targets; target 0..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Validated exact binding with compatible version scope",
+      "invalidation": "Load-bearing target drift stales Recipe",
+      "owner": "recipe-review",
+      "consumers": [
+        "QRY-001",
+        "VIEW-task-recipes",
+        "VAL-recipe-binding"
+      ],
+      "forbidden_inference": "Consultation proves Recipe success."
+    },
+    {
+      "id": "AKV-REL-009",
+      "name": "addresses",
+      "source": "WorkEpisode",
+      "target": "Task",
+      "direction": "episode-to-task",
+      "cardinality": "source exactly 1 target; target 0..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "EpisodeReceipt",
+      "invalidation": "Task cancellation invalidates open episode association",
+      "owner": "execution-route",
+      "consumers": [
+        "QRY-005",
+        "VIEW-work-lessons",
+        "VAL-episode-closure"
+      ],
+      "forbidden_inference": "Addressing a Task means completing it."
+    },
+    {
+      "id": "AKV-REL-010",
+      "name": "usesVersion",
+      "source": "WorkEpisode",
+      "target": "VersionContext",
+      "direction": "episode-to-context",
+      "cardinality": "source exactly 1 target; target 0..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "EnvironmentBinding",
+      "invalidation": "Invalid context invalidates episode compatibility",
+      "owner": "environment-capture",
+      "consumers": [
+        "QRY-004",
+        "QRY-005",
+        "VAL-version-compatibility"
+      ],
+      "forbidden_inference": "Package version alone captures the environment."
+    },
+    {
+      "id": "AKV-REL-011",
+      "name": "contains",
+      "source": "WorkEpisode",
+      "target": "Attempt",
+      "direction": "episode-to-attempt",
+      "cardinality": "source 0..* ordered targets; target exactly 1 incoming; ordinal unique within source",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "ActionLog",
+      "invalidation": "Cross-episode ownership or duplicate ordinal invalidates edge",
+      "owner": "episode-owner",
+      "consumers": [
+        "QRY-004",
+        "QRY-005",
+        "VIEW-work-lessons",
+        "VAL-attempt-order"
+      ],
+      "forbidden_inference": "Containment makes Attempt evidence."
+    },
+    {
+      "id": "AKV-REL-012",
+      "name": "producedEvidence",
+      "source": "Attempt",
+      "target": "EvidenceRecord[ObservedWitness|TestObserved|ExecutedWitness|ActionLog]",
+      "direction": "attempt-to-produced-evidence",
+      "cardinality": "source 0..* targets; target 0..1 incoming Attempt",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Evidence created or captured by that Attempt",
+      "invalidation": "Evidence integrity failure invalidates edge",
+      "owner": "episode-owner",
+      "consumers": [
+        "QRY-004",
+        "QRY-005",
+        "VAL-lesson-admissibility"
+      ],
+      "forbidden_inference": "Attempt directly supports Diagnosis or Lesson without EvidenceRecord mediation."
+    },
+    {
+      "id": "AKV-REL-013",
+      "name": "observes",
+      "source": "Attempt",
+      "target": "Symptom",
+      "direction": "attempt-to-symptom",
+      "cardinality": "source 0..* targets; target exactly 1 incoming Attempt",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Symptom must reference EvidenceRecord produced by the Attempt",
+      "invalidation": "Witness failure invalidates edge and Symptom",
+      "owner": "diagnostic-route",
+      "consumers": [
+        "QRY-004",
+        "VAL-symptom-witness"
+      ],
+      "forbidden_inference": "Observation is diagnosis."
+    },
+    {
+      "id": "AKV-REL-014",
+      "name": "supportedByEvidence",
+      "source": "Diagnosis|Outcome|Lesson|Inference",
+      "target": "EvidenceRecord",
+      "direction": "claim-to-evidence",
+      "cardinality": "source 1..* targets when validated; target 0..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Kind-specific admissibility; verified Lesson requires TestObserved or ExecutedWitness from a referenced succeeded episode",
+      "invalidation": "Load-bearing evidence invalidation invalidates or stales source by assertion-scope rule",
+      "owner": "claim-review-owner",
+      "consumers": [
+        "QRY-004",
+        "QRY-005",
+        "VAL-lesson-admissibility",
+        "VAL-diagnosis-grounding"
+      ],
+      "forbidden_inference": "Attempt, citation count or proposal is sufficient evidence."
+    },
+    {
+      "id": "AKV-REL-015",
+      "name": "contradictedByEvidence",
+      "source": "SourceFact|Diagnosis|Recipe|Lesson|Inference",
+      "target": "EvidenceRecord",
+      "direction": "claim-to-contradicting-evidence",
+      "cardinality": "source 0..* targets; target 0..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "EvidenceRecord with intersecting assertion scope and incompatible proposition",
+      "invalidation": "Direct unresolved contradiction invalidates assertion; scope ambiguity stales it",
+      "owner": "claim-review-owner",
+      "consumers": [
+        "QRY-001",
+        "QRY-002",
+        "QRY-004",
+        "QRY-005",
+        "VAL-conflict-preservation"
+      ],
+      "forbidden_inference": "Any differing statement is a contradiction."
+    },
+    {
+      "id": "AKV-REL-016",
+      "name": "proposes",
+      "source": "Diagnosis",
+      "target": "Fix",
+      "direction": "diagnosis-to-fix",
+      "cardinality": "source 0..* targets; target exactly 1 incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Validated Diagnosis and proposal evidence",
+      "invalidation": "Diagnosis invalidation stales or invalidates Fix",
+      "owner": "implementation-route",
+      "consumers": [
+        "QRY-004",
+        "VIEW-work-lessons",
+        "VAL-fix-ownership"
+      ],
+      "forbidden_inference": "Proposed Fix is successful."
+    },
+    {
+      "id": "AKV-REL-017",
+      "name": "applies",
+      "source": "Attempt",
+      "target": "Fix",
+      "direction": "attempt-to-fix",
+      "cardinality": "source 0..1 target; target 0..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "ActionLog describing application",
+      "invalidation": "Attempt invalidation invalidates edge",
+      "owner": "episode-owner",
+      "consumers": [
+        "QRY-004",
+        "VIEW-work-lessons"
+      ],
+      "forbidden_inference": "Applied Fix succeeded."
+    },
+    {
+      "id": "AKV-REL-018",
+      "name": "yields",
+      "source": "Attempt",
+      "target": "Outcome",
+      "direction": "attempt-to-outcome",
+      "cardinality": "source 0..1 target; terminal Attempt exactly 1; target exactly 1 incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Outcome with exact criterion and witness",
+      "invalidation": "Outcome invalidation invalidates edge",
+      "owner": "validation-route",
+      "consumers": [
+        "QRY-004",
+        "QRY-005",
+        "VIEW-work-lessons",
+        "VAL-lesson-admissibility"
+      ],
+      "forbidden_inference": "Any Outcome is success."
+    },
+    {
+      "id": "AKV-REL-019",
+      "name": "generalizesFrom",
+      "source": "Lesson",
+      "target": "WorkEpisode",
+      "direction": "lesson-to-episode",
+      "cardinality": "candidate 1..* targets; verified 1..* closed compatible targets",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Closed episode containing succeeded Outcome and admissible witness for verified status",
+      "invalidation": "Episode or succeeded witness invalidation invalidates verified Lesson",
+      "owner": "lesson-review",
+      "consumers": [
+        "QRY-005",
+        "VIEW-work-lessons",
+        "VAL-lesson-admissibility"
+      ],
+      "forbidden_inference": "Documentation guidance or failed episode is a verified Lesson."
+    },
+    {
+      "id": "AKV-REL-020",
+      "name": "boundedBy",
+      "source": "APISymbol|SourceFact|Recipe|Symptom|Lesson",
+      "target": "VersionContext",
+      "direction": "record-to-context",
+      "cardinality": "source 1..* targets; target 0..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Exact version/environment binding",
+      "invalidation": "Incompatible queried context excludes source; changed context creates stale review, not silent reuse",
+      "owner": "environment-capture",
+      "consumers": [
+        "QRY-001",
+        "QRY-002",
+        "QRY-003",
+        "QRY-004",
+        "QRY-005",
+        "VAL-version-compatibility"
+      ],
+      "forbidden_inference": "Major/minor compatibility or environment equivalence may be guessed."
+    },
+    {
+      "id": "AKV-REL-021",
+      "name": "invalidatedBy",
+      "source": "DocumentationTopic|APISymbol|SourceFact|Example|Recipe|Symptom|Diagnosis|Fix|Outcome|Lesson|EvidenceRecord|Inference|Recommendation|QueryReceipt",
+      "target": "EvidenceRecord|VersionContext",
+      "direction": "record-to-trigger",
+      "cardinality": "source 0..* targets; target 0..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Trigger must intersect assertion scope and satisfy invalidation rule",
+      "invalidation": "Moves source to invalidated while preserving bytes",
+      "owner": "record-owner",
+      "consumers": [
+        "QRY-001",
+        "QRY-002",
+        "QRY-004",
+        "QRY-005",
+        "QRY-006",
+        "VAL-state-transition"
+      ],
+      "forbidden_inference": "Any source digest change invalidates every dependent record."
+    },
+    {
+      "id": "AKV-REL-022",
+      "name": "supersedes",
+      "source": "VersionContext|Task|Diagnosis|Fix|Lesson|EvidenceGap|NextQuestion|EvidenceRecord|Recipe|SourceFact|QueryReceipt",
+      "target": "same exact kind as source",
+      "direction": "new-record-to-old-record",
+      "cardinality": "source 0..1 target; target 0..1 direct incoming; chains allowed",
+      "cycle_policy": "global DAG; self-edge forbidden",
+      "admissible_evidence": "Replacement rationale and preserved logical identity",
+      "invalidation": "Moves target to superseded; source validity is independently checked",
+      "owner": "kind-specific record owner",
+      "consumers": [
+        "QRY-001",
+        "QRY-002",
+        "QRY-004",
+        "QRY-005",
+        "QRY-006",
+        "VAL-supersession-dag"
+      ],
+      "forbidden_inference": "Generic Node replacement or cross-kind replacement."
+    },
+    {
+      "id": "AKV-REL-023",
+      "name": "exposesGap",
+      "source": "QueryReceipt|Recipe",
+      "target": "EvidenceGap",
+      "direction": "result-or-guidance-to-gap",
+      "cardinality": "source 0..* targets; target 1..* incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Deterministically detected absence, stale state, conflict or unsupported scope",
+      "invalidation": "Gap closure supersedes gap and stales prior QueryReceipt",
+      "owner": "query-engine-or-recipe-owner",
+      "consumers": [
+        "QRY-001",
+        "QRY-003",
+        "QRY-004",
+        "QRY-005",
+        "QRY-006",
+        "VIEW-unresolved-gaps"
+      ],
+      "forbidden_inference": "Gap proves a negative fact."
+    },
+    {
+      "id": "AKV-REL-024",
+      "name": "suggestsNextQuestion",
+      "source": "EvidenceGap",
+      "target": "NextQuestion",
+      "direction": "gap-to-question",
+      "cardinality": "open gap exactly 1 active target; question exactly 1 incoming",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Question fields must name the gap, target, locator and stop condition",
+      "invalidation": "Gap closure supersedes question",
+      "owner": "gap-owner",
+      "consumers": [
+        "QRY-001",
+        "QRY-003",
+        "QRY-004",
+        "QRY-005",
+        "QRY-006",
+        "VIEW-unresolved-gaps",
+        "VAL-next-question"
+      ],
+      "forbidden_inference": "Suggested question authorizes work."
+    },
+    {
+      "id": "AKV-REL-025",
+      "name": "citesEvidence",
+      "source": "QueryReceipt",
+      "target": "EvidenceRecord",
+      "direction": "receipt-to-evidence",
+      "cardinality": "non-abstaining receipt 1..* targets; abstaining receipt 0..*",
+      "cycle_policy": "forbidden",
+      "admissible_evidence": "Only evidence actually consumed by deterministic query",
+      "invalidation": "Evidence drift stales QueryReceipt",
+      "owner": "query-engine",
+      "consumers": [
+        "all QRY contracts",
+        "VAL-query-replay"
+      ],
+      "forbidden_inference": "Receipt is canonical evidence or authority."
+    }
+  ],
+  "killed_relation_shapes": [
+    {
+      "shape": "implementedBy",
+      "resolution": "replaced by implementationDescribedBy"
+    },
+    {
+      "shape": "testedBy",
+      "resolution": "replaced by hasTestEvidence"
+    },
+    {
+      "shape": "contradicts",
+      "resolution": "replaced by contradictedByEvidence"
+    },
+    {
+      "shape": "Attempt supports Diagnosis|Lesson",
+      "resolution": "killed; Attempt may only producedEvidence, while claims use supportedByEvidence"
+    },
+    {
+      "shape": "requires(Recipe, mixed targets)",
+      "resolution": "split into prerequisiteRecipe and consults"
+    },
+    {
+      "shape": "supersedes(Node, same-kind Node)",
+      "resolution": "replaced by closed same-kind union in AKV-REL-022"
+    },
+    {
+      "shape": "related-topic link as semantic relevance",
+      "resolution": "killed; retained only as DocumentationTopic source metadata"
+    }
+  ],
+  "query_semantics": {
+    "common_pipeline": [
+      "Normalize text with Unicode NFKC, lowercase and collapsed whitespace; normalize canonical URLs and stable IDs.",
+      "Generate candidates only from the query-specific indices below.",
+      "Reject absent, returned-not-written, failed, invalidated and superseded records. returned-not-written may appear only as an absence.",
+      "Require reproduced then validated materialization for candidate-package presence.",
+      "Filter exact VersionContext first; no major/minor or environment compatibility is inferred.",
+      "Apply question-specific evidence admissibility and precedence; there is no universal evidence rank.",
+      "Group propositions by assertion_scope. Preserve incompatible propositions as conflicts; never silently choose by source count.",
+      "Sort by query-specific score tuple, then stable ID ascending. Exact score ties remain co-selected and produce ambiguity where the contract requires one choice.",
+      "Apply invalidation and stale rules before generating output.",
+      "Return selected IDs, evidence classes, conflicts, absences, abstention code and exactly one NextQuestion per open gap in a persisted QueryReceipt."
+    ],
+    "QRY-001": {
+      "name": "resolve-task-recipe",
+      "candidate_generation": [
+        "Match normalized intent against Recipe.task_pattern tokens and target_kind.",
+        "Expand prerequisiteRecipe edges by deterministic depth-first traversal with targets sorted by Recipe ID; any back-edge fails validation.",
+        "Add records reached by consults."
+      ],
+      "selection_tables": {
+        "timeline": {
+          "sequence": [
+            "createTimeline",
+            "add"
+          ],
+          "callback": [
+            "call"
+          ]
+        },
+        "svg": {
+          "along svg path|motion path": "createMotionPath",
+          "morph shape|morph path": "morphTo",
+          "draw stroke|line drawing": "createDrawable"
+        },
+        "scope_cleanup": {
+          "base": [
+            "createScope",
+            "revert",
+            "cleanInlineStyles"
+          ],
+          "framework_unspecified": "ABSTAIN_FRAMEWORK_CONTEXT"
+        }
+      },
+      "evidence_policy": "For API intent, current validated official documentation guidance selects the Recipe; pinned exports/types/source must confirm named symbols. Local execution is not required to return guidance but is required to claim project success.",
+      "ordering": [
+        "all required intent tokens matched descending",
+        "target_kind exact before generic",
+        "number of unmatched constraints ascending",
+        "Recipe ID ascending"
+      ],
+      "conflict": "Documentation/source conflict on the same symbol or action returns both records and ABSTAIN_CONFLICT.",
+      "abstention": "No compatible Recipe, missing VersionContext for versioned action, ambiguous equal top matches, framework-specific request without framework, or invalid prerequisite graph."
+    },
+    "QRY-002": {
+      "name": "explain-api-symbol",
+      "candidate_generation": "Resolve exact symbol plus surface namespace; traverse exports, documents, implementationDescribedBy, hasTestEvidence and illustratedBy.",
+      "evidence_policy": {
+        "identity_and_export": "Pinned package export, type and source bindings are required.",
+        "documented_purpose": "Current validated documentation observation is primary.",
+        "runtime_behavior": "Only TestObserved or exact-context ExecutedWitness is admissible.",
+        "example": "ExampleSourcePresent is illustrative only."
+      },
+      "ordering": [
+        "exact symbol and surface match",
+        "exact VersionContext",
+        "assertion-scope specificity descending",
+        "stable ID"
+      ],
+      "conflict": "Conflicting documentation and pinned source are returned separately by assertion scope; factual synthesis is withheld.",
+      "abstention": "Unknown surface, missing exact export binding, returned-only materialization, stale/invalid binding, or conflict."
+    },
+    "QRY-003": {
+      "name": "choose-js-or-waapi",
+      "candidate_generation": "Generate only distinct JS animate and waapi.animate APISymbols exported by the requested VersionContext.",
+      "compatibility": "A candidate is compatible only when every required feature has a validated, exact documented/source binding to that surface. Unknown counts as incompatible-for-selection, not false.",
+      "feature_rules": {
+        "timeline synchronization": {
+          "select": "JS animate",
+          "waapi": "retain as incompatible candidate for this requirement"
+        },
+        "JS-only documented feature": {
+          "select": "JS animate"
+        },
+        "WAAPI-only documented feature": {
+          "select": "waapi.animate"
+        },
+        "performance|bundle|frame budget": {
+          "result": "ABSTAIN_PERFORMANCE_EVIDENCE"
+        }
+      },
+      "evidence_policy": "Feature compatibility uses explicit official documentation plus pinned symbol identity; project performance requires controlled ExecutedWitness under matching context.",
+      "ordering": [
+        "all required features supported",
+        "number of explicit compatible features descending",
+        "stable symbol ID"
+      ],
+      "ties": "If both satisfy all requirements, return both and ABSTAIN_AMBIGUOUS_CHOICE unless user supplies a discriminating constraint.",
+      "conflict": "Surface capability conflict is preserved and returns ABSTAIN_CONFLICT.",
+      "abstention": "Unknown requirement, missing version, tie without discriminator, performance claim without witness, or conflict."
+    },
+    "QRY-004": {
+      "name": "diagnose-work",
+      "candidate_generation": "Match Symptom text, VersionContext and attempted symbol/parameter names; retrieve Diagnoses whose symptoms overlap, then proposed Fixes and supporting/contradicting EvidenceRecords.",
+      "evidence_policy": {
+        "same-context diagnosis": [
+          "ExecutedWitness from the same episode/context",
+          "TestObserved at exact Anime.js version and assertion scope",
+          "pinned source/type/export binding",
+          "current official documentation guidance",
+          "timestamped official migration wiki for cross-version mappings",
+          "explicit Inference"
+        ],
+        "rule": "This precedence applies only to diagnosis. Lower classes cannot override an unresolved higher-scope contradiction."
+      },
+      "migration_rule": "For v4 symptom anime({targets,easing,value}), select the documented v3-to-v4 mapping candidates animate(targets, parameters), ease and to; mark them proposed Fixes and require a rerun.",
+      "ordering": [
+        "exact VersionContext",
+        "symptom-token coverage descending",
+        "evidence-scope specificity descending",
+        "confidence descending",
+        "stable ID"
+      ],
+      "conflict": "Incompatible diagnoses at equal scope remain present; no Fix is selected when their required actions conflict.",
+      "abstention": "Missing runtime/version context, no witnessed Symptom, unverified-only diagnosis, unresolved conflict, or no rerun evidence for success."
+    },
+    "QRY-005": {
+      "name": "retrieve-lessons",
+      "candidate_generation": "Generate Lessons linked by generalizesFrom to episodes whose Task matches and whose usesVersion context exactly matches.",
+      "evidence_policy": "Eligible verified Lesson requires validated state, lesson_status=verified, closed WorkEpisode, succeeded Outcome, and TestObserved or ExecutedWitness linked through producedEvidence/supportedByEvidence. Candidate, stale, failed, invalidated and superseded Lessons are separately returned but never recommended.",
+      "ordering": [
+        "exact Task target and constraints",
+        "exact VersionContext",
+        "applicability specificity descending",
+        "number of compatible succeeded episodes descending",
+        "stable Lesson ID"
+      ],
+      "conflict": "Contradictory verified Lessons at overlapping applicability yield ABSTAIN_CONFLICT.",
+      "absence": "The current package deterministically returns zero verified Anime.js Lessons and ABSTAIN_NO_VERIFIED_LESSON.",
+      "abstention": "No verified compatible lesson, stale-only lessons, lesson without episode/outcome/witness, or conflict."
+    },
+    "QRY-006": {
+      "name": "coverage-status",
+      "candidate_generation": "Resolve exact canonical route or family; join DocumentationTopic, its documenting EvidenceRecords and the 418/348 manifest receipts.",
+      "evidence_policy": "Navigation observation, semantic observation, candidate materialization and validation are reported as separate fields.",
+      "ordering": "Canonical path ascending.",
+      "state_output": {
+        "returned-not-written": "route observed; candidate row absent; reproduction required",
+        "reproduced": "candidate row exists but validation incomplete",
+        "validated": "row exists and all digests/invariants pass",
+        "stale-pending-review": "previous result excluded from current coverage",
+        "failed": "row or manifest failed deterministic validation",
+        "absent": "no route or candidate record",
+        "invalidated": "binding disproved or selector/route removed",
+        "superseded": "historical row replaced"
+      },
+      "conflict": "Route/digest/canonical-identity conflict is preserved and current coverage withheld.",
+      "abstention": "Returned-only, stale, failed, absent, invalidated or conflicting coverage."
+    }
+  },
+  "state_machine": {
+    "states": [
+      "returned-not-written",
+      "reproduced",
+      "validated",
+      "stale-pending-review",
+      "invalidated",
+      "failed",
+      "absent",
+      "superseded"
+    ],
+    "presence_rule": "Only reproduced or validated means repository-present. Only validated is query-eligible as current positive evidence.",
+    "transitions": [
+      [
+        "absent",
+        "reproduced",
+        "bytes created from bound source contract"
+      ],
+      [
+        "returned-not-written",
+        "reproduced",
+        "candidate independently materializes exact rows"
+      ],
+      [
+        "reproduced",
+        "validated",
+        "all schema, digest, graph, copyright and fixture validators pass"
+      ],
+      [
+        "reproduced",
+        "failed",
+        "any validator fails"
+      ],
+      [
+        "failed",
+        "reproduced",
+        "new repaired bytes are produced; failed record remains historical"
+      ],
+      [
+        "validated",
+        "stale-pending-review",
+        "potentially intersecting source/version/algorithm drift without demonstrated contradiction"
+      ],
+      [
+        "stale-pending-review",
+        "validated",
+        "reproduction/review proves assertion unchanged and all validators pass"
+      ],
+      [
+        "validated|stale-pending-review",
+        "invalidated",
+        "selector removal, identity loss, integrity failure or intersecting contradictory evidence"
+      ],
+      [
+        "validated|stale-pending-review|invalidated|failed",
+        "superseded",
+        "new same-kind record explicitly replaces old logical identity"
+      ]
+    ],
+    "terminal_rules": {
+      "invalidated": "Historical bytes retained; may only transition to superseded.",
+      "superseded": "Historical bytes retained; terminal.",
+      "returned-not-written": "Evidence may guide reproduction but cannot satisfy repository presence."
+    },
+    "digest_assertion_scope_intersection": {
+      "inputs": [
+        "record.source_identity",
+        "record.selector_or_structured_pointer",
+        "record.assertion_scope",
+        "change.source_identity",
+        "change.changed_selectors_or_blob"
+      ],
+      "algorithm": [
+        "If source identities differ, intersection=false.",
+        "If assertion_scope is whole-artifact and artifact digest changes, intersection=true.",
+        "For structured selectors, intersection=true only when the selector disappears, its selected bytes change, or its owning export/type subtree changes.",
+        "For page observations without byte-range granularity, route raw digest change intersects page-scoped assertions; heading-local assertion intersects only when that heading/selector or its extracted disposition changes.",
+        "If intersection=false, preserve state.",
+        "If intersection=true and identity/selector is removed, integrity fails, or new evidence logically contradicts the proposition, state=invalidated.",
+        "If intersection=true but contradiction is not established, state=stale-pending-review."
+      ],
+      "stale_vs_invalidated": "Stale means revalidation is required because applicability may have changed; invalidated means the record's grounding or proposition is demonstrably no longer valid."
+    }
+  },
+  "abstention_codes": [
+    {
+      "code": "ABSTAIN_UNKNOWN_VERSION",
+      "minimum_to_clear": "Validated VersionContext containing exact Anime.js package version and, for project claims, lockfile digest."
+    },
+    {
+      "code": "ABSTAIN_RETURNED_NOT_MATERIALIZED",
+      "minimum_to_clear": "Independently reproduced candidate rows followed by digest and schema validation."
+    },
+    {
+      "code": "ABSTAIN_MISSING_SOURCE",
+      "minimum_to_clear": "Validated EvidenceRecord with immutable source identity, exact selector, digest and intersecting assertion scope."
+    },
+    {
+      "code": "ABSTAIN_STALE_BINDING",
+      "minimum_to_clear": "Re-captured/reproduced evidence and successful revalidation under the queried VersionContext."
+    },
+    {
+      "code": "ABSTAIN_CONFLICT",
+      "minimum_to_clear": "Evidence that partitions the assertions into non-overlapping version/scope contexts or directly resolves the contradiction with an admissible question-specific witness."
+    },
+    {
+      "code": "ABSTAIN_UNVERIFIED_ONLY",
+      "minimum_to_clear": "Independent official documentation/source/type evidence, or matching executed evidence where behavior is claimed."
+    },
+    {
+      "code": "ABSTAIN_NO_EXECUTED_WITNESS",
+      "minimum_to_clear": "TestObserved or ExecutedWitness matching the exact assertion scope and VersionContext."
+    },
+    {
+      "code": "ABSTAIN_PERFORMANCE_EVIDENCE",
+      "minimum_to_clear": "Controlled ExecutedWitness with workload, environment, metric, baseline, repetitions and acceptance threshold."
+    },
+    {
+      "code": "ABSTAIN_ACCESSIBILITY_EVIDENCE",
+      "minimum_to_clear": "Named accessibility criterion plus matching assistive-technology, automated-rule or user-outcome witness under the project context."
+    },
+    {
+      "code": "ABSTAIN_RUNTIME_CONTEXT",
+      "minimum_to_clear": "Installed version, lock digest, runtime/browser and relevant framework environment."
+    },
+    {
+      "code": "ABSTAIN_FRAMEWORK_CONTEXT",
+      "minimum_to_clear": "Named framework/version, lifecycle hook and local acceptance criterion."
+    },
+    {
+      "code": "ABSTAIN_AMBIGUOUS_INTENT",
+      "minimum_to_clear": "A discriminating task constraint that leaves exactly one top-ranked compatible candidate."
+    },
+    {
+      "code": "ABSTAIN_NO_VERIFIED_LESSON",
+      "minimum_to_clear": "Closed compatible WorkEpisode, succeeded Outcome and linked TestObserved or ExecutedWitness admitted by lesson review."
+    },
+    {
+      "code": "ABSTAIN_PREREQUISITE_CYCLE",
+      "minimum_to_clear": "Acyclic prerequisiteRecipe graph passing deterministic topological validation."
+    },
+    {
+      "code": "ABSTAIN_COPYRIGHT_REJECTED",
+      "minimum_to_clear": "Original paraphrase or compliant explicitly marked quotation passing the copyright validator."
+    },
+    {
+      "code": "ABSTAIN_UNSUPPORTED_FAMILY_JOIN",
+      "minimum_to_clear": "Exact pinned path/symbol or explicit official family binding; filename plausibility is insufficient."
+    },
+    {
+      "code": "ABSTAIN_COVERAGE_FAILED",
+      "minimum_to_clear": "Expected row counts, canonical paths and manifest digests all reproduce and validate."
+    }
+  ],
+  "copyright_validator": {
+    "id": "AKV-VAL-COPYRIGHT-001",
+    "mode": "fail-closed",
+    "allowlist": [
+      "URLs",
+      "source paths",
+      "selectors",
+      "identifiers",
+      "API names",
+      "function/type signatures",
+      "short titles and headings",
+      "hashes",
+      "license identifiers"
+    ],
+    "quotation_rule": "Any verbatim quotation must be explicitly marked quoted_excerpt, attributed to one source, and contain at most 25 Unicode word tokens from that source across the entire candidate record.",
+    "paragraph_rule": "Reject any unquoted candidate paragraph that normalizes to an exact source paragraph of 8 or more word tokens.",
+    "contiguous_match_rule": "After Unicode NFKC, lowercase, punctuation removal and whitespace collapse, reject unquoted prose containing any contiguous match of 12 or more word tokens against a bound source, excluding allowlisted metadata/signatures.",
+    "density_rule": "Also reject an unquoted prose field when 8 or more contiguous source tokens cover at least 40 percent of that field.",
+    "missing_source_bytes_rule": "If source bytes needed for comparison are unavailable, accept only allowlisted metadata/signatures; all prose admission fails with ABSTAIN_COPYRIGHT_REJECTED.",
+    "validator_output": [
+      "record_id",
+      "source_id",
+      "field",
+      "longest_contiguous_match",
+      "matched_fraction",
+      "quoted_word_count",
+      "decision",
+      "diagnostic_code"
+    ],
+    "prohibitions": [
+      "No copied paragraphs.",
+      "No accumulated quotations exceeding 25 words per source in one record.",
+      "No documentation, example or code mirroring disguised as paraphrase."
+    ]
+  },
+  "relation_consumer_rule": "Every retained relation above has at least one named query, validator, view or invalidation consumer. A relation absent from this closed table, or with an empty consumer set, fails DECORATIVE_RELATION.",
+  "finite_fixtures": [
+    {
+      "id": "AKV-FIX-POS-QUERY-001",
+      "kind": "positive",
+      "input": "timeline task requiring two animations and callback under v4.5.0",
+      "expected": "QRY-001 selects createTimeline, add and call in order, expands acyclic prerequisites, cites exact docs/source and requires local validation."
+    },
+    {
+      "id": "AKV-FIX-POS-QUERY-002",
+      "kind": "positive",
+      "input": "animate element along SVG path",
+      "expected": "QRY-001 selects createMotionPath and excludes morphTo/createDrawable."
+    },
+    {
+      "id": "AKV-FIX-POS-QUERY-003",
+      "kind": "positive",
+      "input": "timeline synchronization under v4.5.0",
+      "expected": "QRY-003 selects JS animate and retains waapi.animate as incompatible for the stated requirement; no performance claim."
+    },
+    {
+      "id": "AKV-FIX-POS-EPISODE-001",
+      "kind": "positive",
+      "input": "closed episode with failed Attempt 1 and succeeded Attempt 2 with ExecutedWitness",
+      "expected": "Both attempts/outcomes persist; a version-bounded verified Lesson may cite the successful witness and relevant failure evidence."
+    },
+    {
+      "id": "AKV-FIX-NEG-CONFLICT-001",
+      "mutant": "documentation/source conflict",
+      "expected": "Both propositions preserved; QueryReceipt returns ABSTAIN_CONFLICT.",
+      "killed_by": "question-specific evidence policy plus contradictedByEvidence"
+    },
+    {
+      "id": "AKV-FIX-NEG-COPY-001",
+      "mutant": "copied prose",
+      "expected": "12-token unquoted match or copied 8-token paragraph fails AKV-VAL-COPYRIGHT-001.",
+      "killed_by": "copyright validator"
+    },
+    {
+      "id": "AKV-FIX-NEG-CYCLE-001",
+      "mutant": "circular prerequisites",
+      "expected": "A->B->C->A fails global DAG validation and QRY-001 returns ABSTAIN_PREREQUISITE_CYCLE.",
+      "killed_by": "AKV-REL-007"
+    },
+    {
+      "id": "AKV-FIX-NEG-DECORATIVE-001",
+      "mutant": "decorative relation",
+      "expected": "Unknown relation or empty consumer list fails DECORATIVE_RELATION.",
+      "killed_by": "closed relation table and consumer rule"
+    },
+    {
+      "id": "AKV-FIX-NEG-SOURCE-001",
+      "mutant": "missing source",
+      "expected": "Fact/Recipe/Lesson rejected; ABSTAIN_MISSING_SOURCE and exact NextQuestion emitted.",
+      "killed_by": "derivesFrom and supportedByEvidence minima"
+    },
+    {
+      "id": "AKV-FIX-NEG-STALE-001",
+      "mutant": "stale version",
+      "expected": "Record excluded from positive selection; ABSTAIN_STALE_BINDING.",
+      "killed_by": "state machine and boundedBy"
+    },
+    {
+      "id": "AKV-FIX-NEG-ISSUE-001",
+      "mutant": "unverified issue advice",
+      "expected": "Issue 1105 remains retrievable only as UnverifiedProposal; cannot support Recipe, Fix or Lesson.",
+      "killed_by": "UnverifiedProposal invariant and ABSTAIN_UNVERIFIED_ONLY"
+    },
+    {
+      "id": "AKV-FIX-NEG-LESSON-001",
+      "mutant": "Lesson without WorkEpisode",
+      "expected": "Verified Lesson rejected; current verified Lesson count remains zero.",
+      "killed_by": "generalizesFrom plus lesson admissibility"
+    },
+    {
+      "id": "AKV-FIX-NEG-MATERIALIZATION-001",
+      "mutant": "returned-not-written as present",
+      "expected": "Fails RETURNED_EVIDENCE_MATERIALIZATION_COLLAPSE.",
+      "killed_by": "state presence rule"
+    },
+    {
+      "id": "AKV-FIX-NEG-EXECUTION-001",
+      "mutant": "test/example presence as execution",
+      "expected": "Fails PRESENCE_EXECUTION_COLLAPSE.",
+      "killed_by": "hasTestEvidence evidence classes and Example invariant"
+    },
+    {
+      "id": "AKV-FIX-NEG-FAMILY-001",
+      "mutant": "unsupported family join",
+      "expected": "Any of 29 shared/unmatched blobs assigned by filename plausibility fails UNSUPPORTED_FAMILY_JOIN.",
+      "killed_by": "ABSTAIN_UNSUPPORTED_FAMILY_JOIN"
+    },
+    {
+      "id": "AKV-FIX-NEG-SUPERSEDES-001",
+      "mutant": "cross-kind or cyclic supersession",
+      "expected": "Fails same-kind closed union or supersession DAG.",
+      "killed_by": "AKV-REL-022"
+    },
+    {
+      "id": "AKV-FIX-NEG-ATTEMPT-SUPPORT-001",
+      "mutant": "Attempt directly supports Lesson",
+      "expected": "Relation grammar rejection; only producedEvidence followed by supportedByEvidence is admissible.",
+      "killed_by": "AKV-REL-012 and AKV-REL-014"
+    }
+  ],
+  "reviewer_blocker_disposition": [
+    {
+      "blocker": "Closed per-node definitions absent",
+      "status": "closed",
+      "repair": "closed_node_vocabulary"
+    },
+    {
+      "blocker": "Closed per-relation definitions absent",
+      "status": "closed",
+      "repair": "closed_relation_vocabulary"
+    },
+    {
+      "blocker": "QueryResult undeclared",
+      "status": "closed",
+      "repair": "Persisted QueryReceipt defined; views remain non-canonical"
+    },
+    {
+      "blocker": "implementedBy/testedBy/contradicts collapse",
+      "status": "closed",
+      "repair": "Renamed and definitionally narrowed relations"
+    },
+    {
+      "blocker": "Attempt support bypasses evidence",
+      "status": "closed",
+      "repair": "Direct support killed; producedEvidence plus supportedByEvidence required"
+    },
+    {
+      "blocker": "Generic same-kind supersedes",
+      "status": "closed",
+      "repair": "Closed same-kind union and DAG"
+    },
+    {
+      "blocker": "Recipe dependency and consultation conflated",
+      "status": "closed",
+      "repair": "prerequisiteRecipe separated from consults; DAG required"
+    },
+    {
+      "blocker": "Queries lack deterministic algorithms",
+      "status": "closed",
+      "repair": "Common pipeline and QRY-001 through QRY-006 algorithms"
+    },
+    {
+      "blocker": "Universal evidence precedence would be invalid",
+      "status": "closed",
+      "repair": "Question-specific evidence policies"
+    },
+    {
+      "blocker": "Materialization and validity states inconsistent",
+      "status": "closed",
+      "repair": "Eight-state machine plus assertion-scope intersection"
+    },
+    {
+      "blocker": "Stale versus invalidated undefined",
+      "status": "closed",
+      "repair": "Potential impact without contradiction is stale; demonstrated grounding/proposition failure is invalidated"
+    },
+    {
+      "blocker": "Abstention minima absent",
+      "status": "closed",
+      "repair": "Enumerated abstention codes with minimum evidence"
+    },
+    {
+      "blocker": "Copyright mutant survives",
+      "status": "closed",
+      "repair": "Deterministic conservative fail-closed validator"
+    },
+    {
+      "blocker": "Circular prerequisites mutant survives",
+      "status": "closed",
+      "repair": "Global DAG and fixture"
+    },
+    {
+      "blocker": "Decorative relation mutant survives",
+      "status": "closed",
+      "repair": "Closed consumer coverage and validator"
+    },
+    {
+      "blocker": "Documentation/source conflict mutant survives",
+      "status": "closed",
+      "repair": "Assertion-scope conflict preservation and ABSTAIN_CONFLICT"
+    },
+    {
+      "blocker": "Current operational lessons overstated",
+      "status": "closed",
+      "repair": "Verified Anime.js Lesson count fixed at zero"
+    },
+    {
+      "blocker": "Precedent normalization",
+      "status": "closed",
+      "repair": "AKV-PREC-006 proposed; AKV-PREC-007 deferred"
+    }
+  ],
+  "evidence_closure": {
+    "recommendation": "ready",
+    "scope": "Research blueprint is definitionally closed and non-vacuous for downstream deterministic candidate-package construction.",
+    "load_bearing_blockers": [],
+    "feedback_loops_remaining": 0,
+    "claim_ceiling": "No candidate package bytes, reproduced manifests, validator run, WorkEpisode, verified operational Lesson, ontology admission, publication, promotion, release, deployment or production readiness are claimed."
+  },
+  "normalized_orchestrate_receipt": {
+    "schema_version": "arcanum.native-dispatch-runner.receipt.v0.1",
+    "action_id": "spawn-0004",
+    "dispatch_id": "2026-08-03-animejs-agent-knowledge-vault-route",
+    "run_id": "animejs-vault-run-001",
+    "wave_id": "synthesizer",
+    "step_id": "s2",
+    "role": "knowledge-vault-synthesizer",
+    "capability_ref": "research",
+    "agent_id": "/root/animejs_knowledge_vault_synthesizer",
+    "status": "pass",
+    "artifacts": [
+      "bounded-synthesis-return:AKV-SYN-003",
+      "reviewed:projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/reviewer-precedent.json",
+      "reviewed:projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/reviewer-non-vacuity.json",
+      "reviewed:projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/reviewer-definitional.json"
+    ],
+    "validation": "pass",
+    "blockers": [],
+    "started_at": "2026-08-03T13:24:00-03:00",
+    "finished_at": "2026-08-03T13:52:54-03:00"
+  },
+  "mutation_statement": "Read-only reviewer repair completed. No repository, Git, package, external-state or receipt-path mutation was performed."
+}

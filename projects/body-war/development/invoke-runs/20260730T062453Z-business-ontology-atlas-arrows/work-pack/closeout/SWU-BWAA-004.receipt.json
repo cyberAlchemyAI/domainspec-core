@@ -1,0 +1,103 @@
+{
+  "schema_version": "body-war.task-session-terminal-receipt.v1",
+  "swu_id": "SWU-BWAA-004",
+  "task_id": "TASK-BWAA-004",
+  "result": "pass",
+  "capability_ref": "task-session",
+  "receipt_kind": "local-fallback",
+  "timestamp": "2026-07-30T17:19:00Z",
+  "control_digests": {
+    "task": {
+      "sha256": "4b396b7d548ca5ca729f859bf06a493c3da4e053f4904877e65475edd24dc408"
+    },
+    "work_pack": {
+      "sha256": "395985ad688405f76d4cf114d17265177965e7293a37899dcba1fe4946b640b2"
+    },
+    "predecessor_receipt": {
+      "path": "work-pack/closeout/SWU-BWAA-003.receipt.json",
+      "sha256": "2ef9369ad100732b296f4421c07c52777d358ddbee4a431bf6343e9e7246ee3d"
+    },
+    "predecessor_revalidation": {
+      "path": "work-pack/closeout/SWU-BWAA-003.revalidation-001.receipt.json",
+      "sha256": "f1f000d95fbee32349cfd0655b9d44ab5721923caa06f62e2a625a526520adf3"
+    }
+  },
+  "target_inventory": [
+    {
+      "path": "projects/body-war/ontology/business/scripts/validate-view-atlas-browser.mjs",
+      "preflight_sha256": "6b399358036014ca2514564628676aaf348c4114538dae36e15648a916eb1a74",
+      "final_sha256": "ec260fae5d5c433490c2821ccb3401e882bf2d6237eb7019c57fda39a8de85b8",
+      "final_size_bytes": 30664
+    },
+    {
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-browser-receipt.json",
+      "final_sha256": "9ebe5c590308e1f14f265996c59c962dc246347642abd41d2014aa95a2114969",
+      "final_size_bytes": 11982
+    },
+    {
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-arrow-overview.png",
+      "final_sha256": "d59422c3b86f814acefa42d60999c0e92b1ced573568bfd4474be61423eedcc7",
+      "final_size_bytes": 1075420
+    },
+    {
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-arrow-relation-mobile.png",
+      "final_sha256": "11b88c052be9dd4b95ebff2b02c93be6e28123a3ce9303b81b4808377a0d85b7",
+      "final_size_bytes": 306288
+    }
+  ],
+  "files_touched": [
+    "projects/body-war/ontology/business/scripts/validate-view-atlas-browser.mjs",
+    "projects/body-war/ontology/business/receipts/view-atlas-browser-receipt.json",
+    "projects/body-war/ontology/business/receipts/view-atlas-arrow-overview.png",
+    "projects/body-war/ontology/business/receipts/view-atlas-arrow-relation-mobile.png",
+    "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-004.receipt.json"
+  ],
+  "runtime": {
+    "node": "v22.12.0",
+    "playwright": "1.59.1",
+    "chromium_revision": "1217",
+    "chromium_version": "147.0.7727.15",
+    "executable_sha256": "696170a79640ec5b50c7518140ace06c69a49cfb295bf527d4a85e26a12b89a7"
+  },
+  "validation": [
+    {
+      "command": "command -v playwright; playwright --version; npm list -g --depth=0 playwright; playwright install --list",
+      "exit_code": 0,
+      "result": "shared Playwright 1.59.1 and Chromium revision 1217 discovered"
+    },
+    {
+      "command": "node projects/body-war/ontology/business/scripts/validate-view-atlas-browser.mjs",
+      "exit_code": 0,
+      "result": "43 passed, 0 failed; zero console, page, request, or external-network failures; browser and loopback server closed"
+    },
+    {
+      "command": "node --test projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs projects/body-war/ontology/business/tests/business-views.test.mjs projects/body-war/ontology/business/tests/business-ontology.test.mjs",
+      "exit_code": 0,
+      "result": "34 passed, 0 failed"
+    },
+    {
+      "command": "node projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "exit_code": 0,
+      "result": "237 nodes, 231 relations, 13 directed lens flows, 109 portal relations, 44 zero-degree nodes"
+    },
+    {
+      "command": "git diff --check -- declared SWU-BWAA-004 targets and repaired rendering targets",
+      "exit_code": 0,
+      "result": "pass"
+    }
+  ],
+  "assertion_summary": {
+    "desktop_overview": "6 linked lens nodes; 13 directed lanes; representative behavior to business-objects lane has 55 relations",
+    "exact_arrows": "231 source-predicate-target relations retained",
+    "reference_briefs": "node, relation, lens, and predicate briefs pass hover, focus, keyboard, click, no-JavaScript, print, and mobile evidence",
+    "responsive_static": "mobile stacking, no horizontal loss, reduced motion, 200 percent root text, and print pass",
+    "isolation": "zero browser errors and zero external requests"
+  },
+  "blockers": [],
+  "residue": [],
+  "reroute": "none",
+  "handoff_note": "The complete Body War ontology atlas arrow and reference-brief prototype is accepted candidate-locally. No release, deployment, accessibility-conformance, or comprehension claim is granted.",
+  "successor": null,
+  "authority_effect": "none",
+  "release_admission": "not-granted"
+}

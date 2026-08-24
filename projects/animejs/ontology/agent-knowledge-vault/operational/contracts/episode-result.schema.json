@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "animejs-work-episode-result/0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "request_id", "status", "semantic_effect", "task_state_unchanged", "truth_status", "receipt", "diagnostic", "recovery_handle"],
+  "properties": {
+    "contract": {"const": "animejs-work-episode-result/0.1.0"},
+    "request_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["accepted", "replayed", "conflict", "stale_context", "denied", "invalid_request", "evidence_rejected", "temporary_failure"]},
+    "semantic_effect": {"const": "none"},
+    "task_state_unchanged": {"const": true},
+    "truth_status": {"const": "not_assessed"},
+    "receipt": {"type": ["object", "null"]},
+    "diagnostic": {"type": ["object", "null"]},
+    "recovery_handle": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"enum": ["accepted", "replayed"]}}},
+      "then": {"properties": {"receipt": {"type": "object"}}}
+    },
+    {
+      "if": {"properties": {"status": {"enum": ["conflict", "stale_context", "denied", "invalid_request", "evidence_rejected", "temporary_failure"]}}},
+      "then": {"properties": {"receipt": {"type": "null"}, "diagnostic": {"type": "object"}}}
+    }
+  ]
+}

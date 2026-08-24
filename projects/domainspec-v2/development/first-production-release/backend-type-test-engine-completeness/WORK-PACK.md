@@ -1,8 +1,8 @@
 ---
 module: backend-type-test-engine-completeness
-version: 2026-07-23-l0a-repair-receipt-sync
+version: 2026-08-04-l0-red-fixture-payload-scope
 status: validated-waiting-independent-validation-freeze
-updatedAt: 2026-07-23
+updatedAt: 2026-08-04
 docType: work-pack
 semanticAuthority: none
 ---
@@ -16,7 +16,7 @@ semanticAuthority: none
 | `workPackGateStatus` | `waiting-validation-owner-freeze` | Current L0A proof is green; L0B remains blocked on an independent matching red manifest/freeze. |
 | `complexity` | `high` | Crosses versioned source contracts, compiler/graph, six catalogues, execution/replay, and two consumer lanes. |
 | `outputMode` | `split` | Active task and wave files own unique dependencies and boundaries. |
-| `activeLayerWindow` | `L0B-owner-freeze` | L0A implementation and repair receipts pass; no Task Session may start before the independent freeze exists. |
+| `activeLayerWindow` | `L0B-owner-freeze` | L0A implementation and repair receipts pass; the independent owner now has an exact payload/topology scope, but no Task Session may start before its freeze validates. |
 | `candidateSWU` | `none` | No dependency-ready execution candidate exists. |
 | `selectedSWU` | `none` | Refresh cannot select execution work. |
 | `distillValidationStatus` | `skipped-receipt-synchronization` | The receipt sync changes no architecture or SWU boundary. |
@@ -102,7 +102,34 @@ manifest/result recomposition.
 The validation-owned precondition paths are:
 
 - `validation-inputs/l0/red-fixture-manifest.v1.json`;
-- `validation-inputs/l0/red-fixture-freeze-receipt.json`.
+- `validation-inputs/l0/red-fixture-freeze-receipt.json`;
+- `validation-inputs/l0/fixtures/*.json`, one immutable payload for each
+  non-topology RED case;
+- `validation-inputs/l0/topology/*`, immutable regular-file or symbolic-link
+  inputs for containment and overwrite RED cases.
+
+### Validation-owner payload contract
+
+The stable owner role is the logical identity
+`domainspec-v2:bte.validation:validation-owner:independent-l0-red-fixture-freeze:v1`.
+Its `owner_digest` and producer digest are SHA-256 over the UTF-8 canonical JSON
+of that logical-identity object: recursively sorted object keys, compact
+separators, and no trailing LF. This identifies the local evidence-producing
+role; it grants no admission or lifecycle authority.
+
+`root_id=domainspec-v2-bte` resolves to this development-package root.
+Validation-input paths are relative to that root. Regular-file handles bind
+exact file bytes. A symbolic-link topology handle is resolved without following
+the link and binds the UTF-8 bytes returned by `readlink`; links escaping the
+declared root remain RED inputs and are never traversed.
+
+Each manifest case must point to bytes that already exist when the manifest is
+serialized. Non-topology fixture payloads are the direct input interpreted
+against `subject_contract_id`; their `fixture.schema_id` equals that subject
+contract ID. JSON-Schema dialect cases instead use the published draft 2020-12
+meta-schema URI. Case IDs or expected diagnostics may never substitute for
+fixture bytes. The manifest binds every fixture handle, and the freeze receipt
+binds the final manifest plus the immutable L0A publication receipt.
 
 Historical L0A writes only to `runs/<run-id>/l0a/` and include
 `contract-publication-receipt.json` plus an output/write manifest. L0B writes
@@ -114,7 +141,7 @@ to `runs/<run-id>/l0b/`.
 | Handle | Owner | Required at | State | Failure effect |
 | --- | --- | --- | --- | --- |
 | current L0A publication verification | BTE repair Task Session | before validation-owner routing or L0B | pass | immutable handles restored; repair receipt synchronized |
-| L0 red-fixture freeze | validation owner | after L0A receipt and before L0B | open | no L0B selection or execution; L0A unaffected |
+| L0 red-fixture freeze | validation owner | after L0A receipt and before L0B | open, payload/topology scope authorized | no L0B selection or execution until every referenced byte exists and the freeze validates; L0A unaffected |
 | formation-v2 admission | formation-contract owner | L1 activation/core formation catalogues | open | candidate/local formation evidence only |
 | successor profile admission | profile owner | L3 build entering core | open | compile experiment remains non-admitting |
 | node-pattern selection/admission | node-pattern owner | L4/L6 node causality | open | affected catalogue excluded from core |
@@ -144,25 +171,28 @@ No predetermined SWU count exists. A task label is never execution authority.
 
 1. Contract shapes fail on every unsupported keyword rather than silently
    accepting a partial JSON-Schema dialect.
-2. Semantic validators enforce canonical IDs, SHA-256 content digests, authority
+2. The RED manifest covers every closed L0 diagnostic code, including
+   `BTE_SCHEMA_INVALID`, with at least one causally isolated payload or
+   topology input per code.
+3. Semantic validators enforce canonical IDs, SHA-256 content digests, authority
    classes, exact sets, containment, producer independence, and code precedence.
-3. Formation-v2 proves exact retirement bijection, migration, current-v1
+4. Formation-v2 proves exact retirement bijection, migration, current-v1
    compatibility, and the Entity reason-specific false-green rejection.
-4. Source/compiler proof rejects v1/v2 fallback, root/path/endpoint/order drift,
+5. Source/compiler proof rejects v1/v2 fallback, root/path/endpoint/order drift,
    and graph/manifest/source-bijection defects.
-5. Every catalogue rejects empty, missing, extra, duplicate, stale, mismatched,
+6. Every catalogue rejects empty, missing, extra, duplicate, stale, mismatched,
    overlapping, or incompatible members and scopes.
-6. Test materialization rejects absent freeze, exact-set mismatch, unsupported
+7. Test materialization rejects absent freeze, exact-set mismatch, unsupported
    scope, skip/todo/orphan/unrunnable residue, or an extra required projection.
-7. Binding rejects zero, two, wildcard, first-match, stale, or incompatible
+8. Binding rejects zero, two, wildcard, first-match, stale, or incompatible
    records before execution.
-8. Evaluator isolation is checked mechanically through imports/dependencies.
-9. Mutation accepts only a fresh child lineage killed for its declared phase,
+9. Evaluator isolation is checked mechanically through imports/dependencies.
+10. Mutation accepts only a fresh child lineage killed for its declared phase,
    code, or observable delta; base-receipt staleness and wrong-reason death fail.
-10. Replay resolves raw allowlisted artifacts and recomputes everything without
+11. Replay resolves raw allowlisted artifacts and recomputes everything without
     trusting producer counts/status.
-11. Core requires exact recomposition of all six catalogue ReplayResult scopes.
-12. Consumer and terminal gates reject missing/parity-drift/private-leak/
+12. Core requires exact recomposition of all six catalogue ReplayResult scopes.
+13. Consumer and terminal gates reject missing/parity-drift/private-leak/
     schema-only/self-authored/stale consumer evidence.
 
 ## Command Status
@@ -218,6 +248,8 @@ selected_swu: none
 candidate_swu: none
 next_owner: independent BTE validation owner
 required_owner_outputs:
+  - validation-inputs/l0/fixtures/*.json
+  - validation-inputs/l0/topology/*
   - validation-inputs/l0/red-fixture-manifest.v1.json
   - validation-inputs/l0/red-fixture-freeze-receipt.json
 successor_swu: SWU-BTE-L0B-001
@@ -229,7 +261,8 @@ production_authorized: false
 ## Handoff Gate
 
 No Task Session may start from the current state. The independent validation
-owner must first return the package-local red manifest/freeze with governing
-digests matching the current passing L0A publication proof. A later Invoke
-Refresh must validate those inputs, expose at most `SWU-BTE-L0B-001`, and leave
-it unselected until the approved selection policy admits it.
+owner must first return the package-local fixture/topology bytes and red
+manifest/freeze with governing digests matching the current passing L0A
+publication proof. A later Invoke Refresh must validate those inputs, expose at
+most `SWU-BTE-L0B-001`, and leave it unselected until the approved selection
+policy admits it.

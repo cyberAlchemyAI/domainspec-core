@@ -3,35 +3,44 @@ node_type: development-package
 docType: glossary
 module: architecture-pattern-enforcement
 feature_code: APE
-status: draft
-updatedAt: 2026-07-12
+status: candidate
+updatedAt: 2026-08-04
+semanticAuthority: none
 ---
 
 # APE Glossary
 
-Distilled definitions for the program's concepts. Candidate wording — the canonical homes are
-`definitions/DEFINITIONS.md` (method terms) and `impl/spec/` (meta-types / edges); this glossary
-routes to them, it does not replace them.
+These definitions explain the development package. Canonical DomainSpec and
+CAV2 sources retain their existing authority.
 
-| Term | Meaning (candidate) | Canonical home / evidence |
+| Term | Plain-language meaning | Authority posture |
 | --- | --- | --- |
-| **meta-type** | one of the current DomainSpec concept types — the node alphabet (Entity, Operation, Rule, …); 13 backend types are active and UI types remain separately staged | root DS-D1 definitions + `impl/spec/meta-types/` schemas |
-| **edge / relationship verb** | a typed connection between two nodes (`enforces`, `produces`, `fetches`, …) — the edge alphabet | root DS-D8 authority in `definitions/relationships/relationships.yml`; R3A complete |
-| **endpoint signature** | which node types a given edge may legally connect (from-type → to-type) | root DS-D8 authority; `validate-relationships.ts`; `validate-content.ts` |
-| **uniformity** | the property that every instance of a meta-type has the same well-formed shape; checked as *schema conformance* | findings C-A; `validate-content.ts` |
-| **composability** | the property that nodes connect only through legal edges with correct endpoint signatures | findings C-B; `validate-code-tags.ts` |
-| **layering / adapter line** | the rule that decisions live in the domain, not adapters — inner layers never import outer | AXIOMS A2; DEPENDENCY-RULES.md; C6 |
-| **concept card** | the human/agent-facing prose + code-example voice of one meta-type ("an Entity looks like …") | v1 `pattern-library/concepts/backend/*.md` |
-| **relationship card** | the prose voice of one edge ("`enforces`: Rule→Operation, must pass before mutation") | v1 `ARCHITECTURE-PATTERN-LIBRARY.md` relationship cards |
-| **content validator** | a tool that reads an aspect file / feature pack and checks each concept vs its criterion + each edge vs its signature | domainspec-v2-D10 (CANDIDATES.md #30) |
-| **instance validator** | checks a machine-generated structured instance against its meta-type schema criterion | domainspec-v2-D12 (CANDIDATES.md #32) |
-| **code tag** | an annotation (`domainspec.concept` / `domainspec.edges`) tying a line of code to a spec node/edge — the spec↔code thread | CODE-TAG-SCHEMA.md |
-| **feature pack** | a real domain slice (SPEC + aspect docs + tagged code) — the *fuel* that makes validators non-vacuous | `impl/spec/features/financial-settlement/` is the first real witnessed pack; a second corpus remains open |
-| **vacuous / witnessed** | *vacuous* = a validator that runs but has no real input to check; *witnessed* = has a runnable handle **and** real input | findings S2 (non-vacuity gate) |
-| **pattern candidate** | an architecture mechanism that produces evidence but is not yet authority | cav2 CAV2-D43 pattern promotion lifecycle |
-| **"has a tree ≠ has authority"** | the cav2 guardrail: a folder/card/passing-tool is evidence, never authorization | ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md:26-33 |
-| **promotion lifecycle** | candidate → exercised → evidence → owner promotion → binding (constitution/definition) | CAV2-D43; owner routing table |
-| **substrate** | the project-independent set {meta-types, edge-law, validators, engine} a mint copies into a new repo | mint skill; SPEC.md APE.Substrate |
-| **mint** | the act of standing up a new domain repo with the substrate baked in, so it authors its own governed spec | `mint` skill |
-| **drift / convergence (C7)** | drift = spec↔code divergence measured over time; convergence = that drift trending down (never a single check) | DRIFT-CONVERGENCE.md; `compare-code-tag-drift.ts` |
-| **R3 / R3A** | completed reformulation and root promotion of the relationship alphabet + endpoint signatures; no longer an edge-work blocker | root DS-D8 authority + R3A task-session receipt; dynamic code-tag consumption remains downstream work |
+| canonical meta-type reference | exact pointer to one active DS-D1 definition and criterion | reference only; DS-D1 remains authoritative |
+| implementation realization type | candidate ontology type describing how one DS-D1 kind can appear in implementation evidence | non-authoritative architecture model |
+| implementation property | one typed, observable architecture expectation, such as a closed value set or direct dependency | candidate until profile owner review |
+| portable property | expectation intended to carry across languages without requiring the same syntax | architecture-profile input, not DS-D1 truth |
+| language realization | TypeScript, Python, or Rust way of observing or constraining a portable property | language-profile owned |
+| architecture profile | explicit set of applicable property and relation constraints | separate owner admission required |
+| implementation binding | exact connection between a canonical concept and a source unit or symbol | candidate mapping; filename alone is insufficient |
+| observation projection | normalized evidence emitted by a source/native adapter | evidence, not authority |
+| observed fact | value read directly from source or a native tool | provenance must name raw evidence |
+| derived fact | value computed from other observed facts under a named rule | must retain derivation provenance |
+| owner-resolved fact | value whose ambiguity was decided by an accountable owner | must retain the decision handle |
+| unsupported | required fact cannot be established for the encountered construct | blocks; never means absent or passing |
+| evaluation scenario | immutable positive or mutant input plus expectations, lineage, scope, and result joins | proof input, not semantic authority |
+| constraint finding | explainable comparison between expected and observed property/relation values | evidence only |
+| proof-engine provider | BTE-compatible execution, mutation, receipt, and replay service | mechanics only; cannot select semantics |
+| meta-type realization cycle | ontology-first workflow for completing implementation evidence for one already-active type | planning model |
+| type completion receipt | bounded evidence that selected profiles and applicable obligations closed | no admission, release, or production authority |
+| exact-cause negative | fixture with one controlled violation whose required diagnostic identifies that cause | validation evidence |
+| parity | agreement on portable obligation IDs and applicability across independent language lanes | not syntax equality or majority vote |
+| profile-local convention | folder, filename, export, import, or callable-form rule selected for one architecture profile | never universal by proximity |
+| evidence burden | required observation stages, relations, unsupported cases, runtime planes, and owner decisions still missing for a type | planning input for next-type selection |
+
+## Preserved earlier terms
+
+`uniformity`, `composability`, `layering`, `code tag`, `feature pack`,
+`pattern candidate`, `promotion lifecycle`, `substrate`, and `drift` retain the
+meanings documented by the earlier APE package. Their completed and open work is
+indexed in [HISTORICAL-EVIDENCE-MAP.md](HISTORICAL-EVIDENCE-MAP.md); it no
+longer supplies the active execution order.

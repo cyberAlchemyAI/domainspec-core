@@ -1,0 +1,67 @@
+{
+  "schema_version": "candidate.task-session.material-package.v1",
+  "package_id": "mp-whisper-research-state-contract-001",
+  "source_artifacts": [
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/work-pack/tasks/TASK-WHISPER-RSCH-STATE-001.md",
+      "sha256": "2b103d331dc73d302b95bd33d9c2d2b05a25d5f02728fe8356aecf06b9c52f81",
+      "size_bytes": 1479,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/WORK-PACK.md",
+      "sha256": "284997efdd5fb2baf424b42ffa177524eb0019810eac96a7ae4b645e1f59023d",
+      "size_bytes": 3675,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/readiness/CONTEXT-PACK.json",
+      "sha256": "ddc8cfcb006eaca2c22fcacec810fffebf73219c57c29ef3f03e395548b42d48",
+      "size_bytes": 3184,
+      "authority_class": "private"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "blocked-synthesis-r2",
+      "artifact_ref": {
+        "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-2.md",
+        "sha256": "83bd534a407ae973b8cf42054b1714ab6ff42482c4a9e2890603ea6b90c7a916",
+        "size_bytes": 13089
+      }
+    },
+    {
+      "dependency_id": "loop-ceiling-review",
+      "artifact_ref": {
+        "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/review-final.md",
+        "sha256": "d0eea5502cb761a1780acac01fef7d78dc1bc6406bd7da1c9d26ea621c6b65c5",
+        "size_bytes": 1832
+      }
+    }
+  ],
+  "changes": [
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-3.md", "change": "add bounded synthesis repair"},
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/state.schema.json", "change": "add closed state schema"},
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/event-sequence.json", "change": "add exact EV01-EV26 oracle"},
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/negative-fixtures.json", "change": "add fail-closed negative matrix"},
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs", "change": "add research-only reducer and proof checker"},
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json", "change": "add deterministic proof receipt"}
+  ],
+  "target_inventory": [
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-3.md", "baseline": "absent"},
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/state.schema.json", "baseline": "absent"},
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/event-sequence.json", "baseline": "absent"},
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/negative-fixtures.json", "baseline": "absent"},
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs", "baseline": "absent"},
+    {"target_path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json", "baseline": "absent"}
+  ],
+  "validation_commands": [
+    "node projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs",
+    "node projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs --self-test",
+    "python3 -m json.tool projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json"
+  ],
+  "lifecycle_owner": "task-session",
+  "authority_class": "private",
+  "publication_class": "internal",
+  "authority_effect": "none"
+}

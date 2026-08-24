@@ -1,0 +1,562 @@
+{
+  "dispatch_id": "20260804-agent-consultation-work-episodes-api",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "define design and plan an API for agents to consult the Anime.js ontology and add work episodes, reusing the read-only Augmentor precedent without collapsing write authority",
+    "objective": "Produce a non-executed, implementation-ready architecture and Work Pack for a split Anime.js consultation and append-only WorkEpisode API with source, evidence, identity, concurrency, replay, recovery, and Lesson-promotion boundaries.",
+    "target_artifact": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/RESULT.md",
+    "arcanum_vocabulary": [
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec",
+      "consultation projection",
+      "append-only WorkEpisode journal",
+      "authority split",
+      "evidence receipt",
+      "replay"
+    ],
+    "operator_sentence": "define design and plan API for agents to consult the Anime.js ontology and add work episodes",
+    "preset": "full",
+    "research_mode": "research-if-gap-appears"
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "minimum_component_catalog",
+    "conditional_component",
+    "route_menu",
+    "approval_checkpoint",
+    "dialectic",
+    "zig_zag",
+    "residue_ledger",
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference",
+    "toy_game",
+    "assessment_failure_reference",
+    "protected_context_flag",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "execution_receipt_handoff"
+  ],
+  "route_menu": {
+    "context_hint": "Consultation, evidence capture, graph mutation, and Lesson promotion have different owners and proof requirements.",
+    "items": [
+      {
+        "id": "split-read-append",
+        "label": "Split read and append capabilities",
+        "description": "Read an immutable neutral projection; append immutable episode events through a distinct authority boundary. Selected.",
+        "capability_ref": "invoke",
+        "pattern": "sequence"
+      },
+      {
+        "id": "combined-read-write",
+        "label": "Combined read/write endpoint",
+        "description": "Rejected because consultation credentials could acquire durable evidence-write effects.",
+        "capability_ref": "decision-gate",
+        "pattern": "decision"
+      },
+      {
+        "id": "direct-graph-mutation",
+        "label": "Direct graph mutation",
+        "description": "Rejected because WorkEpisode capture must not rewrite documentation facts or grant Lesson status.",
+        "capability_ref": "decision-gate",
+        "pattern": "decision"
+      }
+    ],
+    "selected_item_id": "split-read-append"
+  },
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Two independent failure surfaces must be attacked before repair: authority leakage across the read/write boundary and non-deterministic or forgeable episode state.",
+    "explanation": "Two read-only critics inspect the same exact design corpus from distinct angles, join before repair, and return advisory change requests. The parent retains definition, design, repair, planning, and final approval.",
+    "context": [
+      "The Anime.js vault is candidate-local, private, non-authoritative, and currently has zero verified operational lessons.",
+      "The Augmentor consultation route is a current read-only neutral-projection precedent and must not gain write effects.",
+      "WorkEpisode, Attempt, Outcome, EvidenceRecord, VersionContext, and Lesson already have non-collapse rules in the vault vocabulary.",
+      "This run is planning-only and cannot mutate the vault or the consumer runtime."
+    ],
+    "binding_mode": "descriptive",
+    "roles": [
+      {
+        "role_id": "api-authority-critic",
+        "purpose": "Attack capability separation, principal binding, neutral projection, transport ownership, data leakage, and accidental authority inheritance.",
+        "owns": "One read-only design-review receipt; no source, design, runtime, graph, or final-synthesis authority.",
+        "capability_ref": "interrogation",
+        "capability_target": "stages/06-design.md",
+        "capability_mode": "refine-design-review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/animejs/ontology/agent-knowledge-vault",
+          "projects/augmentor/ontology/unified-agent",
+          "/home/vrondelli/projects/workspace-resonant",
+          ".git"
+        ],
+        "input_refs": [
+          "REFINE-SEED-PROPOSAL.md",
+          "stages/06-design.md",
+          "API-CONTRACT.md"
+        ],
+        "output_refs": ["receipt:api-authority-critic"],
+        "applies_to_steps": ["s07-interrogation-design-review"]
+      },
+      {
+        "role_id": "episode-integrity-critic",
+        "purpose": "Attack idempotency, expected revision, replay, partial failure, evidence forgery, closure, supersession, reducer determinism, and accidental Lesson verification.",
+        "owns": "One read-only design-review receipt; no source, design, runtime, graph, or final-synthesis authority.",
+        "capability_ref": "interrogation",
+        "capability_target": "stages/06-design.md",
+        "capability_mode": "refine-design-review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/animejs/ontology/agent-knowledge-vault",
+          "projects/augmentor/ontology/unified-agent",
+          "/home/vrondelli/projects/workspace-resonant",
+          ".git"
+        ],
+        "input_refs": [
+          "REFINE-SEED-PROPOSAL.md",
+          "stages/06-design.md",
+          "API-CONTRACT.md"
+        ],
+        "output_refs": ["receipt:episode-integrity-critic"],
+        "applies_to_steps": ["s07-interrogation-design-review"]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "Confirm the displayed ten-stage Refine route and two read-only design critics?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": ["route_menu", "minimum_component_catalog", "frame_handoff", "x_ray", "protected_context_flag"],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"},
+        {"kind": "artifact", "ref": "projects/animejs/ontology/agent-knowledge-vault/profile.json"},
+        {"kind": "artifact", "ref": "projects/animejs/ontology/agent-knowledge-vault/contracts/node-vocabulary.json"},
+        {"kind": "artifact", "ref": "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-vocabulary.json"},
+        {"kind": "artifact", "ref": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/RESULT.md"}
+      ],
+      "outputs": [
+        {"kind": "frame", "ref": "context-builder-frame"},
+        {"kind": "handle", "ref": "context-builder-runtime-handoff"}
+      ],
+      "evidence_artifact": "stages/01-context.md",
+      "stop_conditions": ["Block if the source, ownership, or write boundary is ambiguous."]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": ["frame_handoff", "component_descriptor", "owner_boundary_check", "state_namespace_boundary"],
+      "inputs": [
+        {"kind": "frame", "ref": "context-builder-frame"},
+        {"kind": "artifact", "ref": "REFINE-SEED-PROPOSAL.md"}
+      ],
+      "outputs": [{"kind": "artifact", "ref": "stages/02-define.md"}],
+      "evidence_artifact": "stages/02-define.md"
+    },
+    {
+      "step_id": "s03-interrogation-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "dialectic", "zig_zag", "residue_ledger"],
+      "roles": ["usefulness-proposer", "authority-critic", "synthesizer"],
+      "convergence_criteria": [
+        "Consultation remains useful without gaining durable write effects.",
+        "Episode append remains useful without directly rewriting graph truth or verifying Lessons.",
+        "Every principal, source, evidence, version, digest, and state boundary has an owner.",
+        "Stable disagreements remain explicit residue."
+      ],
+      "inputs": [{"kind": "artifact", "ref": "stages/02-define.md"}],
+      "outputs": [{"kind": "ledger", "ref": "refine-review-ledger"}],
+      "evidence_artifact": "stages/03-review.md"
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": ["approval_checkpoint", "conditional_component", "protected_context_flag"],
+      "inputs": [{"kind": "ledger", "ref": "refine-review-ledger"}],
+      "outputs": [{"kind": "decision", "ref": "research-decision"}],
+      "evidence_artifact": "stages/04-research.md",
+      "stop_conditions": ["Block external research unless a named material gap receives separate operator confirmation."]
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Initial Distill",
+      "capability_ref": "distill",
+      "mode": "deep",
+      "pattern": "distill",
+      "techniques": ["scu_swu_reduction", "recomposition_proof", "owner_boundary_check", "residue_ledger"],
+      "roles": ["read-contract", "episode-command-contract", "storage-reducer", "synthesis"],
+      "convergence_criteria": [
+        "The smallest coherent system is a read projection plus a distinct append journal and deterministic reducer.",
+        "Direct graph writes and automatic Lesson verification are excluded.",
+        "The selected unit recomposes into an agent-consultable knowledge loop."
+      ],
+      "inputs": [
+        {"kind": "decision", "ref": "research-decision"},
+        {"kind": "ledger", "ref": "refine-review-ledger"}
+      ],
+      "outputs": [{"kind": "frame", "ref": "distill-frame"}],
+      "evidence_artifact": "stages/05-distill.md"
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": ["sequence", "frame_handoff", "handle_handoff", "x_ray", "component_descriptor", "entity_component_reference", "state_namespace_boundary", "memory_promotion_split"],
+      "inputs": [{"kind": "frame", "ref": "distill-frame"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/06-design.md"},
+        {"kind": "artifact", "ref": "API-CONTRACT.md"}
+      ],
+      "evidence_artifact": "stages/06-design.md"
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Governed two-critic design review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "dialectic", "zig_zag", "residue_ledger", "owner_boundary_check"],
+      "roles": ["api-authority-critic", "episode-integrity-critic", "parent-repair-synthesizer"],
+      "convergence_criteria": [
+        "Read credentials cannot invoke durable writes.",
+        "Append commands are replay-safe, revision-bound, identity-bound, and recoverable.",
+        "Evidence and closure cannot fabricate success or a verified Lesson.",
+        "Both critic receipts are joined and closed before repair."
+      ],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/06-design.md"},
+        {"kind": "artifact", "ref": "API-CONTRACT.md"}
+      ],
+      "outputs": [{"kind": "ledger", "ref": "design-review-ledger"}],
+      "evidence_artifact": "stages/07-design-review.md"
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill Repair and toy scenarios",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "toy_game", "assessment_failure_reference", "recomposition_proof", "residue_ledger"],
+      "inputs": [{"kind": "ledger", "ref": "design-review-ledger"}],
+      "outputs": [
+        {"kind": "frame", "ref": "repair-frame"},
+        {"kind": "artifact", "ref": "stages/08-toy-scenarios.md"}
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md",
+      "stop_conditions": [
+        "Block if a read credential can append an event.",
+        "Block if retry can duplicate an event or stale writers can silently win.",
+        "Block if closure or materialization can imply a verified Lesson."
+      ]
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": ["sequence", "scu_swu_reduction", "recomposition_proof", "validation_loop", "owner_boundary_check", "handle_handoff", "residue_ledger", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "frame", "ref": "repair-frame"},
+        {"kind": "artifact", "ref": "stages/08-toy-scenarios.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/09-plan.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"}
+      ],
+      "evidence_artifact": "stages/09-plan.md",
+      "stop_conditions": [
+        "Block mutation-capable handoff if a SWU is task-shaped or lacks closeout synchronization.",
+        "Block if the plan performs implementation or consumer integration."
+      ]
+    },
+    {
+      "step_id": "s10-final-synthesis",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": ["owner_boundary_check", "residue_ledger", "protected_context_flag", "recomposition_proof"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/09-plan.md"},
+        {"kind": "frame", "ref": "repair-frame"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "RESULT.md"},
+        {"kind": "ledger", "ref": "evidence-index.json"},
+        {"kind": "trace_event", "ref": "dispatch_completed"}
+      ],
+      "evidence_artifact": "stages/10-final-review.md"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-dispatch-valid",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json validates and every cited technique affects a step, gate, artifact, or residue item before stages begin.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-operator-confirmation",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "The operator explicitly confirms the displayed ten-stage route and two read-only critics for this exact material strategy.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g03-subagent-governance",
+      "kind": "validation",
+      "owner": "domainspec-subagents-strategy",
+      "condition": "Before reviewers spawn, a schema-0.8.0 exact-material review sheet passes Inventory preflight, deterministic validation, two independent tension checks, registration, and confirmation equivalence.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-reviewer-receipts",
+      "kind": "validation",
+      "owner": "refine-parent",
+      "condition": "Both approved critics are spawned, joined, closed, and return their exact receipts before Distill Repair.",
+      "requires_role_receipts": ["receipt:api-authority-critic", "receipt:episode-integrity-critic"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g05-research-confirmation",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "External research may run only after a named material gap and separate bounded-research confirmation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g06-capability-and-state-split",
+      "kind": "policy",
+      "owner": "future-api-owner",
+      "condition": "Consultation is read-only; WorkEpisode append is separately authorized; the append journal is canonical operational evidence; graph views are deterministic derivatives.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g07-evidence-and-lesson-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "future-lesson-review-owner",
+      "condition": "Episode closure, success outcome, and evidence attachment do not automatically create or verify a Lesson.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g08-plan-quality",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "The medium/high Work Pack contains layer-mapped waves, implementation-detail task specs, atomic SWUs, validation, and complete Task Session closeout synchronization.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g09-non-execution",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "This run creates design and planning evidence only; source, vault, product, runtime, integration, deployment, and release mutation require later admitted routes.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g10-final-completeness",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "RESULT.md is grounded in every stage artifact, both joined critic receipts, validation outputs, and explicit residue.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "strategy_proposed",
+      "strategy_confirmed",
+      "dispatch_validated",
+      "stage_started",
+      "stage_completed",
+      "research_decision",
+      "review_dispatch_registered",
+      "subagent_spawned",
+      "subagent_joined",
+      "subagent_closed",
+      "toy_game_result",
+      "dispatch_completed"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "operator-to-refine",
+        "kind": "human_approval",
+        "from_owner": "operator",
+        "to_owner": "refine-parent",
+        "applies_to_steps": ["s01-context-builder", "s02-invoke-define", "s03-interrogation-review", "s04-research-decision", "s05-distill", "s06-invoke-design", "s07-interrogation-design-review", "s08-distill-repair", "s09-invoke-plan", "s10-final-synthesis"],
+        "contract": "The confirmed material strategy authorizes the ten-stage planning-only Refine run and exactly two read-only design critics.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "consultation-to-episode-append",
+        "kind": "capability_handoff",
+        "from_owner": "future-consultation-owner",
+        "to_owner": "future-episode-append-owner",
+        "applies_to_steps": ["s02-invoke-define", "s06-invoke-design", "s07-interrogation-design-review", "s08-distill-repair", "s09-invoke-plan"],
+        "contract": "Read capability and credentials cannot invoke append commands; append requires a distinct principal grant and returns an immutable receipt.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "episode-journal-to-graph-projection",
+        "kind": "artifact_import",
+        "from_owner": "future-episode-journal-owner",
+        "to_owner": "future-projection-compiler-owner",
+        "applies_to_steps": ["s06-invoke-design", "s08-distill-repair", "s09-invoke-plan"],
+        "contract": "Only validated immutable events are reduced into derived episode snapshots and graph material; documentation nodes are never directly rewritten.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "episode-to-lesson-review",
+        "kind": "evidence_return",
+        "from_owner": "future-episode-owner",
+        "to_owner": "future-lesson-review-owner",
+        "applies_to_steps": ["s02-invoke-define", "s06-invoke-design", "s08-distill-repair", "s09-invoke-plan", "s10-final-synthesis"],
+        "contract": "No API event, episode closure, reducer, or materializer may create a verified Lesson; a later owner-reviewed route is required.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "refine-to-future-task-session",
+        "kind": "state_write",
+        "from_owner": "refine-parent",
+        "to_owner": "future-task-session",
+        "applies_to_steps": ["s09-invoke-plan", "s10-final-synthesis"],
+        "contract": "Refine authors artifacts and expected receipts only; it does not execute any SWU or mutate the product/vault/runtime.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "external-research-intake",
+        "kind": "external_context",
+        "from_owner": "bounded-research-route",
+        "to_owner": "refine-parent",
+        "applies_to_steps": ["s04-research-decision", "s05-distill", "s06-invoke-design"],
+        "contract": "External evidence requires a named material gap and separate operator confirmation; local owner evidence remains decisive.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine-parent",
+      "execution": "future separately admitted task-session",
+      "validation": "dispatch-spec plus stage capability owners",
+      "evidence": "source owners plus future episode-evidence owner",
+      "memory": "provider and archive review owners",
+      "promotion": "future lesson-review and authority-kind-specific owners"
+    },
+    "receipts": [
+      {
+        "receipt_id": "api-authority-critic",
+        "producer": "interrogation-helper",
+        "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "validation", "blockers", "residue", "handoff_note"],
+        "stores": ["review/attacks.md", "stages/07-design-review.md", "evidence-index.json"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "episode-integrity-critic",
+        "producer": "interrogation-helper",
+        "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "validation", "blockers", "residue", "handoff_note"],
+        "stores": ["review/attacks.md", "stages/07-design-review.md", "evidence-index.json"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api",
+        "owner": "refine-parent",
+        "write_policy": "Planning and governed review evidence only."
+      },
+      {
+        "namespace": "projects/animejs/ontology/agent-knowledge-vault",
+        "owner": "animejs-vault-owner",
+        "write_policy": "Read-only during this run."
+      },
+      {
+        "namespace": "future-animejs-work-episode-journal",
+        "owner": "future-episode-journal-owner",
+        "write_policy": "Append-only through separately authorized commands; absent and unimplemented in this run."
+      },
+      {
+        "namespace": "/home/vrondelli/projects/workspace-resonant",
+        "owner": "resonantos-module-owner",
+        "write_policy": "Read-only precedent during this run."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "consultation projection",
+        "target": "agent transient context",
+        "rule": "The agent may reason over bounded source-linked evidence without treating it as authority or durable memory.",
+        "on_violation": "block"
+      },
+      {
+        "source": "closed WorkEpisode",
+        "target": "verified Lesson",
+        "rule": "A separate review owner must prove successful outcome, admissible executed witness, scope, and invalidation bounds before verification.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "The consultation projection is read-only, private, bounded, and non-authoritative.",
+    "The episode journal records claims and observations; it is not documentation truth or authority.",
+    "An accepted WorkEpisode is not a verified Lesson.",
+    "A passing design and Work Pack are not implementation, deployment, release, or production evidence.",
+    "No Consumer, Augmentor, Inventory, ontology, memory, or promotion owner is replaced by this design."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "refine-native-stage-receipt.v1",
+  "runId": "20260805T184540Z-craft-wavedb-api",
+  "stepId": "s07-interrogation-design-review",
+  "capabilityRef": "interrogation",
+  "mode": "refine-design-review",
+  "status": "flag",
+  "artifacts": [
+    "stages/07-design-review.md",
+    "review/attacks.md",
+    "review/findings.md",
+    "review/critic-receipts/api-contract-critic.json",
+    "review/critic-receipts/craft-authority-critic.json",
+    "review/critic-receipts/wavedb-runtime-critic.json",
+    "orchestrate/run-2026-08-05-craft-api-review-01/gate-decision.json",
+    "orchestrate/run-2026-08-05-craft-api-review-01/event-validation.json"
+  ],
+  "validation": [
+    "exactly three confirmed read-only critics",
+    "all three terminal, closed, and joined",
+    "event stream pass with 20 events",
+    "initial design blocked from unchanged advancement",
+    "all findings accepted for parent repair"
+  ],
+  "blockers": [],
+  "residue": [
+    "critic receipts are fail by design",
+    "fresh-process durability and runtime concurrency remain unproven",
+    "executable contract witnesses remain absent"
+  ],
+  "next": "s08-distill-repair",
+  "completedAt": "2026-08-05T19:49:40Z"
+}

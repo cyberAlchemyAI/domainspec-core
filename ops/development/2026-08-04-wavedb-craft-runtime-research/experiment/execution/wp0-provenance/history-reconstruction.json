@@ -1,0 +1,103 @@
+{
+  "schema_version": "candidate-local-1.0.0",
+  "observed_at": "2026-08-04T18:40:14Z",
+  "package": "@vijayee/wavedb@0.15.8",
+  "official_artifact": {
+    "tarball_sha1": "107472e4634729de8533b68c351859ff496cc56e",
+    "tarball_sha512_hex": "a381b5dd6f55d6323328e55211351e837a050c975ef060c351e145fdad27389d7f2d1d1c37aa4fbabb5d5066fef6fb2c51e07407b3986ed593fa612023ea4c9d",
+    "registry_integrity_verified": true,
+    "registry_signature_present": true,
+    "published_at": "2026-07-28T12:42:01.802Z",
+    "declared_githead": "54832130f408c44637ad84f35cb93003b0f238c4",
+    "declared_githead_package_version": "0.15.7",
+    "file_count": 226,
+    "unpacked_size": 2628773
+  },
+  "reviewed_source": {
+    "commit": "01c77e8b70f71de9b72480e73a3a179f6e93a009",
+    "package_version": "0.15.8",
+    "commit_time": "2026-07-28T12:49:48Z",
+    "tag_points_at_commit": false,
+    "submodules": {
+      "third_party/hashmap": "f64faeed2a62d3581610f26d1da0784866ed019b",
+      "third_party/libcbor": "d638af499962a75e1c7810e480614f0f8021c62e",
+      "third_party/xxhash": "82ceadddb77fa3a61967671293845c9a9f8429eb",
+      "third_party/googletest": "94beeb2b495cc215f77e99fc6ca5f7a9be2f72d4"
+    }
+  },
+  "intervening_history": [
+    {
+      "commit": "9851cef6905e06debc4d62b9d2e9b77c8b835673",
+      "parent": "54832130f408c44637ad84f35cb93003b0f238c4",
+      "commit_time": "2026-07-28T12:49:36Z",
+      "subject": "fix(nodejs): heap-allocate FunctionReference and register env cleanup hook"
+    },
+    {
+      "commit": "c5f2e0517e4c3f3e7accf07dbb01688cd3fe6678",
+      "parent": "9851cef6905e06debc4d62b9d2e9b77c8b835673",
+      "commit_time": "2026-07-28T12:49:45Z",
+      "subject": "fix(def): export vacuum API symbols in wavedb.def"
+    },
+    {
+      "commit": "01c77e8b70f71de9b72480e73a3a179f6e93a009",
+      "parent": "c5f2e0517e4c3f3e7accf07dbb01688cd3fe6678",
+      "commit_time": "2026-07-28T12:49:48Z",
+      "subject": "chore(release): bump nodejs to 0.15.8 and python to 0.2.4"
+    }
+  ],
+  "clean_reproduction": {
+    "source_commit": "01c77e8b70f71de9b72480e73a3a179f6e93a009",
+    "procedure": [
+      "initialize pinned submodules",
+      "run bindings/nodejs/scripts/copy-sources.js from repository root",
+      "run npm pack --ignore-scripts against bindings/nodejs"
+    ],
+    "tarball_sha1": "4985a7776542066c7f8893c67fb426af59129370",
+    "tarball_size": 500207,
+    "unpacked_size": 2564948,
+    "file_count": 226,
+    "exact_byte_matches": 11,
+    "crlf_normalized_additional_matches": 215,
+    "content_mismatches_after_crlf_normalization": 0,
+    "official_only_files": [],
+    "reproduced_only_files": [],
+    "c_src_files": 192,
+    "c_src_matches_after_crlf_normalization": 192,
+    "binding_and_package_files": 34,
+    "binding_and_package_matches_after_crlf_normalization": 34,
+    "normalized_content_manifest_sha256_official": "2befdea1559d3bfed47d96121a8d56aefcaa21bb5c2bd2009317324d8d4a40cc",
+    "normalized_content_manifest_sha256_reproduced": "2befdea1559d3bfed47d96121a8d56aefcaa21bb5c2bd2009317324d8d4a40cc",
+    "mode_mismatches": [
+      {
+        "path": "scripts/copy-sources.sh",
+        "official_mode": "0644",
+        "reproduced_mode": "0755"
+      },
+      {
+        "path": "scripts/publish.sh",
+        "official_mode": "0644",
+        "reproduced_mode": "0755"
+      }
+    ]
+  },
+  "chronology": {
+    "publish_precedes_first_intervening_commit_seconds": 454.198,
+    "publish_precedes_reviewed_commit_seconds": 466.198,
+    "interpretation": "The official artifact is content-equivalent, under CRLF normalization, to the later reviewed commit and pinned submodules. Because publication predates that commit chain and registry gitHead points to a 0.15.7 tree, the evidence supports a likely publish-from-uncommitted-working-tree reconstruction but cannot establish a single non-contradictory source identity."
+  },
+  "acceptance_effect": {
+    "new_evidence": "The previously unmapped 192-file c_src subtree is now fully explained by a clean reproduction from the reviewed commit and pinned submodules.",
+    "unchanged_gate": "Normalized-only similarity, stale gitHead, version mismatch, publication-before-commit chronology, and two mode mismatches remain acceptance-critical blockers under SWU-WCP-001.",
+    "verdict": "block",
+    "failure_code": "PACKAGE_PROVENANCE_MISMATCH",
+    "fresh_task_session_admitted": false,
+    "successor_admitted": false
+  },
+  "side_effects": {
+    "dependency_install_performed": false,
+    "native_build_performed": false,
+    "addon_loaded": false,
+    "craft_mutated": false,
+    "git_mutated": false
+  }
+}

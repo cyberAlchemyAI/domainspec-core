@@ -1,0 +1,53 @@
+{
+  "run_id": "20260804T151133Z-rich-consultation-explanations",
+  "target": "projects/augmentor/ontology/unified-agent",
+  "preset": "deep",
+  "research_mode": "research-if-gap-appears-local-only",
+  "status": "flag",
+  "artifacts": {
+    "run_manifest": "RUN-MANIFEST.md",
+    "seed_proposal": "REFINE-SEED-PROPOSAL.md",
+    "dispatch_route": "REFINE-DISPATCH.json",
+    "dispatch_validation": "DISPATCH-VALIDATION.json",
+    "strategy_inventory_packet": "STRATEGY-INVENTORY-PACKET.json",
+    "runtime_handoff": "RUNTIME-HANDOFF.md",
+    "result": "RESULT.md",
+    "feature_glossary": "FEATURE-GLOSSARY.md",
+    "whisper_composition": "WHISPER-COMPOSITION.md",
+    "implementation_layering": "IMPLEMENTATION-LAYERING.md",
+    "work_pack": "WORK-PACK.md",
+    "stages_dir": "stages/",
+    "receipts_dir": "receipts/"
+  },
+  "stages": [
+    {"stage":"Context Builder evidence baseline","capability_ref":"context-builder","status":"pass","artifact_path":"stages/01-context-baseline.md","receipt_artifact":"context-builder/runtime-handoff.md","verdict":"pass_with_environment_flag"},
+    {"stage":"Invoke Define","capability_ref":"invoke","status":"pass","artifact_path":"stages/02-define.md","receipt_artifact":"REFINE-DISPATCH.json#native_stage_receipts","verdict":"pass"},
+    {"stage":"Interrogation refine-review","capability_ref":"interrogation","status":"pass","artifact_path":"stages/03-review.md","receipt_artifact":"receipts/contract-safety-critique.md","verdict":"pass_with_repairs"},
+    {"stage":"Research decision","capability_ref":"refine","status":"pass","artifact_path":"stages/04-research-decision.md","receipt_artifact":"REFINE-DISPATCH.json#native_stage_receipts","verdict":"no_external_research"},
+    {"stage":"Distill","capability_ref":"distill","status":"pass","artifact_path":"stages/05-distill.md","receipt_artifact":"REFINE-DISPATCH.json#native_stage_receipts","verdict":"pass"},
+    {"stage":"Invoke Redefine / Design","capability_ref":"invoke","status":"pass","artifact_path":"stages/06-design.md","receipt_artifact":"receipts/whisper-language-design.md","verdict":"pass_with_owner_residue"},
+    {"stage":"Interrogation refine-design-review","capability_ref":"interrogation","status":"pass","artifact_path":"stages/07-design-review.md","receipt_artifact":"receipts/contract-safety-critique.md","verdict":"pass_with_stops"},
+    {"stage":"Distill Repair","capability_ref":"distill","status":"pass","artifact_path":"stages/08-distill-repair.md","receipt_artifact":"stages/08-question-scenarios.md","verdict":"pass"},
+    {"stage":"Invoke Plan","capability_ref":"invoke","status":"pass","artifact_path":"stages/09-plan.md","receipt_artifact":"WORK-PACK.md","verdict":"pass_execution_unadmitted"},
+    {"stage":"Final Interrogation and Synthesis","capability_ref":"interrogation + refine","status":"flag","artifact_path":"stages/10-final-review.md","receipt_artifact":"RESULT.md","verdict":"flag"}
+  ],
+  "subagent_receipts": [
+    "receipts/current-state-map.md",
+    "receipts/whisper-language-design.md",
+    "receipts/contract-safety-critique.md"
+  ],
+  "validations": [
+    "Dispatch sheet schema 0.8.0: pass",
+    "Dispatch Spec pre-execution validation: pass",
+    "Neutral projection check: pass",
+    "Candidate consultation tests: 25/25 pass",
+    "Consumer targeted consultation tests: 8/8 pass under a below-declared local Node runtime",
+    "Final artifact and route validation: see DISPATCH-VALIDATION.json"
+  ],
+  "recommended_next_routes": [
+    "implementation-readiness against the complete WORK-PACK.md",
+    "owner decisions G-01 through G-06",
+    "Task Session only after exact material admission"
+  ],
+  "authority_effect": "none"
+}

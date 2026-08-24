@@ -1,0 +1,94 @@
+{
+  "schema_version": "augmentor.consultation.material-package@0.1.0",
+  "package_id": "material-swu-acapi-001",
+  "task_id": "TASK-ACAPI-01",
+  "swu_id": "SWU-ACAPI-001",
+  "source_artifacts": [
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-01-CONTRACTS.md",
+      "sha256": "e0a18011796bf31450b3218922a26cf1edbf457448d573aa7f9bbdd393864877",
+      "size_bytes": 3086,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/WORK-PACK.md",
+      "sha256": "2d53e5ed9550dd04eeb1a009b6f7079e9efa9f81c612e00d3e49da10223e014d",
+      "size_bytes": 15934,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-001/context-pack.json",
+      "sha256": "51450f4c51a4a6ce924475bf28f4fb73191c0c60190a609c24a4a0f09642cb93",
+      "size_bytes": 1685,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/material-map.json",
+      "sha256": "e27c11b9766de3d926b499fd232ff28c856b97f57861812641ee34234197f2a4",
+      "size_bytes": 7002,
+      "authority_class": "private"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "SWU-ACAPI-000",
+      "artifact_ref": {
+        "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-000/material-package.json",
+        "sha256": "5194ae28bc605aa796e5e4a892f8175f57b01dc4998c6659d50c53a897d97113",
+        "size_bytes": 3275
+      }
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/query.schema.json",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "6716095ddec1b13c05b690d88d3c6cb4ec4c26df9c2eb45237e39e5d8e788f48",
+      "content": "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"augmentor.consultation.query@0.1.0\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"operation\", \"query\", \"scope\", \"limits\"],\n  \"properties\": {\n    \"schemaVersion\": {\"const\": \"augmentor.consultation.query@0.1.0\"},\n    \"requestId\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 128},\n    \"questionId\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 128},\n    \"operation\": {\"enum\": [\"lookup\", \"search\", \"context\"]},\n    \"query\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"properties\": {\n        \"id\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 256},\n        \"text\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 1000},\n        \"kind\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 64}\n      },\n      \"anyOf\": [{\"required\": [\"id\"]}, {\"required\": [\"text\"]}]\n    },\n    \"scope\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"viewIds\"],\n      \"properties\": {\n        \"viewIds\": {\"type\": \"array\", \"minItems\": 1, \"maxItems\": 8, \"uniqueItems\": true, \"items\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 128}},\n        \"maxFreshnessAgeSeconds\": {\"type\": \"integer\", \"minimum\": 0, \"maximum\": 31536000}\n      }\n    },\n    \"limits\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"maxCandidates\", \"maxRecords\", \"maxSources\", \"maxBytes\", \"maxTokens\", \"maxMillis\"],\n      \"properties\": {\n        \"maxCandidates\": {\"type\": \"integer\", \"minimum\": 1, \"maximum\": 1000},\n        \"maxRecords\": {\"type\": \"integer\", \"minimum\": 1, \"maximum\": 100},\n        \"maxSources\": {\"type\": \"integer\", \"minimum\": 1, \"maximum\": 100},\n        \"maxBytes\": {\"type\": \"integer\", \"minimum\": 256, \"maximum\": 1048576},\n        \"maxTokens\": {\"type\": \"integer\", \"minimum\": 64, \"maximum\": 262144},\n        \"maxMillis\": {\"type\": \"integer\", \"minimum\": 1, \"maximum\": 30000}\n      }\n    }\n  }\n}\n"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/query-cases.json",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "9b0e5c5f368e9ef02550711f2aeab12b6663213f94e3daa5371af04a5199e9bf",
+      "content": "{\n  \"valid\": [\n    {\n      \"schemaVersion\": \"augmentor.consultation.query@0.1.0\",\n      \"requestId\": \"req-1\",\n      \"questionId\": \"question-1\",\n      \"operation\": \"search\",\n      \"query\": {\"text\": \"session routing\", \"kind\": \"concept\"},\n      \"scope\": {\"viewIds\": [\"runtime\"]},\n      \"limits\": {\"maxCandidates\": 20, \"maxRecords\": 5, \"maxSources\": 10, \"maxBytes\": 32768, \"maxTokens\": 4096, \"maxMillis\": 500}\n    },\n    {\n      \"schemaVersion\": \"augmentor.consultation.query@0.1.0\",\n      \"requestId\": \"req-2\",\n      \"questionId\": \"question-2\",\n      \"operation\": \"lookup\",\n      \"query\": {\"id\": \"concept-1\"},\n      \"scope\": {\"viewIds\": [\"knowledge\"], \"maxFreshnessAgeSeconds\": 3600},\n      \"limits\": {\"maxCandidates\": 1, \"maxRecords\": 1, \"maxSources\": 4, \"maxBytes\": 8192, \"maxTokens\": 1024, \"maxMillis\": 200}\n    }\n  ],\n  \"invalid\": [\n    {\"name\": \"model-supplied-identity\", \"value\": {\"schemaVersion\": \"augmentor.consultation.query@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"operation\": \"search\", \"query\": {\"text\": \"x\"}, \"scope\": {\"viewIds\": [\"runtime\"]}, \"limits\": {\"maxCandidates\": 1, \"maxRecords\": 1, \"maxSources\": 1, \"maxBytes\": 256, \"maxTokens\": 64, \"maxMillis\": 1}, \"principal\": {\"token\": \"forbidden\"}}},\n    {\"name\": \"protected-operation\", \"value\": {\"schemaVersion\": \"augmentor.consultation.query@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"operation\": \"write\", \"query\": {\"text\": \"x\"}, \"scope\": {\"viewIds\": [\"runtime\"]}, \"limits\": {\"maxCandidates\": 1, \"maxRecords\": 1, \"maxSources\": 1, \"maxBytes\": 256, \"maxTokens\": 64, \"maxMillis\": 1}}},\n    {\"name\": \"raw-path\", \"value\": {\"schemaVersion\": \"augmentor.consultation.query@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"operation\": \"search\", \"query\": {\"text\": \"x\", \"path\": \"../private\"}, \"scope\": {\"viewIds\": [\"runtime\"]}, \"limits\": {\"maxCandidates\": 1, \"maxRecords\": 1, \"maxSources\": 1, \"maxBytes\": 256, \"maxTokens\": 64, \"maxMillis\": 1}}},\n    {\"name\": \"unbounded-limit\", \"value\": {\"schemaVersion\": \"augmentor.consultation.query@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"operation\": \"search\", \"query\": {\"text\": \"x\"}, \"scope\": {\"viewIds\": [\"runtime\"]}, \"limits\": {\"maxCandidates\": 1001, \"maxRecords\": 1, \"maxSources\": 1, \"maxBytes\": 256, \"maxTokens\": 64, \"maxMillis\": 1}}}\n  ]\n}\n"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-contract.mjs",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "de27c85a9d4aef190820128d605761ed0e1184e42c5a9e114274515202d0aedd",
+      "content": "import { readFile } from \"node:fs/promises\";\nimport path from \"node:path\";\nimport { fileURLToPath } from \"node:url\";\n\nconst ROOT = path.resolve(fileURLToPath(new URL(\"../\", import.meta.url)));\n\nconst load = async (relative) => JSON.parse(await readFile(path.join(ROOT, relative), \"utf8\"));\n\nconst typeMatches = (value, type) => {\n  if (Array.isArray(type)) return type.some((candidate) => typeMatches(value, candidate));\n  if (type === \"null\") return value === null;\n  if (type === \"array\") return Array.isArray(value);\n  if (type === \"object\") return value !== null && typeof value === \"object\" && !Array.isArray(value);\n  if (type === \"integer\") return Number.isInteger(value);\n  return typeof value === type;\n};\n\nexport const validate = (value, schema, at = \"$\", rootSchema = schema) => {\n  const errors = [];\n  if (schema.$ref) {\n    if (!schema.$ref.startsWith(\"#/$defs/\")) return [`${at}: unsupported ref ${schema.$ref}`];\n    const target = rootSchema.$defs?.[schema.$ref.slice(\"#/$defs/\".length)];\n    return target ? validate(value, target, at, rootSchema) : [`${at}: missing ref ${schema.$ref}`];\n  }\n  if (schema.const !== undefined && value !== schema.const) errors.push(`${at}: must equal ${JSON.stringify(schema.const)}`);\n  if (schema.enum && !schema.enum.includes(value)) errors.push(`${at}: must be one of ${schema.enum.join(\", \")}`);\n  if (schema.type && !typeMatches(value, schema.type)) return [...errors, `${at}: wrong type`];\n  if (schema.oneOf) {\n    const branches = schema.oneOf.map((branch) => validate(value, branch, at, rootSchema));\n    if (branches.filter((branch) => branch.length === 0).length !== 1) errors.push(`${at}: must match exactly one variant`);\n  }\n  if (schema.anyOf && !schema.anyOf.some((branch) => validate(value, branch, at, rootSchema).length === 0)) errors.push(`${at}: must match at least one variant`);\n  if (value !== null && typeof value === \"object\" && !Array.isArray(value)) {\n    for (const required of schema.required ?? []) if (!(required in value)) errors.push(`${at}.${required}: required`);\n    if (schema.additionalProperties === false) {\n      const allowed = new Set(Object.keys(schema.properties ?? {}));\n      for (const key of Object.keys(value)) if (!allowed.has(key)) errors.push(`${at}.${key}: undeclared`);\n    }\n    for (const [key, child] of Object.entries(schema.properties ?? {})) if (key in value) errors.push(...validate(value[key], child, `${at}.${key}`, rootSchema));\n  }\n  if (Array.isArray(value)) {\n    if (schema.minItems !== undefined && value.length < schema.minItems) errors.push(`${at}: too few items`);\n    if (schema.maxItems !== undefined && value.length > schema.maxItems) errors.push(`${at}: too many items`);\n    if (schema.uniqueItems && new Set(value.map((item) => JSON.stringify(item))).size !== value.length) errors.push(`${at}: duplicate items`);\n    if (schema.items) value.forEach((item, index) => errors.push(...validate(item, schema.items, `${at}[${index}]`, rootSchema)));\n  }\n  if (typeof value === \"string\") {\n    if (schema.minLength !== undefined && value.length < schema.minLength) errors.push(`${at}: too short`);\n    if (schema.maxLength !== undefined && value.length > schema.maxLength) errors.push(`${at}: too long`);\n    if (schema.pattern && !new RegExp(schema.pattern).test(value)) errors.push(`${at}: pattern mismatch`);\n  }\n  if (typeof value === \"number\") {\n    if (schema.minimum !== undefined && value < schema.minimum) errors.push(`${at}: below minimum`);\n    if (schema.maximum !== undefined && value > schema.maximum) errors.push(`${at}: above maximum`);\n    if (schema.minimum !== undefined && !Number.isFinite(value)) errors.push(`${at}: not finite`);\n  }\n  return errors;\n};\n\nconst validateCases = async (scope, schemaPath, casesPath) => {\n  const schema = await load(schemaPath);\n  const cases = await load(casesPath);\n  const failures = [];\n  for (const [index, value] of cases.valid.entries()) {\n    const errors = validate(value, schema);\n    if (errors.length) failures.push(`${scope} valid[${index}] rejected: ${errors.join(\"; \")}`);\n  }\n  for (const [index, testCase] of cases.invalid.entries()) {\n    const errors = validate(testCase.value, schema);\n    if (!errors.length) failures.push(`${scope} invalid[${index}] ${testCase.name} accepted`);\n  }\n  return { scope, valid: cases.valid.length, invalid: cases.invalid.length, failures };\n};\n\nexport const validateScope = async (scope) => {\n  const contracts = {\n    query: [\"schemas/query.schema.json\", \"fixtures/query-cases.json\"],\n    result: [\"schemas/result.schema.json\", \"fixtures/result-cases.json\"],\n    projection: [\"schemas/projection.schema.json\", \"fixtures/projection-cases.json\"]\n  };\n  if (!contracts[scope]) throw new Error(`unknown scope ${scope}`);\n  return validateCases(scope, ...contracts[scope]);\n};\n\nif (process.argv[1] === fileURLToPath(import.meta.url)) {\n  const scopeIndex = process.argv.indexOf(\"--scope\");\n  const scope = scopeIndex >= 0 ? process.argv[scopeIndex + 1] : null;\n  if (!scope) throw new Error(\"usage: validate-contract.mjs --scope query|result|projection\");\n  const receipt = await validateScope(scope);\n  console.log(JSON.stringify(receipt, null, 2));\n  if (receipt.failures.length) process.exitCode = 1;\n}\n"
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/query.schema.json",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "6716095ddec1b13c05b690d88d3c6cb4ec4c26df9c2eb45237e39e5d8e788f48"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/query-cases.json",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "9b0e5c5f368e9ef02550711f2aeab12b6663213f94e3daa5371af04a5199e9bf"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-contract.mjs",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "de27c85a9d4aef190820128d605761ed0e1184e42c5a9e114274515202d0aedd"
+    }
+  ],
+  "validation_commands": [
+    "[\"node\",\"projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-contract.mjs\",\"--scope\",\"query\"]"
+  ],
+  "lifecycle_owner": "augmentor-consultation-candidate-owner",
+  "authority_class": "private",
+  "publication_class": "private"
+}

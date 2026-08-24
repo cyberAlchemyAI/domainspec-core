@@ -1,0 +1,45 @@
+{
+  "schema_version": "arcanum.research-review-zig-zag.v0.1",
+  "dispatch_id": "2026-08-05-arcanum-cav2-integration-research",
+  "run_id": "cav2-integration-run-01",
+  "connection": {
+    "from": "synthesizer",
+    "to": "reviewers",
+    "type": "zig-zag",
+    "loop_cap": 2
+  },
+  "loop_ordinal": 1,
+  "trigger": "reviewer gate block recorded at run-event sequence 57",
+  "source_reviews": [
+    "reviews/precedent.md",
+    "reviews/non-vacuity.md",
+    "reviews/definitional.md"
+  ],
+  "eligible_repairs": [
+    "split authority status by kind",
+    "replace generic flow with stable typed edges",
+    "separate semantic owners from Task Session",
+    "narrow consumer adapter and authority-spine claims",
+    "add complete finite traces and explicit absence classifications",
+    "repair artifact validator form content metadata boundaries",
+    "record coordinator action-ID collision as run-local residue"
+  ],
+  "explorer_feedback": {
+    "used": false,
+    "reason": "the original corpus plus reviewer direct-source checks were sufficient; absent witnesses remain explicit absences"
+  },
+  "revision_artifact": "synthesis-revision-1.md",
+  "revision_receipt": {
+    "revision_id": "synthesis-zig-zag-01",
+    "status": "pass",
+    "validation": "pass",
+    "blockers": []
+  },
+  "review_results": [
+    {"reviewer": "spawn-0005", "gate": "precedent", "validation": "pass", "artifact": "reviews/precedent-revision-1.md"},
+    {"reviewer": "spawn-0006", "gate": "non-vacuity", "validation": "pass", "loop": 2, "artifact": "reviews/non-vacuity-revision-1.md", "receipt": "receipts/skeptic-non-vacuity-revision-1.json"},
+    {"reviewer": "spawn-0007", "gate": "definitional-soundness", "validation": "pass", "loop": 2, "artifact": "reviews/definitional-revision-1.md", "receipt": "receipts/skeptic-definitional-revision-1.json"}
+  ],
+  "loop_result": "pass",
+  "native_event_model_note": "run-event schema v0.1 has no followup-task event kind; this artifact records existing-agent feedback without fabricating spawns"
+}

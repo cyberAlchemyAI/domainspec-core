@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-08-03T22:20:52.572Z",
+  "run_id": "augmentor-consultation-l0-5763602f",
+  "session_id": "augmentor-consultation-l0-5763602f",
+  "capability": {
+    "id": "task-session-until-blocker",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "execute",
+    "alias": "approved-seven-unit-l0-frontier"
+  },
+  "mode": "execute",
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/completion-receipt.json",
+      "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/chain-state/transitions/000007.json"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Execute the exact approved Augmentor consultation API L0 work pack in one bounded run.",
+    "intent": "Complete seven serial Task Sessions, stop on the first blocker, and preserve no-authority boundaries."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/completion-receipt.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api"
+    ],
+    "files_changed": [
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/generated/projection-manifest.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/generated/projection.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/projection-cases.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/query-cases.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/result-cases.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/source/ontology.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/evidence-statement.schema.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/projection-manifest.schema.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/projection.schema.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/query.schema.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/result.schema.json",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/build-fixture-projection.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-contract.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-projection-leakage.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/src/consultation-boundary.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/src/effective-limits.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/src/projection-reader.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/src/status-resolver.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/consultation-boundary.test.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/effective-limits.test.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/projection-compiler.test.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/projection-leakage.test.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/question-scenarios.test.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/status-resolver.test.mjs",
+      "projects/augmentor/ontology/unified-agent/scripts/validate.mjs"
+    ],
+    "validation": [
+      "22 contract fixture cases passed",
+      "24 consultation API tests passed",
+      "6 ontology regression tests passed",
+      "2 one-go control tests passed",
+      "12 validator determinism runs passed",
+      "7 transition joins validated",
+      "canonical chain replay returned COMPLETE"
+    ],
+    "notes": "Exact epoch completed at L0 only; no network, promotion, release, deployment, or authority change."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "low",
+        "summary": "The composed transition gate is easy to misread when its canonical runner delegate is not inspected.",
+        "evidence": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/helpers/execution-control-preflight.json"
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "manual",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/completion-receipt.json"
+}

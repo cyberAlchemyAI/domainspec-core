@@ -1,0 +1,109 @@
+{
+  "schema_version": "task-session.write-target-drift.v1",
+  "chain_id": "20260730T164538Z-bwaa-until-blocker",
+  "task_id": "TASK-BWAA-001",
+  "swu_id": "SWU-BWAA-001",
+  "result": "block",
+  "detected_at": "2026-07-30T16:47:02Z",
+  "blocker_fingerprint": "bc3101c6f1ad620e550e2fa2832a1f21e4046072ee9e1d347fdaf3ee21950e76",
+  "baseline_source": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/TARGET-INVENTORY.json",
+  "targets": [
+    {
+      "path": "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+      "expected_preimage_sha256": "f672d87d0270647e2a4995ea20b95352afecb5631beffbe03bdfb2bf971279c2",
+      "expected_preimage_size_bytes": 7398,
+      "observed_sha256": "2552fcee789edba182d86ce906ea20214c4f9fa43a71095094da5e2f3c23e1e6",
+      "observed_size_bytes": 12416,
+      "staged_output_sha256": "2552fcee789edba182d86ce906ea20214c4f9fa43a71095094da5e2f3c23e1e6",
+      "classification": "staged-postimage-present-without-task-session-terminal-receipt"
+    },
+    {
+      "path": "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "expected_preimage_sha256": "7e920c4a4e1975678cfd298cfc9b5091283490a87e69786e95bda64e4b598b08",
+      "expected_preimage_size_bytes": 4572,
+      "observed_sha256": "0479bb0c7f4c3fa25e77f2127a972c87f71b08844304ef7b6e22456875a007bd",
+      "observed_size_bytes": 6815,
+      "staged_output_sha256": "0479bb0c7f4c3fa25e77f2127a972c87f71b08844304ef7b6e22456875a007bd",
+      "classification": "staged-postimage-present-without-task-session-terminal-receipt"
+    },
+    {
+      "path": "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+      "expected_preimage_sha256": "07e4c02f4a7eafcbc2bae39722e10efe804ad6fbfb1fb9eed1a3d8d65f3d5774",
+      "expected_preimage_size_bytes": 6569,
+      "observed_sha256": "3e4f1a8f26d6f4bf0067460b2ca0f262e53b3ab19282cb13289a1d02c622aadd",
+      "observed_size_bytes": 10672,
+      "staged_output_sha256": "3e4f1a8f26d6f4bf0067460b2ca0f262e53b3ab19282cb13289a1d02c622aadd",
+      "classification": "staged-postimage-present-without-task-session-terminal-receipt"
+    }
+  ],
+  "observed_execution_output": {
+    "path": "projects/body-war/ontology/business/receipts/view-atlas-coverage-receipt.json",
+    "sha256": "acfee4cd63e48d56655d28f52a880291be5de6a883ac4e7d1a8955e1f3df3111",
+    "size_bytes": 3617,
+    "generated_at": "2026-07-30T16:47:02.063Z",
+    "status": "pass",
+    "lens_flow_count": 13,
+    "lens_flow_relation_count": 109
+  },
+  "read_only_validation": [
+    {
+      "command": "node --test projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+      "exit_code": 0,
+      "result": "pass",
+      "evidence": "8 tests passed, including directed lens-flow partition and invalid-group rejection"
+    },
+    {
+      "command": "git diff --check -- projects/body-war/ontology/business/scripts/view-atlas-projection.mjs projects/body-war/ontology/business/scripts/validate-view-atlas.mjs projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+      "exit_code": 0,
+      "result": "pass",
+      "evidence": "no scoped whitespace error"
+    }
+  ],
+  "semantic_lock_results": {
+    "nodes": {
+      "expected": "f74785ed18002fe0636519685711de8cd2f85e59f0eadb7de58d84faec399229",
+      "observed": "f74785ed18002fe0636519685711de8cd2f85e59f0eadb7de58d84faec399229",
+      "result": "pass"
+    },
+    "relations": {
+      "expected": "234ad4152b731edcb03cd1b45dfa21570bd37df741090ca6ca0940fd98c0ce00",
+      "observed": "234ad4152b731edcb03cd1b45dfa21570bd37df741090ca6ca0940fd98c0ce00",
+      "result": "pass"
+    },
+    "lifecycle_policies": {
+      "expected": "62e5a3e499f553d305d9c214f040d9430afbc35bccf7088a16da66cdaae12438",
+      "observed": "62e5a3e499f553d305d9c214f040d9430afbc35bccf7088a16da66cdaae12438",
+      "result": "pass"
+    },
+    "profile": {
+      "expected": "cba6f78a7306dea9fbd6d97fd3d5d228d501e81839c20248e901f3067ec0b739",
+      "observed": "cba6f78a7306dea9fbd6d97fd3d5d228d501e81839c20248e901f3067ec0b739",
+      "result": "pass"
+    },
+    "residue": {
+      "expected": "796b56b8d7ad0e341646ac3df0970317e958509c0e6a2d712502d8e2ca65032f",
+      "observed": "796b56b8d7ad0e341646ac3df0970317e958509c0e6a2d712502d8e2ca65032f",
+      "result": "pass"
+    },
+    "business_view": {
+      "expected": "2897b9490c27960104a0dcdcbda899e6752795ab1f737cf181e7bc3f075d3d60",
+      "observed": "2897b9490c27960104a0dcdcbda899e6752795ab1f737cf181e7bc3f075d3d60",
+      "result": "pass"
+    }
+  },
+  "terminal_receipt": {
+    "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-001.receipt.json",
+    "state": "absent"
+  },
+  "writer_attribution": "unknown",
+  "chain_product_mutation_started": false,
+  "observed_external_product_mutation": true,
+  "policy": "WORK-PACK.md#Semantic-Locks requires write-target drift to block execution and route to Invoke Refresh.",
+  "unblock_actions": [
+    "Invoke Refresh must reconcile the current postimages against the admitted package and bind their current digests.",
+    "Refresh should emit a strict execution-output-only Task Session admission if no product material write remains.",
+    "A fresh Task Session must rerun live acceptance validation and produce the terminal receipt before closeout synchronization."
+  ],
+  "authority_effect": "none",
+  "release_admission": "not-granted"
+}

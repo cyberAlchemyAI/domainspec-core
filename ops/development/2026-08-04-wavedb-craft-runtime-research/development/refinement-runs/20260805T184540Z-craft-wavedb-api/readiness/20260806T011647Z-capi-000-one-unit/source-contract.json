@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "craft-capi-one-unit-source-contract.v1",
+  "contractId": "CAPI-AUTO-SWU-CAPI-000-20260806T011647Z",
+  "authorityEffect": "none",
+  "claimCeiling": "Derived one-unit execution projection for SWU-CAPI-000 only; it does not amend the authoritative Work Pack, admit a successor, publish, deploy, or prove API readiness.",
+  "sourceArtifacts": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+      "sha256": "499c2f102b0485b0450fd0bc8bf1895817f7704793789a839b864a491071669d",
+      "sizeBytes": 12906,
+      "role": "authoritative-work-pack"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/EXECUTION-PACK.md",
+      "sha256": "cdcb56bf0568b7afcc41dcd32d97fbc1c9c5e9316f9e6cb95f9b3bfbe01d6aa7",
+      "sizeBytes": 2326,
+      "role": "authoritative-execution-order"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/tasks/TASK-RUNTIME.md",
+      "sha256": "e635aa9fd50b70ad16423801f0b44f7668bba318e31820c2da42cdf66431e13f",
+      "sizeBytes": 5982,
+      "role": "authoritative-task-contract"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/decision-gates/20260805T212805Z-select-next-unit/decision-result.json",
+      "sha256": "65cb9848c6b939bd5667ada5f760078bf2aaa27396106de98ab118c954d16b93",
+      "sizeBytes": 2404,
+      "role": "selected-unit-decision"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26-0.15.9/npm-diagnostic-receipt.json",
+      "sha256": "6243febc06f345d0fa22b8b1210742c19e7d4cda74ca6a840e36f8d32428918c",
+      "sizeBytes": 4483,
+      "role": "pinned-npm-runtime-evidence"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/terminal-receipt.json",
+      "sha256": "eb07d1a14c4dacb30a272240057432c87f8acc430a6b064e0096f99e6107553c",
+      "sizeBytes": 3873,
+      "role": "pinned-npm-task-session-closeout"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json",
+      "sha256": "97dd371843771bf752124fbe7d6cbc886d785128ab690dc31da48813d228810f",
+      "sizeBytes": 8494,
+      "role": "immutable-0.15.8-ledger-scope-baseline"
+    }
+  ],
+  "objective": {
+    "taskId": "TASK-RUNTIME",
+    "swuId": "SWU-CAPI-000",
+    "behavior": "Create one fresh immutable WaveDB snapshot from the exact preserved 27-ledger baseline using @vijayee/wavedb@0.15.9 under Node v26.6.0.",
+    "acceptance": [
+      "exact 27-ledger scope and 55 records",
+      "immediate byte-exact readback",
+      "same-process reopen byte-exact readback",
+      "source bytes unchanged",
+      "pinned package, tarball, and addon identities recorded",
+      "no API code or canonical Craft write"
+    ]
+  },
+  "closures": {
+    "refine": {
+      "status": "closed-candidate-local",
+      "artifact": "WORK-PACK.md"
+    },
+    "decision": {
+      "status": "pass",
+      "selectedOption": "CAPI-NEXT-000",
+      "selectedSwu": "SWU-CAPI-000"
+    },
+    "executionRequest": {
+      "status": "direct-user-request",
+      "raw": "continue",
+      "scope": "automatic one-unit execution for SWU-CAPI-000"
+    }
+  },
+  "authority": {
+    "class": "private",
+    "publicationClass": "internal",
+    "canonicalOwner": "craft-consultation-api Work Pack",
+    "projectionOwner": "work-pack-readiness-audit",
+    "sourceAuthorityRemains": ".craft/ledger.yml files"
+  },
+  "owner": "experiment-harness",
+  "material": {
+    "writeProfile": "material-bound",
+    "attemptId": "wcli-20260805-node26-0.15.9-01",
+    "builderPath": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/import-ledgers-byte-normalized.js",
+    "storePath": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/store",
+    "receiptPath": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01/receipt.json",
+    "packageRoot": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcnd-20260805-node26-02/consumer/node_modules/@vijayee/wavedb",
+    "packageSpecifier": "@vijayee/wavedb@0.15.9",
+    "tarballSha256": "e8156c107117c8bc7f3394ceb16dff439c87c0cb4f8991033dad960b13ae396f",
+    "tarballSri": "sha512-qoRqZUti9Rjs9UT4rj8cQKNv2Gdr8bJ25p6miU4dKojLeBMfzkgQqp+D/fd2PsaItXyhgMLrlx/wQUmyj/W8hA==",
+    "addonSha256": "4846a91117cfeaee42011e401e65448216d85c0ebd04fc860585e3a32e17bb3b"
+  },
+  "validation": {
+    "node": "/home/vrondelli/.nvm/versions/node/v26.6.0/bin/node",
+    "expectedNodeVersion": "v26.6.0",
+    "expectedLedgerCount": 27,
+    "expectedRecordCount": 55,
+    "sourceInventoryPolicy": "exactly match the preserved 0.15.8 scope baseline; block on additions, removals, or byte drift",
+    "commands": [
+      "execute the immutable-attempt builder once",
+      "validate the pass receipt and exact identities with jq",
+      "recompute all source ledger hashes from the receipt",
+      "verify pinned tarball and native-addon SHA-256 values",
+      "run scoped git diff whitespace validation"
+    ]
+  },
+  "receipt": {
+    "schema": "craft-wavedb-import-test-receipt.v2",
+    "expectedVerdict": "pass",
+    "semanticValidator": "exact receipt fields plus independent live hash checks",
+    "claimCeiling": "One local 0.15.9 derived snapshot passed immediate and same-process reopen byte checks; fresh-process reads and Craft API integration remain unproven."
+  },
+  "closeout": {
+    "allowedDelta": "new attempt-local builder, store, and receipt only",
+    "owner": "experiment-harness",
+    "synchronizationOwner": "invoke:refresh:apply-approved",
+    "successorAdmission": false,
+    "compensation": "retain immutable pass or block evidence; do not delete or overwrite prior attempts"
+  },
+  "risk": {
+    "maximum": "bounded-write",
+    "network": "forbidden-not-required",
+    "destructive": "forbidden",
+    "credentials": "forbidden",
+    "publication": "forbidden",
+    "deployment": "forbidden",
+    "authorityPromotion": "forbidden"
+  },
+  "decision": {
+    "selection": "SWU-CAPI-000",
+    "selectionState": "selected",
+    "directExecutionIntent": true
+  },
+  "successor": "SWU-CAPI-000",
+  "equivalence": {
+    "version": "1.0.0",
+    "rule": "one-unit completion terminates this loop and does not select SWU-CAPI-001"
+  },
+  "continuation": "SWU-CAPI-000",
+  "admission": {
+    "status": "pending-selection",
+    "timing": "selected-unit-at-task-session"
+  },
+  "status": {
+    "artifactAuthored": "authored",
+    "registryReleased": "unreleased",
+    "mutationRuntimeReady": "candidate",
+    "auditVerdict": "pending"
+  },
+  "lifecycle": {
+    "planArtifact": "authored",
+    "audit": "pending",
+    "approval": "direct-execution-request-recorded",
+    "chain": "not-started"
+  },
+  "mutableStatus": {
+    "cursor": "SWU-CAPI-000",
+    "selected": true,
+    "completed": false
+  }
+}

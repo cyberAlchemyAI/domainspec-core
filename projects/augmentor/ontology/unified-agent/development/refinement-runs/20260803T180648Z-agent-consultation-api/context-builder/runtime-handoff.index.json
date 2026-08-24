@@ -1,0 +1,55 @@
+{
+  "schema": "context-builder.runtime-handoff@0.1.0",
+  "task_id": "agent-consultation-api-refine",
+  "run_id": "20260803T180648Z-agent-consultation-api",
+  "mode": "standard",
+  "strict": true,
+  "handoff": "runtime",
+  "status": "pass",
+  "generated_at": "2026-08-03T18:32:47Z",
+  "outputs": {
+    "markdown": "context-builder/runtime-handoff.md",
+    "index": "context-builder/runtime-handoff.index.json",
+    "stage_receipt": "stages/01-context-baseline.md"
+  },
+  "obligations": [
+    {"id":"O1","status":"covered","summary":"caller and access contract"},
+    {"id":"O2","status":"covered","summary":"retrieval, answering, and authority separation"},
+    {"id":"O3","status":"covered","summary":"bounded operations"},
+    {"id":"O4","status":"covered","summary":"evidence response fields"},
+    {"id":"O5","status":"covered","summary":"fail-closed outcomes and budgets"},
+    {"id":"O6","status":"covered","summary":"forbidden writes and effects"},
+    {"id":"O7","status":"covered","summary":"private to neutral projection boundary"},
+    {"id":"O8","status":"covered","summary":"answering-agent behavior"},
+    {"id":"O9","status":"covered","summary":"falsification and non-executed planning"}
+  ],
+  "selected_sources": [
+    {"path":"REFINE-SEED-PROPOSAL.md","sha256":"9b7bd8e56bbc17701c9e7654eca075637420a19e6aecc5a7c04afcdd362eb11a","obligations":["O1","O2","O3","O4","O5","O6","O7","O8","O9"]},
+    {"path":"projects/augmentor/ontology/unified-agent/README.md","sha256":"de4776e428489ccd31f5dc697df58a7da370c63707a90533e0b654022e54b947","obligations":["O2","O4","O6","O7","O9"]},
+    {"path":"projects/augmentor/ontology/unified-agent/profile.json","sha256":"5cd5fc8b7c4d7c1e8949af31b27c350c9e4cadf05e43fab869ad8004445ee3c8","obligations":["O1","O4","O6","O7"]},
+    {"path":"projects/augmentor/ontology/unified-agent/sources.json","sha256":"02d690404e10dd8744b600b4369ae6c99b4d4dbcfc61fc7033ba11eb3e50b230","obligations":["O4","O7"]},
+    {"path":"projects/augmentor/ontology/unified-agent/nodes/nodes.json","sha256":"119da3afb954060eb894ad571be69517db9f9c93825ed9ecd4359c3d9fa80edf","obligations":["O2","O3","O4","O5","O6"]},
+    {"path":"projects/augmentor/ontology/unified-agent/relations/relations.json","sha256":"374e30578651ff6ec83a98bb0e31a9dc8edaa99648703e05580f6cfc1536e142","obligations":["O2","O3","O4","O5","O6"]},
+    {"path":"projects/augmentor/ontology/unified-agent/views/knowledge.json","sha256":"ea0e5bc48d6cb36ce17d943955da0d8558b9137e7e258fb9903eada8cdbb4bc1","obligations":["O2","O3","O6","O7"]},
+    {"path":"projects/augmentor/ontology/unified-agent/views/experience.json","sha256":"13c4491fe555378b2187169814d5303bdfa11d0ba65f264430cf34b17dff8033","obligations":["O2","O8"]},
+    {"path":"projects/augmentor/ontology/unified-agent/residue.json","sha256":"b3ee000c28ffb93d6c0397a0244e6c72a97169f34fb4d0e457d83e533107e319","obligations":["O1","O5","O6","O7","O9"]},
+    {"path":"projects/augmentor/ontology/unified-agent/receipts/validation-receipt.json","sha256":"6d9463fa45a84f2424511e0e943f2e308192330be848d821d7e3996154db87bf","obligations":["O9"]},
+    {"path":"research/2026-07-29-augmentor-unified-agent-architecture/findings.md","sha256":"04a119393bf6bca78ec44f87ff8dad1142383e2cc7e9746e77cdf35a18d129f8","obligations":["O1","O2","O3","O4","O5","O6","O7","O8","O9"]},
+    {"path":"cyberAlchemy-v2/development/agent-reasoning-engine/spec/SPEC.md","sha256":"dfeeb8e14114b191874776e1ac407e769592a9f9fc661635a8bbf07772ebacf2","obligations":["O2","O4","O5","O6","O8","O9"]},
+    {"path":"../workspace-resonant/2.0.0-alpha/src/core/context-memory.ts","sha256":"92c2b21d589e7a153c88086b42b5abbcbf595b2c19980f6b585533efcc999a6b","obligations":["O3","O5","O8"]},
+    {"path":"../workspace-resonant/2.0.0-alpha/src/core/memory-provider.ts","sha256":"61113c8f0c1693a71277de8ac40a07522ddc6732198195f4478e63584b6d1992","obligations":["O1","O3","O5","O6"]}
+  ],
+  "excluded_candidates": [
+    {"path":"projects/augmentor/ontology/unified-agent/ontology-visualization.html","reason":"presentation output does not define the API contract"},
+    {"path":"projects/augmentor/ontology/unified-agent/deployment","reason":"deployment is outside the confirmed write and claim scope"},
+    {"path":"projects/augmentor/ontology/unified-agent/development/refinement-runs/2026-08-03-canvas-workspace","reason":"prior UI planning does not close API obligations"}
+  ],
+  "unresolved": [
+    {"id":"G1","status":"deferred","summary":"neutral projection owner is unselected"},
+    {"id":"G2","status":"deferred","summary":"authentication and disclosure policy owner approval is absent"},
+    {"id":"G3","status":"deferred","summary":"performance and answer-quality budgets are unmeasured"}
+  ],
+  "authority_precedence": ["owner-held source and runtime contracts","candidate ontology","inventory/context selection"],
+  "claim_ceiling": "Runnable context for design only; no API, integration, authority, promotion, deployment, or release proof."
+}
+

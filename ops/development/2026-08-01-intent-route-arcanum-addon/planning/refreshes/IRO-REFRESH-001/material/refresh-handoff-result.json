@@ -1,0 +1,51 @@
+{
+  "activationSource": "direct-user",
+  "blockers": [],
+  "handoffStatus": "ready",
+  "materialPackage": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "expectedPackageDigest": "41f9ef8771eb9bde09f99eba980471031377a92b6ca0399369b13895a3905c68",
+    "expectedPackageId": "iro-refresh-001-planning-contract-repair-v1",
+    "lifecycleOwner": "intent-route-planning-owner",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "41f9ef8771eb9bde09f99eba980471031377a92b6ca0399369b13895a3905c68",
+    "packageId": "iro-refresh-001-planning-contract-repair-v1",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "internal",
+    "receiptPresent": true,
+    "required": true,
+    "schemaValid": true,
+    "validatedPaths": [
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/DISPATCH.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/EXECUTION-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-OWNER-RECEIPT.schema.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-SYNC.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/DECISION-BUNDLE.schema.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/EXECUTION-CONTRACT.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TERMINAL-RECEIPT.schema.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CANDIDATE-001.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CANONICAL-001.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CONSUMER-001.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-GATE-001.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-PRIVATE-001.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-VERIFY.md"
+    ],
+    "validationCommands": [
+      "python3 .agents/skills/dispatch-spec/scripts/validate-dispatch.py ops/development/2026-08-01-intent-route-arcanum-addon/planning/DISPATCH.json",
+      "python3 ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py --self-test",
+      "python3 ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py --root .",
+      "python3 -m json.tool ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/EXECUTION-CONTRACT.json",
+      "git diff --check -- ops/development/2026-08-01-intent-route-arcanum-addon/planning"
+    ]
+  },
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "mutationReady": true,
+  "phaseStatus": "pass",
+  "schemaVersion": "1.0.0"
+}

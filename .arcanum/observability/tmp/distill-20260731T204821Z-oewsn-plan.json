@@ -1,0 +1,76 @@
+{
+  "timestamp": "2026-07-31T20:51:53Z",
+  "run_id": "distill-20260731T204821Z-oewsn-plan",
+  "session_id": "2026-07-31-oewsn-invoke-package",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "validate",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "validate",
+    "alias": null
+  },
+  "lineage": {
+    "parent_run_id": "invoke-define-design-plan-20260731T204821Z-oewsn",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "define-design-plan"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "emission_status": "complete",
+    "distill_run_request_ref": {
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/DISTILL-RUN-REQUEST.json",
+      "sha256": "87bc7720d6e73c824b60b6ae2d04d45602a4fa1453503d1fb23d793f299a0b91",
+      "size_bytes": 772
+    },
+    "runtime_event_refs": [],
+    "execution_receipt_ref": {
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/DISTILL-EXECUTION-RECEIPT.json",
+      "sha256": "93b955cf71fed729f89fb9158d4ec1a39b90e8ac43c1fec857d2c92b46ea4892",
+      "size_bytes": 1069
+    },
+    "validation_result_ref": {
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/PLAN-DISTILL.md",
+      "sha256": "dc49e1ffaeb4b0d377a210e56622550e37179e9819f42fb77c76dacdd8d42817",
+      "size_bytes": 2989
+    }
+  },
+  "request": {
+    "raw": null,
+    "summary": "Validate the OEW semantic-navigation Plan's atomicity, first unit, recomposition, navigation and gaps.",
+    "intent": "Independently balance the complete 21-SWU Plan without resolving owner choices or mutating product files."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "planning/PLAN-DISTILL.md",
+      "planning/DISTILL-EXECUTION-RECEIPT.json"
+    ],
+    "files_changed": [],
+    "validation": [
+      "21 unique atomic SWUs: pass",
+      "17 mutation closeout rows: pass",
+      "first-unit narrowness: pass",
+      "recomposition: pass",
+      "navigation: pass",
+      "BAL-01 through BAL-07: closed"
+    ],
+    "notes": "Initial block was repaired by the Invoke Proposer; the read-only Balancer final replay passed and performed no writes."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/PLAN-DISTILL.md"
+}

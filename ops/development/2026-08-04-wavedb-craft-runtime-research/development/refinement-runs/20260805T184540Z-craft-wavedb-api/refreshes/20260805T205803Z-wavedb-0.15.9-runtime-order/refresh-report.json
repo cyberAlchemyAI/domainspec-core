@@ -1,0 +1,178 @@
+{
+  "activationSource": "direct-user",
+  "appliedChanges": [
+    "inserted SWU-CAPI-000 as the immutable WaveDB 0.15.9 Craft ingestion predecessor",
+    "retargeted SWU-CAPI-001 to a separately launched fresh-process read of the new snapshot",
+    "added an exact API runtime pin gate before SWU-CAPI-002",
+    "synchronized the split Work Pack, runtime task, W1 wave, and execution pack"
+  ],
+  "blockerScopes": {
+    "refreshAuthoring": [],
+    "refreshMutation": [],
+    "targetLifecycle": [
+      {
+        "id": "CAPI-B001",
+        "state": "open",
+        "summary": "The owner has not selected the next bounded work unit."
+      },
+      {
+        "id": "CAPI-B002",
+        "state": "open",
+        "summary": "No Task Session admission authorizes product mutation."
+      },
+      {
+        "id": "CAPI-B003",
+        "state": "open",
+        "summary": "The WaveDB 0.15.9 Craft snapshot and independent fresh-process evidence are absent."
+      },
+      {
+        "id": "CAPI-B004",
+        "state": "deferred",
+        "summary": "L1 subtree behavior remains deferred until the L0 core passes."
+      }
+    ]
+  },
+  "capabilityResolver": {
+    "state": "not-evaluated",
+    "reason": "This refresh preserves allowedRoutes=[] and does not select or authorize execution."
+  },
+  "deltaSummary": "The current Work Pack now orders new 0.15.9 ingestion, independent fresh-process verification, exact API runtime pinning, and only then L0 API construction while preserving all execution blockers and stable existing unit IDs.",
+  "dispatchTrace": {
+    "path": "REFRESH-DISPATCH.json",
+    "validation": "pass",
+    "validationPath": "DISPATCH-VALIDATION.json",
+    "repairHistory": [
+      {
+        "attempt": 1,
+        "reason": "The inventory capability reference needed installed local-extension metadata.",
+        "validation": "flag"
+      },
+      {
+        "attempt": 2,
+        "validation": "pass"
+      }
+    ]
+  },
+  "distill": {
+    "state": "skipped",
+    "reason": "The delta is a narrow dependency-order repair with one stable predecessor and no new product behavior."
+  },
+  "executionPath": [
+    "SWU-CAPI-000",
+    "SWU-CAPI-001",
+    "API-RUNTIME-PIN-GATE",
+    "SWU-CAPI-002..SWU-CAPI-007",
+    "SWU-CAPI-008..SWU-CAPI-009"
+  ],
+  "handoffStatus": "ready",
+  "helper": {
+    "id": "craft_api_refresh_delta",
+    "mode": "bounded-read-only",
+    "receipt": "helper-receipt.json",
+    "state": "closed",
+    "writes": []
+  },
+  "inventory": {
+    "failures": 0,
+    "lookupReadiness": "ready",
+    "warnings": 146
+  },
+  "materialPackage": {
+    "digest": "35a10a74ea21a0bca322ca850ec9715d85c3953483e64d1d872c6a3cfb45a98b",
+    "handoffResult": "material/handoff-result.json",
+    "id": "capi-refresh-wavedb-0.15.9-runtime-order-20260805T205803Z",
+    "manifest": "material/material-package.json",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "receipt": "material/material-receipt.json",
+    "schemaValid": true
+  },
+  "mode": "refresh",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "mutationReady": true,
+  "nextRoute": {
+    "first": "decision-gate",
+    "then": "task-session",
+    "unit": "SWU-CAPI-000",
+    "authorization": "separate-owner-selection-and-task-session-admission-required"
+  },
+  "observability": {
+    "dedupeKey": "invoke-refresh-capi-wavedb-0.15.9-runtime-order-20260805:signal-observer:0.1.0",
+    "envelope": ".arcanum/observability/tmp/invoke-refresh-20260805T211331Z-craft-api-wavedb-0.15.9-runtime-order.json",
+    "ledger": ".arcanum/observability/signals/sigil-invocations.jsonl",
+    "reflectionTrigger": "none",
+    "state": "recorded"
+  },
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "result": "pass",
+  "schemaVersion": "1.0.0",
+  "skippedChanges": [
+    "Craft ledger ingestion",
+    "Craft ledger migration or relabeling",
+    "API implementation",
+    "public Arcanum mutation",
+    "Git history mutation",
+    "publication",
+    "deployment"
+  ],
+  "sourceEvidence": [
+    {
+      "kind": "npm-diagnostic",
+      "path": "../../../../../experiment/source-build/npm-diagnostic/execution/npm-node26-0.15.9/npm-diagnostic-receipt.json",
+      "sha256": "6243febc06f345d0fa22b8b1210742c19e7d4cda74ca6a840e36f8d32428918c"
+    },
+    {
+      "kind": "task-session-terminal",
+      "path": "../../../../../experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/terminal-receipt.json",
+      "sha256": "eb07d1a14c4dacb30a272240057432c87f8acc430a6b064e0096f99e6107553c"
+    },
+    {
+      "kind": "historical-craft-import",
+      "path": "../../../../../experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json",
+      "sha256": "97dd371843771bf752124fbe7d6cbc886d785128ab690dc31da48813d228810f"
+    }
+  ],
+  "sourceSignals": 4,
+  "targetArtifacts": [
+    {
+      "path": "../../WORK-PACK.md",
+      "sha256": "499c2f102b0485b0450fd0bc8bf1895817f7704793789a839b864a491071669d"
+    },
+    {
+      "path": "../../work-pack/tasks/TASK-RUNTIME.md",
+      "sha256": "e635aa9fd50b70ad16423801f0b44f7668bba318e31820c2da42cdf66431e13f"
+    },
+    {
+      "path": "../../work-pack/waves/W1.md",
+      "sha256": "76d0c87a122506deb7326c5d1cc182296f93eef124f86f26f600fc47f06147f8"
+    },
+    {
+      "path": "../../EXECUTION-PACK.md",
+      "sha256": "cdcb56bf0568b7afcc41dcd32d97fbc1c9c5e9316f9e6cb95f9b3bfbe01d6aa7"
+    }
+  ],
+  "targetLifecycleStatus": "blocked",
+  "validation": [
+    "dispatch-spec-pass-no-flags-or-blocks",
+    "material-package-schema-pass",
+    "material-patch-verdict-pass",
+    "material-owner-and-publication-boundaries-pass",
+    "handoff-resolver-ready",
+    "four-live-targets-byte-identical-to-material-outputs",
+    "stable-swu-ids-000-through-009",
+    "work-pack-gate-blocked-and-allowed-routes-empty",
+    "wavedb-0.15.9-runtime-pins-present",
+    "all-refresh-json-parses",
+    "scoped-trailing-whitespace-pass",
+    "prior-receipt-hashes-unchanged",
+    "craft-ledger-and-api-implementation-untouched",
+    "git-head-unchanged"
+  ]
+}

@@ -1,0 +1,5 @@
+RECOMMEND_ACCEPT
+STATUS: pass
+VALIDATION: pass
+BLOCKERS: []
+ARTIFACTS: [receipts/auditor.json]

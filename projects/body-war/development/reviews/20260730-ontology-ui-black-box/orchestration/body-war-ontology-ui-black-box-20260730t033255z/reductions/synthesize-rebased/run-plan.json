@@ -1,0 +1,85 @@
+{
+  "action_artifacts": [
+    "actions/spawn-0005.json",
+    "actions/spawn-0006.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0005",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s3"
+      ],
+      "capability_ref": "review",
+      "dispatch_id": "2026-07-30-body-war-ontology-ui-black-box-review-route",
+      "forbidden_write_scopes": [
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/",
+        "projects/body-war/ontology/"
+      ],
+      "input_refs": [
+        "receipts/synthesis.json"
+      ],
+      "mode": "verify",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/verifier-proxy-validity.json"
+      ],
+      "role": "proxy-validity-verifier",
+      "run_id": "body-war-ontology-ui-black-box-20260730t033255z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s3",
+      "target": "projects/body-war/development/reviews/20260730-ontology-ui-black-box/",
+      "wave_id": "verify",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0006",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s3"
+      ],
+      "capability_ref": "review",
+      "dispatch_id": "2026-07-30-body-war-ontology-ui-black-box-review-route",
+      "forbidden_write_scopes": [
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/",
+        "projects/body-war/ontology/"
+      ],
+      "input_refs": [
+        "receipts/synthesis.json"
+      ],
+      "mode": "verify",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/verifier-semantic-authority.json"
+      ],
+      "role": "semantic-authority-verifier",
+      "run_id": "body-war-ontology-ui-black-box-20260730t033255z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s3",
+      "target": "projects/body-war/development/reviews/20260730-ontology-ui-black-box/",
+      "wave_id": "verify",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "2026-07-30-body-war-ontology-ui-black-box-review-route",
+  "run_id": "body-war-ontology-ui-black-box-20260730t033255z",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [],
+    "gate_after": "g-verification-receipts",
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": true,
+    "role_ids": [
+      "proxy-validity-verifier",
+      "semantic-authority-verifier"
+    ],
+    "wave_id": "verify"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}

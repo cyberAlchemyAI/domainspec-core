@@ -1,0 +1,29 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "wavedb-source-build-invoke-owner",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "e962126022d6f2bd3c695bd4abd1b53d9ac52acb11b510f25af2bc560a92b8f8",
+  "packageId": "wavedb-reviewed-source-build:node26-retry-20260805",
+  "patchVerdict": "pass",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/EXECUTION-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/node26-retry.dispatch.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/shared/cross-task-gaps.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/shared/traceability.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-03-NODE26.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md"
+  ],
+  "validationCommands": [
+    ".agents/skills/dispatch-spec/scripts/validate-dispatch.py ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/node26-retry.dispatch.json --json",
+    "rg -n 'selectedSWU.*SWU-WCSB-003|Selected: yes|v26[.]6[.]0|11[.]18[.]0|wcsb-20260805-node26-01' ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan",
+    "jq -e . ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/node26-retry.dispatch.json",
+    "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan"
+  ]
+}

@@ -1,0 +1,2266 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Body War Business Ontology" [level=1] [ref=e6]
+      - generic [ref=e8]:
+        - button "Overview" [ref=e9] [cursor=pointer]
+        - button "Learn" [ref=e10] [cursor=pointer]
+        - button "Deep Dive" [ref=e11] [cursor=pointer]
+    - generic [ref=e13]:
+      - button "Diff OFF" [disabled] [ref=e15] [cursor=pointer]
+      - button "All" [ref=e17] [cursor=pointer]: All
+      - generic [ref=e19]:
+        - generic [ref=e20]: Bounded Context
+        - generic [ref=e21]:
+          - generic [ref=e24]:
+            - text: Actor
+            - generic [ref=e25]: (12)
+          - generic [ref=e28]:
+            - text: Bounded Context
+            - generic [ref=e29]: (12)
+          - generic [ref=e32]:
+            - text: Capability
+            - generic [ref=e33]: (18)
+          - generic [ref=e36]:
+            - text: Entity
+            - generic [ref=e37]: (16)
+          - generic [ref=e40]:
+            - text: Event
+            - generic [ref=e41]: (18)
+          - generic [ref=e44]:
+            - text: External System
+            - generic [ref=e45]: (1)
+          - generic [ref=e48]:
+            - text: Interface
+            - generic [ref=e49]: (4)
+          - generic [ref=e52]:
+            - text: Ledger
+            - generic [ref=e53]: (1)
+          - generic [ref=e56]:
+            - text: Lifecycle State
+            - generic [ref=e57]: (58)
+          - generic [ref=e60]:
+            - text: Metric
+            - generic [ref=e61]: (3)
+          - generic [ref=e64]:
+            - text: Operation
+            - generic [ref=e65]: (32)
+          - generic [ref=e68]:
+            - text: Outcome
+            - generic [ref=e69]: (2)
+          - generic [ref=e72]:
+            - text: Policy
+            - generic [ref=e73]: (11)
+          - generic [ref=e76]:
+            - text: Premise
+            - generic [ref=e77]: (10)
+          - generic [ref=e80]:
+            - text: Query
+            - generic [ref=e81]: (17)
+          - generic [ref=e84]:
+            - text: Value Object
+            - generic [ref=e85]: (17)
+          - generic [ref=e88]:
+            - text: Workflow
+            - generic [ref=e89]: (5)
+    - generic [ref=e90]:
+      - button "Filter" [ref=e92] [cursor=pointer]:
+        - img [ref=e93]
+        - text: Filter
+      - button "Export" [ref=e96] [cursor=pointer]:
+        - img [ref=e97]
+        - text: Export
+      - button "Path" [ref=e99] [cursor=pointer]:
+        - img [ref=e100]
+        - generic [ref=e102]: Path
+      - button "Theme" [ref=e104] [cursor=pointer]:
+        - img [ref=e105]
+        - generic [ref=e111]: Theme
+      - button "Show keyboard shortcuts" [ref=e112] [cursor=pointer]:
+        - img [ref=e113]
+  - generic [ref=e116]:
+    - img [ref=e117]
+    - textbox "Search nodes by name, summary, or tags..." [ref=e119]: SuggestedTrack
+    - generic [ref=e120]:
+      - button "Fuzzy" [ref=e121] [cursor=pointer]
+      - button "Semantic" [ref=e122] [cursor=pointer]
+    - generic [ref=e3737]:
+      - text: 22 results
+      - generic [ref=e3738]: (fuzzy)
+  - button "Knowledge graph freshness could not be verified The knowledge graph references a commit that is not available in this checkout. Run /understand to refresh it before relying on impact or onboarding answers." [ref=e124] [cursor=pointer]:
+    - img [ref=e125]
+    - generic [ref=e127]:
+      - generic [ref=e128]: Knowledge graph freshness could not be verified
+      - generic [ref=e129]: The knowledge graph references a commit that is not available in this checkout.
+      - generic [ref=e130]: Run /understand to refresh it before relying on impact or onboarding answers.
+  - generic [ref=e131]:
+    - generic [ref=e132]:
+      - application [ref=e134]:
+        - generic [ref=e136]:
+          - generic:
+            - generic:
+              - img:
+                - group "Edge from presentation:body-war.business.entity.run-activity to presentation:body-war.business.value.redacted-activity-summary" [ref=e5981] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.attach-activity-evidence-candidate to presentation:body-war.business.entity.suggested-track" [ref=e5984] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.attach-activity-evidence-candidate to presentation:body-war.business.entity.activity-evidence-candidate" [ref=e5987] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.auth.anonymous to presentation:body-war.business.state.auth.connected" [ref=e5990] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.auth.connected to presentation:body-war.business.state.auth.revoked" [ref=e5993] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.authenticate-via-strava to presentation:body-war.business.operation.complete-strava-oauth" [ref=e5996] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.authenticate-via-strava to presentation:body-war.business.operation.start-strava-oauth" [ref=e5999] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.calculate-score-preview to presentation:body-war.business.policy.score-policy" [ref=e6002] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.calculate-score-preview to presentation:body-war.business.value.score-input-snapshot" [ref=e6005] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.calculate-score-preview to presentation:body-war.business.event.score-preview-calculated" [ref=e6008] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.calculate-score-preview to presentation:body-war.business.outcome.score-preview" [ref=e6011] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.activity-evidence-candidate to presentation:body-war.business.entity.geometry-candidate" [ref=e6014] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.activity-evidence-candidate to presentation:body-war.business.entity.suggested-track" [ref=e6017] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.activity-import to presentation:body-war.business.capability.auth-consent" [ref=e6020] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.suggested-track-creation to presentation:body-war.business.capability.auth-consent" [ref=e6023] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.evidence-candidate-attach to presentation:body-war.business.capability.suggested-track-discovery" [ref=e6026] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.evidence-candidate-attach to presentation:body-war.business.capability.activity-import" [ref=e6029] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.activity-geometry to presentation:body-war.business.capability.evidence-candidate-attach" [ref=e6032] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.activity-geometry to presentation:body-war.business.capability.auth-consent" [ref=e6035] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.score-preview to presentation:body-war.business.capability.activity-geometry" [ref=e6038] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.score-preview to presentation:body-war.business.capability.score-xp" [ref=e6041] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.evidence-submission to presentation:body-war.business.capability.auth-consent" [ref=e6044] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.evidence-submission to presentation:body-war.business.capability.activity-import" [ref=e6047] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.control-ownership to presentation:body-war.business.capability.evidence-submission" [ref=e6050] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.score-xp to presentation:body-war.business.capability.evidence-submission" [ref=e6053] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.rankings-seasons to presentation:body-war.business.capability.score-xp" [ref=e6056] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.notifications to presentation:body-war.business.capability.control-ownership" [ref=e6059] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.pilot-operations to presentation:body-war.business.capability.evidence-submission" [ref=e6062] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.capability.suggested-track-discovery to presentation:body-war.business.capability.auth-consent" [ref=e6065] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.challenge.active to presentation:body-war.business.state.challenge.complete" [ref=e6068] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.challenge.available to presentation:body-war.business.state.challenge.active" [ref=e6071] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.challenge to presentation:body-war.business.metric.profile-xp" [ref=e6074] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.challenge.complete to presentation:body-war.business.state.challenge.rewarded" [ref=e6077] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.clan to presentation:body-war.business.actor.clan-member" [ref=e6080] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.clan-member to presentation:body-war.business.entity.territory-unit" [ref=e6083] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.confirm-track-with-activity to presentation:body-war.business.entity.run-activity" [ref=e6086] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.confirm-track-with-activity to presentation:body-war.business.entity.suggested-track" [ref=e6089] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.confirm-track-with-activity to presentation:body-war.business.policy.consent-contract" [ref=e6092] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.confirm-track-with-activity to presentation:body-war.business.entity.runner-confirmation" [ref=e6095] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.confirm-track-with-activity to presentation:body-war.business.event.runner-confirmed-track-activity" [ref=e6098] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.runner-confirmation to presentation:body-war.business.policy.consent-contract" [ref=e6101] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.runner-confirmation to presentation:body-war.business.entity.activity-evidence-candidate" [ref=e6104] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.connected-runner to presentation:body-war.business.entity.runner-confirmation" [ref=e6107] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.connected-runner to presentation:body-war.business.entity.suggested-track" [ref=e6110] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.identity-consent to presentation:body-war.business.capability.auth-consent" [ref=e6113] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.pilot-operations to presentation:body-war.business.capability.notifications" [ref=e6116] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.pilot-operations to presentation:body-war.business.capability.pilot-operations" [ref=e6119] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.monetization-sponsored-zones to presentation:body-war.business.capability.sponsored-zones" [ref=e6122] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.monetization-sponsored-zones to presentation:body-war.business.capability.economy" [ref=e6125] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.route-expansion to presentation:body-war.business.capability.suggested-track-discovery" [ref=e6128] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.route-expansion to presentation:body-war.business.capability.suggested-track-creation" [ref=e6131] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.route-expansion to presentation:body-war.business.capability.evidence-candidate-attach" [ref=e6134] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.geometry-evidence to presentation:body-war.business.capability.activity-geometry" [ref=e6137] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.score-preview to presentation:body-war.business.capability.score-preview" [ref=e6140] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.activity-evidence to presentation:body-war.business.capability.activity-import" [ref=e6143] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.activity-evidence to presentation:body-war.business.capability.evidence-submission" [ref=e6146] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.territory-catalog to presentation:body-war.business.capability.track-territory-catalog" [ref=e6149] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.control-competition to presentation:body-war.business.capability.control-ownership" [ref=e6152] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.progression to presentation:body-war.business.capability.score-xp" [ref=e6155] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.progression to presentation:body-war.business.capability.rankings-seasons" [ref=e6158] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.community to presentation:body-war.business.capability.challenges-missions" [ref=e6161] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.context.community to presentation:body-war.business.capability.community-clans" [ref=e6164] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.controller.verified-controlled to presentation:body-war.business.state.controller.contested" [ref=e6167] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.value.controller-state to presentation:body-war.business.value.controller-metric" [ref=e6170] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.compute-controller to presentation:body-war.business.policy.controller-selection" [ref=e6173] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.controller.neutral to presentation:body-war.business.state.controller.preview-controlled" [ref=e6176] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.controller.neutral to presentation:body-war.business.state.controller.verified-controlled" [ref=e6179] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.value.controller-state to presentation:body-war.business.entity.territory-unit" [ref=e6182] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.value.controller-state to presentation:body-war.business.value.control-basis" [ref=e6185] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.create-suggested-track to presentation:body-war.business.entity.suggested-track" [ref=e6188] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.derive-geometry-candidate to presentation:body-war.business.value.activity-geometry-sample" [ref=e6191] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.derive-geometry-candidate to presentation:body-war.business.event.geometry-derived" [ref=e6194] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.derive-geometry-candidate to presentation:body-war.business.entity.geometry-candidate" [ref=e6197] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.get-suggested-track-detail to presentation:body-war.business.entity.activity-evidence-candidate" [ref=e6200] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.get-suggested-track-detail to presentation:body-war.business.entity.suggested-track" [ref=e6203] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.fetch-selected-activity-geometry to presentation:body-war.business.entity.runner-confirmation" [ref=e6206] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.fetch-selected-activity-geometry to presentation:body-war.business.value.activity-geometry-sample" [ref=e6209] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.geometry-candidate.absent to presentation:body-war.business.state.geometry-candidate.fetch-pending" [ref=e6212] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.geometry-candidate to presentation:body-war.business.value.activity-geometry-sample" [ref=e6215] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.geometry-candidate to presentation:body-war.business.outcome.source-backed-track" [ref=e6218] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.geometry-candidate.fetch-pending to presentation:body-war.business.state.geometry-candidate.derived-candidate" [ref=e6221] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.geometry-candidate.fetch-pending to presentation:body-war.business.state.geometry-candidate.unavailable" [ref=e6224] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.derive-geometry-candidate to presentation:body-war.business.policy.geometry-privacy" [ref=e6227] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.geometry-candidate to presentation:body-war.business.value.score-input-snapshot" [ref=e6230] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.interface.http-api to presentation:body-war.business.query.auth-status" [ref=e6233] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.interface.http-api to presentation:body-war.business.operation.submit-evidence" [ref=e6236] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.interface.http-api to presentation:body-war.business.query.track-list" [ref=e6239] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.invader to presentation:body-war.business.entity.territory-unit" [ref=e6242] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.invasion to presentation:body-war.business.entity.ownership-record" [ref=e6245] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.invasion to presentation:body-war.business.value.defense-window" [ref=e6248] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.invasion to presentation:body-war.business.policy.ownership-eligibility" [ref=e6251] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.interface.score-preview-journey-api to presentation:body-war.business.query.score-preview-journey" [ref=e6254] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.interface.score-preview-journey-api to presentation:body-war.business.workflow.login-to-score-preview" [ref=e6257] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.score-preview-journey to presentation:body-war.business.entity.runner-confirmation" [ref=e6260] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.score-preview-journey to presentation:body-war.business.entity.geometry-candidate" [ref=e6263] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.score-preview-journey to presentation:body-war.business.outcome.score-preview" [ref=e6266] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.latest-score-preview to presentation:body-war.business.outcome.score-preview" [ref=e6269] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.list-suggested-tracks to presentation:body-war.business.entity.suggested-track" [ref=e6272] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.dispatch-notification to presentation:body-war.business.policy.notification-privacy" [ref=e6275] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.start-strava-oauth to presentation:body-war.business.actor.anonymous-visitor" [ref=e6278] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.upsert-territory to presentation:body-war.business.entity.territory-unit" [ref=e6281] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.upsert-territory to presentation:body-war.business.event.territory-published" [ref=e6284] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.submit-evidence to presentation:body-war.business.entity.run-activity" [ref=e6287] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.submit-evidence to presentation:body-war.business.entity.territory-unit" [ref=e6290] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.submit-evidence to presentation:body-war.business.entity.evidence-submission" [ref=e6293] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.submit-evidence to presentation:body-war.business.event.evidence-submitted" [ref=e6296] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.auto-accept-preview-evidence to presentation:body-war.business.entity.evidence-submission" [ref=e6299] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.auto-accept-preview-evidence to presentation:body-war.business.event.evidence-preview-accepted" [ref=e6302] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.review-evidence to presentation:body-war.business.entity.evidence-submission" [ref=e6305] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.review-evidence to presentation:body-war.business.event.evidence-verified" [ref=e6308] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.start-strava-oauth to presentation:body-war.business.state.auth.anonymous" [ref=e6311] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.review-evidence to presentation:body-war.business.event.evidence-rejected" [ref=e6314] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.compute-controller to presentation:body-war.business.entity.evidence-submission" [ref=e6317] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.compute-controller to presentation:body-war.business.value.controller-state" [ref=e6320] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.compute-controller to presentation:body-war.business.event.controller-updated" [ref=e6323] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.open-invasion to presentation:body-war.business.entity.ownership-record" [ref=e6326] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.open-invasion to presentation:body-war.business.entity.invasion" [ref=e6329] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.open-invasion to presentation:body-war.business.event.invasion-opened" [ref=e6332] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.defend-territory to presentation:body-war.business.entity.invasion" [ref=e6335] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.defend-territory to presentation:body-war.business.event.defense-succeeded" [ref=e6338] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.calculate-zone-score to presentation:body-war.business.policy.score-policy" [ref=e6341] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.complete-strava-oauth to presentation:body-war.business.entity.provider-account" [ref=e6344] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.calculate-zone-score to presentation:body-war.business.metric.zone-score" [ref=e6347] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.award-xp to presentation:body-war.business.event.xp-awarded" [ref=e6350] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.award-xp to presentation:body-war.business.ledger.xp-ledger" [ref=e6353] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.join-challenge to presentation:body-war.business.entity.challenge" [ref=e6356] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.complete-challenge to presentation:body-war.business.event.challenge-completed" [ref=e6359] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.create-clan to presentation:body-war.business.entity.clan" [ref=e6362] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.join-clan to presentation:body-war.business.entity.clan" [ref=e6365] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.snapshot-season to presentation:body-war.business.entity.ranking-snapshot" [ref=e6368] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.snapshot-season to presentation:body-war.business.event.season-snapshot-closed" [ref=e6371] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.dispatch-notification to presentation:body-war.business.entity.notification" [ref=e6374] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.complete-strava-oauth to presentation:body-war.business.event.provider-connected" [ref=e6377] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.activate-sponsored-zone to presentation:body-war.business.entity.sponsored-zone" [ref=e6380] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.purchase-economy-item to presentation:body-war.business.value.runcoin" [ref=e6383] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.complete-strava-oauth to presentation:body-war.business.state.auth.connected" [ref=e6386] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.logout to presentation:body-war.business.event.provider-access-revoked" [ref=e6389] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.import-activities to presentation:body-war.business.entity.provider-account" [ref=e6392] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.import-activities to presentation:body-war.business.entity.run-activity" [ref=e6395] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.import-activities to presentation:body-war.business.event.activities-imported" [ref=e6398] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.prototype-operator to presentation:body-war.business.operation.review-evidence" [ref=e6401] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.zone-owner to presentation:body-war.business.entity.territory-unit" [ref=e6404] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.ownership-record to presentation:body-war.business.policy.caducity" [ref=e6407] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.track-policy-owner to presentation:body-war.business.policy.score-policy" [ref=e6410] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.outcome.score-preview to presentation:body-war.business.outcome.source-backed-track" [ref=e6413] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.outcome.score-preview to presentation:body-war.business.policy.score-policy" [ref=e6416] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.auto-accept-preview-evidence to presentation:body-war.business.policy.preview-evidence" [ref=e6419] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.project-score-preview to presentation:body-war.business.outcome.score-preview" [ref=e6422] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.runner to presentation:body-war.business.entity.provider-account" [ref=e6425] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.provider-account to presentation:body-war.business.entity.run-activity" [ref=e6428] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.auth-status to presentation:body-war.business.actor.connected-runner" [ref=e6431] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.clan-summary to presentation:body-war.business.entity.clan" [ref=e6434] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.rankings to presentation:body-war.business.metric.seasonal-ranking" [ref=e6437] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.notifications to presentation:body-war.business.entity.notification" [ref=e6440] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.operator-queue to presentation:body-war.business.entity.evidence-submission" [ref=e6443] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.home-summary to presentation:body-war.business.value.controller-state" [ref=e6446] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.activity-list to presentation:body-war.business.entity.run-activity" [ref=e6449] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.track-list to presentation:body-war.business.entity.territory-unit" [ref=e6452] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.track-detail to presentation:body-war.business.entity.territory-unit" [ref=e6455] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.current-controller to presentation:body-war.business.value.controller-state" [ref=e6458] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.evidence-list to presentation:body-war.business.entity.evidence-submission" [ref=e6461] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.profile-summary to presentation:body-war.business.metric.profile-xp" [ref=e6464] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.query.active-challenges to presentation:body-war.business.entity.challenge" [ref=e6467] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.anti-cheat-reviewer to presentation:body-war.business.entity.evidence-submission" [ref=e6470] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.runner to presentation:body-war.business.actor.connected-runner" [ref=e6473] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.runner to presentation:body-war.business.entity.provider-account" [ref=e6476] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.runner to presentation:body-war.business.context.community" [ref=e6479] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.score-preview.calculation-pending to presentation:body-war.business.state.score-preview.available" [ref=e6482] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.score-preview.calculation-pending to presentation:body-war.business.state.score-preview.failed" [ref=e6485] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.outcome.score-preview to presentation:body-war.business.metric.zone-score" [ref=e6488] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.score-preview.snapshot-pending to presentation:body-war.business.state.score-preview.calculation-pending" [ref=e6491] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.score-preview.snapshot-pending to presentation:body-war.business.state.score-preview.incomplete-projection" [ref=e6494] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.score-preview.unavailable to presentation:body-war.business.state.score-preview.snapshot-pending" [ref=e6497] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.season.active to presentation:body-war.business.state.season.closing" [ref=e6500] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.season.closing to presentation:body-war.business.state.season.closed" [ref=e6503] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.season to presentation:body-war.business.metric.seasonal-ranking" [ref=e6506] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.season.preseason to presentation:body-war.business.state.season.active" [ref=e6509] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.ensure-default-suggested-tracks to presentation:body-war.business.entity.suggested-track" [ref=e6512] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.select-suggested-track to presentation:body-war.business.entity.suggested-track" [ref=e6515] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.build-score-input-snapshot to presentation:body-war.business.entity.geometry-candidate" [ref=e6518] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.build-score-input-snapshot to presentation:body-war.business.policy.score-policy" [ref=e6521] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.build-score-input-snapshot to presentation:body-war.business.policy.activity-eligibility" [ref=e6524] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.build-score-input-snapshot to presentation:body-war.business.policy.score-history" [ref=e6527] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.value.score-input-snapshot to presentation:body-war.business.policy.score-policy" [ref=e6530] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.build-score-input-snapshot to presentation:body-war.business.event.score-input-snapshotted" [ref=e6533] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.value.score-input-snapshot to presentation:body-war.business.outcome.score-preview" [ref=e6536] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.build-score-input-snapshot to presentation:body-war.business.value.score-input-snapshot" [ref=e6539] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.sponsor-partner to presentation:body-war.business.entity.sponsored-zone" [ref=e6542] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.sponsored-zone to presentation:body-war.business.entity.territory-unit" [ref=e6545] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.interface.strava-provider-boundary to presentation:body-war.business.operation.authenticate-via-strava" [ref=e6548] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.interface.strava-provider-boundary to presentation:body-war.business.operation.import-activities" [ref=e6551] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.external.strava to presentation:body-war.business.entity.run-activity" [ref=e6554] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.external.strava to presentation:body-war.business.value.activity-geometry-sample" [ref=e6557] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.submission.draft to presentation:body-war.business.state.submission.submitted" [ref=e6560] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.operation.review-evidence to presentation:body-war.business.policy.anti-cheat" [ref=e6563] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.evidence-submission to presentation:body-war.business.value.submission-status" [ref=e6566] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.submission.submitted to presentation:body-war.business.state.submission.preview-accepted" [ref=e6569] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.submission.submitted to presentation:body-war.business.state.submission.rejected" [ref=e6572] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.submission.submitted to presentation:body-war.business.state.submission.verified" [ref=e6575] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.evidence-submission to presentation:body-war.business.entity.territory-unit" [ref=e6578] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.interface.suggested-track-api to presentation:body-war.business.operation.attach-activity-evidence-candidate" [ref=e6581] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.interface.suggested-track-api to presentation:body-war.business.operation.create-suggested-track" [ref=e6584] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.interface.suggested-track-api to presentation:body-war.business.query.list-suggested-tracks" [ref=e6587] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.suggested-track.needs-evidence to presentation:body-war.business.state.suggested-track.evidence-submitted" [ref=e6590] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.suggested-track.operator-review to presentation:body-war.business.state.suggested-track.source-backed" [ref=e6593] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.state.suggested-track.evidence-submitted to presentation:body-war.business.state.suggested-track.operator-review" [ref=e6596] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.suggested-track to presentation:body-war.business.entity.territory-unit" [ref=e6599] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.entity.territory-unit to presentation:body-war.business.value.track-geometry" [ref=e6602] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.actor.anonymous-visitor to presentation:body-war.business.workflow.login-to-score-preview" [ref=e6605] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.run-to-control to presentation:body-war.business.operation.import-activities" [ref=e6608] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.seasonal-progression to presentation:body-war.business.operation.snapshot-season" [ref=e6611] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.suggested-track-expansion to presentation:body-war.business.operation.create-suggested-track" [ref=e6614] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.suggested-track-expansion to presentation:body-war.business.operation.attach-activity-evidence-candidate" [ref=e6617] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.login-to-score-preview to presentation:body-war.business.operation.authenticate-via-strava" [ref=e6620] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.login-to-score-preview to presentation:body-war.business.operation.select-suggested-track" [ref=e6623] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.login-to-score-preview to presentation:body-war.business.operation.confirm-track-with-activity" [ref=e6626] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.login-to-score-preview to presentation:body-war.business.operation.fetch-selected-activity-geometry" [ref=e6629] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.login-to-score-preview to presentation:body-war.business.operation.derive-geometry-candidate" [ref=e6632] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.login-to-score-preview to presentation:body-war.business.operation.build-score-input-snapshot" [ref=e6635] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.login-to-score-preview to presentation:body-war.business.operation.calculate-score-preview" [ref=e6638] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.run-to-control to presentation:body-war.business.operation.submit-evidence" [ref=e6641] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.login-to-score-preview to presentation:body-war.business.operation.project-score-preview" [ref=e6644] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.run-to-control to presentation:body-war.business.operation.auto-accept-preview-evidence" [ref=e6647] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.run-to-control to presentation:body-war.business.operation.review-evidence" [ref=e6650] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.run-to-control to presentation:body-war.business.operation.compute-controller" [ref=e6653] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.invasion-defense to presentation:body-war.business.operation.open-invasion" [ref=e6656] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.invasion-defense to presentation:body-war.business.operation.defend-territory" [ref=e6659] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.invasion-defense to presentation:body-war.business.operation.dispatch-notification" [ref=e6662] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.workflow.seasonal-progression to presentation:body-war.business.operation.award-xp" [ref=e6665] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.ledger.xp-ledger to presentation:body-war.business.metric.profile-xp" [ref=e6668] [cursor=pointer]
+              - img:
+                - group "Edge from presentation:body-war.business.metric.zone-score to presentation:body-war.business.policy.score-policy" [ref=e6671] [cursor=pointer]
+            - generic:
+              - group [ref=e830]:
+                - generic [ref=e834] [cursor=pointer]:
+                  - generic [ref=e835]:
+                    - generic [ref=e836]: claim
+                    - generic [ref=e838]: simple
+                  - generic "Anonymous Visitor" [ref=e839]
+                  - generic [ref=e840]: A person without a Body War session who may understand the entry point and begin Strava authorization.
+              - group [ref=e842]:
+                - generic [ref=e846] [cursor=pointer]:
+                  - generic [ref=e847]:
+                    - generic [ref=e848]: claim
+                    - generic [ref=e850]: simple
+                  - generic "Anti-Cheat Reviewer" [ref=e851]
+                  - generic [ref=e852]: An operator role that reviews evidence anomalies and validation residue before verified use.
+              - group [ref=e854]:
+                - generic [ref=e858] [cursor=pointer]:
+                  - generic [ref=e859]:
+                    - generic [ref=e860]: claim
+                    - generic [ref=e862]: simple
+                  - generic "City or Community Operator" [ref=e863]: City or Community Oper...
+                  - generic [ref=e864]: A deferred local operator role for city rollout, community governance, or park operations.
+              - group [ref=e866]:
+                - generic [ref=e870] [cursor=pointer]:
+                  - generic [ref=e871]:
+                    - generic [ref=e872]: claim
+                    - generic [ref=e874]: simple
+                  - generic "Clan Member" [ref=e875]
+                  - generic [ref=e876]: A runner with one active clan membership who may contribute or defend under clan policy.
+              - group [ref=e878]:
+                - generic [ref=e882] [cursor=pointer]:
+                  - generic [ref=e883]:
+                    - generic [ref=e884]: claim
+                    - generic [ref=e886]: moderate
+                  - generic "Connected Runner" [ref=e887]
+                  - generic [ref=e888]: A runner with an active Body War browser session and a linked Strava provider account.
+              - group [ref=e890]:
+                - generic [ref=e894] [cursor=pointer]:
+                  - generic [ref=e895]:
+                    - generic [ref=e896]: claim
+                    - generic [ref=e898]: simple
+                  - generic "Invader" [ref=e899]
+                  - generic [ref=e900]: A runner submitting eligible evidence to challenge current territory control.
+              - group [ref=e902]:
+                - generic [ref=e906] [cursor=pointer]:
+                  - generic [ref=e907]:
+                    - generic [ref=e908]: claim
+                    - generic [ref=e910]: simple
+                  - generic "Body War Product Team" [ref=e911]
+                  - generic [ref=e912]: The team that owns product scope, declared contracts, and the route to implementation decisions.
+              - group [ref=e914]:
+                - generic [ref=e918] [cursor=pointer]:
+                  - generic [ref=e919]:
+                    - generic [ref=e920]: claim
+                    - generic [ref=e922]: simple
+                  - generic "Prototype Operator" [ref=e923]
+                  - generic [ref=e924]: An operator who configures prototype fixtures and witnesses without gaining route or score promotion authority.
+              - group [ref=e926]:
+                - generic [ref=e930] [cursor=pointer]:
+                  - generic [ref=e931]:
+                    - generic [ref=e932]: claim
+                    - generic [ref=e934]: moderate
+                  - generic "Runner" [ref=e935]
+                  - generic [ref=e936]: A person using Body War to turn running activity into game evidence, progression, and community participation.
+              - group [ref=e938]:
+                - generic [ref=e942] [cursor=pointer]:
+                  - generic [ref=e943]:
+                    - generic [ref=e944]: claim
+                    - generic [ref=e946]: simple
+                  - generic "Sponsor Partner" [ref=e947]
+                  - generic [ref=e948]: A deferred partner role associated with sponsored zones and activation rules.
+              - group [ref=e950]:
+                - generic [ref=e954] [cursor=pointer]:
+                  - generic [ref=e955]:
+                    - generic [ref=e956]: claim
+                    - generic [ref=e958]: simple
+                  - generic "Track and Policy Owner" [ref=e959]
+                  - generic [ref=e960]: The owner required to ratify score normalization and later route promotion rules.
+              - group [ref=e962]:
+                - generic [ref=e966] [cursor=pointer]:
+                  - generic [ref=e967]:
+                    - generic [ref=e968]: claim
+                    - generic [ref=e970]: simple
+                  - generic "Zone Owner" [ref=e971]
+                  - generic [ref=e972]: A runner or eligible clan currently represented as controlling a territory under a declared controller basis.
+              - group [ref=e974]:
+                - generic [ref=e978] [cursor=pointer]:
+                  - generic [ref=e979]:
+                    - generic [ref=e980]: claim
+                    - generic [ref=e982]: moderate
+                  - generic "Selected Activity Geometry" [ref=e983]: Selected Activity Geom...
+                  - generic [ref=e984]: Fetch one confirmed activity's streams ephemerally and derive private candidate geometry.
+              - group [ref=e986]:
+                - generic [ref=e990] [cursor=pointer]:
+                  - generic [ref=e991]:
+                    - generic [ref=e992]: claim
+                    - generic [ref=e994]: moderate
+                  - generic "Activity Import" [ref=e995]
+                  - generic [ref=e996]: Fetch UI-safe redacted run activity summaries under the connected runner session.
+              - group [ref=e998]:
+                - generic [ref=e1002] [cursor=pointer]:
+                  - generic [ref=e1003]:
+                    - generic [ref=e1004]: claim
+                    - generic [ref=e1006]: complex
+                  - generic "Authentication and Consent" [ref=e1007]: Authentication and Con...
+                  - generic [ref=e1008]: Connect a runner, preserve provider token custody, establish session/CSRF, and expose privacy state.
+              - group [ref=e1010]:
+                - generic [ref=e1014] [cursor=pointer]:
+                  - generic [ref=e1015]:
+                    - generic [ref=e1016]: claim
+                    - generic [ref=e1018]: simple
+                  - generic "Challenges and Missions" [ref=e1019]
+                  - generic [ref=e1020]: Enroll runners, track criteria, complete missions, and grant rewards.
+              - group [ref=e1022]:
+                - generic [ref=e1026] [cursor=pointer]:
+                  - generic [ref=e1027]:
+                    - generic [ref=e1028]: claim
+                    - generic [ref=e1030]: simple
+                  - generic "Community and Clans" [ref=e1031]
+                  - generic [ref=e1032]: Create clans, manage membership, and project group contribution.
+              - group [ref=e1034]:
+                - generic [ref=e1038] [cursor=pointer]:
+                  - generic [ref=e1039]:
+                    - generic [ref=e1040]: claim
+                    - generic [ref=e1042]: moderate
+                  - generic "Control and Ownership" [ref=e1043]
+                  - generic [ref=e1044]: Compute controller state and manage invasion/defense transitions.
+              - group [ref=e1046]:
+                - generic [ref=e1050] [cursor=pointer]:
+                  - generic [ref=e1051]:
+                    - generic [ref=e1052]: claim
+                    - generic [ref=e1054]: simple
+                  - generic "RunCoin and Premium Economy" [ref=e1055]: RunCoin and Premium Ec...
+                  - generic [ref=e1056]: Purchase or spend game currency and premium benefits.
+              - group [ref=e1058]:
+                - generic [ref=e1062] [cursor=pointer]:
+                  - generic [ref=e1063]:
+                    - generic [ref=e1064]: claim
+                    - generic [ref=e1066]: moderate
+                  - generic "Evidence Candidate Attachment" [ref=e1067]: Evidence Candidate Att...
+                  - generic [ref=e1068]: Attach one consented redacted activity summary to one SuggestedTrack for later review.
+              - group [ref=e1070]:
+                - generic [ref=e1074] [cursor=pointer]:
+                  - generic [ref=e1075]:
+                    - generic [ref=e1076]: claim
+                    - generic [ref=e1078]: complex
+                  - generic "Evidence Submission" [ref=e1079]
+                  - generic [ref=e1080]: Submit one owned run activity as evidence for one territory.
+              - group [ref=e1082]:
+                - generic [ref=e1086] [cursor=pointer]:
+                  - generic [ref=e1087]:
+                    - generic [ref=e1088]: claim
+                    - generic [ref=e1090]: simple
+                  - generic "Notifications" [ref=e1091]
+                  - generic [ref=e1092]: Dispatch privacy-safe domain-event notifications.
+              - group [ref=e1094]:
+                - generic [ref=e1098] [cursor=pointer]:
+                  - generic [ref=e1099]:
+                    - generic [ref=e1100]: claim
+                    - generic [ref=e1102]: simple
+                  - generic "Pilot Operations Capability" [ref=e1103]: Pilot Operations Capab...
+                  - generic [ref=e1104]: Review evidence and monitor pilot health without inflating preview evidence.
+              - group [ref=e1106]:
+                - generic [ref=e1110] [cursor=pointer]:
+                  - generic [ref=e1111]:
+                    - generic [ref=e1112]: claim
+                    - generic [ref=e1114]: simple
+                  - generic "Rankings and Seasons" [ref=e1115]
+                  - generic [ref=e1116]: Project rankings and close immutable seasonal snapshots.
+              - group [ref=e1118]:
+                - generic [ref=e1122] [cursor=pointer]:
+                  - generic [ref=e1123]:
+                    - generic [ref=e1124]: claim
+                    - generic [ref=e1126]: moderate
+                  - generic "Explained Score Preview" [ref=e1127]
+                  - generic [ref=e1128]: Build a canonical score input and calculate an explained preview under an exact policy.
+              - group [ref=e1130]:
+                - generic [ref=e1134] [cursor=pointer]:
+                  - generic [ref=e1135]:
+                    - generic [ref=e1136]: claim
+                    - generic [ref=e1138]: moderate
+                  - generic "Score and XP" [ref=e1139]
+                  - generic [ref=e1140]: Calculate score under declared rules and append progression awards.
+              - group [ref=e1142]:
+                - generic [ref=e1146] [cursor=pointer]:
+                  - generic [ref=e1147]:
+                    - generic [ref=e1148]: claim
+                    - generic [ref=e1150]: simple
+                  - generic "Sponsored Zones" [ref=e1151]
+                  - generic [ref=e1152]: Activate sponsored territory and sponsor-specific rules.
+              - group [ref=e1154]:
+                - generic [ref=e1158] [cursor=pointer]:
+                  - generic [ref=e1159]:
+                    - generic [ref=e1160]: claim
+                    - generic [ref=e1162]: simple
+                  - generic "Suggested Track Creation" [ref=e1163]
+                  - generic [ref=e1164]: Allow a connected runner to propose a route that begins in needs_evidence.
+              - group [ref=e1166]:
+                - generic [ref=e1170] [cursor=pointer]:
+                  - generic [ref=e1171]:
+                    - generic [ref=e1172]: claim
+                    - generic [ref=e1174]: moderate
+                  - generic "Suggested Track Discovery" [ref=e1175]: Suggested Track Discov...
+                  - generic [ref=e1176]: Show active route suggestions to connected runners with honest evidence and geometry posture.
+              - group [ref=e1178]:
+                - generic [ref=e1182] [cursor=pointer]:
+                  - generic [ref=e1183]:
+                    - generic [ref=e1184]: claim
+                    - generic [ref=e1186]: simple
+                  - generic "Track and Territory Catalog" [ref=e1187]: Track and Territory Ca...
+                  - generic [ref=e1188]: Publish and query territory metadata with honest geometry posture.
+              - group [ref=e1190]:
+                - generic [ref=e1194] [cursor=pointer]:
+                  - generic [ref=e1195]:
+                    - generic [ref=e1196]: claim
+                    - generic [ref=e1198]: simple
+                  - generic "Activity Evidence" [ref=e1199]
+                  - generic [ref=e1200]: Owns redacted run summaries and submitted activity evidence.
+              - group [ref=e1202]:
+                - generic [ref=e1206] [cursor=pointer]:
+                  - generic [ref=e1207]:
+                    - generic [ref=e1208]: claim
+                    - generic [ref=e1210]: moderate
+                  - generic "Community" [ref=e1211]
+                  - generic [ref=e1212]: Owns clans, memberships, community contribution, and social competition.
+              - group [ref=e1214]:
+                - generic [ref=e1218] [cursor=pointer]:
+                  - generic [ref=e1219]:
+                    - generic [ref=e1220]: claim
+                    - generic [ref=e1222]: simple
+                  - generic "Control and Competition" [ref=e1223]
+                  - generic [ref=e1224]: Owns controller projections, invasion, defense, and control basis.
+              - group [ref=e1226]:
+                - generic [ref=e1230] [cursor=pointer]:
+                  - generic [ref=e1231]:
+                    - generic [ref=e1232]: claim
+                    - generic [ref=e1234]: simple
+                  - generic "Candidate Geometry Evidence" [ref=e1235]: Candidate Geometry Evi...
+                  - generic [ref=e1236]: Candidate context for ephemeral provider streams and private activity-derived geometry.
+              - group [ref=e1238]:
+                - generic [ref=e1242] [cursor=pointer]:
+                  - generic [ref=e1243]:
+                    - generic [ref=e1244]: claim
+                    - generic [ref=e1246]: simple
+                  - generic "Identity and Consent" [ref=e1247]
+                  - generic [ref=e1248]: Owns runner identity, provider connection, browser session, consent, and privacy boundaries.
+              - group [ref=e1250]:
+                - generic [ref=e1254] [cursor=pointer]:
+                  - generic [ref=e1255]:
+                    - generic [ref=e1256]: claim
+                    - generic [ref=e1258]: simple
+                  - generic "Monetization and Sponsored Zones" [ref=e1259]: Monetization and Spons...
+                  - generic [ref=e1260]: Deferred context for RunCoins, premium, sponsor activation, and sponsored territory.
+              - group [ref=e1262]:
+                - generic [ref=e1266] [cursor=pointer]:
+                  - generic [ref=e1267]:
+                    - generic [ref=e1268]: claim
+                    - generic [ref=e1270]: simple
+                  - generic "Pilot Operations" [ref=e1271]
+                  - generic [ref=e1272]: Owns operator review, prototype health, and supervised pilot workflows.
+              - group [ref=e1274]:
+                - generic [ref=e1278] [cursor=pointer]:
+                  - generic [ref=e1279]:
+                    - generic [ref=e1280]: claim
+                    - generic [ref=e1282]: simple
+                  - generic "Progression" [ref=e1283]
+                  - generic [ref=e1284]: Owns profile XP, leagues, badges, streaks, and ranking contributions.
+              - group [ref=e1286]:
+                - generic [ref=e1290] [cursor=pointer]:
+                  - generic [ref=e1291]:
+                    - generic [ref=e1292]: claim
+                    - generic [ref=e1294]: moderate
+                  - generic "Suggested Track Route Expansion" [ref=e1295]: Suggested Track Route ...
+                  - generic [ref=e1296]: Owns runner-created route suggestions and consented candidate evidence without source-backed promotion.
+              - group [ref=e1298]:
+                - generic [ref=e1302] [cursor=pointer]:
+                  - generic [ref=e1303]:
+                    - generic [ref=e1304]: claim
+                    - generic [ref=e1306]: simple
+                  - generic "Run Validation and Anti-Cheat" [ref=e1307]: Run Validation and Ant...
+                  - generic [ref=e1308]: Owns evidence eligibility, review, rejection, and anti-cheat policy.
+              - group [ref=e1310]:
+                - generic [ref=e1314] [cursor=pointer]:
+                  - generic [ref=e1315]:
+                    - generic [ref=e1316]: claim
+                    - generic [ref=e1318]: simple
+                  - generic "Score Preview" [ref=e1319]
+                  - generic [ref=e1320]: Candidate context for canonical score inputs and non-authoritative explained score projections.
+              - group [ref=e1322]:
+                - generic [ref=e1326] [cursor=pointer]:
+                  - generic [ref=e1327]:
+                    - generic [ref=e1328]: claim
+                    - generic [ref=e1330]: simple
+                  - generic "Territory Catalog" [ref=e1331]
+                  - generic [ref=e1332]: Owns tracks, territory metadata, geometry posture, and route discovery.
+              - group [ref=e1334]:
+                - generic [ref=e1338] [cursor=pointer]:
+                  - generic [ref=e1339]:
+                    - generic [ref=e1340]: source
+                    - generic [ref=e1342]: complex
+                  - generic "ActivityEvidenceCandidate" [ref=e1343]: ActivityEvidenceCandid...
+                  - generic [ref=e1344]: A consenting runner's redacted Strava activity summary attached to one SuggestedTrack for later review.
+              - group [ref=e1346]:
+                - generic [ref=e1350] [cursor=pointer]:
+                  - generic [ref=e1351]:
+                    - generic [ref=e1352]: claim
+                    - generic [ref=e1354]: moderate
+                  - generic "Challenge" [ref=e1355]
+                  - generic [ref=e1356]: An eligibility-bound mission with enrollment, progress, completion evidence, and rewards.
+              - group [ref=e1358]:
+                - generic [ref=e1362] [cursor=pointer]:
+                  - generic [ref=e1363]:
+                    - generic [ref=e1364]: claim
+                    - generic [ref=e1366]: moderate
+                  - generic "Clan" [ref=e1367]
+                  - generic [ref=e1368]: A named active community group with leadership, membership, and contribution rules.
+              - group [ref=e1370]:
+                - generic [ref=e1374] [cursor=pointer]:
+                  - generic [ref=e1375]:
+                    - generic [ref=e1376]: source
+                    - generic [ref=e1378]: complex
+                  - generic "EvidenceSubmission" [ref=e1379]
+                  - generic [ref=e1380]: One runner-owned activity submitted as evidence for one territory with an auditable status.
+              - group [ref=e1382]:
+                - generic [ref=e1386] [cursor=pointer]:
+                  - generic [ref=e1387]:
+                    - generic [ref=e1388]: source
+                    - generic [ref=e1390]: complex
+                  - generic "GeometryCandidate" [ref=e1391]
+                  - generic [ref=e1392]: A normalized privacy-filtered route geometry derived from consented activity data and retained as principal-private candidate evidence.
+              - group [ref=e1394]:
+                - generic [ref=e1398] [cursor=pointer]:
+                  - generic [ref=e1399]:
+                    - generic [ref=e1400]: claim
+                    - generic [ref=e1402]: complex
+                  - generic "Invasion" [ref=e1403]
+                  - generic [ref=e1404]: A contested-control episode opened by eligible evidence against an owned territory.
+              - group [ref=e1406]:
+                - generic [ref=e1410] [cursor=pointer]:
+                  - generic [ref=e1411]:
+                    - generic [ref=e1412]: claim
+                    - generic [ref=e1414]: simple
+                  - generic "Notification" [ref=e1415]
+                  - generic [ref=e1416]: A privacy-safe message caused by a cited domain event and routed to an eligible recipient.
+              - group [ref=e1418]:
+                - generic [ref=e1422] [cursor=pointer]:
+                  - generic [ref=e1423]:
+                    - generic [ref=e1424]: source
+                    - generic [ref=e1426]: moderate
+                  - generic "Ownership Record" [ref=e1427]
+                  - generic [ref=e1428]: An auditable event-backed statement of territory controller, basis, and effective period.
+              - group [ref=e1430]:
+                - generic [ref=e1434] [cursor=pointer]:
+                  - generic [ref=e1435]:
+                    - generic [ref=e1436]: claim
+                    - generic [ref=e1438]: complex
+                  - generic "ProviderAccount" [ref=e1439]
+                  - generic [ref=e1440]: A server-custodied link between a Runner and an external provider account.
+              - group [ref=e1442]:
+                - generic [ref=e1446] [cursor=pointer]:
+                  - generic [ref=e1447]:
+                    - generic [ref=e1448]: source
+                    - generic [ref=e1450]: simple
+                  - generic "Ranking Snapshot" [ref=e1451]
+                  - generic [ref=e1452]: An immutable closing record of runner and clan standings for a season.
+              - group [ref=e1454]:
+                - generic [ref=e1458] [cursor=pointer]:
+                  - generic [ref=e1459]:
+                    - generic [ref=e1460]: source
+                    - generic [ref=e1462]: complex
+                  - generic "RunActivity" [ref=e1463]
+                  - generic [ref=e1464]: A UI-safe redacted summary of one provider activity that may be evaluated for evidence eligibility.
+              - group [ref=e1466]:
+                - generic [ref=e1470] [cursor=pointer]:
+                  - generic [ref=e1471]:
+                    - generic [ref=e1472]: source
+                    - generic [ref=e1474]: complex
+                  - generic "RunnerConfirmation" [ref=e1475]
+                  - generic [ref=e1476]: The affirmative binding of one authenticated runner, one SuggestedTrack, one owned activity, and one exact geometry-use consent contract.
+              - group [ref=e1478]:
+                - generic [ref=e1482] [cursor=pointer]:
+                  - generic [ref=e1483]:
+                    - generic [ref=e1484]: claim
+                    - generic [ref=e1486]: simple
+                  - generic "Season" [ref=e1487]
+                  - generic [ref=e1488]: A bounded ranking period whose closed snapshot is immutable while permanent progression persists.
+              - group [ref=e1490]:
+                - generic [ref=e1494] [cursor=pointer]:
+                  - generic [ref=e1495]:
+                    - generic [ref=e1496]: claim
+                    - generic [ref=e1498]: moderate
+                  - generic "Sponsored Zone" [ref=e1499]
+                  - generic [ref=e1500]: A deferred territory with sponsor-specific activation and rules.
+              - group [ref=e1502]:
+                - generic [ref=e1506] [cursor=pointer]:
+                  - generic [ref=e1507]:
+                    - generic [ref=e1508]: claim
+                    - generic [ref=e1510]: complex
+                  - generic "SuggestedTrack" [ref=e1511]
+                  - generic [ref=e1512]: A runner-visible proposed route awaiting evidence and separate source-backed promotion.
+              - group [ref=e1514]:
+                - generic [ref=e1518] [cursor=pointer]:
+                  - generic [ref=e1519]:
+                    - generic [ref=e1520]: claim
+                    - generic [ref=e1522]: complex
+                  - generic "TerritoryUnit" [ref=e1523]
+                  - generic [ref=e1524]: A controllable route, loop, segment, or later zone with metadata and geometry posture.
+              - group [ref=e1526]:
+                - generic [ref=e1530] [cursor=pointer]:
+                  - generic [ref=e1531]:
+                    - generic [ref=e1532]: source
+                    - generic [ref=e1534]: simple
+                  - generic "ActivitiesImported" [ref=e1535]
+                  - generic [ref=e1536]: A redacted activity import completed.
+              - group [ref=e1538]:
+                - generic [ref=e1542] [cursor=pointer]:
+                  - generic [ref=e1543]:
+                    - generic [ref=e1544]: source
+                    - generic [ref=e1546]: simple
+                  - generic "ChallengeCompleted" [ref=e1547]
+                  - generic [ref=e1548]: Challenge completion evidence was accepted.
+              - group [ref=e1550]:
+                - generic [ref=e1554] [cursor=pointer]:
+                  - generic [ref=e1555]:
+                    - generic [ref=e1556]: source
+                    - generic [ref=e1558]: simple
+                  - generic "ControllerUpdated" [ref=e1559]
+                  - generic [ref=e1560]: The current controller projection changed with a named basis.
+              - group [ref=e1562]:
+                - generic [ref=e1566] [cursor=pointer]:
+                  - generic [ref=e1567]:
+                    - generic [ref=e1568]: source
+                    - generic [ref=e1570]: simple
+                  - generic "DefenseSucceeded" [ref=e1571]
+                  - generic [ref=e1572]: An eligible defense completed successfully.
+              - group [ref=e1574]:
+                - generic [ref=e1578] [cursor=pointer]:
+                  - generic [ref=e1579]:
+                    - generic [ref=e1580]: source
+                    - generic [ref=e1582]: simple
+                  - generic "EvidencePreviewAccepted" [ref=e1583]
+                  - generic [ref=e1584]: Evidence was accepted only for preview projection.
+              - group [ref=e1586]:
+                - generic [ref=e1590] [cursor=pointer]:
+                  - generic [ref=e1591]:
+                    - generic [ref=e1592]: source
+                    - generic [ref=e1594]: simple
+                  - generic "EvidenceRejected" [ref=e1595]
+                  - generic [ref=e1596]: Evidence was rejected with an auditable reason.
+              - group [ref=e1598]:
+                - generic [ref=e1602] [cursor=pointer]:
+                  - generic [ref=e1603]:
+                    - generic [ref=e1604]: source
+                    - generic [ref=e1606]: simple
+                  - generic "EvidenceSubmitted" [ref=e1607]
+                  - generic [ref=e1608]: A runner-owned activity was submitted as territory evidence.
+              - group [ref=e1610]:
+                - generic [ref=e1614] [cursor=pointer]:
+                  - generic [ref=e1615]:
+                    - generic [ref=e1616]: source
+                    - generic [ref=e1618]: simple
+                  - generic "EvidenceVerified" [ref=e1619]
+                  - generic [ref=e1620]: An operator or validation system accepted evidence as verified.
+              - group [ref=e1622]:
+                - generic [ref=e1626] [cursor=pointer]:
+                  - generic [ref=e1627]:
+                    - generic [ref=e1628]: source
+                    - generic [ref=e1630]: simple
+                  - generic "Geometry Derived" [ref=e1631]
+                  - generic [ref=e1632]: A privacy-filtered candidate geometry was derived from one confirmed activity.
+              - group [ref=e1634]:
+                - generic [ref=e1638] [cursor=pointer]:
+                  - generic [ref=e1639]:
+                    - generic [ref=e1640]: source
+                    - generic [ref=e1642]: simple
+                  - generic "InvasionOpened" [ref=e1643]
+                  - generic [ref=e1644]: A territory entered contested state.
+              - group [ref=e1646]:
+                - generic [ref=e1650] [cursor=pointer]:
+                  - generic [ref=e1651]:
+                    - generic [ref=e1652]: source
+                    - generic [ref=e1654]: simple
+                  - generic "ProviderAccessRevoked" [ref=e1655]
+                  - generic [ref=e1656]: Provider or session consent was revoked.
+              - group [ref=e1658]:
+                - generic [ref=e1662] [cursor=pointer]:
+                  - generic [ref=e1663]:
+                    - generic [ref=e1664]: source
+                    - generic [ref=e1666]: simple
+                  - generic "ProviderConnected" [ref=e1667]
+                  - generic [ref=e1668]: A provider account was linked and a connected runner session established.
+              - group [ref=e1670]:
+                - generic [ref=e1674] [cursor=pointer]:
+                  - generic [ref=e1675]:
+                    - generic [ref=e1676]: source
+                    - generic [ref=e1678]: simple
+                  - generic "Runner Confirmed Track Activity" [ref=e1679]: Runner Confirmed Track...
+                  - generic [ref=e1680]: A runner affirmatively bound one track, owned activity, consent text, and geometry use.
+              - group [ref=e1682]:
+                - generic [ref=e1686] [cursor=pointer]:
+                  - generic [ref=e1687]:
+                    - generic [ref=e1688]: source
+                    - generic [ref=e1690]: simple
+                  - generic "Score Input Snapshotted" [ref=e1691]
+                  - generic [ref=e1692]: A canonical score input was persisted with exact policy, geometry, provenance, and history state.
+              - group [ref=e1694]:
+                - generic [ref=e1698] [cursor=pointer]:
+                  - generic [ref=e1699]:
+                    - generic [ref=e1700]: source
+                    - generic [ref=e1702]: simple
+                  - generic "Score Preview Calculated" [ref=e1703]
+                  - generic [ref=e1704]: An explained preview was calculated from one exact policy and canonical snapshot.
+              - group [ref=e1706]:
+                - generic [ref=e1710] [cursor=pointer]:
+                  - generic [ref=e1711]:
+                    - generic [ref=e1712]: source
+                    - generic [ref=e1714]: simple
+                  - generic "SeasonSnapshotClosed" [ref=e1715]
+                  - generic [ref=e1716]: A ranking cycle was closed into an immutable snapshot.
+              - group [ref=e1718]:
+                - generic [ref=e1722] [cursor=pointer]:
+                  - generic [ref=e1723]:
+                    - generic [ref=e1724]: source
+                    - generic [ref=e1726]: simple
+                  - generic "TerritoryPublished" [ref=e1727]
+                  - generic [ref=e1728]: Territory metadata and geometry posture were published.
+              - group [ref=e1730]:
+                - generic [ref=e1734] [cursor=pointer]:
+                  - generic [ref=e1735]:
+                    - generic [ref=e1736]: source
+                    - generic [ref=e1738]: simple
+                  - generic "XPAwarded" [ref=e1739]
+                  - generic [ref=e1740]: Profile XP was appended from a cited event.
+              - group [ref=e1742]:
+                - generic [ref=e1746] [cursor=pointer]:
+                  - generic [ref=e1747]:
+                    - generic [ref=e1748]: source
+                    - generic [ref=e1750]: simple
+                  - generic "Strava" [ref=e1751]
+                  - generic [ref=e1752]: The external provider of identity, redacted activity data, detailed activity, and permitted streams; it is not Body War lifecycle authority.
+              - group [ref=e1754]:
+                - generic [ref=e1758] [cursor=pointer]:
+                  - generic [ref=e1759]:
+                    - generic [ref=e1760]: claim
+                    - generic [ref=e1762]: moderate
+                  - generic "Body War HTTP API" [ref=e1763]
+                  - generic [ref=e1764]: The authenticated and public HTTP routes exposing queries and controlled mutations.
+              - group [ref=e1766]:
+                - generic [ref=e1770] [cursor=pointer]:
+                  - generic [ref=e1771]:
+                    - generic [ref=e1772]: claim
+                    - generic [ref=e1774]: simple
+                  - generic "Score Preview Journey API" [ref=e1775]: Score Preview Journey ...
+                  - generic [ref=e1776]: A durable command/read boundary for resumable confirmation, geometry, snapshot, and preview stages.
+              - group [ref=e1778]:
+                - generic [ref=e1782] [cursor=pointer]:
+                  - generic [ref=e1783]:
+                    - generic [ref=e1784]: claim
+                    - generic [ref=e1786]: simple
+                  - generic "Strava Provider Boundary" [ref=e1787]
+                  - generic [ref=e1788]: The server-side interface for OAuth, token custody/refresh, and redacted activity acquisition.
+              - group [ref=e1790]:
+                - generic [ref=e1794] [cursor=pointer]:
+                  - generic [ref=e1795]:
+                    - generic [ref=e1796]: claim
+                    - generic [ref=e1798]: moderate
+                  - generic "SuggestedTrack API" [ref=e1799]
+                  - generic [ref=e1800]: Authenticated routes for listing, creating, detailing, and attaching candidate evidence.
+              - group [ref=e1802]:
+                - generic [ref=e1806] [cursor=pointer]:
+                  - generic [ref=e1807]:
+                    - generic [ref=e1808]: source
+                    - generic [ref=e1810]: simple
+                  - generic "XP Ledger" [ref=e1811]
+                  - generic [ref=e1812]: An append-oriented record of profile XP grants tied to source domain events.
+              - group [ref=e1814]:
+                - generic [ref=e1818] [cursor=pointer]:
+                  - generic [ref=e1819]:
+                    - generic [ref=e1820]: claim
+                    - generic [ref=e1822]: moderate
+                  - generic "Profile XP" [ref=e1823]
+                  - generic [ref=e1824]: Permanent profile progression points awarded from cited domain events.
+              - group [ref=e1826]:
+                - generic [ref=e1830] [cursor=pointer]:
+                  - generic [ref=e1831]:
+                    - generic [ref=e1832]: claim
+                    - generic [ref=e1834]: simple
+                  - generic "Seasonal Ranking" [ref=e1835]
+                  - generic [ref=e1836]: A season-bounded ordering derived from declared runner and clan contributions.
+              - group [ref=e1838]:
+                - generic [ref=e1842] [cursor=pointer]:
+                  - generic [ref=e1843]:
+                    - generic [ref=e1844]: claim
+                    - generic [ref=e1846]: moderate
+                  - generic "Zone Score" [ref=e1847]
+                  - generic [ref=e1848]: The broader draft game metric weighted by pace, distance, and frequency with a displayed cap of 550.
+              - group [ref=e1850]:
+                - generic [ref=e1854] [cursor=pointer]:
+                  - generic [ref=e1855]:
+                    - generic [ref=e1856]: claim
+                    - generic [ref=e1858]: simple
+                  - generic "Activate Sponsored Zone" [ref=e1859]
+                  - generic [ref=e1860]: Activates sponsor-specific territory rules.
+              - group [ref=e1862]:
+                - generic [ref=e1866] [cursor=pointer]:
+                  - generic [ref=e1867]:
+                    - generic [ref=e1868]: claim
+                    - generic [ref=e1870]: moderate
+                  - generic "Attach ActivityEvidenceCandidate" [ref=e1871]: Attach ActivityEvidenc...
+                  - generic [ref=e1872]: Validates explicit consent and persists one redacted activity summary against one SuggestedTrack.
+              - group [ref=e1874]:
+                - generic [ref=e1878] [cursor=pointer]:
+                  - generic [ref=e1879]:
+                    - generic [ref=e1880]: claim
+                    - generic [ref=e1882]: moderate
+                  - generic "Authenticate Via Strava" [ref=e1883]
+                  - generic [ref=e1884]: Orchestrates OAuth start/callback, accepted scope, provider binding, session, and CSRF for the prototype.
+              - group [ref=e1886]:
+                - generic [ref=e1890] [cursor=pointer]:
+                  - generic [ref=e1891]:
+                    - generic [ref=e1892]: claim
+                    - generic [ref=e1894]: moderate
+                  - generic "Auto-Accept Preview Evidence" [ref=e1895]: Auto-Accept Preview Ev...
+                  - generic [ref=e1896]: Marks submitted evidence preview-accepted without writing verified.
+              - group [ref=e1898]:
+                - generic [ref=e1902] [cursor=pointer]:
+                  - generic [ref=e1903]:
+                    - generic [ref=e1904]: claim
+                    - generic [ref=e1906]: moderate
+                  - generic "Award XP" [ref=e1907]
+                  - generic [ref=e1908]: Appends profile XP tied to a cited source domain event.
+              - group [ref=e1910]:
+                - generic [ref=e1914] [cursor=pointer]:
+                  - generic [ref=e1915]:
+                    - generic [ref=e1916]: claim
+                    - generic [ref=e1918]: complex
+                  - generic "Build ScoreInputSnapshot" [ref=e1919]
+                  - generic [ref=e1920]: Canonically orders policy-eligible derived metrics and binds geometry, policy, provenance, and history completeness.
+              - group [ref=e1922]:
+                - generic [ref=e1926] [cursor=pointer]:
+                  - generic [ref=e1927]:
+                    - generic [ref=e1928]: claim
+                    - generic [ref=e1930]: complex
+                  - generic "Calculate ScorePreview" [ref=e1931]
+                  - generic [ref=e1932]: Consumes one canonical snapshot and one exact ratified policy to emit comparable or explicitly partial components.
+              - group [ref=e1934]:
+                - generic [ref=e1938] [cursor=pointer]:
+                  - generic [ref=e1939]:
+                    - generic [ref=e1940]: claim
+                    - generic [ref=e1942]: simple
+                  - generic "Calculate Zone Score" [ref=e1943]
+                  - generic [ref=e1944]: Calculates the broader game score once the complete policy is ratified.
+              - group [ref=e1946]:
+                - generic [ref=e1950] [cursor=pointer]:
+                  - generic [ref=e1951]:
+                    - generic [ref=e1952]: claim
+                    - generic [ref=e1954]: simple
+                  - generic "Complete Challenge" [ref=e1955]
+                  - generic [ref=e1956]: Accepts completion evidence and emits progression or reward events.
+              - group [ref=e1958]:
+                - generic [ref=e1962] [cursor=pointer]:
+                  - generic [ref=e1963]:
+                    - generic [ref=e1964]: claim
+                    - generic [ref=e1966]: moderate
+                  - generic "Complete Strava OAuth" [ref=e1967]
+                  - generic [ref=e1968]: Verifies callback state, exchanges code server-side, links provider account, and establishes session/CSRF.
+              - group [ref=e1970]:
+                - generic [ref=e1974] [cursor=pointer]:
+                  - generic [ref=e1975]:
+                    - generic [ref=e1976]: claim
+                    - generic [ref=e1978]: complex
+                  - generic "Compute Controller" [ref=e1979]
+                  - generic [ref=e1980]: Computes the current controller projection with named metric, basis, and source submission.
+              - group [ref=e1982]:
+                - generic [ref=e1986] [cursor=pointer]:
+                  - generic [ref=e1987]:
+                    - generic [ref=e1988]: claim
+                    - generic [ref=e1990]: complex
+                  - generic "Confirm Track With Activity" [ref=e1991]: Confirm Track With Act...
+                  - generic [ref=e1992]: Validates exact track, current owned activity, consent version/text, and geometry-use affirmation before attaching evidence.
+              - group [ref=e1994]:
+                - generic [ref=e1998] [cursor=pointer]:
+                  - generic [ref=e1999]:
+                    - generic [ref=e2000]: claim
+                    - generic [ref=e2002]: simple
+                  - generic "Create Clan" [ref=e2003]
+                  - generic [ref=e2004]: Creates a unique active clan and assigns its creator as leader.
+              - group [ref=e2006]:
+                - generic [ref=e2010] [cursor=pointer]:
+                  - generic [ref=e2011]:
+                    - generic [ref=e2012]: claim
+                    - generic [ref=e2014]: moderate
+                  - generic "Create SuggestedTrack" [ref=e2015]
+                  - generic [ref=e2016]: Creates a connected-runner route suggestion in needs_evidence without geometry or pilot-ready claims.
+              - group [ref=e2018]:
+                - generic [ref=e2022] [cursor=pointer]:
+                  - generic [ref=e2023]:
+                    - generic [ref=e2024]: claim
+                    - generic [ref=e2026]: moderate
+                  - generic "Defend Territory" [ref=e2027]
+                  - generic [ref=e2028]: Allows an eligible owner or clan member to respond during the defense window.
+              - group [ref=e2030]:
+                - generic [ref=e2034] [cursor=pointer]:
+                  - generic [ref=e2035]:
+                    - generic [ref=e2036]: claim
+                    - generic [ref=e2038]: complex
+                  - generic "Derive GeometryCandidate" [ref=e2039]
+                  - generic [ref=e2040]: Validates, privacy-filters, simplifies, digests, and persists principal-private candidate geometry.
+              - group [ref=e2042]:
+                - generic [ref=e2046] [cursor=pointer]:
+                  - generic [ref=e2047]:
+                    - generic [ref=e2048]: claim
+                    - generic [ref=e2050]: moderate
+                  - generic "Dispatch Notification" [ref=e2051]
+                  - generic [ref=e2052]: Sends a privacy-safe message citing its source domain event.
+              - group [ref=e2054]:
+                - generic [ref=e2058] [cursor=pointer]:
+                  - generic [ref=e2059]:
+                    - generic [ref=e2060]: claim
+                    - generic [ref=e2062]: simple
+                  - generic "Ensure Default SuggestedTracks" [ref=e2063]: Ensure Default Suggest...
+                  - generic [ref=e2064]: Idempotently seeds the Volta do Taquaral candidate as data rather than a UI branch.
+              - group [ref=e2066]:
+                - generic [ref=e2070] [cursor=pointer]:
+                  - generic [ref=e2071]:
+                    - generic [ref=e2072]: claim
+                    - generic [ref=e2074]: moderate
+                  - generic "Fetch Selected Activity Geometry" [ref=e2075]: Fetch Selected Activit...
+                  - generic [ref=e2076]: Fetches aligned latlng, distance, and time streams for one confirmed owned activity and keeps raw data ephemeral.
+              - group [ref=e2078]:
+                - generic [ref=e2082] [cursor=pointer]:
+                  - generic [ref=e2083]:
+                    - generic [ref=e2084]: claim
+                    - generic [ref=e2086]: complex
+                  - generic "Import Activities" [ref=e2087]
+                  - generic [ref=e2088]: Fetches recent redacted run-like activity summaries with token refresh and honest empty/error states.
+              - group [ref=e2090]:
+                - generic [ref=e2094] [cursor=pointer]:
+                  - generic [ref=e2095]:
+                    - generic [ref=e2096]: claim
+                    - generic [ref=e2098]: simple
+                  - generic "Join Challenge" [ref=e2099]
+                  - generic [ref=e2100]: Enrolls an eligible runner in an active challenge.
+              - group [ref=e2102]:
+                - generic [ref=e2106] [cursor=pointer]:
+                  - generic [ref=e2107]:
+                    - generic [ref=e2108]: claim
+                    - generic [ref=e2110]: simple
+                  - generic "Join Clan" [ref=e2111]
+                  - generic [ref=e2112]: Adds a runner to one active clan subject to capacity policy.
+              - group [ref=e2114]:
+                - generic [ref=e2118] [cursor=pointer]:
+                  - generic [ref=e2119]:
+                    - generic [ref=e2120]: claim
+                    - generic [ref=e2122]: simple
+                  - generic "Logout" [ref=e2123]
+                  - generic [ref=e2124]: Revokes the Body War session and records provider-access or privacy state as applicable.
+              - group [ref=e2126]:
+                - generic [ref=e2130] [cursor=pointer]:
+                  - generic [ref=e2131]:
+                    - generic [ref=e2132]: claim
+                    - generic [ref=e2134]: moderate
+                  - generic "Open Invasion" [ref=e2135]
+                  - generic [ref=e2136]: Opens contested state for an owned territory after eligible evidence.
+              - group [ref=e2138]:
+                - generic [ref=e2142] [cursor=pointer]:
+                  - generic [ref=e2143]:
+                    - generic [ref=e2144]: claim
+                    - generic [ref=e2146]: simple
+                  - generic "Project ScorePreview" [ref=e2147]
+                  - generic [ref=e2148]: Shows an authenticated runner preliminary components, policy, evidence mode, geometry posture, and limitations.
+              - group [ref=e2150]:
+                - generic [ref=e2154] [cursor=pointer]:
+                  - generic [ref=e2155]:
+                    - generic [ref=e2156]: claim
+                    - generic [ref=e2158]: simple
+                  - generic "Purchase Economy Item" [ref=e2159]
+                  - generic [ref=e2160]: Purchases RunCoin or premium value under an adopted economy policy.
+              - group [ref=e2162]:
+                - generic [ref=e2166] [cursor=pointer]:
+                  - generic [ref=e2167]:
+                    - generic [ref=e2168]: claim
+                    - generic [ref=e2170]: complex
+                  - generic "Review Evidence" [ref=e2171]
+                  - generic [ref=e2172]: Allows an operator to verify or reject submitted evidence with basis, reviewer, and reason.
+              - group [ref=e2174]:
+                - generic [ref=e2178] [cursor=pointer]:
+                  - generic [ref=e2179]:
+                    - generic [ref=e2180]: claim
+                    - generic [ref=e2182]: simple
+                  - generic "Select SuggestedTrack" [ref=e2183]
+                  - generic [ref=e2184]: Carries one exact runner-selected suggestion into activity selection and consent.
+              - group [ref=e2186]:
+                - generic [ref=e2190] [cursor=pointer]:
+                  - generic [ref=e2191]:
+                    - generic [ref=e2192]: claim
+                    - generic [ref=e2194]: moderate
+                  - generic "Snapshot Season" [ref=e2195]
+                  - generic [ref=e2196]: Closes a ranking cycle into an immutable season snapshot.
+              - group [ref=e2198]:
+                - generic [ref=e2202] [cursor=pointer]:
+                  - generic [ref=e2203]:
+                    - generic [ref=e2204]: claim
+                    - generic [ref=e2206]: moderate
+                  - generic "Start Strava OAuth" [ref=e2207]
+                  - generic [ref=e2208]: Begins provider authorization and records a signed one-use state.
+              - group [ref=e2210]:
+                - generic [ref=e2214] [cursor=pointer]:
+                  - generic [ref=e2215]:
+                    - generic [ref=e2216]: claim
+                    - generic [ref=e2218]: complex
+                  - generic "Submit Evidence" [ref=e2219]
+                  - generic [ref=e2220]: Submits one runner-owned activity as evidence for one existing territory.
+              - group [ref=e2222]:
+                - generic [ref=e2226] [cursor=pointer]:
+                  - generic [ref=e2227]:
+                    - generic [ref=e2228]: claim
+                    - generic [ref=e2230]: simple
+                  - generic "Upsert Territory" [ref=e2231]
+                  - generic [ref=e2232]: Publishes territory metadata and geometry status with audit notes and honest claims.
+              - group [ref=e2234]:
+                - generic [ref=e2238] [cursor=pointer]:
+                  - generic [ref=e2239]:
+                    - generic [ref=e2240]: claim
+                    - generic [ref=e2242]: complex
+                  - generic "ScorePreview" [ref=e2243]
+                  - generic [ref=e2244]: An explained non-authoritative numeric or partial projection produced from one exact policy and canonical score input.
+              - group [ref=e2246]:
+                - generic [ref=e2250] [cursor=pointer]:
+                  - generic [ref=e2251]:
+                    - generic [ref=e2252]: claim
+                    - generic [ref=e2254]: simple
+                  - generic "Source-Backed Track" [ref=e2255]
+                  - generic [ref=e2256]: A SuggestedTrack whose source or geometry evidence has been accepted by an operator-owned promotion path.
+              - group [ref=e2258]:
+                - generic [ref=e2262] [cursor=pointer]:
+                  - generic [ref=e2263]:
+                    - generic [ref=e2264]: claim
+                    - generic [ref=e2266]: simple
+                  - generic "Activity Eligibility Policy" [ref=e2267]: Activity Eligibility P...
+                  - generic [ref=e2268]: Admits run-like activity types and declared visibility/geometry/history rules for evidence or score input.
+              - group [ref=e2270]:
+                - generic [ref=e2274] [cursor=pointer]:
+                  - generic [ref=e2275]:
+                    - generic [ref=e2276]: claim
+                    - generic [ref=e2278]: simple
+                  - generic "Anti-Cheat Policy" [ref=e2279]
+                  - generic [ref=e2280]: Defines anomaly detection, evidence rejection, escalation, and review standards.
+              - group [ref=e2282]:
+                - generic [ref=e2286] [cursor=pointer]:
+                  - generic [ref=e2287]:
+                    - generic [ref=e2288]: claim
+                    - generic [ref=e2290]: simple
+                  - generic "Ownership Caducity Policy" [ref=e2291]: Ownership Caducity Pol...
+                  - generic [ref=e2292]: Defines when territory ownership expires or requires renewal.
+              - group [ref=e2294]:
+                - generic [ref=e2298] [cursor=pointer]:
+                  - generic [ref=e2299]:
+                    - generic [ref=e2300]: claim
+                    - generic [ref=e2302]: simple
+                  - generic "Consent Contract" [ref=e2303]
+                  - generic [ref=e2304]: Binds displayed, affirmed, transmitted, and persisted consent text and version to one exact activity and track.
+              - group [ref=e2306]:
+                - generic [ref=e2310] [cursor=pointer]:
+                  - generic [ref=e2311]:
+                    - generic [ref=e2312]: claim
+                    - generic [ref=e2314]: simple
+                  - generic "Controller Selection Policy" [ref=e2315]: Controller Selection P...
+                  - generic [ref=e2316]: Selects current controller from eligible evidence while recording metric and basis.
+              - group [ref=e2318]:
+                - generic [ref=e2322] [cursor=pointer]:
+                  - generic [ref=e2323]:
+                    - generic [ref=e2324]: claim
+                    - generic [ref=e2326]: simple
+                  - generic "Geometry Privacy Policy" [ref=e2327]
+                  - generic [ref=e2328]: Defines filtering, precision, retention, visibility, and deletion for activity-derived candidate geometry.
+              - group [ref=e2330]:
+                - generic [ref=e2334] [cursor=pointer]:
+                  - generic [ref=e2335]:
+                    - generic [ref=e2336]: claim
+                    - generic [ref=e2338]: simple
+                  - generic "Notification Privacy Policy" [ref=e2339]: Notification Privacy P...
+                  - generic [ref=e2340]: Forbids private activity details in push payloads and requires source event identity.
+              - group [ref=e2342]:
+                - generic [ref=e2346] [cursor=pointer]:
+                  - generic [ref=e2347]:
+                    - generic [ref=e2348]: claim
+                    - generic [ref=e2350]: simple
+                  - generic "Ownership Eligibility Policy" [ref=e2351]: Ownership Eligibility ...
+                  - generic [ref=e2352]: Defines who may invade, control, or defend and which evidence counts.
+              - group [ref=e2354]:
+                - generic [ref=e2358] [cursor=pointer]:
+                  - generic [ref=e2359]:
+                    - generic [ref=e2360]: claim
+                    - generic [ref=e2362]: simple
+                  - generic "Preview Evidence Policy" [ref=e2363]
+                  - generic [ref=e2364]: Allows submitted evidence to affect preview controller state while forbidding verified language.
+              - group [ref=e2366]:
+                - generic [ref=e2370] [cursor=pointer]:
+                  - generic [ref=e2371]:
+                    - generic [ref=e2372]: claim
+                    - generic [ref=e2374]: simple
+                  - generic "Score History Policy" [ref=e2375]
+                  - generic [ref=e2376]: Defines complete-window acquisition, timezone, consent scope, same-day collapse, and incomplete-history behavior.
+              - group [ref=e2378]:
+                - generic [ref=e2382] [cursor=pointer]:
+                  - generic [ref=e2383]:
+                    - generic [ref=e2384]: claim
+                    - generic [ref=e2386]: complex
+                  - generic "ScorePolicy" [ref=e2387]
+                  - generic [ref=e2388]: A versioned calculation contract for component maxima, normalizers, caps, window, eligibility, aggregation, rounding, and missing data.
+              - group [ref=e2390]:
+                - generic [ref=e2394] [cursor=pointer]:
+                  - generic [ref=e2395]:
+                    - generic [ref=e2396]: claim
+                    - generic [ref=e2398]: simple
+                  - generic "H-001 Physical Activity Motivation" [ref=e2399]: H-001 Physical Activit...
+                  - generic [ref=e2400]: Gamifying neighborhood running can increase motivation and repeat physical activity.
+              - group [ref=e2402]:
+                - generic [ref=e2406] [cursor=pointer]:
+                  - generic [ref=e2407]:
+                    - generic [ref=e2408]: claim
+                    - generic [ref=e2410]: simple
+                  - generic "H-002 Territory Competition" [ref=e2411]: H-002 Territory Compet...
+                  - generic [ref=e2412]: Visible local territory competition can create repeated engagement.
+              - group [ref=e2414]:
+                - generic [ref=e2418] [cursor=pointer]:
+                  - generic [ref=e2419]:
+                    - generic [ref=e2420]: claim
+                    - generic [ref=e2422]: simple
+                  - generic "H-003 Strava Trust" [ref=e2423]
+                  - generic [ref=e2424]: Strava-linked activity evidence can improve participant trust in pilot results.
+              - group [ref=e2426]:
+                - generic [ref=e2430] [cursor=pointer]:
+                  - generic [ref=e2431]:
+                    - generic [ref=e2432]: claim
+                    - generic [ref=e2434]: simple
+                  - generic "H-004 Park Pilot" [ref=e2435]
+                  - generic [ref=e2436]: A bounded park-track pilot can test core behavior before city-wide zoning.
+              - group [ref=e2438]:
+                - generic [ref=e2442] [cursor=pointer]:
+                  - generic [ref=e2443]:
+                    - generic [ref=e2444]: claim
+                    - generic [ref=e2446]: simple
+                  - generic "H-005 Composite Score" [ref=e2447]
+                  - generic [ref=e2448]: A composite of pace, distance, and frequency can feel fairer than a single metric.
+              - group [ref=e2450]:
+                - generic [ref=e2454] [cursor=pointer]:
+                  - generic [ref=e2455]:
+                    - generic [ref=e2456]: claim
+                    - generic [ref=e2458]: simple
+                  - generic "H-006 Defense Window" [ref=e2459]
+                  - generic [ref=e2460]: Time-bounded defense can create urgency without requiring real-time play.
+              - group [ref=e2462]:
+                - generic [ref=e2466] [cursor=pointer]:
+                  - generic [ref=e2467]:
+                    - generic [ref=e2468]: claim
+                    - generic [ref=e2470]: simple
+                  - generic "H-007 Progression" [ref=e2471]
+                  - generic [ref=e2472]: Persistent XP, leagues, and badges can support long-term engagement.
+              - group [ref=e2474]:
+                - generic [ref=e2478] [cursor=pointer]:
+                  - generic [ref=e2479]:
+                    - generic [ref=e2480]: claim
+                    - generic [ref=e2482]: simple
+                  - generic "H-008 Clan Sociality" [ref=e2483]
+                  - generic [ref=e2484]: Clan membership can increase social commitment and retention.
+              - group [ref=e2486]:
+                - generic [ref=e2490] [cursor=pointer]:
+                  - generic [ref=e2491]:
+                    - generic [ref=e2492]: claim
+                    - generic [ref=e2494]: simple
+                  - generic "H-009 Sponsor Value" [ref=e2495]
+                  - generic [ref=e2496]: Sponsored zones may create value for local partners without harming play.
+              - group [ref=e2498]:
+                - generic [ref=e2502] [cursor=pointer]:
+                  - generic [ref=e2503]:
+                    - generic [ref=e2504]: claim
+                    - generic [ref=e2506]: simple
+                  - generic "H-010 Local Operator" [ref=e2507]
+                  - generic [ref=e2508]: A local operator can review evidence and support safe pilot learning.
+              - group [ref=e2510]:
+                - generic [ref=e2514] [cursor=pointer]:
+                  - generic [ref=e2515]:
+                    - generic [ref=e2516]: claim
+                    - generic [ref=e2518]: simple
+                  - generic "Active Challenges Query" [ref=e2519]
+                  - generic [ref=e2520]: Returns missions, progress, rewards, and enrollment.
+              - group [ref=e2522]:
+                - generic [ref=e2526] [cursor=pointer]:
+                  - generic [ref=e2527]:
+                    - generic [ref=e2528]: claim
+                    - generic [ref=e2530]: simple
+                  - generic "Activity List Query" [ref=e2531]
+                  - generic [ref=e2532]: Returns redacted activity summaries, provider status, and honest empty reason.
+              - group [ref=e2534]:
+                - generic [ref=e2538] [cursor=pointer]:
+                  - generic [ref=e2539]:
+                    - generic [ref=e2540]: claim
+                    - generic [ref=e2542]: simple
+                  - generic "Auth Status Query" [ref=e2543]
+                  - generic [ref=e2544]: Returns provider configuration, authentication, connection, athlete summary, and scope.
+              - group [ref=e2546]:
+                - generic [ref=e2550] [cursor=pointer]:
+                  - generic [ref=e2551]:
+                    - generic [ref=e2552]: claim
+                    - generic [ref=e2554]: simple
+                  - generic "Clan Summary Query" [ref=e2555]
+                  - generic [ref=e2556]: Returns current clan, members, contribution, and alerts.
+              - group [ref=e2558]:
+                - generic [ref=e2562] [cursor=pointer]:
+                  - generic [ref=e2563]:
+                    - generic [ref=e2564]: claim
+                    - generic [ref=e2566]: simple
+                  - generic "Current Controller Query" [ref=e2567]
+                  - generic [ref=e2568]: Returns controller, basis, metric, and last accepted evidence.
+              - group [ref=e2570]:
+                - generic [ref=e2574] [cursor=pointer]:
+                  - generic [ref=e2575]:
+                    - generic [ref=e2576]: claim
+                    - generic [ref=e2578]: simple
+                  - generic "Evidence List Query" [ref=e2579]
+                  - generic [ref=e2580]: Returns submissions, status, and audit state to authorized consumers.
+              - group [ref=e2582]:
+                - generic [ref=e2586] [cursor=pointer]:
+                  - generic [ref=e2587]:
+                    - generic [ref=e2588]: claim
+                    - generic [ref=e2590]: simple
+                  - generic "Get SuggestedTrack Detail" [ref=e2591]: Get SuggestedTrack Det...
+                  - generic [ref=e2592]: Returns one suggestion, the current runner's redacted candidates, and non-authoritative evidence summary.
+              - group [ref=e2594]:
+                - generic [ref=e2598] [cursor=pointer]:
+                  - generic [ref=e2599]:
+                    - generic [ref=e2600]: claim
+                    - generic [ref=e2602]: simple
+                  - generic "Home Summary Query" [ref=e2603]
+                  - generic [ref=e2604]: Composes auth, weekly distance, challenge, featured route, controller, and next action.
+              - group [ref=e2606]:
+                - generic [ref=e2610] [cursor=pointer]:
+                  - generic [ref=e2611]:
+                    - generic [ref=e2612]: claim
+                    - generic [ref=e2614]: simple
+                  - generic "Latest ScorePreview Query" [ref=e2615]: Latest ScorePreview Qu...
+                  - generic [ref=e2616]: Returns the current runner's latest completed or partial preview for one SuggestedTrack.
+              - group [ref=e2618]:
+                - generic [ref=e2622] [cursor=pointer]:
+                  - generic [ref=e2623]:
+                    - generic [ref=e2624]: claim
+                    - generic [ref=e2626]: simple
+                  - generic "List SuggestedTracks" [ref=e2627]
+                  - generic [ref=e2628]: Returns active route suggestions with honest evidence and geometry posture to a connected runner.
+              - group [ref=e2630]:
+                - generic [ref=e2634] [cursor=pointer]:
+                  - generic [ref=e2635]:
+                    - generic [ref=e2636]: claim
+                    - generic [ref=e2638]: simple
+                  - generic "Notifications Query" [ref=e2639]
+                  - generic [ref=e2640]: Returns privacy-safe messages, unread count, and action links.
+              - group [ref=e2642]:
+                - generic [ref=e2646] [cursor=pointer]:
+                  - generic [ref=e2647]:
+                    - generic [ref=e2648]: claim
+                    - generic [ref=e2650]: simple
+                  - generic "Operator Queue Query" [ref=e2651]
+                  - generic [ref=e2652]: Returns pending submissions, review decisions, and health warnings.
+              - group [ref=e2654]:
+                - generic [ref=e2658] [cursor=pointer]:
+                  - generic [ref=e2659]:
+                    - generic [ref=e2660]: claim
+                    - generic [ref=e2662]: simple
+                  - generic "Profile Summary Query" [ref=e2663]
+                  - generic [ref=e2664]: Returns XP, league, badges, streak, clan, privacy, and provider state.
+              - group [ref=e2666]:
+                - generic [ref=e2670] [cursor=pointer]:
+                  - generic [ref=e2671]:
+                    - generic [ref=e2672]: claim
+                    - generic [ref=e2674]: simple
+                  - generic "Rankings Query" [ref=e2675]
+                  - generic [ref=e2676]: Returns season and league runner/clan rankings.
+              - group [ref=e2678]:
+                - generic [ref=e2682] [cursor=pointer]:
+                  - generic [ref=e2683]:
+                    - generic [ref=e2684]: claim
+                    - generic [ref=e2686]: moderate
+                  - generic "Score Preview Journey Query" [ref=e2687]: Score Preview Journey ...
+                  - generic [ref=e2688]: Returns the accepted/resumable stage, recovery state, geometry candidate, and preview for the current runner.
+              - group [ref=e2690]:
+                - generic [ref=e2694] [cursor=pointer]:
+                  - generic [ref=e2695]:
+                    - generic [ref=e2696]: claim
+                    - generic [ref=e2698]: simple
+                  - generic "Track Detail Query" [ref=e2699]
+                  - generic [ref=e2700]: Returns territory, geometry, controller, leaderboard, eligible activities, and submit state.
+              - group [ref=e2702]:
+                - generic [ref=e2706] [cursor=pointer]:
+                  - generic [ref=e2707]:
+                    - generic [ref=e2708]: claim
+                    - generic [ref=e2710]: simple
+                  - generic "Track List Query" [ref=e2711]
+                  - generic [ref=e2712]: Returns track cards, geometry status, and controller metric.
+              - group [ref=e2714]:
+                - generic [ref=e2718] [cursor=pointer]:
+                  - generic [ref=e2719]:
+                    - generic [ref=e2720]: claim
+                    - generic [ref=e2722]: simple
+                  - generic "Activities Empty" [ref=e2723]
+                  - generic [ref=e2724]: Provider returned no run-like activity summaries.
+              - group [ref=e2726]:
+                - generic [ref=e2730] [cursor=pointer]:
+                  - generic [ref=e2731]:
+                    - generic [ref=e2732]: claim
+                    - generic [ref=e2734]: simple
+                  - generic "Activities Loading" [ref=e2735]
+                  - generic [ref=e2736]: Activity query is in flight.
+              - group [ref=e2738]:
+                - generic [ref=e2742] [cursor=pointer]:
+                  - generic [ref=e2743]:
+                    - generic [ref=e2744]: claim
+                    - generic [ref=e2746]: simple
+                  - generic "Activities Not Loaded" [ref=e2747]
+                  - generic [ref=e2748]: No activity query has been attempted.
+              - group [ref=e2750]:
+                - generic [ref=e2754] [cursor=pointer]:
+                  - generic [ref=e2755]:
+                    - generic [ref=e2756]: claim
+                    - generic [ref=e2758]: simple
+                  - generic "Activity Provider Error" [ref=e2759]
+                  - generic [ref=e2760]: Provider activity query failed.
+              - group [ref=e2762]:
+                - generic [ref=e2766] [cursor=pointer]:
+                  - generic [ref=e2767]:
+                    - generic [ref=e2768]: claim
+                    - generic [ref=e2770]: simple
+                  - generic "Activities Ready" [ref=e2771]
+                  - generic [ref=e2772]: Redacted run-like activity summaries are available.
+              - group [ref=e2774]:
+                - generic [ref=e2778] [cursor=pointer]:
+                  - generic [ref=e2779]:
+                    - generic [ref=e2780]: claim
+                    - generic [ref=e2782]: simple
+                  - generic "Auth Anonymous" [ref=e2783]
+                  - generic [ref=e2784]: No server session exists.
+              - group [ref=e2786]:
+                - generic [ref=e2790] [cursor=pointer]:
+                  - generic [ref=e2791]:
+                    - generic [ref=e2792]: claim
+                    - generic [ref=e2794]: moderate
+                  - generic "Auth Connected" [ref=e2795]
+                  - generic [ref=e2796]: Session and provider account are active.
+              - group [ref=e2798]:
+                - generic [ref=e2802] [cursor=pointer]:
+                  - generic [ref=e2803]:
+                    - generic [ref=e2804]: claim
+                    - generic [ref=e2806]: simple
+                  - generic "Auth Error" [ref=e2807]
+                  - generic [ref=e2808]: Callback, session, or provider interaction failed.
+              - group [ref=e2810]:
+                - generic [ref=e2814] [cursor=pointer]:
+                  - generic [ref=e2815]:
+                    - generic [ref=e2816]: claim
+                    - generic [ref=e2818]: simple
+                  - generic "Auth Revoked" [ref=e2819]
+                  - generic [ref=e2820]: Session or provider consent was revoked.
+              - group [ref=e2822]:
+                - generic [ref=e2826] [cursor=pointer]:
+                  - generic [ref=e2827]:
+                    - generic [ref=e2828]: claim
+                    - generic [ref=e2830]: simple
+                  - generic "Auth Unconfigured" [ref=e2831]
+                  - generic [ref=e2832]: Provider configuration is absent.
+              - group [ref=e2834]:
+                - generic [ref=e2838] [cursor=pointer]:
+                  - generic [ref=e2839]:
+                    - generic [ref=e2840]: claim
+                    - generic [ref=e2842]: simple
+                  - generic "Challenge Active" [ref=e2843]
+                  - generic [ref=e2844]: The runner is enrolled and progress is open.
+              - group [ref=e2846]:
+                - generic [ref=e2850] [cursor=pointer]:
+                  - generic [ref=e2851]:
+                    - generic [ref=e2852]: claim
+                    - generic [ref=e2854]: simple
+                  - generic "Challenge Available" [ref=e2855]
+                  - generic [ref=e2856]: An eligible runner may join.
+              - group [ref=e2858]:
+                - generic [ref=e2862] [cursor=pointer]:
+                  - generic [ref=e2863]:
+                    - generic [ref=e2864]: claim
+                    - generic [ref=e2866]: simple
+                  - generic "Challenge Complete" [ref=e2867]
+                  - generic [ref=e2868]: Completion evidence was accepted.
+              - group [ref=e2870]:
+                - generic [ref=e2874] [cursor=pointer]:
+                  - generic [ref=e2875]:
+                    - generic [ref=e2876]: claim
+                    - generic [ref=e2878]: simple
+                  - generic "Challenge Expired" [ref=e2879]
+                  - generic [ref=e2880]: The challenge window closed.
+              - group [ref=e2882]:
+                - generic [ref=e2886] [cursor=pointer]:
+                  - generic [ref=e2887]:
+                    - generic [ref=e2888]: claim
+                    - generic [ref=e2890]: simple
+                  - generic "Challenge Rewarded" [ref=e2891]
+                  - generic [ref=e2892]: Declared rewards were issued.
+              - group [ref=e2894]:
+                - generic [ref=e2898] [cursor=pointer]:
+                  - generic [ref=e2899]:
+                    - generic [ref=e2900]: claim
+                    - generic [ref=e2902]: simple
+                  - generic "Controller Contested" [ref=e2903]
+                  - generic [ref=e2904]: An invasion and defense window are active.
+              - group [ref=e2906]:
+                - generic [ref=e2910] [cursor=pointer]:
+                  - generic [ref=e2911]:
+                    - generic [ref=e2912]: claim
+                    - generic [ref=e2914]: simple
+                  - generic "Controller Expired" [ref=e2915]
+                  - generic [ref=e2916]: Ownership lapsed under caducity policy.
+              - group [ref=e2918]:
+                - generic [ref=e2922] [cursor=pointer]:
+                  - generic [ref=e2923]:
+                    - generic [ref=e2924]: claim
+                    - generic [ref=e2926]: simple
+                  - generic "Controller Neutral" [ref=e2927]
+                  - generic [ref=e2928]: No accepted evidence controls the territory.
+              - group [ref=e2930]:
+                - generic [ref=e2934] [cursor=pointer]:
+                  - generic [ref=e2935]:
+                    - generic [ref=e2936]: claim
+                    - generic [ref=e2938]: simple
+                  - generic "Controller Preview-Controlled" [ref=e2939]: Controller Preview-Con...
+                  - generic [ref=e2940]: Preview-accepted evidence controls only the preview projection.
+              - group [ref=e2942]:
+                - generic [ref=e2946] [cursor=pointer]:
+                  - generic [ref=e2947]:
+                    - generic [ref=e2948]: claim
+                    - generic [ref=e2950]: simple
+                  - generic "Controller Verified-Controlled" [ref=e2951]: Controller Verified-Co...
+                  - generic [ref=e2952]: Verified evidence controls the territory projection.
+              - group [ref=e2954]:
+                - generic [ref=e2958] [cursor=pointer]:
+                  - generic [ref=e2959]:
+                    - generic [ref=e2960]: claim
+                    - generic [ref=e2962]: simple
+                  - generic "Evidence Candidate Accepted" [ref=e2963]: Evidence Candidate Acc...
+                  - generic [ref=e2964]: An operator accepted it as useful candidate evidence.
+              - group [ref=e2966]:
+                - generic [ref=e2970] [cursor=pointer]:
+                  - generic [ref=e2971]:
+                    - generic [ref=e2972]: claim
+                    - generic [ref=e2974]: simple
+                  - generic "Evidence Candidate Operator Review" [ref=e2975]: Evidence Candidate Ope...
+                  - generic [ref=e2976]: An operator is reviewing the candidate.
+              - group [ref=e2978]:
+                - generic [ref=e2982] [cursor=pointer]:
+                  - generic [ref=e2983]:
+                    - generic [ref=e2984]: claim
+                    - generic [ref=e2986]: simple
+                  - generic "Evidence Candidate Rejected" [ref=e2987]: Evidence Candidate Rej...
+                  - generic [ref=e2988]: An operator rejected the candidate.
+              - group [ref=e2990]:
+                - generic [ref=e2994] [cursor=pointer]:
+                  - generic [ref=e2995]:
+                    - generic [ref=e2996]: claim
+                    - generic [ref=e2998]: simple
+                  - generic "Evidence Candidate Submitted" [ref=e2999]: Evidence Candidate Sub...
+                  - generic [ref=e3000]: A consented redacted candidate is stored.
+              - group [ref=e3002]:
+                - generic [ref=e3006] [cursor=pointer]:
+                  - generic [ref=e3007]:
+                    - generic [ref=e3008]: claim
+                    - generic [ref=e3010]: simple
+                  - generic "Geometry Candidate Absent" [ref=e3011]: Geometry Candidate Abs...
+                  - generic [ref=e3012]: No geometry derivation has started.
+              - group [ref=e3014]:
+                - generic [ref=e3018] [cursor=pointer]:
+                  - generic [ref=e3019]:
+                    - generic [ref=e3020]: claim
+                    - generic [ref=e3022]: simple
+                  - generic "Geometry Derived Candidate" [ref=e3023]: Geometry Derived Candi...
+                  - generic [ref=e3024]: A private candidate geometry exists.
+              - group [ref=e3026]:
+                - generic [ref=e3030] [cursor=pointer]:
+                  - generic [ref=e3031]:
+                    - generic [ref=e3032]: claim
+                    - generic [ref=e3034]: moderate
+                  - generic "Geometry Fetch Pending" [ref=e3035]
+                  - generic [ref=e3036]: The confirmed activity's geometry is being acquired.
+              - group [ref=e3038]:
+                - generic [ref=e3042] [cursor=pointer]:
+                  - generic [ref=e3043]:
+                    - generic [ref=e3044]: claim
+                    - generic [ref=e3046]: simple
+                  - generic "Geometry Candidate Rejected" [ref=e3047]: Geometry Candidate Rej...
+                  - generic [ref=e3048]: The candidate failed validation or owner review.
+              - group [ref=e3050]:
+                - generic [ref=e3054] [cursor=pointer]:
+                  - generic [ref=e3055]:
+                    - generic [ref=e3056]: claim
+                    - generic [ref=e3058]: simple
+                  - generic "Geometry Candidate Superseded" [ref=e3059]: Geometry Candidate Sup...
+                  - generic [ref=e3060]: A newer candidate replaced this candidate without promoting it.
+              - group [ref=e3062]:
+                - generic [ref=e3066] [cursor=pointer]:
+                  - generic [ref=e3067]:
+                    - generic [ref=e3068]: claim
+                    - generic [ref=e3070]: simple
+                  - generic "Geometry Unavailable" [ref=e3071]
+                  - generic [ref=e3072]: Provider, scope, stream, or validation failure prevented derivation.
+              - group [ref=e3074]:
+                - generic [ref=e3078] [cursor=pointer]:
+                  - generic [ref=e3079]:
+                    - generic [ref=e3080]: claim
+                    - generic [ref=e3082]: simple
+                  - generic "Geometry Draft" [ref=e3083]
+                  - generic [ref=e3084]: A draft route artifact exists.
+              - group [ref=e3086]:
+                - generic [ref=e3090] [cursor=pointer]:
+                  - generic [ref=e3091]:
+                    - generic [ref=e3092]: claim
+                    - generic [ref=e3094]: simple
+                  - generic "Geometry Missing" [ref=e3095]
+                  - generic [ref=e3096]: No geometry artifact exists.
+              - group [ref=e3098]:
+                - generic [ref=e3102] [cursor=pointer]:
+                  - generic [ref=e3103]:
+                    - generic [ref=e3104]: claim
+                    - generic [ref=e3106]: simple
+                  - generic "Geometry Placeholder" [ref=e3107]
+                  - generic [ref=e3108]: Only prototype metadata exists; no GPS claim is allowed.
+              - group [ref=e3110]:
+                - generic [ref=e3114] [cursor=pointer]:
+                  - generic [ref=e3115]:
+                    - generic [ref=e3116]: claim
+                    - generic [ref=e3118]: simple
+                  - generic "Geometry Source-Backed" [ref=e3119]
+                  - generic [ref=e3120]: A source-backed route geometry exists.
+              - group [ref=e3122]:
+                - generic [ref=e3126] [cursor=pointer]:
+                  - generic [ref=e3127]:
+                    - generic [ref=e3128]: claim
+                    - generic [ref=e3130]: simple
+                  - generic "Geometry Validated" [ref=e3131]
+                  - generic [ref=e3132]: Geometry has validation evidence sufficient for the stated use.
+              - group [ref=e3134]:
+                - generic [ref=e3138] [cursor=pointer]:
+                  - generic [ref=e3139]:
+                    - generic [ref=e3140]: claim
+                    - generic [ref=e3142]: simple
+                  - generic "Score Preview Available" [ref=e3143]
+                  - generic [ref=e3144]: An explained preview result exists.
+              - group [ref=e3146]:
+                - generic [ref=e3150] [cursor=pointer]:
+                  - generic [ref=e3151]:
+                    - generic [ref=e3152]: claim
+                    - generic [ref=e3154]: simple
+                  - generic "Score Blocked By Geometry" [ref=e3155]: Score Blocked By Geome...
+                  - generic [ref=e3156]: No admissible GeometryCandidate is available.
+              - group [ref=e3158]:
+                - generic [ref=e3162] [cursor=pointer]:
+                  - generic [ref=e3163]:
+                    - generic [ref=e3164]: claim
+                    - generic [ref=e3166]: simple
+                  - generic "Score Blocked By Policy" [ref=e3167]
+                  - generic [ref=e3168]: No ratified complete ScorePolicy is available.
+              - group [ref=e3170]:
+                - generic [ref=e3174] [cursor=pointer]:
+                  - generic [ref=e3175]:
+                    - generic [ref=e3176]: claim
+                    - generic [ref=e3178]: moderate
+                  - generic "Score Calculation Pending" [ref=e3179]: Score Calculation Pend...
+                  - generic [ref=e3180]: A complete snapshot and policy await calculation.
+              - group [ref=e3182]:
+                - generic [ref=e3186] [cursor=pointer]:
+                  - generic [ref=e3187]:
+                    - generic [ref=e3188]: claim
+                    - generic [ref=e3190]: simple
+                  - generic "Score Calculation Failed" [ref=e3191]
+                  - generic [ref=e3192]: A calculation invariant failed.
+              - group [ref=e3194]:
+                - generic [ref=e3198] [cursor=pointer]:
+                  - generic [ref=e3199]:
+                    - generic [ref=e3200]: claim
+                    - generic [ref=e3202]: simple
+                  - generic "Score Incomplete Projection" [ref=e3203]: Score Incomplete Proje...
+                  - generic [ref=e3204]: Only evidence-satisfied components are shown; total is null.
+              - group [ref=e3206]:
+                - generic [ref=e3210] [cursor=pointer]:
+                  - generic [ref=e3211]:
+                    - generic [ref=e3212]: claim
+                    - generic [ref=e3214]: moderate
+                  - generic "Score Snapshot Pending" [ref=e3215]
+                  - generic [ref=e3216]: A canonical ScoreInputSnapshot is being assembled.
+              - group [ref=e3218]:
+                - generic [ref=e3222] [cursor=pointer]:
+                  - generic [ref=e3223]:
+                    - generic [ref=e3224]: claim
+                    - generic [ref=e3226]: simple
+                  - generic "Score Preview Superseded" [ref=e3227]
+                  - generic [ref=e3228]: A newer policy/snapshot result replaced this preview.
+              - group [ref=e3230]:
+                - generic [ref=e3234] [cursor=pointer]:
+                  - generic [ref=e3235]:
+                    - generic [ref=e3236]: claim
+                    - generic [ref=e3238]: simple
+                  - generic "Score Preview Unavailable" [ref=e3239]: Score Preview Unavaila...
+                  - generic [ref=e3240]: No score-preview path is currently available.
+              - group [ref=e3242]:
+                - generic [ref=e3246] [cursor=pointer]:
+                  - generic [ref=e3247]:
+                    - generic [ref=e3248]: claim
+                    - generic [ref=e3250]: simple
+                  - generic "Season Active" [ref=e3251]
+                  - generic [ref=e3252]: Eligible runs affect seasonal ranking.
+              - group [ref=e3254]:
+                - generic [ref=e3258] [cursor=pointer]:
+                  - generic [ref=e3259]:
+                    - generic [ref=e3260]: claim
+                    - generic [ref=e3262]: simple
+                  - generic "Season Closed" [ref=e3263]
+                  - generic [ref=e3264]: The snapshot is final and rewards are issued.
+              - group [ref=e3266]:
+                - generic [ref=e3270] [cursor=pointer]:
+                  - generic [ref=e3271]:
+                    - generic [ref=e3272]: claim
+                    - generic [ref=e3274]: simple
+                  - generic "Season Closing" [ref=e3275]
+                  - generic [ref=e3276]: The immutable snapshot is being produced.
+              - group [ref=e3278]:
+                - generic [ref=e3282] [cursor=pointer]:
+                  - generic [ref=e3283]:
+                    - generic [ref=e3284]: claim
+                    - generic [ref=e3286]: simple
+                  - generic "Season Preseason" [ref=e3287]
+                  - generic [ref=e3288]: Rankings are not open.
+              - group [ref=e3290]:
+                - generic [ref=e3294] [cursor=pointer]:
+                  - generic [ref=e3295]:
+                    - generic [ref=e3296]: claim
+                    - generic [ref=e3298]: simple
+                  - generic "Submission Draft" [ref=e3299]
+                  - generic [ref=e3300]: The browser has not submitted evidence.
+              - group [ref=e3302]:
+                - generic [ref=e3306] [cursor=pointer]:
+                  - generic [ref=e3307]:
+                    - generic [ref=e3308]: claim
+                    - generic [ref=e3310]: simple
+                  - generic "Submission Preview-Accepted" [ref=e3311]: Submission Preview-Acc...
+                  - generic [ref=e3312]: Evidence may affect preview projection only.
+              - group [ref=e3314]:
+                - generic [ref=e3318] [cursor=pointer]:
+                  - generic [ref=e3319]:
+                    - generic [ref=e3320]: claim
+                    - generic [ref=e3322]: simple
+                  - generic "Submission Rejected" [ref=e3323]
+                  - generic [ref=e3324]: Evidence cannot count under the applied review policy.
+              - group [ref=e3326]:
+                - generic [ref=e3330] [cursor=pointer]:
+                  - generic [ref=e3331]:
+                    - generic [ref=e3332]: claim
+                    - generic [ref=e3334]: moderate
+                  - generic "Submission Submitted" [ref=e3335]
+                  - generic [ref=e3336]: The backend received evidence.
+              - group [ref=e3338]:
+                - generic [ref=e3342] [cursor=pointer]:
+                  - generic [ref=e3343]:
+                    - generic [ref=e3344]: claim
+                    - generic [ref=e3346]: simple
+                  - generic "Submission Verified" [ref=e3347]
+                  - generic [ref=e3348]: Operator or validation evidence accepted the submission as verified.
+              - group [ref=e3350]:
+                - generic [ref=e3354] [cursor=pointer]:
+                  - generic [ref=e3355]:
+                    - generic [ref=e3356]: claim
+                    - generic [ref=e3358]: simple
+                  - generic "SuggestedTrack Evidence Submitted" [ref=e3359]: SuggestedTrack Evidenc...
+                  - generic [ref=e3360]: At least one redacted candidate was attached.
+              - group [ref=e3362]:
+                - generic [ref=e3366] [cursor=pointer]:
+                  - generic [ref=e3367]:
+                    - generic [ref=e3368]: claim
+                    - generic [ref=e3370]: simple
+                  - generic "SuggestedTrack Needs Evidence" [ref=e3371]: SuggestedTrack Needs E...
+                  - generic [ref=e3372]: The suggestion exists without accepted source-backed evidence.
+              - group [ref=e3374]:
+                - generic [ref=e3378] [cursor=pointer]:
+                  - generic [ref=e3379]:
+                    - generic [ref=e3380]: claim
+                    - generic [ref=e3382]: simple
+                  - generic "SuggestedTrack Operator Review" [ref=e3383]: SuggestedTrack Operato...
+                  - generic [ref=e3384]: An operator is reviewing candidate evidence.
+              - group [ref=e3386]:
+                - generic [ref=e3390] [cursor=pointer]:
+                  - generic [ref=e3391]:
+                    - generic [ref=e3392]: claim
+                    - generic [ref=e3394]: simple
+                  - generic "SuggestedTrack Retired" [ref=e3395]
+                  - generic [ref=e3396]: The suggestion is no longer active.
+              - group [ref=e3398]:
+                - generic [ref=e3402] [cursor=pointer]:
+                  - generic [ref=e3403]:
+                    - generic [ref=e3404]: claim
+                    - generic [ref=e3406]: simple
+                  - generic "SuggestedTrack Source-Backed" [ref=e3407]: SuggestedTrack Source-...
+                  - generic [ref=e3408]: An operator accepted source or geometry evidence.
+              - group [ref=e3410]:
+                - generic [ref=e3414] [cursor=pointer]:
+                  - generic [ref=e3415]:
+                    - generic [ref=e3416]: source
+                    - generic [ref=e3418]: moderate
+                  - generic "ActivityGeometrySample" [ref=e3419]
+                  - generic [ref=e3420]: Ephemeral aligned latlng, distance, and time streams fetched for one confirmed owned activity.
+              - group [ref=e3422]:
+                - generic [ref=e3426] [cursor=pointer]:
+                  - generic [ref=e3427]:
+                    - generic [ref=e3428]: claim
+                    - generic [ref=e3430]: simple
+                  - generic "Activity Sport Type" [ref=e3431]
+                  - generic [ref=e3432]: The provider activity type used to admit only run-like evidence under policy.
+              - group [ref=e3434]:
+                - generic [ref=e3438] [cursor=pointer]:
+                  - generic [ref=e3439]:
+                    - generic [ref=e3440]: claim
+                    - generic [ref=e3442]: simple
+                  - generic "Badge" [ref=e3443]
+                  - generic [ref=e3444]: A persistent progression reward earned through declared conditions.
+              - group [ref=e3446]:
+                - generic [ref=e3450] [cursor=pointer]:
+                  - generic [ref=e3451]:
+                    - generic [ref=e3452]: source
+                    - generic [ref=e3454]: simple
+                  - generic "Control Basis" [ref=e3455]
+                  - generic [ref=e3456]: The declared evidence basis preview, verified, or manual attached to public controller projections.
+              - group [ref=e3458]:
+                - generic [ref=e3462] [cursor=pointer]:
+                  - generic [ref=e3463]:
+                    - generic [ref=e3464]: claim
+                    - generic [ref=e3466]: simple
+                  - generic "Controller Metric" [ref=e3467]
+                  - generic [ref=e3468]: The named comparison metric used to choose a controller, with its basis recorded.
+              - group [ref=e3470]:
+                - generic [ref=e3474] [cursor=pointer]:
+                  - generic [ref=e3475]:
+                    - generic [ref=e3476]: claim
+                    - generic [ref=e3478]: complex
+                  - generic "ControllerState" [ref=e3479]
+                  - generic [ref=e3480]: A read model naming current controller, basis, metric, and source submission for one territory.
+              - group [ref=e3482]:
+                - generic [ref=e3486] [cursor=pointer]:
+                  - generic [ref=e3487]:
+                    - generic [ref=e3488]: claim
+                    - generic [ref=e3490]: simple
+                  - generic "Defense Window" [ref=e3491]
+                  - generic [ref=e3492]: The bounded response interval for an owner or eligible clan member after an invasion opens.
+              - group [ref=e3494]:
+                - generic [ref=e3498] [cursor=pointer]:
+                  - generic [ref=e3499]:
+                    - generic [ref=e3500]: claim
+                    - generic [ref=e3502]: simple
+                  - generic "Geometry Status" [ref=e3503]
+                  - generic [ref=e3504]: The independent geometry evidence posture missing, placeholder, draft, source-backed, or validated.
+              - group [ref=e3506]:
+                - generic [ref=e3510] [cursor=pointer]:
+                  - generic [ref=e3511]:
+                    - generic [ref=e3512]: claim
+                    - generic [ref=e3514]: simple
+                  - generic "League" [ref=e3515]
+                  - generic [ref=e3516]: A progression tier used to group or display runner ranking.
+              - group [ref=e3518]:
+                - generic [ref=e3522] [cursor=pointer]:
+                  - generic [ref=e3523]:
+                    - generic [ref=e3524]: claim
+                    - generic [ref=e3526]: simple
+                  - generic "Privacy Consent" [ref=e3527]
+                  - generic [ref=e3528]: A versioned exact statement affirmatively accepted before redacted evidence or geometry use.
+              - group [ref=e3530]:
+                - generic [ref=e3534] [cursor=pointer]:
+                  - generic [ref=e3535]:
+                    - generic [ref=e3536]: source
+                    - generic [ref=e3538]: simple
+                  - generic "Redacted Activity Summary" [ref=e3539]: Redacted Activity Summ...
+                  - generic [ref=e3540]: Provider activity identity and performance summary excluding tokens, raw maps, notes, and private payloads.
+              - group [ref=e3542]:
+                - generic [ref=e3546] [cursor=pointer]:
+                  - generic [ref=e3547]:
+                    - generic [ref=e3548]: claim
+                    - generic [ref=e3550]: simple
+                  - generic "Reference Time" [ref=e3551]
+                  - generic [ref=e3552]: A route time used as a declared comparison reference under the selected validation policy.
+              - group [ref=e3554]:
+                - generic [ref=e3558] [cursor=pointer]:
+                  - generic [ref=e3559]:
+                    - generic [ref=e3560]: claim
+                    - generic [ref=e3562]: simple
+                  - generic "RunCoin" [ref=e3563]
+                  - generic [ref=e3564]: A deferred game currency whose earning, spending, and purchase rules are unresolved.
+              - group [ref=e3566]:
+                - generic [ref=e3570] [cursor=pointer]:
+                  - generic [ref=e3571]:
+                    - generic [ref=e3572]: source
+                    - generic [ref=e3574]: complex
+                  - generic "ScoreInputSnapshot" [ref=e3575]
+                  - generic [ref=e3576]: An immutable canonical policy-window input binding derived activity metrics, geometry, policy, provenance, and history completeness.
+              - group [ref=e3578]:
+                - generic [ref=e3582] [cursor=pointer]:
+                  - generic [ref=e3583]:
+                    - generic [ref=e3584]: claim
+                    - generic [ref=e3586]: simple
+                  - generic "Submission Status" [ref=e3587]
+                  - generic [ref=e3588]: The independent lifecycle status draft, submitted, preview-accepted, verified, or rejected.
+              - group [ref=e3590]:
+                - generic [ref=e3594] [cursor=pointer]:
+                  - generic [ref=e3595]:
+                    - generic [ref=e3596]: source
+                    - generic [ref=e3598]: simple
+                  - generic "TrackGeometry" [ref=e3599]
+                  - generic [ref=e3600]: A route shape plus provenance and validation posture; its authority must be stated independently.
+              - group [ref=e3602]:
+                - generic [ref=e3606] [cursor=pointer]:
+                  - generic [ref=e3607]:
+                    - generic [ref=e3608]: claim
+                    - generic [ref=e3610]: simple
+                  - generic "Zone Type" [ref=e3611]
+                  - generic [ref=e3612]: A classification such as common or strategic that may affect defense windows and game rules.
+              - group [ref=e3614]:
+                - generic [ref=e3618] [cursor=pointer]:
+                  - generic [ref=e3619]:
+                    - generic [ref=e3620]: claim
+                    - generic [ref=e3622]: moderate
+                  - generic "Invasion and Defense Workflow" [ref=e3623]: Invasion and Defense W...
+                  - generic [ref=e3624]: Open contested state, notify eligible defenders, record defense result, and update ownership.
+              - group [ref=e3626]:
+                - generic [ref=e3630] [cursor=pointer]:
+                  - generic [ref=e3631]:
+                    - generic [ref=e3632]: claim
+                    - generic [ref=e3634]: complex
+                  - generic "Login To ScorePreview Workflow" [ref=e3635]: Login To ScorePreview ...
+                  - generic [ref=e3636]: Connect Strava, select an exact track/activity, consent, derive candidate geometry, snapshot inputs, calculate, and project a preview.
+              - group [ref=e3638]:
+                - generic [ref=e3642] [cursor=pointer]:
+                  - generic [ref=e3643]:
+                    - generic [ref=e3644]: claim
+                    - generic [ref=e3646]: complex
+                  - generic "Run To Control Workflow" [ref=e3647]
+                  - generic [ref=e3648]: Import activity, submit evidence, review or preview-accept it, and recompute controller projection.
+              - group [ref=e3650]:
+                - generic [ref=e3654] [cursor=pointer]:
+                  - generic [ref=e3655]:
+                    - generic [ref=e3656]: claim
+                    - generic [ref=e3658]: simple
+                  - generic "Seasonal Progression Workflow" [ref=e3659]: Seasonal Progression W...
+                  - generic [ref=e3660]: Award XP, project rankings, close a season, and preserve permanent progression.
+              - group [ref=e3662]:
+                - generic [ref=e3666] [cursor=pointer]:
+                  - generic [ref=e3667]:
+                    - generic [ref=e3668]: claim
+                    - generic [ref=e3670]: simple
+                  - generic "SuggestedTrack Expansion Workflow" [ref=e3671]: SuggestedTrack Expansi...
+                  - generic [ref=e3672]: Create or select a route suggestion and attach consented redacted candidate evidence.
+        - img
+        - generic "Control Panel" [ref=e3674]:
+          - button "Zoom In" [ref=e3675] [cursor=pointer]:
+            - img [ref=e3676]
+          - button "Zoom Out" [ref=e3678] [cursor=pointer]:
+            - img [ref=e3679]
+          - button "Fit View" [ref=e3681] [cursor=pointer]:
+            - img [ref=e3682]
+          - button "Toggle Interactivity" [ref=e3684] [cursor=pointer]:
+            - img [ref=e3685]
+        - img "Mini Map" [ref=e3688]
+      - generic: Press ? for keyboard shortcuts
+    - complementary [ref=e3690]:
+      - generic [ref=e3691]:
+        - generic [ref=e3692]:
+          - button "Info" [ref=e3693] [cursor=pointer]
+          - button "Files" [ref=e3694] [cursor=pointer]
+        - generic [ref=e3696]:
+          - generic [ref=e3697]:
+            - generic [ref=e6674]:
+              - heading "Tour" [level=3] [ref=e6675]
+              - generic [ref=e6676]: 1 / 5
+            - button "Exit Tour" [ref=e6677] [cursor=pointer]
+          - generic [ref=e3701]:
+            - heading "Business capability map" [level=2] [ref=e6680]
+            - paragraph [ref=e6682]: Start with the business contexts and capabilities that organize Body War responsibilities.
+            - generic [ref=e6683]:
+              - heading "Referenced Components" [level=4] [ref=e6684]
+              - generic [ref=e6685]:
+                - button "Identity and Consent" [ref=e6686] [cursor=pointer]
+                - button "Suggested Track Route Expansion" [ref=e6687] [cursor=pointer]
+                - button "Candidate Geometry Evidence" [ref=e6688] [cursor=pointer]
+                - button "Score Preview" [ref=e6689] [cursor=pointer]
+          - generic [ref=e6690]:
+            - generic [ref=e6691]:
+              - button "Go to step 1" [ref=e6692] [cursor=pointer]
+              - button "Go to step 2" [ref=e6693] [cursor=pointer]
+              - button "Go to step 3" [ref=e6694] [cursor=pointer]
+              - button "Go to step 4" [ref=e6695] [cursor=pointer]
+              - button "Go to step 5" [ref=e6696] [cursor=pointer]
+            - generic [ref=e6697]:
+              - button "Prev" [disabled] [ref=e6698] [cursor=pointer]
+              - button "Next" [ref=e6699] [cursor=pointer]

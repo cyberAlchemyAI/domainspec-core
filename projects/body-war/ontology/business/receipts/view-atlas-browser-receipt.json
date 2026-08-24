@@ -1,0 +1,345 @@
+{
+  "schema_version": "body-war-view-atlas-browser-receipt/v1",
+  "status": "pass",
+  "execution_lane": "governed-work-pack",
+  "artifact_binding": "swu-bwaa-003-revalidation-receipt",
+  "started_at": "2026-07-30T17:17:10.361Z",
+  "completed_at": "2026-07-30T17:17:29.650Z",
+  "artifacts": {
+    "atlas": {
+      "path": "projects/body-war/ontology/business/BUSINESS-VIEW-ATLAS.html",
+      "sha256": "aa57fe2081f57bab2d8351fbb708b949dcf595d8cf6809ecd60f1eec6c526e75",
+      "size_bytes": 1359396
+    },
+    "atlas_catalog": {
+      "path": "projects/body-war/ontology/business/authoring/view-atlas-catalog.mjs",
+      "sha256": "9139690a402aba1ab4e3fd26dc644ca48e3120195cf784e22ec1689f16b20026",
+      "size_bytes": 5127
+    },
+    "projection": {
+      "path": "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+      "sha256": "2552fcee789edba182d86ce906ea20214c4f9fa43a71095094da5e2f3c23e1e6",
+      "size_bytes": 12416
+    },
+    "renderer": {
+      "path": "projects/body-war/ontology/business/scripts/render-view-atlas.mjs",
+      "sha256": "ce2aad02f4d393788f44f3f7651d12b41b5027b7635364f23e6a3349ac6f4775",
+      "size_bytes": 35842
+    },
+    "browser_validator": {
+      "path": "projects/body-war/ontology/business/scripts/validate-view-atlas-browser.mjs",
+      "sha256": "ec260fae5d5c433490c2821ccb3401e882bf2d6237eb7019c57fda39a8de85b8",
+      "size_bytes": 30664
+    },
+    "generator": {
+      "path": "projects/body-war/ontology/business/scripts/generate-views.mjs",
+      "sha256": "ff2f879259548718c66ffc155017d2ad430e924da6a8ebebb15488f92875d57a",
+      "size_bytes": 52870
+    },
+    "coverage_receipt": {
+      "path": "projects/body-war/ontology/business/receipts/view-atlas-coverage-receipt.json",
+      "sha256": "d1ff9073f3b6ffa86e4de71adccfa3ad4c314f18910896e6cfd603392a1c3b63",
+      "size_bytes": 3617
+    },
+    "profile": {
+      "path": "projects/body-war/ontology/business/profile.json",
+      "sha256": "cba6f78a7306dea9fbd6d97fd3d5d228d501e81839c20248e901f3067ec0b739",
+      "size_bytes": 5392
+    },
+    "relations": {
+      "path": "projects/body-war/ontology/business/relations/relations.json",
+      "sha256": "234ad4152b731edcb03cd1b45dfa21570bd37df741090ca6ca0940fd98c0ce00",
+      "size_bytes": 216899
+    },
+    "business_view": {
+      "path": "projects/body-war/ontology/business/views/business.json",
+      "sha256": "2897b9490c27960104a0dcdcbda899e6752795ab1f737cf181e7bc3f075d3d60",
+      "size_bytes": 2704
+    }
+  },
+  "predecessor_revalidation": {
+    "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-003.revalidation-001.receipt.json",
+    "sha256": "f1f000d95fbee32349cfd0655b9d44ab5721923caa06f62e2a625a526520adf3"
+  },
+  "runtime": {
+    "node": "v22.12.0",
+    "playwright_version": "1.59.1",
+    "playwright_cli_path": "/home/vrondelli/.nvm/versions/node/v22.12.0/bin/playwright",
+    "playwright_module_path": "/home/vrondelli/.nvm/versions/node/v22.12.0/lib/node_modules/playwright",
+    "browser_name": "chromium",
+    "browser_version": "147.0.7727.15",
+    "browser_revision": "1217",
+    "executable_path": "/home/vrondelli/.cache/ms-playwright/chromium-1217/chrome-linux64/chrome",
+    "executable_sha256": "696170a79640ec5b50c7518140ace06c69a49cfb295bf527d4a85e26a12b89a7",
+    "viewport_modes": [
+      {
+        "width": 1365,
+        "height": 900,
+        "device_pixel_ratio": 1
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "device_pixel_ratio": 2
+      }
+    ],
+    "modes": [
+      "javascript",
+      "no-javascript",
+      "mobile",
+      "reduced-motion",
+      "200-percent-root-text",
+      "print"
+    ],
+    "isolation": "fresh incognito context per mode; loopback random-port server; exact atlas path only; server and browser closed at completion"
+  },
+  "request_paths": [
+    "/BUSINESS-VIEW-ATLAS.html"
+  ],
+  "browser_request_urls": [
+    "http://127.0.0.1:45521/BUSINESS-VIEW-ATLAS.html"
+  ],
+  "external_request_urls": [],
+  "failed_requests": [],
+  "teardown": {
+    "browser_closed": true,
+    "loopback_server_closed": true
+  },
+  "assertions": [
+    {
+      "id": "coverage-precondition",
+      "status": "pass",
+      "detail": "the exact deterministic coverage receipt passes before browser execution"
+    },
+    {
+      "id": "swu-003-artifact-binding",
+      "status": "pass",
+      "detail": "the browser run is bound to the repaired atlas bytes accepted by the SWU-BWAA-003 revalidation receipt"
+    },
+    {
+      "id": "desktop-exact-structure",
+      "status": "pass",
+      "detail": "desktop DOM contains six lenses, 237 nodes, and 231 relations"
+    },
+    {
+      "id": "desktop-overview-default",
+      "status": "pass",
+      "detail": "enhanced default shows the six-lens overview without a selected lens"
+    },
+    {
+      "id": "desktop-directed-overview",
+      "status": "pass",
+      "detail": "desktop exposes six linked overview nodes, 13 matching geometry/semantic lanes, and the exact 55-count behavior to business-objects lane"
+    },
+    {
+      "id": "predicate-brief-click",
+      "status": "pass",
+      "detail": "click exposes bounded predicate wording without promoting it to a canonical definition"
+    },
+    {
+      "id": "lens-activation",
+      "status": "pass",
+      "detail": "ordinary lens anchor activates exactly one editorial lens"
+    },
+    {
+      "id": "overview-recovery",
+      "status": "pass",
+      "detail": "ordinary overview anchor restores the search and six-lens overview"
+    },
+    {
+      "id": "search-exact-runner",
+      "status": "pass",
+      "detail": "search returns the one canonical Runner target"
+    },
+    {
+      "id": "search-focus-transfer",
+      "status": "pass",
+      "detail": "search navigation focuses the canonical Runner node"
+    },
+    {
+      "id": "node-brief-hover",
+      "status": "pass",
+      "detail": "hover exposes the representative node brief: {\"hovered\":true,\"open\":true,\"display\":\"block\",\"contentVisibility\":\"visible\",\"width\":399.65625,\"height\":1461.234375}"
+    },
+    {
+      "id": "node-brief-focus",
+      "status": "pass",
+      "detail": "keyboard focus exposes the representative node brief"
+    },
+    {
+      "id": "node-brief-keyboard-persistent",
+      "status": "pass",
+      "detail": "Enter persistently opens exact source-backed node metadata and incidence"
+    },
+    {
+      "id": "exact-relation-arrow-order",
+      "status": "pass",
+      "detail": "the representative relation presents non-empty source, predicate, and target in semantic DOM order"
+    },
+    {
+      "id": "exact-relation-arrow-focus",
+      "status": "pass",
+      "detail": "the exact source endpoint is independently keyboard-focusable"
+    },
+    {
+      "id": "relation-brief-click",
+      "status": "pass",
+      "detail": "click exposes the exact relation tuple and policy metadata"
+    },
+    {
+      "id": "portal-original-direction",
+      "status": "pass",
+      "detail": "the portal exposes its original source-lens to target-lens direction"
+    },
+    {
+      "id": "portal-target-lens",
+      "status": "pass",
+      "detail": "portal activation reveals the other endpoint's core lens"
+    },
+    {
+      "id": "portal-target-focus",
+      "status": "pass",
+      "detail": "portal activation focuses the exact target endpoint"
+    },
+    {
+      "id": "portal-visible-target-geometry",
+      "status": "pass",
+      "detail": "the fragment target has visible non-color selection geometry"
+    },
+    {
+      "id": "lens-brief-click",
+      "status": "pass",
+      "detail": "click exposes the lens question, counts, and directed flows"
+    },
+    {
+      "id": "history-recovery",
+      "status": "pass",
+      "detail": "Back restores and focuses the prior canonical node location"
+    },
+    {
+      "id": "blocked-brief-fixtures",
+      "status": "pass",
+      "detail": "the generated atlas retains both a recorded blocking question and an explicit missing-question example"
+    },
+    {
+      "id": "blocked-recorded-question-visible",
+      "status": "pass",
+      "detail": "a recorded blocking question is visible in the opened node brief"
+    },
+    {
+      "id": "blocked-missing-question-visible",
+      "status": "pass",
+      "detail": "the source-backed absence of a blocking question is explicitly visible"
+    },
+    {
+      "id": "fragment-integrity",
+      "status": "pass",
+      "detail": "all ordinary fragment links resolve to exactly one target"
+    },
+    {
+      "id": "native-no-js-complete",
+      "status": "pass",
+      "detail": "all lenses, nodes, and relations remain visible without JavaScript"
+    },
+    {
+      "id": "native-no-js-links",
+      "status": "pass",
+      "detail": "ordinary endpoint links remain available without JavaScript"
+    },
+    {
+      "id": "native-no-js-arrow-and-lane-meaning",
+      "status": "pass",
+      "detail": "all 13 semantic lanes and 231 exact relation arrows remain readable without JavaScript"
+    },
+    {
+      "id": "native-no-js-brief",
+      "status": "pass",
+      "detail": "static-open native details expose source-backed reference content without JavaScript"
+    },
+    {
+      "id": "mobile-no-horizontal-document-overflow",
+      "status": "pass",
+      "detail": "390px viewport has 390px scroll width and 390px client width"
+    },
+    {
+      "id": "mobile-semantic-overview",
+      "status": "pass",
+      "detail": "mobile hides only the compressed spatial map and preserves all 13 semantic lanes"
+    },
+    {
+      "id": "mobile-exact-arrow-stacks",
+      "status": "pass",
+      "detail": "mobile exact arrow stacks source, predicate, and target without horizontal loss (335/335)"
+    },
+    {
+      "id": "mobile-touch-brief",
+      "status": "pass",
+      "detail": "touch/click persistently exposes the exact relation brief"
+    },
+    {
+      "id": "two-hundred-percent-text",
+      "status": "pass",
+      "detail": "200% root text preserves the opened relation brief without horizontal document loss (1280/1280)"
+    },
+    {
+      "id": "reduced-motion",
+      "status": "pass",
+      "detail": "reduced motion disables smooth scrolling"
+    },
+    {
+      "id": "print-all-lenses",
+      "status": "pass",
+      "detail": "print mode exposes all six lenses"
+    },
+    {
+      "id": "print-search-hidden",
+      "status": "pass",
+      "detail": "print mode hides the interactive search control"
+    },
+    {
+      "id": "print-arrow-lanes-and-briefs",
+      "status": "pass",
+      "detail": "print retains all semantic lanes, exact arrows, and reference-brief content"
+    },
+    {
+      "id": "browser-errors",
+      "status": "pass",
+      "detail": "zero console errors and page errors (0/0)"
+    },
+    {
+      "id": "request-errors",
+      "status": "pass",
+      "detail": "zero failed browser requests (0)"
+    },
+    {
+      "id": "external-network-isolation",
+      "status": "pass",
+      "detail": "zero external network requests (0)"
+    },
+    {
+      "id": "runtime-isolation",
+      "status": "pass",
+      "detail": "loopback server served only the exact atlas path"
+    }
+  ],
+  "console_errors": [],
+  "page_errors": [],
+  "screenshots": {
+    "overview": {
+      "path": "receipts/view-atlas-arrow-overview.png",
+      "sha256": "d59422c3b86f814acefa42d60999c0e92b1ced573568bfd4474be61423eedcc7",
+      "size_bytes": 1075420
+    },
+    "relation_mobile": {
+      "path": "receipts/view-atlas-arrow-relation-mobile.png",
+      "sha256": "11b88c052be9dd4b95ebff2b02c93be6e28123a3ce9303b81b4808377a0d85b7",
+      "size_bytes": 306288
+    }
+  },
+  "failure": null,
+  "human_comprehension_state": "not-run",
+  "accessibility_conformance_state": "not-claimed",
+  "authority_effect": "none",
+  "release_admission": "not-granted",
+  "claim_ceiling": "Pinned browser structure and interaction evidence only; no human comprehension, accessibility conformance, ontology promotion, release, deployment, or production evidence."
+}

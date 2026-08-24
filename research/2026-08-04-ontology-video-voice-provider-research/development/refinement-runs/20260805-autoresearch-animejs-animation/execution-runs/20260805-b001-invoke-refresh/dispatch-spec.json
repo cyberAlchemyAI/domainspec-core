@@ -1,0 +1,213 @@
+{
+  "dispatch_id": "invoke-refresh-oava-b001-20260805",
+  "intent": {
+    "raw": "invoke:refresh:apply-approved",
+    "objective": "Synchronize only the B-001 blocker state after verified local Anime.js v4.5.0 acquisition without starting or completing an SWU.",
+    "target_artifact": "Ontology Video Anime.js Prototype planning frontier",
+    "arcanum_vocabulary": ["invoke", "refresh", "apply-approved", "blocker_resolved", "material package"]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "approval_semantics_map",
+    "artifact_contract_bridge",
+    "validation_loop",
+    "concrete_path_evidence",
+    "owner_boundary_check",
+    "state_namespace_boundary",
+    "execution_receipt_handoff",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "private-refresh-boundary",
+      "trigger": "The direct-user refresh applies an exact two-file mutation inside a private planning run.",
+      "techniques": ["approval_semantics_map", "state_namespace_boundary", "owner_boundary_check"],
+      "applies_to_steps": ["materialize-refresh", "apply-refresh", "validate-refresh"],
+      "validation_expectation": "Approval scope, material targets, target inventory, lifecycle owner, and private/internal boundary must match exactly."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "This is one deterministic two-file status synchronization with no independent lanes or delegated lifecycle work.",
+    "authorization": "not_needed"
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "materialize-refresh",
+      "name": "Materialize and validate the exact refresh package",
+      "capability_ref": "invoke",
+      "mode": "refresh",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["approval_semantics_map", "artifact_contract_bridge", "concrete_path_evidence"],
+      "inputs": [
+        {"kind": "human_answer", "ref": "invoke:refresh:apply-approved"},
+        {"kind": "receipt", "ref": "animejs-acquisition-receipt"},
+        {"kind": "receipt", "ref": "animejs-validation-receipt"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "material-package.json"},
+        {"kind": "receipt", "ref": "material-receipt.json"}
+      ],
+      "stop_conditions": ["Material package receipt is absent, rejected, mismatched, or not ready."]
+    },
+    {
+      "step_id": "apply-refresh",
+      "name": "Apply only the validated B-001 planning delta",
+      "capability_ref": "invoke",
+      "mode": "refresh",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["materialize-refresh"],
+      "techniques": ["sequence", "owner_boundary_check", "state_namespace_boundary", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": "material-receipt.json"},
+        {"kind": "artifact", "ref": "material-package.json"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "RUNTIME-HANDOFF.md"},
+        {"kind": "receipt", "ref": "material-handoff.json"}
+      ],
+      "stop_conditions": ["Live target hashes differ from the captured baselines.", "Any mutation path falls outside the approved two-file inventory."]
+    },
+    {
+      "step_id": "validate-refresh",
+      "name": "Validate applied bytes and emit the terminal refresh report",
+      "capability_ref": "invoke",
+      "mode": "refresh",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["apply-refresh"],
+      "techniques": ["validation_loop", "concrete_path_evidence", "observability_grouping"],
+      "inputs": [
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "RUNTIME-HANDOFF.md"},
+        {"kind": "receipt", "ref": "material-handoff.json"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "refresh-report.json"},
+        {"kind": "trace_event", "ref": "invoke-refresh-completed"}
+      ],
+      "evidence_artifact": "refresh-report.json",
+      "stop_conditions": ["Applied targets do not match staged outputs byte-for-byte.", "B-001 remains described as open or an SWU is described as selected or completed."]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "exact-user-approval",
+      "kind": "human_approval",
+      "owner": "user",
+      "condition": "The exact invoke:refresh:apply-approved route authorizes only WORK-PACK.md and RUNTIME-HANDOFF.md.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "material-handoff-ready",
+      "kind": "validation",
+      "owner": "invoke",
+      "condition": "The material receipt and refresh handoff both pass with mutationReady true and no blockers.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "claim-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "invoke",
+      "condition": "The refresh resolves only B-001; it does not select, start, complete, promote, deploy, or publish any SWU or ontology artifact.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "applied-byte-validation",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Both approved targets match their validated staging outputs exactly and the refresh report parses.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "invoke-refresh-materialized",
+      "invoke-refresh-handoff-ready",
+      "invoke-refresh-applied",
+      "invoke-refresh-validated"
+    ],
+    "signal_grouping": "invoke-refresh-oava-b001-20260805"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "direct-user-apply",
+        "kind": "human_approval",
+        "from_owner": "user",
+        "to_owner": "invoke",
+        "applies_to_steps": ["materialize-refresh", "apply-refresh"],
+        "contract": "Approval binds exactly the normalized material-package targets and no other repository paths.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "private-planning-write",
+        "kind": "state_write",
+        "from_owner": "invoke",
+        "to_owner": "Ontology Video Anime.js Prototype planning frontier",
+        "applies_to_steps": ["apply-refresh"],
+        "contract": "Write only the two validated private/internal planning artifacts and preserve all task execution boundaries.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "refresh-evidence-return",
+        "kind": "evidence_return",
+        "from_owner": "invoke",
+        "to_owner": "user",
+        "applies_to_steps": ["validate-refresh"],
+        "contract": "Return exact changed paths, validation results, remaining blockers, and next route without inflating lifecycle claims.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke",
+      "execution": "task-session",
+      "validation": "invoke",
+      "evidence": "invoke execution run",
+      "memory": "memory owner",
+      "promotion": "ontology owner"
+    },
+    "receipts": [
+      {
+        "receipt_id": "material-receipt.json",
+        "producer": "invoke material package validator",
+        "required_fields": ["artifacts", "validation_result", "approval_record"],
+        "stores": ["execution-runs/20260805-b001-invoke-refresh"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "refresh-report.json",
+        "producer": "invoke refresh",
+        "required_fields": ["artifacts", "validation_result", "status", "validation", "blockers", "handoff_note"],
+        "stores": ["execution-runs/20260805-b001-invoke-refresh"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "invoke refresh execution evidence",
+        "owner": "invoke",
+        "write_policy": "May write only under execution-runs/20260805-b001-invoke-refresh."
+      },
+      {
+        "namespace": "prototype planning frontier",
+        "owner": "invoke",
+        "write_policy": "May update only WORK-PACK.md and RUNTIME-HANDOFF.md under the exact direct-user approval."
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "B-001 resolution does not complete OAVA-003.",
+    "No source video, AutoAds, canonical Anime.js vault, public Arcanum source, or ontology authority is mutated.",
+    "Execution remains owned by a future explicit Task Session beginning with OAVA-001."
+  ]
+}

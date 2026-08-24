@@ -30,9 +30,49 @@ It does **not** authorize:
 - opening a browser or claiming UX/accessibility evidence;
 - promotion, publication, release, or production use.
 
-Execution remains blocked until the refreshed package and receipt pass, the
-Plan owner accepts the changed graph, a human explicitly selects
-`SWU-OEW-006B`, and Task Session passes a fresh preflight.
+That approval did not authorize execution. Its proposed 006B path is now
+historical because attempt 001 exposed a later build-order blocker.
+
+## Build-Order Repair Approval
+
+On 2026-07-27 the user selected option A at
+`DG-OEW-006B-BUILD-ORDER`. This authorizes an apply-approved Invoke Refresh of
+the private design/Plan graph only:
+
+- retain consumed `SWU-OEW-006B` as historical blocked evidence;
+- add `SWU-OEW-006P` to prove the isolated toolchain/materializer with a
+  self-owned fixture patch, without a final feature-build claim;
+- make 007–013 consume the verified toolchain interface;
+- add `SWU-OEW-013B` after all feature source to produce and independently
+  verify the immutable final build;
+- make 014 consume the verified 013B handle and retain 014V as independent
+  browser acceptance;
+- invalidate the active repaired-L1 selection and require a new exact-unit
+  selection.
+
+This approval does not select 006P or any Task Session.
+
+## First Working Version Refresh Approval
+
+On 2026-07-28 the user explicitly invoked `invoke` for the necessary changes
+showing what OEW is trying to build and the next target. That direct instruction
+authorizes apply-approved mutation of the private Design, Plan, work-pack, and
+Task Session continuity artifacts only:
+
+- state the first working version as one local Poker evidence-review workbench;
+- preserve completed `SWU-OEW-006P` and `SWU-OEW-007`;
+- preserve blocked `SWU-OEW-008` and its zero-mutation receipt as history;
+- supersede the unexecuted component selectors 008–013 with the coherent
+  vertical source selector `SWU-OEW-008F`;
+- reduce the remaining L1 route to
+  `008F → 013B → 014 → 014V`;
+- add a preselection validator that proves one package root and command-to-
+  entrypoint closure; and
+- open `G-OEW-L1-FIRST-WORKING-VERSION-SELECTION` without resolving it.
+
+This refresh does not alter the existing implementation `package.json`, select
+`SWU-OEW-008F`, authorize a Task Session, or execute any UI/build/browser work.
+The earlier split-build selection does not bind the refreshed four-unit graph.
 
 ## Open Questions
 

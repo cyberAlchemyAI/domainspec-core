@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "augmentor.consultation.projection@0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "records", "structuredConflicts"],
+  "properties": {
+    "schemaVersion": {"const": "augmentor.consultation.projection@0.1.0"},
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "label", "summary", "viewIds", "fields", "fieldProvenance", "sourceHandles", "confidence"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^rec-[a-f0-9]{12}$"},
+          "kind": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1},
+          "summary": {"type": "string", "minLength": 1},
+          "viewIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "fields": {"type": "object", "additionalProperties": false, "properties": {"responsibility": {"type": "string"}, "boundary": {"type": "string"}}},
+          "fieldProvenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "summary"],
+            "properties": {
+              "label": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"},
+              "summary": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"},
+              "responsibility": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"},
+              "boundary": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"}
+            }
+          },
+          "sourceHandles": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"}},
+          "confidence": {
+            "type": "object", "additionalProperties": false,
+            "required": ["level", "ownerRef", "basis", "assessedAt", "sourceHandle"],
+            "properties": {"level": {"enum": ["low", "medium", "high"]}, "ownerRef": {"type": "string"}, "basis": {"type": "string"}, "assessedAt": {"type": "string"}, "sourceHandle": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"}}
+          }
+        }
+      }
+    },
+    "structuredConflicts": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["subjectId", "predicate", "statementIds"],
+        "properties": {"subjectId": {"type": "string"}, "predicate": {"type": "string"}, "statementIds": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}}}
+      }
+    }
+  }
+}

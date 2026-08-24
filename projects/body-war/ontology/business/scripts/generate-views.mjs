@@ -10,6 +10,14 @@ import {
   predicatePhrases,
   relationPhraseOverrides,
 } from "../authoring/view-catalog.mjs";
+import {
+  viewAtlasBoundary,
+  viewAtlasDispositionLabels,
+  viewAtlasIsolateDispositions,
+  viewAtlasLenses,
+} from "../authoring/view-atlas-catalog.mjs";
+import { projectViewAtlas } from "./view-atlas-projection.mjs";
+import { renderViewAtlasHtml } from "./render-view-atlas.mjs";
 
 const packageRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -22,6 +30,10 @@ const htmlOutputPath = path.join(packageRoot, "BUSINESS-VIEWS.html");
 const journeyExperimentOutputPath = path.join(
   packageRoot,
   "BUSINESS-JOURNEY-EXPERIMENT.html",
+);
+const viewAtlasOutputPath = path.join(
+  packageRoot,
+  "BUSINESS-VIEW-ATLAS.html",
 );
 const generatedViewRoot = path.join(packageRoot, "generated", "views");
 
@@ -76,12 +88,20 @@ const nodeById = new Map(nodes.map((node) => [node.concept_id, node]));
 const relationSet = await readJson(
   path.join(packageRoot, "relations/relations.json"),
 );
+const packageProfile = await readJson(path.join(packageRoot, "profile.json"));
+const residueProjection = await readJson(path.join(packageRoot, "residue.json"));
 const relationById = new Map(
   relationSet.relations.map((relation) => [
     relation.relation_id,
     relation,
   ]),
 );
+const viewAtlasProjection = projectViewAtlas({
+  nodes,
+  relations: relationSet.relations,
+  lenses: viewAtlasLenses,
+  isolateDispositions: viewAtlasIsolateDispositions,
+});
 
 const lifecycleNames = (await readdir(lifecycleRoot))
   .filter((name) => name.endsWith(".json"))
@@ -482,17 +502,11 @@ function relationsForChapter(story, chapter) {
 function journeyRelationTone(relation) {
   const source = nodeById.get(relation.source_concept);
   const target = nodeById.get(relation.target_concept);
-  if (
-    relation.predicate === "does_not_promote" ||
-    relation.authority_effect === "blocked"
-  ) {
-    return { className: "boundary", label: "Claim limit" };
-  }
-  if (
-    source.candidate_status === "blocked" ||
-    target.candidate_status === "blocked"
-  ) {
-    return { className: "gate", label: "Owner gate visible" };
+  if (relation.predicate === "does_not_promote") {
+    return {
+      className: "nonpromotion",
+      label: "Explicitly does not promote",
+    };
   }
   if (
     relation.authority_effect === "projection" ||
@@ -502,7 +516,29 @@ function journeyRelationTone(relation) {
   ) {
     return { className: "projection", label: "Projection only" };
   }
+  const residueMatches = residueForRelation(relation);
+  if (
+    relation.authority_effect === "blocked" ||
+    source.candidate_status === "blocked" ||
+    target.candidate_status === "blocked" ||
+    residueMatches.some((item) => item.status === "blocked")
+  ) {
+    return {
+      className: "gate",
+      label: "Blocked — owner decision required",
+    };
+  }
   return { className: "candidate", label: "Candidate meaning" };
+}
+
+function residueForRelation(relation) {
+  const endpoints = new Set([
+    relation.source_concept,
+    relation.target_concept,
+  ]);
+  return residueProjection.items.filter((item) =>
+    item.affected_concepts.some((conceptId) => endpoints.has(conceptId)),
+  );
 }
 
 function renderJourneyRelationCard(relation) {
@@ -510,6 +546,7 @@ function renderJourneyRelationCard(relation) {
   const target = nodeById.get(relation.target_concept);
   const phrase = phraseFor(relation);
   const tone = journeyRelationTone(relation);
+  const residueMatches = residueForRelation(relation);
   const accessibleSentence = `${source.label} ${phrase} ${target.label}. Typed predicate ${relation.predicate}.`;
   return [
     `<li class="relation-card ${tone.className}" data-relation-id="${escapeHtml(relation.relation_id)}">`,
@@ -534,7 +571,11 @@ function renderJourneyRelationCard(relation) {
     `<div><dt>Predicate</dt><dd><code>${escapeHtml(relation.predicate)}</code></dd></div>`,
     `<div><dt>Authority effect</dt><dd><code>${escapeHtml(relation.authority_effect)}</code></dd></div>`,
     `<div><dt>Relation</dt><dd><code>${escapeHtml(relation.relation_id)}</code></dd></div>`,
-    `<div><dt>Owner</dt><dd><code>${escapeHtml(relation.owner_route)}</code></dd></div>`,
+    `<div><dt>Relation owner</dt><dd><code>${escapeHtml(relation.owner_route)}</code></dd></div>`,
+    ...residueMatches.map(
+      (item) =>
+        `<div class="wide blocking-context" data-residue-id="${escapeHtml(item.residue_id)}" data-residue-status="${escapeHtml(item.status)}"><dt>Blocking owner</dt><dd><code>${escapeHtml(item.owner_route)}</code></dd><dt>Next gate</dt><dd>${escapeHtml(item.next_gate)}</dd></div>`,
+    ),
     `<div class="wide"><dt>Source concept</dt><dd><code>${escapeHtml(source.concept_id)}</code></dd></div>`,
     `<div class="wide"><dt>Target concept</dt><dd><code>${escapeHtml(target.concept_id)}</code></dd></div>`,
     "</dl>",
@@ -556,9 +597,9 @@ function renderJourneyChapter(story, chapter, chapterIndex) {
     `<p>${escapeHtml(chapter.summary)}</p>`,
     "</div>",
     "</div>",
-    '<ol class="relation-list">',
+    '<ul class="relation-list">',
     ...relations.map(renderJourneyRelationCard),
-    "</ol>",
+    "</ul>",
     "</section>",
   ].join("\n");
 }
@@ -569,7 +610,7 @@ function renderJourneyStory(story, storyIndex) {
     0,
   );
   return [
-    `<article class="story-panel" id="story-${escapeHtml(story.story_id)}" role="tabpanel" aria-labelledby="tab-${escapeHtml(story.story_id)}">`,
+    `<article class="story-panel" id="story-${escapeHtml(story.story_id)}" data-story-panel="${escapeHtml(story.story_id)}">`,
     '<header class="story-header">',
     `<p class="eyebrow">${escapeHtml(story.eyebrow)}</p>`,
     `<h2>${escapeHtml(story.title)}</h2>`,
@@ -582,7 +623,7 @@ function renderJourneyStory(story, storyIndex) {
     "<ol>",
     ...story.chapters.map(
       (chapter, chapterIndex) =>
-        `<li><a href="#${escapeHtml(`${story.story_id}-${chapter.chapter_id}`)}"><span>${chapterIndex + 1}</span>${escapeHtml(chapter.short_label)}</a></li>`,
+        `<li><a href="#${escapeHtml(`${story.story_id}-${chapter.chapter_id}`)}"><span>${escapeHtml(chapter.marker ?? chapterIndex + 1)}</span>${escapeHtml(chapter.short_label)}</a></li>`,
     ),
     "</ol>",
     "</nav>",
@@ -627,21 +668,21 @@ function renderJourneyExperimentHtml() {
     ".site-header{background:linear-gradient(135deg,#10243e 0%,#163b52 62%,#176b87 100%);color:#fff;padding:24px clamp(20px,6vw,88px) 54px}.topline{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1240px;margin:0 auto 60px}.brand{font-weight:850;letter-spacing:.04em}.projection-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.38);border-radius:999px;padding:7px 12px;font-size:.78rem;font-weight:750}.projection-badge::before{content:\"\";width:8px;height:8px;border-radius:50%;background:#ffb59f}",
     ".hero{max-width:900px;margin:0 auto 0 0}.hero .eyebrow,.story-header .eyebrow{margin:0 0 10px;text-transform:uppercase;letter-spacing:.13em;font-size:.74rem;font-weight:850;color:#ffb59f}.hero h1{max-width:760px;margin:0;font-size:clamp(2.4rem,6vw,5.2rem);line-height:.96;letter-spacing:-.055em}.hero p{max-width:760px;margin:24px 0 0;font-size:clamp(1rem,2vw,1.25rem);line-height:1.6;color:#d9e6eb}",
     ".workspace{max-width:1240px;margin:-28px auto 80px;padding:0 24px}.control-deck{position:sticky;top:12px;z-index:10;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:18px;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 50px rgba(16,36,62,.13)}",
-    ".story-tabs{display:flex;gap:8px;flex-wrap:wrap}.story-tabs button{appearance:none;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:11px 15px;font-weight:780;cursor:pointer}.story-tabs button[aria-selected=\"true\"]{color:#fff;background:var(--ink);border-color:var(--ink)}.story-tabs button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #ffad98;outline-offset:3px}",
+    ".story-tabs{display:flex;gap:8px;flex-wrap:wrap}.story-tabs .story-tab{appearance:none;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:11px 15px;font-weight:780;cursor:pointer;text-decoration:none}.story-tabs .story-tab[aria-selected=\"true\"]{color:#fff;background:var(--ink);border-color:var(--ink)}.story-tabs .story-tab:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #ffad98;outline-offset:3px}",
     ".detail-toggle{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.88rem;font-weight:750;white-space:nowrap}.detail-toggle input{width:20px;height:20px;accent-color:var(--accent)}",
-    ".story-panel{padding-top:42px}.story-panel[hidden]{display:none}.story-header{max-width:900px}.story-header .eyebrow{color:var(--accent-dark)}.story-header h2{margin:0;font-size:clamp(2rem,4vw,3.6rem);line-height:1;letter-spacing:-.04em}.story-question{font-size:1.2rem;font-weight:720;line-height:1.45}.story-header>p:last-of-type{color:var(--muted);line-height:1.6}.story-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.story-facts span{border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 11px;font-size:.8rem;font-weight:760;color:var(--muted)}",
+    ".story-panel{padding-top:42px}.js .story-panel[hidden]{display:none}.story-header{max-width:900px}.story-header .eyebrow{color:var(--accent-dark)}.story-header h2{margin:0;font-size:clamp(2rem,4vw,3.6rem);line-height:1;letter-spacing:-.04em}.story-question{font-size:1.2rem;font-weight:720;line-height:1.45}.story-header>p:last-of-type{color:var(--muted);line-height:1.6}.story-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.story-facts span{border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 11px;font-size:.8rem;font-weight:760;color:var(--muted)}",
     ".chapter-nav{margin:32px 0;padding:18px 20px;background:#edf4f4;border-radius:18px}.chapter-nav>p{margin:0 0 12px;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:850;color:var(--muted)}.chapter-nav ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:0;padding:0}.chapter-nav a{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:780;padding:10px;border-radius:10px}.chapter-nav a:hover{background:#fff}.chapter-nav a span{display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:var(--ink);color:#fff;font-size:.75rem}",
     ".sequence-note{margin:24px 0 42px;padding:16px 18px;border-left:4px solid var(--blue);background:#e9f3f6;color:#24485a;line-height:1.5}.chapter{scroll-margin-top:120px;margin:0 0 64px}.chapter-heading{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;margin-bottom:20px}.chapter-number{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--accent);color:#fff;font-size:1.1rem;font-weight:900;box-shadow:0 8px 20px rgba(255,93,59,.25)}.chapter-kicker{margin:0 0 5px;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;font-weight:850;color:var(--accent-dark)}.chapter h3{margin:0;font-size:clamp(1.4rem,3vw,2rem);letter-spacing:-.025em}.chapter-heading p:last-child{margin:8px 0 0;color:var(--muted);line-height:1.5}",
-    ".relation-list{list-style:none;margin:0;padding:0;display:grid;gap:14px;min-width:0}.relation-card{position:relative;min-width:0;padding:18px;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:18px;background:var(--card);box-shadow:0 8px 24px rgba(16,36,62,.055)}.relation-card.gate{border-left-color:var(--amber)}.relation-card.projection{border-left-color:var(--blue)}.relation-card.boundary{border-left-color:var(--red);background:#fff9f8}",
+    ".relation-list{list-style:none;margin:0;padding:0;display:grid;gap:14px;min-width:0}.relation-card{position:relative;min-width:0;padding:18px;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:18px;background:var(--card);box-shadow:0 8px 24px rgba(16,36,62,.055)}.relation-card.gate{border-left-color:var(--amber)}.relation-card.projection{border-left-color:var(--blue)}.relation-card.nonpromotion{border-left-color:var(--red);background:#fff9f8}",
     ".relation-reading{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.72fr) minmax(0,1fr);gap:18px;align-items:center;min-width:0}.friendly-node{min-width:0;min-height:86px;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:#fafbf8}.friendly-node strong{font-size:1rem;line-height:1.25;overflow-wrap:anywhere}.node-kind{margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em;font-size:.64rem;font-weight:850;color:var(--muted)}",
-    ".friendly-arrow{text-align:center;color:var(--ink)}.friendly-arrow>span{display:block;font-weight:850;font-size:.9rem}.friendly-arrow svg{display:block;width:100%;height:28px;overflow:visible}.friendly-arrow line{stroke:currentColor;stroke-width:2.5}.friendly-arrow path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5}.friendly-arrow small{display:inline-block;margin-top:3px;color:var(--green);font-size:.68rem;font-weight:820;text-transform:uppercase;letter-spacing:.05em}.gate .friendly-arrow small{color:var(--amber)}.projection .friendly-arrow small{color:var(--blue)}.boundary .friendly-arrow small{color:var(--red)}",
-    ".ontology-details{margin:16px 0 0;padding-top:14px;border-top:1px dashed var(--line)}.ontology-details summary{width:max-content;max-width:100%;cursor:pointer;color:var(--blue);font-size:.76rem;font-weight:800}.ontology-details dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0 0}.ontology-details dl div{min-width:0;padding:8px 10px;border-radius:9px;background:#f2f4f5}.ontology-details .wide{grid-column:span 2}.ontology-details dt{font-size:.65rem;font-weight:850;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.ontology-details dd{margin:4px 0 0;overflow-wrap:anywhere;font-size:.72rem}.ontology-details code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}",
+    ".friendly-arrow{text-align:center;color:var(--ink)}.friendly-arrow>span{display:block;font-weight:850;font-size:.9rem}.friendly-arrow svg{display:block;width:100%;height:28px;overflow:visible}.friendly-arrow line{stroke:currentColor;stroke-width:2.5}.friendly-arrow path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5}.friendly-arrow small{display:inline-block;margin-top:3px;color:var(--green);font-size:.68rem;font-weight:820;text-transform:uppercase;letter-spacing:.05em}.gate .friendly-arrow small{color:var(--amber)}.projection .friendly-arrow small{color:var(--blue)}.nonpromotion .friendly-arrow small{color:var(--red)}",
+    ".ontology-details{margin:16px 0 0;padding-top:14px;border-top:1px dashed var(--line)}.ontology-details summary{width:max-content;max-width:100%;cursor:pointer;color:var(--blue);font-size:.76rem;font-weight:800}.ontology-details dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0 0}.ontology-details dl div{min-width:0;padding:8px 10px;border-radius:9px;background:#f2f4f5}.ontology-details .wide{grid-column:span 2}.ontology-details .blocking-context{border:1px solid #e5c792;background:#fff8e9}.ontology-details dt{font-size:.65rem;font-weight:850;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.ontology-details dd{margin:4px 0 8px;overflow-wrap:anywhere;font-size:.72rem}.ontology-details code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}",
     ".branch-note{margin:-24px 0 42px;padding:16px 18px;border:1px solid #cbd8b9;border-radius:14px;background:#f2f7e9;color:#3f522c;line-height:1.5}",
-    ".story-boundary{margin-top:30px;padding:24px;border-radius:18px;background:#241f24;color:#fff}.story-boundary span{font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;font-weight:850;color:#ffb59f}.story-boundary p{margin:9px 0 0;line-height:1.55}.support-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}.support-links a{font-weight:760}",
-    "@media(max-width:760px){.site-header{padding:20px 20px 48px}.topline{margin-bottom:44px}.workspace{padding:0 14px}.control-deck{position:relative;top:auto;grid-template-columns:1fr}.story-tabs{display:grid}.story-tabs button{text-align:left}.relation-reading{grid-template-columns:1fr;gap:8px}.friendly-arrow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;text-align:left;padding:0 12px}.friendly-arrow svg{width:48px;transform:rotate(90deg)}.friendly-arrow small{grid-column:1/-1}.ontology-details dl{grid-template-columns:1fr 1fr}.ontology-details .wide{grid-column:1/-1}.chapter-nav ol{grid-template-columns:1fr 1fr}}",
+    ".package-ceiling{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}.package-ceiling span{border:1px solid #b9c7ce;border-radius:999px;background:#fff;padding:7px 11px;font:700 .78rem ui-monospace,SFMono-Regular,Menlo,monospace}.story-boundary{margin-top:30px;padding:24px;border-radius:18px;background:#241f24;color:#fff}.story-boundary span{font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;font-weight:850;color:#ffb59f}.story-boundary p{margin:9px 0 0;line-height:1.55}.support-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}.support-links a{font-weight:760}",
+    "@media(max-width:760px){.site-header{padding:20px 20px 48px}.topline{margin-bottom:44px}.workspace{padding:0 14px}.control-deck{position:relative;top:auto;grid-template-columns:1fr}.story-tabs{display:grid}.story-tabs .story-tab{text-align:left}.relation-reading{grid-template-columns:1fr;gap:8px}.friendly-arrow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;text-align:left;padding:0 12px}.friendly-arrow svg{width:48px;transform:rotate(90deg)}.friendly-arrow small{grid-column:1/-1}.ontology-details dl{grid-template-columns:1fr 1fr}.ontology-details .wide{grid-column:1/-1}.chapter-nav ol{grid-template-columns:1fr 1fr}}",
     "@media(max-width:420px){.topline{align-items:flex-start;flex-direction:column}.chapter-nav ol{grid-template-columns:1fr}.ontology-details dl{grid-template-columns:1fr}.ontology-details .wide{grid-column:1}}",
     "@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}",
-    "@media print{.site-header{padding:16mm;color:#000;background:#fff}.topline{margin-bottom:15mm}.projection-badge{border-color:#777}.hero p{color:#333}.workspace{max-width:none;margin:0;padding:0 12mm}.control-deck,.support-links{display:none}.story-panel[hidden]{display:block}.story-panel{break-before:page}.story-panel:first-of-type{break-before:auto}.chapter{break-before:page}.relation-card{break-inside:avoid;box-shadow:none}.ontology-details>dl{display:grid!important}}",
+    "@media print{.site-header{padding:16mm;color:#000;background:#fff}.topline{margin-bottom:15mm}.projection-badge{border-color:#777}.hero p{color:#333}.workspace{max-width:none;margin:0;padding:0 12mm}.control-deck,.support-links{display:none}.js .story-panel[hidden]{display:block}.story-panel{break-before:page}.story-panel:first-of-type{break-before:auto}.chapter{break-before:page}.relation-card{break-inside:avoid;box-shadow:none}.ontology-details>dl{display:grid!important}}",
     "</style>",
     "</head>",
     "<body>",
@@ -654,16 +695,21 @@ function renderJourneyExperimentHtml() {
     "</div>",
     "</header>",
     '<main class="workspace">',
+    '<aside class="package-ceiling" aria-label="Package authority ceiling">',
+    `<span>status: ${escapeHtml(packageProfile.status)}</span>`,
+    `<span>authority_effect: ${escapeHtml(packageProfile.authority_effect)}</span>`,
+    `<span>release_admission: ${escapeHtml(packageProfile.release_admission)}</span>`,
+    "</aside>",
     '<section class="control-deck" aria-label="Experiment controls">',
-    '<div class="story-tabs" role="tablist" aria-label="Choose a business story">',
+    '<nav class="story-tabs" aria-label="Choose a business story">',
     ...journeyStories.map(
-      (story, index) =>
-        `<button type="button" id="tab-${escapeHtml(story.story_id)}" role="tab" aria-selected="${index === 0 ? "true" : "false"}" aria-controls="story-${escapeHtml(story.story_id)}" tabindex="${index === 0 ? "0" : "-1"}" data-story-target="${escapeHtml(story.story_id)}">${escapeHtml(story.title)}</button>`,
+      (story) =>
+        `<a class="story-tab" id="tab-${escapeHtml(story.story_id)}" href="#story-${escapeHtml(story.story_id)}" data-story-target="${escapeHtml(story.story_id)}">${escapeHtml(story.title)}</a>`,
     ),
-    "</div>",
+    "</nav>",
     '<label class="detail-toggle" for="ontology-detail-toggle"><input id="ontology-detail-toggle" type="checkbox"><span>Expand all ontology details</span></label>',
     "</section>",
-    '<noscript><p class="sequence-note">JavaScript is disabled. Both stories remain available when printing; enable JavaScript to switch stories on screen.</p></noscript>',
+    '<noscript><p class="sequence-note">JavaScript is disabled. Both complete stories remain visible and the ordinary story and chapter links continue to work.</p></noscript>',
     ...journeyStories.map(renderJourneyStory),
     '<footer class="support-links">',
     `<span>${journeyStories.length} stories · ${relationCount} displayed relation occurrences · generated from existing ontology data.</span>`,
@@ -672,10 +718,12 @@ function renderJourneyExperimentHtml() {
     "</footer>",
     "</main>",
     "<script>",
-    "const tabs=[...document.querySelectorAll('[role=\"tab\"]')];",
-    "const panels=[...document.querySelectorAll('[role=\"tabpanel\"]')];",
+    "document.documentElement.classList.add('js');",
+    "const tablist=document.querySelector('.story-tabs');const tabs=[...document.querySelectorAll('.story-tab')];",
+    "const panels=[...document.querySelectorAll('[data-story-panel]')];",
+    "tablist.setAttribute('role','tablist');for(const [index,tab] of tabs.entries()){tab.setAttribute('role','tab');tab.setAttribute('aria-controls',`story-${tab.dataset.storyTarget}`);tab.setAttribute('aria-selected',String(index===0));tab.tabIndex=index===0?0:-1}for(const panel of panels){panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',`tab-${panel.dataset.storyPanel}`)}",
     "function activateStory(storyId,{focus=false}={}){for(const tab of tabs){const active=tab.dataset.storyTarget===storyId;tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;if(active&&focus)tab.focus()}for(const panel of panels){panel.hidden=panel.id!==`story-${storyId}`}}",
-    "tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activateStory(tab.dataset.storyTarget));tab.addEventListener('keydown',(event)=>{let next=index;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index-1+tabs.length)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();activateStory(tabs[next].dataset.storyTarget,{focus:true})})});",
+    "tabs.forEach((tab,index)=>{tab.addEventListener('click',(event)=>{event.preventDefault();activateStory(tab.dataset.storyTarget)});tab.addEventListener('keydown',(event)=>{let next=index;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index-1+tabs.length)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();activateStory(tabs[next].dataset.storyTarget,{focus:true})})});",
     "const detailToggle=document.querySelector('#ontology-detail-toggle');const ontologyDetails=[...document.querySelectorAll('details.ontology-details')];detailToggle.addEventListener('change',()=>{for(const detail of ontologyDetails)detail.open=detailToggle.checked});",
     "activateStory(tabs[0].dataset.storyTarget);",
     "window.addEventListener('beforeprint',()=>{for(const detail of ontologyDetails)detail.open=true});",
@@ -821,6 +869,10 @@ const lines = [
   "[interactive journey experiment](BUSINESS-JOURNEY-EXPERIMENT.html). It begins",
   "with ordinary-language stories and reveals ontology metadata on request.",
   "",
+  "For a complete indexed reading surface, open the",
+  "[whole-ontology view atlas](BUSINESS-VIEW-ATLAS.html). It assigns every current",
+  "node to one removable editorial lens and preserves every admitted relation.",
+  "",
   "## Relation sentence example",
   "",
   "The visible phrase makes the business meaning readable; the predicate under the",
@@ -911,12 +963,25 @@ const svgArtifacts = [
 ];
 const htmlRendered = renderPrintableHtml();
 const journeyExperimentRendered = renderJourneyExperimentHtml();
+const viewAtlasRendered = renderViewAtlasHtml({
+  projection: viewAtlasProjection,
+  nodes,
+  relations: relationSet.relations,
+  profile: packageProfile,
+  dispositionLabels: viewAtlasDispositionLabels,
+  boundary: viewAtlasBoundary,
+  phraseFor,
+});
 const artifacts = [
   { outputPath, content: rendered },
   { outputPath: htmlOutputPath, content: htmlRendered },
   {
     outputPath: journeyExperimentOutputPath,
     content: journeyExperimentRendered,
+  },
+  {
+    outputPath: viewAtlasOutputPath,
+    content: viewAtlasRendered,
   },
   ...svgArtifacts,
 ];
@@ -949,16 +1014,24 @@ if (process.argv.includes("--check")) {
     );
   }
   process.stdout.write(
-    `business views current: ${graphViews.length} graph views, ${featuredRelationExamples.length} featured relation example, ${journeyStories.length} journey stories, ${lifecycleViewPolicyIds.length} lifecycle views, and 2 HTML projections\n`,
+    `business views current: ${graphViews.length} graph views, ${featuredRelationExamples.length} featured relation example, ${journeyStories.length} journey stories, ${lifecycleViewPolicyIds.length} lifecycle views, and 3 HTML projections\n`,
   );
 } else {
   await mkdir(generatedViewRoot, { recursive: true });
   await Promise.all(
-    artifacts.map((artifact) =>
-      writeFile(artifact.outputPath, artifact.content),
-    ),
+    artifacts.map(async (artifact) => {
+      let current = null;
+      try {
+        current = await readFile(artifact.outputPath, "utf8");
+      } catch {
+        // A missing generated artifact is created below.
+      }
+      if (current !== artifact.content) {
+        await writeFile(artifact.outputPath, artifact.content);
+      }
+    }),
   );
   process.stdout.write(
-    `generated ${graphViews.length} graph views, ${featuredRelationExamples.length} featured relation example, ${journeyStories.length} journey stories, ${lifecycleViewPolicyIds.length} lifecycle views, and 2 HTML projections\n`,
+    `generated ${graphViews.length} graph views, ${featuredRelationExamples.length} featured relation example, ${journeyStories.length} journey stories, ${lifecycleViewPolicyIds.length} lifecycle views, and 3 HTML projections\n`,
   );
 }

@@ -1,0 +1,39 @@
+{
+  "schema_version": "arcanum.research.exact-binding-closure.v0.1",
+  "dispatch_id": "2026-08-05-arcanum-cav2-integration-research",
+  "run_id": "cav2-integration-run-01",
+  "step_id": "s4-evidence-closure",
+  "revision_id": "synthesis-zig-zag-01",
+  "verdict": "ready",
+  "writer_admission": true,
+  "authority_effect": "none",
+  "source_snapshot": {
+    "parent_commit": "ab46061bf14db23a01054c2fd3fafec60fb5eb2f",
+    "arcanum_commit": "07b01c9dd4e918ae0b0d83f6a2cde52ea8f9a295",
+    "live_uncommitted_ceiling": "Working-tree evidence is separately labeled and does not prove promotion, generated parity, release, deployment, or production."
+  },
+  "review_gate": {
+    "initial_result": "gate_block",
+    "zig_zag_loop": "native-run/run-01/reviewer-zig-zag-loop-01.json",
+    "revision_artifact": "synthesis-revision-1.md",
+    "precedent": "pass",
+    "non_vacuity": {
+      "status": "pass",
+      "artifact": "reviews/non-vacuity-revision-1.md",
+      "receipt": "receipts/skeptic-non-vacuity-revision-1.json"
+    },
+    "definitional_soundness": {
+      "status": "pass",
+      "artifact": "reviews/definitional-revision-1.md",
+      "receipt": "receipts/skeptic-definitional-revision-1.json"
+    }
+  },
+  "proof_rule": "Every retained edge has source, target, relation, owners, current state, legal transition, evidence ceiling, privacy class, and non-effects; absent finite witnesses are explicitly classified.",
+  "writer_constraints": [
+    "use synthesis-revision-1.md rather than unrevised synthesis.md",
+    "preserve all NO_WITNESS classifications",
+    "do not promote candidate, dirty, generated, historical, planned, or normative evidence",
+    "do not describe DomainSpec or Saturn as shipped",
+    "write findings.md only"
+  ]
+}

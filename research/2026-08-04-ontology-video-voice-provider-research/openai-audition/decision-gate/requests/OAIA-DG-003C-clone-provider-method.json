@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OAIA-DG-003C-clone-provider-method",
+  "candidates": [
+    {
+      "optionId": "OAIA-CLONE-ELEVENLABS-PVC",
+      "label": "Prepare an ElevenLabs Professional Voice Clone route",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "voice-owner-account-data-owner",
+      "evidence": [
+        "https://elevenlabs.io/docs/eleven-creative/voices/voice-cloning/professional-voice-cloning",
+        "https://elevenlabs.io/terms-of-use/",
+        "research.md#agent-2--rights-and-privacy"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-CLONE-ELEVENLABS-IVC",
+      "label": "Prepare an ElevenLabs Instant Voice Clone pilot",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "voice-owner-account-data-owner",
+      "evidence": [
+        "https://elevenlabs.io/docs/eleven-creative/voices/voice-cloning",
+        "https://elevenlabs.io/terms-of-use/",
+        "research.md#agent-2--rights-and-privacy"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-CLONE-OPENAI-ELIGIBILITY-CHECK",
+      "label": "Verify OpenAI custom-voice eligibility before selecting a cloning provider",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "https://developers.openai.com/api/docs/guides/text-to-speech#custom-voices",
+        "OPENAI-SPEECH-CONTRACT.md#conflict-and-non-observations"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-CLONE-DEFER",
+      "label": "Defer clone-provider selection",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "decision-gate/DECISIONS.md#remaining-blockers"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-CLONE-STOP",
+      "label": "Stop the voice-clone route",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md#objective-summary"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

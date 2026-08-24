@@ -1,0 +1,85 @@
+{
+  "schema_version": "body-war.task-session-terminal-receipt.v1",
+  "swu_id": "SWU-BWAA-002",
+  "task_id": "TASK-BWAA-002",
+  "result": "flag",
+  "capability_ref": "task-session",
+  "receipt_kind": "local-fallback",
+  "timestamp": "2026-07-30T16:56:27Z",
+  "control_digests": {
+    "task": {
+      "sha256": "9c2b1359c5b6b9adda2a92cecf905bef1f8bc8ffddcb9177ce8c0a22478338f5"
+    },
+    "work_pack": {
+      "sha256": "7e66d4161d7a3799b759f6acc96a76bc717166e06cb871a846e60124ee7e5485"
+    },
+    "predecessor_receipt": {
+      "path": "work-pack/closeout/SWU-BWAA-001.receipt.json",
+      "sha256": "1e24b6823361ccb1619d728d973ea1797e2de172646b9bb292caf44e6aefa567"
+    }
+  },
+  "semantic_lock_results": {
+    "status": "pass",
+    "nodes": "f74785ed18002fe0636519685711de8cd2f85e59f0eadb7de58d84faec399229",
+    "relations": "234ad4152b731edcb03cd1b45dfa21570bd37df741090ca6ca0940fd98c0ce00"
+  },
+  "target_inventory": [
+    {
+      "path": "projects/body-war/ontology/business/scripts/render-view-atlas.mjs",
+      "preflight_sha256": "8d98d2081f24fba62c6a7870c44e553f2f35f28b6950dd625525a207c339e4d3",
+      "final_sha256": "4a60e75e79262d74f6cfab9c67f878c32013d7c6a8ffa10fbe02f56fb80bfe8a",
+      "final_size_bytes": 24002
+    },
+    {
+      "path": "projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs",
+      "preflight_sha256": "bb9cd83e07a73fa19c17bff3083ac103fdb1b3324c2b420d4a791467205bd9bc",
+      "final_sha256": "ced22eb5a35496d66acc1a65ffa8f80d56c97f2754cbe21f4ee2d84a8b60c9c9",
+      "final_size_bytes": 6783
+    }
+  ],
+  "files_touched": [
+    "projects/body-war/ontology/business/scripts/render-view-atlas.mjs",
+    "projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs",
+    "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-002.receipt.json"
+  ],
+  "validation": [
+    {
+      "command": "node --test --test-name-pattern='exact relation arrow' projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs",
+      "exit_code": 0,
+      "result": "2 passed, 0 failed",
+      "criticality": "acceptance-critical"
+    },
+    {
+      "command": "isolated copy: node scripts/generate-views.mjs plus exact relation-arrow count",
+      "exit_code": 0,
+      "result": "231/231 relation arrows; 231/231 aria-hidden geometry regions",
+      "criticality": "accepted-equivalent"
+    },
+    {
+      "command": "node --test projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs",
+      "exit_code": 1,
+      "result": "7 passed, 1 failed only because live BUSINESS-VIEW-ATLAS.html is intentionally stale under the SWU-002 no-generated-HTML scope",
+      "criticality": "deferred-to-declared-successor-SWU-BWAA-005"
+    },
+    {
+      "command": "git diff --check -- projects/body-war/ontology/business/scripts/render-view-atlas.mjs projects/body-war/ontology/business/tests/business-view-atlas-render.test.mjs",
+      "exit_code": 0,
+      "result": "pass",
+      "criticality": "acceptance-critical"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    {
+      "id": "BWAA-002-GENERATED-BOUNDARY-TENSION",
+      "severity": "noncritical-to-component-result",
+      "summary": "The renderer produces 231 exact arrows, but the work pack simultaneously forbids generated HTML changes in SWU-002 and requires a test that checks generated-byte currency.",
+      "resolution": "SWU-BWAA-005 owns BUSINESS-VIEW-ATLAS.html and must integrate the arrow component while generating its briefs."
+    }
+  ],
+  "reroute": "none",
+  "handoff_note": "The exact component renders source, visible predicate and phrase, one-way aria-hidden geometry, and target for all 231 relations in isolated generation. SWU-BWAA-005 is dependency-ready.",
+  "successor": "SWU-BWAA-005",
+  "authority_effect": "none",
+  "release_admission": "not-granted"
+}

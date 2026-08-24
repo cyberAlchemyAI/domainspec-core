@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arcanum.dev/schemas/wavedb-reviewed-source-build/v1",
+  "title": "WaveDBReviewedSourceBuildReceipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "attempt_id",
+    "verdict",
+    "failure_code",
+    "claim_ceiling",
+    "claims",
+    "source",
+    "dependency",
+    "toolchain",
+    "openssl",
+    "stages",
+    "tests",
+    "effects",
+    "evidence"
+  ],
+  "properties": {
+    "schema_version": {"const": "wavedb-reviewed-source-build.v1"},
+    "attempt_id": {"type": "string", "minLength": 1},
+    "verdict": {"const": "pass"},
+    "failure_code": {"type": "null"},
+    "claim_ceiling": {"const": "one-local-linux-x86_64-reviewed-source-build-observation"},
+    "claims": {
+      "type": "array",
+      "prefixItems": [{"const": "one-local-linux-x86_64-reviewed-source-build-observation"}],
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "source": {"type": "object"},
+    "dependency": {"type": "object"},
+    "toolchain": {"type": "object"},
+    "openssl": {"type": "object"},
+    "stages": {"type": "array", "minItems": 8, "maxItems": 8},
+    "tests": {"type": "object"},
+    "effects": {"type": "object"},
+    "evidence": {"type": "object"}
+  }
+}
+

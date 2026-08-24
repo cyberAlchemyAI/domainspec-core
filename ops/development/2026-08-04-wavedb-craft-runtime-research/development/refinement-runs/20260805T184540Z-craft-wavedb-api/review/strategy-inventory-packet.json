@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "strategy-inventory-packet.v1",
+  "dispatchType": "review",
+  "lookupStatus": "ready",
+  "machineIndex": ".arcanum/inventory/index.json",
+  "queryTerms": [
+    "Craft", "WaveDB", "derived projection", "source authority", "read-only API",
+    "privacy", "runtime failure", "final approver", "agent pool",
+    "predicted disagreement", "confirmation readiness"
+  ],
+  "selected": [
+    {
+      "entryId": "wavedb-craft-runtime-research-result-synthesis",
+      "path": ".arcanum/inventory/entries/wavedb-craft-runtime-research-result-synthesis.md",
+      "selectors": ["#decision", "#bounded-prototype-shape", "#open-residue", "#authority-boundary"],
+      "summary": "Locates the prior projection-only decision, full-verification boundary, and unresolved concurrency/recovery risks.",
+      "confidence": "high",
+      "evidenceCardIds": [],
+      "evidenceSetIds": [],
+      "obligationFit": ["Craft authority critic", "WaveDB runtime critic"]
+    },
+    {
+      "entryId": "wavedb-craft-runtime-research-strategy-result-synthesis",
+      "path": ".arcanum/inventory/entries/wavedb-craft-runtime-research-strategy-result-synthesis.md",
+      "selectors": ["#research-obligations", "#gate-and-ledger-state", "#authority-boundary"],
+      "summary": "Locates prior review obligations and the warning that documentation claims are not runtime proof.",
+      "confidence": "high",
+      "evidenceCardIds": [],
+      "evidenceSetIds": [],
+      "obligationFit": ["all critics"]
+    }
+  ],
+  "excluded": [
+    {
+      "entryId": "craft-causal-class-total-refresh-review-strategy-result-synthesis",
+      "reason": "Teaching-deck review does not own API, database, or source-authority semantics."
+    },
+    {
+      "entryId": "authority lifecycle synthesis families",
+      "reason": "Useful general precedent but too broad; current Craft contracts and runtime receipts are more direct."
+    }
+  ],
+  "sourceReferences": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/receipts/evidence-closure.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-01/receipt.json"
+  ],
+  "designConsequences": [
+    "The API critic must test whether pagination and errors leak pre-authorization state.",
+    "The authority critic must attack any collapse from source ledger to projection or public artifact.",
+    "The runtime critic must treat the successful sequential receipt and failed atomic-batch receipt as separate claim boundaries."
+  ],
+  "unresolvedGaps": [
+    "Inventory predates the passing Node 26 import diagnostic and therefore cannot prove current runtime behavior.",
+    "No indexed API implementation or contract-test result exists.",
+    "Authentication, deployment, concurrency, replacement, and 0.1 normalization remain unproven."
+  ],
+  "residue": ["Inventory is discovery only; every finding must cite current design or direct receipt evidence."],
+  "authority": "non-authority-read-model"
+}

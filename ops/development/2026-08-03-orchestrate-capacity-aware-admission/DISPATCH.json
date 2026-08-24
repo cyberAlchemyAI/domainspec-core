@@ -1,0 +1,259 @@
+{
+  "dispatch_id": "dispatch.orchestrate-capacity-aware-admission.authoring.v0",
+  "intent": {
+    "raw": "Create an Invoke Define, Design, and Plan development package for capacity-aware Orchestrate admission.",
+    "objective": "Specify and plan whole-wave admission, honest failed-spawn evidence, host-authority ceilings, route alternatives, and generated parity without implementing runtime changes.",
+    "target_artifact": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/",
+    "operator_sentence": "Plan the smallest capacity-safe Orchestrate update and hand off one non-authorized SWU at a time."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "state_namespace_boundary",
+    "approval_semantics_map",
+    "artifact_contract_bridge",
+    "authority_split_gate"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "The requested authoring route is sequential; one bounded read-only helper reviewed evidence and later balanced the Plan.",
+    "explanation": "No governed implementation dispatch was executed and no native implementation agents were spawned.",
+    "binding_mode": "descriptive",
+    "authorization": "not_needed",
+    "parallelism": "none",
+    "join_policy": "none",
+    "roles": []
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "context-build",
+      "name": "Bind incident and canonical source evidence",
+      "capability_ref": "context-builder",
+      "mode": "strict-authoring",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["sequence", "artifact_contract_bridge", "concrete_path_evidence", "state_namespace_boundary"],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"},
+        {"kind": "artifact", "ref": ".arcanum/inventory/compiled-index.json"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "CONTEXT-PACK.md"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "CONTEXT-PACK.md",
+      "stop_conditions": ["Stop if private incident evidence would be copied into public Arcanum prose or fixtures."]
+    },
+    {
+      "step_id": "invoke-author",
+      "name": "Author Define Design and Plan",
+      "capability_ref": "invoke",
+      "mode": "define-design-plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["context-build"],
+      "techniques": ["sequence", "scu_swu_reduction", "recomposition_proof", "validation_loop", "owner_boundary_check", "approval_semantics_map", "authority_split_gate"],
+      "inputs": [
+        {"kind": "artifact", "ref": "CONTEXT-PACK.md"},
+        {"kind": "intent", "ref": "INTENT-RECORD.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "define/SPEC.md"},
+        {"kind": "artifact", "ref": "design/ARCHITECTURE.md"},
+        {"kind": "artifact", "ref": "planning/WORK-PACK.md"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "INVOKE-RESULT.md",
+      "stop_conditions": ["Stop on a hard-coded or inferred host limit, fabricated agent identity, implicit route change, or implementation mutation."]
+    },
+    {
+      "step_id": "distill-plan",
+      "name": "Balance plan boundaries and recomposition",
+      "capability_ref": "distill",
+      "mode": "plan-validation",
+      "pattern": "distill",
+      "parallel": false,
+      "depends_on_steps": ["invoke-author"],
+      "techniques": ["recomposition_proof", "validation_loop", "owner_boundary_check", "residue_ledger"],
+      "inputs": [
+        {"kind": "artifact", "ref": "planning/WORK-PACK.md"},
+        {"kind": "artifact", "ref": "planning/SWU-MANIFEST.json"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "planning/PLAN-DISTILL.md"}
+      ],
+      "join_policy": "all",
+      "evidence_artifact": "planning/PLAN-DISTILL.md",
+      "stop_conditions": ["Block if any SWU is task-shaped, cannot recompose, lacks exact boundaries, or invents host authority."]
+    },
+    {
+      "step_id": "task-session-handoff",
+      "name": "Hand off exactly the first SWU for fresh preflight",
+      "capability_ref": "task-session",
+      "mode": "preflight-handoff",
+      "pattern": "handoff",
+      "parallel": false,
+      "depends_on_steps": ["distill-plan"],
+      "techniques": ["handle_handoff", "execution_receipt_handoff", "artifact_contract_bridge", "residue_ledger"],
+      "inputs": [
+        {"kind": "artifact", "ref": "planning/work-pack/tasks/TASK-OCA-01-ADMISSION-SEAM.md"},
+        {"kind": "artifact", "ref": "planning/MUTATION-ADMISSION-CONTRACT.json"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "INVOKE-RESULT.md#next-owner"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "INVOKE-RESULT.md",
+      "stop_conditions": ["No mutation until a current Context Builder pack and material binding validate for exactly SWU-OCA-001."]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G-OCA-AUTHORING",
+      "kind": "validation",
+      "owner": "invoke",
+      "condition": "Define, deterministic Design, implementation-grade Plan, and Distill result are complete and consistent.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-OCA-PUBLIC-PRIVATE",
+      "kind": "promotion_guardrail",
+      "owner": "Arcanum lifecycle owner",
+      "condition": "Future public runtime changes remain generic and contain no private incident, product, account, or filesystem prose.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-OCA-MUTATION",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "A Task Session preflight and material binding separately authorize exactly one SWU.",
+      "on_fail": "defer"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B-OCA-PRIVATE-PUBLIC",
+        "kind": "artifact_import",
+        "from_owner": "private incident and planning evidence",
+        "to_owner": "public Arcanum candidate runtime",
+        "applies_to_steps": ["context-build", "invoke-author", "task-session-handoff"],
+        "contract": "Only abstract generic behavior crosses; private paths, verbatim errors, account assumptions, and product prose do not.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B-OCA-HOST-ORCHESTRATE",
+        "kind": "capability_handoff",
+        "from_owner": "native host",
+        "to_owner": "Orchestrate admission evaluator",
+        "applies_to_steps": ["invoke-author", "task-session-handoff"],
+        "contract": "The host owns capacity, reservation, physical release, and reuse truth; Orchestrate validates immutable evidence without inference.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B-OCA-PLAN-EXECUTION",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": ["distill-plan", "task-session-handoff"],
+        "contract": "The Work Pack selects but does not authorize SWU-OCA-001; execution requires fresh context, material, baseline, and owner receipts.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B-OCA-CANONICAL-GENERATED",
+        "kind": "capability_handoff",
+        "from_owner": "arcanum/runtime/orchestrate",
+        "to_owner": "generated Orchestrate packages",
+        "applies_to_steps": ["invoke-author", "task-session-handoff"],
+        "contract": "Canonical source changes first; generated packages update only by isolated generation and exact-directory sync.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Invoke owns Define, Design, Plan, and Refresh; Task Session owns one selected SWU execution.",
+      "execution": "No implementation execution is authorized by this authoring dispatch.",
+      "validation": "Deterministic Design selection, Distill, Dispatch Spec, Task Session tests, and independent recomposition retain separate receipts.",
+      "evidence": "Host evidence owns capacity facts; package evidence owns only authored contracts and validation results.",
+      "promotion": "No publication, deployment, release, or production authority."
+    },
+    "receipts": [
+      {
+        "receipt_id": "RECEIPT-OCA-DISTILL",
+        "producer": "distill",
+        "required_fields": ["status", "validation", "residue", "handoff_note"],
+        "stores": ["planning/PLAN-DISTILL.md"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "RECEIPT-OCA-SWU",
+        "producer": "task-session",
+        "required_fields": ["run_id", "dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "blockers", "handoff_note", "residue"],
+        "stores": ["planning/work-pack/session-evidence/<swu-id>/<attempt-id>/terminal-receipt.json"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/**",
+        "owner": "private Invoke package",
+        "write_policy": "Authoring and later receipt updates only."
+      },
+      {
+        "namespace": "arcanum/runtime/orchestrate/**",
+        "owner": "public Arcanum Orchestrate lifecycle",
+        "write_policy": "Forbidden in authoring; exact selected SWU only after Task Session admission."
+      },
+      {
+        "namespace": ".agents/skills/orchestrate/**, .arcanum/runtime/orchestrate/**, .claude/skills/orchestrate/**",
+        "owner": "generated projection lifecycle",
+        "write_policy": "OCA-005 only after canonical receipts."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "Invoke authoring pass",
+        "target": "SWU-OCA-001 mutation",
+        "rule": "Requires fresh Task Session preflight, exact material binding, baseline, and explicit mutation authority.",
+        "on_violation": "block"
+      },
+      {
+        "source": "logical agent terminal event",
+        "target": "physical slot released or reusable",
+        "rule": "Requires separate host-owned lifecycle evidence; never infer.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "A validated plan is not implementation.",
+    "A capacity snapshot is not a reservation.",
+    "A logical close is not physical release.",
+    "A generated parity pass is not publication or release."
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "inventory_validated",
+      "context_bound",
+      "define_authored",
+      "design_selected",
+      "plan_authored",
+      "distill_joined",
+      "dispatch_validated",
+      "first_swu_handed_off"
+    ],
+    "signal_grouping": "dispatch_id, step_id, swu_id"
+  }
+}

@@ -1,0 +1,615 @@
+{
+  "dispatch_id": "2026-08-04-recursive-work-orchestrator-best-view",
+  "intent": {
+    "raw": "Research the best view so I can understand the recursive orchestrator design and each of its parts.",
+    "objective": "Execute an exact-bound, adversarial research pipeline that recommends one primary explanatory view architecture for the complete Thin Recursive Work Orchestrator design.",
+    "target_artifact": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/research/2026-08-04-best-understanding-view/findings.md",
+    "arcanum_vocabulary": [
+      "domainspec-subagents-strategy",
+      "research",
+      "dispatch-spec",
+      "orchestrate"
+    ],
+    "operator_sentence": "Use governed parallel research, adversarial review, evidence closure, writing, and final audit to select and explain the best complete view."
+  },
+  "mode": "research",
+  "techniques": [
+    "sequence",
+    "zig_zag",
+    "dialectic",
+    "x_ray",
+    "role_projection_boundary",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "artifact_contract_bridge",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "The question crosses formal architecture, temporal execution, learning and interaction design, local precedent, and exact evidence binding; independent lanes can run in parallel and need adversarial reconciliation.",
+    "explanation": "Three explorer methods test competing explanatory grammars, three reviewers attack the synthesis through different gates, and separate writer and auditor roles prevent the recommendation from becoming an unreviewed preference.",
+    "context": [
+      "The design has one stable structural model but several non-collapsible explanatory dimensions: topology, time, ownership, evidence, and claim ceiling.",
+      "Inventory precedents recommend removable learner projections and synchronized views, but no precedent proves the best view for this design.",
+      "The proposal-only runtime means all execution views must be paper traces, never reported observations."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "structure-explorer",
+        "purpose": "Research the structural anatomy and architecture notation lane.",
+        "owns": "Structural explorer source-binding receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "ops/development/2026-08-04-recursive-work-orchestrator-best-view-research/dispatch-sheet.json",
+          "ops/development/2026-08-04-recursive-work-orchestrator-best-view-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": ["receipts/explorer-structure.json"],
+        "applies_to_steps": ["s1"]
+      },
+      {
+        "role_id": "flow-explorer",
+        "purpose": "Research the temporal, causal, and event-replay lane.",
+        "owns": "Flow explorer source-binding receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "ops/development/2026-08-04-recursive-work-orchestrator-best-view-research/dispatch-sheet.json",
+          "ops/development/2026-08-04-recursive-work-orchestrator-best-view-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": ["receipts/explorer-flow.json"],
+        "applies_to_steps": ["s1"]
+      },
+      {
+        "role_id": "learning-explorer",
+        "purpose": "Research the learner-centered coordinated-view and accessibility lane.",
+        "owns": "Learning explorer source-binding receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "ops/development/2026-08-04-recursive-work-orchestrator-best-view-research/dispatch-sheet.json",
+          "ops/development/2026-08-04-recursive-work-orchestrator-best-view-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": ["receipts/explorer-learning.json"],
+        "applies_to_steps": ["s1"]
+      },
+      {
+        "role_id": "view-synthesizer",
+        "purpose": "Compare the competing grammars and produce one exact-bound candidate recommendation.",
+        "owns": "Synthesis receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/research/2026-08-04-best-understanding-view/",
+        "capability_mode": "synthesize",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": ["structure-explorer", "flow-explorer", "learning-explorer"],
+        "input_refs": [
+          "receipts/explorer-structure.json",
+          "receipts/explorer-flow.json",
+          "receipts/explorer-learning.json"
+        ],
+        "output_refs": ["receipts/view-synthesis.json"],
+        "applies_to_steps": ["s2"]
+      },
+      {
+        "role_id": "precedent-reviewer",
+        "purpose": "Apply the precedent and ownership attack.",
+        "owns": "Precedent reviewer verdict receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "receipts/view-synthesis.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": ["view-synthesizer"],
+        "input_refs": ["receipts/view-synthesis.json"],
+        "output_refs": ["receipts/reviewer-precedent.json"],
+        "applies_to_steps": ["s3"]
+      },
+      {
+        "role_id": "non-vacuity-reviewer",
+        "purpose": "Apply the finite explanatory non-vacuity and counterexample attack.",
+        "owns": "Non-vacuity reviewer verdict receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "receipts/view-synthesis.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": ["view-synthesizer"],
+        "input_refs": ["receipts/view-synthesis.json"],
+        "output_refs": ["receipts/reviewer-non-vacuity.json"],
+        "applies_to_steps": ["s3"]
+      },
+      {
+        "role_id": "definitional-reviewer",
+        "purpose": "Apply the definitional and authority non-collapse attack.",
+        "owns": "Definitional reviewer verdict receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "receipts/view-synthesis.json",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": ["view-synthesizer"],
+        "input_refs": ["receipts/view-synthesis.json"],
+        "output_refs": ["receipts/reviewer-definitional.json"],
+        "applies_to_steps": ["s3"]
+      },
+      {
+        "role_id": "findings-writer",
+        "purpose": "Write the accepted recommendation as the complete part-by-part design guide.",
+        "owns": "findings.md and writer receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/research/2026-08-04-best-understanding-view/findings.md",
+        "capability_mode": "write-findings",
+        "agent_count": 1,
+        "mutation_policy": "artifact-only",
+        "write_scope": [
+          "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/research/2026-08-04-best-understanding-view/findings.md"
+        ],
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/DESIGN.md",
+          "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/ontology/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": ["precedent-reviewer", "non-vacuity-reviewer", "definitional-reviewer"],
+        "input_refs": [
+          "receipts/view-synthesis.json",
+          "receipts/reviewer-precedent.json",
+          "receipts/reviewer-non-vacuity.json",
+          "receipts/reviewer-definitional.json",
+          "receipts/evidence-closure.json"
+        ],
+        "output_refs": ["receipts/findings-writer.json"],
+        "applies_to_steps": ["s5"]
+      },
+      {
+        "role_id": "findings-auditor",
+        "purpose": "Independently accept or return one bounded revision for the evidence-closed findings.",
+        "owns": "Final audit receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/research/2026-08-04-best-understanding-view/findings.md",
+        "capability_mode": "audit",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/cyberalchemy-orchestrator/",
+          "telemetry/agents/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": ["findings-writer"],
+        "input_refs": [
+          "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/research/2026-08-04-best-understanding-view/findings.md",
+          "receipts/findings-writer.json",
+          "receipts/evidence-closure.json"
+        ],
+        "output_refs": ["receipts/findings-audit.json"],
+        "applies_to_steps": ["s6"]
+      }
+    ],
+    "execution_waves": [
+      {
+        "wave_id": "exploration",
+        "role_ids": ["structure-explorer", "flow-explorer", "learning-explorer"],
+        "parallel": true,
+        "join_policy": "all",
+        "gate_after": "g-explorer-evidence",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "synthesis",
+        "role_ids": ["view-synthesizer"],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": ["exploration"],
+        "gate_after": "g-synthesis",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "review",
+        "role_ids": ["precedent-reviewer", "non-vacuity-reviewer", "definitional-reviewer"],
+        "parallel": true,
+        "join_policy": "all",
+        "depends_on_waves": ["synthesis"],
+        "gate_after": "g-review-and-evidence-closure",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "writing",
+        "role_ids": ["findings-writer"],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": ["review"],
+        "gate_after": "g-findings",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "audit",
+        "role_ids": ["findings-auditor"],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": ["writing"],
+        "on_incomplete": "block"
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "Confirm the frozen nine-agent research strategy to register and execute it?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "capability_target",
+      "capability_mode",
+      "wave_id",
+      "write_scope",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Run three explanatory-view research lanes",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "explore",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": ["x_ray", "role_projection_boundary", "concrete_path_evidence", "observability_grouping"],
+      "roles": ["structural-anatomy", "causal-event-trace", "learner-coordinated-views"],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"},
+        {"kind": "artifact", "ref": "ops/development/2026-08-04-recursive-work-orchestrator-best-view-research/dispatch-sheet.json"},
+        {"kind": "artifact", "ref": "ops/development/2026-08-04-recursive-work-orchestrator-best-view-research/strategy-inventory-packet.json"}
+      ],
+      "outputs": [
+        {"kind": "handle", "ref": "handles/explorer-view-candidates.json"},
+        {"kind": "receipt", "ref": "receipts/explorer-structure.json"},
+        {"kind": "receipt", "ref": "receipts/explorer-flow.json"},
+        {"kind": "receipt", "ref": "receipts/explorer-learning.json"}
+      ],
+      "join_policy": "all",
+      "stop_conditions": [
+        "stop if any explorer cannot access the exact target sources",
+        "stop if a lane returns recommendations without direct source bindings"
+      ]
+    },
+    {
+      "step_id": "s2",
+      "name": "Synthesize one candidate view architecture",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "synthesize",
+      "pattern": "synthesis",
+      "parallel": false,
+      "depends_on_steps": ["s1"],
+      "techniques": ["sequence", "concrete_path_evidence", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": "receipts/explorer-structure.json"},
+        {"kind": "receipt", "ref": "receipts/explorer-flow.json"},
+        {"kind": "receipt", "ref": "receipts/explorer-learning.json"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "receipts/view-synthesis.json"}
+      ],
+      "stop_conditions": [
+        "stop if the synthesis omits a competing candidate or a named target section",
+        "stop if the synthesis claims observed runtime or human comprehension"
+      ]
+    },
+    {
+      "step_id": "s3",
+      "name": "Run three adversarial reviewer gates",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "review",
+      "pattern": "dialectic",
+      "parallel": true,
+      "depends_on_steps": ["s2"],
+      "techniques": ["dialectic", "zig_zag", "concrete_path_evidence", "execution_receipt_handoff"],
+      "roles": ["precedent-skeptic", "non-vacuity-skeptic", "definitional-skeptic"],
+      "inputs": [
+        {"kind": "receipt", "ref": "receipts/view-synthesis.json"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "receipts/reviewer-precedent.json"},
+        {"kind": "receipt", "ref": "receipts/reviewer-non-vacuity.json"},
+        {"kind": "receipt", "ref": "receipts/reviewer-definitional.json"}
+      ],
+      "join_policy": "all",
+      "convergence_criteria": [
+        "all three reviewers return PASS after at most one synthesizer revision",
+        "all load-bearing recommendations retain exact local and external source bindings",
+        "the recommendation passes all finite scenario and non-collapse tests"
+      ],
+      "stop_conditions": [
+        "stop after one failed synthesizer-reviewer revision loop",
+        "stop if reviewers require new source evidence that the bounded explorer feedback cannot obtain"
+      ]
+    },
+    {
+      "step_id": "s4",
+      "name": "Close exact-binding evidence",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "evidence-closure",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["s2", "s3"],
+      "techniques": ["concrete_path_evidence", "artifact_contract_bridge"],
+      "inputs": [
+        {"kind": "receipt", "ref": "receipts/view-synthesis.json"},
+        {"kind": "receipt", "ref": "receipts/reviewer-precedent.json"},
+        {"kind": "receipt", "ref": "receipts/reviewer-non-vacuity.json"},
+        {"kind": "receipt", "ref": "receipts/reviewer-definitional.json"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "receipts/evidence-closure.json"}
+      ],
+      "evidence_artifact": "receipts/evidence-closure.json",
+      "stop_conditions": [
+        "stop if a load-bearing recommendation lacks immutable local identity or a direct external citation",
+        "stop if evidence scope, uncertainty, or claim ceiling is unstated"
+      ]
+    },
+    {
+      "step_id": "s5",
+      "name": "Write the complete best-view findings",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "write-findings",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s4"],
+      "techniques": ["sequence", "artifact_contract_bridge", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "receipt", "ref": "receipts/evidence-closure.json"},
+        {"kind": "receipt", "ref": "receipts/view-synthesis.json"},
+        {"kind": "receipt", "ref": "receipts/reviewer-precedent.json"},
+        {"kind": "receipt", "ref": "receipts/reviewer-non-vacuity.json"},
+        {"kind": "receipt", "ref": "receipts/reviewer-definitional.json"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/research/2026-08-04-best-understanding-view/findings.md"},
+        {"kind": "receipt", "ref": "receipts/findings-writer.json"}
+      ],
+      "stop_conditions": [
+        "stop if the writer exceeds the single-file write scope",
+        "stop if findings introduces a recommendation absent from evidence closure"
+      ]
+    },
+    {
+      "step_id": "s6",
+      "name": "Audit and accept or return one bounded revision",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "audit",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["s5"],
+      "techniques": ["sequence", "artifact_contract_bridge", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "artifact", "ref": "projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/research/2026-08-04-best-understanding-view/findings.md"},
+        {"kind": "receipt", "ref": "receipts/findings-writer.json"},
+        {"kind": "receipt", "ref": "receipts/evidence-closure.json"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "receipts/findings-audit.json"}
+      ],
+      "evidence_artifact": "receipts/findings-audit.json",
+      "stop_conditions": [
+        "stop after one bounded auditor-to-writer revision",
+        "stop if final verdict is not ACCEPT"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-explorer-evidence",
+      "kind": "validation",
+      "owner": "orchestrate",
+      "condition": "All three explorer agents are joined and closed with exact-source receipts before synthesis starts.",
+      "applies_after_wave": "exploration",
+      "requires_role_receipts": [
+        "receipts/explorer-structure.json",
+        "receipts/explorer-flow.json",
+        "receipts/explorer-learning.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-synthesis",
+      "kind": "quality",
+      "owner": "orchestrate",
+      "condition": "The synthesis compares alternatives, covers every target part, and preserves proof and ownership boundaries before review starts.",
+      "applies_after_wave": "synthesis",
+      "requires_role_receipts": ["receipts/view-synthesis.json"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-review-and-evidence-closure",
+      "kind": "validation",
+      "owner": "orchestrate",
+      "condition": "All reviewers pass after at most one revision and the parent records an exact-binding evidence-closure receipt before writing starts.",
+      "applies_after_wave": "review",
+      "requires_role_receipts": [
+        "receipts/reviewer-precedent.json",
+        "receipts/reviewer-non-vacuity.json",
+        "receipts/reviewer-definitional.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-findings",
+      "kind": "quality",
+      "owner": "orchestrate",
+      "condition": "The writer produces only the declared findings artifact and receipt from evidence-closed inputs before audit starts.",
+      "applies_after_wave": "writing",
+      "requires_role_receipts": ["receipts/findings-writer.json"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-final-audit",
+      "kind": "quality",
+      "owner": "Bourbaki, Nicolas",
+      "condition": "The final auditor returns ACCEPT after at most one bounded writer revision.",
+      "requires_role_receipts": ["receipts/findings-audit.json"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "parent",
+      "condition": "Research output remains proposal-only and cannot mutate or promote design, ontology, definitions, Inventory, runtime, publication, release, deployment, or human-comprehension claims.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch_registered",
+      "action_attempted",
+      "host_spawn_returned",
+      "agent_wait_registered",
+      "wait_attempted",
+      "agent_terminal",
+      "agent_closed",
+      "wave_gate_evaluated",
+      "evidence_closure_recorded",
+      "final_audit_recorded",
+      "dispatch_closed"
+    ],
+    "signal_grouping": "dispatch_id and step_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-target-read-only",
+        "kind": "artifact_import",
+        "from_owner": "cyberalchemy-orchestrator design owner",
+        "to_owner": "research dispatch",
+        "applies_to_steps": ["s1", "s2", "s3", "s4", "s5", "s6"],
+        "contract": "Target design and ontology are immutable research inputs at the frozen digests; no delegated role may edit them.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-evidence-return",
+        "kind": "evidence_return",
+        "from_owner": "research roles",
+        "to_owner": "parent orchestrator",
+        "applies_to_steps": ["s1", "s2", "s3", "s4", "s5", "s6"],
+        "contract": "Every role returns a structured receipt; prose alone cannot open the next wave.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-human-authorization",
+        "kind": "human_approval",
+        "from_owner": "human operator",
+        "to_owner": "orchestrate",
+        "applies_to_steps": ["s1"],
+        "contract": "No research subagent may spawn until the human confirms the materially frozen strategy.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "domainspec-subagents-strategy",
+      "execution": "orchestrate after explicit human confirmation",
+      "validation": "dispatch-spec, readiness validator, independent tension gate, reviewers, and final auditor",
+      "evidence": "research evidence-closure contract",
+      "memory": "Inventory non-authority projection only",
+      "promotion": "not granted"
+    },
+    "receipts": [
+      {
+        "receipt_id": "research-role-receipts",
+        "producer": "each delegated research role",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": ["working-folder receipts"],
+        "on_missing": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Inventory evidence is discovery only and cannot replace direct sources.",
+    "Research recommendations cannot promote candidate ontology or definitions.",
+    "Paper traces cannot become runtime evidence.",
+    "Browser or agent checks cannot become human-comprehension proof.",
+    "Pre-run confirmation authorizes only the frozen research dispatch, not implementation of the recommended view."
+  ]
+}

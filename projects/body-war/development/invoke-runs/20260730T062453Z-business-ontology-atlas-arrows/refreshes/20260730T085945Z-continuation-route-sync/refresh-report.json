@@ -1,0 +1,103 @@
+{
+  "schema_version": "invoke.refresh-report.v1",
+  "run_id": "20260730T085945Z-continuation-route-sync",
+  "phase_status": "pass",
+  "phase_status_basis": {
+    "artifact_complete": true,
+    "refresh_authoring_blocker_count": 0
+  },
+  "activation_source": "direct-user",
+  "mutation_mode": "apply-approved",
+  "mutation_mode_source": "default-direct-user",
+  "handoff_status": "ready",
+  "source_signals": [
+    "BWAA-CONTINUATION-ROUTE-001"
+  ],
+  "target_artifacts": [
+    "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/CONTINUATION.json"
+  ],
+  "delta_summary": [
+    {
+      "class": "route_changed",
+      "count": 1
+    }
+  ],
+  "proposed_changes": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/CONTINUATION.json",
+      "field": "next_route"
+    }
+  ],
+  "applied_changes": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/CONTINUATION.json",
+      "sha256": "4d46f6d649a5bf9265bc75886bac173cf0b442f55e6a10499c77605d57ab97bd",
+      "size_bytes": 1632
+    }
+  ],
+  "skipped_changes": [],
+  "material_package": {
+    "required": true,
+    "receipt_present": true,
+    "schema_valid": true,
+    "patch_verdict": "pass",
+    "mutation_handoff": "ready",
+    "package_id": "body-war-bwaa-continuation-route-sync-20260730T085945Z",
+    "package_digest": "08984e693472614d4961b9012f831a3219c8db0de0ad83a3cbd250b69a84462d",
+    "validated_paths": [
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/CONTINUATION.json"
+    ],
+    "dependency_result": "pass",
+    "owner_boundary_result": "pass",
+    "publication_boundary_result": "pass",
+    "lifecycle_owner": "private Body War business ontology atlas planning owner via invoke:refresh",
+    "authority_class": "private",
+    "publication_class": "private"
+  },
+  "mutation_ready": true,
+  "blockers": [
+    {
+      "id": "BWAA-DRIFT",
+      "scope": "target-lifecycle",
+      "owner": "Invoke Refresh",
+      "status": "deferred",
+      "claim": "semantic and write-target digests must remain current at Task Session preflight"
+    },
+    {
+      "id": "BWAA-PREDECESSOR",
+      "scope": "target-lifecycle",
+      "owner": "Task Session",
+      "status": "deferred",
+      "claim": "successors require passing predecessor receipts"
+    },
+    {
+      "id": "BWAA-RUNTIME",
+      "scope": "target-lifecycle",
+      "owner": "Task Session runtime",
+      "status": "deferred",
+      "claim": "browser evidence requires the shared Playwright runtime"
+    },
+    {
+      "id": "BWAA-SKILL-MIRROR",
+      "scope": "target-lifecycle",
+      "owner": "Arcanum lifecycle owner",
+      "status": "deferred",
+      "claim": "generated capability mirrors must be current at preflight"
+    }
+  ],
+  "implementation_executed": false,
+  "distill": {
+    "status": "skipped",
+    "reason": "one evidenced string field is already the smallest coherent refresh delta"
+  },
+  "dispatch_trace": "DISPATCH-TRACE.md",
+  "validation": [
+    "material package validator pass",
+    "refresh handoff pass",
+    "live and staged bytes exact",
+    "next_route-only semantic delta",
+    "authority ceiling preserved",
+    "scoped diff check pass"
+  ],
+  "next_route": "explicitly-select-SWU-BWAA-001-then-context-builder-and-task-session-preflight"
+}

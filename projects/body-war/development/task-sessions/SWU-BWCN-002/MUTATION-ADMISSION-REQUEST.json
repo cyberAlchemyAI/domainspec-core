@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.1.0",
+  "executionMode": "routed-mutation",
+  "taskId": "body-war-business-view-novice-comprehension",
+  "swuId": "SWU-BWCN-002",
+  "controlArtifacts": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260729T201210Z-business-view-novice-comprehension/work-pack/tasks/SWU-BWCN-002.md",
+      "sha256": "5e92b83a41c1059395a1526ae6a78735ae88afdd00d57b72ac54274ee049f26b",
+      "sizeBytes": 1988,
+      "role": "task-contract",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260729T201210Z-business-view-novice-comprehension/work-pack/shared/EXECUTION-CONTROL.md",
+      "sha256": "0a015d9a95d7bd921a50a9282818f0a2ab8c26dca70637331dfb9ada2f650d81",
+      "sizeBytes": 386,
+      "role": "work-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260729T201210Z-business-view-novice-comprehension/work-pack/contexts/SWU-BWCN-002.context.json",
+      "sha256": "861eedcb21979f34d24393b8ed7f7f511f7ba2576a56088fc41d03c7045780c4",
+      "sizeBytes": 1484,
+      "role": "context-pack",
+      "authorityClass": "private"
+    }
+  ],
+  "dependencyFrontier": [
+    {
+      "dependencyId": "SWU-BWCN-001",
+      "artifactRef": {
+        "path": "projects/body-war/development/task-sessions/SWU-BWCN-001/EXECUTION-RECEIPT.json",
+        "sha256": "478a34202afac8361658f7a043a37d8b4f6476e58d0fa5a07f36c4eb39bdc31d",
+        "sizeBytes": 1211
+      }
+    }
+  ],
+  "materialPackage": {
+    "path": "projects/body-war/development/invoke-runs/20260729T201210Z-business-view-novice-comprehension/materials/SWU-BWCN-002/material-package.json",
+    "sha256": "fe8c0cc3ac8ba80debccfaf4056ed97828a3d283ec725130af920284e7887308",
+    "sizeBytes": 8935
+  },
+  "materialReceipt": {
+    "path": "projects/body-war/development/invoke-runs/20260729T201210Z-business-view-novice-comprehension/materials/SWU-BWCN-002/material-package-receipt.json",
+    "sha256": "392d7bc672cbd0c45af866c7100d2e77f68e0dfc713072bb311d5b9328f8bc2c",
+    "sizeBytes": 1393
+  },
+  "producerReceiptSchema": {
+    "path": "arcanum/spells/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b",
+    "sizeBytes": 1719
+  },
+  "materialWrites": [
+    "projects/body-war/ontology/business/authoring/view-catalog.mjs",
+    "projects/body-war/ontology/business/scripts/generate-views.mjs",
+    "projects/body-war/ontology/business/tests/business-views.test.mjs",
+    "projects/body-war/ontology/business/BUSINESS-JOURNEY-EXPERIMENT.html",
+    "projects/body-war/ontology/business/BUSINESS-VIEWS.md",
+    "projects/body-war/ontology/business/BUSINESS-VIEWS.html",
+    "projects/body-war/ontology/business/generated/views/candidate-geometry-to-score-preview.svg",
+    "projects/body-war/ontology/business/generated/views/activity-evidence-to-controller.svg"
+  ],
+  "executionOutputs": [
+    "projects/body-war/development/task-sessions/SWU-BWCN-002/EXECUTION-RECEIPT.json",
+    "projects/body-war/development/task-sessions/SWU-BWCN-002/TASK-SESSION-RESULT.md"
+  ],
+  "allowedWrites": [
+    "projects/body-war/ontology/business/authoring/view-catalog.mjs",
+    "projects/body-war/ontology/business/scripts/generate-views.mjs",
+    "projects/body-war/ontology/business/tests/business-views.test.mjs",
+    "projects/body-war/ontology/business/BUSINESS-JOURNEY-EXPERIMENT.html",
+    "projects/body-war/ontology/business/BUSINESS-VIEWS.md",
+    "projects/body-war/ontology/business/BUSINESS-VIEWS.html",
+    "projects/body-war/ontology/business/generated/views/candidate-geometry-to-score-preview.svg",
+    "projects/body-war/ontology/business/generated/views/activity-evidence-to-controller.svg",
+    "projects/body-war/development/task-sessions/SWU-BWCN-002/EXECUTION-RECEIPT.json",
+    "projects/body-war/development/task-sessions/SWU-BWCN-002/TASK-SESSION-RESULT.md"
+  ],
+  "validationCommands": [
+    "node projects/body-war/ontology/business/scripts/generate-views.mjs --check",
+    "node --test projects/body-war/ontology/business/tests/business-views.test.mjs projects/body-war/ontology/business/tests/business-comprehension.test.mjs"
+  ],
+  "lifecycleOwner": "body-war.product-ontology-owner",
+  "authorityClass": "private",
+  "publicationClass": "internal"
+}
+

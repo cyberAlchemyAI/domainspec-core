@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "task-session-continuation.v1",
+  "handoffId": "handoff-arcanum-addon-revalidation-block-20260730",
+  "sourceCapability": "domainspec-subagents-strategy",
+  "sourceMode": "review",
+  "sourceResult": "BLOCK",
+  "sourceReceipt": "ops/development/2026-07-30-arcanum-addon-plan-revalidation/findings.md",
+  "targetScope": "/home/vrondelli/projects/workspace-resonant/2.0.0-alpha-arcanum-addon-plan/development/arcanum-addon/",
+  "blockerClass": "acceptance-critical-design-and-plan-contradictions",
+  "controllingEvidence": {
+    "sourceCommit": "80dcd79677ad73b21dbaded12e0e9cd47aace82b",
+    "originDev": "80dcd79677ad73b21dbaded12e0e9cd47aace82b",
+    "corpusSha256": "bb0a6f31cf1142902693d30c53ecc2ee08b6747e14ea12f7dff5b81d08d64b14",
+    "sheetSha256": "cc655251c83bb1fba988921680870be78bcad5644fc43c77729aafa286905646",
+    "gateDecision": "gate_block"
+  },
+  "blockerFingerprint": "arcanum-addon-revalidation|NEW-001+NEW-BAL-001|80dcd79677ad73b21dbaded12e0e9cd47aace82b|bb0a6f31cf1142902693d30c53ecc2ee08b6747e14ea12f7dff5b81d08d64b14",
+  "candidateSelector": null,
+  "candidateReady": false,
+  "unblockActions": [
+    "Repair plan/DISPATCH.json with explicit per-SWU re-entry and complete wave receipt-set joins",
+    "Split V-LIFECYCLE-BRANCHES into enabled-degradation and disabled-lifecycle baseline bindings",
+    "Run a new exact-byte independent revalidation"
+  ],
+  "probableRoutes": [
+    {
+      "rank": 1,
+      "route": "invoke:refresh",
+      "target": "Arcanum add-on Design and Plan corpus",
+      "authorization": "new bounded repair authorization required"
+    },
+    {
+      "rank": 2,
+      "route": "domainspec-subagents-strategy:review",
+      "target": "repaired exact-byte corpus",
+      "authorization": "only after the owner repair and new confirmation readiness"
+    }
+  ],
+  "mutationAuthorized": false,
+  "browserAuthorized": false
+}

@@ -1,0 +1,108 @@
+{
+  "schema_version": "augmentor.consultation.material-package@0.1.0",
+  "package_id": "material-swu-acapi-005",
+  "task_id": "TASK-ACAPI-03",
+  "swu_id": "SWU-ACAPI-005",
+  "source_artifacts": [
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-03-SERVICE.md",
+      "sha256": "e21602bdef306e6fa7e7125b86108daebdd2975a02effba1e4dc0706c5a85d9a",
+      "size_bytes": 3222,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/WORK-PACK.md",
+      "sha256": "2d53e5ed9550dd04eeb1a009b6f7079e9efa9f81c612e00d3e49da10223e014d",
+      "size_bytes": 15934,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-005/context-pack.json",
+      "sha256": "1931589f14dc04c62f17b09d540d7639e40498c96943dc794e5a0a7dea449055",
+      "size_bytes": 2002,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/material-map.json",
+      "sha256": "e27c11b9766de3d926b499fd232ff28c856b97f57861812641ee34234197f2a4",
+      "size_bytes": 7002,
+      "authority_class": "private"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "SWU-ACAPI-004",
+      "artifact_ref": {
+        "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-004/material-package.json",
+        "sha256": "4422cb4ffc20eed5182b561fcedd5d9df5982402158ca7d6f1d623707396ae56",
+        "size_bytes": 12910
+      }
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/src/effective-limits.mjs",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "9ab96a9b38e82f4a323bcd4dfae6284f309e67f02a9a8212dfc890223d26bef5",
+      "content": "export const LIMIT_KEYS = [\"maxCandidates\", \"maxRecords\", \"maxSources\", \"maxBytes\", \"maxTokens\", \"maxMillis\"];\n\nexport const effectiveLimits = ({ service, policy, request }) => Object.fromEntries(\n  LIMIT_KEYS.map((key) => {\n    const values = [service?.[key], policy?.[key], request?.[key]];\n    if (!values.every((value) => Number.isInteger(value) && value > 0)) throw new TypeError(`invalid limit ${key}`);\n    return [key, Math.min(...values)];\n  })\n);\n\nexport const requestLifetime = ({ deadlineAt, cancelled = false, now = Date.now() }) => {\n  if (cancelled) return { active: false, reasonCode: \"CANCELLED\" };\n  const deadline = Date.parse(deadlineAt);\n  if (!Number.isFinite(deadline)) throw new TypeError(\"invalid deadlineAt\");\n  if (now >= deadline) return { active: false, reasonCode: \"DEADLINE_REACHED\" };\n  return { active: true, remainingMillis: deadline - now };\n};\n\nexport const TOKEN_ESTIMATOR = Object.freeze({ id: \"utf8-bytes-div-4\", version: \"1.0.0\" });\nexport const estimateTokens = (value) => Math.ceil(Buffer.byteLength(typeof value === \"string\" ? value : JSON.stringify(value), \"utf8\") / 4);\n"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/src/status-resolver.mjs",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "d72be2dd787eb80f5e157dc0477124df856bee2e129507964e54c731a92a07da",
+      "content": "const PRECEDENCE = [\n  [\"denied\", \"denied\"],\n  [\"invalid\", \"invalid_request\"],\n  [\"temporaryFailure\", \"temporary_failure\"],\n  [\"stale\", \"stale\"],\n  [\"conflict\", \"conflict\"],\n  [\"budgetExceeded\", \"budget_exceeded\"],\n  [\"insufficientEvidence\", \"insufficient_evidence\"],\n  [\"noMatch\", \"no_match\"],\n  [\"partial\", \"partial\"]\n];\n\nexport const resolveStatus = (conditions) => {\n  for (const [condition, status] of PRECEDENCE) if (conditions[condition] === true) return status;\n  return \"ok\";\n};\n\nexport const STATUS_PRECEDENCE = Object.freeze(PRECEDENCE.map(([, status]) => status));\n"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/effective-limits.test.mjs",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "c405cefa17b296a8dea62fb867d0b7bb359dc41a57b0b08eb7bc05d2f5c6ec8e",
+      "content": "import assert from \"node:assert/strict\";\nimport test from \"node:test\";\nimport { effectiveLimits, estimateTokens, requestLifetime, TOKEN_ESTIMATOR } from \"../src/effective-limits.mjs\";\n\nconst limits = (value) => ({ maxCandidates: value, maxRecords: value, maxSources: value, maxBytes: value, maxTokens: value, maxMillis: value });\n\ntest(\"effective caps are minimums before reads\", () => {\n  assert.deepEqual(effectiveLimits({ service: limits(100), policy: limits(20), request: limits(50) }), limits(20));\n  assert.throws(() => effectiveLimits({ service: limits(100), policy: limits(20), request: { ...limits(50), maxBytes: 0 } }), /invalid limit/);\n});\n\ntest(\"request lifetime stops on cancellation or deadline\", () => {\n  assert.deepEqual(requestLifetime({ deadlineAt: \"2026-08-03T00:00:01Z\", now: Date.parse(\"2026-08-03T00:00:00Z\") }), { active: true, remainingMillis: 1000 });\n  assert.deepEqual(requestLifetime({ deadlineAt: \"2026-08-03T00:00:01Z\", cancelled: true }), { active: false, reasonCode: \"CANCELLED\" });\n  assert.deepEqual(requestLifetime({ deadlineAt: \"2026-08-03T00:00:00Z\", now: Date.parse(\"2026-08-03T00:00:00Z\") }), { active: false, reasonCode: \"DEADLINE_REACHED\" });\n});\n\ntest(\"token estimate names a stable algorithm\", () => {\n  assert.deepEqual(TOKEN_ESTIMATOR, { id: \"utf8-bytes-div-4\", version: \"1.0.0\" });\n  assert.equal(estimateTokens(\"12345\"), 2);\n});\n"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/status-resolver.test.mjs",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "5cd4bfb66d5c3f1208cdfd0125876dcb151ad64b523257c441a7e6a399b9e391",
+      "content": "import assert from \"node:assert/strict\";\nimport test from \"node:test\";\nimport { resolveStatus, STATUS_PRECEDENCE } from \"../src/status-resolver.mjs\";\n\ntest(\"status precedence is deterministic\", () => {\n  assert.deepEqual(STATUS_PRECEDENCE, [\"denied\", \"invalid_request\", \"temporary_failure\", \"stale\", \"conflict\", \"budget_exceeded\", \"insufficient_evidence\", \"no_match\", \"partial\"]);\n  assert.equal(resolveStatus({ denied: true, conflict: true }), \"denied\");\n  assert.equal(resolveStatus({ conflict: true, partial: true }), \"conflict\");\n  assert.equal(resolveStatus({ partial: true }), \"partial\");\n  assert.equal(resolveStatus({}), \"ok\");\n});\n"
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/src/effective-limits.mjs",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "9ab96a9b38e82f4a323bcd4dfae6284f309e67f02a9a8212dfc890223d26bef5"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/src/status-resolver.mjs",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "d72be2dd787eb80f5e157dc0477124df856bee2e129507964e54c731a92a07da"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/effective-limits.test.mjs",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "c405cefa17b296a8dea62fb867d0b7bb359dc41a57b0b08eb7bc05d2f5c6ec8e"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/status-resolver.test.mjs",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "5cd4bfb66d5c3f1208cdfd0125876dcb151ad64b523257c441a7e6a399b9e391"
+    }
+  ],
+  "validation_commands": [
+    "[\"node\",\"--test\",\"projects/augmentor/ontology/unified-agent/development/consultation-api/tests/effective-limits.test.mjs\",\"projects/augmentor/ontology/unified-agent/development/consultation-api/tests/status-resolver.test.mjs\"]"
+  ],
+  "lifecycle_owner": "augmentor-consultation-candidate-owner",
+  "authority_class": "private",
+  "publication_class": "private"
+}

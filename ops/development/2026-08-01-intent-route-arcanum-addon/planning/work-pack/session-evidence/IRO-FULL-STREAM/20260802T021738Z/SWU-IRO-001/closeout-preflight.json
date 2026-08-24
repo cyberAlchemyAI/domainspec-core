@@ -1,0 +1,43 @@
+{
+  "allowed_delta_classes": [
+    "evidence_added",
+    "blocker_opened",
+    "blocker_resolved",
+    "status_changed",
+    "route_changed"
+  ],
+  "authority_effect": "none",
+  "canonical_successor": "SWU-IRO-002",
+  "owner_schema_ref": {
+    "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-OWNER-RECEIPT.schema.json",
+    "sha256": "9273cfe379b2cde5fb8f8cac9d7ebcc2a278f7c4ac41d0748873162a2b3ebe28",
+    "size_bytes": 1613
+  },
+  "result": "PROCEED",
+  "schema_version": "task-session.closeout-preflight.v1",
+  "swu_id": "SWU-IRO-001",
+  "targets": [
+    {"baseline": "693e57327375902a82dcb9fb92e16ab69b620a078250eb61746e71fecfaba4f3", "delta_classes": ["evidence_added", "status_changed", "route_changed"], "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md"},
+    {"baseline": "88d0af01c207d33f30c67bb6f2576907b7f967ea8fa07c4aee1210b4b303270d", "delta_classes": ["evidence_added", "status_changed", "route_changed"], "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/EXECUTION-PACK.md"},
+    {"baseline": "3b7d4dbc7e9c2036cef5edadda685c7bcb6bddccf1c1f7ba984c877564549a02", "delta_classes": ["blocker_opened", "blocker_resolved"], "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CROSS-TASK-GAPS.md"},
+    {"baseline": "7e82b0c1d3e4a23deac6a2702a9455d772bb88a0e9245fbb653dcc2f3e4d5743", "delta_classes": ["evidence_added", "status_changed"], "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CROSS-TASK-DECISIONS.md"},
+    {"baseline": "10a24d8633bb1e8b90c6f9024c319f14b2af64c0510d5405449eb4e13eee7094", "delta_classes": ["evidence_added"], "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TRACEABILITY.md"}
+  ],
+  "task_id": "TASK-IRO-GATE-001",
+  "terminal_schema_ref": {
+    "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TERMINAL-RECEIPT.schema.json",
+    "sha256": "c692ba751a583a0b398562d182214ca0100f7ae2859024519b265389bdc241c7",
+    "size_bytes": 1947
+  },
+  "validation_commands": [
+    "python3 ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py --root .",
+    "python3 -m json.tool ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/terminal-receipt.json",
+    "python3 -m json.tool ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/closeout-owner-receipt.json",
+    "git diff --check -- ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md ops/development/2026-08-01-intent-route-arcanum-addon/planning/EXECUTION-PACK.md ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CROSS-TASK-GAPS.md ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CROSS-TASK-DECISIONS.md ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TRACEABILITY.md"
+  ],
+  "work_pack_ref": {
+    "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md",
+    "sha256": "693e57327375902a82dcb9fb92e16ab69b620a078250eb61746e71fecfaba4f3",
+    "size_bytes": 9395
+  }
+}

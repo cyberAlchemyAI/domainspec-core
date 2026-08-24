@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.dev/animejs/agent-knowledge-vault/documentation-topic/1-0-0",
+  "title": "AnimeJsDocumentationTopicObservation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "canonical_path",
+    "canonical_url",
+    "family",
+    "topic_kind",
+    "title",
+    "h1",
+    "heading_selectors",
+    "headings",
+    "parameters",
+    "returns",
+    "related_topics",
+    "examples",
+    "version_notes",
+    "badges",
+    "status",
+    "http_status",
+    "raw_sha256"
+  ],
+  "properties": {
+    "id": {"type": "string", "pattern": "^topic:documentation:[a-z0-9/-]+$"},
+    "canonical_path": {"type": "string", "pattern": "^/documentation(?:/[A-Za-z0-9-]+)+/$"},
+    "canonical_url": {"type": "string", "pattern": "^https://animejs\\.com/documentation/"},
+    "family": {"type": "string", "minLength": 1},
+    "topic_kind": {"enum": ["family", "group", "topic"]},
+    "title": {"type": "string"},
+    "h1": {"type": "string"},
+    "heading_selectors": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "headings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["level", "selector", "text"],
+        "properties": {
+          "level": {"type": "integer", "minimum": 1, "maximum": 6},
+          "selector": {"type": ["string", "null"]},
+          "text": {"type": "string"}
+        }
+      }
+    },
+    "parameters": {"$ref": "#/$defs/disposition"},
+    "returns": {"$ref": "#/$defs/disposition"},
+    "related_topics": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "examples": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "version_notes": {"$ref": "#/$defs/disposition"},
+    "badges": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "status": {"const": "semantic-observed"},
+    "http_status": {"const": 200},
+    "raw_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "$defs": {
+    "disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "selectors"],
+      "properties": {
+        "status": {"enum": ["present", "absent"]},
+        "selectors": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    }
+  }
+}

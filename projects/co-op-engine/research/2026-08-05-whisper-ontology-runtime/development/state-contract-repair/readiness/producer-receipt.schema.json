@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://co-op-engine.local/schemas/whisper-state-contract-material-receipt/1-0-0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "packageId", "packageDigest", "patchVerdict", "mutationHandoff", "dependencyResult", "ownerBoundaryResult", "publicationBoundaryResult", "validatedPaths", "validationCommands", "lifecycleOwner", "authorityClass", "publicationClass", "reasons", "authorityEffect"],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "packageId": {"type": "string", "minLength": 1},
+    "packageDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "patchVerdict": {"const": "pass"},
+    "mutationHandoff": {"const": "ready"},
+    "dependencyResult": {"const": "pass"},
+    "ownerBoundaryResult": {"const": "pass"},
+    "publicationBoundaryResult": {"const": "pass"},
+    "validatedPaths": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "validationCommands": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "lifecycleOwner": {"const": "task-session"},
+    "authorityClass": {"const": "private"},
+    "publicationClass": {"const": "internal"},
+    "reasons": {"type": "array", "maxItems": 0},
+    "authorityEffect": {"const": "none"}
+  }
+}

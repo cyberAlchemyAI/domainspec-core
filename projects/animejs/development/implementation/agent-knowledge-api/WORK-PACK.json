@@ -1,0 +1,290 @@
+{
+  "schema_version": "animejs.agent-knowledge-api.work-pack.v1",
+  "work_pack_id": "WP-AKVE-001",
+  "objective": {
+    "target": "projects/animejs/ontology/agent-knowledge-vault/operational",
+    "outcome": "candidate-local transport-neutral consultation and append-only WorkEpisode API core",
+    "coverage": [
+      "neutral allowlisted vault consultation",
+      "immutable WorkEpisode commands and events",
+      "deterministic reduction and isolated episode projections",
+      "four disjoint host capability adapters",
+      "thirty approved toy scenarios"
+    ],
+    "non_goals": [
+      "HTTP transport",
+      "production persistence",
+      "Augmentor or ResonantOS integration",
+      "canonical vault graph mutation",
+      "Lesson verification",
+      "promotion, publication, deployment, or production readiness"
+    ]
+  },
+  "owner": "animejs-vault-candidate-owner",
+  "material_owner": "invoke-material-package",
+  "runtime": {
+    "execution_mode": "reusable-mutation",
+    "admission_profile": "plan-once-selected-unit",
+    "continuation_mode": "task-session-until-blocker"
+  },
+  "authority": {
+    "class": "private",
+    "effect": "none"
+  },
+  "publication": {
+    "class": "internal",
+    "release_admission": "not-granted"
+  },
+  "risk": {
+    "maximum": "bounded-write",
+    "max_task_session_requests": 10,
+    "external_hosts": []
+  },
+  "contract_decisions": {
+    "transport": "neutral core with injected host ports",
+    "authorization": "four exact non-substitutable capability audiences",
+    "projection": "closed allowlist and neutral records only",
+    "journal": "append-only digest chain with scoped idempotency and receipt recovery",
+    "reduction": "version-keyed deterministic snapshots",
+    "semantic_effect": "none; task state and canonical vault remain unchanged"
+  },
+  "attempt_contract": {
+    "id_policy": "attempt-id-equals-task-session-run-id",
+    "collision_policy": "reject-existing-different-ticket",
+    "success_teardown": "retain-terminal-receipt",
+    "failure_teardown": "retain-block-receipt"
+  },
+  "receipt_contract": {
+    "terminal_schema": ".agents/skills/task-session/schemas/governance-terminal-receipt.schema.json",
+    "semantic_validator": "arcanum/arcana/task-session/development/validate-governance-run-contracts.py",
+    "expected_result": "one terminal Task Session receipt plus one joined Invoke Refresh closeout receipt per SWU"
+  },
+  "closeout": {
+    "owner_route": "invoke:refresh:apply-approved",
+    "allowed_delta_classes": [
+      "evidence_added",
+      "blocker_opened",
+      "blocker_resolved",
+      "status_changed",
+      "route_changed"
+    ],
+    "baseline_policy": "capture-live-present-or-absent-sha256-at-selection",
+    "target_inventory": [
+      "projects/animejs/development/implementation/agent-knowledge-api/WORK-PACK.json",
+      "projects/animejs/development/implementation/agent-knowledge-api/HANDOFF-STATE.json",
+      "the exact approved refinement task contract referenced by the selected unit"
+    ],
+    "required_owner_capabilities": [
+      "invoke:refresh:apply-approved",
+      "continuation-router:one-hop"
+    ],
+    "terminal_receipt_path_rule": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/{attempt_id}/TASK-SESSION-RECEIPT.json",
+    "owner_receipt_path_rule": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/{attempt_id}/INVOKE-REFRESH-RECEIPT.json",
+    "compensation": {
+      "mode": "none",
+      "rationale": "Candidate-local files have no external effect; failed bytes and their block receipt remain inspectable until repaired."
+    }
+  },
+  "execution_units": [
+    {
+      "unit_id": "AKVE-001",
+      "task_id": "TASK-AKVE-01",
+      "swu_id": "SWU-AKVE-001",
+      "dependencies": [],
+      "successors": ["AKVE-002"],
+      "command": {
+        "argv": ["node", "--test", "--test-name-pattern=neutral projection", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/neutral-projection-manifest.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/neutral-projection-record.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/projection-allowlist.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/projection-contract-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [
+        {
+          "command_id": "neutral-projection-contract",
+          "argv": ["node", "--test", "--test-name-pattern=neutral projection", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"],
+          "cwd": ".",
+          "timeout_seconds": 60,
+          "max_output_bytes": 65536
+        }
+      ],
+      "task_contract": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-01-CONTRACTS.md"
+    },
+    {
+      "unit_id": "AKVE-002",
+      "task_id": "TASK-AKVE-01",
+      "swu_id": "SWU-AKVE-002",
+      "dependencies": ["AKVE-001"],
+      "successors": ["AKVE-003"],
+      "command": {
+        "argv": ["node", "--test", "--test-name-pattern=episode contract", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-request.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-result.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-command.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-event.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-result.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/status-codes.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-contract-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [
+        {
+          "command_id": "episode-contract",
+          "argv": ["node", "--test", "--test-name-pattern=episode contract", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"],
+          "cwd": ".",
+          "timeout_seconds": 60,
+          "max_output_bytes": 65536
+        },
+        {
+          "command_id": "neutral-projection-regression",
+          "argv": ["node", "--test", "--test-name-pattern=neutral projection", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"],
+          "cwd": ".",
+          "timeout_seconds": 60,
+          "max_output_bytes": 65536
+        }
+      ],
+      "task_contract": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-01-CONTRACTS.md"
+    },
+    {
+      "unit_id": "AKVE-003",
+      "task_id": "TASK-AKVE-02",
+      "swu_id": "SWU-AKVE-003",
+      "dependencies": ["AKVE-002"],
+      "successors": ["AKVE-004"],
+      "command": {"argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/transitions.test.mjs"], "cwd": ".", "risk_class": "bounded-write"},
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/operational/src/transition-oracle.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/transition-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/transitions.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [{"command_id": "transition-matrix", "argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/transitions.test.mjs"], "cwd": ".", "timeout_seconds": 60, "max_output_bytes": 65536}],
+      "task_contract": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-02-TRANSITIONS.md"
+    },
+    {
+      "unit_id": "AKVE-004",
+      "task_id": "TASK-AKVE-03",
+      "swu_id": "SWU-AKVE-004",
+      "dependencies": ["AKVE-003"],
+      "successors": ["AKVE-005"],
+      "command": {"argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/journal.test.mjs"], "cwd": ".", "risk_class": "bounded-write"},
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/operational/src/canonical-json.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/src/journal.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/journal-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/journal.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [{"command_id": "atomic-journal", "argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/journal.test.mjs"], "cwd": ".", "timeout_seconds": 60, "max_output_bytes": 65536}],
+      "task_contract": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-03-JOURNAL.md"
+    },
+    {
+      "unit_id": "AKVE-005",
+      "task_id": "TASK-AKVE-04",
+      "swu_id": "SWU-AKVE-005",
+      "dependencies": ["AKVE-004"],
+      "successors": ["AKVE-006"],
+      "command": {"argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/reducer.test.mjs"], "cwd": ".", "risk_class": "bounded-write"},
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/operational/src/reducer.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/reducer-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/reducer.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [{"command_id": "deterministic-reducer", "argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/reducer.test.mjs"], "cwd": ".", "timeout_seconds": 60, "max_output_bytes": 65536}],
+      "task_contract": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-04-PROJECTION.md"
+    },
+    {
+      "unit_id": "AKVE-006",
+      "task_id": "TASK-AKVE-04",
+      "swu_id": "SWU-AKVE-006",
+      "dependencies": ["AKVE-005"],
+      "successors": ["AKVE-007"],
+      "command": {"argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs"], "cwd": ".", "risk_class": "bounded-write"},
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/operational/src/overlay.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/src/projection.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/overlay-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [{"command_id": "isolated-projection", "argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/projection.test.mjs"], "cwd": ".", "timeout_seconds": 60, "max_output_bytes": 65536}],
+      "task_contract": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-04-PROJECTION.md"
+    },
+    {
+      "unit_id": "AKVE-007",
+      "task_id": "TASK-AKVE-05",
+      "swu_id": "SWU-AKVE-007",
+      "dependencies": ["AKVE-006"],
+      "successors": ["AKVE-008"],
+      "command": {"argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/consultation.test.mjs"], "cwd": ".", "risk_class": "bounded-write"},
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/operational/src/consultation-service.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/consultation-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/consultation.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [{"command_id": "consultation-service", "argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/consultation.test.mjs"], "cwd": ".", "timeout_seconds": 60, "max_output_bytes": 65536}],
+      "task_contract": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-05-SERVICES.md"
+    },
+    {
+      "unit_id": "AKVE-008",
+      "task_id": "TASK-AKVE-05",
+      "swu_id": "SWU-AKVE-008",
+      "dependencies": ["AKVE-007"],
+      "successors": ["AKVE-009"],
+      "command": {"argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs"], "cwd": ".", "risk_class": "bounded-write"},
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/operational/src/episode-service.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-service-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [{"command_id": "episode-service", "argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/episode-service.test.mjs"], "cwd": ".", "timeout_seconds": 60, "max_output_bytes": 65536}],
+      "task_contract": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-05-SERVICES.md"
+    },
+    {
+      "unit_id": "AKVE-009",
+      "task_id": "TASK-AKVE-06",
+      "swu_id": "SWU-AKVE-009",
+      "dependencies": ["AKVE-008"],
+      "successors": ["AKVE-010"],
+      "command": {"argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/security.test.mjs"], "cwd": ".", "risk_class": "bounded-write"},
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/operational/src/capability-adapters.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/capability-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/security.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [{"command_id": "capability-security", "argv": ["node", "--test", "projects/animejs/ontology/agent-knowledge-vault/operational/tests/security.test.mjs"], "cwd": ".", "timeout_seconds": 60, "max_output_bytes": 65536}],
+      "task_contract": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-06-INTEGRATION-HARDENING.md"
+    },
+    {
+      "unit_id": "AKVE-010",
+      "task_id": "TASK-AKVE-06",
+      "swu_id": "SWU-AKVE-010",
+      "dependencies": ["AKVE-009"],
+      "successors": ["__complete__"],
+      "command": {"argv": ["node", "projects/animejs/ontology/agent-knowledge-vault/operational/scripts/validate.mjs", "--verify-repeat"], "cwd": ".", "risk_class": "bounded-write"},
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/operational/scripts/validate.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/README.md",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/receipts/validation-receipt.json"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [{"command_id": "aggregate-validation", "argv": ["node", "projects/animejs/ontology/agent-knowledge-vault/operational/scripts/validate.mjs", "--verify-repeat"], "cwd": ".", "timeout_seconds": 180, "max_output_bytes": 262144}],
+      "task_contract": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-06-INTEGRATION-HARDENING.md"
+    }
+  ]
+}

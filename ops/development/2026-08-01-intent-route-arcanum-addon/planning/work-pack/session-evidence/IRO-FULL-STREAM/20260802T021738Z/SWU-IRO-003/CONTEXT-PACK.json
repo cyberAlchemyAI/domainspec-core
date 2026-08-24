@@ -1,0 +1,72 @@
+{
+  "execution_contract": {
+    "allowedWrites": [
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-003.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/continuation-route.json"
+    ],
+    "authorityClass": "private",
+    "executionOutputs": [
+      ".arcanum/task-session/continuity/IRO-FULL-STREAM-20260802T021738Z-SWU-IRO-003.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/CONTEXT-PACK.md",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/CONTEXT-PACK.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-preflight.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/mutation-admission-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/mutation-admission-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/terminal-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-sync-request.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/closeout-owner-receipt.json",
+      "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/continuation-route.json"
+    ],
+    "lifecycleOwner": "candidate-lifecycle-owner",
+    "materialWrites": ["ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"],
+    "publicationClass": "internal",
+    "validationCommands": [
+      "node --test ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/test/*.test.mjs",
+      "node ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/scripts/run-node-witness.mjs --output ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/development/runs/IRO-003-node-witness.json",
+      "node ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/scripts/scan-boundary.mjs",
+      "node ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/scripts/validate-browser-witness.mjs ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/development/runs/IRO-003-browser-witness.json",
+      "git diff --check -- ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil"
+    ],
+    "writeProfile": "material-bound"
+  },
+  "identity": {
+    "epoch": "20260802T021738Z",
+    "source_work_pack": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md",
+    "task_id": "TASK-IRO-CANDIDATE-001",
+    "swu_id": "SWU-IRO-003"
+  },
+  "obligations": [
+    {"id": "O1", "status": "covered", "summary": "pure canonical JSON and SHA-256 core"},
+    {"id": "O2", "status": "covered", "summary": "closed request and catalog admission"},
+    {"id": "O3", "status": "covered", "summary": "complete deterministic resolver trace"},
+    {"id": "O4", "status": "covered", "summary": "typed single-document JSON process port"},
+    {"id": "O5", "status": "covered", "summary": "13 JSON-port and eight public-core cases"},
+    {"id": "O6", "status": "covered", "summary": "permutation and uncertainty metamorphic cases"},
+    {"id": "O7", "status": "covered", "summary": "Node portability witness"},
+    {"id": "O8", "status": "covered", "summary": "one real-Chromium portability witness"},
+    {"id": "O9", "status": "covered", "summary": "candidate-only evidence ceiling and exact successor"}
+  ],
+  "selected_sources": [
+    "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CANDIDATE-001.md",
+    "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md",
+    "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/EXECUTION-CONTRACT.json",
+    "ops/development/2026-08-01-intent-route-arcanum-addon/define/SPEC.md",
+    "ops/development/2026-08-01-intent-route-arcanum-addon/design/COMPONENT-CONTRACTS.md",
+    "ops/development/2026-08-01-intent-route-arcanum-addon/design/VALIDATION-CONTRACTS.md",
+    "research/2026-07-30-intent-router-bootstrap-runtime-integration/acceptance-contract-addendum.md",
+    "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/terminal-receipt.json",
+    "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/closeout-owner-receipt.json"
+  ],
+  "strict_coverage": true,
+  "swu_id": "SWU-IRO-003",
+  "task_id": "TASK-IRO-CANDIDATE-001"
+}

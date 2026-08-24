@@ -1,0 +1,197 @@
+{
+  "dispatch_id": "2026-07-30-body-war-business-ontology-relationship-coverage",
+  "schema_version": "0.8.0",
+  "dispatch_type": "research",
+  "goal": "Determine exactly how many Body War business ontology nodes have no explicit relations, explain why each zero-degree class exists, decide whether every node needs a relation, and specify the correct ontology connectivity and validation policy without inventing edges.",
+  "context": "The current candidate-local package contains 237 actual node files and 231 explicit relations; a parent preflight observed 44 explicit zero-degree nodes, but the dispatch must reproduce or correct that count from current bytes. The corpus distinguishes explicit relation edges from lifecycle-policy membership, residue affected concepts, branch roles, source references, and challenge contracts, so the result must not call all non-edge references equivalent. Inventory is discovery-only and the exact CAV2 and Body War source files remain authoritative for this research. Use an exact-binding evidence contract; no agent may mutate ontology, application, Inventory, ledger, generated view, or authority state, except that the writer may write findings.md in the working folder after the evidence-closure gate passes.",
+  "anti_bias_global": "graph coverage measurement versus ontology contract interpretation versus semantic usefulness, followed by ownership, reproducibility, and definitional non-collapse",
+  "max_loops": 2,
+  "final_approver": "parent",
+  "working_folder": "projects/body-war/development/research/20260730-business-ontology-relationship-coverage/",
+  "groups": [
+    {
+      "group_id": "explorers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "composite of methodology and source-corpus (computational graph enumeration vs formal contract interpretation vs adversarial product-path classification)",
+      "predicted_disagreements": [
+        {
+          "pair": [
+            0,
+            1
+          ],
+          "statement": "Agent 0 runs computational endpoint and degree enumeration while agent 1 runs formal ontology-contract interpretation on the methodology and source-corpus axes; a counting assumption or an inferred connectivity rule in either lane would be exposed by the other."
+        },
+        {
+          "pair": [
+            0,
+            2
+          ],
+          "statement": "Agent 0 runs whole-graph enumeration while agent 2 runs adversarial business-path classification on the methodology and source-corpus axes; a numerically correct but semantically misleading isolate class, or a plausible product story unsupported by the graph, would be exposed by the other."
+        },
+        {
+          "pair": [
+            1,
+            2
+          ],
+          "statement": "Agent 1 runs formal model and validator interpretation while agent 2 traces product usefulness and source intent on the methodology and source-corpus axes; an over-general formal rule or an invented product edge would be exposed by the other."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Abramsky, Samson",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2500,
+          "angle": "computational whole-graph enumeration of explicit edge degree, components, predicate coverage, and secondary reference overlaps",
+          "initial_prompt": "Independently audit the current Body War business ontology as a graph. Read projects/body-war/ontology/business/nodes/*.json excluding nodes/manifest.json; relations/relations.json; lifecycle-policies/*.json; residue.json; profile.json; schemas/*.json; scripts/validate.mjs; tests/business-ontology.test.mjs; and receipts/validation-receipt.json. Reproduce exact node and relation counts, in/out/total degree, explicit zero-degree nodes, endpoint validity, weak components, predicate distribution, and breakdown by business_kind and candidate_status. For every explicit zero-degree node, record exact file and whether it is separately referenced by a lifecycle policy, residue item, branch role, source_refs, or challenge edges. Distinguish explicit graph isolation from package-level provenance or policy membership. Return machine-reproducible commands or structured pointers plus a compact table; cite current paths and JSON pointers. Treat STRATEGY-INVENTORY-PACKET.md only as a discovery lead and falsify its preliminary count. Do not edit files. Budget about 2500 tokens."
+        },
+        {
+          "agent_name": "Gadamer, Hans-Georg",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2500,
+          "angle": "formal interpretation of node, relation, branch-view, package, coverage, lifecycle, residue, and challenge contracts",
+          "initial_prompt": "Determine what the ontology contracts actually require. Read cyberAlchemy-v2/ontology/{NODE-MODEL.md,RELATION-MODEL.md,BRANCH-AS-VIEW.md,PACKAGE-MODEL.md,AUTHORITY-KINDS.md}; cyberAlchemy-v2/SOURCE-MAP.md; projects/body-war/ontology/business/{profile.json,residue.json,schemas/node.schema.json,schemas/relation.schema.json,schemas/lifecycle-policy.schema.json,scripts/validate.mjs,tests/business-ontology.test.mjs,receipts/validation-receipt.json}; and the selected Inventory entry source references named in STRATEGY-INVENTORY-PACKET.md. Answer whether a valid node is required to have an explicit relation, what the endpoint rule does and does not say, which reference mechanisms are semantic edges versus metadata or projections, and what invariant would need an owner decision or schema change. Identify exact current validator gaps without assuming universal connectivity is desirable. Return claim-to-source rows with exact selectors or JSON pointers. Inventory is non-authority; independently verify every load-bearing claim. Do not edit files. Budget about 2500 tokens."
+        },
+        {
+          "agent_name": "Simon, Herbert",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2500,
+          "angle": "adversarial business-path classification of isolates as useful vocabulary, lifecycle membership, deferred scope, redundancy, or missing relationship",
+          "initial_prompt": "Classify every explicit zero-degree node from a product and domain-modeling perspective without inventing edges. Read each zero-degree node's source_refs and definition, the cited source selector, profile.json, residue.json, lifecycle-policies/*.json, authoring/catalog.mjs, authoring/relations.mjs, NODE-INDEX.md, BUSINESS-VIEWS.md, views/business.json, and the login-to-score-preview SPEC.md and ONTOLOGY-MAP.md sources. For each node or defensible class, decide one of: intentional standalone vocabulary; related through a separate lifecycle-policy surface; deferred but still useful; redundant/unjustified; or likely missing an explicit typed relation. Any proposed relation must name source, predicate, target, evidence selector, owner, authority_effect, value_effect, cycle policy, and forbidden collapse; otherwise leave it as a question or residue. Explicitly assess the 10 premise nodes, 7 value objects, 24 lifecycle-policy members, and 3 other domain concepts, but correct those classes if current bytes disagree. Return exact evidence and a prioritized decision matrix. Do not edit files. Budget about 2500 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Moss, Lawrence S.",
+          "role": "synthesizer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2400,
+          "initial_prompt": "Reconcile all explorer returns into one exact candidate answer. Preserve disagreements between explicit edge degree, package-level references, formal requirements, and product usefulness. Produce: exact count and reproducible method; a node-by-node or complete class matrix for every zero-degree node; why each class exists; an answer to whether every node needs an explicit relation; candidate connectivity invariants with owner and tradeoff; proposed typed edges only where current source evidence closes both endpoints and predicate; a validator/test recommendation; and explicit no-change cases. Build an exact-binding evidence matrix with claim ID, immutable source identity, exact selector or JSON pointer, explorer return reference, evidence scope, and proof status. Use the Inventory packet only for selected/excluded boundaries and gaps. Do not edit files. Budget about 2400 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "reviewers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "attack-vector (precedent and ownership vs non-vacuity and reproducibility vs definitional-soundness and non-collapse)",
+      "predicted_disagreements": [
+        {
+          "pair": [
+            0,
+            1
+          ],
+          "statement": "Agent 0 attacks through precedent and current ownership while agent 1 attacks through non-vacuity and reproducibility on the attack-vector axis; an owner-backed rule without a reproduced witness, or a reproduced heuristic without an owner, would be exposed by the other."
+        },
+        {
+          "pair": [
+            0,
+            2
+          ],
+          "statement": "Agent 0 attacks through precedent and ownership while agent 2 attacks through definitional-soundness on the attack-vector axis; an already-owned contract that is misnamed or collapsed into a different relation mechanism would be exposed by the other."
+        },
+        {
+          "pair": [
+            1,
+            2
+          ],
+          "statement": "Agent 1 attacks through concrete reproduction while agent 2 attacks through definitional non-collapse on the attack-vector axis; a reproducible count with an invalid definition of related, or a precise definition with no concrete node witness, would be exposed by the other."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Rittel, Horst",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1700,
+          "angle": "precedent gate over current owner contracts, coverage rules, validators, and prior accepted ontology findings",
+          "initial_prompt": "Attack only the precedent/ownership gate. For every proposed universal-connectivity rule, isolate classification policy, typed relation repair, and validator change, determine whether a current CAV2 model, Body War profile/schema/validator, accepted finding, or named owner already owns it. Label each candidate already-deployed, build-from-owned with citation, or precedent-clean; precedent never kills a candidate. Reject Inventory-only ownership and trace selected Inventory leads to current source bytes. Return exact source selectors and identify any proposal that requires a new owner decision. Do not edit files. Budget about 1700 tokens."
+        },
+        {
+          "agent_name": "Popper, Karl",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1700,
+          "angle": "non-vacuity gate over exact count reproduction, concrete isolate witnesses, proposed edges, and validation behavior",
+          "initial_prompt": "Attack only the non-vacuity gate. Re-run or spot-check the graph enumeration, sample every claimed isolate class, and demand a concrete witness for each proposed invariant or typed edge. Verify that the method excludes nodes/manifest.json, counts source and target endpoints correctly, and distinguishes lifecycle membership from explicit edges. A proposed repair without both exact endpoint evidence and a failing-then-passing validator/test witness is KILL; a universal rule contradicted by a useful standalone node is KILL. Return KEEP/FIX/KILL with exact commands, paths, and pointers. Do not edit files. Budget about 1700 tokens."
+        },
+        {
+          "agent_name": "Wittgenstein, Ludwig",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1700,
+          "angle": "definitional-soundness gate over related, isolated, lifecycle-connected, source-bound, branch membership, and graph completeness",
+          "initial_prompt": "Attack only the definitional-soundness gate. Reject any answer that collapses explicit relation degree, lifecycle-policy membership, source provenance, branch view inclusion, residue impact, challenge metadata, runtime dependency, or authority movement. Test whether proposed terms add a real invariant or merely rename current endpoint validation and minimum-count coverage. Ensure no graph edge is invented from prose proximity and no relation implies implementation, promotion, or runtime behavior. Tautological or collapsed candidates are KILL. Return KEEP/FIX/KILL with exact citations and definitions. Do not edit files. Budget about 1700 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "writer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Jacobs, Bart",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2300,
+          "initial_prompt": "Only after the parent supplies an evidence-closure verdict of ready, write projects/body-war/development/research/20260730-business-ontology-relationship-coverage/findings.md and no other file. Use the evidence-closed synthesis and reviewer verdicts, not Inventory summaries as proof. Lead with the exact answer, then define each meaning of related; show the reproducible count and complete isolate classification; explain why the classes exist; answer whether every node needs an explicit relation; separate keep-as-is, owner-decision, proposed-edge, and validator-policy recommendations; and include a verdict matrix with candidate, owner/precedent, witnessed non-vacuity, definitional soundness, and verdict. Every load-bearing claim must cite an exact current path plus selector or JSON pointer and preserve candidate-local, authority_effect none, release_admission not-granted, and non-runtime boundaries. Budget about 2300 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1700,
+          "initial_prompt": "Audit findings.md only against the dispatch goal and exact-binding contract. Independently verify the headline count, that all zero-degree nodes are accounted for exactly once, that node manifest metadata is excluded, that every proposed edge has two source-backed endpoints and relation-contract fields, and that no lifecycle, provenance, branch, residue, runtime, or authority mechanism is collapsed into explicit graph connectivity. Confirm the verdict matrix and citation discipline. Return RECOMMEND_ACCEPT or concrete writer-revision requests; do not edit files. Budget about 1700 tokens."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "explorers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "reviewers",
+      "type": "zig-zag",
+      "loop_cap": 1
+    },
+    {
+      "from": "synthesizer",
+      "to": "explorers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "reviewers",
+      "to": "writer",
+      "type": "sequential"
+    },
+    {
+      "from": "writer",
+      "to": "auditor",
+      "type": "sequential"
+    },
+    {
+      "from": "auditor",
+      "to": "writer",
+      "type": "feedback",
+      "loop_cap": 1
+    }
+  ]
+}

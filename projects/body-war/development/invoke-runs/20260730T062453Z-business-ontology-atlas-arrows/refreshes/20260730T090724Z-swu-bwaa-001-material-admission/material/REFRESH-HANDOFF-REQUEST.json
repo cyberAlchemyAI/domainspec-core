@@ -1,0 +1,31 @@
+{
+  "activationSource": "direct-user",
+  "authoredPhaseStatus": "pass",
+  "requestedHandoff": "ready",
+  "expectedPackageId": "body-war-bwaa-swu-001-material-admission-20260730T090724Z",
+  "expectedPackageDigest": "905e2b76c704f0ed114b5601ae230e7fc8f3e812c68851bcd8b8164313e49e13",
+  "materialReceipt": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "lifecycleOwner": "body-war.product-ontology-owner",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "905e2b76c704f0ed114b5601ae230e7fc8f3e812c68851bcd8b8164313e49e13",
+    "packageId": "body-war-bwaa-swu-001-material-admission-20260730T090724Z",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "internal",
+    "reasons": [],
+    "schemaVersion": "1.0.0",
+    "validatedPaths": [
+      "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+      "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+    ],
+    "validationCommands": [
+      "node --test projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+      "node projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "git diff --check -- projects/body-war/ontology/business/scripts/view-atlas-projection.mjs projects/body-war/ontology/business/scripts/validate-view-atlas.mjs projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+    ]
+  }
+}

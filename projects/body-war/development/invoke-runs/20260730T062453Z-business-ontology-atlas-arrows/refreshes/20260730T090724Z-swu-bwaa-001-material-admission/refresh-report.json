@@ -1,0 +1,127 @@
+{
+  "mode": "refresh",
+  "runId": "20260730T090724Z-swu-bwaa-001-material-admission",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    "BWAA-001-MATERIAL-MISSING",
+    "BWAA-001-DELTA-RESOLVED",
+    "BWAA-001-STAGED-PASS",
+    "BWAA-001-ADMISSION-READY",
+    "BWAA-001-TASK-SESSION-ROUTE"
+  ],
+  "targetArtifacts": [
+    "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+    "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+    "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+  ],
+  "deltaSummary": [
+    {"class":"blocker_opened","count":1},
+    {"class":"evidence_added","count":2},
+    {"class":"blocker_resolved","count":1},
+    {"class":"route_changed","count":1}
+  ],
+  "proposedChanges": [
+    {
+      "scope": "SWU-BWAA-001 execution material",
+      "targetCount": 3,
+      "result": "materialized-and-staged"
+    }
+  ],
+  "appliedChanges": [
+    {
+      "scope": "Invoke Refresh readiness artifacts",
+      "result": "authored-and-validated",
+      "paths": [
+        "material/MATERIAL-PACKAGE.json",
+        "material/MATERIAL-RECEIPT.json",
+        "material/REFRESH-HANDOFF-RESULT.json",
+        "TASK-SESSION-ADMISSION-PROBE-RECEIPT.json",
+        "CLOSEOUT-OWNER-CONTRACT.json",
+        "TASK-SESSION-HANDOFF.json"
+      ]
+    }
+  ],
+  "skippedChanges": [
+    {
+      "target": "three live implementation targets",
+      "reason": "Task Session owns live application, validation, and terminal closeout."
+    },
+    {
+      "target": "SWU-BWAA-001 status and SWU-BWAA-002 selection",
+      "reason": "No live Task Session terminal receipt exists."
+    }
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "body-war-bwaa-swu-001-material-admission-20260730T090724Z",
+    "packageDigest": "905e2b76c704f0ed114b5601ae230e7fc8f3e812c68851bcd8b8164313e49e13",
+    "expectedPackageId": "body-war-bwaa-swu-001-material-admission-20260730T090724Z",
+    "expectedPackageDigest": "905e2b76c704f0ed114b5601ae230e7fc8f3e812c68851bcd8b8164313e49e13",
+    "validatedPaths": [
+      "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+      "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+    ],
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "validationCommands": [
+      "node --test projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+      "node projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "git diff --check -- projects/body-war/ontology/business/scripts/view-atlas-projection.mjs projects/body-war/ontology/business/scripts/validate-view-atlas.mjs projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+    ],
+    "lifecycleOwner": "body-war.product-ontology-owner",
+    "authorityClass": "private",
+    "publicationClass": "internal",
+    "receiptPath": "material/MATERIAL-RECEIPT.json"
+  },
+  "taskSessionAdmission": {
+    "verdict": "admit",
+    "mutationReady": true,
+    "reasons": [],
+    "receiptPath": "TASK-SESSION-ADMISSION-PROBE-RECEIPT.json"
+  },
+  "mutationReady": true,
+  "blockers": [
+    {
+      "id": "BWAA-001-TARGET-EXECUTION",
+      "scope": "target-lifecycle",
+      "owner": "task-session",
+      "status": "open",
+      "claim": "The staged implementation has not been applied or validated against live bytes, and no terminal receipt exists."
+    }
+  ],
+  "nextRoute": "task-session:execute:SWU-BWAA-001",
+  "validation": [
+    "inventory-lookup-readiness:pass",
+    "context-builder-strict-coverage:pass",
+    "read-only-helper:completed-and-joined",
+    "staged-projection-tests:8/8-pass",
+    "staged-coverage-validator:pass",
+    "material-package-validator:pass",
+    "refresh-material-handoff:ready",
+    "task-session-admission-probe:admit",
+    "live-preimage-hashes:unchanged",
+    "scoped-diff-check:pass"
+  ],
+  "dispatchTrace": "DISPATCH-TRACE.md",
+  "dispatchValidation": "trace-pass-full-dispatch-not-required",
+  "distill": {
+    "result": "skipped",
+    "reason": "The selected atomic SWU already passed Plan Distill; the three material surfaces cannot be reduced without losing implementation or proof."
+  },
+  "authorityEffect": "none",
+  "releaseAdmission": "not-granted"
+}

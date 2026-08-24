@@ -1,0 +1,52 @@
+{
+  "schema_version": "augmentor.consultation.chain-terminal-receipt@0.1.0",
+  "unit_id": "SWU-ACAPI-000",
+  "step_id": "l0-000",
+  "status": "pass",
+  "work_pack_sha256": "2d53e5ed9550dd04eeb1a009b6f7079e9efa9f81c612e00d3e49da10223e014d",
+  "artifacts": [
+    {
+      "path": "projects/augmentor/ontology/unified-agent/scripts/validate.mjs",
+      "sha256": "306bc07f0146686eda0651c2856de7c7d7f8d9fcca040d6d98ab247bfe8cfc5f"
+    }
+  ],
+  "validation": [
+    {
+      "argv": [
+        "node",
+        "projects/augmentor/ontology/unified-agent/scripts/validate.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "projects/augmentor/ontology/unified-agent/tests/unified-agent-ontology.test.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/scripts/check-validator-determinism.mjs"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "validation_result": "pass",
+  "blockers": [],
+  "task_session_terminal_ref": {
+    "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/task-sessions/SWU-ACAPI-000.json",
+    "sha256": "91fa2f261dd9a35a95be92899d0174272cc7a03d4910cc6d410748cbd038f31c"
+  },
+  "closeout_owner_ref": {
+    "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/no-op/SWU-ACAPI-000.json",
+    "sha256": "62d7c232e5f57ffbdf296144ea749e5733ecf87ccbeb47cd3096dd8b18c965c5"
+  },
+  "router_verification_ref": {
+    "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/router/SWU-ACAPI-000.json",
+    "sha256": "8f5a38d7a07c4488756a8cf75ed181a9f72b17e8c66269fd15874f4322ca90e3"
+  },
+  "continuity_cursor": "augmentor-consultation-l0-5763602f:SWU-ACAPI-000:1",
+  "successor": "SWU-ACAPI-001"
+}

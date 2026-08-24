@@ -1,0 +1,113 @@
+{
+  "schema_version": "abp-protocol-toy-game.v1",
+  "evidence_class": "executed-synthetic-protocol-fixture-only",
+  "authority_effect": "none",
+  "cases": [
+    {
+      "case_id": "TOY-PASS-001",
+      "fault": "none",
+      "events": ["authored-work-pack", "frozen-work-pack", "selected-unit", "consumer-entry", "fixture-material-package", "mutation-admission", "execution-terminal", "closeout-mutation", "owner-join", "synchronized-result", "continuity-cursor", "series-advance"],
+      "expected_decision": "pass",
+      "first_stop": "none",
+      "forbidden_effects": [],
+      "proof_ceiling": "synthetic ordering and contract completeness only"
+    },
+    {
+      "case_id": "TOY-FAIL-001",
+      "fault": "unsupported-protocol-version",
+      "events": ["obtc-structural-pass", "consumer-version-block"],
+      "expected_decision": "block",
+      "first_stop": "consumer-version-acceptance",
+      "forbidden_effects": ["semantic-admission", "owner-effect"]
+    },
+    {
+      "case_id": "TOY-FAIL-002",
+      "fault": "stale-operator-approval-reference",
+      "events": ["approval-digest-mismatch"],
+      "expected_decision": "block",
+      "first_stop": "authorization-freshness",
+      "forbidden_effects": ["stage-start", "subagent-spawn", "owner-effect"]
+    },
+    {
+      "case_id": "TOY-FAIL-003",
+      "fault": "crash-after-effect-before-terminal-receipt",
+      "events": ["effect-attempted", "host-outcome-indeterminate", "outcome-unknown", "reconciliation-routed"],
+      "expected_decision": "block",
+      "first_stop": "outcome-unknown",
+      "forbidden_effects": ["automatic-retry", "closeout", "series-advance"]
+    },
+    {
+      "case_id": "TOY-FAIL-004",
+      "fault": "concurrent-baseline-conflict",
+      "events": ["attempt-a-cas-pass", "attempt-b-cas-fail"],
+      "expected_decision": "block",
+      "first_stop": "effect-boundary-cas",
+      "forbidden_effects": ["attempt-b-effect", "attempt-b-terminal-pass"]
+    },
+    {
+      "case_id": "TOY-FAIL-005",
+      "fault": "private-payload-field-in-public-projection",
+      "events": ["classification-private", "public-projection-block"],
+      "expected_decision": "block",
+      "first_stop": "public-payload-classification",
+      "forbidden_effects": ["public-package-write", "publication"]
+    },
+    {
+      "case_id": "TOY-FAIL-006",
+      "fault": "dual-authoritative-writers-during-migration",
+      "events": ["native-write-observed", "projection-write-attempted"],
+      "expected_decision": "block",
+      "first_stop": "single-authoritative-writer",
+      "forbidden_effects": ["projection-authority", "cutover"]
+    },
+    {
+      "case_id": "TOY-FAIL-007",
+      "fault": "kernel-decides-semantic-legality",
+      "events": ["structural-validation", "semantic-policy-call-detected"],
+      "expected_decision": "block",
+      "first_stop": "kernel-authority-boundary",
+      "forbidden_effects": ["semantic-decision", "owner-receipt-mint"]
+    },
+    {
+      "case_id": "TOY-FAIL-008",
+      "fault": "second-series-reducer-writes-frontier",
+      "events": ["implementation-readiness-frontier", "compatibility-facade-write-attempted"],
+      "expected_decision": "block",
+      "first_stop": "series-owner-singularity",
+      "forbidden_effects": ["second-frontier-write", "second-retry-ledger"]
+    },
+    {
+      "case_id": "TOY-FAIL-009",
+      "fault": "refresh-and-cursor-cycle",
+      "events": ["pre-execution-snapshot", "cursor-requests-unjoined-refresh"],
+      "expected_decision": "block",
+      "first_stop": "closeout-causal-order",
+      "forbidden_effects": ["cursor-write", "series-advance"]
+    },
+    {
+      "case_id": "TOY-FAIL-010",
+      "fault": "missing-refresh-owner-join",
+      "events": ["execution-terminal", "closeout-route", "join-missing"],
+      "expected_decision": "block",
+      "first_stop": "owner-join",
+      "forbidden_effects": ["synchronized-result-pass", "continuity-cursor", "series-advance"]
+    },
+    {
+      "case_id": "TOY-FAIL-011",
+      "fault": "orchestrate-receipt-set-overreach",
+      "events": ["expected-action-set", "unrelated-json-detected"],
+      "expected_decision": "block",
+      "first_stop": "exact-receipt-set-admission",
+      "forbidden_effects": ["wave-gate-pass", "dependent-wave"]
+    },
+    {
+      "case_id": "TOY-FAIL-012",
+      "fault": "orchestrate-run-global-action-id-collision",
+      "events": ["action-id-already-used", "new-spawn-request"],
+      "expected_decision": "block",
+      "first_stop": "pre-spawn-action-id-allocation",
+      "forbidden_effects": ["duplicate-spawn", "dependent-wave"]
+    }
+  ]
+}
+

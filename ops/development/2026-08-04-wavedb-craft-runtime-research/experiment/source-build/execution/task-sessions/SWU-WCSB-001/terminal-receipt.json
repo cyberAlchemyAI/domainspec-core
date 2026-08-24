@@ -1,0 +1,75 @@
+{
+  "schema_version": "task-session-terminal-receipt.v1",
+  "completed_at": "2026-08-04T20:08:20Z",
+  "task_id": "TASK-WCSB-01",
+  "swu_id": "SWU-WCSB-001",
+  "execution_result": "pass",
+  "claim_ceiling": "runner-validator-and-deterministic-fixture-proof-only",
+  "mutation_admission": {
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/mutation-admission-receipt.json",
+    "sha256": "dbc798eeacbb8d2743835095467d124ce57622d43e7e05a1273ad1f038a76379",
+    "size_bytes": 3974,
+    "verdict": "admit",
+    "write_profile": "material-bound"
+  },
+  "files": [
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.gitignore", "sha256": "73fcda9350bd308a2606a51750208a346d0d63536172824bde1ea2075a87b756", "size_bytes": 8},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/run_source_build.py", "sha256": "190787d812ebd3eccd0c86b6e11acf0321e516092703ec636a380afb1b188867", "size_bytes": 20745},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py", "sha256": "5ed3e1d1ff666c7870694a2656bce45ca1ab8230e79c6d484dba7184960aeddb", "size_bytes": 9601},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/source-build-receipt.schema.json", "sha256": "01642c798b3e5d186d0ee7e67bcc637f6f4ebfbffff4c991c4a054e0029d644c", "size_bytes": 1289},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/run-fixtures.sh", "sha256": "952a4f4db7b6aa628ad62ad7483511e09ef479b7ab24384629c41fdb4d231eda", "size_bytes": 645},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/cases.json", "sha256": "4af4623a87d447bc7264685d0c58abb7597ebbc9146d80c67884ba15ce95cfab", "size_bytes": 1317},
+    {"path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/fixture_driver.py", "sha256": "6d0709cbc504962db2559feca5ab4162a513a60b64497a5a363e7195b9ceb50a", "size_bytes": 6776}
+  ],
+  "commands": [
+    "python3 -m py_compile runtime/run_source_build.py runtime/validate_source_build.py runtime/tests/fixtures/fixture_driver.py",
+    "python3 runtime/run_source_build.py --help",
+    "python3 runtime/validate_source_build.py --help",
+    "bash runtime/tests/run-fixtures.sh",
+    "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.gitignore ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime"
+  ],
+  "validation": {
+    "result": "pass",
+    "material_identity": "pass",
+    "python_parse": "pass",
+    "runner_help": "pass",
+    "validator_help": "pass",
+    "schema_parse": "pass",
+    "fixture_matrix": {"result": "pass", "cases": 10, "positive": 1, "negative": 9},
+    "fixture_static_effect_scan": "pass",
+    "whitespace": "pass",
+    "undeclared_outputs": []
+  },
+  "effects": {
+    "network": false,
+    "source_checkout": false,
+    "dependency_materialization": false,
+    "native_build": false,
+    "addon_load": false,
+    "craft_access": false,
+    "git_mutation": false,
+    "publication": false,
+    "deployment": false
+  },
+  "blockers": [],
+  "residue": [
+    "The live source build remains a separate dependency-blocked SWU until closeout joins and selects it."
+  ],
+  "subagents": {
+    "result": "n/a",
+    "spawned": 0,
+    "joined": 0,
+    "open": 0
+  },
+  "next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "target_inventory": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-01-RUNNER.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md"
+    ],
+    "successor_on_joined_pass": "SWU-WCSB-002"
+  }
+}

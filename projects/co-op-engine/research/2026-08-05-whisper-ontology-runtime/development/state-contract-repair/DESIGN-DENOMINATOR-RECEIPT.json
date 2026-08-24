@@ -1,0 +1,145 @@
+{
+  "authored_concern_ids": [
+    "authored:failure",
+    "authored:reliability"
+  ],
+  "denominator_signal_ids": [
+    "authored:failure",
+    "authored:reliability",
+    "signal:acceptance-readiness-claim:define-authored-complete",
+    "signal:effect:emit-research-validation-receipt",
+    "signal:interface:state-contract-input",
+    "signal:interface:state-validation-receipt",
+    "signal:normative-rule:ev22-resolution-guard",
+    "signal:normative-rule:total-state-transition",
+    "signal:normative-rule:zero-authority"
+  ],
+  "detector_id": "invoke-design-scope-extractor",
+  "detector_owner": "spellcraft",
+  "detector_version": "1.0.0",
+  "diagnostics": [],
+  "extracted_signals": [
+    {
+      "attributes": {
+        "evidence_state": "authored-complete",
+        "selector": "DEFINE-RESULT.md"
+      },
+      "signal_class": "acceptance-readiness-claim",
+      "signal_id": "signal:acceptance-readiness-claim:define-authored-complete",
+      "source_digest": "87a6d88aa96c5c6947ac1b3095a0c38d9a7ec36bf63f5f791fae240bc377c006",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/DEFINE-RESULT.md"
+    },
+    {
+      "attributes": {
+        "external": false,
+        "privileged": false,
+        "reversible": true
+      },
+      "signal_class": "effect",
+      "signal_id": "signal:effect:emit-research-validation-receipt",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "SPEC.md#required-behavior",
+        "direction": "inbound",
+        "kind": "immutable-candidate-research-contract",
+        "peer": "research-proof-checker"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:state-contract-input",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "SPEC.md#acceptance",
+        "direction": "outbound",
+        "kind": "content-addressed-candidate-evidence",
+        "peer": "research-closeout"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:state-validation-receipt",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "positive witness and fail-closed negative matrix",
+        "object": "open COR1 to resolved only with exact COR1 NE2 digest bindings and passing MA2",
+        "subject": "EV22 MechanicalAssessmentRecorded",
+        "verb": "must-transition-correction-state"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:ev22-resolution-guard",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "transition fixture plus deterministic reducer",
+        "object": "one exact prior state to one exact resulting state with no unlisted field changes",
+        "subject": "each accepted EV01-EV26 event",
+        "verb": "must-transition-state"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:total-state-transition",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "path boundary and explicit authority_effect none",
+        "object": "ontology runtime product publication deployment promotion release or production",
+        "subject": "research contract and receipts",
+        "verb": "must-not-authorize"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:zero-authority",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md"
+    }
+  ],
+  "inspected_selectors": [
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/DEFINE-RESULT.md",
+      "selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/DEFINE-RESULT.md",
+      "source_digest": "87a6d88aa96c5c6947ac1b3095a0c38d9a7ec36bf63f5f791fae240bc377c006"
+    },
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/GLOSSARY.md",
+      "selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/GLOSSARY.md",
+      "source_digest": "4dfab9a73b2a8aa1f9264547ae915d9cafb4b6ec293ffbfade33f35f0bb0dba7"
+    },
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/IMPLEMENTATION-LAYERING-SEED.md",
+      "selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/IMPLEMENTATION-LAYERING-SEED.md",
+      "source_digest": "eecb728df10d3e78400bfde567ae92b38e048b20705cf3f1df25b785cd6d3908"
+    },
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md",
+      "selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd"
+    },
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/review-final.md",
+      "selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/review-final.md",
+      "source_digest": "d0eea5502cb761a1780acac01fef7d78dc1bc6406bd7da1c9d26ea621c6b65c5"
+    },
+    {
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-2.md",
+      "selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-2.md",
+      "source_digest": "83bd534a407ae973b8cf42054b1714ab6ff42482c4a9e2890603ea6b90c7a916"
+    }
+  ],
+  "manifest_authored_by": "invoke-design-author",
+  "manifest_id": "whisper.research.state-contract-repair.design-scope.v1",
+  "manifest_input_digest": "a69fd9b9f4440ca878d48b4c06e86b0bc4a3d941b1c11bcd22eb46fcfb7546d5",
+  "missing_detector_inputs": [],
+  "receipt_digest": "2bb6f961b81995c574745a352671dd559ecd2bd8afc430d4cd121a4a352cc5da",
+  "schema_version": "1.0.0",
+  "unbound_signal_ids": [],
+  "validator_owner": "invoke-design-selection-validator",
+  "verdict": "pass"
+}

@@ -1,0 +1,102 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "explicit",
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    {
+      "id": "wcnd-terminal-pass",
+      "source_path": "execution/task-sessions/SWU-WCND-001/terminal-receipt.json",
+      "signal_type": "evidence_added",
+      "target_artifacts": ["plan/WORK-PACK.md"],
+      "claim": "The pinned npm artifact passed every admitted local Node 26 gate.",
+      "evidence": "The terminal receipt binds the integrity, build, addon, four canary, and scope receipts.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "wcnd-selection-close",
+      "source_path": "execution/task-sessions/SWU-WCND-001/terminal-receipt.json",
+      "signal_type": "status_changed",
+      "target_artifacts": ["plan/WORK-PACK.md"],
+      "claim": "SWU-WCND-001 is terminal PASS and has no same-pack successor.",
+      "evidence": "Task Session execution_result is pass and next_route names only closeout refresh.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "wcnd-no-continuation",
+      "source_path": "execution/npm-node26/npm-diagnostic-receipt.json",
+      "signal_type": "route_changed",
+      "target_artifacts": ["plan/WORK-PACK.md"],
+      "claim": "The active execution route is cleared after closeout.",
+      "evidence": "Craft integration is not admitted and addonHandoff is null.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md"
+  ],
+  "deltaSummary": ["evidence_added", "status_changed", "route_changed"],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "recorded the bounded pinned npm diagnostic PASS",
+    "changed execution entry from task-ready to closed-pass",
+    "cleared selected SWU, route ID, and next owner",
+    "preserved source provenance and upstream full-suite caveats"
+  ],
+  "skippedChanges": [
+    "no Craft files or owner state changed",
+    "no addon handoff admitted",
+    "no source-build blocker rewritten",
+    "no publication, deployment, cleanup, commit, or push"
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "wavedb-pinned-npm-diagnostic:close-pass-20260805",
+    "packageDigest": "cdb116e36cd671832d7c4ecac2b140a380cede9acaed9de90b3eec73aca6c7cc",
+    "expectedPackageId": "wavedb-pinned-npm-diagnostic:close-pass-20260805",
+    "expectedPackageDigest": "cdb116e36cd671832d7c4ecac2b140a380cede9acaed9de90b3eec73aca6c7cc",
+    "validatedPaths": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/plan/WORK-PACK.md"
+    ],
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "validationCommands": [
+      "terminal Task Session PASS query",
+      "npm diagnostic PASS and null handoff query",
+      "closed Work Pack selector query",
+      "scoped whitespace check"
+    ],
+    "lifecycleOwner": "wavedb-pinned-npm-diagnostic-invoke-owner",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "mutationReady": true,
+  "blockers": [],
+  "nextRoute": null,
+  "validation": [
+    "material package validator pass",
+    "refresh handoff ready",
+    "canonical Work Pack bytes equal staged output",
+    "terminal receipt query pass",
+    "diagnostic receipt query pass",
+    "zero selected SWUs",
+    "scoped whitespace pass",
+    "Craft status empty",
+    "NVM default unchanged",
+    "zero living WaveDB processes"
+  ]
+}

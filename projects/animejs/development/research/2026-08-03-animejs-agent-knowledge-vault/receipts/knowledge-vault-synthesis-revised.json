@@ -1,0 +1,274 @@
+{
+  "synthesis_id": "AKV-SYN-002",
+  "revision_of": "AKV-SYN-001",
+  "revision_kind": "feedback-overlay",
+  "feedback_edge": {
+    "edge": "synthesizer-to-explorers",
+    "traversal": "1/1",
+    "closed": true
+  },
+  "source_contract_changes": [
+    {
+      "id": "AKV-SRC-DOCS-20260803",
+      "change": "replace semantic_parse_status=deferred with returned-digest-bound",
+      "returned_manifest": {
+        "urn": "urn:animejs-doc-semantic-manifest:sha256:681f004e04a91ab1a3462e882edff24d09454297f34a41863e81df06e20066fb",
+        "rows": 418,
+        "successful_rows": 418,
+        "failed_rows": 0,
+        "semantic_jsonl_sha256": "681f004e04a91ab1a3462e882edff24d09454297f34a41863e81df06e20066fb",
+        "raw_page_set_sha256": "63125e931350f5dbf8552a289ac80d687bb1867e7c94c1e2d6e33904f16befcd",
+        "seed_raw_sha256": "6f9912f716849789b9468b4916e88398f0028775e8b054c5d4604ef1afb78f28",
+        "observed_at": "2026-08-03T16:36:51.838Z",
+        "status": "semantic-observed",
+        "materialization": "returned-not-written"
+      },
+      "row_contract": [
+        "canonical_path",
+        "title",
+        "h1",
+        "heading_selectors",
+        "headings",
+        "topic_kind",
+        "parameters",
+        "returns",
+        "related_topics",
+        "examples",
+        "version_notes",
+        "badges",
+        "status",
+        "http_status",
+        "raw_sha256"
+      ],
+      "dispositions": {
+        "parameters": {
+          "present": 260,
+          "absent": 158
+        },
+        "returns": {
+          "present": 123,
+          "absent": 295
+        },
+        "related_topics": {
+          "present": 418,
+          "absent": 0
+        },
+        "examples": {
+          "present-source-only": 353,
+          "absent": 65
+        },
+        "version_notes": {
+          "present": 388,
+          "absent": 30
+        }
+      },
+      "binding": "explorer-official-source-feedback-1.md#AKV-FB-001 and research.md#agent-1-feedback-traversal-1-of-1--official-source-repair",
+      "boundary": "The digest binds one mutable-site observation. It is not a release-locked documentation snapshot, runtime witness, or claim that candidate package rows already exist."
+    },
+    {
+      "id": "AKV-SRC-REPO-V450",
+      "change": "add complete returned pinned-repository artifact manifest",
+      "returned_manifest": {
+        "urn": "urn:animejs-v4.5.0-source-manifest:sha256:f4026dec178de523262aca34dcddc5e419681b3494f37f496d9da8553d3ebcc0",
+        "version": "4.5.0",
+        "commit_sha": "2c9cf8ea00329f6768c7d7902252ed977d75ce42",
+        "commit_tree_sha1": "1511dce2d3e54de4c9c9cbfdb1d1dff2248d2c98",
+        "tree_truncated": false,
+        "rows": 348,
+        "manifest_jsonl_sha256": "f4026dec178de523262aca34dcddc5e419681b3494f37f496d9da8553d3ebcc0",
+        "counts": {
+          "source": 70,
+          "type": 70,
+          "test": 125,
+          "example": 81,
+          "package_documentation": 2
+        },
+        "materialization": "returned-not-written"
+      },
+      "row_contract": [
+        "path",
+        "blob_sha1",
+        "size",
+        "kind",
+        "structured_pointer",
+        "evidence_status"
+      ],
+      "selection": [
+        "README.md",
+        "package.json",
+        "src/**",
+        "dist/modules/**/*.d.ts",
+        "tests/**",
+        "examples/**"
+      ],
+      "binding": "explorer-official-source-feedback-1.md#AKV-FB-002 and research.md#AKV-FB-002--ready",
+      "boundary": "Tests and examples are present, not executed. Shared or unmatched blobs remain unassigned rather than receiving inferred family ownership."
+    }
+  ],
+  "changed_binding_rows": [
+    {
+      "row_id": "AKV-BIND-003",
+      "previous_status": "deferred",
+      "new_status": "bound",
+      "claim": "All 418 canonical documentation routes have machine-expandable semantic crawl rows.",
+      "exact_evidence": "urn:animejs-doc-semantic-manifest:sha256:681f004e04a91ab1a3462e882edff24d09454297f34a41863e81df06e20066fb",
+      "scope": "HTML structure and explicitly extracted dispositions only",
+      "materialization": "returned-not-written"
+    },
+    {
+      "row_id": "AKV-BIND-004",
+      "previous_status": "deferred",
+      "new_status": "bound",
+      "claim": "The pinned v4.5.0 tree has a complete 348-row source/type/test/example/package-documentation artifact manifest.",
+      "exact_evidence": "urn:animejs-v4.5.0-source-manifest:sha256:f4026dec178de523262aca34dcddc5e419681b3494f37f496d9da8553d3ebcc0",
+      "scope": "Blob presence, identity, size, kind and structured pointer; not symbol semantics or execution",
+      "materialization": "returned-not-written"
+    },
+    {
+      "row_id": "AKV-BIND-011",
+      "previous_status": "absent",
+      "new_status": "bound",
+      "claim": "Every documentation page returned HTTP 200 after redirect normalization.",
+      "exact_evidence": "AKV-FB-001: successful_rows=418, failed_rows=0",
+      "scope": "2026-08-03 crawl only"
+    },
+    {
+      "row_id": "AKV-BIND-012",
+      "previous_status": "absent",
+      "new_status": "bound",
+      "claim": "The pinned recursive Git tree used for artifact enumeration was complete.",
+      "exact_evidence": "AKV-FB-002: commit_tree_sha1=1511dce2d3e54de4c9c9cbfdb1d1dff2248d2c98, tree_truncated=false",
+      "scope": "Declared blob-selection contract only"
+    },
+    {
+      "row_id": "AKV-BIND-013",
+      "previous_status": "absent",
+      "new_status": "killed",
+      "claim": "The documentation asset marker ?v=4.4.1 establishes package/documentation semantic version 4.4.1.",
+      "exact_evidence": "explorer-official-source-feedback-1.md AKV-FB-001 residue",
+      "reason": "It is a site cache/version marker, not semantic package-version proof."
+    }
+  ],
+  "validation_obligations": [
+    {
+      "id": "AKV-VAL-016",
+      "requirement": "Candidate build must independently expand and serialize all 418 documentation rows using the returned extraction and ordering rules.",
+      "pass_condition": "Produced semantic JSONL SHA-256 equals 681f004e04a91ab1a3462e882edff24d09454297f34a41863e81df06e20066fb.",
+      "failure_code": "DOC_SEMANTIC_MANIFEST_DIGEST_MISMATCH"
+    },
+    {
+      "id": "AKV-VAL-017",
+      "requirement": "Candidate build must independently expand the immutable recursive tree using the returned selection, classification, sorting and serialization rules.",
+      "pass_condition": "Exactly 348 rows with counts 70/70/125/81/2 and JSONL SHA-256 f4026dec178de523262aca34dcddc5e419681b3494f37f496d9da8553d3ebcc0.",
+      "failure_code": "REPOSITORY_MANIFEST_DIGEST_MISMATCH"
+    },
+    {
+      "id": "AKV-VAL-018",
+      "requirement": "Candidate records and populated views must declare their materialization status.",
+      "pass_condition": "No returned-not-written row is represented as repository-present or package-validated before reproduction.",
+      "failure_code": "RETURNED_EVIDENCE_MATERIALIZATION_COLLAPSE"
+    },
+    {
+      "id": "AKV-VAL-019",
+      "requirement": "Semantic page fields must remain extraction-scoped.",
+      "pass_condition": "Heading or section presence is not converted into undocumented parameter semantics, return semantics, behavioral claims, runtime results, performance or accessibility claims.",
+      "failure_code": "SEMANTIC_EXTRACTION_SCOPE_EXCEEDED"
+    },
+    {
+      "id": "AKV-VAL-020",
+      "requirement": "Repository artifact kinds preserve their proof ceilings.",
+      "pass_condition": "test-present-not-executed and example-source-present-not-executed never satisfy TestObserved or ExecutedWitness requirements.",
+      "failure_code": "PRESENCE_EXECUTION_COLLAPSE"
+    },
+    {
+      "id": "AKV-VAL-021",
+      "requirement": "Unmatched support material remains explicit.",
+      "pass_condition": "The 29 shared-or-unmatched blobs receive no inferred family owner.",
+      "failure_code": "UNSUPPORTED_FAMILY_JOIN"
+    },
+    {
+      "id": "AKV-VAL-022",
+      "requirement": "Mutable documentation and migration sources retain drift handling.",
+      "pass_condition": "A recrawl compares route, semantic, raw-page-set and row digests; migration wiki evidence remains separately timestamped and mutable.",
+      "failure_code": "MUTABLE_SOURCE_PINNING_COLLAPSE"
+    }
+  ],
+  "remaining_rows": [
+    {
+      "id": "AKV-FB-003",
+      "status": "deferred",
+      "claim": "Executed Anime.js WorkEpisodes and verified operational Lessons exist.",
+      "reason": "None were executed or found.",
+      "package_behavior": "Advertise zero executed episodes and zero verified operational lessons; behavior queries abstain."
+    },
+    {
+      "id": "AKV-RES-COPYRIGHT-001",
+      "status": "deferred",
+      "claim": "A reviewed deterministic numeric copyright-similarity threshold is selected.",
+      "reason": "Threshold selection belongs to implementation and review.",
+      "package_behavior": "Until selected, accept metadata and original concise paraphrases only; reject copied paragraphs and substantial excerpts."
+    },
+    {
+      "id": "AKV-RES-PROVENANCE-001",
+      "status": "unresolved",
+      "claim": "The seven-model precedent survey is globally exhaustive across all repository copies and dirty history.",
+      "reason": "Declared seven-model disposition is complete; repository-wide provenance was outside scope.",
+      "package_behavior": "Make no global novelty or exhaustive-provenance claim."
+    },
+    {
+      "id": "AKV-RES-DOCS-001",
+      "status": "deferred",
+      "claim": "The live documentation has an official sitemap or repository-owned generation manifest.",
+      "reason": "None was found at the checked official endpoints.",
+      "package_behavior": "Use the digest-bound root-link crawl and preserve this residue."
+    },
+    {
+      "id": "AKV-RES-RUNTIME-001",
+      "status": "killed",
+      "claim": "Official test/example presence proves passing runtime behavior.",
+      "reason": "No test or example execution occurred."
+    },
+    {
+      "id": "AKV-RES-AUTHORITY-001",
+      "status": "killed",
+      "claim": "This synthesis grants ontology admission, publication, promotion, release, deployment or production readiness.",
+      "reason": "Authority effect remains none and release admission remains not-granted."
+    }
+  ],
+  "evidence_closure": {
+    "recommendation": "ready",
+    "meaning": "Ready for downstream reviewer attack and finite candidate-package construction.",
+    "load_bearing_positive_rows": "closed",
+    "feedback_loops_remaining": 0,
+    "conditions": [
+      "The build must reproduce and digest-verify both returned manifests before claiming populated source files or views pass.",
+      "The package must advertise absent executed WorkEpisodes and abstain on behavioral, performance, accessibility and project-integration questions.",
+      "Deferred copyright threshold selection must fail closed.",
+      "No global precedent-exhaustiveness, admission, publication, runtime or production claim is permitted."
+    ]
+  },
+  "normalized_orchestrate_receipt": {
+    "schema_version": "arcanum.native-dispatch-runner.receipt.v0.1",
+    "action_id": "spawn-0004",
+    "dispatch_id": "2026-08-03-animejs-agent-knowledge-vault-route",
+    "run_id": "animejs-vault-run-001",
+    "wave_id": "synthesizer",
+    "step_id": "s2",
+    "role": "knowledge-vault-synthesizer",
+    "capability_ref": "research",
+    "agent_id": "/root/animejs_knowledge_vault_synthesizer",
+    "status": "pass",
+    "artifacts": [
+      "bounded-synthesis-return:AKV-SYN-002",
+      "base-synthesis:projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/knowledge-vault-synthesis.json",
+      "feedback:projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/explorer-official-source-feedback-1.json",
+      "urn:animejs-doc-semantic-manifest:sha256:681f004e04a91ab1a3462e882edff24d09454297f34a41863e81df06e20066fb",
+      "urn:animejs-v4.5.0-source-manifest:sha256:f4026dec178de523262aca34dcddc5e419681b3494f37f496d9da8553d3ebcc0"
+    ],
+    "validation": "pass",
+    "blockers": [],
+    "started_at": "2026-08-03T13:24:00-03:00",
+    "finished_at": "2026-08-03T13:42:18-03:00"
+  },
+  "mutation_statement": "Read-only synthesis completed. No repository, Git, package, external-state, or receipt-path mutation was performed."
+}

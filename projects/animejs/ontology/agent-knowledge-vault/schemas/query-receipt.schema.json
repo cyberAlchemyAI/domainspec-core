@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.dev/animejs/agent-knowledge-vault/query-receipt/1-0-0",
+  "title": "AnimeJsKnowledgeVaultQueryReceipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "query_id",
+    "algorithm_version",
+    "graph_digest",
+    "selected_ids",
+    "evidence_record_ids",
+    "conflicts",
+    "absences",
+    "abstention_code",
+    "subordinate_gaps",
+    "next_questions",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "animejs.agent-knowledge-vault.query-receipt.v1"},
+    "receipt_id": {"type": "string", "pattern": "^qry:[a-f0-9]{24}$"},
+    "query_id": {"enum": ["QRY-003", "QRY-006"]},
+    "algorithm_version": {"type": "string", "minLength": 1},
+    "graph_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "selected_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "evidence_record_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {"type": "object", "additionalProperties": true}
+    },
+    "absences": {
+      "type": "array",
+      "items": {"type": "object", "additionalProperties": true}
+    },
+    "abstention_code": {
+      "oneOf": [
+        {"type": "null"},
+        {"enum": [
+          "ABSTAIN_UNKNOWN_VERSION",
+          "ABSTAIN_RUNTIME_CONTEXT",
+          "ABSTAIN_CONFLICT",
+          "ABSTAIN_PERFORMANCE_EVIDENCE",
+          "ABSTAIN_MISSING_SOURCE",
+          "ABSTAIN_AMBIGUOUS_INTENT"
+        ]}
+      ]
+    },
+    "subordinate_gaps": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "next_questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "gap_code", "prompt", "clearing_criterion"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "gap_code": {"type": "string", "minLength": 1},
+          "prompt": {"type": "string", "minLength": 1},
+          "clearing_criterion": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"abstention_code": {"type": "null"}}},
+      "then": {"properties": {"selected_ids": {"minItems": 1}}}
+    }
+  ]
+}

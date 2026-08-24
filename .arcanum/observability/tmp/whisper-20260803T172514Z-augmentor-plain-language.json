@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-08-03T17:25:14Z",
+  "run_id": "whisper-20260803T172514Z-augmentor-plain-language",
+  "session_id": "2026-08-03-augmentor-plain-language",
+  "sigil": "whisper",
+  "tier": "spell",
+  "mode": "interactive_ontology_explainer",
+  "capability": {
+    "id": "whisper",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "interactive_ontology_explainer",
+    "alias": null
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "projects/augmentor/ontology/unified-agent/explanations/beginner.json",
+      "projects/augmentor/ontology/unified-agent/visualization/template.html",
+      "projects/augmentor/ontology/unified-agent/tests/visualization.test.mjs",
+      "projects/augmentor/ontology/unified-agent/tests/visualization.browser.mjs",
+      "output/playwright/ux-validator/2026-08-03-augmentor-plain-language"
+    ]
+  },
+  "request": {
+    "summary": "Replace jargon-heavy beginner language with direct, familiar wording and keep examples and comparisons optional.",
+    "intent": "Let a beginner understand the visible map before encountering canonical ontology vocabulary."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "friendly names and rewritten six-lens copy for 22 nodes and four lanes",
+      "plain-language view, flow, connection, graph, and known-gap labels",
+      "collapsed technical definitions preserving exact canonical records"
+    ],
+    "files_changed": [
+      "projects/augmentor/ontology/unified-agent/README.md",
+      "projects/augmentor/ontology/unified-agent/explanations/beginner.json",
+      "projects/augmentor/ontology/unified-agent/ontology-visualization.html",
+      "projects/augmentor/ontology/unified-agent/tests/ux-evidence.browser.mjs",
+      "projects/augmentor/ontology/unified-agent/tests/visualization.browser.mjs",
+      "projects/augmentor/ontology/unified-agent/tests/visualization.test.mjs",
+      "projects/augmentor/ontology/unified-agent/visualization/template.html"
+    ],
+    "validation": [
+      "22 of 22 nodes and four of four lanes have friendly direct explanations",
+      "examples and comparisons remain isolated to their optional lenses",
+      "direct copy has zero configured avoidable-jargon hits",
+      "six source-level visualization tests passed",
+      "Chromium interaction and responsive checks passed",
+      "nine of nine UX evidence hard gates passed",
+      "managed preview exact-byte verification passed"
+    ],
+    "notes": "This is a correction to the earlier accepted browser behavior, not evidence that beginners comprehend the final wording. The user still owns editorial approval."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "human-review",
+        "severity": "low",
+        "summary": "The revised language has browser evidence but not beginner comprehension evidence or final operator approval.",
+        "evidence": "Automated checks can prove coverage and configured jargon absence, not whether a beginner understands the text."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/augmentor/ontology/unified-agent/ontology-visualization.html"
+}

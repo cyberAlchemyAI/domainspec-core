@@ -1,0 +1,225 @@
+{
+  "dispatch_id": "2026-07-28-authority-memory-augmentor-integration",
+  "schema_version": "0.8.0",
+  "dispatch_type": "research",
+  "goal": "Design the smallest useful, evolvable, and low-overhead architecture that helps ResonantOS Augmentor understand the user, retrieve and update a typed knowledge graph, and use bounded reasoning support to improve agent responses and workflows, while reusing current User/Translate/Guide, CyberAlchemy v2 ontology, agent-reasoning-engine, IDE Ergonomics, and ResonantOS-owned memory surfaces instead of creating a second memory system.",
+  "context": "The primary objective is Augmentor and agent experience: better continuity, explanations adapted to the user's known domains and vocabulary, relevant graph-grounded context, visible correction and forgetting controls, and reasoning that can explain conflicts, gaps, and next actions. Arcanum's candidate User/Translate/Guide family already proposes protected user handles, meaning bridges, active understanding evidence, and update proposals. CyberAlchemy v2 supplies candidate typed-node, typed-relation, projection, and finite graph-evaluation patterns; its private authority semantics are a boundary, not the product feature. ResonantOS already owns profile settings, structured context memory, Human Knowledge, AI Memory, provider-independent archive retrieval, and Augmentor host composition. The private semantic-judgment evaluator is a bounded reusable reasoning precedent, not a complete engine. Research should favor incremental graph deltas, rebuildable projections, small retrieved subgraphs, explicit token/latency/storage budgets, user-editable memory, and current browser-visible Augmentor behavior. Receipts and audit are supporting mechanics only; do not make them the center of the proposed experience.",
+  "max_loops": 2,
+  "final_approver": "parent",
+  "anti_bias_global": "Agent-experience tension between useful personalization, maintainable evolving graph structure, bounded reasoning quality, and low-overhead ResonantOS delivery.",
+  "working_folder": "research/2026-07-28-authority-memory-augmentor-integration/",
+  "groups": [
+    {
+      "group_id": "explorers",
+      "n": 4,
+      "anti_bias": "Composite methodology + source-corpus axis (human-learning and interaction modeling, incremental graph design, executable reasoning analysis, and consumer runtime verification)",
+      "predicted_disagreements": [
+        {
+          "pair": [
+            0,
+            1
+          ],
+          "statement": "Agent 0 models user understanding from User/Translate/Guide and ResonantOS context-memory sources while agent 1 models an incremental typed graph from ontology and candidate-graph sources on the methodology and source-corpus axes; a profile-centric bias in agent 0 would be exposed by agent 1's missing reusable relations, while a graph-centric bias in agent 1 would be exposed by agent 0's consent, correction, learning-state, and explanation needs."
+        },
+        {
+          "pair": [
+            0,
+            2
+          ],
+          "statement": "Agent 0 runs human-learning and adaptive-explanation analysis while agent 2 runs executable reasoning-contract analysis on the methodology axis; a preference-only model accepted by agent 0 would be exposed by agent 2's inability to derive useful conflict, gap, or next-action results, while a reasoning-mechanism bias in agent 2 would be exposed by agent 0's requirement that outputs actually improve the user's comprehension and control."
+        },
+        {
+          "pair": [
+            0,
+            3
+          ],
+          "statement": "Agent 0 derives protected user-model semantics from the public candidate User/Translate/Guide family while agent 3 verifies current ResonantOS Augmentor and browser UX on the source-corpus axis; an idealized tutoring model in agent 0 would be exposed by agent 3's actual host and UI constraints, while a current-UI bias in agent 3 would be exposed by agent 0's missing domain anchors, concept states, failed-bridge residue, and active understanding loop."
+        },
+        {
+          "pair": [
+            1,
+            2
+          ],
+          "statement": "Agent 1 runs incremental graph-schema, delta, projection, and query analysis while agent 2 runs deterministic semantic-evaluator and hybrid-reasoning analysis on the methodology axis; a structure-without-inference bias in agent 1 would be exposed by agent 2's need for substantive derived outcomes, while an inference-without-maintainable-context bias in agent 2 would be exposed by agent 1's typed, inspectable, stale-aware subgraph contract."
+        },
+        {
+          "pair": [
+            1,
+            3
+          ],
+          "statement": "Agent 1 runs graph-evolution and retrieval-cost analysis while agent 3 runs Augmentor host-service, prompt-composition, context-memory, and browser-experience verification on the source-corpus axis; a graph-platform bias in agent 1 would be exposed by agent 3's existing storage and latency constraints, while a prompt-only bias in agent 3 would be exposed by agent 1's need for reusable typed relations and incremental invalidation."
+        },
+        {
+          "pair": [
+            2,
+            3
+          ],
+          "statement": "Agent 2 runs bounded reasoning and evaluator analysis while agent 3 runs ResonantOS-native agent-experience integration analysis on the methodology and source-corpus axes; an engine-first bias in agent 2 would be exposed by agent 3's requirement for a noticeable user benefit and graceful fallback, while a UX-only bias in agent 3 would be exposed by agent 2's requirement for traceable graph inputs, typed outcomes, abstention, and conflict handling."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Ahrens, Sönke",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2600,
+          "angle": "Human-learning and interaction methodology over User/Translate/Guide, protected user handles, active evidence of understanding, failed-bridge residue, and current ResonantOS intent, preference, and profile surfaces.",
+          "initial_prompt": "Design the smallest useful user-understanding model for Augmentor without editing files. Inspect arcanum/development/user-guide/README.md; packages/user-ledger/{DEFINE.md,DESIGN.md,USER-LEDGER-SCHEMA.yml,VISIBILITY-POLICY.md,RECEIPT-UPDATE-RULES.md,MASTERY-FIXTURES.md}; packages/guide/{DEFINE.md,DESIGN.md,GUIDE-TRANSLATE-INTEGRATION.md}; packages/translate/DEFINE.md; and current ResonantOS personalization settings, ContextMemoryState, ContextMemoryPanel, ADR-016, and issue-matrix row #236. Treat the Arcanum packages as candidate development evidence, not shipped runtime. Return: a minimal user-model schema; which handles should be durable, session-only, derived, stale, editable, forgettable, or never inferred; how domain anchors, vocabulary preferences, concept states, user intent, rationale, failed analogies, and active evidence improve an agent turn; an adaptation loop; three concrete Augmentor journeys; privacy and anti-profiling failures; and measurable user benefits. Keep receipts as an internal update-proposal mechanism, not the center of the UI. Budget about 3000 tokens."
+        },
+        {
+          "agent_name": "Turing, Alan",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2600,
+          "angle": "Incremental knowledge-graph methodology over CyberAlchemy v2 node, relation, projection, branch-as-view, ontology-population, and executable candidate-graph patterns, optimized for evolution and low overhead.",
+          "initial_prompt": "Design the smallest evolvable knowledge-graph substrate that can improve Augmentor without editing files or requiring a graph database. Inspect cyberAlchemy-v2/ontology/{README.md,NODE-MODEL.md,RELATION-MODEL.md,BRANCH-AS-VIEW.md,PACKAGE-MODEL.md}; ontology/projections/README.md; current ontology-candidate-graph-prototype design and implementation contracts; and Inventory leads ontology-population-from-inventory-synthesis, resonantos-and-ontology-retrieval-synthesis, ontology-working-prototype-gap-research-result-synthesis, and akashic-periodic-table-graph-schema-research-result-synthesis, rechecking current source bytes. Produce: a compact product-facing node/edge schema; separation of source records, user-model handles, semantic graph, and derived projections; an incremental graph-delta contract; invalidation, staleness, contradiction, and merge behavior; direct-scan versus adjacency-index versus database trade-offs; seed, hop, node, token, latency, and storage budgets; retrieval/query examples; rebuild and migration strategy; and a v0-to-v2 evolution path. Prefer query-driven materialization and small subgraphs over graphing every file or conversation. Budget about 3200 tokens."
+        },
+        {
+          "agent_name": "Hewitt, Carl",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2800,
+          "angle": "Executable reasoning methodology over the bounded semantic-judgment evaluator and a hybrid graph-plus-model reasoning loop, focused on useful semantic outcomes rather than governance ceremony.",
+          "initial_prompt": "Determine how to provide real reasoning support to Augmentor without editing files or calling the current bounded evaluator a whole engine. Read the agent-reasoning-engine .craft/ledger.yml before CRAFT.md, then spec/SPEC.md, design/{ARCHITECTURE.md,COMPONENT-CONTRACTS.md,DECISION-AND-EFFECT-FLOW.md}, the bounded semantic-judgment evaluator implementation/tests/fixtures, and current promotion and ACI-binding receipts only to establish current limits. Inventory seeds agent-reasoning-engine-contract-strategy-result-synthesis and cyberalchemy-orchestrator-reasoning-engine-purpose-strategy-result-synthesis are discovery leads. Produce: a ReasoningContext and ReasoningResult contract over a small user-plus-knowledge subgraph; a two-stage design combining deterministic traversal/constraints with model synthesis; useful operations such as conflict detection, missing-premise detection, analogy selection, task dependency reasoning, option comparison, and justified abstention; cache and replay boundaries; graceful fallback; prompt/token budgets; evaluation fixtures; and a generic consumer adapter boundary that does not copy private CAV2 prose into ResonantOS. Explain which current evaluator atoms can be reused and which engine pieces remain new. Budget about 3200 tokens."
+        },
+        {
+          "agent_name": "Simon, Herbert",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3000,
+          "angle": "Agent-experience and consumer-runtime methodology over current Augmentor prompt composition, personalization, context memory, memory-provider, IDE knowledge references, browser surfaces, and host-owned integration seams.",
+          "initial_prompt": "Design the ResonantOS-native Augmentor experience and integration route without editing files, merging branches, or exposing secrets. Treat ../workspace-resonant/2.0.0-alpha as the product checkout; verify that origin/dev changes do or do not affect this scope before using local bytes. Inspect current AGENTS.md, module ownership, Augmentor manifest and chat contract, personalization settings and UI, ContextMemoryState/ContextMemoryPanel, memory-provider and archive-read seams, relevant tests, acceptance matrix, and projects/ide-ergonomics/knowledge-entry-references/{README.md,SPEC.md}. Inventory leads entries-unified-ide-ergonomics-spine-synthesis and entries-resonantos-living-archive-seam-and-owned-base-synthesis are discovery-only; the consumer has no product-local machine Inventory index. Return: current versus missing capability matrix; one host-owned context-composition seam; default user experience for 'what Augmentor knows', 'why this context was used', correction, forgetting, and graph-grounded answer explanation; progressive disclosure so graph mechanics stay out of the normal chat; degraded modes; implementation increments; exact unit/browser tests; and measurable latency, token, retrieval-quality, correction, and user-control targets. Do not create a second memory provider. Budget about 3400 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Shannon, Claude",
+          "role": "synthesizer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4200,
+          "initial_prompt": "Reconcile the four explorer returns into one cited-synthesis Augmentor architecture. Preserve disagreements and current-source freshness instead of majority-voting. Produce: a one-sentence product thesis; current-versus-missing capability matrix; the smallest coherent data model separating protected user handles, existing memory records, a rebuildable typed graph projection, retrieved reasoning context, and reasoning output; an end-to-end evolution loop from user interaction to proposed graph/user delta to validation to retrieval to reasoned response to user correction; a compact node/edge and graph-delta contract; ReasoningContext/ReasoningResult interfaces; low-overhead storage, query, token, latency, and cache budgets; progressive-disclosure UX for context-used, correction, forgetting, and graph explanation; three fixture-backed journeys; degraded modes; privacy and anti-profiling boundaries; public/private transfer boundary; v0/v1/v2 implementation increments; exact unit and browser tests; and unresolved product decisions. Treat receipts and audit as implementation support, not the product narrative. Every load-bearing claim must cite an explorer return and current source-local selector. Inventory is discovery only, the ResonantOS product-local machine-index gap remains residue, and current source bytes outrank candidate entries."
+        }
+      ]
+    },
+    {
+      "group_id": "reviewers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "Attack-vector axis (precedent and duplication, non-vacuity and user-visible benefit, definitional and architectural non-collapse)",
+      "predicted_disagreements": [
+        {
+          "pair": [
+            0,
+            1
+          ],
+          "statement": "Agent 0 runs precedent and duplication attack while agent 1 runs non-vacuity and user-visible-benefit attack on the attack-vector axis; a build-from-owned architecture accepted by agent 0 may still be killed by agent 1 if it does not improve a concrete Augmentor journey, while agent 1's useful feature may be corrected by agent 0 if it duplicates existing context-memory, memory-provider, personalization, or archive capability."
+        },
+        {
+          "pair": [
+            0,
+            2
+          ],
+          "statement": "Agent 0 runs precedent and duplication attack while agent 2 runs definitional and architectural-collapse attack on the attack-vector axis; an existing graph or memory seam accepted by agent 0 may be rejected by agent 2 if it conflates user profile, memory, graph, retrieval, and reasoning, while agent 2's extra abstractions may be removed by agent 0 when current owners already provide the distinction."
+        },
+        {
+          "pair": [
+            1,
+            2
+          ],
+          "statement": "Agent 1 runs non-vacuity and user-visible-benefit attack while agent 2 runs definitional and architectural-collapse attack on the attack-vector axis; a runnable personalized answer accepted by agent 1 may be killed by agent 2 if it relies on hidden profiling or treats graph retrieval as reasoning, while agent 2's clean layer split may be killed by agent 1 if it produces no observable improvement under a bounded overhead budget."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Lakatos, Imre",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2000,
+          "angle": "Precedent and duplication attack-vector: verify every proposed user-model field, graph store, retrieval stage, reasoning operation, UI primitive, and adapter against current Arcanum, CyberAlchemy v2, IDE Ergonomics, and ResonantOS owners.",
+          "initial_prompt": "Attack only the precedent/duplication gate. For every proposed component, verify whether it is already deployed, build-from-owned, superseded, blocked, or precedent-clean using current sources. Pay special attention to User/Translate/Guide, ContextMemoryState, personalization settings, memory-provider, Human Knowledge and AI Memory, knowledge-entry-reference, ontology candidate graph, Logician, RecursiveMAS, and semantic-judgment evaluator. Find where the synthesis accidentally creates a second memory store, second prompt builder, unnecessary graph database, duplicate user profile, or reasoning label over existing retrieval. Inventory matches are leads only. A found owner is positive and never a KILL; return exact ownership and simplification corrections with citations. Budget about 2200 tokens."
+        },
+        {
+          "agent_name": "Gödel, Kurt",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2000,
+          "angle": "Non-vacuity and user-visible-benefit attack-vector: require a concrete user-model delta, graph delta and query, reasoning result, visible Augmentor behavior change, correction path, and measured overhead.",
+          "initial_prompt": "Attack only the non-vacuity gate. Require one end-to-end fixture in which a user expresses a goal or known domain, Augmentor stores or proposes only the allowed small user handle, an incremental graph delta adds or updates typed relations, a bounded query retrieves a small subgraph, reasoning derives a conflict/gap/analogy/next action or abstains, the answer visibly improves, and the user can inspect, correct, forget, or disable the context. Require measurable node/hop/token/latency/storage budgets and exact unit plus browser tests. KILL a first slice that is only a schema, graph viewer, prompt dump, receipt, audit screen, hidden profile, or unmeasured model call. Budget about 2200 tokens."
+        },
+        {
+          "agent_name": "Quine, Willard Van Orman",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2000,
+          "angle": "Definitional and architectural non-collapse attack-vector: test every boundary among user identity, preference, learning state, conversation memory, source knowledge, semantic graph, retrieval, deterministic evaluation, model synthesis, and action.",
+          "initial_prompt": "Attack only the definitional-soundness gate. KILL any integration that treats a user-local preference as identity, passive exposure as mastery, a transcript as a user model, memory records as graph nodes by default, vector similarity or graph traversal as substantive reasoning, a graph as the source of every fact, semantic evaluator PASS as authorization, a model explanation as evidence, or the bounded evaluator as the whole agent-reasoning-engine. Also reject graph and reasoning abstractions that are merely renamed ContextMemoryState fields or prompt assembly. Require a simple layer model, explicit derivation direction, correction semantics, and public/private terminology that current evidence supports. Budget about 2200 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "writer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "van Lamsweerde, Axel",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3600,
+          "initial_prompt": "Write findings.md only after the strategist supplies a cited-synthesis evidence-closure matrix marked ready. Make it a compact, implementation-usable Augmentor experience blueprint: direct thesis; current-versus-missing matrix; layer and data-flow model; protected user-handle schema; typed graph and delta schema; bounded retrieval and reasoning interfaces; low-overhead budgets; visible user-control UX; three end-to-end fixtures; degraded modes; privacy boundaries; v0/v1/v2 implementation sequence; exact tests and measures; reviewer verdict matrix; and open decisions. Put receipts and audit in a short supporting-mechanics note only. Every load-bearing claim must cite an explorer return and source-local selector. Do not write research.md, product code, authority files, IDE product decisions, ResonantOS issues, or Inventory."
+        }
+      ]
+    },
+    {
+      "group_id": "auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2400,
+          "initial_prompt": "Audit findings.md only against the dispatch goal and cited-synthesis evidence contract. Prioritize usefulness and economy: require a clear improvement to Augmentor behavior, protected user control, an evolvable graph that does not graph everything, a reasoning layer that does more than retrieval, one concrete fixture-backed browser journey, explicit overhead budgets, graceful fallback, reuse of existing ResonantOS memory/context owners, a public/private-safe adapter boundary, dependency-safe implementation increments, and a complete verdict matrix. Reject governance ceremony that dominates the experience, hidden profiling, a second memory system, a graph-database prerequisite, or whole-engine inflation. Return RECOMMEND_ACCEPT or one bounded writer revision request for the parent final approver. Do not edit files."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "explorers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "reviewers",
+      "type": "zig-zag",
+      "loop_cap": 2
+    },
+    {
+      "from": "synthesizer",
+      "to": "explorers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "reviewers",
+      "to": "writer",
+      "type": "sequential"
+    },
+    {
+      "from": "writer",
+      "to": "auditor",
+      "type": "sequential"
+    },
+    {
+      "from": "auditor",
+      "to": "writer",
+      "type": "feedback",
+      "loop_cap": 1
+    }
+  ]
+}

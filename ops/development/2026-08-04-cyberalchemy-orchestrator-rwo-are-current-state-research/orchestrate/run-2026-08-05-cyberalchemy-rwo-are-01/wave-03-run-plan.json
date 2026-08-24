@@ -1,0 +1,125 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state",
+  "run_id": "run-2026-08-05-cyberalchemy-rwo-are-01",
+  "state": "wave_ready",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "review",
+    "role_ids": [
+      "precedent-reviewer",
+      "non-vacuity-reviewer",
+      "definitional-reviewer"
+    ],
+    "parallel": true,
+    "join_policy": "all",
+    "depends_on_waves": [
+      "synthesis"
+    ],
+    "gate_after": "g-review-and-evidence-closure",
+    "on_incomplete": "block"
+  },
+  "action_artifacts": [
+    "wave-03-actions/spawn-0005.json",
+    "wave-03-actions/spawn-0006.json",
+    "wave-03-actions/spawn-0007.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0005",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s3"
+      ],
+      "capability_ref": "domainspec-subagents-strategy",
+      "dispatch_id": "2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state",
+      "forbidden_write_scopes": [
+        "projects/cyberalchemy-orchestrator/",
+        "cyberAlchemy-v2/",
+        "telemetry/agents/",
+        ".arcanum/inventory/"
+      ],
+      "input_refs": [
+        "receipts/state-synthesis.json"
+      ],
+      "mode": "review",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/reviewer-precedent.json"
+      ],
+      "role": "precedent-reviewer",
+      "run_id": "run-2026-08-05-cyberalchemy-rwo-are-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s3",
+      "target": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/",
+      "wave_id": "review",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0006",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s3"
+      ],
+      "capability_ref": "domainspec-subagents-strategy",
+      "dispatch_id": "2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state",
+      "forbidden_write_scopes": [
+        "projects/cyberalchemy-orchestrator/",
+        "cyberAlchemy-v2/",
+        "telemetry/agents/",
+        ".arcanum/inventory/"
+      ],
+      "input_refs": [
+        "receipts/state-synthesis.json"
+      ],
+      "mode": "review",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/reviewer-non-vacuity.json"
+      ],
+      "role": "non-vacuity-reviewer",
+      "run_id": "run-2026-08-05-cyberalchemy-rwo-are-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s3",
+      "target": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/",
+      "wave_id": "review",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0007",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s3"
+      ],
+      "capability_ref": "domainspec-subagents-strategy",
+      "dispatch_id": "2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state",
+      "forbidden_write_scopes": [
+        "projects/cyberalchemy-orchestrator/",
+        "cyberAlchemy-v2/",
+        "telemetry/agents/",
+        ".arcanum/inventory/"
+      ],
+      "input_refs": [
+        "receipts/state-synthesis.json"
+      ],
+      "mode": "review",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/reviewer-definitional.json"
+      ],
+      "role": "definitional-reviewer",
+      "run_id": "run-2026-08-05-cyberalchemy-rwo-are-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s3",
+      "target": "ops/development/2026-08-04-cyberalchemy-orchestrator-rwo-are-current-state-research/",
+      "wave_id": "review",
+      "write_scope": []
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "augmentor.consultation.result@0.1.0",
+  "oneOf": [
+    {"$ref": "#/$defs/ok"},
+    {"$ref": "#/$defs/partial"},
+    {"$ref": "#/$defs/noMatch"},
+    {"$ref": "#/$defs/insufficient"},
+    {"$ref": "#/$defs/conflict"},
+    {"$ref": "#/$defs/stale"},
+    {"$ref": "#/$defs/denied"},
+    {"$ref": "#/$defs/invalid"},
+    {"$ref": "#/$defs/budget"},
+    {"$ref": "#/$defs/temporary"}
+  ],
+  "$defs": {
+    "baseProperties": {},
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "label", "summary", "viewIds", "sourceHandles"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^rec-[a-f0-9]{12}$"},
+        "kind": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1},
+        "summary": {"type": "string", "minLength": 1},
+        "viewIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "sourceHandles": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"}}
+      }
+    },
+    "statement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statementId", "subjectId", "predicate", "object", "transformation", "sourceHandles", "freshness", "claimCeiling", "forbiddenInferences", "relevance", "confidence"],
+      "properties": {
+        "statementId": {"type": "string", "minLength": 1},
+        "subjectId": {"type": "string", "minLength": 1},
+        "predicate": {"type": "string", "minLength": 1},
+        "object": {"type": ["string", "number", "boolean", "array"]},
+        "displayText": {"type": "string"},
+        "transformation": {"type": "object"},
+        "sourceHandles": {"type": "array"},
+        "freshness": {"enum": ["current", "stale", "unknown"]},
+        "claimCeiling": {"type": "string", "minLength": 1},
+        "forbiddenInferences": {"type": "array"},
+        "relevance": {"type": "object"},
+        "confidence": {"type": "object"}
+      }
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "records", "statements"],
+      "properties": {
+        "kind": {"enum": ["records", "statements", "context"]},
+        "records": {"type": "array", "items": {"$ref": "#/$defs/record"}},
+        "statements": {"type": "array", "items": {"$ref": "#/$defs/statement"}}
+      }
+    },
+    "ok": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "requestId", "questionId", "status", "result", "projectionDigest", "complete"],
+      "properties": {"schemaVersion": {"const": "augmentor.consultation.result@0.1.0"}, "requestId": {"type": "string"}, "questionId": {"type": "string"}, "status": {"const": "ok"}, "result": {"$ref": "#/$defs/payload"}, "projectionDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "complete": {"const": true}}
+    },
+    "partial": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "requestId", "questionId", "status", "result", "projectionDigest", "complete", "limitsHit"],
+      "properties": {"schemaVersion": {"const": "augmentor.consultation.result@0.1.0"}, "requestId": {"type": "string"}, "questionId": {"type": "string"}, "status": {"const": "partial"}, "result": {"$ref": "#/$defs/payload"}, "projectionDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "complete": {"const": false}, "limitsHit": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["candidates", "records", "sources", "bytes", "tokens", "time"]}}}
+    },
+    "noMatch": {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "requestId", "questionId", "status", "searchedProjectionDigest"], "properties": {"schemaVersion": {"const": "augmentor.consultation.result@0.1.0"}, "requestId": {"type": "string"}, "questionId": {"type": "string"}, "status": {"const": "no_match"}, "searchedProjectionDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}},
+    "insufficient": {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "requestId", "questionId", "status", "gapCodes"], "properties": {"schemaVersion": {"const": "augmentor.consultation.result@0.1.0"}, "requestId": {"type": "string"}, "questionId": {"type": "string"}, "status": {"const": "insufficient_evidence"}, "gapCodes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["SOURCE_BINDING_MISSING", "PROVENANCE_MISSING", "REQUIRED_FIELD_MISSING"]}}}},
+    "conflict": {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "requestId", "questionId", "status", "statementIds"], "properties": {"schemaVersion": {"const": "augmentor.consultation.result@0.1.0"}, "requestId": {"type": "string"}, "questionId": {"type": "string"}, "status": {"const": "conflict"}, "statementIds": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}}}},
+    "stale": {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "requestId", "questionId", "status", "projectionDigest", "freshness"], "properties": {"schemaVersion": {"const": "augmentor.consultation.result@0.1.0"}, "requestId": {"type": "string"}, "questionId": {"type": "string"}, "status": {"const": "stale"}, "projectionDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "freshness": {"const": "stale"}}},
+    "denied": {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "requestId", "questionId", "status", "reasonCode", "retryable"], "properties": {"schemaVersion": {"const": "augmentor.consultation.result@0.1.0"}, "requestId": {"type": "string"}, "questionId": {"type": "string"}, "status": {"const": "denied"}, "reasonCode": {"const": "ACCESS_NOT_AVAILABLE"}, "retryable": {"const": false}}},
+    "invalid": {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "requestId", "questionId", "status", "issueCodes"], "properties": {"schemaVersion": {"const": "augmentor.consultation.result@0.1.0"}, "requestId": {"type": "string"}, "questionId": {"type": "string"}, "status": {"const": "invalid_request"}, "issueCodes": {"type": "array", "minItems": 1, "items": {"type": "string"}}}},
+    "budget": {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "requestId", "questionId", "status", "limitCodes"], "properties": {"schemaVersion": {"const": "augmentor.consultation.result@0.1.0"}, "requestId": {"type": "string"}, "questionId": {"type": "string"}, "status": {"const": "budget_exceeded"}, "limitCodes": {"type": "array", "minItems": 1, "items": {"type": "string"}}}},
+    "temporary": {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "requestId", "questionId", "status", "reasonCode", "retryable"], "properties": {"schemaVersion": {"const": "augmentor.consultation.result@0.1.0"}, "requestId": {"type": "string"}, "questionId": {"type": "string"}, "status": {"const": "temporary_failure"}, "reasonCode": {"enum": ["DEADLINE_REACHED", "CANCELLED", "DEPENDENCY_UNAVAILABLE"]}, "retryable": {"type": "boolean"}}}
+  }
+}

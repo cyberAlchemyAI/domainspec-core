@@ -1,0 +1,173 @@
+{
+  "$id": "https://domainspec.local/iro/closeout-preflight/1-0-0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allowed_delta_classes": {
+      "items": {
+        "enum": [
+          "evidence_added",
+          "blocker_opened",
+          "blocker_resolved",
+          "status_changed",
+          "route_changed"
+        ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "authority_effect": {
+      "const": "none"
+    },
+    "canonical_successor": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_schema_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes"
+      ],
+      "type": "object"
+    },
+    "result": {
+      "enum": [
+        "PROCEED",
+        "BLOCK"
+      ]
+    },
+    "schema_version": {
+      "const": "task-session.closeout-preflight.v1"
+    },
+    "swu_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "targets": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "baseline": {
+            "pattern": "^(absent|[a-f0-9]{64})$",
+            "type": "string"
+          },
+          "delta_classes": {
+            "items": {
+              "enum": [
+                "evidence_added",
+                "blocker_opened",
+                "blocker_resolved",
+                "status_changed",
+                "route_changed"
+              ]
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "baseline",
+          "delta_classes"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "task_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "terminal_schema_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes"
+      ],
+      "type": "object"
+    },
+    "validation_commands": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "work_pack_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "task_id",
+    "swu_id",
+    "result",
+    "work_pack_ref",
+    "terminal_schema_ref",
+    "owner_schema_ref",
+    "targets",
+    "allowed_delta_classes",
+    "validation_commands",
+    "canonical_successor",
+    "authority_effect"
+  ],
+  "type": "object"
+}

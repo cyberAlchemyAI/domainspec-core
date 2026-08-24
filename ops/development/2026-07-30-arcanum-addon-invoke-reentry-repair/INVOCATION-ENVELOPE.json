@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-07-30T19:13:00Z",
+  "sigil": "invoke",
+  "tier": "spell",
+  "mode": "refresh",
+  "requestSummary": "Apply the bounded machine-enforced SWU selection repair to the ResonantOS Arcanum add-on Plan.",
+  "executionStatus": "completed",
+  "outputs": [
+    "REFRESH-REPORT.md",
+    "refresh-report.json",
+    "helper/receipt.md",
+    "material/material-package-receipt.json",
+    "material/material-apply-receipt.json",
+    "material/v2/material-package-receipt.json",
+    "material/v2/material-apply-receipt.json"
+  ],
+  "changedFiles": [
+    "../workspace-resonant/2.0.0-alpha-arcanum-addon-plan/development/arcanum-addon/plan/"
+  ],
+  "validation": [
+    {
+      "check": "material packages and handoffs",
+      "result": "pass"
+    },
+    {
+      "check": "Dispatch Spec and static selection invariants",
+      "result": "pass"
+    },
+    {
+      "check": "live atomic claim, replay, and path/content mismatch",
+      "result": "pass"
+    },
+    {
+      "check": "repository documentation",
+      "result": "pass-224-tests"
+    },
+    {
+      "check": "fresh independent exact-byte revalidation",
+      "result": "not_run",
+      "reason": "a new exact confirmed review sheet is required"
+    }
+  ],
+  "observer": {
+    "qualityBar": "pass",
+    "antiPatternHits": [
+      "prose-only-swu-reentry-repaired"
+    ],
+    "workflowGaps": [
+      "fresh independent exact-byte audit remains required before B-DESIGN-001 can close"
+    ],
+    "privacy": "no credentials, tokens, private profile prose, selection receipt, product runtime, or browser state stored"
+  }
+}

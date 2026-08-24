@@ -1,0 +1,59 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "iro-full-stream-20260802t021738z-iro002-to-iro003",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "pass",
+    "receipt": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/terminal-receipt.json",
+    "blocker_fingerprint": null,
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "sigil-development:execute:candidate-core-portability",
+    "evidence": "direct owner instruction authorizes local unmerged implementation; IRO-002 terminal and joined closeout pass"
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "sigil-development",
+      "mode": "execute",
+      "mutation_mode": "candidate-material",
+      "owner": "candidate-lifecycle-owner",
+      "evidence": [
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/terminal-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/closeout-owner-receipt.json",
+        "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/EXECUTION-CONTRACT.json"
+      ],
+      "required_inputs": [
+        "passing joined IRO-002 terminal and closeout receipts",
+        "fresh SWU-IRO-003 strict Context and mutation-admission receipt",
+        "shared Playwright runtime provenance"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "medium",
+      "approval_required": false,
+      "authorization_status": "authorized-local-unmerged",
+      "expected_receipt": "fixed SWU-IRO-003 terminal-receipt.json plus joined closeout-owner-receipt.json",
+      "fallback": "stop on failed acceptance-critical validation or private/public boundary breach"
+    }
+  ],
+  "selection": {
+    "status": "authorized",
+    "candidate_rank": 1,
+    "reason": "The successor is unique, dependency-ready, owner-bounded, and locally authorized."
+  },
+  "dispatch": {
+    "status": "not-requested",
+    "runtime": null,
+    "owner_receipt": null,
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "sigil-development",
+    "mode": "execute",
+    "target": "SWU-IRO-003"
+  }
+}

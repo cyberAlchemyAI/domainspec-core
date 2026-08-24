@@ -1,0 +1,59 @@
+{
+  "schema_version": "context-builder.task-session.v1",
+  "task_id": "TASK-BWAA-001",
+  "swu_id": "SWU-BWAA-001",
+  "mode": "standard",
+  "strict_coverage": false,
+  "handoff": null,
+  "obligations": [
+    {"id":"O-01","description":"exact task and ordered frontier","status":"covered"},
+    {"id":"O-02","description":"semantic locks and authority ceiling","status":"covered"},
+    {"id":"O-03","description":"lens-flow algorithm and failure behavior","status":"covered"},
+    {"id":"O-04","description":"three-path write scope","status":"covered"},
+    {"id":"O-05","description":"acceptance and validation surface","status":"covered"},
+    {"id":"O-06","description":"per-SWU material admission","status":"block"},
+    {"id":"O-07","description":"closeout owner prerequisite package","status":"block"}
+  ],
+  "selected_sources": [
+    {"path":"projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/tasks/TASK-BWAA-001.md","sha256":"345e50e558ef216f0056ef3509e4973798c7dbfedb99472445a5057f85adb731","size_bytes":5024,"selectors":["Task Objective","Write Scope","Acceptance","Validation","Handoff And Closeout"],"obligations":["O-01","O-04","O-05"]},
+    {"path":"projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/WORK-PACK.md","sha256":"b2c9cd539888e7d62b094d04da219c4c927fd4e5a588949efb392f5a7416790e","size_bytes":8256,"selectors":["Ordered SWU Manifest","Semantic Locks","Blocker And Gap Ledger"],"obligations":["O-01","O-02"]},
+    {"path":"projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/shared/EXECUTION-CONTROL.md","sha256":"5fc1669b510099f25714addb33f6cf7855beca45182cdb626e1c9da2df993d82","size_bytes":2911,"selectors":["Selection And Preflight","Terminal Receipt Contract","Closeout Targets","Successor Ledger"],"obligations":["O-07"]},
+    {"path":"projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/SPEC.md","sha256":"0d93c804cc8f2b2b5619dfb350a076231aec1df368d88ee3050d90de246958e0","size_bytes":13449,"selectors":["Lens flow","Acceptance Criteria","Authority Boundary"],"obligations":["O-02","O-03","O-05"]},
+    {"path":"projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/ARCHITECTURE.md","sha256":"4c67dfc766f608eda78a9145ca508b58446707deadb2cf2b65ee40268ef41dbf","size_bytes":18795,"selectors":["Pure arrow projection","Dependency and interface view"],"obligations":["O-03"]},
+    {"path":"projects/body-war/ontology/business/scripts/view-atlas-projection.mjs","sha256":"f672d87d0270647e2a4995ea20b95352afecb5631beffbe03bdfb2bf971279c2","size_bytes":7398,"selectors":["projectViewAtlas","portals","coverage"],"obligations":["O-03","O-04"]},
+    {"path":"projects/body-war/ontology/business/scripts/validate-view-atlas.mjs","sha256":"7e920c4a4e1975678cfd298cfc9b5091283490a87e69786e95bda64e4b598b08","size_bytes":4572,"selectors":["expectedCoverage","receipt"],"obligations":["O-04","O-05"]},
+    {"path":"projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs","sha256":"07e4c02f4a7eafcbc2bae39722e10efe804ad6fbfb1fb9eed1a3d8d65f3d5774","size_bytes":6569,"selectors":["projection conservation","portal direction"],"obligations":["O-04","O-05"]},
+    {"path":".agents/skills/task-session/schemas/mutation-admission-request.schema.json","sha256":"32622a11eba8fc59f7e26e75b859ae943b60a98e882ba5b84225f8a871facf3f","size_bytes":4327,"selectors":["routed mutation material-bound branch"],"obligations":["O-06"]},
+    {"path":".agents/skills/task-session/schemas/mutation-admission-receipt.schema.json","sha256":"594d7738bb0ebc1483bdeb6fae0cfbedaa08febc4cf60edb23d5bf965953801e","size_bytes":5374,"selectors":["admit and block contracts"],"obligations":["O-06"]}
+  ],
+  "execution_contract": {
+    "writeProfile": "material-bound",
+    "materialWrites": [
+      "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+      "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+    ],
+    "executionOutputs": [
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T085748Z-bwaa-all-until-blocker/SWU-BWAA-001-TERMINAL-RECEIPT.json"
+    ],
+    "allowedWrites": [
+      "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+      "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+      "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T085748Z-bwaa-all-until-blocker/SWU-BWAA-001-TERMINAL-RECEIPT.json"
+    ],
+    "validationCommands": [
+      "node --test projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+      "node projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+      "git diff --check -- projects/body-war/ontology/business/scripts/view-atlas-projection.mjs projects/body-war/ontology/business/scripts/validate-view-atlas.mjs projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+    ],
+    "lifecycleOwner": "private Body War business ontology atlas projection owner",
+    "authorityClass": "private",
+    "publicationClass": "private"
+  },
+  "blockers": [
+    "SWU-BWAA-001 material package absent",
+    "SWU-BWAA-001 passing producer material receipt absent",
+    "closeout owner prerequisite package incomplete"
+  ]
+}

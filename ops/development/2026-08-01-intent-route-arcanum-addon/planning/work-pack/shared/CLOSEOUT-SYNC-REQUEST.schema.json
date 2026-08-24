@@ -1,0 +1,111 @@
+{
+  "$id": "https://domainspec.local/iro/closeout-sync-request/1-0-0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_effect": {
+      "const": "none"
+    },
+    "canonical_successor": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "expected_owner_receipt_path": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "route": {
+      "const": "invoke:refresh:apply-approved"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "source_terminal_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes"
+      ],
+      "type": "object"
+    },
+    "stream_id": {
+      "const": "IRO-FULL-STREAM"
+    },
+    "targets": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "baseline": {
+            "pattern": "^(absent|[a-f0-9]{64})$",
+            "type": "string"
+          },
+          "delta_class": {
+            "enum": [
+              "evidence_added",
+              "blocker_opened",
+              "blocker_resolved",
+              "status_changed",
+              "route_changed"
+            ]
+          },
+          "expected_post_state": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "baseline",
+          "delta_class",
+          "expected_post_state"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "unit_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "validation_commands": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "stream_id",
+    "unit_id",
+    "route",
+    "source_terminal_ref",
+    "targets",
+    "validation_commands",
+    "expected_owner_receipt_path",
+    "canonical_successor",
+    "authority_effect"
+  ],
+  "type": "object"
+}

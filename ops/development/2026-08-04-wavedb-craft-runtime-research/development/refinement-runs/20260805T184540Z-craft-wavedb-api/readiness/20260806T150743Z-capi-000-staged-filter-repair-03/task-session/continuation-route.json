@@ -1,0 +1,84 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "cr-capi-000-03-pass-closeout-20260806T152627Z",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "pass",
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T150743Z-capi-000-staged-filter-repair-03/task-session/terminal-receipt.json",
+    "blocker_fingerprint": "terminal-pass:89ab8babfe15a169c16c1694b58ee7e9055e3c7f6fd6875e6d0c6c139a04e5f6",
+    "legacy_adaptation": true
+  },
+  "authorization": {
+    "source": "ad-hoc-exact-route",
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/authorizations/20260806T150743Z-capi-000-03-staged-filter-repair/authorization.json",
+    "authorization_prompt_required": false,
+    "work_pack_binding": null,
+    "binding": null
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "craft-consultation-api-plan-owner",
+      "evidence": [
+        "terminal receipt names continuation-router closeout-sync",
+        "Work Pack requires invoke:refresh:apply-approved synchronization",
+        "direct authorization includes synchronization through the declared closeout owner"
+      ],
+      "required_inputs": ["terminal receipt", "experiment receipt", "live Work Pack baseline", "exact target inventory"],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "invoke.refresh-owner-receipt.v1",
+      "fallback": "stop:user-input on drift or owner validation failure"
+    },
+    {
+      "rank": 2,
+      "capability": "stop",
+      "mode": "user-input",
+      "mutation_mode": null,
+      "owner": "user",
+      "evidence": ["fail-closed fallback for target drift or missing closeout evidence"],
+      "required_inputs": [],
+      "missing_inputs": [],
+      "mutation_risk": "none",
+      "approval_required": false,
+      "authorization_status": "not-required",
+      "expected_receipt": "block report",
+      "fallback": "none"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The exact owner route, target inventory, terminal evidence, and direct closeout authorization matched without ambiguity."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "inline-owner-isolation",
+    "owner_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/execution-receipts/SWU-CAPI-000.wcli-20260805-node26-0.15.9-03.refresh.json",
+    "owner_receipt_ref": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/execution-receipts/SWU-CAPI-000.wcli-20260805-node26-0.15.9-03.refresh.json",
+      "sha256": "b5a1a1abb012ba9db9ab5563b3ebf2ea3cf71f5de61eb758c54277044b6559d0",
+      "size_bytes": 2623
+    },
+    "join_validation": "pass",
+    "helper_closeout": "n/a",
+    "dispatch_count": 1,
+    "join_count": 1,
+    "router_mutations": []
+  },
+  "owner_boundary": "pass",
+  "control_handle": null,
+  "returned_next_route": {
+    "capability": "stop",
+    "mode": "no-successor-authorized",
+    "target": "SWU-CAPI-001 dependency-ready but not selected"
+  }
+}

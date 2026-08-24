@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://body-war.local/schemas/business-comprehension-protocol/v1",
+  "title": "BodyWarBusinessComprehensionProtocol",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_id",
+    "learner_allowlist",
+    "learner_deny_markers",
+    "matched_arms",
+    "answer_key",
+    "scoring",
+    "stall_contract",
+    "authority_ceiling"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "body-war-business-comprehension-protocol/v1"
+    },
+    "protocol_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "learner_allowlist": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "learner_deny_markers": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "matched_arms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fields",
+        "identity_rule"
+      ],
+      "properties": {
+        "fields": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "task",
+              "loci",
+              "prompt",
+              "stimulus"
+            ]
+          }
+        },
+        "identity_rule": {
+          "const": "byte-identical"
+        }
+      }
+    },
+    "answer_key": {
+      "type": "object"
+    },
+    "scoring": {
+      "type": "object"
+    },
+    "stall_contract": {
+      "type": "object"
+    },
+    "authority_ceiling": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
+

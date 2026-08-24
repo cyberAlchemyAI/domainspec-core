@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "augmentor-consultation-l0-exact-epoch",
+  "candidates": [
+    {
+      "optionId": "APPROVE_EXACT_EPOCH",
+      "label": "Approve the exact seven-unit L0 epoch",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "human-decision-gate",
+      "evidence": [
+        "one-go/audit/results-v1-execution-ready/work-pack-readiness-report.json: verdict pass with zero findings",
+        "one-go/audit/results-v2-execution-ready/objective-execution-manifest.json: epoch-cdd98012d74d842a5763602f",
+        "one-go/STAGED-VALIDATION.json: isolated candidate application passed"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "DEFER_EXACT_EPOCH",
+      "label": "Keep the prepared epoch unapproved",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": ["The audited manifest remains authority-none, unselected, and mutation-ready false until an exact approval receipt exists."],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "STOP_EXACT_EPOCH",
+      "label": "Stop this candidate-local L0 path",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": ["No product bytes, deployment, publication, or authority change have occurred."],
+      "rejectionReasons": []
+    }
+  ]
+}

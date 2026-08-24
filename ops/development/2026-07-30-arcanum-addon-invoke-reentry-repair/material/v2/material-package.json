@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "arcanum-addon-selection-path-repair-20260730-v2",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "resonantos-planning-owner",
+  "authority_class": "public",
+  "publication_class": "internal",
+  "source_artifacts": [
+    {
+      "path": "sources/repair-revalidation-findings.md",
+      "sha256": "ee25804bd93634ef672703aecdfa492f85e8f56288240dd0b0eaf0a1d9864775",
+      "size_bytes": 4774,
+      "authority_class": "private"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "development/arcanum-addon/plan/work-pack/shared/validate-swu-selection-reentry.mjs",
+      "operation": "update",
+      "output_ref": {
+        "path": "outputs/development/arcanum-addon/plan/work-pack/shared/validate-swu-selection-reentry.mjs",
+        "sha256": "353eaffa406083b70ee42c0eb14e86fd89bcac2faed87679d1a74233a38d0877",
+        "size_bytes": 17971
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "development/arcanum-addon/plan/work-pack/shared/validate-swu-selection-reentry.mjs",
+      "lifecycle_owner": "resonantos-planning-owner",
+      "authority_class": "public",
+      "publication_class": "internal",
+      "dependency_ids": [
+        "preimage-01"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "preimage-01",
+      "artifact_ref": {
+        "path": "inputs/development/arcanum-addon/plan/work-pack/shared/validate-swu-selection-reentry.mjs",
+        "sha256": "28541dcac33f74958826b288b72bf4346bf165a4e895c66b5992e78c9743aa9a",
+        "size_bytes": 17141
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "resonantos-planning-owner",
+    "scope_paths": [
+      "development/arcanum-addon/plan/work-pack/shared/validate-swu-selection-reentry.mjs"
+    ],
+    "authority_classes": [
+      "public"
+    ],
+    "publication_classes": [
+      "internal"
+    ]
+  },
+  "validation_commands": [
+    "node validate-swu-selection-reentry.mjs <plan-root>",
+    "node validate-swu-selection-reentry.mjs --self-test",
+    "runtime selection path/content mismatch rejection",
+    "atomic single-use claim and replay rejection"
+  ]
+}

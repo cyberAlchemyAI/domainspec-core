@@ -1,0 +1,74 @@
+{
+  "schema_version": "task-session-terminal-receipt.v1",
+  "completed_at": "2026-08-05T20:35:58Z",
+  "task_id": "TASK-WCND-02",
+  "swu_id": "SWU-WCND-002",
+  "execution_result": "pass",
+  "claim_ceiling": "one-pinned-npm-0.15.9-tarball-named-local-node26-canaries-only",
+  "context_pack": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/context-pack.json",
+    "sha256": "f9ddb261361795406477a49dd57bba27a46422177c67d7fae70a2c3948213823"
+  },
+  "mutation_admission": {
+    "initial_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/mutation-admission-receipt.json",
+    "initial_sha256": "8565d91ac9783b03bd0ec5641b54e91523334fdb0ff2022b9fb47d0970575a23",
+    "initial_verdict": "block",
+    "repair": "corrected context-pack contract field names and declared work-pack roles before any package download, install, or native build",
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/mutation-admission-receipt.retry-01.json",
+    "sha256": "0194f2c67d9b8336803cd7570a1bcb0b04f2352b157a18bef0978a314437e911",
+    "size_bytes": 2943,
+    "verdict": "admit",
+    "write_profile": "execution-output-only"
+  },
+  "diagnostic_receipt": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26-0.15.9/npm-diagnostic-receipt.json",
+    "sha256": "6243febc06f345d0fa22b8b1210742c19e7d4cda74ca6a840e36f8d32428918c",
+    "size_bytes": 4483,
+    "verdict": "pass",
+    "artifact": "@vijayee/wavedb@0.15.9",
+    "addon_handoff": null
+  },
+  "validation": {
+    "registry_identity": "pass",
+    "tarball_identity_before_scripts": "pass",
+    "native_install_build": "pass",
+    "addon_load": "pass",
+    "basic_string_binary": "pass",
+    "empty_string": "pass",
+    "batch_reopen": "pass",
+    "concurrent_100_write_readback": "pass",
+    "scope_audit": "pass",
+    "source_provenance_binding": "unresolved-not-a-pass-gate-for-this-opaque-artifact-route",
+    "prior_full_suite_blocker": "preserved-not-invalidated"
+  },
+  "effects": {
+    "network_fetch": "exact package metadata, pinned tarball, and declared dependency resolution",
+    "dependency_materialization": "attempt-local",
+    "native_build": "attempt-local",
+    "addon_load": "attempt-local",
+    "runtime_stores": "four attempt-local stores preserved",
+    "craft_content_access": "none",
+    "craft_mutation": "none",
+    "nvm_default_change": "none",
+    "workspace_git_head_or_index_change": "none-observed",
+    "publication": false,
+    "deployment": false,
+    "destructive_cleanup": false
+  },
+  "closeout": {
+    "preflight": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/closeout-preflight.json",
+    "preflight_sha256": "7cbd6ed80ca1339a3b621584e66813e9da8c7fd19cb19b6274d9ed5a1bf84f47",
+    "synchronization_required": false,
+    "status": "receipt-backed-no-op"
+  },
+  "blockers": [],
+  "residue": [
+    "0.15.9 is a material package change: three packaged source files and the rebuilt native addon differ from 0.15.8.",
+    "The exact reviewed source tree represented by the npm tarball is still not bound.",
+    "The prior full-upstream-suite concurrency stall remains unresolved and is not invalidated by these isolated canaries.",
+    "Compiler warnings and deprecated transitive dependencies remain outside the named acceptance surface.",
+    "Craft snapshot regeneration, API pin update, and addon handoff were not authorized and remain absent."
+  ],
+  "subagents": {"result": "n/a", "spawned": 0, "joined": 0, "open": 0},
+  "next_route": null
+}

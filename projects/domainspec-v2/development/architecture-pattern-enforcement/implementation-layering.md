@@ -1,56 +1,45 @@
 ---
 module: architecture-pattern-enforcement
 feature_code: APE
-version: current
-status: draft
-updatedAt: 2026-07-12
+status: candidate-plan-ready
+updatedAt: 2026-08-04
 docType: implementation-layering
 ---
 
-# Implementation Layering: Architecture-Pattern Enforcement
+# Implementation Layering: Ontology-Guided APE
 
-Decision-first layering. L0 minimal; scope promotes only when evidence justifies it. The layer
-boundaries are chosen so the **node plane** (owned, stable) leads and the **edge plane**
-(now dynamically authority-backed but still evidence-bounded) follows — the design's load-bearing split.
+## Boundary rule
 
-## Target And Scope
+Each layer answers: “After this layer, what do we know that we did not know
+before?” Layers preserve earlier guarantees and add one bounded evidence theme.
 
-- Target: architecture-pattern-enforcement (APE)
-- Scope: system (a cross-cutting validation discipline + its tooling)
-- Current state: brownfield — substrate owned and installed; L0 is witnessed on financial-settlement;
-  bounded dynamic edge-law enforcement is implemented; a normalized AEO second pack now proves
-  node/edge repeatability, while CI and card-layer repeatability remain.
+## Layer decisions
 
-## Layer Boundary Rule
-
-`After this layer, we know whether {decision unlocked}.`
-
-## Layer Decision Table
-
-| Layer | Decision Question | Minimum Working Unit | Included Scope | Deferred Scope | Exit Evidence | Promotion Decision |
+| Layer | Decision question | Minimum working unit | Included | Deferred | Exit evidence | Promotion decision |
 | --- | --- | --- | --- | --- | --- | --- |
-| **L0 (POC)** | After this layer, we know whether the **spec→validate→enforce loop runs non-vacuously on one real domain**. | one hand-authored v2 feature pack (SPEC + aspect docs) that passes `validate-content` + `instances validate` + engine `lint`, and **fails on a deliberately broken concept**. | C-A uniformity on ONE feature pack; engine `lint` via explicit path; a red/green demonstration. | C-B edges, C-C layering, CI wiring, card triage, promotion, mint, drift. | green + red run transcripts committed under the feature pack; the validators are now *witnessed*, not vacuous. | continue → L1 · pivot if the schema criteria can't express a real domain. |
-| **L1 (repeatable)** | After this layer, we know whether **uniformity enforcement is repeatable and the authoring layer is in place**. | node-plane gates wired into CI over ≥2 feature packs; v1 pattern-library triaged in as the card layer. | C-D card-layer triage (concept + relationship cards + IMPORT-MANIFEST rows); node gates in CI; **defect cleanup** (reset `code-tag-waivers.yaml`; fix `docs/features`→`spec/features` anchors). | edge-law binding, cav2 promotion, unconstructibility, cross-project. | 2nd feature pack green; CI blocks on a seeded violation; concept cards linked as Evidence for backend meta-type promotions. | harden → L2 · narrow if card triage balloons. |
-| **L2 (governed)** | After this layer, we know whether **the edge plane and authority promotion hold**. | edge-law (composability) enforced from R3A root DS-D8 authority; node meta-types + validators promoted candidate→binding via cav2. | C-B composability (post-R3A): endpoint-signature checks; refactor `check-code-tag-composability` to read the edge-law dynamically; C-E promotion of L0/L1 handles through definitions/constitution-governance. | C-C unconstructibility, C-F mint, C-G drift-trend. | R3A landed + composability green on a real pack; ≥1 handle reaches `binding` state. | scale → L3 · remediate if DS-D8 endpoint signatures force schema changes. |
-| **L3 (scale / package)** | After this layer, we know whether **the discipline replicates to another project and becomes unconstructible-by-construction**. | a second (minted) repo inherits the substrate and validates its own domain; C6 typed-catalog layer; C7 drift baseline series. | C-F inheritance via mint; C-C unconstructibility (typed catalog generalizing `containment.ts`); C-G drift baseline. | future domain classes; public/private mint boundary (blocked). | minted repo runs the same gates green on its own nodes; a forbidden edge is unbuildable, not flagged; drift series shows a trend. | pilot/package · defer unconstructibility if the meta-type formalism is still moving. |
+| L0 — Enum ontology closure | After this layer, do we know whether active `DS-D1.3` can be represented as a portable implementation contract without changing canonical meaning? | canonical-bound `EnumImplementation`, typed properties/operators, profiles, provenance/conflict rules, and causal scenario contract | candidate ontology/profile/contracts only | real source adapters, parity, CI, next type | ontology validation; exact discriminator fixtures; `authority_effect: none`; scenario joins total | proceed to TypeScript only if profile owner closes representation and required properties are observable |
+| L1 — TypeScript trust | After this layer, do we know whether Enum properties are extractable from real TypeScript and useful for exact-cause enforcement? | one admitted TypeScript Enum representation, real-source projection, positive/negative/unsupported fixtures, one deterministic proof/replay | TypeScript adapter and trust gate | Python, Rust, all other types, project-wide CI | raw AST/native evidence; exact findings; killed mutants; frozen observation digest | freeze shared contract or return to L0; never patch it from later lanes |
+| L2 — language parity and proof integration | After this layer, do we know whether the frozen portable contract survives independent Python and Rust realizations and BTE-compatible proof mechanics? | joined Python/Rust lane receipts plus exact obligation parity and bounded Enum closeout | Python, Rust, parity, runtime N/A decision, deterministic closeout | repository-wide adoption, behavioral runtime types | all lanes joined; unsupported total; same obligation IDs; raw evidence reachable; replay deterministic | issue `Enum complete-witnessed` only for selected profiles or remain blocked |
+| L3 — repeatable expansion | After this layer, do we know whether the proven cycle can select and prepare the next active type without bespoke all-at-once planning? | exact active-13 coverage projection, evidence-burden ranking, one next-type instance packet, CI aggregation of completed receipts only | coverage generation, next-type recommendation, lifecycle instantiation, bounded CI integration | blanket all-type completion, release, deployment, cross-project mint | no hard-coded counts; one recommended next type; incomplete types visibly red/unsupported | ask owner to select the next type; do not activate automatically |
 
-## Non-Regression Guardrails
+## Value/cost boundary
 
-- Later layers preserve earlier guarantees: L2 edge checks must not weaken L0/L1 node checks.
-- Deferred scope stays explicit — do **not** pull C-B/C-C/C-F forward into L0/L1 to look complete.
-- Promotion decisions cite evidence, not preference (cav2 CAV2-D38, claim ≤ proof).
-- The node plane must remain independently shippable while edge-plane evidence broadens.
+- L0 reduces semantic and authority risk before language/tool cost.
+- L1 spends implementation cost on one trust-building lane before parallelism.
+- L2 pays cross-language coordination only after the shared contract is stable.
+- L3 adds scaling mechanisms only after one type has a complete bounded proof.
 
-## Cross-Plan Execution Mapping
+## Non-regression
 
-APE keeps its own L0-L3 evidence semantics. The post-R3A closeout plan uses a separate local layer
-window: its completed L0 `SWU-R3C-001..003` realizes the bounded implementation part of APE
-capability C-B / slice S-004 by making the code-tag checker consume root DS-D8 dynamically. This
-does not supply second-corpus/real-pack evidence, relabel APE L2, complete APE L1, or make the
-two plans' layer numbers interchangeable.
+- Current DS-D1/DS-D8 validators and existing APE node/edge evidence remain
+  valid within their original claim ceilings.
+- BTE L0A evidence remains immutable; APE cannot relabel it as Enum proof.
+- Later language lanes cannot alter the L1-frozen observation contract.
+- Unsupported required observations never become skip, N/A, or pass.
+- Runtime claims remain separate from source and static-type claims.
+- No layer may promote ontology, profiles, exceptions, releases, or deployment.
 
-## Recommended Next Layer
+## Recommended next layer
 
-- Next APE layer: **L1**, continuing with card/CI work after second-corpus evidence passed.
-- Key decision unlocked: can the witnessed validator stack repeat across another pack, with card evidence and CI gating?
-- Major deferred scope: APE-wide edge-plane completion (C-B/C-C), promotion (C-E), and cross-project (C-F). Bounded dynamic C-B implementation completed through `SWU-R3C-001..003`; L1 repeatability and later formalism remain separate gates.
+L0. The nearest candidate is `SWU-APE-ONT-001`; no SWU is selected. The major
+deferred scope is every real source adapter and all non-Enum meta-types.

@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "refine-evidence-index.v1",
+  "runId": "20260805T184540Z-craft-wavedb-api",
+  "status": "complete-with-residue",
+  "authorization": "approved-and-consumed",
+  "result": "RESULT.md",
+  "finalDispatchValidation": "FINAL-DISPATCH-VALIDATION.json",
+  "controllingArtifacts": [
+    "API-CONTRACT.md",
+    "DATA-MODEL.md",
+    "SECURITY-BOUNDARY.md",
+    "IMPLEMENTATION-LAYERING.md",
+    "WORK-PACK.md",
+    "EXECUTION-PACK.md"
+  ],
+  "sourceEvidence": [
+    "../../../../experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json",
+    "../../../../experiment/craft-ledger-import/execution/wcli-20260805-node26-01/receipt.json",
+    "../../../../experiment/craft-ledger-import/.work/wcli-20260805-node26-04/import-ledgers-byte-normalized.js",
+    "[repo-root]/arcanum/arcana/craft/templates/ledger.schema.yml",
+    "[repo-root]/arcanum/arcana/craft/templates/schemas/ledger-core.schema.yml"
+  ],
+  "stages": [
+    {"stepId": "s01-context-builder", "status": "pass", "artifact": "stages/01-context.md", "receipt": "stages/01.receipt.json"},
+    {"stepId": "s02-invoke-define", "status": "pass", "artifact": "stages/02-define.md", "receipt": "stages/02.receipt.json"},
+    {"stepId": "s03-interrogation-review", "status": "flag", "artifact": "stages/03-review.md", "receipt": "stages/03.receipt.json"},
+    {"stepId": "s04-research-decision", "status": "pass", "artifact": "stages/04-research.md", "receipt": "stages/04.receipt.json"},
+    {"stepId": "s05-distill", "status": "pass", "artifact": "stages/05-distill.md", "receipt": "stages/05.receipt.json"},
+    {"stepId": "s06-invoke-design", "status": "pass", "artifact": "stages/06-design.md", "receipt": "stages/06.receipt.json"},
+    {"stepId": "s07-interrogation-design-review", "status": "flag", "artifact": "stages/07-design-review.md", "receipt": "stages/07.receipt.json"},
+    {"stepId": "s08-distill-repair", "status": "pass", "artifact": "stages/08-distill-repair.md", "receipt": "stages/08.receipt.json"},
+    {"stepId": "s09-invoke-plan-and-distill", "status": "flag", "artifact": "stages/09-plan.md", "receipt": "stages/09.receipt.json"},
+    {"stepId": "s10-final-synthesis", "status": "flag", "artifact": "stages/10-final-review.md", "receipt": "stages/10.receipt.json"}
+  ],
+  "designReview": {
+    "dispatchId": "2026-08-05-craft-wavedb-api-design-review",
+    "confirmedCritics": 3,
+    "open": 0,
+    "joined": 3,
+    "closed": 3,
+    "criticVerdicts": ["fail", "fail", "fail"],
+    "orchestrateGate": "gate_block",
+    "parentDisposition": "all findings accepted and repaired",
+    "eventValidation": "pass",
+    "registryCloseRows": 1
+  },
+  "planGate": {
+    "workPackGateStatus": "block",
+    "executionEntryState": "blocked",
+    "allowedRoutes": [],
+    "allowedRoutesDigest": "ccf1d1860af5298a377c80b78b0668e61c103de85b7626c1433f0bafc698718c",
+    "firstCandidateSwu": "SWU-CAPI-001"
+  },
+  "claimCeiling": {
+    "design": "repaired-candidate",
+    "plan": "complete-but-mutation-blocked",
+    "implementation": "absent",
+    "deployment": "absent",
+    "production": "unsupported",
+    "authorityEffect": "none"
+  }
+}

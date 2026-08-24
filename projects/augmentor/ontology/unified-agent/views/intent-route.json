@@ -1,0 +1,106 @@
+{
+  "view_id": "aug.view.intent_route",
+  "view_role": "system",
+  "title": "Augmentor intent-route view",
+  "description": "Focused system view of Augmentor intent capture, closed request and catalog projection, guarded zero-authority resolution, product interpretation, exact approval, and retained execution ownership.",
+  "owner_route": "resonantos-product-owner-plus-authenticated-host-adapter-plus-public-intent-route-resolver",
+  "source_refs": [
+    "SRC-AUA-ARCHITECTURE",
+    "SRC-INTENT-ROUTE-RESOLVER-README",
+    "SRC-INTENT-ROUTE-RESOLVER-MANIFEST",
+    "SRC-INTENT-ROUTE-ADAPTER-RECEIPT",
+    "SRC-INTENT-ROUTE-CONSUMPTION",
+    "SRC-RESONANT-MODULE-OWNERSHIP"
+  ],
+  "node_refs": [
+    "aug.concept.augmentor_interface",
+    "aug.concept.conversation_thread",
+    "aug.concept.interaction",
+    "aug.concept.context_snapshot",
+    "aug.concept.intent_route_request",
+    "aug.concept.route_catalog_projection",
+    "aug.concept.resolver_invocation",
+    "aug.concept.route_disposition",
+    "aug.concept.route_decision",
+    "aug.concept.strategy_proposal",
+    "aug.concept.approval_record",
+    "aug.concept.dispatch",
+    "aug.concept.run"
+  ],
+  "relation_refs": [
+    "aug.relation.augmentor_presents_thread",
+    "aug.relation.thread_contains_interaction",
+    "aug.relation.interaction_composes_context",
+    "aug.relation.context_projects_intent_route_request",
+    "aug.relation.intent_route_request_submitted_to_resolver",
+    "aug.relation.catalog_bounds_resolver_invocation",
+    "aug.relation.resolver_invocation_yields_disposition",
+    "aug.relation.augmentor_presents_route_disposition",
+    "aug.relation.disposition_may_inform_route_decision",
+    "aug.relation.disposition_does_not_authorize_approval",
+    "aug.relation.route_may_project_strategy",
+    "aug.relation.proposal_requires_exact_approval",
+    "aug.relation.approval_binds_dispatch",
+    "aug.relation.dispatch_precedes_run"
+  ],
+  "sequences": [
+    {
+      "sequence_id": "AUG-INTENT-CAPTURE",
+      "label": "Conversation to closed routing request",
+      "steps": [
+        "aug.concept.augmentor_interface",
+        "aug.concept.conversation_thread",
+        "aug.concept.interaction",
+        "aug.concept.context_snapshot",
+        "aug.concept.intent_route_request"
+      ]
+    },
+    {
+      "sequence_id": "AUG-INTENT-RESOLVE",
+      "label": "Digest-bound zero-authority resolution",
+      "steps": [
+        "aug.concept.intent_route_request",
+        "aug.concept.resolver_invocation",
+        "aug.concept.route_disposition",
+        "aug.concept.route_decision"
+      ]
+    },
+    {
+      "sequence_id": "AUG-INTENT-CATALOG",
+      "label": "Finite catalog boundary",
+      "steps": [
+        "aug.concept.route_catalog_projection",
+        "aug.concept.resolver_invocation",
+        "aug.concept.route_disposition"
+      ]
+    },
+    {
+      "sequence_id": "AUG-INTENT-CANDIDATE",
+      "label": "Candidate-only retained-owner continuation",
+      "steps": [
+        "aug.concept.route_disposition",
+        "aug.concept.route_decision",
+        "aug.concept.strategy_proposal",
+        "aug.concept.approval_record",
+        "aug.concept.dispatch",
+        "aug.concept.run"
+      ]
+    }
+  ],
+  "allowed_readings": [
+    "Augmentor may present an exact disposition while ResonantOS retains request, catalog, proposal, approval, and runtime ownership.",
+    "The public resolver is a pure finite relation whose result is always zero-authority.",
+    "Only a verified candidate may inform a separately owned RouteDecision and possible StrategyProposal.",
+    "Ambiguous, no-match, invalid, transport failure, or binding mismatch stop or clarify without creating approval, Dispatch, or Run."
+  ],
+  "forbidden_authority_moves": [
+    "RouteDisposition cannot become RouteDecision, StrategyProposal, ApprovalRecord, Dispatch, Run, or JudgmentReceipt.",
+    "Augmentor presentation cannot edit catalog bytes, fill unresolved request facts, choose an ambiguous route, or approve work.",
+    "The host adapter cannot discover, repair, rank, bind, authorize, register, schedule, spawn, persist, or execute work.",
+    "A candidate adapter receipt cannot prove installation, enablement, ResonantOS product integration, release, deployment, or production readiness."
+  ],
+  "residue": [
+    "AUG-RES-003",
+    "AUG-RES-004"
+  ]
+}

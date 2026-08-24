@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "stream_id": "IRO-FULL-STREAM",
+  "epoch_id": "epoch-a696eda26311d39018e7ac8f",
+  "unit_id": "SWU-IRO-001",
+  "profile_ref": {
+    "path": ".arcanum/profiles/decision-profile.yml",
+    "sha256": "f6b1c7be1e1299365bf914780b55d4b8ba16c58e4fc85684222adb164e6256d5",
+    "size_bytes": 6676
+  },
+  "artifacts": {
+    "option_admissibility_request": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/OPTION-ADMISSIBILITY-REQUEST.json",
+      "sha256": "6088216c737acbde9d79dce500549831175488b9e206ea2eb693cc5234b2562c",
+      "size_bytes": 2153
+    },
+    "option_admissibility_receipt": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/OPTION-ADMISSIBILITY-RECEIPT.json",
+      "sha256": "cf80f121dea8f225a19d93a229c53248debd30c670b7e6e301c0cdf670dc85c4",
+      "size_bytes": 520
+    },
+    "decision": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/DECISION.json",
+      "sha256": "0e30b4366e0d9aa0b586d6dbec83b340ebe8496e197f38d0df30d672bc8aec18",
+      "size_bytes": 8026
+    },
+    "decision_summary": {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/DECISION-SUMMARY.md",
+      "sha256": "03b8ff75ad267dacfe54a0698a362e624b30d1ab73ef75653962ac831c1d6c48",
+      "size_bytes": 1887
+    }
+  },
+  "bindings": [
+    {
+      "subject": "public_extraction",
+      "owner": "Vladimir Vrondelli as private-source owner and public-Arcanum maintainer",
+      "path": "candidate=ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/; canonical=arcanum/arcana/intent-route-resolver/; private-comparison=cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/intent-route-resolver/",
+      "contract": "Author a fresh behavior-only public-safe extraction. The private comparison path is read-only evidence; do not copy private prose, code, package metadata, or types. Candidate writes begin only after the IRO-002 approval; canonical writes begin only after the IRO-004 public-owner and clean-worktree gate.",
+      "status": "bound"
+    },
+    {
+      "subject": "canonical_api_name_license_compatibility",
+      "owner": "Vladimir Vrondelli as public-Arcanum authority",
+      "path": "arcanum/arcana/intent-route-resolver/",
+      "contract": "Canonical id and directory are intent-route-resolver. Protocols are intent-route.request@1, intent-route.disposition@1, and intent-route.runtime-port@1; catalog and closure identities use lowercase SHA-256. Apply the PolyForm Noncommercial License 1.0.0 and Required Notice from arcanum/LICENSE. Unsupported versions and digest mismatches fail closed; any protocol major requires new Define/Design, fixtures, and explicit consumer migration.",
+      "status": "bound"
+    },
+    {
+      "subject": "catalog_projector",
+      "owner": "Vladimir Vrondelli for the disposable witness; each named capability owner plus confirmed Dispatch owner for later consumers",
+      "path": "first-witness=/home/vrondelli/projects/intent-route-resolver-disposable-consumer/adapters/catalog-projector.mjs; every later consumer path must come from its explicit owner receipt",
+      "contract": "Project only exact capability and confirmed Dispatch IDs, revisions, and content digests or reject. The projector is read-only and may not discover, create, repair, rank, register, persist, approve, dispatch, bind, or execute. This binding does not approve creation of the disposable repository or any later consumer adapter.",
+      "status": "bound"
+    },
+    {
+      "subject": "request_normalization",
+      "owner": "Vladimir Vrondelli for the disposable witness; each consumer runtime owner for its adapter",
+      "path": "first-witness=/home/vrondelli/projects/intent-route-resolver-disposable-consumer/adapters/request-normalizer.mjs; every later runtime path must come from its explicit owner receipt",
+      "contract": "Construct intent-route.request@1 only from runtime-owned captured input or reject with a typed error. Do not infer missing semantics, negotiate protocol behavior, discover capabilities, or apply compatibility fallback. This binding does not approve creation of the disposable repository or any later runtime adapter.",
+      "status": "bound"
+    },
+    {
+      "subject": "aci_reference_fields",
+      "owner": "Vladimir Vrondelli as private CAV2/ACI authority",
+      "path": "contract-anchor=cyberAlchemy-v2/development/agent-reasoning-engine/design/aci-reasoning-binding/ARCHITECTURE.md#minimum-cross-boundary-envelope; implementation path must come from the explicit IRO-009 owner receipt",
+      "contract": "The private compatibility payload may reference intent_route_request_ref.artifact_ref, intent_route_request_ref.content_digest, intent_route_disposition_ref.artifact_ref, and intent_route_disposition_ref.content_digest. References are content-addressed bytes only; they grant no ACI acceptance, journal write, fallback, dispatch, workflow binding, effect, or promotion authority. IRO-009 still requires exact private scope and field-binding approval.",
+      "status": "bound"
+    },
+    {
+      "subject": "disposable_consumer",
+      "owner": "Vladimir Vrondelli as add-on lifecycle owner",
+      "path": "/home/vrondelli/projects/intent-route-resolver-disposable-consumer",
+      "contract": "Use one isolated Git repository as the first consumer witness. Create or mutate it only after the IRO-006 locator and mutation approval. Prove install presence and execution, disable, uninstall or induced-failure rollback, exact clean-state restoration, and zero product or authority effects before any ResonantOS or orchestrator adoption.",
+      "status": "bound"
+    }
+  ],
+  "status": "pass"
+}

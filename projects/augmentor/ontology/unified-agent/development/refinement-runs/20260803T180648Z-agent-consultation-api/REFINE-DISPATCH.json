@@ -1,0 +1,604 @@
+{
+  "dispatch_id": "20260803T180648Z-agent-consultation-api",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Refine an API that agents can use to consult and get data for answering user questions through an agent.",
+    "objective": "Produce an MVP-ready, non-executed design and implementation plan for a protected read-only consultation API that returns source-linked Augmentor ontology evidence to an answering agent.",
+    "target_artifact": "projects/augmentor/ontology/unified-agent",
+    "arcanum_vocabulary": [
+      "consultation API",
+      "answering agent",
+      "evidence bundle",
+      "source handle",
+      "candidate-local",
+      "authority_effect:none",
+      "abstention"
+    ],
+    "operator_sentence": "Refine an API that agents can consult to answer user questions."
+  },
+  "mode": "mixed",
+  "route_menu": {
+    "context_hint": "The request could make the API a retrieval boundary, an answering service, or a knowledge-write service. Only the first preserves the current owner and authority boundaries.",
+    "items": [
+      {
+        "id": "evidence-api-agent-adapter",
+        "label": "Evidence API plus agent adapter",
+        "description": "A protected read-only API returns bounded source-linked evidence; a separate answering agent composes the response. Selected because it preserves source, memory, and authority ownership.",
+        "capability_ref": "invoke",
+        "pattern": "sequence"
+      },
+      {
+        "id": "answering-agent-service",
+        "label": "API runs the answering agent",
+        "description": "One endpoint retrieves evidence and generates prose. Deferred because retrieval, model behavior, identity, policy, and answer receipts would be coupled before their owners are selected.",
+        "capability_ref": "invoke",
+        "pattern": "xray"
+      },
+      {
+        "id": "knowledge-write-api",
+        "label": "Read and write knowledge API",
+        "description": "Agents retrieve and update memory or ontology records. Rejected for this run because it would cross trusted-write and authority boundaries.",
+        "capability_ref": "decision-gate",
+        "pattern": "decision"
+      }
+    ],
+    "selected_item_id": "evidence-api-agent-adapter"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "conditional_component",
+    "data_quality_completeness",
+    "route_menu",
+    "one_or_more_option_set",
+    "approval_checkpoint",
+    "dialectic",
+    "zig_zag",
+    "residue_ledger",
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference",
+    "toy_game",
+    "assessment_failure_reference",
+    "protected_context_flag",
+    "system_agnostic_standard",
+    "local_nuance_coordination",
+    "delegation_boundary",
+    "execution_receipt_handoff",
+    "authority_split_gate",
+    "state_namespace_boundary",
+    "memory_promotion_split"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The API needs a complete definition-to-critique-to-design-to-plan chain with explicit handoffs and stage evidence.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "minimum_component_catalog",
+        "conditional_component",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10"],
+      "validation_expectation": "Every stage consumes prior evidence and emits an owner-native artifact or blocked reason while preserving the package claim ceiling."
+    },
+    {
+      "overlay_id": "route_menu_for_ambiguity",
+      "trigger": "Retrieval API, answering service, and knowledge-write service imply different owners and risk profiles.",
+      "techniques": ["route_menu", "one_or_more_option_set", "approval_checkpoint"],
+      "applies_to_steps": ["s2", "s6", "s9"],
+      "validation_expectation": "The design justifies the selected evidence-API-plus-agent-adapter route and records why the other routes remain deferred or rejected."
+    },
+    {
+      "overlay_id": "dialectic_for_tension",
+      "trigger": "Useful agent answers require broad retrieval, while trustworthy answers require narrow source, freshness, access, and authority limits.",
+      "techniques": ["dialectic", "zig_zag", "residue_ledger"],
+      "applies_to_steps": ["s2", "s3", "s6", "s7"],
+      "validation_expectation": "Helpfulness and authority-preservation roles converge only when the API remains useful while unsupported, stale, conflicting, or unauthorized claims fail closed."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The hidden structure spans ontology records, source handles, query planning, access policy, evidence reduction, agent context, and answer behavior.",
+      "techniques": ["x_ray", "component_descriptor", "entity_component_reference"],
+      "applies_to_steps": ["s1", "s6"],
+      "validation_expectation": "The context and design artifacts expose components, owners, state, handoffs, data flow, and forbidden collapses as consumable artifacts or handles."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "A request/response abstraction can be challenged cheaply with representative question outcomes before implementation planning.",
+      "techniques": ["toy_game", "validation_loop", "assessment_failure_reference"],
+      "applies_to_steps": ["s8"],
+      "validation_expectation": "A scenario artifact covers supported, ambiguous, unsupported, conflicting, stale, unauthorized, and oversized requests with expected evidence and answer behavior."
+    },
+    {
+      "overlay_id": "protected_context_for_external_or_sensitive_evidence",
+      "trigger": "The ontology and its source map are private, while future agent consumers require a neutral bounded projection and explicit access policy.",
+      "techniques": [
+        "protected_context_flag",
+        "system_agnostic_standard",
+        "local_nuance_coordination",
+        "authority_split_gate",
+        "state_namespace_boundary",
+        "memory_promotion_split"
+      ],
+      "applies_to_steps": ["s1", "s4", "s6", "s9", "s10"],
+      "validation_expectation": "Private records, runtime projections, transient agent context, usage evidence, trusted memory, and canonical knowledge remain in named owner-controlled namespaces."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The authored API design needs one independent challenge across usefulness, privacy, evidence, and authority boundaries before repair and planning.",
+    "explanation": "One read-only Interrogation helper can challenge the design without creating a governed multi-agent research pipeline or overlapping writes. The parent retains route, stage, gate, research, and final synthesis ownership.",
+    "context": [
+      "The ontology is private, source-bound, candidate-local, and non-authoritative.",
+      "The user wants agents to consult data for answers, which creates a retrieval-versus-answering boundary.",
+      "The future consumer and runtime owner remain in workspace-resonant, which this run cannot mutate.",
+      "The current protected HTML deployment is presentation evidence, not an API or runtime contract."
+    ],
+    "binding_mode": "descriptive",
+    "roles": [
+      {
+        "role_id": "api-boundary-reviewer",
+        "purpose": "Independently review the proposed request, response, access, provenance, freshness, budget, abstention, and API-to-answering-agent contracts.",
+        "owns": "One read-only design-review receipt; no API design authority, source mutation, security approval, product change, or final synthesis.",
+        "capability_ref": "interrogation",
+        "capability_target": "stages/06-design.md",
+        "capability_mode": "refine-design-review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/augmentor/ontology/unified-agent",
+          "projects/augmentor/ontology/unified-agent/deployment",
+          ".git"
+        ],
+        "input_refs": ["REFINE-SEED-PROPOSAL.md", "stages/06-design.md", "stages/06-design.md#request-response-contract"],
+        "output_refs": ["receipt:api-boundary-review"],
+        "applies_to_steps": ["s7"]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "Confirm the standard Refine route and one read-only API-boundary reviewer at the design-review stage?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "native_stage_receipts": [
+    {"dispatch_id": "20260803T180648Z-agent-consultation-api", "step_id": "s1", "capability_ref": "context-builder", "receipt_kind": "native-stage", "status": "not_run", "artifacts": [], "validation": [], "observer_status": "pending", "blockers": []},
+    {"dispatch_id": "20260803T180648Z-agent-consultation-api", "step_id": "s2", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "not_run", "artifacts": [], "validation": [], "observer_status": "pending", "blockers": []},
+    {"dispatch_id": "20260803T180648Z-agent-consultation-api", "step_id": "s3", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "not_run", "artifacts": [], "validation": [], "observer_status": "pending", "blockers": []},
+    {"dispatch_id": "20260803T180648Z-agent-consultation-api", "step_id": "s4", "capability_ref": "refine", "receipt_kind": "native-stage", "status": "not_run", "artifacts": [], "validation": [], "observer_status": "pending", "blockers": []},
+    {"dispatch_id": "20260803T180648Z-agent-consultation-api", "step_id": "s5", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "not_run", "artifacts": [], "validation": [], "observer_status": "pending", "blockers": []},
+    {"dispatch_id": "20260803T180648Z-agent-consultation-api", "step_id": "s6", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "not_run", "artifacts": [], "validation": [], "observer_status": "pending", "blockers": []},
+    {"dispatch_id": "20260803T180648Z-agent-consultation-api", "step_id": "s7", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "not_run", "artifacts": [], "validation": [], "observer_status": "pending", "blockers": []},
+    {"dispatch_id": "20260803T180648Z-agent-consultation-api", "step_id": "s8", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "not_run", "artifacts": [], "validation": [], "observer_status": "pending", "blockers": []},
+    {"dispatch_id": "20260803T180648Z-agent-consultation-api", "step_id": "s9", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "not_run", "artifacts": [], "validation": [], "observer_status": "pending", "blockers": []},
+    {"dispatch_id": "20260803T180648Z-agent-consultation-api", "step_id": "s10", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "not_run", "artifacts": [], "validation": [], "observer_status": "pending", "blockers": []}
+  ],
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard-strict",
+      "pattern": "xray",
+      "techniques": ["minimum_component_catalog", "data_quality_completeness", "x_ray", "component_descriptor", "protected_context_flag"],
+      "inputs": [
+        {"kind": "intent", "ref": "REFINE-SEED-PROPOSAL.md"},
+        {"kind": "handle", "ref": "handle:augmentor-ontology-package"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/01-context-baseline.md"},
+        {"kind": "handle", "ref": "stages/01-context-baseline.md#component-owner-map"}
+      ],
+      "stop_conditions": [
+        "Private source bytes are copied into an unrelated owner -> block",
+        "No component-owner map and no blocked reason -> block"
+      ]
+    },
+    {
+      "step_id": "s2",
+      "name": "Invoke Define consultation API",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "dialectic",
+      "depends_on_steps": ["s1"],
+      "techniques": ["sequence", "frame_handoff", "route_menu", "dialectic", "zig_zag", "owner_boundary_check"],
+      "roles": ["retrieval-helpfulness", "authority-preservation"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/01-context-baseline.md"}
+      ],
+      "outputs": [{"kind": "artifact", "ref": "stages/02-define.md"}],
+      "convergence_criteria": [
+        "An agent can obtain enough evidence to answer common supported questions.",
+        "The API cannot manufacture authority, mutate sources, or hide insufficient evidence.",
+        "The API/agent/owner boundaries and non-goals are explicit."
+      ],
+      "stop_conditions": ["Retrieval, answer generation, trusted memory, and authority are collapsed into one owner -> block"]
+    },
+    {
+      "step_id": "s3",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "depends_on_steps": ["s2"],
+      "techniques": ["validation_loop", "dialectic", "zig_zag", "residue_ledger", "authority_split_gate"],
+      "roles": ["retrieval-helpfulness", "authority-preservation"],
+      "inputs": [{"kind": "artifact", "ref": "stages/02-define.md"}],
+      "outputs": [{"kind": "artifact", "ref": "stages/03-review.md"}],
+      "convergence_criteria": [
+        "Every critical term has one owner and a falsifiable boundary.",
+        "Unresolved projection, identity, security, and freshness decisions are recorded as residue."
+      ],
+      "evidence_artifact": "stages/03-review.md",
+      "stop_conditions": ["A blocking owner or data-boundary ambiguity has no decision route -> block"]
+    },
+    {
+      "step_id": "s4",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "depends_on_steps": ["s3"],
+      "techniques": ["protected_context_flag", "approval_checkpoint", "residue_ledger"],
+      "inputs": [{"kind": "artifact", "ref": "stages/03-review.md"}],
+      "outputs": [{"kind": "decision", "ref": "stages/04-research-decision.md"}],
+      "stop_conditions": ["External research starts without a named gap and explicit operator confirmation -> block"]
+    },
+    {
+      "step_id": "s5",
+      "name": "Distill smallest coherent consultation contract",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "depends_on_steps": ["s3", "s4"],
+      "techniques": ["sequence", "minimum_component_catalog", "conditional_component", "residue_ledger"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/03-review.md"},
+        {"kind": "decision", "ref": "stages/04-research-decision.md"}
+      ],
+      "outputs": [{"kind": "artifact", "ref": "stages/05-distill.md"}],
+      "stop_conditions": ["The selected MVP cannot recompose into the answering-agent flow -> block"]
+    },
+    {
+      "step_id": "s6",
+      "name": "Invoke Design API and agent boundary",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "xray",
+      "depends_on_steps": ["s5"],
+      "techniques": ["x_ray", "component_descriptor", "entity_component_reference", "dialectic", "route_menu", "system_agnostic_standard", "local_nuance_coordination", "state_namespace_boundary", "memory_promotion_split"],
+      "roles": ["retrieval-helpfulness", "authority-preservation"],
+      "inputs": [{"kind": "artifact", "ref": "stages/05-distill.md"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/06-design.md"},
+        {"kind": "handle", "ref": "stages/06-design.md#request-response-contract"},
+        {"kind": "handle", "ref": "stages/06-design.md#component-owner-dataflow"},
+        {"kind": "decision", "ref": "stages/06-design.md#selected-api-shape"}
+      ],
+      "convergence_criteria": [
+        "The API supports useful bounded retrieval for the answering agent.",
+        "All returned claims carry source, status, freshness, confidence, and claim-ceiling context.",
+        "Writes, promotion, authority, and execution remain outside the API."
+      ],
+      "stop_conditions": ["The design exposes arbitrary filesystem or graph execution -> block", "Access and error contracts are absent -> block"]
+    },
+    {
+      "step_id": "s7",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "depends_on_steps": ["s6"],
+      "techniques": ["validation_loop", "dialectic", "zig_zag", "residue_ledger", "authority_split_gate", "delegation_boundary", "execution_receipt_handoff"],
+      "roles": ["retrieval-helpfulness", "authority-preservation", "api-boundary-reviewer"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/06-design.md"},
+        {"kind": "handle", "ref": "stages/06-design.md#request-response-contract"},
+        {"kind": "intent", "ref": "REFINE-SEED-PROPOSAL.md"},
+        {"kind": "receipt", "ref": "receipt:api-boundary-review"}
+      ],
+      "outputs": [{"kind": "artifact", "ref": "stages/07-design-review.md"}],
+      "convergence_criteria": [
+        "The design answers ordinary questions without masking missing or conflicting evidence.",
+        "Authorization, privacy, budgets, freshness, and owner boundaries have testable failure behavior."
+      ],
+      "evidence_artifact": "stages/07-design-review.md",
+      "stop_conditions": ["A critical security, authority, or answer-grounding failure lacks a repair route -> block"]
+    },
+    {
+      "step_id": "s8",
+      "name": "Distill Repair with question toy scenarios",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "toy_game",
+      "depends_on_steps": ["s7"],
+      "techniques": ["toy_game", "validation_loop", "assessment_failure_reference"],
+      "inputs": [{"kind": "artifact", "ref": "stages/07-design-review.md"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/08-distill-repair.md"},
+        {"kind": "artifact", "ref": "stages/08-question-scenarios.md"}
+      ],
+      "evidence_artifact": "stages/08-question-scenarios.md",
+      "stop_conditions": ["Any unsupported, conflicting, stale, unauthorized, or oversized scenario yields an unqualified answer -> block"]
+    },
+    {
+      "step_id": "s9",
+      "name": "Invoke non-executed implementation plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "depends_on_steps": ["s8"],
+      "techniques": ["sequence", "approval_checkpoint", "state_namespace_boundary", "memory_promotion_split", "handle_handoff"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/08-distill-repair.md"},
+        {"kind": "artifact", "ref": "stages/08-question-scenarios.md"}
+      ],
+      "outputs": [{"kind": "artifact", "ref": "stages/09-plan.md"}],
+      "stop_conditions": ["Plan performs product or deployment mutation -> block", "Plan omits exact future tests, write scopes, or rollback boundaries -> block"]
+    },
+    {
+      "step_id": "s10",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "depends_on_steps": ["s9"],
+      "techniques": ["owner_boundary_check", "observability_grouping", "residue_ledger", "protected_context_flag"],
+      "inputs": [{"kind": "artifact", "ref": "stages/09-plan.md"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "RESULT.md"},
+        {"kind": "ledger", "ref": "evidence-index.json"}
+      ],
+      "stop_conditions": ["Final synthesis is not grounded in all stage artifacts -> block", "Implementation, integration, release, or production is claimed -> block"]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01_dispatch_validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json must validate with status pass before any runtime-backed stage or subagent starts.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02_operator_confirmation",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "The operator explicitly confirms the displayed ten-stage route and one read-only API-boundary reviewer for this exact dispatch.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g03_helper_receipt",
+      "kind": "validation",
+      "owner": "refine-parent",
+      "condition": "The approved API-boundary reviewer is spawned once at design review, joined, closed, and returns receipt:api-boundary-review before Distill Repair begins.",
+      "requires_role_receipts": ["receipt:api-boundary-review"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04_native_capability_receipts",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Every stage records a native stage receipt with its capability handle, status, artifacts or blocked reason, validation, and observer state.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g05_research_confirmation",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "External research may run only after a named gap and a separate bounded-research confirmation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g06_read_only_api_boundary",
+      "kind": "policy",
+      "owner": "augmentor-api-design-owner",
+      "condition": "The consultation API is read-only and cannot mutate sources, trusted memory, ontology records, routing state, approvals, runs, or protected actions.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g07_evidence_authority_boundary",
+      "kind": "promotion_guardrail",
+      "owner": "authority-kind-specific-named-owner",
+      "condition": "API output and agent answers remain source-linked interpretations; they grant no authority, trusted-memory admission, ontology admission, or effect permission.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g08_design_quality",
+      "kind": "quality",
+      "owner": "interrogation",
+      "condition": "The design specifies operations, selectors, budgets, response records, provenance, freshness, conflicts, access, errors, agent instructions, and abstention behavior.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g09_non_execution",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "This run produces design and plan artifacts only; API code, product integration, deployment, and release require a separately admitted execution route.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g10_final_synthesis",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "RESULT.md is grounded in the seed, dispatch, joined context receipts, all stage artifacts, scenario evidence, research decision, and open residue.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "strategy_proposed",
+      "strategy_confirmed",
+      "orchestrate_preflight",
+      "subagent_spawned",
+      "subagent_joined",
+      "subagent_closed",
+      "context_wave_gate",
+      "stage_started",
+      "stage_receipt",
+      "research_decision",
+      "toy_game_result",
+      "final_synthesis"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "operator-to-refine-runtime",
+        "kind": "human_approval",
+        "from_owner": "operator",
+        "to_owner": "refine",
+        "applies_to_steps": ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10"],
+        "contract": "No runtime-backed stage or subagent starts until the operator confirms this exact strategy.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "refine-to-api-boundary-reviewer",
+        "kind": "capability_handoff",
+        "from_owner": "refine-parent",
+        "to_owner": "interrogation-helper",
+        "applies_to_steps": ["s7"],
+        "contract": "The helper receives only the seed and design artifacts, remains read-only, and returns one structured boundary-review receipt before close.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "private-ontology-to-api-design",
+        "kind": "artifact_import",
+        "from_owner": "domainspec-core",
+        "to_owner": "refine",
+        "applies_to_steps": ["s1", "s2", "s5", "s6"],
+        "contract": "Private ontology material may inform the design locally but cannot become an unprotected runtime projection or public API payload.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "consultation-api-to-answering-agent",
+        "kind": "capability_handoff",
+        "from_owner": "future-consultation-api-owner",
+        "to_owner": "future-answering-agent-owner",
+        "applies_to_steps": ["s2", "s6", "s7", "s8"],
+        "contract": "The API returns bounded evidence records and answer guidance; the agent composes or abstains without converting API output into authority or trusted memory.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "refine-to-future-implementation",
+        "kind": "state_write",
+        "from_owner": "refine",
+        "to_owner": "future-task-session",
+        "applies_to_steps": ["s9", "s10"],
+        "contract": "Refine may plan API and product changes but cannot perform or report them as implemented.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "external-research-intake",
+        "kind": "external_context",
+        "from_owner": "bounded-research-route",
+        "to_owner": "refine",
+        "applies_to_steps": ["s4", "s5", "s6"],
+        "contract": "External evidence requires a named gap, operator confirmation, source attribution, and protected-context handling; it cannot override local owner evidence.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine-parent",
+      "execution": "future separately admitted task-session",
+      "validation": "dispatch-spec plus stage capability owners",
+      "evidence": "source owners plus context-builder receipts",
+      "memory": "provider-and-archive-review-owners",
+      "promotion": "authority-kind-specific-named-owner"
+    },
+    "receipts": [
+      {
+        "receipt_id": "api-boundary-review",
+        "producer": "interrogation-helper",
+        "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "handoff_note"],
+        "stores": ["RUN-MANIFEST.md", "evidence-index.json"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "native-stage-receipts",
+        "producer": "each-stage-capability-owner",
+        "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "handoff_note"],
+        "stores": ["RUN-MANIFEST.md", "evidence-index.json"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api",
+        "owner": "refine",
+        "write_policy": "Before confirmation, only Refine-owned proposal artifacts may be written; after confirmation, stage artifacts remain inside declared run paths."
+      },
+      {
+        "namespace": "projects/augmentor/ontology/unified-agent",
+        "owner": "domainspec-core-augmentor-ontology-route",
+        "write_policy": "Read-only evidence source during this Refine run."
+      },
+      {
+        "namespace": "../workspace-resonant/2.0.0-alpha",
+        "owner": "resonantos-module-ownership",
+        "write_policy": "No writes during this Refine run."
+      },
+      {
+        "namespace": "future-api-response-context",
+        "owner": "future-consultation-api-owner",
+        "write_policy": "Ephemeral bounded response only; no source, memory, ontology, routing, or run-state mutation."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "retrieved candidate evidence",
+        "target": "answering-agent transient context",
+        "rule": "The agent may use source-linked evidence within its claim ceiling; no trusted or canonical admission follows.",
+        "on_violation": "block"
+      },
+      {
+        "source": "agent answer or API usage receipt",
+        "target": "trusted memory or ontology",
+        "rule": "Any durable admission requires the named memory or ontology owner review through a separate intake route.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "The consultation API remains read-only and non-authoritative.",
+    "An evidence bundle is not a source record, authority decision, approval, or effect permission.",
+    "An answering agent response is not automatically trusted memory or canonical knowledge.",
+    "A protected private design does not imply a safe public projection.",
+    "Refine output is design and planning evidence, not implementation, integration, deployment, release, or production evidence."
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "DG-CAPI-NEXT-UNIT-20260805",
+  "result": "PASS",
+  "resolvedAt": "2026-08-05T21:59:10.723Z",
+  "selectedOption": {
+    "optionId": "CAPI-NEXT-000",
+    "optionKind": "action",
+    "label": "Select SWU-CAPI-000 for later Task Session admission",
+    "hazardClass": "authority",
+    "ownerGate": "craft-consultation-api-plan-owner"
+  },
+  "decisionSource": {
+    "kind": "direct-user",
+    "rawResponse": "1",
+    "resolvedPresentationOrdinal": 1,
+    "mappedOptionId": "CAPI-NEXT-000"
+  },
+  "rationale": [
+    "SWU-CAPI-000 is the Work Pack's narrowest structurally admissible predecessor.",
+    "It creates only a new isolated derived snapshot and evidence; it changes neither product code nor canonical Craft source.",
+    "It closes the WaveDB 0.15.9 snapshot gap before fresh-process verification or API construction can be claimed."
+  ],
+  "admissibility": {
+    "request": "option-admissibility-request.json",
+    "receipt": "option-admissibility-receipt.json",
+    "requestDigest": "9b75676455cb72934a8b79999a69c5fa34a5b1f3a5a38388c8822bd4cce6a2ab",
+    "routeOutcome": "gate"
+  },
+  "authorityBoundary": {
+    "selectionRecorded": true,
+    "workPackMutationAuthorized": false,
+    "taskSessionAuthorized": false,
+    "runtimeExecutionAuthorized": false,
+    "successorAuthorized": false
+  },
+  "remainingBlockers": [
+    "Invoke Refresh must synchronize selectedUnit and the exact allowed route into the Work Pack.",
+    "A separate Task Session must admit SWU-CAPI-000.",
+    "CAPI-B003 remains open until the immutable 0.15.9 snapshot passes its declared validation.",
+    "CAPI-B002 remains open for the later authentication/session and secret-provider units.",
+    "CAPI-B004 remains deferred outside the active L0 execution window."
+  ],
+  "deferredDecisions": [
+    "authentication principal and session ownership",
+    "secret-provider port ownership",
+    "deployment locking, sealing, replacement, recovery, and environment matrix"
+  ],
+  "assumptions": [
+    "The selection applies only to the current immutable Work Pack frontier.",
+    "No execution authority is inferred from the numbered response."
+  ],
+  "nextStep": {
+    "route": "invoke:refresh:apply-approved",
+    "target": "SWU-CAPI-000 selection projection",
+    "scopeCeiling": "synchronize selectedUnit and the exact Task Session route only; do not execute ingestion"
+  }
+}

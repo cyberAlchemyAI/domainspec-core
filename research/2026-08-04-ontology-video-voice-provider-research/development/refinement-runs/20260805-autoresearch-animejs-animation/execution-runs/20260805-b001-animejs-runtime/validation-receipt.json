@@ -1,0 +1,58 @@
+{
+  "schema_version": "oava-runtime-validation.v1",
+  "validated_at": "2026-08-05T22:11:58Z",
+  "subject": "B-001 Anime.js runtime acquisition",
+  "status": "pass",
+  "checks": [
+    {
+      "id": "registry-integrity",
+      "status": "pass",
+      "evidence": "Downloaded tarball SHA-512 base64 equals npm registry integrity."
+    },
+    {
+      "id": "runtime-byte-equality",
+      "status": "pass",
+      "evidence": "cmp reports the installed anime.esm.js is byte-equal to package/dist/bundles/anime.esm.js."
+    },
+    {
+      "id": "license-byte-equality",
+      "status": "pass",
+      "evidence": "cmp reports the installed license is byte-equal to package/LICENSE.md."
+    },
+    {
+      "id": "esm-syntax",
+      "status": "pass",
+      "evidence": "node --input-type=module --check accepted the installed bundle."
+    },
+    {
+      "id": "version-license-header",
+      "status": "pass",
+      "evidence": "Bundle header declares Anime.js ESM v4.5.0 under MIT."
+    },
+    {
+      "id": "self-contained-bundle",
+      "status": "pass",
+      "evidence": "No top-level import statement occurs in the installed bundle; the public export block is present."
+    },
+    {
+      "id": "runtime-network-primitives",
+      "status": "pass",
+      "evidence": "No fetch, XMLHttpRequest, WebSocket, or EventSource identifier occurs in the installed bundle. Static source-reference URLs occur only in comments."
+    },
+    {
+      "id": "installed-runtime-sha256",
+      "status": "pass",
+      "evidence": "a88ebfb5bd290f25215692edce71a74c0fc37bdb9e0ff70bd17135c5c3ef33b6"
+    },
+    {
+      "id": "installed-license-sha256",
+      "status": "pass",
+      "evidence": "3f3e835a9952cfc2a6ca836fb95b3257c981f24fa3ef51249055acb09931897b"
+    }
+  ],
+  "context_pack": {
+    "markdown_sha256": "71a7f9ae55839cb712bce930e3767e92756980faaf57de71070e63ff67f1647f",
+    "json_sha256": "b1644a6637519a1142d0df00c03c32b84714cff98d25a723cfdcb8080800bce2"
+  },
+  "claim_boundary": "This validates acquisition of B-001 bytes only. It does not complete OAVA-003 or prove browser animation behavior."
+}

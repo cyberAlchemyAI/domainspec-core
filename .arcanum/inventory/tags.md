@@ -74,6 +74,9 @@ Controlled tags for this package.
 | `idempotency` | Owner-scoped idempotency, dedupe, append-only replay, deterministic generation, or duplicate-guard evidence. |
 | `compatibility` | Version-tuple support, directional reader/writer behavior, deprecation, migration, or interoperability boundary material. |
 | `agent-workflow` | Bounded agent task, context, contribution, validation, review, decision, merge, and regeneration interface material. |
+| `agent-identity` | Agent identifiers, credentials, authentication, delegation, continuity, and provenance boundaries; identity alone does not grant authorization or authority. |
+| `sovereign-data` | Subject-controlled or explicitly delegated data custody, purpose limitation, consent, revocation, derived-data handling, and receipt boundaries. |
+| `human-agency` | Human-owned choice, inspectability, correction, refusal, revocation, creative latitude, and non-manipulation requirements in human-machine systems. |
 | `evidence-backfill` | Inventory backfill entries created from existing findings or research artifacts. |
 | `verification-weaver` | Candidate testing router, VERIFICATION-WEAVE receipt, owner-lane routing, and validation package material. |
 | `evidence-card` | Inventory evidence-card entries and card bundles. |

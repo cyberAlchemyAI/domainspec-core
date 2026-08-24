@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "whisper.research.state-contract-repair.design-scope.v1",
+  "target_id": "whisper.research.state-contract-repair",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md",
+        "digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "glossary",
+        "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/GLOSSARY.md",
+        "digest": "4dfab9a73b2a8aa1f9264547ae915d9cafb4b6ec293ffbfade33f35f0bb0dba7"
+      },
+      {
+        "selector": "layering-seed",
+        "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/IMPLEMENTATION-LAYERING-SEED.md",
+        "digest": "eecb728df10d3e78400bfde567ae92b38e048b20705cf3f1df25b785cd6d3908"
+      },
+      {
+        "selector": "define-result",
+        "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/DEFINE-RESULT.md",
+        "digest": "87a6d88aa96c5c6947ac1b3095a0c38d9a7ec36bf63f5f791fae240bc377c006"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "whisper-source",
+        "reason": "Canonical Whisper source remains immutable and owner-controlled.",
+        "evidence_ref": "SPEC.md#non-goals"
+      },
+      {
+        "selector": "ontology-and-runtime",
+        "reason": "The route repairs research proof only and grants no ontology or runtime authority.",
+        "evidence_ref": "SPEC.md#non-goals"
+      },
+      {
+        "selector": "co-op-product-and-deployment",
+        "reason": "Product and deployment surfaces are outside the research write boundary.",
+        "evidence_ref": "SPEC.md#write-boundary"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "blocked-synthesis",
+      "selector": "ev01-ev26-state-sequence",
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-2.md",
+      "digest": "83bd534a407ae973b8cf42054b1714ab6ff42482c4a9e2890603ea6b90c7a916"
+    },
+    {
+      "source_id": "loop-ceiling-review",
+      "selector": "deterministic-state-blocker",
+      "path": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/review-final.md",
+      "digest": "d0eea5502cb761a1780acac01fef7d78dc1bc6406bd7da1c9d26ea621c6b65c5"
+    }
+  ],
+  "human_actors": [],
+  "rendered_surfaces": [],
+  "interfaces": [
+    {
+      "interface_id": "state-contract-input",
+      "kind": "immutable-candidate-research-contract",
+      "peer": "research-proof-checker",
+      "direction": "inbound",
+      "contract_ref": "SPEC.md#required-behavior",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd"
+    },
+    {
+      "interface_id": "state-validation-receipt",
+      "kind": "content-addressed-candidate-evidence",
+      "peer": "research-closeout",
+      "direction": "outbound",
+      "contract_ref": "SPEC.md#acceptance",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd"
+    }
+  ],
+  "stores": [],
+  "queues": [],
+  "writers": [],
+  "normative_rules": [
+    {
+      "rule_id": "total-state-transition",
+      "verb": "must-transition-state",
+      "subject": "each accepted EV01-EV26 event",
+      "object": "one exact prior state to one exact resulting state with no unlisted field changes",
+      "enforcement_hint": "transition fixture plus deterministic reducer",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd"
+    },
+    {
+      "rule_id": "ev22-resolution-guard",
+      "verb": "must-transition-correction-state",
+      "subject": "EV22 MechanicalAssessmentRecorded",
+      "object": "open COR1 to resolved only with exact COR1 NE2 digest bindings and passing MA2",
+      "enforcement_hint": "positive witness and fail-closed negative matrix",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd"
+    },
+    {
+      "rule_id": "zero-authority",
+      "verb": "must-not-authorize",
+      "subject": "research contract and receipts",
+      "object": "ontology runtime product publication deployment promotion release or production",
+      "enforcement_hint": "path boundary and explicit authority_effect none",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd"
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "emit-research-validation-receipt",
+      "reversible": true,
+      "external": false,
+      "privileged": false,
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md",
+      "source_digest": "f96d79ad6e526543c25c9493c96c1fee4c4f42026b75533934093a2345dc76dd"
+    }
+  ],
+  "data_and_log_sinks": [],
+  "deployment_targets": [],
+  "compatibility_boundaries": [],
+  "quality_claims": [],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "define-authored-complete",
+      "selector": "DEFINE-RESULT.md",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/DEFINE-RESULT.md",
+      "source_digest": "87a6d88aa96c5c6947ac1b3095a0c38d9a7ec36bf63f5f791fae240bc377c006"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "a69fd9b9f4440ca878d48b4c06e86b0bc4a3d941b1c11bcd22eb46fcfb7546d5",
+  "authored_by": "invoke-design-author"
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "manifest:cohesive-modular-arcanum",
+  "target_id": "target:arcanum-build-protocol-candidate",
+  "target_footprint": {
+    "roots": [
+      {"path": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"}
+    ],
+    "inclusions": [
+      {"selector": "definition", "path": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/02-invoke-define.md", "digest": "01bfbe6b2e52d95f9d9cdb53f52f3bef204ff0f8a6438a6175f47c18257f8ae7"},
+      {"selector": "architecture-tournament", "path": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"}
+    ],
+    "exclusions": [
+      {"selector": "public-arcanum-source-mutation", "reason": "Refine owns private design only", "evidence_ref": "REFINE-SEED-PROPOSAL.md#write-scope"}
+    ]
+  },
+  "source_contracts": [
+    {"source_id": "source-definition", "selector": "definition", "path": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/02-invoke-define.md", "digest": "01bfbe6b2e52d95f9d9cdb53f52f3bef204ff0f8a6438a6175f47c18257f8ae7"},
+    {"source_id": "source-tournament", "selector": "architecture-tournament", "path": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"},
+    {"source_id": "source-findings", "selector": "approved-findings", "path": "ops/development/2026-08-05-arcanum-building-system-research/findings.md", "digest": "358a7e4ff595b56e9356b7b935b85be96a713cfcd836d9f6bb245e698fc701de"}
+  ],
+  "human_actors": [],
+  "rendered_surfaces": [],
+  "interfaces": [
+    {"interface_id": "interface-obtc-envelope", "kind": "versioned-owner-handoff", "peer": "owner-capabilities", "direction": "bidirectional", "contract_ref": "OBTC-v1", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"},
+    {"interface_id": "interface-owner-policy", "kind": "owner-native-decision-receipt", "peer": "semantic-effect-owner", "direction": "bidirectional", "contract_ref": "owner-native-contract", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"}
+  ],
+  "stores": [
+    {"store_id": "causal-journal", "authority": "evidence-only-no-semantic-authority", "data_classes": ["attempt", "receipt-handle", "causal-link", "residue"], "writers": ["writer-causal-journal"], "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"}
+  ],
+  "queues": [],
+  "writers": [
+    {"writer_id": "writer-causal-journal", "targets": ["causal-journal"], "concurrency": "append-only-hash-linked-cas", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"}
+  ],
+  "normative_rules": [
+    {"rule_id": "rule-one-effect-owner", "verb": "must", "subject": "each effectful transition", "object": "name exactly one sovereign effect owner", "enforcement_hint": "OBTC structural validation plus owner-native receipt", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/02-invoke-define.md", "source_digest": "01bfbe6b2e52d95f9d9cdb53f52f3bef204ff0f8a6438a6175f47c18257f8ae7"},
+    {"rule_id": "rule-structural-only", "verb": "must-not", "subject": "OBTC validator", "object": "decide semantic admission or cause owner effects", "enforcement_hint": "forbidden-operation fixture", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"},
+    {"rule_id": "rule-one-authoritative-writer", "verb": "must", "subject": "migration boundary", "object": "retain one authoritative native receipt writer", "enforcement_hint": "shadow-read comparison fixture", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"},
+    {"rule_id": "rule-outcome-unknown", "verb": "must", "subject": "indeterminate effect attempt", "object": "route to owner reconciliation without automatic retry", "enforcement_hint": "crash-window toy-game fixture", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"}
+  ],
+  "effects": [
+    {"effect_id": "effect-causal-journal-append", "reversible": false, "external": false, "privileged": false, "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"}
+  ],
+  "data_and_log_sinks": [
+    {"sink_id": "sink-causal-journal", "data_classes": ["public-safe-identifiers", "digests", "receipt-handles", "residue"], "retention_hint": "repository-local-bounded-by-owner-policy", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"}
+  ],
+  "deployment_targets": [],
+  "compatibility_boundaries": [
+    {"boundary_id": "compat-native-to-obtc", "old_contract": "owner-native-receipt", "new_contract": "OBTC-v1-projection", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"},
+    {"boundary_id": "compat-series-facade", "old_contract": "task-session-until-blocker-chain-state", "new_contract": "implementation-readiness-until-real-blocker-profile", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"}
+  ],
+  "quality_claims": [
+    {"claim_id": "quality-no-authority-collapse", "source_kind": "design-invariant", "threshold_or_tradeoff": "zero kernel-caused semantic or effect decisions", "required": true, "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/02-invoke-define.md", "source_digest": "01bfbe6b2e52d95f9d9cdb53f52f3bef204ff0f8a6438a6175f47c18257f8ae7"}
+  ],
+  "acceptance_and_readiness_claims": [
+    {"claim_id": "acceptance-design-authored", "selector": "stages/06-invoke-design.md", "evidence_state": "authored-complete", "source_selector": "ops/development/2026-08-05-arcanum-building-system-research/development/refinement-runs/20260805T164345Z-cohesive-modular-arcanum/stages/05-distill.md", "source_digest": "5fe9f233112f426edb4dc8c0566058e08611c4bb49a8550680f70e004a67590b"}
+  ],
+  "unknowns": [],
+  "input_digest": "2459d3de23ac3f8dd8b8ceb0ebf5830dbc185ce624f61551f033d2443a15b4fd",
+  "authored_by": "refine-parent-design-author"
+}

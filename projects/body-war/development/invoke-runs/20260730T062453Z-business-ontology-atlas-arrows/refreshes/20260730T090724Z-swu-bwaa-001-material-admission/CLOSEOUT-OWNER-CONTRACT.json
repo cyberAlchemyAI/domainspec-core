@@ -1,0 +1,56 @@
+{
+  "schema_version": "body-war.task-session-closeout-owner-contract.v1",
+  "swu_id": "SWU-BWAA-001",
+  "task_id": "TASK-BWAA-001",
+  "lifecycle_owner": "body-war.product-ontology-owner",
+  "producer": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "material_package_path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/material/MATERIAL-PACKAGE.json",
+    "material_receipt_path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/material/MATERIAL-RECEIPT.json",
+    "producer_receipt_schema_path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json"
+  },
+  "consumer": {
+    "capability": "task-session",
+    "execution_mode": "routed-mutation",
+    "terminal_receipt_path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-001.receipt.json",
+    "terminal_receipt_contract": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/shared/EXECUTION-CONTROL.md#Terminal-Receipt-Contract",
+    "successor": "SWU-BWAA-002",
+    "automatic_successor_selection": false
+  },
+  "material_writes": [
+    "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+    "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+    "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+  ],
+  "execution_outputs": [
+    "projects/body-war/ontology/business/receipts/view-atlas-coverage-receipt.json",
+    "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-001.receipt.json"
+  ],
+  "owner_validation_commands": [
+    "node --test projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs",
+    "node projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+    "git diff --check -- projects/body-war/ontology/business/scripts/view-atlas-projection.mjs projects/body-war/ontology/business/scripts/validate-view-atlas.mjs projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+  ],
+  "required_terminal_fields": [
+    "swu_id",
+    "result",
+    "capability_ref",
+    "receipt_kind",
+    "timestamp",
+    "control_digests",
+    "semantic_lock_results",
+    "target_inventory",
+    "files_touched",
+    "validation",
+    "blockers",
+    "residue",
+    "reroute",
+    "handoff_note",
+    "successor",
+    "authority_effect",
+    "release_admission"
+  ],
+  "authority_effect": "none",
+  "release_admission": "not-granted"
+}

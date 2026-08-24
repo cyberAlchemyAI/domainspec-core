@@ -1,0 +1,284 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "handoffStatus": "ready",
+  "execution_path": "invoke:refresh:apply-approved",
+  "dispatch_trace": {
+    "decision_id": "DG-ARC-REPAIR-ROUTE-SHAPE-001",
+    "decision_route": "direct",
+    "selected_option": "OPT-EXACT-SWU-GRAPH",
+    "background_helper": "/root/invoke_repair_check",
+    "helper_joined_closed": true
+  },
+  "source_evidence": [
+    "ops/development/2026-07-30-arcanum-addon-plan-revalidation/findings.md",
+    "ops/development/2026-07-30-arcanum-addon-invoke-repair/decision/route-shape-admissibility-receipt.json",
+    "ops/development/2026-07-30-arcanum-addon-invoke-repair/helper/receipt.md"
+  ],
+  "sourceSignals": [
+    {
+      "id": "S-NEW-001",
+      "source_path": "ops/development/2026-07-30-arcanum-addon-plan-revalidation/findings.md#NEW-001",
+      "signal_type": "artifact_drift",
+      "target_artifacts": [
+        "development/arcanum-addon/plan/DISPATCH.json"
+      ],
+      "claim": "Generic layer receipts allowed a runner to advance without complete wave closure.",
+      "evidence": "Second independent revalidation finding NEW-001.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "S-NEW-BAL-001",
+      "source_path": "ops/development/2026-07-30-arcanum-addon-plan-revalidation/findings.md#NEW-BAL-001",
+      "signal_type": "artifact_drift",
+      "target_artifacts": [
+        "development/arcanum-addon/design/VALIDATION-CONTRACTS.md",
+        "development/arcanum-addon/plan/work-pack/tasks/TASK-4-LIFECYCLE-ACCEPTANCE.md",
+        "development/arcanum-addon/plan/work-pack/shared/CLOSEOUT-SYNC.md"
+      ],
+      "claim": "One lifecycle validator conflated an enabled/running degradation baseline with a later disabled snapshot.",
+      "evidence": "Second independent revalidation finding NEW-BAL-001.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "S-DIRECT-ROUTE",
+      "source_path": "ops/development/2026-07-30-arcanum-addon-invoke-repair/decision/route-shape-admissibility-receipt.json",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "development/arcanum-addon/plan/DISPATCH.json"
+      ],
+      "claim": "Only an exact SWU graph with wave joins remained structurally admissible.",
+      "evidence": "Decision Gate option prefilter returned direct OPT-EXACT-SWU-GRAPH.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "S-STATUS-SYNC",
+      "source_path": "ops/development/2026-07-30-arcanum-addon-invoke-repair/helper/receipt.md",
+      "signal_type": "status_changed",
+      "target_artifacts": [
+        "development/arcanum-addon/plan/WORK-PACK.md",
+        "development/arcanum-addon/design/DISTILL-VALIDATION.md",
+        "development/arcanum-addon/plan/DISTILL-VALIDATION.md",
+        "development/arcanum-addon/design/DESIGN-RESULT.json",
+        "development/arcanum-addon/plan/PLAN-RESULT.json"
+      ],
+      "claim": "Derived artifacts must record the second review and current reconciliation while retaining all gates.",
+      "evidence": "Independent helper inventory and Invoke consistency rules.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "development/arcanum-addon/plan/DISPATCH.json",
+    "development/arcanum-addon/design/VALIDATION-CONTRACTS.md",
+    "development/arcanum-addon/plan/work-pack/tasks/TASK-4-LIFECYCLE-ACCEPTANCE.md",
+    "development/arcanum-addon/plan/work-pack/shared/CLOSEOUT-SYNC.md",
+    "development/arcanum-addon/plan/WORK-PACK.md",
+    "development/arcanum-addon/design/DISTILL-VALIDATION.md",
+    "development/arcanum-addon/plan/DISTILL-VALIDATION.md",
+    "development/arcanum-addon/design/DESIGN-RESULT.json",
+    "development/arcanum-addon/plan/PLAN-RESULT.json"
+  ],
+  "target_inventory": [
+    "development/arcanum-addon/plan/DISPATCH.json",
+    "development/arcanum-addon/design/VALIDATION-CONTRACTS.md",
+    "development/arcanum-addon/plan/work-pack/tasks/TASK-4-LIFECYCLE-ACCEPTANCE.md",
+    "development/arcanum-addon/plan/work-pack/shared/CLOSEOUT-SYNC.md",
+    "development/arcanum-addon/plan/WORK-PACK.md",
+    "development/arcanum-addon/design/DISTILL-VALIDATION.md",
+    "development/arcanum-addon/plan/DISTILL-VALIDATION.md",
+    "development/arcanum-addon/design/DESIGN-RESULT.json",
+    "development/arcanum-addon/plan/PLAN-RESULT.json"
+  ],
+  "deltaSummary": [
+    {
+      "delta": "route_changed",
+      "targets": [
+        "development/arcanum-addon/plan/DISPATCH.json"
+      ],
+      "result": "Exact SWU receipt graph, closeout re-entry, W0-W4 joins, isolated lifecycle branches, VERIFY bound to W4-COMPLETE."
+    },
+    {
+      "delta": "artifact_drift",
+      "targets": [
+        "development/arcanum-addon/design/VALIDATION-CONTRACTS.md",
+        "development/arcanum-addon/plan/work-pack/tasks/TASK-4-LIFECYCLE-ACCEPTANCE.md",
+        "development/arcanum-addon/plan/work-pack/shared/CLOSEOUT-SYNC.md"
+      ],
+      "result": "Typed degradation, disabled-lifecycle, and security-join bindings."
+    },
+    {
+      "delta": "status_changed",
+      "targets": [
+        "development/arcanum-addon/plan/WORK-PACK.md",
+        "development/arcanum-addon/design/DISTILL-VALIDATION.md",
+        "development/arcanum-addon/plan/DISTILL-VALIDATION.md",
+        "development/arcanum-addon/design/DESIGN-RESULT.json",
+        "development/arcanum-addon/plan/PLAN-RESULT.json"
+      ],
+      "result": "Second-review repair synchronized; block and selectedSWU none retained."
+    }
+  ],
+  "proposedChanges": [
+    "Apply the exact nine-file material package."
+  ],
+  "appliedChanges": [
+    "Applied and byte-verified all nine validated target paths."
+  ],
+  "skippedChanges": [
+    {
+      "candidate": "EXECUTION-PACK.md, W4.md, W5.md, TASK-5-VERIFY-DECIDE.md",
+      "reason": "Reviewed; current complete-wave language is already consistent with the repaired route."
+    },
+    {
+      "candidate": "runtime, browser, GitHub, Bootstrap apply, public Arcanum",
+      "reason": "Outside the exact Invoke refresh scope."
+    }
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": true,
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "packageId": "arcanum-addon-invoke-repair-20260730-v1",
+    "packageDigest": "f89bb5e36a06f8f252024290112f109260eb50e1344f2863caacd415ba3d53eb",
+    "expectedPackageId": "arcanum-addon-invoke-repair-20260730-v1",
+    "expectedPackageDigest": "f89bb5e36a06f8f252024290112f109260eb50e1344f2863caacd415ba3d53eb",
+    "validatedPaths": [
+      "development/arcanum-addon/design/DESIGN-RESULT.json",
+      "development/arcanum-addon/design/DISTILL-VALIDATION.md",
+      "development/arcanum-addon/design/VALIDATION-CONTRACTS.md",
+      "development/arcanum-addon/plan/DISPATCH.json",
+      "development/arcanum-addon/plan/DISTILL-VALIDATION.md",
+      "development/arcanum-addon/plan/PLAN-RESULT.json",
+      "development/arcanum-addon/plan/WORK-PACK.md",
+      "development/arcanum-addon/plan/work-pack/shared/CLOSEOUT-SYNC.md",
+      "development/arcanum-addon/plan/work-pack/tasks/TASK-4-LIFECYCLE-ACCEPTANCE.md"
+    ],
+    "dependencyResult": "pass",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass",
+    "validationCommands": [
+      "jq empty on changed JSON outputs",
+      "Dispatch Spec validator",
+      "repair invariant validator",
+      "changed Markdown local-target validator",
+      "staged whitespace check",
+      "npm run docs:check",
+      "npm run test:docs",
+      "sorted absolute-path corpus digest"
+    ],
+    "lifecycleOwner": "resonantos-planning-owner",
+    "authorityClass": "public",
+    "publicationClass": "internal"
+  },
+  "material_package": {
+    "receipt": "material/material-package-receipt.json",
+    "handoff": "material/refresh-handoff-result.json"
+  },
+  "mutationReady": true,
+  "mutation_ready": true,
+  "blockers": [
+    {
+      "id": "B-DESIGN-001",
+      "scope": "audit",
+      "owner": "independent Distill reviewers",
+      "status": "open",
+      "claim": "Fresh exact-byte review of repaired corpus digest 5b5e79f5632b2e29e7a20e7ac4d9e92addef6f707e9525c71e7266c24349e4b0 remains required."
+    },
+    {
+      "id": "B-GOV-001",
+      "scope": "target-lifecycle",
+      "owner": "product maintainer",
+      "status": "open",
+      "claim": "Governing issue and Project 2 authority packet remain absent."
+    },
+    {
+      "id": "B-BOOT-001",
+      "scope": "target-lifecycle",
+      "owner": "Arcanum Bootstrap",
+      "status": "open",
+      "claim": "Current compatibility and any separately approved refresh remain unexecuted."
+    },
+    {
+      "id": "B-OWNER-001",
+      "scope": "target-lifecycle",
+      "owner": "product maintainer",
+      "status": "open",
+      "claim": "Required product lifecycle owners remain unbound."
+    },
+    {
+      "id": "B-ADAPTER-001",
+      "scope": "target-lifecycle",
+      "owner": "Arcanum capability owners",
+      "status": "open",
+      "claim": "Stable public Strategy and Whisper operations remain unproven."
+    },
+    {
+      "id": "B-RETENTION-001",
+      "scope": "target-lifecycle",
+      "owner": "data/product owner",
+      "status": "open",
+      "claim": "Uninstall retention policy remains unresolved."
+    }
+  ],
+  "blocker_scopes": {
+    "refresh-authoring": 0,
+    "apply-authorization": 0,
+    "target-lifecycle": 5,
+    "audit": 1
+  },
+  "validation": [
+    {
+      "check": "dispatch-spec",
+      "result": "pass"
+    },
+    {
+      "check": "planning JSON syntax",
+      "result": "pass-25-files"
+    },
+    {
+      "check": "repair invariants",
+      "result": "pass-25-exact-swu-producers-wave-joins-typed-lifecycle-selected-none"
+    },
+    {
+      "check": "changed Markdown local targets",
+      "result": "pass-6-files"
+    },
+    {
+      "check": "legacy generic receipt and validator references",
+      "result": "pass-zero-matches"
+    },
+    {
+      "check": "npm run docs:check",
+      "result": "pass-repository-tracked-scope-planning-package-untracked"
+    },
+    {
+      "check": "npm run test:docs",
+      "result": "pass-224"
+    },
+    {
+      "check": "repaired corpus aggregate",
+      "result": "pass-75-files-5b5e79f5632b2e29e7a20e7ac4d9e92addef6f707e9525c71e7266c24349e4b0"
+    }
+  ],
+  "activation_source": "direct-user",
+  "mutation_mode": "apply-approved",
+  "mutation_mode_source": "default-direct-user",
+  "phase_status": "pass",
+  "handoff_status": "ready",
+  "result": "pass-applied-validated",
+  "nextRoute": "fresh-independent-exact-byte-distill-revalidation",
+  "next_route": "fresh-independent-exact-byte-distill-revalidation"
+}

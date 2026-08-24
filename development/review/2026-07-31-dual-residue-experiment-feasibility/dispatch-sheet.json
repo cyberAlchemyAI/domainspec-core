@@ -1,0 +1,121 @@
+{
+  "dispatch_id": "2026-07-31-dual-residue-experiment-feasibility-review",
+  "schema_version": "0.8.0",
+  "dispatch_type": "review",
+  "goal": "Red-team whether ../dual-residue-experiment is conceptually coherent, technically feasible, and correctly bounded as a DomainSpec evidence-producing experiment, then produce verified KEEP/FIX change requests and a scoped feasibility conclusion.",
+  "context": "domainspec-core owns this dispatch and its ledger; ../dual-residue-experiment is a clean adjacent checkout and remains read-only. The target already contains a proposed E1 protocol, generated data splits, gradient-cosine probe results, an earlier research dispatch, and an earlier read-only proposal review, but no completed four-arm training run or adjudicated verdict. The review must distinguish formal two-residue motivation, current executable mechanics, statistical identifiability, and repository/authority fit. Outputs are review evidence only and cannot claim promotion, release, production readiness, or empirical validation without current receipts.",
+  "max_loops": 1,
+  "final_approver": "Brandenburg, Martin",
+  "anti_bias_global": "composite methodology plus attack-vector: formal, computational, and historical feasibility pressure checked by counter-example and definitional refutation",
+  "working_folder": "development/review/2026-07-31-dual-residue-experiment-feasibility/",
+  "groups": [
+    {
+      "group_id": "attackers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "methodology (formal vs computational vs historical)",
+      "predicted_disagreements": [
+        {
+          "pair": [0, 1],
+          "statement": "Agent 0 formally audits hypothesis-to-gate fidelity while agent 1 computationally tests implementation and metric mechanics on the methodology axis; a protocol can be logically coherent yet non-executable, or executable while measuring a different claim."
+        },
+        {
+          "pair": [0, 2],
+          "statement": "Agent 0 formally tests the experiment's internal claim structure while agent 2 historically traces ownership and status across DomainSpec artifacts on the methodology axis; an internally valid protocol can still overreach its repository authority or inherited theory."
+        },
+        {
+          "pair": [1, 2],
+          "statement": "Agent 1 computationally checks whether the rig can produce its promised evidence while agent 2 historically checks whether that evidence would mean what the surrounding repositories say it means on the methodology axis; runnable bytes do not by themselves establish contextual fit."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Abramsky, Samson",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 5000,
+          "angle": "formally audit protocol fidelity, comparator logic, falsifiers, and the boundary between two-budget motivation and empirical dual-objective advantage",
+          "initial_prompt": "Act as the formal/fidelity attacker. Read the full declared target corpus in ../dual-residue-experiment: README.md; PROPOSAL.md; experiments/PROTOCOL.md; experiments/E1-dual-residue-loss/{PROPOSAL.md,README.md,VERDICT.md}; domain_knowledge/{axiom,premise,constitution,discovery}/**/*.md; research/grad-indep-reality/{dispatch.yaml,research/findings.md,PROPOSAL-addendum-rich-schema.md,LEDGER.md}; configs/*.yaml; data/dataset-recipe.md and data/splits/manifest.json. Inventory packet inputs relevant to you: entries-category-theory-domainspec-language-synthesis and evidence card schema-instance-orthogonality-two-budgets; use them only to locate the two-budget claim boundary, then verify current target bytes. Attack fidelity/governance: does the hypothesis test its prose claim, are D-vs-A and D-vs-per-axis-specialists distinguished, do PASS/FLAG/BLOCK exhaust the intended claim, and do formal/categorical premises get inflated into empirical predictions? Return findings with target file, exact quote or line selector, CRITICAL/MAJOR/MINOR, one-line fix, and a defended zero-finding account for every attacked question that survives. Do not modify files and do not use network sources."
+        },
+        {
+          "agent_name": "Saxe, Andrew",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 6000,
+          "angle": "computationally verify runnable training, loss gradients, arm parity, statistical gates, dependency/runtime assumptions, and stale test claims",
+          "initial_prompt": "Act as the computational/mechanics attacker. Read the full declared implementation corpus in ../dual-residue-experiment: pyproject.toml; configs/*.yaml; scripts/*.py; src/**/*.py; tests/*.py; data/dataset-recipe.md; data/splits/manifest.json; results/*.json; experiments/tools/validate_proposal.py; experiments/E1-dual-residue-loss/PROPOSAL.md; README.md; and domain_knowledge/sessions/2026-06-10-1534-e1-proposal-review.md. Inventory packet input relevant to you: novel-model-use-lean-formalization-research-findings, which marks dual-residue training unvalidated and asks for a fresh executable witness; verify rather than inherit that status. Run only read-only or ephemeral validations that do not train a model or touch external services: proposal validation, unit tests with cache disabled when dependencies exist, smoke checks, static inspection of train/eval/report data flow, and direct comparison of promised metrics to emitted fields. Do not download models, install dependencies, launch full training, or mutate target files. Attack mechanics/correctness and operability, including the recorded sparse/imbalanced gradients and paired-bootstrap measurability. Return command receipts plus cited findings, severity, one-line fixes, and explicit blocked checks."
+        },
+        {
+          "agent_name": "Ashby, W. Ross",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 5000,
+          "angle": "historically trace repository ownership, lifecycle status, canonical versus mirrored protocol, evidence ceilings, and the experiment's fit as a bounded DomainSpec feedback instrument",
+          "initial_prompt": "Act as the historical/ownership attacker. Read the full declared governance corpus in ../dual-residue-experiment: README.md; PROPOSAL.md; experiments/{PROTOCOL.md,README.md,E1-dual-residue-loss/PROPOSAL.md,E1-dual-residue-loss/VERDICT.md}; domain_knowledge/**/*.md; research/grad-indep-reality/{dispatch.yaml,LEDGER.md,research/findings.md}; results/*.json; and git log/status. Inventory packet inputs relevant to you: novel-model-use-lean-formalization-strategy-result-synthesis and investor-pitch-blind-spot-review-strategy-result-synthesis; they constrain claims to a candidate empirical witness and demonstrate claim<=proof review, but are not current target evidence. Attack ownership/reference integrity and contextual fit: which repository/document is canonical, whether top-level mirrors and lifecycle labels drift, whether prior results contradict 'nothing has been run', whether this repo is a sensible independent experiment harness or duplicates/overreaches DomainSpec/theorem authority, and what promotion boundary should follow a result. Return file/quote/severity/fix findings and a scoped answer to 'does this repository make sense in context?'. Do not modify files or use the network."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Shannon, Claude",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 7000,
+          "initial_prompt": "Consume all attackers' initial and robot-talk-final positions. Use the strategy inventory packet's selected/excluded boundary and unresolved gaps, but treat Inventory as non-authority. Write only development/review/2026-07-31-dual-residue-experiment-feasibility/attacks.md and findings.md. Preserve attacker and later verifier returns in attacks.md; findings.md must have per-artifact tables with file, quoted current evidence, severity, proposed fix, KEEP/FIX verdict, then a repository-level feasibility conclusion chosen from FEASIBLE-AS-IS, FEASIBLE-WITH-REPAIRS, NOT-YET-FEASIBLE, or MISFIT, with conditions and a severity-ordered change-request list. Do not edit ../dual-residue-experiment."
+        }
+      ]
+    },
+    {
+      "group_id": "verifiers",
+      "n": 2,
+      "robot_talks": true,
+      "anti_bias": "attack-vector (counter-example vs definitional)",
+      "predicted_disagreements": [
+        {
+          "pair": [0, 1],
+          "statement": "Agent 0 tries to refute each finding with executable counter-examples while agent 1 attacks term and claim-boundary substitutions on the attack-vector axis; literal runtime evidence can refute a mechanics charge without repairing a definitional mismatch, and vice versa."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Popper, Karl",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4500,
+          "angle": "counter-example attack against proposed findings using current code, proposal validator, tests, metric emissions, and negative controls",
+          "initial_prompt": "Verify every synthesized finding against literal ../dual-residue-experiment bytes and available no-network checks. Inventory supplies no mechanics proof. Try to refute claims using counter-examples: validator pass/fail, test behavior, emitted JSON fields, comparator implementation, and lifecycle artifacts. Accept or drop each finding; refuted findings must be dropped, not softened. Return a verifier receipt with citations and commands, and do not modify files."
+        },
+        {
+          "agent_name": "Russell, Bertrand",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4500,
+          "angle": "definitional attack on score, signal, independence, feasibility, validation, frozen, run, and DomainSpec ownership claims",
+          "initial_prompt": "Verify every synthesized finding against literal ../dual-residue-experiment artifacts, focusing on definitional integrity. Use the Inventory claim ceiling only as a candidate boundary; confirm current sources. Test whether score vs signal, formal vs empirical independence, proposed vs frozen, probe vs training run, and local experiment result vs DomainSpec promotion are kept distinct. Accept or drop each finding with exact citations; do not modify files."
+        }
+      ]
+    },
+    {
+      "group_id": "auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.6-terra",
+          "token_budget": 3500,
+          "initial_prompt": "Audit final attacks.md and findings.md only after verifier convergence. Require every declared corpus family to have coverage, every surviving finding to cite current target bytes or command receipts, all refuted findings to be dropped, Inventory-only assertions to be excluded, all-zero findings to trigger the red flag, and the final feasibility conclusion to stay within the experiment's proposed/untrained evidence boundary. Return ACCEPT or REVISE with exact repairs. Do not edit files and do not perform other working roles."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {"from": "attackers", "to": "synthesizer", "type": "sequential"},
+    {"from": "synthesizer", "to": "verifiers", "type": "zig-zag", "loop_cap": 2},
+    {"from": "verifiers", "to": "auditor", "type": "sequential"},
+    {"from": "auditor", "to": "synthesizer", "type": "feedback", "loop_cap": 1}
+  ]
+}

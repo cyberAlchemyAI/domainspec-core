@@ -1,0 +1,86 @@
+{
+  "schema_version": "augmentor.consultation.chain-terminal-receipt@0.1.0",
+  "unit_id": "SWU-ACAPI-004",
+  "step_id": "l0-004",
+  "status": "pass",
+  "work_pack_sha256": "2d53e5ed9550dd04eeb1a009b6f7079e9efa9f81c612e00d3e49da10223e014d",
+  "artifacts": [
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/generated/projection-manifest.json",
+      "sha256": "e9b3140e3713d5aefe26bb777198f889febd860dbbcbde038b6fd3227d32b5bc"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/generated/projection.json",
+      "sha256": "be3753a4ef7ae5f63d7181c38df5c1e56440fd624ca3e1b44a518c5c888a87c6"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/source/ontology.json",
+      "sha256": "a24980c9488bfcca0ecf1879f0a1a4339f427a8749078c6eb99e56c1d346172d"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/build-fixture-projection.mjs",
+      "sha256": "863de3ceb9b6be865632611e8ff510ca0b29ff2b625d2b8d69336639c48cf14a"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-projection-leakage.mjs",
+      "sha256": "65892ab1d1c7cff51bbb75115c54fba7e3103c18e03845127b4088a0d4885e02"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/projection-compiler.test.mjs",
+      "sha256": "b969a5ddea820382f391f49b8f291c527d8888d1eabc939b447082564ab15f90"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/projection-leakage.test.mjs",
+      "sha256": "8f88e3bb65457f12cda76d90d21d181311492a94851f0c3c7eebbbbf9f14581e"
+    }
+  ],
+  "validation": [
+    {
+      "argv": [
+        "node",
+        "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/build-fixture-projection.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/build-fixture-projection.mjs",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-projection-leakage.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/projection-compiler.test.mjs",
+        "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/projection-leakage.test.mjs"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "validation_result": "pass",
+  "blockers": [],
+  "task_session_terminal_ref": {
+    "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/task-sessions/SWU-ACAPI-004.json",
+    "sha256": "7227e56c559a7b8afd2f953ab465a6efa79164f2f702973be1604c56956f99d7"
+  },
+  "closeout_owner_ref": {
+    "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/no-op/SWU-ACAPI-004.json",
+    "sha256": "5f5c662548e35e3784bf84d87855a5001f5814814df13594d50a15f72205f993"
+  },
+  "router_verification_ref": {
+    "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/router/SWU-ACAPI-004.json",
+    "sha256": "59f2de415358e9664da81486292291c9a0eb2e40021006bac3d4228143806f63"
+  },
+  "continuity_cursor": "augmentor-consultation-l0-5763602f:SWU-ACAPI-004:5",
+  "successor": "SWU-ACAPI-005"
+}

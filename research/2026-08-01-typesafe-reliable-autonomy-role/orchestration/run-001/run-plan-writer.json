@@ -1,0 +1,40 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-08-01-typesafe-reliable-autonomy-role-route",
+  "run_id": "typesafe-role-run-001",
+  "state": "wave_ready",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "writer",
+    "role_ids": ["role-charter-writer"],
+    "parallel": false,
+    "join_policy": "all",
+    "depends_on_waves": ["reviewers"],
+    "gate_after": "g-writer",
+    "on_incomplete": "block"
+  },
+  "action_artifacts": ["normalized-actions/spawn-0008.json"],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0008",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": ["s4"],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-01-typesafe-reliable-autonomy-role-route",
+      "forbidden_write_scopes": ["research/2026-08-01-typesafe-reliable-autonomy-role/research.md", "research/2026-08-01-typesafe-reliable-autonomy-role/candidate-profile.md", "research/2026-08-01-typesafe-reliable-autonomy-role/dispatch-sheet.json", "cyberAlchemy-v2/", "projects/domainspec-v2/", "arcanum/"],
+      "input_refs": ["research/2026-08-01-typesafe-reliable-autonomy-role/research.md", "research/2026-08-01-typesafe-reliable-autonomy-role/receipts/evidence-closure.json"],
+      "mode": "write-findings",
+      "mutation_policy": "artifact-only",
+      "output_refs": ["research/2026-08-01-typesafe-reliable-autonomy-role/receipts/role-charter-writer.json"],
+      "role": "role-charter-writer",
+      "run_id": "typesafe-role-run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s4",
+      "target": "research/2026-08-01-typesafe-reliable-autonomy-role/findings.md",
+      "wave_id": "writer",
+      "write_scope": ["research/2026-08-01-typesafe-reliable-autonomy-role/findings.md"]
+    }
+  ]
+}

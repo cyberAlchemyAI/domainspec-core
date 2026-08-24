@@ -1,0 +1,153 @@
+{
+  "schema_version": "candidate.whisper.state-sequence.v1",
+  "closure": {
+    "initial_state": {"revision": 0, "lifecycle_phase": "not_started", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+    "digest_bindings": {
+      "COR1": "a826cb8cd607c3154e9f642e344f2a0d71cf0f56acc4dd4b6de91ceb52257ef2",
+      "NE2": "5d5675bc76fa4e2b6be09e4cd8801375bc8331d8db44641435abfb3ecb74daf0",
+      "MA2": "0ff7e30cfd9a656fa1f8e177acf5dcdd9480cf0ade32baa04a9db7231abc4213"
+    }
+  },
+  "events": [
+    {
+      "event_id": "EV01", "event_type": "IntentRecorded",
+      "prior_state": {"revision": 0, "lifecycle_phase": "not_started", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 1, "lifecycle_phase": "intake_recorded", "pending_gate": "intent_freeze", "correction_state": "none", "outcome_ceiling": "not_assessed"}
+    },
+    {
+      "event_id": "EV02", "event_type": "IntentFrozen",
+      "prior_state": {"revision": 1, "lifecycle_phase": "intake_recorded", "pending_gate": "intent_freeze", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 2, "lifecycle_phase": "intent_frozen", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"}
+    },
+    {
+      "event_id": "EV03", "event_type": "PlanGenerationScheduled",
+      "prior_state": {"revision": 2, "lifecycle_phase": "intent_frozen", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 3, "lifecycle_phase": "plan_generation_scheduled", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"}
+    },
+    {
+      "event_id": "EV04", "event_type": "PlanProduced",
+      "prior_state": {"revision": 3, "lifecycle_phase": "plan_generation_scheduled", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 4, "lifecycle_phase": "plan_ready", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"}
+    },
+    {
+      "event_id": "EV05", "event_type": "AuditionGenerationScheduled",
+      "prior_state": {"revision": 4, "lifecycle_phase": "plan_ready", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 5, "lifecycle_phase": "audition_generation_scheduled", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"}
+    },
+    {
+      "event_id": "EV06", "event_type": "AuditionProduced",
+      "prior_state": {"revision": 5, "lifecycle_phase": "audition_generation_scheduled", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 6, "lifecycle_phase": "awaiting_editorial_decision", "pending_gate": "editorial_decision", "correction_state": "none", "outcome_ceiling": "not_assessed"}
+    },
+    {
+      "event_id": "EV07", "event_type": "EditorialDecisionRecorded",
+      "prior_state": {"revision": 6, "lifecycle_phase": "awaiting_editorial_decision", "pending_gate": "editorial_decision", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 7, "lifecycle_phase": "editorial_decision_recorded", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"}
+    },
+    {
+      "event_id": "EV08", "event_type": "DraftGenerationScheduled",
+      "prior_state": {"revision": 7, "lifecycle_phase": "editorial_decision_recorded", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 8, "lifecycle_phase": "draft_generation_scheduled", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"}
+    },
+    {
+      "event_id": "EV09", "event_type": "DraftProduced",
+      "prior_state": {"revision": 8, "lifecycle_phase": "draft_generation_scheduled", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 9, "lifecycle_phase": "draft_ready", "pending_gate": "mechanical_validation", "correction_state": "none", "outcome_ceiling": "not_assessed"}
+    },
+    {
+      "event_id": "EV10", "event_type": "DraftValidationScheduled",
+      "prior_state": {"revision": 9, "lifecycle_phase": "draft_ready", "pending_gate": "mechanical_validation", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 10, "lifecycle_phase": "draft_validation_scheduled", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"}
+    },
+    {
+      "event_id": "EV11", "event_type": "MechanicalAssessmentRecorded",
+      "prior_state": {"revision": 10, "lifecycle_phase": "draft_validation_scheduled", "pending_gate": "none", "correction_state": "none", "outcome_ceiling": "not_assessed"},
+      "result_state": {"revision": 11, "lifecycle_phase": "mechanically_validated", "pending_gate": "post_apply_review", "correction_state": "none", "outcome_ceiling": "flag"}
+    },
+    {
+      "event_id": "EV12", "event_type": "CorrectionRecorded",
+      "prior_state": {"revision": 11, "lifecycle_phase": "mechanically_validated", "pending_gate": "post_apply_review", "correction_state": "none", "outcome_ceiling": "flag"},
+      "result_state": {"revision": 12, "lifecycle_phase": "correction_pending", "pending_gate": "corrected_intent_freeze", "correction_state": "open", "outcome_ceiling": "block"}
+    },
+    {
+      "event_id": "EV13", "event_type": "IntentFrozen",
+      "prior_state": {"revision": 12, "lifecycle_phase": "correction_pending", "pending_gate": "corrected_intent_freeze", "correction_state": "open", "outcome_ceiling": "block"},
+      "result_state": {"revision": 13, "lifecycle_phase": "intent_frozen", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"}
+    },
+    {
+      "event_id": "EV14", "event_type": "PlanGenerationScheduled",
+      "prior_state": {"revision": 13, "lifecycle_phase": "intent_frozen", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"},
+      "result_state": {"revision": 14, "lifecycle_phase": "plan_generation_scheduled", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"}
+    },
+    {
+      "event_id": "EV15", "event_type": "PlanProduced",
+      "prior_state": {"revision": 14, "lifecycle_phase": "plan_generation_scheduled", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"},
+      "result_state": {"revision": 15, "lifecycle_phase": "plan_ready", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"}
+    },
+    {
+      "event_id": "EV16", "event_type": "AuditionGenerationScheduled",
+      "prior_state": {"revision": 15, "lifecycle_phase": "plan_ready", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"},
+      "result_state": {"revision": 16, "lifecycle_phase": "audition_generation_scheduled", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"}
+    },
+    {
+      "event_id": "EV17", "event_type": "AuditionProduced",
+      "prior_state": {"revision": 16, "lifecycle_phase": "audition_generation_scheduled", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"},
+      "result_state": {"revision": 17, "lifecycle_phase": "awaiting_editorial_decision", "pending_gate": "editorial_decision", "correction_state": "open", "outcome_ceiling": "block"}
+    },
+    {
+      "event_id": "EV18", "event_type": "EditorialDecisionRecorded",
+      "prior_state": {"revision": 17, "lifecycle_phase": "awaiting_editorial_decision", "pending_gate": "editorial_decision", "correction_state": "open", "outcome_ceiling": "block"},
+      "result_state": {"revision": 18, "lifecycle_phase": "editorial_decision_recorded", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"}
+    },
+    {
+      "event_id": "EV19", "event_type": "DraftGenerationScheduled",
+      "prior_state": {"revision": 18, "lifecycle_phase": "editorial_decision_recorded", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"},
+      "result_state": {"revision": 19, "lifecycle_phase": "draft_generation_scheduled", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"}
+    },
+    {
+      "event_id": "EV20", "event_type": "DraftProduced",
+      "prior_state": {"revision": 19, "lifecycle_phase": "draft_generation_scheduled", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"},
+      "result_state": {"revision": 20, "lifecycle_phase": "draft_ready", "pending_gate": "mechanical_validation", "correction_state": "open", "outcome_ceiling": "block"}
+    },
+    {
+      "event_id": "EV21", "event_type": "DraftValidationScheduled",
+      "prior_state": {"revision": 20, "lifecycle_phase": "draft_ready", "pending_gate": "mechanical_validation", "correction_state": "open", "outcome_ceiling": "block"},
+      "result_state": {"revision": 21, "lifecycle_phase": "draft_validation_scheduled", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"}
+    },
+    {
+      "event_id": "EV22", "event_type": "MechanicalAssessmentRecorded",
+      "prior_state": {"revision": 21, "lifecycle_phase": "draft_validation_scheduled", "pending_gate": "none", "correction_state": "open", "outcome_ceiling": "block"},
+      "result_state": {"revision": 22, "lifecycle_phase": "mechanically_validated", "pending_gate": "graph_policy_validation", "correction_state": "resolved", "outcome_ceiling": "flag"},
+      "bindings": {
+        "correction_id": "COR1",
+        "correction_sha256": "a826cb8cd607c3154e9f642e344f2a0d71cf0f56acc4dd4b6de91ceb52257ef2",
+        "artifact_id": "NE2",
+        "artifact_sha256": "5d5675bc76fa4e2b6be09e4cd8801375bc8331d8db44641435abfb3ecb74daf0",
+        "assessment_id": "MA2",
+        "assessment_sha256": "0ff7e30cfd9a656fa1f8e177acf5dcdd9480cf0ade32baa04a9db7231abc4213",
+        "assessment_result": "pass"
+      }
+    },
+    {
+      "event_id": "EV23", "event_type": "GraphValidationScheduled",
+      "prior_state": {"revision": 22, "lifecycle_phase": "mechanically_validated", "pending_gate": "graph_policy_validation", "correction_state": "resolved", "outcome_ceiling": "flag"},
+      "result_state": {"revision": 23, "lifecycle_phase": "graph_validation_scheduled", "pending_gate": "none", "correction_state": "resolved", "outcome_ceiling": "flag"}
+    },
+    {
+      "event_id": "EV24", "event_type": "GraphAssessmentRecorded",
+      "prior_state": {"revision": 23, "lifecycle_phase": "graph_validation_scheduled", "pending_gate": "none", "correction_state": "resolved", "outcome_ceiling": "flag"},
+      "result_state": {"revision": 24, "lifecycle_phase": "graph_validated", "pending_gate": "comprehension_assessment", "correction_state": "resolved", "outcome_ceiling": "flag"}
+    },
+    {
+      "event_id": "EV25", "event_type": "ComprehensionAssessmentRecorded",
+      "prior_state": {"revision": 24, "lifecycle_phase": "graph_validated", "pending_gate": "comprehension_assessment", "correction_state": "resolved", "outcome_ceiling": "flag"},
+      "result_state": {"revision": 25, "lifecycle_phase": "reviewed", "pending_gate": "none", "correction_state": "resolved", "outcome_ceiling": "pass"}
+    },
+    {
+      "event_id": "EV26", "event_type": "ResidueRecorded",
+      "prior_state": {"revision": 25, "lifecycle_phase": "reviewed", "pending_gate": "none", "correction_state": "resolved", "outcome_ceiling": "pass"},
+      "result_state": {"revision": 26, "lifecycle_phase": "residue_recorded", "pending_gate": "none", "correction_state": "resolved", "outcome_ceiling": "pass"}
+    }
+  ],
+  "authority_effect": "none"
+}

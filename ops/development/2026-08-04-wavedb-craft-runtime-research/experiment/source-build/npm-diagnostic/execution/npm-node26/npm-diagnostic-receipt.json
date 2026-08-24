@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "wavedb-pinned-npm-diagnostic.v1",
+  "completedAt": "2026-08-05T16:35:24Z",
+  "attemptId": "wcnd-20260805-node26-01",
+  "executionResult": "pass",
+  "authorization": "Authorize pinned npm diagnostic.",
+  "artifact": {
+    "specifier": "@vijayee/wavedb@0.15.8",
+    "sha1": "107472e4634729de8533b68c351859ff496cc56e",
+    "sri": "sha512-o4G13W9V1jIzKOVSETUeg3oFDJde8GDDUeFF/a0nOJ1/LR0cN6pPurtdUGb+9vssUeB0B7OYbtWT+mEgI+pMnQ==",
+    "sourceBinding": null,
+    "identityKind": "opaque-verified-npm-tarball"
+  },
+  "environment": {
+    "node": "v26.6.0",
+    "npm": "11.18.0",
+    "platform": "linux",
+    "architecture": "x64",
+    "nvmDefaultChanged": false
+  },
+  "gates": {
+    "registryIdentity": "pass",
+    "independentTarballHashBeforeScripts": "pass",
+    "packedManifest": "pass",
+    "installAndNativeBuildWithin180Seconds": "pass",
+    "addonLoadWithin20Seconds": "pass",
+    "basicStringAndBinary": "pass",
+    "emptyString": "pass",
+    "batchCloseReopen": "pass",
+    "concurrent100WritesAndReadbackWithin30Seconds": "pass",
+    "scopeAudit": "pass"
+  },
+  "canaries": {
+    "basic": {"durationMs": 111, "assertions": 2},
+    "empty": {"durationMs": 62, "assertions": 2},
+    "batchReopen": {"durationMs": 73, "assertions": 2},
+    "concurrentWrites": {"durationMs": 287, "writes": 100, "reads": 100, "assertions": 100}
+  },
+  "evidence": [
+    {"path": "registry-metadata.json", "sha256": "707d8cc6cb67c7ccb9e0b310a2a616c2b2876d738a0461877b925b5930f1088c", "sizeBytes": 766},
+    {"path": "tarball-receipt.json", "sha256": "42ad3c03cb826545a4eff4fa0518627992852aa365956c93308aeb96511fcc0f", "sizeBytes": 1337},
+    {"path": "install-receipt.json", "sha256": "42b0edc687ef332b3bd85aeeb6b11771e7e65e843a4476abd8a33252f9e3a3b7", "sizeBytes": 2745},
+    {"path": "addon-load-receipt.json", "sha256": "f568c452c89b7d0e11231e6ad5180289a29a386edd60fe68e291429693be7116", "sizeBytes": 1013},
+    {"path": "basic.json", "sha256": "c46839de077aea98971b2f89327c4461d6d3ca94c130878cc5bd951f6acc888e", "sizeBytes": 675},
+    {"path": "empty.json", "sha256": "9073a33c67bdf457b7f397d75f154a87648a4083d332eb0893cd8284c0e26701", "sizeBytes": 674},
+    {"path": "batch-reopen.json", "sha256": "6131fd42796a8f91a5efc8689b44ce4c38a47f40e4510d7707913fa4b9b1641c", "sizeBytes": 710},
+    {"path": "concurrent-writes.json", "sha256": "cc34aa9c43f5cbc89904998f1f24b93b35dade34a2cda5899d96aa4426b3473d", "sizeBytes": 738},
+    {"path": "scope-audit.json", "sha256": "eb2fe393d5dad8a22569ace631685b72c9e1daa623b8c650644d353032e97bd3", "sizeBytes": 2043},
+    {"path": "prior-source-comparison.json", "sha256": "e3541dd04c7524889a6583daf41d089ab1c2ad5763df2d4a0bba81d304a15b4c", "sizeBytes": 2307}
+  ],
+  "comparison": {
+    "priorNode26SourceAddonSha256": "cbd5ebdab82635cf95ced5b0d3d3b50de7c224a6d99ebc2aa1dad57afb2ea8c9",
+    "npmAddonSha256": "cbd5ebdab82635cf95ced5b0d3d3b50de7c224a6d99ebc2aa1dad57afb2ea8c9",
+    "addonBytesEqual": true,
+    "wrapperTextEqualAfterLineEndingNormalization": true,
+    "differentObservedContext": "fresh isolated process/store versus the prior full upstream test command after earlier suites and cases",
+    "priorBlockerInvalidated": false
+  },
+  "claimCeiling": "one pinned npm tarball passed four named black-box canaries on one local Linux x86_64 Node 26 environment",
+  "residue": [
+    "the exact source tree represented by the npm tarball remains unverified",
+    "the prior full-upstream-suite concurrency stall remains a valid unresolved observation",
+    "the install emitted deprecated-dependency and compiler warnings, including possible use-after-free warnings in an untested subtree API",
+    "the attempt, compiled dependency tree, logs, and runtime stores are preserved"
+  ],
+  "craftIntegrationAdmitted": false,
+  "addonHandoff": null,
+  "gitCommitOrPush": false,
+  "publication": false,
+  "deployment": false,
+  "subagents": {"spawned": 0, "joined": 0, "open": 0}
+}

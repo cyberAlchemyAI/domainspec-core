@@ -1,0 +1,28 @@
+{
+  "witnesses": [
+    {
+      "witness_id": "WIT-SOURCE-001",
+      "claim_id": "exact-reviewed-source-closure",
+      "polarity": "positive-and-negative",
+      "target": "root commit recursive submodules tracked source lockfile and build scripts",
+      "expected_result": "every identity matches; any drift blocks before dependency materialization",
+      "evidence_state": "planned-witness-only"
+    },
+    {
+      "witness_id": "WIT-BUILD-001",
+      "claim_id": "verified-local-addon-build",
+      "polarity": "positive",
+      "target": "locked dependency tree generated c_src native addon and local toolchain",
+      "expected_result": "dependency closure build and addon load pass with exact output hashes",
+      "evidence_state": "planned-witness-only"
+    },
+    {
+      "witness_id": "WIT-TEST-001",
+      "claim_id": "verified-local-addon-build",
+      "polarity": "positive-and-negative",
+      "target": "upstream Node tests empty-value canary temporary stores and scope scan",
+      "expected_result": "all tests pass and no forbidden Craft Git publication or registry effects occur",
+      "evidence_state": "planned-witness-only"
+    }
+  ]
+}

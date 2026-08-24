@@ -1,0 +1,59 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "20260730T181222Z-deterministic-governance-runner-preflight-block",
+  "source": {
+    "capability": "task-session-until-blocker",
+    "mode": "execute",
+    "result": "block",
+    "receipt": ".arcanum/task-session-until-blocker/chains/20260730T181222Z-deterministic-governance-runner.json",
+    "blocker_fingerprint": "e8c9a2b79ba0247bfd3901f4067635078433e28968a915c95447d886f78cf058",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": false,
+    "exact_route": null,
+    "evidence": null
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "proposal-only",
+      "owner": "Invoke",
+      "evidence": [
+        "The selected SWU is blocked by missing Invoke-owned material package and producer receipt evidence.",
+        "The existing work pack and accepted lifecycle receipt already bound the exact SWU objective and material write scope."
+      ],
+      "required_inputs": [
+        "Exact SWU-TSGR-001 five-path material write inventory",
+        "Accepted SWU-TSGR-000 lifecycle receipt",
+        "Live work-pack, task, wave, and continuation identities",
+        "Material package receipt schema digest 2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": false,
+      "authorization_status": "not-required",
+      "expected_receipt": "Invoke proposal receipt that either supplies a schema-valid material package and producer receipt for SWU-TSGR-001 or returns an exact owner blocker.",
+      "fallback": "stop:user-input if Invoke cannot author the package without a new consequential design or scope decision"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The blocker is unambiguously owned by Invoke, and proposal-only refresh does not authorize implementation mutation."
+  },
+  "dispatch": {
+    "status": "not-requested",
+    "runtime": null,
+    "owner_receipt": null,
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "target": "SWU-TSGR-001 material package for the deterministic governance runner"
+  }
+}

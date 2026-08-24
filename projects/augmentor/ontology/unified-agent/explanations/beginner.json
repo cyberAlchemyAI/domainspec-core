@@ -1,0 +1,711 @@
+{
+  "schema": "augmentor.unified-agent.beginner-explanations@0.2.0",
+  "package_id": "augmentor-unified-agent-ontology",
+  "transport": "interactive_ontology_explainer",
+  "status": "candidate-local",
+  "authority_effect": "none",
+  "claim_ceiling": "source-bound candidate model; no working routing, durable memory, reasoning engine, promotion, release, or production readiness",
+  "audience": "A beginner who wants to understand each part, what exists today, and how the parts may work together.",
+  "proposed_explanation_modes": [
+    {
+      "mode": "plain",
+      "purpose": "Explain the main idea in a few familiar words."
+    },
+    {
+      "mode": "state",
+      "purpose": "Say whether the part exists today or is still planned."
+    },
+    {
+      "mode": "process",
+      "purpose": "Show what happens before, during, and after this part."
+    },
+    {
+      "mode": "example",
+      "purpose": "Show one situation in which this part would matter."
+    },
+    {
+      "mode": "analogy",
+      "purpose": "Compare the part with something familiar."
+    },
+    {
+      "mode": "boundary",
+      "purpose": "Explain what this part cannot decide or do."
+    },
+    {
+      "mode": "owner_map",
+      "purpose": "Show who remains responsible for each part."
+    },
+    {
+      "mode": "failure_story",
+      "purpose": "Show what should happen when information is old, responsibility is unclear, or a needed feature is missing."
+    },
+    {
+      "mode": "compare",
+      "purpose": "Place two similar ideas side by side and explain the difference."
+    },
+    {
+      "mode": "guided_walkthrough",
+      "purpose": "Follow one request from the conversation to a possible result."
+    }
+  ],
+  "lanes": {
+    "experience": {
+      "plain_meaning": "What the person sees and uses. It brings the conversation, choices, plans, and results into one place.",
+      "state_view": "The conversation screen exists. Most connections to routing, approval, results, and memory are still planned.",
+      "process_view": "The person asks for something. Augmentor explains the available next steps and shows any important choice before work begins.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "A person asks for research. Augmentor shows which information it will use, whether extra help is needed, and what needs approval."
+      },
+      "analogy": {
+        "text": "It is like one service desk that helps you reach several departments. The desk does not take over their jobs.",
+        "limitation": "This comparison explains only the main relationship. The screen does not own the conversation record, source material, routing rules, work, memory, or final decisions. Showing them together does not prove that every connection works."
+      },
+      "boundary": "The screen does not own the conversation record, source material, routing rules, work, memory, or final decisions. Showing them together does not prove that every connection works.",
+      "glossary_refs": [
+        "term-consultation",
+        "term-route",
+        "term-authority"
+      ],
+      "keywords": [
+        "experience",
+        "process",
+        "boundary"
+      ]
+    },
+    "runtime": {
+      "plain_meaning": "How approved work is prepared, started, tracked, combined, and returned to the person.",
+      "state_view": "Some planning and coordination patterns exist. Their connections to the Augmentor product are still missing or incomplete.",
+      "process_view": "The system prepares a plan. The person approves it when needed. The plan is checked, the work runs, and the person chooses which results to use.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "Before several helpers begin a review, the person sees their roles and limits. Each helper is tracked separately, and the final reports remain separate until the person chooses to use them."
+      },
+      "analogy": {
+        "text": "It is like planning a trip, checking the booking, taking each flight, and collecting each bag. These steps are connected, but they are not the same step.",
+        "limitation": "This comparison explains only the main relationship. Approval does not fix a bad plan. A checked plan is not work in progress. Finished work does not automatically change memory or allow protected actions."
+      },
+      "boundary": "Approval does not fix a bad plan. A checked plan is not work in progress. Finished work does not automatically change memory or allow protected actions.",
+      "glossary_refs": [
+        "term-route",
+        "term-evidence",
+        "term-authority"
+      ],
+      "keywords": [
+        "runtime",
+        "process",
+        "boundary"
+      ]
+    },
+    "knowledge": {
+      "plain_meaning": "How the system finds useful information, remembers where it came from, and proposes careful updates.",
+      "state_view": "Links to sources and requests to change memory have some support. Search, memory review, and knowledge updates are not yet one complete flow.",
+      "process_view": "The system points to original sources, selects relevant information, asks the responsible service before changing memory, and sends proposed meanings for review.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "When a person corrects an old project fact, the correction goes to the source owner for review. The chat does not silently replace trusted information."
+      },
+      "analogy": {
+        "text": "It is like a library. Books are the sources, the catalog helps find them, and a librarian reviews changes to the official records.",
+        "limitation": "This comparison explains only the main relationship. Search results, selected information, change requests, and proposed meanings are not original facts or approved knowledge."
+      },
+      "boundary": "Search results, selected information, change requests, and proposed meanings are not original facts or approved knowledge.",
+      "glossary_refs": [
+        "term-evidence",
+        "term-source-handle",
+        "term-memory-request"
+      ],
+      "keywords": [
+        "knowledge",
+        "process",
+        "boundary"
+      ]
+    },
+    "authority": {
+      "plain_meaning": "How advice and proposed meanings reach the person or system that is responsible for the final decision.",
+      "state_view": "This part is mostly planned. The decision tools are missing, and the reasoning feature is saved for later work.",
+      "process_view": "Evidence can support a proposed meaning. A reasoning tool can also return advice. The responsible owner reviews that material and keeps the final decision.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "A risk checker may report that a task looks risky. That report can support a safer suggestion, but it cannot approve, reject, or start the task."
+      },
+      "analogy": {
+        "text": "It is like a specialist giving an opinion to the person in charge. The specialist informs the decision but does not make it.",
+        "limitation": "This comparison explains only the main relationship. Neither stored knowledge nor a reasoning result can choose its own decision-maker, create approval, or perform a protected action."
+      },
+      "boundary": "Neither stored knowledge nor a reasoning result can choose its own decision-maker, create approval, or perform a protected action.",
+      "glossary_refs": [
+        "term-authority",
+        "term-reasoning-request",
+        "term-judgment-receipt"
+      ],
+      "keywords": [
+        "authority",
+        "process",
+        "boundary"
+      ]
+    }
+  },
+  "nodes": {
+    "aug.concept.augmentor_interface": {
+      "friendly_name": "One place to talk",
+      "plain_meaning": "The Augmentor screen is the single place where a person talks with the system and sees possible next steps.",
+      "state_view": "The chat screen exists. Its planned connections to routing, approval, parallel work, and memory are not complete.",
+      "process_view": "It receives the person's message and shows the conversation, useful information, choices, and results supplied by the parts responsible for them.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "A person asks, “Can you investigate this?” Augmentor could show the information it found, suggest a way to proceed, and ask before starting important work."
+      },
+      "analogy": {
+        "text": "It is like one dashboard for several services. The dashboard shows their information but does not become those services.",
+        "limitation": "This comparison explains only the main relationship. Augmentor does not own routing, work schedules, saved conversations, memory, reasoning, protected actions, or final decisions."
+      },
+      "boundary": "Augmentor does not own routing, work schedules, saved conversations, memory, reasoning, protected actions, or final decisions.",
+      "glossary_refs": [
+        "term-consultation",
+        "term-route",
+        "term-authority"
+      ],
+      "keywords": [
+        "interface",
+        "conversation",
+        "route",
+        "memory"
+      ]
+    },
+    "aug.concept.conversation_thread": {
+      "friendly_name": "Saved conversation",
+      "plain_meaning": "A conversation that is saved so the person can return to it later.",
+      "state_view": "Saved conversations and message history exist. Separate identities for each topic inside them are not yet implemented.",
+      "process_view": "The product keeps the conversation together while the person discusses different questions or pieces of work inside it.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "A conversation called “Augmentor architecture” can hold today's routing question and tomorrow's memory question."
+      },
+      "analogy": {
+        "text": "It is like a notebook that contains several topics. The notebook is not any one topic.",
+        "limitation": "This comparison explains only the main relationship. A saved conversation is not a piece of running work. Moving between conversations must not move or rewrite work that belongs elsewhere."
+      },
+      "boundary": "A saved conversation is not a piece of running work. Moving between conversations must not move or rewrite work that belongs elsewhere.",
+      "glossary_refs": [
+        "term-consultation",
+        "term-evidence"
+      ],
+      "keywords": [
+        "conversation",
+        "thread",
+        "session",
+        "history"
+      ]
+    },
+    "aug.concept.interaction": {
+      "friendly_name": "Current topic",
+      "plain_meaning": "The one question or goal the person is working on right now within a longer conversation.",
+      "state_view": "This is still a proposed idea. The product does not yet save or manage each current topic separately.",
+      "process_view": "The system identifies the person's current goal and uses only the information needed for that goal when preparing the next response or task.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "Inside one architecture conversation, “explain the map” can be one topic and “change the runtime” can be another."
+      },
+      "analogy": {
+        "text": "It is like one item on a meeting agenda. It belongs to the meeting but has its own focus and stopping point.",
+        "limitation": "This comparison explains only the main relationship. The current topic is not the whole conversation and is not a piece of running work."
+      },
+      "boundary": "The current topic is not the whole conversation and is not a piece of running work.",
+      "glossary_refs": [
+        "term-consultation",
+        "term-route"
+      ],
+      "keywords": [
+        "topic",
+        "goal",
+        "interaction",
+        "context"
+      ]
+    },
+    "aug.concept.source_record": {
+      "friendly_name": "Link to original information",
+      "plain_meaning": "A saved link that identifies who owns a source, where it is, and which version was used.",
+      "state_view": "Links to sources exist. There is no single connection that can read and update every type of source.",
+      "process_view": "The source stays with its owner. The system saves its location and a version check, then uses that link when it needs supporting information.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "For a design document, the system records who owns it, where it is stored, and which version it read instead of copying it into a new source of truth."
+      },
+      "analogy": {
+        "text": "It is like a library call number with an edition number. It helps find the right book but is not the book.",
+        "limitation": "This comparison explains only the main relationship. A link is not the original information. A search result, summary, or graph made from it does not replace the source."
+      },
+      "boundary": "A link is not the original information. A search result, summary, or graph made from it does not replace the source.",
+      "glossary_refs": [
+        "term-source-handle",
+        "term-evidence",
+        "term-authority"
+      ],
+      "keywords": [
+        "source",
+        "evidence",
+        "owner",
+        "version"
+      ]
+    },
+    "aug.concept.disposable_semantic_index": {
+      "friendly_name": "Rebuildable search helper",
+      "plain_meaning": "A temporary search tool that helps find useful parts of known sources and can be rebuilt when those sources change.",
+      "state_view": "This tool does not exist yet. No one has been chosen to build, update, limit, or run it.",
+      "process_view": "The responsible owner builds search data from known source versions. The data is replaced when a source changes or when its allowed use ends.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "A temporary index could find every passage about routing across several documents, then be rebuilt after any document changes."
+      },
+      "analogy": {
+        "text": "It is like a card catalog that can be remade from the books on the shelves whenever the collection changes.",
+        "limitation": "This comparison explains only the main relationship. The search helper is not a source of facts. Its ordering does not prove that an answer is true or correct."
+      },
+      "boundary": "The search helper is not a source of facts. Its ordering does not prove that an answer is true or correct.",
+      "glossary_refs": [
+        "term-neutral-projection",
+        "term-evidence"
+      ],
+      "keywords": [
+        "search",
+        "index",
+        "temporary",
+        "knowledge"
+      ]
+    },
+    "aug.concept.context_snapshot": {
+      "friendly_name": "Saved starting information",
+      "plain_meaning": "This is the information the system saves before it starts answering or working. It stays unchanged, so everyone can see what the work began with.",
+      "state_view": "This is still planned. The product cannot yet create this saved starting set for real work.",
+      "process_view": "The product chooses valid source material, saves the selected content and its version check, and passes that fixed starting set to the next task.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "A research task can keep the request, project files, and source versions it started with even when the conversation changes later."
+      },
+      "analogy": {
+        "text": "It is like sealing the starting documents in an envelope. Later edits do not change what was placed inside.",
+        "limitation": "This comparison explains only the main relationship. This saved set does not replace the original sources. Later conversation messages cannot silently change the starting information of work already underway."
+      },
+      "boundary": "This saved set does not replace the original sources. Later conversation messages cannot silently change the starting information of work already underway.",
+      "glossary_refs": [
+        "term-evidence",
+        "term-source-handle"
+      ],
+      "keywords": [
+        "context",
+        "snapshot",
+        "starting information",
+        "sources"
+      ]
+    },
+    "aug.concept.intent_route_request": {
+      "friendly_name": "Clear request for routing",
+      "plain_meaning": "A short, fixed description of what the person wants, prepared in a form the route finder can read.",
+      "state_view": "The format has been reviewed, but Augmentor does not yet create these requests during real use.",
+      "process_view": "The product turns the person's current goal into a strict request. It keeps missing details visible and rejects unknown information instead of guessing.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "If a person says “deploy this” without naming a destination, the request marks that detail as missing and asks for it instead of guessing production."
+      },
+      "analogy": {
+        "text": "It is like a form that can be returned when an important answer is missing. The clerk cannot fill in that answer for you.",
+        "limitation": "This comparison explains only the main relationship. Preparing the request does not choose a route, approve work, invent missing facts, or allow an action."
+      },
+      "boundary": "Preparing the request does not choose a route, approve work, invent missing facts, or allow an action.",
+      "glossary_refs": [
+        "term-route",
+        "term-authority"
+      ],
+      "keywords": [
+        "intent",
+        "routing",
+        "request",
+        "missing information"
+      ]
+    },
+    "aug.concept.route_catalog_projection": {
+      "friendly_name": "Allowed route list",
+      "plain_meaning": "The fixed list of routes that the route finder may compare for one request.",
+      "state_view": "The format has been reviewed, but the product does not yet supply this list during real use.",
+      "process_view": "The product provides a read-only list for one check. The route finder compares only those choices and cannot add another route.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "One list may contain “answer now,” “ask a question,” and “show a research plan.” The route finder cannot silently add “start work.”"
+      },
+      "analogy": {
+        "text": "It is like a menu made for one visit. The choices can be compared, but seeing an item does not order it.",
+        "limitation": "This comparison explains only the main relationship. Being on the list does not mean a route is suitable, approved, connected to a workflow, or allowed to start work."
+      },
+      "boundary": "Being on the list does not mean a route is suitable, approved, connected to a workflow, or allowed to start work.",
+      "glossary_refs": [
+        "term-route",
+        "term-neutral-projection"
+      ],
+      "keywords": [
+        "route",
+        "catalog",
+        "allowed routes",
+        "routing"
+      ]
+    },
+    "aug.concept.resolver_invocation": {
+      "friendly_name": "Ask the route finder",
+      "plain_meaning": "One carefully checked call that asks the route finder to compare a request with an allowed route list.",
+      "state_view": "A local design exists, but the route finder is not installed or active in Augmentor.",
+      "process_view": "The product checks the route finder, sends a size-limited request and route list, and accepts only a response that matches those inputs and versions.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "The product sends one request and three allowed routes. Before showing the answer, it checks that the answer refers to that same request and list."
+      },
+      "analogy": {
+        "text": "It is like giving a worksheet to a known calculator and checking both the calculator version and worksheet number before accepting the result.",
+        "limitation": "This comparison explains only the main relationship. This lookup cannot invent routes, fix unclear meaning, approve work, save state, schedule helpers, or start work. A successful test does not prove product readiness."
+      },
+      "boundary": "This lookup cannot invent routes, fix unclear meaning, approve work, save state, schedule helpers, or start work. A successful test does not prove product readiness.",
+      "glossary_refs": [
+        "term-route",
+        "term-evidence"
+      ],
+      "keywords": [
+        "route",
+        "resolver",
+        "routing",
+        "lookup"
+      ]
+    },
+    "aug.concept.route_disposition": {
+      "friendly_name": "Route finder result",
+      "plain_meaning": "The route finder's result: one possible route, several possible routes, no matching route, or an invalid request.",
+      "state_view": "The result format is designed. Augmentor has not yet shown that it handles every result correctly during real use.",
+      "process_view": "The route finder returns a result tied to one request and route list. Augmentor may show it. Unclear, missing, or invalid results must lead to a question or a stop, not a guess.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "If two routes fit equally well, Augmentor shows both and asks one useful question instead of silently choosing or starting work."
+      },
+      "analogy": {
+        "text": "It is like a search returning one match, several matches, no match, or bad input. The result does not press the start button.",
+        "limitation": "This comparison explains only the main relationship. The result is advice for a later decision. It is not that decision, a plan, approval, running work, or permission to continue."
+      },
+      "boundary": "The result is advice for a later decision. It is not that decision, a plan, approval, running work, or permission to continue.",
+      "glossary_refs": [
+        "term-route",
+        "term-answer-policy"
+      ],
+      "keywords": [
+        "route",
+        "result",
+        "clarify",
+        "no match"
+      ]
+    },
+    "aug.concept.route_decision": {
+      "friendly_name": "Chosen way forward",
+      "plain_meaning": "The product's choice about how to handle a request, such as answering now, asking a question, offering help, or stopping.",
+      "state_view": "This choice is still planned. No product owner or connection has been selected to turn route-finder results into real handling choices.",
+      "process_view": "The responsible product owner reviews the current information and settings. It may use a checked route-finder result, then records and shows its own choice without starting work.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "A definition may be answered immediately. A review across several projects may lead to a proposed multi-helper plan."
+      },
+      "analogy": {
+        "text": "It is like choosing which department should handle a request after reading an intake note. The note informs the choice but does not make it.",
+        "limitation": "This comparison explains only the main relationship. This choice is not the route finder's result. It is also not a work plan, approval, or work in progress."
+      },
+      "boundary": "This choice is not the route finder's result. It is also not a work plan, approval, or work in progress.",
+      "glossary_refs": [
+        "term-route",
+        "term-authority",
+        "term-answer-policy"
+      ],
+      "keywords": [
+        "route",
+        "decision",
+        "answer",
+        "clarify"
+      ]
+    },
+    "aug.concept.strategy_proposal": {
+      "friendly_name": "Work plan preview",
+      "plain_meaning": "A preview that shows who would do important work, what information they would use, and what they must not do.",
+      "state_view": "This preview is still planned. ResonantOS does not yet create it through an owned product connection.",
+      "process_view": "When a request needs important or multi-helper work, the system prepares a fixed plan and shows it so the person can approve, change, or decline it.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "Before three helpers review an architecture, the person sees each role, allowed files, order of work, and limits."
+      },
+      "analogy": {
+        "text": "It is like reading a contractor's scope of work before signing. It describes the job but does not approve or perform it.",
+        "limitation": "This comparison explains only the main relationship. Showing or editing the plan does not approve it. The plan cannot start helpers, change memory, or cause another action by itself."
+      },
+      "boundary": "Showing or editing the plan does not approve it. The plan cannot start helpers, change memory, or cause another action by itself.",
+      "glossary_refs": [
+        "term-route",
+        "term-authority"
+      ],
+      "keywords": [
+        "strategy",
+        "plan",
+        "helpers",
+        "approval"
+      ]
+    },
+    "aug.concept.approval_record": {
+      "friendly_name": "Saved approval",
+      "plain_meaning": "Proof that a person approved one specific version of a work plan.",
+      "state_view": "This is still planned. No responsible product part has been chosen to save approvals.",
+      "process_view": "The person reviews a fixed plan. The product saves which version was approved. Before work begins, it checks that the plan has not changed.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "If a helper's role changes after approval, the saved version no longer matches and the changed plan must be approved again."
+      },
+      "analogy": {
+        "text": "It is like signing one numbered contract version. The signature does not cover a later version.",
+        "limitation": "This comparison explains only the main relationship. Approval does not repair an invalid plan. It allows only the specific scope that the person reviewed."
+      },
+      "boundary": "Approval does not repair an invalid plan. It allows only the specific scope that the person reviewed.",
+      "glossary_refs": [
+        "term-authority",
+        "term-evidence"
+      ],
+      "keywords": [
+        "approval",
+        "plan",
+        "version",
+        "permission"
+      ]
+    },
+    "aug.concept.dispatch": {
+      "friendly_name": "Instructions for shared work",
+      "plain_meaning": "A fixed map of the roles, order, needs, and limits for work that may involve several helpers.",
+      "state_view": "The checking pattern exists and has been reviewed. It is not yet connected to ResonantOS operations.",
+      "process_view": "The system fixes the proposed map, checks its roles, skills, order, and limits, and passes it forward only when it is both valid and approved.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "One helper gathers sources and another reviews the interface. The map says that interface review waits until the source list is ready."
+      },
+      "analogy": {
+        "text": "It is like a production schedule that assigns qualified teams and orders their work. The schedule is not the work itself.",
+        "limitation": "This comparison explains only the main relationship. A checked work map is not work in progress. Checking its structure is not the person's approval."
+      },
+      "boundary": "A checked work map is not work in progress. Checking its structure is not the person's approval.",
+      "glossary_refs": [
+        "term-route",
+        "term-authority"
+      ],
+      "keywords": [
+        "dispatch",
+        "helpers",
+        "roles",
+        "workflow"
+      ]
+    },
+    "aug.concept.run": {
+      "friendly_name": "One running task",
+      "plain_meaning": "The stable record for one real piece of work after it starts.",
+      "state_view": "The design exists, but links between parent and child work and recovery after a restart are incomplete.",
+      "process_view": "After the plan passes its checks, the responsible system starts the work, gives it a stable identity, and reports its status and outcome.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "When two approved helpers work at the same time, each has its own running-work record even though both appear in one conversation."
+      },
+      "analogy": {
+        "text": "It is like a tracking number for one shipment. It follows the real delivery, not the whole customer conversation.",
+        "limitation": "This comparison explains only the main relationship. Running work is not a saved conversation or its current topic. A screen card cannot create or change the truth about that work."
+      },
+      "boundary": "Running work is not a saved conversation or its current topic. A screen card cannot create or change the truth about that work.",
+      "glossary_refs": [
+        "term-evidence",
+        "term-authority"
+      ],
+      "keywords": [
+        "run",
+        "task",
+        "status",
+        "execution"
+      ]
+    },
+    "aug.concept.lifecycle_join": {
+      "friendly_name": "Check whether all work is done",
+      "plain_meaning": "The step that checks the outcomes of related pieces of work and decides whether the larger plan can continue or close.",
+      "state_view": "The coordination pattern exists and has been reviewed. Its connection to the product is still missing.",
+      "process_view": "The coordinator receives each work status, checks the required order and conditions, and returns one combined status without merging the separate conversations.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "If research succeeds but a required safety review fails, the next release step stays blocked instead of marking the whole plan successful."
+      },
+      "analogy": {
+        "text": "It is like checking that every required train has arrived before allowing the next journey to begin.",
+        "limitation": "This comparison explains only the main relationship. Combining statuses does not deliver the results. Success in one part cannot make a failed required part appear successful."
+      },
+      "boundary": "Combining statuses does not deliver the results. Success in one part cannot make a failed required part appear successful.",
+      "glossary_refs": [
+        "term-evidence",
+        "term-answer-policy"
+      ],
+      "keywords": [
+        "join",
+        "results",
+        "status",
+        "workflow"
+      ]
+    },
+    "aug.concept.result_consumption": {
+      "friendly_name": "Choose how to use a result",
+      "plain_meaning": "The person's choice to open a result, add it to the current conversation, or leave it separate.",
+      "state_view": "This choice is still planned. The product does not yet provide the needed connection.",
+      "process_view": "After the work is checked, the interface shows links to the results. The person decides whether and how each result enters the current experience.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "A finished research report can be opened, added to the current conversation, or left separate without changing the status of other work."
+      },
+      "analogy": {
+        "text": "It is like deciding whether to open, file, or store a delivered package after its delivery has been recorded.",
+        "limitation": "This comparison explains only the main relationship. Using a result does not change the status of the work that produced it. It also does not add the result to trusted memory."
+      },
+      "boundary": "Using a result does not change the status of the work that produced it. It also does not add the result to trusted memory.",
+      "glossary_refs": [
+        "term-evidence",
+        "term-memory-request"
+      ],
+      "keywords": [
+        "result",
+        "conversation",
+        "use",
+        "memory"
+      ]
+    },
+    "aug.concept.memory_intake_request": {
+      "friendly_name": "Request to change memory",
+      "plain_meaning": "A separate request asking the responsible memory service to review an addition, correction, removal, or piece of evidence.",
+      "state_view": "The request idea has been reviewed. The full path from memory review to trusted knowledge checks is still missing.",
+      "process_view": "The person asks for a memory change. The responsible service accepts or rejects it under its own rules. Only accepted information may move to later review.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "A person reports an old project fact. The source owner reviews the correction instead of the chat silently changing trusted memory."
+      },
+      "analogy": {
+        "text": "It is like sending a correction form to a records office. The form starts a review but does not change the record by itself.",
+        "limitation": "This comparison explains only the main relationship. A request is not an accepted fact. Hiding information on screen or drafting a correction does not remove or correct stored memory."
+      },
+      "boundary": "A request is not an accepted fact. Hiding information on screen or drafting a correction does not remove or correct stored memory.",
+      "glossary_refs": [
+        "term-memory-request",
+        "term-authority",
+        "term-evidence"
+      ],
+      "keywords": [
+        "memory",
+        "request",
+        "correction",
+        "source"
+      ]
+    },
+    "aug.concept.ontology_candidate": {
+      "friendly_name": "Proposed shared meaning",
+      "plain_meaning": "A proposed definition or connection supported by known sources and waiting for review by the responsible owner.",
+      "state_view": "The idea is designed, but the path from checked evidence to this review is still missing.",
+      "process_view": "After source and knowledge checks, the system may write a proposed meaning and send it to the person responsible for deciding whether to accept it.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "Several accepted sources may support a definition of “current topic.” The proposed definition still waits for the right owner to review it."
+      },
+      "analogy": {
+        "text": "It is like a proposed dictionary entry sent to an editor. It is prepared for review but is not yet in the dictionary.",
+        "limitation": "This comparison explains only the main relationship. A proposed meaning is not checked evidence, an accepted definition, or permission to publish or use it in software."
+      },
+      "boundary": "A proposed meaning is not checked evidence, an accepted definition, or permission to publish or use it in software.",
+      "glossary_refs": [
+        "term-evidence",
+        "term-authority",
+        "term-neutral-projection"
+      ],
+      "keywords": [
+        "ontology",
+        "meaning",
+        "proposal",
+        "evidence"
+      ]
+    },
+    "aug.concept.authority_decision": {
+      "friendly_name": "Decision by the responsible owner",
+      "plain_meaning": "The responsible owner's decision about one specific proposed meaning or change.",
+      "state_view": "This is blocked because the tools for finding the right owner, saving the decision, and updating the official source do not exist.",
+      "process_view": "A proposal asks for review. The system finds the responsible owner. That owner accepts, rejects, or returns the proposal under the rules they control.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "One owner may accept a definition, while a different owner still decides whether software that uses it is ready."
+      },
+      "analogy": {
+        "text": "It is like an editor deciding an entry in their section. Another team still owns printing and release.",
+        "limitation": "This comparison explains only the main relationship. The decision is not the proposal. A log showing that a decision happened is not the official source that the decision changes."
+      },
+      "boundary": "The decision is not the proposal. A log showing that a decision happened is not the official source that the decision changes.",
+      "glossary_refs": [
+        "term-authority",
+        "term-evidence"
+      ],
+      "keywords": [
+        "authority",
+        "owner",
+        "decision",
+        "meaning"
+      ]
+    },
+    "aug.concept.reasoning_request": {
+      "friendly_name": "Question for a reasoning tool",
+      "plain_meaning": "A future request that asks a reasoning tool one clear question using fixed information and stated rules.",
+      "state_view": "This feature is saved for later. The product has not chosen when to use it or who owns its rule lists.",
+      "process_view": "The product prepares fixed starting information and the relevant rules, then sends the question only when the chosen reasoning tool fits that problem.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "The product may ask a risk checker to rate a task using one fixed task description and a named set of rules."
+      },
+      "analogy": {
+        "text": "It is like a test order that names the sample, method, and question before testing begins.",
+        "limitation": "This comparison explains only the main relationship. The request cannot use unowned claims as facts. Permission to ask for reasoning is not permission to take action."
+      },
+      "boundary": "The request cannot use unowned claims as facts. Permission to ask for reasoning is not permission to take action.",
+      "glossary_refs": [
+        "term-reasoning-request",
+        "term-evidence",
+        "term-authority"
+      ],
+      "keywords": [
+        "reasoning",
+        "evaluator",
+        "request",
+        "rules",
+        "judgment"
+      ]
+    },
+    "aug.concept.judgment_receipt": {
+      "friendly_name": "Saved answer from a reasoning tool",
+      "plain_meaning": "A future record of what one reasoning tool concluded, which information it used, and how it reached that result.",
+      "state_view": "This feature is saved for later. Augmentor has no approved connection to a reasoning tool or to protected actions.",
+      "process_view": "The reasoning tool checks a valid question, returns a structured answer with supporting steps, and lets a separate owner decide whether the still-current answer should influence the next choice.",
+      "concrete_example": {
+        "kind": "illustrative",
+        "text": "A checker may return “high risk” with the rules and inputs it used. The router may suggest a safer path, but no task starts automatically."
+      },
+      "analogy": {
+        "text": "It is like a laboratory report. It records a result and method, while a qualified person decides what to do next.",
+        "limitation": "This comparison explains only the main relationship. A reasoning result is not approval, final truth, a decision by the responsible owner, or permission to take action."
+      },
+      "boundary": "A reasoning result is not approval, final truth, a decision by the responsible owner, or permission to take action.",
+      "glossary_refs": [
+        "term-judgment-receipt",
+        "term-reasoning-request",
+        "term-authority",
+        "term-evidence"
+      ],
+      "keywords": [
+        "reasoning",
+        "judgment",
+        "evaluator",
+        "evidence",
+        "authority"
+      ]
+    }
+  }
+}

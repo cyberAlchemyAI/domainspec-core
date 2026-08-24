@@ -1,0 +1,35 @@
+{
+  "schema_version": "body-war-task-session-execution-receipt/v1",
+  "task_id": "body-war-business-view-novice-comprehension",
+  "swu_id": "SWU-BWCN-002",
+  "status": "pass",
+  "dependency": {
+    "swu_id": "SWU-BWCN-001",
+    "status": "pass",
+    "receipt_sha256": "478a34202afac8361658f7a043a37d8b4f6476e58d0fa5a07f36c4eb39bdc31d"
+  },
+  "mutation_admission": {
+    "verdict": "admit",
+    "request_digest": "930d3aa2818dc615e77cf2f96b3a78a4cd10ad62938d04e4139d01a633abaecc",
+    "material_package_digest": "51e4967fde0685e5128401ded90ad63a43e667b3dd6fee8b2f204af56f01be9e"
+  },
+  "material_exactness": "pass",
+  "validation": [
+    {
+      "command": "node projects/body-war/ontology/business/scripts/generate-views.mjs --check",
+      "status": "pass"
+    },
+    {
+      "command": "node --test projects/body-war/ontology/business/tests/business-views.test.mjs projects/body-war/ontology/business/tests/business-comprehension.test.mjs",
+      "status": "pass",
+      "passed": 14,
+      "failed": 0
+    }
+  ],
+  "semantic_input_digests": {
+    "relations": "234ad4152b731edcb03cd1b45dfa21570bd37df741090ca6ca0940fd98c0ce00",
+    "node_manifest": "3cffc5cea2d5abff02ce1b28e87ed80519795fa3074e47e1ec2030c3214f4fdb"
+  },
+  "claim_ceiling": "Authority-honest generated relation projection and progressive enhancement only; no gate decision, ontology promotion, comprehension, release, or production evidence."
+}
+

@@ -1,0 +1,149 @@
+{
+  "capture_kind": "parent-normalized semantic capture of the completed read-only reviewer return",
+  "role_id": "query-contract-critic",
+  "action_id": "spawn-0001",
+  "target_verdict": "fail",
+  "scope_reviewed": [
+    "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/evidence-closure.json",
+    "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/reviewer-non-vacuity-final.json",
+    "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/receipts/knowledge-vault-synthesis-reviewer-repair.json",
+    "projects/animejs/development/research/2026-08-03-animejs-agent-knowledge-vault/CLOSEOUT.json"
+  ],
+  "terminal_path_matrix": [
+    {
+      "path": "positive-js",
+      "result": "select JS animate",
+      "abstention_code": null,
+      "change": "Successful receipts require explicit null abstention_code and non-empty selected_ids."
+    },
+    {
+      "path": "positive-waapi",
+      "result": "select waapi.animate",
+      "abstention_code": null,
+      "change": "Apply the same success/null invariant."
+    },
+    {
+      "path": "tie",
+      "current": "ABSTAIN_AMBIGUOUS_CHOICE",
+      "repair": "ABSTAIN_AMBIGUOUS_INTENT",
+      "clearing_criterion": "A discriminating constraint leaves exactly one top-ranked compatible candidate."
+    },
+    {
+      "path": "conflict",
+      "result": "ABSTAIN_CONFLICT",
+      "clearing_criterion": "Partition scopes or resolve with an admissible question-specific witness."
+    },
+    {
+      "path": "missing-version",
+      "result": "ABSTAIN_UNKNOWN_VERSION",
+      "clearing_criterion": "Validated exact VersionContext and lock digest for project claims."
+    },
+    {
+      "path": "unknown-requirement",
+      "result": "ABSTAIN_MISSING_SOURCE for understood feature without binding; ABSTAIN_AMBIGUOUS_INTENT for unrecognized intent",
+      "clearing_criterion": "Exact scoped evidence or a discriminating intent constraint."
+    },
+    {
+      "path": "performance-claim",
+      "result": "ABSTAIN_PERFORMANCE_EVIDENCE",
+      "clearing_criterion": "Controlled matching ExecutedWitness."
+    },
+    {
+      "path": "multiple-simultaneous-failures",
+      "result": "One primary code by total priority; preserve subordinate gaps",
+      "priority": [
+        "ABSTAIN_UNKNOWN_VERSION",
+        "ABSTAIN_RUNTIME_CONTEXT",
+        "ABSTAIN_CONFLICT",
+        "ABSTAIN_PERFORMANCE_EVIDENCE",
+        "ABSTAIN_MISSING_SOURCE",
+        "ABSTAIN_AMBIGUOUS_INTENT"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "severity": "CRITICAL",
+      "code": "UNDECLARED_ABSTENTION_CODE",
+      "proposed_fix": "Normalize the tie emitter to ABSTAIN_AMBIGUOUS_INTENT."
+    },
+    {
+      "severity": "MAJOR",
+      "code": "QRY003_TERMINAL_MAPPING_INCOMPLETE",
+      "proposed_fix": "Map missing version, understood missing binding, and unrecognized intent to declared codes."
+    },
+    {
+      "severity": "MAJOR",
+      "code": "QRY003_ABSTENTION_PRECEDENCE_UNDEFINED",
+      "proposed_fix": "Declare a total primary-code priority and preserve subordinate gaps."
+    },
+    {
+      "severity": "MAJOR",
+      "code": "QUERY_RECEIPT_SUCCESS_NULLABILITY_UNDEFINED",
+      "proposed_fix": "Require abstention_code=null on successful receipts and non-null on abstaining receipts."
+    },
+    {
+      "severity": "MINOR",
+      "code": "QRY003_REPAIR_MIGRATION_RULE_REQUIRED",
+      "proposed_fix": "Increment algorithm_version and preserve historical receipts immutably."
+    }
+  ],
+  "selected_repair": {
+    "repair": "Normalize to ABSTAIN_AMBIGUOUS_INTENT",
+    "reason": "It reuses the existing meaning and clearing criterion, minimizes vocabulary, has deterministic semantics, and incurs the lowest migration cost."
+  },
+  "rejected_alternative": {
+    "repair": "Add ABSTAIN_AMBIGUOUS_CHOICE",
+    "reason": "It duplicates intent ambiguity without an evidenced distinct consumer or clearing criterion."
+  },
+  "planned_fixtures": [
+    {
+      "id": "QRY003-POS-JS-001",
+      "expected": "Select JS animate; abstention_code=null.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-POS-WAAPI-001",
+      "expected": "Select waapi.animate; abstention_code=null.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-TIE-001",
+      "expected": "Return both candidates with ABSTAIN_AMBIGUOUS_INTENT and one discriminating NextQuestion.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-VERSION-001",
+      "expected": "ABSTAIN_UNKNOWN_VERSION.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-UNKNOWN-001",
+      "expected": "ABSTAIN_MISSING_SOURCE and one evidence-closing NextQuestion.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-CONFLICT-001",
+      "expected": "ABSTAIN_CONFLICT with both propositions preserved.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-PERF-001",
+      "expected": "ABSTAIN_PERFORMANCE_EVIDENCE.",
+      "execution_status": "planned_not_executed"
+    },
+    {
+      "id": "QRY003-NEG-PRECEDENCE-001",
+      "expected": "ABSTAIN_UNKNOWN_VERSION is primary and subordinate gaps remain recorded.",
+      "execution_status": "planned_not_executed"
+    }
+  ],
+  "target_blockers": [
+    "UNDECLARED_ABSTENTION_CODE",
+    "QRY003_TERMINAL_MAPPING_INCOMPLETE",
+    "QRY003_ABSTENTION_PRECEDENCE_UNDEFINED",
+    "QUERY_RECEIPT_SUCCESS_NULLABILITY_UNDEFINED"
+  ],
+  "handoff_note": "Tie normalization is necessary but insufficient; terminal mapping, precedence, nullability, migration, and fixtures are also required.",
+  "mutation_statement": "Read-only review; no files, Git state, telemetry, research receipts, ontology bytes, or external state changed, and no fixture was executed."
+}

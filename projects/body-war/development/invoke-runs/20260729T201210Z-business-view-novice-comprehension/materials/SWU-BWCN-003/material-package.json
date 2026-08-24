@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "body-war-business-view-novice-comprehension-SWU-BWCN-003",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "body-war.product-ontology-owner",
+  "authority_class": "private",
+  "publication_class": "internal",
+  "source_artifacts": [
+    {
+      "path": "projects/body-war/development/invoke-runs/20260729T201210Z-business-view-novice-comprehension/work-pack/tasks/SWU-BWCN-003.md",
+      "sha256": "d2c066e176e86f4115be5bef8dbfe6928520cdef1be9b9df753ab72c6e81ae02",
+      "size_bytes": 1449,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260729T201210Z-business-view-novice-comprehension/work-pack/shared/EXECUTION-CONTROL.md",
+      "sha256": "0a015d9a95d7bd921a50a9282818f0a2ab8c26dca70637331dfb9ada2f650d81",
+      "size_bytes": 386,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/body-war/development/invoke-runs/20260729T201210Z-business-view-novice-comprehension/work-pack/contexts/SWU-BWCN-003.context.json",
+      "sha256": "d053a377c70a5ee2a82ed373ee3a22a8f14dd10a0fd6e93e553de7db09c6883d",
+      "size_bytes": 1199,
+      "authority_class": "private"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "projects/body-war/ontology/business/scripts/validate-comprehension-browser.mjs",
+      "operation": "create",
+      "output_ref": {
+        "path": "projects/body-war/development/invoke-runs/20260729T201210Z-business-view-novice-comprehension/materials/SWU-BWCN-003/outputs/projects/body-war/ontology/business/scripts/validate-comprehension-browser.mjs",
+        "sha256": "09478388459c275a7733b811b28a77c9cc84da5352685665cccbd89445afd25e",
+        "size_bytes": 14036
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "projects/body-war/ontology/business/scripts/validate-comprehension-browser.mjs",
+      "lifecycle_owner": "body-war.product-ontology-owner",
+      "authority_class": "private",
+      "publication_class": "internal",
+      "dependency_ids": ["SWU-BWCN-002"]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "SWU-BWCN-002",
+      "artifact_ref": {
+        "path": "projects/body-war/development/task-sessions/SWU-BWCN-002/EXECUTION-RECEIPT.json",
+        "sha256": "cc1e69e36f234fd969fb610a4693f5b8efb88a87f99490eeb6f4232cdbaa2c2a",
+        "size_bytes": 1415
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "body-war.product-ontology-owner",
+    "scope_paths": [
+      "projects/body-war/ontology/business/scripts/validate-comprehension-browser.mjs"
+    ],
+    "authority_classes": ["private"],
+    "publication_classes": ["internal"]
+  },
+  "validation_commands": [
+    "node projects/body-war/ontology/business/scripts/validate-comprehension-browser.mjs"
+  ]
+}
+

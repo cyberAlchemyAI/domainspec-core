@@ -1,0 +1,59 @@
+{
+  "schema_version": "task-session-closeout-preflight.v1",
+  "result": "pass",
+  "work_pack": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+  "task_id": "TASK-WCSB-01",
+  "swu_id": "SWU-WCSB-001",
+  "owner_route": "invoke:refresh:apply-approved",
+  "target_baselines": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+      "sha256": "a5c0c5876982789b98222c6dcb5231f5cf9ab3541083253c44138f94a49b92ad",
+      "size_bytes": 9334
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-01-RUNNER.md",
+      "sha256": "53b8ff353c97b805d396ed2241a1550bebc56bf5d062356d062bc71a555bc883",
+      "size_bytes": 4713
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md",
+      "sha256": "2096c0bc7bfff2eaf83e3542494e394161fa560a82cb31ec94d9dea9d13ab057",
+      "size_bytes": 808
+    }
+  ],
+  "source_receipt_contract": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/terminal-receipt.json",
+    "required_fields": [
+      "schema_version",
+      "task_id",
+      "swu_id",
+      "execution_result",
+      "files",
+      "commands",
+      "validation",
+      "blockers",
+      "residue",
+      "next_route"
+    ]
+  },
+  "allowed_delta_classes": [
+    "evidence_added",
+    "blocker_opened",
+    "status_changed",
+    "route_changed"
+  ],
+  "owner_validation": [
+    "terminal receipt fields and pass evidence",
+    "target baseline digest comparison",
+    "exact selected and successor identities",
+    "scoped Markdown and whitespace checks"
+  ],
+  "expected_owner_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/invoke-refresh-receipt.json",
+  "successor_policy": {
+    "pass": "SWU-WCSB-002",
+    "block": null,
+    "unique": true,
+    "same_work_pack": true
+  }
+}

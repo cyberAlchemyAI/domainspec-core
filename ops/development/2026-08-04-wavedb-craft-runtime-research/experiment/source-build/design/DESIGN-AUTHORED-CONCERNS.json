@@ -1,0 +1,126 @@
+{
+  "concerns": [
+    {
+      "concern_id": "authored:authority",
+      "primary_class": "authority",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "only the exact reviewed source and user-authorized local route may reach native execution",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#authorization-and-discovery",
+        "experiment/source-build/define/SPEC.md#invariants"
+      ]
+    },
+    {
+      "concern_id": "authored:security",
+      "primary_class": "security",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "source download dependency resolution and native compilation cross a supply-chain boundary",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#capabilities"
+      ]
+    },
+    {
+      "concern_id": "authored:state-event",
+      "primary_class": "state-event",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "the artifact is admissible only after ordered source dependency build load and test states pass",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#module-map"
+      ]
+    },
+    {
+      "concern_id": "authored:persistence",
+      "primary_class": "persistence",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "the isolated work area contains generated dependencies sources and native outputs with no authority",
+      "evidence_selectors": [
+        "experiment/source-build/define/GLOSSARY.md#source-build-glossary"
+      ]
+    },
+    {
+      "concern_id": "authored:failure",
+      "primary_class": "failure",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "network lock source build load or test failure must withhold the addon handoff",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#invariants"
+      ]
+    },
+    {
+      "concern_id": "authored:reliability",
+      "primary_class": "reliability",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "the receipt must bind every material identity command output and test result",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#interface"
+      ]
+    },
+    {
+      "concern_id": "authored:integration",
+      "primary_class": "integration",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "the parent experiment may consume the addon only through a separate hash-bound handoff and refresh",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#interface"
+      ]
+    },
+    {
+      "concern_id": "authored:migration",
+      "primary_class": "migration",
+      "required_predicate": false,
+      "disposition": "not-applicable-with-rationale",
+      "rationale": "the source build converts no Craft or WaveDB persisted data and performs no version migration",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#explicit-exclusions"
+      ]
+    },
+    {
+      "concern_id": "authored:rollout",
+      "primary_class": "rollout",
+      "required_predicate": false,
+      "disposition": "not-applicable-with-rationale",
+      "rationale": "the artifact is not published deployed promoted or released",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#explicit-exclusions"
+      ]
+    },
+    {
+      "concern_id": "authored:privacy-data",
+      "primary_class": "privacy-data",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "build logs receipts and temporary test stores require a bounded filesystem lifecycle",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#interface"
+      ]
+    },
+    {
+      "concern_id": "authored:performance",
+      "primary_class": "performance",
+      "required_predicate": false,
+      "disposition": "recommended",
+      "rationale": "build duration and addon size are descriptive only",
+      "revisit_condition": "a later owner proposes a build performance threshold",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#explicit-exclusions"
+      ]
+    },
+    {
+      "concern_id": "authored:validation",
+      "primary_class": "validation",
+      "required_predicate": true,
+      "disposition": "required",
+      "rationale": "every source dependency build load test and scope check is acceptance-critical",
+      "evidence_selectors": [
+        "experiment/source-build/define/SPEC.md#invariants"
+      ]
+    }
+  ]
+}

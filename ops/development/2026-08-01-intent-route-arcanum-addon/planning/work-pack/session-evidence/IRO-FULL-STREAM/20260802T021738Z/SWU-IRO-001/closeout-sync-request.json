@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "stream_id": "IRO-FULL-STREAM",
+  "unit_id": "SWU-IRO-001",
+  "route": "invoke:refresh:apply-approved",
+  "source_terminal_ref": {
+    "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/terminal-receipt.json",
+    "sha256": "c7767397e2a78c360cf58f3b716b6b0f2274e1d6993bde3c0bc310076b0d8dbf",
+    "size_bytes": 5432
+  },
+  "targets": [
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md",
+      "baseline": "693e57327375902a82dcb9fb92e16ab69b620a078250eb61746e71fecfaba4f3",
+      "delta_class": "status_changed",
+      "expected_post_state": "sha256:e15a6ccb1eb568f7d2fbf1c7d11e0f5c93a028bda1df7963d99ad0f2a62a712c; IRO-001 pass and IRO-002 candidate-mutation pause"
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/EXECUTION-PACK.md",
+      "baseline": "88d0af01c207d33f30c67bb6f2576907b7f967ea8fa07c4aee1210b4b303270d",
+      "delta_class": "route_changed",
+      "expected_post_state": "sha256:54b7321cb432fc2dbf56ceb3f36a84b5a209a9c893d6b6036975f61f32c4480e; frontier projects SWU-IRO-002 without executing it"
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CROSS-TASK-GAPS.md",
+      "baseline": "3b7d4dbc7e9c2036cef5edadda685c7bcb6bddccf1c1f7ba984c877564549a02",
+      "delta_class": "blocker_resolved",
+      "expected_post_state": "sha256:70e29d23b0c0b10988b7534d0d95ae13f20201d3c62674a2b0c2e14fb0705637; all six rows bind to the IRO-001 decision while later scope gates remain"
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CROSS-TASK-DECISIONS.md",
+      "baseline": "7e82b0c1d3e4a23deac6a2702a9455d772bb88a0e9245fbb653dcc2f3e4d5743",
+      "delta_class": "evidence_added",
+      "expected_post_state": "sha256:1c1d3059d42e42a01f4fffa6b2c6f601104cea7a3e59fbc617bdebdc31e116b4; D-IRO-09 records OPT-BIND-EXACT and its authority ceiling"
+    },
+    {
+      "path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TRACEABILITY.md",
+      "baseline": "10a24d8633bb1e8b90c6f9024c319f14b2af64c0510d5405449eb4e13eee7094",
+      "delta_class": "evidence_added",
+      "expected_post_state": "sha256:36d83a4382ae94f36e3bde27c1cff59f58095bb323d4e87c82cb95abc8c9ec19; IRO-001 owner binding cites decision, terminal, and closeout evidence"
+    }
+  ],
+  "validation_commands": [
+    "python3 ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/validate-execution-contract.py --root .",
+    "python3 -m json.tool ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/terminal-receipt.json",
+    "python3 -m json.tool ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/closeout-owner-receipt.json",
+    "git diff --check -- ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md ops/development/2026-08-01-intent-route-arcanum-addon/planning/EXECUTION-PACK.md ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CROSS-TASK-GAPS.md ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CROSS-TASK-DECISIONS.md ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/TRACEABILITY.md"
+  ],
+  "expected_owner_receipt_path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-001/closeout-owner-receipt.json",
+  "canonical_successor": "SWU-IRO-002",
+  "authority_effect": "none"
+}

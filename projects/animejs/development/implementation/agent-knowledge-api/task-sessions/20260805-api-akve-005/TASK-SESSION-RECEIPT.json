@@ -1,0 +1,79 @@
+{
+  "attempt_id": "20260805-api-akve-005",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "332664b6f1a736e755ef9c040cd97cfdef0347635a4ff31d2b41b5c5746a743e",
+  "generated_at": "2026-08-05T20:27:20.736609Z",
+  "material_package_digest": "c0d99e1bc7bb703087c42e9149120267f598cd329bd76254eab3cbd81a25dcb9",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-005/producer/material-package.json",
+    "sha256": "6a1b53ca6468370117d439d08059006f9800647bfcd1785bbbf091b76bfd8b39",
+    "size_bytes": 6128
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-005/producer/material-package-receipt.json",
+    "sha256": "13e5bb25d5ebbba53dea36df132b944ec57c7c072592f2430739b4e4635c22e8",
+    "size_bytes": 2345
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-005/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "419a73a83fe99d6b1bc1c24ec9da531afff99cb17eaeda75f991a5b822c30c61",
+    "size_bytes": 3222
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/reducer.mjs",
+      "sha256": "f99abce40dd0237e3aac6db3b2c1ca65fdb913460571faf365430dee672152aa",
+      "size_bytes": 5260
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/reducer-cases.json",
+      "sha256": "4794c12d7f592560650451a192873fcf11f1e98b272ea3cc37bd6ac583ba0021",
+      "size_bytes": 460
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/reducer.test.mjs",
+      "sha256": "bf64081d07f5705c931ac15538cd80d42518e8403d65624a9ddf4563c8623fc7",
+      "size_bytes": 4580
+    }
+  ],
+  "plan_epoch_id": "epoch-83a5a40930fef7ec76de393e",
+  "publication_class": "internal",
+  "residue": [],
+  "result": "pass",
+  "schema_version": "animejs.agent-knowledge-api.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-005/SELECTION-RECEIPT.json",
+    "sha256": "ed9436e163a359199164398af91469d6a9ba9e1af540a988153e05a5a2f2a98a",
+    "size_bytes": 950
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKVE-006",
+  "swu_id": "SWU-AKVE-005",
+  "task_id": "TASK-AKVE-04",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/reducer.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/reducer-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/reducer.test.mjs"
+  ],
+  "unit_contract_digest": "9ffb32e9d7cf8f3ece17ee2ca00ee413f6523965a29b6376f97662e52c6498c7",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/reducer.test.mjs"
+      ],
+      "command_id": "deterministic-reducer",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 65536,
+      "result": "pass",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "TAP version 13\n# Subtest: reducer is byte deterministic and preserves inert opening context\nok 1 - reducer is byte deterministic and preserves inert opening context\n  ---\n  duration_ms: 4.380622\n  ...\n# Subtest: reducer quarantines a gap without synthesizing history\nok 2 - reducer quarantines a gap without synthesizing history\n  ---\n  duration_ms: 0.723106\n  ...\n# Subtest: reducer quarantines a fork\nok 3 - reducer quarantines a fork\n  ---\n  duration_ms: 0.69725\n  ...\n# Subtest: reducer rejects shuffled order instead of sorting\nok 4 - reducer rejects shuffled order instead of sorting\n  ---\n  duration_ms: 1.603478\n  ...\n# Subtest: reducer rejects event digest mismatch\nok 5 - reducer rejects event digest mismatch\n  ---\n  duration_ms: 0.550322\n  ...\n# Subtest: reducer upgrade retains prior snapshot identity\nok 6 - reducer upgrade retains prior snapshot identity\n  ---\n  duration_ms: 0.952529\n  ...\n# Subtest: empty journal emits no apparent snapshot\nok 7 - empty journal emits no apparent snapshot\n  ---\n  duration_ms: 0.414436\n  ...\n1..7\n# tests 7\n# suites 0\n# pass 7\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 96.888417\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 60
+    }
+  ]
+}

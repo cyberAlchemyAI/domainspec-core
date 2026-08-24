@@ -1,0 +1,227 @@
+{
+  "concerns": [
+    {
+      "concern_id": "concern:authority",
+      "disposition": "required",
+      "output_id": "architecture:authority-trust",
+      "ownership": {
+        "accountable_owner": "authority-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "authority",
+      "rationale": "authority disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:normative-rule:no-authority-effect"
+      ]
+    },
+    {
+      "concern_id": "concern:state-event",
+      "disposition": "required",
+      "output_id": "architecture:state-event",
+      "ownership": {
+        "accountable_owner": "workflow-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "state-event",
+      "rationale": "state-event disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:normative-rule:terminal-precedence"
+      ]
+    },
+    {
+      "concern_id": "concern:failure",
+      "disposition": "required",
+      "output_id": "architecture:failure-compensation",
+      "ownership": {
+        "accountable_owner": "query-contract-workflow-owner",
+        "artifact_owner": "query-contract-candidate-owner",
+        "contributing_owners": [
+          "task-session-owner",
+          "query-contract-candidate-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "CLOSEOUT-PREFLIGHT.json#blockers",
+          "SPEC.md#normative-invariants"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "failure",
+      "rationale": "Undeclared terminal codes, invalid nullability, stale receipts, or missing material admission must fail closed before mutation.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:failure"
+      ]
+    },
+    {
+      "concern_id": "concern:reliability",
+      "disposition": "required",
+      "output_id": "architecture:quality",
+      "ownership": {
+        "accountable_owner": "query-contract-service-owner",
+        "artifact_owner": "query-contract-candidate-owner",
+        "contributing_owners": [
+          "query-contract-candidate-owner",
+          "task-session-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "08-query-contract-matrix.json#planned_fixtures",
+          "SPEC.md#terminal-paths"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "reliability",
+      "rationale": "The contract must replay all eight terminal paths deterministically and preserve total precedence.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:reliability"
+      ]
+    },
+    {
+      "concern_id": "concern:integration",
+      "disposition": "required",
+      "output_id": "architecture:integration-versioning",
+      "ownership": {
+        "accountable_owner": "interface-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "integration",
+      "rationale": "integration disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:interface:query-contract-input",
+        "signal:interface:validation-receipt-output"
+      ]
+    },
+    {
+      "concern_id": "concern:migration",
+      "disposition": "required",
+      "output_id": "architecture:migration-rollout",
+      "ownership": {
+        "accountable_owner": "migration-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "migration",
+      "rationale": "migration disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:compatibility:historical-receipt-to-candidate-v1"
+      ]
+    },
+    {
+      "concern_id": "concern:validation",
+      "disposition": "required",
+      "output_id": "validation-contracts",
+      "ownership": {
+        "accountable_owner": "design-owner",
+        "artifact_owner": "plan-work-pack-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/DEFINE-RESULT.md",
+          "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "validation",
+      "rationale": "validation disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:acceptance-readiness-claim:define-authored-complete",
+        "signal:effect:emit-candidate-validation-receipt",
+        "signal:normative-rule:history-immutability"
+      ]
+    }
+  ],
+  "denominator_receipt_digest": "577c13a5cabf4f96e5dc3199f8b856323a70fbd2173e48bf72191f73ec8b27b3",
+  "diagnostics": [],
+  "evidence_state": "design-validator-pass",
+  "fixed_point": true,
+  "manifest_id": "animejs.akv.query-contract-readiness.design-scope.v1",
+  "manifest_input_digest": "51c6b70bec610a003e024e083a340e08943718204b9468da43c5cc5a7b25e725",
+  "pass_1_digest": "20a65a57195b2d71ce16d71544baf45bfb45411bb51e793dbddc88b6565d9c10",
+  "pass_2_digest": "20a65a57195b2d71ce16d71544baf45bfb45411bb51e793dbddc88b6565d9c10",
+  "result_digest": "4f393169d0487bfe83f4c7c22bbc0d7c3bf4188bee2ebde7296d15b48ccc8722",
+  "schema_version": "1.0.0",
+  "selected_outputs": [
+    "architecture",
+    "architecture:authority-trust",
+    "architecture:failure-compensation",
+    "architecture:integration-versioning",
+    "architecture:migration-rollout",
+    "architecture:quality",
+    "architecture:state-event",
+    "validation-contracts"
+  ],
+  "verdict": "pass"
+}

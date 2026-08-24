@@ -1,50 +1,56 @@
 # TASK-UPW-RESPONSIVE-COPY — Mobile Order And State Copy
 
+Status: `not-started`
+
 ## Objective
 
-Prove responsive semantic order and domain-faithful action language after all
-six regions exist.
+Prove mobile semantic order and domain-faithful browser language after the
+region contracts close.
 
 - Layer/wave: L1 / W3
-- Dependencies: SWU-UPW-013
-- Source: UX Plan Responsive/Content Contracts, FR-14
+- Scope authority: `SWU-SCOPE-INVENTORY.json` rows 014–015
+- Acceptance authority: `SWU-ACCEPTANCE-MATRIX.json` assertions 014–015
+- Closeout authority: `CLOSEOUT-SYNC-INVENTORY.json` rows 014–015
+
+All omitted paths are unauthorized and declared targets use the preflight
+digest/`ABSENT` contract.
 
 ## SWU-UPW-014 — Responsive Semantic Order
 
-- Primary behavior: at 390×844, spine/action and current task precede collapsed
-  history without horizontal overflow or covering content.
-- Write scope: workbench shell styles/layout plus
-  `backend/e2e/action-annotation-mobile.spec.ts` or a focused responsive spec.
-- Algorithm: preserve desktop canvas/inspector enhancement; use the same DOM
-  order for mobile; stack staged frames; keep stable frame sources and usable
-  control widths.
-- Edge cases: long hashes/copy, unavailable regions, nested iframe scrolling,
-  all lifecycle states.
-- Acceptance: UPW-FIX-013 passes at 390×844 and desktop structure remains.
+- Primary behavior: at 390×844, spine, active canvas, inspector/review, action,
+  then collapsed history appear in one DOM order without document horizontal
+  overflow or covering content.
+- Semantic dependencies: SWU-UPW-008–013.
+- Exact scope: `SWU-SCOPE-INVENTORY.json#SWU-UPW-014`.
+- Algorithm: preserve one semantic DOM order; add desktop canvas/inspector
+  enhancement; stack staged frames; constrain long hashes/copy; keep stable
+  iframe identities and usable control widths.
+- Edge cases: every lifecycle state, missing regions, nested frame scroll, long
+  identities, and both desktop/mobile viewports.
+- Split analysis: width, order, and overflow are one responsive behavior;
+  region meaning is already separated into 008–013.
 - Validation:
-  `./node_modules/.bin/playwright test e2e/action-annotation-mobile.spec.ts --grep "mobile" --reporter=list`
-- Split analysis: width, order, and overflow jointly establish one responsive
-  behavior; region semantics were already split into 008–013.
+  `./node_modules/.bin/playwright test e2e/workbench-responsive.spec.ts --grep "UPW-014 mobile semantic order" --reporter=list`.
+- Receipt: `validation.assertions.UPW_A_014_RESPONSIVE`.
+- Owner/handoff: `subagent`; receive exact scope/assertion rows and all six
+  synchronized region receipts.
 
-## SWU-UPW-015 — State/Action Copy Matrix
+## SWU-UPW-015 — State And Action Copy Matrix
 
-- Primary behavior: browser wording names the current task and action while raw
-  CLI detail remains secondary.
-- Write scope: server projection labels/copy, shell rendering, focused copy
-  matrix tests.
-- Algorithm: define a literal per-state matrix; render “current head,” “staged
-  candidate,” “recorded revision,” and “historical” consistently; prohibit
-  unqualified approved/ready/safe/complete; keep Export terminal-only.
+- Primary behavior: browser wording names the current task/action while raw CLI
+  detail remains secondary.
+- Semantic dependencies: 008, 010, 011, 012, and 013.
+- Serialization-only predecessor: 014 because both change shared shell output.
+- Exact scope: `SWU-SCOPE-INVENTORY.json#SWU-UPW-015`.
+- Algorithm: implement the literal state matrix from UX Plan; use “current
+  head”, “staged candidate”, “recorded revision”, and “historical”
+  consistently; prohibit unqualified approved/ready/safe/complete; retain
+  Export as terminal-only secondary disclosure.
 - Edge cases: unavailable content, recovery errors, RevisionApplied versus
-  RevisionRecorded, SessionCompleted.
-- Acceptance: UPW-FIX-020 and governance negatives pass.
+  RevisionRecorded, SessionCompleted, and raw CLI-primary mutant.
+- Split analysis: copy is independently reviewable from responsive geometry.
 - Validation:
-  `./node_modules/.bin/playwright test e2e/workbench-copy.spec.ts --reporter=list`
-- Split analysis: copy matrix is independently reviewable from responsive
-  geometry.
-
-## Execution Owner And Handoff
-
-Both SWUs: `subagent`, serial. Synchronize the exact work-pack/task/wave rows
-and receipts; do not update the human-test script until automated behavior
-closes.
+  `./node_modules/.bin/playwright test e2e/workbench-copy.spec.ts --grep "UPW-015 state and action copy matrix" --reporter=list`.
+- Receipt: `validation.assertions.UPW_A_015_COPY`.
+- Owner/handoff: `subagent`; do not update the human-test script or claim human
+  comprehension.

@@ -1,0 +1,57 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "wcnd-closeout-refresh-20260805",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "pass",
+    "receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/terminal-receipt.json",
+    "blocker_fingerprint": "76ca1c8a9ddf0c312d198add6387c775bdb54285740979af279f2d87fe6c356e",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "direct user authorized the pinned npm diagnostic; its pre-authorized Work Pack closeout contract names exactly plan/WORK-PACK.md and invoke:refresh:apply-approved"
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "wavedb-pinned-npm-diagnostic-invoke-owner",
+      "evidence": [
+        "terminal receipt next_route names invoke refresh apply-approved",
+        "closeout preflight binds exactly one target and its baseline",
+        "Work Pack closeout contract expects one Invoke owner receipt"
+      ],
+      "required_inputs": [
+        "terminal Task Session receipt",
+        "strict context pack",
+        "exact target inventory",
+        "staged material package",
+        "schema-valid ready material receipt"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/invoke-refresh-receipt.json",
+      "fallback": "stop with the canonical Work Pack unchanged if material or owner gates reject"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The terminal receipt and closeout contract identify one exact bookkeeping owner route with complete inputs and matched authorization."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "inline-native-owner",
+    "owner_receipt": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-001/invoke-refresh-receipt.json",
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": null
+}

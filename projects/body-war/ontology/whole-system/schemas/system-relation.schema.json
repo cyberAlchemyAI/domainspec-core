@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "body-war://whole-system/system-relation.schema.json",
+  "title": "Body War observed system relation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "relation_id", "predicate", "source_concept", "target_concept", "evidence_refs", "observation_status", "direction", "owner_route", "authority_effect", "forbidden_collapse"],
+  "properties": {
+    "schema_version": { "const": "body-war-system-relation/v1" },
+    "relation_id": { "type": "string", "pattern": "^body-war\\.system-relation\\.[a-z0-9.-]+$" },
+    "predicate": { "enum": ["contains", "exposes", "serves", "calls", "uses", "implements", "depends_on", "reads", "writes", "persists_to", "protects_with", "configured_by", "migrates", "runs", "routes_to", "tests", "constrains"] },
+    "source_concept": { "type": "string", "pattern": "^body-war\\.system\\.[a-z0-9_.-]+$" },
+    "target_concept": { "type": "string", "pattern": "^body-war\\.system\\.[a-z0-9_.-]+$" },
+    "evidence_refs": { "type": "array", "minItems": 1, "items": { "$ref": "system-node.schema.json#/$defs/source_ref" } },
+    "observation_status": { "enum": ["observed", "partial", "planned", "gap"] },
+    "direction": { "const": "directed" },
+    "owner_route": { "type": "string", "minLength": 1 },
+    "authority_effect": { "const": "none" },
+    "forbidden_collapse": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_id": "distill-openai-audition-plan-20260804T180214Z-receipt",
+  "run_id": "distill-openai-audition-plan-20260804T180214Z",
+  "execution_path": "labeled-local-role-simulation",
+  "role_trace": [
+    {"role": "proposer", "rounds": [1, 2], "result_ref": "PLAN-PROPOSER-RESULT.md"},
+    {"role": "balancer", "rounds": [1, 2], "result_ref": "PLAN-BALANCER-RESULT.md"}
+  ],
+  "objections": [
+    {"id": "OAIA-DISTILL-O1", "category": "gate-semantics", "disposition": "revised", "evidence_ref": "WORK-PACK.md#control-fields"},
+    {"id": "OAIA-DISTILL-O2", "category": "credential-boundary", "disposition": "revised", "evidence_ref": "IMPLEMENTATION-DETAILS.md#render-algorithm"},
+    {"id": "OAIA-DISTILL-O3", "category": "external-failure", "disposition": "revised", "evidence_ref": "DESIGN.md#failure-and-compensation"},
+    {"id": "OAIA-DISTILL-O4", "category": "tool-readiness", "disposition": "preserved-blocker", "evidence_ref": "WORK-PACK.md#blockers"},
+    {"id": "OAIA-DISTILL-O5", "category": "owner-boundary", "disposition": "revised", "evidence_ref": "UX-PLAN.md#owner-preselection-surface"},
+    {"id": "OAIA-DISTILL-O6", "category": "closeout", "disposition": "revised", "evidence_ref": "WORK-PACK.md#task-session-closeout-sync-contract"}
+  ],
+  "termination": {
+    "reason": "Round 2 passed after all acceptance-critical objections were repaired or preserved as owner-scoped blockers.",
+    "round_count": 2
+  },
+  "verdict": "pass",
+  "selected_swu": null,
+  "audition_admission": "not_ready",
+  "next_route": {
+    "capability": "task-session",
+    "status": "requires-explicit-swu-selection",
+    "eligible_swu": "SWU-OAIA-001"
+  }
+}

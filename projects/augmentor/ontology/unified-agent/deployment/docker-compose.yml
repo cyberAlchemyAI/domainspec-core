@@ -1,0 +1,58 @@
+services:
+  api:
+    image: node:22.13.0-alpine
+    container_name: augmentor-ontology-api
+    restart: unless-stopped
+    working_dir: /app
+    command: ["node", "run-augmentor-consultation-deployment.mjs"]
+    environment:
+      AUGMENTOR_CONSULTATION_PROJECTION_ROOT: /app/projection
+      AUGMENTOR_CONSULTATION_TRUSTED_PRINCIPAL: ${AUTH_USERNAME:-augmentor}
+      AUGMENTOR_CONSULTATION_PORT: "8787"
+    volumes:
+      - ./api:/app:ro
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8787/healthz').then(r=>{if(!r.ok)process.exit(1)})"]
+      interval: 15s
+      timeout: 5s
+      retries: 4
+      start_period: 5s
+    networks:
+      - backend
+
+  site:
+    image: nginx:1.27-alpine
+    container_name: augmentor-ontology-site
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - ./site:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./.htpasswd:/etc/nginx/auth/.htpasswd:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/healthz | grep -q '^ok$'"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${EDGE_NETWORK:-troqar_edge}
+      - traefik.http.routers.augmentor-ontology.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - 'traefik.http.routers.augmentor-ontology.rule=Host(`${PUBLIC_HOST:?PUBLIC_HOST is required}`) && (Path(`${PUBLIC_PATH:?PUBLIC_PATH is required}`) || PathPrefix(`${PUBLIC_PATH:?PUBLIC_PATH is required}/`))'
+      - traefik.http.routers.augmentor-ontology.priority=200
+      - traefik.http.routers.augmentor-ontology.tls=true
+      - traefik.http.routers.augmentor-ontology.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
+      - traefik.http.services.augmentor-ontology.loadbalancer.server.port=80
+    networks:
+      - edge
+      - backend
+
+networks:
+  edge:
+    external: true
+    name: ${EDGE_NETWORK:-troqar_edge}
+  backend:
+    internal: true

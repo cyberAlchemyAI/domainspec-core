@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.0.0",
+  "mode": "refresh",
+  "mutationMode": "apply-approved",
+  "activationSource": "direct-user",
+  "result": "pass",
+  "phaseStatus": "pass",
+  "handoffStatus": "ready",
+  "mutationReady": true,
+  "authorization": {
+    "id": "CAPI-AUTH-SWU-CAPI-000-03-STAGED-FILTER",
+    "source": "../../authorizations/20260806T150743Z-capi-000-03-staged-filter-repair/authorization.json",
+    "sha256": "c4aae569c4875fd78ab9620046c1b18a8ad88f662e9a9b21760ee592ae8b67c9"
+  },
+  "deltaSummary": "Admitted one fresh immutable SWU-CAPI-000 -03 attempt whose builder differs from -02 only by attempt identity and literal staged directory exclusion; preserved the 28-ledger and 57-record contract.",
+  "targetArtifacts": [
+    {
+      "path": "../../WORK-PACK.md",
+      "sha256": "c3f5469818acccab319d82efa6d2de9f1b7d6935405203bad297622c733e5ea7",
+      "sizeBytes": 15208
+    },
+    {
+      "path": "../../work-pack/tasks/TASK-RUNTIME.md",
+      "sha256": "9fd826b1086b9647e665438d16e70662a3da3107d755740505e1f44937543cc6",
+      "sizeBytes": 6721
+    }
+  ],
+  "materialPackage": {
+    "id": "capi-refresh-swu-capi-000-03-staged-filter-repair-20260806T150743Z",
+    "digest": "89248579083220a9c21faeaf8b6f4b0fbd55166560c3b8f66b21caf429bed0da",
+    "manifest": "material/material-package.json",
+    "receipt": "material/material-receipt.json",
+    "handoffResult": "material/handoff-result.json",
+    "schemaValid": true,
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "publicationBoundaryResult": "pass"
+  },
+  "validation": [
+    "strict context coverage pass",
+    "material package schema pass",
+    "dependency and owner boundary pass",
+    "refresh material handoff ready",
+    "two applied targets byte-matched staged outputs",
+    "exact one -03 route and 28-ledger and 57-record scope present",
+    "attempt-specific closeout receipt path present",
+    "immutable -01 and -02 evidence retained"
+  ],
+  "skippedChanges": [
+    "snapshot construction",
+    "SWU-CAPI-001",
+    "API implementation",
+    "canonical Craft-source mutation",
+    "network integration",
+    "publication",
+    "deployment"
+  ],
+  "nextRoute": {
+    "capability": "implementation-readiness",
+    "mode": "selected-unit-to-task-session",
+    "unit": "SWU-CAPI-000",
+    "attempt": "wcli-20260805-node26-0.15.9-03",
+    "authorization": "bounded to one attempt; no successor"
+  },
+  "targetLifecycleStatus": "selected-unit-authorized"
+}

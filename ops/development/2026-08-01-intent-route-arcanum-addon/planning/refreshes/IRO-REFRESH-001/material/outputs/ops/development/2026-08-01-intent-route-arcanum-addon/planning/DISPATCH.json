@@ -1,0 +1,107 @@
+{
+  "dispatch_id": "dispatch.intent-route-arcanum-addon.iro-001.v2",
+  "intent": {
+    "raw": "Execute only the no-code first unit of IRO-FULL-STREAM after the native Goal is separately started.",
+    "objective": "Produce the SWU-IRO-001 decision bundle, terminal receipt, and joined closeout-owner receipt without implementing or promoting any capability.",
+    "target_artifact": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/SWU-IRO-001/",
+    "outer_contract_ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/EXECUTION-CONTRACT.json"
+  },
+  "mode": "sequence",
+  "techniques": ["sequence", "artifact_contract_bridge", "owner_boundary_check", "authority_split_gate", "validation_loop", "execution_receipt_handoff", "residue_ledger"],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "One sequential no-code decision unit has one owner decision and one closeout join.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed"
+  },
+  "subagent_lifecycle": {"status": "none", "agents": []},
+  "steps": [
+    {
+      "step_id": "context-build-iro-001",
+      "name": "Bind the strict IRO-FULL-STREAM context epoch",
+      "capability_ref": "context-builder",
+      "mode": "strict-runtime-handoff",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["sequence", "artifact_contract_bridge", "owner_boundary_check"],
+      "inputs": [
+        {"kind": "artifact", "ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md"},
+        {"kind": "artifact", "ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/EXECUTION-CONTRACT.json"},
+        {"kind": "artifact", "ref": ".arcanum/profiles/decision-profile.yml"}
+      ],
+      "outputs": [{"kind": "handle", "ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/CONTEXT-PACK.json"}],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/CONTEXT-PACK.json",
+      "stop_conditions": ["Stop on stale digest, uncovered obligation, broad context dump, or inferred authority."]
+    },
+    {
+      "step_id": "decision-gate-iro-001",
+      "name": "Resolve public boundary and owner bindings",
+      "capability_ref": "decision-gate",
+      "capability_status": "local-extension",
+      "capability_source": "arcanum/arcana/decision-gate/SKILL.md",
+      "capability_note": "The canonical package exists but is a local Dispatch Spec allowlist extension.",
+      "mode": "resolve-blocker",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["sequence", "owner_boundary_check", "authority_split_gate", "validation_loop", "execution_receipt_handoff"],
+      "depends_on_steps": ["context-build-iro-001"],
+      "inputs": [{"kind": "handle", "ref": "context-build-iro-001:CONTEXT-PACK.json"}, {"kind": "artifact", "ref": ".arcanum/profiles/decision-profile.yml"}],
+      "outputs": [{"kind": "receipt", "ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/SWU-IRO-001/DECISION.json"}],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/SWU-IRO-001/DECISION.json",
+      "stop_conditions": ["Block on any unresolved mutation-critical owner binding.", "Stop before source, public, generated, consumer, product, or private mutation."]
+    },
+    {
+      "step_id": "invoke-refresh-iro-001",
+      "name": "Join terminal and exact closeout receipts",
+      "capability_ref": "invoke",
+      "mode": "refresh-apply-approved",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["sequence", "execution_receipt_handoff", "owner_boundary_check", "residue_ledger"],
+      "depends_on_steps": ["decision-gate-iro-001"],
+      "inputs": [{"kind": "receipt", "ref": "decision-gate-iro-001:DECISION.json"}, {"kind": "artifact", "ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/CLOSEOUT-SYNC.md"}],
+      "outputs": [{"kind": "receipt", "ref": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/SWU-IRO-001/closeout-owner-receipt.json"}],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/SWU-IRO-001/closeout-owner-receipt.json",
+      "stop_conditions": ["Block on stale baseline, non-admitted delta, wrong owner, or ambiguous successor.", "Pause before SWU-IRO-002 until explicit candidate-mutation approval exists."]
+    }
+  ],
+  "gates": [
+    {"gate_id": "G-IRO-EXECUTION-AUTHORIZATION", "kind": "human_approval", "owner": "operator", "condition": "The native Goal is separately started for this exact epoch.", "on_fail": "block"},
+    {"gate_id": "G-IRO-OWNER-BINDINGS", "kind": "promotion_guardrail", "owner": "Decision Gate owner", "condition": "All mutation-critical public and consumer owner bindings are durably resolved.", "on_fail": "block"},
+    {"gate_id": "G-IRO-CLOSEOUT", "kind": "validation", "owner": "Invoke Refresh owner", "condition": "Terminal and closeout-owner receipts validate with exact baselines, deltas, and successor.", "on_fail": "block"},
+    {"gate_id": "G-IRO-NEXT-UNIT", "kind": "human_approval", "owner": "candidate lifecycle owner", "condition": "Candidate mutation is explicitly authorized before SWU-IRO-002.", "on_fail": "defer"}
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {"boundary_id": "B-IRO-CONTEXT-DECISION", "kind": "capability_handoff", "from_owner": "context-builder", "to_owner": "decision-gate", "applies_to_steps": ["context-build-iro-001", "decision-gate-iro-001"], "contract": "Only strict digest-bound context enters the decision.", "on_violation": "block"},
+      {"boundary_id": "B-IRO-DECISION-CLOSEOUT", "kind": "evidence_return", "from_owner": "decision-gate", "to_owner": "invoke", "applies_to_steps": ["decision-gate-iro-001", "invoke-refresh-iro-001"], "contract": "Only immutable decision and terminal evidence enters exact closeout.", "on_violation": "block"}
+    ],
+    "authority": {
+      "lifecycle": "IRO-FULL-STREAM coordinates; each named owner retains its lifecycle boundary.",
+      "execution": "This dispatch owns only SWU-IRO-001 evidence after a separate Goal start.",
+      "validation": "Strict context, schema, digest, exact write inventory, and closeout validation.",
+      "evidence": "Fixed epoch receipts under the planning package.",
+      "promotion": "None; the successor pause cannot promote or execute SWU-IRO-002."
+    },
+    "receipts": [
+      {"receipt_id": "RECEIPT-IRO-001-TERMINAL", "producer": "task-session", "required_fields": ["run_id", "dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "blockers", "handoff_note", "residue"], "stores": ["ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/SWU-IRO-001/terminal-receipt.json"], "on_missing": "block"},
+      {"receipt_id": "RECEIPT-IRO-001-CLOSEOUT", "producer": "invoke", "required_fields": ["run_id", "dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "blockers", "handoff_note", "residue"], "stores": ["ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/SWU-IRO-001/closeout-owner-receipt.json"], "on_missing": "block"}
+    ],
+    "state_namespaces": [
+      {"namespace": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/<epoch-id>/**", "owner": "IRO-FULL-STREAM coordinator", "write_policy": "Fixed epoch evidence paths only."},
+      {"namespace": "arcanum/**, generated profiles, consumers, cyberAlchemy-v2/**", "owner": "retained public, consumer, and private owners", "write_policy": "Forbidden during this dispatch."}
+    ],
+    "promotion_splits": [{"source": "SWU-IRO-001 receipts", "target": "SWU-IRO-002 candidate mutation", "rule": "A pass only projects the successor and pauses for separate approval.", "on_violation": "block"}]
+  },
+  "promotion_guardrails": ["No receipt grants public, generated, consumer, private, release, deployment, or production authority."],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": ["dispatch_started", "context_bound", "decision_recorded", "terminal_receipt_written", "closeout_joined", "successor_paused", "dispatch_closed"],
+    "signal_grouping": "dispatch_id, epoch_id, step_id, unit_id"
+  }
+}

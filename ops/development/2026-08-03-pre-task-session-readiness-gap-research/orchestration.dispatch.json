@@ -1,0 +1,500 @@
+{
+  "dispatch_id": "2026-08-03-pre-task-session-readiness-gap-research-orchestration",
+  "intent": {
+    "raw": "Research why the workflow needed Invoke Refresh after the user tried the Task Session route, even though those missing prerequisites should have been detected before Task Session was offered.",
+    "objective": "Execute the exact confirmed research sheet through incident forensics, adoption archaeology, formal contract design, synthesis, adversarial review, writing, and audit without changing capabilities or product work.",
+    "target_artifact": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/findings.md",
+    "arcanum_vocabulary": [
+      "domainspec-subagents-strategy",
+      "research",
+      "dispatch-spec",
+      "orchestrate",
+      "inventory",
+      "invoke",
+      "work-pack-readiness-audit",
+      "task-session-until-blocker",
+      "task-session"
+    ],
+    "operator_sentence": "Catch knowable material and closeout omissions before Task Session is presented, while preserving downstream fail-closed enforcement."
+  },
+  "mode": "research",
+  "techniques": [
+    "sequence",
+    "execution_receipt_handoff",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Three independent causal lenses and three independent rejection gates must be joined without flooding parent context or weakening the human confirmation gate.",
+    "explanation": "Parallel local incident, adoption, and contract research is followed by bounded synthesis, adversarial review, evidence closure, writing, and audit.",
+    "context": [
+      "The exact proposed research content is owned by dispatch-sheet.json.",
+      "The August 3 Augmentor chain blocked before any Task Session, but Refine and Invoke Plan had already recommended Task Session despite knowable missing material and closeout prerequisites.",
+      "The route investigates why prior accepted WPRA admission-projection research was not consumed.",
+      "All agents are read-only except the writer, which owns findings.md only; no agent may change capabilities, product, planning, authority, telemetry, Git, browser, or external state."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "explorer-incident",
+        "purpose": "Reconstruct the August 3 producer-to-preflight chronology and first-knowable versus first-detected blockers.",
+        "owns": "Incident-forensics return and normalized receipt only.",
+        "capability_ref": "research",
+        "capability_target": "dispatch-sheet.json#explorers-agent-0",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "cyberAlchemy-v2/", "implementation/", "projects/", "telemetry/"],
+        "depends_on_roles": [],
+        "input_refs": [
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/dispatch-sheet.json",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-incident.json"],
+        "applies_to_steps": ["s1-explore"]
+      },
+      {
+        "role_id": "explorer-adoption",
+        "purpose": "Trace the accepted readiness architecture into current implementation, callers, fixtures, and generated runtimes.",
+        "owns": "Adoption-archaeology return and normalized receipt only.",
+        "capability_ref": "research",
+        "capability_target": "dispatch-sheet.json#explorers-agent-1",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "cyberAlchemy-v2/", "implementation/", "projects/", "telemetry/"],
+        "depends_on_roles": [],
+        "input_refs": [
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/dispatch-sheet.json",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-adoption.json"],
+        "applies_to_steps": ["s1-explore"]
+      },
+      {
+        "role_id": "explorer-contract",
+        "purpose": "Derive the smallest owner-preserving readiness contract and its machine fixtures.",
+        "owns": "Formal-contract return and normalized receipt only.",
+        "capability_ref": "research",
+        "capability_target": "dispatch-sheet.json#explorers-agent-2",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "cyberAlchemy-v2/", "implementation/", "projects/", "telemetry/"],
+        "depends_on_roles": [],
+        "input_refs": [
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/dispatch-sheet.json",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/strategy-inventory-packet.json"
+        ],
+        "output_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-contract.json"],
+        "applies_to_steps": ["s1-explore"]
+      },
+      {
+        "role_id": "synthesizer",
+        "purpose": "Join the three explorer returns into an exact-binding causal diagnosis and change map.",
+        "owns": "Synthesis return and normalized receipt only.",
+        "capability_ref": "research",
+        "capability_target": "dispatch-sheet.json#synthesizer",
+        "capability_mode": "synthesize",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "cyberAlchemy-v2/", "implementation/", "projects/", "telemetry/"],
+        "depends_on_roles": ["explorer-incident", "explorer-adoption", "explorer-contract"],
+        "input_refs": [
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-incident.json",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-adoption.json",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-contract.json",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/research.md"
+        ],
+        "output_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/synthesis.json"],
+        "applies_to_steps": ["s2-synthesize"]
+      },
+      {
+        "role_id": "skeptic-precedent",
+        "purpose": "Test every candidate against existing owner and prior accepted architecture.",
+        "owns": "Precedent skeptic return and normalized receipt only.",
+        "capability_ref": "research",
+        "capability_target": "dispatch-sheet.json#skeptics-agent-0",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "cyberAlchemy-v2/", "implementation/", "projects/", "telemetry/"],
+        "depends_on_roles": ["synthesizer"],
+        "input_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/synthesis.json"],
+        "output_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-precedent.json"],
+        "applies_to_steps": ["s3-attack"]
+      },
+      {
+        "role_id": "skeptic-non-vacuity",
+        "purpose": "Require an Augmentor counterfactual that blocks before Task Session is offered.",
+        "owns": "Non-vacuity skeptic return and normalized receipt only.",
+        "capability_ref": "research",
+        "capability_target": "dispatch-sheet.json#skeptics-agent-1",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "cyberAlchemy-v2/", "implementation/", "projects/", "telemetry/"],
+        "depends_on_roles": ["synthesizer"],
+        "input_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/synthesis.json"],
+        "output_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-non-vacuity.json"],
+        "applies_to_steps": ["s3-attack"]
+      },
+      {
+        "role_id": "skeptic-definitional",
+        "purpose": "Prevent capability and status collapse across Plan, WPRA, routing, Refresh, and Task Session.",
+        "owns": "Definitional skeptic return and normalized receipt only.",
+        "capability_ref": "research",
+        "capability_target": "dispatch-sheet.json#skeptics-agent-2",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "cyberAlchemy-v2/", "implementation/", "projects/", "telemetry/"],
+        "depends_on_roles": ["synthesizer"],
+        "input_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/synthesis.json"],
+        "output_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-definitional.json"],
+        "applies_to_steps": ["s3-attack"]
+      },
+      {
+        "role_id": "writer",
+        "purpose": "Write the evidence-closed causal diagnosis and integration contract.",
+        "owns": "findings.md only.",
+        "capability_ref": "research",
+        "capability_target": "dispatch-sheet.json#writer",
+        "capability_mode": "write",
+        "agent_count": 1,
+        "mutation_policy": "artifact-only",
+        "write_scope": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/findings.md"],
+        "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "cyberAlchemy-v2/", "implementation/", "projects/", "telemetry/"],
+        "depends_on_roles": ["skeptic-precedent", "skeptic-non-vacuity", "skeptic-definitional"],
+        "input_refs": [
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/synthesis.json",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-precedent.json",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-non-vacuity.json",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-definitional.json",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/evidence-closure.json"
+        ],
+        "output_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/writer.json"],
+        "applies_to_steps": ["s4-write"]
+      },
+      {
+        "role_id": "auditor",
+        "purpose": "Approve findings.md or return one bounded revision.",
+        "owns": "Audit return and normalized receipt only.",
+        "capability_ref": "research",
+        "capability_target": "dispatch-sheet.json#auditor",
+        "capability_mode": "audit",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "cyberAlchemy-v2/", "implementation/", "projects/", "telemetry/"],
+        "depends_on_roles": ["writer"],
+        "input_refs": [
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/findings.md",
+          "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/writer.json"
+        ],
+        "output_refs": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/audit.json"],
+        "applies_to_steps": ["s5-audit"]
+      }
+    ],
+    "execution_waves": [
+      {
+        "wave_id": "explorers",
+        "role_ids": ["explorer-incident", "explorer-adoption", "explorer-contract"],
+        "parallel": true,
+        "join_policy": "all",
+        "gate_after": "g-explorers",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "synthesis",
+        "role_ids": ["synthesizer"],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": ["explorers"],
+        "gate_after": "g-synthesis",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "skeptics",
+        "role_ids": ["skeptic-precedent", "skeptic-non-vacuity", "skeptic-definitional"],
+        "parallel": true,
+        "join_policy": "all",
+        "depends_on_waves": ["synthesis"],
+        "gate_after": "g-evidence-closure",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "writer",
+        "role_ids": ["writer"],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": ["skeptics"],
+        "gate_after": "g-writer",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "auditor",
+        "role_ids": ["auditor"],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": ["writer"],
+        "on_incomplete": "block"
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Confirm the exact admitted schema-0.8.0 pre-Task-Session readiness-gap research sheet after both tension checks pass?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "capability_target",
+      "capability_mode",
+      "wave_id",
+      "write_scope",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s1-explore",
+      "name": "Run incident, adoption, and contract research lanes",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "explore",
+      "pattern": "fanout",
+      "parallel": true,
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"},
+        {"kind": "artifact", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/dispatch-sheet.json"},
+        {"kind": "artifact", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/strategy-inventory-packet.json"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-incident.json"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-adoption.json"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-contract.json"}
+      ],
+      "join_policy": "all",
+      "stop_conditions": [
+        "stop if any explorer mutates repository or external state",
+        "stop if any explorer omits exact source selectors"
+      ]
+    },
+    {
+      "step_id": "s2-synthesize",
+      "name": "Reconcile the recurrence into a causal diagnosis and integration map",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "synthesize",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": ["sequence", "execution_receipt_handoff"],
+      "depends_on_steps": ["s1-explore"],
+      "inputs": [
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-incident.json"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-adoption.json"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-contract.json"},
+        {"kind": "artifact", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/research.md"}
+      ],
+      "outputs": [{"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/synthesis.json"}],
+      "stop_conditions": [
+        "stop if the synthesis misstates the outer preflight block as a started Task Session",
+        "stop if the change map weakens downstream containment"
+      ]
+    },
+    {
+      "step_id": "s3-attack",
+      "name": "Attack precedent, non-vacuity, and definitional soundness",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "review",
+      "pattern": "dialectic",
+      "parallel": true,
+      "depends_on_steps": ["s2-synthesize"],
+      "roles": ["precedent skeptic", "non-vacuity skeptic", "definitional skeptic"],
+      "inputs": [{"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/synthesis.json"}],
+      "outputs": [
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-precedent.json"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-non-vacuity.json"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-definitional.json"}
+      ],
+      "join_policy": "all",
+      "convergence_criteria": [
+        "every candidate has an existing owner or precedent-clean label",
+        "every surviving candidate blocks the Augmentor omission before Task Session is offered",
+        "every surviving candidate preserves capability and status non-collapse",
+        "every KILL names the exact non-vacuity or definitional fact that zeroed it"
+      ],
+      "stop_conditions": ["stop before writer unless exact-binding evidence closure is ready"]
+    },
+    {
+      "step_id": "s4-write",
+      "name": "Write the evidence-closed readiness-gap diagnosis",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "write",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["s3-attack"],
+      "inputs": [
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/synthesis.json"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-precedent.json"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-non-vacuity.json"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-definitional.json"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/evidence-closure.json"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/findings.md"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/writer.json"}
+      ],
+      "stop_conditions": [
+        "stop if evidence closure is not ready",
+        "stop if the writer changes any file other than findings.md"
+      ]
+    },
+    {
+      "step_id": "s5-audit",
+      "name": "Audit the diagnosis, counterfactual, and migration route",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "audit",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["s4-write"],
+      "inputs": [
+        {"kind": "artifact", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/findings.md"},
+        {"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/writer.json"}
+      ],
+      "outputs": [{"kind": "receipt", "ref": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/audit.json"}],
+      "evidence_artifact": "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/audit.json",
+      "stop_conditions": [
+        "stop after one bounded writer revision",
+        "stop if findings claim implementation, repaired routing, readiness, promotion, or release"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-explorers",
+      "kind": "validation",
+      "owner": "parent-orchestrator",
+      "condition": "All three explorers are joined and closed with exact source ledgers and required matrices.",
+      "applies_after_wave": "explorers",
+      "requires_role_receipts": [
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-incident.json",
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-adoption.json",
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/explorer-contract.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-synthesis",
+      "kind": "quality",
+      "owner": "parent-orchestrator",
+      "condition": "The synthesis proves what did and did not run, identifies the adoption gap, and preserves owner boundaries.",
+      "applies_after_wave": "synthesis",
+      "requires_role_receipts": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/synthesis.json"],
+      "on_fail": "reroute"
+    },
+    {
+      "gate_id": "g-evidence-closure",
+      "kind": "validation",
+      "owner": "parent-strategist",
+      "condition": "All load-bearing rows satisfy exact-binding evidence closure and all skeptic returns are joined and closed.",
+      "applies_after_wave": "skeptics",
+      "requires_role_receipts": [
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-precedent.json",
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-non-vacuity.json",
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/skeptic-definitional.json",
+        "ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/evidence-closure.json"
+      ],
+      "on_fail": "reroute"
+    },
+    {
+      "gate_id": "g-writer",
+      "kind": "validation",
+      "owner": "parent-orchestrator",
+      "condition": "findings.md exists, cites closed evidence, contains the verdict matrix, and preserves the research-only claim ceiling.",
+      "applies_after_wave": "writer",
+      "requires_role_receipts": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/writer.json"],
+      "on_fail": "reroute"
+    },
+    {
+      "gate_id": "g-read-only",
+      "kind": "policy",
+      "owner": "parent-orchestrator",
+      "condition": "Research agents do not mutate capability, product, work-pack, authority, telemetry, Git, browser, or external state.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-claim-ceiling",
+      "kind": "promotion_guardrail",
+      "owner": "parent",
+      "condition": "Research approval recommends a later bounded owner route only and cannot establish implementation, repaired routing, readiness, promotion, release, or production.",
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-research-only",
+        "kind": "capability_handoff",
+        "from_owner": "parent-orchestrator",
+        "to_owner": "research",
+        "applies_to_steps": ["s1-explore", "s2-synthesize", "s3-attack", "s4-write", "s5-audit"],
+        "contract": "Agents receive only the confirmed research contract and produce bounded returns or findings without mutating the capabilities or product workflow being studied.",
+        "on_violation": "block"
+      }
+    ],
+    "receipts": [
+      {
+        "receipt_id": "r-evidence-closure",
+        "producer": "parent-strategist",
+        "required_fields": ["status", "artifacts", "validation_result", "blockers", "residue"],
+        "stores": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/evidence-closure.json"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-audit",
+        "producer": "auditor",
+        "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "blockers", "residue", "handoff_note"],
+        "stores": ["ops/development/2026-08-03-pre-task-session-readiness-gap-research/receipts/audit.json"],
+        "on_missing": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "This dispatch produces research evidence and a recommended lifecycle integration only.",
+    "No capability or product file is changed by the dispatch.",
+    "Task Session and Task Session Until Blocker fail-closed gates remain intact.",
+    "Any accepted Arcanum change must later use canonical-first lifecycle work and public-boundary validation."
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "research_dispatch_authorized",
+      "explorer_wave_spawned",
+      "explorer_wave_joined",
+      "synthesis_joined",
+      "skeptic_wave_joined",
+      "evidence_closure_decided",
+      "writer_joined",
+      "auditor_joined",
+      "parent_research_decided"
+    ],
+    "signal_grouping": "dispatch_id"
+  }
+}

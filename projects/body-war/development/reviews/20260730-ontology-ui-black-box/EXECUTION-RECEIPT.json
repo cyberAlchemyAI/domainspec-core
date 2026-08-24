@@ -1,0 +1,86 @@
+{
+  "schema_version": "body-war.ontology-ui-black-box.execution-receipt.v0.1",
+  "dispatch_id": "2026-07-30-body-war-ontology-ui-black-box-review",
+  "dispatch_route_id": "2026-07-30-body-war-ontology-ui-black-box-review-route",
+  "run_id": "body-war-ontology-ui-black-box-20260730t033255z",
+  "authorization": {
+    "confirmation_handle": "chat-turn-confirmed-2026-07-30-body-war-ontology-ui-black-box",
+    "sheet_sha256": "da2b2f72c55c92884688119a843a81ff753cc1e816ca6cf8ea3e6b2b8ceeba77",
+    "status": "approved"
+  },
+  "waves": [
+    {
+      "wave_id": "attack",
+      "actions": [
+        "spawn-0001",
+        "spawn-0002",
+        "spawn-0003"
+      ],
+      "gate": "pass"
+    },
+    {
+      "wave_id": "synthesize",
+      "actions": [
+        "spawn-0004"
+      ],
+      "gate": "pass"
+    },
+    {
+      "wave_id": "verify",
+      "actions": [
+        "spawn-0005",
+        "spawn-0006"
+      ],
+      "gate": "pass"
+    },
+    {
+      "wave_id": "write",
+      "actions": [
+        "spawn-0007"
+      ],
+      "gate": "pass"
+    }
+  ],
+  "agents": {
+    "spawned": 7,
+    "joined": 7,
+    "closed": 7,
+    "receipts_passed": 7
+  },
+  "feedback": {
+    "loops_used": 1,
+    "loop_cap": 1,
+    "result": "all verifier FIX dispositions applied; no CR dropped"
+  },
+  "browser_evidence": {
+    "playwright": "1.59.1",
+    "browser": "Chromium revision 1217",
+    "source_and_served_graph_sha256": "e8f754e6aed7b05759439df82db421eb51fa050c78b86b37d5d689e89a751433",
+    "credential_audit": "pass",
+    "runtime_stopped": true
+  },
+  "deliverables": [
+    "attacks.md",
+    "synthesis.md",
+    "findings.md",
+    "browser-evidence/README.md",
+    "browser-evidence/findings.json",
+    "PARENT-APPROVAL.json"
+  ],
+  "result": {
+    "status": "review-complete",
+    "focus_rule": "bounded hybrid UI projection: four-node tour scene or deterministic non-tour one-hop neighborhood, with labeled directed portals",
+    "change_requests": 5,
+    "implementation": "not-performed",
+    "ontology_mutation": "none",
+    "authority_effect": "none",
+    "human_comprehension": "not-established",
+    "release_or_deployment": "none"
+  },
+  "runtime_residue": [
+    "A shared-receipt reducer invocation was rejected and corrected with exact wave-scoped receipts.",
+    "Coordinator-local action IDs were deterministically rebased to preserve per-run replay safety; originals are retained.",
+    "Three zero-byte YAML capture residues are retained but not cited.",
+    "Token-bearing Playwright traces were intentionally not retained."
+  ]
+}

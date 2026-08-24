@@ -1,0 +1,47 @@
+{
+  "schema_version": "invoke.refresh-report.v1",
+  "run_id": "20260730T065606Z-source-backed-hover-briefs",
+  "activation_source": "direct-user",
+  "mutation_mode": "apply-approved",
+  "phase_status": "pass",
+  "mutation_ready": true,
+  "handoff_status": "ready",
+  "applied_target_count": 22,
+  "implementation_executed": false,
+  "design_validation": {
+    "verdict": "pass",
+    "fixed_point": true,
+    "diagnostics": 0,
+    "post_apply_receipts_match_staging": true
+  },
+  "plan_validation": {
+    "swu_count": 5,
+    "task_shaped_swu_count": 0,
+    "ordered_swu_ids": [
+      "SWU-BWAA-001",
+      "SWU-BWAA-002",
+      "SWU-BWAA-005",
+      "SWU-BWAA-003",
+      "SWU-BWAA-004"
+    ],
+    "first_selectable_swu": "SWU-BWAA-001",
+    "selected_swu": null
+  },
+  "blockers": [
+    {"id":"BWAA-DRIFT","state":"conditional"},
+    {"id":"BWAA-PREDECESSOR","state":"conditional"},
+    {"id":"BWAA-RUNTIME","state":"conditional"},
+    {"id":"BWAA-SKILL-MIRROR","state":"resolved-currently-conditional"}
+  ],
+  "protected_product_bytes_unchanged": true,
+  "authority_effect": "none",
+  "release_admission": "not-granted",
+  "observability": {
+    "distill_rows_recorded": 1,
+    "invoke_rows_recorded": 1,
+    "reflection_trigger": "gap-threshold",
+    "reflection_state_update": "failed-non-blocking",
+    "residue": "workflow_gaps string did not satisfy the reflection-state severity-object expectation"
+  },
+  "next_route": "explicitly-select-SWU-BWAA-001-then-context-builder-and-task-session-preflight"
+}

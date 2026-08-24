@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Intent Route System — One-Vision X-ray</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07101d;
+      --panel: #0d1929;
+      --panel-2: #111f31;
+      --ink: #edf4ff;
+      --muted: #a9b8cc;
+      --line: #31435b;
+      --cyan: #63d7e6;
+      --blue: #6da8ff;
+      --violet: #b89cff;
+      --amber: #f3bd64;
+      --green: #74d6a0;
+      --red: #ff8f91;
+      --source: #75d5ff;
+      --inference: #e9b76a;
+      --shadow: 0 22px 60px rgba(0, 0, 0, .32);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 12% -8%, rgba(99, 215, 230, .14), transparent 28rem),
+        radial-gradient(circle at 90% 5%, rgba(184, 156, 255, .12), transparent 26rem),
+        var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a { color: var(--cyan); }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .shell {
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 64px 0 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+      gap: 40px;
+      align-items: end;
+    }
+
+    .eyebrow, .tag, .owner-label, .evidence-label {
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow { color: var(--cyan); }
+
+    h1 {
+      margin: 10px 0 18px;
+      max-width: 880px;
+      font-size: clamp(2.6rem, 7vw, 6.6rem);
+      line-height: .94;
+      letter-spacing: -.065em;
+    }
+
+    .hero-copy {
+      max-width: 780px;
+      margin: 0;
+      color: #ced9e8;
+      font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    }
+
+    .hero-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      background: linear-gradient(145deg, rgba(17, 31, 49, .92), rgba(9, 19, 32, .92));
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card strong {
+      display: block;
+      margin: 8px 0 12px;
+      font-size: 1.5rem;
+      line-height: 1.15;
+    }
+
+    .hero-card p { margin: 0; color: var(--muted); }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #dce8f6;
+      background: rgba(255, 255, 255, .035);
+    }
+
+    .tag::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .tag.pass { color: var(--green); }
+    .tag.pending { color: var(--amber); }
+    .tag.none { color: var(--cyan); }
+
+    .one-line {
+      margin: 18px 0 42px;
+      padding: 22px 26px;
+      border-left: 4px solid var(--cyan);
+      border-radius: 0 18px 18px 0;
+      background: rgba(99, 215, 230, .075);
+      font-size: clamp(1rem, 1.4vw, 1.25rem);
+    }
+
+    .one-line strong { color: var(--cyan); }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      letter-spacing: -.035em;
+    }
+
+    .section-head p {
+      max-width: 680px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .canvas-shell {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      overflow: hidden;
+      background: rgba(9, 18, 31, .92);
+      box-shadow: var(--shadow);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .025);
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-group > span {
+      margin-right: 4px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .control {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 13px;
+      background: #101d2e;
+      color: var(--ink);
+      font: inherit;
+      font-size: .82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+
+    .control:hover { border-color: var(--cyan); transform: translateY(-1px); }
+    .control[aria-pressed="true"] { background: var(--cyan); color: #07101d; border-color: var(--cyan); }
+    .layer-control:checked + .control { background: var(--cyan); color: #07101d; border-color: var(--cyan); }
+
+    .canvas-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      min-height: 760px;
+    }
+
+    .canvas-wrap {
+      position: relative;
+      overflow: auto;
+      padding: 14px;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .mobile-hint {
+      display: none;
+      width: max-content;
+      margin: 0 0 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(99, 215, 230, .1);
+      color: var(--cyan);
+      font-size: .75rem;
+      font-weight: 750;
+    }
+
+    svg {
+      display: block;
+      min-width: 980px;
+      width: 100%;
+      height: auto;
+    }
+
+    .boundary {
+      fill: rgba(255, 255, 255, .015);
+      stroke: #3b4e68;
+      stroke-width: 1.5;
+      stroke-dasharray: 8 8;
+    }
+
+    .boundary.public { stroke: var(--cyan); fill: rgba(99, 215, 230, .035); }
+    .boundary.product { stroke: var(--violet); fill: rgba(184, 156, 255, .035); }
+    .boundary.host { stroke: var(--amber); fill: rgba(243, 189, 100, .03); }
+    .boundary.private { stroke: var(--green); fill: rgba(116, 214, 160, .03); }
+
+    .boundary-title {
+      fill: #dce8f6;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .boundary-subtitle { fill: #8ea1b9; font-size: 12px; }
+
+    .node {
+      cursor: pointer;
+      outline: none;
+      transition: opacity .18s ease, filter .18s ease;
+    }
+
+    .node rect, .node path.node-body {
+      fill: #112238;
+      stroke: #4b607c;
+      stroke-width: 2;
+    }
+
+    .node.product rect { stroke: var(--violet); }
+    .node.public rect { stroke: var(--cyan); }
+    .node.host rect { stroke: var(--amber); }
+    .node.private rect { stroke: var(--green); }
+    .node.human rect { stroke: #f4d8a0; }
+    .node.stop rect { stroke: var(--red); }
+
+    .node:hover, .node:focus, .node.is-active {
+      filter: drop-shadow(0 0 12px rgba(99, 215, 230, .35));
+    }
+
+    .node:focus rect, .node.is-active rect { stroke-width: 4; }
+    .node-title { fill: var(--ink); font-size: 17px; font-weight: 800; }
+    .node-copy { fill: #aebed2; font-size: 12px; }
+    .node-kicker { fill: #7f93ad; font-size: 10px; font-weight: 800; letter-spacing: .09em; }
+
+    .flow-line {
+      fill: none;
+      stroke: #627891;
+      stroke-width: 3;
+      marker-end: url(#arrow);
+      transition: opacity .18s ease, stroke .18s ease, stroke-width .18s ease;
+    }
+
+    .flow-line.candidate { stroke: var(--green); }
+    .flow-line.ambiguous { stroke: var(--amber); stroke-dasharray: 8 6; }
+    .flow-line.stop { stroke: var(--red); stroke-dasharray: 5 6; }
+    .flow-line.lineage { stroke: var(--green); stroke-dasharray: 3 7; }
+    .flow-line.install { stroke: var(--blue); stroke-dasharray: 9 6; }
+
+    [data-layer-hidden="true"] { opacity: .08 !important; pointer-events: none; }
+    [data-trace-muted="true"] { opacity: .12 !important; }
+    .flow-line[data-trace-muted="false"] { stroke-width: 6; }
+
+    .flow-label {
+      fill: #d8e5f4;
+      font-size: 11px;
+      font-weight: 800;
+      paint-order: stroke;
+      stroke: #07101d;
+      stroke-width: 5px;
+      stroke-linejoin: round;
+    }
+
+    .inspector {
+      border-left: 1px solid var(--line);
+      padding: 22px;
+      background: #0b1727;
+    }
+
+    .inspector-sticky { position: sticky; top: 16px; }
+    .inspector h3 { margin: 5px 0 8px; font-size: 1.45rem; }
+    .inspector > div > p { margin-top: 0; color: var(--muted); }
+
+    .inspect-block {
+      margin-top: 16px;
+      padding: 15px;
+      border-radius: 14px;
+      background: #101f32;
+    }
+
+    .inspect-block.source { border: 1px solid var(--source); }
+    .inspect-block.inference { border: 1px dashed var(--inference); }
+    .evidence-label.source { color: var(--source); }
+    .evidence-label.inference { color: var(--inference); }
+    .inspect-block blockquote { margin: 8px 0; font-size: .92rem; }
+    .inspect-block cite { color: var(--muted); font-size: .75rem; font-style: normal; word-break: break-word; }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      padding: 15px 18px 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .legend-item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .legend-swatch { width: 28px; height: 13px; border: 2px solid; border-radius: 4px; }
+    .legend-swatch.product { border-color: var(--violet); }
+    .legend-swatch.public { border-color: var(--cyan); }
+    .legend-swatch.host { border-color: var(--amber); }
+    .legend-swatch.private { border-color: var(--green); }
+
+    .content-section { padding: 68px 0 0; }
+
+    .branch-grid, .glossary-grid, .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .branch-card, .term-card, .evidence-card, .limit-card {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 19px;
+      background: linear-gradient(145deg, #101e30, #0b1726);
+    }
+
+    .branch-card h3, .term-card h3, .evidence-card h3, .limit-card h3 { margin: 8px 0; }
+    .branch-card p, .term-card p, .evidence-card p, .limit-card p { margin: 0; color: var(--muted); }
+    .branch-card.candidate { border-top: 4px solid var(--green); }
+    .branch-card.ambiguous { border-top: 4px solid var(--amber); }
+    .branch-card.no-match, .branch-card.invalid { border-top: 4px solid var(--red); }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0;
+      margin: 24px 0 0;
+      list-style: none;
+      padding: 0;
+    }
+
+    .timeline li {
+      position: relative;
+      padding: 52px 18px 18px;
+      border-top: 2px solid var(--line);
+      color: var(--muted);
+    }
+
+    .timeline li::before {
+      content: attr(data-step);
+      position: absolute;
+      top: -18px;
+      left: 16px;
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      background: var(--bg);
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .timeline li.current { border-color: var(--green); color: #dbe9e1; }
+    .timeline li.current::before { border-color: var(--green); color: var(--green); }
+    .timeline li.future { border-top-style: dashed; }
+
+    .evidence-grid { grid-template-columns: 1.2fr 1fr 1fr; }
+    .evidence-card strong { color: var(--ink); }
+    .metric { font-size: 2.2rem; line-height: 1; letter-spacing: -.05em; }
+    .evidence-card.pass { border-color: rgba(116, 214, 160, .45); }
+    .evidence-card.pending { border-style: dashed; border-color: rgba(243, 189, 100, .6); }
+
+    .limit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .limit-card { border-left: 4px solid var(--amber); }
+
+    footer {
+      margin-top: 72px;
+      padding: 34px 0 52px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 1050px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-card { max-width: 680px; }
+      .canvas-grid { grid-template-columns: 1fr; }
+      .inspector { border-left: 0; border-top: 1px solid var(--line); }
+      .inspector-sticky { position: static; }
+      .branch-grid, .glossary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .evidence-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .shell { width: min(100% - 20px, 1500px); }
+      .hero { padding-top: 38px; }
+      h1 { font-size: 3.1rem; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 8px; }
+      .toolbar { display: block; }
+      .control-group + .control-group { margin-top: 12px; }
+      .branch-grid, .glossary-grid, .limit-grid { grid-template-columns: 1fr; }
+      .legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .mobile-hint { display: block; }
+      .timeline { grid-template-columns: 1fr; margin-left: 18px; }
+      .timeline li { border-top: 0; border-left: 2px solid var(--line); padding: 10px 18px 30px 38px; }
+      .timeline li::before { top: 0; left: -19px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell hero">
+    <div>
+      <div class="eyebrow">Architecture x-ray · newcomer view</div>
+      <h1>One intent.<br>Many owners.<br>No hidden authority.</h1>
+      <p class="hero-copy">
+        Follow one request from conversation to a deterministic route suggestion,
+        then see why a person and the existing runtime still control every launch.
+      </p>
+    </div>
+    <aside class="hero-card" aria-label="Core mental model">
+      <span class="tag none">Mental model</span>
+      <strong>GPS, not a self-driving car.</strong>
+      <p>The resolver points to a possible route or admits uncertainty. It cannot approve, bind, spawn, persist, or claim effects.</p>
+      <div class="status-row">
+        <span class="tag pass">Local tests pass</span>
+        <span class="tag pending">Consumer install pending</span>
+      </div>
+    </aside>
+  </header>
+
+  <main>
+    <div class="shell one-line">
+      <strong>The retell:</strong> Augmentor captures intent → ResonantOS builds a request and catalog → the public Arcanum resolver suggests or abstains → a human confirms → the existing runtime executes.
+    </div>
+
+    <section class="shell" aria-labelledby="canvas-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">One-vision canvas</div>
+          <h2 id="canvas-title">The whole system on one map</h2>
+        </div>
+        <p>Select a layer to isolate responsibilities, or trace one disposition. Click or focus a component to inspect its evidence boundary.</p>
+      </div>
+
+      <div class="canvas-shell" data-lane="visual_composition">
+        <div class="toolbar" aria-label="Canvas controls">
+          <div class="control-group" role="group" aria-label="Visible layer">
+            <span>Layer</span>
+            <input class="layer-control sr-only" type="radio" name="xray-layer" id="toggle-surface" data-layer-control="all" checked>
+            <label class="control" for="toggle-surface">All</label>
+            <input class="layer-control sr-only" type="radio" name="xray-layer" id="toggle-flow" data-layer-control="runtime">
+            <label class="control" for="toggle-flow">Runtime flow</label>
+            <input class="layer-control sr-only" type="radio" name="xray-layer" id="toggle-deps" data-layer-control="ownership">
+            <label class="control" for="toggle-deps">Ownership</label>
+            <input class="layer-control sr-only" type="radio" name="xray-layer" id="toggle-install" data-layer-control="install">
+            <label class="control" for="toggle-install">Install path</label>
+            <input class="layer-control sr-only" type="radio" name="xray-layer" id="toggle-risk" data-layer-control="lineage">
+            <label class="control" for="toggle-risk">Lineage + limits</label>
+          </div>
+          <div class="control-group" role="group" aria-label="Disposition trace">
+            <span>Trace</span>
+            <button class="control trace-control" data-trace-control="candidate" aria-pressed="true">Candidate</button>
+            <button class="control trace-control" data-trace-control="ambiguous" aria-pressed="false">Ambiguous</button>
+            <button class="control trace-control" data-trace-control="stop" aria-pressed="false">No-match / invalid</button>
+            <button class="control trace-control" data-trace-control="none" aria-pressed="false">No highlight</button>
+          </div>
+        </div>
+
+        <div class="canvas-grid">
+          <div class="canvas-wrap" tabindex="0" aria-label="Scrollable system architecture canvas">
+            <p class="mobile-hint">Swipe horizontally to inspect the complete map →</p>
+            <svg viewBox="0 0 1480 920" role="img" aria-labelledby="diagram-title diagram-desc" data-lane="surface components flow internal_dependencies external_dependencies">
+              <title id="diagram-title">Intent route system architecture and flow</title>
+              <desc id="diagram-desc">A layered diagram showing the user, Augmentor, ResonantOS request and proposal owners, a guarded host adapter, the public Arcanum resolver, disposition branches, human confirmation, the existing runtime, and a private CAV2 lineage sidecar.</desc>
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L0,6 L9,3 z" fill="context-stroke"></path>
+                </marker>
+              </defs>
+
+              <g data-layers="ownership runtime">
+                <rect class="boundary product" x="165" y="180" width="455" height="530" rx="24"></rect>
+                <text class="boundary-title" x="190" y="210">ResonantOS product boundary</text>
+                <text class="boundary-subtitle" x="190" y="230">Intent shape, route menu, proposals, product state</text>
+              </g>
+              <g data-layers="ownership runtime install">
+                <rect class="boundary host" x="630" y="180" width="300" height="530" rx="24"></rect>
+                <text class="boundary-title" x="655" y="210">Host control boundary</text>
+                <text class="boundary-subtitle" x="655" y="230">Integrity, confirmation, binding, execution</text>
+              </g>
+              <g data-layers="ownership runtime install">
+                <rect class="boundary public" x="940" y="180" width="300" height="295" rx="24"></rect>
+                <text class="boundary-title" x="965" y="210">Public Arcanum boundary</text>
+                <text class="boundary-subtitle" x="965" y="230">Pure route relation · zero authority</text>
+              </g>
+              <g data-layers="ownership lineage">
+                <rect class="boundary private" x="940" y="690" width="500" height="190" rx="24"></rect>
+                <text class="boundary-title" x="965" y="720">Private CAV2 candidate boundary</text>
+                <text class="boundary-subtitle" x="965" y="740">Digest-bound lineage only · not integrated conformance</text>
+              </g>
+
+              <g data-layers="install">
+                <path class="flow-line install" d="M402 105 L566 105"></path>
+                <path class="flow-line install" d="M762 105 L919 105"></path>
+                <text class="flow-label" x="449" y="91">generate</text>
+                <text class="flow-label" x="806" y="91">install + pin</text>
+              </g>
+
+              <g class="node public inspectable" tabindex="0" role="button" data-layers="install ownership" transform="translate(200 52)"
+                 data-title="Canonical public add-on" data-plain="The reusable source package." data-source-quote="The package is a deterministic, zero-authority routing relation with no required permissions." data-source-ref="arcanum-intent-route-resolver/addon-manifest.json" data-inference="This is the portable semantic source, not an installed product feature.">
+                <rect width="202" height="106" rx="16"></rect>
+                <text class="node-kicker" x="18" y="25">PUBLIC SOURCE</text>
+                <text class="node-title" x="18" y="52">Arcanum add-on</text>
+                <text class="node-copy" x="18" y="75">schemas · core · JSON port</text>
+                <text class="node-copy" x="18" y="93">closure 5ff017ab…</text>
+              </g>
+
+              <g class="node host inspectable" tabindex="0" role="button" data-layers="install" transform="translate(566 52)"
+                 data-title="Generated host package" data-plain="A Codex- or Claude-shaped projection of the add-on." data-source-quote="Generated wrappers were validated in an isolated disposable consumer." data-source-ref="generated-browser-acceptance.json and candidate execution evidence" data-inference="Generation proves portability for the tested package shape; it does not prove installation in ResonantOS or the orchestrator.">
+                <rect width="196" height="106" rx="16"></rect>
+                <text class="node-kicker" x="18" y="25">RUNTIME PROJECTION</text>
+                <text class="node-title" x="18" y="52">Host package</text>
+                <text class="node-copy" x="18" y="75">Codex / Claude wrapper</text>
+                <text class="node-copy" x="18" y="93">validated in isolation</text>
+              </g>
+
+              <g class="node host inspectable" tabindex="0" role="button" data-layers="install lineage" transform="translate(919 52)"
+                 data-title="Installed and pinned adapter" data-plain="The future enabled consumer boundary." data-source-quote="The current orchestrator policy remains disabled until the exact add-on is installed at its pinned entrypoint." data-source-ref="intent-route-adapter-execution-receipt.md" data-inference="This is the next consumer lifecycle state, not the current orchestrator state.">
+                <rect width="232" height="106" rx="16"></rect>
+                <text class="node-kicker" x="18" y="25">PENDING CONSUMER STATE</text>
+                <text class="node-title" x="18" y="52">Installed + enabled</text>
+                <text class="node-copy" x="18" y="75">exact bytes pinned</text>
+                <text class="node-copy" x="18" y="93">currently not enabled</text>
+              </g>
+
+              <path class="flow-line" data-layers="runtime" data-traces="candidate ambiguous stop" d="M140 330 L205 330"></path>
+              <path class="flow-line" data-layers="runtime" data-traces="candidate ambiguous stop" d="M375 330 L420 330"></path>
+              <path class="flow-line" data-layers="runtime" data-traces="candidate ambiguous stop" d="M600 330 L665 330"></path>
+              <path class="flow-line" data-layers="runtime" data-traces="candidate ambiguous stop" d="M865 330 L975 330"></path>
+              <path class="flow-line" data-layers="runtime" data-traces="candidate ambiguous stop" d="M1185 330 L1260 330"></path>
+
+              <g class="node human inspectable" tabindex="0" role="button" data-layers="runtime ownership" transform="translate(20 282)"
+                 data-title="User" data-plain="The person expressing intent and confirming a proposed route." data-source-quote="A candidate disposition requires explicit human confirmation before runtime binding." data-source-ref="ROUTER-CONSUMPTION.md and adapter execution receipt" data-inference="Keeping the person visible on the diagram prevents candidate from looking like automatic approval.">
+                <rect width="120" height="96" rx="48"></rect>
+                <text class="node-kicker" x="33" y="27">HUMAN</text>
+                <text class="node-title" x="31" y="55">User</text>
+                <text class="node-copy" x="24" y="75">intent + choice</text>
+              </g>
+
+              <g class="node product inspectable" tabindex="0" role="button" data-layers="runtime ownership" transform="translate(205 275)"
+                 data-title="Augmentor" data-plain="The conversation and presentation surface." data-source-quote="Augmentor may capture intent, display disposition state, collect clarification, and render a StrategyProposal." data-source-ref="ROUTER-CONSUMPTION.md" data-inference="It behaves like the dashboard: visible and interactive, but not the router or engine.">
+                <rect width="170" height="110" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">CONVERSATION</text>
+                <text class="node-title" x="18" y="55">Augmentor</text>
+                <text class="node-copy" x="18" y="79">capture · explain</text>
+                <text class="node-copy" x="18" y="97">clarify · present</text>
+              </g>
+
+              <g class="node product inspectable" tabindex="0" role="button" data-layers="runtime ownership lineage" transform="translate(420 265)"
+                 data-title="Request and catalog owners" data-plain="The product components that build the question and finite route menu." data-source-quote="ResonantOS owns closed request normalization and the digest-bound finite catalog projection." data-source-ref="ROUTER-CONSUMPTION.md" data-inference="Putting both records in one node shows that the resolver receives a complete comparison problem; it does not discover routes itself.">
+                <rect width="180" height="130" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">PRODUCT INPUTS</text>
+                <text class="node-title" x="18" y="55">Request</text>
+                <text class="node-copy" x="18" y="76">normalized intent</text>
+                <text class="node-title" x="18" y="101">Catalog</text>
+                <text class="node-copy" x="18" y="121">finite + digest-bound</text>
+              </g>
+
+              <g class="node host inspectable" tabindex="0" role="button" data-layers="runtime ownership install" transform="translate(665 265)"
+                 data-title="Authenticated host adapter" data-plain="The guarded process doorway." data-source-quote="Before launch, the adapter verifies source integrity, executable, entrypoint, version bindings, and package closure; it also binds the response to the exact request and catalog." data-source-ref="intent-route-adapter-execution-receipt.md" data-inference="The adapter is plumbing and containment, not a second router or runtime authority.">
+                <rect width="200" height="130" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">GUARDED DOORWAY</text>
+                <text class="node-title" x="18" y="55">Host adapter</text>
+                <text class="node-copy" x="18" y="78">authenticate package</text>
+                <text class="node-copy" x="18" y="97">bound JSON · timeout</text>
+                <text class="node-copy" x="18" y="116">minimal environment</text>
+              </g>
+
+              <g class="node public inspectable" tabindex="0" role="button" data-layers="runtime ownership install" transform="translate(975 265)"
+                 data-title="Public Arcanum resolver" data-plain="A pure comparison between one request and one finite catalog." data-source-quote="The resolver returns candidate, ambiguous, no-match, or invalid and has no permissions or side effects." data-source-ref="intent-route-resolver/README.md and addon-manifest.json" data-inference="This is the GPS calculation: it can name a route but cannot drive the system.">
+                <rect width="210" height="130" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">ZERO AUTHORITY</text>
+                <text class="node-title" x="18" y="55">Arcanum resolver</text>
+                <text class="node-copy" x="18" y="79">deterministic relation</text>
+                <text class="node-copy" x="18" y="98">suggest or abstain</text>
+                <text class="node-copy" x="18" y="117">no effects</text>
+              </g>
+
+              <g class="node public inspectable" tabindex="0" role="button" data-layers="runtime ownership lineage" transform="translate(1260 265)"
+                 data-title="RouteDisposition" data-plain="The resolver's zero-authority answer." data-source-quote="The closed result kind is candidate, ambiguous, no-match, or invalid; authority_effect is always none." data-source-ref="intent-route-resolver contract and ROUTER-CONSUMPTION.md" data-inference="Disposition is deliberately named differently from StrategyProposal so routing and product launch intent cannot collapse.">
+                <rect width="190" height="130" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">TYPED ANSWER</text>
+                <text class="node-title" x="18" y="55">Disposition</text>
+                <text class="node-copy" x="18" y="79">candidate · ambiguous</text>
+                <text class="node-copy" x="18" y="98">no-match · invalid</text>
+                <text class="node-copy" x="18" y="117">authority: none</text>
+              </g>
+
+              <path class="flow-line candidate" data-layers="runtime" data-traces="candidate" d="M1355 395 L1355 515 L1160 515"></path>
+              <text class="flow-label" data-layers="runtime" data-traces="candidate" x="1265" y="502">candidate</text>
+              <path class="flow-line ambiguous" data-layers="runtime" data-traces="ambiguous" d="M1450 330 C1470 330 1470 470 1400 470"></path>
+              <text class="flow-label" data-layers="runtime" data-traces="ambiguous" x="1380" y="445">ask</text>
+              <path class="flow-line ambiguous" data-layers="runtime" data-traces="ambiguous" d="M1265 470 C1000 470 580 445 370 365"></path>
+              <path class="flow-line stop" data-layers="runtime" data-traces="stop" d="M1355 395 L1355 600"></path>
+              <text class="flow-label" data-layers="runtime" data-traces="stop" x="1368" y="550">stop visibly</text>
+
+              <g class="node product inspectable" tabindex="0" role="button" data-layers="runtime ownership" data-traces="candidate" transform="translate(965 465)"
+                 data-title="StrategyProposal" data-plain="The ResonantOS-owned product proposal built from an admitted candidate." data-source-quote="The proposal adds current profile, grants, expiry, children, gates, and expected results; it remains separate from approval and execution." data-source-ref="ROUTER-CONSUMPTION.md" data-inference="This is the product translation layer between a generic route ID and a possible launch.">
+                <rect width="195" height="108" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">PRODUCT PROPOSAL</text>
+                <text class="node-title" x="18" y="55">StrategyProposal</text>
+                <text class="node-copy" x="18" y="78">route + launch fields</text>
+                <text class="node-copy" x="18" y="96">still not approval</text>
+              </g>
+
+              <g class="node product inspectable" tabindex="0" role="button" data-layers="runtime ownership" data-traces="ambiguous" transform="translate(1215 425)"
+                 data-title="Exact clarification" data-plain="The question needed to distinguish routes." data-source-quote="Ambiguous results render the exact clarification and collect a replacement request; no proposal or run is created." data-source-ref="ROUTER-CONSUMPTION.md" data-inference="The feedback arrow means ask again, not automatically repair the intent.">
+                <rect width="185" height="90" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">HUMAN INPUT NEEDED</text>
+                <text class="node-title" x="18" y="55">Clarification</text>
+                <text class="node-copy" x="18" y="76">new request follows</text>
+              </g>
+
+              <g class="node stop inspectable" tabindex="0" role="button" data-layers="runtime" data-traces="stop" transform="translate(1260 600)"
+                 data-title="Visible stop" data-plain="No-match and invalid do not fall through to a guessed route." data-source-quote="No-match stops the router path visibly; invalid surfaces a stable failure and starts nothing." data-source-ref="ROUTER-CONSUMPTION.md" data-inference="Visible abstention is a feature: it prevents uncertainty from becoming hidden execution.">
+                <rect width="190" height="80" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">NO FALLBACK</text>
+                <text class="node-title" x="18" y="55">Stop</text>
+              </g>
+
+              <path class="flow-line candidate" data-layers="runtime" data-traces="candidate" d="M965 520 L870 520"></path>
+              <path class="flow-line candidate" data-layers="runtime" data-traces="candidate" d="M770 572 L770 620"></path>
+              <path class="flow-line candidate" data-layers="runtime" data-traces="candidate" d="M665 662 L595 662"></path>
+              <path class="flow-line candidate" data-layers="runtime" data-traces="candidate" d="M420 662 C310 662 280 560 285 385"></path>
+              <text class="flow-label" data-layers="runtime" data-traces="candidate" x="875" y="505">confirm exact route</text>
+              <text class="flow-label" data-layers="runtime" data-traces="candidate" x="600" y="648">result / evidence</text>
+
+              <g class="node human inspectable" tabindex="0" role="button" data-layers="runtime ownership" data-traces="candidate" transform="translate(670 468)"
+                 data-title="Human confirmation" data-plain="The explicit decision to continue with the exact candidate." data-source-quote="A candidate may continue only when its route ID and confirmed Dispatch seat exactly match an existing workflow binding." data-source-ref="intent-route-adapter-execution-receipt.md" data-inference="This gate is drawn inside the control area because it decides whether the runtime path may be attempted.">
+                <rect width="200" height="104" rx="52"></rect>
+                <text class="node-kicker" x="32" y="29">EXPLICIT CHOICE</text>
+                <text class="node-title" x="30" y="57">Human confirms</text>
+                <text class="node-copy" x="31" y="80">exact route + seat</text>
+              </g>
+
+              <g class="node host inspectable" tabindex="0" role="button" data-layers="runtime ownership" data-traces="candidate" transform="translate(665 620)"
+                 data-title="Existing host runtime" data-plain="The retained owner of binding, launch, lifecycle, and effects." data-source-quote="Existing approval, at-most-once registration, owner execution, child, artifact, lifecycle, security, and browser contracts remain unchanged." data-source-ref="ROUTER-CONSUMPTION.md" data-inference="The diagram returns to this existing owner instead of inventing a router-owned execution engine.">
+                <rect width="210" height="105" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">ONLY EXECUTION PATH</text>
+                <text class="node-title" x="18" y="55">Existing runtime</text>
+                <text class="node-copy" x="18" y="78">bind · launch · persist</text>
+                <text class="node-copy" x="18" y="96">lifecycle · receipts</text>
+              </g>
+
+              <g class="node product inspectable" tabindex="0" role="button" data-layers="runtime ownership" data-traces="candidate" transform="translate(420 610)"
+                 data-title="Product state and results" data-plain="The existing product-owned run, child, artifact, and lifecycle state." data-source-quote="Disabling the router prevents new route admissions without rewriting historical product owner state." data-source-ref="ROUTER-CONSUMPTION.md" data-inference="The feedback arrow returns results to Augmentor for presentation, not for authority promotion.">
+                <rect width="175" height="105" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">RETAINED OWNERS</text>
+                <text class="node-title" x="18" y="55">State + results</text>
+                <text class="node-copy" x="18" y="78">runs · children</text>
+                <text class="node-copy" x="18" y="96">artifacts · lifecycle</text>
+              </g>
+
+              <path class="flow-line lineage" data-layers="lineage runtime" d="M510 395 C510 790 930 790 980 790"></path>
+              <path class="flow-line lineage" data-layers="lineage runtime" d="M1355 395 C1355 650 1300 745 1260 790"></path>
+              <text class="flow-label" data-layers="lineage" x="700" y="778">immutable request ref + digest</text>
+              <text class="flow-label" data-layers="lineage" x="1230" y="755">disposition ref + digest</text>
+
+              <g class="node private inspectable" tabindex="0" role="button" data-layers="lineage ownership" transform="translate(980 765)"
+                 data-title="CAV2 candidate lineage edge" data-plain="A private mapper that preserves exact routing artifact references." data-source-quote="The output posture is candidate_local_non_integrated with authority_effect none; command, journal, effect, and compatibility identities are rejected." data-source-ref="aci-binding-contract/README.md" data-inference="This advances the reasoning-engine entry lineage seam only. It does not make CAV2 part of routing or execution.">
+                <rect width="280" height="90" rx="16"></rect>
+                <text class="node-kicker" x="18" y="27">REFERENCE SIDECAR</text>
+                <text class="node-title" x="18" y="55">CAV2 lineage mapper</text>
+                <text class="node-copy" x="18" y="76">no command · receipt · effect identity</text>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="inspector" aria-live="polite" aria-label="Component evidence inspector">
+            <div class="inspector-sticky">
+              <div class="eyebrow">Inspector rail</div>
+              <h3 id="inspect-title">Select a component</h3>
+              <p id="inspect-plain">Click or focus any outlined component to see what it means, what the source supports, and what the diagram is inferring.</p>
+              <div class="inspect-block source">
+                <div class="evidence-label source">Source-backed</div>
+                <blockquote id="inspect-source">No component selected yet.</blockquote>
+                <cite id="inspect-ref">Local implementation contracts and receipts</cite>
+              </div>
+              <div class="inspect-block inference">
+                <div class="evidence-label inference">Explanatory inference</div>
+                <p id="inspect-inference">The canvas uses position and arrows to explain ownership and movement; those visual choices are not new authority contracts.</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="legend" aria-label="Ownership legend">
+          <div class="legend-item"><span class="legend-swatch product"></span><span><strong>Product</strong><br>ResonantOS / Augmentor</span></div>
+          <div class="legend-item"><span class="legend-swatch host"></span><span><strong>Host control</strong><br>adapter / runtime</span></div>
+          <div class="legend-item"><span class="legend-swatch public"></span><span><strong>Public Arcanum</strong><br>pure route relation</span></div>
+          <div class="legend-item"><span class="legend-swatch private"></span><span><strong>Private candidate</strong><br>CAV2 lineage only</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell content-section" aria-labelledby="four-answers">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Process branch</div>
+          <h2 id="four-answers">Four honest answers</h2>
+        </div>
+        <p>The resolver is useful because abstention is part of the contract, not an exception hidden behind fallback behavior.</p>
+      </div>
+      <div class="branch-grid">
+        <article class="branch-card candidate">
+          <div class="owner-label">1 · unique fit</div>
+          <h3>Candidate</h3>
+          <p>One route is eligible. ResonantOS may build a proposal, but a human and the existing runtime still control continuation.</p>
+        </article>
+        <article class="branch-card ambiguous">
+          <div class="owner-label">2 · information missing</div>
+          <h3>Ambiguous</h3>
+          <p>The system asks the exact discriminating question. No proposal, approval, or run is created.</p>
+        </article>
+        <article class="branch-card no-match">
+          <div class="owner-label">3 · no known fit</div>
+          <h3>No-match</h3>
+          <p>The route path stops visibly. It does not quietly choose the nearest-looking capability.</p>
+        </article>
+        <article class="branch-card invalid">
+          <div class="owner-label">4 · contract failure</div>
+          <h3>Invalid</h3>
+          <p>The request or catalog is not trustworthy enough to evaluate. Nothing starts.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell content-section" aria-labelledby="lifecycle-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Lifecycle stack</div>
+          <h2 id="lifecycle-title">Source is not installation</h2>
+        </div>
+        <p>Each lifecycle state proves something different. The current evidence reaches tested candidate packages; consumer enablement remains pending.</p>
+      </div>
+      <ol class="timeline" data-lane="lifecycle">
+        <li class="current" data-step="1"><strong>Canonical source</strong><br>Public resolver, schemas, manifest, fixtures, and JSON port.</li>
+        <li class="current" data-step="2"><strong>Generated package</strong><br>Codex and Claude projections validated in isolated use.</li>
+        <li class="current" data-step="3"><strong>Browser + adapter evidence</strong><br>Recorded browser witness and local orchestrator acceptance pass.</li>
+        <li class="future" data-step="4"><strong>Consumer install</strong><br>Exact package placed at the pinned host entrypoint.</li>
+        <li class="future" data-step="5"><strong>Enable + merge</strong><br>Policy activation, product integration, review, and merge remain separate gates.</li>
+      </ol>
+    </section>
+
+    <section class="shell content-section" aria-labelledby="glossary-title" data-lane="properties">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Reader on-ramp</div>
+          <h2 id="glossary-title">Plain-language glossary</h2>
+        </div>
+        <p>Compact labels are useful on the map only after their ordinary meaning is clear.</p>
+      </div>
+      <div class="glossary-grid">
+        <article class="term-card"><div class="owner-label">Intent</div><h3>What the user is trying to do</h3><p>Plain language plus the facts needed to tell possible routes apart.</p></article>
+        <article class="term-card"><div class="owner-label">Catalog</div><h3>The finite route menu</h3><p>A read-only, fingerprinted list supplied by the product—not discovered by the resolver.</p></article>
+        <article class="term-card"><div class="owner-label">Disposition</div><h3>The route answer</h3><p>Candidate, ambiguous, no-match, or invalid. It never means permission.</p></article>
+        <article class="term-card"><div class="owner-label">Digest</div><h3>A content fingerprint</h3><p>A lowercase SHA-256 value used to bind a record to exact bytes.</p></article>
+        <article class="term-card"><div class="owner-label">StrategyProposal</div><h3>A possible product launch</h3><p>ResonantOS adds product fields around a verified candidate before human review.</p></article>
+        <article class="term-card"><div class="owner-label">Dispatch / group / seat</div><h3>The existing execution slot</h3><p>A previously governed runtime binding that the candidate must match exactly.</p></article>
+        <article class="term-card"><div class="owner-label">Authority effect</div><h3>Whether something gained permission</h3><p>The resolver and lineage mapper always report none.</p></article>
+        <article class="term-card"><div class="owner-label">Lineage</div><h3>Where a record came from</h3><p>Immutable refs and digests that preserve history without inventing a new identity.</p></article>
+      </div>
+    </section>
+
+    <section class="shell content-section" aria-labelledby="evidence-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Evidence boundary</div>
+          <h2 id="evidence-title">What the current tests actually prove</h2>
+        </div>
+        <p>These numbers are local candidate evidence. They do not mean installed, merged, released, deployed, or production-ready.</p>
+      </div>
+      <div class="evidence-grid">
+        <article class="evidence-card pass">
+          <div class="evidence-label source">Public package</div>
+          <h3 class="metric">23 / 23</h3>
+          <p>Node tests pass. The 39-file public boundary scan and source/license/API check also pass.</p>
+        </article>
+        <article class="evidence-card pass">
+          <div class="evidence-label source">Real browser</div>
+          <h3 class="metric">6 / 6</h3>
+          <p>Recorded Chromium cases pass with zero console errors and zero external requests.</p>
+        </article>
+        <article class="evidence-card pass">
+          <div class="evidence-label source">Host adapter</div>
+          <h3 class="metric">27 / 27</h3>
+          <p>Frozen acceptance passes, alongside 18 focused and 111 full runtime tests.</p>
+        </article>
+        <article class="evidence-card pass">
+          <div class="evidence-label source">CAV2 candidate edge</div>
+          <h3 class="metric">PASS</h3>
+          <p>Positive and adversarial probes reject direct, embedded, normalized, and encoded identity smuggling.</p>
+        </article>
+        <article class="evidence-card pending">
+          <div class="evidence-label inference">Consumer activation</div>
+          <h3>Not yet evidenced</h3>
+          <p>The orchestrator policy is disabled. ResonantOS has a validated plan, not product runtime changes.</p>
+        </article>
+        <article class="evidence-card pending">
+          <div class="evidence-label inference">Integrated ACI conformance</div>
+          <h3>Not claimed</h3>
+          <p>The private mapper preserves lineage only; external fixtures and owner receipts remain open.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell content-section" aria-labelledby="limits-title" data-lane="risk_questions">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Risk questions</div>
+          <h2 id="limits-title">The decisions still ahead</h2>
+        </div>
+        <p>A clean diagram should make the missing evidence easier to see, not make it disappear.</p>
+      </div>
+      <div class="limit-grid">
+        <article class="limit-card"><h3>Which consumer installs first?</h3><p>The standalone package is portable, but each host still needs an exact install path, pin, policy, and rollback owner.</p></article>
+        <article class="limit-card"><h3>When should the adapter be enabled?</h3><p>Only after the installed package bytes match policy and the consumer's review and merge gates pass.</p></article>
+        <article class="limit-card"><h3>Which ResonantOS route catalog ships?</h3><p>The planning contract identifies the catalog projector owner; actual product routes and runtime changes are not implemented here.</p></article>
+        <article class="limit-card"><h3>When can CAV2 claim conformance?</h3><p>Not until external contract fixtures and owner receipts prove the integrated command, journal, receipt, and read boundaries.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">
+      <strong>Generated as a private newcomer explanation.</strong>
+      Source-backed facts come from the local public add-on, orchestrator candidate receipt, ResonantOS consumption contract, CAV2 candidate package, and browser receipt. Layout and analogy are explanatory inference, not canonical architecture authority.
+      <div style="margin-top: 10px"><a href="./BEGINNERS-GUIDE.md">Read the full beginner's guide</a></div>
+      <div style="margin-top: 10px">X-ray method: L0 static HTML/SVG. Reader terms and reader outcomes explain why it matters before technical detail.</div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const layerButtons = [...document.querySelectorAll("[data-layer-control]")];
+      const traceButtons = [...document.querySelectorAll("[data-trace-control]")];
+      const layered = [...document.querySelectorAll("[data-layers]")];
+      const traced = [...document.querySelectorAll("[data-traces]")];
+      const inspectables = [...document.querySelectorAll(".inspectable")];
+
+      function setLayer(layer) {
+        layerButtons.forEach((button) => {
+          button.checked = button.dataset.layerControl === layer;
+        });
+        layered.forEach((element) => {
+          const layers = element.dataset.layers.split(/\s+/);
+          element.dataset.layerHidden = String(layer !== "all" && !layers.includes(layer));
+        });
+      }
+
+      function setTrace(trace) {
+        traceButtons.forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.traceControl === trace));
+        });
+        traced.forEach((element) => {
+          const traces = element.dataset.traces.split(/\s+/);
+          element.dataset.traceMuted = String(trace !== "none" && !traces.includes(trace));
+        });
+      }
+
+      function inspect(element) {
+        inspectables.forEach((candidate) => candidate.classList.toggle("is-active", candidate === element));
+        document.getElementById("inspect-title").textContent = element.dataset.title;
+        document.getElementById("inspect-plain").textContent = element.dataset.plain;
+        document.getElementById("inspect-source").textContent = element.dataset.sourceQuote;
+        document.getElementById("inspect-ref").textContent = element.dataset.sourceRef;
+        document.getElementById("inspect-inference").textContent = element.dataset.inference;
+      }
+
+      layerButtons.forEach((button) => button.addEventListener("change", () => setLayer(button.dataset.layerControl)));
+      traceButtons.forEach((button) => button.addEventListener("click", () => setTrace(button.dataset.traceControl)));
+      inspectables.forEach((element) => {
+        element.addEventListener("click", () => inspect(element));
+        element.addEventListener("focus", () => inspect(element));
+        element.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            inspect(element);
+          }
+        });
+      });
+
+      setLayer("all");
+      setTrace("candidate");
+      if (inspectables[0]) inspect(inspectables[0]);
+      document.documentElement.dataset.xrayReady = "true";
+    })();
+  </script>
+</body>
+</html>

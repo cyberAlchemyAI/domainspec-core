@@ -1,0 +1,34 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "invoke",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "964f1ccccb13759c53e1f02ee4bd4808db254c0b4d64ef1826e57a330032fa2d",
+  "packageId": "uova-ui-description-refresh-20260805T192950Z",
+  "patchVerdict": "pass",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/PLAN-DELTA.md",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/RECEIPT.json",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/REFRESH-REPORT.md",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/SOURCE-SIGNALS.json",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/TARGET-INVENTORY.json",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/TECHNIQUE-TRACE.json",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/UI-API-CONTRACT.md",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/UI-API-INVENTORY.json",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/UI-CONFORMANCE-MATRIX.md",
+    "cyberAlchemy-v2/implementation/ontology-evidence-workbench/development/refinement-runs/20260805T153357Z-uova-reference-model-and-downstream-refinement/stages/11-invoke-refresh/UI-VALIDATION-CONTRACT.md"
+  ],
+  "validationCommands": [
+    "jq empty stages/11-invoke-refresh/*.json",
+    "jq verify 58 unique contracts, count algebra, authority ceilings, and allowed SWU bindings",
+    "projects/domainspec-v2/impl/node_modules/.bin/tsx projects/domainspec-v2/impl/tools/validate-ui-profile.ts --profile projects/domainspec-v2/impl/spec/ui-profile/profile.yml --fixtures projects/domainspec-v2/impl/spec/ui-profile/fixtures/create-player",
+    "sha256sum verify minted profile, UI profile, meta-type registry, prior UI inventory, relation architecture, work pack, and four base task inputs",
+    "cmp staged outputs with exact applied target bytes",
+    "git diff --check -- stages/11-invoke-refresh"
+  ]
+}

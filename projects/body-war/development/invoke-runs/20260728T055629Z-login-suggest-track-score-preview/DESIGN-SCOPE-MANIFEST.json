@@ -1,0 +1,443 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "body-war:login-suggest-track-score-preview:design",
+  "target_id": "body-war-login-suggest-track-score-preview",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+        "digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "approved-spec",
+        "path": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+        "digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+      },
+      {
+        "selector": "candidate-ontology-map",
+        "path": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/ONTOLOGY-MAP.md",
+        "digest": "ed8d3ae954cffe1c3f11eee681ced6624587080ef20b80cc94b47dd18b7a6e09"
+      },
+      {
+        "selector": "approved-glossary",
+        "path": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/GLOSSARY.md",
+        "digest": "0c19b9f308a7882ab5711df86c362254bfe29aedbc37fc14682a073245bd5470"
+      },
+      {
+        "selector": "craft-owner-ceiling",
+        "path": "projects/body-war/.craft/ledger.yml",
+        "digest": "fdd34c9ac566a4aebffd51b1eea7c01a3ed9f784cbc603d40858907eb54c52c2"
+      },
+      {
+        "selector": "current-prototype-gap",
+        "path": "projects/body-war/development/research/20260727-suggested-track-testable-prototype-gap/findings.md",
+        "digest": "b0cc18e90eac9c9464d6466926b198d6a55031f59c879c97547101efd976baa2"
+      },
+      {
+        "selector": "historical-bwoi-ct2-boundary",
+        "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+        "digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+      },
+      {
+        "selector": "suggested-track-domain",
+        "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/domain.md",
+        "digest": "03e3fc6e21638b4ef8109118a1fc6b9f76c317dc9607072ea568d27105970d6e"
+      },
+      {
+        "selector": "suggested-track-states",
+        "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/states.md",
+        "digest": "400772f889ba3663f770eaeb03be88e106742a99643c140b44116083eaff373e"
+      },
+      {
+        "selector": "suggested-track-operations",
+        "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/operations.md",
+        "digest": "ef1fcf8bc4021824c5180c3cda07a967c3c9b5e26a1ef17afa464c3717771fee"
+      },
+      {
+        "selector": "suggested-track-interfaces",
+        "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/interfaces.md",
+        "digest": "1e393fb1bd6868a06e8c4eef6a3252976df4613c72d0c96fddb6809768125b75"
+      },
+      {
+        "selector": "suggested-track-ui",
+        "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/ui-spec.md",
+        "digest": "62ac227ca61dcc6f93a791acdbb67ee1c4a22bbff32804991e7a45d1d68d2182"
+      },
+      {
+        "selector": "current-app-types",
+        "path": "projects/body-war/app/src/auth/types.ts",
+        "digest": "1ad27dcc659050682029f81e4938fcf65daf7e76711521a036cfcd1445bd29af"
+      },
+      {
+        "selector": "current-strava-adapter",
+        "path": "projects/body-war/app/src/auth/strava-oauth.ts",
+        "digest": "798e0f401633ebb235d989191c2f00ccff7183c7f50be7e6b857c7f6473f26b4"
+      },
+      {
+        "selector": "current-http-surface",
+        "path": "projects/body-war/app/server.ts",
+        "digest": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2"
+      },
+      {
+        "selector": "score-source-contract",
+        "path": "projects/body-war/docs/features/game-rules/SPEC.md",
+        "digest": "83e98882cbe01b0ceecbd1ef3a4a8f034a98f988c5ceb66770ff926c7a69aad3"
+      },
+      {
+        "selector": "score-authority-residue",
+        "path": "projects/body-war/development/refinement-runs/20260629-troqar-score-authority/RESULT.md",
+        "digest": "8d90a7a5d971b956aa520177641812953160a360de714cfcdf6c4b5fc68652ca"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "projects/body-war/app/data",
+        "reason": "Provider tokens and private runtime data are never design inputs.",
+        "evidence_ref": "SPEC.md#non-goals"
+      },
+      {
+        "selector": "cyberAlchemy/ontology/entries",
+        "reason": "The ontology map is Body War candidate context with authority_effect none.",
+        "evidence_ref": "ONTOLOGY-MAP.md#vault-boundary"
+      },
+      {
+        "selector": "territory-control-production",
+        "reason": "ScorePreview does not decide conquest or controller authority.",
+        "evidence_ref": "SPEC.md#non-goals"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "source:approved-spec",
+      "selector": "SPEC.md",
+      "path": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "source_id": "source:track-lifecycle",
+      "selector": "states.md#suggestedtracklifecycle",
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/states.md",
+      "digest": "400772f889ba3663f770eaeb03be88e106742a99643c140b44116083eaff373e"
+    },
+    {
+      "source_id": "source:consent-operation",
+      "selector": "operations.md#attachactivityevidencecandidate",
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/operations.md",
+      "digest": "ef1fcf8bc4021824c5180c3cda07a967c3c9b5e26a1ef17afa464c3717771fee"
+    },
+    {
+      "source_id": "source:score-draft",
+      "selector": "game-rules/SPEC.md#zone-score",
+      "path": "projects/body-war/docs/features/game-rules/SPEC.md",
+      "digest": "83e98882cbe01b0ceecbd1ef3a4a8f034a98f988c5ceb66770ff926c7a69aad3"
+    },
+    {
+      "source_id": "source:prototype-gap",
+      "selector": "findings.md#exact-current-boundary-and-evidence-status",
+      "path": "projects/body-war/development/research/20260727-suggested-track-testable-prototype-gap/findings.md",
+      "digest": "b0cc18e90eac9c9464d6466926b198d6a55031f59c879c97547101efd976baa2"
+    },
+    {
+      "source_id": "source:historical-bwoi-ct2",
+      "selector": "SPEC.md#claim-ceiling",
+      "path": "projects/body-war/development/invoke-runs/20260727T172835Z-suggested-track-ontology-domainspec-integration/SPEC.md",
+      "digest": "7c759884d00c51f29f28c7279ffeae6b1fd91e318a6733a39feed237826e94f4"
+    }
+  ],
+  "human_actors": [
+    {
+      "actor_id": "actor:runner",
+      "natural_person": true,
+      "reads": true,
+      "decides": true,
+      "acts": true,
+      "recovers": true,
+      "navigates": true,
+      "assistive_operation": true,
+      "surfaces": [
+        "surface:login",
+        "surface:track-selection",
+        "surface:consent",
+        "surface:score-preview"
+      ],
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "rendered_surfaces": [
+    {
+      "surface_id": "surface:login",
+      "modality": "responsive-web",
+      "semantic_contract_ref": "SPEC.md#significant-behavior-scenario",
+      "semantic_change": "changed",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "surface_id": "surface:consent",
+      "modality": "responsive-web-form",
+      "semantic_contract_ref": "SPEC.md#confirmtrackwithactivity",
+      "semantic_change": "changed",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "surface_id": "surface:score-preview",
+      "modality": "responsive-web-read-model",
+      "semantic_contract_ref": "SPEC.md#projectscorepreview",
+      "semantic_change": "new",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "interfaces": [
+    {
+      "interface_id": "interface:strava-oauth",
+      "kind": "authenticated-external-oauth",
+      "peer": "strava",
+      "direction": "bidirectional",
+      "contract_ref": "SPEC.md#authenticateviastrava",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "interface_id": "interface:strava-activity-geometry",
+      "kind": "authenticated-external-api",
+      "peer": "strava",
+      "direction": "outbound",
+      "contract_ref": "SPEC.md#fetchselectedactivitygeometry",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "interface_id": "interface:journey-api",
+      "kind": "authenticated-http-api",
+      "peer": "body-war-browser",
+      "direction": "bidirectional",
+      "contract_ref": "SPEC.md#api-surface",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "stores": [
+    {
+      "store_id": "store:body-war-postgres",
+      "authority": "Body War application persistence; not ontology or game-policy authority",
+      "data_classes": [
+        "runner-confirmation",
+        "activity-evidence-candidate",
+        "private-geometry-candidate",
+        "score-input-snapshot",
+        "score-preview",
+        "derivation-receipt"
+      ],
+      "writers": [
+        "writer:journey-orchestrator"
+      ],
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "queues": [],
+  "writers": [
+    {
+      "writer_id": "writer:journey-orchestrator",
+      "targets": [
+        "store:body-war-postgres"
+      ],
+      "concurrency": "one resumable command with confirmation key principal plus track plus activity plus consentDigest; geometry key confirmation plus derivation and geometry-policy digests; score key geometry plus score-policy plus ScoreInputSnapshot digests",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "normative_rules": [
+    {
+      "rule_id": "rule:confirmation-not-promotion",
+      "verb": "must",
+      "subject": "runner confirmation",
+      "object": "transition candidate evidence only and never authorize source-backed status",
+      "enforcement_hint": "state-machine and API negative controls",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "rule_id": "rule:exact-consent-binding",
+      "verb": "must",
+      "subject": "confirmation writer",
+      "object": "bind the same principal track activity consent text and version across UI request and persistence",
+      "enforcement_hint": "browser API and repository identity witness",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "rule_id": "rule:raw-stream-ephemeral",
+      "verb": "must",
+      "subject": "activity geometry gateway",
+      "object": "avoid persistence and logging of raw provider streams",
+      "enforcement_hint": "sink allow-list and no-secret fixture",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "rule_id": "rule:ratified-score-policy",
+      "verb": "must",
+      "subject": "score preview calculation",
+      "object": "refuse numeric output without an owner-ratified versioned policy",
+      "enforcement_hint": "blocked-policy negative fixture and policy digest check",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "effect:external-strava-read",
+      "reversible": false,
+      "external": true,
+      "privileged": true,
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "effect_id": "effect:persist-private-geometry",
+      "reversible": false,
+      "external": false,
+      "privileged": true,
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "data_and_log_sinks": [
+    {
+      "sink_id": "sink:journey-persistence",
+      "data_classes": [
+        "exact-consent-text",
+        "redacted-activity-summary",
+        "privacy-filtered-geometry",
+        "score-components",
+        "source-digests"
+      ],
+      "retention_hint": "prototype retention policy required before participant or real-provider execution",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "sink_id": "sink:application-error-log",
+      "data_classes": [
+        "stable-error-code",
+        "redacted-selector-digest"
+      ],
+      "retention_hint": "existing application log policy; sentinel scan must prove provider tokens raw payloads and raw activity streams are absent in L0",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "sink_id": "sink:test-snapshot",
+      "data_classes": [
+        "fixture-selector",
+        "redacted-result"
+      ],
+      "retention_hint": "source-controlled test evidence; sentinel scan must prove provider tokens raw payloads and raw activity streams are absent in L0",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "sink_id": "sink:validation-receipt",
+      "data_classes": [
+        "artifact-digest",
+        "policy-digest",
+        "geometry-digest",
+        "score-input-snapshot-digest",
+        "claim-ceiling"
+      ],
+      "retention_hint": "redacted bounded development evidence; provider tokens raw payloads and raw activity streams are forbidden",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "deployment_targets": [
+    {
+      "deployment_id": "deployment:supervised-hosted-prototype",
+      "environment": "existing Body War hosted service after HOST-01 admission",
+      "release_mode": "one participant one activity one attempt supervised witness",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "compatibility_boundaries": [
+    {
+      "boundary_id": "compatibility:activity-summary-to-geometry-detail",
+      "old_contract": "stored-redacted-activity-summary-with-maps-omitted",
+      "new_contract": "ephemeral-selected-activity-streams-plus-private-derived-geometry",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "boundary_id": "compatibility:evidence-candidate-to-confirmation",
+      "old_contract": "hard-coded-consent-and-independent-track-selector",
+      "new_contract": "versioned-exact-confirmation-binding-and-idempotent-orchestration",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "quality_claims": [
+    {
+      "claim_id": "quality:responsive-journey",
+      "source_kind": "required-browser-witness",
+      "threshold_or_tradeoff": "exact non-first track journey completes at 320px and 390px with no hidden critical control",
+      "required": true,
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "claim_id": "quality:deterministic-score",
+      "source_kind": "required-calculator-witness",
+      "threshold_or_tradeoff": "same normalized evidence and policy digest produces the same component and total points",
+      "required": true,
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "acceptance:local-fixture-journey",
+      "selector": "AC-JSP-001",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "claim_id": "acceptance:moderated-local-journey",
+      "selector": "AC-JSP-002",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "claim_id": "acceptance:real-provider-geometry",
+      "selector": "AC-JSP-003",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "claim_id": "acceptance:score-determinism",
+      "selector": "AC-JSP-004",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    },
+    {
+      "claim_id": "acceptance:no-authority-inflation",
+      "selector": "AC-JSP-005",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/body-war/development/invoke-runs/20260728T055629Z-login-suggest-track-score-preview/SPEC.md",
+      "source_digest": "55a0969eddebcadafc7c43601ded0be754065723353e389594fdd37bb127a185"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "49bc3a0d3d0aa11dd0df44753036c2b27bed4e5a5b788a26584530db8bffb87b",
+  "authored_by": "codex-invoke-design-author"
+}

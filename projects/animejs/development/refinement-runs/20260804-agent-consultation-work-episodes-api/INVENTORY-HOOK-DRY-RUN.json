@@ -1,0 +1,69 @@
+{
+  "schema_version": "inventory.operation-receipt.v1",
+  "operation": "append",
+  "mode": "dry-run",
+  "status": "candidate-blocked",
+  "reason_code": "candidate-not-ready",
+  "operation_fingerprint": "c9206833df99c2db44b4158c91d205f20bf0b5baf59d3230e300940f95ecdb87",
+  "timestamp_input": "2026-08-04T15:29:37.000Z",
+  "inventory_root": ".arcanum/inventory",
+  "runtime": {
+    "evidence_state": "observed",
+    "bundle_sha256": "119e37a3d8f7fd03dead46e3d82f4cad68338282a860506bc0bfae8f1e45d5c0",
+    "helpers": [
+      {"path": "lib/inventory-update.cjs", "evidence_state": "observed", "sha256": "46fd1e2a322cd8886091c0f3fab7464779c2ef2d24db949357cd7d66617a3c43"},
+      {"path": "lib/operation-receipt.cjs", "evidence_state": "observed", "sha256": "96d3bed886598d09302609d33e6e9a6f499945ac89a4103e89e5afd5c5c37adf"},
+      {"path": "schemas/inventory.operation-receipt.v1.schema.json", "evidence_state": "observed", "sha256": "806fe152e8eb7eb3c7f27b4e20b696161b13ec906c8502e08911b06829e42282"},
+      {"path": "scripts/validate-index-json.sh", "evidence_state": "observed", "sha256": "d14f93526a19ed53a74893b7cd0b8be560fbd61a6baac27aab1133b137d5f7d6"},
+      {"path": "scripts/validate_projection_conformance.py", "evidence_state": "observed", "sha256": "e13365e6a8a20609de863391b2fad510de8c4ab55d388af97167bb080215a3a7"}
+    ]
+  },
+  "inputs": {
+    "evidence_state": "observed",
+    "baseline_index_sha256": "7b8d97967c3aafa47ae54d6b266701300aef3d0b15ead87c7a4910914cd972de",
+    "baseline_human_index_sha256": "71c7e7ed219e13708ad6743ab9ac36589a06b09d80a078319f26eb117488c0c6",
+    "record_sha256": "1fec6f921b732ab43fd9a6f363eb9d216cff0869ee8d2cbc2d69cc7dd388a59b",
+    "normalized_record_sha256": "1fec6f921b732ab43fd9a6f363eb9d216cff0869ee8d2cbc2d69cc7dd388a59b"
+  },
+  "baseline": {
+    "evidence_state": "observed",
+    "report_sha256": "5ac668d57bb65e8c80d57f88e4c28ff73f88f6f1dfd634fbd9e4dab60fcc7cb3",
+    "lookup_readiness": "ready",
+    "failure_count": 0,
+    "warning_count": 141
+  },
+  "candidate": {
+    "evidence_state": "observed",
+    "disposition": "added",
+    "index_sha256": "2b721ecfa72b2c6230978f8160c626492ff9cb3a026fa694971aec65941e3882",
+    "human_index_sha256": "8720ed18ffe361e11bed187bec417f98b77b9294f0b597e972547f0e6ad46d4c",
+    "report_sha256": "8df757c45cabb60f5b9f2a3dd06b34d4fa1cfc1eae24b64de262b84403ecff1c",
+    "lookup_readiness": "blocked"
+  },
+  "warning_delta": {
+    "evidence_state": "observed",
+    "introduced": [],
+    "resolved": [],
+    "inherited_count": 141,
+    "inherited_set_sha256": "28663f5efb4592b10c49ebc45cd2ab5df1a784db04ff0abcd6ad5e1caf8ee8ba"
+  },
+  "write": {
+    "evidence_state": "observed",
+    "attempted": false,
+    "committed": false,
+    "observed_changed_paths": [],
+    "expected_postwrite_digests": {
+      "index.json": "7b8d97967c3aafa47ae54d6b266701300aef3d0b15ead87c7a4910914cd972de",
+      "index.md": "71c7e7ed219e13708ad6743ab9ac36589a06b09d80a078319f26eb117488c0c6"
+    },
+    "actual_postwrite_digests": {
+      "index.json": "7b8d97967c3aafa47ae54d6b266701300aef3d0b15ead87c7a4910914cd972de",
+      "index.md": "71c7e7ed219e13708ad6743ab9ac36589a06b09d80a078319f26eb117488c0c6"
+    },
+    "possible_partial_mutation": false,
+    "repair_required": false
+  },
+  "authority_boundary": "inventory-read-model-only",
+  "residue": ["candidate-validation-blocked", "no-currentness-or-promotion-claim"],
+  "receipt_sha256": "003bc6ffd951b5f4f6c4f1e713d700b014f6a8c6afe677adaaf77a46bfc93bcd"
+}

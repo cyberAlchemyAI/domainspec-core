@@ -1,0 +1,156 @@
+{
+  "authored_concern_ids": [
+    "authored:failure",
+    "authored:reliability"
+  ],
+  "denominator_signal_ids": [
+    "authored:failure",
+    "authored:reliability",
+    "signal:acceptance-readiness-claim:define-authored-complete",
+    "signal:compatibility:historical-receipt-to-candidate-v1",
+    "signal:effect:emit-candidate-validation-receipt",
+    "signal:interface:query-contract-input",
+    "signal:interface:validation-receipt-output",
+    "signal:normative-rule:history-immutability",
+    "signal:normative-rule:no-authority-effect",
+    "signal:normative-rule:terminal-precedence"
+  ],
+  "detector_id": "invoke-design-scope-extractor",
+  "detector_owner": "spellcraft",
+  "detector_version": "1.0.0",
+  "diagnostics": [],
+  "extracted_signals": [
+    {
+      "attributes": {
+        "evidence_state": "authored-complete",
+        "selector": "DEFINE-RESULT.md"
+      },
+      "signal_class": "acceptance-readiness-claim",
+      "signal_id": "signal:acceptance-readiness-claim:define-authored-complete",
+      "source_digest": "8b231d1c0cc2c6e805af441f2cda1a67df0d19e7b6689f32b2823e0d3987b36a",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/DEFINE-RESULT.md"
+    },
+    {
+      "attributes": {
+        "new_contract": "new QueryReceipts validated by candidate-v1 without rewriting historical bytes",
+        "old_contract": "historical stored QueryReceipts with their original algorithm_version"
+      },
+      "signal_class": "compatibility",
+      "signal_id": "signal:compatibility:historical-receipt-to-candidate-v1",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+    },
+    {
+      "attributes": {
+        "external": false,
+        "privileged": false,
+        "reversible": true
+      },
+      "signal_class": "effect",
+      "signal_id": "signal:effect:emit-candidate-validation-receipt",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "SPEC.md#normative-invariants",
+        "direction": "inbound",
+        "kind": "immutable-candidate-contract",
+        "peer": "future-query-engine"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:query-contract-input",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "SPEC.md#define-acceptance",
+        "direction": "outbound",
+        "kind": "content-addressed-candidate-evidence",
+        "peer": "task-session-closeout"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:validation-receipt-output",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "migration note and validation fixture that rejects rewrite semantics",
+        "object": "original bytes and original algorithm version",
+        "subject": "historical QueryReceipts",
+        "verb": "must-preserve"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:history-immutability",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "candidate path and owner boundary checks",
+        "object": "ontology admission promotion publication release or deployment",
+        "subject": "candidate validation receipts",
+        "verb": "must-not-authorize"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:no-authority-effect",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "JSON schema plus deterministic validator and eight fixtures",
+        "object": "exactly one success or one primary abstention by the closed total precedence",
+        "subject": "each QRY-003 receipt",
+        "verb": "must-select-terminal"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:terminal-precedence",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530",
+      "source_selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md"
+    }
+  ],
+  "inspected_selectors": [
+    {
+      "path": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/DEFINE-RESULT.md",
+      "selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/DEFINE-RESULT.md",
+      "source_digest": "8b231d1c0cc2c6e805af441f2cda1a67df0d19e7b6689f32b2823e0d3987b36a"
+    },
+    {
+      "path": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/GLOSSARY.md",
+      "selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/GLOSSARY.md",
+      "source_digest": "0018c60163922b915e0428cf116e52877592542d75b3e23d0b70129d7ef6a511"
+    },
+    {
+      "path": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/IMPLEMENTATION-LAYERING-SEED.md",
+      "selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/IMPLEMENTATION-LAYERING-SEED.md",
+      "source_digest": "65ca07861f21ec1e61738c2e45a4b8b623e80befca925dd9304d12c6ad1e43e6"
+    },
+    {
+      "path": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md",
+      "selector": "projects/animejs/development/invoke-runs/20260803T194346Z-animejs-query-contract-readiness/SPEC.md",
+      "source_digest": "5f4cbc51d7211b65c5679a3125e3b3f0ed935b32488cf23c516c73663f024530"
+    },
+    {
+      "path": "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/stages/08-query-contract-matrix.json",
+      "selector": "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/stages/08-query-contract-matrix.json",
+      "source_digest": "537e05842d2089ceab84b24e936ab0849292465cbabd6ee36f6dda4cab4df342"
+    },
+    {
+      "path": "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/task-sessions/20260803T191537Z-SWU-AKV-NV-001/CLOSEOUT-PREFLIGHT.json",
+      "selector": "projects/animejs/development/refinement-runs/20260803T175423Z-animejs-blocking-defects/task-sessions/20260803T191537Z-SWU-AKV-NV-001/CLOSEOUT-PREFLIGHT.json",
+      "source_digest": "8609842f88c8142406381eee0b95e2ec55a83296bde8b1ccd731b436e04245c3"
+    }
+  ],
+  "manifest_authored_by": "invoke-design-author",
+  "manifest_id": "animejs.akv.query-contract-readiness.design-scope.v1",
+  "manifest_input_digest": "51c6b70bec610a003e024e083a340e08943718204b9468da43c5cc5a7b25e725",
+  "missing_detector_inputs": [],
+  "receipt_digest": "577c13a5cabf4f96e5dc3199f8b856323a70fbd2173e48bf72191f73ec8b27b3",
+  "schema_version": "1.0.0",
+  "unbound_signal_ids": [],
+  "validator_owner": "invoke-design-selection-validator",
+  "verdict": "pass"
+}

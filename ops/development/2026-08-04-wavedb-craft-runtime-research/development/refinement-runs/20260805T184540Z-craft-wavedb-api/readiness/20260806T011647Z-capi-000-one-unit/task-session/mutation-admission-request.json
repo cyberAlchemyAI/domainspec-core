@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "1.2.0",
+  "admissionProfile": "plan-once-selected-unit",
+  "executionMode": "routed-mutation",
+  "taskId": "TASK-RUNTIME",
+  "swuId": "SWU-CAPI-000",
+  "controlArtifacts": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+      "sha256": "499c2f102b0485b0450fd0bc8bf1895817f7704793789a839b864a491071669d",
+      "sizeBytes": 12906,
+      "role": "work-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/TASK.md",
+      "sha256": "ccf58e6e73491b8b4d977380ba50f6899305bf049323d19e2baa1a570987824d",
+      "sizeBytes": 1687,
+      "role": "task-contract",
+      "authorityClass": "private"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/context-pack.json",
+      "sha256": "455a824865506818490c4744eb6eb694d1d9551fd288aedcf8ad75f3d20b6792",
+      "sizeBytes": 6242,
+      "role": "context-pack",
+      "authorityClass": "private"
+    }
+  ],
+  "dependencyFrontier": [
+    {
+      "dependencyId": "WCND-0.15.9-diagnostic",
+      "artifactRef": {
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26-0.15.9/npm-diagnostic-receipt.json",
+        "sha256": "6243febc06f345d0fa22b8b1210742c19e7d4cda74ca6a840e36f8d32428918c",
+        "sizeBytes": 4483
+      }
+    },
+    {
+      "dependencyId": "WCND-0.15.9-task-session",
+      "artifactRef": {
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/terminal-receipt.json",
+        "sha256": "eb07d1a14c4dacb30a272240057432c87f8acc430a6b064e0096f99e6107553c",
+        "sizeBytes": 3873
+      }
+    },
+    {
+      "dependencyId": "WCLI-0.15.8-scope-baseline",
+      "artifactRef": {
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json",
+        "sha256": "97dd371843771bf752124fbe7d6cbc886d785128ab690dc31da48813d228810f",
+        "sizeBytes": 8494
+      }
+    }
+  ],
+  "materialPackage": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/material/material-package.json",
+    "sha256": "d8955e251106fdf924554f9274c9716daaad705665cc8ac7fb5105798170673a",
+    "sizeBytes": 6804
+  },
+  "materialReceipt": {
+    "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/task-session/material/material-receipt-repair-01.json",
+    "sha256": "24fb454923a6c67cd94f0c4c00b900e1e8d11d7f11604d6a5e07aaeffeffc5c0",
+    "sizeBytes": 3434
+  },
+  "producerReceiptSchema": {
+    "path": "arcanum/spells/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "89b842ac515c03f7b12b04ab3bfdd2e9d473005b5c863eae237bc2f5ee980b66",
+    "sizeBytes": 4078
+  },
+  "materialWrites": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/import-ledgers-byte-normalized.js"
+  ],
+  "executionOutputs": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/store",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01/receipt.json"
+  ],
+  "allowedWrites": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/import-ledgers-byte-normalized.js",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/store",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01/receipt.json"
+  ],
+  "validationCommands": [
+    "node-v26.6.0 --check admitted builder",
+    "jq exact pass-receipt semantics",
+    "git diff --check on the two admitted attempt roots"
+  ],
+  "lifecycleOwner": "experiment-harness",
+  "authorityClass": "private",
+  "publicationClass": "internal",
+  "planAdmission": {
+    "planManifest": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/audit-output-repair-04/plan-semantic-manifest.json",
+      "sha256": "c9dee00e9c56f3cb2b06a03ee19a0184a15079d4572b4965b240c02bf7d0d418",
+      "sizeBytes": 3734
+    },
+    "planManifestSchema": {
+      "path": "arcanum/spells/work-pack-readiness-audit/schemas/plan-semantic-manifest.schema.json",
+      "sha256": "db9c2ea2548c07bc266b525d74dbedc37da4a62e8d6bc8737692c731bb190235",
+      "sizeBytes": 6258
+    },
+    "selectionReceipt": {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/readiness/20260806T011647Z-capi-000-one-unit/selection-receipt.json",
+      "sha256": "2ccd5d58fb9e2ad06fa189d96cbdf299a103c9fd5fbe0c9a9f810da60f7d3246",
+      "sizeBytes": 964
+    },
+    "selectionReceiptSchema": {
+      "path": "arcanum/spells/work-pack-readiness-audit/schemas/selection-receipt.schema.json",
+      "sha256": "0ceb9f2194ad87e98f482bb493d8de446a8488f24dce19ad0d7600d70e739516",
+      "sizeBytes": 3169
+    },
+    "planEpochId": "epoch-960df2e521f0a05e892a92d7",
+    "unitContractDigest": "0a31d957cab6e7172d5b321fe321878d05946b0d8b5fd2d942b803d299e4669f",
+    "attemptId": "wcli-20260805-node26-0.15.9-01",
+    "targetBaselines": [
+      {
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/import-ledgers-byte-normalized.js",
+        "state": "absent",
+        "sha256": null,
+        "sizeBytes": null
+      }
+    ],
+    "structuredValidationContracts": [
+      {
+        "command_id": "capi-000-builder-syntax",
+        "argv": [
+          "/home/vrondelli/.nvm/versions/node/v26.6.0/bin/node",
+          "--check",
+          "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/import-ledgers-byte-normalized.js"
+        ],
+        "cwd": ".",
+        "timeout_seconds": 20,
+        "max_output_bytes": 8192
+      },
+      {
+        "command_id": "capi-000-receipt-semantics",
+        "argv": [
+          "jq",
+          "-e",
+          ".verdict == \"pass\" and .attemptId == \"wcli-20260805-node26-0.15.9-01\" and .environment.node == \"v26.6.0\" and .dependency.version == \"0.15.9\" and .scope.ledgerCount == 27 and .database.recordCount == 55 and .verification.completeImmediateByteReadback == \"pass\" and .verification.completeByteReadbackAfterReopen == \"pass\" and .verification.sourceImmutabilityBeforeAfter == \"pass\" and .authority.craftFilesMutated == false",
+          "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01/receipt.json"
+        ],
+        "cwd": ".",
+        "timeout_seconds": 20,
+        "max_output_bytes": 8192
+      },
+      {
+        "command_id": "capi-000-scoped-whitespace",
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "--",
+          "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01",
+          "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01"
+        ],
+        "cwd": ".",
+        "timeout_seconds": 20,
+        "max_output_bytes": 8192
+      }
+    ],
+    "validationContractDigest": "3e70a469a79e6309b4b5fdad859d2724823fefee0a6f24437f6b4429a85351f5"
+  }
+}

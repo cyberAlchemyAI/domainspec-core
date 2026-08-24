@@ -1,0 +1,129 @@
+{
+  "action_artifacts": [
+    "actions/spawn-0001.json",
+    "actions/spawn-0002.json",
+    "actions/spawn-0003.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0001",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-ontology-video-voice-provider-research-route",
+      "forbidden_write_scopes": [
+        "research/2026-08-04-ontology-video-voice-provider-research/",
+        "research/2026-08-03-ontology-authority-agent-context-presentation/",
+        "arcanum/",
+        "cyberAlchemy-v2/"
+      ],
+      "input_refs": [
+        "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+        "research/2026-08-04-ontology-video-voice-provider-research/strategy-inventory-packet.json"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-technical-capability.json"
+      ],
+      "role": "technical-capability-explorer",
+      "run_id": "ovp-20260804T144800Z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+      "wave_id": "explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0002",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-ontology-video-voice-provider-research-route",
+      "forbidden_write_scopes": [
+        "research/2026-08-04-ontology-video-voice-provider-research/",
+        "research/2026-08-03-ontology-authority-agent-context-presentation/",
+        "arcanum/",
+        "cyberAlchemy-v2/"
+      ],
+      "input_refs": [
+        "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+        "research/2026-08-04-ontology-video-voice-provider-research/strategy-inventory-packet.json"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-rights-privacy.json"
+      ],
+      "role": "rights-privacy-explorer",
+      "run_id": "ovp-20260804T144800Z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "research/2026-08-04-ontology-video-voice-provider-research/dispatch-sheet.json",
+      "wave_id": "explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0003",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-ontology-video-voice-provider-research-route",
+      "forbidden_write_scopes": [
+        "research/2026-08-04-ontology-video-voice-provider-research/",
+        "research/2026-08-03-ontology-authority-agent-context-presentation/",
+        "arcanum/",
+        "cyberAlchemy-v2/"
+      ],
+      "input_refs": [
+        "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-voiceover.md",
+        "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-production-script.md",
+        "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-audition.md",
+        "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-captions.vtt",
+        "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-validation.md"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "research/2026-08-04-ontology-video-voice-provider-research/receipts/explorer-production-audition.json"
+      ],
+      "role": "production-audition-explorer",
+      "run_id": "ovp-20260804T144800Z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-voiceover.md",
+      "wave_id": "explorers",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "2026-08-04-ontology-video-voice-provider-research-route",
+  "run_id": "ovp-20260804T144800Z",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [],
+    "gate_after": "g-explorer-evidence",
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": true,
+    "role_ids": [
+      "technical-capability-explorer",
+      "rights-privacy-explorer",
+      "production-audition-explorer"
+    ],
+    "wave_id": "explorers"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}

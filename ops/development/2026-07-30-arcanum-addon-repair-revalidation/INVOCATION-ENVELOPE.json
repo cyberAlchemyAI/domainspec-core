@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-07-30T19:12:00Z",
+  "sigil": "domainspec-subagents-strategy",
+  "tier": "arcana",
+  "mode": "close",
+  "requestSummary": "Run and close the exactly confirmed two-lane read-only repair revalidation of the ResonantOS Arcanum add-on planning corpus.",
+  "executionStatus": "partial",
+  "outputs": [
+    "receipts/PROPOSER.md",
+    "receipts/BALANCER.md",
+    "attacks.md",
+    "findings.md",
+    "orchestration/arcanum-addon-repair-revalidation-a850483e/evidence-validation.json",
+    "orchestration/arcanum-addon-repair-revalidation-a850483e/reduction/gate-decision.json"
+  ],
+  "changedFiles": [
+    "ops/development/2026-07-30-arcanum-addon-repair-revalidation/",
+    "telemetry/agents/subagents-dispatch.yaml"
+  ],
+  "validation": [
+    {
+      "check": "confirmed sheet SHA-256",
+      "result": "pass"
+    },
+    {
+      "check": "source commit and 75-file corpus digest",
+      "result": "pass"
+    },
+    {
+      "check": "native causal lifecycle event validation",
+      "result": "pass"
+    },
+    {
+      "check": "all-role revalidation gate",
+      "result": "block",
+      "reason": "the Balancer proved one surviving MAJOR machine-route defect"
+    },
+    {
+      "check": "browser acceptance",
+      "result": "not_run",
+      "reason": "review scope and downstream implementation/security gates prohibit it"
+    }
+  ],
+  "observer": {
+    "qualityBar": "pass",
+    "antiPatternHits": [],
+    "workflowGaps": [
+      "the prose-only SWU re-entry gate was not consumed by executable steps"
+    ],
+    "privacy": "no credentials, tokens, private profile prose, target runtime state, or browser state stored"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "DG-WCNPM-001",
+  "candidates": [
+    {
+      "optionId": "OPT-PINNED-NPM-DIAGNOSTIC",
+      "label": "Test the exact npm tarball as an opaque artifact",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "other",
+      "ownerGate": "direct-user-runtime-risk-acceptance",
+      "evidence": [
+        "@vijayee/wavedb@0.15.8 has stable registry integrity and SHA-1 metadata",
+        "the diagnostic is isolated from Craft and prior immutable attempts",
+        "the user explicitly authorized the pinned npm diagnostic"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OPT-WAIT-CORRECTED-PROVENANCE",
+      "label": "Wait for a corrected registry release or exact maintainer binding",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "the registry gitHead and package version remain contradictory"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OPT-STOP-NPM-DIAGNOSTIC",
+      "label": "Stop without another native diagnostic",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "stopping creates no additional local native execution effect"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

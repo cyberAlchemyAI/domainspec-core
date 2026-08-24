@@ -1,0 +1,85 @@
+{
+  "attempt_id": "attempt-akv-nv-004-repair-20260804t034000z",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "87eb30e67b564dfdfb3857d8612ca03639e4b3c900b435c59c440df458242b04",
+  "generated_at": "2026-08-04T03:52:26.128031Z",
+  "material_package_digest": "8b7e2875ceb641e073ec8c29c270b4b8658244ded25a9cc4cf1eba3a1946c1c2",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/attempt-akv-nv-004-repair-20260804t034000z/producer/material-package.json",
+    "sha256": "7137f8069a445ed03c60357726d95b9cac73d0facecef82df7041fa2ed515dec",
+    "size_bytes": 7555
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/attempt-akv-nv-004-repair-20260804t034000z/producer/material-package-receipt.json",
+    "sha256": "a04e208591bc903528d5927f218b67a44d789dbd96e4a38a6ed4a8564cb4e5e1",
+    "size_bytes": 2918
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/attempt-akv-nv-004-repair-20260804t034000z/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "f73f85c8572be6debd5b61fc20df086891c152bccd4d8967b2583edede4593fa",
+    "size_bytes": 3843
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/schemas/documentation-topic.schema.json",
+      "sha256": "1b0f4f9440ef6c16f5695510b211942d3a81524db492d7fce237ffc94413e076",
+      "size_bytes": 2008
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+      "sha256": "bfd042413a3158dd26e31b674d2d74b8a17291ee57a03de708cea255e558ad23",
+      "size_bytes": 8851
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/sources/documentation.jsonl",
+      "sha256": "681f004e04a91ab1a3462e882edff24d09454297f34a41863e81df06e20066fb",
+      "size_bytes": 472278
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/sources/documentation-manifest.json",
+      "sha256": "d21a160c52eeaf1f221d8c75f60a6d4b9b925137926998e28a4dd66ba6e0359f",
+      "size_bytes": 1124
+    }
+  ],
+  "plan_epoch_id": "epoch-acd0e4afd662c4598d70372d",
+  "publication_class": "internal",
+  "residue": [],
+  "result": "pass",
+  "schema_version": "animejs.agent-knowledge-vault.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/attempt-akv-nv-004-repair-20260804t034000z/SELECTION-RECEIPT.json",
+    "sha256": "be2ebf8187d9eb5f10752083710d5fe935035c47cad8891ea9d98f7c89584d6d",
+    "size_bytes": 956
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKV-NV-005",
+  "swu_id": "SWU-AKV-NV-004",
+  "task_id": "TASK-AKV-SOURCES",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/schemas/documentation-topic.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/sources/documentation.jsonl",
+    "projects/animejs/ontology/agent-knowledge-vault/sources/documentation-manifest.json"
+  ],
+  "unit_contract_digest": "c8f8d64258dd62350f1df1a75801dd04f1f17676b135655f12fba3cf134cc8fa",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+        "--check"
+      ],
+      "command_id": "documentation-ingest",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 131072,
+      "result": "pass",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "PASS documentation ingest v2: 418/418 routes, semantic-match=true, raw-set-match=true\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 180
+    }
+  ]
+}

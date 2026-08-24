@@ -1,0 +1,1159 @@
+{
+  "admission_timing": "selected-unit-at-task-session",
+  "approval_policy": {
+    "allowed_audit_verdicts": [
+      "pass",
+      "flag"
+    ],
+    "allowed_flag_classes": [
+      "observability-residue"
+    ],
+    "approval_owner_ref": "direct-user",
+    "decision_gate_receipt_ref": {
+      "artifact_ref": {
+        "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+        "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+        "size_bytes": 3632
+      },
+      "binding_id": "decision",
+      "owner_ref": "direct-user",
+      "selector": "/decision"
+    },
+    "risk_policy_ref": {
+      "artifact_ref": {
+        "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+        "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+        "size_bytes": 3632
+      },
+      "binding_id": "risk-policy",
+      "owner_ref": "task-session",
+      "selector": "/risk"
+    },
+    "run_budget": {
+      "max_task_session_requests": 13
+    }
+  },
+  "audit_id": "animejs-akv-plan-semantic-v1",
+  "authority_bindings": {
+    "canonical_authority_refs": [
+      {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/WORK-PACK.json",
+          "sha256": "0b900d81f6dd107225db997c1d2c53ed0fb7e72b6ead2a615540f258dc5191c2",
+          "size_bytes": 16584
+        },
+        "binding_id": "canonical-objective",
+        "owner_ref": "invoke-plan",
+        "selector": "/objective"
+      }
+    ],
+    "semantic_bindings": {
+      "closeout": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/WORK-PACK.json",
+          "sha256": "0b900d81f6dd107225db997c1d2c53ed0fb7e72b6ead2a615540f258dc5191c2",
+          "size_bytes": 16584
+        },
+        "binding_id": "semantic-closeout",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout"
+      },
+      "material": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/WORK-PACK.json",
+          "sha256": "0b900d81f6dd107225db997c1d2c53ed0fb7e72b6ead2a615540f258dc5191c2",
+          "size_bytes": 16584
+        },
+        "binding_id": "semantic-material",
+        "owner_ref": "official-source-ingestion",
+        "selector": "/source_snapshot_contract"
+      },
+      "owner": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "semantic-owner",
+        "owner_ref": "ontology-vault",
+        "selector": "/semantic/owner"
+      },
+      "receipt": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/WORK-PACK.json",
+          "sha256": "0b900d81f6dd107225db997c1d2c53ed0fb7e72b6ead2a615540f258dc5191c2",
+          "size_bytes": 16584
+        },
+        "binding_id": "semantic-receipt",
+        "owner_ref": "task-session",
+        "selector": "/receipt_contract"
+      },
+      "validation": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/WORK-PACK.json",
+          "sha256": "0b900d81f6dd107225db997c1d2c53ed0fb7e72b6ead2a615540f258dc5191c2",
+          "size_bytes": 16584
+        },
+        "binding_id": "semantic-validation",
+        "owner_ref": "ontology-vault",
+        "selector": "/relation_representation_decisions"
+      }
+    }
+  },
+  "classifier_version": "wpra-plan-semantic-v1",
+  "closeout_bindings": [
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "allowed-delta-AKV-NV-001",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/allowedDeltaPolicy"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Candidate-local files have no external side effect; failed bytes remain evidence until repaired."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "closeout-owner-AKV-NV-001",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/ownerReceiptContract"
+      },
+      "unit_id": "AKV-NV-001"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "allowed-delta-AKV-NV-002",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/allowedDeltaPolicy"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Candidate-local files have no external side effect; failed bytes remain evidence until repaired."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "closeout-owner-AKV-NV-002",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/ownerReceiptContract"
+      },
+      "unit_id": "AKV-NV-002"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "allowed-delta-AKV-NV-003",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/allowedDeltaPolicy"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Candidate-local files have no external side effect; failed bytes remain evidence until repaired."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "closeout-owner-AKV-NV-003",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/ownerReceiptContract"
+      },
+      "unit_id": "AKV-NV-003"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "allowed-delta-AKV-NV-004",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/allowedDeltaPolicy"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Candidate-local files have no external side effect; failed bytes remain evidence until repaired."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "closeout-owner-AKV-NV-004",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/ownerReceiptContract"
+      },
+      "unit_id": "AKV-NV-004"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "allowed-delta-AKV-NV-005",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/allowedDeltaPolicy"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Candidate-local files have no external side effect; failed bytes remain evidence until repaired."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "closeout-owner-AKV-NV-005",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/ownerReceiptContract"
+      },
+      "unit_id": "AKV-NV-005"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "allowed-delta-AKV-NV-006",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/allowedDeltaPolicy"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Candidate-local files have no external side effect; failed bytes remain evidence until repaired."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "closeout-owner-AKV-NV-006",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/ownerReceiptContract"
+      },
+      "unit_id": "AKV-NV-006"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "allowed-delta-AKV-NV-007",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/allowedDeltaPolicy"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Candidate-local files have no external side effect; failed bytes remain evidence until repaired."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "closeout-owner-AKV-NV-007",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/ownerReceiptContract"
+      },
+      "unit_id": "AKV-NV-007"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "allowed-delta-AKV-NV-008",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/allowedDeltaPolicy"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Candidate-local files have no external side effect; failed bytes remain evidence until repaired."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "closeout-owner-AKV-NV-008",
+        "owner_ref": "invoke-refresh",
+        "selector": "/closeout/ownerReceiptContract"
+      },
+      "unit_id": "AKV-NV-008"
+    }
+  ],
+  "closure_receipt_refs": [
+    {
+      "artifact_ref": {
+        "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+        "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+        "size_bytes": 3632
+      },
+      "binding_id": "design-exit",
+      "owner_ref": "refine",
+      "selector": "/closure/design"
+    },
+    {
+      "artifact_ref": {
+        "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+        "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+        "size_bytes": 3632
+      },
+      "binding_id": "plan-exit",
+      "owner_ref": "invoke-plan",
+      "selector": "/closure/plan"
+    }
+  ],
+  "continuity_projection": {
+    "completed_unit_receipt_refs": [],
+    "cursor": "AKV-NV-001",
+    "joined_closeout_receipt_refs": [],
+    "projected_next_successor": {
+      "authority_effect": "none",
+      "canonical_successor_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "first-successor",
+        "owner_ref": "invoke-plan",
+        "selector": "/successors/AKV-NV-001"
+      },
+      "continuation_router_verification_receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "continuation-verification",
+        "owner_ref": "continuation-router",
+        "selector": "/continuation"
+      },
+      "equivalence_validator_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "equivalence-validator",
+        "owner_ref": "work-pack-readiness-audit",
+        "selector": "/equivalence"
+      },
+      "projection_owner_ref": "work-pack-readiness-audit",
+      "unit_id": "AKV-NV-001"
+    }
+  },
+  "evidence_ceiling": "frozen-input-contractual-readiness",
+  "execution_bindings": [
+    {
+      "allowed_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/query-contracts.json",
+        "projects/animejs/ontology/agent-knowledge-vault/fixtures/query-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/profile.json",
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/query-receipt.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/query.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/tests/query-contract.test.mjs"
+      ],
+      "attempt_contract": {
+        "collision_policy": "reject-existing-different-ticket",
+        "failure_teardown": "retain-block-receipt",
+        "id_policy": "attempt-id-equals-task-session-run-id",
+        "success_teardown": "retain-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "AKV-NV-002"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/tests/query-contract.test.mjs"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [],
+      "execution_outputs": [],
+      "lifecycle_owner": "ontology-vault",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "invoke-material-package",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/profile.json",
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/query-contracts.json",
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/query-receipt.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/query.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/fixtures/query-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/tests/query-contract.test.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-AKV-NV-001",
+      "task_id": "TASK-AKV-CONTRACTS",
+      "unit_id": "AKV-NV-001",
+      "validation_contracts": [
+        {
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/tests/query-contract.test.mjs"
+          ],
+          "command_id": "query-contract",
+          "cwd": ".",
+          "max_output_bytes": 65536,
+          "timeout_seconds": 60
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-decisions.json",
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-vocabulary.json",
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/relation.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs"
+      ],
+      "attempt_contract": {
+        "collision_policy": "reject-existing-different-ticket",
+        "failure_teardown": "retain-block-receipt",
+        "id_policy": "attempt-id-equals-task-session-run-id",
+        "success_teardown": "retain-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "AKV-NV-003"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs",
+          "--definitions-only"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "AKV-NV-001"
+      ],
+      "execution_outputs": [],
+      "lifecycle_owner": "ontology-vault",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "invoke-material-package",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-vocabulary.json",
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-decisions.json",
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/relation.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-AKV-NV-002",
+      "task_id": "TASK-AKV-CONTRACTS",
+      "unit_id": "AKV-NV-002",
+      "validation_contracts": [
+        {
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs",
+            "--definitions-only"
+          ],
+          "command_id": "relation-definitions",
+          "cwd": ".",
+          "max_output_bytes": 65536,
+          "timeout_seconds": 60
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/fixtures/relation-witnesses.json",
+        "projects/animejs/ontology/agent-knowledge-vault/tests/relation-witnesses.test.mjs"
+      ],
+      "attempt_contract": {
+        "collision_policy": "reject-existing-different-ticket",
+        "failure_teardown": "retain-block-receipt",
+        "id_policy": "attempt-id-equals-task-session-run-id",
+        "success_teardown": "retain-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "AKV-NV-004"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/tests/relation-witnesses.test.mjs"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "AKV-NV-002"
+      ],
+      "execution_outputs": [],
+      "lifecycle_owner": "ontology-vault",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "invoke-material-package",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/fixtures/relation-witnesses.json",
+        "projects/animejs/ontology/agent-knowledge-vault/tests/relation-witnesses.test.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-AKV-NV-003",
+      "task_id": "TASK-AKV-CONTRACTS",
+      "unit_id": "AKV-NV-003",
+      "validation_contracts": [
+        {
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/tests/relation-witnesses.test.mjs"
+          ],
+          "command_id": "relation-witnesses",
+          "cwd": ".",
+          "max_output_bytes": 65536,
+          "timeout_seconds": 60
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/documentation-topic.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/documentation-manifest.json",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/documentation.jsonl"
+      ],
+      "attempt_contract": {
+        "collision_policy": "reject-existing-different-ticket",
+        "failure_teardown": "retain-block-receipt",
+        "id_policy": "attempt-id-equals-task-session-run-id",
+        "success_teardown": "retain-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "AKV-NV-005"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+          "--check"
+        ],
+        "cwd": ".",
+        "risk_class": "network"
+      },
+      "dependencies": [
+        "AKV-NV-003"
+      ],
+      "execution_outputs": [],
+      "lifecycle_owner": "ontology-vault",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "invoke-material-package",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/documentation-topic.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/documentation.jsonl",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/documentation-manifest.json"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-AKV-NV-004",
+      "task_id": "TASK-AKV-SOURCES",
+      "unit_id": "AKV-NV-004",
+      "validation_contracts": [
+        {
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+            "--check"
+          ],
+          "command_id": "documentation-ingest",
+          "cwd": ".",
+          "max_output_bytes": 131072,
+          "timeout_seconds": 180
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/source-artifact.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/repository-manifest.json",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/repository.jsonl"
+      ],
+      "attempt_contract": {
+        "collision_policy": "reject-existing-different-ticket",
+        "failure_teardown": "retain-block-receipt",
+        "id_policy": "attempt-id-equals-task-session-run-id",
+        "success_teardown": "retain-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "AKV-NV-006"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs",
+          "--check"
+        ],
+        "cwd": ".",
+        "risk_class": "network"
+      },
+      "dependencies": [
+        "AKV-NV-004"
+      ],
+      "execution_outputs": [],
+      "lifecycle_owner": "ontology-vault",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "invoke-material-package",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/source-artifact.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/repository.jsonl",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/repository-manifest.json"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-AKV-NV-005",
+      "task_id": "TASK-AKV-SOURCES",
+      "unit_id": "AKV-NV-005",
+      "validation_contracts": [
+        {
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs",
+            "--check"
+          ],
+          "command_id": "repository-ingest",
+          "cwd": ".",
+          "max_output_bytes": 131072,
+          "timeout_seconds": 120
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/node-vocabulary.json",
+        "projects/animejs/ontology/agent-knowledge-vault/nodes/nodes.json",
+        "projects/animejs/ontology/agent-knowledge-vault/relations/relations.json",
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/node.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs"
+      ],
+      "attempt_contract": {
+        "collision_policy": "reject-existing-different-ticket",
+        "failure_teardown": "retain-block-receipt",
+        "id_policy": "attempt-id-equals-task-session-run-id",
+        "success_teardown": "retain-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "AKV-NV-007"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs",
+          "--check"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "AKV-NV-005"
+      ],
+      "execution_outputs": [],
+      "lifecycle_owner": "ontology-vault",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "invoke-material-package",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/node-vocabulary.json",
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/node.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/nodes/nodes.json",
+        "projects/animejs/ontology/agent-knowledge-vault/relations/relations.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-AKV-NV-006",
+      "task_id": "TASK-AKV-GRAPH",
+      "unit_id": "AKV-NV-006",
+      "validation_contracts": [
+        {
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs",
+            "--check"
+          ],
+          "command_id": "graph-build",
+          "cwd": ".",
+          "max_output_bytes": 131072,
+          "timeout_seconds": 120
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/indexes/search.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/views/api.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/documentation-coverage.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/task-recipes.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/unresolved-gaps.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/work-lessons.json"
+      ],
+      "attempt_contract": {
+        "collision_policy": "reject-existing-different-ticket",
+        "failure_teardown": "retain-block-receipt",
+        "id_policy": "attempt-id-equals-task-session-run-id",
+        "success_teardown": "retain-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "AKV-NV-008"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+          "--check"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "AKV-NV-006"
+      ],
+      "execution_outputs": [],
+      "lifecycle_owner": "ontology-vault",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "invoke-material-package",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/views/documentation-coverage.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/api.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/task-recipes.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/work-lessons.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/unresolved-gaps.json",
+        "projects/animejs/ontology/agent-knowledge-vault/indexes/search.json"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-AKV-NV-007",
+      "task_id": "TASK-AKV-GRAPH",
+      "unit_id": "AKV-NV-007",
+      "validation_contracts": [
+        {
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+            "--check"
+          ],
+          "command_id": "views-build",
+          "cwd": ".",
+          "max_output_bytes": 131072,
+          "timeout_seconds": 120
+        },
+        {
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/query.mjs",
+            "coverage",
+            "/documentation/animation/"
+          ],
+          "command_id": "coverage-query-smoke",
+          "cwd": ".",
+          "max_output_bytes": 65536,
+          "timeout_seconds": 60
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/README.md",
+        "projects/animejs/ontology/agent-knowledge-vault/RESIDUE.json",
+        "projects/animejs/ontology/agent-knowledge-vault/receipts/validation-receipt.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/tests/ontology.test.mjs"
+      ],
+      "attempt_contract": {
+        "collision_policy": "reject-existing-different-ticket",
+        "failure_teardown": "retain-block-receipt",
+        "id_policy": "attempt-id-equals-task-session-run-id",
+        "success_teardown": "retain-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "__complete__"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "AKV-NV-007"
+      ],
+      "execution_outputs": [],
+      "lifecycle_owner": "ontology-vault",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "invoke-material-package",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/tests/ontology.test.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/README.md",
+        "projects/animejs/ontology/agent-knowledge-vault/RESIDUE.json",
+        "projects/animejs/ontology/agent-knowledge-vault/receipts/validation-receipt.json"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-AKV-NV-008",
+      "task_id": "TASK-AKV-VALIDATE",
+      "unit_id": "AKV-NV-008",
+      "validation_contracts": [
+        {
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs"
+          ],
+          "command_id": "ontology-validation",
+          "cwd": ".",
+          "max_output_bytes": 262144,
+          "timeout_seconds": 180
+        },
+        {
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/tests/ontology.test.mjs"
+          ],
+          "command_id": "ontology-tests",
+          "cwd": ".",
+          "max_output_bytes": 262144,
+          "timeout_seconds": 180
+        }
+      ]
+    }
+  ],
+  "lifecycle_status_refs": {
+    "approval_status": {
+      "owner_ref": "approval-owner",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "approval-receipt",
+        "owner_ref": "approval-owner",
+        "selector": "/lifecycle/approval"
+      },
+      "value": "confirmed"
+    },
+    "audit_status": {
+      "owner_ref": "audit-owner",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "audit-receipt",
+        "owner_ref": "audit-owner",
+        "selector": "/lifecycle/audit"
+      },
+      "value": "pending"
+    },
+    "chain_status": {
+      "owner_ref": "chain-owner",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "chain-receipt",
+        "owner_ref": "chain-owner",
+        "selector": "/lifecycle/chain"
+      },
+      "value": "not-started"
+    },
+    "plan_artifact_status": {
+      "owner_ref": "plan-artifact-owner",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "plan-artifact-receipt",
+        "owner_ref": "plan-artifact-owner",
+        "selector": "/lifecycle/planArtifact"
+      },
+      "value": "authored"
+    }
+  },
+  "objective_ref": {
+    "artifact_ref": {
+      "path": "projects/animejs/development/implementation/agent-knowledge-vault/WORK-PACK.json",
+      "sha256": "0b900d81f6dd107225db997c1d2c53ed0fb7e72b6ead2a615540f258dc5191c2",
+      "size_bytes": 16584
+    },
+    "binding_id": "objective",
+    "owner_ref": "invoke-plan",
+    "selector": "/objective"
+  },
+  "receipt_bindings": {
+    "expected_receipt_refs": [
+      {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "expected-terminal-AKV-NV-001",
+        "owner_ref": "task-session",
+        "selector": "/expectedReceipts/AKV-NV-001"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "expected-terminal-AKV-NV-002",
+        "owner_ref": "task-session",
+        "selector": "/expectedReceipts/AKV-NV-002"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "expected-terminal-AKV-NV-003",
+        "owner_ref": "task-session",
+        "selector": "/expectedReceipts/AKV-NV-003"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "expected-terminal-AKV-NV-004",
+        "owner_ref": "task-session",
+        "selector": "/expectedReceipts/AKV-NV-004"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "expected-terminal-AKV-NV-005",
+        "owner_ref": "task-session",
+        "selector": "/expectedReceipts/AKV-NV-005"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "expected-terminal-AKV-NV-006",
+        "owner_ref": "task-session",
+        "selector": "/expectedReceipts/AKV-NV-006"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "expected-terminal-AKV-NV-007",
+        "owner_ref": "task-session",
+        "selector": "/expectedReceipts/AKV-NV-007"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "expected-terminal-AKV-NV-008",
+        "owner_ref": "task-session",
+        "selector": "/expectedReceipts/AKV-NV-008"
+      }
+    ],
+    "semantic_validator_ref": {
+      "artifact_ref": {
+        "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+        "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+        "size_bytes": 3632
+      },
+      "binding_id": "terminal-validator",
+      "owner_ref": "task-session",
+      "selector": "/receiptContract/semanticValidator"
+    },
+    "terminal_schema_ref": {
+      "artifact_ref": {
+        "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+        "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+        "size_bytes": 3632
+      },
+      "binding_id": "terminal-schema",
+      "owner_ref": "task-session",
+      "selector": "/receiptContract/terminalSchema"
+    }
+  },
+  "repository_root": ".",
+  "runtime_binding": {
+    "requested_task_session_execution_mode": "reusable-mutation",
+    "task_session_admission_receipt_ref": null
+  },
+  "schema_version": "2.0.0",
+  "status_receipt_refs": {
+    "artifact_authored_status": {
+      "owner_ref": "artifact-authored-owner",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "artifact-authored-receipt",
+        "owner_ref": "artifact-authored-owner",
+        "selector": "/status/artifactAuthored"
+      },
+      "value": "authored"
+    },
+    "audit_verdict": {
+      "owner_ref": "audit-verdict-owner",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "audit-verdict-receipt",
+        "owner_ref": "audit-verdict-owner",
+        "selector": "/status/auditVerdict"
+      },
+      "value": "pending"
+    },
+    "mutation_runtime_ready_status": {
+      "owner_ref": "mutation-runtime-owner",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "mutation-runtime-receipt",
+        "owner_ref": "mutation-runtime-owner",
+        "selector": "/status/mutationRuntimeReady"
+      },
+      "value": "pending-selection"
+    },
+    "registry_released_status": {
+      "owner_ref": "registry-released-owner",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/animejs/development/implementation/agent-knowledge-vault/readiness/evidence.json",
+          "sha256": "65d70b07bdd6efd180869f7c311793af112b375748281546eba4e0ef5566c526",
+          "size_bytes": 3632
+        },
+        "binding_id": "registry-released-receipt",
+        "owner_ref": "registry-released-owner",
+        "selector": "/status/registryReleased"
+      },
+      "value": "unreleased"
+    }
+  }
+}

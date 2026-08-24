@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "context-builder-handoff.v1",
+  "runId": "20260805T184540Z-craft-wavedb-api",
+  "mode": "standard",
+  "status": "pass",
+  "limits": {"maxFiles": 14, "maxExcerptLines": 280},
+  "usage": {"files": 6, "excerptLines": 126},
+  "protectedContext": {"present": true, "payloadsCopied": false},
+  "obligations": [
+    {"id": "runtime-proof", "status": "covered", "selector": "receipt pass: /database,/verification,/authority,/claimCeiling"},
+    {"id": "preserved-failure", "status": "covered", "selector": "receipt block: /error/message"},
+    {"id": "read-normalization", "status": "covered", "selector": "importer:23-39,124-143"},
+    {"id": "authority", "status": "covered", "selector": "importer:91-118,189-201"},
+    {"id": "craft-contract", "status": "covered", "selector": "ledger.schema.yml:37-47,49-93"},
+    {"id": "row-semantics", "status": "covered", "selector": "ledger-core.schema.yml:1-34,313-768"}
+  ],
+  "sources": [
+    {"path": "../../../../experiment/craft-ledger-import/execution/wcli-20260805-node26-04/receipt.json", "sha256": "97dd371843771bf752124fbe7d6cbc886d785128ab690dc31da48813d228810f"},
+    {"path": "../../../../experiment/craft-ledger-import/execution/wcli-20260805-node26-01/receipt.json", "sha256": "3a6a4620e3ee576642ac86b49b8b392be8cde621ce47bb545b12a4ffa44ce15d"},
+    {"path": "../../../../experiment/craft-ledger-import/.work/wcli-20260805-node26-04/import-ledgers-byte-normalized.js", "sha256": "dc9b6c5974fbbb5fb2e3077aceb8d1aada98b8660a533650ab536870ba8797d2"},
+    {"path": "[repo-root]/arcanum/arcana/craft/templates/ledger.schema.yml", "sha256": "c4d238f9ad2c8d15872f458f113273f294b461d3efd8cdee7165262828721cf0"},
+    {"path": "[repo-root]/arcanum/arcana/craft/templates/schemas/ledger-core.schema.yml", "sha256": "18ae9bf9866ec0fc8401b72a1bed6b5b3160f1ec6930fef344219962f8a3a504"},
+    {"path": "../REFINE-SEED-PROPOSAL.md", "selector": "entire bounded proposal"}
+  ],
+  "downstreamHandle": "context-builder://20260805T184540Z-craft-wavedb-api/standard"
+}

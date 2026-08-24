@@ -1,0 +1,129 @@
+{
+  "schema_version": "arcanum.task_session_until_blocker.chain.v1",
+  "chain_id": "20260802T012047Z-oew-semantic-navigation",
+  "created_at": "2026-08-02T01:20:47Z",
+  "updated_at": "2026-08-02T01:20:47Z",
+  "result": "BLOCK",
+  "work_pack": {
+    "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/WORK-PACK.md",
+    "sha256": "bca95d8286dc1c61ba29913271828d21d9b91efbfcad08780e9d71a4b5fb886f",
+    "captured_sha256": "bca95d8286dc1c61ba29913271828d21d9b91efbfcad08780e9d71a4b5fb886f"
+  },
+  "stop_condition": "first-blocker-or-frontier-complete",
+  "requested_scope": "implement the whole package",
+  "captured_frontier_status": "blocked-before-capture",
+  "captured_frontier": [],
+  "declared_unadmitted_frontier": [
+    "SWU-OEWSN-004",
+    "SWU-OEWSN-005",
+    "SWU-OEWSN-006",
+    "SWU-OEWSN-007",
+    "SWU-OEWSN-008",
+    "SWU-OEWSN-009",
+    "SWU-OEWSN-010",
+    "SWU-OEWSN-011",
+    "SWU-OEWSN-012",
+    "SWU-OEWSN-013",
+    "SWU-OEWSN-014",
+    "SWU-OEWSN-015",
+    "SWU-OEWSN-016",
+    "SWU-OEWSN-017",
+    "SWU-OEWSN-018",
+    "SWU-OEWSN-019",
+    "SWU-OEWSN-020"
+  ],
+  "session_budget": 0,
+  "sessions_used": 0,
+  "current_expected_selector": null,
+  "visited_selectors": [],
+  "joined_task_session_receipts": [],
+  "joined_closeout_owner_receipts": [],
+  "continuity_cursor_fingerprints": [],
+  "inputs": {
+    "swu_manifest": {
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/SWU-MANIFEST.json",
+      "sha256": "30280ea35c72f8990204e69d2c37ce9c9feadf0d5cf8c4ff575ab251d1260cd0",
+      "total_swus": 21,
+      "manual_swus": 4,
+      "executable_swus": 17,
+      "selected_swu": null,
+      "mutation_authorized": false
+    },
+    "mutation_admission_contract": {
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/MUTATION-ADMISSION-CONTRACT.json",
+      "sha256": "63f0e197a497eefd29e964dfd13f5da6d10430dccbae3d46cf397525225462a4",
+      "status": "blocked-no-selected-swu-and-first-unit-owner-input",
+      "admission_result": "block-until-owner-decisions-and-task-session-preflight"
+    },
+    "decision_gate_result": {
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/decisions/DECISION-GATE-RESULT.json",
+      "sha256": "1d0ee10e5ef79fe5064900e6fdec9341ea5d5299487104ee0fa79cb2e49e2ec0",
+      "result": "PASS",
+      "decisions_resolved": 4,
+      "blockers_remaining": 0,
+      "selected_swu": "none",
+      "mutation_authorized": false
+    },
+    "approved_profile": {
+      "path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/decisions/BODY-WAR-PROFILE-APPROVED.json",
+      "sha256": "2eb373d41154004cdcf4d4a448edbe4ea341934f2e77750903e8e92a54e871e8",
+      "size_bytes": 8648
+    },
+    "work_pack_readiness_manifest": null
+  },
+  "preflight": {
+    "decision_gate": "pass",
+    "approved_profile_digest": "pass",
+    "work_pack_gate": "block",
+    "selected_swu": "block-none-selected",
+    "mutation_authorization": "block-false",
+    "mutation_admission_contract": "block",
+    "work_pack_readiness_config": "block-absent",
+    "work_pack_readiness_manifest": "block-absent",
+    "approved_epoch_frontier": "not-captured",
+    "context_builder_handoff": "not-run-no-selected-swu",
+    "first_task_session": "not-started"
+  },
+  "stale_authority_findings": [
+    "WORK-PACK.md still declares workPackGateStatus=block, selected_swu=none and mutation_authorized=false.",
+    "WORK-PACK.md still lists OD-01 through OD-04 as open even though DECISION-GATE-RESULT.json resolves all four.",
+    "WORK-PACK.md still frames OD-01 as four designed contexts versus twelve ontology contexts, while the approved profile selects all twelve bounded contexts.",
+    "WORK-PACK.md still carries a human-study gap, while the approved decision explicitly removes human or novice A/B testing from this prototype acceptance boundary and retains deterministic validation.",
+    "MUTATION-ADMISSION-CONTRACT.json still blocks on owner decisions and no selected SWU.",
+    "No Work Pack Readiness Audit config, objective-execution manifest or approved-epoch chain config exists for this package."
+  ],
+  "blocker": {
+    "selector": null,
+    "gate": "invoke-refresh-and-mutation-admission",
+    "dependency_id": "approved-profile-to-executable-work-pack-reconciliation",
+    "required_path": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/WORK-PACK.md",
+    "observed_state": "decision-pass-not-synchronized-into-execution-authority",
+    "owner": "invoke",
+    "fingerprint": "sha256:7c241887ebee864d8a9226698c1186a36dffaa14458c75df89cde432b9592789",
+    "unblock_action": "Run Invoke Refresh against the approved Decision Gate profile, remove stale decision assumptions, refresh the gate and mutation contract, select exactly one dependency-ready SWU, and produce the frozen readiness inputs required for a fresh Task Session preflight."
+  },
+  "stop_reason": "work-pack-authority-stale-after-decision-gate",
+  "remaining_captured_frontier": [],
+  "next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "target": "ontology-evidence-workbench-semantic-navigation approved profile reconciliation",
+    "dispatch_status": "not-requested"
+  },
+  "effects": {
+    "product_files_changed": [],
+    "planning_authority_changed": false,
+    "task_sessions_started": 0,
+    "closeouts_requested": 0,
+    "continuity_cursor_emitted": false,
+    "mutation_authorized": false
+  },
+  "observability_receipt": {
+    "ledger": ".arcanum/observability/signals/sigil-invocations.jsonl",
+    "line": 483,
+    "dedupe_key": "task-session-until-blocker-20260802T012047Z-oew-semantic-navigation:signal-observer:0.1.0",
+    "result": "recorded",
+    "reflection_trigger": "manual",
+    "recommendation": "targeted-update"
+  }
+}

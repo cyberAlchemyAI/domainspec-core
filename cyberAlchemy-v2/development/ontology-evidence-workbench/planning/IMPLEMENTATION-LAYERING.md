@@ -32,19 +32,22 @@ Understand-Anything viewer without losing exact evidence recoverability.**
 **After this layer, we know whether a reviewer can inspect exact evidence,
 conflict, uncertainty, and receipts through a coherent accessible interface.**
 
-- Minimum working unit: a private clean-build bootstrap and independently
-  verified immutable build handle, followed by the OEW data loader/store,
-  trust rail, and exact evidence inspector. Later SWUs add view parity,
-  filters, tour, responsive behavior, browser production, and independent
-  browser acceptance.
-- Included: SWU-OEW-006B, SWU-OEW-007 through 014, and SWU-OEW-014V.
+- Minimum working unit: completed private toolchain/materializer and exact
+  store evidence, followed by one coherent Poker evidence-review UI source
+  unit, a final independently verified build, browser production, and
+  independent browser acceptance.
+- Completed foundation: SWU-OEW-006P and SWU-OEW-007.
+- Remaining candidate frontier: SWU-OEW-008F, SWU-OEW-013B, SWU-OEW-014,
+  and SWU-OEW-014V. Historical blocked 006B/008 and superseded unexecuted
+  009–013 remain evidence but are not candidates.
 - User-visible outcome: the proposed Evidence Constellation interface.
 - Risk reduced: generalized semantics mistaken for source truth, graph-only
   navigation, hidden receipt state, responsive/keyboard failures.
 - Deferred: code context, scale, packaging, manual accessibility/usability.
-- Exit evidence: exact Node/pnpm and effective lock, patch pre/postimages,
-  typed tests/build, immutable build handle, cleanup/residue verification,
-  exact-relation UI assertions, three-view parity, Poker tour,
+- Exit evidence: exact Node/pnpm and effective lock, self-owned provisioning
+  patch proof, preselection command/runner ownership closure, final overlay
+  pre/postimages, typed tests/build, immutable build handle, cleanup/residue
+  verification, exact-relation UI assertions, three-view parity, Poker tour,
   keyboard/axe/browser producer receipt, distinct verifier receipt, and
   protected-scope equality.
 - Promotion decision: proceed only if critical evidence is equivalent across
@@ -100,10 +103,10 @@ Every later layer preserves:
 
 ## Recommended Next Unit
 
-The refreshed L1 graph begins with `SWU-OEW-006B`, but no SWU is selected.
-Execution requires Plan-owner acceptance of this refresh, a new explicit human
-selection, and a fresh Task Session preflight. The former 007 selection cannot
-transfer to the changed graph.
+The refreshed remaining L1 graph begins with `SWU-OEW-008F`, but no SWU is
+selected. Execution requires explicit selection and a fresh Task Session
+preflight. The completed 006P/007 evidence remains a dependency; historical
+006B/008 selectors cannot transfer to the changed graph.
 
 ## Open Questions
 

@@ -1,0 +1,92 @@
+{
+  "attempt_id": "20260805-api-akve-001",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "ef18a9c5161c99802c5c505535ca2b2f1446336eb9fcb12a0b87e33d6186e46a",
+  "generated_at": "2026-08-05T19:53:06.311536Z",
+  "material_package_digest": "e2e99f99ae235af984d6c51e7c67e5b29df189ce9c9d5b23d74c59fd7c08d716",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-001/producer/material-package.json",
+    "sha256": "e6ff7f653340171abf3144cb834265c4d972c45b33d86a0e6ee1f4c968a3a2de",
+    "size_bytes": 8398
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-001/producer/material-package-receipt.json",
+    "sha256": "333bfa2376f0bb4733e0df0924065a3cdb3ed671e6d49126f9a9a953d1dd0510",
+    "size_bytes": 3192
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-001/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "39889c487ab1e4f44f9ea660ae07d7ba3170272ed8ba92daa4cc9fe917720d19",
+    "size_bytes": 4230
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/neutral-projection-manifest.schema.json",
+      "sha256": "265424993cf43b4cff20710e3973816fec984b4517cceaa5bf2a3a078579e1d4",
+      "size_bytes": 1117
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/neutral-projection-record.schema.json",
+      "sha256": "7771ac359f8b7aa81dc84141ffd10e02b4450cbe67aff86bd49945f283bb6163",
+      "size_bytes": 1549
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/projection-allowlist.json",
+      "sha256": "0b13bf3576b095b50285b2b411c6d220a7c5f73e343799a38cc2a7c84272c340",
+      "size_bytes": 792
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/projection-contract-cases.json",
+      "sha256": "53f6c01e6cf598ab26d6cc4ac3578a8b53672aa07a22c6cbad335debccd47b5e",
+      "size_bytes": 1312
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs",
+      "sha256": "09b97ec820f6510dc8ff0ca2101f87da3d3e564746678d22d23557fae798ce0a",
+      "size_bytes": 3836
+    }
+  ],
+  "plan_epoch_id": "epoch-83a5a40930fef7ec76de393e",
+  "publication_class": "internal",
+  "residue": [],
+  "result": "pass",
+  "schema_version": "animejs.agent-knowledge-api.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-001/SELECTION-RECEIPT.json",
+    "sha256": "c30f29137e2357c565b56b9aaad7ff294a6cc721cb4fffaebe182bb89db795a4",
+    "size_bytes": 876
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKVE-002",
+  "swu_id": "SWU-AKVE-001",
+  "task_id": "TASK-AKVE-01",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/neutral-projection-manifest.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/neutral-projection-record.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/projection-allowlist.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/projection-contract-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+  ],
+  "unit_contract_digest": "6707dd23e686fad10c99fe4892a27c55a616d99ae2133fb0d1464fcaf76b1357",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "--test-name-pattern=neutral projection",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+      ],
+      "command_id": "neutral-projection-contract",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 65536,
+      "result": "pass",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "TAP version 13\n# Subtest: neutral projection accepts a closed safe record\nok 1 - neutral projection accepts a closed safe record\n  ---\n  duration_ms: 5.954892\n  ...\n# Subtest: neutral projection rejects every leakage mutant without a digest\nok 2 - neutral projection rejects every leakage mutant without a digest\n  ---\n  duration_ms: 3.720104\n  ...\n# Subtest: neutral projection manifest is closed and view bounded\nok 3 - neutral projection manifest is closed and view bounded\n  ---\n  duration_ms: 1.874587\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 3\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 80.555869\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 60
+    }
+  ]
+}

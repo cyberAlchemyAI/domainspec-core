@@ -1,0 +1,238 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "wcsb-design-scope-20260804",
+  "target_id": "wavedb-reviewed-source-build",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+        "digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "source-build glossary and claim boundaries",
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/GLOSSARY.md",
+        "digest": "d6439b4aa986f7b5da8f3534f1159c59d4b2a6da9b78a8b40dd78b69622239d7"
+      },
+      {
+        "selector": "user-authorized alternate provenance route",
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/decisions/PACKAGE-PROVENANCE.md",
+        "digest": "7beb196911f60ed19e9f348176916955c4192f6c65bf830be5d42b1ba2d3e947"
+      },
+      {
+        "selector": "complete npm and reviewed-source reconstruction",
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/wp0-provenance/history-reconstruction.json",
+        "digest": "656f99ca59d56728b7feedece3d2a44a935c28759b153b860d9ae569a51bd7fe"
+      },
+      {
+        "selector": "audited parent experiment boundary",
+        "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+        "digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+      },
+      {
+        "selector": "non-authority research lookup result",
+        "path": ".arcanum/inventory/entries/wavedb-craft-runtime-research-result-synthesis.md",
+        "digest": "78a4e4cfc060cdd33e9070046efe933b0a6db6757df568d1c8e3cbeefd494fbe"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "arcanum/arcana/craft/** and arcanum/development/craft/** writes",
+        "reason": "source build owns no Craft implementation or history",
+        "evidence_ref": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md#explicit-exclusions"
+      },
+      {
+        "selector": "real .craft workspaces and ledgers",
+        "reason": "the build requires no Craft data",
+        "evidence_ref": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md#invariants"
+      },
+      {
+        "selector": "registry publication deployment promotion and production",
+        "reason": "local source-build evidence cannot authorize those lifecycles",
+        "evidence_ref": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md#explicit-exclusions"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "wcsb-spec",
+      "selector": "source-build ownership invariants and output contract",
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    },
+    {
+      "source_id": "wcsb-provenance-decision",
+      "selector": "approved separate source-build option",
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/decisions/PACKAGE-PROVENANCE.md",
+      "digest": "7beb196911f60ed19e9f348176916955c4192f6c65bf830be5d42b1ba2d3e947"
+    },
+    {
+      "source_id": "wcsb-source-reconstruction",
+      "selector": "reviewed commit submodules and normalized package correspondence",
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/wp0-provenance/history-reconstruction.json",
+      "digest": "656f99ca59d56728b7feedece3d2a44a935c28759b153b860d9ae569a51bd7fe"
+    },
+    {
+      "source_id": "wcsb-parent-findings",
+      "selector": "WP-0 package toolchain and claim ceiling",
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    }
+  ],
+  "human_actors": [],
+  "rendered_surfaces": [],
+  "interfaces": [
+    {
+      "interface_id": "source-build-handoff",
+      "kind": "hash-bound local artifact receipt",
+      "peer": "parent WaveDB Craft projection experiment",
+      "direction": "outbound",
+      "contract_ref": "experiment/source-build/define/SPEC.md#interface",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    }
+  ],
+  "stores": [
+    {
+      "store_id": "isolated-source-build-work-area",
+      "authority": "none local generated build state only",
+      "data_classes": [
+        "reviewed source checkout",
+        "locked npm dependencies",
+        "generated c_src",
+        "native build outputs",
+        "temporary WaveDB test stores"
+      ],
+      "writers": [
+        "selected Task Session SWU"
+      ],
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    }
+  ],
+  "queues": [],
+  "writers": [
+    {
+      "writer_id": "source-build-task-session",
+      "targets": [
+        "experiment/source-build/.work",
+        "experiment/source-build/execution"
+      ],
+      "concurrency": "one local execution attempt; no parallel builder",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    }
+  ],
+  "normative_rules": [
+    {
+      "rule_id": "admit-reviewed-commit-only",
+      "verb": "admit",
+      "subject": "source-build gate",
+      "object": "only root commit 01c77e8b and its exact recursive submodule identities",
+      "enforcement_hint": "verify clean detached source identity before dependency materialization",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    },
+    {
+      "rule_id": "materialize-lock-only",
+      "verb": "require",
+      "subject": "dependency closure",
+      "object": "npm ci from the exact reviewed package-lock with install scripts disabled",
+      "enforcement_hint": "block on lock drift resolution drift or lifecycle script execution",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    },
+    {
+      "rule_id": "preserve-craft-and-npm-history",
+      "verb": "preserve",
+      "subject": "source-build route",
+      "object": "canonical Craft files real ledgers and the failed npm provenance receipt",
+      "enforcement_hint": "scope scan and separate parent Invoke Refresh",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    },
+    {
+      "rule_id": "fail-closed-source-build",
+      "verb": "require",
+      "subject": "source-build receipt",
+      "object": "all source dependency generated-source build load test and canary checks pass",
+      "enforcement_hint": "first failed acceptance stage returns BLOCK and no handoff artifact",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "fetch-reviewed-source-and-locked-dependencies",
+      "reversible": true,
+      "external": true,
+      "privileged": false,
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    },
+    {
+      "effect_id": "isolated-native-source-build",
+      "reversible": true,
+      "external": false,
+      "privileged": false,
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    }
+  ],
+  "data_and_log_sinks": [
+    {
+      "sink_id": "source-build-filesystem-evidence",
+      "data_classes": [
+        "source and dependency identities",
+        "toolchain identity",
+        "build commands and logs",
+        "addon digest",
+        "test and canary results",
+        "failure residue"
+      ],
+      "retention_hint": "candidate-local receipts persist; bulky .work state remains ignored and disposable",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    }
+  ],
+  "deployment_targets": [],
+  "compatibility_boundaries": [
+    {
+      "boundary_id": "npm-artifact-to-reviewed-source-build",
+      "old_contract": "the parent plan requires a non-contradictory registry artifact and source identity",
+      "new_contract": "the parent may separately evaluate a hash-bound local addon produced from one reviewed source identity",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/execution/decisions/PACKAGE-PROVENANCE.md",
+      "source_digest": "7beb196911f60ed19e9f348176916955c4192f6c65bf830be5d42b1ba2d3e947"
+    }
+  ],
+  "quality_claims": [
+    {
+      "claim_id": "build-duration-and-output-size-descriptive-only",
+      "source_kind": "candidate local observation",
+      "threshold_or_tradeoff": "record duration and size but do not gate correctness or claim performance",
+      "required": false,
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    }
+  ],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "exact-reviewed-source-closure",
+      "selector": "root commit submodules tracked source lockfile and build scripts match exact admitted identities",
+      "evidence_state": "authored-complete",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    },
+    {
+      "claim_id": "verified-local-addon-build",
+      "selector": "locked dependencies generated sources native build addon load upstream tests and canary all pass",
+      "evidence_state": "authored-complete",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/define/SPEC.md",
+      "source_digest": "61fedd4389ecbba82fecf333e19dc70abe95f8a9a2ce4fa2d0f3e1627bbe932a"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "2ccc27373c388cea6d1ed8cfac8502968f43fcd805d74035993b83813fb246f0",
+  "authored_by": "codex-invoke-source-build-design-author"
+}

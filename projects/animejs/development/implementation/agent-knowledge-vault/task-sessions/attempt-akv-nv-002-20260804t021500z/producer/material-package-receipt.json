@@ -1,0 +1,71 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "ontology-vault",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "98e8f27b0393b5695d102f6b83f09eaf47a48ffd1e98aa62adfd3a22f10173bb",
+  "packageId": "invoke-swu-akv-nv-002-attempt-akv-nv-002-20260804t021500z",
+  "patchVerdict": "pass",
+  "planBinding": {
+    "attempt_id": "attempt-akv-nv-002-20260804t021500z",
+    "plan_epoch_id": "epoch-2e4825d8b0d06479174b56aa",
+    "selection_receipt_digest": "ea2b657b8ead36a4d27ec3042656ada506e70e28e91a8d3cb7b4616d34e3544d",
+    "swu_id": "SWU-AKV-NV-002",
+    "target_baselines": [
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-vocabulary.json",
+        "sha256": null,
+        "size_bytes": null,
+        "state": "absent"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-decisions.json",
+        "sha256": null,
+        "size_bytes": null,
+        "state": "absent"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/schemas/relation.schema.json",
+        "sha256": null,
+        "size_bytes": null,
+        "state": "absent"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs",
+        "sha256": null,
+        "size_bytes": null,
+        "state": "absent"
+      }
+    ],
+    "task_id": "TASK-AKV-CONTRACTS",
+    "unit_contract_digest": "56987616e4526e23f5736cf90cb1e3559e6db162d5773c162639ff1c38346ad4",
+    "validation_contract_digest": "593cf1fb532c34f5f87ffeb1b21a00ce4687f2f837b5e36e23a4a35ca412aa78",
+    "validation_contracts": [
+      {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs",
+          "--definitions-only"
+        ],
+        "command_id": "relation-definitions",
+        "cwd": ".",
+        "max_output_bytes": 65536,
+        "timeout_seconds": 60
+      }
+    ]
+  },
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-decisions.json",
+    "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-vocabulary.json",
+    "projects/animejs/ontology/agent-knowledge-vault/schemas/relation.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs"
+  ],
+  "validationCommands": [
+    "node projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs --definitions-only"
+  ]
+}

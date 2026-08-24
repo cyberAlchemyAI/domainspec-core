@@ -1,0 +1,129 @@
+{
+  "action_artifacts": [
+    "actions/spawn-0001.json",
+    "actions/spawn-0002.json",
+    "actions/spawn-0003.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0001",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "invoke-design"
+      ],
+      "capability_ref": "invoke",
+      "dispatch_id": "20260805-autoresearch-animejs-animation",
+      "forbidden_write_scopes": [
+        "projects/autoads/",
+        "projects/animejs/ontology/",
+        "2026-08-03-ontology-authority-agent-context-presentation/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "REFINE-SEED-PROPOSAL.md",
+        "evidence-index.json",
+        "stages/05-distill.md"
+      ],
+      "mode": "design",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/source-authority.json"
+      ],
+      "role": "source-authority",
+      "run_id": "oava-20260805-run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "invoke-design",
+      "target": "stages/06-design-source-authority.md",
+      "wave_id": "design-lanes",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0002",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "invoke-design"
+      ],
+      "capability_ref": "invoke",
+      "dispatch_id": "20260805-autoresearch-animejs-animation",
+      "forbidden_write_scopes": [
+        "projects/autoads/",
+        "projects/animejs/ontology/",
+        "2026-08-03-ontology-authority-agent-context-presentation/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "REFINE-SEED-PROPOSAL.md",
+        "evidence-index.json",
+        "stages/05-distill.md"
+      ],
+      "mode": "design",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/auto-research-adapter.json"
+      ],
+      "role": "auto-research-adapter",
+      "run_id": "oava-20260805-run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "invoke-design",
+      "target": "stages/06-design-auto-research-adapter.md",
+      "wave_id": "design-lanes",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0003",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "invoke-design"
+      ],
+      "capability_ref": "invoke",
+      "dispatch_id": "20260805-autoresearch-animejs-animation",
+      "forbidden_write_scopes": [
+        "projects/autoads/",
+        "projects/animejs/ontology/",
+        "2026-08-03-ontology-authority-agent-context-presentation/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "REFINE-SEED-PROPOSAL.md",
+        "evidence-index.json",
+        "stages/05-distill.md"
+      ],
+      "mode": "design",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/animejs-motion-designer.json"
+      ],
+      "role": "animejs-motion-designer",
+      "run_id": "oava-20260805-run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "invoke-design",
+      "target": "stages/06-design-animejs-motion.md",
+      "wave_id": "design-lanes",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "20260805-autoresearch-animejs-animation",
+  "run_id": "oava-20260805-run-001",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [],
+    "gate_after": "design-role-receipts",
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": true,
+    "role_ids": [
+      "source-authority",
+      "auto-research-adapter",
+      "animejs-motion-designer"
+    ],
+    "wave_id": "design-lanes"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}

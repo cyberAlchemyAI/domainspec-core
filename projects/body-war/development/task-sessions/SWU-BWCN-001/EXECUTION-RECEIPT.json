@@ -1,0 +1,31 @@
+{
+  "schema_version": "body-war-task-session-execution-receipt/v1",
+  "task_id": "body-war-business-view-novice-comprehension",
+  "swu_id": "SWU-BWCN-001",
+  "status": "pass",
+  "mutation_admission": {
+    "verdict": "admit",
+    "request_digest": "393463843cde05b77f895c6d44b744dfa85392f7203b537d8a81bd62ebd7db4b",
+    "material_package_digest": "648b60aff14abcf70f5555214388d94c4a58fac0de63393cd5675c79c718c164"
+  },
+  "material_exactness": "pass",
+  "validation": [
+    {
+      "command": "node projects/body-war/ontology/business/scripts/generate-comprehension-task.mjs --check",
+      "status": "pass",
+      "summary": "6 learner loci current"
+    },
+    {
+      "command": "node --test projects/body-war/ontology/business/tests/business-comprehension.test.mjs",
+      "status": "pass",
+      "passed": 5,
+      "failed": 0
+    }
+  ],
+  "semantic_input_digests": {
+    "relations": "234ad4152b731edcb03cd1b45dfa21570bd37df741090ca6ca0940fd98c0ce00",
+    "node_manifest": "3cffc5cea2d5abff02ce1b28e87ed80519795fa3074e47e1ec2030c3214f4fdb"
+  },
+  "claim_ceiling": "Deterministic learner/reviewer separation and generated learner bytes only; no comprehension, promotion, release, or production evidence."
+}
+

@@ -1,0 +1,160 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "block",
+  "phaseStatusBasis": {
+    "artifactComplete": false,
+    "refreshAuthoringBlockerCount": 1
+  },
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "handoffStatus": "blocked",
+  "sourceSignals": [
+    {
+      "id": "OAIA-RS-001",
+      "source_path": "chat:user:create-the-two-variants",
+      "signal_type": "route_changed",
+      "target_artifacts": ["SPEC.md", "DESIGN.md", "UX-PLAN.md", "WORK-PACK.md"],
+      "claim": "The audition owner selected two separate accent candidates.",
+      "evidence": "Direct user instruction after the one-configuration conflict was explained.",
+      "confidence": "high",
+      "mutation_safety": "needs_review"
+    },
+    {
+      "id": "OAIA-RS-002",
+      "source_path": "https://developers.openai.com/api/docs/guides/text-to-speech",
+      "signal_type": "evidence_added",
+      "target_artifacts": ["SPEC.md", "DESIGN.md", "IMPLEMENTATION-DETAILS.md"],
+      "claim": "The Speech API supports accent steering through instructions.",
+      "evidence": "Current official OpenAI Text to speech guide fetched 2026-08-04.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "OAIA-RS-003",
+      "source_path": "local-prerequisite-probe:2026-08-04T19:25:12Z",
+      "signal_type": "blocker_opened",
+      "target_artifacts": ["WORK-PACK.md", "OPERATIONS.md"],
+      "claim": "Live rendering and verification prerequisites are absent.",
+      "evidence": "OPENAI_API_KEY was absent without reading any secret; OpenAI SDK, ffmpeg, and ffprobe were not discovered.",
+      "confidence": "high",
+      "mutation_safety": "blocked"
+    }
+  ],
+  "targetArtifacts": [
+    "SPEC.md",
+    "DESIGN.md",
+    "UX-PLAN.md",
+    "IMPLEMENTATION-DETAILS.md",
+    "OPERATIONS.md",
+    "EXECUTION-PACK.md",
+    "WORK-PACK.md",
+    "work-pack/shared/TRACEABILITY.md",
+    "work-pack/tasks/TASK-OAIA-RENDER.md",
+    "work-pack/tasks/TASK-OAIA-VERIFY.md",
+    "work-pack/tasks/TASK-OAIA-DECIDE.md",
+    "work-pack/waves/W2.md"
+  ],
+  "deltaSummary": [
+    {"class": "route_changed", "count": 1},
+    {"class": "artifact_drift", "count": 1},
+    {"class": "blocker_opened", "count": 1}
+  ],
+  "proposedChanges": [
+    "Replace one configuration and two repetitions with two controlled accent candidates and one render each.",
+    "Keep text, model, stock voice, format, and shared delivery constraints identical.",
+    "Regenerate Design and Plan evidence rather than hand-editing old receipts."
+  ],
+  "appliedChanges": [],
+  "skippedChanges": [
+    "Target mutation: exact shared voice and material package are absent.",
+    "Provider render: account, operator, request, and toolchain gates remain open."
+  ],
+  "materialPackage": {
+    "required": true,
+    "receiptPresent": false,
+    "schemaValid": false,
+    "patchVerdict": "not-applicable",
+    "mutationHandoff": "blocked",
+    "packageId": "",
+    "packageDigest": "",
+    "expectedPackageId": "",
+    "expectedPackageDigest": "",
+    "validatedPaths": [],
+    "dependencyResult": "not-applicable",
+    "ownerBoundaryResult": "reject",
+    "publicationBoundaryResult": "reject",
+    "validationCommands": [],
+    "lifecycleOwner": "OpenAI stock-voice audition",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  },
+  "mutationReady": false,
+  "blockers": [
+    {
+      "id": "OAIA-REFRESH-B001",
+      "scope": "refresh-authoring",
+      "owner": "audition-owner",
+      "status": "open",
+      "claim": "Exact shared stock voice is unresolved."
+    },
+    {
+      "id": "OAIA-REFRESH-B002",
+      "scope": "apply-authorization",
+      "owner": "invoke-refresh",
+      "status": "blocked",
+      "claim": "No staged material package or schema-valid receipt exists."
+    },
+    {
+      "id": "OAIA-REFRESH-B003",
+      "scope": "target-lifecycle",
+      "owner": "invoke-design-plan",
+      "status": "open",
+      "claim": "Existing Design and Plan evidence is stale under the A/B scope."
+    },
+    {
+      "id": "OAIA-REFRESH-B004",
+      "scope": "target-lifecycle",
+      "owner": "named-provider-and-production-owners",
+      "status": "open",
+      "claim": "Provider account, operator, request, and remaining Decision Gate fronts are unresolved."
+    },
+    {
+      "id": "OAIA-REFRESH-B005",
+      "scope": "audit",
+      "owner": "verification-owner",
+      "status": "open",
+      "claim": "No pinned audio verification toolchain exists."
+    }
+  ],
+  "nextRoute": "deferred:decision-gate:OAIA-DG-003-shared-stock-voice",
+  "validation": [
+    "decision-gate deterministic prefilter replay",
+    "JSON parse",
+    "signal hash binding",
+    "scoped whitespace review"
+  ],
+  "execution_path": "invoke:refresh",
+  "dispatch_trace": {
+    "techniques": ["owner_boundary_check", "artifact_contract_bridge", "residue_ledger", "concrete_path_evidence", "validation_loop"],
+    "full_dispatch_required": false,
+    "validation_status": "pass"
+  },
+  "source_evidence": ["chat:user:create-the-two-variants", "official-openai-text-to-speech-guide", "local-prerequisite-probe"],
+  "target_inventory": "targetArtifacts",
+  "activation_source": "direct-user",
+  "mutation_mode": "apply-approved",
+  "mutation_mode_source": "default-direct-user",
+  "phase_status": "block",
+  "handoff_status": "blocked",
+  "blocker_scopes": {"refresh-authoring": 1, "apply-authorization": 1, "target-lifecycle": 2, "audit": 1},
+  "material_package": "materialPackage",
+  "mutation_ready": false,
+  "result": "block",
+  "next_route": "deferred:decision-gate:OAIA-DG-003-shared-stock-voice",
+  "distill": {
+    "status": "skipped",
+    "rationale": "Refresh is blocked before a material proposal can be finalized; no execution unit is handed off.",
+    "childTelemetry": "not-emitted"
+  }
+}

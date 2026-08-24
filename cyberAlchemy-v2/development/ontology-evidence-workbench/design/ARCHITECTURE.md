@@ -19,6 +19,42 @@ exact evidence graph != generalized presentation graph
 
 The evidence sidecar makes this inequality inspectable rather than implicit.
 
+## First Working Version
+
+The first working version is one private, local Poker evidence-review
+interface—not a reusable UI platform and not a sequence of isolated component
+demos.
+
+```text
+verified Poker adapter run
+  → exact-source store
+  → persistent trust rail
+  → graph / outline / table workspace
+  → exact evidence inspector
+  → search, keyboard, and Poker grounding walkthrough
+  → receipt drawer
+  → responsive automated behavior
+```
+
+The reviewer can select `F1`, trace the exact `F1 → R1 → D1` grounding path,
+keep the `D2` contradiction visible, inspect the indeterminate `specializes`
+candidate and `POLICY_OWNER_UNBOUND`, and open the receipts that justify every
+verified label. The UI remains read-only and always displays
+`authority_effect: none`.
+
+The remaining delivery boundary is four units:
+
+```text
+008F complete UI source
+  → 013B immutable final build + independent build verifier
+  → 014 browser acceptance producer
+  → 014V independent acceptance verifier
+```
+
+Completed `006P` and `007` are retained. L2 code context, editing, automatic
+promotion, multi-user service, public release, and manual UX claims are not
+part of this version.
+
 ## View 1 — Context
 
 ```mermaid
@@ -70,22 +106,28 @@ flowchart LR
       RW[create-only adapter run writer]
     end
 
-    subgraph Bootstrap["3. Private L1 build lane"]
+    subgraph Bootstrap["3. Private L1 toolchain lane"]
       LB[fresh digest-named workroot]
       TP[exact Node/pnpm + effective lock]
+      PP[fixture patch mechanics]
+      TH[verified toolchain handle]
+    end
+
+    subgraph FinalBuild["4. Final L1 build lane"]
+      FO[final 007 + 008F overlay]
       OP[verified overlay pre/postimages]
       BH[immutable L1 build handle]
       BV[independent build verifier]
     end
 
-    subgraph Serve["4. Local serving lane"]
+    subgraph Serve["5. Local serving lane"]
       VG[token-gated loopback gateway]
       PG[presentation-graph.json]
       ES[evidence-sidecar.json]
       AR[adapter-receipt.json]
     end
 
-    subgraph UI["5. Workbench lane"]
+    subgraph UI["6. Workbench lane"]
       TS[trust rail]
       GC[graph canvas]
       OT[outline / table]
@@ -94,13 +136,13 @@ flowchart LR
       GT[guided tours]
     end
 
-    subgraph Accept["6. Browser acceptance lane"]
+    subgraph Accept["7. Browser acceptance lane"]
       BP[owned browser runner]
       BR[browser acceptance receipt]
       AV[independent acceptance verifier]
     end
 
-    subgraph Optional["7. Optional code-context lane"]
+    subgraph Optional["8. Optional code-context lane"]
       UAG[scoped .ua/knowledge-graph.json]
       EM[explicit evidence-code mappings]
     end
@@ -109,7 +151,8 @@ flowchart LR
     RW --> PG
     RW --> ES
     RW --> AR
-    TV --> LB --> TP --> OP --> BH --> BV
+    TV --> LB --> TP --> PP --> TH
+    TH --> FO --> OP --> BH --> BV
     PG --> VG --> GC
     ES --> VG --> EI
     AR --> VG --> TS
@@ -133,7 +176,8 @@ flowchart LR
 | `adapter-run-writer` | create a new immutable output directory; write receipt last | validated bytes | three-file adapter run | no overwrite |
 | `upstream-lock` | bind repository, commit, license, file digests, and patch set | lock file, fetched source | pin verification result | fail on drift |
 | `viewer-build` | build unmodified L0 or patch-overlay L1 viewer from pin | verified upstream source | viewer artifact + digest | fail on patch/build/test |
-| `l1-build-bootstrap` | materialize an isolated overlay build using exact tools and one declared network/cache mode | verified L0 handle, upstream lock, overlay manifest, effective package/lock | immutable L1 build handle + producer receipt | fail on workspace fallback, drift, reapply, tool mismatch, test/build failure, or residue |
+| `l1-toolchain-bootstrap` | prove isolated materialization using exact tools, one declared network/cache mode, and a self-owned fixture patch | verified L0 handle, upstream lock, fixture overlay/patch, effective package/lock | immutable L1 toolchain handle + verifier receipt | fail on workspace fallback, drift, reapply, tool mismatch, or residue; makes no final feature-build claim |
+| `l1-final-build` | materialize the complete 007 + 008F overlay after all feature source exists | verified toolchain handle, first-working-version overlay manifest/patches, effective package/lock | immutable L1 build handle + producer receipt | fail on input/tool/lock drift, workspace fallback, patch drift/reapply, test/build failure, or residue |
 | `l1-build-verifier` | recompute build inputs, tools, patch pre/postimages, output digest, cleanup, and protected equality | build handle + producer receipt | verifier receipt | independent process; fail closed |
 | `viewer-gateway` | loopback/token/path-contained GET/HEAD serving | viewer + adapter run | local session | deny other methods/paths |
 | `workbench-store` | shared selection/filter/tour/view state | loaded read models | ephemeral UI state | reset safely |
@@ -182,11 +226,15 @@ flowchart LR
 mapping counts, determinism result, protected-source check, and authority
 ceiling.
 
-`l1-build-handle.json` binds the verified L0 input, upstream and effective
-package/lock digests, exact Node/pnpm bytes, declared `online` or admitted
-`isolated-store` mode, overlay pre/postimages, typed test/build results, output
-digest, protected-set equality, and cleanup/residue state. It is immutable and
-is accepted only by a separate verifier.
+`l1-toolchain-handle.json` binds the verified L0 input, upstream/effective lock,
+exact Node/pnpm bytes, declared `online` or admitted `isolated-store` mode,
+fresh-workroot proof, fixture patch pre/postimages, protected-set equality, and
+cleanup/residue state. It makes no feature-build claim.
+
+`l1-build-handle.json` consumes that verified toolchain handle and binds the
+complete final overlay pre/postimages, typed test/build results, output digest,
+protected-set equality, and cleanup/residue state. It is immutable and is
+accepted only by a separate verifier.
 
 ## View 4 — Workflow Process
 
@@ -211,7 +259,12 @@ verify retained L0 handle and exact tool bytes
   -> create fresh digest-named private workroot
   -> select online or admitted isolated-store mode
   -> frozen install with no workspace fallback
-  -> verify and apply overlay once
+  -> verify and apply self-owned fixture patch once
+  -> emit immutable toolchain handle
+  -> cleanup and independently verify toolchain evidence
+  -> retain verified 007 store and author the complete 008F UI overlay
+  -> create a new digest-named workroot from the toolchain handle
+  -> verify and apply the complete overlay once
   -> run dashboard Vitest and tsc -b && vite build
   -> emit immutable build handle
   -> cleanup on every exit and prove residue state
@@ -272,7 +325,8 @@ flowchart TD
 | OCGP terminal verifier | OEW → existing engine | pass before read-model generation | candidate engine owner | invoke exact verifier command |
 | OCGP run bundle | read-only input | supported v1 files and `authority_effect:none` | candidate evidence owner | digest/path containment |
 | Understand-Anything source | fetched build input | immutable commit + MIT license + file hashes | upstream/project integration owner | lock verifier |
-| L1 build bootstrap | L0 → workbench units | disposable workroot, exact tool/lock bytes, one declared network/cache mode, patch-once, typed test/build, cleanup | private OEW bootstrap owner | independent build-handle verifier |
+| L1 toolchain bootstrap | L0 → workbench units | disposable workroot, exact tool/lock bytes, one declared network/cache mode, self-owned fixture patch-once, cleanup | private OEW provisioner | independent toolchain-handle verifier |
+| L1 final build | completed workbench source → browser acceptance | verified toolchain handle, complete overlay, patch-once, typed test/build, cleanup | private OEW final-build owner | independent build-handle verifier |
 | Understand-Anything graph | OEW → viewer | generalized presentation only | OEW adapter owner | sidecar totality |
 | viewer gateway | browser ↔ local process | loopback, token, GET/HEAD, contained files | OEW UI owner | negative HTTP/path tests |
 | Poker Team | read-only fixture origin | no mutation and no product verdict | Poker owners | protected digest manifest |
@@ -308,13 +362,30 @@ mutation endpoint.
 Selected. OEW may later offer a neutral adapter receipt to IOLM, but this Plan
 does not alter IOLM tasks, Craft state, or selected SWU.
 
-### ADR-OEW-006 — L1 bootstrap precedes feature work
+### ADR-OEW-006 — Provision early; bind final feature bytes late
 
-Selected by the 2026-07-27 Invoke Refresh. A private
-`SWU-OEW-006B` owns clean L1 materialization and its producer receipt before
-007–013. `SWU-OEW-014` owns browser production, while `SWU-OEW-014V` owns
-independent acceptance. The former 007 selection is historical and cannot
-authorize this changed graph.
+Superseded by the 2026-07-27 split-build repair. Historical
+`SWU-OEW-006B` stopped before mutation because its required feature patch was
+owned downstream and its handle would predate later feature bytes.
+`SWU-OEW-006P` now proves the exact isolated toolchain/materializer with a
+self-owned fixture patch. `SWU-OEW-013B` later consumes the complete 007 +
+008F overlay and emits the independently verified immutable build handle consumed
+by 014. `SWU-OEW-014V` remains the distinct browser-acceptance verifier.
+
+### ADR-OEW-007 — One vertical UI slice for the first working version
+
+Selected by the 2026-07-28 direct-user Invoke Refresh. The former
+`SWU-OEW-008`–`013` component selectors are retained as superseded planning and
+blocker evidence. Their unimplemented source and focused assertions are
+recomposed into `SWU-OEW-008F`.
+
+The reason is empirical: each component depended on the same store,
+entrypoint, overlay manifest, package script registry, and Poker review
+journey. Splitting those coordination bytes across serial selectors produced a
+runtime-registry blocker before any UI mutation. `008F` therefore owns one
+usable vertical workflow and all six registered focused runner paths. Build
+materialization, browser lifecycle, and independent acceptance remain separate
+because they have distinct inputs, side effects, and evidence owners.
 
 ## Risks
 
@@ -339,9 +410,9 @@ determinism, browser behavior, accessibility, privacy, and usability remain
 planned witnesses until execution.
 
 The rejected 2026-07-27 audit supplied substantive candidate findings, not an
-accepted review result. This refresh independently adopts repair B from the
-user's direct instruction; it does not retroactively accept that audit, select
-an SWU, or prove any L1 runtime claim.
+accepted review result. This refresh independently adopts build-order option A
+from the user's direct instruction; it does not retroactively accept that
+audit, select an SWU, or prove any L1 runtime claim.
 
 ## Open Questions
 

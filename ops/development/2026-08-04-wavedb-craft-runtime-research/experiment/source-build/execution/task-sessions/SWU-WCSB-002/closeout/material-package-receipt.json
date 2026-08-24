@@ -1,0 +1,24 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "wavedb-source-build-invoke-owner",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "c462c53758b1c6e0cfb8aa49015c78a58be4b631dd34bd09d4de677530d1ae7f",
+  "packageId": "wavedb-reviewed-source-build:SWU-WCSB-002:blocked-closeout",
+  "patchVerdict": "pass",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md"
+  ],
+  "validationCommands": [
+    "jq -e '.execution_result == \"block\" and .swu_id == \"SWU-WCSB-002\"' execution/task-sessions/SWU-WCSB-002/terminal-receipt.json",
+    "rg -n 'selectedSWU.*none|SWU-WCSB-002.*blocked|WCSB-UPSTREAM-CONCURRENT-WRITE-STALL' plan/WORK-PACK.md",
+    "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md"
+  ]
+}

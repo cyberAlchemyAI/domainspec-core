@@ -1,0 +1,364 @@
+{
+  "common_required_fields": [
+    "id",
+    "kind",
+    "record_state",
+    "owner_route",
+    "authority_effect",
+    "release_admission",
+    "created_at",
+    "source_refs"
+  ],
+  "node_kind_count": 21,
+  "node_kinds": [
+    {
+      "evidence_class": "DocumentationObservation",
+      "invariant": "Exactly one normalized canonical official documentation route observation.",
+      "kind": "DocumentationTopic",
+      "misuse_warning": "Route, heading, parameter-section, return-section or example-section presence is not behavioral, runtime or package-version truth.",
+      "owner_route": "official-source-ingestion",
+      "required_fields": [
+        "canonical_path",
+        "canonical_url",
+        "family_id",
+        "title",
+        "h1",
+        "heading_selectors",
+        "raw_sha256",
+        "captured_at",
+        "observation_id"
+      ],
+      "validity": "validated -> stale-pending-review on page-digest change; -> invalidated on route removal, canonical-identity change, or selector disappearance; historical row may -> superseded."
+    },
+    {
+      "evidence_class": "PinnedExportOrTypeBinding",
+      "invariant": "One version-scoped program identity within an explicit JS, WAAPI, namespace or adapter surface.",
+      "kind": "APISymbol",
+      "misuse_warning": "Equal labels, adjacent pages or examples do not establish symbol identity or JS/WAAPI parity.",
+      "owner_route": "source-binding",
+      "required_fields": [
+        "symbol",
+        "surface",
+        "module_export",
+        "structured_pointer",
+        "version_context_id",
+        "source_fact_ids"
+      ],
+      "validity": "validated -> stale-pending-review on compatible source/type drift; -> invalidated on export removal or identity contradiction; -> superseded only by another APISymbol with the same logical identity."
+    },
+    {
+      "evidence_class": "SourceDerived",
+      "invariant": "One scoped proposition derived from immutable official bytes.",
+      "kind": "SourceFact",
+      "misuse_warning": "A SourceFact is not an EvidenceRecord, runtime observation, inference, recommendation or authority grant.",
+      "owner_route": "fact-extraction",
+      "required_fields": [
+        "proposition",
+        "assertion_scope",
+        "evidence_record_ids",
+        "selector_or_structured_pointer",
+        "version_context_id"
+      ],
+      "validity": "validated -> stale-pending-review when intersecting bytes change without a demonstrated contradiction; -> invalidated when selector fails or intersecting evidence contradicts the proposition; same-kind replacement may -> superseded."
+    },
+    {
+      "evidence_class": "ExampleSourcePresent",
+      "invariant": "One official example locator plus an original purpose description.",
+      "kind": "Example",
+      "misuse_warning": "Source presence does not prove execution, correctness, accessibility, performance or production behavior.",
+      "owner_route": "example-ingestion",
+      "required_fields": [
+        "locator",
+        "purpose_paraphrase",
+        "evidence_record_id",
+        "version_context_id",
+        "execution_status"
+      ],
+      "validity": "validated -> stale-pending-review on locator or digest drift; -> invalidated on removal; execution status changes only through a new ExecutedWitness."
+    },
+    {
+      "evidence_class": "DocumentationGuidanceOrSourceDerived",
+      "invariant": "Ordered, non-executing guidance with explicit prerequisites, consultation bindings, validation requirement and abstention behavior.",
+      "kind": "Recipe",
+      "misuse_warning": "A Recipe is not a Task, Fix, Recommendation, execution authorization or verified Lesson.",
+      "owner_route": "recipe-review",
+      "required_fields": [
+        "task_pattern",
+        "precondition_ids",
+        "ordered_action_steps",
+        "validation_requirement",
+        "unknown_policy",
+        "version_context_ids",
+        "evidence_record_ids"
+      ],
+      "validity": "validated -> stale-pending-review on prerequisite, source or compatible-version drift; -> invalidated on contradicted required action; same-kind revision may -> superseded."
+    },
+    {
+      "evidence_class": "RequesterRecord",
+      "invariant": "One requested intent with target, constraints and acceptance condition.",
+      "kind": "Task",
+      "misuse_warning": "Intent does not prove feasibility, correctness, execution or completion.",
+      "owner_route": "task-session-owner",
+      "required_fields": [
+        "intent",
+        "target_kind",
+        "constraints",
+        "acceptance_criterion",
+        "requester_ref",
+        "status"
+      ],
+      "validity": "validated -> invalidated only on cancellation; a materially revised intent becomes a new Task and old Task -> superseded."
+    },
+    {
+      "evidence_class": "EpisodeReceipt",
+      "invariant": "Append-only envelope for one bounded execution effort against exactly one Task and VersionContext.",
+      "kind": "WorkEpisode",
+      "misuse_warning": "Existence or closure is not successful Outcome, production change or Lesson.",
+      "owner_route": "execution-route",
+      "required_fields": [
+        "task_id",
+        "version_context_id",
+        "started_at",
+        "closed_at",
+        "scope",
+        "status",
+        "attempt_ids"
+      ],
+      "validity": "reproduced while open -> validated when closed and structurally complete; corrupt receipt -> invalidated; correction requires a distinct superseding episode."
+    },
+    {
+      "evidence_class": "ActionLog",
+      "invariant": "One ordinal action within exactly one WorkEpisode.",
+      "kind": "Attempt",
+      "misuse_warning": "An Attempt is not Evidence and cannot directly support a Diagnosis or Lesson.",
+      "owner_route": "episode-owner",
+      "required_fields": [
+        "episode_id",
+        "ordinal",
+        "action_description",
+        "started_at",
+        "finished_at",
+        "produced_evidence_ids",
+        "outcome_id"
+      ],
+      "validity": "append-only; validated when its ordinal and episode ownership are valid; corrupt ordering or cross-episode ownership -> invalidated."
+    },
+    {
+      "evidence_class": "ObservedWitness",
+      "invariant": "A scoped observation statement bound to a witness and VersionContext.",
+      "kind": "Symptom",
+      "misuse_warning": "Observation is not explanation or root cause.",
+      "owner_route": "diagnostic-route",
+      "required_fields": [
+        "observed_statement",
+        "evidence_record_id",
+        "version_context_id",
+        "observed_at"
+      ],
+      "validity": "validated -> stale-pending-review on context incompatibility; -> invalidated if witness integrity fails."
+    },
+    {
+      "evidence_class": "Inference",
+      "invariant": "Defeasible explanation with explicit premises, confidence and contradiction handling.",
+      "kind": "Diagnosis",
+      "misuse_warning": "A Diagnosis is not SourceFact, Fix or successful Outcome.",
+      "owner_route": "diagnostic-review",
+      "required_fields": [
+        "claim",
+        "symptom_ids",
+        "supporting_evidence_ids",
+        "contradicting_evidence_ids",
+        "confidence",
+        "version_context_ids"
+      ],
+      "validity": "validated -> stale-pending-review on potentially affected premise drift; -> invalidated on load-bearing premise invalidation or unresolved direct contradiction; revised diagnosis may -> superseded."
+    },
+    {
+      "evidence_class": "Proposal",
+      "invariant": "One candidate change addressing one named Diagnosis.",
+      "kind": "Fix",
+      "misuse_warning": "Proposal or application does not imply a successful Outcome.",
+      "owner_route": "implementation-route",
+      "required_fields": [
+        "diagnosis_id",
+        "proposed_change",
+        "preconditions",
+        "evidence_record_ids",
+        "application_status"
+      ],
+      "validity": "validated as proposal -> stale-pending-review on changed preconditions; -> invalidated if diagnosis is invalidated or change becomes incompatible; revised Fix may -> superseded."
+    },
+    {
+      "evidence_class": "TestObservedOrExecutedWitness",
+      "invariant": "Terminal classification of one Attempt with exact witness references.",
+      "kind": "Outcome",
+      "misuse_warning": "Success applies only to the declared criterion and environment.",
+      "owner_route": "validation-route",
+      "required_fields": [
+        "attempt_id",
+        "status",
+        "criterion",
+        "evidence_record_ids",
+        "observed_at"
+      ],
+      "validity": "validated only when status and evidence satisfy the criterion; integrity failure -> invalidated; Outcome is never rewritten."
+    },
+    {
+      "evidence_class": "OperationalLesson",
+      "invariant": "Conditional guidance generalized from compatible closed WorkEpisodes with Outcomes.",
+      "kind": "Lesson",
+      "misuse_warning": "Not SourceFact, Recipe, Recommendation or universal truth. Current verified Anime.js Lesson count must remain zero.",
+      "owner_route": "lesson-review",
+      "required_fields": [
+        "conditional_guidance",
+        "episode_ids",
+        "outcome_ids",
+        "supporting_evidence_ids",
+        "applicability",
+        "confidence",
+        "review_owner",
+        "invalidation_triggers",
+        "lesson_status"
+      ],
+      "validity": "candidate -> verified only with a closed episode, succeeded Outcome and TestObserved or ExecutedWitness; verified -> stale-pending-review on intersecting drift; -> invalidated on contradiction or failed applicability; revised Lesson may -> superseded."
+    },
+    {
+      "evidence_class": "Carrier",
+      "invariant": "Carrier for one bounded evidence assertion, never the assertion itself.",
+      "kind": "EvidenceRecord",
+      "misuse_warning": "Evidence status, record presence and authority are separate; present tests/examples are not executed evidence.",
+      "owner_route": "evidence-ingestion",
+      "required_fields": [
+        "evidence_class",
+        "source_identity",
+        "selector_or_structured_pointer",
+        "digest",
+        "assertion_scope",
+        "captured_at",
+        "version_context_id",
+        "materialization_origin"
+      ],
+      "validity": "returned-not-written -> reproduced -> validated; intersecting drift -> stale-pending-review; integrity or contradiction failure -> invalidated; replacement may -> superseded."
+    },
+    {
+      "evidence_class": "EnvironmentBinding",
+      "invariant": "Immutable compatibility tuple, not a loose version label.",
+      "kind": "VersionContext",
+      "misuse_warning": "Documentation cache markers and mutable-site observations cannot establish release version.",
+      "owner_route": "environment-capture",
+      "required_fields": [
+        "anime_package_version",
+        "commit_sha",
+        "lockfile_digest",
+        "runtime",
+        "browser",
+        "framework",
+        "os"
+      ],
+      "validity": "validated immutable tuple; changed component creates a new VersionContext and old may -> superseded; discovered integrity error -> invalidated."
+    },
+    {
+      "evidence_class": "Inferred",
+      "invariant": "Explicit premises, rule, conclusion, uncertainty and contradiction policy.",
+      "kind": "Inference",
+      "misuse_warning": "Cannot masquerade as SourceFact, Outcome or official guidance.",
+      "owner_route": "reasoning-review",
+      "required_fields": [
+        "premise_ids",
+        "rule",
+        "conclusion",
+        "uncertainty",
+        "contradicting_evidence_ids"
+      ],
+      "validity": "validated -> stale-pending-review on potentially affected premise drift; -> invalidated when any load-bearing premise is invalidated."
+    },
+    {
+      "evidence_class": "ReviewJudgment",
+      "invariant": "Project-local choice with alternatives, constraints and evidence ceiling.",
+      "kind": "Recommendation",
+      "misuse_warning": "Not Anime.js authority, Recipe, Fix or execution authorization.",
+      "owner_route": "project-decision-owner",
+      "required_fields": [
+        "choice",
+        "alternatives",
+        "constraints",
+        "rationale",
+        "evidence_record_ids",
+        "decision_owner"
+      ],
+      "validity": "validated -> stale-pending-review on changed constraints/evidence; -> invalidated by owner withdrawal; replacement may -> superseded."
+    },
+    {
+      "evidence_class": "Unverified",
+      "invariant": "Retrieval-only third-party proposal with no admissible guidance effect.",
+      "kind": "UnverifiedProposal",
+      "misuse_warning": "Issue 1105 cannot support Recipe, Fix, Lesson, official guidance, performance or workflow claims.",
+      "owner_route": "community-source-quarantine",
+      "required_fields": [
+        "source_identity",
+        "selector",
+        "proposal_summary",
+        "captured_at",
+        "verification_status"
+      ],
+      "validity": "validated only as proposal presence; source removal/change -> stale-pending-review or invalidated; promotion requires a new independently admitted record."
+    },
+    {
+      "evidence_class": "AbsenceRecord",
+      "invariant": "One exact missing binding or witness with affected claim, closure condition and owner.",
+      "kind": "EvidenceGap",
+      "misuse_warning": "Absence is not negative proof.",
+      "owner_route": "named-closure-route",
+      "required_fields": [
+        "gap_code",
+        "affected_claim",
+        "missing_evidence",
+        "closure_condition",
+        "owner_route",
+        "status"
+      ],
+      "validity": "validated while missing; -> superseded when a closure record names the satisfying evidence; never silently deleted."
+    },
+    {
+      "evidence_class": "RoutingRecord",
+      "invariant": "One non-executing question that can close one EvidenceGap.",
+      "kind": "NextQuestion",
+      "misuse_warning": "A question or route suggestion does not authorize or execute work.",
+      "owner_route": "gap-owner",
+      "required_fields": [
+        "gap_id",
+        "missing_element",
+        "target_artifact",
+        "exact_locator",
+        "reason",
+        "owner_route",
+        "stop_condition"
+      ],
+      "validity": "validated while its gap remains open; -> superseded when resolved or replaced."
+    },
+    {
+      "evidence_class": "DerivedQueryReceipt",
+      "invariant": "Immutable persisted output of one deterministic query over one exact graph digest.",
+      "kind": "QueryReceipt",
+      "misuse_warning": "A QueryReceipt is not canonical knowledge, approval, execution or authority.",
+      "owner_route": "query-engine",
+      "required_fields": [
+        "query_contract_id",
+        "normalized_inputs",
+        "version_context_id",
+        "candidate_ids",
+        "selected_ids",
+        "evidence_record_ids",
+        "conflicts",
+        "absences",
+        "abstention_code",
+        "next_question_ids",
+        "algorithm_version",
+        "source_graph_digest",
+        "generated_at"
+      ],
+      "validity": "validated only while source graph digest and algorithm version match; drift -> stale-pending-review; superseding rerun creates a new receipt."
+    }
+  ],
+  "schema_version": "animejs.agent-knowledge-vault.node-vocabulary.v1"
+}

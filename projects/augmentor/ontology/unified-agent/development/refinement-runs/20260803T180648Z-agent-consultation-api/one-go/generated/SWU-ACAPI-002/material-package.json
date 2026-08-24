@@ -1,0 +1,94 @@
+{
+  "schema_version": "augmentor.consultation.material-package@0.1.0",
+  "package_id": "material-swu-acapi-002",
+  "task_id": "TASK-ACAPI-01",
+  "swu_id": "SWU-ACAPI-002",
+  "source_artifacts": [
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/work-pack/tasks/TASK-ACAPI-01-CONTRACTS.md",
+      "sha256": "e0a18011796bf31450b3218922a26cf1edbf457448d573aa7f9bbdd393864877",
+      "size_bytes": 3086,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/WORK-PACK.md",
+      "sha256": "2d53e5ed9550dd04eeb1a009b6f7079e9efa9f81c612e00d3e49da10223e014d",
+      "size_bytes": 15934,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-002/context-pack.json",
+      "sha256": "7acb2f7f6e5108e26ddeb7b3833a625751ab7d3b1409dda5dffbc65dd02a88cd",
+      "size_bytes": 1708,
+      "authority_class": "private"
+    },
+    {
+      "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/material-map.json",
+      "sha256": "e27c11b9766de3d926b499fd232ff28c856b97f57861812641ee34234197f2a4",
+      "size_bytes": 7002,
+      "authority_class": "private"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "SWU-ACAPI-001",
+      "artifact_ref": {
+        "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/generated/SWU-ACAPI-001/material-package.json",
+        "sha256": "24088814184711cc157602edd8096d4dd29bc426603b5129c6c3ac3a5e8b8def",
+        "size_bytes": 14222
+      }
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/result.schema.json",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "dc92cd327da233f1b53b0777f74cddfed51a4fd9e48b7f9ed9b001a04bdfd126",
+      "content": "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"augmentor.consultation.result@0.1.0\",\n  \"oneOf\": [\n    {\"$ref\": \"#/$defs/ok\"},\n    {\"$ref\": \"#/$defs/partial\"},\n    {\"$ref\": \"#/$defs/noMatch\"},\n    {\"$ref\": \"#/$defs/insufficient\"},\n    {\"$ref\": \"#/$defs/conflict\"},\n    {\"$ref\": \"#/$defs/stale\"},\n    {\"$ref\": \"#/$defs/denied\"},\n    {\"$ref\": \"#/$defs/invalid\"},\n    {\"$ref\": \"#/$defs/budget\"},\n    {\"$ref\": \"#/$defs/temporary\"}\n  ],\n  \"$defs\": {\n    \"baseProperties\": {},\n    \"record\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"id\", \"kind\", \"label\", \"summary\", \"viewIds\", \"sourceHandles\"],\n      \"properties\": {\n        \"id\": {\"type\": \"string\", \"pattern\": \"^rec-[a-f0-9]{12}$\"},\n        \"kind\": {\"type\": \"string\", \"minLength\": 1},\n        \"label\": {\"type\": \"string\", \"minLength\": 1},\n        \"summary\": {\"type\": \"string\", \"minLength\": 1},\n        \"viewIds\": {\"type\": \"array\", \"minItems\": 1, \"uniqueItems\": true, \"items\": {\"type\": \"string\", \"minLength\": 1}},\n        \"sourceHandles\": {\"type\": \"array\", \"minItems\": 1, \"uniqueItems\": true, \"items\": {\"type\": \"string\", \"pattern\": \"^src-[a-f0-9]{12}$\"}}\n      }\n    },\n    \"statement\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"statementId\", \"subjectId\", \"predicate\", \"object\", \"transformation\", \"sourceHandles\", \"freshness\", \"claimCeiling\", \"forbiddenInferences\", \"relevance\", \"confidence\"],\n      \"properties\": {\n        \"statementId\": {\"type\": \"string\", \"minLength\": 1},\n        \"subjectId\": {\"type\": \"string\", \"minLength\": 1},\n        \"predicate\": {\"type\": \"string\", \"minLength\": 1},\n        \"object\": {\"type\": [\"string\", \"number\", \"boolean\", \"array\"]},\n        \"displayText\": {\"type\": \"string\"},\n        \"transformation\": {\"type\": \"object\"},\n        \"sourceHandles\": {\"type\": \"array\"},\n        \"freshness\": {\"enum\": [\"current\", \"stale\", \"unknown\"]},\n        \"claimCeiling\": {\"type\": \"string\", \"minLength\": 1},\n        \"forbiddenInferences\": {\"type\": \"array\"},\n        \"relevance\": {\"type\": \"object\"},\n        \"confidence\": {\"type\": \"object\"}\n      }\n    },\n    \"payload\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"kind\", \"records\", \"statements\"],\n      \"properties\": {\n        \"kind\": {\"enum\": [\"records\", \"statements\", \"context\"]},\n        \"records\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/record\"}},\n        \"statements\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/statement\"}}\n      }\n    },\n    \"ok\": {\n      \"type\": \"object\", \"additionalProperties\": false,\n      \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"status\", \"result\", \"projectionDigest\", \"complete\"],\n      \"properties\": {\"schemaVersion\": {\"const\": \"augmentor.consultation.result@0.1.0\"}, \"requestId\": {\"type\": \"string\"}, \"questionId\": {\"type\": \"string\"}, \"status\": {\"const\": \"ok\"}, \"result\": {\"$ref\": \"#/$defs/payload\"}, \"projectionDigest\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"}, \"complete\": {\"const\": true}}\n    },\n    \"partial\": {\n      \"type\": \"object\", \"additionalProperties\": false,\n      \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"status\", \"result\", \"projectionDigest\", \"complete\", \"limitsHit\"],\n      \"properties\": {\"schemaVersion\": {\"const\": \"augmentor.consultation.result@0.1.0\"}, \"requestId\": {\"type\": \"string\"}, \"questionId\": {\"type\": \"string\"}, \"status\": {\"const\": \"partial\"}, \"result\": {\"$ref\": \"#/$defs/payload\"}, \"projectionDigest\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"}, \"complete\": {\"const\": false}, \"limitsHit\": {\"type\": \"array\", \"minItems\": 1, \"uniqueItems\": true, \"items\": {\"enum\": [\"candidates\", \"records\", \"sources\", \"bytes\", \"tokens\", \"time\"]}}}\n    },\n    \"noMatch\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"status\", \"searchedProjectionDigest\"], \"properties\": {\"schemaVersion\": {\"const\": \"augmentor.consultation.result@0.1.0\"}, \"requestId\": {\"type\": \"string\"}, \"questionId\": {\"type\": \"string\"}, \"status\": {\"const\": \"no_match\"}, \"searchedProjectionDigest\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"}}},\n    \"insufficient\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"status\", \"gapCodes\"], \"properties\": {\"schemaVersion\": {\"const\": \"augmentor.consultation.result@0.1.0\"}, \"requestId\": {\"type\": \"string\"}, \"questionId\": {\"type\": \"string\"}, \"status\": {\"const\": \"insufficient_evidence\"}, \"gapCodes\": {\"type\": \"array\", \"minItems\": 1, \"uniqueItems\": true, \"items\": {\"enum\": [\"SOURCE_BINDING_MISSING\", \"PROVENANCE_MISSING\", \"REQUIRED_FIELD_MISSING\"]}}}},\n    \"conflict\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"status\", \"statementIds\"], \"properties\": {\"schemaVersion\": {\"const\": \"augmentor.consultation.result@0.1.0\"}, \"requestId\": {\"type\": \"string\"}, \"questionId\": {\"type\": \"string\"}, \"status\": {\"const\": \"conflict\"}, \"statementIds\": {\"type\": \"array\", \"minItems\": 2, \"uniqueItems\": true, \"items\": {\"type\": \"string\"}}}},\n    \"stale\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"status\", \"projectionDigest\", \"freshness\"], \"properties\": {\"schemaVersion\": {\"const\": \"augmentor.consultation.result@0.1.0\"}, \"requestId\": {\"type\": \"string\"}, \"questionId\": {\"type\": \"string\"}, \"status\": {\"const\": \"stale\"}, \"projectionDigest\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"}, \"freshness\": {\"const\": \"stale\"}}},\n    \"denied\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"status\", \"reasonCode\", \"retryable\"], \"properties\": {\"schemaVersion\": {\"const\": \"augmentor.consultation.result@0.1.0\"}, \"requestId\": {\"type\": \"string\"}, \"questionId\": {\"type\": \"string\"}, \"status\": {\"const\": \"denied\"}, \"reasonCode\": {\"const\": \"ACCESS_NOT_AVAILABLE\"}, \"retryable\": {\"const\": false}}},\n    \"invalid\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"status\", \"issueCodes\"], \"properties\": {\"schemaVersion\": {\"const\": \"augmentor.consultation.result@0.1.0\"}, \"requestId\": {\"type\": \"string\"}, \"questionId\": {\"type\": \"string\"}, \"status\": {\"const\": \"invalid_request\"}, \"issueCodes\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"string\"}}}},\n    \"budget\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"status\", \"limitCodes\"], \"properties\": {\"schemaVersion\": {\"const\": \"augmentor.consultation.result@0.1.0\"}, \"requestId\": {\"type\": \"string\"}, \"questionId\": {\"type\": \"string\"}, \"status\": {\"const\": \"budget_exceeded\"}, \"limitCodes\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"string\"}}}},\n    \"temporary\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"schemaVersion\", \"requestId\", \"questionId\", \"status\", \"reasonCode\", \"retryable\"], \"properties\": {\"schemaVersion\": {\"const\": \"augmentor.consultation.result@0.1.0\"}, \"requestId\": {\"type\": \"string\"}, \"questionId\": {\"type\": \"string\"}, \"status\": {\"const\": \"temporary_failure\"}, \"reasonCode\": {\"enum\": [\"DEADLINE_REACHED\", \"CANCELLED\", \"DEPENDENCY_UNAVAILABLE\"]}, \"retryable\": {\"type\": \"boolean\"}}}\n  }\n}\n"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/evidence-statement.schema.json",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "acf68b3b91084a650e5c99dc76e12168510063822034fbb397ac88671b00f3be",
+      "content": "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"augmentor.consultation.evidence-statement@0.1.0\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\"statementId\", \"subjectId\", \"predicate\", \"object\", \"transformation\", \"sourceHandles\", \"freshness\", \"claimCeiling\", \"forbiddenInferences\", \"relevance\", \"confidence\"],\n  \"properties\": {\n    \"statementId\": {\"type\": \"string\", \"minLength\": 1},\n    \"subjectId\": {\"type\": \"string\", \"minLength\": 1},\n    \"predicate\": {\"type\": \"string\", \"minLength\": 1},\n    \"object\": {\"type\": [\"string\", \"number\", \"boolean\", \"array\"], \"items\": {\"type\": \"string\"}},\n    \"displayText\": {\"type\": \"string\", \"maxLength\": 2000},\n    \"transformation\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"kind\", \"version\", \"inputFieldRefs\"],\n      \"properties\": {\n        \"kind\": {\"enum\": [\"copied-field\", \"stored-explanation\", \"deterministic-comparison\"]},\n        \"version\": {\"type\": \"string\", \"minLength\": 1},\n        \"inputFieldRefs\": {\"type\": \"array\", \"minItems\": 1, \"uniqueItems\": true, \"items\": {\"type\": \"string\", \"minLength\": 1}}\n      }\n    },\n    \"sourceHandles\": {\"type\": \"array\", \"minItems\": 1, \"uniqueItems\": true, \"items\": {\"type\": \"string\", \"pattern\": \"^src-[a-f0-9]{12}$\"}},\n    \"freshness\": {\"enum\": [\"current\", \"stale\", \"unknown\"]},\n    \"claimCeiling\": {\"type\": \"string\", \"minLength\": 1},\n    \"forbiddenInferences\": {\"type\": \"array\", \"items\": {\"type\": \"string\", \"minLength\": 1}},\n    \"relevance\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"algorithmId\", \"algorithmVersion\", \"scale\", \"value\", \"normalizedQueryDigest\", \"projectionDigest\", \"candidateScopeDigest\"],\n      \"properties\": {\n        \"algorithmId\": {\"const\": \"exact-token-overlap\"},\n        \"algorithmVersion\": {\"const\": \"1.0.0\"},\n        \"scale\": {\"const\": \"normalized-0-1\"},\n        \"value\": {\"type\": \"number\", \"minimum\": 0, \"maximum\": 1},\n        \"normalizedQueryDigest\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"},\n        \"projectionDigest\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"},\n        \"candidateScopeDigest\": {\"type\": \"string\", \"pattern\": \"^[a-f0-9]{64}$\"}\n      }\n    },\n    \"confidence\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"level\", \"ownerRef\", \"basis\", \"assessedAt\", \"sourceHandle\"],\n      \"properties\": {\n        \"level\": {\"enum\": [\"low\", \"medium\", \"high\"]},\n        \"ownerRef\": {\"type\": \"string\", \"minLength\": 1},\n        \"basis\": {\"type\": \"string\", \"minLength\": 1},\n        \"assessedAt\": {\"type\": \"string\", \"minLength\": 1},\n        \"sourceHandle\": {\"type\": \"string\", \"pattern\": \"^src-[a-f0-9]{12}$\"}\n      }\n    }\n  }\n}\n"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/result-cases.json",
+      "operation": "create_text",
+      "before_state": "absent",
+      "after_sha256": "abdaae45cf4ea66bfe4cb4fd9b9b9facdd40c7f347842c126db52bbe557dcf10",
+      "content": "{\n  \"valid\": [\n    {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"ok\", \"result\": {\"kind\": \"context\", \"records\": [], \"statements\": []}, \"projectionDigest\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"complete\": true},\n    {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"partial\", \"result\": {\"kind\": \"records\", \"records\": [], \"statements\": []}, \"projectionDigest\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"complete\": false, \"limitsHit\": [\"records\"]},\n    {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"no_match\", \"searchedProjectionDigest\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"},\n    {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"insufficient_evidence\", \"gapCodes\": [\"SOURCE_BINDING_MISSING\"]},\n    {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"conflict\", \"statementIds\": [\"s1\", \"s2\"]},\n    {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"stale\", \"projectionDigest\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"freshness\": \"stale\"},\n    {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"denied\", \"reasonCode\": \"ACCESS_NOT_AVAILABLE\", \"retryable\": false},\n    {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"invalid_request\", \"issueCodes\": [\"QUERY_INVALID\"]},\n    {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"budget_exceeded\", \"limitCodes\": [\"candidates\"]},\n    {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"temporary_failure\", \"reasonCode\": \"DEADLINE_REACHED\", \"retryable\": true}\n  ],\n  \"invalid\": [\n    {\"name\": \"denial-leaks-record-count\", \"value\": {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"denied\", \"reasonCode\": \"ACCESS_NOT_AVAILABLE\", \"retryable\": false, \"recordCount\": 4}},\n    {\"name\": \"generated-answer-guidance\", \"value\": {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"no_match\", \"searchedProjectionDigest\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"answerGuidance\": \"invent\"}},\n    {\"name\": \"unknown-status\", \"value\": {\"schemaVersion\": \"augmentor.consultation.result@0.1.0\", \"requestId\": \"r\", \"questionId\": \"q\", \"status\": \"approved\"}}\n  ]\n}\n"
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/result.schema.json",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "dc92cd327da233f1b53b0777f74cddfed51a4fd9e48b7f9ed9b001a04bdfd126"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/schemas/evidence-statement.schema.json",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "acf68b3b91084a650e5c99dc76e12168510063822034fbb397ac88671b00f3be"
+    },
+    {
+      "target_path": "projects/augmentor/ontology/unified-agent/development/consultation-api/fixtures/result-cases.json",
+      "before": {
+        "state": "absent"
+      },
+      "after_sha256": "abdaae45cf4ea66bfe4cb4fd9b9b9facdd40c7f347842c126db52bbe557dcf10"
+    }
+  ],
+  "validation_commands": [
+    "[\"node\",\"projects/augmentor/ontology/unified-agent/development/consultation-api/scripts/validate-contract.mjs\",\"--scope\",\"result\"]"
+  ],
+  "lifecycle_owner": "augmentor-consultation-candidate-owner",
+  "authority_class": "private",
+  "publication_class": "private"
+}

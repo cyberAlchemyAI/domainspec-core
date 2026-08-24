@@ -1,0 +1,117 @@
+{
+  "$id": "https://domainspec.local/iro/goal-start-approval/1-0-0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "approval_owner": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "approval_source": {
+      "const": "direct-user-start-goal"
+    },
+    "approval_status": {
+      "const": "approved"
+    },
+    "approved_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "approved_frontier": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "authority_effect": {
+      "const": "none"
+    },
+    "authorized_scope": {
+      "const": "outer-chain-start-and-SWU-IRO-001-execution-outputs-only"
+    },
+    "denied_scopes": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "epoch_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "audit_projection_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "canonical_semantic_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "epoch_id": {
+          "pattern": "^epoch-[a-f0-9]{24}$",
+          "type": "string"
+        },
+        "manifest_ref": {
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "sha256": {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            "size_bytes": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "path",
+            "sha256",
+            "size_bytes"
+          ],
+          "type": "object"
+        },
+        "source_snapshot_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "epoch_id",
+        "audit_projection_digest",
+        "canonical_semantic_digest",
+        "source_snapshot_digest",
+        "manifest_ref"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "stream_id": {
+      "const": "IRO-FULL-STREAM"
+    }
+  },
+  "required": [
+    "schema_version",
+    "stream_id",
+    "approval_status",
+    "approval_owner",
+    "approval_source",
+    "approved_at",
+    "epoch_binding",
+    "approved_frontier",
+    "authorized_scope",
+    "denied_scopes",
+    "authority_effect"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-08-05-arcanum-building-system-research-route",
+  "run_id": "arcanum-building-system-research-run-01",
+  "state": "wave_ready",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "reviewers",
+    "role_ids": ["skeptic-precedent", "skeptic-non-vacuity", "skeptic-definitional"],
+    "parallel": true,
+    "join_policy": "all",
+    "depends_on_waves": ["synthesis"],
+    "gate_after": "g-evidence-closure",
+    "on_incomplete": "block"
+  },
+  "actions": [
+    {
+      "action": "spawn", "action_id": "spawn-0005", "agent_count": 1, "agent_ordinal": 0,
+      "applies_to_steps": ["s3-review"], "capability_ref": "research", "dispatch_id": "2026-08-05-arcanum-building-system-research-route",
+      "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "implementation/", "cyberAlchemy-v2/", "projects/", ".craft/", "CRAFT.md", "telemetry/agents/", ".git/"],
+      "input_refs": ["ops/development/2026-08-05-arcanum-building-system-research/receipts/synthesis.json"], "mode": "review", "mutation_policy": "read-only",
+      "output_refs": ["ops/development/2026-08-05-arcanum-building-system-research/receipts/skeptic-precedent.json"], "role": "skeptic-precedent",
+      "run_id": "arcanum-building-system-research-run-01", "schema_version": "arcanum.native-dispatch-runner.action.v0.1", "step_id": "s3-review",
+      "target": "ops/development/2026-08-05-arcanum-building-system-research/dispatch-sheet.json#reviewers-agent-0", "wave_id": "reviewers", "write_scope": []
+    },
+    {
+      "action": "spawn", "action_id": "spawn-0006", "agent_count": 1, "agent_ordinal": 0,
+      "applies_to_steps": ["s3-review"], "capability_ref": "research", "dispatch_id": "2026-08-05-arcanum-building-system-research-route",
+      "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "implementation/", "cyberAlchemy-v2/", "projects/", ".craft/", "CRAFT.md", "telemetry/agents/", ".git/"],
+      "input_refs": ["ops/development/2026-08-05-arcanum-building-system-research/receipts/synthesis.json"], "mode": "review", "mutation_policy": "read-only",
+      "output_refs": ["ops/development/2026-08-05-arcanum-building-system-research/receipts/skeptic-non-vacuity.json"], "role": "skeptic-non-vacuity",
+      "run_id": "arcanum-building-system-research-run-01", "schema_version": "arcanum.native-dispatch-runner.action.v0.1", "step_id": "s3-review",
+      "target": "ops/development/2026-08-05-arcanum-building-system-research/dispatch-sheet.json#reviewers-agent-1", "wave_id": "reviewers", "write_scope": []
+    },
+    {
+      "action": "spawn", "action_id": "spawn-0007", "agent_count": 1, "agent_ordinal": 0,
+      "applies_to_steps": ["s3-review"], "capability_ref": "research", "dispatch_id": "2026-08-05-arcanum-building-system-research-route",
+      "forbidden_write_scopes": [".agents/", ".claude/", "arcanum/", "implementation/", "cyberAlchemy-v2/", "projects/", ".craft/", "CRAFT.md", "telemetry/agents/", ".git/"],
+      "input_refs": ["ops/development/2026-08-05-arcanum-building-system-research/receipts/synthesis.json"], "mode": "review", "mutation_policy": "read-only",
+      "output_refs": ["ops/development/2026-08-05-arcanum-building-system-research/receipts/skeptic-definitional.json"], "role": "skeptic-definitional",
+      "run_id": "arcanum-building-system-research-run-01", "schema_version": "arcanum.native-dispatch-runner.action.v0.1", "step_id": "s3-review",
+      "target": "ops/development/2026-08-05-arcanum-building-system-research/dispatch-sheet.json#reviewers-agent-2", "wave_id": "reviewers", "write_scope": []
+    }
+  ],
+  "action_artifacts": ["actions/spawn-0005.json", "actions/spawn-0006.json", "actions/spawn-0007.json"]
+}

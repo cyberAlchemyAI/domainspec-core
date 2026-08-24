@@ -1,0 +1,338 @@
+{
+  "schema_version": "animejs.agent-knowledge-vault.relation-witnesses.v1",
+  "witness_count": 17,
+  "witnesses": [
+    {
+      "baseline": {
+        "edge": true
+      },
+      "consumer": "QRY-006 coverage-status",
+      "expected_baseline": {
+        "semantic_coverage": true
+      },
+      "expected_mutant": {
+        "semantic_coverage": false
+      },
+      "failure_assertion": "The joined evidence IDs for TOPIC-ANIMATE-001 must include ER-DOC-ANIMATE-001.",
+      "id": "WITNESS-AKV-REL-001",
+      "mutant": {
+        "edge": false
+      },
+      "relation_id": "AKV-REL-001",
+      "relation_name": "documents"
+    },
+    {
+      "baseline": {
+        "edge": true
+      },
+      "consumer": "QRY-001 resolve-task-recipe",
+      "expected_baseline": {
+        "recipe_selectable": true
+      },
+      "expected_mutant": {
+        "recipe_selectable": false
+      },
+      "failure_assertion": "A selected Recipe requires an admissible derivesFrom target.",
+      "id": "WITNESS-AKV-REL-002",
+      "mutant": {
+        "edge": false
+      },
+      "relation_id": "AKV-REL-002",
+      "relation_name": "derivesFrom"
+    },
+    {
+      "baseline": {
+        "edge": true
+      },
+      "consumer": "QRY-003 choose-js-or-waapi",
+      "expected_baseline": {
+        "candidate_ids": [
+          "api:animate:js"
+        ]
+      },
+      "expected_mutant": {
+        "candidate_ids": []
+      },
+      "failure_assertion": "Every QRY-003 candidate must be exported by the requested VersionContext.",
+      "id": "WITNESS-AKV-REL-003",
+      "mutant": {
+        "edge": false
+      },
+      "relation_id": "AKV-REL-003",
+      "relation_name": "exports"
+    },
+    {
+      "baseline": {
+        "scope_matches": true
+      },
+      "consumer": "QRY-002 explain-api-symbol",
+      "expected_baseline": {
+        "source_grounded": true
+      },
+      "expected_mutant": {
+        "source_grounded": false
+      },
+      "failure_assertion": "The target assertion_scope must name the source APISymbol.",
+      "id": "WITNESS-AKV-REL-004",
+      "mutant": {
+        "scope_matches": false
+      },
+      "relation_id": "AKV-REL-004",
+      "relation_name": "implementationDescribedBy"
+    },
+    {
+      "baseline": {
+        "evidence_class": "TestObserved"
+      },
+      "consumer": "QRY-002 explain-api-symbol",
+      "expected_baseline": {
+        "runtime_support": true
+      },
+      "expected_mutant": {
+        "runtime_support": false
+      },
+      "failure_assertion": "Runtime behavior requires TestObserved or exact-context ExecutedWitness.",
+      "id": "WITNESS-AKV-REL-005",
+      "mutant": {
+        "evidence_class": "TestPresent"
+      },
+      "relation_id": "AKV-REL-005",
+      "relation_name": "hasTestEvidence"
+    },
+    {
+      "baseline": {
+        "edge": true
+      },
+      "consumer": "QRY-002 explain-api-symbol",
+      "expected_baseline": {
+        "example_ids": [
+          "example:fixture"
+        ]
+      },
+      "expected_mutant": {
+        "example_ids": []
+      },
+      "failure_assertion": "Baseline example IDs contain EX-TIMELINE-001 and mutant IDs do not.",
+      "id": "WITNESS-AKV-REL-006",
+      "mutant": {
+        "edge": false
+      },
+      "relation_id": "AKV-REL-006",
+      "relation_name": "illustratedBy"
+    },
+    {
+      "baseline": {
+        "cycle": false
+      },
+      "consumer": "QRY-001 resolve-task-recipe",
+      "expected_baseline": {
+        "dag_valid": true
+      },
+      "expected_mutant": {
+        "dag_valid": false
+      },
+      "failure_assertion": "Depth-first prerequisite traversal must observe no back-edge.",
+      "id": "WITNESS-AKV-REL-007",
+      "mutant": {
+        "cycle": true
+      },
+      "relation_id": "AKV-REL-007",
+      "relation_name": "prerequisiteRecipe"
+    },
+    {
+      "baseline": {
+        "target": "api:createMotionPath"
+      },
+      "consumer": "QRY-001 resolve-task-recipe",
+      "expected_baseline": {
+        "binding_valid": true
+      },
+      "expected_mutant": {
+        "binding_valid": false
+      },
+      "failure_assertion": "The motion-path Recipe must consult createMotionPath under the exact context.",
+      "id": "WITNESS-AKV-REL-008",
+      "mutant": {
+        "target": "api:morphTo"
+      },
+      "relation_id": "AKV-REL-008",
+      "relation_name": "consults"
+    },
+    {
+      "baseline": {
+        "target_version": "4.5.0"
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": {
+        "context_match": true
+      },
+      "expected_mutant": {
+        "context_match": false
+      },
+      "failure_assertion": "Eligible episodes require a usesVersion target exactly equal to the requested context.",
+      "id": "WITNESS-AKV-REL-010",
+      "mutant": {
+        "target_version": "4.4.0"
+      },
+      "relation_id": "AKV-REL-010",
+      "relation_name": "usesVersion"
+    },
+    {
+      "baseline": {
+        "producer": "attempt:fixture"
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": {
+        "provenance_valid": true
+      },
+      "expected_mutant": {
+        "provenance_valid": false
+      },
+      "failure_assertion": "producedEvidence provenance must name the source Attempt.",
+      "id": "WITNESS-AKV-REL-012",
+      "mutant": {
+        "producer": "attempt:other"
+      },
+      "relation_id": "AKV-REL-012",
+      "relation_name": "producedEvidence"
+    },
+    {
+      "baseline": {
+        "edge": true
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": {
+        "lesson_eligible": true
+      },
+      "expected_mutant": {
+        "lesson_eligible": false
+      },
+      "failure_assertion": "A verified Lesson requires linked TestObserved or ExecutedWitness evidence.",
+      "id": "WITNESS-AKV-REL-014",
+      "mutant": {
+        "edge": false
+      },
+      "relation_id": "AKV-REL-014",
+      "relation_name": "supportedByEvidence"
+    },
+    {
+      "baseline": {
+        "edge": true
+      },
+      "consumer": "QRY-001 and ABSTAIN_CONFLICT",
+      "expected_baseline": {
+        "conflict": true
+      },
+      "expected_mutant": {
+        "conflict": false
+      },
+      "failure_assertion": "Intersecting incompatible evidence must appear in conflicts and force abstention.",
+      "id": "WITNESS-AKV-REL-015",
+      "mutant": {
+        "edge": false
+      },
+      "relation_id": "AKV-REL-015",
+      "relation_name": "contradictedByEvidence"
+    },
+    {
+      "baseline": {
+        "diagnosis_id": "diagnosis:fixture"
+      },
+      "consumer": "QRY-004 diagnose-work",
+      "expected_baseline": {
+        "fix_owned": true
+      },
+      "expected_mutant": {
+        "fix_owned": false
+      },
+      "failure_assertion": "Every proposed Fix must agree with the selected Diagnosis and diagnosis_id.",
+      "id": "WITNESS-AKV-REL-016",
+      "mutant": {
+        "diagnosis_id": "diagnosis:other"
+      },
+      "relation_id": "AKV-REL-016",
+      "relation_name": "proposes"
+    },
+    {
+      "baseline": {
+        "episode_outcome": "succeeded"
+      },
+      "consumer": "QRY-005 retrieve-lessons",
+      "expected_baseline": {
+        "lesson_eligible": true
+      },
+      "expected_mutant": {
+        "lesson_eligible": false
+      },
+      "failure_assertion": "Verified Lessons require a compatible closed succeeded episode with admissible witness.",
+      "id": "WITNESS-AKV-REL-019",
+      "mutant": {
+        "episode_outcome": "failed"
+      },
+      "relation_id": "AKV-REL-019",
+      "relation_name": "generalizesFrom"
+    },
+    {
+      "baseline": {
+        "target_version": "4.5.0"
+      },
+      "consumer": "QRY-001 and stale binding validation",
+      "expected_baseline": {
+        "context_match": true
+      },
+      "expected_mutant": {
+        "context_match": false
+      },
+      "failure_assertion": "Positive selection requires an exact boundedBy context match.",
+      "id": "WITNESS-AKV-REL-020",
+      "mutant": {
+        "target_version": "4.4.0"
+      },
+      "relation_id": "AKV-REL-020",
+      "relation_name": "boundedBy"
+    },
+    {
+      "baseline": {
+        "edge": true
+      },
+      "consumer": "QRY-001 and state transition validation",
+      "expected_baseline": {
+        "record_state": "invalidated"
+      },
+      "expected_mutant": {
+        "record_state": "validated"
+      },
+      "failure_assertion": "An intersecting removal trigger must set record_state=invalidated before selection.",
+      "id": "WITNESS-AKV-REL-021",
+      "mutant": {
+        "edge": false
+      },
+      "relation_id": "AKV-REL-021",
+      "relation_name": "invalidatedBy"
+    },
+    {
+      "baseline": {
+        "edge": true
+      },
+      "consumer": "QRY-001 and supersession DAG validation",
+      "expected_baseline": {
+        "current_ids": [
+          "recipe:rev2"
+        ]
+      },
+      "expected_mutant": {
+        "current_ids": [
+          "recipe:rev1",
+          "recipe:rev2"
+        ]
+      },
+      "failure_assertion": "A superseded target must be absent from current candidates.",
+      "id": "WITNESS-AKV-REL-022",
+      "mutant": {
+        "edge": false
+      },
+      "relation_id": "AKV-REL-022",
+      "relation_name": "supersedes"
+    }
+  ]
+}

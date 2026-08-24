@@ -1,0 +1,20 @@
+{
+  "run_id": "one-shot-admission-prototype:SWU-OAP-004",
+  "status": "pass",
+  "execution_mode": "candidate-local-fast-lane",
+  "artifacts": [
+    "arcanum/spells/task-session-until-blocker/scripts/run_chain.py",
+    "arcanum/spells/task-session-until-blocker/development/validate-chain-v2.py"
+  ],
+  "validation": [
+    "legacy controller passed 8 cases",
+    "approved-epoch suite passed epoch, link, ordinal, cursor, frontier, risk, budget, and successor controls",
+    "append-only exclusive-create persistence and replay passed",
+    "invalid transitions exposed no next Task Session selector"
+  ],
+  "blockers": [],
+  "residue": [
+    "The controller exposes selectors but does not launch Task Session.",
+    "Consuming-project replay is OAP-006."
+  ]
+}

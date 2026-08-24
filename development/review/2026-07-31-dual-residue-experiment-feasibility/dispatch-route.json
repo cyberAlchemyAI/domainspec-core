@@ -1,0 +1,245 @@
+{
+  "dispatch_id": "2026-07-31-dual-residue-experiment-feasibility-review",
+  "intent": {
+    "raw": "Review ../dual-residue-experiment and decide whether it is feasible and makes sense in the context of domainspec-core.",
+    "objective": "Execute a permission-gated, read-only multi-lens review of the adjacent experiment and produce verified change requests plus a bounded feasibility conclusion.",
+    "target_artifact": "../dual-residue-experiment"
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "dialectic",
+    "role_projection_boundary",
+    "execution_receipt_handoff",
+    "artifact_contract_bridge",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "The review must synthesize formal protocol fidelity, executable mechanics, and repository ownership while independently verifying candidate findings.",
+    "explanation": "Three read-only attackers cover non-overlapping methodologies, a bounded writer synthesizes review artifacts, two skeptics verify them, and a dedicated auditor owns final approval.",
+    "context": [
+      "domainspec-core owns dispatch evidence and the append-only ledger.",
+      "../dual-residue-experiment remains read-only; no model downloads, full training, remote calls, or Git mutation are allowed.",
+      "The dispatch sheet is schema 0.8.0 and must pass exact-byte readiness plus two independent tension checks before human confirmation."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "attacker-formal",
+        "purpose": "Attack the full declared corpus through formal protocol fidelity.",
+        "owns": "formal attacker receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "review:../dual-residue-experiment",
+        "capability_mode": "review-attack",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["telemetry/agents/subagents-dispatch.yaml"],
+        "depends_on_roles": [],
+        "input_refs": ["development/review/2026-07-31-dual-residue-experiment-feasibility/dispatch-sheet.json", "development/review/2026-07-31-dual-residue-experiment-feasibility/strategy-inventory-packet.json"],
+        "output_refs": ["receipts/dual-residue-review/attacker-formal.json"],
+        "applies_to_steps": ["s1"]
+      },
+      {
+        "role_id": "attacker-mechanics",
+        "purpose": "Attack the full declared corpus through executable and statistical mechanics.",
+        "owns": "mechanics attacker receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "review:../dual-residue-experiment",
+        "capability_mode": "review-attack",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["telemetry/agents/subagents-dispatch.yaml"],
+        "depends_on_roles": [],
+        "input_refs": ["development/review/2026-07-31-dual-residue-experiment-feasibility/dispatch-sheet.json", "development/review/2026-07-31-dual-residue-experiment-feasibility/strategy-inventory-packet.json"],
+        "output_refs": ["receipts/dual-residue-review/attacker-mechanics.json"],
+        "applies_to_steps": ["s1"]
+      },
+      {
+        "role_id": "attacker-ownership",
+        "purpose": "Attack the full declared corpus through repository ownership and contextual fit.",
+        "owns": "ownership attacker receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "review:../dual-residue-experiment",
+        "capability_mode": "review-attack",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["telemetry/agents/subagents-dispatch.yaml"],
+        "depends_on_roles": [],
+        "input_refs": ["development/review/2026-07-31-dual-residue-experiment-feasibility/dispatch-sheet.json", "development/review/2026-07-31-dual-residue-experiment-feasibility/strategy-inventory-packet.json"],
+        "output_refs": ["receipts/dual-residue-review/attacker-ownership.json"],
+        "applies_to_steps": ["s1"]
+      },
+      {
+        "role_id": "review-synthesizer",
+        "purpose": "Persist attacks and severity-ranked change requests without altering the target.",
+        "owns": "attacks.md and findings.md",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "review:dual-residue-feasibility-synthesis",
+        "capability_mode": "review-synthesize",
+        "agent_count": 1,
+        "mutation_policy": "artifact-only",
+        "write_scope": ["development/review/2026-07-31-dual-residue-experiment-feasibility/attacks.md", "development/review/2026-07-31-dual-residue-experiment-feasibility/findings.md"],
+        "forbidden_write_scopes": ["telemetry/agents/subagents-dispatch.yaml"],
+        "depends_on_roles": ["attacker-formal", "attacker-mechanics", "attacker-ownership"],
+        "input_refs": ["receipts/dual-residue-review/attacker-formal.json", "receipts/dual-residue-review/attacker-mechanics.json", "receipts/dual-residue-review/attacker-ownership.json"],
+        "output_refs": ["receipts/dual-residue-review/synthesis.json"],
+        "applies_to_steps": ["s2"]
+      },
+      {
+        "role_id": "verifier-counterexample",
+        "purpose": "Refute or accept synthesized findings through executable counter-examples.",
+        "owns": "counter-example verifier receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "review:dual-residue-feasibility-verification",
+        "capability_mode": "review-verify",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["telemetry/agents/subagents-dispatch.yaml"],
+        "depends_on_roles": ["review-synthesizer"],
+        "input_refs": ["receipts/dual-residue-review/synthesis.json"],
+        "output_refs": ["receipts/dual-residue-review/verifier-counterexample.json"],
+        "applies_to_steps": ["s3"]
+      },
+      {
+        "role_id": "verifier-definitional",
+        "purpose": "Refute or accept synthesized findings through definitional and authority-boundary checks.",
+        "owns": "definitional verifier receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "review:dual-residue-feasibility-verification",
+        "capability_mode": "review-verify",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["telemetry/agents/subagents-dispatch.yaml"],
+        "depends_on_roles": ["review-synthesizer"],
+        "input_refs": ["receipts/dual-residue-review/synthesis.json"],
+        "output_refs": ["receipts/dual-residue-review/verifier-definitional.json"],
+        "applies_to_steps": ["s3"]
+      },
+      {
+        "role_id": "review-auditor",
+        "purpose": "Audit coverage, citation discipline, dropped refutations, and final claim ceiling.",
+        "owns": "final approval receipt",
+        "capability_ref": "domainspec-subagents-strategy",
+        "capability_target": "review:dual-residue-feasibility-audit",
+        "capability_mode": "review-audit",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["telemetry/agents/subagents-dispatch.yaml"],
+        "depends_on_roles": ["verifier-counterexample", "verifier-definitional"],
+        "input_refs": ["receipts/dual-residue-review/verifier-counterexample.json", "receipts/dual-residue-review/verifier-definitional.json", "development/review/2026-07-31-dual-residue-experiment-feasibility/findings.md"],
+        "output_refs": ["receipts/dual-residue-review/audit.json"],
+        "applies_to_steps": ["s4"]
+      }
+    ],
+    "execution_waves": [
+      {"wave_id": "attack", "role_ids": ["attacker-formal", "attacker-mechanics", "attacker-ownership"], "parallel": true, "join_policy": "all", "gate_after": "g-attack-returns", "on_incomplete": "block"},
+      {"wave_id": "synthesis", "role_ids": ["review-synthesizer"], "parallel": false, "join_policy": "all", "depends_on_waves": ["attack"], "gate_after": "g-synthesis", "on_incomplete": "block"},
+      {"wave_id": "verification", "role_ids": ["verifier-counterexample", "verifier-definitional"], "parallel": true, "join_policy": "all", "depends_on_waves": ["synthesis"], "gate_after": "g-verification", "on_incomplete": "block"},
+      {"wave_id": "audit", "role_ids": ["review-auditor"], "parallel": false, "join_policy": "all", "depends_on_waves": ["verification"], "on_incomplete": "block"}
+    ],
+    "parallelism": "mixed",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "Reply confirmed to run the frozen dual-residue feasibility review dispatch?",
+    "receipt_requirements": ["agent_id", "role_id", "spawn_status", "join_status", "close_status", "dispatch_id", "step_id", "capability_ref", "capability_target", "capability_mode", "wave_id", "write_scope", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "reroute", "handoff_note"]
+  },
+  "subagent_lifecycle": {"status": "none", "agents": []},
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Run parallel review attacks",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "review-attack",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": ["role_projection_boundary", "execution_receipt_handoff", "observability_grouping"],
+      "roles": ["attacker-formal", "attacker-mechanics", "attacker-ownership"],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"},
+        {"kind": "artifact", "ref": "development/review/2026-07-31-dual-residue-experiment-feasibility/dispatch-sheet.json"},
+        {"kind": "external_context", "ref": "development/review/2026-07-31-dual-residue-experiment-feasibility/strategy-inventory-packet.json"}
+      ],
+      "outputs": [{"kind": "receipt", "ref": "receipts/dual-residue-review/attacker-formal.json"}, {"kind": "receipt", "ref": "receipts/dual-residue-review/attacker-mechanics.json"}, {"kind": "receipt", "ref": "receipts/dual-residue-review/attacker-ownership.json"}],
+      "join_policy": "all",
+      "stop_conditions": ["stop on target mutation", "stop on external network requirement", "stop if any attacker lacks a terminal receipt"]
+    },
+    {
+      "step_id": "s2",
+      "name": "Synthesize review artifacts",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "review-synthesize",
+      "pattern": "synthesis",
+      "parallel": false,
+      "depends_on_steps": ["s1"],
+      "techniques": ["sequence", "execution_receipt_handoff", "artifact_contract_bridge"],
+      "roles": ["review-synthesizer"],
+      "inputs": [{"kind": "receipt", "ref": "receipts/dual-residue-review/attacker-formal.json"}, {"kind": "receipt", "ref": "receipts/dual-residue-review/attacker-mechanics.json"}, {"kind": "receipt", "ref": "receipts/dual-residue-review/attacker-ownership.json"}],
+      "outputs": [{"kind": "receipt", "ref": "receipts/dual-residue-review/synthesis.json"}, {"kind": "artifact", "ref": "development/review/2026-07-31-dual-residue-experiment-feasibility/findings.md"}],
+      "stop_conditions": ["stop unless all attacker initial and final positions are present", "stop if synthesis writes outside the review folder"]
+    },
+    {
+      "step_id": "s3",
+      "name": "Verify findings by counter-example and definition",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "review-verify",
+      "pattern": "dialectic",
+      "parallel": true,
+      "depends_on_steps": ["s2"],
+      "techniques": ["dialectic", "execution_receipt_handoff"],
+      "convergence_criteria": ["Both verifiers accept the surviving finding set.", "Any objection triggers at most two writer-verifier zig-zag turns, after which unresolved disagreement blocks or closes dissent_irreconcilable."],
+      "roles": ["verifier-counterexample", "verifier-definitional"],
+      "inputs": [{"kind": "receipt", "ref": "receipts/dual-residue-review/synthesis.json"}, {"kind": "artifact", "ref": "development/review/2026-07-31-dual-residue-experiment-feasibility/findings.md"}],
+      "outputs": [{"kind": "receipt", "ref": "receipts/dual-residue-review/verifier-counterexample.json"}, {"kind": "receipt", "ref": "receipts/dual-residue-review/verifier-definitional.json"}],
+      "join_policy": "all",
+      "stop_conditions": ["drop rather than soften refuted findings", "stop if verifier evidence is not current target evidence"]
+    },
+    {
+      "step_id": "s4",
+      "name": "Audit coverage and approve change requests",
+      "capability_ref": "domainspec-subagents-strategy",
+      "capability_status": "local-extension",
+      "mode": "review-audit",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["s3"],
+      "techniques": ["sequence", "artifact_contract_bridge", "execution_receipt_handoff"],
+      "evidence_artifact": "receipts/dual-residue-review/audit.json",
+      "roles": ["review-auditor"],
+      "inputs": [{"kind": "receipt", "ref": "receipts/dual-residue-review/verifier-counterexample.json"}, {"kind": "receipt", "ref": "receipts/dual-residue-review/verifier-definitional.json"}, {"kind": "artifact", "ref": "development/review/2026-07-31-dual-residue-experiment-feasibility/findings.md"}],
+      "outputs": [{"kind": "receipt", "ref": "receipts/dual-residue-review/audit.json"}],
+      "stop_conditions": ["stop unless every surviving finding is cited and every refuted finding is dropped", "stop if feasibility conclusion exceeds proposed and untrained evidence"]
+    }
+  ],
+  "gates": [
+    {"gate_id": "g-attack-returns", "kind": "validation", "owner": "orchestrate", "condition": "All three attackers are joined and closed with current-artifact evidence or explicit blocked-check residue.", "applies_after_wave": "attack", "requires_role_receipts": ["receipts/dual-residue-review/attacker-formal.json", "receipts/dual-residue-review/attacker-mechanics.json", "receipts/dual-residue-review/attacker-ownership.json"], "on_fail": "block"},
+    {"gate_id": "g-synthesis", "kind": "quality", "owner": "domainspec-subagents-strategy", "condition": "attacks.md and findings.md exist inside the review folder and preserve claim<=proof.", "applies_after_wave": "synthesis", "requires_role_receipts": ["receipts/dual-residue-review/synthesis.json"], "on_fail": "block"},
+    {"gate_id": "g-verification", "kind": "validation", "owner": "domainspec-subagents-strategy", "condition": "Both independent verifiers converge or the bounded zig-zag reports irreconcilable dissent; refuted findings are dropped.", "applies_after_wave": "verification", "requires_role_receipts": ["receipts/dual-residue-review/verifier-counterexample.json", "receipts/dual-residue-review/verifier-definitional.json"], "on_fail": "reroute"},
+    {"gate_id": "g-audit", "kind": "quality", "owner": "Brandenburg, Martin", "condition": "The dedicated auditor accepts complete coverage, current citations, zero-finding handling, and the bounded feasibility conclusion.", "on_fail": "reroute"},
+    {"gate_id": "g-human-confirmation", "kind": "human_approval", "owner": "user", "condition": "The exact schema-0.8.0 sheet passes readiness and two independent tension checks, then the user explicitly replies confirmed for that digest.", "on_fail": "ask"}
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": ["dispatch_sheet_validated", "tension_passed", "human_confirmed", "dispatch_registered", "wave_started", "agent_terminal", "gate_evaluated", "dispatch_closed"],
+    "signal_grouping": "2026-07-31-dual-residue-experiment-feasibility-review"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {"boundary_id": "b-target-read-only", "kind": "artifact_import", "from_owner": "dual-residue-experiment", "to_owner": "domainspec-core review dispatch", "applies_to_steps": ["s1", "s3", "s4"], "contract": "The adjacent repository is literal review evidence only and may not be mutated.", "on_violation": "block"},
+      {"boundary_id": "b-review-output", "kind": "evidence_return", "from_owner": "review agents", "to_owner": "domainspec-core", "applies_to_steps": ["s2", "s4"], "contract": "Only attacks.md, findings.md, and bounded receipts may be written under the named review folder.", "on_violation": "block"},
+      {"boundary_id": "b-human-gate", "kind": "human_approval", "from_owner": "user", "to_owner": "orchestrate", "applies_to_steps": ["s1"], "contract": "No runtime review agent starts before explicit confirmation of the exact tension-passed sheet digest.", "on_violation": "block"}
+    ],
+    "authority": {"lifecycle": "domainspec-subagents-strategy", "execution": "orchestrate", "validation": "dispatch-spec and check-tension", "evidence": "review type owner", "promotion": "human and owning repositories"},
+    "receipts": [
+      {"receipt_id": "r-attackers", "producer": "attacker-formal, attacker-mechanics, attacker-ownership", "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "handoff_note"], "stores": ["receipts/dual-residue-review/attacker-formal.json", "receipts/dual-residue-review/attacker-mechanics.json", "receipts/dual-residue-review/attacker-ownership.json"], "on_missing": "block"},
+      {"receipt_id": "r-synthesis", "producer": "review-synthesizer", "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "handoff_note"], "stores": ["receipts/dual-residue-review/synthesis.json"], "on_missing": "block"},
+      {"receipt_id": "r-verifiers", "producer": "verifier-counterexample, verifier-definitional", "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "handoff_note"], "stores": ["receipts/dual-residue-review/verifier-counterexample.json", "receipts/dual-residue-review/verifier-definitional.json"], "on_missing": "block"},
+      {"receipt_id": "r-audit", "producer": "review-auditor", "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "handoff_note", "approval_record"], "stores": ["receipts/dual-residue-review/audit.json"], "on_missing": "block"}
+    ]
+  },
+  "promotion_guardrails": ["Inventory is non-authority.", "Review findings do not modify or promote the target experiment.", "A code/test receipt is not a trained-model result.", "A future experiment result does not automatically promote DomainSpec, Arcanum, or theorem claims."]
+}

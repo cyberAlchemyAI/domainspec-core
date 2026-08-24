@@ -1,0 +1,694 @@
+{
+  "audit_config": {
+    "admission_timing": "selected-unit-at-task-session",
+    "approval_policy": {
+      "allowed_audit_verdicts": [
+        "pass"
+      ],
+      "allowed_flag_classes": [],
+      "approval_owner_ref": "goal:round-001",
+      "decision_gate_receipt_ref": {
+        "artifact_ref": {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+          "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+          "size_bytes": 7069
+        },
+        "binding_id": "oava003-approval-decision",
+        "owner_ref": "goal:round-001",
+        "selector": "/approval/decision"
+      },
+      "risk_policy_ref": {
+        "artifact_ref": {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+          "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+          "size_bytes": 7069
+        },
+        "binding_id": "oava003-risk-policy",
+        "owner_ref": "invoke:plan:apply-approved",
+        "selector": "/risk"
+      },
+      "run_budget": {
+        "max_task_session_requests": 1
+      }
+    },
+    "audit_id": "oava003-work-pack-v1.0.0-20260806",
+    "authority_bindings": {
+      "canonical_authority_refs": [
+        {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-planning-artifacts",
+          "owner_ref": "invoke:plan:apply-approved",
+          "selector": "/planning_artifacts"
+        }
+      ],
+      "semantic_bindings": {
+        "closeout": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-closeout-semantics",
+          "owner_ref": "invoke:refresh:apply-approved",
+          "selector": "/authority/closeout"
+        },
+        "material": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-material",
+          "owner_ref": "invoke:plan:apply-approved",
+          "selector": "/authority/material"
+        },
+        "owner": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-owner",
+          "owner_ref": "task-session",
+          "selector": "/authority/owner"
+        },
+        "receipt": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-receipt-semantics",
+          "owner_ref": "task-session",
+          "selector": "/authority/receipt"
+        },
+        "validation": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-validation",
+          "owner_ref": "task-session",
+          "selector": "/authority/validation"
+        }
+      }
+    },
+    "classifier_version": "wpra-projection-v1",
+    "closeout_bindings": [
+      {
+        "allowed_delta_policy_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-allowed-delta",
+          "owner_ref": "invoke:refresh:apply-approved",
+          "selector": "/closeout/allowed_delta"
+        },
+        "compensation": {
+          "mode": "none",
+          "rationale": "The task has only repository-local reversible consumer-owned file writes and stops on failed validation."
+        },
+        "owner_receipt_contract_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-closeout-owner-contract",
+          "owner_ref": "invoke:refresh:apply-approved",
+          "selector": "/closeout/owner_contract"
+        },
+        "unit_id": "SWU-OAVA-003"
+      }
+    ],
+    "closure_receipt_refs": [
+      {
+        "artifact_ref": {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+          "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+          "size_bytes": 7069
+        },
+        "binding_id": "oava003-define-exit",
+        "owner_ref": "refine:define",
+        "selector": "/closure_receipts/define"
+      },
+      {
+        "artifact_ref": {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+          "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+          "size_bytes": 7069
+        },
+        "binding_id": "oava003-plan-exit",
+        "owner_ref": "invoke:plan:apply-approved",
+        "selector": "/closure_receipts/plan"
+      },
+      {
+        "artifact_ref": {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+          "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+          "size_bytes": 7069
+        },
+        "binding_id": "oava003-oava002-dependency",
+        "owner_ref": "invoke:refresh:apply-approved",
+        "selector": "/closure_receipts/oava002"
+      },
+      {
+        "artifact_ref": {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+          "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+          "size_bytes": 7069
+        },
+        "binding_id": "oava003-b001-dependency",
+        "owner_ref": "invoke:refresh:apply-approved",
+        "selector": "/closure_receipts/b001"
+      }
+    ],
+    "continuity_projection": {
+      "completed_unit_receipt_refs": [],
+      "cursor": "SWU-OAVA-003",
+      "joined_closeout_receipt_refs": [],
+      "projected_next_successor": {
+        "authority_effect": "none",
+        "canonical_successor_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-continuity-successor",
+          "owner_ref": "invoke:plan:apply-approved",
+          "selector": "/continuity/canonical_successor"
+        },
+        "continuation_router_verification_receipt_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-continuity-router",
+          "owner_ref": "continuation-router",
+          "selector": "/continuity/router_verification"
+        },
+        "equivalence_validator_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-continuity-equivalence",
+          "owner_ref": "work-pack-readiness-audit",
+          "selector": "/continuity/equivalence"
+        },
+        "projection_owner_ref": "work-pack-readiness-audit",
+        "unit_id": "SWU-OAVA-003"
+      }
+    },
+    "evidence_ceiling": "frozen-input-contractual-readiness",
+    "execution_bindings": [
+      {
+        "allowed_writes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/runtime/animejs-runtime-manifest.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/verify-animejs-runtime.mjs",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/runtime-admission.test.mjs",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/task-session/governance-terminal-receipt.json"
+        ],
+        "attempt_contract": {
+          "collision_policy": "reject-existing-different-ticket",
+          "failure_teardown": "retain-block-receipt",
+          "id_policy": "attempt-id-equals-task-session-run-id",
+          "success_teardown": "retain-terminal-receipt"
+        },
+        "authority_class": "private",
+        "byte_baselines": [],
+        "canonical_successors": [
+          "__complete__"
+        ],
+        "command": {
+          "argv": [
+            "node",
+            "--test",
+            "prototype/test/runtime-admission.test.mjs"
+          ],
+          "cwd": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation",
+          "risk_class": "bounded-write"
+        },
+        "dependencies": [],
+        "execution_outputs": [
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/task-session/governance-terminal-receipt.json"
+        ],
+        "lifecycle_owner": "task-session",
+        "material_package": {
+          "declared_sha256": null,
+          "package_ref": null,
+          "producer_owner_ref": "invoke:plan:apply-approved",
+          "producer_receipt_ref": null,
+          "schema_ref": null,
+          "target_inventory_ref": null
+        },
+        "material_writes": [
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/runtime/animejs-runtime-manifest.json",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/verify-animejs-runtime.mjs",
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/runtime-admission.test.mjs"
+        ],
+        "publication_class": "internal",
+        "swu_id": "SWU-OAVA-003",
+        "task_id": "TASK-OAVA-RUNTIME-ADMISSION",
+        "unit_id": "SWU-OAVA-003",
+        "validation_contracts": [
+          {
+            "argv": [
+              "node",
+              "--test",
+              "prototype/test/runtime-admission.test.mjs"
+            ],
+            "command_id": "validate-SWU-OAVA-003",
+            "cwd": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation",
+            "max_output_bytes": 1048576,
+            "timeout_seconds": 60
+          },
+          {
+            "argv": [
+              "node",
+              "--test",
+              "prototype/test/consultation.test.mjs"
+            ],
+            "command_id": "regress-SWU-OAVA-002",
+            "cwd": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation",
+            "max_output_bytes": 1048576,
+            "timeout_seconds": 60
+          },
+          {
+            "argv": [
+              "node",
+              "--test",
+              "prototype/test/candidate.test.mjs"
+            ],
+            "command_id": "regress-SWU-OAVA-001",
+            "cwd": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation",
+            "max_output_bytes": 1048576,
+            "timeout_seconds": 60
+          },
+          {
+            "argv": [
+              "node",
+              "--check",
+              "prototype/vendor/anime.esm.js"
+            ],
+            "command_id": "validate-animejs-esm-syntax",
+            "cwd": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation",
+            "max_output_bytes": 1048576,
+            "timeout_seconds": 60
+          }
+        ]
+      }
+    ],
+    "execution_policy": {
+      "allowed_routes": [
+        {
+          "capability": "task-session",
+          "effect_class": "repository-local-reversible",
+          "expected_receipt": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/task-session/governance-terminal-receipt.json",
+          "frontier_swu": "SWU-OAVA-003",
+          "mode": "execute",
+          "required_inputs": [
+            "plan-semantic-manifest.json",
+            "selection-receipt.json",
+            "mutation-admission-receipt.json",
+            "material-package.json"
+          ],
+          "route_id": "task-session-SWU-OAVA-003",
+          "target": "SWU-OAVA-003",
+          "write_scope": [
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/runtime/animejs-runtime-manifest.json",
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/verify-animejs-runtime.mjs",
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/runtime-admission.test.mjs"
+          ]
+        },
+        {
+          "capability": "invoke",
+          "effect_class": "repository-local-reversible",
+          "expected_receipt": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/closeout/invoke-refresh-receipt.json",
+          "frontier_swu": "SWU-OAVA-003",
+          "mode": "refresh",
+          "required_inputs": [
+            "governance-terminal-receipt.json",
+            "validation-receipt.json",
+            "source-zero-delta-receipt.json"
+          ],
+          "route_id": "invoke-refresh-SWU-OAVA-003",
+          "target": "WP-OAVA-S6-003",
+          "write_scope": [
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-003.md",
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF-OAVA-003.md",
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/closeouts/SWU-OAVA-003.json"
+          ]
+        }
+      ],
+      "allowed_routes_digest": "2cdbd0902c0f2dbb8688633525e8a83630390dc7da4231385998c9969c9e4e15",
+      "automatic_decisions": [
+        "internal-tool-selection",
+        "capability-owner-routing",
+        "reversible-local-default",
+        "fresh-task-session-resumption"
+      ],
+      "route_policy": "automatic-in-scope",
+      "scope_source": "exact-work-pack-and-captured-frontier",
+      "stop_decisions": [
+        "product-or-semantic-choice",
+        "scope-expansion",
+        "destructive-or-irreversible-effect",
+        "credentials-or-secret-access",
+        "external-message-or-network-effect",
+        "cost-policy-or-risk-acceptance",
+        "authority-promotion-publication-deployment",
+        "failed-acceptance-critical-validation"
+      ],
+      "validation_policy": "owner-gates-remain-mandatory",
+      "work_pack_id": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-003.md"
+    },
+    "lifecycle_status_refs": {
+      "approval_status": {
+        "owner_ref": "goal:round-001",
+        "receipt_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-lifecycle-approval",
+          "owner_ref": "goal:round-001",
+          "selector": "/status/approval"
+        },
+        "value": "pending-goal-batch-approval"
+      },
+      "audit_status": {
+        "owner_ref": "work-pack-readiness-audit",
+        "receipt_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-lifecycle-audit",
+          "owner_ref": "work-pack-readiness-audit",
+          "selector": "/status/audit"
+        },
+        "value": "pending"
+      },
+      "chain_status": {
+        "owner_ref": "implementation-readiness",
+        "receipt_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-lifecycle-chain",
+          "owner_ref": "implementation-readiness",
+          "selector": "/status/chain"
+        },
+        "value": "not-started"
+      },
+      "plan_artifact_status": {
+        "owner_ref": "invoke:plan:apply-approved",
+        "receipt_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-lifecycle-plan",
+          "owner_ref": "invoke:plan:apply-approved",
+          "selector": "/status/plan_artifact"
+        },
+        "value": "authored"
+      }
+    },
+    "objective_ref": {
+      "artifact_ref": {
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+        "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+        "size_bytes": 7069
+      },
+      "binding_id": "oava003-objective",
+      "owner_ref": "invoke:plan:apply-approved",
+      "selector": "/objective"
+    },
+    "receipt_bindings": {
+      "expected_receipt_refs": [
+        {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-expected-terminal",
+          "owner_ref": "task-session",
+          "selector": "/receipt/expected"
+        }
+      ],
+      "semantic_validator_ref": {
+        "artifact_ref": {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+          "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+          "size_bytes": 7069
+        },
+        "binding_id": "oava003-terminal-validator",
+        "owner_ref": "task-session",
+        "selector": "/receipt/semantic_validator"
+      },
+      "terminal_schema_ref": {
+        "artifact_ref": {
+          "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+          "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+          "size_bytes": 7069
+        },
+        "binding_id": "oava003-terminal-schema",
+        "owner_ref": "task-session",
+        "selector": "/receipt/terminal_schema"
+      }
+    },
+    "repository_root": ".",
+    "runtime_binding": {
+      "requested_task_session_execution_mode": "routed-mutation",
+      "task_session_admission_receipt_ref": null
+    },
+    "schema_version": "2.0.0",
+    "status_receipt_refs": {
+      "artifact_authored_status": {
+        "owner_ref": "invoke:plan:apply-approved",
+        "receipt_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-status-artifact",
+          "owner_ref": "invoke:plan:apply-approved",
+          "selector": "/status/artifact_authored"
+        },
+        "value": "authored"
+      },
+      "audit_verdict": {
+        "owner_ref": "work-pack-readiness-audit",
+        "receipt_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-status-audit-verdict",
+          "owner_ref": "work-pack-readiness-audit",
+          "selector": "/status/audit_verdict"
+        },
+        "value": "pending"
+      },
+      "mutation_runtime_ready_status": {
+        "owner_ref": "implementation-readiness",
+        "receipt_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-status-runtime",
+          "owner_ref": "implementation-readiness",
+          "selector": "/status/mutation_runtime_ready"
+        },
+        "value": "pending-selection"
+      },
+      "registry_released_status": {
+        "owner_ref": "invoke:plan:apply-approved",
+        "receipt_ref": {
+          "artifact_ref": {
+            "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/evidence.json",
+            "sha256": "f29f6ec3c4fc114bc87577ca5d764fec76cc357c3d98426c9e5d699fc26bb2d4",
+            "size_bytes": 7069
+          },
+          "binding_id": "oava003-status-registry",
+          "owner_ref": "invoke:plan:apply-approved",
+          "selector": "/status/registry_released"
+        },
+        "value": "unreleased"
+      }
+    }
+  },
+  "audit_report": {
+    "admission_timing": "selected-unit-at-task-session",
+    "audit_id": "oava003-work-pack-v1.0.0-20260806",
+    "audit_projection_digest": "1a8c192bb970bcc0d119f6e03797312ba6c0ba0556de05ee09bffe8cfeba3d07",
+    "authority_effect": "none",
+    "blockers": [],
+    "canonical_semantic_digest": "ce7371fd34d8e0f65b9544722eefae424ee60ee6765ff2d04b09b11f6e2bdde2",
+    "canonical_spell_id": "work-pack-readiness-audit",
+    "configured_commands_executed": false,
+    "evidence_ceiling": "frozen-input-contractual-readiness",
+    "execution_entry": {
+      "blocker_code": null,
+      "entry_state": "selection-ready",
+      "next_owner": {
+        "capability": "implementation-readiness",
+        "mode": "execute",
+        "target": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-003.md"
+      },
+      "route_id": null,
+      "selected_unit": null
+    },
+    "flags": [],
+    "manifest": {
+      "admission_timing": "selected-unit-at-task-session",
+      "allowed_routes": [
+        {
+          "capability": "task-session",
+          "effect_class": "repository-local-reversible",
+          "expected_receipt": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/task-session/governance-terminal-receipt.json",
+          "frontier_swu": "SWU-OAVA-003",
+          "mode": "execute",
+          "required_inputs": [
+            "plan-semantic-manifest.json",
+            "selection-receipt.json",
+            "mutation-admission-receipt.json",
+            "material-package.json"
+          ],
+          "route_id": "task-session-SWU-OAVA-003",
+          "target": "SWU-OAVA-003",
+          "write_scope": [
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/runtime/animejs-runtime-manifest.json",
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/lib/verify-animejs-runtime.mjs",
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/prototype/test/runtime-admission.test.mjs"
+          ]
+        },
+        {
+          "capability": "invoke",
+          "effect_class": "repository-local-reversible",
+          "expected_receipt": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/closeout/invoke-refresh-receipt.json",
+          "frontier_swu": "SWU-OAVA-003",
+          "mode": "refresh",
+          "required_inputs": [
+            "governance-terminal-receipt.json",
+            "validation-receipt.json",
+            "source-zero-delta-receipt.json"
+          ],
+          "route_id": "invoke-refresh-SWU-OAVA-003",
+          "target": "WP-OAVA-S6-003",
+          "write_scope": [
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-003.md",
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF-OAVA-003.md",
+            "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/work-pack/closeouts/SWU-OAVA-003.json"
+          ]
+        }
+      ],
+      "allowed_routes_digest": "2cdbd0902c0f2dbb8688633525e8a83630390dc7da4231385998c9969c9e4e15",
+      "audit_id": "oava003-work-pack-v1.0.0-20260806",
+      "authority_effect": "none",
+      "canonical_semantic_digest": "ce7371fd34d8e0f65b9544722eefae424ee60ee6765ff2d04b09b11f6e2bdde2",
+      "completion_continuity": {
+        "authority_effect": "none",
+        "completed_prefix": [],
+        "continuity_digest": "da6c50e165cb12a4cb68cc559da9dd2f85c59aa24b753c8d44371c6ecb160257",
+        "next_unit": "SWU-OAVA-003",
+        "plan_epoch_id": "epoch-232d68b018955a914984d291",
+        "source_audit_id": "oava003-work-pack-v1.0.0-20260806",
+        "source_projection_digest": "4e4b718efeb4242b834ad586240f5a47f22adcae6f558b8152b51a3a45e99061",
+        "work_pack_semantic_digest": "ce7371fd34d8e0f65b9544722eefae424ee60ee6765ff2d04b09b11f6e2bdde2"
+      },
+      "execution_entry": {
+        "blocker_code": null,
+        "entry_state": "selection-ready",
+        "next_owner": {
+          "capability": "implementation-readiness",
+          "mode": "execute",
+          "target": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-003.md"
+        },
+        "route_id": null,
+        "selected_unit": null
+      },
+      "manifest_id": "psm-1a8c192bb970bcc0d119f6e0",
+      "mutation_ready": false,
+      "normalizer_version": "1.0.0",
+      "plan_epoch_id": "epoch-232d68b018955a914984d291",
+      "ready_frontier": [
+        "SWU-OAVA-003"
+      ],
+      "runtime_admission_status": "pending-selection",
+      "schema_version": "1.0.0",
+      "selected_unit": null,
+      "selection_required": true,
+      "semantic_component_digests": {
+        "closeout": "a355a15c5291d74f5098d06ee5b92e851c38cc4cb6688284f74b3d8f8dbdb8a8",
+        "execution_policy": "b2b0216e38fd05ed76b4018c0c1abb01c513afaf1918874cde9037920cabdea1",
+        "frontier": "6cb93ddb229fa9a4e933fa359a7f380d24f51c6acf1f5b3d93b99dfa84a8c7c7",
+        "graph": "1182bf22c4102ee070aecba8dba1988434fda3b0f3ce2bcd9ac6876a1382bffd",
+        "material": "694236a7bf2cc80dc1b0f14d385aa5edd95bf2df9b3a2be0e8eb6535a989c37f",
+        "objective": "2094c3a3036a82858c24c0bf4cf8da1feb2bdfe4863c5734f1e0a7cadaa0f657",
+        "owner": "9cfbb37d430fb293fe035cbe7eb896abf7db077a6fd2c2ddfc36c1d9cc70ef6c",
+        "receipt": "df67286afecffba90845e183b946d7ce6582184f4fb13818e0a11868b975fbc4",
+        "risk_budget": "3f3f82e98ad6f10a22f59f4f67524df062cdd03433ae4b9ecf76a3d47a1f7f8b",
+        "runtime": "e163a1fdc8ebf18fd15326a5939d5c6f3b875f0eafc77acc905506c04bb18518",
+        "validation": "9ba645b6e9792a0141520445daf93f44fc6d28ba8bc646ccf53e7dbce8e55362"
+      },
+      "source_snapshot_digest": "d14a49f7f9b8ee12ffb1c70ce6fb101b0d962a09f57c8e5479d9c4dc46746eab",
+      "unit_contract_digests": {
+        "SWU-OAVA-003": "70b2248913b2477ebbcd15bae5b4dd0944240436aa516cac78dcdb47ac131bc7"
+      },
+      "work_pack_id": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-003.md"
+    },
+    "mutation_ready": false,
+    "next_owner": "implementation-readiness:execute",
+    "runtime_admission_status": "pending-selection",
+    "schema_version": "2.0.0",
+    "selected_unit": null,
+    "semantic_component_digests": {
+      "closeout": "a355a15c5291d74f5098d06ee5b92e851c38cc4cb6688284f74b3d8f8dbdb8a8",
+      "execution_policy": "b2b0216e38fd05ed76b4018c0c1abb01c513afaf1918874cde9037920cabdea1",
+      "frontier": "6cb93ddb229fa9a4e933fa359a7f380d24f51c6acf1f5b3d93b99dfa84a8c7c7",
+      "graph": "1182bf22c4102ee070aecba8dba1988434fda3b0f3ce2bcd9ac6876a1382bffd",
+      "material": "694236a7bf2cc80dc1b0f14d385aa5edd95bf2df9b3a2be0e8eb6535a989c37f",
+      "objective": "2094c3a3036a82858c24c0bf4cf8da1feb2bdfe4863c5734f1e0a7cadaa0f657",
+      "owner": "9cfbb37d430fb293fe035cbe7eb896abf7db077a6fd2c2ddfc36c1d9cc70ef6c",
+      "receipt": "df67286afecffba90845e183b946d7ce6582184f4fb13818e0a11868b975fbc4",
+      "risk_budget": "3f3f82e98ad6f10a22f59f4f67524df062cdd03433ae4b9ecf76a3d47a1f7f8b",
+      "runtime": "e163a1fdc8ebf18fd15326a5939d5c6f3b875f0eafc77acc905506c04bb18518",
+      "validation": "9ba645b6e9792a0141520445daf93f44fc6d28ba8bc646ccf53e7dbce8e55362"
+    },
+    "source_snapshot": {
+      "artifact_count": 1,
+      "digest": "d14a49f7f9b8ee12ffb1c70ce6fb101b0d962a09f57c8e5479d9c4dc46746eab",
+      "drift": false
+    },
+    "terminal_code": "PLAN_SEMANTIC_READY",
+    "verdict": "pass"
+  },
+  "created_at": "2026-08-06T16:38:12Z",
+  "execution_mode": "one-unit",
+  "operation": "initialize-readiness",
+  "source_invocation_id": "goal-oava-prototype-20260806-round001",
+  "step_budget": 1
+}

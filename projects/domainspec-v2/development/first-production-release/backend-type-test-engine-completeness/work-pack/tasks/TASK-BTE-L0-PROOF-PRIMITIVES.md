@@ -192,6 +192,9 @@ Status: `planned-predecessor-and-owner-gated`.
   `validation-inputs/l0/red-fixture-manifest.v1.json` and
   `validation-inputs/l0/red-fixture-freeze-receipt.json`, authored by the
   independent validation owner after L0A;
+- immutable validation-owner payloads under
+  `validation-inputs/l0/fixtures/*.json` and no-follow filesystem inputs under
+  `validation-inputs/l0/topology/*`, all truthfully bound by manifest handles;
 - the same preserved Design, Design-validation, and layering-seed digests.
 
 Missing, stale, implementation-authored, contract-mismatched, or
@@ -211,8 +214,8 @@ an output/write manifest, and `validation-receipt.json` under
 
 ### Ordered Rules
 
-1. Recompute L0A publication bytes/digests and the validation-owner freeze
-   before interpreting a case.
+1. Recompute L0A publication bytes/digests, every manifest fixture/topology
+   handle, and the validation-owner freeze before interpreting a case.
 2. Validate shape only; then run semantic validation for canonical IDs, content
    digests, producer/authority class, exact-set uniqueness, containment,
    diagnostic closure, and manifest/result recomposition.
@@ -226,6 +229,7 @@ an output/write manifest, and `validation-receipt.json` under
 
 ### Required Red Cases
 
+- structurally invalid input (`BTE_SCHEMA_INVALID`);
 - unsupported schema keyword;
 - missing, extra, or duplicate logical ID;
 - malformed or mismatched SHA-256/content bytes;
@@ -236,6 +240,29 @@ an output/write manifest, and `validation-receipt.json` under
 - missing/extra/overlapping recomposition member;
 - unknown diagnostic code or nondeterministic precedence;
 - implementation-derived or post-run-rewritten expected value.
+
+The closed diagnostic registry is the denominator: every one of its 25 codes
+must have at least one causally isolated RED case. Grouped bullets above expand
+to separate cases where the registry assigns separate codes. A fixture handle
+is invalid if its path is absent, its bytes or no-follow link bytes do not
+match, its root is undeclared, or it was created after the manifest was
+serialized.
+
+### Independent Validation-owner Write Scope
+
+Before L0B selection, the validation owner alone may create:
+
+- `validation-inputs/l0/fixtures/*.json`;
+- `validation-inputs/l0/topology/*`;
+- `validation-inputs/l0/red-fixture-manifest.v1.json`;
+- `validation-inputs/l0/red-fixture-freeze-receipt.json`.
+
+It may not edit L0A contracts, diagnostics, semantic validators, tests,
+implementation-owned positives, package scripts, run outputs, plans, or
+historical receipts. `root_id=domainspec-v2-bte` maps to the BTE package root.
+Owner and producer digests use the canonical owner-identity rule recorded in
+the Work Pack. The owner serializes fixture/topology bytes first, the manifest
+second, and the freeze receipt last.
 
 ### Write Scope
 
@@ -262,6 +289,7 @@ JSON/link checks, write-manifest comparison, and scoped `git diff --check`.
 
 ### Stop And Handoff
 
-Stop on missing input, contract/freeze mismatch, ignored keyword, expectation
-rewrite, dependency on legacy completeness behavior, or write escape. A passing
-receipt routes to Invoke Refresh before any L1 SWU is instantiated.
+Stop on missing or unresolved fixture bytes, contract/freeze mismatch, ignored
+keyword, expectation rewrite, dependency on legacy completeness behavior, or
+write escape. A passing receipt routes to Invoke Refresh before any L1 SWU is
+instantiated.

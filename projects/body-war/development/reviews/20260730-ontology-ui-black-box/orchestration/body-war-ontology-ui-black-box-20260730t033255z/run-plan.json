@@ -1,0 +1,129 @@
+{
+  "action_artifacts": [
+    "actions/spawn-0001.json",
+    "actions/spawn-0002.json",
+    "actions/spawn-0003.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0001",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "ux-evidence-validator",
+      "dispatch_id": "2026-07-30-body-war-ontology-ui-black-box-review-route",
+      "forbidden_write_scopes": [
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/",
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/src/",
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/test/",
+        "projects/body-war/ontology/"
+      ],
+      "input_refs": [
+        "BLACK-BOX-RUBRIC.md",
+        "STRATEGY-INVENTORY-PACKET.md",
+        "DISPATCH-SHEET.json"
+      ],
+      "mode": "validate-interface",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/attacker-cold-reader.json"
+      ],
+      "role": "cold-reader-attacker",
+      "run_id": "body-war-ontology-ui-black-box-20260730t033255z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "Body War ontology viewer ephemeral loopback runtime",
+      "wave_id": "attack",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0002",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "ux-evidence-validator",
+      "dispatch_id": "2026-07-30-body-war-ontology-ui-black-box-review-route",
+      "forbidden_write_scopes": [
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/",
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/src/",
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/test/",
+        "projects/body-war/ontology/"
+      ],
+      "input_refs": [
+        "BLACK-BOX-RUBRIC.md",
+        "STRATEGY-INVENTORY-PACKET.md",
+        "DISPATCH-SHEET.json"
+      ],
+      "mode": "validate-interface",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/attacker-color-accessibility.json"
+      ],
+      "role": "color-accessibility-attacker",
+      "run_id": "body-war-ontology-ui-black-box-20260730t033255z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "Body War ontology viewer ephemeral loopback runtime",
+      "wave_id": "attack",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0003",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "ux-evidence-validator",
+      "dispatch_id": "2026-07-30-body-war-ontology-ui-black-box-review-route",
+      "forbidden_write_scopes": [
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/upstream/",
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/src/",
+        "cyberAlchemy-v2/implementation/ontology-evidence-workbench/test/",
+        "projects/body-war/ontology/"
+      ],
+      "input_refs": [
+        "BLACK-BOX-RUBRIC.md",
+        "STRATEGY-INVENTORY-PACKET.md",
+        "DISPATCH-SHEET.json"
+      ],
+      "mode": "validate-interface",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/attacker-branch-pivot.json"
+      ],
+      "role": "branch-pivot-attacker",
+      "run_id": "body-war-ontology-ui-black-box-20260730t033255z",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "Body War ontology viewer ephemeral loopback runtime",
+      "wave_id": "attack",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "2026-07-30-body-war-ontology-ui-black-box-review-route",
+  "run_id": "body-war-ontology-ui-black-box-20260730t033255z",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [],
+    "gate_after": "g-attack-receipts",
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": true,
+    "role_ids": [
+      "cold-reader-attacker",
+      "color-accessibility-attacker",
+      "branch-pivot-attacker"
+    ],
+    "wave_id": "attack"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}

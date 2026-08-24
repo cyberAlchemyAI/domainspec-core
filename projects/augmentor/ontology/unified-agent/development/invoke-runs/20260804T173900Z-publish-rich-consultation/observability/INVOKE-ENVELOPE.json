@@ -1,0 +1,76 @@
+{
+  "timestamp": "2026-08-04T17:53:42Z",
+  "run_id": "invoke-define-design-plan-20260804T173900Z-augpub",
+  "session_id": "20260804T173900Z-publish-rich-consultation",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "define-design-plan",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "define-design-plan",
+    "alias": "Invoke"
+  },
+  "lineage": null,
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/define/SPEC.md",
+      "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/design/DESIGN-SELECTION-RESULT.json",
+      "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/design/ARCHITECTURE.md",
+      "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/plan/WORK-PACK.md",
+      "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/plan/DISPATCH-VALIDATION.json",
+      "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/observability/DISTILL-VALIDATION-RESULT.json"
+    ]
+  },
+  "request": {
+    "raw": "$invoke define design and plan now to publish it to the site with the new doc and the api",
+    "summary": "Define, design, and plan publication of the rich Augmentor Agent API document and consultation API 1.1.0.",
+    "intent": "Produce a validated, executable release package without mutating product or production."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "DomainSpec publication definition and glossary",
+      "six-view architecture plus all deterministically selected extensions and UX plan",
+      "four-layer implementation model, seven-SWU Work Pack, task files and execution dispatch",
+      "linked Distill validation and observability evidence"
+    ],
+    "files_changed": [
+      "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/"
+    ],
+    "validation": [
+      "Inventory lookup readiness passed",
+      "Design denominator extraction passed",
+      "Design selection reached design-validator-pass",
+      "Dispatch Spec validation passed with zero blocks and flags",
+      "Distill request, receipt and validation schemas passed",
+      "all exact artifact references matched hashes and sizes",
+      "all JSON parsed, Markdown links resolved and scoped whitespace passed"
+    ],
+    "notes": "This run authored planning artifacts only. Product mutation, Git, credentials, SSH, deployment, release and production proof did not occur. The current deployment packager omits required rich-bundle files and must be repaired locally before any upload."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "tooling",
+        "severity": "low",
+        "summary": "The generated Invoke Distill observer wrapper resolves a nonexistent .agents/framework path.",
+        "evidence": "The validated child envelope was recorded through the canonical arcanum/framework observer instead."
+      },
+      {
+        "category": "authority",
+        "severity": "medium",
+        "summary": "Production publication remains gated until the exact local candidate and rollback target exist.",
+        "evidence": "WORK-PACK.md requires a separate external-effect authorization after SWU-AUGPUB-003."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/augmentor/ontology/unified-agent/development/invoke-runs/20260804T173900Z-publish-rich-consultation/plan/WORK-PACK.md"
+}

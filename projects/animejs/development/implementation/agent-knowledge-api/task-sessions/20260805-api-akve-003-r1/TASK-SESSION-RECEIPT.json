@@ -1,0 +1,79 @@
+{
+  "attempt_id": "20260805-api-akve-003-r1",
+  "authority_effect": "none",
+  "consumed_admission_token_sha256": "928ba9ac98c35ef10212e9c52e8009f0b7d37384134dd82961b92a0d9b5f9f12",
+  "generated_at": "2026-08-05T20:49:25.548651Z",
+  "material_package_digest": "28c5beded4d0f2900a56b6c61e258def87b30ab7e5750ac7c2c3eb8844688ddd",
+  "material_package_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-003-r1/producer/material-package.json",
+    "sha256": "22317f480891871324c514054b0b09c884ecafd8ad6785e01281270cc603cb7e",
+    "size_bytes": 6427
+  },
+  "material_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-003-r1/producer/material-package-receipt.json",
+    "sha256": "9c182d281f1d981a4c71c6fd5bdfdfea020ef6b4faee965a1f30f86d33bd6433",
+    "size_bytes": 2577
+  },
+  "mutation_admission_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-003-r1/MUTATION-ADMISSION-RECEIPT.json",
+    "sha256": "03d97cf32cea10fb0b095c6b1851a193f357a74a065c0e6e9cde64e3912a5cc9",
+    "size_bytes": 3472
+  },
+  "output_refs": [
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/src/transition-oracle.mjs",
+      "sha256": "60e80e8846716e7c8f0f752d1e04868449c507c49bca426f1d76693f747018fe",
+      "size_bytes": 8174
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/transition-cases.json",
+      "sha256": "a45ccec7a6515063adcbf350cc4c0a1d9f502b41734813513e2caf69622ff5e6",
+      "size_bytes": 425
+    },
+    {
+      "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/transitions.test.mjs",
+      "sha256": "1c37eeba8496c3bbff18d2173ffbd3c7fa72714410cb705b98335a5c4bf96d72",
+      "size_bytes": 5976
+    }
+  ],
+  "plan_epoch_id": "epoch-83a5a40930fef7ec76de393e",
+  "publication_class": "internal",
+  "residue": [],
+  "result": "pass",
+  "schema_version": "animejs.agent-knowledge-api.task-session-receipt.v1",
+  "selection_receipt_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-003-r1/SELECTION-RECEIPT.json",
+    "sha256": "6d4af83906a90db93e7fcda4360c226bb37585f90b5a0aaa7d2fd751e25c577b",
+    "size_bytes": 950
+  },
+  "single_use": true,
+  "successor_executed": false,
+  "successor_unit": "AKVE-004",
+  "swu_id": "SWU-AKVE-003",
+  "task_id": "TASK-AKVE-02",
+  "touched_files": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/src/transition-oracle.mjs",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/transition-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/transitions.test.mjs"
+  ],
+  "unit_contract_digest": "1f86acc1bd3fbcc4f9d0a65a7d9bcf35a237752d03c67d6164b0341f5f64b87b",
+  "validation_results": [
+    {
+      "argv": [
+        "node",
+        "--test",
+        "projects/animejs/ontology/agent-knowledge-vault/operational/tests/transitions.test.mjs"
+      ],
+      "command_id": "transition-matrix",
+      "cwd": ".",
+      "exit_code": 0,
+      "max_output_bytes": 65536,
+      "result": "pass",
+      "stderr": "",
+      "stderr_truncated": false,
+      "stdout": "TAP version 13\n# Subtest: open binds inert Task and VersionContext snapshots\nok 1 - open binds inert Task and VersionContext snapshots\n  ---\n  duration_ms: 1.178537\n  ...\n# Subtest: transition rejects cross-attempt evidence rebind\nok 2 - transition rejects cross-attempt evidence rebind\n  ---\n  duration_ms: 1.059117\n  ...\n# Subtest: transition enforces evidence-backed success and one outcome\nok 3 - transition enforces evidence-backed success and one outcome\n  ---\n  duration_ms: 1.505807\n  ...\n# Subtest: transition rejects dangling close and post-terminal append\nok 4 - transition rejects dangling close and post-terminal append\n  ---\n  duration_ms: 0.502706\n  ...\n# Subtest: transition rejects reopen and supersession cycle\nok 5 - transition rejects reopen and supersession cycle\n  ---\n  duration_ms: 0.367653\n  ...\n# Subtest: transition fixture declares all oracle scenario witnesses\nok 6 - transition fixture declares all oracle scenario witnesses\n  ---\n  duration_ms: 8.008063\n  ...\n1..6\n# tests 6\n# suites 0\n# pass 6\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 75.042709\n",
+      "stdout_truncated": false,
+      "timeout_seconds": 60
+    }
+  ]
+}

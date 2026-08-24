@@ -6,7 +6,8 @@
 | --- | --- | --- | --- | --- | --- |
 | `GATE-BTE-L0-BOOTSTRAP` | planning | L0A/L0B boundary | resolved | Decision Gate / Invoke | accepted Option 1 separates contract publication from validation-owner freeze and semantic execution |
 | `GATE-BTE-L0A-CURRENT-PROOF` | target-lifecycle | validation-owner routing and W1B/L0B entry | resolved | BTE repair Task Session | passing repair receipt proves all nine immutable handles and current publication verification without rewriting historical evidence |
-| `GATE-BTE-L0-FREEZE` | target-lifecycle | W1B/L0B entry | open | validation owner | after L0A publication, author and freeze exact package-local `validation-inputs/l0/red-fixture-manifest.v1.json` plus receipt against the published contract digests |
+| `GATE-BTE-L0-FREEZE` | target-lifecycle | W1B/L0B entry | open, payload scope authorized | validation owner | after L0A publication, author real package-local `validation-inputs/l0/fixtures/*.json` and `validation-inputs/l0/topology/*`, then freeze their exact handles in the manifest and receipt against the published contract digests |
+| `BTE-L0-RED-PAYLOAD-SCOPE-001` | planning | L0A/L0B boundary | resolved | Invoke / user | `P-BTE-014` repairs the two-file ceremonial-freeze gap by authorizing real immutable fixture and no-follow topology bytes without changing published L0A contracts |
 | `GATE-BTE-FORMATION` | target-lifecycle | L1 activation/L6 | open | formation owner | admit implemented formation-v2 grammar/domains/equality and retirement proof |
 | `GATE-BTE-PROFILE` | target-lifecycle | L3/L6 | open | profile owner | admit exact successor contracts and source layout |
 | `GATE-BTE-NODE-PATTERN` | target-lifecycle | L4/L6 | open | node-pattern owner | admit exact 13-row selection implementing Decision 9 |

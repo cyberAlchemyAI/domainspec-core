@@ -1,0 +1,144 @@
+{
+  "action_artifacts": [
+    "actions/spawn-0001.json",
+    "actions/spawn-0002.json",
+    "actions/spawn-0003.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0001",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1-explore"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-05-arcanum-building-system-research-route",
+      "forbidden_write_scopes": [
+        ".agents/",
+        ".claude/",
+        "arcanum/",
+        "implementation/",
+        "cyberAlchemy-v2/",
+        "projects/",
+        ".craft/",
+        "CRAFT.md",
+        "telemetry/agents/",
+        ".git/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-05-arcanum-building-system-research/dispatch-sheet.json",
+        "ops/development/2026-08-05-arcanum-building-system-research/strategy-inventory-packet.json"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "ops/development/2026-08-05-arcanum-building-system-research/receipts/explorer-runtime.json"
+      ],
+      "role": "explorer-runtime",
+      "run_id": "arcanum-building-system-research-run-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1-explore",
+      "target": "ops/development/2026-08-05-arcanum-building-system-research/dispatch-sheet.json#explorers-agent-0",
+      "wave_id": "explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0002",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1-explore"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-05-arcanum-building-system-research-route",
+      "forbidden_write_scopes": [
+        ".agents/",
+        ".claude/",
+        "arcanum/",
+        "implementation/",
+        "cyberAlchemy-v2/",
+        "projects/",
+        ".craft/",
+        "CRAFT.md",
+        "telemetry/agents/",
+        ".git/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-05-arcanum-building-system-research/dispatch-sheet.json",
+        "ops/development/2026-08-05-arcanum-building-system-research/strategy-inventory-packet.json"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "ops/development/2026-08-05-arcanum-building-system-research/receipts/explorer-contract.json"
+      ],
+      "role": "explorer-contract",
+      "run_id": "arcanum-building-system-research-run-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1-explore",
+      "target": "ops/development/2026-08-05-arcanum-building-system-research/dispatch-sheet.json#explorers-agent-1",
+      "wave_id": "explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0003",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1-explore"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-05-arcanum-building-system-research-route",
+      "forbidden_write_scopes": [
+        ".agents/",
+        ".claude/",
+        "arcanum/",
+        "implementation/",
+        "cyberAlchemy-v2/",
+        "projects/",
+        ".craft/",
+        "CRAFT.md",
+        "telemetry/agents/",
+        ".git/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-05-arcanum-building-system-research/dispatch-sheet.json",
+        "ops/development/2026-08-05-arcanum-building-system-research/strategy-inventory-packet.json"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "ops/development/2026-08-05-arcanum-building-system-research/receipts/explorer-closure.json"
+      ],
+      "role": "explorer-closure",
+      "run_id": "arcanum-building-system-research-run-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1-explore",
+      "target": "ops/development/2026-08-05-arcanum-building-system-research/dispatch-sheet.json#explorers-agent-2",
+      "wave_id": "explorers",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "2026-08-05-arcanum-building-system-research-route",
+  "run_id": "arcanum-building-system-research-run-01",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [],
+    "gate_after": "g-explorers",
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": true,
+    "role_ids": [
+      "explorer-runtime",
+      "explorer-contract",
+      "explorer-closure"
+    ],
+    "wave_id": "explorers"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}

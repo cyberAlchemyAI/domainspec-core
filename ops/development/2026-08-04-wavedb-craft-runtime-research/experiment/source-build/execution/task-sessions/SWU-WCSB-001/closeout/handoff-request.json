@@ -1,0 +1,32 @@
+{
+  "activationSource": "continuation",
+  "mutationMode": "apply-approved",
+  "authoredPhaseStatus": "pass",
+  "requestedHandoff": "ready",
+  "expectedPackageId": "wavedb-reviewed-source-build:SWU-WCSB-001:closeout",
+  "expectedPackageDigest": "750c8b22d560aed48689c623a7dd4ec05304c50aaba6ac829a943c5382c42482",
+  "materialReceipt": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "lifecycleOwner": "wavedb-source-build-invoke-owner",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "750c8b22d560aed48689c623a7dd4ec05304c50aaba6ac829a943c5382c42482",
+    "packageId": "wavedb-reviewed-source-build:SWU-WCSB-001:closeout",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "internal",
+    "reasons": [],
+    "schemaVersion": "1.0.0",
+    "validatedPaths": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-01-RUNNER.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md"
+    ],
+    "validationCommands": [
+      "jq -e '.execution_result == \"pass\" and .swu_id == \"SWU-WCSB-001\"' execution/task-sessions/SWU-WCSB-001/terminal-receipt.json",
+      "rg -n 'selectedSWU.*SWU-WCSB-002|SWU-WCSB-001.*pass|SWU-WCSB-002.*selected' plan/WORK-PACK.md",
+      "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-01-RUNNER.md ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md"
+    ]
+  }
+}

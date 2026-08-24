@@ -1,0 +1,34 @@
+{
+  "schema_version": "augmentor.consultation.staged-validation@0.1.0",
+  "status": "pass",
+  "evidence_ceiling": "isolated-candidate-application",
+  "frontier": [
+    "SWU-ACAPI-000",
+    "SWU-ACAPI-001",
+    "SWU-ACAPI-002",
+    "SWU-ACAPI-003",
+    "SWU-ACAPI-004",
+    "SWU-ACAPI-005",
+    "SWU-ACAPI-006"
+  ],
+  "units_executed": 7,
+  "target": "isolated-temporary-repository",
+  "product_writes": false,
+  "checks": [
+    {"scope": "SWU-ACAPI-000", "result": "pass", "evidence": ["ontology validator: 0 violations", "ontology tests: 6/6", "validator determinism: 12/12"]},
+    {"scope": "SWU-ACAPI-001", "result": "pass", "evidence": ["query fixtures: 2 valid and 4 intentionally invalid, 0 failures"]},
+    {"scope": "SWU-ACAPI-002", "result": "pass", "evidence": ["result fixtures: 10 valid and 3 intentionally invalid, 0 failures"]},
+    {"scope": "SWU-ACAPI-003", "result": "pass", "evidence": ["projection fixtures: 1 valid and 2 intentionally invalid, 0 failures"]},
+    {"scope": "SWU-ACAPI-004", "result": "pass", "evidence": ["deterministic projection build and check", "leakage scan: 0 hits", "projection tests: 3/3"]},
+    {"scope": "SWU-ACAPI-005", "result": "pass", "evidence": ["effective-limit and status-resolution tests: 4/4"]},
+    {"scope": "SWU-ACAPI-006", "result": "pass", "evidence": ["consultation and question-scenario tests: 17/17", "ontology validator: 0 violations", "ontology tests: 6/6"]},
+    {"scope": "transition-receipt-gate", "result": "pass", "evidence": ["exact joined receipts admitted", "tampered closeout receipt blocked"]},
+    {"scope": "approved-chain-builder", "result": "pass", "evidence": ["exact audited epoch emitted a schema-valid chain config", "drifted audit projection digest blocked"]}
+  ],
+  "command": ["node", "one-go/scripts/validate-staged-implementation.mjs"],
+  "control_test_commands": [
+    ["node", "--test", "one-go/tests/transition-gate.test.mjs"],
+    ["node", "--test", "one-go/tests/approved-chain-builder.test.mjs"]
+  ],
+  "claim_limit": "The frozen L0 materials and execution controls pass in isolation. No product mutation, selection, approval, deployment, publication, release, or L1 integration is claimed."
+}

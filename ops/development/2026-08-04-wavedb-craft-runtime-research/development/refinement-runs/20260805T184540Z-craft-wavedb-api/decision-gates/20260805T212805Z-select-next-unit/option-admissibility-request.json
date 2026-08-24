@@ -1,0 +1,182 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "DG-CAPI-NEXT-UNIT-20260805",
+  "candidates": [
+    {
+      "optionId": "CAPI-NEXT-000",
+      "label": "Select SWU-CAPI-000 for later Task Session admission",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "craft-consultation-api-plan-owner",
+      "evidence": [
+        "WORK-PACK.md: firstUnitNarrownessStatus=pass and SWU-CAPI-000 is the narrowest candidate",
+        "WORK-PACK.md: SWU-CAPI-000 changes no product code or Craft source and writes only a new isolated derived snapshot plus evidence",
+        "refreshes/20260805T205803Z-wavedb-0.15.9-runtime-order/refresh-report.json: nextRoute.unit=SWU-CAPI-000 and separate Task Session admission remains required"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "CAPI-NEXT-001",
+      "label": "Select SWU-CAPI-001",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md: SWU-CAPI-001 depends on the accepted SWU-CAPI-000 receipt and its closed 0.15.9 snapshot"
+      ],
+      "rejectionReasons": [
+        "SWU-CAPI-000 has not run and no accepted closed 0.15.9 snapshot exists"
+      ]
+    },
+    {
+      "optionId": "CAPI-NEXT-002",
+      "label": "Select SWU-CAPI-002",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "craft-consultation-api-plan-owner",
+      "evidence": [
+        "WORK-PACK.md: SWU-CAPI-002 depends on SWU-CAPI-001, root approval, and the exact 0.15.9 dependency pin"
+      ],
+      "rejectionReasons": [
+        "SWU-CAPI-001 evidence and the admitted API dependency surface do not exist"
+      ]
+    },
+    {
+      "optionId": "CAPI-NEXT-003",
+      "label": "Select SWU-CAPI-003",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md: SWU-CAPI-003 depends on SWU-CAPI-002"
+      ],
+      "rejectionReasons": [
+        "SWU-CAPI-002 has not run"
+      ]
+    },
+    {
+      "optionId": "CAPI-NEXT-004",
+      "label": "Select SWU-CAPI-004",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "craft-consultation-api-plan-owner",
+      "evidence": [
+        "WORK-PACK.md: the runtime promotion order requires 000, 001, and the API runtime pin before constructing L0 behavior"
+      ],
+      "rejectionReasons": [
+        "The admitted runtime predecessors are incomplete and root approval is unresolved"
+      ]
+    },
+    {
+      "optionId": "CAPI-NEXT-005",
+      "label": "Select SWU-CAPI-005",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "craft-consultation-api-plan-owner",
+      "evidence": [
+        "WORK-PACK.md: SWU-CAPI-005 depends on SWU-CAPI-004 and a secret-provider port"
+      ],
+      "rejectionReasons": [
+        "SWU-CAPI-004 has not run and the secret-provider owner is unselected"
+      ]
+    },
+    {
+      "optionId": "CAPI-NEXT-006",
+      "label": "Select SWU-CAPI-006",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "craft-consultation-api-plan-owner",
+      "evidence": [
+        "WORK-PACK.md: SWU-CAPI-006 depends on SWU-CAPI-004 and auth-port approval"
+      ],
+      "rejectionReasons": [
+        "SWU-CAPI-004 has not run and the authentication owner is unselected"
+      ]
+    },
+    {
+      "optionId": "CAPI-NEXT-007",
+      "label": "Select SWU-CAPI-007",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md: SWU-CAPI-007 depends on SWU-CAPI-002, 003, 005, and 006"
+      ],
+      "rejectionReasons": [
+        "All declared predecessor units are incomplete"
+      ]
+    },
+    {
+      "optionId": "CAPI-NEXT-008",
+      "label": "Select SWU-CAPI-008",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md: SWU-CAPI-008 depends on SWU-CAPI-002 and 004 and belongs to conditional L1"
+      ],
+      "rejectionReasons": [
+        "The L0 predecessors are incomplete and L1 remains deferred"
+      ]
+    },
+    {
+      "optionId": "CAPI-NEXT-009",
+      "label": "Select SWU-CAPI-009",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md: SWU-CAPI-009 depends on SWU-CAPI-005, 006, 007, and 008 and belongs to conditional L1"
+      ],
+      "rejectionReasons": [
+        "All declared predecessor units are incomplete and L1 remains deferred"
+      ]
+    },
+    {
+      "optionId": "CAPI-DEFER",
+      "label": "Defer next-unit selection and keep the Work Pack blocked",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md: blocked execution with allowedRoutes=[] is a valid fail-closed state"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "CAPI-STOP",
+      "label": "Stop this Craft API effort without selecting a unit",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md: no Task Session or product mutation has begun"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

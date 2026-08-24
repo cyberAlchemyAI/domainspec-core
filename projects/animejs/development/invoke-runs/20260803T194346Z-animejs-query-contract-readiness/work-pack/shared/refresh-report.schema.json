@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "animejs.akv.query-contract.invoke-refresh-report.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mode",
+    "phaseStatus",
+    "activationSource",
+    "mutationMode",
+    "handoffStatus",
+    "sourceTerminalReceipt",
+    "targetArtifacts",
+    "deltaClasses",
+    "appliedChanges",
+    "validation",
+    "mutationReady",
+    "nextRoute"
+  ],
+  "properties": {
+    "mode": {"const": "refresh"},
+    "phaseStatus": {"enum": ["pass", "no-op"]},
+    "activationSource": {"const": "continuation"},
+    "mutationMode": {"const": "apply-approved"},
+    "handoffStatus": {"enum": ["ready", "not-needed"]},
+    "sourceTerminalReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "targetArtifacts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "deltaClasses": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["evidence_added", "blocker_opened", "blocker_resolved", "status_changed", "route_changed"]
+      }
+    },
+    "appliedChanges": {"type": "array", "minItems": 1},
+    "validation": {"type": "array", "minItems": 1},
+    "mutationReady": {"const": true},
+    "nextRoute": {"type": ["string", "null"]}
+  }
+}

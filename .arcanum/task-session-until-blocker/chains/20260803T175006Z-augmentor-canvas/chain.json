@@ -1,0 +1,134 @@
+{
+  "schema_version": "arcanum.task_session_until_blocker.chain.v1",
+  "chain_id": "20260803T175006Z-augmentor-canvas",
+  "created_at": "2026-08-03T17:50:06Z",
+  "updated_at": "2026-08-03T17:52:14Z",
+  "result": "BLOCK",
+  "work_pack": {
+    "id": "WP-AUG-CANVAS-001",
+    "path": "projects/augmentor/ontology/unified-agent/development/refinement-runs/2026-08-03-canvas-workspace/WORK-PACK.md",
+    "captured_sha256": "0ffb516e8070fa53f3df2af0c0a8c1154b4b9d1b924a2138d14179eb74dee07d",
+    "captured_size_bytes": 10114
+  },
+  "stop_condition": "first-blocker-or-frontier-complete",
+  "requested_scope": "execute WP-AUG-CANVAS-001 through task-session-until-blocker from its uniquely ready first selector",
+  "captured_frontier": [
+    "SWU-CANVAS-001",
+    "SWU-CANVAS-002",
+    "SWU-CANVAS-003",
+    "SWU-CANVAS-004",
+    "SWU-CANVAS-005",
+    "SWU-CANVAS-006",
+    "SWU-CANVAS-007"
+  ],
+  "session_budget": 7,
+  "sessions_used": 0,
+  "current_expected_selector": "SWU-CANVAS-001",
+  "visited_selectors": [],
+  "joined_task_session_receipts": [],
+  "joined_closeout_owner_receipts": [],
+  "continuity_cursor_fingerprints": [],
+  "inputs": {
+    "context_pack": {
+      "markdown_path": ".arcanum/task-session-until-blocker/chains/20260803T175006Z-augmentor-canvas/context-pack.md",
+      "markdown_sha256": "d0a3838ebc2f105c9c904d0d4914c8355b0ce642d4a5f33dbeb235355f831034",
+      "index_path": ".arcanum/task-session-until-blocker/chains/20260803T175006Z-augmentor-canvas/context-pack.json",
+      "index_sha256": "5951ac8ae3e8fe0536d102079f8bd12c99d86b6d8105dcadec6d7ebf80f2744b",
+      "strict_coverage": "block"
+    },
+    "mutation_admission": {
+      "request_path": ".arcanum/task-session-until-blocker/chains/20260803T175006Z-augmentor-canvas/mutation-admission-request.json",
+      "request_sha256": "b32769d98de676bb3d96393534558d66da0f080b988f24c4ab2d586c9e90462f",
+      "receipt_path": ".arcanum/task-session-until-blocker/chains/20260803T175006Z-augmentor-canvas/mutation-admission-receipt.json",
+      "receipt_sha256": "5d5ca9d1184bb1b8892786682572e1f55f6d9a725345b586240a2d367906b336",
+      "admission_verdict": "block",
+      "mutation_ready": false
+    }
+  },
+  "preflight": {
+    "exact_work_pack_scope": "pass",
+    "finite_ordered_frontier": "pass-7-units",
+    "dependency_shape": "pass",
+    "write_scope_shape": "pass",
+    "validation_surface": "pass",
+    "first_candidate_unique": "pass-SWU-CANVAS-001",
+    "session_budget": "pass-7-of-7",
+    "closeout_contract_shape": "block-missing-exact-owner-sync-contract",
+    "first_candidate_mutation_admission": "block-missing-invoke-material-handoff"
+  },
+  "implementation_target_baselines": {
+    "projects/augmentor/ontology/unified-agent/visualization/template.html": "8b7018cda724136a583b1dd790143c9e0833dd98738adb82bdabd15fb16ddf82",
+    "projects/augmentor/ontology/unified-agent/tests/visualization.test.mjs": "7a0bc64bfd81c59afcd423105fc02171483f0027efa11099306ca3135832eda4",
+    "projects/augmentor/ontology/unified-agent/tests/visualization.browser.mjs": "14caa9888f4e562fed310a59c3c676ee0b0277cfafed1136d6314cfb2806554c",
+    "projects/augmentor/ontology/unified-agent/ontology-visualization.html": "79397e106f4f5d5894262c63b6e96d704c7bd025fa7331f1b97750b975256b9f"
+  },
+  "blocker": {
+    "selector": "SWU-CANVAS-001",
+    "gate": "task-session-closeout-and-routed-mutation-admission",
+    "dependency_id": "invoke-owned-material-and-closeout-contract",
+    "evidence": ".arcanum/task-session-until-blocker/chains/20260803T175006Z-augmentor-canvas/mutation-admission-receipt.json",
+    "observed_state": "The Work Pack has no exact Invoke Refresh synchronization inventory/receipt contract, and SWU-CANVAS-001 has no Invoke-owned material package, material receipt, or producer receipt schema.",
+    "owner": "invoke",
+    "fingerprint": "sha256:dc6f25a4a9f4d30cb539efaee3d0fd6c69ccd3801222954b231c46853d91d647",
+    "unblock_action": "Invoke Refresh must produce the exact SWU-CANVAS-001 material handoff and closeout synchronization contract before a fresh chain preflight."
+  },
+  "stop_reason": "preflight-block-before-first-task-session-and-before-product-mutation",
+  "remaining_captured_frontier": [
+    "SWU-CANVAS-001",
+    "SWU-CANVAS-002",
+    "SWU-CANVAS-003",
+    "SWU-CANVAS-004",
+    "SWU-CANVAS-005",
+    "SWU-CANVAS-006",
+    "SWU-CANVAS-007"
+  ],
+  "approval_boundary": {
+    "source": "direct user invocation of task-session-until-blocker",
+    "authorized_scope": "bounded execution of the captured WP-AUG-CANVAS-001 frontier until the first blocker",
+    "forbidden": [
+      "routing around a preflight blocker",
+      "frontier expansion",
+      "authority or ontology changes",
+      "publication",
+      "deployment",
+      "promotion",
+      "destructive cleanup"
+    ]
+  },
+  "next_route": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "proposal-only",
+    "target": "WP-AUG-CANVAS-001/SWU-CANVAS-001 material and closeout contract",
+    "dispatch_status": "not-requested-stop-at-first-blocker"
+  },
+  "effects": {
+    "task_sessions_started": 0,
+    "product_files_changed": [],
+    "chain_evidence_written": true,
+    "continuity_cursor_emitted": false,
+    "publication_or_deployment_effect": false
+  },
+  "observability_receipt": {
+    "result": "recorded",
+    "envelope_path": ".arcanum/observability/runs/task-session-until-blocker-20260803T175006Z-augmentor-canvas.json",
+    "envelope_sha256": "53554edecd4bdf62822e83300704318bb416261c9ab9af055b314ac26357d7e2",
+    "envelope_size_bytes": 3491,
+    "ledger_path": ".arcanum/observability/signals/sigil-invocations.jsonl",
+    "ledger_line": 506,
+    "dedupe_key": "task-session-until-blocker-20260803T175006Z-augmentor-canvas:signal-observer:0.1.0",
+    "quality_bar_status": "pass",
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  },
+  "subagent_closeout": {
+    "result": "n/a",
+    "spawned": 0,
+    "joined": 0,
+    "closed": 0,
+    "blocked": 0,
+    "timed_out": 0,
+    "handed_off": 0,
+    "open": 0
+  }
+}

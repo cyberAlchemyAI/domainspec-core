@@ -15,7 +15,7 @@ semanticAuthority: none
 | execution handoff | `owner-gated` |
 | selected SWU | `none` |
 | candidate | `none` |
-| gate residue | independent validation-owner red manifest/freeze; a later refresh must validate it before L0B can be selected |
+| gate residue | independent validation-owner fixture/topology bytes plus red manifest/freeze; a later refresh must validate the exact handles before L0B can be selected |
 | active plan | `WORK-PACK.md` |
 | layering | `IMPLEMENTATION-LAYERING.md` |
 | dispatch | `EXECUTION-DISPATCH.json` |

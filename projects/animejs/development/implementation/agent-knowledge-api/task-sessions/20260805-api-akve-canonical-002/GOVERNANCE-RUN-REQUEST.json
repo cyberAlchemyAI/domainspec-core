@@ -1,0 +1,117 @@
+{
+  "admission_profile": "plan-once-selected-unit",
+  "closeout_contract": {
+    "continuation_policy": "emit-cursor-never-execute-successor",
+    "required_owner_capabilities": [
+      "invoke:refresh:apply-approved",
+      "continuation-router:one-hop"
+    ],
+    "terminal_receipt_path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/TASK-SESSION-RECEIPT.json"
+  },
+  "control_refs": [
+    {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/CONTEXT-PACK.json",
+      "sha256": "4d76186859b2e9fcbd80cea36746fe6d0a4e790dfef495d6a3aa5285824c0615",
+      "size_bytes": 2990
+    },
+    {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/SELECTION-RECEIPT.json",
+      "sha256": "891b3d065f42da906916f54f613f3cd9c59216c858d6d9c1bb801aed8d381479",
+      "size_bytes": 950
+    },
+    {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/MUTATION-ADMISSION-RECEIPT.json",
+      "sha256": "8373a9068e74c1a782dcdeca143a9fac0316d0c894ba7a1613411fe2eff2fceb",
+      "size_bytes": 6059
+    }
+  ],
+  "execution_contract": {
+    "allowed_writes": [
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-request.schema.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-result.schema.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-command.schema.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-event.schema.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-result.schema.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/status-codes.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-contract-cases.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+    ],
+    "declared_outputs": [
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-request.schema.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-result.schema.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-command.schema.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-event.schema.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-result.schema.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/status-codes.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-contract-cases.json",
+      "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+    ],
+    "max_output_bytes": 65536,
+    "timeout_seconds": 60,
+    "validation_commands": [
+      {
+        "argv": [
+          "node",
+          "--test",
+          "--test-name-pattern=episode contract",
+          "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+        ],
+        "command_id": "episode-contract",
+        "cwd": ".",
+        "max_output_bytes": 65536,
+        "timeout_seconds": 60
+      },
+      {
+        "argv": [
+          "node",
+          "--test",
+          "--test-name-pattern=neutral projection",
+          "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+        ],
+        "command_id": "neutral-projection-regression",
+        "cwd": ".",
+        "max_output_bytes": 65536,
+        "timeout_seconds": 60
+      }
+    ]
+  },
+  "idempotency_key": "20260805-api-akve-canonical-002:request",
+  "owner_identity": {
+    "capability": "task-session",
+    "subject": "animejs-agent-knowledge-runner"
+  },
+  "plan_admission": {
+    "admission_token": "dfe04268064ffdc0bef50c1423d85859324d2bdc4746c0da9bb79fc267f04bec",
+    "attempt_id": "20260805-api-akve-canonical-002",
+    "consumption_ledger_path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/ADMISSION-CONSUMPTION.json",
+    "mutation_admission_receipt_ref": {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/MUTATION-ADMISSION-RECEIPT.json",
+      "sha256": "8373a9068e74c1a782dcdeca143a9fac0316d0c894ba7a1613411fe2eff2fceb",
+      "size_bytes": 6059
+    },
+    "plan_epoch_id": "epoch-ab410b7abe6b64418258652f",
+    "selection_receipt_ref": {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/SELECTION-RECEIPT.json",
+      "sha256": "891b3d065f42da906916f54f613f3cd9c59216c858d6d9c1bb801aed8d381479",
+      "size_bytes": 950
+    },
+    "target_baseline_digest": "a9151874f780b92b77c8182cbd8de7a7d2c98817b4d04f6cd530d0db8f876b3b",
+    "unit_contract_digest": "90ca0f8df6cbfa6205eec7f399bda38cecaeae700a113d27c1a8a9b58003a54c",
+    "validation_contract_digest": "ee383e4d658281b9ac0f9d013a98e2d72ea529e6f6f4384fdda7cfe3df9e3a01"
+  },
+  "request_id": "request-20260805-api-akve-canonical-002",
+  "run_id": "20260805-api-akve-canonical-002",
+  "schema_version": "task-session.governance-run-request.v1",
+  "swu_id": "SWU-AKVE-002",
+  "swu_ref": {
+    "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-01-CONTRACTS.md",
+    "sha256": "1e2792b8c48278f7bced0ae738632aa7b8399be506b3e3e5d353d046750799a0",
+    "size_bytes": 6105
+  },
+  "task_id": "TASK-AKVE-01",
+  "work_pack_ref": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/WORK-PACK.json",
+    "sha256": "359f6f36564f057b824e51f48f7e7e4ddc60a4c70e251d8ff2c16f133692d36f",
+    "size_bytes": 16613
+  }
+}

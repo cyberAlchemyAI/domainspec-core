@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "DG-CAPI-LEDGER-SCOPE-20260806",
+  "candidates": [
+    {
+      "optionId": "CAPI-SCOPE-KEEP-27",
+      "label": "Keep the earlier 27-ledger allowlist",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "craft-consultation-api-plan-owner",
+      "evidence": [
+        "The preserved 0.15.8 import receipt defines a 27-ledger and 55-record baseline.",
+        "The blocked -01 attempt detected one additional current ledger and made no store."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "CAPI-SCOPE-INCLUDE-28",
+      "label": "Include the nested test-derivation-engine ledger",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "craft-consultation-api-plan-owner",
+      "evidence": [
+        "inventory-drift.json records projects/cyberalchemy-orchestrator/tools/test-derivation-engine/.craft/ledger.yml as the only ledger outside the preserved baseline.",
+        "The ledger has SHA-256 0effd055c9f25ea3e46de7e5280585f987e9734411ae1639d9c53171b8ed6b84 and size 25043 bytes.",
+        "Including it changes the expected current scope to 28 ledgers and 57 byte-normalized records."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "CAPI-SCOPE-DEFER",
+      "label": "Defer the scope decision and keep execution blocked",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "The -01 attempt is safely blocked and no store exists."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "CAPI-SCOPE-STOP",
+      "label": "Stop the Craft snapshot work",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "The blocked attempt has no derived store and no product mutation occurred."
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

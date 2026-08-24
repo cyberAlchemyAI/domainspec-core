@@ -1,0 +1,90 @@
+{
+  "timestamp": "2026-08-03T19:20:12Z",
+  "run_id": "whisper-20260803T192012Z-podcast-voice-reaudition",
+  "session_id": "2026-08-03-ontology-authority-agent-context-presentation",
+  "sigil": "whisper",
+  "tier": "spell",
+  "mode": "live_presentation",
+  "capability": {
+    "id": "whisper",
+    "kind": "spell",
+    "tier": "spell",
+    "mode": "live_presentation",
+    "alias": "Whisper"
+  },
+  "lineage": {
+    "parent_run_id": "whisper-20260803T190653Z-ontology-html-presentation",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "whisper",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "live_presentation_html_derivative"
+    }
+  },
+  "evidence": {
+    "status": "partial",
+    "refs": [
+      "research/2026-08-03-ontology-authority-agent-context-presentation/editorial-corrections/2026-08-03-podcast-voice-reaudition.json",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/podcast-voice-revision-plan.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/live-presentation-language-audition-podcast-v2.md"
+    ]
+  },
+  "request": {
+    "raw": "$whisper the language is horrible, create like a podcast, so we can have more meaning to it",
+    "summary": "Reject the prior systems-keynote voice and re-audition the presentation as a meaningful solo podcast.",
+    "intent": "Make the presentation sound like a thoughtful person exploring one consequential story while preserving exact ontology and authority distinctions."
+  },
+  "execution": {
+    "status": "blocked_pending_voice_approval",
+    "outputs": [
+      "Append-only operator correction event",
+      "Authoring-only podcast-voice revision plan",
+      "Three-moment podcast-language audition"
+    ],
+    "files_changed": [
+      "research/2026-08-03-ontology-authority-agent-context-presentation/editorial-corrections/2026-08-03-podcast-voice-reaudition.json",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/podcast-voice-revision-plan.md",
+      "research/2026-08-03-ontology-authority-agent-context-presentation/live-presentation-language-audition-podcast-v2.md"
+    ],
+    "validation": [
+      "correction-event schema: pass",
+      "meaning core changed: yes",
+      "new intent state: volatile",
+      "audition moments: exactly three",
+      "projected surfaces: exactly three",
+      "spoken surfaces: exactly three",
+      "projected language is audience-facing: pass",
+      "question withholds its answer: pass",
+      "formal terms are earned through a concrete story: pass",
+      "source and authority boundaries: pass",
+      "operator voice approval: pending",
+      "full Markdown and HTML mutation: blocked"
+    ],
+    "notes": "The prior HTML remains unchanged at SHA-256 a636e5328e6c250338f782342181aa5e0ff26c8de74245e698f90f0496d8264e. The next valid action is operator approval or rejection of the three-moment podcast audition."
+  },
+  "observer": {
+    "quality_bar_status": "flag",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "quality-bar",
+        "severity": "medium",
+        "summary": "The new podcast voice is not yet operator-approved.",
+        "evidence": "The three editorial and source checks pass, but Whisper requires explicit operator voice approval before full Markdown or HTML regeneration."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "correction-event",
+    "recommendation": "re-audition"
+  },
+  "target_artifact": "research/2026-08-03-ontology-authority-agent-context-presentation/live-presentation-language-audition-podcast-v2.md",
+  "intent_state": "volatile",
+  "human_gate": "pending",
+  "transport_proof_status": "candidate",
+  "selected_candidate": "reflective-solo-podcast-through-one-approval-record",
+  "delivery_flow": "active",
+  "derivative_fan_out_count": 0,
+  "invalidated_run_id": "whisper-20260803T190653Z-ontology-html-presentation",
+  "next_route": "revise-audition-or-approve-and-generate"
+}

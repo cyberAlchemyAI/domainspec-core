@@ -1,0 +1,284 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "ontology-video.openai-audition.design-scope.v1",
+  "target_id": "ontology-video.openai-audition",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/SPEC.md",
+        "digest": "5325181369e1054590e207c7ba9422b2edfba5f2a124c90604640edccb9a9872"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "definition-context",
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/DEFINE-CONTEXT.md",
+        "digest": "829d0220f7e1368d0806043bf22feab5eaaea275a4a3577827cfb9cf18217ac9"
+      },
+      {
+        "selector": "operations",
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPERATIONS.md",
+        "digest": "939c79c197be4a3dbc6c8018f76c500fe2fb0a883e64d09c5b4304afa790d048"
+      },
+      {
+        "selector": "queries",
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/QUERIES.md",
+        "digest": "b7b8df07852e794d299ea58a267586eb3f31fb889ee353733a03acd2bcf68cd8"
+      },
+      {
+        "selector": "interfaces",
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/INTERFACES.md",
+        "digest": "3224599e24458826dac7369cf81bb67cb95cdcc1d47dc4e83e6cc518ea308ab7"
+      },
+      {
+        "selector": "mappings",
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/MAPPINGS.md",
+        "digest": "20fd3f39eeaabf8dc40a21fcf9138aa523703f7c6ee88077f61239fae005f2b0"
+      },
+      {
+        "selector": "states",
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/STATES.md",
+        "digest": "b742fc20d714c045428094d0f3d7b3fe8383e5564256afa9c720a819d38abe50"
+      },
+      {
+        "selector": "events",
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/EVENTS.md",
+        "digest": "1712c5bd1914557cf8e4b62225ab572b90478ff42e66797619176687dd93c870"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "provider-call",
+        "reason": "Invoke authors the contract and plan but performs no API call or upload.",
+        "evidence_ref": "DEFINE-CONTEXT.md#explicit-exclusions"
+      },
+      {
+        "selector": "credential-material",
+        "reason": "Credentials are runtime-only and prohibited from every authored artifact and receipt.",
+        "evidence_ref": "SPEC.md#non-negotiable-invariants"
+      },
+      {
+        "selector": "voice-selection",
+        "reason": "The owner must select one exact stock voice after listening to official demos and closing account gates.",
+        "evidence_ref": "DEFINE-CONTEXT.md#open-decisions-carried-forward"
+      },
+      {
+        "selector": "full-narration-public-release",
+        "reason": "The bounded excerpt audition cannot authorize complete narration, publication, release, or deployment.",
+        "evidence_ref": "SPEC.md#what-this-module-owns"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "voice-provider-findings",
+      "selector": "openai-row-hard-gates-frozen-protocol",
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/findings.md",
+      "digest": "3c6b30f97bd42d850ea3e513141517e36607db9b2b1f0477931e556dfc444dd2"
+    },
+    {
+      "source_id": "voice-provider-synthesis",
+      "selector": "owned-contract-openai-manifest-audition-protocol",
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/synthesis.md",
+      "digest": "9d141998b2674a3a018a8ac71a8dad0e4aaaa49950e1ed78a3bf2c11541b11c1"
+    },
+    {
+      "source_id": "voice-provider-evidence-closure",
+      "selector": "non-actions-and-residue",
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/receipts/evidence-closure.json",
+      "digest": "680d9f4a55d70fe5b7068039c710cd7e81555b37b241e42f771337cb8836da49"
+    },
+    {
+      "source_id": "frozen-audition-excerpt",
+      "selector": "exact-237-word-text",
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/audition-excerpt.txt",
+      "digest": "51d14975800519691d1372bb5449f06b2ab344a3702af4cab86bd32d37475cee"
+    },
+    {
+      "source_id": "openai-speech-docs",
+      "selector": "current-official-speech-contract-summary",
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPENAI-SPEECH-CONTRACT.md",
+      "digest": "7e0e3abaa6824fc724448863bb20ee2718602466b24b4ecc7ed6475a48840427"
+    },
+    {
+      "source_id": "educational-video-validation",
+      "selector": "text-package-pass-with-render-residue",
+      "path": "research/2026-08-03-ontology-authority-agent-context-presentation/educational-video-validation.md",
+      "digest": "fd20e030efcd1b687c4dec49b22f08027b3998ef9fc2b08c1dd75d2d59299782"
+    }
+  ],
+  "human_actors": [
+    {
+      "actor_id": "audition-owner",
+      "natural_person": true,
+      "reads": true,
+      "decides": true,
+      "acts": true,
+      "recovers": true,
+      "navigates": true,
+      "assistive_operation": false,
+      "surfaces": ["AuditionManifest", "AccountGateReceipts"],
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/SPEC.md",
+      "source_digest": "5325181369e1054590e207c7ba9422b2edfba5f2a124c90604640edccb9a9872"
+    },
+    {
+      "actor_id": "production-operator",
+      "natural_person": true,
+      "reads": true,
+      "decides": true,
+      "acts": true,
+      "recovers": false,
+      "navigates": true,
+      "assistive_operation": false,
+      "surfaces": ["BlindScoreSheet", "OperatorDecision"],
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/SPEC.md",
+      "source_digest": "5325181369e1054590e207c7ba9422b2edfba5f2a124c90604640edccb9a9872"
+    }
+  ],
+  "rendered_surfaces": [
+    {
+      "surface_id": "blind-listening-audio",
+      "modality": "audio",
+      "semantic_contract_ref": "SPEC.md#blindanddecide",
+      "semantic_change": "new",
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/SPEC.md",
+      "source_digest": "5325181369e1054590e207c7ba9422b2edfba5f2a124c90604640edccb9a9872"
+    }
+  ],
+  "interfaces": [
+    {
+      "interface_id": "openai-speech-api",
+      "kind": "authenticated-external-api",
+      "peer": "OpenAI",
+      "direction": "outbound",
+      "contract_ref": "INTERFACES.md#external-openai-speech-api",
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/INTERFACES.md",
+      "source_digest": "3224599e24458826dac7369cf81bb67cb95cdcc1d47dc4e83e6cc518ea308ab7"
+    },
+    {
+      "interface_id": "local-audition-cli",
+      "kind": "operator-command-interface",
+      "peer": "local-operator",
+      "direction": "inbound",
+      "contract_ref": "INTERFACES.md#internal-local-audition-runner",
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/INTERFACES.md",
+      "source_digest": "3224599e24458826dac7369cf81bb67cb95cdcc1d47dc4e83e6cc518ea308ab7"
+    }
+  ],
+  "stores": [
+    {
+      "store_id": "audition-run-store",
+      "authority": "candidate-local-evidence-only",
+      "data_classes": ["frozen-script", "raw-audio", "derived-audio", "redacted-metadata", "score-sheets", "decision-records"],
+      "writers": ["local-audition-runner", "verification-operator", "production-operator"],
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPERATIONS.md",
+      "source_digest": "939c79c197be4a3dbc6c8018f76c500fe2fb0a883e64d09c5b4304afa790d048"
+    }
+  ],
+  "queues": [],
+  "writers": [
+    {
+      "writer_id": "local-audition-runner",
+      "targets": ["audition-run-store"],
+      "concurrency": "single-process-per-manifest; unique-run-paths; no overwrite",
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPERATIONS.md",
+      "source_digest": "939c79c197be4a3dbc6c8018f76c500fe2fb0a883e64d09c5b4304afa790d048"
+    }
+  ],
+  "normative_rules": [
+    {
+      "rule_id": "manifest-before-render",
+      "verb": "must-authorize",
+      "subject": "complete immutable audition manifest",
+      "object": "render operation",
+      "enforcement_hint": "reject before credential access or network activity",
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/SPEC.md",
+      "source_digest": "5325181369e1054590e207c7ba9422b2edfba5f2a124c90604640edccb9a9872"
+    },
+    {
+      "rule_id": "ordered-lifecycle",
+      "verb": "must-transition",
+      "subject": "audition candidate state",
+      "object": "only through declared predecessor state",
+      "enforcement_hint": "state-machine guard and receipt binding",
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/STATES.md",
+      "source_digest": "b742fc20d714c045428094d0f3d7b3fe8383e5564256afa9c720a819d38abe50"
+    },
+    {
+      "rule_id": "unsupported-controls-fail-closed",
+      "verb": "must-block",
+      "subject": "undocumented request control or unresolved gate",
+      "object": "admission and render",
+      "enforcement_hint": "manifest schema and redacted request preview validator",
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/SPEC.md",
+      "source_digest": "5325181369e1054590e207c7ba9422b2edfba5f2a124c90604640edccb9a9872"
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "submit-frozen-script-to-openai",
+      "reversible": false,
+      "external": true,
+      "privileged": false,
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/INTERFACES.md",
+      "source_digest": "3224599e24458826dac7369cf81bb67cb95cdcc1d47dc4e83e6cc518ea308ab7"
+    },
+    {
+      "effect_id": "write-candidate-local-evidence",
+      "reversible": true,
+      "external": false,
+      "privileged": false,
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPERATIONS.md",
+      "source_digest": "939c79c197be4a3dbc6c8018f76c500fe2fb0a883e64d09c5b4304afa790d048"
+    }
+  ],
+  "data_and_log_sinks": [
+    {
+      "sink_id": "candidate-local-audition-artifacts",
+      "data_classes": ["owned-script", "generated-audio", "provider-metadata", "human-scores"],
+      "retention_hint": "retention and deletion schedule must be owner-set before render; no credential data",
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPERATIONS.md",
+      "source_digest": "939c79c197be4a3dbc6c8018f76c500fe2fb0a883e64d09c5b4304afa790d048"
+    }
+  ],
+  "deployment_targets": [],
+  "compatibility_boundaries": [
+    {
+      "boundary_id": "docs-snapshot-to-live-account-route",
+      "old_contract": "official documentation snapshot retrieved 2026-08-04",
+      "new_contract": "exact live account route at execution preflight",
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPENAI-SPEECH-CONTRACT.md",
+      "source_digest": "7e0e3abaa6824fc724448863bb20ee2718602466b24b4ecc7ed6475a48840427"
+    }
+  ],
+  "quality_claims": [
+    {
+      "claim_id": "voice-fit-is-empirical",
+      "source_kind": "audition-contract",
+      "threshold_or_tradeoff": "fixed weighted rubric, at least three listeners, two repetitions, and no automatic selection",
+      "required": true,
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/synthesis.md",
+      "source_digest": "9d141998b2674a3a018a8ac71a8dad0e4aaaa49950e1ed78a3bf2c11541b11c1"
+    },
+    {
+      "claim_id": "fidelity-is-exact",
+      "source_kind": "audition-contract",
+      "threshold_or_tradeoff": "no unresolved additions omissions substitutions reordered phrases low-confidence tokens or key-phrase errors",
+      "required": true,
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/synthesis.md",
+      "source_digest": "9d141998b2674a3a018a8ac71a8dad0e4aaaa49950e1ed78a3bf2c11541b11c1"
+    }
+  ],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "openai-audition-define-authored",
+      "selector": "DEFINE-RESULT.md",
+      "evidence_state": "authored-complete",
+      "source_selector": "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/SPEC.md",
+      "source_digest": "5325181369e1054590e207c7ba9422b2edfba5f2a124c90604640edccb9a9872"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "f941dde19822036beb8d47e0fe3a31feb2d7225f679b720b5763c279e5f8aefa",
+  "authored_by": "invoke-design-author"
+}

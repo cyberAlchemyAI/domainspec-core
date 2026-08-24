@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OAIA-DG-003B-voice-identity",
+  "candidates": [
+    {
+      "optionId": "OAIA-VOICE-OWN-CLONE",
+      "label": "Use a private clone of the owner's own voice",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "voice-owner",
+      "evidence": [
+        "chat:user:i-think-we-need-to-go-with-voice-clone",
+        "chat:user:stock-voices-are-too-mechanical",
+        "research.md#agent-2--rights-and-privacy"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-VOICE-SELF-RECORDED",
+      "label": "Record the narration directly without cloning",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "chat:user:stock-voices-are-too-mechanical",
+        "synthesis.md#owned-narration-contract-and-precedent-boundary"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-VOICE-KEEP-STOCK",
+      "label": "Keep the OpenAI stock-voice audition",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "OPENAI-SPEECH-CONTRACT.md#observed-interface",
+        "decision-gate/DECISIONS.md#oaia-dg-003--exact-shared-stock-voice"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-VOICE-IDENTITY-DEFER",
+      "label": "Defer the voice-identity decision",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "decision-gate/DECISIONS.md#remaining-blockers"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OAIA-VOICE-IDENTITY-STOP",
+      "label": "Stop the narration-provider route",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "WORK-PACK.md#objective-summary"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

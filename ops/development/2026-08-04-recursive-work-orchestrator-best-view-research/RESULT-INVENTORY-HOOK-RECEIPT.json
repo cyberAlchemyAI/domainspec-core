@@ -1,0 +1,43 @@
+{
+  "schema_version": "recursive-orchestrator.result-inventory-hook.v1",
+  "status": "blocked",
+  "authority_effect": "none",
+  "attempted_at": "2026-08-04T21:20:35Z",
+  "candidate_records": [
+    {
+      "id": "recursive-work-orchestrator-best-view-raw-research",
+      "record_source": ".arcanum/inventory/tmp/recursive-work-orchestrator-best-view-raw-research.record.json",
+      "source_path": "../../projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/research/2026-08-04-best-understanding-view/research.md",
+      "dry_run": "pass"
+    },
+    {
+      "id": "recursive-work-orchestrator-best-view-research-result-synthesis",
+      "record_source": ".arcanum/inventory/tmp/recursive-work-orchestrator-best-view-research-result-synthesis.record.json",
+      "source_path": "../../projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/research/2026-08-04-best-understanding-view/findings.md",
+      "dry_run": "pass"
+    }
+  ],
+  "current_projection_hashes": {
+    "index_json": "62b8896e94bd4ea31ecae5cc7880e755138b296dd8918a3847e76a3a6f245bba",
+    "index_md": "b4ed9eb1634eb17bd709c6c37632d0b4a255c1e4946124d333c16aa538ba05be"
+  },
+  "dry_run_stability": "two repeated dry-run sequences left both current projection hashes unchanged",
+  "blocker": "Both valid candidate paths use the existing ../../projects source pattern. The deterministic updater has no index.md table route for that prefix and explicitly requires a manual row; the governed hook forbids manually bypassing synchronized projections. The earlier staged full-index validator also remains unable to resolve repository-relative sources outside its temporary .arcanum/inventory subtree.",
+  "warnings": [
+    "one no-index-md-table warning per candidate",
+    "inherited controlled-tag warnings remain present",
+    "strategy-era Inventory projection hashes drifted before this result hook; no attribution or repair is claimed"
+  ],
+  "write": {
+    "attempted": false,
+    "committed": false,
+    "observed_changed_paths": [],
+    "manual_bypass": false
+  },
+  "residue": [
+    "result records remain candidate-local under .arcanum/inventory/tmp",
+    "research.md and findings.md are not yet present in index.json or index.md",
+    "repair deterministic staging and define an owned index.md route for external repository paths before retrying",
+    "no authority currentness publication promotion release or deployment claim"
+  ]
+}

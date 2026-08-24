@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-08-01T01:42:22Z",
+  "run_id": "distill-uoc-plan-20260731",
+  "session_id": "2026-07-31-unified-ontology-canvas-invoke",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "standard",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "standard",
+    "alias": null
+  },
+  "lineage": {
+    "parent_run_id": "invoke-unified-ontology-canvas-20260731",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "define-design-plan"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "emission_status": "complete",
+    "distill_run_request_ref": {
+      "path": "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/DISTILL-RUN-REQUEST.json",
+      "sha256": "dc86c7736a35536ce60d3c61ed4d1e5d573683d611bd324b847209179ec9d90d",
+      "size_bytes": 2107
+    },
+    "runtime_event_refs": [
+      {
+        "path": "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/DISTILL-RUNTIME-EVENTS.jsonl",
+        "sha256": "15e70cf002a80ee2a72d084e7f5967b87d287af32d78d7d0b9a07c6b1586c416",
+        "size_bytes": 1967
+      }
+    ],
+    "execution_receipt_ref": {
+      "path": "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/DISTILL-EXECUTION-RECEIPT.json",
+      "sha256": "15c30d25b131f7a7c0a79878248e5e2d949dbed05de2c003bcbff125b4a07bf2",
+      "size_bytes": 7377
+    },
+    "validation_result_ref": {
+      "path": "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/DISTILL-VALIDATION-RESULT.json",
+      "sha256": "5b9ed090cee4a8efca27e182612c1fc8a20fa8a1a23288cc38c38f9eb8a2784b",
+      "size_bytes": 1566
+    }
+  },
+  "request": {
+    "raw": null,
+    "summary": "Balance the unified ontology canvas Plan for atomicity, exact acceptance, recomposition, source provenance, and closeout completeness.",
+    "intent": "Validate Plan quality without selecting an SWU or authorizing product mutation."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/PLAN-DISTILL-VALIDATION.md",
+      "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/DISTILL-EXECUTION-RECEIPT.json",
+      "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/DISTILL-VALIDATION-RESULT.json"
+    ],
+    "files_changed": [],
+    "validation": [
+      "fifteen unique one-behavior mutation SWUs: pass",
+      "terminal verification inventory: pass",
+      "first-unit narrowness: pass",
+      "Design recomposition: pass",
+      "mutation handoff allowed: false"
+    ],
+    "notes": "The bounded read-only Balancer blocked the initial draft and found residual defects in the convergence audit; the Invoke parent repaired the planning bytes and the final validator passed."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "quality-bar",
+        "severity": "low",
+        "summary": "Human comprehension and graph-density thresholds remain future evidence.",
+        "evidence": "DISTILL-EXECUTION-RECEIPT.json records the gap and the Work Pack makes no usability or density claim."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/implementation-conformance/unified-ontology-canvas/WORK-PACK.md"
+}

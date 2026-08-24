@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "iro-full-stream-swu-iro-003-candidate-runtime-v1",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "candidate-lifecycle-owner",
+  "authority_class": "private",
+  "publication_class": "internal",
+  "source_artifacts": [
+    {"path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/tasks/TASK-IRO-CANDIDATE-001.md", "sha256": "3ecaee8dc771c0431caf56e8968282ebcf6172f5cc291da385c08da3a7c46fe5", "size_bytes": 1428, "authority_class": "private"},
+    {"path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/WORK-PACK.md", "sha256": "4c63878b217b8976e87ceee00ab3be2d87a9910ffc32f0475611cfce92583d5c", "size_bytes": 10249, "authority_class": "private"},
+    {"path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-003/CONTEXT-PACK.json", "sha256": "dbe9727f1639382d0938d1196d349c68b43ab63184dd08d2c4315499ae8ae967", "size_bytes": 6681, "authority_class": "private"},
+    {"path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/shared/EXECUTION-CONTRACT.json", "sha256": "a7dfdf655e4898659bf9b3f96b4ee9a71dec84a62b4362e619fabf66c8dc49f2", "size_bytes": 22261, "authority_class": "private"},
+    {"path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/readiness/20260802T021738Z/outputs/objective-execution-manifest.json", "sha256": "a27a5f668f8a5e5db44e86fb2c74f0c827aecee02e6d8f1d1890767723beef93", "size_bytes": 101778, "authority_class": "private"}
+  ],
+  "changes": [
+    {
+      "target_path": "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**",
+      "operation": "update",
+      "output_ref": {"path": ".arcanum/invoke/refresh/iro-full-stream-20260802T021738Z-swu003/closure-inventory.json", "sha256": "51819d12ca7a198a8986f1982d53c1f1311e94b8fbada12355f5291cf1154ec9", "size_bytes": 6936}
+    }
+  ],
+  "target_inventory": [
+    {"target_path": "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**", "lifecycle_owner": "candidate-lifecycle-owner", "authority_class": "private", "publication_class": "internal", "dependency_ids": ["IRO-002-terminal", "IRO-002-closeout-owner"]}
+  ],
+  "dependencies": [
+    {"dependency_id": "IRO-002-terminal", "artifact_ref": {"path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/terminal-receipt.json", "sha256": "93ad75f16cb8eeb97c0473756dd13fc8681ab644ed1aad0dc0960a02382ea91f", "size_bytes": 9667}},
+    {"dependency_id": "IRO-002-closeout-owner", "artifact_ref": {"path": "ops/development/2026-08-01-intent-route-arcanum-addon/planning/work-pack/session-evidence/IRO-FULL-STREAM/20260802T021738Z/SWU-IRO-002/closeout-owner-receipt.json", "sha256": "2208cac2ba3febfdbc0d33ddd743fd582968ad7cee9d51fde53b96177bbcf39a", "size_bytes": 1841}}
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "candidate-lifecycle-owner",
+    "scope_paths": ["ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"],
+    "authority_classes": ["private"],
+    "publication_classes": ["internal"]
+  },
+  "validation_commands": [
+    "node --test ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/test/*.test.mjs",
+    "node ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/scripts/run-node-witness.mjs --output ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/development/runs/IRO-003-node-witness.json",
+    "node ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/scripts/scan-boundary.mjs",
+    "node ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/scripts/validate-browser-witness.mjs ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/development/runs/IRO-003-browser-witness.json",
+    "git diff --check -- ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil"
+  ]
+}

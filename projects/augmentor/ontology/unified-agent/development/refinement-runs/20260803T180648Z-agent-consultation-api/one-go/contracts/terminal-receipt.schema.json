@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "augmentor.consultation.chain-terminal-receipt@0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "unit_id", "step_id", "status", "work_pack_sha256", "artifacts", "validation", "validation_result", "blockers", "task_session_terminal_ref", "closeout_owner_ref", "router_verification_ref", "continuity_cursor", "successor"],
+  "properties": {
+    "schema_version": {"const": "augmentor.consultation.chain-terminal-receipt@0.1.0"},
+    "unit_id": {"type": "string", "pattern": "^SWU-ACAPI-[0-9]{3}$"},
+    "step_id": {"type": "string", "pattern": "^l0-[0-9]{3}$"},
+    "status": {"enum": ["pass", "flag", "block"]},
+    "work_pack_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifacts": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}}},
+    "validation": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["argv", "exit_code"], "properties": {"argv": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "exit_code": {"type": "integer"}}}},
+    "validation_result": {"enum": ["pass", "block", "not-run"]},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "task_session_terminal_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}},
+    "closeout_owner_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}},
+    "router_verification_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}},
+    "continuity_cursor": {"type": "string", "minLength": 1},
+    "successor": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "pass"}}, "required": ["status"]},
+      "then": {"properties": {"artifacts": {"minItems": 1}, "validation": {"minItems": 1}, "validation_result": {"const": "pass"}, "blockers": {"maxItems": 0}}}
+    }
+  ]
+}

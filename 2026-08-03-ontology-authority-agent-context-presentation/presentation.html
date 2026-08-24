@@ -1,0 +1,2095 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#070a10">
+  <meta
+    name="description"
+    content="A story-driven 15-minute presentation about ontologies, memory, context, and authority for agents."
+  >
+  <link rel="icon" href="data:,">
+  <title>Ontologies as Knowledge Spaces</title>
+  <style>
+    :root {
+      --ink: #f5f7ff;
+      --muted: #aeb8ca;
+      --dim: #737f93;
+      --charcoal: #070a10;
+      --panel: rgba(9, 14, 24, 0.78);
+      --panel-strong: rgba(7, 10, 16, 0.94);
+      --line: rgba(202, 218, 255, 0.18);
+      --source: #c8c0b2;
+      --evidence: #4d84ff;
+      --meaning: #52d8ed;
+      --candidate: #f2ad4d;
+      --governed: #55d989;
+      --authority: #b577ff;
+      --danger: #ff704d;
+      --radius: 1.4rem;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --safe-inline: clamp(1.5rem, 5vw, 6rem);
+      --safe-block: clamp(1.5rem, 5vh, 4.5rem);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--charcoal);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 15%, rgba(69, 101, 154, 0.12), transparent 42%),
+        var(--charcoal);
+    }
+
+    body {
+      position: relative;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 3px solid var(--meaning);
+      outline-offset: 4px;
+    }
+
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .ambient-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background-image:
+        linear-gradient(rgba(140, 170, 220, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(140, 170, 220, 0.06) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    #deck {
+      position: fixed;
+      inset: 0;
+      isolation: isolate;
+    }
+
+    .slide {
+      --image-position: center;
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-items: stretch;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(1.012);
+      transition:
+        opacity 420ms var(--ease),
+        transform 620ms var(--ease),
+        visibility 0s linear 620ms;
+      background: var(--charcoal);
+      overflow: hidden;
+    }
+
+    .slide.is-active {
+      z-index: 2;
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+      transition-delay: 0s;
+    }
+
+    .slide__visual {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      overflow: hidden;
+      background: var(--charcoal);
+    }
+
+    .slide__visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: var(--image-position);
+      filter: brightness(0.78) saturate(0.92);
+      transform: scale(1.015);
+    }
+
+    .slide.is-active .slide__visual img {
+      transform-origin: var(--image-position);
+      animation: story-drift 18s var(--ease) both;
+    }
+
+    @keyframes story-drift {
+      from {
+        transform: scale(1.015);
+      }
+      to {
+        transform: scale(1.075);
+      }
+    }
+
+    .slide__visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(4, 7, 12, 0.96) 0%, rgba(4, 7, 12, 0.62) 38%, rgba(4, 7, 12, 0.08) 72%),
+        linear-gradient(180deg, rgba(4, 7, 12, 0.5), transparent 28%, rgba(4, 7, 12, 0.52));
+      pointer-events: none;
+    }
+
+    .slide--center .slide__visual::after {
+      background:
+        radial-gradient(circle at center, rgba(4, 7, 12, 0.08), rgba(4, 7, 12, 0.56) 74%),
+        linear-gradient(180deg, rgba(4, 7, 12, 0.72), transparent 25%, rgba(4, 7, 12, 0.7));
+    }
+
+    .slide--right .slide__visual::after {
+      background:
+        linear-gradient(270deg, rgba(4, 7, 12, 0.95) 0%, rgba(4, 7, 12, 0.58) 42%, rgba(4, 7, 12, 0.06) 76%),
+        linear-gradient(180deg, rgba(4, 7, 12, 0.52), transparent 28%, rgba(4, 7, 12, 0.58));
+    }
+
+    .slide__content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--safe-block) var(--safe-inline) calc(var(--safe-block) + 2.5rem);
+    }
+
+    .slide--center .slide__content {
+      align-items: center;
+      text-align: center;
+    }
+
+    .slide--right .slide__content {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .slide__copy {
+      width: min(56rem, 64vw);
+    }
+
+    .slide--center .slide__copy {
+      width: min(76rem, 86vw);
+    }
+
+    .slide--right .slide__copy {
+      width: min(48rem, 54vw);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin: 0 0 1.1rem;
+      color: var(--meaning);
+      font-size: clamp(0.72rem, 1vw, 0.92rem);
+      font-weight: 760;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 2.5rem;
+      height: 2px;
+      background: currentColor;
+      box-shadow: 0 0 16px currentColor;
+    }
+
+    .slide--center .eyebrow::before {
+      display: none;
+    }
+
+    h1,
+    h2,
+    p {
+      margin-top: 0;
+    }
+
+    h1,
+    h2 {
+      margin-bottom: 1.3rem;
+      text-wrap: balance;
+      letter-spacing: -0.048em;
+      line-height: 0.98;
+    }
+
+    h1 {
+      max-width: 13ch;
+      font-size: clamp(3.5rem, 8.4vw, 8.7rem);
+      font-weight: 760;
+    }
+
+    h2 {
+      max-width: 17ch;
+      font-size: clamp(3rem, 6.8vw, 7.4rem);
+      font-weight: 735;
+    }
+
+    .compact-title {
+      max-width: 22ch;
+      font-size: clamp(2.6rem, 4.7vw, 5.4rem);
+      line-height: 1.02;
+    }
+
+    .slide--center h1,
+    .slide--center h2 {
+      max-width: 18ch;
+    }
+
+    .subtitle {
+      max-width: 40rem;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: clamp(1.15rem, 2.1vw, 2rem);
+      line-height: 1.38;
+      text-wrap: balance;
+    }
+
+    .accent {
+      color: var(--meaning);
+      text-shadow: 0 0 28px rgba(82, 216, 237, 0.25);
+    }
+
+    .accent--candidate {
+      color: var(--candidate);
+    }
+
+    .accent--authority {
+      color: var(--authority);
+    }
+
+    .accent--governed {
+      color: var(--governed);
+    }
+
+    .slide__index {
+      position: absolute;
+      top: var(--safe-block);
+      right: var(--safe-inline);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: rgba(226, 235, 255, 0.58);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .slide__index strong {
+      color: var(--ink);
+      font-size: 1rem;
+    }
+
+    .decision-card {
+      width: min(27rem, 76vw);
+      margin-top: 1.2rem;
+      padding: clamp(1.2rem, 2.5vw, 2.2rem);
+      border: 1px solid rgba(129, 168, 255, 0.34);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(145deg, rgba(38, 72, 145, 0.62), rgba(10, 19, 38, 0.92));
+      box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.36),
+        inset 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .decision-card__label {
+      margin: 0 0 0.7rem;
+      color: #cad8f5;
+      font-size: clamp(0.85rem, 1.15vw, 1.05rem);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .decision-card__state {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 0;
+      color: var(--governed);
+      font-size: clamp(2.1rem, 4.2vw, 4.2rem);
+      font-weight: 820;
+      letter-spacing: -0.03em;
+    }
+
+    .decision-card__state::before {
+      content: "✓";
+      display: grid;
+      place-items: center;
+      width: 1.1em;
+      height: 1.1em;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      font-size: 0.52em;
+    }
+
+    .decision-card__date {
+      margin: 0.6rem 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.4vw, 1.25rem);
+    }
+
+    .interaction {
+      max-width: 48rem;
+      margin: 1.4rem 0 0;
+      padding: 1rem 1.2rem;
+      border-left: 3px solid var(--candidate);
+      background: rgba(12, 17, 27, 0.72);
+      color: #f8e3c6;
+      font-size: clamp(1rem, 1.55vw, 1.36rem);
+      line-height: 1.4;
+    }
+
+    .quote-title {
+      max-width: 15ch;
+      font-size: clamp(3.4rem, 7.2vw, 7.8rem);
+      line-height: 1.02;
+    }
+
+    .feature-strip,
+    .role-strip,
+    .beat-strip,
+    .status-strip,
+    .ladder-labels {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 0.7rem;
+      margin-top: 1.8rem;
+    }
+
+    .feature,
+    .role,
+    .beat,
+    .status,
+    .ladder-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3rem;
+      padding: 0.78rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(7, 12, 21, 0.76);
+      color: #dfe8f8;
+      font-size: clamp(0.82rem, 1.08vw, 1.06rem);
+      font-weight: 680;
+      letter-spacing: 0.015em;
+      backdrop-filter: blur(12px);
+    }
+
+    .feature {
+      border-color: rgba(82, 216, 237, 0.26);
+    }
+
+    .relation {
+      display: grid;
+      grid-template-columns: auto minmax(8rem, 1fr) auto;
+      align-items: center;
+      gap: clamp(0.7rem, 1.8vw, 1.7rem);
+      width: min(58rem, 86vw);
+      margin-top: 2rem;
+    }
+
+    .relation__node {
+      display: grid;
+      place-items: center;
+      min-width: clamp(8rem, 18vw, 15rem);
+      min-height: clamp(5rem, 10vw, 8rem);
+      padding: 1rem;
+      border: 1px solid rgba(82, 216, 237, 0.46);
+      border-radius: var(--radius);
+      background: rgba(7, 15, 27, 0.78);
+      color: var(--ink);
+      font-size: clamp(1.15rem, 2.25vw, 2.15rem);
+      font-weight: 760;
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+    }
+
+    .relation__node:last-child {
+      border-color: rgba(77, 132, 255, 0.48);
+    }
+
+    .relation__edge {
+      position: relative;
+      height: 3px;
+      background: linear-gradient(90deg, var(--meaning), var(--evidence));
+      box-shadow: 0 0 18px rgba(82, 216, 237, 0.48);
+    }
+
+    .relation__edge::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -1px;
+      width: 0.8rem;
+      height: 0.8rem;
+      border-top: 3px solid var(--evidence);
+      border-right: 3px solid var(--evidence);
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    .relation__verb {
+      position: absolute;
+      left: 50%;
+      bottom: 0.72rem;
+      transform: translateX(-50%);
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      background: var(--panel-strong);
+      color: var(--meaning);
+      font-size: clamp(0.8rem, 1vw, 1rem);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .confidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+      width: min(36rem, 80vw);
+      margin-top: 1.6rem;
+    }
+
+    .metric {
+      padding: 1rem 1.15rem;
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      background: rgba(8, 13, 22, 0.82);
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.83rem;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 0.25rem;
+      font-size: clamp(1.4rem, 2.5vw, 2.4rem);
+    }
+
+    .metric:first-child strong {
+      color: var(--meaning);
+    }
+
+    .metric:last-child strong {
+      color: var(--candidate);
+    }
+
+    .negative-edge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-top: 0.85rem;
+      padding: 0.78rem 1rem;
+      border: 1px solid rgba(255, 112, 77, 0.34);
+      border-radius: 0.9rem;
+      background: rgba(45, 17, 13, 0.72);
+      color: #ffd3c8;
+      font-size: clamp(0.88rem, 1.2vw, 1.1rem);
+      font-weight: 700;
+    }
+
+    .negative-edge strong {
+      color: var(--danger);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .ladder-labels {
+      width: min(86rem, 100%);
+      justify-content: space-between;
+      gap: 0.35rem;
+      margin: auto auto 0;
+    }
+
+    .ladder-label {
+      flex: 1 1 7rem;
+      border-radius: 0.8rem;
+      padding-inline: 0.55rem;
+      background: rgba(5, 9, 15, 0.84);
+      font-size: clamp(0.68rem, 0.95vw, 0.96rem);
+    }
+
+    .ladder-label:nth-child(1) { color: var(--source); }
+    .ladder-label:nth-child(2) { color: #8fb0ff; }
+    .ladder-label:nth-child(3) { color: var(--candidate); }
+    .ladder-label:nth-child(4) {
+      color: var(--authority);
+      border-color: rgba(181, 119, 255, 0.55);
+    }
+    .ladder-label:nth-child(5) { color: var(--governed); }
+    .ladder-label:nth-child(6) { color: var(--meaning); }
+
+    .role-strip {
+      width: min(70rem, 88vw);
+      flex-wrap: nowrap;
+    }
+
+    .role {
+      position: relative;
+      flex: 1 1 0;
+      border-radius: 0.9rem;
+      color: var(--muted);
+      font-size: clamp(0.7rem, 1vw, 1rem);
+    }
+
+    .role:not(:last-child)::after {
+      content: "≠";
+      position: absolute;
+      right: -0.75rem;
+      z-index: 2;
+      color: var(--candidate);
+      font-weight: 900;
+    }
+
+    .reveal-stack {
+      display: grid;
+      gap: 0.75rem;
+      width: min(41rem, 86vw);
+      margin-top: 1.6rem;
+    }
+
+    .fragment {
+      opacity: 0;
+      transform: translateY(16px);
+      transition:
+        opacity 360ms var(--ease),
+        transform 520ms var(--ease);
+    }
+
+    .fragment.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fact {
+      display: grid;
+      grid-template-columns: minmax(8rem, 0.9fr) minmax(10rem, 1.2fr);
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--line);
+      border-radius: 0.95rem;
+      background: rgba(7, 11, 19, 0.86);
+      text-align: left;
+    }
+
+    .fact span {
+      color: var(--muted);
+      font-size: clamp(0.82rem, 1.1vw, 1rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .fact strong {
+      color: var(--candidate);
+      font-size: clamp(1.05rem, 1.7vw, 1.5rem);
+    }
+
+    .answer {
+      margin-top: 0.3rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(82, 216, 237, 0.36);
+      border-radius: 0.95rem;
+      background: rgba(9, 37, 45, 0.72);
+      color: var(--meaning);
+      font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+      font-weight: 750;
+      text-align: center;
+    }
+
+    .lane-card {
+      width: min(44rem, 82vw);
+      margin-top: 1.35rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(82, 216, 237, 0.24);
+      border-radius: 1rem;
+      background: rgba(5, 10, 17, 0.78);
+      backdrop-filter: blur(12px);
+    }
+
+    .lane {
+      display: grid;
+      grid-template-columns: 8.5rem 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.7rem 0;
+    }
+
+    .lane + .lane {
+      border-top: 1px solid var(--line);
+    }
+
+    .lane span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 760;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .lane strong {
+      color: #e8eef8;
+      font-size: clamp(0.9rem, 1.25vw, 1.15rem);
+      font-weight: 650;
+    }
+
+    .authority-effect {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-top: 0.8rem;
+      padding: 0.65rem 0.9rem;
+      border: 1px solid rgba(181, 119, 255, 0.5);
+      border-radius: 999px;
+      background: rgba(36, 16, 58, 0.72);
+      color: #ddc0ff;
+      font-size: 0.84rem;
+      font-weight: 820;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .authority-effect::before {
+      content: "∅";
+      display: grid;
+      place-items: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+    }
+
+    .beat-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      width: min(80rem, 100%);
+      margin-top: 2.6rem;
+      counter-reset: beat;
+    }
+
+    .beat {
+      position: relative;
+      min-height: 7rem;
+      border-radius: 1rem;
+      counter-increment: beat;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: clamp(0.9rem, 1.35vw, 1.25rem);
+    }
+
+    .beat::before {
+      content: counter(beat, decimal-leading-zero);
+      color: var(--meaning);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+    }
+
+    .beat:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -1.05rem;
+      z-index: 2;
+      color: var(--meaning);
+      font-size: 1.25rem;
+    }
+
+    .retell-prompt {
+      max-width: 54rem;
+      margin: 0.7rem auto 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 1.7vw, 1.5rem);
+      line-height: 1.45;
+      text-wrap: balance;
+    }
+
+    .closing-line {
+      margin-top: 1.2rem;
+      padding: 1rem 1.4rem;
+      border-top: 1px solid rgba(181, 119, 255, 0.5);
+      color: #eadcff;
+      font-size: clamp(1.25rem, 2.2vw, 2rem);
+      font-weight: 720;
+      letter-spacing: -0.02em;
+    }
+
+    .controls {
+      position: fixed;
+      z-index: 10;
+      right: clamp(0.8rem, 2vw, 1.5rem);
+      bottom: clamp(0.8rem, 2vw, 1.4rem);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem;
+      border: 1px solid rgba(207, 222, 255, 0.14);
+      border-radius: 999px;
+      background: rgba(4, 7, 12, 0.74);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(18px);
+      transition: opacity 240ms ease;
+    }
+
+    body.controls-idle .controls {
+      opacity: 0.24;
+    }
+
+    body.controls-idle .controls:hover,
+    body.controls-idle .controls:focus-within {
+      opacity: 1;
+    }
+
+    .control {
+      display: grid;
+      place-items: center;
+      min-width: 2.65rem;
+      height: 2.65rem;
+      padding: 0 0.8rem;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition:
+        color 180ms ease,
+        background 180ms ease,
+        transform 180ms ease;
+    }
+
+    .control:hover {
+      color: var(--ink);
+      background: rgba(205, 222, 255, 0.1);
+    }
+
+    .control:active {
+      transform: scale(0.94);
+    }
+
+    .control--timer {
+      min-width: 5.8rem;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+      font-weight: 760;
+    }
+
+    .control--timer.is-running {
+      color: var(--governed);
+    }
+
+    .control--timer.is-warning {
+      color: var(--candidate);
+    }
+
+    .control--timer.is-over {
+      color: var(--danger);
+    }
+
+    .progress {
+      position: fixed;
+      z-index: 11;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .progress__bar {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--evidence), var(--meaning), var(--authority));
+      box-shadow: 0 0 12px rgba(82, 216, 237, 0.4);
+      transition: width 420ms var(--ease);
+    }
+
+    .notes {
+      position: fixed;
+      z-index: 20;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(34rem, 92vw);
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid rgba(208, 221, 255, 0.16);
+      background: rgba(5, 8, 14, 0.97);
+      box-shadow: -24px 0 80px rgba(0, 0, 0, 0.46);
+      transform: translateX(105%);
+      transition: transform 420ms var(--ease);
+      backdrop-filter: blur(24px);
+    }
+
+    .notes.is-open {
+      transform: translateX(0);
+    }
+
+    .notes__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.25rem 1.3rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .notes__header p {
+      margin: 0;
+      color: var(--meaning);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .notes__header h3 {
+      margin: 0.35rem 0 0;
+      font-size: 1.25rem;
+    }
+
+    .notes__close {
+      flex: 0 0 auto;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .notes__body {
+      overflow-y: auto;
+      padding: 1.3rem;
+      color: #d6ddeb;
+      line-height: 1.55;
+    }
+
+    .notes__body h4 {
+      margin: 1.35rem 0 0.45rem;
+      color: var(--candidate);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .notes__body h4:first-child {
+      margin-top: 0;
+    }
+
+    .notes__body p,
+    .notes__body li {
+      font-size: 0.98rem;
+    }
+
+    .notes__body ul {
+      padding-left: 1.25rem;
+    }
+
+    dialog {
+      width: min(44rem, calc(100vw - 2rem));
+      padding: 0;
+      border: 1px solid rgba(208, 221, 255, 0.18);
+      border-radius: 1.4rem;
+      background: rgba(7, 11, 19, 0.98);
+      color: var(--ink);
+      box-shadow: 0 32px 120px rgba(0, 0, 0, 0.62);
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+    }
+
+    .help {
+      padding: 1.5rem;
+    }
+
+    .help h2 {
+      margin-bottom: 0.6rem;
+      font-size: 2rem;
+    }
+
+    .help p {
+      color: var(--muted);
+    }
+
+    .shortcut-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+      margin: 1.25rem 0;
+    }
+
+    .shortcut {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.8rem 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: 0.8rem;
+      color: var(--muted);
+    }
+
+    kbd {
+      min-width: 2rem;
+      padding: 0.25rem 0.45rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 0.4rem;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--ink);
+      text-align: center;
+      box-shadow: 0 2px rgba(0, 0, 0, 0.4);
+    }
+
+    .help__close {
+      width: 100%;
+      min-height: 2.8rem;
+      border: 1px solid rgba(82, 216, 237, 0.38);
+      border-radius: 0.8rem;
+      background: rgba(82, 216, 237, 0.1);
+      color: var(--meaning);
+      font-weight: 760;
+      cursor: pointer;
+    }
+
+    .slide-announcer {
+      position: fixed;
+    }
+
+    @media (max-width: 900px), (max-aspect-ratio: 4 / 3) {
+      :root {
+        --safe-inline: clamp(1.25rem, 5vw, 3rem);
+        --safe-block: clamp(1.4rem, 4vh, 3rem);
+      }
+
+      .slide__visual img {
+        object-position: center;
+      }
+
+      .slide__visual::after,
+      .slide--right .slide__visual::after {
+        background:
+          linear-gradient(180deg, rgba(4, 7, 12, 0.72), rgba(4, 7, 12, 0.38) 45%, rgba(4, 7, 12, 0.88));
+      }
+
+      .slide__content,
+      .slide--right .slide__content {
+        justify-content: flex-end;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .slide__copy,
+      .slide--right .slide__copy {
+        width: min(100%, 48rem);
+      }
+
+      h1,
+      h2,
+      .slide--center h1,
+      .slide--center h2 {
+        max-width: 18ch;
+      }
+
+      .role-strip {
+        flex-wrap: wrap;
+      }
+
+      .role {
+        flex: 1 1 8rem;
+      }
+
+      .role::after {
+        display: none;
+      }
+
+      .beat-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .beat:not(:last-child)::after {
+        display: none;
+      }
+
+      .ladder-labels {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .lane {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+      }
+    }
+
+    @media (max-width: 620px) {
+      h1 {
+        font-size: clamp(2.65rem, 14vw, 4.6rem);
+      }
+
+      h2 {
+        font-size: clamp(2.35rem, 12vw, 4rem);
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+
+      .slide__index {
+        display: none;
+      }
+
+      .controls {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+      }
+
+      .control[data-control="help"],
+      .control[data-control="fullscreen"] {
+        display: none;
+      }
+
+      .confidence-grid,
+      .relation {
+        grid-template-columns: 1fr;
+      }
+
+      .relation__edge {
+        width: 3px;
+        height: 3.5rem;
+        margin-inline: auto;
+        background: linear-gradient(180deg, var(--meaning), var(--evidence));
+      }
+
+      .relation__edge::after {
+        top: auto;
+        right: 50%;
+        bottom: 0;
+        transform: translateX(50%) rotate(135deg);
+      }
+
+      .relation__verb {
+        left: 1rem;
+        bottom: 50%;
+        transform: translateY(50%);
+      }
+
+      .fact {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+
+      .shortcut-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .beat-strip {
+        gap: 0.45rem;
+      }
+
+      .beat {
+        min-height: 5.2rem;
+        padding: 0.55rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    @media print {
+      @page {
+        size: 13.333in 7.5in;
+        margin: 0;
+      }
+
+      html,
+      body {
+        height: auto;
+        overflow: visible;
+        background: #070a10;
+      }
+
+      #deck {
+        position: static;
+      }
+
+      .slide {
+        position: relative;
+        display: grid;
+        width: 13.333in;
+        height: 7.5in;
+        break-after: page;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+      }
+
+      .fragment {
+        opacity: 1;
+        transform: none;
+      }
+
+      .controls,
+      .progress,
+      .notes,
+      dialog,
+      .ambient-grid {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-grid" aria-hidden="true"></div>
+
+  <main id="deck" aria-label="Ontologies as Knowledge Spaces presentation">
+    <section class="slide is-active slide--center" id="slide-1" data-title="A knowledge space" aria-hidden="false">
+      <figure class="slide__visual">
+        <img src="images/01-knowledge-space.png" alt="">
+        <figcaption class="sr-only">
+          A bounded island of concepts is surrounded by relationships, time,
+          confidence, provenance, and lifecycle markers inside a larger unknown world.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>01</strong><span>/ 12 · 0:00–0:55</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <h1>Ontologies are <span class="accent">knowledge spaces.</span></h1>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>I keep coming back to this sentence: ontologies are knowledge spaces.</p>
+        <p>
+          Not because it sounds elegant, but because it changes what we think an
+          agent actually needs.
+        </p>
+        <p>
+          A database can hold facts. Search can find a passage. Memory can bring
+          an old conversation back. But none of those things, by themselves,
+          tell the agent what kind of thing it found, what it connects to,
+          whether it is still current, or what it is allowed to do with it.
+        </p>
+        <p>
+          A knowledge space models a small, deliberate part of a world: the
+          concepts that matter, the relationships between them, how those
+          relationships change over time, and how much confidence we place in them.
+        </p>
+        <h4>Delivery</h4>
+        <p>Speak quietly. Pause after the first sentence. This is a bounded model, not complete truth.</p>
+      </template>
+    </section>
+
+    <section class="slide" id="slide-2" data-title="A human question" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/02-memory-is-not-understanding.png" alt="">
+        <figcaption class="sr-only">
+          A field of remembered records waits around an incomplete interpretation
+          frame while one possible decision record begins to glow.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>02</strong><span>/ 12 · 0:55–1:55</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <p class="eyebrow">A human question</p>
+          <h2>A team is ready to announce a new community program.</h2>
+          <p class="interaction fragment">“Are we actually allowed to go ahead?”</p>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>Let’s give this a human setting.</p>
+        <p>
+          A team has spent weeks preparing a new community program. The partners
+          are ready. The announcement is scheduled. People have already begun
+          arranging their work around it.
+        </p>
+        <p>
+          Then, just before the message goes out, someone pauses and asks a very
+          ordinary question: “Are we actually allowed to go ahead?”
+        </p>
+        <p>
+          So the agent does what we have taught agents to do. It searches the
+          material it remembers: meeting notes, decision logs, old conversations,
+          project records. Somewhere in that history, there should be an answer.
+        </p>
+        <p>
+          The team is not asking what somebody once wrote. They are asking what
+          they may do now.
+        </p>
+        <h4>Delivery</h4>
+        <p>Advance once to reveal the spoken question. Keep the stakes ordinary and real.</p>
+      </template>
+    </section>
+
+    <section class="slide slide--center" id="slide-3" data-title="The seductive answer" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/02-memory-is-not-understanding.png" alt="">
+        <figcaption class="sr-only">
+          One genuine historical approval record glows inside a large memory
+          field, while the current meaning and owner permission remain unresolved.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>03</strong><span>/ 12 · 1:55–2:35</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <p class="eyebrow">The seductive answer</p>
+          <div class="decision-card" aria-label="An earlier official decision record says approved">
+            <p class="decision-card__label">Earlier official decision</p>
+            <p class="decision-card__state">Approved</p>
+            <p class="decision-card__date">Genuine record · date visible</p>
+          </div>
+          <h2 class="fragment">Permission today—or evidence from the past?</h2>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>
+          The agent finds an official record. The source is genuine. The decision
+          says “approved.” There is even a date and a familiar name attached to it.
+        </p>
+        <p>
+          At first, this feels like success. In a demo, this is the moment when
+          everyone relaxes: the agent found the answer.
+        </p>
+        <p>But did it?</p>
+        <p>Did it find permission today—or evidence that permission existed sometime in the past?</p>
+        <p>Before I add anything else, hold your own answer. Would you let the announcement go out?</p>
+        <h4>Interaction</h4>
+        <p>Reveal the question, then give the room three quiet seconds. Do not reveal the missing facts yet.</p>
+      </template>
+    </section>
+
+    <section class="slide" id="slide-4" data-title="Put the world back" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/01-knowledge-space.png" alt="">
+        <figcaption class="sr-only">
+          Kind, relationships, time, confidence, ownership, provenance, and use
+          conditions progressively surround one remembered decision record.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>04</strong><span>/ 12 · 2:35–3:45</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <h2>Memory kept the record.<br><span class="accent--candidate">It lost the world around it.</span></h2>
+          <div class="feature-strip fragment" aria-label="The world around a remembered record">
+            <span class="feature">Kind</span>
+            <span class="feature">Relationships</span>
+            <span class="feature">Time</span>
+            <span class="feature">Confidence</span>
+            <span class="feature">Ownership</span>
+            <span class="feature">Rules for use</span>
+          </div>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>This is where an ontology stops being abstract.</p>
+        <p>
+          Memory preserved the sentence. What it did not preserve, at least not
+          in a form the agent could reliably use, was the world around that sentence.
+        </p>
+        <p>
+          What kind of decision was this? Which program did it apply to? Who owned
+          it? What evidence supported it? During which period was it valid? Could
+          a later review replace it? How confident are we in the connection? Under
+          what conditions may another system rely on it?
+        </p>
+        <p>The ontology gives those questions a place to live together.</p>
+        <p>
+          CyberAlchemy v2 makes the contract sharper: meaning arrives with evidence,
+          provenance, time, confidence, lifecycle, ownership, and rules for use.
+        </p>
+        <p>
+          We do not need a perfect digital copy of reality. We need enough of the
+          relevant world to understand what this record can—and cannot—mean here.
+        </p>
+        <h4>Boundary</h4>
+        <p>The ontology supplies an interpretation contract. It does not decide permission.</p>
+      </template>
+    </section>
+
+    <section class="slide slide--center" id="slide-5" data-title="Meaning lives between things" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/03-arrow-is-a-contract.png" alt="">
+        <figcaption class="sr-only">
+          Two typed concepts are connected by one directional, inspectable verb;
+          reversed and wrong-type relations are rejected.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>05</strong><span>/ 12 · 3:45–4:55</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <h2>The verbs between things <span class="accent">carry the consequence.</span></h2>
+          <div class="relation fragment" aria-label="A rule enforces an operation">
+            <div class="relation__node">Rule</div>
+            <div class="relation__edge"><span class="relation__verb">enforces</span></div>
+            <div class="relation__node">Operation</div>
+          </div>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>
+          We often draw ontologies as boxes and arrows, and that makes them look
+          decorative. But the real meaning is often in the verb written on the arrow.
+        </p>
+        <p>
+          In one of our DomainSpec models, a rule <em>enforces</em> an operation.
+          That word says what kind of source may stand on the left, what kind of
+          target may stand on the right, and what obligation the relationship carries.
+        </p>
+        <p>
+          In our story, the decision <em>applies to</em> a program. It is <em>owned
+          by</em> a decision-maker. A later review may <em>supersede</em> it.
+        </p>
+        <p>
+          Change the verb, reverse the direction, or connect the wrong kinds of
+          things, and the agent is no longer looking at the same world.
+        </p>
+        <p>
+          An ontology can make interpretations testable—and reject connections
+          that only look plausible because the words are nearby.
+        </p>
+        <h4>Boundary</h4>
+        <p>A valid semantic signature does not prove that a runtime correctly implements it.</p>
+      </template>
+    </section>
+
+    <section class="slide" id="slide-6" data-title="A true record can still mislead" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/04-time-confidence-authority.png" alt="">
+        <figcaption class="sr-only">
+          The decision's validity line ends before the present, a later review may
+          supersede it, confidence remains separate, and the current owner gate stays unresolved.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>06</strong><span>/ 12 · 4:55–6:45</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <h2 class="compact-title">The record was real.<br><span class="accent--candidate">Current permission was not established.</span></h2>
+          <div class="reveal-stack" aria-label="What was missing around the old approval">
+            <div class="fact fragment"><span>Validity</span><strong>Ended before now</strong></div>
+            <div class="fact fragment"><span>Later review</span><strong>May supersede it</strong></div>
+            <div class="fact fragment"><span>Current owner</span><strong>Decision not established</strong></div>
+            <div class="negative-edge fragment">Available <strong>does not mean</strong> promoted</div>
+          </div>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>Now we can reveal the rest of the story.</p>
+        <p>
+          The approval was genuine. It was not fabricated. But its validity
+          period had ended. A later review might supersede it. And the evidence
+          we selected did not establish a current decision from the person who
+          now owns the program.
+        </p>
+        <p>Nothing here makes the old record false. It changes what we are justified in doing with it.</p>
+        <p>
+          That distinction appears elsewhere in our ontology work too. In the
+          Body War model, something can be available as a preview without being
+          promoted as a commitment. Supporting evidence can have medium confidence
+          while organizational commitment remains low. Those are different claims.
+        </p>
+        <p>Time, confidence, and authority are not three words for uncertainty.</p>
+        <p>
+          Time tells us <em>when</em> a statement is meant to hold. Confidence
+          tells us how strongly the evidence supports it. Authority tells us who
+          may establish or change the governed state.
+        </p>
+        <p>
+          The ontology did not vote yes or no. It made the missing premises visible.
+          Sometimes the most valuable edge is the one that prevents a confident leap.
+        </p>
+        <h4>Boundary</h4>
+        <p>The Body War view is candidate meaning. No live scoring, promotion, or release is claimed.</p>
+      </template>
+    </section>
+
+    <section class="slide slide--center" id="slide-7" data-title="The map reaches a gate" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/05-authority-ladder.png" alt="">
+        <figcaption class="sr-only">
+          Source, evidence, candidate meaning, an owner gate, governed meaning,
+          and a view are separated by handoffs; the candidate cannot cross automatically.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>07</strong><span>/ 12 · 6:45–8:00</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <h2>The map can reach the gate.<br><span class="accent--authority">It cannot open it.</span></h2>
+        </div>
+        <div class="ladder-labels fragment" aria-label="Authority handoffs">
+          <span class="ladder-label">Source</span>
+          <span class="ladder-label">Evidence</span>
+          <span class="ladder-label">Candidate</span>
+          <span class="ladder-label">Owner gate</span>
+          <span class="ladder-label">Governed meaning</span>
+          <span class="ladder-label">View</span>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>This is the distinction I care most about preserving.</p>
+        <p>
+          Imagine meaning moving through a series of handoffs. We begin with an
+          owned source. We select evidence. We form a candidate interpretation.
+          We bring that candidate to the responsible owner. If the owner admits
+          it, it becomes governed meaning. Other systems may then receive a view.
+        </p>
+        <p>
+          It is tempting to draw this as a conveyor belt. It is not. Each transition
+          asks a different question, and one of those transitions is a real gate.
+        </p>
+        <p>
+          The ontology can show where the gate is, name the owner, show what the
+          decision depends on, and expose an incomplete request.
+        </p>
+        <p>
+          But the map does not acquire the owner’s authority simply because it
+          describes the route accurately. A candidate can be well formed without
+          being admitted. A request can reach the right person without becoming approval.
+        </p>
+        <h4>Delivery</h4>
+        <p>Describe handoffs, not a maturity ladder. Never animate the candidate through the gate.</p>
+      </template>
+    </section>
+
+    <section class="slide slide--center" id="slide-8" data-title="The right slice of the world" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/06-bounded-context-window.png" alt="">
+        <figcaption class="sr-only">
+          A small, provenance-bound context packet is selected from a larger
+          knowledge space; authority and runtime action remain outside the window.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>08</strong><span>/ 12 · 8:00–9:25</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <h2>An agent needs less than everything—<br><span class="accent">and more than a search result.</span></h2>
+        </div>
+        <div class="role-strip fragment" aria-label="Distinct roles around agent context">
+          <span class="role">Memory</span>
+          <span class="role">Context builder</span>
+          <span class="role">Ontology</span>
+          <span class="role">Owner</span>
+          <span class="role">Runtime</span>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>
+          An agent cannot carry the whole organization into every task. Even if
+          it could, more context would not automatically produce better judgment.
+          It needs the right slice of the world for the question it is answering.
+        </p>
+        <p>That lets us separate five roles that are often blurred together.</p>
+        <p>Memory retains candidate material: the old decision, the later review, the conversation that may matter.</p>
+        <p>
+          A context builder selects a bounded packet. It chooses what enters the
+          window and preserves where each piece came from.
+        </p>
+        <p>
+          The ontology supplies the meaning contract: this is a decision; it
+          applies to this scope; it had this validity period; this review may
+          supersede it; this owner controls reliance.
+        </p>
+        <p>The owner makes the authority decision. Only then does a runtime act and produce evidence.</p>
+        <p>
+          Keeping these roles separate lets the system explain not only what it
+          found, but why it was selected, what it means, what remains uncertain,
+          and who must decide next.
+        </p>
+        <h4>Boundary</h4>
+        <p>The bounded packet is a task view, not a new source of truth or permission to rewrite it.</p>
+      </template>
+    </section>
+
+    <section class="slide slide--right" id="slide-9" data-title="The answer changes" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/02-memory-is-not-understanding.png" alt="">
+        <figcaption class="sr-only">
+          The genuine old approval remains visible while expired validity,
+          possible supersession, and absent current owner permission surround it.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>09</strong><span>/ 12 · 9:25–10:25</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <p class="eyebrow">Return to the question</p>
+          <h2>So what should the agent say?</h2>
+          <div class="answer fragment">
+            “I found an earlier approval. I cannot establish that it is current.”
+          </div>
+          <p class="closing-line fragment">Ask the owner—or stop.</p>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>Let’s return to the question the team actually asked: “Are we allowed to go ahead?”</p>
+        <p>With only memory, the agent was ready to say yes.</p>
+        <p>
+          With a knowledge space around that memory, the answer becomes more useful:
+          “I found a genuine earlier approval. Its validity period has ended. A
+          later review may supersede it, and I cannot establish a current decision
+          from the responsible owner. I should not treat the old record as permission.”
+        </p>
+        <p>
+          Then the agent can do something precise. It can ask the owner for a
+          current decision—or stop before the announcement.
+        </p>
+        <p>
+          That is not an agent becoming less capable. It is an agent becoming
+          capable of explaining what its answer depends on.
+        </p>
+        <h4>Delivery</h4>
+        <p>Reveal the safe answer, pause, then reveal “Ask the owner—or stop.”</p>
+      </template>
+    </section>
+
+    <section class="slide" id="slide-10" data-title="The Augmentor boundary" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/07-augmentor-bridge.png" alt="">
+        <figcaption class="sr-only">
+          Augmentor derives a bounded context from a disposable index and forms
+          a candidate meaning whose request stops before an external owner gate.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>10</strong><span>/ 12 · 10:25–12:40</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <p class="eyebrow">Augmentor</p>
+          <h2>This is the boundary Augmentor is designed around.</h2>
+          <div class="lane-card">
+            <div class="lane fragment">
+              <span>Grounding</span>
+              <strong>owned source → temporary index → bounded context</strong>
+            </div>
+            <div class="lane fragment">
+              <span>Evolution</span>
+              <strong>memory proposal → reviewed candidate → owner request</strong>
+            </div>
+          </div>
+          <div class="authority-effect fragment">It can prepare meaning. It cannot promote itself.</div>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>This is the idea I am making concrete with the ontology for Augmentor.</p>
+        <p>
+          Think of Augmentor as a bridge between material an organization already
+          owns and the bounded context an agent needs for one piece of work.
+        </p>
+        <p>
+          In the upper lane, an owned source can be indexed temporarily. The index
+          helps find relevant material and assemble a context snapshot. But the
+          index is disposable. It does not become the new owner, and the snapshot
+          does not become the whole truth.
+        </p>
+        <p>
+          In the lower lane, the system may notice a pattern worth remembering.
+          It can form a proposed memory, send it through provider review, reconnect
+          it to its source, express an ontology candidate, and prepare a request
+          for the responsible owner gate.
+        </p>
+        <p>Look closely at where that arrow stops.</p>
+        <p>
+          Augmentor may retrieve material, preserve provenance, build a temporary
+          index, compose bounded context, form a well-typed candidate, and identify
+          which owner needs to decide next.
+        </p>
+        <p>What it cannot do is turn its own candidate into permission.</p>
+        <p>
+          In the ontology package, that boundary is explicit: the authority effect
+          is none. This allows Augmentor to be useful without quietly becoming a
+          second authority system.
+        </p>
+        <p>
+          The ontology makes intended boundaries inspectable. It does not prove
+          that durable memory, routing, reasoning, promotion, or production release
+          already exists. The promise is narrower: carry enough meaning into the
+          task, preserve the path to its owners, and stop at the gate only an owner may cross.
+        </p>
+        <h4>Boundary</h4>
+        <p>Private candidate-local design. Authority effect: none. No deployment or production claim.</p>
+      </template>
+    </section>
+
+    <section class="slide slide--center" id="slide-11" data-title="The whole movement" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/08-map-and-gate.png" alt="">
+        <figcaption class="sr-only">
+          Owned sources feed a typed knowledge route that reaches—but cannot
+          open—a closed external owner gate before runtime action.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>11</strong><span>/ 12 · 12:40–13:30</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <h2>The goal is not an agent that always answers.</h2>
+        </div>
+        <div class="beat-strip" aria-label="Four movements before agent action">
+          <div class="beat fragment">Find candidate evidence.</div>
+          <div class="beat fragment">Type its meaning.</div>
+          <div class="beat fragment">Bound the context.</div>
+          <div class="beat fragment">Gate its use.</div>
+        </div>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>An agent that always answers is easy to demonstrate. An agent we can trust is harder to build.</p>
+        <p>
+          The trustworthy version can tell us: this is what I found; this is what
+          it appears to mean; this is where it came from; this is when it was valid;
+          this is what remains uncertain; and this is who must decide before I act.
+        </p>
+        <p>The whole movement is simple enough to remember.</p>
+        <p>Find candidate evidence. Type its meaning. Bound the context for the task. Gate its use.</p>
+        <p>Then, if permission exists, let a separate runtime act and bring back evidence from reality.</p>
+        <h4>Delivery</h4>
+        <p>Reveal the four movements in rhythm. Place runtime action after the gate.</p>
+      </template>
+    </section>
+
+    <section class="slide slide--center" id="slide-12" data-title="What should survive" aria-hidden="true">
+      <figure class="slide__visual">
+        <img src="images/08-map-and-gate.png" alt="">
+        <figcaption class="sr-only">
+          A complete meaning route remains visible while the owner gate stays
+          distinct and closed, with authority outside the map.
+        </figcaption>
+      </figure>
+      <div class="slide__index"><strong>12</strong><span>/ 12 · 13:30–14:20</span></div>
+      <div class="slide__content">
+        <div class="slide__copy">
+          <p class="eyebrow">What should survive</p>
+          <h2>An agent that knows <span class="accent">what its answer depends on.</span></h2>
+          <p class="retell-prompt fragment">
+            If the agent remembers an approval, what must it understand before it acts?
+          </p>
+        </div>
+        <p class="closing-line fragment">The map informs the route; it does not grant permission.</p>
+      </div>
+      <template class="notes-template">
+        <h4>Podcast narration</h4>
+        <p>So, one last time: if an agent remembers an approval, what still has to happen before it acts?</p>
+        <p>That is the idea I want you to carry away.</p>
+        <p>
+          An ontology gives remembered information a world around it. Augmentor
+          carries a bounded piece of that world into an agent’s work. Authority
+          stays with the people and systems that own the decision.
+        </p>
+        <p>
+          The map makes the route visible and helps us ask a better question.
+          But it does not grant permission.
+        </p>
+        <h4>Interaction</h4>
+        <p>Let the room supply two dependencies if time allows. Reveal the final line and stop there.</p>
+      </template>
+    </section>
+  </main>
+
+  <div class="progress" aria-hidden="true">
+    <span class="progress__bar" id="progress-bar"></span>
+  </div>
+
+  <nav class="controls" aria-label="Presentation controls">
+    <button class="control" type="button" data-control="previous" aria-label="Previous slide">←</button>
+    <button class="control control--timer" type="button" data-control="timer" aria-label="Start or pause presentation timer">00:00</button>
+    <button class="control" type="button" data-control="next" aria-label="Next slide or reveal">→</button>
+    <button class="control" type="button" data-control="notes" aria-label="Toggle presenter notes">N</button>
+    <button class="control" type="button" data-control="fullscreen" aria-label="Toggle fullscreen">F</button>
+    <button class="control" type="button" data-control="help" aria-label="Show keyboard shortcuts">?</button>
+  </nav>
+
+  <aside class="notes" id="notes-panel" aria-hidden="true" aria-label="Presenter notes">
+    <div class="notes__header">
+      <div>
+        <p>Presenter notes</p>
+        <h3 id="notes-title">Knowledge spaces</h3>
+      </div>
+      <button class="notes__close" type="button" aria-label="Close presenter notes">×</button>
+    </div>
+    <div class="notes__body" id="notes-body"></div>
+  </aside>
+
+  <dialog id="help-dialog">
+    <div class="help">
+      <h2>Presentation controls</h2>
+      <p>Use the keyboard, buttons, or a horizontal swipe.</p>
+      <div class="shortcut-grid">
+        <div class="shortcut"><span>Next / reveal</span><kbd>→</kbd></div>
+        <div class="shortcut"><span>Previous</span><kbd>←</kbd></div>
+        <div class="shortcut"><span>First / last</span><kbd>Home</kbd></div>
+        <div class="shortcut"><span>Presenter notes</span><kbd>N</kbd></div>
+        <div class="shortcut"><span>Timer</span><kbd>T</kbd></div>
+        <div class="shortcut"><span>Fullscreen</span><kbd>F</kbd></div>
+        <div class="shortcut"><span>Reveal fragment</span><kbd>R</kbd></div>
+        <div class="shortcut"><span>This help</span><kbd>H</kbd></div>
+      </div>
+      <button class="help__close" type="button">Return to presentation</button>
+    </div>
+  </dialog>
+
+  <p class="sr-only slide-announcer" id="slide-announcer" aria-live="polite"></p>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var slides = Array.from(document.querySelectorAll(".slide"));
+      var progressBar = document.getElementById("progress-bar");
+      var announcer = document.getElementById("slide-announcer");
+      var notesPanel = document.getElementById("notes-panel");
+      var notesTitle = document.getElementById("notes-title");
+      var notesBody = document.getElementById("notes-body");
+      var helpDialog = document.getElementById("help-dialog");
+      var timerButton = document.querySelector('[data-control="timer"]');
+      var currentIndex = 0;
+      var touchStartX = null;
+      var controlsIdleHandle = null;
+      var timerRunning = false;
+      var elapsedBeforeStart = 0;
+      var timerStartedAt = 0;
+      var timerFrame = null;
+      var nominalSeconds = 14 * 60 + 20;
+      var hardLimitSeconds = 15 * 60;
+
+      function clampIndex(index) {
+        return Math.max(0, Math.min(slides.length - 1, index));
+      }
+
+      function indexFromHash() {
+        var match = window.location.hash.match(/^#slide-(\d+)$/);
+        if (!match) {
+          return 0;
+        }
+        return clampIndex(Number(match[1]) - 1);
+      }
+
+      function updateNotes() {
+        var slide = slides[currentIndex];
+        var template = slide.querySelector(".notes-template");
+        notesTitle.textContent = (currentIndex + 1) + ". " + slide.dataset.title;
+        notesBody.replaceChildren();
+        if (template) {
+          notesBody.appendChild(template.content.cloneNode(true));
+        }
+      }
+
+      function showSlide(index, updateHash) {
+        currentIndex = clampIndex(index);
+
+        slides.forEach(function (slide, slideIndex) {
+          var active = slideIndex === currentIndex;
+          slide.classList.toggle("is-active", active);
+          slide.setAttribute("aria-hidden", String(!active));
+          if ("inert" in slide) {
+            slide.inert = !active;
+          }
+        });
+
+        progressBar.style.width = (((currentIndex + 1) / slides.length) * 100) + "%";
+        announcer.textContent =
+          "Slide " + (currentIndex + 1) + " of " + slides.length + ": " +
+          slides[currentIndex].dataset.title;
+        document.title =
+          (currentIndex + 1) + "/" + slides.length + " · " +
+          slides[currentIndex].dataset.title + " — Ontologies as Knowledge Spaces";
+        updateNotes();
+
+        if (updateHash !== false) {
+          history.replaceState(null, "", "#slide-" + (currentIndex + 1));
+        }
+      }
+
+      function revealNext() {
+        var hidden = slides[currentIndex].querySelector(".fragment:not(.is-revealed)");
+        if (!hidden) {
+          return false;
+        }
+        hidden.classList.add("is-revealed");
+        return true;
+      }
+
+      function next() {
+        if (revealNext()) {
+          return;
+        }
+        showSlide(currentIndex + 1);
+      }
+
+      function previous() {
+        showSlide(currentIndex - 1);
+      }
+
+      function setNotesOpen(open) {
+        notesPanel.classList.toggle("is-open", open);
+        notesPanel.setAttribute("aria-hidden", String(!open));
+        document.querySelector('[data-control="notes"]').setAttribute("aria-pressed", String(open));
+        if (open) {
+          updateNotes();
+          notesPanel.querySelector(".notes__close").focus();
+        }
+      }
+
+      function toggleNotes() {
+        setNotesOpen(!notesPanel.classList.contains("is-open"));
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(function () {});
+        } else {
+          document.exitFullscreen().catch(function () {});
+        }
+      }
+
+      function currentElapsedMilliseconds() {
+        if (!timerRunning) {
+          return elapsedBeforeStart;
+        }
+        return elapsedBeforeStart + (performance.now() - timerStartedAt);
+      }
+
+      function formatTime(milliseconds) {
+        var total = Math.floor(milliseconds / 1000);
+        var minutes = Math.floor(total / 60);
+        var seconds = total % 60;
+        return String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+      }
+
+      function renderTimer() {
+        var elapsed = currentElapsedMilliseconds();
+        var seconds = elapsed / 1000;
+        timerButton.textContent = formatTime(elapsed);
+        timerButton.classList.toggle("is-running", timerRunning && seconds < nominalSeconds);
+        timerButton.classList.toggle("is-warning", seconds >= nominalSeconds && seconds < hardLimitSeconds);
+        timerButton.classList.toggle("is-over", seconds >= hardLimitSeconds);
+        timerButton.setAttribute(
+          "aria-label",
+          (timerRunning ? "Pause" : "Start") + " presentation timer at " + formatTime(elapsed)
+        );
+        if (timerRunning) {
+          timerFrame = requestAnimationFrame(renderTimer);
+        }
+      }
+
+      function toggleTimer() {
+        if (timerRunning) {
+          elapsedBeforeStart = currentElapsedMilliseconds();
+          timerRunning = false;
+          if (timerFrame) {
+            cancelAnimationFrame(timerFrame);
+          }
+        } else {
+          timerStartedAt = performance.now();
+          timerRunning = true;
+        }
+        renderTimer();
+      }
+
+      function resetTimer() {
+        timerRunning = false;
+        elapsedBeforeStart = 0;
+        timerStartedAt = 0;
+        if (timerFrame) {
+          cancelAnimationFrame(timerFrame);
+        }
+        renderTimer();
+      }
+
+      function openHelp() {
+        if (!helpDialog.open) {
+          helpDialog.showModal();
+        }
+      }
+
+      function closeOverlays() {
+        if (helpDialog.open) {
+          helpDialog.close();
+          return true;
+        }
+        if (notesPanel.classList.contains("is-open")) {
+          setNotesOpen(false);
+          return true;
+        }
+        return false;
+      }
+
+      function handleKey(event) {
+        if (event.defaultPrevented) {
+          return;
+        }
+        if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+          return;
+        }
+
+        if (event.key === "Escape") {
+          closeOverlays();
+          return;
+        }
+
+        if (helpDialog.open) {
+          return;
+        }
+
+        switch (event.key) {
+          case "ArrowRight":
+          case "ArrowDown":
+          case "PageDown":
+          case " ":
+            event.preventDefault();
+            next();
+            break;
+          case "ArrowLeft":
+          case "ArrowUp":
+          case "PageUp":
+            event.preventDefault();
+            previous();
+            break;
+          case "Home":
+            event.preventDefault();
+            showSlide(0);
+            break;
+          case "End":
+            event.preventDefault();
+            showSlide(slides.length - 1);
+            break;
+          case "n":
+          case "N":
+            toggleNotes();
+            break;
+          case "f":
+          case "F":
+            toggleFullscreen();
+            break;
+          case "h":
+          case "H":
+          case "?":
+            openHelp();
+            break;
+          case "t":
+          case "T":
+            toggleTimer();
+            break;
+          case "r":
+          case "R":
+            revealNext();
+            break;
+          case "0":
+            resetTimer();
+            break;
+        }
+      }
+
+      function wakeControls() {
+        document.body.classList.remove("controls-idle");
+        window.clearTimeout(controlsIdleHandle);
+        controlsIdleHandle = window.setTimeout(function () {
+          document.body.classList.add("controls-idle");
+        }, 3200);
+      }
+
+      document.querySelector('[data-control="previous"]').addEventListener("click", previous);
+      document.querySelector('[data-control="next"]').addEventListener("click", next);
+      document.querySelector('[data-control="notes"]').addEventListener("click", toggleNotes);
+      document.querySelector('[data-control="fullscreen"]').addEventListener("click", toggleFullscreen);
+      document.querySelector('[data-control="help"]').addEventListener("click", openHelp);
+      timerButton.addEventListener("click", toggleTimer);
+      document.querySelector(".notes__close").addEventListener("click", function () {
+        setNotesOpen(false);
+      });
+      document.querySelector(".help__close").addEventListener("click", function () {
+        helpDialog.close();
+      });
+
+      document.addEventListener("keydown", handleKey);
+      document.addEventListener("mousemove", wakeControls, { passive: true });
+      document.addEventListener("pointerdown", wakeControls, { passive: true });
+      window.addEventListener("hashchange", function () {
+        showSlide(indexFromHash(), false);
+      });
+
+      document.addEventListener("touchstart", function (event) {
+        touchStartX = event.changedTouches[0].clientX;
+      }, { passive: true });
+
+      document.addEventListener("touchend", function (event) {
+        if (touchStartX === null) {
+          return;
+        }
+        var delta = event.changedTouches[0].clientX - touchStartX;
+        touchStartX = null;
+        if (Math.abs(delta) < 50) {
+          return;
+        }
+        if (delta < 0) {
+          next();
+        } else {
+          previous();
+        }
+      }, { passive: true });
+
+      showSlide(indexFromHash(), false);
+      renderTimer();
+      wakeControls();
+    }());
+  </script>
+</body>
+</html>

@@ -13,14 +13,10 @@ W0 / L0
   -> G-OEW-L0
 
 W1 / L1
-  SWU-006B clean private L1 build + independent build verification
-  -> SWU-007 exact sidecar/receipt UI store
-  -> SWU-008 trust rail
-  -> SWU-009 evidence inspector
-  -> SWU-010 graph/outline/table parity
-  -> SWU-011 search/filter/commands
-  -> SWU-012 Poker guided tour
-  -> SWU-013 responsive/reduced-motion layout
+  SWU-006P isolated toolchain/materializer + fixture-patch verification [PASS]
+  -> SWU-007 exact sidecar/receipt UI store [PASS]
+  -> SWU-008F complete Poker evidence-review UI source
+  -> SWU-013B final clean build + independent build verification
   -> SWU-014 browser/a11y producer receipt
   -> SWU-014V independent acceptance verification
   -> G-OEW-L1
@@ -43,7 +39,9 @@ W3 / L3
 
 One selected SWU per Task Session. Later eligibility is derived only from
 passing predecessor receipts. Task completion never auto-selects a successor.
-The historical 007 selection is invalid for this changed graph.
+The historical 007, consumed 006B, and blocked 008 selections are invalid for
+this changed graph. Superseded 008–013 component records are planning history,
+not executable selectors.
 
 ## Parallelization
 
@@ -91,9 +89,10 @@ handoff_note: <what the coordinator needs>
 
 ## Current Handoff
 
-No SWU is selected. After Plan-owner review, a human may select only
-`SWU-OEW-006B`; Task Session must then perform a fresh preflight. This Invoke
-Refresh does not authorize implementation.
+No SWU is selected. The unique dependency-ready candidate is
+`SWU-OEW-008F`. After `G-OEW-L1-FIRST-WORKING-VERSION-SELECTION`, Task Session
+must perform a fresh preflight against the frontier-readiness receipt. This
+Invoke Refresh does not authorize implementation.
 
 ## Open Questions
 

@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-08-05T22:23:19Z",
+  "run_id": "invoke-refresh-oava-b001-20260805",
+  "session_id": null,
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "refresh",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh",
+    "alias": null
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "acquisition-receipt.json",
+      "validation-receipt.json",
+      "material-receipt.json",
+      "material-handoff.json",
+      "dispatch-validation.json",
+      "refresh-report.json"
+    ]
+  },
+  "request": {
+    "raw": "invoke:refresh:apply-approved",
+    "summary": "Apply the approved refresh that synchronizes B-001 after Anime.js v4.5.0 acquisition.",
+    "intent": "Remove stale B-001 blocker language from the two invoke-owned planning artifacts without starting an SWU."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "B-001 recorded resolved in WORK-PACK.md",
+      "Runtime handoff updated to preserve OAVA-001 then OAVA-002 then OAVA-003 sequencing",
+      "Schema-valid material and refresh receipts",
+      "Passing Dispatch Spec trace"
+    ],
+    "files_changed": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF.md",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260805-b001-invoke-refresh"
+    ],
+    "validation": [
+      "material package validator pass",
+      "refresh material handoff mutationReady true",
+      "dispatch spec pass with no flags",
+      "live targets equal validated staging outputs",
+      "runtime and license hashes unchanged",
+      "refresh JSON parses and planning claim scan passes"
+    ],
+    "notes": "Exact direct-user apply scope was limited to WORK-PACK.md and RUNTIME-HANDOFF.md. Evidence files are retained under the Invoke execution run."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "Ontology Video Anime.js Prototype planning frontier"
+}

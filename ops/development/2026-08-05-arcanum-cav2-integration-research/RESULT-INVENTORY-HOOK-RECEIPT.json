@@ -1,0 +1,46 @@
+{
+  "schema_version": "arcanum-cav2-integration-research.result-inventory-hook.v1",
+  "status": "blocked",
+  "authority_effect": "none",
+  "attempted_at": "2026-08-06T14:19:08Z",
+  "candidate_record": {
+    "id": "arcanum-cav2-integration-research-result-synthesis",
+    "record_source": ".arcanum/inventory/tmp/arcanum-cav2-integration-research-result-synthesis.record.json",
+    "record_sha256": "a080b7cbdadfbfbde93c4dc5bce3c87a0cc91499b33bb03d654d2f89d68c959b",
+    "candidate_page": ".arcanum/inventory/tmp/arcanum-cav2-integration-research-result-synthesis.candidate.md",
+    "candidate_page_sha256": "9ed8b82f281afa5756a194e43c01f8a7a2aaddad42e319ee25f24d00c2bcb852"
+  },
+  "baseline": {
+    "lookup_readiness": "ready",
+    "failure_count": 0,
+    "warning_count": 146,
+    "index_json_sha256": "2160d2c19984410f3f878898a8bd0b63916bf3b7fc19805532ce740d2b818e22",
+    "index_md_sha256": "dee9eec55d62c71d85618fe5641962878d7f7eb3ae4efb36b270356e63877f01"
+  },
+  "dry_run": {
+    "status": "candidate-blocked",
+    "reason_code": "candidate-not-ready",
+    "operation_fingerprint": "65efe50ca394580fe0c3a1ac942f6875ef2626717972d697244d960f0ec565fc",
+    "receipt_path": "inventory-result-hook-dry-run.json",
+    "receipt_sha256": "92885e13496ace9bca4d214ab73172c75d3a959ceb71a3bd556560766db4aab9",
+    "candidate_disposition": "added",
+    "candidate_lookup_readiness": "blocked",
+    "write_attempted": false,
+    "write_committed": false
+  },
+  "blocker": "The deterministic append dry-run could not prove the candidate entry ready while its destination page remains staged outside entries/. Applying a blocked candidate would violate Inventory lookup-readiness, so the hook preserved the ready baseline and refused to mutate index.json, index.md, entries, tags, or log.",
+  "write": {
+    "attempted": false,
+    "committed": false,
+    "observed_changed_paths": [],
+    "manual_bypass": false,
+    "index_bytes_preserved": true
+  },
+  "residue": [
+    "result page and record remain candidate-local under .arcanum/inventory/tmp",
+    "findings.md is not indexed as a result entry",
+    "repair the deterministic updater to stage the new page and projections atomically before retrying",
+    "one uncontrolled candidate tag public-private was reported but not admitted",
+    "no currentness authority promotion publication release deployment or production claim"
+  ]
+}

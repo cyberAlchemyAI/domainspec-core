@@ -1,0 +1,72 @@
+{
+  "schema_version": "arcanum.context-builder.session-pack.v1",
+  "session_id": "20260803T191537Z-SWU-AKV-NV-001",
+  "task_id": "SWU-AKV-NV-001",
+  "mode": "lean",
+  "strict": true,
+  "runtime_handoff": false,
+  "resolution": {
+    "mode": "resume-nearest",
+    "source": "visible-session-context",
+    "candidate_count": 1,
+    "selected": "SWU-AKV-NV-001",
+    "animejs_work_pack_found": false,
+    "animejs_continuity_cursor_found": false,
+    "cross_scope_cursors_rejected": true
+  },
+  "selected_sources": [
+    {
+      "path": "../../stages/09-invoke-plan.md",
+      "sha256": "a96ce072dedbb7eb74a85ebaa681cf3126df252b97783be6a5fc83d679b7b01a",
+      "obligations": ["O1", "O2", "O4", "O5", "O7"]
+    },
+    {
+      "path": "../../stages/08-query-contract-matrix.json",
+      "sha256": "537e05842d2089ceab84b24e936ab0849292465cbabd6ee36f6dda4cab4df342",
+      "obligations": ["O3", "O8"]
+    },
+    {
+      "path": "../../RESULT.md",
+      "sha256": "c49dae49c4a10bf9ef1b72d56869a6e7755d80045abbcf67278b9389eeabe08e",
+      "obligations": ["O1", "O8"]
+    },
+    {
+      "path": "../../VALIDATION.json",
+      "sha256": "5c69266085d62dc41288ec87d3777b9771e6a406d5cc94dd4a7a9d6b821058ba",
+      "obligations": ["O3", "O8"]
+    },
+    {
+      "path": "../../stages/10.receipt.json",
+      "sha256": "3533a56d44cd68a0a5385e13bea98250f005d6df1895ac322dfab93d4387de28",
+      "obligations": ["O1", "O8"]
+    },
+    {
+      "path": ".agents/skills/task-session/SKILL.md",
+      "authority": "task-session runtime contract",
+      "obligations": ["O4", "O5", "O6", "O7"]
+    }
+  ],
+  "obligations": [
+    {"id": "O1", "status": "covered", "description": "exactly one live SWU"},
+    {"id": "O2", "status": "covered", "description": "dependency readiness"},
+    {"id": "O3", "status": "covered", "description": "query behavior and fixtures"},
+    {"id": "O4", "status": "block", "description": "exact material writes and execution outputs"},
+    {"id": "O5", "status": "block", "description": "concrete validation commands"},
+    {"id": "O6", "status": "block", "description": "mutation-admission producer/profile contract"},
+    {"id": "O7", "status": "block", "description": "closeout synchronization preflight"},
+    {"id": "O8", "status": "covered", "description": "authority and scope ceiling"}
+  ],
+  "coverage": {
+    "covered": 4,
+    "total": 8,
+    "percent": 50,
+    "strict_status": "block"
+  },
+  "output_markdown": "CONTEXT-PACK.md",
+  "blockers": [
+    "missing exact write scope",
+    "missing validation commands",
+    "missing mutation-admission producer/profile contract",
+    "missing closeout synchronization contract"
+  ]
+}

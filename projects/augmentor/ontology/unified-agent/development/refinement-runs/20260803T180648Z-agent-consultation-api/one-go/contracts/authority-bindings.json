@@ -1,0 +1,14 @@
+{
+  "schema_version": "augmentor.consultation.one-go-authority@0.1.0",
+  "objective": "Apply and validate the frozen candidate-local Agent Consultation API L0 material in seven ordered Task Sessions, stopping at the first blocker and terminating after SWU-ACAPI-006.",
+  "owner": {"candidate_artifact_owner": "augmentor-consultation-candidate-owner", "approval_owner": "human-decision-gate", "closeout_owner": "invoke-refresh"},
+  "material": {"source": "one-go/material-source", "target": "projects/augmentor/ontology/unified-agent/development/consultation-api", "private_fixture_only": true, "consumer_projection": false},
+  "validation": {"runtime": "node-v22", "network": false, "browser": false, "acceptance_critical": true, "ontology_non_regression": true},
+  "receipt": {"terminal_contract": "one-go/contracts/terminal-receipt.schema.json", "semantic_validator": "one-go/scripts/validate-terminal-receipt.mjs", "transition_gate": "one-go/scripts/run-transition-gate.mjs", "transition_gate_test": "one-go/tests/transition-gate.test.mjs", "approval_receipt_schema": "one-go/contracts/decision-gate-approval-receipt.schema.json", "approved_chain_builder": "one-go/scripts/build-approved-chain.mjs", "approved_chain_builder_test": "one-go/tests/approved-chain-builder.test.mjs", "canonical_chain_runner": ".agents/skills/task-session-until-blocker/scripts/run_chain.py", "chain_config_schema": ".agents/skills/task-session-until-blocker/schemas/chain-config.schema.json", "chain_transition_schema": ".agents/skills/task-session-until-blocker/schemas/chain-transition.schema.json", "closeout_no_op_schema": ".agents/skills/task-session-until-blocker/schemas/closeout-no-op-proof.schema.json", "append_only": true},
+  "closeout": {"mode": "receipt-backed-no-op", "allowed_deltas": ["evidence_added", "blocker_opened", "blocker_resolved", "status_changed", "route_changed"], "work_pack_mutation_during_epoch": false},
+  "risk": {"ceiling": "bounded-write", "network": false, "deployment": false, "publication": false, "authority_change": false, "compensation": "stop-and-preserve"},
+  "decision": {"status": "pending", "scope": "SWU-ACAPI-000 through SWU-ACAPI-006", "budget": 7},
+  "statuses": {"artifact_authored": "authored", "registry_released": "unreleased", "mutation_runtime_ready": "candidate", "audit_verdict": "pending"},
+  "lifecycle": {"plan_artifact": "authored", "audit": "pending", "approval": "unapproved", "chain": "not-started"},
+  "continuity": {"cursor": "l0-root", "projected_next_successor": "SWU-ACAPI-000", "authority_effect": "none"}
+}

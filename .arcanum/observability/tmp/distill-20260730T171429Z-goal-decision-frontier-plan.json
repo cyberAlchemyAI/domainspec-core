@@ -1,0 +1,88 @@
+{
+  "timestamp": "2026-07-30T17:54:43Z",
+  "run_id": "distill-20260730T171429Z-goal-decision-frontier-plan",
+  "session_id": "2026-07-30-goal-decision-frontier-experiment",
+  "sigil": "distill",
+  "tier": "transmutations",
+  "mode": "validate",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "transmutations",
+    "mode": "validate",
+    "alias": null
+  },
+  "lineage": {
+    "parent_run_id": "invoke-20260730T171428Z-goal-decision-frontier-experiment",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "define-design-plan"
+    }
+  },
+  "evidence": {
+    "status": "partial",
+    "emission_status": "not-required",
+    "distill_run_request_ref": {
+      "path": "arcanum/spells/goal/development/invoke-runs/20260730T171428Z-decision-frontier-experiment/DISTILL-RUN-REQUEST.json",
+      "sha256": "0612cd46b9c3bc0a0c09844cc45037540a84241b37320c78b2c324e106bcd792",
+      "size_bytes": 696
+    },
+    "runtime_event_refs": [],
+    "mutation_handoff_allowed": false,
+    "verdict_authority": false,
+    "refs": [
+      "arcanum/spells/goal/development/invoke-runs/20260730T171428Z-decision-frontier-experiment/DISTILL-VALIDATION.md",
+      "arcanum/spells/goal/development/invoke-runs/20260730T171428Z-decision-frontier-experiment/WORK-PACK.md",
+      "arcanum/spells/goal/development/invoke-runs/20260730T171428Z-decision-frontier-experiment/work-pack/shared/TRACEABILITY.md"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Validate the decision-frontier Plan for narrowness, atomicity, executable detail, deferred complexity, and recomposition.",
+    "intent": "Prove Plan coherence without selecting or authorizing an implementation unit."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Standard-budget Proposer/Balancer reconciliation",
+      "seven-SWU independent acceptance review",
+      "narrow-first pass for SWU-DFE-001",
+      "requirement and witness recomposition proof",
+      "implementation-detail and deferred-complexity closure"
+    ],
+    "files_changed": [
+      "arcanum/spells/goal/development/invoke-runs/20260730T171428Z-decision-frontier-experiment/DISTILL-VALIDATION.md"
+    ],
+    "validation": [
+      "All seven mutation SWUs own one primary behavior: pass",
+      "Five execution tasks link implementation-detail specs: pass",
+      "SWU-DFE-001 narrow-first gate: pass",
+      "All twelve witnesses have one owning unit: pass",
+      "selected_swu remains none: pass"
+    ],
+    "notes": "Local Proposer/Balancer simulation was used because a multi-agent Distill dispatch was not authorized. Runtime-event evidence is therefore partial; telemetry has no verdict or mutation authority."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [
+      "task-shaped-swu-detected-and-repaired",
+      "implementation-detail-gap-detected-and-repaired"
+    ],
+    "workflow_gaps": [
+      {
+        "category": "distill-validation",
+        "severity": "medium",
+        "summary": "The first local Distill pass did not split independently acceptable control boundaries or reject missing task-level algorithms.",
+        "evidence": "Independent audit forced the split, adapter deferral, and implementation-detail closure before the final pass."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "review-distill-atomicity-and-detail-checks"
+  },
+  "target_artifact": "arcanum/spells/goal/development/invoke-runs/20260730T171428Z-decision-frontier-experiment/DISTILL-VALIDATION.md"
+}
+

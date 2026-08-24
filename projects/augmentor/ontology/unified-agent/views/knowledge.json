@@ -1,0 +1,74 @@
+{
+  "view_id": "aug.view.knowledge",
+  "view_role": "evidence",
+  "title": "Augmentor knowledge view",
+  "description": "Evidence view of provider-owned sources, disposable retrieval, immutable context, explicit intake, and candidate ontology handoff.",
+  "owner_route": "provider-owners-plus-inventory-plus-cyberalchemy-v2-ontology-route",
+  "source_refs": [
+    "SRC-AUA-ARCHITECTURE",
+    "SRC-AUGMENTOR-MANIFEST",
+    "SRC-AUGMENTOR-ARCHIVE-HANDOFF",
+    "SRC-RESONANT-CONTEXT-MEMORY",
+    "SRC-RESONANT-MEMORY-PROVIDER",
+    "SRC-RESONANT-MEMORY-HOST",
+    "SRC-CAV2-NODE-MODEL",
+    "SRC-CAV2-PACKAGE-MODEL"
+  ],
+  "node_refs": [
+    "aug.concept.source_record",
+    "aug.concept.disposable_semantic_index",
+    "aug.concept.context_snapshot",
+    "aug.concept.result_consumption",
+    "aug.concept.memory_intake_request",
+    "aug.concept.ontology_candidate",
+    "aug.concept.authority_decision"
+  ],
+  "relation_refs": [
+    "aug.relation.index_derives_from_source",
+    "aug.relation.context_uses_bounded_index_projection",
+    "aug.relation.source_supports_context",
+    "aug.relation.consumption_does_not_imply_intake",
+    "aug.relation.intake_requests_provider_review",
+    "aug.relation.source_supports_candidate",
+    "aug.relation.candidate_requests_named_owner"
+  ],
+  "sequences": [
+    {
+      "sequence_id": "AUG-KNOW-GROUNDING",
+      "label": "Source-bound grounding",
+      "steps": [
+        "aug.concept.source_record",
+        "aug.concept.disposable_semantic_index",
+        "aug.concept.context_snapshot"
+      ]
+    },
+    {
+      "sequence_id": "AUG-KNOW-EVOLUTION",
+      "label": "Governed knowledge evolution",
+      "steps": [
+        "aug.concept.memory_intake_request",
+        "aug.concept.source_record",
+        "aug.concept.ontology_candidate",
+        "aug.concept.authority_decision"
+      ]
+    }
+  ],
+  "allowed_readings": [
+    "Provider-owned bytes remain external source truth addressed by immutable references.",
+    "A disposable index may accelerate retrieval after an owner is selected.",
+    "Provider acceptance and Inventory validation must precede ontology review.",
+    "OntologyCandidate is a meaning proposal that routes to a named owner."
+  ],
+  "forbidden_authority_moves": [
+    "Index, graph, retrieval score, or context selection cannot become source truth.",
+    "MemoryIntakeRequest cannot become provider acceptance.",
+    "Inventory validation cannot become canonical admission or promotion.",
+    "OntologyCandidate cannot become AuthorityDecision.",
+    "Deletion in the UI cannot prove durable correction or forgetting."
+  ],
+  "residue": [
+    "AUG-RES-002",
+    "AUG-RES-005",
+    "AUG-RES-007"
+  ]
+}

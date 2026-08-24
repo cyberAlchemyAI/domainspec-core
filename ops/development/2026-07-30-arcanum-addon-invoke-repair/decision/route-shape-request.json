@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "DG-ARC-REPAIR-ROUTE-SHAPE-001",
+  "candidates": [
+    {
+      "optionId": "OPT-EXACT-SWU-GRAPH",
+      "label": "Exact SWU nodes with wave joins",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": "invoke-refresh-apply-approved",
+      "evidence": [
+        "findings.md#NEW-001 requires explicit per-SWU re-entry or loop gates and complete wave-receipt joins",
+        "WORK-PACK.md#SWU-Execution-Handoff already defines exact SWU dependencies and receipts",
+        "decision-profile.yml selects the smallest reliable and testable route shape"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "OPT-GENERIC-WAVE-LOOP",
+      "label": "Generic selected-SWU wave loop",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": "invoke-refresh-apply-approved",
+      "evidence": [
+        "Current DISPATCH.json demonstrates the generic selected-SWU shape"
+      ],
+      "rejectionReasons": [
+        "A generic loop does not make each SWU dependency and receipt edge structural",
+        "A conforming runner can reach a layer join after only one generic selected-SWU receipt"
+      ]
+    },
+    {
+      "optionId": "OPT-PROSE-ONLY-GATE",
+      "label": "Keep the route and strengthen prose stop conditions",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": "invoke-refresh-apply-approved",
+      "evidence": [
+        "Current work-pack prose already states complete wave closure"
+      ],
+      "rejectionReasons": [
+        "The review found that late stop conditions do not repair the dependency graph",
+        "Prose does not bind verification to the complete W4 receipt bundle"
+      ]
+    }
+  ]
+}

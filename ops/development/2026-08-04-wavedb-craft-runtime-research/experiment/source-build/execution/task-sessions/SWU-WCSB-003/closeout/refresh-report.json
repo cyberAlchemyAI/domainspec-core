@@ -1,0 +1,59 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {"artifactComplete": true, "refreshAuthoringBlockerCount": 0},
+  "activationSource": "continuation",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "explicit",
+  "handoffStatus": "blocked",
+  "sourceSignals": [
+    {
+      "id": "WCSB-NODE26-CONCURRENT-WRITE-LIVELOCK",
+      "source_path": "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-003/terminal-receipt.json",
+      "signal_type": "blocker_opened",
+      "claim": "Exact reviewed source compiled and loaded under Node v26.6.0, but the upstream concurrent-write case made no I/O progress while consuming about one CPU core; no pass receipt or addon handoff exists.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/EXECUTION-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-03-NODE26.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/waves/W0-SOURCE-BUILD.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/shared/traceability.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/shared/cross-task-gaps.md"
+  ],
+  "deltaSummary": ["evidence_added", "blocker_opened", "status_changed", "route_changed"],
+  "appliedChanges": [
+    "record SWU-WCSB-003 Node 26 block",
+    "clear selected SWU and close the Node 26 attempt",
+    "bind compilation/load pass separately from upstream runtime block",
+    "preserve both attempts and return no successor"
+  ],
+  "materialPackage": {
+    "packageId": "wavedb-reviewed-source-build:SWU-WCSB-003:node26-blocked-closeout",
+    "packageDigest": "ab661be8c623a949e17a9f66148c8ab8f75c115fb3a73f9842a9615dd383761e",
+    "patchVerdict": "pass",
+    "mutationHandoff": "ready",
+    "validatedPathCount": 6
+  },
+  "mutationReady": true,
+  "blockers": [
+    {
+      "id": "WCSB-NODE26-CONCURRENT-WRITE-LIVELOCK",
+      "scope": "target-lifecycle",
+      "owner": "WaveDB source owner",
+      "status": "open",
+      "claim": "diagnose or fix the concurrent-write native runtime path before any newly planned source attempt"
+    }
+  ],
+  "nextRoute": "stop:source-owner-diagnosis-or-reviewed-fix",
+  "validation": [
+    "source block receipt and terminal receipt",
+    "material and handoff receipts",
+    "six live targets match staged outputs",
+    "zero selected SWUs",
+    "scoped whitespace pass"
+  ]
+}

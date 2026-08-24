@@ -1,0 +1,40 @@
+{
+  "schema_version": "task-session-context-pack.v1",
+  "task_id": "TASK-WCSB-02",
+  "swu_id": "SWU-WCSB-002",
+  "strict_coverage": true,
+  "sources": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/WORK-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/plan/work-pack/tasks/TASK-WCSB-02-EXECUTE.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/context-pack.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/run_source_build.py",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/source-build-receipt.schema.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/design/SOURCE-CONTRACTS.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/terminal-receipt.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-001/invoke-refresh-receipt.json"
+  ],
+  "execution_contract": {
+    "writeProfile": "execution-output-only",
+    "materialWrites": [],
+    "executionOutputs": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcsb-20260804-01",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/terminal-receipt.json"
+    ],
+    "allowedWrites": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcsb-20260804-01",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/task-sessions/SWU-WCSB-002/terminal-receipt.json"
+    ],
+    "validationCommands": [
+      "python3 ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/run_source_build.py --execute --workspace-root . --source-build-root ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build --attempt-id wcsb-20260804-01 --evidence-dir execution/source-build --source-url https://github.com/vijayee/WaveDB.git --source-commit 01c77e8b70f71de9b72480e73a3a179f6e93a009 --expected-package-lock-sha256 26fbf0839106a0521f1ad6785764cefa3d39aedd9ff8412c982689c09b109f95 --expected-package-json-sha256 82e87aaaac10113cb1294732bf149356f6f7df76ecde0259181999c6a3fe9dc3 --expected-binding-gyp-sha256 5a326bf16ce349808572fcd213344868edeabf70fb75a10f56c1c9f429d5b90f --expected-build-js-sha256 ff00fe3c9c3dbfc5401c611feac70a8148a92f158bfaa6ec30acbfade214d1bc --expected-copy-sources-js-sha256 466f86b07e370a4cfcde0ff3d4f4639564344247f08d480ba6ed4d2c6b3e420a --expected-node v22.12.0 --expected-npm 10.9.0 --expected-python 3.12.3 --expected-gcc 13.3.0 --expected-gxx 13.3.0 --expected-make 4.3 --expected-ld 2.42 --openssl-root /usr --validator ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py --forbidden-path arcanum/arcana/craft --forbidden-path arcanum/development/craft --forbidden-path .git/HEAD --forbidden-path .git/index",
+      "python3 ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution/source-build/source-build-receipt.json --source-build-root ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build --expected-source-commit 01c77e8b70f71de9b72480e73a3a179f6e93a009 --expected-lockfile-sha256 26fbf0839106a0521f1ad6785764cefa3d39aedd9ff8412c982689c09b109f95",
+      "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/execution"
+    ],
+    "lifecycleOwner": "wavedb-source-build-invoke-owner",
+    "authorityClass": "private",
+    "publicationClass": "internal"
+  }
+}
+

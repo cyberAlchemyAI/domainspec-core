@@ -1,0 +1,51 @@
+{
+  "schema_version": "invoke.plan-artifact-validation.v1",
+  "target": "ui-prototyping-studio-interface-workbench",
+  "validated_at": "2026-07-28T03:00:05Z",
+  "result": "pass",
+  "evidence_boundary": "plan-artifact-structure-only; product implementation and witnesses unexecuted",
+  "manifest_schema_revision": {
+    "from": "invoke.plan-swu-manifest.v1",
+    "to": "invoke.plan-swu-manifest.v2",
+    "intentional": true,
+    "reason": "represent semantic dependencies separately from serialization-only order"
+  },
+  "counts": {
+    "swus": 19,
+    "scope_rows": 19,
+    "primary_assertions": 19,
+    "closeout_rows": 19,
+    "execution_receipt_paths_in_w5_inventory": 19,
+    "refresh_receipt_paths_in_w5_inventory": 19
+  },
+  "checks": [
+    {"id": "JSON-PARSE", "result": "pass", "detail": "all top-level run JSON parses with jq"},
+    {"id": "SWU-SET-EQUALITY", "result": "pass", "detail": "manifest, scope, primary assertion, and closeout IDs equal SWU-UPW-001 through SWU-UPW-019"},
+    {"id": "SELECTION-CEILING", "result": "pass", "detail": "selected_swu is null and all 19 statuses are not-started"},
+    {"id": "SEMANTIC-EDGES", "result": "pass", "detail": "all dependencies reference known earlier SWUs and the graph is acyclic"},
+    {"id": "SERIALIZATION-EDGES", "result": "pass", "detail": "all serialization_after references are known, earlier, and acyclic"},
+    {"id": "SUCCESSOR-CHAIN", "result": "pass", "detail": "001 through 019 form the deterministic candidate chain and 019 has null successor"},
+    {"id": "SEQUENTIAL-PATH-SIMULATION", "result": "pass", "detail": "every existing path exists at its execution point and every create-if-absent path is absent until its owning SWU creates it"},
+    {"id": "ASSERTION-OWNERSHIP", "result": "pass", "detail": "19 unique assertion IDs and receipt fields; one primary SWU each; shared witnesses are non-primary"},
+    {"id": "CLOSEOUT-COVERAGE", "result": "pass", "detail": "every SWU row includes exact work-pack, manifest, task, wave, execution-pack, transport, execution receipt, refresh receipt, and successor"},
+    {"id": "W5-CONTRACT", "result": "pass", "detail": "exact closure report path, schema, writable fields, plan inventory, 19 execution receipts, and 19 refresh receipts"},
+    {"id": "CURRENT-SURFACE-STALE-SCAN", "result": "pass", "detail": "no stale 17-SWU, shorthand-scope, or blocked-on-plan-repair claim in current non-historical Plan surfaces"},
+    {"id": "DIFF-CHECK", "result": "pass", "detail": "git diff --check passed for the run directory"}
+  ],
+  "digests": {
+    "SWU-MANIFEST.json": "d9759e9c4c7f84a2845dd7b31e256bae7ab9ea7dfb63a873bc3692d2e95e6056",
+    "SWU-SCOPE-INVENTORY.json": "679672eae156d7603c5d1ff3d42a32a431dc48fdefe8d11a7aee9ef7b7f7d8b4",
+    "SWU-ACCEPTANCE-MATRIX.json": "2be8d71e325a2b41b088f5d9b53a2359794b087d5117d73e23fad9aaebf2e503",
+    "CLOSEOUT-SYNC-INVENTORY.json": "58766068f7e0d68ac22b7c92523ccb3cac32257c9e49bf88d79ef9035c19554d",
+    "top_level_plan_surface_set": "48efbda73eaca579cef993484fc8168b6e1d22f566645a0287db3d5738a70747",
+    "work_pack_markdown_set": "9800484d1bb5ae01abfc8b52349683c7e5b100d22e10065efe729bbd54121fb5"
+  },
+  "not_run": [
+    "TypeScript compilation",
+    "product unit tests",
+    "Playwright tests",
+    "UPW-FIX-001 through UPW-FIX-024",
+    "human study",
+    "fresh governed Plan Distill"
+  ]
+}

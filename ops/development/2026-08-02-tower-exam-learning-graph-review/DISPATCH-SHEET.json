@@ -1,0 +1,58 @@
+{
+  "dispatch_id": "2026-08-02-tower-exam-learning-graph-review",
+  "schema_version": "0.8.0",
+  "dispatch_type": "review",
+  "goal": "Attack the persisted tower-to-exam Refine seed from three independent lenses and identify the exact changes needed before it can become a defensible design and non-executed implementation plan.",
+  "context": "The target is the confirmed Refine run at /home/vrondelli/projects/direito-romano/development/refinement-runs/20260802T013629Z-tower-exam-learning-graph. The knowledge graph must derive from the three local Research Towers; questions and learner attempts are overlays, while DomainSpec ontology content is forbidden as knowledge authority. Reviewers are read-only and must preserve PDF-page provenance, OCR uncertainty, local-research-only status, and the distinction between a study-navigation prototype and evidence of exam effectiveness.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "working_folder": "ops/development/2026-08-02-tower-exam-learning-graph-review/",
+  "groups": [
+    {
+      "group_id": "refine-reviewers",
+      "n": 3,
+      "anti_bias": "methodology (formal vs adversarial vs historical)",
+      "predicted_disagreements": [
+        {
+          "pair": [0, 1],
+          "statement": "Agent 0 derives the minimum formal component and provenance schema while agent 1 attacks it through learner-task failures on the methodology axis; agent 1 exposes structurally valid elements that do not produce useful remediation, while agent 0 exposes tests that cannot be traced to tower data."
+        },
+        {
+          "pair": [0, 2],
+          "statement": "Agent 0 extracts stable structure from current tower artifacts while agent 2 traces historical residue and rejected-context contamination on the methodology axis; agent 2 exposes false stability across uncertain sources, while agent 0 exposes residue claims that do not alter the graph contract."
+        },
+        {
+          "pair": [1, 2],
+          "statement": "Agent 1 designs adversarial exam-question and feedback controls while agent 2 audits historical source and memory boundaries on the methodology axis; agent 2 exposes tests that overclaim from OCR or rejected prototypes, while agent 1 exposes boundary rules that cannot guide a learner's next action."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Lawvere, F. William",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2200,
+          "angle": "formally derive the minimum tower-artifact graph and stable provenance relations",
+          "initial_prompt": "Role ID: structure-explorer. Route: confirmed Refine review. Read only /home/vrondelli/projects/direito-romano/{README.md,CORPUS-MANIFEST.md,COMPARATIVE-INDEX.md,towers/*/{TOWER.md,claims/claim-ledger.md,definition-cards.md,worked-examples.md,learning-pack.md,residue/open-residue.md}} plus the Refine seed and strategy-inventory packet. Do not edit files, inspect PDF bodies, use network, or treat DomainSpec ontology nodes as content authority. Map the minimum tower-derived node families, relations, stable identity/provenance rules, and structure risks. Verify every finding against a current path and quote or precisely reference the relevant section. Return a receipt with agent_id, role_id, spawn_status, join_status, close_status, dispatch_id, scope reviewed, findings, validation impact, blockers or no-block verdict, residue, reroute, and handoff note."
+        },
+        {
+          "agent_name": "Simon, Herbert",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2200,
+          "angle": "adversarially falsify learner usefulness through bounded exam-question and feedback controls",
+          "initial_prompt": "Role ID: falsification-reviewer. Route: confirmed Refine review. Read only the Refine seed, the Direito Romano comparative index and three learning packs/worked examples/open-residue files, plus the strategy-inventory packet. Do not edit files, use network, invent legal answers, or claim learning effectiveness. Design the smallest 5-10-question toy game for possession/ownership/acquisition/protection, including one unsupported control, wrong-answer-to-evidence routing, deterministic checks, and browser interaction/accessibility negative controls. Attack whether the proposed graph helps a learner formulate the next right question rather than merely browse. Verify findings against current files. Return the required lifecycle receipt fields plus exact acceptance and failure criteria."
+        },
+        {
+          "agent_name": "Bateson, Gregory",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2200,
+          "angle": "historically separate tower evidence and open residue from rejected prototype context and unsupported promotion",
+          "initial_prompt": "Role ID: memory-residue-reviewer. Route: confirmed Refine review. Read only the Refine seed/manifest, the Direito Romano root manifests, each tower TOWER.md and open-residue file, the strategy-inventory packet, and the current prototype only far enough to identify rejected DomainSpec data-source residue. Do not edit files, inspect unrelated ontology examples, use network, or promote any term. Identify reusable interaction ideas versus forbidden knowledge content, duplicate assumptions, OCR/source-status risks, unresolved questions, and owner-routed residue. Verify every finding against a current path. Return the required lifecycle receipt fields, no-block or blocker verdict, and a concise handoff for parent synthesis."
+        }
+      ]
+    }
+  ],
+  "connections": []
+}

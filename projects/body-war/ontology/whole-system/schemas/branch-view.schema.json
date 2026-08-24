@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "body-war://whole-system/branch-view.schema.json",
+  "title": "Body War ontology branch view",
+  "type": "object",
+  "required": ["schema_version", "branch_id", "branch_role", "authority_effect"],
+  "properties": {
+    "schema_version": { "const": "body-war-branch-view/v1" },
+    "branch_id": { "type": "string", "pattern": "^body-war\\.branch\\.[a-z0-9.-]+$" },
+    "branch_role": { "enum": ["business", "system", "bridge"] },
+    "authority_effect": { "const": "none" }
+  }
+}

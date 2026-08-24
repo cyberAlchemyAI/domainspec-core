@@ -1,0 +1,494 @@
+{
+  "dispatch_id": "body-war-login-suggest-track-score-preview-20260728",
+  "intent": {
+    "raw": "Map and later implement the Body War journey from login through SuggestedTrack confirmation, Strava-derived candidate geometry, and a visible score preview.",
+    "objective": "Route separately authorized decisions, implementation units, local validation, moderated testing, real-provider integration, and hosted witness evidence without collapsing their authority.",
+    "target_artifact": "projects/body-war/app",
+    "arcanum_vocabulary": [
+      "decision-gate",
+      "task-session",
+      "ux-evidence-validator",
+      "experiment-harness"
+    ],
+    "operator_sentence": "No step is selected or authorized by this dispatch document."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "artifact_contract_bridge",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "The implementation units overlap one Body War app and must pass sequential schema, policy, and evidence gates.",
+    "explanation": "Use one bounded Task Session at a time. Parallel agents would create avoidable overlap in repository, server, UI, migration, and test files.",
+    "authorization": "blocked"
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Resolve local score and geometry policy decisions",
+      "capability_ref": "decision-gate",
+      "capability_status": "local-extension",
+      "mode": "resolve",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ARCHITECTURE.md#blocking-decisions"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "DEC-JSP-001..002"
+        }
+      ],
+      "stop_conditions": [
+        "block numeric implementation until ScorePolicy is ratified",
+        "block participant geometry persistence until privacy and retention are ratified"
+      ]
+    },
+    {
+      "step_id": "s2",
+      "name": "Build the local fixture prototype",
+      "capability_ref": "task-session",
+      "mode": "execute-selected-swu",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s1"
+      ],
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "DEC-JSP-001..002"
+        },
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md#task-jsp-l0-local-prototype"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "task-session/SWU-JSP-001..007"
+        }
+      ],
+      "join_policy": "all",
+      "stop_conditions": [
+        "one SWU per Task Session",
+        "block if fake and real provider modes are ambiguous",
+        "block if ownership evidence ordering canonical score input or active sink coverage is ambiguous",
+        "block on any source-backed or control-authority inflation"
+      ]
+    },
+    {
+      "step_id": "s3",
+      "name": "Validate and run moderated local formative sessions",
+      "capability_ref": "ux-evidence-validator",
+      "capability_status": "local-extension",
+      "mode": "validate",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s2"
+      ],
+      "techniques": [
+        "validation_loop",
+        "frame_handoff",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "task-session/SWU-JSP-007"
+        },
+        {
+          "kind": "artifact",
+          "ref": "UX-PLAN.md#moderated-test-boundary"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "T-JSP-UX-002"
+        }
+      ],
+      "stop_conditions": [
+        "do not recruit until code and browser gates pass",
+        "preserve formative-only evidence ceiling"
+      ]
+    },
+    {
+      "step_id": "s4",
+      "name": "Resolve the real-provider OAuth scope decision",
+      "capability_ref": "decision-gate",
+      "capability_status": "local-extension",
+      "mode": "resolve",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s3"
+      ],
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ARCHITECTURE.md#blocking-decisions"
+        },
+        {
+          "kind": "receipt",
+          "ref": "T-JSP-UX-002"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "DEC-JSP-003"
+        }
+      ],
+      "stop_conditions": [
+        "do not let the real-provider scope decision block L0 or L1",
+        "block SWU-JSP-008 until accepted scope and consent are explicit"
+      ]
+    },
+    {
+      "step_id": "s5",
+      "name": "Build the real Strava activity geometry and score-input gateway",
+      "capability_ref": "task-session",
+      "mode": "execute-selected-swu",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s4"
+      ],
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "DEC-JSP-003"
+        },
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md#task-jsp-l2-real-provider"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "task-session/SWU-JSP-008..009"
+        }
+      ],
+      "stop_conditions": [
+        "block if server-only token access cannot be proven",
+        "block if accepted scope or concurrent refresh safety cannot be proven",
+        "block if raw provider streams reach any enumerated sink",
+        "block real comparable score unless the ratified history contract yields a complete canonical snapshot"
+      ]
+    },
+    {
+      "step_id": "s6",
+      "name": "Prepare and validate the hosted admission package",
+      "capability_ref": "task-session",
+      "mode": "execute-selected-swu",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s5"
+      ],
+      "techniques": [
+        "frame_handoff",
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "task-session/SWU-JSP-009"
+        },
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md#swu-jsp-host-001-admission-package"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "task-session/SWU-JSP-HOST-001"
+        }
+      ],
+      "stop_conditions": [
+        "do not run a participant or live witness",
+        "block unless immutable artifact provider mode exact consent and claim-specific receipt validator pass",
+        "return to the parent for an explicit admit or reject event"
+      ]
+    },
+    {
+      "step_id": "s7",
+      "name": "Run one separately authorized hosted supervised real-provider witness",
+      "capability_ref": "experiment-harness",
+      "capability_status": "local-extension",
+      "mode": "run",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s6"
+      ],
+      "techniques": [
+        "frame_handoff",
+        "validation_loop",
+        "observability_grouping",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "task-session/SWU-JSP-HOST-001"
+        },
+        {
+          "kind": "decision",
+          "ref": "parent/HOST-ADMIT"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "T-JSP-STRAVA-003"
+        }
+      ],
+      "stop_conditions": [
+        "do not start without an explicit parent admit event bound to the admission receipt",
+        "one participant one activity one attempt",
+        "stop on identity consent state count or receipt ambiguity",
+        "do not infer repeat-safe unmoderated production or promotion"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-local-policy",
+      "kind": "decision",
+      "owner": "body-war-policy-owners",
+      "condition": "DEC-JSP-001 and DEC-JSP-002 have explicit owner decisions and exact artifacts before L0.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-real-scope",
+      "kind": "decision",
+      "owner": "body-war-policy-owners",
+      "condition": "DEC-JSP-003 has an explicit owner decision before SWU-JSP-008; it does not block L0 or L1.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-local-prototype",
+      "kind": "validation",
+      "owner": "task-session",
+      "condition": "All selected L0 SWUs pass scoped type, unit, repository, API, browser, and no-leak checks.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-moderated-test",
+      "kind": "validation",
+      "owner": "ux-evidence-validator",
+      "condition": "Affirmative consent and exact non-first track binding pass at 320px and 390px plus short-height 200 percent text long-content and orientation stressors.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-real-provider",
+      "kind": "quality",
+      "owner": "task-session",
+      "condition": "Non-fake gateway, accepted-scope validation, race-safe token refresh, allow-listing, qualifying-history snapshot, provider failures, and all-sink raw-stream exclusion pass.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-hosted-admission",
+      "kind": "promotion_guardrail",
+      "owner": "parent",
+      "condition": "A claim-specific HOST receipt proves immutable artifact, non-fake provider mode, exact external consent, one-attempt protocol, and receipt validator; the parent records admit or reject.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-hosted-witness",
+      "kind": "validation",
+      "owner": "experiment-harness",
+      "condition": "An explicit parent admit event is bound to the HOST receipt before one supervised witness runs under its claim-specific schema.",
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-policy-owner",
+        "kind": "human_approval",
+        "from_owner": "invoke-plan",
+        "to_owner": "body-war-policy-owners",
+      "applies_to_steps": [
+        "s1",
+        "s4"
+        ],
+        "contract": "Invoke may recommend candidate policies but cannot ratify score, privacy, retention, or OAuth scope.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-app-owner",
+        "kind": "capability_handoff",
+        "from_owner": "invoke-plan",
+        "to_owner": "task-session",
+      "applies_to_steps": [
+        "s2",
+        "s5"
+        ],
+        "contract": "Only an explicitly selected SWU may mutate the Body War app and each session must return scoped evidence.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-human-evidence",
+        "kind": "evidence_return",
+        "from_owner": "participant-and-operator",
+        "to_owner": "ux-evidence-validator-and-experiment-harness",
+      "applies_to_steps": [
+        "s3",
+        "s7"
+      ],
+        "contract": "Human and live-provider outcomes remain separate from code and browser-test evidence.",
+      "on_violation": "block"
+    },
+    {
+      "boundary_id": "b-host-admission",
+      "kind": "human_approval",
+      "from_owner": "task-session",
+      "to_owner": "parent",
+      "applies_to_steps": [
+        "s6",
+        "s7"
+      ],
+      "contract": "A validated HOST package returns to the parent for explicit admit or reject; admission never implies witness execution.",
+      "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Body War Craft and feature owners",
+      "execution": "task-session or experiment-harness after explicit selection",
+      "validation": "dispatch-spec plus owning validator",
+      "evidence": "named code browser participant or real-provider receipt",
+      "promotion": "not granted by this route"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-local-prototype",
+        "producer": "task-session",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue"
+        ],
+        "stores": [
+          "projects/body-war/development/task-sessions/"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-moderated-ux",
+        "producer": "ux-evidence-validator",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "residue"
+        ],
+        "stores": [
+          "projects/body-war/development/ux-evidence/"
+        ],
+        "on_missing": "block"
+      },
+      {
+      "receipt_id": "r-host-admission",
+      "producer": "task-session",
+      "required_fields": [
+        "dispatch_id",
+        "step_id",
+        "capability_ref",
+        "status",
+        "artifacts",
+        "validation_result",
+        "approval_record",
+        "residue"
+      ],
+      "stores": [
+        "projects/body-war/development/task-sessions/"
+      ],
+      "on_missing": "block"
+    },
+    {
+      "receipt_id": "r-real-provider-witness",
+      "producer": "experiment-harness",
+      "required_fields": [
+        "dispatch_id",
+        "step_id",
+        "capability_ref",
+        "status",
+        "artifacts",
+        "validation_result",
+        "approval_record",
+        "audit_reference",
+        "residue"
+        ],
+        "stores": [
+          "projects/body-war/development/experiment-runs/"
+        ],
+        "on_missing": "block"
+      }
+    ]
+  },
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "decision_recorded",
+      "swu_selected",
+      "task_session_closed",
+      "local_gate_verdict",
+      "moderated_session_receipt",
+      "real_gateway_receipt",
+      "hosted_admission_verdict",
+      "real_provider_witness_receipt"
+    ],
+    "signal_grouping": "dispatch_id step_id swu_id evidence_lane"
+  },
+  "promotion_guardrails": [
+    "A confirmation may create candidate evidence only.",
+    "Geometry remains principal-private candidate_from_activity.",
+    "Score remains preview_only and cannot decide controller or conquest.",
+    "A fake-provider pass cannot satisfy a real-provider gate.",
+    "A supervised witness cannot imply repeat-safe, unmoderated, production, or source-backed status."
+  ]
+}

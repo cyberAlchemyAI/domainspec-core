@@ -1,0 +1,48 @@
+{
+  "agent_id": "Lawvere, F. William",
+  "role_id": "structure-explorer",
+  "spawn_status": "completed",
+  "join_status": "completed",
+  "close_status": "closed",
+  "dispatch_id": "2026-08-02-tower-exam-learning-graph-review",
+  "step_id": "delegated-refine-review",
+  "capability_ref": "review",
+  "status": "pass-with-blocker-for-implementation-planning",
+  "artifacts": [],
+  "scope_reviewed": [
+    "Direito Romano root README, corpus manifest, and comparative index",
+    "all three tower control records, claim ledgers, definition cards, worked examples, learning packs, and open residue",
+    "Refine seed/run artifacts and Strategy Inventory Packet"
+  ],
+  "findings": [
+    "Initial persisted families should be Source, Tower, Claim, DefinitionCard, WorkedExample, OpenResidue, and PageCitation; learner questions and attempts are a separate overlay.",
+    "Topic, StudyRoute, Prerequisite, Exception/Counterexample, and generic Evidence should begin as derived projections or provenance records, not independent authoritative nodes.",
+    "Minimum relations are belongs-to-tower, tower-uses-source, assertion-supported-by-page, claim-classified-as, residue-owned-by, and explicitly evidenced related-source.",
+    "Identity must combine immutable source SHA-256, tower slug, artifact path, record kind, and local ID or deterministic selector; input order must never define identity.",
+    "Every assertion edge needs source hash, physical page/range, tower artifact selector, evidence taxonomy, and extraction status; OCR uncertainty must propagate."
+  ],
+  "evidence": [
+    "REFINE-SEED-PROPOSAL.md: Correction to the previous prototype, Candidate graph model, and falsification criterion 6",
+    "CORPUS-MANIFEST.md: Included sources and evidence/authority boundary",
+    "each tower's claim-ledger.md, definition-cards.md, worked-examples.md, learning-pack.md, and residue/open-residue.md",
+    "COMPARATIVE-INDEX.md: Comparison rule"
+  ],
+  "validation": [
+    "typed persisted/derived/session record contract",
+    "deterministic namespaced IDs with reorder/rebuild and collision fixtures",
+    "provenance completeness and page-bound checks",
+    "negative controls for unsupported semantic edges, consensus inflation, and OCR uncertainty loss"
+  ],
+  "observer_status": "not-configured",
+  "blockers": [
+    "Implementation planning is blocked until stable identity/provenance and persisted-versus-derived boundaries are selected."
+  ],
+  "residue": [
+    "stable cross-tower IDs unproved",
+    "worked-example and citation IDs absent",
+    "learner-question storage boundary unselected",
+    "relation provenance and regeneration rules unselected"
+  ],
+  "reroute": "Refine design and Distill repair",
+  "handoff_note": "Treat broad seed vocabulary as candidates; accept only tower-persisted families as initial authority-bearing records and require all projections to regenerate deterministically and abstain without explicit evidence."
+}

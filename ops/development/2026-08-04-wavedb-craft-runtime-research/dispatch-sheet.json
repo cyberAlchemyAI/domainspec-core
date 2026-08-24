@@ -1,0 +1,197 @@
+{
+  "dispatch_id": "2026-08-04-wavedb-craft-runtime-research",
+  "schema_version": "0.8.0",
+  "dispatch_type": "research",
+  "goal": "Determine whether and how WaveDB can serve as a runtime substrate for Craft while preserving Craft's canonical ledger, derived-view, workspace, evidence, and owner boundaries; produce an implementation-usable architecture and falsifiable prototype plan, not implementation or promotion.",
+  "context": "Canonical Craft is a file-backed Arcana sigil whose .craft/ledger.yml is currently the sole project-local source of truth; it ships no public CLI, row updater, renderer, index builder, or database adapter. Historical Craft development evidence recommends an orchestrator-first runtime after recursive model-backed command attempts timed out, but that material is not runtime authority. WaveDB's README describes hierarchical paths, MVCC snapshots, batch operations, WAL durability, schema layers, graph traversal, namespace-isolated subtrees, Node.js bindings, encryption, build tests, and an MIT license; the research must pin and verify the exact source before converting those claims into a Craft design.",
+  "max_loops": 2,
+  "final_approver": "parent",
+  "anti_bias_global": "Method and source tension across external database semantics, canonical Craft authority, migration and failure safety, finite runtime witnessing, and adversarial collapse tests.",
+  "working_folder": "ops/development/2026-08-04-wavedb-craft-runtime-research/",
+  "groups": [
+    {
+      "group_id": "explorers",
+      "n": 4,
+      "anti_bias": "Composite of methodology and source-corpus: empirical external-source verification, formal local-contract mapping, adversarial migration and failure analysis, and computational fixture design.",
+      "predicted_disagreements": [
+        {
+          "pair": [0, 1],
+          "statement": "Agent 0 runs empirical WaveDB source verification while agent 1 runs formal canonical-Craft contract mapping on the methodology and source-corpus axes; a bias in agent 0 toward database features would be exposed by agent 1 when a feature violates ledger authority, while a bias in agent 1 toward the file baseline would be exposed by agent 0 when WaveDB supplies a bounded capability without changing authority."
+        },
+        {
+          "pair": [0, 2],
+          "statement": "Agent 0 runs capability extraction from WaveDB while agent 2 runs adversarial migration, crash, concurrency, and security analysis on the methodology axis; a bias in agent 0 toward happy-path APIs would be exposed by agent 2 through recovery and compatibility failures, while a bias in agent 2 toward rejection would be exposed by agent 0 when the source already supplies a bounded control."
+        },
+        {
+          "pair": [0, 3],
+          "statement": "Agent 0 verifies WaveDB architecture and bindings while agent 3 builds a computationally precise Craft fixture and measurement design on the methodology axis; a bias in agent 0 toward feature descriptions would be exposed by agent 3 when no row-level witness can exercise them, while a bias in agent 3 toward a convenient fixture would be exposed by agent 0 when it assumes an unsupported database guarantee."
+        },
+        {
+          "pair": [1, 2],
+          "statement": "Agent 1 maps the canonical Craft ledger and schema contract while agent 2 attacks migration, rollback, stale-source, encryption, and authority transitions on the source-corpus and methodology axes; a bias in agent 1 toward clean static mappings would be exposed by agent 2 under failure, while a bias in agent 2 toward operational complexity would be exposed by agent 1 when the canonical contract forbids or defers that behavior."
+        },
+        {
+          "pair": [1, 3],
+          "statement": "Agent 1 derives invariant-preserving adapter boundaries while agent 3 derives the smallest executable fixture and acceptance matrix on the methodology axis; a bias in agent 1 toward documentation-only completeness would be exposed by agent 3 when no finite witness exists, while a bias in agent 3 toward runnable convenience would be exposed by agent 1 when the fixture collapses source truth, projections, receipts, or owner decisions."
+        },
+        {
+          "pair": [2, 3],
+          "statement": "Agent 2 runs adversarial failure and migration analysis while agent 3 runs computational fixture, negative-control, and measurement design on the methodology axis; a bias in agent 2 toward hypothetical hazards would be exposed by agent 3 through bounded tests, while a bias in agent 3 toward passing examples would be exposed by agent 2 through missing crash, concurrency, downgrade, corruption, and key-handling cases."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Turing, Alan",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3400,
+          "angle": "Empirical external-source verification of WaveDB's hierarchical paths, MVCC, WAL, batch, snapshot, subtree, schema-layer, graph, Node.js, encryption, build, test, performance, and license claims.",
+          "initial_prompt": "Verify the user-selected WaveDB source for possible Craft runtime use. Start with https://github.com/vijayee/WaveDB/blob/master/README.md, resolve and record an immutable commit identity and digest, and inspect only first-party WaveDB files needed to validate load-bearing README claims. Return exact selectors and a current-versus-roadmap matrix for hierarchical paths, batch atomicity, snapshots/MVCC, WAL and crash durability, subtrees, Graph/GraphQL layers, Node.js binding maturity, encryption/key behavior, build/test commands, dependencies, performance-claim boundary, and MIT licensing. For each feature, state what it could support in Craft and what remains unverified. Do not edit files, install packages, build WaveDB, or treat README claims as executed evidence."
+        },
+        {
+          "agent_name": "Hewitt, Carl",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3600,
+          "angle": "Formal local-contract mapping across canonical Craft authority, row families, indexes, workspace resolution, route evidence, derived views, absent runtime surfaces, and historical runtime evidence.",
+          "initial_prompt": "Map canonical Craft to a possible WaveDB-backed runtime without changing current authority by assumption. Use arcanum/arcana/craft/SKILL.md, README.md, ARCHITECTURE.md, schemas, and examples as current authority; use arcanum/development/craft/CRAFT-RUNTIME-DESIGN.md and CRAFT-REFINE-RUNTIME-STRATEGY.md only as historical evidence. Produce: invariant list; row-family and link/index mapping; candidate hierarchical namespaces and keys; operation-to-put/get/batch/scan/snapshot mapping; workspace isolation; derived CRAFT.md and index rebuild flow; route receipt handling; and the exact delta required for each posture: projection/cache only, transactional sidecar with YAML authority, or WaveDB canonical-store replacement. Reject any design that silently makes a derived database authoritative or rewrites called capabilities' artifacts. Cite exact local selectors. Do not edit files."
+        },
+        {
+          "agent_name": "Meadows, Donella H.",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3400,
+          "angle": "Adversarial lifecycle and systems analysis of migration, dual-write drift, crash recovery, concurrency, snapshots, rollback, corruption, schema evolution, key management, public packaging, and owner transitions.",
+          "initial_prompt": "Pressure-test the WaveDB-for-Craft idea as a lifecycle and failure system. Compare the pinned WaveDB evidence with canonical Craft invariants and historical runtime residue. Model bootstrap, import, steady state, concurrent reads/writes, batch failure, process crash, power loss, stale snapshot, schema upgrade, rollback, database corruption, rebuild, key loss/rotation, downgrade, workspace deletion, and public package installation. Identify where YAML remains authority, where dual-write is unacceptable, which artifacts and receipts prove recovery, and which decisions require Craft owner, security, licensing, or publication approval. Return a failure-mode table and migration/rollback contract with explicit KILL/HOLD conditions. Do not edit files or perform destructive tests."
+        },
+        {
+          "agent_name": "Simon, Herbert",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3400,
+          "angle": "Computational witness design using synthetic Craft examples, exact key-path mappings, deterministic adapter boundaries, negative controls, and bounded performance and recovery measurements.",
+          "initial_prompt": "Design the smallest falsifiable prototype plan; do not implement it. Use canonical Craft schemas/examples and only verified WaveDB APIs. Define one synthetic workspace fixture that exercises context, description, raw and refined blocker, decision, gap, child context, link, artifact receipt, next move, recomposition, indexes, and CRAFT.md export. Specify exact hierarchical keys, encoded values, batches, snapshots, scans, subtree isolation, rebuilds, expected receipts, and round-trip hashes. Include negative controls for invalid refs, wrong workspace, stale ledger digest, partial batch, concurrent writers, crash/reopen, corrupted database, and derived-view writeback. Name unit, integration, recovery, migration, concurrency, and benchmark thresholds as hypotheses, not proven numbers. Do not edit files or run the prototype."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Shannon, Claude",
+          "role": "synthesizer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 5200,
+          "initial_prompt": "Reconcile the four explorer returns into one exact-bound candidate architecture. Preserve conflicts and compare three postures: WaveDB as rebuildable projection/cache, WaveDB as transactional runtime sidecar while .craft/ledger.yml remains authority, and WaveDB as replacement canonical store. Produce a verdict matrix, invariant and owner matrix, data/key layout, adapter interface, operation and transaction flow, concurrency and snapshot semantics, migration/rollback/recovery plan, security and packaging boundary, CLI/runtime surface delta, smallest fixture, deterministic and operational tests, measurement hypotheses, and ordered implementation slices. Every load-bearing row must carry immutable source identity, source-local selector, explorer return reference, evidence scope, and proof status. Do not edit files."
+        }
+      ]
+    },
+    {
+      "group_id": "reviewers",
+      "n": 3,
+      "anti_bias": "Attack-vector axis: precedent and duplicated ownership, non-vacuity and finite runtime witness, and definitional plus authority-boundary non-collapse.",
+      "predicted_disagreements": [
+        {
+          "pair": [0, 1],
+          "statement": "Agent 0 runs precedent and duplicated-owner attack while agent 1 runs non-vacuity and finite-witness attack on the attack-vector axis; a bias in agent 0 toward existing file-backed ownership would be exposed by agent 1 if a WaveDB adapter yields measurable value, while a bias in agent 1 toward a runnable witness would be exposed by agent 0 if it duplicates an owned Craft or runtime surface."
+        },
+        {
+          "pair": [0, 2],
+          "statement": "Agent 0 runs precedent and reuse classification while agent 2 runs definitional and authority-collapse attack on the attack-vector axis; a bias in agent 0 toward build-from-owned reuse would be exposed by agent 2 if reused terms collapse database, ledger, event, receipt, projection, or authority, while a bias in agent 2 toward extra distinctions would be exposed by agent 0 when current owners already preserve them."
+        },
+        {
+          "pair": [1, 2],
+          "statement": "Agent 1 runs executable witness and negative-control attack while agent 2 runs definitional and authority-boundary attack on the attack-vector axis; a bias in agent 1 toward operational success would be exposed by agent 2 if the fixture silently changes source truth or promotion authority, while a bias in agent 2 toward conceptual purity would be exposed by agent 1 if it cannot produce a finite useful runtime path."
+        }
+      ],
+      "agents": [
+        {
+          "agent_name": "Lakatos, Imre",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2600,
+          "angle": "Precedent attack against duplicated databases, ledgers, index builders, row planners, renderers, CLI surfaces, schedulers, or invented novelty; finding an owner yields build-from-owned, never KILL.",
+          "initial_prompt": "Attack the synthesis for precedent and duplicated ownership only. Verify proposed responsibilities against canonical Craft, historical Craft runtime proposals, WaveDB first-party evidence, and any current Arcanum capability owners cited by explorers. Classify each component as already-deployed, build-from-owned, novel-attempt, or unsupported duplication. A found owner is positive and never a KILL. Return exact source selectors and required scope reductions. Do not edit files."
+        },
+        {
+          "agent_name": "Popper, Karl",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2800,
+          "angle": "Non-vacuity attack requiring an exact synthetic Craft round trip plus negative, concurrency, crash, migration, recovery, and rebuild controls.",
+          "initial_prompt": "Attack the synthesis for non-vacuity only. Walk the proposed fixture from YAML authority through import or adapter operations, concurrent read/write, crash/reopen, validation, derived index and CRAFT.md regeneration, and rollback. Require exact keys, values, transaction/batch boundaries, digests, expected states, failure receipts, and pass/block/no-op cases grounded in verified APIs. KILL any posture that lacks a finite witness or depends on an unverified database guarantee; otherwise return bounded repairs and test obligations. Do not edit files."
+        },
+        {
+          "agent_name": "Quine, Willard Van Orman",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2800,
+          "angle": "Definitional and authority-boundary attack across database, ledger, event log, WAL, snapshot, graph, index, projection, human view, receipt, evidence, workspace, route, and canonical Craft contract.",
+          "initial_prompt": "Attack the synthesis for definitional and authority soundness only. Test that WaveDB database state is not silently equated with the Craft ledger, WAL with Craft events, MVCC snapshots with evidence receipts, Graph triples with canonical Craft relations, subtrees with authority scopes, GraphQL with schema authority, indexes with source truth, or successful runtime behavior with promotion. Require an explicit owner and change route for any canonical-store replacement. Return collapse tests, KILL/HOLD findings, and exact repairs. Do not edit files."
+        }
+      ]
+    },
+    {
+      "group_id": "writer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "van Lamsweerde, Axel",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4800,
+          "initial_prompt": "Only after the parent supplies an exact-binding evidence-closure packet with verdict ready, write ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md and no other file. Include the three-posture verdict matrix, accepted or killed architecture, current-versus-proposed boundaries, exact key/data and adapter contracts, migration/rollback/recovery, security and packaging, finite fixture, tests and measurements, implementation slices, owner decisions, claim ceiling, and open residue. Every load-bearing claim must cite research.md or the closed synthesis and its immutable source selector. Do not edit research.md, Craft sources, Inventory, telemetry, or WaveDB."
+        }
+      ]
+    },
+    {
+      "group_id": "auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3200,
+          "initial_prompt": "Audit findings.md against the frozen sheet, research.md, exact-binding closure matrix, synthesis, and reviewer returns. Require a clear verdict for projection/cache, transactional sidecar with YAML authority, and canonical-store replacement; preservation of current Craft authority unless a later owner route changes it; exact WaveDB revision/selectors; no README-as-runtime-proof; no database/ledger/receipt/authority collapse; an actionable finite fixture with negative controls; migration, rollback, crash, concurrency, security, licensing, packaging, and public-boundary treatment; and ordered implementation slices with owners and claim ceilings. Return RECOMMEND_ACCEPT or one bounded writer revision request for parent approval. Do not edit files."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "explorers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "reviewers",
+      "type": "zig-zag",
+      "loop_cap": 1
+    },
+    {
+      "from": "synthesizer",
+      "to": "explorers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "reviewers",
+      "to": "writer",
+      "type": "sequential"
+    },
+    {
+      "from": "writer",
+      "to": "auditor",
+      "type": "sequential"
+    },
+    {
+      "from": "auditor",
+      "to": "writer",
+      "type": "feedback",
+      "loop_cap": 1
+    }
+  ]
+}

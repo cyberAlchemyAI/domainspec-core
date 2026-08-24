@@ -1,0 +1,309 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+  "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+  "state": "wave_ready",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "writer",
+    "role_ids": [
+      "wavedb-craft-writer"
+    ],
+    "parallel": false,
+    "join_policy": "all",
+    "depends_on_waves": [
+      "reviewers"
+    ],
+    "gate_after": "g-writer",
+    "on_incomplete": "block"
+  },
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0001",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+      "forbidden_write_scopes": [
+        "arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+        "https://github.com/vijayee/WaveDB/blob/master/README.md"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/explorer-wavedb-source.json"
+      ],
+      "role": "wavedb-source-explorer",
+      "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+      "wave_id": "explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0002",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+      "forbidden_write_scopes": [
+        "arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+        "arcanum/arcana/craft/SKILL.md",
+        "arcanum/arcana/craft/ARCHITECTURE.md"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/explorer-craft-contract.json"
+      ],
+      "role": "craft-contract-explorer",
+      "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+      "wave_id": "explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0003",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+      "forbidden_write_scopes": [
+        "arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/strategy-inventory-packet.json"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/explorer-lifecycle-failure.json"
+      ],
+      "role": "lifecycle-failure-explorer",
+      "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+      "wave_id": "explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0004",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+      "forbidden_write_scopes": [
+        "arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+        "arcanum/arcana/craft/examples/product-launch-ledger.yml",
+        "arcanum/arcana/craft/templates/ledger.schema.yml"
+      ],
+      "mode": "explore",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/explorer-fixture-design.json"
+      ],
+      "role": "fixture-design-explorer",
+      "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+      "wave_id": "explorers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0005",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s2"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+      "forbidden_write_scopes": [
+        "arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "receipts/explorer-wavedb-source.json",
+        "receipts/explorer-craft-contract.json",
+        "receipts/explorer-lifecycle-failure.json",
+        "receipts/explorer-fixture-design.json"
+      ],
+      "mode": "synthesize",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/wavedb-craft-synthesis.json"
+      ],
+      "role": "wavedb-craft-synthesizer",
+      "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s2",
+      "target": "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+      "wave_id": "synthesizer",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0006",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s3"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+      "forbidden_write_scopes": [
+        "arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "receipts/wavedb-craft-synthesis.json"
+      ],
+      "mode": "review",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/reviewer-precedent.json"
+      ],
+      "role": "precedent-reviewer",
+      "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s3",
+      "target": "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+      "wave_id": "reviewers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0007",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s3"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+      "forbidden_write_scopes": [
+        "arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "receipts/wavedb-craft-synthesis.json"
+      ],
+      "mode": "review",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/reviewer-non-vacuity.json"
+      ],
+      "role": "non-vacuity-reviewer",
+      "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s3",
+      "target": "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+      "wave_id": "reviewers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0008",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s3"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+      "forbidden_write_scopes": [
+        "arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "receipts/wavedb-craft-synthesis.json"
+      ],
+      "mode": "review",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "receipts/reviewer-non-collapse.json"
+      ],
+      "role": "non-collapse-reviewer",
+      "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s3",
+      "target": "ops/development/2026-08-04-wavedb-craft-runtime-research/dispatch-sheet.json",
+      "wave_id": "reviewers",
+      "write_scope": []
+    },
+    {
+      "action": "spawn",
+      "action_id": "spawn-0009",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s4"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-04-wavedb-craft-runtime-research-route",
+      "forbidden_write_scopes": [
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/research.md",
+        "arcanum/",
+        "telemetry/agents/"
+      ],
+      "input_refs": [
+        "receipts/reviewer-precedent.json",
+        "receipts/reviewer-non-vacuity.json",
+        "receipts/reviewer-non-collapse.json",
+        "receipts/evidence-closure.json"
+      ],
+      "mode": "write-findings",
+      "mutation_policy": "artifact-only",
+      "output_refs": [
+        "receipts/wavedb-craft-writer.json"
+      ],
+      "role": "wavedb-craft-writer",
+      "run_id": "run-2026-08-04-wavedb-craft-runtime-01",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s4",
+      "target": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "wave_id": "writer",
+      "write_scope": [
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+      ]
+    }
+  ],
+  "action_artifacts": []
+}
+

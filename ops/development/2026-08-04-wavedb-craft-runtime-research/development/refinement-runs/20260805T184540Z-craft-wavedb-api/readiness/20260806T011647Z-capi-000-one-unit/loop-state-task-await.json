@@ -1,0 +1,137 @@
+{
+  "allowed_routes_digest": "df0564ab7ad349d2555b90d4143e8d54df3210cdb12acfb2ed8367b01bc6a6c7",
+  "authority_effect": "none",
+  "authorization_prompt_count": 0,
+  "automatic_decisions": [
+    {
+      "action_type": "select-unit",
+      "decision_class": "internal-tool-selection",
+      "selected_unit": "SWU-CAPI-000",
+      "sequence": 1
+    },
+    {
+      "action_type": "start-task-session",
+      "decision_class": "fresh-task-session-resumption",
+      "selected_unit": "SWU-CAPI-000",
+      "sequence": 2
+    }
+  ],
+  "binding_ids": [
+    "wpeb-ee8993e36c3f9709ea7eb7f2",
+    "wpeb-58c7735349c29d772a0470aa"
+  ],
+  "captured_frontier": [
+    "SWU-CAPI-000"
+  ],
+  "completion_continuity": {
+    "authority_effect": "none",
+    "completed_prefix": [],
+    "continuity_digest": "e358c34202f7f45056434e2b4e1565ec1706018976f06774970f4c679fb80f9a",
+    "next_unit": "SWU-CAPI-000",
+    "plan_epoch_id": "epoch-960df2e521f0a05e892a92d7",
+    "source_audit_id": "CAPI-AUTO-SWU-CAPI-000-20260806T011647Z",
+    "source_projection_digest": "7f18043e2f6be25feadc0025d782a7fb611c681f9a188b896673fd08ef72c38b",
+    "work_pack_semantic_digest": "c34880e4546b6577150108b4ef8a7b38a1e2f3a1a60fba7b7a50915fce97d427"
+  },
+  "consumed_route_fingerprints": [
+    "5f53605eaefffaffb759db31524a941e44bb6333d8c88d94b160d353bd851ba7"
+  ],
+  "created_at": "2026-08-06T01:16:47Z",
+  "current_binding": {
+    "allowed_routes_digest": "df0564ab7ad349d2555b90d4143e8d54df3210cdb12acfb2ed8367b01bc6a6c7",
+    "authority_effect": "bounded-execution-only",
+    "automatic_decisions": [
+      "internal-tool-selection",
+      "capability-owner-routing",
+      "fresh-task-session-resumption"
+    ],
+    "binding_digest": "883126b7e693e66b589819515ba6f886048636b9d163576f5a2b0794c605f3c3",
+    "binding_id": "wpeb-58c7735349c29d772a0470aa",
+    "captured_frontier": [
+      "SWU-CAPI-000"
+    ],
+    "completion_continuity_digest": "e358c34202f7f45056434e2b4e1565ec1706018976f06774970f4c679fb80f9a",
+    "created_at": "2026-08-06T01:16:47Z",
+    "current_route": {
+      "capability": "task-session",
+      "effect_class": "repository-local-reversible",
+      "expected_receipt": "task-session/terminal-receipt.json",
+      "frontier_swu": "SWU-CAPI-000",
+      "mode": "execute",
+      "required_inputs": [
+        "plan-semantic-manifest.json",
+        "selection-receipt.json",
+        "material-package.json",
+        "mutation-admission-receipt.json"
+      ],
+      "route_id": "task-session-SWU-CAPI-000",
+      "target": "SWU-CAPI-000",
+      "write_scope": [
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/import-ledgers-byte-normalized.js",
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/store",
+        "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01/receipt.json"
+      ]
+    },
+    "execution_mode": "one-unit",
+    "route_fingerprint": "5f53605eaefffaffb759db31524a941e44bb6333d8c88d94b160d353bd851ba7",
+    "schema_version": "1.1.0",
+    "selected_unit": "SWU-CAPI-000",
+    "source_invocation_id": "invoke-capi-auto-swu-capi-000-20260806T011647Z",
+    "stop_decisions": [
+      "product-or-semantic-choice",
+      "scope-expansion",
+      "destructive-or-irreversible-effect",
+      "credentials-or-secret-access",
+      "external-message-or-network-effect",
+      "cost-policy-or-risk-acceptance",
+      "authority-promotion-publication-deployment",
+      "failed-acceptance-critical-validation"
+    ],
+    "validation_commands": [
+      "{\"argv\":[\"/home/vrondelli/.nvm/versions/node/v26.6.0/bin/node\",\"--check\",\"ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/import-ledgers-byte-normalized.js\"],\"command_id\":\"capi-000-builder-syntax\",\"cwd\":\".\",\"timeout_seconds\":20}",
+      "{\"argv\":[\"jq\",\"-e\",\".verdict == \\\"pass\\\" and .attemptId == \\\"wcli-20260805-node26-0.15.9-01\\\" and .environment.node == \\\"v26.6.0\\\" and .dependency.version == \\\"0.15.9\\\" and .scope.ledgerCount == 27 and .database.recordCount == 55 and .verification.completeImmediateByteReadback == \\\"pass\\\" and .verification.completeByteReadbackAfterReopen == \\\"pass\\\" and .verification.sourceImmutabilityBeforeAfter == \\\"pass\\\" and .authority.craftFilesMutated == false\",\"ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01/receipt.json\"],\"command_id\":\"capi-000-receipt-semantics\",\"cwd\":\".\",\"timeout_seconds\":20}",
+      "{\"argv\":[\"git\",\"diff\",\"--check\",\"--\",\"ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01\",\"ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01\"],\"command_id\":\"capi-000-scoped-whitespace\",\"cwd\":\".\",\"timeout_seconds\":20}"
+    ],
+    "work_pack_id": "WP-CAPI-20260805",
+    "work_pack_semantic_digest": "c34880e4546b6577150108b4ef8a7b38a1e2f3a1a60fba7b7a50915fce97d427",
+    "write_scope_union": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/import-ledgers-byte-normalized.js",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/.work/wcli-20260805-node26-0.15.9-01/store",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/craft-ledger-import/execution/wcli-20260805-node26-0.15.9-01/receipt.json"
+    ]
+  },
+  "current_entry": {
+    "allowed_routes_digest": "df0564ab7ad349d2555b90d4143e8d54df3210cdb12acfb2ed8367b01bc6a6c7",
+    "authority_effect": "none",
+    "blocker_code": null,
+    "entry_state": "task-ready",
+    "next_owner": {
+      "capability": "task-session",
+      "mode": "execute",
+      "target": "SWU-CAPI-000"
+    },
+    "route_id": "task-session-SWU-CAPI-000",
+    "schema_version": "1.0.0",
+    "selected_unit": "SWU-CAPI-000",
+    "work_pack_id": "WP-CAPI-20260805",
+    "work_pack_semantic_digest": "c34880e4546b6577150108b4ef8a7b38a1e2f3a1a60fba7b7a50915fce97d427"
+  },
+  "execution_mode": "one-unit",
+  "loop_id": "wpol-e4b73dcaa629a79ceca4fdc2",
+  "owner_receipts": [],
+  "pending_action_id": "wpoa-a4d01beb39d7891325b55ea0",
+  "pending_retry": null,
+  "pending_stop_decision": null,
+  "pending_task_session_id": "task-session-3a17208a3e7f3959a229",
+  "phase": "awaiting-task-session",
+  "route_retry_counts": {},
+  "schema_version": "1.2.0",
+  "source_invocation_id": "invoke-capi-auto-swu-capi-000-20260806T011647Z",
+  "step_budget": 4,
+  "steps_used": 1,
+  "stop_reason": null,
+  "task_session_receipts": [],
+  "visited_units": [],
+  "work_pack_id": "WP-CAPI-20260805",
+  "work_pack_semantic_digest": "c34880e4546b6577150108b4ef8a7b38a1e2f3a1a60fba7b7a50915fce97d427"
+}

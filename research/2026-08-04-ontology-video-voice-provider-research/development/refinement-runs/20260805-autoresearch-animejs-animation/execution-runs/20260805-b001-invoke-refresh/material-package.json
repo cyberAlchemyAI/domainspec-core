@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "oava-b001-invoke-refresh-20260805",
+  "mutation_mode": "apply-approved",
+  "mutation_state": "materialized",
+  "lifecycle_owner": "invoke",
+  "authority_class": "private",
+  "publication_class": "internal",
+  "source_artifacts": [
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260805-b001-animejs-runtime/acquisition-receipt.json",
+      "sha256": "57f76981d2b1e885f54a3d30f9d3fd6621f3c0e05cca371bec23f5791acfaf1d",
+      "size_bytes": 1927,
+      "authority_class": "private"
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260805-b001-animejs-runtime/validation-receipt.json",
+      "sha256": "1f657a551cb2ec3f74228fd00f3949a7002417205e7cbd8322971d7f025a2204",
+      "size_bytes": 2089,
+      "authority_class": "private"
+    },
+    {
+      "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260805-b001-animejs-runtime/continuation-route.json",
+      "sha256": "9b9c31670988d7f6c2c1dfb1b830aa958095a5a3235098b8c464e08c7adc1801",
+      "size_bytes": 2204,
+      "authority_class": "private"
+    }
+  ],
+  "changes": [
+    {
+      "target_path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md",
+      "operation": "update",
+      "output_ref": {
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260805-b001-invoke-refresh/staging/WORK-PACK.md",
+        "sha256": "9a637ef64d788907af126205e3928aea828a4b86aa3bad49e691e6b88c15646d",
+        "size_bytes": 5023
+      }
+    },
+    {
+      "target_path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF.md",
+      "operation": "update",
+      "output_ref": {
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260805-b001-invoke-refresh/staging/RUNTIME-HANDOFF.md",
+        "sha256": "377f87dccab9428d55a0eac65d2b0637220babdcab91fa4a3b8e1a91be0a570e",
+        "size_bytes": 1083
+      }
+    }
+  ],
+  "target_inventory": [
+    {
+      "target_path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md",
+      "lifecycle_owner": "invoke",
+      "authority_class": "private",
+      "publication_class": "internal",
+      "dependency_ids": ["animejs-acquisition", "animejs-validation"]
+    },
+    {
+      "target_path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF.md",
+      "lifecycle_owner": "invoke",
+      "authority_class": "private",
+      "publication_class": "internal",
+      "dependency_ids": ["animejs-acquisition", "animejs-validation"]
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "animejs-acquisition",
+      "artifact_ref": {
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260805-b001-animejs-runtime/acquisition-receipt.json",
+        "sha256": "57f76981d2b1e885f54a3d30f9d3fd6621f3c0e05cca371bec23f5791acfaf1d",
+        "size_bytes": 1927
+      }
+    },
+    {
+      "dependency_id": "animejs-validation",
+      "artifact_ref": {
+        "path": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260805-b001-animejs-runtime/validation-receipt.json",
+        "sha256": "1f657a551cb2ec3f74228fd00f3949a7002417205e7cbd8322971d7f025a2204",
+        "size_bytes": 2089
+      }
+    }
+  ],
+  "mirror_groups": [],
+  "approval": {
+    "class": "explicit-apply",
+    "owner": "invoke",
+    "scope_paths": [
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK.md",
+      "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/RUNTIME-HANDOFF.md"
+    ],
+    "authority_classes": ["private"],
+    "publication_classes": ["internal"]
+  },
+  "validation_commands": [
+    "cmp --silent execution-runs/20260805-b001-invoke-refresh/staging/WORK-PACK.md WORK-PACK.md",
+    "cmp --silent execution-runs/20260805-b001-invoke-refresh/staging/RUNTIME-HANDOFF.md RUNTIME-HANDOFF.md",
+    "python3 -m json.tool execution-runs/20260805-b001-invoke-refresh/refresh-report.json",
+    "rg -n 'B-001|OAVA-003|B-002|B-003|selected SWU' WORK-PACK.md RUNTIME-HANDOFF.md"
+  ]
+}

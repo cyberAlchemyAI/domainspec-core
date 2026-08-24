@@ -1,0 +1,266 @@
+{
+  "schema_version": "invoke.plan-closeout-sync-inventory.v1",
+  "target": "ui-prototyping-studio-interface-workbench",
+  "lifecycle_owner_route": "invoke:refresh:apply-approved",
+  "baseline_binding": {
+    "algorithm": "sha256",
+    "existing_target": "digest exact preflight bytes",
+    "future_receipt_target": "bind literal ABSENT sentinel",
+    "mismatch_policy": "block synchronization and preserve the terminal source receipt as residue"
+  },
+  "admitted_delta_classes": [
+    "evidence_added",
+    "blocker_opened",
+    "blocker_resolved",
+    "status_changed",
+    "route_changed"
+  ],
+  "target_contracts": {
+    "WORK-PACK.md": {
+      "schema": "invoke.work-pack.md.v1",
+      "writable_fields": ["control.lastUpdatedAt", "control.selectedSWU", "taskStatusBoard.status", "blockers", "receiptLinks", "currentRoute"],
+      "forbidden_fields": ["objective", "deliverySlices", "swuDefinitions", "claimCeilings"]
+    },
+    "SWU-MANIFEST.json": {
+      "schema": "invoke.plan-swu-manifest.v2",
+      "writable_fields": ["selected_swu", "swus[swu_id].status", "swus[swu_id].receipt_ref", "last_updated_at"],
+      "forbidden_fields": ["swus[swu_id].primary_behavior", "swus[swu_id].dependencies", "swus[swu_id].serialization_after", "swus[swu_id].successor"]
+    },
+    "task_markdown": {
+      "schema": "invoke.plan-task.md.v1",
+      "writable_fields": ["status", "receipt_ref", "blockers", "synchronization"],
+      "forbidden_fields": ["objective", "algorithm", "write_scope", "acceptance"]
+    },
+    "wave_markdown": {
+      "schema": "invoke.plan-wave.md.v1",
+      "writable_fields": ["status", "receipt_inventory", "blockers", "promotion_evidence"],
+      "forbidden_fields": ["order", "dependency_meaning", "layer_question"]
+    },
+    "EXECUTION-PACK.md": {
+      "schema": "invoke.execution-pack.md.v1",
+      "writable_fields": ["currentGate", "receiptInventory", "blockers", "nextCandidate"],
+      "forbidden_fields": ["waveOrder", "parallelism", "authorityBoundary"]
+    },
+    "PLAN-TRANSPORT.md": {
+      "schema": "invoke.plan-transport.md.v1",
+      "writable_fields": ["status", "gateState", "receiptInventory", "nextRoute"],
+      "forbidden_fields": ["authoredOutputs", "claimCeilings", "ownerBoundary"]
+    },
+    "execution_receipt": {
+      "schema": "task-session.swu-result.v1",
+      "writable_fields": ["entire document on create"],
+      "forbidden_fields": ["overwrite after accepted owner synchronization"]
+    },
+    "refresh_receipt": {
+      "schema": "invoke.refresh.v1",
+      "writable_fields": ["entire document on create"],
+      "forbidden_fields": ["overwrite after accepted owner synchronization"]
+    }
+  },
+  "owner_validation": [
+    "terminal source receipt parses as task-session.swu-result.v1",
+    "receipt swu_id equals the row swu_id",
+    "SWU appears exactly once in SWU-MANIFEST.json and exactly once in its task and wave",
+    "all semantic dependencies have passing synchronized receipts",
+    "all serialization_after units are terminal before source mutation",
+    "every acceptance receipt field in SWU-ACCEPTANCE-MATRIX.json is present and passing",
+    "source validation commands named by the task passed",
+    "only row targets and admitted field permissions changed"
+  ],
+  "successor_policy": "a successor becomes a candidate only after a passing refresh receipt and satisfied semantic plus serialization edges; it is never auto-selected",
+  "swus": [
+    {
+      "swu_id": "SWU-UPW-001",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-PROJECTION.md", "work-pack/waves/W0.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-001.json", "refresh-receipts/SWU-UPW-001.json"],
+      "successor": "SWU-UPW-002"
+    },
+    {
+      "swu_id": "SWU-UPW-002",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-PROJECTION.md", "work-pack/waves/W0.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-002.json", "refresh-receipts/SWU-UPW-002.json"],
+      "successor": "SWU-UPW-003"
+    },
+    {
+      "swu_id": "SWU-UPW-003",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-PROJECTION.md", "work-pack/waves/W0.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-003.json", "refresh-receipts/SWU-UPW-003.json"],
+      "successor": "SWU-UPW-004"
+    },
+    {
+      "swu_id": "SWU-UPW-004",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-COORDINATOR.md", "work-pack/waves/W1.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-004.json", "refresh-receipts/SWU-UPW-004.json"],
+      "successor": "SWU-UPW-005"
+    },
+    {
+      "swu_id": "SWU-UPW-005",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-COORDINATOR.md", "work-pack/waves/W1.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-005.json", "refresh-receipts/SWU-UPW-005.json"],
+      "successor": "SWU-UPW-006"
+    },
+    {
+      "swu_id": "SWU-UPW-006",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-COORDINATOR.md", "work-pack/waves/W1.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-006.json", "refresh-receipts/SWU-UPW-006.json"],
+      "successor": "SWU-UPW-007"
+    },
+    {
+      "swu_id": "SWU-UPW-007",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-COORDINATOR.md", "work-pack/waves/W1.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-007.json", "refresh-receipts/SWU-UPW-007.json"],
+      "successor": "SWU-UPW-008"
+    },
+    {
+      "swu_id": "SWU-UPW-008",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-REGIONS.md", "work-pack/waves/W2.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-008.json", "refresh-receipts/SWU-UPW-008.json"],
+      "successor": "SWU-UPW-009"
+    },
+    {
+      "swu_id": "SWU-UPW-009",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-REGIONS.md", "work-pack/waves/W2.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-009.json", "refresh-receipts/SWU-UPW-009.json"],
+      "successor": "SWU-UPW-010"
+    },
+    {
+      "swu_id": "SWU-UPW-010",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-REGIONS.md", "work-pack/waves/W2.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-010.json", "refresh-receipts/SWU-UPW-010.json"],
+      "successor": "SWU-UPW-011"
+    },
+    {
+      "swu_id": "SWU-UPW-011",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-REGIONS.md", "work-pack/waves/W2.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-011.json", "refresh-receipts/SWU-UPW-011.json"],
+      "successor": "SWU-UPW-012"
+    },
+    {
+      "swu_id": "SWU-UPW-012",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-REGIONS.md", "work-pack/waves/W2.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-012.json", "refresh-receipts/SWU-UPW-012.json"],
+      "successor": "SWU-UPW-013"
+    },
+    {
+      "swu_id": "SWU-UPW-013",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-REGIONS.md", "work-pack/waves/W2.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-013.json", "refresh-receipts/SWU-UPW-013.json"],
+      "successor": "SWU-UPW-014"
+    },
+    {
+      "swu_id": "SWU-UPW-014",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-RESPONSIVE-COPY.md", "work-pack/waves/W3.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-014.json", "refresh-receipts/SWU-UPW-014.json"],
+      "successor": "SWU-UPW-015"
+    },
+    {
+      "swu_id": "SWU-UPW-015",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-RESPONSIVE-COPY.md", "work-pack/waves/W3.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-015.json", "refresh-receipts/SWU-UPW-015.json"],
+      "successor": "SWU-UPW-016"
+    },
+    {
+      "swu_id": "SWU-UPW-016",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-HARDENING.md", "work-pack/waves/W4.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-016.json", "refresh-receipts/SWU-UPW-016.json"],
+      "successor": "SWU-UPW-017"
+    },
+    {
+      "swu_id": "SWU-UPW-017",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-HARDENING.md", "work-pack/waves/W4.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-017.json", "refresh-receipts/SWU-UPW-017.json"],
+      "successor": "SWU-UPW-018"
+    },
+    {
+      "swu_id": "SWU-UPW-018",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-HARDENING.md", "work-pack/waves/W4.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-018.json", "refresh-receipts/SWU-UPW-018.json"],
+      "successor": "SWU-UPW-019"
+    },
+    {
+      "swu_id": "SWU-UPW-019",
+      "plan_targets": ["WORK-PACK.md", "SWU-MANIFEST.json", "work-pack/tasks/TASK-UPW-HARDENING.md", "work-pack/waves/W4.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "receipt_targets": ["execution-receipts/SWU-UPW-019.json", "refresh-receipts/SWU-UPW-019.json"],
+      "successor": null
+    }
+  ],
+  "closure_report_contract": {
+    "task": "TASK-UPW-VERIFY",
+    "report_path": "closure-reports/interface-workbench-closure.json",
+    "schema": "ui-prototyping-studio.interface-workbench-closure.v1",
+    "writable_fields": [
+      "schema_version",
+      "generated_at",
+      "source_commit",
+      "commands",
+      "swu_receipts",
+      "refresh_receipts",
+      "acceptance_assertions",
+      "recomposition",
+      "regressions",
+      "residue",
+      "verdict",
+      "next_owner"
+    ],
+    "synchronization_inventory": [
+      "WORK-PACK.md",
+      "SWU-MANIFEST.json",
+      "SWU-SCOPE-INVENTORY.json",
+      "SWU-ACCEPTANCE-MATRIX.json",
+      "CLOSEOUT-SYNC-INVENTORY.json",
+      "EXECUTION-PACK.md",
+      "PLAN-TRANSPORT.md",
+      "work-pack/tasks/TASK-UPW-PROJECTION.md",
+      "work-pack/tasks/TASK-UPW-COORDINATOR.md",
+      "work-pack/tasks/TASK-UPW-REGIONS.md",
+      "work-pack/tasks/TASK-UPW-RESPONSIVE-COPY.md",
+      "work-pack/tasks/TASK-UPW-HARDENING.md",
+      "work-pack/tasks/TASK-UPW-VERIFY.md",
+      "work-pack/waves/W0.md",
+      "work-pack/waves/W1.md",
+      "work-pack/waves/W2.md",
+      "work-pack/waves/W3.md",
+      "work-pack/waves/W4.md",
+      "work-pack/waves/W5.md",
+      "execution-receipts/SWU-UPW-001.json",
+      "execution-receipts/SWU-UPW-002.json",
+      "execution-receipts/SWU-UPW-003.json",
+      "execution-receipts/SWU-UPW-004.json",
+      "execution-receipts/SWU-UPW-005.json",
+      "execution-receipts/SWU-UPW-006.json",
+      "execution-receipts/SWU-UPW-007.json",
+      "execution-receipts/SWU-UPW-008.json",
+      "execution-receipts/SWU-UPW-009.json",
+      "execution-receipts/SWU-UPW-010.json",
+      "execution-receipts/SWU-UPW-011.json",
+      "execution-receipts/SWU-UPW-012.json",
+      "execution-receipts/SWU-UPW-013.json",
+      "execution-receipts/SWU-UPW-014.json",
+      "execution-receipts/SWU-UPW-015.json",
+      "execution-receipts/SWU-UPW-016.json",
+      "execution-receipts/SWU-UPW-017.json",
+      "execution-receipts/SWU-UPW-018.json",
+      "execution-receipts/SWU-UPW-019.json",
+      "refresh-receipts/SWU-UPW-001.json",
+      "refresh-receipts/SWU-UPW-002.json",
+      "refresh-receipts/SWU-UPW-003.json",
+      "refresh-receipts/SWU-UPW-004.json",
+      "refresh-receipts/SWU-UPW-005.json",
+      "refresh-receipts/SWU-UPW-006.json",
+      "refresh-receipts/SWU-UPW-007.json",
+      "refresh-receipts/SWU-UPW-008.json",
+      "refresh-receipts/SWU-UPW-009.json",
+      "refresh-receipts/SWU-UPW-010.json",
+      "refresh-receipts/SWU-UPW-011.json",
+      "refresh-receipts/SWU-UPW-012.json",
+      "refresh-receipts/SWU-UPW-013.json",
+      "refresh-receipts/SWU-UPW-014.json",
+      "refresh-receipts/SWU-UPW-015.json",
+      "refresh-receipts/SWU-UPW-016.json",
+      "refresh-receipts/SWU-UPW-017.json",
+      "refresh-receipts/SWU-UPW-018.json",
+      "refresh-receipts/SWU-UPW-019.json"
+    ],
+    "successor_effect": "a passing report may recommend a separately owned human-study or readiness route; it selects no route and grants no release authority"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "task_or_swu": "REFINE-AKVE-API",
+    "source_reference": "REFINE-SEED-PROPOSAL.md",
+    "session_or_run_id": "20260804-agent-consultation-work-episodes-api",
+    "session_evidence_path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/",
+    "runtime_handoff": "runtime",
+    "repository_revision": "ab46061bf14db23a01054c2fd3fafec60fb5eb2f",
+    "evidence_date": "2026-08-04"
+  },
+  "strict_coverage": "pass",
+  "fallback_exploration": {
+    "status": "named-gaps-only",
+    "allowed_gap_ids": ["G-HOST-OWNER", "G-LESSON-REVIEW"]
+  },
+  "obligations": [
+    {"id": "O1", "status": "covered", "summary": "current vault boundary", "selected_evidence": [{"path": "projects/animejs/ontology/agent-knowledge-vault/profile.json", "selector": "authority and claim_ceiling", "excerpt_summary": "private candidate with authority effect none"}], "resolution": ""},
+    {"id": "O2", "status": "covered", "summary": "episode semantics", "selected_evidence": [{"path": "projects/animejs/ontology/agent-knowledge-vault/contracts/node-vocabulary.json", "selector": "WorkEpisode, Attempt, Outcome, Lesson", "excerpt_summary": "append-only evidence lifecycle with separate Lesson verification"}], "resolution": ""},
+    {"id": "O3", "status": "covered", "summary": "current read precedent", "selected_evidence": [{"path": "/home/vrondelli/projects/workspace-resonant/2.0.0-alpha/docs/reference/AUGMENTOR_CONSULTATION_API.md", "selector": "route and capability", "excerpt_summary": "read-only neutral projection with separate route authorization"}], "resolution": ""}
+  ],
+  "selected_sources": [
+    {"path": "projects/animejs/ontology/agent-knowledge-vault/profile.json", "selectors": ["authority", "claim_ceiling"], "obligations": ["O1"], "evidence_kind": "contract"},
+    {"path": "projects/animejs/ontology/agent-knowledge-vault/contracts/node-vocabulary.json", "selectors": ["WorkEpisode", "Attempt", "Outcome", "Lesson"], "obligations": ["O2"], "evidence_kind": "contract"},
+    {"path": "/home/vrondelli/projects/workspace-resonant/2.0.0-alpha/docs/reference/AUGMENTOR_CONSULTATION_API.md", "selectors": ["route", "capability", "read-only"], "obligations": ["O3"], "evidence_kind": "architecture"}
+  ],
+  "write_scope": ["projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/", "mandatory dispatch ledger append records"],
+  "validation_surface": ["Dispatch Spec validation", "review schema and tension gates", "JSON parse and digest checks", "SWU and claim-ceiling review"],
+  "gaps_and_blockers": [
+    {"id": "G-HOST-OWNER", "status": "deferred", "summary": "future append host owner not selected", "runtime_fallback_allowed": false},
+    {"id": "G-LESSON-REVIEW", "status": "deferred", "summary": "verified Lesson review route excluded", "runtime_fallback_allowed": false}
+  ],
+  "authority_precedence": ["direct current vault contracts", "current consumer-owned Augmentor API contract", "Inventory discovery evidence"],
+  "output_paths": {"markdown": "context-builder/runtime-handoff.md", "json_index": "context-builder/runtime-handoff.index.json"}
+}

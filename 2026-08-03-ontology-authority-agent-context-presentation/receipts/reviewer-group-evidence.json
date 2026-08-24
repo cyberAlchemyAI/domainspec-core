@@ -1,0 +1,27 @@
+{
+  "schema_version": "domainspec.subagents.reviewer-group-evidence.v0.1",
+  "dispatch_id": "2026-08-03-ontology-authority-agent-context-presentation-route",
+  "run_id": "oap-20260803T170723Z",
+  "wave_id": "reviewers",
+  "join_policy": "all",
+  "joined": [
+    {
+      "action_id": "spawn-0005",
+      "role": "non-vacuity-reviewer",
+      "receipt": "receipts/reviewer-non-vacuity.json",
+      "review": "reviews/non-vacuity.md",
+      "execution_status": "pass",
+      "review_verdict": "pass-with-required-repairs"
+    },
+    {
+      "action_id": "spawn-0006",
+      "role": "definitional-soundness-reviewer",
+      "receipt": "receipts/reviewer-definitional-soundness.json",
+      "review": "reviews/definitional-soundness.md",
+      "execution_status": "pass",
+      "review_verdict": "block-until-exact-repairs"
+    }
+  ],
+  "status": "joined",
+  "blockers": []
+}

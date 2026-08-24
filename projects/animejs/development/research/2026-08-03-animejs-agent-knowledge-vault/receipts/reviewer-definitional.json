@@ -1,0 +1,372 @@
+{
+  "review_id": "AKV-REV-DEFINITIONAL-001",
+  "action_id": "spawn-0008",
+  "role": "definitional-reviewer",
+  "pooled_identity": "Quine, Willard Van Orman",
+  "verdict": "fail",
+  "gate": "definitional/evidence non-collapse",
+  "summary": "The conceptual families are mostly worth preserving, and the revised overlay correctly repairs several evidence-status collapses. The gate still fails because the package does not give every surviving node and relation its own closed invariant, evidence class, invalidation rule, owner route, and misuse warning. Several relations additionally use undeclared or overly broad endpoint types.",
+  "exact_citations": [
+    {
+      "ref": "receipts/knowledge-vault-synthesis.json:313-336",
+      "finding": "Node definitions are one-line descriptions. They do not individually close evidence class, invalidation behavior, owner route, or misuse warning."
+    },
+    {
+      "ref": "receipts/knowledge-vault-synthesis.json:377-515",
+      "finding": "Relations declare names and endpoint unions only; per-relation invariant, evidence requirement, invalidation rule, owner route, misuse warning, cardinality, and consumer are absent."
+    },
+    {
+      "ref": "receipts/knowledge-vault-synthesis.json:517-522",
+      "finding": "Global relation rules cannot establish distinct semantics for each relation."
+    },
+    {
+      "ref": "receipts/knowledge-vault-synthesis.json:597-693",
+      "finding": "Queries return result-shaped material, but QueryResult has no declared node contract even though AKV-REL-022 uses it as an endpoint."
+    },
+    {
+      "ref": "receipts/knowledge-vault-synthesis.json:694-724",
+      "finding": "Views are generated projections; they must remain outside canonical node authority and require freshness/provenance contracts."
+    },
+    {
+      "ref": "receipts/knowledge-vault-synthesis.json:876-884",
+      "finding": "The base matrix originally overstated section extraction as parsed parameter, return, example, and semantic content."
+    },
+    {
+      "ref": "receipts/knowledge-vault-synthesis.json:916-923",
+      "finding": "Issue 1105 is correctly killed as official guidance."
+    },
+    {
+      "ref": "receipts/knowledge-vault-synthesis-revised.json:10-66",
+      "finding": "The revised docs contract records section-presence dispositions and explicitly limits the returned manifest to one mutable-site observation."
+    },
+    {
+      "ref": "receipts/knowledge-vault-synthesis-revised.json:68-108",
+      "finding": "The repository manifest proves blob presence and classification, not symbol semantics or execution."
+    },
+    {
+      "ref": "receipts/knowledge-vault-synthesis-revised.json:144-153",
+      "finding": "The 4.4.1 asset marker is correctly killed as package/documentation semantic-version proof."
+    },
+    {
+      "ref": "receipts/knowledge-vault-synthesis-revised.json:166-194",
+      "finding": "AKV-VAL-018 through AKV-VAL-022 correctly distinguish returned evidence from materialization, section presence from semantics, source presence from execution, unmatched blobs from ownership, and mutable observations from release pinning."
+    },
+    {
+      "ref": "research.md:436-442",
+      "finding": "Parameters, returns, examples, and topic kind are extraction classifications, not behavioral semantics."
+    },
+    {
+      "ref": "research.md:491-493",
+      "finding": "The crawl remains mutable, and the 4.4.1 asset marker is not semantic-version evidence."
+    },
+    {
+      "ref": "research.md:596-599",
+      "finding": "Example/test presence is explicitly separated from execution, passing behavior, performance, accessibility, and production readiness."
+    }
+  ],
+  "dispositions": [
+    {
+      "term": "DocumentationTopic",
+      "decision": "KEEP",
+      "repair": "Invariant: one canonical observed documentation route. Evidence class: DocumentationObservation. Invalidate on route removal, redirect-identity change, or raw-page digest change. Owner: official-source ingestion route. Misuse: route or heading presence is not parameter, return, behavior, version, or runtime truth."
+    },
+    {
+      "term": "APISymbol",
+      "decision": "KEEP",
+      "repair": "Invariant: one version-scoped program identity with language/surface namespace. Evidence: pinned export/type/source binding. Invalidate on export/type/source identity drift. Owner: source-binding route. Misuse: equal labels, examples, or neighboring documentation do not prove symbol identity or JS/WAAPI parity."
+    },
+    {
+      "term": "SourceFact",
+      "decision": "KEEP",
+      "repair": "Invariant: one scoped assertion derived from immutable official bytes. Evidence: SourceDerived. Invalidate when its selector no longer resolves or its version/source digest changes. Owner: fact-extraction route. Misuse: not Evidence itself, runtime observation, inference, recommendation, or authority."
+    },
+    {
+      "term": "Example",
+      "decision": "KEEP",
+      "repair": "Invariant: one example-source locator and purpose description. Evidence: ExampleSourcePresent unless separately executed. Invalidate on blob/page digest or locator drift. Owner: example-ingestion route. Misuse: source presence does not prove behavior."
+    },
+    {
+      "term": "Recipe",
+      "decision": "KEEP",
+      "repair": "Invariant: ordered, prerequisite-bound, non-executing guidance with validation and abstention. Evidence: documented/source-derived bindings. Invalidate on prerequisite, version, or binding drift. Owner: recipe-review route. Misuse: not a Task, Fix, Recommendation, or verified Lesson."
+    },
+    {
+      "term": "Task",
+      "decision": "KEEP",
+      "repair": "Invariant: requested intent plus target, constraints, and acceptance condition. Evidence: requester/session record, not truth evidence. Invalidate only by cancellation or supersession. Owner: task/session owner. Misuse: intent does not prove feasibility, completion, or correctness."
+    },
+    {
+      "term": "WorkEpisode",
+      "decision": "KEEP",
+      "repair": "Invariant: append-only envelope for one bounded execution effort. Evidence: episode receipt. Close rather than rewrite; supersede only by a distinct episode. Owner: execution route. Misuse: existence or closure is not success, production change, or Lesson."
+    },
+    {
+      "term": "Attempt",
+      "decision": "KEEP",
+      "repair": "Invariant: ordinal action within exactly one WorkEpisode. Evidence: action log plus produced witnesses. Append-only. Owner: episode owner. Misuse: an Attempt is not Evidence and cannot directly support a Diagnosis or Lesson."
+    },
+    {
+      "term": "Symptom",
+      "decision": "KEEP",
+      "repair": "Invariant: scoped observation statement bound to a witness and VersionContext. Evidence: ObservedWitness. Invalidate when witness integrity fails or context becomes incompatible. Owner: diagnostic route. Misuse: observation is not explanation."
+    },
+    {
+      "term": "Diagnosis",
+      "decision": "KEEP",
+      "repair": "Invariant: defeasible explanatory claim over Symptoms and Evidence. Evidence: Inference with explicit premises/confidence. Invalidate on contradiction or premise invalidation. Owner: diagnostic reviewer. Misuse: not fact, Fix, or successful Outcome."
+    },
+    {
+      "term": "Fix",
+      "decision": "KEEP",
+      "repair": "Invariant: candidate change addressing one Diagnosis. Evidence: proposal until applied and witnessed. Invalidate on diagnosis invalidation or incompatibility. Owner: implementation route. Misuse: proposal or application does not imply success."
+    },
+    {
+      "term": "Outcome",
+      "decision": "KEEP",
+      "repair": "Invariant: terminal classification of an Attempt with exact witness references. Evidence: TestObserved or ExecutedWitness for succeeded/failed; not-run is explicit absence. Owner: validation route. Misuse: validator success is only success for the declared validation scope."
+    },
+    {
+      "term": "Lesson",
+      "decision": "KEEP",
+      "repair": "Invariant: conditional guidance generalized from compatible closed episodes and outcomes. Evidence: Verified requires succeeded Outcome plus admissible execution/test witness. Invalidate via named triggers and version drift. Owner: lesson-review route. Misuse: not SourceFact, Recipe, Recommendation, or universal truth."
+    },
+    {
+      "term": "Evidence",
+      "decision": "RENAME",
+      "replacement": "EvidenceRecord",
+      "repair": "Reserve EvidenceRecord for the carrier: immutable identity, selector, digest, assertion scope, evidence class, capture time, and validity state. This avoids confusing evidence-bearing records with evidence status or proof."
+    },
+    {
+      "term": "VersionContext",
+      "decision": "KEEP",
+      "repair": "Invariant: immutable compatibility tuple, not a loose version label. Evidence: lock/commit/runtime/browser/framework/OS bindings. Supersede with a new context. Owner: environment-capture route. Misuse: docs cache markers and mutable-site observations cannot establish release version."
+    },
+    {
+      "term": "Inference",
+      "decision": "KEEP",
+      "repair": "Invariant: explicit premises, rule, conclusion, uncertainty, and contradiction handling. Evidence: inferred. Invalidate with any load-bearing premise. Owner: reasoning/review route. Misuse: cannot masquerade as SourceFact or Outcome."
+    },
+    {
+      "term": "Recommendation",
+      "decision": "KEEP",
+      "repair": "Invariant: project-local choice with alternatives and evidence ceiling. Evidence: review judgment. Invalidate on changed constraints/evidence. Owner: project decision owner. Misuse: not Anime.js authority, Recipe, Fix, or execution authorization."
+    },
+    {
+      "term": "UnverifiedProposal",
+      "decision": "KEEP",
+      "repair": "Invariant: retrieval-only third-party proposal. Evidence: unverified source identity only. Invalidate on deletion/change; promotion requires a new independently admitted record. Owner: community-source quarantine route. Misuse: issue 1105 cannot support Recipe, Fix, Lesson, official guidance, performance, or workflow claims."
+    },
+    {
+      "term": "EvidenceGap",
+      "decision": "KEEP",
+      "repair": "Invariant: exact missing binding/witness, affected claim, closure condition, and owner. Close or supersede; never silently delete. Owner: named closure route. Misuse: absence is not negative proof."
+    },
+    {
+      "term": "NextQuestion",
+      "decision": "KEEP",
+      "repair": "Invariant: one non-executing question with missing element, target artifact/locator, reason, owner, and stop condition. Supersede after resolution. Misuse: question or suggested route does not authorize work."
+    },
+    {
+      "term": "QueryResult",
+      "decision": "RENAME",
+      "replacement": "QueryReceipt",
+      "repair": "Define it only if query outputs persist in the graph: immutable query inputs/context, deterministic result IDs, evidence classes, conflicts, absences, abstention code, generated_at, source graph digest, and freshness state. Otherwise KILL AKV-REL-022’s QueryResult endpoint and keep results ephemeral."
+    },
+    {
+      "term": "view",
+      "decision": "DEFER",
+      "repair": "Keep views as disposable generated projections with source graph digest, query/transform identity, generated_at, and stale flag. Do not admit view as a canonical knowledge node or authority source."
+    },
+    {
+      "term": "authority",
+      "decision": "KILL",
+      "repair": "Do not introduce a generic authority node. Preserve authority_effect, release_admission, source/review/promotion owner routes, and external owner receipts as separate fields or typed receipts. A graph record, view, query, validator result, or recommendation cannot create authority."
+    }
+  ],
+  "relation_repairs": [
+    {
+      "relations": "documents, derivesFrom, exports, illustratedBy, requires, addresses, usesVersion, contains, observes, proposes, applies, yields, generalizesFrom, supportedBy, boundedBy, invalidates, supersedes, exposesGap, suggestsNextQuestion",
+      "decision": "KEEP",
+      "blocking_repair": "Give each relation its own invariant, exact endpoint types, direction, admissible evidence class, invalidation rule, owner route, cardinality/cycle policy, consumer/query mapping, and misuse warning. The current shared rule is insufficient."
+    },
+    {
+      "relation": "implementedBy",
+      "decision": "RENAME",
+      "replacement": "implementationDescribedBy",
+      "reason": "A SourceFact is an assertion, not an implementation artifact. If actual implementation identity is required later, add a separately justified SourceArtifact node rather than overloading SourceFact."
+    },
+    {
+      "relation": "testedBy",
+      "decision": "RENAME",
+      "replacement": "hasTestEvidence",
+      "repair": "Require EvidenceRecord evidence_class to distinguish TestSourcePresent from TestObserved. The former cannot answer behavior queries."
+    },
+    {
+      "relation": "supports",
+      "decision": "KILL",
+      "repair": "Remove Attempt as a supporting endpoint and replace the generic relation with supportedByEvidence: Diagnosis|Lesson -> EvidenceRecord. Attempts may produce EvidenceRecords through a separately defined producedEvidence relation. This prevents action existence from becoming epistemic support."
+    },
+    {
+      "relation": "contradicts",
+      "decision": "RENAME",
+      "replacement": "contradictedByEvidence",
+      "repair": "Use Diagnosis|Lesson|SourceFact -> EvidenceRecord and require overlapping assertion scope plus incompatible claims. An Attempt alone cannot contradict a claim."
+    },
+    {
+      "relation": "supersedes",
+      "decision": "KEEP",
+      "blocking_repair": "Replace the pseudo-types Node and same-kind Node with the closed node-kind union and enforce same-kind endpoints, distinct IDs, acyclicity, and preserved history."
+    },
+    {
+      "relation": "requires",
+      "decision": "KEEP",
+      "blocking_repair": "Separate prerequisite dependency from mere consultation. Enforce acyclicity for Recipe -> Recipe and declare whether DocumentationTopic/APISymbol/VersionContext prerequisites are hard build requirements or retrieval bindings."
+    }
+  ],
+  "evidence_noncollapse_results": [
+    {
+      "attack": "section presence versus parameter/return semantics",
+      "result": "pass in revised overlay",
+      "basis": "AKV-VAL-019 and research.md extraction rules preserve presence-only scope."
+    },
+    {
+      "attack": "returned manifests versus repository materialization",
+      "result": "pass in revised overlay",
+      "basis": "Both manifests are returned-not-written and AKV-VAL-018 forbids repository-present claims."
+    },
+    {
+      "attack": "examples/tests versus behavior",
+      "result": "pass in revised overlay",
+      "basis": "AKV-VAL-020 distinguishes source presence from TestObserved/ExecutedWitness."
+    },
+    {
+      "attack": "issue 1105 versus official guidance",
+      "result": "pass",
+      "basis": "AKV-BIND-008 is killed and the issue remains UnverifiedProposal."
+    },
+    {
+      "attack": "mutable docs/cache markers versus release version",
+      "result": "pass in revised overlay",
+      "basis": "AKV-BIND-013 is killed and AKV-VAL-022 requires drift comparison."
+    },
+    {
+      "attack": "validation versus semantic truth/accessibility/performance/production authority",
+      "result": "pass at claim-policy level",
+      "basis": "Research and overlay expressly withhold those effects; the repaired EvidenceRecord and authority contracts must make this machine-checkable."
+    }
+  ],
+  "blocking_repairs": [
+    "Publish a closed per-node definition table covering invariant, evidence class, invalidation, owner route, and misuse warning.",
+    "Publish the equivalent per-relation definition table, including exact endpoints, direction, cardinality/cycle policy, consumer/query mapping, and forbidden inference.",
+    "Resolve the undeclared QueryResult endpoint by defining QueryReceipt or removing it from stored relations.",
+    "Repair implementedBy, testedBy, supports, and contradicts so assertions/actions cannot be mistaken for artifacts or admissible evidence.",
+    "Define requires prerequisite semantics and enforce Recipe dependency acyclicity.",
+    "Define invalidation and supersession as explicit validity-state transitions while preserving prior records."
+  ],
+  "non_blocking_operational_repairs": [
+    {
+      "item": "query algorithms",
+      "classification": "separate operational repair",
+      "note": "Not itself a vocabulary collapse once QueryReceipt, inputs, outputs, and consumer mappings are closed."
+    },
+    {
+      "item": "evidence precedence/conflict policy",
+      "classification": "mixed",
+      "note": "Evidence-class identity and contradiction scope are blocking definitional work; ranking and resolution algorithms are operational."
+    },
+    {
+      "item": "relation-consumer mapping",
+      "classification": "blocking definitional metadata",
+      "note": "Without a named consumer, similarly shaped relations remain observationally indistinguishable."
+    },
+    {
+      "item": "invalidation state transitions",
+      "classification": "mixed",
+      "note": "The state vocabulary and allowed meaning-preserving transitions are blocking; automation and scheduling are operational."
+    },
+    {
+      "item": "abstention codes",
+      "classification": "separate operational repair",
+      "note": "The semantic distinction between unsupported, stale, conflicting, and unverified must be preserved, but the complete diagnostic code set is implementation-owned."
+    },
+    {
+      "item": "copyright thresholding",
+      "classification": "separate operational repair",
+      "note": "It does not collapse ontology terms. It remains fail-closed before content admission."
+    }
+  ],
+  "smallest_repaired_vocabulary": {
+    "keep": [
+      "DocumentationTopic",
+      "APISymbol",
+      "SourceFact",
+      "Example",
+      "Recipe",
+      "Task",
+      "WorkEpisode",
+      "Attempt",
+      "Symptom",
+      "Diagnosis",
+      "Fix",
+      "Outcome",
+      "Lesson",
+      "VersionContext",
+      "Inference",
+      "Recommendation",
+      "UnverifiedProposal",
+      "EvidenceGap",
+      "NextQuestion"
+    ],
+    "rename": {
+      "Evidence": "EvidenceRecord",
+      "QueryResult": "QueryReceipt",
+      "implementedBy": "implementationDescribedBy",
+      "testedBy": "hasTestEvidence",
+      "contradicts": "contradictedByEvidence"
+    },
+    "add_only_if_needed": [
+      "producedEvidence"
+    ],
+    "kill": [
+      "generic authority node",
+      "Attempt supports Diagnosis|Lesson",
+      "canonical view node"
+    ],
+    "defer": [
+      "SourceArtifact node until actual artifact-level relations require it"
+    ]
+  },
+  "blockers": [
+    "The vocabulary is not yet definitionally closed.",
+    "The relation grammar permits evidence/action and assertion/artifact collapse.",
+    "QueryResult is referenced without a declared record contract."
+  ],
+  "normalized_orchestrate_receipt": {
+    "schema_version": "arcanum.native-dispatch-runner.receipt.v0.1",
+    "action_id": "spawn-0008",
+    "dispatch_id": "2026-08-03-animejs-agent-knowledge-vault-route",
+    "run_id": "animejs-vault-run-001",
+    "wave_id": "reviewers",
+    "step_id": "s3",
+    "role": "definitional-reviewer",
+    "capability_ref": "research",
+    "agent_id": "/root/animejs_definitional_reviewer_reroute",
+    "status": "fail",
+    "artifacts": [
+      "bounded-review-return:AKV-REV-DEFINITIONAL-001",
+      "reviewed:receipts/knowledge-vault-synthesis.json",
+      "reviewed:receipts/knowledge-vault-synthesis-revised.json",
+      "reviewed:research.md",
+      "reviewed:receipts/explorer-official-source-feedback-1.json",
+      "reviewed:receipts/explorer-official-source-feedback-1.md"
+    ],
+    "validation": "fail",
+    "blockers": [
+      "per-node definition contracts incomplete",
+      "per-relation definition contracts incomplete",
+      "undeclared QueryResult endpoint",
+      "relation-level evidence/action and assertion/artifact collapses"
+    ],
+    "mutation_statement": "Read-only review. No repository files, Git state, external state, or output receipt path were created or modified."
+  }
+}

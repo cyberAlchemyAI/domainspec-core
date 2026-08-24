@@ -1,0 +1,421 @@
+{
+  "concerns": [
+    {
+      "concern_id": "concern:authority",
+      "disposition": "required",
+      "output_id": "architecture:authority-trust",
+      "ownership": {
+        "accountable_owner": "audition-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "production-operator"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "SPEC.md#non-negotiable-invariants",
+          "STATES.md#transition-table",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "authority",
+      "rationale": "Provider capability, account admission, quality evidence, operator decision, and production release must remain different authorities.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:authority",
+        "signal:normative-rule:manifest-before-render"
+      ]
+    },
+    {
+      "concern_id": "concern:security",
+      "disposition": "required",
+      "output_id": "architecture:security-abuse",
+      "ownership": {
+        "accountable_owner": "security-risk-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "audition-runner-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "INTERFACES.md#external-openai-speech-api",
+          "SPEC.md#non-negotiable-invariants",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/INTERFACES.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "security",
+      "rationale": "The later render crosses an authenticated metered external interface and must prevent credential disclosure.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:security",
+        "signal:interface:openai-speech-api"
+      ]
+    },
+    {
+      "concern_id": "concern:state-event",
+      "disposition": "required",
+      "output_id": "architecture:state-event",
+      "ownership": {
+        "accountable_owner": "audition-workflow-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "production-operator"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "EVENTS.md",
+          "STATES.md",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/INTERFACES.md",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/STATES.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "state-event",
+      "rationale": "Admission, rendering, verification, blinding, rejection, and decision have ordered gates and terminal states.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:state-event",
+        "signal:interface:local-audition-cli",
+        "signal:normative-rule:ordered-lifecycle"
+      ]
+    },
+    {
+      "concern_id": "concern:persistence",
+      "disposition": "required",
+      "output_id": "architecture:persistence-concurrency",
+      "ownership": {
+        "accountable_owner": "audition-runner-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "verification-operator"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "MAPPINGS.md#rawresponsetoattempt",
+          "OPERATIONS.md#rendercandidate",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPERATIONS.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "persistence",
+      "rationale": "Raw audio and evidence must be uniquely bound, append-only, crash-safe, and protected from overwrite.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:persistence",
+        "signal:store:audition-run-store",
+        "signal:writer:local-audition-runner"
+      ]
+    },
+    {
+      "concern_id": "concern:failure",
+      "disposition": "required",
+      "output_id": "architecture:failure-compensation",
+      "ownership": {
+        "accountable_owner": "audition-workflow-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "audition-runner-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "INTERFACES.md#responses",
+          "OPERATIONS.md#rendercandidate",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/INTERFACES.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "failure",
+      "rationale": "External, metered, non-reversible submission needs explicit timeout, partial-write, no-retry, and rejection behavior.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:failure",
+        "signal:effect:submit-frozen-script-to-openai"
+      ]
+    },
+    {
+      "concern_id": "concern:reliability",
+      "disposition": "required",
+      "output_id": "architecture:quality",
+      "ownership": {
+        "accountable_owner": "audition-quality-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "verification-operator"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "OPERATIONS.md#verifycandidate",
+          "SPEC.md#non-negotiable-invariants"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "reliability",
+      "rationale": "Source binding, deterministic request projection, exact fidelity, and repeatable evidence are acceptance-critical.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:reliability"
+      ]
+    },
+    {
+      "concern_id": "concern:integration",
+      "disposition": "required",
+      "output_id": "architecture:integration-versioning",
+      "ownership": {
+        "accountable_owner": "provider-interface-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "audition-runner-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "INTERFACES.md",
+          "MAPPINGS.md",
+          "OPENAI-SPEECH-CONTRACT.md",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPENAI-SPEECH-CONTRACT.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "integration",
+      "rationale": "The local manifest and runner must map exactly to a drifting provider contract and preserve a refresh boundary.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:integration",
+        "signal:compatibility:docs-snapshot-to-live-account-route"
+      ]
+    },
+    {
+      "concern_id": "concern:migration",
+      "disposition": "not-applicable-with-rationale",
+      "output_id": null,
+      "ownership": {
+        "accountable_owner": "migration-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "audition-package-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": true,
+        "evidence_selectors": [
+          "DEFINE-CONTEXT.md#explicit-exclusions"
+        ],
+        "required_predicate": false
+      },
+      "primary_class": "migration",
+      "rationale": "The greenfield local audition has no persisted predecessor representation or migration target.",
+      "revisit_condition": null,
+      "selected": false,
+      "signal_ids": [
+        "authored:migration"
+      ]
+    },
+    {
+      "concern_id": "concern:rollout",
+      "disposition": "not-applicable-with-rationale",
+      "output_id": null,
+      "ownership": {
+        "accountable_owner": "release-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "production-operator"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": true,
+        "evidence_selectors": [
+          "DEFINE-CONTEXT.md#explicit-exclusions"
+        ],
+        "required_predicate": false
+      },
+      "primary_class": "rollout",
+      "rationale": "Deployment, publication, and full narration are excluded from the audition package.",
+      "revisit_condition": null,
+      "selected": false,
+      "signal_ids": [
+        "authored:rollout"
+      ]
+    },
+    {
+      "concern_id": "concern:privacy-data",
+      "disposition": "required",
+      "output_id": "architecture:data-lifecycle",
+      "ownership": {
+        "accountable_owner": "data-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "audition-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "DEFINE-CONTEXT.md#evidence-obligation-matrix",
+          "OPERATIONS.md#freezemanifest",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPERATIONS.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "privacy-data",
+      "rationale": "Owned script text leaves local custody and provider/account retention and data-use gates must be explicit before submission.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:privacy-data",
+        "signal:data-log-sink:candidate-local-audition-artifacts"
+      ]
+    },
+    {
+      "concern_id": "concern:performance",
+      "disposition": "required",
+      "output_id": "architecture:quality",
+      "ownership": {
+        "accountable_owner": "audition-quality-owner",
+        "artifact_owner": "audition-package-owner",
+        "contributing_owners": [
+          "verification-operator",
+          "production-operator"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "OPERATIONS.md#verifycandidate",
+          "SOURCE-CONTRACTS.md#local-owner-sources",
+          "research/2026-08-04-ontology-video-voice-provider-research/synthesis.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "performance",
+      "rationale": "The bounded audition has explicit duration, fidelity, and listening-quality thresholds; cost and latency remain measured evidence rather than promises.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:performance",
+        "signal:quality-claim:fidelity-is-exact",
+        "signal:quality-claim:voice-fit-is-empirical"
+      ]
+    },
+    {
+      "concern_id": "concern:ux",
+      "disposition": "required",
+      "output_id": "ux-plan",
+      "ownership": {
+        "accountable_owner": "listening-experience-owner",
+        "artifact_owner": "ux-plan-owner",
+        "contributing_owners": [
+          "production-operator"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "OPERATIONS.md#blindcandidate",
+          "SPEC.md#blindanddecide",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "ux",
+      "rationale": "Blind listening is a human evaluation surface whose order, labels, playback conditions, and rubric can bias the result.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:ux",
+        "signal:human-actor:audition-owner",
+        "signal:human-actor:production-operator",
+        "signal:rendered-surface:blind-listening-audio"
+      ]
+    },
+    {
+      "concern_id": "concern:validation",
+      "disposition": "required",
+      "output_id": "validation-contracts",
+      "ownership": {
+        "accountable_owner": "design-owner",
+        "artifact_owner": "plan-work-pack-owner",
+        "contributing_owners": [
+          "audition-quality-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "OPERATIONS.md",
+          "SPEC.md#acceptance",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/OPERATIONS.md",
+          "research/2026-08-04-ontology-video-voice-provider-research/openai-audition/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "validation",
+      "rationale": "Positive and causal negative fixtures must discriminate safe preparation, rendering, fidelity, blinding, and decision behavior.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:validation",
+        "signal:acceptance-readiness-claim:openai-audition-define-authored",
+        "signal:effect:write-candidate-local-evidence",
+        "signal:normative-rule:unsupported-controls-fail-closed"
+      ]
+    }
+  ],
+  "denominator_receipt_digest": "1308e01f9c5191bcaaabe7a4a8a1e4f573fa5a36e5a594b538a460e13621c3d3",
+  "diagnostics": [],
+  "evidence_state": "design-validator-pass",
+  "fixed_point": true,
+  "manifest_id": "ontology-video.openai-audition.design-scope.v1",
+  "manifest_input_digest": "f941dde19822036beb8d47e0fe3a31feb2d7225f679b720b5763c279e5f8aefa",
+  "pass_1_digest": "fe8fa63dc4c590e3337f22dec0d96010a2940ffa89e727b8eaa25b2b03a127b1",
+  "pass_2_digest": "fe8fa63dc4c590e3337f22dec0d96010a2940ffa89e727b8eaa25b2b03a127b1",
+  "result_digest": "718261811f1db0c1e41023029e098f885c0d09ea6d17fa422c1d24f9919d9329",
+  "schema_version": "1.0.0",
+  "selected_outputs": [
+    "architecture",
+    "architecture:authority-trust",
+    "architecture:data-lifecycle",
+    "architecture:failure-compensation",
+    "architecture:integration-versioning",
+    "architecture:persistence-concurrency",
+    "architecture:quality",
+    "architecture:security-abuse",
+    "architecture:state-event",
+    "ux-plan",
+    "validation-contracts"
+  ],
+  "verdict": "pass"
+}

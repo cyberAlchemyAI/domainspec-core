@@ -1,0 +1,511 @@
+{
+  "dispatch_id": "arcanum-addon-implementation-route-v1",
+  "intent": {
+    "raw": "Implement the approved Arcanum add-on work-pack one selected SWU at a time.",
+    "objective": "Preserve Bootstrap, ResonantOS, Augmentor, execution, state, artifact, memory, readiness, promotion, and release owners while progressing through L0-L3 evidence gates.",
+    "target_artifact": "development/arcanum-addon/plan/WORK-PACK.md",
+    "operator_sentence": "Resolve governance and compatibility first, then use one Task Session per explicitly selected SWU and stop at every layer gate."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "state_namespace_boundary"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "The default implementation route is sequential and admits exactly one SWU per Task Session.",
+    "explanation": "No parallel worker route is authorized. A later disjoint adapter dispatch requires its own validated document and exact operator confirmation.",
+    "context": [
+      "development/arcanum-addon/plan/WORK-PACK.md",
+      "development/arcanum-addon/plan/EXECUTION-PACK.md"
+    ],
+    "binding_mode": "descriptive",
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": []
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s0-govern",
+      "name": "Resolve governing issue, Project fields, owners, and current selection",
+      "capability_ref": "decision-gate",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "owner": "Arcanum decision-gate candidate",
+        "authority_ceiling": "decision receipt only"
+      },
+      "mode": "resolve",
+      "pattern": "decision",
+      "techniques": [
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "development/arcanum-addon/plan/WORK-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "receipts/GOV-001.json"
+        }
+      ],
+      "evidence_artifact": "receipts/GOV-001.json",
+      "stop_conditions": [
+        "stop until the governing issue, Project 2 item, acceptance criteria, and owners are bound",
+        "stop because selectedSWU is none until the operator selects one"
+      ]
+    },
+    {
+      "step_id": "s1-bootstrap",
+      "name": "Produce or update the Bootstrap compatibility receipt",
+      "capability_ref": "arcanum-bootstrap",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "owner": "Arcanum Bootstrap",
+        "authority_ceiling": "generated public package compatibility receipt; refresh requires separate approval"
+      },
+      "mode": "dry-run",
+      "pattern": "sequential",
+      "depends_on_steps": [
+        "s0-govern"
+      ],
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "execution_receipt_handoff",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "receipts/GOV-001.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/BOOT-001.json"
+        }
+      ],
+      "evidence_artifact": "receipts/BOOT-001.json",
+      "stop_conditions": [
+        "stop on missing or drifted generated operations",
+        "do not apply a refresh without a separate exact approval"
+      ]
+    },
+    {
+      "step_id": "s2-l0",
+      "name": "Execute one selected L0 SWU",
+      "capability_ref": "task-session",
+      "mode": "execute-selected-swu",
+      "pattern": "sequential",
+      "depends_on_steps": [
+        "s1-bootstrap"
+      ],
+      "techniques": [
+        "scu_swu_reduction",
+        "handle_handoff",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/BOOT-001.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "development/arcanum-addon/plan/work-pack/tasks/TASK-1-CATALOG-PREVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/L0-selected-swu.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop after one selected SWU and complete closeout sync",
+        "stop if preview performs any privileged or durable effect"
+      ]
+    },
+    {
+      "step_id": "s3-l1",
+      "name": "Execute one selected L1 SWU",
+      "capability_ref": "task-session",
+      "mode": "execute-selected-swu",
+      "pattern": "sequential",
+      "depends_on_steps": [
+        "s2-l0"
+      ],
+      "techniques": [
+        "sequence",
+        "scu_swu_reduction",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/L0-selected-swu.json"
+        },
+        {
+          "kind": "decision",
+          "ref": "receipts/L0-DECISION-001.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "development/arcanum-addon/plan/work-pack/tasks/TASK-2-APPROVAL-STATE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/L1-selected-swu.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop after one selected SWU and complete closeout sync",
+        "stop unless the current L0-DECISION-001 disposition is continue",
+        "stop if HTTP or UI state is used as owner terminal truth"
+      ]
+    },
+    {
+      "step_id": "s4-l2",
+      "name": "Execute one selected L2 SWU",
+      "capability_ref": "task-session",
+      "mode": "execute-selected-swu",
+      "pattern": "sequential",
+      "depends_on_steps": [
+        "s3-l1"
+      ],
+      "techniques": [
+        "sequence",
+        "scu_swu_reduction",
+        "owner_boundary_check",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/L1-selected-swu.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "development/arcanum-addon/plan/work-pack/tasks/TASK-3-ADAPTERS-RESULTS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/L2-selected-swu.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop after one selected SWU and complete closeout sync",
+        "stop if a stable public native owner requires nested model CLI or fallback substitution"
+      ]
+    },
+    {
+      "step_id": "s5-l3",
+      "name": "Execute one selected lifecycle or acceptance SWU",
+      "capability_ref": "task-session",
+      "mode": "execute-selected-swu",
+      "pattern": "sequential",
+      "depends_on_steps": [
+        "s4-l2"
+      ],
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/L2-selected-swu.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "development/arcanum-addon/plan/work-pack/tasks/TASK-4-LIFECYCLE-ACCEPTANCE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/L3-selected-swu.json"
+        }
+      ],
+      "evidence_artifact": "receipts/L3-selected-swu.json",
+      "stop_conditions": [
+        "stop after one selected SWU and complete closeout sync",
+        "uninstall and rollback must use isolated copies of one accepted disabled snapshot and join before security",
+        "validation SWUs must not repair runtime source"
+      ]
+    },
+    {
+      "step_id": "s6-verify",
+      "name": "Verify claim-to-evidence recomposition",
+      "capability_ref": "task-session",
+      "mode": "verify",
+      "pattern": "validation",
+      "depends_on_steps": [
+        "s5-l3"
+      ],
+      "techniques": [
+        "recomposition_proof",
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/L3-selected-swu.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "development/arcanum-addon/plan/work-pack/tasks/TASK-5-VERIFY-DECIDE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/VERIFY-001.json"
+        }
+      ],
+      "evidence_artifact": "receipts/VERIFY-001.json",
+      "stop_conditions": [
+        "block if any planned witness is counted as executed",
+        "block if any required receipt, negative witness, or exact source binding is absent"
+      ]
+    },
+    {
+      "step_id": "s7-readiness",
+      "name": "Route the independent readiness decision",
+      "capability_ref": "decision-gate",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "owner": "Arcanum decision-gate candidate",
+        "authority_ceiling": "decision receipt only"
+      },
+      "mode": "resolve",
+      "pattern": "handoff",
+      "depends_on_steps": [
+        "s6-verify"
+      ],
+      "techniques": [
+        "owner_boundary_check",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/VERIFY-001.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "product-acceptance-owner"
+        }
+      ],
+      "stop_conditions": [
+        "stop after routing readiness",
+        "do not infer promotion or release from readiness"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-governance",
+      "kind": "human_approval",
+      "owner": "product-maintainer",
+      "condition": "Governing issue, Project 2 item, owners, and selected SWU are explicit.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-bootstrap",
+      "kind": "policy",
+      "owner": "arcanum-bootstrap",
+      "condition": "Compatibility is exact and any apply is separately approved.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-layer",
+      "kind": "quality",
+      "owner": "task-session",
+      "condition": "One SWU closes with its owner receipt before another is selected.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-validation",
+      "kind": "validation",
+      "owner": "validation-owner",
+      "condition": "Deterministic, security, repository, and live-browser evidence is complete and bound to the exact candidate.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-promotion",
+      "kind": "promotion_guardrail",
+      "owner": "product-acceptance-owner",
+      "condition": "Verification routes only readiness; promotion and release remain separate owner decisions.",
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-bootstrap-product",
+        "kind": "capability_handoff",
+        "from_owner": "arcanum-bootstrap",
+        "to_owner": "resonantos-product",
+        "applies_to_steps": [
+          "s1-bootstrap",
+          "s2-l0",
+          "s4-l2"
+        ],
+        "contract": "Product consumes an admitted redacted compatibility receipt and never writes generated packages.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-task-closeout",
+        "kind": "evidence_return",
+        "from_owner": "task-session",
+        "to_owner": "invoke-refresh",
+        "applies_to_steps": [
+          "s2-l0",
+          "s3-l1",
+          "s4-l2",
+          "s5-l3",
+          "s6-verify"
+        ],
+        "contract": "Every selected SWU returns one exact source and validation receipt before planning status is synchronized.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-readiness-promotion",
+        "kind": "human_approval",
+        "from_owner": "validation-owner",
+        "to_owner": "product-acceptance-owner",
+        "applies_to_steps": [
+          "s6-verify",
+          "s7-readiness"
+        ],
+        "contract": "Verification may inform readiness but cannot promote or release.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "resonantos-product-owner and arcanum-bootstrap remain distinct",
+      "execution": "stable public Arcanum owner operation through ResonantOS mediation",
+      "validation": "independent validation owner",
+      "evidence": "operation and validation owners return separate receipts",
+      "memory": "Living Archive intake/review/promotion owners",
+      "promotion": "product promotion owner after readiness"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-selected-swu",
+        "producer": "task-session",
+        "required_fields": [
+          "run_id",
+          "session_id",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "development/arcanum-addon/plan/receipts/"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "consumer-generated-arcanum",
+        "owner": "arcanum-bootstrap",
+        "write_policy": "Bootstrap manifest-managed writes only"
+      },
+      {
+        "namespace": "resonantos-product-records",
+        "owner": "resonantos-addon-host",
+        "write_policy": "named authenticated capability-gated services only"
+      },
+      {
+        "namespace": "augmentor-session-projection",
+        "owner": "extension-chat-session-owner",
+        "write_policy": "opaque redacted references only"
+      },
+      {
+        "namespace": "living-archive-intake",
+        "owner": "living-archive-intake-owner",
+        "write_policy": "explicit intake request; no trusted write"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "verified implementation evidence",
+        "target": "readiness decision",
+        "rule": "acceptance owner decides; verification cannot self-admit",
+        "on_violation": "block"
+      },
+      {
+        "source": "readiness decision",
+        "target": "promotion decision",
+        "rule": "promotion owner independently admits the exact candidate",
+        "on_violation": "block"
+      },
+      {
+        "source": "promotion decision",
+        "target": "release decision",
+        "rule": "release owner applies release-specific policy and packaging",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Plan evidence is not implementation evidence.",
+    "A generated package is not an installed or granted product add-on.",
+    "Augmentor projection is not approval or execution truth.",
+    "Readiness, promotion, and release are independent owner decisions."
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "governance_bound",
+      "bootstrap_compatibility_observed",
+      "swu_selected",
+      "task_session_started",
+      "task_session_closed",
+      "owner_closeout_synchronized",
+      "layer_gate_evaluated",
+      "verification_completed",
+      "readiness_routed"
+    ],
+    "signal_grouping": "dispatch_id"
+  }
+}

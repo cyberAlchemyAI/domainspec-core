@@ -1,0 +1,70 @@
+{
+  "schema_version": "invoke.plan.result.v1",
+  "target_id": "arcanum-addon",
+  "complexity": "high",
+  "output_mode": "split",
+  "work_pack": "development/arcanum-addon/plan/WORK-PACK.md",
+  "implementation_layering": "development/arcanum-addon/plan/IMPLEMENTATION-LAYERING.md",
+  "execution_pack": "development/arcanum-addon/plan/EXECUTION-PACK.md",
+  "implementation_dispatch": "development/arcanum-addon/plan/DISPATCH.json",
+  "distill_dispatch": "development/arcanum-addon/plan/DISTILL-DISPATCH.json",
+  "dispatch_validation": {
+    "implementation": "pass-repaired-v3-machine-selection-staged",
+    "distill_preflight": "pass",
+    "distill_closeout": "block-repair-revalidation-new-001-reconciled"
+  },
+  "repository_validation": {
+    "json_syntax": "pass-staged-3-json-files",
+    "markdown_local_targets": "pass-staged-6-changed-markdown-files",
+    "diff_check": "pass-staged-no-whitespace-errors",
+    "docs_check": "pass-repository-tracked-scope-planning-package-untracked",
+    "test_docs": "pass-224-repository-suite-planning-package-untracked",
+    "refresh_invariants": "pass-25-exact-swu-producers-25-unique-selection-inputs-zero-internal-selection-wave-joins-typed-lifecycle-selected-none",
+    "orchestrate_event_evidence": "pass-15-events",
+    "browser_first_scope": "pass-deferred-planning-package"
+  },
+  "environment_note": "Validation ran under Node 22.12.0 although the repository declares Node >=22.13.0; npm emitted an engine warning.",
+  "work_pack_gate": "block",
+  "selected_swu": null,
+  "distill_validation": "block-repair-revalidation-new-001-machine-selection-binding-authored-exact-byte-revalidation-required",
+  "distill_runtime": {
+    "run_id": "run-20260730-f3ada9f1",
+    "proposer": "joined-closed-validation-block",
+    "balancer": "joined-closed-validation-block",
+    "gate": "gate_block",
+    "next_action_count": 0
+  },
+  "latest_revalidation": {
+    "confirmed_sheet_sha256": "a850483e486e6d09f6baab804628ea2fd89244ee6fd69bd4115c96ef1c7ca6a1",
+    "admitted_pre_repair_corpus_sha256": "5b5e79f5632b2e29e7a20e7ac4d9e92addef6f707e9525c71e7266c24349e4b0",
+    "source_commit": "80dcd79677ad73b21dbaded12e0e9cd47aace82b",
+    "verdict": "block",
+    "closed_findings": [
+      "F-001",
+      "F-002",
+      "F-003",
+      "F-004",
+      "F-005",
+      "F-006",
+      "NEW-BAL-001"
+    ],
+    "surviving_findings": [
+      "NEW-001"
+    ],
+    "reconciled_findings_pending_revalidation": [
+      "NEW-001"
+    ]
+  },
+  "distill_observability": "not-configured-visible-residue",
+  "closeout_sync": "pass-authored-not-executed",
+  "blockers": [
+    "B-GOV-001",
+    "B-DESIGN-001",
+    "B-BOOT-001",
+    "B-OWNER-001",
+    "B-ADAPTER-001",
+    "B-RETENTION-001"
+  ],
+  "claim_ceiling": "Plan artifacts are authored and navigable; no SWU is selected and no mutation, runtime, readiness, promotion, or release is authorized.",
+  "next_route": "fresh-independent-exact-byte-revalidation-then-resolve-independent-blockers"
+}

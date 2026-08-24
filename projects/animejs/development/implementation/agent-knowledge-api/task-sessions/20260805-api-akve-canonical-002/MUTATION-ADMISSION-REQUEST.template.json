@@ -1,0 +1,185 @@
+{
+  "admissionProfile": "plan-once-selected-unit",
+  "allowedWrites": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-request.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-result.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-command.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-event.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-result.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/status-codes.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-contract-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+  ],
+  "authorityClass": "private",
+  "controlArtifacts": [
+    {
+      "authorityClass": "private",
+      "path": "projects/animejs/development/refinement-runs/20260804-agent-consultation-work-episodes-api/work-pack/tasks/TASK-AKVE-01-CONTRACTS.md",
+      "role": "task-contract",
+      "sha256": "1e2792b8c48278f7bced0ae738632aa7b8399be506b3e3e5d353d046750799a0",
+      "sizeBytes": 6105
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/WORK-PACK.json",
+      "role": "work-pack",
+      "sha256": "359f6f36564f057b824e51f48f7e7e4ddc60a4c70e251d8ff2c16f133692d36f",
+      "sizeBytes": 16613
+    },
+    {
+      "authorityClass": "private",
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/CONTEXT-PACK.json",
+      "role": "context-pack",
+      "sha256": "4d76186859b2e9fcbd80cea36746fe6d0a4e790dfef495d6a3aa5285824c0615",
+      "sizeBytes": 2990
+    }
+  ],
+  "dependencyFrontier": [
+    {
+      "artifactRef": {
+        "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-001/TASK-SESSION-RECEIPT.json",
+        "sha256": "181fe5cc67fa17ab40c85c212d3ea71f1f5cb6f0dddb4f1d2fb2158796d68a6b",
+        "sizeBytes": 8139
+      },
+      "dependencyId": "AKVE-001"
+    }
+  ],
+  "executionMode": "reusable-mutation",
+  "executionOutputs": [],
+  "lifecycleOwner": "animejs-vault-candidate-owner",
+  "materialPackage": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/producer/material-package.json",
+    "sha256": "2e5032082a8ad0d986551d688fb94840d1084284a91a41df49c57115fba3ea5b",
+    "sizeBytes": 13399
+  },
+  "materialReceipt": {
+    "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/producer/material-package-receipt.json",
+    "sha256": "d6e15fe7ed1fbf58a1e88234cec2a32687f5ef2665176287407da5789b77889f",
+    "sizeBytes": 5114
+  },
+  "materialWrites": [
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-request.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-result.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-command.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-event.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-result.schema.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/status-codes.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-contract-cases.json",
+    "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+  ],
+  "planAdmission": {
+    "attemptId": "20260805-api-akve-canonical-002",
+    "planEpochId": "epoch-ab410b7abe6b64418258652f",
+    "planManifest": {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/readiness/audit-output-receipt-repair/plan-semantic-manifest.json",
+      "sha256": "9acdec41958a313e23b1126598bb55fe9d04bec4b3d38e42a2658d9d313640e8",
+      "sizeBytes": 2562
+    },
+    "planManifestSchema": {
+      "path": ".agents/skills/work-pack-readiness-audit/schemas/plan-semantic-manifest.schema.json",
+      "sha256": "e4245291eecb1df1dd9744a9b5f02d3f20724224a19fd9681801b72f92929d7f",
+      "sizeBytes": 1962
+    },
+    "selectionReceipt": {
+      "path": "projects/animejs/development/implementation/agent-knowledge-api/task-sessions/20260805-api-akve-canonical-002/SELECTION-RECEIPT.json",
+      "sha256": "891b3d065f42da906916f54f613f3cd9c59216c858d6d9c1bb801aed8d381479",
+      "sizeBytes": 950
+    },
+    "selectionReceiptSchema": {
+      "path": ".agents/skills/work-pack-readiness-audit/schemas/selection-receipt.schema.json",
+      "sha256": "46b942dc92d1bb192439e862f3ab27003b353f600b685ffed4d07bd5f96cb66a",
+      "sizeBytes": 2810
+    },
+    "structuredValidationContracts": [
+      {
+        "argv": [
+          "node",
+          "--test",
+          "--test-name-pattern=episode contract",
+          "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+        ],
+        "command_id": "episode-contract",
+        "cwd": ".",
+        "max_output_bytes": 65536,
+        "timeout_seconds": 60
+      },
+      {
+        "argv": [
+          "node",
+          "--test",
+          "--test-name-pattern=neutral projection",
+          "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+        ],
+        "command_id": "neutral-projection-regression",
+        "cwd": ".",
+        "max_output_bytes": 65536,
+        "timeout_seconds": 60
+      }
+    ],
+    "targetBaselines": [
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-request.schema.json",
+        "sha256": "71620ae45461e9ae0bd705437561bd45bc4ec93d204cc3d45bb4e53055cef7b5",
+        "sizeBytes": 2086,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/consultation-result.schema.json",
+        "sha256": "3e5f0794a1503dcb97f3dbe7b8c0eb4704aa010bdecf799aac6ab3a596faea7a",
+        "sizeBytes": 2126,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-command.schema.json",
+        "sha256": "98e7a51f518059954fc26a718c72c91a25d8669fa871e1500f9bedcf3a0a789b",
+        "sizeBytes": 4303,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-event.schema.json",
+        "sha256": "1e3a84604dbfb3d7a6532ba7b5c2c0085d9a0772977966fb016b7d43e7c5e0df",
+        "sizeBytes": 6001,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/episode-result.schema.json",
+        "sha256": "8db4d5217cfd8ed74696d9c0811bf512587a1c28674f6c648f1f86b803a437b2",
+        "sizeBytes": 1315,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/operational/contracts/status-codes.json",
+        "sha256": "108df6574ead54270a88ce2719adb5fb5bd9f0460613f94aaa5c365ada6f4272",
+        "sizeBytes": 1582,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/operational/fixtures/episode-contract-cases.json",
+        "sha256": "0f43016e068ddc4a3e896bfa4de080d89dd4e6967dc37367a92ddbaa10f2a3c9",
+        "sizeBytes": 1278,
+        "state": "present"
+      },
+      {
+        "path": "projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs",
+        "sha256": "cf317cbb5eee5c0340c02f75b74866c6873adfb07948b752153acfe25c5a78dd",
+        "sizeBytes": 5146,
+        "state": "present"
+      }
+    ],
+    "unitContractDigest": "90ca0f8df6cbfa6205eec7f399bda38cecaeae700a113d27c1a8a9b58003a54c",
+    "validationContractDigest": "ee383e4d658281b9ac0f9d013a98e2d72ea529e6f6f4384fdda7cfe3df9e3a01"
+  },
+  "producerReceiptSchema": {
+    "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+    "sha256": "89b842ac515c03f7b12b04ab3bfdd2e9d473005b5c863eae237bc2f5ee980b66",
+    "sizeBytes": 4078
+  },
+  "publicationClass": "internal",
+  "schemaVersion": "1.2.0",
+  "swuId": "SWU-AKVE-002",
+  "taskId": "TASK-AKVE-01",
+  "validationCommands": [
+    "node --test --test-name-pattern=episode contract projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs",
+    "node --test --test-name-pattern=neutral projection projects/animejs/ontology/agent-knowledge-vault/operational/tests/contracts.test.mjs"
+  ]
+}

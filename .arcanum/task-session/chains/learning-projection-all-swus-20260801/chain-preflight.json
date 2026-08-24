@@ -1,0 +1,85 @@
+{
+  "schema": "task-session-until-blocker-chain-preflight/v1",
+  "chain_id": "learning-projection-all-swus-20260801",
+  "created_at": "2026-08-01",
+  "status": "BLOCK",
+  "route": "task-session -> task-session-until-blocker",
+  "work_pack": {
+    "path": "cyberAlchemy-v2/development/research/2026-08-01-learning-graph-next-route-guide/invoke/WORK-PACK.md",
+    "sha256": "b662194f51a067689bac6d03c7153479dd1e6bd593e44ab80c94e042ceead404"
+  },
+  "manifest": {
+    "path": "cyberAlchemy-v2/development/research/2026-08-01-learning-graph-next-route-guide/invoke/work-pack/SWU-MANIFEST.json",
+    "sha256": "6fc1befa9884d8dbc641b3be9f386b4c4730bc44e7f31e47cc2db1891a4347d6"
+  },
+  "series_intent": "select and execute the whole ordered SWU package until the first blocker or frontier completion",
+  "stop_condition": "first-blocker-or-frontier-complete",
+  "captured_frontier": [
+    "SWU-LGP-001",
+    "SWU-LGP-002",
+    "SWU-LGP-003",
+    "SWU-LGP-004",
+    "SWU-LGP-005",
+    "SWU-LGP-006",
+    "SWU-LGP-007",
+    "SWU-LGP-008",
+    "SWU-LGP-009",
+    "SWU-LGP-010"
+  ],
+  "session_budget": 10,
+  "current_expected_selector": "SWU-LGP-001",
+  "visited_selectors": [],
+  "invoked_selectors": [],
+  "joined_task_session_receipts": [],
+  "joined_closeout_owner_receipts": [],
+  "continuity_cursor_fingerprints": [],
+  "preflight": [
+    {
+      "check": "exact-work-pack-scope",
+      "status": "pass",
+      "evidence": "work-pack and manifest hashes bound"
+    },
+    {
+      "check": "finite-ordered-dependency-aware-frontier",
+      "status": "pass",
+      "evidence": "ten unique SWUs ordered SWU-LGP-001 through SWU-LGP-010"
+    },
+    {
+      "check": "declared-write-validation-and-closeout-contracts",
+      "status": "pass",
+      "evidence": "VALIDATION-RECEIPT.json sha256:974f38a774ba48c5aab23ea196bde95a06b16a4a9b1ca126deab1b4f0c9ad7f7; 18/18 checks pass"
+    },
+    {
+      "check": "maximum-session-count",
+      "status": "pass",
+      "evidence": "budget 10 equals captured frontier length 10"
+    },
+    {
+      "check": "first-candidate-uniquely-ready",
+      "status": "block",
+      "evidence": "W0 and A-001 require a current learner-view mutation-admission receipt before SWU selection or product mutation; no receipt is present"
+    }
+  ],
+  "user_selection_intent": {
+    "captured": true,
+    "activated": false,
+    "reason": "the Work Pack requires W0 mutation admission before selection becomes active"
+  },
+  "stop_reason": "A-001 learner-view mutation admission absent",
+  "blocker_fingerprint": "A-001:learner-view-mutation-admission:absent:work-pack-b662194f",
+  "remaining_frontier": [
+    "SWU-LGP-001",
+    "SWU-LGP-002",
+    "SWU-LGP-003",
+    "SWU-LGP-004",
+    "SWU-LGP-005",
+    "SWU-LGP-006",
+    "SWU-LGP-007",
+    "SWU-LGP-008",
+    "SWU-LGP-009",
+    "SWU-LGP-010"
+  ],
+  "next_route": "learner-view-navigation-owner:mutation-admission",
+  "files_mutated": [],
+  "claim_ceiling": "Series frontier captured and preflight blocked before Task Session execution. No SWU selected, no product mutation, no owner admission, and no implementation evidence."
+}

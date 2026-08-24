@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "animejs-work-episode-command/0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "command_id", "idempotency_key", "operation", "episode_id", "expected_revision", "expected_graph_digest", "payload"],
+  "properties": {
+    "contract": {"const": "animejs-work-episode-command/0.1.0"},
+    "command_id": {"type": "string", "minLength": 1, "maxLength": 160},
+    "idempotency_key": {"type": "string", "minLength": 1, "maxLength": 200},
+    "operation": {"enum": ["open_episode", "append_attempt", "attach_evidence", "record_outcome", "close_episode"]},
+    "episode_id": {"type": ["string", "null"], "maxLength": 160},
+    "expected_revision": {"type": "integer", "minimum": 0},
+    "expected_graph_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "payload": {"type": "object"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"operation": {"const": "open_episode"}}},
+      "then": {
+        "properties": {
+          "episode_id": {"type": "null"},
+          "expected_revision": {"const": 0},
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["task_handle", "version_context_handle", "goal", "started_at"],
+            "properties": {
+              "task_handle": {"type": "string"},
+              "version_context_handle": {"type": "string"},
+              "goal": {"type": "string", "minLength": 1, "maxLength": 2000},
+              "started_at": {"type": "string", "format": "date-time"},
+              "tags": {"type": "array", "maxItems": 20, "uniqueItems": true, "items": {"type": "string", "maxLength": 80}},
+              "supersedes_episode_id": {"type": ["string", "null"]}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"operation": {"const": "append_attempt"}}},
+      "then": {
+        "properties": {
+          "episode_id": {"type": "string"},
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["ordinal", "action_summary", "input_artifact_handles"],
+            "properties": {
+              "ordinal": {"type": "integer", "minimum": 1},
+              "action_summary": {"type": "string", "minLength": 1, "maxLength": 4000},
+              "input_artifact_handles": {"type": "array", "maxItems": 30, "items": {"type": "string"}}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"operation": {"const": "attach_evidence"}}},
+      "then": {
+        "properties": {
+          "episode_id": {"type": "string"},
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["attempt_ordinal", "evidence_handle"],
+            "properties": {
+              "attempt_ordinal": {"type": "integer", "minimum": 1},
+              "evidence_handle": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"operation": {"const": "record_outcome"}}},
+      "then": {
+        "properties": {
+          "episode_id": {"type": "string"},
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["attempt_ordinal", "classification", "observations", "witness_handles"],
+            "properties": {
+              "attempt_ordinal": {"type": "integer", "minimum": 1},
+              "classification": {"enum": ["succeeded", "failed", "blocked", "inconclusive"]},
+              "observations": {"type": "array", "maxItems": 30, "items": {"type": "string", "maxLength": 1000}},
+              "witness_handles": {"type": "array", "maxItems": 30, "uniqueItems": true, "items": {"type": "string"}}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"operation": {"const": "close_episode"}}},
+      "then": {
+        "properties": {
+          "episode_id": {"type": "string"},
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["disposition"],
+            "properties": {"disposition": {"enum": ["completed", "failed", "blocked", "abandoned"]}}
+          }
+        }
+      }
+    }
+  ]
+}

@@ -15,6 +15,8 @@ DRY_RUN="${DRY_RUN:-0}"
 
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 SITE_FILE="$SCRIPT_DIR/../index.html"
+CRAFT_SITE_FILE="$SCRIPT_DIR/../../../arcanum/development/user-guide/craft-augmented-physics.html"
+BELLA_SITE_FILE="${BELLA_SITE_FILE:-$SCRIPT_DIR/../../../../direito-romano/learning-graph/FAST-TOWER-GRAPH.html}"
 COMPOSE_FILE="$SCRIPT_DIR/docker-compose.yml"
 NGINX_FILE="$SCRIPT_DIR/nginx.conf"
 TMP_DIR="$(mktemp -d)"
@@ -59,7 +61,7 @@ case "$PUBLIC_HOST" in
     ;;
 esac
 
-for required_path in "$SITE_FILE" "$COMPOSE_FILE" "$NGINX_FILE"
+for required_path in "$SITE_FILE" "$CRAFT_SITE_FILE" "$BELLA_SITE_FILE" "$COMPOSE_FILE" "$NGINX_FILE"
 do
   if [ ! -f "$required_path" ]; then
     echo "missing required deploy input: $required_path" >&2
@@ -67,10 +69,17 @@ do
   fi
 done
 
+BELLA_SOURCE_SHA256="$(sha256sum "$BELLA_SITE_FILE" | awk '{print $1}')"
+
 SITE_BUNDLE="$TMP_DIR/co-op-engine-site.tar.gz"
 ENV_FILE="$TMP_DIR/co-op-engine.env"
+SITE_STAGE="$TMP_DIR/site"
 
-tar -C "$(dirname "$SITE_FILE")" -czf "$SITE_BUNDLE" "$(basename "$SITE_FILE")"
+mkdir -p "$SITE_STAGE/craft" "$SITE_STAGE/bella"
+cp "$SITE_FILE" "$SITE_STAGE/index.html"
+cp "$CRAFT_SITE_FILE" "$SITE_STAGE/craft/index.html"
+cp "$BELLA_SITE_FILE" "$SITE_STAGE/bella/index.html"
+tar -C "$SITE_STAGE" -czf "$SITE_BUNDLE" .
 
 printf '%s\n' \
   "PUBLIC_HOST=$PUBLIC_HOST" \
@@ -89,7 +98,7 @@ upload "$NGINX_FILE" "nginx.conf"
 upload "$ENV_FILE" ".env.next"
 
 echo "installing the new site release"
-remote "cd '$REMOTE_DIR' && rm -rf site.next && mkdir site.next && tar -xzf site.tar.gz -C site.next && test -f site.next/index.html && rm -rf site.previous && if [ -d site ]; then mv site site.previous; fi && mv site.next site && mv .env.next .env"
+remote "cd '$REMOTE_DIR' && rm -rf site.next && mkdir site.next && tar -xzf site.tar.gz -C site.next && test -f site.next/index.html && test -f site.next/craft/index.html && test -f site.next/bella/index.html && rm -rf site.previous && if [ -d site ]; then mv site site.previous; fi && mv site.next site && mv .env.next .env"
 
 echo "starting the isolated static container"
 remote "cd '$REMOTE_DIR' && docker compose --env-file .env -f docker-compose.yml up -d --pull always --force-recreate site"
@@ -105,10 +114,17 @@ fi
 echo "checking the public HTTPS route"
 attempt=1
 while [ "$attempt" -le 18 ]; do
-  if curl -fsS --max-time 15 "https://$PUBLIC_HOST/" | grep -F '<title>CyberAlchemy — Collaboration Portfolio</title>' >/dev/null
+  if curl -fsS --max-time 15 "https://$PUBLIC_HOST/" |
+      grep -F '<title>CyberAlchemy — Collaboration Portfolio</title>' >/dev/null &&
+    curl -fsS --max-time 15 "https://$PUBLIC_HOST/craft" |
+      grep -F '<title>Craft — Toward an Augmented Physics of Making</title>' >/dev/null &&
+    curl -fsS --max-time 15 "https://$PUBLIC_HOST/bella" |
+      grep -F '<title>Direito Romano — Canvas de estudo das torres</title>' >/dev/null &&
+    [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/bella" | sha256sum | awk '{print $1}')" = "$BELLA_SOURCE_SHA256" ]
   then
     echo "public HTTPS: pass"
-    echo "deploy complete: https://$PUBLIC_HOST/"
+    echo "bella SHA-256: $BELLA_SOURCE_SHA256"
+    echo "deploy complete: https://$PUBLIC_HOST/, https://$PUBLIC_HOST/craft, and https://$PUBLIC_HOST/bella"
     exit 0
   fi
 

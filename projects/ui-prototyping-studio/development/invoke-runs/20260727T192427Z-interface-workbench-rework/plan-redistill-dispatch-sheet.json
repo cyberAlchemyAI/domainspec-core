@@ -1,0 +1,81 @@
+{
+  "dispatch_id": "2026-07-27-ui-prototyping-studio-plan-redistill-review",
+  "schema_version": "0.7.0",
+  "dispatch_type": "review",
+  "goal": "Validate the remediated UI Prototyping Studio interface-workbench Invoke Plan against PD-01 through PD-10 and the Invoke Plan/Distill contracts. Produce verified remaining change requests or a PASS while preserving selected_swu null and every evidence and authority ceiling.",
+  "context": "The approved Design is unchanged. Invoke Plan replaced the blocked 17-SWU draft with a 19-SWU candidate and added exact scope, acceptance, and closeout inventories; product source and tests remain unexecuted. The review must attack the current literal bytes, not infer success from the remediation receipt or Inventory. No SWU is selected and Task Session remains blocked.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "anti_bias_global": "closure-preserving remediation versus hidden forward dependency and execution-ambiguity skepticism under claim less than or equal to proof",
+  "working_folder": "projects/ui-prototyping-studio/development/invoke-runs/20260727T192427Z-interface-workbench-rework/plan-redistill-review/",
+  "groups": [
+    {
+      "group_id": "proposer-balancer",
+      "n": 2,
+      "robot_talks": true,
+      "anti_bias": "methodology",
+      "agents": [
+        {
+          "agent_name": "Abramsky, Samson",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2600,
+          "angle": "Proposer: formally establish closure, exact acceptance, and recomposition for the 19 units and four machine inventories. Abramsky runs affirmative contract and recomposition proof, Rittel runs adversarial execution simulation and hidden-dependency falsification on the methodology axis; a remediation-confirmation bias in Abramsky would be exposed by Rittel.",
+          "initial_prompt": "Act as the Distill Proposer over the complete current remediated Plan corpus. Read PLAN-CONTEXT.md, PLAN-TECHNIQUE-TRACE.md, IMPLEMENTATION-LAYERING.md, IMPLEMENTATION-PLAN.md, WORK-PACK.md, SWU-MANIFEST.json, SWU-SCOPE-INVENTORY.json, SWU-ACCEPTANCE-MATRIX.json, CLOSEOUT-SYNC-INVENTORY.json, EXECUTION-PACK.md, PLAN-VALIDATION-STRATEGY.md, PLAN-TRANSPORT.md, PLAN-REMEDIATION-RECEIPT.md, every work-pack/shared/task/wave file, DESIGN-DISTILL.md, WITNESS-CONTRACTS.md, and plan-distill-review/findings.md. Use only relevant fields from plan-redistill-strategy-inventory-packet.json; Inventory is discovery-only. Establish affirmative semantic closure, one primary acceptance, exact mutation and closeout authority, dependency meaning, first-unit narrowness, and recomposition for all 19 SWUs. Explicitly prove the 003/018, 006/007, 016/017, and 018/019 boundaries. Do not own adversarial hidden-dependency or task-shape falsification; those belong to the Balancer. Do not edit files or select an SWU. Return cited pass/flag/block candidate findings, initial/final robot-talk positions, and recomposition proof."
+        },
+        {
+          "agent_name": "Rittel, Horst",
+          "role": "explorer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2600,
+          "angle": "Balancer: adversarially simulate execution, preflight, acceptance, synchronization, and failure to expose hidden dependencies or task-shaped units. Abramsky runs affirmative contract and recomposition proof, Rittel runs adversarial execution simulation and hidden-dependency falsification on the methodology axis; a remediation-confirmation bias in Abramsky would be exposed by Rittel.",
+          "initial_prompt": "Act as the Distill Balancer over the same complete literal corpus. Attack all 19 SWUs for independently passable child behavior, ambiguous or sequentially impossible paths, false existing/create assumptions, missing forbidden scope, hidden forward route/context dependencies, overlapping assertion ownership, unexecutable 008-013 greps/selectors, semantic-versus-serialization drift, incomplete per-row closeout permissions, W5 shorthand, weak failure algorithms, and readiness inflation. Specifically try to refute the two-child 016/017 split and the separation of 018/019. Verify SWU-UPW-001 remains the narrowest reversible recommendation but is not selected. Do not edit files. Return cited objection categories, exact repairs, KEEP/SPLIT/BLOCK recommendations, and initial/final robot-talk positions."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Noether, Emmy",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 3000,
+          "initial_prompt": "Synthesize both complete Proposer/Balancer initial and final positions into verified candidate change requests. Recheck literal Plan bytes. Disposition PD-01 through PD-10, all 19 SWUs, six tasks, six waves, the four inventories, first-unit narrowness, recomposition, closeout, navigation, residue, and authority. Drop preferences or unsupported findings. Every survivor must include exact artifact evidence, severity, one-line repair, affected scope, and Plan-pass effect. Produce a candidate pass/flag/block verdict; do not implement or select."
+        }
+      ]
+    },
+    {
+      "group_id": "verifier",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Schön, Donald",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 2200,
+          "initial_prompt": "Falsify every synthesized finding against the literal remediated Plan, approved Design, current source layout, Invoke Plan contract, and Distill contract. Run read-only JSON/referential checks where useful. Reject severity inflation, framework preferences, implementation execution, invented evidence, and auto-selection. Verify exact 19-way scope/acceptance/closeout coverage, route/context/hardening boundaries, W5 contract, and claim ceilings. Refuted findings are dropped. Return PASS/no objection or exact surviving revisions."
+        }
+      ]
+    },
+    {
+      "group_id": "coverage-auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.6-sol",
+          "token_budget": 1700,
+          "initial_prompt": "Audit only downstream denominator coverage. Confirm attacks preserve both Distill roles' initial/final positions and verifier return; findings cite every survivor and drop refuted claims. Require explicit dispositions for PD-01 through PD-10, all 19 SWUs, six tasks, six waves, L0-L3, four inventories, UPW-FIX-001-024, first-unit narrowness, recomposition, closeout, residue, and authority ceilings. Fire the zero-findings red flag if no genuine attack occurred. Recommend ACCEPT or REJECT without adding findings or editing targets."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {"from": "proposer-balancer", "to": "synthesizer", "type": "sequential"},
+    {"from": "synthesizer", "to": "verifier", "type": "zig-zag", "loop_cap": 1},
+    {"from": "verifier", "to": "coverage-auditor", "type": "sequential"}
+  ]
+}

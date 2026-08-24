@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-08-05T21:59:10.723Z",
+  "run_id": "decision-gate-capi-next-unit-20260805-pass",
+  "session_id": "craft-wavedb-api-20260805T184540Z",
+  "sigil": "decision-gate",
+  "tier": "arcana",
+  "mode": "next-unit-selection",
+  "capability": {
+    "id": "decision-gate",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "next-unit-selection",
+    "alias": null
+  },
+  "command": null,
+  "lineage": {
+    "parent_run_id": "decision-gate-capi-next-unit-20260805-blocked",
+    "relation": "resolves",
+    "caller": null
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/DECISIONS.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/decision-gates/20260805T212805Z-select-next-unit/decision-result.json",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/decision-gates/20260805T212805Z-select-next-unit/option-admissibility-receipt.json"
+    ]
+  },
+  "request": {
+    "raw": "1",
+    "summary": "Select the first presented Craft API next-unit option.",
+    "intent": "Bind the continuation to SWU-CAPI-000 without authorizing Work Pack mutation or runtime execution."
+  },
+  "execution": {
+    "status": "completed-selection-only",
+    "outputs": [
+      "resolved decision record",
+      "decision result receipt"
+    ],
+    "files_changed": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/DECISIONS.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/decision-gates/20260805T212805Z-select-next-unit/decision-result.json"
+    ],
+    "validation": [
+      "user ordinal 1 mapped to the previously presented CAPI-NEXT-000 option",
+      "CAPI-NEXT-000 remained present in the immutable admissibility receipt",
+      "decision result preserved all remaining lifecycle blockers",
+      "Work Pack hash, blocked gate, empty allowed routes, and null selected unit remained unchanged"
+    ],
+    "notes": "Decision Gate passed for selection only. Invoke Refresh and Task Session remain separate, unrequested gates."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "Request Invoke Refresh to project SWU-CAPI-000 into the Work Pack before any Task Session admission."
+  },
+  "target_artifact": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/DECISIONS.md",
+  "dedupe_key": "decision-gate-capi-next-unit-20260805-pass:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

@@ -1,0 +1,894 @@
+{
+  "dispatch_id": "2026-07-30-body-war-business-ontology-relationship-coverage-route",
+  "intent": {
+    "raw": "Research how many Body War business ontology nodes do not have relationships, why, whether all nodes need relationships, and how connectivity should work in the ontology.",
+    "objective": "Produce a source-bound, exact, adversarially checked answer and an owner-routed connectivity policy without mutating the ontology or inventing edges.",
+    "target_artifact": "projects/body-war/development/research/20260730-business-ontology-relationship-coverage/findings.md",
+    "arcanum_vocabulary": [
+      "research",
+      "domainspec-subagents-strategy",
+      "orchestrate",
+      "exact-binding",
+      "evidence closure",
+      "candidate-local",
+      "claim <= proof"
+    ]
+  },
+  "mode": "research",
+  "techniques": [
+    "sequence",
+    "role_projection_boundary",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "artifact_contract_bridge"
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Synthesis, isolation, parallelism, and context protection across computational, formal, and product-semantic lenses.",
+    "explanation": "Independent graph measurement, ontology-contract interpretation, and business classification must disagree before one answer can be trusted; later skeptics separately test ownership, concrete reproduction, and definitional non-collapse.",
+    "context": [
+      "The live package has 237 actual node files and 231 explicit relation rows.",
+      "Explicit relations, lifecycle-policy membership, residue impact, branch roles, source references, and challenge contracts are different mechanisms.",
+      "Inventory is discovery-only and direct relationship-coverage research is absent.",
+      "All ontology and application sources remain read-only."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "graph-explorer",
+        "purpose": "Compute exact graph coverage and secondary reference overlaps.",
+        "owns": "Graph enumeration receipt",
+        "capability_ref": "research",
+        "capability_target": "projects/body-war/ontology/business/",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/body-war/ontology/business/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "STRATEGY-INVENTORY-PACKET.md",
+          "DISPATCH-SHEET.json"
+        ],
+        "output_refs": [
+          "receipts/explorer-graph.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "model-explorer",
+        "purpose": "Interpret current ontology and validation contracts without inferring a universal edge rule.",
+        "owns": "Model-contract receipt",
+        "capability_ref": "research",
+        "capability_target": "cyberAlchemy-v2/ontology/",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "cyberAlchemy-v2/ontology/",
+          "projects/body-war/ontology/business/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "STRATEGY-INVENTORY-PACKET.md",
+          "DISPATCH-SHEET.json"
+        ],
+        "output_refs": [
+          "receipts/explorer-model.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "product-explorer",
+        "purpose": "Classify every explicit isolate by source-backed business usefulness.",
+        "owns": "Product classification receipt",
+        "capability_ref": "research",
+        "capability_target": "projects/body-war/ontology/business/",
+        "capability_mode": "explore",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/body-war/ontology/business/",
+          "projects/body-war/app/",
+          ".arcanum/inventory/"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "STRATEGY-INVENTORY-PACKET.md",
+          "DISPATCH-SHEET.json"
+        ],
+        "output_refs": [
+          "receipts/explorer-product.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "research-synthesizer",
+        "purpose": "Reconcile measurements, contracts, and classifications into an exact-binding candidate answer.",
+        "owns": "Evidence-matrix synthesis receipt",
+        "capability_ref": "research",
+        "capability_target": "projects/body-war/development/research/20260730-business-ontology-relationship-coverage/",
+        "capability_mode": "synthesize",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/body-war/ontology/business/",
+          "cyberAlchemy-v2/ontology/"
+        ],
+        "depends_on_roles": [
+          "graph-explorer",
+          "model-explorer",
+          "product-explorer"
+        ],
+        "input_refs": [
+          "receipts/explorer-graph.json",
+          "receipts/explorer-model.json",
+          "receipts/explorer-product.json"
+        ],
+        "output_refs": [
+          "receipts/synthesis.json"
+        ],
+        "applies_to_steps": [
+          "s2"
+        ]
+      },
+      {
+        "role_id": "precedent-skeptic",
+        "purpose": "Test current ownership and precedent for every proposed invariant or repair.",
+        "owns": "Precedent review receipt",
+        "capability_ref": "research",
+        "capability_target": "projects/body-war/development/research/20260730-business-ontology-relationship-coverage/",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/body-war/ontology/business/",
+          "cyberAlchemy-v2/ontology/"
+        ],
+        "depends_on_roles": [
+          "research-synthesizer"
+        ],
+        "input_refs": [
+          "receipts/synthesis.json"
+        ],
+        "output_refs": [
+          "receipts/reviewer-precedent.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "nonvacuity-skeptic",
+        "purpose": "Reproduce counts and demand concrete node and validator witnesses.",
+        "owns": "Non-vacuity review receipt",
+        "capability_ref": "research",
+        "capability_target": "projects/body-war/development/research/20260730-business-ontology-relationship-coverage/",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/body-war/ontology/business/",
+          "cyberAlchemy-v2/ontology/"
+        ],
+        "depends_on_roles": [
+          "research-synthesizer"
+        ],
+        "input_refs": [
+          "receipts/synthesis.json"
+        ],
+        "output_refs": [
+          "receipts/reviewer-nonvacuity.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "definition-skeptic",
+        "purpose": "Prevent collapse among explicit edges and other ontology reference mechanisms.",
+        "owns": "Definitional review receipt",
+        "capability_ref": "research",
+        "capability_target": "projects/body-war/development/research/20260730-business-ontology-relationship-coverage/",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/body-war/ontology/business/",
+          "cyberAlchemy-v2/ontology/"
+        ],
+        "depends_on_roles": [
+          "research-synthesizer"
+        ],
+        "input_refs": [
+          "receipts/synthesis.json"
+        ],
+        "output_refs": [
+          "receipts/reviewer-definition.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      },
+      {
+        "role_id": "findings-writer",
+        "purpose": "Persist only the evidence-closed research synthesis.",
+        "owns": "findings.md and writer receipt",
+        "capability_ref": "research",
+        "capability_target": "projects/body-war/development/research/20260730-business-ontology-relationship-coverage/findings.md",
+        "capability_mode": "write",
+        "agent_count": 1,
+        "mutation_policy": "artifact-only",
+        "write_scope": [
+          "projects/body-war/development/research/20260730-business-ontology-relationship-coverage/findings.md"
+        ],
+        "forbidden_write_scopes": [
+          "projects/body-war/ontology/business/",
+          "cyberAlchemy-v2/ontology/",
+          ".arcanum/inventory/",
+          "telemetry/agents/"
+        ],
+        "depends_on_roles": [
+          "precedent-skeptic",
+          "nonvacuity-skeptic",
+          "definition-skeptic"
+        ],
+        "input_refs": [
+          "receipts/reviewer-precedent.json",
+          "receipts/reviewer-nonvacuity.json",
+          "receipts/reviewer-definition.json",
+          "EVIDENCE-CLOSURE.md"
+        ],
+        "output_refs": [
+          "receipts/findings-writer.json"
+        ],
+        "applies_to_steps": [
+          "s5"
+        ]
+      },
+      {
+        "role_id": "findings-auditor",
+        "purpose": "Audit the final findings against the goal, complete isolate accounting, and exact-binding contract.",
+        "owns": "Final audit receipt",
+        "capability_ref": "research",
+        "capability_target": "projects/body-war/development/research/20260730-business-ontology-relationship-coverage/findings.md",
+        "capability_mode": "audit",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/body-war/ontology/business/",
+          "cyberAlchemy-v2/ontology/",
+          "projects/body-war/development/research/20260730-business-ontology-relationship-coverage/findings.md"
+        ],
+        "depends_on_roles": [
+          "findings-writer"
+        ],
+        "input_refs": [
+          "receipts/findings-writer.json",
+          "findings.md"
+        ],
+        "output_refs": [
+          "receipts/auditor.json"
+        ],
+        "applies_to_steps": [
+          "s6"
+        ]
+      }
+    ],
+    "execution_waves": [
+      {
+        "wave_id": "explore",
+        "role_ids": [
+          "graph-explorer",
+          "model-explorer",
+          "product-explorer"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "gate_after": "g-explorer-receipts",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "synthesize",
+        "role_ids": [
+          "research-synthesizer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "explore"
+        ],
+        "gate_after": "g-synthesis-receipt",
+        "on_incomplete": "reroute"
+      },
+      {
+        "wave_id": "review",
+        "role_ids": [
+          "precedent-skeptic",
+          "nonvacuity-skeptic",
+          "definition-skeptic"
+        ],
+        "parallel": true,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "synthesize"
+        ],
+        "gate_after": "g-evidence-closure",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "write",
+        "role_ids": [
+          "findings-writer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "review"
+        ],
+        "gate_after": "g-writer-receipt",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "audit",
+        "role_ids": [
+          "findings-auditor"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "write"
+        ],
+        "on_incomplete": "block"
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Run the frozen Body War business ontology relationship-coverage research dispatch?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "capability_target",
+      "capability_mode",
+      "wave_id",
+      "write_scope",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Explore graph, model, and product semantics",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "explore",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "role_projection_boundary",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "STRATEGY-INVENTORY-PACKET.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "DISPATCH-SHEET.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-graph.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-model.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-product.json"
+        }
+      ],
+      "join_policy": "all",
+      "stop_conditions": [
+        "stop if any explorer cannot read its exact source corpus",
+        "stop if any explorer mutates a source or read model",
+        "stop if a preliminary count is accepted without independent reproduction"
+      ]
+    },
+    {
+      "step_id": "s2",
+      "name": "Synthesize an exact-binding candidate answer",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "synthesize",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "depends_on_steps": [
+        "s1"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-graph.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-model.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/explorer-product.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/synthesis.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop if any zero-degree node is unaccounted for",
+        "stop if explicit graph edges are collapsed with another reference mechanism"
+      ]
+    },
+    {
+      "step_id": "s3",
+      "name": "Review ownership, non-vacuity, and definitions",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "review",
+      "pattern": "validation",
+      "parallel": true,
+      "techniques": [
+        "execution_receipt_handoff",
+        "artifact_contract_bridge",
+        "concrete_path_evidence"
+      ],
+      "depends_on_steps": [
+        "s2"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/synthesis.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-nonvacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-definition.json"
+        }
+      ],
+      "evidence_artifact": "receipts/reviewer-precedent.json, receipts/reviewer-nonvacuity.json, and receipts/reviewer-definition.json",
+      "join_policy": "all",
+      "stop_conditions": [
+        "kill unwitnessed or tautological candidates",
+        "do not kill a candidate only because an owner or precedent exists"
+      ]
+    },
+    {
+      "step_id": "s4",
+      "name": "Run exact-binding evidence closure",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "evidence-closure",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "concrete_path_evidence"
+      ],
+      "depends_on_steps": [
+        "s3"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/synthesis.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-nonvacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-definition.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "EVIDENCE-CLOSURE.md"
+        }
+      ],
+      "evidence_artifact": "EVIDENCE-CLOSURE.md",
+      "stop_conditions": [
+        "writer remains blocked unless every required positive row is bound, deferred, or killed",
+        "missing source evidence routes only through the declared explorer feedback edge"
+      ]
+    },
+    {
+      "step_id": "s5",
+      "name": "Write evidence-closed findings",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "write",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "execution_receipt_handoff"
+      ],
+      "depends_on_steps": [
+        "s4"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "EVIDENCE-CLOSURE.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-precedent.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-nonvacuity.json"
+        },
+        {
+          "kind": "receipt",
+          "ref": "receipts/reviewer-definition.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/findings-writer.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "findings.md"
+        }
+      ],
+      "stop_conditions": [
+        "writer writes findings.md only",
+        "unresolved exact bindings cannot be described as executable or approval-ready"
+      ]
+    },
+    {
+      "step_id": "s6",
+      "name": "Audit complete isolate accounting and claim boundaries",
+      "capability_ref": "research",
+      "capability_status": "local-extension",
+      "mode": "audit",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "artifact_contract_bridge",
+        "execution_receipt_handoff"
+      ],
+      "depends_on_steps": [
+        "s5"
+      ],
+      "inputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/findings-writer.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "findings.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "receipts/auditor.json"
+        }
+      ],
+      "evidence_artifact": "receipts/auditor.json",
+      "stop_conditions": [
+        "return to writer through the declared bounded feedback edge if citation or verdict structure fails",
+        "block if the headline count, full isolate accounting, or authority boundary cannot be verified"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-explorer-receipts",
+      "kind": "validation",
+      "owner": "orchestrate",
+      "condition": "All three explorers return, join, and close with exact source-bound receipts.",
+      "applies_after_wave": "explore",
+      "requires_role_receipts": [
+        "receipts/explorer-graph.json",
+        "receipts/explorer-model.json",
+        "receipts/explorer-product.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-synthesis-receipt",
+      "kind": "validation",
+      "owner": "orchestrate",
+      "condition": "The synthesis accounts for every explicit isolate and preserves reference-mechanism distinctions.",
+      "applies_after_wave": "synthesize",
+      "requires_role_receipts": [
+        "receipts/synthesis.json"
+      ],
+      "on_fail": "reroute"
+    },
+    {
+      "gate_id": "g-evidence-closure",
+      "kind": "validation",
+      "owner": "orchestrate",
+      "condition": "All three reviewer receipts pass and the exact-binding evidence-closure matrix returns ready before the writer starts.",
+      "applies_after_wave": "review",
+      "requires_role_receipts": [
+        "receipts/reviewer-precedent.json",
+        "receipts/reviewer-nonvacuity.json",
+        "receipts/reviewer-definition.json"
+      ],
+      "on_fail": "reroute"
+    },
+    {
+      "gate_id": "g-writer-receipt",
+      "kind": "validation",
+      "owner": "orchestrate",
+      "condition": "The writer produced findings.md only from evidence-closed material and returned its receipt.",
+      "applies_after_wave": "write",
+      "requires_role_receipts": [
+        "receipts/findings-writer.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-parent-approval",
+      "kind": "human_approval",
+      "owner": "parent",
+      "condition": "The auditor recommends acceptance, the parent verifies the exact result, and no ontology mutation or authority claim occurred.",
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-source-read-only",
+        "kind": "capability_handoff",
+        "from_owner": "body-war.product-ontology-owner",
+        "to_owner": "research",
+        "applies_to_steps": [
+          "s1",
+          "s2",
+          "s3",
+          "s4",
+          "s5",
+          "s6"
+        ],
+        "contract": "Research may read and cite ontology and product sources but cannot mutate, promote, or implement them.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-reference-non-collapse",
+        "kind": "evidence_return",
+        "from_owner": "research",
+        "to_owner": "parent",
+        "applies_to_steps": [
+          "s2",
+          "s3",
+          "s4",
+          "s5",
+          "s6"
+        ],
+        "contract": "Explicit relation degree must remain distinct from lifecycle-policy membership, source provenance, branch roles, residue impact, challenge metadata, runtime dependencies, and authority movement.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "body-war.product-ontology-owner",
+      "execution": "orchestrate",
+      "validation": "dispatch-spec and research evidence closure",
+      "evidence": "research receipts and exact source bytes",
+      "memory": "Inventory discovery read model only",
+      "promotion": "body-war.product-ontology-owner and named governance routes"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-explorer-graph",
+        "producer": "research",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "residue"
+        ],
+        "stores": [
+          "receipts/explorer-graph.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-explorer-model",
+        "producer": "research",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "residue"
+        ],
+        "stores": [
+          "receipts/explorer-model.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-explorer-product",
+        "producer": "research",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "residue"
+        ],
+        "stores": [
+          "receipts/explorer-product.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-synthesis",
+        "producer": "research",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "residue"
+        ],
+        "stores": [
+          "receipts/synthesis.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-reviewers",
+        "producer": "research",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "residue"
+        ],
+        "stores": [
+          "receipts/reviewer-precedent.json",
+          "receipts/reviewer-nonvacuity.json",
+          "receipts/reviewer-definition.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-writer",
+        "producer": "research",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "residue"
+        ],
+        "stores": [
+          "receipts/findings-writer.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-auditor",
+        "producer": "research",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "residue"
+        ],
+        "stores": [
+          "receipts/auditor.json"
+        ],
+        "on_missing": "block"
+      }
+    ]
+  },
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "subagent_spawned",
+      "wave_joined",
+      "research_gate_passed",
+      "evidence_closure_decided",
+      "subagent_closed"
+    ],
+    "signal_grouping": "dispatch_id and wave_id"
+  },
+  "promotion_guardrails": [
+    "Inventory is discovery-only and cannot decide relation coverage.",
+    "A research finding cannot create or promote an ontology edge.",
+    "Explicit graph connectivity must not be inferred from lifecycle, source, branch, residue, challenge, runtime, or authority proximity.",
+    "The result does not authorize implementation, release, or production."
+  ]
+}

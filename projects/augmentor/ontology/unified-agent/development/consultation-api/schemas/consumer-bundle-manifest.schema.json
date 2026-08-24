@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "augmentor.consultation.projection-manifest@1.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "compilerVersion", "compilerDigest", "allowlistDigest", "opaqueIdMapVersion", "inputSources", "schemaVersions", "schemaDigests", "recordCounts", "generatedAt", "outputDigest", "glossaryDigest", "bundleDigest", "ownerApprovalRef"],
+  "properties": {
+    "schemaVersion": {"const": "augmentor.consultation.projection-manifest@1.1.0"},
+    "compilerVersion": {"type": "string", "minLength": 1, "maxLength": 128},
+    "compilerDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "allowlistDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "opaqueIdMapVersion": {"const": "sha256-prefix@1.0.0"},
+    "inputSources": {"type": "array", "minItems": 3, "maxItems": 8, "items": {"type": "object", "additionalProperties": false, "required": ["sourceHandle", "sha256"], "properties": {"sourceHandle": {"type": "string", "pattern": "^src-[a-f0-9]{12}$"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}}},
+    "schemaVersions": {"type": "object", "additionalProperties": false, "required": ["projection", "manifest", "glossary", "explanationSupport"], "properties": {"projection": {"const": "augmentor.consultation.projection@1.1.0"}, "manifest": {"const": "augmentor.consultation.projection-manifest@1.1.0"}, "glossary": {"const": "augmentor.consultation.glossary@1.1.0"}, "explanationSupport": {"const": "augmentor.consultation.explanation-support@1.1.0"}}},
+    "schemaDigests": {"type": "object", "additionalProperties": false, "required": ["projection", "manifest", "glossary", "explanationSupport"], "properties": {"projection": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "manifest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "glossary": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "explanationSupport": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}},
+    "recordCounts": {"type": "object", "additionalProperties": false, "required": ["records", "structuredConflicts", "terms"], "properties": {"records": {"type": "integer", "minimum": 1}, "structuredConflicts": {"type": "integer", "minimum": 0}, "terms": {"type": "integer", "minimum": 1}}},
+    "generatedAt": {"type": "string", "minLength": 1},
+    "outputDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "glossaryDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "bundleDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "ownerApprovalRef": {"type": "string", "pattern": "^approval-[a-f0-9]{12}$"}
+  }
+}

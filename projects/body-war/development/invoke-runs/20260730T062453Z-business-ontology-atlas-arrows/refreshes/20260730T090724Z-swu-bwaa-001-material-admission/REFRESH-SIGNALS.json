@@ -1,0 +1,76 @@
+{
+  "schema_version": "invoke.refresh-signals.v1",
+  "evidence_date": "2026-07-30",
+  "signals": [
+    {
+      "id": "BWAA-001-MATERIAL-MISSING",
+      "source_path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/session-evidence/20260730T085748Z-bwaa-all-until-blocker/SWU-BWAA-001-MUTATION-ADMISSION-RECEIPT.json",
+      "signal_type": "blocker_opened",
+      "target_artifacts": [
+        "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+        "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+        "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+      ],
+      "claim": "Task Session 1.2 blocked because the per-SWU material package, producer receipt, and producer schema binding were absent.",
+      "evidence": "admissionVerdict=block, mutationReady=false, and null material/producer digests",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "BWAA-001-DELTA-RESOLVED",
+      "source_path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/HELPER-RECEIPT.md",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+        "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+        "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+      ],
+      "claim": "The exact SWU-BWAA-001 code, validation, and fail-closed test deltas are unambiguous.",
+      "evidence": "Read-only helper confirmed current hashes, algorithm boundary, failure cases, and exact command set.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "BWAA-001-STAGED-PASS",
+      "source_path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/STAGED-VALIDATION.md",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+        "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+        "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+      ],
+      "claim": "The staged three-file material passes the exact projection and coverage contract in an isolated overlay.",
+      "evidence": "8/8 tests passed and coverage reported 237 nodes, 231 relations, 13 directed flows, and 44 zero-degree nodes.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "BWAA-001-ADMISSION-READY",
+      "source_path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/TASK-SESSION-ADMISSION-PROBE-RECEIPT.json",
+      "signal_type": "blocker_resolved",
+      "target_artifacts": [
+        "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+        "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+        "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+      ],
+      "claim": "The missing-material-admission blocker is resolved for the exact current controls and write partition.",
+      "evidence": "admissionVerdict=admit, mutationReady=true, reasons=[]",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "BWAA-001-TASK-SESSION-ROUTE",
+      "source_path": "projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/refreshes/20260730T090724Z-swu-bwaa-001-material-admission/material/REFRESH-HANDOFF-RESULT.json",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "projects/body-war/ontology/business/scripts/view-atlas-projection.mjs",
+        "projects/body-war/ontology/business/scripts/validate-view-atlas.mjs",
+        "projects/body-war/ontology/business/tests/business-view-atlas-projection.test.mjs"
+      ],
+      "claim": "The next owner is Task Session execution of SWU-BWAA-001.",
+      "evidence": "phaseStatus=pass, handoffStatus=ready, mutationReady=true",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ]
+}

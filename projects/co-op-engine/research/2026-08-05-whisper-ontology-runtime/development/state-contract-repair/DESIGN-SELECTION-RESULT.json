@@ -1,0 +1,198 @@
+{
+  "concerns": [
+    {
+      "concern_id": "concern:authority",
+      "disposition": "required",
+      "output_id": "architecture:authority-trust",
+      "ownership": {
+        "accountable_owner": "authority-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "authority",
+      "rationale": "authority disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:normative-rule:zero-authority"
+      ]
+    },
+    {
+      "concern_id": "concern:state-event",
+      "disposition": "required",
+      "output_id": "architecture:state-event",
+      "ownership": {
+        "accountable_owner": "workflow-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "state-event",
+      "rationale": "state-event disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:normative-rule:ev22-resolution-guard",
+        "signal:normative-rule:total-state-transition"
+      ]
+    },
+    {
+      "concern_id": "concern:failure",
+      "disposition": "required",
+      "output_id": "architecture:failure-compensation",
+      "ownership": {
+        "accountable_owner": "research-workflow-owner",
+        "artifact_owner": "candidate-research-contract-owner",
+        "contributing_owners": [
+          "task-session-owner",
+          "research-closeout-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "SPEC.md#acceptance",
+          "review-final.md#remaining-blocker"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "failure",
+      "rationale": "Invalid values or stale correction bindings must reject without semantic state advance.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:failure"
+      ]
+    },
+    {
+      "concern_id": "concern:reliability",
+      "disposition": "required",
+      "output_id": "architecture:quality",
+      "ownership": {
+        "accountable_owner": "research-proof-owner",
+        "artifact_owner": "candidate-research-contract-owner",
+        "contributing_owners": [
+          "candidate-research-contract-owner",
+          "task-session-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "SPEC.md#required-behavior",
+          "synthesis-revision-2.md#proposed-exact-commandeventstate-sequence"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "reliability",
+      "rationale": "Fresh reduction and independent replay must converge on identical RS26 bytes and digest.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:reliability"
+      ]
+    },
+    {
+      "concern_id": "concern:integration",
+      "disposition": "required",
+      "output_id": "architecture:integration-versioning",
+      "ownership": {
+        "accountable_owner": "interface-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "integration",
+      "rationale": "integration disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:interface:state-contract-input",
+        "signal:interface:state-validation-receipt"
+      ]
+    },
+    {
+      "concern_id": "concern:validation",
+      "disposition": "required",
+      "output_id": "validation-contracts",
+      "ownership": {
+        "accountable_owner": "design-owner",
+        "artifact_owner": "plan-work-pack-owner",
+        "contributing_owners": [
+          "architecture-owner",
+          "plan-work-pack-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/DEFINE-RESULT.md",
+          "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/SPEC.md"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "validation",
+      "rationale": "validation disposition follows normalized extracted signals",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "signal:acceptance-readiness-claim:define-authored-complete",
+        "signal:effect:emit-research-validation-receipt"
+      ]
+    }
+  ],
+  "denominator_receipt_digest": "2bb6f961b81995c574745a352671dd559ecd2bd8afc430d4cd121a4a352cc5da",
+  "diagnostics": [],
+  "evidence_state": "design-validator-pass",
+  "fixed_point": true,
+  "manifest_id": "whisper.research.state-contract-repair.design-scope.v1",
+  "manifest_input_digest": "a69fd9b9f4440ca878d48b4c06e86b0bc4a3d941b1c11bcd22eb46fcfb7546d5",
+  "pass_1_digest": "3da235f96ac90070d1ed033a1c79e58b9822d87f95979c8bd78386e267c8ef20",
+  "pass_2_digest": "3da235f96ac90070d1ed033a1c79e58b9822d87f95979c8bd78386e267c8ef20",
+  "result_digest": "8f40f6d5e781add9629bef232020d9128a6507fae14b7bdf7f411dda25570f8b",
+  "schema_version": "1.0.0",
+  "selected_outputs": [
+    "architecture",
+    "architecture:authority-trust",
+    "architecture:failure-compensation",
+    "architecture:integration-versioning",
+    "architecture:quality",
+    "architecture:state-event",
+    "validation-contracts"
+  ],
+  "verdict": "pass"
+}

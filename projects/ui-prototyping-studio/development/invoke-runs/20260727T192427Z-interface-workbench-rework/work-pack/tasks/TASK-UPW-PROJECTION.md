@@ -1,99 +1,124 @@
-# TASK-UPW-PROJECTION — Coherent Versioned Projection
+# TASK-UPW-PROJECTION — Deterministic Coherent Projection
+
+Status: `not-started`
 
 ## Objective
 
-Produce one reproducible, coherent server projection identity without changing
-browser authority or UI hierarchy.
+Produce a deterministic, coherent, versioned `/state` response without changing
+route admission policy or application authority.
 
 - Layer/wave: L0 / W0
-- Source: `ARCHITECTURE.md` View 2–3, DDR-01, DDR-04
-- Gap state: ready after Plan Distill and explicit SWU selection
+- Source: `ARCHITECTURE.md#workbench-projection`, DDR-01
+- Scope authority: `SWU-SCOPE-INVENTORY.json` rows 001–003
+- Acceptance authority: `SWU-ACCEPTANCE-MATRIX.json` assertions
+  `UPW-A-001-DIGEST` through `UPW-A-003-STATE`
+- Closeout authority: `CLOSEOUT-SYNC-INVENTORY.json` rows 001–003
 
-## SWU-UPW-001 — Deterministic Projection Versioner
+All omitted implementation paths are unauthorized. Existing paths are bound by
+SHA-256 at Task Session preflight; create-if-absent paths are bound to the
+literal `ABSENT` sentinel. A mismatch blocks before mutation.
 
-- Primary behavior: canonical whole/region JSON objects produce stable lowercase
-  SHA-256 identities and reject non-JSON values.
-- Dependencies: none.
-- Write scope:
-  - `backend/src/modules/ui-prototyping-studio/application/workbench-projection-version.ts`
-  - `backend/src/modules/ui-prototyping-studio/application/workbench-projection-version.test.ts`
+## SWU-UPW-001 — Canonical Projection Versioner
+
+- Primary behavior: deterministic whole/region digests over exact canonical
+  JSON objects.
+- Semantic dependencies: none.
+- Serialization-only predecessors: none.
+- Exact write scope: `SWU-SCOPE-INVENTORY.json#SWU-UPW-001`.
+- Inputs: projection-without-version fields and keyed region objects.
+- Outputs: lowercase SHA-256 whole and region digests.
 - Algorithm:
-  1. Recursively encode objects with ascending UTF-16 key order.
-  2. Preserve array order and JSON scalar encoding.
-  3. Reject undefined, functions, symbols, non-finite numbers, and sparse holes.
-  4. Hash UTF-8 bytes; exclude declared version fields.
-  5. Recompute each region first, then the whole projection.
-- Edge/failure cases: null versus absent, Unicode keys/values, negative zero,
-  nested arrays, non-finite numbers, object mutation under an old hash.
-- Independent acceptance: golden vectors and mismatch mutants pass without
-  changing `/state` or rendering.
-- Validation:
-  `./node_modules/.bin/tsx --test src/modules/ui-prototyping-studio/application/workbench-projection-version.test.ts`
-- Execution owner: `subagent`.
-- Split analysis: serializer and hasher alone are individually testable but
-  neither proves the primary identity behavior; retaining them together is the
-  smallest executable semantic unit.
-- Handoff: read `ARCHITECTURE.md` canonical JSON rules, UPW-FIX-001/019, and
-  existing HTML `canonicalize.ts` only to avoid confusing HTML and JSON
-  canonicalization.
+  1. Recursively reject undefined, functions, symbols, non-finite numbers, and
+     sparse array holes.
+  2. Sort object keys by ascending UTF-16 code-unit order; preserve array order.
+  3. Encode JSON primitives with exact `JSON.stringify` semantics.
+  4. Hash UTF-8 bytes and return lowercase hexadecimal.
+  5. Recompute every supplied digest during contract validation.
+- Failure: invalid value or digest mismatch returns a typed validation error;
+  no best-effort encoding.
+- Split analysis: serializer and hasher are plausible children, but neither
+  independently proves the digest identity consumed by `/state`; retain.
+- Acceptance/command:
+  `./node_modules/.bin/tsx --test src/modules/ui-prototyping-studio/application/workbench-projection-version.test.ts`.
+- Receipt field: `validation.assertions.UPW_A_001_DIGEST`.
+- Owner/handoff: `subagent`; read the Architecture canonical JSON rules,
+  UPW-FIX-001/019, and current HTML `canonicalize.ts` only to avoid confusing
+  HTML and projection canonicalization.
 
-## SWU-UPW-002 — Coherent Projection Snapshot
+## SWU-UPW-002 — Store-Token Coherent Snapshot
 
-- Primary behavior: one accepted snapshot supplies every projection input.
-- Dependencies: SWU-UPW-001 receipt.
-- Write scope:
-  - `backend/src/modules/ui-prototyping-studio/application/workbench-projection-snapshot.ts`
-  - `backend/src/modules/ui-prototyping-studio/application/workbench-projection-snapshot.test.ts`
+- Primary behavior: one accepted store epoch supplies every projection input.
+- Semantic dependencies: passing SWU-UPW-001 receipt.
+- Serialization-only predecessors: none.
+- Exact write scope: `SWU-SCOPE-INVENTORY.json#SWU-UPW-002`.
+- Authoritative token producer:
+  `StudioSessionStorePort.getProjectionReadToken()`.
+  - file-store implementation: literal `file:absent` when the store file does
+    not exist, otherwise `file:sha256:<lowercase digest>` over the exact raw
+    store-file bytes;
+  - in-memory implementation: `memory:<decimal counter>` from a monotonic
+    mutation counter incremented once by each mutating port operation.
+- Equality rule: before and after tokens are admitted only by exact JavaScript
+  string equality (`before === after`); tokens are opaque to the snapshot
+  reader.
+- Retry rule: `PROJECTION_SNAPSHOT_RETRY_LIMIT = 2`. One attempt means
+  before-token, all projection reads, after-token. A mismatch discards the
+  entire attempt. The initial attempt plus exactly two retries yields at most
+  three attempts.
+- Terminal failure: a third mismatch throws
+  `ProjectionSnapshotUnstableError` with
+  `{sessionId, attempts: 3, retryLimit: 2, beforeToken, afterToken}`; no
+  snapshot/version is emitted.
+- Artifact assumption: HTML refs are content-addressed and immutable once
+  published; the store token therefore binds their identities, while HTML
+  content is resolved from the accepted refs after admission.
+- Inputs read per attempt: session, revisions, variants, current-content ref,
+  staged candidate, revision-bound comments, batches needed by the inspector,
+  and handoff.
+- Edge cases: write between any two reads, absent store file, missing head,
+  staged removal, comment append, corrupt store, and retry exhaustion.
+- Split analysis: token acquisition and snapshot assembly cannot pass
+  independently because before/after equality is the coherence invariant.
+- Acceptance/command:
+  `./node_modules/.bin/tsx --test src/modules/ui-prototyping-studio/application/workbench-projection-snapshot.test.ts src/modules/ui-prototyping-studio/infrastructure/file-store-freshness.test.ts`.
+- Receipt field: `validation.assertions.UPW_A_002_COHERENCE`.
+- Owner/handoff: `subagent`; do not add durable browser authority, new locking,
+  or mutable artifact content.
+
+## SWU-UPW-003 — Versioned `/state` Over Existing Routes
+
+- Primary behavior: `/state` exposes one accepted snapshot with exact
+  version/region versions and same-snapshot compatibility fields.
+- Semantic dependencies: passing SWU-UPW-002 receipt.
+- Serialization-only predecessors: none.
+- Exact write scope: `SWU-SCOPE-INVENTORY.json#SWU-UPW-003`.
+- Route boundary: this SWU consumes only the currently constructed route
+  families already present in `governed-state-projection.ts`:
+  `/raw/current`, `/annotate/current`, `/raw/staged`, and
+  `/raw/variant/${VariantLabel}`. It accepts no request-supplied or new route
+  family and makes no unknown-route failure claim. New route-family admission
+  belongs only to SWU-UPW-018.
 - Algorithm:
-  1. Capture a stable input identity/epoch.
-  2. Read session, revisions, variants, current content identity, staged
-     candidate, comments, and handoff.
-  3. Re-capture the identity.
-  4. Accept equality; otherwise retry within the bounded constant.
-  5. Return a typed recoverable failure on exhaustion.
-- Edge/failure cases: external CLI write between every read boundary, missing
-  baseline/current HTML, staged removal, changing comment count, retry
-  exhaustion.
-- Independent acceptance: interleaving fixture cannot emit a mixed-epoch
-  snapshot.
-- Validation:
-  `./node_modules/.bin/tsx --test src/modules/ui-prototyping-studio/application/workbench-projection-snapshot.test.ts`
-- Execution owner: `subagent`.
-- Split analysis: epoch acquisition and snapshot assembly cannot pass
-  independently because coherence is their joint invariant.
-- Handoff: use current store ports and serialized-write behavior; introduce no
-  durable store or authority.
-
-## SWU-UPW-003 — Versioned `/state`
-
-- Primary behavior: `/state` serves one versioned workbench projection and
-  same-snapshot compatibility fields.
-- Dependencies: SWU-UPW-002 receipt.
-- Write scope:
-  - `backend/src/modules/ui-prototyping-studio/application/governed-state-projection.ts`
-  - `backend/src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts`
-  - `backend/src/cli/studio.ts`
-  - `backend/e2e/governed-state-projection.spec.ts`
-- Algorithm:
-  1. Build the six region objects from the accepted snapshot.
-  2. Attach exact region/whole versions from SWU-UPW-001.
-  3. Derive legacy `state`, `head`, `stagedHash`, and `projection` from the same
-     object.
-  4. Return recoverable HTTP failure for unstable snapshot or invalid route
-     data; emit no new version.
-- Edge/failure cases: nullable staged state, unknown schema major, torn
-  compatibility mutant, unchanged region under changed whole state.
-- Independent acceptance: `/state.version` equals server recomputation and all
-  compatibility fields match the projection.
-- Validation:
-  `./node_modules/.bin/tsx --test src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts && ./node_modules/.bin/playwright test e2e/governed-state-projection.spec.ts --reporter=list`
-- Execution owner: `subagent`.
+  1. Acquire the accepted snapshot from SWU-UPW-002.
+  2. Build the six region data objects using only current route constructors.
+  3. Compute exact region and whole digests with SWU-UPW-001.
+  4. Derive legacy `state`, `head`, `stagedHash`, and `projection` from that
+     same object.
+  5. Return recoverable HTTP failure on snapshot exhaustion or schema failure;
+     emit no new version.
+- Edge cases: null staged state, unknown schema major, torn compatibility
+  mutant, changed whole with unchanged region, and unavailable current HTML.
 - Split analysis: projection integration and endpoint exposure are one
-  externally observable contract; splitting would leave no executable consumer.
-- Handoff: preserve current action routes and fields additively.
+  externally observable compatibility contract; neither is useful alone.
+- Acceptance/command:
+  `./node_modules/.bin/tsx --test src/modules/ui-prototyping-studio/application/governed-state-projection.test.ts && ./node_modules/.bin/playwright test e2e/governed-state-projection.spec.ts --grep "UPW-003 versioned state compatibility" --reporter=list`.
+- Receipt field: `validation.assertions.UPW_A_003_STATE`.
+- Owner/handoff: `subagent`; preserve current action routes and add fields
+  compatibly.
 
 ## Synchronization
 
-Each SWU must emit the Task Session result shape, then apply its exact
-`WORK-PACK.md` closeout-sync row before its successor can become a candidate.
-No successor is auto-selected.
+Each SWU returns `task-session.swu-result.v1`, including its named acceptance
+field, then routes through the exact target/permission row in
+`CLOSEOUT-SYNC-INVENTORY.json`. A successor becomes a candidate only; no
+successor is selected automatically.

@@ -1,0 +1,35 @@
+{
+  "schema_version": "augmentor.consultation.task-context@0.1.0",
+  "task_id": "TASK-ACAPI-03",
+  "swu_id": "SWU-ACAPI-006",
+  "strict_coverage": true,
+  "execution_contract": {
+    "writeProfile": "material-bound",
+    "materialWrites": [
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/src/consultation-boundary.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/src/projection-reader.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/consultation-boundary.test.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/question-scenarios.test.mjs"
+    ],
+    "executionOutputs": [
+      "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/receipts/SWU-ACAPI-006.json"
+    ],
+    "allowedWrites": [
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/src/consultation-boundary.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/src/projection-reader.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/consultation-boundary.test.mjs",
+      "projects/augmentor/ontology/unified-agent/development/consultation-api/tests/question-scenarios.test.mjs",
+      "projects/augmentor/ontology/unified-agent/development/refinement-runs/20260803T180648Z-agent-consultation-api/one-go/execution/receipts/SWU-ACAPI-006.json"
+    ],
+    "validationCommands": [
+      "[\"node\",\"--test\",\"projects/augmentor/ontology/unified-agent/development/consultation-api/tests/consultation-boundary.test.mjs\",\"projects/augmentor/ontology/unified-agent/development/consultation-api/tests/question-scenarios.test.mjs\"]",
+      "[\"node\",\"projects/augmentor/ontology/unified-agent/scripts/validate.mjs\"]",
+      "[\"node\",\"projects/augmentor/ontology/unified-agent/tests/unified-agent-ontology.test.mjs\"]"
+    ],
+    "lifecycleOwner": "augmentor-consultation-candidate-owner",
+    "authorityClass": "private",
+    "publicationClass": "private"
+  },
+  "successor": "__complete__",
+  "stop_policy": "first-blocker-or-frontier-complete"
+}

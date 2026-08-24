@@ -1,0 +1,76 @@
+{
+  "timestamp": "2026-07-30T05:30:31Z",
+  "run_id": "distill-body-war-ontology-focus-scene-pivot-20260730T052754Z",
+  "session_id": "20260730T050022Z-ontology-focus-scene-pivot",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "validate",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "validate",
+    "alias": null
+  },
+  "lineage": {
+    "parent_run_id": "invoke-body-war-ontology-focus-scene-pivot-20260730T050022Z",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "invoke",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "define-design-plan"
+    }
+  },
+  "evidence": {
+    "status": "partial",
+    "distill_run_request_ref": {
+      "path": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/observability/distill-run-request.json",
+      "sha256": "c14a831f934257cbb1dfe7c97a3c3dc75b66b05cb382b19a6a46041a47eb5924",
+      "size_bytes": 2870
+    },
+    "runtime_event_refs": [],
+    "refs": [
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/DISTILL-VALIDATION.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/distill-review/BALANCER-RECEIPT.md"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Validate and atomize the Body War ontology focus-scene implementation work pack.",
+    "intent": "Remove hidden design decisions and make every future SWU independently selectable and receipt-backed."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "DISTILL-VALIDATION.md",
+      "distill-review/BALANCER-RECEIPT.md",
+      "WORK-PACK.md",
+      "EXECUTION-DISPATCH.json"
+    ],
+    "files_changed": [
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/DISTILL-VALIDATION.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/distill-review/BALANCER-RECEIPT.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/EXECUTION-DISPATCH.json"
+    ],
+    "validation": [
+      "Three Balancer rounds completed.",
+      "The final review found zero task-shaped units among 26 SWUs.",
+      "The final Distill verdict is pass."
+    ],
+    "notes": "No runtime-event boundary stream exists because this was a planning validation. Evidence is partial; the Plan verdict is pass."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [
+      "Initial task-shaped units were split into atomic SWUs.",
+      "Receipt-schema and audit-chain drift were repaired before the final pass."
+    ],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "proceed-to-explicit-selection"
+  },
+  "target_artifact": "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/DISTILL-VALIDATION.md"
+}

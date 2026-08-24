@@ -34,6 +34,10 @@ For a progressive-disclosure review, open the
 [interactive journey experiment](BUSINESS-JOURNEY-EXPERIMENT.html). It begins
 with ordinary-language stories and reveals ontology metadata on request.
 
+For a complete indexed reading surface, open the
+[whole-ontology view atlas](BUSINESS-VIEW-ATLAS.html). It assigns every current
+node to one removable editorial lens and preserves every admitted relation.
+
 ## Relation sentence example
 
 The visible phrase makes the business meaning readable; the predicate under the
@@ -256,7 +260,7 @@ flowchart LR
 
 **Question:** How does confirmed evidence support private geometry, canonical score input, and an explained preliminary score?
 
-**Represents:** The geometry/calculation half of the candidate journey. Operations point to the inputs they use and the candidate outputs they create; blocked arrows expose owner-gated work.
+**Represents:** A relation-local geometry and calculation view. Operations point to declared inputs and candidate outputs; residue annotations expose unresolved owner routes.
 
 ![Candidate calculation: geometry to ScorePreview: typed relation sentences](generated/views/candidate-geometry-to-score-preview.svg)
 
@@ -339,13 +343,13 @@ flowchart LR
 - [GeometryCandidate](nodes/entity.geometry-candidate.json) **does not establish** [Source-Backed Track](nodes/outcome.source-backed-track.json). Typed predicate: `does_not_promote`; relation: `body-war.relation.geometry-does-not-promote`.
 - [ScorePreview](nodes/outcome.score-preview.json) **does not establish** [Source-Backed Track](nodes/outcome.source-backed-track.json). Typed predicate: `does_not_promote`; relation: `body-war.relation.preview-does-not-promote`.
 
-**Boundary:** The graph is not a completed runtime sequence. Candidate geometry and ScorePreview remain non-promoting, and numeric output remains blocked until score and privacy policies are ratified.
+**Boundary:** The graph is not a completed runtime sequence. Candidate geometry and ScorePreview remain non-promoting; displayed score and privacy residue remains unresolved.
 
 ## Activity evidence to controller projection
 
-**Question:** How can one runner activity become preview evidence and affect a controller read model?
+**Question:** Which relations connect one runner activity, preview evidence, and a controller read model?
 
-**Represents:** The evidence-submission and preview-controller chain. Operations point to the inputs they consume and the evidence, events, or projections they produce.
+**Represents:** A relation-local evidence-submission and preview-controller view. Operations point to declared inputs and the evidence, events, or projections they produce.
 
 ![Activity evidence to controller projection: typed relation sentences](generated/views/activity-evidence-to-controller.svg)
 

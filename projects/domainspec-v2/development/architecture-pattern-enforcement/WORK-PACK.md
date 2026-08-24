@@ -1,147 +1,119 @@
 ---
 module: architecture-pattern-enforcement
 feature_code: APE
-version: current
-status: draft
-updatedAt: 2026-07-12
+status: candidate-plan-ready
+updatedAt: 2026-08-05
 docType: work-pack
 ---
 
-# WORK-PACK: architecture-pattern-enforcement
+# Work Pack: Ontology-Guided Architecture Enforcement
 
-Canonical executable plan for the APE program. The coordinator control panel: objective, slices,
-tasks, SWUs, gates, blockers. Split-capable; single-file for now (task files created at execution
-time by `task-session`).
-
-## Control Fields
+## Control fields
 
 | Field | Value | Notes |
 | --- | --- | --- |
-| workPackGateStatus | pass (L0 node plane) / flag (full program) | W0 and bounded dynamic C-B implementation are done; W1 is executable; real-pack breadth and W3 formalism remain open. |
-| complexity | high | |
-| outputMode | single-file | split into `work-pack/tasks/*` at execution time. |
-| executionPackRef | execution-pack.md | |
-| layeringArtifactRef | implementation-layering.md | |
-| dispatchTechniqueTrace | sequence, scu_swu_reduction, recomposition_proof, validation_loop, owner_boundary_check, residue_ledger | see trace below. |
-| distillValidationStatus | pass | G-001 resolved (DEC-DSV2-APE-L0-DOMAIN → reuse financial-settlement, 2026-07-02); recorded in `.craft` ledger. |
-| activeLayerWindow | L1 | |
-| lastUpdatedAt | 2026-07-12 | approved refresh plus R3C dynamic/second-corpus receipts synchronized. |
-| readinessProfile | pilot | |
+| workPackGateStatus | pass; W0 and W1 receipts current; W2 fan-out awaits exact dispatch confirmation | Design, task, wave, dispatch, and Distill validation remain controlling |
+| complexity | high | multiple owners, three languages, proof-provider integration |
+| outputMode | split | task contracts and shared SWU manifest are canonical |
+| activeLayerWindow | L2 | independent Python and Rust observation lanes |
+| selectedSWU | none | Invoke does not select or execute |
+| nearestCandidate | Python/Rust fan-out | `SWU-APE-ENUM-PY-001` and `SWU-APE-ENUM-RS-001` remain unselected until exact dispatch confirmation |
+| designRef | [architecture-bundle.md](architecture-bundle.md) | six-view candidate design |
+| layeringRef | [implementation-layering.md](implementation-layering.md) | L0-L3 decision model |
+| implementationPlanRef | [IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md) | algorithm and validation details |
+| executionPackRef | [execution-pack.md](execution-pack.md) | wave choreography |
+| swuManifestRef | [work-pack/shared/SWU-MANIFEST.json](work-pack/shared/SWU-MANIFEST.json) | exact SWU inventory |
+| closeoutRef | [work-pack/shared/CLOSEOUT-CONTRACT.md](work-pack/shared/CLOSEOUT-CONTRACT.md) | every mutation-capable SWU |
 
-## Objective Summary
+## Objective and completion boundary
 
-- Objective: stand up a **witnessed, CI-gated node plane** (uniformity) on ≥2 real feature packs with
-  the v1 pattern-library triaged in as the authoring/card layer — then sequence the edge plane
-  (composability, layering), authority promotion, and cross-project inheritance behind their named
-  dependencies.
-- Primary inputs: [SPEC.md](SPEC.md), [architecture-bundle.md](architecture-bundle.md),
-  [implementation-layering.md](implementation-layering.md), and the
-  [research findings](../../research/2026-07-02-architecture-patterns-enforcement/findings.md).
-- Success condition: the owned validator stack, now witnessed on one real domain, catches violations
-  across repeated packs and blocks CI on them — and a second (minted) project inherits the same discipline.
+Prove one complete ontology-guided realization cycle for active `DS-D1.3
+Enum`: model portable implementation properties, validate profile-local
+realizations from real TypeScript/Python/Rust evidence, compare exact semantic
+obligations, and emit a bounded replayable completion receipt. Then generate a
+recommendation for the next type from remaining evidence burden.
 
-## Delivery Slices
+This Work Pack does not execute work, mutate source packages, admit profiles,
+promote ontology, select the next type, release, deploy, or establish production
+readiness.
 
-| Slice ID | Outcome | Layer | Wave | Dependencies | Validation |
-| --- | --- | --- | --- | --- | --- |
-| S-001 | node validators witnessed on one real feature pack (green + deliberate red) | L0 | W0 | ✓ done | **DONE 2026-07-02** — validate:content 7 concepts PASS · engine:lint CLEAN · instances 14 PASS · red exit 1 |
-| S-002 | v1 pattern-library triaged into v2 card layer + Evidence links | L1 | W1 | S-001 | **DONE 2026-07-12** — backend and relationship staging complete; later definition Evidence links remain owner-gated |
-| S-003 | node gates in CI over ≥2 packs; 2 defects cleared | L1 | W1 | S-001; **2nd-pack local evidence done** | normalized AEO pack green and seeded violation rejected; CI wiring remains |
-| S-004 | composability (edge-law) green on a real pack | L2 | W2 | **bounded implementation done** via `SWU-R3C-001..003`; real-pack breadth open | static endpoint checks pass; dynamic checker consumes root DS-D8; second corpus exercises it |
-| S-005 | ≥1 node handle promoted candidate→binding | L2 | W2 | S-003 | cav2 promotion recorded |
-| S-006 | a minted 2nd repo validates its own nodes with the inherited substrate | L3 | W3 | S-004/S-005 | minted repo green |
-| S-007 | forbidden edge unbuildable (C6) + drift baseline series (C7) | L3 | W3 | **formalism**, S-004 | unbuildable proof; drift trend |
+## Task board
 
-## Task Status Board
-
-| Task ID | Goal | Layer | Complexity | Waves | Source | Gate Status | Status |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-POC | first real feature pack; node validators green + deliberate red | L0 | medium | W0 | findings A/UNIFORMITY | ready | **completed ✓ 2026-07-02** |
-| TASK-CARDS | triage v1 pattern-library into v2 card layer + manifest rows | L1 | medium | W1 | findings E2; ARCHITECTURE-PATTERN-LIBRARY.md | pass | **completed 2026-07-12 via SWU-R3C-005..006** |
-| TASK-CI | node gates in CI + clean 2 defects | L1 | medium | W1 | findings G1/G2 | ready | not-started |
-| TASK-EDGE | composability after R3A; dynamic DS-D8 edge-law refactor | L2 | high | W2 | findings C-B/W2 | routed-to-`TASK-R3C-EDGE` | bounded implementation completed 2026-07-12; real-pack evidence open |
-| TASK-PROMOTE | promote node handles candidate→binding | L2 | high | W2 | cav2 lifecycle | ready-after-L1 | not-started |
-| TASK-MINT | mint a 2nd repo inheriting the substrate | L3 | high | W3 | mint skill; findings C-F | ready-after-L2 | not-started |
-| TASK-UNCONSTRUCT | C6 typed-catalog unconstructibility | L3 | high | W3 | findings W1 | block-until-formalism | not-started |
-| TASK-DRIFT | C7 drift baseline + trend | L3 | medium | W3 | findings W3 | ready-after-L2 | not-started |
-
-## SWU Execution Handoff
-
-Executable-now SWUs (W0/W1) are specified in full. Later-wave SWUs are named at manifest level and
-expanded by `task-session` when their gate opens.
-
-| SWU ID | Parent Task | Source Anchors | Dependencies | Write Scope | Done Criteria | Acceptance Evidence | Validation Surface | Execution Owner | Handoff Status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| SWU-APE-001 | TASK-POC | `impl/test-derivation-engine/__fixtures__/financial-settlement/`, toy `research/spec-ontology-unification/toy/graph.md` (23 nodes), SPEC.md Concept Registry, TAXONOMY.md | none (G-001 resolved → financial-settlement) | `impl/spec/features/financial-settlement/` (SPEC + aspect docs) | promote the financial-settlement fixture into a v2 feature pack; its concepts typed to the current 13 backend meta-type schemas | pack files exist; concepts resolve to `.schema.yml` types | `validate-content` parses it | subagent / local | **done ✓** (spec/features/financial-settlement/SPEC.md, 7 concepts) |
-| SWU-APE-002 | TASK-POC | `impl/tools/validate-content.ts`, `instances.ts`, `impl/test-derivation-engine/src/cli.ts` (runLint) | SWU-APE-001 | none (run only) | `validate:content`, `instances:validate`, `engine:lint <path>` all exit 0 | green transcripts committed | the three commands | local | **done ✓** (all exit 0; aggregate `validate` + `tools:test` 20/20 also green) |
-| SWU-APE-003 | TASK-POC | the pack from SWU-APE-001 | SWU-APE-002 | `spec/features/financial-settlement/__redcheck__/entity-missing-identity.md` | break one concept (drop its identity field); confirm `validate:content` exits non-zero on it | red transcript committed; error names the failing criterion | `validate:content` | local | **done ✓** (exit 1; `criterion 'identity': no field flagged`) |
-| SWU-APE-004 | TASK-CI | `impl/governance/tags/code-tag-waivers.yaml` | none | that file | reset to `waivers: []` (removes the 4 stale v1 AEO entries) | diff shows empty waiver list | `tags:validate` no longer suppresses CT-004/006 | local | ready |
-| SWU-APE-005 | TASK-CI | `validate-code-tags.ts:~749` (normalizeSpecPath), `validate-doc-links.ts:~228`, `compare-code-tag-drift.ts` default | none | those three files | retarget the `docs/features` anchors to `spec/features` | diff at 3 sites; anchor matches v2 layout | the affected validators on a v2 pack | local | ready |
-| SWU-APE-006 | TASK-CARDS | v1 `architecture/pattern-library/concepts/backend/*.md`, `ARCHITECTURE-PATTERN-LIBRARY.md` | SWU-APE-001 | `impl/spec/meta-types/**/` (card companion) or a v2 `architecture/` tree; IMPORT-MANIFEST.md | triage backend concept cards against the current 13-type substrate + add IMPORT-MANIFEST rows | cards present; manifest rows added | `validate-doc-links` resolves the new links | subagent / local | **completed via `SWU-R3C-005` 2026-07-12** |
-| SWU-APE-007 | TASK-CARDS | v1 `ARCHITECTURE-PATTERN-LIBRARY.md` relationship cards | SWU-APE-006; **R3A done** | v2 relationship-card evidence/staging path | triage cards against active/generated/deprecated/deferred root DS-D8 states; deferred candidates stay staged | cards present; no deferred card marked active | review + `validate-doc-links` | local | **completed via `SWU-R3C-006` 2026-07-12** |
-| SWU-APE-008 | TASK-CI | CI config; SWU-APE-002 commands | SWU-APE-002, SWU-APE-004/005 | CI workflow file | wire `validate:content` + `instances:validate` + `engine:lint` as blocking CI on ≥2 packs | CI run blocks a seeded violation | the CI job | local | ready-after-002 |
-| SWU-APE-009 | TASK-CARDS | SWU-APE-006 cards; CANDIDATES.md Tier 1a; `definitions/DEFINITIONS.md` | SWU-APE-006 | meta-type definition Evidence links | link each backend concept card as Evidence for its DS-D1.x promotion | Evidence rows reference the card + `.schema.yml` + TAXONOMY | definitions-governance review | manual (owner) | ready-after-006 |
-| SWU-APE-EDGE-* | TASK-EDGE | root `definitions/relationships/relationships.yml`, `check-code-tag-composability.ts` | **R3A done** | edge validators | superseded by the bounded `SWU-R3C-001..003` contracts | see R3 closeout receipts | `tags:test`, `validate`, `engine:test`, `typecheck` | local-fallback | superseded/routed |
-| SWU-APE-MINT-* | TASK-MINT | `mint` skill; SPEC.md APE.Substrate | S-004/S-005 | new repo (out of tree) | expand at execution time | — | — | manual (owner) | blocked (L2) |
-
-## Blockers
-
-| Blocker ID | Scope | Description | Owner | Next Action | Target Date |
-| --- | --- | --- | --- | --- | --- |
-| B-001 | TASK-EDGE, SWU-APE-007/EDGE-* | **RESOLVED by R3A + SWU-R3C-001..004** — root authority is dynamically consumed and a second pack has green/red endpoint evidence | R3 / definitions-governance | keep unsupported code-call semantics and CI integration explicit | done |
-| B-002 | TASK-UNCONSTRUCT | C6 unconstructibility needs a typed catalog layer; **meta-type formalism still moving** | meta-type-formalization | settle the formalism variant | — |
-| B-003 (=G-001) | TASK-POC / SWU-APE-001 | **RESOLVED 2026-07-02** (decision-gate) → reuse financial-settlement (DEC-DSV2-APE-L0-DOMAIN) | owner | task-session: promote the fixture into `impl/spec/features/financial-settlement/` | done |
-
-## Dispatch Technique Trace
-
-| Technique ID | Applied To | Validation Expectation | Status |
+| Task | Layer | Outcome | Status |
 | --- | --- | --- | --- |
-| sequence | SPEC → design → layering → work-pack → SWUs | each artifact consumes explicit prior inputs | pass |
-| scu_swu_reduction | L0 POC → SWU-APE-001/002/003 | the SWUs are individually executable and meaningful | pass |
-| recomposition_proof | L0→L1→L2→L3 → SPEC capabilities C-A..C-G | the layered units recompose into the full program | pass |
-| validation_loop | every slice S-001..S-007 has a Validation column | every delivery slice carries evidence | pass |
-| owner_boundary_check | APE handles → cav2 / definitions-governance / root DS-D8 / R3 closeout | plan claims no execution or promotion authority — routes it | pass |
-| residue_ledger | resolved B-001/B-003, active B-002, L1 gaps, and routed SWUs | deferred scope stays explicit, never silently pulled forward | pass |
+| [TASK-APE-L0-ENUM-ONTOLOGY](work-pack/tasks/TASK-APE-L0-ENUM-ONTOLOGY.md) | L0 | Enum realization, properties, profiles, provenance, causal scenarios, and composition graph | ONT-001..006 complete |
+| [TASK-APE-L1-ENUM-TYPESCRIPT](work-pack/tasks/TASK-APE-L1-ENUM-TYPESCRIPT.md) | L1 | real TypeScript projection, discriminating fixtures, trust proof, frozen observation contract | TS-001..004 complete |
+| [TASK-APE-L2-ENUM-PARITY](work-pack/tasks/TASK-APE-L2-ENUM-PARITY.md) | L2 | independent Python/Rust lanes, exact parity, bounded Enum closeout | fan-out ready for exact dispatch confirmation; owner/tool gates remain |
+| [TASK-APE-L3-SCALE](work-pack/tasks/TASK-APE-L3-SCALE.md) | L3 | exact coverage, evidence-burden recommendation, next-type packet, bounded CI aggregation | planned |
 
-No full dispatch JSON required: the route stays inside one capability's development package and
-delegates via named owner routes rather than a cross-capability protected-context dispatch.
+## SWU summary
 
-## Distill Validation
-
-| Check | Result | Evidence Or Gap |
+| Wave | SWUs | Gate |
 | --- | --- | --- |
-| Smallest coherent unit / SWU boundary | pass | L0 POC = one feature pack + green/red; SWU-APE-001..003 executable. |
-| Recomposition proof | pass | L0→L3 recomposes into SPEC capabilities C-A..C-G. |
-| Hidden acceptance-critical gaps | pass | G-001 RESOLVED (DEC-DSV2-APE-L0-DOMAIN → reuse financial-settlement, 2026-07-02). |
-| Deferred complexity | pass | dynamic C-B implementation is bounded; evidence breadth, promotion, mint, and unconstructibility remain explicit. |
-| Navigation to first executable unit | pass | card triage starts at `SWU-R3C-005`; APE cleanup remains `SWU-APE-004/005`. |
+| W0 | APE-ONT-001..006 | sequential ontology/profile/composition closure |
+| W1 | APE-ENUM-TS-001, 001A, 001B, 002..004 | decision, runtime provider, profile activation, adapter trust, and freeze |
+| W2 | APE-ENUM-PY-001, APE-ENUM-RS-001 | explicit user-confirmed parallel fan-out |
+| W3 | APE-ENUM-PARITY-001, APE-ENUM-CLOSE-001 | all lane receipts joined |
+| W4 | APE-SCALE-001..004 | Enum closeout current and deterministic |
 
-**Verdict: pass for bounded continuation.** G-001, R3A, bounded dynamic C-B implementation, and
-second-corpus evidence are resolved; card triage starts at `SWU-R3C-005`, while zero-dependency APE
-cleanup SWUs 004/005 remain separately ready.
+Exact contracts are in the [SWU manifest](work-pack/shared/SWU-MANIFEST.json).
 
-## Gate Checks
+## Selection rule
 
-1. `workPackGateStatus` pass for node-plane continuation; bounded dynamic C-B is complete, while evidence breadth and unconstructibility remain open.
-2. High complexity → `executionPackRef` set + baseline wave W0 present. ✓
-3. Layer mappings consistent with `implementation-layering.md` deferred scope. ✓
-4. Blocker B-003/G-001 **RESOLVED** (reuse financial-settlement) → SWU-APE-001 ready.
-5. Dispatch technique trace present; no unused citations. ✓
-6. Distill = **pass** (G-001 resolved) → SWU-APE-001 + 004/005 routable. ✓
-7. Every non-exempt SWU (004/005/001/002/003) carries deps, write scope, done criteria, evidence, validation, owner. ✓
-8. No runtime-goal SWU is missing Context Builder anchors. ✓
-9. TASK-POC has multiple SWUs → SWU-APE-001 is the selected first (after G-001). ✓
-10. Parallel SWUs (004, 005) have disjoint write scopes. ✓
+`SWU-APE-ENUM-TS-004` is complete and its current receipt binds the passing
+TypeScript proof, replay, mutation denominator, scenario readiness, and frozen
+observation contract. The next frontier is the paired
+`SWU-APE-ENUM-PY-001`/`SWU-APE-ENUM-RS-001` fan-out. Neither lane is selected.
+Before mutation, the dispatch owner must:
 
-## Change Log
+1. bind the TS-004 receipt and frozen observation digest;
+2. resolve current Python and Rust package homes, pinned tools, and absent or
+   owner-adopted baselines;
+3. validate one capability-bound two-lane dispatch document with disjoint write
+   scopes and exact join receipts;
+4. present that exact document and receive a new exact user confirmation;
+5. register the confirmed dispatch before spawning either language owner.
 
-| Date | Change | Author |
-| --- | --- | --- |
-| 2026-07-02 | Initial work-pack created (invoke plan) | invoke / Claude |
-| 2026-07-02 | DEC-DSV2-APE-L0-DOMAIN resolved (decision-gate) → reuse financial-settlement; B-003/G-001 closed; SWU-APE-001 ready; distill → pass | decision-gate / owner |
-| 2026-07-02 | **TASK-POC executed (task-session): L0 POC DONE.** Authored `impl/spec/features/financial-settlement/SPEC.md` (7 backend meta-types); `validate:content` PASS (7 concepts, was 0/vacuous), `instances:validate` 14 PASS, `engine:lint` CLEAN; red-check exit 1 on a dropped identity flag; aggregate `validate` + `tools:test` 20/20 green (no regression). SWU-APE-001/002/003 done; slice S-001 done; `GAP-DSV2-APE-VACUOUS` resolved. | task-session |
-| 2026-07-12 | Approved Invoke refresh applied: current 13/30 substrate, witnessed static graph checks, R3 blocker retired, and legacy edge placeholders routed to `TASK-R3C-EDGE` / `SWU-R3C-001..003`. | invoke refresh |
-| 2026-07-12 | `SWU-R3C-001..003` completed bounded dynamic root-DS-D8 consumption, focused status/endpoint coverage, documentation, and full validation; second-corpus evidence remains open. | task-session |
-| 2026-07-12 | `SWU-R3C-004` completed normalized AEO second-corpus evidence: five additional signatures, positive node/edge PASS, focused invalid edge rejection, and full regression PASS. | task-session |
-| 2026-07-12 | `SWU-R3C-005` completed backend-card staging: 14 commit-pinned source rows, scoped evidence/residue, 5 evidence-ready, 8 staged-review, and 1 reject-or-superseded; no authority was copied or promoted. | task-session |
-| 2026-07-12 | `SWU-R3C-006` completed relationship-card staging: 35 keyed rows preserve 29 legacy sources, six authority-only coverage entries, generated/deprecated/deferred state boundaries, live authority digest provenance, and no-card prohibitions. TASK-CARDS is complete. | task-session |
+No successor becomes eligible from a prose status change. It requires the
+predecessor receipt and all declared gate evidence.
+
+The TS-001 decision selects the owned const-object protocol. TS-001A proves the
+exact provider and its focused runtime/type behavior. TS-001B activates that
+exact provider-bound protocol and blocks missing or stale evidence. TS-002
+proves the bounded real-source adapter and typed unsupported route. TS-003
+proves the total discriminating fixture denominator. TS-004 proves the replayed
+trust boundary and frozen observation contract. None selects or executes W2.
+
+## Global acceptance
+
+`Enum complete-witnessed` requires:
+
+- exact current canonical Enum and profile handles;
+- all applicable portable obligation IDs accounted for;
+- real positive and exact-cause negative source evidence in all three lanes;
+- typed unsupported accounting with no required unsupported result;
+- language lanes joined and closed against the same frozen contract;
+- deterministic findings, receipts, and replay from raw evidence;
+- explicit runtime-plane N/A rationale for Enum;
+- a claim ceiling limited to the selected profiles, tools, fixtures, and
+  obligations.
+
+## Preserved evidence
+
+Completed APE and BTE evidence is not rewritten. See
+[HISTORICAL-EVIDENCE-MAP.md](HISTORICAL-EVIDENCE-MAP.md). It may support
+preflight or provider reuse but cannot substitute for Enum evidence.
+
+## Open blockers
+
+- eight active types remain without reciprocal realization mappings;
+- no Python or Rust native adapter exists;
+- the exact Python/Rust subagent dispatch is not yet confirmed;
+- Python and Rust package homes/toolchains are unselected;
+- BTE has not adopted the now-representable causal scenario contract;
+- ontology/MTCI/canvas work is untracked and BTE has modified/untracked bytes;
+- direct-leaf versus public-index import remains a profile-owner decision for
+  relevant later types.
+
+These block their affected execution units, not the authoring validity of this
+plan.

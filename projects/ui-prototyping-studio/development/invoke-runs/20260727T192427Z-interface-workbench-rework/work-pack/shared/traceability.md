@@ -1,18 +1,34 @@
-# Design-To-SWU Traceability
+# Inverse SWU → Design → Assertion Traceability
 
-| Design obligation | SWUs | Planned evidence |
+Status: `planned-unexecuted`
+
+`SWU-ACCEPTANCE-MATRIX.json` is the canonical exact matrix, including spec
+paths, greps/selectors, positive assertions, negative mutants, primary owners,
+receipt fields, and lawful shared witnesses.
+
+| SWU | Design / witness refs | Primary assertion |
 | --- | --- | --- |
-| DDR-01 coherent snapshot | SWU-UPW-002–003 | UPW-FIX-016 |
-| DDR-02 recoverable region commit | SWU-UPW-006 | UPW-FIX-017 |
-| DDR-03 action-aware trailing refresh | SWU-UPW-005 | UPW-FIX-018 |
-| DDR-04 canonical digest coherence | SWU-UPW-001, SWU-UPW-003 | UPW-FIX-001, UPW-FIX-019 |
-| DDR-05 exact witness binding | SWU-UPW-007, SWU-UPW-014–017 | UPW-FIX-003, 006, 020–024 |
-| View 1 context/authority | SWU-UPW-002–003, SWU-UPW-017 | UPW-FIX-014, 016, 024 |
-| View 2 six regions | SWU-UPW-008–013 | UPW-FIX-007–010, 013–014 |
-| View 3 components | SWU-UPW-001–007 | UPW-FIX-001–006, 015–019 |
-| View 4 workflow | SWU-UPW-004–007, 012 | UPW-FIX-002–006, 008–010, 015, 017–018 |
-| View 5 state/event | SWU-UPW-005, 008, 010–012, 015 | UPW-FIX-004–006, 009, 014, 018, 020 |
-| View 6 runtime | SWU-UPW-001, 004, 017 | local binaries; UPW-FIX-019, 023–024 |
-| Responsive hierarchy | SWU-UPW-014 | UPW-FIX-013 |
-| Bounded accessibility | SWU-UPW-011, 012, 016 | UPW-FIX-007–012, 021–022 |
-| Security | SWU-UPW-017 | UPW-FIX-023–024 |
+| 001 | Projection canonicalization; FIX-001/019 | UPW-A-001-DIGEST |
+| 002 | DDR-01; FIX-016 | UPW-A-002-COHERENCE |
+| 003 | Projection compatibility; FIX-001/019 | UPW-A-003-STATE |
+| 004 | Stable Shell; FIX-002 | UPW-A-004-INERT |
+| 005 | DDR-03; FIX-004/005/018 | UPW-A-005-TRAILING |
+| 006 | Context Reconciler; FIX-003/006 | UPW-A-006-CONTEXT-PLAN |
+| 007 | DDR-02; FIX-015/017 | UPW-A-007-ATOMIC-COMMIT |
+| 008 | UX lifecycle/action spine | UPW-A-008-SPINE |
+| 009 | UX active canvas | UPW-A-009-CANVAS |
+| 010 | UX contextual inspector; FIX-008 | UPW-A-010-INSPECTOR |
+| 011 | UX staged review; FIX-007 | UPW-A-011-REVIEW |
+| 012 | UX interactions; FIX-009/014 | UPW-A-012-ACTIONS |
+| 013 | UX historical lineage; FIX-013 shared | UPW-A-013-HISTORY |
+| 014 | Responsive contract; FIX-013 primary | UPW-A-014-RESPONSIVE |
+| 015 | Content rules/FR-14; FIX-020 | UPW-A-015-COPY |
+| 016 | A11y interaction; FIX-008/009/010/021/022 urgency | UPW-A-016-INTERACTION |
+| 017 | A11y visual; FIX-011/012/022 non-color | UPW-A-017-VISUAL |
+| 018 | Security route boundary; FIX-024 | UPW-A-018-ROUTES |
+| 019 | Security render boundary; FIX-023 | UPW-A-019-RENDERING |
+
+Shared fixture use is regression/recomposition only. It never changes the
+primary owner recorded in the JSON matrix. In particular, the two independent
+assertions inside FIX-022 have separate primary owners: urgency/live semantics
+in 016 and non-color perceivability in 017.

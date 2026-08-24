@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "task-session-closeout-preflight.v1",
+  "taskId": "TASK-RUNTIME",
+  "swuId": "SWU-CAPI-000",
+  "sessionId": "task-session-dc13471abb3e8d91b80a",
+  "status": "pass",
+  "closeoutRequired": true,
+  "route": "invoke:refresh:apply-approved",
+  "sourceReceiptContract": "task-session-terminal-receipt.v1",
+  "targetInventory": [
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/WORK-PACK.md",
+      "state": "present",
+      "sha256": "5d5b236923b1cdb12c70ccb6c77086ca4e8b766023dec287de13f90811a945c9",
+      "sizeBytes": 14447
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/work-pack/execution-receipts/SWU-CAPI-000.refresh.json",
+      "state": "absent",
+      "sha256": null,
+      "sizeBytes": null
+    }
+  ],
+  "admittedDeltaClasses": [
+    "evidence_added",
+    "blocker_resolved",
+    "status_changed",
+    "route_changed"
+  ],
+  "ownerValidationCommands": [
+    "validate Invoke Refresh material package and handoff receipt",
+    "require live targets to match preflight baselines before apply",
+    "require SWU-CAPI-000 pass evidence before status change",
+    "return SWU-CAPI-001 as dependency-ready but do not select or execute it",
+    "run JSON parse and scoped git diff --check"
+  ],
+  "expectedOwnerReceipt": "work-pack/execution-receipts/SWU-CAPI-000.refresh.json",
+  "uniqueSuccessor": {
+    "swuId": "SWU-CAPI-001",
+    "effect": "dependency-ready-only",
+    "selectionAuthorized": false
+  },
+  "forbiddenEffects": [
+    "execute SWU-CAPI-001",
+    "modify API product code",
+    "modify canonical Craft sources",
+    "promote, publish, or deploy"
+  ]
+}

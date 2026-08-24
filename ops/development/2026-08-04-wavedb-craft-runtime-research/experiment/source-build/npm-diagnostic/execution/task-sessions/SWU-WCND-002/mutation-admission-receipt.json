@@ -1,0 +1,60 @@
+{
+  "admissionVerdict": "block",
+  "allowedWrites": [
+    ".arcanum/task-session/continuity/wavedb-npm-0-15-9.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcnd-20260805-node26-02",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26-0.15.9",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002"
+  ],
+  "authorityClass": "private",
+  "controllingPaths": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/CONTEXT-PACK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/TASK.md",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002/context-pack.json"
+  ],
+  "dependencyIds": [
+    "WCLI-0.15.8-ingestion-baseline",
+    "WCND-0.15.8-baseline"
+  ],
+  "executionMode": "routed-mutation",
+  "executionOutputs": [
+    ".arcanum/task-session/continuity/wavedb-npm-0-15-9.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.work/wcnd-20260805-node26-02",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/npm-node26-0.15.9",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/npm-diagnostic/execution/task-sessions/SWU-WCND-002"
+  ],
+  "lifecycleOwner": "wavedb-npm-regeneration-task-session",
+  "liveValidationRequired": true,
+  "materialPackageDigest": null,
+  "materialReceiptDigest": null,
+  "materialWrites": [],
+  "mutationReady": false,
+  "producerSchemaDigest": null,
+  "publicationClass": "internal",
+  "reasons": [
+    "context pack allowed write scope is invalid",
+    "context pack authority class mismatch",
+    "context pack execution output scope is invalid",
+    "context pack lifecycle owner mismatch",
+    "context pack material write scope is invalid",
+    "context pack publication class mismatch",
+    "context pack validation surface mismatch",
+    "context pack write profile mismatch",
+    "exactly one work-pack control artifact required"
+  ],
+  "requestDigest": "bcbce3340f8f3f4d50e33a79a76b6612efcb74e504aeea98b0a7db0e1058b973",
+  "schemaVersion": "1.2.0",
+  "swuId": "SWU-WCND-002",
+  "taskId": "TASK-WCND-02",
+  "validationCommands": [
+    "exact prior-receipt, Craft, NVM-default, Git-history, and output-scope audit",
+    "independent SHA-1 and SHA-512/SRI comparison before scripts",
+    "npm pack @vijayee/wavedb@0.15.9 --ignore-scripts --json",
+    "npm view @vijayee/wavedb@0.15.9 name version dist.shasum dist.integrity dist.tarball gitHead time.modified --json",
+    "source /home/vrondelli/.nvm/nvm.sh && nvm use 26.6.0 && node --version && npm --version",
+    "timeout --signal=TERM --kill-after=5s 180s npm install <verified-local-tarball> --save-exact --foreground-scripts --no-audit --fund=false",
+    "timeout --signal=TERM --kill-after=5s 20s node -e require('@vijayee/wavedb')",
+    "timeout --signal=TERM --kill-after=5s 30s node harness.js basic|empty|batch-reopen|concurrent-writes"
+  ],
+  "writeProfile": "execution-output-only"
+}

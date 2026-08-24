@@ -1,0 +1,157 @@
+{
+  "dispatch_id": "goal-oava003-readiness-round001",
+  "intent": {
+    "raw": "Continue the active goal from the selection-ready SWU-OAVA-003 frontier.",
+    "objective": "Route the exact OAVA-003 Work Pack through audit-only readiness and initialize one bounded outer loop without selecting or executing Task Session work.",
+    "target_artifact": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-003.md"
+  },
+  "mode": "single",
+  "techniques": [
+    "owner_boundary_check",
+    "handle_handoff",
+    "execution_receipt_handoff",
+    "approval_semantics_map",
+    "concrete_path_evidence"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The live node has one deterministic owner route; no delegated or parallel implementation agent is required.",
+    "authorization": "not_needed"
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "readiness-oava003",
+      "name": "Initialize the OAVA-003 bounded readiness loop",
+      "capability_ref": "implementation-readiness",
+      "capability_status": "local-extension",
+      "capability_source": ".agents/skills/implementation-readiness/SKILL.md",
+      "mode": "execute",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "owner_boundary_check",
+        "handle_handoff",
+        "execution_receipt_handoff",
+        "approval_semantics_map",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/WORK-PACK-OAVA-003.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/audit-output/work-pack-readiness-report-v2.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/initialize-result.json"
+        },
+        {
+          "kind": "handle",
+          "ref": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/outer-loop-state.json"
+        }
+      ],
+      "stop_conditions": [
+        "stop if the readiness report is not PLAN_SEMANTIC_READY",
+        "stop if the loop binds any frontier other than SWU-OAVA-003",
+        "stop before selection or Task Session mutation without an explicit Goal batch approval token"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-readiness-source",
+      "kind": "validation",
+      "owner": "work-pack-readiness-audit",
+      "condition": "The v2 audit passes with terminal code PLAN_SEMANTIC_READY, pending selection, mutation_ready false, and authority effect none.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-goal-mutation-approval",
+      "kind": "human_approval",
+      "owner": "goal plus decision-gate",
+      "condition": "A durable approval token must bind OAVA-003, the three exact material paths, the declared validation commands, Task Session execution, and Invoke Refresh closeout before selection is consumed.",
+      "on_fail": "ask"
+    }
+  ],
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "goal-oava003-readiness-round001",
+      "step_id": "readiness-oava003",
+      "capability_ref": "implementation-readiness",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "artifacts": [
+        "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/initialize-result.json"
+      ],
+      "validation": [
+        "outer loop captures only SWU-OAVA-003 in one-unit mode"
+      ],
+      "observer_status": "pending",
+      "blockers": [],
+      "residue": "execution batch approval remains separate",
+      "handoff_note": "The initialization receipt may stage a selection action but cannot authorize Task Session."
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-goal-readiness-owner",
+        "kind": "capability_handoff",
+        "from_owner": "goal",
+        "to_owner": "implementation-readiness",
+        "applies_to_steps": [
+          "readiness-oava003"
+        ],
+        "contract": "Implementation Readiness may freeze and classify the exact Work Pack but may not mutate product files or reinterpret audit evidence as approval.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "goal",
+      "execution": "implementation-readiness outer loop then task-session after approval",
+      "validation": "work-pack-readiness-audit and task-session",
+      "evidence": "owner receipts",
+      "promotion": "none in this route"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-oava003-readiness-init",
+        "producer": "implementation-readiness",
+        "required_fields": [
+          "run_id",
+          "artifacts",
+          "validation_result",
+          "status",
+          "audit_reference"
+        ],
+        "stores": [
+          "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/execution-runs/20260806-oava003/readiness/initialize-result.json"
+        ],
+        "on_missing": "block"
+      }
+    ]
+  },
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "goal_frontier_frozen",
+      "readiness_audit_passed",
+      "implementation_readiness_initialized",
+      "goal_batch_held_for_approval"
+    ],
+    "signal_grouping": "dispatch_id and goal round"
+  },
+  "promotion_guardrails": [
+    "Readiness and route receipts do not select OAVA-003 or authorize Task Session.",
+    "Ontology lesson status, release state, deployment state, and production-readiness state remain unchanged."
+  ]
+}

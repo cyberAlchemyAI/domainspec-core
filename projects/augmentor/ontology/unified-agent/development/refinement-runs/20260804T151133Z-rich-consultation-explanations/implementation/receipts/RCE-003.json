@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "augmentor.rich-explanations.task-receipt@1.0.0",
+  "unitId": "SWU-RCE-003",
+  "result": "PASS",
+  "primaryBehavior": "Compiled one deterministic, opaque, schema-bound projection/glossary bundle and kept private leakage at zero.",
+  "bundle": {"bundleDigest": "118ca29cbab34435235a065c654fa62232c3101a0e77cdee7cb9ed11c3933f1c", "projectionDigest": "ff1a3b2b4d79cc816dfbbac2711eaae19e43ef0b338d9a75812c7e98d753afdc", "installedBytes": 63775, "records": 22, "terms": 14},
+  "validation": [
+    {"command": "build-consumer-projection.mjs --check", "result": "pass"},
+    {"command": "validate-projection-leakage.mjs", "result": "pass", "hits": 0},
+    {"command": "node --test consultation-api/tests/*.test.mjs", "result": "pass", "tests": 30}
+  ],
+  "nextUnit": "SWU-RCE-004"
+}

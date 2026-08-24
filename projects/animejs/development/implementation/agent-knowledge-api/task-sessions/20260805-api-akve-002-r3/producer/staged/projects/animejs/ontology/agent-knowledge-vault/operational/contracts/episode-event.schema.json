@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "animejs-work-episode-event/0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "event_id", "episode_id", "revision", "event_type", "command_id", "request_digest", "principal_id", "policy_epoch", "graph_digest", "recorded_at", "payload", "prior_event_digest", "event_digest"],
+  "properties": {
+    "contract": {"const": "animejs-work-episode-event/0.1.0"},
+    "event_id": {"type": "string", "minLength": 1},
+    "episode_id": {"type": "string", "minLength": 1},
+    "revision": {"type": "integer", "minimum": 1},
+    "event_type": {"enum": ["EpisodeOpened", "AttemptAppended", "EvidenceAttached", "OutcomeRecorded", "EpisodeClosed"]},
+    "command_id": {"type": "string", "minLength": 1},
+    "request_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "principal_id": {"type": "string", "minLength": 1},
+    "policy_epoch": {"type": "string", "minLength": 1},
+    "graph_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "payload": {"type": "object"},
+    "prior_event_digest": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "event_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"event_type": {"const": "EpisodeOpened"}}},
+      "then": {"properties": {"payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["goal", "started_at", "tags", "task_snapshot", "task_digest", "version_context_snapshot", "version_context_digest", "owner_binding", "supersedes_episode_id"],
+        "properties": {
+          "goal": {"type": "string", "minLength": 1, "maxLength": 2000},
+          "started_at": {"type": "string", "format": "date-time"},
+          "tags": {"type": "array", "maxItems": 20, "uniqueItems": true, "items": {"type": "string", "maxLength": 80}},
+          "task_snapshot": {"type": "object"},
+          "task_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "version_context_snapshot": {"type": "object"},
+          "version_context_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "owner_binding": {
+            "type": "object", "additionalProperties": false,
+            "required": ["principal_id", "tenant_or_workspace_id", "vault_scope", "capability_audience", "delegation_id"],
+            "properties": {
+              "principal_id": {"type": "string", "minLength": 1},
+              "tenant_or_workspace_id": {"type": "string", "minLength": 1},
+              "vault_scope": {"const": "animejs-agent-knowledge-vault"},
+              "capability_audience": {"const": "animejs-work-episode-append"},
+              "delegation_id": {"type": ["string", "null"]}
+            }
+          },
+          "supersedes_episode_id": {"type": ["string", "null"]}
+        }
+      }}}
+    },
+    {
+      "if": {"properties": {"event_type": {"const": "AttemptAppended"}}},
+      "then": {"properties": {"payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["ordinal", "action_summary", "input_artifact_handles"],
+        "properties": {
+          "ordinal": {"type": "integer", "minimum": 1},
+          "action_summary": {"type": "string", "minLength": 1, "maxLength": 4000},
+          "input_artifact_handles": {"type": "array", "maxItems": 30, "items": {"type": "string"}}
+        }
+      }}}
+    },
+    {
+      "if": {"properties": {"event_type": {"const": "EvidenceAttached"}}},
+      "then": {"properties": {"payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["handle", "target_episode_id", "target_attempt_ordinal", "task_digest", "version_context_digest", "producer_episode_id", "producer_attempt_ordinal", "criterion", "evidence_class", "scope", "state"],
+        "properties": {
+          "handle": {"type": "string", "minLength": 1},
+          "target_episode_id": {"type": "string", "minLength": 1},
+          "target_attempt_ordinal": {"type": "integer", "minimum": 1},
+          "task_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "version_context_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "producer_episode_id": {"type": "string", "minLength": 1},
+          "producer_attempt_ordinal": {"type": "integer", "minimum": 1},
+          "criterion": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "evidence_class": {"enum": ["executed", "test", "review", "external_support"]},
+          "scope": {"enum": ["attempt", "episode", "external_support"]},
+          "state": {"enum": ["admissible", "unconfirmed", "revoked", "unavailable"]},
+          "evidence_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "available_at": {"type": "string", "format": "date-time"},
+          "redaction_state": {"enum": ["clear", "redacted"]}
+        }
+      }}}
+    },
+    {
+      "if": {"properties": {"event_type": {"const": "OutcomeRecorded"}}},
+      "then": {"properties": {"payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["attempt_ordinal", "classification", "observations", "witness_handles"],
+        "properties": {
+          "attempt_ordinal": {"type": "integer", "minimum": 1},
+          "classification": {"enum": ["succeeded", "failed", "blocked", "inconclusive"]},
+          "observations": {"type": "array", "maxItems": 30, "items": {"type": "string", "maxLength": 1000}},
+          "witness_handles": {"type": "array", "maxItems": 30, "uniqueItems": true, "items": {"type": "string"}}
+        }
+      }}}
+    },
+    {
+      "if": {"properties": {"event_type": {"const": "EpisodeClosed"}}},
+      "then": {"properties": {"payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["disposition"],
+        "properties": {"disposition": {"enum": ["completed", "failed", "blocked", "abandoned"]}}
+      }}}
+    }
+  ]
+}

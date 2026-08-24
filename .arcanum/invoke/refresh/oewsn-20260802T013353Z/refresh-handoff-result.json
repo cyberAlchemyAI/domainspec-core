@@ -1,0 +1,44 @@
+{
+  "activationSource": "direct-user",
+  "blockers": [],
+  "handoffStatus": "ready",
+  "materialPackage": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "expectedPackageDigest": "723131ac1ddde6433df936923a5c5680a485cebf1615f18b3895439933a138f5",
+    "expectedPackageId": "oewsn-owner-decisions-refresh-20260802T013353Z",
+    "lifecycleOwner": "invoke",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "723131ac1ddde6433df936923a5c5680a485cebf1615f18b3895439933a138f5",
+    "packageId": "oewsn-owner-decisions-refresh-20260802T013353Z",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "internal",
+    "receiptPresent": true,
+    "required": true,
+    "schemaValid": true,
+    "validatedPaths": [
+      "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/MUTATION-ADMISSION-CONTRACT.json",
+      "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/SWU-MANIFEST.json",
+      "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/WORK-PACK.md",
+      "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/shared/cross-task-gaps.md",
+      "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/tasks/TASK-OEWSN-00-PROFILE-DECISIONS.md",
+      "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/tasks/TASK-OEWSN-01-RELATION-CORE.md",
+      "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/waves/W0-OWNER-DECISIONS.md",
+      "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/waves/W1-L0-RELATION-CORE.md"
+    ],
+    "validationCommands": [
+      "python3 -m json.tool cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/SWU-MANIFEST.json",
+      "python3 -m json.tool cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/MUTATION-ADMISSION-CONTRACT.json",
+      "jq -e '.selected_swu == \"SWU-OEWSN-004\" and .mutation_authorized == false' cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/SWU-MANIFEST.json",
+      "bash tools/check_markdown_links.sh cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/WORK-PACK.md",
+      "git diff --check -- cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation"
+    ]
+  },
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "explicit",
+  "mutationReady": true,
+  "phaseStatus": "pass",
+  "schemaVersion": "1.0.0"
+}

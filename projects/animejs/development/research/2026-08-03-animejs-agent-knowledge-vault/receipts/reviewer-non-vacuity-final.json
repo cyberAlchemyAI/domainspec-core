@@ -1,0 +1,38 @@
+{
+  "action_id": "spawn-0006",
+  "reviewer_kind": "non_vacuity",
+  "final_status": "FAIL",
+  "blocking_findings": [
+    {
+      "code": "UNDECLARED_ABSTENTION_CODE",
+      "finding": "QRY-003 emits ABSTAIN_AMBIGUOUS_CHOICE, but the closed abstention vocabulary defines ABSTAIN_AMBIGUOUS_INTENT instead. Tie behavior therefore lacks a valid deterministic receipt code."
+    },
+    {
+      "code": "DECORATIVE_RELATION_CONSUMER_NOT_PROVED",
+      "finding": "The repair rejects only unknown relations or empty consumer lists. A relation can still name a query, validator, or view as a consumer without a finite fixture proving that removing the relation changes retrieval, explanation, diagnosis, validation, invalidation, abstention, or next action."
+    }
+  ],
+  "surviving_mutants": [
+    {
+      "mutant": "decorative relation with a non-empty but behaviorally inert consumer declaration",
+      "status": "SURVIVED",
+      "required_kill": "For every retained relation, require a finite mutation witness showing an observable output or validation delta when its edge is removed or changed."
+    },
+    {
+      "mutant": "ambiguous JS/WAAPI tie",
+      "status": "SURVIVED",
+      "required_kill": "Normalize QRY-003 to the declared ABSTAIN_AMBIGUOUS_INTENT code or add ABSTAIN_AMBIGUOUS_CHOICE to the closed vocabulary with clearing criteria."
+    }
+  ],
+  "validation": {
+    "documentation_source_conflict": "KILLED",
+    "copied_prose": "KILLED",
+    "circular_prerequisites": "KILLED",
+    "decorative_relation": "PARTIAL",
+    "deterministic_query_semantics": "FAIL",
+    "evidence_validity_transitions": "PASS",
+    "abstentions": "FAIL",
+    "copyright_failure": "PASS",
+    "mutation_statement": "Read-only final review; no files, Git, telemetry, ontology bytes, or external state changed."
+  }
+}

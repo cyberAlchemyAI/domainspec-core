@@ -1,0 +1,58 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "20260802T022042Z-oewsn-swu-004-pass-closeout",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "pass",
+    "receipt": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/work-pack/session-evidence/SWU-OEWSN-004/20260802T022042Z/receipt.json",
+    "blocker_fingerprint": "sha256:77cdbeb4a8a67e7c8fa09b6195899fdee1151f28fe78cc910ab612859a6df474",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "The terminal Task Session receipt requires an exact four-target Invoke Refresh closeout before successor selection."
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "Invoke",
+      "evidence": [
+        "The SWU-OEWSN-004 terminal receipt is PASS and delegates the exact closeout inventory to Invoke Refresh.",
+        "CLOSEOUT-SYNC-INVENTORY.json permits SWU-OEWSN-005 selection only after the source and owner receipts pass."
+      ],
+      "required_inputs": [
+        "SWU-OEWSN-004 terminal receipt SHA-256 77cdbeb4a8a67e7c8fa09b6195899fdee1151f28fe78cc910ab612859a6df474",
+        "Exact four-target closeout inventory",
+        "Preserved OEWSN-RELATION-DUPLICATE-TUPLES residue"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": false,
+      "authorization_status": "matched",
+      "expected_receipt": "Invoke Refresh material receipt proving exact target application, source-receipt identity, complete SWU-OEWSN-004 closeout and unique SWU-OEWSN-005 selection.",
+      "fallback": "Stop without successor execution if any closeout validation fails."
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The source receipt names one authorized owner route and its required inputs are complete."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "native-bounded-helper:/root/invoke_package_convention_helper",
+    "owner_receipt": "cyberAlchemy-v2/development/ontology-evidence-workbench-semantic-navigation/planning/refresh-runs/20260802T022042Z-SWU-OEWSN-004-closeout/material-receipt.json",
+    "helper_closeout": "pass"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "task-session",
+    "mode": "execute",
+    "target": "SWU-OEWSN-005"
+  }
+}

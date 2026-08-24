@@ -1,0 +1,460 @@
+
+
+  WaveDB Callback API
+    getCb
+17:20:14 INFO  ../c_src/src/Util/memory_pool.c:202: Memory pool initialized:
+17:20:14 INFO  ../c_src/src/Util/memory_pool.c:203:   Small:  10000 blocks × 64 bytes = 625 KB
+17:20:14 INFO  ../c_src/src/Util/memory_pool.c:206:   Medium: 5000 blocks × 256 bytes = 1250 KB
+17:20:14 INFO  ../c_src/src/Util/memory_pool.c:209:   Large:  2000 blocks × 1024 bytes = 2000 KB
+17:20:14 INFO  ../c_src/src/Util/memory_pool.c:212:   Total:  3.78 MB
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a630940
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-cb-test-1785874814748-nx3pkg502/thread_140425988572864.wal (thread_id=140425988572864, fd=23)
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a6153b0, total_threads=1, thread_id=140425988572864)
+      ✔ should get a value via callback
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a6153b0, thread_count=1
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x7fb754001200, fd=23, file_path=/tmp/wavedb-cb-test-1785874814748-nx3pkg502/thread_140425988572864.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-cb-test-1785874814748-nx3pkg502/thread_140425988572864.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a630940
+      ✔ should return null for missing keys via callback
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a62e010, thread_count=0
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a630940
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-cb-test-1785874814802-3fg2mrkb5/thread_140426013750976.wal (thread_id=140426013750976, fd=23)
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a614760, total_threads=1, thread_id=140426013750976)
+      ✔ should accept array keys via callback
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a614760, thread_count=1
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x7fb7600019a0, fd=23, file_path=/tmp/wavedb-cb-test-1785874814802-3fg2mrkb5/thread_140426013750976.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-cb-test-1785874814802-3fg2mrkb5/thread_140426013750976.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a630940
+      ✔ should require a callback argument
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a62b1d0, thread_count=0
+    putCb
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a630940
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-cb-test-1785874814844-6o26v1dun/thread_140426013750976.wal (thread_id=140426013750976, fd=23)
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a62b320, total_threads=1, thread_id=140426013750976)
+      ✔ should put a value via callback
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a62b320, thread_count=1
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x7fb768001a00, fd=23, file_path=/tmp/wavedb-cb-test-1785874814844-6o26v1dun/thread_140426013750976.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-cb-test-1785874814844-6o26v1dun/thread_140426013750976.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a630940
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-cb-test-1785874814864-lsgyqnk1v/thread_140426005358272.wal (thread_id=140426005358272, fd=23)
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a6145c0, total_threads=1, thread_id=140426005358272)
+      ✔ should put with array key via callback
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a6145c0, thread_count=1
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x7fb768001a00, fd=23, file_path=/tmp/wavedb-cb-test-1785874814864-lsgyqnk1v/thread_140426005358272.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-cb-test-1785874814864-lsgyqnk1v/thread_140426005358272.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a630940
+      ✔ should require a callback argument
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a62c9d0, thread_count=0
+    delCb
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a638f00
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-cb-test-1785874814904-jnhjwbgs9/thread_140426013750976.wal (thread_id=140426013750976, fd=23)
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a613a30, total_threads=1, thread_id=140426013750976)
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-cb-test-1785874814904-jnhjwbgs9/thread_140426005358272.wal (thread_id=140426005358272, fd=24)
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a613a30, total_threads=2, thread_id=140426005358272)
+      ✔ should delete a value via callback
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a613a30, thread_count=2
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x7fb7600019a0, fd=23, file_path=/tmp/wavedb-cb-test-1785874814904-jnhjwbgs9/thread_140426013750976.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-cb-test-1785874814904-jnhjwbgs9/thread_140426013750976.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 1: twal=0x7fb754001200, fd=24, file_path=/tmp/wavedb-cb-test-1785874814904-jnhjwbgs9/thread_140426005358272.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-cb-test-1785874814904-jnhjwbgs9/thread_140426005358272.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a638f00
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-cb-test-1785874814950-opu6sy0k4/thread_140425988572864.wal (thread_id=140425988572864, fd=23)
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a5d9df0, total_threads=1, thread_id=140425988572864)
+      ✔ should succeed when deleting a missing key via callback
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a5d9df0, thread_count=1
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x7fb75c0019a0, fd=23, file_path=/tmp/wavedb-cb-test-1785874814950-opu6sy0k4/thread_140425988572864.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-cb-test-1785874814950-opu6sy0k4/thread_140425988572864.wal
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a638f00
+      ✔ should require a callback argument
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a613a30, thread_count=0
+    batchCb
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a638f00
+17:20:14 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-cb-test-1785874815010-vvzphnl0q/thread_140426013750976.wal (thread_id=140426013750976, fd=23)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a5d9df0, total_threads=1, thread_id=140426013750976)
+      ✔ should execute batch operations via callback
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a5d9df0, thread_count=1
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x7fb754001200, fd=23, file_path=/tmp/wavedb-cb-test-1785874815010-vvzphnl0q/thread_140426013750976.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-cb-test-1785874815010-vvzphnl0q/thread_140426013750976.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a638f00
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-cb-test-1785874815046-sw6rycgui/thread_140425988572864.wal (thread_id=140425988572864, fd=23)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a613a30, total_threads=1, thread_id=140425988572864)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-cb-test-1785874815046-sw6rycgui/thread_140426005358272.wal (thread_id=140426005358272, fd=24)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a613a30, total_threads=2, thread_id=140426005358272)
+      ✔ should handle mixed put and delete in batch via callback
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a613a30, thread_count=2
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x7fb75c002b00, fd=23, file_path=/tmp/wavedb-cb-test-1785874815046-sw6rycgui/thread_140425988572864.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-cb-test-1785874815046-sw6rycgui/thread_140425988572864.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 1: twal=0x7fb760001980, fd=24, file_path=/tmp/wavedb-cb-test-1785874815046-sw6rycgui/thread_140426005358272.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-cb-test-1785874815046-sw6rycgui/thread_140426005358272.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a638f00
+      ✔ should require a callback argument
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a5e4aa0, thread_count=0
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a638f00
+      ✔ should require array of operations
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a609a90, thread_count=0
+    error handling
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a638f00
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a61edc0, thread_count=0
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a638f00
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a612cd0, thread_count=0
+      ✔ should pass error to callback when db is closed
+
+  GraphLayer
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should insert and query triples
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_b719e298.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_b719e298.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should traverse incoming edges
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_0aecefd0.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_0aecefd0.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should do multi-hop traversals
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_42698ac7.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_42698ac7.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should handle intersection queries
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_daa44872.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_daa44872.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should handle union queries (Or)
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_137390d1.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_137390d1.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should handle Has filters
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_5d8f8718.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_5d8f8718.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should support Limit
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_0aecefd0.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_0aecefd0.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should support Count
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_0aecefd0.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_0aecefd0.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should delete triples
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_55f45081.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_55f45081.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should handle empty results
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_4c77445a.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_4c77445a.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should accept DSL strings directly via exec
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_a22d8ca3.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_a22d8ca3.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should accept Query objects via exec
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_a22d8ca3.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_a22d8ca3.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should be able to use Query.toString() for debugging
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_4c77445a.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_4c77445a.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should handle difference queries
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_daa44872.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_daa44872.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should support morphism definition and Follow
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_42698ac7.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_42698ac7.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should support parseSchema
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_fd0525c1.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_fd0525c1.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should support HasGt filter
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_c9cfb004.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_c9cfb004.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should support HasGte filter
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_c9cfb004.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_c9cfb004.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should support HasLt filter
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_c9cfb004.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_c9cfb004.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should support HasLte filter
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_c9cfb004.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_c9cfb004.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+    ✔ should chain HasGte with Out traversal
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_525f0794.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_525f0794.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+    async operations
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+      ✔ should insert triples asynchronously
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_2bde9372.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_2bde9372.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+      ✔ should delete triples asynchronously
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_55f45081.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_55f45081.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+      ✔ should query asynchronously
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_0aecefd0.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_0aecefd0.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+      ✔ should query asynchronously with Query object
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_42698ac7.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_42698ac7.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+      ✔ should reject on query parse error
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_4c77445a.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_4c77445a.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+17:20:15 ERROR ../c_src/src/Database/database.c:2444: get_thread_wal returned NULL - cannot write to WAL
+      ✔ should handle multiple async inserts concurrently
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_0_9580f517.cbor
+17:20:15 ERROR ../c_src/src/Database/database.c:372: Failed to open index file: /index_1_9580f517.cbor
+17:20:15 WARN  ../c_src/src/Database/database.c:1467: database_destroy: persist failed (rc=-1), WAL entries will be replayed on next open
+
+  expandTriple
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a645330
+    ✔ returns one canonical root-namespace op per xgraph index
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a630bb0, thread_count=0
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a630bb0, thread_count=0
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a645330
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-graph-expand-SOXEwi/thread_140426671951040.wal (thread_id=140426671951040, fd=23)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a634f60, total_threads=1, thread_id=140426671951040)
+    ✔ is atomic-equivalent to insertSync when spliced into a root batch
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a634f60, thread_count=1
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x1a6393d0, fd=23, file_path=/tmp/wavedb-graph-expand-SOXEwi/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-graph-expand-SOXEwi/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a634f60, thread_count=1
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x1a6393d0, fd=23, file_path=/tmp/wavedb-graph-expand-SOXEwi/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-graph-expand-SOXEwi/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a645330
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-graph-expand-q7hd5R/thread_140426671951040.wal (thread_id=140426671951040, fd=23)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a61bcb0, total_threads=1, thread_id=140426671951040)
+    ✔ delete=True yields del ops that remove the triple
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a61bcb0, thread_count=1
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x1a6393d0, fd=23, file_path=/tmp/wavedb-graph-expand-q7hd5R/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-graph-expand-q7hd5R/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a61bcb0, thread_count=1
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x1a6393d0, fd=23, file_path=/tmp/wavedb-graph-expand-q7hd5R/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-graph-expand-q7hd5R/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a645330
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a648250
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-graph-cmp-ins-1CIZHU/thread_140426671951040.wal (thread_id=140426671951040, fd=25)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a4b0c90, total_threads=1, thread_id=140426671951040)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a4b0c90, thread_count=1
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x1a6393d0, fd=25, file_path=/tmp/wavedb-graph-cmp-ins-1CIZHU/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-graph-cmp-ins-1CIZHU/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a4b0c90, thread_count=1
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x1a6393d0, fd=25, file_path=/tmp/wavedb-graph-cmp-ins-1CIZHU/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-graph-cmp-ins-1CIZHU/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a648250
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-graph-cmp-exp-Vm9Rny/thread_140426671951040.wal (thread_id=140426671951040, fd=25)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a61e5a0, total_threads=1, thread_id=140426671951040)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a61e5a0, thread_count=1
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x1a636020, fd=25, file_path=/tmp/wavedb-graph-cmp-exp-Vm9Rny/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-graph-cmp-exp-Vm9Rny/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a61e5a0, thread_count=1
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2146:   Thread 0: twal=0x1a636020, fd=25, file_path=/tmp/wavedb-graph-cmp-exp-Vm9Rny/thread_140426671951040.wal
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2162:   Flushed WAL file: /tmp/wavedb-graph-cmp-exp-Vm9Rny/thread_140426671951040.wal
+    ✔ stores the exact same index keys as insertSync (60ms)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a638730, thread_count=0
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:2141: WAL Manager flush: manager=0x1a638730, thread_count=0
+
+  WaveDB Integration
+    concurrent operations
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1480: WAL Recovery: Starting recovery
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1495: WAL Recovery: Read 0 manifest entries
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1502: WAL Recovery: Found 0 WAL files in directory
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1595: WAL Recovery: Sorting 0 entries by transaction ID
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1602: WAL Recovery: Total 0 entries to replay
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1617: WAL Recovery: Initialized max_txn_id
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1621: WAL Recovery: Cast database pointer
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1623: WAL Recovery: Starting replay loop, entry_count=0, all_entries=0x1a645330
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-integration-1785874815367-7aehmr1di/thread_140426013750976.wal (thread_id=140426013750976, fd=23)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-integration-1785874815367-7aehmr1di/thread_140425988572864.wal (thread_id=140425988572864, fd=24)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-integration-1785874815367-7aehmr1di/thread_140425996965568.wal (thread_id=140425996965568, fd=25)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:683: Created WAL file: /tmp/wavedb-integration-1785874815367-7aehmr1di/thread_140426005358272.wal (thread_id=140426005358272, fd=26)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a61bf00, total_threads=1, thread_id=140426013750976)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a61bf00, total_threads=2, thread_id=140425988572864)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a61bf00, total_threads=3, thread_id=140425996965568)
+17:20:15 INFO  ../c_src/src/Database/wal_manager.c:1114: Registered thread WAL (manager=0x1a61bf00, total_threads=4, thread_id=140426005358272)
+      1) should handle concurrent writes

@@ -1,0 +1,41 @@
+{
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "authoredPhaseStatus": "pass",
+  "requestedHandoff": "ready",
+  "expectedPackageId": "body-war-ofsp-work-pack-readiness-repair-20260730T061441Z",
+  "expectedPackageDigest": "a574c24a7c793155a08f5a8c7fc823a6ea352cdb6187f6116a4c8c1d4093e063",
+  "materialReceipt": {
+    "authorityClass": "private",
+    "dependencyResult": "pass",
+    "lifecycleOwner": "private Body War OFSP planning owner via invoke:refresh",
+    "mutationHandoff": "ready",
+    "ownerBoundaryResult": "pass",
+    "packageDigest": "a574c24a7c793155a08f5a8c7fc823a6ea352cdb6187f6116a4c8c1d4093e063",
+    "packageId": "body-war-ofsp-work-pack-readiness-repair-20260730T061441Z",
+    "patchVerdict": "pass",
+    "publicationBoundaryResult": "pass",
+    "publicationClass": "private",
+    "reasons": [],
+    "schemaVersion": "1.0.0",
+    "validatedPaths": [
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/TASK-SESSION-RECEIPT.schema.json",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/WORK-PACK.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/shared/CLOSEOUT-CONTRACT.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/shared/COMMAND-MATRIX.json",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/shared/CONTEXT.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/shared/test-task-session-receipt.py",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/shared/validate-task-session-receipt.py",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/tasks/TASK-CLOSURE.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/tasks/TASK-FOUNDATION.md",
+      "projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot/work-pack/tasks/TASK-PACKAGE.md"
+    ],
+    "validationCommands": [
+      "python3 -m json.tool <staged>/TASK-SESSION-RECEIPT.schema.json",
+      "python3 -m json.tool <staged>/work-pack/shared/COMMAND-MATRIX.json",
+      "python3 <staged>/work-pack/shared/test-task-session-receipt.py",
+      "python3 arcanum/spells/work-pack-readiness-audit/scripts/audit_work_pack.py --config <post-refresh-config> --output-dir <post-refresh-run>",
+      "git diff --check -- projects/body-war/development/invoke-runs/20260730T050022Z-ontology-focus-scene-pivot"
+    ]
+  }
+}

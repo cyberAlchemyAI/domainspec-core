@@ -1,0 +1,28 @@
+{
+  "schema_version": "task-session.closeout-preflight.v1",
+  "task_id": "TASK-BWAA-001",
+  "swu_id": "SWU-BWAA-001",
+  "status": "block",
+  "route": "invoke:refresh:apply-approved",
+  "allowed_delta_classes": [
+    "evidence_added",
+    "blocker_opened",
+    "blocker_resolved",
+    "status_changed",
+    "route_changed"
+  ],
+  "target_baselines": [
+    {"path":"projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/WORK-PACK.md","sha256":"b2c9cd539888e7d62b094d04da219c4c927fd4e5a588949efb392f5a7416790e","size_bytes":8256},
+    {"path":"projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/CONTINUATION.json","sha256":"29f19cbc2e5b13b03be06f5b63d13c82b1506f960c5738c967cb003b0c8879d6","size_bytes":1591},
+    {"path":"projects/body-war/development/invoke-runs/20260730T062453Z-business-ontology-atlas-arrows/work-pack/closeout/SWU-BWAA-001.receipt.json","sha256":"absent","size_bytes":0}
+  ],
+  "source_receipt_contract": "work-pack/shared/EXECUTION-CONTROL.md#Terminal-Receipt-Contract",
+  "expected_owner_receipt_contract": null,
+  "owner_validation_commands": [],
+  "unique_successor": "SWU-BWAA-002",
+  "blockers": [
+    "schema-bound expected Invoke Refresh owner receipt is absent",
+    "exact owner validation command set is absent",
+    "no source terminal receipt exists before Task Session execution"
+  ]
+}

@@ -1,0 +1,288 @@
+{
+  "authored_concern_ids": [
+    "authored:authority",
+    "authored:failure",
+    "authored:integration",
+    "authored:migration",
+    "authored:performance",
+    "authored:persistence",
+    "authored:privacy-data",
+    "authored:reliability",
+    "authored:rollout",
+    "authored:security",
+    "authored:state-event",
+    "authored:validation"
+  ],
+  "denominator_signal_ids": [
+    "authored:authority",
+    "authored:failure",
+    "authored:integration",
+    "authored:migration",
+    "authored:performance",
+    "authored:persistence",
+    "authored:privacy-data",
+    "authored:reliability",
+    "authored:rollout",
+    "authored:security",
+    "authored:state-event",
+    "authored:validation",
+    "signal:acceptance-readiness-claim:complete-zero-output-admission",
+    "signal:acceptance-readiness-claim:package-provenance-gate",
+    "signal:compatibility:craft-authority-preservation",
+    "signal:data-log-sink:external-experiment-evidence",
+    "signal:effect:isolated-copy-corruption-control",
+    "signal:effect:isolated-native-build-and-store-write",
+    "signal:effect:registry-artifact-download",
+    "signal:interface:candidate-adapter-api",
+    "signal:normative-rule:admit-exact-package-only",
+    "signal:normative-rule:preserve-yaml-authority",
+    "signal:normative-rule:require-complete-verification",
+    "signal:quality-claim:descriptive-latency-and-size-only",
+    "signal:store:canonical-yaml",
+    "signal:store:isolated-wavedb-generation",
+    "signal:writer:candidate-projection-adapter"
+  ],
+  "detector_id": "invoke-design-scope-extractor",
+  "detector_owner": "spellcraft",
+  "detector_version": "1.0.0",
+  "diagnostics": [],
+  "extracted_signals": [
+    {
+      "attributes": {
+        "evidence_state": "authored-complete",
+        "selector": "fresh YAML and every stored key/value verify before any row output"
+      },
+      "signal_class": "acceptance-readiness-claim",
+      "signal_id": "signal:acceptance-readiness-claim:complete-zero-output-admission",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "evidence_state": "authored-complete",
+        "selector": "registry identity integrity gitHead and reviewed source tree agree before install"
+      },
+      "signal_class": "acceptance-readiness-claim",
+      "signal_id": "signal:acceptance-readiness-claim:package-provenance-gate",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "new_contract": "the same authority contract plus a disposable candidate projection that cannot write back",
+        "old_contract": "Craft uses canonical YAML plus derived human and machine views"
+      },
+      "signal_class": "compatibility",
+      "signal_id": "signal:compatibility:craft-authority-preservation",
+      "source_digest": "c306e2326162a13630981030d26bc1993832815cc6acffccaacecbf14cc71bbe",
+      "source_selector": "arcanum/arcana/craft/ARCHITECTURE.md"
+    },
+    {
+      "attributes": {
+        "data_classes": [
+          "package metadata",
+          "toolchain identity",
+          "fixture hashes",
+          "run events",
+          "failure codes",
+          "observation receipts"
+        ],
+        "retention_hint": "candidate-local until owner closeout; never copied into WaveDB"
+      },
+      "signal_class": "data-log-sink",
+      "signal_id": "signal:data-log-sink:external-experiment-evidence",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "external": false,
+        "privileged": false,
+        "reversible": true
+      },
+      "signal_class": "effect",
+      "signal_id": "signal:effect:isolated-copy-corruption-control",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "external": false,
+        "privileged": false,
+        "reversible": true
+      },
+      "signal_class": "effect",
+      "signal_id": "signal:effect:isolated-native-build-and-store-write",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "external": true,
+        "privileged": false,
+        "reversible": true
+      },
+      "signal_class": "effect",
+      "signal_id": "signal:effect:registry-artifact-download",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "contract_ref": "experiment/define/interfaces.md",
+        "direction": "bidirectional",
+        "kind": "bounded native-addon adapter",
+        "peer": "WaveDB Node binding"
+      },
+      "signal_class": "interface",
+      "signal_id": "signal:interface:candidate-adapter-api",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "WP-0 blocks on any metadata or content mismatch",
+        "object": "only an exact registry artifact and source correspondence before installation",
+        "subject": "package and security owner gate",
+        "verb": "admit"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:admit-exact-package-only",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "exact pre/post digest guard",
+        "object": "canonical YAML bytes before and after every operation",
+        "subject": "candidate adapter",
+        "verb": "preserve"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:preserve-yaml-authority",
+      "source_digest": "f3f5d9deabc5c8630513590ccfc8eb0ae0d99e16ea3bf90d910bef27eb9558b3",
+      "source_selector": "arcanum/arcana/craft/SKILL.md"
+    },
+    {
+      "attributes": {
+        "enforcement_hint": "zero output unless every exact oracle passes",
+        "object": "fresh YAML digest and complete stored key/value verification",
+        "subject": "query admission",
+        "verb": "require"
+      },
+      "signal_class": "normative-rule",
+      "signal_id": "signal:normative-rule:require-complete-verification",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "required": false,
+        "source_kind": "candidate observation",
+        "threshold_or_tradeoff": "record environment-bound values without a performance gate or production claim"
+      },
+      "signal_class": "quality-claim",
+      "signal_id": "signal:quality-claim:descriptive-latency-and-size-only",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "authority": "sole Craft source of truth",
+        "data_classes": [
+          "Craft ledger bytes"
+        ],
+        "writers": [
+          "external Craft owner only"
+        ]
+      },
+      "signal_class": "store",
+      "signal_id": "signal:store:canonical-yaml",
+      "source_digest": "f3f5d9deabc5c8630513590ccfc8eb0ae0d99e16ea3bf90d910bef27eb9558b3",
+      "source_selector": "arcanum/arcana/craft/SKILL.md"
+    },
+    {
+      "attributes": {
+        "authority": "none disposable projection only",
+        "data_classes": [
+          "exact YAML copy",
+          "normalized rows",
+          "lookup indexes",
+          "derived comparison bytes",
+          "closed manifest"
+        ],
+        "writers": [
+          "candidate projection adapter"
+        ]
+      },
+      "signal_class": "store",
+      "signal_id": "signal:store:isolated-wavedb-generation",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    },
+    {
+      "attributes": {
+        "concurrency": "single admitted writer; concurrent A/B is observation only",
+        "targets": [
+          "isolated digest-named WaveDB generation",
+          "external experiment receipts"
+        ]
+      },
+      "signal_class": "writer",
+      "signal_id": "signal:writer:candidate-projection-adapter",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0",
+      "source_selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md"
+    }
+  ],
+  "inspected_selectors": [
+    {
+      "path": "arcanum/arcana/craft/ARCHITECTURE.md",
+      "selector": "arcanum/arcana/craft/ARCHITECTURE.md",
+      "source_digest": "c306e2326162a13630981030d26bc1993832815cc6acffccaacecbf14cc71bbe"
+    },
+    {
+      "path": "arcanum/arcana/craft/SKILL.md",
+      "selector": "arcanum/arcana/craft/SKILL.md",
+      "source_digest": "f3f5d9deabc5c8630513590ccfc8eb0ae0d99e16ea3bf90d910bef27eb9558b3"
+    },
+    {
+      "path": "arcanum/arcana/craft/templates/ledger.schema.yml",
+      "selector": "arcanum/arcana/craft/templates/ledger.schema.yml",
+      "source_digest": "c4d238f9ad2c8d15872f458f113273f294b461d3efd8cdee7165262828721cf0"
+    },
+    {
+      "path": "arcanum/arcana/craft/templates/schemas/index.schema.yml",
+      "selector": "arcanum/arcana/craft/templates/schemas/index.schema.yml",
+      "source_digest": "029de07c13b249adea76bb6f0913fa881a6896e6ea7b9547fb6157cbed2e638a"
+    },
+    {
+      "path": "arcanum/arcana/craft/templates/schemas/ledger-core.schema.yml",
+      "selector": "arcanum/arcana/craft/templates/schemas/ledger-core.schema.yml",
+      "source_digest": "18ae9bf9866ec0fc8401b72a1bed6b5b3160f1ec6930fef344219962f8a3a504"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/findings.md",
+      "source_digest": "958ed1ae74cfad7483a70f6ca7a78ba5a970a97e928da4d88e40979f680b53f0"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/receipts/evidence-closure.json",
+      "selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/receipts/evidence-closure.json",
+      "source_digest": "59d74b990e50444e04c1a8661a124e8fbba1bd9706ce2f316f38c6f3e4047f0d"
+    },
+    {
+      "path": "ops/development/2026-08-04-wavedb-craft-runtime-research/research.md",
+      "selector": "ops/development/2026-08-04-wavedb-craft-runtime-research/research.md",
+      "source_digest": "1a5999ab113e7d22a52022e18a817912f1575ffe2db2b0422e76bb0762af55bd"
+    }
+  ],
+  "manifest_authored_by": "codex-invoke-design-author",
+  "manifest_id": "wcp-design-scope-20260804",
+  "manifest_input_digest": "9a7351c8277d4f31c5c12252db66003c017650d1d8aea430008964022339af00",
+  "missing_detector_inputs": [],
+  "receipt_digest": "25f969db6ab04949465a5ceaae09571fad9362fbc53239d5c3bd992c82dcff00",
+  "schema_version": "1.0.0",
+  "unbound_signal_ids": [],
+  "validator_owner": "invoke-design-selection-validator",
+  "verdict": "pass"
+}

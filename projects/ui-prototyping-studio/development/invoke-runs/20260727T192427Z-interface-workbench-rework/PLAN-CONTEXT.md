@@ -2,73 +2,58 @@
 
 ## Objective
 
-Convert the passing interface-workbench Design into a non-mutating,
-medium-complexity split work-pack whose SWUs can be executed one at a time
-without reopening product or architecture discovery.
+Remediate the current medium-complexity interface-workbench Plan against the
+verified change requests in `plan-distill-review/findings.md` without reopening
+approved Design or executing product work.
 
-## Approved Design References
+## Approved Inputs
 
-- [Define specification](SPEC.md)
-- [Architecture](ARCHITECTURE.md)
-- [UX Plan](UX-PLAN.md)
-- [Witness contracts](WITNESS-CONTRACTS.md)
-- [Validation strategy](VALIDATION-STRATEGY.md)
-- [Design Distill](DESIGN-DISTILL.md)
-- [Design transport](DESIGN-TRANSPORT.md)
-- [Selection result](DESIGN-SELECTION-RESULT.json)
+- `ARCHITECTURE.md`, `UX-PLAN.md`, `WITNESS-CONTRACTS.md`
+- `DESIGN-DISTILL.md`, `DESIGN-SELECTION-RESULT.json`
+- prior review: `plan-distill-review/findings.md`
+- current source anchors under `backend/src` and `backend/e2e`
 
-Design evidence state is `design-validator-pass`. Plan evidence begins at
-`plan-evidence-pending`; all UPW-FIX witnesses remain unexecuted.
+Design remains `design-validator-pass`. All UPW witnesses remain planned and
+unexecuted. Invoke Plan did not edit upstream Design artifacts.
 
-## Delivery Boundary
+## Remediation Boundary
 
 Included:
 
-- coherent projection snapshot and same-snapshot compatibility fields;
-- deterministic whole/region versioning;
-- stable no-build browser shell and inert polling;
-- action-aware trailing refresh;
-- recoverable keyed commit;
-- identity-bound local context;
-- the six target workbench regions;
-- responsive, copy, bounded accessibility, security, and regression evidence.
+- exhaustive exact mutation scopes and preflight bindings;
+- authoritative token/equality/retry/exhaustion for coherent snapshot reads;
+- current-route-only SWU-003 and later reusable route admission;
+- pure context planning before atomic commit;
+- 19-SWU decomposition;
+- exact 008–013 acceptance selectors/mutants/receipts;
+- inverse primary assertion ownership;
+- semantic versus serialization edges;
+- exact per-SWU closeout targets/permissions and W5 report contract.
 
 Excluded:
 
-- framework migration;
-- streaming/push transport;
-- a new durable draft or browser-state store;
-- lifecycle/state vocabulary changes;
-- reopening the completed governed-state-projection frontier;
-- human study execution;
-- cross-browser generalization;
-- accessibility certification;
-- release, deployment, or production claims.
+- product source mutation or test execution;
+- upstream Design changes;
+- SWU selection or Task Session admission;
+- human study, cross-browser, certification, release, deployment, or production
+  claims.
 
-## Constraints
+## Complexity And Output
 
-- Preserve current application/store authority and action gates.
-- Keep runtime no-build, loopback-only, and Node/TypeScript.
-- Use safe DOM sinks and sandboxed/allowlisted frame routes.
-- Run checked-in `tsc`, `tsx`, and Playwright binaries when Corepack/pnpm is
-  unavailable.
-- Serialize SWUs with overlapping `studio.ts` or workbench-shell write scopes.
-- Invoke authors only; Task Session owns one selected SWU.
-
-## Complexity
-
-`medium`
-
-The plan exceeds five tasks and requires a split work-pack, explicit waves,
-task-local implementation detail, SWUs, execution choreography, and automatic
-Plan Distill. It has no cross-repository or irreversible migration risk, so it
-is not high complexity.
+- Complexity: medium.
+- Output: split work-pack.
+- Canonical machine artifacts:
+  `SWU-MANIFEST.json`, `SWU-SCOPE-INVENTORY.json`,
+  `SWU-ACCEPTANCE-MATRIX.json`, `CLOSEOUT-SYNC-INVENTORY.json`.
+- Fresh governed Plan Distill has now run over the remediated literal bytes and
+  returned BLOCK. Verified repairs are in
+  `plan-redistill-review/findings.md`.
 
 ## Current Admission
 
-- Design admission: pass
-- Plan authoring: allowed
-- Plan Distill: pending governed validation
-- Work-pack execution gate: blocked pending Plan Distill and explicit SWU
-  selection
-- Selected SWU: `none`
+- Plan authoring repair: mechanically complete but semantically blocked.
+- Plan Distill: BLOCK on task-shaped 016, 017, and 019 plus non-executable
+  closeout/W5 contracts; two bounded precision repairs also remain.
+- Selected SWU: none.
+- Task Session: blocked.
+- Next owner: deferred Invoke Plan remediation after explicit authorization.

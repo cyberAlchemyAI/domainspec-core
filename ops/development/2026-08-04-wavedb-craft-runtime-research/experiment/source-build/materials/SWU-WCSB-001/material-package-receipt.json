@@ -1,0 +1,30 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "wavedb-source-build-invoke-owner",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "e15afca7a6f1b759d6b52223f178cfa2c41f38af049c0319d7b00ffb1f7d466d",
+  "packageId": "wavedb-reviewed-source-build:SWU-WCSB-001",
+  "patchVerdict": "pass",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.gitignore",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/run_source_build.py",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/source-build-receipt.schema.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/cases.json",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/fixtures/fixture_driver.py",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/tests/run-fixtures.sh",
+    "ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime/validate_source_build.py"
+  ],
+  "validationCommands": [
+    "python3 -m py_compile runtime/run_source_build.py runtime/validate_source_build.py runtime/tests/fixtures/fixture_driver.py",
+    "python3 runtime/run_source_build.py --help",
+    "python3 runtime/validate_source_build.py --help",
+    "bash runtime/tests/run-fixtures.sh",
+    "git diff --check -- ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/.gitignore ops/development/2026-08-04-wavedb-craft-runtime-research/experiment/source-build/runtime"
+  ]
+}

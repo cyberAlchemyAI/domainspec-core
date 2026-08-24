@@ -1,0 +1,243 @@
+{
+  "xray_version": "0.2.0-seed",
+  "example_id": "intent-route-system-one-vision",
+  "mode": "mixed",
+  "target_boundary": "The intent-route add-on from user intent through ResonantOS request and proposal ownership, public Arcanum resolution, human confirmation, existing host execution, and private CAV2 lineage references.",
+  "renderer_level": "L0",
+  "layer_interaction": [
+    "stacked",
+    "isolate",
+    "trace"
+  ],
+  "reader_contract": {
+    "reader_baseline": "newcomer",
+    "target_public": "A reader who wants to understand the intent-route add-on without prior knowledge of Arcanum, ResonantOS, Augmentor, CAV2, or agent-runtime contracts.",
+    "assumed_knowledge": [
+      "A user can ask an agentic system to do work.",
+      "A suggestion and permission to act are different decisions."
+    ],
+    "reader_reward": "The reader can retell how intent becomes a zero-authority route suggestion, identify each component owner, and explain why human confirmation and the existing runtime remain necessary.",
+    "opening_contract": {
+      "must_start_with": [
+        "the GPS-not-driver mental model",
+        "what enters the system",
+        "who retains permission and execution"
+      ],
+      "must_not_start_with": [
+        "protocol identifiers",
+        "digest algorithms",
+        "unexplained Dispatch or ACI vocabulary"
+      ],
+      "failure_message": "Open with the route-suggestion mental model before introducing component and protocol labels."
+    }
+  },
+  "reader_terms": [
+    {
+      "term": "intent",
+      "plain_meaning": "What the user is trying to accomplish, plus facts that distinguish possible routes.",
+      "why_it_matters": "It is the meaning that enters the routing process.",
+      "source_or_lane": "surface",
+      "authority": "source-backed",
+      "misuse_warning": "Intent is not permission to execute."
+    },
+    {
+      "term": "catalog",
+      "plain_meaning": "A finite, read-only menu of routes supplied by the product.",
+      "why_it_matters": "The resolver compares only against this exact digest-bound menu.",
+      "source_or_lane": "properties",
+      "authority": "source-backed",
+      "misuse_warning": "The resolver does not discover, register, or edit routes."
+    },
+    {
+      "term": "disposition",
+      "plain_meaning": "The resolver answer: candidate, ambiguous, no-match, or invalid.",
+      "why_it_matters": "It makes routing and abstention explicit without granting authority.",
+      "source_or_lane": "flow",
+      "authority": "source-backed",
+      "misuse_warning": "Candidate does not mean approved."
+    },
+    {
+      "term": "digest",
+      "plain_meaning": "A lowercase SHA-256 content fingerprint.",
+      "why_it_matters": "It binds requests, catalogs, responses, packages, and lineage refs to exact bytes.",
+      "source_or_lane": "properties",
+      "authority": "source-backed",
+      "misuse_warning": "A matching digest proves byte identity, not semantic approval."
+    },
+    {
+      "term": "StrategyProposal",
+      "plain_meaning": "A ResonantOS-owned possible launch built around a verified candidate route.",
+      "why_it_matters": "It is the product translation step before human approval and runtime binding.",
+      "source_or_lane": "components",
+      "authority": "source-backed",
+      "misuse_warning": "A proposal is not an approval, run, or effect."
+    },
+    {
+      "term": "Dispatch group seat",
+      "plain_meaning": "The existing governed execution slot that a confirmed candidate must match.",
+      "why_it_matters": "It keeps the router from creating a parallel execution path.",
+      "source_or_lane": "internal_dependencies",
+      "authority": "source-backed",
+      "misuse_warning": "The route resolver does not create or own this binding."
+    },
+    {
+      "term": "authority effect",
+      "plain_meaning": "Whether an artifact or action grants or changes permission.",
+      "why_it_matters": "The resolver and CAV2 lineage edge both remain zero-authority.",
+      "source_or_lane": "properties",
+      "authority": "source-backed",
+      "misuse_warning": "A useful answer can still have authority_effect none."
+    },
+    {
+      "term": "lineage",
+      "plain_meaning": "Immutable references and digests that preserve where routing artifacts came from.",
+      "why_it_matters": "The future reasoning seam can refer to exact inputs without inventing ACI or compatibility identity.",
+      "source_or_lane": "external_dependencies",
+      "authority": "source-backed",
+      "misuse_warning": "Lineage preservation does not prove integrated ACI conformance."
+    }
+  ],
+  "layer_reader_outcomes": [
+    {
+      "layer": "surface",
+      "as_a_reader": "As a newcomer, I want one mental model before seeing protocol details.",
+      "should_understand": "The resolver is GPS: it suggests or abstains but never drives the runtime.",
+      "because_it_matters_for": "preventing route suggestion from being confused with authority or execution."
+    },
+    {
+      "layer": "flow",
+      "as_a_reader": "As a newcomer, I want to trace what happens after each resolver answer.",
+      "should_understand": "Candidate enters proposal and confirmation, ambiguous asks again, and no-match or invalid stops.",
+      "because_it_matters_for": "seeing abstention and human choice as first-class paths."
+    },
+    {
+      "layer": "internal_dependencies",
+      "as_a_reader": "As a working reader, I want to know which steps must precede launch.",
+      "should_understand": "A verified candidate depends on product proposal construction, exact human confirmation, and an existing workflow binding.",
+      "because_it_matters_for": "protecting the established authorization and runtime lifecycle."
+    },
+    {
+      "layer": "external_dependencies",
+      "as_a_reader": "As a working reader, I want public, product, host, human, and private responsibilities separated.",
+      "should_understand": "Arcanum owns the pure relation, ResonantOS owns product records, the host owns execution, and CAV2 preserves candidate-local lineage only.",
+      "because_it_matters_for": "avoiding a second router, runtime, or authority owner."
+    },
+    {
+      "layer": "risk_questions",
+      "as_a_reader": "As a reviewer, I want current evidence and future integration claims kept apart.",
+      "should_understand": "Consumer installation, policy enablement, ResonantOS product code, and integrated ACI conformance remain open.",
+      "because_it_matters_for": "preventing local candidate tests from being reported as release or production evidence."
+    }
+  ],
+  "readability_dynamics": {
+    "max_words_per_paragraph": 120,
+    "max_consecutive_dense_blocks": 1,
+    "require_scan_anchor_every_n_blocks": 3,
+    "allowed_visual_treatments": [
+      "micro_heading",
+      "example_box",
+      "question_line",
+      "transition_line",
+      "interactive_inspector"
+    ]
+  },
+  "lanes": {
+    "surface": {
+      "handle": "surface.summary",
+      "evidence": [
+        "The public resolver consumes one normalized request and one digest-bound finite catalog.",
+        "The resolver returns candidate, ambiguous, no-match, or invalid with authority_effect none."
+      ],
+      "inference": [
+        "GPS, not a self-driving car, is the beginner-facing analogy for a non-authorizing route relation."
+      ]
+    },
+    "properties": {
+      "handle": "properties.catalog",
+      "evidence": [
+        "The public add-on is version 0.1.0 with closure digest 5ff017abf7bf98880b4a0dab7095a7dc59a9aac08993e04fbaa31b808e09ab8f.",
+        "The add-on declares zero required permissions, no side effects, and a closed forbidden-effects list.",
+        "The adapter binds executable, entrypoint, version, closure, timeout, byte ceilings, and exact request/catalog identity."
+      ],
+      "inference": [
+        "Digest is described as a content fingerprint before its SHA-256 implementation label is introduced."
+      ]
+    },
+    "components": {
+      "handle": "components.map",
+      "evidence": [
+        "Augmentor owns presentation and human intent capture.",
+        "ResonantOS owns request normalization, catalog projection, StrategyProposal, and existing product state.",
+        "The authenticated host adapter owns process containment and contract verification.",
+        "The public Arcanum resolver owns the pure eligibility relation.",
+        "The existing host runtime retains binding, execution, persistence, lifecycle, and effects.",
+        "The private CAV2 mapper preserves only request and disposition lineage refs."
+      ],
+      "inference": [
+        "The canvas groups request and catalog owners into one visual node to reduce beginner cognitive load."
+      ]
+    },
+    "internal_dependencies": {
+      "handle": "dependencies.internal",
+      "evidence": [
+        "A candidate may enter ResonantOS proposal construction only after response verification.",
+        "A candidate may continue only when human confirmation matches the exact existing Dispatch group seat and route.",
+        "No host spawn occurs after downstream authorization denial."
+      ],
+      "inference": [
+        "The candidate path is drawn as one green chain to emphasize that every link is required rather than optional decoration."
+      ]
+    },
+    "external_dependencies": {
+      "handle": "dependencies.external",
+      "evidence": [
+        "The public Arcanum package, ResonantOS product, host control plane, human confirmation, and private CAV2 candidate remain separately owned boundaries.",
+        "The CAV2 candidate does not replace missing external conformance fixtures or owner receipts."
+      ],
+      "inference": [
+        "Dashed boundary boxes make ownership separation visible without claiming that the repositories share a deployed topology."
+      ]
+    },
+    "flow": {
+      "handle": "flow.graph",
+      "evidence": [
+        "User intent is captured through Augmentor, normalized with a finite catalog, transported through an authenticated adapter, and evaluated by the public resolver.",
+        "Candidate maps to product proposal and confirmation; ambiguous maps to exact clarification; no-match and invalid start nothing.",
+        "Existing product and host owners retain run, child, artifact, lifecycle, security, and browser behavior."
+      ],
+      "inference": [
+        "The result arrow returns to Augmentor because the conversation surface is the natural place to present existing product-owned outcomes."
+      ]
+    },
+    "lifecycle": {
+      "handle": "lifecycle.timeline",
+      "evidence": [
+        "Canonical public source and isolated generated packages have local validation evidence.",
+        "The current orchestrator policy remains disabled until an exact add-on install exists.",
+        "No candidate branch was committed, pushed, merged, deployed, or released in the implementation session."
+      ],
+      "inference": [
+        "The timeline orders consumer installation before enablement and merge as the clearest newcomer explanation of the remaining lifecycle."
+      ]
+    },
+    "risk_questions": {
+      "handle": "risk.questions",
+      "evidence": [],
+      "inference": [
+        "Which consumer should install and enable the add-on first?",
+        "Which concrete ResonantOS catalog and product routes should move from plan to implementation?",
+        "Which external owner receipts and conformance fixtures are required before CAV2 can claim an integrated ACI boundary?"
+      ]
+    },
+    "visual_composition": {
+      "handle": "visual.model",
+      "evidence": [
+        "The x-ray visual library defines L0 semantic HTML and inline SVG as the default proof path.",
+        "The selected library patterns are process-branch, dependency-boundary, lifecycle-stack, and evidence-inference-split."
+      ],
+      "inference": [
+        "A single wide SVG with layer isolation, disposition trace controls, and an inspector rail is sufficient; remote rendering and 3D would add no explanatory value."
+      ]
+    }
+  }
+}

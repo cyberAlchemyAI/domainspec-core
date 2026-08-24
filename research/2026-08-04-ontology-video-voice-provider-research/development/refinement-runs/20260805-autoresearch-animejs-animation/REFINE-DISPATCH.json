@@ -1,0 +1,159 @@
+{
+  "dispatch_id": "20260805-autoresearch-animejs-animation",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Use the AutoAds auto-research pattern and the Anime.js ontology so we can try to animate the ontology video animations.",
+    "objective": "Run the canonical Refine loop to design an evidence-bound animation-hypothesis consultation flow and a non-executed Work Pack for one narrow ontology-video prototype.",
+    "target_artifact": "research/2026-08-04-ontology-video-voice-provider-research/development/refinement-runs/20260805-autoresearch-animejs-animation/",
+    "arcanum_vocabulary": ["refine", "context-builder", "invoke", "interrogation", "distill", "dispatch-spec", "x_ray", "tournament", "toy_game", "residue_ledger"],
+    "operator_sentence": "Design how AutoAds-style candidate research and the Anime.js vault can guide an ontology-video animation prototype without implementing or rendering it yet."
+  },
+  "mode": "mixed",
+  "techniques": ["sequence", "frame_handoff", "handle_handoff", "validation_loop", "owner_boundary_check", "observability_grouping", "minimum_component_catalog", "data_quality_completeness", "x_ray", "component_descriptor", "tournament", "pareto_gate", "toy_game", "recomposition_proof", "residue_ledger", "conditional_component", "concrete_path_evidence"],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The canonical ten-stage Refine route must preserve typed handoffs and validation receipts.",
+      "techniques": ["sequence", "frame_handoff", "handle_handoff", "validation_loop", "owner_boundary_check", "observability_grouping"],
+      "applies_to_steps": ["context-baseline", "invoke-define", "interrogation-review", "research-decision", "distill", "invoke-design", "interrogation-design-review", "distill-repair", "invoke-plan", "final-synthesis"],
+      "validation_expectation": "Every stage produces an artifact and native parent receipt or an explicit blocker."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The frozen picture score does not yet identify motion layers, executable primitives, or evidence-state transitions.",
+      "techniques": ["x_ray", "component_descriptor", "concrete_path_evidence"],
+      "applies_to_steps": ["distill", "invoke-design"],
+      "validation_expectation": "The design names source beats, layers, Anime.js evidence, motion primitives, witnesses, and ownership boundaries."
+    },
+    {
+      "overlay_id": "tournament_for_alternatives",
+      "trigger": "Several scenes and first-prototype cuts are plausible and must be compared before planning.",
+      "techniques": ["tournament", "pareto_gate", "recomposition_proof"],
+      "applies_to_steps": ["invoke-design", "distill-repair"],
+      "validation_expectation": "At least three candidate scenes are scored, rejected alternatives remain visible, and the selected unit recomposes into the full film."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "A paper design can hide semantic drift and reduced-motion failures before implementation.",
+      "techniques": ["toy_game", "validation_loop"],
+      "applies_to_steps": ["interrogation-design-review", "distill-repair"],
+      "validation_expectation": "A finite beat-state fixture demonstrates how candidate, selected plan, executed witness, failure, and residue differ."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "Animation decisions and failed experiments must remain recoverable across later Task Sessions.",
+      "techniques": ["residue_ledger", "handle_handoff"],
+      "applies_to_steps": ["distill-repair", "invoke-plan", "final-synthesis"],
+      "validation_expectation": "Open gaps, rejected scenes, failed hypotheses, and future WorkEpisode handles retain owner and next route."
+    }
+  ],
+  "route_menu": {
+    "context_hint": "Use candidate research to plan one evidence-bound prototype before extending across the film.",
+    "items": [
+      {"id": "scene-candidate-loop", "label": "Scene candidate loop", "description": "Generate, consult, review, select, test, and retain residue for one bounded scene.", "capability_ref": "refine", "pattern": "route"},
+      {"id": "whole-film-direct", "label": "Whole-film direct implementation", "description": "Rejected because it skips a falsifiable scene witness and compounds untested layering, timing, semantic, and accessibility assumptions.", "capability_ref": "task-session", "pattern": "sequence"}
+    ],
+    "selected_item_id": "scene-candidate-loop"
+  },
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "The user confirmed three independent source, candidate-model, and motion-design roles.",
+    "explanation": "The lanes must disagree before the parent selects a scene and synthesizes the design.",
+    "context": ["REFINE-SEED-PROPOSAL.md", "evidence-index.json", "stages/05-distill.md"],
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "source-authority",
+        "purpose": "Freeze source-owned scene, beat, timing, image, and claim boundaries.",
+        "owns": "A read-only source-authority receipt for parent synthesis.",
+        "capability_ref": "invoke",
+        "capability_target": "stages/06-design-source-authority.md",
+        "capability_mode": "design",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": ["projects/autoads/", "projects/animejs/ontology/", "2026-08-03-ontology-authority-agent-context-presentation/", "telemetry/"],
+        "depends_on_roles": [],
+        "input_refs": ["REFINE-SEED-PROPOSAL.md", "evidence-index.json", "stages/05-distill.md"],
+        "output_refs": ["receipts/source-authority.json"],
+        "applies_to_steps": ["invoke-design"]
+      },
+      {
+        "role_id": "auto-research-adapter",
+        "purpose": "Adapt the AutoAds candidate research contract without inheriting advertising metrics or runtime claims.",
+        "owns": "A read-only AnimationHypothesisCandidate and lifecycle receipt for parent synthesis.",
+        "capability_ref": "invoke",
+        "capability_target": "stages/06-design-auto-research-adapter.md",
+        "capability_mode": "design",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": ["projects/autoads/", "projects/animejs/ontology/", "2026-08-03-ontology-authority-agent-context-presentation/", "telemetry/"],
+        "depends_on_roles": [],
+        "input_refs": ["REFINE-SEED-PROPOSAL.md", "evidence-index.json", "stages/05-distill.md"],
+        "output_refs": ["receipts/auto-research-adapter.json"],
+        "applies_to_steps": ["invoke-design"]
+      },
+      {
+        "role_id": "animejs-motion-designer",
+        "purpose": "Map candidate scenes to Anime.js evidence, motion primitives, and falsifiable acceptance contracts.",
+        "owns": "A read-only motion-design receipt for parent synthesis.",
+        "capability_ref": "invoke",
+        "capability_target": "stages/06-design-animejs-motion.md",
+        "capability_mode": "design",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "write_scope": [],
+        "forbidden_write_scopes": ["projects/autoads/", "projects/animejs/ontology/", "2026-08-03-ontology-authority-agent-context-presentation/", "telemetry/"],
+        "depends_on_roles": [],
+        "input_refs": ["REFINE-SEED-PROPOSAL.md", "evidence-index.json", "stages/05-distill.md"],
+        "output_refs": ["receipts/animejs-motion-designer.json"],
+        "applies_to_steps": ["invoke-design"]
+      }
+    ],
+    "execution_waves": [
+      {"wave_id": "design-lanes", "role_ids": ["source-authority", "auto-research-adapter", "animejs-motion-designer"], "parallel": true, "join_policy": "all", "gate_after": "design-role-receipts", "on_incomplete": "block"}
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Confirmed in chat: run the three source-authority, auto-research-adapter, and animejs-motion-designer roles.",
+    "receipt_requirements": ["agent_id", "role_id", "spawn_status", "join_status", "close_status", "dispatch_id", "step_id", "capability_ref", "capability_target", "capability_mode", "wave_id", "write_scope", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "reroute", "handoff_note"]
+  },
+  "subagent_lifecycle": {"status": "none", "agents": []},
+  "steps": [
+    {"step_id":"context-baseline","name":"Context Builder evidence baseline","capability_ref":"context-builder","mode":"standard","pattern":"route","techniques":["frame_handoff","handle_handoff","concrete_path_evidence","data_quality_completeness"],"inputs":[{"kind":"intent","ref":"intent.raw"},{"kind":"artifact","ref":"evidence-index.json"}],"outputs":[{"kind":"artifact","ref":"stages/01-context-baseline.md"},{"kind":"trace_event","ref":"animation-context-baseline-built"}],"stop_conditions":["Block if the source video, AutoAds precedent, or Anime.js vault boundary cannot be verified."]},
+    {"step_id":"invoke-define","name":"Invoke Define animation research loop","capability_ref":"invoke","mode":"define","pattern":"sequential","techniques":["sequence","minimum_component_catalog"],"inputs":[{"kind":"artifact","ref":"stages/01-context-baseline.md"},{"kind":"artifact","ref":"REFINE-SEED-PROPOSAL.md"}],"outputs":[{"kind":"artifact","ref":"stages/02-define.md"},{"kind":"trace_event","ref":"animation-define-built"}],"stop_conditions":["Flag if proof states or owner decisions collapse."]},
+    {"step_id":"interrogation-review","name":"Interrogation refine-review","capability_ref":"interrogation","mode":"refine-review","pattern":"validation","techniques":["validation_loop"],"inputs":[{"kind":"artifact","ref":"stages/02-define.md"}],"outputs":[{"kind":"artifact","ref":"stages/03-interrogation-review.md"},{"kind":"trace_event","ref":"animation-define-reviewed"}],"evidence_artifact":"stages/03-interrogation-review.md","stop_conditions":["Flag unresolved blocker-level choices; do not ask preference questions that evidence can resolve."]},
+    {"step_id":"research-decision","name":"Research decision","capability_ref":"refine","mode":"research-if-gap-appears","pattern":"decision","techniques":["owner_boundary_check"],"inputs":[{"kind":"artifact","ref":"stages/03-interrogation-review.md"}],"outputs":[{"kind":"artifact","ref":"stages/04-research-decision.md"},{"kind":"trace_event","ref":"animation-research-decided"}],"stop_conditions":["External research requires separate confirmation; local evidence is the default."]},
+    {"step_id":"distill","name":"Distill the coherent scene research unit","capability_ref":"distill","mode":"standard","pattern":"distill","techniques":["x_ray","component_descriptor","residue_ledger","recomposition_proof"],"inputs":[{"kind":"artifact","ref":"stages/04-research-decision.md"},{"kind":"artifact","ref":"stages/01-context-baseline.md"}],"outputs":[{"kind":"artifact","ref":"stages/05-distill.md"},{"kind":"trace_event","ref":"animation-unit-distilled"}],"stop_conditions":["Block if a scene-level unit cannot recompose into the frozen 12-sequence order."]},
+    {"step_id":"invoke-design","name":"Invoke Design role-bound fanout","capability_ref":"invoke","mode":"design","pattern":"fanout","parallel":true,"techniques":["x_ray","component_descriptor","tournament","pareto_gate","concrete_path_evidence"],"roles":["source-authority","auto-research-adapter","animejs-motion-designer"],"inputs":[{"kind":"artifact","ref":"REFINE-SEED-PROPOSAL.md"},{"kind":"artifact","ref":"stages/05-distill.md"},{"kind":"artifact","ref":"evidence-index.json"}],"outputs":[{"kind":"receipt","ref":"receipts/source-authority.json"},{"kind":"receipt","ref":"receipts/auto-research-adapter.json"},{"kind":"receipt","ref":"receipts/animejs-motion-designer.json"},{"kind":"artifact","ref":"stages/06-design.md"},{"kind":"trace_event","ref":"animation-design-built"}],"join_policy":"parent_synthesis","convergence_criteria":["All three role receipts join or an explicit blocker stops synthesis.","At least three scenes are compared.","The selected prototype has exact evidence, acceptance, reduced-motion, and recomposition contracts."],"evidence_artifact":"stages/06-design.md","stop_conditions":["Block on a missing role receipt or semantic-source conflict."]},
+    {"step_id":"interrogation-design-review","name":"Interrogation refine-design-review","capability_ref":"interrogation","mode":"refine-design-review","pattern":"validation","techniques":["validation_loop","toy_game","owner_boundary_check"],"inputs":[{"kind":"artifact","ref":"stages/06-design.md"}],"outputs":[{"kind":"artifact","ref":"stages/07-design-review.md"},{"kind":"trace_event","ref":"animation-design-reviewed"}],"evidence_artifact":"stages/07-design-review.md","stop_conditions":["Flag decorative relations, unfalsifiable witnesses, missing reduced motion, or authority collapse."]},
+    {"step_id":"distill-repair","name":"Distill repair of design gaps","capability_ref":"distill","mode":"validate","pattern":"validation","techniques":["validation_loop","recomposition_proof","residue_ledger","toy_game"],"inputs":[{"kind":"artifact","ref":"stages/07-design-review.md"}],"outputs":[{"kind":"artifact","ref":"stages/08-distill-repair.md"},{"kind":"trace_event","ref":"animation-design-repaired"}],"evidence_artifact":"stages/08-distill-repair.md","stop_conditions":["Block if an acceptance-critical gap cannot be repaired or explicitly deferred."]},
+    {"step_id":"invoke-plan","name":"Invoke Plan non-executed prototype Work Pack","capability_ref":"invoke","mode":"plan","pattern":"synthesis","techniques":["frame_handoff","validation_loop","conditional_component","residue_ledger"],"inputs":[{"kind":"artifact","ref":"stages/08-distill-repair.md"}],"outputs":[{"kind":"artifact","ref":"stages/09-plan.md"},{"kind":"trace_event","ref":"animation-plan-built"}],"stop_conditions":["Block if the plan lacks a nearest reversible first unit, exact checks, and Task Session entry criteria."]},
+    {"step_id":"final-synthesis","name":"Final Interrogation and Refine synthesis","capability_ref":"interrogation","mode":"refine-final","pattern":"synthesis","techniques":["validation_loop","observability_grouping","residue_ledger"],"inputs":[{"kind":"artifact","ref":"stages/09-plan.md"}],"outputs":[{"kind":"artifact","ref":"RESULT.md"},{"kind":"trace_event","ref":"animation-refine-synthesized"}],"evidence_artifact":"RESULT.md","stop_conditions":["Block if the seed done criteria are not satisfied or if planning is misstated as implementation."]}
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {"boundary_id":"video-source-readonly","kind":"artifact_import","from_owner":"ontology educational video package","to_owner":"refinement run","applies_to_steps":["context-baseline","distill","invoke-design"],"contract":"Narration, caption order, semantic claims, timing posture, and eight image worlds are selected read-only source evidence.","on_violation":"block"},
+      {"boundary_id":"autoads-precedent-only","kind":"artifact_import","from_owner":"projects/autoads","to_owner":"AnimationHypothesisCandidate design","applies_to_steps":["context-baseline","invoke-design"],"contract":"Adapt candidate and review semantics; do not import advertising metrics, runtime claims, or promotion authority.","on_violation":"block"},
+      {"boundary_id":"animejs-consultation-only","kind":"artifact_import","from_owner":"Anime.js knowledge vault","to_owner":"motion design","applies_to_steps":["invoke-design","invoke-plan"],"contract":"Vault evidence may guide planned primitives; only later executed browser witnesses can prove runtime behavior.","on_violation":"block"}
+    ],
+    "authority": {"lifecycle":"refine","execution":"orchestrate for confirmed design fanout","validation":"dispatch-spec and parent stage reviews","evidence":"run-local artifacts and receipts","promotion":"separate owner decision"},
+    "promotion_splits": [
+      {"source":"AnimationHypothesisCandidate","target":"selected animation plan","rule":"requires finite tournament and parent owner selection","on_violation":"block"},
+      {"source":"selected animation plan","target":"verified WorkEpisode or Lesson","rule":"requires later executed witness; Lesson remains separately admitted","on_violation":"block"}
+    ]
+  },
+  "gates": [
+    {"gate_id":"design-role-receipts","kind":"validation","owner":"orchestrate","condition":"All three confirmed role receipts pass and are joined before parent synthesis.","applies_after_wave":"design-lanes","requires_role_receipts":["receipts/source-authority.json","receipts/auto-research-adapter.json","receipts/animejs-motion-designer.json"],"on_fail":"block"},
+    {"gate_id":"proof-state-separation","kind":"quality","owner":"refine","condition":"Source, documentation, planned motion, executed witness, subjective evaluation, and owner decision remain distinct.","on_fail":"block"},
+    {"gate_id":"scene-tournament","kind":"quality","owner":"invoke","condition":"At least three bounded scenes are compared and rejection reasons are retained.","on_fail":"block"},
+    {"gate_id":"reduced-motion","kind":"validation","owner":"invoke","condition":"Every selected motion beat has a semantic reduced-motion equivalent.","on_fail":"block"},
+    {"gate_id":"implementation-boundary","kind":"promotion_guardrail","owner":"refine","condition":"No animation implementation, rendering, voice operation, deployment, or publication is claimed.","on_fail":"block"}
+  ],
+  "native_stage_receipts": [],
+  "observability": {"dispatch_id_required":true,"trace_events":["animation-context-baseline-built","animation-define-built","animation-define-reviewed","animation-research-decided","animation-unit-distilled","animation-design-built","animation-design-reviewed","animation-design-repaired","animation-plan-built","animation-refine-synthesized"],"signal_grouping":"20260805-autoresearch-animejs-animation"},
+  "promotion_guardrails": ["AutoAds remains non-executed read-only precedent.","Anime.js vault consultation is not runtime behavior proof.","The video package remains source-owned and unmodified.","This run grants no ontology authority, implementation, render, publication, release, deployment, or production readiness."]
+}

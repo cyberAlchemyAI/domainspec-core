@@ -1,0 +1,24 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "candidate-lifecycle-owner",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "33ab6d9fb75f8f458954e0d68e3b6ddc1c100c4b1547ee2bc9d82eea90dab713",
+  "packageId": "iro-full-stream-swu-iro-003-candidate-runtime-v1",
+  "patchVerdict": "pass",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/**"
+  ],
+  "validationCommands": [
+    "node --test ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/test/*.test.mjs",
+    "node ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/scripts/run-node-witness.mjs --output ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/development/runs/IRO-003-node-witness.json",
+    "node ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/scripts/scan-boundary.mjs",
+    "node ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/scripts/validate-browser-witness.mjs ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil/development/runs/IRO-003-browser-witness.json",
+    "git diff --check -- ops/development/2026-08-01-intent-route-arcanum-addon/candidate-sigil"
+  ]
+}

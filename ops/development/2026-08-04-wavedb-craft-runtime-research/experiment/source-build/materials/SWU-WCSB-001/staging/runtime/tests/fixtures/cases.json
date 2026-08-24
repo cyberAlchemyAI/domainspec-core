@@ -1,0 +1,16 @@
+{
+  "schema_version": "wavedb-source-build-fixtures.v1",
+  "cases": [
+    {"id": "complete-pass", "mutation": "none", "expected_code": "SOURCE_BUILD_RECEIPT_VALID", "expected_exit": 0},
+    {"id": "wrong-source-commit", "mutation": "source-commit", "expected_code": "SOURCE_COMMIT_MISMATCH", "expected_exit": 1},
+    {"id": "missing-recursive-submodule-record", "mutation": "submodule-record", "expected_code": "SUBMODULE_RECORD_MISSING", "expected_exit": 1},
+    {"id": "lockfile-drift", "mutation": "lockfile", "expected_code": "LOCKFILE_DRIFT", "expected_exit": 1},
+    {"id": "lifecycle-scripts-enabled", "mutation": "lifecycle-scripts", "expected_code": "LIFECYCLE_SCRIPTS_ENABLED", "expected_exit": 1},
+    {"id": "missing-addon", "mutation": "missing-addon", "expected_code": "ADDON_MISSING", "expected_exit": 1},
+    {"id": "addon-hash-mismatch", "mutation": "addon-hash", "expected_code": "ADDON_HASH_MISMATCH", "expected_exit": 1},
+    {"id": "failed-upstream-test", "mutation": "upstream-test", "expected_code": "UPSTREAM_TEST_FAILED", "expected_exit": 1},
+    {"id": "forbidden-craft-effect", "mutation": "craft-effect", "expected_code": "FORBIDDEN_CRAFT_EFFECT", "expected_exit": 1},
+    {"id": "inflated-claim", "mutation": "claim", "expected_code": "CLAIM_CEILING_EXCEEDED", "expected_exit": 1}
+  ]
+}
+

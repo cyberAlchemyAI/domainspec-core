@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-08-05T21:30:03.778Z",
+  "run_id": "decision-gate-capi-next-unit-20260805-blocked",
+  "session_id": "craft-wavedb-api-20260805T184540Z",
+  "sigil": "decision-gate",
+  "tier": "arcana",
+  "mode": "next-unit-selection",
+  "capability": {
+    "id": "decision-gate",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "next-unit-selection",
+    "alias": null
+  },
+  "command": null,
+  "lineage": {
+    "parent_run_id": "invoke-refresh-capi-wavedb-0.15.9-runtime-order-20260805",
+    "relation": "continuation-of",
+    "caller": null
+  },
+  "evidence": {
+    "status": "complete",
+    "refs": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/DECISIONS.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/decision-gates/20260805T212805Z-select-next-unit/option-admissibility-request.json",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/decision-gates/20260805T212805Z-select-next-unit/option-admissibility-receipt.json"
+    ]
+  },
+  "request": {
+    "raw": null,
+    "summary": "Resolve the next bounded unit for the refreshed Craft Consultation API Work Pack.",
+    "intent": "Present only structurally admissible action, defer, and stop outcomes without authorizing execution."
+  },
+  "execution": {
+    "status": "blocked-pending-owner-choice",
+    "outputs": [
+      "option-admissibility request",
+      "option-admissibility receipt",
+      "pending decision record"
+    ],
+    "files_changed": [
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/DECISIONS.md",
+      "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/decision-gates/20260805T212805Z-select-next-unit/**"
+    ],
+    "validation": [
+      "canonical request schema passed",
+      "canonical receipt schema passed",
+      "prefilter route outcome was gate",
+      "three admissible options and nine structurally rejected next units were preserved",
+      "Work Pack execution remained blocked"
+    ],
+    "notes": "No option has been selected. SWU-CAPI-000, defer, and stop are the only presented outcomes; Task Session admission remains separate."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "Ask the owner to select CAPI-NEXT-000, CAPI-DEFER, CAPI-STOP, or request more context."
+  },
+  "target_artifact": "ops/development/2026-08-04-wavedb-craft-runtime-research/development/refinement-runs/20260805T184540Z-craft-wavedb-api/DECISIONS.md",
+  "dedupe_key": "decision-gate-capi-next-unit-20260805-blocked:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "packageId", "packageDigest", "patchVerdict", "mutationHandoff", "dependencyResult", "ownerBoundaryResult", "publicationBoundaryResult", "validatedPaths", "validationCommands", "lifecycleOwner", "authorityClass", "publicationClass", "reasons"],
+  "properties": {
+    "schemaVersion": {"const": "augmentor.consultation.material-receipt@0.1.0"},
+    "packageId": {"type": "string", "minLength": 1},
+    "packageDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "patchVerdict": {"const": "pass"},
+    "mutationHandoff": {"const": "ready"},
+    "dependencyResult": {"const": "pass"},
+    "ownerBoundaryResult": {"const": "pass"},
+    "publicationBoundaryResult": {"const": "pass"},
+    "validatedPaths": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "validationCommands": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "lifecycleOwner": {"const": "augmentor-consultation-candidate-owner"},
+    "authorityClass": {"const": "private"},
+    "publicationClass": {"const": "private"},
+    "reasons": {"type": "array", "maxItems": 0}
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "schema_version": "domainspec.task-session-until-blocker.chain-preflight.v0.1",
+  "chain_id": "20260803T214844Z-oca-safe-core-l2-boundary",
+  "result": "BLOCK",
+  "authority_effect": "none",
+  "mutation_admitted": false,
+  "work_pack": {
+    "path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/planning/WORK-PACK.md",
+    "sha256": "6fa6f23787f54608783be98d07d4b3cf88e576cb28362892fe4ad778ed3767a5",
+    "size_bytes": 10193
+  },
+  "swu_manifest": {
+    "path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/planning/SWU-MANIFEST.json",
+    "sha256": "2345cfbb61ee1011a202ee8cbb88c301cecdd2350e44c2a65cf7d0a85e847560",
+    "size_bytes": 2612
+  },
+  "approval_evidence": {
+    "decision_path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/decisions/OCA-START-001.md",
+    "decision_sha256": "06fa1f3fac88b6eb3093e4842ffe3efb1d9687ad49b952c7e488a6cd25aed676",
+    "decision_size_bytes": 2518,
+    "admissibility_receipt_path": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/decisions/OCA-START-001-admissibility-receipt.json",
+    "admissibility_receipt_sha256": "03ce4efb06d95d4f7ad116bb360c98c44f80a37456ff7b9f308fde36a417c4bb",
+    "admissibility_receipt_size_bytes": 841,
+    "selected_option": "OCA-START-SAFE-CORE",
+    "declared_destination": "ordered L0/L1 safe-core stream plus read-only L2-boundary verification"
+  },
+  "captured_frontier": [
+    "SWU-OCA-001",
+    "SWU-OCA-002",
+    "SWU-OCA-003",
+    "SWU-OCA-004",
+    "SWU-OCA-005",
+    "TASK-OCA-VERIFY"
+  ],
+  "run_budget": {
+    "max_task_session_requests": 6,
+    "stop_condition": "first-blocker-or-frontier-complete"
+  },
+  "ordered_selectors_invoked": [],
+  "last_completed_selector": null,
+  "remaining_frontier": [
+    "SWU-OCA-001",
+    "SWU-OCA-002",
+    "SWU-OCA-003",
+    "SWU-OCA-004",
+    "SWU-OCA-005",
+    "TASK-OCA-VERIFY"
+  ],
+  "preflight_checks": [
+    {
+      "id": "exact-work-pack-bound",
+      "result": "PASS",
+      "evidence": "work pack and SWU manifest exact byte identities captured"
+    },
+    {
+      "id": "finite-frontier-bound",
+      "result": "PASS",
+      "evidence": "six ordered unique selectors match SWU-MANIFEST execution_order"
+    },
+    {
+      "id": "approval-destination-bound",
+      "result": "PASS",
+      "evidence": "OCA-START-SAFE-CORE explicitly selects the L0/L1 stream and L2-boundary verification"
+    },
+    {
+      "id": "approved-epoch-manifest-present",
+      "result": "BLOCK",
+      "terminal_code": "APPROVED_EPOCH_MANIFEST_MISSING",
+      "evidence": "no work-pack-readiness-audit v2 objective-execution manifest exists in the exact OCA package"
+    },
+    {
+      "id": "epoch-specific-decision-binding",
+      "result": "NOT_EVALUATED",
+      "evidence": "the current decision predates and therefore cannot bind a missing manifest epoch_id, audit_projection_digest, canonical_semantic_digest, and source_snapshot_digest"
+    },
+    {
+      "id": "task-session-mutation-admission",
+      "result": "NOT_EVALUATED",
+      "evidence": "stopped at the earlier approved-epoch gate before material/context/closeout admission"
+    }
+  ],
+  "dirty_isolation": {
+    "repository": "dirty with unrelated user work; preserved",
+    "arcanum_branch": "main",
+    "arcanum_head": "07b01c9dd4e918ae0b0d83f6a2cde52ea8f9a295",
+    "canonical_target_status": "clean at arcanum/runtime/orchestrate",
+    "generated_target_status": "clean at .agents/skills/orchestrate, .arcanum/runtime/orchestrate, and .claude/skills/orchestrate",
+    "planning_package_status": "untracked in parent repository and treated as in-scope authored evidence",
+    "unrelated_paths_modified": false
+  },
+  "task_session_receipts": [],
+  "closeout_receipts": [],
+  "validation": [
+    {
+      "command": "find ops/development/2026-08-03-orchestrate-capacity-aware-admission -type f for readiness/audit/material owner artifacts",
+      "result": "no v2 audit manifest, audit configuration, readiness report, material package, or producer receipt found"
+    },
+    {
+      "command": "git -C arcanum status --short -- runtime/orchestrate",
+      "result": "PASS: no target-path changes"
+    },
+    {
+      "command": "git status --short -- .agents/skills/orchestrate .arcanum/runtime/orchestrate .claude/skills/orchestrate",
+      "result": "PASS: no generated target-path changes"
+    }
+  ],
+  "stop_reason": {
+    "terminal_code": "APPROVED_EPOCH_MANIFEST_MISSING",
+    "claim": "The chain runtime cannot bind an approved finite epoch from the authored Work Pack or SWU manifest alone.",
+    "owner_boundary": "Task Session Until Blocker must not author or infer the missing audit projection or epoch approval."
+  },
+  "next_owner_route": {
+    "capability": "work-pack-readiness-audit",
+    "mode": "v2-objective-execution-projection",
+    "target": "ops/development/2026-08-03-orchestrate-capacity-aware-admission/planning/WORK-PACK.md",
+    "required_result": "a passing or observability-only-flagged v2 objective-execution manifest for the exact six-unit frontier, followed by Decision Gate approval bound to that manifest epoch and digests",
+    "authorization_effect": "none"
+  },
+  "changed_files": [
+    ".arcanum/task-session-until-blocker/chains/20260803T214844Z-oca-safe-core-l2-boundary/chain-preflight.json"
+  ],
+  "residue": [
+    "No schema-valid chain.json was initialized because the required manifest_ref does not exist.",
+    "No Task Session, mutation admission, implementation validation, Invoke Refresh closeout, or successor selection ran."
+  ]
+}

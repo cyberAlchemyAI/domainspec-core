@@ -1,0 +1,475 @@
+{
+  "schema_version": "animejs.agent-knowledge-vault.work-pack.v1",
+  "work_pack_id": "WP-AKV-001",
+  "objective": {
+    "target": "projects/animejs/ontology/agent-knowledge-vault",
+    "outcome": "candidate-local source-bound queryable Anime.js knowledge vault",
+    "coverage": [
+      "all discovered official documentation routes",
+      "all pinned v4.5.0 source-manifest rows"
+    ],
+    "non_goals": [
+      "copied documentation prose",
+      "promotion",
+      "publication",
+      "deployment",
+      "production readiness"
+    ]
+  },
+  "owner": "ontology-vault",
+  "material_owner": "invoke-material-package",
+  "authority": {
+    "class": "private",
+    "effect": "none"
+  },
+  "publication": {
+    "class": "internal",
+    "release_admission": "not-granted"
+  },
+  "attempt_contract": {
+    "id_policy": "attempt-id-equals-task-session-run-id",
+    "collision_policy": "reject-existing-different-ticket",
+    "success_teardown": "retain-terminal-receipt",
+    "failure_teardown": "retain-block-receipt"
+  },
+  "receipt_contract": {
+    "terminal_schema": "arcanum/arcana/task-session/schemas/governance-terminal-receipt.schema.json",
+    "semantic_validator": "arcanum/arcana/task-session/development/validate-governance-run-contracts.py",
+    "expected_result": "one terminal Task Session receipt plus joined Invoke Refresh closeout receipt"
+  },
+  "closeout": {
+    "owner_route": "invoke:refresh:apply-approved",
+    "allowed_delta_classes": [
+      "evidence_added",
+      "blocker_opened",
+      "blocker_resolved",
+      "status_changed",
+      "route_changed"
+    ],
+    "baseline_policy": "capture-live-present-or-absent-sha256-at-selection",
+    "target_inventory": [
+      "projects/animejs/development/implementation/agent-knowledge-vault/WORK-PACK.md",
+      "projects/animejs/development/implementation/agent-knowledge-vault/WORK-PACK.json",
+      "projects/animejs/development/implementation/agent-knowledge-vault/HANDOFF-STATE.json",
+      "the exact owning work-pack/tasks/TASK-AKV-*.md file"
+    ],
+    "required_owner_capabilities": ["invoke:refresh:apply-approved", "continuation-router:one-hop"],
+    "terminal_receipt_path_rule": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/{attempt_id}/TASK-SESSION-RECEIPT.json",
+    "owner_receipt_path_rule": "projects/animejs/development/implementation/agent-knowledge-vault/task-sessions/{attempt_id}/INVOKE-REFRESH-RECEIPT.json",
+    "compensation": {
+      "mode": "none",
+      "rationale": "Candidate-local files have no external side effect; failed bytes remain evidence until repaired."
+    }
+  },
+  "runtime": {
+    "execution_mode": "reusable-mutation",
+    "admission_profile": "plan-once-selected-unit"
+  },
+  "risk": {
+    "maximum": "network",
+    "max_task_session_requests": 13,
+    "external_hosts": [
+      "animejs.com",
+      "api.github.com",
+      "raw.githubusercontent.com"
+    ]
+  },
+  "source_snapshot_contract": {
+    "documentation": {
+      "expected_rows": 418,
+      "snapshot_policy": "exact-returned-serialization-reproduced-and-materialized",
+      "candidate_semantic_jsonl_sha256": "681f004e04a91ab1a3462e882edff24d09454297f34a41863e81df06e20066fb",
+      "candidate_raw_page_set_sha256": "63125e931350f5dbf8552a289ac80d687bb1867e7c94c1e2d6e33904f16befcd",
+      "historical_returned_not_written_semantic_sha256": "681f004e04a91ab1a3462e882edff24d09454297f34a41863e81df06e20066fb",
+      "historical_returned_not_written_raw_set_sha256": "63125e931350f5dbf8552a289ac80d687bb1867e7c94c1e2d6e33904f16befcd",
+      "historical_bytes_available": true,
+      "drift_disposition": "exact historical serialization reproduced; supersede approximate candidate serialization"
+    },
+    "repository": {
+      "version": "4.5.0",
+      "commit_sha": "2c9cf8ea00329f6768c7d7902252ed977d75ce42",
+      "expected_rows": 348,
+      "candidate_manifest_jsonl_sha256": "f4026dec178de523262aca34dcddc5e419681b3494f37f496d9da8553d3ebcc0",
+      "historical_returned_not_written_manifest_sha256": "f4026dec178de523262aca34dcddc5e419681b3494f37f496d9da8553d3ebcc0",
+      "historical_bytes_available": true,
+      "drift_disposition": "exact historical serialization reproduced; supersede approximate candidate serialization"
+    }
+  },
+  "relation_representation_decisions": {
+    "AKV-REL-009": "WorkEpisode.task_id canonical; addresses derived",
+    "AKV-REL-011": "Attempt.episode_id canonical; WorkEpisode.attempt_ids sorted derived index; contains not stored",
+    "AKV-REL-018": "Outcome.attempt_id canonical; Attempt.outcome_id unique reverse lookup; yields not stored",
+    "AKV-REL-024": "NextQuestion.gap_id canonical; QueryReceipt.next_question_ids derived; suggestsNextQuestion not stored",
+    "AKV-REL-025": "QueryReceipt.evidence_record_ids canonical; citesEvidence not stored"
+  },
+  "status": {
+    "plan": "validated",
+    "audit": "pass",
+    "approval": "confirmed",
+    "chain": "completed-candidate-local",
+    "selection_candidate": null,
+    "selected_swu": null,
+    "completed_swus": [
+      "SWU-AKV-NV-001",
+      "SWU-AKV-NV-002",
+      "SWU-AKV-NV-003",
+      "SWU-AKV-NV-004",
+      "SWU-AKV-NV-005",
+      "SWU-AKV-NV-006",
+      "SWU-AKV-NV-007",
+      "SWU-AKV-NV-008"
+    ],
+    "terminal_code": "CANDIDATE_LOCAL_COMPLETE",
+    "graph_digest": "c38e1e9e2a6dbb5b3c50f874dd0178aecc419db76634fd3dbe8deeb974c827f6",
+    "release_admission": "not-granted"
+  },
+  "execution_units": [
+    {
+      "unit_id": "AKV-NV-001",
+      "task_id": "TASK-AKV-CONTRACTS",
+      "swu_id": "SWU-AKV-NV-001",
+      "dependencies": [],
+      "successors": [
+        "AKV-NV-002"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/tests/query-contract.test.mjs"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/profile.json",
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/query-contracts.json",
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/query-receipt.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/query.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/fixtures/query-cases.json",
+        "projects/animejs/ontology/agent-knowledge-vault/tests/query-contract.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [
+        {
+          "command_id": "query-contract",
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/tests/query-contract.test.mjs"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 60,
+          "max_output_bytes": 65536
+        }
+      ],
+      "task_contract": "work-pack/tasks/TASK-AKV-CONTRACTS.md"
+    },
+    {
+      "unit_id": "AKV-NV-002",
+      "task_id": "TASK-AKV-CONTRACTS",
+      "swu_id": "SWU-AKV-NV-002",
+      "dependencies": [
+        "AKV-NV-001"
+      ],
+      "successors": [
+        "AKV-NV-003"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs",
+          "--definitions-only"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-vocabulary.json",
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/relation-decisions.json",
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/relation.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [
+        {
+          "command_id": "relation-definitions",
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/validate-relations.mjs",
+            "--definitions-only"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 60,
+          "max_output_bytes": 65536
+        }
+      ],
+      "task_contract": "work-pack/tasks/TASK-AKV-CONTRACTS.md"
+    },
+    {
+      "unit_id": "AKV-NV-003",
+      "task_id": "TASK-AKV-CONTRACTS",
+      "swu_id": "SWU-AKV-NV-003",
+      "dependencies": [
+        "AKV-NV-002"
+      ],
+      "successors": [
+        "AKV-NV-004"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/tests/relation-witnesses.test.mjs"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/fixtures/relation-witnesses.json",
+        "projects/animejs/ontology/agent-knowledge-vault/tests/relation-witnesses.test.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [
+        {
+          "command_id": "relation-witnesses",
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/tests/relation-witnesses.test.mjs"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 60,
+          "max_output_bytes": 65536
+        }
+      ],
+      "task_contract": "work-pack/tasks/TASK-AKV-CONTRACTS.md"
+    },
+    {
+      "unit_id": "AKV-NV-004",
+      "task_id": "TASK-AKV-SOURCES",
+      "swu_id": "SWU-AKV-NV-004",
+      "dependencies": [
+        "AKV-NV-003"
+      ],
+      "successors": [
+        "AKV-NV-005"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+          "--check"
+        ],
+        "cwd": ".",
+        "risk_class": "network"
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/documentation-topic.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/documentation.jsonl",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/documentation-manifest.json"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [
+        {
+          "command_id": "documentation-ingest",
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-documentation.mjs",
+            "--check"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 180,
+          "max_output_bytes": 131072
+        }
+      ],
+      "task_contract": "work-pack/tasks/TASK-AKV-SOURCES.md"
+    },
+    {
+      "unit_id": "AKV-NV-005",
+      "task_id": "TASK-AKV-SOURCES",
+      "swu_id": "SWU-AKV-NV-005",
+      "dependencies": [
+        "AKV-NV-004"
+      ],
+      "successors": [
+        "AKV-NV-006"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs",
+          "--check"
+        ],
+        "cwd": ".",
+        "risk_class": "network"
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/source-artifact.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/repository.jsonl",
+        "projects/animejs/ontology/agent-knowledge-vault/sources/repository-manifest.json"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [
+        {
+          "command_id": "repository-ingest",
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/ingest-repository.mjs",
+            "--check"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 120,
+          "max_output_bytes": 131072
+        }
+      ],
+      "task_contract": "work-pack/tasks/TASK-AKV-SOURCES.md"
+    },
+    {
+      "unit_id": "AKV-NV-006",
+      "task_id": "TASK-AKV-GRAPH",
+      "swu_id": "SWU-AKV-NV-006",
+      "dependencies": [
+        "AKV-NV-005"
+      ],
+      "successors": [
+        "AKV-NV-007"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs",
+          "--check"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/contracts/node-vocabulary.json",
+        "projects/animejs/ontology/agent-knowledge-vault/schemas/node.schema.json",
+        "projects/animejs/ontology/agent-knowledge-vault/nodes/nodes.json",
+        "projects/animejs/ontology/agent-knowledge-vault/relations/relations.json",
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [
+        {
+          "command_id": "graph-build",
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/build-graph.mjs",
+            "--check"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 120,
+          "max_output_bytes": 131072
+        }
+      ],
+      "task_contract": "work-pack/tasks/TASK-AKV-GRAPH.md"
+    },
+    {
+      "unit_id": "AKV-NV-007",
+      "task_id": "TASK-AKV-GRAPH",
+      "swu_id": "SWU-AKV-NV-007",
+      "dependencies": [
+        "AKV-NV-006"
+      ],
+      "successors": [
+        "AKV-NV-008"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+          "--check"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/views/documentation-coverage.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/api.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/task-recipes.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/work-lessons.json",
+        "projects/animejs/ontology/agent-knowledge-vault/views/unresolved-gaps.json",
+        "projects/animejs/ontology/agent-knowledge-vault/indexes/search.json"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [
+        {
+          "command_id": "views-build",
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/build-views.mjs",
+            "--check"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 120,
+          "max_output_bytes": 131072
+        },
+        {
+          "command_id": "coverage-query-smoke",
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/query.mjs",
+            "coverage",
+            "/documentation/animation/"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 60,
+          "max_output_bytes": 65536
+        }
+      ],
+      "task_contract": "work-pack/tasks/TASK-AKV-GRAPH.md"
+    },
+    {
+      "unit_id": "AKV-NV-008",
+      "task_id": "TASK-AKV-VALIDATE",
+      "swu_id": "SWU-AKV-NV-008",
+      "dependencies": [
+        "AKV-NV-007"
+      ],
+      "successors": [
+        "__complete__"
+      ],
+      "command": {
+        "argv": [
+          "node",
+          "projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "material_writes": [
+        "projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/tests/ontology.test.mjs",
+        "projects/animejs/ontology/agent-knowledge-vault/README.md",
+        "projects/animejs/ontology/agent-knowledge-vault/RESIDUE.json",
+        "projects/animejs/ontology/agent-knowledge-vault/receipts/validation-receipt.json"
+      ],
+      "execution_outputs": [],
+      "validation_contracts": [
+        {
+          "command_id": "ontology-validation",
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/scripts/validate.mjs"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 180,
+          "max_output_bytes": 262144
+        },
+        {
+          "command_id": "ontology-tests",
+          "argv": [
+            "node",
+            "projects/animejs/ontology/agent-knowledge-vault/tests/ontology.test.mjs"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 180,
+          "max_output_bytes": 262144
+        }
+      ],
+      "task_contract": "work-pack/tasks/TASK-AKV-VALIDATE.md"
+    }
+  ]
+}

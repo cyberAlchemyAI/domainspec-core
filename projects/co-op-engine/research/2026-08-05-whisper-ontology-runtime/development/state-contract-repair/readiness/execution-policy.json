@@ -1,0 +1,56 @@
+{
+  "allowed_routes": [
+    {
+      "capability": "task-session",
+      "effect_class": "repository-local-reversible",
+      "expected_receipt": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/execution/task-session-terminal-receipt.json",
+      "frontier_swu": "SWU-WHISPER-RSCH-STATE-001",
+      "mode": "execute",
+      "required_inputs": [
+        "WORK-PACK.md",
+        "work-pack/tasks/TASK-WHISPER-RSCH-STATE-001.md",
+        "readiness/CONTEXT-PACK.json",
+        "readiness/material-package.json",
+        "readiness/material-producer-receipt.json"
+      ],
+      "route_id": "route:whisper-research-state-contract-repair",
+      "target": "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/work-pack/tasks/TASK-WHISPER-RSCH-STATE-001.md",
+      "write_scope": [
+        "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/synthesis-revision-3.md",
+        "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/state.schema.json",
+        "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/event-sequence.json",
+        "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/negative-fixtures.json",
+        "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs",
+        "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json",
+        "projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/development/state-contract-repair/execution/task-session-terminal-receipt.json"
+      ]
+    }
+  ],
+  "allowed_routes_digest": "5f7e881770972e6192acb99349b05a2b91e31856c3e5f56964c162a7ce7b61c9",
+  "authority_effect": "none",
+  "automatic_decisions": [
+    "internal-tool-selection",
+    "reversible-local-default"
+  ],
+  "frontier": [
+    "SWU-WHISPER-RSCH-STATE-001"
+  ],
+  "schema_version": "1.0.0",
+  "scope_source": "exact-work-pack-and-captured-frontier",
+  "stop_decisions": [
+    "scope-expansion",
+    "destructive-or-irreversible-effect",
+    "credentials-or-secret-access",
+    "external-message-or-network-effect",
+    "authority-promotion-publication-deployment",
+    "failed-acceptance-critical-validation"
+  ],
+  "validation_commands": [
+    "node projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs",
+    "node projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/state-contract/validate-state-contract.mjs --self-test",
+    "python3 -m json.tool projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/receipts/state-contract-validation.json"
+  ],
+  "validation_policy": "owner-gates-remain-mandatory",
+  "work_pack_id": "WP-WHISPER-RSCH-STATE-001",
+  "work_pack_semantic_digest": "284997efdd5fb2baf424b42ffa177524eb0019810eac96a7ae4b645e1f59023d"
+}

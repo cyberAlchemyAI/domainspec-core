@@ -1,0 +1,25 @@
+{
+  "authorityClass": "public",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "public-arcanum-owner",
+  "mutationHandoff": "ready",
+  "ownerBoundaryResult": "pass",
+  "packageDigest": "1d4ccdded4fdeb8dd82706e68262f9da03700dcf9ed0c84ed311cc7adf305266",
+  "packageId": "iro-full-stream-swu-iro-004-canonical-acceptance-v1",
+  "patchVerdict": "pass",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "public",
+  "reasons": [],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [
+    "arcanum/arcana/intent-route-resolver/**"
+  ],
+  "validationCommands": [
+    "npm test --prefix arcana/intent-route-resolver",
+    "npm run check:source --prefix arcana/intent-route-resolver",
+    "node arcana/intent-route-resolver/scripts/scan-boundary.mjs",
+    "node arcana/intent-route-resolver/scripts/compute-closure-digest.mjs",
+    "git diff --check -- arcana/intent-route-resolver",
+    "git status --short -- arcana/intent-route-resolver"
+  ]
+}

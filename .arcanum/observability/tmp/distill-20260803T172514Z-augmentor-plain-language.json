@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-08-03T17:25:14Z",
+  "run_id": "distill-20260803T172514Z-augmentor-plain-language",
+  "session_id": "2026-08-03-augmentor-plain-language",
+  "sigil": "distill",
+  "tier": "arcana",
+  "mode": "standard",
+  "capability": {
+    "id": "distill",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "standard",
+    "alias": null
+  },
+  "lineage": {
+    "parent_run_id": "whisper-20260803T172514Z-augmentor-plain-language",
+    "relation": "invoked-by",
+    "caller": {
+      "id": "whisper",
+      "kind": "spell",
+      "tier": "spell",
+      "mode": "interactive_ontology_explainer"
+    }
+  },
+  "evidence": {
+    "status": "complete",
+    "emission_status": "not-required",
+    "refs": [
+      "projects/augmentor/ontology/unified-agent/explanations/beginner.json",
+      "projects/augmentor/ontology/unified-agent/visualization/template.html",
+      "projects/augmentor/ontology/unified-agent/tests/visualization.test.mjs"
+    ],
+    "mutation_handoff_allowed": false,
+    "verdict_authority": false
+  },
+  "request": {
+    "summary": "Reduce the ontology explainer's jargon while preserving its technical meaning and authority boundaries.",
+    "intent": "Make the first visible layer understandable to a beginner and keep formal vocabulary available only when requested."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "one friendly-name plus direct-explanation card for every node",
+      "one collapsed technical-record boundary",
+      "friendly graph, relation, sequence, view, and known-gap labels"
+    ],
+    "files_changed": [
+      "projects/augmentor/ontology/unified-agent/explanations/beginner.json",
+      "projects/augmentor/ontology/unified-agent/visualization/template.html",
+      "projects/augmentor/ontology/unified-agent/tests/visualization.test.mjs",
+      "projects/augmentor/ontology/unified-agent/tests/visualization.browser.mjs"
+    ],
+    "validation": [
+      "Standard mode used one proposal track and two reduction rounds",
+      "a native Proposer rewrote 22 nodes and four lanes",
+      "the parent Balancer repaired unnatural action labels and visible technical leakage",
+      "direct explanations passed the avoidable-jargon scan",
+      "technical names and formal definitions remained available through collapsed details",
+      "closure recomposes friendly copy into the unchanged canonical ontology records"
+    ],
+    "notes": "The optimization point is one friendly name, one direct explanation, and one optional technical record. Examples and comparisons remain optional lenses rather than substitutes for direct meaning."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/augmentor/ontology/unified-agent/explanations/beginner.json"
+}
