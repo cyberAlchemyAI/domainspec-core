@@ -1,5 +1,23 @@
+import {
+  OEW_RELATION_ENCODING_REGISTRY,
+  createRelationEncodingRegistry,
+  resolveRelationEncoding,
+  type RelationEncodingRegistry,
+} from "./relationEncoding.ts";
+import {
+  deriveRelationViewModel,
+  type RelationProjectionAdapter,
+  type RelationRef,
+} from "./relationViewModels.ts";
+import {
+  resolveRelationGeometry,
+  type RelationGeometryIndex,
+} from "./scene/relationGeometry.ts";
+
 export const RELATION_PRESENTATION_RECORD_SCHEMA =
   "relation-presentation-record.v1";
+export const OEW_RESOLVED_RELATION_PRESENTATION =
+  "oew.resolved-relation-presentation.v1.3";
 
 const DIGEST = /^[a-f0-9]{64}$/;
 const SOURCE_RELATION_SCHEMA = "body-war-business-relation/v1";
@@ -266,4 +284,115 @@ export function deriveRelationPresentationRecord({
     ...(traversalDirection === null ? {} : {traversalDirection}),
   };
   return Object.freeze(record);
+}
+
+export type ResolvedRelationPresentation = Readonly<{
+  schema_version: typeof OEW_RESOLVED_RELATION_PRESENTATION;
+  ref: RelationRef;
+  relation_digest: string;
+  predicate: unknown;
+  endpoints: unknown;
+  source_direction: unknown;
+  traversal_phrase: unknown;
+  evidence_refs: unknown;
+  mapping_loss: unknown;
+  authority_effect: unknown;
+  display_cues: UnknownRecord;
+  encoding: UnknownRecord;
+  geometry: Readonly<UnknownRecord> | null;
+  accessible_text: string;
+}>;
+
+export type ResolvedRelationPresentationInput = Readonly<{
+  scene: unknown;
+  ref: RelationRef;
+  adapter: RelationProjectionAdapter;
+  encodingRegistry: RelationEncodingRegistry | UnknownRecord;
+  geometryIndex?: RelationGeometryIndex | null;
+  copiedFields?: unknown;
+}>;
+
+/**
+ * Join one admitted v1.3 relation reference across semantic projection,
+ * predicate encoding, and optional scene-bound geometry. The reference and
+ * relation digest remain the only consumer binding; endpoint/predicate tuples
+ * are never used as identity.
+ */
+export async function deriveResolvedRelationPresentation({
+  scene,
+  ref,
+  adapter,
+  encodingRegistry,
+  geometryIndex = null,
+  copiedFields,
+}: ResolvedRelationPresentationInput): Promise<ResolvedRelationPresentation> {
+  const projection = await deriveRelationViewModel(
+    scene,
+    ref,
+    adapter,
+    copiedFields,
+  );
+  const registry =
+    encodingRegistry.schema_version === OEW_RELATION_ENCODING_REGISTRY
+      ? encodingRegistry as RelationEncodingRegistry
+      : createRelationEncodingRegistry(encodingRegistry);
+  const encoding = resolveRelationEncoding(
+    projection as unknown as UnknownRecord,
+    registry,
+  );
+  const geometry = geometryIndex
+    ? resolveRelationGeometry(geometryIndex, projection.ref)
+    : null;
+  return Object.freeze({
+    schema_version: OEW_RESOLVED_RELATION_PRESENTATION,
+    ref: projection.ref,
+    relation_digest: projection.relation_digest,
+    predicate: projection.predicate,
+    endpoints: projection.endpoints,
+    source_direction: projection.source_direction,
+    traversal_phrase: projection.traversal_phrase,
+    evidence_refs: projection.evidence_refs,
+    mapping_loss: projection.mapping_loss,
+    authority_effect: projection.authority_effect,
+    display_cues: projection.display_cues,
+    encoding,
+    geometry,
+    accessible_text: `${encoding.accessible_text}; relation ${projection.ref.source_relation_id}`,
+  });
+}
+
+export async function deriveResolvedRelationPresentationSet({
+  scene,
+  adapter,
+  encodingRegistry,
+  geometryIndex = null,
+}: Omit<ResolvedRelationPresentationInput, "ref" | "copiedFields">) {
+  const candidate = scene as UnknownRecord;
+  const receipt = candidate?.relation_index_receipt as UnknownRecord;
+  if (!Array.isArray(receipt?.relation_ids)) {
+    throw new RelationPresentationError("RELATION_INDEX_RECEIPT_REQUIRED");
+  }
+  const entries = await Promise.all(
+    receipt.relation_ids.map(async (relationId) => {
+      const sourceRelationId = requiredString(
+        relationId,
+        "SOURCE_RELATION_ID_REQUIRED",
+      );
+      const presentation = await deriveResolvedRelationPresentation({
+        scene,
+        ref: {
+          source_relation_id: sourceRelationId,
+          scene_digest: requiredString(
+            candidate.scene_digest,
+            "SCENE_DIGEST_REQUIRED",
+          ),
+        },
+        adapter,
+        encodingRegistry,
+        geometryIndex,
+      });
+      return [sourceRelationId, presentation] as const;
+    }),
+  );
+  return Object.freeze(Object.fromEntries(entries));
 }

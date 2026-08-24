@@ -72,7 +72,7 @@ safe, compiled, observed TypeScript. Layer L1, slice S1, wave W1.
   reproducible build boundary because exact provider path/digest validation
   depends on the mirrored layout. Witness assertions remain separately
   digest-owned inside that boundary.
-- Dependencies: SWU-ARE-007 and independent catalogue SWU-ARE-003.
+- Dependencies: SWU-ARE-007 and snapshot-bound active catalogue SWU-ARE-015.
 - Edge cases: pre-existing target, symlink, `..`, absolute path, stale provider
   digest, different tsc/config, witness emitted by generator, plain `as const`
   object, native enum.

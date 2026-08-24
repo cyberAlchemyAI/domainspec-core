@@ -1,0 +1,242 @@
+{
+  "schema_version": "refine.evidence-index.v1",
+  "run_id": "20260809T192255Z-white-canvas-proper-tower",
+  "target": "CyberAlchemy Lab White Tower View",
+  "refinement_loop": ".agents/skills/refine/REFINEMENT-LOOP.md",
+  "preset": "standard",
+  "research_mode": "no-research",
+  "status": "pass",
+  "authority_effect": "none",
+  "artifacts": {
+    "run_manifest": "RUN-MANIFEST.md",
+    "seed_proposal": "REFINE-SEED-PROPOSAL.md",
+    "dispatch_route": "REFINE-DISPATCH.json",
+    "runtime_handoff": "RUNTIME-HANDOFF.md",
+    "result": "RESULT.md",
+    "final_validation": "receipts/final-validation.md",
+    "stages_dir": "stages/"
+  },
+  "stages": [
+    {
+      "stage": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "capability_source": "native capability",
+      "mode_config": "standard; strict local pack",
+      "status": "pass",
+      "artifact_path": "stages/01-context-builder.md",
+      "receipt_kind": "native-stage",
+      "receipt_artifact": "context-builder/PACK.md",
+      "observer_status": "n/a",
+      "verdict": "pass",
+      "blocked_reason": ""
+    },
+    {
+      "stage": "Invoke Define",
+      "capability_ref": "invoke",
+      "capability_source": "native capability",
+      "mode_config": "define",
+      "status": "pass",
+      "artifact_path": "stages/02-define.md",
+      "receipt_kind": "native-stage",
+      "receipt_artifact": "stages/02-define.md",
+      "observer_status": "n/a",
+      "verdict": "pass",
+      "blocked_reason": ""
+    },
+    {
+      "stage": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "capability_source": "approved native subagents",
+      "mode_config": "refine-review",
+      "status": "pass",
+      "artifact_path": "stages/03-interrogation-review.md",
+      "receipt_kind": "subagent",
+      "receipt_artifact": "subagents/orchestrate/run-001/reduction/gate-decision.json",
+      "observer_status": "pass",
+      "verdict": "pass",
+      "blocked_reason": ""
+    },
+    {
+      "stage": "Research decision",
+      "capability_ref": "refine",
+      "capability_source": "Refine skill",
+      "mode_config": "no-research",
+      "status": "pass",
+      "artifact_path": "stages/04-research-decision.md",
+      "receipt_kind": "native-stage",
+      "receipt_artifact": "stages/04-research-decision.md",
+      "observer_status": "n/a",
+      "verdict": "pass",
+      "blocked_reason": ""
+    },
+    {
+      "stage": "Distill",
+      "capability_ref": "distill",
+      "capability_source": "native capability",
+      "mode_config": "standard",
+      "status": "pass",
+      "artifact_path": "stages/05-distill.md",
+      "receipt_kind": "native-stage",
+      "receipt_artifact": "stages/05-distill.md",
+      "observer_status": "n/a",
+      "verdict": "pass",
+      "blocked_reason": ""
+    },
+    {
+      "stage": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "capability_source": "native capability",
+      "mode_config": "design",
+      "status": "pass",
+      "artifact_path": "stages/06-design.md",
+      "receipt_kind": "native-stage",
+      "receipt_artifact": "stages/06-design.md",
+      "observer_status": "n/a",
+      "verdict": "pass",
+      "blocked_reason": ""
+    },
+    {
+      "stage": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "capability_source": "parent-native synthesis",
+      "mode_config": "refine-design-review",
+      "status": "pass",
+      "artifact_path": "stages/07-design-review.md",
+      "receipt_kind": "native-stage",
+      "receipt_artifact": "stages/07-design-review.md",
+      "observer_status": "n/a",
+      "verdict": "pass",
+      "blocked_reason": ""
+    },
+    {
+      "stage": "Distill Repair",
+      "capability_ref": "distill",
+      "capability_source": "native capability",
+      "mode_config": "validate",
+      "status": "pass",
+      "artifact_path": "stages/08-distill-repair.md",
+      "receipt_kind": "native-stage",
+      "receipt_artifact": "stages/08-distill-repair.md",
+      "observer_status": "n/a",
+      "verdict": "pass",
+      "blocked_reason": ""
+    },
+    {
+      "stage": "Invoke Plan",
+      "capability_ref": "invoke",
+      "capability_source": "native capability",
+      "mode_config": "plan",
+      "status": "pass",
+      "artifact_path": "stages/09-plan.md",
+      "receipt_kind": "native-stage",
+      "receipt_artifact": "stages/09-plan.md",
+      "observer_status": "n/a",
+      "verdict": "pass",
+      "blocked_reason": "mutation admission not claimed"
+    },
+    {
+      "stage": "Final Interrogation and Synthesis",
+      "capability_ref": "refine",
+      "capability_source": "parent-native synthesis",
+      "mode_config": "refine-final",
+      "status": "pass",
+      "artifact_path": "stages/10-final-synthesis.md",
+      "receipt_kind": "native-stage",
+      "receipt_artifact": "RESULT.md",
+      "observer_status": "n/a",
+      "verdict": "pass",
+      "blocked_reason": ""
+    }
+  ],
+  "sources": [
+    {
+      "id": "current-canvas",
+      "path": "projects/ide-extension/public/demo/research-tower.html",
+      "selectors": ["#lab-canvas", ".scene-stack", ".scene-nav", ".core", ".source-orbit", ".tower-scene", "renderSceneControls"],
+      "obligations": ["white canvas", "proper tower", "responsive layout", "interaction continuity"]
+    },
+    {
+      "id": "scene-manifest",
+      "path": "projects/ide-extension/src/research-tower/l0-witness.mjs",
+      "selectors": ["buildTowerSceneManifest", "validateTowerSceneManifest", "EVIDENCE_SCENE_IDS", "SYSTEM_LAYER_IDS"],
+      "obligations": ["evidence floors", "separate architecture layers", "claim ceiling", "fail closed"]
+    },
+    {
+      "id": "unit-contract",
+      "path": "projects/ide-extension/tests/research-tower-explorer.test.mjs",
+      "selectors": ["scene manifest preserves", "local server serves"],
+      "obligations": ["API compatibility", "static selector contract"]
+    },
+    {
+      "id": "browser-contract",
+      "path": "projects/ide-extension/tests/e2e/research-tower-explorer.spec.mjs",
+      "selectors": ["tower scene canvas supports", "reduced motion"],
+      "obligations": ["keyboard", "focus", "mobile", "reduced motion", "refusal"]
+    },
+    {
+      "id": "tower-system-view",
+      "path": "research/tower-system-taxonomy/SYSTEM-VIEW.md",
+      "selectors": ["#2-the-layer-stack-bottom-up-one-layer-at-a-time", "#5-the-core-flow", "#7-the-reuse-map"],
+      "obligations": ["Tower System layer meaning", "implemented versus unproven distinction"]
+    },
+    {
+      "id": "prior-refine-result",
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260809T182018Z-tower-scene-canvas/RESULT.md",
+      "selectors": ["#decision", "#design-that-survived-review", "#complete-residue--blockers"],
+      "obligations": ["preserve prior semantic decisions", "carry residue"]
+    },
+    {
+      "id": "foundation-findings",
+      "path": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md",
+      "selectors": ["#crosswalk-tower-system-research-tower-and-workbench", "#current-versus-required-ide-interface", "#risks-and-open-residue"],
+      "obligations": ["candidate-local boundary", "navigation-only effects", "claim ceiling"]
+    }
+  ],
+  "inventory_packet": "strategy-inventory-packet.json",
+  "review_evidence": [
+    {
+      "role": "visual-systems-reviewer",
+      "artifact": "receipts/visual-systems-review.md",
+      "normalized_receipt": "subagents/orchestrate/run-001/receipts/spawn-0001.json",
+      "lifecycle": "joined-and-closed"
+    },
+    {
+      "role": "semantic-accessibility-reviewer",
+      "artifact": "receipts/semantic-accessibility-review.md",
+      "normalized_receipt": "subagents/orchestrate/run-001/receipts/spawn-0002.json",
+      "lifecycle": "joined-and-closed"
+    }
+  ],
+  "stage_artifacts": [
+    "stages/01-context-builder.md",
+    "stages/02-define.md",
+    "stages/03-interrogation-review.md",
+    "stages/04-research-decision.md",
+    "stages/05-distill.md",
+    "stages/06-design.md",
+    "stages/07-design-review.md",
+    "stages/08-distill-repair.md",
+    "stages/09-implementation-layering.md",
+    "stages/09-plan.md",
+    "stages/10-final-synthesis.md",
+    "RESULT.md"
+  ],
+  "excluded": [
+    {"path": "projects/ide-extension/public/assets/research-tower-concepts/", "reason": "The requested primary direction removes the photographic background; asset content is not needed to refine the layout."},
+    {"path": "projects/animejs/", "reason": "No animation engine is required to plan a static architectural navigation object."}
+  ],
+  "obligation_coverage": "100%",
+  "residue": [
+    "Representative real-tower selection remains open.",
+    "The visual result remains a candidate plan until implemented and browser-tested.",
+    "Tower System runtime layers remain unproven in the Lab."
+  ],
+  "recommended_next_routes": [
+    {
+      "route": "goal/task-session",
+      "unit": "SWU-WT-001",
+      "authorization": "separate explicit user authorization required"
+    }
+  ],
+  "non_authority_notice": "This evidence index selects sources for planning only and authorizes no product, ontology, promotion, publication, or deployment effect."
+}

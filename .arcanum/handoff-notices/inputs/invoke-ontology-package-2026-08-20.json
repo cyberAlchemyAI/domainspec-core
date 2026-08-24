@@ -1,0 +1,71 @@
+{
+  "schema_version": "0.1.0",
+  "notice_type": "outgoing",
+  "to": {
+    "kind": "owner-route",
+    "label": "domainspec-core repository owner"
+  },
+  "from": {
+    "kind": "agent-lane",
+    "label": "Invoke ontology package lane"
+  },
+  "subject": "Validated durable Invoke ontology package and CAV2 public-export boundary",
+  "project_scope": "arcanum/ontology/invoke",
+  "status": "open",
+  "created_at": "2026-08-20T19:23:33Z",
+  "why_now": "The public Arcanum implementation is validated and pushed; the private parent now needs a durable locator for the exact package receipt, migration provenance, authority boundary, and remaining lifecycle decision.",
+  "key_points": [
+    "Arcanum commit 66888b7d48258a8c4fbc44b13864c2446d2c16bb contains the canonical Ontology Vault receipt-versus-package behavior and the Invoke package candidate.",
+    "The Invoke package passes canonical, Codex-generated, and Claude-generated validators with material digest 094b52ac70444484ef9e46f812e7a460f619c71f4a2fa1ce40c2bf49f261ae6d.",
+    "The public export is mechanically limited to 13 CAV2 definition contracts and 7 model contracts; private paths, source digests, proofs, source scripts, unrelated-system material, and authority claims fail closed.",
+    "The three legacy Invoke receipts remain byte-identical and their exact private provenance is retained only in the private parent migration receipt."
+  ],
+  "open_calls": [
+    {
+      "owner": "Invoke lifecycle owner",
+      "question": "Should the validated Invoke ontology remain a candidate or enter a separately governed promotion and publication decision?",
+      "status": "open"
+    }
+  ],
+  "boundaries": [
+    "This notice and locator are communication evidence only and grant no authority.",
+    "The ontology does not decide promotion, publication, runtime conformance, release admission, or canonical definition ownership.",
+    "Do not expand the public export beyond the allowlisted definition and model contracts or expose private proofs, source scripts, paths, digests, or other-system evidence.",
+    "Runtime realization and full relation-envelope conformance remain explicit residue rather than inferred facts."
+  ],
+  "next_actions": [
+    {
+      "owner": "domainspec-core repository owner",
+      "action": "Review the pushed parent and Arcanum commits and preserve the candidate and authority status recorded by the validation receipt."
+    },
+    {
+      "owner": "Invoke lifecycle owner",
+      "action": "Resolve the open lifecycle decision through a separately authorized promotion or publication route if advancement is desired."
+    }
+  ],
+  "source_refs": [
+    {
+      "ref": "arcanum@66888b7d48258a8c4fbc44b13864c2446d2c16bb",
+      "label": "Pushed public Arcanum implementation commit"
+    },
+    {
+      "ref": "arcanum/ontology/invoke/receipts/validation-094b52ac70444484.json",
+      "label": "Deterministic Invoke package validation receipt"
+    },
+    {
+      "ref": "arcanum/arcana/ontology-vault/contracts/cav2-public-export-policy.json",
+      "label": "Mechanically enforced public-export boundary"
+    },
+    {
+      "ref": ".arcanum/ontology-vault/migrations/invoke-public-package-export.json",
+      "label": "Private source-rebinding and migration provenance receipt"
+    }
+  ],
+  "next_route": {
+    "capability": "decision-gate",
+    "mode": "owner-review",
+    "target": "Invoke ontology candidate lifecycle status",
+    "authorization": "not-granted"
+  },
+  "terminal_receipt_ref": "arcanum/ontology/invoke/receipts/validation-094b52ac70444484.json"
+}

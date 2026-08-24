@@ -1,0 +1,69 @@
+{
+  "schema_version": "cyberalchemy-lab.governance-blocker/v1",
+  "blocker_code": "TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION",
+  "classification": "governance-only-runtime-defect",
+  "work_pack_id": "WP-CAL-TEN-L0",
+  "swu_id": "SWU-CAL-001",
+  "attempt_id": "WP-CAL-TEN-L0/SWU-CAL-001/20260808T173559Z-a1",
+  "result": "block",
+  "root_cause": {
+    "summary": "The fast-entry check requires execution_contract.allowed_writes to equal the four-path owner route scope, while the plan-once admission check requires the same field to equal the three material writes and excludes the terminal receipt path.",
+    "contradictory_requirements": [
+      {
+        "source": ".agents/skills/task-session/scripts/task-session-governance-runner.py:408",
+        "requirement": "execution_contract.allowed_writes must cover and be covered by the route write scope: three material paths plus the terminal Task Session receipt."
+      },
+      {
+        "source": ".agents/skills/task-session/scripts/task-session-governance-runner.py:493",
+        "requirement": "execution_contract.allowed_writes must equal mutation-admission materialWrites: the three material paths only."
+      },
+      {
+        "source": ".agents/skills/task-session/scripts/task-session-governance-runner.py:502",
+        "requirement": "The terminal Task Session receipt must instead be the sole executionOutput, and allowedWrites must be the union of materialWrites and executionOutputs."
+      }
+    ],
+    "runner_diagnostic": "fast-entry request and receipt do not bind this governance route",
+    "runner_exit_code": 2
+  },
+  "affected_invariant": "A valid plan-once selected-unit request must be able to preserve the material-write versus execution-output partition while also proving exact owner-route write closure.",
+  "safe_state": {
+    "product_mutation_performed": false,
+    "runner_writes_performed": 0,
+    "product_root_state": "absent",
+    "admission_token_consumed": false,
+    "consumption_ledger_state": "absent",
+    "staged_material_applied": false,
+    "closeout_started": false,
+    "successor_started": false,
+    "authority_effect": "none"
+  },
+  "minimal_repair_proposal": {
+    "owner": "arcanum:task-session-runtime-maintenance",
+    "canonical_write_scope": [
+      "arcanum/arcana/task-session/scripts/task-session-governance-runner.py",
+      "arcanum/arcana/task-session/development/validate-governance-runner.py",
+      "arcanum/arcana/task-session/development/fixtures/governance-runner-cases.json"
+    ],
+    "generated_projection": ".agents/skills/task-session/scripts/task-session-governance-runner.py",
+    "change": "Validate the fast-entry route scope against the normalized union of plan material writes and the terminal receipt execution output, while preserving the later material-only equality check for execution_contract.allowed_writes.",
+    "regression_case": "A route containing three material paths and one terminal receipt must admit a request whose execution writes contain only the three material paths and whose closeout terminal receipt supplies the fourth path."
+  },
+  "changed_byte_inventory_for_repair": [],
+  "required_revalidation": [
+    "Run the canonical Task Session governance-runner regression suite.",
+    "Regenerate the installed .agents/skills/task-session package from canonical Arcanum source.",
+    "Verify canonical and generated runner hashes are identical.",
+    "Create a fresh SWU-CAL-001 Task Session attempt and fresh mutation admission.",
+    "Re-run governance-runner prepare and prove single-use admission consumption.",
+    "Run the exact acceptance-critical command against live product paths only after prepare admits mutation.",
+    "Re-run terminal-receipt semantic validation before closeout."
+  ],
+  "renewed_owner_acceptance_required": true,
+  "permanent_workflow_regression_fix_required": true,
+  "next_owner": {
+    "capability": "task-session",
+    "mode": "runtime-maintenance",
+    "target": "TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION"
+  },
+  "stop_reason": "The repair is outside the frozen WP-CAL-TEN-L0 product write boundary and cannot be inferred from the existing execution authorization."
+}

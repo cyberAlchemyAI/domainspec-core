@@ -1,0 +1,42 @@
+{
+  "schema_version": "cyberalchemy-lab.governance-defect-sidecar-application/v1",
+  "sidecar_id": "CHAIN_MANIFEST_V2_COMPATIBILITY",
+  "applied_at": "2026-08-08T22:12:20Z",
+  "owner_acceptance": {
+    "kind": "exact-candidate-sha256",
+    "value": "8f13f57484fb8e36e7a2c499df667a423767b6882b77dd05774394e55f5d2e8c",
+    "source": "direct-user-response"
+  },
+  "candidate_ref": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/CHAIN_MANIFEST_V2_COMPATIBILITY/candidate/repair.patch",
+    "sha256": "8f13f57484fb8e36e7a2c499df667a423767b6882b77dd05774394e55f5d2e8c",
+    "size_bytes": 11867
+  },
+  "applied_canonical_targets": [
+    {"path": "arcanum/spells/task-session-until-blocker/scripts/run_chain.py", "sha256": "1b1fca9b05e0ef7295731d24064ce7613b4fde16c9dd04220ce0474b32cfc711", "size_bytes": 31034},
+    {"path": "arcanum/spells/task-session-until-blocker/schemas/chain-config.schema.json", "sha256": "83ff4768b99c78b92ca9f294c4b1affe203729857dc8675ad908d8d18250acf3", "size_bytes": 4101},
+    {"path": "arcanum/spells/task-session-until-blocker/development/validate-chain-v2.py", "sha256": "c485575c92a3d286a1db973619f2295c87beb1529e18b02e7a6085ad70dd06e5", "size_bytes": 17325}
+  ],
+  "generated_projection": {
+    "command": "bash arcanum/tools/sync-generated-skill-package.sh --target . --spell task-session-until-blocker --apply",
+    "result": "pass",
+    "parity": [
+      {"canonical": "arcanum/spells/task-session-until-blocker/scripts/run_chain.py", "generated": ".agents/skills/task-session-until-blocker/scripts/run_chain.py", "sha256": "1b1fca9b05e0ef7295731d24064ce7613b4fde16c9dd04220ce0474b32cfc711"},
+      {"canonical": "arcanum/spells/task-session-until-blocker/schemas/chain-config.schema.json", "generated": ".agents/skills/task-session-until-blocker/schemas/chain-config.schema.json", "sha256": "83ff4768b99c78b92ca9f294c4b1affe203729857dc8675ad908d8d18250acf3"}
+    ]
+  },
+  "live_revalidation": {
+    "commands": [
+      "python3 -m py_compile arcanum/spells/task-session-until-blocker/scripts/run_chain.py arcanum/spells/task-session-until-blocker/development/validate-chain-v2.py",
+      "python3 arcanum/spells/task-session-until-blocker/development/validate-chain-v2.py",
+      "python3 .agents/skills/work-pack-readiness-audit/scripts/audit_work_pack.py --config projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/refresh-runs/20260808T203000Z-wpra-selector-readmission/WPRA-CONFIG.json --output-dir projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/refresh-runs/20260808T213000Z-chain-controller-readmission/wpra-run",
+      "python3 .agents/skills/task-session-until-blocker/scripts/run_chain.py --config projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T220753Z-l0-chain-controller/CHAIN-CONFIG.json"
+    ],
+    "result": "pass",
+    "chain_result": {"status": "READY", "terminal_code": "NEXT_SELECTOR_READY", "next_task_session_selector": "SWU-CAL-001", "request_ordinal": 1},
+    "wpra_result": {"verdict": "pass", "terminal_code": "PLAN_SEMANTIC_READY", "runtime_admission_status": "pending-selection", "selected_unit": null, "configured_product_commands_executed": 0}
+  },
+  "authority_effect": "none",
+  "product_execution_authorized": false,
+  "next_owner_boundary": "implementation-readiness must resolve the plan-once selection/admission cycle before Task Session can enter Context Builder or mutate the SWU-CAL-001 material scope."
+}

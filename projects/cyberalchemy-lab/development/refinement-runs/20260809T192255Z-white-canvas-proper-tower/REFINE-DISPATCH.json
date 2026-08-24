@@ -1,0 +1,300 @@
+{
+  "dispatch_id": "20260809T192255Z-white-canvas-proper-tower",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Remove the background, create a white canvas, and have a proper tower.",
+    "objective": "Produce a source-bound non-executed design and implementation plan for a white-canvas Research Tower interface centered on one vertical three-floor tower.",
+    "target_artifact": "projects/cyberalchemy-lab/development/refinement-runs/20260809T192255Z-white-canvas-proper-tower/RESULT.md",
+    "arcanum_vocabulary": ["context-builder", "invoke", "interrogation", "distill", "refine", "dispatch-spec"],
+    "operator_sentence": "Replace the dark image-led canvas with a white architectural canvas whose proper tower makes the evidence progression visible without simulating unavailable Tower System capabilities.",
+    "preset": "standard",
+    "research_mode": "no-research"
+  },
+  "mode": "mixed",
+  "route_menu": {
+    "context_hint": "The white architectural tower is selected for the first implementation plan; pan/zoom and engine-backed alternatives remain deferred.",
+    "items": [
+      {"id": "architectural-tower", "label": "Architectural tower", "description": "A vertical DOM/CSS tower with three evidence floors and an anchored detail region.", "capability_ref": "invoke", "pattern": "sequence"},
+      {"id": "free-spatial-world", "label": "Free spatial world", "description": "Pan, zoom, and scene navigation; deferred until the simpler tower fails a named requirement.", "capability_ref": "invoke", "pattern": "route"}
+    ],
+    "selected_item_id": "architectural-tower"
+  },
+  "techniques": ["sequence", "frame_handoff", "handle_handoff", "validation_loop", "owner_boundary_check", "observability_grouping", "x_ray", "dialectic", "residue_ledger", "toy_game", "component_descriptor", "assessment_failure_reference"],
+  "technique_overlays": [
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The current circle-and-orbit composition hides the intended vertical evidence hierarchy and risks conflating two level systems.",
+      "techniques": ["x_ray", "component_descriptor"],
+      "applies_to_steps": ["s01-context", "s05-distill", "s06-design"],
+      "validation_expectation": "The result names the tower shell, three floor components, connector spine, state treatment, and separate Tower System map."
+    },
+    {
+      "overlay_id": "dialectic_for_tension",
+      "trigger": "Architectural clarity can conflict with semantic, accessibility, and refusal-state correctness.",
+      "techniques": ["dialectic", "residue_ledger"],
+      "applies_to_steps": ["s03-review", "s07-design-review", "s10-synthesis"],
+      "validation_expectation": "Independent visual and semantic-accessibility receipts converge on one layout; unresolved disagreement remains explicit residue."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "A simple three-floor interaction can falsify hierarchy, focus, refusal, and mobile behavior before any richer spatial engine is justified.",
+      "techniques": ["toy_game", "validation_loop", "assessment_failure_reference"],
+      "applies_to_steps": ["s08-repair", "s09-plan"],
+      "validation_expectation": "The plan includes desktop, mobile, keyboard, reduced-motion, invalid-state, and unavailable-layer checks with a named repair route."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Two independent methodologies are needed to prevent either visual overdesign or semantic overconstraint.",
+    "explanation": "One reviewer owns architectural composition and responsive hierarchy; one independently attacks evidence meaning, refusal behavior, and accessibility. The parent joins both receipts and owns all run artifacts.",
+    "context": ["strategy-inventory-packet.json", "current page and tests", "existing verified synthetic scene manifest", "no external research"],
+    "binding_mode": "capability-bound",
+    "execution_owner": "refine",
+    "roles": [
+      {
+        "role_id": "visual-systems-reviewer",
+        "purpose": "Define and attack the white-canvas tower composition across desktop and mobile.",
+        "owns": "Visual systems review receipt",
+        "capability_ref": "interrogation",
+        "capability_target": "white-canvas proper-tower design",
+        "capability_mode": "refine-review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["projects/ide-extension/", "research/", "arcanum/", "telemetry/"],
+        "depends_on_roles": [],
+        "input_refs": ["define-frame", "strategy-inventory-packet"],
+        "output_refs": ["receipts/visual-systems-review.md"],
+        "applies_to_steps": ["s03-review"]
+      },
+      {
+        "role_id": "semantic-accessibility-reviewer",
+        "purpose": "Attack evidence semantics, accessibility, refusal behavior, and non-simulation boundaries.",
+        "owns": "Semantic and accessibility review receipt",
+        "capability_ref": "interrogation",
+        "capability_target": "white-canvas proper-tower design",
+        "capability_mode": "refine-review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["projects/ide-extension/", "research/", "arcanum/", "telemetry/"],
+        "depends_on_roles": [],
+        "input_refs": ["define-frame", "strategy-inventory-packet"],
+        "output_refs": ["receipts/semantic-accessibility-review.md"],
+        "applies_to_steps": ["s03-review"]
+      }
+    ],
+    "execution_waves": [
+      {"wave_id": "white-canvas-review", "role_ids": ["visual-systems-reviewer", "semantic-accessibility-reviewer"], "parallel": true, "join_policy": "all", "gate_after": "g-review-join", "on_incomplete": "block"}
+    ],
+    "parallelism": "dialectic",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "The operator confirmed the two read-only reviewers in the presented Refine strategy.",
+    "receipt_requirements": ["agent_id", "role_id", "spawn_status", "join_status", "close_status", "dispatch_id", "step_id", "capability_ref", "capability_target", "capability_mode", "wave_id", "write_scope", "receipt_kind", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "reroute", "handoff_note"]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {
+        "agent_id": "/root/white_tower_visual_review",
+        "role_id": "visual-systems-reviewer",
+        "capability_ref": "interrogation",
+        "capability_target": "white-canvas proper-tower design",
+        "capability_mode": "refine-review",
+        "wave_id": "white-canvas-review",
+        "write_scope": [],
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "receipts/visual-systems-review.md",
+        "runtime_receipt_artifact": "subagents/orchestrate/run-001/receipts/spawn-0001.json"
+      },
+      {
+        "agent_id": "/root/white_tower_semantic_review",
+        "role_id": "semantic-accessibility-reviewer",
+        "capability_ref": "interrogation",
+        "capability_target": "white-canvas proper-tower design",
+        "capability_mode": "refine-review",
+        "wave_id": "white-canvas-review",
+        "write_scope": [],
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "receipts/semantic-accessibility-review.md",
+        "runtime_receipt_artifact": "subagents/orchestrate/run-001/receipts/spawn-0002.json"
+      }
+    ],
+    "gate_decision": "subagents/orchestrate/run-001/reduction/gate-decision.json",
+    "dispatch_close_status": "resolved"
+  },
+  "steps": [
+    {
+      "step_id": "s01-context",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "xray",
+      "techniques": ["x_ray", "component_descriptor", "frame_handoff"],
+      "inputs": [{"kind": "intent", "ref": "intent.raw"}, {"kind": "artifact", "ref": "strategy-inventory-packet"}],
+      "outputs": [{"kind": "frame", "ref": "context-frame"}, {"kind": "handle", "ref": "tower-structure-map"}],
+      "evidence_artifact": "stages/01-context-builder.md",
+      "stop_conditions": ["stop if the evidence floors and Tower System layers cannot remain distinct"]
+    },
+    {
+      "step_id": "s02-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": ["frame_handoff", "owner_boundary_check"],
+      "inputs": [{"kind": "frame", "ref": "context-frame"}],
+      "outputs": [{"kind": "frame", "ref": "define-frame"}, {"kind": "artifact", "ref": "stages/02-define.md"}],
+      "evidence_artifact": "stages/02-define.md",
+      "stop_conditions": ["stop if proper tower implies a live Tower System runtime"]
+    },
+    {
+      "step_id": "s03-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "dialectic",
+      "parallel": true,
+      "join_policy": "all",
+      "techniques": ["dialectic", "residue_ledger"],
+      "roles": ["visual-systems-reviewer", "semantic-accessibility-reviewer"],
+      "convergence_criteria": ["one tower geometry preserves all evidence, refusal, accessibility, responsive, and reduced-motion requirements", "neither receipt introduces product or authority effects"],
+      "inputs": [{"kind": "frame", "ref": "define-frame"}, {"kind": "artifact", "ref": "strategy-inventory-packet"}],
+      "outputs": [{"kind": "receipt", "ref": "receipts/visual-systems-review.md"}, {"kind": "receipt", "ref": "receipts/semantic-accessibility-review.md"}, {"kind": "frame", "ref": "review-frame"}],
+      "evidence_artifact": "stages/03-interrogation-review.md",
+      "stop_conditions": ["stop if either reviewer finds a blocker that cannot be resolved from local evidence"]
+    },
+    {
+      "step_id": "s04-research",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "decision",
+      "techniques": ["residue_ledger"],
+      "inputs": [{"kind": "frame", "ref": "review-frame"}],
+      "outputs": [{"kind": "decision", "ref": "research-decision"}],
+      "evidence_artifact": "stages/04-research-decision.md",
+      "stop_conditions": ["stop and ask before any external research"]
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Distill coherent tower unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": ["component_descriptor", "residue_ledger"],
+      "inputs": [{"kind": "decision", "ref": "research-decision"}, {"kind": "frame", "ref": "review-frame"}],
+      "outputs": [{"kind": "handle", "ref": "tower-design-unit"}],
+      "evidence_artifact": "stages/05-distill.md",
+      "stop_conditions": ["stop if the tower cannot be reduced to one shell, one spine, three floors, and one detail surface"]
+    },
+    {
+      "step_id": "s06-design",
+      "name": "Invoke Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": ["handle_handoff", "owner_boundary_check"],
+      "inputs": [{"kind": "handle", "ref": "tower-design-unit"}],
+      "outputs": [{"kind": "artifact", "ref": "stages/06-design.md"}, {"kind": "frame", "ref": "design-frame"}],
+      "evidence_artifact": "stages/06-design.md",
+      "stop_conditions": ["stop if the design depends on a new engine, external asset, or semantic contract change"]
+    },
+    {
+      "step_id": "s07-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "dialectic",
+      "techniques": ["dialectic", "validation_loop"],
+      "roles": ["parent-balancer", "review-receipts"],
+      "convergence_criteria": ["all P0 findings are repaired or block the plan", "P1 and P2 findings have explicit disposition"],
+      "inputs": [{"kind": "frame", "ref": "design-frame"}, {"kind": "receipt", "ref": "receipts/visual-systems-review.md"}, {"kind": "receipt", "ref": "receipts/semantic-accessibility-review.md"}],
+      "outputs": [{"kind": "frame", "ref": "design-review-frame"}],
+      "evidence_artifact": "stages/07-design-review.md",
+      "stop_conditions": ["stop if a P0 issue has no local repair"]
+    },
+    {
+      "step_id": "s08-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "toy_game",
+      "techniques": ["toy_game", "validation_loop", "assessment_failure_reference"],
+      "inputs": [{"kind": "frame", "ref": "design-review-frame"}],
+      "outputs": [{"kind": "handle", "ref": "repaired-tower-design"}, {"kind": "artifact", "ref": "stages/08-distill-repair.md"}],
+      "evidence_artifact": "stages/08-distill-repair.md",
+      "stop_conditions": ["stop if the three-floor toy interaction cannot preserve state, focus, refusal, and detail binding"]
+    },
+    {
+      "step_id": "s09-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": ["sequence", "validation_loop", "handle_handoff", "owner_boundary_check"],
+      "inputs": [{"kind": "handle", "ref": "repaired-tower-design"}],
+      "outputs": [{"kind": "artifact", "ref": "stages/09-plan.md"}],
+      "evidence_artifact": "stages/09-plan.md",
+      "stop_conditions": ["stop before any product mutation or Task Session admission"]
+    },
+    {
+      "step_id": "s10-synthesis",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": ["residue_ledger", "observability_grouping"],
+      "inputs": [{"kind": "artifact", "ref": "stages/09-plan.md"}, {"kind": "frame", "ref": "design-review-frame"}],
+      "outputs": [{"kind": "artifact", "ref": "RESULT.md"}, {"kind": "handoff", "ref": "RUNTIME-HANDOFF.md"}],
+      "evidence_artifact": "stages/10-final-synthesis.md",
+      "stop_conditions": ["stop when the next action would implement product code"]
+    }
+  ],
+  "gates": [
+    {"gate_id": "g-review-join", "kind": "validation", "owner": "refine", "condition": "Both approved read-only reviewer receipts are present, source-cited, and free of product mutation or authority claims.", "applies_after_wave": "white-canvas-review", "requires_role_receipts": ["receipts/visual-systems-review.md", "receipts/semantic-accessibility-review.md"], "on_fail": "block"},
+    {"gate_id": "g-semantic-separation", "kind": "quality", "owner": "refine", "condition": "The three evidence floors and five Tower System descriptors remain visibly and structurally distinct.", "on_fail": "block"},
+    {"gate_id": "g-no-external-research", "kind": "policy", "owner": "operator", "condition": "No external research or dependency is used without a new explicit decision.", "on_fail": "ask"},
+    {"gate_id": "g-no-product-mutation", "kind": "promotion_guardrail", "owner": "refine", "condition": "This run writes planning evidence only and stops before implementation, authority, promotion, publication, or deployment.", "on_fail": "block"}
+  ],
+  "native_stage_receipts": [
+    {"step_id": "s01-context", "capability_ref": "context-builder", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/01-context-builder.md"]},
+    {"step_id": "s02-define", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/02-define.md"]},
+    {"step_id": "s03-review", "capability_ref": "interrogation", "receipt_kind": "subagent", "status": "pass", "artifacts": ["stages/03-interrogation-review.md", "receipts/visual-systems-review.md", "receipts/semantic-accessibility-review.md"]},
+    {"step_id": "s04-research", "capability_ref": "refine", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/04-research-decision.md"]},
+    {"step_id": "s05-distill", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/05-distill.md"]},
+    {"step_id": "s06-design", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/06-design.md"]},
+    {"step_id": "s07-design-review", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/07-design-review.md"]},
+    {"step_id": "s08-repair", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/08-distill-repair.md"]},
+    {"step_id": "s09-plan", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/09-plan.md"]},
+    {"step_id": "s10-synthesis", "capability_ref": "refine", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/10-final-synthesis.md"]}
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": ["refine_started", "inventory_lookup_completed", "dispatch_validated", "reviewers_spawned", "reviewers_joined", "design_repaired", "plan_authored", "refine_synthesized"],
+    "signal_grouping": "20260809T192255Z-white-canvas-proper-tower"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {"boundary_id": "review-return", "kind": "evidence_return", "from_owner": "reviewers", "to_owner": "refine", "applies_to_steps": ["s03-review", "s07-design-review"], "contract": "Reviewers return read-only source-cited constraints; the parent owns all persistent run artifacts.", "on_violation": "block"},
+      {"boundary_id": "product-write", "kind": "state_write", "from_owner": "refine", "to_owner": "future-task-session", "applies_to_steps": ["s09-plan", "s10-synthesis"], "contract": "Refine may plan product writes but cannot perform them.", "on_violation": "block"}
+    ],
+    "authority": {"lifecycle": "refine", "execution": "future-task-session", "validation": "future-product-validation", "evidence": "source owners", "memory": "inventory-read-model-only", "promotion": "none"},
+    "receipts": [
+      {"receipt_id": "visual-review", "producer": "visual-systems-reviewer", "required_fields": ["artifacts", "validation_result", "status", "blockers", "residue"], "stores": ["receipts/visual-systems-review.md"], "on_missing": "block"},
+      {"receipt_id": "semantic-review", "producer": "semantic-accessibility-reviewer", "required_fields": ["artifacts", "validation_result", "status", "blockers", "residue"], "stores": ["receipts/semantic-accessibility-review.md"], "on_missing": "block"}
+    ],
+    "state_namespaces": [
+      {"namespace": "refine-run", "owner": "refine", "write_policy": "run-local planning artifacts only"},
+      {"namespace": "ide-product", "owner": "future-task-session", "write_policy": "no writes in this run"}
+    ]
+  },
+  "promotion_guardrails": [
+    "A white tower is a navigation design, not evidence that Tower System runtime capabilities exist.",
+    "No Refine artifact authorizes product mutation, ontology promotion, publication, deployment, release, or production use."
+  ]
+}

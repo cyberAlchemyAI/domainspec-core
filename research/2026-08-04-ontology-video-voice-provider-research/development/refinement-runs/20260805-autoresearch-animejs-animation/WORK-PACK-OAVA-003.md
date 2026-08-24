@@ -1,8 +1,8 @@
 ---
 module: ontology-video-animejs-prototype
-version: 1.0.0
-status: planned
-updatedAt: 2026-08-06T15:15:00Z
+version: 1.1.0
+status: completed
+updatedAt: 2026-08-06T17:14:22Z
 docType: work-pack
 ---
 
@@ -18,7 +18,7 @@ Completion may prove that one exact local runtime bundle and license still match
 
 | Field | Value | Notes |
 | --- | --- | --- |
-| workPackGateStatus | pass | Design inputs, runtime dependency evidence, exact scope, validation, Distill, and closeout contracts are complete. |
+| workPackGateStatus | pass | OAVA-003 was selected, single-use admitted, committed, and validated within the exact three-file boundary. |
 | complexity | medium | Runtime provenance, hostile path/content cases, and lifecycle binding require a split task contract. |
 | outputMode | split | Detailed execution behavior is owned by `work-pack/tasks/TASK-OAVA-RUNTIME-ADMISSION.md`. |
 | executionPackRef | `EXECUTION-PACK.md` | Existing portfolio choreography keeps `003 → 004 → 005`; this pack captures only `003`. |
@@ -29,11 +29,11 @@ Completion may prove that one exact local runtime bundle and license still match
 | firstUnitNarrownessStatus | pass | Scene construction, timelines, runtime import/execution, browser work, review, and episode work are excluded. |
 | closeoutSyncStatus | pass | One complete receipt-bound closeout row is declared below. |
 | admissionTiming | selected-unit-at-task-session | Material and live target baselines bind only after explicit selection. |
-| executionEntryState | selection-ready | Implementation Readiness must freeze and select this unit before Task Session. |
+| executionEntryState | completed | The one-unit frontier is terminal; OAVA-004 is exposed but not selected or executed. |
 | allowedRoutesDigest | `2cdbd0902c0f2dbb8688633525e8a83630390dc7da4231385998c9969c9e4e15` | Canonical digest of the exact Task Session and Invoke Refresh routes. |
 | activeLayerWindow | L1 | Runtime admission only; no visible prototype. |
 | readinessProfile | pilot | Target profile only; evidence remains candidate-local runtime admission. |
-| lastUpdatedAt | `2026-08-06T15:15:00Z` | Invoke Plan authoring timestamp. |
+| lastUpdatedAt | `2026-08-06T17:14:22Z` | Receipt-backed closeout timestamp. |
 
 ## Objective and acceptance
 
@@ -52,7 +52,7 @@ The machine contracts are `work-pack/execution-contract-oava003.json` and `work-
 
 | SWU | Parent | Behavior | Dependencies | Exact write scope | Done criteria | Validation | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `SWU-OAVA-003` | [`TASK-OAVA-RUNTIME-ADMISSION`](work-pack/tasks/TASK-OAVA-RUNTIME-ADMISSION.md) | Bind and fail-close one exact local Anime.js runtime identity without executing it. | Completed `SWU-OAVA-002`; resolved `B-001` | `prototype/runtime/animejs-runtime-manifest.json`; `prototype/lib/verify-animejs-runtime.mjs`; `prototype/test/runtime-admission.test.mjs` | Exact current identity admits; every causal drift blocks; vendor/source/vault/AutoAds bytes remain unchanged; no runtime import or execution | `node --test prototype/test/runtime-admission.test.mjs`; OAVA-001/002 regressions; `node --check prototype/vendor/anime.esm.js` | selection-ready |
+| `SWU-OAVA-003` | [`TASK-OAVA-RUNTIME-ADMISSION`](work-pack/tasks/TASK-OAVA-RUNTIME-ADMISSION.md) | Bind and fail-close one exact local Anime.js runtime identity without executing it. | Completed `SWU-OAVA-002`; resolved `B-001` | `prototype/runtime/animejs-runtime-manifest.json`; `prototype/lib/verify-animejs-runtime.mjs`; `prototype/test/runtime-admission.test.mjs` | Exact current identity admits; every causal drift blocks; vendor/source/vault/AutoAds bytes remain unchanged; no runtime import or execution | `node --test prototype/test/runtime-admission.test.mjs`; OAVA-001/002 regressions; `node --check prototype/vendor/anime.esm.js` | completed |
 
 ## Dependency evidence
 
@@ -85,10 +85,10 @@ The machine contracts are `work-pack/execution-contract-oava003.json` and `work-
 
 No product or semantic choice is open inside OAVA-003. A changed Anime.js version, package identity, runtime/license path, source meaning, or proof ceiling creates a new plan epoch.
 
-## Plan evidence state
+## Completion evidence
 
-- Invoke Plan authored the bounded execution contract; no implementation files were created.
-- Inventory lookup readiness passed; Inventory remains a non-authoritative template/read-model source.
-- Context Builder planning coverage is 9/9; no runtime handoff pack was emitted.
-- Distill Validate passed after an independent read-only Balancer audit.
-- The machine execution-entry projection passed the installed Implementation Readiness validator; its receipt is `execution-runs/20260806-oava003/planning/execution-entry-validation-receipt.json`.
+- Task Session run `oava003-ts-20260806-001` consumed one plan-bound mutation admission and committed the three declared runtime-admission outputs.
+- OAVA-003 acceptance passed 38/38; OAVA-002 passed 8/8; OAVA-001 passed 7/7; and the vendored ESM syntax check passed.
+- The manifest pins `animejs@4.5.0`, its MIT license, both B-001 receipts, and the exact runtime/license byte identities.
+- The pure verifier returned `RUNTIME_ADMITTED` only for the approved local bytes and causally blocked schema, receipt, package, path, runtime, license, import, and network drift without importing or executing Anime.js.
+- Protected vendor, source-media, AutoAds, and canonical Anime.js vault byte maps remained unchanged. Evidence remains local runtime admission only; there is no DOM/SVG scene, Anime.js execution, browser witness, visual proof, release, deployment, or production claim.

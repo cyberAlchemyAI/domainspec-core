@@ -13,6 +13,10 @@ import {
   type DevelopmentProject,
 } from "./development-engine.js";
 import { sha256 } from "./validation/validate-semantics.js";
+import {
+  createSelfAuthoredDevelopmentCatalogues,
+  SELF_AUTHORED_EXPECTATION_ORACLE,
+} from "./self-authored-expectations.js";
 
 export const CATALOGUE_IDS = [
   "formation-criterion@1",
@@ -39,6 +43,9 @@ export type DevelopmentObligation = {
 export type DevelopmentCatalogue = {
   schema_version: "bte-development-catalogue/v1";
   catalogue_id: CatalogueId;
+  oracle_id:
+    | typeof SELF_AUTHORED_EXPECTATION_ORACLE
+    | typeof BUILD_DERIVED_GENERATION_ORACLE;
   members: DevelopmentObligation[];
   membership_digest: string;
   authority: "development-fixture";
@@ -145,6 +152,7 @@ export type DevelopmentCoreRun = {
 
 export const PROOF_ENGINE_ERROR_CODES = [
   "BTE_PROOF_BUILD_INVALID",
+  "BTE_EXPECTATION_NOT_INDEPENDENT",
   "BTE_PROOF_CATALOGUE_MISSING",
   "BTE_PROOF_CATALOGUE_EXTRA",
   "BTE_PROOF_CATALOGUE_DUPLICATE",
@@ -185,6 +193,9 @@ const FORMATION_CRITERIA: Readonly<Record<BackendKind, readonly string[]>> = {
   "State Machine": ["has-transitions"],
 };
 
+export const BUILD_DERIVED_GENERATION_ORACLE =
+  "bte.build-derived.generator/v1" as const;
+
 function bytes(value: unknown): string {
   return `${canonicalize(value)}\n`;
 }
@@ -203,6 +214,7 @@ function catalogue(
   return {
     schema_version: "bte-development-catalogue/v1",
     catalogue_id: catalogueId,
+    oracle_id: BUILD_DERIVED_GENERATION_ORACLE,
     members: sorted,
     membership_digest: sha256(canonicalize(sorted.map(({ coverage_key }) => coverage_key))),
     authority: "development-fixture",
@@ -321,15 +333,7 @@ function buildCatalogues(graph: DevelopmentGraph): DevelopmentCatalogue[] {
 export function createDevelopmentSpecCatalogues(
   project: DevelopmentProject,
 ): DevelopmentCatalogue[] {
-  const graph: DevelopmentGraph = {
-    schema_version: "bte-development-graph/v1",
-    project_id: project.project_id,
-    profile_id: project.profile_id,
-    coverage_mode: project.coverage_mode ?? "complete-profile",
-    nodes: [...project.nodes],
-    edges: [...project.edges],
-  };
-  return buildCatalogues(graph);
+  return createSelfAuthoredDevelopmentCatalogues(project);
 }
 
 export function deriveDevelopmentCatalogues(
@@ -353,10 +357,16 @@ export function compareDevelopmentCatalogues(
   generated: DevelopmentCatalogue,
 ): {
   result: "pass" | "fail";
+  diagnostic: "BTE_EXPECTATION_NOT_INDEPENDENT" | null;
   missing: string[];
   extra: string[];
   duplicate: string[];
 } {
+  const diagnostic =
+    expected.oracle_id === SELF_AUTHORED_EXPECTATION_ORACLE &&
+    generated.oracle_id === BUILD_DERIVED_GENERATION_ORACLE
+      ? null
+      : "BTE_EXPECTATION_NOT_INDEPENDENT";
   const expectedKeys = new Set(expected.members.map(({ coverage_key }) => coverage_key));
   const generatedKeys = new Set(generated.members.map(({ coverage_key }) => coverage_key));
   const missing = [...expectedKeys].filter((key) => !generatedKeys.has(key)).sort();
@@ -366,9 +376,13 @@ export function compareDevelopmentCatalogues(
   ].sort();
   return {
     result:
-      missing.length === 0 && extra.length === 0 && duplicate.length === 0
+      diagnostic === null &&
+      missing.length === 0 &&
+      extra.length === 0 &&
+      duplicate.length === 0
         ? "pass"
         : "fail",
+    diagnostic,
     missing,
     extra,
     duplicate,
@@ -522,11 +536,12 @@ function runCatalogue(
   const comparison = compareDevelopmentCatalogues(expected, generated);
   if (comparison.result !== "pass") {
     const code =
-      comparison.missing.length > 0
+      comparison.diagnostic ??
+      (comparison.missing.length > 0
         ? "BTE_PROOF_CATALOGUE_MISSING"
         : comparison.extra.length > 0
           ? "BTE_PROOF_CATALOGUE_EXTRA"
-          : "BTE_PROOF_CATALOGUE_DUPLICATE";
+          : "BTE_PROOF_CATALOGUE_DUPLICATE");
     throw new ProofEngineError(
       code,
       expected.catalogue_id,

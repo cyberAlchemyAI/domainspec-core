@@ -5,14 +5,7 @@
     "raw": "<operator request>",
     "objective": "Run the canonical Refine loop for <target> and produce RESULT.md.",
     "target_artifact": "RESULT.md",
-    "arcanum_vocabulary": [
-      "refine",
-      "context-builder",
-      "invoke",
-      "interrogation",
-      "distill",
-      "dispatch-spec"
-    ],
+    "arcanum_vocabulary": ["refine", "context-builder", "invoke", "interrogation", "distill", "dispatch-spec"],
     "operator_sentence": "<operator request>"
   },
   "mode": "sequence",
@@ -62,34 +55,14 @@
     {
       "overlay_id": "baseline_sequence",
       "trigger": "Default for ordinary refinement targets where uncertainty can be reduced by the canonical ten-stage order.",
-      "techniques": [
-        "sequence",
-        "frame_handoff",
-        "handle_handoff",
-        "validation_loop"
-      ],
-      "applies_to_steps": [
-        "s01-context-builder",
-        "s02-invoke-define",
-        "s03-interrogation-review",
-        "s04-research-decision",
-        "s05-distill",
-        "s06-invoke-design",
-        "s07-interrogation-design-review",
-        "s08-distill-repair",
-        "s09-invoke-plan",
-        "s10-final-synthesis"
-      ],
+      "techniques": ["sequence", "frame_handoff", "handle_handoff", "validation_loop"],
+      "applies_to_steps": ["s01-context-builder", "s02-invoke-define", "s03-interrogation-review", "s04-research-decision", "s05-distill", "s06-invoke-design", "s07-interrogation-design-review", "s08-distill-repair", "s09-invoke-plan", "s10-final-synthesis"],
       "validation_expectation": "Every non-first step consumes a named frame, artifact, decision, or ledger from an earlier step."
     },
     {
       "overlay_id": "route_menu_for_ambiguity",
       "trigger": "The target names multiple plausible refinement routes, owners, or outputs and a bounded choice must be recorded before execution.",
-      "techniques": [
-        "route_menu",
-        "one_or_more_option_set",
-        "approval_checkpoint"
-      ],
+      "techniques": ["route_menu", "one_or_more_option_set", "approval_checkpoint"],
       "applies_to_steps": ["s01-context-builder", "s04-research-decision"],
       "validation_expectation": "The dispatch includes a bounded route menu or records a blocked decision with the missing choice."
     },
@@ -97,73 +70,41 @@
       "overlay_id": "dialectic_for_tension",
       "trigger": "The target contains competing principles, likely disagreements, or explore/exploit pressure.",
       "techniques": ["dialectic", "zig_zag", "residue_ledger"],
-      "applies_to_steps": [
-        "s03-interrogation-review",
-        "s07-interrogation-design-review",
-        "s10-final-synthesis"
-      ],
+      "applies_to_steps": ["s03-interrogation-review", "s07-interrogation-design-review", "s10-final-synthesis"],
       "validation_expectation": "Dialectic steps name roles, preserve stable disagreement, and leave unresolved residue in a ledger."
     },
     {
       "overlay_id": "tournament_for_alternatives",
       "trigger": "Several candidate abstractions, designs, or implementation slices are plausible and premature convergence would be expensive.",
       "techniques": ["tournament", "pareto_gate", "recomposition_proof"],
-      "applies_to_steps": [
-        "s05-distill",
-        "s08-distill-repair",
-        "s10-final-synthesis"
-      ],
+      "applies_to_steps": ["s05-distill", "s08-distill-repair", "s10-final-synthesis"],
       "validation_expectation": "Tournament use names roles, convergence criteria, rejected alternatives, Pareto criteria, and recomposition target."
     },
     {
       "overlay_id": "xray_for_hidden_structure",
       "trigger": "The target is hard to understand because its architecture, workflow, or relationships are hidden.",
-      "techniques": [
-        "x_ray",
-        "component_descriptor",
-        "entity_component_reference"
-      ],
-      "applies_to_steps": [
-        "s01-context-builder",
-        "s06-invoke-design",
-        "s10-final-synthesis"
-      ],
+      "techniques": ["x_ray", "component_descriptor", "entity_component_reference"],
+      "applies_to_steps": ["s01-context-builder", "s06-invoke-design", "s10-final-synthesis"],
       "validation_expectation": "The route emits an explanation handle or requires an x-ray next route before implementation planning."
     },
     {
       "overlay_id": "toy_game_for_low_cost_falsification",
       "trigger": "A selected abstraction sounds plausible but needs a controlled failure test before planning or promotion.",
-      "techniques": [
-        "toy_game",
-        "validation_loop",
-        "assessment_failure_reference"
-      ],
+      "techniques": ["toy_game", "validation_loop", "assessment_failure_reference"],
       "applies_to_steps": ["s08-distill-repair", "s09-invoke-plan"],
       "validation_expectation": "The plan or repair step names expected toy-game evidence and how failure routes back to repair."
     },
     {
       "overlay_id": "memory_residue_for_context_recovery",
       "trigger": "Prior sessions, repository memory, or rejected candidates are part of the target context.",
-      "techniques": [
-        "memory_loop",
-        "residue_ledger",
-        "data_quality_deduplication"
-      ],
-      "applies_to_steps": [
-        "s01-context-builder",
-        "s03-interrogation-review",
-        "s10-final-synthesis"
-      ],
+      "techniques": ["memory_loop", "residue_ledger", "data_quality_deduplication"],
+      "applies_to_steps": ["s01-context-builder", "s03-interrogation-review", "s10-final-synthesis"],
       "validation_expectation": "Recovered context is cited by handle, duplicate claims are not copied, and residue has an owner or next route."
     },
     {
       "overlay_id": "protected_context_for_external_or_sensitive_evidence",
       "trigger": "The target uses external research, sensitive context, or evidence that must not silently become canonical memory.",
-      "techniques": [
-        "protected_context_flag",
-        "system_agnostic_standard",
-        "local_nuance_coordination"
-      ],
+      "techniques": ["protected_context_flag", "system_agnostic_standard", "local_nuance_coordination"],
       "applies_to_steps": ["s04-research-decision", "s10-final-synthesis"],
       "validation_expectation": "External or protected context is labelled, bounded, and prevented from becoming canonical without owner review."
     }
@@ -182,21 +123,13 @@
         "role_id": "dispatch-route-reviewer",
         "purpose": "Check whether selected overlays, gates, handoffs, and validation expectations match the problem shape.",
         "owns": "route-shape critique and missing-dispatch-field risks",
-        "applies_to_steps": [
-          "s01-context-builder",
-          "s04-research-decision",
-          "s10-final-synthesis"
-        ]
+        "applies_to_steps": ["s01-context-builder", "s04-research-decision", "s10-final-synthesis"]
       },
       {
         "role_id": "structure-risk-reviewer",
         "purpose": "Inspect hidden architecture, workflow, or evidence boundaries when x-ray, memory, protected-context, or toy-game overlays apply.",
         "owns": "structure, evidence, and boundary risks",
-        "applies_to_steps": [
-          "s03-interrogation-review",
-          "s06-invoke-design",
-          "s08-distill-repair"
-        ]
+        "applies_to_steps": ["s03-interrogation-review", "s06-invoke-design", "s08-distill-repair"]
       }
     ],
     "parallelism": "fanout",
@@ -233,22 +166,11 @@
       "capability_ref": "context-builder",
       "mode": "standard",
       "pattern": "sequential",
-      "techniques": [
-        "sentence_grammar",
-        "route_menu",
-        "minimum_component_catalog",
-        "frame_handoff",
-        "memory_loop"
-      ],
-      "inputs": [{ "kind": "intent", "ref": "intent.raw" }],
-      "outputs": [
-        { "kind": "frame", "ref": "context-builder-frame" },
-        { "kind": "handle", "ref": "context-builder-artifact" }
-      ],
+      "techniques": ["sentence_grammar", "route_menu", "minimum_component_catalog", "frame_handoff", "memory_loop"],
+      "inputs": [{"kind": "intent", "ref": "intent.raw"}],
+      "outputs": [{"kind": "frame", "ref": "context-builder-frame"}, {"kind": "handle", "ref": "context-builder-artifact"}],
       "evidence_artifact": "stages/01-context-builder.md",
-      "stop_conditions": [
-        "block if strict context coverage cannot support a coherent seed"
-      ]
+      "stop_conditions": ["block if strict context coverage cannot support a coherent seed"]
     },
     {
       "step_id": "s02-invoke-define",
@@ -257,11 +179,8 @@
       "mode": "define",
       "pattern": "sequential",
       "techniques": ["frame_handoff", "component_descriptor"],
-      "inputs": [
-        { "kind": "frame", "ref": "context-builder-frame" },
-        { "kind": "artifact", "ref": "REFINE-SEED-PROPOSAL.md" }
-      ],
-      "outputs": [{ "kind": "artifact", "ref": "stages/02-invoke-define.md" }],
+      "inputs": [{"kind": "frame", "ref": "context-builder-frame"}, {"kind": "artifact", "ref": "REFINE-SEED-PROPOSAL.md"}],
+      "outputs": [{"kind": "artifact", "ref": "stages/02-invoke-define.md"}],
       "evidence_artifact": "stages/02-invoke-define.md"
     },
     {
@@ -270,20 +189,11 @@
       "capability_ref": "interrogation",
       "mode": "refine-review",
       "pattern": "validation",
-      "techniques": [
-        "validation_loop",
-        "dialectic",
-        "zig_zag",
-        "residue_ledger",
-        "data_quality_integrity"
-      ],
+      "techniques": ["validation_loop", "dialectic", "zig_zag", "residue_ledger", "data_quality_integrity"],
       "roles": ["proposer", "critic", "synthesizer"],
-      "convergence_criteria": [
-        "unsupported assumptions are separated",
-        "stable disagreements are preserved as residue"
-      ],
-      "inputs": [{ "kind": "artifact", "ref": "stages/02-invoke-define.md" }],
-      "outputs": [{ "kind": "ledger", "ref": "refine-review-ledger" }],
+      "convergence_criteria": ["unsupported assumptions are separated", "stable disagreements are preserved as residue"],
+      "inputs": [{"kind": "artifact", "ref": "stages/02-invoke-define.md"}],
+      "outputs": [{"kind": "ledger", "ref": "refine-review-ledger"}],
       "evidence_artifact": "stages/03-interrogation-refine-review.md"
     },
     {
@@ -293,8 +203,8 @@
       "mode": "research-if-gap-appears",
       "pattern": "decision",
       "techniques": ["approval_checkpoint", "conditional_component"],
-      "inputs": [{ "kind": "ledger", "ref": "refine-review-ledger" }],
-      "outputs": [{ "kind": "decision", "ref": "research-decision" }],
+      "inputs": [{"kind": "ledger", "ref": "refine-review-ledger"}],
+      "outputs": [{"kind": "decision", "ref": "research-decision"}],
       "evidence_artifact": "stages/04-research-decision.md"
     },
     {
@@ -303,23 +213,11 @@
       "capability_ref": "distill",
       "mode": "standard",
       "pattern": "distill",
-      "techniques": [
-        "scu_swu_reduction",
-        "tournament",
-        "pareto_gate",
-        "recomposition_proof"
-      ],
+      "techniques": ["scu_swu_reduction", "tournament", "pareto_gate", "recomposition_proof"],
       "roles": ["candidate-a", "candidate-b", "synthesis"],
-      "convergence_criteria": [
-        "Pareto criteria are named",
-        "rejected alternatives are recorded",
-        "selected unit has a recomposition target"
-      ],
-      "inputs": [
-        { "kind": "decision", "ref": "research-decision" },
-        { "kind": "ledger", "ref": "refine-review-ledger" }
-      ],
-      "outputs": [{ "kind": "frame", "ref": "distill-frame" }],
+      "convergence_criteria": ["Pareto criteria are named", "rejected alternatives are recorded", "selected unit has a recomposition target"],
+      "inputs": [{"kind": "decision", "ref": "research-decision"}, {"kind": "ledger", "ref": "refine-review-ledger"}],
+      "outputs": [{"kind": "frame", "ref": "distill-frame"}],
       "evidence_artifact": "stages/05-distill.md"
     },
     {
@@ -328,15 +226,9 @@
       "capability_ref": "invoke",
       "mode": "design",
       "pattern": "sequential",
-      "techniques": [
-        "frame_handoff",
-        "handle_handoff",
-        "x_ray",
-        "component_descriptor",
-        "entity_component_reference"
-      ],
-      "inputs": [{ "kind": "frame", "ref": "distill-frame" }],
-      "outputs": [{ "kind": "artifact", "ref": "stages/06-invoke-design.md" }],
+      "techniques": ["frame_handoff", "handle_handoff", "x_ray", "component_descriptor", "entity_component_reference"],
+      "inputs": [{"kind": "frame", "ref": "distill-frame"}],
+      "outputs": [{"kind": "artifact", "ref": "stages/06-invoke-design.md"}],
       "evidence_artifact": "stages/06-invoke-design.md"
     },
     {
@@ -345,19 +237,11 @@
       "capability_ref": "interrogation",
       "mode": "refine-design-review",
       "pattern": "validation",
-      "techniques": [
-        "validation_loop",
-        "dialectic",
-        "residue_ledger",
-        "data_quality_completeness"
-      ],
+      "techniques": ["validation_loop", "dialectic", "residue_ledger", "data_quality_completeness"],
       "roles": ["design-advocate", "risk-reviewer", "repair-synthesizer"],
-      "convergence_criteria": [
-        "design risks are named",
-        "repair candidates are separated from accepted design claims"
-      ],
-      "inputs": [{ "kind": "artifact", "ref": "stages/06-invoke-design.md" }],
-      "outputs": [{ "kind": "ledger", "ref": "design-review-ledger" }],
+      "convergence_criteria": ["design risks are named", "repair candidates are separated from accepted design claims"],
+      "inputs": [{"kind": "artifact", "ref": "stages/06-invoke-design.md"}],
+      "outputs": [{"kind": "ledger", "ref": "design-review-ledger"}],
       "evidence_artifact": "stages/07-interrogation-refine-design-review.md"
     },
     {
@@ -366,14 +250,9 @@
       "capability_ref": "distill",
       "mode": "validate",
       "pattern": "validation",
-      "techniques": [
-        "validation_loop",
-        "toy_game",
-        "assessment_failure_reference",
-        "recomposition_proof"
-      ],
-      "inputs": [{ "kind": "ledger", "ref": "design-review-ledger" }],
-      "outputs": [{ "kind": "frame", "ref": "repair-frame" }],
+      "techniques": ["validation_loop", "toy_game", "assessment_failure_reference", "recomposition_proof"],
+      "inputs": [{"kind": "ledger", "ref": "design-review-ledger"}],
+      "outputs": [{"kind": "frame", "ref": "repair-frame"}],
       "evidence_artifact": "stages/08-distill-repair.md"
     },
     {
@@ -383,8 +262,8 @@
       "mode": "plan",
       "pattern": "sequential",
       "techniques": ["minimum_component_catalog", "toy_game", "handle_handoff"],
-      "inputs": [{ "kind": "frame", "ref": "repair-frame" }],
-      "outputs": [{ "kind": "artifact", "ref": "stages/09-invoke-plan.md" }],
+      "inputs": [{"kind": "frame", "ref": "repair-frame"}],
+      "outputs": [{"kind": "artifact", "ref": "stages/09-invoke-plan.md"}],
       "evidence_artifact": "stages/09-invoke-plan.md"
     },
     {
@@ -393,22 +272,9 @@
       "capability_ref": "interrogation",
       "mode": "refine-final",
       "pattern": "synthesis",
-      "techniques": [
-        "owner_boundary_check",
-        "residue_ledger",
-        "spell_candidate",
-        "protected_context_flag",
-        "data_quality_conformity",
-        "observability_grouping"
-      ],
-      "inputs": [
-        { "kind": "artifact", "ref": "stages/09-invoke-plan.md" },
-        { "kind": "frame", "ref": "repair-frame" }
-      ],
-      "outputs": [
-        { "kind": "artifact", "ref": "RESULT.md" },
-        { "kind": "trace_event", "ref": "dispatch_completed" }
-      ],
+      "techniques": ["owner_boundary_check", "residue_ledger", "spell_candidate", "protected_context_flag", "data_quality_conformity", "observability_grouping"],
+      "inputs": [{"kind": "artifact", "ref": "stages/09-invoke-plan.md"}, {"kind": "frame", "ref": "repair-frame"}],
+      "outputs": [{"kind": "artifact", "ref": "RESULT.md"}, {"kind": "trace_event", "ref": "dispatch_completed"}],
       "evidence_artifact": "stages/10-final-interrogation-and-synthesis.md"
     }
   ],
@@ -591,13 +457,7 @@
   "observability": {
     "dispatch_id_required": true,
     "parent_dispatch_id": null,
-    "trace_events": [
-      "dispatch_validated",
-      "stage_started",
-      "stage_completed",
-      "stage_blocked",
-      "dispatch_completed"
-    ],
+    "trace_events": ["dispatch_validated", "stage_started", "stage_completed", "stage_blocked", "dispatch_completed"],
     "signal_grouping": "dispatch_id"
   },
   "promotion_guardrails": [

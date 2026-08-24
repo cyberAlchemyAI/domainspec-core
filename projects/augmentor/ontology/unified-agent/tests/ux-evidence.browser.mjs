@@ -100,9 +100,9 @@ const measurePage = () => page.evaluate(() => {
   const surface = root.getPropertyValue("--surface").trim();
   const title = document.querySelector("h1");
   const titleStyle = getComputedStyle(title);
-  const guideCopy = document.querySelector(".guide-head p");
+  const guideCopy = document.querySelector(".body-view-heading p:not(.section-label)");
   const guideCopyStyle = getComputedStyle(guideCopy);
-  const firstLens = document.querySelector(".lens-button");
+  const firstLens = document.querySelector(".organ-button");
   const firstLensRect = firstLens.getBoundingClientRect();
   const focusedOutline = getComputedStyle(firstLens);
   return {
@@ -117,7 +117,7 @@ const measurePage = () => page.evaluate(() => {
       contrast: contrast(titleStyle.color, canvas)
     },
     guide: {
-      top: Math.round(document.querySelector(".beginner-guide").getBoundingClientRect().top),
+      top: Math.round(document.querySelector(".body-view-heading").getBoundingClientRect().top),
       copyContrast: contrast(guideCopyStyle.color, surface)
     },
     firstLens: {
@@ -131,8 +131,8 @@ const measurePage = () => page.evaluate(() => {
       })()
     },
     claim: { position: getComputedStyle(document.querySelector(".claim-ceiling")).position },
-    labels: [...document.querySelectorAll(".lens-button")].map((button) => button.textContent.trim()),
-    viewLabels: [...document.querySelectorAll("#view-tabs .tab")].map((button) => button.childNodes[0].textContent.trim()),
+    labels: [...document.querySelectorAll(".organ-button")].map((button) => button.getAttribute("aria-label")),
+    viewLabels: [...document.querySelectorAll(".representation-button")].map((button) => button.childNodes[0].textContent.trim()),
     tokens: {
       accent: root.getPropertyValue("--accent").trim(),
       warning: root.getPropertyValue("--warning").trim()
@@ -143,6 +143,7 @@ const measurePage = () => page.evaluate(() => {
 let responseStatus;
 let desktop;
 let narrow;
+let zoom;
 let ariaSnapshot;
 let hardGates;
 let languageEvidence;
@@ -150,11 +151,12 @@ let languageEvidence;
 try {
   const response = await page.goto(targetUrl, { waitUntil: "networkidle" });
   responseStatus = response?.status() ?? null;
-  await page.getByTestId("explanation-lens-plain_meaning").focus();
+  await page.getByTestId("body-region-face").focus();
   desktop = await measurePage();
   ariaSnapshot = await page.locator("body").ariaSnapshot();
   await page.screenshot({ path: path.join(evidencePaths.screenshots, "desktop-1440x1000.png"), fullPage: true });
 
+  await page.getByTestId("technical-view-button").click();
   await page.getByTestId("explanation-lens-state_view").click();
   await page.getByTestId("view-intent-route").click();
   await page.getByTestId("graph-node-route_disposition").click();
@@ -180,19 +182,33 @@ try {
     };
   });
 
+  await page.getByTestId("body-view-button").click();
   await page.setViewportSize({ width: 320, height: 800 });
-  await page.getByTestId("explanation-lens-plain_meaning").scrollIntoViewIfNeeded();
-  await page.getByTestId("explanation-lens-plain_meaning").focus();
+  await page.getByTestId("body-region-face").scrollIntoViewIfNeeded();
+  await page.getByTestId("body-region-face").focus();
   await page.keyboard.press("Shift+Tab");
   await page.keyboard.press("Tab");
   narrow = await measurePage();
   await page.screenshot({ path: path.join(evidencePaths.screenshots, "mobile-320x800.png"), fullPage: true });
+
+  const zoomContext = await browser.newContext({ viewport: { width: 720, height: 500 }, deviceScaleFactor: 2 });
+  const zoomPage = await zoomContext.newPage();
+  await zoomPage.goto(targetUrl, { waitUntil: "networkidle" });
+  zoom = await zoomPage.evaluate(() => ({
+    viewport: {width: innerWidth, height: innerHeight, deviceScaleFactor: devicePixelRatio},
+    document: {scrollWidth: document.documentElement.scrollWidth, scrollHeight: document.documentElement.scrollHeight},
+    bodyVisible: !document.querySelector("#body-view").hidden,
+    labelsVisible: [...document.querySelectorAll(".organ-button")].every((button) => button.getBoundingClientRect().height >= 24)
+  }));
+  await zoomPage.screenshot({ path: path.join(evidencePaths.screenshots, "zoom-200-percent-equivalent.png"), fullPage: true });
+  await zoomContext.close();
 
   hardGates = [
     { id: "UX-HG-HTTP", status: responseStatus === 200 ? "pass" : "fail", observed: responseStatus, source_cards: [] },
     { id: "UX-HG-CONSOLE", status: consoleErrors.length === 0 && pageErrors.length === 0 ? "pass" : "fail", observed: { consoleErrors, pageErrors }, source_cards: [] },
     { id: "UX-HG-NETWORK", status: externalRequests.length === 0 ? "pass" : "fail", observed: externalRequests, source_cards: [] },
     { id: "UX-HG-REFLOW", status: narrow.document.scrollWidth <= narrow.viewport.width ? "pass" : "fail", observed: { scrollWidth: narrow.document.scrollWidth, viewportWidth: narrow.viewport.width }, source_cards: ["UX-SRC-WCAG22"] },
+    { id: "UX-HG-ZOOM-200", status: zoom.document.scrollWidth <= zoom.viewport.width && zoom.bodyVisible && zoom.labelsVisible ? "pass" : "fail", observed: zoom, source_cards: ["UX-SRC-WCAG22"] },
     { id: "UX-HG-TEXT-CONTRAST", status: desktop.title.contrast >= 4.5 && desktop.guide.copyContrast >= 4.5 ? "pass" : "fail", observed: { title: desktop.title.contrast, guideCopy: desktop.guide.copyContrast }, source_cards: ["UX-SRC-WCAG22"] },
     { id: "UX-HG-FOCUS", status: Number.parseFloat(desktop.firstLens.outlineWidth) >= 2 && desktop.firstLens.outlineStyle !== "none" && Number.parseFloat(narrow.firstLens.outlineWidth) >= 2 && narrow.firstLens.outlineStyle !== "none" && narrow.firstLens.hitTargetVisible && narrow.claim.position !== "sticky" ? "pass" : "fail", observed: { desktop: desktop.firstLens, narrow: narrow.firstLens, claim: narrow.claim }, source_cards: ["UX-SRC-WCAG22"] },
     { id: "UX-HG-TARGET", status: desktop.firstLens.width >= 24 && desktop.firstLens.height >= 24 ? "pass" : "fail", observed: desktop.firstLens, source_cards: ["UX-SRC-WCAG22"] },
@@ -230,27 +246,28 @@ const findings = {
       id: "UX-SS-COLOR-ROLES",
       status: desktop.tokens.accent !== desktop.tokens.warning ? "pass" : "flag",
       observed: desktop.tokens,
-      judgment: "Navigation and selection use a quiet blue; amber is reserved for the important-limit warning.",
+      judgment: "Neutral surfaces carry the page; one restrained accent marks navigation and selection while amber remains a warning role.",
       source_cards: ["UX-SRC-DIGITAL-PLAIN"]
     }
   ],
   human_study: [
-    "Confirm that beginners can predict what each explanation button reveals.",
-    "Confirm that the four friendly lane names preserve the intended distinctions.",
-    "Confirm that the cooler palette and reduced headline feel calmer across user display settings.",
-    "Measure whether users can distinguish a route-finder result from the product's chosen route."
+    "Ask what is working now and whether the body makes the mixed states clear.",
+    "Ask whether Augmentor appears to have a reasoning engine today.",
+    "Ask whether the Add-on SDK appears able to act today.",
+    "Ask who approves or authorizes effects.",
+    "Ask where the exact technical model can be inspected."
   ],
   not_automatable: [
     "Beginner comprehension",
     "Perceived visual balance and trust",
-    "Whether the analogies improve recall without creating false authority inferences"
+    "Whether the body metaphor improves recall without creating capability or authority inferences"
   ]
 };
 
 const accessibility = {
   status: hardGateFailures.length ? "fail" : "pass-with-residue",
   scope: "Browser-observable checks only; not an accessibility conformance certification.",
-  checks: hardGates.filter((finding) => ["UX-HG-REFLOW", "UX-HG-TEXT-CONTRAST", "UX-HG-FOCUS", "UX-HG-TARGET", "UX-HG-LABELS", "UX-HG-BEGINNER-COPY"].includes(finding.id))
+  checks: hardGates.filter((finding) => ["UX-HG-REFLOW", "UX-HG-ZOOM-200", "UX-HG-TEXT-CONTRAST", "UX-HG-FOCUS", "UX-HG-TARGET", "UX-HG-LABELS", "UX-HG-BEGINNER-COPY"].includes(finding.id))
 };
 const runMetadata = {
   schema: "augmentor.ux-evidence-run@0.1.0",
@@ -260,7 +277,7 @@ const runMetadata = {
   mode: "validate-interface",
   browser: "chromium",
   playwright_version: playwrightVersion,
-  viewports: [{ width: 1440, height: 1000 }, { width: 320, height: 800 }],
+  viewports: [{ width: 1440, height: 1000 }, { width: 320, height: 800 }, {width: 720, height: 500, device_scale_factor: 2, witness: "200-percent-equivalent"}],
   status: findings.status,
   fixture_calibration: "not-run",
   observability: {
@@ -269,8 +286,8 @@ const runMetadata = {
     validator_layer_coverage: {
       L0: "HTTP, console, page errors, and external requests",
       L1: "accessible names, ARIA snapshot, focus, and target size",
-      L2: "explanation, view, graph-node, and keyboard interactions",
-      L3: "desktop hierarchy, 320px reflow, and contrast proxies",
+      L2: "body region, representation, exact-record, graph-node, and keyboard interactions",
+      L3: "desktop anatomy, 320px reflow, 200%-equivalent zoom, and contrast proxies",
       L4: "plain-language and technical-vocabulary soft flags",
       L5: "not evaluated; no domain-market rule was promoted",
       L6: "human comprehension and visual-preference residue only"
@@ -286,22 +303,22 @@ const runMetadata = {
   }
 };
 const consoleNetwork = { responseStatus, consoleErrors, pageErrors, externalRequests };
-const measurements = { desktop, narrow };
+const measurements = { desktop, narrow, zoom };
 const residueLedger = `schema: augmentor.ux-residue-ledger@0.1.0
 status: open
 items:
   - id: UX-RES-COMPREHENSION
     claim_class: human_study
-    question: Can beginners predict what each explanation button reveals?
+    question: Can beginners tell what exists now from the body regions and status words?
   - id: UX-RES-LANE-LANGUAGE
     claim_class: human_study
-    question: Do the friendly lane names preserve the four intended distinctions?
+    question: Do the body regions preserve the distributed owner distinctions?
   - id: UX-RES-VISUAL-TONE
     claim_class: screenshot_review
-    question: Does the reduced headline and cooler palette feel calmer on real user displays?
+    question: Does the neutral SaaS shell feel clear on real user displays?
   - id: UX-RES-ROUTER-BOUNDARY
     claim_class: human_study
-    question: Can users distinguish a route-finder result from the product's chosen route?
+    question: Can users tell that the deferred heart and external SDK seam are not live capabilities?
 `;
 const summary = `# Augmentor ontology UX evidence
 
@@ -314,9 +331,10 @@ const summary = `# Augmentor ontology UX evidence
 
 ## Observed
 
-- The headline is ${desktop.title.fontSize}px at 1440px and the guide begins at ${desktop.guide.top}px.
+- The headline is ${desktop.title.fontSize}px at 1440px and Body View begins at ${desktop.guide.top}px.
 - The document reflows to ${narrow.viewport.width}px without page-level horizontal overflow.
-- The interface exposes six purpose-oriented explanation labels and six task-oriented view labels.
+- A separate ${zoom.viewport.deviceScaleFactor}x / 200%-equivalent witness reflows at ${zoom.viewport.width} CSS pixels.
+- The interface exposes nine labelled body regions plus a separate SDK seam and two peer representation modes.
 - Navigation/selection and warning colors use separate tokens.
 
 ## Evidence boundary

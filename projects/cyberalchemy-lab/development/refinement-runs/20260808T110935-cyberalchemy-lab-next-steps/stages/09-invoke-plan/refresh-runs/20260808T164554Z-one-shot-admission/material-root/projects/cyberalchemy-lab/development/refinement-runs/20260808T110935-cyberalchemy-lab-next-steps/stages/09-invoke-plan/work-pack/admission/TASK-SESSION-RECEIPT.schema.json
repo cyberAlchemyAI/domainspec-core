@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberalchemy.local/schemas/task-session-receipt/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "work_pack_id", "task_id", "swu_id", "attempt_id", "selection_receipt_digest", "command_binding", "runtime_bindings", "touched_paths", "validation_results", "result", "authority_effect", "blockers", "stop_reason", "started_at", "finished_at"],
+  "properties": {
+    "schema_version": {"const": "cyberalchemy-lab.task-session-receipt/v1"},
+    "work_pack_id": {"const": "WP-CAL-TEN-L0"},
+    "task_id": {"type": "string", "minLength": 1},
+    "swu_id": {"pattern": "^SWU-CAL-0(0[1-9]|10)$"},
+    "attempt_id": {"type": "string", "minLength": 1},
+    "selection_receipt_digest": {"pattern": "^[a-f0-9]{64}$"},
+    "command_binding": {"type": "object", "required": ["argv", "cwd", "risk_class"], "properties": {"argv": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "cwd": {"const": "."}, "risk_class": {"const": "bounded-write"}}, "additionalProperties": false},
+    "runtime_bindings": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["runtime_ref", "path", "version", "sha256"], "properties": {"runtime_ref": {"type": "string"}, "path": {"type": "string"}, "version": {"type": "string"}, "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}}, "additionalProperties": false}},
+    "touched_paths": {"type": "array", "uniqueItems": true, "items": {"type": "object", "required": ["path", "before", "after"], "properties": {"path": {"type": "string"}, "before": {"$ref": "#/$defs/image"}, "after": {"$ref": "#/$defs/image"}}, "additionalProperties": false}},
+    "validation_results": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["command_id", "argv", "cwd", "exit_code", "status"], "properties": {"command_id": {"type": "string"}, "argv": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "cwd": {"type": "string"}, "exit_code": {"type": "integer"}, "status": {"enum": ["pass", "block"]}}, "additionalProperties": false}},
+    "result": {"enum": ["pass", "block"]},
+    "authority_effect": {"const": "none"},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "stop_reason": {"type": ["string", "null"]},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "image": {"type": "object", "required": ["state", "sha256", "size_bytes"], "properties": {"state": {"enum": ["absent", "present"]}, "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}, "size_bytes": {"type": ["integer", "null"], "minimum": 0}}, "additionalProperties": false}
+  }
+}

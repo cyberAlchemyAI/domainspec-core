@@ -16,30 +16,32 @@ Raw context can be hard to inspect because structure is often implicit. A system
 
 `x-ray` makes that structure visible by splitting a target into explanation lanes. Each lane gives one vision of the target, such as properties, components, internal dependencies, external dependencies, flow, lifecycle, or risk questions. The lane handles compose into a local HTML page where layers can be stacked, isolated, compared, or traced.
 
+`x-ray` should also make the structure learnable. The output must not assume the reader already knows the target's domain vocabulary. Important concepts need a small on-ramp: what the thing is in ordinary language, why it matters here, what it changes or depends on, and only then the local technical label.
+
 ## Modes
 
-| Mode           | Use When                                                              |
-| -------------- | --------------------------------------------------------------------- |
-| `object`       | Explain a bounded conceptual, data, or domain object.                 |
-| `artifact`     | Explain a document, spec, plan, deck, or generated artifact.          |
+| Mode | Use When |
+| --- | --- |
+| `object` | Explain a bounded conceptual, data, or domain object. |
+| `artifact` | Explain a document, spec, plan, deck, or generated artifact. |
 | `architecture` | Explain a system, subsystem, component graph, or design architecture. |
-| `codebase`     | Explain a repository, package, module, or source subtree.             |
-| `process`      | Explain an operational, human, or system workflow.                    |
-| `mixed`        | Explain a target that legitimately combines multiple shapes.          |
+| `codebase` | Explain a repository, package, module, or source subtree. |
+| `process` | Explain an operational, human, or system workflow. |
+| `mixed` | Explain a target that legitimately combines multiple shapes. |
 
 ## Canonical Lanes
 
-| Lane                    | What It Shows                                                                 |
-| ----------------------- | ----------------------------------------------------------------------------- |
-| `surface`               | What the target appears to be and why it is being inspected.                  |
-| `properties`            | Important attributes, invariants, metadata, constraints, and state.           |
-| `components`            | Internal parts and their purposes.                                            |
-| `internal_dependencies` | Dependencies among parts inside the target.                                   |
+| Lane | What It Shows |
+| --- | --- |
+| `surface` | What the target appears to be and why it is being inspected. |
+| `properties` | Important attributes, invariants, metadata, constraints, and state. |
+| `components` | Internal parts and their purposes. |
+| `internal_dependencies` | Dependencies among parts inside the target. |
 | `external_dependencies` | Services, libraries, APIs, people, policies, or artifacts outside the target. |
-| `flow`                  | Data, control, work, or meaning movement.                                     |
-| `lifecycle`             | Creation, operation, mutation, validation, failure, and retirement states.    |
-| `risk_questions`        | Ambiguity, missing evidence, contradictions, risks, and open questions.       |
-| `visual_composition`    | How lane handles map into the HTML/SVG layer stack and optional adapters.     |
+| `flow` | Data, control, work, or meaning movement. |
+| `lifecycle` | Creation, operation, mutation, validation, failure, and retirement states. |
+| `risk_questions` | Ambiguity, missing evidence, contradictions, risks, and open questions. |
+| `visual_composition` | How lane handles map into the HTML/SVG layer stack and optional adapters. |
 
 ## Output Model
 
@@ -53,6 +55,15 @@ The first renderer level is intentionally simple:
 - layer controls,
 - source evidence and inference markers,
 - internal and external dependency sections.
+
+Each page should declare a reader baseline:
+
+| Reader Baseline | Use When | Explanation Style |
+| --- | --- | --- |
+| `newcomer` | The reader may not know the domain or target vocabulary. | Define terms at first use, explain why each layer matters, and show cause/effect step by step. |
+| `working-reader` | The reader knows the general domain but not this target's local structure. | Keep local terms compact but explain target-specific boundaries, dependencies, and failure points. |
+| `expert` | The reader knows the domain and needs a fast structural inspection. | Use compact labels while preserving evidence, inference, and local boundary clarity. |
+| `unknown` | The prompt does not reveal the audience. | Default prose to `newcomer` and visual labels to `working-reader`. |
 
 Later renderer levels may add Mermaid diagrams, CSS 3D transforms, Three.js, or Kroki-generated SVG, but those are optional adapters. A valid baseline `x-ray` result must not depend on remote rendering or 3D.
 
@@ -86,13 +97,13 @@ Add your own shape, chart, or pattern when the starter set cannot represent the 
 
 ## Ownership Model
 
-| Capability           | Owner                                          |
-| -------------------- | ---------------------------------------------- |
-| Seed execution       | Task Session                                   |
-| Sigil lifecycle      | Sigil Development                              |
-| Experiment mechanics | Experiment Harness                             |
-| Runtime handoff      | Codex Goal adapter when strict coverage passes |
-| Promotion readiness  | Sigil Development after live examples          |
+| Capability | Owner |
+| --- | --- |
+| Seed execution | Task Session |
+| Sigil lifecycle | Sigil Development |
+| Experiment mechanics | Experiment Harness |
+| Runtime handoff | Codex Goal adapter when strict coverage passes |
+| Promotion readiness | Sigil Development after live examples |
 
 ## Development
 

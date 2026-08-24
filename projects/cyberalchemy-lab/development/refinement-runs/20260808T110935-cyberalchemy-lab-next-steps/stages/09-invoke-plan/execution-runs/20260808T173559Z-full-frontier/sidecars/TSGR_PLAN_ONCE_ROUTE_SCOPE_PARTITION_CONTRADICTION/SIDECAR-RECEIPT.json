@@ -1,0 +1,189 @@
+{
+  "schema_version": "cyberalchemy-lab.governance-defect-sidecar-receipt/v1",
+  "receipt_id": "sidecar-tsgr-route-scope-369e2958c81f883a",
+  "blocker_code": "TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION",
+  "result": "candidate-validated-awaiting-owner-acceptance",
+  "classification": "governance-only-runtime-defect",
+  "started_at": "2026-08-08T18:00:00Z",
+  "finished_at": "2026-08-08T18:14:34Z",
+  "work_pack_binding": {
+    "work_pack_id": "WP-CAL-TEN-L0",
+    "swu_id": "SWU-CAL-001",
+    "frozen_semantic_digest": "b10d6494d3cc6284629d83cb36c0f361db37739c71347e1718697ab49c9e004b",
+    "plan_epoch_id": "epoch-d223ff893fa404413b01afe8",
+    "blocker_evidence": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/GOVERNANCE-BLOCKER.json",
+      "dispatch_sha256": "48d351f0d10d0d4330afb2dc3ad218834036dda5fad0b1384603ffc6199e102c",
+      "current_sha256": "48d351f0d10d0d4330afb2dc3ad218834036dda5fad0b1384603ffc6199e102c",
+      "unchanged": true
+    },
+    "failing_prepare": {
+      "evidence_path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/governance-prepare-block.json",
+      "exit_code": 2,
+      "diagnostic": "fast-entry request and receipt do not bind this governance route",
+      "writes_performed": 0
+    }
+  },
+  "root_cause": {
+    "summary": "fast_execution_entry_contract checks exact route-scope closure against execution_contract.allowed_writes alone, but the plan-once contract intentionally defines that field as materialWrites only and separately defines the terminal Task Session receipt as the sole executionOutput.",
+    "contradictory_requirements": [
+      "Route closure requires all owner-route write-scope paths to be represented.",
+      "Plan admission requires execution_contract.allowed_writes to equal materialWrites.",
+      "The terminal receipt must be executionOutputs[0] and must not be added to materialWrites."
+    ],
+    "independently_reproduced": true,
+    "reproduction": {
+      "validation_evidence_ref": {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION/validation/VALIDATION-EVIDENCE.json",
+        "sha256": "698f73a266fa028f2855d0147bd7d4a1bc699fc090f5aa35bc41c6973806a1b9",
+        "size_bytes": 8325
+      },
+      "baseline_case": "prepare-plan-fast-entry-route-scope-partition",
+      "baseline_result": "block-before-write",
+      "baseline_exit_code": 2,
+      "baseline_run_files": 0,
+      "additional_gap": "The baseline runner admitted a route that omitted the terminal receipt because it never included that execution output in route closure."
+    }
+  },
+  "affected_invariant": "A valid plan-once fast-entry request must preserve the material-write versus terminal-execution-output partition while proving exact bidirectional closure over the complete owner-route write scope.",
+  "tension_resolution": {
+    "selected_model": "route-scope closure equals normalized material writes plus the declared terminal receipt",
+    "preserved_model": "plan_admission_contract retains exact materialWrites equality against execution_contract.allowed_writes",
+    "rejected_model": "placing the terminal receipt inside execution_contract.allowed_writes, because that violates the material-only admission partition",
+    "effect_on_authority": "none"
+  },
+  "minimal_repair_proposal": {
+    "patch_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION/candidate/repair.patch",
+      "sha256": "369e2958c81f883aef28a961b7846f7ce432aba11384e07b6161ef106b1d4ff8",
+      "size_bytes": 12903
+    },
+    "runner_change": "Pass execution_contract.allowed_writes plus closeout_contract.terminal_receipt_path to the existing exact route-scope closure helper.",
+    "semantic_ceiling": "No material-write, execution-output, admission, consumption, mutation, closeout, authority, publication, or successor semantics are changed.",
+    "applied_to_canonical": false,
+    "applied_to_generated_projection": false
+  },
+  "proposed_changed_byte_inventory": [
+    {
+      "path": "arcanum/arcana/task-session/scripts/task-session-governance-runner.py",
+      "change_kind": "modify",
+      "purpose": "Bind route closure to material writes plus terminal receipt.",
+      "before_sha256": "8ca91c6daa6bf53b4672ee162ee4296d6b5d3e07f5696f5f8d600b63e6b234bd",
+      "before_size_bytes": 93127,
+      "after_candidate_sha256": "1675f28dadf4701c89286799088120d1edb65bb351f3519ab791e28a4b9f6afc",
+      "after_candidate_size_bytes": 93245
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/validate-governance-runner.py",
+      "change_kind": "modify",
+      "purpose": "Add a full synthetic plan-once fast-entry partition scenario and paired fail-closed terminal-scope scenario.",
+      "before_sha256": "d46b2ac7dcfe8bf606d3185a33916867d819233c46aea45002cb20c945cf3651",
+      "before_size_bytes": 68749,
+      "after_candidate_sha256": "f050e6c13303683bece0299dca7db056506812265bb6365bec60aee7c6b5e843",
+      "after_candidate_size_bytes": 78461
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/fixtures/governance-runner-cases.json",
+      "change_kind": "modify",
+      "purpose": "Register the permanent positive and negative partition regression cases.",
+      "before_sha256": "fa77e037c15277589a8646eaf429ca33962fc3a80aa672f01fdab83d12a8c376",
+      "before_size_bytes": 9209,
+      "after_candidate_sha256": "157b53de7390e32812e552a8e0ca09dac1f3225ed8722dfbc52f30eb04a02940",
+      "after_candidate_size_bytes": 9597
+    }
+  ],
+  "permanent_workflow_regression_fix": {
+    "positive_case": {
+      "case_id": "prepare-plan-fast-entry-route-scope-partition",
+      "contract": "One material write plus one terminal receipt in route scope; request allowed_writes remains material-only.",
+      "expected": "prepare passes to ticketed with exactly five run-state files"
+    },
+    "negative_case": {
+      "case_id": "prepare-plan-fast-entry-terminal-outside-route-blocks-before-write",
+      "contract": "Terminal receipt is absent from route write scope.",
+      "expected": "prepare exits 2, result block, writes_performed 0, run directory absent"
+    },
+    "fixture_inventory_updated": true
+  },
+  "isolated_validation": {
+    "result": "pass",
+    "temporary_roots_cleaned": true,
+    "evidence_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION/validation/VALIDATION-EVIDENCE.json",
+      "sha256": "698f73a266fa028f2855d0147bd7d4a1bc699fc090f5aa35bc41c6973806a1b9",
+      "size_bytes": 8325
+    },
+    "patch_applicability": "pass",
+    "focused_prepare_family": "positive 4/4; negative 7/7",
+    "complete_governance_runner_validator": "positive 19/19; negative 26/26; undeclared outputs 0",
+    "negative_behavior_remains_fail_closed": true
+  },
+  "generated_sync_and_parity": {
+    "required": true,
+    "generated_target": ".agents/skills/task-session/scripts/task-session-governance-runner.py",
+    "generated_dispatch_sha256": "8ca91c6daa6bf53b4672ee162ee4296d6b5d3e07f5696f5f8d600b63e6b234bd",
+    "generated_current_sha256": "8ca91c6daa6bf53b4672ee162ee4296d6b5d3e07f5696f5f8d600b63e6b234bd",
+    "canonical_current_sha256": "8ca91c6daa6bf53b4672ee162ee4296d6b5d3e07f5696f5f8d600b63e6b234bd",
+    "current_parity": true,
+    "post_apply_requirement": "Regenerate the complete task-session generated package from accepted canonical sources and prove canonical/generated runner byte identity before resuming WP-CAL-TEN-L0."
+  },
+  "safe_state_no_product_proof": {
+    "canonical_target_bytes_changed": false,
+    "generated_projection_bytes_changed": false,
+    "product_bytes_changed": false,
+    "product_root": {
+      "path": "projects/cyberalchemy-lab/research/tower-evidence-navigator",
+      "state": "absent"
+    },
+    "original_governance_run": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/governance-run",
+      "state": "absent"
+    },
+    "original_admission_consumption_ledger": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/.admission-consumption/f8266daefee692fe286955feea5a9d6477872029d93f487cbde3f9005b331492.json",
+      "state": "absent",
+      "admission_token_consumed": false
+    },
+    "work_pack_or_execution_state_mutated": false,
+    "git_effects": "none",
+    "external_effects": "none"
+  },
+  "required_revalidation_after_canonical_apply": [
+    "Bind renewed owner acceptance to the exact candidate patch and all three proposed after-candidate identities.",
+    "Apply the accepted patch to the three canonical Arcanum targets in a separate governed runtime-maintenance Task Session.",
+    "Run the complete canonical governance-runner validator with family commit-resume and require all positive and negative cases to pass with zero undeclared outputs.",
+    "Regenerate the installed task-session skill package from canonical Arcanum source.",
+    "Verify the canonical and generated governance-runner SHA-256 identities are equal.",
+    "Create a fresh SWU-CAL-001 Task Session attempt and fresh mutation admission; do not reuse the old admission across changed runtime bytes.",
+    "Re-run governance-runner prepare and require the partition case to reach ticketed without product mutation.",
+    "Prove single-use admission consumption only at the bounded execution edge, then run acceptance-critical validation on live product paths.",
+    "Re-run terminal-receipt semantic validation before Invoke Refresh closeout."
+  ],
+  "renewed_owner_acceptance_required": true,
+  "next_owner_and_gate": {
+    "owner": {
+      "capability": "task-session",
+      "mode": "runtime-maintenance",
+      "target": "TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION"
+    },
+    "gate": "renewed-owner-acceptance-before-canonical-apply",
+    "exact_execution_boundary": {
+      "allowed_canonical_targets": [
+        "arcanum/arcana/task-session/scripts/task-session-governance-runner.py",
+        "arcanum/arcana/task-session/development/validate-governance-runner.py",
+        "arcanum/arcana/task-session/development/fixtures/governance-runner-cases.json"
+      ],
+      "generated_sync_target_after_canonical_validation": ".agents/skills/task-session/",
+      "forbidden": [
+        "projects/cyberalchemy-lab/research/**",
+        "WP-CAL-TEN-L0 frozen planning and admission bytes",
+        "existing controller, chain, execution, and closeout receipts",
+        "promotion, publication, deployment, Git publication, credentials, and external effects"
+      ],
+      "stop_after": "canonical validation and generated parity receipt; resume WP-CAL-TEN-L0 only through a fresh SWU-CAL-001 attempt"
+    }
+  },
+  "helper_classification": "one bounded governance-defect sidecar; not a governed dispatch",
+  "authority_effect": "none",
+  "application_claim": "candidate only; not applied"
+}

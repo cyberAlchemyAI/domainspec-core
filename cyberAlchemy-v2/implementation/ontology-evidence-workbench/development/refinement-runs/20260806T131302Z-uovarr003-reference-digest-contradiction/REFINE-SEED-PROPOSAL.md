@@ -1,9 +1,9 @@
 # Refine Seed Proposal — UOVARR-003 Reference/Digest Contradiction
 
-Run ID: `20260806T131302Z-uovarr003-reference-digest-contradiction`  
-Status: strategy proposed; runtime stages and subagents not authorized  
-Preset: `standard`  
-Research: `research-if-gap-appears`, local-first; external research requires a later named-gap confirmation  
+Run ID: `20260806T131302Z-uovarr003-reference-digest-contradiction`
+Status: strategy proposed; runtime stages and subagents not authorized
+Preset: `standard`
+Research: `research-if-gap-appears`, local-first; external research requires a later named-gap confirmation
 Authority effect: none
 
 ## Raw operator intent
@@ -84,4 +84,3 @@ Pass requires an acyclic dependency graph, field/hash ownership matrix, candidat
 ## Claim ceiling
 
 This run refines design and planning only. It cannot implement UOVARR-003, change the digest law, unblock Task Session, claim browser behavior, promote ontology knowledge, publish, deploy, or release.
-

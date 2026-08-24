@@ -1,0 +1,181 @@
+{
+  "concerns": [
+    {
+      "concern_id": "concern:authority",
+      "disposition": "required",
+      "output_id": "architecture:authority-trust",
+      "ownership": {
+        "accountable_owner": "authority-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "candidate-package-owner",
+          "corpus-owner",
+          "ontology-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/02-invoke-define.md",
+          "stages/02-invoke-define.md#Actors-and-owners"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "authority",
+      "rationale": "Candidate records, owner admission, and blocked promotion require an explicit trust boundary.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:authority-boundary",
+        "signal:normative-rule:authority-effect-none",
+        "signal:normative-rule:real-tower-admission"
+      ]
+    },
+    {
+      "concern_id": "concern:persistence",
+      "disposition": "required",
+      "output_id": "architecture:persistence-concurrency",
+      "ownership": {
+        "accountable_owner": "persistence-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "candidate-package-owner",
+          "compiler-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/02-invoke-define.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+          "stages/05-distill.md#Current-smallest-coherent-unit"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "persistence",
+      "rationale": "Repository-local candidate files and disposable generated output need one-writer and replacement rules.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:persistence-boundary",
+        "signal:store:candidate-package-files",
+        "signal:store:disposable-projection-json",
+        "signal:writer:deterministic-projection-compiler"
+      ]
+    },
+    {
+      "concern_id": "concern:integration",
+      "disposition": "required",
+      "output_id": "architecture:integration-versioning",
+      "ownership": {
+        "accountable_owner": "interface-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "compiler-owner",
+          "future-ide-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+          "stages/05-distill.md#Closure-and-recomposition-proof"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "integration",
+      "rationale": "The projection contract is the only future handoff into the direct-GET adapter.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:integration-contract",
+        "signal:compatibility:projection-contract-version",
+        "signal:interface:projection-contract-v1"
+      ]
+    },
+    {
+      "concern_id": "concern:privacy-data",
+      "disposition": "required",
+      "output_id": "architecture:data-lifecycle",
+      "ownership": {
+        "accountable_owner": "data-owner",
+        "artifact_owner": "architecture-owner",
+        "contributing_owners": [
+          "candidate-package-owner",
+          "privacy-boundary-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/02-invoke-define.md",
+          "stages/01-context-builder/context-pack.md#Evidence-backed-obligations"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "privacy-data",
+      "rationale": "Private evidence may appear only through an allowlisted privacy-filtered projection and cannot cross into public Arcanum.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:privacy-boundary",
+        "signal:data-log-sink:candidate-projection-and-validation-records"
+      ]
+    },
+    {
+      "concern_id": "concern:validation",
+      "disposition": "required",
+      "output_id": "validation-contracts",
+      "ownership": {
+        "accountable_owner": "design-owner",
+        "artifact_owner": "plan-work-pack-owner",
+        "contributing_owners": [
+          "compiler-owner",
+          "validation-owner"
+        ],
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "predicate_evidence": {
+        "detector_negative": false,
+        "evidence_selectors": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+          "stages/05-distill.md#Premortem"
+        ],
+        "required_predicate": true
+      },
+      "primary_class": "validation",
+      "rationale": "Exact-input validation and explicit mechanics-versus-real-source evidence states prevent fixture-only success.",
+      "revisit_condition": null,
+      "selected": true,
+      "signal_ids": [
+        "authored:validation-contract",
+        "signal:acceptance-readiness-claim:selected-unit-b-authored-complete",
+        "signal:effect:write-disposable-local-projection",
+        "signal:normative-rule:fail-closed-input-validation"
+      ]
+    }
+  ],
+  "denominator_receipt_digest": "2ff78922dbe6359573e62cbf6fa46c469b55045dbdf5406363311054133c1964",
+  "diagnostics": [],
+  "evidence_state": "design-validator-pass",
+  "fixed_point": true,
+  "manifest_id": "manifest:cyberalchemy-lab-selected-unit-b",
+  "manifest_input_digest": "4b33410ff05da6a519d59bbbc41b8ce837c9fc20e6ac47e44cd412a82506f26a",
+  "pass_1_digest": "6b1a76c2291868e7bba9ebee08b40a805c7cb0643f14a6d6d622a7ba4b1916f2",
+  "pass_2_digest": "6b1a76c2291868e7bba9ebee08b40a805c7cb0643f14a6d6d622a7ba4b1916f2",
+  "result_digest": "c1a47b9b0f0a7af3ed5bd9804e64865fa4183b3ba444d294f05fdd099a7ffee2",
+  "schema_version": "1.0.0",
+  "selected_outputs": [
+    "architecture",
+    "architecture:authority-trust",
+    "architecture:data-lifecycle",
+    "architecture:integration-versioning",
+    "architecture:persistence-concurrency",
+    "validation-contracts"
+  ],
+  "verdict": "pass"
+}

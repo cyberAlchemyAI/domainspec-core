@@ -20,18 +20,18 @@
 
 ## Stage Evidence
 
-| Stage                              | Capability             | Capability source                    | Mode/config                                                | Status | Artifact path | Receipt kind | Receipt artifact | Observer status | Verdict | Blocked reason |
-| ---------------------------------- | ---------------------- | ------------------------------------ | ---------------------------------------------------------- | ------ | ------------- | ------------ | ---------------- | --------------- | ------- | -------------- |
-| Context Builder evidence baseline  | context-builder        | native capability                    | standard; --strict --emit both --handoff runtime           | block  |               | blocked      |                  |                 | block   | <reason>       |
-| Invoke Define                      | invoke                 | native capability                    | define                                                     | block  |               | blocked      |                  |                 | block   | <reason>       |
-| Interrogation refine-review        | interrogation          | native capability                    | refine-review                                              | block  |               | blocked      |                  |                 | block   | <reason>       |
-| Research decision                  | refine                 | arcana/refine/SKILL.md               | no-research \| bounded-research \| research-if-gap-appears | block  |               | blocked      |                  | n/a             | block   | <reason>       |
-| Distill                            | distill                | native capability                    | standard                                                   | block  |               | blocked      |                  |                 | block   | <reason>       |
-| Invoke Redefine / Design           | invoke                 | native capability                    | design                                                     | block  |               | blocked      |                  |                 | block   | <reason>       |
-| Interrogation refine-design-review | interrogation          | native capability                    | refine-design-review                                       | block  |               | blocked      |                  |                 | block   | <reason>       |
-| Distill Repair                     | distill                | native capability                    | validate or repair-focused request                         | block  |               | blocked      |                  |                 | block   | <reason>       |
-| Invoke Plan                        | invoke                 | native capability                    | plan                                                       | block  |               | blocked      |                  |                 | block   | <reason>       |
-| Final Interrogation and Synthesis  | interrogation + refine | native capability + refine synthesis | refine-final                                               | block  |               | blocked      |                  |                 | block   | <reason>       |
+| Stage | Capability | Capability source | Mode/config | Status | Artifact path | Receipt kind | Receipt artifact | Observer status | Verdict | Blocked reason |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Context Builder evidence baseline | context-builder | native capability | standard; --strict --emit both --handoff runtime | block |  | blocked |  |  | block | <reason> |
+| Invoke Define | invoke | native capability | define | block |  | blocked |  |  | block | <reason> |
+| Interrogation refine-review | interrogation | native capability | refine-review | block |  | blocked |  |  | block | <reason> |
+| Research decision | refine | arcana/refine/SKILL.md | no-research \| bounded-research \| research-if-gap-appears | block |  | blocked |  | n/a | block | <reason> |
+| Distill | distill | native capability | standard | block |  | blocked |  |  | block | <reason> |
+| Invoke Redefine / Design | invoke | native capability | design | block |  | blocked |  |  | block | <reason> |
+| Interrogation refine-design-review | interrogation | native capability | refine-design-review | block |  | blocked |  |  | block | <reason> |
+| Distill Repair | distill | native capability | validate or repair-focused request | block |  | blocked |  |  | block | <reason> |
+| Invoke Plan | invoke | native capability | plan | block |  | blocked |  |  | block | <reason> |
+| Final Interrogation and Synthesis | interrogation + refine | native capability + refine synthesis | refine-final | block |  | blocked |  |  | block | <reason> |
 
 ## Notes
 

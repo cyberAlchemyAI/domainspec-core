@@ -170,3 +170,22 @@ test("publishes the exact closed relation vocabulary", () => {
   ]);
   assert.equal(Object.isFrozen(supportedSourceRelations), true);
 });
+
+test("v1.3 renderer addresses edges by exact relation ID with non-color text", async () => {
+  const workspace = await readFile(resolve(
+    testDirectory,
+    "../upstream/overlay/packages/dashboard/src/oew/EvidenceWorkspace.tsx",
+  ), "utf8");
+  const presentation = await readFile(resolve(
+    testDirectory,
+    "../upstream/overlay/packages/dashboard/src/oew/relationPresentation.ts",
+  ), "utf8");
+  assert.match(workspace, /data-source-relation-id/);
+  assert.match(workspace, /encoding\.visible_label/);
+  assert.match(workspace, /encoding\.direction_text/);
+  assert.match(workspace, /encoding\.pattern_label/);
+  assert.match(workspace, /forced-colors|oew-edge-color/);
+  assert.match(presentation, /projection\.ref/);
+  assert.match(presentation, /relation_digest/);
+  assert.match(presentation, /endpoint\/predicate tuples(?:\s|\*)+are never used as identity/);
+});

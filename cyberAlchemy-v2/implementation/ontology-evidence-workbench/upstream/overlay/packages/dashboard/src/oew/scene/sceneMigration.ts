@@ -8,12 +8,17 @@ import {
   OEW_VIEW_PACK_RECEIPT_SCHEMA,
 } from "./viewPack.ts";
 import {
+  admitKnowledgeScene,
   finalizeKnowledgeScene,
+  finalizeKnowledgeSceneV13,
   OEW_KNOWLEDGE_SCENE_V12,
+  OEW_KNOWLEDGE_SCENE_V13,
 } from "./relationReference.ts";
 
 export const OEW_SCENE_MIGRATION_RECEIPT_SCHEMA =
   "oew.scene-migration-receipt.v1";
+export const OEW_SCENE_MIGRATION_V13_RECEIPT_SCHEMA =
+  "oew.scene-migration-receipt.v1.3";
 
 const LEGACY_SCENE_SCHEMAS = new Set([
   "oew.knowledge-scene.v1",
@@ -40,6 +45,17 @@ const LEGACY_SCENE_KEYS = [
 const REQUIRED_LEGACY_SCENE_KEYS = LEGACY_SCENE_KEYS.filter(
   (key) => key !== "path_result",
 );
+const V12_SCENE_KEYS = [
+  ...LEGACY_SCENE_KEYS,
+  "path",
+  "relation_index_receipt",
+  "scene_digest",
+];
+const REQUIRED_V12_SCENE_KEYS = [
+  ...REQUIRED_LEGACY_SCENE_KEYS,
+  "relation_index_receipt",
+  "scene_digest",
+];
 export const OEW_LEGACY_RELATION_FIELDS = Object.freeze([
   "source_relation_id",
   "source_node_id",
@@ -56,16 +72,30 @@ export const OEW_LEGACY_RELATION_FIELDS = Object.freeze([
   "authority_effect",
 ]);
 
-/** @typedef {Record<string, unknown>} JsonRecord */
+type JsonRecord = Record<string, unknown>;
+type CompiledSourceGraph = JsonRecord & {
+  graph_digest: string;
+  source_digests: JsonRecord;
+  nodes: JsonRecord[];
+  relations: JsonRecord[];
+  node_by_id: JsonRecord;
+  relation_by_id: JsonRecord;
+  receipt: JsonRecord;
+};
+type CompiledViewPack = JsonRecord & {
+  graph_digest: string;
+  view_pack_id: string;
+  view_pack_digest: string;
+  clusters: unknown[];
+  sequences: unknown[];
+  receipt: JsonRecord;
+};
 
 export class SceneMigrationError extends Error {
-  /** @type {string} */
-  code;
-  /** @type {readonly string[]} */
-  issues;
+  code: string;
+  issues: readonly string[];
 
-  /** @param {readonly string[]} issues */
-  constructor(issues) {
+  constructor(issues: readonly string[]) {
     const stableIssues = [...new Set(issues)].sort();
     super(`OEW scene migration rejected: ${stableIssues.join(", ")}`);
     this.name = "SceneMigrationError";
@@ -74,36 +104,39 @@ export class SceneMigrationError extends Error {
   }
 }
 
-/** @param {unknown} value @returns {value is JsonRecord} */
-const isRecord = (value) =>
+const isRecord = (value: unknown): value is JsonRecord =>
   value !== null && typeof value === "object" && !Array.isArray(value);
 
-/** @param {unknown} value */
-const isNonemptyString = (value) =>
+const isNonemptyString = (value: unknown): value is string =>
   typeof value === "string" && value.trim().length > 0;
 
+const hasOwn = (value: object, key: PropertyKey) =>
+  Object.prototype.hasOwnProperty.call(value, key);
+
 /** @param {JsonRecord} value @param {readonly string[]} required @param {readonly string[]} allowed */
-const hasDeclaredShape = (value, required, allowed) => {
+const hasDeclaredShape = (
+  value: JsonRecord,
+  required: readonly string[],
+  allowed: readonly string[],
+) => {
   const keys = Object.keys(value);
   return (
-    required.every((key) => Object.hasOwn(value, key)) &&
+    required.every((key) => hasOwn(value, key)) &&
     keys.every((key) => allowed.includes(key))
   );
 };
 
-/** @param {unknown} value */
-const cloneJson = (value) => {
-  if (Array.isArray(value)) return value.map(cloneJson);
+const cloneJson = <T>(value: T): T => {
+  if (Array.isArray(value)) return value.map(cloneJson) as T;
   if (isRecord(value)) {
     return Object.fromEntries(
       Object.entries(value).map(([key, child]) => [key, cloneJson(child)]),
-    );
+    ) as T;
   }
   return value;
 };
 
-/** @param {unknown} value */
-const deepFreeze = (value) => {
+const deepFreeze = <T>(value: T): T => {
   if (value !== null && typeof value === "object" && !Object.isFrozen(value)) {
     for (const child of Object.values(value)) deepFreeze(child);
     Object.freeze(value);
@@ -112,10 +145,43 @@ const deepFreeze = (value) => {
 };
 
 /** @param {unknown} left @param {unknown} right */
-const exactValue = (left, right) => JSON.stringify(left) === JSON.stringify(right);
+const exactValue = (left: unknown, right: unknown) =>
+  JSON.stringify(left) === JSON.stringify(right);
+
+/** @param {unknown} value */
+const hasNonemptyHops = (value: unknown) => {
+  if (value === undefined || value === null) return false;
+  if (!isRecord(value) || !Array.isArray(value.hops)) {
+    throw new SceneMigrationError(["MIGRATION_LEGACY_PATH_INVALID"]);
+  }
+  return value.hops.length > 0;
+};
+
+/** @param {JsonRecord} scene */
+const assertReferenceStructuresAreRebuildable = (scene: JsonRecord) => {
+  if (!Array.isArray(scene.portals)) {
+    throw new SceneMigrationError(["MIGRATION_LEGACY_PORTALS_INVALID"]);
+  }
+  const selected = isRecord(scene.navigation_frame)
+    ? scene.navigation_frame.selected
+    : undefined;
+  const relationSelected =
+    isRecord(selected) &&
+    (selected.kind === "relation" ||
+      selected.kind === "path-hop" ||
+      hasOwn(selected, "relation_ref"));
+  if (
+    scene.portals.length > 0 ||
+    hasNonemptyHops(scene.path) ||
+    hasNonemptyHops(scene.path_result) ||
+    relationSelected
+  ) {
+    throw new SceneMigrationError(["LEGACY_SCENE_REBUILD_REQUIRED"]);
+  }
+};
 
 /** @param {string} left @param {string} right */
-const compareCodePoints = (left, right) => {
+const compareCodePoints = (left: string, right: string) => {
   const leftPoints = Array.from(left, (value) => value.codePointAt(0) ?? 0);
   const rightPoints = Array.from(right, (value) => value.codePointAt(0) ?? 0);
   const length = Math.min(leftPoints.length, rightPoints.length);
@@ -128,8 +194,8 @@ const compareCodePoints = (left, right) => {
 };
 
 /** @param {JsonRecord} sourceGraph */
-const validateSourceGraph = async (sourceGraph) => {
-  const issues = [];
+const validateSourceGraph = async (sourceGraph: JsonRecord) => {
+  const issues: string[] = [];
   if (
     sourceGraph.schema_version !== OEW_COMPILED_SOURCE_GRAPH_SCHEMA ||
     !DIGEST.test(String(sourceGraph.graph_digest)) ||
@@ -142,12 +208,13 @@ const validateSourceGraph = async (sourceGraph) => {
   ) {
     throw new SceneMigrationError(["MIGRATION_SOURCE_GRAPH_INVALID"]);
   }
+  const compiled = sourceGraph as CompiledSourceGraph;
   const sourceSchema = sourceGraph.receipt.source_schema_version;
   const actualDigest = await computeSourceGraphDigest({
     schema_version: sourceSchema,
-    source_digests: sourceGraph.source_digests,
-    nodes: sourceGraph.nodes,
-    relations: sourceGraph.relations,
+    source_digests: compiled.source_digests,
+    nodes: compiled.nodes,
+    relations: compiled.relations,
   });
   if (actualDigest !== sourceGraph.graph_digest) {
     issues.push("MIGRATION_SOURCE_GRAPH_DIGEST_MISMATCH");
@@ -156,19 +223,19 @@ const validateSourceGraph = async (sourceGraph) => {
     sourceGraph.receipt.schema_version !== OEW_SOURCE_GRAPH_RECEIPT_SCHEMA ||
     sourceGraph.receipt.result !== "pass" ||
     sourceGraph.receipt.graph_digest !== sourceGraph.graph_digest ||
-    sourceGraph.receipt.relation_count !== sourceGraph.relations.length
+    compiled.receipt.relation_count !== compiled.relations.length
   ) {
     issues.push("MIGRATION_SOURCE_GRAPH_RECEIPT_INVALID");
   }
-  const relationIds = [];
-  for (const [index, relation] of sourceGraph.relations.entries()) {
+  const relationIds: string[] = [];
+  for (const [index, relation] of compiled.relations.entries()) {
     if (!isRecord(relation) || !isNonemptyString(relation.source_relation_id)) {
       issues.push(`MIGRATION_SOURCE_RELATION_INVALID:${index}`);
       continue;
     }
     const relationId = relation.source_relation_id;
     relationIds.push(relationId);
-    if (sourceGraph.relation_by_id[relationId] !== relation) {
+    if (compiled.relation_by_id[relationId] !== relation) {
       issues.push(`MIGRATION_SOURCE_RELATION_INDEX_MISMATCH:${relationId}`);
     }
   }
@@ -182,8 +249,11 @@ const validateSourceGraph = async (sourceGraph) => {
 };
 
 /** @param {JsonRecord} viewPack @param {JsonRecord} sourceGraph */
-const validateViewPack = async (viewPack, sourceGraph) => {
-  const issues = [];
+const validateViewPack = async (
+  viewPack: JsonRecord,
+  sourceGraph: JsonRecord,
+) => {
+  const issues: string[] = [];
   if (
     viewPack.schema_version !== OEW_COMPILED_VIEW_PACK_SCHEMA ||
     !isNonemptyString(viewPack.source_schema_version) ||
@@ -213,9 +283,12 @@ const validateViewPack = async (viewPack, sourceGraph) => {
 };
 
 /** @param {JsonRecord} legacyScene @param {JsonRecord} sourceGraph */
-const validateLegacyRelations = (legacyScene, sourceGraph) => {
-  const issues = [];
-  const visibleNodeIds = new Set();
+const validateLegacyRelations = (
+  legacyScene: JsonRecord,
+  sourceGraph: CompiledSourceGraph,
+) => {
+  const issues: string[] = [];
+  const visibleNodeIds = new Set<string>();
   if (!Array.isArray(legacyScene.nodes)) {
     throw new SceneMigrationError(["MIGRATION_LEGACY_NODES_INVALID"]);
   }
@@ -228,7 +301,7 @@ const validateLegacyRelations = (legacyScene, sourceGraph) => {
       issues.push(`MIGRATION_LEGACY_NODE_DUPLICATE:${node.source_node_id}`);
     }
     visibleNodeIds.add(node.source_node_id);
-    if (!Object.hasOwn(sourceGraph.node_by_id, node.source_node_id)) {
+    if (!hasOwn(sourceGraph.node_by_id, node.source_node_id)) {
       issues.push(`MIGRATION_LEGACY_NODE_MISSING:${node.source_node_id}`);
     }
   }
@@ -239,10 +312,10 @@ const validateLegacyRelations = (legacyScene, sourceGraph) => {
   ) {
     throw new SceneMigrationError(["MIGRATION_RELATION_PARTITIONS_INVALID"]);
   }
-  const internalIds = new Set();
-  const cutIds = new Set();
-  const legacyById = new Map();
-  const partitions = [
+  const internalIds = new Set<string>();
+  const cutIds = new Set<string>();
+  const legacyById = new Map<string, JsonRecord>();
+  const partitions: Array<["internal" | "cut", unknown[]]> = [
     ["internal", legacyScene.internal_relations],
     ["cut", legacyScene.cut_relations],
   ];
@@ -265,7 +338,7 @@ const validateLegacyRelations = (legacyScene, sourceGraph) => {
         continue;
       }
       for (const field of OEW_LEGACY_RELATION_FIELDS) {
-        if (!Object.hasOwn(legacyRelation, field)) {
+        if (!hasOwn(legacyRelation, field)) {
           issues.push(`MIGRATION_BINDING_FIELD_MISSING:${relationId}:${field}`);
         } else if (!exactValue(legacyRelation[field], sourceRelation[field])) {
           issues.push(`MIGRATION_BINDING_DRIFT:${relationId}:${field}`);
@@ -274,12 +347,14 @@ const validateLegacyRelations = (legacyScene, sourceGraph) => {
     }
   }
 
-  const expectedIds = new Set();
+  const expectedIds = new Set<string>();
   for (const relation of sourceGraph.relations) {
-    const sourceVisible = visibleNodeIds.has(relation.source_node_id);
-    const targetVisible = visibleNodeIds.has(relation.target_node_id);
+    const sourceNodeId = relation.source_node_id as string;
+    const targetNodeId = relation.target_node_id as string;
+    const sourceVisible = visibleNodeIds.has(sourceNodeId);
+    const targetVisible = visibleNodeIds.has(targetNodeId);
     if (!sourceVisible && !targetVisible) continue;
-    const relationId = relation.source_relation_id;
+    const relationId = relation.source_relation_id as string;
     expectedIds.add(relationId);
     const expectedPartition = sourceVisible && targetVisible ? internalIds : cutIds;
     const oppositePartition = sourceVisible && targetVisible ? cutIds : internalIds;
@@ -312,9 +387,9 @@ const validateLegacyRelations = (legacyScene, sourceGraph) => {
  * @param {unknown} viewPackInput
  */
 export async function migrateKnowledgeScene(
-  legacySceneInput,
-  sourceGraphInput,
-  viewPackInput,
+  legacySceneInput: unknown,
+  sourceGraphInput: unknown,
+  viewPackInput: unknown,
 ) {
   if (!isRecord(legacySceneInput)) {
     throw new SceneMigrationError(["MIGRATION_LEGACY_SCENE_INVALID"]);
@@ -340,22 +415,24 @@ export async function migrateKnowledgeScene(
 
   await validateSourceGraph(sourceGraphInput);
   await validateViewPack(viewPackInput, sourceGraphInput);
+  const sourceGraph = sourceGraphInput as CompiledSourceGraph;
+  const viewPack = viewPackInput as CompiledViewPack;
 
-  const identityIssues = [];
-  if (legacySceneInput.graph_digest !== sourceGraphInput.graph_digest) {
+  const identityIssues: string[] = [];
+  if (legacySceneInput.graph_digest !== sourceGraph.graph_digest) {
     identityIssues.push("MIGRATION_SOURCE_MISMATCH");
   }
-  if (legacySceneInput.view_pack_id !== viewPackInput.view_pack_id) {
+  if (legacySceneInput.view_pack_id !== viewPack.view_pack_id) {
     identityIssues.push("MIGRATION_VIEW_PACK_ID_MISMATCH");
   }
-  if (legacySceneInput.view_pack_digest !== viewPackInput.view_pack_digest) {
+  if (legacySceneInput.view_pack_digest !== viewPack.view_pack_digest) {
     identityIssues.push("MIGRATION_VIEW_PACK_MISMATCH");
   }
   if (identityIssues.length > 0) throw new SceneMigrationError(identityIssues);
 
   const { internalIds, cutIds } = validateLegacyRelations(
     legacySceneInput,
-    sourceGraphInput,
+    sourceGraph,
   );
   const legacyScene = cloneJson(legacySceneInput);
   const migratedSceneId = `${legacySceneInput.scene_id}:migration:${legacySceneInput.schema_version}:to-v1.2`;
@@ -364,10 +441,10 @@ export async function migrateKnowledgeScene(
     schema_version: OEW_KNOWLEDGE_SCENE_V12,
     scene_id: migratedSceneId,
     internal_relations: internalIds.map(
-      (relationId) => sourceGraphInput.relation_by_id[relationId],
+      (relationId) => sourceGraph.relation_by_id[relationId],
     ),
     cut_relations: cutIds.map(
-      (relationId) => sourceGraphInput.relation_by_id[relationId],
+      (relationId) => sourceGraph.relation_by_id[relationId],
     ),
   });
   const relationIds = [...internalIds, ...cutIds].sort(compareCodePoints);
@@ -379,14 +456,121 @@ export async function migrateKnowledgeScene(
     legacy_graph_digest: legacySceneInput.graph_digest,
     legacy_view_pack_id: legacySceneInput.view_pack_id,
     legacy_view_pack_digest: legacySceneInput.view_pack_digest,
-    source_graph_digest: sourceGraphInput.graph_digest,
-    view_pack_digest: viewPackInput.view_pack_digest,
+    source_graph_digest: sourceGraph.graph_digest,
+    view_pack_digest: viewPack.view_pack_digest,
     migrated_schema_version: OEW_KNOWLEDGE_SCENE_V12,
-    migrated_scene_id: migratedScene.scene_id,
+    migrated_scene_id: (migratedScene as JsonRecord).scene_id,
     migrated_scene_digest: migratedScene.scene_digest,
     relation_ids: relationIds,
     relation_count: relationIds.length,
     compared_relation_fields: [...OEW_LEGACY_RELATION_FIELDS],
+    legacy_artifact_mutated: false,
+    authority_effect: "none",
+  });
+  return Object.freeze({ scene: migratedScene, receipt });
+}
+
+/**
+ * Rebuild an admitted v1.2 scene as a distinct v1.3 artifact only when every
+ * reference-bearing local structure is empty. Non-empty portals, Path hops,
+ * or relation selections require their owning query/derivation pipeline and
+ * therefore fail closed instead of copying legacy embedded revision values.
+ *
+ * @param {unknown} legacySceneInput
+ * @param {unknown} sourceGraphInput
+ * @param {unknown} viewPackInput
+ */
+export async function migrateKnowledgeSceneV13(
+  legacySceneInput: unknown,
+  sourceGraphInput: unknown,
+  viewPackInput: unknown,
+) {
+  if (!isRecord(legacySceneInput)) {
+    throw new SceneMigrationError(["MIGRATION_LEGACY_SCENE_INVALID"]);
+  }
+  if (!isRecord(sourceGraphInput)) {
+    throw new SceneMigrationError(["MIGRATION_SOURCE_GRAPH_INVALID"]);
+  }
+  if (!isRecord(viewPackInput)) {
+    throw new SceneMigrationError(["MIGRATION_VIEW_PACK_INVALID"]);
+  }
+  if (legacySceneInput.schema_version !== OEW_KNOWLEDGE_SCENE_V12) {
+    throw new SceneMigrationError(["MIGRATION_LEGACY_SCHEMA_UNSUPPORTED"]);
+  }
+  if (
+    !hasDeclaredShape(
+      legacySceneInput,
+      REQUIRED_V12_SCENE_KEYS,
+      V12_SCENE_KEYS,
+    )
+  ) {
+    throw new SceneMigrationError(["MIGRATION_LEGACY_SCENE_SHAPE_INVALID"]);
+  }
+
+  await validateSourceGraph(sourceGraphInput);
+  await validateViewPack(viewPackInput, sourceGraphInput);
+  await admitKnowledgeScene(cloneJson(legacySceneInput));
+  const sourceGraph = sourceGraphInput as CompiledSourceGraph;
+  const viewPack = viewPackInput as CompiledViewPack;
+
+  const identityIssues: string[] = [];
+  if (legacySceneInput.graph_digest !== sourceGraph.graph_digest) {
+    identityIssues.push("MIGRATION_SOURCE_MISMATCH");
+  }
+  if (legacySceneInput.view_pack_id !== viewPack.view_pack_id) {
+    identityIssues.push("MIGRATION_VIEW_PACK_ID_MISMATCH");
+  }
+  if (legacySceneInput.view_pack_digest !== viewPack.view_pack_digest) {
+    identityIssues.push("MIGRATION_VIEW_PACK_MISMATCH");
+  }
+  if (identityIssues.length > 0) throw new SceneMigrationError(identityIssues);
+
+  const { internalIds, cutIds } = validateLegacyRelations(
+    legacySceneInput,
+    sourceGraph,
+  );
+  assertReferenceStructuresAreRebuildable(legacySceneInput);
+
+  const draft = cloneJson(legacySceneInput);
+  delete draft.scene_digest;
+  delete draft.relation_index_receipt;
+  delete draft.path_result;
+  if (isRecord(draft.navigation_frame)) {
+    delete draft.navigation_frame.scene_digest;
+  }
+  draft.schema_version = OEW_KNOWLEDGE_SCENE_V13;
+  draft.scene_id = `${legacySceneInput.scene_id}:migration:v1.2:to-v1.3`;
+  draft.internal_relations = internalIds.map(
+    (relationId) => sourceGraph.relation_by_id[relationId],
+  );
+  draft.cut_relations = cutIds.map(
+    (relationId) => sourceGraph.relation_by_id[relationId],
+  );
+
+  const migratedScene = await finalizeKnowledgeSceneV13(draft);
+  const relationIds = [...internalIds, ...cutIds].sort(compareCodePoints);
+  const receipt = deepFreeze({
+    schema_version: OEW_SCENE_MIGRATION_V13_RECEIPT_SCHEMA,
+    result: "pass",
+    behavior: "rebuild-empty-reference-structures",
+    legacy_schema_version: OEW_KNOWLEDGE_SCENE_V12,
+    legacy_scene_id: legacySceneInput.scene_id,
+    legacy_scene_digest: legacySceneInput.scene_digest,
+    legacy_graph_digest: legacySceneInput.graph_digest,
+    legacy_view_pack_id: legacySceneInput.view_pack_id,
+    legacy_view_pack_digest: legacySceneInput.view_pack_digest,
+    source_graph_digest: sourceGraph.graph_digest,
+    view_pack_digest: viewPack.view_pack_digest,
+    migrated_schema_version: OEW_KNOWLEDGE_SCENE_V13,
+    migrated_scene_id: migratedScene.scene_id,
+    migrated_scene_digest: migratedScene.scene_digest,
+    relation_ids: relationIds,
+    relation_count: relationIds.length,
+    reference_structures: {
+      portals: "empty-rebuilt",
+      path: "empty-or-absent-rebuilt",
+      relation_selection: "absent-rebuilt",
+    },
     legacy_artifact_mutated: false,
     authority_effect: "none",
   });

@@ -1,0 +1,48 @@
+{
+  "schema_version": "cyberalchemy-lab.governance-defect-sidecar-application/v1",
+  "sidecar_id": "WPRA_EXECUTION_ENTRY_VALIDATION_SELECTOR_DRIFT",
+  "applied_at": "2026-08-08T21:12:54Z",
+  "owner_acceptance": {
+    "kind": "exact-candidate-sha256",
+    "value": "c4b5bb71d4ff395ddcb82ebf45f6944751acaf72f0b4297ba73460bf39980334",
+    "source": "direct-user-response"
+  },
+  "candidate_ref": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/WPRA_EXECUTION_ENTRY_VALIDATION_SELECTOR_DRIFT/candidate/repair.patch",
+    "sha256": "c4b5bb71d4ff395ddcb82ebf45f6944751acaf72f0b4297ba73460bf39980334",
+    "size_bytes": 4836
+  },
+  "applied_targets": [
+    {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-admission.py",
+      "sha256": "9142ac3a4ce31ec2589d2f455ce29c51912bee21c081abed0b380affee6da517",
+      "size_bytes": 25253
+    },
+    {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-wpra-audit.py",
+      "sha256": "d4a53b1d06ccca9c3a14797e1098db822afa12a3714ce480139b0d98cf0dc0a4",
+      "size_bytes": 3215
+    }
+  ],
+  "live_revalidation": {
+    "commands": [
+      "python3 -m py_compile projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-admission.py projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-wpra-audit.py",
+      "python3 projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-admission.py --plan-root projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan",
+      "python3 projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-wpra-audit.py --plan-root projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan",
+      "python3 .agents/skills/work-pack-readiness-audit/scripts/audit_work_pack.py --config projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/refresh-runs/20260808T203000Z-wpra-selector-readmission/WPRA-CONFIG.json --output-dir projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/refresh-runs/20260808T203000Z-wpra-selector-readmission/wpra-run"
+    ],
+    "result": "pass",
+    "audit_report_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/refresh-runs/20260808T203000Z-wpra-selector-readmission/wpra-run/work-pack-readiness-report-v2.json",
+      "sha256": "b8ae33897c3d345f3fbdffb40f621c3ac6d03d321cecada3eb6f19478e72eac6",
+      "size_bytes": 39618,
+      "verdict": "pass",
+      "terminal_code": "PLAN_SEMANTIC_READY",
+      "runtime_admission_status": "pending-selection",
+      "configured_product_commands_executed": 0
+    }
+  },
+  "authority_effect": "none",
+  "product_execution_authorized": false,
+  "next_owner_boundary": "Decision Gate plus an implementation-readiness chain preflight against the current audit epoch; the chain controller must first resolve its manifest-v2 compatibility defect."
+}

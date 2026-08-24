@@ -1,0 +1,176 @@
+{
+  "receipt_contract": "lucifers-lights-whisper-story-validation/v1",
+  "receipt_id": "RECEIPT-LL-ONTOLOGY-VALIDATION-2026-08-09",
+  "date": "2026-08-09",
+  "mode": "map",
+  "ontology_type": "knowledge-vault",
+  "ontology_type_alias": "whisper-story-ontology",
+  "type_selection": {
+    "source": "inferred",
+    "confidence": "high",
+    "ambiguity_candidates": [
+      "business-domain",
+      "authority-governance"
+    ],
+    "user_selection_required": false,
+    "branch": "none"
+  },
+  "runtime_profile": "../runtime-profile.json",
+  "runtime_mode": "inline",
+  "result": "flag",
+  "mechanical_result": "policy-pass",
+  "authority_effect": "none",
+  "maximum_claim": "mechanically validated candidate-local authoring ontology",
+  "human_gate": {
+    "status": "pending",
+    "owner": "author",
+    "required_review": [
+      "Whisper resonance, relevance, and trajectory substrate",
+      "three project-local story entity kinds",
+      "knowledge roles and confidence states",
+      "six closed edge policies",
+      "deferred semantics and open gaps"
+    ]
+  },
+  "artifacts": {
+    "WHISPER-INTENT.md": "a3dd832ae2065c9f151b646e8d29131fbddbdb3d01b1baa3b1c7a0d9be229685",
+    "ONTOLOGY-MAP.md": "27c5aeadef1d58f9a6e300b3e11e40f44d7e508591fb0ba50899945cb1df0c1e",
+    "README.md": "2c291bfb21c3f1e694212779e6c198682f5545acc45a9387375f7c34dddb4787",
+    "whisper-story-ontology.json": "ad0192237d5f210f54de5adca0f153869cb60c280d1e60a0a8339f691a883598",
+    "runtime-profile.json": "0a6183da232c47d31513b8c98f96567d8cde7e6d61ba6e48f915944bbbaa600e",
+    "scripts/validate.py": "6133710047ea53ae89d5102e9f88a90dabc18b2fd7c77dcc548410cd0c05631d",
+    "fixtures/closed-world-negatives.json": "62d44815a3b30c4e65690c14433a9bd0174e276c0eedb596a93d83e2a70a1690"
+  },
+  "policy_sha256": "e7764a54cebd25572e77d0700fc8de0ec817d0647d5979ec7391fbb5da662d43",
+  "counts": {
+    "sources": 12,
+    "live_unhashed_sources": 2,
+    "nodes": 21,
+    "edges": 40,
+    "knowledge_records": 23,
+    "edge_policies": 6,
+    "negative_fixtures": 6
+  },
+  "checks": [
+    {
+      "check": "profile completeness and allowed or blocked output boundary",
+      "result": "pass"
+    },
+    {
+      "check": "catalog type and project-local alias selection",
+      "result": "pass"
+    },
+    {
+      "check": "pinned source existence and SHA-256 bindings",
+      "result": "pass"
+    },
+    {
+      "check": "unique source, node, edge, and knowledge-record identifiers",
+      "result": "pass"
+    },
+    {
+      "check": "closed kind, predicate, endpoint, policy-owner, evidence, commitment, and intent vocabularies",
+      "result": "pass"
+    },
+    {
+      "check": "forbidden relation cycles",
+      "result": "pass"
+    },
+    {
+      "check": "all local entities mentioned by the Chapter 1 artifact",
+      "result": "pass"
+    },
+    {
+      "check": "every encounter has a participant and place",
+      "result": "pass"
+    },
+    {
+      "check": "no premature author-accepted or frozen-baseline commitments",
+      "result": "pass"
+    }
+  ],
+  "negative_self_test": {
+    "result": "pass",
+    "fixtures": [
+      {
+        "fixture_id": "NEG-LL-UNKNOWN-KIND",
+        "expected_error": "UNKNOWN_KIND",
+        "observed_result": "policy-fail"
+      },
+      {
+        "fixture_id": "NEG-LL-UNKNOWN-PREDICATE",
+        "expected_error": "UNKNOWN_PREDICATE",
+        "observed_result": "policy-fail"
+      },
+      {
+        "fixture_id": "NEG-LL-INVALID-ENDPOINTS",
+        "expected_error": "INVALID_ENDPOINT_PAIR",
+        "observed_result": "policy-fail"
+      },
+      {
+        "fixture_id": "NEG-LL-WRONG-POLICY-OWNER",
+        "expected_error": "POLICY_OWNER_MISMATCH",
+        "observed_result": "policy-fail"
+      },
+      {
+        "fixture_id": "NEG-LL-UNKNOWN-EVIDENCE-STATE",
+        "expected_error": "UNKNOWN_EVIDENCE_STATE",
+        "observed_result": "policy-fail"
+      },
+      {
+        "fixture_id": "NEG-LL-UNKNOWN-SOURCE",
+        "expected_error": "UNKNOWN_SOURCE_REF",
+        "observed_result": "policy-fail"
+      }
+    ]
+  },
+  "delegated_evidence": [
+    {
+      "task": "/root/lucifers_lights_ontology_audit",
+      "mode": "read-only",
+      "writes": "none",
+      "result": "advisory-pass",
+      "material_findings": [
+        "knowledge-vault is the correct primary catalog type",
+        "intent state remains volatile while Chapter 1 acceptance is pending",
+        "evidence and commitment confidence must remain separate",
+        "bracelet drift, mysteries, reserve material, and Saint Orison non-inference must remain explicit",
+        "ontology cannot accept prose, settle mysteries, change Craft, or make derivatives authoritative"
+      ]
+    }
+  ],
+  "synthesis_evidence": [
+    {
+      "path": "[repo-root] projects/co-op-engine/research/2026-08-05-whisper-ontology-runtime/findings.md",
+      "use": "Reused Whisper composition provenance, bounded project-local character/place/encounter kinds, and closed-world policy posture.",
+      "authority": "audited research findings, not ontology admission"
+    }
+  ],
+  "integration_checks": {
+    "craft": {
+      "result": "pass",
+      "rows": 70,
+      "contexts": 6,
+      "artifacts": 26,
+      "decisions": 6,
+      "gaps": 8,
+      "evidence": "All row references resolve; required embedded indexes are fresh; registered artifact paths exist; the human view exposes the tracked ontology context, gate, decision, gaps, and artifacts."
+    },
+    "documents": {
+      "result": "pass",
+      "files_checked": 22,
+      "evidence": "Markdown links resolve, JSON parses, pinned receipt hashes match, and scoped trailing-whitespace checks are clean."
+    }
+  },
+  "residue": [
+    "Author review of the ontology remains pending.",
+    "Chapter 1 editorial acceptance remains pending.",
+    "Props, typed contracts and requests, and richer story relations remain deferred.",
+    "Chapter 2 and long-arc evidence do not exist.",
+    "Bracelet derivative drift remains unresolved.",
+    "Graphic and audio derivatives remain unsynchronized.",
+    "No runtime, query engine, Inventory projection, publication, promotion, release, or canonical admission is proved."
+  ],
+  "validation_command": "python3 projects/lucifers-lights/ontology/scripts/validate.py --self-test",
+  "next_action": "The author reviews the Whisper intent, entity set, knowledge roles, and deferred semantics, then accepts or corrects the candidate ontology."
+}

@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "manifest:cyberalchemy-lab-selected-unit-b",
+  "target_id": "cyberalchemy-lab:tower-evidence-navigator:l0",
+  "target_footprint": {
+    "roots": [
+      {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/02-invoke-define.md",
+        "digest": "946050dd21d1766ea6283ed1f6a6b28dd0519f6c821e2c310d04e8aeeeb5dcc0"
+      }
+    ],
+    "inclusions": [
+      {
+        "selector": "selected-unit-b",
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+        "digest": "191db156004db02dbc16eed7615bfb1345a39e3502e67adba9d6a5ea9a453eb4"
+      }
+    ],
+    "exclusions": [
+      {
+        "selector": "projects/ide-extension/**",
+        "reason": "The selected unit reserves a direct-GET contract but defers adapter, shell, browser, UX, and accessibility implementation.",
+        "evidence_ref": "stages/05-distill.md#Current-smallest-coherent-unit"
+      },
+      {
+        "selector": "arcanum/**",
+        "reason": "Private candidate evidence cannot cross into public Arcanum in this design.",
+        "evidence_ref": "stages/01-context-builder/context-pack.md#Evidence-backed-obligations"
+      },
+      {
+        "selector": ".arcanum/inventory/**",
+        "reason": "Inventory ingestion and generated read-model mutation are excluded from selected unit B.",
+        "evidence_ref": "stages/02-invoke-define.md#Non-goals"
+      }
+    ]
+  },
+  "source_contracts": [
+    {
+      "source_id": "context-pack",
+      "selector": "O1-O10",
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/01-context-builder/context-pack.md",
+      "digest": "32ced0a081db666121e128ff8ca3f0e405a123d2d6353edaad846e19dc02adee"
+    },
+    {
+      "source_id": "invoke-define",
+      "selector": "Definition-baseline",
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/02-invoke-define.md",
+      "digest": "946050dd21d1766ea6283ed1f6a6b28dd0519f6c821e2c310d04e8aeeeb5dcc0"
+    },
+    {
+      "source_id": "distill-selection",
+      "selector": "Current-smallest-coherent-unit",
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+      "digest": "191db156004db02dbc16eed7615bfb1345a39e3502e67adba9d6a5ea9a453eb4"
+    }
+  ],
+  "human_actors": [],
+  "rendered_surfaces": [],
+  "interfaces": [
+    {
+      "interface_id": "projection-contract-v1",
+      "kind": "versioned-local-file-contract",
+      "peer": "future-allowlisted-direct-get-adapter",
+      "direction": "outbound",
+      "contract_ref": "projection/projection-contract.json",
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+      "source_digest": "191db156004db02dbc16eed7615bfb1345a39e3502e67adba9d6a5ea9a453eb4"
+    }
+  ],
+  "stores": [
+    {
+      "store_id": "candidate-package-files",
+      "authority": "candidate-local-non-authority",
+      "data_classes": ["private-source-metadata", "candidate-ontology", "validation-evidence"],
+      "writers": ["future-task-session"],
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/02-invoke-define.md",
+      "source_digest": "946050dd21d1766ea6283ed1f6a6b28dd0519f6c821e2c310d04e8aeeeb5dcc0"
+    },
+    {
+      "store_id": "disposable-projection-json",
+      "authority": "generated-read-model-none",
+      "data_classes": ["privacy-filtered-projection", "revision-binding"],
+      "writers": ["deterministic-projection-compiler"],
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+      "source_digest": "191db156004db02dbc16eed7615bfb1345a39e3502e67adba9d6a5ea9a453eb4"
+    }
+  ],
+  "queues": [],
+  "writers": [
+    {
+      "writer_id": "deterministic-projection-compiler",
+      "targets": ["projection/generated/tower-evidence-projection.json", "validation/validation-records.json"],
+      "concurrency": "single-process-atomic-replace-after-validation",
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+      "source_digest": "191db156004db02dbc16eed7615bfb1345a39e3502e67adba9d6a5ea9a453eb4"
+    }
+  ],
+  "normative_rules": [
+    {
+      "rule_id": "authority-effect-none",
+      "verb": "does-not-authorize",
+      "subject": "candidate-package-or-projection",
+      "object": "ontology-promotion-publication-deployment-release",
+      "enforcement_hint": "constant schema field plus forbidden-effect negative tests",
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/02-invoke-define.md",
+      "source_digest": "946050dd21d1766ea6283ed1f6a6b28dd0519f6c821e2c310d04e8aeeeb5dcc0"
+    },
+    {
+      "rule_id": "fail-closed-input-validation",
+      "verb": "rejects",
+      "subject": "projection-compiler",
+      "object": "digest-selector-manifest-relation-kind-privacy-revision-or-validation-mismatch",
+      "enforcement_hint": "validate complete input graph before emitting projection bytes",
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+      "source_digest": "191db156004db02dbc16eed7615bfb1345a39e3502e67adba9d6a5ea9a453eb4"
+    },
+    {
+      "rule_id": "real-tower-admission",
+      "verb": "admits",
+      "subject": "corpus-owner-decision",
+      "object": "one-complete-owner-selected-real-tower-manifest",
+      "enforcement_hint": "fixture_class and decision digest gate",
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/02-invoke-define.md",
+      "source_digest": "946050dd21d1766ea6283ed1f6a6b28dd0519f6c821e2c310d04e8aeeeb5dcc0"
+    }
+  ],
+  "effects": [
+    {
+      "effect_id": "write-disposable-local-projection",
+      "reversible": true,
+      "external": false,
+      "privileged": false,
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+      "source_digest": "191db156004db02dbc16eed7615bfb1345a39e3502e67adba9d6a5ea9a453eb4"
+    }
+  ],
+  "data_and_log_sinks": [
+    {
+      "sink_id": "candidate-projection-and-validation-records",
+      "data_classes": ["allowlisted-private-metadata", "candidate-claims", "validation-results"],
+      "retention_hint": "repository-local candidate evidence; no external or public transport",
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/02-invoke-define.md",
+      "source_digest": "946050dd21d1766ea6283ed1f6a6b28dd0519f6c821e2c310d04e8aeeeb5dcc0"
+    }
+  ],
+  "deployment_targets": [],
+  "compatibility_boundaries": [
+    {
+      "boundary_id": "projection-contract-version",
+      "old_contract": "none-greenfield",
+      "new_contract": "projection-contract-v1-reserved-for-direct-get",
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+      "source_digest": "191db156004db02dbc16eed7615bfb1345a39e3502e67adba9d6a5ea9a453eb4"
+    }
+  ],
+  "quality_claims": [],
+  "acceptance_and_readiness_claims": [
+    {
+      "claim_id": "selected-unit-b-authored-complete",
+      "selector": "planned-fixtures-and-validator-contracts",
+      "evidence_state": "authored-complete",
+      "source_selector": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/05-distill.md",
+      "source_digest": "191db156004db02dbc16eed7615bfb1345a39e3502e67adba9d6a5ea9a453eb4"
+    }
+  ],
+  "unknowns": [],
+  "input_digest": "4b33410ff05da6a519d59bbbc41b8ce837c9fc20e6ac47e44cd412a82506f26a",
+  "authored_by": "refine-parent-design-author"
+}

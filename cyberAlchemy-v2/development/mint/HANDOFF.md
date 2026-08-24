@@ -52,3 +52,14 @@ Do not start L2 until the signer-capability gap is closed; do not emit a public-
   the **FROZEN** N=3 foundry-H (`experiment-foundry-boundary/criterion.md`, Obs-A/B/C autonomy). **Do NOT**
   fold body-war into the §5 domain set (research/product/process is frozen) and **do NOT edit the frozen
   criterion** (any edit = a new criterion).
+
+## Runtime-first handoff refresh (2026-08-07)
+
+The next admitted unit is `SWU-MINT-RUNTIME-PLAN-01`, owned by sigil-development for contract/runtime
+revision and Task Session for bounded execution. Its exact behavior is `strict manifest -> canonical
+no-write effect plan`. Implementation Readiness must confirm the declared runtime-only write scope and
+validation commands before execution.
+
+Zagr is deliberately deferred. After P0 passes, a separate plan may use Zagr only as a read-only domain
+corpus and mint into a new disposable private target. P0 success is not a mint, L0/L1 proof, governance
+act, release, or permission to apply effects.

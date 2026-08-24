@@ -1,0 +1,1483 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cutaway Research Tower | CyberAlchemy Lab</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --canvas: #f7f6f2;
+        --surface: #ffffff;
+        --surface-soft: #eef5fa;
+        --ink: #17212b;
+        --muted: #4d5c69;
+        --line: #8996a3;
+        --line-strong: #607386;
+        --blue: #075a9c;
+        --blue-soft: #e7f2fa;
+        --amber: #704000;
+        --amber-soft: #fff1d4;
+        --danger: #8b2922;
+        --focus: #005fcc;
+        --shadow: 0 20px 55px rgba(23, 33, 43, 0.1);
+      }
+
+      * { box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      html,
+      body { background: var(--canvas); }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        color: var(--ink);
+        font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+
+      button,
+      select { font: inherit; }
+      button { cursor: pointer; }
+      button:disabled,
+      select:disabled { cursor: not-allowed; opacity: 0.58; }
+      button:focus-visible,
+      select:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p { overflow-wrap: anywhere; }
+      h1 { margin: 0; font-size: clamp(1.15rem, 2vw, 1.5rem); letter-spacing: -0.02em; }
+      h2 { margin: 0; font-size: clamp(1.2rem, 2vw, 1.75rem); line-height: 1.2; }
+      h3 { margin: 0; font-size: 1rem; }
+
+      #lab-canvas { min-height: 100svh; }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        width: min(1240px, calc(100% - 64px));
+        margin: 0 auto;
+        padding: 28px 0 18px;
+      }
+
+      .brand { display: flex; align-items: center; gap: 12px; }
+      .brand-symbol {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border: 2px solid var(--line-strong);
+        border-radius: 10px;
+        background: var(--surface);
+        color: var(--blue);
+        font-weight: 800;
+      }
+      .brand p { margin: 2px 0 0; color: var(--muted); font-size: 0.84rem; }
+      .header-controls { display: flex; align-items: center; justify-content: flex-end; gap: 14px; }
+      .witness-state { display: grid; justify-items: end; gap: 4px; }
+      .witness-binding { margin: 0; max-width: 460px; color: var(--muted); font-size: 0.74rem; text-align: right; }
+
+      .status,
+      .reset-control,
+      .room-toggle,
+      .inspector-control {
+        min-height: 44px;
+        border: 1px solid var(--line-strong);
+        border-radius: 10px;
+        background: var(--surface);
+        color: var(--ink);
+        padding: 9px 13px;
+        font-weight: 700;
+      }
+      .status { display: inline-flex; align-items: center; border-radius: 999px; color: var(--muted); font-size: 0.82rem; }
+      .status[data-status="ready"] { border-color: var(--blue); color: var(--blue); }
+      .status[data-status="error"] { border-color: var(--danger); color: var(--danger); }
+      .reset-control:hover,
+      .room-toggle:hover,
+      .inspector-control:hover,
+      .inspector-control[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); }
+
+      .global-status {
+        width: min(1240px, calc(100% - 64px));
+        margin: 0 auto 18px;
+        border-left: 4px solid var(--blue);
+        background: var(--blue-soft);
+        padding: 10px 12px;
+        font-weight: 700;
+      }
+
+      .tower-world {
+        width: min(1240px, calc(100% - 64px));
+        margin: 0 auto;
+      }
+
+      .research-tower {
+        display: grid;
+        grid-template-columns: clamp(20rem, 34vw, 26rem) minmax(0, 1fr);
+        gap: clamp(24px, 4vw, 48px);
+        align-items: start;
+        border: 2px solid var(--line-strong);
+        border-radius: 24px 24px 16px 16px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        padding: 28px;
+      }
+      .research-tower:focus-within { border-color: var(--blue); }
+      .tower-elevation { min-width: 0; }
+      .tower-roof {
+        width: 76%;
+        height: 30px;
+        margin: -10px auto 18px;
+        border: 2px solid var(--line-strong);
+        border-bottom: 0;
+        background: var(--surface-soft);
+        clip-path: polygon(50% 0, 100% 100%, 0 100%);
+      }
+      .tower-identity p { margin: 8px 0 0; color: var(--muted); }
+      .fixture-badge {
+        display: inline-block;
+        margin-top: 14px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--canvas);
+        padding: 6px 9px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      .room-toggle { width: 100%; margin-top: 18px; }
+      .active-floor-summary { margin: 10px 0 0; color: var(--muted); font-size: 0.82rem; }
+
+      .tower-structure {
+        position: relative;
+        margin-top: 20px;
+        padding: 14px;
+        border: 2px solid var(--line-strong);
+        border-radius: 12px 12px 6px 6px;
+        background: var(--surface-soft);
+      }
+      .tower-spine {
+        position: absolute;
+        inset: 16px auto 16px 30px;
+        width: 4px;
+        border-radius: 999px;
+        background: var(--line-strong);
+      }
+      .tower-floors { display: grid; gap: 10px; }
+      .tower-floor {
+        position: relative;
+        display: grid;
+        grid-template-columns: 38px minmax(0, 1fr);
+        gap: 12px;
+        width: 100%;
+        min-height: 106px;
+        border: 2px solid var(--line-strong);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--ink);
+        padding: 13px;
+        text-align: left;
+      }
+      .tower-floor:hover { border-color: var(--blue); background: var(--surface-soft); }
+      .tower-floor[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); }
+      .tower-floor[aria-expanded="true"] { border-right-width: 7px; }
+      .floor-number {
+        display: grid;
+        z-index: 1;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border: 2px solid var(--line-strong);
+        border-radius: 50%;
+        background: var(--surface);
+        color: var(--blue);
+        font-weight: 800;
+      }
+      .floor-copy { display: grid; gap: 3px; min-width: 0; }
+      .floor-title { font-weight: 800; }
+      .floor-meta { color: var(--muted); font-size: 0.79rem; }
+      .floor-state-marker { color: var(--blue); font-size: 0.79rem; font-weight: 800; }
+
+      .floor-room {
+        min-width: 0;
+        border: 2px solid var(--blue);
+        border-radius: 8px 16px 16px 8px;
+        background: var(--surface);
+        padding: clamp(18px, 3vw, 28px);
+      }
+      .room-portal {
+        width: 52px;
+        height: 8px;
+        margin: 0 0 18px -30px;
+        background: var(--blue);
+      }
+      .scene-kicker { margin: 0 0 7px; color: var(--blue); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+      .scene-content { margin: 16px 0; font-size: 1rem; }
+      .scene-facts { display: grid; grid-template-columns: minmax(120px, 0.35fr) minmax(0, 1fr); margin: 20px 0; border-top: 1px solid var(--line); }
+      .scene-facts dt,
+      .scene-facts dd { margin: 0; border-bottom: 1px solid var(--line); padding: 9px 0; }
+      .scene-facts dt { color: var(--muted); font-weight: 800; }
+      .scene-facts dd { overflow-wrap: anywhere; }
+      .scene-unavailable { border: 1px solid var(--amber); border-left-width: 5px; border-radius: 10px; background: var(--amber-soft); padding: 12px; color: var(--amber); font-weight: 700; }
+
+      .room-scene {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        margin: 18px 0 8px;
+        overflow: hidden;
+        border: 2px solid var(--line-strong);
+        border-radius: 12px;
+        background: #111b28;
+      }
+      .room-still {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .room-still[hidden],
+      .ambient-tableau[hidden] { display: none; }
+      .ambient-tableau {
+        position: absolute;
+        inset: 0;
+        background-image: url('/assets/research-tower-concepts/robot-cowork-rpg-sprite-sheet.png');
+        background-position: 0 50%;
+        background-repeat: no-repeat;
+        background-size: 400% auto;
+      }
+      .room-scene[data-motion="running"] .ambient-tableau {
+        animation: ambient-lab-loop 10s steps(1, end) infinite;
+      }
+      .scene-caveat { margin: 0 0 18px; color: var(--muted); font-size: 0.82rem; font-weight: 700; }
+
+      .world-projection {
+        margin: 20px 0;
+        border: 2px solid var(--line-strong);
+        border-radius: 14px;
+        background: var(--surface-soft);
+        padding: 16px;
+      }
+      .world-projection header { display: grid; gap: 4px; }
+      .world-projection header p,
+      .world-instructions,
+      .world-status { margin: 0; color: var(--muted); }
+      .world-instructions { margin-top: 10px; }
+      .world-toolbar,
+      .world-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+      .world-control {
+        min-width: 44px;
+        min-height: 44px;
+        border: 1px solid var(--line-strong);
+        border-radius: 9px;
+        background: var(--surface);
+        color: var(--ink);
+        padding: 8px 11px;
+        font-weight: 800;
+      }
+      .world-control:hover { border-color: var(--blue); background: var(--blue-soft); }
+      .world-host {
+        min-height: 260px;
+        margin-top: 12px;
+        overflow: hidden;
+        border: 2px solid var(--line-strong);
+        border-radius: 12px;
+        background: #edf5f8;
+      }
+      .world-host[data-world-state="failed"] { border-color: var(--danger); }
+      [data-world-surface] {
+        display: block;
+        width: 100%;
+        min-height: 260px;
+        background: linear-gradient(180deg, #eff8fb 0%, #ffffff 100%);
+        touch-action: none;
+      }
+      [data-world-surface]:focus-visible { outline: 4px solid var(--focus); outline-offset: -6px; }
+      [data-world-room] { fill: #ffffff; stroke: var(--line-strong); stroke-width: 2; }
+      [data-world-wall] { fill: var(--line-strong); }
+      [data-world-hotspot] { fill: var(--amber-soft); stroke: var(--amber); stroke-width: 2; stroke-dasharray: 5 3; }
+      [data-world-avatar-plate] { fill: var(--blue-soft); stroke: var(--blue); stroke-width: 2; }
+      .world-status { margin-top: 10px; font-weight: 700; }
+      .world-fallback { color: var(--danger); }
+
+      .verification-prompt {
+        margin-top: 22px;
+        border: 2px solid var(--line-strong);
+        border-radius: 12px;
+        background: var(--surface-soft);
+        padding: 16px;
+      }
+      .verification-prompt h3 { margin-bottom: 4px; }
+      .verification-intro { margin: 0 0 12px; color: var(--muted); }
+      .verification-grid { display: grid; grid-template-columns: minmax(150px, 0.32fr) minmax(0, 1fr); margin: 0; }
+      .verification-grid dt,
+      .verification-grid dd { margin: 0; border-top: 1px solid var(--line); padding: 8px 0; overflow-wrap: anywhere; }
+      .verification-grid dt { font-weight: 800; }
+      .verification-list { margin: 0; padding-left: 20px; }
+      .verified-binding { color: var(--blue); font-weight: 800; }
+      .non-executable-route {
+        border: 1px dashed var(--amber);
+        border-radius: 8px;
+        background: var(--amber-soft);
+        padding: 9px;
+        color: var(--amber);
+        font-weight: 800;
+      }
+
+      .inspector-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 24px; }
+      .inspector-panel { min-width: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--canvas); padding: 15px; }
+      .inspector-panel h3 { margin-bottom: 10px; }
+      .source-inspector { grid-column: 1 / -1; }
+      .inspector-controls,
+      .source-list { display: flex; flex-wrap: wrap; gap: 8px; }
+      .source-list { margin-top: 10px; }
+      .source-control {
+        min-height: 44px;
+        border: 1px solid var(--line-strong);
+        border-radius: 9px;
+        background: var(--surface);
+        color: var(--ink);
+        padding: 8px 10px;
+        text-align: left;
+      }
+      .source-control:hover,
+      .source-control[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); }
+      .source-control small { display: block; color: var(--muted); }
+      .detail { margin-top: 12px; overflow-wrap: anywhere; }
+      .detail div { margin: 6px 0; }
+      .detail strong,
+      .relation-kind { color: var(--blue); font-weight: 800; }
+      .relation-filter { display: grid; gap: 7px; }
+      .relation-filter label { color: var(--muted); font-weight: 800; }
+      select { min-height: 44px; width: 100%; border: 1px solid var(--line-strong); border-radius: 9px; background: var(--surface); color: var(--ink); padding: 8px; }
+      .relations { display: grid; gap: 7px; max-height: 180px; margin-top: 10px; overflow: auto; }
+      .relation { overflow-wrap: anywhere; }
+      .relation-kind { margin-right: 5px; }
+      #relation-count { color: var(--muted); }
+
+      .system-reference {
+        width: min(1240px, calc(100% - 64px));
+        margin: 28px auto 0;
+        border: 1px solid var(--line-strong);
+        border-radius: 16px;
+        background: var(--surface);
+        padding: 24px;
+      }
+      .system-reference header { max-width: 780px; }
+      .system-reference header p { margin: 8px 0 0; color: var(--muted); }
+      .system-controls { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+      .system-control {
+        min-height: 76px;
+        border: 1px dashed var(--line-strong);
+        border-radius: 10px;
+        background: var(--surface);
+        color: var(--ink);
+        padding: 10px;
+        text-align: left;
+      }
+      .system-control:hover,
+      .system-control[aria-pressed="true"] { border-color: var(--amber); background: var(--amber-soft); }
+      .system-control span { display: block; margin-top: 4px; color: var(--amber); font-size: 0.78rem; font-weight: 800; }
+      .system-refusal { margin-top: 18px; border: 1px solid var(--amber); border-left-width: 5px; border-radius: 10px; background: var(--amber-soft); padding: 16px; }
+      .system-refusal dl { display: grid; grid-template-columns: minmax(130px, 0.25fr) minmax(0, 1fr); margin: 12px 0 0; }
+      .system-refusal dt,
+      .system-refusal dd { margin: 0; border-top: 1px solid var(--line); padding: 7px 0; overflow-wrap: anywhere; }
+      .system-refusal dt { font-weight: 800; }
+      .system-origin { margin: 0 0 10px; font-weight: 800; }
+      .return-control {
+        min-height: 44px;
+        margin-top: 14px;
+        border: 1px solid var(--line-strong);
+        border-radius: 9px;
+        background: var(--surface);
+        color: var(--ink);
+        padding: 9px 13px;
+        font-weight: 800;
+      }
+      .return-control:hover { border-color: var(--blue); background: var(--blue-soft); }
+
+      .bottomline { display: flex; justify-content: space-between; gap: 16px; width: min(1240px, calc(100% - 64px)); margin: 20px auto 0; padding: 16px 0 28px; color: var(--muted); font-size: 0.82rem; }
+      .bottomline b { color: var(--ink); }
+
+      @keyframes ambient-lab-loop {
+        0%, 24.99% { background-position: 0 50%; }
+        25%, 49.99% { background-position: 33.333% 50%; }
+        50%, 74.99% { background-position: 66.667% 50%; }
+        75%, 100% { background-position: 100% 50%; }
+      }
+
+      @media (max-width: 900px) {
+        .research-tower { grid-template-columns: minmax(18rem, 0.8fr) minmax(0, 1.2fr); gap: 22px; padding: 22px; }
+        .system-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .inspector-grid { grid-template-columns: 1fr; }
+        .source-inspector { grid-column: auto; }
+      }
+
+      @media (max-width: 720px) {
+        .topbar { align-items: flex-start; flex-direction: column; width: calc(100% - 32px); padding: 20px 0 14px; }
+        .header-controls { width: 100%; align-items: stretch; flex-direction: column; }
+        .witness-state { justify-items: start; }
+        .witness-binding { text-align: left; }
+        .global-status,
+        .tower-world,
+        .system-reference,
+        .bottomline { width: calc(100% - 32px); }
+        .research-tower { grid-template-columns: 1fr; gap: 18px; border-radius: 16px; padding: 16px; }
+        .floor-room { border-radius: 8px 8px 14px 14px; }
+        .room-portal { width: 8px; height: 28px; margin: -18px auto 12px; }
+        .scene-facts,
+        .verification-grid,
+        .system-refusal dl { grid-template-columns: 1fr; }
+        .scene-facts dt,
+        .verification-grid dt,
+        .system-refusal dt { border-bottom: 0; padding-bottom: 0; }
+        .scene-facts dd,
+        .verification-grid dd,
+        .system-refusal dd { border-top: 0; padding-top: 3px; }
+        .system-reference { margin-top: 18px; padding: 18px; }
+        .system-controls { grid-template-columns: 1fr; }
+        .world-host,
+        [data-world-surface] { min-height: 220px; }
+        .bottomline { flex-direction: column; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+        .ambient-tableau { background-position: 0 50% !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="lab-canvas" data-workbench="tower-scene-canvas" data-layout="cutaway-tower" data-legacy-workbench="research-tower-explorer">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-symbol" aria-hidden="true">CA</span>
+          <div>
+            <h1>CyberAlchemy Lab</h1>
+            <p>Cutaway Research Tower · local evidence workbench</p>
+          </div>
+        </div>
+        <div class="header-controls">
+          <button class="reset-control" type="button" data-action="reset-orientation" disabled>Reset to evidence floor 1</button>
+          <div class="witness-state">
+            <div id="connection-status" class="status" data-status="loading">Loading locked synthetic witness</div>
+            <p class="witness-binding" data-panel="witness-binding">Exact-input validation record not loaded.</p>
+          </div>
+        </div>
+      </header>
+
+      <p id="selection-status" class="global-status" role="status" aria-live="polite" aria-atomic="true">Waiting for the locked synthetic witness.</p>
+
+      <section class="tower-world" data-stage="tower-world" aria-labelledby="tower-heading">
+        <article class="research-tower" data-object="research-tower">
+          <section class="tower-elevation" data-panel="tower-elevation">
+            <div class="tower-roof" aria-hidden="true"></div>
+            <header class="tower-identity">
+              <h2 id="tower-heading">Synthetic evidence tower</h2>
+              <p>Preloaded contract fixture · not representative · read-only navigation</p>
+              <span class="fixture-badge">One locked synthetic fixture</span>
+            </header>
+            <button class="room-toggle" type="button" data-action="toggle-floor-room" aria-controls="floor-room" aria-expanded="false" disabled>Open selected floor room</button>
+            <p class="active-floor-summary" data-panel="active-floor-summary">Evidence floor 1 will be selected after validation.</p>
+            <div class="tower-structure">
+              <div class="tower-spine" data-panel="tower-spine" aria-hidden="true"></div>
+              <div class="tower-floors" data-list="levels" aria-label="Evidence floors"></div>
+            </div>
+          </section>
+
+          <section id="floor-room" class="floor-room" data-panel="floor-room" role="region" aria-labelledby="floor-room-title" hidden>
+            <div class="room-portal" aria-hidden="true"></div>
+            <p class="scene-kicker" data-panel="scene-axis">Evidence progression</p>
+            <h2 id="floor-room-title">Evidence floor research room</h2>
+            <div class="room-scene" data-panel="room-scene" data-motion="stopped" aria-hidden="true">
+              <img class="room-still" data-media="room-still" alt="" aria-hidden="true" draggable="false" hidden>
+              <div class="ambient-tableau" data-media="ambient-tableau" data-frame-count="4" data-frame-width="543" data-frame-height="724" data-source-width="2172" data-source-digest="04fa18bb405b59380b4be2b5a88bebd88632837e1fd21467e626832f43e37afa" aria-hidden="true" hidden></div>
+            </div>
+            <p class="scene-caveat" data-panel="scene-caveat">Illustrative room scene · no live workers or workflow</p>
+            <section class="world-projection" data-world-projection aria-labelledby="world-heading" hidden>
+              <header>
+                <h3 id="world-heading">Robot lab world</h3>
+                <p>Optional spatial projection. The evidence controls below remain authoritative.</p>
+              </header>
+              <p id="world-instructions" class="world-instructions">Focus the lab and use Arrow keys or WASD to move. Press Enter over the amber hotspot to show the ontology candidate.</p>
+              <div class="world-toolbar" aria-label="World lifecycle controls">
+                <button class="world-control" type="button" data-world-action="pause" disabled>Pause world</button>
+                <button class="world-control" type="button" data-world-action="retry" disabled>Retry world</button>
+              </div>
+              <div class="world-controls" aria-label="Robot movement controls">
+                <button class="world-control" type="button" data-world-move="up" aria-label="Move robot up" disabled>Up</button>
+                <button class="world-control" type="button" data-world-move="left" aria-label="Move robot left" disabled>Left</button>
+                <button class="world-control" type="button" data-world-move="down" aria-label="Move robot down" disabled>Down</button>
+                <button class="world-control" type="button" data-world-move="right" aria-label="Move robot right" disabled>Right</button>
+                <button class="world-control" type="button" data-world-action="activate" disabled>Inspect hotspot</button>
+              </div>
+              <div class="world-host" data-world-host aria-describedby="world-instructions"></div>
+              <p class="world-status" data-world-status>World waits for semantic readiness.</p>
+            </section>
+            <p class="scene-content" data-panel="scene-content">Bound evidence details load here.</p>
+            <dl class="scene-facts">
+              <dt>Technical ID</dt><dd data-panel="scene-id">—</dd>
+              <dt>Evidence state</dt><dd data-panel="scene-status">—</dd>
+              <dt>Implementation</dt><dd data-panel="scene-implementation">—</dd>
+              <dt>Sources</dt><dd data-panel="scene-sources">—</dd>
+              <dt>Claim ceiling</dt><dd data-panel="scene-ceiling">—</dd>
+            </dl>
+            <p class="scene-unavailable" data-panel="scene-unavailable" hidden></p>
+
+            <section class="verification-prompt" data-panel="verification-prompt" aria-labelledby="verification-heading">
+              <h3 id="verification-heading">Verification prompt projection</h3>
+              <p class="verification-intro">Display-only evidence question for the selected synthetic floor.</p>
+              <dl class="verification-grid">
+                <dt>Selected floor</dt><dd data-verification-field="selected-floor">—</dd>
+                <dt>Verified bindings</dt><dd><ul class="verification-list" data-list="verification-bindings"></ul></dd>
+                <dt>Known evidence</dt><dd><ul class="verification-list" data-list="known-evidence"></ul></dd>
+                <dt>Unbound evidence</dt><dd><ul class="verification-list" data-list="unbound-evidence"></ul></dd>
+                <dt>Verification question</dt><dd data-verification-field="question">—</dd>
+                <dt>Candidate owner route</dt><dd class="non-executable-route" data-verification-field="route">—</dd>
+                <dt>Executable</dt><dd data-verification-field="executable">false</dd>
+              </dl>
+            </section>
+
+            <div class="inspector-grid" data-panel="inspection">
+              <section class="inspector-panel source-inspector" aria-labelledby="source-heading">
+                <h3 id="source-heading">Source and candidate inspection</h3>
+                <div class="inspector-controls">
+                  <button id="ontology-candidate-control" class="inspector-control" type="button" data-action="show-candidate" aria-pressed="false" disabled>Show ontology candidate</button>
+                </div>
+                <div class="source-list" data-list="sources" aria-label="Locked source snapshots"></div>
+                <div id="source-detail" class="detail" data-panel="source-detail">Select a source or the ontology candidate.</div>
+              </section>
+
+              <section class="inspector-panel" aria-labelledby="relation-heading">
+                <h3 id="relation-heading">Relation inspection</h3>
+                <div class="relation-filter">
+                  <label for="relation-filter">Relation kind</label>
+                  <select id="relation-filter" data-field="relation-filter" disabled><option value="all">All relation paths</option></select>
+                </div>
+                <p id="relation-count"></p>
+                <div class="relations" data-list="relations"></div>
+              </section>
+
+              <section id="residue-detail" class="inspector-panel" data-panel="residue-detail" aria-labelledby="residue-heading">
+                <h3 id="residue-heading">Open representative-selection residue</h3>
+                <div data-panel="residue-content">Loading residue.</div>
+              </section>
+            </div>
+          </section>
+        </article>
+      </section>
+
+      <section class="system-reference" data-panel="system-atlas" data-region="system-reference" aria-labelledby="system-heading">
+        <header>
+          <h2 id="system-heading">Tower System reference — capabilities unavailable in this Lab</h2>
+          <p>These controls reveal evidence-bound refusal explanations. They do not run graph, persona, policy, comparison, scoring, or adjudication capabilities.</p>
+        </header>
+        <div class="system-controls" data-list="system-levels"></div>
+        <section id="system-refusal" class="system-refusal" data-panel="system-refusal" aria-labelledby="system-refusal-title" hidden>
+          <h3 id="system-refusal-title" tabindex="-1">System capability refusal</h3>
+          <p class="system-origin" data-panel="system-origin">Reference opened from the selected evidence floor.</p>
+          <dl>
+            <dt>Technical ID</dt><dd data-system-field="id">—</dd>
+            <dt>Status</dt><dd data-system-field="status">—</dd>
+            <dt>Implementation</dt><dd data-system-field="implementation">—</dd>
+            <dt>Source</dt><dd data-system-field="source">—</dd>
+            <dt>Reason</dt><dd data-system-field="reason">—</dd>
+            <dt>Claim ceiling</dt><dd data-system-field="ceiling">—</dd>
+          </dl>
+          <button class="return-control" type="button" data-action="return-to-floor" disabled>Return to retained floor context</button>
+        </section>
+      </section>
+
+      <footer class="bottomline">
+        <span><b>Local read-only candidate</b> · synthetic contract fixture only</span>
+        <span data-panel="claim-ceiling">Claim ceiling loads with the witness.</span>
+      </footer>
+    </main>
+
+    <script type="module">
+      const floorPresentation = {
+        'evidence-l0-corpus': {
+          number: '1',
+          label: 'Evidence floor 1 of 3 — Synthetic corpus anchors',
+          asset: '/assets/research-tower-concepts/robot-paper-library.png',
+          ambient: true,
+          caveat: 'Fixture locks verify these synthetic bytes only; they do not prove corpus coverage or representativeness.'
+        },
+        'evidence-l1-residue': {
+          number: '2',
+          label: 'Evidence floor 2 of 3 — Open representative-selection residue',
+          asset: '/assets/research-tower-concepts/autonomous-observatory-lab.png',
+          ambient: false,
+          caveat: 'This residue is open and must never be presented as completed progress.'
+        },
+        'evidence-l2-closure': {
+          number: '3',
+          label: 'Evidence floor 3 of 3 — Closure plan, blocked',
+          asset: '/assets/research-tower-concepts/night-knowledge-observatory.png',
+          ambient: false,
+          caveat: 'No representative source is selected; this view cannot select one or run a workflow.'
+        }
+      };
+      const approvedMediaPrefix = '/assets/research-tower-concepts/';
+
+      function admittedRoomAsset(presentation) {
+        if (new URLSearchParams(location.search).get('inject_media_url') === 'unknown') return null;
+        return presentation?.asset?.startsWith(approvedMediaPrefix) && !presentation.asset.includes('..')
+          ? presentation.asset
+          : null;
+      }
+
+      const els = {
+        status: document.querySelector('#connection-status'),
+        witnessBinding: document.querySelector('[data-panel="witness-binding"]'),
+        reset: document.querySelector('[data-action="reset-orientation"]'),
+        toggle: document.querySelector('[data-action="toggle-floor-room"]'),
+        selectionStatus: document.querySelector('#selection-status'),
+        levels: document.querySelector('[data-list="levels"]'),
+        systems: document.querySelector('[data-list="system-levels"]'),
+        activeFloorSummary: document.querySelector('[data-panel="active-floor-summary"]'),
+        room: document.querySelector('#floor-room'),
+        roomTitle: document.querySelector('#floor-room-title'),
+        sceneId: document.querySelector('[data-panel="scene-id"]'),
+        sceneStatus: document.querySelector('[data-panel="scene-status"]'),
+        sceneImplementation: document.querySelector('[data-panel="scene-implementation"]'),
+        sceneSources: document.querySelector('[data-panel="scene-sources"]'),
+        sceneContent: document.querySelector('[data-panel="scene-content"]'),
+        sceneCeiling: document.querySelector('[data-panel="scene-ceiling"]'),
+        unavailable: document.querySelector('[data-panel="scene-unavailable"]'),
+        sceneViewport: document.querySelector('[data-panel="room-scene"]'),
+        roomStill: document.querySelector('[data-media="room-still"]'),
+        ambientTableau: document.querySelector('[data-media="ambient-tableau"]'),
+        sceneCaveat: document.querySelector('[data-panel="scene-caveat"]'),
+        worldProjection: document.querySelector('[data-world-projection]'),
+        worldHost: document.querySelector('[data-world-host]'),
+        worldStatus: document.querySelector('[data-world-status]'),
+        worldPause: document.querySelector('[data-world-action="pause"]'),
+        worldRetry: document.querySelector('[data-world-action="retry"]'),
+        worldActivate: document.querySelector('[data-world-action="activate"]'),
+        worldMoves: [...document.querySelectorAll('[data-world-move]')],
+        verificationPrompt: document.querySelector('[data-panel="verification-prompt"]'),
+        verificationFloor: document.querySelector('[data-verification-field="selected-floor"]'),
+        verificationBindings: document.querySelector('[data-list="verification-bindings"]'),
+        verificationKnown: document.querySelector('[data-list="known-evidence"]'),
+        verificationUnbound: document.querySelector('[data-list="unbound-evidence"]'),
+        verificationQuestion: document.querySelector('[data-verification-field="question"]'),
+        verificationRoute: document.querySelector('[data-verification-field="route"]'),
+        verificationExecutable: document.querySelector('[data-verification-field="executable"]'),
+        sources: document.querySelector('[data-list="sources"]'),
+        sourceDetail: document.querySelector('[data-panel="source-detail"]'),
+        candidateButton: document.querySelector('[data-action="show-candidate"]'),
+        residueContent: document.querySelector('[data-panel="residue-content"]'),
+        filter: document.querySelector('[data-field="relation-filter"]'),
+        relationList: document.querySelector('[data-list="relations"]'),
+        relationCount: document.querySelector('#relation-count'),
+        systemRefusal: document.querySelector('[data-panel="system-refusal"]'),
+        systemRefusalTitle: document.querySelector('#system-refusal-title'),
+        systemId: document.querySelector('[data-system-field="id"]'),
+        systemStatus: document.querySelector('[data-system-field="status"]'),
+        systemImplementation: document.querySelector('[data-system-field="implementation"]'),
+        systemSource: document.querySelector('[data-system-field="source"]'),
+        systemReason: document.querySelector('[data-system-field="reason"]'),
+        systemCeiling: document.querySelector('[data-system-field="ceiling"]'),
+        systemOrigin: document.querySelector('[data-panel="system-origin"]'),
+        returnToFloor: document.querySelector('[data-action="return-to-floor"]'),
+        ceiling: document.querySelector('[data-panel="claim-ceiling"]')
+      };
+
+      let view;
+      let model;
+      let roomMediaFailed = false;
+      let state = {
+        loadState: 'loading',
+        rememberedFloorId: null,
+        viewMode: 'overview',
+        previousFloorViewMode: 'overview',
+        openedReferenceId: null,
+        focusReturnTarget: null,
+        inspectorSubview: { kind: 'candidate', id: null }
+      };
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const worldFailureMode = new URLSearchParams(location.search).get('inject_world_failure');
+      const worldFixtureMode = new URLSearchParams(location.search).get('world_fixture');
+      const semanticSubscribers = new Set();
+      let worldBridge = null;
+      let worldMounting = false;
+      let worldFailed = false;
+      let worldPaused = false;
+      let worldFailureConsumed = false;
+      let worldGeneration = 0;
+      let activeWorldSubscriptions = 0;
+      let totalWorldSubscriptions = 0;
+
+      const field = (label, value) => {
+        const row = document.createElement('div');
+        const key = document.createElement('strong');
+        key.textContent = `${label}: `;
+        row.append(key, document.createTextNode(value ?? '—'));
+        return row;
+      };
+
+      function reduceState(previous, event) {
+        if (event.type === 'LOAD_SUCCESS') {
+          return {
+            loadState: 'ready',
+            rememberedFloorId: model.defaultFloorId,
+            viewMode: 'overview',
+            previousFloorViewMode: 'overview',
+            openedReferenceId: null,
+            focusReturnTarget: null,
+            inspectorSubview: { kind: 'candidate', id: null }
+          };
+        }
+        if (event.type === 'LOAD_ERROR') {
+          return { loadState: 'error', rememberedFloorId: null, viewMode: 'overview', previousFloorViewMode: 'overview', openedReferenceId: null, focusReturnTarget: null, inspectorSubview: { kind: 'candidate', id: null } };
+        }
+        if (previous.loadState !== 'ready') return previous;
+        if (event.type === 'ACTIVATE_FLOOR') {
+          if (!model.scenes.has(event.id)) throw new Error(`Unknown evidence floor: ${event.id}`);
+          if (previous.rememberedFloorId === event.id && previous.viewMode === 'floor-open' && !previous.openedReferenceId) return previous;
+          return { ...previous, rememberedFloorId: event.id, viewMode: 'floor-open', previousFloorViewMode: 'floor-open', openedReferenceId: null, focusReturnTarget: null };
+        }
+        if (event.type === 'TOGGLE_ROOM') {
+          if (previous.openedReferenceId) return previous;
+          const viewMode = previous.viewMode === 'floor-open' ? 'overview' : 'floor-open';
+          return { ...previous, viewMode, previousFloorViewMode: viewMode };
+        }
+        if (event.type === 'ACTIVATE_SYSTEM') {
+          if (!model.systems.has(event.id)) throw new Error(`Unknown System layer: ${event.id}`);
+          return { ...previous, previousFloorViewMode: previous.openedReferenceId ? previous.previousFloorViewMode : previous.viewMode, openedReferenceId: event.id, focusReturnTarget: event.focusReturnTarget, viewMode: 'system-reference' };
+        }
+        if (event.type === 'RETURN_SYSTEM') {
+          if (!previous.openedReferenceId) return previous;
+          return { ...previous, openedReferenceId: null, focusReturnTarget: null, viewMode: previous.previousFloorViewMode };
+        }
+        if (event.type === 'RESET') {
+          return { ...previous, rememberedFloorId: model.defaultFloorId, viewMode: 'overview', previousFloorViewMode: 'overview', openedReferenceId: null, focusReturnTarget: null, inspectorSubview: { kind: 'candidate', id: null } };
+        }
+        if (event.type === 'INSPECT') {
+          return { ...previous, inspectorSubview: { kind: event.kind, id: event.id || null } };
+        }
+        throw new Error(`Unsupported tower event: ${event.type}`);
+      }
+
+      function setInspectorPressed() {
+        document.querySelectorAll('[data-source-id]').forEach((button) => {
+          const selected = state.inspectorSubview.kind === 'source' && state.inspectorSubview.id === button.dataset.sourceId;
+          button.setAttribute('aria-pressed', String(selected));
+          button.querySelector('[data-field="selection"]').textContent = selected ? 'Selected' : 'Inspect source';
+        });
+        els.candidateButton.setAttribute('aria-pressed', String(state.inspectorSubview.kind === 'candidate'));
+      }
+
+      function listItems(target, items) {
+        const fragment = document.createDocumentFragment();
+        items.forEach((entry) => {
+          const item = document.createElement('li');
+          item.textContent = typeof entry === 'string' ? entry : entry.text;
+          if (typeof entry !== 'string' && entry.status) item.dataset.bindingStatus = entry.status;
+          fragment.append(item);
+        });
+        target.replaceChildren(fragment);
+      }
+
+      function bindVerification(prompt) {
+        if (!prompt || prompt.route_suggestion.executable !== false) throw new Error('Verification prompt is unavailable or executable');
+        els.verificationFloor.textContent = prompt.selected_floor_id;
+        listItems(els.verificationBindings, prompt.bound_evidence_refs.map((reference) => ({
+          status: reference.status,
+          text: `${reference.source_snapshot_id} · ${reference.status} · repository ${reference.repository_ref} · object ${reference.object_id} · path ${reference.path} · expected SHA-256 ${reference.expected_sha256} · observed SHA-256 ${reference.observed_sha256 || 'unavailable'}`
+        })));
+        listItems(els.verificationKnown, prompt.known_evidence.map((evidence) =>
+          `${evidence.statement} Bound refs: ${evidence.bound_ref_ids.join(', ')}.`));
+        listItems(els.verificationUnbound, prompt.unbound_evidence.map((gap) => gap.statement));
+        els.verificationQuestion.textContent = prompt.verification_question;
+        els.verificationRoute.textContent = `${prompt.route_suggestion.label} (${prompt.route_suggestion.route_id}) · descriptive only`;
+        els.verificationExecutable.textContent = String(prompt.route_suggestion.executable);
+      }
+
+      function clearRoomMedia() {
+        roomMediaFailed = false;
+        els.roomStill.hidden = true;
+        els.roomStill.removeAttribute('src');
+        els.ambientTableau.hidden = true;
+        els.sceneViewport.dataset.motion = 'stopped';
+      }
+
+      function updateMotion() {
+        const running = state.loadState === 'ready'
+          && state.viewMode === 'floor-open'
+          && !state.openedReferenceId
+          && state.rememberedFloorId === model?.defaultFloorId
+          && !roomMediaFailed
+          && !reducedMotion.matches
+          && document.visibilityState === 'visible';
+        els.sceneViewport.dataset.motion = running ? 'running' : 'stopped';
+      }
+
+      function bindRoom(scene) {
+        const presentation = floorPresentation[scene.level_id];
+        const prompt = model.prompts.get(scene.level_id);
+        if (!presentation || !prompt) throw new Error(`Room projection unavailable for ${scene.level_id}`);
+        els.room.dataset.originFloor = scene.level_id;
+        els.roomTitle.textContent = `${presentation.label} research room`;
+        els.sceneId.textContent = scene.level_id;
+        els.sceneStatus.textContent = scene.evidence_state;
+        els.sceneImplementation.textContent = scene.implementation_status;
+        els.sceneSources.textContent = scene.source_refs.join(', ');
+        const bindingFailures = prompt.bound_evidence_refs.filter((reference) => reference.status !== 'verified');
+        els.sceneContent.textContent = bindingFailures.length
+          ? `Ordinary sourced claim unavailable: ${bindingFailures.map((reference) => `${reference.source_snapshot_id} is ${reference.status}`).join('; ')}. ${presentation.caveat}`
+          : `${scene.content} ${presentation.caveat}`;
+        els.sceneCaveat.textContent = 'Illustrative room scene · no live workers or workflow';
+        els.sceneCeiling.textContent = view.claim_ceiling;
+        els.unavailable.hidden = !scene.unavailable_reason;
+        els.unavailable.textContent = scene.unavailable_reason || '';
+        const admittedAsset = admittedRoomAsset(presentation);
+        roomMediaFailed = !admittedAsset;
+        if (admittedAsset) {
+          els.roomStill.src = admittedAsset;
+          els.roomStill.hidden = false;
+          els.ambientTableau.hidden = !presentation.ambient;
+        } else {
+          els.roomStill.removeAttribute('src');
+          els.roomStill.hidden = true;
+          els.ambientTableau.hidden = true;
+          els.sceneCaveat.textContent = 'Illustrative room scene unavailable · evidence text remains available · no live workers or workflow';
+        }
+        bindVerification(prompt);
+        updateMotion();
+      }
+
+      function bindSystem(layer) {
+        els.systemRefusalTitle.textContent = `${layer.label} refusal`;
+        els.systemId.textContent = layer.level_id;
+        els.systemStatus.textContent = 'Unavailable in this Lab';
+        els.systemImplementation.textContent = layer.implementation_status;
+        els.systemSource.textContent = layer.source_refs.join(', ');
+        els.systemReason.textContent = layer.unavailable_reason;
+        els.systemCeiling.textContent = view.claim_ceiling;
+        els.systemOrigin.textContent = `Reference opened from ${floorPresentation[state.rememberedFloorId].label}; that floor context is retained.`;
+      }
+
+      function readSemanticInspectionState() {
+        return {
+          activeFloorId: state.loadState === 'ready' ? state.rememberedFloorId : null,
+          rememberedFloorId: state.rememberedFloorId,
+          viewMode: state.viewMode,
+          inspectionKind: state.inspectorSubview.kind,
+          inspectionId: state.inspectorSubview.id,
+          openedReferenceId: state.openedReferenceId,
+          focusReturnTarget: state.focusReturnTarget
+        };
+      }
+
+      function publishSemanticState() {
+        const snapshot = readSemanticInspectionState();
+        semanticSubscribers.forEach((subscriber) => subscriber({ ...snapshot }));
+        return snapshot;
+      }
+
+      function subscribeCommittedState(subscriber) {
+        semanticSubscribers.add(subscriber);
+        activeWorldSubscriptions += 1;
+        totalWorldSubscriptions += 1;
+        let active = true;
+        return () => {
+          if (!active) return;
+          active = false;
+          semanticSubscribers.delete(subscriber);
+          activeWorldSubscriptions -= 1;
+        };
+      }
+
+      function worldIsRelevant() {
+        return state.loadState === 'ready'
+          && state.rememberedFloorId === model?.defaultFloorId
+          && state.viewMode === 'floor-open'
+          && !state.openedReferenceId;
+      }
+
+      function worldIsEligible() {
+        return worldIsRelevant()
+          && document.visibilityState === 'visible'
+          && !worldPaused
+          && !worldFailed;
+      }
+
+      function updateWorldControls() {
+        const ready = worldBridge?.getStatus() === 'ready' && worldIsEligible();
+        els.worldMoves.forEach((control) => { control.disabled = !ready; });
+        els.worldActivate.disabled = !ready;
+        els.worldPause.disabled = !(worldBridge || worldPaused) || worldFailed || !worldIsRelevant();
+        els.worldPause.textContent = worldPaused ? 'Resume world' : 'Pause world';
+        els.worldRetry.disabled = !worldFailed || !worldIsRelevant();
+      }
+
+      function destroyWorldProjection(reason = 'World projection is not active.') {
+        worldBridge?.destroy();
+        worldBridge = null;
+        els.worldHost.replaceChildren();
+        if (!worldFailed) {
+          els.worldHost.dataset.worldState = 'inactive';
+          els.worldStatus.classList.remove('world-fallback');
+          els.worldStatus.textContent = reason;
+        }
+        updateWorldControls();
+      }
+
+      function renderWorldFailure(error) {
+        const before = JSON.stringify(readSemanticInspectionState());
+        worldFailed = true;
+        worldBridge?.destroy();
+        worldBridge = null;
+        els.worldHost.replaceChildren();
+        els.worldHost.dataset.worldState = 'failed';
+        els.worldStatus.classList.add('world-fallback');
+        els.worldStatus.textContent = `Spatial projection unavailable. ${error?.message || String(error)} Textual evidence controls remain available.`;
+        if (JSON.stringify(readSemanticInspectionState()) !== before) {
+          els.worldStatus.textContent = 'Spatial projection unavailable. Semantic rollback check failed; textual evidence controls remain available.';
+        }
+        updateWorldControls();
+      }
+
+      function onWorldStatus(entry) {
+        if (entry.status === 'failed') {
+          Promise.resolve().then(() => renderWorldFailure(entry.detail || new Error('World projection failed')));
+          return;
+        }
+        if (entry.status === 'ready') {
+          els.worldHost.dataset.worldState = 'ready';
+          els.worldStatus.classList.remove('world-fallback');
+          const pose = worldBridge?.getState().pose;
+          els.worldStatus.textContent = pose
+            ? `Robot position ${pose.x}, ${pose.y}. Semantic evidence remains authoritative.`
+            : 'Robot lab world ready. Semantic evidence remains authoritative.';
+        }
+        updateWorldControls();
+      }
+
+      async function requestSemanticTransition(actionId, inputKind = 'control') {
+        if (actionId !== 'show-ontology-candidate' || state.loadState !== 'ready') {
+          return { status: 'rejected', snapshot: readSemanticInspectionState() };
+        }
+        showCandidate(false);
+        const snapshot = publishSemanticState();
+        els.selectionStatus.textContent = `Ontology candidate selected through ${inputKind} spatial intent.`;
+        return { status: 'committed', snapshot };
+      }
+
+      async function reconcileWorldProjection() {
+        els.worldProjection.hidden = !worldIsRelevant();
+        if (!worldIsEligible()) {
+          destroyWorldProjection(worldPaused ? 'World paused. Resume to create a fresh projection.' : 'World projection waits for the open L0 room.');
+          return;
+        }
+        if (worldBridge || worldMounting) {
+          updateWorldControls();
+          return;
+        }
+
+        worldMounting = true;
+        const generation = ++worldGeneration;
+        els.worldHost.dataset.worldGeneration = String(generation);
+        els.worldStatus.textContent = 'Preparing the optional robot lab world.';
+        try {
+          const injectNow = Boolean(worldFailureMode) && !worldFailureConsumed;
+          if (injectNow) worldFailureConsumed = true;
+          if (injectNow && worldFailureMode === 'import') await import('/research-tower/world-missing.mjs');
+          const bridgeModule = await import('/research-tower/world-bridge.mjs');
+          let manifest;
+          if (worldFixtureMode || (injectNow && ['manifest', 'binding'].includes(worldFailureMode))) {
+            const modelModule = await import('/research-tower/world-model.mjs');
+            manifest = structuredClone(worldFixtureMode === 'full-wall'
+              ? modelModule.FULL_WALL_COLLISION_FIXTURE
+              : modelModule.DEFAULT_INTERACTIVE_WORLD_MANIFEST);
+            if (worldFixtureMode === 'occluded') manifest.hotspots[0].occluded = true;
+            if (worldFailureMode === 'manifest') manifest.authority_effect = 'write';
+            if (worldFailureMode === 'binding') manifest.bindings[0].semantic_control_id = 'missing-semantic-control';
+          }
+          if (!worldIsEligible() || generation !== worldGeneration) return;
+          worldBridge = bridgeModule.mountWorldBridge({
+            host: els.worldHost,
+            ...(manifest ? { manifest } : {}),
+            readSemanticInspectionState,
+            requestSemanticTransition,
+            subscribeCommittedState,
+            onWorldStatus
+          });
+          els.worldHost.dataset.worldGeneration = String(generation);
+          await worldBridge.sendIntent({ type: 'SET_REDUCED_MOTION', enabled: reducedMotion.matches });
+          if (injectNow && worldFailureMode === 'render') throw new Error('Injected renderer failure after semantic commit');
+          if (injectNow && worldFailureMode === 'unknown') {
+            await worldBridge.sendIntent({ type: 'UNKNOWN_WORLD_INTENT' });
+          }
+          updateWorldControls();
+        } catch (error) {
+          renderWorldFailure(error);
+        } finally {
+          worldMounting = false;
+          updateWorldControls();
+        }
+      }
+
+      function queueWorldReconcile() {
+        Promise.resolve().then(reconcileWorldProjection).catch(renderWorldFailure);
+      }
+
+      function renderState(next, announcement = null) {
+        state = next;
+        const ready = state.loadState === 'ready';
+        const systemOpen = ready && Boolean(state.openedReferenceId);
+        const roomOpen = ready && !systemOpen && state.viewMode === 'floor-open';
+        document.querySelectorAll('[data-scene-id]').forEach((button) => {
+          const selected = state.rememberedFloorId === button.dataset.sceneId;
+          const expanded = selected && roomOpen;
+          button.setAttribute('aria-pressed', String(selected));
+          button.setAttribute('aria-expanded', String(expanded));
+          button.querySelector('[data-field="selection"]').textContent = selected ? (systemOpen ? 'Context retained' : 'Selected') : 'Not selected';
+          button.querySelector('[data-field="room"]').textContent = expanded ? 'Room open' : 'Room closed';
+        });
+        document.querySelectorAll('[data-system-level-id]').forEach((button) => {
+          const selected = state.openedReferenceId === button.dataset.systemLevelId;
+          button.setAttribute('aria-pressed', String(selected));
+          button.querySelector('[data-field="selection"]').textContent = selected ? 'Showing explanation' : 'Unavailable';
+        });
+
+        els.reset.disabled = !ready;
+        els.toggle.disabled = !ready || systemOpen;
+        els.toggle.setAttribute('aria-expanded', String(roomOpen));
+        els.toggle.textContent = roomOpen ? 'Return to tower overview' : 'Open selected floor room';
+        els.room.hidden = !roomOpen;
+        els.systemRefusal.hidden = !systemOpen;
+        els.returnToFloor.disabled = !systemOpen;
+
+        if (ready && state.rememberedFloorId) {
+          const remembered = model.scenes.get(state.rememberedFloorId);
+          els.activeFloorSummary.textContent = systemOpen
+            ? `${floorPresentation[remembered.level_id].label} · context retained while System reference is open`
+            : `${floorPresentation[remembered.level_id].label} · ${roomOpen ? 'room open' : 'room closed'}`;
+        }
+        if (roomOpen) bindRoom(model.scenes.get(state.rememberedFloorId));
+        else clearRoomMedia();
+        if (systemOpen) bindSystem(model.systems.get(state.openedReferenceId));
+        updateMotion();
+        setInspectorPressed();
+        if (announcement) els.selectionStatus.textContent = announcement;
+        publishSemanticState();
+        queueWorldReconcile();
+      }
+
+      function showSource(source, announce = true) {
+        if (!view) return;
+        state = reduceState(state, { type: 'INSPECT', kind: 'source', id: source.id });
+        els.sourceDetail.replaceChildren(
+          field('Logical source', source.logical_source_id),
+          field('Repository', source.repository_ref),
+          field('Git object', source.object_id),
+          field('Path', source.path),
+          field('Expected SHA-256', source.expected_sha256),
+          field('Observed SHA-256', source.observed_sha256 || 'unavailable'),
+          field('Binding', source.binding_status),
+          field('Bytes', String(source.byte_size)),
+          field('Media type', source.media_type)
+        );
+        setInspectorPressed();
+        publishSemanticState();
+        if (announce) els.selectionStatus.textContent = `Source ${source.logical_source_id} selected for inspection.`;
+      }
+
+      function showCandidate(announce = true) {
+        if (!view) return;
+        const candidate = view.candidates[0];
+        state = reduceState(state, { type: 'INSPECT', kind: 'candidate', id: candidate.id });
+        els.sourceDetail.replaceChildren(
+          field('Candidate status', candidate.status),
+          field('Proposed meaning', candidate.proposed_meaning),
+          field('Evidence ceiling', candidate.evidence_ceiling),
+          field('Contradiction path', candidate.contradiction_path),
+          field('Projection revision', view.projection.projection_revision),
+          field('Tower snapshot', view.projection.tower_snapshot_id)
+        );
+        setInspectorPressed();
+        publishSemanticState();
+        if (announce) els.selectionStatus.textContent = 'Ontology candidate selected for inspection.';
+      }
+
+      function renderRelations(recordState = true, announce = recordState) {
+        if (!view) return;
+        const selected = els.filter.value;
+        if (recordState) state = reduceState(state, { type: 'INSPECT', kind: 'relations', id: selected });
+        const relations = view.relations.filter((relation) => selected === 'all' || relation.kind === selected);
+        els.relationList.replaceChildren();
+        for (const relation of relations) {
+          const row = document.createElement('div');
+          row.className = 'relation';
+          const kind = document.createElement('span');
+          kind.className = 'relation-kind';
+          kind.textContent = relation.kind;
+          row.append(kind, document.createTextNode(`${relation.from_id} → ${relation.to_id}`));
+          els.relationList.append(row);
+        }
+        els.relationCount.textContent = `${relations.length} relation paths`;
+        setInspectorPressed();
+        publishSemanticState();
+        if (announce) els.selectionStatus.textContent = `Relation inspection filtered to ${selected}; ${relations.length} paths shown.`;
+      }
+
+      function runUiAction(action) {
+        try {
+          action();
+        } catch (error) {
+          renderFailure(error);
+        }
+      }
+
+      function buildFloorControls(tower) {
+        const fragment = document.createDocumentFragment();
+        tower.scenes.forEach((scene) => {
+          const presentation = floorPresentation[scene.level_id];
+          if (!presentation) throw new Error(`No presentation for ${scene.level_id}`);
+          const button = document.createElement('button');
+          button.id = `floor-${scene.level_id}`;
+          button.type = 'button';
+          button.className = 'tower-floor';
+          button.dataset.sceneId = scene.level_id;
+          button.setAttribute('aria-pressed', 'false');
+          button.setAttribute('aria-expanded', 'false');
+          button.setAttribute('aria-controls', 'floor-room');
+          button.setAttribute('aria-label', `${presentation.label}. ${scene.evidence_state}. ${scene.implementation_status}.`);
+          const number = document.createElement('span');
+          number.className = 'floor-number';
+          number.textContent = presentation.number;
+          number.setAttribute('aria-hidden', 'true');
+          const copy = document.createElement('span');
+          copy.className = 'floor-copy';
+          const title = document.createElement('span');
+          title.className = 'floor-title';
+          title.textContent = presentation.label;
+          const id = document.createElement('span');
+          id.className = 'floor-meta';
+          id.textContent = scene.level_id;
+          const facts = document.createElement('span');
+          facts.className = 'floor-meta';
+          facts.textContent = `${scene.evidence_state} · ${scene.implementation_status}`;
+          const selection = document.createElement('span');
+          selection.className = 'floor-state-marker';
+          selection.dataset.field = 'selection';
+          selection.textContent = 'Not selected';
+          const room = document.createElement('span');
+          room.className = 'floor-state-marker';
+          room.dataset.field = 'room';
+          room.textContent = 'Room closed';
+          copy.append(title, id, facts, selection, room);
+          button.append(number, copy);
+          button.addEventListener('click', () => runUiAction(() => {
+              const next = reduceState(state, { type: 'ACTIVATE_FLOOR', id: scene.level_id });
+              if (next === state) return;
+              renderState(next, `${presentation.label}. State ${scene.evidence_state}. Implementation ${scene.implementation_status}. Room open.${scene.unavailable_reason ? ` Blocker: ${scene.unavailable_reason}` : ''}`);
+            }));
+          fragment.append(button);
+        });
+        return fragment;
+      }
+
+      function buildSystemControls(layers) {
+        const fragment = document.createDocumentFragment();
+        layers.forEach((layer) => {
+          const button = document.createElement('button');
+          button.id = `system-${layer.level_id}`;
+          button.type = 'button';
+          button.className = 'system-control';
+          button.dataset.systemLevelId = layer.level_id;
+          button.setAttribute('aria-pressed', 'false');
+          button.setAttribute('aria-controls', 'system-refusal');
+          button.setAttribute('aria-label', `${layer.label}. Unavailable in this Lab. ${layer.implementation_status}.`);
+          button.append(document.createTextNode(layer.label));
+          const selection = document.createElement('span');
+          selection.dataset.field = 'selection';
+          selection.textContent = 'Unavailable';
+          button.append(selection);
+          button.addEventListener('click', () => runUiAction(() => {
+            const next = reduceState(state, { type: 'ACTIVATE_SYSTEM', id: layer.level_id, focusReturnTarget: button.id });
+            renderState(next, `${layer.label}. Unavailable in this Lab. Implementation ${layer.implementation_status}. ${layer.unavailable_reason}. Selected evidence floor context retained.`);
+            els.systemRefusalTitle.focus();
+          }));
+          fragment.append(button);
+        });
+        return fragment;
+      }
+
+      function buildInspector(data) {
+        const sources = document.createDocumentFragment();
+        data.sources.forEach((source) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'source-control';
+          button.dataset.sourceId = source.id;
+          button.setAttribute('aria-pressed', 'false');
+          const label = document.createElement('span');
+          label.textContent = source.logical_source_id;
+          const bytes = document.createElement('small');
+          bytes.textContent = `${source.byte_size} bytes · ${source.binding_status}`;
+          const selection = document.createElement('small');
+          selection.dataset.field = 'selection';
+          selection.textContent = 'Inspect source';
+          button.append(label, bytes, selection);
+          button.addEventListener('click', () => runUiAction(() => showSource(source)));
+          sources.append(button);
+        });
+        const residue = data.residues[0];
+        const residueFields = [field('Status', residue.status), field('Question', residue.question), field('Scope', residue.scope)];
+        const options = [];
+        for (const kind of [...new Set(data.relations.map((relation) => relation.kind))].sort()) {
+          const option = document.createElement('option');
+          option.value = kind;
+          option.textContent = kind;
+          options.push(option);
+        }
+        return { sources, residueFields, options };
+      }
+
+      function stageModel(data) {
+        const tower = data?.scene_manifest?.towers?.[0];
+        const promptSet = data?.verification_prompts;
+        if (!tower || promptSet?.interaction_contract !== 'display-only' || promptSet?.authority_effect !== 'none') {
+          throw new Error('Scene or verification projection is unavailable');
+        }
+        const scenes = new Map(tower.scenes.map((scene) => [scene.level_id, scene]));
+        const prompts = new Map(promptSet.prompts.map((prompt) => [prompt.selected_floor_id, prompt]));
+        const sources = new Map(data.sources.map((source) => [source.id, source]));
+        const bindingStatuses = new Set(['verified', 'object_unavailable', 'path_missing', 'digest_mismatch']);
+        const expectedFloors = Object.keys(floorPresentation);
+        if (scenes.size !== expectedFloors.length || prompts.size !== expectedFloors.length
+          || expectedFloors.some((id) => !scenes.has(id) || !prompts.has(id))) {
+          throw new Error('Scene and verification floor identities do not match');
+        }
+        for (const [floorId, prompt] of prompts) {
+          const forbidden = ['endpoint', 'method', 'request_method', 'command', 'command_binding', 'dispatch', 'dispatch_hook', 'execution_status', 'action', 'effect', 'score', 'verdict', 'promotion', 'authority'];
+          const bindingInvalid = prompt.bound_evidence_refs.some((reference) => {
+            const source = sources.get(reference.source_snapshot_id);
+            const statusShapeValid = reference.status === 'verified'
+              ? reference.observed_sha256 === reference.expected_sha256
+              : ['object_unavailable', 'path_missing'].includes(reference.status)
+                ? reference.observed_sha256 === null
+                : reference.status === 'digest_mismatch'
+                  && /^[a-f0-9]{64}$/.test(reference.observed_sha256 || '')
+                  && reference.observed_sha256 !== reference.expected_sha256;
+            return !source || !bindingStatuses.has(reference.status) || !statusShapeValid
+              || !/^git:[A-Za-z0-9._-]+$/.test(reference.repository_ref || '')
+              || !/^[a-f0-9]{40,64}$/.test(reference.object_id || '')
+              || !reference.path || reference.path.startsWith('/') || reference.path.startsWith('../')
+              || !/^[a-f0-9]{64}$/.test(reference.expected_sha256 || '')
+              || ['repository_ref', 'object_id', 'path', 'expected_sha256', 'observed_sha256'].some((field) => source[field] !== reference[field])
+              || source.binding_status !== reference.status;
+          });
+          const failures = prompt.bound_evidence_refs.filter((reference) => reference.status !== 'verified');
+          const knownRefsValid = prompt.known_evidence.every((evidence) => Array.isArray(evidence.bound_ref_ids)
+            && evidence.bound_ref_ids.length > 0
+            && evidence.bound_ref_ids.every((id) => prompt.bound_evidence_refs.some((reference) => reference.source_snapshot_id === id && reference.status === 'verified')));
+          const failuresVisible = failures.every((reference) => prompt.unbound_evidence.some((gap) =>
+            gap.statement.includes(reference.repository_ref)
+              && gap.statement.includes(reference.object_id)
+              && gap.statement.includes(reference.path)
+              && gap.statement.includes(reference.status)
+              && gap.statement.includes('Ordinary sourced claim suppressed')));
+          if (prompt.route_suggestion?.executable !== false
+            || forbidden.some((key) => Object.hasOwn(prompt.route_suggestion || {}, key))
+            || bindingInvalid || !knownRefsValid || !failuresVisible
+            || (failures.length > 0 && prompt.known_evidence.some((evidence) => !evidence.statement.includes('no combined floor claim is presented')))
+            || scenes.get(floorId).source_refs.join('\n') !== prompt.bound_evidence_refs.map((reference) => reference.source_snapshot_id).join('\n')) {
+            throw new Error(`Verification prompt binding is invalid for ${floorId}`);
+          }
+        }
+        return {
+          defaultFloorId: tower.scenes[0].level_id,
+          scenes,
+          prompts,
+          systems: new Map(data.scene_manifest.system_layers.map((layer) => [layer.level_id, layer]))
+        };
+      }
+
+      function renderLoaded(data) {
+        const tower = data.scene_manifest.towers[0];
+        const stagedModel = stageModel(data);
+        const floorControls = buildFloorControls(tower);
+        const systemControls = buildSystemControls(data.scene_manifest.system_layers);
+        const inspector = buildInspector(data);
+        if (new URLSearchParams(location.search).get('inject_render_failure') === 'after-build') {
+          throw new Error('Injected render failure after staging');
+        }
+
+        view = data;
+        model = stagedModel;
+        els.levels.replaceChildren(floorControls);
+        els.systems.replaceChildren(systemControls);
+        els.sources.replaceChildren(inspector.sources);
+        els.residueContent.replaceChildren(...inspector.residueFields);
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = 'All relation paths';
+        els.filter.replaceChildren(allOption, ...inspector.options);
+        els.candidateButton.disabled = false;
+        els.filter.disabled = false;
+        els.status.dataset.status = 'ready';
+        els.status.textContent = 'Locked synthetic witness loaded';
+        els.witnessBinding.textContent = `Exact-input validation record ${data.witness.validation_record_id} bound; fixture-byte validation does not establish corpus coverage or representativeness.`;
+        els.ceiling.textContent = data.claim_ceiling;
+        state = reduceState(state, { type: 'LOAD_SUCCESS' });
+        showCandidate(false);
+        renderRelations(false, false);
+        renderState(state, 'Locked synthetic witness loaded. Evidence floor 1 selected. Tower overview.');
+      }
+
+      function renderFailure(error) {
+        destroyWorldProjection('World projection unavailable because the witness did not load.');
+        worldFailed = false;
+        worldPaused = false;
+        view = undefined;
+        model = undefined;
+        state = reduceState(state, { type: 'LOAD_ERROR' });
+        els.levels.replaceChildren();
+        els.systems.replaceChildren();
+        els.sources.replaceChildren();
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = 'All relation paths';
+        els.filter.replaceChildren(allOption);
+        els.relationList.replaceChildren();
+        els.relationCount.textContent = '';
+        els.sourceDetail.textContent = 'Witness unavailable.';
+        els.residueContent.textContent = 'Witness unavailable.';
+        els.activeFloorSummary.textContent = 'No evidence floor is selected while the witness is unavailable.';
+        els.ceiling.textContent = 'Claim ceiling unavailable while the witness is unavailable.';
+        clearRoomMedia();
+        els.room.hidden = true;
+        els.worldProjection.hidden = true;
+        els.systemRefusal.hidden = true;
+        els.reset.disabled = true;
+        els.toggle.disabled = true;
+        els.candidateButton.disabled = true;
+        els.filter.disabled = true;
+        els.returnToFloor.disabled = true;
+        els.status.dataset.status = 'error';
+        els.status.textContent = 'Witness unavailable';
+        els.witnessBinding.textContent = 'No validation record is bound while the witness is unavailable.';
+        els.selectionStatus.textContent = `Witness unavailable. ${error.message}`;
+      }
+
+      els.filter.addEventListener('change', () => runUiAction(() => renderRelations()));
+      els.candidateButton.addEventListener('click', () => runUiAction(() => {
+        void requestSemanticTransition('show-ontology-candidate', 'control');
+      }));
+      els.toggle.addEventListener('click', () => runUiAction(() => {
+          const next = reduceState(state, { type: 'TOGGLE_ROOM' });
+          const opening = next.viewMode === 'floor-open';
+          renderState(next, opening ? 'Selected evidence floor research room opened.' : 'Returned to tower overview. Selected evidence floor preserved.');
+        }));
+      els.reset.addEventListener('click', () => runUiAction(() => {
+          if (!model) return;
+          els.filter.value = 'all';
+          state = reduceState(state, { type: 'RESET' });
+          showCandidate(false);
+          renderRelations(false, false);
+          renderState(state, 'Reset to evidence floor 1. Tower overview.');
+          document.querySelector(`[data-scene-id="${model.defaultFloorId}"]`).focus();
+        }));
+      els.returnToFloor.addEventListener('click', () => runUiAction(() => {
+          if (!state.openedReferenceId) return;
+          const focusTarget = state.focusReturnTarget;
+          const trigger = document.getElementById(focusTarget);
+          const fallback = document.querySelector(`[data-scene-id="${state.rememberedFloorId}"]`);
+          const next = reduceState(state, { type: 'RETURN_SYSTEM' });
+          renderState(next, trigger
+            ? 'Returned to the retained evidence floor context.'
+            : 'Returned to the retained evidence floor context. Original System trigger unavailable; focus returned to the active evidence floor.');
+          (trigger || fallback)?.focus();
+        }));
+      els.roomStill.addEventListener('error', () => {
+        roomMediaFailed = true;
+        els.roomStill.hidden = true;
+        els.sceneCaveat.textContent = 'Illustrative room scene unavailable · evidence text remains available · no live workers or workflow';
+        updateMotion();
+      });
+      const movementByControl = {
+        up: { dx: 0, dy: -8 },
+        left: { dx: -8, dy: 0 },
+        down: { dx: 0, dy: 8 },
+        right: { dx: 8, dy: 0 }
+      };
+      els.worldMoves.forEach((control) => {
+        control.addEventListener('click', () => runUiAction(() => {
+          const movement = movementByControl[control.dataset.worldMove];
+          if (!worldBridge || !movement) return;
+          void worldBridge.sendIntent({ type: 'MOVE_AVATAR', ...movement, input_kind: 'control' });
+        }));
+      });
+      els.worldActivate.addEventListener('click', () => runUiAction(() => {
+        if (!worldBridge) return;
+        void worldBridge.sendIntent({ type: 'ACTIVATE_HOTSPOT', input_kind: 'control' });
+      }));
+      els.worldPause.addEventListener('click', () => runUiAction(() => {
+        worldPaused = !worldPaused;
+        worldFailed = false;
+        if (worldPaused) destroyWorldProjection('World paused. Resume to create a fresh projection.');
+        else queueWorldReconcile();
+        updateWorldControls();
+      }));
+      els.worldRetry.addEventListener('click', () => runUiAction(() => {
+        worldFailed = false;
+        worldPaused = false;
+        els.worldStatus.classList.remove('world-fallback');
+        els.worldStatus.textContent = 'Retrying with a fresh world projection.';
+        queueWorldReconcile();
+      }));
+      document.addEventListener('visibilitychange', () => {
+        updateMotion();
+        queueWorldReconcile();
+      });
+      reducedMotion.addEventListener('change', () => {
+        updateMotion();
+        if (worldBridge) {
+          void worldBridge.sendIntent({ type: 'SET_REDUCED_MOTION', enabled: reducedMotion.matches });
+        } else {
+          queueWorldReconcile();
+        }
+      });
+      window.addEventListener('pagehide', () => destroyWorldProjection('World projection destroyed for page lifecycle.'));
+
+      window.__calWorldProbe = Object.freeze({
+        getProjectionState: () => worldBridge ? structuredClone(worldBridge.getState()) : null,
+        getSemanticState: () => structuredClone(readSemanticInspectionState()),
+        getLifecycle: () => ({
+          generation: worldGeneration,
+          activeSubscriptions: activeWorldSubscriptions,
+          totalSubscriptions: totalWorldSubscriptions,
+          status: worldBridge?.getStatus() || (worldFailed ? 'failed' : worldPaused ? 'paused' : 'inactive'),
+          ownedCallbacks: worldBridge?.getOwnedCallbackCount() || 0
+        }),
+        setCamera: (x, y) => worldBridge?.sendIntent({ type: 'SET_CAMERA', x, y }),
+        injectUnknownIntent: () => worldBridge?.sendIntent({ type: 'UNKNOWN_WORLD_INTENT' })
+      });
+
+      try {
+        const response = await fetch('/api/research-tower/l0');
+        if (!response.ok) throw new Error((await response.json()).message);
+        renderLoaded(await response.json());
+      } catch (error) {
+        renderFailure(error);
+      }
+    </script>
+  </body>
+</html>

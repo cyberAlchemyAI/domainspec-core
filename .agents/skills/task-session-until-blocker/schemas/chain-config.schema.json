@@ -28,6 +28,25 @@
     "state_directory": {"type": "string", "minLength": 1},
     "scope_id": {"type": "string", "minLength": 1},
     "manifest_ref": {"$ref": "#/$defs/exactArtifactRef"},
+    "audit_report_ref": {"$ref": "#/$defs/exactArtifactRef"},
+    "wpra_v2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audit_config_ref",
+        "execution_contracts_ref",
+        "selection_handoff_ref",
+        "initial_selection_request_ref",
+        "initial_selection_receipt_ref"
+      ],
+      "properties": {
+        "audit_config_ref": {"$ref": "#/$defs/exactArtifactRef"},
+        "execution_contracts_ref": {"$ref": "#/$defs/exactArtifactRef"},
+        "selection_handoff_ref": {"$ref": "#/$defs/exactArtifactRef"},
+        "initial_selection_request_ref": {"$ref": "#/$defs/exactArtifactRef"},
+        "initial_selection_receipt_ref": {"$ref": "#/$defs/exactArtifactRef"}
+      }
+    },
     "audit_verdict": {"enum": ["pass", "flag"]},
     "audit_flags": {
       "type": "array",

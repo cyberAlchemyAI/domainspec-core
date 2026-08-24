@@ -13,23 +13,23 @@ Use this report when `refine` reaches a manual, usage, output, gap, or severe-ga
 
 ## Signal Summary
 
-| Signal Type           | Count | Notes   |
-| --------------------- | ----- | ------- |
-| Meaningful executions | <n>   | <notes> |
-| Seed proposals        | <n>   | <notes> |
-| Runtime handoffs      | <n>   | <notes> |
-| Native stage receipts | <n>   | <notes> |
-| Research decisions    | <n>   | <notes> |
-| Final syntheses       | <n>   | <notes> |
-| Quality Bar failures  | <n>   | <notes> |
-| Anti-Pattern hits     | <n>   | <notes> |
-| Output-contract drift | <n>   | <notes> |
+| Signal Type | Count | Notes |
+| --- | --- | --- |
+| Meaningful executions | <n> | <notes> |
+| Seed proposals | <n> | <notes> |
+| Runtime handoffs | <n> | <notes> |
+| Native stage receipts | <n> | <notes> |
+| Research decisions | <n> | <notes> |
+| Final syntheses | <n> | <notes> |
+| Quality Bar failures | <n> | <notes> |
+| Anti-Pattern hits | <n> | <notes> |
+| Output-contract drift | <n> | <notes> |
 
 ## Gap Analysis
 
-| Gap   | Severity | Evidence   | Affected Contract Area | Recommended Response |
-| ----- | -------- | ---------- | ---------------------- | -------------------- |
-| <gap> | low      | <evidence> | <area>                 | <response>           |
+| Gap | Severity | Evidence | Affected Contract Area | Recommended Response |
+| --- | --- | --- | --- | --- |
+| <gap> | low | <evidence> | <area> | <response> |
 
 ## Contract Check
 

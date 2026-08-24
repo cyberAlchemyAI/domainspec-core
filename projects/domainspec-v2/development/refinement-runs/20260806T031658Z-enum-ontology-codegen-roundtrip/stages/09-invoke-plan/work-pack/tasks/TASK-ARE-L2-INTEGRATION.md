@@ -18,8 +18,10 @@ bounded proof receipt. Layer L2 with L3 exit assessment, slice S3, wave W3.
   runs but cannot independently establish the selected proof claim. Their
   implementations are already accepted in earlier SWUs; this unit owns only the
   final immutable join and bounded completion decision.
-- Dependencies: SWU-ARE-013 and every earlier terminal/closeout receipt.
-- Inputs: exact frozen definition/spec/catalogue/binding, component/tool/config
+- Dependencies: SWU-ARE-013, SWU-ARE-015, and every earlier historical
+  terminal/closeout receipt, including retained SWU-ARE-003 lineage.
+- Inputs: exact frozen definition/spec/snapshot-bound active v2 catalogue/binding,
+  immutable v1 catalogue predecessor lineage, component/tool/config
   handles, and one pre-run `ArchitectureRealizationCase/v1` created before any
   source emission.
 - Write scope:
@@ -46,7 +48,8 @@ bounded proof receipt. Layer L2 with L3 exit assessment, slice S3, wave W3.
   - legal lifecycle reaches `proof-complete` only after replay;
   - exact obligation accounting `declared=1, passed=1, failed=0, unaccounted=0`;
   - exact mutation accounting `declared=1, killed=1, survived=0`;
-  - definition, ontology, spec, catalogue, IR, binding, profile, provider,
+  - definition, ontology, spec, active v2 catalogue, v1 predecessor lineage, IR,
+    binding, profile, provider,
     emitter, compiler, source, witness, observation, evaluation, mutation,
     replay, tool, and configuration refs present;
   - claim ceiling says one candidate-local direct TypeScript proof only.

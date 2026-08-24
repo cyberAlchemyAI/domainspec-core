@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CraftWaveDBReadonlyNodeReceipt",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schemaVersion",
+    "unit",
+    "verdict",
+    "environment",
+    "checks",
+    "forbiddenEffects",
+    "blockers",
+    "successor",
+    "claimCeiling"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "craft-wavedb-readonly-node-receipt.v1"
+    },
+    "unit": {
+      "enum": [
+        "CWE-001",
+        "CWE-002",
+        "CWE-003"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "pass",
+        "block"
+      ]
+    },
+    "blockers": {
+      "type": "array"
+    },
+    "successor": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

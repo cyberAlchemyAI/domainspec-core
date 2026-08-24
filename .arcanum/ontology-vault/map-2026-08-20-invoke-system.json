@@ -1,0 +1,451 @@
+{
+  "schema_version": "domainspec.ontology-vault.validation.v1",
+  "artifact_schema_version": "ontology-vault-system-runtime/candidate-v1",
+  "invocation_id": "ontology-vault-invoke-system-20260820T131735Z",
+  "validated_at": "2026-08-20T13:17:35Z",
+  "mode": "map",
+  "repository": "/home/vrondelli/projects/domainspec-core",
+  "ontology_type": "system-runtime",
+  "ontology_type_selection": {
+    "source": "user",
+    "confidence": "exact",
+    "reason": "The user selected all three separate ontology views after the initial bridge-only interpretation was surfaced.",
+    "composition_context": "business-domain plus system-runtime plus business-system-bridge",
+    "ambiguity_candidates": [],
+    "user_selection_required": true,
+    "routing_source": ".agents/skills/ontology-vault/catalogs/ontology-types.json"
+  },
+  "branch": "system",
+  "runtime": "inline",
+  "authority_effect": "none",
+  "result": "flag",
+  "promotion_status": "not_requested",
+  "subject": {
+    "id": "invoke-system",
+    "type": "system ontology",
+    "target": "invoke",
+    "target_type": "spell",
+    "scope": "declared authoring control plane and evidence surfaces",
+    "claim_posture": "candidate contract map"
+  },
+  "scope": {
+    "included": [
+      "mode router",
+      "artifact sets",
+      "validators",
+      "traceability artifacts",
+      "declared data flow and constraints"
+    ],
+    "excluded": [
+      "business meaning",
+      "unobserved runtime conformance",
+      "undeclared APIs, databases, queues, and deployment units",
+      "promotion, publication, and deployment"
+    ],
+    "domain_knowledge_inflection": {
+      "position": "high",
+      "basis": "Invoke's canonical contracts and capability table already define stable components, artifact families, gates, and data movement."
+    }
+  },
+  "confidence_model": {
+    "evidence_confidence": {
+      "high": "Directly stated in a digest-bound canonical source.",
+      "medium": "Synthesized across canonical statements without runtime corroboration.",
+      "low": "Supported only by a name or weak implication."
+    },
+    "commitment_confidence": {
+      "committed": "An active cross-mode contract requirement.",
+      "conditional": "Applies only when the relevant mode and gate are active.",
+      "deferred": "Explicitly outside current active capability."
+    }
+  },
+  "source_identities": [
+    {
+      "id": "SRC-ROOT",
+      "path": "arcanum/spells/invoke/README.md",
+      "sha256": "f32a536358a2c7826d81dcc1305dac6a3b096f18d5f866ef27995995c051659e",
+      "posture": "canonical-contract"
+    },
+    {
+      "id": "SRC-DEFINE",
+      "path": "arcanum/spells/invoke/define.md",
+      "sha256": "91d085c78d95445936a19603cd1722ab490f1b2ecae80464af61e1212eef11a1",
+      "posture": "canonical-mode-contract"
+    },
+    {
+      "id": "SRC-DESIGN",
+      "path": "arcanum/spells/invoke/design.md",
+      "sha256": "6176d5fae4ad12460077fb4646333dc579b6a18bb8f4264f22abdac0f4f8a0ed",
+      "posture": "canonical-mode-contract"
+    },
+    {
+      "id": "SRC-PLAN",
+      "path": "arcanum/spells/invoke/plan.md",
+      "sha256": "fd135f08a5d2f551cca4592fd40b0b5fd6217f95c26722ba850390fdfda1096b",
+      "posture": "canonical-mode-contract"
+    },
+    {
+      "id": "SRC-HANDOFF",
+      "path": "arcanum/spells/invoke/handoff.md",
+      "sha256": "44245eabe3c853edb83c40fd0a051ac4e7bb4281febb91681e60beffc217fdc6",
+      "posture": "canonical-mode-contract"
+    },
+    {
+      "id": "SRC-REFRESH",
+      "path": "arcanum/spells/invoke/refresh.md",
+      "sha256": "1fef6b4149210cb8b78a40c7dde1925bf35a676d766aa896955c6a53c4699938",
+      "posture": "canonical-mode-contract"
+    },
+    {
+      "id": "SRC-CAPABILITIES",
+      "path": "arcanum/spells/invoke/mode-capabilities.json",
+      "sha256": "2115e510ad242d0ab92f51e8425df1e18be5308bdf7f4f3a9c4b68a2a922f189",
+      "posture": "machine-readable-canonical-contract"
+    }
+  ],
+  "ontology": {
+    "relationship_catalog": {
+      "selects": "The mode router selects a mode-owned artifact pipeline.",
+      "feeds": "One artifact set supplies governed input to another.",
+      "validated_by": "A component or artifact set is checked by an evidence surface.",
+      "emits": "A component produces a required traceability artifact.",
+      "status_reported_by": "A routed capability exposes its independent status axes through a resolver."
+    },
+    "nodes": [
+      {
+        "id": "S-MODE-ROUTER",
+        "role": "component",
+        "claim": "The root spell selects a mode contract, runs its phases, applies global gates, and routes the result.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:48-58",
+          "arcanum/spells/invoke/README.md:244-252"
+        ],
+        "evidence_confidence": "high",
+        "commitment_confidence": "committed"
+      },
+      {
+        "id": "S-DEFINE-PACK",
+        "role": "artifact set",
+        "claim": "Define emits a specification, glossary, template evidence, optional layering seed or gap, transport report, and unresolved gaps.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/define.md:45-81"
+        ],
+        "evidence_confidence": "high",
+        "commitment_confidence": "conditional"
+      },
+      {
+        "id": "S-DESIGN-PIPELINE",
+        "role": "component and artifact set",
+        "claim": "Design uses a closed scope manifest, denominator extraction, two-pass selection validation, and a six-view design bundle.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/design.md:84-156"
+        ],
+        "evidence_confidence": "high",
+        "commitment_confidence": "conditional"
+      },
+      {
+        "id": "S-PLAN-PACK",
+        "role": "artifact set",
+        "claim": "Plan emits an implementation plan, implementation layering, work-pack, waves, tasks, smallest working units, and validation strategy.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/plan.md:167-216",
+          "arcanum/spells/invoke/plan.md:240-273"
+        ],
+        "evidence_confidence": "high",
+        "commitment_confidence": "conditional"
+      },
+      {
+        "id": "S-HANDOFF-PACK",
+        "role": "artifact and interface",
+        "claim": "Handoff emits a session artifact with obligation coverage, selected and excluded context, provenance, and a next-session prompt.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/handoff.md:78-132"
+        ],
+        "evidence_confidence": "high",
+        "commitment_confidence": "conditional"
+      },
+      {
+        "id": "S-REFRESH-PIPELINE",
+        "role": "component and data set",
+        "claim": "Refresh normalizes source evidence into typed signals and deltas, then produces proposal-only or exact-scope apply outputs.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/refresh.md:72-129",
+          "arcanum/spells/invoke/refresh.md:185-223"
+        ],
+        "evidence_confidence": "high",
+        "commitment_confidence": "conditional"
+      },
+      {
+        "id": "S-CAPABILITY-RESOLVER",
+        "role": "validator",
+        "claim": "The capability resolver reports independent artifact-authored, registry-released, and mutation-runtime-ready axes.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:62-90",
+          "arcanum/spells/invoke/mode-capabilities.json:4-16"
+        ],
+        "evidence_confidence": "high",
+        "commitment_confidence": "committed"
+      },
+      {
+        "id": "S-VALIDATION-SURFACE",
+        "role": "test and validator set",
+        "claim": "Design selection, material-package, Implementation Readiness, and Distill checks provide bounded evidence gates for later handoffs.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:82-90",
+          "arcanum/spells/invoke/README.md:182-209",
+          "arcanum/spells/invoke/plan.md:137-165"
+        ],
+        "evidence_confidence": "high",
+        "commitment_confidence": "conditional"
+      },
+      {
+        "id": "S-DISPATCH-TRACE",
+        "role": "traceability artifact",
+        "claim": "Every active mode must emit a Dispatch Spec technique trace tied to phases, artifacts, gates, evidence, or gaps.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:165-180",
+          "arcanum/spells/invoke/mode-capabilities.json:18-73"
+        ],
+        "evidence_confidence": "high",
+        "commitment_confidence": "committed"
+      }
+    ],
+    "relationships": [
+      {
+        "id": "SR-ROUTER-DEFINE",
+        "type": "selects",
+        "from": "S-MODE-ROUTER",
+        "to": "S-DEFINE-PACK",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:48-58"
+        ]
+      },
+      {
+        "id": "SR-ROUTER-DESIGN",
+        "type": "selects",
+        "from": "S-MODE-ROUTER",
+        "to": "S-DESIGN-PIPELINE",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:48-58"
+        ]
+      },
+      {
+        "id": "SR-ROUTER-PLAN",
+        "type": "selects",
+        "from": "S-MODE-ROUTER",
+        "to": "S-PLAN-PACK",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:48-58"
+        ]
+      },
+      {
+        "id": "SR-ROUTER-HANDOFF",
+        "type": "selects",
+        "from": "S-MODE-ROUTER",
+        "to": "S-HANDOFF-PACK",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:48-58"
+        ]
+      },
+      {
+        "id": "SR-ROUTER-REFRESH",
+        "type": "selects",
+        "from": "S-MODE-ROUTER",
+        "to": "S-REFRESH-PIPELINE",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:48-58"
+        ]
+      },
+      {
+        "id": "SR-DEFINE-DESIGN",
+        "type": "feeds",
+        "from": "S-DEFINE-PACK",
+        "to": "S-DESIGN-PIPELINE",
+        "evidence_refs": [
+          "arcanum/spells/invoke/design.md:22-84"
+        ]
+      },
+      {
+        "id": "SR-DESIGN-PLAN",
+        "type": "feeds",
+        "from": "S-DESIGN-PIPELINE",
+        "to": "S-PLAN-PACK",
+        "evidence_refs": [
+          "arcanum/spells/invoke/plan.md:52-112"
+        ]
+      },
+      {
+        "id": "SR-DESIGN-VALIDATION",
+        "type": "validated_by",
+        "from": "S-DESIGN-PIPELINE",
+        "to": "S-VALIDATION-SURFACE",
+        "evidence_refs": [
+          "arcanum/spells/invoke/design.md:104-156"
+        ]
+      },
+      {
+        "id": "SR-PLAN-VALIDATION",
+        "type": "validated_by",
+        "from": "S-PLAN-PACK",
+        "to": "S-VALIDATION-SURFACE",
+        "evidence_refs": [
+          "arcanum/spells/invoke/plan.md:137-165"
+        ]
+      },
+      {
+        "id": "SR-REFRESH-VALIDATION",
+        "type": "validated_by",
+        "from": "S-REFRESH-PIPELINE",
+        "to": "S-VALIDATION-SURFACE",
+        "evidence_refs": [
+          "arcanum/spells/invoke/refresh.md:185-223"
+        ]
+      },
+      {
+        "id": "SR-ROUTER-DISPATCH",
+        "type": "emits",
+        "from": "S-MODE-ROUTER",
+        "to": "S-DISPATCH-TRACE",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:165-180",
+          "arcanum/spells/invoke/README.md:244-252"
+        ]
+      },
+      {
+        "id": "SR-ROUTER-RESOLVER",
+        "type": "status_reported_by",
+        "from": "S-MODE-ROUTER",
+        "to": "S-CAPABILITY-RESOLVER",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:62-90"
+        ]
+      }
+    ],
+    "premises": [
+      {
+        "id": "P-SYSTEM-CONTRACT-NOT-RUNTIME",
+        "claim": "The canonical system contract describes intended structure but does not prove observed runtime behavior.",
+        "evidence": "The source set contains contracts and a capability table but no live run, fixture result, receipt, or telemetry evidence.",
+        "counterevidence": "None within scope.",
+        "current_use": "Keeps component claims at declared-contract posture.",
+        "falsification_criteria": "A later validation binds each component and relationship to current runtime evidence.",
+        "evidence_confidence": "high",
+        "commitment_confidence": "committed",
+        "recommended_action": "keep"
+      }
+    ],
+    "gaps": [
+      {
+        "id": "G-SYSTEM-RUNTIME-EVIDENCE",
+        "class": "evidence gap",
+        "severity": "medium",
+        "claim": "Components and relationships were not verified against fixtures, receipts, telemetry, or live execution.",
+        "owner_route": "ontology-vault validate with Invoke lifecycle-owner evidence",
+        "repair_path": "Bind selected claims to exact runtime evidence before changing their posture from declared to observed."
+      },
+      {
+        "id": "G-SYSTEM-TOPOLOGY",
+        "class": "scope limit",
+        "severity": "low",
+        "claim": "Invoke is modeled as an authoring control plane; APIs, databases, queues, deployment units, and concrete runtime events are not evidenced.",
+        "owner_route": "deferred",
+        "repair_path": "Do not invent deployed topology; map it only if an owned runtime surface is introduced."
+      },
+      {
+        "id": "G-SYSTEM-DEFERRED-MODES",
+        "class": "capability gap",
+        "severity": "medium",
+        "claim": "Invoke full and validate are explicitly deferred.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:48-58",
+          "arcanum/spells/invoke/mode-capabilities.json:74-88"
+        ],
+        "owner_route": "Invoke development cycle",
+        "repair_path": "Retain deferred status until those modes obtain their own implementation and evidence."
+      },
+      {
+        "id": "G-SYSTEM-DISPATCH-LOCALIZATION",
+        "class": "traceability gap",
+        "severity": "low",
+        "claim": "Handoff and refresh require a dispatch trace through the root and capability table, but their local required-sigil and execution-phase sections do not describe how it is constructed.",
+        "evidence_refs": [
+          "arcanum/spells/invoke/README.md:165-180",
+          "arcanum/spells/invoke/handoff.md:48-64",
+          "arcanum/spells/invoke/handoff.md:193-196",
+          "arcanum/spells/invoke/refresh.md:36-50",
+          "arcanum/spells/invoke/refresh.md:336-341"
+        ],
+        "owner_route": "Invoke development cycle",
+        "repair_path": "Clarify the local trace-construction phase or explicitly state that the root router supplies it; this map proposes no source edit."
+      }
+    ],
+    "drift_findings": [],
+    "convention_changes": []
+  },
+  "delegated_evidence": {
+    "records_found": 1,
+    "record_id": "helper/invoke_ontology_inventory",
+    "role": "read-only decomposition check",
+    "authority_effect": "none",
+    "load_bearing": false
+  },
+  "counts": {
+    "sources_reviewed": 7,
+    "business_documents_mapped": 0,
+    "system_documents_mapped": 7,
+    "system_nodes": 9,
+    "relationships_checked": 12,
+    "bridge_edges_checked": 0,
+    "drift_findings": 0,
+    "traceability_gaps": 2,
+    "test_links_found": 3,
+    "observability_links_found": 0,
+    "sessions_distilled": 0,
+    "delegated_research_records": 1,
+    "synthesis_findings_checked": 1,
+    "premises_reviewed": 1,
+    "promotions_recommended": 0,
+    "demotions_recommended": 0,
+    "convention_changes_proposed": 0,
+    "contradictions_found": 0,
+    "blockers": 0
+  },
+  "checks": [
+    {
+      "id": "type-selection",
+      "status": "pass",
+      "detail": "The user selected the standalone system view."
+    },
+    {
+      "id": "branch-purity",
+      "status": "pass",
+      "detail": "Nodes express components, artifacts, validators, and traceability without redefining business meaning."
+    },
+    {
+      "id": "relationship-integrity",
+      "status": "pass",
+      "detail": "Every relationship resolves to a declared system node, and every node participates in at least one relationship."
+    },
+    {
+      "id": "confidence-separation",
+      "status": "pass",
+      "detail": "Evidence and commitment confidence remain distinct."
+    },
+    {
+      "id": "runtime-evidence",
+      "status": "flag",
+      "detail": "The map records intended system structure; live realization remains unverified."
+    },
+    {
+      "id": "authority-boundary",
+      "status": "pass",
+      "detail": "No source, convention, promotion, conformance, or lifecycle authority is claimed."
+    }
+  ],
+  "promoted_candidates": [],
+  "blockers": [],
+  "outputs": [
+    ".arcanum/ontology-vault/map-2026-08-20-invoke-system.json"
+  ],
+  "next_action": "Use this map as the system branch input to the Invoke business-system bridge; verify selected runtime claims only through exact fixtures, receipts, or telemetry."
+}

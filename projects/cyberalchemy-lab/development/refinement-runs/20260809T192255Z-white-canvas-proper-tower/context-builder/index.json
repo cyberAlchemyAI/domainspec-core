@@ -1,0 +1,34 @@
+{
+  "schema_version": "context-builder.runtime-handoff.v1",
+  "task_id": "REFINE-WHITE-CANVAS-PROPER-TOWER",
+  "run_id": "20260809T192255Z-white-canvas-proper-tower",
+  "mode": "standard",
+  "strict": true,
+  "handoff": "runtime",
+  "authority_effect": "none",
+  "obligations": [
+    {"id": "O1", "summary": "white canvas", "status": "covered", "source_ids": ["current-canvas"]},
+    {"id": "O2", "summary": "proper vertical tower", "status": "covered", "source_ids": ["current-canvas", "scene-manifest"]},
+    {"id": "O3", "summary": "distinct semantic axes", "status": "covered", "source_ids": ["scene-manifest", "tower-system-view", "prior-refine"]},
+    {"id": "O4", "summary": "evidence and refusal binding", "status": "covered", "source_ids": ["scene-manifest", "unit-tests", "browser-tests"]},
+    {"id": "O5", "summary": "accessible responsive interaction", "status": "covered", "source_ids": ["current-canvas", "browser-tests"]},
+    {"id": "O6", "summary": "planning-only boundary", "status": "covered", "source_ids": ["foundation-findings", "prior-refine"]}
+  ],
+  "selected_sources": [
+    {"id": "current-canvas", "path": "projects/ide-extension/public/demo/research-tower.html", "selectors": [":root", "#lab-canvas", ".scene-stack", ".core", ".source-orbit", ".scene-nav", ".tower-scene", "renderSceneControls"], "obligation_refs": ["O1", "O2", "O5"]},
+    {"id": "scene-manifest", "path": "projects/ide-extension/src/research-tower/l0-witness.mjs", "selectors": ["EVIDENCE_SCENE_IDS", "SYSTEM_LAYER_IDS", "validateTowerSceneManifest", "buildTowerSceneManifest"], "obligation_refs": ["O2", "O3", "O4"]},
+    {"id": "unit-tests", "path": "projects/ide-extension/tests/research-tower-explorer.test.mjs", "selectors": ["scene manifest preserves", "local server serves"], "obligation_refs": ["O3", "O4"]},
+    {"id": "browser-tests", "path": "projects/ide-extension/tests/e2e/research-tower-explorer.spec.mjs", "selectors": ["tower scene canvas supports", "reduced motion"], "obligation_refs": ["O4", "O5"]},
+    {"id": "tower-system-view", "path": "research/tower-system-taxonomy/SYSTEM-VIEW.md", "selectors": ["#2-the-layer-stack-bottom-up-one-layer-at-a-time", "#5-the-core-flow", "#7-the-reuse-map"], "obligation_refs": ["O3", "O6"]},
+    {"id": "prior-refine", "path": "projects/cyberalchemy-lab/development/refinement-runs/20260809T182018Z-tower-scene-canvas/RESULT.md", "selectors": ["#decision", "#design-that-survived-review", "#complete-residue--blockers"], "obligation_refs": ["O3", "O4", "O6"]},
+    {"id": "foundation-findings", "path": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md", "selectors": ["#crosswalk-tower-system-research-tower-and-workbench", "#current-versus-required-ide-interface", "#risks-and-open-residue"], "obligation_refs": ["O3", "O4", "O6"]}
+  ],
+  "excluded": [
+    {"path": "projects/ide-extension/public/assets/research-tower-concepts/", "reason": "background assets are not inputs to the selected white-canvas composition"},
+    {"path": "projects/animejs/", "reason": "no engine requirement is active"}
+  ],
+  "coverage_percent": 100,
+  "strict_coverage": "pass",
+  "blockers": [],
+  "residue": ["visual geometry remains review-owned until both receipts join", "future browser validation is required before usability claims"]
+}

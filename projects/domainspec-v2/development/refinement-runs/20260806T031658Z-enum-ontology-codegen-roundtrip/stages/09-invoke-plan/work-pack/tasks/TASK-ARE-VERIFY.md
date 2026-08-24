@@ -13,7 +13,7 @@ receipt under the Work Pack evidence path.
 
 ## Checks
 
-1. Join all fourteen terminal and closeout receipts; reject missing/duplicate or
+1. Join all fifteen terminal and closeout receipts; reject missing/duplicate or
    superseded-unaccounted entries.
 2. Re-run W3 focused and legacy validation from a clean process.
 3. Validate forbidden imports and exact raw-handle reachability.

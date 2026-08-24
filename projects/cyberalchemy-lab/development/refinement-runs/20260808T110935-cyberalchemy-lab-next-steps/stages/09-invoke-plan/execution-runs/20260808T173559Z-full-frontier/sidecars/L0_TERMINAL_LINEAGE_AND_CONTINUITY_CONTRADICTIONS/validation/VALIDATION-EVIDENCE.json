@@ -1,0 +1,46 @@
+{
+  "schema_version": "cyberalchemy-lab.governance-sidecar-validation/v1",
+  "sidecar_id": "L0_TERMINAL_LINEAGE_AND_CONTINUITY_CONTRADICTIONS",
+  "authority_effect": "none",
+  "candidate_patch": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/L0_TERMINAL_LINEAGE_AND_CONTINUITY_CONTRADICTIONS/candidate/repair.patch",
+    "sha256": "a4fc67224428d17c8918d9a2b580c967994742fdd570e82ec294725786afff7e",
+    "size_bytes": 86936,
+    "patch_dry_run": "pass"
+  },
+  "runs": [
+    {
+      "id": "legacy-blocking-receipt-preservation",
+      "command": "/usr/bin/python3.12 <candidate>/work-pack/admission/validate-admission.py --plan-root <candidate> --terminal-receipt projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001.json",
+      "status": "pass",
+      "result": "The unchanged historical SWU-CAL-001 blocking receipt remained schema-valid under its exact preserved SHA-256 binding."
+    },
+    {
+      "id": "candidate-static-admission",
+      "command": "/usr/bin/python3.12 <candidate>/work-pack/admission/validate-admission.py --plan-root <candidate>",
+      "status": "pass",
+      "result": "The repaired ten-unit contract and initial SWU-CAL-001 one-unit projection passed with product_commands_run=0."
+    },
+    {
+      "id": "native-attempt-root-fast-entry-regression",
+      "command": "/usr/bin/python3.12 <candidate>/arcanum/arcana/task-session/development/validate-governance-runner.py --family commit-resume --task-session-dir <candidate>/arcanum/arcana/task-session",
+      "status": "pass",
+      "result": "positive=20/20 negative=26/26 undeclared_outputs=0; the added directory-scope attempt receipt case passed, and the existing terminal-outside-route negative case remained blocking."
+    },
+    {
+      "id": "synthetic-dynamic-terminal-and-closeout",
+      "commands": [
+        "/usr/bin/python3.12 <candidate>/work-pack/admission/validate-admission.py --plan-root <candidate> --terminal-receipt projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001/20260808T180000Z-a2.json",
+        "/usr/bin/python3.12 <candidate>/work-pack/admission/validate-admission.py --plan-root <candidate> --closeout-receipt projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-001.json",
+        "/usr/bin/python3.12 <candidate>/work-pack/admission/validate-admission.py --plan-root <candidate>"
+      ],
+      "status": "pass",
+      "result": "A fresh SWU-CAL-001 attempt receipt at its immutable dynamic path, its pass closeout, and the successor SWU-CAL-002 one-unit projection all validated; product_commands_run=0."
+    }
+  ],
+  "non_claims": [
+    "No candidate byte was applied to an accepted target.",
+    "No product file, terminal receipt, Work Pack control byte, generated skill, Git state, publication, promotion, deployment, or external system was mutated.",
+    "Synthetic contract validation does not make WP-CAL-TEN-L0 execution-ready or authorize L0 product mutation."
+  ]
+}

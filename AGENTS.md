@@ -42,6 +42,55 @@ After selecting any objective route:
   conversation. Never report background work as complete while an agent is open,
   unjoined, or missing its validation receipt.
 
+## Governance-Defect Sidecar
+
+Do not turn a mechanical governance defect into the main conversation or abandon the
+user's higher-level objective. When an acceptance, refresh, handoff, receipt, or
+publication workflow fails for a bounded governance-only reason, preserve the safe
+state and send the defect to exactly one native background helper.
+
+A defect qualifies for this sidecar only when all of the following are true:
+
+- the intended product or domain behavior is not disputed;
+- the failure is confined to governance mechanics such as receipt consistency,
+  stale lifecycle wording, target inventory, digest regeneration, formatting,
+  validation coverage, command exit propagation, or candidate/apply choreography;
+- diagnosis and a repair proposal have a narrow repository-local evidence scope;
+- no authority, promotion, publication, destructive, credential, external-effect,
+  semantic, or implementation decision must be inferred.
+
+The parent must immediately identify the failure as governance-only or reject that
+classification. For a qualifying failure:
+
+1. Stop the affected apply or promotion edge. Preserve failure evidence and restore
+   the pre-attempt state when rollback is already authorized, exact, and reversible.
+2. Spawn one bounded sidecar helper without waiting for a governed multi-agent
+   dispatch. Give it the failing command and diagnostics, accepted digests, exact
+   read/write scope, forbidden scopes, and the authority ceiling.
+3. Ask the helper to return one receipt containing: root cause, affected invariant,
+   minimal repair proposal, changed-byte inventory, required revalidation, whether
+   renewed owner acceptance is required, and a permanent workflow regression fix.
+4. Permit the helper to write only run-local evidence, a separately staged repair
+   candidate, and narrowly owned validator or workflow tests when the user's active
+   scope already authorizes those writes. It must not alter accepted bytes in place,
+   apply canonical targets, promote, publish, commit, push, or execute product work.
+5. Keep the parent available to the user. Join and inspect the helper receipt before
+   resuming the affected edge; surface only the material decision or owner gate.
+
+Treat changed acceptance-bound bytes as a new candidate. Regenerate their inventory,
+digests, independent review bindings, and final acceptance request; never stretch an
+older exact acceptance over repaired bytes. Product bugs, semantic contradictions,
+public/private boundary risks, and missing authority are not governance-only defects
+and remain parent-owned blockers.
+
+Acceptance-critical validation must exercise the actual staged bytes before requesting
+owner acceptance. In particular, include untracked/create targets in whitespace and
+content checks, verify lifecycle/status wording against the proposed post-apply state,
+and preserve each command's failure status. A later successful cleanup command must
+never mask an earlier failed validation. When a sidecar finds a coverage gap, its
+repair proposal must add a regression check so the same defect fails before the next
+acceptance request.
+
 ## Candidate-Local Prototype Fast Lane
 
 Use this lane only when the user explicitly prioritizes rapid local prototype

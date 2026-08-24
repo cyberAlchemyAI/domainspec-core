@@ -1,0 +1,45 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "block",
+  "phaseStatusBasis": {"artifactComplete": true, "refreshAuthoringBlockerCount": 1},
+  "activationSource": "direct-user",
+  "mutationMode": "apply-approved",
+  "mutationModeSource": "default-direct-user",
+  "handoffStatus": "blocked",
+  "sourceSignals": [
+    {
+      "id": "CLOSEOUT_TERMINAL_RECEIPT_SOURCE_CONTRADICTION",
+      "source_path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md#SWU-CAL-001-Write-scope",
+      "signal_type": "artifact_drift",
+      "target_artifacts": [
+        "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md",
+        "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md"
+      ],
+      "claim": "Canonical prose requires a fixed receipt path while the admitted machine contract requires an immutable attempt-specific receipt path.",
+      "evidence": "The fixed path is the preserved legacy blocking receipt; the fresh terminal receipt validates only at the immutable attempt path.",
+      "confidence": "high",
+      "mutation_safety": "blocked"
+    }
+  ],
+  "targetArtifacts": [
+    "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+    "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md",
+    "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W0.md",
+    "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+    "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+    "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-001.json"
+  ],
+  "deltaSummary": [{"signal_type": "artifact_drift", "count": 1}],
+  "proposedChanges": [],
+  "appliedChanges": [],
+  "skippedChanges": ["No closeout package was staged because the semantic receipt-path conflict is outside the declared closeout delta classes."],
+  "materialPackage": {"required": true, "receiptPresent": false, "schemaValid": null, "patchVerdict": null, "mutationHandoff": null, "packageId": null, "packageDigest": null, "expectedPackageId": null, "expectedPackageDigest": null, "validatedPaths": [], "dependencyResult": null, "ownerBoundaryResult": null, "publicationBoundaryResult": null, "validationCommands": [], "lifecycleOwner": "invoke", "authorityClass": "private", "publicationClass": "internal"},
+  "mutationReady": false,
+  "blockers": [{"id": "CLOSEOUT_TERMINAL_RECEIPT_SOURCE_CONTRADICTION", "scope": "refresh-authoring", "owner": "invoke:refresh", "status": "blocked", "claim": "A new explicitly approved repair must reconcile the task/Work Pack terminal-receipt language with the accepted immutable-attempt contract before closeout may change the frontier."}],
+  "execution_path": "invoke:refresh:apply-approved",
+  "dispatch_trace": ["sequence", "owner_boundary_check", "artifact_contract_bridge", "validation_loop", "concrete_path_evidence"],
+  "source_evidence": "context/runtime-handoff-index.json",
+  "target_inventory": "work-pack/shared/CLOSEOUT-TARGETS.json#/targets/0",
+  "result": "block",
+  "nextRoute": "invoke:refresh:repair-terminal-receipt-prose"
+}

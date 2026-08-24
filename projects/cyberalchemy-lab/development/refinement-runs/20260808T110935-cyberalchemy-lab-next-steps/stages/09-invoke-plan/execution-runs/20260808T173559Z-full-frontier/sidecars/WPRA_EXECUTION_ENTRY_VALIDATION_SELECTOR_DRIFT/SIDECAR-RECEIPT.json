@@ -1,0 +1,49 @@
+{
+  "schema_version": "cyberalchemy-lab.governance-defect-sidecar-receipt/v1",
+  "sidecar_id": "WPRA_EXECUTION_ENTRY_VALIDATION_SELECTOR_DRIFT",
+  "classification": "governance-only",
+  "authority_effect": "none",
+  "root_causes": [
+    {
+      "id": "BINDING_SELECTOR_UNRESOLVED",
+      "invariant": "Every binding emitted by the WPRA configuration generator must resolve against the exact frozen JSON artifact named by its artifact_ref before the final Work Pack Readiness Audit is requested.",
+      "evidence": "Current validate-admission.py emits cal-entry-validation-frontier with selector /frontier/0, while current EXECUTION-ENTRY-VALIDATION.json exposes its one-unit value at /execution_entry_frontier/0. The fresh readmission report therefore blocked with BINDING_SELECTOR_UNRESOLVED before any product command."
+    }
+  ],
+  "minimal_repair": {
+    "generator": "Change only the continuation-router verification selector emitted by build_wpra_config from /frontier/0 to /execution_entry_frontier/0.",
+    "regression": "Add a plan-local regression that generates a fresh configuration, invokes actual audit_work_pack.py, requires the selected-unit plan-once pending-selection pass state, and proves the former selector is rejected as BINDING_SELECTOR_UNRESOLVED.",
+    "scope": "The generated WPRA-CONFIG.json is intentionally not hand-edited by this candidate. Invoke Refresh must regenerate it from the accepted generator bytes."
+  },
+  "candidate": {
+    "patch_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/WPRA_EXECUTION_ENTRY_VALIDATION_SELECTOR_DRIFT/candidate/repair.patch",
+      "sha256": "c4b5bb71d4ff395ddcb82ebf45f6944751acaf72f0b4297ba73460bf39980334",
+      "size_bytes": 4836
+    },
+    "validation_ref": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/WPRA_EXECUTION_ENTRY_VALIDATION_SELECTOR_DRIFT/validation/VALIDATION-EVIDENCE.json"
+  },
+  "candidate_changed_targets": [
+    {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-admission.py",
+      "before_sha256": "951aa13ac6236985ff846f9523dde695977eeb193a172d10c40357fcb5609e33",
+      "before_size_bytes": 25237,
+      "after_sha256": "9142ac3a4ce31ec2589d2f455ce29c51912bee21c081abed0b380affee6da517",
+      "after_size_bytes": 25253
+    },
+    {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-wpra-audit.py",
+      "before_state": "absent:create",
+      "after_sha256": "d4a53b1d06ccca9c3a14797e1098db822afa12a3714ce480139b0d98cf0dc0a4",
+      "after_size_bytes": 3215
+    }
+  ],
+  "required_revalidation_before_any_product_write": [
+    "Obtain renewed owner acceptance for this exact two-target candidate, because the accepted planning generator and the regenerated WPRA input change.",
+    "Apply only the accepted source bytes, regenerate WPRA-CONFIG.json using validate-admission.py --build-wpra-config, and record its fresh target inventory and digest.",
+    "Run py_compile, canonical admission validation, validate-wpra-audit.py, and actual audit_work_pack.py against the applied bytes. Require verdict=pass, terminal_code=PLAN_SEMANTIC_READY, runtime_admission_status=pending-selection, selected_unit=null, mutation_ready=false, configured_commands_executed=false, and zero blockers.",
+    "Regenerate the complete acceptance/readiness chain and obtain the separately required execution Decision Gate and Task Session admission before any L0 product write."
+  ],
+  "renewed_owner_acceptance_required": true,
+  "remaining_pre_product_boundary": "This candidate is not applied. The next allowed action is owner review and renewed acceptance of this exact patch, followed by Invoke Refresh regeneration and a real WPRA audit. Historical receipt evidence, product state, Decision Gate, Task Session, and product execution remain outside this sidecar."
+}

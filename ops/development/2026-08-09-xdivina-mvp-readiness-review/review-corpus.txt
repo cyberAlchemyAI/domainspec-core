@@ -1,0 +1,73 @@
+# Exact target boundary
+repository: projects/xdivina
+commit: 755b09aa6681e0a6ef2d7fed3707dcfe877efc39
+required_state: clean main matching origin/main
+
+# Root contracts
+README.md
+AGENTS.md
+CONTRIBUTING.md
+LICENSES/README.md
+
+# Product, architecture, phase, and evidence contracts
+docs/README.md
+docs/project-spec-v1.md
+docs/plans/foundation-and-mvp.md
+docs/plans/editor-core-and-feature-roadmap.md
+docs/runbooks/fresh-machine-agent.md
+docs/runbooks/mvp-human-ui-plan.md
+docs/research/mvp-human-ui-trial-2026-08-02.md
+docs/research/phase0-gate-review-2026-08-02.md
+docs/research/dependency-matrix.md
+docs/research/shell-benchmark-2026-08-02.md
+docs/research/psd-capability-2026-08-02.md
+docs/research/comfy-local-api-smoke-2026-08-02.md
+docs/performance/editor-viewport-benchmark-2026-08-02.json
+docs/architecture/system-map.md
+docs/architecture/control-plane.md
+docs/architecture/project-memory.md
+docs/architecture/agent-participation.md
+docs/architecture/gimp-adapter-protocol.md
+docs/security/local-first-threat-model.md
+docs/security/local-network-policy.md
+docs/adr/0001-foundation-architecture.md
+docs/adr/0006-third-party-gimp-reuse-strategy.md
+docs/adr/0007-persistent-gimp-adapter-transport.md
+docs/adr/0008-dependency-and-license-policy.md
+docs/compatibility/psd-capability-matrix.md
+
+# Current user-facing and shell surfaces
+apps/mvp-ui/README.md
+apps/mvp-ui/index.html
+apps/mvp-ui/app.js
+apps/mvp-ui/styles.css
+apps/shell-spike-electron/README.md
+apps/shell-spike-electron/package.json
+apps/shell-spike-electron/main.cjs
+apps/shell-spike-electron/preload.cjs
+apps/shell-spike-electron/renderer.js
+apps/shell-spike-electron/index.html
+
+# Runtime boundaries
+scripts/mvp_gateway.py
+scripts/gimp_adapter.py
+scripts/event_store.py
+scripts/serve_control_plane.py
+scripts/network_policy.py
+
+# Contract and live evidence surfaces
+scripts/test_mvp_gateway.py
+scripts/test_gimp_adapter.py
+scripts/test_event_store.py
+tests/integration/mvp_gateway/test_mvp_gateway_live.py
+tests/integration/mvp_gateway/test_mvp_ui_live.py
+tests/integration/gimp_adapter/test_gimp_adapter_live.py
+tests/integration/security/test_network_policy.py
+tests/integration/psd/run_probe.py
+tests/integration/psd/test_report.py
+tests/integration/comfy_smoke/run_smoke.py
+tests/integration/comfy_smoke/test_run_smoke.py
+
+# Review rule
+# Resolve these paths only from the pinned commit. Every attacker reads the whole
+# resolved corpus. Missing paths, target drift, or a dirty target block execution.

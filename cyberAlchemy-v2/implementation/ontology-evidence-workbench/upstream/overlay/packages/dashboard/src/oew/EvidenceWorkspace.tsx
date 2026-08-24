@@ -9,28 +9,108 @@ const position = {
   D2: {x: 81, y: 73},
 };
 
+const projectionStyle = (projection) => projection ? {
+  "--oew-edge-color": projection.encoding.color_dark,
+  "--oew-edge-dash": projection.encoding.stroke_dasharray,
+} : {};
+
+const relationLabel = (row) =>
+  row.relationProjection?.accessible_text ??
+  `${row.source} ${row.relation} ${row.target}`;
+
+function RelationGeometryPaths({relations, onSelect}) {
+  const projected = relations.filter((row) => row.relationProjection?.geometry);
+  if (!projected.length) return null;
+  return (
+    <svg className="oew-relation-geometry" aria-label="Exact relation paths">
+      <defs>
+        {projected.map((row) => {
+          const relationId = row.relationProjection.ref.source_relation_id;
+          return (
+            <marker
+              id={`oew-arrow-${relationId.replaceAll(/[^a-zA-Z0-9_-]/g, "-")}`}
+              key={relationId}
+              markerHeight="7"
+              markerWidth="7"
+              orient="auto-start-reverse"
+              refX="6"
+              refY="3.5"
+              viewBox="0 0 7 7"
+            >
+              <path d="M 0 0 L 7 3.5 L 0 7 z" fill={row.relationProjection.encoding.color_dark} />
+            </marker>
+          );
+        })}
+      </defs>
+      {projected.map((row) => {
+        const projection = row.relationProjection;
+        const relationId = projection.ref.source_relation_id;
+        const markerId = `oew-arrow-${relationId.replaceAll(/[^a-zA-Z0-9_-]/g, "-")}`;
+        return (
+          <g
+            aria-label={relationLabel(row)}
+            className="oew-exact-relation"
+            data-relation-digest={projection.relation_digest}
+            data-source-relation-id={relationId}
+            key={relationId}
+            onClick={() => onSelect(row.sourceRef)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") onSelect(row.sourceRef);
+            }}
+            role="button"
+            style={projectionStyle(projection)}
+            tabIndex={0}
+          >
+            {projection.geometry.sections.map((section, index) => (
+              <polyline
+                fill="none"
+                key={`${relationId}:${index}`}
+                markerEnd={`url(#${markerId})`}
+                points={section.map(({x, y}) => `${x},${y}`).join(" ")}
+              />
+            ))}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
 function GraphSurface({model, onSelect, traceActive}) {
   const nodes = model.rows.filter((row) => row.presentationType !== "relation");
   const relations = model.rows.filter((row) => row.presentationType === "relation");
   return (
     <div className={traceActive ? "oew-graph is-tracing" : "oew-graph"} aria-label="Evidence graph">
       <div className="oew-constellation" aria-hidden="true" />
-      {relations.map((row) => (
+      <RelationGeometryPaths relations={relations} onSelect={onSelect} />
+      {relations.map((row) => {
+        const source = position[row.source];
+        const target = position[row.target];
+        const projection = row.relationProjection;
+        if (!source || !target) return null;
+        return (
         <button
-          aria-label={`${row.source} ${row.relation} ${row.target}`}
+          aria-label={relationLabel(row)}
           className={`oew-edge oew-edge--${row.relation} ${row.grounding ? "is-grounding" : "is-residue"}`}
-          key={row.sourceRef}
+          data-pattern={projection?.encoding.pattern_label ?? undefined}
+          data-relation-digest={projection?.relation_digest ?? undefined}
+          data-source-relation-id={projection?.ref.source_relation_id ?? row.sourceRef}
+          key={projection?.ref.source_relation_id ?? row.sourceRef}
           onClick={() => onSelect(row.sourceRef)}
           style={{
-            "--sx": `${position[row.source].x}%`,
-            "--sy": `${position[row.source].y}%`,
-            "--tx": `${position[row.target].x}%`,
-            "--ty": `${position[row.target].y}%`,
+            "--sx": `${source.x}%`,
+            "--sy": `${source.y}%`,
+            "--tx": `${target.x}%`,
+            "--ty": `${target.y}%`,
+            ...projectionStyle(projection),
           }}
         >
-          <span>{row.relation}</span>
+          <span className="oew-edge-color" aria-hidden="true" />
+          <span>{projection?.encoding.visible_label ?? row.relation}</span>
+          {projection && <small>{projection.encoding.direction_text}</small>}
         </button>
-      ))}
+        );
+      })}
       {nodes.map((row) => (
         <button
           aria-current={model.selectedSourceRef === row.sourceRef ? "true" : undefined}

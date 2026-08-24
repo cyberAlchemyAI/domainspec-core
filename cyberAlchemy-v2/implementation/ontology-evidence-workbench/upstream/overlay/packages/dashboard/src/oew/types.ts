@@ -6,7 +6,33 @@ export const OEW_UPSTREAM_COMMIT =
   "2cda14e89535049e49120198886bc0b82e9e630f";
 
 /**
+ * A draft-time exact relation identity without a scene revision.
+ * @typedef {Readonly<{source_relation_id: string}>} RelationLocator
+ */
+/**
+ * A finalized exact relation identity bound to one v1.3 scene revision.
  * @typedef {Readonly<{source_relation_id: string, scene_digest: string}>} RelationRef
+ */
+/** @typedef {string} SceneRevisionDigest */
+/**
+ * @typedef {Readonly<{
+ *   path: string,
+ *   ref: RelationLocator | RelationRef
+ * }>} RelationReferenceSlotV13
+ */
+/**
+ * Builder-owned v1.3 draft. Revision copies are forbidden until finalization.
+ * @typedef {Readonly<Record<string, unknown> & {
+ *   schema_version: "oew.knowledge-scene.v1.3",
+ *   scene_digest?: never
+ * }>} KnowledgeSceneDraftV13
+ */
+/**
+ * Immutable admitted v1.3 scene with one revision bound to every declared slot.
+ * @typedef {Readonly<Record<string, unknown> & {
+ *   schema_version: "oew.knowledge-scene.v1.3",
+ *   scene_digest: SceneRevisionDigest
+ * }>} KnowledgeSceneV13
  */
 /** @typedef {Readonly<Record<string, unknown>>} RelationFacet */
 /** @typedef {ReadonlyMap<string, RelationFacet>} RelationFacetIndex */
@@ -80,7 +106,6 @@ export class OewBundleError extends Error {
     this.issue = issue;
   }
 }
-
 /**
  * @param {unknown} value
  * @returns {value is OewRecord}

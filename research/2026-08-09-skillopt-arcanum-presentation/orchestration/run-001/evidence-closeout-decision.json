@@ -1,0 +1,27 @@
+{
+  "schema_version": "arcanum.research-dispatch-evidence-closeout.v0.1",
+  "dispatch_id": "2026-08-09-skillopt-arcanum-presentation-research-route",
+  "ledger_dispatch_id": "2026-08-09-skillopt-arcanum-presentation-research",
+  "run_id": "20260809T232823Z-skillopt-arcanum-presentation-001",
+  "decided_at": "2026-08-10T00:26:36Z",
+  "status": "block",
+  "exit_reason": "error",
+  "research_result": {
+    "artifact": "research/2026-08-09-skillopt-arcanum-presentation/findings.md",
+    "sha256": "2547fa615f31c1f20fa74b6e428ae16bb55d52deed72c187f4c60324d26a8a1a",
+    "auditor_verdict": "RECOMMEND_ACCEPT",
+    "semantic_gate_blockers": []
+  },
+  "orchestration_evidence": {
+    "raw_event_log": "research/2026-08-09-skillopt-arcanum-presentation/orchestration/run-001/events.jsonl",
+    "raw_event_log_sha256": "9c94545470e77f8b2d3de5af098093844adf91b705297cb5575e5c28d16dfb63",
+    "failed_validation_receipt": "research/2026-08-09-skillopt-arcanum-presentation/orchestration/run-001/evidence-validation.json",
+    "failed_validation_receipt_sha256": "316dbbf68d11363c8d1f286f4b52cf126485c9272352bb31af6245dd6b7b73f2",
+    "canonical_event_log": null,
+    "validator_status": "block",
+    "blocker": "The raw stream lacks schema-complete, correctly ordered wait, join, and gate evidence. A passing canonical stream cannot be produced without unsupported historical synthesis."
+  },
+  "terminal_decision": "Preserve the auditor-accepted research artifact, close the registered dispatch with exit_reason error, and do not claim validated orchestration closeout.",
+  "renewed_acceptance_required_for_future_canonical_evidence": true,
+  "authority_ceiling": "Research inspection and presentation-planning evidence only; no runtime reproduction, optimizer integration, publication, promotion, deployment, production proof, or validated-run evidence."
+}

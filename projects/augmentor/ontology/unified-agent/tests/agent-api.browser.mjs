@@ -96,6 +96,11 @@ const server = http.createServer(async (request, response) => {
     response.end(html);
     return;
   }
+  if (request.url === "/unexpected") {
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ ok: false, error: "redirect target" }));
+    return;
+  }
   if (request.method === "POST" && request.url === "/augmentor/consultation") {
     const chunks = [];
     for await (const chunk of request) chunks.push(chunk);
@@ -106,20 +111,63 @@ const server = http.createServer(async (request, response) => {
       response.end(JSON.stringify({ ok: false, error: "Page login expired." }));
       return;
     }
-    if (/malformed/i.test(query.query.text)) {
+    if (/forbidden/i.test(query.query.text)) {
+      response.writeHead(403, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ ok: false, error: "Forbidden." }));
+      return;
+    }
+    if (/network failure/i.test(query.query.text)) {
+      request.socket.destroy();
+      return;
+    }
+    if (/redirect/i.test(query.query.text)) {
+      response.writeHead(302, { Location: "/unexpected" });
+      response.end();
+      return;
+    }
+    if (/route unavailable/i.test(query.query.text)) {
+      response.writeHead(405, { "Content-Type": "text/html; charset=utf-8" });
+      response.end("<h1>Method Not Allowed</h1>");
+      return;
+    }
+    if (/server failure/i.test(query.query.text)) {
+      response.writeHead(500, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ ok: false, error: "Temporary failure." }));
+      return;
+    }
+    if (/html success/i.test(query.query.text)) {
+      response.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      response.end("<h1>Not an API response</h1>");
+      return;
+    }
+    if (/malformed json/i.test(query.query.text)) {
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end("{");
+      return;
+    }
+    if (/schema invalid/i.test(query.query.text)) {
       response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify({ ok: true, consultation: { status: "ok" }, answerPolicy: { action: "unknown" } }));
       return;
     }
     if (/slow/i.test(query.query.text)) await new Promise((resolve) => setTimeout(resolve, 120));
     const selected = policyFor(query.query.text);
+    const focused = query.schemaVersion === "augmentor.consultation.query@1.2.0" && query.focus;
+    const resolvedFocus = focused ? {
+      kind: "anatomy-region",
+      id: /forged focus/i.test(query.query.text) ? "brain-source" : query.focus.id,
+      mappingVersion: "robot-anatomy@1.0.0",
+      mappingDigest: "b".repeat(64),
+      effectiveViewIds: query.scope.viewIds
+    } : null;
     const payload = {
       ok: true,
       consultation: {
-        schemaVersion: "augmentor.consultation.result@1.1.0",
+        schemaVersion: focused ? "augmentor.consultation.result@1.2.0" : "augmentor.consultation.result@1.1.0",
         requestId: query.requestId,
         questionId: query.questionId,
         status: selected.status,
+        ...(resolvedFocus ? { resolvedFocus } : {}),
         ...(selected.statements.length ? {
           result: { kind: "statements", records: [], statements: selected.statements, sourceHandles: selected.statements.flatMap((item) => item.sourceHandles) },
           complete: selected.status === "ok",
@@ -135,6 +183,7 @@ const server = http.createServer(async (request, response) => {
         reasonCode: "TEST_POLICY"
       }
     };
+    if (/privacy leak/i.test(query.query.text)) payload.consultation.principal = "principal-private-user";
     response.writeHead(200, { "Content-Type": "application/json" });
     response.end(JSON.stringify(payload));
     return;
@@ -167,25 +216,39 @@ try {
   assert.equal(await page.getByTestId("ontology-page").isHidden(), true);
   assert.equal(await page.getByTestId("agent-api-page").isVisible(), true);
   assert.equal(await page.getByTestId("page-link-agent-api").getAttribute("aria-current"), "page");
+  assert.equal(await page.getByTestId("agent-api-features").locator(".api-feature").count(), 3);
+  assert.equal(await page.getByTestId("agent-api-scope-options").getAttribute("open"), null);
+  assert.equal(await page.getByTestId("agent-api-integration").getAttribute("open"), null);
+  assert.equal(await page.locator(".api-guide-card").count(), 0);
 
   const eventState = await page.evaluate(() => {
-    window.__agentApiEvents = { starts: 0, completes: 0, errors: 0, last: null };
-    document.addEventListener("augmentor:consultation-start", () => { window.__agentApiEvents.starts += 1; });
+    window.__agentApiEvents = { starts: 0, completes: 0, errors: 0, cancels: 0, last: null, lastStart: null, lastError: null };
+    document.addEventListener("augmentor:consultation-start", (event) => {
+      window.__agentApiEvents.starts += 1;
+      window.__agentApiEvents.lastStart = event.detail;
+    });
     document.addEventListener("augmentor:consultation-complete", (event) => {
       window.__agentApiEvents.completes += 1;
       window.__agentApiEvents.last = event.detail;
     });
-    document.addEventListener("augmentor:consultation-error", () => { window.__agentApiEvents.errors += 1; });
+    document.addEventListener("augmentor:consultation-error", (event) => {
+      window.__agentApiEvents.errors += 1;
+      window.__agentApiEvents.lastError = event.detail;
+    });
+    document.addEventListener("augmentor:consultation-cancel", () => { window.__agentApiEvents.cancels += 1; });
+    const publicState = window.augmentorConsultationPage.getState();
     return {
       schemaVersion: window.augmentorConsultationPage.schemaVersion,
       endpoint: window.augmentorConsultationPage.contract.endpoint,
-      state: window.augmentorConsultationPage.getState().state
+      state: publicState.state,
+      publicKeys: Object.keys(publicState).sort()
     };
   });
   assert.deepEqual(eventState, {
-    schemaVersion: "augmentor.page-agent-contract@1.1.0",
+    schemaVersion: "augmentor.page-agent-contract@1.2.0",
     endpoint: "/augmentor/consultation",
-    state: "idle"
+    state: "idle",
+    publicKeys: ["answerAction", "errorCode", "presentationScope", "requestId", "requestedFocus", "result", "selection", "selectionEpoch", "state"]
   });
 
   await page.getByTestId("agent-api-question").fill("How does the Augmentor reasoning engine work?");
@@ -199,13 +262,17 @@ try {
   assert.match(await page.getByTestId("agent-api-analogy-limit").textContent(), /Where this comparison stops/i);
   assert.equal(await page.getByTestId("agent-api-glossary").locator(".glossary-entry").count(), 2);
   assert.match(await page.getByTestId("agent-api-boundary").textContent(), /not an instruction/i);
+  assert.equal(await page.getByTestId("agent-api-more-context").getAttribute("open"), null);
   assert.match(await page.getByTestId("agent-api-raw").textContent(), /"action": "qualify"/);
   assert.equal(observedRequests[0].authorization, null);
   assert.equal(observedRequests[0].query.schemaVersion, "augmentor.consultation.query@1.1.0");
+  assert.equal(Object.hasOwn(observedRequests[0].query.query, "kind"), false);
   assert.equal(observedRequests[0].query.operation, "search");
   assert.deepEqual(observedRequests[0].query.explanation, { profile: "guided" });
   assert.deepEqual(observedRequests[0].query.scope.viewIds, ["experience", "runtime", "knowledge", "authority-bridge"]);
   assert.deepEqual(Object.keys(observedRequests[0].query).sort(), ["explanation", "limits", "operation", "query", "questionId", "requestId", "schemaVersion", "scope"]);
+  assert.equal(Object.hasOwn(observedRequests[0].query, "focus"), false);
+  assert.doesNotMatch(JSON.stringify(await page.evaluate(() => window.augmentorConsultationPage.getState())), /How does the Augmentor/i);
   await page.screenshot({ path: "/tmp/augmentor-agent-api.png", fullPage: true });
 
   const direct = await page.evaluate(() => window.augmentorConsultationPage.ask("Please answer directly", { viewIds: ["authority-bridge"], explanationProfile: "brief" }));
@@ -222,6 +289,55 @@ try {
   await page.evaluate(() => window.augmentorConsultationPage.ask("Please abstain"));
   assert.match(await page.getByTestId("agent-api-policy").textContent(), /does not support an answer/i);
 
+  const previewState = await page.evaluate(() => {
+    window.augmentorConsultationPage.clearSelection();
+    window.augmentorConsultationPage.previewRegion("brain-context");
+    return window.augmentorConsultationPage.getState();
+  });
+  assert.equal(previewState.selection.previewRegionId, "brain-context");
+  assert.equal(previewState.selection.pinnedRegionId, null);
+  assert.equal(previewState.selection.activeRegionId, "brain-context");
+  assert.ok(previewState.selectionEpoch > 0);
+
+  const focused = await page.evaluate(async () => {
+    const result = await window.augmentorConsultationPage.ask("Explain the selected work path", {
+      focus: { kind: "anatomy-region", id: "work-spine", provenance: "ignored-by-page" },
+      viewIds: ["runtime"]
+    });
+    return {
+      result,
+      state: window.augmentorConsultationPage.getState(),
+      lastStart: window.__agentApiEvents.lastStart,
+      raw: document.querySelector("[data-testid=agent-api-raw]").textContent
+    };
+  });
+  const focusedRequest = observedRequests.at(-1).query;
+  assert.equal(focusedRequest.schemaVersion, "augmentor.consultation.query@1.2.0");
+  assert.equal(Object.hasOwn(focusedRequest.query, "kind"), false);
+  assert.deepEqual(focusedRequest.focus, { kind: "anatomy-region", id: "work-spine" });
+  assert.equal(Object.hasOwn(focusedRequest.focus, "provenance"), false);
+  assert.equal(focused.result.consultation.schemaVersion, "augmentor.consultation.result@1.2.0");
+  assert.equal(focused.result.consultation.resolvedFocus.id, "work-spine");
+  assert.equal(focused.state.selection.pinnedRegionId, "work-spine");
+  assert.equal(focused.state.requestedFocus.id, "work-spine");
+  assert.equal(focused.state.presentationScope, "region-scoped");
+  assert.equal(focused.lastStart.focus.id, "work-spine");
+  assert.equal(focused.lastStart.state, "loading");
+  assert.doesNotMatch(JSON.stringify(focused.state), /Explain the selected work path|mappingDigest|mappingVersion/i);
+  assert.doesNotMatch(focused.raw, /mappingDigest|mappingVersion|Explain the selected work path/i);
+
+  await assert.rejects(
+    page.evaluate(() => window.augmentorConsultationPage.selectRegion("not-on-this-page")),
+    /Choose a region shown on this Augmentor page/
+  );
+
+  await page.evaluate(() => window.augmentorConsultationPage.ask("General request while a region remains pinned"));
+  const generalAfterFocus = observedRequests.at(-1).query;
+  assert.equal(generalAfterFocus.schemaVersion, "augmentor.consultation.query@1.1.0");
+  assert.equal(Object.hasOwn(generalAfterFocus, "focus"), false);
+  assert.equal(await page.evaluate(() => window.augmentorConsultationPage.getState().selection.pinnedRegionId), "work-spine");
+  assert.equal(await page.evaluate(() => window.augmentorConsultationPage.getState().presentationScope), "general-not-region-scoped");
+
   const cancellation = await page.evaluate(async () => {
     const first = window.augmentorConsultationPage.ask("slow question").catch((error) => error.name);
     const second = window.augmentorConsultationPage.ask("Please answer directly", { viewIds: ["runtime"] });
@@ -232,22 +348,71 @@ try {
   assert.equal(await page.evaluate(() => window.augmentorConsultationPage.getState().answerAction), "answer");
   assert.equal(await page.evaluate(() => window.augmentorConsultationPage.getExplanationSupport().profile), "brief");
 
-  await assert.rejects(
-    page.evaluate(() => window.augmentorConsultationPage.ask("malformed response")),
-    /does not understand/
-  );
-  assert.equal(await page.getByTestId("agent-api-page").getAttribute("data-consultation-state"), "error");
-  await assert.rejects(
-    page.evaluate(() => window.augmentorConsultationPage.ask("expired session")),
-    /Page login expired/
-  );
-  assert.match(await page.getByTestId("agent-api-status").textContent(), /expired/i);
+  const selectionCancellation = await page.evaluate(async () => {
+    const pending = window.augmentorConsultationPage.ask("slow focused selection", {
+      focus: { kind: "anatomy-region", id: "work-spine" },
+      viewIds: ["runtime"]
+    }).catch((error) => error.name);
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    window.augmentorConsultationPage.selectRegion("brain-source");
+    return { outcome: await pending, state: window.augmentorConsultationPage.getState() };
+  });
+  assert.equal(selectionCancellation.outcome, "AbortError");
+  assert.equal(selectionCancellation.state.state, "idle");
+  assert.equal(selectionCancellation.state.selection.pinnedRegionId, "brain-source");
+  assert.equal(selectionCancellation.state.errorCode, null);
+
+  const explicitCancellation = await page.evaluate(async () => {
+    const pending = window.augmentorConsultationPage.ask("slow explicit cancel", {
+      focus: { kind: "anatomy-region", id: "work-spine" },
+      viewIds: ["runtime"]
+    }).catch((error) => error.name);
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    const cancelled = window.augmentorConsultationPage.cancel();
+    return { cancelled, outcome: await pending, state: window.augmentorConsultationPage.getState() };
+  });
+  assert.equal(explicitCancellation.cancelled, true);
+  assert.equal(explicitCancellation.outcome, "AbortError");
+  assert.equal(explicitCancellation.state.state, "idle");
+  assert.equal(explicitCancellation.state.selection.pinnedRegionId, "work-spine");
+  assert.equal(explicitCancellation.state.errorCode, null);
+
+  const assertPageError = async (question, expectedCode, messagePattern, options = {}) => {
+    await assert.rejects(
+      page.evaluate(({ question: value, options: askOptions }) => window.augmentorConsultationPage.ask(value, askOptions), { question, options }),
+      messagePattern
+    );
+    assert.equal(await page.evaluate(() => window.augmentorConsultationPage.getState().errorCode), expectedCode);
+    assert.equal(await page.getByTestId("agent-api-page").getAttribute("data-consultation-state"), "error");
+  };
+
+  await assertPageError("network failure", "disconnected", /could not be reached/i);
+  await assertPageError("redirect response", "protocol-error", /redirected/i);
+  await assertPageError("expired session", "authentication-required", /expired/i);
+  await assertPageError("forbidden request", "access-denied", /not allowed/i);
+  await assertPageError("route unavailable", "disconnected-route-unavailable", /not connected/i);
+  await assertPageError("server failure", "service-error", /HTTP 500/i);
+  await assertPageError("html success", "protocol-error", /content type/i);
+  await assertPageError("malformed json", "protocol-error", /unreadable JSON/i);
+  await assertPageError("schema invalid", "protocol-error", /does not understand/i);
+  await assertPageError("forged focus", "protocol-error", /selected region/i, {
+    focus: { kind: "anatomy-region", id: "work-spine" },
+    viewIds: ["runtime"]
+  });
+  await assertPageError("privacy leak", "protocol-error", /must not expose/i, {
+    focus: { kind: "anatomy-region", id: "work-spine" },
+    viewIds: ["runtime"]
+  });
+  assert.equal(await page.getByTestId("agent-api-raw").textContent(), "No usable response.");
 
   const events = await page.evaluate(() => window.__agentApiEvents);
-  assert.ok(events.starts >= 7);
-  assert.ok(events.completes >= 5);
-  assert.ok(events.errors >= 2);
-  assert.equal(events.last.response.answerPolicy.authorityEffect, "none");
+  assert.ok(events.starts >= 18);
+  assert.ok(events.completes >= 7);
+  assert.ok(events.errors >= 11);
+  assert.ok(events.cancels >= 3);
+  assert.equal(events.last.answerAction, "answer");
+  assert.equal(events.lastError.errorCode, "protocol-error");
+  assert.doesNotMatch(JSON.stringify(events), /General request while|slow focused|mappingDigest|mappingVersion|principal-private-user/i);
 
   await page.setViewportSize({ width: 320, height: 800 });
   await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
@@ -271,10 +436,11 @@ try {
   await page.getByTestId("agent-api-question").focus();
   await page.keyboard.press("Tab");
   assert.equal(await page.evaluate(() => document.activeElement?.id), "agent-api-profile");
-  assert.ok(consoleErrors.every((message) => /401 \(Unauthorized\)/.test(message)), consoleErrors.join("\n"));
-  assert.equal(consoleErrors.length, 1);
+  await page.screenshot({ path: "/tmp/augmentor-agent-api-mobile.png", fullPage: true });
+  assert.ok(consoleErrors.every((message) => /Failed to load resource|401|403|405|500|ERR_EMPTY_RESPONSE/i.test(message)), consoleErrors.join("\n"));
+  assert.doesNotMatch(consoleErrors.join("\n"), /principal-private-user|mappingDigest|\/home\//i);
   assert.deepEqual(pageErrors, []);
-  process.stdout.write(`AGENT_API_BROWSER=pass requests=${observedRequests.length} screenshot=/tmp/augmentor-agent-api.png\n`);
+  process.stdout.write(`AGENT_API_BROWSER=pass requests=${observedRequests.length} screenshots=/tmp/augmentor-agent-api.png,/tmp/augmentor-agent-api-mobile.png\n`);
 } finally {
   await browser.close();
   await new Promise((resolve) => server.close(resolve));

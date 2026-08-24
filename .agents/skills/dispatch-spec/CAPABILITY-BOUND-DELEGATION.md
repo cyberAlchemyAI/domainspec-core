@@ -1,7 +1,8 @@
 # Capability-Bound Delegation
 
 Status: contract implemented and fixture-validated in Dispatch Spec 0.3.0;
-native subagent runtime integration proof remains pending.
+host-specific causal integration proven on the installed Codex Orchestrate path.
+Cross-host parity and lifecycle promotion remain unproven.
 
 ## Problem
 
@@ -89,6 +90,28 @@ Task Session worker cannot rewrite X-Ray or Whisper lifecycle surfaces.
 - The full fixture runner preserves compatibility with existing descriptive
   subagent strategies.
 
+## Host Integration Evidence
+
+The causal canary starts from the installed `orchestrate execute` entry point and
+records native host identifiers at the moment each persisted action is spawned.
+
+- [Failure-withholding result](development/runtime-integration/native-dispatch-runner-canary/failure/retry-001/result.json)
+  records one native helper, a joined non-pass receipt, `gate_block`, zero emitted
+  dependent actions, and zero open agents. Its full lifecycle stream passes the
+  [run-evidence validator](development/runtime-integration/native-dispatch-runner-canary/failure/retry-001/run/evidence-validation-receipt.json).
+- [Success-progression result](development/runtime-integration/native-dispatch-runner-canary/success/result.json)
+  records a first-wave pass receipt before `gate_pass`, exactly one reducer-emitted
+  dependent action, exactly one dependent native spawn, and a complete final state.
+  Its full lifecycle stream passes the
+  [run-evidence validator](development/runtime-integration/native-dispatch-runner-canary/success/run/evidence-validation-receipt.json).
+- The [historical canary adjudication](development/runtime-integration/20260722T063407Z-native-host-canary/adjudication.json)
+  preserves the earlier run as host-tool behavior evidence while withdrawing it
+  as automatic dispatch-integration proof.
+
+This evidence supports one bounded claim: the installed Codex Orchestrate path
+causally enforces failure withholding and successful dependent progression for
+the checked fixtures. It does not establish portable behavior on another host.
+
 Run:
 
 ```bash
@@ -104,6 +127,7 @@ formulae/dispatch-spec/development/run-validation-fixtures.sh
   overlap is blocked instead.
 - Runtime thread limits remain parent-owned residue. A blocked spawn must be
   recorded and rerouted rather than silently treated as success.
-- These fixtures do not prove native agent spawning. Integration proof still
-  requires a host-runtime run that observes spawn, join, gate withholding on a
-  failed receipt, dependent launch, and closeout.
+- The causal canary proves native spawning only for the installed Codex host path;
+  cross-host parity remains a separate follow-up.
+- The evidence does not authorize lifecycle promotion and does not turn host
+  operations into a stable portable API.

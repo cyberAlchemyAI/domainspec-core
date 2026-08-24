@@ -12,19 +12,35 @@ export default function EvidenceTable({model, onSelect}) {
             <th>Disposition</th>
             <th>Mapping</th>
             <th>Grounding</th>
+            <th>Exact binding</th>
           </tr>
         </thead>
         <tbody>
           {model.rows.map((row) => (
             <tr
               className={model.selectedSourceRef === row.sourceRef ? "is-selected" : ""}
-              key={row.sourceRef}
+              data-source-relation-id={row.relationProjection?.ref.source_relation_id ?? undefined}
+              key={row.relationProjection?.ref.source_relation_id ?? row.sourceRef}
             >
               <td><button onClick={() => onSelect(row.sourceRef)}>{row.sourceRef}</button></td>
-              <td>{row.relation ?? row.sourceKind}</td>
+              <td>
+                {row.relationProjection && (
+                  <span
+                    aria-hidden="true"
+                    className="oew-table-swatch"
+                    style={{"--oew-edge-color": row.relationProjection.encoding.color_dark}}
+                  />
+                )}
+                {row.relationProjection?.encoding.visible_label ?? row.relation ?? row.sourceKind}
+              </td>
               <td>{row.disposition ?? "not applicable"}</td>
               <td>{row.mappingLoss}</td>
               <td>{row.grounding ? "included" : row.residue ? "visible residue" : "not applicable"}</td>
+              <td className="oew-mono">
+                {row.relationProjection
+                  ? `${row.relationProjection.ref.source_relation_id} · ${row.relationProjection.relation_digest}`
+                  : "not applicable"}
+              </td>
             </tr>
           ))}
         </tbody>

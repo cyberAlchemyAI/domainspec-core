@@ -89,7 +89,7 @@ callable, and boolean return semantics.
 | [validate-implementation-architecture-types.mjs](validate-implementation-architecture-types.mjs) | Model, negative-control, browser, interaction, and responsive checks for the minimal view. |
 | [examples/body-war-suggested-track-lifecycle.scene.json](examples/body-war-suggested-track-lifecycle.scene.json) | Twelve-step, source-bound walkthrough of the real Body War `SuggestedTrackStatus` vocabulary and `NewSuggestionNeedsEvidence` Rule. |
 | [domain-meta-types.projection.json](domain-meta-types.projection.json) | Digest-bound, non-authoritative DS-D1 inventory and explicit implementation-coverage projection. |
-| [ontology.json](ontology.json) | Architecture types, 24 property definitions, relations, operators, and language projections. |
+| [ontology.json](ontology.json) | Architecture types, 72 property definitions, 14 typed relations, operators, and language projections, including W3 effects/connections and W4 orchestration/lifecycle candidates. |
 | [ONTOLOGY-MAP.md](ONTOLOGY-MAP.md) | Human-readable architecture meta-model. |
 | [PROPERTY-EVALUATION-MODEL.md](PROPERTY-EVALUATION-MODEL.md) | How the package queries and evaluates ontology properties. |
 | [profiles/base-domain.profile.json](profiles/base-domain.profile.json) | Portable constraints shared by all languages. |
@@ -99,6 +99,8 @@ callable, and boolean return semantics.
 | [examples/typescript-observed-facts.json](examples/typescript-observed-facts.json) | Example fact graph containing conforming and violating architecture elements. |
 | [examples/typescript-evaluation.expected.json](examples/typescript-evaluation.expected.json) | Expected deterministic findings. |
 | [validate-ontology.mjs](validate-ontology.mjs) | Dependency-free ontology validator and sample evaluator. |
+| [validate-w3-effects-connections.mjs](validate-w3-effects-connections.mjs) | Validates the four W3 ontology types, 30 type-specific properties, typed relations, reciprocal projection, 12 language protocols/provider digests, and four exact descriptor joins. |
+| [validate-w4-orchestration-lifecycle.mjs](validate-w4-orchestration-lifecycle.mjs) | Validates candidate State Machine and Workflow types, 16 type-specific properties, five graph relations, six language protocols/provider digests, and two exact descriptor joins. |
 | [TRACEABILITY-AND-DRIFT.md](TRACEABILITY-AND-DRIFT.md) | Remaining design blind spots. |
 | [VALIDATION-REPORT.md](VALIDATION-REPORT.md) | Executed test receipt. |
 
@@ -135,8 +137,8 @@ Operation passed their applicable assertions.
 
 The meta-type projection also preserves all 24 staged DS-D1 labels and the
 superseded Saga tombstone. Every one of the 13 active backend types has an
-explicit coverage disposition: five reciprocal candidate alignments, two
-profiled-but-unmapped types, and six explicitly unsupported types. Candidate
+explicit coverage disposition: nine reciprocal candidate alignments, one
+profiled-but-unmapped type, and three explicitly unsupported types. Candidate
 and deferred UI labels remain visible without becoming active or supported.
 
 This is an executable ontology test over supplied facts. It is not yet a

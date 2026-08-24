@@ -1,0 +1,29 @@
+{
+  "schema_version": "cyberalchemy-lab.admission-blocker-list/v1",
+  "work_pack_id": "WP-CAL-TEN-L0",
+  "wpra_blockers": [],
+  "wpra_flags": [],
+  "active_execution_prerequisites": [
+    {"code": "DECISION_GATE_NOT_RUN", "owner": "human-decision-gate", "effect": "execution is not approved"},
+    {"code": "DIRECT_EXECUTION_INTENT_ABSENT", "owner": "user-operator", "effect": "no selection or loop initialization may occur"},
+    {"code": "SELECTION_RECEIPT_ABSENT", "owner": "implementation-readiness", "effect": "no SWU is selected"},
+    {"code": "MUTATION_ADMISSION_RECEIPT_ABSENT", "owner": "implementation-readiness/task-session", "effect": "product write admission is absent"},
+    {"code": "TASK_SESSION_ADMISSION_RECEIPT_ABSENT", "owner": "task-session-until-blocker", "effect": "no Task Session may start"},
+    {"code": "PRODUCT_MATERIAL_PACKAGES_DEFERRED_TO_SELECTED_TASK_SESSION", "owner": "task-session", "effect": "no product bytes are pre-authored or admitted; valid under selected-unit-at-task-session"},
+    {"code": "EXECUTION_LOOP_STATE_ABSENT", "owner": "implementation-readiness", "effect": "compiled policy is unarmed"}
+  ],
+  "non_l0_residue": [
+    {"code": "GAP-CAL-L1-001", "effect": "blocks real representative tower selection, not synthetic L0"},
+    {"code": "GAP-CAL-L2-001", "effect": "blocks IDE/direct-GET integration, not synthetic L0"},
+    {"code": "GAP-CAL-COVERAGE-001", "effect": "forbids repository-wide completeness claims, not synthetic L0 mechanics"},
+    {"code": "STOP-CAL-AUTH-001", "effect": "authority, promotion, publication, deployment, and release always require separate owners"}
+  ],
+  "declared_dynamic_stop_classes": ["product-or-semantic-choice", "scope-expansion", "destructive-or-irreversible-effect", "credentials-or-secret-access", "external-message-or-network-effect", "cost-policy-or-risk-acceptance", "authority-promotion-publication-deployment", "failed-acceptance-critical-validation"],
+  "resolved_during_refresh": [
+    {"code": "STAGED_WPRA_ROOT_RESOLUTION", "resolution": "isolated the material root before canonical audit"},
+    {"code": "DUPLICATE_BINDING_ID", "resolution": "assigned a unique lifecycle status binding ID"},
+    {"code": "NON_JSON_SEMANTIC_BINDING", "resolution": "bound plan semantics only to JSON-owned sources"},
+    {"code": "MATERIAL_APPROVAL_OWNER_MISMATCH", "resolution": "bound package approval owner to invoke:refresh while retaining direct-user activation"}
+  ],
+  "authority_effect": "none"
+}

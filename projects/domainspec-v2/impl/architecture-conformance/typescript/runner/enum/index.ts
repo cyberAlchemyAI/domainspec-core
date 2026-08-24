@@ -34,7 +34,7 @@ const PATHS = {
   scenarioCases: "projects/domainspec-v2/development/implementation-conformance/ontology-experiment/examples/enum/scenarios/cases.json",
   scenarioExpected: "projects/domainspec-v2/development/implementation-conformance/ontology-experiment/examples/enum/scenarios/evaluations.expected.json",
   scenarioChecker: "projects/domainspec-v2/development/implementation-conformance/ontology-experiment/examples/enum/scenarios/check-evaluation-scenario.mjs",
-  activationReceipt: "projects/domainspec-v2/development/architecture-pattern-enforcement/instances/enum/receipts/SWU-APE-ENUM-TS-001B.json",
+  activationReceipt: "projects/domainspec-v2/development/architecture-pattern-enforcement/instances/enum/receipts/SWU-APE-ENUM-TS-001A.json",
   fixtureReceipt: "projects/domainspec-v2/development/architecture-pattern-enforcement/instances/enum/receipts/SWU-APE-ENUM-TS-003.json",
   provider: "projects/domainspec-v2/impl/architecture-conformance/typescript/runtime/enum/index.ts",
   adapter: "projects/domainspec-v2/impl/architecture-conformance/typescript/adapter/enum/index.ts",

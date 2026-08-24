@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberalchemy.local/schemas/closeout-receipt/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "work_pack_id", "swu_id", "baseline_bindings", "execution_receipt", "execution_entry_projection", "admitted_delta_classes", "changed_paths", "validation", "successor", "authority_effect", "status"],
+  "properties": {
+    "schema_version": {"const": "cyberalchemy-lab.closeout-receipt/v1"},
+    "work_pack_id": {"const": "WP-CAL-TEN-L0"},
+    "swu_id": {"pattern": "^SWU-CAL-0(0[1-9]|10)$"},
+    "baseline_bindings": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "object", "required": ["path", "state", "sha256", "size_bytes"], "properties": {"path": {"type": "string"}, "state": {"enum": ["existing", "absent:create"]}, "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}, "size_bytes": {"type": ["integer", "null"], "minimum": 0}}, "additionalProperties": false}},
+    "execution_receipt": {"type": "object", "required": ["path", "sha256", "result"], "properties": {"path": {"type": "string"}, "sha256": {"pattern": "^[a-f0-9]{64}$"}, "result": {"const": "pass"}}, "additionalProperties": false},
+    "execution_entry_projection": {"type": "object", "additionalProperties": false, "required": ["path", "frontier", "entry_state", "selected_unit", "route_id", "allowed_routes_digest", "canonical_projection_digest"], "properties": {"path": {"const": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json"}, "frontier": {"type": "array", "maxItems": 1, "items": {"pattern": "^SWU-CAL-0(0[1-9]|10)$"}}, "entry_state": {"enum": ["selection-ready", "complete"]}, "selected_unit": {"type": "null"}, "route_id": {"type": "null"}, "allowed_routes_digest": {"pattern": "^[a-f0-9]{64}$"}, "canonical_projection_digest": {"pattern": "^[a-f0-9]{64}$"}}},
+    "admitted_delta_classes": {"type": "array", "uniqueItems": true, "items": {"enum": ["status_changed", "evidence_added", "blocker_opened", "blocker_resolved", "route_changed"]}},
+    "changed_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "validation": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["check_id", "status"], "properties": {"check_id": {"type": "string"}, "status": {"enum": ["pass", "block"]}}, "additionalProperties": false}},
+    "successor": {"type": ["string", "null"]},
+    "authority_effect": {"const": "none"},
+    "status": {"enum": ["pass", "block"]}
+  }
+}

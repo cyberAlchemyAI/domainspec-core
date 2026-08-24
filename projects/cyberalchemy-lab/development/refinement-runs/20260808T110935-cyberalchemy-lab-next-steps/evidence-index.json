@@ -1,0 +1,42 @@
+{
+  "run_id": "20260808T110935-cyberalchemy-lab-next-steps",
+  "target": "projects/cyberalchemy-lab/",
+  "refinement_loop": "arcana/refine/REFINEMENT-LOOP.md",
+  "preset": "standard",
+  "research_mode": "research-if-gap-appears",
+  "strategy_status": "validated",
+  "runtime_status": "completed",
+  "status": "pass",
+  "artifacts": {
+    "run_manifest": "RUN-MANIFEST.md",
+    "seed_proposal": "REFINE-SEED-PROPOSAL.md",
+    "dispatch_route": "REFINE-DISPATCH.json",
+    "runtime_handoff": "RUNTIME-HANDOFF.md",
+    "result": "RESULT.md",
+    "stages_dir": "stages/",
+    "dispatch_validation_receipt": "dispatch-validation-receipt.txt",
+    "governance_defect_receipt": "governance-defect-validator-cwd-receipt.md"
+  },
+  "dispatch_validation": {
+    "status": "pass",
+    "dispatch_sha256": "c77ec1aa276b78966f53d7f7d93fe56b14329e03f2c97dfd2c9005eac10a8914",
+    "validator": "arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py",
+    "receipt": "dispatch-validation-receipt.txt"
+  },
+  "stages": [
+    {"stage":"Context Builder evidence baseline","step_id":"s01-context-builder","capability_ref":"context-builder","mode_config":"standard; --strict --emit both --handoff runtime","status":"completed","artifact_path":"stages/01-context-builder.md","receipt_kind":"native-stage","receipt_artifact":"stages/receipts/s01-context-builder.json","observer_status":"not_emitted_write_scope","verdict":"pass","blocked_reason":""},
+    {"stage":"Invoke Define","step_id":"s02-invoke-define","capability_ref":"invoke","mode_config":"define","status":"completed","artifact_path":"stages/02-invoke-define.md","receipt_kind":"native-stage","receipt_artifact":"stages/receipts/s02-invoke-define.json","observer_status":"not_emitted_write_scope","verdict":"pass","blocked_reason":""},
+    {"stage":"Interrogation refine-review","step_id":"s03-interrogation-review","capability_ref":"interrogation","mode_config":"refine-review","status":"completed","artifact_path":"stages/03-interrogation-refine-review.md","receipt_kind":"native-stage","receipt_artifact":"stages/receipts/s03-interrogation-review.json","observer_status":"not_emitted_write_scope","verdict":"pass","blocked_reason":""},
+    {"stage":"Research decision","step_id":"s04-research-decision","capability_ref":"refine","mode_config":"research-if-gap-appears","status":"completed","artifact_path":"stages/04-research-decision.md","receipt_kind":"native-stage","receipt_artifact":"stages/receipts/s04-research-decision.json","observer_status":"not_emitted_write_scope","verdict":"pass","blocked_reason":""},
+    {"stage":"Distill","step_id":"s05-distill","capability_ref":"distill","mode_config":"standard","status":"completed","artifact_path":"stages/05-distill.md","receipt_kind":"native-stage","receipt_artifact":"stages/receipts/s05-distill.json","observer_status":"not_emitted_write_scope","verdict":"pass","blocked_reason":""},
+    {"stage":"Invoke Redefine / Design","step_id":"s06-invoke-design","capability_ref":"invoke","mode_config":"design","status":"completed","artifact_path":"stages/06-invoke-design.md","receipt_kind":"native-stage","receipt_artifact":"stages/receipts/s06-invoke-design.json","observer_status":"not_emitted_write_scope","verdict":"pass","blocked_reason":""},
+    {"stage":"Interrogation refine-design-review","step_id":"s07-interrogation-design-review","capability_ref":"interrogation","mode_config":"refine-design-review","status":"completed","artifact_path":"stages/07-interrogation-refine-design-review.md","receipt_kind":"native-stage","receipt_artifact":"stages/receipts/s07-interrogation-design-review.json","observer_status":"not_emitted_write_scope","verdict":"flag","blocked_reason":"repaired by s08-distill-repair"},
+    {"stage":"Distill Repair","step_id":"s08-distill-repair","capability_ref":"distill","mode_config":"validate","status":"completed","artifact_path":"stages/08-distill-repair.md","receipt_kind":"native-stage","receipt_artifact":"stages/receipts/s08-distill-repair.json","observer_status":"not_emitted_write_scope","verdict":"pass","blocked_reason":""},
+    {"stage":"Invoke Plan","step_id":"s09-invoke-plan","capability_ref":"invoke","mode_config":"plan","status":"completed","artifact_path":"stages/09-invoke-plan.md","receipt_kind":"native-stage","receipt_artifact":"stages/receipts/s09-invoke-plan.json","observer_status":"not_emitted_write_scope","verdict":"pass","blocked_reason":""},
+    {"stage":"Final Interrogation and Synthesis","step_id":"s10-final-synthesis","capability_ref":"interrogation+refine","mode_config":"refine-final","status":"completed","artifact_path":"stages/10-final-interrogation-and-synthesis.md","receipt_kind":"native-stage + refine-synthesis","receipt_artifact":"stages/receipts/s10-final-synthesis.json","observer_status":"not_emitted_write_scope","verdict":"pass","blocked_reason":""}
+  ],
+  "recommended_next_routes": [
+    "implementation-readiness:execute after a separate direct request for WP-CAL-TEN-L0",
+    "decision-gate for the L1 representative-tower owner decision after L0 evidence"
+  ]
+}

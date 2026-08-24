@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "domainspec-public-guide-route-2026-08-13",
+  "candidates": [
+    {
+      "optionId": "PUB-SANITIZED",
+      "label": "Publish a sanitized public guide at cyberalchemize.com/domainspec",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "publication",
+      "ownerGate": "DomainSpec owner explicitly authorizes a new sanitized public surface",
+      "evidence": [
+        "projects/co-op-engine/infra/deploy-static-vps.sh owns the existing atomic cyberalchemize.com deployment",
+        "A separately generated single-file public derivative can omit private repository content and links",
+        "The current four canonical guide artifacts remain private authoring sources"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "PRIVATE-COMMIT",
+      "label": "Commit the canonical guide privately and defer public deployment",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "publication",
+      "ownerGate": "User explicitly requested a scoped private Git publication",
+      "evidence": [
+        "The four guide artifacts are isolatable in the private cyberAlchemyAI/domainspec-core repository",
+        "Deferring the public route preserves the current DomainSpec private boundary"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "STOP",
+      "label": "Stop without committing or deploying",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "No guide or deployment bytes have been staged, committed, pushed, or deployed"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "PUB-CURRENT-BYTES",
+      "label": "Deploy the current canonical guide unchanged",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "publication",
+      "ownerGate": null,
+      "evidence": [
+        "The current HTML contains private architecture prose and private repository paths"
+      ],
+      "rejectionReasons": [
+        "Would expose private DomainSpec repository structure and development evidence",
+        "Would violate the current Only Arcanum is public repository boundary",
+        "Would produce broken public links unless private source files were also exposed"
+      ]
+    }
+  ]
+}

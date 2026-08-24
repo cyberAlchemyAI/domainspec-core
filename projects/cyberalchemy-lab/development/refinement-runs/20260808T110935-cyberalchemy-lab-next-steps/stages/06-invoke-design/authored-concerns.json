@@ -1,0 +1,75 @@
+{
+  "concerns": [
+    {
+      "concern_id": "authored:authority-boundary",
+      "primary_class": "authority",
+      "required_predicate": true,
+      "disposition": "required",
+      "ownership": {
+        "accountable_owner": "authority-owner",
+        "contributing_owners": ["candidate-package-owner", "corpus-owner", "ontology-owner"],
+        "artifact_owner": "architecture-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "evidence_selectors": ["stages/02-invoke-define.md#Actors-and-owners"],
+      "rationale": "Candidate records, owner admission, and blocked promotion require an explicit trust boundary."
+    },
+    {
+      "concern_id": "authored:integration-contract",
+      "primary_class": "integration",
+      "required_predicate": true,
+      "disposition": "required",
+      "ownership": {
+        "accountable_owner": "interface-owner",
+        "contributing_owners": ["compiler-owner", "future-ide-owner"],
+        "artifact_owner": "architecture-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "evidence_selectors": ["stages/05-distill.md#Closure-and-recomposition-proof"],
+      "rationale": "The projection contract is the only future handoff into the direct-GET adapter."
+    },
+    {
+      "concern_id": "authored:persistence-boundary",
+      "primary_class": "persistence",
+      "required_predicate": true,
+      "disposition": "required",
+      "ownership": {
+        "accountable_owner": "persistence-owner",
+        "contributing_owners": ["candidate-package-owner", "compiler-owner"],
+        "artifact_owner": "architecture-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "evidence_selectors": ["stages/05-distill.md#Current-smallest-coherent-unit"],
+      "rationale": "Repository-local candidate files and disposable generated output need one-writer and replacement rules."
+    },
+    {
+      "concern_id": "authored:privacy-boundary",
+      "primary_class": "privacy-data",
+      "required_predicate": true,
+      "disposition": "required",
+      "ownership": {
+        "accountable_owner": "data-owner",
+        "contributing_owners": ["candidate-package-owner", "privacy-boundary-owner"],
+        "artifact_owner": "architecture-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "evidence_selectors": ["stages/01-context-builder/context-pack.md#Evidence-backed-obligations"],
+      "rationale": "Private evidence may appear only through an allowlisted privacy-filtered projection and cannot cross into public Arcanum."
+    },
+    {
+      "concern_id": "authored:validation-contract",
+      "primary_class": "validation",
+      "required_predicate": true,
+      "disposition": "required",
+      "ownership": {
+        "accountable_owner": "design-owner",
+        "contributing_owners": ["compiler-owner", "validation-owner"],
+        "artifact_owner": "plan-work-pack-owner",
+        "validator_owner": "invoke-design-selection-validator"
+      },
+      "evidence_selectors": ["stages/05-distill.md#Premortem"],
+      "rationale": "Exact-input validation and explicit mechanics-versus-real-source evidence states prevent fixture-only success."
+    }
+  ]
+}
+
