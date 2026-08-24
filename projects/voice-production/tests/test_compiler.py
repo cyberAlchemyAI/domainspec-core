@@ -9,7 +9,7 @@ import io
 import os
 import sys
 import unittest
-from dataclasses import FrozenInstanceError
+from dataclasses import FrozenInstanceError, replace
 from pathlib import Path
 from typing import Any
 
@@ -21,12 +21,15 @@ sys.path.insert(0, str(STAGING_ROOT))
 from voice_production import compiler  # noqa: E402
 from voice_production.canonical import verify_envelope  # noqa: E402
 from voice_production.compiler import (  # noqa: E402
-    ALLOWED_SPEAKERS,
-    CHAPTER_01_SOURCE_SHA256,
     CsvProfileError,
     ManifestCompilerError,
     SourceDigestMismatch,
     compile_manifest,
+)
+from voice_production.compiler_config import (  # noqa: E402
+    CompilerConfigError,
+    compiler_config_from_document,
+    compiler_config_from_json_bytes,
 )
 
 
@@ -34,6 +37,21 @@ CSV_RELATIVE_PATH = Path(
     "projects/lucifers-lights/drafts/graphic-novel/chapter-01/audio/"
     "elevenlabs-voiceover-studio.csv"
 )
+CONFIG_RELATIVE_PATH = Path(
+    "projects/lucifers-lights/factory/voice/chapter-01.json"
+)
+SYNTHETIC_SOURCE = STAGING_ROOT / "tests/fixtures/chapter-02-synthetic.csv"
+SYNTHETIC_CONFIG = STAGING_ROOT / "tests/fixtures/chapter-02-compiler-config.json"
+CHAPTER_01_SOURCE_SHA256 = (
+    "99ed4a664bba57b0f090a043382fc1de3d5dac5ed5147cbb8fde92c4497dbfa3"
+)
+CHAPTER_01_MANIFEST_DIGEST = (
+    "84b26ccb9c71b4bd90cca36bffd7fb9066230446293e0bc4e4e9018b0c70a77d"
+)
+CHAPTER_01_CANONICAL_SHA256 = (
+    "5e2f55e0fb795cd6dee552d961567e58a22aa36757e6508059133504fa640376"
+)
+ALLOWED_SPEAKERS = frozenset({"ELENA", "LUCIFER", "MARA", "RUTH", "SYSTEM"})
 EXPECTED_TAGS = {
     1: "[measured, intimate]",
     7: "[guarded]",
@@ -73,8 +91,16 @@ def render_rows(rows: list[list[str]]) -> bytes:
 def compile_rebound(payload: bytes):
     return compile_manifest(
         payload,
-        expected_source_sha256=hashlib.sha256(payload).hexdigest(),
+        config=replace(
+            CHAPTER_01_CONFIG,
+            expected_source_sha256=hashlib.sha256(payload).hexdigest(),
+        ),
     )
+
+
+CHAPTER_01_CONFIG = compiler_config_from_json_bytes(
+    (REPOSITORY_ROOT / CONFIG_RELATIVE_PATH).read_bytes()
+)
 
 
 class CompilerTests(unittest.TestCase):
@@ -84,7 +110,7 @@ class CompilerTests(unittest.TestCase):
         cls.source_rows = parse_rows(cls.source_bytes)
 
     def test_exact_fixture_compiles_with_order_text_counts_and_source_binding(self) -> None:
-        compiled = compile_manifest(self.source_bytes)
+        compiled = compile_manifest(self.source_bytes, config=CHAPTER_01_CONFIG)
         envelope = compiled.as_envelope()
         value = envelope["value"]
         segments = value["segments"]
@@ -125,10 +151,16 @@ class CompilerTests(unittest.TestCase):
             ),
             9,
         )
+        self.assertEqual(compiled.digest, CHAPTER_01_MANIFEST_DIGEST)
+        self.assertEqual(len(compiled.canonical_envelope_bytes), 33923)
+        self.assertEqual(
+            hashlib.sha256(compiled.canonical_envelope_bytes).hexdigest(),
+            CHAPTER_01_CANONICAL_SHA256,
+        )
 
     def test_compilation_is_byte_stable_and_artifact_is_immutable(self) -> None:
-        first = compile_manifest(self.source_bytes)
-        second = compile_manifest(bytes(self.source_bytes))
+        first = compile_manifest(self.source_bytes, config=CHAPTER_01_CONFIG)
+        second = compile_manifest(bytes(self.source_bytes), config=CHAPTER_01_CONFIG)
         self.assertEqual(first.canonical_envelope_bytes, second.canonical_envelope_bytes)
         self.assertEqual(first.digest, second.digest)
 
@@ -144,14 +176,13 @@ class CompilerTests(unittest.TestCase):
 
     def test_source_digest_mismatch_and_invalid_binding_fail_closed(self) -> None:
         with self.assertRaises(SourceDigestMismatch):
-            compile_manifest(self.source_bytes + b"\n")
+            compile_manifest(self.source_bytes + b"\n", config=CHAPTER_01_CONFIG)
+        with self.assertRaises(TypeError):
+            compile_manifest(self.source_bytes)  # type: ignore[call-arg]
+        with self.assertRaises(CompilerConfigError):
+            compile_manifest(self.source_bytes, config="not-a-config")  # type: ignore[arg-type]
         with self.assertRaises(ManifestCompilerError):
-            compile_manifest(
-                self.source_bytes,
-                expected_source_sha256="not-a-sha256",
-            )
-        with self.assertRaises(ManifestCompilerError):
-            compile_manifest("not-bytes")  # type: ignore[arg-type]
+            compile_manifest("not-bytes", config=CHAPTER_01_CONFIG)  # type: ignore[arg-type]
 
     def test_wrong_header_is_rejected(self) -> None:
         rows = copy.deepcopy(self.source_rows)
@@ -216,7 +247,7 @@ class CompilerTests(unittest.TestCase):
         for row in missing_speaker[1:]:
             if row[0] == "RUTH":
                 row[0] = "MARA"
-        with self.assertRaisesRegex(CsvProfileError, "speaker set is incomplete"):
+        with self.assertRaisesRegex(CsvProfileError, "speaker set does not match"):
             compile_rebound(render_rows(missing_speaker))
 
         missing_tag = copy.deepcopy(self.source_rows)
@@ -250,6 +281,65 @@ class CompilerTests(unittest.TestCase):
         for forbidden_name in ("provider_options", "api_key", "voice_id", "model_id"):
             with self.subTest(forbidden_name=forbidden_name):
                 self.assertNotIn(forbidden_name, source)
+
+    def test_materially_different_chapter_uses_explicit_selection(self) -> None:
+        source = SYNTHETIC_SOURCE.read_bytes()
+        config = compiler_config_from_json_bytes(SYNTHETIC_CONFIG.read_bytes())
+        compiled = compile_manifest(source, config=config)
+        value = compiled.value
+        segments = value["segments"]
+
+        self.assertEqual(value["production_id"], "synthetic.chapter-02.voice-production")
+        self.assertEqual([item["source_row_number"] for item in segments], [2, 4, 6])
+        self.assertEqual(
+            [item["speaker"] for item in segments],
+            ["NARRATOR", "ORACLE", "NARRATOR"],
+        )
+        self.assertEqual(
+            [item["segment_id"] for item in segments],
+            ["segment-001", "segment-002", "segment-003"],
+        )
+        self.assertEqual(
+            [item["leading_performance_tag"] for item in segments],
+            [None, "[calmly]", None],
+        )
+        self.assertNotEqual(compiled.digest, CHAPTER_01_MANIFEST_DIGEST)
+
+    def test_compiler_has_no_chapter_01_defaults(self) -> None:
+        source = inspect.getsource(compiler)
+        for forbidden in (
+            "CHAPTER_01",
+            "graphic-novel.chapter-01",
+            CHAPTER_01_SOURCE_SHA256,
+            "ELENA",
+            "LUCIFER",
+        ):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, source)
+
+    def test_config_contract_is_closed_and_rejects_duplicate_json_keys(self) -> None:
+        unknown = CHAPTER_01_CONFIG.to_document()
+        unknown["unexpected"] = True
+        with self.assertRaisesRegex(CompilerConfigError, "unknown fields"):
+            compiler_config_from_document(unknown)
+
+        duplicate = (
+            b'{"schema_version":"voice-production.compiler-config/v1",'
+            b'"schema_version":"voice-production.compiler-config/v1"}'
+        )
+        with self.assertRaisesRegex(CompilerConfigError, "duplicate"):
+            compiler_config_from_json_bytes(duplicate)
+
+    def test_selection_contract_is_explicit_and_consistent(self) -> None:
+        document = CHAPTER_01_CONFIG.to_document()
+        document["selection"] = {
+            "mode": "source-ordinals",
+            "source_ordinals": [1, 3],
+        }
+        with self.assertRaisesRegex(
+            CompilerConfigError, "count must equal expected_segment_count"
+        ):
+            compiler_config_from_document(document)
 
 
 if __name__ == "__main__":

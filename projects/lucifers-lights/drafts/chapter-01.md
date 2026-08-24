@@ -40,7 +40,7 @@ We can skip that part. Names are useful when you need someone to blame. What mat
 
 “That isn’t a real name.”
 
-“Neither is Vesper, according to half the passports issued before the city changed names. Yet here we are.”
+“I chose Lucifer. The city chose Vesper. Half the passports here still carry its old name. Yet here we are.”
 
 She did not smile. Tough audience.
 
@@ -52,7 +52,7 @@ Sunrise was due at 5:38.
 
 The request gave me three hours and twenty-five minutes.
 
-Beneath it waited two empty fields.
+Beneath the request, two fields remained empty.
 
 **PRICE: PENDING**
 
@@ -74,7 +74,7 @@ Humans are adorable when they discover that convenience has teeth.
 
 “What exactly is a Light?” she asked.
 
-“A Light is what you need when every ordinary door has stopped opening. A name. A key. Safe passage. Medicine after the pharmacies close. An introduction to someone who does not officially exist. Occasionally, it is advice.”
+“A Light is what you need when every ordinary door has stopped opening. A name. A key. Safe passage. Medicine after every pharmacy has locked its doors, when waiting for morning might cost a life. An introduction to someone who does not officially exist. Occasionally, it is advice.”
 
 “And occasionally?”
 
@@ -82,11 +82,11 @@ Humans are adorable when they discover that convenience has teeth.
 
 Her expression hardened.
 
-“Relax. Lucifer’s Lights is not a murder-for-hire service. I can help with such things, of course, but I can also set fire to this café. Capability is a dreary way to decide what should be done.”
+“Relax. Lucifer’s Lights is not a murder-for-hire service. I can help with such things, of course, but I can also set fire to this café. ‘Because I can’ is the philosophy of amateurs.”
 
 “You talk like a lunatic.”
 
-“I was almost certain you would say that. Delusional is more fashionable, but I accept both.”
+“Please. Lunatics ramble for free. I invoice.”
 
 She pushed a photograph across the table.
 
@@ -102,7 +102,7 @@ I did.
 
 The answer came too quickly. Hope entered her face before she could stop it.
 
-Hope is dangerous that way. It does not knock. It simply walks in and begins rearranging the furniture.
+Hope is dangerous that way. It does not knock. It walks in, moves the furniture, and hangs pictures of a life you have not lived yet.
 
 “How much?”
 
@@ -130,13 +130,11 @@ Mara read them twice.
 
 “And if I refuse when you come to collect?”
 
-“Then you refuse. Free will would be a poor brand if I did not honor it.”
+“Then you refuse.”
 
-She waited for the threat hidden behind the words.
+A laugh escaped me—bright, sharp, gone. Mara’s fingers tightened around her cup.
 
-I allowed her to find it herself.
-
-“And I will never provide you another Light,” I continued. “No matter how dark your life becomes.”
+“Free will would be a poor brand if I did not honor it. Refuse me when I collect, and whatever darkness comes next, you face it without a Light.”
 
 Across the street, lightning flashed behind the abandoned cathedral. A heartbeat later, its bell rang once.
 
@@ -176,7 +174,7 @@ She stared at me.
 
 I leaned closer.
 
-“Knowledge was the first Light.”
+“Knowledge was the first Light,” I said. “And the first price was paradise.”
 
 Mara looked unconvinced.
 
@@ -190,7 +188,7 @@ Time had begun charging interest.
 
 There it was: humanity in one sentence.
 
-She did not care what I was. She cared whether Elena came home before dawn.
+All of Heaven and Hell could wait outside in the rain. Mara wanted one mortal woman home before dawn.
 
 God, I love humans.
 
@@ -200,7 +198,7 @@ I smiled. Mara shifted away from me.
 
 That did not appear to reassure her.
 
-I am working on this.
+Perhaps I should finally take that acting class.
 
 She picked up her phone. Her thumb hovered above the agreement.
 
@@ -298,7 +296,7 @@ I should have refused to answer. Confidentiality is the quiet foundation beneath
 
 But conflicting contracts permit the minimum disclosure necessary for both clients to make an informed choice.
 
-Also, she looked ready to stab me with a butter knife.
+Also, she looked ready to stab me with a butter knife. Blood is murder on white.
 
 “She asked me to make her impossible to find,” I said. “Especially for you.”
 
@@ -338,7 +336,7 @@ Her laugh held no amusement.
 
 “How convenient.”
 
-“Convenience has nothing to do with it. The older promise holds. Conflicted work stops. Any amendment requires your choice. Three rules. Entire civilizations have survived with fewer.”
+“Convenience has nothing to do with it. Three rules: the older promise holds; conflicted work stops; no amendment proceeds without your choice. Entire civilizations have survived with fewer.”
 
 She glanced toward the rain-streaked window.
 
@@ -378,7 +376,7 @@ Two choices appeared beneath it.
 
 Her eyes moved across every line.
 
-People dislike contracts because contracts force them to meet the future selves who will be trapped by their present decisions.
+A contract is a door you lock from this side. Your future self is the one who discovers where you left the key.
 
 “Will you help her if she’s hurt?” Mara asked.
 
@@ -406,7 +404,7 @@ Someone had killed the Halo.
 
 I looked toward the front door.
 
-Two men stood beneath the awning. Neither carried an umbrella. Their coats were dry, which meant they had crossed the street from a waiting car rather than approached on foot.
+Two men stood beneath the narrow canopy over the café entrance. Neither carried an umbrella. Their coats were dry, which meant they had crossed the street from a waiting car rather than approached on foot.
 
 One watched the entrance.
 
@@ -426,7 +424,7 @@ The man nearest the door reached inside his coat.
 
 “Wonderful,” I said. “Your evening is finally becoming informative.”
 
-A candle flared behind the counter. Ruth, the owner, appeared holding it beneath her chin. On anyone else, the effect would have been theatrical. Ruth was seventy-two, had buried two husbands, and once broken a man’s jaw with a coffee pot. She required no assistance from lighting.
+Mara was still on her feet. I slid out of the booth as a candle flared behind the counter. Ruth, the owner, held it beneath her chin. On anyone else, the effect would have been theatrical. Ruth was seventy-two, had buried two husbands, and once broken a man’s jaw with a coffee pot. She required no assistance from lighting.
 
 “The moth girl said you might need this,” she told me.
 
@@ -474,9 +472,9 @@ The pot left her hand. Coffee struck the floor in front of them, shattering cera
 
 Ruth had once needed a Light. Tonight she repaid it with nine seconds and a coffee pot.
 
-A Light is rarely one magnificent act.
+A Light is seldom magnificent.
 
-Usually, it is someone remembering what they owe while you are still alive to collect.
+Tonight, it was boiling coffee, nine stolen seconds, and a debt remembered just in time.
 
 Mara and I crossed the kitchen, passed through a storeroom, and emerged into an alley behind the café. Rainwater had already risen above my shoes.
 
@@ -604,7 +602,7 @@ Its doors opened.
 
 “You can leave,” I told her.
 
-She looked from the envelope to the waiting train.
+Mara reached for the phone, stopped, and looked at the waiting train.
 
 “I can put you somewhere safe. Your agreement will be canceled. No favor owed and no questions asked.”
 
@@ -626,7 +624,7 @@ The doors started closing.
 
 Mara watched the last carriage disappear into the tunnel.
 
-Then she removed the phone from the locker and pressed its only button.
+Mara turned from the empty tunnel, took the phone from the locker, and pressed its only button.
 
 Elena’s voice filled the corridor.
 

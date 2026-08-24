@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Callable, Mapping, Protocol, Sequence, cast
 
@@ -24,6 +24,10 @@ from voice_production.canonical import (
     make_envelope,
 )
 from voice_production.compiler import compile_manifest
+from voice_production.compiler_config import (
+    CompilerConfig,
+    compiler_config_from_json_bytes,
+)
 from voice_production.contracts import CAPABILITY_QUERY_SCHEMA_ID, manifest_envelope
 from voice_production.evidence import (
     REQUIRED_PREREQUISITE_KINDS,
@@ -45,6 +49,10 @@ from voice_production.fakes import (
     FakeSegmentAdapter,
     FrozenCompositeProjection,
     SegmentRetryDenied,
+)
+from voice_production.factory_handoff import (
+    FactoryHandoffError,
+    validate_factory_handoff,
 )
 from voice_production.lifecycle import (
     AttemptObservation,
@@ -563,6 +571,7 @@ def _gate_mutation_rejections(
 def _binding_proofs(
     *,
     source_bytes: bytes,
+    compiler_config: CompilerConfig,
     chapter_manifest: Mapping[str, JsonValue],
     toy_manifest: Mapping[str, JsonValue],
     segment_adapter: SegmentPreparationAdapter,
@@ -578,7 +587,10 @@ def _binding_proofs(
         raise WorkflowContractError("source mutation fixture was not found")
     rebound_manifest = compile_manifest(
         changed_source,
-        expected_source_sha256=_sha(changed_source),
+        config=replace(
+            compiler_config,
+            expected_source_sha256=_sha(changed_source),
+        ),
     ).as_envelope()
 
     def mutate_text(value: dict[str, JsonValue]) -> None:
@@ -682,6 +694,7 @@ def _binding_proofs(
 def run_workflow(
     source_bytes: bytes,
     *,
+    compiler_config: CompilerConfig,
     adapters: AdapterBundle | None = None,
 ) -> FrozenWorkflowSummary:
     """Run the complete deterministic L0 toy game with no external effects."""
@@ -691,7 +704,7 @@ def run_workflow(
     active = default_adapters() if adapters is None else adapters
     resolver = _ResolverSpy()
 
-    chapter_compiled = compile_manifest(source_bytes)
+    chapter_compiled = compile_manifest(source_bytes, config=compiler_config)
     chapter_manifest = chapter_compiled.as_envelope()
     chapter_value = _object(chapter_manifest["value"], "chapter manifest")
     chapter_segments = _list(chapter_value["segments"], "chapter segments")
@@ -955,6 +968,7 @@ def run_workflow(
 
     binding_proofs = _binding_proofs(
         source_bytes=source_bytes,
+        compiler_config=compiler_config,
         chapter_manifest=chapter_manifest,
         toy_manifest=toy_manifest,
         segment_adapter=active.segment,
@@ -1068,12 +1082,45 @@ def build_parser() -> argparse.ArgumentParser:
         description="Run the deterministic no-network voice-production toy game."
     )
     parser.add_argument("source_csv", type=Path, help="exact local speaker,line CSV")
+    parser.add_argument(
+        "compiler_config",
+        type=Path,
+        help="exact local voice-production compiler config JSON",
+    )
+    parser.add_argument(
+        "factory_handoff",
+        type=Path,
+        help="accepted-manuscript, local-compile-only Chapter Factory handoff JSON",
+    )
+    parser.add_argument(
+        "--repo-root",
+        type=Path,
+        default=Path("."),
+        help="repository root used to resolve and verify handoff bindings",
+    )
     return parser
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    summary = run_workflow(args.source_csv.read_bytes())
+    source_bytes = args.source_csv.read_bytes()
+    compiler_config_bytes = args.compiler_config.read_bytes()
+    handoff_bytes = args.factory_handoff.read_bytes()
+    compiler_config = compiler_config_from_json_bytes(compiler_config_bytes)
+    validate_factory_handoff(
+        handoff_bytes,
+        handoff_path=args.factory_handoff,
+        repository_root=args.repo_root,
+        source_path=args.source_csv,
+        source_bytes=source_bytes,
+        compiler_config_path=args.compiler_config,
+        compiler_config_bytes=compiler_config_bytes,
+        compiler_config=compiler_config,
+    )
+    summary = run_workflow(
+        source_bytes,
+        compiler_config=compiler_config,
+    )
     print(summary.text())
     return 0
 

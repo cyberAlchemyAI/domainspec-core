@@ -17,6 +17,9 @@ sys.path.insert(0, str(STAGING_ROOT))
 
 from voice_production import fakes  # noqa: E402
 from voice_production.compiler import compile_manifest  # noqa: E402
+from voice_production.compiler_config import (  # noqa: E402
+    compiler_config_from_json_bytes,
+)
 from voice_production.fakes import (  # noqa: E402
     CompositeContractError,
     FakeProjectAdapter,
@@ -29,6 +32,7 @@ CSV_PATH = Path(
     "projects/lucifers-lights/drafts/graphic-novel/chapter-01/audio/"
     "elevenlabs-voiceover-studio.csv"
 )
+CONFIG_PATH = Path("projects/lucifers-lights/factory/voice/chapter-01.json")
 PROJECT_REQUIREMENTS = [
     "composite-output",
     "project-reference",
@@ -53,7 +57,12 @@ class SecretResolverSpy:
 class CompositePlanTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.manifest = compile_manifest(source_path().read_bytes()).as_envelope()
+        cls.compiler_config = compiler_config_from_json_bytes(
+            (REPOSITORY_ROOT / CONFIG_PATH).read_bytes()
+        )
+        cls.manifest = compile_manifest(
+            source_path().read_bytes(), config=cls.compiler_config
+        ).as_envelope()
         cls.selected = ["segment-001", "segment-002", "segment-003"]
         cls.schema_sha = hashlib.sha256(b"synthetic-project-schema-v1").hexdigest()
         cls.binding = {

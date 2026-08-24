@@ -18,6 +18,9 @@ from voice_production.canonical import (  # noqa: E402
     canonical_bytes,
 )
 from voice_production.compiler import compile_manifest  # noqa: E402
+from voice_production.compiler_config import (  # noqa: E402
+    compiler_config_from_json_bytes,
+)
 from voice_production import elevenlabs_static_projection as projector  # noqa: E402
 
 
@@ -25,6 +28,7 @@ CSV_PATH = Path(
     "projects/lucifers-lights/drafts/graphic-novel/chapter-01/audio/"
     "elevenlabs-voiceover-studio.csv"
 )
+CONFIG_PATH = Path("projects/lucifers-lights/factory/voice/chapter-01.json")
 SCHEMA_PATH = (
     CANDIDATE_ROOT / "voice_production/elevenlabs_direct_tts_schema.json"
 )
@@ -44,7 +48,12 @@ class ElevenLabsStaticProjectionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.source_bytes = (REPOSITORY_ROOT / CSV_PATH).read_bytes()
-        cls.manifest_artifact = compile_manifest(cls.source_bytes)
+        cls.compiler_config = compiler_config_from_json_bytes(
+            (REPOSITORY_ROOT / CONFIG_PATH).read_bytes()
+        )
+        cls.manifest_artifact = compile_manifest(
+            cls.source_bytes, config=cls.compiler_config
+        )
         cls.manifest = cls.manifest_artifact.as_envelope()
         cls.manifest_bytes = cls.manifest_artifact.canonical_envelope_bytes
         cls.schema_bytes = SCHEMA_PATH.read_bytes()

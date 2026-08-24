@@ -1,8 +1,8 @@
-"""Strict compiler for the local ``speaker,line`` source profile.
+"""Strict chapter-neutral compiler for the local ``speaker,line`` profile.
 
-The compiler is pure: it accepts source bytes and returns an immutable wrapper
-around canonical manifest-envelope bytes.  It performs no file, network,
-credential, provider, or audio operations.
+The compiler is pure: it accepts source bytes plus one explicit immutable
+configuration and returns canonical manifest-envelope bytes. It performs no
+file, network, credential, provider, or audio operations.
 """
 
 from __future__ import annotations
@@ -25,23 +25,12 @@ from .contracts import (
     ContractEnvelope,
     manifest_envelope,
 )
-
-
-CSV_PROFILE = "speaker-line-csv/v1"
-CHAPTER_01_SOURCE_SHA256 = (
-    "4e4883ad8f2f0de5028ea238c8dcba6d43b57252225aa41c628c9e0d15992868"
+from .compiler_config import (
+    CompilerConfig,
+    require_normalized_config,
 )
-CHAPTER_01_SOURCE_LOCATOR = (
-    "projects/lucifers-lights/drafts/graphic-novel/chapter-01/audio/"
-    "elevenlabs-voiceover-studio.csv"
-)
-CHAPTER_01_PRODUCTION_ID = "graphic-novel.chapter-01.voice-production"
-EXPECTED_HEADER = ("speaker", "line")
-EXPECTED_SEGMENT_COUNT = 112
-EXPECTED_TAGGED_ROW_COUNT = 9
-ALLOWED_SPEAKERS = frozenset({"ELENA", "LUCIFER", "MARA", "RUTH", "SYSTEM"})
 
-_SHA256_RE = re.compile(r"[0-9a-f]{64}\Z")
+
 _LEADING_TAG_RE = re.compile(r"^\[([^\[\]\r\n]+)\](?=\s|$)")
 
 
@@ -94,14 +83,6 @@ class CompiledManifest:
         return cast(dict[str, JsonValue], value)
 
 
-def _require_sha256(value: str, name: str) -> str:
-    if type(value) is not str or _SHA256_RE.fullmatch(value) is None:
-        raise ManifestCompilerError(
-            f"{name} must be a lowercase SHA-256 hex string"
-        )
-    return value
-
-
 def _decode_source(source_bytes: bytes) -> str:
     if type(source_bytes) is not bytes:
         raise ManifestCompilerError("source must be exact bytes")
@@ -136,19 +117,19 @@ def _leading_performance_tag(exact_text: str, row_number: int) -> str | None:
     return match.group(0)
 
 
-def _compile_segments(rows: list[list[str]]) -> list[dict[str, JsonValue]]:
+def _validated_source_rows(
+    rows: list[list[str]], config: CompilerConfig
+) -> list[tuple[int, int, str, str, str | None]]:
     if not rows:
         raise CsvProfileError("source is empty")
-    if tuple(rows[0]) != EXPECTED_HEADER:
+    if tuple(rows[0]) != config.header:
         raise CsvProfileError(
-            f"header must be exactly {EXPECTED_HEADER!r}; got {tuple(rows[0])!r}"
+            f"header must be exactly {config.header!r}; got {tuple(rows[0])!r}"
         )
 
-    segments: list[dict[str, JsonValue]] = []
-    observed_speakers: set[str] = set()
-    tagged_count = 0
-    for ordinal, row in enumerate(rows[1:], start=1):
-        row_number = ordinal + 1
+    validated: list[tuple[int, int, str, str, str | None]] = []
+    for source_ordinal, row in enumerate(rows[1:], start=1):
+        row_number = source_ordinal + 1
         if len(row) != 2:
             raise CsvProfileError(
                 f"row {row_number}: expected exactly two fields; got {len(row)}"
@@ -156,10 +137,6 @@ def _compile_segments(rows: list[list[str]]) -> list[dict[str, JsonValue]]:
         speaker, exact_text = row
         if not speaker or not speaker.strip():
             raise CsvProfileError(f"row {row_number}: speaker is blank")
-        if speaker not in ALLOWED_SPEAKERS:
-            raise CsvProfileError(
-                f"row {row_number}: unknown speaker {speaker!r}"
-            )
         if not exact_text or not exact_text.strip():
             raise CsvProfileError(f"row {row_number}: line is blank")
         if "\r" in speaker or "\n" in speaker or "\r" in exact_text or "\n" in exact_text:
@@ -167,7 +144,45 @@ def _compile_segments(rows: list[list[str]]) -> list[dict[str, JsonValue]]:
                 f"row {row_number}: embedded newlines are outside the profile"
             )
 
-        tag = _leading_performance_tag(exact_text, row_number)
+        validated.append(
+            (
+                source_ordinal,
+                row_number,
+                speaker,
+                exact_text,
+                _leading_performance_tag(exact_text, row_number),
+            )
+        )
+    return validated
+
+
+def _selected_source_rows(
+    rows: list[tuple[int, int, str, str, str | None]],
+    config: CompilerConfig,
+) -> list[tuple[int, int, str, str, str | None]]:
+    if not config.source_ordinals:
+        return rows
+    lookup = {item[0]: item for item in rows}
+    missing = [ordinal for ordinal in config.source_ordinals if ordinal not in lookup]
+    if missing:
+        raise CsvProfileError(f"selected source ordinals are missing: {missing}")
+    return [lookup[ordinal] for ordinal in config.source_ordinals]
+
+
+def _compile_segments(
+    rows: list[list[str]], config: CompilerConfig
+) -> list[dict[str, JsonValue]]:
+    selected = _selected_source_rows(_validated_source_rows(rows, config), config)
+    segments: list[dict[str, JsonValue]] = []
+    observed_speakers: set[str] = set()
+    tagged_count = 0
+    for ordinal, (_, row_number, speaker, exact_text, tag) in enumerate(
+        selected, start=1
+    ):
+        if speaker not in config.allowed_speakers:
+            raise CsvProfileError(
+                f"row {row_number}: unknown selected speaker {speaker!r}"
+            )
         if tag is not None:
             tagged_count += 1
         observed_speakers.add(speaker)
@@ -185,16 +200,19 @@ def _compile_segments(rows: list[list[str]]) -> list[dict[str, JsonValue]]:
             }
         )
 
-    if len(segments) != EXPECTED_SEGMENT_COUNT:
+    if len(segments) != config.expected_segment_count:
         raise CsvProfileError(
-            f"expected {EXPECTED_SEGMENT_COUNT} segments; got {len(segments)}"
+            f"expected {config.expected_segment_count} segments; got {len(segments)}"
         )
-    if observed_speakers != ALLOWED_SPEAKERS:
-        missing = sorted(ALLOWED_SPEAKERS - observed_speakers)
-        raise CsvProfileError(f"speaker set is incomplete; missing={missing}")
-    if tagged_count != EXPECTED_TAGGED_ROW_COUNT:
+    if observed_speakers != config.allowed_speakers:
+        missing = sorted(config.allowed_speakers - observed_speakers)
+        extra = sorted(observed_speakers - config.allowed_speakers)
         raise CsvProfileError(
-            f"expected {EXPECTED_TAGGED_ROW_COUNT} tagged rows; got {tagged_count}"
+            f"speaker set does not match config; missing={missing}, extra={extra}"
+        )
+    if tagged_count != config.expected_tagged_row_count:
+        raise CsvProfileError(
+            f"expected {config.expected_tagged_row_count} tagged rows; got {tagged_count}"
         )
     return segments
 
@@ -202,49 +220,44 @@ def _compile_segments(rows: list[list[str]]) -> list[dict[str, JsonValue]]:
 def compile_manifest(
     source_bytes: bytes,
     *,
-    expected_source_sha256: str = CHAPTER_01_SOURCE_SHA256,
-    source_locator: str = CHAPTER_01_SOURCE_LOCATOR,
-    production_id: str = CHAPTER_01_PRODUCTION_ID,
+    config: CompilerConfig,
 ) -> CompiledManifest:
-    """Compile bound source bytes into one canonical immutable manifest."""
+    """Compile bound source bytes using one explicit normalized config."""
 
-    expected_digest = _require_sha256(
-        expected_source_sha256, "expected_source_sha256"
-    )
-    if type(source_locator) is not str or not source_locator:
-        raise ManifestCompilerError("source_locator must be a non-empty string")
+    active_config = require_normalized_config(config)
     if type(source_bytes) is not bytes:
         raise ManifestCompilerError("source must be exact bytes")
     actual_digest = hashlib.sha256(source_bytes).hexdigest()
-    if actual_digest != expected_digest:
+    if actual_digest != active_config.expected_source_sha256:
         raise SourceDigestMismatch(
-            f"source digest mismatch: expected {expected_digest}, got {actual_digest}"
+            "source digest mismatch: expected "
+            f"{active_config.expected_source_sha256}, got {actual_digest}"
         )
 
     text = _decode_source(source_bytes)
-    segments = _compile_segments(_parse_csv(text))
+    segments = _compile_segments(_parse_csv(text), active_config)
     envelope = manifest_envelope(
-        production_id=production_id,
+        production_id=active_config.production_id,
         source={
-            "locator": source_locator,
+            "locator": active_config.source_locator,
             "sha256": actual_digest,
             "size_bytes": len(source_bytes),
-            "media_type": "text/csv; charset=utf-8",
-            "profile": CSV_PROFILE,
-            "header": list(EXPECTED_HEADER),
+            "media_type": active_config.source_media_type,
+            "profile": active_config.source_profile,
+            "header": list(active_config.header),
         },
         segments=segments,
         output_policy={
-            "segment_order": "source-row-order",
-            "text_representation": "exact",
-            "default_output_granularity": "segment",
+            "segment_order": active_config.segment_order,
+            "text_representation": active_config.text_representation,
+            "default_output_granularity": active_config.default_output_granularity,
         },
         acceptance_policy={
-            "allowed_speakers": sorted(ALLOWED_SPEAKERS),
-            "expected_segment_count": EXPECTED_SEGMENT_COUNT,
-            "expected_tagged_row_count": EXPECTED_TAGGED_ROW_COUNT,
-            "performance_tag_profile": "explicit-leading-bracket/v1",
-            "transformations_require_approval": True,
+            "allowed_speakers": sorted(active_config.allowed_speakers),
+            "expected_segment_count": active_config.expected_segment_count,
+            "expected_tagged_row_count": active_config.expected_tagged_row_count,
+            "performance_tag_profile": active_config.performance_tag_profile,
+            "transformations_require_approval": active_config.transformations_require_approval,
         },
     )
     return CompiledManifest(canonical_bytes(envelope))

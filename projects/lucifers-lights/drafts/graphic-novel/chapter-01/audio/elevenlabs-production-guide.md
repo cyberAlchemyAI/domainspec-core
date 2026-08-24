@@ -1,14 +1,16 @@
 # Lucifer's Lights — Chapter 01 ElevenLabs Guide
 
-Status: performance script ready; voice casting, synthesis, timing, and final listen pending
+Status: synchronized to the accepted Chapter 1 manuscript; local compile ready; voice casting, synthesis, timing, and final listen pending
 
 Transport: candidate motion-comic voiceover
 
 Script: `elevenlabs-voiceover-studio.csv`
 
-Spoken length: 1,373 words across 112 clips
+Accepted manuscript SHA-256: `eb89135bb53d2c8106b26e8005a1c45738bd84a3a2b06b9e64518c9c64fbe2a5`
 
-Estimated duration: about 10.6 minutes at 130 WPM, or 11.4 minutes at 120 WPM, before extended pauses
+Spoken length: 1,488 words across 112 clips
+
+Estimated duration: about 11.4 minutes at 130 WPM, or 12.4 minutes at 120 WPM, before extended pauses
 
 ## Recommended generation path
 
@@ -107,7 +109,7 @@ The full generation is ready only when:
 - SCU cores: intimate dangerous charm; clear transaction and agency; request-to-cliffhanger movement
 - Candidate selected: multi-voice compressed cut, preserving Lucifer as narrator
 - Composition plan: sixteen image-aligned beats, five speakers, sparse v3 direction tags
-- Draft status: pass for script preparation; synthesis remains pending
+- Draft status: pass for accepted-manuscript synchronization and local compilation; synthesis remains pending
 - Human gate: pending voice audition
 - Delivery flow: active
 - Validation: CSV structure and word-count checks passed; audio checks pending

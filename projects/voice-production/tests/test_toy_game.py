@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import sys
 import unittest
+from dataclasses import replace
 from pathlib import Path
 from unittest import mock
 
@@ -17,10 +18,11 @@ from voice_production.canonical import (  # noqa: E402
     canonical_bytes,
 )
 from voice_production.compiler import (  # noqa: E402
-    ALLOWED_SPEAKERS,
-    CHAPTER_01_SOURCE_SHA256,
     CsvProfileError,
     compile_manifest,
+)
+from voice_production.compiler_config import (  # noqa: E402
+    compiler_config_from_json_bytes,
 )
 
 
@@ -28,6 +30,7 @@ CSV_PATH = Path(
     "projects/lucifers-lights/drafts/graphic-novel/chapter-01/audio/"
     "elevenlabs-voiceover-studio.csv"
 )
+CONFIG_PATH = Path("projects/lucifers-lights/factory/voice/chapter-01.json")
 
 
 def source_path() -> Path:
@@ -38,21 +41,28 @@ class ToyGameTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.source = source_path().read_bytes()
-        cls.first = voice_workflow.run_workflow(cls.source)
+        cls.compiler_config = compiler_config_from_json_bytes(
+            (REPOSITORY_ROOT / CONFIG_PATH).read_bytes()
+        )
+        cls.first = voice_workflow.run_workflow(
+            cls.source, compiler_config=cls.compiler_config
+        )
         cls.value = cls.first.value
 
     def test_fixed_inputs_are_byte_stable_and_fixture_is_exact(self) -> None:
-        second = voice_workflow.run_workflow(self.source)
+        second = voice_workflow.run_workflow(
+            self.source, compiler_config=self.compiler_config
+        )
         self.assertEqual(
             self.first.canonical_bytes_value, second.canonical_bytes_value
         )
         self.assertEqual(self.first.digest, second.digest)
         source = self.value["source"]
-        self.assertEqual(source["sha256"], CHAPTER_01_SOURCE_SHA256)
+        self.assertEqual(source["sha256"], self.compiler_config.expected_source_sha256)
         self.assertEqual(source["size_bytes"], len(self.source))
         self.assertEqual(source["segment_count"], 112)
         self.assertEqual(source["leading_tag_count"], 9)
-        self.assertEqual(source["speakers"], sorted(ALLOWED_SPEAKERS))
+        self.assertEqual(source["speakers"], sorted(self.compiler_config.allowed_speakers))
         self.assertEqual(source["order_and_text"], "exact-source-order")
         self.assertEqual(self.value["toy"]["segment_count"], 3)
         self.assertEqual(
@@ -61,7 +71,9 @@ class ToyGameTests(unittest.TestCase):
         )
 
     def test_separate_toy_artifact_is_bound_without_reopening_csv_profile(self) -> None:
-        chapter = compile_manifest(self.source).as_envelope()
+        chapter = compile_manifest(
+            self.source, config=self.compiler_config
+        ).as_envelope()
         toy, toy_source = voice_workflow._toy_manifest(chapter)
         chapter_segments = chapter["value"]["segments"]
         toy_segments = toy["value"]["segments"]
@@ -83,9 +95,12 @@ class ToyGameTests(unittest.TestCase):
         with self.assertRaisesRegex(CsvProfileError, "expected 112 segments"):
             compile_manifest(
                 literal_three_row_csv,
-                expected_source_sha256=hashlib.sha256(
-                    literal_three_row_csv
-                ).hexdigest(),
+                config=replace(
+                    self.compiler_config,
+                    expected_source_sha256=hashlib.sha256(
+                        literal_three_row_csv
+                    ).hexdigest(),
+                ),
             )
 
     def test_segment_outcomes_reconciliation_and_retry_are_honest(self) -> None:
@@ -197,6 +212,7 @@ class ToyGameTests(unittest.TestCase):
         project = mock.Mock(wraps=defaults.project)
         result = voice_workflow.run_workflow(
             self.source,
+            compiler_config=self.compiler_config,
             adapters=voice_workflow.AdapterBundle(
                 segment=segment,
                 project=project,
@@ -218,7 +234,10 @@ class ToyGameTests(unittest.TestCase):
         with self.assertRaises(CsvProfileError):
             compile_manifest(
                 altered,
-                expected_source_sha256=hashlib.sha256(altered).hexdigest(),
+                config=replace(
+                    self.compiler_config,
+                    expected_source_sha256=hashlib.sha256(altered).hexdigest(),
+                ),
             )
         with self.assertRaises(UnsupportedValueError):
             canonical_bytes({"provider_options": object()})
