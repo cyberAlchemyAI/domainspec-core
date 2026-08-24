@@ -1,0 +1,50 @@
+{
+  "schema_version": "governance-defect-sidecar-receipt/v1",
+  "sidecar_id": "PLAN_ONCE_SELECTION_ADMISSION_CYCLE",
+  "classification": "governance-only",
+  "authority_effect": "none",
+  "root_cause": "The plan-once compiler could produce a Task Session entry only after it was given the mutation-admission receipt, while the Task Session fast guard rejected the prior selection-ready projection before Context Builder. The material package and live mutation-admission receipt therefore had no legal producing path for the first selected unit.",
+  "affected_invariant": "A selected unit may enter exactly one strict Context Builder path without gaining mutation authority; every mutation must still require the current material package, producer receipt, exact target baselines, selection binding, live mutation admission, and single-use receipt consumption.",
+  "minimal_repair": "Add context-ready as an explicit selected-unit, no-authority entry state. Implementation Readiness emits it only after validating the audited plan, exact selection receipt, execution-intent binding, unit digest, and unique Task Session route. The Task Session guard may then enter Context Builder with zero mutations. The existing governance runner recognizes the matching context-ready receipt but continues to require the unchanged plan-once mutation-admission and baseline checks before executor launch.",
+  "candidate_patch": {
+    "path": "candidate/repair.patch",
+    "sha256": "b2080f6affa0bb193dc8fba8ac2f2d76980d7fcbc04878cf089cd20bdb1cab16",
+    "size_bytes": 32411
+  },
+  "changed_targets": [
+    "arcanum/spells/implementation-readiness/schemas/execution-entry-projection.schema.json",
+    "arcanum/spells/implementation-readiness/scripts/execution_contracts.py",
+    "arcanum/spells/implementation-readiness/scripts/execution_loop.py",
+    "arcanum/spells/implementation-readiness/scripts/readiness_execution.py",
+    "arcanum/spells/implementation-readiness/scripts/run_execution_loop.py",
+    "arcanum/spells/implementation-readiness/development/integration/test_work_pack_execution.py",
+    "arcanum/arcana/task-session/schemas/fast-execution-entry-receipt.schema.json",
+    "arcanum/arcana/task-session/scripts/fast_execution_entry_guard.py",
+    "arcanum/arcana/task-session/scripts/task-session-governance-runner.py",
+    "arcanum/arcana/task-session/development/test_fast_execution_entry_guard.py",
+    "arcanum/arcana/task-session/development/test_plan_once_governance.py",
+    ".agents/skills/implementation-readiness/schemas/execution-entry-projection.schema.json",
+    ".agents/skills/implementation-readiness/scripts/execution_contracts.py",
+    ".agents/skills/implementation-readiness/scripts/execution_loop.py",
+    ".agents/skills/implementation-readiness/scripts/readiness_execution.py",
+    ".agents/skills/implementation-readiness/scripts/run_execution_loop.py",
+    ".agents/skills/task-session/schemas/fast-execution-entry-receipt.schema.json",
+    ".agents/skills/task-session/scripts/fast_execution_entry_guard.py",
+    ".agents/skills/task-session/scripts/task-session-governance-runner.py"
+  ],
+  "validation_receipt": {
+    "path": "VALIDATION.json",
+    "sha256": "0e58adea396d24914ec67ab0ab9f341cd89db94de1efdc247a673c9392c00ccd"
+  },
+  "required_revalidation": [
+    "Apply only the exact candidate patch after renewed owner acceptance.",
+    "Re-run canonical/generated parity sync for the two changed capabilities and validate the staged bytes.",
+    "Re-run the fresh WPRA v2 readmission and chain-controller preflight against the resulting exact digests.",
+    "Create the first selected-unit context/material/admission evidence anew; do not reuse the stale SWU-CAL-001 attempt artifacts."
+  ],
+  "renewed_owner_acceptance_required": true,
+  "acceptance_reason": "The candidate changes acceptance-bound canonical and generated runtime bytes. Earlier acceptance hashes do not cover this patch.",
+  "permanent_regression": "Native integration now exercises audited selection to context-ready, a zero-mutation fast guard, and one Task Session start; the governance runner suite exercises context-ready through full plan-once admission, baseline checks, executor join, and atomic consumption. Negative paths still block selection-ready, stale identities, and write expansion.",
+  "next_lifecycle_boundary": "Owner acceptance of b2080f6affa0bb193dc8fba8ac2f2d76980d7fcbc04878cf089cd20bdb1cab16. Do not start Decision Gate, Task Session, Invoke Refresh, product mutation, Git, publication, or promotion from this sidecar.",
+  "status": "candidate-ready"
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": "cyberalchemy-lab.task-session-receipt/v1",
+  "work_pack_id": "WP-CAL-TEN-L0",
+  "task_id": "TASK-CAL-CONTRACTS",
+  "swu_id": "SWU-CAL-001",
+  "attempt_id": "WP-CAL-TEN-L0/SWU-CAL-001/20260808T173559Z-a1",
+  "selection_receipt_digest": "5ae1dde5cf9bfd7294ce1e65798069c151baa1f53e945ce0aa1ff9ca8899f3ea",
+  "command_binding": {
+    "argv": [
+      "task-session",
+      "execute",
+      "--work-pack",
+      "WP-CAL-TEN-L0",
+      "--swu",
+      "SWU-CAL-001",
+      "--contract",
+      "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+    ],
+    "cwd": ".",
+    "risk_class": "bounded-write"
+  },
+  "runtime_bindings": [
+    {
+      "runtime_ref": "host-native-task-session-v1",
+      "path": ".agents/skills/task-session/SKILL.md",
+      "version": "installed-2026-08-08",
+      "sha256": "558c40e0f6e7cce5ae02cd32307c35d8a6bf89d592008474827d2d7ac1d1ff05"
+    },
+    {
+      "runtime_ref": "task-session-governance-runner-v1",
+      "path": ".agents/skills/task-session/scripts/task-session-governance-runner.py",
+      "version": "installed-2026-08-08",
+      "sha256": "8ca91c6daa6bf53b4672ee162ee4296d6b5d3e07f5696f5f8d600b63e6b234bd"
+    },
+    {
+      "runtime_ref": "python-v3.12.3",
+      "path": "/usr/bin/python3.12",
+      "version": "Python 3.12.3",
+      "sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118"
+    },
+    {
+      "runtime_ref": "node-v22.13.0",
+      "path": "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+      "version": "v22.13.0",
+      "sha256": "af8d5d1e234beb26b3095e6bebf80edc781f79c9435553a383037eccec2716f8"
+    }
+  ],
+  "touched_paths": [],
+  "validation_results": [
+    {
+      "command_id": "cal-001-canonical-json",
+      "argv": [
+        "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+        "--test",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+      ],
+      "cwd": ".",
+      "exit_code": 125,
+      "status": "block"
+    }
+  ],
+  "result": "block",
+  "authority_effect": "none",
+  "blockers": [
+    "TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION"
+  ],
+  "stop_reason": "TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION",
+  "started_at": "2026-08-08T17:35:59Z",
+  "finished_at": "2026-08-08T17:57:14Z"
+}

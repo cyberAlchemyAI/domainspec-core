@@ -1,0 +1,116 @@
+{
+  "schema_version": "cyberalchemy-lab.finite-frontier-chain-result/v1",
+  "chain_id": "CAL-L0-FULL-FRONTIER-20260808T173559Z",
+  "loop_id": "wpol-4b4d3e53ff7fb443ff80eedc",
+  "work_pack_id": "WP-CAL-TEN-L0",
+  "execution_mode": "finite-frontier",
+  "result": "block",
+  "frozen_admission": {
+    "work_pack_semantic_digest": "b10d6494d3cc6284629d83cb36c0f361db37739c71347e1718697ab49c9e004b",
+    "plan_epoch_id": "epoch-d223ff893fa404413b01afe8",
+    "allowed_routes_digest": "4a01a1e3557355e02d028ccc5bb878045be62661a140acbac44070598cffbd1a",
+    "audit_id": "wp-cal-ten-l0-one-shot-admission-20260808T164554Z",
+    "audit_verdict": "PLAN_SEMANTIC_READY"
+  },
+  "controller": {
+    "phase": "blocked",
+    "steps_used": 1,
+    "step_budget": 20,
+    "authorization_prompt_count": 0,
+    "visited_units": [],
+    "terminal_state_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/controller/05-join-task-session-block-result.json",
+      "sha256": "615f06cff184c36e12b1a78dc0b2bee319f526f0b3110fd2cf131984389cb8f1",
+      "size_bytes": 21341
+    }
+  },
+  "captured_frontier": [
+    "SWU-CAL-001",
+    "SWU-CAL-002",
+    "SWU-CAL-003",
+    "SWU-CAL-004",
+    "SWU-CAL-005",
+    "SWU-CAL-006",
+    "SWU-CAL-007",
+    "SWU-CAL-008",
+    "SWU-CAL-009",
+    "SWU-CAL-010"
+  ],
+  "completed_frontier": [],
+  "remaining_frontier": [
+    "SWU-CAL-001",
+    "SWU-CAL-002",
+    "SWU-CAL-003",
+    "SWU-CAL-004",
+    "SWU-CAL-005",
+    "SWU-CAL-006",
+    "SWU-CAL-007",
+    "SWU-CAL-008",
+    "SWU-CAL-009",
+    "SWU-CAL-010"
+  ],
+  "terminal_task_session": {
+    "swu_id": "SWU-CAL-001",
+    "session_id": "task-session-bdc4bac217733271ce05",
+    "result": "block",
+    "receipt_ref": {
+      "path": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001.json",
+      "sha256": "3f12300666e9d8e1ae2f858593830cbbb535d6e44eca35126372524238debac8",
+      "size_bytes": 2399
+    },
+    "receipt_validation_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/terminal-receipt-validation.json",
+      "sha256": "72e5ca8f55bffcf6837a4ef6c9c94456c32f630332bd521d11b87eec9778152e",
+      "size_bytes": 165
+    }
+  },
+  "blockers": [
+    {
+      "code": "TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION",
+      "class": "governance-only-runtime-defect",
+      "evidence_ref": {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/GOVERNANCE-BLOCKER.json",
+        "sha256": "48d351f0d10d0d4330afb2dc3ad218834036dda5fad0b1384603ffc6199e102c",
+        "size_bytes": 4180
+      }
+    }
+  ],
+  "execution_evidence": {
+    "staged_material_present": true,
+    "staged_material_applied": false,
+    "live_product_validation_started": false,
+    "product_mutation_performed": false,
+    "admission_token_consumed": false,
+    "closeout_owner_receipt": null,
+    "successor_started": false,
+    "continuation_cursor": "SWU-CAL-001"
+  },
+  "proposed_repair_boundary": {
+    "owner": "arcanum:task-session-runtime-maintenance",
+    "canonical_writes": [
+      "arcanum/arcana/task-session/scripts/task-session-governance-runner.py",
+      "arcanum/arcana/task-session/development/validate-governance-runner.py",
+      "arcanum/arcana/task-session/development/fixtures/governance-runner-cases.json"
+    ],
+    "generated_projection": [
+      ".agents/skills/task-session/scripts/task-session-governance-runner.py"
+    ],
+    "forbidden_writes": [
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/**",
+      "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+      "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json"
+    ],
+    "external_effects": "forbidden",
+    "authority_effect": "none",
+    "renewed_owner_acceptance_required": true
+  },
+  "sidecar_helper": {
+    "started": false,
+    "reason": "The active collaboration constraint forbids spawning an unrequested subagent."
+  },
+  "observability": {
+    "emitted": false,
+    "reason": "No chain observability target was configured in the frozen admission package."
+  },
+  "authority_effect": "none"
+}

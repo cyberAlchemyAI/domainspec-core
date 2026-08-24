@@ -1,0 +1,102 @@
+{
+  "schema_version": "inventory.operation-receipt.v1",
+  "operation": "append",
+  "mode": "dry-run",
+  "status": "baseline-blocked",
+  "reason_code": "baseline-not-ready",
+  "operation_fingerprint": "1ab9b6d8a561b8cfa4a33be0ab18a00305d31eb720ee154317bdb66807964d16",
+  "timestamp_input": "2026-08-06T19:08:03.738Z",
+  "inventory_root": ".arcanum/inventory",
+  "runtime": {
+    "evidence_state": "observed",
+    "bundle_sha256": "119e37a3d8b7fd03dead46e3d82f4cad68338282a860506bc0bfae8f1e45d5c0",
+    "helpers": [
+      {
+        "path": "lib/inventory-update.cjs",
+        "evidence_state": "observed",
+        "sha256": "46fd1e2a322cd8886091c0f3fab7464779c2ef2d24db949357cd7d66617a3c43"
+      },
+      {
+        "path": "lib/operation-receipt.cjs",
+        "evidence_state": "observed",
+        "sha256": "96d3bed886598d09302609d33e6e9a6f499945ac89a4103e89e5afd5c5c37adf"
+      },
+      {
+        "path": "schemas/inventory.operation-receipt.v1.schema.json",
+        "evidence_state": "observed",
+        "sha256": "806fe152e8eb7eb3c7f27b4e20b696161b13ec906c8502e08911b06829e42282"
+      },
+      {
+        "path": "scripts/validate-index-json.sh",
+        "evidence_state": "observed",
+        "sha256": "d14f93526a19ed53a74893b7cd0b8be560fbd61a6baac27aab1133b137d5f7d6"
+      },
+      {
+        "path": "scripts/validate_projection_conformance.py",
+        "evidence_state": "observed",
+        "sha256": "e13365e6a8a20609de863391b2fad510de8c4ab55d388af97167bb080215a3a7"
+      }
+    ]
+  },
+  "inputs": {
+    "evidence_state": "partial",
+    "baseline_index_sha256": "2160d2c19984410f3f878898a8bd0b63916bf3b7fc19805532ce740d2b818e22",
+    "baseline_human_index_sha256": "dee9eec55d62c71d85618fe5641962878d7f7eb3ae4efb36b270356e63877f01",
+    "record_sha256": null,
+    "normalized_record_sha256": null
+  },
+  "baseline": {
+    "evidence_state": "observed",
+    "report_sha256": "f856b2532f55b0dff21e956339b70ccfa6b20e410add65283a0704ee8f2ad306",
+    "lookup_readiness": "blocked",
+    "failure_count": 1,
+    "warning_count": 0
+  },
+  "candidate": {
+    "evidence_state": "not-reached",
+    "disposition": null,
+    "index_sha256": null,
+    "human_index_sha256": null,
+    "report_sha256": null,
+    "lookup_readiness": null
+  },
+  "warning_delta": {
+    "evidence_state": "not-reached",
+    "introduced": [],
+    "resolved": [],
+    "inherited_count": null,
+    "inherited_set_sha256": null
+  },
+  "write": {
+    "evidence_state": "observed",
+    "attempted": false,
+    "committed": false,
+    "observed_changed_paths": [],
+    "expected_postwrite_digests": {
+      "index.json": "2160d2c19984410f3f878898a8bd0b63916bf3b7fc19805532ce740d2b818e22",
+      "index.md": "dee9eec55d62c71d85618fe5641962878d7f7eb3ae4efb36b270356e63877f01"
+    },
+    "actual_postwrite_digests": {
+      "index.json": "2160d2c19984410f3f878898a8bd0b63916bf3b7fc19805532ce740d2b818e22",
+      "index.md": "dee9eec55d62c71d85618fe5641962878d7f7eb3ae4efb36b270356e63877f01"
+    },
+    "possible_partial_mutation": false,
+    "repair_required": false
+  },
+  "authority_boundary": "inventory-read-model-only",
+  "residue": [
+    "no-currentness-or-promotion-claim"
+  ],
+  "receipt_sha256": "36c889b9f36d62af13f5bce1648833b7efa43132626a6092b540a8a5caf593e8",
+  "parent_capture": {
+    "tool_exit_code": 1,
+    "before_index_digests": [
+      "2160d2c19984410f3f878898a8bd0b63916bf3b7fc19805532ce740d2b818e22  .arcanum/inventory/index.json",
+      "dee9eec55d62c71d85618fe5641962878d7f7eb3ae4efb36b270356e63877f01  .arcanum/inventory/index.md"
+    ],
+    "after_index_digests": [
+      "2160d2c19984410f3f878898a8bd0b63916bf3b7fc19805532ce740d2b818e22  .arcanum/inventory/index.json",
+      "dee9eec55d62c71d85618fe5641962878d7f7eb3ae4efb36b270356e63877f01  .arcanum/inventory/index.md"
+    ]
+  }
+}

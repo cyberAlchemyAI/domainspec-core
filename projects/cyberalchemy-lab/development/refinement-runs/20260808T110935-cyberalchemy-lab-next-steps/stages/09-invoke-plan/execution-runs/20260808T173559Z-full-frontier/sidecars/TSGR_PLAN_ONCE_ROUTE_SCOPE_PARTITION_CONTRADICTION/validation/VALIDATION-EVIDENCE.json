@@ -1,0 +1,190 @@
+{
+  "schema_version": "cyberalchemy-lab.governance-sidecar-validation/v1",
+  "blocker_code": "TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION",
+  "observed_at": "2026-08-08T18:14:34Z",
+  "candidate_patch": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION/candidate/repair.patch",
+    "sha256": "369e2958c81f883aef28a961b7846f7ce432aba11384e07b6161ef106b1d4ff8",
+    "size_bytes": 12903
+  },
+  "isolation": {
+    "candidate_root": "/tmp/tsgr-sidecar-o5sd1f",
+    "baseline_reproduction_root": "/tmp/tsgr-sidecar-baseline-D8LeGJ",
+    "roots_outside_repository": true,
+    "canonical_sources_copied_before_patch": true,
+    "candidate_applied_only_to_candidate_root": true,
+    "baseline_reproduction_runner_restored_from_canonical_dispatch_bytes": true,
+    "repository_canonical_sources_written": false,
+    "repository_generated_projection_written": false,
+    "repository_product_sources_written": false,
+    "network_used": false
+  },
+  "runtime_bindings": [
+    {
+      "runtime": "python3",
+      "path": "/usr/bin/python3.12",
+      "version": "Python 3.12.3",
+      "sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118",
+      "size_bytes": 8020928
+    },
+    {
+      "runtime": "patch",
+      "path": "/usr/bin/patch",
+      "version": "GNU patch 2.7.6",
+      "sha256": "a7ae8b838a75711c06f86a2a8293dcad85a20b564670a120717e704c436e6f3a",
+      "size_bytes": 186896
+    },
+    {
+      "runtime": "git",
+      "path": "/usr/bin/git",
+      "version": "git version 2.43.0",
+      "sha256": "2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668",
+      "size_bytes": 4066232
+    }
+  ],
+  "commands": [
+    {
+      "command_id": "candidate-git-apply-check",
+      "argv": [
+        "git",
+        "apply",
+        "--check",
+        "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION/candidate/repair.patch"
+      ],
+      "cwd": "/home/vrondelli/projects/domainspec-core",
+      "exit_code": 0,
+      "result": "pass",
+      "output_summary": "No stdout or stderr; candidate is syntactically applicable to current canonical bytes."
+    },
+    {
+      "command_id": "candidate-isolated-patch-apply",
+      "argv": [
+        "patch",
+        "-d",
+        "/tmp/tsgr-sidecar-o5sd1f",
+        "-p1",
+        "--forward",
+        "--batch"
+      ],
+      "stdin_path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION/candidate/repair.patch",
+      "cwd": "/home/vrondelli/projects/domainspec-core",
+      "exit_code": 0,
+      "result": "pass",
+      "output_summary": "All three proposed canonical targets patched in the isolated root."
+    },
+    {
+      "command_id": "baseline-contradiction-reproduction",
+      "argv": [
+        "python3",
+        "/tmp/tsgr-sidecar-baseline-D8LeGJ/arcanum/arcana/task-session/development/validate-governance-runner.py",
+        "--family",
+        "prepare",
+        "--task-session-dir",
+        "/tmp/tsgr-sidecar-baseline-D8LeGJ/arcanum/arcana/task-session"
+      ],
+      "cwd": "/home/vrondelli/projects/domainspec-core",
+      "exit_code": 1,
+      "result": "expected-failure",
+      "output_summary": {
+        "totals": "positive=3/4 negative=6/7",
+        "contradiction_case": "FAIL prepare-plan-fast-entry-route-scope-partition code=2 phase=None files=0",
+        "closure_gap_case": "FAIL prepare-plan-fast-entry-terminal-outside-route-blocks-before-write code=0 run_exists=True",
+        "interpretation": "The dispatch runner rejects the valid material-plus-terminal partition and fails to bind the terminal receipt to route scope. The valid case wrote no run state."
+      },
+      "staged_manifest_sha256": "13bb444d363e27eafd650c6ba9c91252e303f926f61a2cae184f01dcfa902b85"
+    },
+    {
+      "command_id": "focused-prepare-family",
+      "argv": [
+        "python3",
+        "/tmp/tsgr-sidecar-o5sd1f/arcanum/arcana/task-session/development/validate-governance-runner.py",
+        "--family",
+        "prepare",
+        "--task-session-dir",
+        "/tmp/tsgr-sidecar-o5sd1f/arcanum/arcana/task-session"
+      ],
+      "cwd": "/home/vrondelli/projects/domainspec-core",
+      "exit_code": 0,
+      "result": "pass",
+      "output_summary": {
+        "totals": "positive=4/4 negative=7/7 undeclared_outputs=0",
+        "fixed_case": "PASS prepare-plan-fast-entry-route-scope-partition code=0 phase=ticketed files=5",
+        "fail_closed_case": "PASS prepare-plan-fast-entry-terminal-outside-route-blocks-before-write code=2 run_exists=False",
+        "existing_prepare_cases": "all passed"
+      },
+      "staged_manifest_sha256": "bd100d25daf5061ef95c74c9dddc45bc261341d855f24adf4d6bd1e0f54bf346"
+    },
+    {
+      "command_id": "complete-governance-runner-validator",
+      "argv": [
+        "python3",
+        "/tmp/tsgr-sidecar-o5sd1f/arcanum/arcana/task-session/development/validate-governance-runner.py",
+        "--family",
+        "commit-resume",
+        "--task-session-dir",
+        "/tmp/tsgr-sidecar-o5sd1f/arcanum/arcana/task-session"
+      ],
+      "cwd": "/home/vrondelli/projects/domainspec-core",
+      "exit_code": 0,
+      "result": "pass",
+      "output_summary": {
+        "totals": "positive=19/19 negative=26/26 undeclared_outputs=0",
+        "families": [
+          "prepare",
+          "executor-join",
+          "reconcile",
+          "commit-resume"
+        ],
+        "fixed_case": "PASS prepare-plan-fast-entry-route-scope-partition code=0 phase=ticketed files=5",
+        "fail_closed_case": "PASS prepare-plan-fast-entry-terminal-outside-route-blocks-before-write code=2 run_exists=False",
+        "existing_cases": "all passed",
+        "separate_experiment_harness": "not run; validator reports owner SWU-TSGR-010 and prepare-family-only"
+      },
+      "staged_manifest_sha256": "bd100d25daf5061ef95c74c9dddc45bc261341d855f24adf4d6bd1e0f54bf346"
+    }
+  ],
+  "candidate_target_hashes": [
+    {
+      "path": "arcanum/arcana/task-session/scripts/task-session-governance-runner.py",
+      "before_sha256": "8ca91c6daa6bf53b4672ee162ee4296d6b5d3e07f5696f5f8d600b63e6b234bd",
+      "before_size_bytes": 93127,
+      "after_sha256": "1675f28dadf4701c89286799088120d1edb65bb351f3519ab791e28a4b9f6afc",
+      "after_size_bytes": 93245
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/validate-governance-runner.py",
+      "before_sha256": "d46b2ac7dcfe8bf606d3185a33916867d819233c46aea45002cb20c945cf3651",
+      "before_size_bytes": 68749,
+      "after_sha256": "f050e6c13303683bece0299dca7db056506812265bb6365bec60aee7c6b5e843",
+      "after_size_bytes": 78461
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/fixtures/governance-runner-cases.json",
+      "before_sha256": "fa77e037c15277589a8646eaf429ca33962fc3a80aa672f01fdab83d12a8c376",
+      "before_size_bytes": 9209,
+      "after_sha256": "157b53de7390e32812e552a8e0ca09dac1f3225ed8722dfbc52f30eb04a02940",
+      "after_size_bytes": 9597
+    }
+  ],
+  "safe_state_checks": [
+    {
+      "target": "projects/cyberalchemy-lab/research/tower-evidence-navigator",
+      "expected": "absent",
+      "observed": "absent",
+      "pass": true
+    },
+    {
+      "target": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/.admission-consumption/f8266daefee692fe286955feea5a9d6477872029d93f487cbde3f9005b331492.json",
+      "expected": "absent",
+      "observed": "absent",
+      "pass": true
+    },
+    {
+      "target": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/SWU-CAL-001/governance-run",
+      "expected": "absent",
+      "observed": "absent",
+      "pass": true
+    }
+  ],
+  "authority_effect": "none"
+}

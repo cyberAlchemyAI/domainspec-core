@@ -1,0 +1,59 @@
+{
+  "schema_version": "governance-defect-sidecar-validation/v1",
+  "authority_effect": "none",
+  "product_commands_executed": 0,
+  "source_preserving_patch_dry_run": {
+    "command": "git apply --check candidate/repair.patch",
+    "status": "pass",
+    "writes_to_canonical_or_generated_sources": false
+  },
+  "isolated_replay": {
+    "status": "pass",
+    "method": "applied candidate/repair.patch to an isolated copy and compared all three patched targets byte-for-byte with the candidate worktree",
+    "writes_to_live_sources": false
+  },
+  "static_validation": {
+    "command": "python3 -m py_compile scripts/run_chain.py development/validate-chain-v2.py",
+    "status": "pass"
+  },
+  "regression_suite": {
+    "command": "python3 development/validate-chain-v2.py",
+    "status": "pass",
+    "tests": 6,
+    "coverage": [
+      "legacy epoch-binding chain remains accepted",
+      "two-transition persistence and completion",
+      "invalid transition fail-closed cases",
+      "semantic NO_OP proof rejection",
+      "risk/budget/compensation stops",
+      "v2 manifest and exact audit report positive path",
+      "v2 missing closeout route malformed negative"
+    ]
+  },
+  "live_v2_manifest_preflight": {
+    "manifest_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/refresh-runs/20260808T203000Z-wpra-selector-readmission/wpra-run/plan-semantic-manifest.json",
+      "sha256": "823af489d18c2850a8a2d81e3c3cb6e93d1ff7db60289a2db95499c7b47d8df4",
+      "size_bytes": 36416
+    },
+    "audit_report_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/refresh-runs/20260808T203000Z-wpra-selector-readmission/wpra-run/work-pack-readiness-report-v2.json",
+      "sha256": "b8ae33897c3d345f3fbdffb40f621c3ac6d03d321cecada3eb6f19478e72eac6",
+      "size_bytes": 39618
+    },
+    "candidate_result": {
+      "status": "READY",
+      "terminal_code": "NEXT_SELECTOR_READY",
+      "next_task_session_selector": "SWU-CAL-001",
+      "next_route": "task-session",
+      "request_ordinal": 1
+    },
+    "state_effect": "only a candidate-local chain.json was exclusively created; no transition, Task Session, Invoke Refresh, product, or plan mutation occurred"
+  },
+  "current_runner_baseline": {
+    "status": "BLOCK",
+    "terminal_code": "EPOCH_BINDING_MISMATCH",
+    "claim": "current runner reads absent legacy epoch_binding fields from the v2 manifest and cannot select SWU-CAL-001"
+  },
+  "fixture_authority": "validation/approval-fixture.json is explicitly fixture-only and is not a Decision Gate approval"
+}

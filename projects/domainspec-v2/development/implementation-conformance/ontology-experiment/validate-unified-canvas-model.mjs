@@ -71,15 +71,15 @@ const validateProjection = async () => {
       "architecture-type": 14,
       profile: 4,
       constraint: 33,
-      property: 24,
+      property: 26,
       "fact-element": 3,
       "fact-relation": 2,
       finding: 8,
       "scene-artifact": 16,
     },
   );
-  assert.equal(graph.nodes.length, 129);
-  assert.equal(graph.edges.length, 209);
+  assert.equal(graph.nodes.length, 131);
+  assert.equal(graph.edges.length, 211);
   assert.equal(graph.gaps.length, 19);
   assert.equal(graph.edges.filter((edge) => edge.kind === "candidate-aligns-to").length, 7);
   const scene = graph.scenes["body-war.suggested-track-status-and-rule"];

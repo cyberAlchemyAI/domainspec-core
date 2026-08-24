@@ -1,0 +1,65 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.receipt.v0.1",
+  "action_id": "spawn-0007",
+  "dispatch_id": "2026-08-09-skillopt-arcanum-presentation-research-route",
+  "run_id": "20260809T232823Z-skillopt-arcanum-presentation-001",
+  "wave_id": "reviewers",
+  "step_id": "s3",
+  "role": "definition-skeptic",
+  "capability_ref": "research",
+  "agent_id": "/root/definition_skeptic",
+  "status": "pass",
+  "validation": "pass",
+  "blockers": [],
+  "artifacts": [
+    "research/2026-08-09-skillopt-arcanum-presentation/research.md",
+    "research/2026-08-09-skillopt-arcanum-presentation/orchestration/run-001/receipts/spawn-0004.json",
+    "research/2026-08-09-skillopt-arcanum-presentation/orchestration/run-001/receipts/synthesis-zigzag-loop-1.json",
+    "https://arxiv.org/pdf/2605.23904v2",
+    "arcanum/README.md",
+    "arcanum/framework/SIGIL-DEVELOPMENT-WORKFLOW.md",
+    "arcanum/definitions/DEFINITIONS.md"
+  ],
+  "reviewer_verdict": "revise",
+  "term_boundaries": {
+    "prompt": "Entrada textual de uma execução; não é comportamento reutilizável nem artefato governado.",
+    "skillopt_skill_state": "Documento textual persistente e estado externo treinável de um target model congelado; não é sigil.",
+    "sigil": "Capacidade reutilizável do Arcanum materializada por contrato executável e ciclo de vida; não é SKILL.md sozinho.",
+    "spell": "Composição de sigils que possui ordem, estado, artefatos, gates e observação do fluxo.",
+    "fixture_validation_benchmark": "Caso de teste, julgamento delimitado e comparação em tarefas/métricas são superfícies distintas; nenhuma transfere autoridade.",
+    "observation_reflection": "Observação registra evidência; reflexão interpreta e propõe, sem editar automaticamente.",
+    "skillopt_acceptance": "Seleção algorítmica por melhora estrita no selection score; não é aprovação humana ou promoção.",
+    "user_approved_mutation": "Aplicação de mudança exatamente delimitada após autorização explícita.",
+    "promotion": "Decisão do lifecycle ou aplicação review-bound a fonte canônica; não é publication, deployment ou production."
+  },
+  "required_revision": [
+    "Replace equivalência limitada with semelhança estrutural limitada.",
+    "Use Do prompt pontual ao comportamento reutilizável governado, not a direct prompt-to-capability transformation.",
+    "Separate executor/harness, target sigil, fixture, output, observation, proposal, user approval, validation, and promotion.",
+    "Qualify the two promotion meanings.",
+    "State that sigil, spell, and capability are described in README/workflow but not yet canonical definitions in DEFINITIONS.md."
+  ],
+  "claims_to_kill": [
+    "SkillOpt skill state is a sigil",
+    "sigil is only a prompt or SKILL.md",
+    "spell is an optimizer",
+    "reflection automatically improves or edits",
+    "SkillOpt acceptance equals human approval",
+    "ScoreResult is canonical sigil reward",
+    "promotion equals publication or production readiness",
+    "both systems do the same thing at different layers"
+  ],
+  "source_selectors": [
+    "arXiv:2605.23904v2 pp.4-6 §§3.1-3.6; p.22 Algorithm 1",
+    "arcanum/README.md:105-146,169-177",
+    "arcanum/framework/SIGIL-DEVELOPMENT-WORKFLOW.md:7-22,75-89,146-214",
+    "arcanum/definitions/DEFINITIONS.md:183-217,231-266,280-323,340-380,396-437"
+  ],
+  "public_private_verdict": "pass_with_conditions: public sources and synthetic examples only; exclude private CFP prose and real telemetry",
+  "gate_blockers_before_feedback": [
+    "equivalence label",
+    "demo actor/object collapse"
+  ],
+  "started_at": "2026-08-09T23:53:31Z",
+  "finished_at": "2026-08-09T23:55:17Z"
+}

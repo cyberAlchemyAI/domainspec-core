@@ -1,0 +1,82 @@
+{
+  "schema_version": "cyberalchemy-lab.task-session-closeout-preflight/v1",
+  "work_pack_id": "WP-CAL-TEN-L0",
+  "swu_id": "SWU-CAL-001",
+  "result": "pass",
+  "owner_route": "invoke:refresh:apply-approved",
+  "source_receipt_contract": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/TASK-SESSION-RECEIPT.schema.json",
+    "sha256": "bff58695fafcc3a241f1f294279f30658556213b27f9e0028021b1a4c9fde5b2",
+    "size_bytes": 2779
+  },
+  "expected_owner_receipt_contract": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+    "sha256": "e83fdfc4f74100b4c93df05032fddf92b4ff56b75bcca3022112a63f0a3a604f",
+    "size_bytes": 1871
+  },
+  "closeout_contract": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+    "sha256": "c4339255725e020b9ad7073678f81d7d3905dd68bee51d781e32abf4b8536a09",
+    "size_bytes": 2381
+  },
+  "target_inventory_contract": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+    "sha256": "5e913244763c975199dc4564e03dda7422d141adc1f8d25d3ba7bb9418f05e97",
+    "size_bytes": 14632,
+    "selector": "/targets/0"
+  },
+  "target_baselines": [
+    {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+      "state": "existing",
+      "sha256": "d8c5993deb19a431971b86ecd035ae842ac3a7f15fb042b34ab9018c1612a71a",
+      "size_bytes": 16385
+    },
+    {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md",
+      "state": "existing",
+      "sha256": "42e4d751b0e130780f31bff0256f6c59f954af9c5cab5b4676b59e107e938d3f",
+      "size_bytes": 8268
+    },
+    {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W0.md",
+      "state": "existing",
+      "sha256": "ab2293cf8a3348e3cbfd2e66794172f7c421c9a749693c9b7a9289c454cf46cc",
+      "size_bytes": 613
+    },
+    {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+      "state": "existing",
+      "sha256": "8aff8a6f7cb7a8bbc938a7fae0e5a7cfd07514c3c6a63601a22d3410e394fec9",
+      "size_bytes": 4738
+    },
+    {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-001.json",
+      "state": "absent:create",
+      "sha256": null,
+      "size_bytes": null
+    }
+  ],
+  "allowed_delta_classes": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "successor_policy": {
+    "kind": "unique-declared-successor",
+    "successor": "SWU-CAL-002"
+  },
+  "owner_validation": [
+    "execution receipt validates and reports pass",
+    "canonical-json acceptance-critical Node test passes",
+    "closeout receipt parses and validates",
+    "execution-entry authoring validator passes"
+  ],
+  "validator": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-admission.py",
+    "sha256": "3af8799c72a6ca3b9e006b2e522561d651dbea82651f88343fb2fd1b24c869cc",
+    "size_bytes": 20140
+  },
+  "authority_effect": "none",
+  "blockers": []
+}

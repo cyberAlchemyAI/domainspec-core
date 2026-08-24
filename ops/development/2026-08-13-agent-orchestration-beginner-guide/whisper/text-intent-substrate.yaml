@@ -1,0 +1,548 @@
+text_intent_substrate:
+  metadata:
+    substrate_version: "0.2"
+    transport_type: repository_local_learning_guide
+    artifact_status: candidate
+    intent_state: frozen
+    source_packet: recovery_003_audited_findings
+
+  source_context:
+    audited_findings:
+      path: ops/development/2026-08-13-agent-orchestration-beginner-guide/findings.md
+      sha256: 1423f7d5607b68a62547900fa0583dd1dea44fced76a36b276bc165418c287dc
+    audit_receipt:
+      path: ops/development/2026-08-13-agent-orchestration-beginner-guide/recovery-003/receipts/audit-recovery-003.json
+      sha256: d9382a7a2facc0b066de762a35318de77e9bc103e22c244b698329a012cf99bb
+    final_disposition:
+      path: ops/development/2026-08-13-agent-orchestration-beginner-guide/recovery-003/receipts/final-disposition.json
+      sha256: 9fb294f61c87e3cd016547a968424f23900ec213b7c92d9ec973918e4c3592de
+    dispatch_closeout:
+      path: ops/development/2026-08-13-agent-orchestration-beginner-guide/recovery-003/receipts/dispatch-closeout.json
+      sha256: 0c16ac3f40655990cdafeb226f5257b2049cb1db5a651f462f68f501b30c42a7
+    evidence_policy: >-
+      Audience-facing prose may use only the admitted public Arcanum retell concepts.
+      Private paths, hashes, run identities, and recovery chronology remain authoring-only.
+    public_code_context:
+      status: current_repository_evidence
+      inspected_at: "2026-08-16"
+      files:
+        - arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py
+        - arcanum/runtime/orchestrate/scripts/native_dispatch_coordinator.py
+        - arcanum/runtime/orchestrate/scripts/native_dispatch_driver.py
+        - arcanum/runtime/orchestrate/scripts/validate_run_evidence.py
+        - arcanum/runtime/orchestrate/hosts/codex-native.md
+        - arcanum/runtime/orchestrate/schemas/action.schema.json
+        - arcanum/runtime/orchestrate/schemas/run-plan.schema.json
+        - arcanum/runtime/orchestrate/schemas/receipt.schema.json
+        - arcanum/runtime/orchestrate/schemas/run-event.schema.json
+        - arcanum/runtime/orchestrate/tests/fixtures/compile/valid-two-wave.json
+        - arcanum/runtime/orchestrate/tests/evidence-order/fixture-matrix.json
+      evidence_policy: >-
+        Code examples may describe current public implementation and run public fixtures, but
+        must not be framed as a stable library API or a recipe for launching a live dispatch.
+
+  author_objective:
+    primary_outcome: >-
+      Give a beginner a practical mental model for deciding when and how agents may hand work
+      to one another without confusing activity with proof, then connect that model to the
+      repository's public schemas, Python entry points, fixtures, and tests.
+    desired_reader_change: >-
+      Move the reader from seeing orchestration as several autonomous agents running at once
+      to seeing it as a chain of evidence-bounded, owner-controlled transitions that can be
+      traced through concrete JSON artifacts and deterministic Python stages.
+    success_signal: >-
+      The reader can retell the input, transition, immediate consequence, next owner, and
+      remaining limit for a generic orchestration step, locate the code that owns each boundary,
+      and run the public fixture validation and unit-test path without invoking a live agent.
+    author_stance: evidence-grounded, practical, candid about limits
+
+  resonance_core:
+    tone: calm, practical, and quietly rigorous
+    voice: collaborative instructor
+    style_register: beginner-first technical learning guide
+    emotional_residue: agency without false certainty
+    value_signal: preserve evidence, ownership, and honest stopping points
+    forbidden_feels:
+      - bureaucracy theatre
+      - magical autonomy
+      - catalogue-first documentation
+      - inevitability or success triumphalism
+      - private-process exhibition
+
+  relevance_core:
+    target_public: beginners who understand ordinary tasks and AI agents but not governed orchestration
+    reader_state: assumes that adding agents mainly adds parallel effort
+    domain: public Arcanum orchestration concepts learned from this repository
+    authority_mode: audited repository-local research bounded by a public-retell allowlist
+    assumed_knowledge:
+      - a repository contains files and tools
+      - an agent can receive a bounded task and return a result
+      - basic familiarity with JSON and terminal commands
+    likely_objections:
+      - Why are there so many steps?
+      - Is a receipt not already proof?
+      - Does a passed gate mean the next agent ran?
+      - Why not let one agent plan, act, and approve?
+      - Where do these lifecycle distinctions appear in code?
+      - Which commands are safe for learning without starting agents?
+    reader_reward: >-
+      A reusable diagnostic for locating the last justified state, the next owner, and the
+      claims that still cannot be made.
+
+  trajectory_core:
+    narrative_anchor: a controlled relay whose baton carries evidence but cannot prove its own message
+    transport_type: repository_local_learning_guide
+    introduction_strategy: >-
+      Begin with one agent being asked to inspect, challenge, execute, and approve the same work;
+      expose the coordination problem before naming orchestration components.
+    body_parts:
+      - when one helper is enough
+      - the last-proven-step loop
+      - the controlled relay lifecycle
+      - one runtime action in detail
+      - public JSON artifacts and Python ownership map
+      - one fixture-only coding lab
+      - test-backed causal failure examples
+      - evidence and non-implications
+      - fail-closed behavior
+      - adjacent capability boundaries
+      - a practical checklist and retell exercise
+    ending_strategy: >-
+      Return to the opening task and make it actionable through four questions about state,
+      evidence, owner, and residue.
+    must_include:
+      - need before name
+      - helper versus governed dispatch
+      - what changed and what still does not follow
+      - preflight, persisted action, host work, terminal observation, logical close
+      - receipt admission, join, gate, and dependent-wave planning
+      - dispatch, run-plan, action, event, and receipt artifact relationships
+      - verified fixture validation, compilation, evidence validation, and unittest commands
+      - the Python driver prepares and records native calls but does not invoke collaboration tools
+      - fail-closed recovery
+      - Inventory, Craft, Task Session, Continuation Router, Signal Observer, and Whisper boundaries
+      - formal-definition gap for sigil, spell, and capability
+      - no publication, deployment, production, or semantic-truth implication
+    must_avoid:
+      - private architecture or authority prose
+      - private paths, hashes, identities, run IDs, or product details
+      - a claimed complete historical success witness
+      - invented canonical definitions
+      - an executable operator runbook
+      - live agent-spawn instructions
+      - presenting internal Python function names as a stable public library API
+
+  transport_schema:
+    profile_id: repository_local_learning_guide.v0
+    status: candidate_unproven
+    required_body_parts:
+      - problem-specific opening
+      - controlled-relay explanation
+      - one lifecycle flow
+      - one fixture-only code path
+      - one evidence/non-implication table
+      - fail-closed examples
+      - practice checklist
+      - transformed ending
+    opening_contract:
+      validation_rules:
+        first_paragraph_cannot_match:
+          - "(?i)^this guide"
+          - "(?i)^agent orchestration is"
+        first_paragraph_must_include_any:
+          - agent
+          - work
+          - evidence
+        draft_must_include_anywhere:
+          - owner-controlled transition
+          - fail closed
+          - receipt
+          - join
+          - gate
+          - closeout
+      external_reference_policy:
+        external_reference_terms:
+          - arcanum/
+        allowed_after_paragraph: 20
+    length_words:
+      min: 1800
+      max: 3600
+    max_characters: 32000
+    evidence_policy: >-
+      Explain only admitted public-retell concepts; keep research provenance in authoring-only
+      artifacts and link only to public Arcanum sources in the reader-facing source trail.
+    introduction_policy: problem before terminology
+    ending_policy: transformed diagnostic, not a summary restart
+    call_to_action_policy: ask the reader to trace one real task with the four-question loop
+
+  distill_trace:
+    mode: standard
+    budget:
+      proposal_tracks: 1
+      recursive_rounds: 2
+      reconciliation_passes: 1
+    execution_path: one read-only helper Proposer plus parent Balancer
+    proposer:
+      round_1:
+        claim: organize the guide around one controlled relay rather than a vocabulary catalogue
+        candidate_unit: one full relay walkthrough
+        result: revised_because_too_broad
+      round_2:
+        claim: reduce the relay to one evidence-bounded owner transition
+        candidate_unit: last-proven-step loop
+        result: pass
+    balancer:
+      objections:
+        - category: cognitive_load
+          objection: the full owner chain can become a new catalogue
+          disposition: accept
+          repair: teach one repeated transition before showing the whole chain
+        - category: analogy_limit
+          objection: a relay can imply that baton transfer validates the message
+          disposition: accept
+          repair: state the analogy break explicitly
+        - category: status_inflation
+          objection: a smooth pipeline can revive the killed complete-success witness
+          disposition: accept
+          repair: use a generic teaching example and pair every positive state with a non-implication
+        - category: boundary_object
+          objection: internal research provenance must not leak into audience prose
+          disposition: accept
+          repair: keep provenance authoring-only and expose only the public-retell source trail
+        - category: concept_status
+          objection: last-proven-step loop may sound canonical
+          disposition: accept
+          repair: label it a teaching device rather than canonical vocabulary
+    reconciliation:
+      decision: select P1-C2 with all five Balancer repairs
+      stable_disagreement: none
+      verdict: pass
+    smallest_coherent_unit:
+      id: last_proven_step_loop
+      display_name: last-proven-step loop
+      status: pedagogical_device_not_canonical_vocabulary
+      abstraction_level: workflow/process
+      responsibility: >-
+        Determine the last justified state of a coordinated workflow and whether the next
+        owner-controlled transition may proceed.
+      inputs:
+        - current admitted state
+        - directly supporting evidence
+        - named owner of the possible next transition
+        - applicable authority and privacy limits
+      outputs:
+        - bounded current-state statement
+        - next owner or explicit stop
+        - remaining residue and prohibited claims
+      recomposition: >-
+        Repeating the unit reconstructs a dispatch lifecycle because each bounded output may
+        become the next input only after the relevant evidence-admission boundary.
+
+  revision_distill_trace:
+    revision_id: coding_aspects_r2
+    mode: standard
+    budget:
+      proposal_tracks: 1
+      recursive_rounds: 2
+      reconciliation_passes: 1
+    objective_output_pair: >-
+      Add enough current public implementation detail for a beginner to trace and exercise the
+      orchestration code without turning the learning guide into a live operator runbook.
+    target_context: beginner repository-local learning guide
+    output_artifact: revised Markdown guide plus refreshed Whisper validation receipt
+    optimization_goal: concrete code comprehension with bounded cognitive load
+    proposer:
+      round_1:
+        claim: explain one action's prepare, host-call, and record handshake
+        result: revised_because_too_small_for_receipt_and_gate_closure
+      round_2:
+        claim: narrate one evidence-backed wave transition through one representative action
+        result: pass
+    balancer:
+      objections:
+        - category: cognitive_load
+          objection: the full CLI surface would interrupt the guide's earned conceptual movement
+          disposition: accept
+          repair: organize every code detail around one fixture lifecycle
+        - category: safety_boundary
+          objection: exact native-spawn commands could turn a learning guide into an operator runbook
+          disposition: accept
+          repair: execute only validators, compilation into a temporary directory, and public unittest fixtures
+        - category: interface_status
+          objection: importing implementation functions could imply a stable library API
+          disposition: accept
+          repair: name functions for source navigation but make the CLI and fixtures the hands-on surface
+        - category: evidence_status
+          objection: inspected tests are weaker than executed tests
+          disposition: accept
+          repair: run the three unittest files directly and record their exact totals
+    reconciliation:
+      decision: select one fixture lifecycle with all four repairs
+      stable_disagreement: none
+      verdict: pass
+    smallest_coherent_unit:
+      id: evidence_backed_wave_transition
+      display_name: one evidence-backed wave transition
+      abstraction_level: workflow/process
+      responsibility: >-
+        Connect one validated dispatch wave to one representative action handshake, full-wave
+        cleanup, receipt admission, gate reduction, and possible dependent actions.
+      inputs:
+        - public two-wave dispatch fixture
+        - canonical dispatch validator
+        - native coordinator and driver scripts
+        - action, run-plan, event, and receipt schemas
+        - public causal-order fixture matrix
+      outputs:
+        - beginner-readable artifact relationship
+        - safe fixture commands
+        - source-function navigation map
+        - test-backed debugging examples
+      recomposition: >-
+        A boundary map locates the owners; one action shows prepare, host call, and record; the
+        same handshake scales to all current actions; wait and cleanup permit receipt admission;
+        reduction produces the gate and any next actions. Together they reconnect the code to
+        the guide's controlled-relay lifecycle.
+    technique_trace:
+      - technique_id: abstraction_level_guard
+        hook: before_accept_split
+        activation_reason: always-on classification
+        inspected_state: target context and fixture lifecycle candidate
+        emitted_output: selected workflow/process level
+        decision: pass
+        readiness_effect: unchanged
+      - technique_id: recomposition_proof
+        hook: before_verdict
+        activation_reason: always-on closure gate
+        inspected_state: four code-owned boundaries and guide trajectory
+        emitted_output: explicit validate-to-reduce recomposition
+        decision: pass
+        readiness_effect: unchanged
+      - technique_id: evolution_profile
+        hook: before_verdict
+        activation_reason: current implementation paths may evolve
+        inspected_state: schemas, scripts, fixtures, and CLI output
+        emitted_output: rerun public fixtures when paths or schema versions change
+        decision: pass
+        readiness_effect: unchanged
+      - technique_id: frame_expiry_note
+        hook: before_verdict
+        activation_reason: always-on closeout
+        inspected_state: current repository implementation snapshot
+        emitted_output: revision expires when CLI, schemas, or fixture behavior changes
+        decision: pass
+        readiness_effect: unchanged
+      - technique_id: cognitive_load_check
+        hook: after_balancer_pass
+        activation_reason: proposed expansion introduced more than three code surfaces
+        inspected_state: broad code-map proposal and beginner audience
+        emitted_output: one fixture lifecycle instead of a module catalogue
+        decision: pass
+        readiness_effect: unchanged
+      - technique_id: boundary_object_check
+        hook: after_balancer_pass
+        activation_reason: strategy, runtime, host, and reviewer share typed artifacts
+        inspected_state: action, event, receipt, and gate boundaries
+        emitted_output: JSON artifacts are the stable shared interface for this explanation
+        decision: pass
+        readiness_effect: unchanged
+      - technique_id: concept_vs_knowledge_status
+        hook: before_accept_split
+        activation_reason: teaching model and implementation facts must remain distinct
+        inspected_state: last-proven-step loop and verified code paths
+        emitted_output: teaching device remains conceptual; commands and behavior are code-backed
+        decision: pass
+        readiness_effect: unchanged
+      - technique_id: premortem_pass
+        hook: before_verdict
+        activation_reason: required in Standard mode
+        inspected_state: coding expansion and live-execution boundary
+        emitted_output: guard against stale catalogue and accidental operator runbook
+        decision: pass
+        readiness_effect: unchanged
+      - technique_id: navigable_result_check
+        hook: before_verdict
+        activation_reason: always-on closeout
+        inspected_state: proposed guide insertions and source trail
+        emitted_output: concept first, fixture second, tests third, source map last
+        decision: pass
+        readiness_effect: unchanged
+    skipped_techniques:
+      - technique_id: requisite_variety_check
+        reason: one current fixture path is sufficient for the bounded beginner objective
+      - technique_id: set_based_tournament
+        reason: Standard mode has one proposal track
+    premortem:
+      likely_failure_reason: the code expansion becomes stale or encourages live execution without governance
+      guardrail: bind claims to current public fixtures, verify commands, and omit live host calls
+    frame_expiry_note: rerun Distill and validation if runtime schemas, CLI contracts, or fixture behavior change
+    navigation_guide: read the controlled relay first, then follow the fixture lab and use the source map for deeper study
+    evidence_emission: not-configured for this invoked planning revision
+    telemetry_owner: Whisper caller
+    next_route: whisper_revision
+
+  scu_candidate_set:
+    tournament_mode: standard_single_track
+    candidates:
+      - candidate_set_id: P1-C1
+        approach: glossary_first
+        balance: strong relevance but weak trajectory and high catalogue risk
+        disposition: rejected
+      - candidate_set_id: P1-C2
+        approach: controlled_relay_plus_last_proven_step_loop
+        balance: practical resonance, immediate beginner relevance, and earned lifecycle trajectory
+        disposition: selected
+      - candidate_set_id: P1-C3
+        approach: failure_first
+        balance: memorable tension but risks anxiety and over-weighting exceptions
+        disposition: rejected
+    selected_candidate: P1-C2
+    selection_rationale: >-
+      The relay makes coordination felt, the last-proven-step loop makes it usable, and the
+      explicit analogy break prevents the metaphor from replacing the evidence model.
+
+  composition_plan:
+    source_candidate_set: P1-C2
+    narrative_anchor: controlled relay with an explicit evidence limit
+    construction_sequence:
+      - opening_problem
+      - helper_or_dispatch
+      - diagnostic_loop
+      - lifecycle_flow
+      - runtime_action
+      - code_artifact_relationships
+      - fixture_only_coding_lab
+      - executable_test_contracts
+      - evidence_table
+      - failure_behavior
+      - adjacent_owners
+      - practical_checklist
+      - retell_exercise
+      - transformed_ending
+      - public_source_trail
+    surface_map:
+      audience_facing:
+        - learning-guide.md
+      authoring_only:
+        - whisper/text-intent-substrate.yaml
+        - whisper/validation-report.json
+        - whisper/validation-report-r2.json
+      public_export: none
+    visual_budget:
+      lifecycle_flows: 1
+      comparison_tables: 2
+      code_blocks: 3
+    validation_checklist:
+      - first passage is problem-specific
+      - specialized terms arrive after the need
+      - each passage earns the next
+      - relation dominates catalogue
+      - relay analogy breaks before semantic truth
+      - examples are generic and fail closed
+      - code examples use only public fixtures and do not invoke a live host operation
+      - named functions and commands match current repository bytes
+      - unittest totals and causal failure codes are verified
+      - ending changes what the reader can do
+      - private and authority exclusions hold
+
+  language_audition:
+    status: approved_by_parent_editorial_review
+    transport_proof_effect: none
+    opening: >-
+      Suppose one agent is asked to inspect a repository, challenge its own conclusion,
+      change the code, and approve the result. The problem is not effort; it is that planning,
+      permission, execution, and judgment have collapsed into one voice.
+    tension: >-
+      A returned result is not yet a trusted handoff. Someone still has to know what ran,
+      admit the evidence, and decide whether the next move is allowed.
+    reveal: >-
+      Ask four questions at every handoff: where are we, what proves it, who owns the next
+      move, and what still does not follow?
+    coding_bridge: >-
+      The same questions appear in code as separate JSON artifacts and Python stages: a route
+      validates, a wave compiles into actions, events preserve causal order, and receipts reduce
+      into a gate decision.
+    checks:
+      problem_specific_opening: pass
+      need_before_name: pass
+      read_aloud_natural: pass
+      private_leakage: pass
+      claim_ceiling: pass
+      code_before_live_execution_boundary: pass
+
+  draft_artifact:
+    target_path: ops/development/2026-08-13-agent-orchestration-beginner-guide/learning-guide.md
+    source_schema: ops/development/2026-08-13-agent-orchestration-beginner-guide/whisper/text-intent-substrate.yaml
+    status: candidate_pass
+    current_validation_report: ops/development/2026-08-13-agent-orchestration-beginner-guide/whisper/validation-report-r2.json
+
+  validation:
+    report_path: ops/development/2026-08-13-agent-orchestration-beginner-guide/whisper/validation-report-r2.json
+    checks:
+      - executable Whisper draft validation
+      - source and digest revalidation
+      - trailing whitespace
+      - public/private exclusion scan
+      - exact public source path existence
+      - public dispatch fixture validation and compilation
+      - direct unittest execution for compile, reduce, and evidence order
+      - verification that coding examples never invoke a live host operation
+      - human editorial reader-movement review
+      - independent bounded helper review
+    review_mode: parent editorial review plus one read-only helper
+    semantic_authority: human_editorial_judgment
+
+  readability_dynamics:
+    layer_id: beginner_guide_readability
+    defaults:
+      severity_default: flag
+      max_words_per_paragraph: 140
+      max_sentences_per_paragraph: 6
+      max_consecutive_dense_paragraphs: 1
+    delivery_flow:
+      intent_narration_patterns:
+        - "(?i)\\bthis guide will\\b"
+        - "(?i)\\bwe will explain\\b"
+        - "(?i)\\bthe goal of this section\\b"
+      detect_exact_duplicate_prose_blocks: true
+      duplicate_block_min_words: 10
+      human_review_checks:
+        - semantic_repetition
+        - reading_sequence
+        - heading_body_paraphrase
+        - load_bearing_example_preservation
+      reader_movement:
+        status: candidate
+        scope: audience_facing_explanatory_prose
+        applies_when:
+          - conceptual_explanation
+          - mechanism_explanation
+        human_review_checks:
+          - opening_problem_specific
+          - passage_earns_next
+          - ending_transforms_opening
+          - first_movement_break
+          - relation_over_catalogue
+          - need_before_name
+          - sequence_autonomy_when_applicable
+        semantic_authority: human_editorial_judgment
+
+  learning_residue:
+    status: observed_candidate
+    capture_after: draft_review
+    residue_slots:
+      - whether the last-proven-step loop improves beginner retelling
+      - where terminology arrives too early
+      - where the relay analogy hides an evidence boundary
+      - whether the source trail is useful without entering the main movement
+      - whether the fixture lifecycle makes action, event, receipt, and gate ownership easier to retell
+      - whether the coding lab remains useful without becoming an operator runbook
+    current_limits:
+      - transport remains candidate and unproven
+      - human comprehension remains unproved
+      - public export is not authorized
+    revision_observations:
+      - one fixture lifecycle kept the coding expansion below the transport length ceiling
+      - exact fixture validation, compilation, and evidence-validation commands passed
+      - compile, reduce, and evidence-order unittest files passed 5, 12, and 5 tests
+      - live host execution remains outside the learning exercise

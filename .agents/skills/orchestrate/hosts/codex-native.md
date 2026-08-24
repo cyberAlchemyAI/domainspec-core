@@ -32,6 +32,8 @@ spawn_contract:
     - task_name
     - message
     - fork_turns
+  prepare_command: scripts/native_dispatch_driver.py prepare-spawn
+  record_command: scripts/native_dispatch_driver.py record-spawn
 join_contract:
   join_policy: all
   wait_operation: collaboration.wait_agent
@@ -44,6 +46,18 @@ join_contract:
   interrupt_per_unresolved_agent: 1
   missing_result_status: timed_out
   identity_mismatch_status: block
+  prepare_wait_command: scripts/native_dispatch_driver.py prepare-wait
+  prepare_partial_recovery_command: scripts/native_dispatch_driver.py prepare-partial-recovery
+  record_partial_terminal_command: scripts/native_dispatch_driver.py record-partial-terminal
+  prepare_partial_interrupt_command: scripts/native_dispatch_driver.py prepare-partial-interrupt
+  record_partial_interrupt_command: scripts/native_dispatch_driver.py record-partial-interrupt
+  close_partial_wave_command: scripts/native_dispatch_driver.py close-partial-wave
+  advance_wave_command: scripts/native_dispatch_driver.py advance-wave
+evidence_contract:
+  causal_append_command: scripts/native_dispatch_driver.py append-event
+  residue_append_command: scripts/native_dispatch_driver.py append-residue
+  source_time_append_required: true
+  pure_reduce_live_evidence: false
 ---
 
 # Codex Native Host Profile
@@ -66,18 +80,66 @@ Preflight records availability and returns. It must not call any mapped operatio
 
 If any required operation is absent, block. Do not invoke a nested model-backed CLI and do not synthesize a host receipt.
 
+The Python driver does not invoke `collaboration.*`. It performs the
+fail-closed prepare/record handshake around the host-owned call. The parent
+must receive a passing preparation receipt, invoke the exact returned request
+once through the active host tool, and record the result before continuing.
+
 ## Spawn Mapping
 
 For one admitted `spawn` action, call `collaboration.spawn_agent` exactly once with:
 
 - a stable `task_name` derived from the action role and action identifier;
 - `fork_turns: none`, so the child receives only explicitly bounded action context;
-- a `message` containing the action identifier, role, capability, target, mode, mutation policy, write scope, forbidden scopes, input references, output references, and required receipt shape.
+- a `message` containing the action identifier, role, capability, target, mode,
+  mutation policy, input/output references, and the exact digest-bound role
+  briefing: identity, angle, instructions, task-completion semantics, separate
+  domain-gate semantics, explicit read policy, exact write policy, required
+  receipt shape, and authority ceiling;
+- a structured `briefing_binding` envelope equal to the persisted action so a
+  host adapter can audit the text projection without inferring policy. A
+  forbidden-write scope remains readable unless the explicit forbidden-read
+  policy also prohibits it.
 
-Persist `action_attempted` before the call. On success, persist `host_spawn_returned` with the native `agent_id` bound to the action. On error or a missing identifier, persist `host_spawn_failed` and block without implicit retry. Waiting for the returned identifier belongs to the later join action, not spawn mapping.
+Use `native_dispatch_driver.py prepare-spawn` to revalidate the canonical
+briefing digest and action-policy equality before persisting `action_attempted`.
+Expose the exact request only after both validation and append succeed.
+On success, use `record-spawn --agent-id` to persist
+`host_spawn_returned` with the native `agent_id` bound to the action. On error
+or a missing identifier, use `record-spawn --failed`, preserve any diagnostic
+text in the separate residue stream, and block without implicit retry. Waiting
+for the returned identifier belongs to the later join action, not spawn
+mapping.
 
 ## Join Mapping
 
 `collaboration.wait_agent` waits for mailbox activity and does not accept a target identifier. Register each known wave agent once in a pending set, call the mailbox-wide wait operation in bounded rounds, and use `collaboration.list_agents` plus returned completion messages to reconcile only those known identifiers.
 
-A completed known agent is logically closed once and needs no interrupt. An unresolved known agent is interrupted at most once through `collaboration.interrupt_agent`; its expected action receives an explicit `timed_out` receipt. Unknown or duplicated result identities are blocking evidence. The native driver passes the complete normalized receipt set to the deterministic reducer and never opens a gate itself.
+A completed known agent is logically closed once and needs no interrupt. An unresolved known agent is interrupted at most once through `collaboration.interrupt_agent`; its expected action receives an explicit `timed_out` receipt. Unknown or duplicated result identities are blocking evidence.
+
+Use `prepare-wait` before every mailbox-wide wait. After terminal cleanup,
+persist exactly one raw `<action_id>.json` task result and one closed-schema
+normalized `<action_id>.json` receipt per current action, then call
+`advance-wave --raw-results-dir ...`. That command first proves the raw result
+satisfies the action briefing and that blocked task status cannot normalize as
+PASS, then owns exact receipt admission,
+`receipt_joined`, deterministic reduction, `gate_decided`, and full event
+validation before dependent actions are written. The coordinator's pure
+`reduce` command is offline reducer evidence only and must not be cited as a
+live native-run closeout.
+
+## Partial Spawn Recovery
+
+If a selected-wave spawn returns `host_spawn_failed`, do not issue another
+spawn in that wave and do not fabricate a receipt for the failed action. Use
+`prepare-partial-recovery` to register only the successfully spawned sibling
+identifiers and prepare one mailbox-wide wait. Reconcile those identifiers with
+the host inventory: record completed siblings with
+`record-partial-terminal`; for a still-live sibling, use
+`prepare-partial-interrupt`, make its exact interrupt call once, then use
+`record-partial-interrupt`.
+
+Append one `evidence_closure` residue record for each cleaned sibling, then
+use `close-partial-wave`. It emits a terminal `run_blocked` event and a typed
+blocked closeout with no receipt joins, gate decision, dependent actions, or
+retry. A new host run needs separate retry authority and a distinct run ID.

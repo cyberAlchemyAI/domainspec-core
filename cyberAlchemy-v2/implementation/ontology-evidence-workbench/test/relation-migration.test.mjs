@@ -11,13 +11,19 @@ const sceneRoot = resolve(
 const sourceGraphModule = await import(pathToFileURL(resolve(sceneRoot, "sourceGraph.ts")));
 const viewPackModule = await import(pathToFileURL(resolve(sceneRoot, "viewPack.ts")));
 const { deriveScene } = await import(pathToFileURL(resolve(sceneRoot, "sceneQuery.ts")));
-const { admitKnowledgeScene } = await import(
+const {
+  admitKnowledgeScene,
+  admitKnowledgeSceneV13,
+  finalizeKnowledgeScene,
+} = await import(
   pathToFileURL(resolve(sceneRoot, "relationReference.ts"))
 );
 const {
   migrateKnowledgeScene,
+  migrateKnowledgeSceneV13,
   OEW_LEGACY_RELATION_FIELDS,
   OEW_SCENE_MIGRATION_RECEIPT_SCHEMA,
+  OEW_SCENE_MIGRATION_V13_RECEIPT_SCHEMA,
   SceneMigrationError,
 } = await import(pathToFileURL(resolve(sceneRoot, "sceneMigration.ts")));
 
@@ -127,6 +133,19 @@ const fixture = async (schemaVersion = "oew.knowledge-scene.v1.1") => {
   const pack = await compilePack(graph);
   const current = await deriveScene(graph, pack, { scope: "home" });
   return { graph, pack, legacy: asLegacy(current, schemaVersion) };
+};
+const v12Fixture = async () => {
+  const graph = await compileGraph();
+  const pack = await compilePack(graph);
+  const scene = await deriveScene(graph, pack, { scope: "home" });
+  return { graph, pack, scene };
+};
+const rebuildV12 = async (scene, changes) => {
+  const draft = clone(scene);
+  delete draft.scene_digest;
+  delete draft.relation_index_receipt;
+  delete draft.navigation_frame.scene_digest;
+  return finalizeKnowledgeScene({ ...draft, ...changes });
 };
 const expectIssue = async (callback, issue) => {
   await assert.rejects(
@@ -291,5 +310,107 @@ test("rejects forged compiled SourceGraph and ViewPack inputs", async () => {
   await expectIssue(
     migrateKnowledgeScene(packForgery.legacy, packForgery.graph, forgedPack),
     "MIGRATION_VIEW_PACK_NOT_ADMITTED",
+  );
+});
+
+test("rebuilds an exact admitted v1.2 scene with empty reference structures as deterministic v1.3", async () => {
+  const { graph, pack, scene } = await v12Fixture();
+  const before = JSON.stringify(scene);
+  const result = await migrateKnowledgeSceneV13(scene, graph, pack);
+  const replay = await migrateKnowledgeSceneV13(scene, graph, pack);
+
+  assert.equal(JSON.stringify(scene), before);
+  assert.equal(result.scene.schema_version, "oew.knowledge-scene.v1.3");
+  assert.notEqual(result.scene.scene_id, scene.scene_id);
+  assert.equal(result.scene.scene_digest, replay.scene.scene_digest);
+  assert.deepEqual(result.receipt, replay.receipt);
+  assert.equal(
+    result.receipt.schema_version,
+    OEW_SCENE_MIGRATION_V13_RECEIPT_SCHEMA,
+  );
+  assert.equal(result.receipt.behavior, "rebuild-empty-reference-structures");
+  assert.equal(result.receipt.legacy_scene_digest, scene.scene_digest);
+  assert.equal(result.receipt.migrated_scene_digest, result.scene.scene_digest);
+  assert.equal(result.receipt.legacy_artifact_mutated, false);
+  assert.equal(result.receipt.authority_effect, "none");
+  await admitKnowledgeSceneV13(clone(result.scene));
+});
+
+test("rejects non-empty legacy portals instead of trusting embedded revisions", async () => {
+  const { graph, pack, scene } = await v12Fixture();
+  const legacy = await rebuildV12(scene, {
+    portals: [
+      {
+        portal_id: "legacy-portal",
+        constituents: [
+          {
+            relation_ref: {
+              source_relation_id: "cut",
+              scene_digest: scene.scene_digest,
+            },
+          },
+        ],
+      },
+    ],
+  });
+  await expectIssue(
+    migrateKnowledgeSceneV13(legacy, graph, pack),
+    "LEGACY_SCENE_REBUILD_REQUIRED",
+  );
+});
+
+test("rejects non-empty legacy Path hops without exact regeneration inputs", async () => {
+  const { graph, pack, scene } = await v12Fixture();
+  const legacy = await rebuildV12(scene, {
+    path: {
+      hops: [
+        {
+          relation_ref: {
+            source_relation_id: "internal",
+            scene_digest: scene.scene_digest,
+          },
+        },
+      ],
+    },
+  });
+  await expectIssue(
+    migrateKnowledgeSceneV13(legacy, graph, pack),
+    "LEGACY_SCENE_REBUILD_REQUIRED",
+  );
+});
+
+test("rejects legacy relation selection without exact regeneration inputs", async () => {
+  const { graph, pack, scene } = await v12Fixture();
+  const navigationFrame = clone(scene.navigation_frame);
+  delete navigationFrame.scene_digest;
+  navigationFrame.selected = {
+    kind: "relation",
+    relation_ref: {
+      source_relation_id: "internal",
+      scene_digest: scene.scene_digest,
+    },
+  };
+  const legacy = await rebuildV12(scene, { navigation_frame: navigationFrame });
+  await expectIssue(
+    migrateKnowledgeSceneV13(legacy, graph, pack),
+    "LEGACY_SCENE_REBUILD_REQUIRED",
+  );
+});
+
+test("rejects v1.2 relabeling and source semantic drift in v1.3 migration", async () => {
+  const relabel = await v12Fixture();
+  const relabeled = clone(relabel.scene);
+  relabeled.schema_version = "oew.knowledge-scene.v1.3";
+  await expectIssue(
+    migrateKnowledgeSceneV13(relabeled, relabel.graph, relabel.pack),
+    "MIGRATION_LEGACY_SCHEMA_UNSUPPORTED",
+  );
+
+  const drift = await v12Fixture();
+  const forgedGraph = clone(drift.graph);
+  forgedGraph.relations[0].exact_predicate = "owns";
+  await expectIssue(
+    migrateKnowledgeSceneV13(drift.scene, forgedGraph, drift.pack),
+    "MIGRATION_SOURCE_GRAPH_DIGEST_MISMATCH",
   );
 });

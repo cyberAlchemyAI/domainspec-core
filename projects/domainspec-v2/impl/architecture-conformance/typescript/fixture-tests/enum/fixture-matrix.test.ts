@@ -68,7 +68,7 @@ const runCase = async (testCase: FixtureCase): Promise<readonly string[]> => {
     expectedValues: matrix.expected_values,
     profilePath: "projects/domainspec-v2/development/implementation-conformance/ontology-experiment/profiles/typescript-strict.profile.json",
     providerPath: "projects/domainspec-v2/impl/architecture-conformance/typescript/runtime/enum/index.ts",
-    profileActivationReceiptPath: "projects/domainspec-v2/development/architecture-pattern-enforcement/instances/enum/receipts/SWU-APE-ENUM-TS-001B.json",
+    profileActivationReceiptPath: "projects/domainspec-v2/development/architecture-pattern-enforcement/instances/enum/receipts/SWU-APE-ENUM-TS-001A.json",
   });
   if (projection.diagnostics.length > 0) {
     return projection.diagnostics.map(({ code }) => String(code)).sort();

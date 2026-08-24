@@ -1,0 +1,362 @@
+{
+  "dispatch_id": "2026-08-08-cyberalchemy-lab-foundation-recovery",
+  "parent_dispatch_id": "2026-08-07-cyberalchemy-lab-foundation",
+  "intent": {
+    "raw": "Complete the missing CyberAlchemy Lab foundation definition review, then write and audit the bounded findings without replaying the closed run.",
+    "objective": "Recover the governed writer gate from immutable run-001 evidence and produce an audited candidate-local findings.md with all implementation and authority gates left closed.",
+    "target_artifact": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md",
+    "arcanum_vocabulary": [
+      "research-tower",
+      "dispatch-spec",
+      "orchestrate",
+      "exact-binding",
+      "evidence-closure",
+      "residue"
+    ],
+    "operator_sentence": "Review definitions first, write only from the closed evidence package, then audit before parent approval."
+  },
+  "mode": "research",
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "The closed foundation dispatch lacks one independent definition review, and the research owner requires that gate before writer and auditor admission.",
+    "explanation": "One read-only skeptic closes the missing definition gate, one artifact-only writer creates findings.md, and one independent read-only auditor approves or returns one bounded revision request.",
+    "context": [
+      "The exact three-role recovery sheet was directly confirmed at SHA-256 1fc661acb630215700a19abaf9baec00d25c4dbe3bfb4dfd6ceb190c108a795c.",
+      "The run-001 evidence package and correction addendum are immutable inputs; the failed spawn-0007 action is not replayed.",
+      "No implementation, ontology promotion, ingestion, publication, deployment, release, production, Git, or external effect is authorized."
+    ],
+    "binding_mode": "capability-bound",
+    "execution_owner": "orchestrate",
+    "roles": [
+      {
+        "role_id": "definition-skeptic",
+        "purpose": "Apply the missing definitional-soundness and completeness-scope gate to the immutable foundation evidence package.",
+        "owns": "Definition review receipt",
+        "capability_ref": "research",
+        "capability_target": "cyberalchemy-lab/foundation-definitional-recovery",
+        "capability_mode": "review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/",
+          "research/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          ".arcanum/",
+          "telemetry/"
+        ],
+        "depends_on_roles": [],
+        "input_refs": [
+          "immutable-run-001-evidence-package",
+          "recovery-confirmation-receipt"
+        ],
+        "output_refs": [
+          "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-01-definition/definition-skeptic.json"
+        ],
+        "applies_to_steps": [
+          "s1"
+        ]
+      },
+      {
+        "role_id": "findings-writer",
+        "purpose": "Write the claim-bounded CyberAlchemy Lab foundation findings only after the definition gate passes.",
+        "owns": "findings.md and writer receipt",
+        "capability_ref": "research",
+        "capability_target": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md",
+        "capability_mode": "write-findings",
+        "agent_count": 1,
+        "mutation_policy": "artifact-only",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md"
+        ],
+        "forbidden_write_scopes": [
+          "projects/ide-extension/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          ".arcanum/",
+          "telemetry/",
+          "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/research.md"
+        ],
+        "depends_on_roles": [
+          "definition-skeptic"
+        ],
+        "input_refs": [
+          "immutable-run-001-evidence-package",
+          "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-01-definition/definition-skeptic.json"
+        ],
+        "output_refs": [
+          "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-02-writer/findings-writer.json"
+        ],
+        "applies_to_steps": [
+          "s2"
+        ]
+      },
+      {
+        "role_id": "findings-auditor",
+        "purpose": "Audit findings.md against the original goal, exact-binding evidence contract, definition review, and claim ceiling.",
+        "owns": "Findings audit receipt and bounded revision decision",
+        "capability_ref": "research",
+        "capability_target": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md",
+        "capability_mode": "audit",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": [
+          "projects/",
+          "research/",
+          "arcanum/",
+          "cyberAlchemy-v2/",
+          ".arcanum/",
+          "telemetry/"
+        ],
+        "depends_on_roles": [
+          "findings-writer"
+        ],
+        "input_refs": [
+          "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md",
+          "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-02-writer/findings-writer.json"
+        ],
+        "output_refs": [
+          "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-03-auditor/findings-auditor.json"
+        ],
+        "applies_to_steps": [
+          "s3"
+        ]
+      }
+    ],
+    "execution_waves": [
+      {
+        "wave_id": "wave-01-definition",
+        "role_ids": [
+          "definition-skeptic"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "gate_after": "g-definition",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "wave-02-writer",
+        "role_ids": [
+          "findings-writer"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "wave-01-definition"
+        ],
+        "gate_after": "g-findings",
+        "on_incomplete": "block"
+      },
+      {
+        "wave_id": "wave-03-auditor",
+        "role_ids": [
+          "findings-auditor"
+        ],
+        "parallel": false,
+        "join_policy": "all",
+        "depends_on_waves": [
+          "wave-02-writer"
+        ],
+        "on_incomplete": "block"
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "all",
+    "authorization": "approved",
+    "permission_prompt": "Run the exact confirmed CyberAlchemy Lab foundation recovery?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "run_id",
+      "wave_id",
+      "step_id",
+      "capability_ref",
+      "capability_target",
+      "capability_mode",
+      "write_scope",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "handoff_note",
+      "reroute"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Apply the missing definition gate",
+      "capability_ref": "research",
+      "mode": "review",
+      "pattern": "validation",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "immutable-run-001-evidence-package"
+        },
+        {
+          "kind": "receipt",
+          "ref": "recovery-confirmation-receipt"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-01-definition/definition-skeptic.json"
+        }
+      ],
+      "evidence_artifact": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-01-definition/definition-skeptic.json",
+      "stop_conditions": [
+        "block the writer on any tautological core definition or unresolved completeness-scope claim"
+      ],
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "source": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md",
+        "validation_note": "Repository-local capability binding supplied by the confirmed recovery strategy; Dispatch Spec validates route form only."
+      }
+    },
+    {
+      "step_id": "s2",
+      "name": "Write evidence-closed findings",
+      "capability_ref": "research",
+      "mode": "write-findings",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": [
+        "s1"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "immutable-run-001-evidence-package"
+        },
+        {
+          "kind": "receipt",
+          "ref": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-01-definition/definition-skeptic.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-02-writer/findings-writer.json"
+        }
+      ],
+      "stop_conditions": [
+        "writer stays blocked unless g-definition passes",
+        "writer may write findings.md only"
+      ],
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "source": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md",
+        "validation_note": "Repository-local capability binding supplied by the confirmed recovery strategy; Dispatch Spec validates route form only."
+      }
+    },
+    {
+      "step_id": "s3",
+      "name": "Audit findings and return a bounded revision decision",
+      "capability_ref": "research",
+      "mode": "audit",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": [
+        "s2"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md"
+        },
+        {
+          "kind": "receipt",
+          "ref": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-02-writer/findings-writer.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "receipt",
+          "ref": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-03-auditor/findings-auditor.json"
+        }
+      ],
+      "evidence_artifact": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-03-auditor/findings-auditor.json",
+      "stop_conditions": [
+        "one auditor-to-writer revision maximum",
+        "parent retains final approval"
+      ],
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "source": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/research/SKILL.md",
+        "validation_note": "Repository-local capability binding supplied by the confirmed recovery strategy; Dispatch Spec validates route form only."
+      }
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-confirmed-recovery",
+      "kind": "human_approval",
+      "owner": "parent",
+      "condition": "The direct confirmation remains bound to the unchanged recovery sheet SHA-256 1fc661acb630215700a19abaf9baec00d25c4dbe3bfb4dfd6ceb190c108a795c.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-definition",
+      "kind": "validation",
+      "owner": "research",
+      "condition": "The definition skeptic returns a joined and closed non-blocking receipt that preserves non-circular meanings and the bounded corpus-completeness claim.",
+      "applies_after_wave": "wave-01-definition",
+      "requires_role_receipts": [
+        "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-01-definition/definition-skeptic.json"
+      ],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-findings",
+      "kind": "validation",
+      "owner": "research",
+      "condition": "findings.md exists, cites the immutable evidence package, contains the verdict matrix, and preserves every implementation and authority ceiling.",
+      "applies_after_wave": "wave-02-writer",
+      "requires_role_receipts": [
+        "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-02-writer/findings-writer.json"
+      ],
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "2026-08-07-cyberalchemy-lab-foundation",
+    "trace_events": [
+      "dispatch_registered",
+      "action_attempted",
+      "host_spawn_returned",
+      "agent_wait_registered",
+      "wait_attempted",
+      "agent_terminal",
+      "agent_closed",
+      "wave_gate_decided",
+      "dispatch_closed"
+    ],
+    "signal_grouping": "dispatch_id, run_id, wave_id, action_id"
+  },
+  "promotion_guardrails": [
+    "The result is candidate-local research; no Inventory, ontology, definition, runtime, or product authority is created.",
+    "No implementation, ingestion, publication, deployment, release, production, Git, or external effect is authorized.",
+    "A findings audit does not prove browser behavior, human usefulness, accessibility, complete repository coverage, or promotion readiness."
+  ],
+  "techniques": [
+    "observability_grouping"
+  ]
+}

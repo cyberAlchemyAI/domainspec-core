@@ -341,9 +341,13 @@ function validatorFailureReport() {
   };
 }
 
-function runValidator(inventoryRoot, indexPath) {
+function runValidator(inventoryRoot, indexPath, { sourceInventoryRoot = null } = {}) {
   const validator = path.join(inventoryRoot, 'scripts', 'validate_projection_conformance.py');
-  const result = spawnSync('python3', [validator, indexPath, '--json'], {
+  const args = [validator, indexPath, '--json'];
+  if (sourceInventoryRoot) {
+    args.push('--source-inventory-root', sourceInventoryRoot);
+  }
+  const result = spawnSync('python3', args, {
     encoding: 'utf8',
     cwd: inventoryRoot,
   });
@@ -381,6 +385,29 @@ function warningDelta(baselineReport, candidateReport) {
     inherited_count: inherited.length,
     inherited_set_sha256: sha256Hex(canonicalSerialize(inherited)),
   };
+}
+
+function isExactPendingSourceGap(report, normalizedEntry) {
+  if (!report || report.lookup_readiness !== 'blocked') return false;
+  if (report.failure_count !== 1) return false;
+  const checks = report.checks || {};
+  const failingChecks = Object.entries(checks)
+    .filter(([, check]) => check && check.status === 'fail');
+  if (failingChecks.length !== 1 || failingChecks[0][0] !== 'source_coverage') {
+    return false;
+  }
+  const sourceCoverage = checks.source_coverage || {};
+  const expectedError = `source has no machine row: ${normalizedEntry.path}`;
+  return (
+    Array.isArray(sourceCoverage.errors) &&
+    sourceCoverage.errors.length === 1 &&
+    sourceCoverage.errors[0] === expectedError &&
+    Array.isArray(sourceCoverage.missing_source_rows) &&
+    sourceCoverage.missing_source_rows.length === 1 &&
+    sourceCoverage.missing_source_rows[0] === normalizedEntry.path &&
+    Array.isArray(sourceCoverage.orphan_machine_rows) &&
+    sourceCoverage.orphan_machine_rows.length === 0
+  );
 }
 
 function notReachedInputs() {
@@ -497,11 +524,23 @@ function currentDigests(baseline) {
 function stageCandidate(inventoryRoot, indexBytes, humanBytes) {
   const temporaryRepository = fs.mkdtempSync(path.join(os.tmpdir(), 'inventory-dry-run-'));
   const stagedRoot = path.join(temporaryRepository, '.arcanum', 'inventory');
-  fs.mkdirSync(path.dirname(stagedRoot), { recursive: true });
-  fs.cpSync(inventoryRoot, stagedRoot, { recursive: true });
+  fs.mkdirSync(stagedRoot, { recursive: true });
   fs.writeFileSync(path.join(stagedRoot, 'index.json'), indexBytes);
   fs.writeFileSync(path.join(stagedRoot, 'index.md'), humanBytes);
   return { temporaryRepository, stagedRoot };
+}
+
+function validateCandidate(inventoryRoot, indexBytes, humanBytes) {
+  const staged = stageCandidate(inventoryRoot, indexBytes, humanBytes);
+  try {
+    return runValidator(
+      inventoryRoot,
+      path.join(staged.stagedRoot, 'index.json'),
+      { sourceInventoryRoot: inventoryRoot },
+    );
+  } finally {
+    fs.rmSync(staged.temporaryRepository, { recursive: true, force: true });
+  }
 }
 
 function runAppendDryRun({ inventoryRoot, recordPath, timestampInput }) {
@@ -526,28 +565,6 @@ function runAppendDryRun({ inventoryRoot, recordPath, timestampInput }) {
     'index.json': sha256Hex(baseline.indexBytes),
     'index.md': sha256Hex(baseline.humanBytes),
   };
-  const baselineReport = runValidator(inventoryRoot, baseline.indexPath);
-  body.inputs = {
-    evidence_state: 'partial',
-    baseline_index_sha256: baselineDigests['index.json'],
-    baseline_human_index_sha256: baselineDigests['index.md'],
-    record_sha256: null,
-    normalized_record_sha256: null,
-  };
-  body.baseline = {
-    evidence_state: 'observed',
-    report_sha256: reportDigest(baselineReport),
-    lookup_readiness: baselineReport.lookup_readiness,
-    failure_count: baselineReport.failure_count,
-    warning_count: baselineReport.warning_count,
-  };
-  body.write = noWriteObservation(baselineDigests, currentDigests(baseline));
-  if (baselineReport.lookup_readiness !== 'ready') {
-    body.status = 'baseline-blocked';
-    body.reason_code = 'baseline-not-ready';
-    return emit(body);
-  }
-
   let recordBytes = null;
   let normalizedEntry;
   try {
@@ -561,8 +578,8 @@ function runAppendDryRun({ inventoryRoot, recordPath, timestampInput }) {
     body.inputs.record_sha256 = recordBytes ? sha256Hex(recordBytes) : null;
     return emit(body);
   }
-
   const normalizedBytes = canonicalSerialize(normalizedEntry);
+  const baselineReport = runValidator(inventoryRoot, baseline.indexPath);
   body.inputs = {
     evidence_state: 'observed',
     baseline_index_sha256: baselineDigests['index.json'],
@@ -570,6 +587,22 @@ function runAppendDryRun({ inventoryRoot, recordPath, timestampInput }) {
     record_sha256: sha256Hex(recordBytes),
     normalized_record_sha256: sha256Hex(normalizedBytes),
   };
+  body.baseline = {
+    evidence_state: 'observed',
+    report_sha256: reportDigest(baselineReport),
+    lookup_readiness: baselineReport.lookup_readiness,
+    failure_count: baselineReport.failure_count,
+    warning_count: baselineReport.warning_count,
+  };
+  body.write = noWriteObservation(baselineDigests, currentDigests(baseline));
+  if (
+    baselineReport.lookup_readiness !== 'ready' &&
+    !isExactPendingSourceGap(baselineReport, normalizedEntry)
+  ) {
+    body.status = 'baseline-blocked';
+    body.reason_code = 'baseline-not-ready';
+    return emit(body);
+  }
   const indexObject = JSON.parse(baseline.indexBytes);
   const transition = updateIndex(indexObject, normalizedEntry, timestampInput);
 
@@ -597,34 +630,30 @@ function runAppendDryRun({ inventoryRoot, recordPath, timestampInput }) {
   );
   const candidateIndexBytes = Buffer.from(serializeIndex(transition.index));
   const candidateHumanBytes = Buffer.from(humanTransition.markdown);
-  const staged = stageCandidate(inventoryRoot, candidateIndexBytes, candidateHumanBytes);
-  try {
-    const candidateReport = runValidator(
-      staged.stagedRoot,
-      path.join(staged.stagedRoot, 'index.json'),
-    );
-    body.candidate = {
-      evidence_state: 'observed',
-      disposition: 'added',
-      index_sha256: sha256Hex(candidateIndexBytes),
-      human_index_sha256: sha256Hex(candidateHumanBytes),
-      report_sha256: reportDigest(candidateReport),
-      lookup_readiness: candidateReport.lookup_readiness,
-    };
-    body.warning_delta = warningDelta(baselineReport, candidateReport);
-    body.write = noWriteObservation(baselineDigests, currentDigests(baseline));
-    if (candidateReport.lookup_readiness !== 'ready') {
-      body.status = 'candidate-blocked';
-      body.reason_code = 'candidate-not-ready';
-      body.residue.push('candidate-validation-blocked');
-    } else {
-      body.status = 'dry-run-ready';
-      body.reason_code = null;
-    }
-    return emit(body);
-  } finally {
-    fs.rmSync(staged.temporaryRepository, { recursive: true, force: true });
+  const candidateReport = validateCandidate(
+    inventoryRoot,
+    candidateIndexBytes,
+    candidateHumanBytes,
+  );
+  body.candidate = {
+    evidence_state: 'observed',
+    disposition: 'added',
+    index_sha256: sha256Hex(candidateIndexBytes),
+    human_index_sha256: sha256Hex(candidateHumanBytes),
+    report_sha256: reportDigest(candidateReport),
+    lookup_readiness: candidateReport.lookup_readiness,
+  };
+  body.warning_delta = warningDelta(baselineReport, candidateReport);
+  body.write = noWriteObservation(baselineDigests, currentDigests(baseline));
+  if (candidateReport.lookup_readiness !== 'ready') {
+    body.status = 'candidate-blocked';
+    body.reason_code = 'candidate-not-ready';
+    body.residue.push('candidate-validation-blocked');
+  } else {
+    body.status = 'dry-run-ready';
+    body.reason_code = null;
   }
+  return emit(body);
 }
 
 function bodyFromReceipt(receipt) {
@@ -711,6 +740,38 @@ function runAppendApply({
     body.warning_delta = notReachedWarnings();
     body.write = noWriteObservation(baselineDigests, immediateDigests);
     body.residue.push('baseline-drift-observed-before-write');
+    return emit(body);
+  }
+
+  const immediateCandidateReport = validateCandidate(
+    inventoryRoot,
+    candidate.indexBytes,
+    candidate.humanBytes,
+  );
+  const immediateCandidateReportDigest = reportDigest(immediateCandidateReport);
+  if (
+    immediateCandidateReport.lookup_readiness !== 'ready' ||
+    immediateCandidateReportDigest !== body.candidate.report_sha256
+  ) {
+    const driftReport = {
+      schema_version: 'inventory.candidate-source-drift-report.v1',
+      expected_report_sha256: body.candidate.report_sha256,
+      actual_report_sha256: immediateCandidateReportDigest,
+      actual_lookup_readiness: immediateCandidateReport.lookup_readiness,
+    };
+    body.status = 'baseline-blocked';
+    body.reason_code = 'baseline-drift-before-write';
+    body.baseline = {
+      evidence_state: 'observed',
+      report_sha256: reportDigest(deepCanonical(driftReport)),
+      lookup_readiness: 'blocked',
+      failure_count: 1,
+      warning_count: 0,
+    };
+    body.candidate = notReachedCandidate();
+    body.warning_delta = notReachedWarnings();
+    body.write = noWriteObservation(baselineDigests, immediateDigests);
+    body.residue.push('candidate-source-view-drift-observed-before-write');
     return emit(body);
   }
 

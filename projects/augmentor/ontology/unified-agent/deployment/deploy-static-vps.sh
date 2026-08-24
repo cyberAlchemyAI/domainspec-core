@@ -98,7 +98,14 @@ for required_path in \
   "$CONSUMER_ROOT/browser-first/host/augmentor-consultation-contract.mjs" \
   "$CONSUMER_ROOT/browser-first/host/augmentor-consultation-service.mjs" \
   "$PROJECTION_DIR/projection.json" \
-  "$PROJECTION_DIR/projection-manifest.json"
+  "$PROJECTION_DIR/projection-manifest.json" \
+  "$PROJECTION_DIR/glossary.json" \
+  "$PROJECTION_DIR/schemas/projection.schema.json" \
+  "$PROJECTION_DIR/schemas/projection-manifest.schema.json" \
+  "$PROJECTION_DIR/schemas/glossary.schema.json" \
+  "$PROJECTION_DIR/schemas/explanation-support.schema.json" \
+  "$PROJECTION_DIR/anatomy-focus-map.json" \
+  "$PROJECTION_DIR/schemas/anatomy-focus-map.schema.json"
 do
   if [ ! -f "$required_path" ]; then
     echo "missing consultation API deploy input: $required_path" >&2
@@ -107,7 +114,7 @@ do
 done
 
 mkdir -p "$SITE_DIR"
-mkdir -p "$API_DIR/projection"
+mkdir -p "$API_DIR/projection/schemas"
 cp "$SITE_FILE" "$SITE_DIR/index.html"
 cp "$COMPOSE_FILE" "$RELEASE_DIR/docker-compose.yml"
 cp "$NGINX_FILE" "$RELEASE_DIR/nginx.conf"
@@ -118,6 +125,13 @@ cp "$CONSUMER_ROOT/browser-first/host/augmentor-consultation-contract.mjs" "$API
 cp "$CONSUMER_ROOT/browser-first/host/augmentor-consultation-service.mjs" "$API_DIR/"
 cp "$PROJECTION_DIR/projection.json" "$API_DIR/projection/"
 cp "$PROJECTION_DIR/projection-manifest.json" "$API_DIR/projection/"
+cp "$PROJECTION_DIR/glossary.json" "$API_DIR/projection/"
+cp "$PROJECTION_DIR/anatomy-focus-map.json" "$API_DIR/projection/"
+cp "$PROJECTION_DIR/schemas/projection.schema.json" "$API_DIR/projection/schemas/"
+cp "$PROJECTION_DIR/schemas/projection-manifest.schema.json" "$API_DIR/projection/schemas/"
+cp "$PROJECTION_DIR/schemas/glossary.schema.json" "$API_DIR/projection/schemas/"
+cp "$PROJECTION_DIR/schemas/explanation-support.schema.json" "$API_DIR/projection/schemas/"
+cp "$PROJECTION_DIR/schemas/anatomy-focus-map.schema.json" "$API_DIR/projection/schemas/"
 
 printf '%s\n' \
   "PUBLIC_HOST=$PUBLIC_HOST" \
@@ -149,7 +163,7 @@ echo "uploading the protected static page and routing files"
 upload "$RELEASE_BUNDLE" "release-$RELEASE_ID.tar.gz"
 
 echo "installing the release with one-generation rollback"
-remote "set -eu; cd '$REMOTE_DIR'; next='releases/$RELEASE_ID.next'; final='releases/$RELEASE_ID'; rm -rf \"\$next\"; mkdir -p \"\$next\"; tar -xzf 'release-$RELEASE_ID.tar.gz' -C \"\$next\"; test -f \"\$next/site/index.html\"; test -f \"\$next/api/run-augmentor-consultation-deployment.mjs\"; test -f \"\$next/api/projection/projection.json\"; if [ ! -f \"\$next/.htpasswd\" ]; then test -L current; cp -p current/.htpasswd \"\$next/.htpasswd\"; fi; test \"\$(cut -d: -f1 \"\$next/.htpasswd\")\" = '$AUTH_USERNAME'; chown 101:101 \"\$next/.htpasswd\"; chmod 600 \"\$next/.htpasswd\"; docker compose -p augmentor-ontology --env-file \"\$next/.env\" -f \"\$next/docker-compose.yml\" config -q; rm -rf \"\$final\"; mv \"\$next\" \"\$final\"; old=; if [ -L current ]; then old=\$(readlink current); fi; ln -sfn \"\$final\" current.next; mv -Tf current.next current; if [ -n \"\$old\" ]; then ln -sfn \"\$old\" previous.next; mv -Tf previous.next previous; fi; rm -f 'release-$RELEASE_ID.tar.gz'"
+remote "set -eu; cd '$REMOTE_DIR'; next='releases/$RELEASE_ID.next'; final='releases/$RELEASE_ID'; rm -rf \"\$next\"; mkdir -p \"\$next\"; tar -xzf 'release-$RELEASE_ID.tar.gz' -C \"\$next\"; test -f \"\$next/site/index.html\"; test -f \"\$next/api/run-augmentor-consultation-deployment.mjs\"; test -f \"\$next/api/projection/projection.json\"; test -f \"\$next/api/projection/projection-manifest.json\"; test -f \"\$next/api/projection/glossary.json\"; test -f \"\$next/api/projection/anatomy-focus-map.json\"; test -f \"\$next/api/projection/schemas/projection.schema.json\"; test -f \"\$next/api/projection/schemas/projection-manifest.schema.json\"; test -f \"\$next/api/projection/schemas/glossary.schema.json\"; test -f \"\$next/api/projection/schemas/explanation-support.schema.json\"; test -f \"\$next/api/projection/schemas/anatomy-focus-map.schema.json\"; if [ ! -f \"\$next/.htpasswd\" ]; then test -L current; cp -p current/.htpasswd \"\$next/.htpasswd\"; fi; test \"\$(cut -d: -f1 \"\$next/.htpasswd\")\" = '$AUTH_USERNAME'; chown 101:101 \"\$next/.htpasswd\"; chmod 600 \"\$next/.htpasswd\"; docker compose -p augmentor-ontology --env-file \"\$next/.env\" -f \"\$next/docker-compose.yml\" config -q; rm -rf \"\$final\"; mv \"\$next\" \"\$final\"; old=; if [ -L current ]; then old=\$(readlink current); fi; ln -sfn \"\$final\" current.next; mv -Tf current.next current; if [ -n \"\$old\" ]; then ln -sfn \"\$old\" previous.next; mv -Tf previous.next previous; fi; rm -f 'release-$RELEASE_ID.tar.gz'"
 
 echo "starting the isolated protected container"
 if ! remote "cd '$REMOTE_DIR' && docker compose -p augmentor-ontology --env-file current/.env -f current/docker-compose.yml up -d --pull always --force-recreate api site"
@@ -160,7 +174,7 @@ then
 fi
 
 echo "checking the container directly"
-if ! remote "cd '$REMOTE_DIR' && docker compose -p augmentor-ontology --env-file current/.env -f current/docker-compose.yml exec -T site wget -qO- http://127.0.0.1/healthz && docker compose -p augmentor-ontology --env-file current/.env -f current/docker-compose.yml exec -T api node -e \"fetch('http://127.0.0.1:8787/healthz').then(async r=>{if(!r.ok)process.exit(1);const v=await r.json();if(v.service!=='augmentor-consultation')process.exit(1)})\" && docker compose -p augmentor-ontology --env-file current/.env -f current/docker-compose.yml exec -T api node -e \"const q={schemaVersion:'augmentor.consultation.query@1.0.0',requestId:'deploy-smoke',questionId:'deploy-smoke',operation:'search',query:{text:'saved conversation'},scope:{viewIds:['experience']},limits:{maxCandidates:100,maxRecords:10,maxSources:20,maxBytes:32768,maxTokens:4096,maxMillis:1000}};fetch('http://127.0.0.1:8787/augmentor/consultation',{method:'POST',headers:{'content-type':'application/json','x-resonantos-consultation-principal':'$AUTH_USERNAME'},body:JSON.stringify(q)}).then(async r=>{const v=await r.json();const supported=['ok','partial'].includes(v.consultation?.status)&&['answer','qualify'].includes(v.answerPolicy?.action);if(!r.ok||!supported||(v.consultation?.result?.statements?.length??0)<1)process.exit(1)})\""
+if ! remote "cd '$REMOTE_DIR' && docker compose -p augmentor-ontology --env-file current/.env -f current/docker-compose.yml exec -T site wget -qO- http://127.0.0.1/healthz && docker compose -p augmentor-ontology --env-file current/.env -f current/docker-compose.yml exec -T api node -e \"fetch('http://127.0.0.1:8787/healthz').then(async r=>{if(!r.ok)process.exit(1);const v=await r.json();if(v.service!=='augmentor-consultation')process.exit(1)})\" && docker compose -p augmentor-ontology --env-file current/.env -f current/docker-compose.yml exec -T api node -e \"const q={schemaVersion:'augmentor.consultation.query@1.1.0',requestId:'deploy-general-smoke',questionId:'deploy-general-smoke',operation:'search',query:{text:'saved conversation'},scope:{viewIds:['experience']},limits:{maxCandidates:100,maxRecords:10,maxSources:20,maxBytes:32768,maxTokens:4096,maxMillis:1000}};fetch('http://127.0.0.1:8787/augmentor/consultation',{method:'POST',headers:{'content-type':'application/json','x-resonantos-consultation-principal':'$AUTH_USERNAME'},body:JSON.stringify(q)}).then(async r=>{const v=await r.json();const supported=['ok','partial'].includes(v.consultation?.status)&&['answer','qualify'].includes(v.answerPolicy?.action);if(!r.ok||!supported||(v.consultation?.result?.statements?.length??0)<1)process.exit(1)})\" && docker compose -p augmentor-ontology --env-file current/.env -f current/docker-compose.yml exec -T api node -e \"const q={schemaVersion:'augmentor.consultation.query@1.2.0',requestId:'deploy-work-spine-smoke',questionId:'deploy-work-spine-smoke',operation:'search',query:{text:'How do a work plan, approval, one running task, and the final completion check fit together?'},focus:{kind:'anatomy-region',id:'work-spine'},scope:{viewIds:['experience']},limits:{maxCandidates:100,maxRecords:10,maxSources:20,maxBytes:32768,maxTokens:4096,maxMillis:1000}};fetch('http://127.0.0.1:8787/augmentor/consultation',{method:'POST',headers:{'content-type':'application/json','x-resonantos-consultation-principal':'$AUTH_USERNAME'},body:JSON.stringify(q)}).then(async r=>{const v=await r.json();const supported=['ok','partial'].includes(v.consultation?.status)&&['answer','qualify'].includes(v.answerPolicy?.action);if(!r.ok||!supported||v.consultation?.schemaVersion!=='augmentor.consultation.result@1.2.0'||v.consultation?.resolvedFocus?.id!=='work-spine'||(v.consultation?.result?.statements?.length??0)<1)process.exit(1)})\""
 then
   echo "health check failed; restoring the previous complete release" >&2
   rollback_remote

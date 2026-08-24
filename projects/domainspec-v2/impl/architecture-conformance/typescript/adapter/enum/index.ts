@@ -4,6 +4,8 @@ import { basename, dirname, relative, resolve } from "node:path";
 
 import ts from "typescript";
 
+import type { GeneratedSourceManifest } from "../../../realization/contracts/generated-source.js";
+
 type JsonRecord = Readonly<Record<string, unknown>>;
 
 export type ObservationProjection = Readonly<{
@@ -35,6 +37,32 @@ export type ProjectTypeScriptEnumOptions = Readonly<{
   profileActivationReceiptPath: string;
 }>;
 
+export type GeneratedEnumObservation = Readonly<{
+  schema_version: "ObservationProjection/v1";
+  observation_id: string;
+  source_manifest_ref: Readonly<{ module_path: string; source_sha256: string }>;
+  protocol_ref: Readonly<{ protocol_id: "typescript.owned-const-object-enum/v1"; provider_sha256: string }>;
+  facts: readonly Readonly<{
+    fact_type: "enum-member";
+    semantic_member_id: null;
+    target_identifier: string;
+    runtime_value: string;
+    source_span: Readonly<{ start: number; length: number }>;
+    confidence: "exact";
+  }>[];
+  unsupported: readonly Readonly<{ code: string; reason: string }>[];
+  diagnostics: readonly Readonly<{ code: string; message: string }>[];
+  observation_sha256: string;
+  authority_effect: "none";
+}>;
+
+export type ObserveGeneratedTypeScriptEnumOptions = Readonly<{
+  source: string;
+  manifest: GeneratedSourceManifest;
+  providerSource: string;
+  admittedProviderSha256: string;
+}>;
+
 export class TypeScriptEnumAdapterError extends Error {
   readonly code: string;
 
@@ -47,6 +75,38 @@ export class TypeScriptEnumAdapterError extends Error {
 
 const sha256 = (value: string | Uint8Array): string =>
   createHash("sha256").update(value).digest("hex");
+
+const assertNoParseDiagnostics = (sourceFile: ts.SourceFile): void => {
+  const diagnostics = (sourceFile as ts.SourceFile & {
+    readonly parseDiagnostics: readonly ts.Diagnostic[];
+  }).parseDiagnostics;
+  if (diagnostics.length > 0) {
+    throw new TypeScriptEnumAdapterError(
+      "ARCH_ENUM_OBSERVATION_PARSE_DIAGNOSTIC",
+      diagnostics.map(({ code }) => `TS${code}`).join(","),
+    );
+  }
+};
+
+const assertCompleteGeneratedModule = (
+  sourceFile: ts.SourceFile,
+  manifest: GeneratedSourceManifest,
+): void => {
+  const imports = sourceFile.statements.filter(ts.isImportDeclaration);
+  const variables = sourceFile.statements.filter(ts.isVariableStatement);
+  const types = sourceFile.statements.filter(ts.isTypeAliasDeclaration);
+  const selectedVariables = variables.flatMap((statement) =>
+    statement.declarationList.declarations.filter((declaration) =>
+      ts.isIdentifier(declaration.name) && declaration.name.text === manifest.export_name));
+  if (sourceFile.statements.length !== 3 || imports.length !== 1 || variables.length !== 1
+      || types.length !== 1 || selectedVariables.length !== 1
+      || types[0]?.name.text !== manifest.type_name) {
+    throw new TypeScriptEnumAdapterError(
+      "ARCH_ENUM_OBSERVATION_SOURCE_SCOPE_UNSUPPORTED",
+      "the complete generated module must contain only its provider import, selected Enum, and value type",
+    );
+  }
+};
 
 const repositoryPath = (root: string, path: string): string =>
   resolve(root, path);
@@ -105,7 +165,12 @@ const providerImportName = (
 };
 
 type ParsedMembers =
-  | Readonly<{ status: "supported"; members: readonly Readonly<{ key: string; value: string }>[] }>
+  | Readonly<{ status: "supported"; members: readonly Readonly<{
+      key: string;
+      value: string;
+      start: number;
+      length: number;
+    }>[] }>
   | Readonly<{ status: "unsupported"; code: string; reason: string }>;
 
 const parseMembers = (
@@ -151,7 +216,7 @@ const parseMembers = (
     };
   }
 
-  const members: Array<Readonly<{ key: string; value: string }>> = [];
+  const members: Array<Readonly<{ key: string; value: string; start: number; length: number }>> = [];
   for (const property of object.properties) {
     if (!ts.isPropertyAssignment(property)) {
       return {
@@ -181,9 +246,91 @@ const parseMembers = (
         reason: "Enum keys and values must be statically readable string literals.",
       };
     }
-    members.push({ key, value });
+    members.push({ key, value, start: property.getStart(sourceFile), length: property.getWidth(sourceFile) });
   }
-  return { status: "supported", members: [...members].sort((left, right) => left.key.localeCompare(right.key)) };
+  return {
+    status: "supported",
+    members: [...members].sort((left, right) => Buffer.from(left.key).compare(Buffer.from(right.key))),
+  };
+};
+
+const observationDigest = (
+  value: Omit<GeneratedEnumObservation, "observation_sha256">,
+): string => sha256(`${JSON.stringify(value)}\n`);
+
+export const observeGeneratedTypeScriptEnum = (
+  options: ObserveGeneratedTypeScriptEnumOptions,
+): GeneratedEnumObservation => {
+  const sourceDigest = sha256(options.source);
+  if (options.manifest.schema_version !== "GeneratedSourceManifest/v1"
+      || options.manifest.authority_effect !== "none"
+      || sourceDigest !== options.manifest.source_sha256
+      || Buffer.byteLength(options.source, "utf8") !== options.manifest.source_byte_length) {
+    throw new TypeScriptEnumAdapterError(
+      "ARCH_ENUM_OBSERVATION_SOURCE_STALE",
+      "generated source does not match its manifest",
+    );
+  }
+  const providerDigest = sha256(options.providerSource);
+  if (options.manifest.provider_module_specifier !== "../runtime/enum/index.js"
+      || providerDigest !== options.admittedProviderSha256) {
+    throw new TypeScriptEnumAdapterError(
+      "ARCH_ENUM_OBSERVATION_PROVIDER_STALE",
+      "generated source is not bound to the admitted provider",
+    );
+  }
+  const sourceFile = ts.createSourceFile(
+    options.manifest.module_path,
+    options.source,
+    ts.ScriptTarget.ESNext,
+    true,
+    ts.ScriptKind.TS,
+  );
+  assertNoParseDiagnostics(sourceFile);
+  assertCompleteGeneratedModule(sourceFile, options.manifest);
+  const declaration = exportedVariable(sourceFile, options.manifest.export_name);
+  const helperName = sourceFile.statements.flatMap((statement) => {
+    if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier)
+        || statement.moduleSpecifier.text !== options.manifest.provider_module_specifier) return [];
+    const bindings = statement.importClause?.namedBindings;
+    if (!bindings || !ts.isNamedImports(bindings)) return [];
+    const binding = bindings.elements.find(
+      (element) => (element.propertyName?.text ?? element.name.text) === "defineEnum",
+    );
+    return binding ? [binding.name.text] : [];
+  })[0] ?? null;
+  const parsed = parseMembers(sourceFile, declaration, helperName);
+  const unsupported = parsed.status === "unsupported"
+    ? [{ code: parsed.code, reason: parsed.reason }] as const
+    : [];
+  const facts = parsed.status === "supported"
+    ? parsed.members.map(({ key, value, start, length }) => Object.freeze({
+        fact_type: "enum-member" as const,
+        semantic_member_id: null,
+        target_identifier: key,
+        runtime_value: value,
+        source_span: Object.freeze({ start, length }),
+        confidence: "exact" as const,
+      }))
+    : [];
+  const diagnostics = unsupported.map(({ code, reason }) => ({ code, message: reason }));
+  const body = Object.freeze({
+    schema_version: "ObservationProjection/v1" as const,
+    observation_id: `observation.typescript.enum.${sourceDigest}`,
+    source_manifest_ref: Object.freeze({
+      module_path: options.manifest.module_path,
+      source_sha256: sourceDigest,
+    }),
+    protocol_ref: Object.freeze({
+      protocol_id: "typescript.owned-const-object-enum/v1" as const,
+      provider_sha256: providerDigest,
+    }),
+    facts: Object.freeze(facts),
+    unsupported: Object.freeze(unsupported),
+    diagnostics: Object.freeze(diagnostics),
+    authority_effect: "none" as const,
+  });
+  return Object.freeze({ ...body, observation_sha256: observationDigest(body) });
 };
 
 const fact = (
@@ -210,12 +357,10 @@ export const projectTypeScriptEnum = async (
   const sourcePath = repositoryPath(root, options.sourcePath);
   const profilePath = repositoryPath(root, options.profilePath);
   const providerPath = repositoryPath(root, options.providerPath);
-  const receiptPath = repositoryPath(root, options.profileActivationReceiptPath);
-  const [sourceText, profileText, providerText, receiptText] = await Promise.all([
+  const [sourceText, profileText, providerText] = await Promise.all([
     readFile(sourcePath, "utf8"),
     readFile(profilePath, "utf8"),
     readFile(providerPath, "utf8"),
-    readFile(receiptPath, "utf8"),
   ]);
   const profile = JSON.parse(profileText) as {
     representation_overlays?: Array<{
@@ -223,9 +368,16 @@ export const projectTypeScriptEnum = async (
         protocol_id?: string;
         runtime_provider?: { module_path?: string; provider_sha256?: string };
       }>;
+      activation_binding?: {
+        protocol_id?: string;
+        decision_ref?: { path?: string; sha256?: string };
+        provider_receipt_ref?: { path?: string; sha256?: string };
+      };
     }>;
   };
-  const protocol = profile.representation_overlays?.[0]?.candidate_protocols?.[0];
+  const overlay = profile.representation_overlays?.[0];
+  const protocol = overlay?.candidate_protocols?.[0];
+  const activation = overlay?.activation_binding;
   const providerRelativePath = relative(root, providerPath).replaceAll("\\", "/");
   if (protocol?.protocol_id !== "typescript.owned-const-object-enum/v1") {
     throw new TypeScriptEnumAdapterError("ADAPTER_PROTOCOL_MISMATCH", "profile protocol is not admitted");
@@ -237,10 +389,65 @@ export const projectTypeScriptEnum = async (
   if (protocol.runtime_provider.provider_sha256 !== providerDigest) {
     throw new TypeScriptEnumAdapterError("ADAPTER_PROVIDER_DIGEST_STALE", "profile provider digest is stale");
   }
+  if (activation?.protocol_id !== protocol.protocol_id
+      || activation.decision_ref?.path === undefined
+      || activation.provider_receipt_ref?.path === undefined
+      || options.profileActivationReceiptPath !== activation.provider_receipt_ref.path) {
+    throw new TypeScriptEnumAdapterError(
+      "ADAPTER_ACTIVATION_BINDING_MISMATCH",
+      "the supplied provider receipt is not the exact profile activation binding",
+    );
+  }
+  const decisionPath = repositoryPath(root, activation.decision_ref.path);
+  const receiptPath = repositoryPath(root, activation.provider_receipt_ref.path);
+  const [decisionText, receiptText] = await Promise.all([
+    readFile(decisionPath, "utf8"),
+    readFile(receiptPath, "utf8"),
+  ]);
+  const decisionDigest = sha256(decisionText);
+  const receiptDigest = sha256(receiptText);
+  if (decisionDigest !== activation.decision_ref.sha256
+      || receiptDigest !== activation.provider_receipt_ref.sha256) {
+    throw new TypeScriptEnumAdapterError(
+      "ADAPTER_ACTIVATION_EVIDENCE_STALE",
+      "profile activation decision or provider receipt digest is stale",
+    );
+  }
+  const decision = JSON.parse(decisionText) as {
+    schema_version?: string;
+    decision_id?: string;
+    selected_protocol?: { protocol_id?: string; module_path?: string };
+    owner?: { owner_role?: string };
+    authority_effect?: string;
+  };
+  const receipt = JSON.parse(receiptText) as {
+    schema_version?: string;
+    swu_id?: string;
+    result?: string;
+    acceptance_accounting?: {
+      protocol_id?: string;
+      provider_source?: { path?: string; sha256?: string };
+    };
+  };
+  if (decision.schema_version !== "ape.enum.typescript-representation-decision.v1"
+      || decision.authority_effect !== "none"
+      || decision.selected_protocol?.protocol_id !== protocol.protocol_id
+      || decision.selected_protocol?.module_path !== providerRelativePath
+      || decision.owner?.owner_role !== "typescript-architecture-profile-owner"
+      || receipt.schema_version !== "ape.swu-receipt.v1"
+      || receipt.swu_id !== "SWU-APE-ENUM-TS-001A"
+      || receipt.result !== "pass"
+      || receipt.acceptance_accounting?.protocol_id !== protocol.protocol_id
+      || receipt.acceptance_accounting?.provider_source?.path !== providerRelativePath
+      || receipt.acceptance_accounting?.provider_source?.sha256 !== providerDigest) {
+    throw new TypeScriptEnumAdapterError(
+      "ADAPTER_ACTIVATION_EVIDENCE_INVALID",
+      "profile activation evidence does not join the selected protocol and provider",
+    );
+  }
 
   const sourceDigest = sha256(sourceText);
   const profileDigest = sha256(profileText);
-  const receiptDigest = sha256(receiptText);
   const sourceFile = ts.createSourceFile(
     sourcePath,
     sourceText,
@@ -248,27 +455,30 @@ export const projectTypeScriptEnum = async (
     true,
     ts.ScriptKind.TS,
   );
+  assertNoParseDiagnostics(sourceFile);
   const declaration = exportedVariable(sourceFile, options.exportName);
   const helperName = providerImportName(sourceFile, sourcePath, providerPath);
   const parsed = parseMembers(sourceFile, declaration, helperName);
   const sourceRef = "raw.typescript.enum.source";
-  const ownerRef = "raw.typescript.profile-activation";
+  const decisionRef = "raw.typescript.profile-decision";
+  const providerReceiptRef = "raw.typescript.provider-receipt";
   const scopeRef = `source:${options.exportName}`;
   const observed = { kind: "observed", owner_route: "typescript-adapter-owner", raw_refs: [sourceRef] };
   const ownerResolved = {
     kind: "owner-resolved",
     owner_route: "typescript-architecture-profile-owner",
-    raw_refs: [ownerRef],
+    raw_refs: [decisionRef, providerReceiptRef],
     decision_ref: {
-      decision_id: "SWU-APE-ENUM-TS-001B",
-      decision_digest: receiptDigest,
+      decision_id: decision.decision_id,
+      decision_digest: decisionDigest,
       decided_by: "typescript-architecture-profile-owner",
       outcome: "activate-typescript.owned-const-object-enum/v1",
     },
   };
   const rawEvidence = [
     { ref_id: sourceRef, kind: "source", uri: `repo://${options.sourcePath}`, sha256: sourceDigest, selector: options.exportName },
-    { ref_id: ownerRef, kind: "owner-decision", uri: `repo://${options.profileActivationReceiptPath}`, sha256: receiptDigest, selector: "/acceptance_accounting" },
+    { ref_id: decisionRef, kind: "owner-decision", uri: `repo://${activation.decision_ref.path}`, sha256: decisionDigest, selector: "/selected_protocol" },
+    { ref_id: providerReceiptRef, kind: "provider-receipt", uri: `repo://${activation.provider_receipt_ref.path}`, sha256: receiptDigest, selector: "/acceptance_accounting/provider_source" },
   ];
   const common = {
     schema_version: "domainspec-observation-projection/v1" as const,

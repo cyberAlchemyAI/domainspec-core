@@ -18,6 +18,7 @@ claiming an IDE agent.
 | [schemas/](schemas/) | JSON schemas for module manifests, agent envelopes, and receipts. |
 | [src/](src/) | Tiny local server and kernel slices for the first witness path. |
 | [public/demo/l0.html](public/demo/l0.html) | The first workbench screen. |
+| [public/demo/research-tower.html](public/demo/research-tower.html) | Read-only Tower Scene Canvas for the locked Cyber Alchemy Lab synthetic L0 witness. |
 | [development/founding-research/](development/founding-research/) | Dispatch transcript and findings that founded the project. |
 | [development/mcp-chat-extension-integration-research/](development/mcp-chat-extension-integration-research/) | Findings for the MCP/chat adapter-admission harness and no-go external lanes. |
 
@@ -45,6 +46,14 @@ claiming an IDE agent.
 - VS Code/VSCodium wrapper: deferred until the browser path is witnessed.
 - Playwright MCP/VSCodium webview control: unproven; use adjacent browser first.
 - OpenRouter: provider adapter only; not the kernel or authority layer.
+- Tower Scene Canvas: a local, read-only animated spatial canvas over the verified
+  synthetic L0 witness. Its one selectable synthetic tower has three source-bound
+  evidence scenes—Corpus, Residue, and Closure—and a separately namespaced,
+  unavailable Tower System atlas. It cannot select a real tower, run a persona or
+  decision system, grant authority, or promote evidence. Native controls, an
+  unavailable-state panel, focus/reset orientation, mobile reflow, and
+  reduced-motion behavior preserve the semantic view independently from its
+  decorative cowork layer.
 
 ## Active V1 Sequence
 
@@ -71,6 +80,12 @@ Open the printed local URL, or go directly to:
 
 ```text
 http://127.0.0.1:8765/demo/l0
+```
+
+The Research Tower Explorer is available at:
+
+```text
+http://127.0.0.1:8765/demo/research-tower
 ```
 
 Run the no-dependency smoke test:

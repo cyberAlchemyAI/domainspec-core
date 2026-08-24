@@ -1,0 +1,59 @@
+{
+  "action_artifacts": [
+    "reductions/wave-02-writer/actions/spawn-0003.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0003",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s3"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-08-cyberalchemy-lab-foundation-recovery",
+      "forbidden_write_scopes": [
+        "projects/",
+        "research/",
+        "arcanum/",
+        "cyberAlchemy-v2/",
+        ".arcanum/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md",
+        "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-02-writer/findings-writer.json"
+      ],
+      "mode": "audit",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-03-auditor/findings-auditor.json"
+      ],
+      "role": "findings-auditor",
+      "run_id": "run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s3",
+      "target": "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md",
+      "wave_id": "wave-03-auditor",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "2026-08-08-cyberalchemy-lab-foundation-recovery",
+  "run_id": "run-001",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [
+      "wave-02-writer"
+    ],
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": false,
+    "role_ids": [
+      "findings-auditor"
+    ],
+    "wave_id": "wave-03-auditor"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}

@@ -48,3 +48,21 @@ The buildable-now slice (L0 + L1). L2+ are listed but gated (signer capability +
 - The **signer/ratifier capability** for SWU-4 (owner: sigil-development design).
 - **`BLK-CAV2-PUBLIC-PRIVATE-001`** resolution before any public-attached mint (owner: decision-gate).
 - L3 adopt-back (deferred).
+
+## Runtime-first insertion (refresh 2026-08-07)
+
+| SWU | layer | one parent task | exact write scope | acceptance evidence | verify |
+|---|---|---|---|---|---|
+| **SWU-MINT-RUNTIME-PLAN-01** deterministic no-write planner | P0 | convert one strict domain manifest into one canonical create-only effect plan with source-template digests | `cyberAlchemy-v2/development/mint/runtime/` and this SWU's Task Session evidence only | strict schemas + executable planner + deterministic/no-write/refusal tests | `python3 -m unittest discover -s cyberAlchemy-v2/development/mint/runtime/tests -v`; run the minimal fixture twice and compare stdout byte-for-byte; verify the declared target remains absent |
+
+The admitted implementation inventory is limited to a standard-library Python entry point, manifest
+and effect-plan schemas, a template/output catalog, fixtures, and tests under the private Mint runtime
+directory. It may read Mint templates but must not edit them. It may not write a target, invoke
+`domainspec-new-repo`, execute authority-triage, attach a framework, mint Zagr, or implement apply,
+journaling, recovery, signing, promotion, or network behavior.
+
+Machine-safe template rendering is a later, separately admitted runtime SWU. P0 must not treat the
+current mixed prose/example template format as a deterministic target-byte language.
+
+`SWU-MINT-RUNTIME-PLAN-01` precedes the historical SWU-1. Existing SWU build-status claims remain
+unchanged and do not count as executable-runtime evidence.

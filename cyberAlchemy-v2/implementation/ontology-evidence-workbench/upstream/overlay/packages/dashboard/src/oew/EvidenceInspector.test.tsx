@@ -25,4 +25,42 @@ describe("inspectorModel", () => {
       authorityEffect: "none",
     });
   });
+
+  it("shows one exact v1.3 binding with redundant encoding cues", () => {
+    expect(inspectorModel({
+      sourceRef: "legacy",
+      kind: "edge",
+      row: {
+        mapping_loss: "exact",
+        policy_disposition: "policy-pass",
+        diagnostics: [],
+        authority_effect: "none",
+      },
+      relationProjection: {
+        ref: {source_relation_id: "relation-a", scene_digest: "a".repeat(64)},
+        relation_digest: "b".repeat(64),
+        predicate: "confirms",
+        endpoints: {source_node_id: "runner", target_node_id: "track"},
+        source_direction: "forward",
+        evidence_refs: ["evidence:a"],
+        mapping_loss: "exact",
+        authority_effect: "none",
+        display_cues: {presentation_family: "workflow"},
+        encoding: {
+          color_token: "edge.predicate.confirms",
+          color_dark: "#11aa77",
+          pattern_label: "solid directed",
+          direction_text: "runner confirms track",
+        },
+      },
+    })).toMatchObject({
+      sourceRef: "relation-a",
+      relationId: "relation-a",
+      relation: "confirms",
+      endpoints: "runner → track",
+      directionText: "runner confirms track",
+      colorToken: "edge.predicate.confirms",
+      pattern: "solid directed",
+    });
+  });
 });

@@ -110,3 +110,25 @@ precedent**, not a governing parent (per `resonantos .../decisions/2026-06-29-me
 Design resolved by refine run `20260629T0000Z-cav2-mint-feature`; justification **re-grounded** here
 per the `mint-design-plan-review` FIX verdict (the D49-alter and two-System-5 legs were cracked — see
 ARCHITECTURE-BUNDLE §Re-grounded justification).
+
+## Executable planning contract (refresh 2026-08-07)
+
+Mint's first executable boundary is a deterministic **no-write planner**, before L0. Given a
+machine-readable domain manifest, an explicit absent target path, and pinned template sources, the
+planner validates admission, inventories the ordered prospective effects, and emits one canonical
+JSON effect plan binding every allowlisted source-template digest. It does not render target bytes,
+create the target, invoke a scaffolder, attach a framework, ratify kinds, or apply effects.
+
+The manifest must bind: schema version, domain identity and objective, governed subject, target
+root/path, privacy posture, framework source path and digest, template-set digest, domain-local
+concept/authority bindings, and the fixed planning date used by date-bearing effects. The planner
+rejects missing or unknown fields, source-digest drift, unsafe or colliding effects, existing targets,
+path escape (including resolved symlink escape), public attachment, and any prospective output not
+strictly below the normalized target path.
+
+The effect plan binds the canonical manifest digest, template-set digest, planner version, ordered
+prospective writes, source-template sizes and SHA-256 digests, validation results, and blockers.
+Identical inputs and pinned sources must produce byte-identical stdout. The current templates mix
+instructions, examples, and intentional angle-bracket specimens, so machine-safe rendering belongs
+to a later typed render-IR SWU. This contract proves only planning; rendering, filesystem application,
+journaling/recovery, L0/L1 acceptance, and a Zagr-derived casting remain later work.

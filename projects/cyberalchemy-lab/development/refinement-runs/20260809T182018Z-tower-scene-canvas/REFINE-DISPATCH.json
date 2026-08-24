@@ -1,0 +1,119 @@
+{
+  "dispatch_id": "20260809T182018Z-tower-scene-canvas",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Refine a research and prototype plan for an open canvas of Research Towers where every selectable level is an evidence-bound scene.",
+    "objective": "Produce a non-executed, source-bound multi-tower canvas plan for CyberAlchemy Lab and the existing IDE workbench.",
+    "target_artifact": "projects/cyberalchemy-lab/development/refinement-runs/20260809T182018Z-tower-scene-canvas/RESULT.md",
+    "arcanum_vocabulary": ["context-builder", "invoke", "interrogation", "distill", "refine", "dispatch-spec"],
+    "operator_sentence": "Create a plan for an open tower canvas that grows from the one synthetic witness without pretending that design-stage Tower System components exist.",
+    "preset": "standard",
+    "research_mode": "research-if-gap-appears"
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "The selected route is a source-bound research and prototype plan, not implementation or engine selection.",
+    "items": [
+      {"id": "evidence-scene-plan", "label": "Evidence-scene plan", "description": "Plan a read-only multi-tower canvas from the current synthetic witness.", "pattern": "sequential"},
+      {"id": "external-engine-study", "label": "External engine study", "description": "Only if a named local gap blocks the plan; requires a new operator confirmation.", "pattern": "route"}
+    ],
+    "selected_item_id": "evidence-scene-plan"
+  },
+  "techniques": ["sequence", "frame_handoff", "handle_handoff", "validation_loop", "route_menu", "residue_ledger", "x_ray", "component_descriptor", "toy_game"],
+  "technique_overlays": [
+    {
+      "overlay_id": "evidence-scene-boundary",
+      "trigger": "A visual scene may be mistaken for an asserted runtime capability.",
+      "techniques": ["x_ray", "component_descriptor", "residue_ledger"],
+      "applies_to_steps": ["s01-context", "s03-review", "s06-design", "s10-synthesis"],
+      "validation_expectation": "Every planned scene declares evidence sources, state, claim ceiling, unavailable state, and refusal behavior."
+    },
+    {
+      "overlay_id": "low-cost-falsification",
+      "trigger": "Spatial navigation and motion can hide semantic or accessibility failures.",
+      "techniques": ["toy_game", "validation_loop"],
+      "applies_to_steps": ["s08-repair", "s09-plan"],
+      "validation_expectation": "The work pack contains keyboard, reduced-motion, narrow-viewport, and unavailable-level acceptance checks."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "The plan combines separate semantic and interaction/accessibility lenses over more than three source surfaces; sequential independent review protects the parent context and prevents visual overclaim.",
+    "explanation": "The semantic mapper owns only source-to-scene boundaries. The critic consumes that receipt and attacks spatial interaction and accessibility. The parent alone writes the Refine artifacts and makes no product mutation.",
+    "context": ["strategy-inventory-packet.json", "two read-only local roles", "no external research without a named gap and operator confirmation"],
+    "binding_mode": "capability-bound",
+    "execution_owner": "parent-orchestrator",
+    "roles": [
+      {
+        "role_id": "tower-semantics-mapper",
+        "purpose": "Map current fixture and taxonomy evidence into permitted scene content.",
+        "owns": "Source-bound scene semantics receipt",
+        "capability_ref": "context-builder",
+        "capability_target": "tower scene evidence boundary",
+        "capability_mode": "standard",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["projects/ide-extension/", "projects/cyberalchemy-lab/research/", "telemetry/", "arcanum/"],
+        "depends_on_roles": [],
+        "input_refs": ["strategy-inventory-packet"],
+        "output_refs": ["receipts/tower-semantics-mapper.md"],
+        "applies_to_steps": ["s01-context"]
+      },
+      {
+        "role_id": "spatial-prototype-critic",
+        "purpose": "Challenge navigation, motion, accessibility, and responsive behavior without expanding scope.",
+        "owns": "Spatial prototype critique receipt",
+        "capability_ref": "interrogation",
+        "capability_target": "tower scene canvas",
+        "capability_mode": "refine-review",
+        "agent_count": 1,
+        "mutation_policy": "read-only",
+        "forbidden_write_scopes": ["projects/ide-extension/", "projects/cyberalchemy-lab/research/", "telemetry/", "arcanum/"],
+        "depends_on_roles": ["tower-semantics-mapper"],
+        "input_refs": ["receipts/tower-semantics-mapper.md", "stages/02-define.md"],
+        "output_refs": ["receipts/spatial-prototype-critic.md"],
+        "applies_to_steps": ["s03-review"]
+      }
+    ],
+    "execution_waves": [
+      {"wave_id": "semantic-map", "role_ids": ["tower-semantics-mapper"], "parallel": false, "join_policy": "all", "gate_after": "g-semantic-receipt", "on_incomplete": "block"},
+      {"wave_id": "spatial-critique", "role_ids": ["spatial-prototype-critic"], "parallel": false, "join_policy": "all", "depends_on_waves": ["semantic-map"], "on_incomplete": "block"}
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "The operator confirmed the two local read-only reviewer roles as part of this Refine strategy.",
+    "receipt_requirements": ["agent_id", "role_id", "spawn_status", "join_status", "close_status", "dispatch_id", "step_id", "capability_ref", "capability_target", "capability_mode", "wave_id", "write_scope", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "reroute", "handoff_note"]
+  },
+  "steps": [
+    {"step_id": "s01-context", "name": "Context Builder baseline", "capability_ref": "context-builder", "mode": "standard", "pattern": "xray", "techniques": ["x_ray", "component_descriptor"], "inputs": [{"kind": "intent", "ref": "intent.raw"}, {"kind": "artifact", "ref": "strategy-inventory-packet"}], "outputs": [{"kind": "frame", "ref": "context-frame"}, {"kind": "handle", "ref": "source-boundary-map"}, {"kind": "receipt", "ref": "receipts/tower-semantics-mapper.md"}], "evidence_artifact": "stages/01-context-builder.md", "stop_conditions": ["stop if source evidence cannot distinguish the two layer vocabularies"]},
+    {"step_id": "s02-define", "name": "Invoke Define", "capability_ref": "invoke", "mode": "define", "pattern": "sequential", "techniques": ["frame_handoff"], "inputs": [{"kind": "frame", "ref": "context-frame"}], "outputs": [{"kind": "artifact", "ref": "stages/02-define.md"}], "evidence_artifact": "stages/02-define.md", "stop_conditions": ["stop if the definition implies a real corpus or authority"]},
+    {"step_id": "s03-review", "name": "Interrogation refine review", "capability_ref": "interrogation", "mode": "refine-review", "pattern": "dialectic", "techniques": ["residue_ledger"], "roles": ["spatial-prototype-critic", "parent"], "convergence_criteria": ["retain only source-bound, testable scene requirements"], "inputs": [{"kind": "artifact", "ref": "stages/02-define.md"}, {"kind": "receipt", "ref": "receipts/tower-semantics-mapper.md"}], "outputs": [{"kind": "frame", "ref": "review-frame"}, {"kind": "receipt", "ref": "receipts/spatial-prototype-critic.md"}], "evidence_artifact": "stages/03-interrogation-review.md", "stop_conditions": ["stop if an interaction requirement needs unknown external evidence"]},
+    {"step_id": "s04-research", "name": "Research decision", "capability_ref": "refine", "mode": "research-decision", "pattern": "decision", "techniques": ["route_menu"], "inputs": [{"kind": "frame", "ref": "review-frame"}], "outputs": [{"kind": "decision", "ref": "research-decision"}], "evidence_artifact": "stages/04-research-decision.md", "stop_conditions": ["ask the operator before any new external research"]},
+    {"step_id": "s05-distill", "name": "Distill selected vertical slice", "capability_ref": "distill", "mode": "standard", "pattern": "distill", "techniques": ["residue_ledger"], "inputs": [{"kind": "decision", "ref": "research-decision"}], "outputs": [{"kind": "handle", "ref": "scene-contract"}], "evidence_artifact": "stages/05-distill.md", "stop_conditions": ["stop if a scene cannot name its evidence and refusal state"]},
+    {"step_id": "s06-design", "name": "Invoke Design", "capability_ref": "invoke", "mode": "design", "pattern": "sequential", "techniques": ["handle_handoff"], "inputs": [{"kind": "handle", "ref": "scene-contract"}], "outputs": [{"kind": "artifact", "ref": "stages/06-design.md"}], "evidence_artifact": "stages/06-design.md", "stop_conditions": ["stop if design requires an unapproved dependency or a new external source"]},
+    {"step_id": "s07-design-review", "name": "Interrogation design review", "capability_ref": "interrogation", "mode": "refine-design-review", "pattern": "dialectic", "techniques": ["validation_loop"], "roles": ["parent", "spatial-prototype-critic"], "convergence_criteria": ["resolve only defects that are testable in the future work pack"], "inputs": [{"kind": "artifact", "ref": "stages/06-design.md"}, {"kind": "receipt", "ref": "receipts/spatial-prototype-critic.md"}], "outputs": [{"kind": "frame", "ref": "design-review-frame"}], "evidence_artifact": "stages/07-design-review.md", "stop_conditions": ["stop if the design hides unproven states"]},
+    {"step_id": "s08-repair", "name": "Distill repair", "capability_ref": "distill", "mode": "repair", "pattern": "toy_game", "techniques": ["toy_game", "validation_loop"], "inputs": [{"kind": "frame", "ref": "design-review-frame"}], "outputs": [{"kind": "handle", "ref": "repaired-scene-contract"}], "evidence_artifact": "stages/08-distill-repair.md", "stop_conditions": ["stop if negative controls cannot be stated"]},
+    {"step_id": "s09-plan", "name": "Invoke Plan", "capability_ref": "invoke", "mode": "plan", "pattern": "sequential", "techniques": ["frame_handoff"], "inputs": [{"kind": "handle", "ref": "repaired-scene-contract"}], "outputs": [{"kind": "artifact", "ref": "stages/09-plan.md"}], "evidence_artifact": "stages/09-plan.md", "stop_conditions": ["stop before product mutation or Goal ledger application"]},
+    {"step_id": "s10-synthesis", "name": "Refine synthesis", "capability_ref": "refine", "mode": "synthesis", "pattern": "synthesis", "techniques": ["residue_ledger"], "inputs": [{"kind": "artifact", "ref": "stages/09-plan.md"}], "outputs": [{"kind": "artifact", "ref": "RESULT.md"}, {"kind": "handoff", "ref": "RUNTIME-HANDOFF.md"}], "evidence_artifact": "stages/10-final-synthesis.md", "stop_conditions": ["stop when the next route needs a separate user confirmation"]}
+  ],
+  "gates": [
+    {"gate_id": "g-semantic-receipt", "kind": "validation", "owner": "parent-orchestrator", "condition": "The semantic mapper receipt names exact sources, preserves both layer vocabularies, and makes no authority claim.", "applies_after_wave": "semantic-map", "requires_role_receipts": ["receipts/tower-semantics-mapper.md"], "on_fail": "block"},
+    {"gate_id": "g-external-research", "kind": "human_approval", "owner": "operator", "condition": "Any named gap requiring new external research must receive a new explicit confirmation.", "on_fail": "ask"},
+    {"gate_id": "g-no-product-mutation", "kind": "policy", "owner": "parent-orchestrator", "condition": "This Refine run writes only run-local artifacts and the dispatch ledger; product code and fixtures remain untouched.", "on_fail": "block"}
+  ],
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {"agent_id": "/root/tower_semantics_mapper", "role_id": "tower-semantics-mapper", "capability_ref": "context-builder", "capability_target": "tower scene evidence boundary", "capability_mode": "standard", "wave_id": "semantic-map", "write_scope": [], "lane_name": "Tower semantics map", "spawn_status": "spawned", "join_status": "completed", "receipt_artifact": "receipts/tower-semantics-mapper.md", "close_status": "closed", "residue": "representative selection and blocked promotion remain open", "reroute": "parent Refine design and plan"},
+      {"agent_id": "/root/spatial_prototype_critic", "role_id": "spatial-prototype-critic", "capability_ref": "interrogation", "capability_target": "tower scene canvas", "capability_mode": "refine-review", "wave_id": "spatial-critique", "write_scope": [], "lane_name": "Spatial prototype critique", "spawn_status": "spawned", "join_status": "completed", "receipt_artifact": "receipts/spatial-prototype-critic.md", "close_status": "closed", "residue": "browser acceptance remains future work", "reroute": "parent Refine design and plan"}
+    ]
+  },
+  "native_stage_receipts": [
+    {"dispatch_id": "20260809T182018Z-tower-scene-canvas", "step_id": "s01-context", "capability_ref": "context-builder", "receipt_kind": "subagent", "status": "pass", "artifacts": ["receipts/tower-semantics-mapper.md"], "validation": ["source selectors and evidence-state separation returned"], "observer_status": "not_needed", "blockers": [], "residue": "representative selection remains open", "handoff_note": "Use only as a source-bound scene contract input."},
+    {"dispatch_id": "20260809T182018Z-tower-scene-canvas", "step_id": "s03-review", "capability_ref": "interrogation", "receipt_kind": "subagent", "status": "pass", "artifacts": ["receipts/spatial-prototype-critic.md"], "validation": ["interaction, accessibility, mobile, and refusal constraints returned"], "observer_status": "not_needed", "blockers": [], "residue": "browser proof remains future work", "handoff_note": "Use only to constrain the later work pack."}
+  ],
+  "observability": {"dispatch_id_required": true, "parent_dispatch_id": null, "trace_events": ["refine_started", "inventory_lookup_completed", "read_only_review_joined", "refine_synthesized"], "signal_grouping": "run-local-refine"},
+  "promotion_guardrails": ["Do not promote inventory, ontology, glossary, skill, spell, source fixture, or product claim from this planning result.", "A later Goal may stage a fresh Lab-specific Craft context but must not consume the active IDE Workbench UI context."],
+  "boundary_evidence": {"boundaries": [{"boundary_id": "read-only-review", "kind": "evidence_return", "from_owner": "reviewers", "to_owner": "parent-orchestrator", "applies_to_steps": ["s01-context", "s03-review"], "contract": "Reviewers return receipts only; they may not mutate source or product paths.", "on_violation": "block"}, {"boundary_id": "external-gap", "kind": "external_context", "from_owner": "parent-orchestrator", "to_owner": "operator", "applies_to_steps": ["s04-research"], "contract": "External research is blocked until a named gap and a new confirmation exist.", "on_violation": "ask"}]}
+}

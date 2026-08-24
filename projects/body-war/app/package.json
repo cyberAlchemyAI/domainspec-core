@@ -12,6 +12,8 @@
     "db:migrate": "npm run build && node dist/src/infrastructure/postgres/migrate-cli.js",
     "e2e": "npm run build:e2e && BODY_WAR_AUTH_BACKEND=postgres BODY_WAR_STRAVA_FAKE=1 node .runtime/e2e-dist/e2e/body-war-auth.e2e.js",
     "e2e:all": "sh scripts/e2e.sh all",
+    "geometry:export": "npm run build && node --env-file=.env dist/src/geometry/export-strava-geometry.js",
+    "geometry:reconnect": "npm run build && node --env-file=.env dist/src/geometry/reconnect-strava.js",
     "validate": "sh scripts/validate.sh",
     "test": "npm run build:test && BODY_WAR_AUTH_BACKEND=memory BODY_WAR_STRAVA_FAKE=1 node --test dist-test/tests/*.test.js",
     "test:ui": "npm run build && playwright test",

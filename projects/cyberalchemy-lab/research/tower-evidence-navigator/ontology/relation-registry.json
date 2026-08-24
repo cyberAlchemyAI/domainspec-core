@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "cal-relation-registry-v1",
+  "authority_effect": "none",
+  "relations": [
+    {"kind": "package_contains", "from": ["TowerPackageSnapshot"], "to": ["SourceSnapshot", "Claim", "EvidenceAnchor", "DefinitionReference", "ResidueItem", "OntologyCandidate", "PromotionRecord"], "min": 1, "cycle_policy": "acyclic", "owner": "input"},
+    {"kind": "anchored_by", "from": ["Claim", "OntologyCandidate"], "to": ["EvidenceAnchor"], "min": 1, "cycle_policy": "acyclic", "owner": "input"},
+    {"kind": "supports", "from": ["EvidenceAnchor"], "to": ["Claim", "OntologyCandidate"], "min": 1, "cycle_policy": "acyclic", "owner": "input"},
+    {"kind": "references_definition", "from": ["OntologyCandidate"], "to": ["DefinitionReference"], "min": 1, "cycle_policy": "acyclic", "owner": "input"},
+    {"kind": "derived_from", "from": ["ProjectionRecord"], "to": ["SourceSnapshot", "TowerPackageSnapshot", "Claim", "EvidenceAnchor", "DefinitionReference", "ResidueItem", "OntologyCandidate", "PromotionRecord"], "min": 1, "cycle_policy": "acyclic", "owner": "compiler"},
+    {"kind": "blocked_by", "from": ["PromotionRecord", "OntologyCandidate"], "to": ["ResidueItem", "ValidationRecord"], "min": 1, "cycle_policy": "acyclic", "owner": "input"},
+    {"kind": "contradicts", "from": ["Claim"], "to": ["Claim"], "min": 2, "cycle_policy": "symmetric-pair-only", "owner": "input"}
+  ],
+  "output_order": ["package_contains", "anchored_by", "supports", "references_definition", "derived_from", "blocked_by", "contradicts"]
+}

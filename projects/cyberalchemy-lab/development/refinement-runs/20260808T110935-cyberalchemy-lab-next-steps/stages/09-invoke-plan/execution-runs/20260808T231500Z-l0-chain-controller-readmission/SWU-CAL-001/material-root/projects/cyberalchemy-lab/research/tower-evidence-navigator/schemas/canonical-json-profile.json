@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberalchemy.lab/schemas/canonical-json-profile/1-0-0",
+  "schema_version": "1.0.0",
+  "profile_id": "cal-canonical-json-v1",
+  "authority_effect": "none",
+  "accepted_values": [
+    "null",
+    "boolean",
+    "string",
+    "array",
+    "object",
+    "safe-integer"
+  ],
+  "integer_range": {
+    "minimum": -9007199254740991,
+    "maximum": 9007199254740991
+  },
+  "forbidden_number_forms": [
+    "fraction",
+    "exponent",
+    "negative-zero",
+    "nan",
+    "positive-infinity",
+    "negative-infinity",
+    "unsafe-integer"
+  ],
+  "object_keys": {
+    "character_set": "printable-ascii-0x20-through-0x7e",
+    "unique_after_json-string-decoding": true,
+    "ordering": "ascending-raw-ascii-byte"
+  },
+  "arrays": {
+    "ordering": "preserve-input-order",
+    "sparse_values": "forbidden"
+  },
+  "strings": {
+    "serialization": "ecmascript-json-stringify-single-string",
+    "output_encoding": "utf-8"
+  },
+  "objects": {
+    "insignificant_whitespace": "forbidden",
+    "accessor_properties": "forbidden",
+    "symbol_properties": "forbidden"
+  },
+  "parsing": {
+    "duplicate_key_check": "before-json-parse-materialization",
+    "forbidden_number_check": "before-json-parse-materialization"
+  },
+  "digest": {
+    "algorithm": "sha256",
+    "preimage_fields": [
+      "profile_id",
+      "profile_schema_version",
+      "value_schema_version",
+      "canonical_utf8_bytes"
+    ],
+    "separator": "nul-byte",
+    "output": "64-lowercase-hex"
+  },
+  "non_goals": [
+    "general-rfc-8785-compatibility",
+    "floating-point-canonicalization",
+    "unicode-object-keys",
+    "filesystem-io",
+    "network-io"
+  ]
+}

@@ -1,0 +1,28 @@
+diff --git a/.arcanum/inventory/lib/inventory-update.cjs b/.arcanum/inventory/lib/inventory-update.cjs
+--- a/.arcanum/inventory/lib/inventory-update.cjs
++++ b/.arcanum/inventory/lib/inventory-update.cjs
+@@ -344,10 +344,19 @@
+ function runValidator(inventoryRoot, indexPath, { sourceInventoryRoot = null } = {}) {
+-  const validator = path.join(inventoryRoot, 'scripts', 'validate_projection_conformance.py');
+-  const args = [validator, indexPath, '--json'];
+-  if (sourceInventoryRoot) {
+-    args.push('--source-inventory-root', sourceInventoryRoot);
++  const resolvedInventoryRoot = path.resolve(inventoryRoot);
++  const resolvedIndexPath = path.resolve(indexPath);
++  const resolvedSourceInventoryRoot = sourceInventoryRoot
++    ? path.resolve(sourceInventoryRoot)
++    : null;
++  const validator = path.join(
++    resolvedInventoryRoot,
++    'scripts',
++    'validate_projection_conformance.py',
++  );
++  const args = [validator, resolvedIndexPath, '--json'];
++  if (resolvedSourceInventoryRoot) {
++    args.push('--source-inventory-root', resolvedSourceInventoryRoot);
+   }
+   const result = spawnSync('python3', args, {
+     encoding: 'utf8',
+-    cwd: inventoryRoot,
++    cwd: resolvedInventoryRoot,
+   });

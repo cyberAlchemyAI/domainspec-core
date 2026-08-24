@@ -1,0 +1,46 @@
+{
+  "schema_version": "cyberalchemy-lab.governance-sidecar-validation/v1",
+  "sidecar_id": "WPRA_EXECUTION_ENTRY_VALIDATION_SELECTOR_DRIFT",
+  "authority_effect": "none",
+  "candidate_patch": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/WPRA_EXECUTION_ENTRY_VALIDATION_SELECTOR_DRIFT/candidate/repair.patch",
+    "sha256": "c4b5bb71d4ff395ddcb82ebf45f6944751acaf72f0b4297ba73460bf39980334",
+    "size_bytes": 4836,
+    "patch_dry_run": "pass"
+  },
+  "runs": [
+    {
+      "id": "candidate-python-compile",
+      "command": "python3 -m py_compile <candidate>/work-pack/admission/validate-admission.py <candidate>/work-pack/admission/validate-wpra-audit.py",
+      "status": "pass",
+      "result": "Both candidate Python sources compiled without diagnostics."
+    },
+    {
+      "id": "candidate-static-admission",
+      "command": "python3 <candidate>/work-pack/admission/validate-admission.py --plan-root <candidate>",
+      "status": "pass",
+      "result": "The ten-unit contract and the current SWU-CAL-001 one-unit projection passed with product_commands_run=0 and authority_effect=none."
+    },
+    {
+      "id": "generated-config-actual-wpra-v2",
+      "commands": [
+        "python3 <candidate>/work-pack/admission/validate-admission.py --plan-root <candidate> --build-wpra-config --output <fresh-temp>/WPRA-CONFIG.json",
+        "python3 <candidate>/arcanum/spells/work-pack-readiness-audit/scripts/audit_work_pack.py --config <fresh-temp>/WPRA-CONFIG.json --output-dir <fresh-temp>/wpra"
+      ],
+      "status": "pass",
+      "result": "The emitted selector is /execution_entry_frontier/0. Actual WPRA v2 returned verdict=pass, terminal_code=PLAN_SEMANTIC_READY, runtime_admission_status=pending-selection, selected_unit=null, mutation_ready=false, configured_commands_executed=false, and no blockers."
+    },
+    {
+      "id": "permanent-selector-regression",
+      "command": "python3 <candidate>/work-pack/admission/validate-wpra-audit.py --plan-root <candidate>",
+      "status": "pass",
+      "result": "The new regression generates a fresh config and audits it to pass, then injects the former /frontier/0 selector and requires exit 2, verdict=block, and BINDING_SELECTOR_UNRESOLVED. It reports product_commands_run=0."
+    }
+  ],
+  "non_claims": [
+    "The candidate was not applied to the accepted plan or generated WPRA configuration.",
+    "No L0 product command ran; WPRA only read contracts and wrote isolated temporary audit evidence.",
+    "No product file, terminal receipt, historical receipt, task-session runtime, generated skill, Git state, promotion, publication, deployment, or external system was mutated.",
+    "A passing candidate-local WPRA result is not owner acceptance, Decision Gate approval, Task Session admission, or authorization to execute L0."
+  ]
+}

@@ -94,7 +94,7 @@ const validateNodes = async () => {
   assert.equal(observationIds.length, 8);
   const explanationIds = layout.bands.find((band) => band.id === "explanation").node_ids;
   assert.equal(explanationIds.length, 12);
-  assert.equal(Object.keys(layout.positions).length, 129);
+  assert.equal(Object.keys(layout.positions).length, 131);
   assert.ok(layout.positions["scene:body-war.source.suggested-track-status"]);
   assert.ok(layout.positions["scene:body-war.explanation.receipt-authority"]);
 

@@ -1,0 +1,130 @@
+{
+  "fixture_contract": "lucifers-lights-whisper-story-ontology-negatives/v1",
+  "authority_effect": "none",
+  "fixtures": [
+    {
+      "fixture_id": "NEG-LL-UNKNOWN-KIND",
+      "description": "An undeclared story entity kind must fail closed.",
+      "mutation": {
+        "op": "append_node",
+        "value": {
+          "node_id": "PROP-LL-UNADMITTED-001",
+          "kind": "CandidatePropEntity",
+          "label": "Unadmitted prop",
+          "status": "candidate",
+          "owner": "author-local",
+          "evidence_confidence": "explicit",
+          "commitment_confidence": "candidate",
+          "intent_state": "volatile",
+          "evidence_refs": [
+            "SRC-LL-CH01"
+          ],
+          "properties": {}
+        }
+      },
+      "expected_result": "policy-fail",
+      "expected_error": "UNKNOWN_KIND"
+    },
+    {
+      "fixture_id": "NEG-LL-UNKNOWN-PREDICATE",
+      "description": "An undeclared story relation must fail closed.",
+      "mutation": {
+        "op": "append_edge",
+        "value": {
+          "edge_id": "EDGE-LL-UNADMITTED-LOVES",
+          "predicate": "loves",
+          "source_id": "CHAR-LL-LUCIFER",
+          "target_id": "CHAR-LL-MARA",
+          "policy_owner": "author-local",
+          "status": "active",
+          "evidence_refs": [
+            "SRC-LL-CH01"
+          ]
+        }
+      },
+      "expected_result": "policy-fail",
+      "expected_error": "UNKNOWN_PREDICATE"
+    },
+    {
+      "fixture_id": "NEG-LL-INVALID-ENDPOINTS",
+      "description": "A known predicate with an invalid endpoint pair must fail closed.",
+      "mutation": {
+        "op": "append_edge",
+        "value": {
+          "edge_id": "EDGE-LL-INVALID-OCCURS",
+          "predicate": "occurs_at",
+          "source_id": "CHAR-LL-MARA",
+          "target_id": "PLACE-LL-HALO",
+          "policy_owner": "author-local",
+          "status": "active",
+          "evidence_refs": [
+            "SRC-LL-CH01"
+          ]
+        }
+      },
+      "expected_result": "policy-fail",
+      "expected_error": "INVALID_ENDPOINT_PAIR"
+    },
+    {
+      "fixture_id": "NEG-LL-WRONG-POLICY-OWNER",
+      "description": "A known relation asserted under the wrong policy owner must fail closed.",
+      "mutation": {
+        "op": "replace_edge_policy_owner",
+        "edge_id": "EDGE-LL-PLAN-DERIVED-INTENT",
+        "value": "author-local"
+      },
+      "expected_result": "policy-fail",
+      "expected_error": "POLICY_OWNER_MISMATCH"
+    },
+    {
+      "fixture_id": "NEG-LL-UNKNOWN-EVIDENCE-STATE",
+      "description": "An undeclared confidence value must fail closed.",
+      "mutation": {
+        "op": "append_record",
+        "value": {
+          "record_id": "REC-LL-INVALID-CONFIDENCE",
+          "role": "canon_claim",
+          "statement": "Invalid test record.",
+          "subject_refs": [
+            "CHAR-LL-MARA"
+          ],
+          "source_refs": [
+            "SRC-LL-CH01"
+          ],
+          "evidence_state": "certain",
+          "commitment_state": "candidate",
+          "intent_state": "volatile",
+          "owner": "author",
+          "transport_visibility": "authoring-only"
+        }
+      },
+      "expected_result": "policy-fail",
+      "expected_error": "UNKNOWN_EVIDENCE_STATE"
+    },
+    {
+      "fixture_id": "NEG-LL-UNKNOWN-SOURCE",
+      "description": "A source reference outside the registry must fail closed.",
+      "mutation": {
+        "op": "append_record",
+        "value": {
+          "record_id": "REC-LL-INVALID-SOURCE",
+          "role": "canon_claim",
+          "statement": "Invalid source test record.",
+          "subject_refs": [
+            "CHAR-LL-MARA"
+          ],
+          "source_refs": [
+            "SRC-LL-DOES-NOT-EXIST"
+          ],
+          "evidence_state": "explicit",
+          "commitment_state": "candidate",
+          "intent_state": "volatile",
+          "owner": "author",
+          "transport_visibility": "authoring-only"
+        }
+      },
+      "expected_result": "policy-fail",
+      "expected_error": "UNKNOWN_SOURCE_REF"
+    }
+  ]
+}

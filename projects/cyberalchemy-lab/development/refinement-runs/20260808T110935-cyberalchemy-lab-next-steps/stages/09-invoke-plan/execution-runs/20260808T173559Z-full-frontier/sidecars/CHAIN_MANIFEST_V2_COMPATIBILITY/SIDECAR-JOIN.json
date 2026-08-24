@@ -1,0 +1,40 @@
+{
+  "schema_version": "cyberalchemy-lab.governance-defect-sidecar-join/v1",
+  "helper": "/root/chain_manifest_schema_sidecar",
+  "helper_classification": "one-bounded-governance-defect-sidecar",
+  "blocker_code": "EPOCH_BINDING_MISMATCH",
+  "joined_at": "2026-08-08T21:12:54Z",
+  "join_result": "candidate-validated-awaiting-owner-acceptance",
+  "receipt_ref": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/CHAIN_MANIFEST_V2_COMPATIBILITY/SIDECAR-RECEIPT.json",
+    "sha256": "f80eda5293bf75c47ddeb9d33e04fd3fd7c53e4baf1bb03933857ff0a9a6b78b",
+    "size_bytes": 4423
+  },
+  "candidate_ref": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/CHAIN_MANIFEST_V2_COMPATIBILITY/candidate/repair.patch",
+    "sha256": "8f13f57484fb8e36e7a2c499df667a423767b6882b77dd05774394e55f5d2e8c",
+    "size_bytes": 11867
+  },
+  "validation_ref": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/CHAIN_MANIFEST_V2_COMPATIBILITY/VALIDATION.json",
+    "sha256": "d3566dc68e8e1af7217643c748c95c29b527b9ee5036a4aa8de8ba06434800d6",
+    "size_bytes": 2697
+  },
+  "independent_parent_checks": {
+    "receipt_json_valid": true,
+    "candidate_sha256_matches": true,
+    "candidate_target_count": 3,
+    "source_preserving_patch_dry_run_passed": true,
+    "isolated_replay_passed": true,
+    "canonical_regression_suite_passed": true,
+    "live_v2_preflight_candidate_returns_only_swu_cal_001": true,
+    "current_runner_baseline_blocks_with_epoch_binding_mismatch": true,
+    "product_commands_executed": 0,
+    "live_canonical_and_generated_sources_unchanged": true
+  },
+  "canonical_apply_authorized": false,
+  "generated_sync_authorized": false,
+  "product_execution_authorized": false,
+  "next_gate": "renewed owner acceptance bound to the exact three-target candidate; then canonical apply, canonical validation, generated package sync/parity, fresh v2 chain preflight, and separate Decision Gate before Task Session admission",
+  "authority_effect": "none"
+}

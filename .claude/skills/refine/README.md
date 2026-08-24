@@ -25,15 +25,15 @@ Users often have a target, concern, folder, repository area, or rough idea, but 
 
 ## Ownership Model
 
-| Capability       | Owns                                                                                                                         |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Refine           | Seed design, research decision, dispatch request, runtime handoff, manifest/index, final synthesis, recommended next routes. |
-| Dispatch Spec    | Route-shape validation, technique references, gates, handoffs, and observability grouping.                                   |
-| Context Builder  | Evidence baseline and runtime handoff context.                                                                               |
-| Invoke           | Define, Design, and Plan artifacts.                                                                                          |
-| Interrogation    | Critique and readiness verdict artifacts.                                                                                    |
-| Distill          | Coherent-unit selection, optimization, and repair artifacts.                                                                 |
-| Runtime adapters | Adapter-specific execution status when a durable runtime run is dispatched.                                                  |
+| Capability | Owns |
+| --- | --- |
+| Refine | Seed design, research decision, dispatch request, runtime handoff, manifest/index, final synthesis, recommended next routes. |
+| Dispatch Spec | Route-shape validation, technique references, gates, handoffs, and observability grouping. |
+| Context Builder | Evidence baseline and runtime handoff context. |
+| Invoke | Define, Design, and Plan artifacts. |
+| Interrogation | Critique and readiness verdict artifacts. |
+| Distill | Coherent-unit selection, optimization, and repair artifacts. |
+| Runtime adapters | Adapter-specific execution status when a durable runtime run is dispatched. |
 
 Task Session and Sigil Development may be recommended after refinement, but they are not stages in the refine loop.
 

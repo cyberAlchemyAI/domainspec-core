@@ -1,0 +1,39 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-08-07-cyberalchemy-product-cognition-writing-substrate-route",
+  "run_id": "pcws-20260807-01",
+  "state": "wave_ready",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "audit",
+    "role_ids": ["findings-auditor"],
+    "parallel": false,
+    "join_policy": "all",
+    "depends_on_waves": ["writing"],
+    "on_incomplete": "block"
+  },
+  "action_artifacts": ["actions/spawn-0009.json"],
+  "actions": [
+    {
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "action_id": "spawn-0009",
+      "action": "spawn",
+      "dispatch_id": "2026-08-07-cyberalchemy-product-cognition-writing-substrate-route",
+      "run_id": "pcws-20260807-01",
+      "wave_id": "audit",
+      "step_id": "s6",
+      "applies_to_steps": ["s6"],
+      "role": "findings-auditor",
+      "agent_ordinal": 0,
+      "agent_count": 1,
+      "capability_ref": "domainspec-subagents-strategy",
+      "target": "projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/findings.md",
+      "mode": "audit",
+      "mutation_policy": "read-only",
+      "write_scope": [],
+      "forbidden_write_scopes": ["arcanum/", "cyberAlchemy-v2/", "projects/co-op-engine/", "telemetry/agents/", ".arcanum/inventory/"],
+      "input_refs": ["projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/findings.md", "projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/receipts/findings-writer.json", "projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/receipts/evidence-closure.json"],
+      "output_refs": ["projects/co-op-engine/research/2026-08-07-product-cognition-writing-substrate/receipts/findings-audit.json"]
+    }
+  ]
+}

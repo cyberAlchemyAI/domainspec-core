@@ -1,0 +1,22 @@
+{
+  "authorityClass": "private",
+  "dependencyResult": "pass",
+  "lifecycleOwner": "invoke:refresh",
+  "mutationHandoff": "blocked",
+  "ownerBoundaryResult": "reject",
+  "packageDigest": "b965c04ac155aff313997f6a2c69d6859084cddd8b92dc68f6df49b5c1e77b9d",
+  "packageId": "invoke-refresh-wp-cal-ten-l0-one-shot-admission-20260808T164554Z",
+  "patchVerdict": "reject",
+  "publicationBoundaryResult": "pass",
+  "publicationClass": "internal",
+  "reasons": [
+    "approval owner mismatch: approval owner does not equal lifecycle owner"
+  ],
+  "schemaVersion": "1.0.0",
+  "validatedPaths": [],
+  "validationCommands": [
+    "python3 .agents/skills/work-pack-readiness-audit/scripts/audit_work_pack.py --config projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/WPRA-CONFIG.json --output-dir <fresh-run-local-output>",
+    "python3 projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-admission.py --plan-root projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan",
+    "test $(sha256sum projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json | cut -d' ' -f1) = 8aff8a6f7cb7a8bbc938a7fae0e5a7cfd07514c3c6a63601a22d3410e394fec9"
+  ]
+}

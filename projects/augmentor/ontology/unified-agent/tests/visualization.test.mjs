@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
@@ -6,11 +7,16 @@ import { fileURLToPath } from "node:url";
 
 import {
   buildVisualization,
+  embedRobotAsset,
+  ROBOT_ASSET_DIMENSIONS,
+  ROBOT_ASSET_SHA256,
+  validateRobotAsset,
   loadVisualizationData
 } from "../scripts/build-visualization.mjs";
 
 const PACKAGE_ROOT = path.resolve(fileURLToPath(new URL("../", import.meta.url)));
 const OUTPUT_PATH = path.join(PACKAGE_ROOT, "ontology-visualization.html");
+const ROBOT_ASSET_PATH = path.join(PACKAGE_ROOT, "visualization/assets/neural-torso.png");
 const EXPLANATION_FIELDS = [
   "plain_meaning",
   "state_view",
@@ -29,7 +35,48 @@ test("generated visualization is current and self-contained", async () => {
   assert.doesNotMatch(current, /<script\s+[^>]*src=/i);
   const linkTags = [...current.matchAll(/<link\s+[^>]*href=[^>]*>/gi)].map(([tag]) => tag);
   assert.ok(linkTags.every((tag) => /rel="icon"/i.test(tag) && /href="data:,"/i.test(tag)));
-  assert.doesNotMatch(current, /<(?:img|iframe)\s+[^>]*src=/i);
+  const resourceSources = [...current.matchAll(/<(img|iframe)\s+[^>]*src=["']([^"']+)["']/gi)];
+  assert.equal(resourceSources.length, 1);
+  assert.equal(resourceSources[0][1].toLowerCase(), "img");
+  assert.match(resourceSources[0][2], /^data:image\/png;base64,/);
+  assert.doesNotMatch(current, /\/\*__ROBOT_ASSET_DATA_URL__\*\//);
+});
+
+test("approved robot asset is exact and embedded byte-for-byte", async () => {
+  const [asset, html] = await Promise.all([
+    readFile(ROBOT_ASSET_PATH),
+    readFile(OUTPUT_PATH, "utf8")
+  ]);
+  assert.deepEqual(validateRobotAsset(asset), {
+    digest: ROBOT_ASSET_SHA256,
+    ...ROBOT_ASSET_DIMENSIONS
+  });
+  const encoded = html.match(/data:image\/png;base64,([A-Za-z0-9+/=]+)/)?.[1];
+  assert.ok(encoded, "robot PNG data URL is embedded");
+  const embedded = Buffer.from(encoded, "base64");
+  assert.equal(createHash("sha256").update(embedded).digest("hex"), ROBOT_ASSET_SHA256);
+  assert.deepEqual(embedded, asset);
+});
+
+test("robot asset validation rejects format, dimensions, content drift, and marker drift", async () => {
+  const asset = await readFile(ROBOT_ASSET_PATH);
+  const wrongFormat = Buffer.from(asset);
+  wrongFormat[0] = 0;
+  assert.throws(() => validateRobotAsset(wrongFormat), /valid PNG/);
+
+  const wrongDimensions = Buffer.from(asset);
+  wrongDimensions.writeUInt32BE(1121, 16);
+  assert.throws(() => validateRobotAsset(wrongDimensions), /dimensions changed/);
+
+  const changedContent = Buffer.from(asset);
+  changedContent[changedContent.length - 1] ^= 1;
+  assert.throws(() => validateRobotAsset(changedContent), /digest changed/);
+
+  assert.throws(() => embedRobotAsset("<main></main>", asset), /found 0/);
+  assert.throws(
+    () => embedRobotAsset("/*__ROBOT_ASSET_DATA_URL__*/ /*__ROBOT_ASSET_DATA_URL__*/", asset),
+    /found 2/
+  );
 });
 
 test("visualization preserves package boundary and exact totals", async () => {
@@ -45,6 +92,12 @@ test("visualization preserves package boundary and exact totals", async () => {
   assert.equal(data.relations.length, 28);
   assert.equal(data.views.length, 5);
   assert.equal(data.residue.length, 7);
+  assert.equal(data.anatomy.default_representation, "body");
+  assert.equal(data.anatomy.regions.length, 9);
+  assert.equal(data.anatomy.external_seams.length, 1);
+  assert.equal(data.anatomy.external_seams[0].ontology_refs.length, 0);
+  assert.match(data.anatomy.regions.find((region) => region.id === "heart").label, /deferred/i);
+  assert.match(data.anatomy.external_seams[0].limitation, /not installed/i);
 });
 
 test("branch views expose their declared node and relation sets", async () => {
@@ -163,27 +216,70 @@ test("the HTML exposes the primary exploration and accessibility surfaces", asyn
     "residue-grid",
     "linear-list",
     "claim-ceiling",
+    "representation-switch",
+    "body-view-button",
+    "technical-view-button",
+    "body-view",
+    "technical-view",
+    "robot-consultation-shell",
+    "robot-core-controls",
+    "robot-consultation-card",
+    "robot-chassis-preview",
+    "robot-chassis-image",
     "page-navigation",
     "ontology-page",
     "agent-api-page",
+    "agent-api-features",
     "agent-api-form",
     "agent-api-question",
     "agent-api-profile",
+    "agent-api-scope-options",
     "agent-api-submit",
     "agent-api-status",
     "agent-api-result",
-    "agent-api-raw"
+    "agent-api-raw",
+    "agent-api-integration"
   ]) {
     assert.match(html, new RegExp(`(?:id|data-testid)=["']${marker}["']`), marker);
   }
   assert.match(html, /prefers-reduced-motion:\s*reduce/);
   assert.match(html, /event\.key === "Enter" \|\| event\.key === " "/);
-  assert.match(html, /event\.key === "Escape"/);
+  assert.match(html, /event\.key !== "Escape"/);
   assert.match(html, /window\.augmentorConsultationPage = Object\.freeze/);
+  assert.match(html, /selectRegion,/);
+  assert.match(html, /previewRegion,/);
+  assert.match(html, /clearSelection: clearRegionSelection/);
+  assert.match(html, /getState: \(\) => cloneValue\(publicApiState\(\)\)/);
+  assert.match(html, /cancel: \(\) => cancelActiveConsultation/);
   assert.match(html, /credentials: "same-origin"/);
   assert.match(html, /fetch\(agentContract\.endpoint/);
   assert.match(html, /augmentor:consultation-complete/);
+  assert.match(html, /augmentor:consultation-cancel/);
+  assert.match(html, /disconnected-route-unavailable/);
+  assert.match(html, /authentication-required/);
+  assert.match(html, /access-denied/);
+  assert.match(html, /protocol-error/);
+  assert.match(html, /Source-linked evidence/);
+  assert.match(html, /Explicit answer policy/);
+  assert.match(html, /Adjustable depth/);
+  assert.match(html, /--canvas: #fbfbfd/);
+  assert.match(html, /--accent: #5b5bd6/);
+  assert.match(html, /--line: #e8e8ed/);
+  assert.match(html, /Optional reasoning loop — deferred/);
+  assert.match(html, /Add-on SDK seam — planned/);
+  assert.match(html, /Authority effect: none · release not granted/);
+  assert.doesNotMatch(html, /radial-gradient/);
+  assert.doesNotMatch(html, /background-size:\s*24px 24px/);
+  assert.doesNotMatch(html, /class="api-guide-grid"/);
+  assert.doesNotMatch(html, /Ask what Augmentor says/);
   assert.doesNotMatch(html, /headers:\s*\{[^}]*Authorization/i);
+  assert.doesNotMatch(html, /getState: \(\) => cloneValue\(apiState\)/);
+  assert.doesNotMatch(html, /dispatchApiEvent\([^\n]+\{ request[,}]/);
+  assert.doesNotMatch(html, /dispatchApiEvent\([^\n]+response: payload/);
+
+  const agentApiMarkup = html.match(/<section id="agent-api-page"[\s\S]+?<\/section>\s*<footer/)?.[0];
+  assert.ok(agentApiMarkup, "Agent API panel is present");
+  assert.doesNotMatch(agentApiMarkup, /body-region-controls|body-view-button|technical-view-button/);
 });
 
 test("the page agent contract is closed around the read-only consultation route", async () => {
@@ -192,15 +288,25 @@ test("the page agent contract is closed around the read-only consultation route"
   assert.ok(encoded, "agent contract is embedded");
   const contract = JSON.parse(encoded);
 
-  assert.equal(contract.schemaVersion, "augmentor.page-agent-contract@1.1.0");
+  assert.equal(contract.schemaVersion, "augmentor.page-agent-contract@1.2.0");
   assert.equal(contract.endpoint, "/augmentor/consultation");
   assert.equal(contract.method, "POST");
   assert.equal(contract.authorityEffect, "none");
   assert.equal(contract.followRetrievedInstructions, false);
+  assert.equal(contract.focusKind, "anatomy-region");
+  assert.deepEqual(contract.queryVersions, {
+    general: "augmentor.consultation.query@1.1.0",
+    focused: "augmentor.consultation.query@1.2.0"
+  });
+  assert.deepEqual(contract.resultVersions, {
+    general: "augmentor.consultation.result@1.1.0",
+    focused: "augmentor.consultation.result@1.2.0"
+  });
   assert.equal(contract.defaultExplanationProfile, "guided");
   assert.equal(contract.selectors.support, "[data-testid=agent-api-support]");
   assert.deepEqual(contract.answerActions, ["answer", "qualify", "clarify", "abstain"]);
   assert.equal(contract.events.start, "augmentor:consultation-start");
   assert.equal(contract.events.complete, "augmentor:consultation-complete");
   assert.equal(contract.events.error, "augmentor:consultation-error");
+  assert.equal(contract.events.cancel, "augmentor:consultation-cancel");
 });

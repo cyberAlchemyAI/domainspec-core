@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "cyberalchemy-lab-phaser-renderer-adoption-2026-08-12",
+  "candidates": [
+    {
+      "optionId": "PHASER-PARALLEL-SPIKE",
+      "label": "Add Phaser as a parallel, selectable renderer spike",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "other",
+      "ownerGate": "user-confirmed-local-dependency-install",
+      "evidence": [
+        "Current world-model.mjs and world-bridge.mjs already isolate the disposable visual projection from the authoritative semantic DOM.",
+        "Current SVG renderer passes deterministic world and browser tests but the displayed robot is a cropped room-scene thumbnail rather than a character sprite.",
+        "Official Phaser package metadata identifies Phaser 4.2.1, MIT, with browser and ESM distributions and eventemitter3 as its declared dependency.",
+        "Official Phaser documentation provides Scene, Camera, input, and tilemap primitives that match the requested game-like lab direction.",
+        "A query-parameter or feature-flag renderer selection preserves the validated SVG fallback until parity evidence exists."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "PHASER-IMMEDIATE-REPLACEMENT",
+      "label": "Replace the SVG renderer with Phaser immediately",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "other",
+      "ownerGate": "user-confirmed-local-dependency-install-and-renderer-replacement",
+      "evidence": [
+        "The current renderer boundary is narrow enough to permit replacement without changing the research witness loader.",
+        "The existing semantic DOM can remain authoritative while Phaser owns only the visual world.",
+        "Replacement is technically reversible from exact preimages, but it removes the validated fallback before Phaser parity and failure-isolation checks pass."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "PHASER-DEFER",
+      "label": "Keep the SVG prototype and defer Phaser",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "The existing SVG implementation is deterministic and its current focused validation passed.",
+        "Deferral avoids dependency, bundle, license-lock, CSP, and migration work, but leaves the interface visually below the requested virtual cowork RPG quality."
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

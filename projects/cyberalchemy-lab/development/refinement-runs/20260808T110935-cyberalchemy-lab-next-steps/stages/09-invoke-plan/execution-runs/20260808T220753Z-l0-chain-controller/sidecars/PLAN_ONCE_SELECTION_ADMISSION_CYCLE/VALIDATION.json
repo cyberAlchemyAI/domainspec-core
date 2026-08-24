@@ -1,0 +1,50 @@
+{
+  "schema_version": "governance-defect-sidecar-validation/v1",
+  "authority_effect": "none",
+  "candidate_patch": {
+    "path": "candidate/repair.patch",
+    "sha256": "b2080f6affa0bb193dc8fba8ac2f2d76980d7fcbc04878cf089cd20bdb1cab16",
+    "size_bytes": 32411,
+    "target_count": 19
+  },
+  "source_preserving_dry_run": {
+    "command": "git apply --check candidate/repair.patch",
+    "result": "pass",
+    "postimage_check": "git -C isolated-copy apply --reverse --check candidate/repair.patch",
+    "postimage_result": "pass"
+  },
+  "validation": [
+    {
+      "command": "python3 -m py_compile canonical and Codex generated changed scripts",
+      "result": "pass"
+    },
+    {
+      "command": "python3 arcanum/arcana/task-session/development/test_fast_execution_entry_guard.py",
+      "result": "pass",
+      "evidence": "context-ready, task-ready, stale identity, selection-ready block, and generated-layout context-ready all pass"
+    },
+    {
+      "command": "python3 arcanum/arcana/task-session/development/test_plan_once_governance.py",
+      "result": "pass",
+      "evidence": "9 tests including context-ready full plan-once admission, atomic consumption, stale references, and write-expansion blockers"
+    },
+    {
+      "command": "python3 arcanum/spells/implementation-readiness/development/integration/test_work_pack_execution.py",
+      "result": "pass",
+      "evidence": "14 integration tests; selected unit enters exactly one Task Session through context-ready with guard mutation_count=0"
+    },
+    {
+      "command": "python3 arcanum/spells/implementation-readiness/development/test_generated_runtime_package.py",
+      "result": "pass",
+      "evidence": "generated runtime package CLI surfaces resolve"
+    }
+  ],
+  "negative_controls": [
+    "selection-ready still returns SELECTION_NOT_MATERIALIZED before Context Builder",
+    "context-ready still blocks on stale work-pack identity, selected-unit mismatch, or route-frontier mismatch",
+    "the governance runner still requires admissionVerdict=admit, mutationReady=true, exact selection digest, target baselines, and atomic single-use consumption before any write",
+    "route write expansion remains blocked before run writes"
+  ],
+  "live_product_commands_run": 0,
+  "status": "pass"
+}

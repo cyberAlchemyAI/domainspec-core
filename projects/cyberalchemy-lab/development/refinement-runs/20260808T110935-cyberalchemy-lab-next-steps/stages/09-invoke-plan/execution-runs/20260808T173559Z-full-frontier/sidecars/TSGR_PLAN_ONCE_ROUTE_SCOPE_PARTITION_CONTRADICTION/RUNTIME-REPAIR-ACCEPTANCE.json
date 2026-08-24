@@ -1,0 +1,44 @@
+{
+  "schema_version": "cyberalchemy-lab.runtime-repair-acceptance/v1",
+  "accepted_at": "2026-08-08T18:19:15Z",
+  "approval_owner": "human-user",
+  "authorization_source": "direct user instruction: now execute the whole L0",
+  "purpose": "Apply the already validated runtime repair required to execute WP-CAL-TEN-L0, then resume that work pack through a fresh SWU-CAL-001 attempt.",
+  "candidate_patch": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION/candidate/repair.patch",
+    "sha256": "369e2958c81f883aef28a961b7846f7ce432aba11384e07b6161ef106b1d4ff8",
+    "size_bytes": 12903
+  },
+  "accepted_canonical_targets": [
+    {
+      "path": "arcanum/arcana/task-session/scripts/task-session-governance-runner.py",
+      "before_sha256": "8ca91c6daa6bf53b4672ee162ee4296d6b5d3e07f5696f5f8d600b63e6b234bd",
+      "after_sha256": "1675f28dadf4701c89286799088120d1edb65bb351f3519ab791e28a4b9f6afc"
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/validate-governance-runner.py",
+      "before_sha256": "d46b2ac7dcfe8bf606d3185a33916867d819233c46aea45002cb20c945cf3651",
+      "after_sha256": "f050e6c13303683bece0299dca7db056506812265bb6365bec60aee7c6b5e843"
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/fixtures/governance-runner-cases.json",
+      "before_sha256": "fa77e037c15277589a8646eaf429ca33962fc3a80aa672f01fdab83d12a8c376",
+      "after_sha256": "157b53de7390e32812e552a8e0ca09dac1f3225ed8722dfbc52f30eb04a02940"
+    }
+  ],
+  "post_apply_obligations": [
+    "Run the complete canonical governance-runner validator.",
+    "Regenerate the complete generated task-session package and prove canonical/generated runner parity.",
+    "Start a fresh SWU-CAL-001 Task Session attempt and mutation admission.",
+    "Execute only the frozen WP-CAL-TEN-L0 finite frontier and stop at a declared blocker."
+  ],
+  "forbidden_effects": [
+    "promotion",
+    "publication",
+    "deployment",
+    "external network or messages",
+    "credentials",
+    "Git commit or push"
+  ],
+  "authority_effect": "none"
+}

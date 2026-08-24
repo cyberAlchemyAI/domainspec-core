@@ -34,3 +34,4 @@ Inferred structure:
 ## Expected Renderer Level
 
 L0 static HTML/SVG. No remote rendering, Mermaid, CSS3D, Three.js, or Kroki is required.
+

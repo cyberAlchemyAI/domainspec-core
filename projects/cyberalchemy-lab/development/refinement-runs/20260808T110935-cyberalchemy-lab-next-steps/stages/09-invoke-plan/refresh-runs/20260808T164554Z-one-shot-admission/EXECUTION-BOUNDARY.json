@@ -1,0 +1,46 @@
+{
+  "schema_version": "cyberalchemy-lab.proposed-execution-boundary/v1",
+  "work_pack_id": "WP-CAL-TEN-L0",
+  "state": "audited-unapproved-unselected-unarmed",
+  "frozen_semantic_digest": "b10d6494d3cc6284629d83cb36c0f361db37739c71347e1718697ab49c9e004b",
+  "plan_epoch_id": "epoch-d223ff893fa404413b01afe8",
+  "full_frontier": ["SWU-CAL-001", "SWU-CAL-002", "SWU-CAL-003", "SWU-CAL-004", "SWU-CAL-005", "SWU-CAL-006", "SWU-CAL-007", "SWU-CAL-008", "SWU-CAL-009", "SWU-CAL-010"],
+  "preserved_execution_entry": {
+    "sha256": "8aff8a6f7cb7a8bbc938a7fae0e5a7cfd07514c3c6a63601a22d3410e394fec9",
+    "frontier": ["SWU-CAL-001"],
+    "selected_unit": null
+  },
+  "controller": {
+    "outer": "implementation-readiness",
+    "mode": "finite-frontier",
+    "fresh_session_owner": "task-session-until-blocker",
+    "unit_owner": "task-session",
+    "closeout_owner": "invoke:refresh:apply-approved",
+    "max_task_session_requests": 10,
+    "max_controller_actions": 20
+  },
+  "proposed_first_execution": {
+    "unit": "SWU-CAL-001",
+    "risk_class": "bounded-write",
+    "effect_class": "repository-local-reversible",
+    "write_scope": [
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+      "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs",
+      "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001.json"
+    ],
+    "validation": ["cal-001-canonical-json"],
+    "successor_after_terminal_and_closeout_pass": "SWU-CAL-002"
+  },
+  "required_future_sequence": [
+    "Decision Gate records an explicit execution approval or denial for this exact semantic digest and budget.",
+    "A new direct execution request binds that approval; approval alone does not start work.",
+    "Implementation Readiness selects only SWU-CAL-001 and emits selection plus mutation-admission receipts.",
+    "task-session-until-blocker opens one fresh Task Session for SWU-CAL-001.",
+    "Task Session may write only the four paths in the first-unit scope and must return the terminal receipt.",
+    "Invoke Refresh may change only declared plan closeout targets, validate route_changed, and expose only SWU-CAL-002.",
+    "The same owner-separated transition repeats for each unique successor and stops at __complete__ or any declared stop class."
+  ],
+  "forbidden_without_new_authority": ["Decision Gate execution in this run", "selection or execution-intent binding", "outer-loop initialization", "Task Session start", "product mutation", "network or external effect", "authority or promotion change", "publication or deployment", "Git commit or push"],
+  "authority_effect": "none"
+}

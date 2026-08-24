@@ -1,5 +1,74 @@
 # Inventory Log
 
+## 2026-08-13 ingest revision — supplied Bolina model-checking brief
+
+- Mode: pre-confirmation material-strategy revision and strategy-result refresh; the governed research dispatch remains unregistered and unexecuted.
+- New input: user-supplied Bolina Model-Checking Brief bound at SHA-256 `3c4c5d7018d98c546649ee1b6bf82dc8aa0bf57c0c45687e9b36b89d4ded931f` as candidate non-authority evidence.
+- Source tensions: the brief drops normative state names, excludes BE-GRANT-03 despite §11.4, says orphan publication is exactly-once despite the current at-least-once pre-tombstone window, and overstates finite model-check evidence.
+- Additional observed gap: current Zig invokes the effect and writes the published tombstone before `beginExecuting`; this model-to-code ordering question is routed to the Bolina owner and is not repaired in the research proposal.
+- Helper: one bounded read-only preflight helper closed with no writes, no tests executed, and no internet use; it is not a dispatch participant or ledger event.
+- Inventory repair: the in-place refresh was rejected without writes because IDs are immutable; a versioned `-r2` entry/record is staged and dry-run-only pending owner acceptance.
+- Gate: revised sheet schema `0.8.0`, Dispatch Spec, and fresh independent tension checks pass for sheet SHA-256 `9daa5c3691ef2e067927075f383713fef564e8f3b4cb7a2ac71dd6a5c47e551c`; material SHA-256 is `202f79e5649b1c759e7bf81387ab140c44215acf8dfb54800bfed15061f55bb4`.
+- Boundary: no model, solver execution, product mutation, authority decision, ledger append, Git operation, publication, release, deployment, or production effect occurred.
+- Next action: reply exactly `confirmed` to authorize registration and execution of the revised frozen strategy.
+
+## 2026-08-12 ingest — Bolina and DomainSpec formal-modeling research strategy
+
+- Mode: machine-index-first preflight followed by confirmation-ready strategy-result filing.
+- P1: separate Bolina repository, primary Alloy/TLA+, and DomainSpec integration lanes plus synthesis, three adversarial reviewers, a writer, an auditor, and parent approval require a governed dispatch.
+- Target: explain Bolina's grant state machine and determine the smallest claim-bounded DomainSpec pipeline for Alloy and TLA+ checks of BE-GRANT-01/-03/-04/-06.
+- Gate: sheet schema `0.8.0`, Dispatch Spec, and two independent tension checks passed for sheet SHA-256 `ac342d629e27eceedd806696d9ac0b0e1a0adffb5e3be5e6c357128dfdbbab5d`; material SHA-256 is `8d6b70fc023bf4282f510053b28f570915bf9d95833555892f866e6d3d0d64a6`.
+- State: human confirmation pending; dispatch unregistered and unexecuted; none of the nine proposed research agents has run.
+- Inventory: the receipt-producing updater added the candidate to both machine and human indexes; lookup readiness is `ready` with 153 inherited warnings and no introduced warnings.
+- Residue: Bolina has no local Inventory or Alloy/TLA model, and DomainSpec's end-to-end extractor/model/evaluator/receipt chain remains unvalidated.
+- Boundary: bounded model checking is not universal proof, implementation conformance, or security; no product, authority, ontology, definitions, Arcanum, Git, publication, release, deployment, or production effect is authorized.
+- Next action: reply exactly `confirmed` to authorize registration and execution of the frozen material strategy.
+
++## 2026-08-12 ingest — Arcanum and CAV2 integration wayfinding r2 strategy
+
+- Mode: machine-index-first preflight followed by confirmation-ready strategy-result filing.
+- P1: three current-source explorer lanes, one synthesizer, three independent skeptic gates, one findings writer, one auditor, and parent final approval require a governed dispatch.
+- Retry boundary: r1 explorer returns are comparison evidence only; r2 uses fresh dispatch and run identities plus the accepted opaque run-scoped Orchestrate task namespace.
+- Gate: schema `0.8.0`, Dispatch Spec, and independent tension checks pass for sheet SHA-256 `c78b35fd1e29abd683e7dc7ee0974a53f3aad80e7f7630420d37b2f263280029`.
+- State: human confirmation pending; dispatch unregistered and unexecuted; synthesis, review, evidence closure, findings, and audit have not run.
+- Inventory: the candidate entry was added through the receipt-producing updater; lookup readiness is `ready` with 153 inherited historical-tag warnings and no newly introduced warnings.
+- Boundary: non-authority Inventory read model only; no Arcanum, CAV2, product, Craft, ontology, authority, Git, release, deployment, publication, or production mutation is authorized.
+- Next action: reply exactly `confirmed` to authorize registration and execution of the frozen r2 material strategy.
+
+
+## 2026-08-09 ingest — Augmentor, ResonantOS, SDK, and Living Archive ontology documentation research strategy
+
+- Mode: machine-index-first preflight followed by confirmation-ready
+  strategy-result filing.
+- Target: one source-grounded documentation and graph experience for ResonantOS,
+  Augmentor as its agent, the existing Add-on SDK, Agent API consultation,
+  Augmentor capabilities and internal architecture, and bounded Living Archive
+  ontology integration.
+- Proposed split: separately owned ResonantOS system, Augmentor agent, Add-on
+  SDK and add-ons, Agent API/interface, and Living Archive knowledge/memory
+  packages joined by typed relations and projected into one human page and one
+  machine view.
+- Evidence boundary: the current Add-on SDK exists, while its narrower
+  ontology-consultation declaration remains planned unless current research
+  proves otherwise; Living Archive source memory and projections do not create
+  ontology authority.
+- P1: synthesis, context protection, isolation, and parallelism apply across
+  three explorer lanes, one synthesizer, three independent reviewers, one
+  writer, one auditor, and exact-binding evidence closure.
+- Gate: schema `0.8.0` validation and two independent tension checks pass for
+  sheet SHA-256
+  `d4a3f00336fce930f45ccfe57976379d7bdf80ebf2cbb29e084d1e7f4f2a3e5e`.
+- State: human confirmation pending; dispatch unregistered and unexecuted;
+  exact Refine dispatch intentionally waits for audited findings and a separate
+  confirmation gate.
+- Inventory: DomainSpec lookup is ready; ResonantOS and Living Archive have no
+  machine Inventory in their current checkouts, so their owner sources remain
+  direct-read obligations.
+- Boundary: no product, ontology, SDK, API, Living Archive, Git, promotion,
+  publication, deployment, release, or production mutation occurred.
+- Next action: the human may reply exactly `confirmed` to authorize registration
+  and execution of the frozen research dispatch.
+
 ## 2026-08-05 ingest — Cyberalchemy orchestrator, recursive Work, and reasoning-engine research result
 
 - Mode: post-dispatch result filing from auditor-accepted exact-binding research.
@@ -5734,3 +5803,1053 @@ Artifacts:
   `entries/whisper-ontology-runtime-research-blocked-result-synthesis.md`.
 - Boundary: this is a non-authority research projection with a typed blocker,
   not design freeze, implementation readiness, or production proof.
+
+## 2026-08-07 - Constitution Foundry over recursive Work kernel research closed; Inventory ingest blocked
+
+- Dispatch `2026-08-06-constitution-foundry-rwo-kernel-integration-refresh-01`
+  closed `resolved` after nine agents across five waves and one bounded
+  synthesizer/reviewer zigzag; the final auditor returned `APPROVE`.
+- Result: retain Constitution Foundry above the thin Recursive Work kernel as a
+  typed domain adapter. Preserve Foundry semantics, separate formal-backend
+  proof ceilings, existing ratification and casting owners, Mint-only effects,
+  and one accepted structural-history journal.
+- Validation: sixteen of sixteen source hashes matched; `findings.md` SHA-256 is
+  `b89357bb05c4d9f523a255196f5d0ba561457f040ab18bf62bed244569433b8d`;
+  the 63-event causal stream validated with zero errors; the deterministic
+  reducer returned `complete`; the ledger has exactly one open and one close row.
+- Inventory append: blocked before write. Staging the required entry file made
+  the append runtime's baseline source-coverage check fail because the machine
+  row did not yet exist. No index write was attempted. The unindexed file was
+  removed from the governed Inventory root and the prior lookup-ready index was
+  restored with zero failures and 146 inherited warnings.
+- Candidate preserved at
+  `cyberAlchemy-v2/development/research/2026-08-06-constitution-foundry-rwo-kernel-integration-refresh-01/INVENTORY-ENTRY-CANDIDATE.md`;
+  receipt: `cyberAlchemy-v2/development/research/2026-08-06-constitution-foundry-rwo-kernel-integration-refresh-01/receipts/inventory-result-hook.json`.
+- Boundary: this log row and candidate are non-authority read-model evidence.
+  They do not implement integration, grant authority, authorize effects, mutate
+  ontology, promote, publish, deploy, release, or establish production readiness.
+
+## 2026-08-06 - Arcanum framework Inventory ingest
+
+- Source: all 88 tracked files under `arcanum/framework` were enumerated from a
+  clean source tree; 24 primary framework, observability, and runtime documents
+  were read as the semantic cohort.
+- Classification: nine templates, seventeen observability scripts, and
+  thirty-eight development, fixture, and refinement-run files remain
+  discoverable support or evidence cohorts rather than current framework
+  authority.
+- Entries created:
+  `entries/arcanum-framework-source-map.md`,
+  `entries/arcanum-framework-method-and-quality-boundary.md`,
+  `entries/arcanum-framework-artifact-governance.md`,
+  `entries/arcanum-framework-sigil-development-and-validation-lifecycle.md`,
+  and `entries/arcanum-framework-runtime-and-observability-boundary.md`.
+- Machine and human indexes advanced from 295 to 300 entries at deterministic
+  timestamp `2026-08-07T01:05:49Z`; five exact ID-to-path bindings and 24
+  unique primary-source lookups are present.
+- Validation: Inventory projection validation passed with lookup readiness
+  `ready`, zero failures, and 146 inherited tag warnings; updater tests passed
+  nine groups; human-index tests passed seven groups; scoped whitespace and
+  source-immutability checks passed.
+- Preserved tensions: framework documents mix canonical, active, candidate,
+  unspecified, blocked, deferred, fixture, and historical postures;
+  observability still records native-skill coverage and storage-default drift;
+  runtime fixtures and blocked smoke evidence do not establish general runtime
+  readiness.
+- Boundary: Inventory is a private repository-local read model over public
+  Arcanum sources. This ingest changes no framework source, ontology,
+  definition, lifecycle status, owner decision, promotion, publication,
+  deployment, release, or production claim.
+
+## 2026-08-07 - DomainSpec v2 paper evidence refresh strategy proposed
+
+- Strategy: all four P1 triggers fired; the schema `0.8.0` research sheet uses
+  three explorers, one synthesizer, three skeptical reviewers, one findings
+  writer, and one sole final auditor.
+- Flow: `explorers -> synthesizer <-> reviewers -> writer -> auditor`, with one
+  bounded repair loop and a source-gap feedback edge to the eligible explorer.
+- Gates: sheet validation, material projection, Dispatch Spec, and two
+  independent tension checks passed for SHA-256
+  `a92b3cbd4f3a38f09bd6e855d03b17f89a166edabf1f5776e67b8b9bb1132cf8`.
+- State: human confirmation is pending; the dispatch is unregistered; no
+  research worker has run; `arcanum/docs/paper.html` is unmodified.
+- Entry created:
+  `entries/domainspec-v2-paper-evidence-refresh-strategy-result.md`.
+- Boundary: the entry is a non-authority Inventory read model. It does not
+  authorize dispatch, research execution, paper mutation, publication,
+  deployment, release, promotion, or production claims.
+- Next human action: reply `confirmed` to authorize registration and execution
+  of the exact frozen sheet; any requested change reopens all readiness gates.
+
+## 2026-08-07 - DomainSpec v2 paper evidence refresh resolved; closeout ingest blocked
+
+- Dispatch `2026-08-07-domainspec-v2-paper-evidence-refresh` closed `resolved`
+  after nine agents across five waves; three reviewer rechecks passed and the
+  sole final auditor approved the revision contract.
+- Validation: the native 82-event stream passed causal validation with zero
+  errors; the dispatch ledger has exactly one registration and one close row.
+- Paper: the parent applied the public-safe revision contract to
+  `arcanum/docs/paper.html`; the edited SHA-256 is
+  `6d75e8684abfacf2d64db37c245502d3a2ff834cbdb2138233b3660bf348dde6`.
+  Static checks, exact served-byte equality, desktop/mobile Chromium navigation,
+  responsive layout, console/resource health, and mobile menu behavior passed.
+- Inventory append: blocked before write. Staging a new closeout entry inside
+  the managed `entries/` tree made baseline source coverage fail. Moving the
+  candidate beside its research owners restored baseline lookup readiness, but
+  the appender correctly rejected the `..` path because new records must remain
+  Inventory-root-relative. Neither attempt wrote `index.json` or `index.md`.
+- Candidate preserved at
+  `research/2026-08-07-domainspec-v2-paper-evidence-refresh/INVENTORY-CLOSEOUT.md`;
+  validation receipt at
+  `research/2026-08-07-domainspec-v2-paper-evidence-refresh/PAPER-VALIDATION.md`.
+- Boundary: these artifacts and this log row are non-authority read-model
+  evidence. No commit, push, publication, deployment, promotion, release, or
+  production effect occurred; independent public reproduction remains absent.
+
+## 2026-08-07 - DomainSpec paper rewrite reverted; research addendum applied
+
+- Correction: the parent-applied full-paper rewrite recorded above was reverted
+  at the user's direction. The original public paper bytes were restored exactly
+  at SHA-256
+  `cb430f8d5f15c917fef70fae5e0e7fc1ee3533cfb2d7f6bc044c26d473620e73`
+  before the new additive edit.
+- Current paper: all original prose and attribution remain; one evidence-status
+  notice and one controlling `§10 Evidence Addendum · 2026-08-07` were added.
+  Final SHA-256 is
+  `0d7fc2cab52b4bfa52d249136ff59125d30a51c8c35d1096903269b79dbfb41d`.
+- Validation: static parsing, local links, privacy lint, exact served-byte
+  equality, desktop/mobile Chromium navigation, and horizontal-overflow checks
+  passed. The preserved page retains its pre-existing implicit favicon 404.
+- Publication Research Pipeline: phase 7 is complete with status `flag`; paper
+  readiness is `evidence-blocked`; phase 8 export is deferred because the
+  preserved original contains claims superseded by the addendum and no complete
+  independent public reproduction package exists.
+- Current receipts:
+  `research/2026-08-07-domainspec-v2-paper-evidence-refresh/PRESERVATION-ADDENDUM-VALIDATION.md`
+  and
+  `research/2026-08-07-domainspec-v2-paper-evidence-refresh/PUBLICATION-PIPELINE-RESULT.md`.
+- Boundary: no commit, push, publication, deployment, promotion, release, or
+  production effect occurred. Inventory remains a non-authority read model.
+
+## 2026-08-07 - RWO canonical-contract dialectic review proposed; index sync blocked
+
+- Strategy: one two-agent review group tensions formal cross-language byte
+  conformance against adversarial domain/lifecycle sufficiency, followed by one
+  bounded Robot-Talks confrontation and parent synthesis.
+- Gates: register-dispatch schema `0.8.0`, Dispatch Spec, and two independent
+  tension checks passed for sheet SHA-256
+  `18265e44d863102df8491918f445d8271629d202a89d91c4c5471c828cb9b9b2`.
+- State: human confirmation is pending; the dispatch is unregistered and the two
+  review workers have not run. The RWO contract and Work Pack remain unchanged.
+- Inventory lookup: root lookup readiness passed with 301 entries and 146
+  inherited warnings; the target machine index exists but is source-coverage
+  blocked with zero entries.
+- Strategy-result append: blocked before write. The atomic updater's isolated
+  candidate copy could not resolve 32 existing repository-external source paths;
+  baseline lookup readiness remained `ready`, and both real index files stayed
+  byte-identical.
+- Candidate preserved at
+  `.arcanum/inventory/queries/2026-08-07-rwo-canonical-contract-dialectic-review-strategy-result.md`;
+  dry-run receipt at
+  `ops/development/2026-08-07-rwo-canonical-contract-dialectic-review/receipts/inventory-strategy-result-dry-run.json`.
+- Boundary: the candidate and log are non-authority read-model evidence. They do
+  not confirm, register, execute, accept, refine, implement, authorize, promote,
+  publish, deploy, release, or establish production readiness.
+
+## 2026-08-07 - RWO canonical-contract dialectic closed; result index sync blocked
+
+- Dispatch: `2026-08-07-rwo-canonical-contract-dialectic-review` was confirmed,
+  registered once under schema `0.8.0`, executed with two explorers, and closed
+  `resolved` after both agents joined, confronted once, and closed.
+- Result: both lanes converged on `FIX before owner acceptance`. The language and
+  topology architecture survives; the current canonical contract needs explicit
+  admission, semantic ordering and identity, version, reducer identity, and
+  fixture-governance rules before independent Python/Rust/Go conformance.
+- Evidence:
+  `ops/development/2026-08-07-rwo-canonical-contract-dialectic-review/{attacks.md,findings.md}`
+  plus the Orchestrate gate and evidence-validation receipts under `orchestrate/run-1/`.
+- Inventory candidate: the existing strategy-result query was updated to the
+  closed outcome with findings and validation links.
+- Index append: blocked before write because the updater's isolated candidate
+  validation cannot resolve existing repository-external source paths. The live
+  baseline remained lookup-ready with 301 entries and 146 inherited warnings;
+  both live index digests remained byte-identical.
+- Dry-run receipt:
+  `ops/development/2026-08-07-rwo-canonical-contract-dialectic-review/receipts/inventory-result-dry-run.json`.
+- Boundary: this is non-authority result discovery. The review did not accept or
+  edit the contract, change the Work Pack, implement code, update ontology,
+  promote authority, publish, deploy, release, or establish production readiness.
+
+## 2026-08-07 - CogTools Lab complete-corpus research program proposed; index sync blocked
+
+- P1: a governed research dispatch is justified by the 90-paper publication
+  snapshot, one-hop teaching surfaces, independent completeness attacks, and the
+  need to isolate paper extraction from parent context.
+- Program: four explorer lanes cover 2024--2026, 2021--2023, 2009--2020, and the
+  teaching/research surfaces; synthesis then passes through precedent,
+  non-vacuity, and definition/scope reviewers before exact-binding closure,
+  writer, and auditor.
+- Gates: register-dispatch schema `0.8.0`, Dispatch Spec, and two independent
+  tension checks passed for sheet SHA-256
+  `40057058d95e90515ce04d43a508b05e1e860cefaa8069faf98314cca33dd988`.
+- State: human confirmation is pending; the dispatch is unregistered and no
+  research worker, paper download, synthesis, writer, or auditor run has started.
+- Inventory preflight: root lookup readiness passed with 301 entries and 146
+  inherited warnings. Adjacent teaching/comprehension and exact-binding results
+  shaped the program, but no entry owns CogTools Lab or this corpus.
+- Strategy-result append: blocked before write. The atomic updater's isolated
+  candidate copy cannot resolve existing repository-external source paths; the
+  live baseline remains lookup-ready and both real index files stayed
+  byte-identical. The required human-index link therefore remains pending.
+- Candidate preserved at
+  `.arcanum/inventory/queries/2026-08-07-cogtoolslab-complete-corpus-research-strategy-result.md`;
+  dry-run receipt at
+  `research/2026-08-07-cogtoolslab-complete-corpus-program/inventory-strategy-result-dry-run.json`.
+- Next action: reply exactly `confirmed` to authorize registration and execution
+  of the frozen material strategy.
+
+## 2026-08-13 — Bolina formal-modeling research dispatch blocked close
+
+- The confirmed research dispatch registered nine planned agents across five
+  dependency groups. All three read-only explorer actions completed, their
+  receipts were admitted, and `g-explorer-evidence` passed.
+- The run then stopped at an Orchestrate runtime contract gap: `advance-wave`
+  emitted the dependent `spawn-0004` action, but no owner-sanctioned command can
+  emit the current dependent-wave run plan that `prepare-spawn` requires. The
+  first-wave schema rejects the honest dependency, so no plan was hand-authored
+  and the synthesizer was not spawned.
+- The dispatch ledger now has its paired registration and error-close rows. The
+  final 24-event causal stream validates; `evidence-closure.json` remains
+  blocked and keeps the findings writer closed.
+- Explorer-stage material was preserved verbatim in
+  `research/2026-08-12-bolina-domainspec-formal-modeling/research.md`. No
+  reconciled `findings.md`, Alloy model, TLA+ model, solver result, Zig
+  conformance result, security conclusion, or adoption decision was produced.
+- Inventory append created
+  `.arcanum/inventory/entries/bolina-domainspec-formal-modeling-research-blocked-result-synthesis.md`.
+  The deterministic updater committed matching machine and human projections at
+  timestamp `2026-08-13T04:03:47Z`, introduced no warnings, and preserved 153
+  inherited uncontrolled-tag warnings.
+- Boundary: this is a non-authority blocked-result read model. Bolina source,
+  product authority, Git, publication, release, deployment, and production
+  state are unchanged.
+- Resume condition: an Orchestrate owner must repair and validate dependent-wave
+  plan emission before the frozen action can be prepared or spawned.
+- Boundary: the candidate and log are non-authority read-model evidence. They do
+  not confirm, register, execute, establish research completeness, modify the
+  paper, publish, promote, deploy, release, or establish production readiness.
+
+## 2026-08-07 - CogTools Lab complete-corpus research program confirmed and registered
+
+- Confirmation: the exact user utterance `confirmed` was bound to sheet SHA-256
+  `40057058d95e90515ce04d43a508b05e1e860cefaa8069faf98314cca33dd988`
+  under handle `confirmation-cogtoolslab-40057058-20260807`.
+- Registration: one schema-`0.8.0` dispatch row was appended for
+  `2026-08-07-cogtoolslab-complete-corpus`, covering ten agents across five
+  groups. Native Orchestrate now owns the open execution.
+- State: registered and run-open; no completion, findings, audit, dispatch close,
+  publication, promotion, deployment, release, or production claim exists yet.
+
+## 2026-08-07 - CogTools Lab complete-corpus run 1 closed on partial-wave error
+
+- Native execution: two explorer agents spawned, joined, and closed. The third
+  persisted action was attempted once and rejected with `agent thread limit
+  reached`; replay protection withheld retry and the fourth explorer action was
+  never attempted.
+- Evidence: the middle-period explorer closed all 29 assigned rows with URLs,
+  byte digests, bounded selectors, capsules, and a transition matrix. The modern
+  explorer enumerated and byte-bound all 36 assigned rows but returned `block`
+  because semantic PDF extraction was absent from its attempted tool path.
+- Closure: `g-explorer-coverage` blocked. Historical and teaching lanes,
+  synthesis, reviewers, writer, and auditor did not run. No `findings.md` exists.
+- Ledger: exactly one close row records `exit_reason: error`, two spawned
+  explorers, and zero feedback loops.
+- Durable evidence:
+  `research/2026-08-07-cogtoolslab-complete-corpus-program/research.md`,
+  `EVIDENCE-CLOSURE.md`, and `orchestrate/run-1/{partial-wave-result.json,evidence-validation.json}`.
+- Diagnostic residue: local `pypdf` and `pdfminer` modules are available even
+  though `pdftotext`, `mutool`, `qpdf`, and `pdfinfo` are absent. This can shape
+  a fresh recovery strategy but does not repair or reopen the closed run.
+- Boundary: 65 byte-bound rows are not a complete corpus or findings result; 36
+  modern semantic rows, 25 historical rows, and the teaching corpus remain
+  unclosed. No PDF bytes were retained; no paper mutation, publication,
+  promotion, deployment, release, or production effect occurred.
+
+## 2026-08-07 - CogTools Lab complete-corpus recovery proposed; confirmation pending
+
+- P1: a new governed research dispatch is required; the prior dispatch remains
+  closed on error and is not reopened or silently retried.
+- Recovery: reuse 29 exact-bound middle-period rows, repair 36 modern semantic
+  bindings, acquire 25 historical rows, and close the one-hop teaching lane.
+- Capacity repair: native waves are serialized so no wave exceeds two agents;
+  this responds to the prior two-spawn success and third-spawn rejection without
+  claiming that future capacity is guaranteed.
+- Gates: registrar schema `0.8.0`, Dispatch Spec, and two independent tension
+  checks passed for sheet SHA-256
+  `38f4b7b5f7f4fc322491725b78173a497b7a8e9947036aa98f0d6b273aac783a`.
+- State: human confirmation is pending; the recovery dispatch is unregistered
+  and no paper explorer, teaching explorer, synthesizer, reviewer, writer, or
+  auditor has run.
+- Inventory preflight: root lookup readiness passed with 301 entries and 146
+  inherited warnings. Adjacent comprehension and exact-binding records shaped
+  the plan, but no entry owns CogTools Lab or this corpus.
+- Strategy-result append: dry-run blocked before write with
+  `candidate-not-ready`; the baseline remains lookup-ready, no new warning was
+  introduced, no live index bytes changed, and the human-index link remains
+  pending.
+- Candidate:
+  `.arcanum/inventory/queries/2026-08-07-cogtoolslab-complete-corpus-recovery-strategy-result.md`.
+  Receipt:
+  `research/2026-08-07-cogtoolslab-complete-corpus-recovery/inventory-strategy-result-dry-run.json`.
+- Next action: reply exactly `confirmed` to authorize registration and execution
+  of the frozen recovery material strategy.
+- Boundary: the strategy, candidate, and log are non-authority evidence. They do
+  not confirm, register, execute, establish corpus completeness, modify the
+  paper, publish, promote, deploy, release, or establish production readiness.
+
+## 2026-08-07 - CogTools Lab complete-corpus recovery closed on one source error
+
+- Confirmation and registration: the exact `confirmed` response was bound to
+  sheet SHA-256
+  `38f4b7b5f7f4fc322491725b78173a497b7a8e9947036aa98f0d6b273aac783a`;
+  one schema-`0.8.0` dispatch row and one close row were appended.
+- Native execution: both paper explorers spawned, joined, and closed. The
+  modern lane closed 36/36 semantic rows with no digest drift. The historical
+  lane parsed 24/25 PDFs and returned `block` on `fan_bbs_2014` because the
+  CogTools Lab PDF URL returns HTTP 404.
+- Corpus state: combining the new 60 paper reads with 29 reusable middle-period
+  rows yields 89/90 semantically bound Tier-A entries. This is partial evidence,
+  not a complete corpus.
+- Gate: `g-paper-coverage` blocked. The teaching, synthesis, precedent,
+  non-vacuity, definitional, writer, and auditor waves were withheld; no
+  `findings.md` exists.
+- Evidence:
+  `research/2026-08-07-cogtoolslab-complete-corpus-recovery/{research.md,EVIDENCE-CLOSURE.md}`
+  and `orchestrate/run-1/{partial-wave-result.json,evidence-validation.json}`.
+- Ledger close: `exit_reason: error`, two explorers, zero feedback loops.
+- Inventory result append: the refreshed dry-run remains `candidate-not-ready`;
+  baseline lookup readiness is `ready`, no warning was introduced, and neither
+  live index file changed. The candidate and receipt remain at the paths named
+  in the proposal log row above.
+- Boundary: no PDF bytes were retained. The run did not prove teaching
+  effectiveness, comprehension, cognitive mechanism, permanent bibliography
+  completeness, paper readiness, publication, promotion, deployment, release,
+  or production state.
+
+## 2026-08-07 - Discord API and organizational network analysis strategy proposed
+
+- P1: a governed research dispatch is required by synthesis, context
+  protection, isolation, and parallelism across current Discord interface
+  evidence, ONA methods, and privacy or ethics.
+- Lanes: three parallel explorers own official Discord observability, ONA
+  construct and metric validity, and privacy or anti-surveillance boundaries;
+  synthesis, three adversarial reviewers, exact-binding closure, a findings
+  writer, and an auditor follow through declared gates.
+- Scope: research is synthetic-only. No Discord credentials, bot creation,
+  server access, API calls, message or metadata collection, collector
+  implementation, employee scoring, deployment, or production effect is
+  authorized.
+- Gates: the schema-`0.8.0` sheet passed confirmation readiness at SHA-256
+  `989db4f173025b020e43fc168b38eb1c1ebf385796b88406ec2f9345e8f26e1b`;
+  Dispatch Spec passed; and two independent tension checks returned
+  `PASS/PASS` on the same bytes.
+- State: human confirmation is pending; the dispatch is unregistered and no
+  Discord, ONA, privacy, synthesis, review, writer, or auditor research role
+  has run.
+- Inventory preflight: the root machine index is lookup-ready with 301 entries
+  and 146 inherited warnings, but no entry matches Discord or ONA. Selected
+  external-technology and privacy results shaped the three-lane split and
+  six-gate non-collapse boundary; they do not supply Discord or ONA evidence.
+- Strategy-result append: dry-run returned `candidate-not-ready`; baseline
+  lookup readiness remains `ready`, no warning was introduced, no live index
+  bytes changed, and the human-index link remains pending.
+- Candidate:
+  `.arcanum/inventory/queries/2026-08-07-discord-organizational-network-analysis-strategy-result.md`.
+  Receipt:
+  `research/2026-08-07-discord-organizational-network-analysis/inventory-strategy-result-dry-run.json`.
+- Next action: reply exactly `confirmed` to authorize registration and
+  execution of the frozen material strategy.
+- Boundary: the strategy, candidate, and receipts are non-authority evidence.
+  They do not confirm, register, execute, prove API behavior or analytical
+  validity, authorize data access, establish consent or compliance, implement,
+  publish, promote, deploy, release, or establish production readiness.
+
+## 2026-08-07 — Discord API and organizational network analysis research result closeout
+
+- Dispatch `2026-08-07-discord-organizational-network-analysis` completed all five
+  native waves with 9 spawned agents, one bounded synthesis-reviewer zig-zag,
+  `RECOMMEND_ACCEPT`, parent bounded approval, and a paired `resolved` ledger close.
+- Result: current Discord Developer Policy rule 16 blocks live person-linked
+  Discord API-Data ONA and employment use. Non-relational aggregates remain
+  uncleared; the exact synthetic fixture is an unexecuted paper specification only.
+- Causal validation passed over 89 events. No credentials, server access, bot,
+  API call, data collection, collector, analysis runtime, implementation,
+  publication, deployment, release, or production action occurred.
+- Result candidate:
+  `.arcanum/inventory/queries/2026-08-07-discord-organizational-network-analysis-research-result.md`.
+  Dry-run receipt:
+  `research/2026-08-07-discord-organizational-network-analysis/inventory-research-result-dry-run.json`.
+- The deterministic append dry-run returned `candidate-not-ready`; baseline lookup
+  readiness remains `ready`, zero warnings were introduced, and no live Inventory
+  index bytes changed. The candidate is a non-authority read model, not promotion.
+
+## 2026-08-07 — CyberAlchemy Lab foundation research strategy proposed
+
+- P1: a governed research dispatch is required by synthesis, context protection,
+  isolation, and parallelism across Tower System/corpus semantics, current IDE
+  workbench reality, and ontology/authority architecture.
+- Lanes: three parallel explorers own corpus cartography, workbench interface
+  tracing, and candidate ontology governance; a synthesizer, three attack-vector
+  skeptics, exact-binding closure, findings writer, auditor, and parent approval
+  follow through declared gates.
+- Initial witness: one existing Research Tower, one candidate-local ontology
+  projection, one read-only Canvas Tower Navigator, and source path/digest/
+  selector evidence. Bulk ingestion, personas, scoring, promotion, human-
+  usefulness claims, publication, and deployment are excluded.
+- Inventory preflight: machine lookup is `ready`; selected ontology-population,
+  IDE, learning-graph, and EvidenceSet entries forced the three-lane split and
+  one-tower witness. The raw 41-path `TOWER.md` census remains a noisy preflight,
+  not a unique-tower or complete-research count.
+- Gates: schema `0.8.0` confirmation readiness passed at sheet SHA-256
+  `943728666e768d5fee502e8eec00ad35368443bb0d91bc9d03dd39593b4fda64`;
+  independent check-tension agents returned `PASS/PASS`; material projection
+  SHA-256 is
+  `39ee52dd90d9f10d035690009c0136068532cbffbce7c2420c6d268b2cfcb836`.
+- State: human confirmation is pending; the dispatch is unregistered and none of
+  the nine proposed research agents has run. One separate read-only preflight
+  helper closed with no writes and is not a dispatch.
+- Strategy-result entry:
+  `.arcanum/inventory/entries/cyberalchemy-lab-foundation-research-strategy-result-synthesis.md`;
+  the deterministic updater added the machine-index entry and human-index row,
+  bringing the current index to 302 entries while preserving existing dirty
+  Inventory state.
+- Next action: reply exactly `confirmed` to authorize registration and execution
+  of the frozen research strategy.
+
+## 2026-08-10 — SkillOpt and Arcanum presentation research result recorded
+
+- Dispatch `2026-08-09-skillopt-arcanum-presentation-research` ran nine
+  governed research agents plus one read-only governance helper. The writer
+  produced `findings.md`; after one exact wording repair, the auditor returned
+  `RECOMMEND_ACCEPT` with no semantic blockers.
+- The result keeps SkillOpt paper-reported and not reproduced, Arcanum
+  source-inspected rather than runtime-proved, and the presentation witness
+  explicitly labeled `source trace + SIMULAÇÃO DE CONTRATO` with expected,
+  proposed, absent, and not-run states.
+- Native reduction reached the five-wave complete state, but the raw 64-event
+  orchestration log failed causal evidence validation. Missing pre-call wait,
+  receipt-join, and gate-decision events cannot be reconstructed without
+  inventing history, so the ledger closed with `exit_reason: error` and the raw
+  failure evidence remains preserved.
+- Result entry:
+  `.arcanum/inventory/entries/skillopt-arcanum-presentation-research-result-synthesis.md`.
+  The deterministic updater admitted one machine-index entry and one
+  human-index row at `2026-08-10T00:30:28Z`; candidate lookup readiness was
+  `ready`, with zero introduced and 150 inherited tag warnings.
+- Boundary: this Inventory record is a discovery read model. It does not turn
+  the accepted research text into validated-run evidence, author final slides,
+  prove a runnable demo, reproduce SkillOpt, implement an optimizer, integrate
+  Arcanum, authorize publication or promotion, deploy, or establish production
+  readiness or audience comprehension.
+
+## 2026-08-09 — CyberAlchemy naturalized interface design research result indexed
+
+- Dispatch `2026-08-09-cyberalchemy-naturalized-interface-design` completed
+  all five waves with one feedback loop; the auditor accepted source-bound
+  `findings.md` at SHA-256
+  `8a1e370c345fcefa9eaa5ede9eb08daf0d7aafd0ddb80a5746d531c9a0ed5604`.
+- Result: preserve investigation state around unavailable System-reference
+  open/return and admit one fail-closed, floor-bound
+  `VerificationPromptProjection` as the smallest structurally discriminable
+  prototype experiment. The route suggestion remains `executable: false`.
+- Rejections and residue: no coupled naturalized redesign or static learning
+  claim was admitted; task links and color remain deferred; representation
+  switching remains outside the queue; human comprehension, usefulness,
+  learning, accessibility conformance, authority, implementation,
+  publication, release, deployment, and production remain unproved.
+- Inventory entry:
+  `.arcanum/inventory/entries/cyberalchemy-naturalized-interface-design-research-result-synthesis.md`.
+  The receipt-producing appender added exactly one machine row and one human
+  row, bringing the current Inventory to 308 entries.
+- Appender evidence: dry-run receipt SHA-256
+  `650d3178c1da6d42103255b7bf358ea62db80c8cf89af795ca1dbe4294feaa4d`;
+  apply receipt SHA-256
+  `541fab202bed6143b801be97380664c18e550c3799e0c629cc35167db0a35884`;
+  identical no-op receipt SHA-256
+  `771ccaa6307ed3861be8baf873f437cb461f454ec23d21ed67227126a93bf25e`.
+- Projection validation: lookup readiness `ready`, zero failures, 150 inherited
+  uncontrolled-tag warnings, and no introduced warning; source-view digest
+  `0ccda03c9ba60606e80373712086bf1d519cbfebb288c99f679593b2ae667cd1`
+  over 309 consulted files.
+- Governance repair: two separately accepted fail-closed Inventory runtime
+  fixes now preserve exact pending-source admission, split staged projections
+  from the live repository source view, bind consulted source bytes, and block
+  pre-write drift. Focused regressions, the existing 9/9 updater suite, and the
+  7/7 human-index suite passed.
+- Boundary: Inventory remains a non-authority read model. No product, ontology,
+  definitions, authority, publication, promotion, release, deployment, or
+  production mutation was performed or authorized by this closeout.
+
+## 2026-08-09 — SkillOpt and Arcanum presentation research strategy proposed
+
+- P1: a governed research dispatch is required to reconcile current SkillOpt
+  primary evidence, current public Arcanum source and code evidence, and an
+  advanced Portuguese 35-minute slides-and-code presentation witness.
+- Lanes: Turing verifies SkillOpt primary sources, Alexander audits current
+  Arcanum state, and Drucker tests the audience narrative and demo in parallel;
+  Simon synthesizes; Popper, Taleb, and Quine attack precedent, non-vacuity,
+  and definitional soundness; Ahrens writes only after exact-binding closure;
+  Brandenburg audits; the parent remains final approver.
+- Inventory preflight: the machine index is parseable but lookup readiness is
+  blocked by one unrelated missing source row. It has no direct SkillOpt entry,
+  so selected model-use, Arcanum source-map/lifecycle, and presentation records
+  are non-authority leads only.
+- Gates: schema `0.8.0` confirmation readiness passed with ledger mutation none
+  at sheet SHA-256
+  `c0e72cf4840d8cf75b33bcb7b13cdad53f0c8f16aa0c68dd84380f4bb4d0c133`;
+  Dispatch Spec passed; two independent check-tension agents returned
+  `PASS/PASS` with no apontamentos; material projection SHA-256 is
+  `1d0f8438ce8796df3ca98dbc8b99d0ded5428343bdb4df05a1b5a7481c34be91`.
+- State: human confirmation is pending; the dispatch is unregistered and none
+  of the nine proposed research agents has run. The two tension agents were
+  pre-confirmation gate infrastructure only.
+- Strategy-result entry:
+  `.arcanum/inventory/entries/skillopt-arcanum-presentation-research-strategy-result-synthesis.md`;
+  the deterministic updater added the machine-index entry and human-index row,
+  bringing the current index to 307 entries while preserving pre-existing
+  Inventory changes.
+- Boundary: the proposal does not author final slides, verify SkillOpt claims,
+  implement an optimizer, change or promote Arcanum, publish, deploy, release,
+  prove audience comprehension, or establish production readiness.
+- Next action: reply exactly `confirmed` to authorize registration and execution
+  of the frozen research strategy.
+
+- Boundary: confirmation does not authorize the product, ontology promotion,
+  bulk ingestion, public extraction, implementation, publication, deployment,
+  release, or production changes. The candidate-local creation Work Pack is a
+  later gate after accepted findings.
+
+## 2026-08-08 — CyberAlchemy Lab foundation research recovery resolved
+
+- Recovery dispatch `2026-08-08-cyberalchemy-lab-foundation-recovery` completed
+  its definition, writer, and auditor waves, used one of one bounded revision
+  loops, reached Orchestrate state `complete`, passed 23-event causal evidence
+  validation, and closed with `exit_reason: resolved`.
+- Final research artifact:
+  `projects/cyberalchemy-lab/development/research/2026-08-07-foundation/findings.md`,
+  SHA-256
+  `07a29e2fc62f92b6eb2d28c197b19c2ccc036a9952b75474f52c5ac9a44de11d`.
+- Result: proceed only with a candidate-local `Tower Evidence Navigator`
+  research specification, classified as build-from-owned with
+  `authority_effect: none`. The 41 paths, 33 digests, and 31 content families
+  remain separate snapshot measures; total non-tower research coverage is
+  unknown.
+- Inventory ingest processed nine source paths and created
+  `.arcanum/inventory/entries/cyberalchemy-lab-foundation-research-recovery-result-synthesis.md`.
+  The deterministic updater added one machine-index entry and one human-index
+  row; the machine catalog now has 304 entries at generated timestamp
+  `2026-08-08T04:18:20Z`.
+- Validation passed with lookup readiness `ready`, zero failures, and 150
+  inherited uncontrolled-tag warnings; excluding the new entry yields the same
+  warning set, so the ingest introduced no new uncontrolled tag warning.
+  Re-applying the record is an idempotent JSON and human-index no-op.
+- Historical strategy and blocked-result entries remain intact. The recovery
+  entry supersedes only the execution-blocked state; it does not erase the
+  earlier failure or promote the recovered candidate.
+- Boundary: Inventory is a non-authority discovery read model. No representative
+  tower was selected; no private Research Tower package, ontology schema,
+  projection compiler, IDE adapter, route, UI, runtime/browser witness,
+  promotion, publication, deployment, release, or production work was created
+  or authorized.
+
+## 2026-08-09 — CyberAlchemy naturalized interface design research strategy proposed
+
+- P1: a governed research dispatch is required to reconcile human empirical
+  visual evidence, schema/categorical architecture, and the implemented White
+  Tower's task and browser behavior under independent cognitive and
+  definitional attacks.
+- Source preflight: read-only remote checks found the framework crosswalk at
+  domainspec-core `master` commit
+  `41deffcd2bcf1adfbaedb894dc5b6e92c36be51b` and the naturalized-environments
+  package under domainspec-lean-formalization `main`
+  `a4655d938c92e25be8ffd31b6f92b7e544f86e66`. No fetch, pull, checkout, merge,
+  tracking-ref update, or source copy occurred.
+- Lanes: three parallel explorers own empirical visual-intervention evidence,
+  schema/implementation/semantics collapse tests, and current White Tower
+  interface applicability; a synthesizer, two attack-vector skeptics, writer,
+  auditor, and parent approval follow through declared gates.
+- Gates: schema `0.8.0` confirmation readiness passed with ledger mutation none
+  at sheet SHA-256
+  `756ca46f43273149a1f45684f48ecbe4d59ac2bc14ad1beee99834fd209bba3b`;
+  two independent check-tension agents returned `PASS/PASS` with no
+  apontamentos.
+- State: human confirmation is pending; the dispatch is unregistered and none
+  of the eight proposed research agents has run. The two tension agents were
+  pre-confirmation gate infrastructure only.
+- Strategy-result entry:
+  `.arcanum/inventory/entries/cyberalchemy-naturalized-interface-design-research-strategy-result-synthesis.md`;
+  the deterministic updater added the machine-index entry and human-index row,
+  bringing the current index to 306 entries while preserving pre-existing
+  Inventory changes.
+- Boundary: the naturalized finding remains rejected-after-loop-2 working
+  synthesis; the crosswalk remains candidate discovery; the White Tower is
+  unchanged; human comprehension, ontology authority, implementation,
+  publication, promotion, release, deployment, and production remain unclaimed.
+- Next action: reply exactly `confirmed` to authorize registration and execution
+  of the frozen research strategy.
+
+## 2026-08-10 — CyberAlchemy game-like canvas interface research strategy proposed
+
+- P1: a governed research dispatch is required to reconcile current official
+  engine/runtime evidence, human-interface and accessibility obligations, and
+  the exact local White Tower integration boundary.
+- Lanes: three parallel explorers own runtime comparison, spatial/human
+  interface evidence, and current repository integration. One synthesizer,
+  three attack-vector skeptics, a findings writer, an auditor, and parent final
+  approval follow through declared evidence-closure gates.
+- Candidates: native DOM/SVG/Canvas, Phaser, PixiJS, and Excalibur. No engine is
+  selected in advance, no dependency is installed, and a no-engine fallback is
+  required.
+- Gates: schema `0.8.0` confirmation readiness passed with ledger mutation none
+  at sheet SHA-256
+  `25928ddf447105cbd2ba307c6295f89c57bdb7b33a2b8b8b15fa0e4efe91f296`;
+  Dispatch Spec passed; material SHA-256 is
+  `ed5b4c02ae7b104999c4e6619524e89f80d3da754aa9f9abc5c437dd6830fa35`;
+  two independent check-tension agents returned `PASS/PASS` with no
+  apontamentos.
+- State: human confirmation is pending; the dispatch is unregistered and none
+  of the nine proposed research agents has run. The two tension agents were
+  pre-confirmation gate infrastructure only.
+- Strategy-result entry:
+  `.arcanum/inventory/entries/cyberalchemy-game-like-canvas-interface-research-strategy-result-synthesis.md`;
+  the receipt-producing updater committed matching machine and human index
+  projections at timestamp `2026-08-10T20:20:00Z`.
+- Inventory validation admitted the candidate with lookup readiness `ready`,
+  150 inherited warnings, and one new non-blocking uncontrolled `game-canvas`
+  tag warning. The initial relative-root command-path error wrote nothing; an
+  absolute-root reinvocation applied cleanly.
+- Boundary: the current product, package, dependencies, server, assets, tests,
+  source witness, ontology, authority, Git, publication, release, deployment,
+  and production state are unchanged. Animated robot presentation remains
+  distinct from real worker execution.
+- Next action: reply exactly `confirmed` to authorize registration and execution
+  of the frozen material strategy.
+
+## 2026-08-13 — DomainSpec v2 system-integration contracts research strategy proposed
+
+- P1: a governed research dispatch is required to reconcile current DomainSpec
+  authority and executable coverage, persistence and local-consistency
+  semantics, and external API, messaging, and distributed-consistency
+  semantics without turning infrastructure products into domain meta-types by
+  default.
+- Lanes: three parallel explorers own current DomainSpec archaeology,
+  persistence/local consistency, and distributed integration. One synthesizer,
+  three parallel attack-vector reviewers, a findings writer, an auditor, and
+  parent final approval follow through exact-binding evidence closure.
+- Gates: schema `0.8.0` confirmation readiness passed with ledger mutation none
+  at sheet SHA-256
+  `49d3a4682b0c388501a7f344dc827382fecab36ce4be701db3e12fd112fe1c96`;
+  Dispatch Spec passed; material SHA-256 is
+  `0de2aa4bb3c72583d9cf8c1cbd42b292b2d1d98d5bae3371d2db93177432d89d`;
+  two independent check-tension agents returned `PASS/PASS` with no
+  apontamentos.
+- State: human confirmation is pending; the dispatch is unregistered and none
+  of the nine proposed research agents has run. The two tension agents were
+  pre-confirmation gate infrastructure only.
+- Inventory preflight: root lookup readiness passed with partial source
+  coverage; no consumer-local machine index exists; selected leads cover
+  implementation boundaries, validation layers, composability, uniqueness,
+  database posture, and provider ports, but no selected entry owns the missing
+  DomainSpec infrastructure contracts.
+- Strategy-result entry:
+  `.arcanum/inventory/entries/domainspec-v2-system-integration-contracts-research-strategy-result-synthesis.md`;
+  the deterministic updater committed matching machine and human index
+  projections at timestamp `2026-08-13T04:16:42Z`.
+- Inventory validation remains lookup-ready with zero failures and the 153
+  pre-existing uncontrolled-tag warnings; the new entry adds no warning class.
+- Boundary: definitions, relationships, profiles, implementation, validators,
+  Craft state, dispatch ledger, Git, public Arcanum, external systems,
+  promotion, publication, release, deployment, and production remain
+  unchanged or unauthorized.
+- Next action: reply exactly `confirmed` to authorize registration and execution
+  of the frozen material strategy.
+
+## 2026-08-13 — Bolina formal-modeling retry closed at reviewer capacity boundary
+
+- Mode: ingest one additive blocked-result synthesis after governed retry
+  closeout.
+- Sources processed: nine exact run, repair, synthesis, route, sheet, and ledger
+  artifacts; historical Inventory entries were left unchanged.
+- Current state: the dependent-wave plan defect is resolved for accepted local
+  continuation, `spawn-0004` completed, its receipt was admitted, and
+  `g-synthesis` passed. The host then accepted two reviewer siblings and
+  rejected `spawn-0007` at its thread limit.
+- Recovery: Orchestrate recorded `host_spawn_failed`, interrupted both known
+  siblings under the partial-wave contract, appended evidence-closure residue,
+  and terminated the validator-clean causal stream at 50 events with
+  `run_blocked`.
+- Entry created:
+  `.arcanum/inventory/entries/bolina-domainspec-formal-modeling-research-partial-review-blocked-result-synthesis.md`.
+- Index: deterministic dry-run and add synchronized `index.json` and `index.md`
+  from 317 to 318 entries at timestamp `2026-08-13T04:57:00Z`.
+- Validation: Inventory lookup readiness passed with zero failures and 153
+  inherited uncontrolled-tag warnings; updater tests passed 9 assertion groups
+  and human-index tests passed 7 groups.
+- Claim ceiling: source-grounded synthesis only. No reviewer gate,
+  `findings.md`, model, solver result, theorem proof, Zig conformance, security,
+  authority, adoption, publication, release, deployment, or production result
+  exists.
+- Next action: create a distinct run only after explicit retry authority. The
+  recommended capacity-aware reviewer schedule changes the confirmed parallel
+  route and therefore requires fresh tension review and exact human
+  confirmation.
+
+## 2026-08-13 — DomainSpec v2 system-integration research closed at blocked evidence frontier
+
+- Mode: ingest one additive blocked-result synthesis after the confirmed
+  governed research dispatch closed.
+- Current state: DomainSpec v2 owns the logical domain and application surface,
+  but no canonical system-integration contract layer, generic runtime evaluator
+  registry, or runtime `EvaluationReceipt` schema is currently observed.
+- Candidate: the bounded synthesis separates eight layers and proposes six
+  unadmitted records: `PersistenceBinding`, a reduced `MigrationContract`,
+  `TransportBinding`, `TransactionGuaranteeBinding`,
+  `DeliveryGuaranteeBinding`, and `FailureOutcomeBinding`.
+- Review: precedent and non-vacuity passed. Non-collapse blocked on NC-01
+  (`PersistenceBinding` claim and digest ownership) and NC-02 (duplicated retry
+  ownership). Executable fixture closure also remains blocked by absent logical
+  records, schemas, implementations, evaluators, receipts, fault seams, and
+  executions.
+- Runtime: seven of nine planned agents ran across two bounded feedback loops;
+  the writer and auditor were not admitted, `findings.md` is intentionally
+  absent, and the append-only ledger closes the dispatch as
+  `dissent_irreconcilable`. The final causal receipt records a validator-clean
+  63-event stream.
+- Entry created:
+  `.arcanum/inventory/entries/domainspec-v2-system-integration-contracts-research-blocked-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` from 318 to 319 entries at timestamp
+  `2026-08-13T06:52:01Z`; candidate and post-write digests matched.
+- Validation: Inventory lookup readiness passed with zero failures, 153
+  inherited warnings, and no introduced warnings. The frozen sheet remains
+  schema `0.8.0`, validator-clean, and byte-identical at SHA-256
+  `49d3a4682b0c388501a7f344dc827382fecab36ce4be701db3e12fd112fe1c96`;
+  Dispatch Spec and all research JSON parsing pass.
+- Claim ceiling: this is blocked research and a non-authority Inventory read
+  model. No definitions, profiles, implementation, validators, runtime
+  guarantees, evidence acceptance, promotion, publication, release,
+  deployment, or production state changed.
+- Next action: resolve NC-01 and NC-02 under an owner-routed candidate, obtain a
+  fresh non-collapse review, then separately admit exact logical records and
+  bindings before implementing the finite positive and hostile evidence
+  fixture.
+
+## 2026-08-13 — Bolina core reviews admitted and closed-input final recovery proposed
+
+- Mode: additive strategy-result ingest after retry-002 closed at its
+  proof-boundary isolation gate.
+- P1: synthesis, isolation, dependency gating, and context protection still
+  apply across the admitted synthesis, two clean core reviews, one fresh
+  proof-boundary review, evidence closure, writing, and audit.
+- Admitted evidence: precedent review classified the integration
+  `build-from-owned`; non-vacuity review kept TLA+/TLC first plus a separate
+  Zig conformance lane but found the model candidate not paper-executable.
+- Block: the retry-002 proof-boundary reviewer accidentally exposed three
+  prohibited reviewer lines. Its result is non-admissible; the 29-event causal
+  stream validates, the evidence-closure gate blocked, and no writer or auditor
+  action opened.
+- Recovery proposal: retry-003 uses a fresh pooled skeptic over one
+  digest-bound closed input manifest, then parent-owned exact-binding closure,
+  writer, and auditor. All groups are singleton, so check-tension passes
+  trivially by contract.
+- Entry created:
+  `.arcanum/inventory/entries/bolina-domainspec-formal-modeling-core-reviews-admitted-proof-boundary-retry-strategy-result.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` from 319 to 320 entries at timestamp
+  `2026-08-13T13:14:56Z`.
+- Validation: updater tests passed 9 assertion groups; human-index tests passed
+  7 groups; Inventory lookup readiness passed with zero failures and 153
+  inherited uncontrolled-tag warnings.
+- Claim ceiling: synthesis and two core reviews only. No admissible
+  proof-boundary review, `findings.md`, model, solver execution, theorem proof,
+  Zig conformance, security, authority, promotion, publication, release,
+  deployment, or production result exists.
+- Next action: obtain exact human confirmation for the validator-clean
+  retry-003 material strategy before registration or spawn.
+
+## 2026-08-13 — Bolina formal-modeling research closed with audited TLA-first recommendation
+
+- Mode: ingest one additive research-result synthesis after the confirmed
+  retry-003 dispatch reached terminal completion.
+- Result: the fresh proof-boundary review was admissible, exact-binding evidence
+  closure opened the writer gate, and the exact `findings.md` bytes at SHA-256
+  `b33a1ea2cbe2044f83d08a5f61a9ace15b930a58406a54e19491fabaa41f8ead`
+  passed the final audit without a writer revision.
+- Recommendation: use TLA+/TLC first for Bolina transition ordering, crash,
+  restart, time, recovery, interference, and abstract no-bypass; keep Zig
+  conformance separate; defer Alloy until an owner approves a distinct
+  structural obligation; integrate by extending existing DomainSpec obligation,
+  case, runner, receipt, replay, and implementation-binding owners.
+- Runtime: three research agents ran sequentially, both dependency gates
+  passed, no feedback loop was used, and the final causal stream contains 33
+  contiguous validator-clean events with all three actions terminal, closed,
+  and joined. The append-only dispatch ledger closes `resolved`.
+- Governance residue: the initial audit return confused semantic mode `audit`
+  with route `wave_id: auditor`. A one-helper sidecar blocked silent
+  normalization; the same auditor freshly reissued the unchanged substantive
+  result with the correct route identity, and exact receipt admission passed.
+- Entry created:
+  `.arcanum/inventory/entries/bolina-domainspec-formal-modeling-research-result-retry-003.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` from 320 to 321 entries at timestamp
+  `2026-08-13T14:27:41Z`; candidate and post-write digests matched.
+- Validation: Inventory lookup readiness passed with zero failures, 153
+  inherited uncontrolled-tag warnings, and no introduced warnings.
+- Claim ceiling: bounded, source-bound, internally audited research only. No
+  model, solver execution, killed mutant, theorem, Zig conformance, filesystem
+  correctness, exactly-once publication, security, owner acceptance, authority,
+  adoption, promotion, publication, release, deployment, or production result
+  is established.
+- Next action: route the seven deferred semantic and ownership questions to the
+  Bolina and DomainSpec owners before authoring a separate implementation work
+  pack for source binding, the exact TLA candidate, anti-vacuity fixtures, and
+  the Zig correspondence lane.
+
+## 2026-08-13 — Arcanum and Codex App Server integration-map strategy indexed
+
+- Mode: ingest one additive, non-authority strategy-result synthesis.
+- P1: synthesis, context protection, isolation, and parallelism justify a
+  governed research dispatch.
+- Lanes: three parallel explorers cover App Server protocol/host mapping,
+  Refine/Invoke/Work-Pack execution lineage, and continuous Goal/Craft receipt,
+  eval, observability, maintenance, and generated-runtime hooks. Synthesis,
+  three independent skeptic gates, evidence closure, writing, and audit follow.
+- Gate state: sheet schema `0.8.0` and Dispatch Spec passed; independent checker
+  and reviewer passed Tests 1-5 against sheet SHA-256
+  `a966360fdbaba96629461d6aff97cf9ae2a737584dd12f5217f8cbe15c28e5ed`.
+- Dispatch state: confirmation-ready, unregistered, and unexecuted. No App
+  Server process or model turn was started and the dispatch ledger was not
+  mutated.
+- Entry created:
+  `.arcanum/inventory/entries/arcanum-codex-app-server-integration-map-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` at timestamp `2026-08-13T18:03:53Z`, introducing no new warnings.
+- Claim ceiling: research strategy only; no integration findings,
+  implementation, Craft mutation, acceptance, authority, promotion,
+  publication, release, deployment, or production result exists.
+- Next action: obtain exact human confirmation before registration or spawn.
+
+## 2026-08-13 — Arcanum and Codex App Server audited integration map indexed
+
+- Mode: ingest one additive, non-authority audited-result synthesis.
+- Dispatch result: resolved after five Orchestrate waves, nine admitted actions,
+  two bounded synthesis-review feedback rounds, and an approving final audit.
+- Architecture: App Server is proposed as an adapter/profile under the existing
+  durable `framework/runtime`; ordinary Refine/Task Session use remains separate
+  from a future Orchestrate host-profile decision.
+- Official denominator: three inbound transports, one disabled listen mode, one
+  independent outbound connector family, 137 client requests, 11 server-request
+  variants, 72 notifications, seven input families, and 18 item families.
+- Evidence boundary: nine fixture contracts are specified but unexecuted; local
+  technique, schema, generated-package, eval, and installed-binary parity ledgers
+  remain open; no App Server process or model turn was run.
+- Entry created:
+  `.arcanum/inventory/entries/arcanum-codex-app-server-integration-map-audited-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` at timestamp `2026-08-13T20:13:29Z`, introducing no new warnings;
+  153 uncontrolled-tag warnings remain inherited.
+- Claim ceiling: audited architecture/research map only; direct App Server
+  integration is absent and no implementation readiness, acceptance, promotion,
+  publication, release, deployment, or production result exists.
+- Next action: separately govern the fixture-first Work Pack and preserve
+  `DECISION-LOOP-OWNER-001` as unresolved.
+
+## 2026-08-14 — RWO and Codex runtime migration research strategy indexed
+
+- Mode: ingest one additive, non-authority strategy-result synthesis.
+- P1: synthesis, context protection, isolation, and parallelism justify a
+  governed research dispatch across current RWO bytes, current Codex App Server
+  protocol, and cross-system Arcanum authority placement.
+- Migration boundary: active Eve runtime/provider bytes must be inventoried for
+  replacement or generalization, while historical research, audit, Work-Pack,
+  and validation evidence remains immutable or explicitly superseded.
+- Gate state: sheet schema `0.8.0`, confirmation readiness, and capability-bound
+  Dispatch Spec passed; independent checker and reviewer passed Tests 1-5
+  against sheet SHA-256
+  `73e0413a1a6bf877f3b0887d4619671f94199ecd5af59317c08b41ef1a445f74`.
+- Dispatch state: confirmation-ready, unregistered, and unexecuted. No Eve byte
+  was changed, no App Server process or model turn was started, and the dispatch
+  ledger was not mutated.
+- Entry created:
+  `.arcanum/inventory/entries/rwo-codex-runtime-migration-research-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` at timestamp `2026-08-14T07:53:39Z`, introducing no new warnings;
+  153 uncontrolled-tag warnings remain inherited.
+- Claim ceiling: research strategy only; no selected topology, compatibility,
+  implementation, lifecycle synchronization, Craft or Goal mutation, Git,
+  publication, release, deployment, or production result exists.
+- Next action: obtain exact human confirmation before registration or research
+  spawn.
+
+## 2026-08-16 — Agent orchestration beginner-language audition strategy indexed
+
+- Mode: ingest one additive, non-authority strategy-result synthesis.
+- P1: three isolated language methodologies, neutral synthesis, two independent
+  attack vectors, evidence-closed findings, and audit require a governed
+  research dispatch rather than one helper.
+- Audition boundary: only the Route 1 opening, Route 3 lifecycle tension, and
+  Route 7 transfer reveal are tested; the seven-route class, HTML, deployment,
+  canonical vocabulary, and private authority sources remain immutable.
+- Lanes: one baseline explorer; three parallel candidate explorers using
+  mechanism-first, worked-example-first, and diagnostic-question-first
+  methods; one neutral synthesizer; two parallel skeptics for definitional
+  soundness and non-vacuity; one findings writer; and one auditor.
+- Gate state: `LANG-HOST-DEFAULT-AUDITION` replaced unsupported heterogeneous
+  model routing with inherited host-default semantics and marked every
+  token-budget value advisory. Schema `0.8.0`, 9/9 selector binding, repaired
+  capability-bound Dispatch Spec, action-policy compatibility, and two fresh
+  independent Tests 1-5 tension checks passed against sheet SHA-256
+  `972f3895b935360c3bfd0432518ed6bf2055143a9163ec955a442ec42cfd540e`.
+- Dispatch state: confirmation-ready, unregistered, and unexecuted. No action
+  was compiled, no target agent was spawned, and the dispatch ledger was not
+  mutated. The next action is exact post-readiness human reply `confirmed`.
+- Entry created:
+  `.arcanum/inventory/entries/agent-orchestration-beginner-language-audition-research-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` at timestamp `2026-08-16T15:07:16Z`; the candidate resolved the
+  exact pending-entry coverage gap, introduced no warnings, and retained 153
+  inherited warnings.
+- Claim ceiling: editorial research strategy only; no human comprehension,
+  source rewrite, HTML integration, browser transport, publication, deployment,
+  or production result exists.
+- Next action: obtain exact human confirmation before registration or spawn.
+
+## 2026-08-16 — Agent orchestration beginner-language audition blocked run indexed
+
+- Mode: ingest one additive, non-authority blocked-run result synthesis.
+- Confirmed execution: the exact host-default sheet was confirmed, registered,
+  compiled, and launched through the native Orchestrate prepare/host/record
+  handshake.
+- Admitted evidence: the baseline receipt passed, joined, and closed; gate
+  `g0-baseline` passed.
+- Partial-wave evidence: candidate M at SHA-256
+  `145dcc3eb7d83b788db5ee0a703a88cc6b2c427b4293b70aa9038d2be56a0883`
+  and candidate E at SHA-256
+  `7609b81378197badf88306973a2e137349de1667dddf15a565b1dfe273364e74`
+  completed in isolation and were preserved but not joined.
+- Blocker: the exact candidate Q action was attempted once and the host returned
+  `agent thread limit reached` before an agent identifier. Partial-wave cleanup
+  emitted `run_blocked`; the complete 37-event stream validates `pass`.
+- Downstream state: no candidate-wave join, synthesis, reviews, evidence
+  closure, findings, audit, or Human Gate A exists.
+- Governance sidecar: cleanup was correct; retention-aware capacity admission
+  was missing. Selective digest carry-forward requires a distinct validated
+  recovery and renewed human confirmation.
+- Ledger: one registration row and one `error` close row exist for dispatch
+  `2026-08-16-agent-orchestration-language-audition`.
+- Entry created:
+  `.arcanum/inventory/entries/agent-orchestration-beginner-language-audition-blocked-run-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` at timestamp `2026-08-16T16:45:00Z`, introduced no warnings, and
+  retained 153 inherited warnings.
+- Claim ceiling: validator-clean fail-closed runtime evidence and two preserved
+  drafts only; no guide edit, comprehension proof, publication, deployment, or
+  production result exists.
+- Next action: specify and validate a capacity-safe recovery, then request a new
+  exact human confirmation before registration or target-agent spawn.
+
+## 2026-08-16 — Agent orchestration language-audition Recovery 004 strategy indexed
+
+- Mode: ingest one additive, non-authority recovery strategy-result synthesis.
+- P1: candidate isolation, three-way synthesis, two independent review lenses,
+  evidence-closed writing, and audit still require a governed research dispatch.
+- Adoption boundary: exact M/E bytes are proposed as externally attributed
+  evidence from the blocked run; they are not relabeled as joined receipts.
+  Candidate Q receives a separate closed-input manifest that excludes M/E.
+- Capacity design: one causal recovery dispatch is divided into three fresh-parent
+  segments with child-identity counts `1`, `3`, and `2`. Every segment requires a
+  root-only host inventory witness and an exact passed-gate handoff.
+- Lanes: Halford writes Q; Baez synthesizes; Wittgenstein and Gigerenzer review in
+  parallel on definitional-soundness versus non-vacuity; Hofstadter writes findings;
+  Brandenburg audits before Human Gate A.
+- Gate state: schema `0.8.0` readiness passes at sheet SHA-256
+  `854a184376de2e4c903657d17ab02a4f790fe3b8acd092f6109abfea43c3bd1f`;
+  Dispatch Spec passes with zero blocks and zero flags. Independent tension remains
+  pending because the current parent retains three prior-context children.
+- Dispatch state: unconfirmed, unregistered, and unexecuted. Recovery 004 target-agent
+  spawn count is zero; the dispatch ledger, HTML, deployment, and Git are unchanged.
+- Entry created:
+  `.arcanum/inventory/entries/agent-orchestration-beginner-language-audition-recovery-004-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and `index.md`
+  at timestamp `2026-08-16T17:14:34Z`, introduced no warnings, and retained 153
+  inherited warnings.
+- Claim ceiling: validated recovery proposal only; no continuation proof, tension
+  admission, confirmation, candidate result, synthesis, review, audit, Human Gate A,
+  comprehension, publication, deployment, or production result exists.
+- Next action: run two exact-sheet independent tension verdicts in a fresh parent
+  context; only PASS/PASS may open the exact confirmation request.
+
+## 2026-08-20 — DomainSpec v2/CyberAlchemy v2 proof-obligation substrate strategy indexed
+
+- Mode: ingest one additive, non-authority research strategy-result synthesis.
+- P1: cross-owner synthesis, context protection, discardable topology attack,
+  and three parallel source lanes require a governed research dispatch.
+- Decision surface: compare one cross-project registry, two owner-independent
+  registries with a derived crosswalk, and a shared record contract with
+  owner-specific canonical catalogs and generated projections. The third is a
+  working hypothesis, not a decision.
+- Lanes: van Lamsweerde inspects DomainSpec v2 current bytes; Beer inspects
+  CyberAlchemy v2 authority; Peirce establishes external precedent; Shannon
+  synthesizes; Lakatos, Popper, and Quine attack the result; Ahrens writes only
+  after exact-binding closure; Brandenburg audits; the parent approves.
+- Gate state: sheet schema `0.8.0` passes at SHA-256
+  `b43f8c46f31d87744c03a14185d74a77188c8bbcf83ba1344fb28a47e03a7033`;
+  the material projection is equivalent; Dispatch Spec passes; two independent
+  tension verdicts return PASS/PASS with zero apontamentos.
+- Dispatch state: confirmation-ready, unconfirmed, unregistered, and
+  unexecuted. Research-agent spawn count is zero and the append-only dispatch
+  ledger is unchanged.
+- Entry created:
+  `.arcanum/inventory/entries/domainspec-v2-cav2-proof-obligation-substrate-research-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` at timestamp `2026-08-20T11:38:27Z`, introduced no warnings, and
+  retained 153 inherited warnings. Apply receipt SHA-256:
+  `effaf0599fc924bb11185407cc5e9a4993b8f7e4e322537dd117f4fb3dce0289`.
+- Authority boundary: Inventory is discovery only. The strategy cannot make a
+  substrate canonical, merge DomainSpec semantics with CyberAlchemy authority,
+  or authorize source, Git, publication, release, deployment, or production
+  mutation.
+- Next action: exact human `confirmed` for the unchanged frozen dispatch sheet.
+
+## 2026-08-20 — DomainSpec v2/CyberAlchemy v2 proof-obligation research result synchronized
+
+- Mode: refresh the existing non-authority strategy-result entry after its
+  governed research route closed; no new authority record was created.
+- Decision: TOP-03, a shared syntax-only envelope with owner-local schemas,
+  catalogs, and derived projections, is conditionally recommended. TOP-02, two
+  independent owner-local registries with a derived crosswalk, activates
+  automatically if the exact shared-owner and two-owner-adoption contract is not
+  ratified. TOP-01, one cross-project semantic registry, is rejected.
+- Run state: nine governed agents completed five waves with one
+  synthesis/review repair loop. Runtime state is `complete`, event validation
+  passed, and the auditor returned `APPROVE`.
+- Result binding: `findings.md` SHA-256
+  `836e22976c4768e81adfa2f983faf8d8dc0c0e9edfa53ffb9945c01851777978`;
+  auditor receipt SHA-256
+  `5820c83cad22724c7aeceed8c53309879fe57a264257effde11a1dc2af047ee1`.
+- Ledger: exactly one dispatch row and one matching close row with
+  `exit_reason: resolved`. A failed first close command exited 127 before any
+  mutation; the bounded governance sidecar diagnosed missing Node on PATH, and
+  the exact staged record was appended once with the verified absolute runtime.
+- Open gates: GATE-01 through GATE-08 and blockers `EVF-READINESS-001`,
+  `EVF-CURRENTNESS-001`, `NEGATIVE-FIXTURE-READINESS-001`, and
+  `PROJECTION-READINESS-001` remain explicit.
+- Index: `index.json` and `index.md` synchronized at
+  `2026-08-20T14:17:02Z`; validation passed with zero failures and retained 153
+  inherited uncontrolled-tag warnings.
+- Authority boundary: the closed research does not establish canonical
+  adoption, a complete proof, discharge, deterministic CAV2 enforcement,
+  implementation, promotion, publication, release, deployment, or production
+  readiness.
+- Next action: begin the non-executed Work Pack at `WP-00`, starting with
+  `GATE-01`.

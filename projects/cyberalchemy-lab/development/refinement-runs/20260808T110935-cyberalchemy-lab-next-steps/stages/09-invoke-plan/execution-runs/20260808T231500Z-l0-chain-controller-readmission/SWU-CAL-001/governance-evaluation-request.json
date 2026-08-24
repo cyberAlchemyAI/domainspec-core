@@ -1,0 +1,84 @@
+{
+  "schema_version": "task-session.governance-evaluation-request.v1",
+  "request_id": "SWU-CAL-001-closeout-preflight-20260808T231500Z",
+  "evaluation_kind": "closeout-preflight",
+  "policy_ref": {
+    "path": ".agents/skills/task-session/decision-validation-policy.json",
+    "sha256": "f339f258b7862095f31064712df784ea145184d9b75eb15fcaf0127d7c18b63f",
+    "size_bytes": 3273
+  },
+  "input": {
+    "terminal_source_receipt_contract": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/TASK-SESSION-RECEIPT.schema.json",
+      "sha256": "f0215d8133caa32d136b225e98cc9ec5181aaad1f112850363b17aa9c4a25b6b",
+      "size_bytes": 2843
+    },
+    "declared_target_inventory": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+      "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+      "size_bytes": 16412,
+      "selector": "/targets/0"
+    },
+    "baseline_state": [
+      {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+        "state": "existing",
+        "sha256": "d8c5993deb19a431971b86ecd035ae842ac3a7f15fb042b34ab9018c1612a71a",
+        "size_bytes": 16385
+      },
+      {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md",
+        "state": "existing",
+        "sha256": "42e4d751b0e130780f31bff0256f6c59f954af9c5cab5b4676b59e107e938d3f",
+        "size_bytes": 8268
+      },
+      {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W0.md",
+        "state": "existing",
+        "sha256": "ab2293cf8a3348e3cbfd2e66794172f7c421c9a749693c9b7a9289c454cf46cc",
+        "size_bytes": 613
+      },
+      {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+        "state": "existing",
+        "sha256": "498b6d3a9dcdf93922343c7dc9369ec6071225b40ad5c543edae9a68c112a243",
+        "size_bytes": 4759
+      },
+      {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+        "state": "existing",
+        "sha256": "ab5fd6f6861f8aad039ca57344b59f2ac2580c17cf7669261f6602ee4b72ae7e",
+        "size_bytes": 568
+      },
+      {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-001.json",
+        "state": "absent:create",
+        "sha256": null,
+        "size_bytes": null
+      }
+    ],
+    "allowed_delta_classes": [
+      "evidence_added",
+      "status_changed",
+      "route_changed"
+    ],
+    "validation_commands": [
+      "execution receipt validates and reports pass",
+      "canonical-json acceptance-critical Node test passes",
+      "closeout receipt parses and validates",
+      "execution-entry authoring validator passes"
+    ],
+    "expected_owner_receipt": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+      "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+      "size_bytes": 2634
+    },
+    "successor_selection": {
+      "requested": true,
+      "declared": true,
+      "dependency_ready": true,
+      "candidate_count": 1
+    }
+  },
+  "output_path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T231500Z-l0-chain-controller-readmission/SWU-CAL-001/governance-evaluation-receipt.json"
+}

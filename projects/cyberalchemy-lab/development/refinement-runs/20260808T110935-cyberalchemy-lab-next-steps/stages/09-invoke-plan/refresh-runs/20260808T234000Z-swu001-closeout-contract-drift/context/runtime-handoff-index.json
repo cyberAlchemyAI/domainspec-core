@@ -1,0 +1,25 @@
+{
+  "identity": {
+    "task_or_swu": "SWU-CAL-001-closeout",
+    "source_reference": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+    "session_or_run_id": "20260808T234000Z-swu001-closeout-contract-drift",
+    "runtime_handoff": "invoke-refresh",
+    "evidence_date": "2026-08-08"
+  },
+  "task_id": "TASK-CAL-CONTRACTS",
+  "swu_id": "SWU-CAL-001",
+  "strict_coverage": false,
+  "obligations": [
+    {"id": "O1-task-receipt-path", "status": "block", "summary": "Task write scope names the retired fixed terminal receipt.", "source": "work-pack/tasks/TASK-CAL-CONTRACTS.md#SWU-CAL-001-Write-scope"},
+    {"id": "O2-work-pack-receipt-path", "status": "block", "summary": "Work Pack closeout row names the retired fixed terminal receipt.", "source": "WORK-PACK.md#Task-Session-closeout-synchronization-contract"},
+    {"id": "O3-machine-lineage", "status": "covered", "summary": "Machine contract requires the immutable attempt root and preserves the legacy block.", "source": "work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/0"},
+    {"id": "O4-terminal-validation", "status": "covered", "summary": "Fresh immutable terminal receipt and Node validation passed.", "source": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001/20260808T231500Z-a1.json"},
+    {"id": "O5-no-semantic-inference", "status": "covered", "summary": "Closeout must stop on prose/admission drift rather than infer a repair.", "source": "WORK-PACK.md#Machine-normalized-commands"}
+  ],
+  "fallback_exploration": {"status": "none", "allowed_gap_ids": []},
+  "blockers": ["CLOSEOUT_TERMINAL_RECEIPT_SOURCE_CONTRADICTION"],
+  "output_paths": {
+    "markdown": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/refresh-runs/20260808T234000Z-swu001-closeout-contract-drift/context/RUNTIME-HANDOFF.md",
+    "json_index": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/refresh-runs/20260808T234000Z-swu001-closeout-contract-drift/context/runtime-handoff-index.json"
+  }
+}

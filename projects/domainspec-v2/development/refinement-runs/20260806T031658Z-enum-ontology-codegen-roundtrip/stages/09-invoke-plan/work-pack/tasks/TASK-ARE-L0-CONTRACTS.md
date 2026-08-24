@@ -12,10 +12,13 @@ implemented. Layer L0, slice S0, wave W0.
 - current `development/implementation-conformance/ontology-experiment/ontology.json`
 - current `development/implementation-conformance/ontology-experiment/profiles/typescript-strict.profile.json`
 - current `development/architecture-pattern-enforcement/instances/enum/decisions/typescript-representation.json`
+- `projects/domainspec-v2/development/refinement-runs/20260807T044715Z-enum-snapshot-catalogue-rebind/stages/06-invoke-design/DESIGN.md#view-3--low-level-contracts`
 
 ## Smallest Working Units
 
 ### SWU-ARE-001 — Freeze the expected-red ontology realization-spec contract
+
+- Status: complete; terminal and closeout evidence current.
 
 - Primary behavior: declare one exact ontology/profile-to-Enum-realization
   denominator and prove the projector implementation is absent.
@@ -45,6 +48,8 @@ implemented. Layer L0, slice S0, wave W0.
 - Closeout: `../shared/CLOSEOUT-CONTRACT.md#swu-are-001`.
 
 ### SWU-ARE-002 — Implement the ontology realization-spec projector
+
+- Status: complete; terminal and closeout evidence current.
 
 - Primary behavior: deterministically derive `ArchitectureRealizationSpec/v1`
   from exact ontology/profile bytes.
@@ -80,6 +85,8 @@ implemented. Layer L0, slice S0, wave W0.
 
 ### SWU-ARE-003 — Freeze the independent full-payload obligation catalogue
 
+- Status: complete; terminal and closeout evidence current.
+
 - Primary behavior: publish and validate `enum.member-bijection@1` outside all
   compiler imports.
 - Independent acceptance: exact `status.pending/pending` and `status.paid/paid`
@@ -106,6 +113,8 @@ implemented. Layer L0, slice S0, wave W0.
 
 ### SWU-ARE-004 — Validate the candidate Enum definition snapshot
 
+- Status: frontier/not-selected; dependency receipts current.
+
 - Primary behavior: publish a reusable validator and one authority-bounded
   `OrderStatus` snapshot.
 - Independent acceptance: two stable unique member pairs pass; duplicate ID,
@@ -129,6 +138,55 @@ implemented. Layer L0, slice S0, wave W0.
 - Expected result shape: standard SWU receipt with fixture and validator digests.
 - Closeout: `../shared/CLOSEOUT-CONTRACT.md#swu-are-004`.
 
+### SWU-ARE-015 — Rebind the independent catalogue to the frozen Enum snapshot
+
+- Status: blocked-by-dependency; runs only after SWU-ARE-004 terminal and
+  closeout receipts pass.
+- Primary behavior: publish and independently validate one
+  `ArchitectureObligationCatalogue/v2` whose definition reference exact-joins
+  the `EnumDefinitionSnapshot/v1` produced by SWU-ARE-004.
+- Independent acceptance: the positive snapshot-bound catalogue has zero
+  diagnostics; a same-key changed payload emits only
+  `ARCH_OBLIGATION_PAYLOAD_STALE`; stale definition path, byte digest, and
+  semantic digest cases each emit their one exact code; the v1 regression stays
+  green.
+- Split analysis: v2 type/schema, positive catalogue, same-key/reference
+  mutants, independent validator, and terminal receipt are plausible children,
+  but none independently admits the new definition-to-expectation boundary.
+  Together they form one discriminating unit.
+- Dependencies: SWU-ARE-004.
+- Source anchors:
+  - `projects/domainspec-v2/development/refinement-runs/20260807T044715Z-enum-snapshot-catalogue-rebind/stages/06-invoke-design/DESIGN.md#view-3--low-level-contracts`
+  - `../../../06-invoke-design/DESIGN.md#enumdefinitionsnapshotv1`
+- Write scope:
+  - `projects/domainspec-v2/impl/architecture-conformance/realization/contracts/architecture-obligation-catalogue-v2.ts`
+  - `projects/domainspec-v2/development/architecture-realization-compiler/contracts/architecture-obligation-catalogue-v2.schema.json`
+  - `projects/domainspec-v2/development/architecture-realization-compiler/catalogues/order-status.member-bijection.v2.json`
+  - `projects/domainspec-v2/development/architecture-realization-compiler/fixtures/order-status/catalogue.same-key-drift.v2.json`
+  - `projects/domainspec-v2/development/architecture-realization-compiler/tools/validate-obligation-catalogue-v2.mjs`
+  - `projects/domainspec-v2/development/architecture-realization-compiler/receipts/SWU-ARE-015.json`
+- Algorithm: validate the exact ARE-004 snapshot and its byte/semantic digests;
+  validate the Enum denominator from raw ontology/profile handles; retain v1
+  and ARE-003 only as immutable predecessor lineage; reject Stage 08 expectation
+  paths and compiler/evaluator imports; derive members only from
+  `snapshot.members`; canonicalize language-neutral IDs and values; validate the
+  positive, same-key, and isolated reference mutants; rerun v1 validation.
+- Done criteria: v2 TypeScript/JSON contracts align; exact snapshot path/byte/
+  semantic references pass; `supersedes_ref` binds the exact v1 bytes; positive
+  diagnostics are zero; each mutant has one exact diagnostic; forbidden
+  sources/imports are zero; v1 is unchanged and green; terminal receipt is
+  complete with `authority_effect:none`.
+- Validation:
+  - `node projects/domainspec-v2/development/architecture-realization-compiler/tools/validate-obligation-catalogue-v2.mjs --catalogue projects/domainspec-v2/development/architecture-realization-compiler/catalogues/order-status.member-bijection.v2.json --self-test`
+  - `node projects/domainspec-v2/development/architecture-realization-compiler/tools/validate-obligation-catalogue.mjs --catalogue projects/domainspec-v2/development/architecture-realization-compiler/catalogues/order-status.member-bijection.v1.json --self-test`
+  - `npm --prefix projects/domainspec-v2/impl exec -- tsc --noEmit -p projects/domainspec-v2/impl/architecture-conformance/typescript/realization-tests/enum/tsconfig.json`
+- Execution owner: `manual` independent catalogue owner; never the emitter,
+  compiler, adapter, or evaluator owner.
+- Expected result shape: standard SWU receipt with predecessor lineage,
+  positive/mutant/reference diagnostics, forbidden-source result, and v1
+  regression.
+- Closeout: `../shared/CLOSEOUT-CONTRACT.md#swu-are-015`.
+
 ### SWU-ARE-005 — Validate the safe TypeScript target binding
 
 - Primary behavior: admit one total, injective, path-safe mapping from semantic
@@ -138,7 +196,7 @@ implemented. Layer L0, slice S0, wave W0.
   or unadmitted provider specifier fails exactly.
 - Split analysis: path and identifier checks are inseparable at the data-to-code
   admission boundary; both must pass before any binding is executable.
-- Dependencies: SWU-ARE-004.
+- Dependencies: SWU-ARE-015.
 - Write scope:
   - `projects/domainspec-v2/impl/architecture-conformance/realization/contracts/typescript-target-binding.ts`
   - `projects/domainspec-v2/development/architecture-realization-compiler/contracts/typescript-target-binding.schema.json`

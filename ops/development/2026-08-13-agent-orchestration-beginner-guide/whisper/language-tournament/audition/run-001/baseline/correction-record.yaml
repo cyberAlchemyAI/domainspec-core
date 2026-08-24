@@ -1,0 +1,60 @@
+schema_version: whisper.correction-record.v1
+artifact_id: agent-orchestration-language-audition-correction-run-001
+dispatch_id: 2026-08-16-agent-orchestration-language-audition
+append_policy: append_only_run_local_record
+correction_events:
+  - correction_id: beginner-terminology-friction-2026-08-16
+    event_order: 1
+    feedback_kind: operator_correction
+    feedback_text: Terminology remains too difficult for beginners.
+    evidence_boundary: >-
+      This feedback establishes an operator-observed wording problem. It does not
+      measure the size of the effect, prove learner comprehension failure, select a
+      candidate voice, or authorize source mutation.
+    prior_related_correction:
+      revision_id: guided-class-context-r4
+      feedback_text: Add more explanatory context inside every lesson step.
+      relationship: same_transport_related_correction
+    scope:
+      permitted_next_artifacts:
+        - correction record
+        - term policy
+        - surface map
+        - composition plan
+        - three-moment language audition
+      representative_moments:
+        - lesson_id: choose
+          moment_id: opening_choice
+          selector: '#lesson-choose'
+        - lesson_id: relay
+          moment_id: lifecycle_tension
+          selector: '#lesson-relay'
+        - lesson_id: transfer
+          moment_id: transfer_reveal
+          selector: '#lesson-transfer'
+      prohibited_next_artifacts:
+        - seven complete route rewrites
+        - HTML derivative
+        - source HTML mutation
+        - deployment or publication artifact
+    state_transition:
+      from: frozen
+      rationale: >-
+        The terminology correction follows the related context-depth correction on
+        the same transport, so Whisper's convergence guardrail requires the next run
+        to remain bounded to the smallest audition.
+      to: volatile
+source_bindings:
+  guided_class_html:
+    path: ops/development/2026-08-13-agent-orchestration-beginner-guide/guided-class.html
+    sha256: 59d38eff75024ea95028ed8b455e19a1cec9859e9735a035b58ea3f82db75446
+  intent:
+    path: ops/development/2026-08-13-agent-orchestration-beginner-guide/whisper/guided-class-intent.yaml
+    sha256: 07587309bc476bc872fe5056922a03102c15041c28ac354766f56dad9a6435fe
+  plan:
+    path: ops/development/2026-08-13-agent-orchestration-beginner-guide/whisper/beginner-language-tournament-plan.md
+    sha256: 5a4fcc97b199e94de133e5cd8d7ad68276e3a45a5de0453e58145005a805bd65
+source_mutation:
+  guided_class_html: false
+  guided_class_intent: false
+status: appended_run_local

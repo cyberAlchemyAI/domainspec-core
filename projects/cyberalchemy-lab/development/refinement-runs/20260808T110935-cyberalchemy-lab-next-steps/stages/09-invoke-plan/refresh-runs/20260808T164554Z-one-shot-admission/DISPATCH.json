@@ -1,0 +1,41 @@
+{
+  "dispatch_id": "wp-cal-ten-l0-one-shot-admission-20260808T164554Z",
+  "intent": {
+    "raw": "Prepare the one-shot admission package for WP-CAL-TEN-L0 and stop before Decision Gate, Task Session, or product mutation.",
+    "objective": "Author and apply admission-only Invoke Refresh artifacts, audit the frozen ten-unit frontier, compile an unarmed policy, and stop.",
+    "target_artifact": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/"
+  },
+  "mode": "sequence",
+  "techniques": ["sequence", "handle_handoff", "validation_loop", "owner_boundary_check", "artifact_contract_bridge", "authority_split_gate", "concrete_path_evidence", "execution_receipt_handoff", "observability_grouping"],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The route is one bounded sequential admission workflow and the active collaboration policy forbids spawning without an explicit multi-agent request.",
+    "authorization": "not_needed"
+  },
+  "steps": [
+    {"step_id": "s1", "name": "Build strict context", "capability_ref": "context-builder", "mode": "strict", "pattern": "sequential", "parallel": false, "techniques": ["concrete_path_evidence", "handle_handoff"], "inputs": [{"kind": "intent", "ref": "intent.raw"}], "outputs": [{"kind": "artifact", "ref": "CONTEXT-PACK.md"}, {"kind": "artifact", "ref": "context-index.json"}], "stop_conditions": ["stop if source count or obligation coverage exceeds the strict context contract"]},
+    {"step_id": "s2", "name": "Bind Inventory evidence", "capability_ref": "inventory", "capability_status": "candidate", "mode": "lookup", "pattern": "sequential", "parallel": false, "depends_on_steps": ["s1"], "techniques": ["sequence", "concrete_path_evidence", "owner_boundary_check"], "inputs": [{"kind": "artifact", "ref": "CONTEXT-PACK.md"}], "outputs": [{"kind": "artifact", "ref": "INVENTORY-LOOKUP.json"}], "stop_conditions": ["stop if Inventory is treated as authority"]},
+    {"step_id": "s3", "name": "Author and apply admission-only Refresh material", "capability_ref": "invoke", "mode": "refresh-apply-approved", "pattern": "sequential", "parallel": false, "depends_on_steps": ["s2"], "techniques": ["sequence", "artifact_contract_bridge", "execution_receipt_handoff", "owner_boundary_check"], "inputs": [{"kind": "artifact", "ref": "CONTEXT-PACK.md"}, {"kind": "artifact", "ref": "INVENTORY-LOOKUP.json"}], "outputs": [{"kind": "receipt", "ref": "material-package-receipt.json"}, {"kind": "receipt", "ref": "refresh-material-handoff-receipt.json"}], "stop_conditions": ["stop on staged validation failure, target drift, owner mismatch, or product-path inclusion"]},
+    {"step_id": "s4", "name": "Audit the frozen frontier", "capability_ref": "work-pack-readiness-audit", "capability_status": "candidate", "mode": "selected-unit-at-task-session", "pattern": "validation", "parallel": false, "depends_on_steps": ["s3"], "techniques": ["sequence", "validation_loop", "concrete_path_evidence"], "inputs": [{"kind": "receipt", "ref": "refresh-material-handoff-receipt.json"}, {"kind": "artifact", "ref": "work-pack/admission/WPRA-CONFIG.json"}], "outputs": [{"kind": "receipt", "ref": "wpra-run/work-pack-readiness-report-v2.json"}, {"kind": "artifact", "ref": "wpra-run/plan-semantic-manifest.json"}], "evidence_artifact": "wpra-run/work-pack-readiness-report-v2.json", "stop_conditions": ["stop unless terminal_code is PLAN_SEMANTIC_READY"]},
+    {"step_id": "s5", "name": "Compile unarmed finite-frontier policy", "capability_ref": "implementation-readiness", "capability_status": "candidate", "mode": "compile-execution-policy", "pattern": "handoff", "parallel": false, "depends_on_steps": ["s4"], "techniques": ["sequence", "authority_split_gate", "owner_boundary_check", "handle_handoff"], "inputs": [{"kind": "receipt", "ref": "wpra-run/work-pack-readiness-report-v2.json"}, {"kind": "artifact", "ref": "work-pack/admission/FINITE-FRONTIER-CONTRACT.json"}], "outputs": [{"kind": "artifact", "ref": "READINESS-EXECUTION-POLICY.json"}, {"kind": "handoff", "ref": "decision-gate-boundary"}], "stop_conditions": ["do not initialize selection, chain state, direct intent, Decision Gate, or Task Session"]}
+  ],
+  "gates": [
+    {"gate_id": "g-context", "kind": "quality", "owner": "context-builder", "condition": "Strict context and Inventory lookup preserve concrete source and authority boundaries.", "on_fail": "block"},
+    {"gate_id": "g-material", "kind": "validation", "owner": "invoke", "condition": "Material receipt and Refresh handoff both pass for the exact 17-target admission inventory.", "on_fail": "block"},
+    {"gate_id": "g-wpra", "kind": "validation", "owner": "work-pack-readiness-audit", "condition": "WPRA v2 returns PLAN_SEMANTIC_READY with no blockers and configured_commands_executed false.", "on_fail": "block"},
+    {"gate_id": "g-boundary", "kind": "human_approval", "owner": "human-decision-gate", "condition": "Any later selection or execution requires a separate Decision Gate outcome and direct execution intent.", "on_fail": "defer"}
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {"boundary_id": "invoke-to-wpra", "kind": "evidence_return", "from_owner": "invoke", "to_owner": "work-pack-readiness-audit", "applies_to_steps": ["s3", "s4"], "contract": "WPRA consumes only applied exact admission bytes and the passing Invoke material handoff.", "on_violation": "block"},
+      {"boundary_id": "wpra-to-readiness", "kind": "capability_handoff", "from_owner": "work-pack-readiness-audit", "to_owner": "implementation-readiness", "applies_to_steps": ["s4", "s5"], "contract": "Only PLAN_SEMANTIC_READY may compile an unarmed policy; no execution state is initialized.", "on_violation": "block"},
+      {"boundary_id": "decision-stop", "kind": "human_approval", "from_owner": "implementation-readiness", "to_owner": "human-decision-gate", "applies_to_steps": ["s5"], "contract": "The run stops before Decision Gate and carries no approval forward.", "on_violation": "block"}
+    ],
+    "authority": {"lifecycle": "invoke-refresh", "execution": "task-session-future-only", "validation": "work-pack-readiness-audit", "evidence": "run-local-receipts", "memory": "inventory-read-only", "promotion": "not-authorized"},
+    "receipts": [
+      {"receipt_id": "invoke-material", "producer": "invoke", "required_fields": ["artifacts", "validation_result", "status", "blockers", "handoff_note"], "stores": ["material-package-receipt.json", "refresh-material-handoff-receipt.json"], "on_missing": "block"},
+      {"receipt_id": "wpra-report", "producer": "work-pack-readiness-audit", "required_fields": ["artifacts", "validation_result", "status", "audit_reference", "blockers"], "stores": ["wpra-run/work-pack-readiness-report-v2.json"], "on_missing": "block"}
+    ]
+  },
+  "observability": {"dispatch_id_required": true, "parent_dispatch_id": null, "trace_events": ["context-bound", "inventory-bound", "refresh-material-validated", "refresh-material-applied", "wpra-complete", "policy-compiled", "stopped-before-decision-gate"], "signal_grouping": "wp-cal-ten-l0-one-shot-admission-20260808T164554Z"}
+}

@@ -1,0 +1,1963 @@
+{
+  "admission_timing": "selected-unit-at-task-session",
+  "approval_policy": {
+    "allowed_audit_verdicts": [
+      "pass",
+      "flag"
+    ],
+    "allowed_flag_classes": [
+      "observability-residue"
+    ],
+    "approval_owner_ref": "human-decision-gate",
+    "decision_gate_receipt_ref": {
+      "artifact_ref": {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/FINITE-FRONTIER-CONTRACT.json",
+        "sha256": "bcbca3fd1bd683a74dba001e587af6539bd36b199e12eea23a456a06d140cd1c",
+        "size_bytes": 1815
+      },
+      "binding_id": "cal-decision-gate-state",
+      "owner_ref": "human-decision-gate",
+      "selector": "/approval/state"
+    },
+    "risk_policy_ref": {
+      "artifact_ref": {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/FINITE-FRONTIER-CONTRACT.json",
+        "sha256": "bcbca3fd1bd683a74dba001e587af6539bd36b199e12eea23a456a06d140cd1c",
+        "size_bytes": 1815
+      },
+      "binding_id": "cal-stop-policy",
+      "owner_ref": "invoke-plan",
+      "selector": "/stops"
+    },
+    "run_budget": {
+      "max_task_session_requests": 10
+    }
+  },
+  "audit_id": "wp-cal-ten-l0-one-shot-admission-20260808T164554Z",
+  "authority_bindings": {
+    "canonical_authority_refs": [
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "sha256": "498b6d3a9dcdf93922343c7dc9369ec6071225b40ad5c543edae9a68c112a243",
+          "size_bytes": 4759
+        },
+        "binding_id": "cal-work-pack",
+        "owner_ref": "invoke-plan",
+        "selector": "/work_pack_id"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-l0-execution-contracts",
+        "owner_ref": "invoke-refresh",
+        "selector": "/work_pack_id"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/FINITE-FRONTIER-CONTRACT.json",
+          "sha256": "bcbca3fd1bd683a74dba001e587af6539bd36b199e12eea23a456a06d140cd1c",
+          "size_bytes": 1815
+        },
+        "binding_id": "cal-finite-frontier",
+        "owner_ref": "implementation-readiness",
+        "selector": "/mode"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-closeout-targets",
+        "owner_ref": "invoke-refresh",
+        "selector": "/work_pack_id"
+      }
+    ],
+    "semantic_bindings": {
+      "closeout": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-semantic-closeout",
+        "owner_ref": "invoke-refresh",
+        "selector": "/targets"
+      },
+      "material": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-semantic-material",
+        "owner_ref": "task-session",
+        "selector": "/units"
+      },
+      "owner": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-semantic-owner",
+        "owner_ref": "implementation-readiness",
+        "selector": "/units"
+      },
+      "receipt": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-semantic-receipt",
+        "owner_ref": "task-session",
+        "selector": "/receipt_contracts"
+      },
+      "validation": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-semantic-validation",
+        "owner_ref": "task-session",
+        "selector": "/units"
+      }
+    }
+  },
+  "classifier_version": "wpra-plan-once-v1",
+  "closeout_bindings": [
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-delta-policy-001",
+        "owner_ref": "invoke-refresh",
+        "selector": "/allowed_delta_classes"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Task Session preserves prior valid bytes on failure; Invoke Refresh changes plan-only targets after a passing terminal receipt."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+          "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+          "size_bytes": 2634
+        },
+        "binding_id": "cal-closeout-receipt-contract-001",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "unit_id": "SWU-CAL-001"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-delta-policy-002",
+        "owner_ref": "invoke-refresh",
+        "selector": "/allowed_delta_classes"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Task Session preserves prior valid bytes on failure; Invoke Refresh changes plan-only targets after a passing terminal receipt."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+          "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+          "size_bytes": 2634
+        },
+        "binding_id": "cal-closeout-receipt-contract-002",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "unit_id": "SWU-CAL-002"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-delta-policy-003",
+        "owner_ref": "invoke-refresh",
+        "selector": "/allowed_delta_classes"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Task Session preserves prior valid bytes on failure; Invoke Refresh changes plan-only targets after a passing terminal receipt."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+          "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+          "size_bytes": 2634
+        },
+        "binding_id": "cal-closeout-receipt-contract-003",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "unit_id": "SWU-CAL-003"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-delta-policy-004",
+        "owner_ref": "invoke-refresh",
+        "selector": "/allowed_delta_classes"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Task Session preserves prior valid bytes on failure; Invoke Refresh changes plan-only targets after a passing terminal receipt."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+          "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+          "size_bytes": 2634
+        },
+        "binding_id": "cal-closeout-receipt-contract-004",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "unit_id": "SWU-CAL-004"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-delta-policy-005",
+        "owner_ref": "invoke-refresh",
+        "selector": "/allowed_delta_classes"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Task Session preserves prior valid bytes on failure; Invoke Refresh changes plan-only targets after a passing terminal receipt."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+          "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+          "size_bytes": 2634
+        },
+        "binding_id": "cal-closeout-receipt-contract-005",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "unit_id": "SWU-CAL-005"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-delta-policy-006",
+        "owner_ref": "invoke-refresh",
+        "selector": "/allowed_delta_classes"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Task Session preserves prior valid bytes on failure; Invoke Refresh changes plan-only targets after a passing terminal receipt."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+          "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+          "size_bytes": 2634
+        },
+        "binding_id": "cal-closeout-receipt-contract-006",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "unit_id": "SWU-CAL-006"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-delta-policy-007",
+        "owner_ref": "invoke-refresh",
+        "selector": "/allowed_delta_classes"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Task Session preserves prior valid bytes on failure; Invoke Refresh changes plan-only targets after a passing terminal receipt."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+          "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+          "size_bytes": 2634
+        },
+        "binding_id": "cal-closeout-receipt-contract-007",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "unit_id": "SWU-CAL-007"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-delta-policy-008",
+        "owner_ref": "invoke-refresh",
+        "selector": "/allowed_delta_classes"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Task Session preserves prior valid bytes on failure; Invoke Refresh changes plan-only targets after a passing terminal receipt."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+          "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+          "size_bytes": 2634
+        },
+        "binding_id": "cal-closeout-receipt-contract-008",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "unit_id": "SWU-CAL-008"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-delta-policy-009",
+        "owner_ref": "invoke-refresh",
+        "selector": "/allowed_delta_classes"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Task Session preserves prior valid bytes on failure; Invoke Refresh changes plan-only targets after a passing terminal receipt."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+          "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+          "size_bytes": 2634
+        },
+        "binding_id": "cal-closeout-receipt-contract-009",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "unit_id": "SWU-CAL-009"
+    },
+    {
+      "allowed_delta_policy_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json",
+          "sha256": "e0ff971b2d38254b7a8283ac7f6be74ab4de3b19d16692a407c1656e6903d267",
+          "size_bytes": 16412
+        },
+        "binding_id": "cal-delta-policy-010",
+        "owner_ref": "invoke-refresh",
+        "selector": "/allowed_delta_classes"
+      },
+      "compensation": {
+        "mode": "none",
+        "rationale": "Task Session preserves prior valid bytes on failure; Invoke Refresh changes plan-only targets after a passing terminal receipt."
+      },
+      "owner_receipt_contract_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/CLOSEOUT-RECEIPT.schema.json",
+          "sha256": "e89f31991192416e13ea47aae7a4cdc06111601e3005797660768a6401da89e2",
+          "size_bytes": 2634
+        },
+        "binding_id": "cal-closeout-receipt-contract-010",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "unit_id": "SWU-CAL-010"
+    }
+  ],
+  "closure_receipt_refs": [
+    {
+      "artifact_ref": {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+        "sha256": "ab5fd6f6861f8aad039ca57344b59f2ac2580c17cf7669261f6602ee4b72ae7e",
+        "size_bytes": 568
+      },
+      "binding_id": "cal-plan-selection-ready",
+      "owner_ref": "invoke-plan",
+      "selector": "/status"
+    }
+  ],
+  "continuity_projection": {
+    "completed_unit_receipt_refs": [],
+    "cursor": "SWU-CAL-001",
+    "joined_closeout_receipt_refs": [],
+    "projected_next_successor": {
+      "authority_effect": "none",
+      "canonical_successor_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "sha256": "498b6d3a9dcdf93922343c7dc9369ec6071225b40ad5c543edae9a68c112a243",
+          "size_bytes": 4759
+        },
+        "binding_id": "cal-current-entry-frontier",
+        "owner_ref": "invoke-plan",
+        "selector": "/frontier/0"
+      },
+      "continuation_router_verification_receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "sha256": "ab5fd6f6861f8aad039ca57344b59f2ac2580c17cf7669261f6602ee4b72ae7e",
+          "size_bytes": 568
+        },
+        "binding_id": "cal-entry-validation-frontier",
+        "owner_ref": "implementation-readiness",
+        "selector": "/execution_entry_frontier/0"
+      },
+      "equivalence_validator_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/validate-admission.py",
+          "sha256": "9142ac3a4ce31ec2589d2f455ce29c51912bee21c081abed0b380affee6da517",
+          "size_bytes": 25253
+        },
+        "binding_id": "cal-entry-equivalence-validator",
+        "owner_ref": "invoke-refresh",
+        "selector": ""
+      },
+      "projection_owner_ref": "invoke-refresh",
+      "unit_id": "SWU-CAL-001"
+    }
+  },
+  "evidence_ceiling": "frozen-input-contractual-readiness",
+  "execution_bindings": [
+    {
+      "allowed_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001"
+      ],
+      "attempt_contract": {
+        "collision_policy": "block-before-write",
+        "failure_teardown": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt",
+        "id_policy": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>",
+        "success_teardown": "remove-temporary-files-and-preserve-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "SWU-CAL-002"
+      ],
+      "command": {
+        "argv": [
+          "task-session",
+          "execute",
+          "--work-pack",
+          "WP-CAL-TEN-L0",
+          "--swu",
+          "SWU-CAL-001",
+          "--contract",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [],
+      "execution_outputs": [
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001"
+      ],
+      "lifecycle_owner": "task-session",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "task-session",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-CAL-001",
+      "task_id": "TASK-CAL-CONTRACTS",
+      "unit_id": "SWU-CAL-001",
+      "validation_contracts": [
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "--test",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs"
+          ],
+          "command_id": "cal-001-canonical-json",
+          "cwd": ".",
+          "max_output_bytes": 1048576,
+          "timeout_seconds": 120
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/lab-records.schema.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/ontology/relation-registry.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/record-contract.test.mjs",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-002"
+      ],
+      "attempt_contract": {
+        "collision_policy": "block-before-write",
+        "failure_teardown": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt",
+        "id_policy": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>",
+        "success_teardown": "remove-temporary-files-and-preserve-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "SWU-CAL-003"
+      ],
+      "command": {
+        "argv": [
+          "task-session",
+          "execute",
+          "--work-pack",
+          "WP-CAL-TEN-L0",
+          "--swu",
+          "SWU-CAL-002",
+          "--contract",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "SWU-CAL-001"
+      ],
+      "execution_outputs": [
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-002"
+      ],
+      "lifecycle_owner": "task-session",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "task-session",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/lab-records.schema.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/ontology/relation-registry.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/record-contract.test.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-CAL-002",
+      "task_id": "TASK-CAL-CONTRACTS",
+      "unit_id": "SWU-CAL-002",
+      "validation_contracts": [
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "--test",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/record-contract.test.mjs"
+          ],
+          "command_id": "cal-002-record-contract",
+          "cwd": ".",
+          "max_output_bytes": 1048576,
+          "timeout_seconds": 120
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/projection.schema.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/privacy/privacy-policy.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/projection/projection-contract.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/projection-contract.test.mjs",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-003"
+      ],
+      "attempt_contract": {
+        "collision_policy": "block-before-write",
+        "failure_teardown": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt",
+        "id_policy": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>",
+        "success_teardown": "remove-temporary-files-and-preserve-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "SWU-CAL-004"
+      ],
+      "command": {
+        "argv": [
+          "task-session",
+          "execute",
+          "--work-pack",
+          "WP-CAL-TEN-L0",
+          "--swu",
+          "SWU-CAL-003",
+          "--contract",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "SWU-CAL-001",
+        "SWU-CAL-002"
+      ],
+      "execution_outputs": [
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-003"
+      ],
+      "lifecycle_owner": "task-session",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "task-session",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/projection.schema.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/privacy/privacy-policy.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/projection/projection-contract.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/projection-contract.test.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-CAL-003",
+      "task_id": "TASK-CAL-CONTRACTS",
+      "unit_id": "SWU-CAL-003",
+      "validation_contracts": [
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "--test",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/projection-contract.test.mjs"
+          ],
+          "command_id": "cal-003-projection-contract",
+          "cwd": ".",
+          "max_output_bytes": 1048576,
+          "timeout_seconds": 120
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/README.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/TOWER.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/levels/L0-corpus.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/levels/L1-residue-map.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/levels/L2-closure-plan.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/gates/closure-gates.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/residue/open-residue.md",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-004"
+      ],
+      "attempt_contract": {
+        "collision_policy": "block-before-write",
+        "failure_teardown": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt",
+        "id_policy": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>",
+        "success_teardown": "remove-temporary-files-and-preserve-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "SWU-CAL-005"
+      ],
+      "command": {
+        "argv": [
+          "task-session",
+          "execute",
+          "--work-pack",
+          "WP-CAL-TEN-L0",
+          "--swu",
+          "SWU-CAL-004",
+          "--contract",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "SWU-CAL-003"
+      ],
+      "execution_outputs": [
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-004"
+      ],
+      "lifecycle_owner": "task-session",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "task-session",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/README.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/TOWER.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/levels/L0-corpus.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/levels/L1-residue-map.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/levels/L2-closure-plan.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/gates/closure-gates.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/residue/open-residue.md"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-CAL-004",
+      "task_id": "TASK-CAL-PACKAGE",
+      "unit_id": "SWU-CAL-004",
+      "validation_contracts": [
+        {
+          "argv": [
+            "/usr/bin/python3.12",
+            "-c",
+            "from pathlib import Path; root=Path('projects/cyberalchemy-lab/research/tower-evidence-navigator'); rel=['README.md','TOWER.md','levels/L0-corpus.md','levels/L1-residue-map.md','levels/L2-closure-plan.md','gates/closure-gates.md','residue/open-residue.md']; docs=[root/p for p in rel]; missing=[str(p) for p in docs if not p.is_file()]; assert not missing, missing; bad=[str(p) for p in docs if not all(t in p.read_text(encoding='utf-8').lower() for t in ('candidate','synthetic','authority_effect: none'))]; assert not bad, bad"
+          ],
+          "command_id": "cal-004-seven-file-ceiling",
+          "cwd": ".",
+          "max_output_bytes": 1048576,
+          "timeout_seconds": 60
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/residue/residue-items.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/decisions/representative-tower.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/definitions/definition-bindings.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/promotions/blocked-promotion.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/validation/expected-validation-records.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/package-structure.test.mjs",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-005"
+      ],
+      "attempt_contract": {
+        "collision_policy": "block-before-write",
+        "failure_teardown": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt",
+        "id_policy": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>",
+        "success_teardown": "remove-temporary-files-and-preserve-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "SWU-CAL-006"
+      ],
+      "command": {
+        "argv": [
+          "task-session",
+          "execute",
+          "--work-pack",
+          "WP-CAL-TEN-L0",
+          "--swu",
+          "SWU-CAL-005",
+          "--contract",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "SWU-CAL-002",
+        "SWU-CAL-004"
+      ],
+      "execution_outputs": [
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-005"
+      ],
+      "lifecycle_owner": "task-session",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "task-session",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/residue/residue-items.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/decisions/representative-tower.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/definitions/definition-bindings.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/promotions/blocked-promotion.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/validation/expected-validation-records.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/package-structure.test.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-CAL-005",
+      "task_id": "TASK-CAL-PACKAGE",
+      "unit_id": "SWU-CAL-005",
+      "validation_contracts": [
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "--test",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/package-structure.test.mjs"
+          ],
+          "command_id": "cal-005-package-structure",
+          "cwd": ".",
+          "max_output_bytes": 1048576,
+          "timeout_seconds": 120
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/README.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/TOWER.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L0-corpus.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L1-residue-map.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L2-closure-plan.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/gates/closure-gates.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/residue/open-residue.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/valid/synthetic-one-tower.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/sources/source-snapshots.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/claims/claims.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/anchors/evidence-anchors.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/ontology/candidates.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/ontology/relations.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/fixture-contract.test.mjs",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-006"
+      ],
+      "attempt_contract": {
+        "collision_policy": "block-before-write",
+        "failure_teardown": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt",
+        "id_policy": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>",
+        "success_teardown": "remove-temporary-files-and-preserve-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "SWU-CAL-007"
+      ],
+      "command": {
+        "argv": [
+          "task-session",
+          "execute",
+          "--work-pack",
+          "WP-CAL-TEN-L0",
+          "--swu",
+          "SWU-CAL-006",
+          "--contract",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "SWU-CAL-001",
+        "SWU-CAL-002",
+        "SWU-CAL-003",
+        "SWU-CAL-004",
+        "SWU-CAL-005"
+      ],
+      "execution_outputs": [
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-006"
+      ],
+      "lifecycle_owner": "task-session",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "task-session",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/README.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/TOWER.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L0-corpus.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L1-residue-map.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L2-closure-plan.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/gates/closure-gates.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/residue/open-residue.md",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/valid/synthetic-one-tower.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/sources/source-snapshots.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/claims/claims.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/anchors/evidence-anchors.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/ontology/candidates.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/ontology/relations.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/fixture-contract.test.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-CAL-006",
+      "task_id": "TASK-CAL-PACKAGE",
+      "unit_id": "SWU-CAL-006",
+      "validation_contracts": [
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "--test",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/fixture-contract.test.mjs"
+          ],
+          "command_id": "cal-006-fixture-contract",
+          "cwd": ".",
+          "max_output_bytes": 1048576,
+          "timeout_seconds": 120
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/compile-projection.mjs",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/compile-projection.test.mjs",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-007"
+      ],
+      "attempt_contract": {
+        "collision_policy": "block-before-write",
+        "failure_teardown": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt",
+        "id_policy": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>",
+        "success_teardown": "remove-temporary-files-and-preserve-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "SWU-CAL-008"
+      ],
+      "command": {
+        "argv": [
+          "task-session",
+          "execute",
+          "--work-pack",
+          "WP-CAL-TEN-L0",
+          "--swu",
+          "SWU-CAL-007",
+          "--contract",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "SWU-CAL-006"
+      ],
+      "execution_outputs": [
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-007"
+      ],
+      "lifecycle_owner": "task-session",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "task-session",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/compile-projection.mjs",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/compile-projection.test.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-CAL-007",
+      "task_id": "TASK-CAL-COMPILER",
+      "unit_id": "SWU-CAL-007",
+      "validation_contracts": [
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "--test",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/compile-projection.test.mjs"
+          ],
+          "command_id": "cal-007-compile-projection",
+          "cwd": ".",
+          "max_output_bytes": 2097152,
+          "timeout_seconds": 180
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/invalid/mutant-matrix.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/negative-mutants.test.mjs",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-008"
+      ],
+      "attempt_contract": {
+        "collision_policy": "block-before-write",
+        "failure_teardown": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt",
+        "id_policy": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>",
+        "success_teardown": "remove-temporary-files-and-preserve-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "SWU-CAL-009"
+      ],
+      "command": {
+        "argv": [
+          "task-session",
+          "execute",
+          "--work-pack",
+          "WP-CAL-TEN-L0",
+          "--swu",
+          "SWU-CAL-008",
+          "--contract",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "SWU-CAL-007"
+      ],
+      "execution_outputs": [
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-008"
+      ],
+      "lifecycle_owner": "task-session",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "task-session",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/invalid/mutant-matrix.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/negative-mutants.test.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-CAL-008",
+      "task_id": "TASK-CAL-COMPILER",
+      "unit_id": "SWU-CAL-008",
+      "validation_contracts": [
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "--test",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/negative-mutants.test.mjs"
+          ],
+          "command_id": "cal-008-negative-mutants",
+          "cwd": ".",
+          "max_output_bytes": 2097152,
+          "timeout_seconds": 180
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/build-package-snapshot.mjs",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/PACKAGE-SNAPSHOT.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/package-snapshot.test.mjs",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-009"
+      ],
+      "attempt_contract": {
+        "collision_policy": "block-before-write",
+        "failure_teardown": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt",
+        "id_policy": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>",
+        "success_teardown": "remove-temporary-files-and-preserve-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "SWU-CAL-010"
+      ],
+      "command": {
+        "argv": [
+          "task-session",
+          "execute",
+          "--work-pack",
+          "WP-CAL-TEN-L0",
+          "--swu",
+          "SWU-CAL-009",
+          "--contract",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "SWU-CAL-008"
+      ],
+      "execution_outputs": [
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-009"
+      ],
+      "lifecycle_owner": "task-session",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "task-session",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/build-package-snapshot.mjs",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/PACKAGE-SNAPSHOT.json",
+        "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/package-snapshot.test.mjs"
+      ],
+      "publication_class": "internal",
+      "swu_id": "SWU-CAL-009",
+      "task_id": "TASK-CAL-SNAPSHOT",
+      "unit_id": "SWU-CAL-009",
+      "validation_contracts": [
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "--test",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/package-snapshot.test.mjs"
+          ],
+          "command_id": "cal-009-package-snapshot-tests",
+          "cwd": ".",
+          "max_output_bytes": 2097152,
+          "timeout_seconds": 180
+        },
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/build-package-snapshot.mjs",
+            "--check"
+          ],
+          "command_id": "cal-009-package-snapshot-check",
+          "cwd": ".",
+          "max_output_bytes": 1048576,
+          "timeout_seconds": 120
+        }
+      ]
+    },
+    {
+      "allowed_writes": [
+        "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/INPUT-LOCK.json",
+        "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/projection.json",
+        "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/validation-records.json",
+        "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/RESULT.md",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-010"
+      ],
+      "attempt_contract": {
+        "collision_policy": "block-before-write",
+        "failure_teardown": "preserve-prior-valid-output-remove-temporary-files-and-return-blocking-receipt",
+        "id_policy": "WP-CAL-TEN-L0/<swu-id>/<utc-basic-timestamp>-<nonce>",
+        "success_teardown": "remove-temporary-files-and-preserve-terminal-receipt"
+      },
+      "authority_class": "private",
+      "byte_baselines": [],
+      "canonical_successors": [
+        "__complete__"
+      ],
+      "command": {
+        "argv": [
+          "task-session",
+          "execute",
+          "--work-pack",
+          "WP-CAL-TEN-L0",
+          "--swu",
+          "SWU-CAL-010",
+          "--contract",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json"
+        ],
+        "cwd": ".",
+        "risk_class": "bounded-write"
+      },
+      "dependencies": [
+        "SWU-CAL-009"
+      ],
+      "execution_outputs": [
+        "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/INPUT-LOCK.json",
+        "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/projection.json",
+        "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/validation-records.json",
+        "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/RESULT.md",
+        "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-010"
+      ],
+      "lifecycle_owner": "task-session",
+      "material_package": {
+        "declared_sha256": null,
+        "package_ref": null,
+        "producer_owner_ref": "task-session",
+        "producer_receipt_ref": null,
+        "schema_ref": null,
+        "target_inventory_ref": null
+      },
+      "material_writes": [],
+      "publication_class": "internal",
+      "swu_id": "SWU-CAL-010",
+      "task_id": "TASK-CAL-WITNESS",
+      "unit_id": "SWU-CAL-010",
+      "validation_contracts": [
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "--test",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/record-contract.test.mjs",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/projection-contract.test.mjs",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/package-structure.test.mjs",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/fixture-contract.test.mjs",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/compile-projection.test.mjs",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/negative-mutants.test.mjs",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/package-snapshot.test.mjs"
+          ],
+          "command_id": "cal-010-full-suite",
+          "cwd": ".",
+          "max_output_bytes": 8388608,
+          "timeout_seconds": 600
+        },
+        {
+          "argv": [
+            "/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node",
+            "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/build-package-snapshot.mjs",
+            "--check"
+          ],
+          "command_id": "cal-010-package-snapshot-check",
+          "cwd": ".",
+          "max_output_bytes": 1048576,
+          "timeout_seconds": 120
+        },
+        {
+          "argv": [
+            "/usr/bin/python3.12",
+            "-c",
+            "import pathlib,subprocess,tempfile; n='/home/vrondelli/.nvm/versions/node/v22.13.0/bin/node'; t='projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/compile-projection.mjs'; i='projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/valid/synthetic-one-tower.json'; d=tempfile.TemporaryDirectory(prefix='wp-cal-ten-l0-'); a=pathlib.Path(d.name)/'a.json'; b=pathlib.Path(d.name)/'b.json'; subprocess.run([n,t,'--input',i,'--output',str(a)],check=True); subprocess.run([n,t,'--input',i,'--output',str(b)],check=True); assert a.read_bytes()==b.read_bytes()"
+          ],
+          "command_id": "cal-010-repeat-compile-byte-equality",
+          "cwd": ".",
+          "max_output_bytes": 2097152,
+          "timeout_seconds": 180
+        },
+        {
+          "argv": [
+            "/usr/bin/python3.12",
+            "-c",
+            "import json,pathlib; root=pathlib.Path('projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001'); docs={p.name:json.loads(p.read_text()) for p in [root/'INPUT-LOCK.json',root/'projection.json',root/'validation-records.json']}; rows=docs['validation-records.json']; assert rows and all(r['validator_id']=='cyberalchemy-lab-l0-independent-harness-v1' and r['validator_id']!=r['producer_id'] and r['status']=='pass' for r in rows)"
+          ],
+          "command_id": "cal-010-json-and-independent-validator",
+          "cwd": ".",
+          "max_output_bytes": 1048576,
+          "timeout_seconds": 60
+        }
+      ]
+    }
+  ],
+  "execution_policy": {
+    "allowed_routes": [
+      {
+        "capability": "task-session",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001",
+        "frontier_swu": "SWU-CAL-001",
+        "mode": "execute",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/0",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "route_id": "task-session-cal-001",
+        "target": "SWU-CAL-001",
+        "write_scope": [
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001"
+        ]
+      },
+      {
+        "capability": "invoke",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-001.json",
+        "frontier_swu": "SWU-CAL-001",
+        "mode": "refresh-apply-approved",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/0"
+        ],
+        "route_id": "closeout-cal-001",
+        "target": "SWU-CAL-001-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W0.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-001.json"
+        ]
+      },
+      {
+        "capability": "task-session",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-002",
+        "frontier_swu": "SWU-CAL-002",
+        "mode": "execute",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/1",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "route_id": "task-session-cal-002",
+        "target": "SWU-CAL-002",
+        "write_scope": [
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/lab-records.schema.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/ontology/relation-registry.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/record-contract.test.mjs",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-002"
+        ]
+      },
+      {
+        "capability": "invoke",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-002.json",
+        "frontier_swu": "SWU-CAL-002",
+        "mode": "refresh-apply-approved",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-002/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/1"
+        ],
+        "route_id": "closeout-cal-002",
+        "target": "SWU-CAL-002-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W1.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-002.json"
+        ]
+      },
+      {
+        "capability": "task-session",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-003",
+        "frontier_swu": "SWU-CAL-003",
+        "mode": "execute",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/2",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "route_id": "task-session-cal-003",
+        "target": "SWU-CAL-003",
+        "write_scope": [
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/projection.schema.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/privacy/privacy-policy.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/projection/projection-contract.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/projection-contract.test.mjs",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-003"
+        ]
+      },
+      {
+        "capability": "invoke",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-003.json",
+        "frontier_swu": "SWU-CAL-003",
+        "mode": "refresh-apply-approved",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-003/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/2"
+        ],
+        "route_id": "closeout-cal-003",
+        "target": "SWU-CAL-003-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W1.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-003.json"
+        ]
+      },
+      {
+        "capability": "task-session",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-004",
+        "frontier_swu": "SWU-CAL-004",
+        "mode": "execute",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/3",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "route_id": "task-session-cal-004",
+        "target": "SWU-CAL-004",
+        "write_scope": [
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/README.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/TOWER.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/levels/L0-corpus.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/levels/L1-residue-map.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/levels/L2-closure-plan.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/gates/closure-gates.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/residue/open-residue.md",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-004"
+        ]
+      },
+      {
+        "capability": "invoke",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-004.json",
+        "frontier_swu": "SWU-CAL-004",
+        "mode": "refresh-apply-approved",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-004/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/3"
+        ],
+        "route_id": "closeout-cal-004",
+        "target": "SWU-CAL-004-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-PACKAGE.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W1.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-004.json"
+        ]
+      },
+      {
+        "capability": "task-session",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-005",
+        "frontier_swu": "SWU-CAL-005",
+        "mode": "execute",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/4",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "route_id": "task-session-cal-005",
+        "target": "SWU-CAL-005",
+        "write_scope": [
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/residue/residue-items.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/decisions/representative-tower.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/definitions/definition-bindings.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/promotions/blocked-promotion.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/validation/expected-validation-records.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/package-structure.test.mjs",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-005"
+        ]
+      },
+      {
+        "capability": "invoke",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-005.json",
+        "frontier_swu": "SWU-CAL-005",
+        "mode": "refresh-apply-approved",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-005/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/4"
+        ],
+        "route_id": "closeout-cal-005",
+        "target": "SWU-CAL-005-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-PACKAGE.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W1.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-005.json"
+        ]
+      },
+      {
+        "capability": "task-session",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-006",
+        "frontier_swu": "SWU-CAL-006",
+        "mode": "execute",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/5",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "route_id": "task-session-cal-006",
+        "target": "SWU-CAL-006",
+        "write_scope": [
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/README.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/TOWER.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L0-corpus.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L1-residue-map.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/levels/L2-closure-plan.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/gates/closure-gates.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/source/toy-tower/residue/open-residue.md",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/valid/synthetic-one-tower.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/sources/source-snapshots.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/claims/claims.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/anchors/evidence-anchors.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/ontology/candidates.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/ontology/relations.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/fixture-contract.test.mjs",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-006"
+        ]
+      },
+      {
+        "capability": "invoke",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-006.json",
+        "frontier_swu": "SWU-CAL-006",
+        "mode": "refresh-apply-approved",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-006/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/5"
+        ],
+        "route_id": "closeout-cal-006",
+        "target": "SWU-CAL-006-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-PACKAGE.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W1.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-006.json"
+        ]
+      },
+      {
+        "capability": "task-session",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-007",
+        "frontier_swu": "SWU-CAL-007",
+        "mode": "execute",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/6",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "route_id": "task-session-cal-007",
+        "target": "SWU-CAL-007",
+        "write_scope": [
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/compile-projection.mjs",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/compile-projection.test.mjs",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-007"
+        ]
+      },
+      {
+        "capability": "invoke",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-007.json",
+        "frontier_swu": "SWU-CAL-007",
+        "mode": "refresh-apply-approved",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-007/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/6"
+        ],
+        "route_id": "closeout-cal-007",
+        "target": "SWU-CAL-007-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-COMPILER.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W2.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-007.json"
+        ]
+      },
+      {
+        "capability": "task-session",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-008",
+        "frontier_swu": "SWU-CAL-008",
+        "mode": "execute",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/7",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "route_id": "task-session-cal-008",
+        "target": "SWU-CAL-008",
+        "write_scope": [
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/fixtures/invalid/mutant-matrix.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/negative-mutants.test.mjs",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-008"
+        ]
+      },
+      {
+        "capability": "invoke",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-008.json",
+        "frontier_swu": "SWU-CAL-008",
+        "mode": "refresh-apply-approved",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-008/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/7"
+        ],
+        "route_id": "closeout-cal-008",
+        "target": "SWU-CAL-008-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-COMPILER.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W2.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-008.json"
+        ]
+      },
+      {
+        "capability": "task-session",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-009",
+        "frontier_swu": "SWU-CAL-009",
+        "mode": "execute",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/8",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "route_id": "task-session-cal-009",
+        "target": "SWU-CAL-009",
+        "write_scope": [
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/build-package-snapshot.mjs",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/PACKAGE-SNAPSHOT.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/package-snapshot.test.mjs",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-009"
+        ]
+      },
+      {
+        "capability": "invoke",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-009.json",
+        "frontier_swu": "SWU-CAL-009",
+        "mode": "refresh-apply-approved",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-009/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/8"
+        ],
+        "route_id": "closeout-cal-009",
+        "target": "SWU-CAL-009-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-SNAPSHOT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W3.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-009.json"
+        ]
+      },
+      {
+        "capability": "task-session",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-010",
+        "frontier_swu": "SWU-CAL-010",
+        "mode": "execute",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/9",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "route_id": "task-session-cal-010",
+        "target": "SWU-CAL-010",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/INPUT-LOCK.json",
+          "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/projection.json",
+          "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/validation-records.json",
+          "projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001/RESULT.md",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-010"
+        ]
+      },
+      {
+        "capability": "invoke",
+        "effect_class": "repository-local-reversible",
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-010.json",
+        "frontier_swu": "SWU-CAL-010",
+        "mode": "refresh-apply-approved",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-010/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/9"
+        ],
+        "route_id": "closeout-cal-010",
+        "target": "SWU-CAL-010-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-WITNESS.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W3.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-010.json"
+        ]
+      }
+    ],
+    "allowed_routes_digest": "274c107cfff43943b866a830cc7f4f58699b1022c65d542a696007120779ec83",
+    "automatic_decisions": [
+      "internal-tool-selection",
+      "capability-owner-routing",
+      "reversible-local-default",
+      "declared-fallback",
+      "fresh-task-session-resumption"
+    ],
+    "route_policy": "automatic-in-scope",
+    "scope_source": "exact-work-pack-and-captured-frontier",
+    "stop_decisions": [
+      "product-or-semantic-choice",
+      "scope-expansion",
+      "destructive-or-irreversible-effect",
+      "credentials-or-secret-access",
+      "external-message-or-network-effect",
+      "cost-policy-or-risk-acceptance",
+      "authority-promotion-publication-deployment",
+      "failed-acceptance-critical-validation"
+    ],
+    "validation_policy": "owner-gates-remain-mandatory",
+    "work_pack_id": "WP-CAL-TEN-L0"
+  },
+  "expected_semantic_digest": null,
+  "expected_source_snapshot_digest": null,
+  "lifecycle_status_refs": {
+    "approval_status": {
+      "owner_ref": "human-decision-gate",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/FINITE-FRONTIER-CONTRACT.json",
+          "sha256": "bcbca3fd1bd683a74dba001e587af6539bd36b199e12eea23a456a06d140cd1c",
+          "size_bytes": 1815
+        },
+        "binding_id": "cal-approval-unrequested",
+        "owner_ref": "human-decision-gate",
+        "selector": "/approval/state"
+      },
+      "value": "unapproved"
+    },
+    "audit_status": {
+      "owner_ref": "work-pack-readiness-audit",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/FINITE-FRONTIER-CONTRACT.json",
+          "sha256": "bcbca3fd1bd683a74dba001e587af6539bd36b199e12eea23a456a06d140cd1c",
+          "size_bytes": 1815
+        },
+        "binding_id": "cal-audit-status-pending",
+        "owner_ref": "work-pack-readiness-audit",
+        "selector": "/approval/state"
+      },
+      "value": "pending"
+    },
+    "chain_status": {
+      "owner_ref": "implementation-readiness",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/FINITE-FRONTIER-CONTRACT.json",
+          "sha256": "bcbca3fd1bd683a74dba001e587af6539bd36b199e12eea23a456a06d140cd1c",
+          "size_bytes": 1815
+        },
+        "binding_id": "cal-chain-unarmed",
+        "owner_ref": "implementation-readiness",
+        "selector": "/approval/state"
+      },
+      "value": "unarmed"
+    },
+    "plan_artifact_status": {
+      "owner_ref": "invoke-plan",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "sha256": "ab5fd6f6861f8aad039ca57344b59f2ac2580c17cf7669261f6602ee4b72ae7e",
+          "size_bytes": 568
+        },
+        "binding_id": "cal-plan-artifact-selection-ready",
+        "owner_ref": "invoke-plan",
+        "selector": "/status"
+      },
+      "value": "selection-ready"
+    }
+  },
+  "objective_ref": {
+    "artifact_ref": {
+      "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+      "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+      "size_bytes": 41411
+    },
+    "binding_id": "cal-l0-objective",
+    "owner_ref": "invoke-plan",
+    "selector": "/objective"
+  },
+  "receipt_bindings": {
+    "expected_receipt_refs": [
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-expected-terminal-root-001",
+        "owner_ref": "task-session",
+        "selector": "/units/0/attempt_receipt_root"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-expected-terminal-root-002",
+        "owner_ref": "task-session",
+        "selector": "/units/1/attempt_receipt_root"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-expected-terminal-root-003",
+        "owner_ref": "task-session",
+        "selector": "/units/2/attempt_receipt_root"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-expected-terminal-root-004",
+        "owner_ref": "task-session",
+        "selector": "/units/3/attempt_receipt_root"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-expected-terminal-root-005",
+        "owner_ref": "task-session",
+        "selector": "/units/4/attempt_receipt_root"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-expected-terminal-root-006",
+        "owner_ref": "task-session",
+        "selector": "/units/5/attempt_receipt_root"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-expected-terminal-root-007",
+        "owner_ref": "task-session",
+        "selector": "/units/6/attempt_receipt_root"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-expected-terminal-root-008",
+        "owner_ref": "task-session",
+        "selector": "/units/7/attempt_receipt_root"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-expected-terminal-root-009",
+        "owner_ref": "task-session",
+        "selector": "/units/8/attempt_receipt_root"
+      },
+      {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-expected-terminal-root-010",
+        "owner_ref": "task-session",
+        "selector": "/units/9/attempt_receipt_root"
+      }
+    ],
+    "semantic_validator_ref": {
+      "artifact_ref": {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+        "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+        "size_bytes": 41411
+      },
+      "binding_id": "cal-terminal-receipt-validator",
+      "owner_ref": "task-session",
+      "selector": "/receipt_contracts/terminal_validator"
+    },
+    "terminal_schema_ref": {
+      "artifact_ref": {
+        "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/TASK-SESSION-RECEIPT.schema.json",
+        "sha256": "f0215d8133caa32d136b225e98cc9ec5181aaad1f112850363b17aa9c4a25b6b",
+        "size_bytes": 2843
+      },
+      "binding_id": "cal-terminal-receipt-schema",
+      "owner_ref": "task-session",
+      "selector": ""
+    }
+  },
+  "repository_root": ".",
+  "runtime_binding": {
+    "requested_task_session_execution_mode": "finite-frontier",
+    "task_session_admission_receipt_ref": null
+  },
+  "schema_version": "2.0.0",
+  "status_receipt_refs": {
+    "artifact_authored_status": {
+      "owner_ref": "invoke-refresh",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-authored-candidate",
+        "owner_ref": "invoke-refresh",
+        "selector": "/schema_version"
+      },
+      "value": "candidate"
+    },
+    "audit_verdict": {
+      "owner_ref": "work-pack-readiness-audit",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/FINITE-FRONTIER-CONTRACT.json",
+          "sha256": "bcbca3fd1bd683a74dba001e587af6539bd36b199e12eea23a456a06d140cd1c",
+          "size_bytes": 1815
+        },
+        "binding_id": "cal-audit-pending",
+        "owner_ref": "work-pack-readiness-audit",
+        "selector": "/approval/state"
+      },
+      "value": "pending"
+    },
+    "mutation_runtime_ready_status": {
+      "owner_ref": "implementation-readiness",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/FINITE-FRONTIER-CONTRACT.json",
+          "sha256": "bcbca3fd1bd683a74dba001e587af6539bd36b199e12eea23a456a06d140cd1c",
+          "size_bytes": 1815
+        },
+        "binding_id": "cal-runtime-pending",
+        "owner_ref": "implementation-readiness",
+        "selector": "/approval/state"
+      },
+      "value": "pending-selection"
+    },
+    "registry_released_status": {
+      "owner_ref": "inventory",
+      "receipt_ref": {
+        "artifact_ref": {
+          "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json",
+          "sha256": "adc7aadbf7bc0443645d45967d03c24a38d532832eb13bdab98ce2a19eeef982",
+          "size_bytes": 41411
+        },
+        "binding_id": "cal-registry-not-applicable",
+        "owner_ref": "inventory",
+        "selector": "/authority_effect"
+      },
+      "value": "not-applicable"
+    }
+  }
+}

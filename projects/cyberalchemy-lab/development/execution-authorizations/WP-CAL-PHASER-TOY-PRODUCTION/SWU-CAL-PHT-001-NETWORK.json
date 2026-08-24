@@ -1,0 +1,59 @@
+{
+  "schema_version": "cyberalchemy.phaser-admission-network-authorization/v2",
+  "authorization_id": "cal-pht-001-net-3563045b07e75f34",
+  "issued_at": "2026-08-12T06:22:48Z",
+  "expires_at": "2026-08-12T10:22:48Z",
+  "authorization_source": "direct-user",
+  "work_pack_id": "WP-CAL-PHASER-TOY-PRODUCTION",
+  "swu_id": "SWU-CAL-PHT-001",
+  "attempt_id": "20260812T051131Z-swu-cal-pht-001-admission",
+  "candidate_id": "WP-CAL-PHASER-TOY-PRODUCTION-SWU-CAL-PHT-001-REFRESH-20260812T051131Z",
+  "execution_contract_sha256": "048ddb3762bfcfe6358e1a9e5f334d059ef3f98a839a1b856c57b5e4ba7c4d81",
+  "execution_entry_sha256": "5237a2a297749966e5dd8d1d85cd434d9c01a9daf0b1bf49c35eb8c304fecdec",
+  "approved_effect": "read-only-upstream-and-npm-evidence-acquisition",
+  "package_selector": {
+    "name": "phaser",
+    "major": 3,
+    "channel": "stable",
+    "resolution_rule": "highest-semver-stable-major-3-from-captured-metadata"
+  },
+  "donor_selector": {
+    "repository": "https://github.com/ChristianFJung/AIOffice",
+    "ref": "default-branch-HEAD",
+    "resolution_rule": "exact-40-hex-commit-from-captured-HEAD-metadata"
+  },
+  "allowed_requests": [
+    {
+      "request_id": "npm-version-metadata",
+      "method": "GET",
+      "url_template": "https://registry.npmjs.org/phaser",
+      "purpose": "read exact Phaser version metadata",
+      "max_response_bytes": 2097152
+    },
+    {
+      "request_id": "npm-tarball",
+      "method": "GET",
+      "url_template": "https://registry.npmjs.org/phaser/-/phaser-{resolved_package_version}.tgz",
+      "purpose": "read exact Phaser tarball bytes",
+      "max_response_bytes": 52428800
+    },
+    {
+      "request_id": "aioffice-commit",
+      "method": "GET",
+      "url_template": "https://api.github.com/repos/ChristianFJung/AIOffice/commits/HEAD",
+      "purpose": "read exact AIOffice commit metadata",
+      "max_response_bytes": 1048576
+    },
+    {
+      "request_id": "aioffice-license",
+      "method": "GET",
+      "url_template": "https://raw.githubusercontent.com/ChristianFJung/AIOffice/{resolved_commit}/LICENSE",
+      "purpose": "read exact AIOffice root license bytes",
+      "max_response_bytes": 1048576
+    }
+  ],
+  "redirect_policy": "forbid-all",
+  "credentials_policy": "forbid-credentials-cookies-and-auth-headers",
+  "single_use": true,
+  "authority_effect": "none"
+}

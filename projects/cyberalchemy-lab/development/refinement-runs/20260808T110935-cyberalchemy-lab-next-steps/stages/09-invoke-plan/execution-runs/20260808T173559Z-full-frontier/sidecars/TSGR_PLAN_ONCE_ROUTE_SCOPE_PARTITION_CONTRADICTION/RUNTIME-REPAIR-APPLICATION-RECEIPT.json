@@ -1,0 +1,59 @@
+{
+  "schema_version": "cyberalchemy-lab.runtime-repair-application-receipt/v1",
+  "work_pack_id": "WP-CAL-TEN-L0",
+  "blocker_code": "TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION",
+  "authorization_source": "direct user instruction: now execute the whole L0",
+  "accepted_semantic_change": "Route-scope closure for work-pack fast entry is evaluated over material writes plus the declared terminal receipt, while plan-once material-write equality remains unchanged.",
+  "sidecar_candidate": {
+    "path": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/execution-runs/20260808T173559Z-full-frontier/sidecars/TSGR_PLAN_ONCE_ROUTE_SCOPE_PARTITION_CONTRADICTION/candidate/repair.patch",
+    "sha256": "369e2958c81f883aef28a961b7846f7ce432aba11384e07b6161ef106b1d4ff8",
+    "strict_application": "not-applicable: the validator hunk was based on an older AssertionError context while the current target retained an existing ValueError context"
+  },
+  "current-source-identity-correction": {
+    "reason": "The patch was semantically applicable but not byte-exact for the current validator source; its stale context was detected before use of a fuzzed patch.",
+    "effect": "The current ValueError validation behavior was preserved. The route-scope repair and its two regression cases were applied with exact current-source contexts.",
+    "renewed_authorization_binding": "The direct user request authorizes full L0 execution and this necessary, same-scope runtime repair."
+  },
+  "applied_canonical_targets": [
+    {
+      "path": "arcanum/arcana/task-session/scripts/task-session-governance-runner.py",
+      "before_sha256": "8ca91c6daa6bf53b4672ee162ee4296d6b5d3e07f5696f5f8d600b63e6b234bd",
+      "after_sha256": "1675f28dadf4701c89286799088120d1edb65bb351f3519ab791e28a4b9f6afc",
+      "after_size_bytes": 93245
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/validate-governance-runner.py",
+      "before_sha256": "d46b2ac7dcfe8bf606d3185a33916867d819233c46aea45002cb20c945cf3651",
+      "after_sha256": "119c9a9384045ea103b7370dd7a67f208bcd9f20f5ce801e0308e027fc4ef4b3",
+      "after_size_bytes": 78461
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/fixtures/governance-runner-cases.json",
+      "before_sha256": "fa77e037c15277589a8646eaf429ca33962fc3a80aa672f01fdab83d12a8c376",
+      "after_sha256": "157b53de7390e32812e552a8e0ca09dac1f3225ed8722dfbc52f30eb04a02940",
+      "after_size_bytes": 9597
+    }
+  ],
+  "validation": {
+    "command": [
+      "python3",
+      "arcanum/arcana/task-session/development/validate-governance-runner.py",
+      "--family",
+      "commit-resume",
+      "--task-session-dir",
+      "arcanum/arcana/task-session"
+    ],
+    "result": "pass",
+    "positive_cases": "19/19",
+    "negative_cases": "26/26",
+    "undeclared_outputs": 0
+  },
+  "generated_sync": {
+    "required": true,
+    "status": "pending",
+    "preview": "update scripts/task-session-governance-runner.py and remove generated __pycache__ only"
+  },
+  "authority_effect": "none",
+  "product_mutation": false,
+  "next_action": "sync the generated task-session package, prove parity, then create a fresh WP-CAL-TEN-L0 execution run."
+}

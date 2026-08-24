@@ -37,3 +37,13 @@ empty contract, not cav2's rows. Tier-3 surfaces are disclosed non-seeds, out of
 - L2 needs a **signer/ratifier capability** — `decision-gate` doesn't model one (review C7). Resolve in sigil-development.
 - A **public-attached** mint is blocked by `BLK-CAV2-PUBLIC-PRIVATE-001` regardless of layer.
 - Emit-templates validated on **one** domain (resonantos); generalization is a layer risk, not proven coverage.
+
+## Pre-L0 runtime gate (refresh 2026-08-07)
+
+| Gate | Scope | Value | Explicit ceiling | Admission evidence |
+|---|---|---|---|---|
+| **P0** deterministic no-write plan | strict manifest validation, pinned-source and allowlisted-template checks, ordered effect inventory, canonical effect plan | makes the planned Mint contract executable and inspectable before effects | no target-byte rendering, filesystem apply, scaffold, attachment, authority act, journal/recovery, or consumer pilot | deterministic/no-write/refusal-path test suite passes |
+
+P0 is a prerequisite to L0; it does not replace or renumber L0-L3. The next layer may consume P0 only
+through the versioned manifest and effect-plan schemas, never by treating a successful plan as
+authorization to write.

@@ -1,32 +1,46 @@
 import { OewBundleError, validateOewBundle } from "./types.ts";
 
-/**
- * @typedef {import("./types.ts").VerifiedOewBundle} VerifiedOewBundle
- * @typedef {"graph" | "sidecar" | "receipt"} OewFileRole
- * @typedef {{ok: boolean, status?: number, text(): Promise<string>}} OewResponse
- * @typedef {(input: string | URL, init?: RequestInit) => Promise<OewResponse>} OewFetch
- * @typedef {{document: unknown, sha256: string}} LoadedDocument
- * @typedef {object} LoadOewBundleOptions
- * @property {string} baseUrl
- * @property {string | null} [token]
- * @property {string} expectedReceiptSha256
- * @property {string} [pageUrl]
- * @property {OewFetch} [fetchImpl]
- * @property {(text: string) => Promise<string>} [sha256Impl]
- */
+type JsonRecord = Record<string, unknown>;
+type VerifiedOewBundle = ReturnType<typeof validateOewBundle>;
+type OewFileRole = "graph" | "sidecar" | "receipt";
+type OewResponse = {ok: boolean; status?: number; text(): Promise<string>};
+type OewFetch = (
+  input: string | URL,
+  init?: RequestInit,
+) => Promise<OewResponse>;
+type LoadedDocument = {document: unknown; sha256: string};
+type RelationAssembler = (input: {
+  scene: JsonRecord;
+  encoding: unknown;
+  geometry: unknown;
+}) => Promise<JsonRecord>;
+type LoadOewBundleOptions = {
+  baseUrl?: string;
+  token?: string | null;
+  expectedReceiptSha256?: string;
+  pageUrl?: string;
+  fetchImpl?: OewFetch | null;
+  sha256Impl?: (text: string) => Promise<string>;
+  relationScene?: unknown;
+  relationEncoding?: unknown;
+  relationGeometry?: unknown;
+  relationAssembler?: RelationAssembler | null;
+};
+type RelationAssemblyOptions = {
+  bundle?: VerifiedOewBundle;
+  scene?: unknown;
+  encoding?: unknown;
+  geometry?: unknown;
+  assembler?: RelationAssembler | null;
+};
 
-/** @type {Record<OewFileRole, string>} */
-const files = {
+const files: Record<OewFileRole, string> = {
   graph: "presentation-graph.json",
   sidecar: "evidence-sidecar.json",
   receipt: "adapter-receipt.json",
 };
 
-/**
- * @param {string} baseUrl
- * @param {string} [pageUrl]
- */
-const absolutePageUrl = (baseUrl = "", pageUrl = "") => {
+const absolutePageUrl = (baseUrl = "", pageUrl = ""): URL => {
   const browserUrl =
     typeof globalThis.location?.href === "string"
       ? globalThis.location.href
@@ -43,16 +57,10 @@ const absolutePageUrl = (baseUrl = "", pageUrl = "") => {
   }
 };
 
-/**
- * @param {string} baseUrl
- * @param {string} file
- * @param {string | null} [token]
- * @param {string} [pageUrl]
- */
 export const tokenizedUrl = (
   baseUrl = "",
   file = "",
-  token = "",
+  token: string | null = "",
   pageUrl = "",
 ) => {
   const page = absolutePageUrl(baseUrl, pageUrl);
@@ -72,7 +80,6 @@ export const tokenizedUrl = (
   return url.toString();
 };
 
-/** @param {string} text */
 export async function sha256Text(text = "") {
   const bytes = new TextEncoder().encode(text);
   const hash = await globalThis.crypto.subtle.digest("SHA-256", bytes);
@@ -81,10 +88,6 @@ export async function sha256Text(text = "") {
     .join("");
 }
 
-/**
- * @param {LoadOewBundleOptions} options
- * @returns {Promise<VerifiedOewBundle>}
- */
 export async function loadOewBundle({
   baseUrl = "",
   token = "",
@@ -92,15 +95,18 @@ export async function loadOewBundle({
   pageUrl = "",
   fetchImpl = JSON.parse("null"),
   sha256Impl = sha256Text,
-} = {}) {
+  relationScene = null,
+  relationEncoding = null,
+  relationGeometry = null,
+  relationAssembler = null,
+}: LoadOewBundleOptions = {}) {
   const effectiveFetch = fetchImpl ?? globalThis.fetch;
   if (typeof effectiveFetch !== "function") {
     throw new OewBundleError("FETCH_UNAVAILABLE");
   }
-  /** @type {Partial<Record<OewFileRole, LoadedDocument>>} */
-  const loaded = Object.create(null);
-  /** @type {Array<[OewFileRole, string]>} */
-  const fileEntries = Object.entries(files);
+  const loaded: Partial<Record<OewFileRole, LoadedDocument>> =
+    Object.create(null);
+  const fileEntries = Object.entries(files) as Array<[OewFileRole, string]>;
   await Promise.all(
     fileEntries.map(async ([role, file]) => {
       const response = await effectiveFetch(
@@ -134,7 +140,7 @@ export async function loadOewBundle({
   if (!graph || !sidecar || !receipt) {
     throw new OewBundleError("BUNDLE_DOCUMENT_MISSING");
   }
-  return validateOewBundle({
+  const bundle = validateOewBundle({
     graph: graph.document,
     sidecar: sidecar.document,
     receipt: receipt.document,
@@ -145,4 +151,73 @@ export async function loadOewBundle({
     },
     expectedReceiptSha256,
   });
+  if (relationScene === null) return bundle;
+  return assembleV13RelationBundle({
+    bundle,
+    scene: relationScene,
+    encoding: relationEncoding,
+    geometry: relationGeometry,
+    assembler: relationAssembler,
+  });
 }
+
+/**
+ * Optional v1.3 seam. The caller injects the admitted scene assembler so the
+ * legacy three-file loader keeps its import and fetch boundary unchanged.
+ */
+export async function assembleV13RelationBundle({
+  bundle,
+  scene,
+  encoding,
+  geometry = null,
+  assembler,
+}: RelationAssemblyOptions = {}) {
+  if (
+    !isRecord(scene) ||
+    scene.schema_version !== "oew.knowledge-scene.v1.3" ||
+    typeof scene.scene_digest !== "string"
+  ) {
+    throw new OewBundleError("RELATION_SCENE_INVALID");
+  }
+  if (typeof assembler !== "function") {
+    throw new OewBundleError("RELATION_ASSEMBLER_REQUIRED");
+  }
+  const relationProjectionBySourceRef = await assembler({
+    scene,
+    encoding,
+    geometry,
+  });
+  if (
+    relationProjectionBySourceRef === null ||
+    typeof relationProjectionBySourceRef !== "object" ||
+    Array.isArray(relationProjectionBySourceRef)
+  ) {
+    throw new OewBundleError("RELATION_PROJECTION_INVALID");
+  }
+  const receipt = isRecord(scene.relation_index_receipt)
+    ? scene.relation_index_receipt
+    : null;
+  const expected = receipt?.relation_ids;
+  if (
+    !Array.isArray(expected) ||
+    expected.some((relationId) =>
+      !hasOwn(relationProjectionBySourceRef, relationId as PropertyKey),
+    ) ||
+    Object.keys(relationProjectionBySourceRef).length !== expected.length
+  ) {
+    throw new OewBundleError("RELATION_PROJECTION_NOT_TOTAL");
+  }
+  return Object.freeze({
+    ...bundle,
+    relationScene: scene,
+    relationProjectionBySourceRef: Object.freeze({
+      ...relationProjectionBySourceRef,
+    }),
+  });
+}
+
+const isRecord = (value: unknown): value is JsonRecord =>
+  value !== null && typeof value === "object" && !Array.isArray(value);
+
+const hasOwn = (value: object, key: PropertyKey) =>
+  Object.prototype.hasOwnProperty.call(value, key);

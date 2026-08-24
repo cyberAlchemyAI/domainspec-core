@@ -1,0 +1,394 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.receipt.v0.1",
+  "action_id": "spawn-0004",
+  "dispatch_id": "2026-08-09-skillopt-arcanum-presentation-research-route",
+  "run_id": "20260809T232823Z-skillopt-arcanum-presentation-001",
+  "wave_id": "synthesizer",
+  "step_id": "s2",
+  "role": "presentation-research-synthesizer",
+  "capability_ref": "research",
+  "agent_id": "/root/presentation_synth",
+  "status": "pass",
+  "validation": "pass",
+  "started_at": "2026-08-09T23:40:38Z",
+  "finished_at": "2026-08-09T23:43:12Z",
+  "claim_ceiling": "Research synthesis ready for skeptic review. It does not establish reproduction of SkillOpt, an Arcanum optimizer integration, demo execution, promotion, deployment, production readiness, publication, or audience comprehension.",
+  "artifacts": [
+    "research/2026-08-09-skillopt-arcanum-presentation/research.md",
+    "research/2026-08-09-skillopt-arcanum-presentation/orchestration/run-001/receipts/spawn-0001.json",
+    "research/2026-08-09-skillopt-arcanum-presentation/orchestration/run-001/receipts/spawn-0002.json",
+    "research/2026-08-09-skillopt-arcanum-presentation/orchestration/run-001/receipts/spawn-0003.json"
+  ],
+  "thesis_pt": "SkillOpt explora como propor e selecionar alterações no estado textual de uma skill, enquanto Arcanum fornece superfícies adjacentes para nomear, testar, observar e governar capacidades; a ponte útil é composição com evidência e autoridade explícita, não identidade nem autoevolução já implementada.",
+  "relationship_matrix": [
+    {
+      "relation": "equivalência limitada",
+      "skillopt": "Uma skill textual persistente influencia comportamento reutilizável do agente.",
+      "arcanum": "Um sigil encapsula comportamento reutilizável sob contrato e ciclo de vida.",
+      "safe_claim": "Ambos tratam texto como parte de um comportamento reutilizável.",
+      "boundary": "SkillOpt skill state não é sigil, spell, capability, registry entry ou artefato promovido.",
+      "proof_status": "SkillOpt: método definido no paper, não reproduzido. Arcanum: contratos públicos inspecionados."
+    },
+    {
+      "relation": "adjacência",
+      "skillopt": "Rollouts pontuados alimentam reflexão, bounded edits, seleção e rejeição.",
+      "arcanum": "Fixtures, validação, observabilidade categórica, reflexão e manutenção compõem um ciclo governado.",
+      "safe_claim": "Os ciclos são conceitualmente adjacentes.",
+      "boundary": "Não existe evidência de interface ou fluxo compartilhado.",
+      "proof_status": "Paper-reported versus repository-contract inspection."
+    },
+    {
+      "relation": "complemento proposto",
+      "skillopt": "Um optimizer poderia produzir candidate edits e ordená-los por evidência held-out.",
+      "arcanum": "Poderia preservar provenance, proposta, aprovação humana, validação, lifecycle routing e promotion boundary.",
+      "safe_claim": "Um optimizer verificado poderia ser um produtor de candidatos dentro de um ciclo Arcanum.",
+      "boundary": "Arquitetura proposta; não implementada nem validada.",
+      "proof_status": "inference/proposal"
+    },
+    {
+      "relation": "gap",
+      "skillopt": "Possui no método reportado scalar reward, strict-improvement gate, rejected-step buffer, held-out selection e best_skill export.",
+      "arcanum": "Possui numeric score components no benchmark, mas manutenção consome sinais categóricos e aprovação explícita.",
+      "safe_claim": "Não há caminho inspecionado de ScoreResult para reflexão, edição, aceitação ou promoção de sigils.",
+      "boundary": "Numeric infrastructure não equivale a canonical scalar objective.",
+      "proof_status": "directly observed absence in inspected interfaces"
+    }
+  ],
+  "arcanum_state_map": {
+    "implemented": [
+      "Contrato canônico de doze estágios para desenvolvimento de sigils.",
+      "Validation protocol, registry gates e promotion semantics.",
+      "Observability repository-local nos caminhos determinísticos documentados.",
+      "Signal Observer com sinais categóricos e threshold triggers.",
+      "Workflow Reflect produzindo propostas sem editar o sigil observado.",
+      "Sigil Maintenance Loop registrado, compondo Inventory, observação, reflexão, aprovação, alteração limitada e validação.",
+      "Experiment-harness descrito para fixture, output, report e observation workflows.",
+      "Benchmark schemas com OracleEvidence.metrics e ScoreResult.components numéricos ou booleanos.",
+      "Run kernel e um smoke documentado de SWE-bench Lite como evidência limitada de plumbing."
+    ],
+    "planned_or_candidate": [
+      "L4 continuation-feedback attribution e active-run pointer.",
+      "Observação determinística first-class de invocações nativas por $skill-name.",
+      "SmellBench, PerfCodeBench, cloud workers e dashboard mais amplos.",
+      "Qualquer optimizer offline no estilo SkillOpt, distribuição held-out para sigils ou strict score-improvement edit gate."
+    ],
+    "absent": [
+      "Ligação de benchmark ScoreResult a workflow-reflect, sigil-development ou sigil-maintenance-loop.",
+      "Canonical single scalar reward para qualidade de sigils.",
+      "Aceitação ou rejeição automática de alterações por comparação held-out.",
+      "Campo ou validador geral de independência/proveniência do grader.",
+      "Proibição de task/grader self-authorship nos schemas inspecionados.",
+      "Observabilidade determinística universal para seleção nativa de skills."
+    ],
+    "deployed_or_projected": [
+      "Nenhuma fonte inspecionada prova deployment externo ou operação em produção.",
+      ".agents/skills e .arcanum/observability são projections/runtime surfaces locais, não deployment proof.",
+      "Registry presence demonstra disponibilidade reutilizável sob governance, não produção."
+    ]
+  },
+  "slide_spine_35m_pt": [
+    {"time": "00:00-02:30", "title": "A resposta desaparece; o método pode permanecer", "purpose": "Contrastar resposta pontual com comportamento reutilizável."},
+    {"time": "02:30-05:30", "title": "Do prompt à capacidade", "purpose": "Introduzir nome, fronteira, contrato, fixture, evidência e owner."},
+    {"time": "05:30-09:00", "title": "Vocabulário que não pode colapsar", "purpose": "Separar skill state, sigil, spell, fixture, observation, reflection, acceptance e promotion."},
+    {"time": "09:00-13:00", "title": "SkillOpt: mecanismo reportado", "purpose": "Mostrar external textual state, scored rollouts, bounded edits e strict selection gate; rotular tudo como paper-reported e não reproduzido."},
+    {"time": "13:00-17:00", "title": "Arcanum hoje", "purpose": "Mostrar lifecycle, harness, observability, maintenance loop e o gap de observação nativa."},
+    {"time": "17:00-20:00", "title": "Equivalência, adjacência, complemento e gap", "purpose": "Exibir a matriz e declarar integração ausente."},
+    {"time": "20:00-28:00", "title": "Witness mínimo: código e limites", "purpose": "Percorrer prompt, fixture, evidence shape, reflection proposal e human gate com estados explícitos."},
+    {"time": "28:00-31:00", "title": "Onde a máquina para", "purpose": "Separar candidate acceptance, user-approved mutation, validation, promotion e deployment."},
+    {"time": "31:00-33:00", "title": "Teach-back", "purpose": "Testar se a audiência consegue recontar a cadeia causal e seus limites."},
+    {"time": "33:00-35:00", "title": "Composição, não autoevolução", "purpose": "Encerrar com a oportunidade arquitetural e as lacunas reais."}
+  ],
+  "minimum_slides_and_code_witness": {
+    "status": "PROPOSED_AND_UNEXECUTED",
+    "recommended_form": "split-screen source trace",
+    "current": [
+      {
+        "label": "CURRENT_INSPECTED",
+        "display": "OracleEvidence e ScoreResult em arcanum/benchmark/src/schemas.ts",
+        "meaning": "Arcanum tem score-shaped infrastructure.",
+        "does_not_prove": "Um scalar objective canônico ou integração com manutenção de sigils."
+      },
+      {
+        "label": "CURRENT_INSPECTED",
+        "display": "Sigil Maintenance Loop phases e gates",
+        "meaning": "Evidence, reflection proposal, bounded user approval e validation são responsabilidades distintas.",
+        "does_not_prove": "Execução deste fluxo para a fixture da palestra."
+      },
+      {
+        "label": "CURRENT_ABSENCE",
+        "display": "Nenhuma interface inspecionada conecta ScoreResult ao maintenance loop",
+        "meaning": "A ausência de wiring é o fato demonstrável."
+      }
+    ],
+    "proposed": {
+      "target_capability": "experiment-harness",
+      "input_prompt": "Analise este plano de implementação e devolva exatamente: Objetivo, Riscos, Gate de execução e Próximo dono. Se não houver critério de aceite, retorne BLOCK em Gate de execução.",
+      "fixture_id": "tdc-missing-acceptance-001",
+      "fixture_body": "Plano: adicionar cache ao agente. Etapas: implementar e publicar.",
+      "expected_state_chain": [
+        "D0_PROPOSED",
+        "D1_RUN",
+        "D2_VALIDATE",
+        "D3_OBSERVE",
+        "D4_REFLECT",
+        "D5_AWAITING_HUMAN_APPROVAL",
+        "D6_ACCEPTED_CANDIDATE_OR_REJECTED_CANDIDATE"
+      ],
+      "warning": "Expected fields, anti-pattern labels and workflow-gap labels are presentation fixture expectations, not observed runner output."
+    },
+    "executed": {
+      "label": "NOT_EXECUTED",
+      "facts": [
+        "Nenhum model call foi realizado.",
+        "Nenhuma fixture foi materializada.",
+        "Nenhum report ou observability event foi capturado.",
+        "Nenhuma mutation foi autorizada.",
+        "Nenhum rehearsal de oito minutos foi realizado."
+      ]
+    },
+    "fallback": {
+      "preferred": "Pre-captured public-safe transcript only after a separately authorized, verified run.",
+      "otherwise": "Contract dry-run visibly labeled SIMULAÇÃO DE CONTRATO.",
+      "must_show": "Exact fixture, expected output, gate table, source selectors and proposed transition.",
+      "forbidden": "Inventar terminal output ou apresentar expected labels como emissão observada."
+    }
+  },
+  "compact_claim_evidence_table": [
+    {"claim_id": "C-SO-METHOD", "claim": "SkillOpt otimiza uma skill textual externa com o target model congelado.", "evidence": "SO-P01, SO-P02", "proof_status": "paper-defined; not reproduced"},
+    {"claim_id": "C-SO-LOOP", "claim": "O loop reportado usa scored rollouts, reflection, bounded edits, merge e strict validation selection.", "evidence": "SO-P03, SO-P04, SO-P05", "proof_status": "paper-described; not reproduced"},
+    {"claim_id": "C-SO-RESULT", "claim": "O paper reporta best ou tied-best em 52/52 células avaliadas.", "evidence": "SO-P08, SO-P09", "proof_status": "paper-reported; not independently rerun"},
+    {"claim_id": "C-SO-OFFLINE", "claim": "Otimização é offline; best_skill estático é usado em inference sem optimizer calls adicionais, mas ainda consome context tokens.", "evidence": "SO-P07", "proof_status": "author-reported architecture property"},
+    {"claim_id": "C-ARC-LIFECYCLE", "claim": "Arcanum implementa contratos de lifecycle, validation e human-owned promotion.", "evidence": "ARC-E01, ARC-E02, ARC-E03, ARC-E06", "proof_status": "direct repository contracts"},
+    {"claim_id": "C-ARC-MAINTENANCE", "claim": "Arcanum registra um maintenance loop que observa, reflete, pede aprovação e valida, sem automatic mutation.", "evidence": "ARC-E12, ARC-E13, ARC-E14, ARC-E15", "proof_status": "direct capability and spell contracts; not executed here"},
+    {"claim_id": "C-ARC-SCORE-GAP", "claim": "Score-shaped benchmark fields existem, mas não estão ligados ao improvement loop de sigils.", "evidence": "ARC-E11, ARC-E16, ARC-E17", "proof_status": "direct code/architecture inspection"},
+    {"claim_id": "C-DEMO", "claim": "A palestra pode demonstrar honestamente a infraestrutura existente e o wiring ausente.", "evidence": "ARC-E13 through ARC-E17; presentation witness proposal", "proof_status": "source-trace witness proposed; runtime unexecuted"}
+  ],
+  "citation_duties": [
+    "Citar explicitamente arXiv:2605.23904v2; não citar v1 como versão corrente.",
+    "Rotular todos os resultados quantitativos como paper-reported e não reproduzidos.",
+    "Para 52/52, preservar evaluated cells, best or tied-best, splits, metrics e protocol-compatible baselines.",
+    "Para transfer, citar Table 4 com direção source-to-target, task, model e no-skill denominator; não alegar transfer universal.",
+    "Para mecanismos, citar §§3.1-3.6 e Algorithm 1; textual learning-rate é analogia, não gradient descent.",
+    "Para prioridade ou comparação load-bearing, consultar e citar os trabalhos primários relacionados; SkillOpt sozinho comprova apenas seu próprio positioning.",
+    "Se mostrar código atual do repositório SkillOpt, fixar commit ba820b500f9da96685cf2780c7dc85ed4eb6563e e declarar que ele é posterior aos experimentos.",
+    "Citar Arcanum por path e exact line/heading selector; registry presence não deve ser citada como deployment.",
+    "Não publicar o trecho do CFP marcado Mensagem privada nem telemetry payloads reais.",
+    "Usar apenas fontes públicas Arcanum e exemplos sintéticos recém-autoriais."
+  ],
+  "forbidden_overclaims": [
+    "Arcanum implementa SkillOpt.",
+    "Arcanum possui hoje um optimizer scalar para sigils.",
+    "Signal Observer ou telemetry é um grader semântico.",
+    "Workflow Reflect edita automaticamente o sigil.",
+    "Numeric ScoreResult é um canonical scalar reward.",
+    "O grader é independente por construção ou self-authorship é proibido.",
+    "Fixture pass, schema validity ou validation receipt prova melhoria, promoção, deployment ou produção.",
+    "Registry presence significa deployed.",
+    "SkillOpt provou transfer universal, segurança ou ausência de overfitting.",
+    "Os resultados do paper foram reproduzidos.",
+    "SkillOpt acceptance equivale a human promotion ou production approval.",
+    "Zero optimizer calls em inference significa zero prompt-token overhead.",
+    "SkillOpt ou Arcanum é first, unique ou self-evolving sem revisão primária de prioridade e definição.",
+    "A demo proposta é runnable ou executada sem receipt de execução."
+  ],
+  "open_decisions": [
+    {
+      "decision": "Formato da demo",
+      "options": ["live verified run", "pre-captured verified transcript", "contract simulation"],
+      "required_owner_choice": true,
+      "recommendation": "Até existir fixture e run receipt, assumir contract simulation."
+    },
+    {
+      "decision": "Mostrar números do paper",
+      "options": ["52/52 headline com denominator completo", "um ablation limitado", "nenhum número"],
+      "recommendation": "Usar 52/52 com claim ceiling e um custo/limitação; evitar tabela extensa."
+    },
+    {
+      "decision": "Usar benchmark architecture na demo",
+      "recommendation": "Usar somente como contraste visual de score-shaped infrastructure; não tentar SWE-bench ao vivo sem runtime e fixture pinados."
+    },
+    {
+      "decision": "Terminologia portuguesa",
+      "recommendation": "Manter skill state, sigil, spell, fixture, observation, reflection, acceptance, promotion e deployment em inglês quando a tradução colapsar fronteiras."
+    }
+  ],
+  "exact_binding_rows": [
+    {
+      "binding_id": "B-SO-01",
+      "claim_id": "C-SO-METHOD",
+      "source_identity": "arXiv:2605.23904v2, PDF sha256 87f7f0f323b1671e9202b3ebb1596e909e507c71ecd1b360b0075a5ee1727fe3",
+      "exact_selector": "pp.4-5, §3.1, Equations (1)-(3); p.5 paragraph after Eq. (3); p.22 Algorithm 1 lines 1-3",
+      "explorer_return_ref": "spawn-0001:SO-P01,SO-P02",
+      "evidence_scope": "method and optimizer state",
+      "proof_status": "paper-defined; not reproduced",
+      "closure_status": "CLOSED_FOR_REVIEW"
+    },
+    {
+      "binding_id": "B-SO-02",
+      "claim_id": "C-SO-LOOP",
+      "source_identity": "arXiv:2605.23904v2",
+      "exact_selector": "p.4 Figure 2; p.5 §§3.2-3.4; p.6 §3.5; p.22 Algorithm 1 lines 7-27",
+      "explorer_return_ref": "spawn-0001:SO-P03,SO-P04,SO-P05",
+      "evidence_scope": "rollout/edit/selection mechanism",
+      "proof_status": "paper-described; not reproduced",
+      "closure_status": "CLOSED_FOR_REVIEW"
+    },
+    {
+      "binding_id": "B-SO-03",
+      "claim_id": "C-SO-RESULT",
+      "source_identity": "arXiv:2605.23904v2",
+      "exact_selector": "pp.7-11, Table 1 and §4.1 Main Results/Headline numbers",
+      "explorer_return_ref": "spawn-0001:SO-P08,SO-P09",
+      "evidence_scope": "tested benchmark result",
+      "proof_status": "paper-reported; not reproduced",
+      "closure_status": "CLOSED_WITH_CLAIM_CEILING"
+    },
+    {
+      "binding_id": "B-SO-04",
+      "claim_id": "C-SO-OFFLINE",
+      "source_identity": "arXiv:2605.23904v2",
+      "exact_selector": "pp.2-3 Introduction; p.6 §3.7; pp.13-15 §§4.3-4.4 and Table 6",
+      "explorer_return_ref": "spawn-0001:SO-P07,SO-P13",
+      "evidence_scope": "offline/inference and cost boundary",
+      "proof_status": "paper-reported architecture and accounting",
+      "closure_status": "CLOSED_FOR_REVIEW"
+    },
+    {
+      "binding_id": "B-ARC-01",
+      "claim_id": "C-ARC-LIFECYCLE",
+      "source_identity": "public Arcanum worktree",
+      "exact_selector": "arcanum/framework/SIGIL-DEVELOPMENT-WORKFLOW.md:7-22,182-193; arcanum/framework/VALIDATION-EXPERIMENT-PROTOCOL.md:51-68; arcanum/definitions/DEFINITIONS.md:396-437",
+      "explorer_return_ref": "spawn-0002:ARC-E01,ARC-E02,ARC-E03,ARC-E06",
+      "evidence_scope": "canonical workflow and governance contracts",
+      "proof_status": "direct source inspection",
+      "closure_status": "CLOSED_FOR_REVIEW"
+    },
+    {
+      "binding_id": "B-ARC-02",
+      "claim_id": "C-ARC-MAINTENANCE",
+      "source_identity": "public Arcanum worktree",
+      "exact_selector": "arcanum/arcana/workflow-reflect/SKILL.md:60-130; arcanum/registry/SPELLS.md:7-22; arcanum/spells/sigil-maintenance-loop/README.md:1-35,78-110,129-152,179-193",
+      "explorer_return_ref": "spawn-0002:ARC-E12,ARC-E13,ARC-E14,ARC-E15",
+      "evidence_scope": "registered composition and authority gates",
+      "proof_status": "direct contracts; not runtime execution",
+      "closure_status": "CLOSED_FOR_REVIEW"
+    },
+    {
+      "binding_id": "B-ARC-03",
+      "claim_id": "C-ARC-SCORE-GAP",
+      "source_identity": "public Arcanum worktree",
+      "exact_selector": "arcanum/arcana/signal-observer/SKILL.md:53-90; arcanum/benchmark/src/schemas.ts:57-78; arcanum/benchmark/ARCHITECTURE.md:127-177,224-234",
+      "explorer_return_ref": "spawn-0002:ARC-E11,ARC-E16,ARC-E17",
+      "evidence_scope": "categorical observation, numeric score types and absent integration",
+      "proof_status": "direct inspection; absence bounded to inspected interfaces",
+      "closure_status": "CLOSED_WITH_SCOPE"
+    },
+    {
+      "binding_id": "B-ARC-04",
+      "claim_id": "C-DEMO",
+      "source_identity": "public Arcanum worktree",
+      "exact_selector": "arcanum/spells/sigil-maintenance-loop/README.md:80-110,130-150,191-193; arcanum/framework/VALIDATION-EXPERIMENT-PROTOCOL.md:51-98",
+      "explorer_return_ref": "spawn-0002 proposed_demo_witness_and_limits; spawn-0003 minimum_code_demo_witness",
+      "evidence_scope": "source-trace and contract-simulation fallback",
+      "proof_status": "proposed; unexecuted",
+      "closure_status": "CLOSED_AS_NON_EXECUTION_WITNESS"
+    },
+    {
+      "binding_id": "B-PRES-01",
+      "claim_id": "C-AUDIENCE",
+      "source_identity": "arcanum/writing/cfp-tdc-arcanum-skillopt.md",
+      "exact_selector": "lines 19,29-47,49-55",
+      "explorer_return_ref": "spawn-0003 audience_format_contract",
+      "evidence_scope": "Portuguese advanced 35-minute slides-and-code format",
+      "proof_status": "locally observed contract",
+      "closure_status": "CLOSED_FOR_REVIEW"
+    }
+  ],
+  "missing_bindings": [
+    {
+      "binding": "Exact runnable demo command, materialized fixture, captured output, report and observability event",
+      "classification": "execution evidence absent by current read-only scope",
+      "feedback_edge": "not requested from explorer; requires a separately authorized demo-preparation action",
+      "effect": "Live demo claims remain forbidden."
+    },
+    {
+      "binding": "Exact author-declared SkillOpt code commit/tag for the May 2026 experiments",
+      "classification": "primary-source provenance unavailable",
+      "feedback_edge": "spawn-0001 already reported this blocker; another explorer pass has no identified source to resolve",
+      "effect": "Current repository code cannot be presented as the experimental snapshot."
+    },
+    {
+      "binding": "Independent priority/novelty review of related work",
+      "classification": "outside explorer scope",
+      "feedback_edge": "send to precedent skeptic, not explorer",
+      "effect": "First, unique and novelty claims remain prohibited."
+    },
+    {
+      "binding": "Rehearsal timing and audience comprehension",
+      "classification": "future presentation evidence",
+      "feedback_edge": "not an explorer selector problem",
+      "effect": "35-minute fit is a planned allocation, not observed performance."
+    }
+  ],
+  "disagreement_log": [
+    {
+      "issue": "TO-VLAD3 described Arcanum machinery as disconnected.",
+      "resolution": "Partially stale: a registered non-scalar maintenance composition now exists. Scalar benchmark-to-sigil improvement remains disconnected.",
+      "preserved_boundary": "Do not replace one overstatement with the opposite claim of optimizer integration."
+    },
+    {
+      "issue": "Older wording said Arcanum owns a scalar grading oracle.",
+      "resolution": "Demoted to numeric oracle and score-component infrastructure.",
+      "reason": "ScoreResult is a component map plus status; no canonical scalar objective was established."
+    },
+    {
+      "issue": "Presentation explorer marked SkillOpt mechanism pending primary verification.",
+      "resolution": "Resolved by spawn-0001 for paper mechanism and results.",
+      "preserved_boundary": "Verification is source inspection, not experimental reproduction."
+    },
+    {
+      "issue": "Proposed demo names exact expected machine labels.",
+      "resolution": "Retained only as fixture expectations.",
+      "preserved_boundary": "No evidence shows a current runner emits them."
+    },
+    {
+      "issue": "Paper prose emphasizes slow/meta components.",
+      "resolution": "The largest cited ablation removes both together.",
+      "preserved_boundary": "Do not attribute the -22.5 SpreadsheetBench change solely to either component."
+    },
+    {
+      "issue": "Project page simplifies cross-harness transfer to one aggregate.",
+      "resolution": "Prefer paper Table 4 direction-specific rows.",
+      "preserved_boundary": "Transfer is bounded to 11 tested rows."
+    }
+  ],
+  "recommended_reviewer_questions": [
+    "Precedent: quais frases ainda insinuam first, unique, ownership ou novelty sem consulta aos trabalhos primários?",
+    "Non-vacuity: o source-trace demonstra claramente um fato atual e uma ausência atual, ou ainda parece uma execução de optimizer?",
+    "Non-vacuity: a demo deve ser killed até existir run receipt, ou a contract simulation explicitamente rotulada é suficiente para a tese?",
+    "Definitions: SkillOpt skill state, Arcanum sigil e capability estão suficientemente separados em português?",
+    "Definitions: acceptance, approved mutation, validation, promotion, publication e deployment permanecem distintos em todos os slides?",
+    "Evidence: a frase 52/52 mantém denominator, baseline scope, test splits e paper-reported status?",
+    "Governance: o human gate aparece como autoridade de mutação, sem ser confundido com o strict numerical gate do paper?",
+    "Public safety: algum texto deriva da Mensagem privada, private Inventory, DomainSpec, Saturn ou telemetry real?"
+  ],
+  "blockers": [],
+  "exact_binding_closure_candidate": {
+    "verdict": "READY_FOR_SKEPTIC_REVIEW",
+    "closed_claims": [
+      "SkillOpt mechanism, reported results and offline boundary with v2 selectors",
+      "Current Arcanum lifecycle, maintenance composition, score-shaped infrastructure and unwired gap",
+      "Audience contract and 35-minute candidate spine",
+      "Source-trace/contract-simulation witness with explicit current, proposed and executed labels"
+    ],
+    "intentionally_open": [
+      "Novelty and priority",
+      "Experimental reproduction",
+      "Runnable demo evidence",
+      "Experimental snapshot provenance",
+      "Rehearsal and audience comprehension"
+    ],
+    "feedback_edge_decision": "No explorer feedback requested: all missing items are either already-established source absences, execution evidence outside read-only scope, or matters assigned to skeptic/owner review."
+  },
+  "blockers_for_gate": []
+}

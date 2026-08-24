@@ -1,0 +1,49 @@
+{
+  "schema_version": "governance-defect-sidecar-receipt/v1",
+  "sidecar_id": "CHAIN_MANIFEST_V2_COMPATIBILITY",
+  "classification": "governance-only",
+  "authority_effect": "none",
+  "root_cause": "The approved-epoch chain runner consumes only the legacy manifest shape: epoch_binding, canonical_plan_graph.finite_frontier, execution_bindings, and closeout_bindings. WPRA v2 instead emits a Plan Semantic Manifest with top-level plan_epoch_id, canonical_semantic_digest, source_snapshot_digest, ready_frontier, completion_continuity, and allowed_routes. The current runner therefore blocks the fresh v2 manifest before selecting SWU-CAL-001.",
+  "affected_invariant": "A finite-frontier controller may return one exact next selector only when its complete approved epoch, frozen audit projection, canonical semantic digest, source snapshot, ordered frontier, bounded risk surface, and closeout route are all proved current. Compatibility must not turn selection-ready WPRA evidence into mutation authority.",
+  "minimal_repair_proposal": "Add a fail-closed v2 normalizer in the canonical runner. For a v2 manifest it requires an exact audit report reference, verifies report-to-config digest equality and embedded-manifest byte-equivalent object identity, checks the psm manifest id prefix, validates the ordered ready_frontier and continuity, verifies allowed_routes_digest, and requires exactly one repository-local-reversible Task Session route plus one Invoke refresh-apply-approved closeout route per frontier unit. It derives bounded-write only for these v2 Task Session routes. It preserves legacy behavior and keeps v2 NO_OP blocked until v2 exposes an exact closeout-contract binding.",
+  "candidate_patch": {
+    "path": "candidate/repair.patch",
+    "sha256": "8f13f57484fb8e36e7a2c499df667a423767b6882b77dd05774394e55f5d2e8c",
+    "size_bytes": 11867
+  },
+  "changed_target_inventory": [
+    {
+      "path": "arcanum/spells/task-session-until-blocker/scripts/run_chain.py",
+      "before_sha256": "96bf130cef99b34dabbf53648fc42861825d3fe214377b87d55fa811c32b4d76",
+      "before_size_bytes": 25249,
+      "after_sha256": "1b1fca9b05e0ef7295731d24064ce7613b4fde16c9dd04220ce0474b32cfc711",
+      "after_size_bytes": 31034
+    },
+    {
+      "path": "arcanum/spells/task-session-until-blocker/schemas/chain-config.schema.json",
+      "before_sha256": "8c34c699403f230951ed719a34aafee783913035b1f36950bee0afa8ee0cae78",
+      "before_size_bytes": 4039,
+      "after_sha256": "83ff4768b99c78b92ca9f294c4b1affe203729857dc8675ad908d8d18250acf3",
+      "after_size_bytes": 4101
+    },
+    {
+      "path": "arcanum/spells/task-session-until-blocker/development/validate-chain-v2.py",
+      "before_sha256": "0a451755fb4f6c266d0a436e57acb5c484dcef1f82d982b28ff1e673d2b8e08b",
+      "before_size_bytes": 13116,
+      "after_sha256": "c485575c92a3d286a1db973619f2295c87beb1529e18b02e7a6085ad70dd06e5",
+      "after_size_bytes": 17325
+    }
+  ],
+  "validation_receipt": "VALIDATION.json",
+  "required_revalidation_after_apply": [
+    "Verify all three live postimage hashes against this receipt.",
+    "Run python3 arcanum/spells/task-session-until-blocker/development/validate-chain-v2.py.",
+    "Regenerate repository-native task-session-until-blocker projections from canonical Arcanum source and verify canonical/generated parity for runner and schema.",
+    "Run the patched runner against a freshly regenerated WPRA v2 manifest and exact report reference; require NEXT_SELECTOR_READY for SWU-CAL-001 before any Task Session is considered.",
+    "Recheck the WPRA audit; do not reuse this fixture-only approval as a Decision Gate receipt."
+  ],
+  "renewed_owner_acceptance_required": true,
+  "acceptance_reason": "The candidate changes canonical public spell source and its generated-runtime schema contract. Any earlier acceptance does not bind these changed bytes.",
+  "permanent_regression_fix": "Keep the new v2 positive and malformed-route negative tests in the canonical development suite, and require the live WPRA v2 manifest/report preflight before presenting any chain controller as ready.",
+  "lifecycle_boundary": "Candidate only. No canonical or generated sources were modified; no Decision Gate, Task Session, Invoke Refresh, Continuation Router, product mutation, plan mutation, promotion, publication, commit, or external effect occurred. The sidecar stops before owner acceptance and application."
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": "arcanum.work-pack-execution-entry/v1",
+  "work_pack_id": "WP-CAL-TEN-L0",
+  "admission_timing": "selected-unit-at-task-session",
+  "frontier": [
+    "SWU-CAL-001"
+  ],
+  "execution_policy": {
+    "route_policy": "automatic-in-scope",
+    "allowed_routes": [
+      {
+        "route_id": "task-session-cal-001",
+        "frontier_swu": "SWU-CAL-001",
+        "capability": "task-session",
+        "mode": "execute",
+        "target": "SWU-CAL-001",
+        "write_scope": [
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/schemas/canonical-json-profile.json",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tools/canonical-json.mjs",
+          "projects/cyberalchemy-lab/research/tower-evidence-navigator/tests/canonical-json.test.mjs",
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001"
+        ],
+        "effect_class": "repository-local-reversible",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/admission/L0-EXECUTION-CONTRACTS.json#/units/0",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md#SWU-manifest-and-navigation"
+        ],
+        "expected_receipt": "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001"
+      },
+      {
+        "route_id": "closeout-cal-001",
+        "frontier_swu": "SWU-CAL-001",
+        "capability": "invoke",
+        "mode": "refresh-apply-approved",
+        "target": "SWU-CAL-001-closeout",
+        "write_scope": [
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/WORK-PACK.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/tasks/TASK-CAL-CONTRACTS.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/waves/W0.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/EXECUTION-ENTRY-VALIDATION.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-001.json"
+        ],
+        "effect_class": "repository-local-reversible",
+        "required_inputs": [
+          "projects/cyberalchemy-lab/development/execution-receipts/WP-CAL-TEN-L0/SWU-CAL-001/<attempt-leaf>.json",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-CONTRACT.md",
+          "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/shared/CLOSEOUT-TARGETS.json#/targets/0"
+        ],
+        "expected_receipt": "projects/cyberalchemy-lab/development/refinement-runs/20260808T110935-cyberalchemy-lab-next-steps/stages/09-invoke-plan/work-pack/receipts/SWU-CAL-001.json"
+      }
+    ],
+    "allowed_routes_digest": "0be0e72bf40b59ebccf9c2b60f6233d2e7f8973ccfe419430fd89e2fbd937c24",
+    "digest_algorithm": "sha256 of RFC8785-compatible canonical JSON for allowed_routes",
+    "automatic_decisions": [
+      "internal-tool-selection",
+      "capability-owner-routing",
+      "reversible-local-default",
+      "declared-fallback",
+      "fresh-task-session-resumption"
+    ],
+    "stop_decisions": [
+      "product-or-semantic-choice",
+      "scope-expansion",
+      "destructive-or-irreversible-effect",
+      "credentials-or-secret-access",
+      "external-message-or-network-effect",
+      "cost-policy-or-risk-acceptance",
+      "authority-promotion-publication-deployment",
+      "failed-acceptance-critical-validation"
+    ],
+    "scope_source": "exact-work-pack-and-captured-frontier",
+    "validation_policy": "owner-gates-remain-mandatory"
+  },
+  "execution_entry": {
+    "state": "selection-ready",
+    "selected_unit": null,
+    "route_id": null,
+    "next_owner": "implementation-readiness:execute"
+  },
+  "pre_execution_owner_prerequisite": null,
+  "continuation_rule": "Expose one SWU only; after its passing Task Session and exact Invoke Refresh closeout, emit the next one-unit projection or stop on any declared decision/validation boundary.",
+  "authority_effect": "none"
+}

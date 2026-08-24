@@ -1,0 +1,58 @@
+{
+  "action_artifacts": [
+    "actions/spawn-0001.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0001",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s1"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-08-cyberalchemy-lab-foundation-recovery",
+      "forbidden_write_scopes": [
+        "projects/",
+        "research/",
+        "arcanum/",
+        "cyberAlchemy-v2/",
+        ".arcanum/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "immutable-run-001-evidence-package",
+        "recovery-confirmation-receipt"
+      ],
+      "mode": "review",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "projects/cyberalchemy-lab/development/research/2026-08-07-foundation/recovery-01/orchestrate/run-001/receipts/wave-01-definition/definition-skeptic.json"
+      ],
+      "role": "definition-skeptic",
+      "run_id": "run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s1",
+      "target": "cyberalchemy-lab/foundation-definitional-recovery",
+      "wave_id": "wave-01-definition",
+      "write_scope": []
+    }
+  ],
+  "dispatch_id": "2026-08-08-cyberalchemy-lab-foundation-recovery",
+  "run_id": "run-001",
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "selected_wave": {
+    "depends_on_waves": [],
+    "gate_after": "g-definition",
+    "join_policy": "all",
+    "on_incomplete": "block",
+    "parallel": false,
+    "role_ids": [
+      "definition-skeptic"
+    ],
+    "wave_id": "wave-01-definition"
+  },
+  "state": "wave_ready",
+  "validation_status": "pass"
+}

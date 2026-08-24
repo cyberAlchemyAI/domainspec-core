@@ -1,0 +1,44 @@
+{
+  "schema_version": "arcanum.subagent-lifecycle-closeout.v0.1",
+  "dispatch_id": "2026-08-08-cyberalchemy-lab-foundation-recovery",
+  "status": "pass",
+  "closed_at": "2026-08-08T01:14:05-03:00",
+  "native_actions": [
+    {
+      "action_id": "spawn-0001",
+      "agent_id": "/root/recovery_definition_spawn_0001",
+      "role": "definition-skeptic",
+      "status": "closed",
+      "receipt": "orchestrate/run-001/receipts/wave-01-definition/definition-skeptic.json"
+    },
+    {
+      "action_id": "spawn-0002",
+      "agent_id": "/root/recovery_writer_spawn_0002",
+      "role": "findings-writer",
+      "status": "closed",
+      "receipt": "orchestrate/run-001/receipts/wave-02-writer/findings-writer.json"
+    },
+    {
+      "action_id": "spawn-0003",
+      "agent_id": "/root/recovery_auditor_spawn_0003",
+      "role": "findings-auditor",
+      "status": "closed",
+      "receipt": "orchestrate/run-001/receipts/wave-03-auditor/findings-auditor.json"
+    }
+  ],
+  "helpers": [
+    {
+      "agent_id": "/root/recovery_projection_sidecar",
+      "role": "governance-projection-sidecar",
+      "status": "complete"
+    },
+    {
+      "agent_id": "/root/recovery_route_sidecar",
+      "role": "governance-route-sidecar",
+      "status": "complete"
+    }
+  ],
+  "feedback_loops_used": 1,
+  "open_agents": [],
+  "authority_effect": "none"
+}

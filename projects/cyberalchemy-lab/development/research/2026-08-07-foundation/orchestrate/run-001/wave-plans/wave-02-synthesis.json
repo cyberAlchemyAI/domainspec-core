@@ -1,0 +1,62 @@
+{
+  "schema_version": "arcanum.native-dispatch-runner.run-plan.v0.1",
+  "dispatch_id": "2026-08-07-cyberalchemy-lab-foundation",
+  "run_id": "run-001",
+  "state": "gate_pass",
+  "validation_status": "pass",
+  "selected_wave": {
+    "wave_id": "wave-02-synthesis",
+    "role_ids": [
+      "foundation-synthesizer"
+    ],
+    "parallel": false,
+    "join_policy": "all",
+    "depends_on_waves": [
+      "wave-01-explorers"
+    ],
+    "gate_after": "g-synthesis",
+    "on_incomplete": "block"
+  },
+  "action_artifacts": [
+    "reductions/wave-01-explorers/actions/spawn-0004.json"
+  ],
+  "actions": [
+    {
+      "action": "spawn",
+      "action_id": "spawn-0004",
+      "agent_count": 1,
+      "agent_ordinal": 0,
+      "applies_to_steps": [
+        "s5"
+      ],
+      "capability_ref": "research",
+      "dispatch_id": "2026-08-07-cyberalchemy-lab-foundation",
+      "forbidden_write_scopes": [
+        "projects/",
+        "research/",
+        "arcanum/",
+        "cyberAlchemy-v2/",
+        ".arcanum/",
+        "telemetry/"
+      ],
+      "input_refs": [
+        "orchestrate/run-001/receipts/wave-01-explorers/corpus-explorer.json",
+        "orchestrate/run-001/receipts/wave-01-explorers/workbench-explorer.json",
+        "orchestrate/run-001/receipts/wave-01-explorers/ontology-explorer.json",
+        "research.md"
+      ],
+      "mode": "synthesize",
+      "mutation_policy": "read-only",
+      "output_refs": [
+        "orchestrate/run-001/receipts/wave-02-synthesis/foundation-synthesis.json"
+      ],
+      "role": "foundation-synthesizer",
+      "run_id": "run-001",
+      "schema_version": "arcanum.native-dispatch-runner.action.v0.1",
+      "step_id": "s5",
+      "target": "cyberalchemy-lab/foundation-synthesis",
+      "wave_id": "wave-02-synthesis",
+      "write_scope": []
+    }
+  ]
+}

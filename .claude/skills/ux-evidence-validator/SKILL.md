@@ -49,7 +49,7 @@ Use this sigil when:
 - hard gates need fixture calibration before promotion,
 - screenshot review and human-study residues must be explicit,
 - a future implementation should produce screenshots, traces, ARIA snapshots, accessibility output, DOM measurements, findings JSON, and a residue ledger.
-  </applicability>
+</applicability>
 
 <non-applicability>
 Do not use this sigil when:
@@ -59,7 +59,7 @@ Do not use this sigil when:
 - the task is pure WCAG auditing with no UX evidence synthesis,
 - a human usability study is required but browser evidence is irrelevant,
 - the request would collapse subjective quality into a deterministic score.
-  </non-applicability>
+</non-applicability>
 
 <inputs>
 Expected inputs, if available:
@@ -71,7 +71,7 @@ Expected inputs, if available:
 - source-card set or research artifact path,
 - fixture corpus path when calibrating,
 - desired output root, defaulting to `output/playwright/ux-validator/<run-id>/`.
-  </inputs>
+</inputs>
 
 <process>
 1. Resolve mode. If no mode is provided, infer the smallest mode that fits the request and state the inference.
@@ -107,7 +107,7 @@ Required outputs:
 - `measurements/*.json`,
 - `traces/*.zip` when interaction evidence is required,
 - `residue-ledger.yml`.
-  </evidence-output-contract>
+</evidence-output-contract>
 
 <quality-bar>
 A successful run must:
@@ -121,7 +121,7 @@ A successful run must:
 - keep domain-specific market rules behind explicit domain tags,
 - report human-study claims instead of pretending automation can measure them,
 - preserve development status when fixture or implementation evidence is missing.
-  </quality-bar>
+</quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -133,7 +133,7 @@ Avoid:
 - blocking dense expert interfaces without false-positive calibration,
 - accepting screenshot diffs without stable fonts, data, motion, and viewport controls,
 - treating a good spec as implementation or promotion evidence.
-  </anti-patterns>
+</anti-patterns>
 
 <observability>
 For meaningful executions, record:
@@ -152,7 +152,7 @@ For meaningful executions, record:
 - quality bar status,
 - anti-pattern hits,
 - reflection trigger recommendation.
-  </observability>
+</observability>
 
 <promotion-gate>
 Promotion requires:
@@ -165,7 +165,7 @@ Promotion requires:
 - L4/L5 claims remaining explainable and non-blocking unless independently justified,
 - Experiment Harness report,
 - Sigil Development review.
-  </promotion-gate>
+</promotion-gate>
 
 <output-contract>
 Return:
@@ -185,5 +185,4 @@ Return:
 - Validation: <checks performed>
 - Next lifecycle step: <step>
 ```
-
 </output-contract>

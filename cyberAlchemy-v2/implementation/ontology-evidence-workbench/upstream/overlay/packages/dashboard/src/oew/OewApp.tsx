@@ -16,6 +16,22 @@ const EXPECTED_RECEIPT_SHA256 =
   "d60fe2048800a1c376dc9d7f04afbfed314f619783d0cb0059059597704ebb01";
 const RUN_ID = "SWU-OCGP-008";
 
+export function attachRelationProjections(model, bundle) {
+  const projections = bundle?.relationProjectionBySourceRef;
+  if (!projections) return model;
+  const rows = model.rows.map((row) => ({
+    ...row,
+    relationProjection: projections[row.sourceRef] ?? null,
+  }));
+  const selected = model.selected
+    ? {
+        ...model.selected,
+        relationProjection: projections[model.selected.sourceRef] ?? null,
+      }
+    : null;
+  return {...model, rows, selected};
+}
+
 function Navigator({filters, onFilters, onSearch, onStartTour}) {
   return (
     <aside className="oew-navigator" aria-label="Evidence navigator">
@@ -118,7 +134,10 @@ export default function OewApp() {
   const model = useMemo(
     () =>
       bundle
-        ? buildViewModel(bundle, {selectedSourceRef, filters})
+        ? attachRelationProjections(
+            buildViewModel(bundle, {selectedSourceRef, filters}),
+            bundle,
+          )
         : {rows: [], selected: null, selectedSourceRef: null, groundingPath: [], visibleResidue: []},
     [bundle, selectedSourceRef, filters],
   );
@@ -206,7 +225,11 @@ export default function OewApp() {
         />
         {inspectorOpen && (
           <EvidenceInspector
-            entry={selectedSourceRef ? bundle.sourceRefIndex[selectedSourceRef] : null}
+            entry={selectedSourceRef ? {
+              ...bundle.sourceRefIndex[selectedSourceRef],
+              relationProjection:
+                bundle.relationProjectionBySourceRef?.[selectedSourceRef] ?? null,
+            } : null}
             onClose={() => setInspectorOpen(false)}
           />
         )}

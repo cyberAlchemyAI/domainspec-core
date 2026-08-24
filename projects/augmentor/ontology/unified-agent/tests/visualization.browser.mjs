@@ -20,6 +20,7 @@ const renderedAnalogy = ({ text, limitation }) =>
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+let zoomContext;
 const consoleErrors = [];
 const pageErrors = [];
 const externalRequests = [];
@@ -39,8 +40,50 @@ try {
   assert.equal(await page.locator("#stat-relations").textContent(), "28");
   assert.equal(await page.locator("#stat-views").textContent(), "5");
   assert.equal(await page.locator("#stat-residue").textContent(), "7");
-  assert.match(await page.locator("#claim-ceiling-copy").textContent(), /design map/);
+  assert.equal(await page.getByTestId("body-view-button").getAttribute("aria-pressed"), "true");
+  assert.equal(await page.getByTestId("technical-view-button").getAttribute("aria-pressed"), "false");
+  assert.equal(await page.getByTestId("body-view").isVisible(), true);
+  assert.equal(await page.getByTestId("technical-view").isHidden(), true);
+  assert.equal(await page.getByTestId("robot-core-controls").locator(".robot-core-button").count(), 10);
+  assert.equal(await page.getByTestId("robot-consultation-card").count(), 1);
+  assert.equal(await page.locator("#body-region-controls, #body-inspector, #body-status-legend, #sdk-seam-wrap").count(), 0);
+  assert.match(await page.locator("#claim-ceiling-copy").textContent(), /Authority effect: none/);
   assert.match(await page.locator("#claim-ceiling-copy").getAttribute("title"), /no working routing/);
+
+  const theme = await page.evaluate(() => {
+    const root = getComputedStyle(document.documentElement);
+    return {
+      canvas: root.getPropertyValue("--canvas").trim(),
+      surface: root.getPropertyValue("--surface").trim(),
+      ink: root.getPropertyValue("--ink").trim(),
+      accent: root.getPropertyValue("--accent").trim(),
+      line: root.getPropertyValue("--line").trim(),
+      bodyBackgroundImage: getComputedStyle(document.body).backgroundImage,
+      graphBackgroundImage: getComputedStyle(document.querySelector(".graph-scroll")).backgroundImage
+    };
+  });
+  assert.deepEqual(theme, {
+    canvas: "#fbfbfd",
+    surface: "#ffffff",
+    ink: "#18181b",
+    accent: "#5b5bd6",
+    line: "#e8e8ed",
+    bodyBackgroundImage: "none",
+    graphBackgroundImage: "none"
+  });
+
+  const initialHash = new URL(page.url()).hash;
+  const workCore = page.getByTestId("robot-core-work-spine");
+  await workCore.click();
+  assert.equal(await workCore.getAttribute("aria-expanded"), "true");
+  assert.equal(await page.locator("#robot-card-heading").textContent(), "Approved work");
+  await page.keyboard.press("Escape");
+  assert.equal(await workCore.getAttribute("aria-expanded"), null);
+
+  await page.getByTestId("technical-view-button").click();
+  assert.equal(await page.getByTestId("technical-view").isVisible(), true);
+  assert.equal(await page.getByTestId("body-view").isHidden(), true);
+  assert.equal(new URL(page.url()).hash, initialHash);
   assert.equal(await page.locator("#explanation-lenses button").count(), 6);
   assert.deepEqual(await page.locator("#explanation-lenses button").allTextContents(), [
     "What it means",
@@ -151,7 +194,18 @@ try {
   assert.equal(await page.locator("[data-testid='linear-list'] [data-kind='node']").count(), 22);
   assert.equal(await page.locator("[data-testid='linear-list'] [data-kind='relation']").count(), 28);
 
+  await page.getByTestId("body-view-button").click();
   await page.setViewportSize({ width: 320, height: 800 });
+  assert.equal(await page.getByTestId("body-view").isVisible(), true);
+  assert.equal(await page.getByTestId("robot-core-controls").locator(".robot-core-button").count(), 10);
+  assert.equal(
+    await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    true
+  );
+  assert.ok(await page.getByTestId("robot-core-heart").isVisible());
+  assert.ok(await page.getByTestId("robot-core-addon-sdk").isVisible());
+
+  await page.getByTestId("technical-view-button").click();
   const mobileLens = page.getByTestId("explanation-lens-plain_meaning");
   await mobileLens.scrollIntoViewIfNeeded();
   await mobileLens.focus();
@@ -186,7 +240,18 @@ try {
   );
   assert.match(transitionDuration, /0\.01ms|0s|1e-05s/);
 
+  zoomContext = await browser.newContext({ viewport: { width: 720, height: 500 }, deviceScaleFactor: 2 });
+  const zoomPage = await zoomContext.newPage();
+  await zoomPage.goto(pathToFileURL(htmlPath).href, { waitUntil: "load" });
+  assert.equal(await zoomPage.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
+  assert.ok(await zoomPage.getByTestId("robot-core-face").isVisible());
+  assert.ok(await zoomPage.getByTestId("robot-core-addon-sdk").isVisible());
+  await zoomPage.screenshot({ path: "/tmp/augmentor-unified-agent-ontology-zoom-200.png", fullPage: true });
+  await zoomContext.close();
+  zoomContext = null;
+
   await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.getByTestId("body-view-button").click();
   await page.screenshot({ path: screenshotPath, fullPage: true });
 
   assert.deepEqual(consoleErrors, []);
@@ -194,5 +259,6 @@ try {
   assert.deepEqual(externalRequests, []);
   process.stdout.write(`BROWSER_VISUALIZATION=pass screenshot=${screenshotPath}\n`);
 } finally {
+  if (zoomContext) await zoomContext.close();
   await browser.close();
 }

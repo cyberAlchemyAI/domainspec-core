@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "DG-WP-CAL-TEN-L0-EXECUTION-20260808T220753Z",
+  "candidates": [
+    {
+      "optionId": "CAL-L0-FULL-FRONTIER",
+      "label": "Execute SWU-CAL-001 through SWU-CAL-010 through the frozen finite-frontier owner loop",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": "human-decision-gate",
+      "evidence": [
+        "fresh WPRA v2 report is PLAN_SEMANTIC_READY with zero blockers and no configured commands",
+        "current epoch semantic digest is 3d0f0e44b6203c52fd42310fd450523ff2c843672bfaef64376acfb893fad197",
+        "finite frontier is SWU-CAL-001 through SWU-CAL-010 with a maximum of ten fresh Task Sessions",
+        "all effects remain repository-local reversible and the eight stop classes remain mandatory"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "CAL-L0-FIRST-UNIT",
+      "label": "Execute only SWU-CAL-001, close it out, and stop before SWU-CAL-002",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": "human-decision-gate",
+      "evidence": [
+        "one-unit execution entry remains SWU-CAL-001",
+        "the first unit has an exact three-file material write scope plus one terminal receipt root",
+        "canonical JSON validation is acceptance-critical and its failed validation blocks closeout",
+        "no admission for SWU-CAL-002 follows without its own Task Session and closeout transition"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "CAL-L0-DEFER",
+      "label": "Keep the admitted frontier frozen and defer all execution",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "the audited manifest remains authority-none and mutation-ready false until an exact selected-unit admission succeeds"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "CAL-L0-STOP",
+      "label": "Stop this execution path without selecting a unit",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "no Task Session, Invoke Refresh closeout, product mutation, promotion, publication, deployment, commit, or external effect has occurred"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}
