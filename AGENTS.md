@@ -148,6 +148,13 @@ another repository package root.
   Playwright; use this shared runtime unless the task contract explicitly requires an
   independently owned runtime.
 
+## WSL Remote Check
+
+- On repeat WSL connection issues, consult Codex memory topic
+  `domainspec-core WSL remote baseline`; retest Windows interop outside the sandbox
+  before diagnosing a host failure, and verify NVM activation when Node is absent
+  from `PATH`.
+
 ## Route by Objective
 
 ### 1. Understanding the system / architecture
