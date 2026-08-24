@@ -1,0 +1,48 @@
+spine-check: 3 concepts (type_id, authority_effect, owner_route) over 5 dialects
+
+== body-war  (projects/body-war/ontology)
+   records                 334
+   type_id  OK/HOMONYM/ABS 316 / 0 / 18
+   authority_effect present 28 / absent 306  via authority_effect
+   owner_route      present 292 / absent 42  via owner_route
+   grammars normalized:  (no-ns)/slash/2seg x314, oew/dot/3seg x2
+
+== augmentor  (projects/augmentor/ontology)
+   records                 909
+   type_id  OK/HOMONYM/ABS 390 / 306 / 213
+   authority_effect present 251 / absent 658  via authority_effect
+   owner_route      present 200 / absent 709  via owner_route|lifecycleOwner|lifecycle_owner|next_owner
+   grammars normalized:  task-session/dot/3seg x129, augmentor/@/3seg x104, arcanum/slash/3seg x71, augmentor/slash/3seg x29
+   NOT-AN-ALIAS: authority_class x36 -> same as authorityClass
+   NOT-AN-ALIAS: authorityClass x91 -> values are {private} = a visibility class, disjoint from authority_effect's effect vocabulary
+   NOT-AN-ALIAS: ownerBoundaryResult x38 -> values are {pass,reject} = a check result, not an owner
+
+== cav2  (cyberAlchemy-v2/ontology)
+   records                 87
+   type_id  OK/HOMONYM/ABS 57 / 6 / 24
+   authority_effect present 2 / absent 85  via authority_effect
+   owner_route      NOT DECLARED by this owner (reported, not failed)
+   grammars normalized:  arcanum/dot/3seg x51, invoke/dot/3seg x6
+
+== orchestrator  (projects/cyberalchemy-orchestrator/docs/features/recursive-work-orchestrator/ontology)
+   records                 125
+   type_id  OK/HOMONYM/ABS 53 / 0 / 72
+   authority_effect present 64 / absent 61  via authority_effect
+   owner_route      present 22 / absent 103  via owner_route|owner_identity
+   grammars normalized:  (no-ns)/slash/2seg x45, rwo/dot/3seg x5, domainspec/dot/3seg x3
+
+== animejs  (projects/animejs/ontology)
+   records                 42
+   type_id  OK/HOMONYM/ABS 19 / 0 / 23
+   authority_effect present 12 / absent 30  via authority_effect
+   owner_route      NOT DECLARED by this owner (reported, not failed)
+   grammars normalized:  animejs/dot/3seg x19
+
+== TOTAL across 5 dialects
+   records 1497
+   type_id carried by 1147 records; 835 normalize under ONE function (73%),
+   312 are the bare-semver HOMONYM (same key, different concept)
+   350 records carry no type_id at all
+
+   VERDICT: conformance is computable across all 5 dialects with zero file
+            rewrites, because aliasing lives in the reader's table, not in the record.
