@@ -207,7 +207,8 @@ another repository package root.
   fresh remote, then rebase unpublished topic work or cherry-pick scoped commits.
   Run `make publication-check TARGET_BRANCH=master`; shared `master` advances only by
   fast-forward. Never rewrite published `master`; an intentional merge requires explicit
-  owner approval.
+  owner approval. In a clean worktree with absent child directories, commit verified
+  staged gitlinks from the index without trailing pathspecs, then run `make bump-check`.
 - Setup/health: `make bootstrap` · `make doctor` · `make config`. Full rules in the doc.
 
 ### 7. Direct local HTML preview
