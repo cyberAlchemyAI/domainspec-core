@@ -10,7 +10,7 @@ description: "Use when: executing or resuming one nearest evidence-backed bounde
 argument-hint: "[<task-reference|to <target>>] [--task <TASK-ID>] [--swu <SWU-ID>] [--until-blocker] [--list-nearest] [--from <path>] [--session <id>] [--runtime <id>] [--via runtime] [--follow-next-route] [--authorize-route <capability>:<mode>[:<mutation-mode>]] [--auto] [--dry-run] [--output <path>]"
 tier: arcana
 domain: guided-execution
-version: 0.8.2
+version: 0.8.3
 origin: generalized from recurring single-task execution governance practice
 allowed-tools: Read, Write, Glob, Grep, AskQuestions, Task, Bash
 ---
@@ -190,6 +190,16 @@ receipt, plan selection, and single-use admission. A path-only receipt or a
 receipt detached from its four logical inputs returns `BLOCK` before run-state
 writes.
 
+When the bound route also carries lifecycle synchronization and closeout
+scopes that are intentionally outside the executor admission, use the optional
+`task-session.fast-entry-route-scope-partition.v1` contract. It must partition
+the exact route scope into executor writes, one exact terminal receipt, and
+typed lifecycle-owner scopes. The normalized union must equal the bound route,
+the partitions must be disjoint, executor writes must still close two-way
+against admission, and every lifecycle scope must name its owner and closed
+write class. Requests without this opt-in contract retain the legacy exact
+route-to-executor closure rule.
+
 9a. After exact task/SWU resolution and before Context Builder, classify any
 declared `PreExecutionOwnerPrerequisite` with
 `scripts/classify-pre-execution-prerequisite.py`. Read only the selected work
@@ -286,6 +296,10 @@ assemble a mutation-admission request that binds the live task/SWU, exact
 controlling artifact references, dependency frontier, material writes,
 validation-owned execution outputs, their complete allowed-write union,
 validation commands, lifecycle owner, authority class, and publication class.
+When execution needs temporary repository-local files or directories, declare
+them separately as `transientOutputs`: an exact nonempty subset of execution
+outputs that requires the transient-aware admission version. Material target
+baselines remain material-only.
 The strict context pack must repeat the complete execution contract so the
 consumer can detect a material target relabeled as an execution output.
 Standalone non-mutating execution does not require this request.
@@ -323,6 +337,24 @@ declared output, and persist the terminal Task Session receipt as the final
 write. An `execution-output-only` admission grants no material mutation,
 promotion, publication, or lifecycle authority. Execution outputs are not
 required to exist at admission time and may not expand the admitted union.
+Transient outputs are never durable staged postimages. The governance request
+and ticket must type them separately, require absent pre-execution state,
+repository containment, non-overlap, and no symbolic-link traversal, and the
+executor receipt must record exact touch and cleanup evidence. Every transient
+must be absent before that receipt and remain absent through reconciliation and
+commit. A transient scope must also be disjoint by equality and ancestry from
+the run directory, plan-admission consumption ledger, pre-execution prerequisite
+ledger and resume receipt, the executor receipt, durable material and declared
+outputs, and terminal Task Session receipt. The executor receipt path remains
+exactly `<run-dir>/terminal-executor-receipt.json`; configuration may not move it
+outside the run directory. Enforce the complete reservation before the first
+run write. Bind the exact execution-ticket bytes to the ticketed checkpoint,
+then re-read the ticket's exact governance request and mutation-admission
+control. Require ordered transient equality across request, ticket, and
+admission, plus complete material, execution-output, and allowed-write
+partition closure. Recheck these bindings at status, executor launch and join,
+reconciliation, and commit.
+Existing non-transient requests retain the legacy contract unchanged.
 37h. When the audit profile is `selected-unit-at-task-session`, require the
 exact Plan Semantic Manifest and selection receipt before accepting material.
 Bind task, SWU, plan epoch, unit-contract digest, attempt, complete structured
@@ -362,10 +394,13 @@ ticket or pre-joined executor output cannot reuse or bypass that admission.
     recovery or a named accepted equivalent. Until the original validation or
     accepted equivalent passes, return `BLOCK`; recording a substitute does not
     itself satisfy the obligation.
-48a. For routed or reusable mutation, reconcile paths created or modified by
-     validation against `executionOutputs`. Block on an undeclared output, a
-     missing declared output, or any write outside `allowedWrites`. Write the
-     terminal Task Session receipt only after this reconciliation passes.
+48a. For routed or reusable mutation, reconcile durable staged postimages
+     against the ticket's `declared_outputs` one-to-one with material targets.
+     Separately reconcile every admitted transient against its exact touch and
+     cleanup result and recheck live absence. Block on an undeclared output,
+     missing durable output, missing or substituted transient evidence,
+     transient residue, or any write outside `allowedWrites`. Write the terminal
+     Task Session receipt only after this reconciliation passes.
 49. Return `FLAG` only for named noncritical residue that cannot falsify any
     done criterion. Unnamed residue or residue that can falsify a done criterion
     returns `BLOCK`.
@@ -517,6 +552,9 @@ A successful execution of this sigil must:
   class,
 - derive `material-bound` versus `execution-output-only` from normalized write
   partitions and bind it to the strict context execution contract,
+- for broad fast-entry routes, require an explicit versioned partition whose
+  executor, terminal, and typed lifecycle-owner scopes exactly reconstruct the
+  already-bound route and remain ticket-bound through closure,
 - require producer material evidence only for `material-bound` and forbid it
   for `execution-output-only`,
 - leave standalone non-mutating execution outside the receipt requirement,
@@ -565,6 +603,9 @@ Avoid:
 - treating a plan-once selection receipt as mutation authority, omitting the
   live target-baseline recheck, or launching an executor before atomic
   admission consumption,
+- globally weakening fast-entry route closure to subset containment, inferring
+  lifecycle ownership from pathnames, or relabeling lifecycle-owner scopes as
+  executor writes,
 - treating mutation admission as a substitute for live validation or as
   lifecycle authority,
 - falling through to a lower-priority candidate when the selected evidence is

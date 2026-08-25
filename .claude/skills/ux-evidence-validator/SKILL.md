@@ -26,7 +26,9 @@ Arcana: evidence-governed frontend validation and promotion boundary management.
 </logic-type>
 
 <status>
-Seed. The research artifacts and validator contract exist, but executable Playwright harness code and calibrated fixture evidence are not yet implemented.
+Seed. The research artifacts and validator contract exist, and a deterministic
+terminal-outcome kernel has development evidence. Executable Playwright browser
+checks and calibrated fixture evidence are not yet implemented.
 </status>
 
 <modes>
@@ -66,6 +68,16 @@ Expected inputs, if available:
 
 - target URL, local route, HTML artifact, or interface screenshot set,
 - scenario file or user-task description,
+- optional `surface_mode` describing whether success is persuasion, operation,
+  reading, or experience; this is planning context, never gate authority,
+- optional `design_authority` distinguishing observed incumbent values from
+  owner-confirmed normative contracts,
+- optional `content_profiles` covering empty, short, typical, long, localized,
+  bidirectional, numeric, and collection-size ranges,
+- optional `context_matrix` covering viewport, orientation, pointer/hover,
+  keyboard, touch, zoom, motion preference, contrast/theme, and connection,
+- optional `state_contract` naming required loading, empty, error, success,
+  recovery, persistence, permission, and interruption outcomes,
 - viewport and browser matrix,
 - product domain tags such as dashboard, ecommerce, authoring, service, marketing, game, or data tool,
 - source-card set or research artifact path,
@@ -77,15 +89,23 @@ Expected inputs, if available:
 1. Resolve mode. If no mode is provided, infer the smallest mode that fits the request and state the inference.
 2. Identify the evidence boundary: source-backed standards, browser-observable behavior, proxy claims, domain heuristics, and subjective/human-study claims.
 3. Load or create evidence cards before creating rule candidates.
-4. Map claims into `hard_gate`, `soft_flag`, `screenshot_review`, `human_study`, or `not_automatable`.
-5. Refuse to promote cognitive, neuroscience, or market claims directly into hard gates without a conservative UI proxy and fixture evidence.
-6. For `spec`, produce or update the L0-L6 validator contract and scenario shape.
-7. For `fixture-plan`, define known-good, known-bad, domain, and false-positive fixtures before implementation.
-8. For `calibrate`, run the harness against fixtures, compare expected vs observed findings, and tune thresholds only with source-card evidence.
-9. For `validate-interface`, drive Playwright with user-facing locators where possible and collect the required evidence outputs.
-10. For `report`, summarize findings with source cards, evidence paths, proxy limits, status, and residue.
-11. Preserve residues for subjective workload, comprehension, trust, confidence, delight, and real-user task success.
-12. Return the output contract and the next lifecycle step.
+4. For an external expert method, record its pinned revision, source class,
+   allowed use, and hard-gate ceiling. External guidance can generate scenarios
+   or review prompts but cannot independently authorize a hard gate.
+5. Map claims into `hard_gate`, `soft_flag`, `screenshot_review`, `human_study`, or `not_automatable`.
+6. Refuse to promote cognitive, neuroscience, market, aesthetic, or external
+   expert claims directly into hard gates without independent authority, a
+   conservative browser-observable proxy, and fixture evidence.
+7. For `spec`, compile declared planning inputs into the L0-L6 validator
+   contract and scenario shape. Do not invent missing product requirements.
+8. For `fixture-plan`, define known-good, known-bad, domain, stress/adaptation,
+   and false-positive fixtures before implementation.
+9. For `calibrate`, run the harness against fixtures, compare expected vs observed findings, and tune thresholds only with source-card evidence.
+10. For `validate-interface`, drive Playwright with user-facing locators where possible and collect the required evidence outputs.
+11. For `report`, summarize findings with source cards, expectation authority,
+    evidence paths, proxy limits, status, and residue.
+12. Preserve residues for subjective workload, comprehension, trust, confidence, delight, real-device correctness, and real-user task success.
+13. Return the output contract and the next lifecycle step.
 </process>
 
 <evidence-output-contract>
@@ -114,6 +134,8 @@ A successful run must:
 
 - keep deterministic browser failures separate from UX risk proxies,
 - cite source cards for every non-trivial UX claim,
+- identify whether each expected outcome comes from a standard, an explicit
+  product contract, a calibrated fixture contract, or a non-canonical method,
 - name what Playwright observed and what it cannot prove,
 - use hard gates only for deterministic or standards-backed failures,
 - require fixture calibration before promoting reusable hard gates,
@@ -121,6 +143,8 @@ A successful run must:
 - keep domain-specific market rules behind explicit domain tags,
 - report human-study claims instead of pretending automation can measure them,
 - preserve development status when fixture or implementation evidence is missing.
+- keep observed incumbent values separate from owner-confirmed normative
+  contracts, and never infer authority from repetition alone.
 </quality-bar>
 
 <anti-patterns>
@@ -131,6 +155,10 @@ Avoid:
 - converting neuroscience or cognitive science references into deterministic browser truth,
 - treating market heuristics as universal rules outside their domain,
 - blocking dense expert interfaces without false-positive calibration,
+- turning external design taste, aggregate scores, detector output, or
+  synthetic persona walkthroughs into evidence authority,
+- importing an external method's runtime, hooks, root files, visual system, or
+  numeric heuristics when source cards and scenario declarations are sufficient,
 - accepting screenshot diffs without stable fonts, data, motion, and viewport controls,
 - treating a good spec as implementation or promotion evidence.
 </anti-patterns>
@@ -148,6 +176,8 @@ For meaningful executions, record:
 - screenshot review count,
 - human-study residue count,
 - source-card coverage,
+- external-method card count and hard-gate-ceiling violations,
+- content, context, state, and fault-profile coverage,
 - fixture calibration status,
 - quality bar status,
 - anti-pattern hits,
@@ -163,6 +193,8 @@ Promotion requires:
 - Playwright evidence reports for fixture runs,
 - hard gates catching expected deterministic failures,
 - L4/L5 claims remaining explainable and non-blocking unless independently justified,
+- external expert methods remaining planning or review inputs unless an
+  independent source and calibrated fixtures justify a deterministic rule,
 - Experiment Harness report,
 - Sigil Development review.
 </promotion-gate>

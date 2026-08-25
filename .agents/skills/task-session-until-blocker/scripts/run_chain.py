@@ -284,6 +284,32 @@ def wpra_selection_errors(
     return errors
 
 
+def chain_config_approval_projection(config: dict[str, Any]) -> dict[str, Any]:
+    """Return the non-circular config surface an epoch owner approves."""
+    approved_epoch = json_clone(config["approved_epoch"])
+    approved_epoch.pop("decision_gate_approval_receipt_ref", None)
+    keys = (
+        "schema_version",
+        "chain_id",
+        "scope_id",
+        "manifest_ref",
+        "audit_report_ref",
+        "wpra_v2",
+        "finite_frontier",
+        "run_budget",
+        "risk_ceiling",
+        "allowed_task_session_flags",
+        "persistence",
+        "compensation",
+        "admission_window",
+    )
+    projection = {
+        key: json_clone(config[key]) for key in keys if key in config
+    }
+    projection["approved_epoch"] = approved_epoch
+    return projection
+
+
 def wpra_approval_errors(
     approval: dict[str, Any],
     config: dict[str, Any],
@@ -303,6 +329,16 @@ def wpra_approval_errors(
         "execution_contracts_ref": wpra["execution_contracts_ref"],
         "authority_effect": "chain-selection-only",
     }
+    if "admission_window" in config:
+        expected.update(
+            admission_window=config["admission_window"],
+            finite_frontier=config["finite_frontier"],
+            run_budget=config["run_budget"],
+            risk_ceiling=config["risk_ceiling"],
+            chain_config_projection_digest=digest(
+                chain_config_approval_projection(config)
+            ),
+        )
     return [
         f"epoch approval field differs: {field}"
         for field, value in expected.items()
@@ -325,17 +361,72 @@ def normalize_dependency_ids(
     return [swu_to_unit.get(value, value) for value in values]
 
 
+def safe_relative_path(value: Any, *, suffix: str | None = None) -> bool:
+    if (
+        not isinstance(value, str)
+        or not value
+        or any(marker in value for marker in ("\x00", "$", "*", "?", "\\"))
+        or PurePosixPath(value).is_absolute()
+        or PureWindowsPath(value).is_absolute()
+        or ".." in PurePosixPath(value).parts
+    ):
+        return False
+    return suffix is None or value.endswith(suffix)
+
+
+def ascii_fold(value: Any) -> str | None:
+    if not isinstance(value, str) or not value or not value.isascii():
+        return None
+    return value.translate(str.maketrans("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"))
+
+
+def valid_selected_unit_task_target(target: Any, unit_id: str) -> bool:
+    """Validate one safe relative Markdown selector bound to one frontier unit."""
+    if not isinstance(target, str) or target.count("#") != 1:
+        return False
+    base, fragment = target.split("#", 1)
+    folded_fragment = ascii_fold(fragment)
+    folded_unit = ascii_fold(unit_id)
+    return (
+        safe_relative_path(base, suffix=".md")
+        and folded_fragment is not None
+        and folded_fragment == folded_unit
+    )
+
+
+def validate_bound_schema(
+    root: Path, reference: Any, label: str
+) -> dict[str, Any]:
+    if not is_exact_ref(reference):
+        raise ValueError(f"{label} is not an exact schema reference")
+    schema = load_json(verify_exact_ref(root, reference))
+    try:
+        Draft202012Validator.check_schema(schema)
+    except Exception as error:
+        raise ValueError(f"{label} is not a valid JSON Schema: {error}") from error
+    return schema
+
+
 def bind_wpra_documents(
     manifest: dict[str, Any],
     config: dict[str, Any],
     documents: dict[str, dict[str, Any]],
     task_routes: dict[str, dict[str, Any]],
     closeout_routes: dict[str, dict[str, Any]],
+    repository_root: Path,
+    admitted_frontier: list[str] | None = None,
 ) -> dict[str, Any]:
     audit_config = documents["audit_config"]
-    contracts = documents["execution_contracts"]
+    contracts_document = documents["execution_contracts"]
+    nested_contracts = contracts_document.get("execution_contracts")
+    if nested_contracts is not None and not isinstance(nested_contracts, dict):
+        raise ValueError("WPRA nested execution contracts are not an object")
+    nested_profile = isinstance(nested_contracts, dict)
+    contracts = nested_contracts if nested_profile else contracts_document
+    contract_selector_prefix = "/execution_contracts" if nested_profile else ""
     handoff = documents["selection_handoff"]
     frontier = manifest["ready_frontier"]
+    admitted = frontier if admitted_frontier is None else admitted_frontier
     if audit_config.get("schema_version") != "2.0.0":
         raise ValueError("WPRA audit config is not v2")
     if (
@@ -355,9 +446,9 @@ def bind_wpra_documents(
     ):
         raise ValueError("WPRA route policy differs across frozen artifacts")
     work_pack_target = audit_config.get("execution_policy", {}).get("work_pack_id")
-    if not work_pack_target or any(
+    if not work_pack_target or (closeout_routes and any(
         route.get("target") != work_pack_target for route in closeout_routes.values()
-    ):
+    )):
         raise ValueError("WPRA closeout target differs from the work pack")
     if (
         handoff.get("plan_epoch_id") != manifest.get("plan_epoch_id")
@@ -401,6 +492,7 @@ def bind_wpra_documents(
         item.get("swu_id"): item.get("unit_id") for item in contract_units
     }
     normalized_bindings: list[dict[str, Any]] = []
+    all_normalized_bindings: list[dict[str, Any]] = []
     contracts_ref = config["wpra_v2"]["execution_contracts_ref"]
     for index, unit_id in enumerate(frontier):
         binding = binding_by_unit[unit_id]
@@ -458,42 +550,168 @@ def bind_wpra_documents(
         )
         observed_successors = binding.get("canonical_successors")
         terminal_successor = successor is None and observed_successors in (
-            [], ["__complete__"]
+            [], ["__complete__"], ["__window_complete__"]
         )
         if not terminal_successor and observed_successors != expected_successors:
             raise ValueError(f"WPRA successor differs for {unit_id}")
-        if task_routes[unit_id].get("write_scope") != binding.get("allowed_writes"):
-            raise ValueError(f"WPRA Task Session write scope differs for {unit_id}")
-        if task_routes[unit_id].get("expected_receipt") != contract.get(
-            "receipt_contract", {}
-        ).get("path"):
-            raise ValueError(f"WPRA terminal route differs for {unit_id}")
-        if closeout_routes[unit_id].get("write_scope") != contract.get(
-            "closeout_contract", {}
-        ).get("target_inventory"):
-            raise ValueError(f"WPRA closeout inventory differs for {unit_id}")
-        if closeout_routes[unit_id].get("expected_receipt") != contract.get(
-            "closeout_contract", {}
-        ).get("expected_owner_receipt"):
-            raise ValueError(f"WPRA closeout receipt differs for {unit_id}")
+        task_route = task_routes.get(unit_id)
+        if unit_id in admitted:
+            if task_route is None:
+                raise ValueError(f"WPRA Task Session route is absent for {unit_id}")
+            if task_route.get("write_scope") != binding.get("allowed_writes"):
+                raise ValueError(f"WPRA Task Session write scope differs for {unit_id}")
+            if task_route.get("expected_receipt") != contract.get(
+                "receipt_contract", {}
+            ).get("path"):
+                raise ValueError(f"WPRA terminal route differs for {unit_id}")
+        elif task_route is not None:
+            raise ValueError(f"WPRA Task Session route exceeds the admission window: {unit_id}")
+        receipt_contract = contract.get("receipt_contract", {})
+        closeout_contract = contract.get("closeout_contract", {})
+        if nested_profile:
+            if receipt_contract.get("receipt_profile") != "precloseout-execution-v1":
+                raise ValueError(f"WPRA receipt profile differs for {unit_id}")
+            schema_refs = {
+                "precloseout execution schema": receipt_contract.get(
+                    "precloseout_execution_schema_ref"
+                ),
+                "final terminal schema": receipt_contract.get(
+                    "final_terminal_schema_ref"
+                ),
+                "closeout owner schema": closeout_contract.get(
+                    "expected_owner_receipt_schema_ref"
+                ),
+                "continuation state schema": closeout_contract.get(
+                    "continuation_state_schema_ref"
+                ),
+                "Continuation Router schema": closeout_contract.get(
+                    "continuation_router_schema_ref"
+                ),
+            }
+            for label, schema_ref in schema_refs.items():
+                validate_bound_schema(
+                    repository_root, schema_ref, f"{unit_id} {label}"
+                )
+            required_paths = {
+                "terminal path": receipt_contract.get("path"),
+                "precloseout path": receipt_contract.get(
+                    "precloseout_execution_receipt_path"
+                ),
+                "target inventory path": closeout_contract.get(
+                    "target_inventory_path"
+                ),
+                "owner receipt path": closeout_contract.get(
+                    "expected_owner_receipt"
+                ),
+                "continuation state path": closeout_contract.get(
+                    "continuation_state_path"
+                ),
+                "Router receipt path": closeout_contract.get(
+                    "continuation_router_verification_receipt"
+                ),
+            }
+            if any(
+                not safe_relative_path(path)
+                for path in required_paths.values()
+            ):
+                missing = ", ".join(
+                    label
+                    for label, path in required_paths.items()
+                    if not safe_relative_path(path)
+                )
+                raise ValueError(
+                    f"WPRA closeout paths are absent or unsafe for {unit_id}: {missing}"
+                )
+            target_inventory = closeout_contract.get("target_inventory")
+            allowed_deltas = closeout_contract.get("allowed_delta_classes")
+            validation_commands = closeout_contract.get("validation_commands")
+            if (
+                not isinstance(target_inventory, list)
+                or not target_inventory
+                or len(target_inventory) != len(set(target_inventory))
+                or any(not safe_relative_path(path) for path in target_inventory)
+                or closeout_contract.get("continuation_state_path")
+                not in target_inventory
+            ):
+                raise ValueError(f"WPRA closeout inventory is incomplete for {unit_id}")
+            if (
+                not isinstance(allowed_deltas, list)
+                or not allowed_deltas
+                or len(allowed_deltas) != len(set(allowed_deltas))
+                or any(not isinstance(value, str) or not value for value in allowed_deltas)
+            ):
+                raise ValueError(f"WPRA closeout delta policy is incomplete for {unit_id}")
+            if not isinstance(validation_commands, list) or not validation_commands:
+                raise ValueError(f"WPRA closeout validation is incomplete for {unit_id}")
+            if (
+                closeout_contract.get("route") != "invoke:refresh:apply-approved"
+                or closeout_contract.get("continuation_policy")
+                != "emit-cursor-never-execute-successor"
+            ):
+                raise ValueError(f"WPRA closeout lifecycle differs for {unit_id}")
+            closeout_route = closeout_routes.get(unit_id) or {
+                "route_id": f"audit-bound-closeout-{unit_id}",
+                "frontier_swu": unit_id,
+                "capability": "invoke",
+                "mode": "refresh",
+                "target": work_pack_target,
+                "write_scope": json_clone(target_inventory),
+                "effect_class": "repository-local-reversible",
+                "required_inputs": [
+                    receipt_contract["precloseout_execution_receipt_path"]
+                ],
+                "expected_receipt": closeout_contract["expected_owner_receipt"],
+            }
+        else:
+            closeout_route = closeout_routes.get(unit_id)
+        if unit_id in admitted:
+            if closeout_route is None:
+                raise ValueError(f"WPRA closeout route is absent for {unit_id}")
+            if closeout_route.get("write_scope") != closeout_contract.get(
+                "target_inventory"
+            ):
+                raise ValueError(f"WPRA closeout inventory differs for {unit_id}")
+            if closeout_route.get("expected_receipt") != closeout_contract.get(
+                "expected_owner_receipt"
+            ):
+                raise ValueError(f"WPRA closeout receipt differs for {unit_id}")
         owner_ref = closeout.get("owner_receipt_contract_ref", {})
         if (
             owner_ref.get("artifact_ref") != contracts_ref
-            or owner_ref.get("selector") != f"/units/{index}/closeout_contract"
+            or owner_ref.get("selector")
+            != f"{contract_selector_prefix}/units/{index}/closeout_contract"
         ):
             raise ValueError(f"WPRA closeout contract ref differs for {unit_id}")
+        if nested_profile:
+            delta_ref = closeout.get("allowed_delta_policy_ref", {})
+            if (
+                delta_ref.get("artifact_ref") != contracts_ref
+                or delta_ref.get("selector")
+                != (
+                    f"{contract_selector_prefix}/units/{index}/"
+                    "closeout_contract/allowed_delta_classes"
+                )
+            ):
+                raise ValueError(f"WPRA allowed delta ref differs for {unit_id}")
         normalized = json_clone(binding)
         normalized.update(
             unit_contract_digest=manifest["unit_contract_digests"][unit_id],
-            task_route=json_clone(task_routes[unit_id]),
-            closeout_route=json_clone(closeout_routes[unit_id]),
+            contract_projection=(
+                "nested-selected-unit-precloseout-v1"
+                if nested_profile
+                else "flat-inline-closeout-v1"
+            ),
+            task_route=json_clone(task_route),
+            closeout_route=json_clone(closeout_route),
             gate_contract=json_clone(contract.get("gate_contract", {})),
             terminal_modes=json_clone(contract.get("terminal_modes", [])),
             terminal_write_policy=json_clone(contract.get("terminal_write_policy", {})),
             receipt_contract=json_clone(contract.get("receipt_contract", {})),
             closeout_contract=json_clone(contract.get("closeout_contract", {})),
         )
-        normalized_bindings.append(normalized)
+        all_normalized_bindings.append(normalized)
+        if unit_id in admitted:
+            normalized_bindings.append(normalized)
 
     normalized = dict(manifest)
     normalized["epoch_binding"] = {
@@ -502,11 +720,20 @@ def bind_wpra_documents(
         "canonical_semantic_digest": manifest["canonical_semantic_digest"],
         "source_snapshot_digest": manifest["source_snapshot_digest"],
     }
-    normalized["canonical_plan_graph"] = {"finite_frontier": frontier}
+    normalized["canonical_plan_graph"] = {"finite_frontier": admitted}
     normalized["execution_bindings"] = normalized_bindings
-    normalized["closeout_bindings"] = json_clone(closeout_bindings)
+    normalized["all_execution_bindings"] = all_normalized_bindings
+    normalized["closeout_bindings"] = [
+        json_clone(closeout_by_unit[unit_id]) for unit_id in admitted
+    ]
     normalized["wpra_v2_bound"] = True
-    normalized["wpra_initial_selection"] = frontier[0]
+    normalized["wpra_initial_selection"] = admitted[0]
+    if admitted != frontier:
+        normalized["fresh_epoch_boundary"] = True
+        normalized["fresh_epoch_ready_frontier"] = json_clone(frontier)
+        normalized["fresh_epoch_successor"] = (
+            frontier[1] if len(frontier) > 1 else None
+        )
     return normalized
 
 
@@ -515,6 +742,7 @@ def normalize_plan_semantic_manifest(
     config: dict[str, Any],
     audit_report: dict[str, Any] | None,
     wpra_documents: dict[str, dict[str, Any]] | None = None,
+    repository_root: Path | None = None,
 ) -> dict[str, Any]:
     """Adapt a WPRA v2 manifest without weakening its frozen bindings."""
     if "epoch_binding" in manifest:
@@ -583,6 +811,21 @@ def normalize_plan_semantic_manifest(
     if digest(manifest["allowed_routes"]) != manifest["allowed_routes_digest"]:
         raise ValueError("WPRA v2 allowed routes digest mismatch")
 
+    admission_window = config.get("admission_window")
+    admitted_frontier = frontier
+    if admission_window is not None:
+        selected = admission_window.get("selected_unit")
+        if (
+            admission_window.get("mode") != "fresh-current-unit"
+            or selected != frontier[0]
+            or config.get("finite_frontier") != [selected]
+            or config.get("run_budget", {}).get("max_task_session_requests") != 1
+        ):
+            raise ValueError("fresh epoch window is not bound to the current unit")
+        if admission_window.get("observed_ready_frontier_digest") != digest(frontier):
+            raise ValueError("fresh epoch window ready-frontier digest differs")
+        admitted_frontier = [selected]
+
     def valid_task_target(target: Any, unit_id: str) -> bool:
         """Accept a legacy unit selector or one strict ``base#unit`` selector."""
         if target == unit_id:
@@ -597,13 +840,27 @@ def normalize_plan_semantic_manifest(
             and fragment == unit_id
         )
 
-    current_v2 = any(
-        route.get("mode") in {"execute-one-swu", "refresh"}
-        for route in manifest["allowed_routes"]
-        if isinstance(route, dict)
-    )
+    current_v2 = isinstance(config.get("wpra_v2"), dict)
     if current_v2 and ("wpra_v2" not in config or wpra_documents is None):
         raise ValueError("current WPRA v2 routes require exact config and contract bindings")
+    if current_v2:
+        if repository_root is None:
+            raise ValueError("current WPRA v2 requires a repository root")
+        audit_config = wpra_documents.get("audit_config", {})
+        contracts_document = wpra_documents.get("execution_contracts", {})
+        contracts_projection = contracts_document.get(
+            "execution_contracts", contracts_document
+        )
+        if (
+            audit_config.get("admission_timing")
+            != "selected-unit-at-task-session"
+            or not isinstance(contracts_projection, dict)
+            or contracts_projection.get("admission_timing")
+            != "selected-unit-at-task-session"
+        ):
+            raise ValueError(
+                "config.wpra_v2 is not bound to selected-unit admission"
+            )
 
     task_routes: dict[str, dict[str, Any]] = {}
     closeout_routes: dict[str, dict[str, Any]] = {}
@@ -616,15 +873,25 @@ def normalize_plan_semantic_manifest(
         if route.get("effect_class") != "repository-local-reversible":
             raise ValueError("WPRA v2 allowed route has an unsafe effect class")
         if route.get("capability") == "task-session":
-            legacy_task = route.get("mode") == "execute" and valid_task_target(
+            legacy_task = not current_v2 and route.get(
+                "mode"
+            ) == "execute" and valid_task_target(
                 route.get("target"), unit_id
             )
             current_task = (
-                route.get("mode") == "execute-one-swu"
-                and isinstance(route.get("target"), str)
-                and route["target"].endswith(".md")
-                and not PurePosixPath(route["target"]).is_absolute()
-                and ".." not in PurePosixPath(route["target"]).parts
+                current_v2
+                and (
+                    (
+                        route.get("mode") == "execute-one-swu"
+                        and safe_relative_path(route.get("target"), suffix=".md")
+                    )
+                    or (
+                        route.get("mode") == "execute"
+                        and valid_selected_unit_task_target(
+                            route.get("target"), unit_id
+                        )
+                    )
+                )
             )
             if (not legacy_task and not current_task) or unit_id in task_routes:
                 raise ValueError("WPRA v2 Task Session route is ambiguous or invalid")
@@ -644,20 +911,26 @@ def normalize_plan_semantic_manifest(
             closeout_routes[unit_id] = route
         else:
             raise ValueError("WPRA v2 allowed route has an unsupported capability")
-    if set(task_routes) != set(frontier):
-        raise ValueError("WPRA v2 Task Session routes do not cover the ready frontier exactly")
+    if set(task_routes) != set(admitted_frontier):
+        raise ValueError("WPRA v2 Task Session routes do not cover the admitted frontier exactly")
     # WPRA v2 binds Task Session routes in the frozen manifest. Its closeout
     # contract is owned by the audited configuration, not necessarily emitted
     # as a second inline route. If a future projection does include inline
     # closeout routes, they must still cover the same frontier exactly.
-    if closeout_routes and set(closeout_routes) != set(frontier):
-        raise ValueError("WPRA v2 closeout routes do not cover the ready frontier exactly")
+    if closeout_routes and set(closeout_routes) != set(admitted_frontier):
+        raise ValueError("WPRA v2 closeout routes do not cover the admitted frontier exactly")
     if current_v2:
-        if set(closeout_routes) != set(frontier):
-            raise ValueError("current WPRA v2 closeout routes do not cover the frontier")
+        if closeout_routes and set(closeout_routes) != set(admitted_frontier):
+            raise ValueError("current WPRA v2 closeout routes do not cover the admitted frontier")
         assert wpra_documents is not None
         return bind_wpra_documents(
-            manifest, config, wpra_documents, task_routes, closeout_routes
+            manifest,
+            config,
+            wpra_documents,
+            task_routes,
+            closeout_routes,
+            repository_root,
+            admitted_frontier,
         )
 
     normalized = dict(manifest)
@@ -710,7 +983,7 @@ def preflight(
         return None, block("FROZEN_INPUT_MISMATCH", str(error))
     try:
         manifest = normalize_plan_semantic_manifest(
-            manifest, config, audit_report, wpra_documents
+            manifest, config, audit_report, wpra_documents, repository_root
         )
     except ValueError as error:
         return None, block("MANIFEST_SHAPE_INVALID", str(error))
@@ -825,6 +1098,16 @@ def admit_next_request(
     config: dict[str, Any], manifest: dict[str, Any], state: dict[str, Any]
 ) -> dict[str, Any]:
     if state["status"] == "COMPLETE":
+        if state.get("stop_code") == "FRESH_EPOCH_REQUIRED":
+            return {
+                "status": "COMPLETE",
+                "terminal_code": "FRESH_EPOCH_REQUIRED",
+                "claim": "the approved current-unit epoch is closed",
+                "next_task_session_selector": None,
+                "next_fresh_epoch_unit": manifest.get("fresh_epoch_successor"),
+                "next_route": "work-pack-readiness-audit",
+                "authority_effect": "none",
+            }
         return {
             "status": "COMPLETE",
             "terminal_code": "CHAIN_COMPLETE",
@@ -878,11 +1161,260 @@ def binding_for(manifest: dict[str, Any], unit_id: str) -> dict[str, Any] | None
     return next(
         (
             item
-            for item in manifest.get("execution_bindings", [])
+            for item in manifest.get(
+                "all_execution_bindings", manifest.get("execution_bindings", [])
+            )
             if item.get("unit_id") == unit_id
         ),
         None,
     )
+
+
+def bound_schema_errors(
+    root: Path,
+    document: dict[str, Any],
+    schema_ref: Any,
+    label: str,
+) -> list[str]:
+    try:
+        schema = validate_bound_schema(root, schema_ref, f"{label} schema")
+    except (OSError, ValueError, json.JSONDecodeError) as error:
+        return [str(error)]
+    return [
+        f"{label} invalid at "
+        f"{'/'.join(map(str, error.absolute_path)) or '<root>'}: {error.message}"
+        for error in sorted(
+            Draft202012Validator(schema).iter_errors(document),
+            key=lambda item: list(item.absolute_path),
+        )
+    ]
+
+
+def projected_closeout_receipt_errors(
+    root: Path,
+    terminal: dict[str, Any],
+    terminal_ref: dict[str, Any],
+    owner: dict[str, Any],
+    owner_ref: dict[str, Any],
+    router_ref: Any,
+    current: dict[str, Any],
+    successor: dict[str, Any] | None,
+) -> list[str]:
+    """Join the selected-unit precloseout lifecycle from its frozen schemas."""
+    errors: list[str] = []
+    receipt = current.get("receipt_contract", {})
+    closeout = current.get("closeout_contract", {})
+    errors.extend(
+        bound_schema_errors(
+            root,
+            terminal,
+            receipt.get("final_terminal_schema_ref"),
+            "final terminal receipt",
+        )
+    )
+    errors.extend(
+        bound_schema_errors(
+            root,
+            owner,
+            closeout.get("expected_owner_receipt_schema_ref"),
+            "closeout owner receipt",
+        )
+    )
+    for field, expected in {
+        "task_id": current.get("task_id"),
+        "swu_id": current.get("swu_id"),
+        "receipt_profile": "precloseout-execution-v1",
+    }.items():
+        if terminal.get(field) != expected:
+            errors.append(f"final terminal receipt field differs: {field}")
+    if terminal.get("result") not in {"pass", "flag"}:
+        errors.append("final terminal receipt is not passing or flagged")
+
+    precloseout_ref = terminal.get("precloseout_execution_receipt_ref")
+    if (
+        not is_exact_ref(precloseout_ref)
+        or precloseout_ref.get("path")
+        != receipt.get("precloseout_execution_receipt_path")
+    ):
+        errors.append("final terminal receipt does not bind the precloseout receipt")
+        precloseout = None
+    else:
+        try:
+            precloseout = load_exact_document(root, precloseout_ref)
+        except (OSError, ValueError, json.JSONDecodeError) as error:
+            errors.append(str(error))
+            precloseout = None
+    if terminal.get("precloseout_execution_schema_ref") != receipt.get(
+        "precloseout_execution_schema_ref"
+    ):
+        errors.append("final terminal receipt binds a different precloseout schema")
+    if precloseout is not None:
+        errors.extend(
+            bound_schema_errors(
+                root,
+                precloseout,
+                receipt.get("precloseout_execution_schema_ref"),
+                "precloseout execution receipt",
+            )
+        )
+        for field, expected in {
+            "task_id": current.get("task_id"),
+            "swu_id": current.get("swu_id"),
+            "claim_state": "execution-validated-closeout-pending",
+            "result": "pass",
+        }.items():
+            if precloseout.get(field) != expected:
+                errors.append(f"precloseout receipt field differs: {field}")
+        projected = precloseout.get("closeout_contract", {})
+        expected_projected = {
+            "route": closeout.get("route"),
+            "owner_capability": "invoke",
+            "source_receipt_path": receipt.get(
+                "precloseout_execution_receipt_path"
+            ),
+            "source_schema_ref": receipt.get(
+                "precloseout_execution_schema_ref"
+            ),
+            "expected_owner_receipt_path": closeout.get(
+                "expected_owner_receipt"
+            ),
+            "expected_owner_receipt_schema_ref": closeout.get(
+                "expected_owner_receipt_schema_ref"
+            ),
+            "final_terminal_receipt_path": receipt.get("path"),
+            "final_terminal_schema_ref": receipt.get(
+                "final_terminal_schema_ref"
+            ),
+            "allowed_delta_classes": closeout.get("allowed_delta_classes"),
+            "continuation_policy": closeout.get("continuation_policy"),
+        }
+        for field, expected in expected_projected.items():
+            if projected.get(field) != expected:
+                errors.append(f"precloseout closeout contract differs: {field}")
+        target_inventory_ref = projected.get("target_inventory_ref")
+        if (
+            not is_exact_ref(target_inventory_ref)
+            or target_inventory_ref.get("path")
+            != closeout.get("target_inventory_path")
+        ):
+            errors.append("precloseout target inventory differs from the contract")
+        else:
+            try:
+                verify_exact_ref(root, target_inventory_ref)
+            except (OSError, ValueError) as error:
+                errors.append(str(error))
+
+    owner_expected = {
+        "work_pack_id": current.get("closeout_route", {}).get("target"),
+        "task_id": current.get("task_id"),
+        "swu_id": current.get("swu_id"),
+        "authority_effect": "none",
+    }
+    for field, expected in owner_expected.items():
+        if owner.get(field) != expected:
+            errors.append(f"closeout owner receipt field differs: {field}")
+    if owner.get("result") not in {"pass", "no-op"}:
+        errors.append("closeout owner receipt is not passing")
+    if owner.get("precloseout_source_ref") != precloseout_ref:
+        errors.append("closeout owner does not bind the precloseout receipt")
+    if owner.get("router_verification_receipt_ref") != router_ref:
+        errors.append("closeout owner does not bind the Router receipt")
+    final_owner_write = owner.get("final_owner_write", {})
+    if (
+        final_owner_write.get("path") != closeout.get("expected_owner_receipt")
+        or final_owner_write.get("owner_capability") != "invoke"
+        or final_owner_write.get("completed") is not True
+    ):
+        errors.append("closeout owner final write differs from the contract")
+    owner_projection = dict(owner)
+    observed_owner_digest = owner_projection.pop("receipt_digest", None)
+    if observed_owner_digest != digest(owner_projection):
+        errors.append("closeout owner receipt digest differs")
+
+    continuation_ref = owner.get("continuation_state_ref")
+    if (
+        not is_exact_ref(continuation_ref)
+        or continuation_ref.get("path") != closeout.get("continuation_state_path")
+    ):
+        errors.append("closeout owner does not bind the continuation state")
+        continuation = None
+    else:
+        try:
+            continuation = load_exact_document(root, continuation_ref)
+        except (OSError, ValueError, json.JSONDecodeError) as error:
+            errors.append(str(error))
+            continuation = None
+    if continuation is not None:
+        errors.extend(
+            bound_schema_errors(
+                root,
+                continuation,
+                closeout.get("continuation_state_schema_ref"),
+                "continuation state",
+            )
+        )
+        expected_successor = successor.get("swu_id") if successor else None
+        continuation_expected = {
+            "work_pack_id": current.get("closeout_route", {}).get("target"),
+            "completed_swu": current.get("swu_id"),
+            "invoke_closeout_receipt_ref": owner_ref,
+            "router_verification_receipt_ref": router_ref,
+            "next_swu": expected_successor,
+            "execution_started": False,
+            "authority_effect": "none",
+        }
+        for field, expected in continuation_expected.items():
+            if continuation.get(field) != expected:
+                errors.append(f"continuation state field differs: {field}")
+
+    if (
+        not is_exact_ref(router_ref)
+        or router_ref.get("path")
+        != closeout.get("continuation_router_verification_receipt")
+    ):
+        errors.append("Router receipt does not match the closeout contract")
+        router = None
+    else:
+        try:
+            router = load_exact_document(root, router_ref)
+        except (OSError, ValueError, json.JSONDecodeError) as error:
+            errors.append(str(error))
+            router = None
+    if router is not None:
+        errors.extend(
+            bound_schema_errors(
+                root,
+                router,
+                closeout.get("continuation_router_schema_ref"),
+                "Continuation Router receipt",
+            )
+        )
+        if continuation is not None and router.get(
+            "returned_next_route"
+        ) != continuation.get("next_owner"):
+            errors.append("Router next route differs from the continuation state")
+
+    closeout_join = terminal.get("closeout_join", {})
+    if closeout_join.get("required_owner_capabilities") != ["invoke"]:
+        errors.append("final terminal owner capability differs")
+    joined = closeout_join.get("joined_owner_receipts", [])
+    if not isinstance(joined, list) or not any(
+        isinstance(item, dict)
+        and item.get("owner_capability") == "invoke"
+        and item.get("receipt_ref") == owner_ref
+        and item.get("result") == owner.get("result")
+        for item in joined
+    ):
+        errors.append("final terminal does not join the Invoke owner receipt")
+    terminal_continuation = closeout_join.get("continuation", {})
+    if (
+        terminal_continuation.get("policy")
+        != "emit-cursor-never-execute-successor"
+        or terminal_continuation.get("cursor_ref") != continuation_ref
+        or terminal_continuation.get("successor_executed") is not False
+    ):
+        errors.append("final terminal continuation join differs")
+    return errors
 
 
 def terminal_receipt_errors(
@@ -1104,10 +1636,19 @@ def mutation_admission_errors(
             errors.append(f"mutation request field differs: {field}")
     if request.get("executionMode") not in {"routed-mutation", "reusable-mutation"}:
         errors.append("mutation execution mode is not routed")
-    if successor.get("task_route", {}).get("target") not in {
+    task_target = successor.get("task_route", {}).get("target")
+    accepted_control_targets = {task_target}
+    if (
+        successor.get("contract_projection")
+        == "nested-selected-unit-precloseout-v1"
+        and isinstance(task_target, str)
+        and task_target.count("#") == 1
+    ):
+        accepted_control_targets.add(task_target.split("#", 1)[0])
+    if not accepted_control_targets.intersection({
         item.get("path") for item in request.get("controlArtifacts", [])
         if isinstance(item, dict)
-    }:
+    }):
         errors.append("mutation controls omit the frozen Task Session target")
 
     validation_contracts = successor.get("validation_contracts")
@@ -1174,7 +1715,11 @@ def wpra_successor_errors(
             errors.append(str(error))
             terminal = None
     successor = binding_for(manifest, expected_successor) if expected_successor else None
-    if terminal is not None:
+    projected_profile = (
+        current.get("contract_projection")
+        == "nested-selected-unit-precloseout-v1"
+    )
+    if terminal is not None and not projected_profile:
         errors.extend(
             terminal_receipt_errors(
                 repository_root, terminal, terminal_ref, current, successor, manifest
@@ -1196,27 +1741,41 @@ def wpra_successor_errors(
     if expected_successor is not None and successor is None:
         errors.append("successor binding is absent")
         return errors
-    if owner is not None:
-        errors.extend(closeout_owner_errors(owner, terminal_ref, current, successor))
     router_ref = closeout.get("continuation_router_verification_receipt_ref")
-    target_inventory = current.get("closeout_contract", {}).get("target_inventory", [])
-    router_paths = [
-        path for path in target_inventory
-        if path != current.get("closeout_contract", {}).get("expected_owner_receipt")
-    ]
-    if (
-        not is_exact_ref(router_ref)
-        or len(router_paths) != 1
-        or router_ref.get("path") != router_paths[0]
-    ):
-        errors.append("NEXT-ROUTE receipt does not match the frozen closeout inventory")
-    else:
-        try:
-            router = load_exact_document(repository_root, router_ref)
-            if owner is None or router != owner.get("next_route"):
-                errors.append("NEXT-ROUTE receipt differs from the accepted owner route")
-        except (OSError, ValueError, json.JSONDecodeError) as error:
-            errors.append(str(error))
+    if terminal is not None and owner is not None and projected_profile:
+        errors.extend(
+            projected_closeout_receipt_errors(
+                repository_root,
+                terminal,
+                terminal_ref,
+                owner,
+                owner_ref,
+                router_ref,
+                current,
+                successor,
+            )
+        )
+    elif owner is not None:
+        errors.extend(closeout_owner_errors(owner, terminal_ref, current, successor))
+    if not projected_profile:
+        target_inventory = current.get("closeout_contract", {}).get("target_inventory", [])
+        router_paths = [
+            path for path in target_inventory
+            if path != current.get("closeout_contract", {}).get("expected_owner_receipt")
+        ]
+        if (
+            not is_exact_ref(router_ref)
+            or len(router_paths) != 1
+            or router_ref.get("path") != router_paths[0]
+        ):
+            errors.append("NEXT-ROUTE receipt does not match the frozen closeout inventory")
+        else:
+            try:
+                router = load_exact_document(repository_root, router_ref)
+                if owner is None or router != owner.get("next_route"):
+                    errors.append("NEXT-ROUTE receipt differs from the accepted owner route")
+            except (OSError, ValueError, json.JSONDecodeError) as error:
+                errors.append(str(error))
 
     if expected_successor is None:
         return errors
@@ -1224,6 +1783,10 @@ def wpra_successor_errors(
     satisfied = set(state.get("visited", [])) | {expected_selector}
     if not set(successor.get("dependencies", [])).issubset(satisfied):
         errors.append("successor dependencies are not joined")
+    if manifest.get("fresh_epoch_boundary") is True:
+        # The next unit is declared and dependency-checked here, but its
+        # selection and mutation evidence must come from a new WPRA epoch.
+        return errors
     evidence = transition.get("wpra_v2_evidence")
     if not isinstance(evidence, dict):
         errors.append("WPRA successor evidence is absent from the transition")
@@ -1237,20 +1800,21 @@ def wpra_successor_errors(
         errors.append("successor admission refs are not exact")
         return errors
     required_inputs = successor.get("task_route", {}).get("required_inputs", [])
-    selection_paths = [path for path in required_inputs if path.endswith("/SELECTION-RECEIPT.json")]
-    mutation_paths = [path for path in required_inputs if path.endswith("/MUTATION-ADMISSION-RECEIPT.json")]
-    if (
-        len(selection_paths) != 1
-        or len(mutation_paths) != 1
-        or receipt_ref["path"] != selection_paths[0]
-        or mutation_ref["path"] != mutation_paths[0]
-        or request_ref["path"]
-        != str(PurePosixPath(selection_paths[0]).with_name("SELECTION-REQUEST.json"))
-        or mutation_request_ref["path"]
-        != str(PurePosixPath(mutation_paths[0]).with_name("MUTATION-ADMISSION-REQUEST.json"))
-    ):
-        errors.append("successor evidence paths differ from the frozen Task Session route")
-        return errors
+    if successor.get("contract_projection") != "nested-selected-unit-precloseout-v1":
+        selection_paths = [path for path in required_inputs if path.endswith("/SELECTION-RECEIPT.json")]
+        mutation_paths = [path for path in required_inputs if path.endswith("/MUTATION-ADMISSION-RECEIPT.json")]
+        if (
+            len(selection_paths) != 1
+            or len(mutation_paths) != 1
+            or receipt_ref["path"] != selection_paths[0]
+            or mutation_ref["path"] != mutation_paths[0]
+            or request_ref["path"]
+            != str(PurePosixPath(selection_paths[0]).with_name("SELECTION-REQUEST.json"))
+            or mutation_request_ref["path"]
+            != str(PurePosixPath(mutation_paths[0]).with_name("MUTATION-ADMISSION-REQUEST.json"))
+        ):
+            errors.append("successor evidence paths differ from the frozen Task Session route")
+            return errors
     try:
         request = load_exact_document(repository_root, request_ref)
         receipt = load_exact_document(repository_root, receipt_ref)
@@ -1282,7 +1846,12 @@ def wpra_successor_errors(
             errors.append(f"successor dependency binding is absent: {unit_id}")
             continue
         dependency_id = dependency.get("swu_id")
-        dependency_path = dependency.get("receipt_contract", {}).get("path")
+        dependency_path = (
+            dependency.get("closeout_contract", {}).get("expected_owner_receipt")
+            if successor.get("contract_projection")
+            == "nested-selected-unit-precloseout-v1"
+            else dependency.get("receipt_contract", {}).get("path")
+        )
         expected_dependency_ids.add(dependency_id)
         if dependency_path not in required_inputs:
             errors.append(f"frozen Task Session route omits dependency: {dependency_id}")
@@ -1519,9 +2088,13 @@ def evaluate_transition(
     closeout = transition["closeout"]
     current_index = len(state["visited"])
     expected_successor = (
-        config["finite_frontier"][current_index + 1]
-        if current_index + 1 < len(config["finite_frontier"])
-        else None
+        manifest.get("fresh_epoch_successor")
+        if manifest.get("fresh_epoch_boundary") is True
+        else (
+            config["finite_frontier"][current_index + 1]
+            if current_index + 1 < len(config["finite_frontier"])
+            else None
+        )
     )
     if closeout["result"] == "PASS":
         if (
@@ -1608,8 +2181,17 @@ def evaluate_transition(
         ), next_state
 
     next_state["visited"].append(expected_selector)
-    next_state["next_selector"] = expected_successor
-    if expected_successor is None:
+    fresh_epoch_required = (
+        manifest.get("fresh_epoch_boundary") is True
+        and expected_successor is not None
+    )
+    next_state["next_selector"] = None if fresh_epoch_required else expected_successor
+    if fresh_epoch_required:
+        next_state.update(status="COMPLETE", stop_code="FRESH_EPOCH_REQUIRED")
+        status = "COMPLETE"
+        code = "FRESH_EPOCH_REQUIRED"
+        next_route = "work-pack-readiness-audit"
+    elif expected_successor is None:
         next_state.update(status="COMPLETE", stop_code="CHAIN_COMPLETE")
         status = "COMPLETE"
         code = "CHAIN_COMPLETE"
@@ -1624,7 +2206,12 @@ def evaluate_transition(
         "terminal_code": code,
         "claim": "transition joined and finite frontier advanced",
         "transition_digest": transition_digest,
-        "next_task_session_selector": expected_successor,
+        "next_task_session_selector": (
+            None if fresh_epoch_required else expected_successor
+        ),
+        "next_fresh_epoch_unit": (
+            expected_successor if fresh_epoch_required else None
+        ),
         "next_route": next_route,
         "authority_effect": "none",
     }, next_state

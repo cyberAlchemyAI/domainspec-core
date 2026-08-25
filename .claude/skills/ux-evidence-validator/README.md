@@ -8,7 +8,10 @@ It is meant for the awkward but important middle ground between "the UI works in
 
 Status: seed.
 
-This package defines the research basis, evidence-card model, validator taxonomy, fixture plan, and lifecycle direction. It is not promoted and does not yet include executable Playwright validator code or calibrated fixture evidence.
+This package defines the research basis, evidence-card model, validator taxonomy,
+fixture plan, and lifecycle direction. A deterministic terminal-outcome kernel
+has development evidence, but the package is not promoted and does not yet
+include executable Playwright browser checks or calibrated fixture evidence.
 
 ## Problem It Solves
 
@@ -52,6 +55,30 @@ When these are collapsed into one "UX score," the result becomes untrustworthy. 
 | L5 Domain Practice | Ecommerce, service, dashboard, design-system, or platform rule packs. | Domain-specific soft flag unless deterministic. |
 | L6 Human Evidence | Workload, comprehension, trust, confidence, real task success. | Human-study or review residue. |
 
+## Optional Planning And Stress Overlays
+
+The validator may consume a UI or UX plan that declares:
+
+- the surface's success mode and the authority that owns its design contract;
+- empty, short, typical, long, localized, bidirectional, and large-collection
+  content profiles;
+- viewport, orientation, pointer/hover, keyboard, touch, zoom, motion,
+  contrast/theme, and connection contexts;
+- loading, empty, error, success, recovery, permission, persistence, and
+  interruption states.
+
+These declarations create scenario coverage; they do not become findings by
+themselves. Observed incumbent values remain observations until an owner adopts
+them as normative product contracts.
+
+Public external methods may be represented by revision-pinned evidence cards.
+Their default ceiling is planning input, soft flag, screenshot review, or human
+residue. No external expert method can independently authorize a reusable hard
+gate, numeric threshold, visual preference, or aggregate UX score.
+
+The sigil consumes source cards and scenario files, not an external design
+tool's package, hooks, detector, browser runtime, root files, or visual system.
+
 ## Development Artifacts
 
 | Artifact | Purpose |
@@ -83,6 +110,8 @@ Promotion requires:
 - known-good and known-bad fixture runs,
 - Playwright evidence written to the declared output root,
 - hard gates catching deterministic failures,
+- stress/adaptation fixtures covering declared content, input, motion, zoom,
+  recovery, and persistence profiles,
 - soft flags remaining explainable and source-card-linked,
 - at least one false-positive trap proving density and salience checks do not block expert tools by default,
 - Sigil Development review of experiment reports and observability signals.
