@@ -1,19 +1,24 @@
 # Submodule discipline helpers — see SUBMODULE-DISCIPLINE.md
-.PHONY: bootstrap config status sync bump-check doctor help
+REMOTE ?= origin
+TARGET_BRANCH ?= master
+
+.PHONY: bootstrap config status sync publication-check bump-check doctor help
 
 help: ## Show this help
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-12s %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-20s %s\n", $$1, $$2}'
 
 bootstrap: ## First-time setup after clone (init recursive + config)
 	git submodule update --init --recursive
 	$(MAKE) config
 
-config: ## Set repo-standard submodule git config (per clone, local)
+config: ## Set repo-standard Git safety config (per clone, local)
 	git config submodule.recurse true
 	git config status.submoduleSummary true
 	git config diff.submodule log
 	git config push.recurseSubmodules check
-	@echo "submodule config set."
+	git config pull.ff only
+	git config merge.ff only
+	@echo "repository Git config set."
 
 status: ## Show submodule drift vs recorded pointers
 	git submodule status --recursive
@@ -23,6 +28,41 @@ status: ## Show submodule drift vs recorded pointers
 sync: ## Pull each submodule to the tip of its tracked branch
 	git submodule update --remote --recursive
 	@echo "Submodules moved to their tracked-branch tips. Review, then 'make bump-check'."
+
+publication-check: ## Verify a clean, merge-free fast-forward publication delta
+	@set -eu; \
+		remote='$(REMOTE)'; \
+		target='$(TARGET_BRANCH)'; \
+		git remote get-url "$$remote" >/dev/null 2>&1 \
+			|| { echo "BLOCKED: remote '$$remote' does not exist."; exit 1; }; \
+		git check-ref-format "refs/heads/$$target" >/dev/null 2>&1 \
+			|| { echo "BLOCKED: invalid target branch '$$target'."; exit 1; }; \
+		dirty="$$(git -c submodule.recurse=false status --porcelain=v1 --untracked-files=all --ignore-submodules=none)"; \
+		if test -n "$$dirty"; then \
+			echo "BLOCKED: publication checks must run from a clean isolated worktree."; \
+			printf '%s\n' "$$dirty"; \
+			exit 1; \
+		fi; \
+		target_ref="refs/remotes/$$remote/$$target"; \
+		git -c submodule.recurse=false fetch --no-tags --no-recurse-submodules "$$remote" \
+			"refs/heads/$$target:$$target_ref"; \
+		if ! git merge-base --is-ancestor "$$target_ref" HEAD; then \
+			echo "BLOCKED: HEAD is not based on fresh $$remote/$$target."; \
+			echo "Rebase unpublished topic work or cherry-pick scoped commits onto $$target_ref."; \
+			exit 1; \
+		fi; \
+		merges="$$(git rev-list --merges "$$target_ref"..HEAD)"; \
+		if test -n "$$merges"; then \
+			echo "BLOCKED: publication delta contains merge commits:"; \
+			git log --oneline --merges "$$target_ref"..HEAD; \
+			exit 1; \
+		fi; \
+		git diff --check "$$target_ref"..HEAD; \
+		echo "Publication commits:"; \
+		git log --oneline "$$target_ref"..HEAD; \
+		echo "Publication paths:"; \
+		git diff --stat "$$target_ref"..HEAD; \
+		echo "OK: HEAD is a clean, merge-free fast-forward of $$remote/$$target."
 
 bump-check: ## Verify submodule commits are pushed before bumping the parent
 	@git push --recurse-submodules=check --dry-run >/dev/null 2>&1 \

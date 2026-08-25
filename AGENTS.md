@@ -203,6 +203,11 @@ another repository package root.
   `make bump-check` before pushing). **No detached HEAD** — track `main`, advance via
   `make sync` (if detached, `git -C <path> checkout main`). **Public/private boundary** —
   never put private content in `arcanum` (public).
+- **Linear publication** — fetch the target, use a clean branch/worktree based on the
+  fresh remote, then rebase unpublished topic work or cherry-pick scoped commits.
+  Run `make publication-check TARGET_BRANCH=master`; shared `master` advances only by
+  fast-forward. Never rewrite published `master`; an intentional merge requires explicit
+  owner approval.
 - Setup/health: `make bootstrap` · `make doctor` · `make config`. Full rules in the doc.
 
 ### 7. Direct local HTML preview
