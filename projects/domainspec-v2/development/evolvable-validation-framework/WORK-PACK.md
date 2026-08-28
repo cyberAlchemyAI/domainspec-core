@@ -1,10 +1,10 @@
 ---
 module: graph-composability-evidence-spine
 version: current
-status: candidate-awaiting-task-session
-updatedAt: 2026-07-20
+status: candidate-local-l2-reachability-validated-with-flags
+updatedAt: 2026-08-21
 docType: work-pack
-workPackGateStatus: block
+workPackGateStatus: flag
 complexity: high
 outputMode: split
 executionPackRef: EXECUTION-PACK.md
@@ -13,7 +13,7 @@ dispatchTechniqueTrace: DISPATCH-SPEC.json
 distillValidationStatus: pass-with-flags
 swuAtomicityStatus: pass
 firstUnitNarrownessStatus: pass
-activeLayerWindow: L0
+activeLayerWindow: L2-reconciled/L3-design-gated
 readinessProfile: pilot
 ---
 
@@ -32,13 +32,31 @@ readinessProfile: pilot
 
 ## Gate And Scope
 
-This work-pack is planning-complete but not execution-authorized. `ready-after-
-selection` means a Task Session may select exactly one SWU after reviewing its
-context. It does not permit implementation from Invoke.
+This work-pack was planning-complete but not execution-authorized through the
+governed Task Session route. The owner later authorized a bounded
+candidate-local fast lane. Its evidence is reconciled below without inventing
+the twelve lifecycle receipts that the fast lane explicitly deferred.
 
 `DEC-GCP-002` is accepted: the executable core and private IOLM consumer are two
 independently closable proof lanes. The IOLM run is an external handoff, not a
 new EVF implementation task and not a dependency of the L0 verdict.
+
+## Observed Evidence Overlay
+
+This overlay records what the live bytes prove. It does not change the linked
+task and wave files from their governed lifecycle status.
+
+| Layer | Observed result | Evidence ceiling |
+| --- | --- | --- |
+| L0 | key-and-door validation PASS | one candidate-local `enforces` slice |
+| L1 | P4 and R4 composite validation PASS | two distinct Financial Settlement slices on one frozen graph/source digest |
+| L2 | C0-C3 validation PASS; Souffle and Alloy join consistently | one selected reachability property over one exact shared fact snapshot |
+| Closure | independent receipt is FLAG with zero blockers and 35/35 exact refs fresh | authority none; release not granted |
+
+The full `TASK-GCP-GRAPH-LAWS` contract is not complete because its canonical
+scope includes cycle and closure as well as reachability. The twelve declared
+precloseout, Refresh, and Task Session result receipts remain absent by design;
+none is synthesized retrospectively.
 
 ## Delivery Slices And Waves
 
@@ -48,8 +66,8 @@ new EVF implementation task and not a dependency of the L0 verdict.
 | S1 | one positive/negative `enforces` receipt | L0 | [W1](work-pack/waves/W1-ENFORCES.md) | S0 | replay and mutation checks |
 | S1C | independent IOLM consumption of the exact successful S1 handle | L0C, sibling lane | external IOLM work-pack | S1 + IOLM candidate substrate | fresh narrow IOLM receipt with identity, parity, and overlay negatives |
 | S2 | repeatable second admitted slice | L1 | [W2](work-pack/waves/W2-GRAPH-LAWS.md) | S1 | digest comparison |
-| S3 | bounded graph-law evaluator | L2 | [W2](work-pack/waves/W2-GRAPH-LAWS.md) | S2 | independent graph receipts |
-| S4 | breadth and consumer handoff | L3 | [W3](work-pack/waves/W3-BREADTH.md) | S3 | BTE/consumer evidence |
+| S3 | one bounded reachability evaluator is validated; cycle and closure remain deferred | L2 | [W2](work-pack/waves/W2-GRAPH-LAWS.md) | S2 | exact provider/join receipts and independent closure |
+| S4 | breadth and consumer handoff, after current denominator ratification | L3 | [W3](work-pack/waves/W3-BREADTH.md) | selected L2 result plus owner decision | BTE/consumer evidence |
 
 ## Task Status Board
 
@@ -77,11 +95,11 @@ new EVF implementation task and not a dependency of the L0 verdict.
 
 | ID | Scope | Description | Owner | Next action |
 | --- | --- | --- | --- | --- |
-| GCP-B-001 | L0 | end-to-end binding/evaluator/receipt path is not implemented | Task Session | execute only `SWU-GCP-001` |
+| GCP-B-001 | L0 governance | end-to-end path passes candidate-local validation, but governed closeout receipts are absent | Invoke/Craft owner | retain the exact evidence without retrospective receipts |
 | GCP-B-002 | L1+ | current IR has closed node/edge unions | DomainSpec implementer | design admission extension after L0 |
-| GCP-B-003 | L2 | cross-graph evaluator and independent oracle are missing | research/implementation | keep graph-law task blocked |
-| GCP-B-004 | L3 | broad BTE and consumer proof remains separate | backend lane owner | hand off after L2 |
-| GCP-B-005 | L0 | key-and-door Rule has no authored formal predicate or fixture-input source, so a real assertion cannot be derived honestly | user / Task Session | resolve [DEC-GCP-001](decisions/2026-07-20-key-and-door-formal-source.md) |
+| GCP-B-003 | L2 remainder | exact reachability evaluation exists; cycle and closure properties are not implemented | research/implementation | keep the broader graph-law task open |
+| GCP-B-004 | L3 | breadth plan says 16 signatures while the live denominator is 17; corpus coverage for `creates` is not owner-ratified | backend lane owner | decide exact 17/17 membership and corpus boundary before Refine Plan |
+| GCP-B-005 | L0 | exact authored key-and-door predicate and fixture source now pass the candidate-local validation receipt | Invoke/Craft owner | preserve as resolved evidence; do not infer release admission |
 | GCP-B-006 | L0C external | IOLM candidate substrate lacks the upstream cross-feature-support receipt required before its consumer run | IOLM / DomainSpec owner route | preserve the L0 verdict; resume the IOLM lane only after its own receipt gate passes |
 
 ## External Consumer Handoff
@@ -116,7 +134,7 @@ atomicity and narrowness; later graph-law and breadth tasks carry explicit flags
 
 ## Navigation
 
-1. Read [work-pack/shared/CONTEXT.md](work-pack/shared/CONTEXT.md).
-2. Review [TASK-GCP-ENFORCES](work-pack/tasks/TASK-GCP-ENFORCES.md).
-3. Select only `SWU-GCP-001` in a Task Session.
-4. Return its receipt to [TASK-GCP-VERIFY](work-pack/tasks/TASK-GCP-VERIFY.md).
+1. Read the candidate-local evidence overlay and independent closure receipt.
+2. Preserve the governed task/wave files and the twelve absent lifecycle receipts.
+3. Resolve the live 17-signature L3 denominator and corpus boundary through an owner decision gate.
+4. Run Refine Plan only after that decision; do not select or execute an L3 unit from this reconciliation.

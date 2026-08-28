@@ -75,7 +75,7 @@ currently carries endpoint pressure for them, but edge use alone does not promot
 | **actor** | `performs` | Entity does an Operation |
 | **produce** | `produces` (→Event), `creates` (→same-feature Entity), `produces-for` (→cross-feature Entity) | an Operation's output or creation effect |
 | **govern** | `enforces` (same verb with `@cross` placement), `applies` | a Rule blocks / a Policy steers an Operation |
-| **derive** | `calculates`, `queries` | a Calculation/Query reads to produce values |
+| **derive / read** | `calculates`, `reads` | a Calculation derives from explicit inputs; a Query or Operation reads Entity data |
 | **structure** | `contains` | an Entity embeds a Value Object |
 | **lifecycle** | `transitions` | an Event moves a State Machine |
 | **announce** | `emits` (Entity→Event), `triggers-cross` (`@cross`) | events out / cross-feature triggers |

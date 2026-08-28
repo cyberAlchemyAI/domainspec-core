@@ -45,7 +45,7 @@ create a definition, or make a candidate active.
 | `applies` | card, L90 | active, L164-L177 | `evidence-ready` | Runtime strategy selection. | Subset only: Operation target does not evidence Calculation target. |
 | `maps` | card, L91 | active, L180-L193 | `evidence-ready` | Explicit boundary shape conversion. | Stage shown Interface case under current target union. |
 | `contains` | card, L92 | active, L196-L209 | `evidence-ready` | Entity field placement for immutable values. | Stage under current endpoints. |
-| `queries` | card, L93 | active, L212-L225 | `evidence-ready` | Read ownership and entity access. | Subset only: Query source does not evidence Calculation/Operation sources. |
+| `reads` | card, L93 | active, L212-L225 | `evidence-ready` | Entity-data dependency without ownership. | Subset only: Query source does not evidence the admitted Operation source; Calculation is excluded. |
 | `emits` | card, L94 | active, L228-L241 | `evidence-ready` | Entity as event subject/source. | Preserve non-collapse from successful Operation `produces`. |
 | `renders` | card, L100 | active, L276-L289 | `evidence-ready` | Page render-tree boundary. | Stage under current UI scope and multiplicity. |
 | `wraps` | card, L101 | active, L292-L305 | `evidence-ready` | Shared layout shell over routes. | Stage under current UI scope and multiplicity. |

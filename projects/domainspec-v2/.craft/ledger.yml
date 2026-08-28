@@ -7,6 +7,7 @@ craft:
   title: DomainSpec v2 — implementation home
   root_context_id: CTX-DSV2-ROOT
   scope: projects/domainspec-v2
+  updated_at: 2026-08-24
   source_contracts:
     - IMPORT-MANIFEST.md
     - authority/AUTHORITY-MODEL.md
@@ -39,6 +40,36 @@ indexes:
     CTX-DSV2-IMPL-CONFORMANCE: contexts[21]
     CTX-DSV2-EVF: contexts[22]
     CTX-DSV2-MTF: contexts[23]
+    CTX-DSV2-FORMAT-HONESTY: contexts[24]
+    CTX-DSV2-BMC: contexts[25]
+    CTX-DSV2-BMC-REL: contexts[26]
+    CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE: contexts[27]
+    CTX-DSV2-ORODI: contexts[28]
+    DESC-DSV2-ROOT-001: descriptions[0]
+    DESC-DSV2-DEFINITIONS-001: descriptions[1]
+    DESC-DSV2-DEFINITIONS-002: descriptions[2]
+    DESC-DSV2-METATYPE-001: descriptions[3]
+    DESC-DSV2-METATYPE-002: descriptions[4]
+    DESC-DSV2-METATYPE-003: descriptions[5]
+    DESC-DSV2-METATYPE-004: descriptions[6]
+    DESC-DSV2-METATYPE-005: descriptions[7]
+    DESC-DSV2-METATYPE-006: descriptions[8]
+    DESC-DSV2-METATYPE-DEFS-001: descriptions[9]
+    DESC-DSV2-METATYPE-DEFS-002: descriptions[10]
+    DESC-DSV2-METATYPE-DEFS-003: descriptions[11]
+    DESC-DSV2-APE-001: descriptions[12]
+    DESC-DSV2-BATCH1-RETRIAGE-001: descriptions[13]
+    DESC-DSV2-SATURN-AXIOM-001: descriptions[14]
+    DESC-DSV2-R1-AXIOMS-CLOSEOUT-001: descriptions[15]
+    DESC-DSV2-R0-001: descriptions[16]
+    DESC-DSV2-SPEC-HOMING-001: descriptions[17]
+    DESC-DSV2-APE-002: descriptions[18]
+    DESC-DSV2-ROOT-SCAN-20260819: descriptions[19]
+    DESC-DSV2-EVF-L2-RECONCILIATION-20260821: descriptions[20]
+    DESC-DSV2-ROOT-SCAN-20260823: descriptions[21]
+    DESC-DSV2-BMC-001: descriptions[22]
+    DESC-DSV2-SPEC-ONTOLOGY-002: descriptions[23]
+    DESC-DSV2-ORODI-001: descriptions[24]
     DEC-FPR01-002-ADOPTION-ACTIVATION: decisions[0]
     DEC-DSV2-FPR-W0-PROOF-SYNC: decisions[1]
     DEC-DSV2-FPR-SGRM007-ACTIVATION: decisions[2]
@@ -49,6 +80,10 @@ indexes:
     DEC-DSV2-SPEC-HOMING: decisions[7]
     DEC-B1-SATURN-AXIOM-SCOPE: decisions[8]
     DEC-DSV2-FIRST-STABLE-FOUNDATION: decisions[9]
+    DEC-DSV2-SPEC-ONTOLOGY-ARCHITECTURE-001: decisions[10]
+    DEC-DSV2-BMC-REL-N05: decisions[11]
+    DEC-DSV2-ORODI-OWNER-BINDING-AUTHORITY: decisions[12]
+    DEC-DSV2-ORODI-LIVE-TARGET-DEFER: decisions[13]
     BLK-FPR01003-001: blockers[0]
     BLK-FPR01003-002: blockers[1]
     BLK-FPR01003-003: blockers[2]
@@ -61,6 +96,13 @@ indexes:
     BLK-DSV2-SICL-REV2-REFRESH: blockers[9]
     BLK-DSV2-FORM-QUEUE-EMPTY: blockers[10]
     BLK-DSV2-SFC-PR001-PROFILE-ABSENT: blockers[11]
+    BLK-DSV2-P2-DENOMINATOR-DRIFT: blockers[12]
+    BLK-DSV2-REFINE-PLAN-ADMISSIBILITY: blockers[13]
+    BLK-DSV2-SPEC-ONTOLOGY-VERIFIER-ADMISSION: blockers[14]
+    BLK-DSV2-BMC-REL-N05: blockers[15]
+    BLK-DSV2-PROOF-GATE01-BINDING: blockers[16]
+    BLK-DSV2-EVF-P0-EXECUTION-ADMISSION: blockers[17]
+    BLK-DSV2-ORODI-LIVE-BINDINGS: blockers[18]
     GAP-DSV2-EDGE-CATALOG: gaps[0]
     GAP-DSV2-COMPOSABILITY-ENFORCE: gaps[1]
     GAP-SH-UI11-MIGRATE: gaps[2]
@@ -79,6 +121,38 @@ indexes:
     GAP-DSV2-FMP-TRACE: gaps[15]
     GAP-DSV2-TWO-LANE-INTEGRATION: gaps[16]
     GAP-DSV2-SFC-004-FUSED: gaps[17]
+    GAP-DSV2-CARD-EDGE-DRIFT: gaps[18]
+    GAP-DSV2-BMC-REALIZATION-BINDINGS: gaps[19]
+    GAP-DSV2-FMT-SWU001-CLOSEOUT: gaps[20]
+    GAP-DSV2-EVF-SMT-PROVIDER: gaps[21]
+    GAP-DSV2-ORODI-TOOL-PROFILE-ADMISSION: gaps[22]
+    DEF-DSV2-TWO-PLANE: definitions[0]
+    DEF-DSV2-EXEC-GRAPH: definitions[1]
+    DEF-DSV2-EDGE-ADMISSIBILITY: definitions[2]
+    FPR-D01: definitions[3]
+    FPR-D02: definitions[4]
+    FPR-D03: definitions[5]
+    FPR-D04: definitions[6]
+    FPR-D05: definitions[7]
+    FPR-D06: definitions[8]
+    FPR-D07: definitions[9]
+    FPR-D08: definitions[10]
+    FPR-D09: definitions[11]
+    FPR-D10: definitions[12]
+    FPR-D11: definitions[13]
+    FPR-D12: definitions[14]
+    FPR-D13: definitions[15]
+    FPR-D14: definitions[16]
+    FPR-D15: definitions[17]
+    FPR-D16: definitions[18]
+    FPR-D17: definitions[19]
+    FPR-D18: definitions[20]
+    FPR-D19: definitions[21]
+    FPR-D20: definitions[22]
+    FPR-D21: definitions[23]
+    FPR-D22: definitions[24]
+    FPR-D23: definitions[25]
+    FPR-D24: definitions[26]
     ART-DSV2-IMPORT-MANIFEST: artifacts[0]
     ART-DSV2-IMPL: artifacts[1]
     ART-DSV2-AUTHORITY: artifacts[2]
@@ -171,6 +245,46 @@ indexes:
     ART-DSV2-SFC-OWNER-REVIEW: artifacts[89]
     ART-DSV2-SFC-CROSS-TASK-GAPS: artifacts[90]
     ART-DSV2-SFC-CLOSEOUT-CONTRACT: artifacts[91]
+    ART-DSV2-P2-RATIFICATION-PROPOSAL: artifacts[92]
+    ART-DSV2-SMO-PROFILE-CANDIDATE: artifacts[93]
+    ART-DSV2-LIVE-PROFILE-REGISTRY: artifacts[94]
+    ART-DSV2-P2-COUNT-PATCH: artifacts[95]
+    ART-DSV2-FMT-WORK-PACK: artifacts[96]
+    ART-DSV2-FMT-EXECUTION-ENTRY: artifacts[97]
+    ART-DSV2-FMT-SIDECAR: artifacts[98]
+    ART-DSV2-FMT-CHAIN-RECORD: artifacts[99]
+    ART-DSV2-FMT-REFINE-RESULT: artifacts[100]
+    ART-DSV2-RMT002-PROTOTYPE-VALIDATION: artifacts[101]
+    ART-DSV2-RMT002R-WORK-PACK: artifacts[102]
+    ART-DSV2-RMT002R-TERMINAL: artifacts[103]
+    ART-DSV2-EVF-L2-PROTOTYPE: artifacts[104]
+    ART-DSV2-EVF-L2-CLOSURE: artifacts[105]
+    ART-DSV2-CRAFT-REFRESH-20260823: artifacts[106]
+    ART-DSV2-APE-WORK-PACK: artifacts[107]
+    ART-DSV2-APE-OP-VERIFICATION: artifacts[108]
+    ART-DSV2-APE-WF-VERIFICATION: artifacts[109]
+    ART-DSV2-BMC-REFINE-RESULT: artifacts[110]
+    ART-DSV2-BMC-EVD-RECEIPT: artifacts[111]
+    ART-DSV2-BMC-MATURITY-MATRIX: artifacts[112]
+    ART-DSV2-BMC-REL-PACKET: artifacts[113]
+    ART-DSV2-BMC-REL-DESIGN-RESULT: artifacts[114]
+    ART-DSV2-PROOF-SYNTAX-CANDIDATE: artifacts[115]
+    ART-DSV2-PROOF-SYNTAX-ACCEPTANCE: artifacts[116]
+    ART-DSV2-SPEC-ONTOLOGY-DECISION: artifacts[117]
+    ART-DSV2-SPEC-ONTOLOGY-R4-OWNER-DECISION: artifacts[118]
+    ART-DSV2-SPEC-ONTOLOGY-R4-VERIFIER-REQUEST: artifacts[119]
+    ART-DSV2-EVF-RUNTIME-OWNER-ACCEPTANCE: artifacts[120]
+    ART-DSV2-EVF-OWNER-PACKET-RECEIPT: artifacts[121]
+    ART-DSV2-EVF-PROOF-ENGINE-RECONCILIATION: artifacts[122]
+    ART-DSV2-EVF-S1-BINDING-REPAIR: artifacts[123]
+    ART-DSV2-EVF-FORMAT-BASELINE: artifacts[124]
+    ART-DSV2-FMT-SWU001-RESULT: artifacts[125]
+    ART-DSV2-SFC-SOURCE-REFRESH: artifacts[126]
+    ART-DSV2-ORODI-RESEARCH: artifacts[127]
+    ART-DSV2-ORODI-INVOKE-DEFINE: artifacts[128]
+    ART-DSV2-ORODI-INVOKE-DESIGN: artifacts[129]
+    ART-DSV2-ORODI-INVOKE-PLAN: artifacts[130]
+    ART-DSV2-ORODI-OWNER-BINDING-DECISION: artifacts[131]
     REC-DSV2-GREEN: recompositions[0]
     REC-DSV2-TOY: recompositions[1]
     REC-DSV2-FIRST-PRODUCTION-RELEASE: recompositions[2]
@@ -178,16 +292,22 @@ indexes:
     REC-DSV2-FPR02-UI: recompositions[4]
     REC-DSV2-FPR-VISIBILITY: recompositions[5]
   open_decisions:
-  - DEC-DSV2-LANE-ZA
-  blocking_decisions: []
+  - DEC-DSV2-BMC-REL-N05
+  blocking_decisions:
+  - DEC-DSV2-BMC-REL-N05
   active_blockers:
   - BLK-DSV2-DRIFT-ENGINE
   - BLK-DSV2-L2-ATTESTATION
-  - BLK-DSV2-RMT002-TRANSIENT-API-ACCEPT
   - BLK-DSV2-SMO-ARCANUM-BINDING
   - BLK-DSV2-SICL-REV2-REFRESH
   - BLK-DSV2-FORM-QUEUE-EMPTY
-  - BLK-DSV2-SFC-PR001-PROFILE-ABSENT
+  - BLK-DSV2-P2-DENOMINATOR-DRIFT
+  - BLK-DSV2-REFINE-PLAN-ADMISSIBILITY
+  - BLK-DSV2-SPEC-ONTOLOGY-VERIFIER-ADMISSION
+  - BLK-DSV2-BMC-REL-N05
+  - BLK-DSV2-PROOF-GATE01-BINDING
+  - BLK-DSV2-EVF-P0-EXECUTION-ADMISSION
+  - BLK-DSV2-ORODI-LIVE-BINDINGS
   active_gaps:
   - GAP-SH-UI11-MIGRATE
   - GAP-SH-PROSE-HOMES
@@ -201,134 +321,162 @@ indexes:
   - GAP-DSV2-FMP-TRACE
   - GAP-DSV2-TWO-LANE-INTEGRATION
   - GAP-DSV2-SFC-004-FUSED
+  - GAP-DSV2-CARD-EDGE-DRIFT
+  - GAP-DSV2-BMC-REALIZATION-BINDINGS
+  - GAP-DSV2-FMT-SWU001-CLOSEOUT
+  - GAP-DSV2-EVF-SMT-PROVIDER
+  - GAP-DSV2-ORODI-TOOL-PROFILE-ADMISSION
   next_moves:
   - context_id: CTX-DSV2-ROOT
-    next_move: 'Re-baselined 2026-08-19 by a repository-wide Craft scan. The project''s centre of gravity moved from batch-1
-      reformulation to the two lanes created by DEC-DSV2-FIRST-STABLE-FOUNDATION (2026-08-16): WP-RMT-002 meta-type runtime
-      semantics and WP-SFC-001 pre-production CLI foundation. Both are authored, validated at the planning boundary, and stalled
-      on the same class of gate — exact-byte owner acceptance. Nothing anywhere in the project has a selected SWU. The highest-leverage
-      next move is exact-byte owner review of the two lane packages (BLK-DSV2-RMT002-TRANSIENT-API-ACCEPT plus the Lane B
-      review named in ART-DSV2-SFC-AUTHORING-RECEIPT); everything downstream is blocked behind it. Carried over from batch-1:
-      GAP-SH-UI11-MIGRATE before verify-close R2, then reconcile-close R7; R4/R5/R6a/R6b remain genuine reformulation; the
-      Lane Z vs A agent-cost experiment is still deferred.'
+    next_move: 'Re-baselined 2026-08-23 from the full project tree. The live frontiers are independent: answer BMC relationship decision
+      N05; obtain the spec-ontology @4 verifier response and required verification; close SWU-FMT-001 before selecting SWU-FMT-002;
+      decide whether to publish the exact accepted EVF runtime-repair candidate and then satisfy its retained P0 owner/readiness gates;
+      and, only after presenting the exact dispatch, confirm or decline the APE Enum Python/Rust fan-out. Operation and Workflow APE
+      prototypes are terminal at the candidate-local ceiling, RMT reconciliation is closed, and proof-substrate syntax adoption is accepted
+      but still awaits refreshed GATE-01 binding. No admission, promotion, release, deployment, or production authority follows from
+      this Craft refresh.'
   - context_id: CTX-DSV2-AUTHORITY
-    next_move: SWU-R3C-010 L1 integrity receipt passes and is linked under authority/attestations/. Next R3 route is SWU-R3C-011
-      final verification. Full L2 remains blocked on external actor identity, key custody/signing, and a third-party verifier.
+    next_move: SWU-R3C-010 L1 integrity receipt passes and is linked under authority/attestations/. Next R3 route is SWU-R3C-011 final
+      verification. Full L2 remains blocked on external actor identity, key custody/signing, and a third-party verifier.
   - context_id: CTX-DSV2-MAKE-IT-GREEN
     next_move: G4 — wire `validate` + the fail-closed hook into CI/pre-commit (deferred).
   - context_id: CTX-DSV2-REFORMULATE-BATCH1
-    next_move: 'R0 DONE + DEC-B1-SATURN-AXIOM-SCOPE RESOLVED 2026-07-06 (scope-down-to-Saturn). R1 AXIOMS CLOSED 2026-07-10:
-      authority/AXIOMS.{md,yml} is synchronized with CAV2-D49/D53/D54 and the impl/spec projection is gone. CT-1 code-tag
-      taxonomy repair is done, so R2''s validator-consumer landmine is closed. Next per DEC-DSV2-SPEC-HOMING: GAP-SH-UI11-MIGRATE
-      -> verify-close R2 (delete TAXONOMY, gated on UI-11 migration) -> reconcile-close R7 -> R4/R5 -> R6a/R6b (crosswalk
-      pre-decided by the axiom scope); then freeze gate.'
+    next_move: 'R0 DONE + DEC-B1-SATURN-AXIOM-SCOPE RESOLVED 2026-07-06 (scope-down-to-Saturn). R1 AXIOMS CLOSED 2026-07-10: authority/AXIOMS.{md,yml}
+      is synchronized with CAV2-D49/D53/D54 and the impl/spec projection is gone. CT-1 code-tag taxonomy repair is done, so R2''s validator-consumer
+      landmine is closed. Next per DEC-DSV2-SPEC-HOMING: GAP-SH-UI11-MIGRATE -> verify-close R2 (delete TAXONOMY, gated on UI-11 migration)
+      -> reconcile-close R7 -> R4/R5 -> R6a/R6b (crosswalk pre-decided by the axiom scope); then freeze gate.'
   - context_id: CTX-DSV2-SPEC-ONTOLOGY
-    next_move: Lane Z vs A deferred to an agent-cost experiment; interim = two-plane boundary. Toy T1-T4 done (substrate SURVIVED-narrow);
-      R3A and SWU-R3C-001..008 completed bounded dynamic composability, a normalized AEO second corpus, card triage, and non-promoting
-      future-route packets. Three relationship candidates remain deferred and category-law formalization routes to research-tower.
-      CampusRead remains optional targeted Entity-to-Entity breadth.
+    next_move: 'DEC-DSV2-SPEC-ONTOLOGY-ARCHITECTURE-001 selected one connected semantic graph with separately owned business, formal-claims/specification,
+      proof-bridge, and system branches. The exact @4 contract-hardening package passed candidate validation and Rondelli accepted all
+      eleven owner slices, but every response remains verification-pending. Victor Boscaro''s identity, verifier role/policy, and required
+      V1/V2 receipts are absent; no protected role admission, checker execution, migration, implementation, promotion, or publication
+      is authorized. Next: obtain the exact Victor @4 response and required structural verification, then materialize only the verified
+      owner responses.'
   - context_id: CTX-DSV2-META-TYPE-FORMALIZATION
-    next_move: 'MT0-MT4 plus MT-INST are DONE for current backend scope: 13 node schemas, 30 active root relationship signatures,
-      edge-aware validate-content, aggregate validate wiring, and instance generation/validation. The SGRM scoped-Workflow
-      collapse migration is complete. Remaining: MT5 UI remains formation-deferred; the parallel ui-meta-type-formalization
-      package is gathering candidate evidence without promotion authority. tools/lib extraction remains residue.'
+    next_move: 'MT0-MT4 plus MT-INST are DONE for current backend scope: 13 node schemas, 30 active root relationship signatures, edge-aware
+      validate-content, aggregate validate wiring, and instance generation/validation. The SGRM scoped-Workflow collapse migration is
+      complete. Remaining: MT5 UI remains formation-deferred; the parallel ui-meta-type-formalization package is gathering candidate
+      evidence without promotion authority. tools/lib extraction remains residue.'
   - context_id: CTX-DSV2-APE
-    next_move: 'L0 POC DONE (2026-07-02): financial-settlement pack authored + node validators witnessed (green) + a deliberate
-      red (exit 1); GAP-DSV2-APE-VACUOUS resolved. R3C completed dynamic edge-law enforcement, second-corpus evidence, and
-      TASK-CARDS backend/relationship triage. Next (L1): SWU-APE-004/005 defect cleanup (reset 4 stale waivers; fix docs/features
-      anchors). Later definition Evidence links remain definitions-governance-owned.'
+    next_move: 'The old SWU-APE-004/005 cleanup frontier is superseded. Operation AOP-001..010 and Workflow AWF-001..011 are terminal
+      candidate-local prototype sequences with passing Work Pack verification; their evaluators preserve AOP_BOUNDARY_INSTRUMENTATION_PLACEMENT
+      and AOP_WF_COMPENSATION_CALLABLE_MISSING. Enum W0 ontology closure and W1 TypeScript trust are complete. The nearest frontier
+      is W2: SWU-APE-ENUM-PY-001 and SWU-APE-ENUM-RS-001 remain unselected until an exact user-confirmed parallel dispatch. W3 parity/closeout
+      and W4 repeatable scaling remain after that. None of these receipts establishes synchronized Task Session closeout, profile admission,
+      promotion, release, or production readiness.'
   - context_id: CTX-DSV2-CODE-TAG-CONFORMANCE
-    next_move: CT-1 DONE 2026-07-10 (taxonomy -> root schemas; batch-1 R2 code-tag deletion landmine closed). Next task-session
-      CT-3, then CT-2, CT-4.
+    next_move: CT-1 DONE 2026-07-10 (taxonomy -> root schemas; batch-1 R2 code-tag deletion landmine closed). Next task-session CT-3,
+      then CT-2, CT-4.
   - context_id: CTX-DSV2-AGENT-SPEC-CONFORMANCE
-    next_move: 'DEFINE + DESIGN authored (AV-D1 resolved -> 3-witness ramp dosage -> data-access -> robot; AV-D2 boundary
-      = pipeline + plural certify-backends in core, domain in plug-in). Next: invoke plan -> work-pack over L0 (core + structural
-      backend + dosage) -> L1 (data-access) -> L2 (runtime-monitor backend + robot). "general/moat" claim gates at L2 + decision-gate
-      (AV-D4).'
+    next_move: 'DEFINE + DESIGN authored (AV-D1 resolved -> 3-witness ramp dosage -> data-access -> robot; AV-D2 boundary = pipeline
+      + plural certify-backends in core, domain in plug-in). Next: invoke plan -> work-pack over L0 (core + structural backend + dosage)
+      -> L1 (data-access) -> L2 (runtime-monitor backend + robot). "general/moat" claim gates at L2 + decision-gate (AV-D4).'
   - context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
-    next_move: 'FPR-01 and W1 are closed. FPR-02 remains split into independent backend and UI lanes; BTE L0A and its bounded
-      exact-byte repair pass with green publication proof, and backend continuation still needs the independent validation
-      owner''s matching package-local red manifest/freeze before L0B becomes a candidate. FPR-02U development is closed through
-      SWU-UIP-007 with authority packets still owner-gated. New since 2026-08-14: the production-stability review returned
-      ACCEPT with the verdict that no current DomainSpec v2 artifact is production-stable, and DEC-DSV2-FIRST-STABLE-FOUNDATION
-      (2026-08-16) selected a private pre-production CLI foundation as the first hardening target, creating CTX-DSV2-SFC (Lane
-      B) beside CTX-DSV2-RMT (Lane A). Next is exact-byte owner review of both lane packages and a re-run of the two-lane
-      integration check against accepted bytes (GAP-DSV2-TWO-LANE-INTEGRATION). The five FR-FPR-* frontiers are unchanged.
-      Production remains unauthorized and this gate stays block.'
+    next_move: 'FPR-01 and the UI development lane through SWU-UIP-007 are closed at their recorded ceilings. BTE has newer development-only
+      17-relationship/91-coverage green evidence, but the original independent-owner freeze and release gates remain unclosed. Lane
+      A RMT reconciliation is terminal pass; Lane B SFC is source-fresh and selection-ready with no selected unit. Its once-absent complete-backend-criteria
+      profile now exists as a 13-kind/17-relationship candidate, but it is not admitted or bound into the stale 16-relation SFC package.
+      Next: re-ratify and refresh the 17/17 P2 denominator, bind/admit the selected profile, split fused SWU-SFC-004, and rerun the
+      two-lane integration gate. The five FR-FPR-* frontiers and production prohibition remain.'
   - context_id: CTX-DSV2-FPR02-BACKEND
-    next_move: The historical L0A receipt and bounded repair receipt both pass; current publication proof is green and the
-      byte-drift blocker is resolved. Next the independent validation owner returns a matching package-local red manifest/freeze.
-      L0B remains unselected; UI is not an input and production remains unauthorized.
+    next_move: Historical L0A and its exact-byte repair pass. New dirty-baseline reconciliation proves the development BTE aggregate
+      at 17 relationships and 91 coverage, but this does not replace the original independent validation owner's package-local red manifest/freeze
+      or authorize L0B. Keep UI independent and production unauthorized.
   - context_id: CTX-DSV2-FPR02-UI
-    next_move: The development work-pack is closed through SWU-UIP-007 and aggregate validation passes. Route its exact authority
-      deltas to DS-D1, DS-D8, supported-profile, and R2 owners. Backend profile decisions and backend release completion are
-      not dependencies; canonical activation remains owner-gated.
+    next_move: The development work-pack is closed through SWU-UIP-007 and aggregate validation passes. Route its exact authority deltas
+      to DS-D1, DS-D8, supported-profile, and R2 owners. Backend profile decisions and backend release completion are not dependencies;
+      canonical activation remains owner-gated.
   - context_id: CTX-DSV2-FPR02B-CONSUMER-PROOF
-    next_move: The selected historical L0A implementation and bounded exact-byte repair both pass; current proof is green
-      and no SWU is selectable. Obtain a matching independent red-manifest freeze, then run a later Invoke Refresh before
-      exposing L0B. Consumers remain unchanged until the shared BTE core passes.
+    next_move: The selected historical L0A implementation and bounded exact-byte repair both pass; current proof is green and no SWU
+      is selectable. Obtain a matching independent red-manifest freeze, then run a later Invoke Refresh before exposing L0B. Consumers
+      remain unchanged until the shared BTE core passes.
   - context_id: CTX-DSV2-FPR-VISIBILITY
     next_move: After any authorized Craft or FPR manifest update, run the visibility roadmap builder documented in development/first-production-release/visibility/PLAN-TRANSPORT.md,
-      then run the same command with `--check`. Route new material frontiers through the existing persistent research protocol;
-      do not select or advance either FPR-02B or FPR-02U here.
+      then run the same command with `--check`. Route new material frontiers through the existing persistent research protocol; do not
+      select or advance either FPR-02B or FPR-02U here.
   - context_id: CTX-DSV2-RMT
-    next_move: 'WP-RMT-001 is terminal-pass (47/47 manifest SWUs mapped, 47 passing receipts, authority_effect none, 2026-08-13).
-      WP-RMT-002 is blocked on BLK-DSV2-RMT002-TRANSIENT-API-ACCEPT: the 2026-08-16 transient-output API proposal validates
-      pass across 33 staged targets, 70 units and 69 hostile fixtures, but proposal_receipt/owner_acceptance/apply_authorization
-      are all absent. Next owner is exact-byte-owner:accept-proposal-bytes, then a separately authorized live apply, then
-      RMT-OP-001 selection.'
+    next_move: 'WP-RMT-002R reconciliation is closed: RMT2R-OP-001 through RMT2R-TERMINAL-001 passed and the terminal receipt SHA-256
+      7eddff91e867ed6136483dc5ff5dc91a55699897583667aa1f9525668fddbc73 closes 8/8 receipt-only units. The original 70 WP-RMT-002 Task
+      Session units remain not executed. No immediate continuation is selected. Any admission, registration, ontology, relation materialization,
+      promotion, publication, release, deployment or production work requires a separate governed scope and authorization.'
   - context_id: CTX-DSV2-SFC
-    next_move: 'Exact-byte owner review completed 2026-08-19 (ART-DSV2-SFC-OWNER-REVIEW): 12/12 source bindings verify against
-      live bytes, Define and execution-entry validation pass, all 21 SF selections trace, S1 correctly excluded, impl/cli
-      is clean greenfield, and the package has zero coupling to the WP-RMT-002 transient contract. The plan is sound and acceptable.
-      Two things must happen before any SWU-SFC-001 selection. (1) BLK-DSV2-SFC-PR001-PROFILE-ABSENT: the selected profile
-      does not exist in the live registry and the membership number is 17, not 16 — this is the critical path and it is parallel
-      work for the profile owner. (2) GAP-DSV2-SFC-004-FUSED: split SWU-SFC-004 into 004a (unblocked schemas, readers, seven
-      negative controls) and 004b (the single approved-binding positive), which lifts runway from three units to six. Hold
-      Task Session execution while the concurrent arcanum/arcana/task-session work is in flight, because admission checks
-      the live Arcanum binding.'
+    next_move: 'The 2026-08-21 source-binding refresh passes: all 12 Work Pack bindings are current and SWU-SFC-001 is the nearest selectable
+      unit, but selected_unit remains null. The live registry now contains complete-backend-criteria@2 as a candidate with 13 kinds,
+      17 relationship IDs and a 26-case corpus, so the historical profile-absent blocker is resolved. It is still not release-admitted,
+      and SFC''s SF-02 plus nine projections remain stale at 16 relations and a mismatched profile identity/layout. Next: owner re-ratification
+      and Invoke Refresh to 17/17, exact profile binding/admission, and split SWU-SFC-004 before crossing its positive profile case.
+      No CLI implementation, release, or production readiness is established.'
   - context_id: CTX-DSV2-STABILITY-REVIEW
-    next_move: Closed 2026-08-16 with review_result ACCEPT and product_stability_verdict "No current production-stable DomainSpec
-      v2 artifact is established". Its candidate shortlist fed the 2026-08-16 owner selection and Lane B. Nothing further
-      is owed here; the named next human action was executed as DEC-DSV2-FIRST-STABLE-FOUNDATION. The Inventory hook remains
-      deferred.
+    next_move: Closed 2026-08-16 with review_result ACCEPT and product_stability_verdict "No current production-stable DomainSpec v2
+      artifact is established". Its candidate shortlist fed the 2026-08-16 owner selection and Lane B. Nothing further is owed here;
+      the named next human action was executed as DEC-DSV2-FIRST-STABLE-FOUNDATION. The Inventory hook remains deferred.
   - context_id: CTX-DSV2-ONTOLOGY-FORMS
-    next_move: 'The implementation queue is empty on the ready side: 0 ready, 13 blocked (DS-D1.1..D1.9, D1.11..D1.14). Eleven
-      sit at tension-reviewed, one at architecture-form-proposed, one at language-forms-proposed; none has reached owner-decided.
-      Next is owner decisions per meta-type plus materialization of the accepted ontology contracts and language protocols.
-      See BLK-DSV2-FORM-QUEUE-EMPTY.'
+    next_move: 'The implementation queue is empty on the ready side: 0 ready, 13 blocked (DS-D1.1..D1.9, D1.11..D1.14). Eleven sit at
+      tension-reviewed, one at architecture-form-proposed, one at language-forms-proposed; none has reached owner-decided. Next is owner
+      decisions per meta-type plus materialization of the accepted ontology contracts and language protocols. See BLK-DSV2-FORM-QUEUE-EMPTY.'
   - context_id: CTX-DSV2-SICL
-    next_move: SIC-FAC-000-R2 revalidation-B closed PASS 2026-08-13 with zero blockers; the retained 14-file generic-factory
-      candidate satisfies its declared validation surface. The returned route is an Invoke Refresh over "factory-adapted system-integration
-      Revision 2" with executed=false and authorization_included=false. Next is an authorized Invoke Refresh; nothing selects
-      or implements a system-integration target until then. See BLK-DSV2-SICL-REV2-REFRESH.
+    next_move: SIC-FAC-000-R2 revalidation-B closed PASS 2026-08-13 with zero blockers; the retained 14-file generic-factory candidate
+      satisfies its declared validation surface. The returned route is an Invoke Refresh over "factory-adapted system-integration Revision
+      2" with executed=false and authorization_included=false. Next is an authorized Invoke Refresh; nothing selects or implements a
+      system-integration target until then. See BLK-DSV2-SICL-REV2-REFRESH.
   - context_id: CTX-DSV2-SMO
-    next_move: 'Refine result is proposal-ready: 325 type/family cells, 31 typed relationship signatures, a 17-SWU plan passing
-      Design/Plan validation and the 35-case receipt-store corpus, readiness attempt 011 returning PLAN_SEMANTIC_READY. The
-      one-shot Task Session returned BLOCK before execution on fingerprint WP-SMO-001:LIVE-ARCANUM-BINDING-AND-ADMISSION-MISSING.
-      The owner selected refresh-after-arcanum-stabilizes on 2026-08-16. Next owner is refine:evidence-refresh once the Arcanum
-      snapshot is stable — not Task Session. Eight residual gates remain (independent critic, renewed G0, attempt-specific
-      G1, G2 applied-corpus audit, runtime/profile locks, G3 readiness, Task Session admission, release authorization).'
+    next_move: 'Refine result is proposal-ready: 325 type/family cells, 31 typed relationship signatures, a 17-SWU plan passing Design/Plan
+      validation and the 35-case receipt-store corpus, readiness attempt 011 returning PLAN_SEMANTIC_READY. The one-shot Task Session
+      returned BLOCK before execution on fingerprint WP-SMO-001:LIVE-ARCANUM-BINDING-AND-ADMISSION-MISSING. The owner selected refresh-after-arcanum-stabilizes
+      on 2026-08-16. Next owner is refine:evidence-refresh once the Arcanum snapshot is stable — not Task Session. Eight residual gates
+      remain (independent critic, renewed G0, attempt-specific G1, G2 applied-corpus audit, runtime/profile locks, G3 readiness, Task
+      Session admission, release authorization).'
   - context_id: CTX-DSV2-FMP
-    next_move: 'Refine closed PASS 2026-08-16: the planning package is complete and selection-ready with eight ordered SWUs,
-      41 frozen target baselines, 24 source/tool locks, 35 hostile cases, and two exact corpora (Bolina; Order Fulfillment
-      Saga with FreshnessSafety deliberately preserved as known-red). Execution entry is selection-ready with next owner implementation-readiness:execute.
-      Zig-to-TLA conformance is deliberately excluded as the typed future WP-FMP-TRACE-001 (GAP-DSV2-FMP-TRACE).'
+    next_move: 'Refine closed PASS 2026-08-16: the planning package is complete and selection-ready with eight ordered SWUs, 41 frozen
+      target baselines, 24 source/tool locks, 35 hostile cases, and two exact corpora (Bolina; the order-fulfillment corpus, with FreshnessSafety
+      deliberately preserved as known-red). Execution entry is selection-ready with next owner implementation-readiness:execute. Zig-to-TLA
+      conformance is deliberately excluded as the typed future WP-FMP-TRACE-001 (GAP-DSV2-FMP-TRACE).'
   - context_id: CTX-DSV2-IMPL-CONFORMANCE
-    next_move: Define passed as an authored candidate (12/12 obligations covered, zero blocker questions, precedent audit
-      pass) and Design is admitted subject to DEFINE-GAPS.md. Implementation readiness is explicitly not evaluated and Plan
-      is outside the invocation. Next is Plan authoring against the accepted C2 claim once the WP-SFC-001 and WP-RMT-002 lanes
-      settle their shared profile identity.
+    next_move: Define passed as an authored candidate (12/12 obligations covered, zero blocker questions, precedent audit pass) and
+      Design is admitted subject to DEFINE-GAPS.md. Implementation readiness is explicitly not evaluated and Plan is outside the invocation.
+      Next is Plan authoring against the accepted C2 claim once the WP-SFC-001 and WP-RMT-002 lanes settle their shared profile identity.
   - context_id: CTX-DSV2-EVF
-    next_move: Work-pack status remains candidate-awaiting-task-session with SWU-GCP-001 as the unselected first unit. A 2026-08-13
-      one-shot readiness refinement run produced a candidate-A one-shot plan, execution pack, failure matrix and a selection-ready
-      execution entry. Next is owner review of that candidate before any selection; Distill verdict remains pass-with-flags.
+    next_move: 'L0/L1 and the bounded L2 reachability slice remain passing evidence. The 17-relationship BTE proof-engine reconciliation,
+      S1 exact-ref repair, and the 49-finding format-honesty baseline each pass their authorized local scopes. The 53-path runtime-repair
+      candidate now has exact 3-of-3 owner acceptance, opening only its bounded submodule-first publication edge; publication has not
+      been performed here. Original BTE/IOLM owner prerequisites, proposal acceptance, canonical apply, independent readiness, fresh
+      retry authorization and selection remain closed. Next: decide whether to exercise the exact accepted publication edge, then collect
+      the retained owner/readiness receipts before any new P0 run. Separately, the optional SMT verify/witness continuation is an EVF
+      provider-integration gap: define and admit a pinned, fail-closed provider contract before execution; the TDE tower remains source
+      evidence for the decidability boundary. No U1 selection, SMT-provider admission, release, or production claim.'
   - context_id: CTX-DSV2-MTF
     next_move: 'MTF-001..MTF-029 are complete with an empty remaining set and authority_effect none. The 2026-08-07 reproducibility
-      prototype passed: two isolated runs produced the same semantic receipt over a nine-node locked graph with an unchanged
-      product-tree inventory. Claim ceiling is same-host local reproducibility — not cross-host provisioning, ontology promotion,
-      implementation authority, release, or production readiness. Nothing is owed here unless cross-host reproducibility becomes
-      a release dependency.'
+      prototype passed: two isolated runs produced the same semantic receipt over a nine-node locked graph with an unchanged product-tree
+      inventory. Claim ceiling is same-host local reproducibility — not cross-host provisioning, ontology promotion, implementation
+      authority, release, or production readiness. Nothing is owed here unless cross-host reproducibility becomes a release dependency.'
+  - context_id: CTX-DSV2-FORMAT-HONESTY
+    next_move: 'SWU-FMT-001 executed PASS: the dependency-free checker and seven tests pass and the governed project surface reports
+      exactly 49 json-content-yaml-name violations. Its Task Session closeout is NOT-RUN; SWU-FMT-002 is therefore not eligible. Next:
+      invoke:refresh:apply-approved over the six declared closeout targets, then select at most SWU-FMT-002 through a fresh route. The
+      result does not rename files, repair the 49 findings or card-edge drift, close the permanent Refine admission defect, or authorize
+      promotion, publication, or release.'
+  - context_id: CTX-DSV2-BMC
+    next_move: 'BMC-EVD-001 completed with the intended FLAG: Value Object has three stale candidate binding digests and Enum has nine
+      absent candidate bindings, while queue readiness stays false and ontology admission remains not-admitted. The current Operation
+      and Workflow evaluator findings must remain visible. In parallel, CTX-DSV2-BMC-REL is blocked at owner decision N05. After evidence
+      readiness and relationship decisions, BMC-OBS-001 is the first product candidate: a shared TypeScript syntax/symbol evidence kernel.
+      No product mutation, profile admission, ontology change, promotion, or release is authorized by the evidence receipt.'
+  - context_id: CTX-DSV2-BMC-REL
+    next_move: 'N01 through N04 are resolved in the design sidecar. N05 is the current blocker: choose whether future same-dimension
+      longer-cycle policy is uniform across all admitted D29 dimensions, independently governed per dimension, deferred, or stopped.
+      The 31-row candidate packet remains unaccepted and its canonical rows remain unresolved; Design, registry mutation and implementation
+      stop until the relationship decision owner selects one presented N05 option through decision-gate.'
+  - context_id: CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE
+    next_move: 'DomainSpec v2 owner acceptance is recorded over the exact replacement candidate digest c9e072b557ded19996be9e44a8f7f983021083471425bf2fcdd14a084a598498.
+      The candidate file''s own pending prose is historical pre-acceptance text; the separate acceptance receipt controls current state.
+      Next: refresh GATE-01 so it binds this accepted DomainSpec v2 candidate and retires the old v1 route. Until then there is no proof
+      discharge, evaluator validation, promotion, publication, or authority transfer.'
+  - context_id: CTX-DSV2-ORODI
+    next_move: 'Exact live subject and environment binding is deferred by owner decision. ORODI remains a non-executing Plan with
+      zero mutation-capable units. Product implementation cannot start from this Work Pack. To build code without live bindings,
+      explicitly authorize a separately scoped candidate-local prototype lane with an exact target, Work Pack, write scopes and
+      validation contracts; otherwise resume the deferred owner/profile binding route. No Task Session, infrastructure effect,
+      canary, deployment, rollback, promotion or release route is exposed.'
   artifacts_by_path:
     IMPORT-MANIFEST.md: ART-DSV2-IMPORT-MANIFEST
     impl/: ART-DSV2-IMPL
@@ -438,6 +586,56 @@ indexes:
     .craft/artifacts/2026-08-19-wp-sfc-001-owner-review.md: ART-DSV2-SFC-OWNER-REVIEW
     development/first-production-release/stable-foundation-cli/work-pack/shared/CROSS-TASK-GAPS.md: ART-DSV2-SFC-CROSS-TASK-GAPS
     development/first-production-release/stable-foundation-cli/work-pack/shared/CLOSEOUT-CONTRACT.md: ART-DSV2-SFC-CLOSEOUT-CONTRACT
+    .craft/artifacts/2026-08-19-p2-profile-ratification-proposal.md: ART-DSV2-P2-RATIFICATION-PROPOSAL
+    ? development/refinement-runs/20260814T103237-0300-shared-meta-obligation-product-readiness/proposals/formation/supported-profiles.candidate.json
+    : ART-DSV2-SMO-PROFILE-CANDIDATE
+    definitions/minted-project/supported-profiles.yml: ART-DSV2-LIVE-PROFILE-REGISTRY
+    .craft/artifacts/2026-08-19-p2-membership-count-patch-proposal.md: ART-DSV2-P2-COUNT-PATCH
+    development/format-honesty/WORK-PACK.md: ART-DSV2-FMT-WORK-PACK
+    development/format-honesty/EXECUTION-ENTRY.json: ART-DSV2-FMT-EXECUTION-ENTRY
+    development/format-honesty/governance-defect/SIDECAR-RECEIPT.json: ART-DSV2-FMT-SIDECAR
+    development/format-honesty/CHAIN-RECORD.json: ART-DSV2-FMT-CHAIN-RECORD
+    development/refinement-runs/20260819T000000Z-serialization-format-normalization/RESULT.md: ART-DSV2-FMT-REFINE-RESULT
+    '[repo-root]/.task-session/runs/20260821T092317Z-wp-rmt-002-fast-lane/PROTOTYPE-VALIDATION.json': ART-DSV2-RMT002-PROTOTYPE-VALIDATION
+    ? development/refinement-runs/20260814T193343Z-active-meta-type-implementations/stages/09-invoke-plan/reconciliation/WORK-PACK.md
+    : ART-DSV2-RMT002R-WORK-PACK
+    development/remaining-meta-types/reconciliation/wp-rmt-002r/TERMINAL-RECEIPT.json: ART-DSV2-RMT002R-TERMINAL
+    development/evolvable-validation-framework/evidence/SWU-GCP-007-C3/attempt-001/PROTOTYPE-VALIDATION-REPORT.md: ART-DSV2-EVF-L2-PROTOTYPE
+    ? development/evolvable-validation-framework/development/refinement-runs/20260821T044428Z-evf-l2-one-shot-work-pack/closure-runs/attempt-001/INDEPENDENT-CLOSURE-RECEIPT.json
+    : ART-DSV2-EVF-L2-CLOSURE
+    .craft/ledger.yml: ART-DSV2-CRAFT-REFRESH-20260823
+    development/architecture-pattern-enforcement/WORK-PACK.md: ART-DSV2-APE-WORK-PACK
+    development/architecture-pattern-enforcement/evidence/WP-APE-OP-PROFILE-001/WORK-PACK-VERIFICATION.json: ART-DSV2-APE-OP-VERIFICATION
+    development/architecture-pattern-enforcement/evidence/WP-APE-WF-PROFILE-001/WORK-PACK-VERIFICATION.json: ART-DSV2-APE-WF-VERIFICATION
+    development/refinement-runs/20260822T105053Z-backend-meta-type-continuation/RESULT.md: ART-DSV2-BMC-REFINE-RESULT
+    development/backend-meta-type-conformance/evidence/WP-BMC-001/BMC-EVD-001.RECEIPT.json: ART-DSV2-BMC-EVD-RECEIPT
+    development/backend-meta-type-conformance/evidence/WP-BMC-001/BMC-EVD-001.MATURITY-MATRIX.json: ART-DSV2-BMC-MATURITY-MATRIX
+    ? development/relationship-constraint-decisions/BMC-REL-001/candidates/BMC-REL-001.RELATIONSHIP-CONSTRAINT-DECISION-PACKET.json
+    : ART-DSV2-BMC-REL-PACKET
+    development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/DESIGN-RESULT.md: ART-DSV2-BMC-REL-DESIGN-RESULT
+    development/proof-obligation-substrate/2026-08-22-top03-shared-syntax-adoption-candidate.md: ART-DSV2-PROOF-SYNTAX-CANDIDATE
+    authority/decisions/2026-08-22-top03-shared-syntax-adoption-acceptance.md: ART-DSV2-PROOF-SYNTAX-ACCEPTANCE
+    development/spec-ontology-branch-decision/decision-gate/DECISION.md: ART-DSV2-SPEC-ONTOLOGY-DECISION
+    ? development/spec-ontology-branch-decision/invoke-design/20260823T222046Z-spec-ontology-contract-hardening-r4/owner-admission/RONDELLI-AGGREGATE-DECISION.json
+    : ART-DSV2-SPEC-ONTOLOGY-R4-OWNER-DECISION
+    ? development/spec-ontology-branch-decision/invoke-design/20260823T222046Z-spec-ontology-contract-hardening-r4/owner-admission/VICTOR-VERIFIER-REQUEST.json
+    : ART-DSV2-SPEC-ONTOLOGY-R4-VERIFIER-REQUEST
+    ? development/evolvable-validation-framework/dispatch-runs/20260823T140821Z-p0-owner-evidence-review/runtime-repair-candidate/OWNER-ACCEPTANCE-RECEIPT.json
+    : ART-DSV2-EVF-RUNTIME-OWNER-ACCEPTANCE
+    development/evolvable-validation-framework/owner-response-packets/20260823T195640Z-runtime-repair-and-p0/RECEIPT.json: ART-DSV2-EVF-OWNER-PACKET-RECEIPT
+    ? development/evolvable-validation-framework/decision-runs/20260823T201735Z-dirty-baselines/PROOF-ENGINE-RECONCILIATION-RECEIPT.json
+    : ART-DSV2-EVF-PROOF-ENGINE-RECONCILIATION
+    development/evolvable-validation-framework/decision-runs/20260823T201735Z-dirty-baselines/S1-BINDING-REPAIR-RECEIPT.json: ART-DSV2-EVF-S1-BINDING-REPAIR
+    ? development/evolvable-validation-framework/decision-runs/20260823T201735Z-dirty-baselines/FORMAT-HONESTY-BASELINE-RECEIPT.json
+    : ART-DSV2-EVF-FORMAT-BASELINE
+    development/format-honesty/runs/SWU-FMT-001/TASK-SESSION-RESULT.json: ART-DSV2-FMT-SWU001-RESULT
+    ? development/first-production-release/stable-foundation-cli/refreshes/20260821T210000Z-wp-sfc-001-source-binding-fast-lane/REFRESH-REPORT.json
+    : ART-DSV2-SFC-SOURCE-REFRESH
+    development/research/2026-08-24-operational-resilience-observability-deployment-integration/findings.md: ART-DSV2-ORODI-RESEARCH
+    development/operational-resilience-observability-deployment-integration/invoke-define/20260824T165443Z-orodi-v1/SPEC.md: ART-DSV2-ORODI-INVOKE-DEFINE
+    development/operational-resilience-observability-deployment-integration/invoke-design/20260824T165443Z-orodi-v1/ARCHITECTURE.md: ART-DSV2-ORODI-INVOKE-DESIGN
+    development/operational-resilience-observability-deployment-integration/invoke-plan/20260824T165443Z-orodi-v1/WORK-PACK.md: ART-DSV2-ORODI-INVOKE-PLAN
+    development/operational-resilience-observability-deployment-integration/owner-binding-decision/20260824T174431Z-orodi-owner-binding-gate/DECISION-GATE.md: ART-DSV2-ORODI-OWNER-BINDING-DECISION
 
 contexts:
   - context_id: CTX-DSV2-ROOT
@@ -450,15 +648,14 @@ contexts:
     stage: build
     gate: flag
     next_move: >-
-      Re-baselined 2026-08-19 by a repository-wide Craft scan. The project's centre of gravity moved from
-      batch-1 reformulation to the two lanes created by DEC-DSV2-FIRST-STABLE-FOUNDATION (2026-08-16):
-      WP-RMT-002 meta-type runtime semantics and WP-SFC-001 pre-production CLI foundation. Both are authored,
-      validated at the planning boundary, and stalled on the same class of gate — exact-byte owner acceptance.
-      Nothing anywhere in the project has a selected SWU. The highest-leverage next move is exact-byte owner
-      review of the two lane packages (BLK-DSV2-RMT002-TRANSIENT-API-ACCEPT plus the Lane B review named in
-      ART-DSV2-SFC-AUTHORING-RECEIPT); everything downstream is blocked behind it. Carried over from batch-1:
-      GAP-SH-UI11-MIGRATE before verify-close R2, then reconcile-close R7; R4/R5/R6a/R6b remain genuine
-      reformulation; the Lane Z vs A agent-cost experiment is still deferred.
+      Re-baselined 2026-08-23 from the full project tree. The live frontiers are independent: answer BMC
+      relationship decision N05; obtain the spec-ontology @4 verifier response and required verification;
+      close SWU-FMT-001 before selecting SWU-FMT-002; decide whether to publish the exact accepted EVF
+      runtime-repair candidate and then satisfy its retained P0 owner/readiness gates; and, only after presenting
+      the exact dispatch, confirm or decline the APE Enum Python/Rust fan-out. Operation and Workflow APE
+      prototypes are terminal at the candidate-local ceiling, RMT reconciliation is closed, and proof-substrate
+      syntax adoption is accepted but still awaits refreshed GATE-01 binding. No admission, promotion, release,
+      deployment, or production authority follows from this Craft refresh.
     owned_artifacts: [ART-DSV2-IMPORT-MANIFEST, ART-DSV2-IMPL, ART-DSV2-AUTHORITY]
 
   - context_id: CTX-DSV2-AUTHORITY
@@ -511,18 +708,20 @@ contexts:
   - context_id: CTX-DSV2-SPEC-ONTOLOGY
     parent_id: CTX-DSV2-ROOT
     recomposition_target: CTX-DSV2-ROOT
-    title: Spec-as-ontology (research + falsification toy)
+    title: Specification-ontology branch architecture
     purpose: >-
       Decide whether the v2 spec surface (aspect files + TAXONOMY + RELATIONSHIPS) is a system
       ontology, and whether "spec == ontology" (SEED Lane Z) is worth pursuing.
-    stage: research-complete
-    gate: flag
+    stage: design
+    gate: block
     next_move: >-
-      Lane Z vs A deferred to an agent-cost experiment; interim = two-plane boundary. Toy T1-T4 done
-      (substrate SURVIVED-narrow); R3A and SWU-R3C-001..008 completed bounded dynamic composability, a
-      normalized AEO second corpus, card triage, and non-promoting future-route packets. Three relationship
-      candidates remain deferred and category-law formalization routes to research-tower. CampusRead remains
-      optional targeted Entity-to-Entity breadth.
+      DEC-DSV2-SPEC-ONTOLOGY-ARCHITECTURE-001 selected one connected semantic graph with separately owned
+      business, formal-claims/specification, proof-bridge, and system branches. The exact @4 contract-hardening
+      package passed candidate validation and Rondelli accepted all eleven owner slices, but every response remains
+      verification-pending. Victor Boscaro's identity, verifier role/policy, and required V1/V2 receipts are absent;
+      no protected role admission, checker execution, migration, implementation, promotion, or publication is
+      authorized. Next: obtain the exact Victor @4 response and required structural verification, then materialize
+      only the verified owner responses.
     owned_artifacts: [ART-DSV2-SPEC-ONTOLOGY-RESEARCH, ART-DSV2-SPEC-ONTOLOGY-TOY, ART-DSV2-COMPOSABILITY-SYNTHESIS]
 
   - context_id: CTX-DSV2-META-TYPE-FORMALIZATION
@@ -556,14 +755,17 @@ contexts:
       v1 pattern-library) into an enforced discipline: node plane (uniformity), R3A root edge-law authority,
       downstream composability enforcement, authority promotion via cav2, cross-project inheritance via mint.
       A candidate discipline — every handle owes owner-promotion ("has a tree != has authority").
-    stage: plan
+    stage: validate
     gate: flag
     next_move: >-
-      L0 POC DONE (2026-07-02): financial-settlement pack authored + node validators witnessed (green) + a
-      deliberate red (exit 1); GAP-DSV2-APE-VACUOUS resolved. R3C completed dynamic edge-law enforcement,
-      second-corpus evidence, and TASK-CARDS backend/relationship triage. Next (L1): SWU-APE-004/005 defect
-      cleanup (reset 4 stale waivers; fix docs/features anchors). Later definition Evidence links remain
-      definitions-governance-owned.
+      The old SWU-APE-004/005 cleanup frontier is superseded. Operation AOP-001..010 and Workflow
+      AWF-001..011 are terminal candidate-local prototype sequences with passing Work Pack verification;
+      their evaluators preserve AOP_BOUNDARY_INSTRUMENTATION_PLACEMENT and
+      AOP_WF_COMPENSATION_CALLABLE_MISSING. Enum W0 ontology closure and W1 TypeScript trust are complete.
+      The nearest frontier is W2: SWU-APE-ENUM-PY-001 and SWU-APE-ENUM-RS-001 remain unselected until an exact
+      user-confirmed parallel dispatch. W3 parity/closeout and W4 repeatable scaling remain after that. None of
+      these receipts establishes synchronized Task Session closeout, profile admission, promotion, release, or
+      production readiness.
     owned_artifacts: [ART-DSV2-APE]
     links:
       - {label: consumes node schemas plus R3A edge signatures, target: CTX-DSV2-META-TYPE-FORMALIZATION, kind: row-id}
@@ -626,16 +828,13 @@ contexts:
     stage: plan
     gate: block
     next_move: >-
-      FPR-01 and W1 are closed. FPR-02 remains split into independent backend and UI lanes; BTE L0A and its
-      bounded exact-byte repair pass with green publication proof, and backend continuation still needs the
-      independent validation owner's matching package-local red manifest/freeze before L0B becomes a candidate.
-      FPR-02U development is closed through SWU-UIP-007 with authority packets still owner-gated. New since
-      2026-08-14: the production-stability review returned ACCEPT with the verdict that no current DomainSpec v2
-      artifact is production-stable, and DEC-DSV2-FIRST-STABLE-FOUNDATION (2026-08-16) selected a private
-      pre-production CLI foundation as the first hardening target, creating CTX-DSV2-SFC (Lane B) beside
-      CTX-DSV2-RMT (Lane A). Next is exact-byte owner review of both lane packages and a re-run of the two-lane
-      integration check against accepted bytes (GAP-DSV2-TWO-LANE-INTEGRATION). The five FR-FPR-* frontiers are
-      unchanged. Production remains unauthorized and this gate stays block.
+      FPR-01 and the UI development lane through SWU-UIP-007 are closed at their recorded ceilings. BTE has newer
+      development-only 17-relationship/91-coverage green evidence, but the original independent-owner freeze and
+      release gates remain unclosed. Lane A RMT reconciliation is terminal pass; Lane B SFC is source-fresh and
+      selection-ready with no selected unit. Its once-absent complete-backend-criteria profile now exists as a
+      13-kind/17-relationship candidate, but it is not admitted or bound into the stale 16-relation SFC package.
+      Next: re-ratify and refresh the 17/17 P2 denominator, bind/admit the selected profile, split fused SWU-SFC-004,
+      and rerun the two-lane integration gate. The five FR-FPR-* frontiers and production prohibition remain.
     owned_artifacts:
       - ART-DSV2-FPR-DECISION
       - ART-DSV2-FPR-RESEARCH
@@ -709,9 +908,9 @@ contexts:
     stage: plan
     gate: block
     next_move: >-
-      The historical L0A receipt and bounded repair receipt both pass; current publication proof is green and the
-      byte-drift blocker is resolved. Next the independent validation owner returns a matching package-local red
-      manifest/freeze. L0B remains unselected; UI is not an input and production remains unauthorized.
+      Historical L0A and its exact-byte repair pass. New dirty-baseline reconciliation proves the development BTE
+      aggregate at 17 relationships and 91 coverage, but this does not replace the original independent validation
+      owner's package-local red manifest/freeze or authorize L0B. Keep UI independent and production unauthorized.
     owned_artifacts:
       - ART-DSV2-FPR02-BACKEND-DECISION
       - ART-DSV2-FPR02-BTE-PLAN
@@ -833,25 +1032,24 @@ contexts:
   - context_id: CTX-DSV2-RMT
     parent_id: CTX-DSV2-ROOT
     recomposition_target: CTX-DSV2-ROOT
-    title: Remaining meta-types (WP-RMT-001 closed, WP-RMT-002 planning frontier)
+    title: Remaining meta-types (WP-RMT-002R reconciliation closed)
     purpose: >-
-      Carry the remaining active backend meta-types from candidate-local fast-lane proof to a
-      selectable execution contract. WP-RMT-001 is terminally closed on candidate-local evidence;
-      WP-RMT-002 is the seven-meta-type runtime-semantics plan (Operation, Event, State Machine,
-      Workflow and peers) that must bind the S1 durable-fact boundary before RMT-OP-001 can be admitted.
-    stage: plan
-    gate: block
+      Record the exact seven-type candidate-local prototype governance reconciliation as closed without
+      inventing the original 70 Task Session executions. Product bytes, candidates, proof receipts,
+      registry and ontology were not changed by reconciliation.
+    stage: validated
+    gate: pass
     next_move: >-
-      WP-RMT-001 is terminal-pass (47/47 manifest SWUs mapped, 47 passing receipts, authority_effect none,
-      2026-08-13). WP-RMT-002 is blocked on BLK-DSV2-RMT002-TRANSIENT-API-ACCEPT: the 2026-08-16 transient-output
-      API proposal validates pass across 33 staged targets, 70 units and 69 hostile fixtures, but
-      proposal_receipt/owner_acceptance/apply_authorization are all absent. Next owner is
-      exact-byte-owner:accept-proposal-bytes, then a separately authorized live apply, then RMT-OP-001 selection.
+      WP-RMT-002R reconciliation is closed: RMT2R-OP-001 through RMT2R-TERMINAL-001 passed and the
+      terminal receipt SHA-256 7eddff91e867ed6136483dc5ff5dc91a55699897583667aa1f9525668fddbc73
+      closes 8/8 receipt-only units. The original 70 WP-RMT-002 Task Session units remain not executed.
+      No immediate continuation is selected. Any admission, registration, ontology, relation materialization,
+      promotion, publication, release, deployment or production work requires a separate governed scope and authorization.
     owned_artifacts:
       - ART-DSV2-RMT001-TERMINAL
-      - ART-DSV2-RMT002-TRANSIENT-PROPOSAL
-      - ART-DSV2-RMT002-TRANSIENT-VALIDATION
-      - ART-DSV2-RMT002-GOVERNANCE-DEFECT
+      - ART-DSV2-RMT002-PROTOTYPE-VALIDATION
+      - ART-DSV2-RMT002R-WORK-PACK
+      - ART-DSV2-RMT002R-TERMINAL
     links:
       - {label: owning decision, target: DEC-DSV2-FIRST-STABLE-FOUNDATION, kind: row-id}
       - {label: sibling CLI lane, target: CTX-DSV2-SFC, kind: row-id}
@@ -867,16 +1065,13 @@ contexts:
     stage: plan
     gate: flag
     next_move: >-
-      Exact-byte owner review completed 2026-08-19 (ART-DSV2-SFC-OWNER-REVIEW): 12/12 source bindings verify
-      against live bytes, Define and execution-entry validation pass, all 21 SF selections trace, S1 correctly
-      excluded, impl/cli is clean greenfield, and the package has zero coupling to the WP-RMT-002 transient
-      contract. The plan is sound and acceptable. Two things must happen before any SWU-SFC-001 selection.
-      (1) BLK-DSV2-SFC-PR001-PROFILE-ABSENT: the selected profile does not exist in the live registry and the
-      membership number is 17, not 16 — this is the critical path and it is parallel work for the profile owner.
-      (2) GAP-DSV2-SFC-004-FUSED: split SWU-SFC-004 into 004a (unblocked schemas, readers, seven negative
-      controls) and 004b (the single approved-binding positive), which lifts runway from three units to six.
-      Hold Task Session execution while the concurrent arcanum/arcana/task-session work is in flight, because
-      admission checks the live Arcanum binding.
+      The 2026-08-21 source-binding refresh passes: all 12 Work Pack bindings are current and SWU-SFC-001 is the
+      nearest selectable unit, but selected_unit remains null. The live registry now contains
+      complete-backend-criteria@2 as a candidate with 13 kinds, 17 relationship IDs and a 26-case corpus, so the
+      historical profile-absent blocker is resolved. It is still not release-admitted, and SFC's SF-02 plus nine
+      projections remain stale at 16 relations and a mismatched profile identity/layout. Next: owner re-ratification
+      and Invoke Refresh to 17/17, exact profile binding/admission, and split SWU-SFC-004 before crossing its positive
+      profile case. No CLI implementation, release, or production readiness is established.
     owned_artifacts:
       - ART-DSV2-SFC-AUTHORING-RECEIPT
       - ART-DSV2-SFC-EXECUTION-ENTRY
@@ -978,8 +1173,8 @@ contexts:
     gate: flag
     next_move: >-
       Refine closed PASS 2026-08-16: the planning package is complete and selection-ready with eight ordered
-      SWUs, 41 frozen target baselines, 24 source/tool locks, 35 hostile cases, and two exact corpora (Bolina;
-      Order Fulfillment Saga with FreshnessSafety deliberately preserved as known-red). Execution entry is
+      SWUs, 41 frozen target baselines, 24 source/tool locks, 35 hostile cases, and two exact corpora (Bolina; the
+      order-fulfillment corpus, with FreshnessSafety deliberately preserved as known-red). Execution entry is
       selection-ready with next owner implementation-readiness:execute. Zig-to-TLA conformance is deliberately
       excluded as the typed future WP-FMP-TRACE-001 (GAP-DSV2-FMP-TRACE).
     owned_artifacts:
@@ -1010,18 +1205,26 @@ contexts:
     recomposition_target: CTX-DSV2-ROOT
     title: Evolvable validation framework
     purpose: >-
-      Plan a validation framework that can evolve with the spec surface, adapted from selected v1 operations
-      and interfaces aspects.
-    stage: plan
-    gate: flag
+      Own the evolving evidence chain from DomainSpec meaning through formal obligation, implementation binding,
+      executable or formal evaluation, and bounded receipt, while preserving semantic and provider ownership.
+    stage: validate
+    gate: block
     next_move: >-
-      Work-pack status remains candidate-awaiting-task-session with SWU-GCP-001 as the unselected first unit.
-      A 2026-08-13 one-shot readiness refinement run produced a candidate-A one-shot plan, execution pack,
-      failure matrix and a selection-ready execution entry. Next is owner review of that candidate before any
-      selection; Distill verdict remains pass-with-flags.
+      L0/L1 and the bounded L2 reachability slice remain passing evidence. The 17-relationship BTE proof-engine
+      reconciliation, S1 exact-ref repair, and the 49-finding format-honesty baseline each pass their authorized
+      local scopes. The 53-path runtime-repair candidate now has exact 3-of-3 owner acceptance, opening only its
+      bounded submodule-first publication edge; publication has not been performed here. Original BTE/IOLM owner
+      prerequisites, proposal acceptance, canonical apply, independent readiness, fresh retry authorization and
+      selection remain closed. Next: decide whether to exercise the exact accepted publication edge, then collect
+      the retained owner/readiness receipts before any new P0 run. Separately, the optional SMT verify/witness
+      continuation is an EVF provider-integration gap: define and admit a pinned, fail-closed provider contract
+      before execution; the TDE tower remains source evidence for the decidability boundary. No U1 selection,
+      SMT-provider admission, release, or production claim.
     owned_artifacts:
       - ART-DSV2-EVF-WORK-PACK
       - ART-DSV2-EVF-ONE-SHOT-READINESS
+      - ART-DSV2-EVF-L2-PROTOTYPE
+      - ART-DSV2-EVF-L2-CLOSURE
 
   - context_id: CTX-DSV2-MTF
     parent_id: CTX-DSV2-ROOT
@@ -1041,6 +1244,133 @@ contexts:
     owned_artifacts:
       - ART-DSV2-MTF-EXECUTION-STATE
       - ART-DSV2-MTF-REPRODUCIBILITY
+
+
+  - context_id: CTX-DSV2-FORMAT-HONESTY
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Format honesty and generated meta-type cards (WP-FMT-001)
+    purpose: >-
+      Remove hand-maintained copies of derived facts from the DomainSpec v2 surface. Two defects of the same
+      class were found 2026-08-19: a file's extension does not predict its parser (49 of 204 .yml files contain
+      JSON), and 8 of 13 meta-type cards disagree with the live relationship authority. The pack makes machine
+      files honestly named, promotes documentation comments to typed fields, and generates the human cards so
+      the copies cannot drift again.
+    stage: validate
+    gate: flag
+    next_move: >-
+      SWU-FMT-001 executed PASS: the dependency-free checker and seven tests pass and the governed project surface
+      reports exactly 49 json-content-yaml-name violations. Its Task Session closeout is NOT-RUN; SWU-FMT-002 is
+      therefore not eligible. Next: invoke:refresh:apply-approved over the six declared closeout targets, then select
+      at most SWU-FMT-002 through a fresh route. The result does not rename files, repair the 49 findings or card-edge
+      drift, close the permanent Refine admission defect, or authorize promotion, publication, or release.
+    owned_artifacts:
+      - ART-DSV2-FMT-WORK-PACK
+      - ART-DSV2-FMT-EXECUTION-ENTRY
+      - ART-DSV2-FMT-SIDECAR
+      - ART-DSV2-FMT-CHAIN-RECORD
+      - ART-DSV2-FMT-REFINE-RESULT
+    links:
+      - {label: originating refine run, target: ART-DSV2-FMT-REFINE-RESULT, kind: artifact-id}
+      - {label: governance defect, target: BLK-DSV2-REFINE-PLAN-ADMISSIBILITY, kind: row-id}
+      - {label: measured card drift, target: GAP-DSV2-CARD-EDGE-DRIFT, kind: row-id}
+
+  - context_id: CTX-DSV2-BMC
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Backend meta-type conformance (WP-BMC-001)
+    purpose: >-
+      Hold exact maturity evidence for all 13 backend meta-types and their 39 TypeScript/Python/Rust realization
+      rows, then harden structural observation without confusing candidate evidence with profile or ontology
+      admission.
+    stage: validate
+    gate: flag
+    next_move: >-
+      BMC-EVD-001 completed with the intended FLAG: Value Object has three stale candidate binding digests and
+      Enum has nine absent candidate bindings, while queue readiness stays false and ontology admission remains
+      not-admitted. The current Operation and Workflow evaluator findings must remain visible. In parallel,
+      CTX-DSV2-BMC-REL is blocked at owner decision N05. After evidence readiness and relationship decisions,
+      BMC-OBS-001 is the first product candidate: a shared TypeScript syntax/symbol evidence kernel. No product
+      mutation, profile admission, ontology change, promotion, or release is authorized by the evidence receipt.
+    owned_artifacts:
+      - ART-DSV2-BMC-REFINE-RESULT
+      - ART-DSV2-BMC-EVD-RECEIPT
+      - ART-DSV2-BMC-MATURITY-MATRIX
+    links:
+      - {label: relationship semantics child, target: CTX-DSV2-BMC-REL, kind: row-id}
+      - {label: consumes current APE findings, target: CTX-DSV2-APE, kind: row-id}
+
+  - context_id: CTX-DSV2-BMC-REL
+    parent_id: CTX-DSV2-BMC
+    recomposition_target: CTX-DSV2-BMC
+    title: Relationship constraint owner decisions (BMC-REL-001)
+    purpose: >-
+      Resolve non-numeric and later numeric semantics for the exact 31 active relationship signatures without
+      inventing cardinality, closure, duplicate, self-edge, order, inverse, or representation policy.
+    stage: design
+    gate: block
+    next_move: >-
+      N01 through N04 are resolved in the design sidecar. N05 is the current blocker: choose whether future
+      same-dimension longer-cycle policy is uniform across all admitted D29 dimensions, independently governed
+      per dimension, deferred, or stopped. The 31-row candidate packet remains unaccepted and its canonical rows
+      remain unresolved; Design, registry mutation and implementation stop until the relationship decision owner
+      selects one presented N05 option through decision-gate.
+    owned_artifacts:
+      - ART-DSV2-BMC-REL-PACKET
+      - ART-DSV2-BMC-REL-DESIGN-RESULT
+    links:
+      - {label: blocking owner decision, target: DEC-DSV2-BMC-REL-N05, kind: row-id}
+      - {label: parent evidence lane, target: CTX-DSV2-BMC, kind: row-id}
+
+  - context_id: CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Proof-obligation cross-boundary substrate
+    purpose: >-
+      Adopt one exact structural address envelope for DomainSpec v2 proof-obligation references while preserving
+      DomainSpec meaning/lifecycle ownership and transferring no authority to the private CAV2 spine.
+    stage: validate
+    gate: block
+    next_move: >-
+      DomainSpec v2 owner acceptance is recorded over the exact replacement candidate digest
+      c9e072b557ded19996be9e44a8f7f983021083471425bf2fcdd14a084a598498. The candidate file's own pending prose
+      is historical pre-acceptance text; the separate acceptance receipt controls current state. Next: refresh
+      GATE-01 so it binds this accepted DomainSpec v2 candidate and retires the old v1 route. Until then there is
+      no proof discharge, evaluator validation, promotion, publication, or authority transfer.
+    owned_artifacts:
+      - ART-DSV2-PROOF-SYNTAX-CANDIDATE
+      - ART-DSV2-PROOF-SYNTAX-ACCEPTANCE
+    links:
+      - {label: refreshed ratification required, target: BLK-DSV2-PROOF-GATE01-BINDING, kind: row-id}
+
+  - context_id: CTX-DSV2-ORODI
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Operational resilience, observability and deployment integration
+    purpose: >-
+      Turn the accepted v1-to-v2 operational-resilience research into separately owned DomainSpec definition,
+      design and planning artifacts for error/recovery policy, runtime evidence, SLI/SLO and workload evidence,
+      infrastructure and progressive delivery, ontology branches, integrations and authority gates.
+    stage: plan
+    gate: block
+    next_move: >-
+      Exact live subject and environment binding is deferred by owner decision. ORODI remains a non-executing
+      Plan with zero mutation-capable units. Product implementation cannot start from this Work Pack. To build
+      code without live bindings, explicitly authorize a separately scoped candidate-local prototype lane with
+      an exact target, Work Pack, write scopes and validation contracts; otherwise resume the deferred
+      owner/profile binding route. No Task Session, infrastructure effect, canary, deployment, rollback,
+      promotion or release route is exposed.
+    owned_artifacts:
+      - ART-DSV2-ORODI-RESEARCH
+      - ART-DSV2-ORODI-INVOKE-DEFINE
+      - ART-DSV2-ORODI-INVOKE-DESIGN
+      - ART-DSV2-ORODI-INVOKE-PLAN
+      - ART-DSV2-ORODI-OWNER-BINDING-DECISION
+    links:
+      - {label: runtime evidence owner precedent, target: CTX-DSV2-EVF, kind: row-id}
+      - {label: system integration owner precedent, target: CTX-DSV2-SICL, kind: row-id}
+      - {label: release and deployment authority boundary, target: CTX-DSV2-FIRST-PRODUCTION-RELEASE, kind: row-id}
+      - {label: ontology branch authority boundary, target: CTX-DSV2-SPEC-ONTOLOGY, kind: row-id}
 
 descriptions:
   - description_id: DESC-DSV2-ROOT-001
@@ -1314,6 +1644,55 @@ descriptions:
       - ART-DSV2-SFC-AUTHORING-RECEIPT
       - ART-DSV2-RMT002-TRANSIENT-VALIDATION
 
+  - description_id: DESC-DSV2-EVF-L2-RECONCILIATION-20260821
+    context_id: CTX-DSV2-EVF
+    description: >-
+      2026-08-21 candidate-local reconciliation. L0 and L1 pass, and the serialized C0-C3 L2 implementation
+      validates one selected reachability property through provider-neutral projection, Souffle, Alloy, and a
+      non-inflating join over one exact shared fact snapshot. Independent closure is FLAG with zero blockers and
+      35/35 exact references fresh. This does not complete the canonical cycle or closure properties, synthesize
+      twelve deferred lifecycle receipts, grant authority, or admit release. L3 remains design-gated because the
+      old 16-signature breadth wording conflicts with the live 17-signature denominator.
+    evidence:
+      - ART-DSV2-EVF-L2-PROTOTYPE
+      - ART-DSV2-EVF-L2-CLOSURE
+      - BLK-DSV2-P2-DENOMINATOR-DRIFT
+
+  - description_id: DESC-DSV2-ROOT-SCAN-20260823
+    context_id: CTX-DSV2-ROOT
+    status: active
+    description: >-
+      Complete project pass on 2026-08-23. It refreshes the independent APE, backend-conformance,
+      relationship-decision, specification-ontology, EVF, format-honesty, proof-substrate, RMT and SFC
+      frontiers while preserving their separate owners, evidence ceilings and authorization gates.
+    evidence: ART-DSV2-CRAFT-REFRESH-20260823
+
+  - description_id: DESC-DSV2-BMC-001
+    context_id: CTX-DSV2-BMC
+    status: active
+    description: >-
+      Backend maturity is evidenced across 13 types and 39 language realizations, but evidence freshness is
+      mixed and relationship semantics remain owner-gated; candidate realization is not admission.
+    evidence: ART-DSV2-BMC-EVD-RECEIPT
+
+  - description_id: DESC-DSV2-SPEC-ONTOLOGY-002
+    context_id: CTX-DSV2-SPEC-ONTOLOGY
+    status: active
+    description: >-
+      The architecture option is selected and the @4 contract package is owner-accepted by Rondelli, while
+      verifier identity/policy and required verification remain the protected boundary.
+    evidence: ART-DSV2-SPEC-ONTOLOGY-R4-OWNER-DECISION
+
+  - description_id: DESC-DSV2-ORODI-001
+    context_id: CTX-DSV2-ORODI
+    status: active
+    description: >-
+      The independently audited research accepts an owner-separated operational evidence spine as a planning
+      substrate. C01-C16 and M01-M13 are evidence-closed at schema level; C17-C20 and M14-M17 remain proposed,
+      unadmitted and not run. Invoke Define and Design pass; the complete Plan is intentionally flagged
+      non-executing with zero mutation-capable units. No live system, implementation or deployment is authorized.
+    evidence: ART-DSV2-ORODI-RESEARCH
+
 decisions:
   - decision_id: DEC-FPR01-002-ADOPTION-ACTIVATION
     scope_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
@@ -1399,12 +1778,17 @@ decisions:
     options: [lane-z-unify, lane-a-generated-mapping, defer]
     decision_type: research-direction
     blocking: false
-    status: open
+    status: closed
     default_option: defer
+    selected_option: one-semantic-graph-owned-branches
     description: >-
       The toy proved the mapping is viable — which BOTH lanes need — so it does not decide between them.
       The decider is SEED's "cheaper agents" claim, unmeasurable on paper (proxy gap).
     impact: Determines whether the spec schema ever fuses with code patterns (SEED promotion boundary).
+    rationale: >-
+      Superseded and resolved by DEC-DSV2-SPEC-ONTOLOGY-ARCHITECTURE-001 on 2026-08-23. The selected architecture
+      uses one connected semantic graph while retaining separately owned branches and generated non-authority
+      projections; it is neither the old full-fusion shorthand nor a permanently separate mapping pair.
     links:
       - {label: verdict, target: ART-DSV2-SPEC-ONTOLOGY-TOY, kind: evidence}
 
@@ -1572,6 +1956,111 @@ decisions:
       - {label: Lane B (CLI work pack), target: CTX-DSV2-SFC, kind: row-id}
       - {label: parent release contract, target: "development/first-production-release/decisions/2026-07-12-product-release-contract.md", kind: path}
 
+  - decision_id: DEC-DSV2-SPEC-ONTOLOGY-ARCHITECTURE-001
+    scope_id: CTX-DSV2-SPEC-ONTOLOGY
+    question: What top-level architecture connects business meaning, formal claims, proof obligations and system evidence?
+    options:
+      - one-semantic-graph-owned-branches
+      - separate-canonical-models-generated-mappings
+      - full-specification-ontology-fusion
+      - defer
+      - stop
+    decision_type: architecture
+    blocking: true
+    status: closed
+    selected_option: one-semantic-graph-owned-branches
+    description: >-
+      One logical ontology contains separately owned business, formal-claims/specification, proof-bridge and
+      system branches. Generated integrated views cannot create semantic links or transfer authority.
+    impact: >-
+      Resolves the architecture option set but leaves exact contracts, verifier evidence, protected role admission,
+      migration and implementation behind separate gates.
+    rationale: Direct user selection A recorded in the architecture decision on 2026-08-23.
+    evidence:
+      - ART-DSV2-SPEC-ONTOLOGY-DECISION
+      - ART-DSV2-SPEC-ONTOLOGY-R4-OWNER-DECISION
+
+  - decision_id: DEC-DSV2-BMC-REL-N05
+    scope_id: CTX-DSV2-BMC-REL
+    question: Should future same-dimension longer-cycle policy be uniform across D29 dimensions or governed per dimension?
+    options:
+      - uniform-future-rule
+      - dimension-specific-future-rules
+      - defer
+      - stop
+    decision_type: relationship-semantics
+    blocking: true
+    status: open
+    default_option: dimension-specific-future-rules
+    description: >-
+      N01 through N04 are resolved. N05 must not infer actual cycle rejection, transitivity, closure or runtime
+      behavior; it chooses only the governance topology for later same-dimension cycle decisions.
+    impact: Design stops at N05 and no longer-cycle or canonical relationship policy may proceed.
+    rationale: No owner selection has been recorded; dimension-specific governance is the presented recommendation.
+    evidence:
+      - ART-DSV2-BMC-REL-DESIGN-RESULT
+
+  - decision_id: DEC-DSV2-ORODI-OWNER-BINDING-AUTHORITY
+    scope_id: CTX-DSV2-ORODI
+    question: >-
+      Who should hold packet-level coordination responsibility for Wave 0 while every semantic, profile,
+      evaluator, evidence, infrastructure, deployment, promotion and release field remains separately accepted
+      by its own owner?
+    options:
+      - ORODI-COORD-INITIATING-OWNER
+      - ORODI-COORD-DISTRIBUTED-FIELD-OWNERS
+      - ORODI-COORD-DEFER
+      - ORODI-COORD-STOP
+    decision_type: owner-binding-coordination
+    blocking: true
+    status: closed
+    selected_option: ORODI-COORD-INITIATING-OWNER
+    description: >-
+      Selects only the Wave-0 packet coordinator. It does not assign or satisfy any semantic, profile,
+      evaluator, evidence, infrastructure, deployment, promotion or release field-owner gate.
+    impact: >-
+      Vlad Rondelli may assemble, inventory, route and check completeness of ORODI-OWNER-BINDING-PACKET-001.
+      Later waves remain blocked until every exact field has a separately scoped owner acceptance and lifecycle
+      admission receipt.
+    rationale: >-
+      Vlad Rondelli, acting as initiating DomainSpec v2 project owner, explicitly accepted the limited Wave-0
+      coordinator role on 2026-08-24; no additional rationale was supplied.
+    evidence:
+      - ART-DSV2-ORODI-OWNER-BINDING-DECISION
+      - ART-DSV2-ORODI-INVOKE-PLAN
+    links:
+      - {label: live-binding blocker, target: BLK-DSV2-ORODI-LIVE-BINDINGS, kind: row-id}
+      - {label: profile-admission gap, target: GAP-DSV2-ORODI-TOOL-PROFILE-ADMISSION, kind: row-id}
+
+  - decision_id: DEC-DSV2-ORODI-LIVE-TARGET-DEFER
+    scope_id: CTX-DSV2-ORODI
+    question: Should exact live subject and environment binding be completed now or deferred?
+    options:
+      - bind-live-target-now
+      - defer-live-target-binding
+      - stop
+    decision_type: deferral
+    blocking: false
+    status: closed
+    selected_option: defer-live-target-binding
+    description: >-
+      Defers the live subject and environment fields of ORODI-OWNER-BINDING-PACKET-001. It does not waive the
+      live-binding blocker or replace the missing profile, tool, evaluator, policy, infrastructure and protected-
+      effect owner admissions.
+    impact: >-
+      The accepted Work Pack remains non-executing with zero mutation-capable units and no Task Session route.
+      Any local prototype implementation requires a separately authorized and exactly scoped prototype Work Pack;
+      live infrastructure, deployment and release remain unavailable.
+    rationale: >-
+      The user stated on 2026-08-24 that exact subject and environment binding is not necessary right now and
+      instructed that it be marked deferred.
+    evidence:
+      - ART-DSV2-ORODI-INVOKE-PLAN
+      - ART-DSV2-ORODI-OWNER-BINDING-DECISION
+    links:
+      - {label: retained live-binding blocker, target: BLK-DSV2-ORODI-LIVE-BINDINGS, kind: row-id}
+      - {label: retained profile-admission gap, target: GAP-DSV2-ORODI-TOOL-PROFILE-ADMISSION, kind: row-id}
+
 blockers:
   - blocker_id: BLK-FPR01003-001
     context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
@@ -1617,6 +2106,7 @@ blockers:
 
   - blocker_id: BLK-DSV2-DRIFT-ENGINE
     context_id: CTX-DSV2-REFORMULATE-BATCH1
+    status: active
     summary: Drift governance is designed but not implemented in the engine (Stream<CheckResult> + guardedness).
     blocker_type: implementation
     lane: engine
@@ -1628,6 +2118,7 @@ blockers:
 
   - blocker_id: BLK-DSV2-L2-ATTESTATION
     context_id: CTX-DSV2-AUTHORITY
+    status: active
     summary: >-
       L1 integrity sealing passed for SWU-R3C-010; the external L2 actor-identity
       signature for the 3 ratified governance kinds remains unavailable.
@@ -1699,24 +2190,22 @@ blockers:
 
   - blocker_id: BLK-DSV2-RMT002-TRANSIENT-API-ACCEPT
     context_id: CTX-DSV2-RMT
-    status: active
+    status: resolved
     summary: >-
-      The WP-RMT-002 Task Session transient-output API proposal validates pass over 33 staged targets, 70 units,
-      112 validation commands and 69 hostile fixtures, but no owner has accepted its exact bytes. Its own
-      validation records proposal_receipt, owner_acceptance and apply_authorization as absent, so no live target
-      changed and RMT-OP-001 cannot be admitted.
+      Historical transient-output acceptance blocker is superseded by the live prototype state.
+      Exact candidate-local implementation and validation completed without a product-design change;
+      the remaining work is WP-RMT-002R governance reconciliation, not transient-API acceptance.
     blocker_type: owner-acceptance
     lane: invoke-refresh
-    refinement_status: refined
+    refinement_status: resolved
+    resolved_at: 2026-08-21
     closure_condition: >-
-      An exact-byte owner accepts the proposal bytes, a separately authorized live apply lands the 33 targets,
-      and a later readiness pass names RMT-OP-001 as selectable with mutation_ready true.
-    owner_route: exact-byte-owner:accept-proposal-bytes, then authorized live apply
-    requires_human: true
+      Preserved as historical context; current routing is the exact WP-RMT-002R reconciliation proposal.
+    owner_route: none-historical
+    requires_human: false
     evidence:
-      - ART-DSV2-RMT002-TRANSIENT-PROPOSAL
-      - ART-DSV2-RMT002-TRANSIENT-VALIDATION
-      - ART-DSV2-RMT002-GOVERNANCE-DEFECT
+      - ART-DSV2-RMT002-PROTOTYPE-VALIDATION
+      - ART-DSV2-RMT002R-WORK-PACK
 
   - blocker_id: BLK-DSV2-SMO-ARCANUM-BINDING
     context_id: CTX-DSV2-SMO
@@ -1734,9 +2223,18 @@ blockers:
       attempt-specific G1 authorization are recorded before any Task Session admission.
     owner_route: refine:evidence-refresh (not task-session)
     requires_human: true
+    downstream_impact: >-
+      Revised 2026-08-19: this blocker is the root of a three-link chain, not an isolated lane. The G1 package
+      stages the only owned P2 profile and formation-projection material, so BLK-DSV2-SFC-PR001-PROFILE-ABSENT
+      and therefore SWU-SFC-004 and SFC units 4-20 all wait behind it. Its own precondition is a stable Arcanum
+      snapshot, which the concurrent arcanum/arcana/task-session work is currently in the middle of changing.
     evidence:
       - ART-DSV2-SMO-ONE-SHOT-BLOCK
       - ART-DSV2-SMO-G1-REPAIR-RECEIPT
+      - ART-DSV2-SMO-PROFILE-CANDIDATE
+    links:
+      - {label: downstream blocker, target: BLK-DSV2-SFC-PR001-PROFILE-ABSENT, kind: row-id}
+      - {label: staged P2 material, target: ART-DSV2-SMO-PROFILE-CANDIDATE, kind: artifact-id}
 
   - blocker_id: BLK-DSV2-SICL-REV2-REFRESH
     context_id: CTX-DSV2-SICL
@@ -1780,29 +2278,190 @@ blockers:
 
   - blocker_id: BLK-DSV2-SFC-PR001-PROFILE-ABSENT
     context_id: CTX-DSV2-SFC
-    status: active
+    status: resolved
     summary: >-
-      SF-02 binds profile feature-with-independent-node-and-edge-files@1 at 13 kinds and 16 relations, but the
-      live registry definitions/minted-project/supported-profiles.yml contains exactly one profile —
-      feature-with-independent-node-files@1, status experimental, 4 kinds, 3 relationships,
-      release_admission not-granted. The selected profile does not exist. Both registry digest pins verify
-      current against live bytes, so this is a content gap, not staleness. Separately, the live authority holds
-      17 backend-scoped active signatures, not the 16 that SWU-SFC-004 asserts as exact membership.
+      Historical absence is closed: the live registry now contains complete-backend-criteria@2 as a candidate
+      with 13 kinds, 17 relationship IDs and a 26-case golden corpus. This does not close the distinct profile
+      identity/layout/admission and stale SFC 16-relation projection work tracked by
+      BLK-DSV2-P2-DENOMINATOR-DRIFT.
     blocker_type: authority-absent
     lane: profile-owner
-    refinement_status: refined
+    refinement_status: resolved
+    resolved_at: 2026-08-23
+    resolution: >-
+      Exact live registry inspection found the candidate row. The blocker is closed only as absence; candidate
+      status and release_admission not-granted preserve the downstream authority gate.
     closure_condition: >-
-      The profile owner creates the feature-with-independent-node-and-edge-files@1 registry row over the exact
-      13 active kinds, resolves the membership count to 17 or names the excluded signature with grounds,
-      promotes the row past experimental, and issues the owner-ratified P2 receipt that SWU-SFC-004 consumes.
-    owner_route: profile owner (definitions/minted-project) + definitions-governance
-    requires_human: true
+      Preserved as historical context. Continue profile ratification and SFC projection repair under
+      BLK-DSV2-P2-DENOMINATOR-DRIFT; do not reopen this absence claim.
+    owner_route: none-historical
+    requires_human: false
     evidence:
       - ART-DSV2-SFC-OWNER-REVIEW
       - ART-DSV2-SFC-CROSS-TASK-GAPS
+      - ART-DSV2-P2-RATIFICATION-PROPOSAL
+      - ART-DSV2-SMO-PROFILE-CANDIDATE
+      - ART-DSV2-LIVE-PROFILE-REGISTRY
+    upstream_blocker: none
     links:
-      - {label: live profile registry, target: "definitions/minted-project/supported-profiles.yml", kind: path}
+      - {label: live profile registry, target: ART-DSV2-LIVE-PROFILE-REGISTRY, kind: artifact-id}
+      - {label: owned candidate to build from, target: ART-DSV2-SMO-PROFILE-CANDIDATE, kind: artifact-id}
+      - {label: ratification proposal, target: ART-DSV2-P2-RATIFICATION-PROPOSAL, kind: row-id}
+      - {label: upstream chain root, target: BLK-DSV2-SMO-ARCANUM-BINDING, kind: row-id}
       - {label: blocked unit, target: ART-DSV2-SFC-WORK-PACK, kind: artifact-id}
+
+
+  - blocker_id: BLK-DSV2-P2-DENOMINATOR-DRIFT
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: active
+    summary: >-
+      The accepted 2026-07-17 FPR-02 decision selected "all 16 backend signatures admitted and exercised" and was
+      correct when made — at that commit relationships.yml held 30 signatures, 16 backend-scoped. Commit 82edd13e4
+      on 2026-07-23 added the `creates` signature (Operation -> Entity, same-feature), moving the backend
+      denominator to 17. The invalidation trigger that SPEC.md line 57 declares for a changed relationship binding
+      did not fire. The stale 16 propagated into SF-02 on 2026-08-16 and into nine WP-SFC-001 artifacts including
+      the SWU-SFC-004 acceptance boundary, while WP-SMO-001 independently recorded the correct 17 on 2026-08-14.
+    blocker_type: authority-drift
+    lane: profile-owner
+    refinement_status: refined
+    closure_condition: >-
+      The owner re-ratifies the 16/16 quantity as 17/17 with its admitted-and-exercised obligation, `creates`
+      obtains positive corpus coverage and negative controls, the nine projection sites listed in
+      ART-DSV2-P2-COUNT-PATCH are corrected through an Invoke Refresh with exact owner approval, and the two-lane
+      integration check is re-run with a denominator-agreement assertion added so this class of divergence fails
+      closed. Past validation records are superseded by re-run, not retroactively edited.
+    owner_route: profile owner re-ratification, then invoke refresh over the Lane B package
+    requires_human: true
+    evidence:
+      - ART-DSV2-P2-COUNT-PATCH
+      - ART-DSV2-SMO-PROFILE-CANDIDATE
+      - ART-DSV2-SFC-OWNER-REVIEW
+    links:
+      - {label: patch proposal, target: ART-DSV2-P2-COUNT-PATCH, kind: artifact-id}
+      - {label: blocked profile ratification, target: BLK-DSV2-SFC-PR001-PROFILE-ABSENT, kind: row-id}
+      - {label: unrealized drift mechanism, target: BLK-DSV2-DRIFT-ENGINE, kind: row-id}
+      - {label: gate that should have caught it, target: GAP-DSV2-TWO-LANE-INTEGRATION, kind: row-id}
+
+
+  - blocker_id: BLK-DSV2-REFINE-PLAN-ADMISSIBILITY
+    context_id: CTX-DSV2-FORMAT-HONESTY
+    status: active
+    summary: >-
+      The refine sigil can synthesize a pass result around an Invoke Plan output that its own recommended next
+      owner cannot admit. WP-FMT-001's first plan was prose only: zero write-scope declarations across 14 units
+      and all six closeout-contract fields absent. The refine run reported pass and recommended task-session;
+      task-session-until-blocker returned BLOCK at preflight on preconditions 3 and 4. The nine refine dispatch
+      gates covered stage receipts, owner boundary, digest completeness, comment preservation, in-flight
+      collision and the Craft contract, but none asserted that a plan is admissible by its declared next owner.
+    blocker_type: contract-gap
+    lane: sigil-development
+    refinement_status: refined
+    closure_condition: >-
+      The refine sigil gains gate G-plan-admissible: when Invoke Plan names an execution-capable next owner, the
+      run must not synthesize pass until the plan output satisfies that owner's documented admission
+      preconditions, or records an explicit blocked reason naming them. The instance defect for WP-FMT-001 is
+      already repaired by ART-DSV2-FMT-SIDECAR; this blocker tracks the permanent fix only.
+    owner_route: sigil-development on refine
+    requires_human: true
+    evidence:
+      - ART-DSV2-FMT-SIDECAR
+      - ART-DSV2-FMT-CHAIN-RECORD
+    links:
+      - {label: instance repair, target: ART-DSV2-FMT-SIDECAR, kind: artifact-id}
+      - {label: preflight evidence, target: ART-DSV2-FMT-CHAIN-RECORD, kind: artifact-id}
+
+  - blocker_id: BLK-DSV2-SPEC-ONTOLOGY-VERIFIER-ADMISSION
+    context_id: CTX-DSV2-SPEC-ONTOLOGY
+    status: active
+    summary: >-
+      The @4 contract package is candidate-valid and Rondelli's aggregate selection is recorded, but all eleven
+      owner slices remain verification-pending. Victor Boscaro has not authenticated, accepted the V1 policy or
+      issued the required V1/V2 receipts, so protected roles cannot be admitted.
+    blocker_type: authority-verification
+    lane: owner-admission
+    refinement_status: refined
+    closure_condition: >-
+      Victor directly accepts the exact unchanged @4 identity/role/policy contract, required V2 receipts and
+      exact V1 checker receipts validate, and only then are the eleven separate owner responses materialized and
+      admitted at their own scope ceilings.
+    owner_route: Victor verifier response plus exact structural verification
+    requires_human: true
+    evidence:
+      - ART-DSV2-SPEC-ONTOLOGY-R4-OWNER-DECISION
+      - ART-DSV2-SPEC-ONTOLOGY-R4-VERIFIER-REQUEST
+
+  - blocker_id: BLK-DSV2-BMC-REL-N05
+    context_id: CTX-DSV2-BMC-REL
+    status: active
+    summary: >-
+      The relationship-constraint Design sidecar stops at N05 because no owner selection exists for uniform
+      versus dimension-specific governance of future same-dimension longer-cycle policy.
+    blocker_type: decision
+    lane: relationship-decision-owner
+    refinement_status: refined
+    closure_condition: >-
+      The relationship decision owner selects one exact option from DEC-DSV2-BMC-REL-N05 through decision-gate;
+      the resulting receipt must preserve the exclusion of actual cycle behavior and canonical mutation.
+    owner_route: decision-gate
+    requires_human: true
+    evidence:
+      - ART-DSV2-BMC-REL-DESIGN-RESULT
+
+  - blocker_id: BLK-DSV2-PROOF-GATE01-BINDING
+    context_id: CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE
+    status: active
+    summary: >-
+      The DomainSpec v2 replacement candidate is owner-accepted, but the earlier GATE-01 ratification still
+      binds the superseded v1 candidate and receipt.
+    blocker_type: lifecycle-binding
+    lane: proof-substrate-governance
+    refinement_status: refined
+    closure_condition: >-
+      A refreshed GATE-01 decision binds the exact accepted DomainSpec v2 candidate, authority-model and syntax
+      digests and retires the old v1 route without transferring meaning or lifecycle authority.
+    owner_route: refreshed GATE-01 owner decision
+    requires_human: true
+    evidence:
+      - ART-DSV2-PROOF-SYNTAX-ACCEPTANCE
+
+  - blocker_id: BLK-DSV2-EVF-P0-EXECUTION-ADMISSION
+    context_id: CTX-DSV2-EVF
+    status: active
+    summary: >-
+      Runtime-repair acceptance opens only an exact 53-path publication edge. Original BTE/IOLM prerequisites,
+      proposal acceptance, canonical apply, independent readiness, fresh retry authorization, dispatch
+      registration and unit selection remain closed.
+    blocker_type: execution-precondition
+    lane: validation-governance
+    refinement_status: refined
+    closure_condition: >-
+      Complete the separately owned prerequisite and readiness receipts, preserve any bounded publication as a
+      distinct edge, obtain a fresh run ID and explicit retry authorization, and select at most one eligible unit.
+    owner_route: retained owner gates then implementation-readiness
+    requires_human: true
+    evidence:
+      - ART-DSV2-EVF-RUNTIME-OWNER-ACCEPTANCE
+      - ART-DSV2-EVF-OWNER-PACKET-RECEIPT
+
+  - blocker_id: BLK-DSV2-ORODI-LIVE-BINDINGS
+    context_id: CTX-DSV2-ORODI
+    status: active
+    summary: >-
+      No exact live subject, environment, accountable owners, technology profiles, tools, evaluators, policy,
+      evidence expiry, infrastructure target or deployment authority is bound to the research contract.
+    blocker_type: execution-precondition
+    lane: operational-evidence-and-deployment-owners
+    refinement_status: refined
+    closure_condition: >-
+      Separate named owners accept exact immutable bindings for the subject, environment, profiles, tools,
+      evaluators, policies, expiry, infrastructure target and deployment boundary; required ontology and profile
+      admissions validate; a later Invoke Refresh materializes only those accepted deltas before readiness review.
+    owner_route: owner decisions and profile admission, then invoke:refresh
+    requires_human: true
+    evidence:
+      - ART-DSV2-ORODI-RESEARCH
+    links:
+      - {label: live target binding deferred without waiver, target: DEC-DSV2-ORODI-LIVE-TARGET-DEFER, kind: row-id}
 
 gaps:
   - gap_id: GAP-DSV2-EDGE-CATALOG
@@ -1842,6 +2501,7 @@ gaps:
 
   - gap_id: GAP-SH-UI11-MIGRATE
     context_id: CTX-DSV2-REFORMULATE-BATCH1
+    status: active
     summary: >-
       The 11 UI meta-types are enumerated only in impl/spec/TAXONOMY.md (root definitions/meta-types/meta-types.yml
       is backend-14). Per DEC-DSV2-SPEC-HOMING, TAXONOMY.md must NOT be deleted (R2) until the 11 UI types are
@@ -1854,6 +2514,7 @@ gaps:
 
   - gap_id: GAP-SH-PROSE-HOMES
     context_id: CTX-DSV2-REFORMULATE-BATCH1
+    status: active
     summary: >-
       DRIFT-CONVERGENCE.md still has no owner-surface home yet (drift-governance for DRIFT). The AXIOMS/R1
       half was resolved 2026-07-10 by authority/AXIOMS.{md,yml} plus CAV2 definition-sync, and
@@ -2001,7 +2662,7 @@ gaps:
       units. No CLI byte exists; the planning package is not evidence of an artifact.
     severity: block
     treatment: plan
-    owner_route: exact owner review, then implementation-readiness:execute
+    owner_route: profile/P2 refresh, then implementation-readiness:execute
     evidence:
       - ART-DSV2-SFC-AUTHORING-RECEIPT
       - ART-DSV2-SFC-EXECUTION-ENTRY
@@ -2037,10 +2698,11 @@ gaps:
     context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
     status: active
     summary: >-
-      Lane A (WP-RMT-002) and Lane B (WP-SFC-001) currently pass a planning-boundary integration check with zero
-      write-scope overlap, but neither is exact-byte accepted. The 2026-08-16 decision requires an integration
-      check proving one shared P2 profile identity and causal-proof denominator before either lane routes to
-      mutation-capable execution. That check must be re-run against accepted bytes, not staged ones.
+      Lane A reconciliation is terminal candidate-local pass and Lane B source freshness is current, but the
+      shared profile identity and denominator are still split: the live candidate is 13 kinds/17 relationships
+      while SFC retains a 16-relation selection and mismatched identity/layout. The integration gate must be
+      rerun after exact 17/17 owner re-ratification and SFC refresh; neither planning evidence nor the candidate
+      profile authorizes release.
     severity: block
     treatment: plan
     owner_route: FPR owner + both lane owners
@@ -2068,6 +2730,83 @@ gaps:
     evidence:
       - ART-DSV2-SFC-OWNER-REVIEW
       - ART-DSV2-SFC-CLOSEOUT-CONTRACT
+
+
+  - gap_id: GAP-DSV2-CARD-EDGE-DRIFT
+    context_id: CTX-DSV2-FORMAT-HONESTY
+    status: active
+    summary: >-
+      Measured 2026-08-19 against live definitions/relationships/relationships.yml: 8 of 13 meta-type cards
+      under impl/spec/meta-types/ disagree with the edge authority, and 3 assert relationships that do not
+      exist. calculation.md claims SOURCE of `derives` (actually View Model to Entity) and TARGET of `performs`
+      (actually Entity to Operation); rule.md claims SOURCE of `applies` (actually Policy to
+      Operation/Calculation); enum.md claims TARGET of `contains`. event.md omits `produces`, one of only three
+      relationships in the sole currently-admitted profile. interface, state-machine, query and mapping cards
+      are incomplete. Root cause is identical to the 16-vs-17 denominator drift found the same day: a derived
+      fact copied by hand and never re-derived.
+    severity: high
+    treatment: correct-then-generate
+    owner_route: WP-FMT-001 layers L1 (SWU-FMT-004/005) then L3
+    evidence:
+      - ART-DSV2-FMT-WORK-PACK
+      - ART-DSV2-FMT-REFINE-RESULT
+    links:
+      - {label: sibling drift finding, target: BLK-DSV2-P2-DENOMINATOR-DRIFT, kind: row-id}
+      - {label: unrealized drift mechanism, target: BLK-DSV2-DRIFT-ENGINE, kind: row-id}
+
+  - gap_id: GAP-DSV2-BMC-REALIZATION-BINDINGS
+    context_id: CTX-DSV2-BMC
+    status: active
+    summary: >-
+      BMC-EVD-001 records three stale Value Object candidate bindings and nine absent Enum candidate bindings
+      across the TypeScript/Python/Rust realization surface. Queue readiness remains false.
+    severity: high
+    treatment: refresh-bindings
+    owner_route: BMC evidence owner through implementation-readiness
+    evidence:
+      - ART-DSV2-BMC-MATURITY-MATRIX
+
+  - gap_id: GAP-DSV2-FMT-SWU001-CLOSEOUT
+    context_id: CTX-DSV2-FORMAT-HONESTY
+    status: active
+    summary: >-
+      SWU-FMT-001 execution passes, but closeout_result is NOT-RUN and its six planning/control targets have not
+      been synchronized. SWU-FMT-002 is not eligible until apply-approved closeout succeeds.
+    severity: high
+    treatment: closeout-before-successor
+    owner_route: invoke:refresh:apply-approved
+    evidence:
+      - ART-DSV2-FMT-SWU001-RESULT
+
+  - gap_id: GAP-DSV2-EVF-SMT-PROVIDER
+    context_id: CTX-DSV2-EVF
+    status: active
+    summary: >-
+      The SMT/FOL research tower grounds the deterministic derivation engine's decidability and needs_formal
+      boundary, but no EVF contract, admitted runtime profile, evaluator binding, or receipt currently integrates
+      an SMT solver for optional verify/witness work. That operational continuation belongs to EVF's evidence
+      chain, while any solver runtime may retain separate provider ownership; it is not a TDE implementation
+      frontier and is not implemented by the existing Souffle/Alloy L2 slice.
+    severity: medium
+    treatment: defer-with-typed-provider
+    owner_route: EVF formal-validation owner through a separate define, design, provider-admission and validation route
+    evidence:
+      - ART-DSV2-EVF-WORK-PACK
+    links:
+      - {label: SMT/FOL source research, target: "[repo-root]/research/smt-fol-test-derivation/", kind: path}
+      - {label: TDE provenance ledger, target: "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/.craft/ledger.yml", kind: path}
+
+  - gap_id: GAP-DSV2-ORODI-TOOL-PROFILE-ADMISSION
+    context_id: CTX-DSV2-ORODI
+    status: active
+    summary: >-
+      The research compares observability, infrastructure and progressive-delivery tool families, but no exact
+      versioned technology profile or portability boundary is selected or admitted for DomainSpec v2.
+    severity: block
+    treatment: defer
+    owner_route: separate technology-profile and deployment-policy owners through decision-gate and Invoke Refresh
+    evidence:
+      - ART-DSV2-ORODI-RESEARCH
 
 definitions:
   - definition_id: DEF-DSV2-TWO-PLANE
@@ -2305,7 +3044,7 @@ artifacts:
     notes: invoke define+design+plan — promote the meta-type vocabulary to real definitions. DS-D2/DS-D8 relationship cards promoted from R3A root authority; DS-D1 backend cards remain candidate; UI-11 deferred to MT5; Tier 3 schema-format terms remain document-not-define.
   - artifact_id: ART-DSV2-APE
     path: development/architecture-pattern-enforcement/
-    status: candidate
+    status: active
     notes: >-
       invoke define+design+plan — the architecture-pattern enforcement program (full scope). SPEC + GLOSSARY +
       architecture-bundle (6 views) + implementation-layering (L0-L3) + execution-pack + WORK-PACK
@@ -2546,13 +3285,13 @@ artifacts:
       BTE/consumer/Craft/Inventory surfaces and do not execute a SWU or authorize production.
   - artifact_id: ART-DSV2-FPR02-BTE-SWU001-CONTEXT
     path: development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/CONTEXT-PACK.md
-    status: block
+    status: superseded
     notes: >-
       Strict local Task Session context pack. It blocks before implementation because the BTE manifest and
       controlling task/wave contracts disagree on the dependency-ready SWU.
   - artifact_id: ART-DSV2-FPR02-BTE-SWU001-BLOCK-RECEIPT
     path: development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/execution-receipt.json
-    status: block
+    status: superseded
     notes: >-
       Task Session readiness receipt; no implementation files changed. Next route is an Invoke Refresh that
       names exactly one dependency-ready unit.
@@ -2637,12 +3376,12 @@ artifacts:
 
   - artifact_id: ART-DSV2-RMT002-TRANSIENT-PROPOSAL
     path: development/architecture-pattern-enforcement/refreshes/20260816T160301Z-wp-rmt-002-task-session-transient-output-api-proposal/PROPOSAL-RECEIPT.json
-    status: active
+    status: superseded
     notes: Proposal-validated-non-applicable. Next owner exact-byte-owner:accept-proposal-bytes; no live apply, selection, admission or promotion.
 
   - artifact_id: ART-DSV2-RMT002-TRANSIENT-VALIDATION
     path: development/architecture-pattern-enforcement/refreshes/20260816T160301Z-wp-rmt-002-task-session-transient-output-api-proposal/VALIDATION-RESULT.json
-    status: active
+    status: superseded
     notes: Pass across 33/33 targets, 70/70 units, 112/112 validation commands, 69/69 hostile fixtures — with proposal_receipt, owner_acceptance and apply_authorization all recorded absent.
 
   - artifact_id: ART-DSV2-RMT002-GOVERNANCE-DEFECT
@@ -2708,7 +3447,7 @@ artifacts:
   - artifact_id: ART-DSV2-EVF-WORK-PACK
     path: development/evolvable-validation-framework/WORK-PACK.md
     status: active
-    notes: candidate-awaiting-task-session; first unit SWU-GCP-001 unselected.
+    notes: Candidate-local L2 reachability validated with flags; L3 remains design-gated on the current denominator and corpus boundary.
 
   - artifact_id: ART-DSV2-EVF-ONE-SHOT-READINESS
     path: development/evolvable-validation-framework/development/refinement-runs/20260813T160957-0300-evf-one-shot-readiness/RESULT.md
@@ -2741,6 +3480,265 @@ artifacts:
     status: active
     notes: Per-unit closeout inventory and apply rule. A failed or unapplied candidate cannot be described as closed; closeout exposes the successor as eligible but never starts it.
 
+
+  - artifact_id: ART-DSV2-P2-RATIFICATION-PROPOSAL
+    path: .craft/artifacts/2026-08-19-p2-profile-ratification-proposal.md
+    status: active
+    notes: Proposal only. Precedent sweep found the P2 material already owned in WP-SMO-001; establishes 17 (not 16) as the membership count and names three discrepancies (id, source_layout, status). Ratifies nothing.
+
+  - artifact_id: ART-DSV2-SMO-PROFILE-CANDIDATE
+    path: development/refinement-runs/20260814T103237-0300-shared-meta-obligation-product-readiness/proposals/formation/supported-profiles.candidate.json
+    status: active
+    notes: Owned candidate profile complete-backend-criteria@2 — 13 kinds, 17 relationship_ids, non_admitted_relationship_count 14, formation_contract + 26-case golden corpus. status candidate, release_admission not-granted.
+
+  - artifact_id: ART-DSV2-LIVE-PROFILE-REGISTRY
+    path: definitions/minted-project/supported-profiles.yml
+    status: active
+    notes: Live profile registry. Holds exactly one row — feature-with-independent-node-files@1, experimental, 4 kinds, 3 relationships, release_admission not-granted, non_goals include cross-feature completeness and independent edge lifecycle.
+
+
+  - artifact_id: ART-DSV2-P2-COUNT-PATCH
+    path: .craft/artifacts/2026-08-19-p2-membership-count-patch-proposal.md
+    status: active
+    notes: Proposal only. Establishes the 16 as uncaught drift (correct 2026-07-17, stale after `creates` landed 2026-07-23), lists the exact nine projection sites, and routes re-ratification before any text edit. Applies nothing.
+
+
+  - artifact_id: ART-DSV2-FMT-WORK-PACK
+    path: development/format-honesty/WORK-PACK.md
+    status: active
+    notes: WP-FMT-001 — 14 SWUs in 4 layers (checks, corrections, format, generation). Non-executed. Companion projection under work-pack/shared/.
+
+  - artifact_id: ART-DSV2-FMT-EXECUTION-ENTRY
+    path: development/format-honesty/EXECUTION-ENTRY.json
+    status: active
+    notes: selection-ready, selected_unit null, next owner implementation-readiness:execute. 14-unit frontier, strictly linear dependencies.
+
+  - artifact_id: ART-DSV2-FMT-SIDECAR
+    path: development/format-honesty/governance-defect/SIDECAR-RECEIPT.json
+    status: active
+    notes: Governance-defect sidecar REFINE-PLAN-EXECUTION-ENTRY-PROJECTION-MISSING. Instance repaired by authoring the projection; permanent gate G-plan-admissible proposed-not-applied.
+
+  - artifact_id: ART-DSV2-FMT-CHAIN-RECORD
+    path: development/format-honesty/CHAIN-RECORD.json
+    status: active
+    notes: task-session-until-blocker chain r2 — all six preconditions PASS; BLOCK at Phase 3 because selection plus execution authorization is an owner act the spell does not hold.
+
+  - artifact_id: ART-DSV2-FMT-REFINE-RESULT
+    path: development/refinement-runs/20260819T000000Z-serialization-format-normalization/RESULT.md
+    status: active
+    notes: Refine run that produced the pack. Route R5 operator-authored, superseding the four routes offered by Distill. Measured 204 yml files, 391 pin sites, 8 drifted cards.
+
+  - artifact_id: ART-DSV2-RMT002-PROTOTYPE-VALIDATION
+    path: "[repo-root]/.task-session/runs/20260821T092317Z-wp-rmt-002-fast-lane/PROTOTYPE-VALIDATION.json"
+    status: active
+    notes: "Consolidated candidate-local fast-lane validation for all seven remaining meta-types; 301 executable tests passed, design_changed false, authority_effect none."
+
+  - artifact_id: ART-DSV2-RMT002R-WORK-PACK
+    path: "development/refinement-runs/20260814T193343Z-active-meta-type-implementations/stages/09-invoke-plan/reconciliation/WORK-PACK.md"
+    status: active
+    notes: "Eight-unit governance reconciliation pack: seven exact type-adoption receipts feed one terminal receipt without retroactive Task Session claims."
+
+  - artifact_id: ART-DSV2-RMT002R-TERMINAL
+    path: "development/remaining-meta-types/reconciliation/wp-rmt-002r/TERMINAL-RECEIPT.json"
+    status: active
+    notes: "Observed passing terminal reconciliation receipt, SHA-256 7eddff91e867ed6136483dc5ff5dc91a55699897583667aa1f9525668fddbc73, closing 8/8 receipt-only units. It does not execute the original 70 Task Session units and grants no registration, ontology, relation-materialization, promotion, publication, release, deployment, or production authority."
+
+  - artifact_id: ART-DSV2-EVF-L2-PROTOTYPE
+    path: development/evolvable-validation-framework/evidence/SWU-GCP-007-C3/attempt-001/PROTOTYPE-VALIDATION-REPORT.md
+    status: active
+    notes: Candidate-local C0-C3 result for one selected reachability property over one exact shared fact snapshot; authority effect none and release not granted.
+
+  - artifact_id: ART-DSV2-EVF-L2-CLOSURE
+    path: development/evolvable-validation-framework/development/refinement-runs/20260821T044428Z-evf-l2-one-shot-work-pack/closure-runs/attempt-001/INDEPENDENT-CLOSURE-RECEIPT.json
+    status: active
+    notes: Independent L2 closure FLAG with zero blockers, three environment/governance flags, and 35/35 exact references fresh.
+
+  - artifact_id: ART-DSV2-CRAFT-REFRESH-20260823
+    owner_context_id: CTX-DSV2-ROOT
+    path: .craft/ledger.yml
+    artifact_type: craft-ledger-refresh
+    status: active
+    notes: Full-project Craft state refresh; authority effect none.
+
+  - artifact_id: ART-DSV2-APE-WORK-PACK
+    owner_context_id: CTX-DSV2-APE
+    path: development/architecture-pattern-enforcement/WORK-PACK.md
+    artifact_type: work-pack
+    status: active
+    notes: Enum W0/W1 complete; W2 exact-confirmation fan-out is the nearest frontier.
+
+  - artifact_id: ART-DSV2-APE-OP-VERIFICATION
+    owner_context_id: CTX-DSV2-APE
+    path: development/architecture-pattern-enforcement/evidence/WP-APE-OP-PROFILE-001/WORK-PACK-VERIFICATION.json
+    artifact_type: work-pack-verification
+    status: pass
+    notes: AOP-001..010 candidate-local terminal verification; no synchronized closeout or admission.
+
+  - artifact_id: ART-DSV2-APE-WF-VERIFICATION
+    owner_context_id: CTX-DSV2-APE
+    path: development/architecture-pattern-enforcement/evidence/WP-APE-WF-PROFILE-001/WORK-PACK-VERIFICATION.json
+    artifact_type: work-pack-verification
+    status: pass
+    notes: AWF-001..011 candidate-local terminal verification; no synchronized closeout or admission.
+
+  - artifact_id: ART-DSV2-BMC-REFINE-RESULT
+    owner_context_id: CTX-DSV2-BMC
+    path: development/refinement-runs/20260822T105053Z-backend-meta-type-continuation/RESULT.md
+    artifact_type: refine-result
+    status: pass
+    notes: Validated three-lane continuation plan; no product or authority mutation.
+
+  - artifact_id: ART-DSV2-BMC-EVD-RECEIPT
+    owner_context_id: CTX-DSV2-BMC
+    path: development/backend-meta-type-conformance/evidence/WP-BMC-001/BMC-EVD-001.RECEIPT.json
+    artifact_type: evidence-receipt
+    status: flag
+    notes: Candidate-local freshness and maturity inventory only.
+
+  - artifact_id: ART-DSV2-BMC-MATURITY-MATRIX
+    owner_context_id: CTX-DSV2-BMC
+    path: development/backend-meta-type-conformance/evidence/WP-BMC-001/BMC-EVD-001.MATURITY-MATRIX.json
+    artifact_type: maturity-matrix
+    status: flag
+    notes: Exact 13-type, 39-realization evidence with stale/absent bindings and unchanged false readiness.
+
+  - artifact_id: ART-DSV2-BMC-REL-PACKET
+    owner_context_id: CTX-DSV2-BMC-REL
+    path: development/relationship-constraint-decisions/BMC-REL-001/candidates/BMC-REL-001.RELATIONSHIP-CONSTRAINT-DECISION-PACKET.json
+    artifact_type: decision-packet
+    status: block
+    notes: Candidate pending owner decisions; canonical rows remain unresolved.
+
+  - artifact_id: ART-DSV2-BMC-REL-DESIGN-RESULT
+    owner_context_id: CTX-DSV2-BMC-REL
+    path: development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/DESIGN-RESULT.md
+    artifact_type: design-result
+    status: block
+    notes: N01..N04 resolved in the sidecar; Design stops at N05.
+
+  - artifact_id: ART-DSV2-PROOF-SYNTAX-CANDIDATE
+    owner_context_id: CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE
+    path: development/proof-obligation-substrate/2026-08-22-top03-shared-syntax-adoption-candidate.md
+    artifact_type: adoption-candidate
+    status: stale
+    notes: Exact accepted bytes, but the file's internal pending prose predates the separate controlling acceptance receipt.
+
+  - artifact_id: ART-DSV2-PROOF-SYNTAX-ACCEPTANCE
+    owner_context_id: CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE
+    path: authority/decisions/2026-08-22-top03-shared-syntax-adoption-acceptance.md
+    artifact_type: owner-acceptance
+    status: pass
+    notes: Cross-boundary structural address adoption only; refreshed GATE-01 remains required.
+
+  - artifact_id: ART-DSV2-SPEC-ONTOLOGY-DECISION
+    owner_context_id: CTX-DSV2-SPEC-ONTOLOGY
+    path: development/spec-ontology-branch-decision/decision-gate/DECISION.md
+    artifact_type: architecture-decision
+    status: pass
+    notes: Architecture option selection passes; protected owner admissions remain blocked.
+
+  - artifact_id: ART-DSV2-SPEC-ONTOLOGY-R4-OWNER-DECISION
+    owner_context_id: CTX-DSV2-SPEC-ONTOLOGY
+    path: development/spec-ontology-branch-decision/invoke-design/20260823T222046Z-spec-ontology-contract-hardening-r4/owner-admission/RONDELLI-AGGREGATE-DECISION.json
+    artifact_type: owner-decision
+    status: flag
+    notes: Eleven exact owner slices selected; all remain verification-pending.
+
+  - artifact_id: ART-DSV2-SPEC-ONTOLOGY-R4-VERIFIER-REQUEST
+    owner_context_id: CTX-DSV2-SPEC-ONTOLOGY
+    path: development/spec-ontology-branch-decision/invoke-design/20260823T222046Z-spec-ontology-contract-hardening-r4/owner-admission/VICTOR-VERIFIER-REQUEST.json
+    artifact_type: verifier-request
+    status: block
+    notes: Prepared, not sent, no response.
+
+  - artifact_id: ART-DSV2-EVF-RUNTIME-OWNER-ACCEPTANCE
+    owner_context_id: CTX-DSV2-EVF
+    path: development/evolvable-validation-framework/dispatch-runs/20260823T140821Z-p0-owner-evidence-review/runtime-repair-candidate/OWNER-ACCEPTANCE-RECEIPT.json
+    artifact_type: owner-acceptance
+    status: pass
+    notes: Exact 3-of-3 acceptance opens only the bounded 53-path publication edge.
+
+  - artifact_id: ART-DSV2-EVF-OWNER-PACKET-RECEIPT
+    owner_context_id: CTX-DSV2-EVF
+    path: development/evolvable-validation-framework/owner-response-packets/20260823T195640Z-runtime-repair-and-p0/RECEIPT.json
+    artifact_type: owner-packet-preparation
+    status: flag
+    notes: Exactly 23 incomplete digest-bound templates; no owner identities or decisions supplied by preparation.
+
+  - artifact_id: ART-DSV2-EVF-PROOF-ENGINE-RECONCILIATION
+    owner_context_id: CTX-DSV2-EVF
+    path: development/evolvable-validation-framework/decision-runs/20260823T201735Z-dirty-baselines/PROOF-ENGINE-RECONCILIATION-RECEIPT.json
+    artifact_type: reconciliation-receipt
+    status: pass
+    notes: Development BTE aggregate reconciled to 17 relationships and 91 coverage; no release effect.
+
+  - artifact_id: ART-DSV2-EVF-S1-BINDING-REPAIR
+    owner_context_id: CTX-DSV2-EVF
+    path: development/evolvable-validation-framework/decision-runs/20260823T201735Z-dirty-baselines/S1-BINDING-REPAIR-RECEIPT.json
+    artifact_type: repair-receipt
+    status: pass
+    notes: Exact-ref repair and bounded S1 verification pass at candidate-local ceiling.
+
+  - artifact_id: ART-DSV2-EVF-FORMAT-BASELINE
+    owner_context_id: CTX-DSV2-EVF
+    path: development/evolvable-validation-framework/decision-runs/20260823T201735Z-dirty-baselines/FORMAT-HONESTY-BASELINE-RECEIPT.json
+    artifact_type: validation-receipt
+    status: pass
+    notes: Baseline-aware format validator passes with exactly 49 acknowledged findings.
+
+  - artifact_id: ART-DSV2-FMT-SWU001-RESULT
+    owner_context_id: CTX-DSV2-FORMAT-HONESTY
+    path: development/format-honesty/runs/SWU-FMT-001/TASK-SESSION-RESULT.json
+    artifact_type: task-session-result
+    status: flag
+    notes: Execution PASS; closeout NOT-RUN, so the successor is not eligible.
+
+  - artifact_id: ART-DSV2-SFC-SOURCE-REFRESH
+    owner_context_id: CTX-DSV2-SFC
+    path: development/first-production-release/stable-foundation-cli/refreshes/20260821T210000Z-wp-sfc-001-source-binding-fast-lane/REFRESH-REPORT.json
+    artifact_type: refresh-report
+    status: pass
+    notes: All 12 source bindings current; no profile admission, selection, closeout or release.
+
+  - artifact_id: ART-DSV2-ORODI-RESEARCH
+    owner_context_id: CTX-DSV2-ORODI
+    path: development/research/2026-08-24-operational-resilience-observability-deployment-integration/findings.md
+    artifact_type: audited-research-finding
+    status: pass
+    notes: Independent audit ACCEPT; schema-level integration research only, with authority_effect none.
+
+  - artifact_id: ART-DSV2-ORODI-INVOKE-DEFINE
+    owner_context_id: CTX-DSV2-ORODI
+    path: development/operational-resilience-observability-deployment-integration/invoke-define/20260824T165443Z-orodi-v1/SPEC.md
+    artifact_type: invoke-define-spec
+    status: pass
+    notes: Source-bound DomainSpec definition bundle validated; specified-not-bound-not-run, with authority_effect none.
+
+  - artifact_id: ART-DSV2-ORODI-INVOKE-DESIGN
+    owner_context_id: CTX-DSV2-ORODI
+    path: development/operational-resilience-observability-deployment-integration/invoke-design/20260824T165443Z-orodi-v1/ARCHITECTURE.md
+    artifact_type: invoke-design-bundle
+    status: pass
+    notes: Closed manifest, 26-signal denominator and identical two-pass selection validate; no runtime authority.
+
+  - artifact_id: ART-DSV2-ORODI-INVOKE-PLAN
+    owner_context_id: CTX-DSV2-ORODI
+    path: development/operational-resilience-observability-deployment-integration/invoke-plan/20260824T165443Z-orodi-v1/WORK-PACK.md
+    artifact_type: invoke-plan-work-pack
+    status: flag
+    notes: >-
+      Complete non-executing owner/admission Plan with zero SWUs. Wave-0 packet coordination is now separately
+      accepted, but exact subject, environment, field-owner and lifecycle-admission bindings remain absent.
+
+  - artifact_id: ART-DSV2-ORODI-OWNER-BINDING-DECISION
+    owner_context_id: CTX-DSV2-ORODI
+    path: development/operational-resilience-observability-deployment-integration/owner-binding-decision/20260824T174431Z-orodi-owner-binding-gate/DECISION-GATE.md
+    artifact_type: decision-gate-result
+    status: pass
+    notes: >-
+      Vlad Rondelli accepts the limited Wave-0 packet-coordination role; all field-level owner, admission,
+      implementation, infrastructure, deployment, promotion and release gates remain unchanged.
+
 recompositions:
   - recomposition_id: REC-DSV2-GREEN
     child_context_id: CTX-DSV2-MAKE-IT-GREEN
@@ -2752,26 +3750,30 @@ recompositions:
     child_context_id: CTX-DSV2-SPEC-ONTOLOGY
     parent_context_id: CTX-DSV2-ROOT
     status: partial
-    parent_fit_summary: Toy T1-T4 recomposed into the SURVIVED-narrow verdict; catalog gaps routed to R3. Residue = Lane Z-vs-A undecided (proxy gap).
+    parent_fit_summary: >-
+      Toy T1-T4 and later branch-design evidence recomposed into the selected one-semantic-graph architecture.
+      Residue is exact @4 verifier evidence, protected owner admissions, schemas, validators and any separately
+      authorized migration; Lane Z-vs-A selection is no longer open.
     evidence: [ART-DSV2-SPEC-ONTOLOGY-TOY, ART-DSV2-COMPOSABILITY-SYNTHESIS]
   - recomposition_id: REC-DSV2-FIRST-PRODUCTION-RELEASE
     child_context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
     parent_context_id: CTX-DSV2-ROOT
     status: partial
     parent_fit_summary: >-
-      Accepted first-release product direction and auditor-approved roadmap are recomposed into the v2 root.
-      FPR-01 is closed from a verified exact-digest ratification. FPR-02 is separated into independently
-      resumable FPR-02B backend and FPR-02U UI lanes with no sibling completion dependency. Profile
-      conformance, full coverage, formal validity, implementation acceptance, pilot
-      acceptance, release readiness, and production authorization remain unestablished.
+      FPR-01, the stability review, the first-stable-foundation decision, RMT reconciliation and the SFC source
+      refresh are recomposed into the v2 root. FPR-02 backend and UI remain independent. The live P2 candidate is
+      13 kinds/17 relationships, but SFC still binds stale 16-relation projections and no selected unit exists.
+      Profile admission, full conformance, formal validity, pilot acceptance, release readiness and production
+      authorization remain unestablished.
     evidence: [ART-DSV2-FPR-DECISION, ART-DSV2-FPR-FINDINGS, ART-DSV2-FPR-ROADMAP, ART-DSV2-FPR-FRONTIER-MANIFEST, ART-DSV2-FPR01-004-RATIFICATION, ART-DSV2-FPR01-004-RECEIPT, ART-DSV2-FPR01-004-SYNC, ART-DSV2-FPR02-LANE-CONTRACT, ART-DSV2-FPR02-LANE-REFRESH]
   - recomposition_id: REC-DSV2-FPR02-BACKEND
     child_context_id: CTX-DSV2-FPR02-BACKEND
     parent_context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
     status: partial
     parent_fit_summary: >-
-      Backend profile and pilot ownership is isolated from UI development. The separation decision is closed;
-      four backend decision groups remain and no implementation or release promotion is authorized.
+      Backend profile and pilot ownership remains isolated from UI development. Historical L0A and its repair
+      pass, and newer development BTE evidence passes at 17 relationships/91 coverage. The independent validation
+      owner freeze, L0B admission and every release/promotion gate remain open.
     evidence: [ART-DSV2-FPR02-LANE-CONTRACT, ART-DSV2-FPR02-BACKEND-DECISION, ART-DSV2-FPR02-LANE-REFRESH]
   - recomposition_id: REC-DSV2-FPR02-UI
     child_context_id: CTX-DSV2-FPR02-UI
@@ -2779,7 +3781,8 @@ recompositions:
     status: partial
     parent_fit_summary: >-
       The required UI development profile continues in its existing work-pack without blocking the backend
-      first-release lane. SWU-UIP-001..004 are complete; SWU-UIP-005..007 and owner handoff remain.
+      first-release lane. SWU-UIP-001..007 and aggregate development validation are complete; exact authority
+      handoffs and canonical activation remain owner-gated.
     evidence: [ART-DSV2-FPR02-LANE-CONTRACT, ART-DSV2-FPR02-UI-PLAN, ART-DSV2-FPR02-LANE-REFRESH]
   - recomposition_id: REC-DSV2-FPR-VISIBILITY
     child_context_id: CTX-DSV2-FPR-VISIBILITY

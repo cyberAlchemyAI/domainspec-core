@@ -76,7 +76,7 @@ PaymentTransaction. Its sameness is its identity, not its field values.
 
 Domain-context voice: the primary "actor" node in a DomainSpec aspect file; SOURCE of `belongs-to` /
 `contains` / `emits` / `owns` / `performs`, TARGET of `belongs-to` / `derives` / `maps` / `owns` /
-`creates` / `produces-for` / `queries` (the DS-D8 edge slice). Checked by the content validator against
+`creates` / `produces-for` / `reads` (the DS-D8 edge slice). Checked by the content validator against
 `entity.schema.yml`.
 
 Use carefully: "identity" is a *declared* field flag (the `Identity` column), not inferred; an Entity MAY link
@@ -426,7 +426,7 @@ Operation =
 Plain-language voice: a verb that leaves a mark — after it runs, the world is different: a payment charged, an
 order cancelled. Not a plain CRUD "update"; a named action with business meaning and postconditions.
 
-Domain-context voice: the write-side node; SOURCE of `creates` / `produces` / `produces-for` / `queries`, TARGET of
+Domain-context voice: the write-side node; SOURCE of `creates` / `produces` / `produces-for` / `reads`, TARGET of
 `applies` / `calculates` / `enforces` / `exposes` / `mutates` / `orchestrates` / `performs` /
 `triggers-cross`. When it authors `creates`, that edge is the canonical creation fact and has at most one
 same-feature Entity target. Generated views derive `creation_targets`; source authors do not declare it.
@@ -471,7 +471,7 @@ Query =
 Plain-language voice: a question, not an action — ask it twice and get the same answer, with no side effects.
 It defines what consumers may ask for, with which filters, in what shape.
 
-Domain-context voice: the read-side node; SOURCE of `queries`, TARGET of `exposes` / `fetches` under DS-D8.
+Domain-context voice: the read-side node; SOURCE of `reads`, TARGET of `exposes` / `fetches` under DS-D8.
 Checked by the content validator against `query.schema.yml`.
 
 Use carefully: `state_change` is the *declared* attribute (the `Attribute | Value` table), not inferred.
@@ -513,7 +513,8 @@ Calculation =
 Plain-language voice: a formula with a name — same inputs, same output, every time. FeeCalculation =
 amount × rate. No state, no side effects; just a value out.
 
-Domain-context voice: SOURCE of `calculates` / `queries`, TARGET of `applies`. Checked by the content
+Domain-context voice: SOURCE of `calculates`, TARGET of `applies`. A Calculation consumes explicit values;
+Entity input provenance is not inferred as a `reads` edge. Checked by the content
 validator against `calculation.schema.yml`.
 
 Use carefully: `formal_return_type` is the *declared* attribute (the `Attribute | Value` table), not inferred

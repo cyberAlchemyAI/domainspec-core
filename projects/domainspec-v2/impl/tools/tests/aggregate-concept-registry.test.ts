@@ -22,8 +22,8 @@ test("live project aggregation retains all DS-D1 concepts and validated edges", 
     relationshipsPath,
   });
 
-  assert.equal(result.report.concept_count, 37);
-  assert.equal(result.report.edge_count, 34);
+  assert.equal(result.report.concept_count, 38);
+  assert.equal(result.report.edge_count, 35);
   assert.deepEqual(result.report.duplicate_ids, []);
   assert.deepEqual(result.report.type_drift, []);
   assert.deepEqual(result.report.relationship_violations, []);

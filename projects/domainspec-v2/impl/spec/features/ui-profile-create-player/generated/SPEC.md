@@ -1,7 +1,7 @@
 # Ui Profile Create Player Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `89b88fdb93ce820ea5d60401c56e973f9c4472f9f6e547d6d245388da7367d64`.
+Graph digest: `73f2199f3d7232add1620f5708a0345bf098450143311a6462a478bbcbb0cefc`.
 
 ## Nodes
 
@@ -44,7 +44,7 @@ Graph digest: `89b88fdb93ce820ea5d60401c56e973f9c4472f9f6e547d6d245388da7367d64`
 | `ui-profile-create-player.edge.create-player-produces-player-created` | `ui-profile-create-player.CreatePlayer` | `produces` | `ui-profile-create-player.PlayerCreated` |
 | `ui-profile-create-player.edge.create-player-view-model-derives-player` | `ui-profile-create-player.CreatePlayerViewModel` | `derives` | `ui-profile-create-player.Player` |
 | `ui-profile-create-player.edge.dashboard-layout-wraps-create-player-page` | `ui-profile-create-player.DashboardLayout` | `wraps` | `ui-profile-create-player.CreatePlayerPage` |
-| `ui-profile-create-player.edge.get-player-defaults-queries-player` | `ui-profile-create-player.GetPlayerDefaults` | `queries` | `ui-profile-create-player.Player` |
+| `ui-profile-create-player.edge.get-player-defaults-reads-player` | `ui-profile-create-player.GetPlayerDefaults` | `reads` | `ui-profile-create-player.Player` |
 | `ui-profile-create-player.edge.player-api-exposes-create-player` | `ui-profile-create-player.PlayerApi` | `exposes` | `ui-profile-create-player.CreatePlayer` |
 | `ui-profile-create-player.edge.player-api-exposes-get-player-defaults` | `ui-profile-create-player.PlayerApi` | `exposes` | `ui-profile-create-player.GetPlayerDefaults` |
 | `ui-profile-create-player.edge.player-created-transitions-player-lifecycle` | `ui-profile-create-player.PlayerCreated` | `transitions` | `ui-profile-create-player.PlayerLifecycle` |

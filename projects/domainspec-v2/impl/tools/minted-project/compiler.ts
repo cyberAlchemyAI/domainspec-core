@@ -82,6 +82,7 @@ type RelationshipSignature = {
 export type RelationshipRegistrySlice = {
   signatures: RelationshipSignature[];
   generated_views?: Array<{ id: string }>;
+  deprecated?: Array<{ id: string; replacement?: string; reason?: string }>;
 };
 
 type ProfileRelationship = {
@@ -346,6 +347,9 @@ export function classifyRelationshipType(
 ): MintedProjectCompilerErrorCode | "active-profile" {
   if ((registry.generated_views ?? []).some((entry) => entry.id === type)) {
     return "EDGE_TYPE_GENERATED";
+  }
+  if ((registry.deprecated ?? []).some((entry) => entry.id === type)) {
+    return "EDGE_TYPE_DEPRECATED";
   }
   const signatures = registry.signatures.filter((entry) => entry.id === type);
   if (signatures.length === 0) {

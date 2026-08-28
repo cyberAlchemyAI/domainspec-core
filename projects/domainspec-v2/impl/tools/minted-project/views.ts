@@ -93,7 +93,7 @@ function bytes(value: unknown): string {
 function title(projectId: string): string {
   return projectId
     .split("-")
-    .map((part) => part.length === 0 ? part : `${part[0].toUpperCase()}${part.slice(1)}`)
+    .map((part) => part.length === 0 ? part : `${part[0]!.toUpperCase()}${part.slice(1)}`)
     .join(" ");
 }
 

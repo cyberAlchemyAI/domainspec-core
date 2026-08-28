@@ -13,6 +13,10 @@ import { publishFactoryRun } from "../evidence/publish-factory-run.js";
 import { getFactoryNodeProviderV1 } from "../registry/factory-node-registry-v1.js";
 import { runLockedChild } from "../replay/run-locked-child.js";
 import { resolveLockedSnapshot } from "../resolution/resolve-locked-snapshot.js";
+import {
+  resolveProviderExecutionContextV1,
+  verifyProviderExecutionContextV1,
+} from "../resolution/resolve-provider-execution-context.js";
 import { canonicalJson, fail, json, sha256 } from "../shared/canonical.js";
 
 const deepFreeze = <T>(value: T): T => {
@@ -82,7 +86,27 @@ export const executeFactoryRun = async (input: Readonly<{
         }));
         const rawInputs = snapshot.raw_inputs_by_node[nodeId];
         if (rawInputs === undefined) fail("FACTORY_SNAPSHOT_INCOMPLETE", nodeId);
-        const direct = await provider.execute({ raw_inputs: rawInputs, upstream });
+        const directScratch = resolve(scratchRoot, "direct", nodeId);
+        await mkdir(directScratch, { recursive: true });
+        const directExecution = await resolveProviderExecutionContextV1({
+          repositoryRoot: input.repositoryRoot,
+          provider,
+          lockedNode: locked,
+          scratchPath: directScratch,
+          outputLimitBytes: input.plan.lock.replay_policy.output_limit_bytes,
+          terminationGraceMs: input.plan.lock.replay_policy.termination_grace_ms,
+        });
+        const direct = await provider.execute({
+          raw_inputs: rawInputs,
+          upstream,
+          execution_context: directExecution.context,
+        });
+        await verifyProviderExecutionContextV1({
+          before: directExecution,
+          repositoryRoot: input.repositoryRoot,
+          provider,
+          lockedNode: locked,
+        });
         const directSha256 = sha256(canonicalJson(direct));
         const replay = await runLockedChild({
           scratchRoot,

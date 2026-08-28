@@ -9,6 +9,7 @@ import type {
 } from "../contracts/factory-node-provider-v1.js";
 import type {
   FactoryRunLockV1,
+  LockedFactoryNodeV1,
   LockedFactoryRefV1,
 } from "../contracts/factory-run-lock-v1.js";
 import { decodeProofEvidenceV1 } from
@@ -22,6 +23,11 @@ import {
   safeRelativePath,
   sha256,
 } from "../shared/canonical.js";
+import { getFactoryNodeProviderV1 } from "../registry/factory-node-registry-v1.js";
+import {
+  providerSelectorEnvironmentKeysV1,
+  resolveLockedProviderExecutionIdentityV1,
+} from "../resolution/resolve-provider-execution-context.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const implementationRoot = resolve(here, "../../..");
@@ -47,6 +53,14 @@ type ChildProtocolFailure = Error & Readonly<{
   code: string;
   detail: string | null;
   child_pid: number | null;
+}>;
+
+type LockedExecutionIdentityV1 = Readonly<{
+  provider_identity_sha256: string;
+  component_identity_sha256: string;
+  runtime_material_identity_sha256: string;
+  execution_identity_sha256: string;
+  execution_timeout_ms: number;
 }>;
 
 const compareUtf8 = (left: string, right: string): number =>
@@ -297,6 +311,7 @@ export const decodeLockedChildOutput = (input: Readonly<{
   providerId: string;
   providerVersion: string;
   lockedComponentSetSha256: string;
+  lockedExecutionIdentity?: LockedExecutionIdentityV1;
 }>): FactoryNodeSemanticResultV1 => {
   if (!input.rendered.endsWith("\n") || input.rendered.includes("\r") ||
       input.rendered.slice(0, -1).length === 0 ||
@@ -318,6 +333,7 @@ export const decodeLockedChildOutput = (input: Readonly<{
     "provider_id",
     "provider_version",
     "component_identity",
+    ...(input.lockedExecutionIdentity === undefined ? [] : ["execution_identity"]),
     "semantic_result",
     "semantic_result_sha256",
     "authority_effect",
@@ -343,6 +359,35 @@ export const decodeLockedChildOutput = (input: Readonly<{
       identity.post_execute_sha256 !== input.lockedComponentSetSha256 ||
       !SHA256.test(String(decoded.semantic_result_sha256))) {
     fail("FACTORY_REPLAY_OUTPUT_INVALID", "envelope");
+  }
+  if (input.lockedExecutionIdentity !== undefined) {
+    if (!isRecord(decoded.execution_identity)) {
+      return fail("FACTORY_REPLAY_OUTPUT_INVALID", "execution-identity");
+    }
+    exactKeys(decoded.execution_identity, [
+      "algorithm",
+      "provider_identity_sha256",
+      "component_identity_sha256",
+      "runtime_material_identity_sha256",
+      "post_runtime_material_identity_sha256",
+      "execution_identity_sha256",
+      "execution_timeout_ms",
+    ], "FACTORY_REPLAY_OUTPUT_INVALID");
+    const executionIdentity = decoded.execution_identity;
+    const lockedIdentity = input.lockedExecutionIdentity;
+    if (executionIdentity.algorithm !== "sha256" ||
+        executionIdentity.provider_identity_sha256 !== lockedIdentity.provider_identity_sha256 ||
+        executionIdentity.component_identity_sha256 !== lockedIdentity.component_identity_sha256 ||
+        executionIdentity.runtime_material_identity_sha256 !==
+          lockedIdentity.runtime_material_identity_sha256 ||
+        executionIdentity.post_runtime_material_identity_sha256 !==
+          lockedIdentity.runtime_material_identity_sha256 ||
+        executionIdentity.execution_identity_sha256 !== lockedIdentity.execution_identity_sha256) {
+      fail("FACTORY_REPLAY_RUNTIME_MATERIAL_DRIFT", input.nodeId);
+    }
+    if (executionIdentity.execution_timeout_ms !== lockedIdentity.execution_timeout_ms) {
+      fail("FACTORY_REPLAY_TIMEOUT_IDENTITY_DRIFT", input.nodeId);
+    }
   }
   const result = validateSemanticResult(decoded.semantic_result, input.providerId);
   if (sha256(canonicalJson(result)) !== decoded.semantic_result_sha256) {
@@ -377,11 +422,23 @@ export const runLockedChild = async (input: Readonly<{
     if (lockedNode === undefined || lockedNode.provider_id !== input.providerId) {
       return fail("FACTORY_REPLAY_NODE_INVALID", input.nodeId);
     }
+    const effectiveLockedNode: LockedFactoryNodeV1 = Object.freeze({
+      ...lockedNode,
+      artifacts: Object.freeze(lockedNode.artifacts ?? []),
+      execution_timeout_ms: lockedNode.execution_timeout_ms ?? 70_000,
+    });
+    const effectiveTimeoutMs = effectiveLockedNode.execution_timeout_ms ?? 70_000;
+    const provider = getFactoryNodeProviderV1(input.providerId);
     const preSpawnComponents = await verifyLockedComponentSet({
       repositoryRoot,
-      refs: lockedNode.components,
+      refs: effectiveLockedNode.components,
     });
     const componentSetSha256 = lockedComponentSetSha256(preSpawnComponents);
+    const executionIdentity = await resolveLockedProviderExecutionIdentityV1({
+      provider,
+      lockedNode: effectiveLockedNode,
+      verifiedComponentIdentitySha256: componentSetSha256,
+    });
     const payloadPath = resolve(scratch, "payload.json");
     const resultPath = resolve(scratch, "result.json");
     await writeFile(payloadPath, json(Object.freeze({
@@ -394,11 +451,25 @@ export const runLockedChild = async (input: Readonly<{
       upstream: input.upstream,
       locked_components: preSpawnComponents,
       locked_component_set_sha256: componentSetSha256,
+      locked_tools: effectiveLockedNode.tools,
+      locked_artifacts: effectiveLockedNode.artifacts,
+      process_bounds: Object.freeze({
+        timeout_ms: effectiveTimeoutMs,
+        output_limit_bytes: input.lock.replay_policy.output_limit_bytes,
+        termination_grace_ms: input.lock.replay_policy.termination_grace_ms,
+      }),
+      locked_execution_identity: executionIdentity,
       replay_mode: "same-oracle-deterministic",
       authority_effect: "none",
     })), { encoding: "utf8", flag: "wx" });
-    const policy = input.lock.replay_policy;
-    const environment = Object.fromEntries(policy.environment_keys
+    const policy = Object.freeze({
+      timeout_ms: effectiveTimeoutMs,
+      output_limit_bytes: input.lock.replay_policy.output_limit_bytes,
+      termination_grace_ms: input.lock.replay_policy.termination_grace_ms,
+    });
+    const selectorKeys = providerSelectorEnvironmentKeysV1(provider);
+    const environment = Object.fromEntries(input.lock.replay_policy.environment_keys
+      .filter((key) => !key.startsWith("DOMAINSPEC_FACTORY_") || selectorKeys.includes(key))
       .filter((key) => process.env[key] !== undefined)
       .map((key) => [key, process.env[key]!])) as NodeJS.ProcessEnv;
     const protocol = await runChildJsonProtocol({
@@ -416,10 +487,25 @@ export const runLockedChild = async (input: Readonly<{
       providerId: input.providerId,
       providerVersion: lockedNode.provider_version,
       lockedComponentSetSha256: componentSetSha256,
+      lockedExecutionIdentity: executionIdentity,
     });
+    try {
+      const postIdentity = await resolveLockedProviderExecutionIdentityV1({
+        provider,
+        lockedNode: effectiveLockedNode,
+        verifiedComponentIdentitySha256: componentSetSha256,
+      });
+      if (postIdentity.runtime_material_identity_sha256 !==
+          executionIdentity.runtime_material_identity_sha256 ||
+          postIdentity.execution_identity_sha256 !== executionIdentity.execution_identity_sha256) {
+        fail("FACTORY_REPLAY_RUNTIME_MATERIAL_DRIFT", input.nodeId);
+      }
+    } catch {
+      fail("FACTORY_REPLAY_RUNTIME_MATERIAL_DRIFT", input.nodeId);
+    }
     const postChildComponents = await verifyLockedComponentSet({
       repositoryRoot,
-      refs: lockedNode.components,
+      refs: effectiveLockedNode.components,
     });
     if (lockedComponentSetSha256(postChildComponents) !== componentSetSha256) {
       fail("FACTORY_REPLAY_COMPONENT_TAMPERED", input.nodeId);

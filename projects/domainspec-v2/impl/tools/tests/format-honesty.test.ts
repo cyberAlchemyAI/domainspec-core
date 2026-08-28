@@ -12,7 +12,7 @@ import {
   type Baseline,
   type Report,
   type Violation,
-} from "../validate-format-honesty.ts";
+} from "../validate-format-honesty";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const FIXTURES = resolve(HERE, "../../../development/format-honesty/fixtures/format-honesty");

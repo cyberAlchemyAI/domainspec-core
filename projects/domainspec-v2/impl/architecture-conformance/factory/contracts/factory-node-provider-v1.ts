@@ -1,4 +1,6 @@
 import type { FactoryRunNodeRequestV1 } from "./factory-run-request-v1.js";
+import type { FactoryProviderExecutionContextV1 } from
+  "./factory-provider-execution-context-v1.js";
 import type { ProofEvidenceV1 } from "../../kernel/contracts/proof-denominator-v1.js";
 
 export type FactoryNodeAccountingV1 = Readonly<{
@@ -33,8 +35,11 @@ export type FactoryNodeProviderV1 = Readonly<{
   required_input_roles: readonly string[];
   component_paths: readonly string[];
   tool_ids: readonly string[];
+  artifact_ids?: readonly string[];
+  execution_timeout_ms?: number;
   execute: (input: Readonly<{
     raw_inputs: Readonly<Record<string, string>>;
     upstream: Readonly<Record<string, FactoryUpstreamResultV1>>;
+    execution_context?: FactoryProviderExecutionContextV1;
   }>) => Promise<FactoryNodeSemanticResultV1>;
 }>;

@@ -33,10 +33,10 @@ describe("BTE development proof core", () => {
       "formation-structure@1": 13,
       "node-kind-causality@1": 13,
       "node-instance-conformance@1": 15,
-      "relationship-family-causality@1": 16,
-      "edge-instance-conformance@1": 16,
+      "relationship-family-causality@1": 17,
+      "edge-instance-conformance@1": 17,
     });
-    expect(core.aggregate.total_coverage_count).toBe(89);
+    expect(core.aggregate.total_coverage_count).toBe(91);
     expect(
       core.catalogueRuns.every(
         (run) =>

@@ -28,7 +28,7 @@ files now would be placeholders. Until then the grouping is explicit here and th
 
 | Group → split target | Owner route | Rules |
 | --- | --- | --- |
-| **Base / credibility** — stays in `domainspec-v2-CONSTITUTION.md` | `constitution-governance` | C1–C4, C8, C(meta-1..4) |
+| **Base / credibility** — stays in `domainspec-v2-CONSTITUTION.md` | `constitution-governance` | C1–C4, C8, C12, C(meta-1..4) |
 | `constitutions/validation-governance-CONSTITUTION.md` | `validation-governance` | C5, C9, C10, C11 |
 | `constitutions/layering-governance-CONSTITUTION.md` | `layering-governance` | C6 |
 | `constitutions/drift-governance-CONSTITUTION.md` | `drift-governance` | C7 |
@@ -132,6 +132,34 @@ Every declared relation in a feature pack must conform to the layering **edge-la
 **blocks**. Method: `validate-relationships.ts` (v1-owned; Batch-2 import per `IMPORT-MANIFEST.md`).
 This is the **check** side of the chain; the **law** it enforces is owned by layering governance (C6).
 Conformance proves a relation is *admissible*, not that the related concepts are correct.
+
+### domainspec-v2-C12. Independent Structural Approval Is A Pre-Merge Gate
+Validation mode: hybrid
+
+Rondelli is the DomainSpec v2 semantic and primary owner. Victor Boscaro is the
+distinct structural verifier. Victor's approval is not required to accept
+Define, Design, or Plan artifacts; it is required immediately before merging
+any exact candidate whose changed paths include `projects/domainspec-v2/**`.
+
+The merge package must bind target branch, base and head identities, a complete
+changed-byte inventory, current validation evidence, claim ceiling, and the
+verification level assigned by Rondelli. Victor's approval binds those exact
+values. Any change invalidates the approval and blocks merge until Victor
+approves the replacement candidate.
+
+Victor may block structural inadmissibility but gains no semantic, obligation-
+discharge, promotion, publication, release, deployment, or production
+authority. Validation uses the fail-closed schema, validator, and fixtures under
+`authority/pre-merge/`; the governing owner decision is
+`authority/decisions/2026-08-24-victor-pre-merge-structural-approval.md`.
+The deterministic check validates the referenced response contract and exact
+candidate, not human identity; the merge owner must separately confirm that the
+referenced response came directly from Victor.
+
+Accepted example: Rondelli accepts Design and implementation proceeds through
+current execution gates; Victor approves the frozen validated bytes before
+merge. Rejected examples: requiring Victor at Design, inferring his response
+from Rondelli's acceptance, or changing a byte after Victor's approval.
 
 ### domainspec-v2-C(meta-1). Finding-To-Development Contract
 Validation mode: hybrid

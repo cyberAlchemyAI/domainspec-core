@@ -24,17 +24,19 @@ and create the resulting ledger transactions (MAKEUP_APPLIED / PAYOUT).
 | GenerateSettlement | Operation |
 | GetSettlementPreview | Query |
 | DealSplitCalculation | Calculation |
+| PayoutEligibilityRule | Rule |
 | NoDuplicateMakeupRule | Rule |
 
 ## Feature Concept Graph
 
 | From | Edge | To |
 | --- | --- | --- |
+| PayoutEligibilityRule | enforces | GenerateSettlement |
 | NoDuplicateMakeupRule | enforces | GenerateSettlement |
 | DealSplitCalculation | calculates | GenerateSettlement |
 | GenerateSettlement | creates | SettlementTransaction |
-| GenerateSettlement | queries | SettlementTransaction |
-| GetSettlementPreview | queries | SettlementTransaction |
+| GenerateSettlement | reads | SettlementTransaction |
+| GetSettlementPreview | reads | SettlementTransaction |
 
 ## SettlementTransaction
 
@@ -94,6 +96,17 @@ Pure derivation of the player's profit-share split from the stake limit.
 | formal_return_type | value |
 | state_change | no |
 
+## PayoutEligibilityRule
+
+Candidate-local one-way guard: when `totalPayout > 0` and there is no same-date `PAYOUT`,
+`GenerateSettlement` must produce exactly one `PAYOUT` write followed by one matching
+`PayoutCreated` event. No converse is admitted.
+
+| Attribute | Value |
+| --- | --- |
+| formal_return_type | boolean |
+| semantic_ref | evf.semantic.financial-settlement.p4.v1 |
+
 ## NoDuplicateMakeupRule
 
 Boolean guard: block a second MAKEUP_APPLIED transaction for the same end date.
@@ -101,3 +114,4 @@ Boolean guard: block a second MAKEUP_APPLIED transaction for the same end date.
 | Attribute | Value |
 | --- | --- |
 | formal_return_type | boolean |
+| semantic_ref | evf.semantic.financial-settlement.r4.v1 |

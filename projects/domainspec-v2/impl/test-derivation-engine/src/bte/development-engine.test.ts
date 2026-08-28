@@ -1,9 +1,13 @@
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
   BACKEND_KINDS,
   BACKEND_RELATIONSHIPS,
   DevelopmentEngineError,
+  RELATIONSHIP_CONTRACTS,
   collectDevelopmentProjectDiagnostics,
   compileDevelopmentProject,
   replayDevelopmentBuild,
@@ -11,6 +15,12 @@ import {
   type DevelopmentProject,
 } from "./development-engine.js";
 import { createCompleteDevelopmentProject } from "./development-fixture.js";
+
+const thisDir = dirname(fileURLToPath(import.meta.url));
+const relationshipAuthorityPath = resolve(
+  thisDir,
+  "../../../../definitions/relationships/relationships.yml",
+);
 
 function expectCode(
   action: () => unknown,
@@ -35,7 +45,7 @@ function createDeclaredSubsetProject(): DevelopmentProject {
 }
 
 describe("BTE development successor build", () => {
-  it("compiles exact 13-kind/16-relationship independent inputs deterministically", () => {
+  it("compiles exact 13-kind/17-relationship independent inputs deterministically", () => {
     const project = createCompleteDevelopmentProject();
     const first = compileDevelopmentProject(project);
     const second = compileDevelopmentProject(project);
@@ -55,6 +65,39 @@ describe("BTE development successor build", () => {
       result: "pass",
       codes: [],
     });
+  });
+
+  it("matches the live DS-D8 backend denominator and endpoint/scope contracts", () => {
+    const authority = JSON.parse(readFileSync(relationshipAuthorityPath, "utf8")) as {
+      signatures: Array<{
+        id: string;
+        source_type?: string;
+        source_types?: string[];
+        target_type?: string;
+        target_types?: string[];
+        feature_scope: Array<"same-feature" | "cross-feature" | "ui" | "ui-backend">;
+        status: string;
+      }>;
+    };
+    const backendKinds = new Set<string>(BACKEND_KINDS);
+    const backendSignatures = authority.signatures.filter((signature) => {
+      const sources = signature.source_types ?? [signature.source_type!];
+      const targets = signature.target_types ?? [signature.target_type!];
+      return (
+        signature.status === "active" &&
+        sources.every((kind) => backendKinds.has(kind)) &&
+        targets.every((kind) => backendKinds.has(kind))
+      );
+    });
+
+    expect(backendSignatures.map(({ id }) => id)).toEqual([...BACKEND_RELATIONSHIPS]);
+    for (const signature of backendSignatures) {
+      const contract = RELATIONSHIP_CONTRACTS[signature.id as keyof typeof RELATIONSHIP_CONTRACTS];
+      expect(contract, signature.id).toBeDefined();
+      expect(contract.source).toEqual(signature.source_types ?? [signature.source_type]);
+      expect(contract.target).toEqual(signature.target_types ?? [signature.target_type]);
+      expect(contract.scopes).toEqual(signature.feature_scope);
+    }
   });
 
   it("compiles and replays an exact declared subset", () => {
@@ -160,6 +203,14 @@ describe("BTE development successor build", () => {
       "core.AccountChanged";
     expectCode(
       () => compileDevelopmentProject(wrongKind),
+      "BTE_DEV_EDGE_ENDPOINT_KIND",
+    );
+
+    const calculationRead = createCompleteDevelopmentProject();
+    calculationRead.edges.find(({ family }) => family === "reads")!.from =
+      "core.Fee";
+    expectCode(
+      () => compileDevelopmentProject(calculationRead),
       "BTE_DEV_EDGE_ENDPOINT_KIND",
     );
 

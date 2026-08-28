@@ -103,8 +103,8 @@
         {"from": "NoDuplicateMakeupRule", "type": "enforces", "to": "GenerateSettlement"},
         {"from": "DealSplitCalculation", "type": "calculates", "to": "GenerateSettlement"},
         {"from": "GenerateSettlement", "type": "creates", "to": "SettlementTransaction"},
-        {"from": "GenerateSettlement", "type": "queries", "to": "SettlementTransaction"},
-        {"from": "GetSettlementPreview", "type": "queries", "to": "SettlementTransaction"}
+        {"from": "GenerateSettlement", "type": "reads", "to": "SettlementTransaction"},
+        {"from": "GetSettlementPreview", "type": "reads", "to": "SettlementTransaction"}
       ],
       "claim_ceiling": "These are authored declarations. The five rows have no edge IDs in the source table."
     },

@@ -98,12 +98,12 @@ substituted, or used to promote one another.
 | --- | ---: | --- | --- |
 | `D_kind` | 13 | active backend members in `definitions/meta-types/meta-types.yml` | canonical inventory; successor admission still separate |
 | `D_form` | 16 | criterion IDs across the 13 backend `*.schema.yml` files | canonical schema inventory; exact compiler parity open |
-| `D_rel` | 16 | pure-backend relationship families selected for planning | candidate coverage pending profile/relationship-owner admission |
+| `D_rel` | 17 | pure-backend relationship families selected for planning | candidate coverage pending profile/relationship-owner admission |
 
-`D_rel` is the 16 families whose scopes are backend-only (`same-feature` and/or
-`cross-feature`): `performs`, `produces`, `produces-for`, `triggers-cross`,
+`D_rel` is the 17 families whose scopes are backend-only (`same-feature` and/or
+`cross-feature`): `performs`, `produces`, `produces-for`, `creates`, `triggers-cross`,
 `enforces`, `calculates`, `transitions`, `exposes`, `orchestrates`, `applies`,
-`maps`, `contains`, `queries`, `emits`, `owns`, and `belongs-to`. The 21
+`maps`, `contains`, `reads`, `emits`, `owns`, and `belongs-to`. The 21
 endpoint-pair and 29 endpoint-plus-scope expansions remain derived, unselected
 diagnostics. They are not alternative denominators.
 

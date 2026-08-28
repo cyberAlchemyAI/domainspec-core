@@ -59,6 +59,16 @@ export type {
   DialectDescriptor,
   SemanticOptions,
 } from "./roundtrip/index.js";
+export {
+  ExactBindingResolutionError,
+  resolveExactBinding,
+} from "./bindings/index.js";
+export { emitEvfS1StrictTests } from "./emit/tests.js";
+export * from "./minted-project/types.js";
+export * from "./minted-project/derive.js";
+export * from "./minted-project/typed-predicate.js";
+export * from "./minted-project/enforces-execution.js";
+export * from "./minted-project/evolvable-validation-receipt.js";
 export * from "./bte/development-engine.js";
 export * from "./bte/proof-engine.js";
 export * from "./bte/consumer-engine.js";

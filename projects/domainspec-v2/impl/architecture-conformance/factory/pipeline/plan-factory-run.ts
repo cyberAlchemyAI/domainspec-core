@@ -6,11 +6,45 @@ import type { FactoryRunPlanV1 } from "../contracts/factory-run-plan-v1.js";
 import type { FactoryRunRequestV1 } from "../contracts/factory-run-request-v1.js";
 import { getFactoryNodeProviderV1 } from "../registry/factory-node-registry-v1.js";
 import { resolveFactoryComponentClosure } from "../resolution/resolve-component-closure.js";
-import { resolveFactoryToolV1 } from "../resolution/resolve-toolchain.js";
+import {
+  resolveFactoryArtifactV1,
+  resolveFactoryToolV1,
+} from "../resolution/resolve-toolchain.js";
 import { canonicalJson, fail, sha256 } from "../shared/canonical.js";
 
 const compareUtf8 = (left: string, right: string): number =>
   Buffer.from(left).compare(Buffer.from(right));
+
+const sortedUnique = (values: readonly string[]): readonly string[] => {
+  if (new Set(values).size !== values.length) {
+    return fail("FACTORY_RUNTIME_MATERIAL_DUPLICATE");
+  }
+  return Object.freeze([...values].sort(compareUtf8));
+};
+
+const effectiveProviderMaterial = (provider: ReturnType<typeof getFactoryNodeProviderV1>) => {
+  const materialAware = provider.artifact_ids !== undefined ||
+    provider.execution_timeout_ms !== undefined;
+  if (materialAware && (provider.artifact_ids === undefined ||
+      provider.execution_timeout_ms === undefined)) {
+    return fail("FACTORY_PROVIDER_TIMEOUT_INVALID", provider.provider_id);
+  }
+  const toolIds = sortedUnique(provider.tool_ids);
+  const artifactIds = sortedUnique(provider.artifact_ids ?? []);
+  if (toolIds.some((id) => artifactIds.includes(id))) {
+    fail("FACTORY_RUNTIME_MATERIAL_DUPLICATE", provider.provider_id);
+  }
+  if (materialAware && (JSON.stringify(toolIds) !== JSON.stringify(provider.tool_ids) ||
+      JSON.stringify(artifactIds) !== JSON.stringify(provider.artifact_ids))) {
+    fail("FACTORY_RUNTIME_MATERIAL_DUPLICATE", provider.provider_id);
+  }
+  const executionTimeoutMs = provider.execution_timeout_ms ?? 70_000;
+  if (!Number.isInteger(executionTimeoutMs) || executionTimeoutMs < 1 ||
+      executionTimeoutMs > 300_000) {
+    fail("FACTORY_PROVIDER_TIMEOUT_INVALID", provider.provider_id);
+  }
+  return Object.freeze({ toolIds, artifactIds, executionTimeoutMs });
+};
 
 const topologicalOrder = (request: FactoryRunRequestV1): readonly string[] => {
   const nodes = new Map(request.nodes.map((node) => [node.node_id, node]));
@@ -96,7 +130,9 @@ export const planFactoryRun = async (input: Readonly<{
     });
     const components = await Promise.all(componentPaths.map((path) =>
       resolveRef(input.repositoryRoot, "component", path)));
-    const tools = await Promise.all(provider.tool_ids.map(resolveFactoryToolV1));
+    const material = effectiveProviderMaterial(provider);
+    const tools = await Promise.all(material.toolIds.map(resolveFactoryToolV1));
+    const artifacts = await Promise.all(material.artifactIds.map(resolveFactoryArtifactV1));
     lockedNodes.push(Object.freeze({
       node_id: node.node_id,
       kind: node.kind,
@@ -105,7 +141,11 @@ export const planFactoryRun = async (input: Readonly<{
       depends_on: Object.freeze([...node.depends_on]),
       inputs: Object.freeze(inputs),
       components: Object.freeze(components),
-      tools: Object.freeze(tools),
+      tools: Object.freeze(tools.sort((left, right) =>
+        compareUtf8(left.tool_id, right.tool_id))),
+      artifacts: Object.freeze(artifacts.sort((left, right) =>
+        compareUtf8(left.artifact_id, right.artifact_id))),
+      execution_timeout_ms: material.executionTimeoutMs,
       claim_ceiling: node.claim_ceiling,
     }));
   }
@@ -113,7 +153,15 @@ export const planFactoryRun = async (input: Readonly<{
     timeout_ms: 70_000,
     output_limit_bytes: 1_048_576,
     termination_grace_ms: 1_000,
-    environment_keys: Object.freeze(["PATH", "TMPDIR", "HOME", "CARGO_HOME", "RUSTUP_HOME"]),
+    environment_keys: Object.freeze([
+      "PATH",
+      "TMPDIR",
+      "HOME",
+      "CARGO_HOME",
+      "RUSTUP_HOME",
+      "DOMAINSPEC_FACTORY_JAVA_BIN",
+      "DOMAINSPEC_FACTORY_TLA2TOOLS_JAR",
+    ]),
   });
   const lockBody = Object.freeze({
     schema_version: "FactoryRunLock/v1" as const,

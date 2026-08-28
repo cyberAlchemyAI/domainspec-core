@@ -347,10 +347,10 @@ test("check-code-tag-composability passes when operation calls enforcing rule", 
     );
     assert.equal(payload.activeSignatureCount, 31);
     assert.equal(payload.generatedViewCount, 1);
-    assert.equal(payload.deprecatedCount, 1);
+    assert.equal(payload.deprecatedCount, 2);
     assert.equal(payload.deferredCount, 3);
     assert.equal(payload.dynamicRuleCount, 9);
-    assert.equal(payload.unsupportedActiveSignatureCount, 27);
+    assert.equal(payload.unsupportedActiveSignatureCount, 26);
   } finally {
     rmSync(tempRoot, { recursive: true, force: true });
   }
@@ -478,6 +478,23 @@ test("deprecated enforces-cross is rejected with replacement guidance", () => {
     assert.equal(payload.ok, false);
     assert.equal(payload.report[0]?.code, "CT-COMP-021");
     assert.match(payload.report[0]?.message || "", /use 'enforces'/);
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
+test("deprecated queries is rejected with reads replacement guidance", () => {
+  const { tempRoot, result, payload } = runAuthorityCase({
+    edge: "queries",
+    sourceType: "Query",
+    targetType: "Entity",
+  });
+
+  try {
+    assert.equal(result.status, 1, result.stderr || result.stdout);
+    assert.equal(payload.ok, false);
+    assert.equal(payload.report[0]?.code, "CT-COMP-021");
+    assert.match(payload.report[0]?.message || "", /use 'reads'/);
   } finally {
     rmSync(tempRoot, { recursive: true, force: true });
   }

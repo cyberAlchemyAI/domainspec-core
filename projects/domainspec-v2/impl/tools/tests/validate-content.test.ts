@@ -142,7 +142,7 @@ test("committed Entity fixtures behave (ok passes, bad rejected)", () => {
 test("financial-settlement feature checks node criteria and valid relationship edges", () => {
   const r = runValidator(["--file", "spec/features/financial-settlement/SPEC.md"]);
   assert.equal(r.status, 0, r.stdout + r.stderr);
-  assert.match(r.stdout, /5 edge\(s\) checked/);
+  assert.match(r.stdout, /6 edge\(s\) checked/);
 });
 
 test("Value Object fixtures behave (ok passes, bad rejected as VO)", () => {

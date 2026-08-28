@@ -214,6 +214,17 @@ test("deprecated and deferred classifiers are testable without inventing registr
   }];
   assert.equal(
     classifyRelationshipType(
+      "queries",
+      {
+        signatures: [{ id: "reads", status: "active" }],
+        deprecated: [{ id: "queries", replacement: "reads" }],
+      },
+      [{ ...profile[0], id: "reads" }],
+    ),
+    "EDGE_TYPE_DEPRECATED",
+  );
+  assert.equal(
+    classifyRelationshipType(
       "legacy",
       { signatures: [{ id: "legacy", status: "deprecated" }] },
       profile,

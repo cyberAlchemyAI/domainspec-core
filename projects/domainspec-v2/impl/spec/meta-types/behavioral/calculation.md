@@ -22,8 +22,11 @@ A concept declared **Calculation** is well-formed IFF its `Attribute | Value` ta
 A Calculation returns a value (`formal_return_type=value`); a Rule returns a boolean.
 
 ## Edge participation (DS-D8 slice)
-- SOURCE of: `derives`
-- TARGET of: `performs`
+- SOURCE of: `calculates`
+- TARGET of: `applies`
+
+A Calculation consumes explicit values. Entity input provenance is not inferred as a `reads` edge; that would
+couple a pure function to repository access rather than model its declared inputs.
 
 ## Fixtures
 - positive: [`spec/__fixtures__/mt/calculation-ok.md`](../../__fixtures__/mt/calculation-ok.md)

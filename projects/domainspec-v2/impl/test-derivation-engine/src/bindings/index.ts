@@ -80,3 +80,53 @@ export function bindingFor(
   }
   return null;
 }
+
+export type ExactBindingFailureCode =
+  | "BINDING_MISSING"
+  | "BINDING_DUPLICATE"
+  | "BINDING_AMBIGUOUS";
+
+export class ExactBindingResolutionError extends Error {
+  readonly code: ExactBindingFailureCode;
+
+  constructor(code: ExactBindingFailureCode, message: string) {
+    super(message);
+    this.name = "ExactBindingResolutionError";
+    this.code = code;
+  }
+}
+
+/**
+ * Resolve an EVF typed binding by obligation identity with exact-one semantics.
+ * This is deliberately separate from the legacy first-match resolver above.
+ */
+export function resolveExactBinding<
+  T extends { readonly obligation_id: string; readonly binding_id: string },
+>(
+  obligationId: string,
+  bindings: readonly T[],
+  expectedBindingId?: string,
+): T {
+  const matches = bindings.filter((binding) => binding.obligation_id === obligationId);
+  if (matches.length === 0) {
+    throw new ExactBindingResolutionError(
+      "BINDING_MISSING",
+      `no binding for obligation ${obligationId}`,
+    );
+  }
+  if (matches.length > 1) {
+    const identities = new Set(matches.map((binding) => binding.binding_id));
+    throw new ExactBindingResolutionError(
+      identities.size === 1 ? "BINDING_DUPLICATE" : "BINDING_AMBIGUOUS",
+      `${matches.length} bindings for obligation ${obligationId}`,
+    );
+  }
+  const selected = matches[0]!;
+  if (expectedBindingId !== undefined && selected.binding_id !== expectedBindingId) {
+    throw new ExactBindingResolutionError(
+      "BINDING_AMBIGUOUS",
+      `binding ${selected.binding_id} does not match ${expectedBindingId}`,
+    );
+  }
+  return selected;
+}

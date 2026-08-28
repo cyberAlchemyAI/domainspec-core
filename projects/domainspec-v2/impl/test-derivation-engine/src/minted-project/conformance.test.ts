@@ -282,10 +282,10 @@ describe("minted-project production conformance", () => {
       ].sort());
       return first.graph;
     });
-    expect(graphs[0].nodes).toHaveLength(4);
-    expect(graphs[0].edges).toHaveLength(3);
-    expect(graphs[1].nodes).toHaveLength(2);
-    expect(graphs[1].edges).toHaveLength(1);
+    expect(graphs[0]!.nodes).toHaveLength(4);
+    expect(graphs[0]!.edges).toHaveLength(3);
+    expect(graphs[1]!.nodes).toHaveLength(2);
+    expect(graphs[1]!.edges).toHaveLength(1);
     expect(new Set(graphs.flatMap((graph) => graph.nodes.map((node) => node.node_id))).size)
       .toBe(6);
     expect(new Set(graphs.flatMap((graph) => graph.nodes.map((node) => node.intent))).size)
@@ -321,7 +321,7 @@ describe("minted-project production conformance", () => {
     expect(matrix.cases.filter((entry) => entry.source === "S08")).toHaveLength(2);
     const results = runMatrix();
     for (const [index, result] of results.entries()) {
-      expect(result.actual_code, result.case_id).toBe(matrix.cases[index].expected_code);
+      expect(result.actual_code, result.case_id).toBe(matrix.cases[index]!.expected_code);
     }
   });
 
@@ -363,7 +363,7 @@ describe("minted-project production conformance", () => {
     }
 
     const tampered = structuredClone(first);
-    tampered.case_results[0].actual_code = "NO_FAILURE";
+    tampered.case_results[0]!.actual_code = "NO_FAILURE";
     expect(verifyMintedProjectConformanceReceipt(tampered, matrixPath, fixtures).codes)
       .toContain("CONTROL_RESULT_MISMATCH");
   });

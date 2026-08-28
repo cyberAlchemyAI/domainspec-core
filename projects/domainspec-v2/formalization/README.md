@@ -74,7 +74,7 @@ The Lean spec core transcribes an earlier 25-meta-type / 29-edge vocabulary. Roo
 | `enforcesCross` active as its own edge (:156) | `enforces-cross` **deprecated**; use `enforces` + cross-feature scope |
 | no `owns` / `belongs-to` | `owns`, `belongs-to` first-class (Entity↔Entity family) |
 | `applies`: policy → operation only (:162) | `applies` targets both `Operation` and `Calculation` |
-| `queries`: query → entity (:165) | `queries` source-widened to read-capable behavioral concepts |
+| `reads`: query/operation → entity (:165) | `queries` is deprecated; Calculation remains pure over explicit inputs |
 | no `creates` | `creates`: same-feature Operation → Entity with exact `creation_targets` source-effect binding |
 | `associates` + `Cardinality` extension (:184, :320-339) | not a root signature; overlaps the promoted Entity↔Entity family — reconciliation is an open question |
 

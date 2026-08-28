@@ -40,6 +40,12 @@ export type GeneratedRelationshipView = {
   [key: string]: unknown;
 };
 
+export type DeprecatedRelationshipAlias = {
+  id: string;
+  replacement: string;
+  reason: string;
+};
+
 export type RelationshipAuthority = {
   version: number;
   authority: string;
@@ -47,6 +53,7 @@ export type RelationshipAuthority = {
   signature_count: number;
   signatures: RelationshipSignature[];
   generated_views?: GeneratedRelationshipView[];
+  deprecated?: DeprecatedRelationshipAlias[];
   [key: string]: unknown;
 };
 
@@ -56,6 +63,7 @@ export type LoadedRelationshipAuthority = {
   signaturesById: Map<string, RelationshipSignature[]>;
   activeSignatureCount: number;
   generatedViewsById: Map<string, GeneratedRelationshipView>;
+  deprecatedAliasesById: Map<string, DeprecatedRelationshipAlias>;
 };
 
 export type TableRow = {
@@ -155,6 +163,25 @@ export function loadRelationshipAuthority(
     }
   }
 
+  const deprecatedAliasesById = new Map<string, DeprecatedRelationshipAlias>();
+  for (const alias of parsed.deprecated || []) {
+    if (!alias.id || !alias.replacement || !alias.reason) {
+      throw new Error(`relationship authority contains an incomplete deprecated alias`);
+    }
+    if (signaturesById.has(alias.id) || generatedViewsById.has(alias.id)) {
+      throw new Error(`deprecated relationship alias collides with active/generated id: ${alias.id}`);
+    }
+    if (!signaturesById.has(alias.replacement)) {
+      throw new Error(
+        `deprecated relationship alias ${alias.id} has noncanonical replacement ${alias.replacement}`,
+      );
+    }
+    if (deprecatedAliasesById.has(alias.id)) {
+      throw new Error(`duplicate deprecated relationship alias: ${alias.id}`);
+    }
+    deprecatedAliasesById.set(alias.id, alias);
+  }
+
   if (parsed.signature_count !== activeSignatureCount) {
     throw new Error(
       `relationship authority signature_count=${parsed.signature_count} but active signatures=${activeSignatureCount}`,
@@ -167,6 +194,7 @@ export function loadRelationshipAuthority(
     signaturesById,
     activeSignatureCount,
     generatedViewsById,
+    deprecatedAliasesById,
   };
 }
 
@@ -272,14 +300,19 @@ export function validateRelationshipSpecFile(
             }),
           );
         } else if (!loaded.signaturesById.has(edge)) {
+          const deprecated = loaded.deprecatedAliasesById.get(edge);
           violations.push({
             specPath: toRelative(specPath),
             line: row.line,
             section: "Cross-Feature Dependencies",
             value: edge,
             className: "noncanonical-edge",
-            detail: `Relationship label "${edge}" is not canonical`,
-            suggestions: suggestCanonicalEdges(edge, loaded.signaturesById),
+            detail: deprecated
+              ? `Deprecated relationship label "${edge}" is not canonical: ${deprecated.reason}`
+              : `Relationship label "${edge}" is not canonical`,
+            suggestions: deprecated
+              ? [deprecated.replacement]
+              : suggestCanonicalEdges(edge, loaded.signaturesById),
           });
         }
       }
@@ -484,6 +517,22 @@ function validateTriple(input: {
         className: "noncanonical-edge",
         detail: `Generated inverse "${edge}" is a navigation view, not a canonical relationship signature`,
         suggestions: [],
+      },
+    ];
+  }
+
+
+  const deprecated = loaded.deprecatedAliasesById.get(edge);
+  if (deprecated) {
+    return [
+      {
+        specPath: toRelative(specPath),
+        line,
+        section,
+        value,
+        className: "noncanonical-edge",
+        detail: `Deprecated relationship label "${edge}" is not canonical: ${deprecated.reason}`,
+        suggestions: [deprecated.replacement],
       },
     ];
   }

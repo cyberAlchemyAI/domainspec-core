@@ -1,0 +1,363 @@
+{
+  "schema_version": "ape.operation-profile-fixture/v1",
+  "fixture_id": "ape.operation-profile.poker-team/v1",
+  "profile_id": "APE.ArchitectureProfile.TypeScriptOperationApplication/candidate-v1",
+  "subject_meta_type_id": "Operation",
+  "evidence_lane": "candidate-local-prototype",
+  "context_binding": {
+    "context_index_ref": "projects/domainspec-v2/development/refinement-runs/20260820T193401Z-ape-operation-workflow-realization-work-packs/stages/01-context-builder.index.json",
+    "context_index_sha256": "fbe468a85703c04a8292ad0f968db9282fb86a01a3f58933e2b1d2be5d918996",
+    "planned_witnesses_ref": "projects/domainspec-v2/development/refinement-runs/20260820T193401Z-ape-operation-workflow-realization-work-packs/stages/06-planned-witnesses.json",
+    "planned_witnesses_sha256": "ce63823801f386615d2a4a40b8e912d3328292a6f3cbde0815dc90d81ded18d6"
+  },
+  "selected_sources": [
+    {
+      "source_id": "poker-create-player",
+      "path": "validation/poker-team/backend/src/use-cases/player/create-player.ts",
+      "sha256": "363aff3ef990155ffa020b54e522ac2ac88c3a9c59165c4a242395218901ec8c",
+      "size": 6605,
+      "selectors": ["1-16", "60-62", "141-183", "227-239"],
+      "allowed_facts": [
+        "higher-order factory receives PlayerRepository and optional PlayerManagementEventHandler",
+        "pure domain validation helpers are direct imports",
+        "repository create is effectful",
+        "event handler invocation is same-process collaboration",
+        "telemetry and wall-clock access are architecture counterexamples"
+      ]
+    },
+    {
+      "source_id": "poker-financial-write-unit-of-work",
+      "path": "validation/poker-team/backend/src/domain/shared/financial-write-unit-of-work.ts",
+      "sha256": "56a576c140b2f3012ad8f5b5ab75628a55102cb99385cb9183a024bae8d65d64",
+      "size": 393,
+      "selectors": ["1-11"],
+      "allowed_facts": [
+        "UnitOfWork callback receives transaction-scoped repositories",
+        "source structure does not prove runtime commit or rollback"
+      ]
+    }
+  ],
+  "integration_evidence": {
+    "repository_observation": {
+      "schema_version": "ape.operation.repository-observation/v1",
+      "observation_id": "poker.create-player.repository",
+      "observation_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/integration_evidence/repository_observation",
+      "subject_meta_type_id": "Operation",
+      "property_id": "APE.ImplementationProperty.operation.repository-boundary",
+      "dependency_role": "repository",
+      "interface_ref": "PlayerRepository",
+      "adapter_ref": "composition/player-repository",
+      "adapter_sha256": "363aff3ef990155ffa020b54e522ac2ac88c3a9c59165c4a242395218901ec8c",
+      "source_ref": "validation/poker-team/backend/src/use-cases/player/create-player.ts",
+      "source_sha256": "363aff3ef990155ffa020b54e522ac2ac88c3a9c59165c4a242395218901ec8c",
+      "resolution": "resolved",
+      "structural_result": "pass",
+      "observation_sha256": "67452d16c23c50c1c16f128e6bde43f340cb49b90e401abdfa51584037b05c90"
+    },
+    "persistence_candidate_record": {
+      "schema_version": "system-integration.concern-record/v1",
+      "evidence_lane": "candidate-local-fixture",
+      "record_id": "poker.persistence.player-repository.candidate",
+      "record_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/integration_evidence/persistence_candidate_record",
+      "concern_kind": "persistence",
+      "status": "candidate",
+      "ceiling": "fixture-only; no system-integration admission",
+      "interface_ref": "PlayerRepository",
+      "payload_sha256": "67452d16c23c50c1c16f128e6bde43f340cb49b90e401abdfa51584037b05c90",
+      "authority_effect": "none",
+      "record_sha256": "8e7bf26996221a2a7e0f5e75fcc61cdbcf068a10b02a42085ac2b19888892715"
+    }
+  },
+  "evaluation_evidence": [
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.outcome-cohesion",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/0",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.outcome-cohesion",
+      "producer_id": "operation-boundary-observer",
+      "result": "owner-blocked",
+      "diagnostic": "AOP_PROFILE_OBSERVER_RESULT_REQUIRED",
+      "owner_route": "ape:typescript-operation-profile",
+      "expected_value_sha256": "e7e470ed9c82c0ee6b1ee6236d3dad5d58c24919d6db1fe1dfbfdc8503a8c080",
+      "observed_value_sha256": "0f90b73c6a52eae0d265c0a8a29acebc7dc6b2770421ff6fc8d804d218c4568b",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "producer_output_sha256": "15caa3c7d6a8a39cccdd54f47fce6208227de7d2396963d30ec79d7434d8b80c",
+      "authority_effect": "none",
+      "envelope_sha256": "b58d9ea85d0318286d6cfa808e7f28193ecf4e3c22e6d7976f50c220f73e0e88"
+    },
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.value-effect-placement",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/1",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.value-effect-placement",
+      "producer_id": "operation-boundary-observer",
+      "result": "owner-blocked",
+      "diagnostic": "AOP_PROFILE_OBSERVER_RESULT_REQUIRED",
+      "owner_route": "ape:typescript-operation-profile",
+      "expected_value_sha256": "209775f5bebafeee4bdd3350c635be30b2a26c9706286c4d2fe3b18942e8431b",
+      "observed_value_sha256": "0f90b73c6a52eae0d265c0a8a29acebc7dc6b2770421ff6fc8d804d218c4568b",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "producer_output_sha256": "15caa3c7d6a8a39cccdd54f47fce6208227de7d2396963d30ec79d7434d8b80c",
+      "authority_effect": "none",
+      "envelope_sha256": "d80c5af5a915dc32dc2fed207affa709a03be25b798296a89e291172e3c1d610"
+    },
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.hof-direction",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/2",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.hof-direction",
+      "producer_id": "operation-dependency-observer",
+      "result": "missing",
+      "diagnostic": "AOP_DEPENDENCY_COMPOSITION_BINDING_MISSING",
+      "owner_route": "ape:typescript-operation-profile",
+      "expected_value_sha256": "92b4e2f0c9edd090f0f3312ef6ea93e9746a52597069c99d3d66a20d06556830",
+      "observed_value_sha256": "96bafbd358fcbe023a35d7c2238a1d6bd4369cd75f00f2eebd04876a1b500db6",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "producer_output_sha256": "3e26e2bc22f0ef9b2d935a945ad66736604324b400d94ee8d288ad5ec2c7bd30",
+      "authority_effect": "none",
+      "envelope_sha256": "a29be2007707287ae83429b81dadf5f877f4414a0b9d63c172a615c809f68249"
+    },
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.role-contract-specificity",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/3",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.role-contract-specificity",
+      "producer_id": "operation-dependency-observer",
+      "result": "missing",
+      "diagnostic": "AOP_DEPENDENCY_COMPOSITION_BINDING_MISSING",
+      "owner_route": "ape:typescript-operation-profile",
+      "expected_value_sha256": "bc9325a5b3bee8b6bf0a0a77880417560b7a4588718609ee8634c8477532a9fa",
+      "observed_value_sha256": "96bafbd358fcbe023a35d7c2238a1d6bd4369cd75f00f2eebd04876a1b500db6",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "producer_output_sha256": "3e26e2bc22f0ef9b2d935a945ad66736604324b400d94ee8d288ad5ec2c7bd30",
+      "authority_effect": "none",
+      "envelope_sha256": "99eff10f25dd5bc1a4f1e27b1ecce278b9159a35e59e0deff73f2339a82a0787"
+    },
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.repository-boundary",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/4",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.repository-boundary",
+      "producer_id": "operation-dependency-observer",
+      "result": "missing",
+      "diagnostic": "AOP_DEPENDENCY_COMPOSITION_BINDING_MISSING",
+      "owner_route": "ape:typescript-operation-profile",
+      "expected_value_sha256": "a28588badf5f17803b0c735f8e0c0ff2653b19a08fa433c95ae9f9741967d1b9",
+      "observed_value_sha256": "96bafbd358fcbe023a35d7c2238a1d6bd4369cd75f00f2eebd04876a1b500db6",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "producer_output_sha256": "3e26e2bc22f0ef9b2d935a945ad66736604324b400d94ee8d288ad5ec2c7bd30",
+      "authority_effect": "none",
+      "envelope_sha256": "d1422e71cdb6d5b1018e505389e409c0d220f160753ae6025bb1e0cd3dad02b6"
+    },
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.event-handler-stage",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/5",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.event-handler-stage",
+      "producer_id": "operation-event-boundary-observer",
+      "result": "pass",
+      "diagnostic": "AOP_EVENT_BOUNDARY_PASS",
+      "owner_route": "ape:typescript-operation-profile",
+      "expected_value_sha256": "bf706ed401a6c4361cc8710b8b35701210f07207096ac521bbd8acf5edeaba56",
+      "observed_value_sha256": "d681a1b890834d2f65007ba603daf9d2b4b730da154530e78cb74343db6442fb",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "producer_output_sha256": "d566353d7ee6a21833ec5ff9ff0d3d8143ec9b0e26fb4754a10a8378f2a29c14",
+      "authority_effect": "none",
+      "envelope_sha256": "464fe4220cb2181d1927d163788c08ac9eedf4bef0b4055935c3834f7265c9c3"
+    },
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.cost-observation",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/6",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.cost-observation",
+      "producer_id": "operation-cost-observer",
+      "result": "owner-blocked",
+      "diagnostic": "AOP_COST_ADVISORY_NO_BUDGET",
+      "owner_route": "semantic-cost+runtime",
+      "expected_value_sha256": "28f01a74d43c9956fe399e9c38bccab774f078478ef658758bf94c52412132f9",
+      "observed_value_sha256": "0f90b73c6a52eae0d265c0a8a29acebc7dc6b2770421ff6fc8d804d218c4568b",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "producer_output_sha256": "a0ef03850e5ffc16084862c738b34bb39e59cd5ba4a95091322ce7e67bac6c50",
+      "authority_effect": "none",
+      "envelope_sha256": "6bc81b4d24d072918973ce26a4e63390e06a21c905d954d433f4c6b818eccaa3"
+    },
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.traversal-equivalence",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/7",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.traversal-equivalence",
+      "producer_id": "operation-cost-observer",
+      "result": "pass",
+      "diagnostic": "AOP_COST_PASS",
+      "owner_route": "ape:typescript-operation-profile",
+      "expected_value_sha256": "973b5e88aa8179f549e27aa52658504811ceb8d84ee74acab4884a035b904444",
+      "observed_value_sha256": "d681a1b890834d2f65007ba603daf9d2b4b730da154530e78cb74343db6442fb",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "producer_output_sha256": "ea4352d2db80880412c8844f0faa2f3e2a29d7dafdf246adf414d8bafa071948",
+      "authority_effect": "none",
+      "envelope_sha256": "535bf8caf1ae0b7cb904d9991441236a84bd038d1e2288dfd33b3dcaed10d9a7"
+    },
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.pure-rule-placement",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/8",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.pure-rule-placement",
+      "producer_id": "operation-dependency-observer",
+      "result": "pass",
+      "diagnostic": "AOP_DEPENDENCY_PASS",
+      "owner_route": "rmt:semantic-definitions",
+      "expected_value_sha256": "504d3101e1d79ea390604fa507d007d18cad24375041bd62d4f3b07c4bcb2089",
+      "observed_value_sha256": "d681a1b890834d2f65007ba603daf9d2b4b730da154530e78cb74343db6442fb",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "producer_output_sha256": "2416b2d4643fbc12f531dd5a60bf5f1036782aecfad66f91720946f6e418d1b1",
+      "authority_effect": "none",
+      "envelope_sha256": "613971d3913aa735782cc63ea17f67162ee47ccce568540f6af1d580dfc31769"
+    },
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.instrumentation-placement",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/9",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.instrumentation-placement",
+      "producer_id": "operation-boundary-observer",
+      "result": "fail",
+      "diagnostic": "AOP_BOUNDARY_INSTRUMENTATION_PLACEMENT",
+      "owner_route": "ape:typescript-operation-profile",
+      "expected_value_sha256": "49da9369bfac9fe6b9eb7781cb577ce16ce4a938bd8bf13a45930431280745ee",
+      "observed_value_sha256": "44c124e7f2a6b93a79408c3f387482fe2da1134e508295fd0cb3b48ad9e1456b",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "producer_output_sha256": "1fd6bbc434d0e6b208cf3f8e5502fb6c504c6b9b1460e31eacab2c18194c084a",
+      "authority_effect": "none",
+      "envelope_sha256": "da913b5ac7193411b65d55f14d9d9ef300d09c8bce9952d5e16d6a1a8f94c032"
+    },
+    {
+      "schema_version": "ape.operation-property-result-envelope/v1",
+      "envelope_id": "PokerTeam.CreatePlayer.repository-boundary.candidate-persistence",
+      "envelope_ref": "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json#/evaluation_evidence/10",
+      "subject_id": "PokerTeam.CreatePlayer",
+      "property_id": "APE.ImplementationProperty.operation.repository-boundary",
+      "producer_id": "operation-persistence-observer",
+      "result": "owner-blocked",
+      "diagnostic": "AOP_PERSISTENCE_RECORD_NOT_ADMITTED",
+      "owner_route": "ape:typescript-operation-profile",
+      "expected_value_sha256": "a28588badf5f17803b0c735f8e0c0ff2653b19a08fa433c95ae9f9741967d1b9",
+      "observed_value_sha256": "0f90b73c6a52eae0d265c0a8a29acebc7dc6b2770421ff6fc8d804d218c4568b",
+      "raw_evidence_sha256": "765f8950a6ea1d7476819caaa8f3b60c341e01ec00230e181e6eae37ea506172",
+      "joins_sha256": "ef55d7b6c906bb046dbb7477c81451e9141fad26f098cedf3ea86da4e6e1e70f",
+      "producer_output_sha256": "313ebc4d189dcb2cc8be14994fbc62d481e21f0972cafd2fc30b9aec561de790",
+      "authority_effect": "none",
+      "envelope_sha256": "2d474cec92bdb3a70225500fb5047902fb3075e106a877a8ea17332e7f4a7943"
+    }
+  ],
+  "positive_cases": [
+    {
+      "case_id": "AOP-POS-HOF-REPOSITORY",
+      "witness_id": "W-D01",
+      "source_id": "poker-create-player",
+      "property_ids": [
+        "APE.ImplementationProperty.operation.hof-direction",
+        "APE.ImplementationProperty.operation.role-contract-specificity",
+        "APE.ImplementationProperty.operation.repository-boundary"
+      ],
+      "expected_status": "missing",
+      "expected_diagnostics": ["AOP_DEPENDENCY_COMPOSITION_BINDING_MISSING"],
+      "normalized_facts": {
+        "factory_symbol": "createPlayerUseCase",
+        "effectful_roles": ["repository", "event-handler"],
+        "composition_root_supplies_adapters": false
+      },
+      "forbidden_claims": ["transaction-guarantee", "query-budget", "delivery"]
+    },
+    {
+      "case_id": "AOP-POS-DIRECT-PURE-RULES",
+      "witness_id": "W-D02",
+      "source_id": "poker-create-player",
+      "property_ids": ["APE.ImplementationProperty.operation.pure-rule-placement"],
+      "expected_status": "pass",
+      "expected_diagnostics": ["AOP_DEPENDENCY_PASS"],
+      "normalized_facts": {
+        "pure_imports": [
+          "isAllowedLimit",
+          "canonicalEmailKey",
+          "isNonEmptyString",
+          "normalizeEmail"
+        ],
+        "injection_required": false
+      },
+      "forbidden_claims": ["rule-order-portable-semantics"]
+    },
+    {
+      "case_id": "AOP-POS-EVENT-HANDLER",
+      "witness_id": "W-D01",
+      "source_id": "poker-create-player",
+      "property_ids": ["APE.ImplementationProperty.operation.event-handler-stage"],
+      "expected_status": "pass",
+      "expected_diagnostics": ["AOP_EVENT_BOUNDARY_PASS"],
+      "normalized_facts": {
+        "role": "event-handler",
+        "stage": "in-process-handler",
+        "external_send": false
+      },
+      "forbidden_claims": ["provider-acceptance", "delivery"]
+    },
+    {
+      "case_id": "AOP-POS-UOW-STRUCTURE",
+      "witness_id": "W-D03",
+      "source_id": "poker-financial-write-unit-of-work",
+      "property_ids": ["APE.ImplementationProperty.operation.unit-of-work-boundary"],
+      "expected_status": "owner-blocked",
+      "expected_diagnostics": ["AOP_TRANSACTION_RUNTIME_EVIDENCE_REQUIRED"],
+      "normalized_facts": {
+        "role": "unit-of-work",
+        "participants": ["playerRepo", "transactionRepo"],
+        "structural_shape_pass": true,
+        "runtime_commit_proven": false
+      },
+      "forbidden_claims": ["distributed-atomicity", "runtime-commit-from-source"]
+    },
+    {
+      "case_id": "AOP-POS-EXPLICIT-LOOP-POLICY",
+      "witness_id": "W-D06",
+      "source_id": null,
+      "property_ids": ["APE.ImplementationProperty.operation.traversal-equivalence"],
+      "expected_status": "pass",
+      "expected_diagnostics": ["AOP_COST_PASS"],
+      "normalized_facts": {
+        "derivation_kind": "design-policy-fixture",
+        "loop_form": "explicit",
+        "order_preserved": true,
+        "errors_preserved": true,
+        "effects_preserved": true,
+        "cleanup_preserved": true,
+        "early_exit_preserved": true,
+        "mandatory_reduce": false
+      },
+      "forbidden_claims": ["explicit-loop-is-universally-preferred", "reduce-is-mandatory"]
+    }
+  ],
+  "raw_secret_material_included": false,
+  "raw_domain_payload_included": false,
+  "expectations_immutable_during_evaluation": true,
+  "portable_semantics_claimed": false,
+  "runtime_guarantee_claimed_from_structure": false,
+  "authority_effect": "none"
+}

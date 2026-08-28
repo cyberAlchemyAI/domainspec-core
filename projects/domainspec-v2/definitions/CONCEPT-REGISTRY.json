@@ -232,6 +232,19 @@
         "id_source": "feature-qualified-projection",
         "source": {
           "path": "spec/features/financial-settlement/SPEC.md",
+          "line": 28
+        }
+      }
+    ],
+    "financial-settlement.PayoutEligibilityRule": [
+      {
+        "id": "financial-settlement.PayoutEligibilityRule",
+        "concept": "PayoutEligibilityRule",
+        "type": "Rule",
+        "feature": "financial-settlement",
+        "id_source": "feature-qualified-projection",
+        "source": {
+          "path": "spec/features/financial-settlement/SPEC.md",
           "line": 27
         }
       }
@@ -605,7 +618,7 @@
       "scope": "same-feature",
       "source": {
         "path": "spec/features/financial-settlement/SPEC.md",
-        "line": 34
+        "line": 36
       }
     },
     {
@@ -616,29 +629,29 @@
       "scope": "same-feature",
       "source": {
         "path": "spec/features/financial-settlement/SPEC.md",
-        "line": 35
+        "line": 37
       }
     },
     {
       "feature": "financial-settlement",
       "from": "financial-settlement.GenerateSettlement",
-      "relationship": "queries",
+      "relationship": "reads",
       "to": "financial-settlement.SettlementTransaction",
       "scope": "same-feature",
       "source": {
         "path": "spec/features/financial-settlement/SPEC.md",
-        "line": 36
+        "line": 38
       }
     },
     {
       "feature": "financial-settlement",
       "from": "financial-settlement.GetSettlementPreview",
-      "relationship": "queries",
+      "relationship": "reads",
       "to": "financial-settlement.SettlementTransaction",
       "scope": "same-feature",
       "source": {
         "path": "spec/features/financial-settlement/SPEC.md",
-        "line": 37
+        "line": 39
       }
     },
     {
@@ -649,7 +662,18 @@
       "scope": "same-feature",
       "source": {
         "path": "spec/features/financial-settlement/SPEC.md",
-        "line": 33
+        "line": 35
+      }
+    },
+    {
+      "feature": "financial-settlement",
+      "from": "financial-settlement.PayoutEligibilityRule",
+      "relationship": "enforces",
+      "to": "financial-settlement.GenerateSettlement",
+      "scope": "same-feature",
+      "source": {
+        "path": "spec/features/financial-settlement/SPEC.md",
+        "line": 34
       }
     },
     {
@@ -820,7 +844,7 @@
     {
       "feature": "ui-profile-create-player",
       "from": "ui-profile-create-player.GetPlayerDefaults",
-      "relationship": "queries",
+      "relationship": "reads",
       "to": "ui-profile-create-player.Player",
       "scope": "same-feature",
       "source": {
@@ -874,8 +898,8 @@
     }
   ],
   "report": {
-    "concept_count": 37,
-    "edge_count": 34,
+    "concept_count": 38,
+    "edge_count": 35,
     "duplicate_ids": [],
     "type_drift": [],
     "excluded_concepts": [

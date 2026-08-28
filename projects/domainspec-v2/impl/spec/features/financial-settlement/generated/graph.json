@@ -3,11 +3,11 @@
   "authority": "generated-semantic-read-model",
   "project_id": "financial-settlement",
   "language": {
-    "profile_digest": "17384f4161df05461ac193ab6df369a20f189233a3f27fb111b437845b468918",
+    "profile_digest": "8737bc3bb5d402285e0cbb14c0802d3468be93b54a15189001620bc66b8c4b75",
     "kinds_digest": "4394968327b785d50cd323ad58a799feb71b9debf7e06b650b4fd1e4008f9ede",
-    "relationships_digest": "ffc97f2c358e4bebeebd8ceeb25aef59628be9c970cf6a7e510f7a37c9876d9f"
+    "relationships_digest": "82c55ea1ad031d3135c5b8a85162e44b4e85f296b54057fda0dc38131ab376a1"
   },
-  "source_set_digest": "f66583cbce3b46d4ee42e8f5ec640abc96ee524f1c61b52bde86eb0ec3c7bd41",
+  "source_set_digest": "8a6cfc880bf56916c577189720e37288326414eb3c06db23c0f50899afaffce5",
   "nodes": [
     {
       "node_id": "financial-settlement.DealSplitCalculation",
@@ -1324,6 +1324,21 @@
       }
     },
     {
+      "node_id": "financial-settlement.NoDuplicateMakeupRule",
+      "feature_id": "financial-settlement",
+      "kind": "Rule",
+      "intent": "Reject a duplicate same-date MAKEUP_APPLIED decision while otherwise eligible.",
+      "body": {
+        "formal_return_type": "boolean",
+        "semantic_ref": {
+          "path": "projects/domainspec-v2/development/evolvable-validation-framework/semantic-source/financial-settlement-r4-predicate.v1.json",
+          "sha256": "82e81dd1a2e3e1788e2b4e56b9cfb4bd12e8a62199c3225b6700a2d870c175a7",
+          "size_bytes": 1672,
+          "semantic_id": "evf.semantic.financial-settlement.r4.v1"
+        }
+      }
+    },
+    {
       "node_id": "financial-settlement.PayoutCreatedEvent",
       "feature_id": "financial-settlement",
       "kind": "Event",
@@ -1338,7 +1353,13 @@
       "kind": "Rule",
       "intent": "Identify the bounded experimental condition under which payout effects are observed.",
       "body": {
-        "formal_return_type": "boolean"
+        "formal_return_type": "boolean",
+        "semantic_ref": {
+          "path": "projects/domainspec-v2/development/evolvable-validation-framework/semantic-source/financial-settlement-p4-rule.v1.json",
+          "sha256": "6f61d37a1249a645bab173a6b219499ce56f352efbeb3632c759d0a026ce1418",
+          "size_bytes": 1570,
+          "semantic_id": "evf.semantic.financial-settlement.p4.v1"
+        }
       }
     }
   ],
@@ -1354,6 +1375,12 @@
       "type": "produces",
       "from": "financial-settlement.GenerateSettlement",
       "to": "financial-settlement.PayoutCreatedEvent"
+    },
+    {
+      "edge_id": "financial-settlement.edge.no-duplicate-makeup-rule-enforces-generation",
+      "type": "enforces",
+      "from": "financial-settlement.NoDuplicateMakeupRule",
+      "to": "financial-settlement.GenerateSettlement"
     },
     {
       "edge_id": "financial-settlement.edge.payout-rule-enforces-generation",

@@ -56,6 +56,7 @@ A term failing (1) is a **drift defect** — create it as a `candidate` card + i
 | generated artifact consequence | DEFINITIONS.md#domainspec-v2-d18 property set | yes -> `domainspec-v2-D25` | active | `pass` | changed generated output/provenance property |
 | relationship source-effect binding | historical DS-D8 `creates`; DEC-DSV2-OPERATION-CREATES-ENTITY | yes -> `domainspec-v2-D26` | superseded | `pass` | stable historical ID; replaced by edge-canonical generated projection |
 | Canonical Single Responsibility Principle | DS-D8 `creates`; DEC-DSV2-CANONICAL-CREATION-RESPONSIBILITY | yes -> `domainspec-v2-D27` | active | `pass` | one primary responsibility, one canonical owner, one authored proposition; `creates` is the executable application |
+| DomainSpec obligation lifecycle | GATE-05 separate owner-local lifecycles | yes -> `domainspec-v2-D28` | active | `pass` | closed owner-event fold; currentness and decision dispositions remain separate |
 
 ## Gate
 - `pass`: every load-bearing term resolves to a tracked, grounded entry.
@@ -83,6 +84,13 @@ The R3 relationship wording gap is closed: `relationship non-collapse test` reso
 and `typed composable graph fragment` resolves to `domainspec-v2-D19`. The D18 property split is also tracked:
 `domainspec-v2-D20..D25` define the six consequence properties a new relationship must cite before promotion.
 This imports the CAV2 non-collapse discipline into DS-D2/DS-D8 without promoting full category law.
+
+The proof-substrate lifecycle term now resolves to `domainspec-v2-D28`. A focused current-authority and
+implementation-spec scan found no competing obligation transition table. Existing uses of `killed` for a
+detected mutation and `resolved` for an ordinary decision are different typed terms; they do not define an
+obligation state. Historical research, reviews, receipts, and staged planning copies remain evidence rather
+than current lifecycle authority. Reducers, schemas, validators, and projections remain implementation work
+and cannot claim D28 conformance until they enforce its closed transitions and owner-only event admission.
 
 Focused stale scan (2026-07-22): the owned definition/index/audit/meta-type surfaces carry no live 25-label,
 14-backend, uniform-UI, or 30-signature authority claim. Candidate/deferred status is not treated as

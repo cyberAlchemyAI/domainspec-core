@@ -11,6 +11,14 @@ reformulated** into v2 — see [`IMPORT-MANIFEST.md`](IMPORT-MANIFEST.md), drive
 [v1→v2 import triage](research/2026-06-29-v1-import-triage/findings.md). The forked implementation
 lives under [`impl/`](impl/). v2 also remains the research-tower program described below.
 
+## Architecture and guide
+
+- [DomainSpec v2 Architecture](ARCHITECTURE.md) — the integrated system map across
+  authority, language, specification, compilation, derivation, conformance, evidence,
+  EVF, and owner gates.
+- [Complete Guide](COMPLETE-GUIDE.md) — the teaching-oriented walkthrough, examples,
+  and practical usage reference.
+
 ## Implementation home (`impl/`) — migrated from v1
 
 The forked implementation lives under [`impl/`](impl/):

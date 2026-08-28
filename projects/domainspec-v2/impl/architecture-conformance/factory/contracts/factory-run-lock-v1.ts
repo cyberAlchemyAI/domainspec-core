@@ -1,4 +1,5 @@
 import type { FactoryPurpose } from "./factory-run-request-v1.js";
+import type { LockedFactoryArtifactV1 } from "./factory-locked-artifact-v1.js";
 
 export type LockedFactoryRefV1 = Readonly<{
   role: string;
@@ -22,6 +23,8 @@ export type LockedFactoryNodeV1 = Readonly<{
   inputs: readonly LockedFactoryRefV1[];
   components: readonly LockedFactoryRefV1[];
   tools: readonly LockedFactoryToolV1[];
+  artifacts?: readonly LockedFactoryArtifactV1[];
+  execution_timeout_ms?: number;
   claim_ceiling: string;
 }>;
 

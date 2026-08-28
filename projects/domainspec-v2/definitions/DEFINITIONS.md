@@ -120,8 +120,11 @@ Plain-language voice: an edge deserves its own name only if it makes the code co
 widen an existing edge or add a flag. Widening *who* uses an edge is fine; changing *what it points at* is not.
 
 Domain-context voice: governs R3 (RELATIONSHIPS reformulation). Rulings: keep `enforces`≠`applies`; collapse
-`enforces`/`enforces-cross`; reject `queries` for Calc→Policy; widen `applies`→Policy→{Op,Calc} and
-`queries`→Behavioral→Entity. See DEC-DSV2-EDGE-ADMISSIBILITY.
+`enforces`/`enforces-cross`; reject the former `queries` label for Calc→Policy; and widen
+`applies`→Policy→{Op,Calc}. The 2026-08-23 owner decision supersedes the earlier broad
+`queries`→Behavioral→Entity ruling with `reads`→{Query,Operation}→Entity: the edge names an Entity-data
+dependency, while Calculation remains a pure function over explicit inputs. See DEC-DSV2-EDGE-ADMISSIBILITY
+and the BMC-REL-001 decision record.
 
 Use carefully: this is classification/governance orthogonality (CAV2-D22/D29), NOT Lean/Hilbert projector
 orthogonality (excluded from cav2 authority).
@@ -1090,8 +1093,8 @@ canonical authored verb =
 ```
 
 Plain-language voice: DS-D2 is the approved vocabulary for arrows in a DomainSpec graph: names like
-`enforces`, `queries`, `owns`, and `orchestrates`. If a label is only generated (`owned-by`), deprecated
-(`enforces-cross`), or deferred (`depends-on`), authors do not use it as a canonical edge.
+`enforces`, `reads`, `owns`, and `orchestrates`. If a label is only generated (`owned-by`), deprecated
+(`enforces-cross`, `queries`), or deferred (`depends-on`), authors do not use it as a canonical edge.
 
 Domain-context voice: feature specs use DS-D2 labels in Concept Graph tables. The validator reads the root
 relationship authority, not the implementation projection, and rejects noncanonical labels before any endpoint
@@ -1264,8 +1267,8 @@ CreatePlayer.creation_targets = [Player]
 Other concepts may relate to the same Entity without competing for its creation responsibility:
 
 ```text
-FindPlayer   --[queries]--> Player
-UpdatePlayer --[queries]--> Player
+FindPlayer   --[reads]--> Player
+UpdatePlayer --[reads]--> Player
 Team         --[owns]-----> Player
 ```
 
@@ -1310,6 +1313,301 @@ negative Markdown/compiler fixtures. Gate = definitions-governance owner gate.
 Promotion boundary: DomainSpec-local modeling and validation principle. It builds from CAV2 invariants without
 creating a new CyberAlchemy v2 primitive or claiming that every independently meaningful relationship must be
 one-to-one.
+
+## domainspec-v2-D29. Ownership Dimension Registry
+
+Status: active
+
+Source kind: domain-vocabulary; owner-selected D06 projection dependency
+
+Evidence: [DS-D8](#ds-d8) · [domainspec-v2-D27](#domainspec-v2-d27) ·
+[ownership-dimensions.json](./ownership-dimensions/ownership-dimensions.json) ·
+[BMC-REL-D06 P01 decision](../development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-D06-PROJECTION/decisions/BMC-REL-D06-PROJECTION-DECISIONS.md#p01--ownership-dimension-vocabulary)
+
+Formal voice:
+
+```text
+Let OwnershipDimensionId be the exact finite active_ids set in
+definitions/ownership-dimensions/ownership-dimensions.json.
+
+Initially:
+  OwnershipDimensionId = {
+    lifecycle,
+    custody,
+    write-responsibility
+  }.
+
+An ownership-dimension reference is admitted iff it is one exact active stable
+ID in that registry. The active IDs are pairwise non-overlapping semantic axes.
+If a proposed classification is unknown, free-text, aliased, or ambiguous across
+more than one active axis, validation fails closed rather than inferring an ID.
+
+For every admitted dimension d, target Entity t, and owner Entities o1 and o2:
+  owns_d(o1, t) and owns_d(o2, t) implies o1 = o2.
+
+No existence condition follows: an Entity need not have an owner in any
+dimension. Adding, revising, deprecating, or removing a registry entry requires
+a fresh Definitions Governance owner decision and a new exact registry digest.
+```
+
+The registry order is serialization only and carries no precedence. It contains stable IDs only; this
+definition card owns their meanings.
+
+Plain-language voice: DomainSpec recognizes three current kinds of direct Entity ownership. Lifecycle,
+custody, and write responsibility are separate questions, so different Entities may own different kinds for
+the same target. Within one kind, two competing direct owners are not admitted. Unknown or ambiguous kinds are
+rejected instead of guessed, and the registry cannot grow through ordinary authoring.
+
+Domain-context voice: the canonical `owns` relationship remains one `Entity -> Entity` verb and `owned-by`
+remains generated reverse navigation. A later typed representation may bind an `owns` fact to one registry ID,
+but this card does not choose that representation. The compatibility token `one_to_many`, endpoint types,
+feature scope, runtime writers, Operations, permissions, and calls do not supply a dimension.
+
+### Active ownership dimensions
+
+#### `lifecycle`
+
+Formal voice: responsibility for the target Entity's admission as an identity-bearing domain concept,
+continuity rules, lifecycle-transition policy, and retirement. It does not by itself grant custody or authority
+for every business-state write.
+
+Plain-language voice: the lifecycle owner decides when the Entity exists as a governed identity and how its
+lifecycle may begin, continue, and end.
+
+Domain-context voice: on `Entity --[owns]--> Entity`, `lifecycle` classifies responsibility for the target's
+identity-bearing lifecycle without changing the canonical verb or generated inverse.
+
+#### `custody`
+
+Formal voice: responsibility for stewardship, possession, placement, or operational keeping of the target
+Entity without necessarily controlling its lifecycle or all business-state mutation.
+
+Plain-language voice: the custodian looks after or holds the Entity even when another owner governs its
+lifecycle or writes its state.
+
+Domain-context voice: on `Entity --[owns]--> Entity`, `custody` permits a distinct custodian without competing
+with an owner on another admitted dimension.
+
+#### `write-responsibility`
+
+Formal voice: responsibility and authority for changing the target Entity's business state under its admitted
+invariants. It does not by itself determine lifecycle admission, retirement, or custody.
+
+Plain-language voice: the write-responsibility owner is accountable for authorized changes to the Entity's
+business state.
+
+Domain-context voice: on `Entity --[owns]--> Entity`, `write-responsibility` classifies direct semantic
+responsibility for Entity-state mutation; runtime writers, Operations, permissions, and calls do not become
+canonical `owns` edges merely by performing or permitting a write.
+
+Validation implications: require one exact active ID for any dimension-bearing ownership fact; reject unknown,
+free-text, duplicate, aliased, deprecated, or ambiguously overlapping IDs; reject two distinct direct owners for
+the same target and dimension; permit distinct owners for distinct dimensions; do not infer mandatory ownership,
+numeric bounds, self-edge policy, cycle policy, transitivity, closure, inverse authorship, serialization, or
+runtime cardinality. These implications remain non-executable until a separately selected typed representation
+and validator bind this registry.
+
+Use carefully: the registry admits semantic responsibility axes, not organizational titles, permissions,
+runtime actors, storage locations, or arbitrary tags. A new word in prose is not a registry entry.
+
+Misuse warning: do not silently map synonyms to an active ID, classify one fact under several IDs, or treat the
+three initial entries as exhaustive forever. Evolution is possible only through a fresh owner decision.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "an ownership fact uses an
+unknown, ambiguous, or multiply classified dimension, or two direct owners claim the same target and admitted
+dimension" -> challenges the term; owner route = definitions-governance; gate = owner decision; blocking
+question = "which exact active ownership-dimension ID and registry digest govern this fact?"; residue ->
+`definitions/reviews/`.
+
+Confirm contract: active from the exact D06 P01 owner selection and this synchronized three-voice card, index,
+and machine-readable registry. Packet representation and executable validation require the separate P02 owner
+decision. Gate = definitions-governance owner gate.
+
+Promotion boundary: local DomainSpec v2 ownership-dimension vocabulary only. It does not change DS-D8 endpoint
+authority, the `owns` signature, generated `owned-by`, D27 beyond the selected D06 application, implementation,
+publication, release, deployment, or production state.
+
+## domainspec-v2-D30. Membership Kind Registry
+
+Status: active
+
+Source kind: domain-vocabulary; D07 P01 contents owner-selected registry
+
+Evidence: [DS-D8 canonical `belongs-to`](#ds-d8--relationship-signature-authority) ·
+[D18 relationship contracts](#domainspec-v2-d18-relationship-non-collapse-test) ·
+[`BMC-REL-D07-P01-CONTENTS-A-MINIMAL-TWO-KIND` selection](../development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-D07-PROJECTION/receipts/BMC-REL-D07-P01-CONTENTS-SELECTION-RECEIPT.json) ·
+[`membership-kinds.json`](./membership-kinds/membership-kinds.json)
+
+Formal voice:
+
+Let `K_active` be the exact finite set of active IDs in the digest-bound
+`definitions/membership-kinds/membership-kinds.json`. Initially:
+
+```text
+K_active = { classification, home-assignment }.
+```
+
+A future kind-bearing canonical `belongs-to` fact is admitted only when it references one exact active ID. A
+fact whose intended meaning fits zero active meanings is unknown; a fact that fits more than one is ambiguous.
+Both fail closed. Free text, aliases, implicit synonym mapping, deprecated IDs, duplicate IDs, and multi-kind
+classification of one fact are invalid. The active meanings are pairwise non-overlapping:
+
+- `classification` answers “what classifier or category is applied to the source?”
+- `home-assignment` answers “what explicit home or placement context is assigned to the source?”
+
+For each Entity `e`, kind `k` in `K_active`, and parent Entities `p1`, `p2`:
+
+```text
+belongs_to_k(e, p1) and belongs_to_k(e, p2) implies p1 = p2.
+```
+
+There is no existence condition. Different parents under distinct active kinds are permitted but not required.
+The generic prose word `membership` and the unselected `collection-membership` design label are not active IDs.
+
+Plain-language voice: a `belongs-to` fact may say either what category the source is classified under or which
+explicit home it is assigned to. The author must choose one exact active meaning, and the fact is rejected if
+neither or both meanings fit. Nothing is required to belong anywhere, and different meanings may point to
+different parents.
+
+DomainSpec-context voice: this registry refines the canonical Entity-to-Entity `belongs-to` vocabulary without
+changing its endpoints or turning compatibility label `many_to_one` into numeric authority. It remains
+independent from canonical `owns` and the D29 ownership-dimension registry. It does not decide packet
+representation or executable validation.
+
+### `classification`
+
+Formal voice: `classification(e, p)` means the parent Entity `p` functions as the conceptual classifier or
+category under which source Entity `e` is classified. It asserts neither membership in `p` as a collection nor
+assignment of `p` as `e`'s governing home or placement.
+
+Plain-language voice: `e` is treated as an example or member of the kind represented by `p`; this says what
+category `e` is classified under, not where it is housed or which collection it joins.
+
+DomainSpec-context voice: on canonical `Entity --[belongs-to]--> Entity`, `classification` may classify a source
+under a target Entity without changing endpoint types or the canonical verb. `Copy --[belongs-to]--> Title` is a
+hypothetical explanatory fit only when Title actually classifies Copy; the existing example alone does not
+prove the kind binding.
+
+### `home-assignment`
+
+Formal voice: `home-assignment(e, p)` means parent Entity `p` is the explicitly designated organizational,
+operational, or placement context to which source Entity `e` is assigned as its home for the modeled purpose.
+It asserts neither that `p` classifies `e` nor that `e` merely participates in `p` as a collection.
+
+Plain-language voice: `p` is the place or governing context where `e` belongs for this assignment, rather than
+a category describing `e` or a group that simply includes it.
+
+DomainSpec-context voice: on canonical `belongs-to`, `home-assignment` may express an Entity's assigned home
+while remaining distinct from `owns`. `Copy --[belongs-to]--> Branch` is a hypothetical explanatory fit only
+when Branch is the modeled home; the existing example alone does not prove the kind binding.
+
+Validation implications: bind every registry-bearing check to the exact registry digest; require one exact
+active ID for each future kind-bearing fact; reject unknown, free-text, aliased, deprecated, duplicated,
+multi-classified, or ambiguously overlapping IDs; reject two distinct direct parents for the same source Entity
+and kind; permit different parents for distinct kinds without requiring any membership; reject ownership IDs
+and any treatment of `belongs-to` as `owns^-1`. These implications remain non-executable until a separately
+selected P02 representation and validator bind this registry.
+
+Use carefully: a new prose term is not a registry entry. Owner-gated add, revise, deprecate, or remove operations
+require a fresh Definitions Governance decision, synchronized card, index and registry bytes, a new digest, and
+downstream drift review.
+
+Misuse warning: do not map a generic “membership” catchall, `collection-membership`, `other`, aliases, ownership
+dimensions, or ambiguous meanings to an active ID. Do not infer numeric bounds, self-edge policy, cycle policy,
+transitivity, closure, duplicate-edge policy, inverse authorship, serialization, runtime behavior, or mandatory
+membership.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a `belongs-to` fact uses an
+unknown, ambiguous, aliased, inactive, or multiply classified membership kind, or two distinct direct parents
+claim the same source and active kind" -> challenges the term; owner route = definitions-governance; gate = owner
+decision; blocking question = "which exact active membership-kind ID and registry digest govern this fact?";
+residue -> `definitions/reviews/`.
+
+Confirm contract: active only after exact owner acceptance and atomic synchronization of this three-voice card,
+the D30 index row, and the machine-readable registry. P02 typed representation and executable validation require
+a separate owner decision. Gate = definitions-governance owner gate.
+
+Promotion boundary: local DomainSpec v2 membership-kind vocabulary only. It does not change DS-D8 endpoint
+authority, the canonical `belongs-to` signature, `owns`, D29, packet/schema/validator authority, implementation,
+publication, release, deployment, or production state.
+
+## domainspec-v2-D28. DomainSpec obligation lifecycle
+
+Status: active
+
+Source kind: local-inference; owner-ratified lifecycle vocabulary
+
+Evidence: [GATE-05 separate owner-local lifecycles](../../../research/2026-08-20-domainspec-v2-cav2-proof-obligation-substrate/development/refinement-runs/20260821T145409Z-proof-substrate-next-steps/stages/10-gate-01-top03-refresh/apply-corrected/owner-decisions/GATE-05-DECISION.md) ·
+[TOP-03 DomainSpec v2 adoption acceptance](../authority/decisions/2026-08-22-top03-shared-syntax-adoption-acceptance.md)
+
+Formal voice:
+
+```text
+Let o = (owner_namespace, obligation_id, version, digest) identify one exact
+DomainSpec obligation version.
+
+LifecycleState = {open, discharged, killed}
+LifecycleEvent = {opened, discharged, reopened, killed}
+
+state_o([]) = undefined
+
+fold(undefined, opened)      = open
+fold(open, discharged)       = discharged
+fold(discharged, reopened)   = open
+fold(open, killed)           = killed
+
+Every other event/state pair is invalid.
+
+current_state(o) = fold(events_o ordered by their owner-admitted sequence)
+
+Only the DomainSpec lifecycle owner may admit a LifecycleEvent for o.
+Evidence, validation, generation, projection, evaluation, or CAV2 promotion
+may inform that owner decision but cannot append the event themselves.
+```
+
+The event and state tokens are closed members of this one lifecycle definition; they are not independent
+definition cards. `killed` is terminal for the exact obligation version `o`. A materially changed proposition
+requires an owner-governed new identity or version and a new `opened` event rather than another transition on
+the killed version.
+
+Plain-language voice: an obligation begins open. Its owner may accept enough evidence and discharge it, reopen
+it when more work is needed, or kill it when that exact obligation no longer applies. Tests and proofs provide
+evidence; they never press those lifecycle buttons themselves.
+
+Domain-context voice: DomainSpec v2 proof and validation surfaces may record Lean, Cedar, Datalog, evaluator,
+mutation, or runtime results against an exact obligation. A generated catalogue or human page derives the
+current lifecycle state from the append-only owner events and displays the owning decision. It may not emit a
+transition or turn a passing result into a discharge.
+
+Currentness is a separate axis. When a source, predicate, binding, runtime, policy, or other exact input changes,
+an earlier discharge remains a valid historical owner event but becomes non-current for the changed binding.
+That change does not rewrite the earlier event and does not automatically emit `reopened`.
+
+Decision dispositions are also separate. `refuse` and `defer` record what the owner decided about the current
+request; neither changes the prior lifecycle state. `resolved` may appear in ordinary explanation, but it is not
+a machine lifecycle state because it would collapse `discharged` and `killed`.
+
+Use carefully: always qualify the state with the exact obligation identity and version. The word `killed` in
+mutation testing means that a negative variant was detected; it is not the `killed` lifecycle state of an
+obligation.
+
+Misuse warning: do not infer a transition from a schema pass, proof checker, Lean theorem, Cedar or Datalog
+result, mutation kill, evaluator receipt, generated page, publication, or CAV2 promotion. Do not reopen an
+obligation merely because one of its bindings became non-current.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a non-owner surface
+performs a transition, an invalid event/state pair is accepted, currentness is collapsed into lifecycle, or a
+mutation kill is treated as an obligation kill" -> challenges the term; owner route = definitions-governance
+plus the DomainSpec lifecycle owner; gate = owner decision; blocking question = "which exact owner-admitted
+event over which exact obligation version produced this state?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active from the accepted GATE-05 owner decision and this synchronized three-voice card. A
+future schema, reducer, validator, catalogue, or generated page may claim conformance only after positive and
+negative fixtures enforce the closed transitions, owner-only event admission, append-only history, separate
+currentness, and non-transitioning `refuse`/`defer` dispositions. Gate = definitions-governance owner gate.
+
+Promotion boundary: local DomainSpec v2 obligation semantics and lifecycle only. It does not define or change
+CAV2 promotion, domain adoption, proof truth, publication authorization, or another domain's lifecycle.
 
 <!-- SKELETON note: D1-D2 mint-seeded; D3-D5 consolidated 2026-07-01 into this canonical home (was the
      separate governance surface DSV2-D1/2/3, now removed). Companions backfilled 2026-07-01 to the current

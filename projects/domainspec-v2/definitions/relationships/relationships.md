@@ -31,7 +31,8 @@ The count is post-reconciliation:
 - `enforces-cross` is deprecated; use `enforces` in the cross-feature dependency surface.
 - `creates` is an edge-canonical, partial-one-to-one same-feature Operation-to-Entity relation;
   `creation_targets` is a generated projection.
-- `queries` is source-widened for read-capable behavioral concepts.
+- `reads` admits `Query` and `Operation` sources; `queries` is a deprecated migration alias.
+- `Calculation` is not a `reads` source: its canonical relation is `calculates`, and input provenance remains a separate decision.
 - `applies` targets both `Operation` and `Calculation`.
 - `owns` and `belongs-to` are first-class; Workflow orchestration admits same-feature and cross-feature scope.
 - `depends-on`, Operation returns to Value Object, and Event payload/publisher split remain residue.
@@ -68,7 +69,7 @@ the candidate as generated, deferred, collapsed into metadata, or non-authoritat
 | `Policy --[applies]--> Operation\|Calculation` | A policy selects behavior for an operation or calculation. |
 | `Mapping --[maps]--> Entity\|Interface` | A mapping transforms boundary or entity data. |
 | `Entity --[contains]--> Value Object` | An entity embeds a value object as a field. |
-| `Query\|Calculation\|Operation --[queries]--> Entity` | A read-capable behavior reads entity data. |
+| `Query\|Operation --[reads]--> Entity` | An operation or query depends on entity data without implying ownership or whole-behavior read-only semantics. |
 | `Entity --[emits]--> Event` | An entity is the subject/source of a domain event. |
 | `Entity --[owns]--> Entity` | An entity has lifecycle, custody, or write-responsibility ownership over another entity. |
 | `Entity --[belongs-to]--> Entity` | An entity has membership, classification, or home-assignment to another entity. |
@@ -114,7 +115,7 @@ requirement that every Operation or Entity participate.
 Other independently meaningful relations remain separate:
 
 ```text
-FindPlayer   --[queries]--> Player
+FindPlayer   --[reads]--> Player
 CanCreate    --[enforces]--> CreatePlayer
 CreatePlayer --[produces]--> PlayerCreated
 ```
@@ -136,6 +137,11 @@ In Markdown specifications, placement in `Feature Concept Graph` means same-feat
 `enforces-cross` remains a deprecated alias and validators reject it with `enforces` replacement guidance.
 The multiplicity remains many-to-many because independently meaningful Rules may gate several Operations and
 an Operation may require several Rules.
+
+`queries` is likewise a deprecated alias and validators reject it with `reads` replacement guidance. `Query`
+remains the read-only callable meta-type; `reads` is the separate Entity-data dependency that either a Query or
+an Operation may declare. A Calculation consumes explicit values and therefore does not gain an Entity-reading
+edge from this signature.
 
 ## Entity Relation Policy
 

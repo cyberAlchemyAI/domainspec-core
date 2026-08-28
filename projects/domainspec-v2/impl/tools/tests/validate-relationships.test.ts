@@ -19,7 +19,7 @@ function runFixture(name: string) {
   return runValidator(["--features-root", `spec/__fixtures__/relationships/${name}`]);
 }
 
-test("valid relationship endpoints pass, including Workflow and Entity relations", () => {
+test("valid relationship endpoints pass, including Query and Operation reads", () => {
   const r = runFixture("valid");
   assert.equal(r.status, 0, r.stdout + r.stderr);
   assert.match(r.stdout, /PASS/);
@@ -61,7 +61,8 @@ for (const fixture of [
   "bad-operation-enforces-value-object",
   "bad-state-machine-enforces-operation",
   "bad-reversed-enforces",
-  "bad-queries-target",
+  "bad-calculation-reads",
+  "bad-reads-target",
   "bad-operation-emits-event",
   "bad-saga-orchestrates-operation",
 ]) {
@@ -71,6 +72,13 @@ for (const fixture of [
     assert.match(r.stdout, /unconstructible-edge/);
   });
 }
+
+test("deprecated queries is rejected with the canonical reads replacement", () => {
+  const r = runFixture("bad-queries-target");
+  assert.equal(r.status, 1, r.stdout + r.stderr);
+  assert.match(r.stdout, /Deprecated relationship label "queries" is not canonical/);
+  assert.match(r.stdout, /suggested=reads/);
+});
 
 test("generated owned-by inverse is not an authored canonical edge", () => {
   const r = runFixture("bad-generated-owned-by");

@@ -114,7 +114,7 @@ inductive Edge
   -- 𝓡_B (15 backend, spec)
   | performs | produces | producesFor | triggersCross | enforcesCross | enforces
   | calculates | transitions | exposes | orchestrates | applies | maps | contains
-  | queries | emits
+  | reads | emits
   -- 𝓡_U (8 intra-UI, spec)
   | renders | wraps | composes | consumes | submits | shapes | protects | displays
   -- 𝓡_X (6 cross-layer, spec, UI → backend)
@@ -132,7 +132,7 @@ inductive EdgeFamily | backend | intraUI | crossLayer | extension
 def family : Edge → EdgeFamily
   | .performs | .produces | .producesFor | .triggersCross | .enforcesCross | .enforces
   | .calculates | .transitions | .exposes | .orchestrates | .applies | .maps | .contains
-  | .queries | .emits => .backend
+  | .reads | .emits => .backend
   | .renders | .wraps | .composes | .consumes | .submits | .shapes | .protects
   | .displays => .intraUI
   | .fetches | .mutates | .reflects | .derives | .contracts | .mirrors => .crossLayer
@@ -161,7 +161,7 @@ def sig : Edge → Sig
   | .applies       => ([policy],      [operation])
   | .maps          => ([mapping],     [entity, «interface»])
   | .contains      => ([entity],      [valueObject])
-  | .queries       => ([query],       [entity])
+  | .reads         => ([query, operation], [entity])
   | .emits         => ([entity],      [event])
   -- 𝓡_U
   | .renders       => ([page],        [component])
@@ -292,7 +292,7 @@ theorem sig_associates_domain :
 def specEdges : List Edge :=
   [.performs, .produces, .producesFor, .triggersCross, .enforcesCross, .enforces,
    .calculates, .transitions, .exposes, .orchestrates, .applies, .maps, .contains,
-   .queries, .emits,
+   .reads, .emits,
    .renders, .wraps, .composes, .consumes, .submits, .shapes, .protects, .displays,
    .fetches, .mutates, .reflects, .derives, .contracts, .mirrors]
 

@@ -284,7 +284,7 @@ describe("independent DS-SFOL clause denominator", () => {
       "utf8",
     );
     const imports = [...source.matchAll(/from\s+["']([^"']+)["']/g)].map(
-      ([, specifier]) => specifier,
+      (match) => match[1]!,
     );
     expect(imports).toEqual(["node:crypto"]);
     expect(

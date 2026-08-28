@@ -228,6 +228,7 @@ resolve the separate BTE, IOLM, canonical-apply, readiness, or release gates.
 
 ## Canonical Navigation
 
+- [Architecture](ARCHITECTURE.md) — stable components, contracts, flows, boundaries, runtime view, and evolution rules.
 - [Implementation layering](IMPLEMENTATION-LAYERING.md) — L0 through L3 decision boundaries.
 - [Work Pack](WORK-PACK.md) — tasks, evidence overlays, blockers, and owner handoffs.
 - [DomainSpec v2](../../README.md) — implementation home and private boundary.

@@ -28,7 +28,7 @@ row flagged as identity.
 ## Edge participation (DS-D8 slice)
 - SOURCE of: `belongs-to`, `contains`, `emits`, `owns`, `performs`
 - TARGET of: `belongs-to`, `creates`, `derives`, `maps`, `owns`,
-  `produces-for`, `queries`
+  `produces-for`, `reads`
 
 ## Distinguisher vs Value Object
 An Entity **has identity** (an `Identity`-flagged field); a Value Object has **none** and declares an

@@ -22,7 +22,7 @@ A concept declared **Query** is well-formed IFF its `Attribute | Value` table de
 A Query is read-only (`state_change=no`); an Operation changes state (`state_change=yes`).
 
 ## Edge participation (DS-D8 slice)
-- SOURCE of: `queries`
+- SOURCE of: `reads`
 
 ## Fixtures
 - positive: [`spec/__fixtures__/mt/query-ok.md`](../../__fixtures__/mt/query-ok.md)

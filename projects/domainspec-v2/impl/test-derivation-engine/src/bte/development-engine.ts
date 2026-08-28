@@ -26,6 +26,7 @@ export const BACKEND_RELATIONSHIPS = [
   "performs",
   "produces",
   "produces-for",
+  "creates",
   "triggers-cross",
   "enforces",
   "calculates",
@@ -35,7 +36,7 @@ export const BACKEND_RELATIONSHIPS = [
   "applies",
   "maps",
   "contains",
-  "queries",
+  "reads",
   "emits",
   "owns",
   "belongs-to",
@@ -93,6 +94,11 @@ export const RELATIONSHIP_CONTRACTS: Readonly<
     target: ["Entity"],
     scopes: ["cross-feature"],
   },
+  creates: {
+    source: ["Operation"],
+    target: ["Entity"],
+    scopes: ["same-feature"],
+  },
   "triggers-cross": {
     source: ["Event"],
     target: ["Operation"],
@@ -139,8 +145,8 @@ export const RELATIONSHIP_CONTRACTS: Readonly<
     target: ["Value Object"],
     scopes: ["same-feature"],
   },
-  queries: {
-    source: ["Query", "Calculation", "Operation"],
+  reads: {
+    source: ["Query", "Operation"],
     target: ["Entity"],
     scopes: ["same-feature"],
   },

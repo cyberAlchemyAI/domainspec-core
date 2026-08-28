@@ -6,6 +6,7 @@
 | --- | --- |
 | MaxAmountRule | Rule |
 | ProcessPayment | Operation |
+| GetPaymentHistory | Query |
 | PaymentCompleted | Event |
 | PaymentTransaction | Entity |
 | WireTransferWorkflow | Workflow |
@@ -20,6 +21,8 @@
 | --- | --- | --- |
 | MaxAmountRule | enforces | ProcessPayment |
 | ProcessPayment | produces | PaymentCompleted |
+| ProcessPayment | reads | PaymentTransaction |
+| GetPaymentHistory | reads | PaymentTransaction |
 | PaymentTransaction | emits | PaymentCompleted |
 | WireTransferWorkflow | orchestrates | ReserveFunds |
 | Library | owns | Copy |

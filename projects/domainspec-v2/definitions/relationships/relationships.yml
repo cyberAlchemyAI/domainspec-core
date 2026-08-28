@@ -226,20 +226,20 @@
       "projection": {"markdown": "Entity --[contains]--> Value Object"}
     },
     {
-      "id": "queries",
-      "source_types": ["Query", "Calculation", "Operation"],
+      "id": "reads",
+      "source_types": ["Query", "Operation"],
       "target_type": "Entity",
       "direction": "canonical",
       "multiplicity": "many_to_many",
       "feature_scope": ["same-feature"],
       "inverse": {"kind": "none"},
       "status": "active",
-      "semantics": "A read-capable behavioral concept reads entity data without making the target an owner.",
-      "examples": ["GetPaymentHistory --[queries]--> PaymentTransaction", "GenerateSettlement --[queries]--> SettlementTransaction"],
-      "non_examples": ["Calculation --[queries]--> Policy", "Entity --[queries]--> Query"],
-      "validation": {"violation_class": "unconstructible-edge", "obligations": ["reject_non_read_capable_source", "reject_non_entity_target"]},
+      "semantics": "An operation or query depends on entity data by reading it, without making the target an owner or implying that the whole source behavior is read-only.",
+      "examples": ["GetPaymentHistory --[reads]--> PaymentTransaction", "GenerateSettlement --[reads]--> SettlementTransaction"],
+      "non_examples": ["Calculation --[reads]--> SettlementTransaction", "Entity --[reads]--> Query", "GetPaymentHistory --[queries]--> PaymentTransaction"],
+      "validation": {"violation_class": "unconstructible-edge", "obligations": ["reject_non_query_or_operation_source", "reject_non_entity_target", "reject_deprecated_queries_alias"]},
       "composition": ["behavior_reads_entity_data"],
-      "projection": {"markdown": "Query|Calculation|Operation --[queries]--> Entity"}
+      "projection": {"markdown": "Query|Operation --[reads]--> Entity"}
     },
     {
       "id": "emits",
@@ -544,6 +544,11 @@
       "id": "enforces-cross",
       "replacement": "enforces",
       "reason": "Cross-feature enforcement is feature-scope metadata on enforces, not a distinct verb."
+    },
+    {
+      "id": "queries",
+      "replacement": "reads",
+      "reason": "The relationship names an Entity-data dependency, not invocation of the Query meta-type; reads removes that ambiguity and excludes pure Calculation sources."
     }
   ]
 }

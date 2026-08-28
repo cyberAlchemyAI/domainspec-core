@@ -57,6 +57,7 @@ export function createCompleteDevelopmentProject(): DevelopmentProject {
     { edge_id: "edge-performs", family: "performs", from: "core.Account", to: "core.ChangeAccount" },
     { edge_id: "edge-produces", family: "produces", from: "core.ChangeAccount", to: "core.AccountChanged" },
     { edge_id: "edge-produces-for", family: "produces-for", from: "core.ChangeAccount", to: "external.RemoteAccount" },
+    { edge_id: "edge-creates", family: "creates", from: "core.ChangeAccount", to: "core.Account" },
     { edge_id: "edge-triggers-cross", family: "triggers-cross", from: "core.AccountChanged", to: "external.RemoteChange" },
     { edge_id: "edge-enforces", family: "enforces", from: "core.CanChange", to: "core.ChangeAccount" },
     { edge_id: "edge-calculates", family: "calculates", from: "core.Fee", to: "core.ChangeAccount" },
@@ -66,7 +67,7 @@ export function createCompleteDevelopmentProject(): DevelopmentProject {
     { edge_id: "edge-applies", family: "applies", from: "core.Retry", to: "core.Fee" },
     { edge_id: "edge-maps", family: "maps", from: "core.AccountMapper", to: "core.Account" },
     { edge_id: "edge-contains", family: "contains", from: "core.Account", to: "core.Money" },
-    { edge_id: "edge-queries", family: "queries", from: "core.GetAccount", to: "core.Account" },
+    { edge_id: "edge-reads", family: "reads", from: "core.GetAccount", to: "core.Account" },
     { edge_id: "edge-emits", family: "emits", from: "core.Account", to: "core.AccountChanged" },
     { edge_id: "edge-owns", family: "owns", from: "core.Account", to: "external.RemoteAccount" },
     { edge_id: "edge-belongs-to", family: "belongs-to", from: "external.RemoteAccount", to: "core.Account" },
@@ -82,4 +83,3 @@ export function createCompleteDevelopmentProject(): DevelopmentProject {
     edges,
   };
 }
-

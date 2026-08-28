@@ -3404,7 +3404,7 @@ specs/key-and-door/nodes/door-unlocked.json       # Event source
                 <tr class="relationship-row" data-rel-id="11" data-rel-search="policy applies operation calculation same feature many to many strategy"><td>11</td><td class="signature">Policy —applies→ Operation | Calculation</td><td>same feature</td><td>many-to-many</td><td>A Policy selects behavior.</td></tr>
                 <tr class="relationship-row" data-rel-id="12" data-rel-search="mapping maps entity interface same cross feature many to many transform"><td>12</td><td class="signature">Mapping —maps→ Entity | Interface</td><td>same or cross</td><td>many-to-many</td><td>A Mapping transforms a boundary or entity shape.</td></tr>
                 <tr class="relationship-row" data-rel-id="13" data-rel-search="entity contains value object same feature one to many embeds"><td>13</td><td class="signature">Entity —contains→ Value Object</td><td>same feature</td><td>one-to-many</td><td>An Entity embeds a Value Object.</td></tr>
-                <tr class="relationship-row" data-rel-id="14" data-rel-search="query calculation operation queries entity same feature many to many reads"><td>14</td><td class="signature">Query | Calculation | Operation —queries→ Entity</td><td>same feature</td><td>many-to-many</td><td>Read-capable behavior reads Entity data.</td></tr>
+                <tr class="relationship-row" data-rel-id="14" data-rel-search="query operation reads entity same feature many to many data dependency"><td>14</td><td class="signature">Query | Operation —reads→ Entity</td><td>same feature</td><td>many-to-many</td><td>A Query or Operation depends on Entity data; Calculation remains pure over explicit inputs.</td></tr>
                 <tr class="relationship-row" data-rel-id="15" data-rel-search="entity emits event same feature one to many source subject"><td>15</td><td class="signature">Entity —emits→ Event</td><td>same feature</td><td>one-to-many</td><td>An Entity is the subject or source of an Event.</td></tr>
                 <tr class="relationship-row" data-rel-id="16" data-rel-search="entity owns entity same cross feature one to many lifecycle custody write ownership"><td>16</td><td class="signature">Entity —owns→ Entity</td><td>same or cross</td><td>one-to-many</td><td>The source has lifecycle, custody, or write ownership.</td></tr>
                 <tr class="relationship-row" data-rel-id="17" data-rel-search="entity belongs to entity same cross feature many to one membership assigned"><td>17</td><td class="signature">Entity —belongs-to→ Entity</td><td>same or cross</td><td>many-to-one</td><td>The source is a member of or assigned to the target.</td></tr>
@@ -3664,8 +3664,8 @@ specs/key-and-door/nodes/door-unlocked.json       # Event source
         <pre><code>NoDuplicateMakeupRule —enforces→ GenerateSettlement
 DealSplitCalculation  —calculates→ GenerateSettlement
 GenerateSettlement    —creates→ SettlementTransaction
-GenerateSettlement    —queries→ SettlementTransaction
-GetSettlementPreview  —queries→ SettlementTransaction</code></pre>
+GenerateSettlement    —reads→ SettlementTransaction
+GetSettlementPreview  —reads→ SettlementTransaction</code></pre>
         <p>Compare the <a href="impl/spec/features/financial-settlement/SPEC.md">legacy normalized feature pack</a> with its <a href="impl/spec/features/financial-settlement/generated/SPEC.md">generated human-readable view</a>, but do not copy this pair as the future consumer package. Use Key and Door for the current independent-node source layout.</p>
       </section>
 

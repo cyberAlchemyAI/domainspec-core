@@ -1,12 +1,12 @@
 ---
 artifact: invoke-plan
-status: candidate-awaiting-task-session
-updatedAt: 2026-07-20
+status: candidate-local-l2-reachability-validated-with-flags
+updatedAt: 2026-08-21
 docType: plan
 sourceDefine: DEFINE.md
 sourceDesign: DESIGN.md
 complexity: high
-nextRoute: task-session
+nextRoute: decision-gate
 ---
 
 # Plan: Graph Composability Evidence Spine
@@ -34,6 +34,34 @@ identified obligation, a bound executable test, an evaluator verdict, and a
 typed receipt. The proof must include a negative mutation and must distinguish
 structural evidence from semantic satisfiability.
 
+## Candidate-Local Evidence Reconciliation
+
+The finite fast-lane implementation has now crossed L0, L1, and one bounded L2
+reachability instance. This is an observed-evidence overlay; it does not
+retroactively create Task Session, precloseout, or Invoke Refresh receipts for
+the fast-lane units.
+
+| Boundary | Current evidence | Result |
+| --- | --- | --- |
+| L0 key-and-door | `evidence/SWU-GCP-001/attempt-001/validation-receipt.json` | PASS, candidate-local |
+| L1 Financial Settlement | `evidence/L1-GCP-COMPOSITE/attempt-001/composite-validation-receipt.json` | PASS, candidate-local |
+| L2 C0-C3 | `evidence/SWU-GCP-004-C0` through `evidence/SWU-GCP-007-C3` | four unit receipts PASS |
+| L2 provider join | `evidence/SWU-GCP-007-C3/attempt-001/join-receipt.json` | Souffle and Alloy agree on no counterexample for the selected exact instance |
+| Independent closure | `development/refinement-runs/20260821T044428Z-evf-l2-one-shot-work-pack/closure-runs/attempt-001/INDEPENDENT-CLOSURE-RECEIPT.json` | FLAG, zero blockers, 35/35 exact refs fresh |
+
+The maximum supported L2 claim is
+`property-specific-consistency-over-one-exact-shared-fact-snapshot-only`.
+It covers the selected reachability property only. The canonical S3 wording
+also names cycle and closure; those properties remain deferred and S3 is not
+complete as a whole.
+
+The independent closure retains three non-product flags: the repository pnpm
+supply-chain wrapper stops the declared `pnpm exec` surfaces before tool
+launch; a separate untracked `impl/tools/tests/format-honesty.test.ts` affects
+the broad TypeScript command; and fast-lane governance reconciliation was
+deferred. Authority effect remains `none` and release admission remains
+`not-granted`.
+
 ## Delivery Slices
 
 | Slice | Layer | Outcome | Dependency | Exit evidence |
@@ -42,8 +70,8 @@ structural evidence from semantic satisfiability.
 | S1 enforces proof | L0 | one positive and one negative end-to-end receipt | S0 | graph, obligation, binding, test, evaluator, receipt |
 | S1C IOLM consumer proof | L0C, independent sibling lane | private IOLM consumes the exact successful S1 handle without semantic/view drift | S1 plus IOLM candidate substrate | fresh narrow IOLM consumer receipt; failure does not change S1 verdict |
 | S2 repeatability | L1 | same path works for a second admitted edge/profile fixture | S1 | replay comparison and digest stability |
-| S3 graph laws | L2 | bounded reachability/cycle/closure evaluator | S2 | independent graph-law receipts |
-| S4 breadth/hardening | L3 | handoff to 13-kind/16-signature backend lane and consumers | S3 | denominator, mutation, and consumer evidence |
+| S3 graph laws | L2 | one selected reachability property validated; cycle and closure remain deferred | S2 | exact provider and join receipts plus independent closure |
+| S4 breadth/hardening | L3 | handoff to the current backend denominator and consumers | selected L2 result plus owner-ratified breadth scope | denominator, mutation, and consumer evidence |
 
 ## Explicit Non-Goals
 
@@ -65,10 +93,11 @@ change release state, or promote any receipt into authority.
 
 ## Ownership And Handoff
 
-The next route is `task-session`; Invoke does not execute the SWU. The existing
-backend-type-test-engine-completeness package owns broad 13-kind/16-signature
-execution. This package hands it a composability-first contract and the L0
-receipt shape.
+The next route is a material decision gate, not another implementation run.
+The old breadth wording names 16 relationship signatures, while the live Craft
+blocker records 17 after `creates` entered the denominator. The owner must
+ratify the exact 17/17 membership and corpus boundary before Refine can author
+an executable L3 pack. No L3 implementation is admitted by this reconciliation.
 
 Accepted `DEC-GCP-002` also hands the exact successful L0 handle to the private
 IOLM owner. IOLM owns the consumer run and receipt; EVF does not run the map or
@@ -78,6 +107,7 @@ breadth run for terminal consumer validation.
 
 ## Dispatch Technique Trace
 
-See [DISPATCH-SPEC.json](DISPATCH-SPEC.json). The trace is intentionally
-sequential: define -> design -> plan -> one Task Session SWU -> independent
-verification. No subagent or parallel execution is authorized.
+See [DISPATCH-SPEC.json](DISPATCH-SPEC.json) for the original governed route.
+The observed candidate-local route was serialized L0 -> L1 -> C0 -> C1 -> C2
+-> C3 -> independent closure. The historical dispatch trace is not rewritten
+as if it authorized that fast-lane execution.

@@ -178,7 +178,7 @@ domainspec:
       to: shared.Money
 ```
 
-## queries
+## reads
 
 ```yaml
 domainspec:
@@ -187,7 +187,7 @@ domainspec:
     type: Query
     concern: biz
   edges:
-    - edge: queries
+    - edge: reads
       to: payment.PaymentTransaction
 ```
 

@@ -22,7 +22,7 @@ A concept declared **Operation** is well-formed IFF its `Attribute | Value` tabl
 An Operation changes state (`state_change=yes`); a Query is read-only (`state_change=no`).
 
 ## Edge participation (DS-D8 slice)
-- SOURCE of: `creates`, `produces`, `produces-for`, `queries`
+- SOURCE of: `creates`, `produces`, `produces-for`, `reads`
 - TARGET of: `applies`, `calculates`, `enforces`, `exposes`, `mutates`,
   `orchestrates`, `performs`, `triggers-cross`
 
