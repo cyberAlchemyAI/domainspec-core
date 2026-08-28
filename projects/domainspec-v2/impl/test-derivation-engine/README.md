@@ -2,6 +2,9 @@
 
 Deterministic test-derivation engine. Compiles a feature's **canonical Markdown feature docs** into **byte-stable test obligations** — with **no LLM and no network** in the derivation path, so determinism holds _by construction_ (paper claim C2).
 
+For a concrete walkthrough of the current engine, result interpretation, and the
+planned multiformalism boundary, see [COMPLETE-GUIDE.md](COMPLETE-GUIDE.md).
+
 > Replaces the LLM-backed `domainspec-generate-tests` / `domainspec-test-designer` derivation. See the design baseline in
 > [`../../development/deterministic-test-derivation-engine/`](../../development/deterministic-test-derivation-engine/)
 > (SPEC, ARCHITECTURE, GLOSSARY, WORK-PACK) and the refinement evidence in
