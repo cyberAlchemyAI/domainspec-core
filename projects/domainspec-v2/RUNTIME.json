@@ -1,0 +1,76 @@
+{
+  "$schema": "https://domainspec.dev/schemas/project-runtime/v1",
+  "schema_version": "domainspec.project-runtime/v1",
+  "runtime_id": "domainspec-v2-node@26.8.1",
+  "status": "selected-and-fail-closed",
+  "owner_decision": {
+    "path": "projects/domainspec-v2/development/first-production-release/decisions/2026-08-29-node-26-runtime.json",
+    "sha256": "d1474617adf886670eeebf1f8c1a5092e61fa1d9fcd8cbfc9f6ebab1ba6fbd89"
+  },
+  "node": {
+    "version": "26.8.1",
+    "platform": "linux",
+    "arch": "x64",
+    "toolchain_manifest": "toolchains/node-typescript/toolchain.json",
+    "toolchain_manifest_sha256": "6258e88f838c83a23af44d42db88027be9c975640e347f0937ab0f1ee6f088b6",
+    "image": "domainspec-node-toolchain:26.8.1-ts7.0.2",
+    "entrypoint": "toolchains/node-typescript/bin/node-env"
+  },
+  "package_managers": {
+    "development_workspace": {
+      "manager": "pnpm",
+      "version": "10.34.5",
+      "manifest": "projects/domainspec-v2/impl/package.json",
+      "lockfile": "projects/domainspec-v2/impl/pnpm-lock.yaml"
+    },
+    "test_derivation_engine": {
+      "manager": "pnpm",
+      "version": "10.34.5",
+      "manifest": "projects/domainspec-v2/impl/test-derivation-engine/package.json",
+      "lockfile": "projects/domainspec-v2/impl/test-derivation-engine/pnpm-lock.yaml"
+    },
+    "private_cli_build_contract": {
+      "manager": "npm",
+      "version": "11.19.0",
+      "manifest": "projects/domainspec-v2/impl/cli/package.json",
+      "lockfile": "projects/domainspec-v2/impl/package-lock.json",
+      "clean_root_build_proven": false
+    }
+  },
+  "live_runtime_surfaces": [
+    "projects/domainspec-v2/impl/package.json",
+    "projects/domainspec-v2/impl/test-derivation-engine/package.json",
+    "projects/domainspec-v2/impl/cli/package.json",
+    "projects/domainspec-v2/impl/cli/src/version.ts",
+    "projects/domainspec-v2/impl/cli/contracts/foundation-contract.json",
+    "projects/domainspec-v2/development/implementation-conformance/ontology-experiment/examples/enum/composition/cases.json",
+    "projects/domainspec-v2/development/implementation-conformance/ontology-experiment/examples/enum/provenance/cases.json",
+    "projects/domainspec-v2/development/implementation-conformance/ontology-experiment/examples/enum/provenance/evaluations.expected.json"
+  ],
+  "historical_runtime_policy": {
+    "rule": "Recorded receipts, staged preimages and owner decisions keep the runtime they actually observed; they do not control current execution after explicit supersession.",
+    "preserved_node_22_receipt": "projects/domainspec-v2/development/implementation-conformance/ontology-experiment/validation-receipts/2026-08-29-current-meta-type-baseline-v2.json",
+    "preserved_node_24_decision": "projects/domainspec-v2/development/first-production-release/decisions/2026-08-16-first-stable-foundation-candidate.md"
+  },
+  "canonical_meta_type_baseline": {
+    "id": "domainspec-meta-types-current-implemented@2",
+    "digest": "10c29c2a4feb5039b6c90dcd7e2d44024757b4dd2414f9c0383c82387ec6e836",
+    "manifest": "projects/domainspec-v2/development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v2.json",
+    "runtime_migration_effect": "none-on-771-frozen-implementation-bytes"
+  },
+  "validation": {
+    "command": "toolchains/node-typescript/bin/node-env run --project projects/domainspec-v2/impl -- node ../validate-runtime.mjs",
+    "network_required": false,
+    "host_node_forbidden_as_acceptance_evidence": true
+  },
+  "claim_ceiling": {
+    "node_26_runtime_selected": true,
+    "container_validation_required": true,
+    "generated_target_conformance": false,
+    "publication": false,
+    "release": false,
+    "deployment": false,
+    "production": false
+  },
+  "authority_effect": "project-local-runtime-selection"
+}

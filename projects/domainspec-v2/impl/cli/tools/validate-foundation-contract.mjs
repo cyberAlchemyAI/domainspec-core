@@ -24,6 +24,10 @@ const EXPECTED_BINDINGS = {
     path: "projects/domainspec-v2/development/first-production-release/decisions/2026-08-16-first-stable-foundation-candidate.md",
     sha256: "2168de08e9e0ea72a29ce74fb9a3285094aebaa05d72df34d9749e5cbdac20c9"
   },
+  runtime_decision: {
+    path: "projects/domainspec-v2/development/first-production-release/decisions/2026-08-29-node-26-runtime.json",
+    sha256: "d1474617adf886670eeebf1f8c1a5092e61fa1d9fcd8cbfc9f6ebab1ba6fbd89"
+  },
   product_contract: {
     path: "projects/domainspec-v2/development/first-production-release/decisions/2026-07-12-product-release-contract.md",
     sha256: "a5852275365563fc2378e3b6a86d9f4da03cc9efbaef249ffa41f329c3bf5b43"
@@ -51,8 +55,8 @@ const EXPECTED_SURFACE = {
     admission_state: "external-required"
   },
   conformance_claim: "exact-profile-causal-implementation-conformance",
-  runtime: { node: "v24.19.0", platform: "linux", arch: "x64" },
-  build: { package_manager: "npm@11.17.0", lockfile_version: 3, lifecycle_scripts: "deny-except-reviewed-network-disabled-build" },
+  runtime: { node: "v26.8.1", platform: "linux", arch: "x64" },
+  build: { package_manager: "npm@11.19.0", lockfile_version: 3, lifecycle_scripts: "deny-except-reviewed-network-disabled-build" },
   distribution: "private-repository-local-immutable-tagged-checkout",
   writes: "none"
 };
@@ -149,12 +153,12 @@ export function sealFoundationContract(contract) {
 export function validateFoundationContract(contract, options = {}) {
   const repoRoot = options.repoRoot ?? DEFAULT_REPO_ROOT;
   const schema = options.schema ?? JSON.parse(fs.readFileSync(DEFAULT_SCHEMA_PATH, "utf8"));
-  requireExactValue(schema.$id, "domainspec.stable-foundation-cli.foundation-contract/v1", "SFC_CONTRACT_SCHEMA", "/$schema/$id");
+  requireExactValue(schema.$id, "domainspec.stable-foundation-cli.foundation-contract/v2", "SFC_CONTRACT_SCHEMA", "/$schema/$id");
   requireExactValue(schema.additionalProperties, false, "SFC_CONTRACT_SCHEMA", "/$schema/additionalProperties");
   requireExactKeys(contract, ["schema_version", "contract_id", "candidate_version", "decision_bindings", "selections", "supported_surface", "invariants", "claim_ceiling", "authority_effect", "input_digest", "contract_digest"], "$");
   requireExactValue(contract.schema_version, schema.$id, "SFC_CONTRACT_SCHEMA", "/schema_version");
   requireExactValue(contract.contract_id, "stable-foundation-cli", "SFC_CONTRACT_SCHEMA", "/contract_id");
-  requireExactValue(contract.candidate_version, "candidate-1", "SFC_CONTRACT_SCHEMA", "/candidate_version");
+  requireExactValue(contract.candidate_version, "candidate-2", "SFC_CONTRACT_SCHEMA", "/candidate_version");
 
   requireExactKeys(contract.decision_bindings, Object.keys(EXPECTED_BINDINGS), "/decision_bindings");
   for (const [name, expected] of Object.entries(EXPECTED_BINDINGS)) {
@@ -186,7 +190,7 @@ export function validateFoundationContract(contract, options = {}) {
   const expectedContractDigest = computeContractDigest(contract);
   requireExactValue(contract.contract_digest, expectedContractDigest, "SFC_CONTRACT_DIGEST", "/contract_digest");
   return {
-    schema_version: "domainspec.stable-foundation-cli.foundation-contract-validation/v1",
+    schema_version: "domainspec.stable-foundation-cli.foundation-contract-validation/v2",
     result: "pass",
     selection_count: contract.selections.length,
     input_digest: expectedInputDigest,

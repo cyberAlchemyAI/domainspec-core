@@ -52,7 +52,7 @@ The model is grounded in four repository source families:
 - CyberAlchemy v2 product meaning, authority kinds, promotion model, discipline
   model, and canonical definitions;
 - Arcanum constitution, discipline, decision-gate, observation, reflection,
-  task-session, and governance-flow contracts; and
+  task-session, and other governed decision and execution contracts; and
 - DomainSpec v2 meta-types for authority, axioms, invariants, definitions,
   validation, layering, and drift.
 

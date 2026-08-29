@@ -3,8 +3,9 @@
 Status: private candidate; non-authoritative.
 
 This package models the real Invoke Define CLI as a system-runtime ontology. It
-reuses WIR-WP-001 and SWU-WIR-006 as planning evidence, but it does not execute,
-select, admit, or close that Work Pack.
+uses the published Invoke Define contract and current stage catalog as its
+behavioral sources; it does not execute, select, admit, or close implementation
+work.
 
 ## What the ontology contains
 
@@ -69,11 +70,11 @@ From the repository root:
 The validator is dependency-free and read-only. It checks schema shapes, source
 digests and sizes, stable identity, endpoint closure, view references, live CLI
 stage equality, workflow order, receipt dependencies, axis independence,
-forbidden shortcuts, the WIR boundary, and the authority ceiling.
+forbidden shortcuts, and the authority ceiling.
 
 ## Claim ceiling
 
 A PASS means this private candidate ontology is internally consistent and bound
-to the exact source versions recorded in `SOURCES.json`. It is not acceptance of
-the blocked WIR Work Pack, execution of SWU-WIR-006, aggregate Invoke acceptance,
-canonical DomainSpec vocabulary, an Arcanum publication, or runtime readiness.
+to the exact source versions recorded in `SOURCES.json`. It is not aggregate
+Invoke acceptance, canonical DomainSpec vocabulary, an Arcanum publication, or
+runtime readiness.

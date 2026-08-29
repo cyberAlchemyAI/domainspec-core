@@ -21,7 +21,7 @@ function expectCode(mutant, code) {
   );
 }
 
-test("accepted SF-01 through SF-21 foundation contract passes", () => {
+test("superseding Node 26 SF-01 through SF-21 foundation contract passes", () => {
   const result = validateFoundationContract(accepted);
   assert.equal(result.result, "pass");
   assert.equal(result.selection_count, 21);

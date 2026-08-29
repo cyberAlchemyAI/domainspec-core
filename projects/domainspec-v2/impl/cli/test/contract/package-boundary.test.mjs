@@ -13,7 +13,7 @@ const versionSource = fs.readFileSync(path.join(cliRoot, "src/version.ts"), "utf
 
 test("package identity and supported bin are exact", () => {
   assert.equal(packageJson.name, "@domainspec-v2/cli");
-  assert.equal(packageJson.version, "0.0.0-candidate.1");
+  assert.equal(packageJson.version, "0.0.0-candidate.2");
   assert.equal(packageJson.private, true);
   assert.equal(packageJson.type, "module");
   assert.deepEqual(packageJson.bin, { "domainspec-v2": "./dist/cli/main.js" });
@@ -39,10 +39,11 @@ test("development and factory command surfaces are not re-exported", () => {
 });
 
 test("runtime and platform declarations remain exact and non-authoritative", () => {
-  assert.deepEqual(packageJson.engines, { node: "24.19.0", npm: "11.17.0" });
+  assert.deepEqual(packageJson.engines, { node: "26.8.1", npm: "11.19.0" });
+  assert.equal(packageJson.packageManager, "npm@11.19.0");
   assert.deepEqual(packageJson.os, ["linux"]);
   assert.deepEqual(packageJson.cpu, ["x64"]);
-  assert.match(versionSource, /SUPPORTED_NODE_VERSION = "v24\.19\.0"/);
+  assert.match(versionSource, /SUPPORTED_NODE_VERSION = "v26\.8\.1"/);
   assert.match(versionSource, /AUTHORITY_EFFECT = "none"/);
 });
 

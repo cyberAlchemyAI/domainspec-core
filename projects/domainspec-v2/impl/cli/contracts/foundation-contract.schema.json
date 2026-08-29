@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "domainspec.stable-foundation-cli.foundation-contract/v1",
+  "$id": "domainspec.stable-foundation-cli.foundation-contract/v2",
   "title": "DomainSpec v2 Stable Foundation CLI contract",
   "type": "object",
   "additionalProperties": false,
@@ -18,14 +18,18 @@
     "contract_digest"
   ],
   "properties": {
-    "schema_version": {"const": "domainspec.stable-foundation-cli.foundation-contract/v1"},
+    "schema_version": {"const": "domainspec.stable-foundation-cli.foundation-contract/v2"},
     "contract_id": {"const": "stable-foundation-cli"},
-    "candidate_version": {"const": "candidate-1"},
+    "candidate_version": {"const": "candidate-2"},
     "decision_bindings": {
       "const": {
         "owner_decision": {
           "path": "projects/domainspec-v2/development/first-production-release/decisions/2026-08-16-first-stable-foundation-candidate.md",
           "sha256": "2168de08e9e0ea72a29ce74fb9a3285094aebaa05d72df34d9749e5cbdac20c9"
+        },
+        "runtime_decision": {
+          "path": "projects/domainspec-v2/development/first-production-release/decisions/2026-08-29-node-26-runtime.json",
+          "sha256": "d1474617adf886670eeebf1f8c1a5092e61fa1d9fcd8cbfc9f6ebab1ba6fbd89"
         },
         "product_contract": {
           "path": "projects/domainspec-v2/development/first-production-release/decisions/2026-07-12-product-release-contract.md",
@@ -80,8 +84,8 @@
           "admission_state": "external-required"
         },
         "conformance_claim": "exact-profile-causal-implementation-conformance",
-        "runtime": {"node": "v24.19.0", "platform": "linux", "arch": "x64"},
-        "build": {"package_manager": "npm@11.17.0", "lockfile_version": 3, "lifecycle_scripts": "deny-except-reviewed-network-disabled-build"},
+        "runtime": {"node": "v26.8.1", "platform": "linux", "arch": "x64"},
+        "build": {"package_manager": "npm@11.19.0", "lockfile_version": 3, "lifecycle_scripts": "deny-except-reviewed-network-disabled-build"},
         "distribution": "private-repository-local-immutable-tagged-checkout",
         "writes": "none"
       }

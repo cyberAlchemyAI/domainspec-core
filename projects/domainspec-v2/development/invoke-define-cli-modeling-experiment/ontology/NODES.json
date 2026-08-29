@@ -98,7 +98,7 @@
       "read_only": false,
       "artifact_producing": true,
       "description": "Compiles one exact Define v3 source into an atomic thirteen-file candidate bundle and stage receipt.",
-      "source_refs": ["invoke.cli-stage-catalog", "invoke.define-contract", "wir.define-swu"],
+      "source_refs": ["invoke.cli-stage-catalog", "invoke.define-contract"],
       "authority_effect": "none"
     },
     {
@@ -170,7 +170,7 @@
       "status": "observed",
       "schema_name": "define-result-v3.schema.json",
       "description": "Atomic thirteen-file candidate bundle produced from one exact source.",
-      "source_refs": ["invoke.cli-stage-catalog", "invoke.define-contract", "wir.define-swu"],
+      "source_refs": ["invoke.cli-stage-catalog", "invoke.define-contract"],
       "authority_effect": "none"
     },
     {
@@ -180,7 +180,7 @@
       "branch_id": "system",
       "status": "observed",
       "description": "Producer evidence for the exact compiled bundle.",
-      "source_refs": ["invoke.define-contract", "wir.define-swu"],
+      "source_refs": ["invoke.define-contract"],
       "authority_effect": "none"
     },
     {
@@ -222,7 +222,7 @@
       "branch_id": "system",
       "status": "observed",
       "description": "Bundle production publishes all thirteen files only after every check passes and leaves no partial output on failure.",
-      "source_refs": ["invoke.define-contract", "wir.define-swu"],
+      "source_refs": ["invoke.define-contract"],
       "authority_effect": "none"
     },
     {
@@ -262,7 +262,7 @@
       "branch_id": "system",
       "status": "observed",
       "description": "Candidate ontology, compilation, and validation evidence grant no execution or release authority.",
-      "source_refs": ["wir.work-pack", "wir.prototype-blocker"],
+      "source_refs": ["invoke.define-contract"],
       "authority_effect": "none"
     },
     {
@@ -296,16 +296,6 @@
       "axis_id": "mutation_runtime_ready",
       "description": "Whether the mutation runtime is independently ready.",
       "source_refs": ["invoke.define-contract"],
-      "authority_effect": "none"
-    },
-    {
-      "node_id": "evidence.swu-wir-006",
-      "label": "SWU-WIR-006 Define reconciliation boundary",
-      "role": "evidence-boundary",
-      "branch_id": "system",
-      "status": "blocked-not-started",
-      "description": "Reused work-pack behavior source; not executed or closed by this experiment.",
-      "source_refs": ["wir.work-pack", "wir.define-swu", "wir.prototype-blocker"],
       "authority_effect": "none"
     }
   ]
