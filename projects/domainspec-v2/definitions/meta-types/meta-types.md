@@ -31,6 +31,20 @@ The deferred UI candidate trail remains in
 The inherited backend confirm contracts document the activation threshold and future reopening gate. OD-001
 records the current `active` status; it does not turn any UI candidate into active authority.
 
+## Current implementation state
+
+The canonical current-state machine record is
+[`current-implementation.json`](./current-implementation.json), validated by
+[`validate-current-implementation.mjs`](./validate-current-implementation.mjs) against its closed
+[schema](./current-implementation.schema.json). Its human companion is
+[`current-implementation.md`](./current-implementation.md).
+
+This state is independent of DS-D1 maturity. The 13 backend labels remain active semantic types; the current
+implementation baseline separately records one owner-admitted TypeScript, Python, and Rust realization for
+each type. The 11 UI rows are frozen as supporting context but remain at their existing candidate/deferred
+maturity and are not part of the first CLI instantiation surface. Generated-target conformance is a third
+axis and remains unimplemented.
+
 ---
 
 ## DS-D1.10 · Saga (Superseded)
@@ -432,6 +446,12 @@ Domain-context voice: the write-side node; SOURCE of `creates` / `produces` / `p
 same-feature Entity target. Generated views derive `creation_targets`; source authors do not declare it.
 Checked by the content and relationship validators against `operation.schema.yml` and DS-D8.
 
+The canonical implementation contract also requires declared read, write, and effect sets; guard execution
+before state mutation; atomic state-and-outbox behavior; explicit failure continuation; rejection of undeclared
+reads, writes, or effects; and typed relationships to Rule, Event, and Workflow. These are baseline realization
+obligations, not additional DS-D1 maturity criteria. The private CLI now generates and checks the admitted
+static target contract; runtime behavior outside an admitted provider remains unsupported.
+
 Use carefully: `state_change` is the *declared* attribute (the `Attribute | Value` table), not inferred from a body.
 
 Misuse warning: if it declares `state_change = no` (read-only, returns a view), it's a **Query** — the
@@ -646,7 +666,9 @@ Plain-language voice: coordinates several ordered operations across time. The de
 coordination stays inside one feature or crosses feature boundaries.
 
 Domain-context voice: SOURCE of `orchestrates` for same-feature or cross-feature Operation coordination; no
-active DS-D8 target signatures. The content-validator implementation is migrated in SGRM-003/004.
+active DS-D8 target signatures. Workflow evaluation may emit a `domainspec-v2-D36` compensation intent and
+plan but never invokes recovery Operations directly; a separate executor invokes only exact orchestrated
+Operation bindings. The content-validator implementation is migrated in SGRM-003/004.
 
 Use carefully: `scope` is the *declared* attribute (the `Attribute | Value` table), not an inferred structural
 witness. Its admitted values are `intra-feature` and `cross-feature`.

@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domainspec://schemas/current-meta-type-implementation-state/v2",
+  "title": "DomainSpec v2 current meta-type implementation state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "state_id",
+    "status",
+    "baseline",
+    "scope",
+    "backend_meta_types",
+    "ui_state",
+    "historical_controls",
+    "product_frontier",
+    "operation_contract",
+    "compensation_contract",
+    "target_conformance",
+    "claim_ceiling",
+    "authority_effect"
+  ],
+  "properties": {
+    "schema_version": { "const": "domainspec.current-meta-type-implementation-state/v2" },
+    "state_id": { "const": "domainspec-meta-types-current-implementation" },
+    "status": { "const": "owner-admitted-frozen" },
+    "baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "manifest", "manifest_sha256", "baseline_digest", "owner_decision", "owner_decision_sha256", "supersedes"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^domainspec-meta-types-current-implemented@[0-9]+$" },
+        "manifest": { "type": "string", "minLength": 1 },
+        "manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "baseline_digest": { "$ref": "#/$defs/sha256" },
+        "owner_decision": { "type": "string", "minLength": 1 },
+        "owner_decision_sha256": { "$ref": "#/$defs/sha256" },
+        "supersedes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "baseline_digest", "reason"],
+          "properties": {
+            "id": { "const": "domainspec-meta-types-current-implemented@2" },
+            "baseline_digest": { "$ref": "#/$defs/sha256" },
+            "reason": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["backend_meta_types", "realization_languages", "realization_rows", "ui_state_rows", "relationship_authority_rows", "compensation_runtime_contracts", "frozen_evidence_files"],
+      "properties": {
+        "backend_meta_types": { "const": 13 },
+        "realization_languages": {
+          "type": "array",
+          "prefixItems": [{ "const": "python" }, { "const": "rust" }, { "const": "typescript" }],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "realization_rows": { "const": 39 },
+        "ui_state_rows": { "const": 11 },
+        "relationship_authority_rows": { "const": 31 },
+        "compensation_runtime_contracts": { "const": 1 },
+        "frozen_evidence_files": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "backend_meta_types": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "implementation_state", "realization_languages", "realization_rows"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^DS-D1\\.(1|2|3|4|5|6|7|8|9|11|12|13|14)$" },
+          "label": { "type": "string", "minLength": 1 },
+          "implementation_state": { "const": "baseline-admitted" },
+          "realization_languages": {
+            "type": "array",
+            "prefixItems": [{ "const": "python" }, { "const": "rust" }, { "const": "typescript" }],
+            "items": false,
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "realization_rows": { "const": 3 }
+        }
+      }
+    },
+    "ui_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rows", "role"],
+      "properties": {
+        "rows": { "const": 11 },
+        "role": { "const": "frozen-supporting-context-not-first-instantiation-surface" }
+      }
+    },
+    "historical_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["form_queue", "provider_profile_gates", "effect"],
+      "properties": {
+        "form_queue": { "const": "historical-provenance" },
+        "provider_profile_gates": { "const": "historical-provenance" },
+        "effect": { "const": "do-not-control-current-baseline" }
+      }
+    },
+    "product_frontier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "work_pack", "implemented_surface", "next_unit"],
+      "properties": {
+        "state": { "const": "target-instantiation-and-static-conformance-admitted" },
+        "work_pack": { "const": "development/meta-type-instantiation-cli/WORK-PACK.md" },
+        "implemented_surface": { "const": "private-cli-three-profile" },
+        "next_unit": { "const": "durable-compensation-dispatcher" }
+      }
+    },
+    "operation_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["meta_type_id", "obligations"],
+      "properties": {
+        "meta_type_id": { "const": "DS-D1.4" },
+        "obligations": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "compensation_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["definition_id", "status", "role", "states", "executor_owner", "durable_dispatch"],
+      "properties": {
+        "definition_id": { "const": "domainspec-v2-D36" },
+        "status": { "const": "canonical-project-local-runtime-contract" },
+        "role": { "const": "forward-recovery-operation" },
+        "states": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "not-required" },
+            { "const": "requested" },
+            { "const": "running" },
+            { "const": "completed" },
+            { "const": "failed" }
+          ],
+          "items": false,
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "executor_owner": { "const": "external-runtime" },
+        "durable_dispatch": { "const": false }
+      }
+    },
+    "target_conformance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "profiles", "observer_ref", "claim_boundary"],
+      "properties": {
+        "status": { "const": "admitted-static-generated-target" },
+        "profiles": {
+          "type": "array",
+          "prefixItems": [{ "const": "python" }, { "const": "rust" }, { "const": "typescript" }],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "observer_ref": { "const": "impl/cli/src/conformance/observe-target.ts" },
+        "claim_boundary": { "const": "static-generated-artifacts-not-production-runtime" }
+      }
+    },
+    "claim_ceiling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_project_local_baseline", "generated_target_conformance", "compensation_runtime_contract_admitted", "durable_compensation_dispatch", "publication", "release", "deployment", "production"],
+      "properties": {
+        "canonical_project_local_baseline": { "const": true },
+        "generated_target_conformance": { "const": true },
+        "compensation_runtime_contract_admitted": { "const": true },
+        "durable_compensation_dispatch": { "const": false },
+        "publication": { "const": false },
+        "release": { "const": false },
+        "deployment": { "const": false },
+        "production": { "const": false }
+      }
+    },
+    "authority_effect": { "const": "project-local-canonical-current-state" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

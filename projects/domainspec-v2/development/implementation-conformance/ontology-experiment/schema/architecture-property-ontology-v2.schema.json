@@ -12,6 +12,8 @@
     "status",
     "authority_effect",
     "document_mode",
+    "ontology_scope",
+    "canonical_implementation_state",
     "definition_source_refs",
     "migration_evidence_refs",
     "historical_preimage_refs",
@@ -59,6 +61,12 @@
         "preview",
         "live"
       ]
+    },
+    "ontology_scope": {
+      "$ref": "#/$defs/ontologyScope"
+    },
+    "canonical_implementation_state": {
+      "$ref": "#/$defs/canonicalImplementationState"
     },
     "preview_id": {
       "type": "string",
@@ -295,7 +303,8 @@
         "canonical_mapping_status": {
           "enum": [
             "architecture-role-only",
-            "candidate-alignment"
+            "candidate-alignment",
+            "canonical-baseline-alignment"
           ]
         },
         "source_refs": {
@@ -927,6 +936,164 @@
           "type": "string",
           "minLength": 1
         }
+      }
+    },
+    "ontologyScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ontology_type", "branch", "visibility", "package_root", "owner_route", "residue_route"],
+      "properties": {
+        "ontology_type": { "const": "architecture-property" },
+        "branch": { "const": "system" },
+        "visibility": { "const": "private" },
+        "package_root": { "const": "projects/domainspec-v2/development/implementation-conformance/ontology-experiment" },
+        "owner_route": { "const": "implementation-conformance profile owner" },
+        "residue_route": { "const": "projects/domainspec-v2/development/implementation-conformance/ontology-experiment/TRACEABILITY-AND-DRIFT.md" }
+      }
+    },
+    "canonicalImplementationState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_id", "baseline_digest", "state_ref", "state_file_ref", "baseline_manifest_ref",
+        "owner_decision_ref", "scope", "backend_meta_types", "realization_rows", "ui_state",
+        "historical_gate_effect", "product_frontier", "operation_contract", "example_instance_effect",
+        "claim_ceiling", "authority_effect"
+      ],
+      "properties": {
+        "baseline_id": { "const": "domainspec-meta-types-current-implemented@3" },
+        "baseline_digest": { "$ref": "#/$defs/sha256" },
+        "state_ref": { "const": "projects/domainspec-v2/definitions/meta-types/current-implementation.json" },
+        "state_file_ref": { "$ref": "#/$defs/fileRef" },
+        "baseline_manifest_ref": { "$ref": "#/$defs/fileRef" },
+        "owner_decision_ref": { "$ref": "#/$defs/fileRef" },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["backend_meta_types", "realization_rows", "realization_languages", "ui_state_rows", "relationship_authority_rows", "compensation_runtime_contracts", "frozen_evidence_files"],
+          "properties": {
+            "backend_meta_types": { "const": 13 },
+            "realization_rows": { "const": 39 },
+            "realization_languages": {
+              "type": "array",
+              "prefixItems": [{ "const": "python" }, { "const": "rust" }, { "const": "typescript" }],
+              "items": false,
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "ui_state_rows": { "const": 11 },
+            "relationship_authority_rows": { "const": 31 },
+            "compensation_runtime_contracts": { "const": 1 },
+            "frozen_evidence_files": { "const": 778 }
+          }
+        },
+        "backend_meta_types": {
+          "type": "array",
+          "minItems": 13,
+          "maxItems": 13,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/metaTypeId" }
+        },
+        "realization_rows": {
+          "type": "array",
+          "minItems": 39,
+          "maxItems": 39,
+          "items": { "$ref": "#/$defs/canonicalRealizationRow" }
+        },
+        "ui_state": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rows", "role"],
+          "properties": {
+            "rows": { "const": 11 },
+            "role": { "const": "frozen-supporting-context-not-first-instantiation-surface" }
+          }
+        },
+        "historical_gate_effect": { "const": "provenance-only-do-not-control-current-baseline" },
+        "product_frontier": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state", "work_pack", "implemented_surface", "next_unit", "typed_residue"],
+          "properties": {
+            "state": { "const": "target-instantiation-and-static-conformance-admitted" },
+            "work_pack": { "const": "development/meta-type-instantiation-cli/WORK-PACK.md" },
+            "implemented_surface": { "const": "private-cli-three-profile" },
+            "next_unit": { "const": "durable-compensation-dispatcher" },
+            "typed_residue": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "durable-compensation-dispatcher-missing",
+                  "production-runtime-observation-missing",
+                  "machine-graph-to-obligation-join-missing",
+                  "published-package-and-release-missing"
+                ]
+              }
+            }
+          }
+        },
+        "operation_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["meta_type_id", "obligations", "relationship_authority"],
+          "properties": {
+            "meta_type_id": { "const": "DS-D1.4" },
+            "obligations": { "type": "array", "minItems": 8, "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+            "relationship_authority": {
+              "type": "array",
+              "prefixItems": [
+                { "const": "Rule --[enforces]--> Operation" },
+                { "const": "Operation --[produces]--> Event" },
+                { "const": "Workflow --[orchestrates]--> Operation" }
+              ],
+              "items": false,
+              "minItems": 3,
+              "maxItems": 3
+            }
+          }
+        },
+        "example_instance_effect": { "const": "unchanged-six-not-admitted-example-instances" },
+        "claim_ceiling": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["canonical_project_local_baseline", "generated_target_conformance", "compensation_runtime_contract_admitted", "durable_compensation_dispatch", "publication", "release", "deployment", "production"],
+          "properties": {
+            "canonical_project_local_baseline": { "const": true },
+            "generated_target_conformance": { "const": true },
+            "compensation_runtime_contract_admitted": { "const": true },
+            "durable_compensation_dispatch": { "const": false },
+            "publication": { "const": false },
+            "release": { "const": false },
+            "deployment": { "const": false },
+            "production": { "const": false }
+          }
+        },
+        "authority_effect": { "const": "none" }
+      }
+    },
+    "canonicalRealizationRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["meta_type_id", "meta_type_label", "language", "source", "provider", "binding"],
+      "properties": {
+        "meta_type_id": { "$ref": "#/$defs/metaTypeId" },
+        "meta_type_label": { "type": "string", "minLength": 1 },
+        "language": { "enum": ["python", "rust", "typescript"] },
+        "source": { "$ref": "#/$defs/digestPathRef" },
+        "provider": { "$ref": "#/$defs/digestPathRef" },
+        "binding": { "$ref": "#/$defs/digestPathRef" }
+      }
+    },
+    "digestPathRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" }
       }
     },
     "sha256": {

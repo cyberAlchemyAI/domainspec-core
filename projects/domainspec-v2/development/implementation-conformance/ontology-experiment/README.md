@@ -1,6 +1,6 @@
 # Architecture Property Ontology Experiment
 
-Status: corrected candidate experiment; non-authoritative
+Status: current ontology read-model over a candidate architecture-property model; non-authoritative
 
 Date: 2026-07-31
 
@@ -18,8 +18,8 @@ In this model, the ontology answers:
 
 1. Which DomainSpec meta-types exist, and which are active, candidate,
    deferred, or superseded?
-2. Which active meta-types have candidate architecture realizations, profile
-   coverage without a realization, or explicit unsupported status?
+2. Which exact TypeScript, Python, and Rust realizations belong to the current
+   owner-admitted implementation baseline?
 3. What kind of architecture element is this?
 4. Which properties and relations are valid for that kind?
 5. Which constraints does the selected architecture profile place on them?
@@ -38,7 +38,7 @@ canonical DS-D1 registry
           |
           v
 non-authoritative meta-type projection
-  explicit coverage + reciprocal candidate alignments
+  baseline @3 + 13 backend mappings + 39 exact realization rows
           |
           v
 architecture ontology
@@ -88,8 +88,8 @@ callable, and boolean return semantics.
 | [examples/financial-settlement-business-to-obligation.scene.json](examples/financial-settlement-business-to-obligation.scene.json) | Presentation sequence for eleven Financial Settlement stages. It selects the ontology graph and semantic tour views but does not own tour meaning, order, lanes, or targets; the legacy Markdown anchor remains only as provenance for the 79-obligation constellation. |
 | [validate-implementation-architecture-types.mjs](validate-implementation-architecture-types.mjs) | Model, negative-control, browser, interaction, and responsive checks for the minimal view. |
 | [examples/body-war-suggested-track-lifecycle.scene.json](examples/body-war-suggested-track-lifecycle.scene.json) | Twelve-step, source-bound walkthrough of the real Body War `SuggestedTrackStatus` vocabulary and `NewSuggestionNeedsEvidence` Rule. |
-| [domain-meta-types.projection.json](domain-meta-types.projection.json) | Digest-bound, non-authoritative DS-D1 inventory and explicit implementation-coverage projection. |
-| [ontology.json](ontology.json) | Architecture types, 72 property definitions, 14 typed relations, operators, and language projections, including W3 effects/connections and W4 orchestration/lifecycle candidates. |
+| [domain-meta-types.projection.json](domain-meta-types.projection.json) | Digest-bound, non-authoritative DS-D1 inventory, canonical baseline binding, 13 backend mappings, and 39 exact realization rows. |
+| [ontology.json](ontology.json) | Architecture types, 99 property definitions, 18 typed relations, operators, language projections, the current baseline binding, and the still-separate historical example-instance lifecycle. |
 | [ONTOLOGY-MAP.md](ONTOLOGY-MAP.md) | Human-readable architecture meta-model. |
 | [PROPERTY-EVALUATION-MODEL.md](PROPERTY-EVALUATION-MODEL.md) | How the package queries and evaluates ontology properties. |
 | [profiles/base-domain.profile.json](profiles/base-domain.profile.json) | Portable constraints shared by all languages. |
@@ -136,15 +136,22 @@ as 30 assertions, and produced exactly eight expected findings for the broken
 Operation passed their applicable assertions.
 
 The meta-type projection also preserves all 24 staged DS-D1 labels and the
-superseded Saga tombstone. Every one of the 13 active backend types has an
-explicit coverage disposition: nine reciprocal candidate alignments, one
-profiled-but-unmapped type, and three explicitly unsupported types. Candidate
-and deferred UI labels remain visible without becoming active or supported.
+superseded Saga tombstone. Every one of the 13 active backend types is aligned
+to the current canonical implementation baseline and has one exact TypeScript,
+Python, and Rust realization, for 39 rows total. Candidate and deferred UI
+labels remain visible without becoming active or entering the first CLI surface.
 
-This is an executable ontology test over supplied facts. It is not yet a
-source-code adapter: the example observed graph is hand-authored. The next
-implementation step is a TypeScript adapter that extracts the same fact shape
-from real AST and module-resolution evidence.
+The six historical domain example implementation instances remain
+`not-admitted`; the baseline does not create instance-level PromotionRecords.
+Target instantiation and conformance remain unimplemented. The next product
+frontier is the closed DomainSpec input decoder (`SWU-MTCLI-002`), followed by
+selection, planning, guarded atomic writes, receipts, target observers, and
+clean-root replay/package evidence.
+
+This is an executable ontology test over supplied example facts and an exact
+projection of admitted implementation evidence. It is not yet a generated-target
+observer: the example observed graph is hand-authored, and no target project can
+yet receive or prove the exact selected realization through the planned CLI.
 
 ## Body War Lifecycle Scene
 

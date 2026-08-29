@@ -18,7 +18,8 @@ It intentionally separates four layers:
 This distinction makes the engine extensible. A new profile changes expected
 properties without changing evaluator code. A new language projection defines
 how properties should be observed without redefining the portable ontology.
-The current facts are hand-authored examples; no source adapter ran here.
+The example fact graphs are hand-authored; no source adapter ran for those example instances. Separately, the
+ontology now carries an exact read-model of the owner-admitted current implementation baseline.
 
 ## Canonical DomainSpec Meta-Type Projection
 
@@ -28,17 +29,42 @@ UI types, and two deferred UI types—plus the superseded `DS-D1.10 Saga`
 tombstone. The projection has `authority_effect: none`; definitions-governance
 continues to own identity and maturity.
 
-Active coverage is total and explicit:
+Active implementation coverage is total and exact:
 
 | Coverage state | Meta-types |
 | --- | --- |
-| reciprocal candidate alignment | Enum, Operation, Query, Rule, Workflow, Interface, Event, Mapping, State Machine |
-| profiled but missing a realization type | Calculation |
-| explicitly unsupported | Entity, Value Object, Policy |
+| canonical baseline alignment | Entity, Value Object, Enum, Operation, Query, Calculation, Rule, Policy, Workflow, Interface, Event, Mapping, State Machine |
+| admitted realization languages | TypeScript, Python, Rust |
+| exact realization rows | 39 |
+| generated-target conformance | admitted for bounded static generated artifacts in TypeScript, Python, and Rust |
+
+The baseline state is bound to
+[`domainspec-meta-types-current-implemented@3`](../../meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v3.json).
+Its 39 rows identify exact source, provider, and binding digests. The previous “nine mapped, one profiled but
+unmapped, three unsupported” account is retained only in the six historical example-instance candidates; it
+does not describe current generic realization availability.
 
 `architecture.AdapterImplementation` is deliberately not mapped to
 `DS-D1.24 Adapter`. The former is an architecture role; the latter is a
 deferred DomainSpec merge candidate toward Mapping.
+
+The six existing domain example implementation instances remain `not-admitted`. The collective baseline
+decision does not manufacture PromotionRecords for them. The ontology therefore reports the admitted generic
+implementation baseline while preserving the separate example-instance lifecycle exactly.
+
+## Current Instantiation Frontier
+
+The ontology explicitly records the remaining product residue:
+
+- durable Workflow Compensation dispatch and restart recovery;
+- production-runtime observation beyond bounded static generated artifacts;
+- the general machine-graph-to-obligation join;
+- package publication and release.
+
+For Operation, target observation must cover declared read, write, and effect sets; guards before mutation;
+atomic state-and-outbox behavior; explicit failure continuation; no undeclared effects; and the Rule, Event,
+and Workflow relationships governed by DS-D8. These obligations are enforced in the private generated-target
+observer. That evidence is static and baseline-bound; it does not establish production runtime behavior.
 
 ## Architecture Concept Hierarchy
 

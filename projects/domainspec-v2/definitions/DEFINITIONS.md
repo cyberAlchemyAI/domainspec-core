@@ -1609,6 +1609,329 @@ currentness, and non-transitioning `refuse`/`defer` dispositions. Gate = definit
 Promotion boundary: local DomainSpec v2 obligation semantics and lifecycle only. It does not define or change
 CAV2 promotion, domain adoption, proof truth, publication authorization, or another domain's lifecycle.
 
+## domainspec-v2-D31. Meta-Type Realization
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted implementation binding
+
+Evidence: [current implementation state](./meta-types/current-implementation.md) ·
+[machine-readable state](./meta-types/current-implementation.json) ·
+[immutable baseline manifest](../development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v2.json)
+
+Formal voice:
+
+```text
+Realization = (
+  meta_type_id,
+  language,
+  source_ref + source_sha256,
+  provider_ref + provider_sha256,
+  binding_ref + binding_sha256
+)
+
+A realization is current iff that exact tuple occurs once in the current
+canonical implemented meta-type baseline. Its identity is byte-bound; path or
+label equality without digest equality is insufficient.
+```
+
+Plain-language voice: a realization is the exact selected implementation recipe for one DomainSpec meta-type
+in one language. It names the implementation, its provider, and the binding that joins them, including their
+digests.
+
+Domain-context voice: the current baseline contains one TypeScript, one Python, and one Rust realization for
+each of the 13 active backend meta-types. A realization is neither the semantic meta-type itself nor a domain
+instance created from it.
+
+Use carefully: qualify every realization by baseline ID and digest. A later byte-compatible-looking file is
+not the same realization unless its exact binding is admitted in a new baseline.
+
+Misuse warning: do not infer realization admission from an old form queue, provider/profile gate, example
+candidate, filename, or passing test that is outside the current baseline manifest.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a claimed realization is
+missing, duplicated, uses an unknown language, or disagrees with a selected source/provider/binding digest" ->
+challenges the term; owner route = implementation-conformance profile owner plus definitions-governance; gate
+= exact baseline comparison; blocking question = "which exact baseline row and digests identify this
+realization?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active from the owner-admitted current implementation state, the immutable baseline, and
+schema/validator PASS over all 39 rows. Gate = definitions-governance owner gate.
+
+Promotion boundary: project-local realization identity only. It grants no generated-target conformance,
+publication, release, deployment, or production authority.
+
+## domainspec-v2-D32. Canonical Implemented Meta-Type Baseline
+
+Status: active
+
+Source kind: project-local implementation authority
+
+Evidence: [current implementation state](./meta-types/current-implementation.md) ·
+[owner definitions-first decision](../development/meta-type-instantiation-cli/OWNER-CANONICAL-DOCS-AND-BASELINE-V2-DECISION.json) ·
+[baseline validator](../development/meta-type-instantiation-cli/validate-baseline.mjs)
+
+Formal voice:
+
+```text
+Baseline = (
+  baseline_id,
+  baseline_digest,
+  owner_decision_ref + sha256,
+  exact_inventory,
+  backend_meta_type_set,
+  realization_rows,
+  UI_supporting_state,
+  relationship_authority_denominator
+)
+
+The baseline is immutable. Changing any frozen byte requires a new baseline ID,
+inventory, digest, owner binding, and validation result. The current baseline is
+resolved through definitions/meta-types/current-implementation.json.
+```
+
+Plain-language voice: this is the sealed, versioned snapshot of the implementations DomainSpec has selected
+as its starting point. It answers “what exactly do we mean by implemented today?” without relying on scattered
+historical decisions.
+
+Domain-context voice: the current baseline admits 13 backend meta-types and 39 realization rows across
+TypeScript, Python, and Rust. It preserves the 11 UI states as supporting context and the 31-row DS-D8
+relationship denominator. Baseline `@1` is historical; the current state points to `@2`.
+
+Use carefully: distinguish baseline admission from DS-D1 semantic maturity and from conformance of a generated
+consumer project. These three axes can change independently.
+
+Misuse warning: do not regenerate a frozen manifest in place, stretch an earlier digest over changed bytes, or
+turn historical form/provider/profile gates into current baseline authority.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "the current pointer,
+inventory, decision, denominators, realization rows, or digest disagree" -> challenges the term; owner route =
+definitions-governance plus implementation-conformance profile owner; gate = new immutable baseline; blocking
+question = "which exact manifest and owner decision define the claimed current baseline?"; residue ->
+`definitions/reviews/`.
+
+Confirm contract: active when the current-state schema and validator, baseline validator, ontology projection,
+index, and drift audit agree on one exact baseline identity and digest. Gate = definitions-governance owner
+gate.
+
+Promotion boundary: project-local current implementation authority only. It does not prove that a target was
+instantiated, conformant, published, released, deployed, or production-ready.
+
+## domainspec-v2-D33. Meta-Type Instantiation
+
+Status: active
+
+Source kind: method-vocabulary; deterministic generation contract
+
+Evidence: [WP-MTCLI-001](../development/meta-type-instantiation-cli/WORK-PACK.md) ·
+[implementation plan](../development/meta-type-instantiation-cli/IMPLEMENTATION-PLAN.md) ·
+[current implementation state](./meta-types/current-implementation.md)
+
+Formal voice:
+
+```text
+instantiate(node, selected_realization, target_root) =
+  validate typed input and exact baseline binding
+  -> derive a deterministic contained artifact plan
+  -> validate collisions, paths, and declared effects
+  -> publish the complete plan atomically or publish nothing
+  -> emit a baseline-bound receipt
+  -> reread and observe the target outputs
+```
+
+Plain-language voice: instantiation turns a typed DomainSpec concept into the exact selected implementation in
+another project, with predictable files and an auditable result.
+
+Domain-context voice: the private CLI selects one D31 realization by meta-type and language, generates only
+inside the declared target root, and binds its output receipt to the current D32 baseline. Its closed decoder,
+planner, guarded atomic writer, receipt, reread observer, and clean-package replay are implemented and admitted
+in baseline `domainspec-meta-types-current-implemented@3`.
+
+Use carefully: generation must preserve DomainSpec meaning and the selected realization. It may format or
+place code, but it may not invent a different architecture form.
+
+Misuse warning: copying templates, creating some files, or obtaining a successful process exit is not
+instantiation unless the input, selection, mutation, receipt, and reread contracts all hold.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "generation is
+nondeterministic, escapes the target, mutates partially, or is not bound to one selected realization" ->
+challenges the term; owner route = meta-type instantiation CLI owner; gate = executable positive and hostile
+fixtures; blocking question = "what exact input and baseline row deterministically produced these outputs?";
+residue -> `definitions/reviews/`.
+
+Confirm contract: active and implemented for the private CLI after the decoder, planner, guarded atomic writer,
+receipt, reread observers, hostile fixtures, and deterministic clean-package replay passed. Gate =
+implementation-conformance profile owner.
+
+Promotion boundary: generation contract only. It does not authorize publication, release, deployment,
+production changes, or implicit successor execution.
+
+## domainspec-v2-D34. Target Implementation Conformance
+
+Status: active
+
+Source kind: method-vocabulary; observed-versus-selected predicate
+
+Evidence: [implementation-conformance ontology](../development/implementation-conformance/ontology-experiment/ontology.json) ·
+[current implementation state](./meta-types/current-implementation.md) ·
+[DS-D8 relationship authority](#ds-d8--relationship-signature-authority)
+
+Formal voice:
+
+```text
+conforms(target, selection, baseline) = PASS iff
+  selection occurs exactly once in baseline.realization_rows
+  and target inventory equals the declared artifact plan
+  and every selected structural, semantic, relationship, effect, continuation,
+      and digest obligation is observed and satisfied.
+
+Missing, unknown, unsupported, stale, or undeclared observations cannot become PASS.
+```
+
+Plain-language voice: conformance proves that the target project implements the exact version and language
+form DomainSpec selected, not merely something with a similar name or shape.
+
+Domain-context voice: for an Operation, observation includes declared read, write, and effect sets; guard
+execution before mutation; atomic state-and-outbox behavior; explicit failure continuation; rejection of
+undeclared reads, writes, or effects; and the typed Rule, Event, and Workflow relationships governed by DS-D8.
+
+Use carefully: report unsupported observations as `not_evaluable` with their blockers. Conformance is always
+bound to one target snapshot and one exact baseline.
+
+Misuse warning: do not infer semantic or behavioral conformance from generated file presence, compilation,
+unit-test PASS, one profile, or a historical candidate admission.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "an expected output or
+obligation is absent, drifted, undeclared, unobservable, or matched against another baseline" -> challenges the
+term; owner route = implementation-conformance profile owner; gate = fail-closed target observers; blocking
+question = "which observations prove equality to the exact selected realization?"; residue ->
+`definitions/reviews/`.
+
+Confirm contract: active and implemented for the admitted static generated-target observation boundary after
+the observer registry and positive/hostile fixtures passed across TypeScript, Python, and Rust artifacts. Runtime
+behavior outside an admitted provider remains unsupported. Gate = implementation-conformance profile owner.
+
+Promotion boundary: target-local evidence only. A conformance PASS does not grant publication, release,
+deployment, production, or broader architecture acceptance authority.
+
+## domainspec-v2-D35. Baseline-Bound Instantiation Receipt
+
+Status: active
+
+Source kind: evidence-vocabulary; deterministic generation receipt
+
+Evidence: [WP-MTCLI-001](../development/meta-type-instantiation-cli/WORK-PACK.md) ·
+[meta-type instantiation](#domainspec-v2-d33) · [target implementation conformance](#domainspec-v2-d34)
+
+Formal voice:
+
+```text
+InstantiationReceipt = (
+  baseline_id + baseline_digest,
+  input_identity + input_digest,
+  selected_realization_refs + digests,
+  artifact_plan,
+  output_paths + output_digests,
+  mutation_outcome,
+  reread_observations,
+  conformance_outcome
+)
+```
+
+Plain-language voice: the receipt is the generated implementation's tamper-evident birth certificate. It says
+what was selected, what was written, what was observed afterward, and whether the result matched.
+
+Domain-context voice: the current private `instantiate`, `lint`, and `receipt` CLI surfaces agree on this same
+binding. The receipt schema and producer are implemented, target bytes are reread, and clean-package replay
+checks deterministic package identity.
+
+Use carefully: a receipt reports one completed attempt. It cannot repair missing observations or substitute a
+new baseline for the one actually used.
+
+Misuse warning: do not treat a plan, log, process exit, or receipt with unbound paths/digests as this receipt.
+Do not let receipt production mask partial mutation or a failed reread.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "receipt identity,
+selection, outputs, observations, or target bytes disagree" -> challenges the term; owner route = meta-type
+instantiation CLI owner; gate = receipt schema plus hostile replay; blocking question = "can every claimed
+output be recomputed from this exact input and baseline binding?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active and implemented after the receipt schema, producer, verifier, target reread, tamper
+fixtures, and two-run clean-package replay passed. Gate = implementation-conformance profile owner.
+
+Promotion boundary: evidence for one bounded instantiation only. It grants no publication, release,
+deployment, production, or external-effect authority.
+
+## domainspec-v2-D36. Workflow Compensation
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted runtime contract
+
+Evidence: [canonical runtime contract](../impl/architecture-conformance/targets/typescript/workflow-compensation-v1.md) ·
+[reference implementation](../impl/architecture-conformance/targets/typescript/workflow-compensation-v1.ts) ·
+[CLI generator](../impl/cli/src/generation/generators.ts) ·
+[target observer](../impl/cli/src/conformance/observe-target.ts)
+
+Formal voice:
+
+```text
+WorkflowCompensation = (intent, plan, external_executor)
+
+state in {not-required, requested, running, completed, failed}
+
+For one failed Workflow execution w:
+  intent(w) = (workflow_execution_id, failed_step_id, completed_step_journal)
+  targets(w) is a subset of the Operations orchestrated by that Workflow
+  plan(w) is a topological ordering of targets(w)
+
+Ordering precedence:
+  explicit Operation dependency edges first;
+  otherwise reverse completed-step order;
+  reverse completed-step order is also the deterministic tie-breaker.
+
+Workflow evaluation emits intent and plan with compensation_execution = false.
+Before the first invocation, the external executor resolves every planned Operation
+to one exact binding or rejects the complete plan without mutation.
+The executor invokes only those Operations with deterministic idempotency keys.
+```
+
+Every compensation target remains an ordinary Operation and retains its declared reads, writes, effects,
+guard-before-mutation ordering, atomic state-and-outbox boundary, idempotency, Events, and explicit failure
+continuation. Compensation adds an operational role; it does not add a DS-D1 meta-type or a DS-D2/DS-D8 verb.
+
+Plain-language voice: compensation is forward recovery after part of a Workflow completed. The Workflow records
+what happened and requests a declared recovery plan. A separate runner checks that every exact recovery
+Operation exists, then runs the plan. It is not time travel, a database rollback, or permission to substitute a
+different action.
+
+Domain-context voice: DomainSpec represents forward and compensation steps with the existing
+`Workflow --[orchestrates]--> Operation` relationship. Workflow bodies may map completed step IDs to recovery
+Operation IDs and declare `operation:depends-on:operation` ordering entries. Generated TypeScript, Python, and
+Rust artifacts expose the five-state model and external executor boundary; conformance rejects missing or extra
+Operation relationships, cycles, missing bindings, direct Workflow execution, and identity substitution.
+
+Use carefully: `failed` is the outcome of one compensation execution attempt. The selected continuation
+(`retry`, `escalate`, or `terminal-failure`) belongs to the failed Operation binding. A retry reuses the same
+semantic intent and idempotency key.
+
+Misuse warning: do not model compensation as a new meta-type, invent a `compensates` edge, execute recovery
+inside Workflow evaluation, or claim that an in-process executor proves durable restart recovery.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a Workflow invokes
+recovery directly, a target is not one of its orchestrated Operations, binding preflight occurs after mutation,
+or retry changes semantic identity" -> challenges the term; owner route = definitions-governance plus the
+implementation-conformance profile owner; gate = owner decision plus positive and hostile profile fixtures;
+blocking question = "which exact orchestrated Operation, dependency order, binding, and idempotency key realize
+this recovery?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active and implemented from the direct owner admission, canonical runtime contract,
+TypeScript reference tests, three-profile generation and compilation, hostile conformance fixtures, and
+architecture-pattern enforcement PASS. Gate = definitions-governance owner gate.
+
+Promotion boundary: project-local Workflow recovery semantics and static/generated implementation contract.
+It grants no publication, release, deployment, production, or proof of durable dispatch across process restart.
+
 <!-- SKELETON note: D1-D2 mint-seeded; D3-D5 consolidated 2026-07-01 into this canonical home (was the
      separate governance surface DSV2-D1/2/3, now removed). Companions backfilled 2026-07-01 to the current
      mint baseline: DEFINITIONS-INDEX + DEFINITION-DRIFT-AUDIT + DEFINITION-LOCALIZATION-ROUTE + reviews/.

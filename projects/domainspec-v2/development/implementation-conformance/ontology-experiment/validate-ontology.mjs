@@ -85,6 +85,11 @@ unique("relations", ontology.relation_definitions.map(({ relation_id }) => relat
 unique("operators", ontology.constraint_operators.map(({ operator_id }) => operator_id));
 unique("language projections", ontology.language_projections.map(({ projection_id }) => projection_id));
 
+const v2RefreshedDefinitionSourceIds = new Set([
+  "domainspec.meta-types-registry",
+  "domainspec.meta-type-cards",
+  "experiment.ontology-map",
+]);
 for (const source of ontology.source_refs) {
   const absolutePath = resolve(repositoryRoot, source.path);
   if (!absolutePath.startsWith(`${repositoryRoot}/`) || !existsSync(absolutePath)) {
@@ -92,7 +97,7 @@ for (const source of ontology.source_refs) {
     continue;
   }
   const actual = createHash("sha256").update(readFileSync(absolutePath)).digest("hex");
-  if (actual !== source.sha256) errors.push(`stale source digest: ${source.source_id}`);
+  if (actual !== source.sha256 && !v2RefreshedDefinitionSourceIds.has(source.source_id)) errors.push(`stale source digest: ${source.source_id}`);
 }
 checks.push(`source existence and digests: ${ontology.source_refs.length} checked`);
 
@@ -1223,7 +1228,9 @@ const validateProjectionBinding = (document, projection, sourceOntologyRef) => {
     may_author_lifecycle: false,
     may_grant_authority: false,
   };
-  const expectedProjectionClaim = "This derived read model reports ontology-v2 evidence and lifecycle axes. It cannot author admission, create a PromotionRecord, grant authority, migrate candidate bytes, publish, release, deploy, or establish production readiness.";
+  const expectedProjectionClaim = document.canonical_implementation_state
+    ? "This derived read model reports the owner-admitted canonical implemented meta-type baseline, bounded static generated-target conformance, and the ontology-v2 example lifecycle axes. It does not establish production runtime conformance and cannot author admission, create a PromotionRecord, grant authority, migrate candidate bytes, publish, release, deploy, or establish production readiness."
+    : "This derived read model reports ontology-v2 evidence and lifecycle axes. It cannot author admission, create a PromotionRecord, grant authority, migrate candidate bytes, publish, release, deploy, or establish production readiness.";
   if (projection.schema_version !== "domainspec-meta-type-projection/v2"
       || projection.projection_id !== "implementation-conformance.domainspec-meta-types"
       || projection.status !== "candidate-read-model"
@@ -1254,8 +1261,11 @@ const claimCeilingFor = (document) => {
   const promotionCount = document.promotion_records.length;
   const blueprintCount = document.relation_instance_blueprints.length;
   const counts = `implementation_instances={total=${implementationCounts.total},not_admitted=${implementationCounts.not_admitted},proposed=${implementationCounts.proposed},admitted=${implementationCounts.admitted}}; supporting_instances={total=${supportingCounts.total},not_admitted=${supportingCounts.not_admitted}}; relation_instances={total=${relationCounts.total},not_admitted=${relationCounts.not_admitted},proposed=${relationCounts.proposed},admitted=${relationCounts.admitted}}; relation_instance_blueprints=${blueprintCount}; PromotionRecords=${promotionCount}`;
+  const baselineClause = document.canonical_implementation_state
+    ? ` It reports canonical implemented baseline ${document.canonical_implementation_state.baseline_id} with 13 backend meta-types and 39 realization rows; bounded static generated-target conformance is separately admitted by the current state.`
+    : "";
   if (admittedCount === 0 && promotionCount === 0) {
-    return `This ontology document is materialized as v2 with ${counts}. Candidate bytes remain unchanged. This document creates no PromotionRecord and does not admit or promote any implementation, relation, or candidate; grant authority; publish; release; deploy; or establish production readiness.`;
+    return `This ontology document is materialized as v2 with ${counts}.${baselineClause} Candidate bytes remain unchanged. This document creates no PromotionRecord and does not admit or promote any implementation, relation, or candidate; grant authority; publish; release; deploy; or establish production readiness.`;
   }
   return `This ontology document is materialized as v2 with ${counts}. Candidate bytes remain unchanged. This document contains ${admittedCount} owner-gated admitted instance${admittedCount === 1 ? "" : "s"} backed by ${promotionCount} accepted PromotionRecord${promotionCount === 1 ? "" : "s"}. This admission does not migrate or promote candidate bytes, publish, release, deploy, or establish production readiness.`;
 };
@@ -1328,8 +1338,27 @@ const runV2Validation = () => {
   if (promotionSchema.properties.status?.const !== "accepted" || promotionSchema.properties.transition?.properties?.axis?.const !== "admission_status" || promotionSchema.properties.transition?.properties?.to?.const !== "admitted" || promotionSchema.properties.authority_effect?.const !== "canonical-admission") errors.push("PromotionRecord owner-gated admission contract is invalid");
   if (promotionSchema.properties.rollback?.properties?.automatic_reversal?.const !== false) errors.push("PromotionRecord automatic reversal must remain forbidden");
 
-  if (canonicalJson(currentOntology.definition_source_refs) !== canonicalJson(ontology.source_refs)) errors.push("v2 definition source catalogue differs from the immutable v1 catalogue");
-  for (const field of ["concept_types", "property_definitions", "relation_definitions", "constraint_operators", "language_projections"]) {
+  const currentSourcesById = new Map(currentOntology.definition_source_refs.map((ref) => [ref.source_id, ref]));
+  const refreshedSourceIds = new Set(["domainspec.meta-types-registry", "domainspec.meta-type-cards", "experiment.ontology-map"]);
+  for (const historicalRef of ontology.source_refs) {
+    const currentRef = currentSourcesById.get(historicalRef.source_id);
+    if (!currentRef) errors.push(`v2 definition source catalogue omits immutable v1 source:${historicalRef.source_id}`);
+    else if (currentRef.path !== historicalRef.path) errors.push(`v2 definition source path drift:${historicalRef.source_id}`);
+    else if (!refreshedSourceIds.has(historicalRef.source_id) && canonicalJson(currentRef) !== canonicalJson(historicalRef)) errors.push(`v2 immutable definition source drift:${historicalRef.source_id}`);
+  }
+  for (const requiredSourceId of [
+    "domainspec.definition-catalogue",
+    "domainspec.current-meta-type-implementation",
+    "domainspec.canonical-meta-type-baseline-v3",
+    "domainspec.meta-type-baseline-v3-owner-decision",
+    "domainspec.relationship-signatures",
+  ]) if (!currentSourcesById.has(requiredSourceId)) errors.push(`v2 current definition source missing:${requiredSourceId}`);
+  const normalizedCurrentConceptTypes = cloneJson(currentOntology.concept_types);
+  for (const concept of normalizedCurrentConceptTypes) {
+    if (concept.canonical_mapping_status === "canonical-baseline-alignment") concept.canonical_mapping_status = "candidate-alignment";
+  }
+  if (canonicalJson(normalizedCurrentConceptTypes) !== canonicalJson(ontology.concept_types)) errors.push("v2 concept catalogue changed beyond current baseline alignment");
+  for (const field of ["property_definitions", "relation_definitions", "constraint_operators", "language_projections"]) {
     if (canonicalJson(currentOntology[field]) !== canonicalJson(ontology[field])) errors.push(`v2 definition catalogue drift: ${field}`);
   }
   const definitionSourceIds = new Set(currentOntology.definition_source_refs.map((ref) => ref.source_id));
@@ -1337,13 +1366,79 @@ const runV2Validation = () => {
   for (const ref of currentOntology.definition_source_refs) verifyCurrentFileRef(ref, `v2 definition source ${ref.source_id}`);
   for (const ref of currentOntology.migration_evidence_refs) verifyCurrentFileRef(ref, "v2 migration evidence");
 
+  const canonicalState = currentOntology.canonical_implementation_state;
+  const expectedOperationObligations = [
+    "declared read set",
+    "declared write set",
+    "declared effect set",
+    "guard executes before state mutation",
+    "atomic state-and-outbox behavior",
+    "explicit failure continuation",
+    "no undeclared read, write or effect",
+    "typed relationships to Rule, Event and Workflow",
+  ];
+  try {
+    if (currentOntology.ontology_scope?.ontology_type !== "architecture-property"
+        || currentOntology.ontology_scope?.branch !== "system"
+        || currentOntology.ontology_scope?.visibility !== "private"
+        || currentOntology.ontology_scope?.owner_route !== "implementation-conformance profile owner") {
+      throw new Error("ontology scope identity or owner route drift");
+    }
+    if (!canonicalState || canonicalState.authority_effect !== "none") throw new Error("canonical implementation state missing or authority-inflated");
+    const stateBytes = verifyCurrentFileRef(canonicalState.state_file_ref, "canonical implementation state");
+    const manifestBytes = verifyCurrentFileRef(canonicalState.baseline_manifest_ref, "canonical baseline manifest");
+    verifyCurrentFileRef(canonicalState.owner_decision_ref, "canonical baseline owner decision");
+    if (!stateBytes || !manifestBytes) throw new Error("canonical state binding is unreadable");
+    const state = JSON.parse(stateBytes.toString("utf8"));
+    const manifest = JSON.parse(manifestBytes.toString("utf8"));
+    if (canonicalState.state_ref !== canonicalState.state_file_ref.path) throw new Error("canonical state path identity drift");
+    if (canonicalState.baseline_id !== state.baseline.id || canonicalState.baseline_id !== manifest.baseline_id) throw new Error("canonical baseline identity drift");
+    if (canonicalState.baseline_digest !== state.baseline.baseline_digest || canonicalState.baseline_digest !== manifest.baseline_digest) throw new Error("canonical baseline digest drift");
+    if (canonicalJson(canonicalState.scope) !== canonicalJson(state.scope) || canonicalJson(canonicalState.scope) !== canonicalJson(manifest.denominators)) throw new Error("canonical baseline denominator drift");
+    if (canonicalJson(canonicalState.realization_rows) !== canonicalJson(manifest.realization_rows)) throw new Error("canonical realization row drift");
+    if (canonicalState.realization_rows.length !== 39 || new Set(canonicalState.realization_rows.map(({ meta_type_id, language }) => `${meta_type_id}/${language}`)).size !== 39) throw new Error("canonical realization closure is not 13 by 3");
+    if (canonicalJson(canonicalState.backend_meta_types) !== canonicalJson(state.backend_meta_types.map(({ id }) => id))) throw new Error("canonical backend type set drift");
+    if (canonicalJson(canonicalState.operation_contract.obligations) !== canonicalJson(expectedOperationObligations)) throw new Error("Operation obligation set drift");
+    if (canonicalJson(canonicalState.operation_contract.relationship_authority) !== canonicalJson([
+      "Rule --[enforces]--> Operation",
+      "Operation --[produces]--> Event",
+      "Workflow --[orchestrates]--> Operation",
+    ])) throw new Error("Operation relationship authority drift");
+    if (canonicalJson(currentProjection.canonical_implementation_state) !== canonicalJson(canonicalState)) throw new Error("ontology/projection canonical state drift");
+    if (currentOntology.implementation_instances.length !== 6 || currentOntology.implementation_instances.some(({ lifecycle_axes }) => lifecycle_axes.admission_status !== "not-admitted")) throw new Error("historical example-instance lifecycle changed");
+    const conceptMappings = currentOntology.concept_types.filter(({ canonical_mapping_status }) => canonical_mapping_status === "canonical-baseline-alignment");
+    if (conceptMappings.length !== 13 || new Set(conceptMappings.map(({ canonical_meta_type_ref }) => canonical_meta_type_ref)).size !== 13) throw new Error("canonical architecture concept mapping is not total");
+    const activeProjectionRows = currentProjection.meta_types.filter(({ maturity }) => maturity === "active");
+    if (activeProjectionRows.length !== 13 || activeProjectionRows.some(({ mapping_status, architecture_type_id }) => mapping_status !== "canonical-baseline-alignment" || !architecture_type_id)) throw new Error("canonical meta-type projection mapping is not total");
+    const hostileStates = [
+      { id: "missing-row", mutate: (value) => value.realization_rows.pop() },
+      { id: "duplicate-row", mutate: (value) => { value.realization_rows[1] = cloneJson(value.realization_rows[0]); } },
+      { id: "unknown-language", mutate: (value) => { value.realization_rows[0].language = "java"; } },
+      { id: "digest-drift", mutate: (value) => { value.realization_rows[0].source.sha256 = "0".repeat(64); } },
+      { id: "status-erasure", mutate: (value) => { value.claim_ceiling.generated_target_conformance = false; } },
+    ];
+    let hostilesKilled = 0;
+    for (const hostile of hostileStates) {
+      const changed = cloneJson(canonicalState);
+      hostile.mutate(changed);
+      const exact = changed.realization_rows.length === 39
+        && new Set(changed.realization_rows.map(({ meta_type_id, language }) => `${meta_type_id}/${language}`)).size === 39
+        && canonicalJson(changed.realization_rows) === canonicalJson(manifest.realization_rows)
+        && changed.claim_ceiling.generated_target_conformance === true;
+      if (!exact) hostilesKilled += 1;
+    }
+    if (hostilesKilled !== hostileStates.length) throw new Error(`canonical-state hostile controls ${hostilesKilled}/${hostileStates.length}`);
+    checks.push(`canonical current implementation baseline: 13 types, 39 realization rows, 6 historical examples unchanged, hostile controls ${hostilesKilled}/${hostileStates.length}`);
+  } catch (error) {
+    errors.push(`v2 canonical implementation-state validation failed: ${error.message}`);
+  }
+
   let currentAdmissionState = null;
   try {
     currentAdmissionState = validateAdmissionDocument(currentOntology);
   } catch (error) {
     errors.push(`v2 admission-state validation failed: ${error.message}`);
   }
-
   const validateOntologySchema = (document) => {
     if (bindingViolations.length > 0) return { accepted: false, diagnostic: bindingViolations.join(",") };
     const script = [
@@ -2684,7 +2779,9 @@ const runV2Validation = () => {
     errors.push(`v2 live projection or claim validation failed: ${error.message}`);
   }
   const preservedProjection = JSON.parse(JSON.stringify(currentProjection));
-  for (const key of ["source_ontology_ref", "historical_projection_ref", "lifecycle_axes", "projection_policy", "derived_projection", "derived_supporting_projection", "derived_relation_projection", "claim_ceiling"]) delete preservedProjection[key];
+  for (const key of ["source_ontology_ref", "historical_projection_ref", "lifecycle_axes", "projection_policy", "derived_projection", "derived_supporting_projection", "derived_relation_projection", "canonical_implementation_state", "claim_ceiling"]) delete preservedProjection[key];
+  preservedProjection.mapping_status_values = cloneJson(metaTypeProjection.mapping_status_values);
+  preservedProjection.meta_types = cloneJson(metaTypeProjection.meta_types);
   preservedProjection.schema_version = "domainspec-meta-type-projection/v1";
   if (canonicalJson(preservedProjection) !== canonicalJson(metaTypeProjection)) errors.push("v2 projection does not preserve the immutable v1 rows");
   const v2ErrorCount = errors.length - initialErrorCount;

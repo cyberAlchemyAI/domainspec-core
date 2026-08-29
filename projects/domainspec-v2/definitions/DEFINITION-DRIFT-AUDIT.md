@@ -57,6 +57,12 @@ A term failing (1) is a **drift defect** — create it as a `candidate` card + i
 | relationship source-effect binding | historical DS-D8 `creates`; DEC-DSV2-OPERATION-CREATES-ENTITY | yes -> `domainspec-v2-D26` | superseded | `pass` | stable historical ID; replaced by edge-canonical generated projection |
 | Canonical Single Responsibility Principle | DS-D8 `creates`; DEC-DSV2-CANONICAL-CREATION-RESPONSIBILITY | yes -> `domainspec-v2-D27` | active | `pass` | one primary responsibility, one canonical owner, one authored proposition; `creates` is the executable application |
 | DomainSpec obligation lifecycle | GATE-05 separate owner-local lifecycles | yes -> `domainspec-v2-D28` | active | `pass` | closed owner-event fold; currentness and decision dispositions remain separate |
+| meta-type realization | current implementation state; frozen baseline realization rows | yes -> `domainspec-v2-D31` | active | `pass` | exact type/language/source/provider/binding identity; not a semantic meta-type |
+| canonical implemented meta-type baseline | owner definitions-first decision; current implementation state | yes -> `domainspec-v2-D32` | active | `pass` | immutable versioned set; @1 and @2 retained as historical and @3 is current |
+| meta-type instantiation | WP-MTCLI-001; private CLI | yes -> `domainspec-v2-D33` | active | `pass` | closed decoder, artifact plan, guarded atomic publication, receipt, reread, and deterministic package replay implemented |
+| target implementation conformance | implementation-conformance ontology; private CLI observer | yes -> `domainspec-v2-D34` | active | `pass` | selected baseline versus observed generated target implemented at the admitted static boundary |
+| baseline-bound instantiation receipt | WP-MTCLI-001; private CLI receipt schema and replay | yes -> `domainspec-v2-D35` | active | `pass` | exact input, selection, outputs, reread observations, and conformance binding implemented |
+| Workflow Compensation | canonical runtime contract; three-profile generator and observer | yes -> `domainspec-v2-D36` | active | `pass` | forward-recovery Operation role; no new DS-D1 type or DS-D8 verb |
 
 ## Gate
 - `pass`: every load-bearing term resolves to a tracked, grounded entry.
@@ -91,6 +97,17 @@ detected mutation and `resolved` for an ordinary decision are different typed te
 obligation state. Historical research, reviews, receipts, and staged planning copies remain evidence rather
 than current lifecycle authority. Reducers, schemas, validators, and projections remain implementation work
 and cannot claim D28 conformance until they enforce its closed transitions and owner-only event admission.
+
+The meta-type implementation-state vocabulary now resolves to `domainspec-v2-D31..D35`. DS-D1 semantic
+maturity, implementation-baseline admission, and generated-target conformance are separate axes. The current
+machine state is schema-checked against the exact immutable baseline manifest; historical form-queue and
+provider/profile findings remain provenance and do not silently regain control of the current baseline.
+
+Workflow compensation now resolves to `domainspec-v2-D36`. Its canonical runtime contract keeps Workflow
+evaluation intent-only, reuses `orchestrates` to bind exact Operation targets, preflights the complete executor
+registry before mutation, and preserves each Operation's declared effect and failure-continuation boundary.
+Durable dispatch across process restart remains product residue rather than being inferred from the in-process
+reference executor.
 
 Focused stale scan (2026-07-22): the owned definition/index/audit/meta-type surfaces carry no live 25-label,
 14-backend, uniform-UI, or 30-signature authority claim. Candidate/deferred status is not treated as

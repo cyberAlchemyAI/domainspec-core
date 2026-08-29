@@ -45,6 +45,12 @@ Load-Bearing Term Tracking rule, `C(meta-4)`) is "tracked" iff it has a row here
 | `domainspec-v2-D28` | DomainSpec obligation lifecycle | active | local-inference; owner-ratified lifecycle vocabulary | [DEFINITIONS.md#domainspec-v2-d28](./DEFINITIONS.md) |
 | `domainspec-v2-D29` | Ownership Dimension Registry | active | domain-vocabulary; D06 P01 owner-selected registry | [DEFINITIONS.md#domainspec-v2-d29](./DEFINITIONS.md) · [registry](./ownership-dimensions/ownership-dimensions.json) |
 | `domainspec-v2-D30` | Membership Kind Registry | active | domain-vocabulary; D07 P01 contents owner-selected registry | [DEFINITIONS.md#domainspec-v2-d30](./DEFINITIONS.md) · [registry](./membership-kinds/membership-kinds.json) |
+| `domainspec-v2-D31` | meta-type realization | active | method-vocabulary; owner-admitted implementation binding | [DEFINITIONS.md#domainspec-v2-d31](./DEFINITIONS.md) |
+| `domainspec-v2-D32` | canonical implemented meta-type baseline | active | project-local implementation authority | [DEFINITIONS.md#domainspec-v2-d32](./DEFINITIONS.md) · [current state](./meta-types/current-implementation.md) |
+| `domainspec-v2-D33` | meta-type instantiation | active | method-vocabulary; deterministic generation contract | [DEFINITIONS.md#domainspec-v2-d33](./DEFINITIONS.md) |
+| `domainspec-v2-D34` | target implementation conformance | active | method-vocabulary; observed-vs-selected predicate | [DEFINITIONS.md#domainspec-v2-d34](./DEFINITIONS.md) |
+| `domainspec-v2-D35` | baseline-bound instantiation receipt | active | evidence-vocabulary; deterministic generation receipt | [DEFINITIONS.md#domainspec-v2-d35](./DEFINITIONS.md) |
+| `domainspec-v2-D36` | Workflow Compensation | active | method-vocabulary; owner-admitted runtime contract | [DEFINITIONS.md#domainspec-v2-d36](./DEFINITIONS.md) |
 | `DS-D1` | Meta-Type System (24 staged labels) | active | domain-vocabulary | [meta-types/meta-types.md](./meta-types/meta-types.md) · [.yml](./meta-types/meta-types.yml) |
 | `DS-D1.1` | Entity | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.2` | Value Object | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |

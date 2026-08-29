@@ -5,7 +5,21 @@ scheme: DS-D1
 term: meta-type
 definition: the staged DomainSpec concept-type system (the node alphabet of an aspect file)
 human_cards: meta-types.md
+current_implementation_state: current-implementation.json
+current_implementation_human: current-implementation.md
+current_implementation_schema: current-implementation.schema.json
+current_implementation_validator: validate-current-implementation.mjs
 status: active
+runtime_contracts:
+  workflow_compensation:
+    definition_id: domainspec-v2-D36
+    status: active
+    role: forward-recovery-operation
+    workflow_meta_type_id: DS-D1.9
+    target_meta_type_id: DS-D1.4
+    relationship_authority: DS-D8 orchestrates
+    contract_ref: impl/architecture-conformance/targets/typescript/workflow-compensation-v1.md
+    authority_note: adds an Operation role and external executor boundary; adds no DS-D1 type or DS-D8 verb
 catalog:
   total_candidates: 24
   registered_backend_members: 13

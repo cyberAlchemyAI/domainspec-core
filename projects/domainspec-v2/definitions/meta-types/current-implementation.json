@@ -1,0 +1,109 @@
+{
+  "schema_version": "domainspec.current-meta-type-implementation-state/v2",
+  "state_id": "domainspec-meta-types-current-implementation",
+  "status": "owner-admitted-frozen",
+  "baseline": {
+    "id": "domainspec-meta-types-current-implemented@3",
+    "manifest": "projects/domainspec-v2/development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v3.json",
+    "manifest_sha256": "999e503e4ac151061160746facdacc06ac5a516ab41e91795d57b50109a36bfa",
+    "baseline_digest": "af97cd70315f509adcdb4b647951a01f8636da08a07f06f7902e803f546d65cb",
+    "owner_decision": "projects/domainspec-v2/development/meta-type-instantiation-cli/OWNER-PRODUCT-ONTOLOGY-AND-COMPENSATION-ADMISSION.json",
+    "owner_decision_sha256": "a44440c2ac6100c12ab930ccd1ba8bb4aabea89ee4e6553d32802df7593719e4",
+    "supersedes": {
+      "id": "domainspec-meta-types-current-implemented@2",
+      "baseline_digest": "10c29c2a4feb5039b6c90dcd7e2d44024757b4dd2414f9c0383c82387ec6e836",
+      "reason": "Baseline @2 remains immutable historical evidence; @3 admits the canonical definitions, realizations, and Workflow Compensation runtime contract consumed by the private CLI and static conformance observer."
+    }
+  },
+  "scope": {
+    "backend_meta_types": 13,
+    "realization_rows": 39,
+    "realization_languages": [
+      "python",
+      "rust",
+      "typescript"
+    ],
+    "ui_state_rows": 11,
+    "relationship_authority_rows": 31,
+    "compensation_runtime_contracts": 1,
+    "frozen_evidence_files": 778
+  },
+  "backend_meta_types": [
+    { "id": "DS-D1.1", "label": "Entity", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.2", "label": "Value Object", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.3", "label": "Enum", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.4", "label": "Operation", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.5", "label": "Query", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.6", "label": "Calculation", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.7", "label": "Rule", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.8", "label": "Policy", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.9", "label": "Workflow", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.11", "label": "Interface", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.12", "label": "Event", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.13", "label": "Mapping", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 },
+    { "id": "DS-D1.14", "label": "State Machine", "implementation_state": "baseline-admitted", "realization_languages": ["python", "rust", "typescript"], "realization_rows": 3 }
+  ],
+  "ui_state": {
+    "rows": 11,
+    "role": "frozen-supporting-context-not-first-instantiation-surface"
+  },
+  "historical_controls": {
+    "form_queue": "historical-provenance",
+    "provider_profile_gates": "historical-provenance",
+    "effect": "do-not-control-current-baseline"
+  },
+  "product_frontier": {
+    "state": "target-instantiation-and-static-conformance-admitted",
+    "work_pack": "development/meta-type-instantiation-cli/WORK-PACK.md",
+    "implemented_surface": "private-cli-three-profile",
+    "next_unit": "durable-compensation-dispatcher"
+  },
+  "operation_contract": {
+    "meta_type_id": "DS-D1.4",
+    "obligations": [
+      "declared read set",
+      "declared write set",
+      "declared effect set",
+      "guard executes before state mutation",
+      "atomic state-and-outbox behavior",
+      "explicit failure continuation",
+      "no undeclared read, write or effect",
+      "typed relationships to Rule, Event and Workflow"
+    ]
+  },
+  "compensation_contract": {
+    "definition_id": "domainspec-v2-D36",
+    "status": "canonical-project-local-runtime-contract",
+    "role": "forward-recovery-operation",
+    "states": [
+      "not-required",
+      "requested",
+      "running",
+      "completed",
+      "failed"
+    ],
+    "executor_owner": "external-runtime",
+    "durable_dispatch": false
+  },
+  "target_conformance": {
+    "status": "admitted-static-generated-target",
+    "profiles": [
+      "python",
+      "rust",
+      "typescript"
+    ],
+    "observer_ref": "impl/cli/src/conformance/observe-target.ts",
+    "claim_boundary": "static-generated-artifacts-not-production-runtime"
+  },
+  "claim_ceiling": {
+    "canonical_project_local_baseline": true,
+    "generated_target_conformance": true,
+    "compensation_runtime_contract_admitted": true,
+    "durable_compensation_dispatch": false,
+    "publication": false,
+    "release": false,
+    "deployment": false,
+    "production": false
+  },
+  "authority_effect": "project-local-canonical-current-state"
+}
