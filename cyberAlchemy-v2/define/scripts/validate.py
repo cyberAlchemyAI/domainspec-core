@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 PACKAGE=Path(__file__).resolve().parents[1]
 REPO=PACKAGE.parents[1]
-MATERIAL_FILES=("README.md","definitions.json","docs/AUTHORITY.md","docs/DEFINE.md","docs/DEFINITION-PACK.md","docs/INTERACTION.md","docs/LIFECYCLE.md","documents.json","migration/invoke.json","nodes.json","profile.json","relations.json","residue.jsonl","schemas/define-package.schema.json","scripts/validate.py","sources.json","views.json")
+MATERIAL_FILES=("README.md","definitions.json","docs/AUTHORITY.md","docs/DEFINE.md","docs/DEFINITION-PACK.md","docs/INTERACTION.md","docs/LIFECYCLE.md","docs/PRODUCT.md","documents.json","migration/invoke.json","module.json","nodes.json","profile.json","relations.json","residue.jsonl","schemas/define-package.schema.json","scripts/validate.py","sources.json","views.json")
 checks=[]
 def add(i,o,d): checks.append({"check_id":i,"outcome":o,"detail":d})
 def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -35,7 +35,7 @@ def run_child(row):
   except Exception:continue
   if r.get("ontology_id")==row["ontology_id"] and r.get("material_digest")==material and r.get("validation_output_sha256")==output_hash and r.get("authority_effect")=="none":current.append(r)
  return deterministic and outcome_ok and len(current)==1, one.returncode, output, output_hash, len(current)
-profile=readj("profile.json"); sources_doc=readj("sources.json"); definitions=readj("definitions.json"); documents=readj("documents.json"); nodes_doc=readj("nodes.json"); relations_doc=readj("relations.json"); views_doc=readj("views.json"); migration=readj("migration/invoke.json"); schema=readj("schemas/define-package.schema.json")
+profile=readj("profile.json"); module=readj("module.json"); sources_doc=readj("sources.json"); definitions=readj("definitions.json"); documents=readj("documents.json"); nodes_doc=readj("nodes.json"); relations_doc=readj("relations.json"); views_doc=readj("views.json"); migration=readj("migration/invoke.json"); schema=readj("schemas/define-package.schema.json")
 residue=[json.loads(x) for x in (PACKAGE/"residue.jsonl").read_text().splitlines() if x]
 # Parent inventory excludes declared nested packages, append-only receipts, and package-local collaboration evidence.
 actual=[]
@@ -48,11 +48,17 @@ inventory_ok=sorted(actual)==sorted(MATERIAL_FILES) and profile.get("material_fi
 add("closed-parent-inventory-and-nested-boundaries","PASS" if inventory_ok else "BLOCK",f"{len(actual)} parent material files; 2 excluded child package roots")
 profile_ok=profile.get("package_id")=="cav2.define" and profile.get("package_version")=="0.4.0-candidate" and profile.get("ontology_type")=="business-system-bridge" and profile.get("current_lifecycle_state")=="candidate-authored" and profile.get("visibility")=="private" and profile.get("authority_effect")=="none"
 add("bridge-profile-identity","PASS" if profile_ok else "BLOCK","parent owns only the business-system bridge")
+host=module.get("host_context",{}); source_map={x.get("id"):x for x in sources_doc.get("sources",[])}
+try: product_profile=json.loads((REPO/host.get("product_ontology_profile_path","")).read_text(encoding="utf-8"))
+except Exception: product_profile={}
+module_ontologies=module.get("owned_ontologies",[])
+module_ok=module.get("module_id")=="define" and module.get("package_root")=="cyberAlchemy-v2/define" and module.get("module_owner")==profile.get("package_owner") and module.get("visibility")=="private" and module.get("candidate_status")=="candidate" and module.get("authority_effect")=="none" and module.get("implementation_effect")=="none" and host.get("host_id")=="cyberalchemy-v2" and host.get("relationship")=="module_of" and host.get("target_path")=="cyberAlchemy-v2" and source_map.get(host.get("product_thesis_source_id"),{}).get("path")==host.get("product_thesis_path") and product_profile.get("ontology_id")==host.get("product_ontology_id")=="cav2.product-thesis" and {(x.get("id"),x.get("ontology_type"),x.get("branch")) for x in module_ontologies}=={("cav2.define.business-domain.v1","business-domain","business"),("cav2.define.system-runtime.v1","system-runtime","system"),("cav2.define","business-system-bridge","bridge")} and all(x.get("required") is True for x in module_ontologies)
+add("define-module-and-cyberalchemy-product-binding","PASS" if module_ok else "BLOCK","Define specializes the bound CyberAlchemy product thesis and ontology without redefining them")
 children=profile.get("child_packages",[]); child_map={x.get("child_id"):x for x in children}; child_shape=set(child_map)=={"business","system"} and all(x.get("branch")==x.get("child_id") and x.get("visibility")=="private" and x.get("authority_effect")=="none" for x in children)
 add("child-package-declarations","PASS" if child_shape else "BLOCK","business and system children have explicit identity, owner, validator, and receipt bindings")
 branches=profile.get("branches",[]); branch_ok={x.get("branch_id") for x in branches}=={"business","system","bridge"} and all(x.get("ownership")==("parent-package" if x.get("branch_id")=="bridge" else "child-package") for x in branches)
 add("branch-ownership-separation","PASS" if branch_ok else "BLOCK","business and system are child-owned; bridge is parent-owned")
-required_defs={"sourceRef","branch","childPackage","profile","source","sourceRegistry","canonicalBinding","definitionProposal","definitionRegistry","documentAdmission","document","documentRegistry","node","nodeRegistry","relation","relationRegistry","view","viewRegistry","residueEntry","migrationSurface","migrationPhase","migration","validationReceipt"}
+required_defs={"sourceRef","branch","childPackage","profile","source","sourceRegistry","canonicalBinding","definitionProposal","definitionRegistry","moduleOntology","moduleManifest","documentAdmission","document","documentRegistry","node","nodeRegistry","relation","relationRegistry","view","viewRegistry","residueEntry","migrationSurface","migrationPhase","migration","validationReceipt"}
 add("schema-definition-surface","PASS" if schema.get("$schema")=="https://json-schema.org/draft/2020-12/schema" and set(schema.get("$defs",{}))>=required_defs else "BLOCK","owned schema includes child-package and bridge bindings")
 source_ids=[x["id"] for x in sources_doc.get("sources",[])]; add("source-id-uniqueness","PASS" if unique(source_ids) else "BLOCK",f"{len(source_ids)} parent evidence sources")
 drift=[]; selector_fail=[]
@@ -67,10 +73,10 @@ add("source-selector-resolution","PASS" if not selector_fail else "BLOCK","all s
 # Retain the existing definition/document/migration contracts without granting promotion.
 bindings=definitions.get("canonical_bindings",[]); proposals=definitions.get("proposals",[]); definition_ok=len(bindings)==10 and len(proposals)==3 and all(x.get("authority_effect")=="none" for x in bindings+proposals)
 add("definition-bindings-and-candidates","PASS" if definition_ok else "BLOCK","10 canonical bindings and 3 unpromoted candidates")
-docs=documents.get("documents",[]); docs_ok=len(docs)==5 and documents.get("canonical_admission",{}).get("status")=="blocked"
+docs=documents.get("documents",[]); docs_ok=len(docs)==6 and documents.get("canonical_admission",{}).get("status")=="blocked"
 for row in docs:
  p=PACKAGE/row.get("path",""); text=p.read_text(encoding="utf-8") if p.is_file() else ""; docs_ok &= text.startswith("# "+row.get("title","")+"\n") and all(h in text for h in row.get("required_headings",[])) and row.get("canonical_status")=="not-admitted" and row.get("authority_effect")=="none"
-add("perennial-document-closure","PASS" if docs_ok else "BLOCK","five non-admitted perennial candidate documents")
+add("perennial-document-closure","PASS" if docs_ok else "BLOCK","six non-admitted perennial candidate documents, including the Define product thesis")
 phase_ids=[x.get("id") for x in migration.get("phases",[])]; migration_ok=phase_ids==["source-substrate-pinned","cav2-candidate-package-authored","cav2-package-validated","cav2-definitions-promoted","cav2-runtime-adopted","invoke-migration-decided","invoke-migration-executed"] and migration.get("public_change",{}).get("status")=="not-performed" and migration.get("authority_effect")=="none"
 add("migration-order-and-public-ceiling","PASS" if migration_ok else "BLOCK","public Invoke remains unchanged and later phases pending")
 # Validate child identities before resolving qualified endpoints.
@@ -94,7 +100,7 @@ add("residue-reference-closure","PASS" if residue_ok else "BLOCK",f"{len(residue
 child_runs={}
 for cid,row in child_map.items():
  ok,code,out,out_hash,current=run_child(row); child_runs[cid]={"exit":code,"overall":out.get("overall"),"output_sha256":out_hash,"current_receipts":current}; add(f"child-validator-and-current-receipt:{cid}","PASS" if ok else "BLOCK",f"exit {code}, {out.get('overall')}, {current} current receipt, deterministic two-run output")
-all_docs=[profile,sources_doc,definitions,documents,nodes_doc,relations_doc,views_doc,residue,migration]
+all_docs=[profile,module,sources_doc,definitions,documents,nodes_doc,relations_doc,views_doc,residue,migration]
 add("authority-effect-none","PASS" if all(authority_none(x) for x in all_docs) else "BLOCK","no parent, child binding, model, residue, or migration record grants authority")
 # Historical parent receipts stay immutable history and need not match the new bridge bytes.
 history=[]; history_ok=True

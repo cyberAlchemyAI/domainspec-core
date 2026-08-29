@@ -42,8 +42,8 @@ This child contains the original business branch plus the committed progressive 
 - Package: [`system-ontology/`](system-ontology/)
 - Profile: [`system-ontology/PROFILE.json`](system-ontology/PROFILE.json)
 - DomainSpec source: [`system-ontology/domainspec-project/project.json`](system-ontology/domainspec-project/project.json)
-- Current receipt: [`system-ontology/receipts/validation-f5f3de0404a927e9.json`](system-ontology/receipts/validation-f5f3de0404a927e9.json)
-- Output SHA-256: `6134adf2a6b43b86357f2a0b880eff57cb2931920446c456f8c5223c368da5b2`
+- Current receipt: [`system-ontology/receipts/validation-5abb710c7e8930e0.json`](system-ontology/receipts/validation-5abb710c7e8930e0.json)
+- Output SHA-256: `68a32c8cd91676bc7b53e13a2b3317049cf33a88e45f51682e27460c9af84903`
 - Discovery Design: [`system-ontology/design/`](system-ontology/design/)
 
 The graph has expanded to 65 nodes and 131 relations with technology-neutral revision,

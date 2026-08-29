@@ -194,6 +194,7 @@
           "type": "object",
           "additionalProperties": false,
           "required": [
+            "module",
             "sources",
             "definitions",
             "documents",
@@ -204,6 +205,9 @@
             "migration"
           ],
           "properties": {
+            "module": {
+              "const": "module.json"
+            },
             "sources": {
               "const": "sources.json"
             },
@@ -506,6 +510,105 @@
         }
       }
     },
+    "moduleOntology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "ontology_type",
+        "branch",
+        "profile_path",
+        "validator_path",
+        "required"
+      ],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "ontology_type": {
+          "enum": ["business-domain", "system-runtime", "business-system-bridge"]
+        },
+        "branch": {"enum": ["business", "system", "bridge"]},
+        "profile_path": {"type": "string", "minLength": 1},
+        "validator_path": {"type": "string", "minLength": 1},
+        "required": {"const": true}
+      }
+    },
+    "moduleManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_ref",
+        "schema_version",
+        "module_id",
+        "title",
+        "package_root",
+        "module_owner",
+        "visibility",
+        "candidate_status",
+        "host_context",
+        "owned_ontologies",
+        "perennial_document_registry",
+        "product_document",
+        "aggregate_validator",
+        "authority_effect",
+        "implementation_effect",
+        "blocked_outputs"
+      ],
+      "properties": {
+        "schema_ref": {
+          "const": "schemas/define-package.schema.json#/$defs/moduleManifest"
+        },
+        "schema_version": {"const": "cav2-define-module/v1"},
+        "module_id": {"const": "define"},
+        "title": {"const": "CyberAlchemy Define Module"},
+        "package_root": {"const": "cyberAlchemy-v2/define"},
+        "module_owner": {"const": "CyberAlchemy v2 product owner"},
+        "visibility": {"const": "private"},
+        "candidate_status": {"const": "candidate"},
+        "host_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "host_id",
+            "relationship",
+            "target_path",
+            "product_thesis_source_id",
+            "product_thesis_path",
+            "product_ontology_id",
+            "product_ontology_profile_path",
+            "specialization_rule",
+            "claim_ceiling"
+          ],
+          "properties": {
+            "host_id": {"const": "cyberalchemy-v2"},
+            "relationship": {"const": "module_of"},
+            "target_path": {"const": "cyberAlchemy-v2"},
+            "product_thesis_source_id": {"const": "SRC-CAV2-PRODUCT-THESIS"},
+            "product_thesis_path": {"const": "cyberAlchemy-v2/product/PRODUCT-THESIS.md"},
+            "product_ontology_id": {"const": "cav2.product-thesis"},
+            "product_ontology_profile_path": {"const": "cyberAlchemy-v2/ontology/product/profile.json"},
+            "specialization_rule": {"type": "string", "minLength": 1},
+            "claim_ceiling": {"type": "string", "minLength": 1}
+          }
+        },
+        "owned_ontologies": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/moduleOntology"}
+        },
+        "perennial_document_registry": {"const": "documents.json"},
+        "product_document": {"const": "docs/PRODUCT.md"},
+        "aggregate_validator": {"const": "scripts/validate.py"},
+        "authority_effect": {"const": "none"},
+        "implementation_effect": {"const": "none"},
+        "blocked_outputs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
     "documentAdmission": {
       "type": "object",
       "additionalProperties": false,
@@ -566,6 +669,7 @@
         },
         "role": {
           "enum": [
+            "product-meaning",
             "capability-meaning",
             "lifecycle-model",
             "authority-boundary",
@@ -661,8 +765,8 @@
         },
         "documents": {
           "type": "array",
-          "minItems": 5,
-          "maxItems": 5,
+          "minItems": 6,
+          "maxItems": 6,
           "items": {
             "$ref": "#/$defs/document"
           }

@@ -69,19 +69,34 @@ conflict.
 
 ## Read the documents
 
-1. [docs/DEFINE.md](docs/DEFINE.md) — the capability, its inputs, work, result,
+1. [docs/PRODUCT.md](docs/PRODUCT.md) — what Define should do, why it matters,
+   and how it fits inside CyberAlchemy.
+2. [docs/DEFINE.md](docs/DEFINE.md) — the capability, its inputs, work, result,
    boundaries, and owners.
-2. [docs/LIFECYCLE.md](docs/LIFECYCLE.md) — the states of the Define package and
+3. [docs/LIFECYCLE.md](docs/LIFECYCLE.md) — the states of the Define package and
    one Define session.
-3. [docs/AUTHORITY.md](docs/AUTHORITY.md) — who may decide what and when a
+4. [docs/AUTHORITY.md](docs/AUTHORITY.md) — who may decide what and when a
    separate decision is required.
-4. [docs/DEFINITION-PACK.md](docs/DEFINITION-PACK.md) — the output fields and
+5. [docs/DEFINITION-PACK.md](docs/DEFINITION-PACK.md) — the output fields and
    checks.
-5. [docs/INTERACTION.md](docs/INTERACTION.md) — how one saved session appears in
+6. [docs/INTERACTION.md](docs/INTERACTION.md) — how one saved session appears in
    the CLI and chat.
 
 [documents.json](documents.json) records each document's ID, owner, intended
 type, expected lifetime, authority state, required headings, and current blocker.
+
+## Module and CyberAlchemy link
+
+[module.json](module.json) records that Define is a private part of
+CyberAlchemy. It links Define to the wider
+[CyberAlchemy Product Thesis](../product/PRODUCT-THESIS.md) and candidate
+[CyberAlchemy product ontology](../ontology/product/README.md). It also lists
+the business, system, and bridge models that belong to Define.
+
+CyberAlchemy owns the wider product promise. Define explains one part of that
+promise: how people and machines make important meaning clear before work moves
+on. The link does not let Define change CyberAlchemy, and it does not make Define
+the whole product or give anyone permission to act.
 
 ## Ontology packages
 
@@ -89,12 +104,12 @@ Define now separates product meaning, proposed runtime structure, and their
 alignment:
 
 - [business-ontology/](business-ontology/) owns the private
-  `business-domain` ontology: 8 product-meaning nodes and 7 business
+  `business-domain` ontology: 9 product-meaning nodes and 8 business
   relations;
 - [system-ontology/](system-ontology/) owns the private `system-runtime`
-  ontology: 36 DomainSpec-typed nodes and 72 source-owned relations; and
+  ontology: 65 DomainSpec-typed nodes and 131 source-owned relations; and
 - this parent package owns only the `business-system-bridge`: one bridge node,
-  eight cross-package relations, and explicit evidence gaps.
+  ten cross-package relations, and explicit evidence gaps.
 
 Each child has its own profile, sources, schema bindings, validator, and
 append-only receipt history. The parent excludes child material bytes from its
@@ -155,7 +170,8 @@ If two files disagree, use this order and record the disagreement:
    CyberAlchemy v2 terms.
 2. [definitions.json](definitions.json) holds the three Define definition
    candidates. It does not allocate canonical CAV2-D* IDs.
-3. [business-ontology/](business-ontology/) owns product meaning,
+3. [module.json](module.json) locates Define inside CyberAlchemy;
+   [business-ontology/](business-ontology/) owns product meaning,
    [system-ontology/](system-ontology/) owns the proposed runtime, and
    [profile.json](profile.json), [nodes.json](nodes.json),
    [relations.json](relations.json), [views.json](views.json), and
@@ -196,7 +212,7 @@ historical parent receipt integrity.
 
 A PASS would say the parent bridge and both declared children are internally
 coherent and still match their recorded sources. The current parent result is
-BLOCK because five pre-existing exact source bindings have drifted. Child PASS
+BLOCK because three pre-existing exact source bindings have drifted. Child PASS
 or FLAG results do not clear that blocker. No result here makes the documents
 canonical, promotes a definition, proves the interactive runtime, removes
 Invoke, publishes, releases, deploys, or establishes measured product outcomes.
