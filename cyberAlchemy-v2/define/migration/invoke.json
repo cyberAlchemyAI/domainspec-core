@@ -1,0 +1,70 @@
+{
+  "schema_ref": "../schemas/define-package.schema.json#/$defs/migration",
+  "schema_version": "cav2-define-invoke-migration/v1",
+  "migration_id": "MIG-CAV2-DEFINE-FROM-INVOKE-V1",
+  "source_surface": {
+    "package": "Arcanum Invoke Define",
+    "owner_route": "Invoke lifecycle owner",
+    "visibility": "public",
+    "current_role": "implemented Define contract and public substrate"
+  },
+  "target_surface": {
+    "package": "cav2.define",
+    "owner_route": "CyberAlchemy v2 product owner",
+    "visibility": "private",
+    "target_role": "first-class Define product capability"
+  },
+  "intent": "Move first-class product ownership of Define from Invoke into CyberAlchemy v2 while retaining version-exact Arcanum behavior and ontology as evidence, reusable substrate, and possibly a compatibility adapter.",
+  "current_phase": "cav2-candidate-package-authored",
+  "phases": [
+    {"id": "source-substrate-pinned", "status": "complete", "owner_route": "CyberAlchemy v2 Define package author", "effect": "Exact source bytes are recorded; no source authority moves."},
+    {"id": "cav2-candidate-package-authored", "status": "complete", "owner_route": "CyberAlchemy v2 product owner", "effect": "A private candidate package exists; no canonical or runtime authority is granted."},
+    {"id": "cav2-package-validated", "status": "pending", "owner_route": "Independent package validator", "effect": "May establish internal closure and current source binding only."},
+    {"id": "cav2-definitions-promoted", "status": "pending", "owner_route": "CyberAlchemy v2 definitions-governance owner", "effect": "May promote exact definition candidates through the canonical store."},
+    {"id": "cav2-runtime-adopted", "status": "pending", "owner_route": "CyberAlchemy v2 Define runtime owner", "effect": "May adopt one validated private runtime envelope."},
+    {"id": "invoke-migration-decided", "status": "pending", "owner_route": "Invoke lifecycle owner plus CyberAlchemy v2 product owner", "effect": "May select deprecation, adapter-only, or removal for exact public targets."},
+    {"id": "invoke-migration-executed", "status": "pending", "owner_route": "Accepted migration executor", "effect": "May change only the exact accepted public targets and compatibility surface."}
+  ],
+  "retained_substrate": [
+    "SRC-ARCANUM-DEFINE-CONTRACT",
+    "SRC-ARCANUM-DEFINE-OVERVIEW",
+    "SRC-ARCANUM-DEFINE-STAGES",
+    "SRC-ARCANUM-INVOKE-ONTOLOGY-PROFILE",
+    "SRC-ARCANUM-INVOKE-BUSINESS",
+    "SRC-ARCANUM-INVOKE-SYSTEM",
+    "SRC-ARCANUM-INVOKE-BRIDGE",
+    "SRC-DOMAINSPEC-DEFINE-CLI-README",
+    "SRC-DOMAINSPEC-DEFINE-CLI-PROFILE",
+    "SRC-DOMAINSPEC-DEFINE-CLI-NODES",
+    "SRC-DOMAINSPEC-DEFINE-CLI-RELATIONS"
+  ],
+  "public_change": {
+    "status": "not-performed",
+    "reason": "The private package does not grant authority to mutate the public Arcanum source, and replacement runtime evidence does not yet exist."
+  },
+  "removal_candidate_paths": [
+    "arcanum/spells/invoke/define.md",
+    "arcanum/spells/invoke/define/README.md",
+    "arcanum/spells/invoke/invoke-cli-stage-catalog.json",
+    "arcanum/ontology/invoke/nodes/business.json#B-DEFINE-BASELINE",
+    "arcanum/ontology/invoke/nodes/system.json#S-DEFINE-PACK",
+    "arcanum/ontology/invoke/relations/bridge.json#E-DEFINE-PACK"
+  ],
+  "required_gates": [
+    "CyberAlchemy v2 product-owner review of the closed package",
+    "Definitions Governance decision for the three definition proposals",
+    "Validated replacement runtime and exact compatibility behavior",
+    "Exact-byte public migration candidate with consumer inventory",
+    "Public/private boundary review proving no private prose enters Arcanum",
+    "Invoke lifecycle owner decision over the exact migration digest",
+    "Independent validation of the staged public postimage"
+  ],
+  "compatibility_options": [
+    "keep Invoke Define temporarily while CyberAlchemy runtime is built",
+    "reduce Invoke Define to a public adapter with no product ownership",
+    "remove the public Define surface after consumers move to an allowed replacement"
+  ],
+  "owner_route": "Invoke lifecycle owner plus CyberAlchemy v2 product owner",
+  "authority_effect": "none",
+  "claim_ceiling": "This record states migration intent and gates. It does not deprecate, remove, publish, or authorize changes to Invoke."
+}

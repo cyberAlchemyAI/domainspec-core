@@ -1,0 +1,438 @@
+{
+  "schema_ref": "schemas/product-ontology.schema.json#/$defs/relationRegistry",
+  "relation_vocabulary": [
+    {
+      "id": "serves",
+      "label": "serves",
+      "plain_language": "The source product is intended to help the target actor.",
+      "forbidden_collapse": "Not evidence of adoption or measured value."
+    },
+    {
+      "id": "applies_to",
+      "label": "applies to",
+      "plain_language": "The source is scoped to the target work domain.",
+      "forbidden_collapse": "Not a claim that every instance of the domain is covered."
+    },
+    {
+      "id": "addresses",
+      "label": "addresses",
+      "plain_language": "The source product or capability is intended to reduce the target problem.",
+      "forbidden_collapse": "Not proof that the problem has been solved."
+    },
+    {
+      "id": "claims_value_through",
+      "label": "claims value through",
+      "plain_language": "The source product explains its intended value using the target thesis.",
+      "forbidden_collapse": "Not a promoted definition or validated market claim."
+    },
+    {
+      "id": "delivered_as",
+      "label": "delivered as",
+      "plain_language": "The source product is intended to take the target delivery form.",
+      "forbidden_collapse": "Not evidence that the delivery form has been released."
+    },
+    {
+      "id": "includes_capability",
+      "label": "includes capability",
+      "plain_language": "The target capability contributes to the source product.",
+      "forbidden_collapse": "Not exclusive ownership of the capability or its lifecycle."
+    },
+    {
+      "id": "participates_in",
+      "label": "participates in",
+      "plain_language": "The source actor takes part in the target capability.",
+      "forbidden_collapse": "Not automatic authority over the capability."
+    },
+    {
+      "id": "collaborates_with",
+      "label": "collaborates with",
+      "plain_language": "The two actors contribute different capabilities to shared work.",
+      "forbidden_collapse": "Not equal authority, merged identity, or autonomous delegation."
+    },
+    {
+      "id": "requires",
+      "label": "requires",
+      "plain_language": "The target rule must hold for the source thesis or capability to remain valid.",
+      "forbidden_collapse": "Not proof that the rule is implemented."
+    },
+    {
+      "id": "produces",
+      "label": "produces",
+      "plain_language": "The source capability creates the target product output.",
+      "forbidden_collapse": "This is a local business relation, not DomainSpec DS-D8 Operation to Event produces."
+    },
+    {
+      "id": "enables",
+      "label": "enables",
+      "plain_language": "The source makes the target outcome possible or easier.",
+      "forbidden_collapse": "Not proof that the outcome occurred."
+    }
+  ],
+  "relations": [
+    {
+      "id": "CA2-REL-001",
+      "type": "serves",
+      "source": "CA2-PRODUCT-CYBERALCHEMY",
+      "target": "CA2-ACTOR-HUMAN-PARTICIPANT",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Proposition"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not establish a validated user segment."
+    },
+    {
+      "id": "CA2-REL-002",
+      "type": "applies_to",
+      "source": "CA2-PRODUCT-CYBERALCHEMY",
+      "target": "CA2-WORK-COMPLEX-KNOWLEDGE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Product Language"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not define a complete market category."
+    },
+    {
+      "id": "CA2-REL-003",
+      "type": "addresses",
+      "source": "CA2-PRODUCT-CYBERALCHEMY",
+      "target": "CA2-PROBLEM-DISCONNECTED-WORK",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Proposition"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not claim measured problem reduction."
+    },
+    {
+      "id": "CA2-REL-004",
+      "type": "claims_value_through",
+      "source": "CA2-PRODUCT-CYBERALCHEMY",
+      "target": "CA2-THESIS-GOVERNED-HMI",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Proposition"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not promote CAV2-CAND-HMI-001."
+    },
+    {
+      "id": "CA2-REL-005",
+      "type": "delivered_as",
+      "source": "CA2-PRODUCT-CYBERALCHEMY",
+      "target": "CA2-FORM-GOVERNED-BASE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-README", "selector": "## Repository Objective"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not claim standalone extraction or release."
+    },
+    {
+      "id": "CA2-REL-006",
+      "type": "includes_capability",
+      "source": "CA2-PRODUCT-CYBERALCHEMY",
+      "target": "CA2-CAP-GOVERNED-WORK-LOOP",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-HMI-CANDIDATE", "selector": "Scientific/formal sketch"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not define one executable runtime workflow."
+    },
+    {
+      "id": "CA2-REL-007",
+      "type": "includes_capability",
+      "source": "CA2-PRODUCT-CYBERALCHEMY",
+      "target": "CA2-CAP-DEFINE-SHARED-MEANING",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-README", "selector": "## Value And Philosophy Proposition"},
+        {"source_id": "SRC-ARCANUM-INVOKE-DEFINE", "selector": "## Why Define comes before Design"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not transfer Invoke ownership into CyberAlchemy v2."
+    },
+    {
+      "id": "CA2-REL-008",
+      "type": "collaborates_with",
+      "source": "CA2-ACTOR-HUMAN-PARTICIPANT",
+      "target": "CA2-ACTOR-MACHINE-COLLABORATOR",
+      "direction": "symmetric",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Proposition"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not make the two actors interchangeable."
+    },
+    {
+      "id": "CA2-REL-009",
+      "type": "participates_in",
+      "source": "CA2-ACTOR-HUMAN-PARTICIPANT",
+      "target": "CA2-CAP-GOVERNED-WORK-LOOP",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Philosophy"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not require human execution of every step."
+    },
+    {
+      "id": "CA2-REL-010",
+      "type": "participates_in",
+      "source": "CA2-ACTOR-MACHINE-COLLABORATOR",
+      "target": "CA2-CAP-GOVERNED-WORK-LOOP",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Proposition"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not give the machine independent owner authority."
+    },
+    {
+      "id": "CA2-REL-011",
+      "type": "participates_in",
+      "source": "CA2-ACTOR-WORK-OWNER",
+      "target": "CA2-CAP-GOVERNED-WORK-LOOP",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Philosophy"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not create one universal owner role."
+    },
+    {
+      "id": "CA2-REL-012",
+      "type": "requires",
+      "source": "CA2-THESIS-GOVERNED-HMI",
+      "target": "CA2-RULE-HUMAN-CHOICE-VISIBLE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Boundaries"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not prove this rule is implemented."
+    },
+    {
+      "id": "CA2-REL-013",
+      "type": "requires",
+      "source": "CA2-THESIS-GOVERNED-HMI",
+      "target": "CA2-RULE-EVIDENCE-OWNER-VISIBLE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-README", "selector": "## Stable Thesis"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not turn evidence into authority."
+    },
+    {
+      "id": "CA2-REL-014",
+      "type": "requires",
+      "source": "CA2-CAP-DEFINE-SHARED-MEANING",
+      "target": "CA2-RULE-DEFINE-COVERAGE",
+      "direction": "directed",
+      "owner_route": "Invoke product or domain owner",
+      "source_refs": [{"source_id": "SRC-ARCANUM-INVOKE-DEFINE", "selector": "## Three possible decisions"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not prove open-ended intent completeness."
+    },
+    {
+      "id": "CA2-REL-015",
+      "type": "produces",
+      "source": "CA2-CAP-DEFINE-SHARED-MEANING",
+      "target": "CA2-OUTPUT-DEFINITION-PACK",
+      "direction": "directed",
+      "owner_route": "Invoke product or domain owner",
+      "source_refs": [{"source_id": "SRC-ARCANUM-INVOKE-DEFINE", "selector": "## What Define produces"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "This is not DS-D8 Operation to Event produces and does not imply registry release."
+    },
+    {
+      "id": "CA2-REL-016",
+      "type": "enables",
+      "source": "CA2-OUTPUT-DEFINITION-PACK",
+      "target": "CA2-OUT-REVIEWABLE-NEXT-STEP",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [
+        {"source_id": "SRC-ARCANUM-INVOKE-DEFINE", "selector": "## Why Define comes before Design"},
+        {"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Philosophy"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not approve Design or choose the next route automatically."
+    },
+    {
+      "id": "CA2-REL-017",
+      "type": "enables",
+      "source": "CA2-CAP-GOVERNED-WORK-LOOP",
+      "target": "CA2-OUT-WORK-CONTINUITY",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Proposition"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not claim continuity has been measured or guaranteed."
+    },
+    {
+      "id": "CA2-REL-018",
+      "type": "enables",
+      "source": "CA2-CAP-GOVERNED-WORK-LOOP",
+      "target": "CA2-OUT-REVIEWABLE-NEXT-STEP",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-README", "selector": "## Value And Philosophy Proposition"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not authorize the suggested next action."
+    },
+    {
+      "id": "CA2-REL-019",
+      "type": "requires",
+      "source": "CA2-THESIS-GOVERNED-HMI",
+      "target": "CA2-RULE-WORK-ERGONOMICS",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## First-Order Product Principles"},
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Product Ergonomics"},
+        {"source_id": "SRC-IDE-ERGONOMICS-PRODUCT-VIEW", "selector": "## CyberAlchemy Proposition"},
+        {"source_id": "SRC-ARCANUM-CYBERALCHEMY-METHOD", "selector": "### Ergonomics Is Governance"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not claim measured usability, runtime implementation, or require every internal mechanism to be directly exposed."
+    },
+    {
+      "id": "CA2-REL-020",
+      "type": "requires",
+      "source": "CA2-CAP-GOVERNED-WORK-LOOP",
+      "target": "CA2-RULE-WORK-ERGONOMICS",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Product Ergonomics"},
+        {"source_id": "SRC-IDE-ERGONOMICS-CONNECTIVE", "selector": "## What It Balances"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not prove correct recommendations, reduced cognitive load, or runtime implementation."
+    },
+    {
+      "id": "CA2-REL-021",
+      "type": "requires",
+      "source": "CA2-THESIS-GOVERNED-HMI",
+      "target": "CA2-RULE-AUTHORITY-BOUNDED-VISIBLE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## First-Order Product Principles"},
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Governance And Authority"},
+        {"source_id": "SRC-CAV2-AUTHORITY-MODEL", "selector": "## Authority Rule"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not grant authority, approve an authority envelope, or prove runtime enforcement."
+    },
+    {
+      "id": "CA2-REL-022",
+      "type": "requires",
+      "source": "CA2-CAP-GOVERNED-WORK-LOOP",
+      "target": "CA2-RULE-AUTHORITY-BOUNDED-VISIBLE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-JOURNEYS", "selector": "## Journey 2: Continue Governed Work"},
+        {"source_id": "SRC-CAV2-PRODUCT-JOURNEYS", "selector": "## Product Rules Across Both Journeys"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not give the work loop standing authority over every next action."
+    },
+    {
+      "id": "CA2-REL-023",
+      "type": "requires",
+      "source": "CA2-THESIS-GOVERNED-HMI",
+      "target": "CA2-RULE-GOVERNANCE-SERVES-WORK",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## First-Order Product Principles"},
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Governance And Authority"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not equate governance with ceremony or prove product behavior."
+    },
+    {
+      "id": "CA2-REL-024",
+      "type": "requires",
+      "source": "CA2-CAP-GOVERNED-WORK-LOOP",
+      "target": "CA2-RULE-GOVERNANCE-SERVES-WORK",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-JOURNEYS", "selector": "## Journey 2: Continue Governed Work"},
+        {"source_id": "SRC-CAV2-PRODUCT-JOURNEYS", "selector": "## Product Rules Across Both Journeys"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not require a human-interrupting approval gate for every harmless operation."
+    },
+    {
+      "id": "CA2-REL-025",
+      "type": "includes_capability",
+      "source": "CA2-PRODUCT-CYBERALCHEMY",
+      "target": "CA2-CAP-GOVERNANCE-ENFORCEMENT",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Governance And Authority"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not claim the enforcement runtime or any surface integration exists."
+    },
+    {
+      "id": "CA2-REL-026",
+      "type": "requires",
+      "source": "CA2-CAP-GOVERNANCE-ENFORCEMENT",
+      "target": "CA2-RULE-ONLY-ACTIVE-RULES-ENFORCE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-AUTHORITY-MODEL", "selector": "## Authority Rule"},
+        {"source_id": "SRC-CAV2-AUTHORITY-MODEL", "selector": "## Invariant, Axiom, Constitution"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not make a candidate or merely referenced rule active."
+    },
+    {
+      "id": "CA2-REL-027",
+      "type": "requires",
+      "source": "CA2-CAP-GOVERNANCE-ENFORCEMENT",
+      "target": "CA2-RULE-AUTHORITY-BOUNDED-VISIBLE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Governance And Authority"},
+        {"source_id": "SRC-CAV2-AUTHORITY-MODEL", "selector": "## Authority Rule"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not create an authority envelope or make ownership equivalent to authority."
+    },
+    {
+      "id": "CA2-REL-028",
+      "type": "requires",
+      "source": "CA2-CAP-GOVERNANCE-ENFORCEMENT",
+      "target": "CA2-RULE-GOVERNANCE-SERVES-WORK",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-OUTCOME-MODEL", "selector": "## First-Order Product Principles: Bounded Authority And Useful Governance"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not justify blocking harmless or reversible work by default."
+    },
+    {
+      "id": "CA2-REL-029",
+      "type": "enables",
+      "source": "CA2-CAP-GOVERNANCE-ENFORCEMENT",
+      "target": "CA2-OUT-CONTROLLED-CONSEQUENCES",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2",
+      "source_refs": [{"source_id": "SRC-CAV2-OUTCOME-MODEL", "selector": "## First-Order Product Principles: Bounded Authority And Useful Governance"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Does not prove that a consequence was correctly allowed or prevented."
+    },
+    {
+      "id": "CA2-REL-030",
+      "type": "requires",
+      "source": "CA2-CAP-DEFINE-SHARED-MEANING",
+      "target": "CA2-RULE-DEFINE-CONTEXT-SUFFICIENCY",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2 product owner",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Progressive Context Resolution And Sufficiency"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "A required product rule is not proof of runtime implementation, evaluator correctness, complete intent, or authority."
+    }
+  ]
+}
