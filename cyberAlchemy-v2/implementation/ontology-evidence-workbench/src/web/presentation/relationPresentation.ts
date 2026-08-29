@@ -16,12 +16,14 @@ export function projectRelations(dataset: VerifiedDataset): readonly RelationRec
     const sourceName = dataset.graph.nodes.find((node) => node.id === edge.source)?.name ?? plain(edge.source);
     const targetName = dataset.graph.nodes.find((node) => node.id === edge.target)?.name ?? plain(edge.target);
     const family = relationFamily(predicate);
+    const evidence = match?.[1];
     return Object.freeze({
       id, sourceId: edge.source, targetId: edge.target, sourcePredicate: predicate, family,
       label: predicateLabel(predicate), sentence: relationSentence(sourceName, predicate, targetName),
       color: relationColor(predicate), dash: family === "dependency" ? "dashed" : family === "authority" ? "dotted" : "solid",
       direction: edge.direction === "reverse" || edge.direction === "both" ? edge.direction : "forward",
-      mappingLoss: match?.[1].mapping_loss ?? "unknown", evidenceRefs: match?.[1].evidence_refs ?? [], presentation: edge, evidence: match?.[1],
+      mappingLoss: evidence?.mapping_loss ?? "unknown", evidenceRefs: evidence?.evidence_refs ?? [], presentation: edge,
+      ...(evidence ? { evidence } : {}),
     } satisfies RelationRecord);
   });
 }

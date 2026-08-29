@@ -3,9 +3,9 @@
   "version": "0.0.0-prototype",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.6.2",
+  "packageManager": "pnpm@10.34.5",
   "engines": {
-    "node": ">=22.12"
+    "node": "26.8.1"
   },
   "scripts": {
     "dev": "vite --host 127.0.0.1",
@@ -17,6 +17,7 @@
     "test:web": "vitest run",
     "test:legacy": "node --experimental-strip-types --experimental-loader ./scripts/legacy-typescript-loader.mjs --test --test-skip-pattern \"live gateway requires explicit evidence tokens\" \"test/*.test.mjs\"",
     "test:standalone-browser": "node scripts/validate-standalone-oew.mjs && node --test test/standalone-browser-acceptance.test.mjs",
+    "test:standalone-browser:container": "OEW_ACCEPTANCE_OUTPUT_ROOT=node_modules/.cache/oew-standalone node scripts/validate-standalone-oew.mjs && OEW_ACCEPTANCE_OUTPUT_ROOT=node_modules/.cache/oew-standalone node --test test/standalone-browser-acceptance.test.mjs",
     "audit:active-frontend": "node scripts/audit-active-frontend.mjs",
     "historical:test:source-admission": "node --test test/source-admission.test.mjs",
     "historical:test:native-viewer": "node --test test/native-viewer-boundary.test.mjs test/native-viewer-poker.test.mjs && node scripts/serve-native-viewer.mjs verify --receipt generated/runs/SWU-OEW-006/native-viewer-receipt.json",

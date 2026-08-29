@@ -1,8 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const receipt = JSON.parse(await readFile(new URL("../generated/runs/WP-SOEW-001/full-body-war-browser-acceptance.json", import.meta.url), "utf8"));
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const outputRoot = process.env.OEW_ACCEPTANCE_OUTPUT_ROOT
+  ? resolve(root, process.env.OEW_ACCEPTANCE_OUTPUT_ROOT)
+  : join(root, "generated/runs/WP-SOEW-001");
+const receipt = JSON.parse(await readFile(join(outputRoot, "full-body-war-browser-acceptance.json"), "utf8"));
 test("standalone Body War browser receipt is terminal and bounded", () => {
   assert.equal(receipt.schema_version, "oew.standalone-browser-acceptance.v1");
   assert.equal(receipt.work_pack_id, "WP-SOEW-001");

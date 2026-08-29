@@ -18,7 +18,7 @@ function OewRelationEdge(props: EdgeProps<OewEdge>) {
   const [path, labelX, labelY] = getBezierPath(props);
   const relation = props.data?.relation;
   if (!relation) return null;
-  return <g onClick={() => props.data && (props as unknown as { onSelect?: () => void }).onSelect?.()} role="button" aria-label={relation.sentence}><RelationEdgeVisual path={path} labelX={labelX} labelY={labelY} color={relation.color} dash={relation.dash} label={relation.label} selected={props.selected} /></g>;
+  return <g onClick={() => props.data && (props as unknown as { onSelect?: () => void }).onSelect?.()} role="button" aria-label={relation.sentence}><RelationEdgeVisual path={path} labelX={labelX} labelY={labelY} color={relation.color} dash={relation.dash} label={relation.label} selected={props.selected ?? false} /></g>;
 }
 
 const nodeTypes = { ontology: OewNodeCard };

@@ -47,7 +47,7 @@ async function fetchJsonAsset<T>(asset: DatasetAssetDeclaration, base: URL, fetc
   }
   let response: Response;
   try {
-    response = await fetcher(url, { signal, cache: "no-store" });
+    response = await fetcher(url, { cache: "no-store", ...(signal ? { signal } : {}) });
   } catch (error) {
     if (signal?.aborted) throw new DatasetAdmissionError("ABORTED", "Dataset admission was aborted.", error);
     throw new DatasetAdmissionError("FETCH_FAILED", `Could not fetch ${url.pathname}.`, error);
@@ -89,7 +89,7 @@ export async function loadDataset(manifestUrl: string, options: LoadOptions = {}
   if (base.origin !== (options.origin ?? window.location.origin)) throw new DatasetAdmissionError("CROSS_ORIGIN", "Manifest must be same-origin.");
   let rawManifest: unknown;
   try {
-    const response = await fetcher(base, { signal: options.signal, cache: "no-store" });
+    const response = await fetcher(base, { cache: "no-store", ...(options.signal ? { signal: options.signal } : {}) });
     if (!response.ok) throw new DatasetAdmissionError("FETCH_FAILED", `Manifest returned HTTP ${response.status}.`);
     rawManifest = await response.json();
   } catch (error) {

@@ -8,7 +8,9 @@ import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
-const outputRoot = join(root, "generated/runs/WP-SOEW-001");
+const outputRoot = process.env.OEW_ACCEPTANCE_OUTPUT_ROOT
+  ? resolve(root, process.env.OEW_ACCEPTANCE_OUTPUT_ROOT)
+  : join(root, "generated/runs/WP-SOEW-001");
 const receiptPath = join(outputRoot, "full-body-war-browser-acceptance.json");
 const playwrightRoot = process.env.OEW_PLAYWRIGHT_ROOT ?? "/home/vrondelli/.nvm/versions/node/v22.12.0/lib/node_modules/playwright";
 const require = createRequire(import.meta.url);
