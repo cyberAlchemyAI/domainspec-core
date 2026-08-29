@@ -22,6 +22,12 @@ view. Neither the JSON nor this view is canonical definition authority.
 
 ## Product Thesis
 
+`CAV2-D63` owns the canonical meaning of Product Thesis.
+`CA2-PRODUCT-THESIS-CYBERALCHEMY` is the stable ID of the current committed
+CyberAlchemy thesis proposition. `CA2-THESIS-GOVERNED-HMI` is the ontology view
+of that proposition. The document and ontology view remain candidate artifacts;
+they do not prove that the product has been realized or that its outcomes exist.
+
 > CyberAlchemy helps people and machines build and evolve complex systems
 > together through an ergonomic, governed work loop. It keeps intent, meaning,
 > evidence, decisions, action, feedback, and ownership connected. It shapes the
@@ -172,6 +178,26 @@ adapter or a complete reasoning engine.
 
 Define does not make a definition canonical, approve Design, authorize
 implementation, release a registry, or transfer lifecycle ownership.
+
+## Project, Goal, Research, And Experiment
+
+The product ontology now carries one concrete evidence chain:
+
+```text
+CyberAlchemy product thesis
+          ^
+          | tests_realization_of
+PythonConstraint Project
+          |
+          +-- Goal: desired result and success evidence
+          +-- Research: benchmark-selection evidence and open questions
+          +-- Experiment: prepared protocol, with no run evidence yet
+```
+
+Research informs the Goal. The Experiment is designed to test it. Neither
+relationship achieves the Goal or proves the thesis. The source records remain
+owned by `goals/`, `research/`, and `experiments/`; this package is their
+candidate product-meaning projection.
 
 ## Package Files
 

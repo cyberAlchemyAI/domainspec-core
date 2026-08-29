@@ -51,6 +51,9 @@ letting ontology promote itself.
 | Need | Open |
 | --- | --- |
 | Product thesis, journeys, and outcomes | [product/README.md](product/README.md) |
+| Goals and project-linked success evidence | [goals/README.md](goals/README.md) |
+| Project-linked research records | [research/README.md](research/README.md) |
+| Project-linked experiment records | [experiments/README.md](experiments/README.md) |
 | Value and philosophy proposition | [VALUE-AND-PHILOSOPHY-PROPOSITION.md](VALUE-AND-PHILOSOPHY-PROPOSITION.md) |
 | Project authority model | [authority/AUTHORITY-MODEL.md](authority/AUTHORITY-MODEL.md) |
 | Authority import ledgers | [authority/imports/README.md](authority/imports/README.md) |
@@ -104,9 +107,11 @@ CyberAlchemy v2 should preserve four separations:
 | Area | Role |
 | --- | --- |
 | [product/](product/README.md) | Private candidate product thesis, journeys, and outcome model; not canonical definitions or product proof. |
+| [goals/](goals/README.md) | Canonical Goal document contract, Project identities, goal ontology views, and achievement evidence links. |
 | [authority/](authority/README.md) | Definitions, constitutions, boundaries, decisions, and promotion policy. |
 | [disciplines/](disciplines/DISCIPLINES.md) | Evidence-backed recurring practices for this repository surface. |
 | [research/](research/README.md) | Source-ledgered towers, investigations, and candidate synthesis. |
+| [experiments/](experiments/README.md) | Canonical experiment records, protocol and run-evidence links, and experiment ontology views. |
 | [architecture/](architecture/README.md) | Promoted or candidate layer maps, structure decisions, and system views. |
 | [ux-ui/](ux-ui/README.md) | Candidate UX/UI knowledge governance, experience evidence lifecycle, and interface evidence boundaries. |
 | [capabilities/](capabilities/README.md) | Capability contracts, packages, and generated-surface boundaries after promotion. |

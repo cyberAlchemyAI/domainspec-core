@@ -65,6 +65,11 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D56 | schema | active | [Schema](DEFINITIONS.md#cav2-d56-schema) | The form the evidence must fit: what kinds may occur, what may go inside them, and how they may be wired together — and nothing about whether any of it is true, owned, or approved. |
 | CAV2-D57 | exact publication authorization | active | [Exact Publication Authorization](DEFINITIONS.md#cav2-d57-exact-publication-authorization) | Owners approve the ingredients and limits first; a publisher later approves the exact finished bytes and destination. |
 | CAV2-D58 | constitution | active | [Constitution](DEFINITIONS.md#cav2-d58-constitution) | An owner-scoped rulebook that governs matching subjects only after its exact version and scope are adopted. |
+| CAV2-D59 | goal | active | [Goal](DEFINITIONS.md#cav2-d59-goal) | The future result one project is trying to reach, plus the evidence needed to say it was reached. |
+| CAV2-D60 | project | active | [Project](DEFINITIONS.md#cav2-d60-project) | The stable identity that keeps related goals, owners, evidence, and work connected. |
+| CAV2-D61 | research | active | [Research](DEFINITIONS.md#cav2-d61-research) | A bounded investigation that preserves its question, method, sources, evidence, and uncertainty without pretending the aggregate is the conclusion. |
+| CAV2-D62 | experiment | active | [Experiment](DEFINITIONS.md#cav2-d62-experiment) | A bounded, recorded test that produces observations under declared conditions and claim limits. |
+| CAV2-D63 | product thesis | active | [Product Thesis](DEFINITIONS.md#cav2-d63-product-thesis) | The durable product proposition that says why the product should exist, how it should create value, what it must protect, and what evidence could require revision. |
 
 ## Alias Lookup
 
@@ -304,6 +309,26 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | work intent | CAV2-D39 |
 | governed intent | CAV2-D39 |
 | source intent | CAV2-D39 |
+| goal | CAV2-D59 |
+| governed goal | CAV2-D59 |
+| project goal | CAV2-D59 |
+| outcome goal | CAV2-D59 |
+| project | CAV2-D60 |
+| governed project | CAV2-D60 |
+| project identity | CAV2-D60 |
+| work project | CAV2-D60 |
+| research | CAV2-D61 |
+| governed research | CAV2-D61 |
+| project research | CAV2-D61 |
+| research aggregate | CAV2-D61 |
+| experiment | CAV2-D62 |
+| governed experiment | CAV2-D62 |
+| project experiment | CAV2-D62 |
+| controlled experiment | CAV2-D62 |
+| product thesis | CAV2-D63 |
+| governed product thesis | CAV2-D63 |
+| product commitment thesis | CAV2-D63 |
+| product meaning thesis | CAV2-D63 |
 
 ## Demoted Term Notes
 

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberalchemy.local/private/schemas/goal-package/v1",
+  "title": "CyberAlchemy v2 Goal package",
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "required": ["schema_ref", "schema_version", "package_id", "package_root", "package_owner", "definition_owner", "ontology_owner", "visibility", "status", "authority_effect", "canonical_goal_kind", "materialization", "source_registry", "ontology_view", "schema_path", "validator_path", "blocked_effects"],
+      "additionalProperties": false
+    },
+    "sourceRegistry": {
+      "type": "object",
+      "required": ["schema_ref", "schema_version", "sources"],
+      "additionalProperties": false
+    },
+    "project": {
+      "type": "object",
+      "required": ["schema_ref", "schema_version", "project_id", "name", "purpose", "scope", "exclusions", "owner_routes", "goal_refs", "research_refs", "experiment_refs", "evidence_index", "thesis_refs", "lifecycle_state", "challenge_route", "authority_effect"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_ref": {"type": "string"},
+        "schema_version": {"const": "cav2-project/v1"},
+        "project_id": {"type": "string", "pattern": "^CA2-PROJECT-[A-Z0-9-]+$"},
+        "name": {"type": "string", "minLength": 1},
+        "purpose": {"type": "string", "minLength": 1},
+        "scope": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "exclusions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "owner_routes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "goal_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "research_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "experiment_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "evidence_index": {"type": "array"},
+        "thesis_refs": {"type": "array", "minItems": 1},
+        "lifecycle_state": {"enum": ["proposed", "active", "completed", "cancelled", "superseded"]},
+        "challenge_route": {"type": "string", "minLength": 1},
+        "authority_effect": {"const": "none"}
+      }
+    },
+    "goal": {
+      "type": "object",
+      "required": ["schema_ref", "schema_version", "canonical_kind", "goal_id", "title", "project_ref", "outcome", "rationale", "thesis_refs", "scope", "exclusions", "owner_route", "success_conditions", "evidence_requirements", "evidence_refs", "lifecycle_state", "achievement_state", "current_condition", "target_horizon", "revision_history", "challenge_route", "blocked_effects", "authority_effect"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_ref": {"type": "string"},
+        "schema_version": {"const": "cav2-goal/v1"},
+        "canonical_kind": {"const": "goal"},
+        "goal_id": {"type": "string", "pattern": "^CA2-GOAL-[A-Z0-9-]+$"},
+        "title": {"type": "string", "minLength": 1},
+        "project_ref": {"type": "string"},
+        "outcome": {"type": "string", "minLength": 1},
+        "rationale": {"type": "string", "minLength": 1},
+        "thesis_refs": {"type": "array", "minItems": 1},
+        "scope": {"type": "array", "minItems": 1},
+        "exclusions": {"type": "array", "minItems": 1},
+        "owner_route": {"type": "string", "minLength": 1},
+        "success_conditions": {"type": "array", "minItems": 1},
+        "evidence_requirements": {"type": "array", "minItems": 1},
+        "evidence_refs": {"type": "array"},
+        "lifecycle_state": {"enum": ["draft", "active", "achieved", "abandoned", "superseded"]},
+        "achievement_state": {"enum": ["not-proven", "proved", "rejected"]},
+        "current_condition": {"type": "string", "minLength": 1},
+        "target_horizon": {"type": "string", "minLength": 1},
+        "revision_history": {"type": "array", "minItems": 1},
+        "challenge_route": {"type": "string", "minLength": 1},
+        "blocked_effects": {"type": "array", "minItems": 1},
+        "authority_effect": {"const": "none"}
+      }
+    },
+    "ontologyView": {
+      "type": "object",
+      "required": ["schema_ref", "schema_version", "view_id", "title", "view_kind", "visibility", "authority_effect", "nodes", "relation_vocabulary", "relations", "claim_ceiling"],
+      "additionalProperties": false
+    }
+  }
+}

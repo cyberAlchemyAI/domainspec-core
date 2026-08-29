@@ -66,6 +66,30 @@
       "label": "enables",
       "plain_language": "The source makes the target outcome possible or easier.",
       "forbidden_collapse": "Not proof that the outcome occurred."
+    },
+    {
+      "id": "belongs_to",
+      "label": "belongs to",
+      "plain_language": "The source work object is coordinated inside the target Project.",
+      "forbidden_collapse": "Not folder containment or authority inheritance."
+    },
+    {
+      "id": "informs",
+      "label": "informs",
+      "plain_language": "The source Research supplies bounded evidence and uncertainty to the target Goal.",
+      "forbidden_collapse": "Not a conclusion, decision, or Goal achievement."
+    },
+    {
+      "id": "tests",
+      "label": "tests",
+      "plain_language": "The source Experiment is designed to produce evidence relevant to the target Goal.",
+      "forbidden_collapse": "Not evidence that the Experiment ran or the Goal was achieved."
+    },
+    {
+      "id": "tests_realization_of",
+      "label": "tests realization of",
+      "plain_language": "The source Project tests one bounded realization of the target product thesis.",
+      "forbidden_collapse": "One Project cannot prove or redefine the whole thesis."
     }
   ],
   "relations": [
@@ -433,6 +457,72 @@
       ],
       "authority_effect": "none",
       "forbidden_collapse": "A required product rule is not proof of runtime implementation, evaluator correctness, complete intent, or authority."
+    },
+    {
+      "id": "CA2-REL-031",
+      "type": "tests_realization_of",
+      "source": "CA2-PROJECT-PYTHONCONSTRAINT-WHOLE",
+      "target": "CA2-THESIS-GOVERNED-HMI",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2 product owner",
+      "source_refs": [{"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Projects, Goals, Research, And Experiments"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "The Project tests one realization and cannot prove or redefine the whole thesis."
+    },
+    {
+      "id": "CA2-REL-032",
+      "type": "belongs_to",
+      "source": "CA2-GOAL-PYTHONCONSTRAINT-WHOLE",
+      "target": "CA2-PROJECT-PYTHONCONSTRAINT-WHOLE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2 product owner",
+      "source_refs": [{"source_id": "SRC-PYCONSTRAINT-PROJECT", "selector": "CA2-GOAL-PYTHONCONSTRAINT-WHOLE"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Project membership does not authorize the Goal or its work."
+    },
+    {
+      "id": "CA2-REL-033",
+      "type": "belongs_to",
+      "source": "CA2-RESEARCH-PYTHONCONSTRAINT-ADMISSION",
+      "target": "CA2-PROJECT-PYTHONCONSTRAINT-WHOLE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2 research route",
+      "source_refs": [{"source_id": "SRC-PYCONSTRAINT-RESEARCH", "selector": "CA2-PROJECT-PYTHONCONSTRAINT-WHOLE"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Project membership does not turn Research into Project authority."
+    },
+    {
+      "id": "CA2-REL-034",
+      "type": "informs",
+      "source": "CA2-RESEARCH-PYTHONCONSTRAINT-ADMISSION",
+      "target": "CA2-GOAL-PYTHONCONSTRAINT-WHOLE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2 research route",
+      "source_refs": [{"source_id": "SRC-PYCONSTRAINT-RESEARCH", "selector": "CA2-GOAL-PYTHONCONSTRAINT-WHOLE"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Research evidence does not achieve the Goal."
+    },
+    {
+      "id": "CA2-REL-035",
+      "type": "belongs_to",
+      "source": "CA2-EXPERIMENT-PYTHONCONSTRAINT-WHOLE",
+      "target": "CA2-PROJECT-PYTHONCONSTRAINT-WHOLE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2 experiment owner",
+      "source_refs": [{"source_id": "SRC-PYCONSTRAINT-EXPERIMENT", "selector": "CA2-PROJECT-PYTHONCONSTRAINT-WHOLE"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "Project membership does not authorize the Experiment run."
+    },
+    {
+      "id": "CA2-REL-036",
+      "type": "tests",
+      "source": "CA2-EXPERIMENT-PYTHONCONSTRAINT-WHOLE",
+      "target": "CA2-GOAL-PYTHONCONSTRAINT-WHOLE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2 experiment owner",
+      "source_refs": [{"source_id": "SRC-PYCONSTRAINT-EXPERIMENT", "selector": "CA2-GOAL-PYTHONCONSTRAINT-WHOLE"}],
+      "authority_effect": "none",
+      "forbidden_collapse": "A designed test is not a run or Goal achievement."
     }
   ]
 }

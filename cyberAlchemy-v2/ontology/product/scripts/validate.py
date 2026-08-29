@@ -75,6 +75,10 @@ ALLOWED_ROLES = {
     "product_output",
     "outcome",
     "business_rule",
+    "project",
+    "goal",
+    "research",
+    "experiment",
 }
 
 

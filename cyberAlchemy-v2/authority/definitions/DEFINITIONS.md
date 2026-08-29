@@ -4375,6 +4375,393 @@ policy, activate a validation binding, or authorize an effect.
 - [../constitutions/](../constitutions/)
 - [../../../.agents/skills/constitution-governance/SKILL.md](../../../.agents/skills/constitution-governance/SKILL.md)
 
+## CAV2-D59: Goal
+
+Status: active
+Term: goal
+Aliases: governed goal, project goal, outcome goal
+Promoted: 2026-08-29 by owner-requested product-foundation modeling; definition authority only
+
+### Normative Definition
+
+A goal is a durable, attributable statement of a desired future outcome for one
+project. It says what should become true, why that outcome matters, what is in
+and out of scope, who owns the goal, how success will be judged, which evidence
+is required, how it connects to a product thesis or other purpose, and how it
+can be revised, challenged, achieved, abandoned, or superseded.
+
+A goal may stay active without a deadline. It becomes achieved only when its
+declared success conditions have adequate evidence and the goal owner records
+the lifecycle change. Activity, progress, a passing sub-check, or an agent claim
+does not achieve it automatically.
+
+### Formal Interpretation
+
+```text
+Goal =
+  (id, project_ref, outcome, rationale, thesis_refs, scope, exclusions,
+   owner_route, success_conditions, evidence_requirements, evidence_refs,
+   lifecycle_state, target_horizon?, revision_history, challenge_route)
+
+lifecycle_state in { draft, active, achieved, abandoned, superseded }
+
+achieved(Goal) only if
+  all_required_success_conditions_have_adequate_evidence
+  and owner_records_achievement
+```
+
+### Schema
+
+Schema handle: `CAV2-D59-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
+The machine-checkable candidate instance contract is owned by
+[../../goals/schemas/goal-package.schema.json](../../goals/schemas/goal-package.schema.json).
+
+### Operational Interpretation
+
+Use a goal when a project needs to preserve an eventual result across sessions,
+plans, tasks, experiments, and implementation changes. Let plans choose a path
+and tasks perform bounded work, but keep checking both against the goal's result
+and success evidence.
+
+### Plain-Language Intuition
+
+A goal says which future result the project is trying to reach and what evidence
+will let us honestly say it was reached.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, a goal connects product meaning to project work. For
+example, the PythonConstraint goal connects the CyberAlchemy product thesis to a
+bounded CyberAlchemy-v2 and DomainSpec-v2 experiment. Its plans and runs may
+change, but the desired result, owner, evidence requirements, and current
+achievement claim remain visible.
+
+### Boundary
+
+A goal is not intent (`CAV2-D39`), a project (`CAV2-D60`), a plan, a task, a
+work pack, evidence, a deadline, or authority to execute. Intent can orient work
+before its final result is clear. A goal states the result clearly enough to be
+tested. A plan chooses how to pursue it. Evidence supports an achievement
+decision. The goal itself grants no implementation, publication, deployment, or
+external-effect authority.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [../../goals/README.md](../../goals/README.md)
+- [../../goals/GOAL-DOCUMENT-TYPE.md](../../goals/GOAL-DOCUMENT-TYPE.md)
+- [../../product/PRODUCT-THESIS.md](../../product/PRODUCT-THESIS.md)
+
+## CAV2-D60: Project
+
+Status: active
+Term: project
+Aliases: governed project, project identity, work project
+Promoted: 2026-08-29 by owner-requested product-foundation modeling; definition authority only
+
+### Normative Definition
+
+A project is a durable, identity-bearing coordination boundary that groups
+related goals, owners, evidence, decisions, artifacts, work, and lifecycle state
+toward a declared purpose.
+
+A project must name its purpose, scope, exclusions, owners, active goals,
+evidence index, lifecycle state, purpose or product-thesis connections, and
+challenge route. Its identity remains stable when a plan, task, folder, tool, or
+implementation changes.
+
+### Formal Interpretation
+
+```text
+Project =
+  (id, name, purpose, scope, exclusions, owner_routes, goal_refs,
+   research_refs, experiment_refs, evidence_index, thesis_refs,
+   lifecycle_state, challenge_route)
+
+lifecycle_state in { proposed, active, completed, cancelled, superseded }
+```
+
+### Schema
+
+Schema handle: `CAV2-D60-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
+The machine-checkable candidate project record is owned by
+[../../goals/schemas/goal-package.schema.json](../../goals/schemas/goal-package.schema.json).
+
+### Operational Interpretation
+
+Use a project to keep several sessions and kinds of work connected to the same
+purpose. A project can have several goals, and each goal in the current contract
+belongs to exactly one project. Project evidence may come from many spaces, but
+it stays indexed under the project identity.
+
+### Plain-Language Intuition
+
+A project is the named piece of work that keeps its goals, owners, evidence, and
+history together even when the files and plans move.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, the PythonConstraint experiment is a project shared by the
+CyberAlchemy-v2 product lane and the DomainSpec-v2 implementation/research lane.
+It may use `product/`, `goals/`, `projects/domainspec-v2/`, validation, and
+temporary runtime spaces without becoming identical to any one of those places.
+
+### Boundary
+
+A project is not a project space (`CAV2-D15`), goal (`CAV2-D59`), product,
+repository, plan, work pack, session, team, or authority envelope. A project
+space is a place where work lives; a project is the identity and coordination
+boundary of the work. Creating a project does not authorize its goals or tasks.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [../../goals/README.md](../../goals/README.md)
+- [../../goals/GOAL-DOCUMENT-TYPE.md](../../goals/GOAL-DOCUMENT-TYPE.md)
+
+## CAV2-D61: Research
+
+Status: active
+Term: research
+Aliases: governed research, project research, research aggregate
+Promoted: 2026-08-29 by owner-requested product-foundation modeling; definition authority only
+
+### Normative Definition
+
+Research is a bounded, attributable investigation that gathers and organizes
+source material and observations to answer one declared question for a Project
+and one or more Goals.
+
+A Research artifact must preserve its question, scope, sources, method,
+evidence aggregate, counterevidence, limitations, owner route, Goal and Project
+links, and references to any separate findings. Research records what was
+investigated and gathered. It does not silently turn its evidence aggregate
+into a conclusion, decision, definition, specification, or product claim.
+
+### Formal Interpretation
+
+```text
+Research =
+  (id, project_ref, goal_refs, question, scope, sources, method,
+   evidence_aggregate, counterevidence, findings_refs, limitations,
+   created, last_updated, owner_route, challenge_route)
+
+Research.outcome is absent
+Findings.question = Research.question
+Findings derives_from Research
+```
+
+### Schema
+
+Schema handle: `CAV2-D61-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
+The machine-checkable private record and Markdown carrier checks live under
+[../../research/](../../research/README.md).
+
+### Operational Interpretation
+
+Use Research when a Project must inspect literature, repositories, benchmarks,
+past evidence, observations, or competing explanations before deciding what to
+believe or do. Keep the aggregate separate from findings so a later reader can
+see the source material without inheriting the synthesis as fact.
+
+### Plain-Language Intuition
+
+Research is the evidence-gathering investigation behind an answer. It shows the
+question, what was examined, how it was examined, and what remains uncertain.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, the PythonConstraint Research record explains why that
+benchmark was selected, which exact sources support the selection, and which
+questions about DomainSpec-v2 fit remain open. It informs the Project and Goal
+without claiming that the experiment has run.
+
+### Boundary
+
+Research is not a Goal (`CAV2-D59`), Project (`CAV2-D60`), experiment
+(`CAV2-D62`), findings, owner decision, canonical definition, proof, or
+execution authority. It is an ephemeral canonical Evidence artifact: it records
+an investigation at a time and cannot become authority by promotion.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [../../research/README.md](../../research/README.md)
+- [../../research/RESEARCH-DOCUMENT-TYPE.md](../../research/RESEARCH-DOCUMENT-TYPE.md)
+- [../../goals/README.md](../../goals/README.md)
+
+## CAV2-D62: Experiment
+
+Status: active
+Term: experiment
+Aliases: governed experiment, project experiment, controlled experiment
+Promoted: 2026-08-29 by owner-requested product-foundation modeling; definition authority only
+
+### Normative Definition
+
+An experiment is a bounded, attributable empirical test that produces
+observations by applying a declared protocol to a defined subject under named
+conditions in order to test a question, hypothesis, Goal condition, or Research
+question.
+
+An Experiment artifact must preserve its Project and Goal links, Research
+links when present, question or hypothesis, subject, protocol, conditions,
+variables or interventions, measures, environment, prerequisites, stop rules,
+run references, evidence references, findings references, limitations, owner
+route, and challenge route. Missing run evidence means the experiment was not
+shown to have run.
+
+### Formal Interpretation
+
+```text
+Experiment =
+  (id, project_ref, goal_refs, research_refs, question_or_hypothesis,
+   subject, protocol_ref, conditions, variables_or_interventions,
+   measures, environment, prerequisites, stop_rules, run_refs,
+   evidence_refs, findings_refs, limitations, created, last_updated,
+   owner_route, challenge_route)
+
+ran(Experiment) only if valid_run_refs_exist
+concluded(Experiment) only through separate Findings or owner decision
+```
+
+### Schema
+
+Schema handle: `CAV2-D62-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
+The machine-checkable private record and Markdown carrier checks live under
+[../../experiments/](../../experiments/README.md).
+
+### Operational Interpretation
+
+Use an Experiment when a Project needs observations created by a repeatable
+test rather than only existing sources or argument. Freeze the protocol inputs
+and claim limits before treating run output as comparable evidence. Keep design,
+run evidence, analysis, and owner decisions distinct.
+
+### Plain-Language Intuition
+
+An experiment is a fair, recorded test. It says what was tested, under which
+conditions, what was measured, what happened, and what the test cannot prove.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, the PythonConstraint Experiment record narrows the prepared
+Define downstream-utility protocol to the owner-selected benchmark. Until exact
+run receipts exist, it remains a documented experiment design and cannot
+support a claim that Define or DomainSpec improves engineering outcomes.
+
+### Boundary
+
+An experiment is not Research (`CAV2-D61`), a Goal (`CAV2-D59`), a plan, a
+runtime, a test suite, one command, findings, causal proof, or authority to run.
+It is an ephemeral canonical Evidence artifact. A successful validator can show
+that its record is well formed; it cannot show that the experiment ran or that
+its hypothesis is true.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [../../experiments/README.md](../../experiments/README.md)
+- [../../experiments/EXPERIMENT-DOCUMENT-TYPE.md](../../experiments/EXPERIMENT-DOCUMENT-TYPE.md)
+- [../../goals/README.md](../../goals/README.md)
+
+## CAV2-D63: Product Thesis
+
+Status: active
+Term: product thesis
+Aliases: governed product thesis, product commitment thesis, product meaning thesis
+Promoted: 2026-08-29 by owner-requested product-foundation correction; definition authority only
+
+### Normative Definition
+
+A product thesis is an owner-held, durable proposition that explains which
+product should exist, for whom, which problem it addresses, how it intends to
+create value, which first-order principles constrain it, which outcomes it
+seeks, which claims remain hypotheses, what evidence tests particular
+realizations, and what evidence or counterevidence requires revision.
+
+A Product Thesis must preserve the product identity, participants, problem,
+value proposition, value mechanism, first-order principles, intended outcomes,
+boundaries, hypotheses, evidence and counterevidence routes, revision criteria,
+owner route, commitment state, revision history, and challenge route. Its
+principles may be committed before a complete product realization exists, but
+outcome, market, causal, and effectiveness claims remain bounded by evidence.
+
+### Formal Interpretation
+
+```text
+ProductThesis =
+  (id, product_ref, participants, problem, value_proposition,
+   value_mechanism, first_order_principles, intended_outcomes,
+   boundaries, hypotheses, evidence_routes, counterevidence_routes,
+   revision_criteria, owner_route, commitment_state,
+   revision_history, challenge_route)
+
+commitment_state in { draft, committed, revised, retired, superseded }
+
+committed(ProductThesis) =/=> realized(Product)
+evidence_for_one_realization =/=> proves(ProductThesis)
+```
+
+### Schema
+
+Schema handle: `CAV2-D63-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
+The private machine record and document validator live under
+[../../product/](../../product/README.md).
+
+### Operational Interpretation
+
+Use a Product Thesis to keep product direction stable while Projects, Goals,
+Research, Experiments, designs, interfaces, and implementations change. Trace
+each Project and Goal to the part of the thesis it is trying to realize or test.
+Use evidence to judge realizations and bounded outcome claims, and use the
+declared revision criteria when evidence challenges the thesis itself.
+
+### Plain-Language Intuition
+
+A product thesis says why a product should exist, what we believe it must do and
+protect, how it should create value, and what evidence could make us change our
+mind.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, the Product Thesis commits to an ergonomic, governed
+human-machine work loop that preserves human agency, shared meaning, evidence,
+ownership, bounded authority, and honest incompleteness. The PythonConstraint
+Project tests one bounded realization of that thesis. It cannot prove the whole
+thesis or redefine it from one experiment.
+
+### Boundary
+
+A Product Thesis is not the product, product vision, strategy, roadmap,
+business plan, Goal (`CAV2-D59`), Project (`CAV2-D60`), premise (`CAV2-D55`),
+hypothesis, specification, evidence, market claim, or implementation. It can
+contain hypotheses and guide specifications without becoming either one. A
+committed thesis does not prove that the product exists, works, creates value,
+has customers, or has product-market fit.
+
+Promoting this term creates Definition authority for the meaning of `product
+thesis`. It does not promote the CyberAlchemy thesis artifact, approve a product
+strategy, achieve a Goal, authorize an Experiment, or validate product value.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [../../product/PRODUCT-THESIS.md](../../product/PRODUCT-THESIS.md)
+- [../../product/PRODUCT-THESIS-DOCUMENT-TYPE.md](../../product/PRODUCT-THESIS-DOCUMENT-TYPE.md)
+- [../../ontology/product/README.md](../../ontology/product/README.md)
+- [../../goals/README.md](../../goals/README.md)
+
 ## Open Questions
 
 ### OQ-1. Which imported definitions should be promoted first?

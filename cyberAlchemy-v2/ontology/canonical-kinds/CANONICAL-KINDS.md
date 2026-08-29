@@ -87,6 +87,9 @@ candidate assignments awaiting owner ratification.
 | **conceptual** | *no single producer — context authored in-place (OQ-8)* | Evidence | perennial | resolve-required | no |
 | **backlog** | *none — "backlog maintenance" names no owner route (OQ-6)* | Evidence | perennial | tolerated *(a list of open items is not a contradiction)* | no |
 | **readme** | *no single producer — authored beside what it describes (OQ-8)* | Projection | ephemeral (regenerable) | tolerated | no |
+| **goal** | CyberAlchemy v2 goal lifecycle | Spec | perennial | resolve-required | yes |
+| **experiment** | `experiment-harness` or an owner-approved project experiment process | Evidence | ephemeral | tolerated | no |
+| **product-thesis** | CyberAlchemy v2 product-thesis lifecycle | Spec | perennial | resolve-required | yes |
 
 ## Rules
 
@@ -116,6 +119,23 @@ candidate assignments awaiting owner ratification.
    possibly `findings` — never authored as a file of its own. There is no `residue.md`. An open
    question with no artifact to carry it stays in the producing artifact's `## Open Questions`
    section. Its shape as a field: [OQ-13](#oq-13-what-shape-does-the-residue-attribute-take).
+7. **A goal does not authorize work.** A `goal` instance states an eventual
+   outcome and its success evidence. Its `Spec` rollup makes owner promotion
+   reachable; it does not grant execution, publication, deployment, or external
+   effects. The candidate contract lives in
+   [../../goals/GOAL-DOCUMENT-TYPE.md](../../goals/GOAL-DOCUMENT-TYPE.md).
+8. **Research and experiment stay evidence.** `research` gathers an evidence
+   aggregate and delegates synthesis to `findings`. `experiment` preserves a
+   protocol and run evidence and delegates conclusions to `findings` or an owner
+   decision. Neither kind can promote itself or authorize a run. The existing
+   four-kind frontmatter contract below already governs `research`; the separate
+   candidate Experiment carrier contract lives in
+   [../../experiments/EXPERIMENT-DOCUMENT-TYPE.md](../../experiments/EXPERIMENT-DOCUMENT-TYPE.md).
+9. **A product thesis commits direction without proving realization.** A
+   `product-thesis` instance may carry a committed product proposition and still
+   remain a candidate Spec artifact. Commitment does not prove implementation,
+   outcomes, market demand, or product-market fit. Its contract lives in
+   [../../product/PRODUCT-THESIS-DOCUMENT-TYPE.md](../../product/PRODUCT-THESIS-DOCUMENT-TYPE.md).
 
 ## Instance Contract (Frontmatter)
 

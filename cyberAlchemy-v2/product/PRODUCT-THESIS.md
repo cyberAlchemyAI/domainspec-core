@@ -1,6 +1,10 @@
 # CyberAlchemy Product Thesis
 
 Status: candidate
+Canonical kind: product-thesis
+Thesis ID: CA2-PRODUCT-THESIS-CYBERALCHEMY
+Canonical definition: CAV2-D63
+Commitment state: committed
 Visibility: private
 Meaning owner: CyberAlchemy v2
 Authority effect: none
@@ -26,7 +30,10 @@ determines whether a particular realization succeeds and which outcome, market,
 or effectiveness claims may be made. It does not decide whether these principles
 belong in the thesis.
 
-This commitment is not a canonical definition or a validated market claim.
+This artifact is a candidate instance of the canonical `product-thesis` kind.
+It is not Definition authority, promoted Spec authority, or a validated market
+claim. The meaning of Product Thesis is owned by `CAV2-D63`; this document owns
+the current CyberAlchemy thesis proposition.
 
 ## Why The Product Is Needed
 
@@ -76,6 +83,33 @@ The product thesis commits to nine principles:
 These are product commitments, not rewards granted after product proof.
 Governance is useful only when it protects them while helping people and
 machines understand, challenge, and continue the work.
+
+## Projects, Goals, Research, And Experiments
+
+CyberAlchemy connects this product thesis to concrete work through Projects and
+Goals. A Project keeps related owners, evidence, decisions, artifacts, and work
+under one stable identity. A Goal states one desired future result for that
+Project and the evidence needed to judge whether it was reached.
+
+Research investigates a bounded question for the Project and Goal using source
+evidence. Experiment produces new observations using a declared protocol and
+conditions. Research aggregates evidence; Experiment records the empirical
+test; separate findings or owner decisions state conclusions.
+
+This connection has two directions:
+
+```text
+product thesis -> explains why a Project and Goal matter
+Research       -> informs the Goal using existing sources and observations
+Experiment     -> tests one bounded realization and produces run evidence
+findings       -> synthesize evidence without promoting themselves
+```
+
+One Project or Goal cannot prove the whole thesis. It can provide evidence for
+or against a specific realization while keeping scope and counterevidence
+visible. The canonical meanings and document contracts live in
+[Goal and Project](../goals/README.md), [Research](../research/README.md), and
+[Experiment](../experiments/README.md).
 
 ## Governance And Authority
 

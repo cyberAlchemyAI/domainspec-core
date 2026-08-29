@@ -267,3 +267,50 @@ topology, concurrency, region, reviewer/rework/operator rates, and live canary
 remain unfrozen. Residue: apply the formulas to the systems candidate, refresh
 prices immediately before a canary, constrain Spot to fault-tolerant work, and
 do not claim an empirical model/topology winner.
+
+## Confirmed explorer feedback loop 1/1
+
+### Agent 2 repair — exact source pins and KV fields
+
+- Qwen3-32B official commit history exposes short revision `9216db5`, dated
+  2025-07-26, but not the full 40-hex SHA in the consulted browser surface.
+  It remains non-freezable. [Official history](https://huggingface.co/Qwen/Qwen3-32B/commits/main)
+- Qwen3-14B exposes short revision `40c0698`, also dated 2025-07-26, but not
+  the full SHA. [Official history](https://huggingface.co/Qwen/Qwen3-14B/commits/main)
+- Qwen3-14B's official tree displays a 29.6-GB total over eight BF16
+  safetensor shards, but rounded UI sizes are not manifest-grade byte lengths
+  or hashes. [Official tree](https://huggingface.co/Qwen/Qwen3-14B/tree/main)
+- Official Qwen3-14B config fields (40 layers, 8 KV heads, head dimension 128,
+  BF16) imply 160 KiB raw KV per token, or 5 GiB for one 32,768-token sequence,
+  before allocator/page/metadata/runtime overhead.
+  [Official config](https://huggingface.co/Qwen/Qwen3-14B/blob/main/config.json)
+- Official Qwen3-32B config fields (64 layers, 8 KV heads, head dimension 128,
+  BF16) imply 256 KiB raw KV per token, or 8 GiB for one 32,768-token sequence,
+  before overhead. [Official config](https://huggingface.co/Qwen/Qwen3-32B/blob/main/config.json)
+- Official vLLM Docker documentation exposes tags including `latest` and an
+  example `v0.11.0`, not an immutable OCI digest. A frozen identity requires a
+  registry-manifest lookup or image inspection.
+  [Official Docker docs](https://docs.vllm.ai/en/latest/deployment/docker/)
+
+Receipt: `task_status=completed`, `evidence_gate_status=needs_feedback` because
+full SHAs, byte-exact model manifests, OCI digest, and measured usable KV
+capacity remain unavailable without the later manifest-freeze/canary boundary.
+
+### Agent 3 repair — provisionable 1x/2x H100 family witness
+
+- Microsoft documents `Standard_NC40ads_H100_v5` with one H100 NVL and 94 GiB
+  GPU memory, and `Standard_NC80adis_H100_v5` with two H100 NVL GPUs, 188 GiB
+  aggregate memory, and NVLink support. [Microsoft Learn](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/gpu-accelerated/ncadsh100v5-series)
+- No official, region-specific current Azure price pair was verified; the
+  Retail Prices API query was not completed, secondary aggregators were
+  excluded, and the owner has not selected a region. Numeric Azure cost bands
+  are therefore not justified.
+- Symbolically, for 24 cells the one-GPU SKU uses
+  `H1 = 24*ceil_q(L+a_planner+a_implementer+I+R)`. If two cells safely share a
+  two-GPU host, host-hours are
+  `H2 = 12*ceil_q(L+a_planner+a_implementer+I+R)` and GPU-hours are `2*H2`.
+
+Receipt: `task_status=completed`, `evidence_gate_status=needs_feedback` because
+region, billing posture, official price response, availability, and capacity
+guarantee remain owner/runtime inputs. The Azure hardware is H100 NVL 94-GiB,
+not an exact 80-GB part.

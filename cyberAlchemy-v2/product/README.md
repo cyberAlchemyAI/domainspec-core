@@ -37,12 +37,21 @@ not decide that it is the whole product.
 
 1. [PRODUCT-THESIS.md](PRODUCT-THESIS.md) — the first-order principles, why the
    product should exist, who it serves, and what evidence would require revision.
-2. [PRODUCT-JOURNEYS.md](PRODUCT-JOURNEYS.md) — how the promise should feel in
+2. [PRODUCT-THESIS-DOCUMENT-TYPE.md](PRODUCT-THESIS-DOCUMENT-TYPE.md) — the
+   canonical document contract, lifecycle, authority boundary, and concrete example.
+   [product-thesis.record.json](product-thesis.record.json) is its machine-readable
+   projection.
+3. [PRODUCT-JOURNEYS.md](PRODUCT-JOURNEYS.md) — how the promise should feel in
    real work, starting with Invoke Define.
-3. [OUTCOME-MODEL.md](OUTCOME-MODEL.md) — the desired changes that later metrics
+4. [OUTCOME-MODEL.md](OUTCOME-MODEL.md) — the desired changes that later metrics
    and KPI targets must test.
-4. [../ontology/product/README.md](../ontology/product/README.md) — the
+5. [../ontology/product/README.md](../ontology/product/README.md) — the
    machine-readable candidate map of product nodes, relations, and residue.
+6. [../goals/README.md](../goals/README.md) — the canonical Goal document type,
+   Project concept, current goal records, and their product-thesis connections.
+7. [../research/README.md](../research/README.md) and
+   [../experiments/README.md](../experiments/README.md) — canonical Evidence
+   document contracts connected to Projects, Goals, findings, and run evidence.
 
 ## Source And Authority Order
 

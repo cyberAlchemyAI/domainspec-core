@@ -41,7 +41,7 @@ Cutoff: `2026-08-29`
 | SRC-LOCAL-DEFINE | `cyberAlchemy-v2/define/docs/DEFINE.md` | `bde8a4dd172738b15c28390ae49fdaae836999a7b3c6d2c1f32a944b52e15743` |
 | SRC-LOCAL-PACK | `cyberAlchemy-v2/define/docs/DEFINITION-PACK.md` | `42fb13db5f090f167e7a25079a6e3a98d9762b707f92a0a6dbee4bc181a53906` |
 | SRC-LOCAL-INTERACTION | `cyberAlchemy-v2/define/docs/INTERACTION.md` | `abc1feb9889c7487673a4b02bc931e884dc104a2f370dd090940c50b1eb7f383` |
-| SRC-LOCAL-THESIS | `cyberAlchemy-v2/product/PRODUCT-THESIS.md` | `c54e1559f85d20fcb15edd3296710e9f49ef6da0ab202f2354a368ed53097f1e` |
+| SRC-LOCAL-THESIS | `cyberAlchemy-v2/product/PRODUCT-THESIS.md` | `d41a227adf6323da0518e8b51b9e49e8b98ae3166a5a1ee802169c510600efa4` |
 | SRC-LOCAL-OUTCOMES | `cyberAlchemy-v2/product/OUTCOME-MODEL.md` | `94489d09c90095fe90209ac7d6ced6f18cda13b7fb2b9760ae4fbeb7ad44c3b7` |
 | SRC-LOCAL-E10-CONTEXT | `research/projects/domainspec/experiments/E10-developer-productivity/context.md` | `1b63468478443307ab3b16cd9d96c95105e8215e93d71d852eac90f2c4bc3c65` |
 | SRC-LOCAL-E10-PROTOCOL | `research/projects/domainspec/experiments/E10-developer-productivity/protocol.md` | `95c88af12165e77d3954e96857a99d4b13f3776bef7a67f343e962a7a3b7cfc2` |
