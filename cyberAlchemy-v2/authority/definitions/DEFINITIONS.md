@@ -305,8 +305,10 @@ Aliases: staged candidate, authority candidate
 ### Normative Definition
 
 An import candidate is a source path captured by an authority import that may
-contain reusable vocabulary, rules, evidence, examples, or governance patterns,
-but has not been promoted into CyberAlchemy v2 authority.
+contain a locally owned definition, rule, method, specification, architecture
+pattern, or other reusable knowledge, together with evidence such as tests,
+observations, examples, or formal proofs, but has not been promoted into
+CyberAlchemy v2 authority.
 
 ### Operational Interpretation
 
@@ -314,20 +316,29 @@ Use import candidates as the first review queue for scattered definitions and
 constitutions. Classify their source family, authority posture, reuse value,
 conflicts, and promotion owner before extracting content.
 
+When the source belongs to an independently owned domain, bind its exact owner,
+version, local authority posture, and proposed CAV2 abstraction before
+extracting anything. Importing the path records a candidate for review; it does
+not adopt the source or transfer its meaning to CAV2.
+
 ### Plain-Language Intuition
 
-An import candidate is something worth reviewing before it gets a vote.
+A domain's reusable idea can enter CAV2 review without surrendering its local
+meaning or authority.
 
 ### Domain-Context Voice
 
 In CyberAlchemy v2, import candidates are recorded in the definition and
 constitution manifests. They should be clustered and deduplicated before any
-new canonical term or constitution rule is added.
+new canonical term or constitution rule is added. Domain packages and local
+proof or validation methods proposed for wider reuse enter through the same
+candidate posture.
 
 ### Boundary
 
 An import candidate may be source-of-truth for its original project while still
-remaining candidate-only for CyberAlchemy v2.
+remaining candidate-only for CyberAlchemy v2. Capture by CAV2 transfers neither
+the source owner's semantic authority nor its lifecycle decisions.
 
 ### Primary Consumers
 
@@ -527,6 +538,12 @@ An authority promotion queue is the ordered set of candidate terms, rules,
 claims, or artifacts awaiting owner classification, duplicate/conflict review,
 boundary review, and explicit promotion decision before entering a canonical
 authority layer.
+
+When a queued proposal asks CAV2 to generalize a domain-owned object under
+`CAV2-D48`, its queue entry must preserve the originating owner and version,
+the proposed CAV2 abstraction, any changed or lost meaning, cross-context
+evidence and contrary evidence, the challenge contract, and the CAV2 promotion
+owner.
 
 ### Operational Interpretation
 
@@ -2813,6 +2830,7 @@ operational/code/spec hypothesis
   -> generalized abstraction
   -> pattern candidate
   -> exercised in another context
+  -> challenge and residue review
   -> owner promotion
   -> architecture pattern authority
   -> invariant or constitution pressure when justified
@@ -2862,6 +2880,8 @@ or constitution pressure.
 Pattern promotion lifecycle is not automatic generalization, not popularity,
 not code reuse alone, not an architecture decision record by itself, and not a
 shortcut around `CAV2-D21`, `CAV2-D23`, `CAV2-D34`, `CAV2-D38`, or `CAV2-D40`.
+When a pattern is promoted for CAV2-wide reuse, it also inherits `CAV2-D48`'s
+separation between CAV2 promotion and each domain's version-exact adoption.
 
 ### Primary Consumers
 
@@ -3198,12 +3218,44 @@ is the generalization that `../promotion-policy.md`'s ladder instantiates and th
 `CAV2-D43` (patterns), `CAV2-D46` (experience), and the Arcanum Discipline Growth
 Rule (disciplines) are instances of.
 
+When an authority-bearing candidate originates in a domain and is proposed as
+reusable CAV2 authority, the minimum generalization path is:
+
+```text
+domain-owned source or candidate
+  -> originating-domain exercise and evidence
+  -> CAV2 import candidate
+  -> generalized proposal with changes and residue stated
+  -> exercise in another independently owned domain or materially distinct context
+  -> challenge and contrary-evidence review
+  -> CAV2 owner decision
+  -> promoted, versioned CAV2 authority
+  -> separate adoption by each domain that chooses to use that version
+```
+
+This branch applies to domain-originated definitions, rules, methods,
+specifications, knowledge structures, validators, and patterns proposed for
+CAV2-wide reuse only through an existing authority kind and its owner route.
+Proof objects, Lean results, Cedar or Datalog results, tests, observations, and
+receipts may support such a candidate as evidence; they do not self-promote.
+
 ### Formal Interpretation
 
 ```text
 APL = (stages, per_stage_gates, owner_route, stop_rule)
 instances = { CAV2-D43, CAV2-D46, Discipline Growth Rule }
 promotion-policy ladder = the cross-kind default
+
+generalized_for_CAV2(c, d0)
+  => origin_owner(c) = d0
+  and exercised_in(c, d0)
+  and exists d1: independently_owned(d1)
+                 and materially_distinct(d1, d0)
+                 and exercised_in(c, d1)
+  and challenge_reviewed(c)
+  and CAV2_owner_promoted(c)
+
+promoted_in_CAV2(c, version) =/=> adopted_by_domain(c, version, d)
 ```
 
 A kind's lifecycle is valid only when it names its stages, gates, owner route, and
@@ -3216,10 +3268,18 @@ Use when a new authority-bearing kind needs a promotion path: reuse a named
 instance (`D43`/`D46`/Growth Rule) or justify a new lifecycle. It turns "how does
 this earn authority?" into a declared, owner-routed path.
 
+For a domain-originated proposal, keep four decisions separate: the originating
+domain owns its local meaning and submission posture; the exercising domain owns
+its bounded result; the CAV2 owner decides CAV2 promotion; and each consuming
+domain decides whether to adopt the promoted version. A failed cross-context
+exercise narrows, revises, or rejects the CAV2 proposal and leaves visible
+residue; it does not erase the original domain object.
+
 ### Plain-Language Intuition
 
-Nothing counts by appearing or being repeated; it walks a known path — candidate,
-evidence, challenge, owner decision — and only then becomes authority.
+Domains can teach the base, but one local success cannot rewrite the base or
+another domain. The idea must survive evidence, a materially different context,
+challenge, CAV2 owner review, and separate adoption.
 
 ### Domain-Context Voice
 
@@ -3229,13 +3289,32 @@ In CyberAlchemy v2 this is the parent of the per-kind lifecycles already promote
 object is named in none of them, so this is a generalization inference — owner-gated,
 not a mechanical lift (review CR-4).
 
+Candidate Mint/Foundry experiment evidence illustrates the autonomy boundary:
+domains may inherit CAV2's organizing machinery while owning and improving
+their local content. DomainSpec, Lean, Cedar, Datalog, and other formal or
+operational work may therefore propose reusable methods or knowledge without
+transferring their source semantics or treating a checker result as a CAV2
+promotion decision.
+
 ### Boundary
 
 Not "everything has a lifecycle" — scoped to **authority-bearing kinds**. Evidence
 (`CAV2-D34` / non-collapse rule 1), residue (`CAV2-D18`), ledger events, one-off
 logs, and generated projections are inputs or terminal artifacts, not
-lifecycle-bearing. Naming this lifecycle does **not** enact a binding rule; the
-binding form is `CAV2-D49` + the proposed `CAV2-C16`.
+lifecycle-bearing. The originating domain retains authority over its local
+object. CAV2 promotion creates CAV2 authority for one named version; it neither
+rewrites the originating domain nor activates that version in another domain.
+Each domain owner makes a separate, version-exact adoption decision.
+
+The exact upstream provenance record and any later adoption record are separate
+events with separate owners. They do not create a permanent semantic adapter,
+synchronized crosswalk, mapping owner, or live coupling between CAV2 and a
+domain.
+
+Naming this lifecycle does **not** enact deterministic enforcement. Closure is
+enacted in review mode by `CAV2-D49` plus the
+[AUTHORITY-MODEL catch-all row](../AUTHORITY-MODEL.md#authority-kinds); its
+deterministic kind-enumeration scan remains pending.
 
 ### Primary Consumers
 
@@ -3299,9 +3378,10 @@ as their own kinds stays a future decision-gate call (they currently govern as t
 
 Scoped to authority **kinds** (the enumeration), not individual artifacts (that is
 the Authority Rule, `CAV2-D41`) and not the per-artifact promotion path (`CAV2-D48`
-+ the promotion-policy ladder). Promoting this definition does **not** enact the
-kind table as closed-with-default-deny — that enactment is `CAV2-C16` (draft,
-blocked).
++ the promotion-policy ladder). Promoting this definition did not by itself enact
+the kind table as closed-with-default-deny. Review-mode enactment now lives in
+the [AUTHORITY-MODEL catch-all row](../AUTHORITY-MODEL.md#authority-kinds);
+deterministic enforcement remains pending.
 
 ### Primary Consumers
 
@@ -3379,37 +3459,70 @@ discipline-as-authority-kind is governance.
 
 Status: active
 Term: canonical artifact
-Aliases: typed artifact, governed artifact instance, process-born artifact, non-canonical artifact (negation)
-Promoted: 2026-07-07 (design session: the instance predicate over the canonical-kind enumeration — typed + process-born, decoupled from authority)
+Aliases: typed artifact, governed artifact instance, process-origin-declared artifact, process-born artifact, non-canonical artifact (negation)
+Promoted: 2026-07-07 (design session: the instance predicate over the canonical-kind enumeration — typed + declared process origin, decoupled from authority)
+Origin assurance resolved: 2026-08-22 by accepted `GATE-06`
 
 ### Normative Definition
 
 A canonical artifact is an artifact instance whose **kind is a member of the
 canonical-kind enumeration** ([../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md))
-and which was **produced by that kind's declared process** — so it carries a
-defined type (a `CAV2-D21` classification/schema facet that is bound, not left as
-residue) and a traceable process origin. Canonical-ness is the property of *being
-typed and born from a governed process*; it is **decoupled from authority** — a
-canonical artifact may be non-authoritative (an ephemeral discovery is canonical
-yet is not authority) and still canonical. An artifact whose kind is **not** in
-the enumeration is **non-canonical**: a free working product outside any governed
-type.
+and whose responsible owner has admitted an exact `process_origin` declaration
+that names one allowed producer and process for that kind. It therefore carries
+a defined type (a `CAV2-D21` classification/schema facet that is bound, not left
+as residue) and an owner-declared process origin.
+
+The strength of support for the origin declaration is recorded separately as
+`origin_assurance`:
+
+- `declared` means an owner or source made the exact origin statement;
+- `integrity-bound` means a verifier confirmed that the statement and bound
+  artifact-state bytes match an L1 integrity mechanism; and
+- `actor-attested` means an identified actor attested the exact tuple under a
+  bound L2 identity policy and external signature.
+
+`actor-attested` is a defined future level, not a currently available result.
+No assurance level proves that the named process actually executed, that the
+statement is true, or that the artifact is correct or authoritative.
+
+Canonical-ness is therefore the property of *being typed and carrying an
+owner-admitted, allowed process-origin declaration with an honest assurance
+level*. It is **decoupled from authority** — a canonical artifact may be
+non-authoritative and still canonical. An artifact whose kind is not in the
+enumeration, or whose exact origin does not resolve to an owner-approved producer
+for that kind, is non-canonical or remains blocked as typed residue.
 
 ### Formal Interpretation
 
 ```text
-canonical(a)  <->  kind(a) in CanonicalKinds  and  origin(a) = process(kind(a))
+OriginAssurance = { declared, integrity-bound, actor-attested }
+
+allowed_origin(a)
+  <-> (producer_ref(a), process_ref(a), process_version_ref(a))
+      in allowed_origins(canonical_kind(a))
+
+canonical(a)
+  <-> canonical_kind(a) in CanonicalKinds
+      and owner_admitted(a)
+      and allowed_origin(a)
+      and origin_assurance(a) in OriginAssurance
+
 CanonicalKinds  superset-of  AuthorityKinds   (every authority-kind is a canonical-kind;
                                                not every canonical-kind bears authority)
 canonical(a)   independent-of   authoritative(a)   (authority is earned via CAV2-D48)
 ```
 
-Each canonical artifact **declares** (see `### Schema`) exactly one `canonical_kind`
-and one `process_origin`, and **inherits** from that kind its `authority_kind` (the
-`CAV2-D49` kind it rolls up to, `= rollup(canonical_kind)`) and its `CAV2-D52`
-durability. The inherited fields are derived, not asserted: an artifact cannot
-choose its `authority_kind`. What `process_origin` must name — and whether it is
-attested or merely declared — is open (`CA-OQ-2`).
+Each canonical artifact declares exactly one `canonical_kind` and one exact
+`process_origin` record, and inherits from its kind the `authority_kind` it rolls
+up to and its `CAV2-D52` durability. The inherited fields are derived, not
+asserted: an artifact cannot choose its `authority_kind`.
+
+`allowed_origins(kind)` is intentionally set-valued because one kind may have
+more than one allowed producer. The artifact still binds one exact producer,
+process, version, and origin statement. The allowed set must come from a current
+owner-approved source; the candidate canonical-kind table does not become
+authority through this definition. An unresolved or candidate-only producer
+cannot establish canonical origin.
 
 ### Schema
 
@@ -3421,6 +3534,17 @@ Canonical artifact record:
 
 ```text
 CA(a) = (artifact_id, canonical_kind, authority_kind, process_origin, durability, authority_state)
+
+ProcessOrigin = (
+  producer_ref,
+  process_ref,
+  process_version_ref,
+  origin_statement_ref,
+  origin_assurance,
+  mechanism_ref?,
+  verifier_receipt_ref?,
+  claim_limit
+)
 ```
 
 | Field | Meaning | Value posture |
@@ -3428,33 +3552,65 @@ CA(a) = (artifact_id, canonical_kind, authority_kind, process_origin, durability
 | `artifact_id` | identifier of the instance | known |
 | `canonical_kind` | the canonical-kind it instantiates | member of `CANONICAL-KINDS` |
 | `authority_kind` | the authority-kind it rolls up to | a `CAV2-D49` kind (typed coupling `CAV2-D16`) |
-| `process_origin` | declared producer that produced it | known or source-local; **undefined referent** — see `CA-OQ-2` |
+| `process_origin` | exact origin declaration and its assurance | `ProcessOrigin`; owner-qualified, version-exact, and digest-bound references |
 | `durability` | intended lifespan | `CAV2-D52` ephemeral \| perennial |
 | `authority_state` | how much authority it has earned | none \| candidate \| promoted \| demoted (`CAV2-D48`) |
+
+`ProcessOrigin` field meanings:
+
+| Field | Meaning | Requirement |
+| --- | --- | --- |
+| `producer_ref` | owner-qualified producer identity | required; exact and digest-bound |
+| `process_ref` | owner-qualified process identity | required; exact and digest-bound |
+| `process_version_ref` | exact process version | required; version- and digest-bound |
+| `origin_statement_ref` | exact statement that declares the origin | required; version- and digest-bound |
+| `origin_assurance` | strength of support for the statement | declared \| integrity-bound \| actor-attested |
+| `mechanism_ref` | integrity or signature mechanism metadata | required for integrity-bound and actor-attested |
+| `verifier_receipt_ref` | exact verifier result | required for integrity-bound and actor-attested |
+| `claim_limit` | explicit statement of what the level does not prove | required |
 
 Schema invariant: `canonical_kind in CanonicalKinds`; `authority_kind = rollup(canonical_kind)`
 is a typed coupling (`CAV2-D16`); `durability` is orthogonal to `authority_kind`
 (`CAV2-D29`); `authority_state` does **not** follow from `canonical` — a canonical
 artifact defaults to `authority_state = none`, and walks the `CAV2-D48` path
 `none -> candidate -> promoted`, with `demoted` for withdrawn or superseded
-authority. Documentary; validator deferred.
+authority.
+
+Origin-assurance invariants:
+
+```text
+declared =/=> integrity-bound
+integrity-bound =/=> actor-attested
+actor-attested =/=> statement truth
+any origin assurance =/=> actual process execution
+any origin assurance =/=> authority, discharge, promotion, or publication
+```
+
+An assurance upgrade appends or references new evidence; it does not rewrite the
+prior origin statement or verifier receipt. Documentary; validator deferred.
+Activation requires positive, tampered, wrong-level, missing-reference, and
+unsupported-L2 fixtures plus a separate owner decision.
 
 ### Operational Interpretation
 
-Use when deciding whether a document the project produced is a first-class typed
-artifact or an ungoverned working note. Ask: does it instantiate an enumerated
-canonical-kind, and did it come from that kind's process? If yes, it is canonical
-and inherits that kind's `authority_kind` and durability. If it instantiates no
-enumerated kind, it is non-canonical working material — usable, but it carries no
-type, no rollup, and no durability obligation until an owner enumerates its kind.
+Use when deciding whether a document is a first-class typed artifact or an
+ungoverned working note. Ask: does it instantiate an enumerated canonical kind,
+does its owner admit one exact allowed origin, and does the record state how
+strongly that origin statement is supported? Under the current review-mode
+posture, `declared` is sufficient for owner admission, but the artifact must be
+described as owner-declared rather than mechanically verified process output.
+
+Use `integrity-bound` only when the exact statement and artifact-state bytes have
+a valid L1 verifier receipt. Reserve `actor-attested` for a real L2 external
+signature and identity-policy receipt; no current artifact may claim it merely
+because the level is defined.
 
 ### Plain-Language Intuition
 
-A canonical artifact is a document that is a *recognized kind of thing*, made the
-*recognized way* — a discovery, a research, a ledger, a spec. It is "canonical"
-because it has a canonical form and origin, not because it is authoritative. A
-note you jot while working is non-canonical until it becomes one of the named
-kinds.
+A canonical artifact is a recognized kind of thing with an exact, allowed origin
+statement. The record also says whether that statement was merely declared,
+sealed against later byte changes, or signed by an identified actor. None of
+those labels says the statement is true or the artifact is authoritative.
 
 ### Domain-Context Voice
 
@@ -3464,56 +3620,39 @@ the fine artifact-types (discovery, research, axiom, ledger, spec, ...) enumerat
 in [../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md), each
 rolling up to a coarse `CAV2-D49` authority-kind and carrying a `CAV2-D52`
 durability. It is the positive pole opposite `CAV2-D8` import candidate and
-non-canonical working material: it lets the project say "this is a typed,
-process-born discovery" without asserting the discovery is authority.
+non-canonical working material: it lets the project say "this is a typed artifact
+with an owner-declared origin" without claiming execution, correctness, or
+authority. `CAV2-D35` remains the provenance trail; origin assurance only states
+how the exact declaration is supported.
 
 ### Boundary
 
 Canonical artifact is **not** authority and **not** "canonical source": the store's
 existing *canonical source*, *canonical section*, and *canonical definition*
 (alias of `CAV2-D33`) use *canonical = the authoritative version*; this term uses
-*canonical = has a canonical form + process origin* and is explicitly decoupled
-from authority. It is **not** the enumeration itself — that is the *set* of kinds
-in `CANONICAL-KINDS.md`; a canonical artifact is a member *instance*. It does not
+*canonical = has a canonical form + owner-admitted process-origin declaration*
+and is explicitly decoupled from authority. The legacy alias `process-born`
+must not be used to imply observed execution unless a separately governed
+execution witness supports that claim.
+
+It is **not** the enumeration itself — that is the set of kinds in
+`CANONICAL-KINDS.md`; a canonical artifact is a member instance. It does not
 promote anything: earning authority is `CAV2-D48`, being a recognized kind is
-`CAV2-D49`. Prior 2026-06-21 review prose that used "canonical artifact" to mean
+`CAV2-D49`. Origin assurance is not proof, trust, validation, truth, discharge,
+promotion, adoption, or publication. Prior 2026-06-21 review prose that used
+"canonical artifact" to mean
 "target-owned / deployed authority" is the *authoritative-version* sense and
 predates this term (recorded in [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)).
 
-### Open Questions
+### Resolved Origin Questions
 
-#### CA-OQ-1. Is the `process(kind(a))` clause functional or set-valued?
-
-The `### Formal Interpretation` above states `origin(a) = process(kind(a))`, which
-presumes each canonical-kind has **exactly one** producer. The `CANONICAL-KINDS.md`
-`Process` column contradicts this in two rows: `spec` names "spec owner +
-decision-gate" (a composite) and `research` names "research dispatch /
-research-tower" (an alternation). The enumeration supports a **set-valued** reading,
-`origin(a) in producers(kind(a))`. Route: owner call (definitions-governance).
-Status: OPEN.
-
-#### CA-OQ-2. Does `canonical` require an *attested* producer, or a *declared* one?
-
-`process_origin` has no defined referent. The 2026-07-09 session established the fork:
-
-- **Attested** — the field cites evidence a governed producer actually ran (the
-  Arcanum `observed-invocation-loop` telemetry signal). Makes `canonical(a)`
-  mechanically checkable, and closes the hole where an artifact of an enumerated
-  kind is hand-authored by nobody in particular. Cost: **no artifact in this
-  repository currently carries such a citation**, so under this reading the
-  authority spine — `DEFINITIONS.md`, `AUTHORITY-MODEL.md`, `CANONICAL-KINDS.md` —
-  is itself non-canonical, and needs either a grandfather clause (which reinstates
-  the hole) or a declared forward-only scope with an expiry.
-- **Declared** — the field names a producer (e.g. an installed skill handle) with no
-  evidence basis. Cheap and honest only if the card says so: `CAV2-D34` holds an
-  authority claim valid only when it names its evidence basis, and `CAV2-D38` bars
-  claiming "process-born" while checking a self-asserted string.
-
-A third option is to **drop the second conjunct entirely** — `canonical(a) <->
-kind(a) in CanonicalKinds` — which makes the predicate decidable today at the cost of
-the process-born property. Note the current schema already reads "Documentary;
-validator deferred," which is the *declared* reading in practice. Route: decision-gate.
-Status: OPEN — blocks any binding reading of the `origin(a)` conjunct.
+- `CA-OQ-1` is resolved as set-valued admissibility with exact instance binding:
+  a kind may allow multiple producers, while each artifact names one exact origin.
+- `CA-OQ-2` is resolved by tiered assurance. `declared` supports current
+  owner-admitted canonical status; `integrity-bound` supports exact byte integrity;
+  `actor-attested` is future L2 identity assurance. None proves execution or truth.
+- The candidate canonical-kind table remains a view, not an authority source.
+  Producer-set ratification and deterministic validation remain separate work.
 
 ### Primary Consumers
 
@@ -3657,8 +3796,9 @@ your code.
 ### Domain-Context Voice
 
 In CyberAlchemy v2, axiom is the top of the `axiom → invariant → constitution →
-validator` chain and the *why* layer of the AUTHORITY-MODEL `invariant → axiom →
-constitution rule` derivation. It is distinct from the specific invariant-definitions
+validator` justification chain and the *why* reached by asking backward from an
+invariant in the `invariant → axiom` discovery direction. It is distinct from
+the specific invariant-definitions
 already promoted (`CAV2-D16`/`D29`/`D38`/`D49`), which are invariants, not axioms.
 Evidence corpora: maestro-trama `creative-axioms` (clean descriptive axioms);
 ZefraHub / maestro-trama `system-axioms` (mostly invariants mislabeled as axioms;
@@ -3670,10 +3810,11 @@ An axiom is **not** an invariant (`CAV2-D54`): the invariant is a must-hold on t
 *system*; the axiom is a given truth about the *world* the system is built around.
 It is **not** a premise: a premise is a working bet held at low veracity
 (`veracidade: low`), an axiom is held true. It is **not** a constitution
-(`CAV2-D34`): the constitution is the enforceable rulebook, the axiom is the reason
-behind it. It is **not** a definition (`CAV2-D33`): a definition assigns meaning to
-a term, an axiom asserts a foundational truth. An axiom enforces nothing by itself —
-enforcement lives in the invariants and constitution rules it grounds.
+(`CAV2-D58`): the constitution is the authoritative scoped rulebook; the axiom
+is the reason behind it. It is **not** a definition (`CAV2-D33`): a definition assigns meaning to
+a term, an axiom asserts a foundational truth. An axiom and the invariants it
+grounds enforce nothing by themselves. A constitution authorizes and scopes
+constraints; a selected validator or gate checks or performs enforcement.
 
 ### Open Questions
 
@@ -3705,7 +3846,7 @@ toward premise? Status: OPEN.
 - [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
 - [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
 - [#cav2-d54-invariant](#cav2-d54-invariant)
-- [#cav2-d34-constitution](#cav2-d34-constitution)
+- [#cav2-d58-constitution](#cav2-d58-constitution)
 - [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md) (Invariant, Axiom, Constitution)
 - [../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md) (`axiom` canonical-kind)
 
@@ -3723,7 +3864,7 @@ remain true** across a declared scope of decisions, transformations, or states �
 such that a violation is **drift or a defect**. Its defining subject is the
 **system**: unlike an axiom (`CAV2-D53`), which the system is built around, an
 invariant is something the system **must satisfy** and can fail to. An invariant is
-the checkable *what-must-stay-true* that a constitution rule (`CAV2-D34`)
+the checkable *what-must-stay-true* that a constitution rule (`CAV2-D58`)
 operationalizes and a validator or gate (`CAV2-D37`) enforces.
 
 ### Formal Interpretation
@@ -3733,7 +3874,7 @@ invariant I:  ∀ state/transition s in scope(I):  must-hold(I, s)
 subject(I) = the system            (its behavior / artifacts)
 system can violate I?  Yes — a violation is drift/defect (a bug)
 grounded-by:        an axiom (CAV2-D53) answering "why must I hold?"
-operationalized-by: constitution rule (CAV2-D34)
+operationalized-by: constitution rule (CAV2-D58)
 enforced-by:        validator / gate (CAV2-D37)
 ```
 
@@ -3747,21 +3888,22 @@ Use "invariant" for a single must-hold truth about the system that is, in
 principle, checkable and whose breach is a defect. Two tests: (1) can the system
 violate it (is a breach a bug)? If yes, it is an invariant; if the system cannot
 make it false, it is an axiom. (2) Is it one condition (invariant) or a bundle of
-enforceable rules with selectors and modes (a constitution, `CAV2-D34`)? Each
+authoritative rules with selectors and modes (a constitution, `CAV2-D58`)? Each
 invariant should trace *up* to an axiom (its "why") and *down* to a validation
 mode.
 
 ### Plain-Language Intuition
 
-A rule the system must keep — "same input, same output." Break it and you have a
-bug. It is the *what must stay true*, sitting below the axiom that says *why* and
-above the rulebook that says *how*.
+A condition the system must keep true — "same input, same output." Break it and
+you have a bug. It is the *what must stay true*, sitting below the axiom that
+says *why* and above the rulebook that says *how*.
 
 ### Domain-Context Voice
 
 In CyberAlchemy v2, invariant is the middle of the `axiom → invariant →
-constitution → validator` chain: the checkable anchor that makes a constitution
-enforceable, and the parent genus of the already-promoted invariant instances
+constitution → validator` chain: the checkable anchor that a constitution may
+operationalize and a selected validator or gate may enforce, and the parent
+genus of the already-promoted invariant instances
 (`CAV2-D16`/`D29`/`D38`/`D49`). An invariant with no axiom under it is unjustified;
 an invariant with no validation mode is un-enforceable (`none-yet`, per
 constitution-governance).
@@ -3770,7 +3912,7 @@ constitution-governance).
 
 An invariant is **not** an axiom (`CAV2-D53`): same-input-same-output is a system
 must-hold; "unreproducible results cannot be trusted" is the world-truth behind it.
-It is **not** a constitution (`CAV2-D34`): the invariant is one must-hold
+It is **not** a constitution (`CAV2-D58`): the invariant is one must-hold
 proposition, the constitution is the scoped, composable rulebook that
 operationalizes many invariants with selectors, examples, validation modes, and
 precedence. It is **not** a validator or gate (`CAV2-D37`): the invariant states
@@ -3796,7 +3938,8 @@ Should `invariant` be a first-class authority kind, or continue governing as the
 
 Should the expectation that every invariant traces *up* to an axiom (`CAV2-D53`)
 and *down* to a validation mode (`deterministic`/`review`/`hybrid`/`none-yet`) be a
-**constitution rule** (enforced), or a soft documentary expectation? Ties to the
+**constitution rule** (authoritatively adopted and scoped), or a soft documentary
+expectation? Ties to the
 enforcement thread and [AUTHORITY-MODEL OQ-1](../AUTHORITY-MODEL.md). Status: OPEN.
 
 ### Primary Consumers
@@ -3804,7 +3947,7 @@ enforcement thread and [AUTHORITY-MODEL OQ-1](../AUTHORITY-MODEL.md). Status: OP
 - [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
 - [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
 - [#cav2-d53-axiom](#cav2-d53-axiom)
-- [#cav2-d34-constitution](#cav2-d34-constitution)
+- [#cav2-d58-constitution](#cav2-d58-constitution)
 - [#cav2-d37-gate](#cav2-d37-gate)
 - [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md) (Invariant, Axiom, Constitution)
 
@@ -4012,6 +4155,225 @@ are kinds *within* a schema, not the schema itself.
 - [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
 - [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
 - Ontology node schemas, inventory entry schemas, event catalogs, ledger row identity
+
+## CAV2-D57: Exact Publication Authorization
+
+Status: active
+Term: exact publication authorization
+Aliases: two-step publication authorization, source-owner release authorization, exact-output publication approval, private-by-default release
+Promoted: 2026-08-22 from accepted `GATE-08`; definition only, with no present publication effect
+
+### Normative Definition
+
+Exact publication authorization is the CyberAlchemy v2 rule that private
+material may cross a publication boundary only after two separate decisions:
+
+1. every source owner authorizes an exact candidate slice, its allowed claims,
+   audience, channel, privacy policies, and requested publishing principal; and
+2. after private generation and privacy validation, that publishing principal
+   approves the exact final output bytes, digest, audience, channel, and claim
+   ceiling.
+
+The first decision permits creation and review of a private publication
+candidate. It does not permit unknown future bytes to be published. The second
+decision applies only to the exact output it binds. Any change to the sources,
+claims, policies, generator, output bytes, audience, channel, or publishing
+principal requires the applicable decisions to be repeated.
+
+All material is private by default when no valid exact authorization exists.
+Generation, validation, proof, obligation discharge, CAV2 promotion, or domain
+adoption does not grant publication permission.
+
+### Formal Interpretation
+
+```text
+PublicationAuthorization =
+  (release_authorizations, exact_output_approval, publication_receipt?)
+
+publishable(output, audience, channel)
+  <-> every contributing source has a valid exact release authorization
+      and privacy_validation(output) = pass
+      and exact_output_approval binds
+          (output bytes, output digest, audience, channel, claim ceiling)
+
+generated(output) =/=> publishable(output, audience, channel)
+validated(output) =/=> publishable(output, audience, channel)
+promoted(output)  =/=> publishable(output, audience, channel)
+```
+
+Source owners and the publishing principal are separate authority roles. A
+generator or validator may check that bindings exist and match; it cannot act as
+either owner unless a separate authority decision explicitly assigns that role.
+
+### Schema
+
+Schema handle: `CAV2-D57-SCHEMA` — tracked in [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md).
+Status: tracked (documentary).
+Bound to: `CAV2-D57` exact publication authorization.
+
+```text
+ReleaseAuthorization =
+  (source_owner, owning_system, source_refs, source_classifications,
+   allowed_surface, forbidden_surface, claim_ceiling, audience,
+   channel, policy_refs, publishing_principal, authorization_ref,
+   validity_conditions, revocation_route)
+
+ExactOutputApproval =
+  (release_authorization_refs, generator_ref, generation_input_refs,
+   policy_refs, privacy_validation_receipt_ref, output_ref,
+   output_byte_length, output_digest, audience, channel, target,
+   claim_ceiling, limitation_notice, publishing_principal,
+   decision, decision_ref, validity_conditions, revocation_route)
+
+PublicationReceipt =
+  (output_digest, audience, channel, target_locator,
+   publishing_principal, published_at, authorization_refs,
+   observed_result)
+```
+
+All identities, versions, policies, decisions, source objects, inputs, outputs,
+and receipts are owner-qualified, version-exact, and digest-bound where bytes
+exist. `decision` is `approve | refuse`. A publication receipt records an
+observed boundary crossing; it does not supply missing permission or make a
+claim true.
+
+### Operational Interpretation
+
+Use this definition when someone wants to turn private DomainSpec, CAV2,
+proof-substrate, Mint, Cedar, Datalog, Lean, research, evidence, or generated
+material into a public-safe output. First ask each source owner exactly what may
+be used and said. Generate and check the candidate privately. Then ask the named
+publishing principal about the final bytes, not a template or promise. If any
+bound input or output changes, return to the relevant decision.
+
+### Plain-Language Intuition
+
+Permission to prepare a public draft is not permission to publish it. Owners
+first approve the ingredients and limits; a publisher later approves the exact
+finished file and destination.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2 this definition keeps the private authority spine and its
+domain evidence private while still allowing a later, deliberately bounded
+public explanation or result. A generated documentation page remains a private
+projection until both decisions exist. Public Arcanum receives no private prose,
+proof internals, engine mechanisms, research, or validation material merely
+because a generator or checker succeeded.
+
+### Boundary
+
+Exact publication authorization is not classification authority, adoption,
+promotion, proof, truth, freshness, privacy validation, deployment, or release by
+itself. It does not create a universal classification vocabulary: each source
+owner retains its own meanings, and a projection carries exact owner-qualified
+references without reinterpreting them. It authorizes no present public output;
+every actual publication still needs exact permissions and a boundary-crossing
+receipt.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../../SOURCE-MAP.md](../../SOURCE-MAP.md)
+- [../boundaries.md](../boundaries.md)
+- [../../../research/2026-08-20-domainspec-v2-cav2-proof-obligation-substrate/development/refinement-runs/20260821T145409Z-proof-substrate-next-steps/stages/10-gate-01-top03-refresh/apply-corrected/owner-decisions/GATE-08-DECISION.md](../../../research/2026-08-20-domainspec-v2-cav2-proof-obligation-substrate/development/refinement-runs/20260821T145409Z-proof-substrate-next-steps/stages/10-gate-01-top03-refresh/apply-corrected/owner-decisions/GATE-08-DECISION.md)
+
+## CAV2-D58: Constitution
+
+Status: active
+Term: constitution
+Aliases: governed constitution, modular constitution, structure constitution, constitution artifact
+Promoted: 2026-08-29 by owner-requested definitions defect repair; definition authority only, with no constitution, rule, policy, validator, or gate activation
+
+### Normative Definition
+
+A constitution is an **owner-scoped, selector-bound, composable authority
+artifact** that turns axioms and invariants into reusable governance rules and
+policies for named kinds of governed subject. Those subjects may be artifacts,
+tasks or workflows, repository-owned agent actions, system operations or state
+transitions, validation surfaces, or authority movements.
+
+A constitution must declare its scope, subject kinds, selectors, owner route,
+authority level, rules and policies, precedence and composition behavior,
+validation modes or bindings, downstream effect, challenge route, and retirement
+or split conditions. It constrains a subject only after an owner decision adopts
+the exact constitution version and scope and the subject matches its selectors.
+A candidate, selected, or context-loaded constitution does not govern by those
+facts alone.
+
+### Formal Interpretation
+
+```text
+Constitution C =
+  (id, version, scope, subject_kinds, selectors, rules, policies,
+   precedence, composition, owner_route, authority_level,
+   validation_bindings, downstream_effect, challenge_route,
+   retirement_or_split_rule)
+
+subject_kinds(C) subset-of
+  { artifact, task_or_workflow, repository_owned_agent_action,
+    system_operation_or_state_transition, validation_surface,
+    authority_movement }
+
+applies(C, subject) <->
+  promoted(C) and version_exact_owner_adoption(C) and
+  subject in scope(C) and selector_matches(C, subject)
+
+validation_mode(rule) in { deterministic, review, hybrid, none-yet }
+candidate(C) or selected(C) or context_loaded(C) =/=> applies(C, subject)
+```
+
+Schema handle: `CAV2-D58-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary);
+no machine validator is activated by this definition.
+
+### Operational Interpretation
+
+Use a constitution when a recurring class of future subjects needs the same
+authoritative constraints, ownership, precedence, examples, and validation
+expectations. Keep one-off advice, observations, and owner decisions outside it.
+A discipline may gather evidence and route a constitution proposal, but cannot
+author or adopt the constitution. A validator may check an adopted rule, but
+cannot supply the authority that the constitution and owner decision provide.
+
+### Plain-Language Intuition
+
+A constitution is a named rulebook for named things. It says which rules apply,
+to what, under whose authority, and how conflicts and checks work. It is not a
+universal prompt for every person, agent, repository, or external system.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, Constitution is one closed authority kind in
+[AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md). The candidate
+[Stable Repository Constitution](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
+is an instance candidate; this definition does not promote or activate it. A
+repository constitution cannot override system, developer, host, external-owner,
+or other higher-precedence authority outside its declared scope.
+
+### Boundary
+
+A constitution is **not** an axiom (`CAV2-D53`), invariant (`CAV2-D54`),
+discipline (`CAV2-D50`), decision, validator, gate (`CAV2-D37`), evidence, or
+proof. Axiom grounds; invariant states what must remain true; governance rule or
+policy operationalizes; discipline stewards a recurring practice; owner decision
+adopts; constitution carries the adopted constraints; validator or gate checks or
+performs enforcement. Authority (`CAV2-D34`) scopes every part of that graph.
+
+Promoting this term creates Definition authority for the meaning of
+`constitution`. It does not promote any constitution artifact, adopt a rule or
+policy, activate a validation binding, or authorize an effect.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md)
+- [../constitutions/](../constitutions/)
+- [../../../.agents/skills/constitution-governance/SKILL.md](../../../.agents/skills/constitution-governance/SKILL.md)
 
 ## Open Questions
 

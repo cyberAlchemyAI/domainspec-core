@@ -2,7 +2,7 @@
 
 Status: active
 Owner: definitions-governance
-Last updated: 2026-07-07
+Last updated: 2026-08-29
 
 ## Audit Scope
 
@@ -62,7 +62,7 @@ This first audit covered the starter artifacts created for CyberAlchemy v2:
 | Architecture knowledge needed a lens-specific governance interface after the governed-artifact primitive review rejected a broad primitive but preserved the need for inspectable artifact trees, pattern candidates, and governed views. | fixed | Promoted `CAV2-D42` governed artifact tree, `CAV2-D43` pattern promotion lifecycle, and `CAV2-D44` view-bearing concept. These definitions make architecture-pattern-inventory the architecture-view producer while preserving the guardrail that trees, views, inventory rows, and pattern candidates are not authority without owner promotion. |
 | UX/UI knowledge needed a lens-specific governance interface so interface lessons, browser evidence, accessibility checks, screenshot review, studio intents, and human-study residue can feed knowledge promotion without becoming a false UX authority. | fixed | Promoted `CAV2-D45` UX/UI knowledge governance, `CAV2-D46` experience evidence lifecycle, and `CAV2-D47` interface evidence boundary. These definitions make `ux-lessons`, `ux-evidence-validator`, and `ui-prototyping-studio` part of a governed experience-knowledge view while preserving the guardrail that browser evidence, UX patterns, screenshots, and subjective claims do not promote themselves. |
 | CyberAlchemy value framing now uses `synergetic cybernetic human-machine integration` as a load-bearing proposition across CAV2 and IDE Ergonomics. | flag | Added [source-clusters/cyberalchemy.md](source-clusters/cyberalchemy.md) with candidate `CAV2-CAND-HMI-001`, wired it into T5, and resolved promotion-prep blockers in [the HMI decision record](../decisions/2026-06-23-hmi-candidate-promotion-prep.md). Do not promote until a canonical definition draft, index sync, drift audit, and Connective proof fixture or owner approval exist. |
-| `constitution`, `invariant`, and `axiom` are all load-bearing in CAV2 imports, but their role boundary was implicit. | flag | Added [constitution-invariant-axiom-role-review.md](reviews/constitution-invariant-axiom-role-review.md). Provisional split: invariant is the constraint/source layer, axiom is the admitted load-bearing principle, constitution is the scoped enforceable ruleset. |
+| `constitution`, `invariant`, and `axiom` are all load-bearing in CAV2 imports, but their role boundary was implicit and later Constitution references incorrectly reused `CAV2-D34` (Authority). | fixed | `CAV2-D53` defines Axiom, `CAV2-D54` defines Invariant, and `CAV2-D58` now defines Constitution. `CAV2-D34` remains Authority. Axiom grounds; Invariant states the must-hold condition; Constitution carries owner-adopted scoped rules and policies; validators or gates perform or check enforcement. |
 
 ## Undefined Critical Terms
 
@@ -74,7 +74,6 @@ This first audit covered the starter artifacts created for CyberAlchemy v2:
 | Ledger | Craft recursive ledger, authority import ledgers, framework-unification signal ledgers, and v2 tower execution material. | Defer promotion; `CAV2-D30` resolves the recursivity-name blocker, but ledger still requires inheritance-relation and local Craft ledger conformance review. |
 | Relationship Invariant | DomainSpec typed relationship system, `CAV2-D16`, framework-unification graph invariants, and sigma-valid edge formalization. | Use the inventory [schema/relationship search sequence](../../../.arcanum/inventory/queries/2026-06-21-schema-relationship-invariants/search-sequence.md); classify as subtype of `CAV2-D16`, alias, or separate primitive after evidence-cards exist. |
 | Synergetic Cybernetic Human-Machine Integration | CyberAlchemy value proposition and IDE Ergonomics now use this as the umbrella product/philosophy claim for agents, software, knowledge, interfaces, Craft state, tests, and handoffs becoming one governed loop. | Candidate `CAV2-CAND-HMI-001` in [source-clusters/cyberalchemy.md](source-clusters/cyberalchemy.md); promotion-prep decisions are resolved in [the HMI decision record](../decisions/2026-06-23-hmi-candidate-promotion-prep.md), but canonical promotion still needs definition drafting and proof or owner approval. |
-| Constitution / Axiom / Invariant Role Split | CAV2 has active constitutions, imported constitution and axiom candidates, and promoted specific invariant definitions, but no generic local role split for these three terms. | Review-only candidate in [constitution-invariant-axiom-role-review.md](reviews/constitution-invariant-axiom-role-review.md); next definitions-governance pass should decide whether to promote generic `invariant`, `axiom`, and/or a CAV2-local `constitution` subtype. |
 | Build-From-Owned | Load-bearing across `CAV2-C17` (candidate constitution), `CAV2-D48`'s definition text, and the research-skill precedent gate; functions as a recurring discipline but has **no canonical term**. (Queued 2026-06-26.) | **definitions-governance: define the term** — clean sweep on the *definition* kind → net-new-OK, NOT "re-defining" (C17's non-example conflates defining the term with re-promoting the rule — kinds are orthogonal, `D49`). Then **promote `CAV2-C17` candidate→canonical** (constitution-governance) + correct C17's two lines (the "habit not a gate" framing and the define-vs-re-promote non-example). Optional later hardening: a discipline card + the SMT build-from-owned validator (OQ-1-gated). See [[non-collapse-and-build-from-owned-definitions-map-synthesis]]. |
 | Non-Collapse | Umbrella over `CAV2-D22` + `CAV2-D29` + the 7 AUTHORITY-MODEL Non-Collapse Rules + the `forbidden_collapse` field; load-bearing everywhere but **no standalone term**. (Queued 2026-06-26.) | definitions-governance: either **define** it canonically or formally **declare it an umbrella** pointing to `D22`/`D29` (so the word stops standing in for an undefined concept). |
 
@@ -278,7 +277,7 @@ maestro-trama axiom corpora. Owner greenlit the promotion.
   Questions` (species, authority-kind, axiom-vs-premise threshold + defeasibility).
 - **`CAV2-D54` invariant — PROMOTED** as the **generic parent** of the existing
   invariant instances (`CAV2-D16`/`D29`/`D38`/`D49`). Subject = the **system**; a
-  violation is drift/defect; operationalized by a constitution (`CAV2-D34`),
+  violation is drift/defect; operationalized by a constitution (`CAV2-D58`),
   enforced by a validator/gate (`CAV2-D37`). Carries its own `### Open Questions`
   (parent-vs-instances, authority-kind, trace-obligation-as-constitution-rule).
 - **The discriminator** between them is the **subject-test**: world-truth (axiom)
@@ -407,3 +406,115 @@ adversarially verified — `CAV2-D38`: these are flags, not settled law.
 - **No artifact in this repository declares a producing skill**, and
   `.arcanum/observability/by-sigil/` holds one populated file. Under an *attested*
   reading of `CA-OQ-2`, the authority spine itself is currently non-canonical.
+
+## Domain-Originated CAV2 Generalization Clarified (2026-08-22)
+
+Trigger: the proof-obligation substrate guide exposed a one-way reading of CAV2:
+CAV2 supplies a base and domains extend it, but the upward route by which domains
+improve the base was distributed across `CAV2-D8`, `D13`, `D43`, and `D48`.
+
+**Finding: fixed.** The canonical definitions now make the two-way learning loop
+explicit without adding a competing lifecycle or authority kind:
+
+- `CAV2-D8` preserves the originating domain's exact ownership and authority
+  posture when reusable definitions, rules, methods, specifications, knowledge,
+  validators, patterns, and supporting evidence enter CAV2 review.
+- `CAV2-D13` requires a generalization proposal to retain the source version,
+  proposed abstraction, changed or lost meaning, cross-context evidence and
+  counterevidence, challenge contract, and promotion owner.
+- `CAV2-D43` now shows the challenge and residue review already required by its
+  prose and formal tuple.
+- `CAV2-D48` remains the single parent lifecycle. Its domain-originated branch
+  requires local evidence, exercise in another independently owned or materially
+  distinct context, challenge review, a CAV2 owner decision, a promoted CAV2
+  version, and separate version-exact adoption by each consuming domain.
+- [promotion-policy.md](../promotion-policy.md) and
+  [ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md](../../architecture/ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md)
+  now expose the same route, and the proof-substrate human guide explains it
+  without becoming definition authority.
+
+Stale current-definition and index references to a proposed `CAV2-C16` were also
+repaired. The current authority-kind closure is the review-mode `CAV2-D49` plus
+the AUTHORITY-MODEL catch-all row; deterministic scanning remains pending. The
+older dated audit history remains unchanged as an append-only record of the
+superseded proposal.
+
+**Authority and claim ceiling:** no domain authority moved to CAV2, no second
+domain decided CAV2 promotion, no CAV2 decision adopted a version for a domain,
+and no Lean, Cedar, Datalog, test, receipt, or Inventory result self-promoted.
+This change defines and explains the route. It does not deploy the process, run
+a cross-domain generalization example, promote a candidate, implement a
+validator, or establish generality.
+
+## Proof-Substrate Gates 6–8 Materialized (2026-08-22)
+
+Trigger: the accepted proof-substrate owner decisions resolved process-origin
+assurance, cross-owner generalization/adoption, and private-to-public release,
+but correctly left their canonical vocabulary materialization to
+definitions-governance.
+
+### Gate 6 — process-origin assurance. Finding: fixed at the definition layer.
+
+- `CAV2-D51` now separates an exact `process_origin` declaration from its
+  assurance level: `declared`, `integrity-bound`, or future `actor-attested`.
+- `CA-OQ-1` is resolved as a set-valued allowed-producer relation with one exact
+  origin bound by each artifact. This supports multiple possible producers
+  without promoting the candidate canonical-kind table.
+- `CA-OQ-2` is resolved by tiered assurance. Current review-mode owner admission
+  may use `declared`; L1 verifies bound-byte integrity; L2 remains unshipped and
+  requires a real external-signature and identity-policy receipt.
+- `CAV2-D35` needed no wording change: its active boundary already states that
+  provenance is not proof, authority, trust, or validation.
+- `CAV2-D51-SCHEMA` and the lookup index are synchronized.
+
+Deterministic enforcement remains deferred. Positive, tampered, wrong-level,
+missing-reference, and unsupported-L2 fixtures plus a separate activation
+decision are still required before any validator may claim conformance.
+
+### Gate 7 — provenance and optional adoption. Finding: already represented.
+
+`CAV2-D8`, `D13`, and `D48` already preserve the originating owner's exact
+source, a separately owned CAV2 generalization, cross-context exercise, CAV2
+promotion, and optional version-exact adoption by each domain. `CAV2-D48` now
+states explicitly that upstream provenance and later adoption are separate
+events and create no permanent semantic adapter, synchronized crosswalk,
+mapping owner, or live coupling. No new definition or adapter was added.
+
+### Gate 8 — exact publication authorization. Finding: fixed at the definition layer.
+
+Promoted `CAV2-D57` exact publication authorization and registered
+`CAV2-D57-SCHEMA`. The term defines private-by-default, two-step release:
+source owners first authorize exact ingredients and limits; the named publishing
+principal later approves exact final bytes, audience, channel, and claim ceiling.
+A generator, validator, proof, discharge, promotion, or adoption cannot grant
+publication permission.
+
+**Authority and effect ceiling:** these definition changes activate no schema or
+validator, ratify no candidate canonical-kind rows, create no adapter, publish no
+bytes, authorize no current audience or channel, and do not turn provenance,
+integrity, attestation, proof, validation, adoption, or promotion into truth or
+authority beyond their owner-scoped meanings.
+
+## Constitution Identity Repaired (CAV2-D58) — 2026-08-29
+
+The generic Constitution concept was load-bearing but had no canonical definition
+card. `CAV2-D53` and `CAV2-D54` consequently pointed Constitution-shaped references
+at `CAV2-D34`, which already and correctly defines Authority.
+
+- Promoted `CAV2-D58` Constitution as an owner-scoped, selector-bound,
+  composable rulebook for named governed subjects.
+- Repointed live Constitution references and aliases from `CAV2-D34` to
+  `CAV2-D58`; `CAV2-D34` remains Authority without semantic change.
+- Registered documentary `CAV2-D58-SCHEMA` and synchronized the lookup index.
+- Clarified that axioms ground, invariants state must-hold conditions,
+  constitutions carry adopted constraints, and validators or gates perform or
+  check enforcement.
+- Preserved `definitions-refactor/old-definitions-index.md` as a historical
+  snapshot; its old D34 mappings are provenance, not the live lookup surface.
+
+**Authority and effect ceiling:** this is an active Definition promotion, so it
+changes canonical term meaning at the Definition authority layer. It does not
+promote or activate a constitution artifact, adopt a governance rule or policy,
+attach a validator or gate, change a lifecycle state, or authorize product,
+publication, deployment, repository, agent, or external-system effects. The
+Stable Repository Constitution remains `candidate`.

@@ -4,6 +4,7 @@ Status: candidate
 Owner: constitution-governance
 Authority level: project-local constitution
 Selectors: `cyberAlchemy-v2/**`
+Canonical concept: [CAV2-D58 Constitution](../definitions/DEFINITIONS.md#cav2-d58-constitution)
 
 ## Scope
 

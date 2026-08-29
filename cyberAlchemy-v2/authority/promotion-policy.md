@@ -3,7 +3,9 @@
 Status: candidate local policy
 Owner: CyberAlchemy v2
 
-CyberAlchemy v2 promotes evidence by owner route, not by enthusiasm.
+CyberAlchemy v2 promotes authority-bearing candidates using evidence and an
+owner route, not by enthusiasm. Evidence itself does not become authority merely
+because it supports a promotion request.
 
 ## Promotion Ladder
 
@@ -16,6 +18,31 @@ CyberAlchemy v2 promotes evidence by owner route, not by enthusiasm.
 | Local authority | Definition, constitution rule, discipline, decision, or promoted spec. | Implementation or validation work |
 | Implemented behavior | Code, package, runtime adapter, or generated projection with tests or reports. | Release candidate |
 | Stable repository asset | Maintained authority, implementation, docs, and validation evidence. | Standalone extraction |
+
+## Domain-Originated Generalization
+
+When a domain-owned definition, rule, method, specification, knowledge
+structure, validator, or pattern is proposed as reusable CAV2 authority through
+an existing authority kind and owner route, apply the domain-originated branch of
+[CAV2-D48](definitions/DEFINITIONS.md#cav2-d48-authority-promotion-lifecycle):
+
+```text
+domain-owned source or candidate
+  -> originating-domain exercise and evidence
+  -> CAV2 import candidate
+  -> generalized proposal with changes and residue stated
+  -> exercise in another independently owned domain or materially distinct context
+  -> challenge and contrary-evidence review
+  -> CAV2 owner decision
+  -> promoted, versioned CAV2 authority
+  -> separate adoption by each domain that chooses to use that version
+```
+
+The originating domain owns its local meaning. The exercising domain owns its
+bounded result, not the CAV2 promotion decision. Cross-domain success supports a
+generalization claim but does not promote it, and CAV2 promotion does not adopt
+the promoted version for any domain. Proofs, tests, observations, and receipts
+remain evidence inputs.
 
 ## Required Gates
 

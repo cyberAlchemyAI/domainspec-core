@@ -14,7 +14,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D5 | promotion gate | active | [Promotion Gate](DEFINITIONS.md#cav2-d5-promotion-gate) | The point where the project asks whether a candidate is allowed to count now. |
 | CAV2-D6 | stable repository stewardship | active | [Stable Repository Stewardship](DEFINITIONS.md#cav2-d6-stable-repository-stewardship) | The habit that keeps the repo understandable after the exciting part. |
 | CAV2-D7 | authority import | active | [Authority Import](DEFINITIONS.md#cav2-d7-authority-import) | A shelf of candidates with labels. |
-| CAV2-D8 | import candidate | active | [Import Candidate](DEFINITIONS.md#cav2-d8-import-candidate) | Something worth reviewing before it gets a vote. |
+| CAV2-D8 | import candidate | active | [Import Candidate](DEFINITIONS.md#cav2-d8-import-candidate) | A domain's reusable idea can enter CAV2 review without surrendering its local meaning or authority. |
 | CAV2-D9 | CyberAlchemy v2 | active | [CyberAlchemy v2](DEFINITIONS.md#cav2-d9-cyberalchemy-v2) | The home base: the repo you can download, trust, and build above. |
 | CAV2-D10 | definition tower | active | [Definition Tower](DEFINITIONS.md#cav2-d10-definition-tower) | A stack of terms with a map, a boundary, and a next review step. |
 | CAV2-D11 | tower space | active | [Tower Space](DEFINITIONS.md#cav2-d11-tower-space) | Where tower content comes from, lives, or gets worked on. |
@@ -54,15 +54,17 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D45 | UX/UI knowledge governance | active | [UX/UI Knowledge Governance](DEFINITIONS.md#cav2-d45-uxui-knowledge-governance) | Interface learning can become reusable knowledge without pretending that a nice-looking screen or passing browser test is automatically truth. |
 | CAV2-D46 | experience evidence lifecycle | active | [Experience Evidence Lifecycle](DEFINITIONS.md#cav2-d46-experience-evidence-lifecycle) | A UI lesson becomes a rule only after it earns its way through evidence, repeat-use, challenge, and owner review. |
 | CAV2-D47 | interface evidence boundary | active | [Interface Evidence Boundary](DEFINITIONS.md#cav2-d47-interface-evidence-boundary) | A browser can show what happened on the page; it cannot by itself prove what a human understood, trusted, felt, or preferred. |
-| CAV2-D48 | authority promotion lifecycle | active | [Authority Promotion Lifecycle](DEFINITIONS.md#cav2-d48-authority-promotion-lifecycle) | The single staged path by which any authority-bearing candidate acquires authority; the build-from-owned generalization of D43/D46/Growth-Rule that the promotion-policy ladder instantiates. |
-| CAV2-D49 | closed authority-kind enumeration | active | [Closed Authority-Kind Enumeration](DEFINITIONS.md#cav2-d49-closed-authority-kind-enumeration) | The invariant that the authority-kind set is closed; an unenumerated kind defaults to blocked pending an owner decision adding it. Names the closure (enactment = proposed CAV2-C16). |
+| CAV2-D48 | authority promotion lifecycle | active | [Authority Promotion Lifecycle](DEFINITIONS.md#cav2-d48-authority-promotion-lifecycle) | Domains can teach the base, but reusable authority still requires cross-context evidence, challenge, CAV2 owner promotion, and separate version-exact adoption by each domain. |
+| CAV2-D49 | closed authority-kind enumeration | active | [Closed Authority-Kind Enumeration](DEFINITIONS.md#cav2-d49-closed-authority-kind-enumeration) | The authority-kind list is closed in review mode: an unenumerated kind stays blocked until an owner decision adds it; deterministic enforcement remains pending. |
 | CAV2-D50 | discipline | active | [Discipline](DEFINITIONS.md#cav2-d50-discipline) | A recurring cross-capability practice promoted via discipline-governance (steward + recurrence evidence + maturity ladder + hardening); evidence alone does not self-promote. Not a term/sigil/spell/task/work. |
-| CAV2-D51 | canonical artifact | active | [Canonical Artifact](DEFINITIONS.md#cav2-d51-canonical-artifact) | A document that is a recognized kind of thing, made the recognized way — typed and process-born, and decoupled from authority (a discovery is canonical yet not authoritative). |
+| CAV2-D51 | canonical artifact | active | [Canonical Artifact](DEFINITIONS.md#cav2-d51-canonical-artifact) | A recognized artifact kind with one exact, allowed origin statement and an honest assurance level; none of those levels proves execution, truth, or authority. |
 | CAV2-D52 | artifact durability | active | [Artifact Durability](DEFINITIONS.md#cav2-d52-artifact-durability) | Some documents are made to be used and retired (ephemeral, may hold contradictions); others to stand and be kept true (perennial, may not). |
 | CAV2-D53 | axiom | active | [Axiom](DEFINITIONS.md#cav2-d53-axiom) | A foundational truth taken as given that a family of invariants and rules derives from — about the world the system is built around, not a rule the system obeys. |
 | CAV2-D54 | invariant | active | [Invariant](DEFINITIONS.md#cav2-d54-invariant) | A must-hold condition on the system's own behavior; breaking it is a defect. The checkable "what must stay true" below the axiom and above the rulebook. |
 | CAV2-D55 | premise | active | [Premise](DEFINITIONS.md#cav2-d55-premise) | A working proposition the project bets on before it's proven (`veracidade` low, `convicção` high) — expected to be promoted to axiom, revised, or retired as evidence comes in. |
 | CAV2-D56 | schema | active | [Schema](DEFINITIONS.md#cav2-d56-schema) | The form the evidence must fit: what kinds may occur, what may go inside them, and how they may be wired together — and nothing about whether any of it is true, owned, or approved. |
+| CAV2-D57 | exact publication authorization | active | [Exact Publication Authorization](DEFINITIONS.md#cav2-d57-exact-publication-authorization) | Owners approve the ingredients and limits first; a publisher later approves the exact finished bytes and destination. |
+| CAV2-D58 | constitution | active | [Constitution](DEFINITIONS.md#cav2-d58-constitution) | An owner-scoped rulebook that governs matching subjects only after its exact version and scope are adopted. |
 
 ## Alias Lookup
 
@@ -83,6 +85,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | canonical artifact | CAV2-D51 |
 | typed artifact | CAV2-D51 |
 | governed artifact instance | CAV2-D51 |
+| process-origin-declared artifact | CAV2-D51 |
 | process-born artifact | CAV2-D51 |
 | non-canonical artifact | CAV2-D51 |
 | artifact durability | CAV2-D52 |
@@ -106,6 +109,11 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | admissible-structure declaration | CAV2-D56 |
 | shape declaration | CAV2-D56 |
 | schema facet | CAV2-D56 |
+| exact publication authorization | CAV2-D57 |
+| two-step publication authorization | CAV2-D57 |
+| source-owner release authorization | CAV2-D57 |
+| exact-output publication approval | CAV2-D57 |
+| private-by-default release | CAV2-D57 |
 | architecture pattern promotion lifecycle | CAV2-D43 |
 | artifact tree governance interface | CAV2-D42 |
 | base repository | CAV2-D1 |
@@ -144,7 +152,8 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | axis orthogonality | CAV2-D29 |
 | bounded recursivity | CAV2-D30 |
 | constitution-first traversal | CAV2-D24 |
-| constitution artifact | CAV2-D34 |
+| constitution | CAV2-D58 |
+| constitution artifact | CAV2-D58 |
 | confidence lifecycle axis | CAV2-D23 |
 | contract spec | CAV2-D37 |
 | decision record | CAV2-D36 |
@@ -178,7 +187,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | next stable repository | CAV2-D1 |
 | non-orthogonality explicitness rule | CAV2-D16 |
 | non-implied progress invariant | CAV2-D29 |
-| governed constitution | CAV2-D34 |
+| governed constitution | CAV2-D58 |
 | governed decision | CAV2-D36 |
 | governed discipline | CAV2-D35 |
 | governed meaning layer | CAV2-D19 |
@@ -189,7 +198,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | interface evidence lifecycle | CAV2-D46 |
 | interface knowledge governance | CAV2-D45 |
 | maturity-evidence-commitment split | CAV2-D23 |
-| modular constitution | CAV2-D34 |
+| modular constitution | CAV2-D58 |
 | ontology branch map | CAV2-D19 |
 | ontology candidate | CAV2-D19 |
 | ontology candidate condensation | CAV2-D19 |
@@ -240,7 +249,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | residue escalation method | CAV2-D17 |
 | semantic tower | CAV2-D10 |
 | specification | CAV2-D37 |
-| structure constitution | CAV2-D34 |
+| structure constitution | CAV2-D58 |
 | source evidence space | CAV2-D14 |
 | source-ledgered consolidation | CAV2-D2 |
 | staged candidate | CAV2-D8 |

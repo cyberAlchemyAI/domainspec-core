@@ -69,14 +69,19 @@ operational/code/spec hypothesis
   -> exercised in another context
   -> challenge review
   -> owner promotion
-  -> architecture pattern authority
-  -> invariant or constitution pressure when justified
+  -> CAV2 architecture pattern authority
+     -> invariant or constitution pressure when justified
+     -> separate version-exact adoption by each consuming domain
 ```
 
 Operations are therefore not "just execution." They are an evidence engine for
 knowledge promotion. A production result, test run, UX lesson, spec exercise, or
 observability signal can raise the evidence confidence of a concept, but it
 does not promote the concept by itself.
+
+Successful exercise in another context is still evidence, not promotion. CAV2
+promotion creates one named CAV2 version; it does not alter the source domain or
+adopt that version for another domain.
 
 ## Governance Interface Fields
 
@@ -85,6 +90,8 @@ declare:
 
 | Field | Purpose |
 | --- | --- |
+| `origin_owner` | The domain owner whose local object or hypothesis supplied the candidate. |
+| `origin_version` | The exact source version; CAV2 review must not silently rewrite it. |
 | `owner_route` | Who can decide mutation, promotion, challenge resolution, or drift. |
 | `canonical_source` | The source of record, or the boundary saying no source is canonical yet. |
 | `view_roles` | Meaning, system, run, residue/challenge, promotion, or architecture. |
@@ -95,26 +102,34 @@ declare:
 | `drift_route` | Who handles stale evidence, broken dependencies, or obsolete patterns. |
 | `allowed_use` | What downstream work may rely on before promotion. |
 | `blocked_use` | What the tree, card, or view must not decide. |
+| `generalization_delta` | What the CAV2 abstraction changes, omits, or leaves as residue relative to the source. |
+| `cross_context_exercise` | The independently owned or materially distinct context, evidence, counterevidence, and result. |
+| `promoted_version` | The promoted CAV2 version, or `none` while the object remains a candidate. |
 
 ## Architecture Pattern Candidate Shape
 
 ```yaml
 pattern_candidate_id:
 label:
+origin_owner:
+origin_version:
 source_hypothesis:
 domain_exercise:
 evidence_set:
 localized_concept:
 generalized_abstraction:
+generalization_delta:
 concept_cards:
 relationship_cards:
 dependency_rules:
 testing_alignment:
 observability_alignment:
+cross_context_exercise:
 known_counterexamples:
 challenge_contract:
 owner_route:
 promotion_request:
+promoted_version:
 current_authority_posture:
 allowed_use:
 blocked_use:

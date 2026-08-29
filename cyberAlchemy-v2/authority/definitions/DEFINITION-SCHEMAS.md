@@ -4,7 +4,7 @@ Status: active
 Owner: definitions-governance
 Canonical definitions source: [DEFINITIONS.md](DEFINITIONS.md)
 Lookup index: [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
-Last updated: 2026-07-07
+Last updated: 2026-08-29
 
 ## Purpose
 
@@ -40,7 +40,9 @@ field and another authority axis follows `CAV2-D16` typed coupling invariant.
 | Schema handle | Definition | Term | Shape | Status | Witness |
 | --- | --- | --- | --- | --- | --- |
 | `CAV2-D23-SCHEMA` | [CAV2-D23](DEFINITIONS.md#cav2-d23-authority-lifecycle-axis) | authority lifecycle axis | `L(a) = (kind, status, evidence, commitment, provenance, owner, residue)` | tracked (documentary) | review; machine validator deferred |
-| `CAV2-D51-SCHEMA` | [CAV2-D51](DEFINITIONS.md#cav2-d51-canonical-artifact) | canonical artifact | `CA(a) = (artifact_id, canonical_kind, authority_kind, process_origin, durability, authority_state)` | tracked (documentary) | review; validator deferred (kind-membership + rollup scan) |
+| `CAV2-D51-SCHEMA` | [CAV2-D51](DEFINITIONS.md#cav2-d51-canonical-artifact) | canonical artifact | `CA(a) = (..., process_origin, ...)`; `ProcessOrigin = (producer_ref, process_ref, process_version_ref, origin_statement_ref, origin_assurance, mechanism_ref?, verifier_receipt_ref?, claim_limit)` | tracked (documentary) | Gate 06 owner decision; validator and five fixture classes deferred |
+| `CAV2-D57-SCHEMA` | [CAV2-D57](DEFINITIONS.md#cav2-d57-exact-publication-authorization) | exact publication authorization | `PublicationAuthorization = (release_authorizations, exact_output_approval, publication_receipt?)` with exact source, policy, output, audience, and channel bindings | tracked (documentary) | Gate 08 owner decision; no present publication effect |
+| `CAV2-D58-SCHEMA` | [CAV2-D58](DEFINITIONS.md#cav2-d58-constitution) | constitution | `Constitution = (id, version, scope, subject_kinds, selectors, rules, policies, precedence, composition, owner_route, authority_level, validation_bindings, downstream_effect, challenge_route, retirement_or_split_rule)` | tracked (documentary) | owner-requested definition repair; no constitution or validator activation |
 
 ## Backlog: schema-bearing definitions not yet tracked
 
@@ -62,7 +64,6 @@ pass. This list is explicit so the gap is visible, not silently truncated.
 | CAV2-D30 | bounded recursive self-application | recursive-step record: source, target, altitude, owner, gate, residue/state, recomposition, stop |
 | CAV2-D32 | method | `M = (scope, inputs, actions, roles, gates, outputs, evidence, residue_rule, validation_rule, recomposition_rule, boundary)` |
 | CAV2-D33 | definition | `Definition = (id, term, status, aliases, normative_voice, plain_language_voice, domain_context_voice, boundary, provenance_or_sources, consumers, index_entry, drift_route)` |
-| CAV2-D34 | constitution | `Constitution = (id, scope, governed_artifact_class, structure_rules, invariants, composition_or_import_rules, owner_route, source_or_provenance, enforcement_or_witness, residue)` |
 | CAV2-D35 | discipline | `Discipline = (id, name, trigger, practice, evidence, owner_route, hardening_route, source_or_provenance, residue)` |
 | CAV2-D36 | decision | `Decision = (id, question, options_considered, chosen_option, rationale, owner_route, evidence, effect, status, residue)` |
 | CAV2-D37 | spec | `Spec = (id, scope, contract_kind, interface_or_shape, obligations, validation_surface, owner_route, source_or_provenance, promotion_state, residue)` |

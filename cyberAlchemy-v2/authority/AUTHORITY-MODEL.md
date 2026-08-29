@@ -50,7 +50,7 @@ surface is inadequate.
 | Kind | Owner route | Counts where | Must not collapse into |
 | --- | --- | --- | --- |
 | Definition | definitions-governance | `authority/definitions/DEFINITIONS.md` | glossary usage, ontology naming, source wording |
-| Constitution | constitution-governance | `authority/constitutions/` | preference, one-off review comment, hidden validator |
+| [Constitution](definitions/DEFINITIONS.md#cav2-d58-constitution) | constitution-governance | `authority/constitutions/` | preference, one-off review comment, hidden validator |
 | Discipline | discipline-governance | `disciplines/` | canonical term, sigil, spell, implementation task |
 | Decision | decision-gate | `authority/decisions/` | unresolved discussion or ambient consent |
 | Spec | spec owner plus decision-gate | `specs/` after promotion | research finding or interface idea |
@@ -67,9 +67,10 @@ the kind (with its [CAV2-D48](definitions/DEFINITIONS.md#cav2-d48-authority-prom
 lifecycle and owner route). Enforcement is **review-mode** today; the deterministic
 kind-enumeration scan is pending (OQ-1). Decision record:
 [2026-06-23 authority-kind closure catch-all row](decisions/2026-06-23-authority-kind-closure-catchall-row.md).
-(Existing invariant definitions `CAV2-D16`/`D29`/`D38`/`D49` govern **as the
-`Definition` kind** — not blocked; whether to elevate `invariant`/`axiom` to their
-own kinds is OQ-2, deferred.)
+(Active Axiom/Invariant definitions `CAV2-D53`/`D54` and specific invariant
+definitions `CAV2-D16`/`D29`/`D38`/`D49` govern **as the `Definition` kind** —
+not blocked; whether to elevate `invariant`/`axiom` to their own kinds is OQ-2,
+deferred.)
 
 ## Authority Postures
 
@@ -104,16 +105,22 @@ that can decide the movement.
 
 ## Invariant, Axiom, Constitution
 
-The default derivation pattern is:
+The model has two directions that must not be collapsed:
 
 ```text
-invariant -> axiom -> constitution rule -> validator/gate -> artifact behavior
+discovery:     invariant -> ask "why must this hold?" -> axiom
+justification: axiom -> invariant -> constitution rule -> validator/gate -> governed subject behavior
 ```
 
 An invariant states what must remain true or what violation counts as drift. An
-axiom admits a load-bearing principle that explains why action or governance
-must be constrained. A constitution rule operationalizes the invariant or axiom
-for a scoped artifact, process, validation surface, or authority behavior.
+axiom admits the load-bearing principle that explains why action or governance
+must be constrained. A constitution rule operationalizes an invariant for
+scoped artifacts, tasks or workflows, repository-owned agent actions, system
+operations or state transitions, validation surfaces, or authority movements.
+A constitution supplies owner-adopted authority and scope; a selected validator
+or gate performs or checks enforcement. A discipline may steward the recurring
+evidence, assessment, and routing practice, but it cannot author or adopt a
+constitution.
 
 This is a routing pattern, not a law. Some constitutions may encode invariants
 directly. Some axioms may remain source-local. Some invariants may stay
@@ -160,6 +167,7 @@ are stable enough to avoid freezing the wrong shape. Status: OPEN.
 
 ### OQ-2. Should invariant and axiom become first-class authority kinds?
 
-Context: CAV2 has specific invariant definitions and imported axiom evidence, but
-generic `invariant` and `axiom` are still under review. Recommendation: promote
-their definitions before adding them to the authority kind table. Status: OPEN.
+Context: generic `axiom` (`CAV2-D53`) and `invariant` (`CAV2-D54`) are active
+definitions, but both currently govern under the `Definition` authority kind.
+Recommendation: decide separately whether either warrants a first-class row;
+their definition status does not answer that authority-kind question. Status: OPEN.
