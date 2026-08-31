@@ -1,0 +1,45 @@
+{
+  "dispatch_id": "2026-08-31-evf-bte-vladimir-handoff",
+  "schema_version": "0.7.0",
+  "dispatch_type": "review",
+  "goal": "Produce one detailed, evidence-bounded Handoff Notice draft for Vladimir about the verified EVF/BTE problems, then independently review every factual claim, locator, decision boundary, and requested action before the parent presents it in chat.",
+  "context": "The user requires the handoff to be written in chat before any publication. A prior critical review retained five current findings: stale supported-profile digests, split JSON/YAML formation validation, optional producer separation, empty/first-match bindings, and readiness drift. The notice must follow the repository-local handoff-notice skill and must not authorize implementation, merge, retirement, promotion, Git transport, or external delivery.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "working_folder": "sessions/2026-08-31-evf-bte-vladimir-handoff-review",
+  "groups": [
+    {
+      "group_id": "handoff-writer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Ahrens, Sönke",
+          "role": "writer",
+          "model": "gpt-5.6-sol",
+          "token_budget": 5000,
+          "initial_prompt": "You are Ahrens, Sönke. Work read-only in C:/Users/victo/domainspec-core. Write a detailed draft Handoff Notice for Vladimir, but do not publish or write repository files. First read the complete repository-local handoff-notice skill at .agents/skills/handoff-notice/SKILL.md plus its schema and template. Then inspect only these current evidence anchors: projects/domainspec-v2/definitions/minted-project/supported-profiles.yml:1-35; projects/domainspec-v2/impl/tools/minted-project/compiler.ts:211-226,382-396,466-488; projects/domainspec-v2/impl/test-derivation-engine/src/bte/validation/validate-semantics.ts:464-515; projects/domainspec-v2/impl/test-derivation-engine/src/bindings/index.ts:30-81; projects/domainspec-v2/impl/package.json:31-38; projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/REQUIREMENTS.md:112-125; its WORK-PACK.md:42-50,200-214; EVF PLAN.md:1-10,66-77; EVF WORK-PACK.md:54-76; and EVF reviews/2026-07-20-implementation-completion/corpus-manifest.refresh-002.json. Recheck current bytes and, where safe, rerun the focused compiler/view tests, the JSON-vs-criterion Entity probe, the validateRedFixtureBundle caller search, the empty-binding probe, and the 61-entry manifest comparison. Inventory packet leads are non-authority: EVF strategy result, implementation re-audits, contract-completeness audit 002, and BTE full-work refresh. Use them only to find source anchors. Produce two inline blocks: (1) a JSON publish input conforming to handoff-notice.schema.json with status draft, recipient Vladimir, source Victor with Codex assistance, explicit open calls, boundaries, next actions, source refs, and authorization not-granted; (2) the readable Markdown notice. Every problem must state exact repo-relative file and line range, quoted or directly observed behavior, reproduction command/result, consequence, evidence limit, proposed owner, and bounded next action. Distinguish current development breakage from release/admission failure. Preserve the conclusion that evidence supports EVF as bounded design/history and BTE as broad executable owner, but does not authorize merge, retirement, rename, or supersession. Keep the notice detailed yet usable by Vladimir without the conversation history."
+        }
+      ]
+    },
+    {
+      "group_id": "handoff-reviewer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Popper, Karl",
+          "role": "skeptic",
+          "model": "gpt-5.6-sol",
+          "token_budget": 4000,
+          "initial_prompt": "You are Popper, Karl. Work read-only in C:/Users/victo/domainspec-core. Receive the writer's exact JSON payload and Markdown Handoff Notice. Independently verify them against the complete .agents/skills/handoff-notice/SKILL.md, schema, template, and every literal source cited by the writer. Re-run only safe focused checks needed to test the five claims: registry digest mismatch and compiler/view test collapse; JSON formation schema versus criterion adapter; optional implementationProducerIds and actual non-test callers; empty/first-match binding behavior versus BTE RUN-001/RUN-002; package scripts versus work-pack stage labels and the current 61-entry manifest comparison. Check that experimental/not-granted/development-only state is not inflated into production failure; historical audits are not called false; EVF candidate status is not converted into an unauthorized merge or retirement decision; requested actions name owners without granting authority; private material stays in domainspec-core; every source ref exists; and the JSON matches handoff-notice.schema.json. Return APPROVE or CHANGES_REQUIRED. For every defect, identify the exact handoff claim, contradicting file/line or command result, severity, and replacement wording. If approved, return the exact final Markdown and JSON unchanged. Do not publish, write files, commit, push, message Vladimir, or execute the proposed next route."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "handoff-writer",
+      "to": "handoff-reviewer",
+      "type": "sequential"
+    }
+  ]
+}
