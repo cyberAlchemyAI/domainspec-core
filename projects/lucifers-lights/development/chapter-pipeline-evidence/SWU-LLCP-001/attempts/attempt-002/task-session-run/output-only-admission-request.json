@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.2.0",
+  "executionMode": "routed-mutation",
+  "taskId": "TASK-LLCP-CORE",
+  "swuId": "SWU-LLCP-001",
+  "controlArtifacts": [
+    {
+      "path": "projects/lucifers-lights/development/refinement-runs/20260821T145606Z-chapter-production-pipeline/stages/09-invoke-plan/work-pack/tasks/TASK-LLCP-CORE.md",
+      "sha256": "65eec438b8487c870400a2b79f9e7f089bd136c18c6132b9539a59b6e587e8e8",
+      "sizeBytes": 10427,
+      "role": "task-contract",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/lucifers-lights/development/refinement-runs/20260821T145606Z-chapter-production-pipeline/stages/09-invoke-plan/WORK-PACK.md",
+      "sha256": "290212937558c1720a31b9deffd4a1a85812df912472c0cf94dc2febba5458ba",
+      "sizeBytes": 19233,
+      "role": "work-pack",
+      "authorityClass": "private"
+    },
+    {
+      "path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/output-only-context-control.json",
+      "sha256": "41e8cf4972bcf1018d737d798fb3675dd8de18e5e41b9216101924b09f0d764e",
+      "sizeBytes": 3533,
+      "role": "context-pack",
+      "authorityClass": "private"
+    }
+  ],
+  "dependencyFrontier": [],
+  "materialWrites": [],
+  "executionOutputs": [
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/__init__.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/model.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/canonical.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/test_canonical.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/fixtures/chapter-01-structural.json",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/fixtures/chapter-02-synthetic.json"
+  ],
+  "allowedWrites": [
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/__init__.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/model.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/canonical.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/test_canonical.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/fixtures/chapter-01-structural.json",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/fixtures/chapter-02-synthetic.json"
+  ],
+  "validationCommands": [
+    "python3 -m unittest discover -s projects/lucifers-lights/tests/chapter_pipeline -p 'test_canonical.py'",
+    "python3 -m compileall -q projects/lucifers-lights/chapter_pipeline"
+  ],
+  "lifecycleOwner": "task-session",
+  "authorityClass": "private",
+  "publicationClass": "internal"
+}

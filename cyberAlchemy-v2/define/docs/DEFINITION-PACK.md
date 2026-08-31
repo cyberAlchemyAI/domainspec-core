@@ -26,6 +26,11 @@ The person, team, or tool that uses the pack is called its **consumer**.
 Each required concept has one current handling choice. That choice is called its
 **disposition**.
 
+A Definition Pack may reference records from the Define
+[handled-definitions registry](../handled-definitions.json). The Pack freezes the
+exact records used for one consumer and intended use; it does not turn the
+registry into canon or make a registry record suitable for a different context.
+
 Here, **canonical** means formally accepted by the configured definition owner.
 
 This document lists what a Definition Pack must contain and what its checks do
@@ -150,6 +155,7 @@ This record makes the gap visible. It does not invent the answer.
 A Definition Pack is not:
 
 - the canonical definition store;
+- the complete handled-definitions registry;
 - a product, system, UX, UI, or brand solution;
 - an implementation plan;
 - proof that all human intent was captured;

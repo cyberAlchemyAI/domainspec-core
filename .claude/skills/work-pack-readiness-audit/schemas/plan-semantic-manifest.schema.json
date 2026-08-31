@@ -89,14 +89,32 @@
         "unit_contract_digest",
         "completion_binding_id",
         "completion_artifact_ref",
-        "closeout_binding_id"
+        "closeout_binding_id",
+        "evidence_profile",
+        "joined_owner_capability",
+        "joined_owner_result",
+        "joined_owner_receipt_ref",
+        "owner_receipt_schema_binding_id",
+        "owner_receipt_schema_ref",
+        "owner_receipt_schema_identity",
+        "continuation_cursor_ref",
+        "canonical_successor"
       ],
       "properties": {
         "unit_id": {"type": "string", "minLength": 1},
         "unit_contract_digest": {"$ref": "#/$defs/sha256"},
         "completion_binding_id": {"type": "string", "minLength": 1},
         "completion_artifact_ref": {"$ref": "#/$defs/exactArtifactRef"},
-        "closeout_binding_id": {"type": "string", "minLength": 1}
+        "closeout_binding_id": {"type": "string", "minLength": 1},
+        "evidence_profile": {"const": "task-session-joined-owner-closeout-v1"},
+        "joined_owner_capability": {"type": "string", "minLength": 1},
+        "joined_owner_result": {"enum": ["pass", "no-op"]},
+        "joined_owner_receipt_ref": {"$ref": "#/$defs/exactArtifactRef"},
+        "owner_receipt_schema_binding_id": {"type": "string", "minLength": 1},
+        "owner_receipt_schema_ref": {"$ref": "#/$defs/exactArtifactRef"},
+        "owner_receipt_schema_identity": {"type": "string", "minLength": 1},
+        "continuation_cursor_ref": {"$ref": "#/$defs/exactArtifactRef"},
+        "canonical_successor": {"type": "string", "minLength": 1}
       }
     },
     "completionContinuity": {

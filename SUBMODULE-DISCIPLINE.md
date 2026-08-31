@@ -39,7 +39,7 @@ For every shared-branch publication:
 3. Replay only unpublished, scoped work:
    - **Rebase** when the entire unpublished topic branch belongs in the publication.
    - **Cherry-pick** onto the fresh target when selecting coherent commits from a mixed or dirty checkout.
-4. Commit any verified gitlink updates, run `make publication-check TARGET_BRANCH=master`, review the exact commit/path delta, then run `make bump-check TARGET_BRANCH=master` when gitlinks are involved.
+4. Run `make publication-check TARGET_BRANCH=master`, review the exact commit/path delta, then run `make bump-check` when gitlinks are involved.
 5. Advance `master` only by fast-forward, using `git push --recurse-submodules=check origin HEAD:master`. A concurrent remote update must reject the push; fetch and replay again.
 
 Safety boundaries:
@@ -50,16 +50,6 @@ Safety boundaries:
 - A dirty primary checkout is a reason to use an isolated clean worktree, not a reason to merge the target into stale work.
 
 The clone-local `make config` guardrails set `pull.ff=only` and `merge.ff=only`; they block accidental non-fast-forward pulls and merges. The explicit publication check also rejects dirty worktrees, stale target ancestry, whitespace errors, and merge commits in the proposed target delta.
-
-In an isolated worktree where submodule directories are not initialized, a verified gitlink may be staged directly in the index. Commit that exact index without trailing pathspecs:
-
-```
-git ls-files --stage -- <submodule-path>
-git diff --cached --check
-git -c submodule.recurse=false commit -m "chore(submodules): advance <name>"
-```
-
-Do not use `git commit -- <submodule-path>` in that state. Pathspec commit mode reconstructs the path from the absent child worktree instead of consuming the already-verified index entry. `make bump-check` rejects staged-but-uncommitted gitlinks and dry-runs the exact configured parent target.
 
 ## 4. Branch tracking (no more detached HEAD)
 
@@ -98,10 +88,10 @@ These are per-clone local settings; they never affect collaborators.
 | `make status` | show submodule drift vs recorded pointers |
 | `make sync` | pull each submodule to the tip of its tracked branch |
 | `make publication-check TARGET_BRANCH=master` | fetch the target and reject dirty, stale, or merge-bearing publication state |
-| `make bump-check TARGET_BRANCH=master` | reject staged gitlinks and verify committed child pointers against the exact parent push target |
+| `make bump-check` | verify submodule commits are pushed before bumping the parent |
 | `make doctor` | diagnose detached HEADs / dirty submodules |
 
-**Bumping the parent gitlink is deliberate, never automatic.** After `make sync` and review, verify the child commit on its remote, stage and inspect only the intended gitlink, commit the verified index, run `make bump-check TARGET_BRANCH=master`, then push the parent.
+**Bumping the parent gitlink is deliberate, never automatic.** After `make sync` and reviewing, run `make bump-check`, then `git add <path> && git commit && git push`.
 
 ## 7. Onboarding (clone)
 

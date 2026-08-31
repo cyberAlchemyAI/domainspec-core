@@ -101,18 +101,35 @@ formulae/dispatch-spec/development/run-validation-fixtures.sh
 29. `lifecycle-owned` and `artifact-only` roles require explicit write scopes; read-only roles cannot declare a write scope.
 30. Write scopes must be normalized repository-relative paths. Concurrent roles cannot have overlapping write scopes, and a role's write scope cannot overlap its forbidden scopes.
 31. Role dependencies must be in earlier execution waves, be mirrored by `depends_on_waves`, and consume at least one receipt from each dependency.
-32. Every non-final wave requires a named `gate_after` that identifies the wave and its required role receipts; later waves cannot start until their declared joins and gate pass.
+32. Legacy capability-bound dispatches keep their historical non-final-wave
+    gate behavior. Every new or successor dispatch must declare
+    `execution_contract_version: arcanum.capability-bound-execution.v0.2`.
+    Under v0.2 every wave, including the final wave, requires a named
+    `gate_after`; the gate must bind that exact wave and cover exactly the
+    wave's required role receipts. Runtime admission independently requires
+    every normalized receipt artifact set to equal its action `output_refs`
+    and the admitted union to equal the gate's `requires_role_receipts`.
 33. A capability-bound lifecycle closeout requires prior authorization and must identify each agent's capability, target, mode, wave, and effective write scope.
 34. A passing capability-bound closeout must contain exactly the declared number of agent records for every role.
 35. Every agent in a passing capability-bound closeout must have spawned, completed its join, closed, and returned its declared receipt; every applied step must also have a passing native-stage receipt containing the role output.
-36. Every confirmation-ready or executable capability-bound role must bind one
+36. A legacy approved dispatch entering native Orchestrate execution may include unchanged `subagent_strategy.registration` v0.2 bound to the canonical public ledger, exact v0.6.1 sheet digest, executable projection digest, and governed temporary paths.
+37. A new preconfirmation dispatch uses `subagent_strategy.registration_intent`, remains at `authorization: requires_user_permission`, and carries no post-confirmation evidence. After confirmation and registration, Orchestrate accepts a separate run-local execution entry with registration v0.3; it must bind the exact immutable dispatch, runtime profile, confirmation, source lifecycle, admission receipt, consumed envelope, raw ledger row, executable projection, topology, and temporary close path before emitting actions.
+37. Every confirmation-ready or executable capability-bound role must bind one
     versioned typed briefing to an immutable dispatch-relative JSON artifact and
     selector. The validator recomputes the artifact, selected-payload, and
     canonical briefing digests and requires exact payload equality.
-37. The briefing must preserve identity, angle, instructions, distinct task and
+38. The briefing must preserve identity, angle, instructions, distinct task and
     domain-gate status semantics, explicit read policy, exact write policy,
     receipt shape, and authority ceiling. Forbidden-write scopes never imply
     forbidden reads.
+38. Every v0.2 gate declares exactly one typed evaluation. `receipt_status`
+    requires every normalized receipt to pass. `domain_status` reads one named
+    field from one singleton source role, with disjoint `pass_values` and
+    `resolved_values`; resolved values are legal only on the final wave.
+39. A v0.2 terminal domain resolution is not a generic pass. The runtime emits
+    `gate_resolved`, unlocks no work, and preserves the typed domain outcome in
+    terminal state and evidence. Unknown, absent, overlapping, or mismatched
+    values block.
 
 ## Subagent Strategy
 
@@ -144,6 +161,12 @@ parent orchestrator rather than merely describe useful roles. Each role names
 one governing capability and target. `execution_waves` then define which roles
 may run together, where the parent must join them, and which gate unlocks the
 next wave.
+
+For new and successor routes, set
+`subagent_strategy.execution_contract_version` to
+`arcanum.capability-bound-execution.v0.2`. Omitting it selects validate-only
+legacy behavior for historical artifacts; omission is not allowed for a newly
+authored route.
 
 The parent orchestrator owns spawning, joining, gating, and synthesis.
 Dispatch Spec validates that contract but does not spawn agents itself. A

@@ -59,6 +59,10 @@ Persisted handoff packs should live under a run/session evidence path. They are 
 
 ## Handoff Pack Schema
 
+### Native execution-entry projection
+
+`scripts/compile_native_context_projection.py` deterministically emits the schema-validated machine view for one closed unit. The machine view has top-level `task_id` and `swu_id`, `strict_coverage: true`, and exactly the camelCase admission fields. Version 1.2 omits and forbids `transientOutputs`; version 1.3 requires a nonempty declared transient set. A human view may be rendered only after machine-view validation and binds the machine digest.
+
 A handoff pack includes:
 
 - identity: task/SWU, source task/work-pack, and run/session id when available,

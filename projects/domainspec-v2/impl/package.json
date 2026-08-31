@@ -11,13 +11,14 @@
     "test-derivation-engine"
   ],
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "typescript": "^5.4.0",
-    "tsx": "^4.7.0",
-    "vitest": "^2.0.0"
+    "@types/node": "26.4.0",
+    "@typescript/native": "npm:typescript@7.0.2",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "tsx": "4.20.6",
+    "vitest": "3.2.6"
   },
   "scripts": {
-    "validate": "npm run validate:docs && npm run validate:rels && npm run validate:content && npm run tools:test && npm run engine:lint",
+    "validate": "pnpm run validate:docs && pnpm run validate:rels && pnpm run validate:content && pnpm run tools:test && pnpm run engine:lint",
     "validate:docs": "tsx tools/validate-doc-links.ts",
     "validate:rels": "tsx tools/validate-relationships.ts",
     "validate:content": "tsx tools/validate-content.ts",
@@ -31,7 +32,7 @@
     "definitions:aggregate": "tsx tools/aggregate-concept-registry.ts",
     "audit:retired-orchestration": "tsx tools/audit-retired-orchestration-references.ts",
     "engine:lint": "tsx test-derivation-engine/src/cli.ts lint spec/features/sample",
-    "engine:test": "npm -w @domainspec/test-derivation-engine run test",
+    "engine:test": "pnpm --filter @domainspec/test-derivation-engine test",
     "generate:bte:financial-settlement": "tsx test-derivation-engine/src/bte/financial-settlement-cli.ts generate",
     "verify:bte:financial-settlement": "tsx test-derivation-engine/src/bte/financial-settlement-verify.ts",
     "build:sfol:financial-settlement": "tsx tools/build-financial-settlement-sfol.ts",

@@ -273,7 +273,9 @@
       "source_refs": [
         {"source_id": "GOV-PRODUCT-SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D58: Constitution"},
         {"source_id": "GOV-PRODUCT-SRC-ARCANUM-CONSTITUTIONS", "selector": "<composition-rules>"},
-        {"source_id": "GOV-PRODUCT-SRC-ARCANUM-DEFINITIONS", "selector": "## DEF-ARC-CONTRACT: Contract"}
+        {"source_id": "GOV-PRODUCT-SRC-ARCANUM-DEFINITIONS", "selector": "## DEF-ARC-CONTRACT: Contract"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-DOMAIN-MODEL", "selector": "| Governance Program | `DS-D1.1 Entity`"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-RUST", "selector": "pub struct GovernanceProgram"}
       ],
       "owner_route": "Governance product ontology owner",
       "candidate_status": "candidate",
@@ -315,7 +317,9 @@
       "source_refs": [
         {"source_id": "GOV-PRODUCT-SRC-MODEL", "selector": "Governance Assessment"},
         {"source_id": "GOV-PRODUCT-SRC-DSV2-DEFINITIONS", "selector": "## domainspec-v2-D2. Validation governance"},
-        {"source_id": "GOV-PRODUCT-SRC-ARCANUM-CONSTITUTIONS", "selector": "<validation-model>"}
+        {"source_id": "GOV-PRODUCT-SRC-ARCANUM-CONSTITUTIONS", "selector": "<validation-model>"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-DOMAIN-MODEL", "selector": "| Evaluate Governance | `DS-D1.6 Calculation`"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-RUST", "selector": "pub fn evaluate"}
       ],
       "owner_route": "Governance evaluation owner",
       "candidate_status": "candidate",
@@ -597,7 +601,8 @@
       "scope": "All governance decisions, admissions, promotions, validations, enforcement, and consequential integrations.",
       "source_refs": [
         {"source_id": "GOV-PRODUCT-SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D34: Authority"},
-        {"source_id": "GOV-PRODUCT-SRC-CAV2-OUTCOMES", "selector": "authority for a consequential action bounded"}
+        {"source_id": "GOV-PRODUCT-SRC-CAV2-OUTCOMES", "selector": "authority for a consequential action bounded"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-RUST", "selector": "pub enum ProgramClause"}
       ],
       "owner_route": "Governance product ontology owner",
       "candidate_status": "candidate",
@@ -617,7 +622,9 @@
       "scope": "Every future Governance enforcement decision and integration surface.",
       "source_refs": [
         {"source_id": "GOV-PRODUCT-SRC-CAV2-DEFINITIONS", "selector": "candidate(C) or selected(C) or context_loaded(C) =/=> applies(C, subject)"},
-        {"source_id": "GOV-PRODUCT-SRC-MODEL", "selector": "A candidate or context-loaded constitution is not active."}
+        {"source_id": "GOV-PRODUCT-SRC-MODEL", "selector": "A candidate or context-loaded constitution is not active."},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-GUIDE", "selector": "Its result precedence is explicit and independent of clause order:"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-RUST", "selector": "pub fn evaluate"}
       ],
       "owner_route": "Governance product ontology owner",
       "candidate_status": "candidate",
@@ -637,7 +644,9 @@
       "scope": "Every governance capability, output, relation, and integration.",
       "source_refs": [
         {"source_id": "GOV-PRODUCT-SRC-CAV2-AUTHORITY", "selector": "## Non-Collapse Rules"},
-        {"source_id": "GOV-PRODUCT-SRC-ARCANUM-DEFINITIONS", "selector": "Schema validation is shape evidence, not execution evidence"}
+        {"source_id": "GOV-PRODUCT-SRC-ARCANUM-DEFINITIONS", "selector": "Schema validation is shape evidence, not execution evidence"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-GUIDE", "selector": "This crate hashes nothing, reads no repository state, changes no lifecycle,"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-RUST", "selector": "pub enum EffectCeiling"}
       ],
       "owner_route": "Governance product ontology owner",
       "candidate_status": "candidate",
@@ -657,7 +666,10 @@
       "scope": "Critical validation, blocking, promotion, closeout, admission, enforcement, and other consequential governance methods.",
       "source_refs": [
         {"source_id": "GOV-PRODUCT-SRC-DSV2-AXIOMS", "selector": "### Axiom A3 - Governance Methods Must Be Runnable"},
-        {"source_id": "GOV-PRODUCT-SRC-HISTORICAL-AXIOM", "selector": "## Axiom A3 — Governance Must Be Computable To Be Reliable"}
+        {"source_id": "GOV-PRODUCT-SRC-HISTORICAL-AXIOM", "selector": "## Axiom A3 — Governance Must Be Computable To Be Reliable"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-GUIDE", "selector": "## Run it"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-RUST", "selector": "fn errors_on_duplicate_or_conflicting_facts"},
+        {"source_id": "GOV-PRODUCT-SRC-SMALLEST-PROGRAM-RUST", "selector": "fn clause_order_does_not_turn_a_missing_binding_into_a_denial"}
       ],
       "owner_route": "Governance product ontology owner",
       "candidate_status": "candidate",

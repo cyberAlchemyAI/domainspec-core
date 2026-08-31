@@ -2,9 +2,11 @@ import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import {
   closeBodyWarSqlClient,
+  createBodyWarDatabase,
   createBodyWarSqlClient,
 } from "../src/infrastructure/postgres/database.js";
 import { resetBodyWarDatabase } from "../src/infrastructure/postgres/migrations.js";
+import { createDrizzleBodyWarAuthRepository } from "../src/auth/drizzle-repository.js";
 import { handleRequest, resetAuthComponentsForTests } from "../server.js";
 
 const ALLOWED_ORIGIN = "http://127.0.0.1:5174";
@@ -49,6 +51,7 @@ async function main(): Promise<void> {
     });
     assert.equal(nested(profile, ["profile", "strava", "profile_url"]), "https://www.strava.com/athletes/123");
     assertNoSecretLeak(profile);
+    const principalId = String(nested(profile, ["profile", "principal_id"]));
 
     const activities = await jsonFetch(`${baseUrl}/api/activities`, {
       headers: { cookie: cookieHeader },
@@ -101,6 +104,26 @@ async function main(): Promise<void> {
     assert.equal(nested(evidenceCandidate, ["suggested_track", "status"]), "evidence_submitted");
     assert.equal(nested(evidenceCandidate, ["suggested_track", "authority", "route_geometry"]), "not_claimed");
     assertNoSecretLeak(evidenceCandidate);
+    const evidenceCandidateId = String(nested(evidenceCandidate, ["evidence_candidate", "id"]));
+
+    const replay = await jsonFetch(`${baseUrl}/api/suggested-tracks/${createdSuggestedTrackId}/evidence-candidates`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        cookie: cookieHeader,
+        origin: ALLOWED_ORIGIN,
+        "x-csrf-token": csrfToken,
+      },
+      body: JSON.stringify({
+        activity_id: firstActivityId,
+        consent_acknowledged: true,
+        consent_text: "Store only the redacted activity summary.",
+      }),
+    }, 409);
+    assert.deepEqual(replay, {
+      error: "evidence_candidate_replay",
+      message: "This activity already has evidence for this suggested track",
+    });
 
     const rejected = await fetch(`${baseUrl}/api/submissions`, {
       method: "POST",
@@ -124,6 +147,55 @@ async function main(): Promise<void> {
       body: JSON.stringify({ track_id: "track-1", activity_id: "activity-1" }),
     }, 201);
     assert.equal(nested(submission, ["submission", "status"]), "submitted");
+
+    const lifecycleSql = createBodyWarSqlClient();
+    try {
+      const repository = createDrizzleBodyWarAuthRepository(
+        createBodyWarDatabase(lifecycleSql),
+      );
+      const account = await repository.findProviderAccountByPrincipalId(principalId);
+      assert.ok(account);
+      assert.ok(await repository.findLatestProviderToken(account.id));
+      assert.ok(await repository.findRunnerProfile(principalId));
+      const storedEvidence = await repository.listActivityEvidenceCandidates(createdSuggestedTrackId);
+      assert.equal(storedEvidence.length, 1);
+      assert.equal(storedEvidence[0]?.id, evidenceCandidateId);
+
+      assert.equal(await repository.revokeProviderAccess(principalId), "disposed");
+      assert.equal(await repository.revokeProviderAccess(principalId), "already_absent");
+      assert.equal(await repository.findProviderAccountByPrincipalId(principalId), null);
+      assert.equal(await repository.findLatestProviderToken(account.id), null);
+      assert.ok(await repository.findRunnerProfile(principalId));
+      assert.equal(
+        (await repository.listActivityEvidenceCandidates(createdSuggestedTrackId))[0]?.id,
+        evidenceCandidateId,
+      );
+
+      assert.equal(
+        await repository.disposeActivityEvidenceCandidate({
+          candidateId: evidenceCandidateId,
+          reason: "consent_revocation",
+        }),
+        "disposed",
+      );
+      assert.equal(
+        await repository.disposeActivityEvidenceCandidate({
+          candidateId: evidenceCandidateId,
+          reason: "consent_revocation",
+        }),
+        "already_absent",
+      );
+      assert.deepEqual(
+        await repository.listActivityEvidenceCandidates(createdSuggestedTrackId),
+        [],
+      );
+      assert.equal(
+        (await repository.findSuggestedTrack(createdSuggestedTrackId))?.status,
+        "needs_evidence",
+      );
+    } finally {
+      await closeBodyWarSqlClient(lifecycleSql);
+    }
 
     const logout = await jsonFetch(`${baseUrl}/api/auth/logout`, {
       method: "POST",

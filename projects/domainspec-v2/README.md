@@ -4,6 +4,13 @@ Status: **implementation home** (migrating from v1 by import+reformulate, 2026-0
 Owner: DomainSpec v2
 Started: 2026-06-11
 
+Current execution runtime: Node `26.8.1` in the repository's pinned container;
+see [`RUNTIME.json`](RUNTIME.json) and run [`validate-runtime.mjs`](validate-runtime.mjs)
+through `toolchains/node-typescript/bin/node-env`. Historical receipts retain the
+runtime they actually observed and do not control current execution. The current
+container evidence is recorded in the
+[`Node 26 migration receipt`](development/implementation-conformance/ontology-experiment/validation-receipts/2026-08-29-node-26-runtime-migration.json).
+
 DomainSpec v2 is the next iteration of the DomainSpec discipline. **As of 2026-06-29, v2 is
 becoming the implementation home:** v1 ([`implementation/domainspec`](../../implementation/domainspec))
 is being **frozen as an evidence source**, and the necessary capabilities are being **imported and
@@ -13,11 +20,15 @@ lives under [`impl/`](impl/). v2 also remains the research-tower program describ
 
 ## Architecture and guide
 
+- [Product Thesis](PRODUCT-THESIS.md) — the canonical statement of the problem,
+  promise, product model, moat, boundaries, and success criterion.
 - [DomainSpec v2 Architecture](ARCHITECTURE.md) — the integrated system map across
   authority, language, specification, compilation, derivation, conformance, evidence,
   EVF, and owner gates.
 - [Complete Guide](COMPLETE-GUIDE.md) — the teaching-oriented walkthrough, examples,
   and practical usage reference.
+- [Product Ontology](ontology/README.md) — the canonical private business/system graph
+  and evidence-backed realization bridge.
 
 ## Implementation home (`impl/`) — migrated from v1
 

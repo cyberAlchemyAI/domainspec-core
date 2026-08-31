@@ -1,0 +1,231 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "body-war-swu-readiness-candidate-envelope",
+  "candidate_id": "BW-BWSL001-PREFLIGHT-CANDIDATE-A",
+  "created_at": "2026-08-26T15:20:48Z",
+  "target": "SWU-BWSL-001",
+  "status": "preacceptance-no-effect",
+  "mutation_ready": false,
+  "authority_effect": "none",
+  "source": {
+    "direct_intent": "do the sequence",
+    "completed_dependency_receipt": {
+      "path": "projects/body-war/development/implementation-readiness-runs/20260826T142600Z-swu-bwsl-000-read-only-preflight/IMPLEMENTATION-VALIDATION-RECEIPT.json",
+      "sha256": "cacf9624a9b015f3d05b2f4714462a76f1b2830cb8f100915e6e6a4f9e424602",
+      "bytes": 8201,
+      "result": "pass",
+      "live_postimage_rehash": "pass"
+    },
+    "candidate_work_pack": {
+      "path": "projects/body-war/development/invoke-runs/20260826T132848Z-body-war-continuation-material/material-package/postimages/projects/body-war/docs/features/strava-linked-pilot/WORK-PACK.md",
+      "sha256": "d5702d395f1f5ef0a23b1827b9f30f68ade3b0547d3f9ceed45c6887e4efb10e",
+      "bytes": 9391,
+      "designation": "non-executing-refresh-candidate"
+    },
+    "canonical_work_pack": {
+      "path": "projects/body-war/docs/features/strava-linked-pilot/WORK-PACK.md",
+      "sha256": "15dc996b0920d087e2a9b4ad05034fb61fd00c83f32d71ac1386e7dc977b3a81",
+      "bytes": 12174,
+      "status": "stale-python-era-not-used-as-execution-authority"
+    }
+  },
+  "layering": [
+    {
+      "layer": "L0",
+      "decision_question": "After this layer, do both normal app consumers reach the provider seam in real mode while fake mode and all privacy guarantees remain intact?",
+      "minimum_working_unit": "adapter routing plus endpoint/evidence regression and sequential replay rejection",
+      "deferred": [
+        "database-concurrency uniqueness",
+        "real provider call",
+        "real runner evidence",
+        "retention and descendant policy",
+        "deployment and production hardening"
+      ],
+      "promotion_evidence": "all declared synthetic, PostgreSQL, browser, privacy, and scope validations pass"
+    }
+  ],
+  "behavioral_decisions": {
+    "normal_activity_routing": {
+      "fake_gateway": "keep repository-backed synthetic summaries and prohibit fetch",
+      "real_gateway": "delegate the existing normal listActivitySummaries method to the already-tested provider method",
+      "server_contract": "both GET /api/activities and SuggestedTrack evidence selection continue calling the shared normal method"
+    },
+    "pagination": {
+      "direct_provider_contract": "preserve the accepted multi-page behavior from page 1 for 1..10 pages and 1..100 records per page",
+      "normal_api_contract": "interpret the public page query as one exact Strava page in 1..10, never as a cumulative page count",
+      "primitive_change": "add a validated startPage window while retaining the existing bounded page-count contract",
+      "window_bound": "startPage + pages - 1 must remain within 1..10"
+    },
+    "replay_policy": {
+      "key": [
+        "principal_id",
+        "suggested_track_id",
+        "provider_activity_id"
+      ],
+      "sequential_result": "reject before provider fetch with HTTP 409 and stable error code evidence_candidate_replay",
+      "public_error_payload": {
+        "error": "evidence_candidate_replay",
+        "message": "This activity already has evidence for this suggested track"
+      },
+      "storage_effect": "do not create a second evidence candidate",
+      "concurrency_claim": "not_claimed",
+      "concurrency_hardening": "deferred to a separately scoped repository/schema unit before multi-writer or production claims"
+    },
+    "redaction": "preserve the existing ActivitySummary allowlist and omit tokens, raw payload, account/athlete metadata, coordinates, maps, polylines, notes, and secrets",
+    "external_effect": "none"
+  },
+  "product_targets": [
+    {
+      "path": "projects/body-war/app/server.ts",
+      "operation": "update",
+      "baseline_bytes": 29520,
+      "baseline_sha256": "d960958d667908862343c7eb4e09a9a97a4ff0093bcb87a422e2c1a86ac4d1a2",
+      "owned_change": "sequential replay check and stable safe error before provider access"
+    },
+    {
+      "path": "projects/body-war/app/src/auth/strava-oauth.ts",
+      "operation": "update-current-BWSL000-postimage",
+      "baseline_bytes": 13146,
+      "baseline_sha256": "b349a411b1e142fd377b6081624757414d7a573eadf2c158a72ca90752bc7edf",
+      "owned_change": "fake-versus-real routing inside the existing normal activity method plus exact-page delegation"
+    },
+    {
+      "path": "projects/body-war/app/src/auth/strava-activity-provider.ts",
+      "operation": "update-current-BWSL000-postimage",
+      "baseline_bytes": 5990,
+      "baseline_sha256": "b7d9d69d925c126390df061f519f38957f621e27e3dc1c40f31d0793f863c139",
+      "owned_change": "validated start-page window that preserves existing multi-page behavior and public page-number semantics"
+    },
+    {
+      "path": "projects/body-war/app/tests/auth-consumer.test.ts",
+      "operation": "update",
+      "baseline_bytes": 11792,
+      "baseline_sha256": "58b9e7bddb4b661e023b611b4fbf34a743d16d716ecfc78a51f1b12598e23cb6",
+      "owned_change": "memory/fake normal-path and sequential replay regression"
+    },
+    {
+      "path": "projects/body-war/app/tests/strava-activity-provider.test.ts",
+      "operation": "update-current-BWSL000-postimage",
+      "baseline_bytes": 14086,
+      "baseline_sha256": "d7f5620caa63498d55a32452c2b86039eb9ae6e38ce48308531fe5e086acdc9c",
+      "owned_change": "public normal-method real-provider delegation and fake no-fetch tests"
+    },
+    {
+      "path": "projects/body-war/app/e2e/body-war-auth.e2e.ts",
+      "operation": "update-current-BWSL000-postimage",
+      "baseline_bytes": 9601,
+      "baseline_sha256": "bc2405f3cfa8453cb17746cd0b5fed6ad593b5090c681938f0c83c3c7a5ad5e5",
+      "owned_change": "PostgreSQL sequential replay rejection and single-row preservation"
+    }
+  ],
+  "expected_combined_product_status_paths": [
+    "projects/body-war/app/e2e/body-war-auth.e2e.ts",
+    "projects/body-war/app/server.ts",
+    "projects/body-war/app/src/auth/body-war-repository.ts",
+    "projects/body-war/app/src/auth/drizzle-repository.ts",
+    "projects/body-war/app/src/auth/memory-repository.ts",
+    "projects/body-war/app/src/auth/strava-activity-provider.ts",
+    "projects/body-war/app/src/auth/strava-oauth.ts",
+    "projects/body-war/app/tests/auth-consumer.test.ts",
+    "projects/body-war/app/tests/evidence-lifecycle.test.ts",
+    "projects/body-war/app/tests/strava-activity-provider.test.ts"
+  ],
+  "explicit_non_targets": [
+    "projects/body-war/app/static/**",
+    "projects/body-war/app/src/auth/body-war-repository.ts",
+    "projects/body-war/app/src/auth/memory-repository.ts",
+    "projects/body-war/app/src/auth/drizzle-repository.ts",
+    "projects/body-war/app/src/infrastructure/postgres/schema.ts",
+    "projects/body-war/app/drizzle/**",
+    "projects/body-war/app/package.json",
+    "projects/body-war/app/package-lock.json",
+    "projects/body-war/.craft/**",
+    "projects/body-war/CRAFT.md",
+    "projects/body-war/docs/**",
+    "arcanum/**",
+    ".agents/**",
+    ".claude/**"
+  ],
+  "validation_contracts": [
+    {
+      "id": "V1-targeted-routing-and-replay",
+      "criticality": "acceptance-critical",
+      "command": "unset Strava credential variables; build:test; node --test dist-test/tests/strava-activity-provider.test.js dist-test/tests/auth-consumer.test.js dist-test/tests/evidence-lifecycle.test.js",
+      "required": [
+        "real-mode normal method uses injected provider fetch",
+        "fake-mode normal method uses repository and never fetches",
+        "normal page=N fetches exactly provider page N while the direct multi-page contract remains unchanged",
+        "both server consumers preserve the same summary identity",
+        "sequential replay returns evidence_candidate_replay/409 without a second row or fetch",
+        "existing lifecycle tests remain pass"
+      ]
+    },
+    {
+      "id": "V2-full-app-validation",
+      "criticality": "acceptance-critical",
+      "command": "unset Strava credential variables; BODY_WAR_AUTH_BACKEND=memory BODY_WAR_STRAVA_FAKE=1 npm --prefix projects/body-war/app run validate",
+      "required": [
+        "build and all Node tests pass",
+        "no schema changes are generated",
+        "TypeScript-only, migration-presence, auth-table-boundary, and secret scans pass"
+      ]
+    },
+    {
+      "id": "V3-postgres-e2e",
+      "criticality": "acceptance-critical",
+      "command": "use already-local postgres:16-alpine with --pull never; run BODY_WAR_AUTH_BACKEND=postgres BODY_WAR_STRAVA_FAKE=1 npm run e2e; always down -v --remove-orphans",
+      "required": [
+        "normal fake activity and evidence submission pass",
+        "second identical submission is rejected",
+        "one evidence row remains",
+        "container and volume cleanup is verified"
+      ]
+    },
+    {
+      "id": "V4-browser-regression",
+      "criticality": "acceptance-critical",
+      "command": "use pinned shared Playwright 1.59.1/Chromium 1217; fake gateway; npm --prefix projects/body-war/app run test:ui",
+      "required": [
+        "all seven existing UI tests pass",
+        "activity selection and first evidence submission remain visible and usable",
+        "no external provider request occurs"
+      ]
+    },
+    {
+      "id": "V5-privacy-network-and-scope",
+      "criticality": "acceptance-critical",
+      "command": "exact candidate target diff/check, create/update-aware whitespace checks, secret and forbidden-field scans, server/provider call-site scan, exact combined ten-path Git status",
+      "required": [
+        "no token, raw payload, coordinate, map, polyline, note, athlete, or account leakage",
+        "all fake fixtures fail on unexpected fetch",
+        "no changed path outside the six-target SWU-BWSL-001 envelope plus the eight preserved SWU-BWSL-000 paths"
+      ]
+    }
+  ],
+  "pre_mutation_requirements": [
+    "independent readiness review PASS on this exact envelope",
+    "Decision Gate option prefilter PASS",
+    "one immutable single-use owner request for this envelope digest",
+    "exact owner confirmation matching that request digest",
+    "all six target baselines still match",
+    "a new repository-local Handoff Notice for deferred SWU-BWSL-001 lifecycle synchronization",
+    "no unexpected open helper"
+  ],
+  "blockers": [
+    {
+      "id": "BW-BWSL001-AUTH-001",
+      "class": "owner-authorization",
+      "status": "open",
+      "closure": "Body War product owner confirms the exact immutable owner-request digest"
+    }
+  ],
+  "deferred_residue": [
+    "Invoke governance-tooling repair",
+    "canonical planning and Craft synchronization",
+    "concurrency-hard database uniqueness",
+    "OWNER-BWSL-001 activity-evidence policy",
+    "SWU-BWSL-002 real witness and external effect",
+    "credentials, private data, deployment, geometry, scoring, promotion, release, and production"
+  ],
+  "claim_ceiling": "This envelope proves only a current-tree, six-path synthetic wiring proposal with deterministic validation. It authorizes no product mutation, planning apply, provider call, credential/private-data access, real evidence, database-concurrency guarantee, deployment, Git publication, promotion, release, or production claim."
+}

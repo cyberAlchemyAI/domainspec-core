@@ -1,0 +1,71 @@
+{
+  "schema_version": "llcp.closeout-reference-order-candidate/v1",
+  "defect_id": "LLCP-SWU-001-CLOSEOUT-SHA256-CYCLE",
+  "scope": "WP-LLCP-001 L0 closeout receipts",
+  "emission_order": [
+    "precloseout_execution",
+    "invoke_owner",
+    "continuation_router",
+    "continuation_state",
+    "task_session_terminal"
+  ],
+  "exact_reference_dependencies": {
+    "precloseout_execution": [],
+    "invoke_owner": [
+      "precloseout_execution"
+    ],
+    "continuation_router": [
+      "invoke_owner"
+    ],
+    "continuation_state": [
+      "invoke_owner",
+      "continuation_router"
+    ],
+    "task_session_terminal": [
+      "invoke_owner",
+      "continuation_state"
+    ]
+  },
+  "future_path_bindings": {
+    "invoke_owner": [
+      "continuation_state_path",
+      "router_verification_receipt_path"
+    ],
+    "continuation_state": [
+      "terminal_receipt_path"
+    ]
+  },
+  "candidate_schema_targets": [
+    {
+      "live_path": "projects/lucifers-lights/development/refinement-runs/20260821T145606Z-chapter-production-pipeline/stages/09-invoke-plan/schemas/llcp-continuation-state.schema.json",
+      "baseline_sha256": "6a94daad690fd42296924c2ab49f676351726e8aeef19cb5abd8c39cf9159c66",
+      "candidate_path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/governance-defect-closeout-cycle/candidate/schemas/llcp-continuation-state.schema.json",
+      "semantic_delta": "replace future terminal exactArtifactRef with the same attempt-scoped terminal path constraint"
+    },
+    {
+      "live_path": "projects/lucifers-lights/development/refinement-runs/20260821T145606Z-chapter-production-pipeline/stages/09-invoke-plan/schemas/llcp-invoke-refresh-closeout-receipt.schema.json",
+      "baseline_sha256": "ea6973c68992cb769a9333e2847e81d6344daf9ad775dd0536da093734d2abb7",
+      "candidate_path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/governance-defect-closeout-cycle/candidate/schemas/llcp-invoke-refresh-closeout-receipt.schema.json",
+      "semantic_delta": "replace future continuation and Router exactArtifactRefs with the same attempt-scoped path constraints"
+    }
+  ],
+  "unchanged_exact_proof_edges": [
+    "Continuation Router digest-binds the already-final Invoke owner receipt.",
+    "Continuation state digest-binds the already-final Invoke owner and Router receipts.",
+    "Task Session terminal digest-binds the already-final Invoke owner and continuation state receipts."
+  ],
+  "validator_integration": {
+    "target": "projects/lucifers-lights/development/refinement-runs/20260821T145606Z-chapter-production-pipeline/stages/09-invoke-plan/scripts/validate-closeout-contract.py",
+    "required_assertions": [
+      "Owner future path fields equal unit_paths continuation_state and router values.",
+      "Router dispatch.owner_receipt_ref equals the exact final owner receipt reference.",
+      "Continuation invoke_closeout_receipt_ref and router_verification_receipt_ref equal exact final references.",
+      "Continuation terminal_receipt_path equals the declared final terminal path.",
+      "When present, terminal joined Invoke receipt and continuation cursor equal exact final references.",
+      "Schema-derived closeout exact-reference graph is acyclic and matches the declared emission order."
+    ],
+    "runtime_terminal_argument": "optional until Task Session finalization, required for final joined-closeout verification"
+  },
+  "authority_effect": "none",
+  "canonical_apply": false
+}

@@ -2,6 +2,7 @@ import assert from "node:assert/strict"
 import { createServer } from "node:http"
 import test from "node:test"
 import {
+  authComponents,
   handleRequest,
   publicActivityImportReceipt,
   publicRunnerProfile,
@@ -44,6 +45,7 @@ test("Body War local fake-Strava auth flow creates safe profile and cookies", as
     const profileJson = await profile.json() as Record<string, unknown>
     assert.equal(JSON.stringify(profileJson).includes("fake-access-token"), false)
     assert.equal(JSON.stringify(profileJson).includes("fake-refresh-token"), false)
+    const principalId = String(nested(profileJson, ["profile", "principal_id"]))
     assert.equal(
       nested(profileJson, ["profile", "strava", "profile_url"]),
       "https://www.strava.com/athletes/123",
@@ -142,6 +144,50 @@ test("Body War local fake-Strava auth flow creates safe profile and cookies", as
     assert.equal(nested(evidenceCandidateJson, ["suggested_track", "status"]), "evidence_submitted")
     assert.equal(nested(evidenceCandidateJson, ["suggested_track", "authority", "route_geometry"]), "not_claimed")
     assert.equal(nested(evidenceCandidateJson, ["evidence_candidate", "authority", "scoring"]), "not_claimed")
+    assert.equal(nested(evidenceCandidateJson, ["evidence_candidate", "provider_activity_id"]), firstActivityId)
+    assert.equal(nested(evidenceCandidateJson, ["evidence_candidate", "redacted_summary", "id"]), firstActivityId)
+
+    const { bodyWarRepo, strava } = authComponents()
+    assert.equal(
+      (await bodyWarRepo.listActivityEvidenceCandidates(createdSuggestedTrackId, principalId)).length,
+      1,
+    )
+    const originalListActivitySummaries = strava.listActivitySummaries
+    let replayActivityLookups = 0
+    strava.listActivitySummaries = async (replayPrincipalId, page, perPage) => {
+      replayActivityLookups += 1
+      return originalListActivitySummaries(replayPrincipalId, page, perPage)
+    }
+    const replay = await (async () => {
+      try {
+        return await fetch(`${baseUrl}/api/suggested-tracks/${createdSuggestedTrackId}/evidence-candidates`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            cookie: cookieHeader,
+            origin: ALLOWED_ORIGIN,
+            "x-csrf-token": csrfToken,
+          },
+          body: JSON.stringify({
+            activity_id: firstActivityId,
+            consent_acknowledged: true,
+            consent_text: "Store only the redacted activity summary.",
+          }),
+        })
+      } finally {
+        strava.listActivitySummaries = originalListActivitySummaries
+      }
+    })()
+    assert.equal(replay.status, 409)
+    assert.deepEqual(await replay.json(), {
+      error: "evidence_candidate_replay",
+      message: "This activity already has evidence for this suggested track",
+    })
+    assert.equal(replayActivityLookups, 0)
+    assert.equal(
+      (await bodyWarRepo.listActivityEvidenceCandidates(createdSuggestedTrackId, principalId)).length,
+      1,
+    )
 
     const csrfRejected = await fetch(`${baseUrl}/api/submissions`, {
       method: "POST",

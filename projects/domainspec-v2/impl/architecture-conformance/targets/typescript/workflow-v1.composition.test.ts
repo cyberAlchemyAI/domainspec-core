@@ -33,17 +33,18 @@ describe("TypeScript Workflow v1 composition boundary", () => {
 
     expect(result.architecture).toMatchObject({
       compensationCallableId: "forward-recover-settlement",
-      compensationIntents: ["forward-recover-settlement"],
+      recoveryIntents: ["forward-recover-settlement"],
       compensationExecutorOwner: "external-runtime",
       compensationExecution: false,
       directEffectExecution: false,
       suppliedAtCompositionRoot: true,
     });
-    expect(result.architecture.compensationPlans).toEqual([
+    expect(result.architecture.recoveryIntentsWithPlans).toEqual([
       expect.objectContaining({
         workflowExecutionId: "post-commit-publication-failure",
+        failureOccurrenceId: "post-commit-publication-failure-failure",
         failedStepId: "publish",
-        state: "requested",
+        semanticStatus: "required",
         plan: [expect.objectContaining({
           stepId: "persist",
           operationId: "forward-recover-settlement",

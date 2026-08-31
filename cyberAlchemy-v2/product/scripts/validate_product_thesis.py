@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Validate the private CyberAlchemy Product Thesis package and append a receipt."""
+"""Validate the private CyberAlchemy Product Thesis package without effects by default."""
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from datetime import datetime, timezone
@@ -53,6 +54,9 @@ def material_digest(errors: list[str]) -> str:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--write-receipt", action="store_true")
+    args = parser.parse_args()
     errors: list[str] = []
     record = load(PACKAGE_ROOT / "product-thesis.record.json", errors)
     sources_doc = load(PACKAGE_ROOT / "product-thesis.sources.json", errors)
@@ -99,10 +103,23 @@ def main() -> int:
         "Commitment state: committed",
         "## Thesis",
         "## First-Order Product Principles",
+        "## Language-Guided Agent Work",
         "## Evidence That Would Require Revision",
     ):
         if marker not in carrier:
             errors.append(f"carrier is missing marker: {marker}")
+
+    language_boundary = (
+        "language consultation does not grant meaning ownership, accept a definition, "
+        "choose an unresolved realization, or create authority"
+    )
+    if language_boundary not in record.get("boundaries", []):
+        errors.append("record must preserve the no-authority Language consultation boundary")
+    if "digest-bound Language Context Views reduce semantic drift in agent-produced Definition Packs" not in record.get("hypotheses", []):
+        errors.append("record must preserve the Language Context View product hypothesis")
+    revisions = record.get("revision_history", [])
+    if not any(item.get("revision") == 2 for item in revisions if isinstance(item, dict)):
+        errors.append("record must contain the Language consultation revision")
 
     source_ids: set[str] = set()
     for index, source in enumerate(sources_doc.get("sources", [])):
@@ -148,11 +165,12 @@ def main() -> int:
         "authority_effect": "none",
         "errors": errors,
     }
-    receipts = PACKAGE_ROOT / "receipts"
-    receipts.mkdir(exist_ok=True)
-    receipt_path = receipts / f"validation-{digest[:16]}.json"
-    if not receipt_path.exists():
-        receipt_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+    if args.write_receipt and status == "PASS":
+        receipts = PACKAGE_ROOT / "receipts"
+        receipts.mkdir(exist_ok=True)
+        receipt_path = receipts / f"validation-{digest[:16]}.json"
+        if not receipt_path.exists():
+            receipt_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(receipt, indent=2))
     return 0 if status == "PASS" else 1
 

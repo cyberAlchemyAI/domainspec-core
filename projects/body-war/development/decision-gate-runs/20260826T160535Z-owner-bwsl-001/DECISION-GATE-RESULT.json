@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "decision-gate-result",
+  "result_id": "OWNER-BWSL-001-GATE-20260826T163029Z",
+  "observed_at": "2026-08-26T16:30:29Z",
+  "target_scope": "OWNER-BWSL-001",
+  "result": "BLOCK",
+  "decisions_resolved": 0,
+  "blockers_remaining": 6,
+  "admissible_routing": "gate",
+  "admissibility": {
+    "decision_count": 6,
+    "route_gate_count": 6,
+    "recommended_options_admitted": 6,
+    "request_and_receipt_directory": "projects/body-war/development/decision-gate-runs/20260826T160535Z-owner-bwsl-001/admissibility"
+  },
+  "override_receipt": null,
+  "override_verdict": "not-requested",
+  "decision_artifact": {
+    "path": "projects/body-war/development/decision-gate-runs/20260826T160535Z-owner-bwsl-001/OWNER-BWSL-001-DECISION-GRAPH.json",
+    "sha256": "061deca19e32739c50ad087dca66aefa80285c352adae81ab812bd0e3a5041f1",
+    "bytes": 26908,
+    "revision": 2
+  },
+  "independent_review": {
+    "path": "projects/body-war/development/decision-gate-runs/20260826T160535Z-owner-bwsl-001/INDEPENDENT-DECISION-REVIEW-R2.md",
+    "sha256": "48b49c321499ce9ae9ead88523d4fc93e9b8c35efac33317804310ccc9ead5e0",
+    "result": "pass"
+  },
+  "owner_request": {
+    "path": "projects/body-war/development/decision-gate-runs/20260826T160535Z-owner-bwsl-001/OWNER-DECISION-REQUEST.json",
+    "sha256": "0dd43a28120e6ffa5ba182238c0810c7b3c88da9301c8c7186201c945b323c18",
+    "bytes": 7878,
+    "single_use": true,
+    "status": "emitted-unconsumed"
+  },
+  "recommended_selection": {
+    "selection_id": "OWNER-BWSL-001-PRIVACY-MINIMAL-A",
+    "option_ids": [
+      "D1-A-PRIVATE-EXACT-BINDING",
+      "D2-A-MINIMAL-PROOF",
+      "D3-A-SAME-ATTEMPT-15M",
+      "D4-A-HARD-DELETE-NO-COPIES",
+      "D5-A-ACTUAL-IDEMPOTENT-DISPOSITION",
+      "D6-A-15M-ONE-ATTEMPT"
+    ],
+    "selection_status": "pending-owner-confirmation"
+  },
+  "deferred_decisions": [],
+  "assumptions_recorded": [],
+  "validation": [
+    "all six canonical option prefilters returned gate",
+    "all six selected option IDs are admitted",
+    "revision-1 independent review FAIL was recorded before request emission",
+    "revision-2 independent review PASS bound the exact graph",
+    "request graph and review bindings rehash",
+    "owner request is JSON-valid and create-target whitespace-clean",
+    "authority and external-effect ceilings are explicit"
+  ],
+  "standing_explain_choice": "explain 0dd43a28120e6ffa5ba182238c0810c7b3c88da9301c8c7186201c945b323c18",
+  "next_step": "The activity-evidence privacy owner must confirm, reject, or request explanation for the exact owner-request digest. Do not execute SWU-BWSL-002.",
+  "effect_authority": "none",
+  "claim_ceiling": "This result proves only that a six-decision privacy policy is structurally admissible, independently reviewed, and ready for owner selection. It selects no policy and grants no credential, private-data, OAuth, provider-call, evidence-mutation, SWU-BWSL-002, publication, deployment, release, or production authority."
+}

@@ -3,6 +3,7 @@ import type {
   AddActivityEvidenceCandidateInput,
   BodyWarAuthRepository,
   CreateSuggestedTrackInput,
+  DisposeActivityEvidenceCandidateInput,
   StoreProviderTokenInput,
   UpsertProviderAccountInput,
   UpsertRunnerProfileInput,
@@ -95,7 +96,7 @@ export function createMemoryBodyWarAuthRepository(): BodyWarAuthRepository {
     async findProviderAccountByPrincipalId(principalId) {
       const key = accountIdsByPrincipal.get(principalId);
       const account = key ? accounts.get(key) : undefined;
-      return account ? cloneAccount(account) : null;
+      return account?.status === "linked" ? cloneAccount(account) : null;
     },
 
     async storeProviderToken(input: StoreProviderTokenInput) {
@@ -111,6 +112,40 @@ export function createMemoryBodyWarAuthRepository(): BodyWarAuthRepository {
       };
       tokens.set(record.id, record);
       return { ...record };
+    },
+
+    async findLatestProviderToken(accountId) {
+      const record = [...tokens.values()]
+        .filter((candidate) => candidate.accountId === accountId)
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+        .at(-1);
+      return record ? { ...record } : null;
+    },
+
+    async revokeProviderAccess(principalId) {
+      const key = accountIdsByPrincipal.get(principalId);
+      if (!key) return "already_absent";
+      const account = accounts.get(key);
+      if (!account) return "already_absent";
+
+      let removedToken = false;
+      for (const [tokenId, token] of tokens.entries()) {
+        if (token.accountId === account.id) {
+          tokens.delete(tokenId);
+          removedToken = true;
+        }
+      }
+
+      if (account.status === "disconnected") {
+        return removedToken ? "disposed" : "already_absent";
+      }
+
+      accounts.set(key, {
+        ...account,
+        status: "disconnected",
+        updatedAt: new Date().toISOString(),
+      });
+      return "disposed";
     },
 
     async upsertRunnerProfile(input: UpsertRunnerProfileInput) {
@@ -226,6 +261,29 @@ export function createMemoryBodyWarAuthRepository(): BodyWarAuthRepository {
         )
         .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
         .map(cloneActivityEvidenceCandidate);
+    },
+
+    async disposeActivityEvidenceCandidate(
+      input: DisposeActivityEvidenceCandidateInput,
+    ) {
+      const candidate = evidenceCandidates.get(input.candidateId);
+      if (!candidate) return "already_absent";
+
+      evidenceCandidates.delete(input.candidateId);
+      const hasRemainingEvidence = [...evidenceCandidates.values()].some(
+        (other) => other.suggestedTrackId === candidate.suggestedTrackId,
+      );
+      if (!hasRemainingEvidence) {
+        const track = suggestedTracks.get(candidate.suggestedTrackId);
+        if (track) {
+          suggestedTracks.set(track.id, {
+            ...track,
+            status: "needs_evidence",
+            updatedAt: new Date().toISOString(),
+          });
+        }
+      }
+      return "disposed";
     },
   };
 }

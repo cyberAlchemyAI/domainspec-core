@@ -1,0 +1,550 @@
+schema_version: domainspec.governance-flow-revision-proposal.v1
+status: proposed
+package_id: 2026-08-25-governance-flow-revision
+authority_effect: none
+claim_ceiling: Evidence-backed design and exact implementation proposal only. No owner request, acceptance, selection, admission, product mutation, canonical public change, generated-package change, publication, Git action, deployment, or external effect is authorized or claimed.
+evidence_scope:
+  formal_signal_count: 1
+  formal_threshold_met: false
+  incident_count: 7
+  renewed_acceptance_cycles_minimum: 4
+  sources:
+  - path: AGENTS.md
+    sha256: eadc3740a2b966cef31a0b349460893418f83baa16f710ab56228973efc1b853
+    use: Repository-local authority boundaries, background-helper rule, governance sidecar choreography, public/private boundary, and propose-before-mutation rule.
+    strength: canonical_instruction
+  - path: .agents/skills/workflow-reflect/SKILL.md
+    sha256: 95bafa9e778a7246df716e8bb08121dc7ae88704da4feb5c35a64d14442080fa
+    use: Reflection method, evidence-strength limits, proposal shape, compatibility disclosure, and no direct observed-capability mutation during reflection.
+    strength: canonical_instruction
+  - path: .arcanum/observability/reflections/2026-08-24-evf-smt-approval-loop.md
+    sha256: 735b22af7d8dd6a222638b93d5768afc760bf8be32f69e918d21268ede7ad943
+    use: Incident corpus proving producer-local PASS, late consumer discovery, repeated exact-byte reprompts, and the need for preacceptance consumer closure.
+    strength: incident_supported
+  - path: ops/development/2026-07-24-invoke-lifecycle-progress-update/machine-view-lifecycle-runtime/execution-entry-consumer-repair-v1/ADOPTION-RECEIPT.json
+    sha256: 8ddc1b45341f0e744383200fdb7318ec732a94f046e676d876deea1f9d4896df
+    use: Adopted evidence for deterministic rehearsal, request/acceptance separation, exact consumer bindings, run-all validation, and authority-free preparation.
+    strength: adopted_repair_evidence
+  - path: ops/development/2026-07-24-invoke-lifecycle-progress-update/machine-view-lifecycle-runtime/execution-entry-consumer-repair-v1/CONSUMER-REPAIR-INDEPENDENT-REVIEW.json
+    sha256: 9bad9062f1c72a5454d0fbbe89a6b3a9ed34c8ebc0ce6d96424b6b8fe837db56
+    use: Independent confirmation of machine-first projection, ordered consumer closure, no-effect rehearsal, one-request ceiling, and the remaining request-eligibility block.
+    strength: independent_review_evidence
+problem_statement: The current system safely refuses to stretch exact acceptance across repaired bytes, but it discovers too many deterministic governance blockers only after an owner prompt. Producer-local PASS receipts are being mistaken for terminal closure, so safe repairs create serial approval loops. The correction is a three-mode flow that collects every reachable no-effect blocker before one frozen owner decision, then preserves fail-fast behavior once effects can occur.
+required_invariants:
+- id: GFR-01
+  statement: Preacceptance is deterministic and no-effect except for isolated run-local evidence writes.
+  enforcement: Deny repository target mutation, selection, admission, publication, deployment, credentials, external calls, and successor execution; hash protected inputs before and after every rehearsal.
+- id: GFR-02
+  statement: Preacceptance collects every reachable blocker and continues automatically.
+  enforcement: Run all independent checks, preserve the first nonzero for process status, record later failures too, and mark dependency-blocked checks not_evaluable with causal blocker references.
+- id: GFR-03
+  statement: Human-decision mode stops exactly once on one immutable owner decision graph.
+  enforcement: Use persistent idempotency keyed by decision_graph_digest; a repeat emission returns the original request identity and bytes and increments no prompt counter.
+- id: GFR-04
+  statement: Effectful execution fails fast.
+  enforcement: After acceptance, stop at the first failed or blocked effect and prove that no later effect or successor ran.
+- id: GFR-05
+  statement: A terminal outcome contract dominates component PASS receipts.
+  enforcement: Aggregate completion is false until the required terminal receipt validates and its observed effects, prohibited effects, final postimage, and successor state satisfy the frozen terminal predicate.
+- id: GFR-06
+  statement: Bounded means the smallest complete vertical slice.
+  enforcement: A slice is bounded only if it crosses every required real consumer and reaches the promised terminal boundary without adding unrelated targets, authority, risk, or effects.
+- id: GFR-07
+  statement: Preparation is not authority.
+  enforcement: Compilation, rehearsal, freeze, review, and request emission must state authority_effect none and keep selection, admission, execution, publication, deployment, and external effects false.
+- id: GFR-08
+  statement: Models provide schema-valid machine views; human views are deterministic projections.
+  enforcement: Reject the source before rendering when schema validation fails; render only from the validated machine graph and bind source digest, graph digest, renderer digest, and visibility policy.
+- id: GFR-09
+  statement: 'The evidence chain is monotonic: source to graph to rehearsal to freeze to review to request to acceptance to execution.'
+  enforcement: Each descendant binds the exact predecessor digest; source or decision-envelope mutation invalidates all descendants and no receipt may rebind backward to different bytes.
+- id: GFR-10
+  statement: Retry policy distinguishes environmental, mechanical evidence-only, and semantic or authority changes.
+  enforcement: Apply machine predicates over target-byte, decision-envelope, executable-authority, evidence, and environment digests; never infer the retry class from prose.
+- id: GFR-11
+  statement: A governance-only sidecar auto-resumes its suspended chain after a passing repair.
+  enforcement: Resume exactly once at the recorded continuation point only when repair review passes, decision and target digests are unchanged, the defect is mechanical evidence-only, and no authority-bearing executable changed.
+- id: GFR-12
+  statement: Exact-byte, owner, risk, authority, privacy, publication, Git, deployment, external-effect, and independent-review protections remain intact.
+  enforcement: Keep these fields inside the immutable decision envelope and require a new graph and decision whenever any one changes.
+before_workflow:
+- ordinal: 1
+  name: prepare local artifacts
+  behavior: Each producer validates its own output and can report PASS.
+  authority: No execution authority, but local PASS is often treated as request-ready.
+- ordinal: 2
+  name: prompt owner
+  behavior: An exact candidate is presented before all real downstream consumers have exercised it.
+  authority: Owner acceptance binds exact bytes and correctly cannot cover later repairs.
+- ordinal: 3
+  name: discover downstream blocker
+  behavior: A later validator, schema, runner, locator, projection, or closeout consumer finds a deterministic defect.
+  authority: Effectful work stops safely.
+- ordinal: 4
+  name: repair and reprompt
+  behavior: Acceptance-bound bytes change, the old decision becomes unusable, and the owner is asked again.
+  authority: Safety is preserved at the cost of serial approval loops.
+after_workflow:
+- ordinal: 1
+  name: schema-valid machine source
+  behavior: The model emits one versioned source containing the complete decision envelope and terminal outcome contract.
+  authority: Preparation only; no authority effect.
+- ordinal: 2
+  name: deterministically derived graph and human view
+  behavior: The compiler normalizes the source into the owner decision graph; the renderer derives the human view from that validated graph.
+  authority: Derived artifacts cannot widen the source ceiling.
+- ordinal: 3
+  name: collect-all rehearsal
+  behavior: Every reachable actual consumer runs in isolation; all blockers are accumulated and mechanically safe retries continue without prompting.
+  authority: Only isolated run-local evidence writes are permitted.
+- ordinal: 4
+  name: freeze
+  behavior: A zero-blocker rehearsal freezes the exact decision graph and terminal predicate.
+  authority: Freeze grants no selection, admission, or execution authority.
+- ordinal: 5
+  name: independent review
+  behavior: A distinct reviewer checks the frozen graph, complete rehearsal, privacy boundary, and request eligibility.
+  authority: Review can only permit one request emission.
+- ordinal: 6
+  name: single owner request
+  behavior: The request emitter publishes at most one idempotent question for the immutable graph and then stops.
+  authority: The request itself grants no downstream authority.
+- ordinal: 7
+  name: acceptance
+  behavior: The owner accepts or rejects the exact decision graph; revisions create a new graph rather than mutating the frozen one.
+  authority: Acceptance is necessary but does not bypass selection or admission gates.
+- ordinal: 8
+  name: fail-fast execution to terminal boundary
+  behavior: The admitted slice executes effects in order, stops at the first failed effect, and completes only when the terminal contract is satisfied.
+  authority: Limited to the accepted, selected, admitted envelope; no automatic successor.
+mode_contracts:
+- mode: preacceptance_no_effect
+  effect_ceiling: Isolated run-local evidence only; zero repository-target, selection, admission, publication, deployment, credential, external-system, or successor effects.
+  stop_policy: Do not stop on an ordinary reachable validation failure; record it and continue. Stop only when safe evaluation itself is impossible or a semantic or authority decision is required.
+  continuation_policy: Automatically rerun bounded environmental and mechanical evidence-only repairs while retry budget and graph identity remain valid.
+  completion_rule: Complete only when all required checks are pass, no check is not_evaluable, blocker set is empty, two-run evidence is byte-stable, and protected inputs are unchanged.
+- mode: human_decision
+  effect_ceiling: One idempotent owner request for one frozen decision graph; no selection, admission, or execution.
+  stop_policy: Stop immediately after returning the one request or its existing idempotent identity.
+  continuation_policy: Continue only from an explicit owner response bound to that request; revisions create a new graph.
+  completion_rule: Mode closes with exact accept or reject evidence; absence of a response remains pending, not failed.
+- mode: effectful_execution
+  effect_ceiling: Exactly the accepted, selected, and admitted target, write, executable, risk, and external-effect envelope.
+  stop_policy: Fail fast at the first effectful failure or governance blocker and prove later effects did not run.
+  continuation_policy: Resume only through a passing governance-only sidecar predicate or a new admitted graph after semantic or authority change.
+  completion_rule: Complete only when the promised terminal receipt validates and its terminal predicate is true.
+decision_graph_contract:
+  definition: The immutable owner decision graph is the normalized, schema-valid envelope of exact target bytes and all fields whose change can alter owner intent, authority, risk, privacy, publication, deployment, external effects, executable authority, or the promised terminal outcome.
+  includes:
+  - exact target postimages and baselines
+  - owner and lifecycle route
+  - authority and write ceilings
+  - risk and request budget
+  - public/private and publication class
+  - deployment, credential, destructive, and external-effect policy
+  - authority-bearing executable path, digest, argv, mode, cwd, and environment allowlist
+  - terminal outcome contract
+  - admitted frontier, route, selection, and successor policy
+  excludes:
+  - non-authoritative run identifiers and timestamps
+  - mechanical evidence receipts whose replacement proves the decision graph and target-byte digests unchanged
+  freeze_rule: Freeze only after a complete zero-blocker rehearsal; record graph digest and exact rehearsal predecessor without allowing later graph mutation.
+  request_rule: Persist request identity by decision_graph_digest and enforce request_count <= 1; retries return the same bytes and prompt identity.
+  descendant_rule: Rehearsal, freeze, review, request, acceptance, execution, sidecar, and terminal receipts bind predecessor digests. A decision-envelope or target-byte change invalidates descendants and requires a new graph.
+terminal_outcome_contract:
+  dominance_rule: The aggregate result is incomplete or blocked unless the terminal predicate is true, even when every local component receipt reports PASS.
+  required_fields:
+  - promised_boundary_id
+  - required_terminal_receipt_path_and_schema
+  - required_effects_and_exact_postimages
+  - prohibited_effects_and_successors
+  - completion_predicate
+  - authority_and_write_ceiling
+  - terminal_observer_identity
+  local_pass_rule: Component PASS means only that component's bounded claim succeeded; it never synthesizes terminal completion.
+  bounded_definition: The smallest complete vertical slice that traverses every required real consumer and can satisfy the promised terminal predicate without unrelated scope.
+retry_policy:
+- classification: environmental
+  predicate: Decision graph, target bytes, semantic inputs, authority-bearing executable, and required evidence schema are unchanged; failure is attributable to a declared transient runtime condition.
+  action: Retry automatically within an explicit budget and record every attempt; exhaustion blocks without an owner prompt.
+  graph_effect: Preserve the same graph and descendants that remain exact.
+  owner_prompt: none
+- classification: mechanical_evidence_only
+  predicate: Repair changes only validator, wrapper, locator, receipt consistency, formatting, or run-local evidence mechanics and proves the decision graph, target-byte, semantic, authority, risk, privacy, publication, deployment, external-effect, and authority-bearing executable digests unchanged.
+  action: Run one bounded governance sidecar, independently review the repair, revalidate the suspended edge, and auto-resume once from its recorded continuation point.
+  graph_effect: Preserve the accepted decision graph; append exact repair and resume receipts.
+  owner_prompt: none
+- classification: semantic_or_authority
+  predicate: Any target byte, terminal effect, owner, route, risk, write, privacy, publication, deployment, credential, external-effect, successor, or authority-bearing executable identity changes.
+  action: Stop, supersede the old chain, compile and rehearse a new graph, independently review it, and request one new owner decision.
+  graph_effect: New decision_graph_digest required; old acceptance cannot be reused.
+  owner_prompt: exactly one for the new immutable graph
+sidecar_resume_contract:
+  suspend_rule: Capture the failed stage, first nonzero status, complete diagnostics, accepted decision_graph_digest, target_byte_digest, predecessor receipt, and exact continuation point before repair.
+  repair_ceiling: The sidecar may change only separately staged mechanical evidence or already-authorized validator/workflow tests; it may not change accepted target bytes, semantics, authority, promotion, publication, deployment, credentials, external effects, or authority-bearing executable identity.
+  resume_predicate: repair_classification == mechanical_evidence_only AND repair_review == pass AND decision_graph_digest unchanged AND target_byte_digest unchanged AND revalidation == pass AND resume_count == 0
+  non_resume_cases:
+  - repair review fails or is missing
+  - decision graph or target-byte digest changes
+  - semantic, owner, risk, authority, privacy, publication, deployment, external-effect, or executable-authority boundary changes
+  - resume already consumed
+metrics:
+- metric_id: postacceptance_consumer_defects
+  definition: Count of deterministic consumer-contract defects first discovered after acceptance for a graph when the responsible consumer was declared or required preacceptance.
+  target: '0'
+  evidence_event: governance_flow.consumer_defect.v1
+- metric_id: prompts_per_immutable_graph
+  definition: Owner decision prompts emitted divided by immutable decision graphs that reached human-decision mode; each such graph must have exactly one prompt identity and at most one presentation.
+  target: '1'
+  evidence_event: governance_flow.owner_prompt.v1
+- metric_id: unchanged_byte_approval_retries
+  definition: Count of new owner request identities emitted after a prior request when both decision-envelope digest and exact target-byte digest are unchanged.
+  target: '0'
+  evidence_event: governance_flow.request_retry.v1
+- metric_id: blockers_discovered_after_request
+  definition: Count of governance blockers first observed after request emission that the declared deterministic no-effect consumers could have discovered before request.
+  target: '0'
+  evidence_event: governance_flow.late_blocker.v1
+- metric_id: manual_receipt_transfers
+  definition: Count of receipt edges requiring a human to copy, rewrite, translate, or manually relocate machine evidence between declared consumers.
+  target: '0'
+  evidence_event: governance_flow.receipt_transfer.v1
+changed_path_proposal:
+  stage_now:
+    apply_now: true
+    paths:
+    - ops/development/2026-08-25-governance-flow-revision/governance-flow-revision.schema.yml
+    - ops/development/2026-08-25-governance-flow-revision/GOVERNANCE-FLOW-REVISION.yml
+    - ops/development/2026-08-25-governance-flow-revision/materialize_revision.py
+    - ops/development/2026-08-25-governance-flow-revision/GOVERNANCE-FLOW-REVISION.md
+    - ops/development/2026-08-25-governance-flow-revision/AGENTS-PATCH-PROPOSAL.diff
+    - ops/development/2026-08-25-governance-flow-revision/VALIDATION-RECEIPT.yml
+    purpose: Non-overlapping private design package only. The YAML source is durable schema-valid proposal material; the derived YAML receipt is a durable proposal-package validation artifact, not run-local telemetry. No current governance runtime or canonical source mutation.
+  later_root_policy:
+    apply_now: false
+    paths:
+    - AGENTS.md
+    purpose: Add the three-mode choreography and amend the governance-only sidecar with deterministic auto-resume and collect-all preacceptance semantics using the derived exact patch proposal.
+  later_public_canonical:
+    apply_now: false
+    paths:
+    - arcanum/framework/GOVERNANCE-FLOW-CONTRACT.md
+    - arcanum/framework/README.md
+    - arcanum/framework/CYBERALCHEMY-METHOD.md
+    - arcanum/framework/QUALITY-BAR.md
+    - arcanum/framework/OUTCOME-BRIEF-CONTRACT.md
+    - arcanum/framework/governance-flow/schemas/governance-flow-source-v1.schema.yml
+    - arcanum/framework/governance-flow/schemas/governance-flow-graph-v1.schema.yml
+    - arcanum/framework/governance-flow/schemas/governance-flow-stage-receipt-v1.schema.yml
+    - arcanum/framework/governance-flow/schemas/governance-flow-owner-request-v1.schema.yml
+    - arcanum/framework/governance-flow/scripts/compile_governance_flow.py
+    - arcanum/framework/governance-flow/scripts/render_governance_flow.py
+    - arcanum/framework/governance-flow/scripts/run_governance_flow.py
+    - arcanum/framework/governance-flow/development/run-validation-fixtures.sh
+    - arcanum/framework/governance-flow/development/test_governance_flow.py
+    - arcanum/framework/governance-flow/development/fixtures/positive/terminal-boundary-source.json
+    - arcanum/framework/governance-flow/development/fixtures/positive/terminal-boundary-executor.py
+    - arcanum/framework/governance-flow/development/fixtures/positive/expected-human-view.md
+    - arcanum/framework/governance-flow/development/fixtures/positive/expected-terminal-receipt.json
+    - arcanum/framework/governance-flow/development/fixtures/negative-cases.json
+    purpose: Create the public, project-agnostic contract, machine schemas, deterministic compiler/renderer/runner, positive end-to-end terminal fixture, and negative regression suite.
+  later_adapters_after_concurrency:
+    apply_now: false
+    paths:
+    - arcanum/spells/invoke/README.md
+    - arcanum/spells/invoke/preacceptance-closure.md
+    - arcanum/spells/invoke/schemas/preacceptance-closure-manifest-v1.schema.json
+    - arcanum/spells/invoke/schemas/preacceptance-closure-receipt-v1.schema.json
+    - arcanum/spells/invoke/schemas/owner-acceptance-request-v2.schema.json
+    - arcanum/spells/invoke/scripts/preacceptance_closure.py
+    - arcanum/spells/invoke/development/preacceptance-closure/test_preacceptance_closure.py
+    - arcanum/spells/invoke/development/run-preacceptance-closure-fixtures.sh
+    - arcanum/arcana/task-session/SKILL.md
+    - arcanum/arcana/task-session/README.md
+    - arcanum/arcana/task-session/scripts/task-session-governance-runner.py
+    - arcanum/arcana/task-session/development/run-validation-fixtures.sh
+    - arcanum/arcana/task-session/development/test_governance_flow_execution.py
+    - arcanum/transmutations/context-builder/SKILL.md
+    - arcanum/transmutations/context-builder/README.md
+    - arcanum/transmutations/context-builder/scripts/compile_native_context_projection.py
+    - arcanum/transmutations/context-builder/development/test_native_context_projection.py
+    purpose: Adapt existing request emission, machine/human projection, execution fail-fast behavior, terminal verification, and sidecar resumption only after the active MVLR work is frozen and independently re-inventoried.
+  generated_surface_policy: Do not hand-edit generated packages. After canonical adapter changes pass and only with separate authorization, run package-specific sync for each changed sigil/spell, inventory exact generated outputs, validate parity, and independently review privacy markers before any publication step.
+agents_patch: "diff --git a/AGENTS.md b/AGENTS.md\n--- a/AGENTS.md\n+++ b/AGENTS.md\n@@ -42,6 +42,30 @@\n   conversation. Never report background work as complete while an agent is open,\n   unjoined, or missing its validation receipt.\n \n+## Governance Flow Choreography\n+\n+Governed work uses three explicit modes. Preserve exact-byte, owner, authority, risk,\n+public/private, publication, Git, deployment, external-effect, executable-identity,\n+and independent-review protections in every mode.\n+\n+1. **Preacceptance / no-effect** — validate the schema-first machine source, derive\n+   human views deterministically, run every reachable declared consumer, collect all\n+   blockers, and continue bounded environmental or mechanical evidence-only retries\n+   automatically. Run-local evidence is the only permitted write. Mark a dependent\n+   check `not_evaluable` with causal blockers; never call it PASS or omit it.\n+2. **Human decision** — after rehearsal, freeze one immutable owner decision graph,\n+   obtain independent review, emit at most one idempotent owner request for its digest,\n+   and stop. Preparation, rehearsal, freeze, review, or request emission grants no\n+   selection, admission, execution, publication, deployment, or external-effect authority.\n+3. **Effectful execution** — after exact acceptance, selection, and admission, execute\n+   only the accepted envelope and fail fast at the first effectful failure or real\n+   governance blocker. Never execute a successor implicitly.\n+\n+The artifact chain is monotonic: source -> derived graph -> rehearsal -> freeze ->\n+review -> request -> acceptance -> execution. A terminal outcome contract dominates\n+local PASS receipts. `Bounded` means the smallest complete vertical slice that crosses\n+every required real consumer and reaches the promised terminal boundary.\n+\n ## Governance-Defect Sidecar\n \n Do not turn a mechanical governance defect into the main conversation or abandon the\n@@ -75,7 +99,12 @@\n    scope already authorizes those writes. It must not alter accepted bytes in place,\n    apply canonical targets, promote, publish, commit, push, or execute product work.\n 5. Keep the parent available to the user. Join and inspect the helper receipt before\n-   resuming the affected edge; surface only the material decision or owner gate.\n+   evaluating resumption; surface only a material decision or owner gate.\n+6. Auto-resume the suspended chain exactly once at its recorded continuation point\n+   when the repair is independently reviewed PASS, classified\n+   `mechanical_evidence_only`, leaves the immutable decision graph and exact target\n+   digest unchanged, changes no authority-bearing executable, passes the required\n+   revalidation, and has not consumed its resume token. Otherwise remain stopped.\n \n Treat changed acceptance-bound bytes as a new candidate. Regenerate their inventory,\n digests, independent review bindings, and final acceptance request; never stretch an\n@@ -90,6 +119,12 @@\n never mask an earlier failed validation. When a sidecar finds a coverage gap, its\n repair proposal must add a regression check so the same defect fails before the next\n acceptance request.\n+\n+In preacceptance mode, run all reachable checks and return the first nonzero status\n+while preserving the complete blocker set. In effectful execution mode, stop before\n+the next effect. Environmental retries preserve graph identity; mechanical\n+evidence-only retries require passing repair review and auto-resume; semantic or\n+authority changes require a new frozen graph and at most one new owner request.\n \n ## Candidate-Local Prototype Fast Lane\n \n"
+compatibility_impact:
+- surface: existing accepted records
+  impact: Remain readable historical evidence and keep their original authority. They are not retroactively promoted into governance-flow v1 closure or reinterpreted as request-ready.
+- surface: new or regenerated owner requests
+  impact: Require a schema-valid decision graph, complete collect-all rehearsal, freeze, independent review, and idempotent request record before presentation.
+- surface: legacy split projections
+  impact: Need an explicit adapter that composes one machine graph and proves field equality or subset relations; prose cannot repair stale machine arrays.
+- surface: validators and wrappers
+  impact: Preacceptance wrappers change from early exit to run-all-reachable while preserving the first nonzero. Effectful runners retain fail-fast semantics.
+- surface: human-facing documents
+  impact: Human views become derived outputs with source, graph, and renderer digests; hand-authored views are non-authoritative and cannot be request inputs.
+- surface: sidecar repairs
+  impact: Mechanical evidence-only repairs can resume without a new owner prompt only when machine predicates prove the decision graph and target bytes unchanged. Semantic or authority repair still requires a new graph.
+- surface: public/private boundary
+  impact: The public contract is project-agnostic and contains no private project prose, paths, examples, or identifiers. Private adapters and evidence remain outside Arcanum.
+- surface: generated packages
+  impact: No generated bytes change in this stage. Later changes are regenerated from canonical sources and independently inventoried, never hand-edited.
+migration_plan:
+- phase: M0-proposal
+  action: Materialize and validate this non-overlapping design package; preserve the active MVLR and dirty-worktree bytes.
+  gate: Only the six package paths change; all forbidden paths remain byte-identical.
+  authority_effect: none
+- phase: M1-owner-selection
+  action: After the active MVLR chain is closed or handed off, rehash live target files and ask the owner to accept, revise, or reject the exact root/public change set and decision-envelope boundary.
+  gate: Explicit owner decision over the refreshed proposal; no older digest is stretched over new bytes.
+  authority_effect: proposal selection only
+- phase: M2-framework-vertical
+  action: Implement the framework contract, YAML schemas, deterministic compiler, renderer, runner, metrics events, one positive terminal fixture, and the full negative matrix in one smallest complete public vertical.
+  gate: The positive fixture reaches its promised terminal boundary and every negative case fails at its intended boundary.
+  authority_effect: public candidate bytes only
+- phase: M3-root-policy
+  action: Apply the exact AGENTS patch rebased onto the live file without disturbing the existing publication-policy change.
+  gate: Patch check passes, policy statements do not conflict, and root diff contains only the proposed choreography changes plus pre-existing bytes.
+  authority_effect: repository-local instruction change
+- phase: M4-adapters
+  action: Adapt Invoke, Task Session, and Context Builder only after their concurrent MVLR changes are frozen; preserve their current exact-byte and authority contracts while routing them through the framework graph.
+  gate: Rebased exact inventory, all existing suites, new cross-capability terminal fixture, public privacy scan, and independent review pass.
+  authority_effect: canonical public candidate bytes; no execution authority
+- phase: M5-generated-parity
+  action: Regenerate only the packages owned by the changed canonical capabilities and validate source/generated parity.
+  gate: Exact generated inventory, zero unexplained files, zero private markers, all validation suites pass.
+  authority_effect: generated candidate bytes only
+- phase: M6-enforcement-and-observation
+  action: Enable the new gate for new request versions, keep legacy records historical, emit the five metric events, and observe a bounded rollout before broader adoption.
+  gate: Positive terminal fixture remains green and observed metrics meet targets; failures do not downgrade safeguards.
+  authority_effect: enforcement only after separate acceptance; no publication or deployment authority
+regression_matrix:
+- case_id: P01-TERMINAL-VERTICAL
+  polarity: positive
+  assertion: One schema-valid source compiles, renders byte-stably, rehearses every real fixture consumer, freezes, reviews, emits one request, consumes fixture acceptance, executes in an isolated root, and reaches the promised terminal receipt with no successor.
+- case_id: N01-INVALID-MACHINE-SOURCE
+  polarity: negative
+  assertion: A schema-invalid model source emits no graph, human view, rehearsal, or owner request.
+- case_id: N02-HUMAN-VIEW-DRIFT
+  polarity: negative
+  assertion: A hand-edited human view or renderer/source digest mismatch is rejected and cannot influence authority.
+- case_id: N03-MULTI-BLOCKER-COLLECT
+  polarity: negative
+  assertion: At least three independent preacceptance failures are all reported, later checks run, and process exit preserves the first nonzero.
+- case_id: N04-NOT-EVALUABLE-CAUSALITY
+  polarity: negative
+  assertion: A dependency-blocked consumer is marked not_evaluable with exact causal blockers, never PASS or omitted.
+- case_id: N05-PREPARATION-NO-AUTHORITY
+  polarity: negative
+  assertion: Compilation, rehearsal, freeze, review, and request evidence cannot set selection, admission, execution, publication, deployment, or external-effect permissions.
+- case_id: N06-STALE-DESCENDANT
+  polarity: negative
+  assertion: Any source or decision-envelope mutation invalidates rehearsal, freeze, review, request, acceptance, and execution descendants.
+- case_id: N07-DUPLICATE-REQUEST
+  polarity: negative
+  assertion: A second emission attempt for the same decision_graph_digest returns the original request identity and bytes and creates no second prompt event.
+- case_id: N08-MISSING-REVIEW
+  polarity: negative
+  assertion: Missing, stale, non-independent, or non-passing review blocks request emission.
+- case_id: N09-LOCAL-PASS-NO-TERMINAL
+  polarity: negative
+  assertion: All component receipts may PASS but aggregate completion remains false when the required terminal receipt is missing.
+- case_id: N10-WRONG-TERMINAL
+  polarity: negative
+  assertion: A schema-valid terminal receipt with the wrong boundary, postimage, effect, or successor state fails completion.
+- case_id: N11-EFFECTFUL-FAIL-FAST
+  polarity: negative
+  assertion: The first effectful failure stops execution and proves no later effect or successor ran.
+- case_id: N12-ENVIRONMENTAL-RETRY
+  polarity: negative
+  assertion: A declared environmental failure retries within budget without graph change or owner prompt; exhaustion blocks.
+- case_id: N13-MECHANICAL-AUTO-RESUME
+  polarity: negative
+  assertion: A passing independently reviewed evidence-only repair with unchanged decision and target digests consumes one resume token and resumes the suspended stage without a prompt.
+- case_id: N14-SIDECAR-NO-RESUME
+  polarity: negative
+  assertion: Failed review, changed decision or target digest, changed authority-bearing executable, or a consumed resume token leaves the chain suspended.
+- case_id: N15-SEMANTIC-NEW-GRAPH
+  polarity: negative
+  assertion: A semantic, owner, risk, authority, write, privacy, publication, deployment, external-effect, successor, or executable-authority change requires a new graph and forbids auto-resume.
+- case_id: N16-EXACT-BYTE-ACCEPTANCE
+  polarity: negative
+  assertion: A changed target-byte digest rejects the old acceptance even when prose and path names are unchanged.
+- case_id: N17-MANUAL-RECEIPT-TRANSFER
+  polarity: negative
+  assertion: A consumer that requires manual copying, path translation, or prose extraction fails the automatic receipt-edge contract and increments the manual-transfer metric.
+- case_id: N18-LATE-DISCOVERABLE-BLOCKER
+  polarity: negative
+  assertion: A governance blocker introduced after request that a declared preacceptance consumer could detect fails the blocker-timing metric.
+- case_id: N19-PRIVATE-MARKER-PUBLIC
+  polarity: negative
+  assertion: Private project identifiers, paths, prose, or authority names in proposed public additions fail the privacy scan.
+- case_id: N20-GRAPH-WIDENING
+  polarity: negative
+  assertion: A derived graph or human view that widens target, owner, risk, write, publication, deployment, external-effect, or successor scope relative to the source fails.
+- case_id: N21-BOUNDLESS-SLICE
+  polarity: negative
+  assertion: A small task that does not traverse every required consumer or cannot reach its terminal predicate is not considered bounded or complete.
+positive_terminal_fixture:
+  fixture_path: arcanum/framework/governance-flow/development/fixtures/positive/terminal-boundary-source.json
+  executor_path: arcanum/framework/governance-flow/development/fixtures/positive/terminal-boundary-executor.py
+  promised_boundary: An isolated fixture output reaches its exact accepted postimage, a schema-valid terminal receipt records complete, protected inputs remain unchanged, and no successor or external effect occurs.
+  steps:
+  - validate one model-produced machine source
+  - compile one normalized decision graph
+  - render the human view twice and compare exact bytes
+  - run every declared consumer in collect-all isolated rehearsal
+  - freeze the zero-blocker graph
+  - independently review the graph and full rehearsal
+  - emit one idempotent fixture owner request and prove the second call returns the same request
+  - consume one exact fixture acceptance after proving selection, admission, and execution were previously false
+  - select and admit the sandboxed fixture executor
+  - execute the allowed local effect and fail fast on any error
+  - validate the terminal receipt and exact postimage
+  - assert aggregate completion from the terminal predicate and prove no successor ran
+  required_assertions:
+  - source, graph, renderer, rehearsal, freeze, review, request, acceptance, execution, and terminal digests form one monotonic chain
+  - human output is byte-identical across two renders
+  - all required consumers were evaluated
+  - preacceptance blocker set is empty
+  - preacceptance protected-input before and after digests are equal
+  - preacceptance created only declared run-local evidence
+  - request count for the graph is one
+  - prompt event count for the graph is one
+  - no selection, admission, or execution precedes acceptance
+  - execution writes only the accepted sandboxed target
+  - terminal receipt matches the promised boundary and exact postimage
+  - no prohibited effect, external call, or successor execution occurs
+  - a paired all-local-PASS but missing-terminal variant fails aggregate completion
+  - all five metric values satisfy their targets for the fixture run
+owner_decision_surface:
+  decision_id: GFR-DECISION-ENVELOPE-001
+  remains: false
+  decision_status: selected
+  selected_option_id: A
+  selected_option_label: Immutable decision-envelope graph
+  selected_at: '2026-08-25T21:40:40Z'
+  selection_source:
+    kind: direct_user_selection
+    response: A
+  selection_rationale: The owner selected the recommended boundary that binds every consequential and exact-byte field in one immutable decision graph while allowing independently reviewed mechanical evidence-only descendants to be replaced only when graph and target digests remain unchanged.
+  decision_effect: design-binding-selected
+  question: Should owner acceptance bind the immutable decision graph while independently reviewed mechanical evidence remains a digest-bound descendant, or bind every replaceable evidence receipt into the owner digest?
+  recommendation: 'Bind acceptance to the immutable decision graph: exact target bytes, terminal outcome, owner, authority, risk, writes, privacy, publication, deployment, external-effect scope, successor policy, and authority-bearing executable identity. Require exact independent review of evidence, but allow a mechanical evidence-only descendant to be replaced and auto-resumed only after machine proof that the decision graph and target-byte digests are unchanged.'
+  alternatives:
+  - surface: recommended decision-envelope graph
+    impact: Preserves every consequential and exact-byte safeguard while preventing validator or receipt-only repairs from manufacturing another owner prompt.
+  - surface: entire evidence graph
+    impact: Stronger byte coupling but mechanically guarantees renewed approval whenever a non-authoritative receipt or validator evidence changes, recreating the loop this revision is intended to remove.
+  - surface: high-level intent only
+    impact: Rejected because it would not bind exact target bytes, executable authority, or risk/write/effect ceilings and would weaken existing protections.
+  admissibility_request:
+    schemaVersion: 1.0.0
+    decisionId: GFR-DECISION-ENVELOPE-001
+    candidates:
+    - optionId: A
+      label: Immutable decision-envelope graph
+      optionKind: action
+      structuralStatus: admissible
+      reversibility: reversible
+      hazardClass: authority
+      ownerGate: owner:GFR-DECISION-ENVELOPE-001
+      evidence:
+      - ops/development/2026-08-25-governance-flow-revision/GOVERNANCE-FLOW-REVISION.yml#owner_decision_surface
+      - preserves exact target bytes and consequential authority fields while allowing reviewed evidence-only descendants
+      rejectionReasons: []
+    - optionId: B
+      label: Entire evidence graph
+      optionKind: action
+      structuralStatus: admissible
+      reversibility: reversible
+      hazardClass: authority
+      ownerGate: owner:GFR-DECISION-ENVELOPE-001
+      evidence:
+      - ops/development/2026-08-25-governance-flow-revision/GOVERNANCE-FLOW-REVISION.yml#owner_decision_surface
+      - preserves maximal evidence-byte coupling but recreates mechanical approval loops
+      rejectionReasons: []
+    - optionId: C
+      label: High-level intent only
+      optionKind: action
+      structuralStatus: inadmissible
+      reversibility: reversible
+      hazardClass: authority
+      ownerGate: owner:GFR-DECISION-ENVELOPE-001
+      evidence:
+      - ops/development/2026-08-25-governance-flow-revision/GOVERNANCE-FLOW-REVISION.yml#owner_decision_surface
+      rejectionReasons:
+      - does not bind exact target bytes, executable authority, or risk, write, and effect ceilings
+  admissibility_receipt:
+    schemaVersion: 1.0.0
+    decisionId: GFR-DECISION-ENVELOPE-001
+    requestDigest: 3835a581e114044c4df5b35c2b5c456013cf8b4792121fa06f44501fba0911b4
+    routeOutcome: gate
+    decisionGateRequired: true
+    admissibleOptionIds:
+    - A
+    - B
+    presentedOptionIds:
+    - A
+    - B
+    directOptionId: null
+    ownerGate: null
+    rejectedOptions:
+    - optionId: C
+      reasons:
+      - does not bind exact target bytes, executable authority, or risk, write, and effect ceilings
+    reasons: []
+  decision_gate_blockers_remaining: 0
+  downstream_gates:
+  - active MVLR work must release the protected adapter surfaces
+  - the refreshed exact root and public candidate requires separate explicit apply authorization
+  - the end-to-end positive fixture must be implemented and reach its promised terminal boundary before completion
+  apply_authorization: Selection A resolves only the decision-graph binding model. It does not authorize applying AGENTS.md, canonical public contracts, adapters, generated packages, Git changes, publication, deployment, or external effects; those remain blocked until the active MVLR task releases the protected surfaces and the owner separately authorizes the refreshed exact change set.
+helper_receipt:
+  helper_id: /root/governance_flow_challenge
+  status: joined
+  files_read:
+  - AGENTS.md
+  - .agents/skills/workflow-reflect/SKILL.md
+  - .arcanum/observability/reflections/2026-08-24-evf-smt-approval-loop.md
+  - ops/development/2026-07-24-invoke-lifecycle-progress-update/machine-view-lifecycle-runtime/execution-entry-consumer-repair-v1/ADOPTION-RECEIPT.json
+  - ops/development/2026-07-24-invoke-lifecycle-progress-update/machine-view-lifecycle-runtime/execution-entry-consumer-repair-v1/CONSUMER-REPAIR-INDEPENDENT-REVIEW.json
+  writes: none
+  claim_ceiling: Read-only design challenge based on the named five-file evidence set; no implementation, adoption, metric achievement, or execution claim.
+  material_challenge: Define no-effect as run-local evidence only, represent dependency-blocked checks as not_evaluable, distinguish the immutable decision graph from replaceable evidence descendants, make one-request idempotency persistent, and require an actual sandboxed positive fixture to reach the promised terminal boundary.
+governance_sidecar_receipts:
+- helper_id: /root/gfr_whitespace_sidecar
+  issue_id: format-aware-diff-whitespace
+  status: joined
+  root_cause: The first package hygiene check was format-blind and treated the required single-space prefix for an unchanged empty unified-diff context record as trailing content whitespace; the package bytes were not malformed.
+  changed_byte_inventory: []
+  renewed_owner_acceptance_required: false
+  permanent_fix: Parse unified-diff hunk records, allow exactly one space only for an empty context record, reject real trailing whitespace everywhere else, and preserve the first nonzero across the complete validation suite.
+  writes: none
+- helper_id: /root/gfr_whitespace_sidecar
+  issue_id: ignored-machine-artifact-visibility
+  status: joined
+  root_cause: The repository intentionally ignores ops/development JSON machine proof, so the JSON source and receipt existed but were not durable Git-visible candidates in the declared six-path package.
+  changed_byte_inventory: []
+  renewed_owner_acceptance_required: false
+  permanent_fix: Use schema-valid YAML for the durable proposal source and its derived proposal-package validation receipt; classify the receipt as durable proposal validation rather than run-local telemetry, and reject force-add or shared .gitignore exceptions.
+  writes: none
+- helper_id: /root/gfr_whitespace_sidecar
+  issue_id: check-ignore-exit-classification
+  status: joined
+  root_cause: A multi-path `git check-ignore -q` invocation returned usage error 129, and the aggregator incorrectly treated every nonzero as the expected no-match status 1.
+  changed_byte_inventory: []
+  renewed_owner_acceptance_required: false
+  permanent_fix: Run multi-path `git check-ignore --no-index` without quiet mode and branch explicitly on status 0 ignored, status 1 with empty stdout unignored, and every other status validator_error; preserve stderr and the original status.
+  writes: none
+public_content_constraints:
+  private_paths_or_prose_allowed: false
+  required_wording:
+  - project-agnostic roles and artifact classes only
+  - preparation and rehearsal grant no authority
+  - publication, deployment, Git, credentials, destructive actions, and external effects remain separately authorized
+  scan_rule: Before accepting any public addition, scan the exact added lines and fixtures for private project names, repository-private paths, private owner identifiers, and copied incident prose; zero matches required.
+completion_claim:
+  status: proposal_ready
+  reason: The exact design, paths, compatibility, migration, regression matrix, and positive terminal-boundary fixture are specified and machine-validated, but no canonical contract, adapter, or terminal fixture has been implemented or run.
+  terminal_fixture_in_plan: true
+  current_execution_authority: false

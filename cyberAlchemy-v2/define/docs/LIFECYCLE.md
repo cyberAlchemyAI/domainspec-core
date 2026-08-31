@@ -20,6 +20,20 @@ Define has two separate lifecycles:
 Keeping them separate matters. A completed session does not approve the package,
 promote a definition, or accept a runtime.
 
+## Handled Definition Record Lifecycle
+
+A handled-definition record belongs to one explicit concept, context, and
+intended use. It begins as one of four dispositions: reuse, specialize, propose,
+or open. A later material change creates a successor record; it does not rewrite
+the earlier source state. At most one record for the same concept and context is
+current.
+
+Reuse must retain the exact canonical source state. Specialize and propose remain
+candidates with all required definition voices and boundaries. Open retains the
+question, affected use, stop decision, and next action without inventing a
+normative definition. Supersession, validation, or registry presence does not
+promote a record or implement persistence.
+
 ## Product Asset Lifecycle
 
 The **product asset** is this Define package: its documents, machine-readable

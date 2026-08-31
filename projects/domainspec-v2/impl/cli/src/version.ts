@@ -1,7 +1,7 @@
 export const CLI_PACKAGE_NAME = "@domainspec-v2/cli" as const;
 export const CLI_VERSION = "0.0.0-candidate.2" as const;
 export const FOUNDATION_CONTRACT_SCHEMA =
-  "domainspec.stable-foundation-cli.foundation-contract/v2" as const;
+  "domainspec.stable-foundation-cli.foundation-contract/v3" as const;
 export const SUPPORTED_NODE_VERSION = "v26.8.1" as const;
 export const SUPPORTED_PLATFORM = "linux" as const;
 export const SUPPORTED_ARCH = "x64" as const;

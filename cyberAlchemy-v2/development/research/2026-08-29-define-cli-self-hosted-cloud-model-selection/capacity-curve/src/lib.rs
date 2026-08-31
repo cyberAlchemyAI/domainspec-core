@@ -51,6 +51,7 @@ pub enum AttentionKind {
     FullAttention,
     SlidingAttention { window_tokens: u64 },
     Recurrent { state_bytes_per_sequence: u64 },
+    RecurrentObserved,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -155,9 +156,11 @@ struct HfConfig {
     num_key_value_heads: u64,
     head_dim: u64,
     vocab_size: u64,
+    #[serde(default)]
     intermediate_size: u64,
     max_position_embeddings: u64,
-    torch_dtype: String,
+    #[serde(default)]
+    torch_dtype: Option<String>,
     #[serde(default)]
     num_experts: Option<u64>,
     #[serde(default)]
@@ -172,6 +175,17 @@ struct HfConfig {
     rope_scaling: Option<serde_json::Value>,
     #[serde(default)]
     decoder_sparse_step: Option<u64>,
+    #[serde(default)]
+    layer_types: Vec<String>,
+    #[serde(default)]
+    linear_num_key_heads: Option<u64>,
+    #[serde(default)]
+    linear_key_head_dim: Option<u64>,
+}
+
+#[derive(Debug, Deserialize)]
+struct QuantizationConfig {
+    quant_method: String,
 }
 
 fn hash(bytes: &[u8]) -> String {
@@ -215,7 +229,17 @@ pub fn import_model(
     }
     let config_bytes = fs::read(config_path)?;
     let artifact_bytes = fs::read(artifacts_path)?;
-    let raw: HfConfig = serde_json::from_slice(&config_bytes)?;
+    let config_value: serde_json::Value = serde_json::from_slice(&config_bytes)?;
+    let raw_value = config_value
+        .get("text_config")
+        .unwrap_or(&config_value)
+        .clone();
+    let raw: HfConfig = serde_json::from_value(raw_value)?;
+    let quantization: Option<QuantizationConfig> = config_value
+        .get("quantization_config")
+        .cloned()
+        .map(serde_json::from_value)
+        .transpose()?;
     let manifest: ArtifactManifestV1 = serde_json::from_slice(&artifact_bytes)?;
     if manifest.files.is_empty() {
         return Err(Error::Invalid("artifact manifest has no files".into()));
@@ -253,16 +277,16 @@ pub fn import_model(
     }
     let moe = match raw.model_type.as_str() {
         "qwen3" => None,
-        "qwen3_moe" => Some(MoeV1 {
+        "qwen3_moe" | "qwen3_5_moe_text" => Some(MoeV1 {
             total_experts: raw
                 .num_experts
-                .ok_or_else(|| Error::Invalid("qwen3_moe missing num_experts".into()))?,
+                .ok_or_else(|| Error::Invalid("MoE config missing num_experts".into()))?,
             active_experts_per_token: raw
                 .num_experts_per_tok
-                .ok_or_else(|| Error::Invalid("qwen3_moe missing num_experts_per_tok".into()))?,
+                .ok_or_else(|| Error::Invalid("MoE config missing num_experts_per_tok".into()))?,
             expert_intermediate_size: raw
                 .moe_intermediate_size
-                .ok_or_else(|| Error::Invalid("qwen3_moe missing moe_intermediate_size".into()))?,
+                .ok_or_else(|| Error::Invalid("MoE config missing moe_intermediate_size".into()))?,
             shared_experts: u64::from(raw.shared_expert_intermediate_size.unwrap_or(0) > 0),
             shared_expert_intermediate_size: raw.shared_expert_intermediate_size.unwrap_or(0),
             sparse_layer_frequency: raw.decoder_sparse_step.unwrap_or(1),
@@ -274,19 +298,67 @@ pub fn import_model(
             "sliding-window import requires an explicit normalized profile".into(),
         ));
     }
+    let layer_groups = if raw.layer_types.is_empty() {
+        vec![LayerGroupV1 {
+            layers: raw.num_hidden_layers,
+            kv_heads: raw.num_key_value_heads,
+            head_dim: raw.head_dim,
+            attention: AttentionKind::FullAttention,
+        }]
+    } else {
+        if raw.layer_types.len() as u64 != raw.num_hidden_layers {
+            return Err(Error::Invalid(
+                "layer_types length does not match num_hidden_layers".into(),
+            ));
+        }
+        let full = raw
+            .layer_types
+            .iter()
+            .filter(|x| *x == "full_attention")
+            .count() as u64;
+        let recurrent = raw
+            .layer_types
+            .iter()
+            .filter(|x| *x == "linear_attention")
+            .count() as u64;
+        if full + recurrent != raw.num_hidden_layers || full == 0 || recurrent == 0 {
+            return Err(Error::Invalid(
+                "unsupported hybrid layer_types schedule".into(),
+            ));
+        }
+        vec![
+            LayerGroupV1 {
+                layers: full,
+                kv_heads: raw.num_key_value_heads,
+                head_dim: raw.head_dim,
+                attention: AttentionKind::FullAttention,
+            },
+            LayerGroupV1 {
+                layers: recurrent,
+                kv_heads: raw.linear_num_key_heads.ok_or_else(|| {
+                    Error::Invalid("linear attention missing key-head count".into())
+                })?,
+                head_dim: raw.linear_key_head_dim.ok_or_else(|| {
+                    Error::Invalid("linear attention missing key-head dimension".into())
+                })?,
+                attention: AttentionKind::RecurrentObserved,
+            },
+        ]
+    };
+    let is_hybrid = !raw.layer_types.is_empty();
     let architecture = ArchitectureV1 {
-        kind: if moe.is_some() { "moe" } else { "dense" }.into(),
+        kind: match (moe.is_some(), is_hybrid) {
+            (true, true) => "hybrid_moe",
+            (true, false) => "moe",
+            (false, _) => "dense",
+        }
+        .into(),
         hidden_size: raw.hidden_size,
         layers: raw.num_hidden_layers,
         attention_heads: raw.num_attention_heads,
         vocab_size: raw.vocab_size,
         dense_intermediate_size: raw.intermediate_size,
-        layer_groups: vec![LayerGroupV1 {
-            layers: raw.num_hidden_layers,
-            kv_heads: raw.num_key_value_heads,
-            head_dim: raw.head_dim,
-            attention: AttentionKind::FullAttention,
-        }],
+        layer_groups,
         moe,
         total_parameters: None,
         active_parameters: None,
@@ -300,12 +372,31 @@ pub fn import_model(
         tokenizer_sha256: manifest.tokenizer_sha256,
         chat_template_sha256: manifest.chat_template_sha256,
     };
+    let weight_dtype = match quantization.as_ref().map(|x| x.quant_method.as_str()) {
+        Some("fp8") => "float8".into(),
+        Some(other) => {
+            return Err(Error::Invalid(format!(
+                "unsupported checkpoint quantization: {other}"
+            )))
+        }
+        None => raw
+            .torch_dtype
+            .clone()
+            .ok_or_else(|| Error::Invalid("model config is missing torch_dtype".into()))?,
+    };
+    if quantization.as_ref().map(|x| x.quant_method.as_str())
+        != manifest.checkpoint_quantization.as_deref()
+    {
+        return Err(Error::Invalid(
+            "config and artifact checkpoint quantization differ".into(),
+        ));
+    }
     let mut profile = ModelProfileV1 {
         schema: "capacity-curve/model-profile/v1".into(),
         profile_id: String::new(),
         identity,
         architecture,
-        weight_dtype: raw.torch_dtype,
+        weight_dtype,
         checkpoint_quantization: manifest.checkpoint_quantization,
         source_url: manifest.source_url,
         license_id: manifest.license_id,
@@ -338,7 +429,6 @@ pub fn validate_model(p: &ModelProfileV1) -> Result<()> {
         a.layers,
         a.attention_heads,
         a.vocab_size,
-        a.dense_intermediate_size,
         p.native_context_tokens,
         p.artifact_weight_bytes,
     ]
@@ -346,6 +436,11 @@ pub fn validate_model(p: &ModelProfileV1) -> Result<()> {
     {
         return Err(Error::Invalid(
             "model dimensions, context, and artifact bytes must be non-zero".into(),
+        ));
+    }
+    if a.moe.is_none() && a.dense_intermediate_size == 0 {
+        return Err(Error::Invalid(
+            "dense model intermediate size must be non-zero".into(),
         ));
     }
     let group_layers: u64 = a.layer_groups.iter().map(|g| g.layers).sum();
@@ -459,6 +554,11 @@ pub fn theoretical_sequence_memory(
                     )
                     .ok_or_else(|| Error::Invalid("state overflow".into()))?
             }
+            AttentionKind::RecurrentObserved => {
+                return Err(Error::Invalid(
+                    "recurrent state requires observed runtime evidence".into(),
+                ))
+            }
         }
     }
     Ok(MemoryV1 {
@@ -510,6 +610,11 @@ pub fn theoretical_prefix_batch_memory(
                     recurrent,
                     checked_mul(checked_mul(g.layers, state_bytes_per_sequence)?, in_flight)?,
                 )?;
+            }
+            AttentionKind::RecurrentObserved => {
+                return Err(Error::Invalid(
+                    "recurrent state requires observed runtime evidence".into(),
+                ))
             }
         }
     }
@@ -1633,6 +1738,63 @@ mod tests {
             &"a".repeat(40)
         )
         .is_err());
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn imports_qwen35_fp8_without_inventing_recurrent_state() {
+        let root = std::env::temp_dir().join(format!(
+            "capacity-curve-qwen35-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir(&root).unwrap();
+        fs::write(root.join("model.safetensors"), b"fp8").unwrap();
+        let config = serde_json::json!({
+            "model_type":"qwen3_5_moe",
+            "quantization_config":{"quant_method":"fp8"},
+            "text_config":{
+                "model_type":"qwen3_5_moe_text", "hidden_size":2048,
+                "num_hidden_layers":4, "num_attention_heads":16,
+                "num_key_value_heads":2, "head_dim":256, "vocab_size":248320,
+                "max_position_embeddings":262144, "num_experts":256,
+                "num_experts_per_tok":8, "moe_intermediate_size":512,
+                "shared_expert_intermediate_size":512,
+                "layer_types":["linear_attention","linear_attention","linear_attention","full_attention"],
+                "linear_num_key_heads":16, "linear_key_head_dim":128
+            }
+        });
+        fs::write(
+            root.join("config.json"),
+            serde_json::to_vec(&config).unwrap(),
+        )
+        .unwrap();
+        let manifest = serde_json::json!({
+            "repo":"Qwen/Qwen3.5-35B-A3B-FP8",
+            "source_url":"https://huggingface.co/Qwen/Qwen3.5-35B-A3B-FP8",
+            "license_id":"Apache-2.0", "checkpoint_quantization":"fp8",
+            "total_weight_bytes":3,
+            "files":[{"path":"model.safetensors","bytes":3,"sha256":hash(b"fp8")}]
+        });
+        fs::write(
+            root.join("artifacts.json"),
+            serde_json::to_vec(&manifest).unwrap(),
+        )
+        .unwrap();
+        let imported = import_model(
+            &root.join("config.json"),
+            &root.join("artifacts.json"),
+            &"9".repeat(40),
+        )
+        .unwrap();
+        assert_eq!(imported.weight_dtype, "float8");
+        assert_eq!(imported.architecture.kind, "hybrid_moe");
+        assert_eq!(imported.architecture.layer_groups[0].layers, 1);
+        assert_eq!(imported.architecture.layer_groups[1].layers, 3);
+        assert!(theoretical_sequence_memory(&imported, 32768, 2).is_err());
         fs::remove_dir_all(root).unwrap();
     }
 

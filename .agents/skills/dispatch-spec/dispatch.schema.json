@@ -211,6 +211,12 @@
           "type": "string",
           "description": "Parent capability that owns spawn, join, gates, and final synthesis."
         },
+        "execution_contract_version": {
+          "type": "string",
+          "enum": [
+            "arcanum.capability-bound-execution.v0.2"
+          ]
+        },
         "roles": {
           "type": "array",
           "items": {
@@ -395,6 +401,109 @@
         },
         "permission_prompt": {
           "type": "string"
+        },
+        "registration": {
+          "type": "object",
+          "description": "Exact-sheet registration proof required by the native runtime before any approved subagent spawn.",
+          "required": [
+            "schema_version",
+            "ledger",
+            "sheet_schema_version",
+            "sheet_sha256",
+            "execution_projection_sha256",
+            "temporary_sheet",
+            "temporary_close"
+          ],
+          "properties": {
+            "schema_version": {
+              "const": "arcanum.subagent-strategy-registration.v0.2"
+            },
+            "ledger": {
+              "const": ".arcanum/observability/subagents-strategy/subagents-dispatch.yaml"
+            },
+            "sheet_schema_version": {
+              "const": "0.6.1"
+            },
+            "sheet_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "execution_projection_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "temporary_sheet": {
+              "type": "string",
+              "minLength": 1
+            },
+            "temporary_close": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "registration_intent": {
+          "type": "object",
+          "description": "Preconfirmation registration declaration. Post-confirmation evidence is carried by a separate run-local execution entry so the closure-bound dispatch remains immutable.",
+          "required": [
+            "schema_version",
+            "profile_id",
+            "profile_ref",
+            "confirmation_mode",
+            "source_lifecycle",
+            "registration_schema_version"
+          ],
+          "properties": {
+            "schema_version": {
+              "const": "arcanum.subagent-strategy-registration-intent.v0.1"
+            },
+            "profile_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "profile_ref": {
+              "type": "object",
+              "required": [
+                "path",
+                "sha256",
+                "size"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "size": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            "confirmation_mode": {
+              "type": "string",
+              "enum": [
+                "exact_sheet",
+                "material_projection"
+              ]
+            },
+            "source_lifecycle": {
+              "type": "string",
+              "enum": [
+                "consumed",
+                "durable"
+              ]
+            },
+            "registration_schema_version": {
+              "const": "arcanum.subagent-strategy-registration.v0.3"
+            }
+          },
+          "additionalProperties": false
         },
         "receipt_requirements": {
           "type": "array",
@@ -847,6 +956,62 @@
             "items": {
               "type": "string"
             }
+          },
+          "evaluation": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "mode"
+                ],
+                "properties": {
+                  "mode": {
+                    "const": "receipt_status"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "mode",
+                  "source_role_id",
+                  "source_field",
+                  "pass_values"
+                ],
+                "properties": {
+                  "mode": {
+                    "const": "domain_status"
+                  },
+                  "source_role_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "source_field": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "pass_values": {
+                    "type": "array",
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "resolved_values": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
           },
           "on_fail": {
             "type": "string",

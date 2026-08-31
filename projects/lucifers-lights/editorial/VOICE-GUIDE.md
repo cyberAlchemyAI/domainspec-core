@@ -16,6 +16,19 @@ An internal aside or direct-reader interjection must perform at least one live j
 
 If an aside performs none of these jobs, tether it, move it to a quieter scene, or cut it.
 
+## The reader-discovery rule
+
+**Make the mechanics explicit and the meaning discoverable.**
+
+State what the reader must understand to follow agency, consent, causality, time, and consequences. Let theme, emotion, attitude, and mythology arrive through an evidence → gap → choice → payoff sequence:
+
+1. Give the reader concrete evidence.
+2. Leave a clean gap for interpretation.
+3. Let a character make a consequential choice.
+4. Pay the meaning off through a later object, action, image, or callback.
+
+When a scene has already demonstrated its meaning, test cutting the next sentence that explains it. If the meaning matters but arrives too early, leave the question or parable unfinished and let the story answer it later. A gap without a traceable payoff is obscurity, not discovery.
+
 ## Keep
 
 - Short reactions caused by immediate failure or surprise: “Tough audience.”

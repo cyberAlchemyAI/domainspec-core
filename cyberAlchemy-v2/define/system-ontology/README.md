@@ -104,6 +104,13 @@ parent bindings; its material bytes remain outside the parent material digest.
 Nested-package admission does not establish implementation, compiler
 conformance, parent PASS, release admission, or any other authority.
 
+The package-local `domainspec-project/project.json` remains a DomainSpec
+minted-project manifest, not a `CAV2-D60` Project. The CAV2 Project package now
+defines a separate recursive-instance binding registry, but no Define Project
+or binding is registered there. `RES-CAV2-DEFINE-SYS-005` preserves the missing
+Project identity, exact parent version and contract, owner-qualified authority
+claims, and adoption decision.
+
 ## Validate
 
 From the repository root:

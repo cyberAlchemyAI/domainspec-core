@@ -51,14 +51,29 @@ The model is grounded in four repository source families:
   governance product framing;
 - CyberAlchemy v2 product meaning, authority kinds, promotion model, discipline
   model, and canonical definitions;
-- Arcanum constitution, discipline, decision-gate, observation, reflection,
-  task-session, and other governed decision and execution contracts; and
+- Arcanum constitution, discipline, decision-gate, observation, reflection, and
+  task-session contracts, plus current counterevidence that Governance Flow is
+  disabled; and
 - DomainSpec v2 meta-types for authority, axioms, invariants, definitions,
   validation, layering, and drift.
 
 The source registry contains immutable import hashes only as provenance for this
 candidate. It does not impose live byte hashing, refresh transitions, or
 repository-wide enforcement.
+
+## Current Runnable Evidence
+
+The package now cites a candidate no-effect Rust interpreter that gives
+Governance Program, Governance Request, and Governance Fact Set concrete data
+representations and returns deterministic verdicts. Its tests cover invalid or
+conflicting facts and demonstrate that clause order does not turn missing
+authority evidence into denial.
+
+This narrows the runtime evidence gap, but it is not an accepted system-runtime
+ontology, a formal business-system bridge, a real fact verifier, an integration,
+or enforcement. Exact source hashes record import provenance only; they are not
+lifecycle clocks and do not require ontology refreshes whenever source bytes
+change.
 
 ## Business Vocabulary
 
@@ -74,7 +89,7 @@ The package owns 43 business nodes across these roles:
 - nine business rules; and
 - six product measures.
 
-There are 11 relation types and 71 relation instances.
+There are 11 relation types and 68 relation instances.
 
 ## Enduring Capabilities
 

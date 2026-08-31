@@ -666,7 +666,7 @@ Plain-language voice: coordinates several ordered operations across time. The de
 coordination stays inside one feature or crosses feature boundaries.
 
 Domain-context voice: SOURCE of `orchestrates` for same-feature or cross-feature Operation coordination; no
-active DS-D8 target signatures. Workflow evaluation may emit a `domainspec-v2-D36` compensation intent and
+active DS-D8 target signatures. Workflow evaluation may emit a `domainspec-v2-D36` recovery intent and
 plan but never invokes recovery Operations directly; a separate executor invokes only exact orchestrated
 Operation bindings. The content-validator implementation is migrated in SGRM-003/004.
 
@@ -711,6 +711,12 @@ what comes back. External (METHOD + path) or internal (a method signature).
 
 Domain-context voice: the boundary node exposing the domain to consumers; SOURCE of `exposes`, TARGET of
 `contracts` / `maps` under DS-D8. Checked by the content validator against `interface.schema.yml`.
+
+Infrastructure boundary: DS-D1.11 is used only when the dependency is an actual logical Interface in the
+domain graph. A Repository, Unit of Work, Clock, Wakeup, telemetry seam, or binding resolver remains a
+concern-specific code contract under `domainspec-v2-D45`; it is not forced to masquerade as an Interface and
+does not imply a universal `Port`. D46-D49 describe provider bindings around those contracts without creating
+new DS-D1 meta-types or DS-D8 relationship verbs.
 
 Use carefully: `interface_kind` is a *declared* attribute (the `Attribute | Value` table); any value
 (`external` / `internal`) present satisfies it.

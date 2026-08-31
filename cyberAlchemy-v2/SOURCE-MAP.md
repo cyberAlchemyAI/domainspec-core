@@ -34,14 +34,22 @@ turning source evidence into authority by proximity.
 
 ## First Extraction Targets
 
+Owner routes below resolve only through
+`cyberAlchemy-v2/agent-routing/routes.json`. The source cohorts are evidence;
+they never become repository routing authorities.
+
+Mandatory ontology-runtime gating is suspended while its governed Rust
+replacement is constructed. Ontology targets retain their single owner route
+and must bind only the exact records and selectors their work consumes.
+
 | Target | Source basis | Owner route |
 | --- | --- | --- |
-| [Stable repository authority model](authority/AUTHORITY-MODEL.md) | Inventory findings plus Arcanum definitions precedent. | definitions-governance and constitution-governance |
-| Source-ledgered amalgamation discipline | Inventory evidence sets plus CyberAlchemy pipeline. | discipline-governance |
-| Two-axis architecture map | Framework-unification concept map. | architecture review |
-| Knowledge governance stack | Inventory, ontology-vault, CyberAlchemy pipeline, Arcanum method. | ontology-vault plus definitions-governance |
-| UX/UI knowledge governance | ux-lessons, ux-evidence-validator, ui-prototyping-studio. | UX/UI route plus definitions-governance and constitution-governance |
-| Public/private boundary | Parent AGENTS rules, inventory evidence cards, submodule discipline. | decision-gate |
+| [Stable repository authority model](authority/AUTHORITY-MODEL.md) | Inventory findings plus public definitions precedent. | `CA2-ROUTE-DEFINITIONS` then `CA2-ROUTE-GOVERNANCE` |
+| Source-ledgered amalgamation discipline | Inventory evidence sets plus CyberAlchemy pipeline. | `CA2-ROUTE-GOVERNANCE` |
+| Two-axis architecture map | Framework-unification concept map. | `CA2-ROUTE-UNDERSTAND` |
+| Knowledge governance stack | Inventory, ontology evidence, CyberAlchemy pipeline, and public method evidence. | `CA2-ROUTE-GOVERNANCE` |
+| UX/UI knowledge governance | UX lessons, evidence validation, and UI prototyping sources. | `CA2-ROUTE-RESEARCH` then `CA2-ROUTE-DEFINE` |
+| Public/private boundary | Parent AGENTS rules, inventory evidence cards, submodule discipline. | `CA2-ROUTE-GOVERNANCE` |
 
 ## Open Questions
 

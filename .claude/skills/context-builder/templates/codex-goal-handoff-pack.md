@@ -12,9 +12,9 @@
 
 ## Obligation Coverage
 
-| Obligation        | Status   | Selected Evidence | Resolution |
-| ----------------- | -------- | ----------------- | ---------- | ----------------- | ----------------------------------- |
-| `<obligation-id>` | `covered | resolved          | block`     | `<path#selector>` | `<required when resolved or block>` |
+| Obligation | Status | Selected Evidence | Resolution |
+| --- | --- | --- | --- |
+| `<obligation-id>` | `covered | resolved | block` | `<path#selector>` | `<required when resolved or block>` |
 
 Strict coverage: `<pass | block>`
 

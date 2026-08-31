@@ -2,7 +2,7 @@
 node_type: craft-view
 title: CRAFT — DomainSpec v2
 status: active
-updatedAt: 2026-08-24
+updatedAt: 2026-08-29
 ---
 
 # CRAFT — DomainSpec v2
@@ -11,11 +11,112 @@ updatedAt: 2026-08-24
 
 ## Current frontier
 
-Re-baselined 2026-08-23 from the full project tree. The live frontiers are independent: answer BMC relationship decision N05; obtain the spec-ontology @4 verifier response and required verification; close SWU-FMT-001 before selecting SWU-FMT-002; decide whether to publish the exact accepted EVF runtime-repair candidate and then satisfy its retained P0 owner/readiness gates; and, only after presenting the exact dispatch, confirm or decline the APE Enum Python/Rust fan-out. Operation and Workflow APE prototypes are terminal at the candidate-local ceiling, RMT reconciliation is closed, and proof-substrate syntax adoption is accepted but still awaits refreshed GATE-01 binding. No admission, promotion, release, deployment, or production authority follows from this Craft refresh.
+The exact current meta-type implementation is frozen and owner-admitted for project-local CLI development as `domainspec-meta-types-current-implemented@2`, baseline digest `10c29c2a4feb5039b6c90dcd7e2d44024757b4dd2414f9c0383c82387ec6e836`. Its 771-file inventory binds the canonical definition state, all 13 active backend types, 39 TypeScript/Python/Rust realization rows, 11 UI state rows and their supporting kernel, family, factory and acceptance evidence. A first-class 16-row enforcement-asset registry now separates the frozen input, selected candidate-3 contract, evidence repairs, target findings, state drift and missing product machinery. `SWU-MTCLI-003` is selectable but not selected. Publication, release, deployment and production remain unauthorized.
 
-- Open decisions: `DEC-DSV2-BMC-REL-N05`
-- Active blockers: `BLK-DSV2-DRIFT-ENGINE`, `BLK-DSV2-L2-ATTESTATION`, `BLK-DSV2-SMO-ARCANUM-BINDING`, `BLK-DSV2-SICL-REV2-REFRESH`, `BLK-DSV2-FORM-QUEUE-EMPTY`, `BLK-DSV2-P2-DENOMINATOR-DRIFT`, `BLK-DSV2-REFINE-PLAN-ADMISSIBILITY`, `BLK-DSV2-SPEC-ONTOLOGY-VERIFIER-ADMISSION`, `BLK-DSV2-BMC-REL-N05`, `BLK-DSV2-PROOF-GATE01-BINDING`, `BLK-DSV2-EVF-P0-EXECUTION-ADMISSION`, `BLK-DSV2-ORODI-LIVE-BINDINGS`
-- Active gaps: `GAP-SH-UI11-MIGRATE`, `GAP-SH-PROSE-HOMES`, `FR-FPR-ONTOLOGY-DIRECTION`, `FR-FPR-SOLVER-PROFILE`, `FR-FPR-BW-ORIGIN-ROUTE`, `FR-FPR-I-ROOT-DISPOSITIONS`, `FR-FPR-APE-SELF-CONTAINMENT`, `GAP-DSV2-SFC-UNEXECUTED`, `GAP-DSV2-FMP-UNSELECTED`, `GAP-DSV2-FMP-TRACE`, `GAP-DSV2-TWO-LANE-INTEGRATION`, `GAP-DSV2-SFC-004-FUSED`, `GAP-DSV2-CARD-EDGE-DRIFT`, `GAP-DSV2-BMC-REALIZATION-BINDINGS`, `GAP-DSV2-FMT-SWU001-CLOSEOUT`, `GAP-DSV2-EVF-SMT-PROVIDER`, `GAP-DSV2-ORODI-TOOL-PROFILE-ADMISSION`
+- Open decisions: none
+- Active blockers: `BLK-DSV2-DRIFT-ENGINE`, `BLK-DSV2-L2-ATTESTATION`, `BLK-DSV2-SMO-ARCANUM-BINDING`, `BLK-DSV2-SICL-REV2-REFRESH`, `BLK-DSV2-P2-DENOMINATOR-DRIFT`, `BLK-DSV2-REFINE-PLAN-ADMISSIBILITY`, `BLK-DSV2-SPEC-ONTOLOGY-VERIFIER-ADMISSION`, `BLK-DSV2-PROOF-GATE01-BINDING`, `BLK-DSV2-EVF-P0-EXECUTION-ADMISSION`, `BLK-DSV2-ORODI-LIVE-BINDINGS`, `BLK-DSV2-BMC-REL-PREACCEPTANCE-CLOSURE`
+- Active gaps: `GAP-SH-UI11-MIGRATE`, `GAP-SH-PROSE-HOMES`, `FR-FPR-ONTOLOGY-DIRECTION`, `FR-FPR-SOLVER-PROFILE`, `FR-FPR-BW-ORIGIN-ROUTE`, `FR-FPR-I-ROOT-DISPOSITIONS`, `FR-FPR-APE-SELF-CONTAINMENT`, `GAP-DSV2-SFC-UNEXECUTED`, `GAP-DSV2-FMP-UNSELECTED`, `GAP-DSV2-FMP-TRACE`, `GAP-DSV2-TWO-LANE-INTEGRATION`, `GAP-DSV2-SFC-004-FUSED`, `GAP-DSV2-CARD-EDGE-DRIFT`, `GAP-DSV2-BMC-REALIZATION-BINDINGS`, `GAP-DSV2-FMT-SWU001-CLOSEOUT`, `GAP-DSV2-EVF-SMT-PROVIDER`, `GAP-DSV2-ORODI-TOOL-PROFILE-ADMISSION`, `GAP-DSV2-META-TYPE-TARGET-ENFORCEMENT`
+
+## Meta-type state
+
+Machine source: [`.craft/artifacts/META-TYPE-STATE.json`](.craft/artifacts/META-TYPE-STATE.json). Freshness check: [`.craft/artifacts/validate-meta-type-state.mjs`](.craft/artifacts/validate-meta-type-state.mjs).
+
+The canonical starting point is `domainspec-meta-types-current-implemented@2`, digest `10c29c2a4feb5039b6c90dcd7e2d44024757b4dd2414f9c0383c82387ec6e836`: 771 frozen evidence files, 13 active backend meta-types, 13 family roots, 39 TypeScript/Python/Rust realization rows, 11 differentiated UI state rows, 31 authority/audit relationship rows and 17 backend-implementation relationship rows. The baseline is admitted, but exact target implementation enforcement: **missing**. The historical BMC matrix still records 30 snapshot binding findings and later Rule changes still explain six source/provider digest drifts, but those are provenance rather than admission gates for baseline v2.
+
+### Backend types
+
+| Meta-type | Realizations | Snapshot provider registration | Profile / ontology | Freshness and gap |
+| --- | ---: | ---: | --- | --- |
+| `DS-D1.1` Entity | TS / Python / Rust | 3/3 | profile absent; ontology blocked | Snapshot current; queue not ready. |
+| `DS-D1.2` Value Object | TS / Python / Rust | 3/3 | profile absent; ontology blocked | Three stale candidate bindings. |
+| `DS-D1.3` Enum | TS / Python / Rust | 3/3 | separate non-uniform precedent; ontology blocked | Nine absent candidate bindings. |
+| `DS-D1.4` Operation | TS / Python / Rust | 0/3 | candidate-local uniform anchor; ontology blocked | Candidate current; providers unregistered; queue not ready. |
+| `DS-D1.5` Query | TS / Python / Rust | 3/3 | profile absent; ontology blocked | Six absent candidate bindings. |
+| `DS-D1.6` Calculation | TS / Python / Rust | 3/3 | profile absent; ontology blocked | Six absent candidate bindings. |
+| `DS-D1.7` Rule | TS / Python / Rust | 0/3 | profile absent; ontology blocked | BMC snapshot stale for all three source/provider pairs. |
+| `DS-D1.8` Policy | TS / Python / Rust | 3/3 | profile absent; ontology blocked | Six absent candidate bindings. |
+| `DS-D1.9` Workflow | TS / Python / Rust | 0/3 | candidate-local uniform anchor; ontology blocked | Candidate current; providers unregistered; queue not ready. |
+| `DS-D1.11` Interface | TS / Python / Rust | 0/3 | profile absent; ontology blocked | Candidate current; providers unregistered; queue not ready. |
+| `DS-D1.12` Event | TS / Python / Rust | 0/3 | profile absent; ontology blocked | Candidate current; providers unregistered; queue not ready. |
+| `DS-D1.13` Mapping | TS / Python / Rust | 0/3 | profile absent; ontology blocked | Candidate current; providers unregistered; queue not ready. |
+| `DS-D1.14` State Machine | TS / Python / Rust | 0/3 | profile absent; ontology blocked | Candidate current; providers unregistered; queue not ready. |
+
+All 13 are canonically active as meta-types and their exact realization evidence is admitted by the frozen baseline. “0/3 registered” and the 0-ready/13-blocked queue above are historical BMC/ontology-source states, not absence of implementation files and not prerequisites for baseline v2. A changed frozen byte requires a new baseline version.
+
+### UI types
+
+| Meta-type | Current state | Development formation | Authority boundary |
+| --- | --- | --- | --- |
+| `DS-D1.15` Page | candidate | `impl/spec/meta-types/ui/page.schema.yml` | owner review required |
+| `DS-D1.16` Layout | candidate | `impl/spec/meta-types/ui/layout.schema.yml` | owner review required |
+| `DS-D1.17` Component | candidate | `impl/spec/meta-types/ui/component.schema.yml` | owner review required |
+| `DS-D1.18` View Model | candidate | `impl/spec/meta-types/ui/view-model.schema.yml` | owner review required |
+| `DS-D1.19` Hook | candidate | `impl/spec/meta-types/ui/hook.schema.yml` | owner review required |
+| `DS-D1.20` Form | candidate | `impl/spec/meta-types/ui/form.schema.yml` | owner review required |
+| `DS-D1.21` Action | candidate | `impl/spec/meta-types/ui/action.schema.yml` | owner review required |
+| `DS-D1.22` Guard | candidate | `impl/spec/meta-types/ui/guard.schema.yml` | owner review required |
+| `DS-D1.23` Binding | candidate | `impl/spec/meta-types/ui/binding.schema.yml` | owner review required |
+| `DS-D1.24` Adapter | deferred / merge candidate | `impl/spec/ui-profile/concepts/adapter.yml` | alias-to-Mapping versus independent-node versus defer is unresolved |
+| `DS-D1.25` State Indicator | deferred / split candidate | `impl/spec/ui-profile/concepts/state-indicator.yml` | split, independent node, new identities or defer is unresolved |
+
+The UI work pack and aggregate validation are development evidence only. They do not activate DS-D1 members, settle DS-D8 relationship residues or add the UI types to the supported backend profile.
+
+### Operation contract
+
+The `DS-D1.4` candidate and its three language realizations express the declared read/write/effect sets; guard-before-mutation; atomic state-and-outbox behavior; explicit failure continuation; rejection of undeclared reads, writes and effects; and blueprints connecting Operation to Rule, Event, Interface and Workflow. The four relationship blueprints and the transaction/effect-group handle remain unmaterialized, the three providers remain unregistered, and ontology admission is absent. What is still missing is the generated-project machinery that pins an admitted Operation realization and then observes the target project’s real implementation, failing closed on any structure, relationship, effect, order, continuation or digest mismatch.
+
+## Meta-type enforcement assets
+
+Machine registry: [`.craft/artifacts/META-TYPE-ENFORCEMENT-ASSETS.json`](.craft/artifacts/META-TYPE-ENFORCEMENT-ASSETS.json). Contract: [schema](.craft/artifacts/meta-type-enforcement-assets.schema.json). Freshness check: [validator](.craft/artifacts/validate-meta-type-enforcement-assets.mjs).
+
+| Asset | Class / state | Exact boundary |
+| --- | --- | --- |
+| `MTENF-BASELINE-V2` | canonical baseline / frozen pass | Immutable 771-file, 13-type, 39-realization input; not instantiation machinery. |
+| `MTENF-INSTANTIATE-CONTRACT-C3` | contract / validated pass | SWU-MTCLI-002 closed at 17/17; implementation and target conformance remain false. |
+| `MTFIX-VALUE-OBJECT-BINDINGS` | repair / flagged | Three stale candidate bindings; no proven defect in admitted Value Object source bytes. |
+| `MTFIX-ENUM-BINDINGS` | repair / flagged | Nine absent candidate bindings; no evidence that the three admitted Enum realizations are missing. |
+| `MTFIX-RULE-EVIDENCE-DRIFT` | evidence refresh / stale | Refresh the snapshot for six Rule source/provider digest changes; do not repair baseline bytes from this evidence alone. |
+| `MTFIND-OPERATION-AOP-BOUNDARY` | target finding / unresolved | Preserve `AOP_BOUNDARY_INSTRUMENTATION_PLACEMENT`; the evaluator passes while its selected target fails. |
+| `MTFIND-WORKFLOW-COMPENSATION` | target finding / unresolved | Preserve `AOP_WF_COMPENSATION_CALLABLE_MISSING`; the evaluator passes while its selected target is incomplete. |
+| `MTFIX-FRONTIER-POINTER-DRIFT` | state drift / refresh required | Candidate-3 makes SWU-MTCLI-003 next; older work-pack/current-state pointers still name SWU-MTCLI-002. |
+| `MTM-CATALOG` | machinery / selectable, not selected | Select one exact frozen realization row and digests under SWU-MTCLI-003. |
+| `MTM-DECODER` | machinery / not implemented | Closed node, body and relationship vocabulary; unknown or extra input fails closed. |
+| `MTM-PLANNER` | machinery / not implemented | Deterministic contained artifact plan before filesystem mutation. |
+| `MTM-WRITER` | machinery / not implemented | Guarded create-only, collision-safe, atomic target publication. |
+| `MTM-RECEIPT` | machinery / not implemented | D35 baseline/input/selection/plan/output/reread binding and CLI surface. |
+| `MTM-GENERALIZATION` | machinery / not implemented | Exact 13-meta-type by three-language generation coverage. |
+| `MTM-RELATIONSHIP-OBSERVER` | machinery / not implemented | Read/write/effect sets, guard order, atomicity, continuation and Rule/Event/Workflow relationship observation. |
+| `MTM-PACKAGE` | machinery / not implemented | Normal aggregate wiring, private package and clean-root deterministic replay. |
+
+The registry is operational state under existing definitions D31–D35. Candidate binding drift is not a canonical source defect; a target finding is not an evaluator defect; planned machinery is not implemented. Changing a frozen definition, source, provider or binding byte requires a successor baseline. This registry has `baseline_effect: none` and `authority_effect: none`.
+
+### Machinery and direct consumers
+
+| State owner | Stage / gate | Current boundary |
+| --- | --- | --- |
+| `CTX-DSV2-META-TYPE-FORMALIZATION` | `build / flag` | 13 backend formations and content validation exist; UI formation and extraction residue remain. |
+| `CTX-DSV2-SPEC-ONTOLOGY` | `design / block` | Connected-graph architecture is selected; verifier admission and structural verification remain. |
+| `CTX-DSV2-ONTOLOGY-FORMS` | `validated / pass` | The historical 0-ready/13-blocked queue is retained as provenance; the owner admitted the exact current implementation as baseline v2 after canonical definitions and ontology, so its form rows are not reopened. |
+| `CTX-DSV2-RMT` | `validated / pass` | Seven-type candidate-local proof and receipt reconciliation pass; original 70 Task Session units were not executed. |
+| `CTX-DSV2-APE` | `validate / flag` | Operation/Workflow prototype sequences pass at their ceiling; Enum W2, parity and scaling remain. |
+| `CTX-DSV2-MTF` | `validated / pass` | Legacy nine-node, same-host reproducibility proof only. |
+| `CTX-DSV2-REALIZATION-KERNEL` | `validated / pass` | The exact 771-file canonical-definition plus 13-family/39-row implementation surface is frozen and owner-admitted for CLI consumption. |
+| `CTX-DSV2-SICL` | `validated / flag` | Generic-factory candidate passes; authorized Refresh remains before target selection. |
+| `CTX-DSV2-SMO` | `plan / block` | 325 obligation cells and 31 relationship rows are planned; live bindings, admission and eight residual gates remain. |
+| `CTX-DSV2-FMP` | `plan / flag` | Eight-SWU TLA/TLC plan is selection-ready; no live formal-provider execution or trace proof. |
+| `CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE` | `validate / block` | Syntax adoption accepted; refreshed GATE-01 binding remains. |
+| `CTX-DSV2-IMPL-CONFORMANCE` | `design / flag` | Candidate-3 closes `SWU-MTCLI-002`; the 16 enforcement assets separate repairs, findings and machinery; `SWU-MTCLI-003` is selectable but not selected. |
+| `CTX-DSV2-EVF` | `validate / block` | Bounded L0/L1/L2 evidence passes; retained owner/readiness and optional provider gates remain. |
+| `CTX-DSV2-FORMAT-HONESTY` | `validate / flag` | Checker passes and exposes 49 findings; SWU-FMT-001 closeout and card generation remain. |
+| `CTX-DSV2-BMC` | `validate / flag` | Historical maturity snapshot has 30 binding findings plus later Rule drift; refresh and BMC-OBS remain. |
+| `CTX-DSV2-BMC-REL` | `preacceptance / block` | N05/N45 closed; post-repair review, two real closure runs, graph freeze and graph review remain. |
+| `CTX-DSV2-FIRST-PRODUCTION-RELEASE` | `plan / block` | RMT/SFC inputs exist; 17/17 profile admission, two-lane integration and five release frontiers remain. |
+| `CTX-DSV2-FPR02-BACKEND` | `plan / block` | Development BTE reaches 17/91; matching independent red-manifest freeze and L0B authority remain. |
+| `CTX-DSV2-FPR02-UI` | `build / flag` | Development UI work pack passes; canonical authority deltas remain owner-gated. |
+| `CTX-DSV2-FPR02B-CONSUMER-PROOF` | `plan / block` | Historical L0A and byte repair pass; independent red freeze and Refresh remain. |
+| `CTX-DSV2-SFC` | `plan / flag` | Candidate profile is 13 kinds / 17 relationships; SFC projections remain at 16 and admission/implementation are absent. |
+
+The next complete vertical slice is product implementation, not another governance campaign: version the current no-write CLI contract, project the frozen catalog, decode one Entity node, deterministically plan and publish a TypeScript instantiation into a new empty target root, emit a baseline-bound receipt, re-read it, and fail closed on any mismatch. Later waves generalize the same machinery to all 13 types and three languages, then add Operation relationship/effect/continuation observation and clean-root package evidence.
 
 ## Contexts
 
@@ -38,16 +139,17 @@ Re-baselined 2026-08-23 from the full project tree. The live frontiers are indep
 | `CTX-DSV2-RMT` — Remaining meta-types (WP-RMT-002R reconciliation closed) | `CTX-DSV2-ROOT` | `validated` / `pass` | Record the exact seven-type candidate-local prototype governance reconciliation as closed without inventing the original 70 Task Session executions. Product bytes, candidates, proof receipts, registry and ontology were not changed by reconciliation. |
 | `CTX-DSV2-SFC` — Stable foundation CLI (WP-SFC-001) — Lane B of the 2026-08-16 owner selection | `CTX-DSV2-FIRST-PRODUCTION-RELEASE` | `plan` / `flag` | Author and later execute a private, pre-production DomainSpec v2 CLI foundation bound to the broad P2 backend profile and an exact-profile causal implementation-conformance claim. It is subordinate to the accepted product-release contract and is not the 0.1.0 product. |
 | `CTX-DSV2-STABILITY-REVIEW` — Production-stability baseline review (2026-08-14) | `CTX-DSV2-FIRST-PRODUCTION-RELEASE` | `validated` / `pass` | Establish, by red-team review over a frozen corpus, whether any current DomainSpec v2 artifact is production-stable, and if not, what the smallest honest candidate would be. |
-| `CTX-DSV2-ONTOLOGY-FORMS` — Ontology form decisions (all-meta-type architecture/language form campaign) | `CTX-DSV2-META-TYPE-FORMALIZATION` | `design` / `block` | Decide, per active meta-type, the architecture form and the exact TypeScript/Python/Rust language realizations, with proof contracts, so implementation has a non-invented target. |
+| `CTX-DSV2-ONTOLOGY-FORMS` — Ontology form decisions (frozen baseline provenance) | `CTX-DSV2-META-TYPE-FORMALIZATION` | `validated` / `pass` | Preserve the historical decision matrix and queue while binding the owner's exact baseline-v1 selection; future changes version the baseline rather than reopening its rows. |
 | `CTX-DSV2-SICL` — System-integration contract layer (SIC-FAC-000) | `CTX-DSV2-ROOT` | `validated` / `flag` | Adapt the architecture-conformance factory to system-integration contracts and prove a generic-factory candidate against a declared validation surface. |
 | `CTX-DSV2-SMO` — Shared meta-obligation product readiness (WP-SMO-001) | `CTX-DSV2-ROOT` | `plan` / `block` | Build one shared obligation envelope covering all 13 active backend meta-types through 25 obligation families, with Cedar confined to authorization and Souffle confined to a finite typed batch graph profile. |
 | `CTX-DSV2-FMP` — Formal-model proof provider (WP-FMP-001, finite TLA/TLC evidence) | `CTX-DSV2-ROOT` | `plan` / `flag` | Add a tla-tlc-model-evidence-v1 provider to the existing architecture-conformance factory, reusing its lock, snapshot, accounting, replay, verification, reproduction and receipt owners rather than building a parallel proof system. |
-| `CTX-DSV2-IMPL-CONFORMANCE` — Implementation conformance (profile-bound composition and normalization layer) | `CTX-DSV2-ROOT` | `design` / `flag` | Own authored implementation-facing contracts and generated evaluation evidence for the causal implementation-conformance claim, without owning semantic admission, canonical tags, architecture laws, parsers, runtime scheduling, promotion, release, or deployment. |
+| `CTX-DSV2-IMPL-CONFORMANCE` — Implementation conformance and meta-type instantiation CLI | `CTX-DSV2-ROOT` | `design` / `flag` | Build the product machinery that consumes the frozen baseline, instantiates exact meta-type realizations in external projects, emits receipts and observes target conformance without granting publication, release or deployment. |
 | `CTX-DSV2-EVF` — Evolvable validation framework | `CTX-DSV2-ROOT` | `validate` / `block` | Own the evolving evidence chain from DomainSpec meaning through formal obligation, implementation binding, executable or formal evaluation, and bounded receipt, while preserving semantic and provider ownership. |
-| `CTX-DSV2-MTF` — Meta-type realization factory and reproducibility | `CTX-DSV2-ROOT` | `validated` / `pass` | Prove the bounded DomainSpec architecture reference suite can be planned, locked, executed, replayed, verified and reproduced twice from one request, on one host. |
+| `CTX-DSV2-MTF` — Legacy meta-type factory reproducibility | `CTX-DSV2-ROOT` | `validated` / `pass` | Preserve the 2026-08-07 same-host nine-node reproducibility proof without treating it as the owner of the newer realization kernel and family implementations. |
+| `CTX-DSV2-REALIZATION-KERNEL` — Frozen meta-type realization kernel and families | `CTX-DSV2-ROOT` | `validated` / `pass` | Hold the owner-admitted 771-file baseline with canonical definitions, 13 active backend family roots and 39 TypeScript/Python/Rust realization rows; generated-project enforcement remains a separate product frontier. |
 | `CTX-DSV2-FORMAT-HONESTY` — Format honesty and generated meta-type cards (WP-FMT-001) | `CTX-DSV2-ROOT` | `validate` / `flag` | Remove hand-maintained copies of derived facts from the DomainSpec v2 surface. Two defects of the same class were found 2026-08-19: a file's extension does not predict its parser (49 of 204 .yml files contain JSON), and 8 of 13 meta-type cards disagree with the live relationship authority. The pack makes machine files honestly named, promotes documentation comments to typed fields, and generates the human cards so the copies cannot drift again. |
 | `CTX-DSV2-BMC` — Backend meta-type conformance (WP-BMC-001) | `CTX-DSV2-ROOT` | `validate` / `flag` | Hold exact maturity evidence for all 13 backend meta-types and their 39 TypeScript/Python/Rust realization rows, then harden structural observation without confusing candidate evidence with profile or ontology admission. |
-| `CTX-DSV2-BMC-REL` — Relationship constraint owner decisions (BMC-REL-001) | `CTX-DSV2-BMC` | `design` / `block` | Resolve non-numeric and later numeric semantics for the exact 31 active relationship signatures without inventing cardinality, closure, duplicate, self-edge, order, inverse, or representation policy. |
+| `CTX-DSV2-BMC-REL` — Relationship constraint owner decisions (BMC-REL-001) | `CTX-DSV2-BMC` | `preacceptance` / `block` | Resolve non-numeric and later numeric semantics for the exact 31 active relationship signatures without inventing cardinality, closure, duplicate, self-edge, order, inverse, or representation policy. |
 | `CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE` — Proof-obligation cross-boundary substrate | `CTX-DSV2-ROOT` | `validate` / `block` | Adopt one exact structural address envelope for DomainSpec v2 proof-obligation references while preserving DomainSpec meaning/lifecycle ownership and transferring no authority to the private CAV2 spine. |
 | `CTX-DSV2-ORODI` — Operational resilience, observability and deployment integration | `CTX-DSV2-ROOT` | `plan` / `block` | Turn accepted research into separately owned definition, design and non-executing planning artifacts without inventing live bindings or deployment authority. |
 
@@ -55,9 +157,11 @@ Re-baselined 2026-08-23 from the full project tree. The live frontiers are indep
 
 ### `CTX-DSV2-ROOT` — DomainSpec v2 — implementation home
 
-Re-baselined 2026-08-23 from the full project tree. The live frontiers are independent: answer BMC relationship decision N05; obtain the spec-ontology @4 verifier response and required verification; close SWU-FMT-001 before selecting SWU-FMT-002; decide whether to publish the exact accepted EVF runtime-repair candidate and then satisfy its retained P0 owner/readiness gates; and, only after presenting the exact dispatch, confirm or decline the APE Enum Python/Rust fan-out. Operation and Workflow APE prototypes are terminal at the candidate-local ceiling, RMT reconciliation is closed, and proof-substrate syntax adoption is accepted but still awaits refreshed GATE-01 binding. No admission, promotion, release, deployment, or production authority follows from this Craft refresh.
+`DEC-DSV2-META-TYPE-CANONICAL-DOCS-BASELINE-V2` admits the exact 2026-08-29 implementation as project-local canonical baseline `domainspec-meta-types-current-implemented@2`: canonical D31-D35 vocabulary, 13 backend types, 39 TypeScript/Python/Rust rows, 11 UI state rows and 771 frozen evidence files at digest `10c29c2a4feb5039b6c90dcd7e2d44024757b4dd2414f9c0383c82387ec6e836`. Candidate-3 closes the bounded instantiate contract; the product frontier is explicit selection of `SWU-MTCLI-003`. No generated-target conformance, publication, release, deployment or production claim follows.
 
-Owned artifacts: `ART-DSV2-IMPORT-MANIFEST`, `ART-DSV2-IMPL`, `ART-DSV2-AUTHORITY`
+Current execution is superseded to the pinned Node `26.8.1` container by `DSV2-NODE-26-RUNTIME-2026-08-29`; the runtime migration changes none of the 771 frozen `@2` implementation bytes. Node 22/24 receipts and decisions remain exact historical evidence, while [`RUNTIME.json`](RUNTIME.json) and [`validate-runtime.mjs`](validate-runtime.mjs) control current execution drift.
+
+Owned artifacts: `ART-DSV2-IMPORT-MANIFEST`, `ART-DSV2-IMPL`, `ART-DSV2-AUTHORITY`, `ART-DSV2-META-TYPE-STATE`, `ART-DSV2-META-TYPE-STATE-VALIDATOR`, `ART-DSV2-META-TYPE-BASELINE-DECISION`, `ART-DSV2-META-TYPE-BASELINE`, `ART-DSV2-META-TYPE-CLI-PLAN`, `ART-DSV2-META-TYPE-ENFORCEMENT-ASSETS`, `ART-DSV2-META-TYPE-ENFORCEMENT-ASSETS-SCHEMA`, `ART-DSV2-META-TYPE-ENFORCEMENT-ASSETS-VALIDATOR`
 
 ### `CTX-DSV2-AUTHORITY` — Minted authority spine (3 governances)
 
@@ -85,7 +189,7 @@ Owned artifacts: `ART-DSV2-SPEC-ONTOLOGY-RESEARCH`, `ART-DSV2-SPEC-ONTOLOGY-TOY`
 
 ### `CTX-DSV2-META-TYPE-FORMALIZATION` — Meta-type formalization (checkable type system + content validator)
 
-MT0-MT4 plus MT-INST are DONE for current backend scope: 13 node schemas, 30 active root relationship signatures, edge-aware validate-content, aggregate validate wiring, and instance generation/validation. The SGRM scoped-Workflow collapse migration is complete. Remaining: MT5 UI remains formation-deferred; the parallel ui-meta-type-formalization package is gathering candidate evidence without promotion authority. tools/lib extraction remains residue.
+MT0-MT4 plus MT-INST are DONE for current backend scope: 13 node schemas, 31 active root relationship signatures, edge-aware validate-content, aggregate validate wiring, and instance generation/validation. The SGRM scoped-Workflow collapse migration is complete. Remaining: MT5 UI remains formation-deferred; the parallel ui-meta-type-formalization package is gathering candidate evidence without promotion authority. tools/lib extraction remains residue.
 
 Owned artifacts: `ART-DSV2-META-TYPE-FORMALIZATION`
 
@@ -157,9 +261,9 @@ Owned artifacts: `ART-DSV2-STABILITY-REVIEW-CLOSEOUT`, `ART-DSV2-STABILITY-REVIE
 
 ### `CTX-DSV2-ONTOLOGY-FORMS` — Ontology form decisions (all-meta-type architecture/language form campaign)
 
-The implementation queue is empty on the ready side: 0 ready, 13 blocked (DS-D1.1..D1.9, D1.11..D1.14). Eleven sit at tension-reviewed, one at architecture-form-proposed, one at language-forms-proposed; none has reached owner-decided. Next is owner decisions per meta-type plus materialization of the accepted ontology contracts and language protocols. See BLK-DSV2-FORM-QUEUE-EMPTY.
+The historical queue remains 0 ready / 13 blocked, but it no longer controls baseline v2. The owner froze and admitted the exact current 13-type/39-row implementation after canonical definitions and ontology; those form rows are not reopened. Any future semantic or implementation change must create a new versioned baseline.
 
-Owned artifacts: `ART-DSV2-FORM-DECISION-MATRIX`, `ART-DSV2-FORM-IMPLEMENTATION-QUEUE`
+Owned artifacts: `ART-DSV2-FORM-DECISION-MATRIX`, `ART-DSV2-FORM-IMPLEMENTATION-QUEUE`, `ART-DSV2-META-TYPE-BASELINE-DECISION`, `ART-DSV2-META-TYPE-BASELINE`
 
 ### `CTX-DSV2-SICL` — System-integration contract layer (SIC-FAC-000)
 
@@ -181,9 +285,9 @@ Owned artifacts: `ART-DSV2-FMP-RESULT`, `ART-DSV2-FMP-WORK-PACK`
 
 ### `CTX-DSV2-IMPL-CONFORMANCE` — Implementation conformance (profile-bound composition and normalization layer)
 
-Define passed as an authored candidate (12/12 obligations covered, zero blocker questions, precedent audit pass) and Design is admitted subject to DEFINE-GAPS.md. Implementation readiness is explicitly not evaluated and Plan is outside the invocation. Next is Plan authoring against the accepted C2 claim once the WP-SFC-001 and WP-RMT-002 lanes settle their shared profile identity.
+The frozen baseline removes the recurring per-type/profile prerequisite. Candidate-3 closes `SWU-MTCLI-002` with the bounded instantiate contract and 17/17 focused tests. The first-class enforcement registry separates open evidence repairs, target findings and the eight missing machinery capabilities. `SWU-MTCLI-003` is selectable but not selected; no later unit is implicit.
 
-Owned artifacts: `ART-DSV2-IMPL-CONFORMANCE-DEFINE`, `ART-DSV2-IMPL-CONFORMANCE-ARCH`
+Owned artifacts: `ART-DSV2-IMPL-CONFORMANCE-DEFINE`, `ART-DSV2-IMPL-CONFORMANCE-ARCH`, `ART-DSV2-META-TYPE-CLI-PLAN`
 
 ### `CTX-DSV2-EVF` — Evolvable validation framework
 
@@ -191,11 +295,17 @@ L0/L1 and the bounded L2 reachability slice remain passing evidence. The 17-rela
 
 Owned artifacts: `ART-DSV2-EVF-WORK-PACK`, `ART-DSV2-EVF-ONE-SHOT-READINESS`, `ART-DSV2-EVF-L2-PROTOTYPE`, `ART-DSV2-EVF-L2-CLOSURE`
 
-### `CTX-DSV2-MTF` — Meta-type realization factory and reproducibility
+### `CTX-DSV2-MTF` — Legacy meta-type factory reproducibility
 
-MTF-001..MTF-029 are complete with an empty remaining set and authority_effect none. The 2026-08-07 reproducibility prototype passed: two isolated runs produced the same semantic receipt over a nine-node locked graph with an unchanged product-tree inventory. Claim ceiling is same-host local reproducibility — not cross-host provisioning, ontology promotion, implementation authority, release, or production readiness. Nothing is owed here unless cross-host reproducibility becomes a release dependency.
+This legacy MTF lane has MTF-001..MTF-029 complete with an empty remaining set and authority_effect none. The 2026-08-07 reproducibility prototype passed: two isolated runs produced the same semantic receipt over a nine-node locked graph with an unchanged product-tree inventory. Claim ceiling is same-host local reproducibility — not cross-host provisioning, ontology promotion, implementation authority, release, or production readiness. `CTX-DSV2-REALIZATION-KERNEL` separately owns the newer 13-family/39-row implementation frontier.
 
 Owned artifacts: `ART-DSV2-MTF-EXECUTION-STATE`, `ART-DSV2-MTF-REPRODUCIBILITY`
+
+### `CTX-DSV2-REALIZATION-KERNEL` — Current meta-type realization kernel and families
+
+The exact current implementation evidence is frozen and owner-admitted as `domainspec-meta-types-current-implemented@2` at baseline digest `10c29c2a4feb5039b6c90dcd7e2d44024757b4dd2414f9c0383c82387ec6e836`. Its 771-file inventory includes canonical definition bytes, all 39 selected realization rows and the supporting family, kernel, factory and acceptance evidence. The current-state JSON and ontology projection bind this exact manifest. Next is consumption by `WP-MTCLI-001`; changing any frozen byte requires a new baseline version. Generated-target conformance, publication, release, deployment and production remain unproven.
+
+Owned artifacts: `ART-DSV2-REALIZATION-KERNEL-FAMILIES`, `ART-DSV2-META-TYPE-BASELINE`
 
 ### `CTX-DSV2-FORMAT-HONESTY` — Format honesty and generated meta-type cards (WP-FMT-001)
 
@@ -205,15 +315,15 @@ Owned artifacts: `ART-DSV2-FMT-WORK-PACK`, `ART-DSV2-FMT-EXECUTION-ENTRY`, `ART-
 
 ### `CTX-DSV2-BMC` — Backend meta-type conformance (WP-BMC-001)
 
-BMC-EVD-001 completed with the intended FLAG: Value Object has three stale candidate binding digests and Enum has nine absent candidate bindings, while queue readiness stays false and ontology admission remains not-admitted. The current Operation and Workflow evaluator findings must remain visible. In parallel, CTX-DSV2-BMC-REL is blocked at owner decision N05. After evidence readiness and relationship decisions, BMC-OBS-001 is the first product candidate: a shared TypeScript syntax/symbol evidence kernel. No product mutation, profile admission, ontology change, promotion, or release is authorized by the evidence receipt.
+BMC-EVD-001 is a historical FLAG snapshot with 30 binding findings: three stale Value Object bindings and nine absent Enum plus six absent bindings each for Query, Calculation and Policy. Later Rule source/provider changes add six live digest drifts against that snapshot. All 13 types still have three realization rows, but every queue-ready value is false and ontology admission remains not-admitted. Refresh the maturity snapshot without hiding the current Operation and Workflow evaluator findings. CTX-DSV2-BMC-REL is no longer blocked at N05: N05 is owner-selected, the nonnumeric continuation reached N45, and the nine-file EVF candidate passed staging and candidate-local review. Its governance repair passed, but post-repair independent review, two-run real closure, frozen graph and independent graph review remain missing. After evidence readiness and BMC-REL admission, BMC-OBS-001 is the first product candidate: a shared TypeScript syntax/symbol evidence kernel. No product mutation, profile admission, ontology change, promotion, or release is authorized by the evidence receipt.
 
 Owned artifacts: `ART-DSV2-BMC-REFINE-RESULT`, `ART-DSV2-BMC-EVD-RECEIPT`, `ART-DSV2-BMC-MATURITY-MATRIX`
 
 ### `CTX-DSV2-BMC-REL` — Relationship constraint owner decisions (BMC-REL-001)
 
-N01 through N04 are resolved in the design sidecar. N05 is the current blocker: choose whether future same-dimension longer-cycle policy is uniform across all admitted D29 dimensions, independently governed per dimension, deferred, or stopped. The 31-row candidate packet remains unaccepted and its canonical rows remain unresolved; Design, registry mutation and implementation stop until the relationship decision owner selects one presented N05 option through decision-gate.
+N05 is closed with owner-selected uniform cycle-policy governance, and the nonnumeric design continuation has progressed through N45. The nine-file EVF candidate passed staging and candidate-local review; the selected opaque-text governance repair also passed. Obtain post-repair independent review, run real nine-target closure twice, freeze the closure graph, and obtain independent graph review before evaluating owner-request eligibility. The 31-row packet remains unaccepted; canonical apply and implementation are not authorized.
 
-Owned artifacts: `ART-DSV2-BMC-REL-PACKET`, `ART-DSV2-BMC-REL-DESIGN-RESULT`
+Owned artifacts: `ART-DSV2-BMC-REL-PACKET`, `ART-DSV2-BMC-REL-DESIGN-RESULT`, `ART-DSV2-BMC-REL-N05-SELECTION`, `ART-DSV2-BMC-REL-N45-CLOSEOUT`, `ART-DSV2-BMC-REL-EVF-CANDIDATE-STAGING`, `ART-DSV2-BMC-REL-CANDIDATE-REVIEW`, `ART-DSV2-BMC-REL-PREACCEPTANCE-DEFECT`, `ART-DSV2-BMC-REL-GOV-REPAIR-SELECTION`, `ART-DSV2-BMC-REL-GOV-REPAIR-APPLY`, `ART-DSV2-BMC-REL-CRAFT-FRONTIER-BINDING`, `ART-DSV2-BMC-REL-CRAFT-FRONTIER-VALIDATOR`
 
 ### `CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE` — Proof-obligation cross-boundary substrate
 
@@ -277,9 +387,9 @@ What is the first stable-foundation hardening target for DomainSpec v2, and what
 
 What top-level architecture connects business meaning, formal claims, proof obligations and system evidence? Selected/default: `one-semantic-graph-owned-branches`. Direct user selection A recorded in the architecture decision on 2026-08-23.
 
-### `DEC-DSV2-BMC-REL-N05` — `open`
+### `DEC-DSV2-BMC-REL-N05` — `closed`
 
-Should future same-dimension longer-cycle policy be uniform across D29 dimensions or governed per dimension? Selected/default: `dimension-specific-future-rules`. No owner selection has been recorded; dimension-specific governance is the presented recommendation.
+Should future same-dimension longer-cycle policy be uniform across D29 dimensions or governed per dimension? Selected: `uniform-future-rule`. Exact user response A was recorded on 2026-08-23 and bound to `BMC-REL-NONNUMERIC-05-A-UNIFORM-CYCLE-POLICY-ACROSS-DIMENSIONS`. This selects governance topology only; it does not authorize packet mutation or implementation.
 
 ### `DEC-DSV2-ORODI-OWNER-BINDING-AUTHORITY` — `closed`
 
@@ -288,6 +398,14 @@ Who should coordinate Wave 0 while every field remains separately accepted by it
 ### `DEC-DSV2-ORODI-LIVE-TARGET-DEFER` — `closed`
 
 Should exact live subject and environment binding be completed now or deferred? Selected: `defer-live-target-binding`. The user explicitly deferred those fields on 2026-08-24. The deferral does not waive `BLK-DSV2-ORODI-LIVE-BINDINGS`, create a mutation-capable unit, expose Task Session, or authorize implementation, infrastructure, deployment, promotion or release.
+
+### `DEC-DSV2-META-TYPE-BASELINE` — `closed`
+
+Which existing meta-type implementation evidence becomes the fixed starting point for external-project CLI instantiation? Selected: `freeze-current-implemented-evidence`. This historical decision admitted `domainspec-meta-types-current-implemented@1`; it remains immutable history but is superseded as the current CLI baseline because canonical definitions and ontology did not precede its freeze.
+
+### `DEC-DSV2-META-TYPE-CANONICAL-DOCS-BASELINE-V2` — `closed`
+
+What must become canonical before the implemented meta-type baseline is frozen for CLI consumption? Selected: `definitions-and-ontology-first-then-freeze-v2`. The owner directly required the definitions and DomainSpec v2 ontology to express the current state first. D31-D35, the schema-validated current-state pointer and the ontology/projection now bind `domainspec-meta-types-current-implemented@2`; baseline `@1` remains historical. No product unit, publication, release, deployment or production effect follows.
 
 ## Active blockers
 
@@ -315,12 +433,6 @@ SIC-FAC-000-R2 revalidation-B passed with zero blockers, but its returned Invoke
 
 Owner route: `invoke refresh with explicit authorization`. Closure: An authorized Invoke Refresh executes over Revision 2 and returns a receipt that accepts or explicitly rejects the retained 14-file generic-factory candidate.
 
-### `BLK-DSV2-FORM-QUEUE-EMPTY`
-
-The all-meta-type form-decision campaign has an empty ready queue. All 13 tracked meta-types (DS-D1.1..D1.9, D1.11..D1.14) are blocked: 11 at tension-reviewed, one at architecture-form-proposed, one at language-forms-proposed. None has reached owner-decided, so no implementation target is selectable.
-
-Owner route: `ontology form owner + definitions-governance`. Closure: Per meta-type, an owner records the exact architecture mapping and selected TypeScript/Python/Rust profile forms, the accepted ontology contracts and language protocols are materialized, and at least one meta-type enters the ready queue with a complete descriptor and proof contract.
-
 ### `BLK-DSV2-P2-DENOMINATOR-DRIFT`
 
 The accepted 2026-07-17 FPR-02 decision selected "all 16 backend signatures admitted and exercised" and was correct when made — at that commit relationships.yml held 30 signatures, 16 backend-scoped. Commit 82edd13e4 on 2026-07-23 added the `creates` signature (Operation -> Entity, same-feature), moving the backend denominator to 17. The invalidation trigger that SPEC.md line 57 declares for a changed relationship binding did not fire. The stale 16 propagated into SF-02 on 2026-08-16 and into nine WP-SFC-001 artifacts including the SWU-SFC-004 acceptance boundary, while WP-SMO-001 independently recorded the correct 17 on 2026-08-14.
@@ -339,11 +451,11 @@ The @4 contract package is candidate-valid and Rondelli's aggregate selection is
 
 Owner route: `Victor verifier response plus exact structural verification`. Closure: Victor directly accepts the exact unchanged @4 identity/role/policy contract, required V2 receipts and exact V1 checker receipts validate, and only then are the eleven separate owner responses materialized and admitted at their own scope ceilings.
 
-### `BLK-DSV2-BMC-REL-N05`
+### `BLK-DSV2-BMC-REL-PREACCEPTANCE-CLOSURE`
 
-The relationship-constraint Design sidecar stops at N05 because no owner selection exists for uniform versus dimension-specific governance of future same-dimension longer-cycle policy.
+The nine-target EVF candidate and its candidate-local review pass, and the selected opaque-text governance repair was applied with its focused and full tests passing. Preacceptance remains blocked because no post-repair independent review, two-run real nine-target closure, frozen closure graph, or independent closure-graph review is recorded.
 
-Owner route: `decision-gate`. Closure: The relationship decision owner selects one exact option from DEC-DSV2-BMC-REL-N05 through decision-gate; the resulting receipt must preserve the exclusion of actual cycle behavior and canonical mutation.
+Owner route: `invoke preacceptance owner plus independent reviewer`. Closure: bind an independent review to the exact applied governance repair, run the real nine-target closure twice with byte-identical outputs, freeze one immutable closure graph, and obtain an independent graph review. Only then may request eligibility be evaluated.
 
 ### `BLK-DSV2-PROOF-GATE01-BINDING`
 
@@ -447,7 +559,7 @@ Treatment/owner: `correct-then-generate` / `WP-FMT-001 layers L1 (SWU-FMT-004/00
 
 ### `GAP-DSV2-BMC-REALIZATION-BINDINGS` — `high`
 
-BMC-EVD-001 records three stale Value Object candidate bindings and nine absent Enum candidate bindings across the TypeScript/Python/Rust realization surface. Queue readiness remains false.
+BMC-EVD-001 records 30 binding findings across the TypeScript/Python/Rust realization surface: three stale Value Object bindings and nine absent Enum plus six absent bindings each for Query, Calculation and Policy. Six later Rule source/provider digest changes also make that maturity snapshot stale. Queue readiness remains false.
 
 Treatment/owner: `refresh-bindings` / `BMC evidence owner through implementation-readiness`.
 
@@ -470,6 +582,12 @@ Evidence: [`SMT/FOL source research`](../../research/smt-fol-test-derivation/) �
 Researched tool families have no selected or admitted versioned technology profile or portability boundary.
 
 Treatment/owner: `defer` / `technology-profile and deployment-policy owners through decision-gate and Invoke Refresh`.
+
+### `GAP-DSV2-META-TYPE-TARGET-ENFORCEMENT` — `high`
+
+This is product implementation work, not a remaining baseline-governance gate. DomainSpec now has an owner-admitted frozen catalog, but the CLI does not yet decode a target DomainSpec project, select rows from that catalog, deterministically instantiate them, publish atomically, emit a baseline-bound receipt, or observe the target’s real structure, declared reads/writes/effects, guard order, atomic state/outbox behavior, failure continuation and typed relationships.
+
+Treatment/owner: `implement-frozen-catalog-instantiation-and-fail-closed-observation` / `WP-MTCLI-001 under CTX-DSV2-IMPL-CONFORMANCE; select SWU-MTCLI-003 next`.
 
 ## Recompositions
 
@@ -571,7 +689,7 @@ Treatment/owner: `defer` / `technology-profile and deployment-policy owners thro
 - [`ART-DSV2-EVF-ONE-SHOT-READINESS`](development/evolvable-validation-framework/development/refinement-runs/20260813T160957-0300-evf-one-shot-readiness/RESULT.md) — `active` · `artifact` · owner `unscoped`
 - [`ART-DSV2-MTF-EXECUTION-STATE`](development/meta-type-realization-factory/EXECUTION-STATE.json) — `active` · `artifact` · owner `unscoped`
 - [`ART-DSV2-MTF-REPRODUCIBILITY`](development/meta-type-factory-reproducibility/PROTOTYPE-VALIDATION-REPORT.md) — `active` · `artifact` · owner `unscoped`
-- [`ART-DSV2-SFC-OWNER-REVIEW`](.craft/artifacts/2026-08-19-wp-sfc-001-owner-review.md) — `active` · `artifact` · owner `unscoped`
+- [`ART-DSV2-SFC-OWNER-REVIEW`](.craft/artifacts/2026-08-19-wp-sfc-001-owner-review.md) — `superseded` · `artifact` · owner `unscoped`
 - [`ART-DSV2-SFC-CROSS-TASK-GAPS`](development/first-production-release/stable-foundation-cli/work-pack/shared/CROSS-TASK-GAPS.md) — `active` · `artifact` · owner `unscoped`
 - [`ART-DSV2-SFC-CLOSEOUT-CONTRACT`](development/first-production-release/stable-foundation-cli/work-pack/shared/CLOSEOUT-CONTRACT.md) — `active` · `artifact` · owner `unscoped`
 - [`ART-DSV2-P2-RATIFICATION-PROPOSAL`](.craft/artifacts/2026-08-19-p2-profile-ratification-proposal.md) — `active` · `artifact` · owner `unscoped`
@@ -579,7 +697,7 @@ Treatment/owner: `defer` / `technology-profile and deployment-policy owners thro
 - [`ART-DSV2-LIVE-PROFILE-REGISTRY`](definitions/minted-project/supported-profiles.yml) — `active` · `artifact` · owner `unscoped`
 - [`ART-DSV2-P2-COUNT-PATCH`](.craft/artifacts/2026-08-19-p2-membership-count-patch-proposal.md) — `active` · `artifact` · owner `unscoped`
 - [`ART-DSV2-FMT-WORK-PACK`](development/format-honesty/WORK-PACK.md) — `active` · `artifact` · owner `unscoped`
-- [`ART-DSV2-FMT-EXECUTION-ENTRY`](development/format-honesty/EXECUTION-ENTRY.json) — `active` · `artifact` · owner `unscoped`
+- [`ART-DSV2-FMT-EXECUTION-ENTRY`](development/format-honesty/EXECUTION-ENTRY.json) — `superseded` · `artifact` · owner `unscoped`
 - [`ART-DSV2-FMT-SIDECAR`](development/format-honesty/governance-defect/SIDECAR-RECEIPT.json) — `active` · `artifact` · owner `unscoped`
 - [`ART-DSV2-FMT-CHAIN-RECORD`](development/format-honesty/CHAIN-RECORD.json) — `active` · `artifact` · owner `unscoped`
 - [`ART-DSV2-FMT-REFINE-RESULT`](development/refinement-runs/20260819T000000Z-serialization-format-normalization/RESULT.md) — `active` · `artifact` · owner `unscoped`
@@ -596,7 +714,16 @@ Treatment/owner: `defer` / `technology-profile and deployment-policy owners thro
 - [`ART-DSV2-BMC-EVD-RECEIPT`](development/backend-meta-type-conformance/evidence/WP-BMC-001/BMC-EVD-001.RECEIPT.json) — `flag` · `evidence-receipt` · owner `CTX-DSV2-BMC`
 - [`ART-DSV2-BMC-MATURITY-MATRIX`](development/backend-meta-type-conformance/evidence/WP-BMC-001/BMC-EVD-001.MATURITY-MATRIX.json) — `flag` · `maturity-matrix` · owner `CTX-DSV2-BMC`
 - [`ART-DSV2-BMC-REL-PACKET`](development/relationship-constraint-decisions/BMC-REL-001/candidates/BMC-REL-001.RELATIONSHIP-CONSTRAINT-DECISION-PACKET.json) — `block` · `decision-packet` · owner `CTX-DSV2-BMC-REL`
-- [`ART-DSV2-BMC-REL-DESIGN-RESULT`](development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/DESIGN-RESULT.md) — `block` · `design-result` · owner `CTX-DSV2-BMC-REL`
+- [`ART-DSV2-BMC-REL-DESIGN-RESULT`](development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/DESIGN-RESULT.md) — `superseded` · `design-result` · owner `CTX-DSV2-BMC-REL`
+- [`ART-DSV2-BMC-REL-N05-SELECTION`](development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/continuations/N05-OWNS-CYCLE-POLICY-GOVERNANCE/decisions/BMC-REL-NONNUMERIC-05-OWNER-SELECTION-RECEIPT.json) — `pass` · `owner-selection-receipt` · owner `CTX-DSV2-BMC-REL`
+- [`ART-DSV2-BMC-REL-N45-CLOSEOUT`](development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/continuations/N37-EMITS-TARGET-MAX-CLOSURE-PROOF-SHAPE/research/closure-evidence-ownership-r1/define/closure-evidence-contract-r1/design/representation-r1/continuations/N45-EMITS-CLOSURE-EVIDENCE-CHAIN-CONTRACT-ADMISSION/DESIGN-CLOSEOUT-RECEIPT.json) — `pass` · `design-closeout-receipt` · owner `CTX-DSV2-BMC-REL`
+- [`ART-DSV2-BMC-REL-EVF-CANDIDATE-STAGING`](development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/continuations/N37-EMITS-TARGET-MAX-CLOSURE-PROOF-SHAPE/research/closure-evidence-ownership-r1/define/closure-evidence-contract-r1/plan/closure-evidence-chain-contract-r1/preacceptance/candidate-v1/STAGING-VALIDATION-RECEIPT.json) — `flag` · `staged-candidate-validation-receipt` · owner `CTX-DSV2-BMC-REL`
+- [`ART-DSV2-BMC-REL-CANDIDATE-REVIEW`](development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/continuations/N37-EMITS-TARGET-MAX-CLOSURE-PROOF-SHAPE/research/closure-evidence-ownership-r1/define/closure-evidence-contract-r1/plan/closure-evidence-chain-contract-r1/preacceptance/reviews/CANDIDATE-V1-PARENT-REVIEW.json) — `pass` · `independent-candidate-review` · owner `CTX-DSV2-BMC-REL`
+- [`ART-DSV2-BMC-REL-PREACCEPTANCE-DEFECT`](development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/continuations/N37-EMITS-TARGET-MAX-CLOSURE-PROOF-SHAPE/research/closure-evidence-ownership-r1/define/closure-evidence-contract-r1/plan/closure-evidence-chain-contract-r1/governance-defects/preacceptance-non-json-postimage-r1/RECEIPT.json) — `resolved` · `governance-defect-receipt` · owner `CTX-DSV2-BMC-REL`
+- [`ART-DSV2-BMC-REL-GOV-REPAIR-SELECTION`](development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/continuations/N37-EMITS-TARGET-MAX-CLOSURE-PROOF-SHAPE/research/closure-evidence-ownership-r1/define/closure-evidence-contract-r1/plan/closure-evidence-chain-contract-r1/governance-defects/preacceptance-non-json-postimage-r1/OWNER-SELECTION-RECEIPT.json) — `pass` · `governance-repair-owner-selection` · owner `CTX-DSV2-BMC-REL`
+- [`ART-DSV2-BMC-REL-GOV-REPAIR-APPLY`](development/relationship-constraint-decisions/BMC-REL-001/sidecars/BMC-REL-CONSTRAINT-COMPLETION/design/continuations/N37-EMITS-TARGET-MAX-CLOSURE-PROOF-SHAPE/research/closure-evidence-ownership-r1/define/closure-evidence-contract-r1/plan/closure-evidence-chain-contract-r1/governance-defects/preacceptance-non-json-postimage-r1/REPAIR-APPLY-RECEIPT.json) — `pass` · `governance-repair-apply-receipt` · owner `CTX-DSV2-BMC-REL`
+- [`ART-DSV2-BMC-REL-CRAFT-FRONTIER-BINDING`](.craft/artifacts/BMC-REL-FRONTIER-BINDING.json) — `active` · `craft-frontier-binding` · owner `CTX-DSV2-BMC-REL`
+- [`ART-DSV2-BMC-REL-CRAFT-FRONTIER-VALIDATOR`](.craft/artifacts/validate-bmc-rel-frontier.mjs) — `pass` · `craft-frontier-validator` · owner `CTX-DSV2-BMC-REL`
 - [`ART-DSV2-PROOF-SYNTAX-CANDIDATE`](development/proof-obligation-substrate/2026-08-22-top03-shared-syntax-adoption-candidate.md) — `stale` · `adoption-candidate` · owner `CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE`
 - [`ART-DSV2-PROOF-SYNTAX-ACCEPTANCE`](authority/decisions/2026-08-22-top03-shared-syntax-adoption-acceptance.md) — `pass` · `owner-acceptance` · owner `CTX-DSV2-PROOF-OBLIGATION-SUBSTRATE`
 - [`ART-DSV2-SPEC-ONTOLOGY-DECISION`](development/spec-ontology-branch-decision/decision-gate/DECISION.md) — `pass` · `architecture-decision` · owner `CTX-DSV2-SPEC-ONTOLOGY`
@@ -614,6 +741,20 @@ Treatment/owner: `defer` / `technology-profile and deployment-policy owners thro
 - [`ART-DSV2-ORODI-INVOKE-DESIGN`](development/operational-resilience-observability-deployment-integration/invoke-design/20260824T165443Z-orodi-v1/ARCHITECTURE.md) — `pass` · `invoke-design-bundle` · owner `CTX-DSV2-ORODI`
 - [`ART-DSV2-ORODI-INVOKE-PLAN`](development/operational-resilience-observability-deployment-integration/invoke-plan/20260824T165443Z-orodi-v1/WORK-PACK.md) — `flag` · `invoke-plan-work-pack` · owner `CTX-DSV2-ORODI`
 - [`ART-DSV2-ORODI-OWNER-BINDING-DECISION`](development/operational-resilience-observability-deployment-integration/owner-binding-decision/20260824T174431Z-orodi-owner-binding-gate/DECISION-GATE.md) — `pass` · `decision-gate-result` · owner `CTX-DSV2-ORODI`
+- [`ART-DSV2-REALIZATION-KERNEL-FAMILIES`](impl/architecture-conformance/) — `canonical` · `implementation-frontier` · owner `CTX-DSV2-REALIZATION-KERNEL`
+- [`ART-DSV2-META-TYPE-STATE`](.craft/artifacts/META-TYPE-STATE.json) — `active` · `craft-state-binding` · owner `CTX-DSV2-ROOT`
+- [`ART-DSV2-META-TYPE-STATE-VALIDATOR`](.craft/artifacts/validate-meta-type-state.mjs) — `pass` · `craft-state-validator` · owner `CTX-DSV2-ROOT`
+- [`ART-DSV2-META-TYPE-BASELINE-DECISION`](development/meta-type-instantiation-cli/OWNER-CANONICAL-DOCS-AND-BASELINE-V2-DECISION.json) — `pass` · `owner-baseline-decision` · owner `CTX-DSV2-REALIZATION-KERNEL`
+- [`ART-DSV2-META-TYPE-BASELINE`](development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v2.json) — `pass` · `canonical-implemented-baseline` · owner `CTX-DSV2-REALIZATION-KERNEL`
+- [`ART-DSV2-META-TYPE-BASELINE-VALIDATOR`](development/meta-type-instantiation-cli/validate-baseline.mjs) — `pass` · `exact-baseline-validator` · owner `CTX-DSV2-REALIZATION-KERNEL`
+- [`ART-DSV2-META-TYPE-CLI-PLAN`](development/meta-type-instantiation-cli/IMPLEMENTATION-PLAN.md) — `flag` · `implementation-plan` · owner `CTX-DSV2-IMPL-CONFORMANCE`
+- [`ART-DSV2-META-TYPE-CURRENT-IMPLEMENTATION`](definitions/meta-types/current-implementation.json) — `pass` · `canonical-current-implementation-state` · owner `CTX-DSV2-REALIZATION-KERNEL`
+- [`ART-DSV2-META-TYPE-ONTOLOGY-STATE`](development/implementation-conformance/ontology-experiment/ontology.json) — `pass` · `architecture-property-ontology` · owner `CTX-DSV2-IMPL-CONFORMANCE`
+- [`ART-DSV2-META-TYPE-ONTOLOGY-PROJECTION`](development/implementation-conformance/ontology-experiment/domain-meta-types.projection.json) — `pass` · `canonical-meta-type-projection` · owner `CTX-DSV2-IMPL-CONFORMANCE`
+- [`ART-DSV2-META-TYPE-ONTOLOGY-MATERIALIZER`](development/implementation-conformance/ontology-experiment/materialize-current-meta-type-state.mjs) — `pass` · `deterministic-ontology-materializer` · owner `CTX-DSV2-IMPL-CONFORMANCE`
+- [`ART-DSV2-META-TYPE-ENFORCEMENT-ASSETS`](.craft/artifacts/META-TYPE-ENFORCEMENT-ASSETS.json) — `active` · `meta-type-enforcement-asset-registry` · owner `CTX-DSV2-ROOT`
+- [`ART-DSV2-META-TYPE-ENFORCEMENT-ASSETS-SCHEMA`](.craft/artifacts/meta-type-enforcement-assets.schema.json) — `active` · `meta-type-enforcement-asset-schema` · owner `CTX-DSV2-ROOT`
+- [`ART-DSV2-META-TYPE-ENFORCEMENT-ASSETS-VALIDATOR`](.craft/artifacts/validate-meta-type-enforcement-assets.mjs) — `pass` · `meta-type-enforcement-asset-validator` · owner `CTX-DSV2-ROOT`
 
 ## Definition index
 

@@ -1,0 +1,300 @@
+{
+  "schema_version": "cav2.craft-migration-order/v1",
+  "order_id": "CAV2-CRAFT-MIG-B-ORDER-001",
+  "status": "planned",
+  "authority_effect": "none",
+  "visibility": "private",
+  "created_at": "2026-08-31",
+  "identity": {
+    "product_id": "CA2-PRODUCT-CRAFT",
+    "current_name": "Craft",
+    "former_name": "DomainSpec v2",
+    "continuity": "same-product-renamed",
+    "project_id": "CA2-PROJECT-CRAFT",
+    "method_ref": "CAV2-D20"
+  },
+  "route": {
+    "selected_option_id": "MIG-B-STAGED-SUCCESSOR",
+    "current_execution_name": "MIG-B-STAGED-RENAME",
+    "meaning": "Move the current DomainSpec v2 Product lineage into active Craft roots while retaining old-name paths as immutable migration and historical evidence.",
+    "source_root": "projects/domainspec-v2",
+    "execution_policy": "one-current-working-source-to-one-craft-staging-root",
+    "numbered_candidate_policy": "forbidden-as-migration-control-loop",
+    "repair_policy": "repair-and-revalidate-the-same-craft-staging-root-before-freeze",
+    "source_deletion_policy": "forbidden-by-this-order"
+  },
+  "source_bindings": [
+    {
+      "role": "validated-project-map",
+      "path": "cyberAlchemy-v2/development/domainspec-v2/migration/mig-b/PROJECT-MAP.json",
+      "sha256": "b92bb9af7f4074dac78532fe4acbd98bf79a70e58ae4ef8a755ae7c683d5c6be",
+      "semantic_digest": "b43c292b4b777fd62715052cdc363a0b156a6f43174fa6959c77514818eaad3e"
+    },
+    {
+      "role": "development-directory-matrix",
+      "path": "cyberAlchemy-v2/development/domainspec-v2/migration/mig-b/map/MIGRATION-MATRIX.json",
+      "sha256": "cf2b8d58ce9ea610fcd8e271c1918b0ee67d0476993bc08e55343adc159b0fcf",
+      "semantic_digest": "8b16603b81a576ec412b3aea68a4f727204a509895322ee722bc0e0158bd853a"
+    },
+    {
+      "role": "map-validation-receipt",
+      "path": "cyberAlchemy-v2/development/domainspec-v2/migration/mig-b/map/MAP-VALIDATION-RECEIPT.M00.json",
+      "sha256": "cdc2243a02f5ead201ae7742c4bea8c9d0173d29dc3c8488d21f639df13988fd"
+    },
+    {
+      "role": "source-file-inventory",
+      "path": "cyberAlchemy-v2/inventory/domainspec-v2/source-manifest.json",
+      "sha256": "cbe34e5bd723a75153d7f9ce7817ff971d71e370eb9e0dc5c764db2ed15850c7",
+      "content_digest": "377362acdbaa687839389790d92f1e6e5be9352cdcaf460f081daca12d13114d"
+    },
+    {
+      "role": "literal-path-consumer-inventory",
+      "path": "cyberAlchemy-v2/inventory/domainspec-v2/path-consumers.json",
+      "sha256": "e6d014a00b746c2e73700147f7a687c18de98bfedad986ee1e47c6b76a9396f4"
+    },
+    {
+      "role": "craft-rename-decision",
+      "path": "cyberAlchemy-v2/goals/projects/craft/CRAFT-IDENTITY-DECISION.json",
+      "sha256": "1f2d01026865e031adba063de0dc1dfa081c49a931223aa4bc9f726d3397bceb"
+    },
+    {
+      "role": "completed-additive-copy-evidence",
+      "path": "cyberAlchemy-v2/development/domainspec-v2/migration/mig-b/MIGRATION-MANIFEST.json",
+      "sha256": "00d8e3192140627606e61ba699d68121329b390dcb9637f2c2935652ad49f086"
+    },
+    {
+      "role": "completed-old-name-rebind-evidence",
+      "path": "cyberAlchemy-v2/development/domainspec-v2/migration/mig-b/REBIND-MANIFEST.json",
+      "sha256": "af9933e5dffb6a9dcc1efa9b0d67fa8e07827de769dfd89dc83d7a3de9606fa6"
+    },
+    {
+      "role": "latest-numbered-candidate-evidence-only",
+      "path": "cyberAlchemy-v2/development/domainspec-v2/migration/mig-b/BASELINE-V11-CANDIDATE-V9-MANIFEST.json",
+      "sha256": "4717656d3ec94665b3086ec4ee849afe3e13d8182359b85d077eb23b9f66eb91",
+      "admission": "pending",
+      "use": "diagnostic-evidence-not-migration-source"
+    }
+  ],
+  "observed_source_epoch": {
+    "captured_at": "2026-08-31T02:01:05Z",
+    "source_file_entries": 10956,
+    "source_bytes": 98598963,
+    "development_directories": 53,
+    "literal_path_consumer_files": 1027,
+    "literal_path_occurrences": 9073,
+    "git_state_at_capture": {
+      "clean": 10647,
+      "deleted": 4,
+      "modified": 69,
+      "untracked": 236
+    },
+    "refresh_required_before_execution": false
+  },
+  "destination_policy": {
+    "active_roots": {
+      "product": "cyberAlchemy-v2/product/craft",
+      "architecture": "cyberAlchemy-v2/architecture/craft",
+      "authority": "cyberAlchemy-v2/authority/craft",
+      "ontology": "cyberAlchemy-v2/ontology/craft",
+      "implementation": "cyberAlchemy-v2/implementation/craft",
+      "research": "cyberAlchemy-v2/research/craft",
+      "development": "cyberAlchemy-v2/development/craft"
+    },
+    "legacy_evidence_roots": [
+      "projects/domainspec-v2",
+      "cyberAlchemy-v2/product/domainspec-v2",
+      "cyberAlchemy-v2/architecture/domainspec-v2",
+      "cyberAlchemy-v2/authority/domainspec-v2",
+      "cyberAlchemy-v2/ontology/domainspec-v2",
+      "cyberAlchemy-v2/implementation/domainspec-v2",
+      "cyberAlchemy-v2/research/domainspec-v2",
+      "cyberAlchemy-v2/development/domainspec-v2"
+    ],
+    "formalization_destination": "cyberAlchemy-v2/implementation/craft/formalization",
+    "development_continuation_destination": "cyberAlchemy-v2/development/craft/continuations",
+    "completed_evidence_destination": "cyberAlchemy-v2/development/craft/evidence/completed",
+    "superseded_evidence_destination": "cyberAlchemy-v2/development/craft/evidence/superseded",
+    "historical_evidence_destination": "cyberAlchemy-v2/development/craft/evidence/historical"
+  },
+  "directory_waves": [
+    {
+      "id": "DW-01-ACTIVE-RUNTIME-DEPENDENCY",
+      "order": 1,
+      "selector": {
+        "field": "migration_disposition",
+        "equals": "carry-forward-active-dependency"
+      },
+      "expected_count": 1,
+      "destination": "cyberAlchemy-v2/development/craft/continuations",
+      "rewrite_policy": "rebind-current-paths-and-validate-real-consumers"
+    },
+    {
+      "id": "DW-02-CONTINUATIONS",
+      "order": 2,
+      "selector": {
+        "field": "migration_disposition",
+        "equals": "carry-forward-continuation"
+      },
+      "expected_count": 26,
+      "destination": "cyberAlchemy-v2/development/craft/continuations",
+      "rewrite_policy": "carry-current-state-without-executing-or-promoting-it"
+    },
+    {
+      "id": "DW-03-COMPLETED-EVIDENCE",
+      "order": 3,
+      "selector": {
+        "field": "migration_disposition",
+        "equals": "preserve-completed-provenance"
+      },
+      "expected_count": 16,
+      "destination": "cyberAlchemy-v2/development/craft/evidence/completed",
+      "rewrite_policy": "preserve-evidence-bytes-and-record-original-path-identity"
+    },
+    {
+      "id": "DW-04-SUPERSEDED-EVIDENCE",
+      "order": 4,
+      "selector": {
+        "field": "migration_disposition",
+        "equals": "archive-superseded-provenance"
+      },
+      "expected_count": 4,
+      "destination": "cyberAlchemy-v2/development/craft/evidence/superseded",
+      "rewrite_policy": "archive-without-runtime-or-authority-admission"
+    },
+    {
+      "id": "DW-05-HISTORICAL-EVIDENCE",
+      "order": 5,
+      "selector": {
+        "field": "migration_disposition",
+        "equals": "archive-historical-provenance"
+      },
+      "expected_count": 6,
+      "destination": "cyberAlchemy-v2/development/craft/evidence/historical",
+      "rewrite_policy": "archive-without-rebinding-historical-claims"
+    }
+  ],
+  "phases": [
+    {
+      "id": "M00-REFRESH-AND-FREEZE",
+      "order": 0,
+      "depends_on": [],
+      "status": "completed",
+      "receipt_ref": "cyberAlchemy-v2/development/domainspec-v2/migration/mig-b/map/M00-REFRESH-AND-FREEZE-RECEIPT.json",
+      "action": "Refresh the source manifest, path-consumer inventory, git-state capture, and map digests against one frozen current working-source epoch.",
+      "completion": "Every selected input has an exact path, digest, git state, owner, and migration disposition; no source byte changes during the capture."
+    },
+    {
+      "id": "M01-FINALIZE-CRAFT-ENTRY-SURFACES",
+      "order": 1,
+      "depends_on": ["M00-REFRESH-AND-FREEZE"],
+      "action": "Complete the current-name Craft entry surfaces and identity links without treating DomainSpec v2 as a predecessor Product.",
+      "completion": "Product, Project, Method, ontology, and source maps agree on CA2-PRODUCT-CRAFT, CA2-PROJECT-CRAFT, CAV2-D20, and same-product-renamed."
+    },
+    {
+      "id": "M02-CLOSE-EXACT-ACTIVE-DEPENDENCY-SET",
+      "order": 2,
+      "depends_on": ["M01-FINALIZE-CRAFT-ENTRY-SURFACES"],
+      "action": "Partition the refreshed source and all literal-path consumers into active Craft dependencies, retained legacy evidence, development continuations, completed evidence, superseded evidence, and historical evidence.",
+      "completion": "Every source entry and every old-root occurrence has one explicit disposition; runtime dependencies do not point into an excluded transient or archive."
+    },
+    {
+      "id": "M03-MATERIALIZE-CANONICAL-CRAFT-LAYERS",
+      "order": 3,
+      "depends_on": ["M02-CLOSE-EXACT-ACTIVE-DEPENDENCY-SET"],
+      "action": "Materialize current Product, architecture, authority, ontology, research, and language-neutral formalization bytes into their active Craft roots from the frozen working source.",
+      "completion": "Each copied byte is source-bound; active paths use Craft naming; original-path evidence remains unchanged in legacy evidence roots."
+    },
+    {
+      "id": "M04-MATERIALIZE-ONE-RUNTIME-CLOSURE",
+      "order": 4,
+      "depends_on": ["M03-MATERIALIZE-CANONICAL-CRAFT-LAYERS"],
+      "action": "Materialize one dependency-closed Node 26 implementation and CLI under cyberAlchemy-v2/implementation/craft, including package locks, generators, profiles, ports, schemas, tests, and fixtures.",
+      "completion": "The Craft implementation installs, typechecks, tests, and builds standalone from its final active path without borrowing the legacy parent workspace."
+    },
+    {
+      "id": "M05-CARRY-ACTIVE-RUNTIME-DEVELOPMENT",
+      "order": 5,
+      "depends_on": ["M04-MATERIALIZE-ONE-RUNTIME-CLOSURE"],
+      "directory_wave_ref": "DW-01-ACTIVE-RUNTIME-DEPENDENCY",
+      "action": "Carry the one development directory classified as an active runtime dependency and rebind only its current consumers.",
+      "completion": "The selected runtime dependency is present once in Craft and its real consumers pass from the final path."
+    },
+    {
+      "id": "M06-CARRY-CURRENT-CONTINUATIONS",
+      "order": 6,
+      "depends_on": ["M05-CARRY-ACTIVE-RUNTIME-DEVELOPMENT"],
+      "directory_wave_ref": "DW-02-CONTINUATIONS",
+      "action": "Carry all active and blocked continuation directories as non-canonical development state without executing their pending work.",
+      "completion": "All 26 continuation directories are present with lifecycle and residue intact and none is misreported as completed or admitted."
+    },
+    {
+      "id": "M07-PRESERVE-COMPLETED-EVIDENCE",
+      "order": 7,
+      "depends_on": ["M06-CARRY-CURRENT-CONTINUATIONS"],
+      "directory_wave_ref": "DW-03-COMPLETED-EVIDENCE",
+      "action": "Copy completed development packages into the Craft evidence area while retaining their original source path and digest identities.",
+      "completion": "All 16 completed packages are preserved as evidence and none becomes an active runtime dependency merely by migration."
+    },
+    {
+      "id": "M08-ARCHIVE-SUPERSEDED-EVIDENCE",
+      "order": 8,
+      "depends_on": ["M07-PRESERVE-COMPLETED-EVIDENCE"],
+      "directory_wave_ref": "DW-04-SUPERSEDED-EVIDENCE",
+      "action": "Archive the superseded development packages under the Craft evidence surface.",
+      "completion": "All four superseded packages retain provenance and have no active consumer or authority role."
+    },
+    {
+      "id": "M09-ARCHIVE-HISTORICAL-EVIDENCE",
+      "order": 9,
+      "depends_on": ["M08-ARCHIVE-SUPERSEDED-EVIDENCE"],
+      "directory_wave_ref": "DW-05-HISTORICAL-EVIDENCE",
+      "action": "Archive historical development packages without rewriting their historical claims or path-bound evidence.",
+      "completion": "All six historical packages remain discoverable and are excluded from current runtime and authority surfaces."
+    },
+    {
+      "id": "M10-REBIND-CURRENT-CONSUMERS",
+      "order": 10,
+      "depends_on": ["M09-ARCHIVE-HISTORICAL-EVIDENCE"],
+      "action": "Rewrite current consumers to final Craft roots, preserve explicitly historical old-root references, and create a machine allowlist for every retained DomainSpec-v2 occurrence.",
+      "completion": "Every refreshed path-consumer row is either rebound to Craft or justified as immutable legacy evidence; no unexplained old-root occurrence remains."
+    },
+    {
+      "id": "M11-VALIDATE-FINAL-CRAFT-VERTICAL",
+      "order": 11,
+      "depends_on": ["M10-REBIND-CURRENT-CONSUMERS"],
+      "action": "Run the complete final-path validation surface: Node 26 runtime, install, typecheck, unit and contract tests, CLI build, generation, three language profiles, Operation and Workflow relationships/effects/recovery, independent conformance, target-project materialization, and two-run determinism.",
+      "completion": "One source-to-target-project-to-independent-conformance vertical passes twice from final Craft paths with exact realization, content, and evidence digests."
+    },
+    {
+      "id": "M12-FREEZE-CURRENT-CRAFT-BASELINE",
+      "order": 12,
+      "depends_on": ["M11-VALIDATE-FINAL-CRAFT-VERTICAL"],
+      "action": "Freeze the passing final-path graph as the first current Craft baseline, switch current internal references to it, and mark DomainSpec-v2 roots as read-only legacy evidence with compatibility locators.",
+      "completion": "Craft is the sole current active Product path; legacy roots remain readable and reversible; no source deletion, publication, release, or deployment occurs."
+    }
+  ],
+  "validation_obligations": [
+    "all 53 development directories are selected exactly once by the five directory waves",
+    "all refreshed source entries have exactly one active, continuation, completed, superseded, historical, or retained-legacy disposition",
+    "all refreshed literal old-root occurrences are rebound or allowlisted as immutable evidence",
+    "active imports and package identities use Craft roots and names",
+    "the final implementation is standalone under the repository Node 26 container",
+    "TypeScript, Python, and Rust profile realizations remain selected and independently conformant",
+    "Operation and Workflow constraints include declared reads, writes, effects, guards, atomic state and outbox, explicit failure continuation, undeclared-effect rejection, relationship rules, and durable recovery bindings",
+    "a mock target project can be created from typed intent and independently checked against exact selected realization and byte digests",
+    "two identical runs produce identical target bytes, manifests, and conformance results",
+    "no numbered baseline candidate is used as a substitute for final-path validation"
+  ],
+  "execution_blockers": [
+    {
+      "code": "CRAFT-MIGRATION-V9-UNVALIDATED",
+      "meaning": "The latest numbered baseline-v11 candidate has no passing aggregate receipt and is diagnostic evidence only, not a migration source."
+    },
+    {
+      "code": "CRAFT-MIGRATION-CONSUMER-PARTITION-MISSING",
+      "meaning": "The 1,027 consumer files and 9,073 old-root occurrences are inventoried but not yet partitioned into current rewrites and immutable evidence allowlist entries."
+    }
+  ],
+  "decision_gates": [],
+  "claim_ceiling": "This order defines dependency and evidence sequence only. It does not itself copy, rename, rebind, validate, freeze, switch authority, delete legacy roots, publish, release, deploy, or prove production readiness."
+}

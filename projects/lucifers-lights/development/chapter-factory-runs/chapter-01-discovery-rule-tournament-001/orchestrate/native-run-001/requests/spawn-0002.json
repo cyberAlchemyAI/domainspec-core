@@ -1,0 +1,84 @@
+{
+  "action_id": "spawn-0002",
+  "briefing_binding": {
+    "briefing": {
+      "agent_identity": "Chapter 1 delayed-recomposition auditionist",
+      "angle": "Move thematic meaning into later objects, actions, and callbacks while preserving exact causal mechanics.",
+      "authority_ceiling": {
+        "allowed_actions": [
+          "read_declared_inputs",
+          "propose_audition",
+          "return_receipt"
+        ],
+        "forbidden_actions": [
+          "write_files",
+          "accept_manuscript",
+          "canonicalize_rule",
+          "promotion",
+          "publication",
+          "git"
+        ],
+        "summary": "Propose a read-only delayed-payoff audition; no manuscript or rule authority."
+      },
+      "instructions": "Read every declared input, audit the full chapter, and return five exact passage auditions centered on delayed payoff and structural recomposition. Preserve all declared continuity and authority boundaries. Do not write files.",
+      "read_policy": {
+        "allowed_read_scopes": [
+          "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/candidate/chapter-01.md",
+          "projects/lucifers-lights/editorial/VOICE-GUIDE.md",
+          "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/factory-config.json",
+          "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-discovery-rule-tournament-001/strategy/strategy-inventory-packet.json"
+        ],
+        "forbidden_read_scopes": [],
+        "input_refs": [
+          "chapter-candidate",
+          "voice-guide",
+          "factory-config",
+          "strategy-inventory-packet"
+        ],
+        "required_input_refs_readable": true
+      },
+      "receipt_shape": {
+        "completion_requires_all_fields": true,
+        "required_fields": [
+          "task_status",
+          "domain_gate_status",
+          "artifacts",
+          "validation",
+          "proposal",
+          "risks",
+          "elimination_conditions"
+        ]
+      },
+      "status_semantics": {
+        "domain_gate_is_separate": true,
+        "domain_gate_status_field": "domain_gate_status",
+        "task_blocked_value": "blocked",
+        "task_complete_value": "completed",
+        "task_status_field": "task_status"
+      },
+      "write_policy": {
+        "forbidden_write_scopes": [
+          "projects/lucifers-lights/drafts/chapter-01.md",
+          "projects/lucifers-lights/editorial/VOICE-GUIDE.md",
+          "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/",
+          "telemetry/agents/",
+          ".arcanum/"
+        ],
+        "mutation_policy": "read-only",
+        "write_scope": []
+      }
+    },
+    "briefing_sha256": "1bf34bba618c4f71d3cad79ceadd498492cb150723f5c489f113b9009e877497",
+    "contract_version": "arcanum.confirmed-role-briefing.v0.1",
+    "source_binding": {
+      "artifact_path": "briefings.json",
+      "artifact_sha256": "ecb096a785426a3afd21610bdde59cc08a6a8c654b1dadaef076e02015fe63b1",
+      "selected_payload_sha256": "1bf34bba618c4f71d3cad79ceadd498492cb150723f5c489f113b9009e877497",
+      "selector": "/roles/delayed-recomposition"
+    }
+  },
+  "fork_turns": "none",
+  "message": "Execute one bounded host-native action.\nAction: spawn-0002\nRole: delayed-recomposition\nCapability: distill\nTarget: projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/candidate/chapter-01.md\nMode: tournament\nMutation policy: read-only\nWrite scope: []\nForbidden write scopes: [projects/lucifers-lights/drafts/chapter-01.md, projects/lucifers-lights/editorial/VOICE-GUIDE.md, projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/, telemetry/agents/, .arcanum/]\nInput refs: [chapter-candidate, voice-guide, factory-config, strategy-inventory-packet]\nOutput refs: [receipts/delayed-recomposition.json]\nBriefing digest: 1bf34bba618c4f71d3cad79ceadd498492cb150723f5c489f113b9009e877497\nAgent identity: Chapter 1 delayed-recomposition auditionist\nAngle: Move thematic meaning into later objects, actions, and callbacks while preserving exact causal mechanics.\nInstructions (exact):\nRead every declared input, audit the full chapter, and return five exact passage auditions centered on delayed payoff and structural recomposition. Preserve all declared continuity and authority boundaries. Do not write files.\nTask status semantics (canonical JSON): {\"domain_gate_is_separate\":true,\"domain_gate_status_field\":\"domain_gate_status\",\"task_blocked_value\":\"blocked\",\"task_complete_value\":\"completed\",\"task_status_field\":\"task_status\"}\nRead policy (canonical JSON): {\"allowed_read_scopes\":[\"projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/candidate/chapter-01.md\",\"projects/lucifers-lights/editorial/VOICE-GUIDE.md\",\"projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/factory-config.json\",\"projects/lucifers-lights/development/chapter-factory-runs/chapter-01-discovery-rule-tournament-001/strategy/strategy-inventory-packet.json\"],\"forbidden_read_scopes\":[],\"input_refs\":[\"chapter-candidate\",\"voice-guide\",\"factory-config\",\"strategy-inventory-packet\"],\"required_input_refs_readable\":true}\nWrite policy (canonical JSON): {\"forbidden_write_scopes\":[\"projects/lucifers-lights/drafts/chapter-01.md\",\"projects/lucifers-lights/editorial/VOICE-GUIDE.md\",\"projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/\",\"telemetry/agents/\",\".arcanum/\"],\"mutation_policy\":\"read-only\",\"write_scope\":[]}\nRequired receipt shape (canonical JSON): {\"completion_requires_all_fields\":true,\"required_fields\":[\"task_status\",\"domain_gate_status\",\"artifacts\",\"validation\",\"proposal\",\"risks\",\"elimination_conditions\"]}\nAuthority ceiling (canonical JSON): {\"allowed_actions\":[\"read_declared_inputs\",\"propose_audition\",\"return_receipt\"],\"forbidden_actions\":[\"write_files\",\"accept_manuscript\",\"canonicalize_rule\",\"promotion\",\"publication\",\"git\"],\"summary\":\"Propose a read-only delayed-payoff audition; no manuscript or rule authority.\"}\nForbidden write scopes do not imply forbidden reads. Follow only the explicit read policy.\nReturn every required receipt field. Do not widen scope or merge task completion with domain-gate status.",
+  "operation": "collaboration.spawn_agent",
+  "task_name": "orchestrate_8983dbf1911010fb98a0b9bfdba290294285707f7b95905e126e0c05e50e9b18_spawn_0002"
+}

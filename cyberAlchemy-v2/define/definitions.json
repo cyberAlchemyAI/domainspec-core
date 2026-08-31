@@ -1,6 +1,7 @@
 {
   "schema_ref": "schemas/define-package.schema.json#/$defs/definitionRegistry",
   "schema_version": "cav2-define-definitions/v1",
+  "registry_role": "package-vocabulary",
   "canonical_source": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
   "canonical_bindings": [
     {
@@ -72,6 +73,13 @@
       "source_ref": {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D56: Schema"},
       "use_in_package": "Makes package conformance decidable by shape without confusing shape with truth, ownership, promotion, or execution.",
       "authority_effect": "none"
+    },
+    {
+      "id": "CAV2-D65",
+      "term": "DomainSpec-governed construction invariant",
+      "source_ref": {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant"},
+      "use_in_package": "Shapes the exact business-to-DomainSpec handoff boundary while leaving complete ConstructionBinding ownership with the Project and refusing to infer compiler, generated graph, system ontology, implementation, or runtime evidence.",
+      "authority_effect": "none"
     }
   ],
   "proposals": [
@@ -130,6 +138,25 @@
         {"source_id": "SRC-CAV2-PRODUCT-RESIDUE", "selector": "CA2-RES-DEFINE-WIZARD"},
         {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Product Ergonomics"},
         {"source_id": "SRC-DOMAINSPEC-DEFINE-CLI-README", "selector": "## Type decision"}
+      ],
+      "authority_effect": "none"
+    },
+    {
+      "candidate_id": "CAV2-DEFINE-REGISTRY-CAND-001",
+      "term": "Define Handled Definition Registry",
+      "aliases": ["Define Registry", "handled-definitions registry"],
+      "status": "candidate",
+      "canonical_target": "unassigned",
+      "normative_voice": "A Define Handled Definition Registry is the no-authority collection of semantic handling records created or maintained by CyberAlchemy Define for explicit bounded contexts and intended uses. Each current record binds one concept and context to exactly one disposition, its required payload, sources, decision owner, consumers, and challenge or refresh route without changing any referenced definition's semantic authority or promotion state.",
+      "formal_voice": "Let R be a registry of records r = (record_id, concept_id, term, context_id, context, intended_use, current_disposition, disposition_payload, source_refs, decision_owner_route, consumer_refs, challenge_or_refresh_route, current, supersedes_ref, authority_effect). For each (concept_id, context_id), at most one r may be current. Exactly one payload variant corresponding to current_disposition in {reuse, specialize, propose, open} is required. Registry presence, lookup, or validation implies neither semantic promotion nor downstream authority.",
+      "plain_language_voice": "The handled-definitions registry records what Define did with each important concept in one exact context—reuse it, narrow it, propose it, or keep it open—without pretending that the registry makes the meaning canonical.",
+      "domain_context_voice": "In CyberAlchemy v2, the product owner owns this candidate registry asset and Definitions Governance stewards its record shape. Source or decision owners retain authority over each meaning, the next-use owner decides whether a Definition Pack is suitable, and later runtime storage remains a separate implementation concern.",
+      "boundary": "The registry is not the canonical definition store, a definition-promotion mechanism, a conflict resolver, an owner appointment surface, an accepted Definition Pack, a storage-engine implementation, or authority to use a definition downstream.",
+      "owner_route": "CyberAlchemy v2 product owner plus CyberAlchemy v2 definitions-governance owner",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D33: Definition"},
+        {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D48: Authority Promotion Lifecycle"},
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "Language Context View"}
       ],
       "authority_effect": "none"
     }

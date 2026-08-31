@@ -1,11 +1,12 @@
 {
+  "extends": "../../../toolchains/node-typescript/tsconfig/base.json",
   "compilerOptions": {
-    "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "strict": true,
+    "exactOptionalPropertyTypes": false,
+    "noUncheckedIndexedAccess": false,
+    "verbatimModuleSyntax": false,
     "noEmit": true,
-    "skipLibCheck": true,
     "types": ["node"]
   },
   "include": ["tools/**/*.ts", "governance/tags/tools/**/*.ts"]

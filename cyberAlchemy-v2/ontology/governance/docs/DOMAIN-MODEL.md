@@ -98,6 +98,25 @@ Rule --is measured by--> Friction Metric Contract
 Every relation names an owner route and carries `authority_effect: none` and
 `enforcement_effect: none` in this candidate package.
 
+## Governed Invariant Instances
+
+`nodes.json` and `relations.json` define the reusable concept and relation
+types. Concrete registrations remain in separate closed registries so a
+canonical invariant is not mistaken for a new ontology type.
+
+The first registration is `GOV-INV-CAV2-D64`, an ontology reference to the
+active canonical `CAV2-D64` Recursive Instance Ownership Invariant.
+`GOV-RULE-D64-BINDING-COMPLETE` is its candidate `authority`-kind review rule,
+joined by the existing `is_operationalized_by` relation contract. The rule may
+return only `satisfied`, `violated`, or `indeterminate` during review.
+
+Canonical active status does not make the registration adopted. The invariant
+has no source-owned semantic version ref, resolved Governance Axiom, adopted
+Constitution member, enforcement binding, concrete Project binding evaluation,
+kernel program, or runtime effect in this epoch. The Project package now owns a
+closed binding registry and reference shape, but it contains zero bindings.
+The remaining absences are preserved by `GOV-RES-008`.
+
 ## DomainSpec v2 Mappings
 
 DomainSpec v2 meta-types are reused as a semantic vocabulary:

@@ -22,6 +22,10 @@ SELECTION_RECEIPT_SCHEMA_ID = (
     "https://arcanum.dev/schemas/work-pack-readiness-audit/"
     "selection-receipt/1-0-0"
 )
+NATIVE_CONTEXT_SCHEMA = (
+    Path(__file__).resolve().parents[1]
+    / "schemas/native-context-admission-projection-v1.schema.json"
+)
 
 
 def canonical_digest(document: Any) -> str:
@@ -683,6 +687,18 @@ def resolve_mutation_admission(
             context_pack, parse_errors = parse_json_bytes(content, "context pack")
             failures.extend(parse_errors)
             if context_pack is not None:
+                if request.get("admissionProfile") == "plan-once-selected-unit":
+                    failures.extend(
+                        schema_errors(
+                            context_pack,
+                            load_json(NATIVE_CONTEXT_SCHEMA),
+                            "native context projection",
+                        )
+                    )
+                    if context_pack.get("admission_schema_version") != request.get(
+                        "schemaVersion"
+                    ):
+                        failures.append("native context admission schema version mismatch")
                 if context_pack.get("task_id") != request["taskId"]:
                     failures.append("context pack task id mismatch")
                 if context_pack.get("swu_id") != request["swuId"]:

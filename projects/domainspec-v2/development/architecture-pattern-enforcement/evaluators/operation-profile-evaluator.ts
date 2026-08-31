@@ -21,9 +21,9 @@ export const OPERATION_PROFILE_FILE_SHA256 =
 export const OPERATION_PROFILE_CANONICAL_SHA256 =
   "f25b57185357d2a4914ee6b2d2c649d9d3dcfdb05d6dac7a8c726cbcddd00a83" as const;
 export const OPERATION_APPLICABILITY_FILE_SHA256 =
-  "2c606b900c33555b6d7aaa368bf6ca5666143f81495d64c97ea83323fee8ddf7" as const;
+  "ec18926d1537479e5788355c25a0c51aff5f2370ade93906adc0fa517ea65c95" as const;
 export const OPERATION_FIXTURE_FILE_SHA256 =
-  "c34902408a7990a454c3d14cd7caa095b29bed449da28172a17329eb6afdd758" as const;
+  "29125586b2bf8cdb5823e6814bcb48162a5b04841b6dcc9b0799a7a2721b81c8" as const;
 export const OPERATION_HOSTILES_FILE_SHA256 =
   "cf3c02e6d5839568fd77b8dac6ab5e2c720d227f5b8162e93d21790f16d5f090" as const;
 
@@ -64,7 +64,7 @@ const REQUIRED_MATERIAL_PATHS = {
 
 const APPLICABILITY_CASE_CANONICAL_SHA256: Readonly<Record<string, string>> = {
   "AOP-APP-001-poker-create-player":
-    "70cace144e955039fa6e5f30aaa3ff10e026b28136ee6feffd40da8437270f03",
+    "da8402f6939e7bdf1ef1997fef267e55b42c5f5fe4a16106b7e000b7e85a97b9",
   "AOP-APP-002-pure-operation":
     "722f8aa377c3dc4dfba78635305b69c09c7f3796cf73dc85b94f86c8beef932c",
   "AOP-APP-003-unresolved-infrastructure-discriminators":

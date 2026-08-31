@@ -4,6 +4,11 @@ import { lstatSync, readFileSync, realpathSync, statSync } from "node:fs";
 import { relative, resolve, sep } from "node:path";
 import test from "node:test";
 
+import {
+  observeOperationBoundary,
+  type OperationBoundaryObserverInput,
+} from "../../adapters/typescript/operation-boundary-observer.ts";
+
 const REPO_ROOT = resolve(process.cwd(), "../../..");
 const FIXTURE_REF =
   "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/poker-team.fixture.json";
@@ -15,7 +20,7 @@ const APPLICABILITY_REF =
   "projects/domainspec-v2/development/architecture-pattern-enforcement/fixtures/operation-profile/applicability.json";
 
 const FIXTURE_SHA256 =
-  "c34902408a7990a454c3d14cd7caa095b29bed449da28172a17329eb6afdd758";
+  "29125586b2bf8cdb5823e6814bcb48162a5b04841b6dcc9b0799a7a2721b81c8";
 const HOSTILES_SHA256 =
   "cf3c02e6d5839568fd77b8dac6ab5e2c720d227f5b8162e93d21790f16d5f090";
 
@@ -83,7 +88,7 @@ function deepFreeze(value: unknown): unknown {
   return value;
 }
 
-test("binds exactly the two Context Builder-selected Poker source files", () => {
+test("binds the selected Operation core, composition, instrumentation, and UnitOfWork sources", () => {
   const fixture = json(FIXTURE_REF);
   exactKeys(fixture, [
     "schema_version",
@@ -112,6 +117,8 @@ test("binds exactly the two Context Builder-selected Poker source files", () => 
     sources.map((source) => source.path),
     [
       "validation/poker-team/backend/src/use-cases/player/create-player.ts",
+      "validation/poker-team/backend/src/infrastructure/http/routes/player.routes.ts",
+      "validation/poker-team/backend/src/infrastructure/telemetry/create-player.instrumentation.ts",
       "validation/poker-team/backend/src/domain/shared/financial-write-unit-of-work.ts",
     ],
   );
@@ -121,6 +128,75 @@ test("binds exactly the two Context Builder-selected Poker source files", () => 
     assert.equal(sha(ref), source.sha256, ref);
     assert.equal(statSync(resolve(REPO_ROOT, ref)).size, source.size, ref);
   }
+});
+
+test("the live Operation boundary observes the narrow outer instrumentation wrapper", () => {
+  const fixture = json(FIXTURE_REF);
+  const profile = json(PROFILE_REF);
+  const source = (fixture.selected_sources as Array<Record<string, unknown>>)[0];
+  const rmt = profile.rmt_semantic_policy as Record<string, string>;
+  const result = observeOperationBoundary({
+    source: {
+      repoRoot: REPO_ROOT,
+      sourceRef: source.path as string,
+      sourceDigest: source.sha256 as string,
+    },
+    rmtContract: {
+      sourceRef: rmt.operation_contract_ref,
+      sourceDigest: rmt.operation_contract_sha256,
+    },
+    implementationBindingId: "APE.ImplementationBinding.operation.create-player",
+    subjectId: "PokerTeam.CreatePlayer",
+    outcomeId: "CreatePlayer",
+    nodes: [
+      {
+        nodeId: "decide-limit",
+        phase: "decide",
+        owner: "rule",
+        sourceSelector: "isAllowedLimit(input.currentLimit)",
+        dependsOn: [],
+        evidenceKind: "static",
+      },
+      {
+        nodeId: "persist-player",
+        phase: "acquire",
+        owner: "repository",
+        sourceSelector: "playerRepo.create(createInput)",
+        dependsOn: ["decide-limit"],
+        evidenceKind: "static",
+      },
+      {
+        nodeId: "notify-player-created",
+        phase: "in-process-notification",
+        owner: "event-handler",
+        sourceSelector: "await onEvent({",
+        dependsOn: ["persist-player"],
+        evidenceKind: "static",
+      },
+      {
+        nodeId: "observe-create-player",
+        phase: "instrumentation",
+        owner: "outer-wrapper",
+        sourceSelector: "observeCreatePlayerUseCase",
+        dependsOn: ["notify-player-created"],
+        evidenceKind: "static",
+      },
+    ],
+    pureRuleReferences: [
+      {
+        ruleId: "Rule.AllowedLimit",
+        sourceSelector: "isAllowedLimit(input.currentLimit)",
+        rmtRelationRef: `${rmt.operation_contract_ref}#rule-relationship`,
+      },
+    ],
+    forbiddenConcreteImportPatterns: [
+      "(?:^|/)infrastructure(?:/|$)",
+      "telemetry|metric|instrument",
+    ],
+  } satisfies OperationBoundaryObserverInput);
+  assert.equal(result.result, "pass");
+  assert.equal(result.diagnostic, "AOP_BOUNDARY_PASS");
+  assert.equal(result.graph.at(-1)?.owner, "outer-wrapper");
 });
 
 test("binds exact immutable property-result envelopes for the Poker evaluation", () => {
@@ -137,7 +213,7 @@ test("binds exact immutable property-result envelopes for the Poker evaluation",
       counts[result] = (counts[result] ?? 0) + 1;
       return counts;
     }, {}),
-    { "owner-blocked": 3, missing: 3, pass: 3, fail: 1 },
+    { "owner-blocked": 3, pass: 7 },
   );
   for (const [index, envelope] of envelopes.entries()) {
     exactKeys(envelope, [
@@ -177,9 +253,9 @@ test("binds exact immutable property-result envelopes for the Poker evaluation",
       ],
     ),
     [
-      ["missing", "AOP_DEPENDENCY_COMPOSITION_BINDING_MISSING"],
-      ["missing", "AOP_DEPENDENCY_COMPOSITION_BINDING_MISSING"],
-      ["missing", "AOP_DEPENDENCY_COMPOSITION_BINDING_MISSING"],
+      ["pass", "AOP_DEPENDENCY_PASS"],
+      ["pass", "AOP_DEPENDENCY_PASS"],
+      ["pass", "AOP_DEPENDENCY_PASS"],
     ],
   );
   assert.deepEqual(
@@ -187,7 +263,7 @@ test("binds exact immutable property-result envelopes for the Poker evaluation",
       byProperty.get("APE.ImplementationProperty.operation.cost-observation")!.result,
       byProperty.get("APE.ImplementationProperty.operation.instrumentation-placement")!.result,
     ],
-    ["owner-blocked", "fail"],
+    ["owner-blocked", "pass"],
   );
 });
 
@@ -249,14 +325,14 @@ test("contains the exact positive witness classes without runtime or semantic ov
   const dependency = positives.find(
     (entry) => entry.case_id === "AOP-POS-HOF-REPOSITORY",
   )!;
-  assert.equal(dependency.expected_status, "missing");
+  assert.equal(dependency.expected_status, "pass");
   assert.deepEqual(dependency.expected_diagnostics, [
-    "AOP_DEPENDENCY_COMPOSITION_BINDING_MISSING",
+    "AOP_DEPENDENCY_PASS",
   ]);
   assert.equal(
     (dependency.normalized_facts as Record<string, unknown>)
       .composition_root_supplies_adapters,
-    false,
+    true,
   );
   assert.equal(loop.source_id, null);
   assert.equal(

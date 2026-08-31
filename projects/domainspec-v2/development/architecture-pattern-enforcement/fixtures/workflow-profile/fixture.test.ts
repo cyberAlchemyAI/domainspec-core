@@ -95,7 +95,7 @@ test("the exact live Workflow predecessor and all observer expectations recomput
     {
       child: ["pass", "AOP_WF_CHILD_PASS"],
       continuation: ["pass", "AOP_WF_CONTINUATION_PASS"],
-      compensation: ["missing", "AOP_WF_COMPENSATION_CALLABLE_MISSING"],
+      compensation: ["pass", "AOP_WF_COMPENSATION_PASS"],
       mode: ["pass", "AOP_WF_MODE_PASS"],
       runtime: ["not-applicable", "AOP_WF_RUNTIME_NOT_APPLICABLE"],
       version: ["not-applicable", "AOP_WF_VERSION_NOT_APPLICABLE"],
@@ -104,19 +104,20 @@ test("the exact live Workflow predecessor and all observer expectations recomput
   );
 });
 
-test("fixture expectations retain the missing named compensation callable honestly", () => {
+test("fixture expectations bind the named compensation callable without execution authority", () => {
   const expected = fixture.expected_property_results as Array<Json>;
   assert.equal(expected.length, 9);
   assert.deepEqual(
     expected.find((row) => row.property_id === "APE.WF.P09-TRAVERSAL-EQUIVALENCE"),
     {
       property_id: "APE.WF.P09-TRAVERSAL-EQUIVALENCE",
-      result: "missing",
-      diagnostic: "AOP_WF_COMPENSATION_CALLABLE_MISSING",
+      result: "pass",
+      diagnostic: "AOP_WF_COMPENSATION_PASS",
       producer: "workflow-compensation-observer",
     },
   );
-  assert.equal(fixture.claim_ceiling.candidate_missing_named_compensation_callable_is_retained, true);
+  assert.equal(fixture.claim_ceiling.named_compensation_callable_bound_at_composition_root, true);
+  assert.equal(fixture.claim_ceiling.compensation_execution, false);
   assert.equal(fixture.authority_effect, "none");
 });
 

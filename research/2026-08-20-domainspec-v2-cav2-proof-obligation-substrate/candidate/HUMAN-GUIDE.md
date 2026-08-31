@@ -50,6 +50,36 @@ The arrows are references. They carry identity and history; they do not transfer
 
 Under the hood, the system will need more precise names. A **predicate** is the condition being checked. A **binding** is the exact list of input versions and fingerprints. A **receipt** is the recorded result of one checker run. A **projection** is a generated view. These terms are useful once the simple chain is understood.
 
+## How far does a proof claim reach?
+
+People often use the word “proof” for several different achievements. That makes a small result sound like a complete guarantee. For the systems we want to build, start with three plain questions:
+
+1. **Shape:** Is the artifact formed correctly? Are the required fields, types, and relationships present?
+2. **Meaning:** According to rules defined independently of the program being checked, is this the right answer?
+3. **Behavior:** Did the real, identified system make that decision and enforce it when it ran?
+
+A shape check can be perfectly deterministic and still say nothing about meaning. A theorem can prove that a decision function matches its mathematical definition without proving that the definition represents the real policy. A runtime can return the expected answer without proving that a forbidden action could not bypass it.
+
+For an agent or runtime claim, those three questions expand into a more exact ladder:
+
+| Rung | Plain question | Precise record name |
+|---|---|---|
+| 1. Exact material | Do we have the intended artifact, and do its bytes and declared identity match? | `ShapeValid` and `BytesMatch` |
+| 2. Output conformance | Does this one output meet a frozen set of output requirements? | `OutputObligationsHold` |
+| 3. Intended decision | What should the independent domain rules decide for this exact request and environment? | `RequestedActionAuthorized` |
+| 4. Runtime agreement | Did the exact bound runtime return the same decision as those independent rules? | `DecisionMatchesSpec` |
+| 5. Enforced effect | Did the action that actually happened obey the decision, with no path around the gate? | `ExecutedActionMatchesDecision` |
+| 6. Trace or policy behavior | Does a declared finite sequence obey its trace rule, or does one policy preserve another over an exact bounded set? | `RecordedTraceMeets` and `PolicyRefinesWithin` |
+| 7. Whole-agent conformance | Does the agent satisfy the specification across a stated family of environments and a stated period of time? | `agent ⊨ spec` |
+
+Each rung makes a different claim. Evidence for a lower rung does not automatically earn a higher one. File fingerprints and schemas support rung 1. An independent semantic definition is needed for rung 3. Runtime observation, exact bindings, and replay are needed for rung 4. Non-bypass mediation and effect observation are needed for rung 5. Whole-agent conformance additionally needs a frozen agent boundary, an environment family, observation rules, a time horizon, and an owner-approved comparison rule.
+
+The current repository does **not** implement or prove general `agent ⊨ spec`. The first honest runtime target is rung 4: `DecisionMatchesSpec` for one bounded access decision. It asks whether a content-addressed runtime agrees with independently owned access semantics over one explicit, nonempty, finite set of requests. If the compiler, runtime, observation, mediation, or denominator bridge is missing, the result must be called an **integration demonstration**, not a complete proof.
+
+Lean’s existing `Satisfies ↔ decidePolicy` theorem can support one link inside that rung. It does not by itself prove the compiler, the TypeScript runtime, enforcement, trace behavior, or whole-agent correctness.
+
+This ladder refines the [earlier three-layer explanation](../../../.arcanum/inventory/entries/three-layer-agent-conformance-verifier-decision.md) with the later [verified current-state result](../../../.arcanum/inventory/entries/agent-satisfies-spec-current-state-research-strategy-result-synthesis.md). It is a scope ladder for system claims, not a universal ranking of mathematics.
+
 ## Where the records should live
 
 DomainSpec and CAV2 own different meanings. The safest design is therefore not one master database that becomes a new authority over both projects.
@@ -83,6 +113,68 @@ The practical lesson is:
 This is experimental evidence from three examples. It is not proof that complete Mint has shipped.
 
 The [current Mint runtime](../../../cyberAlchemy-v2/development/mint/runtime/README.md) can already check structured authority packages, create bounded candidate files, recover files it created, and produce Cedar- and logic-shaped outputs. It still cannot grant authority, approve a promotion, or mint the complete target system.
+
+### Domains also teach CAV2
+
+CAV2 is not only a base that domains consume. It is also a learning framework
+that domains can improve. A domain may discover a better definition, rule,
+knowledge relationship, architecture pattern, validator, proof method, or
+formalization approach. That discovery remains owned by the domain where it was
+made. CAV2 receives a proposal to generalize it, not ownership of the original.
+
+The canonical CAV2 lifecycle now makes the feedback loop explicit:
+
+```text
+domain-owned idea
+  -> evidence in the originating domain
+  -> CAV2 candidate
+  -> a generalized proposal that states what changed or was lost
+  -> exercise in another independently owned domain or a very different setting
+  -> challenge and contrary-evidence review
+  -> CAV2 owner decision
+  -> one promoted CAV2 version
+  -> separate adoption by each domain that chooses to use that version
+```
+
+Here **promotion** means CAV2 accepts the generalized idea into its own base.
+**Adoption** is a different decision: a domain chooses to use one exact CAV2
+version. Neither event changes the original domain's local meaning.
+
+The owners remain separate throughout:
+
+| Step | Who decides | What the decision does not do |
+|---|---|---|
+| Local idea and evidence | Originating domain | Does not make the idea CAV2 authority |
+| Exercise in another context | The exercising domain owns its bounded result | Does not approve CAV2 promotion or rewrite the source domain |
+| Generalization and promotion | The relevant CAV2 owner route | Does not silently change or update any domain |
+| Adoption of a promoted version | Each consuming domain | Does not transfer its local meanings or lifecycle decisions to CAV2 |
+
+This route covers more than proofs. Definitions and rules can be proposed
+through definitions or constitution governance. Knowledge and architecture
+patterns can be proposed through their own owner routes. A reusable proof or
+validation approach may become a method, pattern, specification, or definition
+candidate. The proof object, Lean result, Cedar or Datalog result, test, or
+receipt remains evidence; it cannot promote itself.
+
+The existing examples show why the independent exercise matters:
+
+- The [Mint/Foundry synthesis](../../../.arcanum/inventory/entries/mint-foundry-content-autonomy-synthesis.md)
+  records a failed first criterion and a better second experiment. It supports
+  inheriting CAV2 machinery while localizing domain content, but remains an
+  internal candidate and does not prove that complete Mint has shipped.
+- The [Kodamai comparison](../../../.arcanum/inventory/entries/kodamai-smithe-correctness-layer-synthesis.md)
+  sharpened the difference between an encoded constraint, a theorem about a
+  model, and whole-agent correctness. It can inform a proof-method proposal; it
+  does not prove our general verifier or make claims about unpublished systems.
+- The [three-layer agent-conformance proposal](../../../.arcanum/inventory/entries/three-layer-agent-conformance-verifier-decision.md)
+  separates output shape, output meaning, and actual-action conformance. Its
+  distant-witness idea is a useful stress test for generality, but its general
+  verifier decision remains proposed rather than implemented or gated.
+
+The lifecycle is now defined, but the complete operational process has not been
+demonstrated. We do not yet have a finished candidate package that traverses the
+whole route, survives an independently owned domain exercise, receives CAV2
+promotion, and is then adopted by another domain as an exact version.
 
 ### Lean gives us three different kinds of formal result
 
@@ -206,9 +298,10 @@ The research designed seven negative examples. None has been turned into final, 
 
 A well-designed example is still only a plan. Reliable evidence requires exact example files, fingerprints, commands, results, and receipts.
 
-## Decisions the owners must make before implementation
+## Decisions the owners made in WP-00
 
-The research cannot make these decisions on behalf of the owners:
+The research could not make these decisions on behalf of the owners. The
+owners have now made them:
 
 | Gate | Plain-language decision | Who must decide |
 |---|---|---|
@@ -221,7 +314,18 @@ The research cannot make these decisions on behalf of the owners:
 | `GATE-07` | Who owns the cross-project mapping, and what happens when the two sources disagree? | Both source owners and the mapping owner |
 | `GATE-08` | Who may publish which material, to which audience, through which channel? | Source owners and the publishing owner |
 
-The first decision is `GATE-01`. Without an explicit shared-format agreement, work should continue with two local catalogs and a generated cross-reference.
+Current result on 2026-08-22: `GATE-01` is ratified and `GATE-02` through
+`GATE-08` are accepted. In plain language, the two systems share only a
+CAV2-owned address format. DomainSpec v2 and CAV2 keep their own meanings,
+records, proof rules, and lifecycles. Proof material uses existing CAV2 kinds;
+residue begins on the operation and becomes a separate record only when it
+needs its own route. There is no permanent cross-project adapter. Material is
+private by default and publication requires approval for the exact final
+bytes, audience, and channel.
+
+These decisions complete `WP-00` for planning. They do not implement the
+substrate, prove a claim, discharge an obligation, promote CAV2 authority, or
+authorize publication.
 
 ## What remains blocked
 
@@ -242,8 +346,8 @@ Until these close, do not claim a complete proof chain, reliable repeatability, 
 
 The audited research proposed this order. The codes are kept so the human guide remains traceable to the work plan.
 
-1. Decide ownership and the shared-versus-separate catalog structure (`WP-00`).
-2. Freeze the exact source files, versions, fingerprints, and current candidate status (`WP-01`).
+1. Completed: decide ownership and the shared-versus-separate catalog structure (`WP-00`).
+2. Next: freeze the exact source files, versions, fingerprints, and current candidate status (`WP-01`).
 3. Draft the smallest shared address examples if a shared format is approved; otherwise draft the two local formats and their cross-reference (`WP-02`).
 4. Draft DomainSpec’s own record format and checks (`WP-03`).
 5. Draft CAV2’s own record format and checks (`WP-04`).
@@ -254,9 +358,17 @@ The audited research proposed this order. The codes are kept so the human guide 
 10. Generate the machine index, human pages, cross-reference, and generation record with privacy checks (`WP-09`).
 11. Run independent reviews, then request separate decisions for adoption, obligation resolution, authority promotion, and publication (`WP-10`).
 
-Start with `WP-00 / GATE-01`. Choosing IDs, folders, lifecycle words, or publication pages before the owners choose the structure would make the documentation look settled when it is not.
+Start with `WP-01`. The source freeze must use `projects/domainspec-v2/` for
+DomainSpec authority; frozen `implementation/domainspec/` material is
+historical migration evidence only. The freeze records exact bytes and status,
+but it does not turn candidates into authority.
 
-The Lean work has a companion sequence. It was discovered after the audited work plan, so it remains follow-up planning:
+The Lean work has a separate companion sequence. It is currently blocked at
+`FSP-01 / SWU-FSP01-003`: five of six theorem rows passed, while the broad
+residue target could not build because its project pins Lean 4.30.0-rc2 and
+its locked dependencies require Lean 4.33.0-rc1. Do not rerun the unchanged
+step or continue to FSP-01 step 004 until that blocker has its own repair and
+closeout route.
 
 1. List each theorem separately with its proposition, source fingerprint, model scope, build target, Lean version, dependency lock, unfinished-proof status, and reported assumptions (`FSP-01`).
 2. Repair and independently check the broad Lean project’s version mismatch without changing theorem claims under old approval (`FSP-02`).
@@ -273,6 +385,8 @@ Even after these checks pass, the relevant owner must still decide what the resu
 - Say **observed** when we inspected evidence and **executed** only when a recorded command actually ran.
 - Say **proved in this model** rather than “proved” when the bridge to the live system is not established.
 - Say **check passed** rather than “obligation resolved” until the owner makes that decision.
+- Say **cross-domain exercise survived** rather than “generalized” until the CAV2 owner promotes a named version.
+- Say **promoted in CAV2** does not mean **adopted by a domain**; name the exact version and the separate domain decision.
 - Name the owner when discussing meaning, obligation status, promotion, or publication.
 - Show exact versions and file fingerprints when a claim depends on exact bytes.
 - Keep contrary evidence and uncertain results visible.

@@ -1,0 +1,178 @@
+{
+  "schema_version": "cav2-agent-routing-system-ontology/v1",
+  "ontology_id": "cav2.agent-routing.system",
+  "authority": "generated-system-ontology-read-model",
+  "authority_effect": "none",
+  "source_project_id": "cyberalchemy-agent-routing",
+  "source_set_digest": "64f81f21403e8371c54df416efdf6faf77a09e9f3c0080bf2d8b98190eb78cea",
+  "source_graph_digest": "3fb37d3e1ce7c3e01bdd919451aed0c93b4a8efe12ac96c2b85f6e38629a2de4",
+  "construction_inputs": [
+    {
+      "id": "CA2-ROUTING-BIND-CAV2-D65",
+      "path": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
+      "scope_kind": "heading-section",
+      "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant",
+      "sha256": "ba524beb8fb408f9abcd0805644f59ec2dbfcd810de24ac99c87296f843ba4ff"
+    },
+    {
+      "id": "CA2-ROUTING-BIND-CAV2-D67",
+      "path": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
+      "scope_kind": "heading-section",
+      "selector": "## CAV2-D67: Product Capability",
+      "sha256": "bf8f3cb9b7d22aaa3c54b7c1eb177b85100be9bc421142bb3ead7e2456431d13"
+    },
+    {
+      "id": "CA2-ROUTING-BIND-PRODUCT-CAPABILITY",
+      "path": "cyberAlchemy-v2/agent-routing/product-capability.json",
+      "scope_kind": "whole-file",
+      "selector": null,
+      "sha256": "0e35fb9cf95b9e0cefea985aca02bc9aa8fa4a2f4d31566dedd156b50f0d765c"
+    },
+    {
+      "id": "CA2-ROUTING-BIND-BUSINESS-ONTOLOGY",
+      "path": "cyberAlchemy-v2/agent-routing/ontology.json",
+      "scope_kind": "whole-file",
+      "selector": null,
+      "sha256": "0bb8945fbfd17bb965f0be7717750f87f9b801c801428c901e0b5916979a7e13"
+    }
+  ],
+  "compiler": {
+    "id": "domainspec-v2-minted-project-tools",
+    "version": "minted-project-tools/v1",
+    "compiler_path": "projects/domainspec-v2/impl/tools/minted-project/compiler.ts",
+    "compiler_sha256": "cd7f5f5d8175b13e67807f1be53bf26242f45ce5a1583fab033af06298d390c0",
+    "views_path": "projects/domainspec-v2/impl/tools/minted-project/views.ts",
+    "views_sha256": "19421f43b3f2135273d0757b6284b8831edd2f58ba0ecba13a683dc8f21b2014",
+    "projection_builder_path": "cyberAlchemy-v2/agent-routing/scripts/build.ts",
+    "projection_builder_sha256": "20fb727d02463e1602d5841bd3f08f7ee7e19b6e93bf9213c34172ea91ce19ba"
+  },
+  "nodes": [
+    {
+      "node_id": "cyberalchemy-agent-routing.CyberAlchemyRouteResolution",
+      "feature_id": "cyberalchemy-agent-routing",
+      "kind": "Rule",
+      "intent": "Resolve every repository objective through exactly one CyberAlchemy-v2 route and fail closed when no unique route or executable capability is available, while mandatory ontology enforcement remains separately suspended pending a governed Rust binding.",
+      "body": {
+        "formal_return_type": "boolean",
+        "semantic_refs": [
+          "CAV2-D65",
+          "CAV2-D67",
+          "CA2-CAP-ROUTE-REPOSITORY-WORK"
+        ],
+        "semantic_bindings": [
+          {
+            "id": "CA2-ROUTING-BIND-CAV2-D65",
+            "path": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
+            "scope_kind": "heading-section",
+            "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant",
+            "sha256": "ba524beb8fb408f9abcd0805644f59ec2dbfcd810de24ac99c87296f843ba4ff"
+          },
+          {
+            "id": "CA2-ROUTING-BIND-CAV2-D67",
+            "path": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
+            "scope_kind": "heading-section",
+            "selector": "## CAV2-D67: Product Capability",
+            "sha256": "bf8f3cb9b7d22aaa3c54b7c1eb177b85100be9bc421142bb3ead7e2456431d13"
+          },
+          {
+            "id": "CA2-ROUTING-BIND-PRODUCT-CAPABILITY",
+            "path": "cyberAlchemy-v2/agent-routing/product-capability.json",
+            "scope_kind": "whole-file",
+            "selector": null,
+            "sha256": "0e35fb9cf95b9e0cefea985aca02bc9aa8fa4a2f4d31566dedd156b50f0d765c"
+          },
+          {
+            "id": "CA2-ROUTING-BIND-BUSINESS-ONTOLOGY",
+            "path": "cyberAlchemy-v2/agent-routing/ontology.json",
+            "scope_kind": "whole-file",
+            "selector": null,
+            "sha256": "0bb8945fbfd17bb965f0be7717750f87f9b801c801428c901e0b5916979a7e13"
+          }
+        ],
+        "required_conditions": [
+          "entry route is always CA2-ROUTE-ENTRY",
+          "exactly one objective route is selected",
+          "every authority root belongs to cyberAlchemy-v2",
+          "every fallback route is null",
+          "blocked capabilities remain blocked",
+          "native operations cannot expand route authority"
+        ],
+        "missing_route_behavior": "select CA2-ROUTE-AMBIGUOUS and request a decision",
+        "missing_capability_behavior": "block without fallback",
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "cyberalchemy-agent-routing.RepositoryAgentRoute",
+      "feature_id": "cyberalchemy-agent-routing",
+      "kind": "Entity",
+      "intent": "Preserve one stable CyberAlchemy-v2 route identity with its objective, authority root, minimal read set, execution posture, authorization requirement, write ceiling, blockers, and forbidden fallback.",
+      "body": {
+        "fields": [
+          {
+            "name": "route_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "objective",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "authority_root",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "read_first",
+            "type": "string[]",
+            "identity": false
+          },
+          {
+            "name": "excludes",
+            "type": "string[]|null",
+            "identity": false
+          },
+          {
+            "name": "ontology_runtime_preflight_ref",
+            "type": "sha256|null",
+            "identity": false
+          },
+          {
+            "name": "lifecycle_state",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "fallback_route",
+            "type": "null",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CAV2-D65",
+          "CAV2-D67",
+          "CA2-CAP-ROUTE-REPOSITORY-WORK"
+        ],
+        "authority_effect": "none"
+      }
+    }
+  ],
+  "edges": [],
+  "implementation_contract": {
+    "product_capability_ref": "CA2-CAP-ROUTE-REPOSITORY-WORK",
+    "route_registry_ref": "cyberAlchemy-v2/agent-routing/routes.json",
+    "route_registry_sha256": "675f0692eddb4e3ae88423116a8587e0f842e4bef1bb7d727078ce0474589a14",
+    "ontology_enforcement": "suspended-pending-governed-rust-binding",
+    "validator_ref": "cyberAlchemy-v2/agent-routing/scripts/validate.py",
+    "validator_sha256": "2280d4babd77e2f12e7035e68b2de195905422a0ca27ac12832c82d150fb866e",
+    "root_instruction_ref": "AGENTS.md",
+    "root_instruction_sha256": "d5ce857efc1199ed07225cc16b569c4a4c134206653aabf586aa18a7e1266809",
+    "source_map_ref": "cyberAlchemy-v2/SOURCE-MAP.md",
+    "source_map_sha256": "06af1232c1d391773d8afc946c74f4e01b9ff519fe33c347883bbcc0430fcb3c",
+    "fallback_policy": "forbidden",
+    "accepted_baseline_required": true,
+    "authority_effect": "none"
+  }
+}

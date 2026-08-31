@@ -1,0 +1,108 @@
+{
+  "schema_version": "task-session.executor-receipt.v1",
+  "receipt_id": "llcp-swu-001-attempt-002-executor",
+  "run_id": "attempt-002",
+  "task_id": "TASK-LLCP-CORE",
+  "swu_id": "SWU-LLCP-001",
+  "ticket_ref": {
+    "path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/execution-ticket.json",
+    "sha256": "9000493f74ba8d717547d9ae92184c51af04233d4b619d009d7f61bdfd6d7799",
+    "size_bytes": 11844
+  },
+  "owner_identity": {
+    "capability": "implementation-executor",
+    "subject": "unconfigured-until-swu-tsgr-004"
+  },
+  "idempotency_key": "llcp.swu001.attempt002",
+  "result": "pass",
+  "touched_files": [
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/__init__.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/model.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/canonical.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/test_canonical.py",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/fixtures/chapter-01-structural.json",
+    "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/fixtures/chapter-02-synthetic.json"
+  ],
+  "outputs": [
+    {
+      "path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/__init__.py",
+      "sha256": "eeb7421088add3f01a86957c60c2c66eaa03045868ceae560a5c7b80ae683842",
+      "size_bytes": 987
+    },
+    {
+      "path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/model.py",
+      "sha256": "d123eea118a2e5154082b1af8b9459cb5e8da7071d7bfc225472042586ece8fb",
+      "size_bytes": 24733
+    },
+    {
+      "path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/chapter_pipeline/canonical.py",
+      "sha256": "5a4c45facc4bd5019338b960a54584aed5d24eea10c85dd4b245c89c31356f04",
+      "size_bytes": 1094
+    },
+    {
+      "path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/test_canonical.py",
+      "sha256": "3ebcbc80e813db9acbc8d83e8acc26d7edf1008b593ab71835bc18eac5d578ec",
+      "size_bytes": 13823
+    },
+    {
+      "path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/fixtures/chapter-01-structural.json",
+      "sha256": "23943bd64c8e648dd34ef3c24dc5e169d787f953d5cb189687071b16249ad0fa",
+      "size_bytes": 1305
+    },
+    {
+      "path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/staged/projects/lucifers-lights/tests/chapter_pipeline/fixtures/chapter-02-synthetic.json",
+      "sha256": "883d9a5ae191f778d55b0a434b912e39ef33237c516d6b9d1178b65582c2138c",
+      "size_bytes": 1332
+    }
+  ],
+  "validation_results": [
+    {
+      "command_id": "swu-llcp-001-focused-tests",
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "projects/lucifers-lights/tests/chapter_pipeline",
+        "-p",
+        "test_canonical.py"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 120,
+      "max_output_bytes": 131072,
+      "exit_code": 0,
+      "result": "pass"
+    },
+    {
+      "command_id": "swu-llcp-001-compileall",
+      "argv": [
+        "python3",
+        "-m",
+        "compileall",
+        "-q",
+        "projects/lucifers-lights/chapter_pipeline"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 120,
+      "max_output_bytes": 65536,
+      "exit_code": 0,
+      "result": "pass"
+    }
+  ],
+  "bounded_capture": {
+    "max_output_bytes": 131072,
+    "stdout_bytes": 0,
+    "stderr_bytes": 119,
+    "stdout_truncated": false,
+    "stderr_truncated": false
+  },
+  "terminal_sequence": {
+    "sequence_number": 7,
+    "receipt_path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/terminal-executor-receipt.json",
+    "final_executor_write": true
+  },
+  "residue": [
+    "Built-in executor launch was intentionally unconfigured; exact external executor outputs were joined after single-use admission consumption."
+  ]
+}

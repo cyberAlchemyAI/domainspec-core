@@ -14,6 +14,8 @@ TRAEFIK_ENTRYPOINT="${TRAEFIK_ENTRYPOINT:-websecure}"
 TRAEFIK_CERT_RESOLVER="${TRAEFIK_CERT_RESOLVER:-letsencrypt}"
 DOMAINSPEC_AUTH_USERNAME="${DOMAINSPEC_AUTH_USERNAME:-domainspec-guide}"
 DOMAINSPEC_AUTH_PASSWORD_FILE="${DOMAINSPEC_AUTH_PASSWORD_FILE:-}"
+LUCIFERS_LIGHTS_AUTH_USERNAME="${LUCIFERS_LIGHTS_AUTH_USERNAME:-lucifers-review}"
+LUCIFERS_LIGHTS_AUTH_PASSWORD_FILE="${LUCIFERS_LIGHTS_AUTH_PASSWORD_FILE:-}"
 DEPLOY_SCOPE="${DEPLOY_SCOPE:-full}"
 DRY_RUN="${DRY_RUN:-0}"
 
@@ -28,6 +30,10 @@ DOMAINSPEC_LANES_FILE="$DOMAINSPEC_GUIDE_DIR/COMPLETE-GUIDE.lanes.json"
 DOMAINSPEC_SCHEMA_FILE="$DOMAINSPEC_GUIDE_DIR/COMPLETE-GUIDE.schema.json"
 AGENT_ORCHESTRATION_GUIDE_FILE="${AGENT_ORCHESTRATION_GUIDE_FILE:-$SCRIPT_DIR/../../../ops/development/2026-08-13-agent-orchestration-beginner-guide/guided-class.html}"
 AGENT_ORCHESTRATION_ROUTE="agent-orchestration-guide"
+AGENT_ORCHESTRATION_ALIAS_ROUTE="agent-orchestration"
+LUCIFERS_LIGHTS_REVIEW_FILE="${LUCIFERS_LIGHTS_REVIEW_FILE:-$SCRIPT_DIR/../../lucifers-lights/development/chapter-factory-runs/chapter-01-pilot/chapter-review.html}"
+LUCIFERS_LIGHTS_REVIEW_ROUTE="lucifers-lights-review"
+LUCIFERS_LIGHTS_REVIEW_EXPECTED_SHA256="b396c162b70e0866014350a78dda2a8e3ecba77248cb9d1c2bdd494e1ddeab7c"
 COMPOSE_FILE="$SCRIPT_DIR/docker-compose.yml"
 NGINX_FILE="$SCRIPT_DIR/nginx.conf"
 TMP_DIR="$(mktemp -d)"
@@ -60,7 +66,7 @@ upload() {
 
 rollback_remote() {
   echo "rolling back the static site release" >&2
-  remote "set -eu; cd '$REMOTE_DIR'; if [ -d site.previous ]; then rm -rf site.failed && if [ -d site ]; then mv site site.failed; fi && mv site.previous site; fi; if [ -f docker-compose.yml.previous ]; then mv docker-compose.yml.previous docker-compose.yml; fi; if [ -f nginx.conf.previous ]; then mv nginx.conf.previous nginx.conf; fi; if [ -f .env.previous ]; then mv .env.previous .env; fi; if [ -f .domainspec.htpasswd.previous ]; then mv .domainspec.htpasswd.previous .domainspec.htpasswd; else rm -f .domainspec.htpasswd; fi; docker compose --env-file .env -f docker-compose.yml up -d --force-recreate site"
+  remote "set -eu; cd '$REMOTE_DIR'; if [ -d site.previous ]; then rm -rf site.failed && if [ -d site ]; then mv site site.failed; fi && mv site.previous site; fi; if [ -f docker-compose.yml.previous ]; then mv docker-compose.yml.previous docker-compose.yml; fi; if [ -f nginx.conf.previous ]; then mv nginx.conf.previous nginx.conf; fi; if [ -f .env.previous ]; then mv .env.previous .env; fi; if [ -f .domainspec.htpasswd.previous ]; then mv .domainspec.htpasswd.previous .domainspec.htpasswd; else rm -f .domainspec.htpasswd; fi; if [ '$DEPLOY_SCOPE' = 'lucifers-lights-review' ]; then if [ -f .lucifers-lights.htpasswd.previous ]; then mv .lucifers-lights.htpasswd.previous .lucifers-lights.htpasswd; else rm -f .lucifers-lights.htpasswd; fi; fi; docker compose --env-file .env -f docker-compose.yml up -d --force-recreate site"
 }
 
 verify_guide_rollback_baseline() {
@@ -71,11 +77,34 @@ verify_guide_rollback_baseline() {
   anonymous_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/domainspec/")" || return 1
   [ "$anonymous_status" = "401" ] || return 1
 
+  review_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE/")" || return 1
+  [ "$review_status" = "401" ] || return 1
+
   restored_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE")" || return 1
   [ "$restored_status" = "$GUIDE_BASELINE_STATUS" ] || return 1
   if [ "$GUIDE_BASELINE_STATUS" = "200" ]; then
     [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE" | sha256sum | awk '{print $1}')" = "$GUIDE_BASELINE_SHA256" ] || return 1
   fi
+
+  restored_alias_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE")" || return 1
+  [ "$restored_alias_status" = "$ALIAS_BASELINE_STATUS" ] || return 1
+  if [ "$ALIAS_BASELINE_STATUS" = "200" ]; then
+    [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE" | sha256sum | awk '{print $1}')" = "$ALIAS_BASELINE_SHA256" ] || return 1
+  fi
+}
+
+verify_review_rollback_baseline() {
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/" | sha256sum | awk '{print $1}')" = "$SITE_SOURCE_SHA256" ] || return 1
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/craft" | sha256sum | awk '{print $1}')" = "$CRAFT_SOURCE_SHA256" ] || return 1
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/bella" | sha256sum | awk '{print $1}')" = "$BELLA_SOURCE_SHA256" ] || return 1
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE" | sha256sum | awk '{print $1}')" = "$AGENT_ORCHESTRATION_GUIDE_SHA256" ] || return 1
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE" | sha256sum | awk '{print $1}')" = "$AGENT_ORCHESTRATION_GUIDE_SHA256" ] || return 1
+
+  anonymous_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/domainspec/")" || return 1
+  [ "$anonymous_status" = "401" ] || return 1
+
+  restored_review_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE/")" || return 1
+  [ "$restored_review_status" = "$REVIEW_BASELINE_STATUS" ] || return 1
 }
 
 fail_with_rollback() {
@@ -85,6 +114,8 @@ fail_with_rollback() {
     echo "automatic rollback failed; inspect $REMOTE_DIR before retrying" >&2
   elif [ "$DEPLOY_SCOPE" = "agent-orchestration-guide" ] && ! verify_guide_rollback_baseline; then
     echo "rollback completed, but the public baseline did not revalidate" >&2
+  elif [ "$DEPLOY_SCOPE" = "lucifers-lights-review" ] && ! verify_review_rollback_baseline; then
+    echo "rollback completed, but the protected review baseline did not revalidate" >&2
   fi
   exit 1
 }
@@ -94,17 +125,30 @@ verify_live_guide_release() {
   slash_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE/")" || return 1
   index_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE/index.html")" || return 1
   missing_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE/not-deployed")" || return 1
+  alias_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE")" || return 1
+  alias_slash_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE/")" || return 1
+  alias_index_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE/index.html")" || return 1
+  alias_missing_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE/not-deployed")" || return 1
   [ "$canonical_status" = "200" ] || return 1
   [ "$slash_status" = "308" ] || return 1
   [ "$index_status" = "308" ] || return 1
   [ "$missing_status" = "404" ] || return 1
+  [ "$alias_status" = "200" ] || return 1
+  [ "$alias_slash_status" = "308" ] || return 1
+  [ "$alias_index_status" = "308" ] || return 1
+  [ "$alias_missing_status" = "404" ] || return 1
 
   curl -sSI --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE/" |
     grep -Fi "location: /$AGENT_ORCHESTRATION_ROUTE" >/dev/null || return 1
   curl -sSI --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE/index.html" |
     grep -Fi "location: /$AGENT_ORCHESTRATION_ROUTE" >/dev/null || return 1
+  curl -sSI --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE/" |
+    grep -Fi "location: /$AGENT_ORCHESTRATION_ALIAS_ROUTE" >/dev/null || return 1
+  curl -sSI --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE/index.html" |
+    grep -Fi "location: /$AGENT_ORCHESTRATION_ALIAS_ROUTE" >/dev/null || return 1
 
   [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE" | sha256sum | awk '{print $1}')" = "$AGENT_ORCHESTRATION_GUIDE_SHA256" ] || return 1
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE" | sha256sum | awk '{print $1}')" = "$AGENT_ORCHESTRATION_GUIDE_SHA256" ] || return 1
   [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/" | sha256sum | awk '{print $1}')" = "$SITE_SOURCE_SHA256" ] || return 1
   [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/craft" | sha256sum | awk '{print $1}')" = "$CRAFT_SOURCE_SHA256" ] || return 1
   [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/bella" | sha256sum | awk '{print $1}')" = "$BELLA_SOURCE_SHA256" ] || return 1
@@ -122,8 +166,10 @@ verify_live_guide_release() {
 
   curl -sSI --max-time 15 "https://$PUBLIC_HOST/domainspec/" |
     grep -Fi 'www-authenticate: Basic realm="DomainSpec guide"' >/dev/null || return 1
+  curl -sSI --max-time 15 "https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE/" |
+    grep -Fi "www-authenticate: Basic realm=\"Lucifer's Lights review\"" >/dev/null || return 1
 
-  curl -fsS --max-time 15 -D "$GUIDE_HEADERS_FILE" -o /dev/null "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE" || return 1
+  curl -fsS --max-time 15 -D "$GUIDE_HEADERS_FILE" -o /dev/null "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE" || return 1
   grep -Fi 'content-type: text/html' "$GUIDE_HEADERS_FILE" >/dev/null || return 1
   grep -Fi 'content-security-policy:' "$GUIDE_HEADERS_FILE" >/dev/null || return 1
   grep -Fi "connect-src 'none'" "$GUIDE_HEADERS_FILE" >/dev/null || return 1
@@ -131,6 +177,64 @@ verify_live_guide_release() {
   grep -Fi 'x-frame-options: DENY' "$GUIDE_HEADERS_FILE" >/dev/null || return 1
   grep -Fi 'permissions-policy: camera=(), microphone=(), geolocation=()' "$GUIDE_HEADERS_FILE" >/dev/null || return 1
   grep -Fi 'cache-control: no-cache' "$GUIDE_HEADERS_FILE" >/dev/null || return 1
+}
+
+verify_live_review_release() {
+  for protected_path in \
+    "/$LUCIFERS_LIGHTS_REVIEW_ROUTE" \
+    "/$LUCIFERS_LIGHTS_REVIEW_ROUTE/" \
+    "/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html" \
+    "/$LUCIFERS_LIGHTS_REVIEW_ROUTE/not-deployed"
+  do
+    anonymous_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST$protected_path")" || return 1
+    wrong_auth_status="$(curl -sS --max-time 15 -u 'invalid-lucifers-review-user:invalid-password' -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST$protected_path")" || return 1
+    [ "$anonymous_status" = "401" ] || return 1
+    [ "$wrong_auth_status" = "401" ] || return 1
+  done
+
+  curl -sSI --max-time 15 "https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE/" |
+    grep -Fi "www-authenticate: Basic realm=\"Lucifer's Lights review\"" >/dev/null || return 1
+
+  canonical_status="$(curl -sS --netrc-file "$LUCIFERS_LIGHTS_NETRC_FILE" --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE")" || return 1
+  slash_status="$(curl -sS --netrc-file "$LUCIFERS_LIGHTS_NETRC_FILE" --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE/")" || return 1
+  index_status="$(curl -sS --netrc-file "$LUCIFERS_LIGHTS_NETRC_FILE" --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html")" || return 1
+  missing_status="$(curl -sS --netrc-file "$LUCIFERS_LIGHTS_NETRC_FILE" --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE/not-deployed")" || return 1
+  [ "$canonical_status" = "200" ] || return 1
+  [ "$slash_status" = "200" ] || return 1
+  [ "$index_status" = "200" ] || return 1
+  [ "$missing_status" = "404" ] || return 1
+
+  for review_path in \
+    "/$LUCIFERS_LIGHTS_REVIEW_ROUTE" \
+    "/$LUCIFERS_LIGHTS_REVIEW_ROUTE/" \
+    "/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html"
+  do
+    [ "$(curl -fsS --netrc-file "$LUCIFERS_LIGHTS_NETRC_FILE" --max-time 15 "https://$PUBLIC_HOST$review_path" | sha256sum | awk '{print $1}')" = "$LUCIFERS_LIGHTS_REVIEW_SHA256" ] || return 1
+  done
+
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/" | sha256sum | awk '{print $1}')" = "$SITE_SOURCE_SHA256" ] || return 1
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/craft" | sha256sum | awk '{print $1}')" = "$CRAFT_SOURCE_SHA256" ] || return 1
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/bella" | sha256sum | awk '{print $1}')" = "$BELLA_SOURCE_SHA256" ] || return 1
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE" | sha256sum | awk '{print $1}')" = "$AGENT_ORCHESTRATION_GUIDE_SHA256" ] || return 1
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE" | sha256sum | awk '{print $1}')" = "$AGENT_ORCHESTRATION_GUIDE_SHA256" ] || return 1
+
+  domainspec_status="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/domainspec/")" || return 1
+  [ "$domainspec_status" = "401" ] || return 1
+  curl -sSI --max-time 15 "https://$PUBLIC_HOST/domainspec/" |
+    grep -Fi 'www-authenticate: Basic realm="DomainSpec guide"' >/dev/null || return 1
+
+  curl -fsS --netrc-file "$LUCIFERS_LIGHTS_NETRC_FILE" --max-time 15 -D "$LUCIFERS_LIGHTS_HEADERS_FILE" -o /dev/null "https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE/" || return 1
+  grep -Fi 'content-type: text/html' "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
+  grep -Fi 'content-security-policy:' "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
+  grep -Fi "connect-src 'none'" "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
+  grep -Fi 'referrer-policy: no-referrer' "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
+  grep -Fi 'x-content-type-options: nosniff' "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
+  grep -Fi 'x-frame-options: DENY' "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
+  grep -Fi 'permissions-policy: camera=(), microphone=(), geolocation=()' "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
+  grep -Fi 'cache-control: private, no-store, max-age=0' "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
+  grep -Fi 'pragma: no-cache' "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
+  grep -Fi 'vary: Authorization' "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
+  grep -Fi 'x-robots-tag: noindex, nofollow, noarchive' "$LUCIFERS_LIGHTS_HEADERS_FILE" >/dev/null || return 1
 }
 
 verify_live_release() {
@@ -158,6 +262,7 @@ verify_live_release() {
   [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/craft" | sha256sum | awk '{print $1}')" = "$CRAFT_SOURCE_SHA256" ] || return 1
   [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/bella" | sha256sum | awk '{print $1}')" = "$BELLA_SOURCE_SHA256" ] || return 1
   [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE" | sha256sum | awk '{print $1}')" = "$AGENT_ORCHESTRATION_GUIDE_SHA256" ] || return 1
+  [ "$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE" | sha256sum | awk '{print $1}')" = "$AGENT_ORCHESTRATION_GUIDE_SHA256" ] || return 1
 
   [ "$(curl -fsS --netrc-file "$NETRC_FILE" --max-time 15 "https://$PUBLIC_HOST/domainspec/" | sha256sum | awk '{print $1}')" = "$DOMAINSPEC_HTML_SHA256" ] || return 1
   [ "$(curl -fsS --netrc-file "$NETRC_FILE" --max-time 15 "https://$PUBLIC_HOST/domainspec/COMPLETE-GUIDE.html" | sha256sum | awk '{print $1}')" = "$DOMAINSPEC_HTML_SHA256" ] || return 1
@@ -201,11 +306,30 @@ case "$DOMAINSPEC_AUTH_USERNAME" in
     ;;
 esac
 
+case "$LUCIFERS_LIGHTS_AUTH_USERNAME" in
+  "" | *[!A-Za-z0-9._-]*)
+    echo "invalid LUCIFERS_LIGHTS_AUTH_USERNAME" >&2
+    exit 2
+    ;;
+esac
+
+if [ "$LUCIFERS_LIGHTS_AUTH_USERNAME" = "$DOMAINSPEC_AUTH_USERNAME" ]; then
+  echo "Lucifer's Lights review must use a username distinct from DomainSpec" >&2
+  exit 2
+fi
+
 case "$DEPLOY_SCOPE" in
-  full | domainspec | agent-orchestration-guide)
+  full | domainspec | agent-orchestration-guide | lucifers-lights-review)
     ;;
   *)
     echo "invalid DEPLOY_SCOPE: $DEPLOY_SCOPE" >&2
+    exit 2
+    ;;
+esac
+
+case "$DEPLOY_SCOPE" in
+  full | domainspec)
+    echo "DEPLOY_SCOPE=$DEPLOY_SCOPE is fail-closed until it can preserve the protected Lucifer's Lights review generation and verifier" >&2
     exit 2
     ;;
 esac
@@ -218,7 +342,43 @@ do
   fi
 done
 
-if [ "$DEPLOY_SCOPE" = "agent-orchestration-guide" ] || [ "$DEPLOY_SCOPE" = "full" ]; then
+if [ "$DEPLOY_SCOPE" = "lucifers-lights-review" ]; then
+  if [ ! -f "$LUCIFERS_LIGHTS_REVIEW_FILE" ]; then
+    echo "missing required deploy input: $LUCIFERS_LIGHTS_REVIEW_FILE" >&2
+    exit 1
+  fi
+
+  LUCIFERS_LIGHTS_REVIEW_SHA256="$(sha256sum "$LUCIFERS_LIGHTS_REVIEW_FILE" | awk '{print $1}')"
+  if [ "$LUCIFERS_LIGHTS_REVIEW_SHA256" != "$LUCIFERS_LIGHTS_REVIEW_EXPECTED_SHA256" ]; then
+    echo "refusing unreviewed Lucifer's Lights page bytes: $LUCIFERS_LIGHTS_REVIEW_SHA256" >&2
+    exit 1
+  fi
+
+  if [ -z "$LUCIFERS_LIGHTS_AUTH_PASSWORD_FILE" ]; then
+    echo "LUCIFERS_LIGHTS_AUTH_PASSWORD_FILE is required" >&2
+    exit 2
+  fi
+
+  if [ ! -r "$LUCIFERS_LIGHTS_AUTH_PASSWORD_FILE" ]; then
+    echo "Lucifer's Lights review password file is not readable: $LUCIFERS_LIGHTS_AUTH_PASSWORD_FILE" >&2
+    exit 1
+  fi
+
+  REVIEW_PASSWORD_LINE_COUNT="$(awk 'END {print NR}' "$LUCIFERS_LIGHTS_AUTH_PASSWORD_FILE")"
+  REVIEW_PASSWORD_CHAR_COUNT="$(tr -d '\r\n' < "$LUCIFERS_LIGHTS_AUTH_PASSWORD_FILE" | wc -c | tr -d ' ')"
+  if [ "$REVIEW_PASSWORD_LINE_COUNT" -ne 1 ] || [ "$REVIEW_PASSWORD_CHAR_COUNT" -lt 16 ]; then
+    echo "Lucifer's Lights review password file must contain one line with at least 16 characters" >&2
+    exit 2
+  fi
+
+  if [ -n "$DOMAINSPEC_AUTH_PASSWORD_FILE" ] &&
+     [ -r "$DOMAINSPEC_AUTH_PASSWORD_FILE" ] &&
+     cmp -s "$LUCIFERS_LIGHTS_AUTH_PASSWORD_FILE" "$DOMAINSPEC_AUTH_PASSWORD_FILE"
+  then
+    echo "Lucifer's Lights review must not reuse the DomainSpec password" >&2
+    exit 2
+  fi
+elif [ "$DEPLOY_SCOPE" = "agent-orchestration-guide" ] || [ "$DEPLOY_SCOPE" = "full" ]; then
   if [ ! -f "$AGENT_ORCHESTRATION_GUIDE_FILE" ]; then
     echo "missing required deploy input: $AGENT_ORCHESTRATION_GUIDE_FILE" >&2
     exit 1
@@ -269,13 +429,16 @@ CRAFT_DEPLOY_FILE="$CRAFT_SITE_FILE"
 BELLA_DEPLOY_FILE="$BELLA_SITE_FILE"
 AGENT_ORCHESTRATION_DEPLOY_FILE="$AGENT_ORCHESTRATION_GUIDE_FILE"
 
-if [ "$DEPLOY_SCOPE" = "domainspec" ] || [ "$DEPLOY_SCOPE" = "agent-orchestration-guide" ]; then
+if [ "$DEPLOY_SCOPE" = "domainspec" ] ||
+   [ "$DEPLOY_SCOPE" = "agent-orchestration-guide" ] ||
+   [ "$DEPLOY_SCOPE" = "lucifers-lights-review" ]
+then
   CURRENT_PUBLIC_STAGE="$TMP_DIR/current-public"
   mkdir -p "$CURRENT_PUBLIC_STAGE"
   SITE_DEPLOY_FILE="$CURRENT_PUBLIC_STAGE/index.html"
   CRAFT_DEPLOY_FILE="$CURRENT_PUBLIC_STAGE/craft.html"
   BELLA_DEPLOY_FILE="$CURRENT_PUBLIC_STAGE/bella.html"
-  if [ "$DEPLOY_SCOPE" = "domainspec" ]; then
+  if [ "$DEPLOY_SCOPE" = "domainspec" ] || [ "$DEPLOY_SCOPE" = "lucifers-lights-review" ]; then
     AGENT_ORCHESTRATION_DEPLOY_FILE="$CURRENT_PUBLIC_STAGE/agent-orchestration-guide.html"
   fi
 
@@ -283,7 +446,7 @@ if [ "$DEPLOY_SCOPE" = "domainspec" ] || [ "$DEPLOY_SCOPE" = "agent-orchestratio
   curl -fsS --max-time 30 "https://$PUBLIC_HOST/" -o "$SITE_DEPLOY_FILE"
   curl -fsS --max-time 30 "https://$PUBLIC_HOST/craft" -o "$CRAFT_DEPLOY_FILE"
   curl -fsS --max-time 30 "https://$PUBLIC_HOST/bella" -o "$BELLA_DEPLOY_FILE"
-  if [ "$DEPLOY_SCOPE" = "domainspec" ]; then
+  if [ "$DEPLOY_SCOPE" = "domainspec" ] || [ "$DEPLOY_SCOPE" = "lucifers-lights-review" ]; then
     curl -fsS --max-time 30 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE" -o "$AGENT_ORCHESTRATION_DEPLOY_FILE"
   fi
 fi
@@ -300,6 +463,9 @@ HTPASSWD_FILE="$TMP_DIR/domainspec.htpasswd"
 NETRC_FILE="$TMP_DIR/domainspec.netrc"
 DOMAIN_HEADERS_FILE="$TMP_DIR/domainspec.headers"
 GUIDE_HEADERS_FILE="$TMP_DIR/agent-orchestration-guide.headers"
+LUCIFERS_LIGHTS_HTPASSWD_FILE="$TMP_DIR/lucifers-lights.htpasswd"
+LUCIFERS_LIGHTS_NETRC_FILE="$TMP_DIR/lucifers-lights.netrc"
+LUCIFERS_LIGHTS_HEADERS_FILE="$TMP_DIR/lucifers-lights.headers"
 
 if [ "$DEPLOY_SCOPE" = "agent-orchestration-guide" ]; then
   GUIDE_BASELINE_STATUS="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE")"
@@ -316,6 +482,20 @@ if [ "$DEPLOY_SCOPE" = "agent-orchestration-guide" ]; then
       ;;
   esac
 
+  ALIAS_BASELINE_STATUS="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE")"
+  case "$ALIAS_BASELINE_STATUS" in
+    200)
+      ALIAS_BASELINE_SHA256="$(curl -fsS --max-time 15 "https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE" | sha256sum | awk '{print $1}')"
+      ;;
+    404)
+      ALIAS_BASELINE_SHA256=""
+      ;;
+    *)
+      echo "refusing unexpected existing alias status: $ALIAS_BASELINE_STATUS" >&2
+      exit 1
+      ;;
+  esac
+
   mkdir -p "$SITE_STAGE/$AGENT_ORCHESTRATION_ROUTE"
   cp "$AGENT_ORCHESTRATION_GUIDE_FILE" "$SITE_STAGE/$AGENT_ORCHESTRATION_ROUTE/index.html"
   find "$SITE_STAGE" -type d -exec chmod 0755 {} +
@@ -326,6 +506,38 @@ if [ "$DEPLOY_SCOPE" = "agent-orchestration-guide" ]; then
   test -z "$(find "$SITE_STAGE" -type d ! -perm 0755 -print -quit)"
   test -z "$(find "$SITE_STAGE" -type f ! -perm 0644 -print -quit)"
   tar -C "$SITE_STAGE" -czf "$SITE_BUNDLE" .
+elif [ "$DEPLOY_SCOPE" = "lucifers-lights-review" ]; then
+  REVIEW_BASELINE_STATUS="$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE/")"
+  case "$REVIEW_BASELINE_STATUS" in
+    401 | 404)
+      ;;
+    *)
+      echo "refusing unexpected existing Lucifer's Lights review status: $REVIEW_BASELINE_STATUS" >&2
+      exit 1
+      ;;
+  esac
+
+  mkdir -p "$SITE_STAGE/$LUCIFERS_LIGHTS_REVIEW_ROUTE"
+  cp "$LUCIFERS_LIGHTS_REVIEW_FILE" "$SITE_STAGE/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html"
+  find "$SITE_STAGE" -type d -exec chmod 0755 {} +
+  find "$SITE_STAGE" -type f -exec chmod 0644 {} +
+  test "$(sha256sum "$SITE_STAGE/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html" | awk '{print $1}')" = "$LUCIFERS_LIGHTS_REVIEW_EXPECTED_SHA256"
+  test "$(find "$SITE_STAGE" -type f | wc -l | tr -d ' ')" = "1"
+  test -z "$(find "$SITE_STAGE" -type l -print -quit)"
+  test -z "$(find "$SITE_STAGE" -type d ! -perm 0755 -print -quit)"
+  test -z "$(find "$SITE_STAGE" -type f ! -perm 0644 -print -quit)"
+  tar -C "$SITE_STAGE" -czf "$SITE_BUNDLE" .
+
+  LUCIFERS_LIGHTS_PASSWORD="$(tr -d '\r\n' < "$LUCIFERS_LIGHTS_AUTH_PASSWORD_FILE")"
+  LUCIFERS_LIGHTS_PASSWORD_HASH="$(printf '%s' "$LUCIFERS_LIGHTS_PASSWORD" | openssl passwd -apr1 -stdin)"
+  printf '%s:%s\n' "$LUCIFERS_LIGHTS_AUTH_USERNAME" "$LUCIFERS_LIGHTS_PASSWORD_HASH" > "$LUCIFERS_LIGHTS_HTPASSWD_FILE"
+  printf 'machine %s\nlogin %s\npassword %s\n' \
+    "$PUBLIC_HOST" \
+    "$LUCIFERS_LIGHTS_AUTH_USERNAME" \
+    "$LUCIFERS_LIGHTS_PASSWORD" \
+    > "$LUCIFERS_LIGHTS_NETRC_FILE"
+  chmod 600 "$LUCIFERS_LIGHTS_HTPASSWD_FILE" "$LUCIFERS_LIGHTS_NETRC_FILE"
+  unset LUCIFERS_LIGHTS_PASSWORD LUCIFERS_LIGHTS_PASSWORD_HASH
 else
   DOMAINSPEC_HTML_SHA256="$(sha256sum "$DOMAINSPEC_HTML_FILE" | awk '{print $1}')"
   DOMAINSPEC_MARKDOWN_SHA256="$(sha256sum "$DOMAINSPEC_MARKDOWN_FILE" | awk '{print $1}')"
@@ -380,14 +592,14 @@ fi
 
 echo "checking isolated remote directory: $REMOTE_DIR"
 if [ "$DEPLOY_SCOPE" = "agent-orchestration-guide" ]; then
-  remote "set -eu; test -d '$REMOTE_DIR'; test -f '$REMOTE_DIR/.coop-engine-deployment'; cd '$REMOTE_DIR'; test -d site; test -f docker-compose.yml; test -f nginx.conf; test -f .env; test -f .domainspec.htpasswd; docker compose --env-file .env -f docker-compose.yml config -q"
+  remote "set -eu; test -d '$REMOTE_DIR'; test -f '$REMOTE_DIR/.coop-engine-deployment'; cd '$REMOTE_DIR'; test -d site; test -f docker-compose.yml; test -f nginx.conf; test -f .env; test -f .domainspec.htpasswd; test -f .lucifers-lights.htpasswd; test -f 'site/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html'; test \"\$(sha256sum 'site/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html' | awk '{print \$1}')\" = '$LUCIFERS_LIGHTS_REVIEW_EXPECTED_SHA256'; docker compose --env-file .env -f docker-compose.yml config -q; docker compose --env-file .env -f docker-compose.yml config | grep -F '/etc/nginx/lucifers-lights.htpasswd' >/dev/null"
 
   echo "uploading the agent orchestration guide overlay and Nginx candidate"
   upload "$SITE_BUNDLE" "site.tar.gz.next"
   upload "$NGINX_FILE" "nginx.conf.next"
 
   echo "validating the preserved-site candidate"
-  if ! remote "set -eu; cd '$REMOTE_DIR'; rm -rf site.next; cp -a site site.next; rm -rf 'site.next/$AGENT_ORCHESTRATION_ROUTE'; tar -xzf site.tar.gz.next -C site.next; test -f 'site.next/$AGENT_ORCHESTRATION_ROUTE/index.html'; test \"\$(find 'site.next/$AGENT_ORCHESTRATION_ROUTE' -type f | wc -l | tr -d ' ')\" = 1; test -z \"\$(find 'site.next/$AGENT_ORCHESTRATION_ROUTE' -type l -print -quit)\"; test \"\$(stat -c '%a' 'site.next/$AGENT_ORCHESTRATION_ROUTE')\" = 755; test \"\$(stat -c '%a' 'site.next/$AGENT_ORCHESTRATION_ROUTE/index.html')\" = 644; test \"\$(sha256sum 'site.next/$AGENT_ORCHESTRATION_ROUTE/index.html' | awk '{print \$1}')\" = '$AGENT_ORCHESTRATION_GUIDE_SHA256'; before_count=\"\$(find site -type f ! -path 'site/$AGENT_ORCHESTRATION_ROUTE/*' | wc -l | tr -d ' ')\"; after_count=\"\$(find site.next -type f ! -path 'site.next/$AGENT_ORCHESTRATION_ROUTE/*' | wc -l | tr -d ' ')\"; test \"\$before_count\" = \"\$after_count\"; find site -type f ! -path 'site/$AGENT_ORCHESTRATION_ROUTE/*' -exec sh -c 'for source_file do relative=\${source_file#site/}; test -f \"site.next/\$relative\"; cmp -s \"\$source_file\" \"site.next/\$relative\" || exit 1; done' sh {} +; docker compose --env-file .env -f docker-compose.yml config -q; docker run --rm --network none --entrypoint nginx -v '$REMOTE_DIR/site.next:/usr/share/nginx/html:ro' -v '$REMOTE_DIR/nginx.conf.next:/etc/nginx/conf.d/default.conf:ro' -v '$REMOTE_DIR/.domainspec.htpasswd:/etc/nginx/domainspec.htpasswd:ro' nginx:1.27-alpine -t; docker run --rm --network none --user 101:101 --entrypoint sh -v '$REMOTE_DIR/site.next:/usr/share/nginx/html:ro' -v '$REMOTE_DIR/.domainspec.htpasswd:/etc/nginx/domainspec.htpasswd:ro' nginx:1.27-alpine -c 'test -r /usr/share/nginx/html/$AGENT_ORCHESTRATION_ROUTE/index.html && test -r /etc/nginx/domainspec.htpasswd'"
+  if ! remote "set -eu; cd '$REMOTE_DIR'; rm -rf site.next; cp -a site site.next; rm -rf 'site.next/$AGENT_ORCHESTRATION_ROUTE'; tar -xzf site.tar.gz.next -C site.next; test -f 'site.next/$AGENT_ORCHESTRATION_ROUTE/index.html'; test \"\$(find 'site.next/$AGENT_ORCHESTRATION_ROUTE' -type f | wc -l | tr -d ' ')\" = 1; test -z \"\$(find 'site.next/$AGENT_ORCHESTRATION_ROUTE' -type l -print -quit)\"; test \"\$(stat -c '%a' 'site.next/$AGENT_ORCHESTRATION_ROUTE')\" = 755; test \"\$(stat -c '%a' 'site.next/$AGENT_ORCHESTRATION_ROUTE/index.html')\" = 644; test \"\$(sha256sum 'site.next/$AGENT_ORCHESTRATION_ROUTE/index.html' | awk '{print \$1}')\" = '$AGENT_ORCHESTRATION_GUIDE_SHA256'; test \"\$(sha256sum 'site.next/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html' | awk '{print \$1}')\" = '$LUCIFERS_LIGHTS_REVIEW_EXPECTED_SHA256'; before_count=\"\$(find site -type f ! -path 'site/$AGENT_ORCHESTRATION_ROUTE/*' | wc -l | tr -d ' ')\"; after_count=\"\$(find site.next -type f ! -path 'site.next/$AGENT_ORCHESTRATION_ROUTE/*' | wc -l | tr -d ' ')\"; test \"\$before_count\" = \"\$after_count\"; find site -type f ! -path 'site/$AGENT_ORCHESTRATION_ROUTE/*' -exec sh -c 'for source_file do relative=\${source_file#site/}; test -f \"site.next/\$relative\"; cmp -s \"\$source_file\" \"site.next/\$relative\" || exit 1; done' sh {} +; docker compose --env-file .env -f docker-compose.yml config -q; docker run --rm --network none --entrypoint nginx -v '$REMOTE_DIR/site.next:/usr/share/nginx/html:ro' -v '$REMOTE_DIR/nginx.conf.next:/etc/nginx/conf.d/default.conf:ro' -v '$REMOTE_DIR/.domainspec.htpasswd:/etc/nginx/domainspec.htpasswd:ro' -v '$REMOTE_DIR/.lucifers-lights.htpasswd:/etc/nginx/lucifers-lights.htpasswd:ro' nginx:1.27-alpine -t; docker run --rm --network none --user 101:101 --entrypoint sh -v '$REMOTE_DIR/site.next:/usr/share/nginx/html:ro' -v '$REMOTE_DIR/.domainspec.htpasswd:/etc/nginx/domainspec.htpasswd:ro' -v '$REMOTE_DIR/.lucifers-lights.htpasswd:/etc/nginx/lucifers-lights.htpasswd:ro' nginx:1.27-alpine -c 'test -r /usr/share/nginx/html/$AGENT_ORCHESTRATION_ROUTE/index.html && test -r /usr/share/nginx/html/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html && test -r /etc/nginx/domainspec.htpasswd && test -r /etc/nginx/lucifers-lights.htpasswd'"
   then
     echo "candidate release validation failed; current release was not switched" >&2
     exit 1
@@ -413,7 +625,48 @@ if [ "$DEPLOY_SCOPE" = "agent-orchestration-guide" ]; then
   fi
 
   echo "checking the container and Nginx worker readability directly"
-  if ! remote "set -eu; cd '$REMOTE_DIR'; docker compose --env-file .env -f docker-compose.yml exec -T site wget -qO- http://127.0.0.1/healthz; test \"\$(docker compose --env-file .env -f docker-compose.yml exec -T site wget -qO- 'http://127.0.0.1/$AGENT_ORCHESTRATION_ROUTE' | sha256sum | awk '{print \$1}')\" = '$AGENT_ORCHESTRATION_GUIDE_SHA256'; docker compose --env-file .env -f docker-compose.yml exec -T --user 101:101 site sh -c 'test -r /usr/share/nginx/html/index.html && test -r /usr/share/nginx/html/craft/index.html && test -r /usr/share/nginx/html/bella/index.html && test -r /usr/share/nginx/html/domainspec/index.html && test -r /usr/share/nginx/html/$AGENT_ORCHESTRATION_ROUTE/index.html && test -r /etc/nginx/domainspec.htpasswd'"
+  if ! remote "set -eu; cd '$REMOTE_DIR'; docker compose --env-file .env -f docker-compose.yml exec -T site wget -qO- http://127.0.0.1/healthz; test \"\$(docker compose --env-file .env -f docker-compose.yml exec -T site wget -qO- 'http://127.0.0.1/$AGENT_ORCHESTRATION_ROUTE' | sha256sum | awk '{print \$1}')\" = '$AGENT_ORCHESTRATION_GUIDE_SHA256'; test \"\$(docker compose --env-file .env -f docker-compose.yml exec -T site wget -qO- 'http://127.0.0.1/$AGENT_ORCHESTRATION_ALIAS_ROUTE' | sha256sum | awk '{print \$1}')\" = '$AGENT_ORCHESTRATION_GUIDE_SHA256'; docker compose --env-file .env -f docker-compose.yml exec -T --user 101:101 site sh -c 'test -r /usr/share/nginx/html/index.html && test -r /usr/share/nginx/html/craft/index.html && test -r /usr/share/nginx/html/bella/index.html && test -r /usr/share/nginx/html/domainspec/index.html && test -r /usr/share/nginx/html/$AGENT_ORCHESTRATION_ROUTE/index.html && test -r /usr/share/nginx/html/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html && test -r /etc/nginx/domainspec.htpasswd && test -r /etc/nginx/lucifers-lights.htpasswd'"
+  then
+    fail_with_rollback "container health or worker-readability check failed"
+  fi
+elif [ "$DEPLOY_SCOPE" = "lucifers-lights-review" ]; then
+  remote "set -eu; test -d '$REMOTE_DIR'; test -f '$REMOTE_DIR/.coop-engine-deployment'; cd '$REMOTE_DIR'; test -d site; test -f docker-compose.yml; test -f nginx.conf; test -f .env; test -f .domainspec.htpasswd; docker compose --env-file .env -f docker-compose.yml config -q"
+
+  echo "uploading the protected Lucifer's Lights review overlay and routing candidates"
+  upload "$SITE_BUNDLE" "site.tar.gz.next"
+  upload "$COMPOSE_FILE" "docker-compose.yml.next"
+  upload "$NGINX_FILE" "nginx.conf.next"
+  upload "$LUCIFERS_LIGHTS_HTPASSWD_FILE" ".lucifers-lights.htpasswd.upload"
+  remote "set -eu; cd '$REMOTE_DIR'; install -o 101 -g 101 -m 0600 .lucifers-lights.htpasswd.upload .lucifers-lights.htpasswd.next; rm -f .lucifers-lights.htpasswd.upload"
+
+  echo "validating the preserved-site review candidate"
+  if ! remote "set -eu; cd '$REMOTE_DIR'; rm -rf site.next; cp -a site site.next; rm -rf 'site.next/$LUCIFERS_LIGHTS_REVIEW_ROUTE'; tar -xzf site.tar.gz.next -C site.next; test -f 'site.next/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html'; test \"\$(find 'site.next/$LUCIFERS_LIGHTS_REVIEW_ROUTE' -type f | wc -l | tr -d ' ')\" = 1; test -z \"\$(find 'site.next/$LUCIFERS_LIGHTS_REVIEW_ROUTE' -type l -print -quit)\"; test \"\$(stat -c '%a' 'site.next/$LUCIFERS_LIGHTS_REVIEW_ROUTE')\" = 755; test \"\$(stat -c '%a' 'site.next/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html')\" = 644; test \"\$(sha256sum 'site.next/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html' | awk '{print \$1}')\" = '$LUCIFERS_LIGHTS_REVIEW_EXPECTED_SHA256'; before_count=\"\$(find site -type f ! -path 'site/$LUCIFERS_LIGHTS_REVIEW_ROUTE/*' | wc -l | tr -d ' ')\"; after_count=\"\$(find site.next -type f ! -path 'site.next/$LUCIFERS_LIGHTS_REVIEW_ROUTE/*' | wc -l | tr -d ' ')\"; test \"\$before_count\" = \"\$after_count\"; find site -type f ! -path 'site/$LUCIFERS_LIGHTS_REVIEW_ROUTE/*' -exec sh -c 'for source_file do relative=\${source_file#site/}; test -f \"site.next/\$relative\"; cmp -s \"\$source_file\" \"site.next/\$relative\" || exit 1; done' sh {} +; docker compose --env-file .env -f docker-compose.yml.next config -q; docker run --rm --network none --entrypoint nginx -v '$REMOTE_DIR/site.next:/usr/share/nginx/html:ro' -v '$REMOTE_DIR/nginx.conf.next:/etc/nginx/conf.d/default.conf:ro' -v '$REMOTE_DIR/.domainspec.htpasswd:/etc/nginx/domainspec.htpasswd:ro' -v '$REMOTE_DIR/.lucifers-lights.htpasswd.next:/etc/nginx/lucifers-lights.htpasswd:ro' nginx:1.27-alpine -t; docker run --rm --network none --user 101:101 --entrypoint sh -v '$REMOTE_DIR/site.next:/usr/share/nginx/html:ro' -v '$REMOTE_DIR/.domainspec.htpasswd:/etc/nginx/domainspec.htpasswd:ro' -v '$REMOTE_DIR/.lucifers-lights.htpasswd.next:/etc/nginx/lucifers-lights.htpasswd:ro' nginx:1.27-alpine -c 'test -r /usr/share/nginx/html/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html && test \"\$(sha256sum /usr/share/nginx/html/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html | awk '\''{print \$1}'\'')\" = "$LUCIFERS_LIGHTS_REVIEW_EXPECTED_SHA256" && test -r /etc/nginx/domainspec.htpasswd && test -r /etc/nginx/lucifers-lights.htpasswd'"
+  then
+    echo "candidate release validation failed; current release was not switched" >&2
+    exit 1
+  fi
+
+  echo "preparing exact rollback snapshots"
+  if ! remote "set -eu; cd '$REMOTE_DIR'; rm -rf site.rollback-next; cp -a site site.rollback-next; cp -p docker-compose.yml docker-compose.yml.rollback-next; cp -p nginx.conf nginx.conf.rollback-next; cp -p .env .env.rollback-next; cp -p .domainspec.htpasswd .domainspec.htpasswd.rollback-next; if [ -f .lucifers-lights.htpasswd ]; then cp -p .lucifers-lights.htpasswd .lucifers-lights.htpasswd.rollback-next; cmp -s .lucifers-lights.htpasswd .lucifers-lights.htpasswd.rollback-next; else rm -f .lucifers-lights.htpasswd.rollback-next; fi; before_count=\"\$(find site -type f | wc -l | tr -d ' ')\"; rollback_count=\"\$(find site.rollback-next -type f | wc -l | tr -d ' ')\"; test \"\$before_count\" = \"\$rollback_count\"; find site -type f -exec sh -c 'for source_file do relative=\${source_file#site/}; cmp -s \"\$source_file\" \"site.rollback-next/\$relative\" || exit 1; done' sh {} +; cmp -s docker-compose.yml docker-compose.yml.rollback-next; cmp -s nginx.conf nginx.conf.rollback-next; cmp -s .env .env.rollback-next; cmp -s .domainspec.htpasswd .domainspec.htpasswd.rollback-next; rm -rf site.previous site.failed; mv site.rollback-next site.previous; mv docker-compose.yml.rollback-next docker-compose.yml.previous; mv nginx.conf.rollback-next nginx.conf.previous; mv .env.rollback-next .env.previous; mv .domainspec.htpasswd.rollback-next .domainspec.htpasswd.previous; if [ -f .lucifers-lights.htpasswd.rollback-next ]; then mv .lucifers-lights.htpasswd.rollback-next .lucifers-lights.htpasswd.previous; else rm -f .lucifers-lights.htpasswd.previous; fi"
+  then
+    echo "rollback snapshot preparation failed; current release was not switched" >&2
+    exit 1
+  fi
+
+  echo "switching to the validated protected review release"
+  if ! remote "set -eu; cd '$REMOTE_DIR'; mv site site.failed; mv site.next site; mv docker-compose.yml.next docker-compose.yml; mv nginx.conf.next nginx.conf; mv .lucifers-lights.htpasswd.next .lucifers-lights.htpasswd; rm -f site.tar.gz.next; rm -rf site.failed"
+  then
+    fail_with_rollback "release switch failed"
+  fi
+
+  echo "recreating the existing static container without changing its image or Traefik labels"
+  if ! remote "cd '$REMOTE_DIR' && docker compose --env-file .env -f docker-compose.yml up -d --force-recreate site"
+  then
+    fail_with_rollback "container startup failed"
+  fi
+
+  echo "checking the container and Nginx worker readability directly"
+  if ! remote "set -eu; cd '$REMOTE_DIR'; docker compose --env-file .env -f docker-compose.yml exec -T site wget -qO- http://127.0.0.1/healthz; docker compose --env-file .env -f docker-compose.yml exec -T --user 101:101 site sh -c 'test -r /usr/share/nginx/html/index.html && test -r /usr/share/nginx/html/craft/index.html && test -r /usr/share/nginx/html/bella/index.html && test -r /usr/share/nginx/html/domainspec/index.html && test -r /usr/share/nginx/html/$AGENT_ORCHESTRATION_ROUTE/index.html && test -r /usr/share/nginx/html/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html && test \"\$(sha256sum /usr/share/nginx/html/$LUCIFERS_LIGHTS_REVIEW_ROUTE/index.html | awk '\''{print \$1}'\'')\" = "$LUCIFERS_LIGHTS_REVIEW_EXPECTED_SHA256" && test -r /etc/nginx/domainspec.htpasswd && test -r /etc/nginx/lucifers-lights.htpasswd'"
   then
     fail_with_rollback "container health or worker-readability check failed"
   fi
@@ -467,7 +720,17 @@ while [ "$attempt" -le 18 ]; do
       echo "agent orchestration guide SHA-256: $AGENT_ORCHESTRATION_GUIDE_SHA256"
       echo "existing route SHA-256 checks: pass"
       echo "DomainSpec anonymous access: 401"
-      echo "deploy complete: https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE"
+      echo "deploy complete: https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE and https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE"
+      exit 0
+    fi
+  elif [ "$DEPLOY_SCOPE" = "lucifers-lights-review" ]; then
+    if verify_live_review_release; then
+      echo "public HTTPS: pass"
+      echo "Lucifer's Lights review anonymous access: 401"
+      echo "Lucifer's Lights authenticated review SHA-256: $LUCIFERS_LIGHTS_REVIEW_SHA256"
+      echo "existing route SHA-256 checks: pass"
+      echo "DomainSpec anonymous access: 401"
+      echo "deploy complete: protected https://$PUBLIC_HOST/$LUCIFERS_LIGHTS_REVIEW_ROUTE/"
       exit 0
     fi
   elif verify_live_release; then
@@ -476,7 +739,7 @@ while [ "$attempt" -le 18 ]; do
       echo "DomainSpec anonymous access: 401"
       echo "DomainSpec authenticated HTML SHA-256: $DOMAINSPEC_HTML_SHA256"
       echo "DomainSpec private source tree: unavailable"
-      echo "deploy complete: https://$PUBLIC_HOST/, https://$PUBLIC_HOST/craft, https://$PUBLIC_HOST/bella, https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE, and protected https://$PUBLIC_HOST/domainspec/"
+      echo "deploy complete: https://$PUBLIC_HOST/, https://$PUBLIC_HOST/craft, https://$PUBLIC_HOST/bella, https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ALIAS_ROUTE, https://$PUBLIC_HOST/$AGENT_ORCHESTRATION_ROUTE, and protected https://$PUBLIC_HOST/domainspec/"
       exit 0
   fi
 

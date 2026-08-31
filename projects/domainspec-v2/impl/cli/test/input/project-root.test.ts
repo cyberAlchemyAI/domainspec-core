@@ -89,7 +89,7 @@ test("byte-identical arbitrary roots produce one normalized manifest", () => {
     const rightManifest = resolveProjectRoot(right);
     assert.deepEqual(validateSourceManifest(leftManifest), leftManifest);
     assert.deepEqual(leftManifest, rightManifest);
-    assert.equal(leftManifest.source_count, 10);
+    assert.equal(leftManifest.source_count, 11);
     assert.equal(leftManifest.authority_effect, "none");
     assert.deepEqual([...leftManifest.sources].map((source) => source.relative_path), [...leftManifest.sources].map((source) => source.relative_path).sort());
   } finally {
@@ -258,8 +258,8 @@ test("wrong-root identities and endpoints fail", () => {
     expectCode(() => resolveProjectRoot(wrongEndpoint), "SFC_INPUT_ENDPOINT");
 
     const sameFeatureEdge = readJson(sameFeature, "edges/alpha-to-beta.json");
-    sameFeatureEdge.target_feature_id = "alpha";
-    sameFeatureEdge.target_node_id = "settle";
+    sameFeatureEdge.target_feature_id = "beta";
+    sameFeatureEdge.target_node_id = "audit";
     writeJson(sameFeature, "edges/alpha-to-beta.json", sameFeatureEdge);
     expectCode(() => resolveProjectRoot(sameFeature), "SFC_INPUT_ENDPOINT");
   } finally {

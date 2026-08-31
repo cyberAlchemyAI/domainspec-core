@@ -40,6 +40,7 @@ REPO_PACKAGE = ROOT / "formulae" / "dispatch-spec"
 PACKAGE = LOCAL_PACKAGE if (LOCAL_PACKAGE / "dispatch.schema.yml").exists() else REPO_PACKAGE
 SCHEMA_PATH = PACKAGE / "dispatch.schema.yml"
 CATALOG_PATH = PACKAGE / "TECHNIQUE-CATALOG.md"
+STRICT_EXECUTION_CONTRACT = "arcanum.capability-bound-execution.v0.2"
 
 NON_FIRST_INPUT_KINDS = {
     "frame",
@@ -80,6 +81,13 @@ BOUNDARY_EVIDENCE_TECHNIQUES = {
     "state_namespace_boundary",
     "memory_promotion_split",
 }
+
+STRATEGY_REGISTRATION_SCHEMA_VERSION = "arcanum.subagent-strategy-registration.v0.2"
+STRATEGY_REGISTRATION_INTENT_SCHEMA_VERSION = "arcanum.subagent-strategy-registration-intent.v0.1"
+STRATEGY_REGISTRATION_SUCCESSOR_SCHEMA_VERSION = "arcanum.subagent-strategy-registration.v0.3"
+STRATEGY_LEDGER = ".arcanum/observability/subagents-strategy/subagents-dispatch.yaml"
+STRATEGY_TEMP_ROOT = ".arcanum/runtime/subagents-strategy/"
+SHEET_SCHEMA_VERSION = "0.6.1"
 CANONICAL_PROMOTION_TARGETS = {
     "inventory",
     "ontology",
@@ -367,6 +375,106 @@ def canonical_payload_sha256(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def portable_text_sha256(raw: bytes) -> str:
+    """Hash UTF-8 text after the Git-canonical CRLF/CR-to-LF transform."""
+
+    return hashlib.sha256(raw.replace(b"\r\n", b"\n").replace(b"\r", b"\n")).hexdigest()
+
+
+def validate_strategy_registration(
+    dispatch_id: Any,
+    strategy: dict[str, Any],
+    blocks: list[str],
+) -> None:
+    """Validate the portable registration proof shape before native execution."""
+
+    if strategy.get("status") not in {"recommended", "required"}:
+        return
+    if strategy.get("authorization") != "approved":
+        return
+
+    registration = strategy.get("registration")
+    if not isinstance(registration, dict):
+        # Historical and design-only dispatches remain structurally valid. The
+        # native Orchestrate preflight requires and verifies this proof before
+        # it emits executable actions.
+        return
+
+    if registration.get("schema_version") != STRATEGY_REGISTRATION_SCHEMA_VERSION:
+        blocks.append("subagent_strategy.registration has an unsupported schema_version")
+    if registration.get("ledger") != STRATEGY_LEDGER:
+        blocks.append("subagent_strategy.registration must use the canonical strategy ledger")
+    if registration.get("sheet_schema_version") != SHEET_SCHEMA_VERSION:
+        blocks.append("subagent_strategy.registration has an unsupported sheet_schema_version")
+
+    sheet_sha = registration.get("sheet_sha256")
+    if not isinstance(sheet_sha, str) or re.fullmatch(r"[0-9a-f]{64}", sheet_sha) is None:
+        blocks.append("subagent_strategy.registration.sheet_sha256 must be lowercase SHA-256")
+
+    projection_sha = registration.get("execution_projection_sha256")
+    if not isinstance(projection_sha, str) or re.fullmatch(r"[0-9a-f]{64}", projection_sha) is None:
+        blocks.append(
+            "subagent_strategy.registration.execution_projection_sha256 must be lowercase SHA-256"
+        )
+
+    for field, suffix in (
+        ("temporary_sheet", ".tmp.json"),
+        ("temporary_close", ".close.tmp.json"),
+    ):
+        value = registration.get(field)
+        normalized = normalize_relative_scope(value) if isinstance(value, str) else None
+        if (
+            normalized is None
+            or "\\" in value
+            or not normalized.startswith(STRATEGY_TEMP_ROOT)
+            or not normalized.endswith(suffix)
+        ):
+            blocks.append(
+                f"subagent_strategy.registration.{field} must stay under "
+                f"{STRATEGY_TEMP_ROOT} and end with {suffix}"
+            )
+
+    if not isinstance(dispatch_id, str) or not dispatch_id:
+        blocks.append("subagent_strategy.registration requires a non-empty dispatch_id")
+
+
+def validate_strategy_registration_intent(
+    strategy: dict[str, Any], blocks: list[str]
+) -> None:
+    """Validate the immutable preconfirmation registration declaration."""
+
+    intent = strategy.get("registration_intent")
+    if intent is None:
+        return
+    if not isinstance(intent, dict):
+        blocks.append("subagent_strategy.registration_intent must be an object")
+        return
+    if intent.get("schema_version") != STRATEGY_REGISTRATION_INTENT_SCHEMA_VERSION:
+        blocks.append("subagent_strategy.registration_intent has an unsupported schema_version")
+    if intent.get("registration_schema_version") != STRATEGY_REGISTRATION_SUCCESSOR_SCHEMA_VERSION:
+        blocks.append("subagent_strategy.registration_intent must select registration v0.3")
+    if not isinstance(intent.get("profile_id"), str) or not intent.get("profile_id"):
+        blocks.append("subagent_strategy.registration_intent.profile_id must be non-empty")
+    if intent.get("confirmation_mode") not in {"exact_sheet", "material_projection"}:
+        blocks.append("subagent_strategy.registration_intent.confirmation_mode is unsupported")
+    if intent.get("source_lifecycle") not in {"consumed", "durable"}:
+        blocks.append("subagent_strategy.registration_intent.source_lifecycle is unsupported")
+    profile_ref = intent.get("profile_ref")
+    if not isinstance(profile_ref, dict):
+        blocks.append("subagent_strategy.registration_intent.profile_ref must be exact")
+    else:
+        if set(profile_ref) != {"path", "sha256", "size"}:
+            blocks.append("subagent_strategy.registration_intent.profile_ref must contain exactly path, sha256, and size")
+        if normalize_relative_scope(profile_ref.get("path")) is None:
+            blocks.append("subagent_strategy.registration_intent.profile_ref.path must be portable and project-relative")
+        if re.fullmatch(r"[0-9a-f]{64}", str(profile_ref.get("sha256", ""))) is None:
+            blocks.append("subagent_strategy.registration_intent.profile_ref.sha256 is invalid")
+        if not isinstance(profile_ref.get("size"), int) or isinstance(profile_ref.get("size"), bool) or profile_ref.get("size", 0) < 1:
+            blocks.append("subagent_strategy.registration_intent.profile_ref.size is invalid")
+    if strategy.get("registration") is not None:
+        blocks.append("subagent_strategy cannot carry both registration_intent and registration")
+
+
 def select_json_pointer(value: Any, selector: str) -> Any:
     if not isinstance(selector, str) or not selector.startswith("/"):
         raise ValueError("selector must be a non-empty JSON pointer")
@@ -422,7 +530,7 @@ def validate_role_briefing_binding(
                 blocks.append(f"{prefix}.source_binding artifact does not exist: {normalized}")
             else:
                 raw = source_path.read_bytes()
-                actual_artifact_sha = hashlib.sha256(raw).hexdigest()
+                actual_artifact_sha = portable_text_sha256(raw)
                 if source.get("artifact_sha256") != actual_artifact_sha:
                     blocks.append(f"{prefix}.source_binding artifact digest mismatch")
                 try:
@@ -503,9 +611,13 @@ def validate_capability_bound_strategy(
     """Validate executable role bindings and ordered subagent waves."""
 
     binding_mode = subagent_strategy.get("binding_mode")
+    execution_contract_version = subagent_strategy.get("execution_contract_version")
+    strict_execution = execution_contract_version == STRICT_EXECUTION_CONTRACT
     raw_waves = subagent_strategy.get("execution_waves", []) or []
     waves = raw_waves if isinstance(raw_waves, list) else []
     if binding_mode != "capability-bound":
+        if execution_contract_version is not None:
+            blocks.append("subagent_strategy.execution_contract_version requires binding_mode=capability-bound")
         if waves:
             blocks.append("subagent_strategy.execution_waves requires binding_mode=capability-bound")
         return
@@ -720,10 +832,11 @@ def validate_capability_bound_strategy(
                             f"subagent_strategy:{wave_id}: concurrent write scopes overlap for roles '{prior_role_id}' and '{role_id}'"
                         )
                 wave_write_scopes.append((role_id, write_scope))
-        if idx < len(waves) - 1:
+        if strict_execution or idx < len(waves) - 1:
             gate_after = wave.get("gate_after")
             if not gate_after:
-                blocks.append(f"subagent_strategy:{wave_id}: non-final wave requires gate_after")
+                scope = "every v0.2 wave" if strict_execution else "non-final wave"
+                blocks.append(f"subagent_strategy:{wave_id}: {scope} requires gate_after")
             elif str(gate_after) not in gate_by_id:
                 blocks.append(f"subagent_strategy:{wave_id}: gate_after references unknown gate '{gate_after}'")
             else:
@@ -748,6 +861,71 @@ def validate_capability_bound_strategy(
                     blocks.append(
                         f"subagent_strategy:{wave_id}: gate_after '{gate_after}' missing role receipts: {', '.join(missing_gate_receipts)}"
                     )
+                if strict_execution:
+                    extra_gate_receipts = sorted(required_receipts - wave_outputs)
+                    if extra_gate_receipts:
+                        blocks.append(
+                            f"subagent_strategy:{wave_id}: gate_after '{gate_after}' includes receipts outside the wave: {', '.join(extra_gate_receipts)}"
+                        )
+                    evaluation = gate.get("evaluation")
+                    if not isinstance(evaluation, dict):
+                        blocks.append(
+                            f"subagent_strategy:{wave_id}: gate_after '{gate_after}' requires typed evaluation under v0.2"
+                        )
+                    else:
+                        mode = evaluation.get("mode")
+                        if mode == "receipt_status":
+                            unexpected = sorted(set(evaluation) - {"mode"})
+                            if unexpected:
+                                blocks.append(
+                                    f"subagent_strategy:{wave_id}: receipt_status evaluation has unexpected fields: {', '.join(unexpected)}"
+                                )
+                        elif mode == "domain_status":
+                            source_role_id = str(evaluation.get("source_role_id", ""))
+                            source_role = role_by_id.get(source_role_id)
+                            if source_role_id not in role_ids or source_role is None:
+                                blocks.append(
+                                    f"subagent_strategy:{wave_id}: domain_status source_role_id must name a role in the evaluated wave"
+                                )
+                            elif source_role.get("agent_count") != 1:
+                                blocks.append(
+                                    f"subagent_strategy:{wave_id}: domain_status source role must have agent_count=1"
+                                )
+                            if source_role is not None:
+                                status_semantics = (
+                                    source_role.get("briefing_binding", {})
+                                    .get("briefing", {})
+                                    .get("status_semantics", {})
+                                )
+                                if evaluation.get("source_field") != status_semantics.get("domain_gate_status_field"):
+                                    blocks.append(
+                                        f"subagent_strategy:{wave_id}: domain_status source_field must equal the source briefing domain_gate_status_field"
+                                    )
+                            pass_values = evaluation.get("pass_values", [])
+                            resolved_values = evaluation.get("resolved_values", []) or []
+                            if not isinstance(pass_values, list) or not pass_values:
+                                blocks.append(
+                                    f"subagent_strategy:{wave_id}: domain_status pass_values must be non-empty"
+                                )
+                                pass_values = []
+                            if not isinstance(resolved_values, list):
+                                blocks.append(
+                                    f"subagent_strategy:{wave_id}: domain_status resolved_values must be an array"
+                                )
+                                resolved_values = []
+                            overlap = sorted(set(pass_values) & set(resolved_values))
+                            if overlap:
+                                blocks.append(
+                                    f"subagent_strategy:{wave_id}: domain_status pass_values and resolved_values overlap: {', '.join(overlap)}"
+                                )
+                            if resolved_values and idx != len(waves) - 1:
+                                blocks.append(
+                                    f"subagent_strategy:{wave_id}: resolved_values are permitted only on the final wave"
+                                )
+                        else:
+                            blocks.append(
+                                f"subagent_strategy:{wave_id}: gate_after '{gate_after}' has unsupported evaluation mode '{mode}'"
+                            )
 
     for role_id in role_by_id:
         if role_id not in role_to_wave:
@@ -1099,6 +1277,8 @@ def validate(
             flags.append("blocked subagent_strategy should use authorization=blocked")
 
     validate_subagent_lifecycle(subagent_strategy, subagent_lifecycle, blocks, flags)
+    validate_strategy_registration(doc.get("dispatch_id"), subagent_strategy, blocks)
+    validate_strategy_registration_intent(subagent_strategy, blocks)
     validate_capability_bound_strategy(
         subagent_strategy,
         subagent_lifecycle,

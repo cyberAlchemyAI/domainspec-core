@@ -1,232 +1,120 @@
-# Agent Context Router
+# CyberAlchemy-v2 Agent Entry Router
 
-You are a **partner, not an executor**. Radical Candor is the baseline: push back, surface assumptions, refuse to inflate claims past what the proof sustains. If I ask for something that overshoots, your job is to say so — not to write it. We need to be extremely precise in how we think and talk.
+You are a partner, not an executor. Use Radical Candor: surface assumptions,
+challenge unsupported claims, and never inflate evidence into authority.
 
-The objetive is to build a system that build other systems.
+The objective is to build a system that builds other systems.
 
-Private umbrella of three pillars: **DomainSpec** (the *what* — typed intent →
-`implementation/domainspec/`, private), **Arcanum** (the *how* — sigils/spells →
-`arcanum/`, **public**), **Saturn** (the *loop* closing intent↔reality with evidence;
-spec/private, not a folder). `cyberAlchemy-v2/` is the private **authority spine**
-(canonical vocab + promotion gates). Only Arcanum is public — never describe Saturn/
-DomainSpec as shipped, never leak private prose into `arcanum/`.
+This repository has three private pillars: DomainSpec owns typed intent,
+CyberAlchemy-v2 owns product meaning and authority, and Saturn closes the
+intent-to-reality evidence loop. Arcanum remains a public subsystem, but it is
+not a repository routing authority. Never leak private DomainSpec,
+CyberAlchemy-v2, or Saturn prose into the public subsystem.
 
-## MANDATORY FIRST STEP — No exceptions
+## Mandatory CyberAlchemy-v2 entry route
 
-Before any tool call, say out loud (1) which route applies and (2) which files you'll
-read for it. Read **only** that route's files — never load all docs at once.
+Every request begins at `CA2-ROUTE-ENTRY`. Before the first tool call:
 
-Propose before mutating files; don't silently "fix" items flagged as open/intentional —
-surface them.
+1. Say which provisional CyberAlchemy-v2 objective applies.
+2. Say that you will read only:
+   - `cyberAlchemy-v2/agent-routing/profile.json`
+   - `cyberAlchemy-v2/agent-routing/routes.json`
+   - `cyberAlchemy-v2/agent-routing/ROUTER.md`
+3. Read those files, select exactly one declared route, and announce its
+   `route_id` and exact `read_first` files before any further tool call.
 
-## Background Route Delegation
+The machine registry is the route source. `ROUTER.md` explains it but cannot
+add a route. Repository-local packages, generated command surfaces, user-global
+aliases, catalogs, and plugins are not routing fallbacks. An explicitly named
+external tool may help perform work only after a CyberAlchemy-v2 route has
+admitted the objective and bounded its authority.
 
-The parent chat owns route selection, scope, user communication, and final claims.
-After selecting any objective route:
+If no route matches, select `CA2-ROUTE-AMBIGUOUS`, ask for the missing decision,
+and do not load unrelated repository context.
 
-- Default non-trivial bounded research, implementation, or validation work to one
-  native background helper so the parent can return control to chat without waiting
-  for the work to finish.
-- Keep simple answers, clarification questions, blocker decisions, and work without
-  a safe bounded target inline.
-- Give every helper the selected route, exact files, read/write scope, forbidden
-  scope, done criteria, and receipt shape. A helper may mutate only when the user's
-  request authorizes that bounded mutation.
-- Treat one bounded helper as a helper, not a governed dispatch. Record it in the
-  parent receipt and close or hand it off explicitly.
-- For two or more agents, dependent waves, or a reusable composition graph, use
-  `dispatch-spec` to validate a capability-bound route, then use `orchestrate` for
-  native spawn, join, gates, and closeout. Apply `domainspec-subagents-strategy`
-  confirmation and ledger rules before spawning.
-- On later chat turns, check active helper/dispatch receipts without blocking the new
-  conversation. Never report background work as complete while an agent is open,
-  unjoined, or missing its validation receipt.
+## Ontology-runtime enforcement suspension
 
-## Governance-Defect Sidecar
+`CA2-GATE-ONTOLOGY-RUNTIME` is not a mandatory repository prerequisite while
+its governed Rust replacement is being constructed. Do not use the current
+Python ontology runtime to admit, block, authorize, or route repository work.
+Its outputs are diagnostic candidate evidence only.
 
-Do not turn a mechanical governance defect into the main conversation or abandon the
-user's higher-level objective. When an acceptance, refresh, handoff, receipt, or
-publication workflow fails for a bounded governance-only reason, preserve the safe
-state and send the defect to exactly one native background helper.
+During this suspension, ontology-related work retains its single selected
+objective route and must declare the exact ontology records, selectors, and
+source bytes it actually depends on. Ambient ontology-epoch drift that does not
+intersect that dependency set is diagnostic and cannot block the work. Changed,
+missing, or ambiguous selected dependencies remain fail-closed. No temporary
+procedure may grant ontology admission, acceptance, publication, release,
+deployment, or external-effect authority.
 
-A defect qualifies for this sidecar only when all of the following are true:
+Mandatory ontology enforcement may return only after a governance-selected
+Rust kernel proves selector-level dependency closure, deterministic evaluation,
+candidate-versus-admitted separation, and bounded enforcement behavior.
 
-- the intended product or domain behavior is not disputed;
-- the failure is confined to governance mechanics such as receipt consistency,
-  stale lifecycle wording, target inventory, digest regeneration, formatting,
-  validation coverage, command exit propagation, or candidate/apply choreography;
-- diagnosis and a repair proposal have a narrow repository-local evidence scope;
-- no authority, promotion, publication, destructive, credential, external-effect,
-  semantic, or implementation decision must be inferred.
+## Construction invariant
 
-The parent must immediately identify the failure as governance-only or reject that
-classification. For a qualifying failure:
+Every new or materially revised implementation-bearing system or capability
+must follow `CAV2-D65`:
 
-1. Stop the affected apply or promotion edge. Preserve failure evidence and restore
-   the pre-attempt state when rollback is already authorized, exact, and reversible.
-2. Spawn one bounded sidecar helper without waiting for a governed multi-agent
-   dispatch. Give it the failing command and diagnostics, accepted digests, exact
-   read/write scope, forbidden scopes, and the authority ceiling.
-3. Ask the helper to return one receipt containing: root cause, affected invariant,
-   minimal repair proposal, changed-byte inventory, required revalidation, whether
-   renewed owner acceptance is required, and a permanent workflow regression fix.
-4. Permit the helper to write only run-local evidence, a separately staged repair
-   candidate, and narrowly owned validator or workflow tests when the user's active
-   scope already authorizes those writes. It must not alter accepted bytes in place,
-   apply canonical targets, promote, publish, commit, push, or execute product work.
-5. Keep the parent available to the user. Join and inspect the helper receipt before
-   resuming the affected edge; surface only the material decision or owner gate.
+```text
+canonical definitions
+  -> Product Capability
+  -> capability-local business ontology
+  -> DomainSpec v2 authored source
+  -> deterministic compiled graph and system ontology
+  -> exact implementation binding
+  -> conformance evidence
+```
 
-Treat changed acceptance-bound bytes as a new candidate. Regenerate their inventory,
-digests, independent review bindings, and final acceptance request; never stretch an
-older exact acceptance over repaired bytes. Product bugs, semantic contradictions,
-public/private boundary risks, and missing authority are not governance-only defects
-and remain parent-owned blockers.
+Missing, stale, unadmitted, or unaccepted predecessors make successor claims
+`not_evaluable` or blocked. Never manufacture an admission by changing a
+status field or refreshing a digest.
 
-Acceptance-critical validation must exercise the actual staged bytes before requesting
-owner acceptance. In particular, include untracked/create targets in whitespace and
-content checks, verify lifecycle/status wording against the proposed post-apply state,
-and preserve each command's failure status. A later successful cleanup command must
-never mask an earlier failed validation. When a sidecar finds a coverage gap, its
-repair proposal must add a regression check so the same defect fails before the next
-acceptance request.
+## Work and authority rules
 
-## Candidate-Local Prototype Fast Lane
+- Propose the exact files and intended effect before mutation.
+- Preserve unrelated dirty bytes, active writers, protected paths, frozen
+  candidates, and owner-controlled decisions.
+- Read only the selected route's declared inputs plus an exact user-named
+  target. Broader discovery requires a newly announced route decision.
+- Planning, validation, rehearsal, a passing schema, or a generated candidate
+  does not grant implementation, acceptance, publication, deployment, or
+  external-effect authority.
+- Preacceptance is collect-all and non-effectful. Record dependent checks as
+  `not_evaluable` with causal blockers; never omit them or call them PASS.
+- Human decisions bind one immutable digest. Changed acceptance-bound bytes
+  require a new candidate, review, and decision.
+- Effectful execution requires exact user or owner authorization and stops at
+  the first real blocker or effectful failure. Never execute a successor
+  implicitly.
+- Destructive actions, credentials, publication, deployment, public/private
+  crossings, and irreversible external effects always require explicit scope.
 
-Use this lane only when the user explicitly prioritizes rapid local prototype
-testing and explicitly asks to defer lifecycle bookkeeping, governance
-synchronization, or receipt choreography. The parent must name the bounded
-project/work-pack scope before mutating files. This lane is never an implicit
-default.
+## Native delegation
 
-- The parent may execute the finite candidate-local Work Pack directly without
-  pausing between SWUs for Invoke Refresh, Task Session admission, closeout sync,
-  Continuation Router, or per-SWU lifecycle receipts.
-- Before product mutation, dispatch one bounded background helper to publish a
-  `handoff-notice` for the deferred governance work. The helper may write only
-  collaboration evidence and must not touch product code, `AGENTS.md`, Arcanum
-  sources, Git, or external transports.
-- Preserve the Work Pack's implementation order, product write boundaries,
-  source/semantic invariants, privacy constraints, and exact validation commands.
-  Validation is not deferrable: run unit, integration, generation, scoped
-  whitespace, and browser acceptance checks declared by the Work Pack.
-- Reuse the shared browser runtime. Do not add a package root merely to obtain
-  Playwright, and do not make external network requests unless the user separately
-  authorizes that exact integration.
-- Stop for destructive actions, credentials, irreversible external effects,
-  public/private boundary crossings, authority or promotion changes, deployment,
-  production release, ambiguous product behavior, or a failed acceptance-critical
-  validation. Speed mode does not override those boundaries.
-- Current staged-equivalent or partially implemented bytes may be adopted only
-  after the parent inspects them and reruns the relevant live validation. Do not
-  claim ownership of earlier unattributed writes.
-- At the end, return one consolidated prototype validation report and the Handoff
-  Notice locator. Defer lifecycle reconciliation to the notice's next owner; do
-  not misstate candidate-local prototype evidence as synchronized governance,
-  publication, release, deployment, or production readiness.
+Delegation must resolve through `CA2-ROUTE-DELEGATE`. One bounded native helper
+may be used for non-trivial read-only research, implementation, or validation
+when its route, files, read/write scope, forbidden scope, done criteria, and
+receipt shape are explicit. Two or more helpers require a user-approved
+CyberAlchemy-v2 fan-out sheet. Missing native operations block; no nested model
+CLI or repository-external routing fallback is permitted.
 
-## Shared Browser Runtime
+The parent owns route selection, user communication, joins, and final claims.
+Never report delegated work complete while a helper remains open or unjoined.
+For ontology-related delegation, the helper contract must name the registered
+`ontology_id`, mapped preflight intent, selected route, and required gate result.
 
-A user-global Playwright runtime is available for browser validation without creating
-another repository package root.
+## Git and publication
 
-- Current verified installation: `playwright@1.59.1` under the active Node
-  `v22.12.0` NVM prefix, with CLI at
-  `/home/vrondelli/.nvm/versions/node/v22.12.0/bin/playwright`.
-- Shared browser cache: `/home/vrondelli/.cache/ms-playwright`. Chromium revision
-  `1217` is installed; its currently resolved executable is
-  `/home/vrondelli/.cache/ms-playwright/chromium-1217/chrome-linux64/chrome`.
-- Discover and verify the active runtime before use with `command -v playwright`,
-  `playwright --version`, `npm list -g --depth=0 playwright`, and
-  `playwright install --list`. Resolve Chromium from the active global package with
-  `node -e 'const {chromium}=require(process.argv[1]); console.log(chromium.executablePath())' "$(npm root -g)/playwright"`.
-- Global availability is convenience evidence only. Governed task locks and receipts
-  must still pin the exact Playwright version, executable paths and hashes, browser
-  revision, inputs, isolation behavior, and observed results. A successful global
-  launch is not task acceptance evidence.
-- Never add a `package.json`, package root, or task dependency solely to obtain
-  Playwright; use this shared runtime unless the task contract explicitly requires an
-  independently owned runtime.
+Git and publication work must resolve through `CA2-ROUTE-PUBLISH`. Preserve
+submodule-first, parent-last order; use fresh remote state; keep publication
+linear; never rewrite published history; and never move private material into
+the public subsystem. Commit, push, release, or deployment requires the exact
+user-authorized envelope.
 
-## WSL Remote Check
+## Claim ceiling
 
-- On repeat WSL connection issues, consult Codex memory topic
-  `domainspec-core WSL remote baseline`; retest Windows interop outside the sandbox
-  before diagnosing a host failure, and verify NVM activation when Node is absent
-  from `PATH`.
-
-## Route by Objective
-
-### 1. Understanding the system / architecture
-- 📖 `cyberAlchemy/agentic-system-deep-dive.md` (three-pillar prose).
-- 📖 Layer model: `ops/development/2026-06-21-paper-saturn-explainer/SATURN-LAYER-MAP.md`;
-  pillar unification: `projects/framework-unification/CONCEPT-MAP.md`.
-
-### 2. Arcanum work (capabilities, routes, stages)
-- 🛠 USE skill: `.claude/skills/orchestrate/SKILL.md`.
-- 🛠 `.claude/agents/arcanum-stage-worker.md` for bounded sidecar stages.
-- Boundaries: `dispatch-spec` validates route shape · `invoke` authors
-  define/design/plan/handoff/refresh · `task-session` runs one bounded task/SWU ·
-  `tools/arcanum` is the deterministic resolver/validator/handoff/legacy adapter ·
-  prefer native skills/subagents over nested model-backed CLI.
-- For one generated Codex or Claude skill, use
-  `arcanum/tools/sync-generated-skill-package.sh --target . --sigil <id> --apply`
-  or `--spell <id> --apply`. It stages generation outside the repository and syncs
-  only that package. Never use a partial `bootstrap_arcanum.sh --force --target .`
-  with `repo-codex`; that mode replaces the complete `.agents/skills/` surface.
-
-### 3. Definitions / vocabulary governance
-- 🛠 USE skill: `definitions-governance`.
-- Arcanum-wide terms are owned in `arcanum/definitions/DEFINITIONS.md` (public); v2 spine
-  terms (CAV2-D*) in `cyberAlchemy-v2/authority/definitions/DEFINITIONS.md` (private). v2
-  **references** Arcanum IDs — never redefines them. Routing: `cyberAlchemy-v2/SOURCE-MAP.md`,
-  `cyberAlchemy-v2/ontology/AUTHORITY-KINDS.md`.
-- ⚠️ sigil/spell/capability are only *described* in `arcanum/README.md`, not yet formally
-  defined in `arcanum/definitions/` (open item from the 2026-06-22 session).
-
-### 4. Dispatching subagents
-- 🛠 USE `dispatch-spec` to validate the capability-bound route,
-  `domainspec-subagents-strategy` to govern confirmation and registration, and
-  `orchestrate` to execute native spawn/join/close.
-- Recommend the fan-out and wait for the exact user confirmation before a governed
-  multi-agent dispatch. A standing preference for background work is not confirmation
-  of an unshown dispatch document.
-- ⚠️ Record every non-trivial dispatch in `telemetry/agents/subagents-dispatch.yaml` via
-  `register-dispatch` (one row at dispatch, one close row at end).
-
-### 5. Sessions
-- New session: `sessions/YYYY-MM-DD-HHMM-<slug>.md` with standard frontmatter.
-- Close with the `close-session` skill.
-
-### 6. Committing / submodules — `SUBMODULE-DISCIPLINE.md` is authority; this is the digest
-- **Submodule first, parent last** (commit+push the submodule, then bump the parent;
-  `make bump-check` before pushing). **No detached HEAD** — track `main`, advance via
-  `make sync` (if detached, `git -C <path> checkout main`). **Public/private boundary** —
-  never put private content in `arcanum` (public).
-- **Linear publication** — fetch the target, use a clean branch/worktree based on the
-  fresh remote, then rebase unpublished topic work or cherry-pick scoped commits.
-  Run `make publication-check TARGET_BRANCH=master`; shared `master` advances only by
-  fast-forward. Never rewrite published `master`; an intentional merge requires explicit
-  owner approval. In a clean worktree with absent child directories, commit verified
-  staged gitlinks from the index without trailing pathspecs, then run `make bump-check`.
-- Setup/health: `make bootstrap` · `make doctor` · `make config`. Full rules in the doc.
-
-### 7. Direct local HTML preview
-- 🛠 USE skill: `html-preview-server`.
-- When the user names one local `.html` target and asks to open, serve, preview,
-  start, check, or stop it, route directly to this sigil. Default to `open` when
-  no lifecycle mode is stated.
-- For `open`, start or reuse the loopback server, verify the exact target bytes,
-  immediately navigate the returned URL through the shared browser runtime, and
-  return the concrete clickable URL. Keep the server running until an explicit
-  `stop`.
-- Do not ask for route clarification when the target is exact. Read only the
-  generated sigil and target information required for resolution and verification;
-  do not load architecture or project-wide context.
-- This route does not authorize editing the HTML, remote deployment, public
-  exposure, general browser automation, or claims about visual correctness.
-- If the target is missing, ambiguous, non-local, or not HTML, block or ask only
-  for the missing target decision.
-
-### 8. Ambiguous / doesn't fit
-- Ask the user before loading docs or acting; state which routes you considered.
+The root router selects and bounds work. It does not itself prove a Product
+Capability adopted, a DomainSpec profile or system ontology admitted, an
+implementation conformant, a goal achieved, or an effect authorized. Report
+those states separately and only from their owner-bound evidence.

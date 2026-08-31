@@ -1,0 +1,90 @@
+artifact_role: durable-proposal-package-validation-artifact
+authority_effect: none
+checks:
+  agents_patch_apply_check: pass
+  decision_admissibility_receipt: pass
+  decision_admissibility_request: pass
+  decision_request_digest: pass
+  decision_selected_option_admissible: pass
+  evidence_exact_digests: pass
+  helper_joined: pass
+  positive_terminal_fixture_in_plan: pass
+  proposal_schema: pass
+  public_target_path_boundary: pass
+  required_metrics: pass
+  required_retry_classes: pass
+  required_three_modes: pass
+  stage_now_exact_six_path_inventory: pass
+completion_claim: proposal package validated; canonical implementation and terminal fixture remain unapplied and unexecuted
+completion_status: proposal_ready
+counts:
+  adapter_paths_proposed: 17
+  evidence_sources: 5
+  invariants: 12
+  metrics: 5
+  modes: 3
+  positive_terminal_cases: 1
+  public_canonical_paths_proposed: 19
+  regression_cases: 22
+decision_gate:
+  admissibility_request_digest: 3835a581e114044c4df5b35c2b5c456013cf8b4792121fa06f44501fba0911b4
+  admissible_routing: gate
+  decision_gate_blockers_remaining: 0
+  decision_id: GFR-DECISION-ENVELOPE-001
+  decisions_resolved: 1
+  downstream_gates:
+  - active MVLR work must release the protected adapter surfaces
+  - the refreshed exact root and public candidate requires separate explicit apply authorization
+  - the end-to-end positive fixture must be implemented and reach its promised terminal boundary before completion
+  override_verdict: not-requested
+  result: PASS
+  selected_option_id: A
+derived_outputs:
+- path: ops/development/2026-08-25-governance-flow-revision/GOVERNANCE-FLOW-REVISION.md
+  role: deterministic-human-view
+  sha256: cbe7b5510c0574ea58c0c1a8a139a23817ca95da16d2e9618c964d767cf68b3f
+  size_bytes: 36085
+- path: ops/development/2026-08-25-governance-flow-revision/AGENTS-PATCH-PROPOSAL.diff
+  role: unapplied-root-policy-patch
+  sha256: 713d396b36f4d524cf10a70d8fccb4d296b71706603649df47d2cb0777729e46
+  size_bytes: 3611
+forbidden_path_writes: []
+governance_sidecars:
+- helper_id: /root/gfr_whitespace_sidecar
+  issue_id: format-aware-diff-whitespace
+  renewed_owner_acceptance_required: false
+  status: joined
+  writes: none
+- helper_id: /root/gfr_whitespace_sidecar
+  issue_id: ignored-machine-artifact-visibility
+  renewed_owner_acceptance_required: false
+  status: joined
+  writes: none
+- helper_id: /root/gfr_whitespace_sidecar
+  issue_id: check-ignore-exit-classification
+  renewed_owner_acceptance_required: false
+  status: joined
+  writes: none
+helper:
+  helper_id: /root/governance_flow_challenge
+  status: joined
+  writes: none
+package_id: 2026-08-25-governance-flow-revision
+run_local_telemetry: false
+schema_ref:
+  path: ops/development/2026-08-25-governance-flow-revision/governance-flow-revision.schema.yml
+  sha256: d6a8ae58800f8d0ae77e953267ad2524d38f47414a6ca9b0db085cf3de5bae36
+  size_bytes: 11500
+schema_version: domainspec.governance-flow-revision-validation.v1
+source_ref:
+  path: ops/development/2026-08-25-governance-flow-revision/GOVERNANCE-FLOW-REVISION.yml
+  sha256: 6b91296fd72779faa87195ee4a2e3b790b2ae5dacf961c825106fd3365214491
+  size_bytes: 45176
+status: pass
+write_scope:
+- ops/development/2026-08-25-governance-flow-revision/governance-flow-revision.schema.yml
+- ops/development/2026-08-25-governance-flow-revision/GOVERNANCE-FLOW-REVISION.yml
+- ops/development/2026-08-25-governance-flow-revision/materialize_revision.py
+- ops/development/2026-08-25-governance-flow-revision/GOVERNANCE-FLOW-REVISION.md
+- ops/development/2026-08-25-governance-flow-revision/AGENTS-PATCH-PROPOSAL.diff
+- ops/development/2026-08-25-governance-flow-revision/VALIDATION-RECEIPT.yml

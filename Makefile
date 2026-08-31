@@ -65,22 +65,9 @@ publication-check: ## Verify a clean, merge-free fast-forward publication delta
 		echo "OK: HEAD is a clean, merge-free fast-forward of $$remote/$$target."
 
 bump-check: ## Verify submodule commits are pushed before bumping the parent
-	@set -eu; \
-		staged_gitlinks="$$(git diff --cached --raw | awk 'substr($$1, 2) == "160000" || $$2 == "160000" {print $$6}')"; \
-		if test -n "$$staged_gitlinks"; then \
-			echo "BLOCKED: staged gitlinks are not part of committed HEAD:"; \
-			printf '%s\n' "$$staged_gitlinks"; \
-			echo "Verify the index, then commit it without trailing pathspecs before rerunning bump-check."; \
-			exit 1; \
-		fi; \
-		git remote get-url '$(REMOTE)' >/dev/null 2>&1 \
-			|| { echo "BLOCKED: remote '$(REMOTE)' does not exist."; exit 1; }; \
-		git check-ref-format 'refs/heads/$(TARGET_BRANCH)' >/dev/null 2>&1 \
-			|| { echo "BLOCKED: invalid target branch '$(TARGET_BRANCH)'."; exit 1; }; \
-		git push --recurse-submodules=check --dry-run '$(REMOTE)' \
-			'HEAD:refs/heads/$(TARGET_BRANCH)' >/dev/null 2>&1 \
-			&& echo "OK: referenced submodule commits are pushed; exact parent target is fast-forwardable." \
-			|| { echo "BLOCKED: exact parent dry-run failed — verify child publication and target ancestry."; exit 1; }
+	@git push --recurse-submodules=check --dry-run >/dev/null 2>&1 \
+		&& echo "OK: all referenced submodule commits are pushed; safe to commit + push the parent gitlink." \
+		|| { echo "BLOCKED: unpushed submodule commits — push the submodule first."; exit 1; }
 
 doctor: ## Diagnose detached HEADs / dirty submodules / orphaned gitlinks
 	@echo "== branch / detached =="

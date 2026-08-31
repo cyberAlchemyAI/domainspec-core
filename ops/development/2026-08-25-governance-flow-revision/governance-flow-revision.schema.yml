@@ -1,0 +1,310 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://arcanum.local/schemas/governance-flow-revision-proposal-v1"
+title: Governance Flow Revision Proposal
+type: object
+additionalProperties: false
+required:
+  - schema_version
+  - status
+  - package_id
+  - authority_effect
+  - claim_ceiling
+  - evidence_scope
+  - problem_statement
+  - required_invariants
+  - before_workflow
+  - after_workflow
+  - mode_contracts
+  - decision_graph_contract
+  - terminal_outcome_contract
+  - retry_policy
+  - sidecar_resume_contract
+  - metrics
+  - changed_path_proposal
+  - agents_patch
+  - compatibility_impact
+  - migration_plan
+  - regression_matrix
+  - positive_terminal_fixture
+  - owner_decision_surface
+  - helper_receipt
+  - governance_sidecar_receipts
+  - public_content_constraints
+  - completion_claim
+properties:
+  schema_version:
+    const: "domainspec.governance-flow-revision-proposal.v1"
+  status:
+    const: "proposed"
+  package_id:
+    const: "2026-08-25-governance-flow-revision"
+  authority_effect:
+    const: "none"
+  claim_ceiling:
+    type: string
+    minLength: 1
+  evidence_scope:
+    type: object
+    additionalProperties: false
+    required: [formal_signal_count, formal_threshold_met, incident_count, renewed_acceptance_cycles_minimum, sources]
+    properties:
+      formal_signal_count: {type: integer, minimum: 0}
+      formal_threshold_met: {type: boolean}
+      incident_count: {type: integer, minimum: 0}
+      renewed_acceptance_cycles_minimum: {type: integer, minimum: 0}
+      sources:
+        type: array
+        minItems: 5
+        items: {$ref: "#/$defs/exact_source"}
+  problem_statement:
+    type: string
+    minLength: 1
+  required_invariants:
+    type: array
+    minItems: 10
+    items: {$ref: "#/$defs/invariant"}
+  before_workflow:
+    type: array
+    minItems: 4
+    items: {$ref: "#/$defs/workflow_step"}
+  after_workflow:
+    type: array
+    minItems: 8
+    items: {$ref: "#/$defs/workflow_step"}
+  mode_contracts:
+    type: array
+    minItems: 3
+    maxItems: 3
+    items:
+      type: object
+      additionalProperties: false
+      required: [mode, effect_ceiling, stop_policy, continuation_policy, completion_rule]
+      properties:
+        mode:
+          enum: [preacceptance_no_effect, human_decision, effectful_execution]
+        effect_ceiling: {type: string, minLength: 1}
+        stop_policy: {type: string, minLength: 1}
+        continuation_policy: {type: string, minLength: 1}
+        completion_rule: {type: string, minLength: 1}
+  decision_graph_contract:
+    type: object
+    additionalProperties: false
+    required: [definition, includes, excludes, freeze_rule, request_rule, descendant_rule]
+    properties:
+      definition: {type: string, minLength: 1}
+      includes: {type: array, minItems: 8, items: {type: string}}
+      excludes: {type: array, minItems: 2, items: {type: string}}
+      freeze_rule: {type: string, minLength: 1}
+      request_rule: {type: string, minLength: 1}
+      descendant_rule: {type: string, minLength: 1}
+  terminal_outcome_contract:
+    type: object
+    additionalProperties: false
+    required: [dominance_rule, required_fields, local_pass_rule, bounded_definition]
+    properties:
+      dominance_rule: {type: string, minLength: 1}
+      required_fields: {type: array, minItems: 6, items: {type: string}}
+      local_pass_rule: {type: string, minLength: 1}
+      bounded_definition: {type: string, minLength: 1}
+  retry_policy:
+    type: array
+    minItems: 3
+    maxItems: 3
+    items:
+      type: object
+      additionalProperties: false
+      required: [classification, predicate, action, graph_effect, owner_prompt]
+      properties:
+        classification:
+          enum: [environmental, mechanical_evidence_only, semantic_or_authority]
+        predicate: {type: string, minLength: 1}
+        action: {type: string, minLength: 1}
+        graph_effect: {type: string, minLength: 1}
+        owner_prompt: {type: string, minLength: 1}
+  sidecar_resume_contract:
+    type: object
+    additionalProperties: false
+    required: [suspend_rule, repair_ceiling, resume_predicate, non_resume_cases]
+    properties:
+      suspend_rule: {type: string, minLength: 1}
+      repair_ceiling: {type: string, minLength: 1}
+      resume_predicate: {type: string, minLength: 1}
+      non_resume_cases: {type: array, minItems: 3, items: {type: string}}
+  metrics:
+    type: array
+    minItems: 5
+    maxItems: 5
+    items:
+      type: object
+      additionalProperties: false
+      required: [metric_id, definition, target, evidence_event]
+      properties:
+        metric_id: {type: string, pattern: "^[a-z0-9_]+$"}
+        definition: {type: string, minLength: 1}
+        target: {type: string, minLength: 1}
+        evidence_event: {type: string, minLength: 1}
+  changed_path_proposal:
+    type: object
+    additionalProperties: false
+    required: [stage_now, later_root_policy, later_public_canonical, later_adapters_after_concurrency, generated_surface_policy]
+    properties:
+      stage_now: {$ref: "#/$defs/path_changes"}
+      later_root_policy: {$ref: "#/$defs/path_changes"}
+      later_public_canonical: {$ref: "#/$defs/path_changes"}
+      later_adapters_after_concurrency: {$ref: "#/$defs/path_changes"}
+      generated_surface_policy: {type: string, minLength: 1}
+  agents_patch:
+    type: string
+    minLength: 1
+  compatibility_impact:
+    type: array
+    minItems: 5
+    items: {$ref: "#/$defs/impact"}
+  migration_plan:
+    type: array
+    minItems: 6
+    items:
+      type: object
+      additionalProperties: false
+      required: [phase, action, gate, authority_effect]
+      properties:
+        phase: {type: string, minLength: 1}
+        action: {type: string, minLength: 1}
+        gate: {type: string, minLength: 1}
+        authority_effect: {type: string, minLength: 1}
+  regression_matrix:
+    type: array
+    minItems: 18
+    items:
+      type: object
+      additionalProperties: false
+      required: [case_id, polarity, assertion]
+      properties:
+        case_id: {type: string, pattern: "^[A-Z0-9-]+$"}
+        polarity: {enum: [positive, negative]}
+        assertion: {type: string, minLength: 1}
+  positive_terminal_fixture:
+    type: object
+    additionalProperties: false
+    required: [fixture_path, executor_path, promised_boundary, steps, required_assertions]
+    properties:
+      fixture_path: {type: string, minLength: 1}
+      executor_path: {type: string, minLength: 1}
+      promised_boundary: {type: string, minLength: 1}
+      steps: {type: array, minItems: 8, items: {type: string}}
+      required_assertions: {type: array, minItems: 10, items: {type: string}}
+  owner_decision_surface:
+    type: object
+    additionalProperties: false
+    required: [decision_id, remains, decision_status, selected_option_id, selected_option_label, selected_at, selection_source, selection_rationale, decision_effect, question, recommendation, alternatives, admissibility_request, admissibility_receipt, decision_gate_blockers_remaining, downstream_gates, apply_authorization]
+    properties:
+      decision_id: {type: string, minLength: 1}
+      remains: {const: false}
+      decision_status: {const: selected}
+      selected_option_id: {const: A}
+      selected_option_label: {const: Immutable decision-envelope graph}
+      selected_at: {type: string, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"}
+      selection_source:
+        type: object
+        additionalProperties: false
+        required: [kind, response]
+        properties:
+          kind: {const: direct_user_selection}
+          response: {const: A}
+      selection_rationale: {type: string, minLength: 1}
+      decision_effect: {const: design-binding-selected}
+      question: {type: string, minLength: 1}
+      recommendation: {type: string, minLength: 1}
+      alternatives: {type: array, minItems: 2, items: {$ref: "#/$defs/impact"}}
+      admissibility_request: {type: object}
+      admissibility_receipt: {type: object}
+      decision_gate_blockers_remaining: {const: 0}
+      downstream_gates: {type: array, minItems: 3, uniqueItems: true, items: {type: string, minLength: 1}}
+      apply_authorization: {type: string, minLength: 1}
+  helper_receipt:
+    type: object
+    additionalProperties: false
+    required: [helper_id, status, files_read, writes, claim_ceiling, material_challenge]
+    properties:
+      helper_id: {type: string, minLength: 1}
+      status: {const: joined}
+      files_read: {type: array, minItems: 5, maxItems: 5, items: {type: string}}
+      writes: {const: none}
+      claim_ceiling: {type: string, minLength: 1}
+      material_challenge: {type: string, minLength: 1}
+  governance_sidecar_receipts:
+    type: array
+    minItems: 2
+    maxItems: 3
+    items:
+      type: object
+      additionalProperties: false
+      required: [helper_id, issue_id, status, root_cause, changed_byte_inventory, renewed_owner_acceptance_required, permanent_fix, writes]
+      properties:
+        helper_id: {type: string, minLength: 1}
+        issue_id: {enum: [format-aware-diff-whitespace, ignored-machine-artifact-visibility, check-ignore-exit-classification]}
+        status: {const: joined}
+        root_cause: {type: string, minLength: 1}
+        changed_byte_inventory: {type: array, maxItems: 0}
+        renewed_owner_acceptance_required: {const: false}
+        permanent_fix: {type: string, minLength: 1}
+        writes: {const: none}
+  public_content_constraints:
+    type: object
+    additionalProperties: false
+    required: [private_paths_or_prose_allowed, required_wording, scan_rule]
+    properties:
+      private_paths_or_prose_allowed: {const: false}
+      required_wording: {type: array, minItems: 3, items: {type: string}}
+      scan_rule: {type: string, minLength: 1}
+  completion_claim:
+    type: object
+    additionalProperties: false
+    required: [status, reason, terminal_fixture_in_plan, current_execution_authority]
+    properties:
+      status: {const: proposal_ready}
+      reason: {type: string, minLength: 1}
+      terminal_fixture_in_plan: {const: true}
+      current_execution_authority: {const: false}
+$defs:
+  exact_source:
+    type: object
+    additionalProperties: false
+    required: [path, sha256, use, strength]
+    properties:
+      path: {type: string, minLength: 1}
+      sha256: {type: string, pattern: "^[a-f0-9]{64}$"}
+      use: {type: string, minLength: 1}
+      strength: {enum: [canonical_instruction, incident_supported, adopted_repair_evidence, independent_review_evidence]}
+  invariant:
+    type: object
+    additionalProperties: false
+    required: [id, statement, enforcement]
+    properties:
+      id: {type: string, pattern: "^GFR-[0-9]{2}$"}
+      statement: {type: string, minLength: 1}
+      enforcement: {type: string, minLength: 1}
+  workflow_step:
+    type: object
+    additionalProperties: false
+    required: [ordinal, name, behavior, authority]
+    properties:
+      ordinal: {type: integer, minimum: 1}
+      name: {type: string, minLength: 1}
+      behavior: {type: string, minLength: 1}
+      authority: {type: string, minLength: 1}
+  path_changes:
+    type: object
+    additionalProperties: false
+    required: [apply_now, paths, purpose]
+    properties:
+      apply_now: {type: boolean}
+      paths: {type: array, minItems: 1, uniqueItems: true, items: {type: string}}
+      purpose: {type: string, minLength: 1}
+  impact:
+    type: object
+    additionalProperties: false
+    required: [surface, impact]
+    properties:
+      surface: {type: string, minLength: 1}
+      impact: {type: string, minLength: 1}

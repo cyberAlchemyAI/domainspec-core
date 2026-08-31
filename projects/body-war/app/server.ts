@@ -699,6 +699,19 @@ async function handleSuggestedTrackEvidenceCreate(
     return
   }
 
+  const existingCandidates = await bodyWarRepo.listActivityEvidenceCandidates(
+    track.id,
+    auth.principalId,
+  )
+  if (existingCandidates.some((candidate) => candidate.providerActivityId === activityId)) {
+    sendError(response, appError(
+      "evidence_candidate_replay",
+      409,
+      "This activity already has evidence for this suggested track",
+    ))
+    return
+  }
+
   const activities = await strava.listActivitySummaries(auth.principalId, "1", "50")
   if (!activities.ok) {
     sendError(response, activities.error)

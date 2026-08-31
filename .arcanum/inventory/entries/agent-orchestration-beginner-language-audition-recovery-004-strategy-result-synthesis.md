@@ -3,7 +3,7 @@ id: agent-orchestration-beginner-language-audition-recovery-004-strategy-result-
 kind: entry
 type: synthesis
 title: Agent orchestration beginner-language audition Recovery 004 strategy result
-updated: 2026-08-16
+updated: 2026-08-20
 status: blocked
 confidence: high
 dispatch_id: 2026-08-16-agent-orchestration-language-audition-recovery-004
@@ -56,9 +56,13 @@ residue:
   - frozen-m-e-adoption-contract-proposed
   - candidate-q-closed-input-bound
   - three-fresh-parent-capacity-segments-declared
-  - two-independent-tension-verdicts-pending
-  - human-confirmation-not-requested
-  - dispatch-unregistered-unexecuted
+  - two-independent-exact-digest-tension-verdicts-pass
+  - human-confirmation-recorded
+  - dispatch-registered
+  - orchestrate-preflight-wave-ready
+  - segment-a-current-parent-capacity-block
+  - recovery-target-agent-spawn-count-zero
+  - fresh-parent-continuation-required
   - no-html-publication-deployment-or-production-mutation
 ---
 
@@ -66,10 +70,12 @@ residue:
 
 ## Direct Status
 
-Recovery 004 is a prepared, schema-valid, route-valid strategy candidate. It is
-blocked before confirmation because the current parent tree cannot provide two
-fresh exact-sheet-only tension checkers. This Inventory entry is a non-authority
-read model; it does not satisfy that gate.
+Recovery 004 is confirmed and registered against the unchanged schema-valid sheet and
+two independent tension PASS handles. Orchestrate preflight compiled Segment A with
+zero spawn attempts, then the current-parent capacity gate blocked because three
+completed child identities remain. No Recovery 004 target agent has run. This
+Inventory entry is a non-authority read model; it does not replace confirmation,
+registration, or native execution evidence.
 
 ## P1 Trigger Decision
 
@@ -104,8 +110,9 @@ parent form one exact candidate-set manifest for downstream comparison.
 
 The route declares a four-slot host ceiling including root and caps each fresh parent
 to three child identities: Segment A uses one, Segment B uses three, and Segment C
-uses two. Current host inventory contains three retained prior-context children, so
-neither tension nor execution may start here.
+uses two. The current parent retains the two completed tension agents and one
+governance helper, leaving zero free child slots. The compiled Segment A action remains
+unconsumed until a fresh root-only parent supplies the required inventory witness.
 
 ## Inventory Preflight
 
@@ -118,18 +125,23 @@ they did not prove carry-forward admission.
 
 The schema 0.8.0 sheet passes at SHA-256
 `854a184376de2e4c903657d17ab02a4f790fe3b8acd092f6109abfea43c3bd1f`.
-Dispatch Spec passes with zero blocks and zero flags. Check-tension is pending with
-zero admissible verdicts. No human confirmation was requested, the dispatch was not
-registered, and no Recovery 004 target agent was spawned.
+Dispatch Spec passes with zero blocks and zero flags after route authorization changed
+to `approved`. Check-tension passes with two independent verdict handles bound to the
+same sheet digest and zero apontamentos. Human confirmation is recorded and the
+dispatch is registered. Orchestrate preflight is `wave_ready`, but
+`g-segment-capacity` blocks the current context; no Recovery 004 target agent was
+spawned and the close row remains absent.
 
 ## Claim And Authority Boundary
 
-This strategy establishes only a validated proposal. It does not establish a working
-cross-parent continuation, candidate admission, synthesis, review, findings, audit,
-Human Gate A readiness, comprehension, publication, deployment, release, or production
-status. The guide and all deployment surfaces remain unchanged.
+This strategy now establishes confirmation, registration, and a validator-clean
+first-wave preflight plan. It does not establish a working cross-parent continuation,
+candidate admission, synthesis, review, findings, audit, Human Gate A readiness,
+comprehension, publication, deployment, release, or production status. The guide and
+all deployment surfaces remain unchanged.
 
 ## Next Human Action
 
-Run `Recovery 004 tension gate` in a fresh parent context. Only PASS/PASS on the exact
-sheet digest may produce the later exact confirmation request.
+Open a fresh parent context and request `resume registered Recovery 004`. That parent
+must consume the existing preflight plan only after proving one root and zero retained
+children; it must not reconfirm, reregister, recompile, or replay `spawn-0001`.

@@ -80,6 +80,13 @@ also requires:
 5. a selected runtime integration; and
 6. a result contract for allow, deny, abstain, or error.
 
+The `GOV-INV-CAV2-D64` registration and
+`GOV-RULE-D64-BINDING-COMPLETE` review rule satisfy none of those adoption or
+enforcement preconditions. The canonical definition is active, but its ontology
+registration is candidate and its operational rule is explicitly not adopted.
+Presence, source status, schema validity, or a review outcome cannot change
+that posture.
+
 This candidate package supplies none of those runtime effects.
 
 ## Effect Ceiling

@@ -1,116 +1,129 @@
-# DomainSpec v2 Ontology Instantiation
+# DomainSpec Product Ontology
 
-Status: candidate local instantiation surface
+Status: canonical project-local ontology package
+
+Ontology ID: `domainspec-product-ontology@1`
+
+Ontology type: `business-system-bridge`
+
 Owner: DomainSpec v2 owner
-Authority effect: none by itself
+Visibility: private
 
-## Role
+## Purpose
 
-This folder is the local place where DomainSpec v2 can sketch ontology entries
-that instantiate the CyberAlchemy v2 ontology package shape without becoming a
-second base ontology package.
+This package explains DomainSpec as one evidence-bound product model. It connects the product thesis and
+domain language to the implementation baseline, instantiation CLI, target observers, receipts, and current
+residue without letting any read model replace its source authority.
 
-Entries here are candidate/local until a DomainSpec v2 owner route promotes
-them. They may cite CyberAlchemy v2 as harvested precedent and modeling shape,
-but they do not make CyberAlchemy v2 the decision owner for DomainSpec v2.
+The ontology is canonical for **product navigation and traceability**. It does not redefine terms, alter
+DS-D1 or DS-D8, select implementation bytes, prove runtime behavior, or authorize publication, deployment,
+or release.
 
-## Source Boundaries
+## Package
 
-| Source | Allowed Reading | Forbidden Reading |
-| --- | --- | --- |
-| `authority/AUTHORITY-MODEL.md` | Local authority kinds, owner routes, non-collapse rules, and local governance decisions. | A CAV2 authority-kind amendment or public CAV2 schema change. |
-| `authority/source-spine.md` | Source posture: CAV2 and v1 are harvested precedent and supporting source only. | A resolution path through CAV2 or v1. |
-| `impl/spec/` | DomainSpec language primary source: taxonomy, relationships, axioms, test pipeline, and constitution. | A promoted implementation contract or runtime-conformance verdict. |
-| `cyberAlchemy-v2/ontology/` | Candidate node/package shape to instantiate locally. | Base authority over DomainSpec v2 decisions. |
-| `cyberAlchemy-v2/specs/` | Promoted contract target after gates. | Raw source for local ontology candidates or a place to write from this folder directly. |
+| Artifact | Role |
+| --- | --- |
+| [`profile.json`](profile.json) | Stable package identity, type selection, ownership, branches, current baseline, and authority ceiling. |
+| [`sources.json`](sources.json) | Exact source paths, roles, branches, and SHA-256 identities. |
+| [`nodes.json`](nodes.json) | Stable business and system concepts. |
+| [`relations.json`](relations.json) | Typed business/system and system-internal relations with explicit evidence. |
+| [`residue.json`](residue.json) | Open product gaps that the ontology must not smooth into completion. |
+| [`views/business.md`](views/business.md) | Human business/product view. |
+| [`views/system.md`](views/system.md) | Human implementation view. |
+| [`views/bridge.md`](views/bridge.md) | Human intent-to-implementation traceability view. |
+| [`schema/ontology-package.schema.json`](schema/ontology-package.schema.json) | Closed record-shape contract used by the validator. |
+| [`schema/2026-08-29-business-relations-and-residue-node-bindings.json`](schema/2026-08-29-business-relations-and-residue-node-bindings.json) | Schema-amendment witness for business relations and explicit residue node bindings. |
+| [`schema/2026-08-30-designed-system-components.json`](schema/2026-08-30-designed-system-components.json) | Schema-amendment witness for explicit `designed` system nodes and designed realization topology. |
+| [`schema/2026-08-30-infrastructure-binding-contracts.json`](schema/2026-08-30-infrastructure-binding-contracts.json) | Migration witness for concern-specific contracts and explicit infrastructure bindings. |
+| [`schema/2026-08-30-repository-bridge-non-collapse.json`](schema/2026-08-30-repository-bridge-non-collapse.json) | Non-collapse witness routing business semantics through the Repository contract before an adapter. |
+| [`validate-ontology.mjs`](validate-ontology.mjs) | Deterministic source-currentness, closure, polarity, evidence, and receipt validator. |
+| [`validation-receipts/`](validation-receipts/) | Append-only package validation history. |
 
-## Local Entry Rules
+The machine JSON files are the ontology state. Markdown files are human views and must not contradict them.
 
-Every local ontology entry should declare:
-
-- `node_id`: a local stable identifier.
-- `instantiates`: a CAV2 package concept such as `concept.authority_envelope`,
-  `concept.spec`, `concept.decision`, or `concept.residue`.
-- `candidate_status`: `candidate`, `reviewed-candidate`, `deferred`,
-  `blocked`, or `projected`.
-- `owner_route`: the DomainSpec v2 owner route that can review, promote, block,
-  or retire the entry.
-- `source_refs`: concrete local source paths.
-- `confidence`: top-level `evidence_confidence` and
-  `commitment_confidence`.
-- `challenge_contract`: protocol-only challenge details; not node confidence,
-  not node residue, not a verdict, and not promotion.
-- `forbidden_collapse`: what this candidate must not be mistaken for.
-
-## Candidate Example
-
-The example below is not promoted. It demonstrates how a local DomainSpec v2
-governance concept can instantiate the CAV2 node shape while keeping the local
-owner route in charge.
-
-```yaml
-node_id: dsv2.ontology.validation-governance
-instantiates: concept.authority_envelope
-label: Validation Governance
-local_authority_kind: validation-governance
-candidate_status: candidate
-owner_route: projects/domainspec-v2/authority/AUTHORITY-MODEL.md#authority-kinds
-source_refs:
-  - projects/domainspec-v2/authority/AUTHORITY-MODEL.md#authority-kinds
-  - projects/domainspec-v2/authority/source-spine.md#source-families
-  - projects/domainspec-v2/impl/spec/TEST-PIPELINE.md
-  - projects/domainspec-v2/impl/spec/TAXONOMY.md
-confidence:
-  evidence_confidence: medium
-  commitment_confidence: medium
-challenge_contract:
-  challenge_response: owner_review
-  valid_challenge_modes:
-    - evidence
-    - contradiction
-    - owner_review
-    - validation
-  contradiction_edges:
-    - dsv2.ontology.entry-that-treats-derived-test-as-runtime-correctness
-  validation_edges:
-    - projects/domainspec-v2/impl/tools/validate-doc-links.ts
-    - projects/domainspec-v2/impl/tools/validate-relationships.ts
-  owner_route: validation-governance
-  resolution_gate: projects/domainspec-v2/authority/decisions/
-  blocking_questions:
-    - Does the entry conflate build-time fidelity with runtime conformance?
-    - Does the entry route authority through CAV2 or v1 instead of DomainSpec v2?
-  challenge_residue_route: projects/domainspec-v2/research/
-residue:
-  - L2 attestation seal pending for the ratified governance kind.
-forbidden_collapse:
-  - Not a CAV2 closed authority-kind enumeration change.
-  - Not a CyberAlchemy v2 spec promotion.
-  - Not runtime correctness or implementation conformance.
-  - Not authority over DomainSpec v2 without the local owner route.
-```
-
-## Spec Boundary
-
-DomainSpec v2 may use local ontology candidates to organize what a feature,
-governance object, or spec concept appears to mean. That does not write a spec
-and does not promote a contract.
-
-Promoted contracts live behind gates. For CyberAlchemy v2, `cyberAlchemy-v2/specs/`
-is a promoted contract target after research and architecture gates. For
-DomainSpec v2, `impl/spec/` is local primary source material and imported
-implementation-home evidence, not proof that an ontology candidate has been
-promoted.
-
-## Promotion Path
+## Product in one graph
 
 ```text
-local source refs
-  -> candidate ontology entry
-  -> DomainSpec v2 owner review
-  -> decision, promotion, block, or defer record
-  -> optional generated/read-model projection
+checked system map
+  -> typed domain graph
+  -> exact realization baseline
+  -> deterministic instantiation CLI
+  -> independent target observer
+  -> baseline-bound receipt
+  -> external owner decision
+
+Workflow failure
+  -> immutable Recovery Intent
+  -> Durable Compensation Dispatch over a frozen plan
+  -> fenced Claim with time-bounded Lease
+  -> Execution Attempt with stable Invocation Identity
+  -> completed | bounded Retry | exhausted | escalated
 ```
 
-No arrow is automatic. A candidate can be useful for navigation while still
-having no authority effect.
+## Authority boundaries
+
+- [`../PRODUCT-THESIS.md`](../PRODUCT-THESIS.md) owns product positioning.
+- [`../definitions/DEFINITIONS.md`](../definitions/DEFINITIONS.md) owns critical term semantics.
+- [`../definitions/meta-types/meta-types.md`](../definitions/meta-types/meta-types.md) owns DS-D1 human cards.
+- [`../definitions/relationships/relationships.yml`](../definitions/relationships/relationships.yml) owns DS-D8 signatures.
+- Baseline `domainspec-meta-types-current-implemented@10` owns the selected baseline-independent recovery closure and provider-neutral system-integration formation epoch; current state, Node 26, catalog, and receipt projections are exact-validated outside its digest membership.
+- Runtime contracts own bounded operational behavior.
+- This ontology owns only the stable cross-source graph and its explicit gaps.
+
+## Compensation admission
+
+The complete compensation model is admitted as `domainspec-v2-D36..D44`. D36 is the umbrella forward-recovery
+model; D37 owns the Recovery Intent, D38 durable Dispatch, D39 execution Attempt, D40 replay-safe Invocation
+Identity, D41 exclusive fenced Claim, D42 time-bounded Claim Lease, D43 bounded Retry, and D44 Terminal
+Disposition. These are runtime method concepts around existing Workflow and Operation types, not new DS-D1
+meta-types or DS-D2/DS-D8 verbs.
+
+Candidate-local generated TypeScript, Python, and Rust implementations bridge D36 in-process
+planning/execution, D37 deterministic Recovery Intent, and D40 stable plan-occurrence Invocation Identity to
+the external-executor boundary. Their shared profile hash-closes each target, test, and Workflow binding. This
+is selected into baseline v10 only as bounded generated-source and contract-profile formation. The remaining D38/D39/D41/D42/D43/D44 durable
+machinery and Operation-owned persistent replay recognition remain bound to explicit residue.
+
+The canonical target machinery is now a first-class system ontology. It contains concern-specific Repository,
+Unit of Work, Clock, Wakeup, binding-resolution, and telemetry contracts plus separate persistence,
+transaction-guarantee, failure-outcome, and durable-workflow-runtime bindings. These surround one logical
+transactional Recovery Coordination Store, fenced Claim authority, Lease service, durable Worker, Attempt journal,
+Operation-owned Invocation Ledger, Retry scheduler, Terminal recorder, Restart reconciler, dispatch-outbox
+publisher, Clock contract, and telemetry contract. The D45-D49 contract and binding-formation nodes are now
+`implemented`; provider adapters, durable workers, journals, schedulers, restart components, and telemetry
+remain `designed`. The portable architecture-property profile remains canonical. See
+[`../architecture/durable-recovery/README.md`](../architecture/durable-recovery/README.md).
+
+## Integration research admission
+
+The D45-D49 integration-boundary subgraph preserves the exact provenance used to design that machinery:
+the Operation, Workflow, and Infrastructure-Binding Pattern Tower; System Integration Contract Layer
+Revision 2; and the explicit owner admission. The Tower supplies the non-collapse model, Revision 2 supplies
+the candidate ownership split and first portable binding records, and the owner admission makes the semantic
+distinctions canonical.
+
+The ontology keeps those roles separate. The two research records have `authority_effect: none`, while live
+profile, compiler, validator, CLI, receipt, observer, and hostile-test sources now provide bounded formation
+evidence for the implemented `impl/system-integration/` package. This does not retrofit implementation
+authority into the research or admission. No universal Port, mandatory Interface, provider, database, ORM,
+broker, durable runtime, or deployment is selected, and no provider runtime guarantee is observed.
+
+## Validate
+
+Run with the repository Node 26 environment:
+
+```text
+node validate-ontology.mjs --require-receipt
+```
+
+Validation checks exact source digests, closed keys, stable-ID uniqueness, relation endpoint closure, business,
+system, and bridge polarity, separate business/system evidence on every bridge edge, view references, baseline
+currentness, the three-language recovery profile and its claim ceiling, D36-D44 non-collapse,
+the D45-D49 research-to-admission-to-system bridge, implementation-gap bindings, and the highest numeric
+append-only receipt epoch.
+
+## Evolution
+
+Change source authority first. Then update the ontology records and their source digests, validate without
+writing, append a new receipt, and validate again with `--require-receipt`. Never overwrite an earlier receipt
+or infer that a source change preserves an earlier baseline or package digest.

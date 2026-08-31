@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "body-war-cleanup-supervisor-contract-candidate",
+  "run_id": "20260826T190003Z-swu-bwsl-002-external-effect-readiness",
+  "target": "SWU-BWSL-002",
+  "contract_status": "specified-not-implemented",
+  "execution_ready": false,
+  "selected_policy_binding": {
+    "selection_id": "OWNER-BWSL-001-PRIVACY-MINIMAL-A",
+    "selection_receipt_sha256": "541f9cf40e686a68f188847641ab051033c9b9833c6103c6b1f95ed4ebd0b515",
+    "terminal_decision_record_sha256": "d90ef8a33769f995cb8c1dde8b87f0e25b0a396ce6dc050cbd46280403b6f205",
+    "operating_target_minutes": 15,
+    "crash_safe_hard_ceiling_claimed": false
+  },
+  "runtime_contract": {
+    "backend": "postgres-only",
+    "independent_process": true,
+    "independent_database_connection": true,
+    "must_be_ready_before_oauth": true,
+    "must_survive_primary_process_exit": true,
+    "primary_process_finally_cleanup_required": true,
+    "supervisor_fallback_cleanup_required": true,
+    "provider_network_calls_allowed": false
+  },
+  "private_locator_contract": {
+    "public_receipt_exposure": false,
+    "required_components": [
+      "opaque attempt identifier",
+      "exact consenting Body War principal identifier",
+      "exact SuggestedTrack identifier",
+      "preallocated exact evidence-candidate identifier",
+      "OAuth-start deadline timestamp"
+    ],
+    "storage": "private authenticated durable control record outside the public receipt",
+    "lifecycle": [
+      "reserve the exact evidence-candidate identifier before OAuth",
+      "arm the deadline and parent-liveness monitor before OAuth",
+      "mark the candidate created atomically with evidence insertion",
+      "mark each cleanup and repeat-verification result",
+      "retain no activity values, provider activity identifier, token, raw payload, map, polyline, coordinate, or note"
+    ],
+    "current_gap": "No private durable control record currently prebinds the exact consenting Body War principal before OAuth. Postgres also generates the evidence UUID at insert time and addActivityEvidenceCandidate accepts no caller-supplied identifier, so the required exact candidate locator cannot be bound before OAuth."
+  },
+  "triggers": [
+    {
+      "id": "normal-finally",
+      "condition": "the primary witness process reaches success or any handled failure",
+      "owner": "primary witness process",
+      "deadline": "immediate"
+    },
+    {
+      "id": "primary-death",
+      "condition": "the independent supervisor observes primary process termination or liveness loss",
+      "owner": "cleanup supervisor",
+      "deadline": "immediate"
+    },
+    {
+      "id": "operating-target",
+      "condition": "15 minutes have elapsed since OAuth start without terminal verified cleanup",
+      "owner": "cleanup supervisor",
+      "deadline": "immediate",
+      "claim_boundary": "operating target only, not a crash-safe hard retention guarantee"
+    }
+  ],
+  "cleanup_sequence": [
+    {
+      "order": 1,
+      "operation": "dispose exact evidence candidate with reason consent_revocation",
+      "expected_witness_success_result": "disposed",
+      "failure_before_candidate_result": "already_absent"
+    },
+    {
+      "order": 2,
+      "operation": "repeat exact evidence disposition",
+      "expected_result": "already_absent"
+    },
+    {
+      "order": 3,
+      "operation": "delete all Body War token rows for the exact principal and mark its provider-account metadata disconnected",
+      "expected_witness_success_result": "disposed"
+    },
+    {
+      "order": 4,
+      "operation": "repeat Body War-local provider-access disposition",
+      "expected_result": "already_absent"
+    },
+    {
+      "order": 5,
+      "operation": "verify exact evidence row and provider tokens absent, unrelated evidence untouched, and SuggestedTrack reset only when no other candidate remains",
+      "expected_result": "verified"
+    }
+  ],
+  "persistent_residue": [
+    "SuggestedTrack row",
+    "unrelated evidence candidates",
+    "runner profile",
+    "disconnected provider-account metadata",
+    "auth principal, grants, consumed OAuth state, and durable session lifecycle",
+    "source Strava activity and provider-side records",
+    "permitted non-private receipt"
+  ],
+  "provider_boundary": {
+    "revokeProviderAccess_semantics": "Body War-local token deletion and provider-account disconnection",
+    "strava_side_deauthorization": "not performed or proved",
+    "strava_revoke_endpoint_allowed": false,
+    "reason": "A Strava revoke/deauthorize call is outside the selected three-call app-owned provider envelope and cannot be added silently."
+  },
+  "required_acceptance_tests": [
+    "start supervisor and prove independent Postgres connectivity before OAuth",
+    "prebind the exact consenting Body War principal in the private control record before OAuth without exposing it in the non-private receipt",
+    "prove an exact evidence identifier can be reserved before OAuth and used by the insert",
+    "kill the primary process after evidence insertion and prove supervisor cleanup",
+    "trigger the 15-minute path with a synthetic clock and prove cleanup",
+    "prove first and repeated evidence/token disposition results",
+    "prove unrelated candidates remain and track reset is conditional",
+    "prove memory backend and missing supervisor block before OAuth",
+    "prove supervisor writes no public private locator or activity values",
+    "prove supervisor performs zero provider network calls"
+  ],
+  "current_implementation_evidence": {
+    "package_script": null,
+    "supervisor_executable": null,
+    "private_control_record": null,
+    "preallocated_candidate_identifier": false,
+    "primary_death_test": null,
+    "deadline_test": null,
+    "postgres_independent_cleanup_test": null,
+    "result": "BLOCK"
+  },
+  "authority_ceiling": "This contract is no-effect design evidence only and authorizes no product mutation or cleanup execution."
+}

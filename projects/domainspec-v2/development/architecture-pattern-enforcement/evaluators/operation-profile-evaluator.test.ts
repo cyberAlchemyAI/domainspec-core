@@ -213,14 +213,14 @@ test("emits a deterministic Operation-only receipt with complete denominator acc
   const first = evaluateOperationProfile(input());
   const second = evaluateOperationProfile(input());
   assert.deepEqual(first, second);
-  assert.equal(first.result, "fail");
+  assert.equal(first.result, "incomplete");
   assert.equal(first.subject.meta_type_id, "Operation");
   assert.equal(first.accounting.denominator_count, 13);
   assert.equal(first.accounting.applicable_count, 10);
   assert.equal(first.accounting.not_applicable_count, 3);
-  assert.equal(first.accounting.pass_count, 3);
-  assert.equal(first.accounting.fail_count, 1);
-  assert.equal(first.accounting.missing_count, 3);
+  assert.equal(first.accounting.pass_count, 7);
+  assert.equal(first.accounting.fail_count, 0);
+  assert.equal(first.accounting.missing_count, 0);
   assert.equal(first.accounting.owner_blocked_count, 3);
   assert.deepEqual(first.accounting.unaccounted_property_ids, []);
   assert.equal(first.synchronized_task_session_closeout, false);
@@ -257,9 +257,9 @@ test("emitted receipt validates against the strict Draft 2020-12 schema", () => 
   assert.notEqual(rejected.status, 0);
 });
 
-test("keeps pass, missing, owner-blocked, and fail accounting distinct", () => {
+test("keeps passing implementation evidence distinct from unresolved owner evidence", () => {
   const receipt = evaluateOperationProfile(input());
-  assert.equal(receipt.result, "fail");
+  assert.equal(receipt.result, "incomplete");
   assert.deepEqual(
     [
       receipt.accounting.pass_count,
@@ -268,7 +268,7 @@ test("keeps pass, missing, owner-blocked, and fail accounting distinct", () => {
       receipt.accounting.owner_blocked_count,
       receipt.accounting.fail_count,
     ],
-    [3, 3, 0, 3, 1],
+    [7, 0, 0, 3, 0],
   );
 
   const relabeled = input();
@@ -422,12 +422,12 @@ test("binds result and diagnostic to the exact immutable observer-result envelop
   const dependency = relabeled.property_results.find((row) =>
     row.property_id.endsWith(".hof-direction"),
   )!;
-  dependency.result = "pass";
-  dependency.diagnostic = "AOP_DEPENDENCY_PASS";
+  dependency.result = "missing";
+  dependency.diagnostic = "AOP_DEPENDENCY_COMPOSITION_BINDING_MISSING";
   dependency.observed_value = {
     producer_result: {
-      result: "missing",
-      diagnostic: "AOP_DEPENDENCY_COMPOSITION_BINDING_MISSING",
+      result: "pass",
+      diagnostic: "AOP_DEPENDENCY_PASS",
     },
   };
   assert.throws(
@@ -495,6 +495,6 @@ test("a missing cost budget remains owner-blocked and never claims semantic admi
   assert.equal(cost.result, "owner-blocked");
   assert.equal(cost.diagnostic, "AOP_COST_ADVISORY_NO_BUDGET");
   assert.equal(receipt.accounting.owner_blocked_count, 3);
-  assert.equal(receipt.accounting.fail_count, 1);
+  assert.equal(receipt.accounting.fail_count, 0);
   assert.equal(receipt.claim_ceiling.semantic_admission, false);
 });

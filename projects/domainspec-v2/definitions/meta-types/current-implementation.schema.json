@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "domainspec://schemas/current-meta-type-implementation-state/v2",
+  "$id": "domainspec://schemas/current-meta-type-implementation-state/v7",
   "title": "DomainSpec v2 current meta-type implementation state",
   "type": "object",
   "additionalProperties": false,
@@ -16,12 +16,13 @@
     "product_frontier",
     "operation_contract",
     "compensation_contract",
+    "infrastructure_binding_contract",
     "target_conformance",
     "claim_ceiling",
     "authority_effect"
   ],
   "properties": {
-    "schema_version": { "const": "domainspec.current-meta-type-implementation-state/v2" },
+    "schema_version": { "const": "domainspec.current-meta-type-implementation-state/v7" },
     "state_id": { "const": "domainspec-meta-types-current-implementation" },
     "status": { "const": "owner-admitted-frozen" },
     "baseline": {
@@ -29,7 +30,7 @@
       "additionalProperties": false,
       "required": ["id", "manifest", "manifest_sha256", "baseline_digest", "owner_decision", "owner_decision_sha256", "supersedes"],
       "properties": {
-        "id": { "type": "string", "pattern": "^domainspec-meta-types-current-implemented@[0-9]+$" },
+        "id": { "const": "domainspec-meta-types-current-implemented@10" },
         "manifest": { "type": "string", "minLength": 1 },
         "manifest_sha256": { "$ref": "#/$defs/sha256" },
         "baseline_digest": { "$ref": "#/$defs/sha256" },
@@ -40,7 +41,7 @@
           "additionalProperties": false,
           "required": ["id", "baseline_digest", "reason"],
           "properties": {
-            "id": { "const": "domainspec-meta-types-current-implemented@2" },
+            "id": { "const": "domainspec-meta-types-current-implemented@9" },
             "baseline_digest": { "$ref": "#/$defs/sha256" },
             "reason": { "type": "string", "minLength": 1 }
           }
@@ -50,7 +51,7 @@
     "scope": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["backend_meta_types", "realization_languages", "realization_rows", "ui_state_rows", "relationship_authority_rows", "compensation_runtime_contracts", "frozen_evidence_files"],
+      "required": ["backend_meta_types", "realization_languages", "realization_rows", "ui_state_rows", "relationship_authority_rows", "compensation_runtime_contracts", "compensation_definition_cards", "infrastructure_binding_definition_cards", "system_integration_language_profiles", "system_integration_obligation_rows", "frozen_evidence_files"],
       "properties": {
         "backend_meta_types": { "const": 13 },
         "realization_languages": {
@@ -64,6 +65,10 @@
         "ui_state_rows": { "const": 11 },
         "relationship_authority_rows": { "const": 31 },
         "compensation_runtime_contracts": { "const": 1 },
+        "compensation_definition_cards": { "const": 9 },
+        "infrastructure_binding_definition_cards": { "const": 5 },
+        "system_integration_language_profiles": { "const": 3 },
+        "system_integration_obligation_rows": { "const": 15 },
         "frozen_evidence_files": { "type": "integer", "minimum": 1 }
       }
     },
@@ -114,10 +119,10 @@
       "additionalProperties": false,
       "required": ["state", "work_pack", "implemented_surface", "next_unit"],
       "properties": {
-        "state": { "const": "target-instantiation-and-static-conformance-admitted" },
+        "state": { "const": "system-integration-formation-implemented-provider-runtime-open" },
         "work_pack": { "const": "development/meta-type-instantiation-cli/WORK-PACK.md" },
-        "implemented_surface": { "const": "private-cli-three-profile" },
-        "next_unit": { "const": "durable-compensation-dispatcher" }
+        "implemented_surface": { "const": "private-cli-three-profile-with-provider-neutral-system-integration" },
+        "next_unit": { "const": "durable-recovery-provider-runtime" }
       }
     },
     "operation_contract": {
@@ -138,26 +143,93 @@
     "compensation_contract": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["definition_id", "status", "role", "states", "executor_owner", "durable_dispatch"],
+      "required": ["definition_id", "recovery_intent_definition_id", "supporting_definition_ids", "status", "role", "workflow_evaluation_results", "semantic_states", "dispatch_states", "attempt_outcomes", "terminal_dispositions", "executor_owner", "durable_model_admitted", "replay_protection_contract", "claim_and_lease_contract", "durable_dispatch_implemented"],
       "properties": {
         "definition_id": { "const": "domainspec-v2-D36" },
-        "status": { "const": "canonical-project-local-runtime-contract" },
-        "role": { "const": "forward-recovery-operation" },
-        "states": {
+        "recovery_intent_definition_id": { "const": "domainspec-v2-D37" },
+        "supporting_definition_ids": {
           "type": "array",
           "prefixItems": [
-            { "const": "not-required" },
-            { "const": "requested" },
-            { "const": "running" },
-            { "const": "completed" },
-            { "const": "failed" }
+            { "const": "domainspec-v2-D37" }, { "const": "domainspec-v2-D38" },
+            { "const": "domainspec-v2-D39" }, { "const": "domainspec-v2-D40" },
+            { "const": "domainspec-v2-D41" }, { "const": "domainspec-v2-D42" },
+            { "const": "domainspec-v2-D43" }, { "const": "domainspec-v2-D44" }
+          ],
+          "items": false,
+          "minItems": 8,
+          "maxItems": 8
+        },
+        "status": { "const": "canonical-model-partially-realized" },
+        "role": { "const": "forward-recovery-operation" },
+        "workflow_evaluation_results": {
+          "type": "array",
+          "prefixItems": [{ "const": "not-required" }, { "const": "recovery-required" }],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "semantic_states": {"type":"array","prefixItems":[{"const":"required"},{"const":"satisfied"},{"const":"unresolved"}],"items":false,"minItems":3,"maxItems":3},
+        "dispatch_states": {"type":"array","prefixItems":[{"const":"ready"},{"const":"leased"},{"const":"executing"},{"const":"retry-scheduled"},{"const":"terminal"}],"items":false,"minItems":5,"maxItems":5},
+        "attempt_outcomes": {"type":"array","prefixItems":[{"const":"succeeded"},{"const":"failed"},{"const":"unknown"}],"items":false,"minItems":3,"maxItems":3},
+        "terminal_dispositions": {"type":"array","prefixItems":[{"const":"completed"},{"const":"exhausted"},{"const":"escalated"}],"items":false,"minItems":3,"maxItems":3},
+        "executor_owner": { "const": "external-runtime" },
+        "durable_model_admitted": { "const": true },
+        "replay_protection_contract": { "const": true },
+        "claim_and_lease_contract": { "const": true },
+        "durable_dispatch_implemented": { "const": false }
+      }
+    },
+    "infrastructure_binding_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["definition_ids", "status", "code_contract_model", "interface_reference_policy", "bindings", "system_profile_id", "system_profile_digest", "language_profiles", "contract_profile_implementation", "cli_binding_formation", "cli_exact_observation", "implementation_evidence", "provider_selection", "provider_runtime_implementation", "runtime_guarantees_observed"],
+      "properties": {
+        "definition_ids": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "domainspec-v2-D45" }, { "const": "domainspec-v2-D46" },
+            { "const": "domainspec-v2-D47" }, { "const": "domainspec-v2-D48" },
+            { "const": "domainspec-v2-D49" }
           ],
           "items": false,
           "minItems": 5,
           "maxItems": 5
         },
-        "executor_owner": { "const": "external-runtime" },
-        "durable_dispatch": { "const": false }
+        "status": { "const": "canonical-profile-and-binding-formation-provider-runtime-open" },
+        "code_contract_model": { "const": "concern-specific-no-universal-port" },
+        "interface_reference_policy": { "const": "optional-only-for-actual-domain-interface" },
+        "bindings": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "persistence" }, { "const": "transaction-guarantee" },
+            { "const": "failure-outcome" }, { "const": "durable-workflow-runtime" }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "system_profile_id": { "const": "domainspec.system-integration-profile/provider-neutral-v1" },
+        "system_profile_digest": { "const": "4b223f7ad48512fbd9568ff427de7d151792567bb96d64e65d869e094b82a5ab" },
+        "language_profiles": {"type":"array","prefixItems":[{"const":"python"},{"const":"rust"},{"const":"typescript"}],"items":false,"minItems":3,"maxItems":3},
+        "contract_profile_implementation": { "const": true },
+        "cli_binding_formation": { "const": true },
+        "cli_exact_observation": { "const": true },
+        "implementation_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["profile", "compiler", "validator", "tests", "cli_compiler", "cli_tests"],
+          "properties": {
+            "profile": {"$ref":"#/$defs/path_digest"},
+            "compiler": {"$ref":"#/$defs/path_digest"},
+            "validator": {"$ref":"#/$defs/path_digest"},
+            "tests": {"$ref":"#/$defs/path_digest"},
+            "cli_compiler": {"$ref":"#/$defs/path_digest"},
+            "cli_tests": {"$ref":"#/$defs/path_digest"}
+          }
+        },
+        "provider_selection": { "const": "open" },
+        "provider_runtime_implementation": { "const": false },
+        "runtime_guarantees_observed": { "const": false }
       }
     },
     "target_conformance": {
@@ -180,12 +252,18 @@
     "claim_ceiling": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["canonical_project_local_baseline", "generated_target_conformance", "compensation_runtime_contract_admitted", "durable_compensation_dispatch", "publication", "release", "deployment", "production"],
+      "required": ["canonical_project_local_baseline", "generated_target_conformance", "compensation_runtime_contract_admitted", "durable_compensation_model_admitted", "infrastructure_binding_model_admitted", "durable_workflow_runtime_binding_admitted", "durable_recovery_architecture_admitted", "system_integration_contract_profiles_implemented", "system_integration_provider_runtime_implemented", "durable_compensation_dispatch_implemented", "publication", "release", "deployment", "production"],
       "properties": {
         "canonical_project_local_baseline": { "const": true },
         "generated_target_conformance": { "const": true },
         "compensation_runtime_contract_admitted": { "const": true },
-        "durable_compensation_dispatch": { "const": false },
+        "durable_compensation_model_admitted": { "const": true },
+        "infrastructure_binding_model_admitted": { "const": true },
+        "durable_workflow_runtime_binding_admitted": { "const": true },
+        "durable_recovery_architecture_admitted": { "const": true },
+        "system_integration_contract_profiles_implemented": { "const": true },
+        "system_integration_provider_runtime_implemented": { "const": false },
+        "durable_compensation_dispatch_implemented": { "const": false },
         "publication": { "const": false },
         "release": { "const": false },
         "deployment": { "const": false },
@@ -195,6 +273,7 @@
     "authority_effect": { "const": "project-local-canonical-current-state" }
   },
   "$defs": {
-    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "path_digest": {"type":"object","additionalProperties":false,"required":["path","sha256"],"properties":{"path":{"type":"string","minLength":1},"sha256":{"$ref":"#/$defs/sha256"}}}
   }
 }

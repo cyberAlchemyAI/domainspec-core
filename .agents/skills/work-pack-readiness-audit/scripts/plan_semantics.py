@@ -255,6 +255,23 @@ def build_plan_semantics(
     closeout_by_unit = {
         item["unit_id"]: item for item in config["closeout_bindings"]
     }
+    typed_closeout_by_unit = {
+        item["unit_id"]: item
+        for item in config.get("task_session_closeout_contracts", [])
+    }
+    entry_closure = config.get("execution_entry_closure")
+    entry_units_by_id: dict[str, Any] = {}
+    if entry_closure is not None:
+        selected_units = binding_payload(entry_closure["units_ref"], repository_root)[
+            "selected_value"
+        ]
+        if not isinstance(selected_units, list):
+            raise PlanSemanticError("execution-entry unit closure must select an array")
+        entry_units_by_id = {
+            item["unit_id"]: item
+            for item in selected_units
+            if isinstance(item, dict) and isinstance(item.get("unit_id"), str)
+        }
 
     components = {
         "objective": binding_payload(config["objective_ref"], repository_root),
@@ -328,12 +345,21 @@ def build_plan_semantics(
             "bindings": _normalized_binding_tree(
                 config["closeout_bindings"], repository_root
             ),
+            "task_session_contracts": _normalized_binding_tree(
+                config.get("task_session_closeout_contracts", []),
+                repository_root,
+            ),
         },
         "runtime": {
             "requested_task_session_execution_mode": config["runtime_binding"][
                 "requested_task_session_execution_mode"
             ]
         },
+        "execution_entry_closure": (
+            _normalized_binding_tree(entry_closure, repository_root)
+            if entry_closure is not None
+            else None
+        ),
         "execution_policy": execution_policy,
         "frontier": [unit["unit_id"] for unit in execution],
         "risk_budget": {
@@ -384,12 +410,16 @@ def build_plan_semantics(
             "closeout_contract": _normalized_binding_tree(
                 closeout_by_unit[unit_id], repository_root
             ),
+            "task_session_closeout_contract": _normalized_binding_tree(
+                typed_closeout_by_unit.get(unit_id), repository_root
+            ),
             "runtime_contract": components["runtime"],
             "owner_contract_digest": component_digests["owner"],
             "risk_budget_digest": component_digests["risk_budget"],
             "allowed_routes_digest": execution_policy["allowed_routes_digest"],
             "execution_policy_digest": component_digests["execution_policy"],
             "unit_routes": unit_routes,
+            "execution_entry_unit": entry_units_by_id.get(unit_id),
         }
         unit_payloads[unit_id] = payload
         unit_digests[unit_id] = canonical_digest(payload)

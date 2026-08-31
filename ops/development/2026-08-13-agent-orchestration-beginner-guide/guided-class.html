@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; connect-src 'none';">
-  <title>Agent orchestration: from prompt to proof</title>
+  <title>Agent orchestration with Lantern and Priya: from prompt to proof</title>
   <style>
     :root {
       --ink: #201b2c;
@@ -93,7 +93,7 @@
       position: relative;
       overflow: hidden;
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: 28px;
       align-items: end;
       padding: clamp(24px, 5vw, 54px);
@@ -151,6 +151,26 @@
       font-weight: 600;
     }
 
+    .hero-title-cast,
+    .hero-title-tail {
+      display: block;
+    }
+
+    .hero-title-cast {
+      margin-top: 0.16em;
+      color: #ffce67;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.42em;
+      font-weight: 850;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-title-tail {
+      margin-top: 0.1em;
+      color: #e9dfe7;
+      font-size: 0.58em;
+    }
+
     h2 {
       margin: 0 0 12px;
       font-size: clamp(2rem, 4vw, 3.4rem);
@@ -175,6 +195,48 @@
       margin-top: 18px;
       color: #e9dfe7;
       font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+
+    .hero-story {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 760px;
+      margin-top: 22px;
+      padding: 16px;
+      background: rgba(255, 250, 240, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 16px;
+    }
+
+    .hero-story h2 {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: #fffaf0;
+      font-family: inherit;
+      font-size: 0.76rem;
+      font-weight: 850;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero-character {
+      padding: 13px 14px;
+      background: rgba(255, 250, 240, 0.08);
+      border-radius: 12px;
+    }
+
+    .hero-character strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #ffce67;
+      font-size: 1.02rem;
+    }
+
+    .hero-character p {
+      color: #f3eaf0;
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .hero-actions {
@@ -230,67 +292,16 @@
       font-size: 0.88rem;
     }
 
-    .hero-contract {
-      position: relative;
-      z-index: 1;
-      padding: 18px;
-      color: var(--ink);
-      background: #fffaf0;
-      border-radius: 16px;
-      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
-    }
-
-    .hero-contract strong {
-      display: block;
-      margin-bottom: 7px;
-      color: var(--plum);
-    }
-
-    .hero-contract p {
-      font-size: 0.92rem;
-    }
-
-    .progress-wrap {
-      margin-top: 16px;
-    }
-
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 7px;
-      font-size: 0.82rem;
-      font-weight: 800;
-    }
-
-    .progress-track {
-      overflow: hidden;
-      height: 10px;
-      background: rgba(75, 33, 66, 0.15);
-      border-radius: 999px;
-    }
-
-    .progress-bar {
-      width: 0;
-      height: 100%;
-      background: linear-gradient(90deg, var(--gold), var(--teal));
-      border-radius: inherit;
-      transition: width 250ms ease;
-    }
-
     .class-grid {
-      display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
-      gap: 22px;
-      align-items: start;
-      margin-top: 22px;
+      display: block;
+      margin-top: 14px;
     }
 
     .class-rail {
       position: sticky;
-      top: 18px;
-      display: grid;
-      gap: 14px;
+      top: 8px;
+      z-index: 20;
+      margin-bottom: 12px;
     }
 
     .rail-card,
@@ -303,92 +314,63 @@
     }
 
     .rail-card {
-      padding: 16px;
-    }
-
-    .rail-card h2 {
-      font-family: inherit;
-      font-size: 1rem;
-      letter-spacing: 0;
+      padding: 8px;
     }
 
     .lesson-nav {
       display: grid;
-      gap: 6px;
-      margin-top: 12px;
-    }
-
-    .lesson-link {
-      display: grid;
-      grid-template-columns: 30px 1fr 20px;
-      gap: 9px;
+      grid-template-columns: 42px minmax(0, 1fr) 42px;
       align-items: center;
-      width: 100%;
-      padding: 9px;
-      text-align: left;
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      cursor: pointer;
+      gap: 8px;
+      width: min(100%, 620px);
+      margin: 0 auto;
     }
 
-    .lesson-link:hover,
-    .lesson-link[aria-current="step"] {
-      background: #f0e7ee;
-      border-color: #dbc7d6;
-    }
-
-    .lesson-link .num {
+    .route-arrow {
       display: grid;
       place-items: center;
-      width: 28px;
-      height: 28px;
+      width: 42px;
+      height: 42px;
+      padding: 0;
       color: var(--plum);
-      background: #efe5ec;
+      background: #f0e7ee;
+      border: 1px solid #dbc7d6;
       border-radius: 50%;
-      font-size: 0.78rem;
+      font-size: 1.2rem;
       font-weight: 900;
-    }
-
-    .lesson-link .label {
-      font-size: 0.86rem;
-      font-weight: 750;
-    }
-
-    .lesson-link .done {
-      color: var(--green);
-      font-weight: 900;
-      opacity: 0;
-    }
-
-    .lesson-link.is-complete .done {
-      opacity: 1;
-    }
-
-    .lens-list {
-      display: grid;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .lens-list label {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 0.88rem;
       cursor: pointer;
     }
 
-    .lens-list input {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--teal);
+    .route-arrow:hover:not(:disabled) {
+      background: #e5d5e1;
     }
 
-    .lens-help {
-      margin-top: 10px;
+    .route-arrow:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .route-current {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+      text-align: center;
+    }
+
+    .route-step {
       color: var(--muted);
-      font-size: 0.78rem;
+      font-size: 0.68rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .route-current strong {
+      overflow: hidden;
+      color: var(--plum);
+      font-size: 0.9rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .lesson {
@@ -402,6 +384,46 @@
 
     .js .lesson[hidden] {
       display: none;
+    }
+
+    [data-progressive-reveal][hidden] {
+      display: block;
+    }
+
+    .js [data-progressive-reveal][hidden] {
+      display: none;
+    }
+
+    .progressive-reveal {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 2px solid var(--teal);
+    }
+
+    .reveal-sequence {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .reveal-sequence li {
+      padding: 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .reveal-sequence strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--teal-dark);
+    }
+
+    .stage-checkpoint {
+      margin-top: 18px;
     }
 
     .lesson-head {
@@ -433,41 +455,6 @@
       max-width: 740px;
       color: #4f4858;
       font-size: 1.04rem;
-    }
-
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 18px 0;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 850;
-    }
-
-    .badge.source {
-      color: var(--green);
-      background: var(--green-soft);
-      border: 1px solid #b9dac6;
-    }
-
-    .badge.inference {
-      color: #86580c;
-      background: var(--gold-soft);
-      border: 1px dashed #d8a33b;
-    }
-
-    .badge.safety {
-      color: var(--rose);
-      background: var(--rose-soft);
-      border: 1px solid #e4b7c0;
     }
 
     .lesson-context {
@@ -1001,79 +988,6 @@
       font-size: 0.76rem;
     }
 
-    .reference-band {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-      gap: 18px;
-      margin-top: 22px;
-      padding: clamp(20px, 4vw, 34px);
-      background: #fffdf8;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .reference-band h2 {
-      font-size: 1.5rem;
-    }
-
-    .reference-band ul {
-      margin: 12px 0 0;
-      padding-left: 20px;
-    }
-
-    .reference-band li {
-      margin: 8px 0;
-    }
-
-    .reader-terms {
-      display: grid;
-      gap: 10px;
-    }
-
-    .term {
-      padding: 12px;
-      background: #f4efe7;
-      border-radius: 10px;
-    }
-
-    .term strong {
-      display: block;
-      color: var(--plum);
-    }
-
-    .term span {
-      color: var(--muted);
-      font-size: 0.86rem;
-    }
-
-    .layer-item {
-      transition: opacity 180ms ease, filter 180ms ease;
-    }
-
-    .layer-item.lens-off {
-      opacity: 0.18;
-      filter: grayscale(1);
-    }
-
-    .lesson-context.layer-item.lens-off {
-      opacity: 1;
-      filter: none;
-      background: var(--paper);
-      border-color: var(--line);
-    }
-
-    .lesson-context.layer-item.lens-off .context-kicker {
-      opacity: 0.58;
-    }
-
-    .footer {
-      margin-top: 20px;
-      padding: 18px 4px;
-      color: var(--muted);
-      font-size: 0.84rem;
-    }
-
     .sr-only {
       position: absolute;
       width: 1px;
@@ -1087,18 +1001,8 @@
     }
 
     @media (max-width: 940px) {
-      .hero,
-      .class-grid,
-      .reference-band {
+      .hero {
         grid-template-columns: 1fr;
-      }
-
-      .class-rail {
-        position: static;
-      }
-
-      .lesson-nav {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .relay {
@@ -1120,8 +1024,12 @@
         border-radius: 18px;
       }
 
-      .lesson-nav,
+      .hero-story {
+        grid-template-columns: 1fr;
+      }
+
       .concept-grid,
+      .reveal-sequence,
       .scenario-grid,
       .owner-grid,
       .receipt-grid,
@@ -1160,7 +1068,6 @@
       .hero,
       .rail-card,
       .lesson,
-      .reference-band,
       .completion-card {
         box-shadow: none;
       }
@@ -1180,6 +1087,10 @@
       .lesson[hidden] {
         display: block !important;
       }
+
+      [data-progressive-reveal][hidden] {
+        display: block !important;
+      }
     }
   </style>
 </head>
@@ -1190,7 +1101,22 @@
     <header class="hero" data-lane="surface">
       <div class="hero-copy">
         <span class="eyebrow">Repository-local guided class · 55–65 minutes</span>
-        <h1>Agent orchestration: from prompt to proof</h1>
+        <h1>
+          Agent orchestration
+          <span class="hero-title-cast">with Lantern and Priya</span>
+          <span class="hero-title-tail">from prompt to proof</span>
+        </h1>
+        <section class="hero-story" aria-labelledby="hero-story-title">
+          <h2 id="hero-story-title">The story you will follow</h2>
+          <div class="hero-character">
+            <strong>Lantern</strong>
+            <p>Lantern is a fictional online booking platform where customers reserve services and manage or delete their accounts. Two risks must clear before a 4 p.m. release.</p>
+          </div>
+          <div class="hero-character">
+            <strong>Priya</strong>
+            <p>The engineer must decide what the evidence actually supports—and what the team may responsibly do next.</p>
+          </div>
+        </section>
         <p class="lede">One task can look finished while its evidence is still several handoffs behind. Learn to find the last proven step, inspect the code boundary, and stop before a claim outruns its proof.</p>
         <div class="hero-actions">
           <button class="button primary" id="start-class" type="button">Start the class</button>
@@ -1198,65 +1124,22 @@
         </div>
       </div>
 
-      <aside class="hero-contract" aria-label="Class evidence contract">
-        <strong>What this class can prove</strong>
-        <p>It can record your answers in this browser and test the interactions encoded here. It cannot certify durable comprehension, authorize a dispatch, start an agent, or establish production readiness.</p>
-        <div class="progress-wrap">
-          <div class="progress-label">
-            <span>Local progress</span>
-            <span id="progress-text">0 of 7 lessons</span>
-          </div>
-          <div class="progress-track" role="progressbar" aria-label="Class completion" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0">
-            <div class="progress-bar" id="progress-bar"></div>
-          </div>
-        </div>
-      </aside>
     </header>
 
     <div class="class-grid">
       <aside class="class-rail" aria-label="Class controls">
-        <section class="rail-card">
-          <h2>Your route</h2>
-          <nav class="lesson-nav" aria-label="Lessons">
-            <button class="lesson-link" type="button" data-open-lesson="choose">
-              <span class="num">1</span><span class="label">Choose the shape</span><span class="done" aria-hidden="true">✓</span>
-            </button>
-            <button class="lesson-link" type="button" data-open-lesson="prove">
-              <span class="num">2</span><span class="label">Find the proof</span><span class="done" aria-hidden="true">✓</span>
-            </button>
-            <button class="lesson-link" type="button" data-open-lesson="relay">
-              <span class="num">3</span><span class="label">Trace the relay</span><span class="done" aria-hidden="true">✓</span>
-            </button>
-            <button class="lesson-link" type="button" data-open-lesson="code">
-              <span class="num">4</span><span class="label">Read the action</span><span class="done" aria-hidden="true">✓</span>
-            </button>
-            <button class="lesson-link" type="button" data-open-lesson="fail">
-              <span class="num">5</span><span class="label">Fail closed</span><span class="done" aria-hidden="true">✓</span>
-            </button>
-            <button class="lesson-link" type="button" data-open-lesson="lab">
-              <span class="num">6</span><span class="label">Use the fixture lab</span><span class="done" aria-hidden="true">✓</span>
-            </button>
-            <button class="lesson-link" type="button" data-open-lesson="transfer">
-              <span class="num">7</span><span class="label">Transfer the method</span><span class="done" aria-hidden="true">✓</span>
-            </button>
+        <section class="rail-card" aria-labelledby="route-title">
+          <h2 class="sr-only" id="route-title">Your route</h2>
+          <nav class="lesson-nav" aria-label="Lesson route">
+            <button class="route-arrow" id="route-prev" type="button" aria-label="Previous lesson">←</button>
+            <div class="route-current" aria-live="polite" aria-atomic="true">
+              <span class="route-step">Your route · <span id="route-step">Lesson 1 of 7</span></span>
+              <strong id="route-label">Choose the shape</strong>
+            </div>
+            <button class="route-arrow" id="route-next" type="button" aria-label="Next lesson">→</button>
           </nav>
         </section>
 
-        <section class="rail-card">
-          <h2>Study lenses</h2>
-          <div class="lens-list">
-            <label for="toggle-surface"><input id="toggle-surface" type="checkbox" checked> Orientation</label>
-            <label for="toggle-flow"><input id="toggle-flow" type="checkbox" checked> Flow</label>
-            <label for="toggle-deps"><input id="toggle-deps" type="checkbox" checked> Dependencies</label>
-            <label for="toggle-risk"><input id="toggle-risk" type="checkbox" checked> Risks</label>
-          </div>
-          <p class="lens-help">These controls de-emphasize X-ray annotations. They never lock a lesson or erase your answers.</p>
-        </section>
-
-        <section class="rail-card">
-          <h2>Safety boundary</h2>
-          <p class="lens-help"><strong>L0 static HTML/SVG.</strong> No remote requests. Command buttons copy fixture-only text; this page has no shell bridge and cannot start an agent.</p>
-        </section>
       </aside>
 
       <main id="class-content" tabindex="-1">
@@ -1265,57 +1148,38 @@
             <div>
               <span class="lesson-index">Lesson 1 of 7</span>
               <h2 tabindex="-1">Choose the smallest responsible shape</h2>
-              <p class="lesson-intro">Before adding roles, gates, and receipts, decide whether the work actually needs them. Governance is useful when it protects a real boundary—not when it merely makes the diagram larger.</p>
+              <p class="lesson-intro">Both requests below contain several checks. Choose the lightest setup that still leaves the later decision with evidence it can responsibly use.</p>
             </div>
             <span class="lesson-time">7 minutes</span>
           </div>
 
-          <div class="badge-row">
-            <span class="badge source">source-backed distinction</span>
-            <span class="badge inference">teaching scenarios</span>
-          </div>
-
           <section class="lesson-context layer-item" data-context-for="choose" data-lane="surface" aria-labelledby="context-choose-title">
-            <span class="context-kicker">Why it matters before you choose</span>
-            <h3 id="context-choose-title">Start with the decision that needs protection</h3>
-            <p>You have an objective, but you do not have a route yet. If one worker can return one clear result and the parent can inspect it directly, the coordination problem is still small. A larger agent team would add handoffs without protecting a new decision.</p>
-            <p>A governed dispatch earns that extra machinery when independent viewpoints, producer/reviewer separation, parallel results, dependency gates, or isolated write scopes are part of the problem itself.</p>
-            <p class="context-prompt"><strong>Diagnostic:</strong> if you removed the extra roles, what important boundary would disappear? If none would, begin with one bounded helper.</p>
-            <details class="context-connect">
-              <summary>Connect this lesson to the repository</summary>
-              <div class="context-grid">
-                <div class="context-item">
-                  <strong>Repository anchor</strong>
-                  <p><code>arcanum/arcana/subagent-strategy/SKILL.md</code> describes the dispatch trigger, material confirmation, and lifecycle boundaries.</p>
-                </div>
-                <div class="context-item">
-                  <strong>Do not leap to</strong>
-                  <p>Choosing a dispatch shape does not authorize, register, or execute it. More agents create more explicit boundaries, not more authority.</p>
-                </div>
-              </div>
-            </details>
+            <span class="context-kicker">First visible thought</span>
+            <h3 id="context-choose-title">Two messy requests, one deciding difference</h3>
+            <p>Two risks land with Priya before Lantern's 4 p.m. release. Both requests cross several files and concerns. Counting tasks will not tell her how many roles the work needs.</p>
+            <p class="context-prompt"><strong>For each card:</strong> choose the lightest setup that preserves the kind of conclusion the release decision must rely on.</p>
           </section>
 
           <div class="scenario-grid">
             <article class="scenario">
-              <p class="prompt">A parent needs one helper to locate the schema that owns a failing field and report the exact line. The parent will inspect the result.</p>
-              <fieldset class="question" data-question="choose-one" data-correct="helper" data-correct-feedback="Yes. One bounded, inspectable result does not yet justify a dispatch." data-incorrect-feedback="Look for a real need for independent judgment, parallelism, isolation, or dependent gates. None is present here.">
-                <legend>What is the smallest responsible shape?</legend>
+              <p class="prompt"><strong>Card A · Reserve button.</strong> The button disappears only on narrow screens. The investigation must reproduce the failure, check the booking component, responsive CSS, and consent script, then support a causal conclusion with file-and-line evidence. Priya will inspect the reasoning before anyone changes code.</p>
+              <fieldset class="question" data-question="choose-one" data-correct="helper" data-correct-feedback="Yes. Several technical checks still serve one causal judgment that Priya can inspect end to end. Splitting the checks might help, but it is not a safeguard this request requires." data-incorrect-feedback="Two roles could help, but the decision needs one attributable diagnosis—not separate judgments that must remain independent. Complexity alone does not justify a governed team.">
+                <legend>What is the lightest setup that can return usable evidence?</legend>
                 <div class="choice-list">
-                  <label class="choice"><input type="radio" name="choose-one" value="helper"> One bounded helper</label>
-                  <label class="choice"><input type="radio" name="choose-one" value="dispatch"> A governed multi-agent dispatch</label>
+                  <label class="choice"><input type="radio" name="choose-one" value="helper"> One investigator follows every plausible cause and returns a traceable diagnosis</label>
+                  <label class="choice"><input type="radio" name="choose-one" value="dispatch"> Investigators split the suspected causes and return separate findings for reconciliation</label>
                 </div>
                 <div class="feedback" id="feedback-choose-one" aria-live="polite"></div>
               </fieldset>
             </article>
 
             <article class="scenario">
-              <p class="prompt">Two independent reviewers must challenge a proposal. Implementation may begin only after both receipts join and a named gate passes.</p>
-              <fieldset class="question" data-question="choose-two" data-correct="dispatch" data-correct-feedback="Right. Independence plus a dependent gate justifies the governed route." data-incorrect-feedback="One helper would collapse independent review and the dependent gate into one responsibility.">
-                <legend>What shape does this task require?</legend>
+              <p class="prompt"><strong>Card B · Delete account.</strong> The same change raises two release questions: whether backup records still break the deletion promise, and whether the confirmation flow remains usable by keyboard and screen reader. Either finding may block release, and success on one cannot compensate for failure on the other.</p>
+              <fieldset class="question" data-question="choose-two" data-correct="dispatch" data-correct-feedback="Yes. The release decision must preserve two attributable judgments whose evidence cannot substitute for each other. That separation is the safeguard." data-incorrect-feedback="A combined recommendation would hide which evidence supports each independently blocking judgment. The work needs separately attributable findings before Priya combines them in the release decision.">
+                <legend>Which setup preserves the evidence the release decision needs?</legend>
                 <div class="choice-list">
-                  <label class="choice"><input type="radio" name="choose-two" value="helper"> One bounded helper</label>
-                  <label class="choice"><input type="radio" name="choose-two" value="dispatch"> A governed multi-agent dispatch</label>
+                  <label class="choice"><input type="radio" name="choose-two" value="helper"> One investigator owns both concerns and returns a combined recommendation for the release decision</label>
+                  <label class="choice"><input type="radio" name="choose-two" value="dispatch"> Named investigators own one concern each and return attributable findings to the release decision</label>
                 </div>
                 <div class="feedback" id="feedback-choose-two" aria-live="polite"></div>
               </fieldset>
@@ -1323,9 +1187,44 @@
           </div>
 
           <div class="checkpoint">
-            <button class="button ink lesson-check" type="button" data-check-lesson="choose">Check both decisions</button>
+            <button class="button ink lesson-check" type="button" data-check-lesson="choose" aria-controls="choose-formal-reveal" aria-expanded="false">Check both decisions</button>
             <div class="feedback lesson-feedback" id="feedback-choose" aria-live="polite"></div>
           </div>
+
+          <section class="progressive-reveal" id="choose-formal-reveal" data-progressive-reveal="choose-formal" aria-labelledby="choose-formal-title" hidden>
+            <span class="context-kicker">Distinction earned</span>
+            <h3 id="choose-formal-title" tabindex="-1">Name what each setup protects</h3>
+            <ol class="reveal-sequence">
+              <li><strong>1 · Boundary</strong>A decision, permission, or responsibility that must stay separate.</li>
+              <li><strong>2 · Bounded helper</strong>One person with one clearly limited job whose result the parent can inspect.</li>
+              <li><strong>3 · Governed dispatch</strong>A coordinated job with separate roles, checks, and stop points.</li>
+              <li><strong>4 · Authority</strong>Permission to make a change or claim.</li>
+            </ol>
+            <div class="source-note">
+              <strong>Analogy—then drop it:</strong> a repair bench may hold many tools while one mechanic still owns one diagnosis. A two-key safe is different: separating the key holders is itself the safeguard. The number of moving parts does not decide the work shape; the judgment boundary does.
+            </div>
+            <p>One bounded helper is enough when one inspectable result protects every needed decision. Multi-agent dispatch is justified only when the work itself needs separate judgment, producer/reviewer separation, parallel results, a dependent decision, or isolated write areas—and it is governed only when those roles, checks, and stops are explicit.</p>
+            <div class="risk-note layer-item" data-lane="risk_questions">
+              <strong>What still does not follow:</strong> choosing either shape does not grant permission, record the route, or start the work. More agents do not create more authority.
+            </div>
+            <article class="scenario">
+              <p class="prompt"><strong>Changed movement:</strong> Priya keeps Card B's findings separately attributable. Before the release decision may rely on them together, what must be true of both results?</p>
+              <p>Hold that question for Lesson 3. It asks how separate judgments become usable evidence rather than asking you to repeat either setup choice.</p>
+            </article>
+            <details class="context-connect">
+              <summary>Connect this distinction to the repository</summary>
+              <div class="context-grid">
+                <div class="context-item">
+                  <strong>Repository anchor</strong>
+                  <p><code>arcanum/arcana/subagent-strategy/SKILL.md</code> describes when a multi-agent route is justified, when material confirmation is needed, and which lifecycle separations stay visible.</p>
+                </div>
+                <div class="context-item">
+                  <strong>Claim boundary</strong>
+                  <p>Reading the file does not authorize, register, or execute a route. This browser activity records a local answer, not operational authority or comprehension proof.</p>
+                </div>
+              </div>
+            </details>
+          </section>
 
           <div class="lesson-actions">
             <span></span>
@@ -1391,13 +1290,13 @@
           </div>
 
           <article class="scenario">
-            <p class="prompt">A worker reached a terminal result and was logically closed. A receipt file now exists, but it has not been admitted.</p>
-            <fieldset class="question" data-question="prove-state" data-correct="accounted" data-correct-feedback="Exactly. The worker is accounted for; the receipt is still outside the admitted evidence set." data-incorrect-feedback="Do not let the existence of a file synthesize admission, join, or a gate decision.">
-              <legend>What is the last proven state?</legend>
+            <p class="prompt">At 3:42, Lantern's accessibility worker is recorded as terminal and closed. A report file exists in the run directory. The admission ledger has no entry for its ID, and the decision set does not reference it.</p>
+            <fieldset class="question" data-question="prove-state" data-correct="accounted" data-correct-feedback="Exactly. The log closes the worker, while the absent admission entry leaves the saved report outside usable evidence. A file can exist before its next boundary is crossed." data-incorrect-feedback="The file's location does not establish its identity-and-shape check or inclusion in a decision set. Stop at the supported worker-closeout fact.">
+              <legend>Which status note is fully supported by those observations?</legend>
               <div class="choice-list">
-                <label class="choice"><input type="radio" name="prove-state" value="gate"> The gate passed</label>
-                <label class="choice"><input type="radio" name="prove-state" value="joined"> The receipt joined the wave</label>
-                <label class="choice"><input type="radio" name="prove-state" value="accounted"> The worker is terminally accounted for; receipt admission is next</label>
+                <label class="choice"><input type="radio" name="prove-state" value="gate"> Gate-ready: the saved report can support the release decision</label>
+                <label class="choice"><input type="radio" name="prove-state" value="joined"> Joined: the returned report is already in the decision set</label>
+                <label class="choice"><input type="radio" name="prove-state" value="accounted"> Accounted: worker closed; the report still awaits admission</label>
               </div>
               <div class="feedback" id="feedback-prove-state" aria-live="polite"></div>
             </fieldset>
@@ -1419,63 +1318,86 @@
             <div>
               <span class="lesson-index">Lesson 3 of 7</span>
               <h2 tabindex="-1">Trace one action through the relay</h2>
-              <p class="lesson-intro">Select each state to inspect what changed and what still does not follow. The sequence is deliberately granular because every boundary has a different owner and failure mode.</p>
+              <p class="lesson-intro">First decide how far one returned result has moved. The full lifecycle appears only after you commit to that ordinary-language distinction.</p>
             </div>
             <span class="lesson-time">10 minutes</span>
           </div>
 
-          <div class="badge-row">
-            <span class="badge source">source-backed order</span>
-            <span class="badge inference">compressed teaching trace</span>
-          </div>
-
           <section class="lesson-context layer-item" data-context-for="relay" data-lane="flow lifecycle" aria-labelledby="context-relay-title">
-            <span class="context-kicker">Context before you trace</span>
-            <h3 id="context-relay-title">This timeline begins after the route is ready</h3>
-            <p>Strategy, the exact route, material confirmation, route validation, and host preflight sit upstream of this lesson. The trace starts at one persisted action so you can follow a single work ticket without losing the causal edges around it.</p>
-            <p>Planning creates the ticket; the host stage attempts it; terminal accounting closes the worker; evidence handling admits and joins the result; the gate decides one transition. A dependent action then re-enters the same lifecycle—planning it is not closeout.</p>
-            <details class="context-connect">
-              <summary>Connect this lesson to the repository</summary>
-              <div class="context-grid">
-                <div class="context-item">
-                  <strong>Repository anchor</strong>
-                  <p><code>arcanum/runtime/orchestrate/tests/evidence-order/fixtures/valid-ordered.jsonl</code> provides a complete public causal-order fixture.</p>
-                </div>
-                <div class="context-item">
-                  <strong>Do not leap to</strong>
-                  <p>This page compresses a real wave into one teaching trace. Valid order does not prove semantic truth, and a passing gate does not execute dependent work.</p>
-                </div>
-              </div>
-            </details>
+            <span class="context-kicker">First visible thought</span>
+            <h3 id="context-relay-title">Two checked reports are still loose evidence</h3>
+            <p>Priya has the deletion and accessibility reports. Each returned and passed its own identity-and-shape check, but the release decision record still references neither report. The decision is defined to use both.</p>
           </section>
 
+          <article class="scenario">
+            <fieldset class="question" data-question="relay-predecessor" data-correct="receipt-joined" data-correct-feedback="Yes. Admission made each report individually acceptable; joining makes the complete checked set available to this decision without collapsing the two findings." data-incorrect-feedback="Worker returns and individual checks are already present. The missing transition is the one that binds every required checked report into the decision's evidence set.">
+              <legend>Which next transition makes the required evidence available to the decision?</legend>
+              <div class="choice-list">
+                <label class="choice"><input type="radio" name="relay-predecessor" value="host-result"> Record that each worker request returned an outcome</label>
+                <label class="choice"><input type="radio" name="relay-predecessor" value="receipt-admitted"> Check each report against its expected identity and shape</label>
+                <label class="choice"><input type="radio" name="relay-predecessor" value="receipt-joined"> Join both checked reports into the release decision set</label>
+              </div>
+              <div class="feedback" id="feedback-relay-predecessor" aria-live="polite"></div>
+            </fieldset>
+          </article>
+
+          <div class="checkpoint stage-checkpoint">
+            <button class="button ink" type="button" data-stage-check="relay-predecessor" aria-controls="relay-formal-reveal" aria-expanded="false">Check this evidence level</button>
+            <div class="feedback" id="feedback-stage-relay-predecessor" aria-live="polite"></div>
+          </div>
+
+          <section class="progressive-reveal" id="relay-formal-reveal" data-progressive-reveal="relay-formal" aria-labelledby="relay-formal-title" hidden>
+            <section class="lesson-context layer-item" data-lane="flow lifecycle" aria-labelledby="relay-formal-title">
+              <span class="context-kicker">Lifecycle earned</span>
+              <h3 id="relay-formal-title" tabindex="-1">This timeline begins after the route is ready</h3>
+              <p>Strategy, the exact route, material confirmation, route validation, and host preflight sit upstream of this lesson. The trace starts at one persisted action so you can follow a single work ticket without losing the causal edges around it.</p>
+              <p>Starting, returning, checking, including, and deciding are different facts. A result can be present without being admitted, admitted without being joined, joined without a decision, and gated without a dependent action.</p>
+              <details class="context-connect">
+                <summary>Connect this lifecycle to the repository</summary>
+                <div class="context-grid">
+                  <div class="context-item">
+                    <strong>Repository anchor</strong>
+                    <p><code>arcanum/runtime/orchestrate/tests/evidence-order/fixtures/valid-ordered.jsonl</code> provides a complete public causal-order fixture.</p>
+                  </div>
+                  <div class="context-item">
+                    <strong>Do not leap to</strong>
+                    <p>Valid order does not prove semantic truth, and a passing gate does not create, attempt, or execute dependent work.</p>
+                  </div>
+                </div>
+              </details>
+            </section>
+
+            <div class="source-note layer-item" data-lane="flow">
+              <strong>Your first answer in formal terms:</strong> <code>host-result</code> records the host outcome; <code>receipt-admitted</code> checks one expected record; <code>receipt-joined</code> includes every required admitted result in the decision set.
+            </div>
+
           <ol class="relay layer-item" data-lane="flow" aria-label="Controlled relay lifecycle">
-            <li><button class="timeline-step" type="button" aria-pressed="true" data-step="Action persisted" data-changed="One exact work ticket now binds the role, inputs, outputs, and write boundaries." data-limit="The host has not been called and no worker has started."><small>1</small>Action persisted</button></li>
-            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Attempt recorded" data-changed="The causal record now says the parent intends to invoke this exact action." data-limit="An attempt is not host acceptance or worker creation."><small>2</small>Attempt recorded</button></li>
-            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Host result recorded" data-changed="A native worker binding or explicit spawn failure is now attributable to the attempt." data-limit="A started worker has not necessarily completed."><small>3</small>Host result</button></li>
-            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Terminally accounted" data-changed="Wait, terminal observation, and one logical close account for the worker." data-limit="Returned work is not yet an admitted or joined receipt."><small>4</small>Terminal close</button></li>
-            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Receipt admitted" data-changed="The exact expected receipt files, required shape, and run/action identity have been checked." data-limit="Referenced artifact bytes are not automatically proven, and the receipt has not joined."><small>5</small>Receipt admitted</button></li>
-            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Receipt joined" data-changed="The admitted result can now participate in the wave reduction." data-limit="The gate has not necessarily passed and the content is not semantic truth."><small>6</small>Receipt joined</button></li>
-            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Gate decided" data-changed="The declared evidence condition either opens one transition or stops it explicitly." data-limit="A passed gate does not execute dependent work; a fresh persisted plan is still required."><small>7</small>Gate decided</button></li>
-            <li class="branch-point"><button class="timeline-step" type="button" aria-pressed="false" data-step="Dependent plan persisted" data-changed="Exact actions now exist for the newly eligible dependent wave." data-limit="Those actions have not yet been attempted. They re-enter the action lifecycle rather than flowing directly to closeout."><small>8</small>Next plan</button></li>
-            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Terminal closeout recorded" data-changed="A terminal resolution or explicit stop now has accounting and explicit residue." data-limit="Closeout does not imply canonical status, publication, deployment, production, or truth."><small>9</small>Terminal closeout</button></li>
+            <li><button class="timeline-step" type="button" aria-pressed="true" data-step="Action persisted" data-changed="An exact bounded job is saved." data-limit="The runtime has not been asked to start a worker."><small>1</small>Action persisted</button></li>
+            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Attempt recorded" data-changed="Intent to invoke that exact action is recorded." data-limit="The runtime has not accepted it, and no worker is established."><small>2</small>Attempt recorded</button></li>
+            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Host result recorded" data-changed="The runtime's start result is recorded." data-limit="A started worker has not necessarily finished."><small>3</small>Host result recorded</button></li>
+            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Terminally accounted" data-changed="The worker's finish, failure, or stop is recorded." data-limit="Returned work has not entered the evidence set."><small>4</small>Terminally accounted</button></li>
+            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Receipt admitted" data-changed="The expected record's identity and shape were checked." data-limit="Its contents are not proved, and it has not joined the decision set."><small>5</small>Receipt admitted</button></li>
+            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Receipt joined" data-changed="The admitted result is included with every required decision input." data-limit="No gate has necessarily passed, and its actual claim is not thereby correct."><small>6</small>Receipt joined</button></li>
+            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Gate decided" data-changed="The declared decision rule was applied." data-limit="A passing decision does not start the eligible wave."><small>7</small>Gate decided</button></li>
+            <li class="branch-point"><button class="timeline-step" type="button" aria-pressed="false" data-step="Dependent plan persisted" data-changed="Exact actions for the dependent wave now exist." data-limit="None has been attempted; each action re-enters this lifecycle."><small>8</small>Dependent plan persisted</button></li>
+            <li><button class="timeline-step" type="button" aria-pressed="false" data-step="Terminal closeout recorded" data-changed="The route has a final resolution or explicit stop." data-limit="No canonical status, publication, deployment, production readiness, or truth follows."><small>9</small>Terminal closeout recorded</button></li>
           </ol>
 
           <div class="inspector" aria-live="polite">
             <div>
               <strong id="timeline-title">Action persisted — what changed</strong>
-              <p id="timeline-changed">One exact work ticket now binds the role, inputs, outputs, and write boundaries.</p>
+              <p id="timeline-changed">An exact bounded job is saved.</p>
             </div>
             <div>
               <strong>What still does not follow</strong>
-              <p id="timeline-limit">The host has not been called and no worker has started.</p>
+              <p id="timeline-limit">The runtime has not been asked to start a worker.</p>
             </div>
           </div>
 
           <div class="relay-branch layer-item" data-lane="flow">
             <div>
               <strong>↺ Dependent work repeats the lifecycle</strong>
-              <p>A newly planned action returns to attempt, host result, terminal accounting, receipt admission, join, and its declared gate.</p>
+              <p>A newly persisted dependent action returns to attempt, host result, terminal accounting, receipt admission, join, and its declared gate.</p>
             </div>
             <div>
               <strong>↓ Closeout requires a terminal branch</strong>
@@ -1484,25 +1406,16 @@
           </div>
           <p class="feedback" id="timeline-trace-status" aria-live="polite">No lifecycle state inspected yet.</p>
 
+          <span class="context-kicker">Changed movement</span>
+          <h3>The release cleared review. What crosses the next boundary?</h3>
           <article class="scenario">
-            <fieldset class="question" data-question="relay-predecessor" data-correct="receipt-joined" data-correct-feedback="Correct. The gate reduces the declared receipts only after they have been admitted and joined." data-incorrect-feedback="A host result and receipt admission are earlier states. The gate consumes joined receipts.">
-              <legend>What evidence state must precede the gate decision in this trace?</legend>
+            <p class="prompt">At 3:50, the gate changes Lantern's implementation wave from waiting to eligible. No implementation action file or host request exists yet.</p>
+            <fieldset class="question" data-question="relay-limit" data-correct="new-plan" data-correct-feedback="Yes. The gate changed eligibility. Persisting an exact action creates the bounded input from which a host request may later be prepared." data-incorrect-feedback="The decision cannot double as a worker request or turn an earlier receipt into implementation scope. The next causal edge is a separately persisted action.">
+              <legend>Which next step preserves the lifecycle?</legend>
               <div class="choice-list">
-                <label class="choice"><input type="radio" name="relay-predecessor" value="host-result"> A host result exists</label>
-                <label class="choice"><input type="radio" name="relay-predecessor" value="receipt-admitted"> A receipt was admitted</label>
-                <label class="choice"><input type="radio" name="relay-predecessor" value="receipt-joined"> Every required receipt was admitted and joined</label>
-              </div>
-              <div class="feedback" id="feedback-relay-predecessor" aria-live="polite"></div>
-            </fieldset>
-          </article>
-
-          <article class="scenario">
-            <fieldset class="question" data-question="relay-limit" data-correct="new-plan" data-correct-feedback="Yes. Eligibility is not execution; the dependent work still needs exact persisted actions." data-incorrect-feedback="A passing gate opens one declared transition. It cannot create, attempt, or execute the dependent action by implication.">
-              <legend>A gate passed. What is still required before the dependent worker can start?</legend>
-              <div class="choice-list">
-                <label class="choice"><input type="radio" name="relay-limit" value="nothing"> Nothing; gate passage starts the worker</label>
-                <label class="choice"><input type="radio" name="relay-limit" value="new-plan"> A fresh persisted action plan for the eligible wave</label>
-                <label class="choice"><input type="radio" name="relay-limit" value="truth"> Proof that the earlier receipt is semantically true</label>
+                <label class="choice"><input type="radio" name="relay-limit" value="nothing"> Driver sends the gate decision to the host as the worker request</label>
+                <label class="choice"><input type="radio" name="relay-limit" value="new-plan"> Coordinator persists an exact action; driver can then prepare the request</label>
+                <label class="choice"><input type="radio" name="relay-limit" value="truth"> Reviewer adds fix instructions to a receipt so it can serve as the action</label>
               </div>
               <div class="feedback" id="feedback-relay-limit" aria-live="polite"></div>
             </fieldset>
@@ -1512,6 +1425,7 @@
             <button class="button ink lesson-check" type="button" data-check-lesson="relay">Check the transition</button>
             <div class="feedback lesson-feedback" id="feedback-relay" aria-live="polite"></div>
           </div>
+          </section>
 
           <div class="lesson-actions">
             <button class="button quiet" type="button" data-prev="prove">← Previous</button>
@@ -1604,22 +1518,22 @@
           </div>
 
           <div class="scenario-grid">
-            <fieldset class="question scenario" data-question="code-boundary" data-correct="forbidden" data-correct-feedback="Correct. The explicit forbidden scope makes the no-write boundary inspectable." data-incorrect-feedback="The positive write scope says what is allowed; look for the field that says what remains outside the action.">
-              <legend>Which field prevents this action from writing under <code>arcana/</code>?</legend>
+            <fieldset class="question scenario" data-question="code-boundary" data-correct="forbidden" data-correct-feedback="Correct. The positive scope names the receipt path this action may use; the explicit negative scope keeps <code>arcana/</code> outside it." data-incorrect-feedback="Read the positive and negative scopes together. Observation mode describes behavior, while the two path lists make the write boundary inspectable.">
+              <legend>Recognition check: which reading of the ticket is supported?</legend>
               <div class="choice-list">
-                <label class="choice"><input type="radio" name="code-boundary" value="mode"> mode</label>
-                <label class="choice"><input type="radio" name="code-boundary" value="write"> write_scope</label>
-                <label class="choice"><input type="radio" name="code-boundary" value="forbidden"> forbidden_write_scopes</label>
+                <label class="choice"><input type="radio" name="code-boundary" value="mode"> mode: observe forbids every write, including the beta receipt</label>
+                <label class="choice"><input type="radio" name="code-boundary" value="write"> write_scope permits the receipt and leaves arcana/ undecided</label>
+                <label class="choice"><input type="radio" name="code-boundary" value="forbidden"> The receipt is allowed; arcana/ is outside this action</label>
               </div>
               <div class="feedback" id="feedback-code-boundary" aria-live="polite"></div>
             </fieldset>
 
-            <fieldset class="question scenario" data-question="code-owner" data-correct="split" data-correct-feedback="Right. Compile, prepare, invoke, record, and validate stay separate." data-incorrect-feedback="The repository keeps deterministic compilation and request preparation separate from the native host call.">
-              <legend>Which ownership statement matches the current public code?</legend>
+            <fieldset class="question scenario" data-question="code-owner" data-correct="split" data-correct-feedback="Right. The parent owns the native invocation boundary; the driver owns preparation before it and recording after it." data-incorrect-feedback="Compilation and preparation do not grant either repository component the native host call. The parent crosses that boundary, then the driver records what came back.">
+              <legend>Apply the map: which sequence crosses the next boundary correctly?</legend>
               <div class="choice-list">
-                <label class="choice"><input type="radio" name="code-owner" value="driver-all"> The driver compiles and invokes collaboration tools</label>
-                <label class="choice"><input type="radio" name="code-owner" value="coordinator-all"> The coordinator launches and waits for workers</label>
-                <label class="choice"><input type="radio" name="code-owner" value="split"> Coordinator compiles; driver prepares and records; parent invokes the host</label>
+                <label class="choice"><input type="radio" name="code-owner" value="driver-all"> Driver invokes the host; parent records the returned binding</label>
+                <label class="choice"><input type="radio" name="code-owner" value="coordinator-all"> Coordinator invokes the host; driver validates the new action</label>
+                <label class="choice"><input type="radio" name="code-owner" value="split"> Parent invokes the host; driver records the returned binding</label>
               </div>
               <div class="feedback" id="feedback-code-owner" aria-live="polite"></div>
             </fieldset>
@@ -1640,17 +1554,17 @@
           <div class="lesson-head">
             <div>
               <span class="lesson-index">Lesson 5 of 7</span>
-              <h2 tabindex="-1">Stop at the first missing cause</h2>
-              <p class="lesson-intro">Failing closed does not erase partial evidence. It preserves the last supported state and refuses to invent the missing transition from later, plausible-looking events.</p>
+              <h2 tabindex="-1">Repair a broken event history</h2>
+              <p class="lesson-intro">A later result looks plausible, but the causal trace has a gap. Decide what is missing and what the existing log still supports before choosing a recovery.</p>
             </div>
             <span class="lesson-time">7 minutes</span>
           </div>
 
           <section class="lesson-context layer-item" data-context-for="fail" data-lane="risk_questions flow" aria-labelledby="context-fail-title">
             <span class="context-kicker">Context before you diagnose</span>
-            <h3 id="context-fail-title">Keep the valid prefix; stop at the first unsupported edge</h3>
-            <p>A broken history does not force you to discard everything, and a plausible later event does not repair an earlier gap. Read from left to right and ask what prerequisite each event needs. The first absent prerequisite marks the recovery boundary.</p>
-            <p>The validator error names the causal boundary being protected. Recovery can preserve every earlier supported event while refusing to manufacture the missing one or silently retry the side effect.</p>
+            <h3 id="context-fail-title">One missing edge, three tempting recoveries</h3>
+            <p>Lantern's log records a persisted action, an attempt, host success, and then a terminal observation. The worker later returned a plausible report, but the trace never records that the runtime began waiting for that worker.</p>
+            <p>Read from left to right. Identify the absent prerequisite, then choose a recovery policy that does not claim more history than the log contains.</p>
             <details class="context-connect">
               <summary>Connect this lesson to the repository</summary>
               <div class="context-grid">
@@ -1675,22 +1589,22 @@
           </div>
 
           <div class="scenario-grid">
-            <fieldset class="question scenario" data-question="fail-code" data-correct="terminal_without_wait" data-correct-feedback="Yes. A terminal observation cannot appear before the expected wait is registered." data-incorrect-feedback="The attempt exists and no receipt has joined yet. The missing cause sits between host success and terminal observation.">
-              <legend>Which validator error protects this boundary?</legend>
+            <fieldset class="question scenario" data-question="fail-code" data-correct="terminal_without_wait" data-correct-feedback="Yes. The missing event is the registered wait; without it, the validator reports <code>terminal_without_wait</code>." data-incorrect-feedback="The action attempt already precedes host success, while receipt join belongs later. The absent edge is registration of the expected wait before terminal observation.">
+              <legend>What belongs in the gap if the trace is to support the terminal observation?</legend>
               <div class="choice-list">
-                <label class="choice"><input type="radio" name="fail-code" value="missing_action_attempt"> missing_action_attempt</label>
-                <label class="choice"><input type="radio" name="fail-code" value="terminal_without_wait"> terminal_without_wait</label>
-                <label class="choice"><input type="radio" name="fail-code" value="gate_missing_joined_receipt"> gate_missing_joined_receipt</label>
+                <label class="choice"><input type="radio" name="fail-code" value="missing_action_attempt"> A record that the persisted action was attempted</label>
+                <label class="choice"><input type="radio" name="fail-code" value="terminal_without_wait"> A record that the runtime registered the worker wait</label>
+                <label class="choice"><input type="radio" name="fail-code" value="gate_missing_joined_receipt"> A record that the returned receipt joined gate evidence</label>
               </div>
               <div class="feedback" id="feedback-fail-code" aria-live="polite"></div>
             </fieldset>
 
-            <fieldset class="question scenario" data-question="fail-boundary" data-correct="no-synthesis" data-correct-feedback="Exactly. The later terminal event cannot manufacture the missing observation boundary." data-incorrect-feedback="Fail closed means retaining valid earlier events while refusing to infer the absent causal step.">
-              <legend>What rule should recovery preserve?</legend>
+            <fieldset class="question scenario" data-question="fail-boundary" data-correct="no-synthesis" data-correct-feedback="Exactly. This keeps every supported event, stops at the first missing cause, and makes any continuation explicit instead of rewriting history." data-incorrect-feedback="A later timestamp cannot prove that the missing wait was registered, while discarding the valid prefix loses evidence the log does support. Preserve the prefix and stop at the gap.">
+              <legend>The worker's report looks valid despite the gap. Which recovery policy preserves what the log actually proves?</legend>
               <div class="choice-list">
-                <label class="choice"><input type="radio" name="fail-boundary" value="rewrite"> Rewrite the history because the worker later returned</label>
-                <label class="choice"><input type="radio" name="fail-boundary" value="discard"> Discard every event in the run</label>
-                <label class="choice"><input type="radio" name="fail-boundary" value="no-synthesis"> Preserve earlier evidence; never synthesize the missing wait from later prose</label>
+                <label class="choice"><input type="radio" name="fail-boundary" value="rewrite"> Insert the wait from the report timestamp, then continue this history</label>
+                <label class="choice"><input type="radio" name="fail-boundary" value="discard"> Discard the run and repeat every earlier action from scratch</label>
+                <label class="choice"><input type="radio" name="fail-boundary" value="no-synthesis"> Keep the valid prefix, stop at the gap, and continue explicitly</label>
               </div>
               <div class="feedback" id="feedback-fail-boundary" aria-live="polite"></div>
             </fieldset>
@@ -1731,11 +1645,6 @@
               <p class="lesson-intro">These controls only copy repository-owned validation and test commands. Run them yourself in the repository if you want live observations; the page never executes a shell command.</p>
             </div>
             <span class="lesson-time">10 minutes</span>
-          </div>
-
-          <div class="badge-row">
-            <span class="badge source">guide-verified commands</span>
-            <span class="badge safety">copy only · no host calls</span>
           </div>
 
           <section class="lesson-context layer-item" data-context-for="lab" data-lane="surface external_dependencies risk_questions" aria-labelledby="context-lab-title">
@@ -1831,12 +1740,13 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
           </details>
 
           <article class="scenario">
-            <fieldset class="question" data-question="lab-claim" data-correct="actions-only" data-correct-feedback="Correct. Compilation proves the eligible plan and actions were deterministically materialized into temporary output." data-incorrect-feedback="The compile path deliberately stops before host invocation, worker execution, receipts, and gates.">
-              <legend>The fixture compile succeeds and creates three action files. What does that prove?</legend>
+            <p class="prompt">The fixture compile exits successfully. Its temporary directory contains a run plan and three action JSON files, but no host result, worker binding, receipt, or gate event.</p>
+            <fieldset class="question" data-question="lab-claim" data-correct="actions-only" data-correct-feedback="Correct. The observed files support a deterministic materialization claim and nothing beyond the compile boundary." data-incorrect-feedback="No host or worker evidence exists in this run. Keep the validation note at the strongest fact the temporary artifacts directly support.">
+              <legend>Which statement can Priya put in the validation note?</legend>
               <div class="choice-list">
-                <label class="choice"><input type="radio" name="lab-claim" value="workers"> Three workers completed</label>
-                <label class="choice"><input type="radio" name="lab-claim" value="production"> The runtime is production-ready</label>
-                <label class="choice"><input type="radio" name="lab-claim" value="actions-only"> The first eligible wave compiled into three persisted work tickets</label>
+                <label class="choice"><input type="radio" name="lab-claim" value="workers"> Three first-wave requests were accepted by the native host</label>
+                <label class="choice"><input type="radio" name="lab-claim" value="production"> The complete dispatch path is ready for production execution</label>
+                <label class="choice"><input type="radio" name="lab-claim" value="actions-only"> Three eligible actions were materialized for the first wave</label>
               </div>
               <div class="feedback" id="feedback-lab-claim" aria-live="polite"></div>
             </fieldset>
@@ -1858,76 +1768,102 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
             <div>
               <span class="lesson-index">Lesson 7 of 7</span>
               <h2 tabindex="-1">Transfer the method to an unseen handoff</h2>
-              <p class="lesson-intro">Closed questions can test encoded distinctions. This exit ticket asks you to produce the mechanism yourself. Your text is preserved for human review; the browser does not grade its meaning.</p>
+              <p class="lesson-intro">Build the handoff in your own words before you see the formal distinction. Your draft stays editable and is preserved for human review; the browser does not grade its meaning.</p>
             </div>
             <span class="lesson-time">10 minutes</span>
           </div>
 
           <section class="lesson-context layer-item" data-context-for="transfer" data-lane="lifecycle risk_questions" aria-labelledby="context-transfer-title">
-            <span class="context-kicker">Context before you transfer the method</span>
-            <h3 id="context-transfer-title">Rebuild only the local transition you were given</h3>
-            <p>You do not need to retell the whole runtime. Identify the bounded input and admitted state, the named owner and evidence rule, the immediate consequence, and the later limit or next owner. That four-part chain is enough to inspect a much larger workflow.</p>
-            <p>Write from the scenario's evidence without supplying a missing action or turning one transition into a larger truth claim. The prompts below scaffold the structure, but they deliberately do not provide a model answer.</p>
-            <details class="context-connect">
-              <summary>Connect this lesson to the repository</summary>
-              <div class="context-grid">
-                <div class="context-item">
-                  <strong>Repository anchor</strong>
-                  <p><code>arcanum/runtime/orchestrate/scripts/native_dispatch_driver.py</code> owns receipt admission and live wave advancement around this kind of gate boundary.</p>
-                </div>
-                <div class="context-item">
-                  <strong>Human review remains</strong>
-                  <p>Non-empty fields establish only that text was stored locally. They do not prove comprehension, independent orchestration ability, authorization, or semantic truth.</p>
-                </div>
-              </div>
-            </details>
+            <span class="context-kicker">Provisional retell · first attempt</span>
+            <h3 id="context-transfer-title">Build the handoff before deciding whether work can begin</h3>
+            <p>Lantern's deletion and accessibility reviews returned checked results. The release decision now says “implementation planning allowed,” and Priya is the named implementation owner. The handoff still has to show what Priya received, what changed, and what she can responsibly do next.</p>
+            <p class="context-prompt"><strong>Draft the four links in ordinary language.</strong> Do not decide whether a worker can start until you have named the evidence Priya possesses and the exact next move it supports.</p>
           </section>
 
           <div class="source-note layer-item" data-lane="surface">
-            <strong>Scenario:</strong> two review receipts were admitted and joined. Their gate passed. The repository contains no persisted action for the implementation wave.
+            <strong>Owner premise:</strong> the decision allows planning. It does not say how exact scope, inputs, and write boundaries would reach a worker.
           </div>
 
           <form id="exit-form">
-            <fieldset class="question" data-question="transfer-start" data-correct="no">
-              <legend>May an implementation worker begin now?</legend>
-              <div class="choice-list">
-                <label class="choice"><input type="radio" name="transfer-start" value="yes"> Yes; the passing gate starts dependent work</label>
-                <label class="choice"><input type="radio" name="transfer-start" value="no"> No; the gate creates eligibility, but an exact action must still be persisted</label>
-              </div>
-            </fieldset>
-
             <div class="form-grid">
               <div class="field">
-                <label for="exit-situation">Input or situation</label>
-                <small id="help-exit-situation">What bounded task and evidence state did you receive?</small>
+                <label for="exit-situation">1 · Received work and checked results</label>
+                <small id="help-exit-situation">What bounded work and checked results were received?</small>
                 <textarea id="exit-situation" name="situation" aria-describedby="help-exit-situation" required></textarea>
               </div>
               <div class="field">
-                <label for="exit-present">Transformation and present state</label>
-                <small id="help-exit-present">What owner-controlled rule changed the state?</small>
+                <label for="exit-present">2 · Decision and present change</label>
+                <small id="help-exit-present">What decision changed the present state?</small>
                 <textarea id="exit-present" name="present" aria-describedby="help-exit-present" required></textarea>
               </div>
               <div class="field">
-                <label for="exit-missing">Immediate consequence and missing step</label>
-                <small id="help-exit-missing">What became eligible, and what must exist before execution?</small>
+                <label for="exit-missing">3 · Permitted move and required object</label>
+                <small id="help-exit-missing">What may Priya do next, and what object would carry exact scope to a worker?</small>
                 <textarea id="exit-missing" name="missing" aria-describedby="help-exit-missing" required></textarea>
               </div>
               <div class="field">
-                <label for="exit-human">Next owner and later limit</label>
-                <small id="help-exit-human">Who owns the next move, and what would still remain unproved?</small>
+                <label for="exit-human">4 · Next owner and remaining limit</label>
+                <small id="help-exit-human">Who owns the next move, and what would that move still leave unproved?</small>
                 <textarea id="exit-human" name="human" aria-describedby="help-exit-human" required></textarea>
               </div>
             </div>
 
-            <div class="checkpoint">
-              <button class="button ink" type="submit">Save the exit ticket</button>
-              <div class="feedback" id="feedback-transfer" aria-live="polite"></div>
-            </div>
-          </form>
+            <section class="progressive-reveal" id="transfer-binary-reveal" data-progressive-reveal="transfer-binary" aria-labelledby="transfer-binary-title" hidden>
+              <span class="context-kicker">Four provisional links present</span>
+              <h3 id="transfer-binary-title" tabindex="-1">Now decide whether the next worker can begin</h3>
+              <fieldset class="question" data-question="transfer-start" data-correct="no" data-correct-feedback="Yes. Approval made implementation eligible to be planned. A persisted action would give the worker exact scope; a later host request would attempt the start." data-incorrect-feedback="The decision and receipts explain why work may be planned, but they do not bind the implementation job's scope, inputs, outputs, or write limits.">
+                <legend>Priya has the decision, both review receipts, and an owner assignment. She has not persisted an implementation action or prepared a host request. Can the implementation worker begin?</legend>
+                <div class="choice-list">
+                  <label class="choice"><input type="radio" name="transfer-start" value="yes"> Yes — the approved decision and receipts together are a sufficient start instruction</label>
+                  <label class="choice"><input type="radio" name="transfer-start" value="no"> No — approval permits Priya to create the action; the worker still lacks start input</label>
+                </div>
+                <div class="feedback" id="feedback-transfer-start" aria-live="polite"></div>
+              </fieldset>
 
-          <div class="risk-note layer-item" data-lane="risk_questions">
-            <strong>Human gate remains:</strong> non-empty text proves only that the fields were filled. An intended-reader review must judge whether your answer preserves state, evidence, owner, and residue correctly.
-          </div>
+              <div class="checkpoint stage-checkpoint">
+                <button class="button ink" type="button" data-stage-check="transfer-start" aria-controls="transfer-formal-reveal" aria-expanded="false">Check the start decision</button>
+                <div class="feedback" id="feedback-stage-transfer-start" aria-live="polite"></div>
+              </div>
+            </section>
+
+            <section class="progressive-reveal" id="transfer-formal-reveal" data-progressive-reveal="transfer-formal" aria-labelledby="transfer-formal-title" hidden>
+              <span class="context-kicker">Branch explained · formal mapping available</span>
+              <h3 id="transfer-formal-title" tabindex="-1">Separate eligibility from the next worker's input</h3>
+              <div class="source-note">
+                <strong>Analogy—then drop it:</strong> an approved building permit allows work to be planned; a crew still needs a work order naming the job, place, and limits. The permit is the decision. The persisted action is the work order. Neither one proves that a worker started or that the result will be correct.
+              </div>
+              <ol class="reveal-sequence">
+                <li><strong>1 · Receipt</strong>The structured record of an expected result.</li>
+                <li><strong>2 · Admitted</strong>The receipt passed its expected identity-and-shape checks.</li>
+                <li><strong>3 · Joined</strong>All required admitted results are included in the decision set.</li>
+                <li><strong>4 · Gate</strong>The declared decision rule is applied.</li>
+              </ol>
+              <div class="source-note">
+                <strong>5 · Persisted action:</strong> the exact saved work record that must exist before a host can be asked to start a worker. Eligibility, an exact action, a host attempt, and execution are separate facts.
+              </div>
+              <details class="context-connect">
+                <summary>Connect the owner distinction to the repository</summary>
+                <div class="context-grid">
+                  <div class="context-item">
+                    <strong>Repository anchor</strong>
+                    <p><code>arcanum/runtime/orchestrate/scripts/native_dispatch_driver.py</code> prepares host requests, records returned results, admits expected receipts, and advances live waves around declared decisions.</p>
+                  </div>
+                  <div class="context-item">
+                    <strong>Human review remains</strong>
+                    <p>Local field length proves only presence. A human reviews meaning; neither the browser nor this page can infer comprehension, authority, execution, or truth.</p>
+                  </div>
+                </div>
+              </details>
+              <p class="context-prompt"><strong>Correction pass:</strong> review your original four links and revise them now that the formal chain is visible.</p>
+              <div class="checkpoint">
+                <button class="button ink" type="submit">Save the exit ticket</button>
+                <div class="feedback" id="feedback-transfer" aria-live="polite"></div>
+              </div>
+              <div class="risk-note layer-item" data-lane="risk_questions">
+                <strong>Human gate remains:</strong> locally sufficient text is not a grade. An intended-reader review must judge whether the answer preserves state, evidence, owner, and residue correctly.
+              </div>
+            </section>
+          </form>
 
           <div class="lesson-actions">
             <button class="button quiet" type="button" data-prev="lab">← Previous</button>
@@ -1936,7 +1872,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
         </section>
 
         <section class="completion-card" id="completion-card" aria-live="polite">
-          <span class="eyebrow">Local class route complete</span>
+          <span class="eyebrow">Local class activities complete</span>
           <h2>You now have a learner-authored receipt—not a certificate of truth.</h2>
           <p>All seven local activities are complete. Export the payload if you want a human reviewer to inspect the answers. The payload identifies itself as <strong>self-recorded and unverified</strong>.</p>
           <div class="hero-actions">
@@ -1951,50 +1887,6 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
       </main>
     </div>
 
-    <section class="reference-band">
-      <div>
-        <span class="eyebrow">Reader outcomes</span>
-        <h2>What you should now be able to inspect</h2>
-        <ul>
-          <li>Choose one helper or a governed dispatch from the actual coordination need.</li>
-          <li>Ask for current state, direct evidence, next owner, and remaining residue.</li>
-          <li>Trace action, attempt, host result, terminal accounting, receipt, join, and gate as separate states.</li>
-          <li>Read the coordinator, driver, parent/host, and validator as different ownership boundaries.</li>
-          <li>Diagnose a missing causal transition without rewriting later events into proof.</li>
-        </ul>
-
-        <details class="layer-item" data-lane="external_dependencies">
-          <summary>Public source trail</summary>
-          <div>
-            <ul>
-              <li><code>arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py</code></li>
-              <li><code>arcanum/runtime/orchestrate/scripts/native_dispatch_coordinator.py</code></li>
-              <li><code>arcanum/runtime/orchestrate/scripts/native_dispatch_driver.py</code></li>
-              <li><code>arcanum/runtime/orchestrate/scripts/validate_run_evidence.py</code></li>
-              <li><code>arcanum/runtime/orchestrate/schemas/action.schema.json</code></li>
-              <li><code>arcanum/runtime/orchestrate/schemas/receipt.schema.json</code></li>
-              <li><code>arcanum/runtime/orchestrate/schemas/run-event.schema.json</code></li>
-              <li><code>arcanum/runtime/orchestrate/tests/fixtures/compile/valid-two-wave.json</code></li>
-            </ul>
-          </div>
-        </details>
-      </div>
-
-      <aside>
-        <span class="eyebrow">Reader terms</span>
-        <div class="reader-terms">
-          <div class="term"><strong>Action</strong><span>A persisted work ticket; preparation, not execution.</span></div>
-          <div class="term"><strong>Receipt</strong><span>One attributable result; admission is separate from join.</span></div>
-          <div class="term"><strong>Gate</strong><span>A decision about one transition; permission, not execution.</span></div>
-          <div class="term"><strong>Residue</strong><span>What remains incomplete, uncertain, excluded, or owned elsewhere.</span></div>
-          <div class="term"><strong>Fail closed</strong><span>Keep the last supported state and refuse to invent the next one.</span></div>
-        </div>
-      </aside>
-    </section>
-
-    <footer class="footer">
-      <p><strong>Evidence boundary:</strong> source-backed labels point to the repository guide or public implementation. Inference labels identify teaching choices. Browser validation can support local rendering and interaction claims only. This candidate is not canonical documentation, publication, deployment, production evidence, or proof of human comprehension.</p>
-    </footer>
   </div>
 
   <div class="sr-only" id="global-status" aria-live="polite"></div>
@@ -2009,6 +1901,15 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
 
       var STORAGE_KEY = "arcanum.agent-orchestration-guided-class.v1";
       var LESSONS = ["choose", "prove", "relay", "code", "fail", "lab", "transfer"];
+      var LESSON_LABELS = {
+        choose: "Choose the shape",
+        prove: "Find the proof",
+        relay: "Trace the relay",
+        code: "Read the action",
+        fail: "Fail closed",
+        lab: "Use the fixture lab",
+        transfer: "Transfer the method"
+      };
       var storageAvailable = true;
       var resetArmed = false;
       var resetTimer = null;
@@ -2066,6 +1967,18 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
         }, 10);
       }
 
+      function updateRouteControl(lessonId) {
+        var index = LESSONS.indexOf(lessonId);
+        var previous = document.getElementById("route-prev");
+        var next = document.getElementById("route-next");
+        document.getElementById("route-step").textContent = "Lesson " + (index + 1) + " of " + LESSONS.length;
+        document.getElementById("route-label").textContent = LESSON_LABELS[lessonId];
+        previous.disabled = index === 0;
+        next.disabled = index === LESSONS.length - 1;
+        previous.setAttribute("aria-label", index > 0 ? "Previous lesson: " + LESSON_LABELS[LESSONS[index - 1]] : "No previous lesson");
+        next.setAttribute("aria-label", index < LESSONS.length - 1 ? "Next lesson: " + LESSON_LABELS[LESSONS[index + 1]] : "No next lesson");
+      }
+
       function showLesson(lessonId, focusHeading) {
         if (LESSONS.indexOf(lessonId) < 0) {
           return;
@@ -2074,14 +1987,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
         document.querySelectorAll("[data-lesson]").forEach(function (section) {
           section.hidden = section.getAttribute("data-lesson") !== lessonId;
         });
-        document.querySelectorAll("[data-open-lesson]").forEach(function (button) {
-          var active = button.getAttribute("data-open-lesson") === lessonId;
-          if (active) {
-            button.setAttribute("aria-current", "step");
-          } else {
-            button.removeAttribute("aria-current");
-          }
-        });
+        updateRouteControl(lessonId);
         saveState();
         if (focusHeading) {
           var heading = document.querySelector("#lesson-" + lessonId + " h2");
@@ -2102,13 +2008,13 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
         var correct = fieldset.getAttribute("data-correct");
         var checked = fieldset.querySelector("input[type=radio]:checked");
         var feedback = document.getElementById("feedback-" + questionId);
-        state.attempts[questionId] = (state.attempts[questionId] || 0) + 1;
 
         if (!checked) {
           setFeedback(feedback, "Choose an answer before checking this boundary.", false);
           return false;
         }
 
+        state.attempts[questionId] = (state.attempts[questionId] || 0) + 1;
         state.answers[questionId] = checked.value;
         var passed = checked.value === correct;
         var message = passed
@@ -2116,6 +2022,50 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
           : fieldset.getAttribute("data-incorrect-feedback");
         setFeedback(feedback, message || (passed ? "Correct." : "Try again."), passed);
         return passed;
+      }
+
+      function questionAttempted(questionId) {
+        return typeof state.answers[questionId] === "string" && (state.attempts[questionId] || 0) > 0;
+      }
+
+      function transferFieldsSufficient() {
+        return ["situation", "present", "missing", "human"].every(function (field) {
+          var element = document.getElementById("exit-" + field);
+          return element && element.value.trim().length >= 8;
+        });
+      }
+
+      function setReveal(revealId, visible) {
+        var reveal = document.getElementById(revealId);
+        if (!reveal) {
+          return;
+        }
+        reveal.hidden = !visible;
+      }
+
+      function updateProgressiveReveals() {
+        var chooseReady = questionAttempted("choose-one") && questionAttempted("choose-two");
+        var relayReady = questionAttempted("relay-predecessor");
+        var transferReady = questionAttempted("transfer-start");
+        var transferDraftReady = transferFieldsSufficient() || transferReady;
+
+        setReveal("choose-formal-reveal", chooseReady);
+        setReveal("relay-formal-reveal", relayReady);
+        setReveal("transfer-binary-reveal", transferDraftReady);
+        setReveal("transfer-formal-reveal", transferReady);
+
+        var chooseControl = document.querySelector('[data-check-lesson="choose"]');
+        if (chooseControl) {
+          chooseControl.setAttribute("aria-expanded", chooseReady ? "true" : "false");
+        }
+        var relayControl = document.querySelector('[data-stage-check="relay-predecessor"]');
+        if (relayControl) {
+          relayControl.setAttribute("aria-expanded", relayReady ? "true" : "false");
+        }
+        var transferControl = document.querySelector('[data-stage-check="transfer-start"]');
+        if (transferControl) {
+          transferControl.setAttribute("aria-expanded", transferReady ? "true" : "false");
+        }
       }
 
       function completeLesson(lessonId) {
@@ -2182,19 +2132,6 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
         var completedCount = LESSONS.filter(function (lesson) {
           return Boolean(state.completed[lesson]);
         }).length;
-        var percent = Math.round((completedCount / LESSONS.length) * 100);
-        document.getElementById("progress-text").textContent = completedCount + " of " + LESSONS.length + " lessons";
-        document.getElementById("progress-bar").style.width = percent + "%";
-        var progress = document.querySelector('[role="progressbar"]');
-        progress.setAttribute("aria-valuenow", String(completedCount));
-
-        document.querySelectorAll("[data-open-lesson]").forEach(function (button) {
-          var lessonId = button.getAttribute("data-open-lesson");
-          button.classList.toggle("is-complete", Boolean(state.completed[lessonId]));
-          var label = button.querySelector(".label");
-          button.setAttribute("aria-label", label.textContent + (state.completed[lessonId] ? ", complete" : ", incomplete"));
-        });
-
         var startButton = document.getElementById("start-class");
         startButton.textContent = completedCount > 0 ? "Resume the class" : "Start the class";
 
@@ -2209,6 +2146,17 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
           var input = document.querySelector('input[name="' + questionId + '"][value="' + value + '"]');
           if (input) {
             input.checked = true;
+            if ((state.attempts[questionId] || 0) > 0) {
+              var fieldset = input.closest(".question");
+              var passed = value === fieldset.getAttribute("data-correct");
+              var restoredMessage = passed
+                ? fieldset.getAttribute("data-correct-feedback")
+                : fieldset.getAttribute("data-incorrect-feedback");
+              var restoredFeedback = document.getElementById("feedback-" + questionId);
+              if (restoredFeedback && restoredMessage) {
+                setFeedback(restoredFeedback, restoredMessage, passed);
+              }
+            }
           }
         });
 
@@ -2307,10 +2255,18 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
         }
       }
 
-      document.querySelectorAll("[data-open-lesson]").forEach(function (button) {
-        button.addEventListener("click", function () {
-          showLesson(button.getAttribute("data-open-lesson"), true);
-        });
+      document.getElementById("route-prev").addEventListener("click", function () {
+        var index = LESSONS.indexOf(state.current);
+        if (index > 0) {
+          showLesson(LESSONS[index - 1], true);
+        }
+      });
+
+      document.getElementById("route-next").addEventListener("click", function () {
+        var index = LESSONS.indexOf(state.current);
+        if (index < LESSONS.length - 1) {
+          showLesson(LESSONS[index + 1], true);
+        }
       });
 
       document.querySelectorAll("[data-next], [data-prev]").forEach(function (button) {
@@ -2334,6 +2290,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
             saveState();
             renderProgress();
           }
+          updateProgressiveReveals();
         });
       });
 
@@ -2347,6 +2304,24 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
             saveState();
             renderProgress();
           }
+          updateProgressiveReveals();
+        });
+      });
+
+      document.querySelectorAll("[data-stage-check]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          var questionId = button.getAttribute("data-stage-check");
+          var fieldset = document.querySelector('[data-question="' + questionId + '"]');
+          var passed = checkQuestion(fieldset);
+          var stageFeedback = document.getElementById("feedback-stage-" + questionId);
+          updateProgressiveReveals();
+          saveState();
+          renderProgress();
+          if (questionAttempted(questionId)) {
+            setFeedback(stageFeedback, passed ? "Your branch is explained below." : "Use the corrective branch below, then inspect the formal mapping.", passed);
+          } else {
+            setFeedback(stageFeedback, "Choose an answer before opening the next stage.", false);
+          }
         });
       });
 
@@ -2356,6 +2331,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
           var section = document.getElementById("lesson-" + lessonId);
           var questions = Array.prototype.slice.call(section.querySelectorAll(".question"));
           var results = questions.map(checkQuestion);
+          updateProgressiveReveals();
           var tracePresent = lessonId !== "relay" || Boolean(state.interactions.relay_trace);
           var passed = results.every(Boolean) && tracePresent;
           var feedback = document.getElementById("feedback-" + lessonId);
@@ -2426,24 +2402,25 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
         var missingFields = fields.filter(function (field) {
           return document.getElementById("exit-" + field).value.trim().length < 8;
         });
-        state.attempts["transfer-start"] = (state.attempts["transfer-start"] || 0) + 1;
 
-        if (!answer || answer.value !== "no") {
-          setFeedback(document.getElementById("feedback-transfer"), "The gate creates eligibility. It does not create or attempt the dependent action.", false);
+        if (!answer || !questionAttempted("transfer-start") || answer.value !== "no") {
+          setFeedback(document.getElementById("feedback-transfer"), "The decision changes what may be planned. It does not create next-work input or ask a worker to start.", false);
           if (answer) {
             state.answers["transfer-start"] = answer.value;
           }
           delete state.completed.transfer;
           saveState();
           renderProgress();
+          updateProgressiveReveals();
           return;
         }
 
         if (missingFields.length > 0) {
-          setFeedback(document.getElementById("feedback-transfer"), "Complete all four retell fields with enough detail for a human reviewer to inspect.", false);
+          setFeedback(document.getElementById("feedback-transfer"), "Restore every plain-language link to at least eight characters before saving. Missing: " + missingFields.join(", ") + ".", false);
           delete state.completed.transfer;
           saveState();
           renderProgress();
+          updateProgressiveReveals();
           return;
         }
 
@@ -2452,8 +2429,11 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
           state.exit_ticket[field] = document.getElementById("exit-" + field).value.trim();
         });
         completeLesson("transfer");
-        setFeedback(document.getElementById("feedback-transfer"), "Saved locally. The route is complete, but your authored explanation still requires human review.", true);
-        document.getElementById("completion-card").scrollIntoView({block: "start"});
+        setFeedback(document.getElementById("feedback-transfer"), "Exit ticket saved; this lesson is complete.", true);
+        updateProgressiveReveals();
+        if (document.getElementById("completion-card").classList.contains("is-visible")) {
+          document.getElementById("completion-card").scrollIntoView({block: "start"});
+        }
       });
 
       document.getElementById("copy-receipt").addEventListener("click", function () {
@@ -2503,6 +2483,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
           feedback.classList.remove("pass", "flag");
         });
         button.textContent = "Reset local progress";
+        updateProgressiveReveals();
         renderProgress();
         showLesson("choose", true);
         try {
@@ -2513,27 +2494,9 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
         announce("Local class progress reset.");
       });
 
-      var lensMap = {
-        "toggle-surface": ["surface"],
-        "toggle-flow": ["flow"],
-        "toggle-deps": ["internal_dependencies", "external_dependencies"],
-        "toggle-risk": ["risk_questions"]
-      };
-
-      Object.keys(lensMap).forEach(function (controlId) {
-        var control = document.getElementById(controlId);
-        control.addEventListener("change", function () {
-          lensMap[controlId].forEach(function (lane) {
-            document.querySelectorAll('[data-lane~="' + lane + '"]').forEach(function (item) {
-              item.classList.toggle("lens-off", !control.checked);
-            });
-          });
-          announce((control.checked ? "Showing " : "De-emphasizing ") + control.parentElement.textContent.trim() + " annotations.");
-        });
-      });
-
       loadState();
       restoreAnswers();
+      updateProgressiveReveals();
       renderProgress();
       showLesson(state.current, false);
     }());

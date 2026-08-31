@@ -116,6 +116,20 @@ installed `prepare_plan_implementation_readiness.py` producer. The one command
 runs WPRA into a new output directory, preserves a failed audit status, and only
 then stores `IMPLEMENTATION-READINESS-PREFLIGHT.json` beside the plan artifacts.
 
+Every target must declare one disposition: `create`, `update`, `delete`,
+`read`, or `transient`. Every validation command must declare one phase:
+`pre-execution`, `post-produce`, or `closeout`. WPRA proves these declarations
+form a complete executable contract; it does not require future `create`
+outputs to exist or claim their contracts already pass. Implementation
+Readiness checks existing inputs, baselines, runner identity, authority and
+collision state. Task Session owns production and post-produce validation over
+actual postimages; closeout owns actual-write equality and continuity.
+
+A post-produce validator may itself be a declared create output of the same
+SWU. It is not a missing pre-execution input. Missing disposition, producer,
+output contract, validation phase, failure behavior, or closeout destination
+still blocks.
+
 The receipt must bind the Work Pack semantic digest, complete ordered
 frontier, exact policy and allowed-route digests, one Task Session route and
 typed validation-contract digest per unit, and a real proof-only

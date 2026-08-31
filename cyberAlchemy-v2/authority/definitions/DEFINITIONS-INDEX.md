@@ -26,7 +26,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D17 | reflection tower method | active | [Reflection Tower Method](DEFINITIONS.md#cav2-d17-reflection-tower-method) | When the current floor cannot explain the leftover problem, build the next floor from that leftover problem and make it explain its way back down. |
 | CAV2-D18 | residue | active | [Residue](DEFINITIONS.md#cav2-d18-residue) | The meaningful leftover: the part the current representation could not carry. |
 | CAV2-D19 | ontology | active | [Ontology](DEFINITIONS.md#cav2-d19-ontology) | A map of meaning with typed links, receipts, and rules for use. |
-| CAV2-D20 | Craft method | active | [Craft Method](DEFINITIONS.md#cav2-d20-craft-method) | The discipline that keeps recursive project work honest by ledgering state, residue, decisions, validation, and recomposition. |
+| CAV2-D20 | Craft method | active | [Craft Method](DEFINITIONS.md#cav2-d20-craft-method) | CyberAlchemy's governed method for carrying product intent through exact realization, construction, independent checking, operation, recovery, evolution, and owner continuation without losing meaning or residue. |
 | CAV2-D21 | four-facet action method | active | [Four-Facet Action Method](DEFINITIONS.md#cav2-d21-four-facet-action-method) | Before an action is allowed to matter, answer what kind it is, what shape governs it, how a human continues it, and how a machine checks it. |
 | CAV2-D22 | orthogonal classification | active | [Orthogonal Classification](DEFINITIONS.md#cav2-d22-orthogonal-classification) | Do not add another label unless it tells the project something new. |
 | CAV2-D23 | authority lifecycle axis | active | [Authority Lifecycle Axis](DEFINITIONS.md#cav2-d23-authority-lifecycle-axis) | Useful, trusted, finished, owned, and canonical are different words. |
@@ -70,6 +70,17 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D61 | research | active | [Research](DEFINITIONS.md#cav2-d61-research) | A bounded investigation that preserves its question, method, sources, evidence, and uncertainty without pretending the aggregate is the conclusion. |
 | CAV2-D62 | experiment | active | [Experiment](DEFINITIONS.md#cav2-d62-experiment) | A bounded, recorded test that produces observations under declared conditions and claim limits. |
 | CAV2-D63 | product thesis | active | [Product Thesis](DEFINITIONS.md#cav2-d63-product-thesis) | The durable product proposition that says why the product should exist, how it should create value, what it must protect, and what evidence could require revision. |
+| CAV2-D64 | recursive instance ownership invariant | active | [Recursive Instance Ownership Invariant](DEFINITIONS.md#cav2-d64-recursive-instance-ownership-invariant) | The parent owns the blueprint, the local capability owns its instance, and the Project keeps their typed connection without letting either side silently rewrite the other. |
+| CAV2-D65 | DomainSpec-governed construction invariant | active | [DomainSpec-Governed Construction Invariant](DEFINITIONS.md#cav2-d65-domainspec-governed-construction-invariant) | Define the words, model product and business meaning, describe the system in DomainSpec, generate the system ontology, build from it, and prove the build matches. |
+| CAV2-D66 | context | active | [Context](DEFINITIONS.md#cav2-d66-context) | The stable frame that says what work is about, why information is needed, and which Product, Project, Goal, consumers, subjects, and source policies apply. |
+| CAV2-D67 | product capability | active | [Product Capability](DEFINITIONS.md#cav2-d67-product-capability) | What useful outcome the Product must make possible, kept separate from the tool or implementation that realizes it. |
+| CAV2-D68 | person | active | [Person](DEFINITIONS.md#cav2-d68-person) | The human, not their login, job title, permission, or database row. |
+| CAV2-D69 | team | active | [Team](DEFINITIONS.md#cav2-d69-team) | A named group working toward a purpose that remains recognizable when its members change. |
+## Withdrawn Definition IDs
+
+| Reserved ID range | Status | Successor authority |
+| --- | --- | --- |
+| `CAV2-D70`–`CAV2-D81` | withdrawn before ontology admission; do not reuse | [`KEP-D1`–`KEP-D12`](../../product/knowledge-exchange-protocol/authority/definitions/DEFINITIONS-INDEX.md) |
 
 ## Alias Lookup
 
@@ -329,6 +340,28 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | governed product thesis | CAV2-D63 |
 | product commitment thesis | CAV2-D63 |
 | product meaning thesis | CAV2-D63 |
+| recursive instance ownership invariant | CAV2-D64 |
+| instance ownership invariant | CAV2-D64 |
+| recursive ownership invariant | CAV2-D64 |
+| parent-instance ownership invariant | CAV2-D64 |
+| model-instance ownership invariant | CAV2-D64 |
+| capability instance ownership | CAV2-D64 |
+| DomainSpec-governed construction invariant | CAV2-D65 |
+| DomainSpec v2 construction invariant | CAV2-D65 |
+| definitions-to-implementation construction invariant | CAV2-D65 |
+| DomainSpec-first construction path | CAV2-D65 |
+| CyberAlchemy construction pipeline | CAV2-D65 |
+| context | CAV2-D66 |
+| governed context | CAV2-D66 |
+| work context | CAV2-D66 |
+| product-work context | CAV2-D66 |
+| governed product capability | CAV2-D67 |
+| product behavior capability | CAV2-D67 |
+| product capability | CAV2-D67 |
+| person | CAV2-D68 |
+| human individual | CAV2-D68 |
+| team | CAV2-D69 |
+| purpose-bound team | CAV2-D69 |
 
 ## Demoted Term Notes
 

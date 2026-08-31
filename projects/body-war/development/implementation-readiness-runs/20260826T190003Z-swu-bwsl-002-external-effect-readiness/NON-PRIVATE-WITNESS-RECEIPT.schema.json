@@ -1,0 +1,396 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "body-war-swu-bwsl-002-non-private-witness-receipt.schema.json",
+  "title": "SWU-BWSL-002 Non-Private Witness Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "observed_at",
+    "result",
+    "opaque_non_correlatable_witness_alias",
+    "application_tree_and_binary_digests",
+    "non_secret_configuration_digest",
+    "oauth_scope_names",
+    "attempt_duration_seconds",
+    "attempt_ceiling_minutes",
+    "attempt_count",
+    "eligible_activity_selected_boolean",
+    "evidence_submission_status",
+    "redacted_summary_contract_validation_boolean",
+    "redacted_summary_field_names_without_values",
+    "token_raw_payload_map_polyline_coordinate_omission_assertions",
+    "evidence_disposition_first_and_repeat_status",
+    "provider_revocation_first_and_repeat_status",
+    "token_absence_evidence",
+    "evidence_absence_evidence",
+    "suggested_track_post_disposition_status",
+    "authority_and_claim_ceiling"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 96
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$"
+    },
+    "result": {
+      "enum": [
+        "PASS",
+        "BLOCK"
+      ]
+    },
+    "opaque_non_correlatable_witness_alias": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "application_tree_and_binary_digests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "application_source_tree_sha256",
+        "application_dist_tree_sha256",
+        "auth_dependency_dist_tree_sha256",
+        "node_binary_sha256"
+      ],
+      "properties": {
+        "application_source_tree_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "application_dist_tree_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "auth_dependency_dist_tree_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "node_binary_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "non_secret_configuration_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "oauth_scope_names": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "read"
+        },
+        {
+          "const": "activity:read"
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "attempt_duration_seconds": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "attempt_ceiling_minutes": {
+      "const": 15
+    },
+    "attempt_count": {
+      "const": 1
+    },
+    "eligible_activity_selected_boolean": {
+      "type": "boolean"
+    },
+    "evidence_submission_status": {
+      "enum": [
+        "submitted",
+        "not_submitted",
+        "failed"
+      ]
+    },
+    "redacted_summary_contract_validation_boolean": {
+      "type": "boolean"
+    },
+    "redacted_summary_field_names_without_values": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 8,
+      "items": {
+        "enum": [
+          "id",
+          "name",
+          "sport_type",
+          "type",
+          "distance",
+          "moving_time",
+          "average_speed",
+          "start_date"
+        ]
+      }
+    },
+    "token_raw_payload_map_polyline_coordinate_omission_assertions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "access_token_omitted",
+        "refresh_token_omitted",
+        "oauth_code_omitted",
+        "raw_provider_payload_omitted",
+        "map_omitted",
+        "polyline_omitted",
+        "coordinates_omitted",
+        "notes_omitted",
+        "secret_values_omitted"
+      ],
+      "properties": {
+        "access_token_omitted": {
+          "type": "boolean"
+        },
+        "refresh_token_omitted": {
+          "type": "boolean"
+        },
+        "oauth_code_omitted": {
+          "type": "boolean"
+        },
+        "raw_provider_payload_omitted": {
+          "type": "boolean"
+        },
+        "map_omitted": {
+          "type": "boolean"
+        },
+        "polyline_omitted": {
+          "type": "boolean"
+        },
+        "coordinates_omitted": {
+          "type": "boolean"
+        },
+        "notes_omitted": {
+          "type": "boolean"
+        },
+        "secret_values_omitted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "evidence_disposition_first_and_repeat_status": {
+      "$ref": "#/$defs/dispositionPair"
+    },
+    "provider_revocation_first_and_repeat_status": {
+      "description": "Body War-local token deletion and provider-account disconnection only; this field does not claim Strava-side deauthorization.",
+      "$ref": "#/$defs/dispositionPair"
+    },
+    "token_absence_evidence": {
+      "type": "boolean"
+    },
+    "evidence_absence_evidence": {
+      "type": "boolean"
+    },
+    "suggested_track_post_disposition_status": {
+      "enum": [
+        "needs_evidence",
+        "evidence_submitted",
+        "unchanged",
+        "not_evaluable"
+      ]
+    },
+    "authority_and_claim_ceiling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "activity_summary_authority",
+        "route_geometry_authority",
+        "scoring_authority",
+        "release_authority",
+        "deployment_authority",
+        "production_authority",
+        "local_provider_disposition_only",
+        "provider_side_deauthorization_proved"
+      ],
+      "properties": {
+        "activity_summary_authority": {
+          "enum": [
+            "redacted_candidate_only",
+            "none"
+          ]
+        },
+        "route_geometry_authority": {
+          "const": "none"
+        },
+        "scoring_authority": {
+          "const": "none"
+        },
+        "release_authority": {
+          "const": "none"
+        },
+        "deployment_authority": {
+          "const": "none"
+        },
+        "production_authority": {
+          "const": "none"
+        },
+        "local_provider_disposition_only": {
+          "const": true
+        },
+        "provider_side_deauthorization_proved": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "dispositionPair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "first",
+        "repeat"
+      ],
+      "properties": {
+        "first": {
+          "enum": [
+            "disposed",
+            "already_absent",
+            "not_attempted",
+            "failed"
+          ]
+        },
+        "repeat": {
+          "enum": [
+            "already_absent",
+            "not_attempted",
+            "failed"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "const": "PASS"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "then": {
+        "properties": {
+          "eligible_activity_selected_boolean": {
+            "const": true
+          },
+          "attempt_duration_seconds": {
+            "maximum": 900
+          },
+          "non_secret_configuration_digest": {
+            "not": {
+              "const": "0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          },
+          "evidence_submission_status": {
+            "const": "submitted"
+          },
+          "redacted_summary_contract_validation_boolean": {
+            "const": true
+          },
+          "token_raw_payload_map_polyline_coordinate_omission_assertions": {
+            "properties": {
+              "access_token_omitted": {
+                "const": true
+              },
+              "refresh_token_omitted": {
+                "const": true
+              },
+              "oauth_code_omitted": {
+                "const": true
+              },
+              "raw_provider_payload_omitted": {
+                "const": true
+              },
+              "map_omitted": {
+                "const": true
+              },
+              "polyline_omitted": {
+                "const": true
+              },
+              "coordinates_omitted": {
+                "const": true
+              },
+              "notes_omitted": {
+                "const": true
+              },
+              "secret_values_omitted": {
+                "const": true
+              }
+            }
+          },
+          "evidence_disposition_first_and_repeat_status": {
+            "properties": {
+              "first": {
+                "const": "disposed"
+              },
+              "repeat": {
+                "const": "already_absent"
+              }
+            }
+          },
+          "provider_revocation_first_and_repeat_status": {
+            "properties": {
+              "first": {
+                "const": "disposed"
+              },
+              "repeat": {
+                "const": "already_absent"
+              }
+            }
+          },
+          "token_absence_evidence": {
+            "const": true
+          },
+          "evidence_absence_evidence": {
+            "const": true
+          },
+          "suggested_track_post_disposition_status": {
+            "enum": [
+              "needs_evidence",
+              "evidence_submitted"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "x-forbidden-root-field-names": [
+    "runner_name",
+    "principal_id",
+    "provider_user_id",
+    "provider_activity_id",
+    "activity_name_value",
+    "activity_start_date_value",
+    "activity_summary_payload_digest",
+    "eligible_activity_count",
+    "distance_value",
+    "moving_time_value",
+    "average_speed_value",
+    "access_token",
+    "refresh_token",
+    "oauth_code",
+    "raw_provider_payload",
+    "map",
+    "polyline",
+    "coordinates",
+    "notes",
+    "secret_or_credential_value"
+  ]
+}

@@ -328,7 +328,21 @@ The only flag class the v2 public contract admits is
 chain consumer. Compensation is either `none` with a rationale or an explicit
 owner-routed contract; the audit never invents rollback.
 
+Each mutation-capable unit declares its own nonempty owner receipt schema
+identity in `task_session_closeout_contracts`. Different lifecycle owners may
+use different identities in the same frontier. The runner resolves the unit's
+exact `expected_owner_receipt_schema_ref`, reads
+`properties.schema_version.const`, and requires exact equality with the
+declared identity. A missing typed contract, empty identity, wrong schema
+locator, or identity mismatch remains blocking. Existing Invoke-owner
+contracts retain their current identity and behavior. For the selected-unit
+profile, the complete typed closeout contract participates in both the
+closeout semantic component and the unit contract digest, so an owner-schema
+locator, identity, or other closeout binding change invalidates the plan epoch.
+
 ### Plan-once selected-unit admission
+
+The additive `execution_entry_closure` profile binds one exact versioned closure and its complete unit frontier to the plan semantic digest. Its exact Task Session validator runs during WPRA preflight and verifies the native Context Builder projection, per-unit disjoint executor/lifecycle/terminal route partition, delta axes, and heterogeneous owner-receipt identities. A structurally valid rehearsal may remain authority-blocked; a missing semantic-acceptance binding never becomes selection, admission, or execution authority.
 
 Set `"admission_timing": "selected-unit-at-task-session"` only when material
 packages are intentionally produced after planning. Absence of this field, or
@@ -349,6 +363,17 @@ The opt-in profile:
   the strict Objective Execution Manifest;
 - treats absent future material as pending selection, not as an Invoke Refresh
   defect.
+
+A nonempty historical completion prefix uses the tagged
+`task-session-joined-owner-closeout-v1` continuity profile. The profile binds
+the exact terminal receipt, joined owner receipt, owner receipt schema, and
+continuation cursor without caller-selected receipt pointers. Terminal
+`result=pass` remains distinct from an owner closeout result of `pass` or
+schema-lawful `no-op`. The runner proves owner identity, schema validity,
+empty no-op residue, authority neutrality, the no-execution continuation
+boundary, ordered prefix identity, and one canonical successor before emitting
+the prefix into the manifest. A flat legacy closeout selector cannot prove a
+completed mutation-capable prefix and therefore blocks.
 
 `scripts/verify_plan_selection.py` then re-resolves the current semantic
 selectors, requires exact task/SWU membership, complete dependency receipts,

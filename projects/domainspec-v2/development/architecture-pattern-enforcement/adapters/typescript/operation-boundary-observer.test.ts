@@ -131,7 +131,7 @@ test("emits a deterministic architecture-only boundary graph", () => {
   }
 });
 
-test("classifies selected Poker concrete instrumentation as an architecture finding only", () => {
+test("classifies the selected Poker outer instrumentation boundary as passing architecture evidence", () => {
   const sourceDigest = sha256(readFileSync(join(REPO_ROOT, POKER_CREATE_PLAYER_REF)));
   const contractDigest = sha256(readFileSync(join(REPO_ROOT, RMT_CONTRACT_REF)));
   const result = observeOperationBoundary({
@@ -153,8 +153,8 @@ test("classifies selected Poker concrete instrumentation as an architecture find
     pureRuleReferences: [],
     forbiddenConcreteImportPatterns: ["infrastructure/telemetry"],
   });
-  assert.equal(result.result, "fail");
-  assert.equal(result.diagnostic, "AOP_BOUNDARY_INSTRUMENTATION_PLACEMENT");
+  assert.equal(result.result, "pass");
+  assert.equal(result.diagnostic, "AOP_BOUNDARY_PASS");
   assert.equal(result.rmtSemanticPolicy.semanticOutcomeEvaluated, false);
 });
 

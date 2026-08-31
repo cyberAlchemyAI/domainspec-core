@@ -9,6 +9,7 @@ import json
 import os
 import re
 import stat
+import subprocess
 import sys
 from collections import Counter, defaultdict, deque
 from pathlib import Path, PurePosixPath, PureWindowsPath
@@ -1178,9 +1179,227 @@ def _v2_preflight_blockers(
     unit_ids = {unit["unit_id"] for unit in config["execution_bindings"]}
     expected_material = config.get("expected_material_digests", {})
 
+    entry_closure = config.get("execution_entry_closure")
+    if entry_closure is not None:
+        closure_binding = entry_closure["closure_ref"]
+        units_binding = entry_closure["units_ref"]
+        if closure_binding["artifact_ref"] != units_binding["artifact_ref"]:
+            blockers.append(
+                _v2_blocker(
+                    "EXECUTION_ENTRY_CLOSURE_SOURCE_SPLIT",
+                    "execution-entry-closure",
+                    "closure and unit frontier must resolve from one exact source",
+                )
+            )
+        elif closure_binding["selector"] != "/execution_entry_closure" or units_binding["selector"] != "/units":
+            blockers.append(
+                _v2_blocker(
+                    "EXECUTION_ENTRY_CLOSURE_SELECTOR_INVALID",
+                    "execution-entry-closure",
+                    "closure selectors must bind the canonical closure and unit frontier",
+                )
+            )
+        else:
+            source_path = repository_root / closure_binding["artifact_ref"]["path"]
+            validator_path = repository_root / entry_closure["validator_ref"]["artifact_ref"]["path"]
+            completed = subprocess.run(
+                [sys.executable, str(validator_path), str(source_path)],
+                cwd=repository_root,
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=60,
+            )
+            try:
+                closure_result = json.loads(completed.stdout)
+            except json.JSONDecodeError:
+                closure_result = {}
+            if completed.returncode != 0 or closure_result.get("closure_result") != "pass":
+                blockers.append(
+                    _v2_blocker(
+                        "EXECUTION_ENTRY_CLOSURE_INVALID",
+                        "execution-entry-closure",
+                        "versioned execution-entry closure failed its exact consumer",
+                    )
+                )
+            elif closure_result.get("unit_count") != len(config["execution_bindings"]):
+                blockers.append(
+                    _v2_blocker(
+                        "EXECUTION_ENTRY_FRONTIER_MISMATCH",
+                        "execution-entry-closure",
+                        "execution-entry closure does not cover the complete WPRA frontier",
+                    )
+                )
+
     for unit in config["execution_bindings"]:
         unit_id = unit["unit_id"]
         package = unit["material_package"]
+        producer_id = unit["producer_id"]
+        disposition_rows = unit["target_dispositions"]
+        disposition_paths = [row["path"] for row in disposition_rows]
+        disposition_by_path = {row["path"]: row for row in disposition_rows}
+        if len(disposition_paths) != len(disposition_by_path):
+            blockers.append(
+                _v2_blocker(
+                    "TARGET_DISPOSITION_DUPLICATE",
+                    f"{unit_id}:target-dispositions",
+                    "each target path must have exactly one disposition",
+                )
+            )
+        normalized_paths: set[str] = set()
+        for row in disposition_rows:
+            normalized, path_error = normalized_relative_path(row["path"])
+            if path_error or normalized != row["path"]:
+                blockers.append(
+                    _v2_blocker(
+                        "TARGET_DISPOSITION_PATH_INVALID",
+                        f"{unit_id}:{row['path']}",
+                        path_error or "target path is not normalized",
+                    )
+                )
+                continue
+            normalized_paths.add(normalized)
+            parent = str(PurePosixPath(normalized).parent)
+            if row["parent_path"] != parent:
+                blockers.append(
+                    _v2_blocker(
+                        "TARGET_PARENT_BOUNDARY_MISMATCH",
+                        f"{unit_id}:{normalized}",
+                        "declared parent boundary differs from the target parent",
+                    )
+                )
+            elif row["disposition"] in {"create", "transient"}:
+                parent_target = repository_root if parent == "." else repository_root / parent
+                if not parent_target.is_dir():
+                    blockers.append(
+                        _v2_blocker(
+                            "TARGET_PARENT_BOUNDARY_UNRESOLVED",
+                            f"{unit_id}:{normalized}",
+                            "create and transient targets require an existing parent boundary",
+                        )
+                    )
+            disposition = row["disposition"]
+            if disposition == "read":
+                valid_row = (
+                    row["producer_id"] is None
+                    and row["collision_policy"] == "not-applicable"
+                    and row["baseline_obligation"] == "required-at-admission"
+                )
+            elif disposition == "create":
+                valid_row = (
+                    row["producer_id"] == producer_id
+                    and row["collision_policy"] in {"fail-if-exists", "replace-declared"}
+                    and row["baseline_obligation"] == "none"
+                )
+            elif disposition in {"update", "delete"}:
+                valid_row = (
+                    row["producer_id"] == producer_id
+                    and row["collision_policy"] == "replace-declared"
+                    and row["baseline_obligation"] == "required-at-admission"
+                )
+            else:
+                valid_row = (
+                    row["producer_id"] == producer_id
+                    and row["collision_policy"] == "not-applicable"
+                    and row["baseline_obligation"] == "none"
+                )
+            if not valid_row:
+                blockers.append(
+                    _v2_blocker(
+                        "TARGET_DISPOSITION_CONTRACT_INVALID",
+                        f"{unit_id}:{normalized}",
+                        "producer or collision policy differs from the disposition contract",
+                    )
+                )
+
+        material = set(unit["material_writes"])
+        outputs = set(unit["execution_outputs"])
+        allowed = set(unit["allowed_writes"])
+        writable_dispositions = {
+            path
+            for path, row in disposition_by_path.items()
+            if row["disposition"] != "read"
+        }
+        read_dispositions = {
+            path
+            for path, row in disposition_by_path.items()
+            if row["disposition"] == "read"
+        }
+        if writable_dispositions != allowed or read_dispositions & allowed:
+            blockers.append(
+                _v2_blocker(
+                    "TARGET_DISPOSITION_COVERAGE_INVALID",
+                    f"{unit_id}:target-dispositions",
+                    "non-read dispositions must exactly equal allowed writes and read targets cannot be writable",
+                )
+            )
+
+        baseline_paths = [row["path"] for row in unit["byte_baselines"]]
+        admissible_baselines = {
+            path
+            for path, row in disposition_by_path.items()
+            if row["disposition"] in {"update", "delete", "read"}
+        }
+        if len(baseline_paths) != len(set(baseline_paths)) or not set(baseline_paths).issubset(admissible_baselines):
+            blockers.append(
+                _v2_blocker(
+                    "TARGET_BASELINE_OBLIGATION_INVALID",
+                    f"{unit_id}:byte-baselines",
+                    "WPRA baseline evidence may bind only update, delete, and read targets",
+                )
+            )
+
+        validations = unit["validation_contracts"]
+        command_ids = [command["command_id"] for command in validations]
+        if len(command_ids) != len(set(command_ids)):
+            blockers.append(
+                _v2_blocker(
+                    "VALIDATION_COMMAND_DUPLICATE",
+                    f"{unit_id}:validation-contracts",
+                    "validation command identities must be unique",
+                )
+            )
+        for command in validations:
+            if command["phase"] == "post-produce":
+                # WPRA intentionally validates only this declaration. It must
+                # not resolve or execute a future producer-created command.
+                continue
+
+        output_contracts = unit["output_contracts"]
+        output_paths = [contract["expected_path"] for contract in output_contracts]
+        if len(output_paths) != len(set(output_paths)) or set(output_paths) != writable_dispositions:
+            blockers.append(
+                _v2_blocker(
+                    "OUTPUT_CONTRACT_COVERAGE_INVALID",
+                    f"{unit_id}:output-contracts",
+                    "output contracts must exactly cover every writable disposition",
+                )
+            )
+        for contract in output_contracts:
+            disposition = disposition_by_path.get(contract["expected_path"])
+            if (
+                disposition is None
+                or contract["disposition"] != disposition["disposition"]
+                or contract["producer_id"] != producer_id
+            ):
+                blockers.append(
+                    _v2_blocker(
+                        "OUTPUT_CONTRACT_BINDING_INVALID",
+                        f"{unit_id}:{contract['expected_path']}",
+                        "output contract differs from its target disposition or producer",
+                    )
+                )
+        declared_output_phases = {contract["validation_phase"] for contract in output_contracts}
+        validation_phases = {command["phase"] for command in validations}
+        if not declared_output_phases.issubset(validation_phases):
+            blockers.append(
+                _v2_blocker(
+                    "OUTPUT_VALIDATION_PHASE_MISSING",
+                    f"{unit_id}:validation-contracts",
+                    "every output contract validation phase requires a declared command",
+                )
+            )
+
         strict_material_checks = (
             (
                 package["package_ref"] is None,
@@ -1212,12 +1431,6 @@ def _v2_preflight_blockers(
                 f"{unit_id}:target-inventory",
                 "target inventory binding is absent",
             ),
-            (
-                not unit["byte_baselines"],
-                "EXECUTION_BYTE_BASELINE_MISSING",
-                f"{unit_id}:byte-baselines",
-                "execution byte baseline set is empty",
-            ),
         )
         owner_checks = (
             (
@@ -1232,9 +1445,6 @@ def _v2_preflight_blockers(
             if failed:
                 blockers.append(_v2_blocker(code, binding_id, claim))
 
-        material = set(unit["material_writes"])
-        outputs = set(unit["execution_outputs"])
-        allowed = set(unit["allowed_writes"])
         if material & outputs or material | outputs != allowed:
             blockers.append(
                 _v2_blocker(
@@ -1520,13 +1730,14 @@ def _completion_continuity_projection(
 
     completed_prefix: list[dict[str, Any]] = []
     seen_receipts: set[tuple[str, str, int]] = set()
+    seen_owner_receipts: set[tuple[str, str, int]] = set()
+    seen_cursor_receipts: set[tuple[str, str, int]] = set()
     pair_count = min(len(completed_refs), len(closeout_refs), len(units))
     for index in range(pair_count):
         unit = units[index]
         completion = completed_refs[index]
         closeout = closeout_refs[index]
         completion_ref = completion["artifact_ref"]
-        closeout_ref = closeout["artifact_ref"]
         unit_id = unit["unit_id"]
 
         if completion["selector"] != "/result":
@@ -1538,22 +1749,25 @@ def _completion_continuity_projection(
                 )
             )
             continue
-        if closeout["selector"] != "/lifecycle_owner_validation/status":
+        if closeout.get("evidence_profile") != (
+            "task-session-joined-owner-closeout-v1"
+        ):
             blockers.append(
                 _v2_blocker(
-                    "CONTINUITY_RECEIPT_MISSING",
+                    "CONTINUITY_TYPED_JOIN_REQUIRED",
                     closeout["binding_id"],
-                    f"{unit_id} closeout selector must be /lifecycle_owner_validation/status",
+                    f"{unit_id} completed continuity requires typed joined-owner evidence",
                 )
             )
             continue
 
+        closeout_ref = closeout["terminal_receipt_ref"]
         if completion_ref != closeout_ref:
             blockers.append(
                 _v2_blocker(
-                    "CONTINUITY_RECEIPT_MISSING",
+                    "CONTINUITY_JOIN_MISSING",
                     completion["binding_id"],
-                    f"{unit_id} completion and closeout do not bind the same receipt bytes",
+                    f"{unit_id} completion and typed join do not bind the same terminal receipt",
                 )
             )
             continue
@@ -1583,7 +1797,6 @@ def _completion_continuity_projection(
             completion_value = _resolve_json_pointer(
                 receipt, completion["selector"]
             )
-            closeout_value = _resolve_json_pointer(receipt, closeout["selector"])
         except (OSError, ValueError, json.JSONDecodeError) as error:
             blockers.append(
                 _v2_blocker(
@@ -1611,12 +1824,185 @@ def _completion_continuity_projection(
                 )
             )
             continue
-        if completion_value != "pass" or closeout_value != "pass":
+        if completion_value != "pass":
             blockers.append(
                 _v2_blocker(
                     "CONTINUITY_RECEIPT_MISSING",
                     completion["binding_id"],
-                    f"{unit_id} completion and closeout selectors must both resolve pass",
+                    f"{unit_id} terminal result must resolve pass",
+                )
+            )
+            continue
+
+        join = receipt.get("closeout_join")
+        if not isinstance(join, dict):
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_JOIN_MISSING",
+                    closeout["binding_id"],
+                    f"{unit_id} terminal receipt has no typed closeout join",
+                )
+            )
+            continue
+        schema_binding = closeout["owner_receipt_schema_ref"]
+        if schema_binding["selector"] != "":
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_SELECTOR_SPOOF",
+                    schema_binding["binding_id"],
+                    f"{unit_id} owner receipt schema must bind the whole schema",
+                )
+            )
+            continue
+        owner_capability = schema_binding["owner_ref"]
+        required_capabilities = join.get("required_owner_capabilities")
+        joined_receipts = join.get("joined_owner_receipts")
+        if required_capabilities != [owner_capability] or not isinstance(
+            joined_receipts, list
+        ) or len(joined_receipts) != 1:
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_OWNER_CAPABILITY_MISMATCH",
+                    closeout["binding_id"],
+                    f"{unit_id} closeout join must cover exactly {owner_capability}",
+                )
+            )
+            continue
+        joined = joined_receipts[0]
+        if not isinstance(joined, dict) or joined.get("owner_capability") != (
+            owner_capability
+        ):
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_OWNER_CAPABILITY_MISMATCH",
+                    closeout["binding_id"],
+                    f"{unit_id} joined owner capability differs from its schema owner",
+                )
+            )
+            continue
+
+        owner_receipt_ref = closeout["joined_owner_receipt_ref"]
+        if joined.get("receipt_ref") != owner_receipt_ref:
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_OWNER_RECEIPT_REF_MISMATCH",
+                    closeout["binding_id"],
+                    f"{unit_id} joined owner path, digest, or size differs from the exact binding",
+                )
+            )
+            continue
+        owner_identity = exact_ref_key(owner_receipt_ref)
+        if owner_identity in seen_owner_receipts:
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_RECEIPT_REPLAY",
+                    closeout["binding_id"],
+                    f"{unit_id} reuses a joined owner receipt",
+                )
+            )
+            continue
+        seen_owner_receipts.add(owner_identity)
+
+        cursor_ref = closeout["continuation_cursor_ref"]
+        continuation = join.get("continuation")
+        if (
+            not isinstance(continuation, dict)
+            or continuation.get("policy")
+            != "emit-cursor-never-execute-successor"
+            or continuation.get("successor_executed") is not False
+            or continuation.get("cursor_ref") != cursor_ref
+        ):
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_BOUNDARY_INVALID",
+                    closeout["binding_id"],
+                    f"{unit_id} continuation must emit the exact cursor without executing a successor",
+                )
+            )
+            continue
+        cursor_identity = exact_ref_key(cursor_ref)
+        if cursor_identity in seen_cursor_receipts:
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_RECEIPT_REPLAY",
+                    closeout["binding_id"],
+                    f"{unit_id} reuses a continuation cursor receipt",
+                )
+            )
+            continue
+        seen_cursor_receipts.add(cursor_identity)
+
+        try:
+            owner_schema = _binding_selected_value(schema_binding, repository_root)
+            owner_receipt = load_json(repository_root / owner_receipt_ref["path"])
+        except (OSError, ValueError, json.JSONDecodeError, KeyError, TypeError) as error:
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_OWNER_RECEIPT_INVALID",
+                    closeout["binding_id"],
+                    str(error),
+                )
+            )
+            continue
+        if not isinstance(owner_schema, dict):
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_OWNER_RECEIPT_INVALID",
+                    schema_binding["binding_id"],
+                    f"{unit_id} owner receipt schema is not an object",
+                )
+            )
+            continue
+        owner_schema_errors = schema_errors(
+            owner_receipt, owner_schema, f"{unit_id} joined owner receipt"
+        )
+        schema_identity = (
+            owner_schema.get("properties", {})
+            .get("schema_version", {})
+            .get("const")
+        )
+        owner_result = owner_receipt.get("result")
+        canonical_successor = unit["canonical_successors"][0]
+        expected_ordered_successor = (
+            units[index + 1]["unit_id"] if index + 1 < len(units) else "__complete__"
+        )
+        owner_successor = owner_receipt.get("successor")
+        owner_invalid = (
+            bool(owner_schema_errors)
+            or not isinstance(schema_identity, str)
+            or owner_receipt.get("schema_version") != schema_identity
+            or owner_receipt.get("owner") != owner_capability
+            or owner_receipt.get("task_id") != receipt.get("task_id")
+            or owner_receipt.get("swu_id") != receipt.get("swu_id")
+            or owner_result not in {"pass", "no-op"}
+            or joined.get("result") != owner_result
+            or owner_receipt.get("authority_effect") != "none"
+            or owner_receipt.get("residue") != []
+            or not isinstance(owner_successor, dict)
+            or owner_successor.get("selected") is not False
+            or owner_successor.get("executed") is not False
+        )
+        if owner_invalid:
+            detail = "; ".join(owner_schema_errors) or (
+                f"{unit_id} joined owner receipt violates owner, result, residue, or authority invariants"
+            )
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_OWNER_RECEIPT_INVALID",
+                    closeout["binding_id"],
+                    detail,
+                )
+            )
+            continue
+        if (
+            canonical_successor != expected_ordered_successor
+            or owner_successor.get("unit_id") != canonical_successor
+        ):
+            blockers.append(
+                _v2_blocker(
+                    "CONTINUITY_FRONTIER_MISMATCH",
+                    closeout["binding_id"],
+                    f"{unit_id} joined owner successor differs from the ordered canonical successor",
                 )
             )
             continue
@@ -1627,6 +2013,15 @@ def _completion_continuity_projection(
                 "completion_binding_id": completion["binding_id"],
                 "completion_artifact_ref": completion_ref,
                 "closeout_binding_id": closeout["binding_id"],
+                "evidence_profile": closeout["evidence_profile"],
+                "joined_owner_capability": owner_capability,
+                "joined_owner_result": owner_result,
+                "joined_owner_receipt_ref": owner_receipt_ref,
+                "owner_receipt_schema_binding_id": schema_binding["binding_id"],
+                "owner_receipt_schema_ref": schema_binding["artifact_ref"],
+                "owner_receipt_schema_identity": schema_identity,
+                "continuation_cursor_ref": cursor_ref,
+                "canonical_successor": canonical_successor,
             }
         )
 
@@ -1747,6 +2142,15 @@ def _v2_semantic_components(config: dict[str, Any]) -> dict[str, Any]:
             "units": [
                 {
                     "unit_id": unit["unit_id"],
+                    "producer_id": unit["producer_id"],
+                    "target_dispositions": unit["target_dispositions"],
+                    "output_contracts": [
+                        {
+                            **contract,
+                            "schema_ref": _binding_semantics(contract["schema_ref"]),
+                        }
+                        for contract in unit["output_contracts"]
+                    ],
                     "material_writes": unit["material_writes"],
                     "execution_outputs": unit["execution_outputs"],
                     "allowed_writes": unit["allowed_writes"],
@@ -1775,7 +2179,11 @@ def _v2_semantic_components(config: dict[str, Any]) -> dict[str, Any]:
         "validation": {
             "semantic": _binding_semantics(semantic["validation"]),
             "commands": [
-                {"unit_id": unit["unit_id"], "command": unit["command"]}
+                {
+                    "unit_id": unit["unit_id"],
+                    "command": unit["command"],
+                    "validation_contracts": unit["validation_contracts"],
+                }
                 for unit in execution
             ],
         },
@@ -1967,7 +2375,7 @@ def audit_v2(config: dict[str, Any], repository_root: Path) -> dict[str, Any]:
                     "unit_contract_digests": plan_semantics[
                         "unit_contract_digests"
                     ],
-                    "ready_frontier": plan_semantics["ready_frontier"],
+                    "ready_frontier": [completion_continuity["next_unit"]],
                     "source_snapshot_digest": source_digest,
                     "completion_continuity": completion_continuity,
                     "approval_status": "unapproved",
@@ -2122,9 +2530,7 @@ def audit_v2(config: dict[str, Any], repository_root: Path) -> dict[str, Any]:
         "audit_id": config["audit_id"],
         "canonical_spell_id": "work-pack-readiness-audit",
         "verdict": verdict,
-        "terminal_code": blockers[0]["code"] if blockers else (
-            "PLAN_SEMANTIC_READY" if plan_once else "PROJECTION_READY"
-        ),
+        "terminal_code": blockers[0]["code"] if blockers else "CONTRACT_READY",
         "evidence_ceiling": config["evidence_ceiling"],
         "manifest": manifest,
         "blockers": blockers,

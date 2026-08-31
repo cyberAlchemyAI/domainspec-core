@@ -1,0 +1,166 @@
+{
+  "schema_version": "arcanum.governance-repair-candidate-manifest.v0.1",
+  "candidate_id": "agent-binding-corrected",
+  "status": "staged_not_applied",
+  "canonical_patch": {
+    "path": "ops/development/2026-08-25-whisper-writing-frameworks-research/governance-repair-candidate/agent-binding-corrected.patch",
+    "sha256": "79c3365e23382207ded870e33862499333f788f18171b8676cb8c395feefa352",
+    "files_changed": 7,
+    "insertions": 678,
+    "deletions": 30
+  },
+  "canonical_targets": [
+    {
+      "path": "arcanum/runtime/orchestrate/SKILL.md",
+      "baseline_sha256": "61ed9e7fc7975b98abd4ae278271c4c833a51c7cc3be33e48c0a9cc8d6ee655a",
+      "candidate_sha256": "6e4050cec1cc9a0cae73fae5ea55c4a7c67b2fbae81213c1a98d92df71ce89fd"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/hosts/codex-native.md",
+      "baseline_sha256": "ab01de98687cff9275591e14d2b9cf8d14341c0066dc2e8309f3d44027b12a11",
+      "candidate_sha256": "e1fb9fdcffac3f375c4319eb96525984152e60605ee23250fa390d59a0a68461"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/schemas/run-event.schema.json",
+      "baseline_sha256": "866137d3c42cd8f0db762bd7a4fa2064412f50a09ecd29fc83996cc94ce3eaf9",
+      "candidate_sha256": "a436f4a745981dc23a8960f76aabed9d4b5ba21dc627bd4144cc9fb490b05448"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/scripts/native_dispatch_driver.py",
+      "baseline_sha256": "1f2975ce3438f87a570e6e6037c19ab2dad2a5c73f3675c6a59fd0a57e3fec1f",
+      "candidate_sha256": "926c392c43d4e9a285551c53c519b5399725e1cf73e03521253b0285a9466a73"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/scripts/validate_run_evidence.py",
+      "baseline_sha256": "d8d699c2d31328d51c3f2c845fb955f6cf599d2c4b7f9c799666b7cdc617ef06",
+      "candidate_sha256": "0cc6c68f5bb9b2eff02d47d8a079a05037eabcd56568fe36955d07d8962a556e"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/tests/evidence-order/test_evidence_order.py",
+      "baseline_sha256": "53d340e8adbd8da9d9972fd00cfc98b5b04bac2559e6fedc1f039bedac978b87",
+      "candidate_sha256": "2df57751a1b976abea202ca4cbc8c736fa2b1b08e61bdf01736c837b074e3099"
+    },
+    {
+      "path": "arcanum/runtime/orchestrate/tests/native-driver/test_native_dispatch_driver.py",
+      "baseline_sha256": "852f3478b45708187c7272d31c53dfc621fcbf87fd33e51ed4d047b37ffbd0bb",
+      "candidate_sha256": "f3081041715c206ef3a85163d596e1a7ef707ec1352d74d4e07e98d7bfe581ec"
+    }
+  ],
+  "generated_sync": {
+    "command": "arcanum/tools/sync-generated-skill-package.sh --target . --runtime orchestrate --profiles repo-codex,claude --apply",
+    "preview_required_before_apply": true,
+    "profiles": {
+      "repo-codex": [
+        {
+          "path": ".agents/skills/orchestrate/SKILL.md",
+          "baseline_sha256": "cef4029ca63a3b6408651446738eb0638f2078129b80fbcddf911a12fd221de5",
+          "candidate_sha256": "93dee7f7c8cca8c77f57688a1dba3b08c2c62f51d0f54522947c5dc0124bb4f8"
+        },
+        {
+          "path": ".agents/skills/orchestrate/hosts/codex-native.md",
+          "baseline_sha256": "ab01de98687cff9275591e14d2b9cf8d14341c0066dc2e8309f3d44027b12a11",
+          "candidate_sha256": "e1fb9fdcffac3f375c4319eb96525984152e60605ee23250fa390d59a0a68461"
+        },
+        {
+          "path": ".agents/skills/orchestrate/schemas/run-event.schema.json",
+          "baseline_sha256": "866137d3c42cd8f0db762bd7a4fa2064412f50a09ecd29fc83996cc94ce3eaf9",
+          "candidate_sha256": "a436f4a745981dc23a8960f76aabed9d4b5ba21dc627bd4144cc9fb490b05448"
+        },
+        {
+          "path": ".agents/skills/orchestrate/scripts/native_dispatch_driver.py",
+          "baseline_sha256": "1f2975ce3438f87a570e6e6037c19ab2dad2a5c73f3675c6a59fd0a57e3fec1f",
+          "candidate_sha256": "926c392c43d4e9a285551c53c519b5399725e1cf73e03521253b0285a9466a73"
+        },
+        {
+          "path": ".agents/skills/orchestrate/scripts/validate_run_evidence.py",
+          "baseline_sha256": "d8d699c2d31328d51c3f2c845fb955f6cf599d2c4b7f9c799666b7cdc617ef06",
+          "candidate_sha256": "0cc6c68f5bb9b2eff02d47d8a079a05037eabcd56568fe36955d07d8962a556e"
+        }
+      ],
+      "claude": [
+        {
+          "path": ".claude/skills/orchestrate/SKILL.md",
+          "baseline_sha256": "814c2405cfd6f01fe7d54a96f97a662f5c6b0c1fc9cbbc1ac4d5410c25a3909b",
+          "candidate_sha256": "f560e84b433bc4ae59a92a33e3571f4d0e5e4d283f248b37cb6c5889297c38b3"
+        },
+        {
+          "path": ".claude/skills/orchestrate/hosts/codex-native.md",
+          "baseline_sha256": "ab01de98687cff9275591e14d2b9cf8d14341c0066dc2e8309f3d44027b12a11",
+          "candidate_sha256": "e1fb9fdcffac3f375c4319eb96525984152e60605ee23250fa390d59a0a68461"
+        },
+        {
+          "path": ".claude/skills/orchestrate/schemas/run-event.schema.json",
+          "baseline_sha256": "866137d3c42cd8f0db762bd7a4fa2064412f50a09ecd29fc83996cc94ce3eaf9",
+          "candidate_sha256": "a436f4a745981dc23a8960f76aabed9d4b5ba21dc627bd4144cc9fb490b05448"
+        },
+        {
+          "path": ".claude/skills/orchestrate/scripts/native_dispatch_driver.py",
+          "baseline_sha256": "1f2975ce3438f87a570e6e6037c19ab2dad2a5c73f3675c6a59fd0a57e3fec1f",
+          "candidate_sha256": "926c392c43d4e9a285551c53c519b5399725e1cf73e03521253b0285a9466a73"
+        },
+        {
+          "path": ".claude/skills/orchestrate/scripts/validate_run_evidence.py",
+          "baseline_sha256": "d8d699c2d31328d51c3f2c845fb955f6cf599d2c4b7f9c799666b7cdc617ef06",
+          "candidate_sha256": "0cc6c68f5bb9b2eff02d47d8a079a05037eabcd56568fe36955d07d8962a556e"
+        }
+      ]
+    },
+    "unchanged_generation_manifest_sha256": "1fb591812b2822aa7f1abd9a7e6c7ff088731d027dda99c624680477dd4de7e0",
+    "generated_residue_removed_by_sync": [
+      ".agents/skills/orchestrate/scripts/__pycache__/native_dispatch_coordinator.cpython-312.pyc",
+      ".agents/skills/orchestrate/scripts/__pycache__/validate_run_evidence.cpython-312.pyc"
+    ]
+  },
+  "run_correction": {
+    "batch_path": "ops/development/2026-08-25-whisper-writing-frameworks-research/governance-repair-candidate/correction-batch.json",
+    "batch_sha256": "0796c2868a9f166aa0e678a420ab3f1ef15e8837c474f6ef27808a3af055c9a7",
+    "source_event_stream_sha256": "41c5930772545ed731832210f775cb3cfecd0aef2c6bc05ecc4707afcc08bec6",
+    "source_event_count": 39,
+    "append_count": 3,
+    "expected_correction_sequences": [40, 41, 42],
+    "original_events_rewritten": false
+  },
+  "private_candidate_artifacts": [
+    {
+      "path": "ops/development/2026-08-25-whisper-writing-frameworks-research/governance-repair-candidate/corrected-wait-request.audit.json",
+      "sha256": "756084b0ece4f47ef6e001ca52671bb6c0b646fdc97d732972daa783a7b6ea27"
+    },
+    {
+      "path": "ops/development/2026-08-25-whisper-writing-frameworks-research/governance-repair-candidate/VALIDATION-RECEIPT.json",
+      "sha256": "8bf98d349052b3a7013a1dd4f08b4acf8f233c02d2a9c271e86da5b84eaf1a83"
+    }
+  ],
+  "application_order": [
+    "Receive exact owner confirmation for the material projection digest.",
+    "Rehash every canonical, generated, and live-run baseline; stop on any mismatch.",
+    "Apply the canonical patch to arcanum/runtime/orchestrate only.",
+    "Run all ten canonical Orchestrate test modules and require all 74 tests to pass.",
+    "Preview, then apply the selective repo-codex and Claude Orchestrate package sync.",
+    "Verify every generated target hash listed in this manifest.",
+    "Append exactly three agent_binding_corrected events through the dedicated driver command.",
+    "Validate the 42-event corrected prefix before any terminal, close, join, or gate event.",
+    "Resume only the already-confirmed reviewers to writer to auditor dispatch route and close it through normal Orchestrate evidence."
+  ],
+  "excluded_scope": {
+    "repo_local_generated_surface": {
+      "path": ".arcanum/runtime/orchestrate",
+      "reason": "The selective runtime sync tool currently targets repo-codex and Claude packages, not the preexisting repo-local surface. No repo-local parity claim is made."
+    },
+    "other_exclusions": [
+      "Whisper composition changes",
+      "public writing-framework content",
+      "publication",
+      "commit",
+      "push",
+      "promotion",
+      "deployment"
+    ]
+  },
+  "authority": {
+    "current_token_authorized_staging_only": true,
+    "canonical_apply_authorized": false,
+    "generated_sync_authorized": false,
+    "live_correction_authorized": false,
+    "dispatch_resume_authorized_by_this_candidate": false
+  }
+}

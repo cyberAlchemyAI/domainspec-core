@@ -1,0 +1,35 @@
+{
+  "admissibleOptionIds": [
+    "D5-A-ACTUAL-IDEMPOTENT-DISPOSITION",
+    "D5-D-DEFER",
+    "D5-E-STOP"
+  ],
+  "decisionGateRequired": true,
+  "decisionId": "OWNER-BWSL-001-D5-CONSENT-REVOCATION",
+  "directOptionId": null,
+  "ownerGate": null,
+  "presentedOptionIds": [
+    "D5-A-ACTUAL-IDEMPOTENT-DISPOSITION",
+    "D5-D-DEFER",
+    "D5-E-STOP"
+  ],
+  "reasons": [],
+  "rejectedOptions": [
+    {
+      "optionId": "D5-B-DRY-RUN-ONLY",
+      "reasons": [
+        "Leaving evidence after consent revocation contradicts the implemented consent_revocation disposition path.",
+        "No typed dry-run operation or dry-run receipt contract exists in the accepted implementation."
+      ]
+    },
+    {
+      "optionId": "D5-C-FULL-IDENTITY-ERASURE",
+      "reasons": [
+        "The accepted repository contract intentionally preserves runner profile and disconnected provider-account metadata and provides no full-identity erasure operation."
+      ]
+    }
+  ],
+  "requestDigest": "4753f36aae3c0b88861ab02fc610b4aad7d315112ddda82d7f9a72f7fa1d5273",
+  "routeOutcome": "gate",
+  "schemaVersion": "1.0.0"
+}

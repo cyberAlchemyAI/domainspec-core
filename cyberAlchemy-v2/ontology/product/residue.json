@@ -59,14 +59,28 @@
     {
       "id": "CA2-RES-DEFINE-WIZARD",
       "label": "Interactive Define realization",
-      "description": "The business ontology includes Define and its Definition Pack output. It does not yet model the CLI/chat wizard, persistent questions, session state, or DomainSpec runtime projection.",
+      "description": "The business ontology includes Define, bounded Language Context resolution, and their product outputs. A separate business-system bridge models the candidate DefineSession, CLI/chat wizard, persistent questions, and session state, but no resolver protocol, DomainSpec runtime projection, or implementation is accepted.",
       "status": "deferred",
       "owner_route": "Invoke product or domain owner",
-      "next_action": "After the business nodes are reviewed, create a separate business-system bridge for DefineSession, Question, Answer, CLI, chat, operations, queries, mappings, and state.",
-      "subject_refs": ["CA2-CAP-DEFINE-SHARED-MEANING", "CA2-OUTPUT-DEFINITION-PACK", "CA2-RULE-DEFINE-COVERAGE"],
+      "next_action": "Keep the existing Language business-system bridge separate, then define the accepted request/view and Definition Pack binding contracts before implementing the resolver or agent integration.",
+      "subject_refs": ["CA2-CAP-DEFINE-SHARED-MEANING", "CA2-CAP-RESOLVE-LANGUAGE-CONTEXT", "CA2-OUTPUT-LANGUAGE-CONTEXT-VIEW", "CA2-OUTPUT-DEFINITION-PACK", "CA2-RULE-DEFINE-COVERAGE", "CA2-RULE-DEFINE-LANGUAGE-APPLICATION"],
       "source_refs": [
         {"source_id": "SRC-ARCANUM-INVOKE-DEFINE", "selector": "## Continue from here"},
         {"source_id": "SRC-CAV2-PRODUCT-JOURNEYS", "selector": "### Interactive wizard behavior"}
+      ]
+    },
+    {
+      "id": "CA2-RES-LANGUAGE-CONTEXT-CONTRACT",
+      "label": "Language Context View contract and consumer evidence",
+      "description": "The product meaning now requires a digest-bound Language Context View, but no accepted request schema, view schema, freshness algorithm, resolver runtime, Definition Pack binding, or evidence of correct agent use exists.",
+      "status": "open",
+      "owner_route": "CyberAlchemy v2 Language Project owner plus Invoke product or domain owner",
+      "next_action": "Design the smallest JSON request and view contracts, state the stale-source behavior, and define one negative test where an open realization or blocked use cannot be silently consumed.",
+      "subject_refs": ["CA2-CAP-RESOLVE-LANGUAGE-CONTEXT", "CA2-OUTPUT-LANGUAGE-CONTEXT-VIEW", "CA2-RULE-DEFINE-LANGUAGE-APPLICATION", "CA2-CAP-DEFINE-SHARED-MEANING", "CA2-OUTPUT-DEFINITION-PACK"],
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Language-Guided Agent Work"},
+        {"source_id": "SRC-CAV2-LANGUAGE-REALIZATION-BINDINGS", "selector": "selected_domainspec_type_ref"},
+        {"source_id": "SRC-CAV2-LANGUAGE-AUTHORITY-BINDINGS", "selector": "blocked_use"}
       ]
     },
     {
@@ -80,6 +94,45 @@
       "source_refs": [
         {"source_id": "SRC-CAV2-VALUE-PROPOSITION", "selector": "## Boundaries"},
         {"source_id": "SRC-CAV2-README", "selector": "## Open Questions"}
+      ]
+    },
+    {
+      "id": "CA2-RES-DOMAINSPEC-CONSTRUCTION",
+      "label": "DomainSpec-governed construction realization",
+      "description": "The product ontology now requires the D65 construction path, but no machine ConstructionBinding registry, transition validator, DomainSpec compiler admission gate, accepted system ontology, implementation binding, or conformance evidence exists.",
+      "status": "open",
+      "owner_route": "CyberAlchemy v2 product ontology owner plus DomainSpec v2 construction owners plus Governance owner",
+      "next_action": "Complete the capability-local business-ontology registration, then design the exact DomainSpec v2 source and deterministic system-ontology projection contract before implementation work.",
+      "subject_refs": ["CA2-FORM-GOVERNED-BASE", "CA2-RULE-DOMAINSPEC-GOVERNED-CONSTRUCTION"],
+      "source_refs": [
+        {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant"}
+      ]
+    },
+    {
+      "id": "CA2-RES-CRAFT-PRODUCT-FEATURE-KIND",
+      "label": "Craft Product Feature kind and Product Capability relationship",
+      "description": "The Craft Product is the immediate context for a candidate System Construction Product Feature, but Product Feature is not yet a canonical CyberAlchemy kind and must not be silently collapsed into CAV2-D67 Product Capability.",
+      "status": "open",
+      "owner_route": "Craft Product owner plus definitions-governance plus product ontology owner",
+      "next_action": "Define Product Feature with formal, plain-language, and Craft domain-context voices; decide its exact relationship to Product and CAV2-D67 Product Capability; then admit or reject the candidate feature node.",
+      "subject_refs": ["CA2-PRODUCT-CRAFT", "CA2-PRODUCT-THESIS-CRAFT", "CA2-PROJECT-CRAFT", "CAV2-D20"],
+      "source_refs": [
+        {"source_id": "SRC-CAV2-CRAFT-IDENTITY-DECISION", "selector": "\"first_product_feature_id\": \"CA2-PRODUCT-FEATURE-SYSTEM-CONSTRUCTION\""},
+        {"source_id": "SRC-CAV2-CRAFT-PRODUCT-THESIS", "selector": "## Product, Project, Method, And Feature"},
+        {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D67: Product Capability"}
+      ]
+    },
+    {
+      "id": "CA2-RES-CRAFT-RENAME-MIGRATION",
+      "label": "DomainSpec v2 to Craft physical and authority migration",
+      "description": "Craft is selected as the current name of the DomainSpec v2 Product lineage, but source directories, implementation paths, imports, consumers, documentation links, package identities, and authority bindings still use the former name.",
+      "status": "open",
+      "owner_route": "Craft Product owner plus Craft Project owner plus DomainSpec v2 migration and authority owners",
+      "next_action": "Create an exact dependency-closed rename inventory and migration plan that maps every legacy path and identity to move, alias, archive, retain, or reject; preserve rollback and validate every real consumer before deleting or redirecting legacy paths.",
+      "subject_refs": ["CA2-PRODUCT-CRAFT", "CA2-PRODUCT-THESIS-CRAFT", "CA2-PROJECT-CRAFT", "CAV2-D20"],
+      "source_refs": [
+        {"source_id": "SRC-CAV2-CRAFT-IDENTITY-DECISION", "selector": "\"continuity\": \"same-product-renamed\""},
+        {"source_id": "SRC-CAV2-CRAFT-PRODUCT-THESIS", "selector": "## DomainSpec v2 Rename And Continuity"}
       ]
     }
   ]

@@ -50,7 +50,20 @@ Load-Bearing Term Tracking rule, `C(meta-4)`) is "tracked" iff it has a row here
 | `domainspec-v2-D33` | meta-type instantiation | active | method-vocabulary; deterministic generation contract | [DEFINITIONS.md#domainspec-v2-d33](./DEFINITIONS.md) |
 | `domainspec-v2-D34` | target implementation conformance | active | method-vocabulary; observed-vs-selected predicate | [DEFINITIONS.md#domainspec-v2-d34](./DEFINITIONS.md) |
 | `domainspec-v2-D35` | baseline-bound instantiation receipt | active | evidence-vocabulary; deterministic generation receipt | [DEFINITIONS.md#domainspec-v2-d35](./DEFINITIONS.md) |
-| `domainspec-v2-D36` | Workflow Compensation | active | method-vocabulary; owner-admitted runtime contract | [DEFINITIONS.md#domainspec-v2-d36](./DEFINITIONS.md) |
+| `domainspec-v2-D36` | Workflow Compensation | active | method-vocabulary; owner-admitted forward-recovery model | [DEFINITIONS.md#domainspec-v2-d36](./DEFINITIONS.md) |
+| `domainspec-v2-D37` | Recovery Intent | active | method-vocabulary; durable-recovery identity | [DEFINITIONS.md#domainspec-v2-d37](./DEFINITIONS.md) |
+| `domainspec-v2-D38` | Durable Compensation Dispatch | active | method-vocabulary; durable coordination aggregate | [DEFINITIONS.md#domainspec-v2-d38](./DEFINITIONS.md) |
+| `domainspec-v2-D39` | Compensation Execution Attempt | active | method-vocabulary; execution-episode identity | [DEFINITIONS.md#domainspec-v2-d39](./DEFINITIONS.md) |
+| `domainspec-v2-D40` | Compensation Invocation Identity | active | method-vocabulary; replay-protection identity | [DEFINITIONS.md#domainspec-v2-d40](./DEFINITIONS.md) |
+| `domainspec-v2-D41` | Compensation Claim | active | method-vocabulary; exclusive advancement authority | [DEFINITIONS.md#domainspec-v2-d41](./DEFINITIONS.md) |
+| `domainspec-v2-D42` | Compensation Claim Lease | active | method-vocabulary; bounded claim validity | [DEFINITIONS.md#domainspec-v2-d42](./DEFINITIONS.md) |
+| `domainspec-v2-D43` | Compensation Retry | active | method-vocabulary; successor-attempt scheduling | [DEFINITIONS.md#domainspec-v2-d43](./DEFINITIONS.md) |
+| `domainspec-v2-D44` | Compensation Terminal Disposition | active | method-vocabulary; terminal recovery result | [DEFINITIONS.md#domainspec-v2-d44](./DEFINITIONS.md) |
+| `domainspec-v2-D45` | Concern-Specific Dependency Contract | active | method-vocabulary; responsibility-specific code seam | [DEFINITIONS.md#domainspec-v2-d45](./DEFINITIONS.md) |
+| `domainspec-v2-D46` | Persistence Binding | active | method-vocabulary; logical-to-physical persistence realization | [DEFINITIONS.md#domainspec-v2-d46](./DEFINITIONS.md) |
+| `domainspec-v2-D47` | Transaction Guarantee Binding | active | method-vocabulary; exact local transaction boundary | [DEFINITIONS.md#domainspec-v2-d47](./DEFINITIONS.md) |
+| `domainspec-v2-D48` | Failure Outcome Binding | active | method-vocabulary; typed integration failure classification | [DEFINITIONS.md#domainspec-v2-d48](./DEFINITIONS.md) |
+| `domainspec-v2-D49` | Durable Workflow Runtime Binding | active | method-vocabulary; durable-profile composition binding | [DEFINITIONS.md#domainspec-v2-d49](./DEFINITIONS.md) |
 | `DS-D1` | Meta-Type System (24 staged labels) | active | domain-vocabulary | [meta-types/meta-types.md](./meta-types/meta-types.md) · [.yml](./meta-types/meta-types.yml) |
 | `DS-D1.1` | Entity | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.2` | Value Object | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |

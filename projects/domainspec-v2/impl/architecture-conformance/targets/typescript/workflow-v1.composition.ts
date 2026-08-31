@@ -4,9 +4,9 @@ import {
   type WorkflowCase,
 } from "./workflow-v1.js";
 import {
-  planWorkflowCompensation,
-  type CompensationIntent,
-  type CompensationMapping,
+  planWorkflowRecovery,
+  type RecoveryIntent,
+  type RecoveryOperationMapping,
 } from "./workflow-compensation-v1.js";
 
 export type SettlementWorkflowOperationId =
@@ -46,11 +46,11 @@ const ARCHITECTURE_CONTINUATIONS = Object.freeze({
   stop: 'failure_policy:"stop"',
   continue: 'result:"pass"',
   retry: "stop-and-return-structured-outcome",
-  compensate: "compensation_intents",
+  compensate: "recovery_intents",
   terminal: "terminal_outcome",
 });
 
-const SETTLEMENT_COMPENSATION_MAPPINGS: readonly CompensationMapping[] = Object.freeze([
+const SETTLEMENT_RECOVERY_MAPPINGS: readonly RecoveryOperationMapping[] = Object.freeze([
   Object.freeze({ stepId: "validate", operationId: null, dependsOn: Object.freeze([]) }),
   Object.freeze({ stepId: "decide", operationId: null, dependsOn: Object.freeze([]) }),
   Object.freeze({ stepId: "persist", operationId: "forward-recover-settlement", dependsOn: Object.freeze([]) }),
@@ -76,18 +76,22 @@ export const evaluateSettlementWorkflowComposition = (
   composition: SettlementWorkflowComposition,
 ) => {
   const evaluation = evaluateWorkflowCase(composition.workflowCase);
-  const compensationIntents = evaluation.portable.scenarios.flatMap(
-    (scenario) => scenario.compensation_intents,
+  const recoveryIntents = evaluation.portable.scenarios.flatMap(
+    (scenario) => scenario.recovery_intents,
   );
-  const compensationPlans: readonly CompensationIntent[] = Object.freeze(
+  const recoveryIntentsWithPlans: readonly RecoveryIntent[] = Object.freeze(
     evaluation.portable.scenarios.flatMap((scenario) => {
       if (scenario.failed_step_id === null) return [];
-      return [planWorkflowCompensation({
+      const decision = planWorkflowRecovery({
+        workflowId: "settlement-workflow",
         workflowExecutionId: scenario.scenario_id,
+        failureOccurrenceId: `${scenario.scenario_id}-failure`,
         failedStepId: scenario.failed_step_id,
         completedStepIds: scenario.trace,
-        mappings: SETTLEMENT_COMPENSATION_MAPPINGS,
-      })];
+        orchestratedOperationIds: Object.values(EXPECTED_BINDINGS),
+        mappings: SETTLEMENT_RECOVERY_MAPPINGS,
+      });
+      return decision.recoveryIntent === null ? [] : [decision.recoveryIntent];
     }),
   );
   return Object.freeze({
@@ -96,8 +100,8 @@ export const evaluateSettlementWorkflowComposition = (
       continuationSelectors: ARCHITECTURE_CONTINUATIONS,
       compensationCallableId:
         composition.bindings.forwardRecoverSettlement.operationId,
-      compensationIntents: Object.freeze([...compensationIntents]),
-      compensationPlans,
+      recoveryIntents: Object.freeze([...recoveryIntents]),
+      recoveryIntentsWithPlans,
       compensationExecutorOwner: "external-runtime" as const,
       compensationExecution: false as const,
       directEffectExecution: false as const,

@@ -58,11 +58,24 @@ A term failing (1) is a **drift defect** — create it as a `candidate` card + i
 | Canonical Single Responsibility Principle | DS-D8 `creates`; DEC-DSV2-CANONICAL-CREATION-RESPONSIBILITY | yes -> `domainspec-v2-D27` | active | `pass` | one primary responsibility, one canonical owner, one authored proposition; `creates` is the executable application |
 | DomainSpec obligation lifecycle | GATE-05 separate owner-local lifecycles | yes -> `domainspec-v2-D28` | active | `pass` | closed owner-event fold; currentness and decision dispositions remain separate |
 | meta-type realization | current implementation state; frozen baseline realization rows | yes -> `domainspec-v2-D31` | active | `pass` | exact type/language/source/provider/binding identity; not a semantic meta-type |
-| canonical implemented meta-type baseline | owner definitions-first decision; current implementation state | yes -> `domainspec-v2-D32` | active | `pass` | immutable versioned set; @1 and @2 retained as historical and @3 is current |
+| canonical implemented meta-type baseline | owner definitions-first decision; current implementation state | yes -> `domainspec-v2-D32` | active | `pass` | immutable versioned set; @1 through @5 retained as historical and @6 is current |
 | meta-type instantiation | WP-MTCLI-001; private CLI | yes -> `domainspec-v2-D33` | active | `pass` | closed decoder, artifact plan, guarded atomic publication, receipt, reread, and deterministic package replay implemented |
 | target implementation conformance | implementation-conformance ontology; private CLI observer | yes -> `domainspec-v2-D34` | active | `pass` | selected baseline versus observed generated target implemented at the admitted static boundary |
 | baseline-bound instantiation receipt | WP-MTCLI-001; private CLI receipt schema and replay | yes -> `domainspec-v2-D35` | active | `pass` | exact input, selection, outputs, reread observations, and conformance binding implemented |
-| Workflow Compensation | canonical runtime contract; three-profile generator and observer | yes -> `domainspec-v2-D36` | active | `pass` | forward-recovery Operation role; no new DS-D1 type or DS-D8 verb |
+| Workflow Compensation | canonical definitions; runtime contract; three-profile generator and observer | yes -> `domainspec-v2-D36` | active | `pass` | umbrella forward-recovery model; no new DS-D1 type or DS-D8 verb |
+| Recovery Intent | durable compensation model | yes -> `domainspec-v2-D37` | active | `pass` | immutable semantic recovery identity and status |
+| Durable Compensation Dispatch | durable compensation model | yes -> `domainspec-v2-D38` | active | `pass` | durable coordination axis; implementation remains residue |
+| Compensation Execution Attempt | durable compensation model | yes -> `domainspec-v2-D39` | active | `pass` | one executor episode with succeeded/failed/unknown outcome |
+| Compensation Invocation Identity | durable compensation model; runtime idempotency key | yes -> `domainspec-v2-D40` | active | `pass` | stable replay key; at-most-once semantic application |
+| Compensation Claim | durable compensation model | yes -> `domainspec-v2-D41` | active | `pass` | exclusive fenced dispatch advancement authority |
+| Compensation Claim Lease | durable compensation model | yes -> `domainspec-v2-D42` | active | `pass` | time-bounded Claim validity and crash-recovery liveness |
+| Compensation Retry | durable compensation model; Operation continuation | yes -> `domainspec-v2-D43` | active | `pass` | bounded successor-attempt scheduling without replanning |
+| Compensation Terminal Disposition | durable compensation model | yes -> `domainspec-v2-D44` | active | `pass` | whole-recovery completed/exhausted/escalated result |
+| Concern-Specific Dependency Contract | infrastructure-binding Tower; system-integration Revision 2; owner admission; durable recovery architecture | yes -> `domainspec-v2-D45` | active | `pass` | responsibility-specific seam; universal code-level Port rejected |
+| Persistence Binding | infrastructure-binding Tower; system-integration Revision 2; owner admission; durable recovery architecture | yes -> `domainspec-v2-D46` | active | `pass` | logical subject and contract to selected persistence realization; Interface optional only when semantically real |
+| Transaction Guarantee Binding | infrastructure-binding Tower; system-integration Revision 2; owner admission; durable recovery architecture | yes -> `domainspec-v2-D47` | active | `pass` | one exact local Unit of Work and participant set; never Workflow-wide atomicity |
+| Failure Outcome Binding | infrastructure-binding Tower; system-integration Revision 2; owner admission; durable recovery architecture | yes -> `domainspec-v2-D48` | active | `pass` | retryable/non-retryable/unknown classification without implicit continuation |
+| Durable Workflow Runtime Binding | infrastructure-binding Tower; system-integration Revision 2; owner admission; durable recovery architecture | yes -> `domainspec-v2-D49` | active | `pass` | durable-only composition of persistence, transaction, failure, scheduling, clock, wakeup, replay and version evidence |
 
 ## Gate
 - `pass`: every load-bearing term resolves to a tracked, grounded entry.
@@ -103,11 +116,27 @@ maturity, implementation-baseline admission, and generated-target conformance ar
 machine state is schema-checked against the exact immutable baseline manifest; historical form-queue and
 provider/profile findings remain provenance and do not silently regain control of the current baseline.
 
-Workflow compensation now resolves to `domainspec-v2-D36`. Its canonical runtime contract keeps Workflow
-evaluation intent-only, reuses `orchestrates` to bind exact Operation targets, preflights the complete executor
-registry before mutation, and preserves each Operation's declared effect and failure-continuation boundary.
-Durable dispatch across process restart remains product residue rather than being inferred from the in-process
-reference executor.
+Workflow compensation now resolves to the complete `domainspec-v2-D36..D44` model. D36 keeps Workflow
+evaluation intent-only and reuses `orchestrates` for exact Operation targets. D37 owns semantic identity, D38
+durable coordination, D39 attempt outcome, D40 replay protection, D41 exclusive fenced advancement, D42
+time-bounded liveness, D43 bounded retry, and D44 terminal recovery meaning. Claim, Lease, Attempt, Retry, and
+Invocation Identity remain non-collapsed. The current implementation state records intent planning and replay
+key evidence separately from the still-open durable dispatcher, claim store, lease renewal, retry scheduler,
+and restart-recovery implementation.
+
+The infrastructure seam now resolves to `domainspec-v2-D45..D49`. D45 rejects a universal code-level Port
+while preserving responsibility-specific contracts and actual DS-D1 Interface boundaries. D46 keeps a
+Repository contract separate from its persistence metadata and makes `interface_ref` conditional on a real
+logical Interface. D47 confines transaction guarantees to one exact local Unit of Work, D48 preserves typed
+failure and unknown outcomes without inventing retry authority, and D49 composes the additional capabilities
+required only by a durable Workflow profile. Database, ORM, migration, queue, clock, and deployment choices
+remain profile or adapter state rather than portable business meaning.
+
+Integration provenance is now exact rather than generic. Every D45-D49 card cites the infrastructure-binding
+Tower, System Integration Contract Layer Revision 2, the explicit owner admission, and the durable-recovery
+architecture. The Tower and Revision 2 remain research/design evidence with no authority effect; the owner
+admission selects the semantic distinctions but still selects no provider, runtime profile, database, ORM,
+broker, deployment topology, publication, release, or production state.
 
 Focused stale scan (2026-07-22): the owned definition/index/audit/meta-type surfaces carry no live 25-label,
 14-backend, uniform-UI, or 30-signature authority claim. Candidate/deferred status is not treated as

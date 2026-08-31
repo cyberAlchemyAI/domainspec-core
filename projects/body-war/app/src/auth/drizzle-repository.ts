@@ -3,6 +3,7 @@ import type {
   AddActivityEvidenceCandidateInput,
   BodyWarAuthRepository,
   CreateSuggestedTrackInput,
+  DisposeActivityEvidenceCandidateInput,
   StoreProviderTokenInput,
   UpsertProviderAccountInput,
   UpsertRunnerProfileInput,
@@ -32,6 +33,7 @@ import {
 type DbRow = Record<string, any>;
 
 export type BodyWarDrizzleDatabase = {
+  delete(table: unknown): unknown;
   insert(table: unknown): unknown;
   select(fields?: unknown): unknown;
   update(table: unknown): unknown;
@@ -171,6 +173,48 @@ export function createDrizzleBodyWarAuthRepository(
       return toProviderToken(row);
     },
 
+    async findLatestProviderToken(accountId) {
+      const rows = await db
+        .select()
+        .from(bodyWarProviderTokens)
+        .where(eq(bodyWarProviderTokens.accountId, accountId));
+      const token = rows
+        .map(toProviderToken)
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+        .at(-1);
+      return token ?? null;
+    },
+
+    async revokeProviderAccess(principalId) {
+      return db.transaction(async (tx) => {
+        const [account] = await tx
+          .select()
+          .from(bodyWarProviderAccounts)
+          .where(
+            and(
+              eq(bodyWarProviderAccounts.principalId, principalId),
+              eq(bodyWarProviderAccounts.provider, "strava"),
+            ),
+          );
+        if (!account) return "already_absent";
+
+        const removedTokens = await tx
+          .delete(bodyWarProviderTokens)
+          .where(eq(bodyWarProviderTokens.accountId, account.id))
+          .returning();
+        if (account.status === "disconnected") {
+          return removedTokens.length > 0 ? "disposed" : "already_absent";
+        }
+
+        await tx
+          .update(bodyWarProviderAccounts)
+          .set({ status: "disconnected", updatedAt: new Date() })
+          .where(eq(bodyWarProviderAccounts.id, account.id))
+          .returning();
+        return "disposed";
+      });
+    },
+
     async upsertRunnerProfile(input: UpsertRunnerProfileInput) {
       const values = {
         principalId: input.principalId,
@@ -307,10 +351,52 @@ export function createDrizzleBodyWarAuthRepository(
         )
         .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     },
+
+    async disposeActivityEvidenceCandidate(
+      input: DisposeActivityEvidenceCandidateInput,
+    ) {
+      return db.transaction(async (tx) => {
+        const [candidate] = await tx
+          .select()
+          .from(bodyWarActivityEvidenceCandidates)
+          .where(eq(bodyWarActivityEvidenceCandidates.id, input.candidateId));
+        if (!candidate) return "already_absent";
+
+        const removed = await tx
+          .delete(bodyWarActivityEvidenceCandidates)
+          .where(eq(bodyWarActivityEvidenceCandidates.id, input.candidateId))
+          .returning();
+        if (removed.length === 0) return "already_absent";
+
+        const remaining = await tx
+          .select()
+          .from(bodyWarActivityEvidenceCandidates)
+          .where(
+            eq(
+              bodyWarActivityEvidenceCandidates.suggestedTrackId,
+              candidate.suggestedTrackId,
+            ),
+          );
+        if (remaining.length === 0) {
+          await tx
+            .update(bodyWarSuggestedTracks)
+            .set({ status: "needs_evidence", updatedAt: new Date() })
+            .where(eq(bodyWarSuggestedTracks.id, candidate.suggestedTrackId))
+            .returning();
+        }
+        return "disposed";
+      });
+    },
   };
 }
 
 type DrizzleLikeDatabase = {
+  transaction<T>(
+    callback: (transaction: DrizzleLikeDatabase) => Promise<T>,
+  ): Promise<T>;
+  delete(table: unknown): {
+    where(condition: unknown): { returning(): Promise<DbRow[]> };
+  };
   insert(table: unknown): {
     values(value: unknown): {
       onConflictDoUpdate(options: unknown): { returning(): Promise<DbRow[]> };

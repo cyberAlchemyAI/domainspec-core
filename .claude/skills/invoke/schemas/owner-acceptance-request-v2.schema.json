@@ -9,6 +9,7 @@
     "request_id",
     "base_request_ref",
     "base_request",
+    "requested_effect",
     "preacceptance_closure",
     "emission_gate",
     "authority_effect",
@@ -28,13 +29,17 @@
     "base_request": {
       "type": "object"
     },
+    "requested_effect": {
+      "type": "object",
+      "minProperties": 1
+    },
     "preacceptance_closure": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "manifest_ref",
         "closure_receipt_ref",
-        "review_attestation_ref",
+        "independent_review_ref",
         "adoption_ref",
         "closure_graph_digest"
       ],
@@ -45,7 +50,7 @@
         "closure_receipt_ref": {
           "$ref": "#/$defs/exactArtifactRef"
         },
-        "review_attestation_ref": {
+        "independent_review_ref": {
           "$ref": "#/$defs/exactArtifactRef"
         },
         "adoption_ref": {

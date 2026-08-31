@@ -6789,6 +6789,64 @@ Artifacts:
 - Next action: run two exact-sheet independent tension verdicts in a fresh parent
   context; only PASS/PASS may open the exact confirmation request.
 
+## 2026-08-20 — Recovery 004 tension gate passed
+
+- Mode: ingest one narrow status update to the existing non-authority strategy-result
+  synthesis.
+- Gate input: exact schema `0.8.0` sheet SHA-256
+  `854a184376de2e4c903657d17ab02a4f790fe3b8acd092f6109abfea43c3bd1f`
+  plus the repository `check-tension` rubric only.
+- Independent verdicts: fresh checker PASS and fresh reviewer PASS; both bind the same
+  digest and report zero apontamentos. Test 5 is not applicable because only one
+  group has two or more agents.
+- Evidence handles: `TENSION-CHECKER-VERDICT.json` SHA-256
+  `ece5f683383637513860824111043767d2b8ac201b7028058b4a3852c91d29a9` and
+  `TENSION-REVIEWER-VERDICT.json` SHA-256
+  `e19e54a9b28e2bd29b049413ea3091e60b53235e5ba466cdd145c5062895c443`.
+- Dispatch state: confirmation-ready but not confirmed, unregistered, and unexecuted.
+  The two gate agents are infrastructure; Recovery 004 target-agent spawn count
+  remains zero and the append-only dispatch ledger remains unchanged.
+- Entry updated:
+  `.arcanum/inventory/entries/agent-orchestration-beginner-language-audition-recovery-004-strategy-result-synthesis.md`.
+- Index: `index.json` and `index.md` refreshed at timestamp
+  `2026-08-20T10:27:34Z`; validation is recorded by the gate closeout.
+- Claim ceiling: init-time anti-bias design passes only. No confirmation,
+  registration, target execution, candidate result, synthesis, review, findings,
+  audit, Human Gate A, comprehension, publication, deployment, or production result
+  exists.
+- Next action: exact human `confirmed` for the unchanged Recovery 004 material
+  strategy.
+
+## 2026-08-20 — Recovery 004 confirmed, registered, and capacity-blocked before execution
+
+- Mode: ingest one status update to the existing non-authority strategy-result
+  synthesis.
+- Confirmation: exact user `confirmed` binds unchanged sheet SHA-256
+  `854a184376de2e4c903657d17ab02a4f790fe3b8acd092f6109abfea43c3bd1f`
+  and material strategy SHA-256
+  `4367f62f8507cd0f4528597e6b24558710ffe570677ba47b2587b9d66246c928`.
+- Route: authorization changed to `approved`; Dispatch Spec passes on route SHA-256
+  `96ff0c6b05523c3603e4cf794756b82e07c0ebb1efdb10160b5112892cc2fa96`.
+- Registration: deterministic appender added one row for six agents across five
+  groups. The ledger moved from 6,671 to 6,685 lines; no close row is present while
+  the registered run remains open.
+- Orchestrate: preflight compiled `w1-candidate-q` as one action with
+  `spawn_attempt_count=0`. The current capacity witness observes one root plus three
+  retained completed children and blocks before `prepare-spawn`.
+- Execution state: zero Recovery 004 target agents, no action-attempted event, and no
+  Q candidate receipt. The compiled action remains unconsumed.
+- Continuation: a schema-valid one-hop receipt selects
+  `orchestrate:resume-native-run` only in a fresh root-only parent. It carries the
+  existing registration and preflight plan and forbids reconfirmation, reregistration,
+  recompilation, or replay.
+- Index: `index.json` and `index.md` refreshed at timestamp
+  `2026-08-20T10:47:24Z`; validation is recorded by the lifecycle closeout.
+- Claim ceiling: confirmation, registration, and preflight only. No candidate,
+  synthesis, review, findings, audit, Human Gate A, comprehension, HTML, publication,
+  deployment, or production result exists.
+- Next action: open a fresh parent context and request
+  `resume registered Recovery 004`.
+
 ## 2026-08-20 — DomainSpec v2/CyberAlchemy v2 proof-obligation substrate strategy indexed
 
 - Mode: ingest one additive, non-authority research strategy-result synthesis.
@@ -6818,6 +6876,43 @@ Artifacts:
 - Authority boundary: Inventory is discovery only. The strategy cannot make a
   substrate canonical, merge DomainSpec semantics with CyberAlchemy authority,
   or authorize source, Git, publication, release, deployment, or production
+  mutation.
+- Next action: exact human `confirmed` for the unchanged frozen dispatch sheet.
+
+## 2026-08-20 — DomainSpec v2 operation-internal pattern enforcement strategy indexed
+
+- Mode: ingest one additive, non-authority research strategy-result synthesis.
+- P1: current repository authority, algorithm and program-semantics evidence,
+  and three language-tool ecosystems require governed synthesis, isolation,
+  context protection, and parallel lanes.
+- Prior owner: the auditor-accepted 2026-07-30 implementation-structure result
+  remains the broad baseline; this proposal only extends its unresolved
+  operation-internal surface.
+- Decision surface: classify query/business-rule/effect separation,
+  complexity, traversal, loop, and reduce candidates as portable semantic
+  invariants, implementation-profile policies, advisory heuristics, deferred
+  experiments, or killed folklore.
+- Lanes: van Lamsweerde verifies current DomainSpec ownership; Church tests
+  algorithmic semantics; Turing verifies TypeScript, Python, and Rust tooling;
+  Wiener synthesizes; Rittel, Popper, and Quine attack the result; Shannon
+  writes only after exact-binding closure; Bourbaki audits; the parent approves.
+- Gate state: schema 0.8.0 sheet PASS at SHA-256
+  `7eee15878a359afccc99540d3b4f9641a5f23d58703c685067c3a9c20dabacb1`;
+  capability-bound Dispatch Spec PASS at SHA-256
+  `65d6dabf2d8ed9af47c0a927555311507423137385edf76782042d72b14ed712`;
+  independent tension verdicts PASS/PASS with zero apontamentos.
+- Dispatch state: confirmation-ready, unconfirmed, unregistered, and
+  unexecuted. Research-agent spawn count is zero; two gate agents were joined
+  and closed.
+- Entry created:
+  `.arcanum/inventory/entries/domainspec-v2-operation-internal-pattern-enforcement-research-strategy-result-synthesis.md`.
+- Index: deterministic dry-run and apply synchronized `index.json` and
+  `index.md` at timestamp `2026-08-20T13:01:34Z`, introduced no warnings,
+  and retained 153 inherited warnings. Resulting index SHA-256:
+  `997e4e3645c54afca9ab2f57861c822be577d245021c8bfd3ba92600e3eb20a6`.
+- Authority boundary: Inventory is discovery only. The strategy cannot admit
+  an implementation profile or authorize implementation, definitions,
+  ontology, authority, Git, publication, release, deployment, or production
   mutation.
 - Next action: exact human `confirmed` for the unchanged frozen dispatch sheet.
 
@@ -6853,3 +6948,306 @@ Artifacts:
   readiness.
 - Next action: begin the non-executed Work Pack at `WP-00`, starting with
   `GATE-01`.
+
+## 2026-08-20 — DomainSpec v2 operation-internal pattern research closed blocked
+
+- Mode: publish one additive, non-authority execution-result entry while
+  retaining the earlier confirmation-ready strategy snapshot.
+- Research decision: current portable semantics remain the Operation/Query
+  state distinction and Rule-before-mutation gating. A universal database-free
+  Operation rule, complexity metrics as proof, and a universal preference for
+  reduce/fold over loops or multiple passes are rejected.
+- Run state: nine governed agents are terminal and logically closed; two of two
+  loops were consumed; the native causal stream validates PASS.
+- Audit state: terminal `BLOCK`. Eight of nine original defect groups were
+  repaired, but `LP-05` retains one stale local selector and `W-01` through
+  `W-16` lack exact row-level source bindings.
+- Result binding: `findings.md` SHA-256
+  `6aa28dc422ef7762558754fa480462f0a08dc056e2e49750f1c96fc5b5336e3e`;
+  terminal audit SHA-256
+  `f8f3575dae54f5429c79ebe0a430843cfff168c40d3cba43588469bcc8fdd204`.
+- Ledger: exactly one dispatch row and one close row with
+  `exit_reason: loop_ceiling_reached`.
+- Index: `index.json` and `index.md` synchronized at
+  `2026-08-20T15:03:41.512Z`; source/projection conformance passed with zero
+  failures and retained 153 inherited uncontrolled-tag warnings.
+- Observability: blocked/partial signal recorded at central ledger line 666;
+  the exact-binding closure gap triggers `reflect-now`.
+- Authority boundary: no analyzer, fixture, semantic admission, profile
+  selection, suppression approval, implementation, promotion, publication,
+  release, deployment, or production action occurred.
+- Next action: use a fresh authorized continuation to repair the two exact-byte
+  binding defects and obtain a new independent audit; do not reopen or report
+  the exhausted dispatch as resolved.
+
+## 2026-08-24 — EVF BTE/IOLM owner-candidate review closed resolved with blocked domain gate
+
+- P1 decision: parallel dispatch was warranted because the BTE provenance and
+  IOLM consumer-conformance lanes were independent and read-only.
+- Run state: exact schema 0.8.0 sheet double-PASS tension checked, human
+  confirmed, registered, executed with two explorers, and closed `resolved` as
+  a review with exactly one registration and one close ledger row.
+- BTE result: all eleven requested owner artifacts remain absent; exact current
+  candidate evidence is 17-member including `creates`, while BTE authority text
+  still contains a 16-family denominator; exact build node/edge freezes are
+  absent.
+- IOLM result: no passing DSC-A receipt exists, SWU-IOLM-00C-B remains blocked,
+  and neither the predecessor decision nor the null template substitutes for
+  owner execution evidence.
+- Runtime evidence: both raw task results passed briefing-shape validation,
+  both normalized receipts were admitted as `block`, the 14-event causal stream
+  validates, and the wave closed `gate_block` with zero dependent actions.
+- Review artifacts: `attacks.md` preserves both returns verbatim and
+  `findings.md` contains the parent-accepted cited change-request list.
+- Authority boundary: no owner response, denominator selection, proposal
+  acceptance/apply, readiness, promotion, release, publication, deployment, or
+  production claim was created.
+- Next action: relationship/profile owners decide 16 versus 17; the IOLM owner
+  clears the 00C-B/C substrate and runs DSC-A; named BTE owners then materialize
+  and validate all eleven requested outputs before P0/readiness is rerun.
+
+## 2026-08-24 — DomainSpec v2 operational-resilience research closed resolved
+
+- Inventory update timestamp: `2026-08-24T16:15:47Z`.
+- Added the auditor-accepted result entry
+  `domainspec-v2-operational-resilience-observability-deployment-integration-research-result-synthesis`.
+- Final finding digest:
+  `ecd070ed1aae6e6e44e28faec2d21b863b5a346ecd0d3e94a0be805bcbbbb84e`.
+- Independent audit: `ACCEPT`; the complete 80-event causal run validates with
+  zero errors and the dispatch ledger contains one matching close row.
+- Domain gate: blocked. The result defines a proposed owner-separated operational
+  evidence spine; it does not bind a live subject, environment, owner, profile,
+  toolchain, evaluator, policy, infrastructure target, deployment, or release.
+- Authority boundary: none. No implementation, profile admission, ontology
+  promotion, infrastructure apply, canary, rollback, deployment, publication,
+  release, or production action occurred.
+
+## 2026-08-25 — Whisper writing-framework integration research proposed
+
+- Inventory update timestamp: `2026-08-25T15:20:00Z`.
+- Added the non-authority strategy-result entry
+  `whisper-writing-framework-integration-research-strategy-result-synthesis`.
+- Proposal state: schema `0.8.0` readiness, exact role bindings, capability-bound
+  route validation, material-strategy equivalence, and independent tension
+  checks all pass against sheet SHA-256
+  `484beef9b2101fc13d435809b5acbce50fc96424814f779d77d647e7ece66340`.
+- Research state: human confirmation is requestable and pending; no registration,
+  target-agent spawn, ledger row, findings, or framework adoption exists.
+- Authority boundary: the preliminary PDF decomposition is discovery evidence,
+  not authority for Whisper mutation, promotion, publication, deployment, or a
+  claim about reader outcomes.
+- Next action: the exact reply `confirmed` authorizes registration and execution
+  of the immutable proposal; a material strategy change requires a new request.
+
+## 2026-08-25 — BMC-REL emits remaining-facets research proposed
+
+- Inventory update timestamp: `2026-08-25T16:41:49Z`.
+- Added the non-authority strategy-result entry
+  `domainspec-v2-bmc-rel-emits-remaining-facets-research-strategy-result-synthesis`.
+- Proposal state: schema `0.8.0` readiness, nine exact role briefings,
+  capability-bound route validation, material-strategy equivalence, and two
+  independent tension checks all pass against sheet SHA-256
+  `fab501cfd164cd676ec95e8c3b747635524b7f35fd4c27a10e9c75fd423976ab`.
+- Research state: human confirmation is requestable and pending; no ledger
+  registration, main-agent spawn, findings, semantic selection, or packet
+  projection exists.
+- Inventory preflight: lookup readiness passes, but no direct current BMC-REL
+  or `emits` facet entry existed; exact current repository sources remain the
+  required evidence.
+- Authority boundary: no canonical mutation, implementation, promotion,
+  publication, release, deployment, or production effect is authorized.
+- Next action: the exact reply `confirmed` authorizes append-only
+  registration and orchestrated execution of the immutable proposal.
+
+## 2026-08-25 — BMC-REL emits remaining-facets research closed blocked
+
+- Inventory update timestamp: `2026-08-25T17:57:32Z`.
+- Dispatch state: exact confirmation, registration, three explorer returns, synthesis, and three skeptic reviews completed; the 57-event native stream validates.
+- Evidence-closure state: blocked. The initial synthesis overstates gate readiness: numeric bounds lack exact tuple candidates, D02 completeness does not itself select the packet closure facet, partial-view options lack a closed distinct result contract, representation lacks a named additional projection, and runtime cardinality has no authorized unit or consequence.
+- Source-determined residue: `multi_endpoint_semantics` is not applicable, `compatibility_token` retains `one_to_many` as vocabulary only, inverse remains none, and same-concept self-relations remain endpoint-type-inapplicable. N33-N35 remain fixed Design-only boundaries.
+- Scheduling consequence: writer and auditor were not spawned; no `findings.md` or new owner Decision Gate was admitted.
+- Ledger close: `dissent_irreconcilable`; 11 counted invocations (7 main roles, 4 helper invocations), zero feedback loops.
+- Authority boundary: no semantic selection, packet projection, canonical mutation, implementation, promotion, publication, release, deployment, or production effect.
+- Next action: use a fresh bounded research or Invoke Design repair for exact selectors, option contracts, and aligned witnesses.
+
+## 2026-08-25 — Whisper writing-framework integration research closed at loop ceiling
+
+- Inventory update timestamp: `2026-08-25T18:04:22Z`.
+- Added the non-authority result entry
+  `whisper-writing-framework-integration-research-run-001-result`.
+- Research answer: no canonical writing-framework profile, fourth Whisper core,
+  or framework-specific base gate is supported; zero current candidates pass
+  the complete non-vacuity witness contract, so the defensible canonical delta
+  is zero Whisper bytes.
+- Evidence: the revised findings bind six exact inputs, resolve 294 citation
+  occurrences across 146 unique JSON Pointers, and include one ten-row
+  owner/witness/soundness/verdict matrix.
+- Audit: the first two defects were repaired, but the grouped `All Writer
+  Science components` owner cell still omits `transport_or_preset_profile`.
+  Auditor acceptance and final parent approval remain withheld.
+- Runtime: all five waves completed and the 75-event native causal stream
+  validates with zero errors. The append-only dispatch ledger contains one
+  close row with `exit_reason: loop_ceiling_reached` after one declared writer
+  revision.
+- Inventory validation: lookup readiness remains `ready`; source/projection
+  conformance passes with zero failures and 157 uncontrolled-tag warnings.
+- Authority boundary: no Whisper, public Arcanum, schema, validator, preset,
+  promotion, publication, deployment, release, production, or reader-outcome
+  state changed.
+- Next action: obtain new authority for one matrix-only writer revision, then
+  rerun the exact audit and parent approval; do not infer that authority from
+  the exhausted confirmed route.
+
+## 2026-08-25 — Whisper writing-frameworks matrix repair continuation proposed
+
+- Inventory update timestamp: `2026-08-25T19:12:21Z`.
+- Added the non-authority strategy-result entry
+  `whisper-writing-frameworks-matrix-repair-continuation-001-strategy-result`.
+- P1 and lanes: isolation requires one proposal-only matrix writer followed by
+  one distinct read-only auditor; no explorer, synthesis, comparative-source,
+  or feedback lane is reopened.
+- Proposal state: schema `0.8.0` readiness, exact role briefings,
+  capability-bound Dispatch Spec validation, material-strategy equivalence,
+  and independent no-subject-group tension checks all pass against sheet
+  SHA-256
+  `54f1c186c6ceea93fbebdd9628fd44915079cfa5794dadd12e9fdb5d6e2f33d6`.
+- Execution state: exact human confirmation, registration, and both target-agent
+  spawns remain pending; the ledger has no row for this continuation.
+- Write ceiling: only the grouped owner cell on findings line 130 and, if the
+  exact evidence requires it, the grouped owner cell on line 137. No feedback
+  or revision edge exists.
+- Authority boundary: no Whisper, Arcanum, Git, adoption, promotion,
+  publication, deployment, reader-outcome, release, production, or final
+  findings approval is authorized.
+- Next action: confirm exact material digest
+  `6e423c5845da8ccc26e4463b14147ec0ccd673c536c6bd58737df9d7f78424a7`
+  before registration or native writer execution.
+
+## 2026-08-25 — Whisper writing-frameworks matrix repair continuation resolved
+
+- Inventory update timestamp: `2026-08-25T19:40:51Z`.
+- Added the non-authority research-result entry
+  `whisper-writing-frameworks-matrix-repair-continuation-001-result`.
+- Repair: findings lines 130 and 137 changed only in their owner cells; all
+  three immutable segments and the 234-line boundary remained exact.
+- Audit: the independent auditor returned `recommend_accept`, including an
+  owner-cell-only reverse reconstruction of baseline SHA-256
+  `7811f3a3bbf455ee0aa532aa6f0c35e56ea5f7b6fe2b3a7583c2a9807bcc6d9c`.
+- Parent gate: accepted the repaired findings artifact at SHA-256
+  `568112550ba8f73f489e1bc101ccc7d6b9b776eacd4788fc7f9dae983e9b3cd2`
+  only.
+- Runtime: both waves completed, the 19-event native causal stream validates,
+  and the append-only dispatch ledger contains one resolved close row with no
+  feedback loop used.
+- Result boundary: zero integration candidates pass the complete non-vacuity
+  witness contract; canonical Whisper integration remains blocked and the
+  accepted result records zero canonical Whisper-byte delta.
+- Authority boundary: no Whisper, Arcanum, Git, adoption, promotion,
+  publication, deployment, reader-outcome, release, production, or other
+  authority changed.
+
+## 2026-08-26 — Lucifer's Lights Chapter 1 reader-discovery tournament resolved
+
+- Inventory update timestamp: `2026-08-26T20:08:17Z`.
+- Added the non-authority strategy-result entry
+  `lucifers-lights-chapter-01-reader-discovery-tournament-result`.
+- Result: three admitted read-only Distill auditions were joined; the parent
+  Pareto synthesis added one project-local reader-discovery rule and applied
+  eight bounded change requests while rejecting six proposals that invented
+  or over-specified scene and app behavior.
+- Exact boundary: the candidate advanced from SHA-256
+  `8b33827b68d2761381cdc0f61b4c3f92bb2b4a80fea55137174424c358cb8d7d`
+  to `d3eadd32eecf7da002bfe61d32fa0615c22dd7157ee53f8d5d5b127c4408b1bd`;
+  the accepted baseline remains unchanged at
+  `eb89135bb53d2c8106b26e8005a1c45738bd84a3a2b06b9e64518c9c64fbe2a5`.
+- Validation: Chapter Factory deterministic review passed; 29 pipeline tests,
+  Python compilation, exact digest binding, whitespace, review rendering,
+  three clock checks, ten required markers, and five forbidden-marker absence
+  checks passed.
+- Inventory validation: lookup readiness remains `ready`; source/projection
+  conformance passes with zero failures and 158 inherited uncontrolled-tag
+  warnings; the append introduced no new warnings.
+- Authority boundary: reader effect is unproven and exact author acceptance is
+  pending. No accepted manuscript, derivative, publication, Git, deployment,
+  release, or production state changed.
+
+## 2026-08-29 — Define CLI local-model selection research strategy proposed
+
+- Inventory update timestamp: `2026-08-29T14:20:36Z`.
+- Added the non-authority strategy-result entry
+  `define-cli-local-model-selection-research-strategy-result-synthesis`.
+- P1 and lanes: three parallel explorers separate frozen Define semantic
+  workload, exact CPU-only 11 GiB host fit, and full operating cost; a
+  synthesizer, three distinct skeptic gates, writer, and auditor preserve the
+  quality-speed-cost trade-off through bounded feedback.
+- Proposal state: schema `0.10.0` readiness, independent checker/reviewer
+  tension, material projection, and preconfirmation closure pass against sheet
+  SHA-256
+  `85e4d5122f4e98354c27a0433da70d02741c04cf6d863ab6512af452591a88e4`
+  and material SHA-256
+  `e9ee4ce0d199f1bff0f5a9b71750e00dd811cd721ec0f2c6b193ec0e2ca2c153`.
+- Execution state: exact human confirmation, registration, research-agent
+  spawning, model download, runner installation, and live inference remain
+  pending; the dispatch ledger is unchanged.
+- Inventory validation: lookup readiness remains `ready`; source/projection
+  conformance passes with zero failures and 163 uncontrolled-tag warnings.
+- Authority boundary: no model or runner is selected, installed, executed,
+  promoted, published, deployed, or made product-ready by this proposal.
+- Next action: confirm the exact material digest or request a material revision.
+
+## 2026-08-29 — Define CLI model-selection scope corrected to cloud-first
+
+- Inventory update timestamp: `2026-08-29T14:35:00Z`.
+- Marked the earlier CPU-local strategy as superseded before confirmation and
+  added the non-authority successor entry
+  `define-cli-cloud-model-selection-research-strategy-result-synthesis`.
+- Scope correction: the target is the private Define product and session model
+  under `cyberAlchemy-v2/define`; the zero-model experiment CLI is the fair
+  model-selection harness, not the product target.
+- Lanes: three parallel explorers now separate Define semantic workload,
+  current cloud provider/model and session-adapter capability, and full
+  one-cell/24-cell economics. The local Ryzen, RAM, quantization, and runner
+  lane is retired.
+- Proposal state: schema `0.10.0` readiness, independent checker/reviewer
+  tension, material projection, and preconfirmation closure pass against sheet
+  SHA-256
+  `5f159db0a92f1e1d2b2860115cf5d83ff8190fb2aa09bc4fc07c406bd5dc8c13`
+  and material SHA-256
+  `d9b0f68ac29ccc36d70fb327b0400ce8bb8439ad04209b745c323f96f6355604`.
+- Execution state: exact human confirmation, registration, provider research,
+  and research-agent spawning remain pending. Credentials, API calls, manifest
+  freeze, cloud canary, publication, and deployment remain unauthorized.
+- Inventory validation: lookup readiness remains `ready`; source/projection
+  conformance passes with zero failures and 165 uncontrolled-tag warnings.
+- Next action: confirm the corrected cloud-first material digest or request a
+  material revision.
+
+## 2026-08-29 — Define CLI cloud scope corrected to self-hosted inference
+
+- Inventory update timestamp: `2026-08-29T14:47:50Z`.
+- Marked the proprietary provider-API proposal as superseded before
+  confirmation and added the non-authority successor entry
+  `define-cli-self-hosted-cloud-model-selection-research-strategy-result-synthesis`.
+- Scope correction: self-hosted cloud means CyberAlchemy operates a pinned
+  open-weight checkpoint behind its own endpoint on rented or owned GPU
+  infrastructure; it does not mean laptop-local inference or a managed model
+  API.
+- Lanes: three parallel explorers separate the Define workload, exact
+  checkpoint/license/runtime/precision/GPU feasibility, and full infrastructure
+  economics including utilization, warm idle, cold starts, storage, networking,
+  observability, redundancy, retries, and rework.
+- Proposal state: schema `0.10.0` readiness, independent checker/reviewer
+  tension, material projection, and preconfirmation closure pass against sheet
+  SHA-256
+  `9a7e7d3188a38865154cda6fafe91f2bc1d1526c231d1220a3682e0485b14923`
+  and material SHA-256
+  `c08ebbab3be41a2f1affc5eb86ff94213f18facaa006186a9af296fb2a78ded3`.
+- Execution state: exact human confirmation, registration, primary-source
+  research, and research-agent spawning remain pending. License acceptance,
+  model downloads, cloud accounts, credentials, GPU provisioning, live
+  inference, manifest freeze, canary execution, publication, and deployment
+  remain unauthorized.
+- Inventory validation: lookup readiness remains `ready`; source/projection
+  conformance passes with zero failures and 169 uncontrolled-tag warnings.
+- Next action: confirm the exact self-hosted material digest or request a
+  material revision.

@@ -1,0 +1,1013 @@
+diff --git a/arcanum/runtime/orchestrate/SKILL.md b/arcanum/runtime/orchestrate/SKILL.md
+index be3b75d..2d49e5b 100644
+--- a/arcanum/runtime/orchestrate/SKILL.md
++++ b/arcanum/runtime/orchestrate/SKILL.md
+@@ -29,6 +29,8 @@ native_spawn_contract:
+   pre_event: action_attempted
+   success_event: host_spawn_returned
+   failure_event: host_spawn_failed
++  record_request_binding_required: true
++  returned_agent_id_task_name_match: basename_exact
+   calls_per_action: 1
+   unknown_action_policy: block
+   replay_policy: block
+@@ -61,6 +63,8 @@ native_evidence_contract:
+   causal_schema: schemas/run-event.schema.json
+   residue_schema: schemas/run-residue.schema.yml
+   append_owner: scripts/native_dispatch_driver.py
++  correction_event: agent_binding_corrected
++  correction_command: scripts/native_dispatch_driver.py correct-agent-binding
+   source_time_append_required: true
+   prefix_validation_required: true
+   complete_validation_before_resolved_close: true
+@@ -149,12 +153,33 @@ Consume exactly one persisted action document whose `action` is `spawn` and whos
+    before exposing the exact host request. If preparation blocks, do not invoke
+    the host.
+ 4. Invoke that operation exactly once. Do not retry implicitly.
+-5. On return, run driver `record-spawn --agent-id <id>` to append `host_spawn_returned` and bind the returned `agent_id` to the `action_id`. A missing agent identifier is a blocking host failure.
++5. On return, run driver `record-spawn --request <prepared-request> --agent-id <id>` to append `host_spawn_returned` and bind the returned `agent_id` to the `action_id`. The returned identifier's basename must equal the exact deterministic `task_name` in the persisted prepared request. A missing or mismatched identifier blocks before append.
+ 6. On host error, run driver `record-spawn --failed` to append `host_spawn_failed`, persist the failure in the non-causal residue stream when useful, and stop dependent execution.
+ 
+ An unknown, non-persisted, mismatched, duplicate, or replayed action blocks before a host call. Waiting, joining, result normalization, and gate reduction are separate execution steps.
+ </native-spawn-action>
+ 
++<native-binding-correction>
++`agent_binding_corrected` is an exceptional, append-only correction for a
++documented host-agent identifier transcription defect. It is not a retry,
++second host result, or authorization to reconstruct missing execution.
++
++Use `correct-agent-binding` only against an owner-accepted correction batch.
++The command binds the admitted action and exact persisted spawn request; names
++the prior host-result and wait-registration sequences; preserves both original
++events; and appends one v0.2 correction whose corrected identifier basename
++equals the prepared `task_name`. The validator makes that corrected binding
++effective for later terminal, cleanup, join, and gate checks.
++
++A correction fails closed when the action, wave, prior identifier, prepared
++task name, superseded sequences, reason code, or uniqueness check differs. It
++also fails after any same-wave terminal, timeout, interrupt, close, receipt
++join, or gate evidence. A prior mailbox-wide wait attempt may remain because
++the causal wait event carries no target identifier, but its derived request
++artifact becomes audit residue and must be replaced by a corrected audit-only
++binding projection. Never replay the host wait solely to repair that artifact.
++</native-binding-correction>
++
+ <native-join-wave>
+ Consume one persisted wave plan and the complete action-to-native-agent bindings returned by prior spawn actions. The Codex wait operation is mailbox-wide, so do not model it as a targeted per-agent API.
+ 
+diff --git a/arcanum/runtime/orchestrate/hosts/codex-native.md b/arcanum/runtime/orchestrate/hosts/codex-native.md
+index 6ab4953..852f7bc 100644
+--- a/arcanum/runtime/orchestrate/hosts/codex-native.md
++++ b/arcanum/runtime/orchestrate/hosts/codex-native.md
+@@ -34,6 +34,8 @@ spawn_contract:
+     - fork_turns
+   prepare_command: scripts/native_dispatch_driver.py prepare-spawn
+   record_command: scripts/native_dispatch_driver.py record-spawn
++  record_request_binding_required: true
++  returned_agent_id_task_name_match: basename_exact
+ join_contract:
+   join_policy: all
+   wait_operation: collaboration.wait_agent
+@@ -56,6 +58,7 @@ join_contract:
+ evidence_contract:
+   causal_append_command: scripts/native_dispatch_driver.py append-event
+   residue_append_command: scripts/native_dispatch_driver.py append-residue
++  binding_correction_command: scripts/native_dispatch_driver.py correct-agent-binding
+   source_time_append_required: true
+   pure_reduce_live_evidence: false
+ ---
+@@ -104,13 +107,26 @@ For one admitted `spawn` action, call `collaboration.spawn_agent` exactly once w
+ Use `native_dispatch_driver.py prepare-spawn` to revalidate the canonical
+ briefing digest and action-policy equality before persisting `action_attempted`.
+ Expose the exact request only after both validation and append succeed.
+-On success, use `record-spawn --agent-id` to persist
+-`host_spawn_returned` with the native `agent_id` bound to the action. On error
++On success, use `record-spawn --request <prepared-request> --agent-id` to
++persist `host_spawn_returned` with the native `agent_id` bound to the action.
++The returned identifier basename must equal the prepared request's exact
++`task_name`; mismatch blocks without changing the stream. On error
+ or a missing identifier, use `record-spawn --failed`, preserve any diagnostic
+ text in the separate residue stream, and block without implicit retry. Waiting
+ for the returned identifier belongs to the later join action, not spawn
+ mapping.
+ 
++## Binding Correction
++
++The Codex host returns a canonical agent path whose basename is the requested
++`task_name`. An owner-accepted `agent_binding_corrected` batch may repair a
++transcription error only before same-wave terminal or gate evidence. The
++dedicated command validates the persisted action and prepared request, retains
++the original host and registration events, and appends one correction. Generic
++`append-event` is not the correction workflow. The mailbox-wide wait itself
++is not replayed; only its non-causal pending-set projection is rebuilt for
++audit.
++
+ ## Join Mapping
+ 
+ `collaboration.wait_agent` waits for mailbox activity and does not accept a target identifier. Register each known wave agent once in a pending set, call the mailbox-wide wait operation in bounded rounds, and use `collaboration.list_agents` plus returned completion messages to reconcile only those known identifiers.
+diff --git a/arcanum/runtime/orchestrate/schemas/run-event.schema.json b/arcanum/runtime/orchestrate/schemas/run-event.schema.json
+index 1d45afe..e0988d8 100644
+--- a/arcanum/runtime/orchestrate/schemas/run-event.schema.json
++++ b/arcanum/runtime/orchestrate/schemas/run-event.schema.json
+@@ -15,13 +15,19 @@
+     "operation"
+   ],
+   "properties": {
+-    "schema_version": {"const": "arcanum.native-dispatch-runner.run-event.v0.1"},
++    "schema_version": {
++      "enum": [
++        "arcanum.native-dispatch-runner.run-event.v0.1",
++        "arcanum.native-dispatch-runner.run-event.v0.2"
++      ]
++    },
+     "sequence": {"type": "integer", "minimum": 1},
+     "event": {
+       "enum": [
+         "action_attempted",
+         "host_spawn_returned",
+         "host_spawn_failed",
++        "agent_binding_corrected",
+         "agent_wait_registered",
+         "wait_attempted",
+         "agent_terminal",
+@@ -39,6 +45,16 @@
+     "action_id": {"type": ["string", "null"]},
+     "agent_id": {"type": ["string", "null"]},
+     "operation": {"type": "string", "minLength": 1},
++    "prior_agent_id": {"type": "string", "minLength": 1},
++    "prepared_task_name": {"type": "string", "minLength": 1},
++    "supersedes_sequences": {
++      "type": "array",
++      "minItems": 2,
++      "maxItems": 2,
++      "uniqueItems": true,
++      "items": {"type": "integer", "minimum": 1}
++    },
++    "reason_code": {"const": "host_agent_id_transcription_error"},
+     "depends_on_gate_id": {"type": ["string", "null"]},
+     "receipt_status": {"enum": ["pass", "block", "fail", "timed_out"]},
+     "gate_id": {"type": "string", "minLength": 1},
+@@ -89,6 +105,22 @@
+         "properties": {"action_id": {"type": "string", "minLength": 1}, "agent_id": {"type": "null"}}
+       }
+     },
++    {
++      "if": {"properties": {"event": {"const": "agent_binding_corrected"}}},
++      "then": {
++        "properties": {
++          "schema_version": {"const": "arcanum.native-dispatch-runner.run-event.v0.2"},
++          "action_id": {"type": "string", "minLength": 1},
++          "agent_id": {"type": "string", "minLength": 1}
++        },
++        "required": [
++          "prior_agent_id",
++          "prepared_task_name",
++          "supersedes_sequences",
++          "reason_code"
++        ]
++      }
++    },
+     {
+       "if": {"properties": {"event": {"const": "wait_attempted"}}},
+       "then": {
+diff --git a/arcanum/runtime/orchestrate/scripts/native_dispatch_driver.py b/arcanum/runtime/orchestrate/scripts/native_dispatch_driver.py
+index 65f4293..28f6a87 100755
+--- a/arcanum/runtime/orchestrate/scripts/native_dispatch_driver.py
++++ b/arcanum/runtime/orchestrate/scripts/native_dispatch_driver.py
+@@ -28,7 +28,7 @@ import native_dispatch_coordinator as coordinator  # noqa: E402
+ import validate_run_evidence as evidence  # noqa: E402
+ 
+ 
+-RUN_EVENT_SCHEMA_VERSION = "arcanum.native-dispatch-runner.run-event.v0.1"
++RUN_EVENT_SCHEMA_VERSION = "arcanum.native-dispatch-runner.run-event.v0.2"
+ RESIDUE_SCHEMA_VERSION = "arcanum.native-dispatch-runner.run-residue.v0.1"
+ RECEIPT_ADMISSION_SCHEMA_VERSION = (
+     "arcanum.native-dispatch-runner.receipt-admission.v0.1"
+@@ -521,12 +521,26 @@ def prepare_spawn(
+ def record_spawn(
+     action_path: Path,
+     run_plan_path: Path,
++    request_path: Path,
+     event_stream: Path,
+     agent_id: str | None,
+ ) -> dict[str, Any]:
+     action, _ = _admit_persisted_action(action_path, run_plan_path)
++    request = _load_json_object(request_path, "prepared spawn request")
++    expected_request = _spawn_request(action)
++    if request != expected_request:
++        raise DriverBlocked(
++            ["prepared spawn request does not exactly match the admitted action"]
++        )
+     if agent_id is not None and not agent_id:
+         raise DriverBlocked(["agent_id must be non-empty when spawn succeeds"])
++    if (
++        agent_id is not None
++        and agent_id.rsplit("/", 1)[-1] != request["task_name"]
++    ):
++        raise DriverBlocked(
++            ["native agent_id does not end with the exact prepared task_name"]
++        )
+     kind = "host_spawn_returned" if agent_id is not None else "host_spawn_failed"
+     return append_causal_records(
+         event_stream,
+@@ -544,6 +558,110 @@ def record_spawn(
+     )[0]
+ 
+ 
++def correct_agent_binding(
++    action_path: Path,
++    run_plan_path: Path,
++    request_path: Path,
++    event_stream: Path,
++    prior_agent_id: str,
++    corrected_agent_id: str,
++    supersedes_sequences: list[int],
++) -> dict[str, Any]:
++    """Append one pre-terminal correction without rewriting prior evidence."""
++
++    action, _ = _admit_persisted_action(action_path, run_plan_path)
++    request = _load_json_object(request_path, "prepared spawn request")
++    expected_request = _spawn_request(action)
++    if request != expected_request:
++        raise DriverBlocked(
++            ["prepared spawn request does not exactly match the admitted action"]
++        )
++    if not prior_agent_id or not corrected_agent_id:
++        raise DriverBlocked(
++            ["prior_agent_id and corrected_agent_id must be non-empty"]
++        )
++    if prior_agent_id == corrected_agent_id:
++        raise DriverBlocked(["binding correction must change the agent_id"])
++    if corrected_agent_id.rsplit("/", 1)[-1] != request["task_name"]:
++        raise DriverBlocked(
++            ["corrected agent_id does not end with the exact prepared task_name"]
++        )
++    if (
++        len(supersedes_sequences) != 2
++        or len(set(supersedes_sequences)) != 2
++        or any(
++            not isinstance(sequence, int)
++            or isinstance(sequence, bool)
++            or sequence < 1
++            for sequence in supersedes_sequences
++        )
++    ):
++        raise DriverBlocked(
++            ["supersedes_sequences must contain two unique positive integers"]
++        )
++
++    events = _validated_prefix(event_stream)
++    host_result = next(
++        (
++            event
++            for event in events
++            if event.get("event") == "host_spawn_returned"
++            and event.get("action_id") == action["action_id"]
++        ),
++        None,
++    )
++    registration = next(
++        (
++            event
++            for event in events
++            if event.get("event") == "agent_wait_registered"
++            and event.get("action_id") == action["action_id"]
++        ),
++        None,
++    )
++    if host_result is None or registration is None:
++        raise DriverBlocked(
++            ["binding correction requires an earlier host result and wait registration"]
++        )
++    if host_result.get("agent_id") != prior_agent_id:
++        raise DriverBlocked(["prior_agent_id does not match the host result"])
++    if registration.get("agent_id") != prior_agent_id:
++        raise DriverBlocked(["prior_agent_id does not match the wait registration"])
++    if host_result.get("wave_id") != action["wave_id"]:
++        raise DriverBlocked(["host result wave does not match the admitted action"])
++    if registration.get("wave_id") != action["wave_id"]:
++        raise DriverBlocked(
++            ["wait registration wave does not match the admitted action"]
++        )
++    expected_sequences = [
++        int(host_result["sequence"]),
++        int(registration["sequence"]),
++    ]
++    if supersedes_sequences != expected_sequences:
++        raise DriverBlocked(
++            ["supersedes_sequences do not match host result then registration"]
++        )
++
++    return append_causal_records(
++        event_stream,
++        [
++            {
++                "event": "agent_binding_corrected",
++                "dispatch_id": action["dispatch_id"],
++                "run_id": action["run_id"],
++                "wave_id": action["wave_id"],
++                "action_id": action["action_id"],
++                "agent_id": corrected_agent_id,
++                "operation": "orchestrate.correct-agent-binding",
++                "prior_agent_id": prior_agent_id,
++                "prepared_task_name": request["task_name"],
++                "supersedes_sequences": supersedes_sequences,
++                "reason_code": "host_agent_id_transcription_error",
++            }
++        ],
++    )[0]
++
++
+ def _validated_prefix(path: Path) -> list[dict[str, Any]]:
+     try:
+         events = evidence.load_events(path)
+@@ -1371,11 +1489,27 @@ def main() -> int:
+     record_spawn_parser = subparsers.add_parser("record-spawn")
+     record_spawn_parser.add_argument("--action", required=True, type=Path)
+     record_spawn_parser.add_argument("--run-plan", required=True, type=Path)
++    record_spawn_parser.add_argument("--request", required=True, type=Path)
+     record_spawn_parser.add_argument("--events", required=True, type=Path)
+     spawn_result = record_spawn_parser.add_mutually_exclusive_group(required=True)
+     spawn_result.add_argument("--agent-id")
+     spawn_result.add_argument("--failed", action="store_true")
+ 
++    correct_binding_parser = subparsers.add_parser("correct-agent-binding")
++    correct_binding_parser.add_argument("--action", required=True, type=Path)
++    correct_binding_parser.add_argument("--run-plan", required=True, type=Path)
++    correct_binding_parser.add_argument("--request", required=True, type=Path)
++    correct_binding_parser.add_argument("--events", required=True, type=Path)
++    correct_binding_parser.add_argument("--prior-agent-id", required=True)
++    correct_binding_parser.add_argument("--corrected-agent-id", required=True)
++    correct_binding_parser.add_argument(
++        "--supersedes-sequences",
++        required=True,
++        nargs=2,
++        type=int,
++        metavar=("HOST_RESULT_SEQUENCE", "REGISTRATION_SEQUENCE"),
++    )
++
+     next_plan_parser = subparsers.add_parser("prepare-next-wave-plan")
+     next_plan_parser.add_argument("dispatch", type=Path)
+     next_plan_parser.add_argument("--prior-run-plan", required=True, type=Path)
+@@ -1443,6 +1577,12 @@ def main() -> int:
+     try:
+         if args.command == "append-event":
+             record = _load_json_object(args.record, "causal record")
++            if record.get("event") == "agent_binding_corrected":
++                raise DriverBlocked(
++                    [
++                        "agent_binding_corrected requires the dedicated correct-agent-binding command"
++                    ]
++                )
+             appended = append_causal_records(args.events, [record])
+             summary = {
+                 "status": "pass",
+@@ -1468,6 +1608,7 @@ def main() -> int:
+             event = record_spawn(
+                 args.action,
+                 args.run_plan,
++                args.request,
+                 args.events,
+                 None if args.failed else args.agent_id,
+             )
+@@ -1477,6 +1618,23 @@ def main() -> int:
+                 "action_id": event["action_id"],
+                 "agent_id": event["agent_id"],
+             }
++        elif args.command == "correct-agent-binding":
++            event = correct_agent_binding(
++                args.action,
++                args.run_plan,
++                args.request,
++                args.events,
++                args.prior_agent_id,
++                args.corrected_agent_id,
++                args.supersedes_sequences,
++            )
++            summary = {
++                "status": "pass",
++                "state": event["event"],
++                "action_id": event["action_id"],
++                "agent_id": event["agent_id"],
++                "sequence": event["sequence"],
++            }
+         elif args.command == "prepare-next-wave-plan":
+             run_plan = prepare_next_wave_plan(
+                 args.dispatch,
+diff --git a/arcanum/runtime/orchestrate/scripts/validate_run_evidence.py b/arcanum/runtime/orchestrate/scripts/validate_run_evidence.py
+index 81d9324..c6d8b70 100644
+--- a/arcanum/runtime/orchestrate/scripts/validate_run_evidence.py
++++ b/arcanum/runtime/orchestrate/scripts/validate_run_evidence.py
+@@ -10,11 +10,16 @@ from typing import Any
+ 
+ SCHEMA_VERSION = "arcanum.native-dispatch-runner.evidence-validation.v0.1"
+ VALIDATOR_NAME = "validate_run_evidence.py"
++RUN_EVENT_SCHEMA_VERSIONS = {
++    "arcanum.native-dispatch-runner.run-event.v0.1",
++    "arcanum.native-dispatch-runner.run-event.v0.2",
++}
+ HOST_RESULTS = {"host_spawn_returned", "host_spawn_failed"}
+ EVENT_KINDS = {
+     "action_attempted",
+     "host_spawn_returned",
+     "host_spawn_failed",
++    "agent_binding_corrected",
+     "agent_wait_registered",
+     "wait_attempted",
+     "agent_terminal",
+@@ -36,6 +41,10 @@ EVENT_FIELDS = BASE_FIELDS | {
+     "failed_action_ids",
+     "cleaned_action_ids",
+     "blocker_code",
++    "prior_agent_id",
++    "prepared_task_name",
++    "supersedes_sequences",
++    "reason_code",
+ }
+ 
+ 
+@@ -58,7 +67,7 @@ def event_shape_violation(event: dict[str, Any]) -> str | None:
+     unexpected = sorted(set(event) - EVENT_FIELDS)
+     if unexpected:
+         return "unexpected fields: " + ", ".join(unexpected)
+-    if event.get("schema_version") != "arcanum.native-dispatch-runner.run-event.v0.1":
++    if event.get("schema_version") not in RUN_EVENT_SCHEMA_VERSIONS:
+         return "unsupported schema_version"
+     if event.get("event") not in EVENT_KINDS:
+         return "unsupported event kind"
+@@ -68,6 +77,14 @@ def event_shape_violation(event: dict[str, Any]) -> str | None:
+         if not isinstance(event.get(field), str) or not event[field]:
+             return f"{field} must be a non-empty string"
+     kind = event["event"]
++    correction_fields = {
++        "prior_agent_id",
++        "prepared_task_name",
++        "supersedes_sequences",
++        "reason_code",
++    }
++    if kind != "agent_binding_corrected" and correction_fields & set(event):
++        return "binding-correction fields are only valid on agent_binding_corrected"
+     if kind in {"gate_decided", "wait_attempted"}:
+         if event.get("action_id") is not None or event.get("agent_id") is not None:
+             return f"{kind} action_id and agent_id must be null"
+@@ -109,6 +126,35 @@ def event_shape_violation(event: dict[str, Any]) -> str | None:
+             return "run_blocked requires at least one failed_action_id"
+         if event.get("action_id") not in event["failed_action_ids"]:
+             return "run_blocked action_id must identify a failed action"
++    elif kind == "agent_binding_corrected":
++        if event.get("schema_version") != "arcanum.native-dispatch-runner.run-event.v0.2":
++            return "agent_binding_corrected requires run-event.v0.2"
++        if not isinstance(event.get("agent_id"), str) or not event["agent_id"]:
++            return "agent_binding_corrected requires corrected agent_id"
++        if not isinstance(event.get("prior_agent_id"), str) or not event["prior_agent_id"]:
++            return "agent_binding_corrected requires prior_agent_id"
++        if event["prior_agent_id"] == event["agent_id"]:
++            return "agent_binding_corrected requires a changed agent_id"
++        task_name = event.get("prepared_task_name")
++        if not isinstance(task_name, str) or not task_name:
++            return "agent_binding_corrected requires prepared_task_name"
++        if event["agent_id"].rsplit("/", 1)[-1] != task_name:
++            return "corrected agent_id must end with the exact prepared_task_name"
++        supersedes = event.get("supersedes_sequences")
++        if (
++            not isinstance(supersedes, list)
++            or len(supersedes) != 2
++            or len(set(supersedes)) != 2
++            or any(
++                not isinstance(item, int)
++                or isinstance(item, bool)
++                or item < 1
++                for item in supersedes
++            )
++        ):
++            return "agent_binding_corrected requires two unique positive supersedes_sequences"
++        if event.get("reason_code") != "host_agent_id_transcription_error":
++            return "agent_binding_corrected requires host_agent_id_transcription_error"
+     elif not isinstance(event.get("agent_id"), str) or not event["agent_id"]:
+         return f"{kind} requires agent_id"
+     if kind == "receipt_joined" and event.get("receipt_status") not in {"pass", "block", "fail", "timed_out"}:
+@@ -126,6 +172,7 @@ def validate_events(
+     attempts: dict[str, dict[str, Any]] = {}
+     host_results: dict[str, dict[str, Any]] = {}
+     registrations: dict[str, dict[str, Any]] = {}
++    binding_corrections: dict[str, dict[str, Any]] = {}
+     waits_by_wave: dict[str, list[dict[str, Any]]] = {}
+     terminals: dict[str, dict[str, Any]] = {}
+     closes: dict[str, dict[str, Any]] = {}
+@@ -208,6 +255,120 @@ def validate_events(
+             if registration_valid:
+                 registrations[action_id] = event
+ 
++        elif kind == "agent_binding_corrected":
++            correction_valid = True
++            host_result = host_results.get(action_id)
++            registration = registrations.get(action_id)
++            prior_agent_id = event.get("prior_agent_id")
++            corrected_agent_id = event.get("agent_id")
++            if action_id in binding_corrections:
++                reject(
++                    "duplicate_agent_binding_correction",
++                    event,
++                    "action already has an agent binding correction",
++                )
++                correction_valid = False
++            if host_result is None or host_result.get("event") != "host_spawn_returned":
++                reject(
++                    "correction_without_host_result",
++                    event,
++                    "binding correction has no earlier successful host result",
++                )
++                correction_valid = False
++            elif host_result.get("agent_id") != prior_agent_id:
++                reject(
++                    "correction_prior_agent_mismatch",
++                    event,
++                    "prior_agent_id differs from the effective host result",
++                )
++                correction_valid = False
++            elif host_result.get("wave_id") != event.get("wave_id"):
++                reject(
++                    "correction_wave_mismatch",
++                    event,
++                    "binding correction wave differs from the host result",
++                )
++                correction_valid = False
++            if registration is None:
++                reject(
++                    "correction_without_registration",
++                    event,
++                    "binding correction has no earlier wait registration",
++                )
++                correction_valid = False
++            elif registration.get("agent_id") != prior_agent_id:
++                reject(
++                    "correction_registration_agent_mismatch",
++                    event,
++                    "prior_agent_id differs from the effective wait registration",
++                )
++                correction_valid = False
++            elif registration.get("wave_id") != event.get("wave_id"):
++                reject(
++                    "correction_registration_wave_mismatch",
++                    event,
++                    "binding correction wave differs from the wait registration",
++                )
++                correction_valid = False
++            if host_result is not None and registration is not None:
++                expected_sequences = [
++                    host_result.get("sequence"),
++                    registration.get("sequence"),
++                ]
++                if event.get("supersedes_sequences") != expected_sequences:
++                    reject(
++                        "correction_sequence_mismatch",
++                        event,
++                        "supersedes_sequences must name the effective host result then registration",
++                    )
++                    correction_valid = False
++            same_wave_terminal_evidence = [
++                candidate
++                for collection in (
++                    terminals,
++                    closes,
++                    timeouts,
++                    interrupts,
++                    joined,
++                )
++                for candidate in collection.values()
++                if candidate.get("wave_id") == event.get("wave_id")
++            ]
++            if same_wave_terminal_evidence or event.get("wave_id") in gate_decision_waves:
++                reject(
++                    "correction_after_terminal_evidence",
++                    event,
++                    "binding correction must precede same-wave terminal, cleanup, join, and gate evidence",
++                )
++                correction_valid = False
++            duplicate_owner = next(
++                (
++                    candidate_action_id
++                    for candidate_action_id, candidate in host_results.items()
++                    if candidate_action_id != action_id
++                    and candidate.get("event") == "host_spawn_returned"
++                    and candidate.get("agent_id") == corrected_agent_id
++                ),
++                None,
++            )
++            if duplicate_owner is not None:
++                reject(
++                    "correction_agent_id_not_unique",
++                    event,
++                    f"corrected agent_id is already bound to {duplicate_owner}",
++                )
++                correction_valid = False
++            if correction_valid and host_result is not None and registration is not None:
++                host_results[action_id] = {
++                    **host_result,
++                    "agent_id": corrected_agent_id,
++                }
++                registrations[action_id] = {
++                    **registration,
++                    "agent_id": corrected_agent_id,
++                }
++                binding_corrections[action_id] = event
++
+         elif kind == "wait_attempted":
+             wave_id = event.get("wave_id")
+             known_actions = {
+diff --git a/arcanum/runtime/orchestrate/tests/evidence-order/test_evidence_order.py b/arcanum/runtime/orchestrate/tests/evidence-order/test_evidence_order.py
+index c43cd5f..30b1b01 100644
+--- a/arcanum/runtime/orchestrate/tests/evidence-order/test_evidence_order.py
++++ b/arcanum/runtime/orchestrate/tests/evidence-order/test_evidence_order.py
+@@ -68,6 +68,7 @@ class EvidenceOrderTests(unittest.TestCase):
+         self.assertTrue(
+             {
+                 "agent_wait_registered",
++                "agent_binding_corrected",
+                 "wait_attempted",
+                 "agent_closed",
+                 "wait_timed_out",
+diff --git a/arcanum/runtime/orchestrate/tests/native-driver/test_native_dispatch_driver.py b/arcanum/runtime/orchestrate/tests/native-driver/test_native_dispatch_driver.py
+index 6bdc54a..d5bbded 100644
+--- a/arcanum/runtime/orchestrate/tests/native-driver/test_native_dispatch_driver.py
++++ b/arcanum/runtime/orchestrate/tests/native-driver/test_native_dispatch_driver.py
+@@ -5,7 +5,6 @@ from __future__ import annotations
+ import copy
+ import importlib.util
+ import json
+-import shutil
+ import subprocess
+ import sys
+ import tempfile
+@@ -70,11 +69,103 @@ class NativeDispatchDriverTests(unittest.TestCase):
+             paths[action["action_id"]] = path
+         return paths
+ 
+-    def copy_receipts(self, root: Path) -> Path:
+-        receipts = root / "receipts"
+-        shutil.copytree(REDUCE / "pass", receipts)
++    def native_agent_id(self, action: dict[str, Any]) -> str:
++        return "/root/" + driver._spawn_request(action)["task_name"]
++
++    def fixture_receipts(self) -> dict[str, dict[str, Any]]:
++        receipts = {
++            value["action_id"]: value
++            for value in (
++                load_json(path) for path in sorted((REDUCE / "pass").glob("*.json"))
++            )
++        }
++        actions = {
++            action["action_id"]: action for action in self.run_plan["actions"]
++        }
++        for action_id, receipt in receipts.items():
++            receipt["agent_id"] = self.native_agent_id(actions[action_id])
+         return receipts
+ 
++    def copy_receipts(self, root: Path) -> Path:
++        receipts_dir = root / "receipts"
++        for action_id, receipt in self.fixture_receipts().items():
++            write_json(receipts_dir / f"{action_id}.json", receipt)
++        return receipts_dir
++
++    def build_misbound_wait_stream(
++        self, root: Path
++    ) -> tuple[dict[str, Any], Path, Path, Path, str, str]:
++        action = self.run_plan["actions"][0]
++        action_path = self.persist_actions(root)[action["action_id"]]
++        request_path = root / "requests" / f"{action['action_id']}.json"
++        write_json(request_path, driver._spawn_request(action))
++        task_name = load_json(request_path)["task_name"]
++        prior_agent_id = "/root/" + task_name.replace("_spawn_0001", "_spawn-0001")
++        corrected_agent_id = "/root/" + task_name
++        records = [
++            {
++                "schema_version": "arcanum.native-dispatch-runner.run-event.v0.1",
++                "sequence": 1,
++                "event": "action_attempted",
++                "dispatch_id": action["dispatch_id"],
++                "run_id": action["run_id"],
++                "wave_id": action["wave_id"],
++                "action_id": action["action_id"],
++                "agent_id": None,
++                "operation": "collaboration.spawn_agent",
++                "depends_on_gate_id": None,
++            },
++            {
++                "schema_version": "arcanum.native-dispatch-runner.run-event.v0.1",
++                "sequence": 2,
++                "event": "host_spawn_returned",
++                "dispatch_id": action["dispatch_id"],
++                "run_id": action["run_id"],
++                "wave_id": action["wave_id"],
++                "action_id": action["action_id"],
++                "agent_id": prior_agent_id,
++                "operation": "collaboration.spawn_agent",
++            },
++            {
++                "schema_version": "arcanum.native-dispatch-runner.run-event.v0.1",
++                "sequence": 3,
++                "event": "agent_wait_registered",
++                "dispatch_id": action["dispatch_id"],
++                "run_id": action["run_id"],
++                "wave_id": action["wave_id"],
++                "action_id": action["action_id"],
++                "agent_id": prior_agent_id,
++                "operation": "logical-register",
++            },
++            {
++                "schema_version": "arcanum.native-dispatch-runner.run-event.v0.1",
++                "sequence": 4,
++                "event": "wait_attempted",
++                "dispatch_id": action["dispatch_id"],
++                "run_id": action["run_id"],
++                "wave_id": action["wave_id"],
++                "action_id": None,
++                "agent_id": None,
++                "operation": "collaboration.wait_agent",
++            },
++        ]
++        events = root / "events.jsonl"
++        events.write_text(
++            "".join(
++                json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
++                for record in records
++            ),
++            encoding="utf-8",
++        )
++        return (
++            action,
++            action_path,
++            request_path,
++            events,
++            prior_agent_id,
++            corrected_agent_id,
++        )
++
+     def write_raw_results(self, root: Path) -> Path:
+         raw_results = root / "raw-results"
+         for action in self.run_plan["actions"]:
+@@ -91,12 +182,7 @@ class NativeDispatchDriverTests(unittest.TestCase):
+     def build_pre_join_stream(self, root: Path) -> Path:
+         events = root / "events.jsonl"
+         action_paths = self.persist_actions(root)
+-        receipts = {
+-            value["action_id"]: value
+-            for value in (
+-                load_json(path) for path in sorted((REDUCE / "pass").glob("*.json"))
+-            )
+-        }
++        receipts = self.fixture_receipts()
+         for action in self.run_plan["actions"]:
+             action_id = action["action_id"]
+             driver.prepare_spawn(
+@@ -109,6 +195,7 @@ class NativeDispatchDriverTests(unittest.TestCase):
+             driver.record_spawn(
+                 action_paths[action_id],
+                 self.run_plan_path,
++                root / "requests" / f"{action_id}.json",
+                 events,
+                 receipts[action_id]["agent_id"],
+             )
+@@ -163,12 +250,7 @@ class NativeDispatchDriverTests(unittest.TestCase):
+     ) -> tuple[Path, dict[str, Path], dict[str, dict[str, Any]]]:
+         events = root / "events.jsonl"
+         action_paths = self.persist_actions(root)
+-        receipts = {
+-            value["action_id"]: value
+-            for value in (
+-                load_json(path) for path in sorted((REDUCE / "pass").glob("*.json"))
+-            )
+-        }
++        receipts = self.fixture_receipts()
+         for action in self.run_plan["actions"]:
+             action_id = action["action_id"]
+             driver.prepare_spawn(
+@@ -180,12 +262,17 @@ class NativeDispatchDriverTests(unittest.TestCase):
+             )
+             if action_id == failure_action_id:
+                 driver.record_spawn(
+-                    action_paths[action_id], self.run_plan_path, events, None
++                    action_paths[action_id],
++                    self.run_plan_path,
++                    root / "requests" / f"{action_id}.json",
++                    events,
++                    None,
+                 )
+                 break
+             driver.record_spawn(
+                 action_paths[action_id],
+                 self.run_plan_path,
++                root / "requests" / f"{action_id}.json",
+                 events,
+                 receipts[action_id]["agent_id"],
+             )
+@@ -254,6 +341,172 @@ class NativeDispatchDriverTests(unittest.TestCase):
+         self.assertNotIn(action["dispatch_id"], first["task_name"])
+         self.assertNotIn(action["role"], first["task_name"])
+ 
++    def test_record_spawn_rejects_nonverbatim_native_agent_id_without_append(self) -> None:
++        with tempfile.TemporaryDirectory() as temp_dir:
++            root = Path(temp_dir)
++            action = self.run_plan["actions"][0]
++            action_path = self.persist_actions(root)[action["action_id"]]
++            events = root / "events.jsonl"
++            request_path = root / "request.json"
++            request = driver.prepare_spawn(
++                action_path,
++                self.run_plan_path,
++                events,
++                request_path,
++                None,
++            )
++            before = events.read_bytes()
++            wrong_agent_id = (
++                "/root/" + request["task_name"].replace("_spawn_0001", "_spawn-0001")
++            )
++            with self.assertRaises(driver.DriverBlocked):
++                driver.record_spawn(
++                    action_path,
++                    self.run_plan_path,
++                    request_path,
++                    events,
++                    wrong_agent_id,
++                )
++            self.assertEqual(events.read_bytes(), before)
++
++            corrected_agent_id = "/root/" + request["task_name"]
++            event = driver.record_spawn(
++                action_path,
++                self.run_plan_path,
++                request_path,
++                events,
++                corrected_agent_id,
++            )
++            self.assertEqual(event["agent_id"], corrected_agent_id)
++            self.assertEqual(
++                [item["event"] for item in validator.load_events(events)],
++                ["action_attempted", "host_spawn_returned"],
++            )
++
++    def test_agent_binding_correction_preserves_history_and_updates_effective_binding(self) -> None:
++        with tempfile.TemporaryDirectory() as temp_dir:
++            root = Path(temp_dir)
++            (
++                action,
++                action_path,
++                request_path,
++                events,
++                prior_agent_id,
++                corrected_agent_id,
++            ) = self.build_misbound_wait_stream(root)
++            historical_prefix = events.read_bytes()
++            correction = driver.correct_agent_binding(
++                action_path,
++                self.run_plan_path,
++                request_path,
++                events,
++                prior_agent_id,
++                corrected_agent_id,
++                [2, 3],
++            )
++            self.assertEqual(correction["event"], "agent_binding_corrected")
++            self.assertEqual(correction["supersedes_sequences"], [2, 3])
++            self.assertTrue(events.read_bytes().startswith(historical_prefix))
++
++            base = {
++                "dispatch_id": action["dispatch_id"],
++                "run_id": action["run_id"],
++                "wave_id": action["wave_id"],
++                "action_id": action["action_id"],
++                "agent_id": corrected_agent_id,
++            }
++            driver.append_causal_records(
++                events,
++                [
++                    {
++                        **base,
++                        "event": "agent_terminal",
++                        "operation": "collaboration.list_agents",
++                    },
++                    {
++                        **base,
++                        "event": "agent_closed",
++                        "operation": "logical-close",
++                    },
++                    {
++                        **base,
++                        "event": "receipt_joined",
++                        "operation": "orchestrate.receipt-admission",
++                        "receipt_status": "pass",
++                    },
++                ],
++            )
++            receipt = validator.validate_events(
++                validator.load_events(events),
++                str(events),
++                require_complete=True,
++            )
++            self.assertTrue(receipt["valid"], receipt["errors"])
++
++            before_duplicate = events.read_bytes()
++            with self.assertRaises(driver.DriverBlocked):
++                driver.correct_agent_binding(
++                    action_path,
++                    self.run_plan_path,
++                    request_path,
++                    events,
++                    prior_agent_id,
++                    corrected_agent_id,
++                    [2, 3],
++                )
++            self.assertEqual(events.read_bytes(), before_duplicate)
++
++    def test_agent_binding_correction_rejects_wrong_sequences_and_terminal_evidence(self) -> None:
++        with tempfile.TemporaryDirectory() as temp_dir:
++            root = Path(temp_dir)
++            (
++                action,
++                action_path,
++                request_path,
++                events,
++                prior_agent_id,
++                corrected_agent_id,
++            ) = self.build_misbound_wait_stream(root)
++            before = events.read_bytes()
++            with self.assertRaises(driver.DriverBlocked):
++                driver.correct_agent_binding(
++                    action_path,
++                    self.run_plan_path,
++                    request_path,
++                    events,
++                    prior_agent_id,
++                    corrected_agent_id,
++                    [2, 4],
++                )
++            self.assertEqual(events.read_bytes(), before)
++
++            driver.append_causal_records(
++                events,
++                [
++                    {
++                        "event": "agent_terminal",
++                        "dispatch_id": action["dispatch_id"],
++                        "run_id": action["run_id"],
++                        "wave_id": action["wave_id"],
++                        "action_id": action["action_id"],
++                        "agent_id": prior_agent_id,
++                        "operation": "collaboration.list_agents",
++                    }
++                ],
++            )
++            before_terminal_correction = events.read_bytes()
++            with self.assertRaises(driver.DriverBlocked):
++                driver.correct_agent_binding(
++                    action_path,
++                    self.run_plan_path,
++                    request_path,
++                    events,
++                    prior_agent_id,
++                    corrected_agent_id,
++                    [2, 3],
++                )
++            self.assertEqual(events.read_bytes(), before_terminal_correction)
++
+     def test_prepare_wait_registers_complete_wave_before_exposing_request(self) -> None:
+         with tempfile.TemporaryDirectory() as temp_dir:
+             root = Path(temp_dir)
+@@ -278,12 +531,7 @@ class NativeDispatchDriverTests(unittest.TestCase):
+             root = Path(temp_dir)
+             events = root / "events.jsonl"
+             action_paths = self.persist_actions(root)
+-            receipts = {
+-                value["action_id"]: value
+-                for value in (
+-                    load_json(path) for path in sorted((REDUCE / "pass").glob("*.json"))
+-                )
+-            }
++            receipts = self.fixture_receipts()
+             for action in self.run_plan["actions"]:
+                 action_id = action["action_id"]
+                 driver.prepare_spawn(
+@@ -296,6 +544,7 @@ class NativeDispatchDriverTests(unittest.TestCase):
+                 driver.record_spawn(
+                     action_paths[action_id],
+                     self.run_plan_path,
++                    root / "requests" / f"{action_id}.json",
+                     events,
+                     receipts[action_id]["agent_id"],
+                 )
+@@ -531,7 +780,13 @@ class NativeDispatchDriverTests(unittest.TestCase):
+                 root / "requests" / "spawn-0004.json",
+                 "g-checks",
+             )
+-            driver.record_spawn(action_path, run_plan_path, events, None)
++            driver.record_spawn(
++                action_path,
++                run_plan_path,
++                root / "requests" / "spawn-0004.json",
++                events,
++                None,
++            )
+             (root / "residue.jsonl").write_text("", encoding="utf-8")
+ 
+             closeout = driver.close_partial_wave(

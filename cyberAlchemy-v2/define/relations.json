@@ -179,6 +179,50 @@
       "alignment_state": "proposed",
       "authority_effect": "none",
       "forbidden_collapse": "A proposed evaluator operation is not a product-outcome proof, complete intent, user approval, or authority."
+    },
+    {
+      "id": "E-BR-ROOT-ALIGNS-CONSTRUCTION-HANDOFF",
+      "type": "aligns",
+      "source": "BR-DEFINE-PRODUCT-RUNTIME",
+      "target": "BR-DEFINE-DOMAINSPEC-CONSTRUCTION-HANDOFF",
+      "branch": "bridge",
+      "direction": "bridge-to-bridge",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant"}
+      ],
+      "alignment_state": "declared",
+      "authority_effect": "none",
+      "forbidden_collapse": "Bridge alignment does not admit a handoff or a ConstructionBinding."
+    },
+    {
+      "id": "E-BR-BUSINESS-TARGETS-CONSTRUCTION-HANDOFF",
+      "type": "targets",
+      "source": "business::B-DOMAINSPEC-CONSTRUCTION-READINESS",
+      "target": "BR-DEFINE-DOMAINSPEC-CONSTRUCTION-HANDOFF",
+      "branch": "bridge",
+      "direction": "business-to-bridge",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-DEFINE-BUSINESS-NODES", "selector": "B-DOMAINSPEC-CONSTRUCTION-READINESS"},
+        {"source_id": "SRC-CAV2-DEFINITION-SCHEMAS", "selector": "CAV2-D65-SCHEMA"}
+      ],
+      "alignment_state": "declared",
+      "authority_effect": "none",
+      "forbidden_collapse": "Business readiness is a predecessor contract, not compiler input acceptance or generated output."
+    },
+    {
+      "id": "E-BR-CONSTRUCTION-HANDOFF-TARGETS-DOMAINSPEC",
+      "type": "targets",
+      "source": "BR-DEFINE-DOMAINSPEC-CONSTRUCTION-HANDOFF",
+      "target": "system::define-session-runtime.DefineSessionWorkflow",
+      "branch": "bridge",
+      "direction": "bridge-to-system",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-DEFINE-DOMAINSPEC-PROJECT", "selector": "define-session-runtime"},
+        {"source_id": "SRC-CAV2-DEFINE-DOMAINSPEC-PROJECT", "selector": "complete-backend-criteria"}
+      ],
+      "alignment_state": "proposed",
+      "authority_effect": "none",
+      "forbidden_collapse": "Naming the DomainSpec project and target workflow is not compiler conformance, compiled graph identity, or system-ontology generation."
     }
   ]
 }

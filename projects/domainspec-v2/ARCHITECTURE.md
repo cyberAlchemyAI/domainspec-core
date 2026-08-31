@@ -2,7 +2,7 @@
 module: domainspec-v2
 version: architecture-v2
 status: current-with-target-joins
-updatedAt: 2026-08-28
+updatedAt: 2026-08-30
 docType: system-architecture
 authority_effect: none
 ---
@@ -181,7 +181,7 @@ release or deployment.
 | Implementation conformance | An admitted architecture Design | A completed and independently adopted runtime package |
 | EVF | Architecture and partial candidate-local evidence | One complete source-to-independent-consumer result |
 | Operational resilience | Offline checks over synthetic fixtures | Live production monitoring, deployment, rollback, and runtime proof |
-| CLI | A private candidate command surface | A released stable command-line product |
+| CLI | A canonical private command surface for 13 backend meta-types across TypeScript, Python, and Rust, with static generated-target conformance | A published and released external command-line product |
 | Production release | A roadmap showing the required joins | Technical completion, independent verification, and external authorization |
 
 The counts need care. There are 13 active backend types. The registry also retains UI
@@ -448,11 +448,51 @@ an external action must make the change.
 The rule/check/trend model is stable architecture. The persistent trend stream and
 guarded convergence mechanism are not a complete current runtime.
 
+## Durable Workflow recovery
+
+DomainSpec models Workflow compensation as forward recovery through existing Operations. Workflow evaluation
+produces one immutable Recovery Intent and frozen plan; it never executes recovery Operations directly.
+
+The canonical logical runtime is:
+
+```text
+Recovery Planner
+  -> one transactional Recovery Coordination Store
+       (Intent, Dispatch, progress, Claims, Leases, Attempts, Retries,
+        Terminal Disposition, dispatch outbox)
+  -> fenced Durable Recovery Worker
+  -> exact Operation Binding Resolver
+  -> Operation-owned Invocation Ledger and ordinary Operation execution
+
+Restart Reconciler -> first incomplete plan occurrence
+Dispatch Outbox Publisher -> committed coordination events
+```
+
+The coordination store is one logical atomicity boundary. It does not include an Operation's business state
+or Operation outbox; those remain inside the Operation's independent transaction and declared effect
+authority. Queue messages, polling, clocks, and telemetry are adapters or observations and cannot author
+dispatch truth.
+
+The portable architecture requires version compare-and-set, atomic dispatch transition plus dispatch outbox,
+monotonic progress, one current fenced Claim, an active latest-generation Lease at commit, unique Attempts,
+stable Invocation Identity across replay, persisted bounded Retry, evidence-bound Terminal Disposition, and
+restart from the first incomplete occurrence. Its delivery claim is at-least-once invocation with idempotent
+semantic application, never universal exactly-once process execution.
+
+The current in-process runtime implements deterministic planning, composition-root binding, complete binding
+preflight, ordered external invocation, and explicit failure continuation. Durable coordination, fencing,
+Lease renewal, Attempt journaling, persisted scheduling, restart reconciliation, and durable Operation replay
+recognition remain designed rather than implemented.
+
+See [the durable recovery architecture package](architecture/durable-recovery/README.md) for the component
+cards, typed properties, constraints, evidence findings, tests, observability, and deferred adapter choices.
+
 ## Ontology, Craft, and release
 
-The local [ontology package](ontology/README.md) helps organize candidate meaning. It
-does not automatically write into the strict source contract and has
-`authority_effect: none`.
+The canonical private [product ontology package](ontology/README.md) explains how
+DomainSpec product meaning connects to its current implementation, conformance, and
+evidence surfaces. It is a read model: it does not write into the strict source contract,
+redefine canonical terms, or grant publication, release, deployment, or production authority.
 
 [`.craft/ledger.yml`](.craft/ledger.yml) tracks active work, blockers, decisions, and
 continuation. It can say “this work is blocked” or “this task is next.” It does not define
@@ -482,13 +522,13 @@ receipts, not in this stable document.
 | --- | --- |
 | `authority/` | Says which sources and people own which decisions |
 | `definitions/` | Defines the DomainSpec vocabulary and allowed connections |
-| `ontology/` | Holds candidate organization and authoring views |
+| `ontology/` | Holds the canonical private business-system product ontology and its validated views |
 | `impl/spec/` | Holds schemas, profiles, examples, and source contracts |
 | `impl/tools/minted-project/` | Creates and compiles the selected JSON source format |
 | `impl/test-derivation-engine/` | Derives structural obligations from supported Markdown |
 | `impl/architecture-conformance/` | Runs repeatable local evidence graphs |
 | `impl/operational-resilience/` | Tests offline resilience contracts using synthetic evidence |
-| `impl/cli/` | Holds a private candidate CLI, not a released command |
+| `impl/cli/` | Holds the canonical private instantiation and static-conformance CLI, not a released command |
 | `development/implementation-conformance/` | Holds the target conformance Design |
 | `development/evolvable-validation-framework/` | Holds the EVF architecture and evidence |
 | `development/validation-architecture-roadmap/` | Plans one complete validation route |
@@ -543,6 +583,9 @@ Examples:
 8. Offline resilience evidence does not establish production behavior.
 9. The CLI is not a released interface.
 10. Production authorization remains external and unsatisfied.
+11. Durable Workflow recovery has a canonical architecture-property profile, but its coordination store,
+    Claim/Lease runtime, Attempt journal, Retry scheduler, Terminal recorder, restart reconciler, and
+    Operation-owned replay ledger are not implemented.
 
 These gaps do not erase the working slices. They limit how far the evidence may be used.
 

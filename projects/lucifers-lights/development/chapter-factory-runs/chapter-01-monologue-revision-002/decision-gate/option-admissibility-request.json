@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "LL-CH1-REVISION-D3EADD32-AUTHOR-DECISION",
+  "candidates": [
+    {
+      "optionId": "accept-exact-d3eadd32",
+      "label": "Accept the exact Chapter 1 revision candidate",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "authority",
+      "ownerGate": "author_acceptance:exact-manuscript-digest",
+      "evidence": [
+        "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/candidate/chapter-01.md sha256 d3eadd32eecf7da002bfe61d32fa0615c22dd7157ee53f8d5d5b127c4408b1bd",
+        "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/review/factory-receipt.json deterministic_validation=pass",
+        "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/review/decision-request.md exact-candidate acceptance option"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "request-corrections",
+      "label": "Request another correction round",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/review/chapter-review.html commentable review surface",
+        "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/review/factory-status.json result=review_pending"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "defer-author-decision",
+      "label": "Defer the author decision",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/review/factory-status.json author_decision=pending"
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "stop-current-work",
+      "label": "Stop without changing the revision candidate",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "projects/lucifers-lights/development/chapter-factory-runs/chapter-01-monologue-revision-002/review/factory-status.json current_stage=author review"
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

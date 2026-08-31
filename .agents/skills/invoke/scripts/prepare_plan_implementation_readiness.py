@@ -82,6 +82,13 @@ def produce_audit_report(config_path: Path, output_dir: Path) -> Path:
     return output_dir / "work-pack-readiness-report-v2.json"
 
 
+def assert_contract_readiness_boundary(report: dict) -> None:
+    """WPRA cannot present future implementation output validity as evidence."""
+    manifest = report.get("manifest") or report.get("plan_semantic_manifest") or {}
+    if report.get("outputs_validated") is True or manifest.get("outputs_validated") is True:
+        raise ValueError("WPRA cannot claim future implementation outputs are validated")
+
+
 def main() -> int:
     args = parse_args()
     try:
@@ -90,10 +97,12 @@ def main() -> int:
             if args.audit_output_dir is not None
             else args.audit_report
         )
+        report = load_json(report_path)
+        assert_contract_readiness_boundary(report)
         readiness = load_readiness()
         receipt = readiness.compile_plan_readiness_preflight(
             load_json(args.audit_config),
-            load_json(report_path),
+            report,
             proof_invocation_id=args.proof_invocation_id,
             proof_created_at=args.proof_created_at,
         )

@@ -23,6 +23,12 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
+SCRIPT_ROOT = Path(__file__).resolve().parent
+if str(SCRIPT_ROOT) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_ROOT))
+
+from control_evidence_partition import validate_partition as validate_live_control_partition
+
 
 PHASES = (
     "resolved",
@@ -769,6 +775,7 @@ def execution_writes_fit_route_scope(
 
 
 def fast_entry_route_scope_partition(
+    repo_root: Path,
     profile: dict[str, Any],
     route: dict[str, Any],
     request: dict[str, Any],
@@ -794,6 +801,21 @@ def fast_entry_route_scope_partition(
         )
         for item in raw["lifecycle_owner_scopes"]
     )
+    control_partition = raw.get("control_evidence_partition")
+    control_scopes: list[str] = []
+    if control_partition is not None:
+        if request.get("control_evidence_partition") != control_partition:
+            raise RunnerBlock("fast-entry and governance live control partitions differ")
+        try:
+            validate_live_control_partition(
+                control_partition,
+                repository_root=repo_root,
+                attempt_id=request["run_id"],
+                revalidate_runtime=False,
+            )
+        except ValueError as error:
+            raise RunnerBlock(str(error)) from error
+        control_scopes = sorted(control_partition["exact_union_scope"])
     route_scopes = sorted(
         normalized_relative(item, "fast-entry route write scope")
         for item in route["write_scope"]
@@ -802,6 +824,7 @@ def fast_entry_route_scope_partition(
         *executor_scopes,
         terminal_scope,
         *(item[0] for item in lifecycle_scopes),
+        *control_scopes,
     ]
     if len(partition_paths) != len(set(partition_paths)):
         raise RunnerBlock("fast-entry route scope partition contains duplicate paths")
@@ -819,6 +842,8 @@ def fast_entry_route_scope_partition(
         raise RunnerBlock(
             "fast-entry route scope partition does not equal the bound route scope"
         )
+    if control_partition is not None and sorted(raw.get("exact_union_scope", [])) != route_scopes:
+        raise RunnerBlock("fast-entry exact union differs from the bound route scope")
 
     execution_writes = [
         *request["execution_contract"]["allowed_writes"],
@@ -853,6 +878,14 @@ def fast_entry_route_scope_partition(
             }
             for path, owner, write_class in lifecycle_scopes
         ],
+        **(
+            {
+                "control_evidence_partition": control_partition,
+                "exact_union_scope": route_scopes,
+            }
+            if control_partition is not None
+            else {}
+        ),
     }
 
 
@@ -886,7 +919,7 @@ def fast_execution_entry_contract(
     route = binding["current_route"]
     selected = guard_request["selected_unit"]
     route_scope_partition = fast_entry_route_scope_partition(
-        profile, route, request
+        repo_root, profile, route, request
     )
     if route_scope_partition is None:
         route_scope_matches = execution_writes_fit_route_scope(
@@ -1684,6 +1717,110 @@ def prepare(repo_root: Path, request_path: Path, run_dir: Path) -> dict[str, Any
     request_ref = exact_ref(repo_root, request_path)
     pre_execution_resume = None
     fast_entry = fast_execution_entry_contract(repo_root, request)
+    live_control_partition = request.get("control_evidence_partition")
+    if live_control_partition is not None:
+        route_partition = request.get("fast_execution_entry", {}).get(
+            "route_scope_partition", {}
+        )
+        lifecycle_scopes = [
+            item["path"]
+            for item in route_partition.get("lifecycle_owner_scopes", [])
+        ]
+        forbidden_scopes = [
+            *request["execution_contract"]["allowed_writes"],
+            *transient_output_paths(request["execution_contract"]),
+            request["closeout_contract"]["terminal_receipt_path"],
+            *lifecycle_scopes,
+        ]
+        try:
+            validate_live_control_partition(
+                live_control_partition,
+                repository_root=repo_root,
+                attempt_id=request["run_id"],
+                forbidden_scopes=forbidden_scopes,
+                run_dir=relative_path(repo_root, run_dir),
+                revalidate_runtime=False,
+            )
+        except ValueError as error:
+            raise RunnerBlock(str(error)) from error
+        control_by_path = {
+            item["path"]: item for item in live_control_partition["outputs"]
+        }
+        preparation_receipt_path = request.get(
+            "live_execution_entry_preparation_receipt_path"
+        )
+        if not isinstance(preparation_receipt_path, str):
+            raise RunnerBlock("live preparation receipt path is missing")
+        preparation_control = control_by_path.get(preparation_receipt_path)
+        if not (
+            preparation_control is not None
+            and preparation_control["owner_capability"] == "task-session"
+            and preparation_control["write_class"] == "preparation-receipt"
+        ):
+            raise RunnerBlock("live preparation receipt is outside its typed control scope")
+        preparation_path = resolve_repo_path(
+            repo_root, preparation_receipt_path, "live preparation receipt"
+        )
+        preparation_receipt = load_object(
+            preparation_path, "live preparation receipt"
+        )
+        validate_schema(
+            preparation_receipt,
+            load_object(
+                schema_dir()
+                / "live-execution-entry-preparation-receipt-v1.schema.json",
+                "live preparation receipt schema",
+            ),
+            "live preparation receipt",
+        )
+        if not (
+            preparation_receipt["attempt_id"] == request["run_id"]
+            and preparation_receipt["request_ref"]
+            == exact_ref(repo_root, request_path)
+            and preparation_receipt["partition_ref"]
+            == request.get("failure_terminalization", {}).get(
+                "control_evidence_partition_ref"
+            )
+        ):
+            raise RunnerBlock("live preparation receipt does not bind this run")
+        preparation_receipt_ref = exact_ref(repo_root, preparation_path)
+        for item in live_control_partition["outputs"]:
+            path = resolve_repo_path(repo_root, item["path"], "live control output")
+            if item["path"] == preparation_receipt_path:
+                continue
+            if item["runtime_revalidation"] == "exact-postimage-before-consume":
+                if not path.is_file() or exact_ref(repo_root, path) != item[
+                    "expected_postimage_ref"
+                ]:
+                    raise RunnerBlock(
+                        f"live control postimage drift: {item['path']}"
+                    )
+            elif file_state(path) != item["baseline"]:
+                raise RunnerBlock(f"live control baseline drift: {item['path']}")
+        required_runner_controls = {
+            relative_path(repo_root, checkpoint_paths(run_dir)[0]): "governance-checkpoint",
+            relative_path(repo_root, checkpoint_paths(run_dir)[1]): "governance-checkpoint",
+            relative_path(repo_root, checkpoint_paths(run_dir)[2]): "governance-checkpoint",
+            relative_path(repo_root, checkpoint_paths(run_dir)[3]): "governance-checkpoint",
+            relative_path(repo_root, checkpoint_paths(run_dir)[4]): "governance-checkpoint",
+            relative_path(repo_root, checkpoint_paths(run_dir)[5]): "governance-checkpoint",
+            relative_path(repo_root, run_dir / "execution-ticket.json"): "execution-ticket",
+            relative_path(repo_root, run_dir / "reconciliation.json"): "reconciliation-evidence",
+            relative_path(repo_root, run_dir / "commit-journal.json"): "commit-evidence",
+            relative_path(repo_root, run_dir / "commit-receipt.json"): "commit-evidence",
+        }
+        if request.get("plan_admission") is not None:
+            required_runner_controls[
+                request["plan_admission"]["consumption_ledger_path"]
+            ] = "consumption-ledger"
+        for path, write_class in required_runner_controls.items():
+            item = control_by_path.get(path)
+            if item is None or item["owner_capability"] != "task-session" or item[
+                "write_class"
+            ] != write_class:
+                raise RunnerBlock(
+                    f"live control partition lacks exact Task Session {write_class}: {path}"
+                )
     if request.get("entry_profile") == "pre-execution-prerequisite":
         pre_execution_resume = validate_pre_execution_resume(
             repo_root, request_path, request, run_dir
@@ -1828,6 +1965,11 @@ def prepare(repo_root: Path, request_path: Path, run_dir: Path) -> dict[str, Any
         "idempotency_key": request["idempotency_key"],
         "closeout_contract": request["closeout_contract"],
     }
+    if live_control_partition is not None:
+        ticket["control_evidence_partition"] = live_control_partition
+        ticket["live_execution_entry_preparation_receipt_ref"] = (
+            preparation_receipt_ref
+        )
     if "transient_outputs" in request["execution_contract"]:
         ticket["transient_outputs"] = request["execution_contract"][
             "transient_outputs"
@@ -1881,6 +2023,7 @@ def prepare(repo_root: Path, request_path: Path, run_dir: Path) -> dict[str, Any
     ):
         atomic_write(path, data)
     result = status_document(repo_root, run_dir)
+    result["writes_performed"] = 5
     if pre_execution_resume is not None:
         result["entry_profile"] = "pre-execution-prerequisite"
         result["resume_point"] = "task-session:context-build"

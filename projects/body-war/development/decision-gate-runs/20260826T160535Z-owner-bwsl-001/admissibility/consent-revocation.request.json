@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OWNER-BWSL-001-D5-CONSENT-REVOCATION",
+  "candidates": [
+    {
+      "optionId": "D5-A-ACTUAL-IDEMPOTENT-DISPOSITION",
+      "label": "Actually dispose evidence and revoke provider access, then repeat both operations to prove idempotence",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "destructive",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [
+        "The repository contract supports consent_revocation evidence disposition and provider-access revocation.",
+        "Memory and PostgreSQL validations prove disposed then already_absent behavior.",
+        "Provider revocation deletes tokens and disconnects the provider account while intentionally preserving runner profile and disconnected account metadata; that residue is explicit in this option."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D5-B-DRY-RUN-ONLY",
+      "label": "Perform only a deletion dry-run and leave the evidence row",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [],
+      "rejectionReasons": [
+        "No typed dry-run operation or dry-run receipt contract exists in the accepted implementation.",
+        "Leaving evidence after consent revocation contradicts the implemented consent_revocation disposition path."
+      ]
+    },
+    {
+      "optionId": "D5-C-FULL-IDENTITY-ERASURE",
+      "label": "Erase evidence, tokens, provider account metadata, and runner profile",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "irreversible",
+      "hazardClass": "destructive",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [],
+      "rejectionReasons": [
+        "The accepted repository contract intentionally preserves runner profile and disconnected provider-account metadata and provides no full-identity erasure operation."
+      ]
+    },
+    {
+      "optionId": "D5-D-DEFER",
+      "label": "Defer consent-revocation selection",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Deferral performs no external effect and leaves the witness blocked."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D5-E-STOP",
+      "label": "Stop the real-witness sequence",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Stopping requires no revocation or disposition operation."
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

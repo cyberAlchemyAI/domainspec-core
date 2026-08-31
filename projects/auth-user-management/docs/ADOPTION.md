@@ -47,15 +47,12 @@ are for tests and local smoke checks, not the production persistence default.
 ## Drizzle Schema And Migrations
 
 The package SQL schema lives in
-`src/infrastructure/drizzle-postgres/schema.ts`. Drizzle Kit writes generated
-migration SQL to `drizzle/`, and those generated migration artifacts are the
-executable schema source for E2E, CI, and consumer deployment setup.
-
-Generate migrations after changing the Drizzle schema:
-
-```sh
-npm run db:generate
-```
+`src/infrastructure/drizzle-postgres/schema.ts`. The generated migration SQL
+under `drizzle/` remains the executable schema source for E2E, CI, and consumer
+deployment setup. Automated migration generation is temporarily unavailable
+because the previous `drizzle-kit` dependency graph failed the dependency
+security audit. Do not install or invoke it ad hoc. A schema change that needs
+a new migration is blocked until a clean generator is selected and validated.
 
 The generated `drizzle/*.sql` and `drizzle/meta/*` artifacts must be committed
 with the schema change. Hand-written raw SQL must not duplicate table, enum,

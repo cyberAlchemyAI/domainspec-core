@@ -245,6 +245,12 @@ check(
   expectedAxes.every((axisId) => nodeIdSet.has(axisId) && relationExists("projects", "stage.status", axisId)) && unique(expectedAxes),
   "three separate axes are projected by status"
 );
+const wirBoundary = nodes.find(({ node_id }) => node_id === "evidence.swu-wir-006");
+check(
+  "wir-execution-boundary",
+  wirBoundary?.status === "blocked-not-started" && wirBoundary.authority_effect === "none",
+  "SWU-WIR-006 is reused as blocked, not-started evidence only"
+);
 check(
   "package-authority-ceiling",
   profile.authority_effect === "none" && typeSelection.authority_effect === "none",
@@ -266,7 +272,7 @@ const result = {
     residue_entries: residueEntries.length
   },
   checks,
-  claim_ceiling: "Private candidate ontology validation only; no execution, acceptance, release, publication, or runtime authority.",
+  claim_ceiling: "Private candidate ontology validation only; no WIR execution, acceptance, release, publication, or runtime authority.",
   authority_effect: "none"
 };
 

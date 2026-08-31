@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "decision-gate-terminal-record",
+  "record_id": "OWNER-BWSL-001-DECISION-20260826T165300Z",
+  "recorded_at": "2026-08-26T16:53:00Z",
+  "target_scope": "OWNER-BWSL-001",
+  "result": "PASS",
+  "decisions_resolved": 6,
+  "blockers_remaining": 0,
+  "admissible_routing": "gate",
+  "decision_source": "Exact user confirmation of the immutable owner request after the non-committal explain path.",
+  "previous_result": {
+    "path": "projects/body-war/development/decision-gate-runs/20260826T160535Z-owner-bwsl-001/DECISION-GATE-RESULT.json",
+    "sha256": "6ebfb2990e4023699873a43e5b9e2b92169f7c037ce7db9d9e231c3ceb286918",
+    "result": "BLOCK",
+    "status": "historical-preselection-result-preserved"
+  },
+  "owner_request": {
+    "path": "projects/body-war/development/decision-gate-runs/20260826T160535Z-owner-bwsl-001/OWNER-DECISION-REQUEST.json",
+    "request_id": "OWNER-BWSL-001-SELECTION-20260826T162913Z",
+    "bytes": 7878,
+    "sha256": "0dd43a28120e6ffa5ba182238c0810c7b3c88da9301c8c7186201c945b323c18",
+    "single_use": true,
+    "status": "consumed"
+  },
+  "selection_receipt": {
+    "path": "projects/body-war/development/decision-gate-runs/20260826T160535Z-owner-bwsl-001/OWNER-SELECTION-RECEIPT.json",
+    "bytes": 7632,
+    "sha256": "541f9cf40e686a68f188847641ab051033c9b9833c6103c6b1f95ed4ebd0b515",
+    "result": "consumed"
+  },
+  "decision_artifact": {
+    "path": "projects/body-war/development/decision-gate-runs/20260826T160535Z-owner-bwsl-001/OWNER-BWSL-001-DECISION-GRAPH.json",
+    "graph_id": "OWNER-BWSL-001-CANDIDATE-A-R2",
+    "revision": 2,
+    "bytes": 26908,
+    "sha256": "061deca19e32739c50ad087dca66aefa80285c352adae81ab812bd0e3a5041f1"
+  },
+  "independent_review": {
+    "path": "projects/body-war/development/decision-gate-runs/20260826T160535Z-owner-bwsl-001/INDEPENDENT-DECISION-REVIEW-R2.md",
+    "bytes": 1423,
+    "sha256": "48b49c321499ce9ae9ead88523d4fc93e9b8c35efac33317804310ccc9ead5e0",
+    "result": "pass"
+  },
+  "selection": {
+    "selection_id": "OWNER-BWSL-001-PRIVACY-MINIMAL-A",
+    "selected_option_ids": [
+      "D1-A-PRIVATE-EXACT-BINDING",
+      "D2-A-MINIMAL-PROOF",
+      "D3-A-SAME-ATTEMPT-15M",
+      "D4-A-HARD-DELETE-NO-COPIES",
+      "D5-A-ACTUAL-IDEMPOTENT-DISPOSITION",
+      "D6-A-15M-ONE-ATTEMPT"
+    ]
+  },
+  "resolved_decisions": [
+    {
+      "decision_id": "OWNER-BWSL-001-D1-IDENTITY-SCOPE",
+      "selected_option_id": "D1-A-PRIVATE-EXACT-BINDING"
+    },
+    {
+      "decision_id": "OWNER-BWSL-001-D2-PUBLIC-RECEIPT",
+      "selected_option_id": "D2-A-MINIMAL-PROOF"
+    },
+    {
+      "decision_id": "OWNER-BWSL-001-D3-RETENTION",
+      "selected_option_id": "D3-A-SAME-ATTEMPT-15M"
+    },
+    {
+      "decision_id": "OWNER-BWSL-001-D4-DELETION-SCOPE",
+      "selected_option_id": "D4-A-HARD-DELETE-NO-COPIES"
+    },
+    {
+      "decision_id": "OWNER-BWSL-001-D5-CONSENT-REVOCATION",
+      "selected_option_id": "D5-A-ACTUAL-IDEMPOTENT-DISPOSITION"
+    },
+    {
+      "decision_id": "OWNER-BWSL-001-D6-EXTERNAL-WINDOW",
+      "selected_option_id": "D6-A-15M-ONE-ATTEMPT"
+    }
+  ],
+  "gate_transition": {
+    "from": "BLOCK-pending-owner-selection",
+    "to": "PASS-owner-policy-selected",
+    "owner_gate": "activity-evidence privacy owner",
+    "policy_authority": "selected",
+    "external_effect_authority": "none"
+  },
+  "blocked_successor": {
+    "target": "SWU-BWSL-002",
+    "status": "blocked-external-effect",
+    "automatic_execution": false,
+    "remaining_requirements": [
+      "freeze an exact executable identity, app/config hash set, outbound-call envelope, non-private receipt schema, and cleanup-supervisor contract",
+      "independently validate cleanup-supervisor disposal after primary-process failure",
+      "verify current official provider behavior and callback/scope compatibility",
+      "obtain a separate exact single-use external-effect authorization"
+    ]
+  },
+  "deferred_decisions": [],
+  "assumptions_recorded": [],
+  "override_receipt": null,
+  "override_verdict": "not-requested",
+  "validation": [
+    "the exact owner-request SHA-256 and byte count matched before consumption",
+    "the revision-2 decision graph and independent PASS review rehashed unchanged",
+    "all six admissibility request and receipt hashes matched the decision graph",
+    "all six admissibility receipts remained route=gate and admitted the selected option ID",
+    "no prior owner-selection receipt or terminal decision record existed",
+    "the exact confirmation selected the complete requested bundle without scope change"
+  ],
+  "next_step": "Prepare and independently review a no-effect SWU-BWSL-002 executable/effect candidate, including the cleanup-supervisor proof and exact provider-call envelope. Do not access credentials, run OAuth, call Strava, mutate real evidence, or execute SWU-BWSL-002 without a separate exact authorization.",
+  "claim_ceiling": "PASS resolves only OWNER-BWSL-001 policy selection. It is not credential, private-identity, OAuth, provider-call, real-data, evidence-mutation, SWU-BWSL-002 execution, Invoke repair, planning synchronization, Git, publication, deployment, promotion, release, or production authority."
+}

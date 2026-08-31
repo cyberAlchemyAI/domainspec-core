@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OWNER-BWSL-001-D6-EXTERNAL-WINDOW",
+  "candidates": [
+    {
+      "optionId": "D6-A-15M-ONE-ATTEMPT",
+      "label": "Use one 15-minute witness window with one attempt and no retry",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "authority",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [
+        "WORK-PACK.md:123 requires a bounded external test window and one-attempt ceiling.",
+        "One attempt can bind one OAuth callback, exactly two page-1 activity-list provider calls (GET per_page=12 and evidence-POST revalidation per_page=50), one evidence submission, and supervised disposition.",
+        "Any failure can stop without retry and require a new exact external-effect request."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D6-B-60M-ONE-ATTEMPT",
+      "label": "Use one 60-minute witness window with one attempt and no retry",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "authority",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [
+        "A 60-minute ceiling is still finite and preserves one-attempt semantics.",
+        "It creates a longer credential and evidence exposure window than the 15-minute option."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D6-C-RETRY-ON-FAILURE",
+      "label": "Permit one automatic retry after provider or validation failure",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "irreversible",
+      "hazardClass": "authority",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [],
+      "rejectionReasons": [
+        "An automatic retry exceeds the Work Pack's one-attempt ceiling and would require a new external-effect graph."
+      ]
+    },
+    {
+      "optionId": "D6-D-DEFER",
+      "label": "Defer the external window selection",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Deferral performs no provider request and leaves the witness blocked."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D6-E-STOP",
+      "label": "Stop the real-witness sequence",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Stopping creates no external-provider effect."
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

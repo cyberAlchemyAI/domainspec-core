@@ -1,0 +1,145 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "body-war-swu-external-effect-envelope-candidate",
+  "run_id": "20260826T190003Z-swu-bwsl-002-external-effect-readiness",
+  "target": "SWU-BWSL-002",
+  "status": "BLOCK-pre-effect",
+  "effect_authority": "none",
+  "authorization_request_emitted": false,
+  "policy_binding": {
+    "selection_id": "OWNER-BWSL-001-PRIVACY-MINIMAL-A",
+    "selection_receipt_sha256": "541f9cf40e686a68f188847641ab051033c9b9833c6103c6b1f95ed4ebd0b515",
+    "terminal_decision_record_sha256": "d90ef8a33769f995cb8c1dde8b87f0e25b0a396ce6dc050cbd46280403b6f205",
+    "scope_names": [
+      "read",
+      "activity:read"
+    ],
+    "scope_expansion_allowed": false
+  },
+  "candidate_identity": {
+    "path": "EXECUTABLE-IDENTITY.json",
+    "status": "partial-blocked",
+    "source_tree_sha256": "ec121f25988f1c10d23dc3653a437e27cd841631e66cb833566f0557b2e62c5c",
+    "dist_tree_sha256": "915f8ca2b21d7a27c032f80fcfca35fe081378a14a091bd0c6e1dcca89a6f54f",
+    "non_secret_configuration_digest": null,
+    "cleanup_supervisor_executable_sha256": null
+  },
+  "operator_and_private_binding": {
+    "operator": "the already selected privacy owner-operator runner",
+    "private_identity_digest_required": true,
+    "private_identity_digest_present": false,
+    "public_identity_allowed": false,
+    "third_party_runner_allowed": false,
+    "credential_or_private_identifier_values_in_this_candidate": false
+  },
+  "attempt": {
+    "window_minutes": 15,
+    "attempt_count_ceiling": 1,
+    "retry_allowed": false,
+    "normal_cleanup_same_attempt": true,
+    "crash_safe_hard_retention_ceiling_claimed": false
+  },
+  "pre_effect_sequence": [
+    "rehash every bound source, dist, runtime, schema, supervisor, and non-secret configuration identity",
+    "require Postgres backend and fake provider disabled",
+    "prove app-controlled backup, cache, private log, and temporary payload copy surfaces absent",
+    "reserve the exact private evidence-candidate identifier",
+    "start and validate the independent cleanup supervisor, database connection, parent-death trigger, and 15-minute deadline",
+    "validate callback URL and exact requested scope names",
+    "require one exact single-use external-effect authorization matching this immutable envelope",
+    "stop before OAuth on any mismatch or unevaluable condition"
+  ],
+  "external_interactions": {
+    "owner_operated_browser_flow": [
+      {
+        "order": 1,
+        "method": "GET",
+        "url": "https://www.strava.com/oauth/authorize",
+        "purpose": "owner consent for exactly read and activity:read",
+        "ceiling": 1
+      }
+    ],
+    "app_owned_provider_calls": [
+      {
+        "order": 1,
+        "method": "POST",
+        "url": "https://www.strava.com/oauth/token",
+        "purpose": "authorization-code exchange",
+        "ceiling": 1
+      },
+      {
+        "order": 2,
+        "method": "GET",
+        "url": "https://www.strava.com/api/v3/athlete/activities?page=1&per_page=12",
+        "purpose": "normal UI activity selection",
+        "ceiling": 1
+      },
+      {
+        "order": 3,
+        "method": "GET",
+        "url": "https://www.strava.com/api/v3/athlete/activities?page=1&per_page=50",
+        "purpose": "evidence POST revalidation",
+        "ceiling": 1
+      }
+    ],
+    "token_refresh_calls_allowed": 0,
+    "retry_calls_allowed": 0,
+    "strava_revoke_or_deauthorize_calls_allowed": 0
+  },
+  "normal_app_sequence_after_authorization": [
+    "owner completes OAuth in the browser",
+    "callback exchanges the code once",
+    "callback requires the granted scope set to equal read plus activity:read with no defaulting or expansion",
+    "preflight proves the newly issued token is unexpired and no refresh branch is reachable",
+    "UI lists page 1 with per_page=12",
+    "owner selects one eligible Run, TrailRun, or VirtualRun without persisting a public activity value",
+    "one local SuggestedTrack evidence POST revalidates page 1 with per_page=50",
+    "one exact redacted evidence row is inserted using the preallocated private identifier",
+    "the private response is never copied to durable logs, caches, backups, screenshots, or temporary payload files",
+    "normal finally cleanup or independent supervisor cleanup runs",
+    "the strict non-private receipt is produced only after verified cleanup"
+  ],
+  "stop_conditions": [
+    "source, binary, runtime, schema, supervisor, callback, or non-secret configuration identity mismatch",
+    "backend is not Postgres or fake provider mode is enabled",
+    "credentials or private identity are missing, mismatched, or exposed",
+    "granted scope set differs from exactly read plus activity:read",
+    "token is expired or any refresh path would be required",
+    "cleanup supervisor, private locator, parent-death trigger, deadline, or database connection is not ready",
+    "backup, cache, private log, temporary payload copy, or browser capture cannot be ruled out",
+    "no eligible activity is available",
+    "any provider call, local submission, schema validation, or cleanup proof fails",
+    "any retry would be needed"
+  ],
+  "cleanup": {
+    "contract_path": "CLEANUP-SUPERVISOR-CONTRACT.json",
+    "exact_evidence_first_result_required_for_pass": "disposed",
+    "exact_evidence_repeat_result_required_for_pass": "already_absent",
+    "local_provider_access_first_result_required_for_pass": "disposed",
+    "local_provider_access_repeat_result_required_for_pass": "already_absent",
+    "token_absence_required_for_pass": true,
+    "evidence_absence_required_for_pass": true,
+    "unrelated_evidence_untouched_required_for_pass": true,
+    "provider_side_deauthorization_proved": false
+  },
+  "receipt": {
+    "schema_path": "NON-PRIVATE-WITNESS-RECEIPT.schema.json",
+    "producer_status": "absent",
+    "validator_status": "candidate-schema-only",
+    "private_runtime_responses_are_terminal_receipt": false
+  },
+  "official_provider_contract_checked_at": "2026-08-26T19:00:03Z",
+  "official_provider_sources": [
+    "https://developers.strava.com/docs/authentication/",
+    "https://developers.strava.com/docs/reference/"
+  ],
+  "technical_blockers": [
+    "independent Postgres cleanup supervisor and abnormal-termination proof absent",
+    "exact private pre-effect principal binding and candidate locator absent",
+    "no-refresh fail-closed guard absent",
+    "exact granted-scope callback guard absent",
+    "strict non-private receipt producer and product validator absent",
+    "effect-time non-secret configuration and environment-copy proof not frozen"
+  ],
+  "authority_ceiling": "This blocked candidate grants no effect. It must not be converted into an authorization request until every technical blocker is closed and an exact independent review passes."
+}

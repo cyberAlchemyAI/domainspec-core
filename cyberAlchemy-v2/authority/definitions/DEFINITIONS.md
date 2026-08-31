@@ -574,6 +574,7 @@ deferral, or rejection.
 - [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
 - [../promotion-policy.md](../promotion-policy.md)
 - [../../CRAFT.md](../../CRAFT.md)
+- [../../goals/bindings/authority-claims.json](../../goals/bindings/authority-claims.json)
 
 ## CAV2-D14: Source Space
 
@@ -1014,18 +1015,37 @@ promoting it:
 
 Status: active
 Term: Craft method
-Aliases: recursive ledger method, residue-carrying ledger method, Craft recursive method
+Aliases: CyberAlchemy building method, governed system-building method, recursive residue-carrying building method, Craft recursive method
 
 ### Normative Definition
 
-Craft method is a recursive ledger-governance method that turns bounded work
-into explicit project state by recording contexts, candidate definitions,
-blockers, enablers, decisions, gaps, artifacts, next moves, validation evidence,
-residue, and recomposition obligations in a source-of-truth ledger.
+Craft method is CyberAlchemy's governed recursive system-building method. It
+turns owner-controlled Product intent into an evidence-bounded working system by
+preserving one explicit chain through context, definitions, product and business
+meaning, system specification, exact realization selection, deterministic
+construction, independent conformance, bounded operation, recovery, evolution,
+and owner continuation.
+
+The method uses a source-of-truth ledger to preserve state across that chain. It
+records contexts, candidate definitions, blockers, enablers, decisions, gaps,
+artifacts, next moves, validation evidence, residue, and recomposition
+obligations. Ledgering is the method's continuity mechanism; it is not the whole
+method.
 
 In CyberAlchemy v2, Craft method is valid only when it preserves these
 boundaries:
 
+- a Product and its Product Thesis own product purpose and value propositions
+- a Project coordinates the goals, owners, evidence, decisions, and work used to
+  develop or evolve the Product
+- Product Features and Product Capabilities remain distinct from the Product,
+  Project, Method, and their realizations
+- canonical definitions, product and business ontology, DomainSpec source,
+  generated system ontology, realization selection, construction, conformance,
+  runtime evidence, and owner decisions remain separately identifiable
+- every implementation-bearing construction follows the exact
+  `CAV2-D65` DomainSpec-governed construction chain or carries typed residue for
+  the missing prerequisite
 - `.craft/ledger.yml` or an equivalent declared ledger is the source of truth
   for Craft state
 - `CRAFT.md`, `.craft/index.json`, projections, and status output are derived
@@ -1040,14 +1060,35 @@ boundaries:
 
 ### Formal Interpretation
 
-For a bounded project scope `S`, Craft method operates over a ledger state:
+For a bounded Product and Project scope `S`, the Craft method has the minimum
+governed shape:
 
 ```text
+M_Craft(S) =
+  (context, product_intent, domain_meaning, system_specification,
+   realization_selection, construction, conformance, operation,
+   recovery_and_evolution, owner_continuation, ledger_state)
+
 L_S = (C, B, E, D, G, A, N, R)
 ```
 
 where:
 
+- `context` resolves the Product, Project, Goal, participants, consumers, and
+  source policies relevant to the bounded work
+- `product_intent` carries the Product Thesis plus selected Product Feature or
+  Product Capability obligations
+- `domain_meaning` carries canonical definitions and product/business ontology
+- `system_specification` carries DomainSpec and generated system-ontology state
+- `realization_selection` identifies exact architecture and language-profile
+  realizations
+- `construction` materializes the selected contained target deterministically
+- `conformance` independently evaluates declared static and relational
+  obligations
+- `operation` supplies bounded runtime evidence without becoming authority
+- `recovery_and_evolution` preserves compensation, recovery, migration,
+  rollback, compatibility, and successor-state obligations
+- `owner_continuation` routes an evidenced next state to its explicit owner
 - `C` is the set of contexts or child contexts
 - `B` is blockers
 - `E` is enablers or available evidence
@@ -1057,10 +1098,12 @@ where:
 - `N` is next moves or route obligations
 - `R` is typed residue plus recomposition evidence
 
-A Craft step is admissible when it preserves the declared ledger source of
-truth, records the operation that changed state, keeps generated views
-derivative, and either repairs, types, routes, accepts, or defers residue with an
-owner.
+A Craft step is admissible when it preserves typed identity and source
+authority, records the operation that changed state, keeps generated views
+derivative, validates every reachable declared consumer, and either repairs,
+types, routes, accepts, or defers residue with an owner. Construction does not
+establish conformance; conformance does not establish runtime truth; evidence
+does not establish owner adoption or permission.
 
 Formal-foundations evidence supports this shape by treating residue as typed and
 composable, by separating schema-fidelity from instance-fidelity, by showing
@@ -1071,40 +1114,59 @@ run achieved a clean functor, kernel, or zero-residue translation.
 
 ### Operational Interpretation
 
-Use Craft method when CyberAlchemy v2 needs durable work memory across sessions,
-definition towers, authority imports, constitution towers, research packets,
-promotion queues, or nested project spaces. The method makes the current state
-explicit enough that a human or agent can continue the work without guessing
-what is blocked, what is merely candidate, what has evidence, and what must
-recompose upward.
+Use Craft method whenever CyberAlchemy builds or materially evolves a Product,
+Product Feature, Product Capability, system, or implementation-bearing
+capability. Begin from the Product and Project context, define the meaning,
+model the product and business obligations, author or update the DomainSpec
+source, select exact realizations, construct the target, independently check it,
+observe bounded runtime behavior, preserve recovery and evolution obligations,
+and route the evidenced state to its owner.
+
+The same method provides durable work memory across sessions, definition towers,
+authority imports, constitution towers, research packets, promotion queues, and
+nested project spaces. A human or agent should be able to continue without
+guessing what is blocked, what is merely candidate, what has evidence, what was
+constructed, and what must recompose upward.
 
 ### Plain-Language Intuition
 
-Craft method is how the project keeps a living workbench honest: write the state
-down, name the leftover problem, decide what can move, and carry the residue
-forward instead of pretending the work is finished.
+Craft method is how CyberAlchemy builds a system without losing why it should
+exist: define the meaning, choose exactly how it will be built, build it, check
+it independently, observe it, and carry every leftover problem to the next
+owner instead of pretending the work is finished.
 
 ### Domain-Context Voice
 
-In CyberAlchemy v2, Craft method governs how the local Craft execution surface
-supports `CAV2-D10` definition towers, `CAV2-D13` authority promotion queues,
-authority imports, constitution work, and research handoffs. It lets v2 build
-towers with towers while keeping candidate definitions, receipts, and blockers
-separate from canonical definitions.
+Inside CyberAlchemy v2, the Craft Product embodies this method and the Craft
+Project coordinates its development and evolution. Product Features are shaped
+inside the Craft Product context; Product Capabilities state stable outcomes;
+DomainSpec expresses system intent; architecture and language profiles select
+exact realizations; construction and conformance provide separate evidence; and
+the Craft ledger preserves continuity and residue across the whole path.
 
 The method connects `CAV2-D12` Craft execution surface, `CAV2-D17` reflection
-tower method, and `CAV2-D18` residue. The execution surface is where Craft state
-lives; the method is the discipline for carrying state, residue, validation, and
-recomposition through recursive work.
+tower method, `CAV2-D18` residue, and `CAV2-D65` DomainSpec-governed
+construction invariant. The execution surface is where Craft state lives; the
+method is the broader discipline for carrying meaning, realization,
+construction, evidence, recovery, residue, and recomposition through recursive
+system work.
+
+The public Arcanum `craft` capability is one narrower repository-ledger
+realization used by this private method. It does not own the private Craft
+Product, Project, Product Thesis, Product Features, or method semantics.
 
 ### Boundary
 
-Craft method is not the same thing as the Craft execution surface, not a generic
-task runner, not a replacement for task-session, not a source of canonical
-definitions, and not proof that a translation is complete. It may use formal
-foundations as support evidence, but it must preserve their honesty boundary:
-formal cousins describe the structure Craft operates inside; they do not certify
-that a particular Craft run achieved the clean formal case.
+Craft method is not the Craft Product, Craft Project, a Product Feature, Product
+Capability, Product Thesis, DomainSpec model, architecture pattern, generator,
+runtime, public Arcanum capability, `.craft` state, generic task runner, or
+replacement for task-session. It is not a source of canonical definitions and
+does not authorize implementation or prove that a translation, construction,
+conformance assessment, operation, recovery, or migration is complete.
+
+It may use formal foundations as support evidence, but it must preserve their
+honesty boundary: formal cousins describe the structure Craft operates inside;
+they do not certify that a particular Craft run achieved the clean formal case.
 
 Craft method also does not promote `ledger` as a cross-method primitive by
 itself. Ledger remains separately flagged for review until recursivity, relation
@@ -1116,6 +1178,8 @@ inheritance, and local Craft ledger conformance are settled.
 - [source-clusters/primordial.md](source-clusters/primordial.md)
 - [../../CRAFT.md](../../CRAFT.md)
 - [../../.craft/ledger.yml](../../.craft/ledger.yml)
+- [../../product/craft/README.md](../../product/craft/README.md)
+- [../../goals/projects/craft/README.md](../../goals/projects/craft/README.md)
 - [../../../arcanum/arcana/craft/SKILL.md](../../../arcanum/arcana/craft/SKILL.md)
 - [../../../arcanum/development/craft/CRAFT-FORMAL-FOUNDATIONS.md](../../../arcanum/development/craft/CRAFT-FORMAL-FOUNDATIONS.md)
 
@@ -3950,6 +4014,7 @@ enforcement thread and [AUTHORITY-MODEL OQ-1](../AUTHORITY-MODEL.md). Status: OP
 - [#cav2-d58-constitution](#cav2-d58-constitution)
 - [#cav2-d37-gate](#cav2-d37-gate)
 - [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md) (Invariant, Axiom, Constitution)
+- [../../ontology/governance/README.md](../../ontology/governance/README.md)
 
 ## CAV2-D55: Premise
 
@@ -4467,10 +4532,10 @@ A project is a durable, identity-bearing coordination boundary that groups
 related goals, owners, evidence, decisions, artifacts, work, and lifecycle state
 toward a declared purpose.
 
-A project must name its purpose, scope, exclusions, owners, active goals,
-evidence index, lifecycle state, purpose or product-thesis connections, and
-challenge route. Its identity remains stable when a plan, task, folder, tool, or
-implementation changes.
+A project must name its purpose, scope, exclusions, owners, current Goal references,
+evidence index, lifecycle state, purpose or product-thesis connections,
+instance-binding references, and challenge route. Its identity remains stable
+when a plan, task, folder, tool, or implementation changes.
 
 ### Formal Interpretation
 
@@ -4478,9 +4543,12 @@ implementation changes.
 Project =
   (id, name, purpose, scope, exclusions, owner_routes, goal_refs,
    research_refs, experiment_refs, evidence_index, thesis_refs,
-   lifecycle_state, challenge_route)
+   instance_binding_refs, lifecycle_state, challenge_route)
 
 lifecycle_state in { proposed, active, completed, cancelled, superseded }
+|goal_refs| >= 1
+proposed(Project) => exists g in goal_refs: lifecycle(g) in { draft, active }
+active(Project) => exists g in goal_refs: lifecycle(g) = active
 ```
 
 ### Schema
@@ -4489,13 +4557,19 @@ Schema handle: `CAV2-D60-SCHEMA` — tracked in
 [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
 The machine-checkable candidate project record is owned by
 [../../goals/schemas/goal-package.schema.json](../../goals/schemas/goal-package.schema.json).
+Its v2 shape adds `instance_binding_refs`; the referenced records are owned by
+the Project binding registry rather than embedded as untyped Project metadata.
 
 ### Operational Interpretation
 
 Use a project to keep several sessions and kinds of work connected to the same
 purpose. A project can have several goals, and each goal in the current contract
-belongs to exactly one project. Project evidence may come from many spaces, but
-it stays indexed under the project identity.
+belongs to exactly one project. A proposed Project may begin with a draft Goal;
+an active Project must retain at least one active Goal. Project evidence may come from many spaces, but
+it stays indexed under the project identity. When the Project coordinates a
+locally owned instance of a parent model, `instance_binding_refs` names the
+exact `CAV2-D64-SCHEMA` records that preserve that relationship. An empty list
+means that the Project currently asserts no recursive instance binding.
 
 ### Plain-Language Intuition
 
@@ -4515,6 +4589,8 @@ A project is not a project space (`CAV2-D15`), goal (`CAV2-D59`), product,
 repository, plan, work pack, session, team, or authority envelope. A project
 space is a place where work lives; a project is the identity and coordination
 boundary of the work. Creating a project does not authorize its goals or tasks.
+Project membership, a folder named `project`, or a DomainSpec minted-project
+manifest does not create a `CAV2-D60` Project or a recursive instance binding.
 
 ### Primary Consumers
 
@@ -4522,6 +4598,7 @@ boundary of the work. Creating a project does not authorize its goals or tasks.
 - [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
 - [../../goals/README.md](../../goals/README.md)
 - [../../goals/GOAL-DOCUMENT-TYPE.md](../../goals/GOAL-DOCUMENT-TYPE.md)
+- [../../goals/bindings/recursive-instance-bindings.json](../../goals/bindings/recursive-instance-bindings.json)
 
 ## CAV2-D61: Research
 
@@ -4761,6 +4838,930 @@ strategy, achieve a Goal, authorize an Experiment, or validate product value.
 - [../../product/PRODUCT-THESIS-DOCUMENT-TYPE.md](../../product/PRODUCT-THESIS-DOCUMENT-TYPE.md)
 - [../../ontology/product/README.md](../../ontology/product/README.md)
 - [../../goals/README.md](../../goals/README.md)
+
+## CAV2-D64: Recursive Instance Ownership Invariant
+
+Status: active
+Term: recursive instance ownership invariant
+Aliases: instance ownership invariant, recursive ownership invariant, parent-instance ownership invariant, model-instance ownership invariant, capability instance ownership
+Promoted: 2026-08-29 by owner-requested product-instance ownership modeling; definition authority only
+
+### Normative Definition
+
+The recursive instance ownership invariant is the must-hold CyberAlchemy v2
+condition that a governed parent model and a locally owned instance remain
+connected without collapsing their semantic authority, coordination boundary,
+or lifecycle.
+
+The parent-model owner holds scoped semantic authority for the shared contract
+and the conditions under which it may be instantiated, specialized, or
+composed. The named instance owner holds a separate scoped semantic authority
+for the instance's local meaning, state, evidence, and lifecycle. Here,
+`ownership` is shorthand for these explicit `CAV2-D34` authority claims; it is
+not inferred from a folder, label, repository permission, or generic
+responsibility. A Project carries the typed binding, goals, owners, evidence,
+and challenge route that keep the instance connected to its purpose, but
+Project membership or file placement does not itself create semantic,
+adoption, or execution authority.
+
+The parent and instance must be joined by an explicit `CAV2-D16` typed relation
+bound to an exact parent version or state. The instance may narrow or realize
+the parent contract only inside its declared specialization scope. It must not
+silently redefine the parent. The parent must not absorb, overwrite, or treat
+instance-local meaning as shared authority without the instance owner's route
+and the applicable `CAV2-D48` promotion or adoption path.
+
+### Invariant Statement
+
+For a parent model `M`, owned instance `I`, coordinating Project `P`, and typed
+binding `B`, the relationship is admissible only when:
+
+```text
+RecursiveInstanceBinding =
+  (binding_id, project_ref, model_ref, model_version_ref,
+   model_authority_claim, instance_ref, instance_kind,
+   instance_authority_claim, relation_kind, inherited_contract_ref,
+   extension_scope, adoption_decision_ref, adoption_owner_route,
+   adoption_posture, conformance_ref, lifecycle_state, altitude,
+   evidence_refs, challenge_route, drift_owner_route, drift_route,
+   recomposition_route, recursion_budget_or_stop,
+   terminal_owner_or_handoff, authority_effect)
+
+valid(B) only if
+  B.project_ref = P
+  and B.model_ref = M
+  and B.instance_ref = I
+  and exact(B.model_version_ref)
+  and typed_relation(B.relation_kind, I, M)
+  and scoped_authority(B.model_authority_claim, M)
+  and scoped_authority(B.instance_authority_claim, I)
+  and exact(B.inherited_contract_ref)
+  and within_scope(I, B.extension_scope)
+  and owner_decided(B.adoption_decision_ref,
+                    B.adoption_owner_route,
+                    B.adoption_posture,
+                    B.model_version_ref)
+  and preserves_parent_meaning(I, M)
+  and B.authority_effect = none
+
+change(M) =/=> adopted_by(I)
+change(I) =/=> promoted_into(M)
+conforms(I, M) =/=> authority(I) or authority(M)
+member_of(I, P) =/=> authority(I)
+
+conflicts_with(I, B.inherited_contract_ref) => drift(I, M)
+within(I, B.extension_scope) =/=> drift(I, M)
+
+becomes_parent(I)
+  => exists B_next:
+       complete_recursive_binding(B_next)
+       and altitude(B_next) > altitude(B)
+       and bounded(B_next.recursion_budget_or_stop,
+                   B_next.terminal_owner_or_handoff)
+```
+
+The model-authority lane and instance-authority lane remain distinct roles even
+when the same actor currently fills both. Variation inside the declared
+extension scope is local specialization, not drift. Conflict with the exact
+adopted mandatory contract is drift and is routed to the named drift owner. If
+the parent version, either authority claim, inherited contract, extension scope,
+adoption decision, conformance relation, challenge route, drift route,
+recomposition path, or recursive stop is missing or disputed, the binding is
+residue or a blocker rather than an implicit ownership or authority transfer.
+
+### Schema
+
+Schema handle: `CAV2-D64-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
+The Project package owns the first machine-checkable binding registry because
+Project carries the durable coordination identity. `CAV2-PROJECT-SCHEMA-AMEND-D64-001`
+adds binding references to the Project record and a closed registry shape, but
+the registry currently contains no concrete binding.
+`CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D64-PREREQ-001` adds separate Project-owned
+candidate registries for complete `CAV2-D34` claim tuples and exact inherited
+contracts. These prerequisite records remain source-declared candidates: they
+do not activate authority, admit a relation, record adoption, prove
+conformance, or satisfy this invariant. The Governance ontology
+registers this definition as `GOV-INV-CAV2-D64` and links it to the candidate
+review rule `GOV-RULE-D64-BINDING-COMPLETE`; those records remain ontology
+instances with no authority, adoption, enforcement, implementation, or Project
+conformance effect.
+
+`CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D64-ADOPTION-CANDIDATE-001` first added one
+Project-owned adoption-decision candidate envelope bound to the exact Define
+model-version ref and inherited-contract digest.
+`CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D64-RELATION-CANDIDATE-001` then records the
+user's `REL-INSTANCE-OF` choice as one directed, Project-owned semantic
+relation candidate and binds that candidate into the envelope by ID and digest.
+`CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D64-RELATION-ADMISSION-001` preserves that
+candidate and its digest, records the protected joint-owner `ADMIT-INSTANCE-OF`
+decision, and adds a separately digested admitted-relation record. That exact
+record supplies the `typed_relation(...)` conjunct for the named source, target,
+versions, direction, kind, and inherited contract only. The envelope's selected
+D48 adoption posture and owner decision remain null. Admission is not the
+`owner_decided(...)` witness, conformance, authority activation, or a concrete
+binding's `adoption_decision_ref`.
+
+Field meanings:
+
+- `binding_id` identifies the binding; `project_ref` identifies its coordinating
+  Project; `model_ref` and `model_version_ref` identify the exact parent state.
+- `model_authority_claim` and `instance_authority_claim` each carry the
+  `CAV2-D34` scope, owner, surface, object, operation, basis, effect, and
+  challenge route for their separate semantic lanes.
+- `instance_ref` and `instance_kind` identify the local object;
+  `relation_kind` types its directed connection to the parent.
+- `inherited_contract_ref` identifies the mandatory adopted parent contract;
+  `extension_scope` states where local specialization is allowed.
+- `adoption_decision_ref`, `adoption_owner_route`, and `adoption_posture` bind
+  adoption of the exact parent version to an owner decision rather than
+  proximity or conformance.
+- `conformance_ref`, `lifecycle_state`, `altitude`, and `evidence_refs` record
+  checked relationship state without granting authority.
+- `challenge_route`, `drift_owner_route`, and `drift_route` distinguish a
+  challenge from contract drift and name who routes resolution.
+- `recomposition_route` returns instance learning upstream only as a typed
+  candidate; `recursion_budget_or_stop` and `terminal_owner_or_handoff` bound
+  any instance that becomes a parent.
+- `authority_effect` is `none` for the binding itself.
+
+The current Define prerequisite candidate uses `cav2.define` as the parent and
+`cav2.define.system-runtime.v1` as the local instance. It binds both to exact
+profile states and selects `instance_of` only as an unadmitted semantic
+candidate. The protected joint-owner decision now admits one separately digested
+exact relation as the `typed_relation(...)` witness. `child-package` remains
+separate topology evidence; authority-claim promotion, D48 adoption, conformance,
+complete recursion termination, and terminal handoff remain unresolved. The exact
+D48 adopt/reject/defer/stop gate is now presented to the `CyberAlchemy v2 Define
+runtime owner`, but no option is selected; gate preparation is not the
+`owner_decided(...)` witness. This is
+typed-relation evidence only, not a `RecursiveInstanceBinding` or D64 satisfaction.
+
+### Axiom And Invariant Basis
+
+The authority basis is `CAV2-D34` and `CAV2-D41`: authority moves only through
+an explicit scoped owner route and does not transfer through proximity,
+membership, generation, validation, or repeated use. `CAV2-D30` supplies the
+bounded recursive separation of artifact, layer, owner, recomposition, and stop
+condition. `CAV2-D16` requires the parent-instance wire to be typed and visible.
+
+This definition specializes those existing principles for parent-model and
+owned-instance relationships. It does not create a new authority kind.
+
+### Validation Mode
+
+Current validation mode: `review-only`.
+
+The Governance ontology registration makes the invariant and its candidate
+operational rule discoverable. The Project package can now validate the admitted
+typed-relation witness plus the closed shape and reference closure of any registered
+binding, but it has no concrete binding to evaluate. D48 owner adoption, conformance,
+complete recursion termination, and terminal handoff remain absent, so CAV2-D64 is
+not satisfied. This does not supply the unresolved source-owned semantic
+version, exact grounding Governance Axiom, adopted Constitution membership,
+enforcement binding, complete Define Project binding, kernel program, or runtime
+integration.
+
+A review checks that every load-bearing parent-instance relationship has the
+complete `CAV2-D64-SCHEMA` binding, that both owner lanes resolve, that the
+Project is not treated as an authority envelope, that parent and instance
+changes do not propagate implicitly, that adoption binds an exact parent
+version and owner decision, that inherited contract and extension scope are
+separate, that drift and recomposition follow their named routes, and that
+conformance claims remain inside their evidence. A later Project-package
+validator may make these checks deterministic only after a separately reviewed
+schema amendment witness.
+
+### Operational Interpretation
+
+Use this invariant when CyberAlchemy defines a reusable product, capability,
+method, ontology, or other parent model and a Project creates or evolves a
+locally owned instance. Register the exact parent version, instance package,
+both authority claims, inherited contract, extension scope, adoption decision,
+specialization relation, conformance evidence, challenge and drift routes,
+recomposition path, and recursive stop in the Project. Route shared-model
+changes to the parent owner and instance-local changes to the instance owner.
+
+### Plain-Language Intuition
+
+The parent owns the blueprint. The local capability owns its built instance.
+The Project keeps the labeled connection between them. Neither side may quietly
+rewrite the other.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, the product ontology is the intended owner surface for the
+shared CyberAlchemy product model. A Define Project can coordinate the goals,
+owners, evidence, and lifecycle for a Define product instance, while a
+separately established Define instance owner would own that instance's business
+meaning. The product ontology may register and constrain an adopted instance;
+the Define instance may specialize the adopted product contract inside its
+extension scope. Neither relationship lets the Project, ontology projection,
+validation result, or runtime claim semantic authority it was not granted.
+
+The current candidate profiles do not yet prove this binding: they do not carry
+the complete version-exact adoption record and separately scoped instance-owner
+claim required here. They are candidate evidence for the first application of
+the invariant, not a conforming instance by declaration.
+
+### Boundary
+
+This invariant is not authority, ownership by file location, Project authority,
+repository access, inheritance by naming, schema conformance, implementation
+success, automatic adoption, or promotion. It does not require every artifact
+to have a parent model, make every capability a Project, or make every instance
+canonical. It governs only relationships where downstream work relies on a
+parent model and an independently scoped owned instance remaining connected.
+
+It is not a Discipline (`CAV2-D50`). A later Discipline may steward recurring
+binding audits and hardening, and a Constitution may enforce selected bindings,
+but neither is created or adopted by this definition.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [../../goals/README.md](../../goals/README.md)
+- [../../ontology/product/README.md](../../ontology/product/README.md)
+- [../../ontology/governance/invariants.json](../../ontology/governance/invariants.json)
+- [../../ontology/governance/rules.json](../../ontology/governance/rules.json)
+- [../../goals/ontology/project-instance-bindings.json](../../goals/ontology/project-instance-bindings.json)
+- [../../goals/ontology/project-binding-schema-amendment.json](../../goals/ontology/project-binding-schema-amendment.json)
+- [../../define/business-ontology/README.md](../../define/business-ontology/README.md)
+
+## CAV2-D65: DomainSpec-Governed Construction Invariant
+
+Status: active
+Term: DomainSpec-governed construction invariant
+Aliases: DomainSpec v2 construction invariant, definitions-to-implementation construction invariant, DomainSpec-first construction path, CyberAlchemy construction pipeline
+Promoted: 2026-08-30 by explicit owner direction to make DomainSpec v2 the construction path inside CyberAlchemy v2; definition authority only
+
+### Normative Definition
+
+The DomainSpec-governed construction invariant is the must-hold CyberAlchemy v2
+condition that every new or materially revised implementation-bearing system or
+capability advances through one version-exact semantic and construction chain:
+
+```text
+canonical definitions
+  -> CyberAlchemy product ontology
+  -> capability-local business ontology
+  -> DomainSpec v2 authored project source
+  -> deterministic compiled graph and system-ontology projection
+  -> implementation bound to that exact system ontology
+  -> static conformance and, when claimed, runtime evidence
+```
+
+The definitions stage may reuse, specialize, propose, or leave meaning open; it
+must not mint a new definition merely to satisfy the chain. Product and business
+ontologies record intended meaning and rules without claiming implementation.
+The DomainSpec v2 project is the source for the system model. The compiled graph
+and system ontology must be deterministic projections of that exact source, not
+independently authored competing graphs. Implementation may begin only from an
+exact validated system-ontology state and an owner-accepted implementation
+binding. An implementation claim becomes conformance only through evidence
+against that same exact state.
+
+Every transition preserves predecessor identities, versions, digests, owner
+routes, validation outcomes, residue, and challenge routes. A missing, stale,
+unsupported, ambiguous, or non-reproducible predecessor blocks the next
+transition or makes it `not_evaluable`; it never becomes an implicit PASS.
+
+### Invariant Statement
+
+For one construction subject `S`, let:
+
+```text
+ConstructionStage =
+  {definition, product_ontology, business_ontology, domainspec_source,
+   compiled_graph, system_ontology, implementation,
+   static_conformance, runtime_evidence}
+
+StageState = {absent, candidate, blocked, not_evaluable, validated}
+
+ConstructionBinding =
+  (construction_id, project_ref, subject_ref,
+   definition_refs, definition_digests,
+   product_ontology_refs, product_ontology_digests,
+   business_ontology_refs, business_ontology_digests,
+   domainspec_project_ref, domainspec_profile_ref,
+   domainspec_language_refs, domainspec_language_digests,
+   source_set_ref, source_set_digest,
+   compiler_ref, compiler_version_ref, compiler_digest,
+   compiled_graph_ref, compiled_graph_digest,
+   system_ontology_ref, system_ontology_digest,
+   bridge_validation_ref,
+   implementation_target_ref?, implementation_target_digest?,
+   realization_baseline_ref?, realization_baseline_digest?,
+   instantiation_receipt_ref?, conformance_ref?, runtime_evidence_refs,
+   owner_routes, stage_states, evidence_refs,
+   challenge_route, drift_route, authority_effect)
+
+eligible(system_ontology) only if
+  current(definition_refs, definition_digests)
+  and validated(product_ontology)
+  and validated(business_ontology)
+  and current(domainspec_source)
+  and exact(compiler_ref, compiler_version_ref, compiler_digest)
+  and deterministic_compile(domainspec_source, compiled_graph)
+
+eligible(implementation) only if
+  validated(system_ontology)
+  and validated(bridge_validation_ref)
+  and owner_accepted(realization_baseline_ref)
+
+conforms(implementation, system_ontology) only if
+  exact_binding(implementation_target_ref, implementation_target_digest,
+                system_ontology_ref, system_ontology_digest)
+  and current(conformance_ref)
+
+missing_or_stale(stage_n) =>
+  state(stage_n+1) in {blocked, not_evaluable}
+
+validated(stage_n) =/=> authority(stage_n+1)
+generated(system_ontology) =/=> implemented(S)
+implemented(S) =/=> conforms(S)
+static_conformance(S) =/=> runtime_behavior_proved(S)
+```
+
+The chain is monotonic but not automatically advancing. A validated predecessor
+makes the next stage eligible for its own owner-governed work; it does not
+perform that work or grant authority to do it. A materially changed predecessor
+creates a new exact binding epoch and makes dependent evidence non-current.
+
+### Schema
+
+Schema handle: `CAV2-D65-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
+The Goals package now owns the first closed machine-checkable
+`ConstructionBinding` registry and the Define bridge owns an empty
+business-to-DomainSpec handoff registry. Both are deliberately empty and
+blocked in this ontology slice. The transition evaluator, DomainSpec compiler
+gate, compiled-graph receipt, system-ontology projection receipt,
+implementation admission, conformance proof, and runtime enforcement remain
+deferred. No current CyberAlchemy package may claim D65 conformance merely from
+this definition, either registry, or either schema record.
+
+Field meanings:
+
+- `construction_id`, `project_ref`, and `subject_ref` identify one bounded
+  construction chain and its coordinating Project.
+- Definition, product-ontology, and business-ontology refs and digests preserve
+  the exact semantic predecessors.
+- DomainSpec project, profile, language, source-set, and compiler bindings name
+  the exact authored model and deterministic construction mechanism.
+- Compiled-graph and system-ontology refs and digests bind the derived system
+  model without turning projections into independent authority.
+- `bridge_validation_ref` records checked alignment between business meaning
+  and the system ontology; it is not implementation evidence.
+- Optional implementation, baseline, instantiation, conformance, and runtime
+  refs become required only when their corresponding stage is claimed.
+- `owner_routes`, `stage_states`, `evidence_refs`, `challenge_route`, and
+  `drift_route` keep decisions, support, dispute, and invalidation explicit.
+- `authority_effect` is `none` for the binding itself.
+
+### Ownership And Gates
+
+- The definitions-governance owner controls canonical definition meaning.
+- The CyberAlchemy product-ontology owner controls shared product meaning.
+- The capability business-ontology owner controls capability-local meaning.
+- DomainSpec v2 language, profile, compiler, and instantiation owners control
+  their respective source, compilation, and realization contracts.
+- The system-ontology owner controls admission of the exact generated system
+  projection.
+- The implementation owner selects and accepts one exact implementation
+  binding; the conformance owner controls observation and conformance evidence.
+- The applicable runtime owner controls any runtime-behavior claim.
+
+The same actor may occupy more than one route, but the routes, decisions, and
+evidence remain distinct. No stage can approve itself or substitute its PASS for
+the next owner's gate.
+
+### Axiom And Invariant Basis
+
+`CAV2-D16` requires every load-bearing transition to be a visible typed
+coupling. `CAV2-D25` requires schema and construction-shape changes to preserve
+their amendment witnesses. `CAV2-D34` and `CAV2-D41` prevent validation,
+generation, repository location, or implementation success from becoming
+authority. `CAV2-D38` bounds every stage claim to its proof. `CAV2-D48` governs
+promotion and version-exact adoption. `CAV2-D64` keeps parent DomainSpec models
+and locally owned CyberAlchemy instances connected without collapsing their
+semantic ownership.
+
+This definition composes those rules into the mandatory CyberAlchemy
+construction order. It does not create a new authority kind.
+
+### Validation Mode
+
+Current validation mode: `review-only`.
+
+The definition and documentary schema are active definition authority, but no
+Governance registration, Constitution adoption, DomainSpec compiler gate,
+system-ontology generation receipt, implementation admission check, or runtime
+enforcement binding is activated by this slice. Until those consumers exist,
+current systems record D65 coverage as residue, `blocked`, or `not_evaluable`.
+
+The later deterministic validator must reject skipped stages, hand-authored
+system indexes presented as compiler output, stale predecessor digests,
+unadmitted DomainSpec profiles, missing compiler identity, non-reproducible
+graphs, implementation without an exact system-ontology binding, conformance
+without target observations, runtime claims based only on static evidence, and
+any authority effect inferred from validation or generation.
+
+### Operational Interpretation
+
+Begin CyberAlchemy system work by resolving its required definitions and
+placing product-wide and capability-local meaning in their owned ontologies.
+Author the technical system in a package-local DomainSpec v2 project using the
+exact admitted language and profile. Compile that project deterministically to
+the checked graph and system-ontology projection. Validate the business-system
+bridge. Only then select or generate implementation against the exact system
+ontology and evaluate the resulting target with the applicable conformance and
+runtime evidence providers.
+
+Legacy or imported implementation may remain as evidence, but it does not
+become D65-conforming by proximity. Register its missing predecessor stages as
+residue and migrate it through a new exact construction binding before making a
+conformance claim.
+
+### Plain-Language Intuition
+
+Define the words, model what the product means, describe the system in
+DomainSpec, generate the system map, build from that map, and then prove the
+build matches. Do not skip a floor and do not let a later floor rewrite an
+earlier one.
+
+### Domain-Context Voice
+
+Inside CyberAlchemy v2, the existing Define system-runtime package already
+shows the intended source direction: its package-local DomainSpec project owns
+the node-level system source, while `NODES.json` and `RELATIONS.json` are checked
+projections. That package still reports compiler conformance as
+`not_evaluable`, so it is evidence for the construction shape, not proof that
+the D65 compiler or implementation gates are enforced. The next ontology slice
+must add the product/business rule and Governance registration before a later
+DomainSpec slice may generate an accepted system ontology.
+
+### Boundary
+
+This invariant is not a command to create unnecessary definitions, a license to
+move CyberAlchemy meaning into DomainSpec, an admission of every DomainSpec v2
+profile, a claim that generated projections are canonical definition authority,
+an implementation plan, a code generator selection, runtime proof, publication,
+release, or deployment authority. It does not require implementation when the
+work legitimately stops at definitions or ontology. It governs advancement only
+when CyberAlchemy work moves toward a product-realizing implementation-bearing
+system. Validation utilities, receipts, migration helpers, and mechanical
+governance repairs are outside this initial subject scope unless they themselves
+claim to realize product, business, or system meaning; broadening the invariant
+to every repository byte requires a separate owner-scoped recursion and
+exemption decision.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [../../ontology/product/README.md](../../ontology/product/README.md)
+- [../../ontology/governance/README.md](../../ontology/governance/README.md)
+- [../../define/business-ontology/README.md](../../define/business-ontology/README.md)
+- [../../define/system-ontology/README.md](../../define/system-ontology/README.md)
+- [../../../projects/domainspec-v2/ARCHITECTURE.md](../../../projects/domainspec-v2/ARCHITECTURE.md)
+
+## CAV2-D66: Context
+
+Status: active
+Term: context
+Aliases: governed context, work context, product-work context
+Promoted: 2026-08-30 by explicit owner direction to make Context a first-class CyberAlchemy v2 concept before Registry Context migration and implementation; definition authority only
+
+### Normative Definition
+
+A Context is a durable, identity-bearing, owner-qualified boundary of relevance
+and interpretation for one declared purpose. It names the Product, optional
+Project, optional Goal, intended consumers and uses, subject scope, and source
+policies that frame what information and meaning may be assembled for the work.
+
+Every CyberAlchemy Context belongs to exactly one Product. A project Context
+belongs to exactly one Project. A goal Context belongs to exactly one Project
+and focuses on exactly one Goal that already belongs to that Project. The first
+contract intentionally allows only one primary Goal per Context; cross-goal
+work requires separate Contexts or a later explicitly defined composite model.
+
+A Context identity remains stable across new source epochs, resolution
+requests, immutable views, interface presentations, session pauses, and
+refreshes that preserve its Product, Project, Goal, and purpose. A material
+change to any of those anchors creates a successor Context and supersedes the
+earlier one instead of silently changing what the earlier identity meant.
+
+### Formal Interpretation
+
+```text
+Context =
+  (id, kind, product_ref, project_ref?, goal_ref?, purpose,
+   bounded_context_refs, consumer_refs, intended_uses, subject_scope,
+   source_policy_refs,
+   owner_route, lifecycle_state, revision_history, challenge_route)
+
+kind in { product, project, goal }
+lifecycle_state in { draft, active, superseded, retired }
+|product_ref| = 1
+|project_ref| <= 1
+|goal_ref| <= 1
+|bounded_context_refs| >= 0
+|consumer_refs| >= 1
+
+kind = product => project_ref = null and goal_ref = null
+kind = project => project_ref != null and goal_ref = null
+kind = goal =>
+  project_ref != null
+  and goal_ref != null
+  and belongs_to(goal_ref, project_ref)
+
+material_change(product_ref, project_ref, goal_ref, purpose) =>
+  successor_context_required
+
+current(ContextView) =/=> current(Context)
+active(Context) =/=> sources_true_or_authoritative
+Context =/= BoundedContext
+```
+
+### Schema
+
+Schema handle: `CAV2-D66-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
+The first closed machine-checkable candidate contract is owned by
+[../../context/schemas/context.schema.json](../../context/schemas/context.schema.json).
+The Context package, its example instances, and its validation receipts remain
+separate from canonical definition authority.
+
+### Operational Interpretation
+
+Create a Context before assembling a reusable context view for a Product,
+Project, or Goal. Keep the Context identity and purpose stable, then let a
+resolver create immutable Views bound to exact requests and source epochs.
+Consumers may reuse the Context identity across CLI, chat, and session
+continuations, but they must not silently reuse a stale View.
+
+Use a Context to answer: which Product frames this work, which Project and Goal
+apply, why context is needed, who will use it, which subjects are in scope, and
+which DDD Bounded Context meanings must remain intact, and which source policies
+govern resolution. Put selected records, digests,
+bindings, and residue in a Context View or Snapshot, not in the Context
+identity itself.
+
+### Plain-Language Intuition
+
+Context is the named frame that says what this work is about, why information
+is needed, and what belongs in the conversation.
+
+### Domain-Context Voice
+
+Inside CyberAlchemy v2, the first Context connects the CyberAlchemy Product,
+the Define Project, the Define first-class ownership Goal, and the Define
+shared-meaning consumer. Registry Context can resolve exact Product, Project,
+Goal, Language, and Definition selections into one immutable View for that
+Context without taking ownership of any source.
+
+The Language package already uses a DDD-style Bounded Context to say where a
+Language and model have consistent meaning. A Context may reference zero or
+more of those Bounded Contexts. Such a reference preserves each domain model,
+Language, conflict, and owner boundary; it does not merge them. A Bounded
+Context is not an alias for this definition and is not promoted or redefined
+by `CAV2-D66`.
+
+### Boundary
+
+A Context is not a Product, Product Thesis, Project (`CAV2-D60`), Goal
+(`CAV2-D59`), Project Space (`CAV2-D15`), DDD Bounded Context, Language,
+Registry, source selection, request, immutable View, Snapshot, Context Pack,
+Session, prompt, event ledger, authority envelope, owner decision, or execution
+permission.
+
+Declaring a source relevant does not make it true, current, authoritative,
+accepted, or executable. Activating a Context does not activate its Project or
+Goal. A passing Context validator does not prove that a consumer understood or
+used the Context correctly. Canonical admission of this definition does not
+admit a Context instance, accept a resolver contract, or authorize runtime,
+publication, release, deployment, or external effects.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [../../context/README.md](../../context/README.md)
+- [../../ontology/product/README.md](../../ontology/product/README.md)
+- [../../goals/README.md](../../goals/README.md)
+- [../../language/README.md](../../language/README.md)
+
+## CAV2-D67: Product Capability
+
+Status: active
+Term: product capability
+Aliases: governed product capability, product behavior capability
+Promoted: 2026-08-30 by explicit owner direction to make Capability Ontology canonical; definition authority only
+
+### Normative Definition
+
+A Product Capability is a stable, owner-qualified statement of an outcome that
+one Product must enable for named participants or consumers while preserving
+explicit scope, contracts, context policies, evidence routes, and authority
+limits. It states what the Product must make possible and why that behavior
+belongs to the Product. It does not select the agent, component, command,
+interface, workflow, or implementation that realizes the outcome.
+
+Every Product Capability belongs to exactly one Product. Its identity remains
+stable while realizations, interfaces, evidence, and implementation technology
+change, provided the outcome, Product anchor, scope, and owner boundary remain
+the same. A material change to any of those anchors requires a successor
+Product Capability rather than a silent rewrite.
+
+### Formal Interpretation
+
+```text
+ProductCapability =
+  (id, product_ref, outcome, scope, exclusions, participant_refs,
+   consumer_refs, input_contract_refs, output_contract_refs,
+   context_policy_refs, owner_routes, lifecycle_posture,
+   realization_refs, evidence_refs, revision_history,
+   challenge_route, authority_effect)
+
+|product_ref| = 1
+|owner_routes| >= 1
+|consumer_refs| >= 1
+
+lifecycle_posture =
+  (kind, status, status_vocabulary_ref, evidence, commitment,
+   provenance, owner, residue_refs)
+
+lifecycle_posture.kind = product-capability
+status_vocabulary_ref != null
+
+valid(c) only if
+  stable(c.id)
+  and bounded(c.outcome, c.scope, c.exclusions)
+  and contracts_resolve(c.input_contract_refs, c.output_contract_refs)
+  and context_policies_resolve(c.context_policy_refs)
+  and c.authority_effect = none
+
+material_change(product_ref, outcome, scope, owner_routes) =>
+  successor_product_capability_required
+
+adopted(c) =/=> realized(c)
+realized(c) =/=> conformant(c)
+conformant(c) =/=> valuable(c)
+observed(c) =/=> adopted(c)
+permission_for(c) =/=> product_capability(c)
+```
+
+`lifecycle_posture` applies the `CAV2-D23` axis split. `status` is meaningful
+only with its owning `status_vocabulary_ref`; this definition does not impose
+one lifecycle enum on every capability. Evidence, owner commitment,
+provenance, and residue remain separate posture fields. Realization,
+conformance, and operational availability are separate axes owned by their
+respective artifacts and evidence. None may be inferred from another or
+collapsed into one `status` field.
+
+### Schema
+
+Schema handle: `CAV2-D67-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
+The first closed machine-checkable candidate contract and business-system
+bridge are owned by
+[../../capability/schemas/capability.schema.json](../../capability/schemas/capability.schema.json).
+The package references this definition and public `DEF-ARC-CAPABILITY`; it does
+not replace either definition authority.
+
+### Operational Interpretation
+
+Define a Product Capability after the Product Thesis identifies an outcome the
+Product must repeatedly enable. Name its consumers, scope, inputs, outputs,
+context policies, owners, and exclusions before selecting a realization.
+Later, bridge it to one or more Agent Capabilities or system realizations and
+test that bridge with separate conformance and runtime evidence.
+
+Keep capability instances with the module that owns their local meaning and
+lifecycle. A central Capability Ontology may index or project those instances,
+but it must not copy their authority or turn one registry into their owner.
+
+### Plain-Language Intuition
+
+A Product Capability says what useful thing the product must make possible. It
+does not yet say which tool or implementation will do it.
+
+### Domain-Context Voice
+
+Inside CyberAlchemy v2, Define Shared Meaning, Resolve Bounded Language
+Context, Resolve Registry Context, Governed Work Loop, and Governance
+Enforcement are Product Capability candidates or projections owned by their
+respective product and module surfaces. Public Arcanum Agent Capabilities such
+as Invoke Define may realize part of a Product Capability, but the public
+agent contract and the private product meaning remain separate authorities.
+
+### Boundary
+
+A Product Capability is not the Product, Product Thesis, Project (`CAV2-D60`),
+Goal (`CAV2-D59`), Context (`CAV2-D66`), Agent Capability
+(`DEF-ARC-CAPABILITY`), Bounded Context, business rule, implementation,
+component, command, interface, workflow, service, permission, role, authority
+grant, runtime process, test, metric, evidence receipt, or release state.
+
+An adopted Product Capability is not proof of implementation. An implemented
+realization is not proof of conformance. A passing conformance check is not
+proof of customer value, product-market fit, authority transfer, publication,
+release, deployment, or permission to execute.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [../../capability/README.md](../../capability/README.md)
+- [../../ontology/product/README.md](../../ontology/product/README.md)
+- [../../context/README.md](../../context/README.md)
+- [../../define/README.md](../../define/README.md)
+- [../../language/README.md](../../language/README.md)
+- [../../registry-context/README.md](../../registry-context/README.md)
+
+## CAV2-D68: Person
+
+Status: active
+Term: person
+Aliases: human individual
+Promoted: 2026-08-31 by explicit owner direction to make Person a first-class CyberAlchemy v2 concept; definition authority only
+
+### Normative Definition
+
+A Person is one human individual whose identity may be referenced by
+CyberAlchemy products, Projects, Contexts, Teams, responsibilities, decisions,
+and evidence without reducing that human to an account, role, permission,
+session, or machine-readable record.
+
+Person identity remains distinct from every participation relationship. A
+Person may join or leave Teams, hold different roles, own different work, use
+multiple accounts, or have no digital account while remaining the same Person.
+Any stored record is a bounded reference or projection of the Person, not the
+Person itself. CyberAlchemy must minimize personal data and must not infer
+private attributes merely because a Person is referenced.
+
+### Formal Interpretation
+
+```text
+Person(p) => HumanIndividual(p)
+
+represents(account, p) =/=> account = p
+holds(p, role) =/=> p = role
+member_of(p, team) requires exists membership
+owns(p, artifact_or_decision) =/=> authorized_for(p, action)
+observed(record_about_p) =/=> record_about_p = p
+
+change(team_memberships(p), roles(p), accounts(p))
+  =/=> successor_person_identity_required
+```
+
+Here `p` is a human individual. `represents`, `holds`, `member_of`, and `owns`
+are relationships whose records and lifecycle remain independently owned. The
+non-implications prevent identity, participation, ownership, and authority from
+collapsing into one another.
+
+### Operational Interpretation
+
+Use Person when CyberAlchemy must refer to the same human across a Product,
+Project, Goal, Context, Team, decision, or handoff. Keep accounts, interface
+identities, memberships, roles, responsibilities, owner routes, and authority
+grants as separate records linked to the Person reference. Collect only the
+minimum attributes required by the named use and preserve the applicable
+privacy, correction, challenge, and retirement routes.
+
+### Plain-Language Intuition
+
+A Person is the human, not their login, job title, permission, or database row.
+
+### Domain-Context Voice
+
+Inside CyberAlchemy v2, a Person may be a Human Participant, Work Owner,
+reviewer, researcher, or member of one or more Teams. Those are ways the Person
+participates. They do not replace the Person's identity and do not silently
+grant authority. The People and Teams product owns the first business model
+that connects these meanings while keeping sensitive personal data outside the
+initial ontology.
+
+### Boundary
+
+A Person is not a user account, authentication subject, credential, contact,
+employee record, customer record, legal identity assertion, profile, role,
+permission, authority envelope, owner route, agent, model, session, or Team.
+This definition does not establish identity verification, employment status,
+consent, access rights, organizational hierarchy, or a right to process
+personal data. A reference to a Person creates no authority effect.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [../../people-and-teams/README.md](../../people-and-teams/README.md)
+- [../../people-and-teams/definitions.json](../../people-and-teams/definitions.json)
+- [../../people-and-teams/nodes.json](../../people-and-teams/nodes.json)
+
+## CAV2-D69: Team
+
+Status: active
+Term: team
+Aliases: purpose-bound team
+Promoted: 2026-08-31 by explicit owner direction to make Team a first-class CyberAlchemy v2 concept; definition authority only
+
+### Normative Definition
+
+A Team is a durable, owner-qualified collective identity through which Persons
+coordinate toward one declared purpose and scope. Its identity, lifecycle,
+membership, roles, responsibilities, and authority relationships are explicit
+and remain separate.
+
+A Team is not merely the current set of its members. Membership changes do not
+silently create a different Team while its identity, purpose, scope, and owner
+boundary remain stable. An active Team has at least one current Person
+membership. A proposed Team may exist before its first membership so its
+purpose and owner can be reviewed without inventing members.
+
+### Formal Interpretation
+
+```text
+Team(t) => CollectiveIdentity(t)
+purpose(t) != empty
+owner_route(t) != empty
+
+active(t) => exists p, m:
+  Person(p)
+  and TeamMembership(m)
+  and binds(m, p, t)
+  and current(m)
+
+members(t, time_1) != members(t, time_2) =/=> t_at_time_1 != t_at_time_2
+holds(team_or_person, role) =/=> authorized_for(team_or_person, action)
+owns_responsibility(team_or_person, r) =/=> authority_grant(r)
+```
+
+Here `t` is the Team identity, `p` is a Person, and `m` is an independently
+lifecycle-managed membership relation. Team membership, role assignment,
+responsibility ownership, and authority are related but non-equivalent facts.
+
+### Operational Interpretation
+
+Create a Team with a stable identity, purpose, scope, owner route, lifecycle
+state, and challenge route. Add Persons through explicit Team Membership
+records. Attach Team Roles and Responsibilities through separately owned
+assignments so that membership alone never implies a role, responsibility, or
+permission. Preserve membership history rather than rewriting the current
+member list as if earlier participation never existed.
+
+### Plain-Language Intuition
+
+A Team is a named group working toward a purpose. The group stays recognizable
+even when its members change.
+
+### Domain-Context Voice
+
+Inside CyberAlchemy v2, a Team can coordinate Projects, Goals, definitions,
+research, reviews, or product responsibilities. A Team may be named as an owner
+route only when the corresponding ownership record says so. Team membership
+alone does not make every member an owner or decision authority. The People and
+Teams product owns the first candidate business ontology for these relations.
+
+### Boundary
+
+A Team is not a Product, Project, Goal, organization, company, department,
+mailing list, chat channel, access group, permission group, role, owner route,
+authority envelope, workflow, or an unqualified collection of accounts. This
+definition does not create employment, reporting lines, permissions,
+organizational authority, or an implementation. A passing Team validator does
+not prove that the Team exists outside the modeled context.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [../../people-and-teams/README.md](../../people-and-teams/README.md)
+- [../../people-and-teams/definitions.json](../../people-and-teams/definitions.json)
+- [../../people-and-teams/nodes.json](../../people-and-teams/nodes.json)
+
+## Withdrawn Definition IDs
+
+The following IDs were assigned to product-local Knowledge Exchange Protocol
+terms and withdrawn from CyberAlchemy-v2 shared authority on 2026-08-31 before
+ontology admission. They are reserved permanently and must not be reused.
+Their successor definitions are owned by the product-local
+[Knowledge Exchange Protocol definitions](../../product/knowledge-exchange-protocol/authority/definitions/DEFINITIONS.md).
+
+| Withdrawn ID | Product-local successor |
+| --- | --- |
+| CAV2-D70 | KEP-D1 |
+| CAV2-D71 | KEP-D2 |
+| CAV2-D72 | KEP-D3 |
+| CAV2-D73 | KEP-D4 |
+| CAV2-D74 | KEP-D5 |
+| CAV2-D75 | KEP-D6 |
+| CAV2-D76 | KEP-D7 |
+| CAV2-D77 | KEP-D8 |
+| CAV2-D78 | KEP-D9 |
+| CAV2-D79 | KEP-D10 |
+| CAV2-D80 | KEP-D11 |
+| CAV2-D81 | KEP-D12 |
 
 ## Open Questions
 

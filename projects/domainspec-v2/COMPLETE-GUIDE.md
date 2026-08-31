@@ -163,6 +163,7 @@ This guide describes private, pre-release repository tooling.
 | --- | --- |
 | Experimental JSON source profile | Stable external installation |
 | Internal compiler and contract tests | Released public CLI |
+| Private 13-type, three-profile instantiation and static-conformance CLI | Published package and production runtime proof |
 | Generated graph and source manifest | Complete JSON-to-obligation bridge |
 | Generated Markdown view and build receipt | General end-to-end EVF receipt |
 | Legacy Markdown derivation engine | Production monitoring and deployment |
@@ -835,9 +836,9 @@ approved.
 
 ## What DomainSpec owns—and what it does not
 
-The local [ontology package](ontology/README.md) can organize candidate meaning and
-authoring views. It has `authority_effect: none`: it cannot write back into the strict
-source contract, activate a definition, or approve an implementation.
+The canonical private [product ontology package](ontology/README.md) connects the
+business and system views of DomainSpec. It remains a read model: it cannot write back
+into the strict source contract, activate a definition, or approve an implementation.
 
 | Owner or surface | What it owns | What it cannot do |
 | --- | --- | --- |
@@ -847,7 +848,7 @@ source contract, activate a definition, or approve an implementation.
 | Derivation engine | Obligations from supported inputs | Prove the obligations were satisfied |
 | Code-evidence provider | Observations about exact files and tools | Approve itself or expand its claim |
 | EVF | Compatible evidence composition and visible gaps | Fill missing evidence or authorize release |
-| Ontology candidate | Candidate organization and projection | Become source authority or promote itself |
+| Product ontology | Canonical business-system explanation and traceability | Become definition or implementation source authority, promote itself, or authorize release |
 | Implementation/release owner | Acceptance, deployment, release, production decisions | Be replaced by a receipt with `authority_effect: none` |
 
 Historical DomainSpec v1 and wider private-system documents may explain why a decision

@@ -87,10 +87,10 @@
   "observer_inputs": {
     "child": {
       "repo_root": "$REPO_ROOT",
-      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.ts", "sha256": "c0b79b0dc601ccb555a8b4aa5d336994061e8585c2baf1e34766f5fb10882bad", "size_bytes": 8524 },
+      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.composition.ts", "sha256": "df223e9486f375617ab7cfc7e4bb09386cddbe716a90080649a9a7ec95c789bd", "size_bytes": 3901 },
       "subject_id": "candidate.settlement.ordered-workflow.workflow-implementation/v1",
       "orchestration_id": "workflow.complete-settlement",
-      "composition_root_ref": "workflow-v1.ts#makeSettlementWorkflowCase",
+      "composition_root_ref": "workflow-v1.composition.ts#makeSettlementWorkflowComposition",
       "children": [
         { "step_id": "validate", "child_id": "validate-settlement", "child_kind": "Operation", "source_selector": "validate-settlement", "supplied_at_composition_root": true },
         { "step_id": "decide", "child_id": "decide-settlement", "child_kind": "Operation", "source_selector": "decide-settlement", "supplied_at_composition_root": true },
@@ -107,14 +107,14 @@
     },
     "continuation": {
       "repo_root": "$REPO_ROOT",
-      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.ts", "sha256": "c0b79b0dc601ccb555a8b4aa5d336994061e8585c2baf1e34766f5fb10882bad", "size_bytes": 8524 },
+      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.composition.ts", "sha256": "df223e9486f375617ab7cfc7e4bb09386cddbe716a90080649a9a7ec95c789bd", "size_bytes": 3901 },
       "rmt_oracle": { "path": "projects/domainspec-v2/development/remaining-meta-types/candidates/workflow.json", "sha256": "72d86623799aeee70e3d5e1d1bb84746ae48edcbe1124c58249977c435ed87f6", "size_bytes": 14511 },
       "subject_id": "candidate.settlement.ordered-workflow.workflow-implementation/v1",
       "placements": [
         { "route": "stop", "applicability": "applicable", "placement": "workflow-handler", "evidence_selector": "failure_policy:\"stop\"" },
         { "route": "continue", "applicability": "applicable", "placement": "child-result", "evidence_selector": "result:\"pass\"" },
         { "route": "retry", "applicability": "not-applicable", "placement": "not-applicable", "evidence_selector": "stop-and-return-structured-outcome" },
-        { "route": "compensate", "applicability": "applicable", "placement": "workflow-handler", "evidence_selector": "compensation_intents" },
+        { "route": "compensate", "applicability": "applicable", "placement": "workflow-handler", "evidence_selector": "recovery_intents" },
         { "route": "terminal", "applicability": "applicable", "placement": "workflow-handler", "evidence_selector": "terminal_outcome" }
       ],
       "provider_or_service_locator_selectors": [],
@@ -123,18 +123,18 @@
     },
     "compensation": {
       "repo_root": "$REPO_ROOT",
-      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.ts", "sha256": "c0b79b0dc601ccb555a8b4aa5d336994061e8585c2baf1e34766f5fb10882bad", "size_bytes": 8524 },
+      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.composition.ts", "sha256": "df223e9486f375617ab7cfc7e4bb09386cddbe716a90080649a9a7ec95c789bd", "size_bytes": 3901 },
       "rmt_oracle": { "path": "projects/domainspec-v2/development/remaining-meta-types/candidates/workflow.json", "sha256": "72d86623799aeee70e3d5e1d1bb84746ae48edcbe1124c58249977c435ed87f6", "size_bytes": 14511 },
       "subject_id": "candidate.settlement.ordered-workflow.workflow-implementation/v1",
       "forward_action": { "callable_id": "persist-settlement", "callable_kind": "Operation", "source_selector": "persist-settlement", "supplied_at_composition_root": true },
-      "compensation": { "callable_id": "forward-recover-settlement", "callable_kind": "Operation", "source_selector": "namedCompensationCallable:not-present", "supplied_at_composition_root": true },
+      "compensation": { "callable_id": "forward-recover-settlement", "callable_kind": "Operation", "source_selector": "forwardRecoverSettlement", "supplied_at_composition_root": true },
       "evidence_stages": {
         "forward_action_ref": "workflow-source#forward-action",
         "compensation_invocation_ref": "workflow-source#compensation-invocation",
         "compensation_failure_ref": "rmt-oracle#compensation-failure",
         "final_residue_ref": "rmt-oracle#final-residue"
       },
-      "traversal": { "form": "other", "direction": "forward", "awaited": true, "source_selector": "compensation_intents", "comparison": "not-compared", "semantic_order_claimed": false },
+      "traversal": { "form": "other", "direction": "forward", "awaited": true, "source_selector": "recovery_intents", "comparison": "not-compared", "semantic_order_claimed": false },
       "provider_construction_selectors": [],
       "overclaim_labels": [],
       "semantic_claims": [],
@@ -158,7 +158,7 @@
     },
     "runtime": {
       "repo_root": "$REPO_ROOT",
-      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.ts", "sha256": "c0b79b0dc601ccb555a8b4aa5d336994061e8585c2baf1e34766f5fb10882bad", "size_bytes": 8524 },
+      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.composition.ts", "sha256": "df223e9486f375617ab7cfc7e4bb09386cddbe716a90080649a9a7ec95c789bd", "size_bytes": 3901 },
       "subject_id": "candidate.settlement.ordered-workflow.workflow-implementation/v1",
       "mode_input_ref": "fixture#/observer_inputs/mode",
       "capabilities": [],
@@ -169,7 +169,7 @@
     },
     "version": {
       "repo_root": "$REPO_ROOT",
-      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.ts", "sha256": "c0b79b0dc601ccb555a8b4aa5d336994061e8585c2baf1e34766f5fb10882bad", "size_bytes": 8524 },
+      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.composition.ts", "sha256": "df223e9486f375617ab7cfc7e4bb09386cddbe716a90080649a9a7ec95c789bd", "size_bytes": 3901 },
       "subject_id": "candidate.settlement.ordered-workflow.workflow-implementation/v1",
       "mode_input_ref": "fixture#/observer_inputs/mode",
       "observation": null,
@@ -180,7 +180,7 @@
     },
     "message": {
       "repo_root": "$REPO_ROOT",
-      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.ts", "sha256": "c0b79b0dc601ccb555a8b4aa5d336994061e8585c2baf1e34766f5fb10882bad", "size_bytes": 8524 },
+      "source": { "path": "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.composition.ts", "sha256": "df223e9486f375617ab7cfc7e4bb09386cddbe716a90080649a9a7ec95c789bd", "size_bytes": 3901 },
       "subject_id": "candidate.settlement.ordered-workflow.workflow-implementation/v1",
       "placement": {
         "schema_version": "ape.workflow-message-placement-declaration/v1",
@@ -212,11 +212,12 @@
     { "property_id": "APE.WF.P06-CONTINUATION", "result": "pass", "diagnostic": "AOP_WF_CONTINUATION_PASS", "producer": "workflow-continuation-observer" },
     { "property_id": "APE.WF.P07-DURABLE-CAPABILITIES", "result": "not-applicable", "diagnostic": "AOP_WF_RUNTIME_NOT_APPLICABLE", "producer": "workflow-runtime-and-version-observers" },
     { "property_id": "APE.WF.P08-TRANSPORT-BOUNDARIES", "result": "not-applicable", "diagnostic": "AOP_WF_MESSAGE_NOT_APPLICABLE", "producer": "workflow-message-observer" },
-    { "property_id": "APE.WF.P09-TRAVERSAL-EQUIVALENCE", "result": "missing", "diagnostic": "AOP_WF_COMPENSATION_CALLABLE_MISSING", "producer": "workflow-compensation-observer" }
+    { "property_id": "APE.WF.P09-TRAVERSAL-EQUIVALENCE", "result": "pass", "diagnostic": "AOP_WF_COMPENSATION_PASS", "producer": "workflow-compensation-observer" }
   ],
   "claim_ceiling": {
     "statement": "candidate-local TypeScript Workflow architecture evidence only",
-    "candidate_missing_named_compensation_callable_is_retained": true,
+    "named_compensation_callable_bound_at_composition_root": true,
+    "compensation_execution": false,
     "semantic_admission": false,
     "profile_admitted": false,
     "runtime_or_delivery_guarantee": false,

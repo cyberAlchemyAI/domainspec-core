@@ -222,16 +222,67 @@
       ]
     },
     {
+      "id": "CA2-CAP-RESOLVE-LANGUAGE-CONTEXT",
+      "label": "Resolve Bounded Language Context",
+      "role": "capability",
+      "plain_language": "Prepare the exact language a person or agent may safely use for one bounded context and intended use.",
+      "claim": "The capability resolves a source-digest-bound view of preferred expressions, concept identities, business, domain, and product meanings, dispositions, owners, evidence, realization candidates, relationship vocabulary, conflicts, and blocked uses without deciding unresolved meaning.",
+      "scope": "Product-level Language capability used before or while Define works; request, view schema, cache, protocol, and implementation remain separate candidates.",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Language-Guided Agent Work"},
+        {"source_id": "SRC-CAV2-GOVERNANCE-LANGUAGE", "selector": "CA2-LANGUAGE-GOVERNANCE-UBIQUITOUS"},
+        {"source_id": "SRC-CAV2-LANGUAGE-MEANING-BINDINGS", "selector": "business_meaning"},
+        {"source_id": "SRC-CAV2-LANGUAGE-REALIZATION-BINDINGS", "selector": "selected_domainspec_type_ref"},
+        {"source_id": "SRC-CAV2-LANGUAGE-EDGE-VOCABULARY", "selector": "known_conflicts"},
+        {"source_id": "SRC-CAV2-LANGUAGE-AUTHORITY-BINDINGS", "selector": "blocked_use"}
+      ],
+      "owner_route": "CyberAlchemy v2 Language Project owner plus bounded-context language owner",
+      "candidate_status": "candidate",
+      "evidence_confidence": "high",
+      "commitment_confidence": "committed",
+      "authority_effect": "none",
+      "forbidden_collapse": "Not a definition authority, automatic semantic inference, DomainSpec type selector, permission resolver, runtime implementation, or proof that a consumer used the language correctly.",
+      "open_questions": [
+        "Which exact request and freshness contract should produce a Language Context View?",
+        "Which consumer evidence proves that applied bindings were preserved in the Definition Pack?"
+      ]
+    },
+    {
+      "id": "CA2-OUTPUT-LANGUAGE-CONTEXT-VIEW",
+      "label": "Language Context View",
+      "role": "product_output",
+      "plain_language": "A bounded, read-only view of the language that is usable for one context, intended use, and source epoch.",
+      "claim": "The view identifies its language, context, intended use, exact sources and digests, usable bindings, unresolved conflicts, blocked uses, owners, and freshness so a consumer can reuse meaning without guessing.",
+      "scope": "Product output of Resolve Bounded Language Context and input to Define; exact JSON shape and production runtime are not selected here.",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "Language Context View"},
+        {"source_id": "SRC-CAV2-LANGUAGE-MEANING-BINDINGS", "selector": "business_meaning"},
+        {"source_id": "SRC-CAV2-LANGUAGE-REALIZATION-BINDINGS", "selector": "selected_domainspec_type_ref"},
+        {"source_id": "SRC-CAV2-LANGUAGE-EDGE-VOCABULARY", "selector": "known_conflicts"},
+        {"source_id": "SRC-CAV2-LANGUAGE-AUTHORITY-BINDINGS", "selector": "blocked_use"}
+      ],
+      "owner_route": "CyberAlchemy v2 Language Project owner plus consuming capability owner",
+      "candidate_status": "candidate",
+      "evidence_confidence": "high",
+      "commitment_confidence": "committed",
+      "authority_effect": "none",
+      "forbidden_collapse": "Not a copied canonical registry, accepted Definition Pack, authority envelope, selected open realization, mutable session state, or proof of semantic correctness.",
+      "open_questions": [
+        "What is the minimum view shape that remains useful to agents and deterministic to validate?"
+      ]
+    },
+    {
       "id": "CA2-OUTPUT-DEFINITION-PACK",
       "label": "Definition Pack",
       "role": "product_output",
-      "plain_language": "A structured set of candidate definitions and open questions that Design can read.",
-      "claim": "The pack keeps each required concept, decision, evidence link, scope, owner, relationship, and unresolved question together.",
+      "plain_language": "A structured set of candidate definitions and open questions that Design can read, including the exact bounded language consulted by Define.",
+      "claim": "The pack keeps each required concept, decision, evidence link, scope, owner, relationship, and unresolved question together and preserves the Language Context View identity, digest, source epoch, and applied binding references.",
       "scope": "The product-level output of Define; exact file and runtime contracts remain owned by Invoke.",
       "source_refs": [
         {"source_id": "SRC-ARCANUM-INVOKE-DEFINE", "selector": "## What Define produces"},
         {"source_id": "SRC-ARCANUM-INVOKE-DEFINE", "selector": "## What Define does not approve"},
-        {"source_id": "SRC-CAV2-OUTCOME-MODEL", "selector": "## Product Output: Definition Pack"}
+        {"source_id": "SRC-CAV2-OUTCOME-MODEL", "selector": "## Product Output: Definition Pack"},
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "The Definition Pack preserves the identity and digest"}
       ],
       "owner_route": "Invoke product or domain owner",
       "candidate_status": "candidate",
@@ -446,6 +497,29 @@
       ]
     },
     {
+      "id": "CA2-RULE-DEFINE-LANGUAGE-APPLICATION",
+      "label": "Apply Bounded Language Or Expose The Gap",
+      "role": "business_rule",
+      "plain_language": "Define uses exact usable language bindings and turns missing, stale, conflicting, ambiguous, or owner-unresolved language into a visible proposal or question.",
+      "claim": "For one bounded Define goal, each applied language meaning is traceable to the consulted Language Context View and source digest; Define must not invent equivalence, silently choose an open realization, or drop blocked-use and owner information.",
+      "scope": "Language application by Define and preservation in its Definition Pack; not general reasoning correctness or definition promotion.",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-PRODUCT-THESIS", "selector": "## Language-Guided Agent Work"},
+        {"source_id": "SRC-CAV2-LANGUAGE-REALIZATION-BINDINGS", "selector": "selected_domainspec_type_ref"},
+        {"source_id": "SRC-CAV2-LANGUAGE-EDGE-VOCABULARY", "selector": "known_conflicts"},
+        {"source_id": "SRC-CAV2-LANGUAGE-AUTHORITY-BINDINGS", "selector": "blocked_use"}
+      ],
+      "owner_route": "Invoke product or domain owner plus CyberAlchemy v2 Language Project owner",
+      "candidate_status": "candidate",
+      "evidence_confidence": "high",
+      "commitment_confidence": "committed",
+      "authority_effect": "none",
+      "forbidden_collapse": "Not permission to infer missing meaning, promote a definition, select an unresolved DomainSpec type, discard a language conflict, or claim correct agent interpretation.",
+      "open_questions": [
+        "Which Definition Pack field will preserve the view identity, digest, and applied binding references?"
+      ]
+    },
+    {
       "id": "CA2-CAP-GOVERNANCE-ENFORCEMENT",
       "label": "Governance Enforcement",
       "role": "capability",
@@ -593,6 +667,110 @@
       "authority_effect": "none",
       "forbidden_collapse": "Not a run, finding, causal result, execution authorization, or product proof.",
       "open_questions": ["Which accepted local execution envelope will authorize the first run?"]
+    },
+    {
+      "id": "CA2-RULE-DOMAINSPEC-GOVERNED-CONSTRUCTION",
+      "label": "Build CyberAlchemy Systems Through DomainSpec",
+      "role": "business_rule",
+      "plain_language": "Define the meaning, model the product and capability, author the system in DomainSpec v2, generate its system ontology, then build and prove against that exact model.",
+      "claim": "Every new or materially revised CyberAlchemy implementation-bearing system or capability must preserve one exact chain from canonical definitions through product and business meaning, DomainSpec v2 source, deterministic compiled graph and system ontology, accepted implementation binding, and conformance evidence.",
+      "scope": "CyberAlchemy v2 product construction for implementation-bearing systems and capabilities; validation utilities, receipts, migrations, and mechanical governance repairs are excluded unless they claim product or system meaning.",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant"}
+      ],
+      "owner_route": "CyberAlchemy v2 product ontology owner plus DomainSpec v2 construction owners",
+      "candidate_status": "candidate",
+      "evidence_confidence": "high",
+      "commitment_confidence": "committed",
+      "authority_effect": "none",
+      "forbidden_collapse": "A product rule is not a ConstructionBinding, DomainSpec source, generated system ontology, implementation admission, conformance verdict, Constitution adoption, or runtime enforcement.",
+      "open_questions": [
+        "Which first bounded CyberAlchemy capability will exercise the complete construction chain?"
+      ]
+    },
+    {
+      "id": "CA2-PRODUCT-CRAFT",
+      "label": "Craft",
+      "role": "product",
+      "plain_language": "The Product inside CyberAlchemy that turns Product intent into evidence-bearing working systems.",
+      "claim": "Craft is the current name of the DomainSpec v2 Product lineage and owns a draft proposition for preserving one owner-controlled chain from Product Feature and domain meaning through exact realization, construction, independent conformance, operation, recovery, and evolution.",
+      "scope": "The private Craft Product identified by CA2-PRODUCT-CRAFT; DomainSpec v2 is its former name, its thesis is draft, and physical plus authority migration from legacy paths remains pending.",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-CRAFT-PRODUCT-IDENTITY", "selector": "product_id"},
+        {"source_id": "SRC-CAV2-CRAFT-PRODUCT-THESIS", "selector": "## Product Identity"}
+      ],
+      "owner_route": "Craft Product owner plus CyberAlchemy v2 product owner",
+      "candidate_status": "candidate",
+      "evidence_confidence": "high",
+      "commitment_confidence": "conditional",
+      "authority_effect": "none",
+      "forbidden_collapse": "The rename does not make Product, Project, Method, Product Feature, Product Capability, public Arcanum craft capability, or .craft state one identity, and it is not proof that legacy paths already moved or that the Product creates value.",
+      "open_questions": [
+        "Which first bounded Product Feature will test the Craft Product thesis?"
+      ]
+    },
+    {
+      "id": "CA2-PRODUCT-THESIS-CRAFT",
+      "label": "Craft Product Thesis",
+      "role": "thesis",
+      "plain_language": "The draft proposition explaining why the Craft Product should exist and how evidence may require it to change.",
+      "claim": "Craft should reduce repeated architecture and integration work by preserving typed continuity from Product Feature through runtime evidence and safe evolution.",
+      "scope": "The draft CAV2-D63 Product Thesis for CA2-PRODUCT-CRAFT.",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D63: Product Thesis"},
+        {"source_id": "SRC-CAV2-CRAFT-PRODUCT-THESIS", "selector": "## Thesis"},
+        {"source_id": "SRC-CAV2-CRAFT-PRODUCT-THESIS-RECORD", "selector": "CA2-PRODUCT-THESIS-CRAFT"}
+      ],
+      "owner_route": "Craft Product owner",
+      "candidate_status": "candidate",
+      "evidence_confidence": "medium",
+      "commitment_confidence": "conditional",
+      "authority_effect": "none",
+      "forbidden_collapse": "Not the Product, Project, Method, Product Feature, proof of Product value, architecture selection, implementation, or adoption authority.",
+      "open_questions": [
+        "Which exact owner decision will commit, revise, or reject this thesis digest?"
+      ]
+    },
+    {
+      "id": "CA2-PROJECT-CRAFT",
+      "label": "Craft",
+      "role": "project",
+      "plain_language": "The stable coordination identity for developing and evolving the Craft Product.",
+      "claim": "The Craft Project connects the Product, Method, Goals, owners, evidence, decisions, artifacts, migration work, and residue without owning their separate authority.",
+      "scope": "The proposed CAV2-D60 Project identified by CA2-PROJECT-CRAFT.",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D60: Project"},
+        {"source_id": "SRC-CAV2-CRAFT-PROJECT", "selector": "CA2-PROJECT-CRAFT"},
+        {"source_id": "SRC-CAV2-CRAFT-IDENTITY-DECISION", "selector": "\"project_id\": \"CA2-PROJECT-CRAFT\""}
+      ],
+      "owner_route": "Craft Project owner",
+      "candidate_status": "candidate",
+      "evidence_confidence": "high",
+      "commitment_confidence": "committed",
+      "authority_effect": "none",
+      "forbidden_collapse": "Not the Craft Product, Craft Method, Project folder, Goal, Product Feature, implementation, or authority envelope.",
+      "open_questions": []
+    },
+    {
+      "id": "CAV2-D20",
+      "label": "Craft Method",
+      "role": "method",
+      "plain_language": "CyberAlchemy's repeatable way to carry Product intent through exact construction, checking, operation, recovery, evolution, and owner continuation.",
+      "claim": "The Craft Method is the governed recursive system-building method embodied by the Craft Product and used by the Craft Project; ledgering preserves continuity but is not the whole method.",
+      "scope": "The active canonical CAV2-D20 Method definition and its private CyberAlchemy domain context.",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-DEFINITIONS", "selector": "## CAV2-D20: Craft Method"},
+        {"source_id": "SRC-CAV2-CRAFT-IDENTITY-DECISION", "selector": "\"method_ref\": \"CAV2-D20\""}
+      ],
+      "owner_route": "definitions-governance plus Craft Method owner",
+      "candidate_status": "projected",
+      "evidence_confidence": "high",
+      "commitment_confidence": "committed",
+      "authority_effect": "none",
+      "forbidden_collapse": "Not the Craft Product, Craft Project, Product Thesis, Product Feature, DomainSpec model, generator, runtime, public Arcanum craft capability, or .craft ledger state.",
+      "open_questions": [
+        "Which first bounded Product Feature will exercise every required Method stage?"
+      ]
     }
   ]
 }

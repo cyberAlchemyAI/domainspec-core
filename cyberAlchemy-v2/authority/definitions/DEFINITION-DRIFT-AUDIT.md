@@ -2,7 +2,7 @@
 
 Status: active
 Owner: definitions-governance
-Last updated: 2026-08-29
+Last updated: 2026-08-31
 
 ## Audit Scope
 
@@ -63,6 +63,14 @@ This first audit covered the starter artifacts created for CyberAlchemy v2:
 | UX/UI knowledge needed a lens-specific governance interface so interface lessons, browser evidence, accessibility checks, screenshot review, studio intents, and human-study residue can feed knowledge promotion without becoming a false UX authority. | fixed | Promoted `CAV2-D45` UX/UI knowledge governance, `CAV2-D46` experience evidence lifecycle, and `CAV2-D47` interface evidence boundary. These definitions make `ux-lessons`, `ux-evidence-validator`, and `ui-prototyping-studio` part of a governed experience-knowledge view while preserving the guardrail that browser evidence, UX patterns, screenshots, and subjective claims do not promote themselves. |
 | CyberAlchemy value framing now uses `synergetic cybernetic human-machine integration` as a load-bearing proposition across CAV2 and IDE Ergonomics. | flag | Added [source-clusters/cyberalchemy.md](source-clusters/cyberalchemy.md) with candidate `CAV2-CAND-HMI-001`, wired it into T5, and resolved promotion-prep blockers in [the HMI decision record](../decisions/2026-06-23-hmi-candidate-promotion-prep.md). Do not promote until a canonical definition draft, index sync, drift audit, and Connective proof fixture or owner approval exist. |
 | `constitution`, `invariant`, and `axiom` are all load-bearing in CAV2 imports, but their role boundary was implicit and later Constitution references incorrectly reused `CAV2-D34` (Authority). | fixed | `CAV2-D53` defines Axiom, `CAV2-D54` defines Invariant, and `CAV2-D58` now defines Constitution. `CAV2-D34` remains Authority. Axiom grounds; Invariant states the must-hold condition; Constitution carries owner-adopted scoped rules and policies; validators or gates perform or check enforcement. |
+
+## Knowledge Exchange Protocol Ordering Audit — 2026-08-31
+
+| Finding | Status | Remediation |
+| --- | --- | --- |
+| Knowledge Exchange Protocol business vocabulary was initially placed in shared CyberAlchemy-v2 definition authority even though it had only one product consumer. | fixed | Relocated the terms to the product-local [Knowledge Exchange Protocol definitions](../../product/knowledge-exchange-protocol/authority/definitions/DEFINITIONS.md) as `KEP-D1` through `KEP-D12`. Reserved `CAV2-D70` through `CAV2-D81` as withdrawn IDs that must not be reused. |
+| The candidate business ontology does not yet bind its concepts and rules to the exact product-local definition IDs and digest. | flag | Route through `CA2-ROUTE-GOVERNANCE`; admit a digest-bound ontology candidate only after exact mapping and dependency-closure validation. |
+| DomainSpec-generated and Rust implementation artifacts already exist downstream of the unbound candidate ontology. | blocked successor claim | Treat them as premature candidate evidence. Do not claim DomainSpec admission, implementation conformance, Solana realization, publication, or deployment until the ontology is admitted and the successors are rebuilt or proven exact against that admitted predecessor. |
 
 ## Undefined Critical Terms
 

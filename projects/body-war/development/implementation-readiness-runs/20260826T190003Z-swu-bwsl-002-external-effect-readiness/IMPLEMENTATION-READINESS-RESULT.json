@@ -1,0 +1,203 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "body-war-task-session-terminal-readiness-result",
+  "receipt_id": "BW-BWSL002-TASK-SESSION-BLOCK-20260826T191625Z",
+  "run_id": "20260826T190003Z-swu-bwsl-002-external-effect-readiness",
+  "recorded_at": "2026-08-26T19:16:25Z",
+  "task": "SWU-BWSL-002",
+  "task_label": "One real import/submission witness",
+  "series_intent": "none",
+  "resolution": {
+    "mode": "explicit",
+    "source": "visible-session-context",
+    "session_recovery": "visible",
+    "candidate_count": 1,
+    "ambiguity_count": 0,
+    "selected_source_path": "projects/body-war/development/invoke-runs/20260826T132848Z-body-war-continuation-material/material-package/postimages/projects/body-war/docs/features/strava-linked-pilot/WORK-PACK.md",
+    "selected_source_sha256": "d5702d395f1f5ef0a23b1827b9f30f68ade3b0547d3f9ceed45c6887e4efb10e",
+    "selected_source_state": {
+      "status": "refresh-candidate",
+      "execution_designation": "non-executing",
+      "selected_swu": "none"
+    }
+  },
+  "result": "BLOCK",
+  "execution_result": "BLOCK",
+  "effect_execution": "not-entered",
+  "effect_request_emitted": false,
+  "objective": "Determine whether the exact selected privacy policy and current normal Body War path can be frozen for one separately authorized real Strava import/submission witness.",
+  "outcome": "The current app compiles and its executable bytes match source, but the selected privacy policy is not technically runnable. No live effect request was emitted.",
+  "dependencies": [
+    {
+      "id": "SWU-BWSL-000",
+      "result": "pass",
+      "receipt_sha256": "cacf9624a9b015f3d05b2f4714462a76f1b2830cb8f100915e6e6a4f9e424602"
+    },
+    {
+      "id": "SWU-BWSL-001",
+      "result": "pass",
+      "receipt_sha256": "1b675be54a89f97b531f93e6c793ff82404c8e100bdfbe534a847455323f4007"
+    },
+    {
+      "id": "OWNER-BWSL-001",
+      "result": "PASS-policy-selected",
+      "selection_receipt_sha256": "541f9cf40e686a68f188847641ab051033c9b9833c6103c6b1f95ed4ebd0b515",
+      "terminal_record_sha256": "d90ef8a33769f995cb8c1dde8b87f0e25b0a396ce6dc050cbd46280403b6f205",
+      "external_effect_authority": "none"
+    }
+  ],
+  "context_pack": {
+    "path": "CONTEXT-PACK.md",
+    "sha256": "3e66bff37eb1d5aa44a30040a35287247de8f582f7eeda54dd9fb7a1a6723df4",
+    "repository_files": 12,
+    "external_primary_sources": 2,
+    "strict_coverage": "pass",
+    "coverage_meaning": "All obligations are represented strongly enough to support a BLOCK verdict."
+  },
+  "decisions": {
+    "new_decisions_resolved": 0,
+    "blocker_level_human_choice": false,
+    "decision_gate_result": "n/a",
+    "reason": "The remaining conditions are implementation, evidence, environment, and external-authority gaps; owner policy was already selected."
+  },
+  "gate_verdict": "BLOCK before credentials, private identity, OAuth, provider calls, database mutation, or external-effect request emission.",
+  "blockers": [
+    {
+      "id": "BWSL002-PLAN-SELECTION-ABSENT",
+      "class": "task-admission",
+      "status": "open",
+      "evidence": "The live bound Work Pack remains a non-executing refresh candidate with selected_swu none.",
+      "unblock": "A later exact execution route must supply current task selection/admission or an explicitly authorized fast-lane equivalent without entering the deferred Invoke repair in this run."
+    },
+    {
+      "id": "BWSL002-SUPERVISOR-ABSENT",
+      "class": "acceptance-critical-implementation",
+      "status": "open",
+      "evidence": "No independent Postgres cleanup process, liveness trigger, deadline trigger, command, or abnormal-termination integration proof exists.",
+      "unblock": "Implement and independently validate the exact CLEANUP-SUPERVISOR-CONTRACT.json."
+    },
+    {
+      "id": "BWSL002-PRIVATE-LOCATOR-ABSENT",
+      "class": "acceptance-critical-implementation",
+      "status": "open",
+      "evidence": "No private durable control record prebinds the exact principal, and Postgres generates the evidence UUID only at insert time.",
+      "unblock": "Prebind the private principal and reserve the exact evidence identifier before OAuth; prove exact-only cleanup."
+    },
+    {
+      "id": "BWSL002-NO-REFRESH-GUARD-ABSENT",
+      "class": "acceptance-critical-implementation",
+      "status": "open",
+      "evidence": "strava-oauth.ts automatically calls refreshStravaTokenPair when the stored token is expired.",
+      "unblock": "Add a fail-closed witness mode that stops before the normal seam whenever refresh would be required, with zero refresh-call proof."
+    },
+    {
+      "id": "BWSL002-EXACT-SCOPE-GUARD-ABSENT",
+      "class": "acceptance-critical-provider-compatibility",
+      "status": "open",
+      "evidence": "The callback stores the returned scope and may default it, but does not require the granted set to equal exactly read plus activity:read.",
+      "unblock": "Validate the exact granted set after token exchange and fail closed before activity listing on mismatch."
+    },
+    {
+      "id": "BWSL002-RECEIPT-PRODUCER-ABSENT",
+      "class": "acceptance-critical-implementation",
+      "status": "open",
+      "evidence": "The run-local schema is strict, but no product producer or semantic validator emits the permitted durable non-private receipt after verified cleanup.",
+      "unblock": "Implement the producer, semantic value checks, hostile-field tests, and terminal post-cleanup validation."
+    },
+    {
+      "id": "BWSL002-ENVIRONMENT-IDENTITY-NOT-FROZEN",
+      "class": "acceptance-critical-environment",
+      "status": "open",
+      "evidence": "Postgres/fake-mode/callback/origin configuration, supervisor binary, private binding, and app-controlled copy/log absence are not frozen; secret values were deliberately not read.",
+      "unblock": "At a later pre-effect gate, freeze only the non-secret configuration digest and prove every copy/log condition without exposing credentials or private identifiers."
+    },
+    {
+      "id": "BWSL002-EXTERNAL-AUTHORITY-ABSENT",
+      "class": "external-effect-authority",
+      "status": "open",
+      "evidence": "OWNER-BWSL-001 selected policy only, and the blocked envelope forbids effect-request emission.",
+      "unblock": "After every technical blocker closes and exact bytes pass independent review, emit at most one immutable single-use external-effect request and obtain its exact confirmation."
+    }
+  ],
+  "blocker_fingerprint": {
+    "algorithm": "sha256",
+    "value": "3e8cc0028a460f51697eb662995cb21eafc677d0b940de7a64deb4048fa28cf7",
+    "canonical_input": "task-session|SWU-BWSL-002|no-effect-readiness|supervisor-absent;locator-preallocation-absent;no-refresh-guard-absent;exact-scope-guard-absent;nonprivate-receipt-producer-absent;environment-config-not-frozen;external-effect-authorization-absent|workpack:d5702d395f1f5ef0a23b1827b9f30f68ade3b0547d3f9ceed45c6887e4efb10e|owner:d90ef8a33769f995cb8c1dde8b87f0e25b0a396ce6dc050cbd46280403b6f205|candidate-source:ec121f25988f1c10d23dc3653a437e27cd841631e66cb833566f0557b2e62c5c"
+  },
+  "validation": {
+    "path": "READINESS-VALIDATION-RECEIPT.json",
+    "bytes": 7140,
+    "sha256": "9e658e69f163113d677190cd051a5603e4cb0ed9a85e7506168327dacd6a4430",
+    "result": "pass-for-accurate-BLOCK",
+    "acceptance_critical": true,
+    "product_compile": "pass",
+    "isolated_emit_matches_dist": true,
+    "receipt_schema_and_hostile_matrix": "pass"
+  },
+  "independent_review": {
+    "path": "INDEPENDENT-READINESS-REVIEW.md",
+    "bytes": 3189,
+    "sha256": "27a6e421a6b4bca5c049695626f3f8805aeb3af95356288957d7c41a548971f5",
+    "result": "PASS-for-accurate-BLOCK",
+    "remaining_package_defects": 0
+  },
+  "provider_claim_boundary": {
+    "current_official_sources": [
+      "https://developers.strava.com/docs/authentication/",
+      "https://developers.strava.com/docs/reference/"
+    ],
+    "checked_on": "2026-08-26",
+    "body_war_local_disposition": "token rows deleted and provider-account metadata disconnected",
+    "strava_side_deauthorization": "not performed, not authorized, and not proved",
+    "source_activity_deletion": "out of scope and not claimed"
+  },
+  "closeout": {
+    "sync": "block",
+    "authorization": "not-derivable",
+    "reason": "The terminal evidence adds specific blocker and route detail, but no declared closeout target inventory or current baselines authorize lifecycle mutation, and the user explicitly excluded the deferred Invoke repair.",
+    "owner_dispatch": "none",
+    "owner_receipt": null,
+    "synchronized_records": [],
+    "continuity_cursor": null
+  },
+  "continuation": {
+    "handoff_path": "CONTINUATION-HANDOFF.json",
+    "optional_route_status": "not-requested",
+    "selected_proposal_route": "implementation-readiness:standard",
+    "dispatch_count": 0,
+    "join_count": 0,
+    "returned_next_route": null
+  },
+  "subagent_closeout": {
+    "result": "pass",
+    "spawned": 1,
+    "joined": 1,
+    "closed": 1,
+    "blocked": 0,
+    "timed_out": 0,
+    "handed_off": 0,
+    "open": 0,
+    "residue": "none",
+    "changed_bytes": []
+  },
+  "changed_bytes": {
+    "run_local_evidence_files": 11,
+    "product_files": [],
+    "canonical_planning_files": [],
+    "deferred_invoke_repair_files": [],
+    "git_actions": []
+  },
+  "external_effects": {
+    "credentials_read": false,
+    "private_identity_read": false,
+    "oauth_started": false,
+    "provider_calls": 0,
+    "real_activity_read": false,
+    "database_or_evidence_mutation": false,
+    "cleanup_executed": false,
+    "effect_request_emitted": false
+  },
+  "experiment_harness": "not_applicable",
+  "follow_up": "Run implementation-readiness for one separately admitted no-effect SWU-BWSL-002 prerequisite patch covering the supervisor, private locator, no-refresh and exact-scope guards, and receipt producer. Do not re-enter this Task Session with the unchanged blocker fingerprint.",
+  "authority_ceiling": "Terminal BLOCK readiness evidence only. It grants no product mutation, credential/private identity access, OAuth, provider call, real-data read, database/evidence mutation, cleanup execution, effect request, SWU-BWSL-002 completion, deferred Invoke repair, Git action, publication, deployment, promotion, release, or production authority."
+}

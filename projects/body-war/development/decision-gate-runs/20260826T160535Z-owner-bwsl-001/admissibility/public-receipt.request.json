@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OWNER-BWSL-001-D2-PUBLIC-RECEIPT",
+  "candidates": [
+    {
+      "optionId": "D2-A-MINIMAL-PROOF",
+      "label": "Publish proof fields and hashes only, without activity values",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "publication",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [
+        "WORK-PACK.md:118-124 requires an explicit permitted-public-field decision.",
+        "The SWU-BWSL-001 receipt proves the activity summary can be represented by an allowlist and hashed without exposing raw provider payload.",
+        "A public receipt can prove versions, scope, counts, outcomes, omission assertions, and disposition using non-correlatable witness aliases and digests."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D2-B-EIGHT-FIELD-VALUES",
+      "label": "Publish the eight redacted ActivitySummary values",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "publication",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [
+        "The implemented ActivitySummary projection is token-free and coordinate-free.",
+        "Its name and start_date values can still make a public witness more linkable, so this option requires an explicit privacy-owner choice."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D2-C-DEFER",
+      "label": "Defer the public receipt field policy",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Deferral prevents publication and leaves the real witness blocked."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D2-D-STOP",
+      "label": "Stop the real-witness sequence",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Stopping publishes no new runner or activity evidence."
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

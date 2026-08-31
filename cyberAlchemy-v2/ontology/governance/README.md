@@ -22,6 +22,7 @@ replace them.
 
 - 17 candidate DomainSpec v2-aligned governance concept types;
 - 15 typed governance relation contracts;
+- 2 candidate governed invariant instances and 2 candidate operational rule instances;
 - separate semantic, lifecycle, currentness, authority, product, and evidence
   identity axes;
 - 9 target-level bindings into a 43-node Governance business product ontology;
@@ -96,6 +97,37 @@ Governance Rule --is measured by--> Friction Metric Contract
 This is a typed graph, not a mandatory linear process. Every relation has
 `authority_effect: none` and `enforcement_effect: none`.
 
+The first concrete instance registration keeps the type and instance layers
+separate:
+
+```text
+CAV2-D64 --registered as--> GOV-INV-CAV2-D64
+GOV-INV-CAV2-D64 --is operationalized by-->
+  GOV-RULE-D64-BINDING-COMPLETE
+```
+
+The invariant is active in canonical definition authority. Its ontology
+registration and operational rule remain candidate, review-only, not adopted,
+and non-effectful. The missing semantic version, axiom grounding, Constitution,
+concrete binding evaluation, and runtime integration remain explicit residue.
+The Project package's closed empty binding registry makes the record shape and
+reference direction first-class without claiming a binding exists.
+
+The second concrete registration adds the DomainSpec-governed construction
+invariant without changing the registry schema:
+
+```text
+CAV2-D65 --registered as--> GOV-INV-CAV2-D65
+GOV-INV-CAV2-D65 --is operationalized by-->
+  GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE
+```
+
+It records the required definitions-to-product-to-business-to-DomainSpec-to-
+system-ontology-to-implementation order as a candidate review rule. No machine
+`ConstructionBinding` registry, transition validator, compiler gate, admitted
+system ontology, accepted implementation binding, conformance proof,
+Constitution adoption, or runtime enforcement exists in this slice.
+
 ## DomainSpec v2 Meta-Types
 
 The package uses the active DS-D1 meanings rather than a parallel type system:
@@ -160,11 +192,14 @@ authority, or force unrelated refreshes. See `identity-policy.json`.
 | `sources.json` | Materialization sources, import provenance, and live selector bindings. |
 | `nodes.json` | Governance concept types and DomainSpec v2 meta-type mappings. |
 | `relations.json` | Allowed typed governance relations. |
+| `invariants.json` | Candidate registrations of concrete canonical invariants. |
+| `rules.json` | Candidate operational rules and typed invariant links. |
 | `product-bindings.json` | Target-level links to module-owned Governance product meaning. |
 | `product/` | Standalone Governance business product ontology package. |
 | `identity-policy.json` | Separation of identity, currentness, lifecycle, and digest roles. |
 | `residue.json` | Explicit unresolved work and claim limits. |
 | `migration.json` | Selective seed import, exclusions, and superseded bindings. |
+| `schema-amendment-d64.json` | Candidate profile-v2 migration and rollback witness. |
 | `module.json` | Standalone module identity, owned ontologies, and CyberAlchemy host context. |
 | `documents.json` | Registry and heading contract for candidate perennial documents. |
 | `docs/` | Maintained human specifications for the Governance project. |

@@ -66,6 +66,20 @@ That handling choice is called a **disposition**:
 
 The checked bundle is called a **Definition Pack**.
 
+## Handled Definition Registry
+
+Define keeps context-bound definition handling records in a separate candidate
+registry. A record identifies the concept and context, states one current
+disposition—reuse, specialize, propose, or open—and retains its exact sources,
+decision owner, consumers, and challenge or refresh route.
+
+The registry is not the canonical definition store. Its product owner owns the
+registry asset, Definitions Governance stewards the record contract, source and
+decision owners retain authority over meaning, and a later runtime may only
+persist records under a separately accepted implementation contract. The
+initial registry is empty because no real bounded Define context has yet
+produced a handled record in this package.
+
 ## Why Define Exists
 
 Teams lose time when:

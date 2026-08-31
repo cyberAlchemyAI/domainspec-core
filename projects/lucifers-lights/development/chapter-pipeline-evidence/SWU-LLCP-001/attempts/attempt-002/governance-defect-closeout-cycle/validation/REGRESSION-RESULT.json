@@ -1,0 +1,38 @@
+{
+  "schema_version": "llcp.closeout-reference-dag-validation/v1",
+  "result": "pass",
+  "candidate_schema_validation": {
+    "command": "python3 -m json.tool <candidate-schema-or-contract>",
+    "documents": [
+      "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/governance-defect-closeout-cycle/candidate/schemas/llcp-continuation-state.schema.json",
+      "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/governance-defect-closeout-cycle/candidate/schemas/llcp-invoke-refresh-closeout-receipt.schema.json",
+      "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/governance-defect-closeout-cycle/candidate/REFERENCE-ORDER-CONTRACT.json"
+    ],
+    "exit_code": 0,
+    "result": "pass"
+  },
+  "focused_regression": {
+    "command": "python3 projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/governance-defect-closeout-cycle/regression/test_closeout_reference_dag.py",
+    "exit_code": 0,
+    "tests_run": 4,
+    "assertions": [
+      "live exact-reference graph contains a cycle",
+      "candidate schemas are valid Draft 2020-12 schemas",
+      "candidate schema deltas reverse exactly to live baselines after removing candidate annotations",
+      "candidate exact-reference graph is acyclic and satisfies the declared emission order",
+      "future edges are path-bound and all downstream proof edges remain digest-bound"
+    ],
+    "result": "pass"
+  },
+  "emission_order": [
+    "precloseout_execution",
+    "invoke_owner",
+    "continuation_router",
+    "continuation_state",
+    "task_session_terminal"
+  ],
+  "authority_effect": "none",
+  "network_effect": false,
+  "product_effect": false,
+  "canonical_apply": false
+}

@@ -1,6 +1,6 @@
 {
-  "$schema": "https://domainspec.dev/schemas/project-runtime/v1",
-  "schema_version": "domainspec.project-runtime/v1",
+  "$schema": "https://domainspec.dev/schemas/project-runtime/v2",
+  "schema_version": "domainspec.project-runtime/v2",
   "runtime_id": "domainspec-v2-node@26.8.1",
   "status": "selected-and-fail-closed",
   "owner_decision": {
@@ -21,20 +21,26 @@
       "manager": "pnpm",
       "version": "10.34.5",
       "manifest": "projects/domainspec-v2/impl/package.json",
-      "lockfile": "projects/domainspec-v2/impl/pnpm-lock.yaml"
+      "lockfile": "pnpm-lock.yaml",
+      "resolution_root": ".",
+      "dependency_authority": "repository-pnpm-workspace"
     },
     "test_derivation_engine": {
       "manager": "pnpm",
       "version": "10.34.5",
       "manifest": "projects/domainspec-v2/impl/test-derivation-engine/package.json",
-      "lockfile": "projects/domainspec-v2/impl/test-derivation-engine/pnpm-lock.yaml"
+      "lockfile": "pnpm-lock.yaml",
+      "resolution_root": ".",
+      "dependency_authority": "repository-pnpm-workspace"
     },
     "private_cli_build_contract": {
       "manager": "npm",
       "version": "11.19.0",
       "manifest": "projects/domainspec-v2/impl/cli/package.json",
-      "lockfile": "projects/domainspec-v2/impl/package-lock.json",
-      "clean_root_build_proven": false
+      "lockfile": "projects/domainspec-v2/impl/cli/package-lock.json",
+      "container_execution_lockfile": "pnpm-lock.yaml",
+      "dependency_authority": "standalone-npm-clean-package",
+      "clean_root_build_proven": true
     }
   },
   "live_runtime_surfaces": [
@@ -53,10 +59,12 @@
     "preserved_node_24_decision": "projects/domainspec-v2/development/first-production-release/decisions/2026-08-16-first-stable-foundation-candidate.md"
   },
   "canonical_meta_type_baseline": {
-    "id": "domainspec-meta-types-current-implemented@2",
-    "digest": "10c29c2a4feb5039b6c90dcd7e2d44024757b4dd2414f9c0383c82387ec6e836",
-    "manifest": "projects/domainspec-v2/development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v2.json",
-    "runtime_migration_effect": "none-on-771-frozen-implementation-bytes"
+    "id": "domainspec-meta-types-current-implemented@10",
+    "digest": "bfbc335d151ab8b29150dc95f246c2bc0954cff179ece5ce51222b2d1455abda",
+    "manifest": "projects/domainspec-v2/development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v10.json",
+    "manifest_sha256": "4e8c72e3c59308bf7f476a2365d0ba66e149534b8dfddb4ad8b555e454edbf59",
+    "frozen_evidence_files": 847,
+    "runtime_projection_policy": "RUNTIME.json and validate-runtime.mjs are current baseline projections excluded from baseline digest membership and independently exact-validated."
   },
   "validation": {
     "command": "toolchains/node-typescript/bin/node-env run --project projects/domainspec-v2/impl -- node ../validate-runtime.mjs",
@@ -66,7 +74,9 @@
   "claim_ceiling": {
     "node_26_runtime_selected": true,
     "container_validation_required": true,
-    "generated_target_conformance": false,
+    "generated_target_conformance": true,
+    "system_integration_contract_profiles_implemented": true,
+    "system_integration_provider_runtime_implemented": false,
     "publication": false,
     "release": false,
     "deployment": false,

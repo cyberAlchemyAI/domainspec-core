@@ -200,6 +200,35 @@ against admission, and every lifecycle scope must name its owner and closed
 write class. Requests without this opt-in contract retain the legacy exact
 route-to-executor closure rule.
 
+When actual preparation will persist repository-local control evidence, require
+the additional `task-session.live-control-evidence-partition.v1` opt-in before
+the first such write. Keep it control-only and enumerate every exact readiness,
+selection, fast-entry, context, admission, governance, ticket, ledger,
+reconciliation, commit-evidence, and preparation-receipt output with its owner,
+write class, attempt, absent baseline, and expected postimage when known. Its
+normalized union must be disjoint from material, executor, terminal,
+lifecycle-owner, transient, and run-directory scopes.
+
+Enter that route only through `scripts/prepare_live_execution_entry.py`. The
+coordinator must validate the canonical emitted request and exact accepted
+`ACCEPT-{request_id}-{request_digest}` response, one-attempt authority ceiling,
+all absent live baselines, and every versioned invocation input closure before
+any producer writes. Re-derive each `task-session.invocation-input-closure.v1`
+from its declared owner-package roots and explicit exact cross-package refs;
+block missing, stale, or extra files. Execute producers in exact-input isolated
+transactions and atomically materialize only declared postimages after a fresh
+live-baseline check. Models do not hand-author those control outputs.
+
+When a deliberate or real failure occurs before admission, use the bound
+`task-session.pre-execution-failure-terminalization.v1` profile rather than a
+successful closeout schema. Its Task Session terminal, Invoke owner-block, and
+continuity receipts must preserve the accepted request/response, task, SWU,
+attempt, exact present control subset, schema identities, and canonical blocker
+fingerprint while explicitly claiming zero admission, ticket, execution,
+reconciliation, commit, successful owner closeout, material, external,
+selection, or successor effect. Do not weaken or reinterpret the successful
+precloseout/terminal contracts.
+
 9a. After exact task/SWU resolution and before Context Builder, classify any
 declared `PreExecutionOwnerPrerequisite` with
 `scripts/classify-pre-execution-prerequisite.py`. Read only the selected work

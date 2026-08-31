@@ -1,10 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import {
-  executeWorkflowCompensation,
-  planWorkflowCompensation,
-  WorkflowCompensationError,
-} from "./workflow-compensation-v1.js";
+import { executeWorkflowRecovery, planWorkflowRecovery, WorkflowRecoveryError } from "./workflow-compensation-v1.js";
 
 const mappings = Object.freeze([
   Object.freeze({ stepId: "reserve", operationId: "release-reservation", dependsOn: Object.freeze([]) }),
@@ -12,126 +8,158 @@ const mappings = Object.freeze([
   Object.freeze({ stepId: "persist", operationId: "restore-settlement", dependsOn: Object.freeze([]) }),
 ]);
 
-describe("Workflow compensation v1", () => {
-  it("plans forward-recovery Operations in reverse completed-step order by default", () => {
-    const intent = planWorkflowCompensation({
+const plan = (overrides: Partial<Parameters<typeof planWorkflowRecovery>[0]> = {}) => planWorkflowRecovery({
+  workflowId: "settlement-workflow",
+  workflowExecutionId: "settlement-run-1",
+  failureOccurrenceId: "publish-failure-1",
+  failedStepId: "publish",
+  completedStepIds: ["reserve", "charge", "persist"],
+  orchestratedOperationIds: ["release-reservation", "refund-payment", "restore-settlement"],
+  mappings,
+  ...overrides,
+});
+
+describe("Workflow recovery v1", () => {
+  it("separates the not-required Workflow result from Recovery Intent existence", () => {
+    expect(plan({ completedStepIds: [], mappings: [] })).toEqual({
+      schemaVersion: "domainspec.workflow-recovery-decision/v1",
+      workflowEvaluationResult: "not-required",
+      recoveryIntent: null,
+    });
+  });
+
+  it("creates one immutable required intent and reverses completed-step order by default", () => {
+    const decision = plan();
+    expect(decision.workflowEvaluationResult).toBe("recovery-required");
+    expect(decision.recoveryIntent).toMatchObject({
+      semanticStatus: "required",
+      workflowId: "settlement-workflow",
       workflowExecutionId: "settlement-run-1",
-      failedStepId: "publish",
-      completedStepIds: ["reserve", "charge", "persist"],
-      mappings,
+      failureOccurrenceId: "publish-failure-1",
     });
-
-    expect(intent.state).toBe("requested");
-    expect(intent.plan.map(({ operationId }) => operationId)).toEqual([
+    expect(decision.recoveryIntent?.plan.map(({ operationId }) => operationId)).toEqual([
       "restore-settlement",
       "refund-payment",
       "release-reservation",
     ]);
-    expect(intent.plan[0]?.idempotencyKey).toBe("settlement-run-1:persist:restore-settlement");
+    expect(decision.recoveryIntent?.intentId).toMatch(/^[a-f0-9]{64}$/);
+    expect(decision.recoveryIntent?.planDigest).toMatch(/^[a-f0-9]{64}$/);
+    expect(decision.recoveryIntent).toMatchObject({
+      completedStepJournalDigest: "4cb1e45d4a5cb20b9625486c7f5ad3cfbbf618d88783231ca7d34f999b58f27f",
+      planDigest: "745351ce2d5f9bcb7addce926290c57ac0adf5fe3c7c41a899a551abb3964059",
+      intentId: "98c6bdc1708fa2c8bbd0d2663c55aa6604e1fc57dccb0938b5dc507a10b1381e",
+    });
+    expect(decision.recoveryIntent?.plan.map(({ invocationIdentity }) => invocationIdentity)).toEqual([
+      "bbaf6487f752a17045c7be19b0b97b5806df9b685d4a26e02472b9945ceac946",
+      "4747d078775519d295004113cd3be9140a74ca77caa5f7108c8422b30626b23f",
+      "7377dcb316f57ddde660cc468222cb29973d3095c9d2313e48278de648fc5bb4",
+    ]);
   });
 
-  it("honors explicit dependencies and uses reverse completion only as the tie-breaker", () => {
-    const intent = planWorkflowCompensation({
-      workflowExecutionId: "settlement-run-2",
-      failedStepId: "publish",
-      completedStepIds: ["reserve", "charge", "persist"],
-      mappings: [
-        mappings[0]!,
-        mappings[1]!,
-        Object.freeze({ ...mappings[2]!, dependsOn: Object.freeze(["release-reservation"]) }),
-      ],
+  it("honors explicit dependencies before the reverse-completion tie-breaker", () => {
+    const decision = plan({
+      mappings: [mappings[0]!, mappings[1]!, Object.freeze({ ...mappings[2]!, dependsOn: Object.freeze(["release-reservation"]) })],
     });
-
-    expect(intent.plan.map(({ operationId }) => operationId)).toEqual([
+    expect(decision.recoveryIntent?.plan.map(({ operationId }) => operationId)).toEqual([
       "refund-payment",
       "release-reservation",
       "restore-settlement",
     ]);
   });
 
-  it("preflights every binding, executes exact Operations, and exposes state transitions", async () => {
-    const intent = planWorkflowCompensation({
-      workflowExecutionId: "settlement-run-3",
-      failedStepId: "publish",
+  it("gives repeated uses of one Operation distinct stable invocation identities", () => {
+    const input = {
       completedStepIds: ["reserve", "charge"],
-      mappings,
-    });
+      orchestratedOperationIds: ["restore-settlement"],
+      mappings: [
+        Object.freeze({ stepId: "reserve", operationId: "restore-settlement", dependsOn: Object.freeze([]) }),
+        Object.freeze({ stepId: "charge", operationId: "restore-settlement", dependsOn: Object.freeze([]) }),
+      ],
+    } as const;
+    const decision = plan(input);
+    const identities = decision.recoveryIntent?.plan.map(({ invocationIdentity }) => invocationIdentity) ?? [];
+    expect(identities).toHaveLength(2);
+    expect(new Set(identities).size).toBe(2);
+    expect(plan(input)).toEqual(decision);
+  });
+
+  it("rejects a recovery target without Workflow orchestrates evidence", () => {
+    expect(() => plan({ orchestratedOperationIds: ["refund-payment", "restore-settlement"] }))
+      .toThrowError(expect.objectContaining({ code: "RECOVERY_OPERATION_NOT_ORCHESTRATED" }));
+  });
+
+  it("preflights every exact binding before any invocation", async () => {
+    const intent = plan({ completedStepIds: ["reserve", "charge"] }).recoveryIntent!;
+    const invoke = vi.fn(async () => Object.freeze({ ok: true as const }));
+    await expect(executeWorkflowRecovery(intent, [{
+      workflowId: "settlement-workflow",
+      operationId: "refund-payment",
+      failureContinuation: "retry",
+      invoke,
+    }])).rejects.toMatchObject<Partial<WorkflowRecoveryError>>({ code: "RECOVERY_BINDING_MISSING" });
+    expect(invoke).not.toHaveBeenCalled();
+  });
+
+  it("rejects an intent identity that no longer binds its failure and plan", async () => {
+    const intent = plan({ completedStepIds: ["reserve"] }).recoveryIntent!;
+    await expect(executeWorkflowRecovery({ ...intent, intentId: "0".repeat(64) }, []))
+      .rejects.toMatchObject<Partial<WorkflowRecoveryError>>({ code: "RECOVERY_INTENT_ID_MISMATCH" });
+  });
+
+  it("invokes exact Operations without inventing a durable terminal disposition", async () => {
+    const intent = plan({ completedStepIds: ["reserve", "charge"] }).recoveryIntent!;
     const calls: string[] = [];
-    const outcome = await executeWorkflowCompensation(intent, intent.plan.map(({ operationId }) => Object.freeze({
+    const report = await executeWorkflowRecovery(intent, [...new Set(intent.plan.map(({ operationId }) => operationId))].map((operationId) => ({
+      workflowId: "settlement-workflow",
       operationId,
       failureContinuation: "escalate" as const,
-      execute: async (idempotencyKey: string) => {
-        calls.push(`${operationId}:${idempotencyKey}`);
+      invoke: async (identity: string) => {
+        calls.push(`${operationId}:${identity}`);
         return Object.freeze({ ok: true as const });
       },
     })));
-
-    expect(outcome.state).toBe("completed");
-    expect(outcome.executedOperationIds).toEqual(["refund-payment", "release-reservation"]);
+    expect(report).toMatchObject({
+      outcome: "succeeded",
+      recoveryIntentSemanticStatus: "required",
+      durableTerminalDisposition: null,
+    });
     expect(calls).toHaveLength(2);
-    expect(outcome.events.map(({ type }) => type)).toEqual([
-      "CompensationRequested",
-      "CompensationStarted",
-      "CompensationCompleted",
-      "CompensationStarted",
-      "CompensationCompleted",
-    ]);
+    expect(calls.every((call) => /:[a-f0-9]{64}$/.test(call))).toBe(true);
   });
 
-  it("does not mutate before missing bindings are rejected", async () => {
-    const intent = planWorkflowCompensation({
-      workflowExecutionId: "settlement-run-4",
-      failedStepId: "publish",
-      completedStepIds: ["reserve", "charge"],
-      mappings,
-    });
-    const execute = vi.fn(async () => Object.freeze({ ok: true as const }));
-
-    await expect(executeWorkflowCompensation(intent, [{
-      operationId: "refund-payment",
-      failureContinuation: "retry",
-      execute,
-    }])).rejects.toMatchObject<Partial<WorkflowCompensationError>>({ code: "COMPENSATION_BINDING_MISSING" });
-    expect(execute).not.toHaveBeenCalled();
-  });
-
-  it("stops at the first failed Operation and preserves its continuation", async () => {
-    const intent = planWorkflowCompensation({
-      workflowExecutionId: "settlement-run-5",
-      failedStepId: "publish",
-      completedStepIds: ["reserve", "charge"],
-      mappings,
-    });
-    const outcome = await executeWorkflowCompensation(intent, [
+  it("stops at the first failed Operation and preserves its explicit continuation", async () => {
+    const intent = plan({ completedStepIds: ["reserve", "charge"] }).recoveryIntent!;
+    const report = await executeWorkflowRecovery(intent, [
       {
+        workflowId: "settlement-workflow",
         operationId: "refund-payment",
         failureContinuation: "escalate",
-        execute: async () => Object.freeze({ ok: false as const, reason: "gateway-unavailable" }),
+        invoke: async () => Object.freeze({ ok: false as const, reason: "gateway-unavailable" }),
       },
       {
+        workflowId: "settlement-workflow",
         operationId: "release-reservation",
         failureContinuation: "retry",
-        execute: vi.fn(async () => Object.freeze({ ok: true as const })),
+        invoke: vi.fn(async () => Object.freeze({ ok: true as const })),
       },
     ]);
-
-    expect(outcome).toMatchObject({
-      state: "failed",
-      executedOperationIds: [],
-      failedOperationId: "refund-payment",
+    expect(report).toMatchObject({
+      outcome: "failed",
+      executedPlanOccurrenceIds: [],
       failureContinuation: "escalate",
+      reason: "gateway-unavailable",
+      recoveryIntentSemanticStatus: "required",
+      durableTerminalDisposition: null,
     });
   });
 
-  it("rejects cyclic dependency graphs", () => {
-    expect(() => planWorkflowCompensation({
-      workflowExecutionId: "settlement-run-6",
-      failedStepId: "publish",
+  it("rejects cyclic Operation dependencies", () => {
+    expect(() => plan({
       completedStepIds: ["reserve", "charge"],
       mappings: [
         Object.freeze({ stepId: "reserve", operationId: "release-reservation", dependsOn: Object.freeze(["refund-payment"]) }),
         Object.freeze({ stepId: "charge", operationId: "refund-payment", dependsOn: Object.freeze(["release-reservation"]) }),
       ],
-    })).toThrowError(expect.objectContaining({ code: "COMPENSATION_DEPENDENCY_CYCLE" }));
+    })).toThrowError(expect.objectContaining({ code: "RECOVERY_DEPENDENCY_CYCLE" }));
   });
 });

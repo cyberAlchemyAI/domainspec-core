@@ -9,7 +9,7 @@ def evaluate_workflow(descriptor:dict[str,object],observed:dict[str,object])->tu
     elif actual!=expected:findings.append("RMT_WF_STEP_REORDER")
     if observed["scope"]!=descriptor["scope"]:findings.append("RMT_WF_SCOPE_DRIFT")
     if observed["failure_continuation_policy"]!=descriptor["failure_continuation_policy"]:findings.append("RMT_WF_FAILURE_CONTINUATION_MISMATCH")
-    if observed["compensation_policy"]!=descriptor["compensation_policy"] or observed["compensation_intents"] or observed["durable_fact_preservation"]!=descriptor["post_commit_failure_policy"]:findings.append("RMT_WF_COMPENSATION_OVERCLAIM")
+    if observed["compensation_policy"]!=descriptor["compensation_policy"] or observed["recovery_intents"] or observed["durable_fact_preservation"]!=descriptor["post_commit_failure_policy"]:findings.append("RMT_WF_COMPENSATION_OVERCLAIM")
     if observed["direct_effects_executed"]:findings.append("RMT_WF_EXECUTES_EFFECT")
     if observed["binding_state"]!="current":findings.append("RMT_WF_STALE_BINDING")
     if observed["guard_bypass_observed"]:findings.append("RMT_WF_GUARD_BYPASS")
@@ -31,7 +31,7 @@ def evaluate_case(case:dict[str,object])->dict[str,object]:
     if findings:raise ValueError("RMT_WF_PYTHON_REJECTED:"+",".join(findings))
     scenarios=[]
     for scenario in case["scenarios"]:
-        failure=scenario["fail_step_id"]=="publish";scenarios.append({"scenario_id":scenario["scenario_id"],"trace":d["ordered_step_ids"][:3] if failure else d["ordered_step_ids"],"terminal_outcome":"settlement-failed" if failure else "settlement-completed","failed_step_id":scenario["fail_step_id"],"compensation_intents":["forward-recover-settlement"] if failure else [],"compensation_execution":False,"durable_fact_ids":["settlement:req-1"],"durable_fact_preservation":"preserve-durable-facts","direct_effects_executed":[]})
+        failure=scenario["fail_step_id"]=="publish";scenarios.append({"scenario_id":scenario["scenario_id"],"trace":d["ordered_step_ids"][:3] if failure else d["ordered_step_ids"],"terminal_outcome":"settlement-failed" if failure else "settlement-completed","failed_step_id":scenario["fail_step_id"],"recovery_intents":["forward-recover-settlement"] if failure else [],"compensation_execution":False,"durable_fact_ids":["settlement:req-1"],"durable_fact_preservation":"preserve-durable-facts","direct_effects_executed":[]})
     portable={"schema_version":"domainspec.workflow-portable-result/v1","result":"pass","meta_type":"Workflow","scope":d["scope"],"ordered_step_ids":d["ordered_step_ids"],"binding_handle":"workflow-s1-bindings/v1","operation_handle":"operation-transaction-effect-group/v1","state_machine_handle":"state-machine-transition-effect-intent/v1","scenarios":scenarios,"authority_separation":True,"semantic_plan_epoch_id":d["semantic_plan_epoch_id"],"semantic_contract_digest":d["semantic_contract_digest"],"authority_effect":"none"}
     return {"portable":portable,"native_evidence":{"language":"python","mechanism":"pure-ordered-trace-and-forward-recovery-datamodel"}}
 if __name__=="__main__" and sys.argv[1:]==["--evaluate"]:

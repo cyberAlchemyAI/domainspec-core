@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OWNER-BWSL-001-D3-RETENTION",
+  "candidates": [
+    {
+      "optionId": "D3-A-SAME-ATTEMPT-15M",
+      "label": "Delete in the same attempt targeted within 15 minutes, with an independent cleanup supervisor required before any effect",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "destructive",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [
+        "WORK-PACK.md:120 requires retention duration and expiry behavior.",
+        "The memory and PostgreSQL repositories implement and test exact idempotent evidence disposition.",
+        "Same-process finally cleanup covers normal failures; an independently validated cleanup supervisor is required before any effect to cover primary-process termination.",
+        "The 15-minute value is an operating target, not a crash-safe retention ceiling, until that supervisor is admitted."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D3-B-24H-MANUAL",
+      "label": "Retain for at most 24 hours, then perform operator-driven deletion",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "destructive",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [
+        "The existing exact disposition operation can be invoked by an operator at a recorded deadline.",
+        "No automatic expiry scheduler exists, so this option carries greater operational and privacy risk than same-attempt deletion."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D3-C-INDEFINITE",
+      "label": "Retain evidence indefinitely",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "irreversible",
+      "hazardClass": "authority",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [],
+      "rejectionReasons": [
+        "Indefinite retention supplies no expiry behavior and exceeds the bounded single-witness purpose."
+      ]
+    },
+    {
+      "optionId": "D3-D-DEFER",
+      "label": "Defer retention selection",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Deferral stores no real evidence and leaves SWU-BWSL-002 blocked."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D3-E-STOP",
+      "label": "Stop the real-witness sequence",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Stopping creates no real evidence requiring retention."
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

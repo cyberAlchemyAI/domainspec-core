@@ -68,4 +68,3 @@ Broad repository exploration is allowed only for obligations listed in `Gaps And
 
 - Markdown: `<path>`
 - JSON/index: `<path>`
-

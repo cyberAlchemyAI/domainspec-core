@@ -216,6 +216,35 @@ equal the already-bound route. Executor scope still closes exactly against the
 mutation admission. Legacy requests without the partition keep the original
 two-way route-to-executor closure behavior.
 
+A live preparation attempt may further opt into
+`task-session.live-control-evidence-partition.v1`. This control-only contract
+enumerates every repository-local readiness, selection, fast-entry, context,
+admission, governance, ticket, ledger, reconciliation, commit-evidence, and
+preparation-receipt file by exact path, owner, write class, attempt, absent
+baseline, and optional expected postimage. It remains disjoint from material,
+executor, terminal, lifecycle-owner, transient, and run-directory scopes; no
+wildcard or directory-wide write authority is created.
+
+`scripts/prepare_live_execution_entry.py` is the sole first-write coordinator
+for that opt-in route. Before any control producer runs it validates the
+canonical emitted owner request, the exact literal accepted response token,
+the one-attempt authority-write ceiling, every output baseline, and each
+`task-session.invocation-input-closure.v1`. Input closures are deterministically
+rederived from declared owner-package roots plus exact cross-package refs, so
+missing, stale, or extra imports and schemas block before the first write. Each
+producer then runs in an exact-input isolated transaction; only declared
+postimages are atomically materialized after a fresh live-baseline check.
+Shadow mode uses the same transaction engine against an isolated repository.
+
+If preparation blocks before admission, the optional
+`task-session.pre-execution-failure-terminalization.v1` route emits a truthful
+block terminal receipt, an Invoke owner block receipt, and a continuity cursor.
+These receipts bind the accepted request/response, task, SWU, attempt, exact
+present control subset, schemas, and stable blocker fingerprint while declaring
+admission, ticket, executor, reconciliation, commit, successful owner closeout,
+material writes, external effects, and successor execution unavailable. The
+existing successful precloseout and terminal contracts are unchanged.
+
 Task Session must run a context-building pass before decision cards, gate checks, runtime handoff, or mutation. The context pack keeps the selected task/SWU connected to the surrounding architecture, source contracts, work-pack rows, blocker rows, constraints, write scope, validation surface, and local repository conventions.
 
 If required source context is missing, contradictory, or too weak to check the task safely, Task Session returns `BLOCK` with the smallest context gap to resolve. It should not execute from the task file alone when linked architecture or work-pack context can change the correct implementation choice.

@@ -61,7 +61,7 @@ test("emits a deterministic Workflow-only receipt with total nine-property accou
   const first = evaluateWorkflowProfile(input());
   const second = evaluateWorkflowProfile(input());
   assert.deepEqual(first, second);
-  assert.equal(first.result, "incomplete");
+  assert.equal(first.result, "pass");
   assert.equal(first.subject.meta_type_id, "Workflow");
   assert.equal(first.predecessor.projection_swu_id, "RMT-WF-010");
   assert.equal(first.predecessor.operation_type_completion_receipt_used, false);
@@ -70,9 +70,9 @@ test("emits a deterministic Workflow-only receipt with total nine-property accou
     applicable_count: 7,
     not_applicable_count: 2,
     owner_blocked_applicability_count: 0,
-    pass_count: 6,
+    pass_count: 7,
     fail_count: 0,
-    missing_count: 1,
+    missing_count: 0,
     unsupported_count: 0,
     owner_blocked_count: 0,
     unaccounted_property_ids: [],
@@ -82,8 +82,8 @@ test("emits a deterministic Workflow-only receipt with total nine-property accou
   const compensation = first.findings.find(
     (finding) => finding.property_id === "APE.WF.P09-TRAVERSAL-EQUIVALENCE",
   )!;
-  assert.equal(compensation.result, "missing");
-  assert.equal(compensation.diagnostic, "AOP_WF_COMPENSATION_CALLABLE_MISSING");
+  assert.equal(compensation.result, "pass");
+  assert.equal(compensation.diagnostic, "AOP_WF_COMPENSATION_PASS");
   assert.equal(first.authority_effect, "none");
   const { receipt_sha256: _ignored, ...body } = first;
   const canonical = (value: unknown): unknown =>
@@ -131,7 +131,7 @@ test("the emitted receipt validates against the strict Draft 2020-12 schema", ()
 test("recomputes observers and rejects result or join relabeling", () => {
   const relabeled = input();
   relabeled.claimed_results = relabeled.claimed_results.map((claim, index) =>
-    index === 8 ? { ...claim, result: "pass" } : claim,
+    index === 8 ? { ...claim, result: "missing" } : claim,
   );
   assert.throws(() => evaluateWorkflowProfile(relabeled), /AOP_WF_EVALUATOR_STALE_RESULT/);
 
@@ -229,7 +229,7 @@ test("rejects rebound profile, applicability, fixture, and hostile bytes", () =>
     /AOP_WF_EVALUATOR_STALE_APPLICABILITY/,
   );
   const fixture = input();
-  fixture.fixture.expected_property_results[8].result = "pass";
+  fixture.fixture.expected_property_results[8].result = "missing";
   assert.throws(() => evaluateWorkflowProfile(fixture), /AOP_WF_EVALUATOR_STALE_FIXTURE/);
   const hostiles = input();
   hostiles.hostile_catalogue.cases.pop();

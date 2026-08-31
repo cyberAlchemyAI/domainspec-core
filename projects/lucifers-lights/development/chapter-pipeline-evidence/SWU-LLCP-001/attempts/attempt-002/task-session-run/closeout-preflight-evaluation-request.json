@@ -1,0 +1,42 @@
+{
+  "schema_version": "task-session.governance-evaluation-request.v1",
+  "request_id": "llcp-swu-001-attempt-002-closeout-preflight",
+  "evaluation_kind": "closeout-preflight",
+  "policy_ref": {
+    "path": "arcanum/arcana/task-session/decision-validation-policy.json",
+    "sha256": "f339f258b7862095f31064712df784ea145184d9b75eb15fcaf0127d7c18b63f",
+    "size_bytes": 3273
+  },
+  "input": {
+    "sync_expected": true,
+    "terminal_source_receipt_contract": "precloseout-execution-v1 plus canonical terminal receipt",
+    "declared_target_inventory": [
+      "projects/lucifers-lights/development/refinement-runs/20260821T145606Z-chapter-production-pipeline/stages/09-invoke-plan/WORK-PACK.md",
+      "projects/lucifers-lights/development/refinement-runs/20260821T145606Z-chapter-production-pipeline/stages/09-invoke-plan/EXECUTION-PACK.md",
+      "projects/lucifers-lights/development/refinement-runs/20260821T145606Z-chapter-production-pipeline/stages/09-invoke-plan/work-pack/tasks/TASK-LLCP-CORE.md",
+      "projects/lucifers-lights/development/refinement-runs/20260821T145606Z-chapter-production-pipeline/stages/09-invoke-plan/work-pack/waves/W1.md",
+      "projects/lucifers-lights/development/refinement-runs/20260821T145606Z-chapter-production-pipeline/stages/09-invoke-plan/work-pack/shared/traceability.md",
+      "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/CONTINUATION.json"
+    ],
+    "baseline_state": "bound by mutation admission targetBaselineDigest 006c5c7fd2ce4ddab435965a94de20139f0d5264168028fd38ee04d9a0ef428f",
+    "allowed_delta_classes": [
+      "evidence_added",
+      "blocker_opened",
+      "blocker_resolved",
+      "status_changed",
+      "route_changed"
+    ],
+    "validation_commands": [
+      "swu-llcp-001-closeout-contract"
+    ],
+    "expected_owner_receipt": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/INVOKE-REFRESH-RECEIPT.json",
+    "successor_selection": {
+      "requested": false,
+      "declared": true,
+      "dependency_ready": false,
+      "candidate_count": 1,
+      "successor": "SWU-LLCP-002"
+    }
+  },
+  "output_path": "projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-001/attempts/attempt-002/task-session-run/governance-evaluation-receipt.json"
+}

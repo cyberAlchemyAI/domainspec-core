@@ -75,6 +75,15 @@ before a runtime may affect work:
 Candidate, present, context-loaded, validated, or nearby artifacts do not meet
 these conditions by themselves.
 
+`GOV-RULE-D64-BINDING-COMPLETE` is intentionally only a candidate review rule.
+It is not a Governance Program, kernel clause, verified fact contract,
+Constitution member, enforcement binding, or result-to-effect mapping. A future
+runtime design may compile an exact adopted version only after the unresolved
+D64 semantic-version, grounding, concrete Project-binding, adoption, and
+integration obligations are discharged. The Project package now owns a closed
+binding registry shape, but an empty registry is readiness evidence rather than
+a runtime binding or enforcement input.
+
 ## Observe-Only Posture
 
 The current module has no enforcement edge. A future observe-only adapter may

@@ -75,6 +75,7 @@ ALLOWED_ROLES = {
     "product_output",
     "outcome",
     "business_rule",
+    "method",
     "project",
     "goal",
     "research",
@@ -335,6 +336,81 @@ def main() -> int:
         check_source_refs(relation.get("source_refs"), source_ids, label, errors)
         check_source_selectors(
             relation.get("source_refs"), source_text_by_id, label, errors
+        )
+
+    required_language_sources = {
+        "SRC-CAV2-GOVERNANCE-LANGUAGE",
+        "SRC-CAV2-LANGUAGE-MEANING-BINDINGS",
+        "SRC-CAV2-LANGUAGE-REALIZATION-BINDINGS",
+        "SRC-CAV2-LANGUAGE-EDGE-VOCABULARY",
+        "SRC-CAV2-LANGUAGE-AUTHORITY-BINDINGS",
+    }
+    missing_language_sources = sorted(required_language_sources - source_ids)
+    if missing_language_sources:
+        errors.append(
+            "missing Language consultation sources: "
+            + ", ".join(missing_language_sources)
+        )
+    required_language_nodes = {
+        "CA2-CAP-RESOLVE-LANGUAGE-CONTEXT",
+        "CA2-OUTPUT-LANGUAGE-CONTEXT-VIEW",
+        "CA2-RULE-DEFINE-LANGUAGE-APPLICATION",
+    }
+    missing_language_nodes = sorted(required_language_nodes - node_id_set)
+    if missing_language_nodes:
+        errors.append(
+            "missing Language consultation nodes: "
+            + ", ".join(missing_language_nodes)
+        )
+    required_construction_nodes = {
+        "CA2-FORM-GOVERNED-BASE",
+        "CA2-RULE-DOMAINSPEC-GOVERNED-CONSTRUCTION",
+    }
+    missing_construction_nodes = sorted(required_construction_nodes - node_id_set)
+    if missing_construction_nodes:
+        errors.append(
+            "missing DomainSpec construction nodes: "
+            + ", ".join(missing_construction_nodes)
+        )
+    definition_pack = next(
+        (item for item in nodes if item.get("id") == "CA2-OUTPUT-DEFINITION-PACK"),
+        {},
+    )
+    definition_pack_claim = str(definition_pack.get("claim", ""))
+    if not all(
+        token in definition_pack_claim
+        for token in (
+            "Language Context View identity",
+            "digest",
+            "source epoch",
+            "applied binding references",
+        )
+    ):
+        errors.append("Definition Pack must preserve the consulted Language Context View binding")
+    actual_edges = {
+        (item.get("type"), item.get("source"), item.get("target"))
+        for item in relations
+        if isinstance(item, dict)
+    }
+    required_language_edges = {
+        ("includes_capability", "CA2-PRODUCT-CYBERALCHEMY", "CA2-CAP-RESOLVE-LANGUAGE-CONTEXT"),
+        ("produces", "CA2-CAP-RESOLVE-LANGUAGE-CONTEXT", "CA2-OUTPUT-LANGUAGE-CONTEXT-VIEW"),
+        ("consumed_by", "CA2-OUTPUT-LANGUAGE-CONTEXT-VIEW", "CA2-CAP-DEFINE-SHARED-MEANING"),
+        ("requires", "CA2-CAP-DEFINE-SHARED-MEANING", "CA2-RULE-DEFINE-LANGUAGE-APPLICATION"),
+    }
+    for relation_type, source, target in sorted(required_language_edges - actual_edges):
+        errors.append(
+            f"missing Language consultation edge: {relation_type} {source} -> {target}"
+        )
+    required_construction_edge = (
+        "requires",
+        "CA2-FORM-GOVERNED-BASE",
+        "CA2-RULE-DOMAINSPEC-GOVERNED-CONSTRUCTION",
+    )
+    if required_construction_edge not in actual_edges:
+        errors.append(
+            "missing DomainSpec construction edge: requires "
+            "CA2-FORM-GOVERNED-BASE -> CA2-RULE-DOMAINSPEC-GOVERNED-CONSTRUCTION"
         )
 
     residue = residue_doc.get("residue", [])

@@ -1,0 +1,25 @@
+{
+  "receipt_type": "governance-defect-sidecar",
+  "helper": "/root/chapter1_native_validator_defect",
+  "classification": "mechanical_evidence_only",
+  "root_cause": "The standalone complete validator was invoked without its required --output argument and before the receipt-join boundary.",
+  "affected_invariant": "Preserve the failed command status and hold receipt admission until the complete causal stream can be validated.",
+  "evidence": {
+    "failed_command_exit_code": 2,
+    "parser_read_events": false,
+    "prefix_validation": "pass",
+    "complete_validation_before_join": "correctly_incomplete"
+  },
+  "minimal_repair": "Do not rerun the standalone complete validator before join. Let advance-wave validate exact raw results and normalized receipts, append joins and the gate, and emit event-validation.json.",
+  "changed_byte_inventory": [],
+  "required_revalidation": [
+    "live prefix valid immediately before admission",
+    "exact normalized receipt admission",
+    "advance-wave task-result validation pass",
+    "advance-wave event-validation pass"
+  ],
+  "renewed_owner_confirmation_required": false,
+  "permanent_regression_fix": "Add a phase-aware workflow test requiring --output for standalone validation, prefix validation before join, and complete validation only after receipt joins and the gate.",
+  "resume_token_consumed": true,
+  "status": "closed"
+}

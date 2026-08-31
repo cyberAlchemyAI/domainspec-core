@@ -104,9 +104,8 @@ The product has seven enduring capabilities:
 7. **Operate Governance** — manage ownership, inventory, versions, coverage,
    conflicts, health, cross-capability consistency, and bounded exceptions.
 
-Task Session and other governed decision and execution workflows are application
-and optimization subdomains that can use these capabilities. They do not define
-the complete product.
+Task Session and Governance Flow are application and optimization subdomains
+that can use these capabilities. They do not define the complete product.
 
 ## Outputs And Outcomes
 
@@ -191,8 +190,7 @@ The product does not:
 - turn a Constitution, discipline, policy, observation, or passing validator
   into an effect;
 - attach gates or validators to repository work;
-- make Task Session or any governed decision and execution workflow the universal
-  governance lifecycle;
+- make Task Session or Governance Flow the universal governance lifecycle;
 - treat hashes as semantic or lifecycle clocks;
 - implement or prove the Rust enforcement runtime;
 - extract or publish the private module; or

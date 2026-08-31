@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OWNER-BWSL-001-D1-IDENTITY-SCOPE",
+  "candidates": [
+    {
+      "optionId": "D1-A-PRIVATE-EXACT-BINDING",
+      "label": "Privately bind one consenting runner and use exactly read,activity:read",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "authority",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [
+        "WORK-PACK.md:115-125 requires one consenting runner identity and exact OAuth scope before a real witness.",
+        "projects/body-war/app/src/auth/strava-oauth.ts defines DEFAULT_STRAVA_SCOPE as read,activity:read.",
+        "The exact private runner binding can be represented by a non-public digest without exposing provider identity in public evidence."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D1-B-PUBLISH-PROVIDER-IDENTITY",
+      "label": "Publish the runner provider identity in the witness receipt",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "irreversible",
+      "hazardClass": "publication",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [],
+      "rejectionReasons": [
+        "Publishing the provider identity is unnecessary for witness verification and widens the privacy surface beyond the bounded purpose."
+      ]
+    },
+    {
+      "optionId": "D1-C-ANY-RUNTIME-RUNNER",
+      "label": "Allow any consenting runner to be chosen at runtime",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "irreversible",
+      "hazardClass": "authority",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [],
+      "rejectionReasons": [
+        "An open runtime choice is not an exact pre-effect identity binding and would expand the accepted witness envelope."
+      ]
+    },
+    {
+      "optionId": "D1-D-DEFER",
+      "label": "Defer runner identity and scope selection",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Deferral preserves the no-effect state and leaves SWU-BWSL-002 blocked."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D1-E-STOP",
+      "label": "Stop the real-witness sequence",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Stopping creates no external effect and preserves the completed synthetic implementation."
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

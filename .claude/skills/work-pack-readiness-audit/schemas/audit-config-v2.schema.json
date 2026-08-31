@@ -67,6 +67,17 @@
       "minItems": 1,
       "items": {"$ref": "#/$defs/executionBinding"}
     },
+    "execution_entry_closure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["closure_ref", "units_ref", "validator_ref", "rehearsal_effect"],
+      "properties": {
+        "closure_ref": {"$ref": "#/$defs/bindingRef"},
+        "units_ref": {"$ref": "#/$defs/bindingRef"},
+        "validator_ref": {"$ref": "#/$defs/opaqueExactArtifactBindingRef"},
+        "rehearsal_effect": {"const": "deterministic-no-effect"}
+      }
+    },
     "receipt_bindings": {
       "type": "object",
       "additionalProperties": false,
@@ -182,7 +193,12 @@
         },
         "joined_closeout_receipt_refs": {
           "type": "array",
-          "items": {"$ref": "#/$defs/bindingRef"}
+          "items": {
+            "oneOf": [
+              {"$ref": "#/$defs/bindingRef"},
+              {"$ref": "#/$defs/joinedOwnerCloseoutEvidence"}
+            ]
+          }
         },
         "projected_next_successor": {
           "type": "object",
@@ -323,6 +339,28 @@
         "selector": {"type": "string"}
       }
     },
+    "joinedOwnerCloseoutEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_profile",
+        "binding_id",
+        "owner_ref",
+        "terminal_receipt_ref",
+        "joined_owner_receipt_ref",
+        "owner_receipt_schema_ref",
+        "continuation_cursor_ref"
+      ],
+      "properties": {
+        "evidence_profile": {"const": "task-session-joined-owner-closeout-v1"},
+        "binding_id": {"type": "string", "minLength": 1},
+        "owner_ref": {"const": "task-session"},
+        "terminal_receipt_ref": {"$ref": "#/$defs/exactArtifactRef"},
+        "joined_owner_receipt_ref": {"$ref": "#/$defs/exactArtifactRef"},
+        "owner_receipt_schema_ref": {"$ref": "#/$defs/bindingRef"},
+        "continuation_cursor_ref": {"$ref": "#/$defs/exactArtifactRef"}
+      }
+    },
     "nullableBindingRef": {
       "oneOf": [
         {"$ref": "#/$defs/bindingRef"},
@@ -366,9 +404,10 @@
     "structuredValidationCommand": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["command_id", "argv", "cwd", "timeout_seconds", "max_output_bytes"],
+      "required": ["command_id", "phase", "argv", "cwd", "timeout_seconds", "max_output_bytes"],
       "properties": {
         "command_id": {"type": "string", "minLength": 1},
+        "phase": {"enum": ["pre-execution", "post-produce", "closeout"]},
         "argv": {
           "type": "array",
           "minItems": 1,
@@ -422,6 +461,58 @@
         "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
       }
     },
+    "targetDisposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "disposition",
+        "producer_id",
+        "parent_path",
+        "collision_policy",
+        "baseline_obligation"
+      ],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "disposition": {
+          "enum": ["create", "update", "delete", "read", "transient"]
+        },
+        "producer_id": {"type": ["string", "null"], "minLength": 1},
+        "parent_path": {"type": "string", "minLength": 1},
+        "collision_policy": {
+          "enum": ["fail-if-exists", "replace-declared", "not-applicable"]
+        },
+        "baseline_obligation": {"enum": ["none", "required-at-admission"]}
+      }
+    },
+    "outputContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_path",
+        "disposition",
+        "producer_id",
+        "schema_ref",
+        "semantic_predicate",
+        "failure_behavior",
+        "validation_phase"
+      ],
+      "properties": {
+        "expected_path": {"type": "string", "minLength": 1},
+        "disposition": {
+          "enum": ["create", "update", "delete", "transient"]
+        },
+        "producer_id": {"type": "string", "minLength": 1},
+        "schema_ref": {"$ref": "#/$defs/nullableBindingRef"},
+        "semantic_predicate": {"type": ["string", "null"], "minLength": 1},
+        "failure_behavior": {"const": "block-before-successor"},
+        "validation_phase": {"enum": ["post-produce", "closeout"]}
+      },
+      "oneOf": [
+        {"required": ["schema_ref"], "properties": {"schema_ref": {"$ref": "#/$defs/bindingRef"}}},
+        {"required": ["semantic_predicate"], "properties": {"semantic_predicate": {"type": "string"}}}
+      ]
+    },
     "executionBinding": {
       "type": "object",
       "additionalProperties": false,
@@ -429,7 +520,11 @@
         "unit_id",
         "dependencies",
         "canonical_successors",
+        "producer_id",
         "command",
+        "target_dispositions",
+        "validation_contracts",
+        "output_contracts",
         "material_writes",
         "execution_outputs",
         "allowed_writes",
@@ -454,11 +549,21 @@
           "uniqueItems": true,
           "items": {"type": "string", "minLength": 1}
         },
+        "producer_id": {"type": "string", "minLength": 1},
         "command": {"$ref": "#/$defs/command"},
+        "target_dispositions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/targetDisposition"}
+        },
         "validation_contracts": {
           "type": "array",
           "minItems": 1,
           "items": {"$ref": "#/$defs/structuredValidationCommand"}
+        },
+        "output_contracts": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/outputContract"}
         },
         "material_writes": {
           "type": "array",
@@ -524,7 +629,8 @@
         "precloseout_execution_schema_ref": {"$ref": "#/$defs/bindingRef"},
         "expected_owner_receipt_schema_ref": {"$ref": "#/$defs/bindingRef"},
         "declared_owner_receipt_schema_identity": {
-          "const": "invoke.precloseout-refresh-closeout-receipt.v1"
+          "type": "string",
+          "minLength": 1
         },
         "final_terminal_schema_ref": {"$ref": "#/$defs/bindingRef"},
         "continuity_schema_ref": {"$ref": "#/$defs/bindingRef"},

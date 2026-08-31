@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0.0",
+  "decisionId": "OWNER-BWSL-001-D4-DELETION-SCOPE",
+  "candidates": [
+    {
+      "optionId": "D4-A-HARD-DELETE-NO-COPIES",
+      "label": "Hard-delete the exact witness evidence row and reset derived track state in an environment with backups and caches disabled",
+      "optionKind": "action",
+      "structuralStatus": "admissible",
+      "reversibility": "irreversible",
+      "hazardClass": "destructive",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [
+        "The PostgreSQL implementation transactionally deletes the exact evidence candidate and resets its SuggestedTrack only when the final candidate is removed.",
+        "The completed lifecycle tests prove idempotence and isolation from other tracks.",
+        "Prohibiting backup, cache, and private-log copies keeps the descendant inventory finite and testable for one witness."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D4-B-BACKUP-EXPIRY",
+      "label": "Allow backup or cache copies with a later expiry",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "irreversible",
+      "hazardClass": "destructive",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [],
+      "rejectionReasons": [
+        "No backup or cache inventory, expiry mechanism, or disposition proof is implemented in the accepted Body War scope."
+      ]
+    },
+    {
+      "optionId": "D4-C-LOGICAL-TOMBSTONE",
+      "label": "Retain the evidence payload behind a logical-deletion tombstone",
+      "optionKind": "action",
+      "structuralStatus": "inadmissible",
+      "reversibility": "reversible",
+      "hazardClass": "authority",
+      "ownerGate": "OWNER-BWSL-001",
+      "evidence": [],
+      "rejectionReasons": [
+        "The repository contract implements physical disposition, not a tombstone schema, and a tombstone would retain private activity values."
+      ]
+    },
+    {
+      "optionId": "D4-D-DEFER",
+      "label": "Defer deletion-scope selection",
+      "optionKind": "defer",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Deferral performs no deletion and leaves the witness blocked."
+      ],
+      "rejectionReasons": []
+    },
+    {
+      "optionId": "D4-E-STOP",
+      "label": "Stop the real-witness sequence",
+      "optionKind": "stop",
+      "structuralStatus": "admissible",
+      "reversibility": "reversible",
+      "hazardClass": "reversible",
+      "ownerGate": null,
+      "evidence": [
+        "Stopping avoids creating an evidence row or descendant copies."
+      ],
+      "rejectionReasons": []
+    }
+  ]
+}

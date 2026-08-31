@@ -10,6 +10,8 @@ use std::fs::{self, File, OpenOptions};
 use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
 
+pub mod serving;
+
 #[derive(Debug)]
 pub enum Error {
     Invalid(String),
@@ -1405,6 +1407,10 @@ mod tests {
             "cognitive-event-v1.schema.json",
             "cost-sample-v1.schema.json",
             "scenario-policy-v1.schema.json",
+            "gpu-sample-v1.schema.json",
+            "serving-import-manifest-v1.schema.json",
+            "serving-observation-v1.schema.json",
+            "serving-projection-v1.schema.json",
         ] {
             let value: serde_json::Value =
                 serde_json::from_slice(&fs::read(schema_root.join(name)).unwrap()).unwrap();
@@ -1412,6 +1418,12 @@ mod tests {
                 value["$schema"],
                 "https://json-schema.org/draft/2020-12/schema"
             );
+            if name.starts_with("serving-") {
+                assert!(value["$id"]
+                    .as_str()
+                    .unwrap_or("")
+                    .starts_with("https://cyberalchemy.local/schemas/"));
+            }
         }
     }
 }

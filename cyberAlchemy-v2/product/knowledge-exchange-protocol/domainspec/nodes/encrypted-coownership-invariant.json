@@ -1,0 +1,22 @@
+{
+  "schema_version": "minted-node/v1",
+  "node_id": "encrypted-knowledge-coownership.EncryptedCoownershipInvariant",
+  "feature_id": "encrypted-knowledge-coownership",
+  "kind": "Rule",
+  "intent": "Return true only when authorization is exact, the artifact version and policy match, existing owners are preserved, B receives an epoch-current key envelope, acknowledgements are recipient-bound, lost-key reissue preserves protected state, and compromise creates a new fully covered encryption epoch.",
+  "body": {
+    "formal_return_type": "boolean",
+    "semantic_refs": [
+      "CA2-CAP-GRANT-ENCRYPTED-KNOWLEDGE-COOWNERSHIP",
+      "KEP-RULE-OWNER-SET-MONOTONIC-FIRST-PROOF",
+      "KEP-RULE-EXACT-ARTIFACT-VERSION",
+      "KEP-RULE-NO-PUBLIC-SECRETS",
+      "KEP-RULE-REISSUE-PRESERVES-STATE",
+      "KEP-RULE-COMPROMISE-NEW-EPOCH",
+      "KEP-RULE-NO-PAYMENT-FIRST-PROOF"
+    ],
+    "failure_behavior": "reject_without_state_change",
+    "authority_effect": "none"
+  },
+  "connections": []
+}

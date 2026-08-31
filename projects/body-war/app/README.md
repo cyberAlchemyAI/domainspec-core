@@ -31,11 +31,14 @@ custody, runner profile records, and activity redaction.
 
 ```bash
 cp .env.example .env
-npm install
-npm run db:generate
-npm run build
-npm start
+pnpm install
+pnpm run build
+pnpm start
 ```
+
+The committed files under `drizzle/` are the migration authority. Automatic
+Drizzle generation is intentionally unavailable until a vulnerability-free
+generator is selected; do not install an ad hoc generator.
 
 ## Private Strava geometry export
 
@@ -49,13 +52,13 @@ Test one activity first:
 
 ```bash
 chmod 600 .env data/strava-tokens.json
-npm run geometry:export -- --limit 1
+pnpm run geometry:export -- --limit 1
 ```
 
 Then export the bounded recent-activity set:
 
 ```bash
-npm run geometry:export
+pnpm run geometry:export
 ```
 
 By default the exporter inspects one page of 30 recent activities. Use
@@ -76,7 +79,7 @@ legacy token store only after state validation, full scope acceptance, and
 the selected athlete-account validation:
 
 ```bash
-npm run geometry:reconnect -- --include-private
+pnpm run geometry:reconnect -- --include-private
 ```
 
 Run this only when the athlete has explicitly agreed to share “Only Me”
@@ -86,7 +89,7 @@ To add a separately consenting partner, use a fresh authorization session and
 preserve each athlete as a separate token-store entry:
 
 ```bash
-npm run geometry:reconnect -- \
+pnpm run geometry:reconnect -- \
   --include-private \
   --add-athlete \
   --public-callback-url https://<temporary-host>/api/auth/strava/callback
@@ -100,7 +103,7 @@ The Docker E2E harness starts a local Postgres container, applies auth package
 and Body War Drizzle-generated migrations, and runs the fake-Strava login flow:
 
 ```bash
-npm run e2e:all
+pnpm run e2e:all
 ```
 
 Open:

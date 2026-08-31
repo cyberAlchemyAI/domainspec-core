@@ -6,7 +6,7 @@ export const evaluateOrderedWorkflow=(descriptor:OrderedWorkflowDescriptor,obser
   else if(JSON.stringify(actual)!==JSON.stringify(expected))findings.push(finding("RMT_WF_STEP_REORDER",expected,actual));
   if(observed.scope!==descriptor.scope)findings.push(finding("RMT_WF_SCOPE_DRIFT",descriptor.scope,observed.scope));
   if(observed.failure_continuation_policy!==descriptor.failure_continuation_policy)findings.push(finding("RMT_WF_FAILURE_CONTINUATION_MISMATCH",descriptor.failure_continuation_policy,observed.failure_continuation_policy));
-  if(observed.compensation_policy!==descriptor.compensation_policy||observed.compensation_intents.length>0||observed.durable_fact_preservation!==descriptor.post_commit_failure_policy)findings.push(finding("RMT_WF_COMPENSATION_OVERCLAIM",{policy:descriptor.compensation_policy,durable:descriptor.post_commit_failure_policy},{policy:observed.compensation_policy,intents:observed.compensation_intents,durable:observed.durable_fact_preservation}));
+  if(observed.compensation_policy!==descriptor.compensation_policy||observed.recovery_intents.length>0||observed.durable_fact_preservation!==descriptor.post_commit_failure_policy)findings.push(finding("RMT_WF_COMPENSATION_OVERCLAIM",{policy:descriptor.compensation_policy,durable:descriptor.post_commit_failure_policy},{policy:observed.compensation_policy,intents:observed.recovery_intents,durable:observed.durable_fact_preservation}));
   if(observed.direct_effects_executed.length>0)findings.push(finding("RMT_WF_EXECUTES_EFFECT",[],observed.direct_effects_executed));
   if(observed.binding_state!=="current")findings.push(finding("RMT_WF_STALE_BINDING","current",observed.binding_state));
   if(observed.guard_bypass_observed)findings.push(finding("RMT_WF_GUARD_BYPASS",false,true));

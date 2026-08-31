@@ -65,7 +65,7 @@ export const REQUIRED_WORKFLOW_MATERIAL_PATHS = {
   "workflow-candidate":
     "projects/domainspec-v2/development/remaining-meta-types/candidates/workflow.json",
   "workflow-source":
-    "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.ts",
+    "projects/domainspec-v2/impl/architecture-conformance/targets/typescript/workflow-v1.composition.ts",
   "rmt-wf-006":
     "projects/domainspec-v2/development/remaining-meta-types/receipts/RMT-WF-006.json",
   "rmt-wf-007":
@@ -111,7 +111,7 @@ export const REQUIRED_WORKFLOW_MATERIAL_PATHS = {
   evaluator:
     "projects/domainspec-v2/development/architecture-pattern-enforcement/evaluators/workflow-profile-evaluator.ts",
   "receipt-schema":
-    "projects/domainspec-v2/development/architecture-pattern-enforcement/evidence/WP-APE-WF-PROFILE-001/workflow-type-completion-receipt.schema.json",
+    "projects/domainspec-v2/development/architecture-pattern-enforcement/contracts/workflow-type-completion-receipt.schema.json",
 } as const;
 
 type JsonRecord = Record<string, any>;

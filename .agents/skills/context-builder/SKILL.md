@@ -17,6 +17,8 @@ allowed-tools: Read, Write, Glob, Grep, Bash, AskQuestions
 
 # Sigil: Context Builder
 
+For a plan-once execution-entry source, compile the native machine view with `scripts/compile_native_context_projection.py`. Validate the versioned closure and machine schema before producing any human-readable view. Do not translate snake_case planning fields directly into admission input, include lifecycle-owner scopes in executor writes, or infer selection/admission authority from successful compilation.
+
 <objective>
 Produce a minimal task-ready context bundle that maximizes relevance, preserves evidence selectors, and minimizes reading overhead. When requested for runtime delegation, emit a strict handoff pack as session evidence in both Markdown and structured JSON/index form.
 </objective>

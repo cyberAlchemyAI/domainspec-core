@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lucifers-lights.local/schemas/continuation-state/1-1-0",
+  "title": "LucifersLightsContinuationState",
+  "description": "Acyclic closeout projection. The terminal is a later final write and is therefore path-bound here; already-emitted owner and Router evidence remains digest-bound.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "work_pack_id",
+    "completed_swu",
+    "terminal_receipt_path",
+    "invoke_closeout_receipt_ref",
+    "router_verification_receipt_ref",
+    "next_swu",
+    "next_owner",
+    "execution_started",
+    "authority_effect"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "llcp.continuation-state/v1"
+    },
+    "work_pack_id": {
+      "const": "WP-LLCP-001"
+    },
+    "completed_swu": {
+      "$ref": "#/$defs/l0Swu"
+    },
+    "terminal_receipt_path": {
+      "type": "string",
+      "pattern": "^projects/lucifers-lights/development/chapter-pipeline-evidence/SWU-LLCP-00[1-5]/attempts/attempt-[0-9]{3}/TERMINAL-SOURCE-RECEIPT\\.json$"
+    },
+    "invoke_closeout_receipt_ref": {
+      "$ref": "#/$defs/exactArtifactRef"
+    },
+    "router_verification_receipt_ref": {
+      "$ref": "#/$defs/exactArtifactRef"
+    },
+    "next_swu": {
+      "oneOf": [
+        {"$ref": "#/$defs/l0Swu"},
+        {"type": "null"}
+      ]
+    },
+    "next_owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability", "mode", "target"],
+      "properties": {
+        "capability": {
+          "enum": ["task-session", "implementation-readiness"]
+        },
+        "mode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "execution_started": {
+      "const": false
+    },
+    "authority_effect": {
+      "const": "none"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "l0Swu": {
+      "type": "string",
+      "pattern": "^SWU-LLCP-00[1-5]$"
+    },
+    "exactArtifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

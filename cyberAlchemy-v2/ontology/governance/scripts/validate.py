@@ -22,10 +22,13 @@ MATERIAL_FILES = (
     "sources.json",
     "nodes.json",
     "relations.json",
+    "invariants.json",
+    "rules.json",
     "product-bindings.json",
     "identity-policy.json",
     "residue.json",
     "migration.json",
+    "schema-amendment-d64.json",
     "module.json",
     "documents.json",
     "docs/AUTHORITY.md",
@@ -43,7 +46,8 @@ PROFILE_KEYS = {
     "schema_ref", "schema_version", "ontology_id", "title", "ontology_type",
     "branch", "materialization", "package_root", "package_owner", "meaning_owner",
     "visibility", "candidate_status", "authority_effect", "enforcement_effect",
-    "source_registry", "node_registry", "relation_registry", "product_binding_registry",
+    "source_registry", "node_registry", "relation_registry", "invariant_registry",
+    "rule_registry", "product_binding_registry",
     "identity_policy", "residue_registry", "migration_manifest", "module_manifest", "schema_path",
     "validator_path", "blocked_outputs",
 }
@@ -61,6 +65,19 @@ VOCABULARY_KEYS = {"id", "label", "source_type", "target_type", "forbidden_colla
 RELATION_KEYS = {
     "id", "type", "source", "target", "direction", "owner_route",
     "authority_effect", "enforcement_effect", "forbidden_collapse",
+}
+INVARIANT_KEYS = {
+    "id", "owner_qualified_version", "instance_of", "canonical_definition_ref",
+    "canonical_schema_ref", "canonical_selector", "canonical_meaning_owner",
+    "registration_owner", "source_status", "registry_status", "semantic_version_ref",
+    "basis_refs", "axiom_grounding", "validation_mode", "operational_rule_refs",
+    "authority_effect", "enforcement_effect", "implementation_effect", "forbidden_collapse",
+}
+RULE_KEYS = {
+    "id", "owner_qualified_version", "instance_of", "operationalizes", "rule_kind",
+    "subject_kind", "evaluation_contract_ref", "review_outcomes", "validation_mode",
+    "owner_route", "adoption_state", "constitution_refs", "enforcement_binding_refs",
+    "authority_effect", "enforcement_effect", "implementation_effect", "forbidden_collapse",
 }
 BINDING_KEYS = {
     "id", "source_kind", "source_ref", "target_node_id", "target_expectation",
@@ -220,6 +237,26 @@ def check_sources(sources_doc: dict[str, Any], errors: list[str]) -> tuple[list[
         for selector in selectors:
             if not isinstance(selector, str) or selector not in text:
                 errors.append(f"{label} selector missing from live source: {selector!r}")
+    required_governed_selectors = {
+        "GOV-SRC-CAV2-DEFINITIONS": {
+            "## CAV2-D64: Recursive Instance Ownership Invariant",
+            "## CAV2-D65: DomainSpec-Governed Construction Invariant",
+        },
+        "GOV-SRC-CAV2-DEFINITION-SCHEMAS": {
+            "| `CAV2-D64-SCHEMA` |",
+            "| `CAV2-D65-SCHEMA` |",
+        },
+    }
+    sources_by_id = {
+        str(source.get("id")): source for source in sources if isinstance(source, dict)
+    }
+    for source_id, required in required_governed_selectors.items():
+        declared = set(sources_by_id.get(source_id, {}).get("required_selectors", []))
+        missing = sorted(required - declared)
+        if missing:
+            errors.append(
+                f"{source_id} omits governed selector(s): {', '.join(missing)}"
+            )
     return [s for s in sources if isinstance(s, dict)], source_text
 
 
@@ -265,12 +302,15 @@ def check_nodes(nodes_doc: dict[str, Any], source_text: dict[str, str], errors: 
         discipline = by_id.get("GovernanceDiscipline", {})
         run = by_id.get("RunGovernanceDiscipline", {})
         metric = by_id.get("FrictionMetricContract", {})
+        invariant = by_id.get("GovernanceInvariant", {})
         if discipline.get("domainspec_v2_meta_type") != "Entity" or discipline.get("canonical_definition_ref") != "CAV2-D50":
             errors.append("GovernanceDiscipline must be the CAV2-D50 Entity authority artifact")
         if run.get("domainspec_v2_meta_type") != "Workflow":
             errors.append("RunGovernanceDiscipline must be a Workflow")
         if metric.get("domainspec_v2_meta_type") != "Entity":
             errors.append("FrictionMetricContract must be identity-bearing Entity")
+        if invariant.get("domainspec_v2_meta_type") != "Rule" or invariant.get("canonical_definition_ref") != "CAV2-D54":
+            errors.append("GovernanceInvariant must remain the generic CAV2-D54 Rule concept type; concrete D64 belongs in invariants.json")
     return [n for n in nodes if isinstance(n, dict)], node_ids
 
 
@@ -322,6 +362,181 @@ def check_relations(relations_doc: dict[str, Any], node_ids: set[str], errors: l
     if set(seen_types) != set(RELATION_CONTRACTS) or len(seen_types) != len(RELATION_CONTRACTS):
         errors.append("relations must instantiate every allowed relation contract exactly once")
     return [v for v in vocabulary if isinstance(v, dict)], [r for r in relations if isinstance(r, dict)]
+
+
+def check_governed_instances(
+    invariants_doc: dict[str, Any],
+    rules_doc: dict[str, Any],
+    node_ids: set[str],
+    source_text: dict[str, str],
+    errors: list[str],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], set[str]]:
+    exact_keys(
+        invariants_doc,
+        {"schema_ref", "schema_version", "ontology_id", "invariants", "authority_effect", "enforcement_effect", "implementation_effect"},
+        "invariant registry",
+        errors,
+    )
+    exact_keys(
+        rules_doc,
+        {"schema_ref", "schema_version", "ontology_id", "rules", "authority_effect", "enforcement_effect", "implementation_effect"},
+        "rule registry",
+        errors,
+    )
+    expected_top = {
+        "schema_version": "cav2-governance-invariant-registry/v1",
+        "ontology_id": "cav2.governance-model",
+    }
+    for field, expected in expected_top.items():
+        if invariants_doc.get(field) != expected:
+            errors.append(f"invariant registry {field} must equal {expected!r}")
+    expected_top["schema_version"] = "cav2-governance-rule-registry/v1"
+    for field, expected in expected_top.items():
+        if rules_doc.get(field) != expected:
+            errors.append(f"rule registry {field} must equal {expected!r}")
+    no_effect(invariants_doc, "invariant registry", errors, implementation=True)
+    no_effect(rules_doc, "rule registry", errors, implementation=True)
+
+    invariants = invariants_doc.get("invariants", [])
+    rules = rules_doc.get("rules", [])
+    if not isinstance(invariants, list) or not invariants:
+        errors.append("invariant registry must contain at least one invariant instance")
+        invariants = []
+    if not isinstance(rules, list) or not rules:
+        errors.append("rule registry must contain at least one rule instance")
+        rules = []
+    invariant_ids = set(unique_ids(invariants, "invariant instance", errors))
+    rule_ids = set(unique_ids(rules, "rule instance", errors))
+    expected_invariants = {
+        "GOV-INV-CAV2-D64": {
+            "owner_qualified_version": "GOV-INV-CAV2-D64/v1-candidate",
+            "canonical_definition_ref": "CAV2-D64",
+            "canonical_schema_ref": "CAV2-D64-SCHEMA",
+            "basis_refs": {"CAV2-D16", "CAV2-D30", "CAV2-D34", "CAV2-D41", "CAV2-D48", "CAV2-D54"},
+            "residue_ref": "GOV-RES-008",
+            "operational_rule_ref": "GOV-RULE-D64-BINDING-COMPLETE",
+        },
+        "GOV-INV-CAV2-D65": {
+            "owner_qualified_version": "GOV-INV-CAV2-D65/v1-candidate",
+            "canonical_definition_ref": "CAV2-D65",
+            "canonical_schema_ref": "CAV2-D65-SCHEMA",
+            "basis_refs": {"CAV2-D16", "CAV2-D25", "CAV2-D34", "CAV2-D38", "CAV2-D41", "CAV2-D48", "CAV2-D64"},
+            "residue_ref": "GOV-RES-009",
+            "operational_rule_ref": "GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE",
+        },
+    }
+    expected_rules = {
+        "GOV-RULE-D64-BINDING-COMPLETE": {
+            "owner_qualified_version": "GOV-RULE-D64-BINDING-COMPLETE/v1-candidate",
+            "source_ref": "GOV-INV-CAV2-D64",
+            "rule_kind": "authority",
+            "subject_kind": "RecursiveInstanceBinding",
+            "evaluation_contract_ref": "CAV2-D64-SCHEMA",
+        },
+        "GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE": {
+            "owner_qualified_version": "GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE/v1-candidate",
+            "source_ref": "GOV-INV-CAV2-D65",
+            "rule_kind": "lifecycle",
+            "subject_kind": "ConstructionBinding",
+            "evaluation_contract_ref": "CAV2-D65-SCHEMA",
+        },
+    }
+    if invariant_ids != set(expected_invariants):
+        errors.append("the governed invariant epoch must contain exactly the D64 and D65 registrations")
+    if rule_ids != set(expected_rules):
+        errors.append("the governed rule epoch must contain exactly the D64 and D65 operational rules")
+
+    definitions = source_text.get("GOV-SRC-CAV2-DEFINITIONS", "")
+    definition_schemas = source_text.get("GOV-SRC-CAV2-DEFINITION-SCHEMAS", "")
+    for index, invariant in enumerate(invariants):
+        label = f"invariant[{index}]"
+        exact_keys(invariant, INVARIANT_KEYS, label, errors)
+        if not isinstance(invariant, dict):
+            continue
+        registration = expected_invariants.get(str(invariant.get("id")))
+        expected = {
+            "instance_of": "GovernanceInvariant",
+            "source_status": "active",
+            "registry_status": "candidate",
+            "semantic_version_ref": None,
+            "validation_mode": "review-only",
+        }
+        for field, value in expected.items():
+            if invariant.get(field) != value:
+                errors.append(f"{label} {field} must equal {value!r}")
+        if invariant.get("instance_of") not in node_ids:
+            errors.append(f"{label} instance_of does not resolve to a concept type")
+        if registration is None:
+            errors.append(f"{label} is not an admitted governed invariant registration")
+            registration = {}
+        for field in ("owner_qualified_version", "canonical_definition_ref", "canonical_schema_ref"):
+            if invariant.get(field) != registration.get(field):
+                errors.append(f"{label} {field} must equal {registration.get(field)!r}")
+        selector = invariant.get("canonical_selector")
+        if not isinstance(selector, str) or selector not in definitions:
+            errors.append(f"{label} canonical definition selector does not resolve")
+        schema_row = f"| `{registration.get('canonical_schema_ref')}` |"
+        if schema_row not in definition_schemas:
+            errors.append(f"{label} canonical documentary schema row does not resolve")
+        if set(invariant.get("basis_refs", [])) != registration.get("basis_refs"):
+            errors.append(f"{label} must preserve the exact declared invariant basis refs")
+        grounding = invariant.get("axiom_grounding", {})
+        exact_keys(grounding, {"posture", "axiom_refs", "residue_ref"}, f"{label} axiom_grounding", errors)
+        if not isinstance(grounding, dict) or grounding.get("posture") != "unresolved" or grounding.get("axiom_refs") != [] or grounding.get("residue_ref") != registration.get("residue_ref"):
+            errors.append(f"{label} must preserve its unresolved axiom grounding residue")
+        if invariant.get("operational_rule_refs") != [registration.get("operational_rule_ref")]:
+            errors.append(f"{label} must resolve exactly one candidate operational rule")
+        no_effect(invariant, label, errors, implementation=True)
+
+    for index, rule in enumerate(rules):
+        label = f"rule[{index}]"
+        exact_keys(rule, RULE_KEYS, label, errors)
+        if not isinstance(rule, dict):
+            continue
+        registration = expected_rules.get(str(rule.get("id")))
+        expected = {
+            "instance_of": "GovernanceRule",
+            "validation_mode": "review-only",
+            "adoption_state": "not-adopted",
+            "constitution_refs": [],
+            "enforcement_binding_refs": [],
+        }
+        for field, value in expected.items():
+            if rule.get(field) != value:
+                errors.append(f"{label} {field} must equal {value!r}")
+        if registration is None:
+            errors.append(f"{label} is not an admitted governed operational rule")
+            registration = {}
+        for field in ("owner_qualified_version", "rule_kind", "subject_kind", "evaluation_contract_ref"):
+            if rule.get(field) != registration.get(field):
+                errors.append(f"{label} {field} must equal {registration.get(field)!r}")
+        if rule.get("instance_of") not in node_ids:
+            errors.append(f"{label} instance_of does not resolve to a concept type")
+        if set(rule.get("review_outcomes", [])) != {"satisfied", "violated", "indeterminate"}:
+            errors.append(f"{label} review outcomes must preserve satisfied, violated, and indeterminate")
+        link = rule.get("operationalizes", {})
+        exact_keys(link, {"relation_type", "source_ref", "source_type", "target_ref", "target_type", "direction"}, f"{label} operationalizes", errors)
+        expected_link = {
+            "relation_type": "is_operationalized_by",
+            "source_ref": registration.get("source_ref"),
+            "source_type": "GovernanceInvariant",
+            "target_ref": rule.get("id"),
+            "target_type": "GovernanceRule",
+            "direction": "directed",
+        }
+        if not isinstance(link, dict) or any(link.get(field) != value for field, value in expected_link.items()):
+            errors.append(f"{label} must carry its exact typed operationalization link")
+        if RELATION_CONTRACTS.get(str(link.get("relation_type"))) != (link.get("source_type"), link.get("target_type")):
+            errors.append(f"{label} operationalization link violates the relation vocabulary")
+        if link.get("source_ref") not in invariant_ids or link.get("target_ref") not in rule_ids:
+            errors.append(f"{label} operationalization endpoints do not resolve")
+        no_effect(rule, label, errors, implementation=True)
+
+    return (
+        [item for item in invariants if isinstance(item, dict)],
+        [item for item in rules if isinstance(item, dict)],
+        invariant_ids | rule_ids,
+    )
 
 
 def check_product_bindings(bindings_doc: dict[str, Any], node_ids: set[str], errors: list[str]) -> list[dict[str, Any]]:
@@ -384,6 +599,7 @@ def check_product_bindings(bindings_doc: dict[str, Any], node_ids: set[str], err
 def check_identity(identity: dict[str, Any], errors: list[str]) -> None:
     expected = {
         "schema_ref", "schema_version", "identity_axes", "semantic_identity",
+        "instance_registration_role",
         "source_digest_role", "package_digest_role", "product_binding_role",
         "currentness_behavior", "forbidden_uses",
     }
@@ -396,7 +612,10 @@ def check_identity(identity: dict[str, Any], errors: list[str]) -> None:
     if not isinstance(axes, list) or set(axes) != required_axes:
         errors.append("identity policy must keep all six axes separate")
     forbidden = identity.get("forbidden_uses", [])
-    required_phrases = {"whole-repository lifecycle clock", "automatic lifecycle refresh"}
+    required_phrases = {
+        "whole-repository lifecycle clock", "automatic lifecycle refresh",
+        "selector digest as semantic version", "candidate registration as adoption",
+    }
     if not isinstance(forbidden, list) or not required_phrases.issubset(set(forbidden)):
         errors.append("identity policy must forbid repository-wide lifecycle hashes and automatic refresh")
     digest_role = str(identity.get("source_digest_role", "")).lower()
@@ -404,14 +623,14 @@ def check_identity(identity: dict[str, Any], errors: list[str]) -> None:
         errors.append("identity policy must treat source digests as import provenance")
 
 
-def check_residue(residue_doc: dict[str, Any], node_ids: set[str], errors: list[str]) -> list[dict[str, Any]]:
+def check_residue(residue_doc: dict[str, Any], allowed_subject_refs: set[str], errors: list[str]) -> list[dict[str, Any]]:
     exact_keys(residue_doc, {"schema_ref", "residue"}, "residue registry", errors)
     residue = residue_doc.get("residue", [])
     if not isinstance(residue, list):
         errors.append("residue must be a list")
         return []
     unique_ids(residue, "residue", errors)
-    allowed_refs = node_ids | {"cav2.governance-model"}
+    allowed_refs = allowed_subject_refs | {"cav2.governance-model"}
     for index, item in enumerate(residue):
         label = f"residue[{index}]"
         exact_keys(item, RESIDUE_KEYS, label, errors)
@@ -452,6 +671,39 @@ def check_migration(migration: dict[str, Any], errors: list[str]) -> None:
         for item in superseded if isinstance(superseded, list)
     ):
         errors.append("migration must supersede seed product_bindings with the outbound registry")
+    imported = migration.get("imported", [])
+    if not any(
+        isinstance(item, dict)
+        and item.get("seed_section") == "post-seed-cav2-d64-instance-epoch"
+        and item.get("target") == "invariants.json and rules.json"
+        for item in imported if isinstance(imported, list)
+    ):
+        errors.append("migration must record the D64 candidate instance-registry epoch")
+
+
+def check_schema_amendment(witness: dict[str, Any], errors: list[str]) -> None:
+    expected_keys = {
+        "schema_ref", "schema_version", "amendment_id", "status",
+        "previous_schema_version", "new_schema_version", "change_kind", "rationale",
+        "affected_files", "migration_impact", "rollback", "authority_effect",
+        "enforcement_effect", "implementation_effect", "claim_ceiling",
+    }
+    exact_keys(witness, expected_keys, "D64 schema amendment witness", errors)
+    expected = {
+        "schema_version": "cav2-governance-schema-amendment/v1",
+        "amendment_id": "GOV-SCHEMA-AMEND-D64-001",
+        "status": "user-requested-candidate",
+        "previous_schema_version": "cav2-governance-ontology-profile/v1",
+        "new_schema_version": "cav2-governance-ontology-profile/v2",
+        "change_kind": "additive-governed-instance-registries",
+    }
+    for field, value in expected.items():
+        if witness.get(field) != value:
+            errors.append(f"D64 schema amendment witness {field} must equal {value!r}")
+    required_files = {"profile.json", "invariants.json", "rules.json", "schemas/governance-ontology.schema.json", "scripts/validate.py"}
+    if not required_files.issubset(set(witness.get("affected_files", []))):
+        errors.append("D64 schema amendment witness does not name every load-bearing registry change")
+    no_effect(witness, "D64 schema amendment witness", errors, implementation=True)
 
 
 def check_module(module: dict[str, Any], errors: list[str]) -> None:
@@ -598,7 +850,7 @@ def check_documents(documents: dict[str, Any], node_ids: set[str], residue: list
     return [item for item in records if isinstance(item, dict)]
 
 
-def check_readme(nodes: int, relations: int, bindings: int, documents: int, errors: list[str]) -> None:
+def check_readme(nodes: int, relations: int, invariants: int, rules: int, bindings: int, documents: int, errors: list[str]) -> None:
     try:
         text = (PACKAGE_ROOT / "README.md").read_text(encoding="utf-8")
     except OSError as exc:
@@ -607,6 +859,8 @@ def check_readme(nodes: int, relations: int, bindings: int, documents: int, erro
     for expected in (
         f"{nodes} candidate DomainSpec v2-aligned governance concept types",
         f"{relations} typed governance relation contracts",
+        f"{invariants} candidate governed invariant instance",
+        f"{rules} candidate operational rule instance",
         "Authority effect: none",
         "Enforcement effect: none",
         "migration.json",
@@ -628,17 +882,20 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
     sources_doc = load_json("sources.json", errors)
     nodes_doc = load_json("nodes.json", errors)
     relations_doc = load_json("relations.json", errors)
+    invariants_doc = load_json("invariants.json", errors)
+    rules_doc = load_json("rules.json", errors)
     bindings_doc = load_json("product-bindings.json", errors)
     identity = load_json("identity-policy.json", errors)
     residue_doc = load_json("residue.json", errors)
     migration = load_json("migration.json", errors)
+    schema_amendment = load_json("schema-amendment-d64.json", errors)
     module = load_json("module.json", errors)
     documents_doc = load_json("documents.json", errors)
     schema = load_json("schemas/governance-ontology.schema.json", errors)
 
     exact_keys(profile, PROFILE_KEYS, "profile", errors)
     expected_profile = {
-        "schema_version": "cav2-governance-ontology-profile/v1",
+        "schema_version": "cav2-governance-ontology-profile/v2",
         "ontology_id": "cav2.governance-model",
         "ontology_type": "authority-governance",
         "branch": "none",
@@ -649,12 +906,15 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
         "authority_effect": "none",
         "enforcement_effect": "none",
         "module_manifest": "module.json",
+        "invariant_registry": "invariants.json",
+        "rule_registry": "rules.json",
     }
     for field, expected in expected_profile.items():
         if profile.get(field) != expected:
             errors.append(f"profile {field} must equal {expected!r}")
     required_defs = {
         "profile", "sourceRegistry", "nodeRegistry", "relationRegistry",
+        "invariantRegistry", "ruleRegistry", "schemaAmendmentWitness",
         "productBindingRegistry", "identityPolicy", "residueRegistry",
         "migrationManifest", "documentAdmission", "document", "documentRegistry",
         "moduleManifest", "moduleValidationReceipt", "validationReceipt",
@@ -666,13 +926,17 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
     check_meta_types(source_text, errors)
     nodes, node_ids = check_nodes(nodes_doc, source_text, errors)
     vocabulary, relations = check_relations(relations_doc, node_ids, errors)
+    invariants, rules, governed_instance_ids = check_governed_instances(
+        invariants_doc, rules_doc, node_ids, source_text, errors
+    )
     bindings = check_product_bindings(bindings_doc, node_ids, errors)
     check_identity(identity, errors)
-    residue = check_residue(residue_doc, node_ids, errors)
+    residue = check_residue(residue_doc, node_ids | governed_instance_ids, errors)
     check_migration(migration, errors)
+    check_schema_amendment(schema_amendment, errors)
     check_module(module, errors)
     documents = check_documents(documents_doc, node_ids, residue, errors)
-    check_readme(len(nodes), len(relations), len(bindings), len(documents), errors)
+    check_readme(len(nodes), len(relations), len(invariants), len(rules), len(bindings), len(documents), errors)
 
     digest = material_digest(errors)
     receipt_dir = PACKAGE_ROOT / "receipts"
@@ -699,6 +963,7 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
         "active DomainSpec v2 id-term mappings",
         "canonical CAV2 definition references",
         "typed relation endpoint closure",
+        "candidate governed invariant and operational rule instance closure",
         "non-effectful authority boundaries",
         "target-level internal Governance product bindings",
         "identity and lifecycle separation",
@@ -719,6 +984,8 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
             "nodes": len(nodes),
             "relation_types": len(vocabulary),
             "relations": len(relations),
+            "governed_invariants": len(invariants),
+            "operational_rules": len(rules),
             "product_bindings": len(bindings),
             "documents": len(documents),
             "residue": len(residue),

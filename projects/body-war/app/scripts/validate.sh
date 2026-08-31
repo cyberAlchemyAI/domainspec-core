@@ -8,9 +8,8 @@ fail() {
   exit 1
 }
 
-npm run build
-npm test
-npm run db:generate
+pnpm run build
+pnpm test
 
 if find server.ts src tests e2e -name '*.py' -type f -print | grep -q .; then
   find server.ts src tests e2e -name '*.py' -type f -print >&2

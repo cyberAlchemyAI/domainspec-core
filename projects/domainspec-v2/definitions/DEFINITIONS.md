@@ -1617,7 +1617,7 @@ Source kind: method-vocabulary; owner-admitted implementation binding
 
 Evidence: [current implementation state](./meta-types/current-implementation.md) ·
 [machine-readable state](./meta-types/current-implementation.json) ·
-[immutable baseline manifest](../development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v2.json)
+[immutable baseline manifest](../development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v6.json)
 
 Formal voice:
 
@@ -1695,8 +1695,9 @@ as its starting point. It answers “what exactly do we mean by implemented toda
 historical decisions.
 
 Domain-context voice: the current baseline admits 13 backend meta-types and 39 realization rows across
-TypeScript, Python, and Rust. It preserves the 11 UI states as supporting context and the 31-row DS-D8
-relationship denominator. Baseline `@1` is historical; the current state points to `@2`.
+TypeScript, Python, and Rust. It preserves the 11 UI states as supporting context, the 31-row DS-D8
+relationship denominator, and the complete D36-D44 compensation definition epoch. Baselines `@1` through
+`@5` are historical; the current state points to `@6`.
 
 Use carefully: distinguish baseline admission from DS-D1 semantic maturity and from conformance of a generated
 consumer project. These three axes can change independently.
@@ -1866,22 +1867,28 @@ deployment, production, or external-effect authority.
 
 Status: active
 
-Source kind: method-vocabulary; owner-admitted runtime contract
+Source kind: method-vocabulary; owner-admitted forward-recovery model
 
-Evidence: [canonical runtime contract](../impl/architecture-conformance/targets/typescript/workflow-compensation-v1.md) ·
+Evidence: [durable compensation concept model](../development/durable-compensation-concepts/README.md) ·
+[canonical runtime contract](../impl/architecture-conformance/targets/typescript/workflow-compensation-v1.md) ·
 [reference implementation](../impl/architecture-conformance/targets/typescript/workflow-compensation-v1.ts) ·
-[CLI generator](../impl/cli/src/generation/generators.ts) ·
-[target observer](../impl/cli/src/conformance/observe-target.ts)
+[current implementation state](./meta-types/current-implementation.md)
 
 Formal voice:
 
 ```text
-WorkflowCompensation = (intent, plan, external_executor)
+WorkflowCompensation = (
+  immutable D37 RecoveryIntent,
+  frozen recovery plan,
+  exact recovery Operations,
+  external execution through D38..D44
+)
 
-state in {not-required, requested, running, completed, failed}
+workflow_evaluation_result in {not-required, recovery-required}
 
 For one failed Workflow execution w:
-  intent(w) = (workflow_execution_id, failed_step_id, completed_step_journal)
+  not-required => no RecoveryIntent exists
+  recovery-required => exactly one RecoveryIntent exists
   targets(w) is a subset of the Operations orchestrated by that Workflow
   plan(w) is a topological ordering of targets(w)
 
@@ -1890,47 +1897,730 @@ Ordering precedence:
   otherwise reverse completed-step order;
   reverse completed-step order is also the deterministic tie-breaker.
 
-Workflow evaluation emits intent and plan with compensation_execution = false.
+Workflow evaluation may emit intent and plan but never invokes recovery Operations.
 Before the first invocation, the external executor resolves every planned Operation
 to one exact binding or rejects the complete plan without mutation.
-The executor invokes only those Operations with deterministic idempotency keys.
 ```
 
-Every compensation target remains an ordinary Operation and retains its declared reads, writes, effects,
-guard-before-mutation ordering, atomic state-and-outbox boundary, idempotency, Events, and explicit failure
-continuation. Compensation adds an operational role; it does not add a DS-D1 meta-type or a DS-D2/DS-D8 verb.
+Semantic recovery state is owned by D37, durable coordination state by D38, individual execution outcomes by
+D39, replay protection by D40, exclusive worker authority by D41 and D42, retry scheduling by D43, and the
+whole recovery's final result by D44. Every recovery target remains an ordinary Operation and retains its
+declared reads, writes, effects, guard-before-mutation ordering, atomic state-and-outbox boundary, Events, and
+explicit failure continuation. Compensation adds no DS-D1 meta-type and no DS-D2/DS-D8 relationship verb.
 
-Plain-language voice: compensation is forward recovery after part of a Workflow completed. The Workflow records
-what happened and requests a declared recovery plan. A separate runner checks that every exact recovery
-Operation exists, then runs the plan. It is not time travel, a database rollback, or permission to substitute a
-different action.
+Plain-language voice: Workflow Compensation is forward recovery after part of a Workflow completed. The
+Workflow records what happened and requests a frozen recovery plan; durable machinery can safely resume that
+same plan after retries, crashes, or worker replacement without silently choosing a different action.
 
-Domain-context voice: DomainSpec represents forward and compensation steps with the existing
-`Workflow --[orchestrates]--> Operation` relationship. Workflow bodies may map completed step IDs to recovery
-Operation IDs and declare `operation:depends-on:operation` ordering entries. Generated TypeScript, Python, and
-Rust artifacts expose the five-state model and external executor boundary; conformance rejects missing or extra
-Operation relationships, cycles, missing bindings, direct Workflow execution, and identity substitution.
+Domain-context voice: DomainSpec binds forward and recovery steps through the existing
+`Workflow --[orchestrates]--> Operation` relationship. The current three-profile reference implementation
+realizes intent planning, exact-binding preflight, external invocation, and deterministic replay keys. Durable
+dispatch, claiming, lease renewal, persisted retry scheduling, and restart recovery remain unimplemented and
+are recorded separately from the admitted semantics.
 
-Use carefully: `failed` is the outcome of one compensation execution attempt. The selected continuation
-(`retry`, `escalate`, or `terminal-failure`) belongs to the failed Operation binding. A retry reuses the same
-semantic intent and idempotency key.
+Use carefully: a D39 failed or unknown attempt is not the D44 outcome of the whole recovery. Retry preserves
+the D37 intent, frozen plan, exact Operation occurrence, durable progress, and D40 invocation identity.
 
 Misuse warning: do not model compensation as a new meta-type, invent a `compensates` edge, execute recovery
-inside Workflow evaluation, or claim that an in-process executor proves durable restart recovery.
+inside Workflow evaluation, collapse Claim into Lease or Replay Identity, or infer durable implementation from
+canonical semantics.
 
 Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a Workflow invokes
 recovery directly, a target is not one of its orchestrated Operations, binding preflight occurs after mutation,
-or retry changes semantic identity" -> challenges the term; owner route = definitions-governance plus the
-implementation-conformance profile owner; gate = owner decision plus positive and hostile profile fixtures;
-blocking question = "which exact orchestrated Operation, dependency order, binding, and idempotency key realize
-this recovery?"; residue -> `definitions/reviews/`.
+retry changes semantic identity, or an attempt result is treated as terminal recovery state" -> challenges the
+term; owner route = definitions-governance plus the implementation-conformance profile owner; gate = owner
+decision plus positive and hostile profile fixtures; blocking question = "which exact intent, plan occurrence,
+Operation binding, attempt, claim, lease, and replay identity realize this recovery?"; residue ->
+`definitions/reviews/`.
 
-Confirm contract: active and implemented from the direct owner admission, canonical runtime contract,
-TypeScript reference tests, three-profile generation and compilation, hostile conformance fixtures, and
-architecture-pattern enforcement PASS. Gate = definitions-governance owner gate.
+Confirm contract: active by direct owner admission and synchronized D36-D44 definition and ontology
+validation. Current implementation coverage remains separately bounded by
+`definitions/meta-types/current-implementation.json`. Gate = definitions-governance owner gate.
 
-Promotion boundary: project-local Workflow recovery semantics and static/generated implementation contract.
-It grants no publication, release, deployment, production, or proof of durable dispatch across process restart.
+Promotion boundary: project-local durable Workflow recovery semantics. It grants no claim that durable
+dispatch is implemented and no publication, release, deployment, production, or external-effect authority.
+
+## domainspec-v2-D37. Recovery Intent
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted durable-recovery identity
+
+Evidence: [durable compensation concept model](../development/durable-compensation-concepts/README.md) ·
+[Workflow Compensation](#domainspec-v2-d36)
+
+Formal voice:
+
+```text
+RecoveryIntent = (
+  intent_id,
+  workflow_execution_id,
+  failure_occurrence_id,
+  failed_step_id,
+  completed_step_journal_digest,
+  plan_digest
+)
+
+semantic_status in {required, satisfied, unresolved}
+
+required   iff execution or an authorized retry remains possible
+satisfied  iff D44 disposition = completed
+unresolved iff D44 disposition in {exhausted, escalated}
+```
+
+There is at most one intent for one immutable Workflow failure occurrence. Its identity and plan digest never
+change after creation. `not-required` is a D36 evaluation result and means no intent exists.
+
+Plain-language voice: the intent is the stable statement that one particular Workflow failure still needs one
+particular recovery plan. It is the recovery's identity, not a queue message or a worker attempt.
+
+Domain-context voice: DomainSpec derives the intent from the completed-step journal and the exact
+`Workflow --[orchestrates]--> Operation` plan. Retries, claims, leases, workers, and restarts preserve it.
+
+Use carefully: `required` may coexist with a failed or unknown D39 attempt while retry remains possible.
+
+Misuse warning: do not create a new intent for retry or infer semantic completion from worker or lease state.
+
+Challenge contract: a mutable plan digest, duplicate intent for one failure occurrence, or attempt state used
+as semantic state challenges the term; owner route = definitions-governance; residue -> `definitions/reviews/`.
+
+Confirm contract: active by direct owner admission and synchronized definition/ontology validation.
+
+Promotion boundary: semantic recovery identity only; it is not execution or implementation evidence.
+
+## domainspec-v2-D38. Durable Compensation Dispatch
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted durable coordination aggregate
+
+Evidence: [durable compensation concept model](../development/durable-compensation-concepts/README.md) ·
+[Recovery Intent](#domainspec-v2-d37)
+
+Formal voice:
+
+```text
+DurableCompensationDispatch = (
+  dispatch_id,
+  intent_id,
+  frozen_plan_digest,
+  durable_progress_journal,
+  dispatch_state,
+  version
+)
+
+dispatch_state in {ready, leased, executing, retry-scheduled, terminal}
+
+ready -> leased -> executing -> terminal
+leased -> ready
+executing -> ready | retry-scheduled
+retry-scheduled -> ready
+```
+
+Every transition compares against the current version and is recorded atomically with its dispatch outbox
+record. The intent, frozen plan, completed progress, exact Operation binding, and D40 identity survive worker
+loss and restart. A terminal dispatch has no implicit successor.
+
+Plain-language voice: the dispatch is the durable recovery record. It remembers what must run, what already
+finished, and where execution can safely resume.
+
+Domain-context voice: DomainSpec binds one D37 intent to the D36 plan. The dispatcher coordinates existing
+Operations but never replans, substitutes an Operation, or absorbs its business effects.
+
+Use carefully: dispatch state answers where durable coordination is, not whether recovery is semantically
+satisfied or whether one invocation succeeded.
+
+Misuse warning: do not infer a durable dispatcher implementation from this active semantic contract.
+
+Challenge contract: non-atomic transition/outbox recording, mutable plan identity, lost completed progress,
+or a successor from terminal challenges the term; owner route = definitions-governance plus runtime owner.
+
+Confirm contract: active as canonical semantics; implementation remains explicit residue until executable
+durability evidence exists.
+
+Promotion boundary: durable coordination semantics only; no implementation, deployment, or production claim.
+
+## domainspec-v2-D39. Compensation Execution Attempt
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted execution-episode identity
+
+Evidence: [durable compensation concept model](../development/durable-compensation-concepts/README.md) ·
+[Durable Compensation Dispatch](#domainspec-v2-d38)
+
+Formal voice:
+
+```text
+CompensationExecutionAttempt = (
+  attempt_id,
+  dispatch_id,
+  plan_occurrence_id,
+  attempt_number,
+  claim_id,
+  lease_id,
+  fencing_token,
+  started_at,
+  finished_at?,
+  outcome
+)
+
+outcome in {succeeded, failed, unknown}
+```
+
+One attempt is one bounded executor episode for one planned Operation occurrence. Starting execution after a
+retry or takeover creates a new attempt. Claim acquisition and lease grant or renewal alone do not.
+
+Plain-language voice: an attempt is one try. Losing the worker can make the result unknown, which is different
+from proving that the Operation failed.
+
+Domain-context voice: every DomainSpec attempt retains the exact Operation occurrence and evidence references;
+an unknown result can be replayed only with D40's unchanged invocation identity.
+
+Use carefully: attempt identity changes per execution episode; semantic recovery identity does not.
+
+Misuse warning: do not turn a failed or unknown attempt directly into a terminal recovery disposition.
+
+Challenge contract: reused attempt identity, missing authority binding, or loss treated as proven failure
+challenges the term; owner route = definitions-governance plus runtime owner.
+
+Confirm contract: active as canonical semantics; durable attempt recording remains implementation residue.
+
+Promotion boundary: one execution episode only; not the whole recovery outcome.
+
+## domainspec-v2-D40. Compensation Invocation Identity
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted replay-protection identity
+
+Evidence: [durable compensation concept model](../development/durable-compensation-concepts/README.md) ·
+[canonical runtime contract](../impl/architecture-conformance/targets/typescript/workflow-compensation-v1.md)
+
+Formal voice:
+
+```text
+invocation_identity = H(intent_id, plan_digest, operation_id, plan_occurrence_id)
+
+For attempts a and b over the same plan occurrence:
+  invocation_identity(a) = invocation_identity(b)
+  attempt_id(a) != attempt_id(b)
+
+semantic_application_count(invocation_identity) <= 1
+```
+
+The identity excludes worker, process, attempt, claim, lease, and scheduling values. The exact recovery
+Operation or its bound adapter must durably recognize an already-applied identity and return its recorded
+result without repeating the business effect.
+
+Plain-language voice: every retry is a new try at the same recovery action, so it gets a new attempt identity
+but reuses the same business-safe replay key.
+
+Domain-context voice: DomainSpec refines D36's deterministic idempotency key into a stable identity for each
+planned Operation occurrence. The same Operation appearing twice in one plan receives two occurrence keys.
+
+Use carefully: the guarantee is at-least-once invocation with at-most-once semantic application, not universal
+exactly-once delivery.
+
+Misuse warning: do not rotate the key on retry or use a Claim or Lease as business-effect replay protection.
+
+Challenge contract: a retry-specific key or repeated semantic application for one identity challenges the
+term; owner route = definitions-governance plus the Operation binding owner.
+
+Confirm contract: active by direct owner admission; current deterministic key evidence is bounded by the
+reference runtime, and durable adapter coverage remains independently observable.
+
+Promotion boundary: replay identity and semantic deduplication contract only.
+
+## domainspec-v2-D41. Compensation Claim
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted exclusive advancement authority
+
+Evidence: [durable compensation concept model](../development/durable-compensation-concepts/README.md) ·
+[Durable Compensation Dispatch](#domainspec-v2-d38)
+
+Formal voice:
+
+```text
+CompensationClaim = (
+  claim_id,
+  dispatch_id,
+  claimant_id,
+  acquired_at,
+  acquired_dispatch_version,
+  fencing_token,
+  claim_state
+)
+
+claim_state in {current, released, superseded}
+
+current(claim) iff
+  claim.claim_state = current
+  and claim.fencing_token = greatest_committed_fencing_token(claim.dispatch_id)
+
+may_advance(claim, now) iff current(claim) and exists active D42 lease at now
+```
+
+Acquisition is compare-and-set against `acquired_dispatch_version` and atomically creates a fencing token
+greater than every prior committed token for the dispatch. Takeover creates a new Claim and supersedes every
+earlier claimant.
+
+Plain-language voice: the Claim identifies which worker is currently allowed to move one recovery record
+forward. Its fence stops an older worker from committing after takeover.
+
+Domain-context voice: DomainSpec uses the Claim to serialize D38 coordination only. D40 protects business
+effects, and each Operation retains its own effect authority.
+
+Use carefully: advancing a dispatch requires both the current Claim and an active D42 Lease.
+
+Misuse warning: do not collapse the Claim into its Lease, Replay Identity, attempt, or domain ownership.
+
+Challenge contract: two current claims, non-monotonic fencing, or stale-worker advancement challenges the
+term; owner route = definitions-governance plus runtime owner.
+
+Confirm contract: active as canonical semantics; claim-store implementation remains residue.
+
+Promotion boundary: exclusive dispatch advancement authority only; not Operation or business authority.
+
+## domainspec-v2-D42. Compensation Claim Lease
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted bounded claim validity
+
+Evidence: [durable compensation concept model](../development/durable-compensation-concepts/README.md) ·
+[Compensation Claim](#domainspec-v2-d41)
+
+Formal voice:
+
+```text
+CompensationClaimLease = (
+  lease_id,
+  claim_id,
+  lease_generation,
+  valid_from,
+  expires_at,
+  renewed_from_lease_id?
+)
+
+active(lease, now) iff
+  valid_from <= now < expires_at
+  and lease.lease_generation = greatest_committed_generation(lease.claim_id)
+  and current(claim(lease.claim_id))
+```
+
+Renewal creates a newer Lease generation for the same Claim and preserves its fencing token. Expiry before
+execution creates no attempt. Expiry after execution begins makes that attempt unknown; takeover creates a new
+D41 Claim before any successor attempt.
+
+Plain-language voice: the Lease is the Claim's deadline. If a worker stops renewing it, another worker can
+eventually take over instead of leaving recovery stuck forever.
+
+Domain-context voice: DomainSpec uses the Lease for crash-recovery liveness while the Claim and fence preserve
+exclusive advancement safety.
+
+Use carefully: Claim and Lease lifecycles are independent of retry; authority loss may occur without retry.
+
+Misuse warning: do not treat Lease renewal as retry or a Lease as business-effect replay protection.
+
+Challenge contract: unbounded validity, renewal changing Claim or fence, or advancement after expiry
+challenges the term; owner route = definitions-governance plus runtime owner.
+
+Confirm contract: active as canonical semantics; clock, duration, cadence, and storage remain architecture
+choices and implementation residue.
+
+Promotion boundary: time-bounded Claim validity only.
+
+## domainspec-v2-D43. Compensation Retry
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted successor-attempt scheduling
+
+Evidence: [durable compensation concept model](../development/durable-compensation-concepts/README.md) ·
+[Compensation Execution Attempt](#domainspec-v2-d39)
+
+Formal voice:
+
+```text
+CompensationRetry = (
+  dispatch_id,
+  predecessor_attempt_id,
+  successor_attempt_number,
+  not_before,
+  remaining_budget,
+  selected_policy_ref
+)
+
+retry preserves:
+  intent_id, dispatch_id, plan_digest, durable progress, Operation binding,
+  plan occurrence, invocation identity
+
+retry changes:
+  attempt_id, scheduling metadata
+
+retry may change after authority loss or takeover:
+  claim_id, lease_id, fencing_token
+```
+
+Retry exists only when the failed Operation's explicit continuation, or an explicitly selected policy allowed
+by that binding, selects retry. Limits and backoff are bounded and persisted before eligibility.
+
+Plain-language voice: retry means “try the same declared recovery action again later,” not “choose a new plan.”
+
+Domain-context voice: the DomainSpec dispatcher enacts the Operation-owned continuation. It cannot invent retry
+policy, reset completed progress, or convert escalation into retry.
+
+Use carefully: Claim acquisition and Lease renewal are not Retry; scheduling is not execution.
+
+Misuse warning: do not retry with a new D40 identity, substitute an Operation, or retry after terminal state.
+
+Challenge contract: unbounded retry, replanning, or continuation bypass challenges the term; owner route =
+definitions-governance plus the Operation binding owner.
+
+Confirm contract: active as canonical semantics; durable scheduling remains implementation residue.
+
+Promotion boundary: authorized successor-attempt scheduling only.
+
+## domainspec-v2-D44. Compensation Terminal Disposition
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted terminal recovery result
+
+Evidence: [durable compensation concept model](../development/durable-compensation-concepts/README.md) ·
+[Durable Compensation Dispatch](#domainspec-v2-d38)
+
+Formal voice:
+
+```text
+CompensationTerminalDisposition = (
+  dispatch_id,
+  disposition,
+  final_attempt_id?,
+  cause,
+  evidence_refs,
+  recorded_at
+)
+
+disposition in {completed, exhausted, escalated}
+```
+
+`completed` requires durable success evidence for every plan occurrence. `exhausted` requires an explicit
+terminal-failure continuation or consumed retry budget. `escalated` requires the Operation-owned escalation
+route. A terminal dispatch has no implicit successor.
+
+Plain-language voice: Terminal Disposition is the durable final answer for the whole recovery, not the result
+of one attempt.
+
+Domain-context voice: DomainSpec records the final attempt and evidence without turning that record into
+permission for another Workflow or Operation.
+
+Use carefully: only `completed` makes D37 satisfied; `exhausted` and `escalated` make it unresolved.
+
+Misuse warning: do not treat a failed attempt, exhausted retry budget, or escalation receipt as permission for
+implicit successor work.
+
+Challenge contract: terminal state without its required evidence or any implicit successor transition
+challenges the term; owner route = definitions-governance plus runtime owner.
+
+Confirm contract: active as canonical semantics; durable terminal recording remains implementation residue.
+
+Promotion boundary: terminal recovery meaning only; no publication, deployment, or successor authority.
+
+## domainspec-v2-D45. Concern-Specific Dependency Contract
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted implementation-boundary model
+
+Evidence: [Operation, Workflow, and Infrastructure-Binding Pattern Research](../development/research/2026-08-20-operation-workflow-infrastructure-binding-patterns/TOWER.md) ·
+[System Integration Contract Layer Revision 2](../development/refinement-runs/20260813T153029Z-system-integration-contract-layer-revision-2/RESULT.md) ·
+[Infrastructure-Binding Architecture Admission](../development/meta-type-instantiation-cli/OWNER-INFRASTRUCTURE-BINDING-ARCHITECTURE-ADMISSION.json) ·
+[Durable Recovery Architecture](../architecture/durable-recovery/README.md)
+
+Research provenance: the Tower supplies the responsibility-specific seam and non-collapse model; Revision 2
+confirms the separate system-integration ownership plane; the owner admission makes that model canonical.
+Neither research artifact selects a provider or implementation profile.
+
+Formal voice:
+
+```text
+ConcernSpecificDependencyContract = (
+  contract_id,
+  concern,
+  consumer_roles,
+  operation_signatures,
+  failure_surface,
+  implementation_profile_ref
+)
+
+requires:
+  one named concern per contract
+  provider mechanics absent from consumer-owned signatures
+  concrete realization supplied at a composition boundary
+```
+
+A dependency contract is named for the responsibility it exposes, such as a Recovery Repository, Recovery
+Unit of Work, Clock, Scheduler, Wakeup capability, or Operation Binding Resolver. DomainSpec does not require
+one universal code-level `Port` abstraction, DI container, decorator system, or service locator. A DomainSpec
+Interface remains a DS-D1 logical boundary and is not implied merely because code consumes a dependency.
+
+Plain-language voice: name the seam after the job it performs. A store contract, clock, and message sender
+have different responsibilities and should not be hidden behind one generic dependency shape.
+
+Domain-context voice: the durable-recovery runtime consumes a Recovery Coordination Repository, a local
+Recovery Unit of Work, a Clock, a Wakeup capability, and exact Operation bindings. A TypeScript profile may
+express these as structural types supplied through higher-order-function construction; another profile may
+choose another language form without changing the concern.
+
+Use carefully: this term governs responsibility and dependency direction, not suffixes, files, framework
+choice, or provider technology.
+
+Misuse warning: do not turn every dependency into a DomainSpec Interface or infrastructure-binding record.
+Pure helpers and local capabilities may need only an exact implementation binding.
+
+Challenge contract: a generic contract that erases concern-specific failure or evidence obligations, or a
+consumer importing concrete provider mechanics, challenges the term; owner route = implementation-profile
+owner plus definitions-governance.
+
+Confirm contract: active as the canonical code-seam model; language-specific shapes remain profile-owned.
+
+Promotion boundary: dependency responsibility and direction only; no provider or runtime guarantee.
+
+## domainspec-v2-D46. Persistence Binding
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted infrastructure-binding record
+
+Evidence: [Operation, Workflow, and Infrastructure-Binding Pattern Research](../development/research/2026-08-20-operation-workflow-infrastructure-binding-patterns/TOWER.md) ·
+[System Integration Contract Layer Revision 2](../development/refinement-runs/20260813T153029Z-system-integration-contract-layer-revision-2/RESULT.md) ·
+[Infrastructure-Binding Architecture Admission](../development/meta-type-instantiation-cli/OWNER-INFRASTRUCTURE-BINDING-ARCHITECTURE-ADMISSION.json) ·
+[Durable Recovery Architecture](../architecture/durable-recovery/README.md)
+
+Research provenance: the Tower separates a Repository contract from persistence metadata; Revision 2
+introduces the candidate `PersistenceBinding` record and ownership split; the owner admission accepts the
+distinction while leaving the adapter and provider open.
+
+Formal voice:
+
+```text
+PersistenceBinding = (
+  binding_id,
+  logical_subject_refs,
+  dependency_contract_ref,
+  adapter_ref,
+  resource_ref,
+  implementation_profile_ref,
+  logical_physical_mapping_ref,
+  evidence_boundary
+)
+```
+
+The binding connects exact logical persistence roles and one D45 contract to one selected physical
+realization and its evidence boundary. `interface_ref` is optional and is present only when an actual DS-D1
+Interface owns the logical boundary; Entity, Operation, Query, Workflow-runtime, or other exact subject refs
+may bind persistence without inventing an Interface. Database, ORM, schema, migration, connection, locking,
+and provider configuration remain implementation-profile or adapter concerns.
+
+Plain-language voice: a Persistence Binding says which repository-shaped contract uses which concrete store
+realization, and exactly how far the evidence for that choice reaches.
+
+Domain-context voice: DomainSpec durable recovery binds the Recovery Coordination Repository to the selected
+coordination-store adapter. The binding may prove exact reads and writes for that adapter, but it does not by
+itself prove atomicity, retry safety, delivery, or production durability.
+
+Use carefully: keep the code contract, metadata binding, concrete adapter, runtime observation, and owner
+decision as separate records.
+
+Misuse warning: a Repository shape is not a Persistence Binding, and a passing schema or fixture is not proof
+that a database committed or recovered state.
+
+Challenge contract: an unbound adapter, ambiguous logical-to-physical mapping, missing evidence boundary, or
+provider detail smuggled into portable semantics challenges the term; owner route = system-integration owner
+plus implementation-profile owner.
+
+Confirm contract: active as canonical infrastructure-binding semantics; provider implementation remains
+separate evidence.
+
+Promotion boundary: persistence realization identity and bounded evidence only.
+
+## domainspec-v2-D47. Transaction Guarantee Binding
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted local-atomicity binding
+
+Evidence: [Operation, Workflow, and Infrastructure-Binding Pattern Research](../development/research/2026-08-20-operation-workflow-infrastructure-binding-patterns/TOWER.md) ·
+[System Integration Contract Layer Revision 2](../development/refinement-runs/20260813T153029Z-system-integration-contract-layer-revision-2/RESULT.md) ·
+[Infrastructure-Binding Architecture Admission](../development/meta-type-instantiation-cli/OWNER-INFRASTRUCTURE-BINDING-ARCHITECTURE-ADMISSION.json) ·
+[Durable Recovery Architecture](../architecture/durable-recovery/README.md)
+
+Research provenance: the Tower supplies the local-Unit-of-Work and non-Workflow-wide-transaction boundary;
+Revision 2 introduces the candidate `TransactionGuaranteeBinding` record; the owner admission accepts only
+the portable distinction, not any database guarantee.
+
+Formal voice:
+
+```text
+TransactionGuaranteeBinding = (
+  binding_id,
+  unit_of_work_contract_ref,
+  participant_refs,
+  atomicity_scope,
+  selected_guarantees,
+  implementation_profile_ref,
+  failure_outcome_binding_ref,
+  evidence_boundary
+)
+```
+
+The binding declares one exact local commit boundary and its participants. It applies only when atomicity or
+another named transaction guarantee is claimed. It requires D48 typed failure outcomes and provider-specific
+commit, rollback, conflict, partial-commit, and restoration observations. It never creates one transaction
+over a multi-step Workflow or across independent resources.
+
+Plain-language voice: a Transaction Guarantee Binding states exactly which writes must succeed or fail
+together in one selected local transaction.
+
+Domain-context voice: a durable-recovery coordination transition and its dispatch-outbox record share one
+Recovery Unit of Work. Each recovery Operation separately owns its business-state-and-outbox transaction;
+the coordinator never combines the two boundaries into a distributed transaction.
+
+Use carefully: declare only guarantees the selected adapter and evidence can observe. Isolation, durability,
+or rollback restoration must not be inferred from the word transaction.
+
+Misuse warning: do not describe Workflow compensation as database rollback or claim Workflow-wide atomicity.
+
+Challenge contract: unresolved participants, a missing D48 reference, partial-commit ambiguity, or a claim
+beyond the selected local resource challenges the term; owner route = transaction binding owner plus the
+Operation or durable-runtime owner.
+
+Confirm contract: active as canonical local-transaction binding semantics; exact provider guarantees remain
+profile-bound.
+
+Promotion boundary: one declared local transaction boundary only.
+
+## domainspec-v2-D48. Failure Outcome Binding
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted integration-failure classification
+
+Evidence: [Operation, Workflow, and Infrastructure-Binding Pattern Research](../development/research/2026-08-20-operation-workflow-infrastructure-binding-patterns/TOWER.md) ·
+[System Integration Contract Layer Revision 2](../development/refinement-runs/20260813T153029Z-system-integration-contract-layer-revision-2/RESULT.md) ·
+[Infrastructure-Binding Architecture Admission](../development/meta-type-instantiation-cli/OWNER-INFRASTRUCTURE-BINDING-ARCHITECTURE-ADMISSION.json) ·
+[Durable Recovery Architecture](../architecture/durable-recovery/README.md)
+
+Research provenance: the Tower requires failure evidence to remain distinct from continuation authority;
+Revision 2 introduces the candidate `FailureOutcomeBinding` record; the owner admission preserves
+`retryable`, `non-retryable`, and `unknown` without turning classification into Retry selection.
+
+Formal voice:
+
+```text
+FailureOutcomeBinding = (
+  binding_id,
+  concern_ref,
+  provider_outcome_ref,
+  outcome_class,
+  evidence_refs,
+  continuation_owner_ref
+)
+
+outcome_class in {retryable, non-retryable, unknown}
+```
+
+The binding classifies one provider or integration failure without selecting the continuation that consumes
+it. `unknown` is required when evidence cannot distinguish application, rollback, commit, delivery, or other
+relevant outcomes. Retry is permitted only through a separately declared continuation and stable semantic
+identity; the binding cannot make an unsafe operation retryable.
+
+Plain-language voice: a Failure Outcome Binding translates a concrete failure into a typed result while
+preserving uncertainty instead of guessing what happened.
+
+Domain-context voice: durable recovery maps store conflicts, rollback failures, authority loss, and unknown
+Operation outcomes into explicit continuations. A D39 failed or unknown attempt remains distinct from the D44
+terminal result of the whole recovery.
+
+Use carefully: preserve the provider observation separately from the classification and the later retry,
+escalation, or terminal decision.
+
+Misuse warning: do not turn every failure into retry, collapse `unknown` into failed, or treat classification
+as proof that state was restored.
+
+Challenge contract: missing raw evidence, provider-authored continuation authority, or classification that
+hides an unknown commit or business-effect outcome challenges the term; owner route = failure-outcome owner
+plus continuation owner.
+
+Confirm contract: active as canonical failure-classification semantics; retry mechanics and budgets remain
+separately owned.
+
+Promotion boundary: typed failure meaning only; no implicit continuation.
+
+## domainspec-v2-D49. Durable Workflow Runtime Binding
+
+Status: active
+
+Source kind: method-vocabulary; owner-admitted durable-profile composition binding
+
+Evidence: [Operation, Workflow, and Infrastructure-Binding Pattern Research](../development/research/2026-08-20-operation-workflow-infrastructure-binding-patterns/TOWER.md) ·
+[System Integration Contract Layer Revision 2](../development/refinement-runs/20260813T153029Z-system-integration-contract-layer-revision-2/RESULT.md) ·
+[Infrastructure-Binding Architecture Admission](../development/meta-type-instantiation-cli/OWNER-INFRASTRUCTURE-BINDING-ARCHITECTURE-ADMISSION.json) ·
+[Durable Recovery Architecture](../architecture/durable-recovery/ARCHITECTURE.md)
+
+Research provenance: the Tower supplies the durable-only composition spine; Revision 2 confirms the sibling
+system-integration ownership plane and evidence join; the owner admission accepts the binding concept without
+selecting its runtime, database, queue, or provider composition.
+
+Formal voice:
+
+```text
+DurableWorkflowRuntimeBinding = (
+  binding_id,
+  workflow_profile_ref,
+  persistence_binding_refs,
+  transaction_guarantee_binding_refs,
+  failure_outcome_binding_refs,
+  scheduler_contract_ref,
+  clock_contract_ref,
+  wakeup_contract_ref?,
+  replay_contract_ref,
+  version_compatibility_ref,
+  evidence_boundary
+)
+```
+
+The binding is required only when a selected Workflow profile claims durable progress across process loss or
+restart. It composes concern-specific contracts and bindings; it does not replace D46 persistence records or
+turn runtime-provider behavior into portable Workflow meaning. A synchronous in-process Workflow profile does
+not inherit checkpoint, lease, timer, replay, or version-compatibility obligations merely because the durable
+profile has them.
+
+Plain-language voice: a Durable Workflow Runtime Binding is the manifest that names everything a restart-safe
+Workflow runtime depends on and the evidence required for that exact combination.
+
+Domain-context voice: DomainSpec durable recovery uses this binding to connect Recovery Intent coordination,
+the Recovery Repository and Unit of Work, Claim and Lease timing, retry scheduling, wakeups, restart
+reconciliation, and Operation-owned replay safety without selecting a database or queue in the ontology.
+
+Use carefully: bind one exact profile and provider composition. Persistence, scheduling, delivery, replay,
+and version evidence retain their own scopes and owners.
+
+Misuse warning: do not apply this binding to every Workflow, use it as a generic service container, or infer
+that one passing provider proves every durable runtime.
+
+Challenge contract: missing concern bindings, ambiguous synchronous/durable applicability, replay identity
+drift, or absent restart/version evidence challenges the term; owner route = Workflow profile owner plus
+system-integration owner.
+
+Confirm contract: active as canonical durable-profile composition semantics; provider selection and runtime
+proof remain implementation work.
+
+Promotion boundary: exact durable-runtime composition and evidence boundary only.
 
 <!-- SKELETON note: D1-D2 mint-seeded; D3-D5 consolidated 2026-07-01 into this canonical home (was the
      separate governance surface DSV2-D1/2/3, now removed). Companions backfilled 2026-07-01 to the current

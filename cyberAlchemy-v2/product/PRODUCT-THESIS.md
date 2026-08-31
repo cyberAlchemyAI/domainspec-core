@@ -287,6 +287,30 @@ the available work evidence cannot support the job.
 Define does not make a term canonical, approve Design, authorize
 implementation, or prove that all human intent was captured.
 
+## Language-Guided Agent Work
+
+An agent cannot apply a shared language from a general instruction such as
+"use the ubiquitous language." At the start or resumption of Define, the agent
+needs one **Language Context View** bounded to the language, context, intended
+use, and exact source digests relevant to that work.
+
+The view makes the usable language explicit: preferred expressions, concept
+identities, business, domain, and product meanings, current dispositions,
+owners and evidence, candidate system realizations, relationship vocabulary,
+known conflicts, and blocked uses. Define reuses those exact bindings when they
+fit. When a binding is missing, stale, ambiguous, conflicting, or still owned
+by an unresolved decision, Define specializes, proposes, or keeps the matter as
+a visible question. It must not silently invent equivalence, choose an open
+DomainSpec realization, or treat a familiar label as owned meaning.
+
+The Definition Pack preserves the identity and digest of the Language Context
+View and the bindings it applied. A relevant source change makes that view
+stale and requires a new resolution before it can support continued work.
+
+Language consultation gives the agent bounded context. It does not transfer
+meaning ownership, accept a definition, select an unresolved realization,
+grant authority, or prove that the agent used the language correctly.
+
 ## Product And Delivery Form
 
 The **CyberAlchemy Product** is the candidate governed human-machine work
@@ -352,6 +376,10 @@ failure is systemic, the thesis—must be revised when:
 - Problem: `CA2-PROBLEM-DISCONNECTED-WORK`
 - Work loop: `CA2-CAP-GOVERNED-WORK-LOOP`
 - Define: `CA2-CAP-DEFINE-SHARED-MEANING`
+- Language context resolution: `CA2-CAP-RESOLVE-LANGUAGE-CONTEXT`
+- Language context product output: `CA2-OUTPUT-LANGUAGE-CONTEXT-VIEW`
+- Define language-application rule:
+  `CA2-RULE-DEFINE-LANGUAGE-APPLICATION`
 - Progressive context sufficiency rule:
   `CA2-RULE-DEFINE-CONTEXT-SUFFICIENCY`
 - Product output: `CA2-OUTPUT-DEFINITION-PACK`

@@ -6,8 +6,8 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(here, "../..");
 const repoRoot = resolve(projectRoot, "../..");
-const outputPath = resolve(here, "CANONICAL-IMPLEMENTED-BASELINE.v3.json");
-const decisionPath = resolve(here, "OWNER-PRODUCT-ONTOLOGY-AND-COMPENSATION-ADMISSION.json");
+const outputPath = resolve(here, "CANONICAL-IMPLEMENTED-BASELINE.v7.json");
+const decisionPath = resolve(here, "OWNER-INFRASTRUCTURE-BINDING-ARCHITECTURE-ADMISSION.json");
 const statePath = resolve(projectRoot, ".craft/artifacts/META-TYPE-STATE.json");
 const maturityPath = resolve(
   projectRoot,
@@ -40,6 +40,12 @@ const exactFiles = [
   "development/implementation-conformance/ontology-experiment/profiles/python-strict.profile.json",
   "development/implementation-conformance/ontology-experiment/profiles/rust-strict.profile.json",
   "development/backend-meta-type-conformance/evidence/WP-BMC-001/BMC-EVD-001.MATURITY-MATRIX.json",
+  "development/durable-compensation-concepts/README.md",
+  "development/durable-compensation-concepts/concepts.json",
+  "development/durable-compensation-concepts/concepts.schema.json",
+  "development/durable-compensation-concepts/validate.mjs",
+  "development/meta-type-instantiation-cli/freeze-baseline.mjs",
+  "development/meta-type-instantiation-cli/validate-baseline.mjs",
 ].map((path) => resolve(projectRoot, path));
 
 const evidenceRoots = [
@@ -49,6 +55,10 @@ const evidenceRoots = [
   "impl/architecture-conformance/acceptance",
   "impl/architecture-conformance/kernel",
   "impl/architecture-conformance/factory",
+  "impl/cli/src",
+  "impl/cli/contracts",
+  "impl/cli/test",
+  "impl/cli/tools",
 ].map((path) => resolve(projectRoot, path));
 
 function walk(root) {
@@ -93,15 +103,15 @@ const realizationRows = maturity.rows.flatMap((row) => row.realization_refs.map(
   .compare(Buffer.from(`${right.meta_type_id}/${right.language}`)));
 
 const body = {
-  $schema: "https://domainspec.dev/schemas/canonical-implemented-meta-type-baseline/v3",
-  schema_version: "domainspec.canonical-implemented-meta-type-baseline/v3",
-  baseline_id: "domainspec-meta-types-current-implemented@3",
-  frozen_at: "2026-08-29",
+  $schema: "https://domainspec.dev/schemas/canonical-implemented-meta-type-baseline/v7",
+  schema_version: "domainspec.canonical-implemented-meta-type-baseline/v7",
+  baseline_id: "domainspec-meta-types-current-implemented@7",
+  frozen_at: "2026-08-30",
   supersedes: {
-    baseline_id: "domainspec-meta-types-current-implemented@2",
-    baseline_digest: "10c29c2a4feb5039b6c90dcd7e2d44024757b4dd2414f9c0383c82387ec6e836",
-    manifest_path: "projects/domainspec-v2/development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v2.json",
-    reason: "Baseline @2 remains immutable historical evidence; @3 admits the canonical definitions, realizations, and Workflow Compensation runtime contract consumed by the private CLI and static conformance observer.",
+    baseline_id: "domainspec-meta-types-current-implemented@6",
+    baseline_digest: "b75b8816350bac97c192f7fbf83026368f214aa5c0879cfaa7da5fcb6cf9d2d5",
+    manifest_path: "projects/domainspec-v2/development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v6.json",
+    reason: "Baseline @7 preserves the exact @6 implementation epoch and admits D45-D49 as the canonical infrastructure-binding vocabulary used by durable-recovery architecture @2.",
   },
   owner_decision: {
     path: repoPath(decisionPath),
@@ -114,6 +124,8 @@ const body = {
     ui_state_rows: state.ui_types.length,
     relationship_authority_rows: state.headline.architecture_relationship_rows,
     compensation_runtime_contracts: 1,
+    compensation_definition_cards: 9,
+    infrastructure_binding_definition_cards: 5,
     frozen_evidence_files: inventory.length,
   },
   backend_meta_types: state.backend_types.map(({ id, label }) => ({ id, label })),
@@ -141,7 +153,11 @@ const body = {
     current_implementation_evidence_admitted: true,
     generated_target_conformance: false,
     compensation_runtime_contract_admitted: true,
-    durable_compensation_dispatch: false,
+    durable_compensation_model_admitted: true,
+    recovery_intent_terminology_admitted: true,
+    infrastructure_binding_model_admitted: true,
+    durable_workflow_runtime_binding_admitted: true,
+    durable_compensation_dispatch_implemented: false,
     publication: false,
     release: false,
     deployment: false,

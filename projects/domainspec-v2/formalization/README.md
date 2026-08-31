@@ -1,96 +1,172 @@
-# formalization/ — imported formal artifacts
+# DomainSpec Formalization
 
-Status: **import snapshot** (evidence + candidate instrument), not authority and not built in this repo.
-Imported: 2026-07-14, from the sibling repo `../../../../domainspec-lean-formalization/lean-formalization/`
-(selection rationale: [`research/lean-formalization-implications/findings.md`](../../../research/lean-formalization-implications/findings.md)).
+Status: **contracts-authored candidate package**
 
-Relationship authority stays in [`definitions/relationships/relationships.yml`](../definitions/relationships/relationships.yml).
-Nothing in this folder defines or amends a signature.
+This package defines how DomainSpec can turn business meaning into bounded,
+checkable evidence without letting a formal tool silently change the meaning.
 
-## What is here
+The intended path is:
 
-### `DomainSpecEdgeSignature.lean`
+```text
+business meaning
+  -> explicit definition-binding graph
+  -> formal signature + canonical proposition / FormalClaim
+  -> optional external evaluation context + InterpretationModel
+  -> capability assessment and route admission
+  -> preservation-backed projection
+  -> execution route: TDE neutral obligations -> native source -> provider evidence
+     or theorem route: Lean binding -> EVF theorem request -> theorem evidence
+  -> EVF evidence join
+```
 
-A **decidable, executable type-checker** for a DomainSpec concept graph, written in Lean 4
-(Mathlib), with fidelity theorems proved by `decide`. Zero `sorry`. In DomainSpec wording:
+The package manifest, ontology, working method, artifact contracts, candidate
+profile registry, and Define wizard question flow now exist. The wizard CLI,
+projection adapter, native-source generator, TDE integration, provider
+execution, and EVF execution are not implemented. Auth Foundation now contains
+the first definition-bound FormalClaim draft and derived consumer envelope.
 
-- **σ table** (`sig`, :150-185) — the DS-D8 signature operator: each edge label maps to its
-  admissible (source, target) meta-types. Finite, total, executable.
-- **`WellTyped` is decidable** (:219) — DS-P1 well-typedness compiles to a runnable check,
-  the "Morphism typing" candidate law of the
-  [category-law formalization route](../definitions/reviews/2026-07-12-category-law-formalization-route.md)
-  in mechanized form.
-- **Two typed objects, separated** — the point of the file:
-  - **`residue`** (:226) — edges mis-typed *between known meta-types*: genuine modeling
-    errors, rejected. "Was the spec built right?"
-  - **`escapes`** (:230) — edges the vocabulary *cannot classify* (`opaque` node / `other`
-    edge): accepted (graceful degradation) but **counted**. "Is the vocabulary enough?" —
-    the adequacy meter. Where escapes concentrate on a real corpus is which meta-type or
-    edge the vocabulary is missing.
-- **Proved, not just implemented** (all by `decide`, no `sorry`):
-  - `wellTyped_iff_residue_empty` (:234) — the residue/escape/valid trichotomy is exhaustive
-    and exclusive: the meter has no silently-missed case. This is what a plain validator
-    script cannot give — a property of the *rule set*, for all graphs, not only the graphs
-    a test happened to run.
-  - `dsP2_disjoint` / `dsP2_cover` (:251-256) — backend/UI partition holds and the
-    extensions are exactly what falls outside it.
-  - `sig_family_scoped` + `dsP3_crosslayer_direction` (:270-282) — every backend edge is
-    backend↔backend, intra-UI is UI↔UI, cross-layer is UI→backend; a mistyped σ row makes
-    the proof fail.
-  - Count theorems (:303-318) and non-vacuity witnesses (:341-391) — the checker rejects a
-    real error, accepts and tracks escapes, integrates the extensions.
-- **Marked extensions (NON-spec candidates)** — `aggregate`, `boundedContext`, `associates`
-  with `Cardinality` (entity↔entity multiplicity), and the escape hatch (`opaque`/`other`).
-  Candidates to test against real domain models, not vocabulary.
+## Canonical package artifacts
 
-## Why it is useful here
+- [`formalization-package.json`](formalization-package.json) — package identity,
+  exact sources, ownership boundaries, artifacts, and claim ceiling.
+- [`ontology/formalization.ontology.json`](ontology/formalization.ontology.json)
+  — business/system bridge ontology for the formalization path.
+- [`definitions/formalization-definitions.json`](definitions/formalization-definitions.json),
+  [`definitions/formalization-definitions-index.json`](definitions/formalization-definitions-index.json),
+  and [`definitions/formalization-definition-drift-audit.json`](definitions/formalization-definition-drift-audit.json)
+  — 26 package-local critical terms, their deterministic index, and the
+  current drift/repair boundary. These candidates reference, but do not
+  redefine, Arcanum or CyberAlchemy-v2 authority.
+- [`method/formalization-method.json`](method/formalization-method.json) —
+  owners, artifacts, visible session states, working stages, outcome meanings,
+  change rules, and progressive implementation layers.
+- [`schemas/formalization-package.schema.json`](schemas/formalization-package.schema.json)
+  — package input contract.
+- [`schemas/formalization-ontology.schema.json`](schemas/formalization-ontology.schema.json)
+  — ontology input contract.
+- [`schemas/formalization-method.schema.json`](schemas/formalization-method.schema.json)
+  — working-method input contract for agents and tools.
+- [`contracts/formalization-contract-set.json`](contracts/formalization-contract-set.json)
+  — all artifact contracts, owners, consumers, compatibility edges, and typed
+  outcomes in one machine-readable registry.
+- [`profiles/formal-language-profiles.json`](profiles/formal-language-profiles.json)
+  — candidate semantic roles and result ceilings for Lean/DTT, FOL, SMT,
+  TLA/TLC, Alloy, and Souffle.
+- [`authoring/define-wizard.json`](authoring/define-wizard.json) — candidate S0
+  through S3 questions and shared CLI/chat session behavior.
+- [`schemas/`](schemas/) — per-artifact input schemas for BusinessMeaning,
+  explicit FormalClaim definition binding, FormalClaim v4, a derived consumer
+  definition-complete envelope, separate optional EvaluationContext and
+  InterpretationModel, capability assessment, neutral
+  obligations, projections, preservation, native source, provider evidence,
+  EVF joins, authoring sessions, wizard flow, and case packages.
+- [`fixtures/contract-fixtures.json`](fixtures/contract-fixtures.json) —
+  synthetic positive, exact-cause negative, stale, unknown, duplicate,
+  malformed, timeout, and claim-ceiling schema cases.
+- [`docs/WORKING-METHOD.md`](docs/WORKING-METHOD.md),
+  [`docs/FORMALCLAIM-AND-PROFILES.md`](docs/FORMALCLAIM-AND-PROFILES.md),
+  [`docs/TDE-EVF-INTEGRATION.md`](docs/TDE-EVF-INTEGRATION.md), and
+  [`docs/DEFINE-WIZARD.md`](docs/DEFINE-WIZARD.md) — derived human views.
+- [`validate.mjs`](validate.mjs) — deterministic package, schema-instance,
+  source-currentness, graph-closure, and boundary validation.
+- [`receipts/`](receipts/) — append-only validation and review history.
 
-1. **Route evidence.** The morphism-typing row of the category-law route asks for exactly
-   this consolidation; this file is the existence proof that the finite DS-D8 rule can be
-   stated formally and checked decidably, with the σ-consistency meta-theorems that a
-   validator script only samples.
-2. **Adequacy instrument (escapes).** The escapes counter operationalizes promotion-rubric
-   criterion 8 — *witnessed decision pressure*
-   ([first-class-category-boundary findings](../research/2026-07-02-first-class-category-boundary/findings.md)) —
-   as a measurable quantity: run the checker over a corpus, watch where escapes concentrate,
-   and that concentration is the witness for the next first-class candidate. The file itself
-   is honest about the epistemic status: this is *"an empirical, measurable question …, not
-   a proof"* (:18-20).
-3. **Drift-gate candidate.** The σ table here is a *transcription* and is already **stale
-   against root authority** (see below). That staleness is the argument for the derivation
-   candidate: generate the formal table (and the runtime validator) from
-   `relationships.yml`, so the fidelity theorems become an executable drift gate instead of
-   a second hand-maintained copy. Not implemented; route through the category-law research
-   tower.
+JSON and JSON Schema are canonical. Markdown is human navigation only.
 
-## Known drift vs root authority (intentional — do not silently fix)
+The definition registry is the candidate authority for package-local term
+bodies. The ontology projects those terms into graph nodes; schemas constrain
+agent inputs; the index provides lookup. Neither the ontology label, the
+index, nor a copied consumer envelope may silently become definition authority.
 
-The Lean spec core transcribes an earlier 25-meta-type / 29-edge vocabulary. Root
-[`relationships.yml`](../definitions/relationships/relationships.yml) has since reconciled to
-**31 active signatures**. Verified divergences:
+## Ownership boundary
 
-| Lean σ table | Root `relationships.yml` |
-| --- | --- |
-| `enforcesCross` active as its own edge (:156) | `enforces-cross` **deprecated**; use `enforces` + cross-feature scope |
-| no `owns` / `belongs-to` | `owns`, `belongs-to` first-class (Entity↔Entity family) |
-| `applies`: policy → operation only (:162) | `applies` targets both `Operation` and `Calculation` |
-| `reads`: query/operation → entity (:165) | `queries` is deprecated; Calculation remains pure over explicit inputs |
-| no `creates` | `creates`: same-feature Operation → Entity with exact `creation_targets` source-effect binding |
-| `associates` + `Cardinality` extension (:184, :320-339) | not a root signature; overlaps the promoted Entity↔Entity family — reconciliation is an open question |
+- Domain projects own their business meaning and specific FormalClaims.
+- This package owns the reusable ontology and candidate authoring, profile,
+  projection, preservation, native-source, and bridge contracts.
+- Define owns the interactive authoring experience and produces JSON source
+  payloads; wizard state is not business acceptance or formal proof.
+- Validation governance owns capability classification and admission policy.
+- TDE owns neutral obligation and case derivation.
+- Formal providers own bounded checks of selected projections and exact
+  provider-runtime bindings.
+- EVF owns actual provider selection, theorem requests, and the exact evidence
+  join. TDE may only emit provider-routing candidates.
 
-This drift is **the exhibit** for use 3 above, so it is preserved as-is. Any update to the
-σ table should come from the generate-from-root decision, not from hand-editing this copy.
+A provider result does not become business authority merely because the
+provider can check one projection.
 
-## Boundaries and caveats (claim ≤ proof)
+## How we work with the module
 
-- **Not built here.** No lakefile/toolchain in this repo; the file compiles in the sibling
-  repo (Lean 4 + Mathlib). The sibling's own README flags a global build-gate re-verify as
-  pending; treat "proved" as *proved at source, snapshot here*.
-- **Not authority.** DS-D8 authority is `definitions/relationships/relationships.yml`;
-  DS-D1 meta-type authority is `definitions/meta-types/`. This file is evidence and
-  instrument design.
-- **Escapes ≠ proof of adequacy.** No finite fixed vocabulary is provably complete for the
-  open class "any code that models a domain" (:18-20); the meter makes adequacy measurable,
-  never certified.
-- The sibling repo remains the proof source of record; upstream changes do not propagate
-  here automatically.
+The normal working sequence is:
+
+1. Scope one business question and name its owner and claim ceiling.
+2. Record BusinessMeaning in normal domain language with examples and
+   counterexamples, then attach stable definitions whose formal voice is
+   normative and whose plain-language and domain-context voices are
+   explanatory. Each definition points to the business facts it explains. An
+   accepted successor explicitly changes its supersession effect and accepts
+   every inline definition; a draft cannot claim accepted supersession.
+3. Declare the claim's definition dependencies as explicit `uses_definition`
+   graph edges, including every transitive dependency. Do not infer edges from
+   names.
+4. Bind one formal signature and CanonicalProposition into a schema-valid
+   FormalClaim source. InterpretationModel is not a claim field.
+5. If evaluation needs an InterpretationModel, bind it later as an external
+   evaluation context.
+6. Let validation governance classify the exact claim and admit one bounded
+   route.
+7. Create a preservation-backed projection for that route before executable
+   TDE derivation.
+8. Let TDE derive neutral cases only for an admitted executable projection, or
+   bind the selected EVF theorem/solver/model route request.
+9. Run one bounded provider check over exact inputs and environment.
+10. Let EVF join current evidence to the exact claim and selected route subject
+   — an execution obligation or theorem request — then state only the bounded
+   conclusion. `PASS_BOUNDED` requires every bound reference to be current and
+   the case package to point to that exact EVF join.
+
+When something changes, restart at the earliest meaning-bearing artifact that
+changed. A business definition, definition graph, formal signature, assumption,
+proposition, or ceiling change creates a new FormalClaim identity. An
+InterpretationModel change creates a new evaluation-context identity, not a new
+FormalClaim. Adding another provider for the same meaning creates a new
+projection and evidence, not a second business truth.
+
+The method grows in five layers:
+
+- **L0:** manually author one Auth Foundation rule through a reviewed
+  FormalClaim source; no provider or proof claim.
+- **L1:** complete one bounded TDE → provider → EVF evidence vertical.
+- **L2:** make authoring interactive, visible, resumable, and deterministic in
+  Define CLI and chat.
+- **L3:** add multiple providers and harden unsupported, indeterminate, stale,
+  missing, and failed outcomes.
+- **L4:** prove the package can be reused by a second domain without inheriting
+  Auth-specific meaning.
+
+## Legacy imported evidence
+
+[`DomainSpecEdgeSignature.lean`](DomainSpecEdgeSignature.lean) remains an exact
+imported Lean snapshot. It is useful evidence that an edge-signature rule can
+be stated and checked in Lean, but it is not this package's authority, current
+relationship source, runtime, or proof of the new formalization model.
+
+Its known drift is preserved intentionally:
+
+- the snapshot has an older meta-type and edge vocabulary;
+- `enforcesCross` is stale;
+- current `owns`, `belongs-to`, and `creates` relations are absent;
+- `applies` and `reads` differ from current relationship authority;
+- its `associates` extension is not a current root signature.
+
+Do not hand-edit the Lean snapshot to hide this drift. A later, separately
+selected derivation design may generate formal provider sources from current
+authority.
+
+## Next boundary
+
+Independently review the Auth Foundation v4 FormalClaim draft, its explicit
+definition closure, and its deterministic consumer envelope. FormalClaim
+admission remains a separate owner decision. Current TDE intake still requires
+an exact `FormalClaimSourcePayload/v2` projection; v4 is not adopted. Do not
+derive obligations or execute providers in L0.

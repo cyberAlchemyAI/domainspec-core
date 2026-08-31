@@ -1,0 +1,207 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "body-war-swu-readiness-envelope",
+  "candidate_id": "BW-BWSL000-PREFLIGHT-CANDIDATE-A",
+  "created_at": "2026-08-26T14:26:00Z",
+  "target": "SWU-BWSL-000",
+  "source_notice": {
+    "code": "HN-30108A027C74",
+    "digest": "30108a027c74feb8c98fc27485a4e12ee2c8ed890c57e084fc18930ab332124d"
+  },
+  "source_work_pack": {
+    "path": "projects/body-war/development/invoke-runs/20260826T132848Z-body-war-continuation-material/material-package/postimages/projects/body-war/docs/features/strava-linked-pilot/WORK-PACK.md",
+    "sha256": "d5702d395f1f5ef0a23b1827b9f30f68ade3b0547d3f9ceed45c6887e4efb10e",
+    "state": "refresh-candidate-not-applied"
+  },
+  "authority_effect": "none",
+  "mutation_ready": false,
+  "prototype_lane": "candidate-local-only-after-exact-owner-confirmation",
+  "behavior_contract": {
+    "provider_binding": "additive-unwired-listProviderActivitySummaries-method",
+    "normal_api_activities_behavior": "unchanged-repository-backed-synthetic-until-SWU-BWSL-001",
+    "pagination": {
+      "page_min": 1,
+      "page_max": 10,
+      "per_page_min": 1,
+      "per_page_max": 100,
+      "stop_on_short_page": true,
+      "reject_out_of_bounds_before_fetch": true
+    },
+    "eligible_sport_types": [
+      "Run",
+      "TrailRun",
+      "VirtualRun"
+    ],
+    "zero_eligible_activities": "success-empty-array",
+    "summary_allowlist": [
+      "id",
+      "name",
+      "sport_type",
+      "type",
+      "distance",
+      "moving_time",
+      "average_speed",
+      "start_date"
+    ],
+    "summary_forbidden_fields": [
+      "access_token",
+      "refresh_token",
+      "raw_payload",
+      "athlete",
+      "map",
+      "polyline",
+      "start_latlng",
+      "end_latlng",
+      "coordinates",
+      "notes",
+      "secrets"
+    ],
+    "token_refresh": {
+      "source": "latest-stored-token-for-linked-account",
+      "trigger": "expires_at-less-than-or-equal-to-fixed-clock-now",
+      "rotation": "persist-new-access-refresh-pair-before-provider-fetch",
+      "network": "injected-fetch-only-in-SWU-BWSL-000-tests"
+    },
+    "safe_provider_results": {
+      "rate_limit": "strava_rate_limited",
+      "unauthorized_or_forbidden": "strava_credentials_revoked",
+      "missing_scope": "strava_scope_denied",
+      "missing_token": "strava_token_missing",
+      "invalid_ciphertext": "strava_token_unreadable",
+      "provider_failure": "strava_provider_failed"
+    },
+    "evidence_lifecycle": {
+      "candidate_disposition_reasons": [
+        "deletion",
+        "consent_revocation"
+      ],
+      "idempotent_results": [
+        "disposed",
+        "already_absent"
+      ],
+      "last_candidate_removed": "reset-only-affected-track-to-needs_evidence",
+      "provider_revocation": "disconnect-account-and-delete-provider-tokens",
+      "provider_revocation_preserves": [
+        "runner-profile",
+        "existing-evidence-candidates"
+      ],
+      "automatic_descendant_cascade": false,
+      "policy_ceiling": "retention-timing-descendants-backups-caches-public-receipts-and-real-witness-remain-OWNER-BWSL-001"
+    }
+  },
+  "targets": [
+    {
+      "path": "projects/body-war/app/e2e/body-war-auth.e2e.ts",
+      "operation": "update",
+      "baseline_sha256": "146220cabf8bc68d8c4fd2c3006109d0511fa41cd96f6cdb900fa9dd376da16d",
+      "baseline_size": 7428,
+      "responsibility": "exercise-lifecycle-semantics-through-drizzle-and-ephemeral-postgres"
+    },
+    {
+      "path": "projects/body-war/app/src/auth/body-war-repository.ts",
+      "operation": "update",
+      "baseline_sha256": "3fd085deeb2fc716189d8dd1a945c21ec6aaab686b36c3ad907cadbc3f3d5815",
+      "baseline_size": 2952,
+      "responsibility": "latest-token-disposition-and-provider-revocation-contracts"
+    },
+    {
+      "path": "projects/body-war/app/src/auth/drizzle-repository.ts",
+      "operation": "update",
+      "baseline_sha256": "38eaf706dd96d6d24811ed5d30c388e59571c7629b32a1cf79a684e04692f459",
+      "baseline_size": 13809,
+      "responsibility": "existing-table-postgres-implementation"
+    },
+    {
+      "path": "projects/body-war/app/src/auth/memory-repository.ts",
+      "operation": "update",
+      "baseline_sha256": "4f1ba3315621586640c6b8cafb03ae00715e58ad6a616745f01b21b86afb2ada",
+      "baseline_size": 8974,
+      "responsibility": "deterministic-memory-implementation"
+    },
+    {
+      "path": "projects/body-war/app/src/auth/strava-activity-provider.ts",
+      "operation": "create",
+      "baseline_sha256": null,
+      "baseline_size": null,
+      "responsibility": "injected-fetch-bounded-provider-gateway-translation-filtering-and-safe-errors"
+    },
+    {
+      "path": "projects/body-war/app/src/auth/strava-oauth.ts",
+      "operation": "update",
+      "baseline_sha256": "798e0f401633ebb235d989191c2f00ccff7183c7f50be7e6b857c7f6473f26b4",
+      "baseline_size": 8316,
+      "responsibility": "add-unwired-provider-backed-method-token-retrieval-decryption-refresh-and-rotation"
+    },
+    {
+      "path": "projects/body-war/app/tests/evidence-lifecycle.test.ts",
+      "operation": "create",
+      "baseline_sha256": null,
+      "baseline_size": null,
+      "responsibility": "memory-lifecycle-and-provider-revocation-tests"
+    },
+    {
+      "path": "projects/body-war/app/tests/strava-activity-provider.test.ts",
+      "operation": "create",
+      "baseline_sha256": null,
+      "baseline_size": null,
+      "responsibility": "provider-token-error-pagination-filtering-and-redaction-tests"
+    }
+  ],
+  "validation_contracts": [
+    {
+      "id": "BWSL-VAL-UNIT",
+      "criticality": "acceptance-critical",
+      "command": "env -u STRAVA_CLIENT_ID -u STRAVA_CLIENT_SECRET BODY_WAR_AUTH_BACKEND=memory BODY_WAR_STRAVA_FAKE=1 npm --prefix projects/body-war/app test",
+      "network": "forbidden"
+    },
+    {
+      "id": "BWSL-VAL-APP",
+      "criticality": "acceptance-critical",
+      "command": "env -u STRAVA_CLIENT_ID -u STRAVA_CLIENT_SECRET BODY_WAR_AUTH_BACKEND=memory BODY_WAR_STRAVA_FAKE=1 npm --prefix projects/body-war/app run validate",
+      "network": "forbidden"
+    },
+    {
+      "id": "BWSL-VAL-POSTGRES",
+      "criticality": "acceptance-critical",
+      "command": "projects/body-war/app/scripts/e2e.sh all with docker-compose pull disabled and postgres:16-alpine image sha256:b97fe41a065781e884f8a23fd3dfd04c3348ce02d7a7c5cb2c0645317b4eb663",
+      "network": "forbidden"
+    },
+    {
+      "id": "BWSL-VAL-UI",
+      "criticality": "acceptance-critical-regression",
+      "command": "env -u STRAVA_CLIENT_ID -u STRAVA_CLIENT_SECRET PLAYWRIGHT_BROWSERS_PATH=/home/vrondelli/.cache/ms-playwright BODY_WAR_AUTH_BACKEND=memory BODY_WAR_STRAVA_FAKE=1 npm --prefix projects/body-war/app run test:ui",
+      "network": "loopback-only"
+    },
+    {
+      "id": "BWSL-VAL-WHITESPACE",
+      "criticality": "acceptance-critical",
+      "command": "git diff --check for five update targets; git diff --no-index --check /dev/null for each of three create targets; require exact eight-path scoped status",
+      "network": "not-applicable"
+    },
+    {
+      "id": "BWSL-VAL-PRIVACY",
+      "criticality": "acceptance-critical",
+      "command": "fixture assertions and scoped scans reject tokens secrets raw provider payload maps polylines coordinates notes and unexpected provider URLs",
+      "network": "forbidden"
+    }
+  ],
+  "excluded_scope": [
+    "projects/body-war/app/server.ts",
+    "projects/body-war/app/static/**",
+    "projects/body-war/app/src/auth/types.ts",
+    "projects/body-war/app/src/infrastructure/postgres/schema.ts",
+    "projects/body-war/app/drizzle/**",
+    "projects/body-war/app/package.json",
+    "projects/body-war/app/package-lock.json",
+    "canonical-planning-and-Craft-bytes",
+    "SWU-BWSL-001-and-SWU-BWSL-002",
+    "real-Strava-calls-credentials-or-personal-data",
+    "geometry-scoring-deployment-Git-publication-release-production"
+  ],
+  "execution_blockers": [
+    "BW-REF-APPLY-001-planning-refresh-not-accepted-or-applied",
+    "exact-owner-confirmation-not-present",
+    "task-selection-admission-and-mutation-receipt-not-present"
+  ],
+  "claim_ceiling": "Current-tree exact-path implementation proposal and deterministic validation route only. No candidate bytes, implementation validation, canonical planning apply, Task Session selection or admission, mutation readiness, live provider compatibility, private-data processing, real witness, policy selection, deployment, Git publication, release, or production readiness."
+}

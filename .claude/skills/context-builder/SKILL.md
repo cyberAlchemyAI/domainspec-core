@@ -17,6 +17,8 @@ allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion
 
 # Sigil: Context Builder
 
+For a plan-once execution-entry source, compile the native machine view with `scripts/compile_native_context_projection.py`. Validate the versioned closure and machine schema before producing any human-readable view. Do not translate snake_case planning fields directly into admission input, include lifecycle-owner scopes in executor writes, or infer selection/admission authority from successful compilation.
+
 <objective>
 Produce a minimal task-ready context bundle that maximizes relevance, preserves evidence selectors, and minimizes reading overhead. When requested for runtime delegation, emit a strict handoff pack as session evidence in both Markdown and structured JSON/index form.
 </objective>
@@ -90,7 +92,7 @@ A successful execution must:
 - produce a compact artifact another agent can use immediately,
 - emit Markdown plus JSON/index for runtime handoff packs,
 - label persisted handoff packs as session evidence rather than canonical docs.
-  </quality-bar>
+</quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -103,7 +105,7 @@ Avoid:
 - allowing a runtime handoff from incomplete, stale, contradictory, unsafe, or validation-missing context,
 - persisting handoff packs beside canonical planning docs without labeling them session evidence,
 - exceeding the selected mode budget without explanation.
-  </anti-patterns>
+</anti-patterns>
 
 <output-contract>
 Return:
@@ -136,5 +138,4 @@ Return:
 
 1. <action>
 ```
-
 </output-contract>

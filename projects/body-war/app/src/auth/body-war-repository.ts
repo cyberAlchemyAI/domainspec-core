@@ -50,12 +50,25 @@ export type AddActivityEvidenceCandidateInput = {
   consentedAt: string;
 };
 
+export type ActivityEvidenceDispositionReason =
+  | "deletion"
+  | "consent_revocation";
+
+export type DisposeActivityEvidenceCandidateInput = {
+  candidateId: string;
+  reason: ActivityEvidenceDispositionReason;
+};
+
+export type RepositoryDispositionResult = "disposed" | "already_absent";
+
 export type BodyWarAuthRepository = {
   createOAuthState(state: OAuthState): Promise<OAuthState>;
   consumeOAuthState(state: string, now: Date): Promise<OAuthState | null>;
   upsertProviderAccount(input: UpsertProviderAccountInput): Promise<ProviderAccount>;
   findProviderAccountByPrincipalId(principalId: string): Promise<ProviderAccount | null>;
   storeProviderToken(input: StoreProviderTokenInput): Promise<ProviderTokenRecord>;
+  findLatestProviderToken(accountId: string): Promise<ProviderTokenRecord | null>;
+  revokeProviderAccess(principalId: string): Promise<RepositoryDispositionResult>;
   upsertRunnerProfile(input: UpsertRunnerProfileInput): Promise<RunnerProfile>;
   findRunnerProfile(principalId: string): Promise<RunnerProfile | null>;
   listActivitySummaries(principalId: string): Promise<ActivitySummary[]>;
@@ -68,6 +81,9 @@ export type BodyWarAuthRepository = {
     suggestedTrackId: string,
     principalId?: string | undefined,
   ): Promise<ActivityEvidenceCandidate[]>;
+  disposeActivityEvidenceCandidate(
+    input: DisposeActivityEvidenceCandidateInput,
+  ): Promise<RepositoryDispositionResult>;
 };
 
 export const DEFAULT_SUGGESTED_TRACK = {

@@ -35,6 +35,8 @@ The checked Define output bundle is called a Definition Pack.
    real consequences.
 6. A Definition Pack has authority effect none unless a separate owner decision
    grants one exact effect.
+7. Registry insertion, lookup, or validation does not promote a definition or
+   appoint its meaning owner.
 
 ## Owners And Decision Rights
 
@@ -53,6 +55,9 @@ Before the ownership table:
 | Goal and intent | Goal owner | The wanted result, its limits, its original reason, and acceptable clarification. | Project-wide definitions or another owner's source. |
 | Meaning inside an existing source | Source owner | What a term means inside that source's stated context. | Whether another team must use it. |
 | Candidate Define product meaning | CyberAlchemy v2 product owner | The proposed capability, boundaries, and desired outcomes. | Canonical definition promotion or runtime acceptance. |
+| Handled-definitions registry asset | CyberAlchemy v2 product owner | The candidate registry purpose, scope, and inclusion in Define. | Meaning inside a record, schema conformance, canonical promotion, or runtime persistence. |
+| Handled-definition record schema | CyberAlchemy v2 Definitions Governance owner | The required record voices, disposition variants, source links, drift checks, and authority ceiling. | Meaning inside a source, contextual fitness, runtime persistence, or consumer acceptance. |
+| Meaning in one handled record | Named source or decision owner | The exact meaning or open status for the stated context. | Canonical promotion, unrelated contexts, or downstream execution. |
 | Definition candidate | Definitions Governance owner | Promote, revise, reject, or leave it open. | Runtime adoption or execution. |
 | Define runtime | CyberAlchemy v2 Define runtime owner | Accept one exact implementation contract. | Change product meaning or public Invoke ownership. |
 | Use of a Definition Pack | Owner of the next use | Accept the pack as input for one stated use. | Promote definitions or act beyond the recorded permission limit. |

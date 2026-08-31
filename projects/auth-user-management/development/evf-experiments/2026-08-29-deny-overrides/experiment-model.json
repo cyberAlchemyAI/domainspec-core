@@ -1,0 +1,156 @@
+{
+  "schema_version": "auth-r3-evf-experiment-candidate/v1",
+  "candidate_id": "auth-access-control.deny-overrides-first-vertical/v1",
+  "status": "blocked-pending-business-semantic-decision",
+  "authority_effect": "none",
+  "implementation_effect": "none",
+  "release_admission": "not-granted",
+  "source_bindings": [
+    {
+      "path": "projects/auth-user-management/docs/auth-access-control/operations.md",
+      "sha256": "559a4bda8e52f0c3e7ac859c0cbb360196a010a1bd07bf919a0e361a1018a6af",
+      "role": "business-rule-source"
+    },
+    {
+      "path": "projects/auth-user-management/docs/auth-access-control/workflows.md",
+      "sha256": "07981dbf13b84d580d90e4add284b8a38b6f48bf81897405d45fccfaa50e95aa",
+      "role": "policy-source"
+    },
+    {
+      "path": "projects/auth-user-management/docs/auth-access-control/domain.md",
+      "sha256": "e882202350ce6cfcc493913d40d5a499ecf2239c103508d6a40c8f8fdaf869af",
+      "role": "authorization-input-and-grant-model-source"
+    },
+    {
+      "path": "projects/auth-user-management/docs/auth-access-control/decisions.en.md",
+      "sha256": "bcbd5890edade22bce0f27278932f490d77ce33197ec542924198827e9f1ddb5",
+      "role": "confirmed-decision-source"
+    },
+    {
+      "path": "projects/auth-user-management/docs/ontology/auth-domain-ontology.json",
+      "sha256": "67cf348ab99360c20e1675ee9e3606391a86c21f9e0f51dd816a9798d984bae9",
+      "role": "business-ontology-and-CON-04-source"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "BusinessMeaning:auth-access-control.deny-overrides/v1",
+      "kind": "BusinessMeaning",
+      "state": "observed-with-unresolved-carrier",
+      "statement": "An applicable explicit DENY wins over matching ALLOW grants."
+    },
+    {
+      "id": "FormalClaim:auth-access-control.principal-exact-deny-wins/v1",
+      "kind": "FormalClaim",
+      "state": "candidate-not-admitted",
+      "statement": "For an authoritative principal-grant snapshot, an exact matching principal DENY implies an authorization DENY decision regardless of matching ALLOW grants."
+    },
+    {
+      "id": "ProofObligation:auth-access-control.r3-carrier/v1",
+      "kind": "ProofObligationDraft",
+      "state": "planned-blocked",
+      "proposition": "AuthorizeRequest includes every applicable current matching principal DENY from the authoritative snapshot in its decision grant set."
+    },
+    {
+      "id": "ProofObligation:auth-access-control.r3-precedence/v1",
+      "kind": "ProofObligationDraft",
+      "state": "planned-not-derived",
+      "proposition": "A matching DENY in the decision grant set forces DENY regardless of matching ALLOW grants."
+    }
+  ],
+  "relations": [
+    {
+      "kind": "formalizes",
+      "from": "FormalClaim:auth-access-control.principal-exact-deny-wins/v1",
+      "to": "BusinessMeaning:auth-access-control.deny-overrides/v1",
+      "state": "proposed-owner-acceptances-absent",
+      "scope": "principal exact-match first slice",
+      "declared_loss": [
+        "role and group DENY",
+        "wildcard DENY",
+        "grant expiry and concurrent update semantics",
+        "full R3 coverage"
+      ]
+    },
+    {
+      "kind": "derived_from",
+      "from": "ProofObligation:auth-access-control.r3-carrier/v1",
+      "to": "FormalClaim:auth-access-control.principal-exact-deny-wins/v1",
+      "state": "planned-not-authored"
+    },
+    {
+      "kind": "derived_from",
+      "from": "ProofObligation:auth-access-control.r3-precedence/v1",
+      "to": "FormalClaim:auth-access-control.principal-exact-deny-wins/v1",
+      "state": "planned-not-authored"
+    }
+  ],
+  "supporting_obligation_drafts": [
+    {
+      "id": "ProofObligationDraft:auth-access-control.p2-forbidden/v1",
+      "source": "AuthorizeRequest.P2",
+      "proposition": "A DENY decision produces FORBIDDEN and never returns allowed true.",
+      "state": "planned-not-derived-from-r3"
+    },
+    {
+      "id": "ProofObligationDraft:auth-access-control.allow-control/v1",
+      "source": "AuthorizeRequest.R2 and PermissionResolutionPolicy",
+      "proposition": "With no matching DENY and an exact matching ALLOW, the decision is ALLOW.",
+      "state": "planned-non-trivial-control"
+    }
+  ],
+  "relationship_bridge": [
+    {
+      "observed": "AuthorizeRequest --has_rule--> AuthorizeRequest.R3",
+      "candidate_domainspec_projection": "AuthorizeRequest.R3 --enforces--> AuthorizeRequest"
+    },
+    {
+      "observed": "PermissionResolutionPolicy --governs--> AuthorizeRequest",
+      "candidate_domainspec_projection": "PermissionResolutionPolicy --applies--> AuthorizeRequest"
+    },
+    {
+      "observed": "AuthorizeRequest --produces--> AccessDenied",
+      "candidate_domainspec_projection": "AuthorizeRequest --produces--> AccessDenied"
+    }
+  ],
+  "implementation_observations": [
+    {
+      "path": "projects/auth-user-management/src/application/auth-access-control/authorize-request.ts",
+      "sha256": "5cfbcf931180bf0b41258b0ef95cc535ade75616fd0618403a3f015a783e6f0e",
+      "observation": "The operation loads principal grants and passes DENY grants to the decision function."
+    },
+    {
+      "path": "projects/auth-user-management/src/domain/auth-access-control/permission-resolution.ts",
+      "sha256": "a799930322d1e5c9fd34c924c14e945d132a743d824d61e73ce180d2aebbccd0",
+      "observation": "The pure decision function returns DENY before considering ALLOW tiers."
+    },
+    {
+      "path": "projects/auth-user-management/tests/auth-access-control.test.ts",
+      "sha256": "654356219becb48f38b10206a027cfa06eda41feba3c222ce30f395d79ce2dfd",
+      "observation": "A memory-backed test exercises principal exact DENY over wildcard ALLOW."
+    },
+    {
+      "path": "projects/auth-user-management/e2e/auth-api.e2e.ts",
+      "sha256": "216f6655a51cb799292377487a526d5da4cd1dd7ab703f455f2e53587c318300",
+      "observation": "A Postgres-backed scenario exercises the same behavior."
+    }
+  ],
+  "blockers": [
+    {
+      "id": "CON-04",
+      "owner_route": "decision-gate",
+      "summary": "The documented authorization input does not define how DENY reaches the decision."
+    },
+    {
+      "id": "FORMALIZATION-ACCEPTANCE-ABSENT",
+      "owner_route": "formal-claims-owner-and-business-source-owner",
+      "summary": "No exact formal-owner assertion or independent business-fidelity acceptance exists."
+    },
+    {
+      "id": "EXECUTABLE-PROJECTION-ABSENT",
+      "owner_route": "formal-projection-owner",
+      "summary": "No digest-bound DS-SFOL projection exists for this claim."
+    }
+  ],
+  "claim_ceiling": "Candidate semantic and obligation map only; no FormalClaim admission, canonical obligation derivation, EVF execution, proof, discharge, release, publication, or production claim."
+}
