@@ -29,6 +29,15 @@ output/playwright/
 /.vite/
 node_modules
 
+# Root-level runtime and fixture outputs must stay local. Deliberately do not
+# ignore malformed names such as `\` or `f"`; recurrence should remain visible.
+/.pnpm-store/
+/latest-summary.json
+/latest-summary.md
+/data/track-submissions.json
+/output/decision-gate/aeo-provider-scope-victor-handoff/
+/output/pdf/lucifers-lights-chapter-1.pdf
+
 # Rust build output for the architecture-conformance target.
 /projects/domainspec-v2/impl/architecture-conformance/targets/rust/target/
 
