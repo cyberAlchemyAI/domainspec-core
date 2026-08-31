@@ -1,10 +1,10 @@
 # CyberAlchemy v2 People and Teams
 
-Status: candidate  
-Ontology ID: `cav2.people-and-teams.business`  
-Ontology type: `business-domain`  
-Branch: `business`  
-Visibility: private  
+Status: candidate
+Ontology ID: `cav2.people-and-teams.business`
+Ontology type: `business-domain`
+Branch: `business`
+Visibility: private
 Authority effect: none
 
 People and Teams gives CyberAlchemy first-class meaning for a human `Person`

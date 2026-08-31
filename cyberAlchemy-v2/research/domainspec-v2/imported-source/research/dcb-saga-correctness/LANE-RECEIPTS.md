@@ -260,4 +260,3 @@ Handoff note:
 
 Use a TypeScript bounded enumerator first. Promote to TLA+/Alloy only after the
 toy proves which obligation class needs more rigor.
-

@@ -176,4 +176,3 @@ This candidate establishes a draft product proposition and the selected
 subproduct, Project, and Goal identities. It does not establish product value,
 runtime completion, Arcanum replacement, publication, release, deployment, or
 production readiness.
-

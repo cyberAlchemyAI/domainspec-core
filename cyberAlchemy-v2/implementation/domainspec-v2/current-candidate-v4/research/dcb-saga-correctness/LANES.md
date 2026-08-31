@@ -172,4 +172,3 @@ The research should end with one of these:
 - `analogy-only`: DCB helps language but not proof machinery.
 - `block`: Saga correctness cannot be proven from current DomainSpec surfaces
   without adding missing taxonomy or edge requirements.
-

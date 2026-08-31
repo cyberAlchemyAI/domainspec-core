@@ -30,4 +30,3 @@ Run validation with the repository Node 26 container:
 toolchains/node-typescript/bin/node-env run --project cyberAlchemy-v2/implementation/domainspec-v2/current-candidate-v2/impl -- node system-integration/validation/validate-system-integration-profile-v1.mjs
 toolchains/node-typescript/bin/node-env run --project cyberAlchemy-v2/implementation/domainspec-v2/current-candidate-v2/impl -- node --test system-integration/tests/system-integration-v1.test.mjs
 ```
-

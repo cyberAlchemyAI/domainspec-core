@@ -1,7 +1,7 @@
 # Durable Storage Semantic Admission
 
-Status: accepted exact semantic predecessor  
-Decision owner: CyberAlchemy v2 product owner plus durable-state capability owner  
+Status: accepted exact semantic predecessor
+Decision owner: CyberAlchemy v2 product owner plus durable-state capability owner
 Authority effect: semantic admission only
 
 `selection.json` records the owner's explicit admission of the exact validated

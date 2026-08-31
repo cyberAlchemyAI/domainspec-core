@@ -236,4 +236,3 @@ export function loadSystemIntegrationSelection(sourceRoot: string, bindingSetId:
   const generatedRelativePath = generatedSystemIntegrationPath(bindingSetId, language);
   return Object.freeze({ profile_selector: "provider-neutral-v1", binding_source: Object.freeze({ relative_path: relativePath, sha256: sha256(bytes) }), manifest, generated_relative_path: generatedRelativePath, generated_content: renderSystemIntegrationContract(manifest) });
 }
-

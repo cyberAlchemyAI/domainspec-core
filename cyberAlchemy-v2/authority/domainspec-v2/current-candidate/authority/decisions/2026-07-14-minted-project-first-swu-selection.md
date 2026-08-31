@@ -64,4 +64,3 @@ runtime evidence.
 - Blockers remaining for selection: 0
 - Deferred decisions: none
 - Next step: build strict runtime context, then invoke one Task Session
-

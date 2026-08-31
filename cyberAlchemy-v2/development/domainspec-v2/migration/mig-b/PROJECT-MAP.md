@@ -1,9 +1,9 @@
 # DomainSpec v2 Source Project Map
 
-Status: **evidence-assessed live inventory at 2026-08-31T02:01:05Z**  
-Authority effect: **none**  
-Source: `projects/domainspec-v2`  
-Machine view: [PROJECT-MAP.json](PROJECT-MAP.json)  
+Status: **evidence-assessed live inventory at 2026-08-31T02:01:05Z**
+Authority effect: **none**
+Source: `projects/domainspec-v2`
+Machine view: [PROJECT-MAP.json](PROJECT-MAP.json)
 Machine-view SHA-256: `b92bb9af7f4074dac78532fe4acbd98bf79a70e58ae4ef8a755ae7c683d5c6be`
 
 ## Purpose

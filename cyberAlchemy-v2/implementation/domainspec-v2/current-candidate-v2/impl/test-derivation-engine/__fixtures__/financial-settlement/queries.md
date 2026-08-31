@@ -23,7 +23,7 @@ includes: []
 
 ## GetSettlementPreview
 
-**Type:** Query (read-only)  
+**Type:** Query (read-only)
 **Actor:** Finance user
 
 ### Input

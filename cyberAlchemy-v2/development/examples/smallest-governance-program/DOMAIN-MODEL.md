@@ -19,4 +19,3 @@ a Boolean, while this kernel deliberately returns four distinct outcomes.
 The Program refers to exact rule, Constitution, binding, selector, and authority
 requirements. Those references are synthetic test data. They are not adoption,
 authority, an active Constitution, or an enforcement binding in CyberAlchemy.
-

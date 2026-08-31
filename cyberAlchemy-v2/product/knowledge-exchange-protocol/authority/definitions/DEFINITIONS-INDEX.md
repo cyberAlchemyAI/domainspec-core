@@ -69,4 +69,3 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
   canonical definition set before admission.
 - Withdrawn parent IDs `CAV2-D70` through `CAV2-D81` are migration
   tombstones, not aliases for these product-local IDs.
-

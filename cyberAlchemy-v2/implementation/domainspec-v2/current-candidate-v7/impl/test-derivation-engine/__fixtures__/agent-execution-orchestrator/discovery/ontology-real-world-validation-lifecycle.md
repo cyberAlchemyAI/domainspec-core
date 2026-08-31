@@ -158,4 +158,3 @@ Recommendation: no. Some axioms are methodological or formal. Require real-world
 ### What is the first fixture?
 
 Recommendation: use `governs-runtime-witness-constitution` as the first fixture. It already has a concrete validator concept, governed path, runtime audit command, and promotion condition. That makes it a better first test than a broad axiom.
-

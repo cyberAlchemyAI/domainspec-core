@@ -18,4 +18,3 @@ for (const language of LANGUAGES) {
   digests.push({ language, language_profile_digest: packageState.language_profiles[language].digest, binding_digest: manifest.binding_digest, generated_bytes: Buffer.byteLength(generated) });
 }
 process.stdout.write(`${JSON.stringify({ status: "pass", profile_id: packageState.profile.profile_id, profile_digest: packageState.profile_digest, definitions: 5, languages: 3, obligation_rows: 15, schemas: schemaNames.length, digests, runtime_guarantees_observed: false, authority_effect: "none" })}\n`);
-

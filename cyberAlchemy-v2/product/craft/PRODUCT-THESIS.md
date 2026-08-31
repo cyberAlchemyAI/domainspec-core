@@ -1,12 +1,12 @@
 # Craft Product Thesis
 
-Status: **draft candidate**  
-Canonical kind: `CAV2-D63 Product Thesis`  
-Thesis ID: `CA2-PRODUCT-THESIS-CRAFT`  
-Product: `CA2-PRODUCT-CRAFT`  
-Coordinating Project: `CA2-PROJECT-CRAFT`  
-Building Method: `CAV2-D20`  
-Commitment state: **draft**  
+Status: **draft candidate**
+Canonical kind: `CAV2-D63 Product Thesis`
+Thesis ID: `CA2-PRODUCT-THESIS-CRAFT`
+Product: `CA2-PRODUCT-CRAFT`
+Coordinating Project: `CA2-PROJECT-CRAFT`
+Building Method: `CAV2-D20`
+Commitment state: **draft**
 Authority effect: **none**
 
 ## Product Identity

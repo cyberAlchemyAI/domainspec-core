@@ -25,8 +25,8 @@ includes: []
 
 # Alignment Report: financial-settlement
 
-**Audit date:** 2026-04-24  
-**Framework version:** DomainSpec 1.8.2  
+**Audit date:** 2026-04-24
+**Framework version:** DomainSpec 1.8.2
 **Sources:** [SPEC.md](SPEC.md), [operations.md](operations.md), [interfaces.md](interfaces.md), [queries.md](queries.md), [TEST-SPEC.md](TEST-SPEC.md)
 
 ## Executive Summary

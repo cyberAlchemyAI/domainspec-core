@@ -61,4 +61,3 @@ export type ArchitectureRealizationFailure = Error & Readonly<{
   code: string;
   detail?: Readonly<Record<string, unknown>>;
 }>;
-

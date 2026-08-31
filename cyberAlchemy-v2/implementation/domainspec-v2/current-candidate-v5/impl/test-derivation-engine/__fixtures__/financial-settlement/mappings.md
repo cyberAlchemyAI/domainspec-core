@@ -23,8 +23,8 @@ includes: []
 
 ## SettlementRequestToInput
 
-**From:** API Request  
-**To:** GenerateSettlement input  
+**From:** API Request
+**To:** GenerateSettlement input
 **Direction:** Inbound
 
 ### Field Mapping
@@ -45,8 +45,8 @@ includes: []
 
 ## SettlementResultToResponse
 
-**From:** SettlementResult  
-**To:** API Response  
+**From:** SettlementResult
+**To:** API Response
 **Direction:** Outbound
 
 ### Field Mapping

@@ -157,4 +157,3 @@ Recommended starting bias:
 - TLA+ for temporal behavior if the toy targets saga execution.
 - Alloy for graph completeness if the toy targets DomainSpec relationship
   coverage.
-

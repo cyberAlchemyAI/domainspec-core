@@ -15,4 +15,3 @@ Load only the card needed for the current implementation question.
 
 The patterns are DomainSpec-local. Their logical contracts are portable; their current source observations are
 TypeScript-specific and must not be generalized to Python, Rust, or production runtime evidence.
-

@@ -4,7 +4,7 @@ diff --git a/AGENTS.md b/AGENTS.md
 @@ -42,6 +42,30 @@
    conversation. Never report background work as complete while an agent is open,
    unjoined, or missing its validation receipt.
- 
+
 +## Governance Flow Choreography
 +
 +Governed work uses three explicit modes. Preserve exact-byte, owner, authority, risk,
@@ -30,7 +30,7 @@ diff --git a/AGENTS.md b/AGENTS.md
 +every required real consumer and reaches the promised terminal boundary.
 +
  ## Governance-Defect Sidecar
- 
+
  Do not turn a mechanical governance defect into the main conversation or abandon the
 @@ -75,7 +99,12 @@
     scope already authorizes those writes. It must not alter accepted bytes in place,
@@ -43,7 +43,7 @@ diff --git a/AGENTS.md b/AGENTS.md
 +   `mechanical_evidence_only`, leaves the immutable decision graph and exact target
 +   digest unchanged, changes no authority-bearing executable, passes the required
 +   revalidation, and has not consumed its resume token. Otherwise remain stopped.
- 
+
  Treat changed acceptance-bound bytes as a new candidate. Regenerate their inventory,
  digests, independent review bindings, and final acceptance request; never stretch an
 @@ -90,6 +119,12 @@
@@ -56,6 +56,5 @@ diff --git a/AGENTS.md b/AGENTS.md
 +the next effect. Environmental retries preserve graph identity; mechanical
 +evidence-only retries require passing repair review and auto-resume; semantic or
 +authority changes require a new frozen graph and at most one new owner request.
- 
+
  ## Candidate-Local Prototype Fast Lane
- 

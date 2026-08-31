@@ -35,4 +35,3 @@ export const FROZEN_SYSTEM_INTEGRATION = validateFrozenSystemIntegrationProfile(
 export function languageProfile(language: SupportedLanguage) {
   return FROZEN_SYSTEM_INTEGRATION.language_profiles[language];
 }
-

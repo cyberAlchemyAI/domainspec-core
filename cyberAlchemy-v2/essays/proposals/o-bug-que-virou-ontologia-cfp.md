@@ -1,15 +1,15 @@
 # Proposta de palestra — Do domínio à ontologia
 
-Status: candidata para revisão humana  
-Transporte: Call for Speakers  
-Duração proposta: 35 minutos de palestra + 5 minutos de perguntas  
-Idioma: português  
+Status: candidata para revisão humana
+Transporte: Call for Speakers
+Duração proposta: 35 minutos de palestra + 5 minutos de perguntas
+Idioma: português
 
 ## Material de submissão
 
 ### Título
 
-**Do domínio à ontologia**  
+**Do domínio à ontologia**
 *Como DDD e Ontology Engineering transformam a investigação de um bug em conhecimento de negócio reutilizável*
 
 ### Resumo curto

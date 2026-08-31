@@ -1,6 +1,6 @@
 # Decision Gate — Minted Node Body Formation Contract
 
-Status: `PASS`; Option 1 selected by operator  
+Status: `PASS`; Option 1 selected by operator
 Target: `SWU-MNP-003`
 
 ## Blocking Question

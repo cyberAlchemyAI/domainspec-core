@@ -42,4 +42,3 @@ candidate consumers:
 | The Product Capability and business ontology do not yet bind the exact product-local definition IDs and digest. | flag | Use `CA2-ROUTE-GOVERNANCE` to construct and evaluate a digest-bound ontology admission candidate. |
 | Existing DomainSpec-generated and Rust artifacts descend from the earlier unbound vocabulary and ontology. | blocked successor claim | Rebuild or prove exact successor binding only after ontology admission; do not infer conformance from existing tests. |
 | Solana realization, payment, licensing, royalties, rights, and reputation are outside the admitted state. | not_evaluable | Define and admit each successor capability before implementation. |
-

@@ -48,4 +48,3 @@ but it is too heavy for the first feasibility pass.
 - Do not call DCB the proof engine. DCB guards acceptance freshness.
 - Do not mutate taxonomy, relationships, templates, validators, or generated
   registries from this research packet.
-

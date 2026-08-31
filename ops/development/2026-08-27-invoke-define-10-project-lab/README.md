@@ -26,4 +26,3 @@ Persistent outputs are limited to this directory. Temporary second-run and
 negative-control outputs are removed automatically. Nothing under public
 Arcanum, the source projects, generated skill packages, Git, publication,
 deployment, or external systems is mutated.
-

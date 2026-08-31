@@ -1,7 +1,7 @@
 # DomainSpec v2 Observed System Architecture
 
-Status: **observed current-state map**  
-Authority effect: **none**  
+Status: **observed current-state map**
+Authority effect: **none**
 Primary sources: [product thesis](../../../../../../projects/domainspec-v2/PRODUCT-THESIS.md),
 [architecture](../../../../../../projects/domainspec-v2/ARCHITECTURE.md),
 [runtime manifest](../../../../../../projects/domainspec-v2/RUNTIME.json), and

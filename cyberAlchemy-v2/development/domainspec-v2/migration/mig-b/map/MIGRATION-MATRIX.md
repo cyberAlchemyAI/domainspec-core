@@ -1,9 +1,9 @@
 # DomainSpec v2 MIG-B Migration Matrix
 
-Status: **pre-materialization map**  
-Authority effect: **none**  
-Machine view: [MIGRATION-MATRIX.json](MIGRATION-MATRIX.json)  
-Machine-view SHA-256: `cf2b8d58ce9ea610fcd8e271c1918b0ee67d0476993bc08e55343adc159b0fcf`  
+Status: **pre-materialization map**
+Authority effect: **none**
+Machine view: [MIGRATION-MATRIX.json](MIGRATION-MATRIX.json)
+Machine-view SHA-256: `cf2b8d58ce9ea610fcd8e271c1918b0ee67d0476993bc08e55343adc159b0fcf`
 Source map: [PROJECT-MAP.json](../PROJECT-MAP.json) at semantic digest `b43c292b4b777fd62715052cdc363a0b156a6f43174fa6959c77514818eaad3e`
 
 ## Reading the matrix

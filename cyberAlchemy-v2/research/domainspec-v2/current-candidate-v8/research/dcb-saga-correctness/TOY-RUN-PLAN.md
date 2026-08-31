@@ -98,4 +98,3 @@ Freshness checks:
 - Stop if the implementation needs taxonomy or relationship mutation.
 - Stop if the output claims TypeScript proves saga correctness rather than
   producing a bounded witness.
-

@@ -27,10 +27,10 @@ index be3b75d..2d49e5b 100644
 -5. On return, run driver `record-spawn --agent-id <id>` to append `host_spawn_returned` and bind the returned `agent_id` to the `action_id`. A missing agent identifier is a blocking host failure.
 +5. On return, run driver `record-spawn --request <prepared-request> --agent-id <id>` to append `host_spawn_returned` and bind the returned `agent_id` to the `action_id`. The returned identifier's basename must equal the exact deterministic `task_name` in the persisted prepared request. A missing or mismatched identifier blocks before append.
  6. On host error, run driver `record-spawn --failed` to append `host_spawn_failed`, persist the failure in the non-causal residue stream when useful, and stop dependent execution.
- 
+
  An unknown, non-persisted, mismatched, duplicate, or replayed action blocks before a host call. Waiting, joining, result normalization, and gate reduction are separate execution steps.
  </native-spawn-action>
- 
+
 +<native-binding-correction>
 +`agent_binding_corrected` is an exceptional, append-only correction for a
 +documented host-agent identifier transcription defect. It is not a retry,
@@ -54,7 +54,7 @@ index be3b75d..2d49e5b 100644
 +
  <native-join-wave>
  Consume one persisted wave plan and the complete action-to-native-agent bindings returned by prior spawn actions. The Codex wait operation is mailbox-wide, so do not model it as a targeted per-agent API.
- 
+
 diff --git a/arcanum/runtime/orchestrate/hosts/codex-native.md b/arcanum/runtime/orchestrate/hosts/codex-native.md
 index 6ab4953..852f7bc 100644
 --- a/arcanum/runtime/orchestrate/hosts/codex-native.md
@@ -90,7 +90,7 @@ index 6ab4953..852f7bc 100644
  text in the separate residue stream, and block without implicit retry. Waiting
  for the returned identifier belongs to the later join action, not spawn
  mapping.
- 
+
 +## Binding Correction
 +
 +The Codex host returns a canonical agent path whose basename is the requested
@@ -103,7 +103,7 @@ index 6ab4953..852f7bc 100644
 +audit.
 +
  ## Join Mapping
- 
+
  `collaboration.wait_agent` waits for mailbox activity and does not accept a target identifier. Register each known wave agent once in a pending set, call the mailbox-wide wait operation in bounded rounds, and use `collaboration.list_agents` plus returned completion messages to reconcile only those known identifiers.
 diff --git a/arcanum/runtime/orchestrate/schemas/run-event.schema.json b/arcanum/runtime/orchestrate/schemas/run-event.schema.json
 index 1d45afe..e0988d8 100644
@@ -176,8 +176,8 @@ index 65f4293..28f6a87 100755
 +++ b/arcanum/runtime/orchestrate/scripts/native_dispatch_driver.py
 @@ -28,7 +28,7 @@ import native_dispatch_coordinator as coordinator  # noqa: E402
  import validate_run_evidence as evidence  # noqa: E402
- 
- 
+
+
 -RUN_EVENT_SCHEMA_VERSION = "arcanum.native-dispatch-runner.run-event.v0.1"
 +RUN_EVENT_SCHEMA_VERSION = "arcanum.native-dispatch-runner.run-event.v0.2"
  RESIDUE_SCHEMA_VERSION = "arcanum.native-dispatch-runner.run-residue.v0.1"
@@ -212,8 +212,8 @@ index 65f4293..28f6a87 100755
          event_stream,
 @@ -544,6 +558,110 @@ def record_spawn(
      )[0]
- 
- 
+
+
 +def correct_agent_binding(
 +    action_path: Path,
 +    run_plan_path: Path,
@@ -330,7 +330,7 @@ index 65f4293..28f6a87 100755
      spawn_result = record_spawn_parser.add_mutually_exclusive_group(required=True)
      spawn_result.add_argument("--agent-id")
      spawn_result.add_argument("--failed", action="store_true")
- 
+
 +    correct_binding_parser = subparsers.add_parser("correct-agent-binding")
 +    correct_binding_parser.add_argument("--action", required=True, type=Path)
 +    correct_binding_parser.add_argument("--run-plan", required=True, type=Path)
@@ -399,7 +399,7 @@ index 81d9324..c6d8b70 100644
 --- a/arcanum/runtime/orchestrate/scripts/validate_run_evidence.py
 +++ b/arcanum/runtime/orchestrate/scripts/validate_run_evidence.py
 @@ -10,11 +10,16 @@ from typing import Any
- 
+
  SCHEMA_VERSION = "arcanum.native-dispatch-runner.evidence-validation.v0.1"
  VALIDATOR_NAME = "validate_run_evidence.py"
 +RUN_EVENT_SCHEMA_VERSIONS = {
@@ -424,8 +424,8 @@ index 81d9324..c6d8b70 100644
 +    "supersedes_sequences",
 +    "reason_code",
  }
- 
- 
+
+
 @@ -58,7 +67,7 @@ def event_shape_violation(event: dict[str, Any]) -> str | None:
      unexpected = sorted(set(event) - EVENT_FIELDS)
      if unexpected:
@@ -497,7 +497,7 @@ index 81d9324..c6d8b70 100644
 @@ -208,6 +255,120 @@ def validate_events(
              if registration_valid:
                  registrations[action_id] = event
- 
+
 +        elif kind == "agent_binding_corrected":
 +            correction_valid = True
 +            host_result = host_results.get(action_id)
@@ -642,7 +642,7 @@ index 6bdc54a..d5bbded 100644
 @@ -70,11 +69,103 @@ class NativeDispatchDriverTests(unittest.TestCase):
              paths[action["action_id"]] = path
          return paths
- 
+
 -    def copy_receipts(self, root: Path) -> Path:
 -        receipts = root / "receipts"
 -        shutil.copytree(REDUCE / "pass", receipts)
@@ -662,7 +662,7 @@ index 6bdc54a..d5bbded 100644
 +        for action_id, receipt in receipts.items():
 +            receipt["agent_id"] = self.native_agent_id(actions[action_id])
          return receipts
- 
+
 +    def copy_receipts(self, root: Path) -> Path:
 +        receipts_dir = root / "receipts"
 +        for action_id, receipt in self.fixture_receipts().items():
@@ -804,7 +804,7 @@ index 6bdc54a..d5bbded 100644
 @@ -254,6 +341,172 @@ class NativeDispatchDriverTests(unittest.TestCase):
          self.assertNotIn(action["dispatch_id"], first["task_name"])
          self.assertNotIn(action["role"], first["task_name"])
- 
+
 +    def test_record_spawn_rejects_nonverbatim_native_agent_id_without_append(self) -> None:
 +        with tempfile.TemporaryDirectory() as temp_dir:
 +            root = Path(temp_dir)
@@ -1009,5 +1009,5 @@ index 6bdc54a..d5bbded 100644
 +                None,
 +            )
              (root / "residue.jsonl").write_text("", encoding="utf-8")
- 
+
              closeout = driver.close_partial_wave(

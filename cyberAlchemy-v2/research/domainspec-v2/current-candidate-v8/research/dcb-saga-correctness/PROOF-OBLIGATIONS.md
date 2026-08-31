@@ -92,4 +92,3 @@ The toy passes only if it shows:
 - one stale claim rejected by freshness checking;
 - clear evidence that deterministic facts were handled by rerun/hash rather
   than wrapped in DCB unnecessarily.
-

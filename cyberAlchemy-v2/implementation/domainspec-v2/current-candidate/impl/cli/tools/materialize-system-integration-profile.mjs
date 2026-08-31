@@ -51,4 +51,3 @@ if (process.argv.includes("--check")) {
   fs.writeFileSync(outputPath, expected, "utf8");
   process.stdout.write(`${JSON.stringify({ status: "written", profile: path.relative(process.cwd(), outputPath), definitions: 5, languages: 3 })}\n`);
 }
-

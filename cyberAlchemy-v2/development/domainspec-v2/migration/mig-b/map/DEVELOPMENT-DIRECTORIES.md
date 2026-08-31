@@ -1,7 +1,7 @@
 # DomainSpec v2 Development Directory Evidence Index
 
-Status: **evidence-assessed live inventory at 2026-08-31T02:01:05Z**  
-Source map: [PROJECT-MAP.json](../PROJECT-MAP.json)  
+Status: **evidence-assessed live inventory at 2026-08-31T02:01:05Z**
+Source map: [PROJECT-MAP.json](../PROJECT-MAP.json)
 Migration matrix: [MIGRATION-MATRIX.md](MIGRATION-MATRIX.md)
 
 This index provides the directory-by-directory explanation behind the compact project map. Evidence

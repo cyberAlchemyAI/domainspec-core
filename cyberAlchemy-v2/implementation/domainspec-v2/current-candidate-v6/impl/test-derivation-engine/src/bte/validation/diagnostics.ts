@@ -30,4 +30,3 @@ export type BteDiagnosticCode = (typeof BTE_DIAGNOSTICS)[number]["code"];
 export type BteDiagnosticStage = (typeof BTE_DIAGNOSTICS)[number]["stage"];
 
 export const BTE_DIAGNOSTIC_CODES = BTE_DIAGNOSTICS.map(({ code }) => code);
-

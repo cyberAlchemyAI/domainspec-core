@@ -25,7 +25,7 @@ includes: []
 
 ### POST /settlements
 
-**Exposes:** [GenerateSettlement](operations.md#generatesettlement)  
+**Exposes:** [GenerateSettlement](operations.md#generatesettlement)
 **Auth:** bearer token + permission `financial-settlement.write.generateSettlement`
 
 **Request:**

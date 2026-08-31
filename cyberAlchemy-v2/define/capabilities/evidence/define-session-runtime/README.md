@@ -1,7 +1,7 @@
 # Define Session Runtime Evidence
 
-Status: private candidate evidence contract  
-Execution mode: dry-run only  
+Status: private candidate evidence contract
+Execution mode: dry-run only
 Runtime evidence: not evaluable
 
 This package maps all 23 Define Shared Meaning obligations to the current
@@ -27,4 +27,3 @@ Validate with:
 python3 cyberAlchemy-v2/define/capabilities/evidence/define-session-runtime/scripts/validate.py
 python3 cyberAlchemy-v2/define/capabilities/evidence/define-session-runtime/tests/test_negative_mutations.py
 ```
-

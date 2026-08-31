@@ -121,4 +121,3 @@ Run a bounded `task-session` to implement the TypeScript toy harness and produce
 
 The task-session must not mutate DomainSpec taxonomy, relationships, templates,
 validators, or generated registries.
-

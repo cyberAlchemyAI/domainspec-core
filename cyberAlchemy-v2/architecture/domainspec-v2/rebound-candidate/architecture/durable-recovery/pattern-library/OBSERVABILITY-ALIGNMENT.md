@@ -17,4 +17,3 @@ Lease, fencing token, Attempt, and Invocation Identity. Business payloads and se
 
 Telemetry observes committed state; it does not grant a Claim, renew a Lease, select retry, decide a terminal
 disposition, or prove an Operation's business effect without the Operation-owned result evidence.
-

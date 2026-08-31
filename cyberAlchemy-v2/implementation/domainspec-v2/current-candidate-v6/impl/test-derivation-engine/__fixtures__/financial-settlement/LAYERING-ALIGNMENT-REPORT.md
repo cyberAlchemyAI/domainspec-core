@@ -25,7 +25,7 @@ domainspecVersion: 1.8.2
 
 # Layering Alignment Report: financial-settlement
 
-**Audited at:** 2026-04-24  
+**Audited at:** 2026-04-24
 **Framework version:** DomainSpec 1.8.2
 
 ## Executive Summary

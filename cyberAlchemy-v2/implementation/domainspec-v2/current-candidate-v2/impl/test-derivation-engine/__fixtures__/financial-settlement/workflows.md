@@ -24,10 +24,10 @@ includes: []
 
 ## SettlementWorkflow
 
-**Type:** Workflow  
-**Triggers:** Manual settlement execution  
-**Orchestrates:** [GenerateSettlement](operations.md#generatesettlement)  
-**Compensation Strategy:** notify-only  
+**Type:** Workflow
+**Triggers:** Manual settlement execution
+**Orchestrates:** [GenerateSettlement](operations.md#generatesettlement)
+**Compensation Strategy:** notify-only
 **Idempotency:** conditional (transaction dedupe by type and period end date)
 
 ### Steps
@@ -63,7 +63,7 @@ graph TD
 
 ## DefaultMakeupPolicy
 
-**Type:** Policy  
+**Type:** Policy
 **Applies To:** GenerateSettlement
 
 ### Decision Table

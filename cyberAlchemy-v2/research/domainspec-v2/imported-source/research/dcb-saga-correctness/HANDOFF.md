@@ -63,4 +63,3 @@ Run a task-session to build the toy TypeScript bounded witness under projects/do
   gate instead.
 - If TypeScript cannot express the behavior cleanly, promote to TLA+/PlusCal or
   Alloy depending on the failure mode.
-

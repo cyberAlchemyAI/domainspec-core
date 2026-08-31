@@ -35,7 +35,7 @@ spans Structural + Behavioral + Connective + Lifecycle — Entity, Value Object 
 1. **Taxonomy closure** — 100% of the feature's concepts classify to exactly one of the 25 types (0 unclassifiable).
 2. **Node→pattern near-1:1** — ≥90% of nodes map to exactly one code pattern (TAXONOMY "Architecture Mapping Appendix"); the 0-pattern / >1-pattern exceptions are ≤10% and each documented.
 3. **Edge→composition coverage** — ≥90% of the feature's edges map to a named composition rule; gaps ≤10%, each documented.
-4. **Bounded cross-cutting context** — every pattern's required inputs are carried by the node + its direct edges (the "spec subgraph"), OR the leak is a NAMED, enumerable carrier (e.g. shared Value Objects via `contains`). 
+4. **Bounded cross-cutting context** — every pattern's required inputs are carried by the node + its direct edges (the "spec subgraph"), OR the leak is a NAMED, enumerable carrier (e.g. shared Value Objects via `contains`).
 
 **FALSIFIED** if any of 1–4 fails materially (taxonomy not closed / node↔pattern materially many-to-many
 / edges uncomposable / patterns routinely need context outside the subgraph → bounded agents can't work).

@@ -1,8 +1,8 @@
 # DDD Business Meaning To Evidence Talk Research
 
-Status: research candidate  
-Visibility: private  
-Authority effect: none  
+Status: research candidate
+Visibility: private
+Authority effect: none
 Research date: 2026-08-29
 
 ## Research Question
@@ -26,7 +26,7 @@ validation claim.
 
 ## Recommended Talk Position
 
-**Da linguagem ubíqua à evidência executável**  
+**Da linguagem ubíqua à evidência executável**
 *Um experimento para transformar regras de negócio em obrigações verificáveis sem perder o domínio*
 
 The talk is about formal evidence as feedback for domain modeling. It is not a

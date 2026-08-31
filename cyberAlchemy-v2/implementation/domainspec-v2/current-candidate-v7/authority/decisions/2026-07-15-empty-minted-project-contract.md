@@ -1,6 +1,6 @@
 # Decision Gate — Empty Minted Project Contract
 
-Status: `PASS`; Option 1 selected by operator  
+Status: `PASS`; Option 1 selected by operator
 Target: `SWU-MNP-005`
 
 ## Blocking Question

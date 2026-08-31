@@ -25,4 +25,3 @@ The case semantics remain human-curated. This experiment proves deterministic,
 source-bound candidate packaging; it does not prove automated extraction,
 semantic truth, project completion, definition promotion, registry release,
 runtime readiness, publication, deployment, or production behavior.
-

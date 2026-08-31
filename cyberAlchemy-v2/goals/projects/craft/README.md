@@ -1,10 +1,10 @@
 # Craft Project
 
-Status: **proposed Project coordinating the Craft Product**  
-Visibility: **private**  
-Project ID: `CA2-PROJECT-CRAFT`  
-Product ID: `CA2-PRODUCT-CRAFT`  
-Method: `CAV2-D20 Craft Method`  
+Status: **proposed Project coordinating the Craft Product**
+Visibility: **private**
+Project ID: `CA2-PROJECT-CRAFT`
+Product ID: `CA2-PRODUCT-CRAFT`
+Method: `CAV2-D20 Craft Method`
 Authority effect: **none**
 
 Craft is a first-class CyberAlchemy `CAV2-D60` Project coordinating the development and evolution of the

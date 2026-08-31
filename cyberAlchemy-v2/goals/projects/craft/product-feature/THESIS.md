@@ -1,12 +1,12 @@
 # Craft System Construction Product Feature Thesis
 
-Status: **draft candidate**  
-Artifact kind: **project-local Product Feature thesis candidate**  
-Project: `CA2-PROJECT-CRAFT`  
-Product Feature: `CA2-PRODUCT-FEATURE-SYSTEM-CONSTRUCTION`  
-Product context: `CA2-PRODUCT-CRAFT` / `CA2-PRODUCT-THESIS-CRAFT`  
-Building Method: `CAV2-D20`  
-Commitment state: **draft**  
+Status: **draft candidate**
+Artifact kind: **project-local Product Feature thesis candidate**
+Project: `CA2-PROJECT-CRAFT`
+Product Feature: `CA2-PRODUCT-FEATURE-SYSTEM-CONSTRUCTION`
+Product context: `CA2-PRODUCT-CRAFT` / `CA2-PRODUCT-THESIS-CRAFT`
+Building Method: `CAV2-D20`
+Commitment state: **draft**
 Authority effect: **none**
 
 ## Project Identity

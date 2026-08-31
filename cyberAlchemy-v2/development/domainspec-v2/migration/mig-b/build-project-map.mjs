@@ -403,10 +403,10 @@ function renderMigrationMatrixMarkdown(matrix, jsonSha256) {
   ).join("\n");
   return `# DomainSpec v2 MIG-B Migration Matrix
 
-Status: **pre-materialization map**  
-Authority effect: **none**  
-Machine view: [MIGRATION-MATRIX.json](MIGRATION-MATRIX.json)  
-Machine-view SHA-256: \`${jsonSha256}\`  
+Status: **pre-materialization map**
+Authority effect: **none**
+Machine view: [MIGRATION-MATRIX.json](MIGRATION-MATRIX.json)
+Machine-view SHA-256: \`${jsonSha256}\`
 Source map: [PROJECT-MAP.json](../PROJECT-MAP.json) at semantic digest \`${matrix.source_map_semantic_digest}\`
 
 ## Reading the matrix
@@ -458,8 +458,8 @@ ${canonicalConsumers}`;
 
   return `# DomainSpec v2 Development Directory Evidence Index
 
-Status: **evidence-assessed live inventory at ${map.captured_at}**  
-Source map: [PROJECT-MAP.json](../PROJECT-MAP.json)  
+Status: **evidence-assessed live inventory at ${map.captured_at}**
+Source map: [PROJECT-MAP.json](../PROJECT-MAP.json)
 Migration matrix: [MIGRATION-MATRIX.md](MIGRATION-MATRIX.md)
 
 This index provides the directory-by-directory explanation behind the compact project map. Evidence
@@ -490,10 +490,10 @@ function renderMarkdown(map, jsonSha256) {
 
   return `# DomainSpec v2 Source Project Map
 
-Status: **evidence-assessed live inventory at ${map.captured_at}**  
-Authority effect: **none**  
-Source: \`${map.source_root}\`  
-Machine view: [PROJECT-MAP.json](PROJECT-MAP.json)  
+Status: **evidence-assessed live inventory at ${map.captured_at}**
+Authority effect: **none**
+Source: \`${map.source_root}\`
+Machine view: [PROJECT-MAP.json](PROJECT-MAP.json)
 Machine-view SHA-256: \`${jsonSha256}\`
 
 ## Purpose

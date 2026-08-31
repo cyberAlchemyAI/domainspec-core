@@ -269,4 +269,3 @@ describe("L0B semantic validation", () => {
     );
   });
 });
-

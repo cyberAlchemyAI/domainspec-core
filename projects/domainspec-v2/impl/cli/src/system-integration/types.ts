@@ -72,4 +72,3 @@ export interface SystemIntegrationReceiptBindingV1 {
   readonly manifest: SystemIntegrationBindingManifestV1;
   readonly generated_relative_path: string;
 }
-

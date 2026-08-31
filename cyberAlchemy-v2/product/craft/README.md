@@ -1,10 +1,10 @@
 # Craft Product
 
-Status: **selected Product identity with a draft Product Thesis**  
-Visibility: **private**  
-Product ID: `CA2-PRODUCT-CRAFT`  
-Project ID: `CA2-PROJECT-CRAFT`  
-Method: `CAV2-D20 Craft Method`  
+Status: **selected Product identity with a draft Product Thesis**
+Visibility: **private**
+Product ID: `CA2-PRODUCT-CRAFT`
+Project ID: `CA2-PROJECT-CRAFT`
+Method: `CAV2-D20 Craft Method`
 Authority effect: **none**
 
 Craft is the new name of the DomainSpec v2 Product. It is the same Product lineage, not a separate successor.

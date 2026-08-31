@@ -36,8 +36,8 @@ Settlement policy calculations and side-effect decision rules are owned by the d
 
 ## GenerateSettlement
 
-**Type:** Operation (mutation)  
-**Actor:** Operations user or finance backoffice  
+**Type:** Operation (mutation)
+**Actor:** Operations user or finance backoffice
 **Triggers:** POST /settlements
 
 ### Input

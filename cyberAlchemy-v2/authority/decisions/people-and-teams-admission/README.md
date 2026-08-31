@@ -1,7 +1,7 @@
 # People and Teams Semantic Admission
 
-Status: accepted exact semantic predecessor  
-Decision owner: CyberAlchemy v2 product owner plus People and Teams product and ontology owners  
+Status: accepted exact semantic predecessor
+Decision owner: CyberAlchemy v2 product owner plus People and Teams product and ontology owners
 Authority effect: semantic admission only
 
 `selection.json` records the owner's explicit admission of the exact validated

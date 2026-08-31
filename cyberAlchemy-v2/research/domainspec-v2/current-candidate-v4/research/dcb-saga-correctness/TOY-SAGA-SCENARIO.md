@@ -115,4 +115,3 @@ It checks both sides of the research question:
 
 If the waiver/external receipt is removed, the toy should downgrade to content
 hash plus rerun-before-use.
-

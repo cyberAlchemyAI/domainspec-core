@@ -1,6 +1,6 @@
 # Decision Gate — Minted Project Admission Owner Route
 
-Status: `DEFERRED`; Option 3 selected by operator  
+Status: `DEFERRED`; Option 3 selected by operator
 Target: `SWU-MNP-007`
 
 ## Blocking Question

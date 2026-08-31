@@ -1,8 +1,8 @@
 # CyberAlchemy v2 Durable Capability State
 
-Status: candidate model-first package  
-Visibility: private  
-Package owner: CyberAlchemy v2 durable-state capability owner  
+Status: candidate model-first package
+Visibility: private
+Package owner: CyberAlchemy v2 durable-state capability owner
 Authority effect: none
 
 Runtime registration: `cav2.durable-storage.business` is registered as a

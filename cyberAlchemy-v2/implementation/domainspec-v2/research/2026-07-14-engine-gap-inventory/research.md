@@ -68,22 +68,22 @@ The package tests are genuinely green, but they validate the current prototype c
 
 ## Current executable pipeline
 
-1. `parse(featureDir)` reads nine known Markdown aspect filenames and constructs a local `ConceptGraph`. Every file is optional; a missing file is explicitly not a violation.  
+1. `parse(featureDir)` reads nine known Markdown aspect filenames and constructs a local `ConceptGraph`. Every file is optional; a missing file is explicitly not a violation.
    Evidence: `src/grammar/index.ts:910-959`.
 
-2. `derive(graph, rules)` applies hard-coded derivation functions and emits deterministic obligations. Although it accepts a `RuleSet`, the `_rules` parameter is unused.  
+2. `derive(graph, rules)` applies hard-coded derivation functions and emits deterministic obligations. Although it accepts a `RuleSet`, the `_rules` parameter is unused.
    Evidence: `src/rules/index.ts:51-56,631-664`.
 
-3. `deriveFeature()` returns only obligations, rendered spec text, and optional tests. It does not return or persist `Sg`, a source manifest, a compiler-IR manifest, or a retraction receipt.  
+3. `deriveFeature()` returns only obligations, rendered spec text, and optional tests. It does not return or persist `Sg`, a source manifest, a compiler-IR manifest, or a retraction receipt.
    Evidence: `src/index.ts:11-33`.
 
-4. Legacy test generation emits one `it.todo` per obligation. Hybrid generation emits assertions for the supported pure subset and `it.skip` for unresolved coverage.  
+4. Legacy test generation emits one `it.todo` per obligation. Hybrid generation emits assertions for the supported pure subset and `it.skip` for unresolved coverage.
    Evidence: `src/emit/tests.ts:71-91,330-433`.
 
-5. The CLI can report coverage gaps but returns `0` after hybrid generation. It also prints parser violations and continues on the `emit-tests` path.  
+5. The CLI can report coverage gaps but returns `0` after hybrid generation. It also prints parser violations and continues on the `emit-tests` path.
    Evidence: `src/cli.ts:353-394`.
 
-6. Round-trip validation compares derived obligation identities with a committed test catalogue. A pass can retain classified “irreducible” missing rows.  
+6. Round-trip validation compares derived obligation identities with a committed test catalogue. A pass can retain classified “irreducible” missing rows.
    Evidence: `src/roundtrip/index.ts:789-865`; accepted explicitly by `src/index.test.ts:266-299`.
 
 ## Witnessed gaps

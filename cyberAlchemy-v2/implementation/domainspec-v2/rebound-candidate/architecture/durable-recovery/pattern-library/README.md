@@ -6,4 +6,3 @@
 - `OBSERVABILITY-ALIGNMENT.md`: operational signals and their claim ceilings.
 
 Machine-readable identities are owned by the package-root JSON files.
-
