@@ -547,6 +547,8 @@ if (!manifest || !ontology) {
     "schemas/auth-formal-claim-identity-algorithm.v2.schema.json",
     "schemas/auth-formal-claim-identity-inputs.schema.json",
     "schemas/auth-formal-claim-identity-inputs.v2.schema.json",
+    "schemas/auth-lean-theorem-execution-policy.v1.schema.json",
+    "schemas/auth-lean-theorem-route-admission-decision.v1.schema.json",
     "schemas/auth-formalization-authoring-trace.schema.json",
   ];
   const localSchemaFailures = [];
@@ -625,6 +627,9 @@ if (!manifest || !ontology) {
     identityAlgorithmV2: resolveFormalizationRef(
       "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/IDENTITY-ALGORITHM.v2.json",
     ),
+    identityAlgorithmV3: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/IDENTITY-ALGORITHM.v3.json",
+    ),
     reviewedBusinessMeaning: resolveRepositoryRef(
       "projects/auth-foundation/formalization/cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/BUSINESS-MEANING.json",
     ),
@@ -661,14 +666,50 @@ if (!manifest || !ontology) {
     definitionBinding: resolveFormalizationRef(
       "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM-DEFINITION-BINDING.v1-candidate.json",
     ),
+    definitionBindingV2: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM-DEFINITION-BINDING.v2-lean-candidate.json",
+    ),
     identityInputsV2: resolveFormalizationRef(
       "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/CLAIM-IDENTITY-INPUTS.v2-definitions-bound.json",
+    ),
+    identityInputsV3: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/CLAIM-IDENTITY-INPUTS.v3-lean-bound.json",
     ),
     formalClaimV3: resolveFormalizationRef(
       "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM.v3-candidate.json",
     ),
     formalClaimV4: resolveFormalizationRef(
       "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM.v4-definitions-bound-candidate.json",
+    ),
+    formalClaimV5: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM.v5-lean-candidate.json",
+    ),
+    leanEnvironment: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/LEAN-ENVIRONMENT.v1-candidate.json",
+    ),
+    preservationBinding: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/PRESERVATION-BINDING.v1-candidate.json",
+    ),
+    formalClaimLeanBinding: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM-LEAN-BINDING.v1-candidate.json",
+    ),
+    leanProviderRuntimeBinding: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/LEAN-PROVIDER-RUNTIME-BINDING.v1-candidate.json",
+    ),
+    theoremExecutionPolicy: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/THEOREM-EXECUTION-POLICY.v1-candidate.json",
+    ),
+    theoremObligationRequest: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/THEOREM-OBLIGATION-REQUEST.v1-candidate.json",
+    ),
+    theoremObligationRequestReady: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/THEOREM-OBLIGATION-REQUEST.v2-ready.json",
+    ),
+    leanCandidateValidation: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/LEAN-CANDIDATE-VALIDATION.v1.json",
+    ),
+    admissionReadiness: resolveFormalizationRef(
+      "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/LEAN-CANDIDATE-ADMISSION-READINESS.v1.json",
     ),
     formalClaimEnvelope: resolveFormalizationRef(
       "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM-CONSUMER-ENVELOPE.v1-derived.json",
@@ -684,6 +725,21 @@ if (!manifest || !ontology) {
     ),
     interpretationModelV3Decision: resolveRepositoryRef(
       "projects/auth-foundation/formalization/decisions/AF-EXACT-SESSION-ROLE-PERMISSION-001/interpretation-model-v3-decision-gate.json",
+    ),
+    profileAdmissionCandidate: resolveRepositoryRef(
+      "projects/domainspec-v2/formalization/profiles/lean-dtt-auth-admission-candidate.json",
+    ),
+    independentLeanReview: resolveRepositoryRef(
+      "projects/domainspec-v2/formalization/profiles/reviews/lean-dtt-auth-v5-independent-review.json",
+    ),
+    profileAdmissionDecision: resolveRepositoryRef(
+      "projects/domainspec-v2/formalization/profiles/decisions/lean-dtt-auth-v5-admission.json",
+    ),
+    formalClaimV5Decision: resolveRepositoryRef(
+      "projects/auth-foundation/formalization/decisions/AF-EXACT-SESSION-ROLE-PERMISSION-001/formal-claim-v5-lean-admission.json",
+    ),
+    leanTheoremRouteDecision: resolveRepositoryRef(
+      "projects/auth-foundation/formalization/decisions/AF-EXACT-SESSION-ROLE-PERMISSION-001/lean-theorem-route-admission.json",
     ),
   };
   const caseValues = {};
@@ -721,6 +777,7 @@ if (!manifest || !ontology) {
       ["case.business_meaning_ref", caseValues.casePackage.business_semantic_acceptance.business_meaning_ref],
       ["case.business_acceptance_ref", caseValues.casePackage.business_semantic_acceptance.business_acceptance_ref],
       ["case.formal_claim_ref", caseValues.casePackage.formal_claim.claim_ref],
+      ["case.formal_claim_admission_ref", caseValues.casePackage.formal_claim.admission_ref],
       ["identity.business_meaning_ref", caseValues.identityInputs.business_meaning_ref],
       ["identity.interpretation_model_ref", caseValues.identityInputs.interpretation_model_ref],
       ["identity.profile_registry_ref", caseValues.identityInputs.formal_language_profile.registry_ref],
@@ -741,6 +798,59 @@ if (!manifest || !ontology) {
       ["v4.definition_binding_ref", caseValues.formalClaimV4.definition_binding_ref],
       ["v4.formal_language_profile_ref", caseValues.formalClaimV4.formal_language_profile_ref],
       ["v4.proposition.identity_algorithm_ref", caseValues.formalClaimV4.canonical_proposition.identity_algorithm_ref],
+      ["identity-v3.business_meaning_ref", caseValues.identityInputsV3.business_meaning_ref],
+      ["identity-v3.definition_binding_ref", caseValues.identityInputsV3.definition_binding_ref],
+      ["identity-v3.profile_registry_ref", caseValues.identityInputsV3.formal_language_profile.registry_ref],
+      ["identity-v3.lean_source_ref", caseValues.identityInputsV3.lean_source_ref],
+      ["identity-v3.lean_environment_ref", caseValues.identityInputsV3.lean_environment_ref],
+      ["definition-binding-v2.predecessor_binding_ref", caseValues.definitionBindingV2.predecessor_binding_ref],
+      ["definition-binding-v2.definition_authority_ref", caseValues.definitionBindingV2.definition_authority_ref],
+      ["v5.identity_algorithm_ref", caseValues.formalClaimV5.claim.identity_algorithm_ref],
+      ["v5.business_meaning_ref", caseValues.formalClaimV5.business_meaning_ref],
+      ["v5.business_acceptance_ref", caseValues.formalClaimV5.business_acceptance_ref],
+      ["v5.definition_binding_ref", caseValues.formalClaimV5.definition_binding_ref],
+      ["v5.formal_language_profile_ref", caseValues.formalClaimV5.formal_language_profile_ref],
+      ["v5.proposition.identity_algorithm_ref", caseValues.formalClaimV5.canonical_proposition.identity_algorithm_ref],
+      ["lean-environment.toolchain_ref", caseValues.leanEnvironment.toolchain_ref],
+      ["preservation.projection_ref", caseValues.preservationBinding.projection_ref, false],
+      ["preservation.certificate_ref", caseValues.preservationBinding.certificate_ref, false],
+      ["lean-binding.formal_claim_ref", caseValues.formalClaimLeanBinding.formal_claim_ref],
+      ["lean-binding.lean_profile_ref", caseValues.formalClaimLeanBinding.lean_profile_ref],
+      ["lean-binding.lean_environment_ref", caseValues.formalClaimLeanBinding.lean_environment_ref],
+      ["lean-binding.lean_statement_ref", caseValues.formalClaimLeanBinding.lean_statement_ref],
+      ["lean-binding.preservation_binding_ref", caseValues.formalClaimLeanBinding.preservation_binding_ref],
+      ["runtime.profile_ref", caseValues.leanProviderRuntimeBinding.profile_ref],
+      ["runtime.input_artifact_ref", caseValues.leanProviderRuntimeBinding.input_artifact_ref],
+      ["policy.lean_profile_admission_ref", caseValues.theoremExecutionPolicy.lean_profile_admission_ref],
+      ["policy.lean_environment_ref", caseValues.theoremExecutionPolicy.lean_environment_ref],
+      ["theorem-request.formal_claim_lean_binding_ref", caseValues.theoremObligationRequest.formal_claim_lean_binding_ref],
+      ["theorem-request.theorem_statement_ref", caseValues.theoremObligationRequest.theorem_statement_ref],
+      ["theorem-request.provider_profile_ref", caseValues.theoremObligationRequest.provider_profile_ref],
+      ["theorem-request.runtime_binding_ref", caseValues.theoremObligationRequest.runtime_binding_ref],
+      ["theorem-request.execution_policy_ref", caseValues.theoremObligationRequest.execution_policy_ref],
+      ["theorem-request-ready.formal_claim_lean_binding_ref", caseValues.theoremObligationRequestReady.formal_claim_lean_binding_ref],
+      ["theorem-request-ready.theorem_statement_ref", caseValues.theoremObligationRequestReady.theorem_statement_ref],
+      ["theorem-request-ready.provider_profile_ref", caseValues.theoremObligationRequestReady.provider_profile_ref],
+      ["theorem-request-ready.runtime_binding_ref", caseValues.theoremObligationRequestReady.runtime_binding_ref],
+      ["theorem-request-ready.execution_policy_ref", caseValues.theoremObligationRequestReady.execution_policy_ref],
+      ["profile-admission.candidate_ref", caseValues.profileAdmissionDecision.candidate_ref],
+      ["profile-admission.review_ref", caseValues.profileAdmissionDecision.review_ref],
+      ["profile-admission.readiness_ref", caseValues.profileAdmissionDecision.readiness_ref],
+      ["profile-admission.registry_ref", caseValues.profileAdmissionDecision.registry_ref],
+      ["profile-admission.admissibility.request_ref", caseValues.profileAdmissionDecision.admissibility.request_ref],
+      ["profile-admission.admissibility.receipt_ref", caseValues.profileAdmissionDecision.admissibility.receipt_ref],
+      ["formalclaim-admission.candidate_ref", caseValues.formalClaimV5Decision.candidate_ref],
+      ["formalclaim-admission.profile_admission_ref", caseValues.formalClaimV5Decision.profile_admission_ref],
+      ["formalclaim-admission.review_ref", caseValues.formalClaimV5Decision.review_ref],
+      ["formalclaim-admission.readiness_ref", caseValues.formalClaimV5Decision.readiness_ref],
+      ["formalclaim-admission.admissibility.request_ref", caseValues.formalClaimV5Decision.admissibility.request_ref],
+      ["formalclaim-admission.admissibility.receipt_ref", caseValues.formalClaimV5Decision.admissibility.receipt_ref],
+      ["theorem-route-admission.binding_ref", caseValues.leanTheoremRouteDecision.formal_claim_lean_binding_ref],
+      ["theorem-route-admission.runtime_ref", caseValues.leanTheoremRouteDecision.runtime_binding_ref],
+      ["theorem-route-admission.policy_ref", caseValues.leanTheoremRouteDecision.execution_policy_ref],
+      ["theorem-route-admission.review_ref", caseValues.leanTheoremRouteDecision.review_ref],
+      ["theorem-route-admission.admissibility.request_ref", caseValues.leanTheoremRouteDecision.admissibility.request_ref],
+      ["theorem-route-admission.admissibility.receipt_ref", caseValues.leanTheoremRouteDecision.admissibility.receipt_ref],
       ["envelope.formal_claim_ref", caseValues.formalClaimEnvelope.formal_claim_ref],
       ["envelope.definition_binding_ref", caseValues.formalClaimEnvelope.definition_binding_ref],
       ["envelope.definition_authority_ref", caseValues.formalClaimEnvelope.definition_authority_ref],
@@ -761,8 +871,14 @@ if (!manifest || !ontology) {
       ["im-v3-decision.admissibility.request_ref", caseValues.interpretationModelV3Decision.admissibility.request_ref],
       ["im-v3-decision.admissibility.receipt_ref", caseValues.interpretationModelV3Decision.admissibility.receipt_ref],
     ];
-    for (const [label, exactRef] of exactRefs) {
-      exactReferenceFailures.push(...exactRefErrors(label, exactRef));
+    for (const [label, exactRef, requireCurrent = true] of exactRefs) {
+      exactReferenceFailures.push(...exactRefErrors(label, exactRef, requireCurrent));
+    }
+    for (const [index, dependency] of caseValues.admissionReadiness.selected_dependencies.entries()) {
+      exactReferenceFailures.push(...exactRefErrors(
+        `admission-readiness.selected_dependencies[${index}]`,
+        dependency.artifact_ref,
+      ));
     }
     for (const [label, exactRef] of [
       ["im-v3-decision.independent_review", caseValues.interpretationModelV3Decision.evidence.independent_review],
@@ -833,10 +949,23 @@ if (!manifest || !ontology) {
       ontologySemanticAlignment,
       identityInputs,
       identityAlgorithmV2,
+      identityAlgorithmV3,
       definitionBinding,
+      definitionBindingV2,
       identityInputsV2,
+      identityInputsV3,
       formalClaimV3,
       formalClaimV4,
+      formalClaimV5,
+      leanEnvironment,
+      preservationBinding,
+      formalClaimLeanBinding,
+      leanProviderRuntimeBinding,
+      theoremExecutionPolicy,
+      theoremObligationRequest,
+      theoremObligationRequestReady,
+      leanCandidateValidation,
+      admissionReadiness,
       formalClaimEnvelope,
       casePackage,
       reviewedBusinessMeaning,
@@ -844,19 +973,24 @@ if (!manifest || !ontology) {
       ownerSemanticDecision,
       businessMeaningV2Decision,
       interpretationModelV3Decision,
+      profileAdmissionCandidate,
+      independentLeanReview,
+      profileAdmissionDecision,
+      formalClaimV5Decision,
+      leanTheoremRouteDecision,
     } = caseValues;
     let profileRegistry = null;
     try {
       profileRegistry = JSON.parse(readFileSync(
-        resolveRepositoryRef(identityInputsV2.formal_language_profile.registry_ref.path),
+        resolveRepositoryRef(identityInputsV3.formal_language_profile.registry_ref.path),
         "utf8",
       ));
     } catch (error) {
       semanticFailures.push(`profile registry: ${error.message}`);
     }
     selectedProfile = profileRegistry?.profiles?.find((profile) =>
-      profile.profile_id === identityInputsV2.formal_language_profile.profile_id &&
-      profile.version === identityInputsV2.formal_language_profile.version
+      profile.profile_id === identityInputsV3.formal_language_profile.profile_id &&
+      profile.version === identityInputsV3.formal_language_profile.version
     ) ?? null;
 
     const ownerDecisionRef = manifest.source_identities.find((source) =>
@@ -1115,7 +1249,7 @@ if (!manifest || !ontology) {
       semanticFailures.push("AuthorizationAdmissible must expand the accepted ResolvedSession uniqueness condition without an undefined predicate");
     }
     if (casePackage.selected_layer !== "L0" ||
-        casePackage.current_state !== "claim-draft" ||
+        casePackage.current_state !== "obligations-ready" ||
         casePackage.outcome !== "not-evaluated" ||
         casePackage.evidence_join_ref !== null ||
         casePackage.evaluation_context_ref !== null ||
@@ -1124,14 +1258,17 @@ if (!manifest || !ontology) {
           sha256(casePaths.acceptedDefinitionsBusinessMeaning) ||
         casePackage.business_semantic_acceptance.business_acceptance_ref.sha256 !==
           sha256(casePaths.businessMeaningV2Decision) ||
-        casePackage.formal_claim.status !== "draft" ||
-        casePackage.formal_claim.claim_ref.sha256 !== sha256(casePaths.formalClaimV4) ||
-        casePackage.formal_claim.admission_ref !== null) {
-      semanticFailures.push("case must expose accepted v2 meaning, a v4 claim draft, no EvaluationContext, and no FormalClaim admission");
+        casePackage.formal_claim.status !== "admitted" ||
+        casePackage.formal_claim.claim_ref.sha256 !== sha256(casePaths.formalClaimV5) ||
+        casePackage.formal_claim.admission_ref.sha256 !==
+          sha256(casePaths.formalClaimV5Decision)) {
+      semanticFailures.push("case must expose accepted v2 meaning, the admitted v5 Lean claim, its exact owner decision, and no EvaluationContext or EVF result");
     }
-    if (!casePackage.unresolved.some((item) => item.includes("FormalClaim v3 remains predecessor")) ||
-        !casePackage.unresolved.some((item) => item.includes("has not received independent semantic review"))) {
-      semanticFailures.push("case does not expose v3 predecessor status and the v4 review/admission boundary");
+    if (!casePackage.unresolved.some((item) => item.includes("FormalClaim v3 and v4 remain predecessor")) ||
+        !casePackage.unresolved.some((item) => item.includes("FormalClaimLeanBinding") && item.includes("current")) ||
+        !casePackage.unresolved.some((item) => item.includes("v2 theorem obligation request is ready")) ||
+        !casePackage.unresolved.some((item) => item.includes("no provider execution"))) {
+      semanticFailures.push("case does not expose predecessor status, current Lean binding, ready theorem request, and the no-execution boundary");
     }
     const decisionSubjects = new Map(
       (ownerSemanticDecision.accepted_subjects ?? []).map((subject) => [subject.subject_kind, subject]),
@@ -1206,9 +1343,10 @@ if (!manifest || !ontology) {
         )) {
       semanticFailures.push("ontology semantic alignment does not exact-bind the preserved base ontology to accepted BusinessMeaning v2");
     }
-    if (!selectedProfile || selectedProfile.provider_route !== "none" ||
+    if (!selectedProfile || selectedProfile.profile_id !== "lean-dtt" ||
+        selectedProfile.provider_route !== "evf-theorem" ||
         selectedProfile.formal_claim_role !== "canonical-source") {
-      semanticFailures.push("fol-core canonical-source profile with no provider route is not exactly selected");
+      semanticFailures.push("lean-dtt canonical-source profile with the EVF theorem route is not exactly selected");
     }
     const proposition = formalClaimV3.canonical_proposition;
     const preservedPropositionIdentity = {
@@ -1406,6 +1544,296 @@ if (!manifest || !ontology) {
       semanticFailures.push("FormalClaim v4 must preserve and correctly digest the accepted proposition identity from v3");
     }
 
+    if (identityAlgorithmV3.schema_version !==
+          "auth-foundation.formal-claim-identity-algorithm/v3" ||
+        identityAlgorithmV3.identity_inputs_schema_ref !==
+          "projects/auth-foundation/formalization/schemas/auth-formal-claim-identity-inputs.v3.schema.json" ||
+        identityAlgorithmV3.interpretation_boundary.interpretation_model_is_identity_input !== false ||
+        identityAlgorithmV3.interpretation_boundary.join_stage !==
+          "external-evaluation-context") {
+      semanticFailures.push("FormalClaim identity algorithm v3 must bind the Lean identity contract and keep InterpretationModel external");
+    }
+    if (definitionBindingV2.claim_identity.claim_id !== formalClaimV5.claim.claim_id ||
+        definitionBindingV2.claim_identity.claim_version !== formalClaimV5.claim.claim_version ||
+        definitionBindingV2.predecessor_binding_ref.sha256 !==
+          sha256(casePaths.definitionBinding) ||
+        definitionBindingV2.definition_authority_ref.sha256 !==
+          sha256(casePaths.acceptedDefinitionsBusinessMeaning) ||
+        !deepEqual(definitionBindingV2.definition_closure, definitionBinding.definition_closure) ||
+        !definitionBindingV2.semantic_delta.startsWith("none;") ||
+        definitionBindingV2.authority_effect !== "none") {
+      semanticFailures.push("Lean definition binding must be an exact no-semantic-delta rebind of the accepted v4 definition closure");
+    }
+    if (formalClaimV5.schema_version !==
+          "domainspec-v2.formal-claim-source/v4-candidate" ||
+        formalClaimV5.claim.claim_version !== "5-lean-candidate" ||
+        formalClaimV5.claim.currentness !== "current" ||
+        formalClaimV5.claim.supersedes !==
+          "FormalClaim:auth-foundation.exact-session-role-permission@4-definitions-bound-candidate" ||
+        formalClaimV5.claim.identity_algorithm_ref.sha256 !==
+          sha256(casePaths.identityAlgorithmV3) ||
+        formalClaimV5.claim.identity_inputs_digest !== sha256(casePaths.identityInputsV3) ||
+        formalClaimV5.business_meaning_ref.sha256 !==
+          sha256(casePaths.acceptedDefinitionsBusinessMeaning) ||
+        formalClaimV5.business_acceptance_ref.sha256 !==
+          sha256(casePaths.businessMeaningV2Decision) ||
+        formalClaimV5.definition_binding_ref.sha256 !==
+          sha256(casePaths.definitionBindingV2) ||
+        formalClaimV5.formal_language_profile_ref.sha256 !==
+          identityInputsV3.formal_language_profile.registry_ref.sha256 ||
+        formalClaimV5.canonical_proposition.identity_algorithm_ref.sha256 !==
+          sha256(casePaths.identityAlgorithmV3) ||
+        formalClaimV5.interpretation_boundary.interpretation_model_is_part_of_claim !== false ||
+        formalClaimV5.interpretation_boundary.join_stage !==
+          "external-evaluation-context" ||
+        formalClaimV5.authority_effect !== "none" ||
+        hasOwn(formalClaimV5, "interpretation_model_ref")) {
+      semanticFailures.push("FormalClaim v5 does not preserve the exact Lean identity, accepted meaning, external InterpretationModel boundary, and no-authority source contract");
+    }
+    if (identityInputsV3.claim_id !== formalClaimV5.claim.claim_id ||
+        identityInputsV3.claim_version !== formalClaimV5.claim.claim_version ||
+        identityInputsV3.business_meaning_ref.sha256 !==
+          formalClaimV5.business_meaning_ref.sha256 ||
+        identityInputsV3.definition_binding_ref.sha256 !==
+          formalClaimV5.definition_binding_ref.sha256 ||
+        identityInputsV3.formal_language_profile.profile_id !== "lean-dtt" ||
+        identityInputsV3.formal_language_profile.version !== "1-candidate" ||
+        !deepEqual(identityInputsV3.formal_signature, formalClaimV5.formal_signature) ||
+        identityInputsV3.canonical_proposition.representation_digest !==
+          formalClaimV5.canonical_proposition.representation_digest ||
+        identityInputsV3.canonical_proposition.semantic_identity !==
+          formalClaimV5.canonical_proposition.semantic_identity ||
+        identityInputsV3.canonical_proposition.semantic_identity_digest !==
+          formalClaimV5.canonical_proposition.semantic_identity_digest ||
+        identityInputsV3.lean_environment_ref.sha256 !== sha256(casePaths.leanEnvironment) ||
+        !deepEqual(formalClaimV5.formal_signature, formalClaimV4.formal_signature) ||
+        sha256Text(formalClaimV5.canonical_proposition.representation) !==
+          formalClaimV5.canonical_proposition.representation_digest ||
+        sha256Text(formalClaimV5.canonical_proposition.semantic_identity) !==
+          formalClaimV5.canonical_proposition.semantic_identity_digest) {
+      semanticFailures.push("v3 identity inputs and FormalClaim v5 do not describe the same exact Lean claim identity and preserved signature");
+    }
+    if (leanEnvironment.toolchain.channel !== "leanprover/lean4:v4.32.0" ||
+        leanEnvironment.toolchain.lean_version !== "4.32.0" ||
+        leanEnvironment.imports.length !== 0 ||
+        leanEnvironment.options.length !== 0 ||
+        leanEnvironment.authority_effect !== "none" ||
+        leanCandidateValidation.status !== "pass" ||
+        leanCandidateValidation.blockers.length !== 0 ||
+        admissionReadiness.outcome !== "ready-for-owner-decision" ||
+        admissionReadiness.blockers.length !== 0 ||
+        admissionReadiness.candidate_ref.sha256 !== sha256(casePaths.formalClaimV5)) {
+      semanticFailures.push("Lean environment, technical validation, or admission readiness is not exact and passing");
+    }
+    if (!deepEqual(profileAdmissionCandidate.profile_snapshot, selectedProfile) ||
+        profileAdmissionCandidate.consumer_claim_ref.sha256 !==
+          sha256(casePaths.formalClaimV5) ||
+        independentLeanReview.outcome !== "pass" ||
+        independentLeanReview.blockers.length !== 0 ||
+        !independentLeanReview.obligation_results.every((item) => item.status === "pass") ||
+        !independentLeanReview.forbidden_inference_results.every((item) =>
+          item.status === "pass"
+        )) {
+      semanticFailures.push("profile admission candidate or independent Lean semantic review is not exact and passing");
+    }
+    if (profileAdmissionDecision.status !== "resolved-pass" ||
+        profileAdmissionDecision.selected_option_id !== "ADMIT" ||
+        profileAdmissionDecision.authority_effect !== "bounded-profile-admission" ||
+        profileAdmissionDecision.candidate_ref.sha256 !==
+          sha256(casePaths.profileAdmissionCandidate) ||
+        profileAdmissionDecision.review_ref.sha256 !==
+          sha256(casePaths.independentLeanReview) ||
+        profileAdmissionDecision.readiness_ref.sha256 !==
+          sha256(casePaths.admissionReadiness) ||
+        profileAdmissionDecision.decision_scope.profile_id !== "lean-dtt" ||
+        profileAdmissionDecision.decision_scope.consumer_claim_version !==
+          "5-lean-candidate") {
+      semanticFailures.push("lean-dtt profile admission does not bind the exact candidate, review, readiness, and consumer scope");
+    }
+    if (formalClaimV5Decision.status !== "resolved-pass" ||
+        formalClaimV5Decision.selected_option_id !== "ADMIT" ||
+        formalClaimV5Decision.authority_effect !==
+          "bounded-formal-claim-admission" ||
+        formalClaimV5Decision.candidate_ref.sha256 !== sha256(casePaths.formalClaimV5) ||
+        formalClaimV5Decision.profile_admission_ref.sha256 !==
+          sha256(casePaths.profileAdmissionDecision) ||
+        formalClaimV5Decision.review_ref.sha256 !==
+          sha256(casePaths.independentLeanReview) ||
+        formalClaimV5Decision.readiness_ref.sha256 !==
+          sha256(casePaths.admissionReadiness) ||
+        formalClaimV5Decision.decision_scope.claim_version !== "5-lean-candidate") {
+      semanticFailures.push("FormalClaim v5 admission does not bind the exact candidate, profile admission, review, and readiness evidence");
+    }
+    const leanStatementPath = resolveRepositoryRef(
+      formalClaimLeanBinding.lean_statement_ref.path,
+    );
+    const runtimeExecutablePath = leanProviderRuntimeBinding.command[0];
+    if (preservationBinding.status !== "preserved" ||
+        preservationBinding.kind !== "review-backed" ||
+        preservationBinding.known_losses.length !== 0 ||
+        preservationBinding.projection_ref.sha256 !== sha256(leanStatementPath) ||
+        preservationBinding.certificate_ref.sha256 !== sha256(casePaths.independentLeanReview) ||
+        preservationBinding.authority_effect !== "none") {
+      semanticFailures.push("Lean source preservation binding is not exact, lossless, review-backed, and non-authoritative");
+    }
+    if (formalClaimLeanBinding.currentness !== "current" ||
+        formalClaimLeanBinding.formal_claim_ref.sha256 !== sha256(casePaths.formalClaimV5) ||
+        formalClaimLeanBinding.lean_profile_ref.sha256 !== sha256(casePaths.profileAdmissionDecision) ||
+        formalClaimLeanBinding.lean_environment_ref.sha256 !== sha256(casePaths.leanEnvironment) ||
+        formalClaimLeanBinding.lean_statement_ref.sha256 !== sha256(leanStatementPath) ||
+        formalClaimLeanBinding.preservation_binding_ref.sha256 !== sha256(casePaths.preservationBinding) ||
+        formalClaimLeanBinding.canonical_proposition_semantic_digest !==
+          formalClaimV5.canonical_proposition.semantic_identity_digest ||
+        formalClaimLeanBinding.authority_effect !== "none") {
+      semanticFailures.push("FormalClaimLeanBinding does not close exactly over the admitted v5 claim, admitted profile, environment, statement, and preservation evidence");
+    }
+    if (leanProviderRuntimeBinding.provider_owner !== "candidate-unselected-lean-provider" ||
+        leanProviderRuntimeBinding.provider_id !== "lean4-core-typechecker" ||
+        leanProviderRuntimeBinding.provider_version !== "4.32.0" ||
+        runtimeExecutablePath !==
+          "/home/vrondelli/.elan/toolchains/leanprover--lean4---v4.32.0/bin/lean" ||
+        leanProviderRuntimeBinding.provider_digest !==
+          "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550" ||
+        leanProviderRuntimeBinding.input_artifact_ref.sha256 !== sha256(casePaths.formalClaimLeanBinding) ||
+        leanProviderRuntimeBinding.profile_ref.sha256 !== sha256(casePaths.profileAdmissionDecision) ||
+        leanProviderRuntimeBinding.command[1] !==
+          "projects/auth-foundation/formalization/cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/ExactSessionRolePermission.lean" ||
+        leanProviderRuntimeBinding.network !== "forbidden" ||
+        leanProviderRuntimeBinding.environment_allowlist.length !== 0 ||
+        leanProviderRuntimeBinding.authority_effect !== "none") {
+      semanticFailures.push("Lean runtime candidate is not exact, locally pinned, no-network, unselected, and non-authoritative");
+    }
+    if (theoremExecutionPolicy.owner !== "EVF" ||
+        theoremExecutionPolicy.policy_state !== "candidate-awaiting-evf-admission" ||
+        theoremExecutionPolicy.provider_route !== "evf-theorem" ||
+        theoremExecutionPolicy.lean_profile_admission_ref.sha256 !==
+          sha256(casePaths.profileAdmissionDecision) ||
+        theoremExecutionPolicy.lean_environment_ref.sha256 !== sha256(casePaths.leanEnvironment) ||
+        theoremExecutionPolicy.source_controls.sorry !== "forbidden" ||
+        theoremExecutionPolicy.source_controls.unsafe !== "forbidden" ||
+        theoremExecutionPolicy.source_controls.new_axioms !== "forbidden" ||
+        theoremExecutionPolicy.execution_controls.deterministic_repetitions !== 2 ||
+        theoremExecutionPolicy.network !== "forbidden" ||
+        theoremExecutionPolicy.authority_effect !== "none") {
+      semanticFailures.push("theorem execution policy candidate does not preserve the exact no-network, no-sorry, no-unsafe boundary admitted by the separate EVF decision");
+    }
+    if (theoremObligationRequest.owner !== "EVF" ||
+        theoremObligationRequest.request_state !== "blocked" ||
+        theoremObligationRequest.formal_claim_lean_binding_ref.sha256 !==
+          sha256(casePaths.formalClaimLeanBinding) ||
+        theoremObligationRequest.theorem_statement_ref.sha256 !== sha256(leanStatementPath) ||
+        theoremObligationRequest.provider_profile_ref.sha256 !==
+          sha256(casePaths.profileAdmissionDecision) ||
+        theoremObligationRequest.runtime_binding_ref.sha256 !==
+          sha256(casePaths.leanProviderRuntimeBinding) ||
+        theoremObligationRequest.execution_policy_ref.sha256 !==
+          sha256(casePaths.theoremExecutionPolicy) ||
+        !theoremObligationRequest.residue.some((item) => item.includes("not admitted")) ||
+        !theoremObligationRequest.residue.some((item) => item.includes("not selected")) ||
+        theoremObligationRequest.authority_effect !== "none") {
+      semanticFailures.push("theorem request must stay blocked on explicit EVF policy admission and provider selection without a proof claim");
+    }
+    let theoremRouteReview = null;
+    try {
+      theoremRouteReview = JSON.parse(readFileSync(
+        resolveRepositoryRef(leanTheoremRouteDecision.review_ref.path),
+        "utf8",
+      ));
+    } catch (error) {
+      semanticFailures.push(`theorem route review is unreadable: ${error.message}`);
+    }
+    if (leanTheoremRouteDecision.status !== "resolved-pass" ||
+        leanTheoremRouteDecision.selected_option_id !== "ADMIT" ||
+        leanTheoremRouteDecision.authority_effect !== "bounded-theorem-route-admission" ||
+        leanTheoremRouteDecision.formal_claim_lean_binding_ref.sha256 !==
+          sha256(casePaths.formalClaimLeanBinding) ||
+        leanTheoremRouteDecision.runtime_binding_ref.sha256 !==
+          sha256(casePaths.leanProviderRuntimeBinding) ||
+        leanTheoremRouteDecision.execution_policy_ref.sha256 !==
+          sha256(casePaths.theoremExecutionPolicy) ||
+        theoremRouteReview?.status !== "pass" ||
+        theoremRouteReview?.counts?.blockers !== 0 ||
+        leanTheoremRouteDecision.decision_scope.provider_route !== "evf-theorem" ||
+        leanTheoremRouteDecision.decision_scope.provider_id !== "lean4-core-typechecker" ||
+        leanTheoremRouteDecision.source_of_decision.raw_response !==
+          "Run the gate if you have a next action it should be already handled") {
+      semanticFailures.push("EVF theorem-route admission does not bind the exact passing review, runtime, policy, provider, and owner selection");
+    }
+    if (theoremObligationRequestReady.owner !== "EVF" ||
+        theoremObligationRequestReady.request_state !== "ready" ||
+        theoremObligationRequestReady.formal_claim_lean_binding_ref.sha256 !==
+          sha256(casePaths.formalClaimLeanBinding) ||
+        theoremObligationRequestReady.theorem_statement_ref.sha256 !== sha256(leanStatementPath) ||
+        theoremObligationRequestReady.provider_profile_ref.sha256 !==
+          sha256(casePaths.profileAdmissionDecision) ||
+        theoremObligationRequestReady.runtime_binding_ref.sha256 !==
+          sha256(casePaths.leanProviderRuntimeBinding) ||
+        theoremObligationRequestReady.execution_policy_ref.sha256 !==
+          sha256(casePaths.theoremExecutionPolicy) ||
+        theoremObligationRequestReady.residue.length !== 0 ||
+        theoremObligationRequestReady.authority_effect !== "none") {
+      semanticFailures.push("ready theorem request does not close exactly over the admitted route without claiming execution or proof");
+    }
+    for (const [label, value, schemaPath] of [
+      [
+        "profile admission decision",
+        profileAdmissionDecision,
+        resolveRepositoryRef("projects/domainspec-v2/formalization/schemas/lean-profile-admission-decision.schema.json"),
+      ],
+      [
+        "FormalClaim v5 admission decision",
+        formalClaimV5Decision,
+        resolveFormalizationRef("schemas/auth-formal-claim-admission-decision.v1.schema.json"),
+      ],
+      [
+        "Lean theorem route admission decision",
+        leanTheoremRouteDecision,
+        resolveFormalizationRef("schemas/auth-lean-theorem-route-admission-decision.v1.schema.json"),
+      ],
+    ]) {
+      try {
+        const schema = JSON.parse(readFileSync(schemaPath, "utf8"));
+        const errors = validateSchemaInstance(value, schema, schema);
+        semanticFailures.push(...errors.map((error) => `${label}: ${error}`));
+      } catch (error) {
+        semanticFailures.push(`${label} schema validation failed: ${error.message}`);
+      }
+    }
+    try {
+      const gateBindings = [
+        ["profile", profileAdmissionDecision],
+        ["FormalClaim", formalClaimV5Decision],
+        ["theorem route", leanTheoremRouteDecision],
+      ];
+      for (const [label, decision] of gateBindings) {
+        const request = JSON.parse(readFileSync(
+          resolveRepositoryRef(decision.admissibility.request_ref.path),
+          "utf8",
+        ));
+        const receipt = JSON.parse(readFileSync(
+          resolveRepositoryRef(decision.admissibility.receipt_ref.path),
+          "utf8",
+        ));
+        if (receipt.requestDigest !== sha256Stable(request) ||
+            receipt.routeOutcome !== "gate" ||
+            receipt.decisionGateRequired !== true ||
+            !deepEqual(receipt.admissibleOptionIds, ["ADMIT", "DEFER", "REJECT", "REVISE"]) ||
+            !receipt.presentedOptionIds.includes("ADMIT") ||
+            receipt.rejectedOptions.length !== 0 ||
+            receipt.reasons.length !== 0) {
+          semanticFailures.push(`${label} option-admissibility gate is not exact and open for the selected ADMIT option`);
+        }
+      }
+    } catch (error) {
+      semanticFailures.push(`admission option-gate validation failed: ${error.message}`);
+    }
+    if (formalClaimV5.tde_compatibility.current_intake_contract !==
+          "FormalClaimSourcePayload/v2" ||
+        formalClaimV5.tde_compatibility.status !== "adapter-required" ||
+        formalClaimV5.tde_compatibility.v2_projection_ref !== null) {
+      semanticFailures.push("admitted FormalClaim v5 must remain adapter-required and unprojected until a separate projection decision");
+    }
+
     const graphNodes = definitionBinding.definition_nodes ?? [];
     const graphRelations = definitionBinding.relations ?? [];
     const graphNodeIds = graphNodes.map((node) => node.definition_id);
@@ -1583,7 +2011,7 @@ if (!manifest || !ontology) {
       semanticFailures.push("historical authoring trace does not preserve its original no-authority route");
     }
     const forbiddenArtifact = manifest.artifacts.find((artifact) =>
-      /(obligation|proof|provider-result|evidence-join|evf)/i.test(artifact.artifact_id)
+      /(proof-result|theorem-evidence|provider-result|evidence-join|evf-evidence)/i.test(artifact.artifact_id)
     );
     if (forbiddenArtifact) {
       semanticFailures.push(`${forbiddenArtifact.artifact_id}: exceeds the L0 artifact ceiling`);
@@ -1593,7 +2021,7 @@ if (!manifest || !ontology) {
     "AF-V028",
     semanticFailures.length === 0,
     semanticFailures.length === 0
-      ? "accepted v2 meaning, ontology alignment, external interpretation lifecycle, explicit definition graph, v4 claim draft, definition-complete envelope, v3 predecessor, adapter, and authority boundaries are coherent"
+      ? "admitted v5 claim, preservation-backed Lean binding, exact bounded EVF route admission, ready theorem request, and no-execution boundaries are coherent"
       : semanticFailures.join("; "),
   );
 

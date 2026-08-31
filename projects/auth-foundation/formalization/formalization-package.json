@@ -153,6 +153,27 @@
       "sha256": "3bb186e599ebe76ae45f679e5c769aa34259320e581b296b5cb27f9865cb46c5",
       "size": 9169,
       "role": "owner-decision"
+    },
+    {
+      "source_id": "domainspec-v2.lean-dtt.auth-v5-profile-admission",
+      "path": "projects/domainspec-v2/formalization/profiles/decisions/lean-dtt-auth-v5-admission.json",
+      "sha256": "ee848844c1b0255d28a88e3e986abbd937f488f583d6ab34343df71d23fbc6d1",
+      "size": 4324,
+      "role": "owner-decision"
+    },
+    {
+      "source_id": "auth-foundation.exact-permission.formal-claim-v5-owner-decision",
+      "path": "projects/auth-foundation/formalization/decisions/AF-EXACT-SESSION-ROLE-PERMISSION-001/formal-claim-v5-lean-admission.json",
+      "sha256": "b6ad9f4d233af656299b970c5f888ebb7d510b49df2b670c1713cd449725d83a",
+      "size": 4262,
+      "role": "owner-decision"
+    },
+    {
+      "source_id": "auth-foundation.exact-permission.lean-theorem-route-owner-decision",
+      "path": "projects/auth-foundation/formalization/decisions/AF-EXACT-SESSION-ROLE-PERMISSION-001/lean-theorem-route-admission.json",
+      "sha256": "4e8a86ed8c46a811860e6b25b51985ef9f6728c626fe43e5787ff5d1773570e9",
+      "size": 4776,
+      "role": "owner-decision"
     }
   ],
   "artifacts": [
@@ -240,6 +261,70 @@
       "artifact_id": "auth-foundation.formal-claim-identity-inputs-v2-schema",
       "kind": "schema",
       "path": "schemas/auth-formal-claim-identity-inputs.v2.schema.json",
+      "schema_ref": null,
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.formal-claim-identity-algorithm-v3-schema",
+      "kind": "schema",
+      "path": "schemas/auth-formal-claim-identity-algorithm.v3.schema.json",
+      "schema_ref": null,
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.formal-claim-definition-binding-rebind-v1-schema",
+      "kind": "schema",
+      "path": "schemas/auth-formal-claim-definition-binding-rebind.v1.schema.json",
+      "schema_ref": null,
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.formal-claim-identity-inputs-v3-schema",
+      "kind": "schema",
+      "path": "schemas/auth-formal-claim-identity-inputs.v3.schema.json",
+      "schema_ref": null,
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.lean-environment-v1-schema",
+      "kind": "schema",
+      "path": "schemas/auth-lean-environment.v1.schema.json",
+      "schema_ref": null,
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.lean-theorem-execution-policy-v1-schema",
+      "kind": "schema",
+      "path": "schemas/auth-lean-theorem-execution-policy.v1.schema.json",
+      "schema_ref": null,
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.lean-theorem-route-admission-decision-v1-schema",
+      "kind": "schema",
+      "path": "schemas/auth-lean-theorem-route-admission-decision.v1.schema.json",
+      "schema_ref": null,
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.formal-claim-admission-readiness-v1-schema",
+      "kind": "schema",
+      "path": "schemas/auth-formal-claim-admission-readiness.v1.schema.json",
+      "schema_ref": null,
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.formal-claim-admission-decision-v1-schema",
+      "kind": "schema",
+      "path": "schemas/auth-formal-claim-admission-decision.v1.schema.json",
       "schema_ref": null,
       "status": "candidate",
       "canonical": true
@@ -365,12 +450,108 @@
       "canonical": true
     },
     {
+      "artifact_id": "auth-foundation.exact-permission.identity-algorithm-v3",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/IDENTITY-ALGORITHM.v3.json",
+      "schema_ref": "schemas/auth-formal-claim-identity-algorithm.v3.schema.json",
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.formal-claim-definition-binding-v2-lean-candidate",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM-DEFINITION-BINDING.v2-lean-candidate.json",
+      "schema_ref": "schemas/auth-formal-claim-definition-binding-rebind.v1.schema.json",
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.claim-identity-inputs-v3-lean-bound",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/CLAIM-IDENTITY-INPUTS.v3-lean-bound.json",
+      "schema_ref": "schemas/auth-formal-claim-identity-inputs.v3.schema.json",
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.formal-claim-v5-lean-candidate",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM.v5-lean-candidate.json",
+      "schema_ref": "projects/domainspec-v2/formalization/schemas/formal-claim-source-v4-candidate.schema.json",
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.lean-environment-v1-candidate",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/LEAN-ENVIRONMENT.v1-candidate.json",
+      "schema_ref": "schemas/auth-lean-environment.v1.schema.json",
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.lean-candidate-admission-readiness-v1",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/LEAN-CANDIDATE-ADMISSION-READINESS.v1.json",
+      "schema_ref": "schemas/auth-formal-claim-admission-readiness.v1.schema.json",
+      "status": "supporting",
+      "canonical": false
+    },
+    {
       "artifact_id": "auth-foundation.exact-permission.formal-claim-consumer-envelope-v1-derived",
       "kind": "case-artifact",
       "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM-CONSUMER-ENVELOPE.v1-derived.json",
       "schema_ref": "projects/domainspec-v2/formalization/schemas/formal-claim-envelope.schema.json",
       "status": "supporting",
       "canonical": false
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.lean-source-preservation-binding-v1-candidate",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/PRESERVATION-BINDING.v1-candidate.json",
+      "schema_ref": "projects/domainspec-v2/formalization/schemas/preservation-binding.schema.json",
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.formal-claim-lean-binding-v1-candidate",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/FORMAL-CLAIM-LEAN-BINDING.v1-candidate.json",
+      "schema_ref": "projects/domainspec-v2/formalization/schemas/formal-claim-lean-binding.schema.json",
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.lean-provider-runtime-binding-v1-candidate",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/LEAN-PROVIDER-RUNTIME-BINDING.v1-candidate.json",
+      "schema_ref": "projects/domainspec-v2/formalization/schemas/provider-runtime-binding.schema.json",
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.lean-theorem-execution-policy-v1-candidate",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/THEOREM-EXECUTION-POLICY.v1-candidate.json",
+      "schema_ref": "schemas/auth-lean-theorem-execution-policy.v1.schema.json",
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.theorem-obligation-request-v1-candidate",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/THEOREM-OBLIGATION-REQUEST.v1-candidate.json",
+      "schema_ref": "projects/domainspec-v2/formalization/schemas/theorem-obligation-request.schema.json",
+      "status": "candidate",
+      "canonical": true
+    },
+    {
+      "artifact_id": "auth-foundation.exact-permission.theorem-obligation-request-v2-ready",
+      "kind": "case-artifact",
+      "path": "cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/THEOREM-OBLIGATION-REQUEST.v2-ready.json",
+      "schema_ref": "projects/domainspec-v2/formalization/schemas/theorem-obligation-request.schema.json",
+      "status": "candidate",
+      "canonical": true
     },
     {
       "artifact_id": "auth-foundation.exact-permission.case-package",
@@ -396,16 +577,18 @@
       "typed candidate concepts and relations",
       "security and proof non-collapse rules",
       "residue for unresolved modeling choices",
-      "Auth-owned L0 BusinessMeaning, a separate optional EvaluationContext and InterpretationModel path, an explicit definition-binding graph, and a FormalClaim v4 draft",
+      "Auth-owned L0 BusinessMeaning, a separate optional EvaluationContext and InterpretationModel path, an explicit definition-binding graph, and an admitted FormalClaim v5 Lean source",
       "exact Auth Foundation owner semantic decision for the first case",
       "candidate InterpretationModel lifecycle correction that moves interpretation identity to EvaluationContext without changing FormalClaim identity",
       "deterministic definition-complete non-authoritative consumer envelope derived from the exact definition graph",
       "semantic alignment overlay from the preserved base ontology to accepted BusinessMeaning v2",
-      "FormalClaim v3 as predecessor evidence rather than the current claim design",
+      "FormalClaim v3 and v4 as predecessor evidence rather than the admitted current claim source",
+      "exact bounded owner admissions for the lean-dtt profile snapshot and FormalClaim v5 source",
+      "review-backed preservation and exact FormalClaimLeanBinding for the admitted v5 Lean source",
+      "exact bounded EVF admission of the Lean runtime and execution-policy candidates plus a ready theorem-request handoff",
       "explicit adapter-required boundary for the current FormalClaimSourcePayload/v2 TDE intake"
     ],
     "out_of_scope": [
-      "proof obligations",
       "Lean or other proof provider execution",
       "TypeScript authorization implementation",
       "authentication protocol implementation",
@@ -415,10 +598,10 @@
       "production security or readiness"
     ]
   },
-  "claim_ceiling": "This package records a preserved candidate base ontology plus a semantics-alignment overlay, owner-accepted definitions-bearing BusinessMeaning v2, a candidate InterpretationModel lifecycle correction outside FormalClaim identity, an explicit definition-binding graph, one Auth-owned L0 FormalClaim v4 draft, and a deterministic definition-complete non-authoritative consumer envelope. FormalClaim v3 remains predecessor evidence. The package proves neither FormalClaim admission, intake eligibility, an obligation, a theorem, an implementation, provider evidence, system security, resilience, release, deployment, nor production readiness.",
+  "claim_ceiling": "This package records a preserved candidate base ontology plus a semantics-alignment overlay, owner-accepted definitions-bearing BusinessMeaning v2, a candidate InterpretationModel lifecycle correction outside FormalClaim identity, an explicit definition-binding graph, the exact owner-admitted Auth FormalClaim v5 Lean source, one current FormalClaimLeanBinding, one exact bounded EVF runtime-and-policy admission, and a ready theorem-request candidate. FormalClaim v3 and v4 remain predecessor evidence and the blocked v1 request remains predecessor route evidence. No provider execution, theorem evidence, implementation correspondence, runtime security, resilience, release, deployment, or production readiness is established.",
   "next_step": {
-    "id": "AF-NEXT-009",
-    "description": "Independently review the FormalClaim v4 definition closure, the ontology alignment overlay, and the InterpretationModel v4 lifecycle correction. Owner acceptance of the InterpretationModel successor and later FormalClaim admission remain separate decisions.",
+    "id": "AF-NEXT-012",
+    "description": "Execute the ready theorem request only under a separately authorized bounded EVF provider run; theorem evidence binding and EVF joining remain separate successor effects.",
     "status": "not-started"
   }
 }

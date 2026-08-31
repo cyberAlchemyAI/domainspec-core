@@ -1,6 +1,9 @@
 {
-  "schema_version": "cav2.craft-migration-order/v1",
+  "schema_version": "cav2.craft-migration-order/v2",
   "order_id": "CAV2-CRAFT-MIG-B-ORDER-001",
+  "revision": 2,
+  "supersedes_revision": 1,
+  "amendment_ref": "cyberAlchemy-v2/development/domainspec-v2/migration/mig-b/map/CRAFT-MIGRATION-ORDER-AMENDMENT-001.json",
   "status": "planned",
   "authority_effect": "none",
   "visibility": "private",
@@ -16,9 +19,11 @@
   "route": {
     "selected_option_id": "MIG-B-STAGED-SUCCESSOR",
     "current_execution_name": "MIG-B-STAGED-RENAME",
-    "meaning": "Move the current DomainSpec v2 Product lineage into active Craft roots while retaining old-name paths as immutable migration and historical evidence.",
+    "meaning": "Selectively move the current DomainSpec v2 Product lineage into one self-contained Craft root while retaining all unselected old-name paths as immutable migration and historical evidence.",
     "source_root": "projects/domainspec-v2",
-    "execution_policy": "one-current-working-source-to-one-craft-staging-root",
+    "execution_policy": "definitions-first-selective-closure-to-one-craft-root",
+    "selection_policy": "only-explicit-dependency-closed-slices-migrate",
+    "unselected_source_policy": "retain-in-place-as-legacy-evidence",
     "numbered_candidate_policy": "forbidden-as-migration-control-loop",
     "repair_policy": "repair-and-revalidate-the-same-craft-staging-root-before-freeze",
     "source_deletion_policy": "forbidden-by-this-order"
@@ -91,14 +96,17 @@
     "refresh_required_before_execution": false
   },
   "destination_policy": {
+    "craft_root": "cyberAlchemy-v2/craft",
     "active_roots": {
-      "product": "cyberAlchemy-v2/product/craft",
-      "architecture": "cyberAlchemy-v2/architecture/craft",
-      "authority": "cyberAlchemy-v2/authority/craft",
-      "ontology": "cyberAlchemy-v2/ontology/craft",
-      "implementation": "cyberAlchemy-v2/implementation/craft",
-      "research": "cyberAlchemy-v2/research/craft",
-      "development": "cyberAlchemy-v2/development/craft"
+      "product": "cyberAlchemy-v2/craft/product",
+      "project": "cyberAlchemy-v2/craft/project",
+      "architecture": "cyberAlchemy-v2/craft/architecture",
+      "authority": "cyberAlchemy-v2/craft/authority",
+      "definitions": "cyberAlchemy-v2/craft/authority/definitions",
+      "ontology": "cyberAlchemy-v2/craft/ontology",
+      "implementation": "cyberAlchemy-v2/craft/implementation",
+      "research": "cyberAlchemy-v2/craft/research",
+      "development": "cyberAlchemy-v2/craft/development"
     },
     "legacy_evidence_roots": [
       "projects/domainspec-v2",
@@ -110,69 +118,43 @@
       "cyberAlchemy-v2/research/domainspec-v2",
       "cyberAlchemy-v2/development/domainspec-v2"
     ],
-    "formalization_destination": "cyberAlchemy-v2/implementation/craft/formalization",
-    "development_continuation_destination": "cyberAlchemy-v2/development/craft/continuations",
-    "completed_evidence_destination": "cyberAlchemy-v2/development/craft/evidence/completed",
-    "superseded_evidence_destination": "cyberAlchemy-v2/development/craft/evidence/superseded",
-    "historical_evidence_destination": "cyberAlchemy-v2/development/craft/evidence/historical"
+    "formalization_destination": "cyberAlchemy-v2/craft/implementation/formalization",
+    "development_continuation_destination": "cyberAlchemy-v2/craft/development/continuations",
+    "completed_evidence_destination": "cyberAlchemy-v2/craft/development/evidence/completed",
+    "superseded_evidence_destination": "cyberAlchemy-v2/craft/development/evidence/superseded",
+    "historical_evidence_destination": "cyberAlchemy-v2/craft/development/evidence/historical"
   },
-  "directory_waves": [
-    {
-      "id": "DW-01-ACTIVE-RUNTIME-DEPENDENCY",
-      "order": 1,
-      "selector": {
-        "field": "migration_disposition",
-        "equals": "carry-forward-active-dependency"
-      },
-      "expected_count": 1,
-      "destination": "cyberAlchemy-v2/development/craft/continuations",
-      "rewrite_policy": "rebind-current-paths-and-validate-real-consumers"
+  "development_inventory_policy": {
+    "inventory_role": "discovery-and-preservation-map-not-copy-order",
+    "inventoried_directories": 53,
+    "default_action": "retain-in-place-as-legacy-evidence",
+    "migration_rule": "a directory migrates only when a later phase names its exact dependency closure",
+    "bulk_copy_forbidden": true,
+    "lifecycle_dispositions_preserved": true
+  },
+  "definitions_first_slice": {
+    "destination": "cyberAlchemy-v2/craft/authority/definitions",
+    "scope": "active-backend-meta-type-definitions",
+    "active_meta_type_ids": ["DS-D1.1", "DS-D1.2", "DS-D1.3", "DS-D1.4", "DS-D1.5", "DS-D1.6", "DS-D1.7", "DS-D1.8", "DS-D1.9", "DS-D1.11", "DS-D1.12", "DS-D1.13", "DS-D1.14"],
+    "criterion_schema_count": 13,
+    "relationship_authority": {
+      "definition_id": "DS-D8",
+      "scope": "active-backend",
+      "signature_count": 17,
+      "source_signature_count": 31,
+      "deferred_signature_count": 14,
+      "full_source_parity_claimed": false
     },
-    {
-      "id": "DW-02-CONTINUATIONS",
-      "order": 2,
-      "selector": {
-        "field": "migration_disposition",
-        "equals": "carry-forward-continuation"
-      },
-      "expected_count": 26,
-      "destination": "cyberAlchemy-v2/development/craft/continuations",
-      "rewrite_policy": "carry-current-state-without-executing-or-promoting-it"
+    "meta_type_state_definition_ids": ["domainspec-v2-D31", "domainspec-v2-D32", "domainspec-v2-D33", "domainspec-v2-D34", "domainspec-v2-D35"],
+    "serialization": {
+      "canonical_format": "json",
+      "source_yaml_ingestion": "migration-tool-only",
+      "criterion_representation": "json-criterion-record",
+      "criterion_meta_schema": "json-schema-draft-2020-12",
+      "destination_yaml_forbidden": true
     },
-    {
-      "id": "DW-03-COMPLETED-EVIDENCE",
-      "order": 3,
-      "selector": {
-        "field": "migration_disposition",
-        "equals": "preserve-completed-provenance"
-      },
-      "expected_count": 16,
-      "destination": "cyberAlchemy-v2/development/craft/evidence/completed",
-      "rewrite_policy": "preserve-evidence-bytes-and-record-original-path-identity"
-    },
-    {
-      "id": "DW-04-SUPERSEDED-EVIDENCE",
-      "order": 4,
-      "selector": {
-        "field": "migration_disposition",
-        "equals": "archive-superseded-provenance"
-      },
-      "expected_count": 4,
-      "destination": "cyberAlchemy-v2/development/craft/evidence/superseded",
-      "rewrite_policy": "archive-without-runtime-or-authority-admission"
-    },
-    {
-      "id": "DW-05-HISTORICAL-EVIDENCE",
-      "order": 5,
-      "selector": {
-        "field": "migration_disposition",
-        "equals": "archive-historical-provenance"
-      },
-      "expected_count": 6,
-      "destination": "cyberAlchemy-v2/development/craft/evidence/historical",
-      "rewrite_policy": "archive-without-rebinding-historical-claims"
-    }
-  ],
+    "excluded": ["UI candidate meta types", "deferred meta types", "superseded meta-type records", "ontology", "architecture", "language realizations", "CLI", "development work packs"]
+  },
   "phases": [
     {
       "id": "M00-REFRESH-AND-FREEZE",
@@ -184,99 +166,76 @@
       "completion": "Every selected input has an exact path, digest, git state, owner, and migration disposition; no source byte changes during the capture."
     },
     {
-      "id": "M01-FINALIZE-CRAFT-ENTRY-SURFACES",
+      "id": "M01-MIGRATE-CANONICAL-DEFINITIONS",
       "order": 1,
       "depends_on": ["M00-REFRESH-AND-FREEZE"],
-      "action": "Complete the current-name Craft entry surfaces and identity links without treating DomainSpec v2 as a predecessor Product.",
-      "completion": "Product, Project, Method, ontology, and source maps agree on CA2-PRODUCT-CRAFT, CA2-PROJECT-CRAFT, CAV2-D20, and same-product-renamed."
+      "action": "Materialize the selected active-backend canonical definition closure under cyberAlchemy-v2/craft/authority/definitions, converting YAML authorities and criterion records to deterministic JSON while preserving stable IDs, three definition voices, provenance, and lifecycle boundaries.",
+      "completion": "The 13 active backend meta types, 13 JSON criterion records, scoped 17-signature DS-D8 authority, supported backend profile registry, domainspec-v2-D31..D35 state vocabulary, synchronized index, drift audit, schemas, validator, and immutable snapshot manifest close without YAML runtime dependencies or authority inflation."
     },
     {
-      "id": "M02-CLOSE-EXACT-ACTIVE-DEPENDENCY-SET",
+      "id": "M02-FREEZE-DEFINITION-SNAPSHOT",
       "order": 2,
-      "depends_on": ["M01-FINALIZE-CRAFT-ENTRY-SURFACES"],
-      "action": "Partition the refreshed source and all literal-path consumers into active Craft dependencies, retained legacy evidence, development continuations, completed evidence, superseded evidence, and historical evidence.",
-      "completion": "Every source entry and every old-root occurrence has one explicit disposition; runtime dependencies do not point into an excluded transient or archive."
+      "depends_on": ["M01-MIGRATE-CANONICAL-DEFINITIONS"],
+      "action": "Validate two-run deterministic JSON conversion, exact source-to-output semantic equivalence, reference closure, three-voice completeness, and selected-source digest currentness; then bind one exact owner-reviewed Definition Snapshot candidate.",
+      "completion": "One immutable Definition Snapshot digest is accepted for later Craft layers; validation alone does not activate ontology, architecture, or implementation."
     },
     {
-      "id": "M03-MATERIALIZE-CANONICAL-CRAFT-LAYERS",
+      "id": "M03-FINALIZE-CRAFT-ENTRY-SURFACES",
       "order": 3,
-      "depends_on": ["M02-CLOSE-EXACT-ACTIVE-DEPENDENCY-SET"],
-      "action": "Materialize current Product, architecture, authority, ontology, research, and language-neutral formalization bytes into their active Craft roots from the frozen working source.",
-      "completion": "Each copied byte is source-bound; active paths use Craft naming; original-path evidence remains unchanged in legacy evidence roots."
+      "depends_on": ["M02-FREEZE-DEFINITION-SNAPSHOT"],
+      "action": "Complete Craft Product, Project, and Method entry surfaces inside cyberAlchemy-v2/craft and bind them to the accepted Definition Snapshot without treating DomainSpec v2 as a predecessor Product.",
+      "completion": "The self-contained Craft root, Product, Project, Method, and source maps agree on CA2-PRODUCT-CRAFT, CA2-PROJECT-CRAFT, CAV2-D20, same-product-renamed, and the exact Definition Snapshot."
     },
     {
-      "id": "M04-MATERIALIZE-ONE-RUNTIME-CLOSURE",
+      "id": "M04-MIGRATE-PRODUCT-CAPABILITY-AND-ONTOLOGY",
       "order": 4,
-      "depends_on": ["M03-MATERIALIZE-CANONICAL-CRAFT-LAYERS"],
-      "action": "Materialize one dependency-closed Node 26 implementation and CLI under cyberAlchemy-v2/implementation/craft, including package locks, generators, profiles, ports, schemas, tests, and fixtures.",
-      "completion": "The Craft implementation installs, typechecks, tests, and builds standalone from its final active path without borrowing the legacy parent workspace."
+      "depends_on": ["M03-FINALIZE-CRAFT-ENTRY-SURFACES"],
+      "action": "Select and migrate only the Product Capability and business-ontology records required by the first meta-type instantiation vertical, binding every record to the accepted Definition Snapshot.",
+      "completion": "The selected capability and ontology closure is internally complete; unselected product and ontology material remains in legacy roots."
     },
     {
-      "id": "M05-CARRY-ACTIVE-RUNTIME-DEVELOPMENT",
+      "id": "M05-MIGRATE-DOMAINSPEC-AND-SYSTEM-ONTOLOGY",
       "order": 5,
-      "depends_on": ["M04-MATERIALIZE-ONE-RUNTIME-CLOSURE"],
-      "directory_wave_ref": "DW-01-ACTIVE-RUNTIME-DEPENDENCY",
-      "action": "Carry the one development directory classified as an active runtime dependency and rebind only its current consumers.",
-      "completion": "The selected runtime dependency is present once in Craft and its real consumers pass from the final path."
+      "depends_on": ["M04-MIGRATE-PRODUCT-CAPABILITY-AND-ONTOLOGY"],
+      "action": "Migrate the selected DomainSpec authored source, deterministic compiled graph, and system ontology needed by the first vertical under cyberAlchemy-v2/craft.",
+      "completion": "The selected D65 definition-to-system-ontology chain is source-bound and deterministic; no ambient ontology runtime output grants admission."
     },
     {
-      "id": "M06-CARRY-CURRENT-CONTINUATIONS",
+      "id": "M06-MIGRATE-ARCHITECTURE-AND-REALIZATIONS",
       "order": 6,
-      "depends_on": ["M05-CARRY-ACTIVE-RUNTIME-DEVELOPMENT"],
-      "directory_wave_ref": "DW-02-CONTINUATIONS",
-      "action": "Carry all active and blocked continuation directories as non-canonical development state without executing their pending work.",
-      "completion": "All 26 continuation directories are present with lifecycle and residue intact and none is misreported as completed or admitted."
+      "depends_on": ["M05-MIGRATE-DOMAINSPEC-AND-SYSTEM-ONTOLOGY"],
+      "action": "Selectively migrate the architecture properties, language-neutral realization contracts, and TypeScript, Python, and Rust bindings required by the first vertical.",
+      "completion": "Every selected realization closes against the accepted system ontology and retains its exact language/profile identity; unrelated architecture research and development packages remain legacy evidence."
     },
     {
-      "id": "M07-PRESERVE-COMPLETED-EVIDENCE",
+      "id": "M07-MIGRATE-ONE-RUNTIME-CLOSURE",
       "order": 7,
-      "depends_on": ["M06-CARRY-CURRENT-CONTINUATIONS"],
-      "directory_wave_ref": "DW-03-COMPLETED-EVIDENCE",
-      "action": "Copy completed development packages into the Craft evidence area while retaining their original source path and digest identities.",
-      "completion": "All 16 completed packages are preserved as evidence and none becomes an active runtime dependency merely by migration."
+      "depends_on": ["M06-MIGRATE-ARCHITECTURE-AND-REALIZATIONS"],
+      "action": "Materialize one dependency-closed Node 26 implementation and CLI under cyberAlchemy-v2/craft/implementation, with only the generators, profiles, ports, schemas, tests, fixtures, and conformance providers selected by the first vertical.",
+      "completion": "The selected Craft implementation installs, typechecks, tests, and builds standalone without borrowing the legacy parent workspace or unselected development directories."
     },
     {
-      "id": "M08-ARCHIVE-SUPERSEDED-EVIDENCE",
+      "id": "M08-REBIND-SELECTED-CONSUMERS",
       "order": 8,
-      "depends_on": ["M07-PRESERVE-COMPLETED-EVIDENCE"],
-      "directory_wave_ref": "DW-04-SUPERSEDED-EVIDENCE",
-      "action": "Archive the superseded development packages under the Craft evidence surface.",
-      "completion": "All four superseded packages retain provenance and have no active consumer or authority role."
+      "depends_on": ["M07-MIGRATE-ONE-RUNTIME-CLOSURE"],
+      "action": "Rewrite only consumers in the selected vertical to final Craft paths and retain every unselected old-root occurrence in place as legacy evidence.",
+      "completion": "Every selected consumer resolves to cyberAlchemy-v2/craft; no global 1,027-file rewrite or evidence relocation is implied."
     },
     {
-      "id": "M09-ARCHIVE-HISTORICAL-EVIDENCE",
+      "id": "M09-VALIDATE-AND-FREEZE-FIRST-VERTICAL",
       "order": 9,
-      "depends_on": ["M08-ARCHIVE-SUPERSEDED-EVIDENCE"],
-      "directory_wave_ref": "DW-05-HISTORICAL-EVIDENCE",
-      "action": "Archive historical development packages without rewriting their historical claims or path-bound evidence.",
-      "completion": "All six historical packages remain discoverable and are excluded from current runtime and authority surfaces."
-    },
-    {
-      "id": "M10-REBIND-CURRENT-CONSUMERS",
-      "order": 10,
-      "depends_on": ["M09-ARCHIVE-HISTORICAL-EVIDENCE"],
-      "action": "Rewrite current consumers to final Craft roots, preserve explicitly historical old-root references, and create a machine allowlist for every retained DomainSpec-v2 occurrence.",
-      "completion": "Every refreshed path-consumer row is either rebound to Craft or justified as immutable legacy evidence; no unexplained old-root occurrence remains."
-    },
-    {
-      "id": "M11-VALIDATE-FINAL-CRAFT-VERTICAL",
-      "order": 11,
-      "depends_on": ["M10-REBIND-CURRENT-CONSUMERS"],
-      "action": "Run the complete final-path validation surface: Node 26 runtime, install, typecheck, unit and contract tests, CLI build, generation, three language profiles, Operation and Workflow relationships/effects/recovery, independent conformance, target-project materialization, and two-run determinism.",
-      "completion": "One source-to-target-project-to-independent-conformance vertical passes twice from final Craft paths with exact realization, content, and evidence digests."
-    },
-    {
-      "id": "M12-FREEZE-CURRENT-CRAFT-BASELINE",
-      "order": 12,
-      "depends_on": ["M11-VALIDATE-FINAL-CRAFT-VERTICAL"],
-      "action": "Freeze the passing final-path graph as the first current Craft baseline, switch current internal references to it, and mark DomainSpec-v2 roots as read-only legacy evidence with compatibility locators.",
-      "completion": "Craft is the sole current active Product path; legacy roots remain readable and reversible; no source deletion, publication, release, or deployment occurs."
+      "depends_on": ["M08-REBIND-SELECTED-CONSUMERS"],
+      "action": "Run the final-path Node 26, generation, three-profile, Operation, Workflow, target-project, independent-conformance, and two-run determinism checks for the selected vertical, then freeze its exact graph.",
+      "completion": "One selected source-to-target-project-to-independent-conformance vertical passes twice and becomes the first frozen Craft baseline; all unselected legacy roots remain readable and unchanged."
     }
   ],
   "validation_obligations": [
-    "all 53 development directories are selected exactly once by the five directory waves",
-    "all refreshed source entries have exactly one active, continuation, completed, superseded, historical, or retained-legacy disposition",
-    "all refreshed literal old-root occurrences are rebound or allowlisted as immutable evidence",
+    "the canonical active root is cyberAlchemy-v2/craft and every concern root is nested beneath it",
+    "M01 migrates definitions before Product Capability, ontology, architecture, realization, or implementation",
+    "the Definition Snapshot carries exactly 13 active backend meta types, 13 JSON criterion records, and a scoped 17-signature DS-D8 authority",
+    "all Craft definition machine records and criterion schemas are JSON and no destination YAML dependency remains",
+    "the 53-directory map remains discovery and preservation evidence rather than a bulk-copy schedule",
+    "only exact dependency-closed files and consumers selected by a phase migrate; all others remain legacy evidence",
     "active imports and package identities use Craft roots and names",
     "the final implementation is standalone under the repository Node 26 container",
     "TypeScript, Python, and Rust profile realizations remain selected and independently conformant",
@@ -291,10 +250,10 @@
       "meaning": "The latest numbered baseline-v11 candidate has no passing aggregate receipt and is diagnostic evidence only, not a migration source."
     },
     {
-      "code": "CRAFT-MIGRATION-CONSUMER-PARTITION-MISSING",
-      "meaning": "The 1,027 consumer files and 9,073 old-root occurrences are inventoried but not yet partitioned into current rewrites and immutable evidence allowlist entries."
+      "code": "CRAFT-DEFINITION-SNAPSHOT-NOT-MATERIALIZED",
+      "meaning": "The selected active-backend JSON Definition Snapshot does not yet exist under cyberAlchemy-v2/craft/authority/definitions."
     }
   ],
   "decision_gates": [],
-  "claim_ceiling": "This order defines dependency and evidence sequence only. It does not itself copy, rename, rebind, validate, freeze, switch authority, delete legacy roots, publish, release, deploy, or prove production readiness."
+  "claim_ceiling": "Revision 2 corrects migration structure and sequence only. It does not itself materialize definitions, copy development directories, rebind consumers, admit a Definition Snapshot, activate ontology or implementation, delete legacy roots, publish, release, deploy, or prove production readiness."
 }

@@ -1,104 +1,106 @@
 # Craft MIG-B Migration Order
 
-Status: **M00 refresh and freeze complete; M01 not started**
+Status: **M00 refresh and freeze complete; revision 2 corrected; M01 not started**
 Authority effect: **none**
 Machine view: [CRAFT-MIGRATION-ORDER.json](CRAFT-MIGRATION-ORDER.json)
+Correction witness: [CRAFT-MIGRATION-ORDER-AMENDMENT-001.json](CRAFT-MIGRATION-ORDER-AMENDMENT-001.json)
 
-## Identity And Migration Rule
+## Corrected Boundary
 
-Craft is the current name of the DomainSpec v2 Product lineage. This is a staged rename and relocation of the
-same Product, not construction of a successor Product. Active destinations use `craft`; exact old-name source,
-staging, candidate, and receipt paths remain immutable migration or historical evidence until the final Craft
-vertical passes.
+Craft is the current name of the DomainSpec v2 Product lineage and is both a Project and a Product. Its active
+surfaces therefore live inside one self-contained root:
 
-The migration source is the refreshed current working project at `projects/domainspec-v2`. The existing
-`current-candidate-v2` through `current-candidate-v9` trees are diagnostic migration evidence. They are not a
-ladder that must be continued, and candidate v9 is not a validated source of truth.
+```text
+cyberAlchemy-v2/craft/
+  product/
+  project/
+  authority/
+    definitions/
+  ontology/
+  architecture/
+  implementation/
+  research/
+  development/
+```
 
-## What The Map Says
+Layer-first paths such as `cyberAlchemy-v2/authority/craft` and
+`cyberAlchemy-v2/implementation/craft` are not migration destinations. The canonical definitions destination
+is `cyberAlchemy-v2/craft/authority/definitions`.
 
-- 10,956 source entries and 98,598,963 bytes were refreshed at `2026-08-31T02:01:05Z`.
-- 1,027 consumer files contain 9,073 literal `projects/domainspec-v2` occurrences after excluding the MIG-B preparation package from its own consumer population.
-- All 53 development directories have one lifecycle and migration disposition.
-- One directory, `implementation-conformance`, is an active runtime dependency.
-- 26 directories are current continuations, 16 are completed evidence, four are superseded, and six are
-  historical.
-- Stage-2 additive copying and stage-3 old-name rebinding produced evidence, but no numbered baseline-v11
-  candidate has a passing final aggregate receipt. Candidate v9 is unvalidated.
+Craft remains the same renamed Product, not a successor Product. Existing DomainSpec-v2 paths remain readable
+legacy and migration evidence. This order neither deletes nor bulk-copies them.
 
-## Execution Order
+## Selective Migration Rule
 
-| Order | Phase | Result required before continuing |
+The complete inventory exists so that selection is safe; it is not a list of material that must move. The 53
+development directories and 1,027 literal-path consumer files remain discovery and preservation evidence.
+A file, directory, or consumer migrates only when a numbered phase names its exact dependency closure.
+Everything else stays in place.
+
+The earlier five directory waves are superseded as an execution schedule. Their lifecycle classifications
+remain useful observations, but completed, superseded, historical, blocked, and unrelated development packages
+are not copied merely because they were inventoried.
+
+## First Slice: Canonical Definitions
+
+M01 migrates the definition predecessor before Product Capability, ontology, architecture, realization, CLI,
+or implementation:
+
+- 13 active backend meta types: `DS-D1.1..9` and `DS-D1.11..14`;
+- 13 corresponding criterion records;
+- a scoped 17-signature active-backend `DS-D8` relationship authority;
+- the supported backend profile registry;
+- meta-type state definitions `domainspec-v2-D31..D35`;
+- the transitive canonical definition references required by those records;
+- synchronized human definitions, index, drift audit, schemas, validator, and snapshot manifest.
+
+The destination machine format is JSON. Real YAML source is deterministically converted to JSON criterion
+records, while JSON content currently stored under `.yml` names is renamed and rebound. A shared Draft 2020-12
+JSON Schema validates the criterion-record shape. No `.yml`, `.yaml`, or YAML runtime dependency may remain in
+the Craft definitions package.
+
+M01 excludes UI candidates, deferred and superseded meta-type records, ontology, architecture, language
+realizations, CLI code, and development work packs. The scoped 17-signature authority records that the source
+registry has 31 signatures and defers 14; it does not claim full source parity.
+
+## Corrected Execution Order
+
+| Order | Phase | Required result |
 | ---: | --- | --- |
-| 0 | Refresh and freeze | **Completed.** Source content remained digest-identical; the refreshed consumer and map epoch is bound by the M00 receipt. |
-| 1 | Finalize Craft entry surfaces | Product, Project, Method, ontology, and source maps all express `same-product-renamed`. |
-| 2 | Close the exact active dependency set | Every file and old-root occurrence is classified as active, continuation, completed, superseded, historical, or retained legacy evidence. |
-| 3 | Materialize canonical Craft layers | Product, architecture, authority, ontology, research, and formalization enter final `/craft` roots from the frozen working source. |
-| 4 | Materialize one runtime closure | One standalone Node 26 implementation and CLI exists at `cyberAlchemy-v2/implementation/craft`; no new numbered candidate tree is created. |
-| 5 | Carry active runtime development | Move the single active dependency selected by `DW-01` and pass its real consumers from the final path. |
-| 6 | Carry continuations | Move the 26 active or blocked continuation directories without executing or promoting their pending work. |
-| 7 | Preserve completed evidence | Copy the 16 completed packages as evidence, retaining original path and digest identity. |
-| 8 | Archive superseded evidence | Archive four superseded packages with no current runtime or authority role. |
-| 9 | Archive historical evidence | Archive six historical packages without rewriting their historical claims. |
-| 10 | Rebind current consumers | Point current consumers at Craft; allowlist every retained old-name reference as immutable evidence. |
-| 11 | Validate the final Craft vertical | Run the complete final-path runtime, CLI, profile, Operation, Workflow, target-project, conformance, and determinism surface. |
-| 12 | Freeze the current Craft baseline | Freeze the passing graph once, switch current internal references, and leave legacy roots read-only and reversible. |
+| 0 | Refresh and freeze | **Completed.** Preserve the immutable M00 source and map evidence. |
+| 1 | Migrate canonical definitions | Materialize the active-backend JSON definition closure under `craft/authority/definitions`. |
+| 2 | Freeze Definition Snapshot | Prove conversion equivalence, reference closure, three definition voices, source currentness, and two-run determinism; bind one exact owner-reviewed snapshot. |
+| 3 | Finalize Craft entry surfaces | Establish Product, Project, and Method surfaces inside `cyberAlchemy-v2/craft`, bound to the Definition Snapshot. |
+| 4 | Migrate Product Capability and ontology | Select only the capability and business-ontology records required by the first vertical. |
+| 5 | Migrate DomainSpec and system ontology | Carry the selected authored source, compiled graph, and system ontology closure. |
+| 6 | Migrate architecture and realizations | Carry only the required architecture properties and TypeScript, Python, and Rust realization bindings. |
+| 7 | Migrate one runtime closure | Build one standalone Node 26 implementation and CLI under `craft/implementation`. |
+| 8 | Rebind selected consumers | Rewrite only consumers belonging to the selected vertical. |
+| 9 | Validate and freeze the first vertical | Pass the final-path generation, three-profile, Operation, Workflow, target-project, conformance, and deterministic replay checks twice. |
 
-## Directory Order
+No phase carries every development directory, archives all historical packages, or rewrites all 9,073 old-root
+occurrences.
 
-The directory order comes directly from `MIGRATION-MATRIX.json`; it is not a new interpretation of work-pack
-status. Each selector is machine-checked and together they cover every directory exactly once.
+## M00 Amendment Boundary
 
-| Wave | Matrix disposition | Count | Destination role |
-| ---: | --- | ---: | --- |
-| 1 | `carry-forward-active-dependency` | 1 | Current Craft continuation required by runtime validation |
-| 2 | `carry-forward-continuation` | 26 | Non-canonical active or blocked continuation |
-| 3 | `preserve-completed-provenance` | 16 | Completed evidence |
-| 4 | `archive-superseded-provenance` | 4 | Superseded evidence archive |
-| 5 | `archive-historical-provenance` | 6 | Historical evidence archive |
-
-Within a wave, directories are copied in lexical order for determinism. That lexical copy order is not an
-execution or implementation priority. Pending work remains governed by each directory's own current state.
-
-## Final Active Roots
-
-| Concern | Active destination |
-| --- | --- |
-| Product | `cyberAlchemy-v2/product/craft` |
-| Architecture | `cyberAlchemy-v2/architecture/craft` |
-| Authority | `cyberAlchemy-v2/authority/craft` |
-| Ontology | `cyberAlchemy-v2/ontology/craft` |
-| Implementation and formalization | `cyberAlchemy-v2/implementation/craft` |
-| Research | `cyberAlchemy-v2/research/craft` |
-| Development | `cyberAlchemy-v2/development/craft` |
-
-Old `/domainspec-v2` roots remain evidence surfaces. This order does not authorize their deletion.
-
-## Why The Order Stops The Candidate Loop
-
-The migration does not build candidate v10, v11, or another numbered copy. It refreshes one source epoch, writes
-one final Craft staging root, repairs that same root until every reachable final-path check passes, and freezes
-one current Craft baseline only after the complete vertical succeeds. A failed validation changes no source or
-legacy evidence and resumes at the failed phase on the same staging root.
+The original M00 receipt is immutable and records the hashes of migration-order revision 1. Revision 2 does not
+rewrite that receipt. `CRAFT-MIGRATION-ORDER-AMENDMENT-001.json` preserves its prior hashes and records the
+owner-directed corrections: selective migration, definitions first, JSON definition schemas, and the
+product-first Craft root.
 
 ## Completion Proof
 
-Migration is complete only when:
+The first Craft vertical is complete only when:
 
-1. the final Craft package installs, typechecks, tests, and builds in the repository Node 26 container;
-2. TypeScript, Python, and Rust realizations pass independent conformance from final paths;
-3. Operation and Workflow enforce declared reads, writes, effects, guards, atomic state and outbox, explicit
-   failure continuation, undeclared-effect rejection, relationship constraints, and durable recovery bindings;
-4. a target project is generated from typed intent and checked against exact selected realization and byte
-   digests;
-5. two identical runs produce identical target bytes, manifests, and conformance results; and
-6. every old-root occurrence is either rebound or explicitly retained as immutable evidence.
+1. the accepted Definition Snapshot precedes and binds every later selected layer;
+2. the final implementation installs, typechecks, tests, and builds in the repository Node 26 container;
+3. TypeScript, Python, and Rust realizations pass independent conformance from final Craft paths;
+4. Operation and Workflow enforce the selected relationship, effect, failure, and recovery contracts;
+5. a target project is generated from typed intent and checked against the exact selected realization; and
+6. two identical runs produce identical target bytes, manifests, and conformance results.
 
-## Current Blockers
-
-There is no open semantic decision gate for the migration order. M00 is complete. Later execution remains
-mechanically blocked until the 1,027 consumer files and 9,073 occurrences are partitioned and the final Craft
-root—not candidate v9—passes the complete validation vertical.
+Validation proves only the selected vertical. Unselected DomainSpec-v2 material remains legacy evidence and is
+not implicitly migrated, admitted, published, released, or deployed.
 
 Validate this order with:
 

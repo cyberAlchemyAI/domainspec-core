@@ -69,6 +69,17 @@
       "role": "exact independent-review contract for semantic preservation"
     },
     {
+      "dependency_id": "lean-profile-independent-review-result",
+      "artifact_ref": {
+        "path": "projects/domainspec-v2/formalization/profiles/reviews/lean-dtt-auth-v5-independent-review.json",
+        "sha256": "d671d8ec7506f126f64dcff33dde5b1e36ce06b5d9e846561cc85cc87671eaf8",
+        "size_bytes": 14156,
+        "current": true
+      },
+      "selectors": ["#/input_integrity", "#/obligation_results", "#/forbidden_inference_results", "#/outcome", "#/blockers"],
+      "role": "independent PASS over the exact Lean semantic-preservation request; review evidence only"
+    },
+    {
       "dependency_id": "domainspec-aggregate-validation",
       "artifact_ref": {
         "path": "projects/domainspec-v2/formalization/receipts/20260831T030041Z-lean-admission-blocker-repair-validation.json",
@@ -98,8 +109,8 @@
     },
     {
       "check_id": "AF-LEAN-AR-004",
-      "status": "block",
-      "detail": "No independent reviewer has established that the Lean term preserves the exact ALLOW/DENY biconditionals and three non-vacuity witnesses of the predecessor proposition."
+      "status": "pass",
+      "detail": "An independent read-only reviewer returned a schema-bound PASS over the exact request and all eight subject refs, establishing preservation of both ALLOW/DENY biconditionals, all three non-vacuity witnesses, the formal signature, the two-valued decision codomain, and the external InterpretationModel boundary."
     },
     {
       "check_id": "AF-LEAN-AR-005",
@@ -113,8 +124,8 @@
     },
     {
       "check_id": "AF-LEAN-AR-007",
-      "status": "not_evaluable",
-      "detail": "The owner admission decision remains not_evaluable until an independent reviewer returns a PASS over the exact review request inputs."
+      "status": "pass",
+      "detail": "The independent-review prerequisite is satisfied, so separate digest-bound DomainSpec profile and Auth FormalClaim owner decisions are now evaluable; neither decision is made by this readiness artifact."
     },
     {
       "check_id": "AF-LEAN-AR-008",
@@ -122,16 +133,9 @@
       "detail": "A theorem proof, FormalClaimLeanBinding, TDE projection, provider execution, EVF join, and Auth service implementation are downstream of FormalClaim admission and are not prerequisites for candidate authoring."
     }
   ],
-  "outcome": "not_evaluable",
-  "blockers": [
-    {
-      "blocker_id": "AF-LEAN-INDEPENDENT-SEMANTIC-REVIEW-MISSING",
-      "cause": "Technical elaboration does not prove semantic preservation from the prior fol-core proposition.",
-      "unblock_action": "Execute the exact lean-dtt-auth-independent-review-request and return a schema-bound PASS, BLOCK, or not_evaluable result without mutating its inputs.",
-      "owner": "independent-formalclaim-reviewer"
-    }
-  ],
-  "next_route": "independent FormalClaim semantic review over the exact request, followed by a digest-bound DomainSpec profile and Auth FormalClaim owner admission decision if and only if review passes",
+  "outcome": "ready-for-owner-decision",
+  "blockers": [],
+  "next_route": "separate digest-bound DomainSpec lean-dtt profile owner decision and Auth FormalClaim v5 owner decision over the immutable candidate plus independent PASS receipt",
   "authority_effect": "none",
-  "claim_ceiling": "Admission-readiness evidence for one technically valid Lean FormalClaim candidate. The outcome is not_evaluable and grants no profile admission, FormalClaim admission, theorem result, EVF result, runtime correspondence, security, release, deployment, or production authority."
+  "claim_ceiling": "Admission-readiness evidence for one technically valid and independently reviewed Lean FormalClaim candidate. The outcome is ready-for-owner-decision, not admitted, and grants no profile admission, FormalClaim admission, theorem result, EVF result, runtime correspondence, security, release, deployment, or production authority."
 }
