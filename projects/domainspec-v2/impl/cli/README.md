@@ -70,3 +70,21 @@ own npm `11.19.0` lock and package boundary. Clean-package validation packs the
 compiled output into an isolated temporary consumer and compares two generated
 targets byte for byte. These checks are implementation evidence only; they do
 not publish, release, deploy, or claim production readiness.
+
+## Closed Governance-kernel instantiation
+
+`tools/governance-kernel.mjs` is a bounded, dependency-free candidate extension.
+It validates the six-node DomainSpec source for the smallest Governance
+evaluation kernel, binds every node to the accepted Rust realization protocol,
+and deterministically emits one no-effect Rust crate. It is intentionally not a
+generic generator and does not widen the supported public CLI command surface.
+
+The generated receipt uses SHA-256 only for static source/artifact conformance.
+The generated evaluator invokes no hash operation and does not use a repository
+digest as identity, authority, or a lifecycle clock. Generated Rust types still
+implement the standard `Hash` trait where the admitted DomainSpec realization
+protocol requires equality-compatible type behavior.
+
+Each source project pins its own admitted implementation baseline. Generation
+does not follow the mutable repository-wide current pointer, so unrelated
+baseline advancement cannot trigger an implicit kernel refresh.

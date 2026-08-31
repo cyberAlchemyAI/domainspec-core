@@ -1,21 +1,23 @@
-# DomainSpec v2 model
+# DomainSpec v2 Governance kernel model
 
-This candidate example uses the CyberAlchemy Governance language without
-claiming a direct translation from business meaning to implementation type.
+Source aggregate: `96053ab0f2b9a591dd24cf639b1c922a269781f270f5b60f2b2452883e3f2ee8`
 
-| Governance meaning | DomainSpec v2 realization in this example | Rust realization |
-| --- | --- | --- |
-| Governance Program | `DS-D1.1 Entity` — stable program ID and version | `GovernanceProgram` |
-| Governance Request | `DS-D1.2 Value Object` — immutable proposed consequence | `GovernanceRequest` |
-| Governance Fact | `DS-D1.2 Value Object` — proposition, scope, source, verifier, and value | `GovernanceFact` |
-| Governance Fact Set | `DS-D1.2 Value Object` — finite immutable evaluation input | `GovernanceFactSet` |
-| Governance Verdict | `DS-D1.3 Enum` — `allow`, `deny`, `abstain`, `error` | `GovernanceVerdict` |
-| Evaluate Governance | `DS-D1.6 Calculation` — pure deterministic value return | `evaluate` |
+| Governance meaning | DomainSpec v2 meta-type | Accepted Rust protocol | Generated realization |
+| --- | --- | --- | --- |
+| Governance Program | `DS-D1.1 Entity` | `rust.validated-extensible-entity-factory/v1` | `GovernanceProgram`, designated `ProgramId`, explicit `version`, identity-only equality and hash |
+| Governance Request | `DS-D1.2 Value Object` | `rust.owned-value-object-factory/v1` | `GovernanceRequest`, private owned fields, complete-value equality |
+| Governance Fact | `DS-D1.2 Value Object` | `rust.owned-value-object-factory/v1` | `GovernanceFact`, private scope/source/verifier/value, complete-value equality |
+| Governance Fact Set | `DS-D1.2 Value Object` | `rust.owned-value-object-factory/v1` | `GovernanceFactSet`, normalized complete-value equality independent of input order |
+| Governance Verdict | `DS-D1.3 Enum` | `rust.nominal-enum-explicit-wire/v1` | unit-variant `GovernanceVerdict`, total wire emit and fallible parse |
+| Evaluate Governance | `DS-D1.6 Calculation` | `rust.bound-calculation/v1` | `EVALUATE_GOVERNANCE`, typed inputs, deterministic value output, no effects |
 
-`GovernanceVerdict` is not modeled as `DS-D1.7 Rule`: a DomainSpec Rule returns
-a Boolean, while this kernel deliberately returns four distinct outcomes.
-`evaluate` is not an `Operation` because it changes no state.
+The business terms come from the CyberAlchemy Governance ubiquitous-language
+package. The DomainSpec types are realization choices, not translations or
+semantic equivalents. The product capability remains
+`GOV-CAP-ASSESS-RULE-FITNESS`; generated code cannot extend its meaning.
 
-The Program refers to exact rule, Constitution, binding, selector, and authority
-requirements. Those references are synthetic test data. They are not adoption,
-authority, an active Constitution, or an enforcement binding in CyberAlchemy.
+The explicitly pinned implementation baseline is `domainspec-meta-types-current-implemented@3`. Candidate language
+bindings for Verdict and Evaluate are deliberately identified as candidates;
+this instantiation does not promote them. The pin is local to this
+instantiation, so advancement of a repository-wide current pointer does not
+create an implicit lifecycle refresh here.
