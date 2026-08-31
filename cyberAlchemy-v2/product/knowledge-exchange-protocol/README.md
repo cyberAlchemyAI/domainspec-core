@@ -1,6 +1,6 @@
 # CyberAlchemy Knowledge Exchange Protocol
 
-Status: private candidate product model
+Status: private product model; Product Capability adopted and business ontology admitted
 
 This package defines the first bounded product slice for a Solana-oriented
 knowledge-sharing protocol. The first proof is deliberately smaller than a
@@ -47,18 +47,21 @@ old content key is insufficient.
 
 ## D65 Construction State
 
-The product-local definitions are active definition authority. Every successor
-remains separately bounded:
+The product-local definitions, adopted Product Capability, and admitted
+business ontology are now the evaluable D65 predecessor chain:
 
 1. `KEP-D1` through `KEP-D12` are canonical product-local definitions;
-2. the Product Capability remains a candidate that must bind those definitions;
-3. the capability-local business ontology remains an unadmitted candidate; and
-4. existing DomainSpec-generated and Rust artifacts are premature candidate
+2. the exact Product Capability is adopted against those definitions;
+3. the exact capability-local business ontology is admitted with complete
+   definition bindings; and
+4. existing DomainSpec-generated and Rust artifacts remain premature candidate
    evidence descended from the earlier unbound model.
 
-The next eligible step is a digest-bound business-ontology admission review.
-DomainSpec admission, implementation conformance, Solana realization,
-publication, and deployment remain blocked or `not_evaluable`.
+The immutable owner decision is
+[decisions/ontology-admission.json](decisions/ontology-admission.json). It
+supersedes the earlier pre-definition acceptance and grants no successor
+execution. DomainSpec admission, implementation conformance, Solana
+realization, publication, and deployment remain blocked or `not_evaluable`.
 
 ## Validate
 
@@ -69,9 +72,10 @@ python3 cyberAlchemy-v2/product/knowledge-exchange-protocol/tests/test_validate.
 
 ## Claim Ceiling
 
-A PASS proves only the internal shape, exact external-source currency, graph
-closure, shared-schema conformance, and honest D65 stage posture of these
-candidate bytes. It does not adopt the capability, prove cryptographic
-security, prove recipient decryption, implement a Solana program, authorize a
-share, transfer SOL, establish licensing or royalties, publish, release, or
-deploy anything.
+A PASS proves the exact definition bindings, adopted capability postimage,
+admitted business-ontology postimage, source currency, graph closure, schema
+conformance, decision-digest closure, and current D65 stage posture. It does
+not admit DomainSpec or a system ontology, prove implementation conformance or
+cryptographic security, prove recipient decryption, implement a Solana
+program, authorize a share, transfer SOL, establish licensing or royalties,
+publish, release, or deploy anything.

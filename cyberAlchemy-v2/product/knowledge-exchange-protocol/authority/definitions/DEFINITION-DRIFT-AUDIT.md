@@ -39,6 +39,6 @@ candidate consumers:
 | Finding | Status | Remediation |
 | --- | --- | --- |
 | Product vocabulary was initially placed in CyberAlchemy-v2 shared definition authority. | fixed | Relocated the twelve terms into this product-local authority and reserved the former parent IDs as withdrawn. |
-| The Product Capability and business ontology do not yet bind the exact product-local definition IDs and digest. | flag | Use `CA2-ROUTE-GOVERNANCE` to construct and evaluate a digest-bound ontology admission candidate. |
+| The Product Capability and business ontology did not bind the exact product-local definition IDs and digest. | fixed | The adopted capability and admitted business ontology now bind `KEP-D1` through `KEP-D12` and the exact canonical definition digest through [the ontology admission decision](../../decisions/ontology-admission.json). |
 | Existing DomainSpec-generated and Rust artifacts descend from the earlier unbound vocabulary and ontology. | blocked successor claim | Rebuild or prove exact successor binding only after ontology admission; do not infer conformance from existing tests. |
 | Solana realization, payment, licensing, royalties, rights, and reputation are outside the admitted state. | not_evaluable | Define and admit each successor capability before implementation. |

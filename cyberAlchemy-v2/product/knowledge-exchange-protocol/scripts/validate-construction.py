@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the accepted model -> DomainSpec -> Rust candidate construction chain."""
+"""Validate the current Product -> DomainSpec successor -> Rust D65 chain."""
 
 from __future__ import annotations
 
@@ -15,36 +15,20 @@ from typing import Any
 
 PACKAGE_ROOT = Path(__file__).resolve().parent.parent
 REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
-ACCEPTED_DIGEST = "c9681ea0c08ff56e06be9a582faba23cf347c19fb8ce3ff083e4870ab169a435"
-
-
-def load(relative: str, errors: list[str]) -> dict[str, Any]:
-    path = PACKAGE_ROOT / relative
-    try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        errors.append(f"cannot load {relative}: {exc}")
-        return {}
-    if not isinstance(value, dict):
-        errors.append(f"{relative} must contain one JSON object")
-        return {}
-    return value
+ONTOLOGY_DIGEST = "32a354721df128dd3ba8b11e8f1a435914a8718952c93b5a7e69f12edae60a60"
+ADMISSION_DECISION_ID = "CA2-DECISION-KEP-SYSTEM-ONTOLOGY-ADMISSION-002"
+IMPLEMENTATION_ADMISSION_DECISION_ID = "CA2-DECISION-KEP-RUST-IMPLEMENTATION-ADMISSION-001"
 
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def expect(actual: Any, expected: Any, label: str, errors: list[str]) -> None:
-    if actual != expected:
-        errors.append(f"{label}: expected {expected!r}, observed {actual!r}")
-
-
-def validate_accepted_model(errors: list[str]) -> None:
+def run_json(command: list[str], errors: list[str], label: str) -> dict[str, Any]:
     environment = dict(os.environ)
     environment["PYTHONDONTWRITEBYTECODE"] = "1"
     completed = subprocess.run(
-        ["python3", str(PACKAGE_ROOT / "validate.py")],
+        command,
         cwd=REPOSITORY_ROOT,
         env=environment,
         capture_output=True,
@@ -52,15 +36,17 @@ def validate_accepted_model(errors: list[str]) -> None:
         check=False,
     )
     if completed.returncode != 0:
-        errors.append(f"accepted model validator failed: {completed.stderr or completed.stdout}")
-        return
+        errors.append(f"{label} failed: {completed.stderr or completed.stdout}")
+        return {}
     try:
-        result = json.loads(completed.stdout)
+        value = json.loads(completed.stdout)
     except json.JSONDecodeError as exc:
-        errors.append(f"accepted model validator returned invalid JSON: {exc}")
-        return
-    expect(result.get("status"), "PASS", "accepted model status", errors)
-    expect(result.get("material_digest"), ACCEPTED_DIGEST, "accepted model digest", errors)
+        errors.append(f"{label} returned invalid JSON: {exc}")
+        return {}
+    if not isinstance(value, dict):
+        errors.append(f"{label} must return one JSON object")
+        return {}
+    return value
 
 
 def verify_generated_build(errors: list[str]) -> None:
@@ -73,7 +59,7 @@ def verify_generated_build(errors: list[str]) -> None:
         "node",
         "--import",
         "tsx",
-        "../../../cyberAlchemy-v2/product/knowledge-exchange-protocol/scripts/build.ts",
+        "../../../cyberAlchemy-v2/product/knowledge-exchange-protocol/scripts/build-successor-002.ts",
         "--emit-json",
     ]
     completed = subprocess.run(
@@ -84,20 +70,20 @@ def verify_generated_build(errors: list[str]) -> None:
         check=False,
     )
     if completed.returncode != 0:
-        errors.append(f"DomainSpec rebuild failed: {completed.stderr or completed.stdout}")
+        errors.append(f"successor DomainSpec rebuild failed: {completed.stderr or completed.stdout}")
         return
     try:
         artifacts = json.loads(completed.stdout)
     except json.JSONDecodeError as exc:
-        errors.append(f"DomainSpec rebuild returned invalid JSON: {exc}")
+        errors.append(f"successor DomainSpec rebuild returned invalid JSON: {exc}")
         return
-    generated = PACKAGE_ROOT / "domainspec/generated"
+    generated = PACKAGE_ROOT / "domainspec/successors/002/generated"
     for name, expected_bytes in artifacts.items():
         path = generated / name
         if not path.is_file():
-            errors.append(f"generated artifact missing: {name}")
+            errors.append(f"successor generated artifact missing: {name}")
         elif path.read_text(encoding="utf-8") != expected_bytes:
-            errors.append(f"generated artifact drift: {name}")
+            errors.append(f"successor generated artifact drift: {name}")
 
 
 def verify_runtime(errors: list[str]) -> None:
@@ -111,11 +97,11 @@ def verify_runtime(errors: list[str]) -> None:
     )
     if formatting.returncode != 0:
         errors.append(f"Rust formatting failed: {formatting.stderr or formatting.stdout}")
-    with tempfile.TemporaryDirectory(prefix="cav2-kep-cargo-") as target:
+    with tempfile.TemporaryDirectory(prefix="cav2-kep-successor-cargo-") as target:
         environment = dict(os.environ)
         environment["CARGO_TARGET_DIR"] = target
         tests = subprocess.run(
-            ["cargo", "test", "--manifest-path", str(manifest)],
+            ["cargo", "test", "--locked", "--all-targets", "--manifest-path", str(manifest)],
             cwd=REPOSITORY_ROOT,
             env=environment,
             capture_output=True,
@@ -128,84 +114,85 @@ def verify_runtime(errors: list[str]) -> None:
 
 def validate(verify_build: bool = False, verify_rust: bool = False) -> dict[str, Any]:
     errors: list[str] = []
-    acceptance = load("decisions/model-acceptance.json", errors)
-    build = load("domainspec/generated/build-receipt.json", errors)
-    projection = load("domainspec/generated/system-ontology-receipt.json", errors)
-    system = load("domainspec/generated/system-ontology.json", errors)
-    binding = load("implementation/implementation-binding.json", errors)
-    assessment = load("conformance/assessment.json", errors)
-
-    validate_accepted_model(errors)
-    expect(acceptance.get("accepted_material_digest"), ACCEPTED_DIGEST, "acceptance digest", errors)
-    expect(acceptance.get("effect_authorized"), False, "acceptance effect ceiling", errors)
-    expect(build.get("status"), "pass", "DomainSpec build status", errors)
-    expect(build.get("source_set_digest"), binding.get("domainspec", {}).get("source_set_digest"), "source-set binding", errors)
-    expect(build.get("artifacts", {}).get("graph_digest"), binding.get("domainspec", {}).get("graph_sha256"), "graph binding", errors)
-    expect(projection.get("deterministic_runs"), 2, "projection deterministic runs", errors)
-    expect(projection.get("equal_graph_bytes"), True, "equal graph bytes", errors)
-    expect(projection.get("equal_system_ontology_bytes"), True, "equal system ontology bytes", errors)
-    expect(projection.get("profile_release_admission"), "not-granted", "profile admission", errors)
-    expect(projection.get("accepted_model_digest"), ACCEPTED_DIGEST, "projection accepted model", errors)
-
-    bound_domainspec = binding.get("domainspec", {})
-    bound_impl = binding.get("implementation", {})
-    bound_accepted = binding.get("accepted_model", {})
-    hash_bindings = (
-        ("decisions/model-acceptance.json", bound_accepted.get("decision_sha256")),
-        ("domainspec/development-profile.json", bound_domainspec.get("profile_sha256")),
-        ("domainspec/generated/graph.json", bound_domainspec.get("graph_sha256")),
-        ("domainspec/generated/system-ontology.json", bound_domainspec.get("system_ontology_sha256")),
-        ("runtime/Cargo.toml", bound_impl.get("manifest_sha256")),
-        ("runtime/Cargo.lock", bound_impl.get("lockfile_sha256")),
-        ("runtime/src/lib.rs", bound_impl.get("target_sha256")),
-        ("runtime/tests/protocol.rs", bound_impl.get("test_sha256")),
+    product = run_json(
+        ["python3", str(PACKAGE_ROOT / "validate.py")],
+        errors,
+        "product model validator",
     )
-    for relative, expected_hash in hash_bindings:
-        path = PACKAGE_ROOT / relative
-        if not path.is_file():
-            errors.append(f"bound file missing: {relative}")
-        else:
-            expect(sha256(path), expected_hash, f"bound digest {relative}", errors)
+    successor = run_json(
+        [
+            "python3",
+            str(PACKAGE_ROOT / "scripts/validate-successor-002.py"),
+            "--admitted",
+        ],
+        errors,
+        "successor admission validator",
+    )
+    runtime = run_json(
+        [
+            "python3",
+            str(PACKAGE_ROOT / "scripts/validate-runtime-binding.py"),
+            "--admitted",
+        ],
+        errors,
+        "Rust binding validator",
+    )
 
-    contract = system.get("implementation_contract", {})
-    expect(contract.get("product_capability_ref"), binding.get("capability_ref"), "system capability binding", errors)
-    expect(contract.get("business_ontology_ref"), binding.get("business_ontology_ref"), "system business ontology binding", errors)
-    expect(contract.get("implementation_target_ref"), bound_impl.get("target_path"), "system implementation target", errors)
-    expect(contract.get("permitted_operations"), bound_impl.get("permitted_operations"), "permitted operation binding", errors)
-    expect(contract.get("solana_binding"), "not-present", "Solana claim ceiling", errors)
-    expect(contract.get("economic_effect"), "none", "economic effect ceiling", errors)
+    if product.get("status") != "PASS":
+        errors.append("product model status is not PASS")
+    if successor.get("status") != "PASS":
+        errors.append("successor admission status is not PASS")
+    if successor.get("system_ontology_digest") != ONTOLOGY_DIGEST:
+        errors.append("successor admission does not bind the selected ontology digest")
+    if runtime.get("status") != "PASS":
+        errors.append("Rust implementation binding status is not PASS")
+    if runtime.get("system_ontology_digest") != ONTOLOGY_DIGEST:
+        errors.append("Rust implementation does not bind the selected ontology digest")
+    if runtime.get("mode") != "admitted" or runtime.get("owner_acceptance") != "accepted":
+        errors.append("Rust implementation binding lacks exact owner acceptance")
+    if runtime.get("implementation_admission_decision_id") != IMPLEMENTATION_ADMISSION_DECISION_ID:
+        errors.append("Rust implementation admission decision identity drift")
 
-    binding_path = PACKAGE_ROOT / "implementation/implementation-binding.json"
-    expect(sha256(binding_path), assessment.get("binding_sha256"), "assessment binding digest", errors)
-    expect(binding.get("binding_status"), "candidate", "binding status", errors)
-    expect(binding.get("conformance_status"), "not_evaluable", "binding conformance status", errors)
-    expect(assessment.get("rust_test_count"), 11, "Rust test count", errors)
-    expect(assessment.get("local_behavioral_evidence"), "PASS", "local behavioral evidence", errors)
-    expect(assessment.get("aggregate_conformance"), "NOT_EVALUABLE", "aggregate conformance", errors)
-    if not assessment.get("causal_blockers"):
-        errors.append("aggregate conformance must retain causal blockers")
-    test_source = (PACKAGE_ROOT / "runtime/tests/protocol.rs").read_text(encoding="utf-8")
-    expect(test_source.count("#[test]"), 11, "Rust source test count", errors)
+    decision_path = PACKAGE_ROOT / "decisions/system-ontology-admission-002.json"
+    try:
+        decision = json.loads(decision_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        errors.append(f"cannot load current admission decision: {exc}")
+        decision = {}
+    if decision.get("decision_id") != ADMISSION_DECISION_ID:
+        errors.append("current admission decision identity drift")
 
     if verify_build:
         verify_generated_build(errors)
     if verify_rust:
         verify_runtime(errors)
 
+    binding_path = PACKAGE_ROOT / "runtime/implementation-binding.json"
+    receipt_path = PACKAGE_ROOT / "runtime/conformance-receipt.json"
     return {
-        "schema_version": "cav2-knowledge-exchange-construction-validation/v1",
+        "schema_version": "cav2-knowledge-exchange-construction-validation/v3",
         "status": "PASS" if not errors else "BLOCK",
-        "accepted_model_digest": ACCEPTED_DIGEST,
-        "domainspec_source_set_digest": build.get("source_set_digest"),
-        "graph_digest": build.get("artifacts", {}).get("graph_digest"),
-        "system_ontology_digest": projection.get("system_ontology_digest"),
+        "product_material_digest": product.get("material_digest"),
+        "system_ontology_digest": successor.get("system_ontology_digest"),
+        "system_ontology_admission_decision_id": ADMISSION_DECISION_ID,
+        "successor_material_digest": successor.get("material_digest"),
         "rust_binding_digest": sha256(binding_path) if binding_path.is_file() else None,
-        "local_behavioral_evidence": "PASS" if not errors else "BLOCK",
-        "aggregate_conformance": "NOT_EVALUABLE",
-        "causal_blockers": assessment.get("causal_blockers", []),
+        "rust_conformance_receipt_digest": sha256(receipt_path) if receipt_path.is_file() else None,
+        "runtime_material_digest": runtime.get("material_digest"),
+        "local_behavioral_evidence": "PASS" if runtime.get("status") == "PASS" else "BLOCK",
+        "owner_acceptance": "ACCEPTED" if runtime.get("owner_acceptance") == "accepted" else "BLOCK",
+        "owner_acceptance_decision_id": runtime.get("implementation_admission_decision_id"),
+        "static_conformance": "OWNER_ACCEPTED" if runtime.get("status") == "PASS" else "BLOCK",
+        "independent_review": "OPTIONAL_NOT_PERFORMED",
+        "clippy": "OPTIONAL_NOT_EVALUABLE",
+        "causal_blockers": [],
+        "residue": [
+            "Runtime behavior in a deployed environment is not claimed.",
+            "Cryptographic security and Solana realization remain outside this binding.",
+        ],
         "effect_authorized": False,
         "authority_effect": "none",
-        "claim_ceiling": "Validated local candidate construction and Rust behavior only; no cryptographic security, Solana compatibility, aggregate conformance, publication, release, deployment, or external-effect authority.",
+        "claim_ceiling": "Owner-accepted local Rust D65 implementation binding and static conformance only; no runtime-in-environment, cryptographic security, Solana compatibility, publication, release, deployment, or external-effect authority.",
         "errors": errors,
     }
 

@@ -1,16 +1,36 @@
 {
-  "schema_version": "cav2-knowledge-exchange-business-ontology/v1",
+  "schema_version": "cav2-knowledge-exchange-business-ontology/v2",
   "ontology_id": "CA2-ONTOLOGY-KNOWLEDGE-EXCHANGE-BUSINESS",
   "ontology_type": "business-domain",
   "branch": "business",
   "product_ref": "CA2-PRODUCT-KNOWLEDGE-EXCHANGE-PROTOCOL",
   "capability_ref": "CA2-CAP-GRANT-ENCRYPTED-KNOWLEDGE-COOWNERSHIP",
-  "candidate_status": "candidate",
+  "lifecycle_status": "admitted",
   "authority_effect": "none",
+  "enforcement_effect": "none",
+  "definition_source": {
+    "path": "cyberAlchemy-v2/product/knowledge-exchange-protocol/authority/definitions/DEFINITIONS.md",
+    "sha256": "e67deba09ec6df02a4a8542fbf8fbbcb68d27ca87839c5fffe2c1db708df7701",
+    "definition_ids": ["KEP-D1","KEP-D2","KEP-D3","KEP-D4","KEP-D5","KEP-D6","KEP-D7","KEP-D8","KEP-D9","KEP-D10","KEP-D11","KEP-D12"]
+  },
+  "definition_bindings": [
+    {"definition_id":"KEP-D1","ontology_refs":["CA2-KNOWLEDGE-ARTIFACT"]},
+    {"definition_id":"KEP-D2","ontology_refs":["CA2-KNOWLEDGE-ARTIFACT-VERSION","KEP-RULE-EXACT-ARTIFACT-VERSION"]},
+    {"definition_id":"KEP-D3","ontology_refs":["CA2-IDENTITY-KNOWLEDGE-PARTICIPANT"]},
+    {"definition_id":"KEP-D4","ontology_refs":["CA2-ENCRYPTION-KEY-BINDING","KEP-RULE-SEPARATE-KEY-ROLES"]},
+    {"definition_id":"KEP-D5","ontology_refs":["CA2-COOWNER-MEMBERSHIP","KEP-RULE-OWNER-SET-MONOTONIC-FIRST-PROOF"]},
+    {"definition_id":"KEP-D6","ontology_refs":["CA2-COOWNERSHIP-GRANT","KEP-RULE-OWNER-SET-MONOTONIC-FIRST-PROOF"]},
+    {"definition_id":"KEP-D7","ontology_refs":["CA2-PROPAGATION-POLICY"]},
+    {"definition_id":"KEP-D8","ontology_refs":["CA2-CONTENT-ADDRESSED-CIPHERTEXT-REFERENCE","KEP-RULE-EXTERNAL-CIPHERTEXT-CUSTODY"]},
+    {"definition_id":"KEP-D9","ontology_refs":["CA2-RECIPIENT-KEY-ENVELOPE","KEP-RULE-RECIPIENT-SPECIFIC-ENVELOPE"]},
+    {"definition_id":"KEP-D10","ontology_refs":["CA2-ENCRYPTION-EPOCH","KEP-RULE-COMPROMISE-NEW-EPOCH"]},
+    {"definition_id":"KEP-D11","ontology_refs":["CA2-KEY-REISSUE","CA2-KEY-REISSUE-REQUEST","KEP-RULE-REISSUE-PRESERVES-STATE","KEP-PROOF-REISSUE-NON-MUTATION"]},
+    {"definition_id":"KEP-D12","ontology_refs":["CA2-DECRYPTION-ACKNOWLEDGEMENT","KEP-RULE-ACKNOWLEDGEMENT-IS-BOUNDED","KEP-PROOF-RECIPIENT-ACKNOWLEDGEMENT"]}
+  ],
   "construction_state": {
     "canonical_definitions": "current",
-    "product_capability": "candidate",
-    "business_ontology": "candidate",
+    "product_capability": "adopted",
+    "business_ontology": "admitted",
     "domainspec_v2_source": "blocked",
     "compiled_graph_and_system_ontology": "not_evaluable",
     "implementation_binding": "not_evaluable",
@@ -21,6 +41,11 @@
       "selection_id": "CAP-SEL-KEP-D67",
       "source_ref": "SRC-KEP-DEFINITION-D67",
       "selector": "CAV2-D67: Product Capability"
+    },
+    {
+      "selection_id": "CAP-SEL-KEP-DEFINITIONS",
+      "source_ref": "SRC-KEP-PRODUCT-DEFINITIONS",
+      "selector": "KEP-D1 through KEP-D12 exact whole-file definition authority"
     },
     {
       "selection_id": "CAP-SEL-KEP-THESIS",
@@ -64,7 +89,8 @@
     {"id":"CA2-KEY-REISSUE-REQUEST","label":"Key Reissue Request","role":"request","meaning":"A recipient-signed request for a replacement envelope that preserves membership, artifact version, policy, and economic state."},
     {"id":"CA2-DECRYPTION-ACKNOWLEDGEMENT","label":"Decryption Acknowledgement","role":"evidence","meaning":"A recipient signature bound to the artifact version and delivery challenge; runtime proof remains future work."},
     {"id":"CA2-ENCRYPTION-EPOCH","label":"Encryption Epoch","role":"epoch","meaning":"The identifier for one content key and its recipient envelopes; compromise requires a successor epoch."},
-    {"id":"CA2-CONTENT-ADDRESSED-CIPHERTEXT-LOCATION","label":"Content-addressed Ciphertext Location","role":"storage_reference","meaning":"An external location bound to the ciphertext digest; the protocol records it but does not custody it."},
+    {"id":"CA2-CONTENT-ADDRESSED-CIPHERTEXT-REFERENCE","label":"Content-addressed Ciphertext Reference","role":"storage_reference","meaning":"An exact ciphertext commitment and external retrieval location; the protocol records it but does not custody or guarantee it."},
+    {"id":"CA2-KEY-REISSUE","label":"Key Reissue","role":"operation","meaning":"An authorized replacement of one recipient envelope within the same encryption epoch that preserves ownership, artifact version, policy, economic state, and every other recipient envelope."},
     {"id":"CA2-OUT-ENCRYPTED-COOWNERSHIP-RECORDED","label":"Encrypted Co-ownership Recorded","role":"outcome","meaning":"A remains a co-owner and B is added for the exact encrypted artifact version."},
     {"id":"CA2-OUT-RECIPIENT-DECRYPTION-ACKNOWLEDGED","label":"Recipient Decryption Acknowledged","role":"outcome","meaning":"B produces the required acknowledgement bound to the exact version and delivery challenge."},
     {"id":"CA2-OUT-KEY-REISSUE-RECOVERABLE","label":"Key Reissue Recoverable","role":"outcome","meaning":"B can request a new envelope after lost-key rotation without creating a new ownership event."},
@@ -81,13 +107,15 @@
     {"id":"KEP-REL-ARTIFACT-HAS-VERSION","type":"has_version","source":"CA2-KNOWLEDGE-ARTIFACT","target":"CA2-KNOWLEDGE-ARTIFACT-VERSION","meaning":"Sharing and ownership resolve to an immutable artifact version."},
     {"id":"KEP-REL-VERSION-GOVERNED-BY-POLICY","type":"governed_by","source":"CA2-KNOWLEDGE-ARTIFACT-VERSION","target":"CA2-PROPAGATION-POLICY","meaning":"One immutable policy governs the artifact version."},
     {"id":"KEP-REL-VERSION-ENCRYPTED-AS-CIPHERTEXT","type":"encrypted_as","source":"CA2-KNOWLEDGE-ARTIFACT-VERSION","target":"CA2-ENCRYPTED-KNOWLEDGE-ARTIFACT","meaning":"The artifact version is delivered as authenticated ciphertext."},
-    {"id":"KEP-REL-CIPHERTEXT-LOCATED-EXTERNALLY","type":"located_at","source":"CA2-ENCRYPTED-KNOWLEDGE-ARTIFACT","target":"CA2-CONTENT-ADDRESSED-CIPHERTEXT-LOCATION","meaning":"Ciphertext availability is external to protocol custody."},
+    {"id":"KEP-REL-CIPHERTEXT-REFERENCED-EXTERNALLY","type":"referenced_by","source":"CA2-ENCRYPTED-KNOWLEDGE-ARTIFACT","target":"CA2-CONTENT-ADDRESSED-CIPHERTEXT-REFERENCE","meaning":"Ciphertext integrity and retrieval are named without creating protocol custody or availability guarantees."},
     {"id":"KEP-REL-EPOCH-USES-CONTENT-KEY","type":"uses_secret","source":"CA2-ENCRYPTION-EPOCH","target":"CA2-CONTENT-ENCRYPTION-KEY","meaning":"One encryption epoch uses one content key that never enters public state."},
     {"id":"KEP-REL-IDENTITY-BINDS-ENCRYPTION-KEY","type":"binds","source":"CA2-IDENTITY-KNOWLEDGE-PARTICIPANT","target":"CA2-ENCRYPTION-KEY-BINDING","meaning":"A stable identity binds a replaceable encryption public key separately from signing authority."},
     {"id":"KEP-REL-GRANT-ADDS-MEMBERSHIP","type":"adds","source":"CA2-COOWNERSHIP-GRANT","target":"CA2-COOWNER-MEMBERSHIP","meaning":"The grant adds one membership and preserves all existing memberships."},
     {"id":"KEP-REL-ENVELOPE-WRAPS-CONTENT-KEY","type":"wraps","source":"CA2-RECIPIENT-KEY-ENVELOPE","target":"CA2-CONTENT-ENCRYPTION-KEY","meaning":"The envelope carries the content key without revealing it publicly."},
     {"id":"KEP-REL-ENVELOPE-BOUND-TO-RECIPIENT-KEY","type":"bound_to","source":"CA2-RECIPIENT-KEY-ENVELOPE","target":"CA2-ENCRYPTION-KEY-BINDING","meaning":"Only the intended recipient key binding can unwrap the envelope."},
     {"id":"KEP-REL-REISSUE-REQUESTS-ENVELOPE","type":"requests_replacement","source":"CA2-KEY-REISSUE-REQUEST","target":"CA2-RECIPIENT-KEY-ENVELOPE","meaning":"A valid request asks for replacement access material without changing membership."},
+    {"id":"KEP-REL-REISSUE-REQUEST-AUTHORIZES-OPERATION","type":"authorizes","source":"CA2-KEY-REISSUE-REQUEST","target":"CA2-KEY-REISSUE","meaning":"A valid identity-bound request authorizes evaluation of one bounded reissue operation."},
+    {"id":"KEP-REL-REISSUE-REPLACES-ENVELOPE","type":"replaces","source":"CA2-KEY-REISSUE","target":"CA2-RECIPIENT-KEY-ENVELOPE","meaning":"The reissue replaces only the affected recipient envelope within the same encryption epoch."},
     {"id":"KEP-REL-ACKNOWLEDGEMENT-EVIDENCES-OUTCOME","type":"evidences","source":"CA2-DECRYPTION-ACKNOWLEDGEMENT","target":"CA2-OUT-RECIPIENT-DECRYPTION-ACKNOWLEDGED","meaning":"The future acknowledgement evidence is bounded to the exact artifact version and challenge."}
   ],
   "rules": [
@@ -112,7 +140,7 @@
     {"proof_id":"KEP-PROOF-NEGATIVE-AUTHORIZATION","statement":"Show unauthorized identities, stale keys, wrong versions, wrong epochs, and replayed requests fail closed.","evidence_state":"not_evaluable"}
   ],
   "residue": [
-    {"residue_id":"CAP-RES-KEP-DOMAINSPEC-V2","status":"blocked","description":"Author the DomainSpec v2 source only after owner review of this candidate capability and business ontology.","next_owner":"CyberAlchemy v2 Knowledge Exchange Protocol product owner"},
+    {"residue_id":"CAP-RES-KEP-DOMAINSPEC-V2","status":"blocked","description":"DomainSpec v2 authoring requires a separately selected implementation route bound to this admitted ontology; this admission grants no successor execution authority.","next_owner":"Knowledge Exchange Protocol product owner"},
     {"residue_id":"CAP-RES-KEP-SOLANA-REALIZATION","status":"blocked","description":"No Solana implementation binding exists before admitted DomainSpec v2 and compiled system-ontology predecessors.","next_owner":"Future Solana realization owner","binding_ref":"CA2-CAP-BIND-KEP-SOLANA-PROOF"},
     {"residue_id":"CAP-RES-KEP-CRYPTOGRAPHIC-REVIEW","status":"blocked","description":"The production AEAD, HPKE suite, key lifecycle, acknowledgement challenge, and threat model require independent security review.","next_owner":"Independent cryptographic security owner"},
     {"residue_id":"CAP-RES-KEP-STORAGE-AVAILABILITY","status":"open","description":"Define how clients discover, fetch, pin, and report unavailable externally custodied ciphertext.","next_owner":"Knowledge Exchange Protocol product owner"},

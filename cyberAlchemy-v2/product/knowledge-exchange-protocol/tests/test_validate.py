@@ -67,13 +67,39 @@ class KnowledgeExchangeValidatorTests(unittest.TestCase):
         self.write_json("business-ontology.json", ontology)
         self.assert_blocked_with("missing required business rules")
 
-    def test_capability_cannot_claim_adoption(self) -> None:
+    def test_admitted_capability_cannot_lose_adoption(self) -> None:
         capability = self.read_json("grant-encrypted-knowledge-coownership.product-capability.json")
-        capability["lifecycle_posture"]["commitment"]["value"] = "adopted"
+        capability["lifecycle_posture"]["commitment"]["value"] = "not-adopted"
         self.write_json("grant-encrypted-knowledge-coownership.product-capability.json", capability)
         result = VALIDATOR.validate()
         self.assertEqual("BLOCK", result["status"])
-        self.assertTrue(any("commitment" in error or "candidate" in error for error in result["errors"]), result["errors"])
+        self.assertTrue(any("adopted predecessor capability commitment" in error for error in result["errors"]), result["errors"])
+
+    def test_definition_binding_cannot_be_removed(self) -> None:
+        ontology = self.read_json("business-ontology.json")
+        ontology["definition_bindings"] = [
+            binding for binding in ontology["definition_bindings"] if binding["definition_id"] != "KEP-D11"
+        ]
+        self.write_json("business-ontology.json", ontology)
+        self.assert_blocked_with("definition binding closure mismatch")
+
+    def test_definition_digest_drift_blocks(self) -> None:
+        ontology = self.read_json("business-ontology.json")
+        ontology["definition_source"]["sha256"] = "0" * 64
+        self.write_json("business-ontology.json", ontology)
+        self.assert_blocked_with("ontology definition source digest drift")
+
+    def test_admission_postimage_digest_drift_blocks(self) -> None:
+        ontology = self.read_json("business-ontology.json")
+        ontology["nodes"][0]["meaning"] += " Drifted after admission."
+        self.write_json("business-ontology.json", ontology)
+        self.assert_blocked_with("admission decision business_ontology postimage digest mismatch")
+
+    def test_preacceptance_is_non_authoritative_and_does_not_require_decision(self) -> None:
+        (self.package_root / "decisions/ontology-admission.json").unlink()
+        result = VALIDATOR.validate(require_admission=False)
+        self.assertEqual("PASS", result["status"], result["errors"])
+        self.assertEqual("none", result["authority_effect"])
 
     def test_shared_schema_digest_drift_blocks(self) -> None:
         sources = self.read_json("product-thesis.sources.json")

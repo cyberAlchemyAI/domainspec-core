@@ -7,7 +7,7 @@
     "kinds_digest": "bc800afdca36fa701a13ec611e7ee0ef928a4c8d259d48dfac2880a3cc8cbbc4",
     "relationships_digest": "82c55ea1ad031d3135c5b8a85162e44b4e85f296b54057fda0dc38131ab376a1"
   },
-  "source_set_digest": "964e98bde0d5950e8adf536e3b174ba926bcfa174ffd79070bb4760c7f3ba9c7",
+  "source_set_digest": "61d510e7f66ffa556ac26ff5defa26e0d2a8bd53fbe81835ed1f1c6946fff2e7",
   "nodes": [
     {
       "node_id": "encrypted-knowledge-coownership.ArtifactVersion",
@@ -42,7 +42,12 @@
             "identity": false
           }
         ],
+        "definition_refs": [
+          "KEP-D1",
+          "KEP-D2"
+        ],
         "semantic_refs": [
+          "CA2-KNOWLEDGE-ARTIFACT",
           "CA2-KNOWLEDGE-ARTIFACT-VERSION",
           "KEP-RULE-EXACT-ARTIFACT-VERSION"
         ],
@@ -92,6 +97,9 @@
             "identity": false
           }
         ],
+        "definition_refs": [
+          "KEP-D6"
+        ],
         "semantic_refs": [
           "CA2-COOWNERSHIP-GRANT",
           "KEP-RULE-OWNER-SET-MONOTONIC-FIRST-PROOF",
@@ -138,9 +146,13 @@
             "identity": false
           }
         ],
+        "definition_refs": [
+          "KEP-D12"
+        ],
         "semantic_refs": [
           "CA2-DECRYPTION-ACKNOWLEDGEMENT",
-          "KEP-RULE-ACKNOWLEDGEMENT-IS-BOUNDED"
+          "KEP-RULE-ACKNOWLEDGEMENT-IS-BOUNDED",
+          "KEP-PROOF-RECIPIENT-ACKNOWLEDGEMENT"
         ],
         "authority_effect": "none"
       }
@@ -152,14 +164,39 @@
       "intent": "Return true only when authorization is exact, the artifact version and policy match, existing owners are preserved, B receives an epoch-current key envelope, acknowledgements are recipient-bound, lost-key reissue preserves protected state, and compromise creates a new fully covered encryption epoch.",
       "body": {
         "formal_return_type": "boolean",
+        "definition_refs": [
+          "KEP-D1",
+          "KEP-D2",
+          "KEP-D3",
+          "KEP-D4",
+          "KEP-D5",
+          "KEP-D6",
+          "KEP-D7",
+          "KEP-D8",
+          "KEP-D9",
+          "KEP-D10",
+          "KEP-D11",
+          "KEP-D12"
+        ],
         "semantic_refs": [
           "CA2-CAP-GRANT-ENCRYPTED-KNOWLEDGE-COOWNERSHIP",
           "KEP-RULE-OWNER-SET-MONOTONIC-FIRST-PROOF",
           "KEP-RULE-EXACT-ARTIFACT-VERSION",
           "KEP-RULE-NO-PUBLIC-SECRETS",
+          "KEP-RULE-SEPARATE-KEY-ROLES",
+          "KEP-RULE-RECIPIENT-SPECIFIC-ENVELOPE",
+          "KEP-RULE-EXTERNAL-CIPHERTEXT-CUSTODY",
           "KEP-RULE-REISSUE-PRESERVES-STATE",
+          "KEP-RULE-REISSUE-REQUIRES-RECIPIENT-SIGNATURE",
           "KEP-RULE-COMPROMISE-NEW-EPOCH",
-          "KEP-RULE-NO-PAYMENT-FIRST-PROOF"
+          "KEP-RULE-NO-PAYMENT-FIRST-PROOF",
+          "KEP-RULE-ACKNOWLEDGEMENT-IS-BOUNDED",
+          "KEP-PROOF-OWNER-SET-EXPANSION",
+          "KEP-PROOF-ENVELOPE-BINDING",
+          "KEP-PROOF-RECIPIENT-ACKNOWLEDGEMENT",
+          "KEP-PROOF-REISSUE-NON-MUTATION",
+          "KEP-PROOF-COMPROMISE-EPOCH-ROTATION",
+          "KEP-PROOF-NEGATIVE-AUTHORIZATION"
         ],
         "failure_behavior": "reject_without_state_change",
         "authority_effect": "none"
@@ -169,7 +206,7 @@
       "node_id": "encrypted-knowledge-coownership.EncryptedCoownershipState",
       "feature_id": "encrypted-knowledge-coownership",
       "kind": "Entity",
-      "intent": "Represent the current owner set, encryption epoch, external ciphertext commitment, issued recipient envelopes, and bounded acknowledgements for one artifact version.",
+      "intent": "Represent the current owner set, encryption epoch, content-addressed external ciphertext reference, issued recipient envelopes, and bounded acknowledgements for one artifact version.",
       "body": {
         "fields": [
           {
@@ -193,7 +230,7 @@
             "identity": false
           },
           {
-            "name": "external_location_digest",
+            "name": "external_retrieval_reference_digest",
             "type": "digest32",
             "identity": false
           },
@@ -208,10 +245,80 @@
             "identity": false
           }
         ],
+        "definition_refs": [
+          "KEP-D5",
+          "KEP-D8",
+          "KEP-D10"
+        ],
         "semantic_refs": [
           "CA2-COOWNER-MEMBERSHIP",
           "CA2-ENCRYPTION-EPOCH",
-          "CA2-CONTENT-ADDRESSED-CIPHERTEXT-LOCATION"
+          "CA2-CONTENT-ADDRESSED-CIPHERTEXT-REFERENCE",
+          "KEP-RULE-EXTERNAL-CIPHERTEXT-CUSTODY"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "encrypted-knowledge-coownership.KeyReissue",
+      "feature_id": "encrypted-knowledge-coownership",
+      "kind": "Entity",
+      "intent": "Represent the evaluated lost-key reissue result separately from its request and prove that only one recipient envelope changes within the same encryption epoch.",
+      "body": {
+        "fields": [
+          {
+            "name": "reissue_digest",
+            "type": "digest32",
+            "identity": true
+          },
+          {
+            "name": "request_digest",
+            "type": "digest32",
+            "identity": false
+          },
+          {
+            "name": "artifact_version_id",
+            "type": "digest32",
+            "identity": false
+          },
+          {
+            "name": "encryption_epoch",
+            "type": "positive-integer",
+            "identity": false
+          },
+          {
+            "name": "recipient_id",
+            "type": "digest32",
+            "identity": false
+          },
+          {
+            "name": "previous_envelope_digest",
+            "type": "digest32",
+            "identity": false
+          },
+          {
+            "name": "replacement_envelope_digest",
+            "type": "digest32",
+            "identity": false
+          },
+          {
+            "name": "protected_state_before_digest",
+            "type": "digest32",
+            "identity": false
+          },
+          {
+            "name": "protected_state_after_digest",
+            "type": "digest32",
+            "identity": false
+          }
+        ],
+        "definition_refs": [
+          "KEP-D11"
+        ],
+        "semantic_refs": [
+          "CA2-KEY-REISSUE",
+          "KEP-RULE-REISSUE-PRESERVES-STATE",
+          "KEP-PROOF-REISSUE-NON-MUTATION"
         ],
         "authority_effect": "none"
       }
@@ -254,9 +361,12 @@
             "identity": false
           }
         ],
+        "definition_refs": [
+          "KEP-D11"
+        ],
         "semantic_refs": [
           "CA2-KEY-REISSUE-REQUEST",
-          "KEP-RULE-REISSUE-PRESERVES-STATE",
+          "KEP-RULE-REISSUE-REQUIRES-RECIPIENT-SIGNATURE",
           "KEP-RULE-COMPROMISE-NEW-EPOCH"
         ],
         "authority_effect": "none"
@@ -290,8 +400,13 @@
             "identity": false
           }
         ],
+        "definition_refs": [
+          "KEP-D3",
+          "KEP-D4"
+        ],
         "semantic_refs": [
           "CA2-IDENTITY-KNOWLEDGE-PARTICIPANT",
+          "CA2-ENCRYPTION-KEY-BINDING",
           "KEP-RULE-SEPARATE-KEY-ROLES"
         ],
         "authority_effect": "none"
@@ -329,6 +444,9 @@
             "type": "none",
             "identity": false
           }
+        ],
+        "definition_refs": [
+          "KEP-D7"
         ],
         "semantic_refs": [
           "CA2-PROPAGATION-POLICY",
@@ -370,9 +488,13 @@
             "identity": false
           }
         ],
+        "definition_refs": [
+          "KEP-D9"
+        ],
         "semantic_refs": [
           "CA2-RECIPIENT-KEY-ENVELOPE",
-          "KEP-RULE-NO-PUBLIC-SECRETS"
+          "KEP-RULE-NO-PUBLIC-SECRETS",
+          "KEP-RULE-RECIPIENT-SPECIFIC-ENVELOPE"
         ],
         "authority_effect": "none"
       }

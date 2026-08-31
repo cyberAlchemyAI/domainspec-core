@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import argparse
 from pathlib import Path
 from typing import Any
 
@@ -20,7 +21,10 @@ MATERIAL_FILES = (
     "IDENTITY-DECISION.json",
     "PRODUCT-THESIS.md",
     "README.md",
+    "authority/definitions/DEFINITIONS.md",
+    "authority/definitions/DEFINITIONS-INDEX.md",
     "business-ontology.json",
+    "decisions/ontology-admission.json",
     "grant-encrypted-knowledge-coownership.product-capability.json",
     "product-thesis.record.json",
     "product-thesis.sources.json",
@@ -77,9 +81,11 @@ def root_ref_schema(schema: dict[str, Any], definition: str) -> dict[str, Any]:
     return selected
 
 
-def material_digest(errors: list[str]) -> str:
+def material_digest(errors: list[str], include_admission: bool = True) -> str:
     digest = hashlib.sha256()
     for relative in sorted(MATERIAL_FILES):
+        if relative == "decisions/ontology-admission.json" and not include_admission:
+            continue
         path = PACKAGE_ROOT / relative
         if not path.is_file():
             errors.append(f"missing material file: {relative}")
@@ -105,7 +111,7 @@ def unique_ids(records: list[Any], field: str, label: str, errors: list[str]) ->
     return found
 
 
-def validate() -> dict[str, Any]:
+def validate(require_admission: bool = True) -> dict[str, Any]:
     errors: list[str] = []
     local_schema = load(PACKAGE_ROOT / "schema.json", errors)
     identity = load(PACKAGE_ROOT / "IDENTITY-DECISION.json", errors)
@@ -113,6 +119,7 @@ def validate() -> dict[str, Any]:
     sources = load(PACKAGE_ROOT / "product-thesis.sources.json", errors)
     capability = load(PACKAGE_ROOT / "grant-encrypted-knowledge-coownership.product-capability.json", errors)
     ontology = load(PACKAGE_ROOT / "business-ontology.json", errors)
+    admission = load(PACKAGE_ROOT / "decisions/ontology-admission.json", errors) if require_admission else {}
     thesis_schema = load(PRODUCT_THESIS_SCHEMA, errors)
     capability_schema = load(CAPABILITY_SCHEMA, errors)
 
@@ -152,6 +159,7 @@ def validate() -> dict[str, Any]:
     required_sources = {
         "SRC-KEP-DEFINITION-D63",
         "SRC-KEP-DEFINITION-D67",
+        "SRC-KEP-PRODUCT-DEFINITIONS",
         "SRC-KEP-PARENT-PRODUCT-THESIS",
         "SRC-KEP-PARENT-PRODUCT-THESIS-RECORD",
         "SRC-KEP-PRODUCT-THESIS-SCHEMA",
@@ -233,8 +241,52 @@ def validate() -> dict[str, Any]:
     lifecycle_residue = set(capability.get("lifecycle_posture", {}).get("residue_refs", []))
     if not lifecycle_residue <= residue_ids:
         errors.append("capability lifecycle posture has dangling residue refs")
-    if capability.get("lifecycle_posture", {}).get("commitment", {}).get("value") != "not-adopted":
-        errors.append("candidate capability commitment must remain not-adopted")
+    if capability.get("lifecycle_posture", {}).get("status", {}).get("value") != "adopted":
+        errors.append("admitted ontology requires an adopted predecessor capability status")
+    if capability.get("lifecycle_posture", {}).get("commitment", {}).get("value") != "adopted":
+        errors.append("admitted ontology requires an adopted predecessor capability commitment")
+
+    definition_path = PACKAGE_ROOT / "authority/definitions/DEFINITIONS.md"
+    expected_definition_ids = [f"KEP-D{index}" for index in range(1, 13)]
+    definition_source = ontology.get("definition_source", {})
+    if definition_source.get("path") != "cyberAlchemy-v2/product/knowledge-exchange-protocol/authority/definitions/DEFINITIONS.md":
+        errors.append("ontology definition source path is not the product-local authority")
+    if definition_source.get("sha256") != sha256(definition_path):
+        errors.append("ontology definition source digest drift")
+    if definition_source.get("definition_ids") != expected_definition_ids:
+        errors.append("ontology definition source must select KEP-D1 through KEP-D12 exactly")
+    definition_text = definition_path.read_text(encoding="utf-8")
+    for definition_id in expected_definition_ids:
+        if f"## {definition_id}:" not in definition_text:
+            errors.append(f"selected product definition missing: {definition_id}")
+
+    binding_records = ontology.get("definition_bindings", [])
+    binding_ids = unique_ids(binding_records, "definition_id", "definition binding", errors)
+    if binding_ids != set(expected_definition_ids):
+        missing = sorted(set(expected_definition_ids) - binding_ids)
+        extra = sorted(binding_ids - set(expected_definition_ids))
+        errors.append(f"definition binding closure mismatch; missing={missing}, extra={extra}")
+    ontology_ref_ids = node_ids | {
+        item.get("rule_id") for item in ontology.get("rules", []) if isinstance(item, dict)
+    } | {
+        item.get("proof_id") for item in ontology.get("proof_requirements", []) if isinstance(item, dict)
+    }
+    for binding in binding_records:
+        if not isinstance(binding, dict):
+            continue
+        for ontology_ref in binding.get("ontology_refs", []):
+            if ontology_ref not in ontology_ref_ids:
+                errors.append(f"definition binding has dangling ontology ref: {ontology_ref}")
+
+    if "CA2-KEY-REISSUE" not in node_ids:
+        errors.append("KEP-D11 requires a Key Reissue operation node separate from its request")
+    required_relation_ids = {
+        "KEP-REL-REISSUE-REQUEST-AUTHORIZES-OPERATION",
+        "KEP-REL-REISSUE-REPLACES-ENVELOPE",
+    }
+    relation_ids = {item.get("id") for item in relations if isinstance(item, dict)}
+    if not required_relation_ids <= relation_ids:
+        errors.append("Key Reissue operation relations are incomplete")
 
     rules = {rule.get("rule_id"): rule for rule in ontology.get("rules", []) if isinstance(rule, dict)}
     required_rules = {
@@ -255,15 +307,84 @@ def validate() -> dict[str, Any]:
     construction = ontology.get("construction_state", {})
     expected_construction = {
         "canonical_definitions": "current",
-        "product_capability": "candidate",
-        "business_ontology": "candidate",
+        "product_capability": "adopted",
+        "business_ontology": "admitted",
         "domainspec_v2_source": "blocked",
         "compiled_graph_and_system_ontology": "not_evaluable",
         "implementation_binding": "not_evaluable",
         "conformance_evidence": "not_evaluable",
     }
     if construction != expected_construction:
-        errors.append("D65 construction state may not advance beyond the candidate business ontology")
+        errors.append("D65 construction state must stop at the admitted business ontology")
+
+    if require_admission:
+        preacceptance_errors: list[str] = []
+        current_preacceptance_digest = material_digest(preacceptance_errors, include_admission=False)
+        errors.extend(preacceptance_errors)
+        preacceptance = admission.get("preacceptance", {})
+        if preacceptance.get("runs") != 2 or preacceptance.get("outputs_identical") is not True:
+            errors.append("admission decision must bind two identical preacceptance runs")
+        if preacceptance.get("authority_effect") != "none":
+            errors.append("preacceptance evidence must have no authority effect")
+        if preacceptance.get("material_digest") != current_preacceptance_digest:
+            errors.append("admission decision preacceptance material digest drift")
+        if admission.get("schema_version") != "cav2-knowledge-exchange-ontology-admission/v1":
+            errors.append("admission decision schema identity mismatch")
+        if admission.get("decision_id") != "CA2-DECISION-KEP-ONTOLOGY-ADMISSION-001":
+            errors.append("admission decision identity mismatch")
+        if admission.get("source", {}).get("exact_user_decision") != "Do it":
+            errors.append("admission decision does not preserve the exact owner direction")
+        if admission.get("ontology_type") != "business-domain" or admission.get("branch") != "business":
+            errors.append("admission decision ontology type or branch mismatch")
+        supersedes = admission.get("supersedes", {})
+        prior_decision_path = PACKAGE_ROOT / "decisions/model-acceptance.json"
+        if supersedes.get("decision_id") != "CA2-DECISION-KEP-MODEL-ACCEPTANCE-001":
+            errors.append("admission decision does not identify the superseded decision")
+        if supersedes.get("path") != "decisions/model-acceptance.json" or supersedes.get("sha256") != sha256(prior_decision_path):
+            errors.append("superseded decision digest mismatch")
+        admitted_artifacts = admission.get("admitted_artifacts", {})
+        expected_admitted_digests = {
+            "definitions": ("authority/definitions/DEFINITIONS.md", sha256(definition_path)),
+            "product_capability": ("grant-encrypted-knowledge-coownership.product-capability.json", sha256(PACKAGE_ROOT / "grant-encrypted-knowledge-coownership.product-capability.json")),
+            "business_ontology": ("business-ontology.json", sha256(PACKAGE_ROOT / "business-ontology.json")),
+            "schema": ("schema.json", sha256(PACKAGE_ROOT / "schema.json")),
+            "source_registry": ("product-thesis.sources.json", sha256(PACKAGE_ROOT / "product-thesis.sources.json")),
+        }
+        for key, (path, digest_value) in expected_admitted_digests.items():
+            record = admitted_artifacts.get(key, {})
+            if record.get("path") != path or record.get("sha256") != digest_value:
+                errors.append(f"admission decision {key} postimage digest mismatch")
+        if admitted_artifacts.get("definitions", {}).get("selected_ids") != expected_definition_ids:
+            errors.append("admission decision must select KEP-D1 through KEP-D12 exactly")
+        expected_decisions = [
+            "adopt-product-capability",
+            "admit-business-ontology",
+        ]
+        if admission.get("ordered_decisions") != expected_decisions:
+            errors.append("admission decision must preserve capability-before-ontology order")
+        if admission.get("ontology_id") != bindings["ontology"]:
+            errors.append("admission decision ontology identity mismatch")
+        if admission.get("successor_authorization") != "none":
+            errors.append("ontology admission must not authorize successor execution")
+        if admission.get("enforcement_effect") != "none" or admission.get("external_effect") != "none":
+            errors.append("ontology admission must remain non-enforcing and non-external")
+        checks = {item.get("check_id"): item for item in admission.get("checks", []) if isinstance(item, dict)}
+        required_admission_checks = {
+            "definitions-current": "PASS",
+            "capability-adopted": "PASS",
+            "definition-binding-closure": "PASS",
+            "relation-endpoint-closure": "PASS",
+            "schema-validation": "PASS",
+            "two-run-determinism": "PASS",
+            "domainspec-admission": "not_evaluable",
+            "implementation-conformance": "not_evaluable",
+            "solana-realization": "not_evaluable",
+        }
+        for check_id, status in required_admission_checks.items():
+            if checks.get(check_id, {}).get("status") != status:
+                errors.append(f"admission decision check {check_id} must be {status}")
+            if status == "not_evaluable" and not checks.get(check_id, {}).get("causal_blocker"):
+                errors.append(f"admission decision check {check_id} must name a causal blocker")
 
     carrier = (PACKAGE_ROOT / "PRODUCT-THESIS.md").read_text(encoding="utf-8")
     for marker in (
@@ -279,9 +400,9 @@ def validate() -> dict[str, Any]:
         if marker not in carrier:
             errors.append(f"product thesis carrier missing marker: {marker}")
 
-    digest = material_digest(errors)
+    digest = material_digest(errors, include_admission=require_admission)
     return {
-        "schema_version": "cav2-knowledge-exchange-product-validation/v1",
+        "schema_version": "cav2-knowledge-exchange-product-validation/v2",
         "status": "PASS" if not errors else "BLOCK",
         "package_root": "cyberAlchemy-v2/product/knowledge-exchange-protocol",
         "product_id": bindings["product"],
@@ -298,15 +419,18 @@ def validate() -> dict[str, Any]:
             "proof_requirements": len(ontology.get("proof_requirements", [])),
             "residue": len(residue_ids),
         },
-        "d65_last_evaluable_stage": "capability-local business ontology candidate",
-        "authority_effect": "none",
-        "claim_ceiling": "Candidate Product, Project, Goal, Product Capability, and business ontology shape only; no adoption, DomainSpec or system-ontology admission, implementation, conformance, cryptographic proof, Solana effect, publication, release, or deployment.",
+        "d65_last_evaluable_stage": "admitted capability-local business ontology" if require_admission else "proposed capability-local business ontology admission postimage",
+        "authority_effect": "product-local capability adoption and business ontology admission only" if require_admission else "none",
+        "claim_ceiling": "Adopted Product Capability and admitted product-local business ontology meaning only; no DomainSpec or system-ontology admission, implementation, conformance, cryptographic proof, Solana effect, publication, release, deployment, or external execution authority." if require_admission else "Preacceptance evidence for a proposed capability-adoption and ontology-admission postimage only; no authority, successor execution, or external effect.",
         "errors": errors,
     }
 
 
 def main() -> int:
-    result = validate()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--preacceptance", action="store_true")
+    args = parser.parse_args()
+    result = validate(require_admission=not args.preacceptance)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result["status"] == "PASS" else 1
 
