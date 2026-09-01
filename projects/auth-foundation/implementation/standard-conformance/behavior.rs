@@ -1,4 +1,4 @@
-#[path = "../runtime/src/lib.rs"]
+#[path = "oracle.rs"]
 mod oracle;
 #[path = "../standard-runtime/src/domainspec/rust/auth-exact-permission/authorize.rs"]
 mod candidate;

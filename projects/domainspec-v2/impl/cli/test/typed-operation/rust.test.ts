@@ -4,14 +4,19 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 import { loadProjectNode } from "../../src/input/project-model.ts";
-import { renderTypedRustOperation } from "../../src/typed-operation/rust.ts";
+import { renderTypedRustOperation, TypedRustError } from "../../src/typed-operation/rust.ts";
 import type { TypedOperationClosureV1 } from "../../src/typed-operation/closure.ts";
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const authOperationSource = path.resolve(testDir, "../../../../../auth-foundation/implementation/operation-source");
+const capacityOperationSource = path.resolve(testDir, "../fixtures/capacity-decision");
 
 function authClosure(): TypedOperationClosureV1 {
   return loadProjectNode(authOperationSource, "auth-exact-permission:authorize").typed_closure!;
+}
+
+function capacityClosure(): TypedOperationClosureV1 {
+  return loadProjectNode(capacityOperationSource, "capacity-decision:decide-capacity").typed_closure!;
 }
 
 function mutableClosure(): any {
@@ -34,6 +39,10 @@ function findExpression(expression: any, op: string): any | null {
   return null;
 }
 
+function expectRustCode(action: () => unknown, code: string): void {
+  assert.throws(action, (error) => error instanceof TypedRustError && error.code === code && error.exitCode === 22);
+}
+
 test("typed Rust guard lowering is deterministic, scoped, borrow-aware, and explicit about realized Rules", () => {
   const closure = authClosure();
   const first = renderTypedRustOperation(closure);
@@ -54,13 +63,28 @@ test("typed Rust guard lowering is deterministic, scoped, borrow-aware, and expl
   assert.equal((first.match(/pub fn (?:allow_iff|authorization_admissible|complete_active_roles|default_deny|exact_active_role_grant|session_current|trusted_scope|unique_resolved_session)\(/g) ?? []).length, 8);
 });
 
+test("typed Rust lowering is capability-neutral for a second non-Auth Operation", () => {
+  const closure = capacityClosure();
+  const rendered = renderTypedRustOperation(closure);
+  assert.equal(rendered, renderTypedRustOperation(capacityClosure()));
+  assert.match(rendered, /pub struct CapacitySnapshot/);
+  assert.match(rendered, /pub enum CapacityDecision/);
+  assert.match(rendered, /pub fn within_capacity\(snapshot: &CapacitySnapshot\) -> bool/);
+  assert.match(rendered, /snapshot\.requested_units < snapshot\.available_units/);
+  assert.match(rendered, /pub fn decide_capacity\(snapshot: &CapacitySnapshot\) -> CapacityDecision/);
+  assert.match(rendered, /CapacityDecision::Accept/);
+  assert.match(rendered, /CapacityDecision::Reject/);
+  assert.equal(rendered.includes("use std::collections::BTreeSet;"), false);
+  assert.equal(rendered.toLowerCase().includes("auth"), false);
+});
+
 test("list projection remains a list until an authored to_set conversion", () => {
   const closure = mutableClosure();
   const completeRoles = closure.nodes.find((node: any) => node.selector === "auth-exact-permission:complete-active-roles").typed_contract;
   const setEquality = findExpression(completeRoles.expression, "set_equal");
   assert.equal(setEquality.right.op, "to_set");
   setEquality.right = setEquality.right.value;
-  assert.throws(() => renderTypedRustOperation(closure), /set_equal operands are type-incompatible/);
+  expectRustCode(() => renderTypedRustOperation(closure), "MTCLI_TYPED_RUST_TYPE");
 });
 
 test("all and any lower later terms behind their short-circuit operator", () => {
@@ -80,19 +104,19 @@ test("Rule references require exact named and typed arguments", () => {
   const missing = mutableClosure();
   const missingRef = findExpression(guardContract(missing).expression, "rule_ref");
   missingRef.arguments = [];
-  assert.throws(() => renderTypedRustOperation(missing), /arguments do not exactly bind target parameters/);
+  expectRustCode(() => renderTypedRustOperation(missing), "MTCLI_TYPED_RUST_RULE");
 
   const wrongType = mutableClosure();
   const wrongTypeRef = findExpression(guardContract(wrongType).expression, "rule_ref");
   wrongTypeRef.arguments[0].value = { op: "literal", type: "Bool", value: true };
-  assert.throws(() => renderTypedRustOperation(wrongType), /argument is type-incompatible/);
+  expectRustCode(() => renderTypedRustOperation(wrongType), "MTCLI_TYPED_RUST_TYPE");
 });
 
 test("Rust lowering fails closed on normalized type-name collisions", () => {
   const closure = mutableClosure();
   const permission = closure.nodes.find((node: any) => node.selector === "auth-exact-permission:permission");
   closure.nodes.splice(closure.nodes.length - 1, 0, { ...structuredClone(permission), selector: "other-feature:permission" });
-  assert.throws(() => renderTypedRustOperation(closure), /Rust type values collide after Rust identifier normalization/);
+  expectRustCode(() => renderTypedRustOperation(closure), "MTCLI_TYPED_RUST_COLLISION");
 });
 
 test("Rust literals use Rust escapes and reject unpaired UTF-16 surrogates", () => {
@@ -104,5 +128,5 @@ test("Rust literals use Rust escapes and reject unpaired UTF-16 surrogates", () 
   };
   assert.match(renderTypedRustOperation(closure), /line\\n\\u\{1\}\\\"\\\\é/);
   guardContract(closure).expression.right.value = "\ud800";
-  assert.throws(() => renderTypedRustOperation(closure), /unpaired surrogate/);
+  expectRustCode(() => renderTypedRustOperation(closure), "MTCLI_TYPED_RUST_LITERAL");
 });

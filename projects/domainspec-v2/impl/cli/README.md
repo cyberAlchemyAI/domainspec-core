@@ -163,11 +163,40 @@ domainspec-v2 instantiate <absolute-operation-source> \
   --target-root <absolute-new-target>
 ```
 
-`tools/auth-kernel.mjs` remains temporarily as the specialized comparison
-oracle used by Auth migration evidence. It does not own the standard typed
-Operation path and is not removed by this candidate.
+Capability neutrality is exercised independently by the persistent
+`test/fixtures/capacity-decision/` source. It selects
+`capacity-decision:decide-capacity`, closes three non-Auth properties, two
+result variants, one Rule, and two legal relationships, then generates and
+executes a Rust capacity decision through the same command, closure compiler,
+renderer, receipt, and observer. The fixture also proves that generated crates
+do not retain collection imports when their selected closure does not use a
+collection type or operator.
 
-```text
-node tools/auth-kernel.mjs generate <absolute-auth-domainspec-root> <absolute-runtime-root>
-node tools/auth-kernel.mjs check <absolute-auth-domainspec-root> <absolute-runtime-root>
-```
+## Typed Operation fail-closed diagnostics
+
+The L2 hardening matrix mutates that non-Auth capacity source and requires two
+independent runs to return the same code, pointer, message, and exit status.
+Malformed schema, missing and untyped dependencies, self-recursion, duplicate
+property identity, unsupported Rule operators, and Rust semantic type mismatch
+all fail before target creation.
+
+Closure diagnostics retain the `MTCLI_TYPED_CLOSURE_*` family. Rust lowering
+uses typed errors rather than generic exceptions:
+
+- `MTCLI_TYPED_RUST_CRATE` and `MTCLI_TYPED_RUST_LITERAL` close output encoding;
+- `MTCLI_TYPED_RUST_COLLISION` closes normalized symbol ambiguity;
+- `MTCLI_TYPED_RUST_GUARD`, `MTCLI_TYPED_RUST_RULE`, and
+  `MTCLI_TYPED_RUST_SCOPE` close dependency and binding drift;
+- `MTCLI_TYPED_RUST_TYPE` and `MTCLI_TYPED_RUST_RESULT` close incompatible
+  operands and output constructors;
+- `MTCLI_TYPED_RUST_UNSUPPORTED` rejects forms outside the bounded Rust
+  realization.
+
+Each typed Rust diagnostic carries exit status 22 and survives the CLI failure
+envelope with its code and pointer. These diagnostics are implementation
+evidence, not source admission or runtime authority.
+
+The former `tools/auth-kernel.mjs` specialization has been retired. Auth now
+uses this same `instantiate` surface and typed Operation realization as every
+other consumer. Historical parity evidence is owned by the Auth package, not by
+an alternate CLI generator.

@@ -35,7 +35,7 @@ test("only the curated root entry is exported and build scripts are exact", () =
     "integration-profile:check": "node tools/materialize-system-integration-profile.mjs --check",
     typecheck: "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json --noEmit --pretty false",
     build: "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json",
-    test: "node --import tsx --test test/cli/main.test.ts test/conformance/observe-target.test.ts test/formalization/projection.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/meta-types/catalog.test.ts test/system-integration/profile.test.ts test/typed-operation/contracts.test.ts test/typed-operation/rust.test.ts",
+    test: "node --import tsx --test test/cli/main.test.ts test/conformance/observe-target.test.ts test/formalization/projection.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/meta-types/catalog.test.ts test/system-integration/profile.test.ts test/typed-operation/contracts.test.ts test/typed-operation/hardening.test.ts test/typed-operation/rust.test.ts",
     "test:contract": "node --test test/contract/foundation-contract.test.mjs test/contract/instantiation-foundation-contract.test.mjs test/contract/package-boundary.test.mjs",
     "validate:rust": "node tools/validate-generated-rust.mjs",
     "validate:clean-package": "node tools/validate-clean-package.mjs"
@@ -49,6 +49,17 @@ test("development and factory command surfaces are not re-exported", () => {
     assert.equal(JSON.stringify(packageJson.exports).includes(forbidden), false, forbidden);
   }
   assert.match(source, /from "\.\/version\.js"/);
+});
+
+test("the standard typed Operation path has no specialized Auth generator", () => {
+  for (const relativePath of [
+    "tools/auth-kernel.mjs",
+    "templates/auth-kernel/lib.rs.tmpl",
+    "test/auth-kernel/auth-kernel.test.mjs",
+  ]) {
+    assert.equal(fs.existsSync(path.join(cliRoot, relativePath)), false, relativePath);
+  }
+  assert.equal(JSON.stringify(packageJson.scripts).includes("auth-kernel"), false);
 });
 
 test("runtime and platform declarations remain exact and non-authoritative", () => {

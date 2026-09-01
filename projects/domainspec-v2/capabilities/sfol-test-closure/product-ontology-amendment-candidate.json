@@ -1,0 +1,89 @@
+{
+  "schema_version": "domainspec-product-ontology-amendment-candidate/v1",
+  "amendment_id": "DSV2-PRODUCT-ONTOLOGY-SFOL-TEST-CLOSURE-001",
+  "target_package": "projects/domainspec-v2/ontology",
+  "source_bindings": {
+    "definitions": {
+      "path": "definition-candidates.json",
+      "sha256": "9ae36dd69ecbf89054d1e4e1b50359dbb9639d5ea3d987a85a66694c8a0e1e11"
+    },
+    "product_capability": {
+      "path": "product-capability.json",
+      "sha256": "3d1854ad37b1fb9dc568fa1c75a6a2f82520edbff97eba35a0a280ccc572a57c"
+    },
+    "business_ontology": {
+      "path": "business-ontology.json",
+      "sha256": "769d3b364d6a0954689383f8bb7cb92cdaf60cbef76ff7ba5a88e09342e8c426"
+    },
+    "compiled_graph": {
+      "path": "generated/compiled-graph.json",
+      "sha256": "874ed432c9077583d35dcea7ae79ccb44f27065b375026c985cde7294ba9e185"
+    },
+    "system_ontology": {
+      "path": "generated/system-ontology.json",
+      "sha256": "0751057de2a6b8771bb9e0c24a6dd6c1fae718c9505d25861b8cffcb88cc9cfc"
+    },
+    "conformance": {
+      "path": "conformance/evidence.json",
+      "sha256": "10b301b077730349801042cf0b7718deab12d5440d9a4702e0935cb31c4e4ac2"
+    }
+  },
+  "business_nodes": [
+    "dsv2.product.sfol-test-closure",
+    "dsv2.product.bounded-partition-calculus",
+    "dsv2.product.negative-control-discrimination",
+    "dsv2.product.test-closure-replay"
+  ],
+  "system_nodes": [
+    "dsv2.system.evf-detection-matrix-builder",
+    "dsv2.system.evf-negative-control-engine",
+    "dsv2.system.sfol-ast-mutation-profile",
+    "dsv2.system.sfol-partition-engine",
+    "dsv2.system.sfol-proof-replay",
+    "dsv2.system.sfol-target-profile-registry",
+    "dsv2.system.tde-sfol-api",
+    "dsv2.system.tde-sfol-cli",
+    "dsv2.system.tde-sfol-contracts",
+    "dsv2.system.tde-sfol-migration-adapter"
+  ],
+  "bridge_relations": [
+    {
+      "from": "dsv2.product.sfol-test-closure",
+      "type": "realized_by",
+      "to": "dsv2.system.tde-sfol-api"
+    },
+    {
+      "from": "dsv2.product.sfol-test-closure",
+      "type": "realized_by",
+      "to": "dsv2.system.tde-sfol-cli"
+    },
+    {
+      "from": "dsv2.product.bounded-partition-calculus",
+      "type": "realized_by",
+      "to": "dsv2.system.sfol-partition-engine"
+    },
+    {
+      "from": "dsv2.product.negative-control-discrimination",
+      "type": "realized_by",
+      "to": "dsv2.system.evf-negative-control-engine"
+    },
+    {
+      "from": "dsv2.product.negative-control-discrimination",
+      "type": "observed_by",
+      "to": "dsv2.system.evf-detection-matrix-builder"
+    },
+    {
+      "from": "dsv2.product.test-closure-replay",
+      "type": "realized_by",
+      "to": "dsv2.system.sfol-proof-replay"
+    }
+  ],
+  "projection_eligibility": "not_evaluable",
+  "blockers": [
+    "definition admission",
+    "Product Capability adoption",
+    "business ontology admission",
+    "generated system ontology admission"
+  ],
+  "authority_effect": "none"
+}

@@ -1,7 +1,8 @@
 {
-  "schema_version": "cav2-d65-construction-chain/v1-candidate",
-  "construction_id": "AUTH-D65-EXACT-SESSION-ROLE-PERMISSION-001",
-  "subject_ref": "CA2-CAP-DECIDE-EXACT-SESSION-ROLE-PERMISSION",
+  "schema_version": "cav2-d65-construction-chain/v5-candidate",
+  "construction_id": "AUTH-D65-COMMAND-BOUNDARY-001",
+  "subject_ref": "CA2-CAP-ADMIT-AUTHORIZATION-COMMAND",
+  "predecessor_construction_id": "AUTH-D65-SQLITE-PROVIDER-001",
   "stages": [
     {
       "stage": "canonical_definitions",
@@ -28,6 +29,12 @@
       "sha256": "e36e46604a60513a146550d5125acbd645fcd0ce25a1b9a7bac94ee77215ef05"
     },
     {
+      "stage": "construction_binding",
+      "state": "authored-candidate",
+      "path": "implementation/construction-binding.json",
+      "sha256": "81f6a6ab1062ab543afab39418e75c6c549fde7b6f57af2e1de8c1c228bb265b"
+    },
+    {
       "stage": "compiled_graph",
       "state": "validated",
       "path": "implementation/standard-conformance/compiled-operation-graph.json",
@@ -37,29 +44,179 @@
       "stage": "system_ontology",
       "state": "validated-local-candidate",
       "path": "implementation/standard-conformance/system-ontology.json",
-      "sha256": "2e80e5cc30315b0a8b1501012a2033b88dd8ed3878f77ae6f97f6d99fa987463"
+      "sha256": "a3d726dd51f4d566a8d5277fc299bf2d2f705b8423b9831b9a7a944629f0abd2"
     },
     {
       "stage": "implementation",
       "state": "validated-local-candidate",
-      "path": "implementation/standard-runtime/.domainspec/instantiations/auth-exact-permission.authorize.json",
-      "sha256": "e6117bb4af3f1cb99d73273220e5a68910847cacfd54448616d6b1af71e8ee6a"
+      "path": "implementation/standard-conformance/implementation-binding.json",
+      "sha256": "d45aaf1ca789c970edf902b3f7e1c6883eeda907e56d9f2e0a51d0cefa52be5b"
     },
     {
       "stage": "static_conformance",
       "state": "validated-local-candidate",
       "path": "implementation/standard-conformance/receipt.json",
-      "sha256": "6bfb38ffe3f4e8e60cfb4bcb3f0b95f286a6d4d211fbefcf128dcfa0070224fc"
+      "sha256": "090ec87f0b6ded8ce7c95f50f7c60eea94e97a1d47d0bd7bf754854313887f28"
+    },
+    {
+      "stage": "generator_migration",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/migration-receipt.json",
+      "sha256": "376da93733657eadbc021ed86a2da4ab90aeaf0f46cd867fe6a0ad73597347a8"
+    },
+    {
+      "stage": "runtime_construction_binding",
+      "state": "authored-candidate",
+      "path": "implementation/runtime-construction-binding.json",
+      "sha256": "65b9c65a65c0728db6417b6bc592c83de7a41e21244b693b29668f7ca5f86ae4"
+    },
+    {
+      "stage": "runtime_contract",
+      "state": "authored-candidate",
+      "path": "implementation/runtime-contract.json",
+      "sha256": "def5b86f01bce91d7cd1d41d9f31a2a3259a30d27d69d9b095b296cc028b6940"
+    },
+    {
+      "stage": "runtime_system_ontology",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/runtime-system-ontology.json",
+      "sha256": "d686b21a56d0c9e2cfa69b6730dc86f3aea1cd0b44bbf2dcc23b375bbeb087e3"
+    },
+    {
+      "stage": "runtime_implementation",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/runtime-adapter-binding.json",
+      "sha256": "e60079ddc5e598681573ed0cd131ef07ba5efb337270aec74ab44fabc7cf684c"
     },
     {
       "stage": "runtime_evidence",
-      "state": "absent",
-      "path": null,
-      "sha256": null
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/runtime-evidence.json",
+      "sha256": "0691d75d3433769007c69b43bbc35d3891560ff3d3657eae282a9ade50703a54"
+    },
+    {
+      "stage": "provider_construction_binding",
+      "state": "authored-candidate",
+      "path": "implementation/provider-construction-binding.json",
+      "sha256": "8f4ac02f00cb6264657bb03144c3d127292d2690c64a904c65279cbaa59eb43a"
+    },
+    {
+      "stage": "provider_contract",
+      "state": "authored-candidate",
+      "path": "implementation/provider-contract.json",
+      "sha256": "834e1e7e04ac5d461bd0ba046be52d2086c480cec3f073bbb4305b7056e079b8"
+    },
+    {
+      "stage": "provider_system_ontology",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/provider-system-ontology.json",
+      "sha256": "1b36e8ad3b72d35dfef370e413c6fe3951a8350f63e5cffc38efac04005b2427"
+    },
+    {
+      "stage": "provider_implementation",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/provider-binding.json",
+      "sha256": "aeffbedb791c6d29c873a441b51b7c9db8e60002a39d7d260a9b8cc537d5c6c7"
+    },
+    {
+      "stage": "provider_evidence",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/provider-evidence.json",
+      "sha256": "e3f6b0f184839559278d0a6f6e40dda54feaad1f0a4f9a2aaabc56c4d621b888"
+    },
+    {
+      "stage": "command_boundary_canonical_definitions",
+      "state": "accepted",
+      "path": "implementation/command-boundary-definitions.json",
+      "sha256": "ca51af7f45733ca63ed2b21dbb73e8f6a30860f3d58e1c2301c21f8415524374"
+    },
+    {
+      "stage": "command_boundary_product_capability",
+      "state": "adopted",
+      "path": "implementation/command-boundary-product-capability.json",
+      "sha256": "3651e737efabe338b409fc4094cb0da25cc6274be619bec8889f6b4b1ae5f222"
+    },
+    {
+      "stage": "command_boundary_business_ontology",
+      "state": "admitted",
+      "path": "implementation/command-boundary-business-ontology.json",
+      "sha256": "aa57d9cdacb8e874fdb61cd726b1f5ea6fe4600f8a21802e9fb084ccfe2e2210"
+    },
+    {
+      "stage": "command_boundary_product_ontology_admission",
+      "state": "owner-decision",
+      "path": "implementation/decisions/command-boundary-product-ontology-admission-001.json",
+      "sha256": "61bcc2b22bda6c405c17d6dfa612e77fdbaae1cc2d5b36f98f9dc53820da8b65"
+    },
+    {
+      "stage": "command_boundary_sfol_formal_claim",
+      "state": "admitted-sibling-claim",
+      "path": "formalization/cases/AF-ADMIT-AUTHORIZATION-COMMAND-001/FORMAL-CLAIM-SFOL.v1.json",
+      "sha256": "50ce8c6d7aa49050345cac5ef192b8485dfc3cfb5541c153e382cd4c4d2bd37e"
+    },
+    {
+      "stage": "command_boundary_sfol_formal_claim_admission",
+      "state": "owner-decision",
+      "path": "formalization/decisions/AF-ADMIT-AUTHORIZATION-COMMAND-001/sfol-formal-claim-admission-001.json",
+      "sha256": "c321f051840f56a8cacd5e1b3a29efddc4708f1d438d356a0927237d33199fa5"
+    },
+    {
+      "stage": "command_boundary_evf_obligation",
+      "state": "satisfied-by-tde-evidence",
+      "path": "formalization/cases/AF-ADMIT-AUTHORIZATION-COMMAND-001/EVF-OBLIGATION.v2.json",
+      "sha256": "8cb7be353eee451a8af23e3a1863b0172e74c2a48cbfbd67759d898ff5c9b897"
+    },
+    {
+      "stage": "command_boundary_tde_evidence",
+      "state": "PASS",
+      "path": "formalization/cases/AF-ADMIT-AUTHORIZATION-COMMAND-001/TDE-EVIDENCE.v2.json",
+      "sha256": "55a1d01184dde2d4a0ba53c9f90385919ee7f8c4ebd2fcb98ae36c97917151a2"
+    },
+    {
+      "stage": "command_boundary_domainspec_source",
+      "state": "validated-technical-candidate",
+      "path": "implementation/command-boundary-source/project.json",
+      "sha256": "c27f2c8ba7af41e14ee43ae19708355e292a40267a353d03a6911c81a00426d1"
+    },
+    {
+      "stage": "command_boundary_construction_binding",
+      "state": "authored-candidate",
+      "path": "implementation/command-boundary-construction-binding.json",
+      "sha256": "260c3496bf692ab89f10c0fc7ef2e0fe471d74f15e4808da32be6f67ffd36d9d"
+    },
+    {
+      "stage": "command_boundary_compiled_graph",
+      "state": "validated-technical-candidate",
+      "path": "implementation/standard-conformance/command-boundary-compiled-operation-graph.json",
+      "sha256": "0a1bac66aaf107ca969ed94f51aee477ff4cfb8f0812bc2b81e707f7ad91dfa3"
+    },
+    {
+      "stage": "command_boundary_system_ontology",
+      "state": "compiled-candidate-against-admitted-product-meaning",
+      "path": "implementation/standard-conformance/command-boundary-system-ontology.json",
+      "sha256": "14c12015e5552bb834f4f911418c801caf1239d645ec8229e0c85d959fcd1fae"
+    },
+    {
+      "stage": "command_boundary_kernel_implementation",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/command-boundary-kernel-binding.json",
+      "sha256": "3158bbd416be5eeec9d9abfb1c09e375e85d1c6c6296c8f6d8e6c9384d738713"
+    },
+    {
+      "stage": "trusted_boundary_implementation",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/trusted-boundary-binding.json",
+      "sha256": "19e5f66c2b8c8deb2c9679eff0350805b0d3cc38e57acee2d381d6ed50f53f51"
+    },
+    {
+      "stage": "command_boundary_evidence",
+      "state": "bounded-sfol-tde-pass",
+      "path": "implementation/standard-conformance/command-boundary-evidence.json",
+      "sha256": "9b67cedad9fd9415ed94ac9dbd62ac6a12d5ef110b203fca7ba3d0bd23835635"
     }
   ],
-  "result": "complete-local-candidate-through-static-conformance",
+  "result": "complete-local-candidate-through-admitted-command-boundary-meaning-and-bounded-sfol-tde-evidence",
   "authority_effect": "none",
   "external_effect": "none",
-  "claim_limit": "Complete local candidate D65 chain through static conformance; runtime integration, publication, deployment, and production security remain outside scope."
+  "claim_limit": "The command-boundary definitions, Product Capability, and business ontology are admitted and bounded SFOL/TDE composition evidence passes locally. System ontology remains a compiled candidate; publication, deployment, external effects, and production-security claims remain unavailable."
 }

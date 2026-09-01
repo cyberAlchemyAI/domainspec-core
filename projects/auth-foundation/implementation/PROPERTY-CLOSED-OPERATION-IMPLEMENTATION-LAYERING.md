@@ -32,8 +32,66 @@ schema alone is too small because it does not prove executable translation. A
 universal ontology compiler or complete Auth service is too large because it
 adds unrelated meta-types, languages, integrations, and effects.
 
-This is a planning candidate. It does not admit ontology bytes, authorize
-implementation, establish conformance, or retire the existing Auth generator.
+This document began as a planning candidate. L0 through L6 now have local
+implementation evidence. That evidence does not admit ontology bytes or
+authorize publication, deployment, transport integration, or production use.
+
+## Implementation update — 2026-09-01
+
+L0 and L1 now have local candidate implementation evidence. L0 materializes
+the complete Auth Operation through the standard CLI and compares it with the
+specialized oracle. L1 adds the non-Auth
+`test/fixtures/capacity-decision/` source and sends
+`capacity-decision:decide-capacity` through the same closure compiler, Rust
+renderer, receipt, and observer. The second vertical covers three properties,
+two variants, one Rule, and two relationships; its generated behavior accepts
+`requested_units < available_units` and rejects the equality boundary.
+
+The L1 run exposed and repaired one generic renderer defect: `BTreeSet` was
+imported even when a selected closure used no collection types or operators,
+which failed `rustc -D warnings`. The renderer now derives that import from the
+generated definitions and Rules. Auth output remains on the same generic path.
+
+This evidence supports the bounded statement that two independent Operations
+use the same capability-neutral mechanism. It does not admit either ontology,
+establish production conformance, or authorize release or deployment.
+
+### L2 fail-closed hardening update
+
+L2 adds a seven-case non-Auth mutation matrix. Every case is evaluated against
+two independent copies and must return an identical code, pointer, message,
+and exit status:
+
+| Mutation | Category | Terminal diagnostic |
+| --- | --- | --- |
+| Missing Rule-expression member | malformed | `MTCLI_TYPED_SCHEMA` |
+| Missing output dependency | incomplete | `MTCLI_TYPED_CLOSURE_MISSING` |
+| Dependency without a typed contract | incomplete | `MTCLI_TYPED_CLOSURE_UNTYPED` |
+| Self-recursive Rule | cyclic | `MTCLI_TYPED_CLOSURE_CYCLE` |
+| Duplicate ontology-property identity | ambiguous | `MTCLI_TYPED_DUPLICATE` |
+| Unknown Rule operator | unsupported | `MTCLI_TYPED_RULE` |
+| Incompatible Rust Rule operands | semantic-type-invalid | `MTCLI_TYPED_RUST_TYPE` |
+
+The cycle repair preserves self-dependencies for DFS rather than filtering
+them before cycle detection. The Rust renderer now emits stable typed
+diagnostics for crate/literal encoding, symbol collision, guard, Rule, scope,
+type, result, and unsupported-form failures. The CLI test proves the diagnostic
+survives its failure envelope and that no target is created.
+
+Formal evidence remains deliberately separate:
+
+- the accepted Auth formal characterization is `theorem-checked` at the exact
+  receipt path and digest already bound by `standard-conformance/receipt.json`;
+- normative generated-Rust Allow/Deny behavior matches the Rust oracle over 24
+  cases and two runs;
+- detailed denial-reason equivalence remains `not-claimed`;
+- a proof that generated Rust refines the Lean model remains `not_evaluable`
+  because no checked Lean-to-generated-Rust correspondence theorem or proof
+  extraction bridge is bound to these implementation bytes.
+
+L2 therefore improves failure predictability and evidence honesty. It does not
+turn testing, Rust-oracle parity, or the existing Lean theorem into a formal
+cross-language equivalence proof.
 
 ## Design review verdict
 
@@ -118,17 +176,20 @@ Each layer ends when it changes what can responsibly be decided next.
 | L0 — Auth vertical | After this layer, we know whether the standard CLI can translate one complete ontology-bound Auth Operation into tested Rust without handwritten semantic glue. | One `instantiate --node auth-exact-permission:authorize --language rust` clean-target run plus exact closure and coverage receipts. | A generated Rust Auth kernel that compiles and matches the current behavioral oracle. | Meaning and type loss across ontology, DomainSpec, IR, and Rust. | Continue only if every denominator row is covered and all four evidence classes are reported separately. |
 | L1 — capability neutrality | After this layer, we know whether the mechanism is a reusable DomainSpec capability rather than Auth logic hidden in the CLI. | A second small non-Auth fixture using the same property, closure, Rule, and Rust paths. | The same command shape generates two independent Operations. | Auth overfitting and fixed-name generation. | Harden only when no compiler or renderer branch refers to Auth identifiers. |
 | L2 — fail-closed hardening | After this layer, we know whether malformed, incomplete, cyclic, or semantically unsupported source is rejected deterministically and equivalence evidence is credible. | Mutation suite, two-run determinism, negative closure tests, and Lean/Rust characterization checks. | Predictable diagnostics and bounded trust in the generated kernel. | Silent omission, accidental defaults, semantic drift, and false evidence inflation. | Package only after negative cases and equivalence obligations have terminal results. |
-| L3 — migration and packaging | After this layer, we know whether the standard path can replace the specialized Auth generator without losing a guarantee. | Clean migration, comparison report, documentation, and removal of the specialized generator in a separate reviewed change. | One supported standard instantiation path. | Dual-path drift and maintenance burden. | Retire the old path only after parity and non-regression evidence are bound to unchanged bytes. |
+| L3 — migration and packaging | After this layer, we know whether the standard path can replace the specialized Auth generator without losing a guarantee. | Clean migration, comparison report, documentation, and exact removal of the specialized generator. | One supported standard instantiation path. | Dual-path drift and maintenance burden. | Completed locally: parity and non-regression evidence are bound in the migration receipt. |
+| L4 — binary runtime adapter | After this layer, we know whether trusted runtime inputs can be assembled into the generated context without exposing internal denial reasons. | Five trusted ports, one pure adapter, binary result contract, deterministic in-memory evidence. | A fail-closed `Allow`/`Deny` application boundary. | Caller-supplied trust flags, provider-failure ambiguity, and reason leakage. | Integrate a real provider only after its exact contract and degraded behavior are separately bound. |
+| L5 — SQLite provider | After this layer, we know whether one concrete provider can resolve the four durable evidence ports consistently and preserve the L4 binary boundary. | One versioned SQLite migration, one transaction-scoped provider service, injected clock, and deterministic in-memory plus file-backed tests. | A local durable `Allow`/`Deny` authorization service boundary. | Cross-query state skew, incomplete relation evidence, ambiguous persistence rows, and database-failure leakage. | Add transport only after its request trust boundary, effect model, and degraded behavior are separately bound. |
+| L6 — trusted command boundary | After this layer, we know whether untrusted request identifiers can be converted into an authorization command without granting the caller session, permission, or scope authority. | Candidate definitions and ontology, one Rule-guarded DomainSpec Operation, deterministic Rust kernel, authentication and route-binding ports, and a boundary adapter over the unchanged SQLite service. | `Ready` calls the binary authorization service with only server-derived values; every unresolved, ambiguous, incomplete, empty, or failed case returns `Deny` before that call. | Caller-supplied authority, route/permission confusion, ambiguous authentication evidence, and implicit downstream calls. | Admit the new definitions before claiming capability adoption, ontology admission, or semantic conformance; add transport only in a separate successor. |
 
 ## Capability progression
 
-| Area | L0 | L1 | L2 | L3 |
-| --- | --- | --- | --- | --- |
-| Ontology | Full Auth denominator and stable selectors | Reused by a second capability | Mutation and unsupported-form rejection | Versioned package contract |
-| DomainSpec | Typed Auth nodes, Rule, Operation, and relationships | Capability-neutral fixture | Graph/closure failure coverage | Migration documentation |
-| Compiler | Selected-Operation transitive closure and typed IR | No Auth-specific branches | Cycle, ambiguity, collision, and determinism checks | Stable CLI surface |
-| Rust | Typed Auth crate and internal Rule evaluation | Second generated crate | Behavior and equivalence hardening | Specialized generator removed |
-| Evidence | Exact coverage plus compile and behavior results | Cross-capability reuse evidence | Negative and formal evidence | Final comparison and migration receipt |
+| Area | L0 | L1 | L2 | L3 | L4 | L5 | L6 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Ontology | Full Auth denominator and stable selectors | Reused by a second capability | Mutation and unsupported-form rejection | Versioned package contract | Successor runtime system ontology | Provider system ontology maps all five ports to exact storage or injected evidence | Separate 21-property command-boundary ontology candidate; admission pending |
+| DomainSpec | Typed Auth nodes, Rule, Operation, and relationships | Capability-neutral fixture | Graph/closure failure coverage | Migration documentation | Generated kernel remains immutable | Generated kernel and L4 contract remain immutable | Four Rules guard one `admit-authorization-command` Operation; no Policy |
+| Compiler | Selected-Operation transitive closure and typed IR | No Auth-specific branches | Cycle, ambiguity, collision, and determinism checks | Stable CLI surface | No compiler change | No compiler change | Same standard CLI and Rust realization; no compiler change |
+| Rust | Typed Auth crate and internal Rule evaluation | Second generated crate | Behavior and equivalence hardening | Specialized generator removed | Five-port binary adapter | Transaction-scoped SQLite provider and injected clock | Generated provenance kernel plus trusted boundary over unchanged L5 service |
+| Evidence | Exact coverage plus compile and behavior results | Cross-capability reuse evidence | Negative and formal evidence | Final comparison and migration receipt | In-memory runtime-adapter receipt | In-memory, file-backed, migration, ambiguity, and failure receipts | Two clean generations, strict compilation, six boundary tests, technical PASS, semantic `not_evaluable` |
 
 ## L0 — minimum working unit
 
@@ -211,7 +272,7 @@ The first five waves together form L0; none alone proves the L0 claim.
 | W0.5 — conformance | L0 | Bind source-to-symbol coverage and compare behavior with the current specialized kernel. | Coverage receipt, compile receipt, behavioral comparison, determinism receipt, equivalence status. | Exact-row closure, Auth case suite, mutation tests, and two-run digest comparison. |
 | W1 — second vertical | L1 | Run the same pipeline on one small non-Auth Operation. | Capability-neutral fixture and generated crate. | Same CLI path succeeds with no Auth-specific conditionals or templates. |
 | W2 — hardening | L2 | Expand negative, degraded, and formal checks without widening the feature surface. | Mutation matrix, diagnostics contract, Lean/Rust bridge evidence. | Collect-all results distinguish pass, fail, and not-evaluable. |
-| W3 — migration | L3 | Compare and retire the specialized Auth generator. | Migration report, docs, deletion candidate. | All prior guarantees remain green against immutable bytes before removal. |
+| W3 — migration | L3 | Compare and retire the specialized Auth generator. | Migration receipt, docs, exact deletion allowlist, frozen oracle. | All prior guarantees remain green after removal and bind the immutable pre-migration bytes. |
 
 ## Required file-impact discipline for implementation
 
@@ -223,8 +284,8 @@ zones are:
   `projects/domainspec-v2/impl/cli/`;
 - generated Auth output: a clean target under the Auth implementation package.
 
-Do not edit the current generated Rust comparison oracle by hand. Do not delete
-the specialized generator in L0. Preserve unrelated dirty bytes and treat each
+Do not edit the frozen Rust comparison oracle by hand; it is migration evidence,
+not an implementation target. Preserve unrelated dirty bytes and treat each
 wave as a separately reviewable semantic change.
 
 ## Non-regression guardrails
@@ -293,9 +354,45 @@ These are local design choices for W0.1, not reasons to broaden L0:
 3. Choose one stable selector syntax for ontology properties and Rule property
    paths. It must survive reminting and appear unchanged in the coverage row.
 
-## Next action
+## L3 migration result
 
-Execute **W0.1 only**: produce the denominator and the minimal typed
-property/Rule contracts with positive and negative schema fixtures. Review its
-exact property list and source compatibility before authoring the Operation or
-changing Rust generation.
+W3 / L3 is implemented locally. The standard typed-operation CLI is the sole
+supported Auth generator; the specialized tool, template, tests, runtime crate,
+and duplicate DomainSpec source are retired. The migration receipt binds every
+retired preimage digest and records PASS for closure, deterministic generation,
+Rust quality, 24-case Allow/Deny parity, theorem-receipt binding, and path
+retirement. Detailed denial-reason refinement and runtime integration remain
+outside the claim.
+
+## L4 binary runtime result
+
+L4 is implemented as a successor construction so every L3 evidence digest stays
+unchanged. The public contract has exactly two payload-free variants:
+`Allow` and `Deny`. The adapter invokes the generated kernel for every
+request, collapses all internal denial reasons, and treats failure of any of the
+five trusted ports as `Deny`. Eight Rust tests run twice and cover permitted
+evidence, kernel denial classes, exact permission mismatch, and all port
+failures. This is local in-memory evidence, not real-provider or service
+integration.
+
+## L5 SQLite provider result
+
+L5 is implemented as another successor construction, so the L3 and L4
+contracts and receipts stay byte-identical. `SqliteAuthorizationService`
+resolves sessions, complete active-role relations, exact scope evidence, and
+the current authorization revision from one deferred SQLite transaction. The
+decision clock remains an injected fifth port. The schema deliberately
+preserves duplicate public session identities as separate rows so the generated
+kernel can deny ambiguity instead of a database uniqueness constraint hiding
+it.
+
+Ten Rust integration tests run twice. They cover the exact `Allow` case in
+memory and after reopening a file-backed database; missing and duplicate
+sessions; inactive, expired, and stale sessions; missing or untrusted scope
+evidence; permission mismatch and incomplete role relations; missing current
+revision; idempotent schema migration; rejection of newer schema versions; and
+transaction-start failure. Every degraded decision remains the payload-free
+public `Deny`. This evidence is for
+a local SQLite provider only, not an administrative write API, authentication
+or token service, transport, deployment, multi-node consistency, encryption,
+or production security.

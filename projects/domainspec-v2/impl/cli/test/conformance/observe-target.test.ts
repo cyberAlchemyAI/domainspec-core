@@ -18,6 +18,7 @@ import { testPlan } from "../helpers/plans.ts";
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const sourceFixtureRoot = path.resolve(testDir, "../../fixtures/input-roots/canonical-project");
 const authOperationSource = path.resolve(testDir, "../../../../../auth-foundation/implementation/operation-source");
+const capacityOperationSource = path.resolve(testDir, "../fixtures/capacity-decision");
 
 function targetFor(language: "typescript" | "python" | "rust" = "typescript", kind: "Operation" | "Workflow" | "State Machine" = "Operation"): { parent: string; target: string; artifact: string } {
   const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-observe-"));
@@ -61,6 +62,22 @@ function l1Target(selector: string, language: "typescript" | "python" | "rust" =
   const target = path.join(parent, "target");
   const result = publishInstantiation(planInstantiation(loadProjectNode(sourceFixtureRoot, selector), language), target);
   return { parent, target, artifact: path.join(target, result.receipt.artifacts[0]!.relative_path) };
+}
+
+function typedCapacityTarget(name = "target"): { parent: string; target: string; artifact: string; receiptPath: string; planSha256: string; receiptSha256: string } {
+  const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-observe-"));
+  const target = path.join(parent, name);
+  const node = loadProjectNode(capacityOperationSource, "capacity-decision:decide-capacity");
+  const plan = planInstantiation(node, "rust");
+  const result = publishInstantiation(plan, target);
+  return {
+    parent,
+    target,
+    artifact: path.join(target, result.receipt.artifacts[0]!.relative_path),
+    receiptPath: path.join(target, result.receipt_path),
+    planSha256: plan.plan_sha256,
+    receiptSha256: result.receipt.receipt_sha256,
+  };
 }
 
 function expectCode(target: string, code: string): void {
@@ -190,6 +207,27 @@ test("typed Auth Operation is deterministic, property-closed, observed, and comp
     assert.equal(cargoCheck.status, 0, cargoCheck.stderr);
     const cargoTest = spawnSync("cargo", ["test"], { cwd: rightTarget, encoding: "utf8" });
     assert.equal(cargoTest.status, 0, cargoTest.stderr);
+  } finally {
+    clean(left.parent);
+  }
+});
+
+test("a second non-Auth typed Operation is deterministic and exactly observed", () => {
+  const left = typedCapacityTarget("left");
+  const rightTarget = path.join(left.parent, "right");
+  try {
+    const node = loadProjectNode(capacityOperationSource, "capacity-decision:decide-capacity");
+    const rightPlan = planInstantiation(node, "rust");
+    const right = publishInstantiation(rightPlan, rightTarget);
+    const leftReceipt = readInstantiationReceipt(left.target);
+    const rightReceipt = readInstantiationReceipt(rightTarget);
+    assert.equal(observeTarget(left.target).result, "pass");
+    assert.equal(observeTarget(rightTarget).result, "pass");
+    assert.equal(left.planSha256, rightPlan.plan_sha256);
+    assert.equal(left.receiptSha256, right.receipt.receipt_sha256);
+    assert.equal(leftReceipt.artifacts[0]!.sha256, rightReceipt.artifacts[0]!.sha256);
+    assert.equal(leftReceipt.semantic_contract.typed_closure!.closure_sha256, rightReceipt.semantic_contract.typed_closure!.closure_sha256);
+    assert.equal(fs.readFileSync(left.artifact, "utf8").toLowerCase().includes("auth"), false);
   } finally {
     clean(left.parent);
   }

@@ -161,7 +161,7 @@ export function compileTypedOperationClosure(
       for (const input of contract.inputs) result.push(...namedTypeSelectors(input.type));
       result.push(...namedTypeSelectors(contract.output), contract.guard, ...contract.reads, ...contract.writes, ...contract.effects, ...enforcingRules);
     }
-    return uniqueSorted(result.filter((dependency) => dependency !== selector(node)));
+    return uniqueSorted(result);
   };
 
   const permanent = new Set<string>();

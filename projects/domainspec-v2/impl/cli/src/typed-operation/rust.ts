@@ -6,12 +6,25 @@ const RUST_KEYWORDS = new Set([
   "Self", "abstract", "as", "async", "await", "become", "box", "break", "const", "continue", "crate", "do", "dyn", "else", "enum", "extern", "false", "final", "fn", "for", "gen", "if", "impl", "in", "let", "loop", "macro", "match", "mod", "move", "mut", "override", "priv", "pub", "raw", "ref", "return", "safe", "self", "static", "struct", "super", "trait", "true", "try", "type", "typeof", "union", "unsafe", "unsized", "use", "virtual", "where", "while", "yield",
 ]);
 
+export class TypedRustError extends Error {
+  readonly exitCode = 22;
+
+  constructor(readonly code: string, readonly pointer: string, message: string) {
+    super(message);
+    this.name = "TypedRustError";
+  }
+}
+
+function fail(code: string, pointer: string, message: string): never {
+  throw new TypedRustError(code, pointer, message);
+}
+
 function rustStringLiteral(value: string): string {
   let result = "\"";
   for (let index = 0; index < value.length;) {
     const codePoint = value.codePointAt(index)!;
     index += codePoint > 0xffff ? 2 : 1;
-    if (codePoint >= 0xd800 && codePoint <= 0xdfff) throw new Error("Rust string literal contains an unpaired surrogate");
+    if (codePoint >= 0xd800 && codePoint <= 0xdfff) fail("MTCLI_TYPED_RUST_LITERAL", "/typed-rust/literal", "Rust string literal contains an unpaired surrogate");
     if (codePoint === 0x22) result += "\\\"";
     else if (codePoint === 0x5c) result += "\\\\";
     else if (codePoint === 0x00) result += "\\0";
@@ -27,7 +40,7 @@ function rustStringLiteral(value: string): string {
 export function renderTypedRustCrateManifest(projectId: string, featureId: string, nodeId: string, libraryPath: string): string {
   const crateName = `${projectId}-${featureId}-${nodeId}`.replace(/[^a-z0-9-]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
   if (!crateName || libraryPath.includes("\\") || libraryPath.startsWith("/") || libraryPath.split("/").some((segment) => segment === "" || segment === "." || segment === "..")) {
-    throw new Error("typed Rust crate identity or library path is invalid");
+    fail("MTCLI_TYPED_RUST_CRATE", "/typed-rust/crate", "typed Rust crate identity or library path is invalid");
   }
   return `[package]\nname = ${rustStringLiteral(crateName)}\nversion = "0.0.0"\nedition = "2024"\npublish = false\n\n[lib]\npath = ${rustStringLiteral(libraryPath)}\n`;
 }
@@ -62,7 +75,7 @@ function rustType(type: TypedType): string {
   if (type.kind === "set") return `BTreeSet<${rustType(type.element)}>`;
   if (type.kind === "list") return `Vec<${rustType(type.element)}>`;
   if (type.kind === "optional") return `Option<${rustType(type.element)}>`;
-  throw new Error("anonymous sum types are unsupported in Rust properties; select a named sum node");
+  fail("MTCLI_TYPED_RUST_UNSUPPORTED", "/typed-rust/type", "anonymous sum types are unsupported in Rust properties; select a named sum node");
 }
 
 function sameType(left: TypedType, right: TypedType): boolean {
@@ -75,7 +88,7 @@ function isCopyType(type: TypedType): boolean {
 
 function claimSymbol(registry: Map<string, string>, symbol: string, owner: string, label: string): void {
   const previous = registry.get(symbol);
-  if (previous !== undefined && previous !== owner) throw new Error(`${label} values collide after Rust identifier normalization:${previous}:${owner}:${symbol}`);
+  if (previous !== undefined && previous !== owner) fail("MTCLI_TYPED_RUST_COLLISION", "/typed-rust/symbols", `${label} values collide after Rust identifier normalization:${previous}:${owner}:${symbol}`);
   registry.set(symbol, owner);
 }
 
@@ -166,7 +179,7 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
   }
 
   const guardNode = closure.nodes.find((node) => node.selector === closure.operation.guard);
-  if (guardNode?.typed_contract.schema_version !== "domainspec.typed-rule/v1") throw new Error("typed Operation guard is not a typed Rule in the closure");
+  if (guardNode?.typed_contract.schema_version !== "domainspec.typed-rule/v1") fail("MTCLI_TYPED_RUST_GUARD", "/typed-rust/operation/guard", "typed Operation guard is not a typed Rule in the closure");
   const guardFunction = snake(guardNode.selector.split(":")[1] ?? "guard");
   const operationFunction = snake(closure.root_selector.split(":")[1] ?? "operation");
   claimSymbol(callableSymbols, operationFunction, closure.root_selector, "Rust callable");
@@ -179,26 +192,26 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
     }
     if (value.op === "variant") {
       const variant = variants.get(value.selector);
-      if (!variant) throw new Error(`Rust Rule references unknown ontology variant:${value.selector}`);
-      if (variant.payload !== null) throw new Error(`Rust Rule cannot construct payload variant as a value:${value.selector}`);
+      if (!variant) fail("MTCLI_TYPED_RUST_SCOPE", "/typed-rust/rule/variant", `Rust Rule references unknown ontology variant:${value.selector}`);
+      if (variant.payload !== null) fail("MTCLI_TYPED_RUST_TYPE", "/typed-rust/rule/variant", `Rust Rule cannot construct payload variant as a value:${value.selector}`);
       return { code: `${nodeName(variant.owner)}::${variantName(variant.name)}`, type: { kind: "named", selector: variant.owner }, ownership: "owned" };
     }
     if (value.op === "to_set") {
       const source = renderValue(value.value, scopes);
-      if (source.type.kind !== "list") throw new Error("Rust to_set requires a list value");
+      if (source.type.kind !== "list") fail("MTCLI_TYPED_RUST_TYPE", "/typed-rust/rule/to_set", "Rust to_set requires a list value");
       const iterator = source.ownership === "owned" ? `${source.code}\n    .into_iter()` : `${source.code}\n    .iter()\n    .cloned()`;
       return { code: `${iterator}\n    .collect::<BTreeSet<_>>()`, type: { kind: "set", element: source.type.element }, ownership: "owned" };
     }
     let currentType = scopes.get(value.root);
-    if (!currentType) throw new Error(`Rust Rule references unknown root:${value.root}`);
+    if (!currentType) fail("MTCLI_TYPED_RUST_SCOPE", "/typed-rust/rule/path", `Rust Rule references unknown root:${value.root}`);
     let code = snake(value.root);
     for (let index = 0; index < value.properties.length; index += 1) {
       const propertySelector = value.properties[index]!;
       const property = properties.get(propertySelector);
-      if (!property) throw new Error(`Rust Rule references unknown property:${propertySelector}`);
+      if (!property) fail("MTCLI_TYPED_RUST_SCOPE", "/typed-rust/rule/path", `Rust Rule references unknown property:${propertySelector}`);
       if (currentType.kind === "set" || currentType.kind === "list") {
-        if (currentType.element.kind !== "named" || currentType.element.selector !== property.owner) throw new Error(`Rust Rule projection owner mismatch:${propertySelector}`);
-        if (index !== value.properties.length - 1) throw new Error(`Rust Rule supports one terminal collection projection:${propertySelector}`);
+        if (currentType.element.kind !== "named" || currentType.element.selector !== property.owner) fail("MTCLI_TYPED_RUST_SCOPE", "/typed-rust/rule/path", `Rust Rule projection owner mismatch:${propertySelector}`);
+        if (index !== value.properties.length - 1) fail("MTCLI_TYPED_RUST_UNSUPPORTED", "/typed-rust/rule/path", `Rust Rule supports one terminal collection projection:${propertySelector}`);
         const member = `projected.${snake(property.name)}`;
         const projected = isCopyType(property.type) ? member : `${member}.clone()`;
         const collection = currentType.kind === "set" ? "BTreeSet" : "Vec";
@@ -208,7 +221,7 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
           ownership: "owned",
         };
       }
-      if (currentType.kind !== "named" || currentType.selector !== property.owner) throw new Error(`Rust Rule property owner mismatch:${propertySelector}`);
+      if (currentType.kind !== "named" || currentType.selector !== property.owner) fail("MTCLI_TYPED_RUST_SCOPE", "/typed-rust/rule/path", `Rust Rule property owner mismatch:${propertySelector}`);
       code = `${code}.${snake(property.name)}`;
       currentType = property.type;
     }
@@ -238,37 +251,37 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
       const left = renderValue(expression.left, scopes);
       const right = renderValue(expression.right, scopes);
       if (expression.op === "contains") {
-        if (left.type.kind !== "set" || !sameType(left.type.element, right.type)) throw new Error("Rust contains operands are type-incompatible");
+        if (left.type.kind !== "set" || !sameType(left.type.element, right.type)) fail("MTCLI_TYPED_RUST_TYPE", "/typed-rust/rule/contains", "Rust contains operands are type-incompatible");
         return { statements: [], result: `${left.code}.contains(${borrowValue(right)})` };
       }
-      if (!sameType(left.type, right.type)) throw new Error(`Rust ${expression.op} operands are type-incompatible`);
+      if (!sameType(left.type, right.type)) fail("MTCLI_TYPED_RUST_TYPE", `/typed-rust/rule/${expression.op}`, `Rust ${expression.op} operands are type-incompatible`);
       return { statements: [], result: `${left.code} ${expression.op === "lt" ? "<" : "=="} ${right.code}` };
     }
     if (expression.op === "rule_ref") {
       const target = rules.get(expression.selector);
-      if (!target) throw new Error(`Rust Rule references an unavailable typed Rule:${expression.selector}`);
+      if (!target) fail("MTCLI_TYPED_RUST_RULE", "/typed-rust/rule/rule_ref", `Rust Rule references an unavailable typed Rule:${expression.selector}`);
       const supplied = new Map(expression.arguments.map((argument) => [argument.parameter, argument.value]));
       if (supplied.size !== target.parameters.length || target.parameters.some((parameter) => !supplied.has(parameter.name))) {
-        throw new Error(`Rust Rule reference arguments do not exactly bind target parameters:${expression.selector}`);
+        fail("MTCLI_TYPED_RUST_RULE", "/typed-rust/rule/rule_ref/arguments", `Rust Rule reference arguments do not exactly bind target parameters:${expression.selector}`);
       }
       const arguments_ = target.parameters.map((parameter) => {
         const rendered = renderValue(supplied.get(parameter.name)!, scopes);
-        if (!sameType(rendered.type, parameter.type)) throw new Error(`Rust Rule reference argument is type-incompatible:${expression.selector}:${parameter.name}`);
+        if (!sameType(rendered.type, parameter.type)) fail("MTCLI_TYPED_RUST_TYPE", "/typed-rust/rule/rule_ref/arguments", `Rust Rule reference argument is type-incompatible:${expression.selector}:${parameter.name}`);
         return borrowValue(rendered);
       });
       return { statements: [], result: `${snake(expression.selector.split(":")[1] ?? "rule")}(${arguments_.join(", ")})` };
     }
     if (expression.op !== "exactly_one" && expression.op !== "unique" && expression.op !== "exists") {
-      throw new Error(`unsupported Rust Rule operator:${(expression as { readonly op: string }).op}`);
+      fail("MTCLI_TYPED_RUST_UNSUPPORTED", "/typed-rust/rule/op", `unsupported Rust Rule operator:${(expression as { readonly op: string }).op}`);
     }
     const collection = renderValue(expression.collection, scopes);
-    if (collection.type.kind !== "set" && collection.type.kind !== "list") throw new Error(`Rust ${expression.op} requires a collection`);
+    if (collection.type.kind !== "set" && collection.type.kind !== "list") fail("MTCLI_TYPED_RUST_TYPE", `/typed-rust/rule/${expression.op}`, `Rust ${expression.op} requires a collection`);
     const nestedScopes = new Map(scopes);
     nestedScopes.set(expression.binding, collection.type.element);
     const binding = snake(expression.binding);
     if (expression.op === "unique") {
       if (expression.where.op !== "eq" || canonicalJson(expression.where.left) !== canonicalJson(expression.where.right) || expression.where.left.op !== "path") {
-        throw new Error("Rust unique requires an identical path equality naming the uniqueness key");
+        fail("MTCLI_TYPED_RUST_RULE", "/typed-rust/rule/unique", "Rust unique requires an identical path equality naming the uniqueness key");
       }
       const key = renderValue(expression.where.left, nestedScopes);
       const keyCode = key.ownership === "copy" ? key.code : borrowValue(key);
@@ -309,19 +322,19 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
 
   const result = (constructor: TypedResultConstructor): string => {
     const outputSelector = closure.operation.output.kind === "named" ? closure.operation.output.selector : null;
-    if (outputSelector === null) throw new Error("typed Rust Operation output must be a named sum");
+    if (outputSelector === null) fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/output", "typed Rust Operation output must be a named sum");
     const outputContract = nodeContracts.get(outputSelector);
-    if (outputContract?.schema_version !== "domainspec.typed-sum/v1") throw new Error("typed Rust Operation output must select a typed sum");
+    if (outputContract?.schema_version !== "domainspec.typed-sum/v1") fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/output", "typed Rust Operation output must select a typed sum");
     const variant = outputContract.variants.find((candidate) => candidate.name === constructor.variant);
-    if (!variant) throw new Error(`typed Rust result variant is missing:${constructor.variant}`);
+    if (!variant) fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/result", `typed Rust result variant is missing:${constructor.variant}`);
     if (variant.payload === null) {
-      if (constructor.payload_variant !== null) throw new Error("payload constructor supplied for payloadless result");
+      if (constructor.payload_variant !== null) fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/result", "payload constructor supplied for payloadless result");
       return `${outputType}::${variantName(variant.name)}`;
     }
-    if (variant.payload.kind !== "named" || constructor.payload_variant === null) throw new Error("typed Rust payload result requires one named payload variant");
+    if (variant.payload.kind !== "named" || constructor.payload_variant === null) fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/result", "typed Rust payload result requires one named payload variant");
     const payloadContract = nodeContracts.get(variant.payload.selector);
     if (payloadContract?.schema_version !== "domainspec.typed-sum/v1" || !payloadContract.variants.some((candidate) => candidate.name === constructor.payload_variant)) {
-      throw new Error(`typed Rust payload variant is missing:${constructor.payload_variant}`);
+      fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/result", `typed Rust payload variant is missing:${constructor.payload_variant}`);
     }
     return `${outputType}::${variantName(variant.name)}(${rustType(variant.payload)}::${variantName(constructor.payload_variant)})`;
   };
@@ -330,11 +343,12 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
   const variantBindings = closure.variants.map((row) => `    (${rustStringLiteral(row.ontology_variant)}, ${rustStringLiteral(`${nodeName(row.domainspec_selector.split("#")[0]!)}::${variantName(row.domainspec_selector.split("#")[1]!)}`)}),`).join("\n");
   const ruleSelectors = closure.rules.map((row) => `    (${rustStringLiteral(row.ontology_rule)}, ${rustStringLiteral(row.domainspec_selector)}),`).join("\n");
   const ruleImplementationBindings = closure.rules.map((row) => `    (${rustStringLiteral(row.ontology_rule)}, ${rustStringLiteral(row.domainspec_selector)}, ${rustStringLiteral(snake(row.domainspec_selector.split(":")[1] ?? "rule"))}),`).join("\n");
+  const collectionImport = [...dataDefinitions, ...ruleFunctions].some((definition) => definition.includes("BTreeSet<"))
+    ? "use std::collections::BTreeSet;\n\n"
+    : "";
 
   return `// domainspec-typed-closure-sha256: ${rustStringLiteral(closure.closure_sha256)}
-use std::collections::BTreeSet;
-
-pub const DOMAINSPEC_TYPED_CLOSURE_SHA256: &str =
+${collectionImport}pub const DOMAINSPEC_TYPED_CLOSURE_SHA256: &str =
     ${rustStringLiteral(closure.closure_sha256)};
 #[rustfmt::skip]
 pub const DOMAINSPEC_PROPERTY_BINDINGS: &[(&str, &str)] = &[

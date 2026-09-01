@@ -11,6 +11,7 @@ import { runCli } from "../../src/cli/main.ts";
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const fixtureRoot = path.resolve(testDir, "../../fixtures/input-roots/canonical-project");
 const authOperationSource = path.resolve(testDir, "../../../../../auth-foundation/implementation/operation-source");
+const capacityOperationSource = path.resolve(testDir, "../fixtures/capacity-decision");
 
 function fixture(): { parent: string; source: string; target: string } {
   const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-e2e-"));
@@ -225,6 +226,45 @@ test("standard CLI instantiates the property-closed Auth Operation as compilable
     assert.equal(cargoCheck.status, 0, cargoCheck.stderr);
     const cargoTest = spawnSync("cargo", ["test"], { cwd: target, encoding: "utf8" });
     assert.equal(cargoTest.status, 0, cargoTest.stderr);
+  } finally {
+    fs.rmSync(parent, { recursive: true, force: true });
+  }
+});
+
+test("standard CLI instantiates and executes a second non-Auth typed Operation", () => {
+  const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-capacity-e2e-"));
+  const target = path.join(parent, "target");
+  try {
+    const before = snapshot(capacityOperationSource);
+    const out: string[] = [];
+    const errors: string[] = [];
+    const io = { stdout: (value: string) => out.push(value), stderr: (value: string) => errors.push(value) };
+    assert.equal(runCli(["instantiate", capacityOperationSource, "--node", "capacity-decision:decide-capacity", "--language", "rust", "--target-root", target], io), 0);
+    const commandResult = JSON.parse(out.pop()!);
+    assert.equal(commandResult.result, "pass");
+    assert.equal(commandResult.observation.result, "pass");
+    assert.equal(snapshot(capacityOperationSource), before);
+    assert.deepEqual(errors, []);
+
+    assert.equal(runCli(["receipt", target], io), 0);
+    const receipt = JSON.parse(out.pop()!).receipt;
+    assert.equal(receipt.semantic_contract.typed_closure.properties.length, 3);
+    assert.equal(receipt.semantic_contract.typed_closure.variants.length, 2);
+    assert.equal(receipt.semantic_contract.typed_closure.rules.length, 1);
+    const artifact = path.join(target, receipt.artifacts[0].relative_path);
+    const compiled = spawnSync("rustc", ["--edition", "2024", "--crate-type", "lib", "-D", "warnings", artifact, "-o", path.join(parent, "capacity-operation.rlib")], { encoding: "utf8" });
+    assert.equal(compiled.status, 0, compiled.stderr);
+    const formatted = spawnSync("rustfmt", ["--edition", "2024", "--check", artifact], { encoding: "utf8" });
+    assert.equal(formatted.status, 0, formatted.stderr);
+    const cargoCheck = spawnSync("cargo", ["check"], { cwd: target, encoding: "utf8" });
+    assert.equal(cargoCheck.status, 0, cargoCheck.stderr);
+
+    const harness = path.join(parent, "capacity-behavior.rs");
+    fs.writeFileSync(harness, `#![allow(dead_code)]\n#[path = ${JSON.stringify(artifact)}]\nmod generated;\nuse generated::*;\n#[test]\nfn capacity_boundary() {\n    assert_eq!(decide_capacity(&CapacitySnapshot { request_id: \"below\".into(), requested_units: 2, available_units: 3 }), CapacityDecision::Accept);\n    assert_eq!(decide_capacity(&CapacitySnapshot { request_id: \"equal\".into(), requested_units: 3, available_units: 3 }), CapacityDecision::Reject);\n}\n`);
+    const behavior = spawnSync("rustc", ["--edition", "2024", "--test", harness, "-o", path.join(parent, "capacity-behavior")], { encoding: "utf8" });
+    assert.equal(behavior.status, 0, behavior.stderr);
+    const executed = spawnSync(path.join(parent, "capacity-behavior"), [], { encoding: "utf8" });
+    assert.equal(executed.status, 0, executed.stderr);
   } finally {
     fs.rmSync(parent, { recursive: true, force: true });
   }

@@ -40,6 +40,10 @@ import {
   type PureTargetResolver,
   type RawPureObservation,
 } from "../runners/pure/index.js";
+import {
+  derivePureFixtures,
+  EXHAUSTIVE_FINITE_RULESET,
+} from "../partitions/index.js";
 
 const A = "a".repeat(64);
 const B = "b".repeat(64);
@@ -274,6 +278,15 @@ function verticalFixture(handle = incrementHandle()): VerticalFixture {
   if (coverageKey === undefined) {
     throw new Error("missing denominator member");
   }
+  const partitioned = derivePureFixtures({
+    typed,
+    typed_module_digest: moduleDigest,
+    typed_clause_digests: { "framework.increment": clauseDigest },
+    denominator,
+    ruleset: { ...EXHAUSTIVE_FINITE_RULESET, max_cases: 1 },
+    domain: { inputs: { x: [integerValue("2")] } },
+  });
+  if (!partitioned.ok) throw new Error(JSON.stringify(partitioned.diagnostics));
   const derivedResult = derivePureCases({
     typed,
     typed_module_digest: moduleDigest,
@@ -281,7 +294,7 @@ function verticalFixture(handle = incrementHandle()): VerticalFixture {
       "framework.increment": clauseDigest,
     },
     denominator,
-    fixtures: [fixture(coverageKey)],
+    fixtures: partitioned.value,
   });
   if (!derivedResult.ok || derivedResult.value[0] === undefined) {
     throw new Error(JSON.stringify(derivedResult));

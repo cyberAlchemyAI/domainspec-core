@@ -8,6 +8,7 @@
 // domainspec-failure-continuation: "return-deny-without-state-change"
 // domainspec-operation-core-instrumentation-free: true
 // domainspec-operation-instrumentation-owner: "outer-wrapper"
+pub const AUTHORIZE_CREATION_TARGETS: &[&str] = &[];
 // domainspec-typed-closure-sha256: "9259c2510c7cbb10cc44cf21c7524dccb3488428753076badf1412fd3aa639cd"
 use std::collections::BTreeSet;
 

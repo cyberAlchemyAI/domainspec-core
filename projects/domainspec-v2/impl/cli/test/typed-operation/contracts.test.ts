@@ -18,6 +18,7 @@ import { loadProjectNode } from "../../src/input/project-model.ts";
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const authOperationSource = path.resolve(testDir, "../../../../../auth-foundation/implementation/operation-source");
+const capacityOperationSource = path.resolve(testDir, "../fixtures/capacity-decision");
 
 const scalar = (name: "String" | "Bool" | "UInt64") => ({ kind: "scalar", name });
 const named = (selector: string) => ({ kind: "named", selector });
@@ -174,6 +175,23 @@ test("selected Auth Operation compiles one deterministic property-and-rule closu
   assert.equal(left.closure_sha256, right.closure_sha256);
   assert.deepEqual(left, right);
   assert.equal(left.nodes.at(-1)?.selector, "auth-exact-permission:authorize");
+});
+
+test("a non-Auth Operation compiles through the same deterministic typed closure", () => {
+  const left = loadProjectNode(capacityOperationSource, "capacity-decision:decide-capacity").typed_closure!;
+  const right = loadProjectNode(capacityOperationSource, "capacity-decision:decide-capacity").typed_closure!;
+  assert.equal(left.nodes.length, 4);
+  assert.equal(left.properties.length, 3);
+  assert.equal(left.variants.length, 2);
+  assert.equal(left.rules.length, 1);
+  assert.equal(left.relationships.length, 2);
+  assert.equal(left.root_selector, "capacity-decision:decide-capacity");
+  assert.equal(left.closure_sha256, right.closure_sha256);
+  assert.deepEqual(left, right);
+  assert.equal(left.nodes.some((node) => node.selector.startsWith("auth-")), false);
+  assert.equal(left.properties.some((row) => row.ontology_property.startsWith("AUTH-")), false);
+  assert.equal(left.variants.some((row) => row.ontology_variant.startsWith("AUTH-")), false);
+  assert.equal(left.rules.some((row) => row.ontology_rule.startsWith("AF-RULE-")), false);
 });
 
 test("typed closure fails on missing dependencies, read-edge drift, and cycles", () => {
