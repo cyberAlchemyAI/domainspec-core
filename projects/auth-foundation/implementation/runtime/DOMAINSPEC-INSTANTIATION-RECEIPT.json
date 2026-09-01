@@ -1,0 +1,130 @@
+{
+  "schema_version": "domainspec.auth-kernel-instantiation-receipt/v1",
+  "project_id": "auth-foundation-exact-permission",
+  "feature_id": "auth-exact-permission",
+  "instantiation_profile": "domainspec.rust-auth-exact-session-role-permission-kernel/v1",
+  "baseline": {
+    "id": "domainspec-meta-types-current-implemented@10",
+    "manifest": "projects/domainspec-v2/development/meta-type-instantiation-cli/CANONICAL-IMPLEMENTED-BASELINE.v10.json",
+    "manifest_sha256": "4e8c72e3c59308bf7f476a2365d0ba66e149534b8dfddb4ad8b555e454edbf59",
+    "baseline_digest": "bfbc335d151ab8b29150dc95f246c2bc0954cff179ece5ce51222b2d1455abda"
+  },
+  "selected_dependencies": {
+    "product_capability_ref": "CA2-CAP-DECIDE-EXACT-SESSION-ROLE-PERMISSION",
+    "business_ontology_ref": "auth-foundation.business.exact-session-role-permission",
+    "system_ontology_ref": "auth-foundation.system.exact-session-role-permission",
+    "node_selectors": [
+      "auth-exact-permission:auth-exact-permission.AuthorizationContext",
+      "auth-exact-permission:auth-exact-permission.Session",
+      "auth-exact-permission:auth-exact-permission.Role",
+      "auth-exact-permission:auth-exact-permission.Permission",
+      "auth-exact-permission:auth-exact-permission.AuthorizationDecision",
+      "auth-exact-permission:auth-exact-permission.AuthorizationInvariant"
+    ]
+  },
+  "meta_type_bindings": [
+    {
+      "node_id": "auth-exact-permission.AuthorizationContext",
+      "kind": "Entity",
+      "meta_type_id": "DS-D1.1",
+      "language": "rust",
+      "binding_sha256": "d852bd6aec19e8e720dc3ae7b17f6e3b7b52b99dbdb13560ea279afeb2a995f3"
+    },
+    {
+      "node_id": "auth-exact-permission.Session",
+      "kind": "Entity",
+      "meta_type_id": "DS-D1.1",
+      "language": "rust",
+      "binding_sha256": "d852bd6aec19e8e720dc3ae7b17f6e3b7b52b99dbdb13560ea279afeb2a995f3"
+    },
+    {
+      "node_id": "auth-exact-permission.Role",
+      "kind": "Entity",
+      "meta_type_id": "DS-D1.1",
+      "language": "rust",
+      "binding_sha256": "d852bd6aec19e8e720dc3ae7b17f6e3b7b52b99dbdb13560ea279afeb2a995f3"
+    },
+    {
+      "node_id": "auth-exact-permission.Permission",
+      "kind": "Entity",
+      "meta_type_id": "DS-D1.1",
+      "language": "rust",
+      "binding_sha256": "d852bd6aec19e8e720dc3ae7b17f6e3b7b52b99dbdb13560ea279afeb2a995f3"
+    },
+    {
+      "node_id": "auth-exact-permission.AuthorizationDecision",
+      "kind": "Entity",
+      "meta_type_id": "DS-D1.1",
+      "language": "rust",
+      "binding_sha256": "d852bd6aec19e8e720dc3ae7b17f6e3b7b52b99dbdb13560ea279afeb2a995f3"
+    },
+    {
+      "node_id": "auth-exact-permission.AuthorizationInvariant",
+      "kind": "Rule",
+      "meta_type_id": "DS-D1.7",
+      "language": "rust",
+      "binding_sha256": "be5626203da8a9353acba1d351e6946487d20a827777a1909ec809bfc0f3a896"
+    }
+  ],
+  "source": {
+    "aggregate_sha256": "246557a0c4cf2749ba8c99385f593236bf67ba5a40f5342735556dda4e60120c",
+    "files": [
+      {
+        "relative_path": "feature.json",
+        "size_bytes": 353,
+        "sha256": "99f27a5bb484b0864a14553d505fccdc16221280c689e18d7c4bf0b8b26cf65b"
+      },
+      {
+        "relative_path": "instantiation.json",
+        "size_bytes": 904,
+        "sha256": "5ba88d86ef21f270d38adfc0f2c6619ce9fee4ae88bdaecd1777fb1e178ace00"
+      },
+      {
+        "relative_path": "nodes/authorization-context.json",
+        "size_bytes": 1294,
+        "sha256": "f3e69f5c1fd73790ef014bba48611165b89bb1761a148705cbd7431eed4cb584"
+      },
+      {
+        "relative_path": "nodes/authorization-decision.json",
+        "size_bytes": 691,
+        "sha256": "648753c6412d5f9a8bef2ba5a993194a29ed43398c8caad9c65994aa8b5d28ed"
+      },
+      {
+        "relative_path": "nodes/authorization-invariant.json",
+        "size_bytes": 1479,
+        "sha256": "d178691cae276591cb32783f749e8659343e9591ab6812f4c86bd0701f3dfd51"
+      },
+      {
+        "relative_path": "nodes/permission.json",
+        "size_bytes": 654,
+        "sha256": "ca90c5686d9d2d1cf028e432148ec4cdcdf4d4a6d501e392a08f8971ca2da477"
+      },
+      {
+        "relative_path": "nodes/role.json",
+        "size_bytes": 577,
+        "sha256": "d641ddba49b2dc8f2749f872201cbaba71509299be011625d014254e49a3f3ca"
+      },
+      {
+        "relative_path": "nodes/session.json",
+        "size_bytes": 821,
+        "sha256": "c8ded3d3e182fb493a2a427a2663fbd8ca041871bccc59dd40f85435627da6e3"
+      },
+      {
+        "relative_path": "project.json",
+        "size_bytes": 540,
+        "sha256": "1343fd079a614f58f9f5ff38f73c21baebe412eb6850c0a7a30b7ba6ab9c29e0"
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "relative_path": "src/lib.rs",
+      "size_bytes": 5306,
+      "sha256": "85f552c65f6f4d78b43420bc1fa3561f43075ef63cbe633822bb73ff3cfada0a"
+    }
+  ],
+  "deterministic_generation": true,
+  "authority_effect": "none",
+  "external_effect": "none",
+  "claim_ceiling": "candidate-static-rust-source-generation-and-local-conformance-evidence"
+}

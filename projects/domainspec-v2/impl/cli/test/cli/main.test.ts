@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
@@ -9,6 +10,7 @@ import { runCli } from "../../src/cli/main.ts";
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const fixtureRoot = path.resolve(testDir, "../../fixtures/input-roots/canonical-project");
+const authOperationSource = path.resolve(testDir, "../../../../../auth-foundation/implementation/operation-source");
 
 function fixture(): { parent: string; source: string; target: string } {
   const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-e2e-"));
@@ -188,6 +190,54 @@ test("instantiate, lint, and receipt form an isolated read-only-source end-to-en
     const receiptResult = JSON.parse(out.pop()!);
     assert.equal(receiptResult.receipt.input.meta_type_id, "DS-D1.1");
     assert.equal(receiptResult.observation.result, "pass");
+  } finally {
+    fs.rmSync(parent, { recursive: true, force: true });
+  }
+});
+
+test("standard CLI instantiates the property-closed Auth Operation as compilable Rust", () => {
+  const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-e2e-"));
+  const target = path.join(parent, "target");
+  try {
+    const before = snapshot(authOperationSource);
+    const out: string[] = [];
+    const errors: string[] = [];
+    const io = { stdout: (value: string) => out.push(value), stderr: (value: string) => errors.push(value) };
+    assert.equal(runCli(["instantiate", authOperationSource, "--node", "auth-exact-permission:authorize", "--language", "rust", "--target-root", target], io), 0);
+    const commandResult = JSON.parse(out.pop()!);
+    assert.equal(commandResult.result, "pass");
+    assert.equal(commandResult.observation.result, "pass");
+    assert.equal(snapshot(authOperationSource), before);
+    assert.deepEqual(errors, []);
+
+    assert.equal(runCli(["receipt", target], io), 0);
+    const receiptResult = JSON.parse(out.pop()!);
+    const closure = receiptResult.receipt.semantic_contract.typed_closure;
+    assert.equal(closure.properties.length, 22);
+    assert.equal(closure.variants.length, 15);
+    assert.equal(closure.rules.length, 8);
+    const artifact = path.join(target, receiptResult.receipt.artifacts[0].relative_path);
+    const compiled = spawnSync("rustc", ["--edition", "2024", "--crate-type", "lib", "-D", "warnings", artifact, "-o", path.join(parent, "auth-operation.rlib")], { encoding: "utf8" });
+    assert.equal(compiled.status, 0, compiled.stderr);
+    const formatted = spawnSync("rustfmt", ["--edition", "2024", "--check", artifact], { encoding: "utf8" });
+    assert.equal(formatted.status, 0, formatted.stderr);
+    const cargoCheck = spawnSync("cargo", ["check"], { cwd: target, encoding: "utf8" });
+    assert.equal(cargoCheck.status, 0, cargoCheck.stderr);
+    const cargoTest = spawnSync("cargo", ["test"], { cwd: target, encoding: "utf8" });
+    assert.equal(cargoTest.status, 0, cargoTest.stderr);
+  } finally {
+    fs.rmSync(parent, { recursive: true, force: true });
+  }
+});
+
+test("typed Operation rejects deferred languages before creating a target", () => {
+  const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-e2e-"));
+  const target = path.join(parent, "target");
+  try {
+    const errors: string[] = [];
+    assert.notEqual(runCli(["instantiate", authOperationSource, "--node", "auth-exact-permission:authorize", "--language", "typescript", "--target-root", target], { stdout: () => undefined, stderr: (value) => errors.push(value) }), 0);
+    assert.equal(fs.existsSync(target), false);
+    assert.match(JSON.parse(errors.pop()!).message, /typed Operation realization is not supported/);
   } finally {
     fs.rmSync(parent, { recursive: true, force: true });
   }

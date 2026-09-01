@@ -4,10 +4,11 @@ import { canonicalJson, sha256 } from "../input/source-manifest.js";
 import { validateSelectedNodeRelationships, type DecodedProjectNode } from "../input/project-model.js";
 import { FROZEN_META_TYPE_CATALOG, selectRealization } from "../meta-types/catalog.js";
 import type { SupportedLanguage } from "../meta-types/types.js";
-import type { InstantiationPlanV1 } from "./contracts.js";
+import type { InstantiationPlanV1, PlannedArtifact } from "./contracts.js";
 import { renderImplementation } from "./generators.js";
 import { validateSystemIntegrationManifest } from "../system-integration/compiler.js";
 import type { SystemIntegrationSelectionV1 } from "../system-integration/types.js";
+import { renderTypedRustCrateManifest } from "../typed-operation/rust.js";
 
 function assertContainedRelative(relativePath: string): void {
   if (path.isAbsolute(relativePath) || relativePath.includes("\\") || relativePath.split("/").some((segment) => segment === "" || segment === "." || segment === "..")) {
@@ -17,6 +18,7 @@ function assertContainedRelative(relativePath: string): void {
 
 export function planInstantiation(node: DecodedProjectNode, language: SupportedLanguage, systemIntegration: SystemIntegrationSelectionV1 | null = null): InstantiationPlanV1 {
   validateSelectedNodeRelationships(node);
+  if (node.typed_closure != null && language !== "rust") throw new Error(`typed Operation realization is not supported for language:${language}`);
   const realization = selectRealization(node.meta_type_id, language);
   const rendered = renderImplementation({
     project_id: node.project_id,
@@ -27,15 +29,25 @@ export function planInstantiation(node: DecodedProjectNode, language: SupportedL
     body: node.body,
     relationships: node.relationships,
     realization,
+    typed_closure: node.typed_closure,
   });
   const relativePath = `src/domainspec/${language}/${node.feature_id}/${node.node_id}.${rendered.extension}`;
   assertContainedRelative(relativePath);
-  const artifacts = [Object.freeze({
+  const artifacts: PlannedArtifact[] = [Object.freeze({
     relative_path: relativePath,
     content: rendered.content,
     size_bytes: Buffer.byteLength(rendered.content),
     sha256: sha256(rendered.content),
   })];
+  if (language === "rust" && node.typed_closure != null) {
+    const manifest = renderTypedRustCrateManifest(node.project_id, node.feature_id, node.node_id, relativePath);
+    artifacts.push(Object.freeze({
+      relative_path: "Cargo.toml",
+      content: manifest,
+      size_bytes: Buffer.byteLength(manifest),
+      sha256: sha256(manifest),
+    }));
+  }
   if (systemIntegration !== null) {
     const manifest = validateSystemIntegrationManifest(systemIntegration.manifest, language);
     if (manifest.subject_ref !== `${node.feature_id}:${node.node_id}`) throw new Error("system-integration subject does not match selected node");
@@ -65,6 +77,7 @@ export function planInstantiation(node: DecodedProjectNode, language: SupportedL
       body: node.body,
       relationships: node.relationships,
       source_manifest: node.source_manifest,
+      typed_closure: node.typed_closure,
     }),
     language,
     selected_realization: realization,

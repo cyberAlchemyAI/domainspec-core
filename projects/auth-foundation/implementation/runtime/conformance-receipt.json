@@ -1,0 +1,889 @@
+{
+  "schema_version": "auth-foundation.rust-conformance-receipt/v1-candidate",
+  "receipt_id": "AUTH-RECEIPT-D65-RUST-CONFORMANCE-001",
+  "recorded_at": "2026-08-31",
+  "implementation_binding": {
+    "binding_id": "AUTH-D65-RUST-EXACT-PERMISSION-001",
+    "path": "implementation/runtime/implementation-binding.json",
+    "sha256": "5db9aa12682a09869904db50e874f4a692bd17a453d3b800aeb48c2ffa49fcbe"
+  },
+  "system_ontology": {
+    "ontology_id": "auth-foundation.system.exact-session-role-permission",
+    "path": "implementation/domainspec/generated/system-ontology.json",
+    "sha256": "b6dc9e5d6ae7f23397d7e308c83c24f229dc9fbac7797081692b08588b9bcc22",
+    "lifecycle_status": "validated-local-candidate"
+  },
+  "formal_evidence": {
+    "path": "formalization/cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/THEOREM-OBLIGATION-RECEIPT.v2.json",
+    "sha256": "64f68661b9323eaeb7512375e63f7e53121b031e75f97871d6d9c30475dfa870",
+    "proof_status": "lean-theorem-declarations-checked"
+  },
+  "toolchain": {
+    "rustc": "rustc 1.94.1 (e408947bf 2026-03-25)",
+    "cargo": "cargo 1.94.1 (29ea6fb6a 2026-03-24)"
+  },
+  "checks": [
+    {
+      "check_id": "implementation-json-parses",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-ontology-property-contract-version",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-ontology-denominator-binding",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-ontology-binding",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-operation-binding",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-authored-source-state",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-property-selectors-unique",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-variant-selectors-unique",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-property-owner-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-variant-owner-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-rule-selectors-unique",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-property-types-supported",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-variant-payload-types-supported",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-property-cardinality-supported",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-property-set-cardinality-coherent",
+      "status": "PASS"
+    },
+    {
+      "check_id": "business-property-list-cardinality-coherent",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-exact-counts",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-record-count",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-variant-count",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-rule-count",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-record-selectors-unique",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-domainspec-record-selectors-unique",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-rust-record-symbols-unique",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-variant-selectors-unique",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-domainspec-variant-selectors-unique",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-rust-variant-symbols-unique",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-record-ontology-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-variant-ontology-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-rule-ontology-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-type-fidelity",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-exact-closure-size",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:permission",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:session-status",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:session",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:role",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:authorization-request",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:evaluation-context",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:deny-reason",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:authorization-decision",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:unique-resolved-session",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:session-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:trusted-scope",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:complete-active-roles",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:authorization-admissible",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:exact-active-role-grant",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:allow-iff",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:default-deny",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-typed-contract:authorize",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-property-ontology-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-variant-ontology-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-rule-ontology-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-operation-ontology-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-property-selector-fidelity",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-variant-selector-fidelity",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-enforcing-rule-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "operation-source-read-entity-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Permission:resource",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Permission:action",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Permission:scope",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Session:session_id",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Session:user_id",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Session:status",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Session:active_role_ids",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Session:authorization_revision",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Session:expires_at",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Role:role_id",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:Role:permissions",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:AuthorizationRequest:request_id",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:AuthorizationRequest:session_id",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:AuthorizationRequest:required_permission",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:AuthorizationRequest:scope_evidence_ref",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:AuthorizationRequest:decision_time",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:AuthorizationRequest:current_authorization_revision",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:EvaluationContext:request",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:EvaluationContext:resolved_sessions",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:EvaluationContext:resolved_roles",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:EvaluationContext:trusted_scope_evidence",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-symbol:EvaluationContext:role_relation_complete",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:SessionStatus:Active",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:SessionStatus:Inactive",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:SessionStatus:Revoked",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:DenyReason:MissingSession",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:DenyReason:AmbiguousSession",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:DenyReason:InactiveSession",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:DenyReason:ExpiredSession",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:DenyReason:StaleAuthorizationRevision",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:DenyReason:UntrustedScopeEvidence",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:DenyReason:IncompleteRoleRelation",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:DenyReason:DuplicateResolvedRole",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:DenyReason:RoleRelationMismatch",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:DenyReason:NoExactActiveRoleGrant",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:AuthorizationDecision:Allow",
+      "status": "PASS"
+    },
+    {
+      "check_id": "property-denominator-runtime-variant:AuthorizationDecision:Deny",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-cli-committed-target-observation",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-closure-root",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-closure-exact-counts",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-PERMISSION#resource",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-PERMISSION#action",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-PERMISSION#scope",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-SESSION#session_id",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-SESSION#user_id",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-SESSION#status",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-SESSION#active_role_ids",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-SESSION#authorization_revision",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-SESSION#expires_at",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-ROLE#role_id",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-ROLE#permissions",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-AUTHORIZATION-REQUEST#request_id",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-AUTHORIZATION-REQUEST#session_id",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-AUTHORIZATION-REQUEST#required_permission",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-AUTHORIZATION-REQUEST#scope_evidence_ref",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-AUTHORIZATION-REQUEST#decision_time",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-AUTHORIZATION-REQUEST#current_authorization_revision",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-EVALUATION-CONTEXT#request",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-EVALUATION-CONTEXT#resolved_sessions",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-EVALUATION-CONTEXT#resolved_roles",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-EVALUATION-CONTEXT#trusted_scope_evidence",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-property-coverage:AUTH-EVALUATION-CONTEXT#role_relation_complete",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-SESSION-STATUS#Active",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-SESSION-STATUS#Inactive",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-SESSION-STATUS#Revoked",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-DENY-REASON#MissingSession",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-DENY-REASON#AmbiguousSession",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-DENY-REASON#InactiveSession",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-DENY-REASON#ExpiredSession",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-DENY-REASON#StaleAuthorizationRevision",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-DENY-REASON#UntrustedScopeEvidence",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-DENY-REASON#IncompleteRoleRelation",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-DENY-REASON#DuplicateResolvedRole",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-DENY-REASON#RoleRelationMismatch",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-DENY-REASON#NoExactActiveRoleGrant",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-AUTHORIZATION-DECISION#Allow",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-variant-coverage:AUTH-AUTHORIZATION-DECISION#Deny",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-rule-coverage:AF-RULE-UNIQUE-RESOLVED-SESSION",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-rule-coverage:AF-RULE-SESSION-CURRENT",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-rule-coverage:AF-RULE-TRUSTED-SCOPE",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-rule-coverage:AF-RULE-COMPLETE-ACTIVE-ROLES",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-rule-coverage:AF-RULE-AUTHORIZATION-ADMISSIBLE",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-rule-coverage:AF-RULE-EXACT-ACTIVE-ROLE-GRANT",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-rule-coverage:AF-RULE-ALLOW-IFF",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-rule-coverage:AF-RULE-DEFAULT-DENY",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-cli-clean-instantiation:left",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-cli-clean-observation:left",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-rustfmt-check:left",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-strict-rustc:left",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-cargo-check:left",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-cargo-test:left",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-cli-clean-instantiation:right",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-cli-clean-observation:right",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-rustfmt-check:right",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-strict-rustc:right",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-cargo-check:right",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-cargo-test:right",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-two-run-determinism",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-committed-artifact-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-committed-receipt-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-behavior-harness-compiles",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-behavior-equivalence-run-001",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-behavior-equivalence-run-002",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-lean-characterization-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-compiled-operation-graph-present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-operation-system-ontology-present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "standard-conformance-receipt-present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "domainspec-auth-kernel-generator-check-001",
+      "status": "PASS"
+    },
+    {
+      "check_id": "domainspec-auth-kernel-generator-check-002",
+      "status": "PASS"
+    },
+    {
+      "check_id": "product-capability-schema",
+      "status": "PASS"
+    },
+    {
+      "check_id": "predecessor-current:canonical_definitions",
+      "status": "PASS"
+    },
+    {
+      "check_id": "predecessor-current:language_context",
+      "status": "PASS"
+    },
+    {
+      "check_id": "predecessor-current:product_capability",
+      "status": "PASS"
+    },
+    {
+      "check_id": "predecessor-current:business_ontology",
+      "status": "PASS"
+    },
+    {
+      "check_id": "predecessor-current:business_property_denominator",
+      "status": "PASS"
+    },
+    {
+      "check_id": "predecessor-current:formal_evidence",
+      "status": "PASS"
+    },
+    {
+      "check_id": "domainspec-two-run-determinism",
+      "status": "PASS"
+    },
+    {
+      "check_id": "compiled-graph-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "system-ontology-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "construction-binding-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "semantic-coverage-closed",
+      "status": "PASS"
+    },
+    {
+      "check_id": "implementation-system-binding-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "implementation-generated-by-domainspec-cli",
+      "status": "PASS"
+    },
+    {
+      "check_id": "generator-receipt-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "generator-baseline-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "generated-rust-source-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "implementation-file-current:Cargo.toml",
+      "status": "PASS"
+    },
+    {
+      "check_id": "implementation-file-current:Cargo.lock",
+      "status": "PASS"
+    },
+    {
+      "check_id": "implementation-file-current:lib.rs",
+      "status": "PASS"
+    },
+    {
+      "check_id": "implementation-file-current:kernel.rs",
+      "status": "PASS"
+    },
+    {
+      "check_id": "implementation-file-current:DOMAINSPEC-INSTANTIATION-RECEIPT.json",
+      "status": "PASS"
+    },
+    {
+      "check_id": "cargo-fmt",
+      "status": "PASS"
+    },
+    {
+      "check_id": "cargo-check",
+      "status": "PASS"
+    },
+    {
+      "check_id": "cargo-test-run-001",
+      "status": "PASS"
+    },
+    {
+      "check_id": "cargo-test-run-002",
+      "status": "PASS"
+    },
+    {
+      "check_id": "cargo-test-inventory",
+      "status": "PASS"
+    },
+    {
+      "check_id": "rust-test-coverage-floor",
+      "status": "PASS"
+    },
+    {
+      "check_id": "cargo-clippy",
+      "status": "not_evaluable",
+      "causal_blocker": "cargo-clippy component is not installed"
+    },
+    {
+      "check_id": "lean-theorem-evidence-current",
+      "status": "PASS"
+    },
+    {
+      "check_id": "proof-test-reference-closure",
+      "status": "PASS"
+    }
+  ],
+  "rust_tests": {
+    "count": 13,
+    "names": [
+      "active_role_without_grant_denies",
+      "ambiguous_session_resolution_denies",
+      "any_one_exact_active_role_grant_is_sufficient",
+      "decision_is_total_and_default_deny_for_near_matches",
+      "expiry_boundary_is_fail_closed",
+      "inactive_or_revoked_session_denies",
+      "inadmissible_missing_session_denies",
+      "incomplete_active_role_relation_denies",
+      "missing_extra_or_duplicate_resolved_roles_deny",
+      "missing_or_untrusted_scope_evidence_denies",
+      "permitted_case_exact_active_role_grant_allows",
+      "resource_action_or_scope_mismatch_denies",
+      "stale_authorization_revision_denies"
+    ],
+    "deterministic_runs": 2
+  },
+  "proof_requirements": [
+    {
+      "proof_id": "AF-PROOF-LEAN-CHARACTERIZATION",
+      "status": "PASS",
+      "test_refs": [
+        "permitted_case_exact_active_role_grant_allows",
+        "decision_is_total_and_default_deny_for_near_matches"
+      ]
+    },
+    {
+      "proof_id": "AF-PROOF-PERMITTED-CASE",
+      "status": "PASS",
+      "test_refs": [
+        "permitted_case_exact_active_role_grant_allows",
+        "any_one_exact_active_role_grant_is_sufficient"
+      ]
+    },
+    {
+      "proof_id": "AF-PROOF-ADMISSIBLE-WITHOUT-GRANT",
+      "status": "PASS",
+      "test_refs": [
+        "active_role_without_grant_denies"
+      ]
+    },
+    {
+      "proof_id": "AF-PROOF-INADMISSIBLE",
+      "status": "PASS",
+      "test_refs": [
+        "inadmissible_missing_session_denies",
+        "ambiguous_session_resolution_denies",
+        "inactive_or_revoked_session_denies",
+        "expiry_boundary_is_fail_closed",
+        "stale_authorization_revision_denies",
+        "missing_or_untrusted_scope_evidence_denies",
+        "incomplete_active_role_relation_denies",
+        "missing_extra_or_duplicate_resolved_roles_deny"
+      ]
+    },
+    {
+      "proof_id": "AF-PROOF-EXACT-MISMATCH-DENY",
+      "status": "PASS",
+      "test_refs": [
+        "resource_action_or_scope_mismatch_denies"
+      ]
+    },
+    {
+      "proof_id": "AF-PROOF-IMPLEMENTATION-EQUIVALENCE",
+      "status": "PASS",
+      "test_refs": [
+        "decision_is_total_and_default_deny_for_near_matches"
+      ]
+    }
+  ],
+  "result": "local-conformance-candidate-pass",
+  "runtime_evidence": "not-claimed",
+  "authority_effect": "none",
+  "external_effect": "none",
+  "claim_limit": "Local static conformance candidate for DomainSpec CLI-generated Rust and exact bound bytes; no integrated resolver, service, deployment, or production-security claim."
+}

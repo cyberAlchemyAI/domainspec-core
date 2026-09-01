@@ -1,0 +1,398 @@
+{
+  "schema_version": "auth-foundation.standard-operation-conformance/v1-candidate",
+  "receipt_id": "AUTH-STANDARD-OPERATION-CONFORMANCE-001",
+  "source_manifest_sha256": "95e549d030a6c72b2e62ca35305131b52281f322a848e5ce873345189432dfe5",
+  "typed_closure_sha256": "9259c2510c7cbb10cc44cf21c7524dccb3488428753076badf1412fd3aa639cd",
+  "system_ontology": {
+    "path": "implementation/standard-conformance/system-ontology.json",
+    "sha256": "2e80e5cc30315b0a8b1501012a2033b88dd8ed3878f77ae6f97f6d99fa987463",
+    "lifecycle_status": "validated-local-candidate"
+  },
+  "standard_instantiation": {
+    "receipt_path": "implementation/standard-runtime/.domainspec/instantiations/auth-exact-permission.authorize.json",
+    "receipt_sha256": "e6117bb4af3f1cb99d73273220e5a68910847cacfd54448616d6b1af71e8ee6a",
+    "plan_sha256": "29e68d297e5decf47a51be3643f06129d902ebab3dbb6ef8c47ac83c1f3094a9",
+    "generated_source_path": "implementation/standard-runtime/src/domainspec/rust/auth-exact-permission/authorize.rs",
+    "generated_source_sha256": "db0f8470793b0c0c07b32c36e635fc62b67b2a710bb56b005e65747bccf68313",
+    "deterministic_runs": 2
+  },
+  "coverage": {
+    "properties": [
+      {
+        "ontology_selector": "AUTH-PERMISSION#resource",
+        "domainspec_selector": "auth-exact-permission:permission#resource",
+        "rust_symbol": "Permission::resource",
+        "type": "String",
+        "compiled_ir_selector": "auth-exact-permission:permission#resource",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-PERMISSION#action",
+        "domainspec_selector": "auth-exact-permission:permission#action",
+        "rust_symbol": "Permission::action",
+        "type": "String",
+        "compiled_ir_selector": "auth-exact-permission:permission#action",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-PERMISSION#scope",
+        "domainspec_selector": "auth-exact-permission:permission#scope",
+        "rust_symbol": "Permission::scope",
+        "type": "String",
+        "compiled_ir_selector": "auth-exact-permission:permission#scope",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-SESSION#session_id",
+        "domainspec_selector": "auth-exact-permission:session#session_id",
+        "rust_symbol": "Session::session_id",
+        "type": "String",
+        "compiled_ir_selector": "auth-exact-permission:session#session_id",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-SESSION#user_id",
+        "domainspec_selector": "auth-exact-permission:session#user_id",
+        "rust_symbol": "Session::user_id",
+        "type": "String",
+        "compiled_ir_selector": "auth-exact-permission:session#user_id",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-SESSION#status",
+        "domainspec_selector": "auth-exact-permission:session#status",
+        "rust_symbol": "Session::status",
+        "type": "SessionStatus",
+        "compiled_ir_selector": "auth-exact-permission:session#status",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-SESSION#active_role_ids",
+        "domainspec_selector": "auth-exact-permission:session#active_role_ids",
+        "rust_symbol": "Session::active_role_ids",
+        "type": "Set<String>",
+        "compiled_ir_selector": "auth-exact-permission:session#active_role_ids",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-SESSION#authorization_revision",
+        "domainspec_selector": "auth-exact-permission:session#authorization_revision",
+        "rust_symbol": "Session::authorization_revision",
+        "type": "UInt64",
+        "compiled_ir_selector": "auth-exact-permission:session#authorization_revision",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-SESSION#expires_at",
+        "domainspec_selector": "auth-exact-permission:session#expires_at",
+        "rust_symbol": "Session::expires_at",
+        "type": "UInt64",
+        "compiled_ir_selector": "auth-exact-permission:session#expires_at",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-ROLE#role_id",
+        "domainspec_selector": "auth-exact-permission:role#role_id",
+        "rust_symbol": "Role::role_id",
+        "type": "String",
+        "compiled_ir_selector": "auth-exact-permission:role#role_id",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-ROLE#permissions",
+        "domainspec_selector": "auth-exact-permission:role#permissions",
+        "rust_symbol": "Role::permissions",
+        "type": "Set<Permission>",
+        "compiled_ir_selector": "auth-exact-permission:role#permissions",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-AUTHORIZATION-REQUEST#request_id",
+        "domainspec_selector": "auth-exact-permission:authorization-request#request_id",
+        "rust_symbol": "AuthorizationRequest::request_id",
+        "type": "String",
+        "compiled_ir_selector": "auth-exact-permission:authorization-request#request_id",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-AUTHORIZATION-REQUEST#session_id",
+        "domainspec_selector": "auth-exact-permission:authorization-request#session_id",
+        "rust_symbol": "AuthorizationRequest::session_id",
+        "type": "String",
+        "compiled_ir_selector": "auth-exact-permission:authorization-request#session_id",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-AUTHORIZATION-REQUEST#required_permission",
+        "domainspec_selector": "auth-exact-permission:authorization-request#required_permission",
+        "rust_symbol": "AuthorizationRequest::required_permission",
+        "type": "Permission",
+        "compiled_ir_selector": "auth-exact-permission:authorization-request#required_permission",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-AUTHORIZATION-REQUEST#scope_evidence_ref",
+        "domainspec_selector": "auth-exact-permission:authorization-request#scope_evidence_ref",
+        "rust_symbol": "AuthorizationRequest::scope_evidence_ref",
+        "type": "String",
+        "compiled_ir_selector": "auth-exact-permission:authorization-request#scope_evidence_ref",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-AUTHORIZATION-REQUEST#decision_time",
+        "domainspec_selector": "auth-exact-permission:authorization-request#decision_time",
+        "rust_symbol": "AuthorizationRequest::decision_time",
+        "type": "UInt64",
+        "compiled_ir_selector": "auth-exact-permission:authorization-request#decision_time",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-AUTHORIZATION-REQUEST#current_authorization_revision",
+        "domainspec_selector": "auth-exact-permission:authorization-request#current_authorization_revision",
+        "rust_symbol": "AuthorizationRequest::current_authorization_revision",
+        "type": "UInt64",
+        "compiled_ir_selector": "auth-exact-permission:authorization-request#current_authorization_revision",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-EVALUATION-CONTEXT#request",
+        "domainspec_selector": "auth-exact-permission:evaluation-context#request",
+        "rust_symbol": "EvaluationContext::request",
+        "type": "AuthorizationRequest",
+        "compiled_ir_selector": "auth-exact-permission:evaluation-context#request",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-EVALUATION-CONTEXT#resolved_sessions",
+        "domainspec_selector": "auth-exact-permission:evaluation-context#resolved_sessions",
+        "rust_symbol": "EvaluationContext::resolved_sessions",
+        "type": "List<Session>",
+        "compiled_ir_selector": "auth-exact-permission:evaluation-context#resolved_sessions",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-EVALUATION-CONTEXT#resolved_roles",
+        "domainspec_selector": "auth-exact-permission:evaluation-context#resolved_roles",
+        "rust_symbol": "EvaluationContext::resolved_roles",
+        "type": "List<Role>",
+        "compiled_ir_selector": "auth-exact-permission:evaluation-context#resolved_roles",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-EVALUATION-CONTEXT#trusted_scope_evidence",
+        "domainspec_selector": "auth-exact-permission:evaluation-context#trusted_scope_evidence",
+        "rust_symbol": "EvaluationContext::trusted_scope_evidence",
+        "type": "Bool",
+        "compiled_ir_selector": "auth-exact-permission:evaluation-context#trusted_scope_evidence",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-EVALUATION-CONTEXT#role_relation_complete",
+        "domainspec_selector": "auth-exact-permission:evaluation-context#role_relation_complete",
+        "rust_symbol": "EvaluationContext::role_relation_complete",
+        "type": "Bool",
+        "compiled_ir_selector": "auth-exact-permission:evaluation-context#role_relation_complete",
+        "status": "PASS"
+      }
+    ],
+    "variants": [
+      {
+        "ontology_selector": "AUTH-SESSION-STATUS#Active",
+        "domainspec_selector": "auth-exact-permission:session-status#Active",
+        "rust_symbol": "SessionStatus::Active",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:session-status#Active",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-SESSION-STATUS#Inactive",
+        "domainspec_selector": "auth-exact-permission:session-status#Inactive",
+        "rust_symbol": "SessionStatus::Inactive",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:session-status#Inactive",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-SESSION-STATUS#Revoked",
+        "domainspec_selector": "auth-exact-permission:session-status#Revoked",
+        "rust_symbol": "SessionStatus::Revoked",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:session-status#Revoked",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-DENY-REASON#MissingSession",
+        "domainspec_selector": "auth-exact-permission:deny-reason#MissingSession",
+        "rust_symbol": "DenyReason::MissingSession",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:deny-reason#MissingSession",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-DENY-REASON#AmbiguousSession",
+        "domainspec_selector": "auth-exact-permission:deny-reason#AmbiguousSession",
+        "rust_symbol": "DenyReason::AmbiguousSession",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:deny-reason#AmbiguousSession",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-DENY-REASON#InactiveSession",
+        "domainspec_selector": "auth-exact-permission:deny-reason#InactiveSession",
+        "rust_symbol": "DenyReason::InactiveSession",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:deny-reason#InactiveSession",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-DENY-REASON#ExpiredSession",
+        "domainspec_selector": "auth-exact-permission:deny-reason#ExpiredSession",
+        "rust_symbol": "DenyReason::ExpiredSession",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:deny-reason#ExpiredSession",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-DENY-REASON#StaleAuthorizationRevision",
+        "domainspec_selector": "auth-exact-permission:deny-reason#StaleAuthorizationRevision",
+        "rust_symbol": "DenyReason::StaleAuthorizationRevision",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:deny-reason#StaleAuthorizationRevision",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-DENY-REASON#UntrustedScopeEvidence",
+        "domainspec_selector": "auth-exact-permission:deny-reason#UntrustedScopeEvidence",
+        "rust_symbol": "DenyReason::UntrustedScopeEvidence",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:deny-reason#UntrustedScopeEvidence",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-DENY-REASON#IncompleteRoleRelation",
+        "domainspec_selector": "auth-exact-permission:deny-reason#IncompleteRoleRelation",
+        "rust_symbol": "DenyReason::IncompleteRoleRelation",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:deny-reason#IncompleteRoleRelation",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-DENY-REASON#DuplicateResolvedRole",
+        "domainspec_selector": "auth-exact-permission:deny-reason#DuplicateResolvedRole",
+        "rust_symbol": "DenyReason::DuplicateResolvedRole",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:deny-reason#DuplicateResolvedRole",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-DENY-REASON#RoleRelationMismatch",
+        "domainspec_selector": "auth-exact-permission:deny-reason#RoleRelationMismatch",
+        "rust_symbol": "DenyReason::RoleRelationMismatch",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:deny-reason#RoleRelationMismatch",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-DENY-REASON#NoExactActiveRoleGrant",
+        "domainspec_selector": "auth-exact-permission:deny-reason#NoExactActiveRoleGrant",
+        "rust_symbol": "DenyReason::NoExactActiveRoleGrant",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:deny-reason#NoExactActiveRoleGrant",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-AUTHORIZATION-DECISION#Allow",
+        "domainspec_selector": "auth-exact-permission:authorization-decision#Allow",
+        "rust_symbol": "AuthorizationDecision::Allow",
+        "payload_type": null,
+        "compiled_ir_selector": "auth-exact-permission:authorization-decision#Allow",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AUTH-AUTHORIZATION-DECISION#Deny",
+        "domainspec_selector": "auth-exact-permission:authorization-decision#Deny",
+        "rust_symbol": "AuthorizationDecision::Deny",
+        "payload_type": "DenyReason",
+        "compiled_ir_selector": "auth-exact-permission:authorization-decision#Deny",
+        "status": "PASS"
+      }
+    ],
+    "rules": [
+      {
+        "ontology_selector": "AF-RULE-UNIQUE-RESOLVED-SESSION",
+        "compiled_ir_selector": "auth-exact-permission:unique-resolved-session",
+        "rust_symbol": "unique_resolved_session",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AF-RULE-SESSION-CURRENT",
+        "compiled_ir_selector": "auth-exact-permission:session-current",
+        "rust_symbol": "session_current",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AF-RULE-TRUSTED-SCOPE",
+        "compiled_ir_selector": "auth-exact-permission:trusted-scope",
+        "rust_symbol": "trusted_scope",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AF-RULE-COMPLETE-ACTIVE-ROLES",
+        "compiled_ir_selector": "auth-exact-permission:complete-active-roles",
+        "rust_symbol": "complete_active_roles",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AF-RULE-AUTHORIZATION-ADMISSIBLE",
+        "compiled_ir_selector": "auth-exact-permission:authorization-admissible",
+        "rust_symbol": "authorization_admissible",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AF-RULE-EXACT-ACTIVE-ROLE-GRANT",
+        "compiled_ir_selector": "auth-exact-permission:exact-active-role-grant",
+        "rust_symbol": "exact_active_role_grant",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AF-RULE-ALLOW-IFF",
+        "compiled_ir_selector": "auth-exact-permission:allow-iff",
+        "rust_symbol": "allow_iff",
+        "status": "PASS"
+      },
+      {
+        "ontology_selector": "AF-RULE-DEFAULT-DENY",
+        "compiled_ir_selector": "auth-exact-permission:default-deny",
+        "rust_symbol": "default_deny",
+        "status": "PASS"
+      }
+    ],
+    "result": "PASS"
+  },
+  "compilation": {
+    "cargo_check_runs": 2,
+    "cargo_test_runs": 2,
+    "strict_rustc_runs": 2,
+    "rustfmt_check_runs": 2,
+    "result": "PASS"
+  },
+  "behavioral_equivalence": {
+    "oracle_path": "implementation/runtime/src/lib.rs",
+    "oracle_sha256": "85f552c65f6f4d78b43420bc1fa3561f43075ef63cbe633822bb73ff3cfada0a",
+    "harness_path": "implementation/standard-conformance/behavior.rs",
+    "harness_sha256": "f82bb6d590c054f092d08d8050ea1e336408bfeff19fe006b282287198683e2c",
+    "case_count": 24,
+    "deterministic_runs": 2,
+    "normative_allow_deny_result": "PASS",
+    "detailed_deny_reason_equivalence": "not-claimed"
+  },
+  "formal_characterization": {
+    "path": "formalization/cases/AF-EXACT-SESSION-ROLE-PERMISSION-001/THEOREM-OBLIGATION-RECEIPT.v2.json",
+    "sha256": "64f68661b9323eaeb7512375e63f7e53121b031e75f97871d6d9c30475dfa870",
+    "status": "theorem-checked"
+  },
+  "result": "local-standard-operation-conformance-candidate-pass",
+  "authority_effect": "none",
+  "external_effect": "none",
+  "claim_limit": "Local candidate evidence for structural closure, a deterministic system-ontology candidate, generation, compilation, normative Allow/Deny parity, and current Lean characterization; no ontology admission, acceptance, publication, deployment, or production-service claim."
+}

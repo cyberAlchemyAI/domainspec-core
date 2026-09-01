@@ -2,6 +2,7 @@ import type { DecodedBody, DecodedRelationship } from "../input/project-model.js
 import type { CatalogRealizationRow, SupportedLanguage } from "../meta-types/types.js";
 import type { SourceManifestV1 } from "../input/source-manifest.js";
 import type { SystemIntegrationSelectionV1 } from "../system-integration/types.js";
+import type { TypedOperationClosureV1 } from "../typed-operation/closure.js";
 
 export interface PlannedArtifact {
   readonly relative_path: string;
@@ -26,6 +27,7 @@ export interface InstantiationPlanV1 {
     readonly body: DecodedBody;
     readonly relationships: readonly DecodedRelationship[];
     readonly source_manifest: SourceManifestV1;
+    readonly typed_closure: TypedOperationClosureV1 | null;
   };
   readonly language: SupportedLanguage;
   readonly selected_realization: CatalogRealizationRow;
@@ -45,6 +47,7 @@ export interface GeneratorInput {
   readonly body: DecodedBody;
   readonly relationships: readonly DecodedRelationship[];
   readonly realization: CatalogRealizationRow;
+  readonly typed_closure: TypedOperationClosureV1 | null;
 }
 
 export interface GeneratorRegistration {

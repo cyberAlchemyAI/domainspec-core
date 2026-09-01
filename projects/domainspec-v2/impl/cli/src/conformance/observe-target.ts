@@ -6,6 +6,7 @@ import type { SupportedLanguage } from "../meta-types/types.js";
 import { renderImplementation } from "../generation/generators.js";
 import { discoverReceiptPath, readInstantiationReceipt, type InstantiationReceiptV1 } from "./receipt.js";
 import { renderSystemIntegrationContract, verifySystemIntegrationContract } from "../system-integration/compiler.js";
+import { renderTypedRustCrateManifest } from "../typed-operation/rust.js";
 
 export class ConformanceError extends Error {
   readonly exitCode = 1;
@@ -205,10 +206,15 @@ function observeSemantics(content: string, receipt: InstantiationReceiptV1, poin
     if (marker(content, "domainspec-guard-before-mutation", pointer) !== "true") fail("MTCLI_OPERATION_GUARD_ORDER", pointer, "guard-before-mutation obligation is absent");
     if (marker(content, "domainspec-atomic-state-outbox", pointer) !== "true") fail("MTCLI_OPERATION_ATOMICITY", pointer, "atomic state-and-outbox obligation is absent");
     if (marker(content, "domainspec-failure-continuation", pointer) !== JSON.stringify(body.failure_continuation)) fail("MTCLI_OPERATION_CONTINUATION", pointer, "failure continuation drifted");
-    operationOrder(content, receipt.language, pointer);
-    operationStateConstruction(content, receipt, pointer);
-    operationEffectConstruction(content, receipt, pointer);
-    operationInstrumentationBoundary(content, receipt, pointer);
+    if (receipt.semantic_contract.typed_closure !== undefined) {
+      if (marker(content, "domainspec-typed-closure-sha256", pointer) !== JSON.stringify(receipt.semantic_contract.typed_closure.closure_sha256)) fail("MTCLI_TYPED_CLOSURE_DRIFT", pointer, "typed closure identity drifted");
+      if (content.includes("guard: bool")) fail("MTCLI_TYPED_EXTERNAL_GUARD", pointer, "typed Operation must derive its guard from the bound Rule closure");
+    } else {
+      operationOrder(content, receipt.language, pointer);
+      operationStateConstruction(content, receipt, pointer);
+      operationEffectConstruction(content, receipt, pointer);
+      operationInstrumentationBoundary(content, receipt, pointer);
+    }
   }
   if (receipt.input.kind === "Workflow") workflowCompensation(content, receipt, pointer);
 }
@@ -223,6 +229,7 @@ function expectedImplementation(receipt: InstantiationReceiptV1): string {
     body: receipt.semantic_contract.body,
     relationships: receipt.semantic_contract.relationships,
     realization: receipt.selected_realization,
+    typed_closure: receipt.semantic_contract.typed_closure ?? null,
   });
   if (rendered.generator_id !== receipt.generator_id) fail("MTCLI_OBSERVE_GENERATOR", "/generator_id", "receipt generator is not the closed selected-row generator");
   return rendered.content;
@@ -268,6 +275,9 @@ export function observeTarget(targetRoot: unknown): TargetObservationV1 {
     if (artifact.relative_path === integrationPath && receipt.system_integration !== null) {
       verifySystemIntegrationContract(content, receipt.system_integration.manifest);
       if (content !== renderSystemIntegrationContract(receipt.system_integration.manifest)) fail("MTCLI_OBSERVE_EXACT_INTEGRATION_PROFILE", `/${artifact.relative_path}`, "artifact is not the exact deterministic output for the selected system-integration profile");
+    } else if (artifact.relative_path === "Cargo.toml" && receipt.semantic_contract.typed_closure !== undefined && receipt.language === "rust") {
+      const libraryPath = `src/domainspec/rust/${receipt.input.feature_id}/${receipt.input.node_id}.rs`;
+      if (content !== renderTypedRustCrateManifest(receipt.input.project_id, receipt.input.feature_id, receipt.input.node_id, libraryPath)) fail("MTCLI_OBSERVE_TYPED_CRATE", `/${artifact.relative_path}`, "Cargo manifest is not the exact deterministic typed Rust crate manifest");
     } else {
       observeSemantics(content, receipt, `/${artifact.relative_path}`);
       if (content !== expectedImplementation(receipt)) fail("MTCLI_OBSERVE_EXACT_REALIZATION", `/${artifact.relative_path}`, "artifact is not the exact deterministic implementation for the selected frozen row");
@@ -282,7 +292,7 @@ export function observeTarget(targetRoot: unknown): TargetObservationV1 {
     receipt_path: receiptPath,
     receipt_sha256: receipt.receipt_sha256,
     observed_artifacts: Object.freeze(observed),
-    checks: Object.freeze(["exact-file-inventory", "frozen-realization-provenance", "closed-body-contract", "relationship-contract", "operation-obligations-when-applicable", "operation-boundary-placement-when-applicable", "workflow-obligations-when-applicable", "system-integration-profile-when-selected", "artifact-digests"]),
+    checks: Object.freeze(["exact-file-inventory", "frozen-realization-provenance", "closed-body-contract", "relationship-contract", "operation-obligations-when-applicable", "operation-boundary-placement-when-applicable", "typed-rust-crate-when-selected", "workflow-obligations-when-applicable", "system-integration-profile-when-selected", "artifact-digests"]),
     authority_effect: "none",
   });
 }

@@ -1,0 +1,272 @@
+{
+  "schema_version": "minted-graph/v1",
+  "authority": "generated-semantic-read-model",
+  "project_id": "auth-foundation-exact-permission",
+  "language": {
+    "profile_digest": "cff2875c900d98743ab9cea0769c73abf812ba7ccfce157341d91b47d9c394a4",
+    "kinds_digest": "bc800afdca36fa701a13ec611e7ee0ef928a4c8d259d48dfac2880a3cc8cbbc4",
+    "relationships_digest": "82c55ea1ad031d3135c5b8a85162e44b4e85f296b54057fda0dc38131ab376a1"
+  },
+  "source_set_digest": "37aa89bb977b6aa8b7e48c00a2663a649e3758978855bc0414cc53e408dbb1db",
+  "nodes": [
+    {
+      "node_id": "auth-exact-permission.AuthorizationContext",
+      "feature_id": "auth-exact-permission",
+      "kind": "Entity",
+      "intent": "Carry one trusted request, its decision time and current authorization revision, unique session resolution, scope evidence, and complete active-role relation into the pure decision.",
+      "body": {
+        "fields": [
+          {
+            "name": "request_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "session_id",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "decision_time",
+            "type": "u64",
+            "identity": false
+          },
+          {
+            "name": "current_authorization_revision",
+            "type": "u64",
+            "identity": false
+          },
+          {
+            "name": "trusted_scope_evidence",
+            "type": "boolean",
+            "identity": false
+          },
+          {
+            "name": "role_relation_complete",
+            "type": "boolean",
+            "identity": false
+          }
+        ],
+        "definition_refs": [
+          "AF-DEF-AUTHORIZATION-REQUEST",
+          "AF-DEF-REQUIRED-PERMISSION",
+          "AF-DEF-DECISION-TIME",
+          "AF-DEF-AUTHORIZATION-REVISION",
+          "AF-DEF-RESOLVED-SESSION",
+          "AF-DEF-TRUSTED-SCOPE-EVIDENCE",
+          "AF-DEF-COMPLETE-AUTHORITATIVE-ROLE-RELATION"
+        ],
+        "semantic_refs": [
+          "AUTH-AUTHORIZATION-REQUEST",
+          "AUTH-SCOPE-EVIDENCE",
+          "AUTH-AUTHORIZATION-REVISION",
+          "AF-RULE-UNIQUE-RESOLVED-SESSION",
+          "AF-RULE-TRUSTED-SCOPE",
+          "AF-RULE-COMPLETE-ACTIVE-ROLES"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "auth-exact-permission.AuthorizationDecision",
+      "feature_id": "auth-exact-permission",
+      "kind": "Entity",
+      "intent": "Represent the normative binary ALLOW or DENY result while keeping diagnostic denial reasons non-normative.",
+      "body": {
+        "fields": [
+          {
+            "name": "request_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "value",
+            "type": "ALLOW|DENY",
+            "identity": false
+          },
+          {
+            "name": "diagnostic_reason",
+            "type": "optional<string>",
+            "identity": false
+          }
+        ],
+        "definition_refs": [
+          "AF-DEF-AUTHORIZATION-DECISION",
+          "AF-DEF-ALLOW",
+          "AF-DEF-DENY"
+        ],
+        "semantic_refs": [
+          "AUTH-AUTHORIZATION-DECISION",
+          "AF-RULE-ALLOW-IFF",
+          "AF-RULE-DEFAULT-DENY"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "auth-exact-permission.AuthorizationInvariant",
+      "feature_id": "auth-exact-permission",
+      "kind": "Rule",
+      "intent": "Return ALLOW exactly for an admissible request with an exact active-role permission grant and return DENY for every other in-scope request.",
+      "body": {
+        "formal_return_type": "boolean",
+        "definition_refs": [
+          "AF-DEF-ACTION",
+          "AF-DEF-ALLOW",
+          "AF-DEF-AUTHORIZATION-ADMISSIBLE",
+          "AF-DEF-AUTHORIZATION-DECISION",
+          "AF-DEF-AUTHORIZATION-REQUEST",
+          "AF-DEF-AUTHORIZATION-REVISION",
+          "AF-DEF-COMPLETE-AUTHORITATIVE-ROLE-RELATION",
+          "AF-DEF-DECISION-TIME",
+          "AF-DEF-DENY",
+          "AF-DEF-EXACT-ACTIVE-ROLE-GRANT",
+          "AF-DEF-PERMISSION",
+          "AF-DEF-REQUIRED-PERMISSION",
+          "AF-DEF-RESOLVED-ACTIVE-ROLE",
+          "AF-DEF-RESOLVED-SESSION",
+          "AF-DEF-RESOURCE",
+          "AF-DEF-ROLE",
+          "AF-DEF-SCOPE",
+          "AF-DEF-SESSION",
+          "AF-DEF-SESSION-CURRENT",
+          "AF-DEF-TRUSTED-SCOPE-EVIDENCE"
+        ],
+        "semantic_refs": [
+          "CA2-CAP-DECIDE-EXACT-SESSION-ROLE-PERMISSION",
+          "AF-RULE-UNIQUE-RESOLVED-SESSION",
+          "AF-RULE-SESSION-CURRENT",
+          "AF-RULE-TRUSTED-SCOPE",
+          "AF-RULE-COMPLETE-ACTIVE-ROLES",
+          "AF-RULE-AUTHORIZATION-ADMISSIBLE",
+          "AF-RULE-EXACT-ACTIVE-ROLE-GRANT",
+          "AF-RULE-ALLOW-IFF",
+          "AF-RULE-DEFAULT-DENY",
+          "AF-PROOF-LEAN-CHARACTERIZATION",
+          "AF-PROOF-PERMITTED-CASE",
+          "AF-PROOF-ADMISSIBLE-WITHOUT-GRANT",
+          "AF-PROOF-INADMISSIBLE",
+          "AF-PROOF-EXACT-MISMATCH-DENY",
+          "AF-PROOF-IMPLEMENTATION-EQUIVALENCE"
+        ],
+        "failure_behavior": "deny_without_state_change",
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "auth-exact-permission.Permission",
+      "feature_id": "auth-exact-permission",
+      "kind": "Entity",
+      "intent": "Represent the exact resource, action, and trusted scope triple used by both required permissions and positive role grants.",
+      "body": {
+        "fields": [
+          {
+            "name": "resource",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "action",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "identity": true
+          }
+        ],
+        "definition_refs": [
+          "AF-DEF-PERMISSION",
+          "AF-DEF-RESOURCE",
+          "AF-DEF-ACTION",
+          "AF-DEF-SCOPE"
+        ],
+        "semantic_refs": [
+          "AUTH-PERMISSION",
+          "AF-RULE-EXACT-ACTIVE-ROLE-GRANT"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "auth-exact-permission.Role",
+      "feature_id": "auth-exact-permission",
+      "kind": "Entity",
+      "intent": "Represent one complete authoritative role definition selected only when its identity is active in the resolved session.",
+      "body": {
+        "fields": [
+          {
+            "name": "role_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "permissions",
+            "type": "Set<Permission>",
+            "identity": false
+          }
+        ],
+        "definition_refs": [
+          "AF-DEF-ROLE",
+          "AF-DEF-RESOLVED-ACTIVE-ROLE"
+        ],
+        "semantic_refs": [
+          "AUTH-ROLE",
+          "AF-RULE-COMPLETE-ACTIVE-ROLES"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "auth-exact-permission.Session",
+      "feature_id": "auth-exact-permission",
+      "kind": "Entity",
+      "intent": "Represent one resolved server-side session whose status, expiry, authorization revision, and active role identities are checked exactly.",
+      "body": {
+        "fields": [
+          {
+            "name": "session_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "user_id",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "status",
+            "type": "SessionStatus",
+            "identity": false
+          },
+          {
+            "name": "expires_at",
+            "type": "u64",
+            "identity": false
+          },
+          {
+            "name": "authorization_revision",
+            "type": "u64",
+            "identity": false
+          },
+          {
+            "name": "active_role_ids",
+            "type": "Set<string>",
+            "identity": false
+          }
+        ],
+        "definition_refs": [
+          "AF-DEF-SESSION",
+          "AF-DEF-SESSION-CURRENT"
+        ],
+        "semantic_refs": [
+          "AUTH-SESSION",
+          "AF-RULE-SESSION-CURRENT"
+        ],
+        "authority_effect": "none"
+      }
+    }
+  ],
+  "edges": []
+}

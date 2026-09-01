@@ -2,18 +2,22 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 import { ConformanceError, observeTarget, observeTargetReceipt } from "../../src/conformance/observe-target.ts";
+import { readInstantiationReceipt, ReceiptError } from "../../src/conformance/receipt.ts";
 import { planInstantiation } from "../../src/generation/plan-instantiation.ts";
 import { publishInstantiation } from "../../src/generation/publish-instantiation.ts";
 import { loadProjectNode } from "../../src/input/project-model.ts";
+import { canonicalJson } from "../../src/input/source-manifest.ts";
 import { loadSystemIntegrationSelection, SystemIntegrationError } from "../../src/system-integration/compiler.ts";
 import { testPlan } from "../helpers/plans.ts";
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const sourceFixtureRoot = path.resolve(testDir, "../../fixtures/input-roots/canonical-project");
+const authOperationSource = path.resolve(testDir, "../../../../../auth-foundation/implementation/operation-source");
 
 function targetFor(language: "typescript" | "python" | "rust" = "typescript", kind: "Operation" | "Workflow" = "Operation"): { parent: string; target: string; artifact: string } {
   const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-observe-"));
@@ -34,6 +38,22 @@ function integrationTarget(language: "typescript" | "python" | "rust"): { parent
   const selection = loadSystemIntegrationSelection(sourceFixtureRoot, "settle-runtime", "provider-neutral-v1", "alpha:settle", language);
   const result = publishInstantiation(planInstantiation(node, language, selection), target);
   return { parent, target, integrationArtifact: path.join(target, result.receipt.system_integration!.generated_relative_path) };
+}
+
+function typedAuthTarget(name = "target"): { parent: string; target: string; artifact: string; receiptPath: string; planSha256: string; receiptSha256: string } {
+  const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-observe-"));
+  const target = path.join(parent, name);
+  const node = loadProjectNode(authOperationSource, "auth-exact-permission:authorize");
+  const plan = planInstantiation(node, "rust");
+  const result = publishInstantiation(plan, target);
+  return {
+    parent,
+    target,
+    artifact: path.join(target, result.receipt.artifacts[0]!.relative_path),
+    receiptPath: path.join(target, result.receipt_path),
+    planSha256: plan.plan_sha256,
+    receiptSha256: result.receipt.receipt_sha256,
+  };
 }
 
 function expectCode(target: string, code: string): void {
@@ -85,6 +105,59 @@ test("all three provider-neutral integration profiles pass exact post-write obse
     } finally {
       clean(fixture.parent);
     }
+  }
+});
+
+test("typed Auth Operation is deterministic, property-closed, observed, and compilable Rust", () => {
+  const left = typedAuthTarget("left");
+  const rightTarget = path.join(left.parent, "right");
+  try {
+    const node = loadProjectNode(authOperationSource, "auth-exact-permission:authorize");
+    const rightPlan = planInstantiation(node, "rust");
+    const right = publishInstantiation(rightPlan, rightTarget);
+    const leftReceipt = readInstantiationReceipt(left.target);
+    const rightReceipt = readInstantiationReceipt(rightTarget);
+    const closure = leftReceipt.semantic_contract.typed_closure!;
+    assert.equal(observeTarget(left.target).result, "pass");
+    assert.equal(observeTarget(rightTarget).result, "pass");
+    assert.equal(closure.properties.length, 22);
+    assert.equal(closure.variants.length, 15);
+    assert.equal(closure.rules.length, 8);
+    assert.equal(left.planSha256, rightPlan.plan_sha256);
+    assert.equal(left.receiptSha256, right.receipt.receipt_sha256);
+    assert.equal(leftReceipt.artifacts[0]!.sha256, rightReceipt.artifacts[0]!.sha256);
+    assert.equal(closure.closure_sha256, rightReceipt.semantic_contract.typed_closure!.closure_sha256);
+    const generated = fs.readFileSync(left.artifact, "utf8");
+    assert.equal(generated.includes("guard: bool"), false);
+    const compiled = spawnSync("rustc", ["--edition", "2024", "--crate-type", "lib", left.artifact, "-o", path.join(left.parent, "auth-operation.rlib")], { encoding: "utf8" });
+    assert.equal(compiled.status, 0, compiled.stderr);
+    const cargoCheck = spawnSync("cargo", ["check"], { cwd: left.target, encoding: "utf8" });
+    assert.equal(cargoCheck.status, 0, cargoCheck.stderr);
+    const cargoTest = spawnSync("cargo", ["test"], { cwd: rightTarget, encoding: "utf8" });
+    assert.equal(cargoTest.status, 0, cargoTest.stderr);
+  } finally {
+    clean(left.parent);
+  }
+});
+
+test("typed closure marker and receipt closure tampering fail causally", () => {
+  const markerFixture = typedAuthTarget();
+  try {
+    const content = fs.readFileSync(markerFixture.artifact, "utf8");
+    fs.writeFileSync(markerFixture.artifact, content.replace("// domainspec-typed-closure-sha256: \"", "// domainspec-typed-closure-sha256: \"0"));
+    expectCode(markerFixture.target, "MTCLI_TYPED_CLOSURE_DRIFT");
+  } finally {
+    clean(markerFixture.parent);
+  }
+
+  const receiptFixture = typedAuthTarget();
+  try {
+    const receipt = JSON.parse(fs.readFileSync(receiptFixture.receiptPath, "utf8"));
+    receipt.semantic_contract.typed_closure.properties[0].domainspec_selector = "auth-exact-permission:permission#tampered";
+    fs.writeFileSync(receiptFixture.receiptPath, `${canonicalJson(receipt)}\n`);
+    assert.throws(() => readInstantiationReceipt(receiptFixture.target), (error) => error instanceof ReceiptError && error.code === "MTCLI_RECEIPT_TYPED_CLOSURE");
+  } finally {
+    clean(receiptFixture.parent);
   }
 });
 

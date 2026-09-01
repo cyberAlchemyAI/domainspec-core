@@ -1,0 +1,85 @@
+{
+  "schema_version": "auth-foundation.standard-operation-system-ontology/v1-candidate",
+  "ontology_id": "auth-foundation.system.standard-exact-session-role-permission",
+  "root_operation": "AUTH-OP-AUTHORIZE",
+  "construction_binding": {
+    "path": "implementation/domainspec/construction-binding.json",
+    "sha256": "37b19d463f9d10654e1cd098101699cabc3096bd493aaca61e855e5f024ab05e"
+  },
+  "business_ontology": {
+    "path": "implementation/business-ontology.json",
+    "sha256": "7672a2c8910f7eb6f11b36faec1cece190ac3853e773c11b2fd3d79f909849b9"
+  },
+  "property_denominator": {
+    "path": "implementation/property-denominator.json",
+    "sha256": "30bbf01515d78813abe89ac7798693ab8d9d6cbf6bb3dce8967991f008af9e64"
+  },
+  "compiled_graph": {
+    "path": "implementation/standard-conformance/compiled-operation-graph.json",
+    "sha256": "43333be8cbd6d11f56a982c00519da9cdb226be9d43b0d7ce8215cdc4314897f",
+    "closure_sha256": "9259c2510c7cbb10cc44cf21c7524dccb3488428753076badf1412fd3aa639cd"
+  },
+  "semantic_coverage": {
+    "properties": [
+      "AUTH-AUTHORIZATION-REQUEST#current_authorization_revision",
+      "AUTH-AUTHORIZATION-REQUEST#decision_time",
+      "AUTH-AUTHORIZATION-REQUEST#request_id",
+      "AUTH-AUTHORIZATION-REQUEST#required_permission",
+      "AUTH-AUTHORIZATION-REQUEST#scope_evidence_ref",
+      "AUTH-AUTHORIZATION-REQUEST#session_id",
+      "AUTH-EVALUATION-CONTEXT#request",
+      "AUTH-EVALUATION-CONTEXT#resolved_roles",
+      "AUTH-EVALUATION-CONTEXT#resolved_sessions",
+      "AUTH-EVALUATION-CONTEXT#role_relation_complete",
+      "AUTH-EVALUATION-CONTEXT#trusted_scope_evidence",
+      "AUTH-PERMISSION#action",
+      "AUTH-PERMISSION#resource",
+      "AUTH-PERMISSION#scope",
+      "AUTH-ROLE#permissions",
+      "AUTH-ROLE#role_id",
+      "AUTH-SESSION#active_role_ids",
+      "AUTH-SESSION#authorization_revision",
+      "AUTH-SESSION#expires_at",
+      "AUTH-SESSION#session_id",
+      "AUTH-SESSION#status",
+      "AUTH-SESSION#user_id"
+    ],
+    "variants": [
+      "AUTH-AUTHORIZATION-DECISION#Allow",
+      "AUTH-AUTHORIZATION-DECISION#Deny",
+      "AUTH-DENY-REASON#AmbiguousSession",
+      "AUTH-DENY-REASON#DuplicateResolvedRole",
+      "AUTH-DENY-REASON#ExpiredSession",
+      "AUTH-DENY-REASON#InactiveSession",
+      "AUTH-DENY-REASON#IncompleteRoleRelation",
+      "AUTH-DENY-REASON#MissingSession",
+      "AUTH-DENY-REASON#NoExactActiveRoleGrant",
+      "AUTH-DENY-REASON#RoleRelationMismatch",
+      "AUTH-DENY-REASON#StaleAuthorizationRevision",
+      "AUTH-DENY-REASON#UntrustedScopeEvidence",
+      "AUTH-SESSION-STATUS#Active",
+      "AUTH-SESSION-STATUS#Inactive",
+      "AUTH-SESSION-STATUS#Revoked"
+    ],
+    "rules": [
+      "AF-RULE-ALLOW-IFF",
+      "AF-RULE-AUTHORIZATION-ADMISSIBLE",
+      "AF-RULE-COMPLETE-ACTIVE-ROLES",
+      "AF-RULE-DEFAULT-DENY",
+      "AF-RULE-EXACT-ACTIVE-ROLE-GRANT",
+      "AF-RULE-SESSION-CURRENT",
+      "AF-RULE-TRUSTED-SCOPE",
+      "AF-RULE-UNIQUE-RESOLVED-SESSION"
+    ],
+    "counts": {
+      "properties": 22,
+      "variants": 15,
+      "rules": 8,
+      "operations": 1
+    },
+    "status": "closed"
+  },
+  "lifecycle_status": "validated-local-candidate",
+  "authority_effect": "none",
+  "external_effect": "none"
+}

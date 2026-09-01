@@ -11,6 +11,13 @@ import {
 } from "../relationships/authority.js";
 import { resolveProjectRoot } from "./project-root.js";
 import { sha256, type SourceManifestV1 } from "./source-manifest.js";
+import {
+  decodeTypedOperationContract,
+  decodeTypedRecordContract,
+  decodeTypedRuleContract,
+  decodeTypedSumContract,
+} from "../typed-operation/contracts.js";
+import { compileTypedOperationClosure, type TypedClosureSourceNode, type TypedOperationClosureV1 } from "../typed-operation/closure.js";
 
 export { RELATIONSHIP_AUTHORITY_SHA256, RELATIONSHIP_SIGNATURES } from "../relationships/authority.js";
 
@@ -18,7 +25,7 @@ const SELECTOR_PATTERN = /^([a-z][a-z0-9]*(?:-[a-z0-9]+)*):([a-z][a-z0-9]*(?:-[a
 const NODE_ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const COMPENSATION_DEPENDENCY_PATTERN = /^([a-z][a-z0-9]*(?:-[a-z0-9]+)*):depends-on:([a-z][a-z0-9]*(?:-[a-z0-9]+)*)$/;
 
-type BodyFieldKind = "string" | "string-array";
+type BodyFieldKind = "string" | "string-array" | "typed-record" | "typed-sum" | "typed-rule" | "typed-operation";
 
 interface BodyContract {
   readonly required: readonly string[];
@@ -28,17 +35,17 @@ interface BodyContract {
 }
 
 export const BODY_CONTRACTS: Readonly<Record<string, BodyContract>> = Object.freeze({
-  Entity: { required: ["description"], optional: ["fields"], fields: { description: "string", fields: "string-array" } },
-  "Value Object": { required: ["description"], optional: ["fields"], fields: { description: "string", fields: "string-array" } },
-  Enum: { required: ["description", "values"], optional: [], fields: { description: "string", values: "string-array" }, nonemptyArrays: ["values"] },
+  Entity: { required: ["description"], optional: ["fields", "typed_contract"], fields: { description: "string", fields: "string-array", typed_contract: "typed-record" } },
+  "Value Object": { required: ["description"], optional: ["fields", "typed_contract"], fields: { description: "string", fields: "string-array", typed_contract: "typed-record" } },
+  Enum: { required: ["description", "values"], optional: ["typed_contract"], fields: { description: "string", values: "string-array", typed_contract: "typed-sum" }, nonemptyArrays: ["values"] },
   Operation: {
     required: ["description", "reads", "writes", "effects", "guard", "failure_continuation"],
-    optional: [],
-    fields: { description: "string", reads: "string-array", writes: "string-array", effects: "string-array", guard: "string", failure_continuation: "string" },
+    optional: ["typed_contract"],
+    fields: { description: "string", reads: "string-array", writes: "string-array", effects: "string-array", guard: "string", failure_continuation: "string", typed_contract: "typed-operation" },
   },
   Query: { required: ["description", "reads"], optional: [], fields: { description: "string", reads: "string-array" } },
   Calculation: { required: ["description", "inputs"], optional: [], fields: { description: "string", inputs: "string-array" } },
-  Rule: { required: ["description", "predicate"], optional: [], fields: { description: "string", predicate: "string" } },
+  Rule: { required: ["description", "predicate"], optional: ["typed_contract"], fields: { description: "string", predicate: "string", typed_contract: "typed-rule" } },
   Policy: { required: ["description", "strategies"], optional: [], fields: { description: "string", strategies: "string-array" }, nonemptyArrays: ["strategies"] },
   Workflow: {
     required: ["description", "steps", "compensations"],
@@ -53,7 +60,7 @@ export const BODY_CONTRACTS: Readonly<Record<string, BodyContract>> = Object.fre
 });
 
 export interface DecodedBody {
-  readonly [key: string]: string | readonly string[];
+  readonly [key: string]: unknown;
 }
 
 export interface DecodedEndpoint {
@@ -80,6 +87,7 @@ export interface DecodedProjectNode {
   readonly body: DecodedBody;
   readonly relationships: readonly DecodedRelationship[];
   readonly source_manifest: SourceManifestV1;
+  readonly typed_closure: TypedOperationClosureV1 | null;
 }
 
 export class ProjectModelError extends Error {
@@ -140,18 +148,36 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
   if (actual.some((key) => !allowed.includes(key)) || contract.required.some((key) => !actual.includes(key))) {
     fail("MTCLI_INPUT_BODY", pointer, `closed ${kind} body has unexpected or missing fields`);
   }
-  const decoded: Record<string, string | readonly string[]> = {};
+  const decoded: Record<string, unknown> = {};
   for (const key of allowed) {
     const fieldKind = contract.fields[key];
     if (!fieldKind) fail("MTCLI_INPUT_BODY", `${pointer}/${key}`, "body contract is incomplete");
     const raw = value[key];
     if (raw === undefined && contract.optional.includes(key)) {
-      decoded[key] = fieldKind === "string-array" ? Object.freeze([]) : "";
+      if (fieldKind === "string-array") decoded[key] = Object.freeze([]);
+      else if (fieldKind === "string") decoded[key] = "";
+      else continue;
     } else if (fieldKind === "string") {
       decoded[key] = requireString(raw, `${pointer}/${key}`);
-    } else {
+    } else if (fieldKind === "string-array") {
       decoded[key] = requireStringArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false);
+    } else if (fieldKind === "typed-record") {
+      decoded[key] = decodeTypedRecordContract(raw, `${pointer}/${key}`);
+    } else if (fieldKind === "typed-sum") {
+      decoded[key] = decodeTypedSumContract(raw, `${pointer}/${key}`);
+    } else if (fieldKind === "typed-rule") {
+      decoded[key] = decodeTypedRuleContract(raw, `${pointer}/${key}`);
+    } else {
+      decoded[key] = decodeTypedOperationContract(raw, `${pointer}/${key}`);
     }
+  }
+  if ((kind === "Entity" || kind === "Value Object") && decoded.typed_contract) {
+    const names = (decoded.typed_contract as ReturnType<typeof decodeTypedRecordContract>).properties.map(({ name }) => name);
+    if (JSON.stringify(names) !== JSON.stringify(decoded.fields)) fail("MTCLI_TYPED_FIELD_PARITY", `${pointer}/fields`, "typed property names must exactly match fields");
+  }
+  if (kind === "Enum" && decoded.typed_contract) {
+    const names = (decoded.typed_contract as ReturnType<typeof decodeTypedSumContract>).variants.map(({ name }) => name);
+    if (JSON.stringify(names) !== JSON.stringify(decoded.values)) fail("MTCLI_TYPED_VARIANT_PARITY", `${pointer}/values`, "typed variant names must exactly match values");
   }
   if (kind === "State Machine") {
     const states = decoded.states as readonly string[];
@@ -315,6 +341,20 @@ export function loadProjectNode(projectRoot: unknown, selector: unknown): Decode
   const metaTypeId = metaTypeIdForLabel(selected.kind);
   const body = decodeBody(selected.kind, selected.body, `/specs/${selected.feature_id}/nodes/${selected.node_id}.json/body`);
   const projectRelationships = decodeProjectEdges(root, manifest, nodes);
+  const selectedTypedContract = body.typed_contract;
+  const closureSources: TypedClosureSourceNode[] = [];
+  if (selectedTypedContract !== undefined) {
+    for (const candidate of nodes.values()) {
+      const candidateBody = decodeBody(candidate.kind, candidate.body, `/specs/${candidate.feature_id}/nodes/${candidate.node_id}.json/body`);
+      closureSources.push(Object.freeze({
+        feature_id: candidate.feature_id,
+        node_id: candidate.node_id,
+        kind: candidate.kind,
+        typed_contract: (candidateBody.typed_contract ?? null) as TypedClosureSourceNode["typed_contract"],
+      }));
+    }
+  }
+  const typedClosure = selectedTypedContract === undefined ? null : compileTypedOperationClosure(selector, closureSources, projectRelationships);
   const node = Object.freeze({
     project_root: root,
     project_id: manifest.project_id,
@@ -328,6 +368,7 @@ export function loadProjectNode(projectRoot: unknown, selector: unknown): Decode
       `${relationship.target.feature_id}:${relationship.target.node_id}` === selector
     )),
     source_manifest: manifest,
+    typed_closure: typedClosure,
   });
   validateSelectedNodeRelationships(node);
   return node;

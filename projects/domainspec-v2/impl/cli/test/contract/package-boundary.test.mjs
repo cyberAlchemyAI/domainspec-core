@@ -35,7 +35,7 @@ test("only the curated root entry is exported and build scripts are exact", () =
     "integration-profile:check": "node tools/materialize-system-integration-profile.mjs --check",
     typecheck: "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json --noEmit --pretty false",
     build: "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json",
-    test: "node --import tsx --test test/cli/main.test.ts test/conformance/observe-target.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/meta-types/catalog.test.ts test/system-integration/profile.test.ts",
+    test: "node --import tsx --test test/cli/main.test.ts test/conformance/observe-target.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/meta-types/catalog.test.ts test/system-integration/profile.test.ts test/typed-operation/contracts.test.ts test/typed-operation/rust.test.ts",
     "test:contract": "node --test test/contract/foundation-contract.test.mjs test/contract/instantiation-foundation-contract.test.mjs test/contract/package-boundary.test.mjs",
     "validate:rust": "node tools/validate-generated-rust.mjs",
     "validate:clean-package": "node tools/validate-clean-package.mjs"
@@ -67,7 +67,9 @@ test("TypeScript boundary is strict NodeNext and source-only", () => {
   assert.equal(tsconfig.compilerOptions.rootDir, "src");
   assert.equal(tsconfig.compilerOptions.outDir, "dist");
   assert.deepEqual(tsconfig.include, ["src/**/*.ts"]);
-  const tsc = path.resolve(cliRoot, "../node_modules/.bin/tsc");
+  const localTsc = path.resolve(cliRoot, "node_modules/.bin/tsc");
+  const workspaceTsc = path.resolve(cliRoot, "../node_modules/.bin/tsc");
+  const tsc = fs.existsSync(localTsc) ? localTsc : workspaceTsc;
   const result = spawnSync(tsc, ["--showConfig", "--project", path.join(cliRoot, "tsconfig.json")], { encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
   const effective = JSON.parse(result.stdout);

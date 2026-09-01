@@ -1,17 +1,30 @@
 # Auth Foundation
 
-Status: **proof-and-evidence candidate**
+Status: **proof-and-evidence candidate with a local D65 Rust vertical**
 
 This project starts a new authorization foundation without changing
 `projects/auth-user-management/`.
 
 The formalization package, business ontology, owner-accepted business meaning,
-and one Auth-owned L0 FormalClaim candidate now exist. There is no authentication runtime, authorization implementation,
-database, token provider, proof obligation, formal proof, EVF receipt, or
-production claim yet.
+and one Auth-owned L0 FormalClaim candidate now exist. A pure, local
+authorization decision kernel is generated from the bounded DomainSpec
+meta-type CLI profile and has local static conformance evidence. There is no
+authentication service, database, token provider, integrated resolver,
+runtime-observation evidence, deployment, or production-security claim yet.
 
 Canonical artifacts are JSON and JSON Schema under [`formalization/`](formalization/).
 Markdown files are human navigation only.
+
+The first implementation-bearing slice lives under
+[`implementation/`](implementation/). It carries the accepted Auth definitions
+through a Product Capability, a proposed capability-local business ontology,
+DomainSpec v2 authored source, deterministic generated graph and system
+ontology, an exact Rust implementation binding, and local conformance evidence.
+The primary Rust candidate is deterministically instantiated by the standard
+DomainSpec CLI from a property-closed Operation. The earlier bounded generator
+is retained as a behavioral comparison oracle; Cargo and the Auth validator
+compile, test, and compare both paths.
+It is a merge candidate, not a deployment or production-security claim.
 
 ## Starting question
 

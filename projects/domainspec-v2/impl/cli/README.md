@@ -88,3 +88,39 @@ protocol requires equality-compatible type behavior.
 Each source project pins its own admitted implementation baseline. Generation
 does not follow the mutable repository-wide current pointer, so unrelated
 baseline advancement cannot trigger an implicit kernel refresh.
+
+## Property-closed Rust Operations
+
+The standard `instantiate` command accepts a typed Operation whose referenced
+records, sums, Rules, and legal relationships form one deterministic closure.
+The bounded type algebra currently includes `String`, `Bool`, `UInt64`, named
+types, sets, multiplicity-preserving lists, optionals, and sums. The Rule
+algebra is structured data; executable Rust snippets are not accepted. List
+projection preserves multiplicity unless the source explicitly applies
+`to_set`, and `rule_ref` binds every target parameter by name and typed value.
+
+For Rust, the CLI lowers that closure to typed structs, enums, and one predicate
+function for every referenced Rule. It evaluates the selected guard inside the
+Operation, emits deterministic ontology-to-selector-to-Rust-symbol bindings and
+a Cargo manifest, and binds the complete closure into the instantiation receipt.
+Missing selectors, argument drift, normalized symbol collisions, read-edge
+drift, cycles, incompatible types, receipt tampering, and caller-supplied Boolean
+guards fail closed.
+
+The Auth Foundation candidate exercises this standard path:
+
+```text
+domainspec-v2 instantiate <absolute-operation-source> \
+  --node auth-exact-permission:authorize \
+  --language rust \
+  --target-root <absolute-new-target>
+```
+
+`tools/auth-kernel.mjs` remains temporarily as the specialized comparison
+oracle used by Auth migration evidence. It does not own the standard typed
+Operation path and is not removed by this candidate.
+
+```text
+node tools/auth-kernel.mjs generate <absolute-auth-domainspec-root> <absolute-runtime-root>
+node tools/auth-kernel.mjs check <absolute-auth-domainspec-root> <absolute-runtime-root>
+```

@@ -10,6 +10,18 @@ import type { CatalogRealizationRow, SupportedLanguage } from "../meta-types/typ
 import { RELATIONSHIP_AUTHORITY_SHA256, relationshipSignature } from "../relationships/authority.js";
 import { generatedSystemIntegrationPath, validateSystemIntegrationManifest } from "../system-integration/compiler.js";
 import type { SystemIntegrationReceiptBindingV1 } from "../system-integration/types.js";
+import {
+  compileTypedOperationClosure,
+  type TypedClosureSourceNode,
+  type TypedNodeContract,
+  type TypedOperationClosureV1,
+} from "../typed-operation/closure.js";
+import {
+  decodeTypedOperationContract,
+  decodeTypedRecordContract,
+  decodeTypedRuleContract,
+  decodeTypedSumContract,
+} from "../typed-operation/contracts.js";
 
 export const RECEIPT_DIRECTORY = ".domainspec/instantiations" as const;
 
@@ -36,6 +48,7 @@ export interface InstantiationReceiptV1 {
     readonly body: DecodedBody;
     readonly relationships: readonly DecodedRelationship[];
     readonly relationship_authority_sha256: typeof RELATIONSHIP_AUTHORITY_SHA256;
+    readonly typed_closure?: TypedOperationClosureV1;
   };
   readonly plan_sha256: string;
   readonly artifacts: readonly Omit<PlannedArtifact, "content">[];
@@ -85,6 +98,18 @@ export function receiptRelativePath(featureId: string, nodeId: string): string {
 }
 
 export function createInstantiationReceipt(plan: InstantiationPlanV1): InstantiationReceiptV1 {
+  const semanticContract = plan.input.typed_closure == null
+    ? {
+        body: plan.input.body,
+        relationships: plan.input.relationships,
+        relationship_authority_sha256: RELATIONSHIP_AUTHORITY_SHA256,
+      }
+    : {
+        body: plan.input.body,
+        relationships: plan.input.relationships,
+        relationship_authority_sha256: RELATIONSHIP_AUTHORITY_SHA256,
+        typed_closure: plan.input.typed_closure,
+      };
   const body = {
     schema_version: "domainspec.instantiation-receipt/v1" as const,
     baseline: plan.baseline,
@@ -105,16 +130,43 @@ export function createInstantiationReceipt(plan: InstantiationPlanV1): Instantia
       manifest: plan.system_integration.manifest,
       generated_relative_path: plan.system_integration.generated_relative_path,
     }),
-    semantic_contract: Object.freeze({
-      body: plan.input.body,
-      relationships: plan.input.relationships,
-      relationship_authority_sha256: RELATIONSHIP_AUTHORITY_SHA256,
-    }),
+    semantic_contract: Object.freeze(semanticContract),
     plan_sha256: plan.plan_sha256,
     artifacts: Object.freeze(plan.artifacts.map(({ relative_path, size_bytes, sha256: digest }) => Object.freeze({ relative_path, size_bytes, sha256: digest }))),
     authority_effect: "none" as const,
   };
   return Object.freeze({ ...body, receipt_sha256: sha256(canonicalJson(body)) });
+}
+
+function decodeClosureContract(kind: string, value: unknown, pointer: string): TypedNodeContract {
+  if (kind === "Entity" || kind === "Value Object") return decodeTypedRecordContract(value, pointer);
+  if (kind === "Enum") return decodeTypedSumContract(value, pointer);
+  if (kind === "Rule") return decodeTypedRuleContract(value, pointer);
+  if (kind === "Operation") return decodeTypedOperationContract(value, pointer);
+  fail("MTCLI_RECEIPT_TYPED_CLOSURE", pointer, `unsupported typed closure node kind:${kind}`);
+}
+
+function validateTypedClosure(value: unknown, receiptInput: Record<string, unknown>, body: DecodedBody, relationships: readonly DecodedRelationship[]): TypedOperationClosureV1 {
+  const pointer = "/semantic_contract/typed_closure";
+  exactKeys(value, ["schema_version", "root_selector", "nodes", "relationships", "properties", "variants", "rules", "operation", "closure_sha256", "authority_effect"], pointer);
+  if (value.schema_version !== "domainspec.typed-operation-closure/v1" || value.authority_effect !== "none") fail("MTCLI_RECEIPT_TYPED_CLOSURE", pointer, "invalid typed closure envelope");
+  const expectedRoot = `${receiptInput.feature_id}:${receiptInput.node_id}`;
+  if (value.root_selector !== expectedRoot) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${pointer}/root_selector`, "typed closure root does not match receipt input");
+  if (!Array.isArray(value.nodes)) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${pointer}/nodes`, "typed closure nodes must be an array");
+  const sourceNodes = value.nodes.map((candidate, index): TypedClosureSourceNode => {
+    const nodePointer = `${pointer}/nodes/${index}`;
+    exactKeys(candidate, ["selector", "kind", "typed_contract"], nodePointer);
+    const nodeSelector = requireString(candidate.selector, `${nodePointer}/selector`);
+    const [featureId, nodeId, extra] = nodeSelector.split(":");
+    if (!featureId || !nodeId || extra !== undefined) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${nodePointer}/selector`, "invalid typed closure node selector");
+    const kind = requireString(candidate.kind, `${nodePointer}/kind`);
+    return Object.freeze({ feature_id: featureId, node_id: nodeId, kind, typed_contract: decodeClosureContract(kind, candidate.typed_contract, `${nodePointer}/typed_contract`) });
+  });
+  const rebuilt = compileTypedOperationClosure(expectedRoot, sourceNodes, relationships);
+  if (rebuilt === null || canonicalJson(rebuilt) !== canonicalJson(value)) fail("MTCLI_RECEIPT_TYPED_CLOSURE", pointer, "typed closure is not the deterministic closure of its bound nodes and relationships");
+  if (canonicalJson(rebuilt.relationships) !== canonicalJson(relationships)) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${pointer}/relationships`, "typed closure relationships do not match the receipt relationship contract");
+  if (!isObject(body.typed_contract) || canonicalJson(rebuilt.operation) !== canonicalJson(body.typed_contract)) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${pointer}/operation`, "typed closure operation does not match the selected body contract");
+  return rebuilt;
 }
 
 export function validateInstantiationReceipt(value: unknown): InstantiationReceiptV1 {
@@ -146,7 +198,9 @@ export function validateInstantiationReceipt(value: unknown): InstantiationRecei
     integrationPath = requireString(value.system_integration.generated_relative_path, "/system_integration/generated_relative_path");
     if (integrationPath !== generatedSystemIntegrationPath(manifest.binding_set_id, value.language as SupportedLanguage)) fail("MTCLI_RECEIPT_INTEGRATION_PATH", "/system_integration/generated_relative_path", "system-integration output path drifted");
   }
-  exactKeys(value.semantic_contract, ["body", "relationships", "relationship_authority_sha256"], "/semantic_contract");
+  if (!isObject(value.semantic_contract)) fail("MTCLI_RECEIPT_SCHEMA", "/semantic_contract", "invalid semantic contract");
+  const hasTypedClosure = Object.hasOwn(value.semantic_contract, "typed_closure");
+  exactKeys(value.semantic_contract, hasTypedClosure ? ["body", "relationships", "relationship_authority_sha256", "typed_closure"] : ["body", "relationships", "relationship_authority_sha256"], "/semantic_contract");
   if (!isObject(value.semantic_contract.body) || !Array.isArray(value.semantic_contract.relationships)) fail("MTCLI_RECEIPT_SCHEMA", "/semantic_contract", "invalid semantic contract");
   const decodedBody = decodeBody(String(value.input.kind), value.semantic_contract.body, "/semantic_contract/body");
   if (canonicalJson(decodedBody) !== canonicalJson(value.semantic_contract.body)) fail("MTCLI_RECEIPT_BODY", "/semantic_contract/body", "receipt body is not the closed decoded contract");
@@ -178,6 +232,7 @@ export function validateInstantiationReceipt(value: unknown): InstantiationRecei
     if (`${sourceEndpoint.feature_id}:${sourceEndpoint.node_id}` !== selectedKey && `${targetEndpoint.feature_id}:${targetEndpoint.node_id}` !== selectedKey) fail("MTCLI_RECEIPT_RELATIONSHIP", pointer, "relationship is unrelated to the selected node");
   }
   if (value.semantic_contract.relationship_authority_sha256 !== RELATIONSHIP_AUTHORITY_SHA256) fail("MTCLI_RECEIPT_RELATIONSHIP_AUTHORITY", "/semantic_contract/relationship_authority_sha256", "relationship authority drift");
+  if (hasTypedClosure) validateTypedClosure(value.semantic_contract.typed_closure, value.input, decodedBody, value.semantic_contract.relationships as readonly DecodedRelationship[]);
   requireSha(value.plan_sha256, "/plan_sha256");
   if (!Array.isArray(value.artifacts) || value.artifacts.length === 0) fail("MTCLI_RECEIPT_SCHEMA", "/artifacts", "artifact inventory must be nonempty");
   const paths = new Set<string>();
@@ -191,8 +246,12 @@ export function validateInstantiationReceipt(value: unknown): InstantiationRecei
     requireSha(artifact.sha256, `/artifacts/${index}/sha256`);
   }
   const integrationArtifactCount = integrationPath === null ? 0 : value.artifacts.filter((artifact) => isObject(artifact) && artifact.relative_path === integrationPath).length;
-  if (integrationPath === null && value.artifacts.length !== 1) fail("MTCLI_RECEIPT_INTEGRATION_ARTIFACT", "/artifacts", "receipt without a system-integration selection must contain exactly one realization artifact");
-  if (integrationPath !== null && (value.artifacts.length !== 2 || integrationArtifactCount !== 1)) fail("MTCLI_RECEIPT_INTEGRATION_ARTIFACT", "/artifacts", "receipt with a system-integration selection must contain one realization and one integration artifact");
+  const typedRustArtifactCount = hasTypedClosure && value.language === "rust" ? 2 : 1;
+  const expectedArtifactCount = typedRustArtifactCount + (integrationPath === null ? 0 : 1);
+  const cargoManifestCount = value.artifacts.filter((artifact) => isObject(artifact) && artifact.relative_path === "Cargo.toml").length;
+  if (hasTypedClosure && value.language === "rust" && cargoManifestCount !== 1) fail("MTCLI_RECEIPT_TYPED_CRATE", "/artifacts", "typed Rust receipt must contain one Cargo manifest");
+  if ((!hasTypedClosure || value.language !== "rust") && cargoManifestCount !== 0) fail("MTCLI_RECEIPT_TYPED_CRATE", "/artifacts", "Cargo manifest is only supported for a typed Rust Operation");
+  if (value.artifacts.length !== expectedArtifactCount || (integrationPath !== null && integrationArtifactCount !== 1)) fail("MTCLI_RECEIPT_INTEGRATION_ARTIFACT", "/artifacts", "receipt artifact count does not match its realization, typed crate, and integration selections");
   if (value.authority_effect !== "none") fail("MTCLI_RECEIPT_AUTHORITY", "/authority_effect", "authority growth is forbidden");
   requireSha(value.receipt_sha256, "/receipt_sha256");
   const { receipt_sha256: ignored, ...body } = value;

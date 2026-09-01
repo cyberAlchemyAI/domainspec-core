@@ -46,7 +46,8 @@
       "properties": {
         "body": {"$ref": "#/$defs/body"},
         "relationships": {"type": "array", "items": {"$ref": "#/$defs/relationship"}},
-        "relationship_authority_sha256": {"const": "82c55ea1ad031d3135c5b8a85162e44b4e85f296b54057fda0dc38131ab376a1"}
+        "relationship_authority_sha256": {"const": "82c55ea1ad031d3135c5b8a85162e44b4e85f296b54057fda0dc38131ab376a1"},
+        "typed_closure": {"$ref": "#/$defs/typed_closure"}
       }
     },
     "plan_sha256": {"$ref": "#/$defs/sha256"},
@@ -125,15 +126,45 @@
       }
     },
     "string_array": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "typed_closure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "root_selector", "nodes", "relationships", "properties", "variants", "rules", "operation", "closure_sha256", "authority_effect"],
+      "properties": {
+        "schema_version": {"const": "domainspec.typed-operation-closure/v1"},
+        "root_selector": {"type": "string", "pattern": "^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$"},
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["selector", "kind", "typed_contract"],
+            "properties": {
+              "selector": {"type": "string", "pattern": "^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$"},
+              "kind": {"enum": ["Entity", "Value Object", "Enum", "Rule", "Operation"]},
+              "typed_contract": {"type": "object"}
+            }
+          }
+        },
+        "relationships": {"type": "array", "items": {"$ref": "#/$defs/relationship"}},
+        "properties": {"type": "array", "items": {"type": "object"}},
+        "variants": {"type": "array", "items": {"type": "object"}},
+        "rules": {"type": "array", "items": {"type": "object"}},
+        "operation": {"type": "object"},
+        "closure_sha256": {"$ref": "#/$defs/sha256"},
+        "authority_effect": {"const": "none"}
+      }
+    },
     "body": {
       "type": "object",
       "anyOf": [
-        {"required": ["description", "fields"], "properties": {"description": {"type": "string", "minLength": 1}, "fields": {"$ref": "#/$defs/string_array"}}, "additionalProperties": false},
-        {"required": ["description", "values"], "properties": {"description": {"type": "string", "minLength": 1}, "values": {"$ref": "#/$defs/string_array", "minItems": 1}}, "additionalProperties": false},
-        {"required": ["description", "reads", "writes", "effects", "guard", "failure_continuation"], "properties": {"description": {"type": "string", "minLength": 1}, "reads": {"$ref": "#/$defs/string_array"}, "writes": {"$ref": "#/$defs/string_array"}, "effects": {"$ref": "#/$defs/string_array"}, "guard": {"type": "string", "minLength": 1}, "failure_continuation": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+        {"required": ["description", "fields"], "properties": {"description": {"type": "string", "minLength": 1}, "fields": {"$ref": "#/$defs/string_array"}, "typed_contract": {"type": "object"}}, "additionalProperties": false},
+        {"required": ["description", "values"], "properties": {"description": {"type": "string", "minLength": 1}, "values": {"$ref": "#/$defs/string_array", "minItems": 1}, "typed_contract": {"type": "object"}}, "additionalProperties": false},
+        {"required": ["description", "reads", "writes", "effects", "guard", "failure_continuation"], "properties": {"description": {"type": "string", "minLength": 1}, "reads": {"$ref": "#/$defs/string_array"}, "writes": {"$ref": "#/$defs/string_array"}, "effects": {"$ref": "#/$defs/string_array"}, "guard": {"type": "string", "minLength": 1}, "failure_continuation": {"type": "string", "minLength": 1}, "typed_contract": {"type": "object"}}, "additionalProperties": false},
         {"required": ["description", "reads"], "properties": {"description": {"type": "string", "minLength": 1}, "reads": {"$ref": "#/$defs/string_array"}}, "additionalProperties": false},
         {"required": ["description", "inputs"], "properties": {"description": {"type": "string", "minLength": 1}, "inputs": {"$ref": "#/$defs/string_array"}}, "additionalProperties": false},
-        {"required": ["description", "predicate"], "properties": {"description": {"type": "string", "minLength": 1}, "predicate": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+        {"required": ["description", "predicate"], "properties": {"description": {"type": "string", "minLength": 1}, "predicate": {"type": "string", "minLength": 1}, "typed_contract": {"type": "object"}}, "additionalProperties": false},
         {"required": ["description", "strategies"], "properties": {"description": {"type": "string", "minLength": 1}, "strategies": {"$ref": "#/$defs/string_array", "minItems": 1}}, "additionalProperties": false},
         {"required": ["description", "steps", "compensations"], "properties": {"description": {"type": "string", "minLength": 1}, "steps": {"$ref": "#/$defs/string_array", "minItems": 1}, "compensations": {"$ref": "#/$defs/string_array"}}, "additionalProperties": false},
         {"required": ["description", "version", "operations"], "properties": {"description": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}, "operations": {"$ref": "#/$defs/string_array"}}, "additionalProperties": false},

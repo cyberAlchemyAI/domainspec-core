@@ -1,0 +1,21 @@
+{
+  "schema_version":"minted-node/v1",
+  "node_id":"auth-exact-permission.AuthorizationContext",
+  "feature_id":"auth-exact-permission",
+  "kind":"Entity",
+  "intent":"Carry one trusted request, its decision time and current authorization revision, unique session resolution, scope evidence, and complete active-role relation into the pure decision.",
+  "body": {
+    "fields": [
+      {"name":"request_id","type":"string","identity":true},
+      {"name":"session_id","type":"string","identity":false},
+      {"name":"decision_time","type":"u64","identity":false},
+      {"name":"current_authorization_revision","type":"u64","identity":false},
+      {"name":"trusted_scope_evidence","type":"boolean","identity":false},
+      {"name":"role_relation_complete","type":"boolean","identity":false}
+    ],
+    "definition_refs":["AF-DEF-AUTHORIZATION-REQUEST","AF-DEF-REQUIRED-PERMISSION","AF-DEF-DECISION-TIME","AF-DEF-AUTHORIZATION-REVISION","AF-DEF-RESOLVED-SESSION","AF-DEF-TRUSTED-SCOPE-EVIDENCE","AF-DEF-COMPLETE-AUTHORITATIVE-ROLE-RELATION"],
+    "semantic_refs":["AUTH-AUTHORIZATION-REQUEST","AUTH-SCOPE-EVIDENCE","AUTH-AUTHORIZATION-REVISION","AF-RULE-UNIQUE-RESOLVED-SESSION","AF-RULE-TRUSTED-SCOPE","AF-RULE-COMPLETE-ACTIVE-ROLES"],
+    "authority_effect":"none"
+  },
+  "connections":[]
+}

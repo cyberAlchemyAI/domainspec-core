@@ -150,7 +150,9 @@ test("all generated TypeScript typechecks, all generated Python parses, and gene
     }
     const configPath = path.join(root, "tsconfig.json");
     fs.writeFileSync(configPath, `${JSON.stringify({ compilerOptions: { strict: true, target: "ES2022", module: "NodeNext", moduleResolution: "NodeNext", skipLibCheck: true }, include: ["typescript/**/*.ts"] })}\n`);
-    const tsc = spawnSync(path.resolve(testDir, "../../../node_modules/.bin/tsc"), ["--project", configPath, "--noEmit", "--pretty", "false"], { encoding: "utf8" });
+    const localTsc = path.resolve(testDir, "../../node_modules/.bin/tsc");
+    const workspaceTsc = path.resolve(testDir, "../../../node_modules/.bin/tsc");
+    const tsc = spawnSync(fs.existsSync(localTsc) ? localTsc : workspaceTsc, ["--project", configPath, "--noEmit", "--pretty", "false"], { encoding: "utf8" });
     assert.equal(tsc.status, 0, `${tsc.stdout}\n${tsc.stderr}`);
     for (const pythonFile of pythonFiles) {
       const python = spawnSync("python3", ["-c", "import pathlib,sys; compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[1], 'exec')", pythonFile], { encoding: "utf8" });

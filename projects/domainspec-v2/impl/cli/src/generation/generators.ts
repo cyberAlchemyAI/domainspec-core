@@ -2,6 +2,7 @@ import { canonicalJson } from "../input/source-manifest.js";
 import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
 import type { SupportedLanguage } from "../meta-types/types.js";
 import type { GeneratorInput, GeneratorRegistration } from "./contracts.js";
+import { renderTypedRustOperation } from "../typed-operation/rust.js";
 
 const EXTENSIONS = Object.freeze({ typescript: "ts", python: "py", rust: "rs" } as const);
 const LOWER_IDENTIFIER_KEYWORDS = new Set([
@@ -36,11 +37,11 @@ function uniqueNames(values: readonly string[], transform: (value: string) => st
   return result;
 }
 
-function strings(value: string | readonly string[] | undefined): readonly string[] {
-  return Array.isArray(value) ? value : [];
+function strings(value: unknown): readonly string[] {
+  return Array.isArray(value) && value.every((entry) => typeof entry === "string") ? value : [];
 }
 
-function text(value: string | readonly string[] | undefined, fallback: string): string {
+function text(value: unknown, fallback: string): string {
   return typeof value === "string" && value.length > 0 ? value : fallback;
 }
 
@@ -601,6 +602,9 @@ function renderRust(input: GeneratorInput): string {
     case "Enum":
       return `${header}#[derive(Clone, Debug, PartialEq, Eq)]\npub enum ${name} { ${uniqueNames(strings(body.values), pascal, "Rust Enum").join(", ")} }\n`;
     case "Operation":
+      if (input.typed_closure !== null && input.typed_closure !== undefined) {
+        return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\n${renderTypedRustOperation(input.typed_closure)}`;
+      }
       return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\nuse std::collections::BTreeMap;\npub const ${snake(name).toUpperCase()}_RELATIONSHIPS_JSON: &str = ${JSON.stringify(canonicalJson(input.relationships))};\n#[derive(Clone, Debug, PartialEq)]\npub struct ${name}Outcome { pub reads: BTreeMap<String, String>, pub state: BTreeMap<String, String>, pub outbox: Vec<String> }\npub fn ${fn}(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool) -> Result<${name}Outcome, &'static str> {\n    if !guard { return Err(${JSON.stringify(text(body.failure_continuation, "return-error"))}); }\n    let reads = ${rustArray(strings(body.reads))}.iter().filter_map(|key| state.get(*key).map(|value| ((*key).to_owned(), value.clone()))).collect();\n    let mut next_state = state.clone();\n    for key in ${rustArray(strings(body.writes))} { if let Some(value) = changes.get(key) { next_state.insert(key.to_owned(), value.clone()); } }\n    let outbox: Vec<String> = ${rustArray(strings(body.effects))}.iter().map(|value| (*value).to_owned()).collect();\n    Ok(${name}Outcome { reads, state: next_state, outbox })\n}\npub fn ${fn}_observed(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool, observe: &mut impl FnMut(&str)) -> Result<${name}Outcome, &'static str> {\n    observe("operation.enter");\n    let outcome = ${fn}(state, changes, guard);\n    observe(if outcome.is_ok() { "operation.success" } else { "operation.failure" });\n    outcome\n}\n`;
     case "Query":
       return `${header}pub fn ${fn}(state: &str) -> String { state.to_owned() }\n`;
