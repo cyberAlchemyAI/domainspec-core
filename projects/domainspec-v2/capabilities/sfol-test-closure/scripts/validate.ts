@@ -13,6 +13,7 @@ const repositoryRoot = resolve(capabilityRoot, "../../../..");
 const tdeRoot = resolve(repositoryRoot, "projects/domainspec-v2/impl/test-derivation-engine");
 const tsx = resolve(tdeRoot, "node_modules/.bin/tsx");
 const buildScript = resolve(capabilityRoot, "scripts/build.ts");
+const decisionValidator = resolve(capabilityRoot, "scripts/validate-decisions.ts");
 const cli = resolve(tdeRoot, "src/sfol/cli.ts");
 
 function sha256(value: string | Buffer): string {
@@ -26,6 +27,8 @@ function sha256File(path: string): string {
 function run(command: string, args: string[], cwd: string): string {
   return execFileSync(command, args, { cwd, encoding: "utf8", env: { ...process.env, TMPDIR: "/tmp" } });
 }
+
+const decisionValidation = JSON.parse(run(tsx, [decisionValidator], repositoryRoot));
 
 const immutable = {
   "EVF-OBLIGATION.v1.json": "5a9a41fb43723a47203eee2b1173654e443a054aa97d405322d5173965a3c4f7",
@@ -54,6 +57,9 @@ for (const [path, expected] of Object.entries(lean)) {
 }
 
 const typecheck = run("pnpm", ["run", "typecheck:sfol"], tdeRoot);
+const normalizedTypecheck = typecheck
+  .replaceAll(tdeRoot, "<TDE_ROOT>")
+  .replaceAll(repositoryRoot, "<REPOSITORY_ROOT>");
 const testOutputs = [
   run("pnpm", ["exec", "vitest", "run", "src/sfol"], tdeRoot),
   run("pnpm", ["exec", "vitest", "run", "src/sfol"], tdeRoot),
@@ -69,6 +75,23 @@ const firstGenerated = Object.fromEntries(generatedPaths.map((name) => [name, sh
 run(tsx, [buildScript], repositoryRoot);
 const secondGenerated = Object.fromEntries(generatedPaths.map((name) => [name, sha256File(resolve(capabilityRoot, "generated", name))]));
 if (JSON.stringify(firstGenerated) !== JSON.stringify(secondGenerated)) throw new Error("SFOL_GENERATED_OUTPUT_DRIFT");
+const builtBinding = JSON.parse(readFileSync(resolve(capabilityRoot, "construction-binding.json"), "utf8"));
+if (
+  builtBinding.chain.definitions.status !== "admitted-exact" ||
+  builtBinding.chain.definitions.admission_selection?.selected_option !== "ADMIT-EXACT" ||
+  builtBinding.blockers.includes("definition admission") ||
+  builtBinding.chain.product_capability.status !== "adopted-exact" ||
+  builtBinding.chain.product_capability.adoption_selection?.selected_option !== "ADOPT-EXACT" ||
+  builtBinding.blockers.includes("Product Capability adoption") ||
+  builtBinding.chain.business_ontology.status !== "admitted-exact" ||
+  builtBinding.chain.business_ontology.admission_selection?.selected_option !== "ADMIT-EXACT" ||
+  builtBinding.chain.business_ontology.property_denominator?.sha256 !== "db481764813e3f61398d89683b497855ee504173b1cffdfa7ee30450be3cb68d" ||
+  builtBinding.blockers.includes("business ontology admission") ||
+  !builtBinding.blockers.includes("DomainSpec source acceptance") ||
+  !builtBinding.blockers.includes("development profile eligibility decision")
+) {
+  throw new Error("SFOL_OWNER_SELECTION_PROJECTION_INVALID");
+}
 
 const temporary = mkdtempSync(resolve(tmpdir(), "sfol-tde-cli-"));
 try {
@@ -98,11 +121,20 @@ const evidence = {
   schema_version: "domainspec-sfol-test-closure-conformance/v1",
   evidence_id: "DSV2-SFOL-TEST-CLOSURE-CONFORMANCE-001",
   implementation_map_sha256: sha256File(resolve(capabilityRoot, "implementation-map.json")),
-  typecheck: { result: "pass", command: "pnpm run typecheck:sfol", output_digest: sha256(typecheck) },
+  typecheck: { result: "pass", command: "pnpm run typecheck:sfol", output_digest: sha256(normalizedTypecheck) },
   tests: { result: "pass", complete_runs: 2, test_count: testCount, deterministic_test_inventory: true },
   generated_outputs: { result: "pass", compile_runs: 2, byte_identical: true, sha256: secondGenerated },
   cli_smoke: { result: "pass", commands: ["verify", "challenge --check"], api_cli_parity: true, check_mode_writes: 0 },
   property_denominator: { result: "pass", property_count: denominator.property_count },
+  decision_candidate_integrity: {
+    result: decisionValidation.result,
+    authority_effect: decisionValidation.authority_effect,
+    schema_digest: decisionValidation.schema_digest,
+    selection_schema_digest: decisionValidation.selection_schema_digest,
+    candidate_count: decisionValidation.decision_candidates.length,
+    candidates: decisionValidation.decision_candidates,
+    selections: decisionValidation.selections
+  },
   preserved_preimages: { result: "pass", auth_v1: immutable, lean },
   result: "local-technical-pass",
   authority_effect: "none",
@@ -136,7 +168,7 @@ const amendment = {
     { from: "dsv2.product.test-closure-replay", type: "realized_by", to: "dsv2.system.sfol-proof-replay" }
   ],
   projection_eligibility: "not_evaluable",
-  blockers: ["definition admission", "Product Capability adoption", "business ontology admission", "generated system ontology admission"],
+  blockers: ["DomainSpec source acceptance", "development profile eligibility decision", "generated system ontology admission"],
   authority_effect: "none"
 };
 const amendmentPath = resolve(capabilityRoot, "product-ontology-amendment-candidate.json");

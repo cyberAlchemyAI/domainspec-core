@@ -24,6 +24,7 @@ import {
 } from "../proof/index.js";
 
 export const SFOL_TDE_API_VERSION = "domainspec-sfol-tde-api/v1" as const;
+export const SFOL_TDE_OPTIONAL_EVF_API_VERSION = "domainspec-sfol-tde-api/v2" as const;
 
 export interface DerivePartitionsRequest {
   readonly api_version: typeof SFOL_TDE_API_VERSION;
@@ -56,15 +57,25 @@ export type ReceiptVerificationResult =
   | { readonly ok: true; readonly value: { readonly receipt_digest: string } }
   | { readonly ok: false; readonly diagnostics: readonly { readonly code: "SFOL_RECEIPT_INVALID"; readonly stage: "verify"; readonly subject: string; readonly detail: string }[] };
 
-export interface CloseTestClosureRequest {
+export interface CloseTestClosureV1Request {
   readonly api_version: typeof SFOL_TDE_API_VERSION;
   readonly proof_receipt: unknown;
   readonly detection_matrix: DetectionMatrixReceipt;
   readonly migration_boundary_digest?: string;
 }
 
+export interface CloseTestClosureV2Request {
+  readonly api_version: typeof SFOL_TDE_OPTIONAL_EVF_API_VERSION;
+  readonly proof_receipt: unknown;
+  readonly detection_matrix?: DetectionMatrixReceipt;
+  readonly migration_boundary_digest?: string;
+}
+
+export type CloseTestClosureRequest = CloseTestClosureV1Request | CloseTestClosureV2Request;
+
 export type CloseTestClosureResult =
   | { readonly ok: true; readonly value: { readonly schema_version: "domainspec-sfol-test-closure-receipt/v1"; readonly status: "pass"; readonly proof_receipt_digest: string; readonly detection_matrix_digest: string; readonly migration_boundary_digest: string | null; readonly receipt_digest: string } }
+  | { readonly ok: true; readonly value: { readonly schema_version: "domainspec-sfol-test-closure-receipt/v2"; readonly status: "pass"; readonly proof_receipt_digest: string; readonly evf_status: "not_requested" | "passed"; readonly detection_matrix_digest: string | null; readonly migration_boundary_digest: string | null; readonly receipt_digest: string } }
   | { readonly ok: false; readonly diagnostics: readonly { readonly code: "SFOL_TEST_CLOSURE_INCOMPLETE"; readonly stage: "close"; readonly subject: string; readonly detail: string }[] };
 
 export function derivePartitions(request: DerivePartitionsRequest): DerivePartitionsResponse {
@@ -88,13 +99,27 @@ export function challengeTestClosure(request: NegativeControlEvaluationInput): N
 }
 
 export function closeTestClosure(request: CloseTestClosureRequest): CloseTestClosureResult {
-  if (request.api_version !== SFOL_TDE_API_VERSION) return closureFailure("api_version", `expected ${SFOL_TDE_API_VERSION}`);
+  if (request.api_version !== SFOL_TDE_API_VERSION && request.api_version !== SFOL_TDE_OPTIONAL_EVF_API_VERSION) {
+    return closureFailure("api_version", `expected ${SFOL_TDE_API_VERSION} or ${SFOL_TDE_OPTIONAL_EVF_API_VERSION}`);
+  }
   const proof = verifyContentAddressedReceipt(request.proof_receipt);
   if (!proof.ok) return closureFailure("proof_receipt", proof.diagnostics[0]?.detail ?? "proof receipt is invalid");
-  const detection = verifyContentAddressedReceipt(request.detection_matrix);
-  if (!detection.ok || request.detection_matrix.result !== "pass") return closureFailure("detection_matrix", "a content-valid passing detection matrix is required");
   if (request.migration_boundary_digest !== undefined && !/^[0-9a-f]{64}$/.test(request.migration_boundary_digest)) return closureFailure("migration_boundary_digest", "migration boundary digest must be lowercase SHA-256");
-  const unsigned = { schema_version: "domainspec-sfol-test-closure-receipt/v1" as const, status: "pass" as const, proof_receipt_digest: proof.value.receipt_digest, detection_matrix_digest: detection.value.receipt_digest, migration_boundary_digest: request.migration_boundary_digest ?? null };
+  if (request.api_version === SFOL_TDE_API_VERSION) {
+    const detection = verifyContentAddressedReceipt(request.detection_matrix);
+    if (!detection.ok || request.detection_matrix.result !== "pass") return closureFailure("detection_matrix", "a content-valid passing detection matrix is required");
+    const unsigned = { schema_version: "domainspec-sfol-test-closure-receipt/v1" as const, status: "pass" as const, proof_receipt_digest: proof.value.receipt_digest, detection_matrix_digest: detection.value.receipt_digest, migration_boundary_digest: request.migration_boundary_digest ?? null };
+    return Object.freeze({ ok: true, value: Object.freeze({ ...unsigned, receipt_digest: digestSfolValue(unsigned) }) });
+  }
+  let evfStatus: "not_requested" | "passed" = "not_requested";
+  let detectionMatrixDigest: string | null = null;
+  if (request.detection_matrix !== undefined) {
+    const detection = verifyContentAddressedReceipt(request.detection_matrix);
+    if (!detection.ok || request.detection_matrix.result !== "pass") return closureFailure("detection_matrix", "when EVF is requested, a content-valid passing detection matrix is required");
+    evfStatus = "passed";
+    detectionMatrixDigest = detection.value.receipt_digest;
+  }
+  const unsigned = { schema_version: "domainspec-sfol-test-closure-receipt/v2" as const, status: "pass" as const, proof_receipt_digest: proof.value.receipt_digest, evf_status: evfStatus, detection_matrix_digest: detectionMatrixDigest, migration_boundary_digest: request.migration_boundary_digest ?? null };
   return Object.freeze({ ok: true, value: Object.freeze({ ...unsigned, receipt_digest: digestSfolValue(unsigned) }) });
 }
 

@@ -67,9 +67,11 @@ function validateRequest(command: string, raw: unknown): asserts raw is Record<s
     requireObject(record, "input");
     requireObject(record, "allowlist");
   } else if (command === "close") {
-    requireVersion(record, "domainspec-sfol-tde-api/v1");
+    if (!["domainspec-sfol-tde-api/v1", "domainspec-sfol-tde-api/v2"].includes(String(record.api_version))) {
+      throw new Error("SFOL_CLI_REQUEST_INVALID: api_version must equal domainspec-sfol-tde-api/v1 or domainspec-sfol-tde-api/v2");
+    }
     requireObject(record, "proof_receipt");
-    requireObject(record, "detection_matrix");
+    if (record.api_version === "domainspec-sfol-tde-api/v1" || record.detection_matrix !== undefined) requireObject(record, "detection_matrix");
   }
 }
 

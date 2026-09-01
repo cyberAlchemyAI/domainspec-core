@@ -32,9 +32,10 @@ Proposed stable candidate identities:
   `domainspec.system.sfol-test-closure`
 - implementation profile: `domainspec-sfol-test-closure/v1`
 
-These IDs now identify a locally implemented development candidate. The work
-does not adopt the Product Capability or admit the definition, business
-ontology, generated system ontology, or canonical Product Ontology projection.
+These IDs identify a locally implemented v2 capability whose profile, source,
+and generated system-ontology selections are bound to exact owner decisions.
+The canonical Product Ontology projection remains a separate candidate until
+its existing package passes source-currentness validation.
 
 ## Construction invariant
 
@@ -432,24 +433,26 @@ Exit evidence:
 
 ## Recommended next action
 
-Review and decide the exact immutable capability package. The remaining gate
-is predecessor admission and adoption, not more implementation:
+The exact v2 profile-eligibility, source-acceptance, and system-ontology
+decisions are now selected, and the capability-local D65 chain has a local
+technical pass. The next bounded action is W10.2 canonical Product Ontology
+enrichment using `product-ontology-amendment-candidate.json`:
 
-1. decide `definition-candidates.json` without editing its status in place;
-2. adopt or reject `product-capability.json` by exact digest;
-3. admit or reject `business-ontology.json` and its 21-property denominator;
-4. after those decisions, rematerialize the generated graph and system
-   ontology and review their exact digests;
-5. only then enrich the canonical `projects/domainspec-v2/ontology/` package
-   and append a new validation receipt.
+1. reconcile the pre-existing canonical package source-currentness drift;
+2. apply the candidate's business nodes, system nodes, bridge relations, and
+   explicit residue to `projects/domainspec-v2/ontology/`;
+3. append a fresh validation receipt and rerun `node validate-ontology.mjs
+   --require-receipt`;
+4. perform publication only through a separately authorized Git envelope.
 
-The canonical Product Ontology was deliberately not mutated: the D65 binding
-is `not_evaluable` until the first three owner decisions exist.
+The canonical Product Ontology was deliberately not mutated in this epoch:
+its validator is currently blocked by stale/missing pre-existing source
+bindings, independent of the SFOL v2 candidate.
 
 ## Implementation result
 
 - W8.0: definition, Product Capability, business-ontology, and property-
-  denominator candidates exist; owner decisions remain open.
+  denominator candidates exist with exact owner selections recorded.
 - W8.1: the capability-local DomainSpec source compiles twice to an identical
   13-node, 8-edge graph and generated system-ontology candidate.
 - W8.2: exhaustive finite and deterministic MC/DC strategies, primitive
@@ -464,8 +467,10 @@ is `not_evaluable` until the first three owner decisions exist.
   diagnostics are implemented.
 - W10.1: an additive Auth adapter and migration manifest preserve the v1
   carriers; validation hashes the Lean and Auth v1 preimages before PASS.
-- W10.2: exact implementation and local conformance bindings exist. Canonical
-  ontology enrichment remains correctly blocked on predecessor admission.
+- W10.2: exact implementation, local conformance, profile-eligibility,
+  source-acceptance, and system-ontology selections exist. Canonical ontology
+  enrichment is prepared as a v2 candidate and remains blocked on existing
+  source-currentness drift.
 
 ## Ontology Vault planning result
 
@@ -478,5 +483,6 @@ is `not_evaluable` until the first three owner decisions exist.
 - Visibility: private
 - Ontology mutations performed: generated capability-local system-ontology candidate only; canonical package unchanged
 - Validation: local technical conformance PASS with two test and compile runs
-- Blocker before ontology enrichment: exact Product Capability/business
-  ontology admission plus current generated system and conformance evidence
+- Blocker before ontology enrichment: pre-existing canonical ontology
+  source-currentness drift; the v2 capability, source, profile, generated
+  system ontology, and conformance evidence are exact-bound and locally valid
