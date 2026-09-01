@@ -25,7 +25,7 @@ const SELECTOR_PATTERN = /^([a-z][a-z0-9]*(?:-[a-z0-9]+)*):([a-z][a-z0-9]*(?:-[a
 const NODE_ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const COMPENSATION_DEPENDENCY_PATTERN = /^([a-z][a-z0-9]*(?:-[a-z0-9]+)*):depends-on:([a-z][a-z0-9]*(?:-[a-z0-9]+)*)$/;
 
-type BodyFieldKind = "string" | "string-array" | "state-transition-array" | "typed-record" | "typed-sum" | "typed-rule" | "typed-operation";
+type BodyFieldKind = "string" | "string-array" | "record-fields" | "field-spec" | "field-spec-array" | "interface-operation-array" | "state-transition-array" | "typed-record" | "typed-sum" | "typed-rule" | "typed-operation";
 
 interface BodyContract {
   readonly required: readonly string[];
@@ -35,8 +35,8 @@ interface BodyContract {
 }
 
 export const BODY_CONTRACTS: Readonly<Record<string, BodyContract>> = Object.freeze({
-  Entity: { required: ["description"], optional: ["fields", "typed_contract"], fields: { description: "string", fields: "string-array", typed_contract: "typed-record" } },
-  "Value Object": { required: ["description"], optional: ["fields", "typed_contract"], fields: { description: "string", fields: "string-array", typed_contract: "typed-record" } },
+  Entity: { required: ["description", "fields"], optional: ["identity_field", "typed_contract"], fields: { description: "string", identity_field: "string", fields: "record-fields", typed_contract: "typed-record" }, nonemptyArrays: ["fields"] },
+  "Value Object": { required: ["description", "fields"], optional: ["invariant_refs", "typed_contract"], fields: { description: "string", fields: "record-fields", invariant_refs: "string-array", typed_contract: "typed-record" }, nonemptyArrays: ["fields", "invariant_refs"] },
   Enum: { required: ["description", "values"], optional: ["typed_contract"], fields: { description: "string", values: "string-array", typed_contract: "typed-sum" }, nonemptyArrays: ["values"] },
   Operation: {
     required: ["description", "reads", "writes", "effects", "guard", "failure_continuation"],
@@ -53,8 +53,8 @@ export const BODY_CONTRACTS: Readonly<Record<string, BodyContract>> = Object.fre
     fields: { description: "string", steps: "string-array", compensations: "string-array", compensation_dependencies: "string-array" },
     nonemptyArrays: ["steps"],
   },
-  Interface: { required: ["description", "version", "operations"], optional: [], fields: { description: "string", version: "string", operations: "string-array" } },
-  Event: { required: ["description"], optional: ["fields"], fields: { description: "string", fields: "string-array" } },
+  Interface: { required: ["description", "boundary_kind", "version", "compatibility", "operations"], optional: [], fields: { description: "string", boundary_kind: "string", version: "string", compatibility: "string", operations: "interface-operation-array" }, nonemptyArrays: ["operations"] },
+  Event: { required: ["description", "event_type", "version", "occurrence_id", "occurred_at_policy", "payload"], optional: [], fields: { description: "string", event_type: "string", version: "string", occurrence_id: "field-spec", occurred_at_policy: "string", payload: "field-spec-array" } },
   Mapping: { required: ["description", "source", "target"], optional: [], fields: { description: "string", source: "string", target: "string" } },
   "State Machine": { required: ["description", "states", "initial", "transitions"], optional: [], fields: { description: "string", states: "string-array", initial: "string", transitions: "state-transition-array" }, nonemptyArrays: ["states", "transitions"] },
 });
@@ -67,7 +67,26 @@ export interface StateTransitionSpec {
   readonly effect_event_ref: string | null;
 }
 
-export type DecodedBodyValue = string | readonly string[] | readonly StateTransitionSpec[];
+export type PrimitiveTypeName = "string" | "boolean" | "integer" | "decimal" | "timestamp" | "uuid";
+
+export type TypeRef =
+  | Readonly<{ kind: "primitive"; name: PrimitiveTypeName }>
+  | Readonly<{ kind: "reference"; selector: string }>;
+
+export interface FieldSpec {
+  readonly field_id: string;
+  readonly type_ref: TypeRef;
+  readonly required: boolean;
+}
+
+export interface InterfaceOperationSpec {
+  readonly operation_id: string;
+  readonly operation_ref: string;
+  readonly request: readonly FieldSpec[];
+  readonly result: readonly FieldSpec[];
+}
+
+export type DecodedBodyValue = string | readonly string[] | FieldSpec | readonly FieldSpec[] | readonly InterfaceOperationSpec[] | readonly StateTransitionSpec[];
 
 export interface DecodedBody {
   readonly [key: string]: unknown;
@@ -170,6 +189,67 @@ function requireStringArray(value: unknown, pointer: string, nonempty: boolean):
   return Object.freeze(result);
 }
 
+const PRIMITIVE_TYPES = new Set<PrimitiveTypeName>(["string", "boolean", "integer", "decimal", "timestamp", "uuid"]);
+
+function requireSelector(value: unknown, pointer: string, code = "MTCLI_TYPE_REFERENCE"): string {
+  const selector = requireString(value, pointer);
+  if (!SELECTOR_PATTERN.test(selector)) fail(code, pointer, "reference must be a feature-id:node-id selector");
+  return selector;
+}
+
+function requireTypeRef(value: unknown, pointer: string): TypeRef {
+  if (!isObject(value) || typeof value.kind !== "string") fail("MTCLI_TYPE_REF", pointer, "type_ref must be an object with a closed kind");
+  if (value.kind === "primitive") {
+    exactKeys(value, ["kind", "name"], pointer);
+    const name = requireString(value.name, `${pointer}/name`) as PrimitiveTypeName;
+    if (!PRIMITIVE_TYPES.has(name)) fail("MTCLI_TYPE_REF", `${pointer}/name`, "unknown primitive type");
+    return Object.freeze({ kind: "primitive", name });
+  }
+  if (value.kind === "reference") {
+    exactKeys(value, ["kind", "selector"], pointer);
+    return Object.freeze({ kind: "reference", selector: requireSelector(value.selector, `${pointer}/selector`) });
+  }
+  return fail("MTCLI_TYPE_REF", `${pointer}/kind`, "type_ref kind must be primitive or reference");
+}
+
+function requireFieldSpec(value: unknown, pointer: string): FieldSpec {
+  exactKeys(value, ["field_id", "type_ref", "required"], pointer);
+  const fieldId = requireString(value.field_id, `${pointer}/field_id`);
+  if (!NODE_ID_PATTERN.test(fieldId)) fail("MTCLI_FIELD_ID", `${pointer}/field_id`, "field identity must be canonical kebab-case");
+  if (typeof value.required !== "boolean") fail("MTCLI_FIELD_REQUIRED", `${pointer}/required`, "required must be boolean");
+  return Object.freeze({ field_id: fieldId, type_ref: requireTypeRef(value.type_ref, `${pointer}/type_ref`), required: value.required });
+}
+
+function requireFieldSpecArray(value: unknown, pointer: string, nonempty: boolean): readonly FieldSpec[] {
+  if (!Array.isArray(value) || (nonempty && value.length === 0)) fail("MTCLI_INPUT_BODY", pointer, "expected typed field array");
+  const fields = value.map((entry, index) => requireFieldSpec(entry, `${pointer}/${index}`));
+  const fieldIds = fields.map(({ field_id }) => field_id);
+  if (new Set(fieldIds).size !== fieldIds.length) fail("MTCLI_FIELD_DUPLICATE", pointer, "field identities must be unique");
+  return Object.freeze(fields);
+}
+
+function requireInterfaceOperationArray(value: unknown, pointer: string, nonempty: boolean): readonly InterfaceOperationSpec[] {
+  if (!Array.isArray(value) || (nonempty && value.length === 0)) fail("MTCLI_INPUT_BODY", pointer, "expected interface operation array");
+  const operations = value.map((entry, index): InterfaceOperationSpec => {
+    const entryPointer = `${pointer}/${index}`;
+    exactKeys(entry, ["operation_id", "operation_ref", "request", "result"], entryPointer);
+    const operationId = requireString(entry.operation_id, `${entryPointer}/operation_id`);
+    if (!NODE_ID_PATTERN.test(operationId)) fail("MTCLI_INTERFACE_OPERATION_ID", `${entryPointer}/operation_id`, "operation identity must be canonical kebab-case");
+    return Object.freeze({
+      operation_id: operationId,
+      operation_ref: requireSelector(entry.operation_ref, `${entryPointer}/operation_ref`, "MTCLI_INTERFACE_OPERATION_REFERENCE"),
+      request: requireFieldSpecArray(entry.request, `${entryPointer}/request`, false),
+      result: requireFieldSpecArray(entry.result, `${entryPointer}/result`, false),
+    });
+  });
+  const operationIds = operations.map(({ operation_id }) => operation_id);
+  const operationRefs = operations.map(({ operation_ref }) => operation_ref);
+  if (new Set(operationIds).size !== operationIds.length || new Set(operationRefs).size !== operationRefs.length) {
+    fail("MTCLI_INTERFACE_OPERATION_DUPLICATE", pointer, "operation identities and references must be unique");
+  }
+  return Object.freeze(operations);
+}
+
 function requireNullableSelector(value: unknown, pointer: string): string | null {
   if (value === null) return null;
   const selector = requireString(value, pointer);
@@ -223,6 +303,10 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
       decoded[key] = requireString(raw, `${pointer}/${key}`);
     } else if (fieldKind === "string-array") {
       decoded[key] = requireStringArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false);
+    } else if (fieldKind === "record-fields") {
+      decoded[key] = Array.isArray(raw) && raw.every((entry) => typeof entry === "string")
+        ? requireStringArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false)
+        : requireFieldSpecArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false);
     } else if (fieldKind === "typed-record") {
       decoded[key] = decodeTypedRecordContract(raw, `${pointer}/${key}`);
     } else if (fieldKind === "typed-sum") {
@@ -231,6 +315,12 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
       decoded[key] = decodeTypedRuleContract(raw, `${pointer}/${key}`);
     } else if (fieldKind === "typed-operation") {
       decoded[key] = decodeTypedOperationContract(raw, `${pointer}/${key}`);
+    } else if (fieldKind === "field-spec") {
+      decoded[key] = requireFieldSpec(raw, `${pointer}/${key}`);
+    } else if (fieldKind === "field-spec-array") {
+      decoded[key] = requireFieldSpecArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false);
+    } else if (fieldKind === "interface-operation-array") {
+      decoded[key] = requireInterfaceOperationArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false);
     } else {
       decoded[key] = requireStateTransitionArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false);
     }
@@ -242,6 +332,33 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
   if (kind === "Enum" && decoded.typed_contract) {
     const names = (decoded.typed_contract as ReturnType<typeof decodeTypedSumContract>).variants.map(({ name }) => name);
     if (JSON.stringify(names) !== JSON.stringify(decoded.values)) fail("MTCLI_TYPED_VARIANT_PARITY", `${pointer}/values`, "typed variant names must exactly match values");
+  }
+  if (kind === "Entity" && decoded.typed_contract === undefined) {
+    if (!(decoded.identity_field as string)) fail("MTCLI_ENTITY_IDENTITY", `${pointer}/identity_field`, "identity_field is required for an L1 Entity");
+    const fields = decoded.fields as readonly FieldSpec[];
+    const identityField = decoded.identity_field as string;
+    const identity = fields.find(({ field_id }) => field_id === identityField);
+    if (!identity) fail("MTCLI_ENTITY_IDENTITY", `${pointer}/identity_field`, "identity_field must name one declared field");
+    if (!identity.required) fail("MTCLI_ENTITY_IDENTITY", `${pointer}/fields`, "the identity field must be required");
+  }
+  if (kind === "Value Object" && decoded.typed_contract === undefined) {
+    if (!(decoded.invariant_refs as readonly string[]).length) fail("MTCLI_VALUE_OBJECT_COMPLETE", `${pointer}/invariant_refs`, "invariant_refs are required for an L1 Value Object");
+    const fields = decoded.fields as readonly FieldSpec[];
+    if (fields.some(({ required }) => !required)) fail("MTCLI_VALUE_OBJECT_COMPLETE", `${pointer}/fields`, "every Value Object field must be required");
+    for (const [index, invariantRef] of (decoded.invariant_refs as readonly string[]).entries()) {
+      requireSelector(invariantRef, `${pointer}/invariant_refs/${index}`, "MTCLI_VALUE_OBJECT_INVARIANT_REFERENCE");
+    }
+  }
+  if (kind === "Event") {
+    if (!NODE_ID_PATTERN.test(decoded.event_type as string)) fail("MTCLI_EVENT_TYPE", `${pointer}/event_type`, "event_type must be canonical kebab-case");
+    if (!/^[1-9][0-9]*$/.test(decoded.version as string)) fail("MTCLI_EVENT_VERSION", `${pointer}/version`, "Event version must be a positive integer string");
+    if (!["required", "generated"].includes(decoded.occurred_at_policy as string)) fail("MTCLI_EVENT_OCCURRED_AT", `${pointer}/occurred_at_policy`, "occurred_at_policy must be required or generated");
+    if (!(decoded.occurrence_id as FieldSpec).required) fail("MTCLI_EVENT_OCCURRENCE_ID", `${pointer}/occurrence_id`, "occurrence identity must be required");
+  }
+  if (kind === "Interface") {
+    if (!["external", "internal"].includes(decoded.boundary_kind as string)) fail("MTCLI_INTERFACE_BOUNDARY", `${pointer}/boundary_kind`, "boundary_kind must be external or internal");
+    if (!/^[1-9][0-9]*$/.test(decoded.version as string)) fail("MTCLI_INTERFACE_VERSION", `${pointer}/version`, "Interface version must be a positive integer string");
+    if (!["exact", "backward"].includes(decoded.compatibility as string)) fail("MTCLI_INTERFACE_COMPATIBILITY", `${pointer}/compatibility`, "compatibility must be exact or backward");
   }
   if (kind === "State Machine") {
     const states = decoded.states as readonly string[];
@@ -286,6 +403,19 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
 
 export function validateSelectedNodeRelationships(node: DecodedProjectNode): void {
   const selector = `${node.feature_id}:${node.node_id}`;
+  if (node.kind === "Interface") {
+    const requiredRefs = new Set((node.body.operations as readonly InterfaceOperationSpec[]).map(({ operation_ref }) => operation_ref));
+    const observedRefs = new Set(node.relationships
+      .filter((relationship) => relationship.relationship === "exposes" && `${relationship.source.feature_id}:${relationship.source.node_id}` === selector)
+      .map(({ target }) => `${target.feature_id}:${target.node_id}`));
+    for (const operationRef of requiredRefs) if (!observedRefs.has(operationRef)) {
+      fail("MTCLI_INTERFACE_EXPOSES_MISSING", "/relationships", `Interface operation lacks an exposes relationship:${operationRef}`);
+    }
+    for (const operationRef of observedRefs) if (!requiredRefs.has(operationRef)) {
+      fail("MTCLI_INTERFACE_EXPOSES_UNDECLARED", "/relationships", `exposed Operation or Query is absent from Interface signatures:${operationRef}`);
+    }
+    return;
+  }
   if (node.kind === "State Machine") {
     const transitions = node.body.transitions as readonly StateTransitionSpec[];
     const requiredEvents = new Set(transitions.flatMap(({ effect_event_ref }) => effect_event_ref === null ? [] : [effect_event_ref]));
@@ -460,8 +590,39 @@ function validateBackendRelationshipClosures(
   relationships: readonly DecodedRelationship[],
 ): void {
   for (const [selector, node] of nodes) {
-    if (node.kind !== "Workflow" && node.kind !== "State Machine") continue;
+    if (!["Entity", "Value Object", "Enum", "Event", "Interface", "Workflow", "State Machine"].includes(node.kind)) continue;
     if (node.decoded_body === null) fail("MTCLI_INPUT_BODY", `/${node.relative_path}/body`, `${node.kind} body was not decoded`);
+    const body = node.decoded_body;
+    const hasTypedContract = body.typed_contract !== undefined;
+    const fieldSets: readonly (readonly FieldSpec[])[] = hasTypedContract
+      ? []
+      : node.kind === "Entity" || node.kind === "Value Object"
+      ? [body.fields as readonly FieldSpec[]]
+      : node.kind === "Event"
+        ? [[body.occurrence_id as FieldSpec], body.payload as readonly FieldSpec[]]
+        : node.kind === "Interface"
+          ? (body.operations as readonly InterfaceOperationSpec[]).flatMap(({ request, result }) => [request, result])
+          : [];
+    for (const fields of fieldSets) for (const [index, field] of fields.entries()) {
+      if (field.type_ref.kind !== "reference") continue;
+      const target = nodes.get(field.type_ref.selector);
+      if (!target || !["Entity", "Value Object", "Enum", "Event"].includes(target.kind)) {
+        fail("MTCLI_TYPE_REFERENCE", `/${node.relative_path}/body/fields/${index}/type_ref`, "typed reference must resolve to an Entity, Value Object, Enum, or Event node");
+      }
+    }
+    if (node.kind === "Value Object" && !hasTypedContract) for (const [index, invariantRef] of (body.invariant_refs as readonly string[]).entries()) {
+      const invariant = nodes.get(invariantRef);
+      if (!invariant || invariant.kind !== "Rule") fail("MTCLI_VALUE_OBJECT_INVARIANT_REFERENCE", `/${node.relative_path}/body/invariant_refs/${index}`, "invariant reference must resolve to a Rule node");
+    }
+    if (node.kind === "Event" && body.event_type !== node.node_id) {
+      fail("MTCLI_EVENT_TYPE", `/${node.relative_path}/body/event_type`, "event_type must equal the Event node identity");
+    }
+    if (node.kind === "Interface") for (const [index, operation] of (body.operations as readonly InterfaceOperationSpec[]).entries()) {
+      const target = nodes.get(operation.operation_ref);
+      if (!target || !["Operation", "Query"].includes(target.kind)) {
+        fail("MTCLI_INTERFACE_OPERATION_REFERENCE", `/${node.relative_path}/body/operations/${index}/operation_ref`, "Interface operation reference must resolve to an Operation or Query node");
+      }
+    }
     if (node.kind === "State Machine") {
       for (const [index, transition] of (node.decoded_body.transitions as readonly StateTransitionSpec[]).entries()) {
         if (transition.guard_ref !== null) {
@@ -474,6 +635,7 @@ function validateBackendRelationshipClosures(
         }
       }
     }
+    if (!["Workflow", "State Machine", "Interface"].includes(node.kind)) continue;
     validateSelectedNodeRelationships(Object.freeze({
       project_root: projectRoot,
       project_id: projectId,
@@ -481,9 +643,10 @@ function validateBackendRelationshipClosures(
       node_id: node.node_id,
       kind: node.kind,
       meta_type_id: metaTypeIdForLabel(node.kind),
-      body: node.decoded_body,
+      body,
       relationships: relationshipsFor(selector, relationships),
       source_manifest: manifest,
+      typed_closure: null,
     }));
   }
 }

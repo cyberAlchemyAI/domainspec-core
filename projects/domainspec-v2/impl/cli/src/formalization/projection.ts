@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-import type { CompiledProjectGraph, DecodedRelationship, StateTransitionSpec } from "../input/project-model.js";
+import type { CompiledProjectGraph, DecodedRelationship, FieldSpec, InterfaceOperationSpec, StateTransitionSpec } from "../input/project-model.js";
 import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
 import { FROZEN_RELATIONSHIP_AUTHORITY_V1 } from "../relationships/frozen-authority.generated.js";
 import type { FrozenRelationshipSignature } from "../relationships/types.js";
@@ -32,6 +32,10 @@ type StateTransitionProjection = Readonly<{ transition_id: string; source_state:
 type ProjectNodeProjection = Readonly<{
   selector: string; feature_id: string; node_id: string; meta_type: string;
   generated_creation_targets: readonly string[]; authored_forbidden_projection_attributes: readonly string[];
+  typed_field_ids: readonly string[]; typed_field_type_refs: readonly string[];
+  entity_identity_field: string; value_object_structural_equality: boolean; enum_values: readonly string[];
+  event_type: string; event_version: string; event_occurrence_field: string; event_occurred_at_policy: string;
+  interface_boundary_kind: string; interface_version: string; interface_compatibility: string; interface_operation_refs: readonly string[];
   state_machine_states: readonly string[]; state_machine_initial: string; state_machine_transitions: readonly StateTransitionProjection[];
 }>;
 type ProjectEdgeProjection = Readonly<{
@@ -113,11 +117,32 @@ export function createMetaTypeFormalizationProjection(graph: CompiledProjectGrap
   const obligationCatalog = [...obligationRelations].map(([id, relationIds]) => Object.freeze({ obligation_id: id, lean_constructor: leanIdentifier(id), family: obligationFamily(id), relationship_ids: Object.freeze(relationIds.sort()) })).sort((a, b) => a.obligation_id.localeCompare(b.obligation_id));
   const graphNodes = graph.nodes.map((node): ProjectNodeProjection => {
     const transitions = node.kind === "State Machine" ? node.body.transitions as readonly StateTransitionSpec[] : [];
+    const interfaceOperations = node.kind === "Interface" ? node.body.operations as readonly InterfaceOperationSpec[] : [];
+    const fields: readonly FieldSpec[] = node.kind === "Entity" || node.kind === "Value Object"
+      ? node.body.fields as readonly FieldSpec[]
+      : node.kind === "Event"
+        ? [node.body.occurrence_id as FieldSpec, ...node.body.payload as readonly FieldSpec[]]
+        : node.kind === "Interface"
+          ? interfaceOperations.flatMap(({ request, result }) => [...request, ...result])
+          : [];
     return Object.freeze({
       selector: node.selector, feature_id: node.feature_id, node_id: node.node_id,
       meta_type: LEAN_META_TYPE[node.kind] ?? fail("MTCLI_FORMALIZE_PROJECT_NODE", `missing Lean project meta-type:${node.kind}`),
       generated_creation_targets: Object.freeze([...(node.generated_relationship_projections.creation_targets ?? [])]),
       authored_forbidden_projection_attributes: Object.freeze([...node.authored_forbidden_projection_attributes]),
+      typed_field_ids: Object.freeze(fields.map(({ field_id }) => field_id)),
+      typed_field_type_refs: Object.freeze(fields.map(({ type_ref }) => type_ref.kind === "primitive" ? `primitive:${type_ref.name}` : `reference:${type_ref.selector}`)),
+      entity_identity_field: node.kind === "Entity" ? String(node.body.identity_field) : "",
+      value_object_structural_equality: node.kind === "Value Object",
+      enum_values: Object.freeze(node.kind === "Enum" ? [...node.body.values as readonly string[]] : []),
+      event_type: node.kind === "Event" ? String(node.body.event_type) : "",
+      event_version: node.kind === "Event" ? String(node.body.version) : "",
+      event_occurrence_field: node.kind === "Event" ? (node.body.occurrence_id as FieldSpec).field_id : "",
+      event_occurred_at_policy: node.kind === "Event" ? String(node.body.occurred_at_policy) : "",
+      interface_boundary_kind: node.kind === "Interface" ? String(node.body.boundary_kind) : "",
+      interface_version: node.kind === "Interface" ? String(node.body.version) : "",
+      interface_compatibility: node.kind === "Interface" ? String(node.body.compatibility) : "",
+      interface_operation_refs: Object.freeze(interfaceOperations.map(({ operation_ref }) => operation_ref)),
       state_machine_states: Object.freeze(node.kind === "State Machine" ? [...node.body.states as readonly string[]] : []),
       state_machine_initial: node.kind === "State Machine" ? String(node.body.initial) : "",
       state_machine_transitions: Object.freeze(transitions.map((transition) => Object.freeze({
@@ -169,7 +194,7 @@ export function renderLeanMetaTypeFormalization(projection: MetaTypeFormalizatio
   const obligations = projection.obligation_catalog;
   const signatureRows = relations.map((relation) => `  | .${relation.lean_constructor} => ⟨${leanList(relation.source_types)}, ${leanList(relation.target_types)}, ${leanList(relation.scopes)}, .${relation.multiplicity}, .${relation.inverse_kind === "generated_view" ? "generatedView" : "none"}, ${leanList(relation.obligation_ids.map(leanIdentifier))}⟩`);
   const familyRows = obligations.map((obligation) => `  | .${obligation.lean_constructor} => .${leanIdentifier(obligation.family)}`);
-  const nodeRows = projection.project_graph.nodes.map((node) => `  ⟨${JSON.stringify(node.selector)}, ${JSON.stringify(node.feature_id)}, ${JSON.stringify(node.node_id)}, .${node.meta_type}, ${leanStringList(node.generated_creation_targets)}, ${leanStringList(node.authored_forbidden_projection_attributes)}, ${leanStringList(node.state_machine_states)}, ${JSON.stringify(node.state_machine_initial)}, ${leanStateTransitionList(node.state_machine_transitions)}⟩`);
+  const nodeRows = projection.project_graph.nodes.map((node) => `  ⟨${JSON.stringify(node.selector)}, ${JSON.stringify(node.feature_id)}, ${JSON.stringify(node.node_id)}, .${node.meta_type}, ${leanStringList(node.generated_creation_targets)}, ${leanStringList(node.authored_forbidden_projection_attributes)}, ${leanStringList(node.typed_field_ids)}, ${leanStringList(node.typed_field_type_refs)}, ${JSON.stringify(node.entity_identity_field)}, ${node.value_object_structural_equality}, ${leanStringList(node.enum_values)}, ${JSON.stringify(node.event_type)}, ${JSON.stringify(node.event_version)}, ${JSON.stringify(node.event_occurrence_field)}, ${JSON.stringify(node.event_occurred_at_policy)}, ${JSON.stringify(node.interface_boundary_kind)}, ${JSON.stringify(node.interface_version)}, ${JSON.stringify(node.interface_compatibility)}, ${leanStringList(node.interface_operation_refs)}, ${leanStringList(node.state_machine_states)}, ${JSON.stringify(node.state_machine_initial)}, ${leanStateTransitionList(node.state_machine_transitions)}⟩`);
   const edgeRows = projection.project_graph.edges.map((edge) => `  ⟨${JSON.stringify(edge.edge_id)}, .${edge.relation}, .${edge.scope}, ${JSON.stringify(edge.source_selector)}, ${JSON.stringify(edge.target_selector)}, .${edge.source_type}, .${edge.target_type}, ${JSON.stringify(edge.authored_relationship_id)}, ${leanStringList(edge.source_generated_creation_targets)}, ${edge.source_authored_generated_projection}⟩`);
   const witnessRows = projection.applicable_witnesses.map((witness) => `  ⟨${JSON.stringify(witness.witness_id)}, ${JSON.stringify(witness.edge_id)}, .${leanIdentifier(witness.obligation_id)}⟩`);
   return [
@@ -190,7 +215,7 @@ export function renderLeanMetaTypeFormalization(projection: MetaTypeFormalizatio
     "inductive Multiplicity | oneToOne | oneToMany | oneToManyOrdered | manyToOne | manyToMany deriving DecidableEq, BEq, Repr",
     "inductive InverseKind | none | generatedView deriving DecidableEq, BEq, Repr", "structure RelationshipSignature where", "  sourceTypes : List MetaType", "  targetTypes : List MetaType", "  scopes : List FeatureScope", "  multiplicity : Multiplicity", "  inverse : InverseKind", "  obligations : List ObligationId", "def signature : Relation → RelationshipSignature", ...signatureRows, "",
     "structure StateTransition where", "  transitionId : String", "  sourceState : String", "  targetState : String", "  guardRef : String", "  effectEventRef : String", "  deriving DecidableEq, BEq, Repr", "",
-    "structure ProjectNode where", "  selector : String", "  featureId : String", "  nodeId : String", "  metaType : MetaType", "  generatedCreationTargets : List String", "  authoredForbiddenProjectionAttributes : List String", "  stateMachineStates : List String", "  stateMachineInitial : String", "  stateMachineTransitions : List StateTransition", "  deriving Repr",
+    "structure ProjectNode where", "  selector : String", "  featureId : String", "  nodeId : String", "  metaType : MetaType", "  generatedCreationTargets : List String", "  authoredForbiddenProjectionAttributes : List String", "  typedFieldIds : List String", "  typedFieldTypeRefs : List String", "  entityIdentityField : String", "  valueObjectStructuralEquality : Bool", "  enumValues : List String", "  eventType : String", "  eventVersion : String", "  eventOccurrenceField : String", "  eventOccurredAtPolicy : String", "  interfaceBoundaryKind : String", "  interfaceVersion : String", "  interfaceCompatibility : String", "  interfaceOperationRefs : List String", "  stateMachineStates : List String", "  stateMachineInitial : String", "  stateMachineTransitions : List StateTransition", "  deriving Repr",
     `def projectNodes : List ProjectNode := [\n${nodeRows.join(",\n")}\n]`, "",
     "structure ProjectEdge where", "  edgeId : String", "  relation : Relation", "  scope : FeatureScope", "  sourceSelector : String", "  targetSelector : String", "  sourceType : MetaType", "  targetType : MetaType", "  authoredRelationshipId : String", "  sourceGeneratedCreationTargets : List String", "  sourceAuthoredGeneratedProjection : Bool", "  deriving Repr",
     `def projectEdges : List ProjectEdge := [\n${edgeRows.join(",\n")}\n]`, "",
@@ -202,6 +227,15 @@ export function renderLeanMetaTypeFormalization(projection: MetaTypeFormalizatio
     "def inverseCollapseAllowed (edges : List ProjectEdge) (edge : ProjectEdge) : Bool :=", "  !(edge.relation == .belongsTo && edges.any (fun other =>", "    other.relation == .owns && other.sourceSelector == edge.targetSelector && other.targetSelector == edge.sourceSelector))",
     "def deprecatedQueriesAliasAbsent (edge : ProjectEdge) : Bool := edge.authoredRelationshipId != \"queries\"",
     "def enforcesCrossLabelAbsent (edge : ProjectEdge) : Bool := edge.authoredRelationshipId != \"enforces-cross\"", "",
+    "def l1RoleHolds (node : ProjectNode) : Bool :=",
+    "  match node.metaType with",
+    "  | .entity => !node.typedFieldIds.isEmpty && node.typedFieldIds.length == node.typedFieldTypeRefs.length && node.entityIdentityField != \"\" && node.typedFieldIds.contains node.entityIdentityField",
+    "  | .valueObject => !node.typedFieldIds.isEmpty && node.typedFieldIds.length == node.typedFieldTypeRefs.length && node.entityIdentityField == \"\" && node.valueObjectStructuralEquality",
+    "  | .enumType => !node.enumValues.isEmpty && node.typedFieldIds.isEmpty",
+    "  | .event => node.eventType == node.nodeId && node.eventVersion != \"\" && node.eventOccurrenceField != \"\" && node.typedFieldIds.contains node.eventOccurrenceField && (node.eventOccurredAtPolicy == \"required\" || node.eventOccurredAtPolicy == \"generated\")",
+    "  | .interfaceType => (node.interfaceBoundaryKind == \"external\" || node.interfaceBoundaryKind == \"internal\") && node.interfaceVersion != \"\" && (node.interfaceCompatibility == \"exact\" || node.interfaceCompatibility == \"backward\") && !node.interfaceOperationRefs.isEmpty",
+    "  | _ => true",
+    "theorem allProjectL1RolesHold : ∀ node ∈ projectNodes, l1RoleHolds node = true := by decide", "",
     "def stateTransitionHolds (node : ProjectNode) (transition : StateTransition) : Bool :=",
     "  node.stateMachineStates.contains transition.sourceState &&",
     "  node.stateMachineStates.contains transition.targetState &&",

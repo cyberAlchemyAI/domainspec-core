@@ -3,11 +3,17 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import type { InstantiationPlanV1 } from "../../src/generation/contracts.ts";
+import { planInstantiation } from "../../src/generation/plan-instantiation.ts";
 import { PublicationError, publishInstantiation } from "../../src/generation/publish-instantiation.ts";
+import { loadProjectNode } from "../../src/input/project-model.ts";
 import { sha256 } from "../../src/input/source-manifest.ts";
 import { testPlan } from "../helpers/plans.ts";
+
+const testDir = path.dirname(fileURLToPath(import.meta.url));
+const sourceFixtureRoot = path.resolve(testDir, "../../fixtures/input-roots/canonical-project");
 
 function sandbox(): string {
   return fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-publish-"));
@@ -58,6 +64,26 @@ test("State Machine materialization and receipt are byte-identical across two ta
     assert.equal(leftResult.receipt.generator_id, "domainspec.generator/DS-D1.14/typescript/v2");
     assert.deepEqual(leftResult.receipt.semantic_contract.body, rightResult.receipt.semantic_contract.body);
     assert.deepEqual(leftResult.receipt.semantic_contract.relationships, rightResult.receipt.semantic_contract.relationships);
+  } finally {
+    clean(root);
+  }
+});
+
+test("all connected L1 contracts materialize byte-identically in three languages", () => {
+  const selectors = ["alpha:customer", "beta:settlement-details", "beta:settlement-method", "beta:settlement-completed", "alpha:settlement-api"];
+  const root = sandbox();
+  try {
+    for (const selector of selectors) for (const language of ["typescript", "python", "rust"] as const) {
+      const node = loadProjectNode(sourceFixtureRoot, selector);
+      const suffix = `${selector.replace(":", "-")}-${language}`;
+      const left = path.join(root, `${suffix}-left`);
+      const right = path.join(root, `${suffix}-right`);
+      const leftResult = publishInstantiation(planInstantiation(node, language), left);
+      const rightResult = publishInstantiation(planInstantiation(node, language), right);
+      assert.deepEqual(inventory(left), inventory(right));
+      assert.equal(leftResult.receipt.receipt_sha256, rightResult.receipt.receipt_sha256);
+      assert.deepEqual(leftResult.receipt.semantic_contract.body, rightResult.receipt.semantic_contract.body);
+    }
   } finally {
     clean(root);
   }

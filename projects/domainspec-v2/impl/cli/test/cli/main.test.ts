@@ -56,12 +56,12 @@ test("add operation authors, validates, saves, and instantiates one canonical Op
     assert.equal(authored.result, "pass");
     assert.equal(authored.selector, "alpha:create-order");
     assert.equal(authored.node_path, "specs/alpha/nodes/create-order.json");
-    assert.equal(authored.source_count, 18);
+    assert.equal(authored.source_count, 22);
     assert.match(authored.source_manifest_sha256, /^[a-f0-9]{64}$/);
     assert.deepEqual(errors, []);
 
     const feature = JSON.parse(fs.readFileSync(path.join(source, "specs/alpha/feature.json"), "utf8"));
-    assert.deepEqual(feature.nodes, ["create-order", "customer", "settle"]);
+    assert.deepEqual(feature.nodes, ["create-order", "customer", "settle", "settlement-api"]);
     const node = JSON.parse(fs.readFileSync(path.join(source, authored.node_path), "utf8"));
     assert.deepEqual(node, {
       schema_version: "domainspec.node/v1",

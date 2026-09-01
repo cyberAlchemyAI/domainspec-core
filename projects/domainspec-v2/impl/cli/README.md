@@ -41,7 +41,11 @@ identifiers, executable predicates for the six obligation families, and one
 witness for every obligation applicable to an authored edge. State Machine
 sources also project their declared states, initial state, structured
 transitions, Rule guard references, and Event-intent relationships into an
-executable `allProjectStateMachinesHold` theorem. `formalize-check`
+executable `allProjectStateMachinesHold` theorem. The same projection carries
+L1 typed-field identities, Entity identity,
+Value Object structural equality, Enum closure, Event occurrence/version, and
+Interface boundary/compatibility facts into `allProjectL1RolesHold`.
+`formalize-check`
 rebuilds that projection and rejects source or target drift. These finite Lean
 proofs establish only the generated graph obligations; they do not establish
 runtime conformance, business acceptance, publication, or external authority.
@@ -85,6 +89,21 @@ Python, and Rust runtimes apply the same fail-closed causal outcomes:
 `guard-rejected`. The Rule-reference evaluator is required at every call site;
 there is no allow-by-default guard callback. A successful transition returns only the declared next state
 and Event intent; effect execution remains outside this package.
+
+L1 domain and boundary bodies share one closed `FieldSpec`/`TypeRef`
+vocabulary. Primitive references are limited to `string`, `boolean`,
+`integer`, `decimal`, `timestamp`, and `uuid`; named references must resolve to
+an Entity, Value Object, Enum, or Event in the compiled project graph. Entities
+designate one required identity field and compare identity independently of
+mutable state. Value Objects require a complete field set, no identity, exact
+Rule invariant references, and structural equality. Events declare their
+event type, positive integer version, required occurrence identity,
+occurred-at policy, and typed payload. Interfaces declare external/internal
+boundary kind, version, exact/backward compatibility direction, and typed
+request/result signatures whose Operation or Query references close exactly
+against authored `exposes` relationships. Generated TypeScript, Python, and
+Rust artifacts preserve these roles and expose deterministic identity,
+equality, Event compatibility, and Interface version checks.
 
 The package is not released, published, registered, deployed, or production
 ready. The root export is the curated instantiation/conformance API; the

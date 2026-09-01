@@ -56,6 +56,13 @@ function typedAuthTarget(name = "target"): { parent: string; target: string; art
   };
 }
 
+function l1Target(selector: string, language: "typescript" | "python" | "rust" = "typescript"): { parent: string; target: string; artifact: string } {
+  const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-observe-"));
+  const target = path.join(parent, "target");
+  const result = publishInstantiation(planInstantiation(loadProjectNode(sourceFixtureRoot, selector), language), target);
+  return { parent, target, artifact: path.join(target, result.receipt.artifacts[0]!.relative_path) };
+}
+
 function expectCode(target: string, code: string): void {
   assert.throws(() => observeTarget(target), (error) => error instanceof ConformanceError && error.code === code);
   const receipt = observeTargetReceipt(target);
@@ -101,6 +108,41 @@ test("all three State Machine realizations pass causal semantic observation", ()
       const observation = observeTarget(fixture.target);
       assert.equal(observation.result, "pass");
       assert.equal(observation.checks.includes("state-machine-obligations-when-applicable"), true);
+    } finally {
+      clean(fixture.parent);
+    }
+  }
+});
+
+test("all five L1 roles pass exact observation in TypeScript, Python, and Rust", () => {
+  const selectors = ["alpha:customer", "beta:settlement-details", "beta:settlement-method", "beta:settlement-completed", "alpha:settlement-api"];
+  for (const selector of selectors) for (const language of ["typescript", "python", "rust"] as const) {
+    const fixture = l1Target(selector, language);
+    try {
+      const observation = observeTarget(fixture.target);
+      assert.equal(observation.result, "pass");
+      assert.equal(observation.checks.includes("l1-typed-role-obligations-when-applicable"), true);
+    } finally {
+      clean(fixture.parent);
+    }
+  }
+});
+
+test("L1 role-confusion and compatibility marker drift fail causally", () => {
+  const mutants: readonly [string, string, string, string][] = [
+    ["alpha:customer", '// domainspec-entity-identity: "customer-id"', '// domainspec-entity-identity: "settlement-details"', "MTCLI_ENTITY_IDENTITY"],
+    ["beta:settlement-details", "// domainspec-value-object-structural-equality: true", "// domainspec-value-object-structural-equality: false", "MTCLI_VALUE_EQUALITY"],
+    ["beta:settlement-method", '// domainspec-enum-closed-values: ["card","bank-transfer"]', '// domainspec-enum-closed-values: ["card"]', "MTCLI_ENUM_CLOSED_VALUES"],
+    ["beta:settlement-completed", '// domainspec-event-compatibility: {"event_type":"settlement-completed","version":"1"}', '// domainspec-event-compatibility: {"event_type":"settlement-requested","version":"1"}', "MTCLI_EVENT_COMPATIBILITY"],
+    ["alpha:settlement-api", '// domainspec-interface-compatibility: {"direction":"backward","version":"2"}', '// domainspec-interface-compatibility: {"direction":"exact","version":"2"}', "MTCLI_INTERFACE_COMPATIBILITY"],
+  ];
+  for (const [selector, before, after, code] of mutants) {
+    const fixture = l1Target(selector);
+    try {
+      const content = fs.readFileSync(fixture.artifact, "utf8");
+      assert.equal(content.includes(before), true, `test fixture contains ${before}`);
+      fs.writeFileSync(fixture.artifact, content.replace(before, after));
+      expectCode(fixture.target, code);
     } finally {
       clean(fixture.parent);
     }

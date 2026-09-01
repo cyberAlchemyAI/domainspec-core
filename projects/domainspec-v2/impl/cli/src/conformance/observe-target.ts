@@ -235,6 +235,39 @@ function stateMachineSemantics(content: string, receipt: InstantiationReceiptV1,
   if (!content.includes(effectFragment)) fail("MTCLI_STATE_MACHINE_EFFECT_BOUNDARY", pointer, "generated realization does not return the declared Event intent exactly");
 }
 
+function l1Semantics(content: string, receipt: InstantiationReceiptV1, pointer: string): void {
+  const body = receipt.semantic_contract.body;
+  if (canonicalJson(jsonMarker(content, "domainspec-l1-contract", pointer)) !== canonicalJson({ kind: receipt.input.kind, body })) {
+    fail("MTCLI_L1_CONTRACT", pointer, "typed L1 contract marker drifted");
+  }
+  const language = receipt.language;
+  if (receipt.input.kind === "Entity") {
+    if (marker(content, "domainspec-entity-identity", pointer) !== JSON.stringify(body.identity_field)) fail("MTCLI_ENTITY_IDENTITY", pointer, "Entity identity marker drifted");
+    const fragments = { typescript: "sameIdentity(other:", python: "def same_identity(self, other:", rust: "pub fn same_identity(&self, other: &Self)" } as const;
+    if (!content.includes(fragments[language])) fail("MTCLI_ENTITY_IDENTITY", pointer, "Entity identity comparison is absent");
+  }
+  if (receipt.input.kind === "Value Object") {
+    if (marker(content, "domainspec-value-object-structural-equality", pointer) !== "true") fail("MTCLI_VALUE_EQUALITY", pointer, "Value Object structural equality marker drifted");
+    const fragments = { typescript: "equals(other:", python: "def equals(self, other:", rust: "pub fn equals(&self, other: &Self)" } as const;
+    if (!content.includes(fragments[language])) fail("MTCLI_VALUE_EQUALITY", pointer, "Value Object structural equality is absent");
+  }
+  if (receipt.input.kind === "Enum") {
+    if (canonicalJson(jsonMarker(content, "domainspec-enum-closed-values", pointer)) !== canonicalJson(body.values)) fail("MTCLI_ENUM_CLOSED_VALUES", pointer, "Enum finite value set drifted");
+  }
+  if (receipt.input.kind === "Event") {
+    if (canonicalJson(jsonMarker(content, "domainspec-event-compatibility", pointer)) !== canonicalJson({ event_type: body.event_type, version: body.version })) fail("MTCLI_EVENT_COMPATIBILITY", pointer, "Event type/version compatibility drifted");
+    if (marker(content, "domainspec-event-occurred-at-policy", pointer) !== JSON.stringify(body.occurred_at_policy)) fail("MTCLI_EVENT_OCCURRENCE", pointer, "Event occurred-at policy drifted");
+    const fragments = { typescript: "Compatible(candidate:", python: "_compatible(candidate_type:", rust: "_compatible(candidate_type: &str" } as const;
+    if (!content.includes(fragments[language])) fail("MTCLI_EVENT_COMPATIBILITY", pointer, "Event compatibility predicate is absent");
+  }
+  if (receipt.input.kind === "Interface") {
+    if (marker(content, "domainspec-interface-boundary", pointer) !== JSON.stringify(body.boundary_kind)) fail("MTCLI_INTERFACE_BOUNDARY", pointer, "Interface boundary kind drifted");
+    if (canonicalJson(jsonMarker(content, "domainspec-interface-compatibility", pointer)) !== canonicalJson({ version: body.version, direction: body.compatibility })) fail("MTCLI_INTERFACE_COMPATIBILITY", pointer, "Interface compatibility direction drifted");
+    const fragments = { typescript: "AcceptsVersion(candidateVersion:", python: "_accepts_version(candidate_version:", rust: "_accepts_version(candidate_version: &str" } as const;
+    if (!content.includes(fragments[language])) fail("MTCLI_INTERFACE_COMPATIBILITY", pointer, "Interface compatibility predicate is absent");
+  }
+}
+
 function observeSemantics(content: string, receipt: InstantiationReceiptV1, pointer: string): void {
   const expectedMeta = {
     baseline_id: receipt.baseline.id,
@@ -270,6 +303,7 @@ function observeSemantics(content: string, receipt: InstantiationReceiptV1, poin
   }
   if (receipt.input.kind === "Workflow") workflowCompensation(content, receipt, pointer);
   if (receipt.input.kind === "State Machine") stateMachineSemantics(content, receipt, pointer);
+  if (receipt.semantic_contract.body.typed_contract === undefined && ["Entity", "Value Object", "Enum", "Event", "Interface"].includes(receipt.input.kind)) l1Semantics(content, receipt, pointer);
 }
 
 function expectedImplementation(receipt: InstantiationReceiptV1): string {
@@ -345,7 +379,7 @@ export function observeTarget(targetRoot: unknown): TargetObservationV1 {
     receipt_path: receiptPath,
     receipt_sha256: receipt.receipt_sha256,
     observed_artifacts: Object.freeze(observed),
-    checks: Object.freeze(["exact-file-inventory", "frozen-realization-provenance", "closed-body-contract", "relationship-contract", "relationship-generated-projections", "operation-obligations-when-applicable", "operation-boundary-placement-when-applicable", "typed-rust-crate-when-selected", "workflow-obligations-when-applicable", "state-machine-obligations-when-applicable", "system-integration-profile-when-selected", "artifact-digests"]),
+    checks: Object.freeze(["exact-file-inventory", "frozen-realization-provenance", "closed-body-contract", "relationship-contract", "relationship-generated-projections", "operation-obligations-when-applicable", "operation-boundary-placement-when-applicable", "typed-rust-crate-when-selected", "workflow-obligations-when-applicable", "state-machine-obligations-when-applicable", "l1-typed-role-obligations-when-applicable", "system-integration-profile-when-selected", "artifact-digests"]),
     authority_effect: "none",
   });
 }

@@ -15,6 +15,14 @@ function writeJson(root: string, relativePath: string, value: unknown): void {
   fs.writeFileSync(absolute, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+function entityBody(description: string, identityField = "entity-id"): Record<string, unknown> {
+  return { description, identity_field: identityField, fields: [{ field_id: identityField, type_ref: { kind: "primitive", name: "uuid" }, required: true }] };
+}
+
+function eventBody(eventType: string, description: string): Record<string, unknown> {
+  return { description, event_type: eventType, version: "1", occurrence_id: { field_id: "occurrence-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }, occurred_at_policy: "required", payload: [{ field_id: "settlement-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }] };
+}
+
 function project(): string {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-operation-relations-"));
   writeJson(root, "project.json", { schema_version: "domainspec.project/v1", project_id: "operations-project", features: ["settlement"], cross_feature_edges: [] });
@@ -22,7 +30,7 @@ function project(): string {
   writeJson(root, "specs/settlement/nodes/settle.json", { schema_version: "domainspec.node/v1", node_id: "settle", feature_id: "settlement", kind: "Operation", body: { description: "Settle", reads: ["settlement"], writes: ["settlement.status"], effects: ["Settled"], guard: "can-settle", failure_continuation: "return-settlement-error" } });
   writeJson(root, "specs/settlement/nodes/reverse.json", { schema_version: "domainspec.node/v1", node_id: "reverse", feature_id: "settlement", kind: "Operation", body: { description: "Reverse settlement", reads: ["settlement"], writes: ["settlement.status"], effects: ["SettlementReversed"], guard: "can-reverse", failure_continuation: "escalate" } });
   writeJson(root, "specs/settlement/nodes/can-settle.json", { schema_version: "domainspec.node/v1", node_id: "can-settle", feature_id: "settlement", kind: "Rule", body: { description: "Can settle", predicate: "open" } });
-  writeJson(root, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Event", body: { description: "Settlement completed", fields: ["settlement-id"] } });
+  writeJson(root, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Event", body: eventBody("settled", "Settlement completed") });
   writeJson(root, "specs/settlement/nodes/settlement-flow.json", { schema_version: "domainspec.node/v1", node_id: "settlement-flow", feature_id: "settlement", kind: "Workflow", body: { description: "Settlement flow", steps: ["settle"], compensations: ["reverse"] } });
   writeJson(root, "specs/settlement/edges/rule-operation.json", { schema_version: "domainspec.edge/v1", edge_id: "rule-operation", feature_id: "settlement", relationship: "enforces", source_node_id: "can-settle", target_node_id: "settle", scope: "feature" });
   writeJson(root, "specs/settlement/edges/operation-event.json", { schema_version: "domainspec.edge/v1", edge_id: "operation-event", feature_id: "settlement", relationship: "produces", source_node_id: "settle", target_node_id: "settled", scope: "feature" });
@@ -173,7 +181,7 @@ test("deprecated aliases and generated inverse views cannot be authored", () => 
 test("relationship placement is checked against the canonical signature", () => {
   const root = project();
   try {
-    writeJson(root, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Entity", body: { description: "Settlement" } });
+    writeJson(root, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Entity", body: entityBody("Settlement", "settlement-id") });
     const edge = readJson(root, "specs/settlement/edges/operation-event.json");
     edge.relationship = "produces-for";
     writeJson(root, "specs/settlement/edges/operation-event.json", edge);
@@ -197,15 +205,15 @@ test("creates enforces one target per Operation and one creator per Entity", () 
   const outgoing = project();
   const incoming = project();
   try {
-    writeJson(outgoing, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Entity", body: { description: "Settlement" } });
+    writeJson(outgoing, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Entity", body: entityBody("Settlement", "settlement-id") });
     const original = readJson(outgoing, "specs/settlement/edges/operation-event.json");
     original.relationship = "creates";
     writeJson(outgoing, "specs/settlement/edges/operation-event.json", original);
-    addFeatureNode(outgoing, "settlement-copy", "Entity", { description: "Settlement copy" });
+    addFeatureNode(outgoing, "settlement-copy", "Entity", entityBody("Settlement copy", "settlement-copy-id"));
     addFeatureEdge(outgoing, "operation-creates-copy", "creates", "settle", "settlement-copy");
     assert.throws(() => loadProjectNode(outgoing, "settlement:settle"), (error) => error instanceof ProjectModelError && error.code === "MTCLI_RELATIONSHIP_MULTIPLICITY");
 
-    writeJson(incoming, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Entity", body: { description: "Settlement" } });
+    writeJson(incoming, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Entity", body: entityBody("Settlement", "settlement-id") });
     const incomingOriginal = readJson(incoming, "specs/settlement/edges/operation-event.json");
     incomingOriginal.relationship = "creates";
     writeJson(incoming, "specs/settlement/edges/operation-event.json", incomingOriginal);
@@ -221,7 +229,7 @@ test("creates enforces one target per Operation and one creator per Entity", () 
 test("creates derives the exact sorted creation_targets projection without source authorship", () => {
   const root = project();
   try {
-    writeJson(root, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Entity", body: { description: "Settlement" } });
+    writeJson(root, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Entity", body: entityBody("Settlement", "settlement-id") });
     const edge = readJson(root, "specs/settlement/edges/operation-event.json");
     edge.relationship = "creates";
     writeJson(root, "specs/settlement/edges/operation-event.json", edge);
@@ -238,8 +246,8 @@ test("creates derives the exact sorted creation_targets projection without sourc
 test("belongs-to cannot restate the inverse of owns", () => {
   const root = project();
   try {
-    addFeatureNode(root, "owner", "Entity", { description: "Owner" });
-    addFeatureNode(root, "member", "Entity", { description: "Member" });
+    addFeatureNode(root, "owner", "Entity", entityBody("Owner", "owner-id"));
+    addFeatureNode(root, "member", "Entity", entityBody("Member", "member-id"));
     addFeatureEdge(root, "owner-owns-member", "owns", "owner", "member");
     addFeatureEdge(root, "member-belongs-to-owner", "belongs-to", "member", "owner");
     assert.throws(

@@ -1,5 +1,5 @@
 import { canonicalJson } from "../input/source-manifest.js";
-import type { StateTransitionSpec } from "../input/project-model.js";
+import type { FieldSpec, InterfaceOperationSpec, StateTransitionSpec, TypeRef } from "../input/project-model.js";
 import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
 import type { SupportedLanguage } from "../meta-types/types.js";
 import type { GeneratorInput, GeneratorRegistration } from "./contracts.js";
@@ -48,6 +48,49 @@ function text(value: unknown, fallback: string): string {
 
 function stateTransitions(value: unknown): readonly StateTransitionSpec[] {
   return Array.isArray(value) ? value as readonly StateTransitionSpec[] : [];
+}
+
+function fieldSpecs(value: unknown): readonly FieldSpec[] {
+  return Array.isArray(value) ? value as readonly FieldSpec[] : [];
+}
+
+function fieldSpec(value: unknown): FieldSpec {
+  return value as FieldSpec;
+}
+
+function interfaceOperations(value: unknown): readonly InterfaceOperationSpec[] {
+  return Array.isArray(value) ? value as readonly InterfaceOperationSpec[] : [];
+}
+
+function typescriptType(typeRef: TypeRef): string {
+  if (typeRef.kind === "reference") return `DomainspecRef<${JSON.stringify(typeRef.selector)}>`;
+  return ({ string: "string", boolean: "boolean", integer: "number", decimal: "number", timestamp: "string", uuid: "string" } as const)[typeRef.name];
+}
+
+function pythonType(typeRef: TypeRef): string {
+  if (typeRef.kind === "reference") return `Annotated[str, ${JSON.stringify(`domainspec-ref:${typeRef.selector}`)}]`;
+  return ({ string: "str", boolean: "bool", integer: "int", decimal: "float", timestamp: "str", uuid: "str" } as const)[typeRef.name];
+}
+
+function rustType(typeRef: TypeRef): string {
+  if (typeRef.kind === "reference") return "String";
+  return ({ string: "String", boolean: "bool", integer: "i64", decimal: "f64", timestamp: "String", uuid: "String" } as const)[typeRef.name];
+}
+
+function typescriptFields(fields: readonly FieldSpec[]): string {
+  return fields.map((field) => `  readonly ${camel(field.field_id)}${field.required ? "" : "?"}: ${typescriptType(field.type_ref)};`).join("\n");
+}
+
+function pythonFields(fields: readonly FieldSpec[]): string {
+  return [...fields].sort((left, right) => Number(right.required) - Number(left.required)).map((field) => `    ${snake(field.field_id)}: ${pythonType(field.type_ref)}${field.required ? "" : " | None = None"}`).join("\n");
+}
+
+function rustFields(fields: readonly FieldSpec[]): string {
+  return fields.map((field) => `    pub ${snake(field.field_id)}: ${field.required ? rustType(field.type_ref) : `Option<${rustType(field.type_ref)}>`},`).join("\n");
+}
+
+function l1Marker(input: GeneratorInput, comment: "//" | "#"): string {
+  return `${comment} domainspec-l1-contract: ${canonicalJson({ kind: input.kind, body: input.body })}\n`;
 }
 
 function pythonStateTransitions(values: readonly StateTransitionSpec[]): string {
@@ -524,17 +567,44 @@ function renderTypeScript(input: GeneratorInput): string {
   const fn = camel(input.node_id);
   const body = input.body;
   const header = provenance(input, "//");
-  const fields = strings(body.fields);
-  const fieldShape = fields.map((field) => `  readonly ${camel(field)}: unknown;`).join("\n") || "  readonly value: unknown;";
   switch (input.kind) {
-    case "Entity":
-      return `${header}export interface ${name}State {\n${fieldShape}\n}\n\nexport class ${name} {\n  constructor(readonly id: string, private state: Readonly<${name}State>) {}\n  snapshot(): Readonly<${name}State> { return Object.freeze({ ...this.state }); }\n}\n`;
-    case "Value Object":
-      return `${header}export class ${name} {\n  readonly value: Readonly<Record<string, unknown>>;\n  constructor(value: Record<string, unknown>) { this.value = Object.freeze({ ...value }); }\n}\n`;
+    case "Entity": {
+      if (body.typed_contract !== undefined) return `${header}#[derive(Clone, Debug, PartialEq)]\npub struct ${name} { pub id: String, pub state: String }\n`;
+      const fields = fieldSpecs(body.fields);
+      const identity = camel(text(body.identity_field, "identity"));
+      return `${header}${l1Marker(input, "//")}// domainspec-entity-identity: ${JSON.stringify(text(body.identity_field, ""))}
+type DomainspecRef<Selector extends string> = string & { readonly __domainspecRef: Selector };
+export interface ${name}Fields {
+${typescriptFields(fields)}
+}
+export class ${name} {
+  constructor(private readonly fields: Readonly<${name}Fields>) {}
+  sameIdentity(other: ${name}): boolean { return this.fields.${identity} === other.fields.${identity}; }
+  snapshot(): Readonly<${name}Fields> { return Object.freeze({ ...this.fields }); }
+}
+`;
+    }
+    case "Value Object": {
+      if (body.typed_contract !== undefined) return `${header}#[derive(Clone, Debug, PartialEq, Eq)]\npub struct ${name}(pub String);\n`;
+      const fields = fieldSpecs(body.fields);
+      const comparisons = fields.map(({ field_id }) => `Object.is(this.fields.${camel(field_id)}, other.fields.${camel(field_id)})`).join(" && ") || "true";
+      return `${header}${l1Marker(input, "//")}// domainspec-value-object-structural-equality: true
+// domainspec-value-object-invariant-refs: ${canonicalJson(strings(body.invariant_refs))}
+type DomainspecRef<Selector extends string> = string & { readonly __domainspecRef: Selector };
+export interface ${name}Fields {
+${typescriptFields(fields)}
+}
+export class ${name} {
+  constructor(private readonly fields: Readonly<${name}Fields>) { this.fields = Object.freeze({ ...fields }); }
+  equals(other: ${name}): boolean { return ${comparisons}; }
+  value(): Readonly<${name}Fields> { return this.fields; }
+}
+`;
+    }
     case "Enum": {
       const values = strings(body.values);
       const names = uniqueNames(values, pascal, "TypeScript Enum");
-      return `${header}export const ${name} = Object.freeze({\n${values.map((value, index) => `  ${names[index]}: ${JSON.stringify(value)},`).join("\n")}\n} as const);\nexport type ${name} = (typeof ${name})[keyof typeof ${name}];\n`;
+      return `${header}${l1Marker(input, "//")}// domainspec-enum-closed-values: ${canonicalJson(values)}\nexport const ${name} = Object.freeze({\n${values.map((value, index) => `  ${names[index]}: ${JSON.stringify(value)},`).join("\n")}\n} as const);\nexport type ${name} = (typeof ${name})[keyof typeof ${name}];\n`;
     }
     case "Operation": {
       const contract = canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) });
@@ -550,10 +620,47 @@ function renderTypeScript(input: GeneratorInput): string {
       return `${header}export const ${name}Strategies = Object.freeze(${JSON.stringify(strings(body.strategies))});\nexport function ${fn}(index = 0): string { return ${name}Strategies[index] ?? ${name}Strategies[0] ?? ""; }\n`;
     case "Workflow":
       return renderTypeScriptWorkflow(input, name, fn, header);
-    case "Interface":
-      return `${header}export interface ${name} {\n  readonly version: ${JSON.stringify(text(body.version, "v1"))};\n  invoke(operation: string, input: unknown): Promise<unknown>;\n}\n`;
-    case "Event":
-      return `${header}export interface ${name} {\n  readonly type: ${JSON.stringify(input.node_id)};\n  readonly occurredAt: string;\n${fieldShape}\n}\n`;
+    case "Interface": {
+      const operations = interfaceOperations(body.operations);
+      const signatures = operations.map((operation) => {
+        const operationName = `${name}${pascal(operation.operation_id)}`;
+        return `export interface ${operationName}Request {\n${typescriptFields(operation.request)}\n}\nexport interface ${operationName}Result {\n${typescriptFields(operation.result)}\n}`;
+      }).join("\n");
+      const methods = operations.map((operation) => `  ${camel(operation.operation_id)}(request: Readonly<${name}${pascal(operation.operation_id)}Request>): Promise<Readonly<${name}${pascal(operation.operation_id)}Result>>;`).join("\n");
+      const version = text(body.version, "1");
+      const compatibility = text(body.compatibility, "exact");
+      const compatible = compatibility === "backward" ? `Number.isInteger(Number(candidateVersion)) && Number(candidateVersion) >= 1 && Number(candidateVersion) <= ${Number(version)}` : `candidateVersion === ${JSON.stringify(version)}`;
+      return `${header}${l1Marker(input, "//")}// domainspec-interface-boundary: ${JSON.stringify(text(body.boundary_kind, ""))}
+// domainspec-interface-compatibility: ${canonicalJson({ version, direction: compatibility })}
+type DomainspecRef<Selector extends string> = string & { readonly __domainspecRef: Selector };
+${signatures}
+export interface ${name} {
+  readonly version: ${JSON.stringify(version)};
+${methods}
+}
+export function ${fn}AcceptsVersion(candidateVersion: string): boolean { return ${compatible}; }
+`;
+    }
+    case "Event": {
+      const occurrence = fieldSpec(body.occurrence_id);
+      const payload = fieldSpecs(body.payload);
+      const version = text(body.version, "1");
+      return `${header}${l1Marker(input, "//")}// domainspec-event-compatibility: ${canonicalJson({ event_type: text(body.event_type, input.node_id), version })}
+// domainspec-event-occurred-at-policy: ${JSON.stringify(text(body.occurred_at_policy, "required"))}
+type DomainspecRef<Selector extends string> = string & { readonly __domainspecRef: Selector };
+export interface ${name}Payload {
+${typescriptFields(payload)}
+}
+export interface ${name} {
+  readonly type: ${JSON.stringify(text(body.event_type, input.node_id))};
+  readonly version: ${JSON.stringify(version)};
+  readonly ${camel(occurrence.field_id)}: ${typescriptType(occurrence.type_ref)};
+  readonly occurredAt: string;
+  readonly payload: Readonly<${name}Payload>;
+}
+export function ${fn}Compatible(candidate: Readonly<{ type: string; version: string }>): boolean { return candidate.type === ${JSON.stringify(text(body.event_type, input.node_id))} && candidate.version === ${JSON.stringify(version)}; }
+`;
+    }
     case "Mapping":
       return `${header}export function ${fn}(source: unknown): { readonly target: unknown } { return Object.freeze({ target: source }); }\n`;
     case "State Machine": {
@@ -592,12 +699,41 @@ function renderPython(input: GeneratorInput): string {
   const body = input.body;
   const header = provenance(input, "#");
   switch (input.kind) {
-    case "Entity":
-      return `${header}from dataclasses import dataclass\n\n@dataclass\nclass ${name}:\n    id: str\n    state: dict[str, object]\n\n    def snapshot(self) -> dict[str, object]:\n        return dict(self.state)\n`;
-    case "Value Object":
-      return `${header}from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass ${name}:\n    value: tuple[tuple[str, object], ...]\n`;
+    case "Entity": {
+      const fields = fieldSpecs(body.fields);
+      const identity = snake(text(body.identity_field, "identity"));
+      return `${header}${l1Marker(input, "#")}# domainspec-entity-identity: ${JSON.stringify(text(body.identity_field, ""))}
+from dataclasses import dataclass
+from typing import Annotated
+
+@dataclass
+class ${name}:
+${pythonFields(fields)}
+
+    def same_identity(self, other: "${name}") -> bool:
+        return self.${identity} == other.${identity}
+
+    def snapshot(self) -> dict[str, object]:
+        return dict(self.__dict__)
+`;
+    }
+    case "Value Object": {
+      const fields = fieldSpecs(body.fields);
+      return `${header}${l1Marker(input, "#")}# domainspec-value-object-structural-equality: true
+# domainspec-value-object-invariant-refs: ${canonicalJson(strings(body.invariant_refs))}
+from dataclasses import dataclass
+from typing import Annotated
+
+@dataclass(frozen=True)
+class ${name}:
+${pythonFields(fields)}
+
+    def equals(self, other: "${name}") -> bool:
+        return self == other
+`;
+    }
     case "Enum":
-      return `${header}from enum import Enum\n\nclass ${name}(str, Enum):\n${strings(body.values).map((value, index, values) => `    ${uniqueNames(values, (entry) => snake(entry).toUpperCase(), "Python Enum")[index]} = ${JSON.stringify(value)}`).join("\n")}\n`;
+      return `${header}${l1Marker(input, "#")}# domainspec-enum-closed-values: ${canonicalJson(strings(body.values))}\nfrom enum import Enum\n\nclass ${name}(str, Enum):\n${strings(body.values).map((value, index, values) => `    ${uniqueNames(values, (entry) => snake(entry).toUpperCase(), "Python Enum")[index]} = ${JSON.stringify(value)}`).join("\n")}\n`;
     case "Operation":
       return `${header}# domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n# domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n# domainspec-guard-before-mutation: true\n# domainspec-atomic-state-outbox: true\n# domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n# domainspec-operation-core-instrumentation-free: true\n# domainspec-operation-instrumentation-owner: "outer-wrapper"\n${fn.toUpperCase()}_CREATION_TARGETS = tuple(${JSON.stringify(strings(body.creation_targets))})\n${name.toUpperCase()}_RELATIONSHIPS = tuple(${canonicalJson(input.relationships)})\n\ndef ${fn}(state: dict[str, object], changes: dict[str, object], guard: bool) -> dict[str, object]:\n    if not guard:\n        return {"ok": False, "continuation": ${JSON.stringify(text(body.failure_continuation, "return-error"))}}\n    read_set = {key: state.get(key) for key in ${JSON.stringify(strings(body.reads))}}\n    next_state = dict(state)\n    for key in ${JSON.stringify(strings(body.writes))}:\n        next_state[key] = changes.get(key)\n    outbox = [{"type": effect, "operation": ${JSON.stringify(input.node_id)}} for effect in ${JSON.stringify(strings(body.effects))}]\n    return {"ok": True, "reads": read_set, "state": next_state, "outbox": outbox}\n\ndef ${fn}_observed(state: dict[str, object], changes: dict[str, object], guard: bool, observe):\n    observe("operation.enter")\n    outcome = ${fn}(state, changes, guard)\n    observe("operation.success" if outcome["ok"] else "operation.failure")\n    return outcome\n`;
     case "Query":
@@ -610,10 +746,56 @@ function renderPython(input: GeneratorInput): string {
       return `${header}${name.toUpperCase()}_STRATEGIES = tuple(${JSON.stringify(strings(body.strategies))})\n\ndef ${fn}(index: int = 0) -> str:\n    return ${name.toUpperCase()}_STRATEGIES[index]\n`;
     case "Workflow":
       return renderPythonWorkflow(input, name, fn, header);
-    case "Interface":
-      return `${header}from typing import Protocol\n\nclass ${name}(Protocol):\n    version: str\n    def invoke(self, operation: str, value: object) -> object: ...\n`;
-    case "Event":
-      return `${header}from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass ${name}:\n    occurred_at: str\n    payload: dict[str, object]\n`;
+    case "Interface": {
+      const operations = interfaceOperations(body.operations);
+      const signatureTypes = operations.map((operation) => {
+        const operationName = `${name}${pascal(operation.operation_id)}`;
+        return `@dataclass(frozen=True)\nclass ${operationName}Request:\n${pythonFields(operation.request) || "    pass"}\n\n@dataclass(frozen=True)\nclass ${operationName}Result:\n${pythonFields(operation.result) || "    pass"}`;
+      }).join("\n\n");
+      const methods = operations.map((operation) => `    def ${snake(operation.operation_id)}(self, request: ${name}${pascal(operation.operation_id)}Request) -> ${name}${pascal(operation.operation_id)}Result: ...`).join("\n");
+      const version = text(body.version, "1");
+      const compatibility = text(body.compatibility, "exact");
+      const compatible = compatibility === "backward" ? `candidate_version.isdigit() and 1 <= int(candidate_version) <= ${Number(version)}` : `candidate_version == ${JSON.stringify(version)}`;
+      return `${header}${l1Marker(input, "#")}# domainspec-interface-boundary: ${JSON.stringify(text(body.boundary_kind, ""))}
+# domainspec-interface-compatibility: ${canonicalJson({ version, direction: compatibility })}
+from dataclasses import dataclass
+from typing import Annotated, Protocol
+
+${signatureTypes}
+
+class ${name}(Protocol):
+    version: str
+${methods}
+
+def ${fn}_accepts_version(candidate_version: str) -> bool:
+    return ${compatible}
+`;
+    }
+    case "Event": {
+      const occurrence = fieldSpec(body.occurrence_id);
+      const payload = fieldSpecs(body.payload);
+      const version = text(body.version, "1");
+      return `${header}${l1Marker(input, "#")}# domainspec-event-compatibility: ${canonicalJson({ event_type: text(body.event_type, input.node_id), version })}
+# domainspec-event-occurred-at-policy: ${JSON.stringify(text(body.occurred_at_policy, "required"))}
+from dataclasses import dataclass
+from typing import Annotated, ClassVar
+
+@dataclass(frozen=True)
+class ${name}Payload:
+${pythonFields(payload) || "    pass"}
+
+@dataclass(frozen=True)
+class ${name}:
+    type: ClassVar[str] = ${JSON.stringify(text(body.event_type, input.node_id))}
+    version: ClassVar[str] = ${JSON.stringify(version)}
+    ${snake(occurrence.field_id)}: ${pythonType(occurrence.type_ref)}
+    occurred_at: str
+    payload: ${name}Payload
+
+def ${fn}_compatible(candidate_type: str, candidate_version: str) -> bool:
+    return candidate_type == ${JSON.stringify(text(body.event_type, input.node_id))} and candidate_version == ${JSON.stringify(version)}
+`;
+    }
     case "Mapping":
       return `${header}def ${fn}(source: object) -> dict[str, object]:\n    return {"target": source}\n`;
     case "State Machine": {
@@ -661,15 +843,37 @@ function renderRust(input: GeneratorInput): string {
   const body = input.body;
   const header = provenance(input, "//");
   switch (input.kind) {
-    case "Entity":
-      return `${header}#[derive(Clone, Debug, PartialEq)]\npub struct ${name} { pub id: String, pub state: String }\n`;
-    case "Value Object":
-      return `${header}#[derive(Clone, Debug, PartialEq, Eq)]\npub struct ${name}(pub String);\n`;
+    case "Entity": {
+      const fields = fieldSpecs(body.fields);
+      const identity = snake(text(body.identity_field, "identity"));
+      return `${header}${l1Marker(input, "//")}// domainspec-entity-identity: ${JSON.stringify(text(body.identity_field, ""))}
+#[derive(Clone, Debug, PartialEq)]
+pub struct ${name} {
+${rustFields(fields)}
+}
+impl ${name} {
+    pub fn same_identity(&self, other: &Self) -> bool { self.${identity} == other.${identity} }
+}
+`;
+    }
+    case "Value Object": {
+      const fields = fieldSpecs(body.fields);
+      return `${header}${l1Marker(input, "//")}// domainspec-value-object-structural-equality: true
+// domainspec-value-object-invariant-refs: ${canonicalJson(strings(body.invariant_refs))}
+#[derive(Clone, Debug, PartialEq)]
+pub struct ${name} {
+${rustFields(fields)}
+}
+impl ${name} {
+    pub fn equals(&self, other: &Self) -> bool { self == other }
+}
+`;
+    }
     case "Enum":
-      return `${header}#[derive(Clone, Debug, PartialEq, Eq)]\npub enum ${name} { ${uniqueNames(strings(body.values), pascal, "Rust Enum").join(", ")} }\n`;
+      return `${header}${l1Marker(input, "//")}// domainspec-enum-closed-values: ${canonicalJson(strings(body.values))}\n#[derive(Clone, Debug, PartialEq, Eq)]\npub enum ${name} { ${uniqueNames(strings(body.values), pascal, "Rust Enum").join(", ")} }\n`;
     case "Operation":
       if (input.typed_closure !== null && input.typed_closure !== undefined) {
-        return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\n${renderTypedRustOperation(input.typed_closure)}`;
+        return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\npub const ${snake(name).toUpperCase()}_CREATION_TARGETS: &[&str] = ${rustSlice(strings(body.creation_targets))};\n${renderTypedRustOperation(input.typed_closure)}`;
       }
       return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\nuse std::collections::BTreeMap;\npub const ${snake(name).toUpperCase()}_CREATION_TARGETS: &[&str] = ${rustSlice(strings(body.creation_targets))};\npub const ${snake(name).toUpperCase()}_RELATIONSHIPS_JSON: &str = ${JSON.stringify(canonicalJson(input.relationships))};\n#[derive(Clone, Debug, PartialEq)]\npub struct ${name}Outcome { pub reads: BTreeMap<String, String>, pub state: BTreeMap<String, String>, pub outbox: Vec<String> }\npub fn ${fn}(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool) -> Result<${name}Outcome, &'static str> {\n    if !guard { return Err(${JSON.stringify(text(body.failure_continuation, "return-error"))}); }\n    let reads = ${rustArray(strings(body.reads))}.iter().filter_map(|key| state.get(*key).map(|value| ((*key).to_owned(), value.clone()))).collect();\n    let mut next_state = state.clone();\n    for key in ${rustArray(strings(body.writes))} { if let Some(value) = changes.get(key) { next_state.insert(key.to_owned(), value.clone()); } }\n    let outbox: Vec<String> = ${rustArray(strings(body.effects))}.iter().map(|value| (*value).to_owned()).collect();\n    Ok(${name}Outcome { reads, state: next_state, outbox })\n}\npub fn ${fn}_observed(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool, observe: &mut impl FnMut(&str)) -> Result<${name}Outcome, &'static str> {\n    observe("operation.enter");\n    let outcome = ${fn}(state, changes, guard);\n    observe(if outcome.is_ok() { "operation.success" } else { "operation.failure" });\n    outcome\n}\n`;
     case "Query":
@@ -682,10 +886,47 @@ function renderRust(input: GeneratorInput): string {
       return `${header}pub const ${snake(name).toUpperCase()}_STRATEGIES: &[&str] = ${rustSlice(strings(body.strategies))};\npub fn ${fn}(index: usize) -> &'static str { ${snake(name).toUpperCase()}_STRATEGIES.get(index).copied().unwrap_or("") }\n`;
     case "Workflow":
       return renderRustWorkflow(input, name, fn, header);
-    case "Interface":
-      return `${header}pub trait ${name} { fn version(&self) -> &str; fn invoke(&self, operation: &str, input: &str) -> String; }\n`;
-    case "Event":
-      return `${header}#[derive(Clone, Debug, PartialEq, Eq)]\npub struct ${name} { pub occurred_at: String, pub payload: String }\n`;
+    case "Interface": {
+      const operations = interfaceOperations(body.operations);
+      const signatureTypes = operations.map((operation) => {
+        const operationName = `${name}${pascal(operation.operation_id)}`;
+        return `#[derive(Clone, Debug, PartialEq)]\npub struct ${operationName}Request {\n${rustFields(operation.request)}\n}\n#[derive(Clone, Debug, PartialEq)]\npub struct ${operationName}Result {\n${rustFields(operation.result)}\n}`;
+      }).join("\n");
+      const methods = operations.map((operation) => `    fn ${snake(operation.operation_id)}(&self, request: ${name}${pascal(operation.operation_id)}Request) -> ${name}${pascal(operation.operation_id)}Result;`).join("\n");
+      const version = text(body.version, "1");
+      const compatibility = text(body.compatibility, "exact");
+      const compatible = compatibility === "backward" ? `candidate_version.parse::<u64>().is_ok_and(|candidate| candidate >= 1 && candidate <= ${Number(version)})` : `candidate_version == ${JSON.stringify(version)}`;
+      return `${header}${l1Marker(input, "//")}// domainspec-interface-boundary: ${JSON.stringify(text(body.boundary_kind, ""))}
+// domainspec-interface-compatibility: ${canonicalJson({ version, direction: compatibility })}
+${signatureTypes}
+pub trait ${name} {
+    fn version(&self) -> &'static str { ${JSON.stringify(version)} }
+${methods}
+}
+pub fn ${fn}_accepts_version(candidate_version: &str) -> bool { ${compatible} }
+`;
+    }
+    case "Event": {
+      const occurrence = fieldSpec(body.occurrence_id);
+      const payload = fieldSpecs(body.payload);
+      const version = text(body.version, "1");
+      return `${header}${l1Marker(input, "//")}// domainspec-event-compatibility: ${canonicalJson({ event_type: text(body.event_type, input.node_id), version })}
+// domainspec-event-occurred-at-policy: ${JSON.stringify(text(body.occurred_at_policy, "required"))}
+#[derive(Clone, Debug, PartialEq)]
+pub struct ${name}Payload {
+${rustFields(payload)}
+}
+#[derive(Clone, Debug, PartialEq)]
+pub struct ${name} {
+    pub ${snake(occurrence.field_id)}: ${rustType(occurrence.type_ref)},
+    pub occurred_at: String,
+    pub payload: ${name}Payload,
+}
+pub const ${snake(name).toUpperCase()}_TYPE: &str = ${JSON.stringify(text(body.event_type, input.node_id))};
+pub const ${snake(name).toUpperCase()}_VERSION: &str = ${JSON.stringify(version)};
+pub fn ${fn}_compatible(candidate_type: &str, candidate_version: &str) -> bool { candidate_type == ${snake(name).toUpperCase()}_TYPE && candidate_version == ${snake(name).toUpperCase()}_VERSION }
+`;
+    }
     case "Mapping":
       return `${header}pub fn ${fn}(source: &str) -> String { source.to_owned() }\n`;
     case "State Machine": {
@@ -729,7 +970,7 @@ export const GENERATOR_REGISTRY: readonly GeneratorRegistration[] = Object.freez
 );
 
 export function generatorIdFor(metaTypeId: string, language: SupportedLanguage): string {
-  const version = metaTypeId === "DS-D1.9" ? "v3" : metaTypeId === "DS-D1.4" || metaTypeId === "DS-D1.14" ? "v2" : "v1";
+  const version = metaTypeId === "DS-D1.9" ? "v3" : ["DS-D1.1", "DS-D1.2", "DS-D1.3", "DS-D1.4", "DS-D1.11", "DS-D1.12", "DS-D1.14"].includes(metaTypeId) ? "v2" : "v1";
   return `domainspec.generator/${metaTypeId}/${language}/${version}`;
 }
 

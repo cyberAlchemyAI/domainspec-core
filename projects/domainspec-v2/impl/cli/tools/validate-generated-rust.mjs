@@ -10,8 +10,8 @@ import { FROZEN_META_TYPE_CATALOG } from "../dist/meta-types/catalog.js";
 import { compileSystemIntegrationManifest, renderSystemIntegrationContract } from "../dist/system-integration/compiler.js";
 
 const samples = {
-  Entity: { description: "Entity", fields: ["value"] },
-  "Value Object": { description: "Value", fields: ["value"] },
+  Entity: { description: "Entity", identity_field: "entity-id", fields: [{ field_id: "entity-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }, { field_id: "value", type_ref: { kind: "primitive", name: "string" }, required: true }] },
+  "Value Object": { description: "Value", fields: [{ field_id: "value", type_ref: { kind: "primitive", name: "string" }, required: true }], invariant_refs: ["feature:valid-value"] },
   Enum: { description: "Enum", values: ["one", "two"] },
   Operation: { description: "Operation", reads: ["entity"], writes: ["entity.state"], effects: ["Changed"], guard: "allowed", failure_continuation: "return-error" },
   Query: { description: "Query", reads: ["entity"] },
@@ -19,8 +19,8 @@ const samples = {
   Rule: { description: "Rule", predicate: "candidate" },
   Policy: { description: "Policy", strategies: ["first"] },
   Workflow: { description: "Workflow", steps: ["operate"], compensations: ["undo"] },
-  Interface: { description: "Interface", version: "v1", operations: ["operate"] },
-  Event: { description: "Event", fields: ["entity-id"] },
+  Interface: { description: "Interface", boundary_kind: "internal", version: "1", compatibility: "exact", operations: [{ operation_id: "operate", operation_ref: "feature:operate", request: [{ field_id: "entity-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }], result: [{ field_id: "accepted", type_ref: { kind: "primitive", name: "boolean" }, required: true }] }] },
+  Event: { description: "Event", event_type: "event", version: "1", occurrence_id: { field_id: "occurrence-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }, occurred_at_policy: "required", payload: [{ field_id: "entity-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }] },
   Mapping: { description: "Mapping", source: "Source", target: "Target" },
   "State Machine": { description: "Machine", states: ["new", "done"], initial: "new", transitions: [{ transition_id: "finish", source_state: "new", target_state: "done", guard_ref: null, effect_event_ref: null }] },
 };
@@ -44,6 +44,8 @@ try {
     const relationships = metaType.label === "Workflow" ? Object.freeze([
       Object.freeze({ edge_id: "workflow-operate", relationship: "orchestrates", scope: "feature", source: Object.freeze({ feature_id: "feature", node_id: nodeId, kind: "Workflow" }), target: Object.freeze({ feature_id: "feature", node_id: "operate", kind: "Operation" }) }),
       Object.freeze({ edge_id: "workflow-undo", relationship: "orchestrates", scope: "feature", source: Object.freeze({ feature_id: "feature", node_id: nodeId, kind: "Workflow" }), target: Object.freeze({ feature_id: "feature", node_id: "undo", kind: "Operation" }) }),
+    ]) : metaType.label === "Interface" ? Object.freeze([
+      Object.freeze({ edge_id: "interface-exposes-operate", relationship: "exposes", scope: "feature", source: Object.freeze({ feature_id: "feature", node_id: nodeId, kind: "Interface" }), target: Object.freeze({ feature_id: "feature", node_id: "operate", kind: "Operation" }) }),
     ]) : Object.freeze([]);
     const plan = planInstantiation(Object.freeze({
       project_root: "/synthetic-read-only",

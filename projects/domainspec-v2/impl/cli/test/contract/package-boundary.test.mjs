@@ -15,7 +15,7 @@ const versionSource = fs.readFileSync(path.join(cliRoot, "src/version.ts"), "utf
 
 test("package identity and supported bin are exact", () => {
   assert.equal(packageJson.name, "@domainspec-v2/cli");
-  assert.equal(packageJson.version, "0.0.0-candidate.4");
+  assert.equal(packageJson.version, "0.0.0-candidate.5");
   assert.equal(packageJson.private, true);
   assert.equal(packageJson.type, "module");
   assert.deepEqual(packageJson.bin, { "domainspec-v2": "./dist/cli/main.js" });

@@ -18,7 +18,7 @@ const sourceManifest = Object.freeze({
 }) as unknown as SourceManifestV1;
 
 const samples: Readonly<Record<string, Record<string, unknown>>> = {
-  Entity: { description: "Entity", fields: ["value"] },
+  Entity: { description: "Entity", identity_field: "account-id", fields: [{ field_id: "account-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }, { field_id: "value", type_ref: { kind: "primitive", name: "string" }, required: true }] },
   Operation: { description: "Operation", reads: ["account"], writes: ["account.status"], effects: ["AccountChanged"], guard: "account-is-open", failure_continuation: "return-account-error" },
   Workflow: { description: "Workflow", steps: ["change-account"], compensations: ["restore-account"] },
   "State Machine": { description: "Account status", states: ["open", "changed"], initial: "open", transitions: [{ transition_id: "record-change", source_state: "open", target_state: "changed", guard_ref: null, effect_event_ref: "accounts:account-changed" }] },

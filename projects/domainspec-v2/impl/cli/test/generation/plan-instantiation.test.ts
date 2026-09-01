@@ -27,8 +27,8 @@ const sourceManifest = Object.freeze({
 }) as unknown as SourceManifestV1;
 
 const bodySamples: Readonly<Record<string, Record<string, unknown>>> = {
-  Entity: { description: "Entity", fields: ["value"] },
-  "Value Object": { description: "Value", fields: ["value"] },
+  Entity: { description: "Entity", identity_field: "entity-id", fields: [{ field_id: "entity-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }, { field_id: "value", type_ref: { kind: "primitive", name: "string" }, required: true }] },
+  "Value Object": { description: "Value", fields: [{ field_id: "value", type_ref: { kind: "primitive", name: "string" }, required: true }], invariant_refs: ["feature:valid-value"] },
   Enum: { description: "Enum", values: ["one", "two"] },
   Operation: { description: "Operation", reads: ["entity"], writes: ["entity.state"], effects: ["Changed"], guard: "allowed", failure_continuation: "return-error" },
   Query: { description: "Query", reads: ["entity"] },
@@ -36,8 +36,8 @@ const bodySamples: Readonly<Record<string, Record<string, unknown>>> = {
   Rule: { description: "Rule", predicate: "candidate != null" },
   Policy: { description: "Policy", strategies: ["first"] },
   Workflow: { description: "Workflow", steps: ["operate"], compensations: ["undo"] },
-  Interface: { description: "Interface", version: "v1", operations: ["operate"] },
-  Event: { description: "Event", fields: ["entity_id"] },
+  Interface: { description: "Interface", boundary_kind: "internal", version: "1", compatibility: "exact", operations: [{ operation_id: "operate", operation_ref: "feature:operate", request: [{ field_id: "entity-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }], result: [{ field_id: "accepted", type_ref: { kind: "primitive", name: "boolean" }, required: true }] }] },
+  Event: { description: "Event", event_type: "event", version: "1", occurrence_id: { field_id: "occurrence-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }, occurred_at_policy: "required", payload: [{ field_id: "entity-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }] },
   Mapping: { description: "Mapping", source: "Source", target: "Target" },
   "State Machine": { description: "Machine", states: ["new", "done"], initial: "new", transitions: [{ transition_id: "finish", source_state: "new", target_state: "done", guard_ref: null, effect_event_ref: null }] },
 };
@@ -58,6 +58,14 @@ function node(kind: string, id: string): DecodedProjectNode {
       scope: "feature" as const,
       source: Object.freeze({ feature_id: "feature", node_id: id, kind: "Workflow" }),
       target: Object.freeze({ feature_id: "feature", node_id: "undo", kind: "Operation" }),
+    }),
+  ]) : kind === "Interface" ? Object.freeze([
+    Object.freeze({
+      edge_id: "interface-operate",
+      relationship: "exposes",
+      scope: "feature" as const,
+      source: Object.freeze({ feature_id: "feature", node_id: id, kind: "Interface" }),
+      target: Object.freeze({ feature_id: "feature", node_id: "operate", kind: "Operation" }),
     }),
   ]) : Object.freeze([]);
   return Object.freeze({
@@ -231,6 +239,99 @@ fn main() {
 `;
     fs.writeFileSync(rustSource, `${rustArtifact.content}${rustHarness}`);
     const rustBinary = path.join(root, "settlement-status");
+    const rust = spawnSync("rustc", ["--edition", "2024", rustSource, "-o", rustBinary], { encoding: "utf8" });
+    if ((rust.error as NodeJS.ErrnoException | undefined)?.code === "ENOENT") {
+      context.skip("Rust provider is not installed");
+      return;
+    }
+    assert.equal(rust.status, 0, `${rust.stdout}\n${rust.stderr}`);
+    const executed = spawnSync(rustBinary, [], { encoding: "utf8" });
+    assert.equal(executed.status, 0, `${executed.stdout}\n${executed.stderr}`);
+    assert.deepEqual(executed.stdout.trim().split("\n"), expected);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("L1 identity, value, enum, event, and interface outcomes are equivalent across native runtimes", async (context) => {
+  const selected = [
+    loadProjectNode(sourceFixtureRoot, "alpha:customer"),
+    loadProjectNode(sourceFixtureRoot, "beta:settlement-details"),
+    loadProjectNode(sourceFixtureRoot, "beta:settlement-method"),
+    loadProjectNode(sourceFixtureRoot, "beta:settlement-completed"),
+    loadProjectNode(sourceFixtureRoot, "alpha:settlement-api"),
+  ];
+  const expected = ["entity|true|false", "value|true|false", "enum|card|bank-transfer", "event|true|false", "interface|true|true|false"];
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-l1-runtime-"));
+  try {
+    const tsModules: Record<string, Record<string, unknown>> = {};
+    for (const node of selected) {
+      const source = path.join(root, `${node.node_id}.ts`);
+      fs.writeFileSync(source, planInstantiation(node, "typescript").artifacts[0]!.content);
+      tsModules[node.node_id] = await import(`${pathToFileURL(source).href}?case=l1-runtime`);
+    }
+    const Customer = tsModules["customer"]!.Customer as new (fields: Record<string, unknown>) => { sameIdentity(other: unknown): boolean };
+    const Details = tsModules["settlement-details"]!.SettlementDetails as new (fields: Record<string, unknown>) => { equals(other: unknown): boolean };
+    const firstCustomer = new Customer({ customerId: "a", settlementDetails: "details" });
+    const sameCustomer = new Customer({ customerId: "a", settlementDetails: "changed" });
+    const otherCustomer = new Customer({ customerId: "b", settlementDetails: "details" });
+    const firstDetails = new Details({ amount: 5, method: "card" });
+    const sameDetails = new Details({ amount: 5, method: "card" });
+    const otherDetails = new Details({ amount: 6, method: "card" });
+    const enumType = tsModules["settlement-method"]!.SettlementMethod as Record<string, string>;
+    const eventCompatible = tsModules["settlement-completed"]!.settlementCompletedCompatible as (candidate: { type: string; version: string }) => boolean;
+    const interfaceCompatible = tsModules["settlement-api"]!.settlementApiAcceptsVersion as (version: string) => boolean;
+    const typescriptResults = [
+      `entity|${firstCustomer.sameIdentity(sameCustomer)}|${firstCustomer.sameIdentity(otherCustomer)}`,
+      `value|${firstDetails.equals(sameDetails)}|${firstDetails.equals(otherDetails)}`,
+      `enum|${enumType.Card}|${enumType.BankTransfer}`,
+      `event|${eventCompatible({ type: "settlement-completed", version: "1" })}|${eventCompatible({ type: "settlement-completed", version: "2" })}`,
+      `interface|${interfaceCompatible("1")}|${interfaceCompatible("2")}|${interfaceCompatible("3")}`,
+    ];
+    assert.deepEqual(typescriptResults, expected);
+
+    const pythonSources: string[] = [];
+    for (const node of selected) {
+      const source = path.join(root, `${node.node_id.replaceAll("-", "_")}.py`);
+      fs.writeFileSync(source, planInstantiation(node, "python").artifacts[0]!.content);
+      pythonSources.push(source);
+    }
+    const pythonProgram = [
+      "import importlib.util,sys",
+      "mods=[]",
+      "for i,p in enumerate(sys.argv[1:]):",
+      "    spec=importlib.util.spec_from_file_location('m'+str(i),p)",
+      "    m=importlib.util.module_from_spec(spec)",
+      "    sys.modules[spec.name]=m",
+      "    spec.loader.exec_module(m)",
+      "    mods.append(m)",
+      "c,d,e,ev,api=mods",
+      "a=c.Customer('a','details')",
+      "print('entity|'+str(a.same_identity(c.Customer('a','changed'))).lower()+'|'+str(a.same_identity(c.Customer('b','details'))).lower())",
+      "v=d.SettlementDetails(5.0,'card')",
+      "print('value|'+str(v.equals(d.SettlementDetails(5.0,'card'))).lower()+'|'+str(v.equals(d.SettlementDetails(6.0,'card'))).lower())",
+      "print('enum|'+e.SettlementMethod.CARD.value+'|'+e.SettlementMethod.BANK_TRANSFER.value)",
+      "print('event|'+str(ev.settlement_completed_compatible('settlement-completed','1')).lower()+'|'+str(ev.settlement_completed_compatible('settlement-completed','2')).lower())",
+      "print('interface|'+'|'.join(str(api.settlement_api_accepts_version(x)).lower() for x in ('1','2','3')))",
+    ].join("\n");
+    const python = spawnSync("python3", ["-c", pythonProgram, ...pythonSources], { encoding: "utf8" });
+    assert.equal(python.status, 0, `${python.stdout}\n${python.stderr}`);
+    assert.deepEqual(python.stdout.trim().split("\n"), expected);
+
+    const rustSource = path.join(root, "l1.rs");
+    const rustContent = selected.map((value) => planInstantiation(value, "rust").artifacts[0]!.content).join("\n") + `
+fn main() {
+    let a = Customer { customer_id: "a".to_owned(), settlement_details: "details".to_owned(), preferred_method: None };
+    println!("entity|{}|{}", a.same_identity(&Customer { customer_id: "a".to_owned(), settlement_details: "changed".to_owned(), preferred_method: None }), a.same_identity(&Customer { customer_id: "b".to_owned(), settlement_details: "details".to_owned(), preferred_method: None }));
+    let value = SettlementDetails { amount: 5.0, method: "card".to_owned() };
+    println!("value|{}|{}", value.equals(&SettlementDetails { amount: 5.0, method: "card".to_owned() }), value.equals(&SettlementDetails { amount: 6.0, method: "card".to_owned() }));
+    println!("enum|card|bank-transfer");
+    println!("event|{}|{}", settlement_completed_compatible("settlement-completed", "1"), settlement_completed_compatible("settlement-completed", "2"));
+    println!("interface|{}|{}|{}", settlement_api_accepts_version("1"), settlement_api_accepts_version("2"), settlement_api_accepts_version("3"));
+}
+`;
+    fs.writeFileSync(rustSource, rustContent);
+    const rustBinary = path.join(root, "l1");
     const rust = spawnSync("rustc", ["--edition", "2024", rustSource, "-o", rustBinary], { encoding: "utf8" });
     if ((rust.error as NodeJS.ErrnoException | undefined)?.code === "ENOENT") {
       context.skip("Rust provider is not installed");

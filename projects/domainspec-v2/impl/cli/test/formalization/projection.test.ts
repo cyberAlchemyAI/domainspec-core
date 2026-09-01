@@ -43,8 +43,8 @@ test("formalization projects the compiled graph, all 45 DS-D8 obligations, and a
   assert.equal(projection.relationships.length, 31);
   assert.equal(projection.obligation_catalog.length, 45);
   assert.deepEqual(new Set(projection.obligation_catalog.map(({ family }) => family)), new Set(["endpoint", "scope", "multiplicity", "generated-projection", "inverse-collapse", "deprecation"]));
-  assert.equal(projection.project_graph.nodes.length, 7);
-  assert.equal(projection.project_graph.edges.length, 7);
+  assert.equal(projection.project_graph.nodes.length, 10);
+  assert.equal(projection.project_graph.edges.length, 8);
   assert.equal(projection.applicable_witnesses.length, projection.project_graph.edges.reduce((total, edge) => total + edge.obligation_ids.length, 0));
   const familyByObligation = new Map(projection.obligation_catalog.map(({ obligation_id, family }) => [obligation_id, family]));
   assert.deepEqual(
@@ -57,6 +57,8 @@ test("formalization projects the compiled graph, all 45 DS-D8 obligations, and a
   assert.match(lean, /theorem allApplicableWitnessesHold/);
   assert.match(lean, /def stateMachineHolds/);
   assert.match(lean, /theorem allProjectStateMachinesHold/);
+  assert.match(lean, /def l1RoleHolds/);
+  assert.match(lean, /theorem allProjectL1RolesHold/);
   assert.match(lean, /theorem invalidCurrentStateRejected/);
   assert.match(lean, /theorem undeclaredTransitionRejected/);
   assert.match(lean, /theorem sourceMismatchRejected/);
@@ -65,6 +67,15 @@ test("formalization projects the compiled graph, all 45 DS-D8 obligations, and a
   assert.deepEqual(stateMachine?.state_machine_states, ["pending", "settled", "failed"]);
   assert.equal(stateMachine?.state_machine_initial, "pending");
   assert.deepEqual(stateMachine?.state_machine_transitions.map(({ transition_id }) => transition_id), ["complete-settlement", "fail-settlement"]);
+  const entity = projection.project_graph.nodes.find(({ selector }) => selector === "alpha:customer");
+  assert.equal(entity?.entity_identity_field, "customer-id");
+  assert.deepEqual(entity?.typed_field_type_refs, ["primitive:uuid", "reference:beta:settlement-details", "reference:beta:settlement-method"]);
+  const valueObject = projection.project_graph.nodes.find(({ selector }) => selector === "beta:settlement-details");
+  assert.equal(valueObject?.value_object_structural_equality, true);
+  const event = projection.project_graph.nodes.find(({ selector }) => selector === "beta:settlement-completed");
+  assert.equal(event?.event_occurrence_field, "occurrence-id");
+  const boundary = projection.project_graph.nodes.find(({ selector }) => selector === "alpha:settlement-api");
+  assert.deepEqual([boundary?.interface_boundary_kind, boundary?.interface_compatibility, boundary?.interface_operation_refs], ["external", "backward", ["alpha:settle"]]);
 });
 
 test("formalize materializes compilable Lean once and formalize-check detects byte drift", () => {
@@ -142,6 +153,30 @@ test("State Machine source changes causally change the compiled projection and L
   }
 });
 
+test("L1 typed source and compatibility changes causally change projection and Lean facts", () => {
+  const { parent, source } = createRoot();
+  try {
+    const before = createMetaTypeFormalizationProjection(loadCompiledProjectGraph(source));
+    mutateJson(path.join(source, "specs/alpha/nodes/customer.json"), (node) => {
+      const fields = (node.body as { fields: Array<{ field_id: string; type_ref: { name?: string } }> }).fields;
+      fields.find(({ field_id }) => field_id === "customer-id")!.type_ref.name = "string";
+    });
+    mutateJson(path.join(source, "specs/alpha/nodes/settlement-api.json"), (node) => {
+      (node.body as { compatibility: string }).compatibility = "exact";
+    });
+    const after = createMetaTypeFormalizationProjection(loadCompiledProjectGraph(source));
+    const beforeEntity = before.project_graph.nodes.find(({ selector }) => selector === "alpha:customer")!;
+    const afterEntity = after.project_graph.nodes.find(({ selector }) => selector === "alpha:customer")!;
+    const afterBoundary = after.project_graph.nodes.find(({ selector }) => selector === "alpha:settlement-api")!;
+    assert.notDeepEqual(afterEntity.typed_field_type_refs, beforeEntity.typed_field_type_refs);
+    assert.equal(afterBoundary.interface_compatibility, "exact");
+    assert.notEqual(after.project_graph.graph_sha256, before.project_graph.graph_sha256);
+    assert.notEqual(renderLeanMetaTypeFormalization(after), renderLeanMetaTypeFormalization(before));
+  } finally {
+    fs.rmSync(parent, { recursive: true, force: true });
+  }
+});
+
 test("hostile relationship and State Machine graphs fail causally", () => {
   const cases: Array<{ readonly code: string; readonly mutate: (source: string) => void }> = [
     { code: "MTCLI_RELATIONSHIP_ENDPOINT", mutate: (source) => mutateJson(path.join(source, "specs/beta/edges/audit-owns-settled.json"), (edge) => { edge.relationship = "produces"; }) },
@@ -155,7 +190,7 @@ test("hostile relationship and State Machine graphs fail causally", () => {
     } },
     { code: "MTCLI_RELATIONSHIP_MULTIPLICITY", mutate: (source) => {
       mutateJson(path.join(source, "specs/alpha/feature.json"), (feature) => { (feature.nodes as string[]).push("account"); (feature.edges as string[]).push("settle-creates-account"); });
-      writeJson(path.join(source, "specs/alpha/nodes/account.json"), { schema_version: "domainspec.node/v1", node_id: "account", feature_id: "alpha", kind: "Entity", body: { description: "A second entity.", fields: [] } });
+      writeJson(path.join(source, "specs/alpha/nodes/account.json"), { schema_version: "domainspec.node/v1", node_id: "account", feature_id: "alpha", kind: "Entity", body: { description: "A second entity.", identity_field: "account-id", fields: [{ field_id: "account-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }] } });
       writeJson(path.join(source, "specs/alpha/edges/settle-creates-account.json"), { schema_version: "domainspec.edge/v1", edge_id: "settle-creates-account", feature_id: "alpha", relationship: "creates", source_node_id: "settle", target_node_id: "account", scope: "feature" });
     } },
     { code: "MTCLI_STATE_MACHINE_STATE", mutate: (source) => mutateJson(path.join(source, "specs/beta/nodes/settlement-status.json"), (node) => { ((node.body as { transitions: Array<Record<string, unknown>> }).transitions[0]!).source_state = "unknown"; }) },
