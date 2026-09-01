@@ -1,6 +1,6 @@
 # Auth Foundation
 
-Status: **proof-and-evidence candidate with a local D65 Rust vertical, SQLite provider, and technical command-boundary candidate**
+Status: **proof-and-evidence candidate with a local D65 Rust vertical, concrete trusted-input registries, and an in-process authorization service**
 
 This project starts a new authorization foundation without changing
 `projects/auth-user-management/`.
@@ -14,10 +14,18 @@ ports and exposes only `Allow` or `Deny`. A successor Rust provider now resolves
 the four durable ports from one SQLite transaction while keeping the decision
 clock injected. There is no authentication or token service, administrative
 write API, transport, deployment, multi-node, or production-security claim yet.
-An L6 candidate now derives the internal authorization command from trusted
+An L6 candidate derives the internal authorization command from trusted
 authentication-evidence and server-owned route-binding ports. Its DomainSpec
 Rules and Rust boundary pass local technical gates, but the new definitions are
 not owner-admitted, so semantic conformance remains `not_evaluable`.
+The L11/L12 successor now defines those inputs storage-neutrally, generates a
+typed Rust Query that constructs `Resolved(TrustedInputSnapshot)`, binds its
+repository concerns through the provider-neutral system-integration profile,
+and realizes that binding with versioned local SQLite infrastructure. It
+composes the result with the existing trusted boundary and authorization
+provider; provider and end-to-end fail-closed tests pass.
+Credential verification, token handling, administrative writes, HTTP,
+deployment, and production-security claims remain excluded.
 
 Canonical artifacts are JSON and JSON Schema under [`formalization/`](formalization/).
 Markdown files are human navigation only.
@@ -41,6 +49,12 @@ The L6 successor likewise leaves the L3–L5 artifacts unchanged while adding a
 separate definition pack, Product Capability, business ontology, DomainSpec
 Operation, generated Rust kernel, trusted-boundary adapter, and bounded
 evidence receipt.
+The L11/L12 successor adds a separate candidate definition/capability/ontology
+chain, linted storage-neutral DomainSpec source, deterministic typed graph,
+generated Rust Query and provider-neutral integration contract, concrete
+SQLite infrastructure adapter, in-process service, exact implementation
+bindings, and technical evidence. Generated Rust passes; semantic conformance
+remains explicitly `not_evaluable` because the product meaning is candidate-only.
 It is a merge candidate, not a deployment or production-security claim.
 
 ## Starting question

@@ -318,7 +318,15 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
   });
   const outputType = rustType(closure.operation.output);
   const inputParameters = closure.operation.inputs.map((parameter) => `${snake(parameter.name)}: &${rustType(parameter.type)}`).join(", ");
-  const inputArguments = closure.operation.inputs.map((parameter) => snake(parameter.name)).join(", ");
+  const operationInputs = new Map(closure.operation.inputs.map((parameter) => [parameter.name, parameter.type]));
+  const inputArguments = guardNode.typed_contract.parameters.map((parameter) => {
+    const inputType = operationInputs.get(parameter.name);
+    if (inputType === undefined || !sameType(inputType, parameter.type)) {
+      fail("MTCLI_TYPED_RUST_GUARD", "/typed-rust/operation/guard", `typed guard parameter is not supplied by the root:${parameter.name}`);
+    }
+    return snake(parameter.name);
+  }).join(", ");
+  const resultScopes = new Map(closure.operation.inputs.map((parameter) => [parameter.name, parameter.type]));
 
   const result = (constructor: TypedResultConstructor): string => {
     const outputSelector = closure.operation.output.kind === "named" ? closure.operation.output.selector : null;
@@ -327,6 +335,23 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
     if (outputContract?.schema_version !== "domainspec.typed-sum/v1") fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/output", "typed Rust Operation output must select a typed sum");
     const variant = outputContract.variants.find((candidate) => candidate.name === constructor.variant);
     if (!variant) fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/result", `typed Rust result variant is missing:${constructor.variant}`);
+    if ("payload" in constructor) {
+      if (constructor.payload === null) {
+        if (variant.payload !== null) fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/result", "payload value is missing for payload result");
+        return `${outputType}::${variantName(variant.name)}`;
+      }
+      if (variant.payload === null) fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/result", "payload value supplied for payloadless result");
+      const payload = renderValue(constructor.payload, resultScopes);
+      if (!sameType(payload.type, variant.payload)) fail("MTCLI_TYPED_RUST_TYPE", "/typed-rust/operation/result/payload", "Rust result payload type does not match the selected variant");
+      const owned = payload.ownership === "copy" || payload.ownership === "owned"
+        ? payload.code
+        : payload.ownership === "string-literal"
+          ? `${payload.code}.to_owned()`
+          : payload.ownership === "borrowed"
+            ? `(*${payload.code}).clone()`
+            : `${payload.code}.clone()`;
+      return `${outputType}::${variantName(variant.name)}(${owned})`;
+    }
     if (variant.payload === null) {
       if (constructor.payload_variant !== null) fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/result", "payload constructor supplied for payloadless result");
       return `${outputType}::${variantName(variant.name)}`;

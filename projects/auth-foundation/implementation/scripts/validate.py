@@ -66,6 +66,7 @@ COMMAND_BOUNDARY_TDE_PREIMAGES = COMMAND_BOUNDARY_SFOL / "W7-PREIMAGE-MANIFEST.v
 COMMAND_BOUNDARY_TDE_SCRIPT = COMMAND_BOUNDARY_SFOL / "derive-tests.ts"
 COMMAND_BOUNDARY_SFOL_CONFORMANCE = IMPLEMENTATION / "sfol-conformance"
 TRUSTED_BOUNDARY = IMPLEMENTATION / "trusted-boundary"
+TRUSTED_INPUT_VALIDATOR = IMPLEMENTATION / "scripts/validate-trusted-input.py"
 
 RETIRED_ARTIFACTS = {
     "projects/domainspec-v2/impl/cli/tools/auth-kernel.mjs": "eabb84375b7432ba9931acdbb395e5f5e2249e5b3808d4047426c3fe744a969c",
@@ -1348,7 +1349,21 @@ def validate_command_boundary(write: bool, checks: list[dict]) -> dict:
         "external_effect": "none",
         "claim_limit": "The command-boundary definitions, Product Capability, and business ontology are admitted and bounded SFOL/TDE composition evidence passes locally. System ontology remains a compiled candidate; publication, deployment, external effects, and production-security claims remain unavailable.",
     }
-    materialize(chain_path, successor_chain, write, "command-boundary-d65-chain", checks)
+    current_chain = load(chain_path)
+    has_trusted_input_successor = any(
+        row["stage"].startswith("trusted_input_")
+        for row in current_chain["stages"]
+    )
+    if not write and has_trusted_input_successor:
+        current_rows = {row["stage"]: row for row in current_chain["stages"]}
+        expected_rows = {row["stage"]: row for row in successor_chain["stages"]}
+        require(
+            all(current_rows.get(name) == row for name, row in expected_rows.items()),
+            "command-boundary-d65-chain-prefix-current",
+            checks,
+        )
+    else:
+        materialize(chain_path, successor_chain, write, "command-boundary-d65-chain", checks)
     return evidence
 
 
@@ -1373,6 +1388,13 @@ def main() -> int:
     receipt, system = validate_standard(args.write_receipt, checks)
     validate_retirement(args.write_receipt, receipt, system, checks)
     command_boundary_evidence = validate_command_boundary(args.write_receipt, checks)
+    trusted_input_result = command([
+        "python3",
+        str(TRUSTED_INPUT_VALIDATOR),
+        *(["--write-receipt"] if args.write_receipt else []),
+    ])
+    require(trusted_input_result.returncode == 0, "trusted-input-successor-validation", checks)
+    trusted_input_evidence = load(CONFORMANCE / "trusted-input-evidence.json")
 
     print(json.dumps({
         "status": "pass",
@@ -1398,6 +1420,14 @@ def main() -> int:
             "sha256": digest(CONFORMANCE / "command-boundary-evidence.json"),
             "test_count": command_boundary_evidence["technical_verification"]["trusted_boundary_test_count"],
             "semantic_conformance": command_boundary_evidence["semantic_conformance"]["status"],
+        },
+        "trusted_input_evidence": {
+            "status": trusted_input_evidence["result"],
+            "sha256": digest(CONFORMANCE / "trusted-input-evidence.json"),
+            "provider_test_count": trusted_input_evidence["verification"]["provider_test_count"],
+            "service_test_count": trusted_input_evidence["verification"]["service_test_count"],
+            "semantic_conformance": trusted_input_evidence["semantic_conformance"]["status"],
+            "generated_rust": trusted_input_evidence["verification"]["generated_rust"],
         },
     }, indent=2))
     return 0

@@ -43,7 +43,7 @@ export const BODY_CONTRACTS: Readonly<Record<string, BodyContract>> = Object.fre
     optional: ["typed_contract"],
     fields: { description: "string", reads: "string-array", writes: "string-array", effects: "string-array", guard: "string", failure_continuation: "string", typed_contract: "typed-operation" },
   },
-  Query: { required: ["description", "reads"], optional: [], fields: { description: "string", reads: "string-array" } },
+  Query: { required: ["description", "reads"], optional: ["typed_contract"], fields: { description: "string", reads: "string-array", typed_contract: "typed-operation" } },
   Calculation: { required: ["description", "inputs"], optional: [], fields: { description: "string", inputs: "string-array" } },
   Rule: { required: ["description", "predicate"], optional: ["typed_contract"], fields: { description: "string", predicate: "string", typed_contract: "typed-rule" } },
   Policy: { required: ["description", "strategies"], optional: [], fields: { description: "string", strategies: "string-array" }, nonemptyArrays: ["strategies"] },

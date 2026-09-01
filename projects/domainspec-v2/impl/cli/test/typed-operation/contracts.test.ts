@@ -151,6 +151,38 @@ test("typed Operation binds inputs, output, guard, and dependency selectors", ()
   expectCode(() => decodeTypedOperationContract({ ...operation, inputs: [...operation.inputs, operation.inputs[0]] }), "MTCLI_TYPED_DUPLICATE");
 });
 
+test("typed result constructors admit strict value-expression payloads", () => {
+  const operation = decodeTypedOperationContract({
+    schema_version: "domainspec.typed-operation/v1",
+    ontology_operation: "CAPACITY-QUERY-RESOLVE",
+    inputs: [
+      { name: "query", type: named("capacity-decision:capacity-query") },
+      { name: "snapshot", type: named("capacity-decision:capacity-snapshot") },
+    ],
+    output: named("capacity-decision:capacity-resolution"),
+    guard: "capacity-decision:query-valid",
+    reads: ["capacity-decision:capacity-record"],
+    writes: [],
+    effects: [],
+    failure_continuation: "return-deny",
+    success_result: { variant: "Resolved", payload: { op: "path", root: "snapshot", properties: [] } },
+    failure_result: { variant: "Deny", payload: null },
+  });
+  assert.deepEqual(operation.success_result, {
+    variant: "Resolved",
+    payload: { op: "path", root: "snapshot", properties: [] },
+  });
+  assert.deepEqual(operation.failure_result, { variant: "Deny", payload: null });
+  expectCode(() => decodeTypedOperationContract({
+    ...operation,
+    success_result: { variant: "Resolved", payload: null, payload_variant: null },
+  }), "MTCLI_TYPED_SCHEMA");
+  expectCode(() => decodeTypedOperationContract({
+    ...operation,
+    success_result: { variant: "Resolved" },
+  }), "MTCLI_TYPED_SCHEMA");
+});
+
 function copiedAuthSource(): string {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "domainspec-typed-auth-"));
   fs.cpSync(authOperationSource, root, { recursive: true });

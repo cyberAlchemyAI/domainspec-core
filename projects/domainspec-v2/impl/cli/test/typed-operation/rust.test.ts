@@ -9,6 +9,7 @@ import type { TypedOperationClosureV1 } from "../../src/typed-operation/closure.
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const authOperationSource = path.resolve(testDir, "../../../../../auth-foundation/implementation/operation-source");
+const authTrustedInputSource = path.resolve(testDir, "../../../../../auth-foundation/implementation/trusted-input-source");
 const capacityOperationSource = path.resolve(testDir, "../fixtures/capacity-decision");
 
 function authClosure(): TypedOperationClosureV1 {
@@ -17,6 +18,10 @@ function authClosure(): TypedOperationClosureV1 {
 
 function capacityClosure(): TypedOperationClosureV1 {
   return loadProjectNode(capacityOperationSource, "capacity-decision:decide-capacity").typed_closure!;
+}
+
+function authTrustedInputClosure(): TypedOperationClosureV1 {
+  return loadProjectNode(authTrustedInputSource, "trusted-input-resolution:resolve-trusted-inputs").typed_closure!;
 }
 
 function mutableClosure(): any {
@@ -76,6 +81,21 @@ test("typed Rust lowering is capability-neutral for a second non-Auth Operation"
   assert.match(rendered, /CapacityDecision::Reject/);
   assert.equal(rendered.includes("use std::collections::BTreeSet;"), false);
   assert.equal(rendered.toLowerCase().includes("auth"), false);
+});
+
+test("typed Rust Query returns an owned record payload and supplies only matching guard inputs", () => {
+  const closure = authTrustedInputClosure();
+  const rendered = renderTypedRustOperation(closure);
+  assert.equal(closure.nodes.find((node) => node.selector === closure.root_selector)?.kind, "Query");
+  assert.equal(rendered, renderTypedRustOperation(authTrustedInputClosure()));
+  assert.match(rendered, /pub fn resolve_trusted_inputs\(query: &TrustedInputQuery, snapshot: &TrustedInputSnapshot\) -> TrustedInputResolution/);
+  assert.match(rendered, /if trusted_input_query_valid\(query\)/);
+  assert.match(rendered, /TrustedInputResolution::Resolved\(\(\*snapshot\)\.clone\(\)\)/);
+  assert.match(rendered, /TrustedInputResolution::Deny/);
+
+  const wrongType = structuredClone(closure) as any;
+  wrongType.operation.success_result.payload = { op: "path", root: "query", properties: [] };
+  expectRustCode(() => renderTypedRustOperation(wrongType), "MTCLI_TYPED_RUST_TYPE");
 });
 
 test("list projection remains a list until an authored to_set conversion", () => {

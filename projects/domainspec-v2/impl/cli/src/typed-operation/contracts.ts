@@ -86,10 +86,17 @@ export interface TypedOperationContract {
   readonly failure_result: TypedResultConstructor;
 }
 
-export interface TypedResultConstructor {
+export interface TypedNestedVariantResultConstructor {
   readonly variant: string;
   readonly payload_variant: string | null;
 }
+
+export interface TypedValueResultConstructor {
+  readonly variant: string;
+  readonly payload: ValueExpression | null;
+}
+
+export type TypedResultConstructor = TypedNestedVariantResultConstructor | TypedValueResultConstructor;
 
 export class TypedContractError extends Error {
   readonly exitCode = 22;
@@ -350,9 +357,17 @@ export function decodeTypedOperationContract(value: unknown, pointer = "/typed_c
 }
 
 function decodeResultConstructor(value: unknown, pointer: string): TypedResultConstructor {
-  exactKeys(value, ["variant", "payload_variant"], pointer);
+  if (!isObject(value)) fail("MTCLI_TYPED_SCHEMA", pointer, "expected object");
+  const valueForm = Object.hasOwn(value, "payload");
+  exactKeys(value, valueForm ? ["variant", "payload"] : ["variant", "payload_variant"], pointer);
   const variant = string(value.variant, `${pointer}/variant`);
   if (!VARIANT_NAME.test(variant)) fail("MTCLI_TYPED_NAME", `${pointer}/variant`, "expected PascalCase variant name");
+  if (valueForm) {
+    return Object.freeze({
+      variant,
+      payload: value.payload === null ? null : decodeValueExpression(value.payload, `${pointer}/payload`),
+    });
+  }
   let payloadVariant: string | null = null;
   if (value.payload_variant !== null) {
     payloadVariant = string(value.payload_variant, `${pointer}/payload_variant`);

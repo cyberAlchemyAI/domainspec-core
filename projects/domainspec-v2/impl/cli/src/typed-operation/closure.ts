@@ -117,8 +117,8 @@ export function compileTypedOperationClosure(
   const root = nodes.get(rootSelector);
   if (!root) fail("MTCLI_TYPED_CLOSURE_MISSING", "/node", `root node is missing:${rootSelector}`);
   if (root.typed_contract === null) return null;
-  if (root.kind !== "Operation" || contractSchema(root.typed_contract) !== "domainspec.typed-operation/v1") {
-    fail("MTCLI_TYPED_CLOSURE_ROOT", "/node", "typed closure root must be an Operation");
+  if (!["Operation", "Query"].includes(root.kind) || contractSchema(root.typed_contract) !== "domainspec.typed-operation/v1") {
+    fail("MTCLI_TYPED_CLOSURE_ROOT", "/node", "typed closure root must be an Operation or Query");
   }
   const operation = root.typed_contract as TypedOperationContract;
 
@@ -138,7 +138,9 @@ export function compileTypedOperationClosure(
   const enforcingRules = relationships
     .filter((edge) => edge.relationship === "enforces" && `${edge.target.feature_id}:${edge.target.node_id}` === rootSelector)
     .map((edge) => `${edge.source.feature_id}:${edge.source.node_id}`);
-  if (!enforcingRules.includes(operation.guard)) fail("MTCLI_TYPED_CLOSURE_GUARD", "/typed_contract/guard", "guard Rule must enforce the selected Operation");
+  if (root.kind === "Operation" && !enforcingRules.includes(operation.guard)) {
+    fail("MTCLI_TYPED_CLOSURE_GUARD", "/typed_contract/guard", "guard Rule must enforce the selected Operation");
+  }
 
   const dependencies = (node: TypedClosureSourceNode): readonly string[] => {
     const contract = node.typed_contract;

@@ -1,8 +1,8 @@
 {
-  "schema_version": "cav2-d65-construction-chain/v5-candidate",
-  "construction_id": "AUTH-D65-COMMAND-BOUNDARY-001",
-  "subject_ref": "CA2-CAP-ADMIT-AUTHORIZATION-COMMAND",
-  "predecessor_construction_id": "AUTH-D65-SQLITE-PROVIDER-001",
+  "schema_version": "cav2-d65-construction-chain/v6-candidate",
+  "construction_id": "AUTH-D65-TRUSTED-INPUT-RESOLUTION-001",
+  "subject_ref": "CA2-CAP-RESOLVE-TRUSTED-AUTHORIZATION-INPUTS",
+  "predecessor_construction_id": "AUTH-D65-COMMAND-BOUNDARY-001",
   "stages": [
     {
       "stage": "canonical_definitions",
@@ -213,10 +213,88 @@
       "state": "bounded-sfol-tde-pass",
       "path": "implementation/standard-conformance/command-boundary-evidence.json",
       "sha256": "9b67cedad9fd9415ed94ac9dbd62ac6a12d5ef110b203fca7ba3d0bd23835635"
+    },
+    {
+      "stage": "trusted_input_canonical_definitions",
+      "state": "authored-candidate-not-admitted",
+      "path": "implementation/trusted-input-definitions.json",
+      "sha256": "611088ee3d4e14c31c8087cff64b3546320391a6036bbcd5d8689ce4e543c925"
+    },
+    {
+      "stage": "trusted_input_product_capability",
+      "state": "authored-candidate-not_evaluable-for-adoption",
+      "path": "implementation/trusted-input-product-capability.json",
+      "sha256": "3ca69a9bab18bb9b1cb9663ba252e7669d9f8822d0191169a2da745448dfb40d"
+    },
+    {
+      "stage": "trusted_input_business_ontology",
+      "state": "authored-candidate-not_evaluable-for-admission",
+      "path": "implementation/trusted-input-business-ontology.json",
+      "sha256": "7dfb9f8b5e677bca454349658df92733bc6c657f6d965e9b9a9ff2b62df78439"
+    },
+    {
+      "stage": "trusted_input_domainspec_source",
+      "state": "validated-source-candidate",
+      "path": "implementation/trusted-input-source/project.json",
+      "sha256": "a8f9b26ef16d3b7b5b14b088da3ba1a5805d71c03813f68b7dbfa5fda7f911d5"
+    },
+    {
+      "stage": "trusted_input_construction_binding",
+      "state": "authored-candidate",
+      "path": "implementation/trusted-input-construction-binding.json",
+      "sha256": "ba173f82f4a6569ec2e244e827ddbaea517fc868f71ec5fc75938c5485b5fcd5"
+    },
+    {
+      "stage": "trusted_input_compiled_graph",
+      "state": "validated-technical-candidate",
+      "path": "implementation/standard-conformance/trusted-input-compiled-graph.json",
+      "sha256": "813ba9e2f73fd20dfb10ff2268911583215dccf6ad7a428a73d6a098b076ac38"
+    },
+    {
+      "stage": "trusted_input_provider_neutral_integration_binding",
+      "state": "validated-binding-candidate",
+      "path": "implementation/trusted-input-source/integrations/trusted-input-sqlite.json",
+      "sha256": "a690b8cd8e4ad149ab2079805c317b0c5f3d7b5bdc2155cd9ecdbb4391094ae7"
+    },
+    {
+      "stage": "trusted_input_generated_query_runtime",
+      "state": "validated-generated-local-candidate",
+      "path": "implementation/trusted-input-runtime/Cargo.toml",
+      "sha256": "5f91b7019af4dfa1952b0f430f4e0f452bfce2a3cee7887061bc1303a5772187"
+    },
+    {
+      "stage": "trusted_input_sqlite_infrastructure_definition",
+      "state": "validated-infrastructure-candidate",
+      "path": "implementation/trusted-input-sqlite-infrastructure.json",
+      "sha256": "ac833f418c8963061f80adc61937c9e6c0aaa8af041c19101c766c5769d9ac9d"
+    },
+    {
+      "stage": "trusted_input_system_ontology",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/trusted-input-system-ontology.json",
+      "sha256": "53627b35b754de6eead9ff7ba0547ec6ccc1664bef59a9e31511fca66ebd3b9b"
+    },
+    {
+      "stage": "trusted_input_provider_implementation",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/trusted-input-provider-binding.json",
+      "sha256": "649a94463ea1d9bd2615b7eab7ffae26234d66613311c25c9632bc40f316a229"
+    },
+    {
+      "stage": "authorization_service_implementation",
+      "state": "validated-local-candidate",
+      "path": "implementation/standard-conformance/authorization-service-binding.json",
+      "sha256": "e5c00b46b64d92feef2aaf500b616e5799eb925b3daf9c706c90f53e1523fc07"
+    },
+    {
+      "stage": "trusted_input_conformance_evidence",
+      "state": "local-technical-pass-semantic-not_evaluable",
+      "path": "implementation/standard-conformance/trusted-input-evidence.json",
+      "sha256": "b3848daf7cb8437499a00c37cab40be6dbec684baa0272c2476123cfdca6df57"
     }
   ],
-  "result": "complete-local-candidate-through-admitted-command-boundary-meaning-and-bounded-sfol-tde-evidence",
+  "result": "complete-local-candidate-through-generated-query-sqlite-provider-and-in-process-service",
   "authority_effect": "none",
   "external_effect": "none",
-  "claim_limit": "The command-boundary definitions, Product Capability, and business ontology are admitted and bounded SFOL/TDE composition evidence passes locally. System ontology remains a compiled candidate; publication, deployment, external effects, and production-security claims remain unavailable."
+  "claim_limit": "Technical L11/L12 candidate passes locally, including generated Rust Query replay. Trusted-input product meaning remains unadmitted; publication, deployment, transport, administration, and production security remain unavailable."
 }

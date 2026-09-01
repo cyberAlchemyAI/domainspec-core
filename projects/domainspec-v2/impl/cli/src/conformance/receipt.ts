@@ -148,7 +148,7 @@ function decodeClosureContract(kind: string, value: unknown, pointer: string): T
   if (kind === "Entity" || kind === "Value Object") return decodeTypedRecordContract(value, pointer);
   if (kind === "Enum") return decodeTypedSumContract(value, pointer);
   if (kind === "Rule") return decodeTypedRuleContract(value, pointer);
-  if (kind === "Operation") return decodeTypedOperationContract(value, pointer);
+  if (kind === "Operation" || kind === "Query") return decodeTypedOperationContract(value, pointer);
   fail("MTCLI_RECEIPT_TYPED_CLOSURE", pointer, `unsupported typed closure node kind:${kind}`);
 }
 

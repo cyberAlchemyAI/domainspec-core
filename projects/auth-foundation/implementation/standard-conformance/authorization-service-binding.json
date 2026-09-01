@@ -1,0 +1,32 @@
+{
+  "schema_version": "auth-foundation.authorization-service-binding/v1-candidate",
+  "binding_id": "AUTH-D65-RUST-IN-PROCESS-AUTHORIZATION-SERVICE-001",
+  "trusted_input_provider": {
+    "path": "implementation/standard-conformance/trusted-input-provider-binding.json",
+    "sha256": "649a94463ea1d9bd2615b7eab7ffae26234d66613311c25c9632bc40f316a229"
+  },
+  "trusted_boundary": {
+    "path": "implementation/standard-conformance/trusted-boundary-binding.json",
+    "sha256": "19e5f66c2b8c8deb2c9679eff0350805b0d3cc38e57acee2d381d6ed50f53f51",
+    "state": "validated-local-candidate"
+  },
+  "implementation": {
+    "language": "rust",
+    "manifest_path": "implementation/authorization-service/Cargo.toml",
+    "manifest_sha256": "4e3380eddcc532b879ce1c03927bfb44bf1f926cf70c525bae0ed3a3e8d36e21",
+    "lockfile_path": "implementation/authorization-service/Cargo.lock",
+    "lockfile_sha256": "3a407bf857c735f0531ddf46d155ccf82637240ac73add8e16828a5d8928945c",
+    "source_path": "implementation/authorization-service/src/lib.rs",
+    "source_sha256": "866e02647c3998cd9ccee92cfeeacc285cd4f09a1f3809eefa616216b1ea41f8",
+    "tests_path": "implementation/authorization-service/tests/integration.rs",
+    "tests_sha256": "a35644eeb7e379f90cb28075c5d342a3ab687a5545649002c88bd48ca0213f2f",
+    "entrypoint": "SqliteAuthService::authorize",
+    "trusted_input_query_entrypoint": "SqliteTrustedInputResolver::resolve",
+    "public_decision": [
+      "Allow",
+      "Deny"
+    ]
+  },
+  "authority_effect": "none",
+  "claim_limit": "In-process service composition only; no HTTP, token handling, administration, deployment, or production-security claim."
+}

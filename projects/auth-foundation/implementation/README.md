@@ -31,6 +31,13 @@ accepted Auth definitions
   -> deterministic Rust command-boundary kernel
   -> trusted Rust boundary over authentication and route-binding ports
   -> unchanged SQLite authorization decision service
+  -> storage-neutral trusted-input definitions and business ontology
+  -> typed DomainSpec `resolve-trusted-inputs` Query
+  -> generated Rust snapshot-resolution kernel
+  -> provider-neutral persistence binding
+  -> separately defined SQLite infrastructure mapping and resolvers
+  -> in-process Rust authorization service composition
+  -> local end-to-end fail-closed evidence
 ```
 
 The Rust crate is a pure decision kernel. Session lookup, role storage, trusted
@@ -57,6 +64,27 @@ The new definition pack is an authored candidate awaiting owner admission.
 Consequently, L6 has local technical evidence but semantic conformance is
 `not_evaluable`; the candidate does not claim adopted capability meaning or an
 admitted business/system ontology.
+
+L11 fills the two remaining trusted input ports with the
+`trusted-input-provider/` crate. Its versioned SQLite schema preserves missing
+and duplicate rows, uses stable row-identity ordering, derives authentication
+currentness from an injected clock, and keeps disabled or incomplete routes
+visible but non-admissible. `authorization-service/` composes those resolvers,
+the existing trusted boundary, and the unchanged SQLite authorization service
+behind one in-process binary `authorize` entrypoint. Provider and end-to-end
+tests cover current allow, missing and ambiguous records, expiry, revocation,
+untrusted evidence, disabled and incomplete routes, storage failure, and
+downstream permission mismatch.
+
+The L11/L12 DomainSpec source passes source lint and compiles to a deterministic
+typed graph with 7 nodes, 2 relationships, and all 19 ontology properties. The
+generic Rust generator now supports typed Query roots and value-expression
+result payloads, so it constructs `Resolved(TrustedInputSnapshot)` directly.
+The same instantiation generates a provider-neutral integration contract; the
+SQLite tables, columns, migration, and ordering live only in the separate
+infrastructure definition and handwritten adapter. Two-run generated replay
+passes. Product meaning remains candidate-only, so semantic conformance is
+still `not_evaluable`.
 
 The `runtime-adapter/` successor constructs that context through five explicit
 ports: session resolution, complete active-role resolution, trusted scope
@@ -105,10 +133,11 @@ TMPDIR=/tmp /home/vrondelli/.nvm/versions/node/v22.12.0/bin/node \
   projects/domainspec-v2/impl/cli/node_modules/tsx/dist/cli.mjs \
   projects/auth-foundation/implementation/scripts/build.ts
 python3 projects/auth-foundation/implementation/scripts/validate.py --write-receipt
+python3 projects/auth-foundation/implementation/scripts/validate-trusted-input.py
 ```
 
-Generated files live under `standard-runtime/` and
-`command-boundary-runtime/`; evidence artifacts are named compiled graph,
+Generated files live under `standard-runtime/`, `command-boundary-runtime/`,
+and `trusted-input-runtime/`; evidence artifacts are named compiled graph,
 system ontology, implementation binding, conformance, migration, provider,
 command-boundary, and chain receipts. Edit the corresponding definition-bound
 source, rebuild, and rerun validation. Direct edits to generated Rust fail
@@ -119,6 +148,6 @@ The L4 runtime evidence remains deterministic and in-memory. L5 adds one local
 SQLite provider with in-memory and temporary file-backed evidence. HTTP,
 tokens, administrative writes, audit transport, multi-node behavior,
 deployment, and production observability remain later layers.
-L6 still has no real authentication-evidence registry, route-binding registry,
-HTTP transport, token flow, administrative mutation, or production-security
-claim.
+L11 has local file-backed authentication-evidence and route-binding registries
+but no credential verification, token flow, administrative mutation, HTTP
+transport, deployment, multi-node behavior, or production-security claim.
