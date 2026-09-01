@@ -24,6 +24,23 @@ function deepFreeze<T>(value: T): T {
   return value;
 }
 
+const SPECIAL_RELATIONSHIP_OBLIGATIONS = new Set([
+  "admit_same_and_cross_feature_scope",
+  "derive_creation_targets_from_edge",
+  "reject_authored_generated_projection",
+  "reject_cross_feature_scope",
+  "reject_deprecated_queries_alias",
+  "reject_enforces_cross_label",
+  "reject_inverse_collapse_with_owns",
+  "reject_multiple_sources_per_target",
+  "reject_multiple_targets_per_source",
+  "require_admitted_workflow_scope",
+]);
+
+function isEndpointObligation(obligation: string): boolean {
+  return /^reject_non_.+_(?:source|target)$/.test(obligation);
+}
+
 export function validateRelationshipAuthority(
   value: FrozenRelationshipAuthorityV1 = FROZEN_RELATIONSHIP_AUTHORITY_V1,
 ): FrozenRelationshipAuthorityV1 {
@@ -32,11 +49,20 @@ export function validateRelationshipAuthority(
   if (value.source_sha256 !== RELATIONSHIP_AUTHORITY_SHA256) fail("MTCLI_RELATIONSHIP_AUTHORITY_DIGEST", "relationship authority source digest drift");
   if (value.signature_count !== 31 || value.signatures.length !== 31) fail("MTCLI_RELATIONSHIP_AUTHORITY_COVERAGE", "relationship signature denominator drift");
   const active = new Set<string>();
+  const obligations = new Set<string>();
   for (const signature of value.signatures) {
     if (!signature.id || active.has(signature.id)) fail("MTCLI_RELATIONSHIP_AUTHORITY_DUPLICATE", `duplicate relationship signature:${signature.id}`);
     if (signature.source_types.length === 0 || signature.target_types.length === 0 || signature.feature_scope.length === 0) fail("MTCLI_RELATIONSHIP_AUTHORITY_SCHEMA", `incomplete relationship signature:${signature.id}`);
+    if (signature.validation_obligations.length === 0) fail("MTCLI_RELATIONSHIP_AUTHORITY_OBLIGATION", `relationship signature has no validation obligations:${signature.id}`);
+    for (const obligation of signature.validation_obligations) {
+      if (!isEndpointObligation(obligation) && !SPECIAL_RELATIONSHIP_OBLIGATIONS.has(obligation)) {
+        fail("MTCLI_RELATIONSHIP_AUTHORITY_OBLIGATION", `unhandled relationship obligation:${signature.id}:${obligation}`);
+      }
+      obligations.add(obligation);
+    }
     active.add(signature.id);
   }
+  if (obligations.size !== 45) fail("MTCLI_RELATIONSHIP_AUTHORITY_OBLIGATION", `relationship obligation denominator drift:${obligations.size}`);
   const generated = new Set<string>();
   for (const view of value.generated_views) {
     if (!view.id || generated.has(view.id) || active.has(view.id) || !active.has(view.from_signature)) fail("MTCLI_RELATIONSHIP_AUTHORITY_GENERATED_VIEW", `invalid generated relationship view:${view.id}`);

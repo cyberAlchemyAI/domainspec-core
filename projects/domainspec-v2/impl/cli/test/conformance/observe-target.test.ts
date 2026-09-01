@@ -19,7 +19,7 @@ const testDir = path.dirname(fileURLToPath(import.meta.url));
 const sourceFixtureRoot = path.resolve(testDir, "../../fixtures/input-roots/canonical-project");
 const authOperationSource = path.resolve(testDir, "../../../../../auth-foundation/implementation/operation-source");
 
-function targetFor(language: "typescript" | "python" | "rust" = "typescript", kind: "Operation" | "Workflow" = "Operation"): { parent: string; target: string; artifact: string } {
+function targetFor(language: "typescript" | "python" | "rust" = "typescript", kind: "Operation" | "Workflow" | "State Machine" = "Operation"): { parent: string; target: string; artifact: string } {
   const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-observe-"));
   const target = path.join(parent, "target");
   const result = publishInstantiation(testPlan(kind, language), target);
@@ -88,6 +88,19 @@ test("all three Workflow realizations bind composition-root compensation as inte
       const observation = observeTarget(fixture.target);
       assert.equal(observation.result, "pass");
       assert.equal(observation.checks.includes("workflow-obligations-when-applicable"), true);
+    } finally {
+      clean(fixture.parent);
+    }
+  }
+});
+
+test("all three State Machine realizations pass causal semantic observation", () => {
+  for (const language of ["typescript", "python", "rust"] as const) {
+    const fixture = targetFor(language, "State Machine");
+    try {
+      const observation = observeTarget(fixture.target);
+      assert.equal(observation.result, "pass");
+      assert.equal(observation.checks.includes("state-machine-obligations-when-applicable"), true);
     } finally {
       clean(fixture.parent);
     }
@@ -185,7 +198,8 @@ test("causal mutants identify declared-set, guard, atomicity, continuation, and 
     ["Contract.effects.map", 'Contract.effects.concat(["UndeclaredEffect"]).map', "MTCLI_OPERATION_UNDECLARED_EFFECT"],
     ['// domainspec-failure-continuation: "return-account-error"', '// domainspec-failure-continuation: "retry"', "MTCLI_OPERATION_CONTINUATION"],
     ['// domainspec-operation-instrumentation-owner: "outer-wrapper"', '// domainspec-operation-instrumentation-owner: "core"', "MTCLI_OPERATION_INSTRUMENTATION_BOUNDARY"],
-    ['// domainspec-relationships: [{"edge_id":"operation-produces-event"', '// domainspec-relationships: [{"edge_id":"changed-edge"', "MTCLI_OBSERVE_RELATIONSHIPS"],
+    ['export const ChangeAccountContract = Object.freeze({"creation_targets":["accounts.account"]', 'export const ChangeAccountContract = Object.freeze({"creation_targets":[]', "MTCLI_OPERATION_CREATION_TARGETS"],
+    ['// domainspec-relationships: [{"edge_id":"operation-creates-account"', '// domainspec-relationships: [{"edge_id":"changed-edge"', "MTCLI_OBSERVE_RELATIONSHIPS"],
   ];
   for (const [before, after, code] of mutants) {
     const fixture = targetFor();
@@ -226,6 +240,31 @@ test("Workflow compensation contract, state, order, executor, and Operation role
   ];
   for (const [before, after, code] of mutants) {
     const fixture = targetFor("typescript", "Workflow");
+    try {
+      const content = fs.readFileSync(fixture.artifact, "utf8");
+      assert.equal(content.includes(before), true, `test fixture contains ${before}`);
+      fs.writeFileSync(fixture.artifact, content.replace(before, after));
+      expectCode(fixture.target, code);
+    } finally {
+      clean(fixture.parent);
+    }
+  }
+});
+
+test("State Machine initial, table, guard, source, effect, and rejection drift fail causally", () => {
+  const mutants: readonly [string, string, string][] = [
+    ['// domainspec-state-machine-initial: "open"', '// domainspec-state-machine-initial: "changed"', "MTCLI_STATE_MACHINE_INITIAL"],
+    ['// domainspec-state-machine-transitions: [{"effect_event_ref":"accounts:account-changed","guard_ref":null,"source_state":"open","target_state":"changed","transition_id":"record-change"}]', '// domainspec-state-machine-transitions: []', "MTCLI_STATE_MACHINE_TRANSITION_TABLE"],
+    ['// domainspec-state-machine-event-intents-only: true', '// domainspec-state-machine-event-intents-only: false', "MTCLI_STATE_MACHINE_EFFECT_BOUNDARY"],
+    ['// domainspec-state-machine-guard-contract: "rule-reference-callback/v1"', '// domainspec-state-machine-guard-contract: "inline-boolean/v1"', "MTCLI_STATE_MACHINE_GUARD_CONTRACT"],
+    ['// domainspec-state-machine-guard-required: true', '// domainspec-state-machine-guard-required: false', "MTCLI_STATE_MACHINE_GUARD_CONTRACT"],
+    ['// domainspec-state-machine-source-enforcement: true', '// domainspec-state-machine-source-enforcement: false', "MTCLI_STATE_MACHINE_SOURCE_ENFORCEMENT"],
+    ['// domainspec-state-machine-causal-rejections: ["invalid-current-state","undeclared-transition","source-mismatch","guard-rejected"]', '// domainspec-state-machine-causal-rejections: ["guard-rejected"]', "MTCLI_STATE_MACHINE_REJECTION_CONTRACT"],
+    ["transition.source_state !== current", "transition.source_state === current", "MTCLI_STATE_MACHINE_SOURCE_ENFORCEMENT"],
+    ["effectEventRef: transition.effect_event_ref", "effectEventRef: null", "MTCLI_STATE_MACHINE_EFFECT_BOUNDARY"],
+  ];
+  for (const [before, after, code] of mutants) {
+    const fixture = targetFor("typescript", "State Machine");
     try {
       const content = fs.readFileSync(fixture.artifact, "utf8");
       assert.equal(content.includes(before), true, `test fixture contains ${before}`);

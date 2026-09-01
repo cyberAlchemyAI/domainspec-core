@@ -21,20 +21,27 @@ const samples: Readonly<Record<string, Record<string, unknown>>> = {
   Entity: { description: "Entity", fields: ["value"] },
   Operation: { description: "Operation", reads: ["account"], writes: ["account.status"], effects: ["AccountChanged"], guard: "account-is-open", failure_continuation: "return-account-error" },
   Workflow: { description: "Workflow", steps: ["change-account"], compensations: ["restore-account"] },
+  "State Machine": { description: "Account status", states: ["open", "changed"], initial: "open", transitions: [{ transition_id: "record-change", source_state: "open", target_state: "changed", guard_ref: null, effect_event_ref: "accounts:account-changed" }] },
 };
 
-export function testPlan(kind: "Entity" | "Operation" | "Workflow", language: SupportedLanguage = "typescript") {
+export function testPlan(kind: "Entity" | "Operation" | "Workflow" | "State Machine", language: SupportedLanguage = "typescript") {
   const metaType = FROZEN_META_TYPE_CATALOG.backend_meta_types.find(({ label }) => label === kind);
   if (!metaType) throw new Error(`missing test meta-type:${kind}`);
   const node: DecodedProjectNode = Object.freeze({
     project_root: path.resolve("/tmp/test-project"),
     project_id: "test-project",
     feature_id: "accounts",
-    node_id: kind === "Entity" ? "account" : kind === "Operation" ? "change-account" : "account-workflow",
+    node_id: kind === "Entity" ? "account" : kind === "Operation" ? "change-account" : kind === "Workflow" ? "account-workflow" : "account-status",
     kind,
     meta_type_id: metaType.id,
     body: decodeBody(kind, samples[kind]),
     relationships: Object.freeze(kind === "Operation" ? [{
+      edge_id: "operation-creates-account",
+      relationship: "creates",
+      scope: "feature" as const,
+      source: Object.freeze({ feature_id: "accounts", node_id: "change-account", kind: "Operation" }),
+      target: Object.freeze({ feature_id: "accounts", node_id: "account", kind: "Entity" }),
+    }, {
       edge_id: "operation-produces-event",
       relationship: "produces",
       scope: "feature" as const,
@@ -52,6 +59,12 @@ export function testPlan(kind: "Entity" | "Operation" | "Workflow", language: Su
       scope: "feature" as const,
       source: Object.freeze({ feature_id: "accounts", node_id: "account-workflow", kind: "Workflow" }),
       target: Object.freeze({ feature_id: "accounts", node_id: "change-account", kind: "Operation" }),
+    }] : kind === "State Machine" ? [{
+      edge_id: "account-changed-transitions-account-status",
+      relationship: "transitions",
+      scope: "feature" as const,
+      source: Object.freeze({ feature_id: "accounts", node_id: "account-changed", kind: "Event" }),
+      target: Object.freeze({ feature_id: "accounts", node_id: "account-status", kind: "State Machine" }),
     }] : []),
     source_manifest: sourceManifest,
   });

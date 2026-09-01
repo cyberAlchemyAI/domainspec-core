@@ -1,4 +1,5 @@
 import { canonicalJson } from "../input/source-manifest.js";
+import type { StateTransitionSpec } from "../input/project-model.js";
 import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
 import type { SupportedLanguage } from "../meta-types/types.js";
 import type { GeneratorInput, GeneratorRegistration } from "./contracts.js";
@@ -43,6 +44,24 @@ function strings(value: unknown): readonly string[] {
 
 function text(value: unknown, fallback: string): string {
   return typeof value === "string" && value.length > 0 ? value : fallback;
+}
+
+function stateTransitions(value: unknown): readonly StateTransitionSpec[] {
+  return Array.isArray(value) ? value as readonly StateTransitionSpec[] : [];
+}
+
+function pythonStateTransitions(values: readonly StateTransitionSpec[]): string {
+  return values.map((transition) => `{${[
+    `"transition_id": ${JSON.stringify(transition.transition_id)}`,
+    `"source_state": ${JSON.stringify(transition.source_state)}`,
+    `"target_state": ${JSON.stringify(transition.target_state)}`,
+    `"guard_ref": ${transition.guard_ref === null ? "None" : JSON.stringify(transition.guard_ref)}`,
+    `"effect_event_ref": ${transition.effect_event_ref === null ? "None" : JSON.stringify(transition.effect_event_ref)}`,
+  ].join(", ")}}`).join(", ");
+}
+
+function rustOption(value: string | null): string {
+  return value === null ? "None" : `Some(${JSON.stringify(value)})`;
 }
 
 function provenance(input: GeneratorInput, comment: "//" | "#"): string {
@@ -519,7 +538,7 @@ function renderTypeScript(input: GeneratorInput): string {
     }
     case "Operation": {
       const contract = canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) });
-      return `${header}// domainspec-operation-sets: ${contract}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\nexport const ${name}Contract = Object.freeze(${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects), relationships: input.relationships })});\nexport function ${fn}(state: Readonly<Record<string, unknown>>, changes: Readonly<Record<string, unknown>>, guard: () => boolean) {\n  if (!guard()) return { ok: false as const, continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))} };\n  const readSet = Object.freeze(Object.fromEntries(${name}Contract.reads.map((key) => [key, state[key]])));\n  const nextState = Object.freeze(${name}Contract.writes.reduce<Record<string, unknown>>((next, key) => ({ ...next, [key]: changes[key] }), { ...state }));\n  const outbox = ${name}Contract.effects.map((type) => Object.freeze({ type, operation: ${JSON.stringify(input.node_id)} }));\n  return { ok: true as const, reads: readSet, state: nextState, outbox };\n}\nexport function ${fn}Observed(state: Readonly<Record<string, unknown>>, changes: Readonly<Record<string, unknown>>, guard: () => boolean, observe: (phase: "operation.enter" | "operation.success" | "operation.failure") => void) {\n  observe("operation.enter");\n  const outcome = ${fn}(state, changes, guard);\n  observe(outcome.ok ? "operation.success" : "operation.failure");\n  return outcome;\n}\n`;
+      return `${header}// domainspec-operation-sets: ${contract}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\nexport const ${name}Contract = Object.freeze(${canonicalJson({ creation_targets: strings(body.creation_targets), reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects), relationships: input.relationships })});\nexport function ${fn}(state: Readonly<Record<string, unknown>>, changes: Readonly<Record<string, unknown>>, guard: () => boolean) {\n  if (!guard()) return { ok: false as const, continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))} };\n  const readSet = Object.freeze(Object.fromEntries(${name}Contract.reads.map((key) => [key, state[key]])));\n  const nextState = Object.freeze(${name}Contract.writes.reduce<Record<string, unknown>>((next, key) => ({ ...next, [key]: changes[key] }), { ...state }));\n  const outbox = ${name}Contract.effects.map((type) => Object.freeze({ type, operation: ${JSON.stringify(input.node_id)} }));\n  return { ok: true as const, reads: readSet, state: nextState, outbox };\n}\nexport function ${fn}Observed(state: Readonly<Record<string, unknown>>, changes: Readonly<Record<string, unknown>>, guard: () => boolean, observe: (phase: "operation.enter" | "operation.success" | "operation.failure") => void) {\n  observe("operation.enter");\n  const outcome = ${fn}(state, changes, guard);\n  observe(outcome.ok ? "operation.success" : "operation.failure");\n  return outcome;\n}\n`;
     }
     case "Query":
       return `${header}export function ${fn}(state: Readonly<Record<string, unknown>>): Readonly<Record<string, unknown>> {\n  return Object.freeze({ ...state });\n}\n`;
@@ -537,8 +556,31 @@ function renderTypeScript(input: GeneratorInput): string {
       return `${header}export interface ${name} {\n  readonly type: ${JSON.stringify(input.node_id)};\n  readonly occurredAt: string;\n${fieldShape}\n}\n`;
     case "Mapping":
       return `${header}export function ${fn}(source: unknown): { readonly target: unknown } { return Object.freeze({ target: source }); }\n`;
-    case "State Machine":
-      return `${header}export const ${name}States = Object.freeze(${JSON.stringify(strings(body.states))});\nexport function ${fn}Transition(current: string, next: string): string {\n  if (!((${name}States) as readonly string[]).includes(current) || !((${name}States) as readonly string[]).includes(next)) throw new Error("invalid transition");\n  return next;\n}\n`;
+    case "State Machine": {
+      const transitions = stateTransitions(body.transitions);
+      const rejectionCodes = ["invalid-current-state", "undeclared-transition", "source-mismatch", "guard-rejected"];
+      return `${header}// domainspec-state-machine-initial: ${JSON.stringify(text(body.initial, ""))}
+// domainspec-state-machine-transitions: ${canonicalJson(transitions)}
+// domainspec-state-machine-event-intents-only: true
+// domainspec-state-machine-guard-contract: "rule-reference-callback/v1"
+// domainspec-state-machine-guard-required: true
+// domainspec-state-machine-source-enforcement: true
+// domainspec-state-machine-causal-rejections: ${JSON.stringify(rejectionCodes)}
+export const ${name}States = Object.freeze(${JSON.stringify(strings(body.states))} as const);
+export const ${name}Transitions = Object.freeze(${canonicalJson(transitions)}) as readonly Readonly<{ transition_id: string; source_state: string; target_state: string; guard_ref: string | null; effect_event_ref: string | null }>[];
+export type ${name}TransitionResult =
+  | Readonly<{ ok: true; transitionId: string; priorState: string; state: string; effectEventRef: string | null }>
+  | Readonly<{ ok: false; transitionId: string; state: string; code: "invalid-current-state" | "undeclared-transition" | "source-mismatch" | "guard-rejected"; guardRef: string | null }>;
+export function ${fn}Transition(current: string, transitionId: string, evaluateGuard: (guardRef: string) => boolean): ${name}TransitionResult {
+  if (!((${name}States) as readonly string[]).includes(current)) return Object.freeze({ ok: false, transitionId, state: current, code: "invalid-current-state", guardRef: null });
+  const transition = ${name}Transitions.find((candidate) => candidate.transition_id === transitionId);
+  if (!transition) return Object.freeze({ ok: false, transitionId, state: current, code: "undeclared-transition", guardRef: null });
+  if (transition.source_state !== current) return Object.freeze({ ok: false, transitionId, state: current, code: "source-mismatch", guardRef: transition.guard_ref });
+  if (transition.guard_ref !== null && !evaluateGuard(transition.guard_ref)) return Object.freeze({ ok: false, transitionId, state: current, code: "guard-rejected", guardRef: transition.guard_ref });
+  return Object.freeze({ ok: true, transitionId, priorState: current, state: transition.target_state, effectEventRef: transition.effect_event_ref });
+}
+`;
+    }
     default:
       throw new Error(`unsupported TypeScript generator:${input.kind}`);
   }
@@ -557,7 +599,7 @@ function renderPython(input: GeneratorInput): string {
     case "Enum":
       return `${header}from enum import Enum\n\nclass ${name}(str, Enum):\n${strings(body.values).map((value, index, values) => `    ${uniqueNames(values, (entry) => snake(entry).toUpperCase(), "Python Enum")[index]} = ${JSON.stringify(value)}`).join("\n")}\n`;
     case "Operation":
-      return `${header}# domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n# domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n# domainspec-guard-before-mutation: true\n# domainspec-atomic-state-outbox: true\n# domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n# domainspec-operation-core-instrumentation-free: true\n# domainspec-operation-instrumentation-owner: "outer-wrapper"\n${name.toUpperCase()}_RELATIONSHIPS = tuple(${canonicalJson(input.relationships)})\n\ndef ${fn}(state: dict[str, object], changes: dict[str, object], guard: bool) -> dict[str, object]:\n    if not guard:\n        return {"ok": False, "continuation": ${JSON.stringify(text(body.failure_continuation, "return-error"))}}\n    read_set = {key: state.get(key) for key in ${JSON.stringify(strings(body.reads))}}\n    next_state = dict(state)\n    for key in ${JSON.stringify(strings(body.writes))}:\n        next_state[key] = changes.get(key)\n    outbox = [{"type": effect, "operation": ${JSON.stringify(input.node_id)}} for effect in ${JSON.stringify(strings(body.effects))}]\n    return {"ok": True, "reads": read_set, "state": next_state, "outbox": outbox}\n\ndef ${fn}_observed(state: dict[str, object], changes: dict[str, object], guard: bool, observe):\n    observe("operation.enter")\n    outcome = ${fn}(state, changes, guard)\n    observe("operation.success" if outcome["ok"] else "operation.failure")\n    return outcome\n`;
+      return `${header}# domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n# domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n# domainspec-guard-before-mutation: true\n# domainspec-atomic-state-outbox: true\n# domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n# domainspec-operation-core-instrumentation-free: true\n# domainspec-operation-instrumentation-owner: "outer-wrapper"\n${fn.toUpperCase()}_CREATION_TARGETS = tuple(${JSON.stringify(strings(body.creation_targets))})\n${name.toUpperCase()}_RELATIONSHIPS = tuple(${canonicalJson(input.relationships)})\n\ndef ${fn}(state: dict[str, object], changes: dict[str, object], guard: bool) -> dict[str, object]:\n    if not guard:\n        return {"ok": False, "continuation": ${JSON.stringify(text(body.failure_continuation, "return-error"))}}\n    read_set = {key: state.get(key) for key in ${JSON.stringify(strings(body.reads))}}\n    next_state = dict(state)\n    for key in ${JSON.stringify(strings(body.writes))}:\n        next_state[key] = changes.get(key)\n    outbox = [{"type": effect, "operation": ${JSON.stringify(input.node_id)}} for effect in ${JSON.stringify(strings(body.effects))}]\n    return {"ok": True, "reads": read_set, "state": next_state, "outbox": outbox}\n\ndef ${fn}_observed(state: dict[str, object], changes: dict[str, object], guard: bool, observe):\n    observe("operation.enter")\n    outcome = ${fn}(state, changes, guard)\n    observe("operation.success" if outcome["ok"] else "operation.failure")\n    return outcome\n`;
     case "Query":
       return `${header}def ${fn}(state: dict[str, object]) -> dict[str, object]:\n    return dict(state)\n`;
     case "Calculation":
@@ -574,8 +616,32 @@ function renderPython(input: GeneratorInput): string {
       return `${header}from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass ${name}:\n    occurred_at: str\n    payload: dict[str, object]\n`;
     case "Mapping":
       return `${header}def ${fn}(source: object) -> dict[str, object]:\n    return {"target": source}\n`;
-    case "State Machine":
-      return `${header}${name.toUpperCase()}_STATES = tuple(${JSON.stringify(strings(body.states))})\n\ndef ${fn}_transition(current: str, next_state: str) -> str:\n    if current not in ${name.toUpperCase()}_STATES or next_state not in ${name.toUpperCase()}_STATES:\n        raise ValueError("invalid transition")\n    return next_state\n`;
+    case "State Machine": {
+      const transitions = stateTransitions(body.transitions);
+      const rejectionCodes = ["invalid-current-state", "undeclared-transition", "source-mismatch", "guard-rejected"];
+      return `${header}# domainspec-state-machine-initial: ${JSON.stringify(text(body.initial, ""))}
+# domainspec-state-machine-transitions: ${canonicalJson(transitions)}
+# domainspec-state-machine-event-intents-only: true
+# domainspec-state-machine-guard-contract: "rule-reference-callback/v1"
+# domainspec-state-machine-guard-required: true
+# domainspec-state-machine-source-enforcement: true
+# domainspec-state-machine-causal-rejections: ${JSON.stringify(rejectionCodes)}
+${name.toUpperCase()}_STATES = tuple(${JSON.stringify(strings(body.states))})
+${name.toUpperCase()}_TRANSITIONS = (${pythonStateTransitions(transitions)}${transitions.length === 1 ? "," : ""})
+
+def ${fn}_transition(current: str, transition_id: str, evaluate_guard) -> dict[str, object]:
+    if current not in ${name.toUpperCase()}_STATES:
+        return {"ok": False, "transition_id": transition_id, "state": current, "code": "invalid-current-state", "guard_ref": None}
+    transition = next((candidate for candidate in ${name.toUpperCase()}_TRANSITIONS if candidate["transition_id"] == transition_id), None)
+    if transition is None:
+        return {"ok": False, "transition_id": transition_id, "state": current, "code": "undeclared-transition", "guard_ref": None}
+    if transition["source_state"] != current:
+        return {"ok": False, "transition_id": transition_id, "state": current, "code": "source-mismatch", "guard_ref": transition["guard_ref"]}
+    if transition["guard_ref"] is not None and not evaluate_guard(transition["guard_ref"]):
+        return {"ok": False, "transition_id": transition_id, "state": current, "code": "guard-rejected", "guard_ref": transition["guard_ref"]}
+    return {"ok": True, "transition_id": transition_id, "prior_state": current, "state": transition["target_state"], "effect_event_ref": transition["effect_event_ref"]}
+`;
+    }
     default:
       throw new Error(`unsupported Python generator:${input.kind}`);
   }
@@ -605,7 +671,7 @@ function renderRust(input: GeneratorInput): string {
       if (input.typed_closure !== null && input.typed_closure !== undefined) {
         return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\n${renderTypedRustOperation(input.typed_closure)}`;
       }
-      return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\nuse std::collections::BTreeMap;\npub const ${snake(name).toUpperCase()}_RELATIONSHIPS_JSON: &str = ${JSON.stringify(canonicalJson(input.relationships))};\n#[derive(Clone, Debug, PartialEq)]\npub struct ${name}Outcome { pub reads: BTreeMap<String, String>, pub state: BTreeMap<String, String>, pub outbox: Vec<String> }\npub fn ${fn}(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool) -> Result<${name}Outcome, &'static str> {\n    if !guard { return Err(${JSON.stringify(text(body.failure_continuation, "return-error"))}); }\n    let reads = ${rustArray(strings(body.reads))}.iter().filter_map(|key| state.get(*key).map(|value| ((*key).to_owned(), value.clone()))).collect();\n    let mut next_state = state.clone();\n    for key in ${rustArray(strings(body.writes))} { if let Some(value) = changes.get(key) { next_state.insert(key.to_owned(), value.clone()); } }\n    let outbox: Vec<String> = ${rustArray(strings(body.effects))}.iter().map(|value| (*value).to_owned()).collect();\n    Ok(${name}Outcome { reads, state: next_state, outbox })\n}\npub fn ${fn}_observed(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool, observe: &mut impl FnMut(&str)) -> Result<${name}Outcome, &'static str> {\n    observe("operation.enter");\n    let outcome = ${fn}(state, changes, guard);\n    observe(if outcome.is_ok() { "operation.success" } else { "operation.failure" });\n    outcome\n}\n`;
+      return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\nuse std::collections::BTreeMap;\npub const ${snake(name).toUpperCase()}_CREATION_TARGETS: &[&str] = ${rustSlice(strings(body.creation_targets))};\npub const ${snake(name).toUpperCase()}_RELATIONSHIPS_JSON: &str = ${JSON.stringify(canonicalJson(input.relationships))};\n#[derive(Clone, Debug, PartialEq)]\npub struct ${name}Outcome { pub reads: BTreeMap<String, String>, pub state: BTreeMap<String, String>, pub outbox: Vec<String> }\npub fn ${fn}(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool) -> Result<${name}Outcome, &'static str> {\n    if !guard { return Err(${JSON.stringify(text(body.failure_continuation, "return-error"))}); }\n    let reads = ${rustArray(strings(body.reads))}.iter().filter_map(|key| state.get(*key).map(|value| ((*key).to_owned(), value.clone()))).collect();\n    let mut next_state = state.clone();\n    for key in ${rustArray(strings(body.writes))} { if let Some(value) = changes.get(key) { next_state.insert(key.to_owned(), value.clone()); } }\n    let outbox: Vec<String> = ${rustArray(strings(body.effects))}.iter().map(|value| (*value).to_owned()).collect();\n    Ok(${name}Outcome { reads, state: next_state, outbox })\n}\npub fn ${fn}_observed(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool, observe: &mut impl FnMut(&str)) -> Result<${name}Outcome, &'static str> {\n    observe("operation.enter");\n    let outcome = ${fn}(state, changes, guard);\n    observe(if outcome.is_ok() { "operation.success" } else { "operation.failure" });\n    outcome\n}\n`;
     case "Query":
       return `${header}pub fn ${fn}(state: &str) -> String { state.to_owned() }\n`;
     case "Calculation":
@@ -622,8 +688,32 @@ function renderRust(input: GeneratorInput): string {
       return `${header}#[derive(Clone, Debug, PartialEq, Eq)]\npub struct ${name} { pub occurred_at: String, pub payload: String }\n`;
     case "Mapping":
       return `${header}pub fn ${fn}(source: &str) -> String { source.to_owned() }\n`;
-    case "State Machine":
-      return `${header}pub const ${snake(name).toUpperCase()}_STATES: &[&str] = ${rustSlice(strings(body.states))};\npub fn ${fn}_transition(current: &str, next: &str) -> Result<String, &'static str> {\n    if !${snake(name).toUpperCase()}_STATES.contains(&current) || !${snake(name).toUpperCase()}_STATES.contains(&next) { return Err("invalid transition"); }\n    Ok(next.to_owned())\n}\n`;
+    case "State Machine": {
+      const transitions = stateTransitions(body.transitions);
+      const constant = snake(name).toUpperCase();
+      const rejectionCodes = ["invalid-current-state", "undeclared-transition", "source-mismatch", "guard-rejected"];
+      return `${header}// domainspec-state-machine-initial: ${JSON.stringify(text(body.initial, ""))}
+// domainspec-state-machine-transitions: ${canonicalJson(transitions)}
+// domainspec-state-machine-event-intents-only: true
+// domainspec-state-machine-guard-contract: "rule-reference-callback/v1"
+// domainspec-state-machine-guard-required: true
+// domainspec-state-machine-source-enforcement: true
+// domainspec-state-machine-causal-rejections: ${JSON.stringify(rejectionCodes)}
+pub const ${constant}_STATES: &[&str] = ${rustSlice(strings(body.states))};
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct ${name}Transition { pub transition_id: &'static str, pub source_state: &'static str, pub target_state: &'static str, pub guard_ref: Option<&'static str>, pub effect_event_ref: Option<&'static str> }
+pub const ${constant}_TRANSITIONS: &[${name}Transition] = &[${transitions.map((transition) => `${name}Transition { transition_id: ${JSON.stringify(transition.transition_id)}, source_state: ${JSON.stringify(transition.source_state)}, target_state: ${JSON.stringify(transition.target_state)}, guard_ref: ${rustOption(transition.guard_ref)}, effect_event_ref: ${rustOption(transition.effect_event_ref)} }`).join(", ")}];
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum ${name}TransitionResult { Applied { transition_id: String, prior_state: String, state: String, effect_event_ref: Option<String> }, Rejected { transition_id: String, state: String, code: &'static str, guard_ref: Option<String> } }
+pub fn ${fn}_transition(current: &str, transition_id: &str, evaluate_guard: impl Fn(&str) -> bool) -> ${name}TransitionResult {
+    if !${constant}_STATES.contains(&current) { return ${name}TransitionResult::Rejected { transition_id: transition_id.to_owned(), state: current.to_owned(), code: "invalid-current-state", guard_ref: None }; }
+    let Some(transition) = ${constant}_TRANSITIONS.iter().find(|candidate| candidate.transition_id == transition_id) else { return ${name}TransitionResult::Rejected { transition_id: transition_id.to_owned(), state: current.to_owned(), code: "undeclared-transition", guard_ref: None }; };
+    if transition.source_state != current { return ${name}TransitionResult::Rejected { transition_id: transition_id.to_owned(), state: current.to_owned(), code: "source-mismatch", guard_ref: transition.guard_ref.map(str::to_owned) }; }
+    if transition.guard_ref.is_some_and(|guard_ref| !evaluate_guard(guard_ref)) { return ${name}TransitionResult::Rejected { transition_id: transition_id.to_owned(), state: current.to_owned(), code: "guard-rejected", guard_ref: transition.guard_ref.map(str::to_owned) }; }
+    ${name}TransitionResult::Applied { transition_id: transition_id.to_owned(), prior_state: current.to_owned(), state: transition.target_state.to_owned(), effect_event_ref: transition.effect_event_ref.map(str::to_owned) }
+}
+`;
+    }
     default:
       throw new Error(`unsupported Rust generator:${input.kind}`);
   }
@@ -639,7 +729,7 @@ export const GENERATOR_REGISTRY: readonly GeneratorRegistration[] = Object.freez
 );
 
 export function generatorIdFor(metaTypeId: string, language: SupportedLanguage): string {
-  const version = metaTypeId === "DS-D1.9" ? "v3" : metaTypeId === "DS-D1.4" ? "v2" : "v1";
+  const version = metaTypeId === "DS-D1.9" ? "v3" : metaTypeId === "DS-D1.4" || metaTypeId === "DS-D1.14" ? "v2" : "v1";
   return `domainspec.generator/${metaTypeId}/${language}/${version}`;
 }
 

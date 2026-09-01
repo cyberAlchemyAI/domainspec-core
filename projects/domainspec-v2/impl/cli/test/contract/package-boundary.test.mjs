@@ -15,7 +15,7 @@ const versionSource = fs.readFileSync(path.join(cliRoot, "src/version.ts"), "utf
 
 test("package identity and supported bin are exact", () => {
   assert.equal(packageJson.name, "@domainspec-v2/cli");
-  assert.equal(packageJson.version, "0.0.0-candidate.2");
+  assert.equal(packageJson.version, "0.0.0-candidate.4");
   assert.equal(packageJson.private, true);
   assert.equal(packageJson.type, "module");
   assert.deepEqual(packageJson.bin, { "domainspec-v2": "./dist/cli/main.js" });
@@ -35,7 +35,7 @@ test("only the curated root entry is exported and build scripts are exact", () =
     "integration-profile:check": "node tools/materialize-system-integration-profile.mjs --check",
     typecheck: "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json --noEmit --pretty false",
     build: "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json",
-    test: "node --import tsx --test test/cli/main.test.ts test/conformance/observe-target.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/meta-types/catalog.test.ts test/system-integration/profile.test.ts test/typed-operation/contracts.test.ts test/typed-operation/rust.test.ts",
+    test: "node --import tsx --test test/cli/main.test.ts test/conformance/observe-target.test.ts test/formalization/projection.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/meta-types/catalog.test.ts test/system-integration/profile.test.ts test/typed-operation/contracts.test.ts test/typed-operation/rust.test.ts",
     "test:contract": "node --test test/contract/foundation-contract.test.mjs test/contract/instantiation-foundation-contract.test.mjs test/contract/package-boundary.test.mjs",
     "validate:rust": "node tools/validate-generated-rust.mjs",
     "validate:clean-package": "node tools/validate-clean-package.mjs"

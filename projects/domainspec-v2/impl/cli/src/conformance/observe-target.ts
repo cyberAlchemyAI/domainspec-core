@@ -125,6 +125,22 @@ function operationInstrumentationBoundary(content: string, receipt: Instantiatio
   }
 }
 
+function operationCreationTargets(content: string, receipt: InstantiationReceiptV1, pointer: string): void {
+  const targets = Array.isArray(receipt.semantic_contract.body.creation_targets)
+    ? receipt.semantic_contract.body.creation_targets
+    : [];
+  const constant = snake(receipt.input.node_id).toUpperCase();
+  const rustConstant = pascal(receipt.input.node_id).toUpperCase();
+  const expected = {
+    typescript: `export const ${pascal(receipt.input.node_id)}Contract = Object.freeze({"creation_targets":${JSON.stringify(targets)}`,
+    python: `${constant}_CREATION_TARGETS = tuple(${JSON.stringify(targets)})`,
+    rust: `pub const ${rustConstant}_CREATION_TARGETS: &[&str] = &[${targets.map((target) => JSON.stringify(target)).join(", ")}];`,
+  } as const;
+  if (!content.includes(expected[receipt.language])) {
+    fail("MTCLI_OPERATION_CREATION_TARGETS", pointer, "Operation creation_targets projection is absent or drifted");
+  }
+}
+
 function words(value: string): string[] {
   return value.split(/[^A-Za-z0-9]+/).filter(Boolean);
 }
@@ -184,6 +200,41 @@ function workflowCompensation(content: string, receipt: InstantiationReceiptV1, 
   }
 }
 
+function stateMachineSemantics(content: string, receipt: InstantiationReceiptV1, pointer: string): void {
+  const body = receipt.semantic_contract.body;
+  const transitions = Array.isArray(body.transitions) ? body.transitions : [];
+  if (marker(content, "domainspec-state-machine-initial", pointer) !== JSON.stringify(body.initial)) {
+    fail("MTCLI_STATE_MACHINE_INITIAL", pointer, "State Machine initial state drifted");
+  }
+  if (canonicalJson(jsonMarker(content, "domainspec-state-machine-transitions", pointer)) !== canonicalJson(transitions)) {
+    fail("MTCLI_STATE_MACHINE_TRANSITION_TABLE", pointer, "State Machine transition table drifted");
+  }
+  if (marker(content, "domainspec-state-machine-event-intents-only", pointer) !== "true") {
+    fail("MTCLI_STATE_MACHINE_EFFECT_BOUNDARY", pointer, "State Machine effects must remain declared Event intents only");
+  }
+  if (marker(content, "domainspec-state-machine-guard-contract", pointer) !== '"rule-reference-callback/v1"') {
+    fail("MTCLI_STATE_MACHINE_GUARD_CONTRACT", pointer, "State Machine guards must be evaluated through the declared Rule-reference callback");
+  }
+  if (marker(content, "domainspec-state-machine-guard-required", pointer) !== "true") {
+    fail("MTCLI_STATE_MACHINE_GUARD_CONTRACT", pointer, "State Machine guard evaluation cannot have an allow-by-default bypass");
+  }
+  if (marker(content, "domainspec-state-machine-source-enforcement", pointer) !== "true") {
+    fail("MTCLI_STATE_MACHINE_SOURCE_ENFORCEMENT", pointer, "State Machine source-state enforcement is absent");
+  }
+  if (marker(content, "domainspec-state-machine-causal-rejections", pointer) !== '["invalid-current-state","undeclared-transition","source-mismatch","guard-rejected"]') {
+    fail("MTCLI_STATE_MACHINE_REJECTION_CONTRACT", pointer, "State Machine causal rejection set drifted");
+  }
+  const fragments = {
+    typescript: ["transition.source_state !== current", "evaluateGuard: (guardRef: string) => boolean):", "effectEventRef: transition.effect_event_ref"],
+    python: ['transition["source_state"] != current', "transition_id: str, evaluate_guard) ->", '"effect_event_ref": transition["effect_event_ref"]'],
+    rust: ["transition.source_state != current", "!evaluate_guard(guard_ref)", "effect_event_ref: transition.effect_event_ref.map(str::to_owned)"],
+  } as const;
+  const [sourceFragment, guardFragment, effectFragment] = fragments[receipt.language];
+  if (!content.includes(sourceFragment)) fail("MTCLI_STATE_MACHINE_SOURCE_ENFORCEMENT", pointer, "generated realization does not enforce the declared source state");
+  if (!content.includes(guardFragment) || !content.includes(receipt.language === "rust" ? "!evaluate_guard(guard_ref)" : receipt.language === "python" ? 'not evaluate_guard(transition["guard_ref"])' : "!evaluateGuard(transition.guard_ref)")) fail("MTCLI_STATE_MACHINE_GUARD_CONTRACT", pointer, "generated realization does not require and evaluate the declared guard reference");
+  if (!content.includes(effectFragment)) fail("MTCLI_STATE_MACHINE_EFFECT_BOUNDARY", pointer, "generated realization does not return the declared Event intent exactly");
+}
+
 function observeSemantics(content: string, receipt: InstantiationReceiptV1, pointer: string): void {
   const expectedMeta = {
     baseline_id: receipt.baseline.id,
@@ -215,8 +266,10 @@ function observeSemantics(content: string, receipt: InstantiationReceiptV1, poin
       operationEffectConstruction(content, receipt, pointer);
       operationInstrumentationBoundary(content, receipt, pointer);
     }
+    operationCreationTargets(content, receipt, pointer);
   }
   if (receipt.input.kind === "Workflow") workflowCompensation(content, receipt, pointer);
+  if (receipt.input.kind === "State Machine") stateMachineSemantics(content, receipt, pointer);
 }
 
 function expectedImplementation(receipt: InstantiationReceiptV1): string {
@@ -292,7 +345,7 @@ export function observeTarget(targetRoot: unknown): TargetObservationV1 {
     receipt_path: receiptPath,
     receipt_sha256: receipt.receipt_sha256,
     observed_artifacts: Object.freeze(observed),
-    checks: Object.freeze(["exact-file-inventory", "frozen-realization-provenance", "closed-body-contract", "relationship-contract", "operation-obligations-when-applicable", "operation-boundary-placement-when-applicable", "typed-rust-crate-when-selected", "workflow-obligations-when-applicable", "system-integration-profile-when-selected", "artifact-digests"]),
+    checks: Object.freeze(["exact-file-inventory", "frozen-realization-provenance", "closed-body-contract", "relationship-contract", "relationship-generated-projections", "operation-obligations-when-applicable", "operation-boundary-placement-when-applicable", "typed-rust-crate-when-selected", "workflow-obligations-when-applicable", "state-machine-obligations-when-applicable", "system-integration-profile-when-selected", "artifact-digests"]),
     authority_effect: "none",
   });
 }

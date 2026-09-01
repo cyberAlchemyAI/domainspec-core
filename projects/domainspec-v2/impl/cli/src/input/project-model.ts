@@ -25,7 +25,7 @@ const SELECTOR_PATTERN = /^([a-z][a-z0-9]*(?:-[a-z0-9]+)*):([a-z][a-z0-9]*(?:-[a
 const NODE_ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const COMPENSATION_DEPENDENCY_PATTERN = /^([a-z][a-z0-9]*(?:-[a-z0-9]+)*):depends-on:([a-z][a-z0-9]*(?:-[a-z0-9]+)*)$/;
 
-type BodyFieldKind = "string" | "string-array" | "typed-record" | "typed-sum" | "typed-rule" | "typed-operation";
+type BodyFieldKind = "string" | "string-array" | "state-transition-array" | "typed-record" | "typed-sum" | "typed-rule" | "typed-operation";
 
 interface BodyContract {
   readonly required: readonly string[];
@@ -56,8 +56,18 @@ export const BODY_CONTRACTS: Readonly<Record<string, BodyContract>> = Object.fre
   Interface: { required: ["description", "version", "operations"], optional: [], fields: { description: "string", version: "string", operations: "string-array" } },
   Event: { required: ["description"], optional: ["fields"], fields: { description: "string", fields: "string-array" } },
   Mapping: { required: ["description", "source", "target"], optional: [], fields: { description: "string", source: "string", target: "string" } },
-  "State Machine": { required: ["description", "states", "initial", "transitions"], optional: [], fields: { description: "string", states: "string-array", initial: "string", transitions: "string-array" }, nonemptyArrays: ["states"] },
+  "State Machine": { required: ["description", "states", "initial", "transitions"], optional: [], fields: { description: "string", states: "string-array", initial: "string", transitions: "state-transition-array" }, nonemptyArrays: ["states", "transitions"] },
 });
+
+export interface StateTransitionSpec {
+  readonly transition_id: string;
+  readonly source_state: string;
+  readonly target_state: string;
+  readonly guard_ref: string | null;
+  readonly effect_event_ref: string | null;
+}
+
+export type DecodedBodyValue = string | readonly string[] | readonly StateTransitionSpec[];
 
 export interface DecodedBody {
   readonly [key: string]: unknown;
@@ -88,6 +98,27 @@ export interface DecodedProjectNode {
   readonly relationships: readonly DecodedRelationship[];
   readonly source_manifest: SourceManifestV1;
   readonly typed_closure: TypedOperationClosureV1 | null;
+}
+
+export interface CompiledProjectGraphNode {
+  readonly feature_id: string;
+  readonly node_id: string;
+  readonly selector: string;
+  readonly kind: string;
+  readonly meta_type_id: string;
+  readonly body: DecodedBody;
+  readonly generated_relationship_projections: Readonly<Record<string, readonly string[]>>;
+  readonly authored_forbidden_projection_attributes: readonly string[];
+}
+
+export interface CompiledProjectGraph {
+  readonly schema_version: "domainspec.compiled-project-graph/v1-candidate";
+  readonly project_root: string;
+  readonly project_id: string;
+  readonly source_manifest: SourceManifestV1;
+  readonly nodes: readonly CompiledProjectGraphNode[];
+  readonly relationships: readonly DecodedRelationship[];
+  readonly authority_effect: "none";
 }
 
 export class ProjectModelError extends Error {
@@ -139,6 +170,37 @@ function requireStringArray(value: unknown, pointer: string, nonempty: boolean):
   return Object.freeze(result);
 }
 
+function requireNullableSelector(value: unknown, pointer: string): string | null {
+  if (value === null) return null;
+  const selector = requireString(value, pointer);
+  if (!SELECTOR_PATTERN.test(selector)) fail("MTCLI_STATE_MACHINE_REFERENCE", pointer, "reference must be a feature-id:node-id selector or null");
+  return selector;
+}
+
+function requireStateTransitionArray(value: unknown, pointer: string, nonempty: boolean): readonly StateTransitionSpec[] {
+  if (!Array.isArray(value) || (nonempty && value.length === 0)) fail("MTCLI_INPUT_BODY", pointer, "expected nonempty state transition array");
+  const transitions = value.map((entry, index): StateTransitionSpec => {
+    const entryPointer = `${pointer}/${index}`;
+    if (!isObject(entry)) fail("MTCLI_INPUT_BODY", entryPointer, "transition must be an object");
+    const expected = ["transition_id", "source_state", "target_state", "guard_ref", "effect_event_ref"];
+    if (JSON.stringify(Object.keys(entry).sort()) !== JSON.stringify(expected.sort())) {
+      fail("MTCLI_INPUT_BODY", entryPointer, "transition must contain exactly transition_id, source_state, target_state, guard_ref, and effect_event_ref");
+    }
+    const transitionId = requireString(entry.transition_id, `${entryPointer}/transition_id`);
+    if (!NODE_ID_PATTERN.test(transitionId)) fail("MTCLI_STATE_MACHINE_TRANSITION_ID", `${entryPointer}/transition_id`, "transition identity must be canonical kebab-case");
+    return Object.freeze({
+      transition_id: transitionId,
+      source_state: requireString(entry.source_state, `${entryPointer}/source_state`),
+      target_state: requireString(entry.target_state, `${entryPointer}/target_state`),
+      guard_ref: requireNullableSelector(entry.guard_ref, `${entryPointer}/guard_ref`),
+      effect_event_ref: requireNullableSelector(entry.effect_event_ref, `${entryPointer}/effect_event_ref`),
+    });
+  });
+  const transitionIds = transitions.map(({ transition_id }) => transition_id);
+  if (new Set(transitionIds).size !== transitionIds.length) fail("MTCLI_STATE_MACHINE_DUPLICATE_TRANSITION", pointer, "transition identities must be unique");
+  return Object.freeze(transitions);
+}
+
 export function decodeBody(kind: string, value: unknown, pointer = "/body"): DecodedBody {
   const contract = BODY_CONTRACTS[kind];
   if (!contract) fail("MTCLI_INPUT_META_TYPE", pointer, `unsupported backend meta-type:${kind}`);
@@ -167,8 +229,10 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
       decoded[key] = decodeTypedSumContract(raw, `${pointer}/${key}`);
     } else if (fieldKind === "typed-rule") {
       decoded[key] = decodeTypedRuleContract(raw, `${pointer}/${key}`);
-    } else {
+    } else if (fieldKind === "typed-operation") {
       decoded[key] = decodeTypedOperationContract(raw, `${pointer}/${key}`);
+    } else {
+      decoded[key] = requireStateTransitionArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false);
     }
   }
   if ((kind === "Entity" || kind === "Value Object") && decoded.typed_contract) {
@@ -181,7 +245,14 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
   }
   if (kind === "State Machine") {
     const states = decoded.states as readonly string[];
+    for (const [index, state] of states.entries()) if (!NODE_ID_PATTERN.test(state)) {
+      fail("MTCLI_STATE_MACHINE_STATE", `${pointer}/states/${index}`, "state identity must be canonical kebab-case");
+    }
     if (!states.includes(decoded.initial as string)) fail("MTCLI_INPUT_BODY", `${pointer}/initial`, "initial state is not declared");
+    for (const [index, transition] of (decoded.transitions as readonly StateTransitionSpec[]).entries()) {
+      if (!states.includes(transition.source_state)) fail("MTCLI_STATE_MACHINE_STATE", `${pointer}/transitions/${index}/source_state`, "transition source state is not declared");
+      if (!states.includes(transition.target_state)) fail("MTCLI_STATE_MACHINE_STATE", `${pointer}/transitions/${index}/target_state`, "transition target state is not declared");
+    }
   }
   if (kind === "Workflow") {
     const steps = decoded.steps as readonly string[];
@@ -214,8 +285,22 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
 }
 
 export function validateSelectedNodeRelationships(node: DecodedProjectNode): void {
-  if (node.kind !== "Workflow") return;
   const selector = `${node.feature_id}:${node.node_id}`;
+  if (node.kind === "State Machine") {
+    const transitions = node.body.transitions as readonly StateTransitionSpec[];
+    const requiredEvents = new Set(transitions.flatMap(({ effect_event_ref }) => effect_event_ref === null ? [] : [effect_event_ref]));
+    const observedEvents = new Set(node.relationships
+      .filter((relationship) => relationship.relationship === "transitions" && `${relationship.target.feature_id}:${relationship.target.node_id}` === selector)
+      .map(({ source }) => `${source.feature_id}:${source.node_id}`));
+    for (const eventRef of requiredEvents) if (!observedEvents.has(eventRef)) {
+      fail("MTCLI_STATE_MACHINE_EVENT_RELATIONSHIP_MISSING", "/relationships", `State Machine effect Event lacks an incoming transitions relationship:${eventRef}`);
+    }
+    for (const eventRef of observedEvents) if (!requiredEvents.has(eventRef)) {
+      fail("MTCLI_STATE_MACHINE_EVENT_RELATIONSHIP_UNDECLARED", "/relationships", `incoming transitions Event is absent from State Machine effect intents:${eventRef}`);
+    }
+    return;
+  }
+  if (node.kind !== "Workflow") return;
   const orchestrated = node.relationships.filter((relationship) =>
     relationship.relationship === "orchestrates" &&
     `${relationship.source.feature_id}:${relationship.source.node_id}` === selector
@@ -242,6 +327,8 @@ export function validateSelectedNodeRelationships(node: DecodedProjectNode): voi
 
 interface NodeRecord extends DecodedEndpoint {
   readonly body: Record<string, unknown>;
+  readonly decoded_body: DecodedBody | null;
+  readonly relative_path: string;
 }
 
 function readNodes(projectRoot: string, manifest: SourceManifestV1): Map<string, NodeRecord> {
@@ -252,7 +339,17 @@ function readNodes(projectRoot: string, manifest: SourceManifestV1): Map<string,
     if (typeof value.feature_id !== "string" || typeof value.node_id !== "string" || typeof value.kind !== "string" || !isObject(value.body)) {
       fail("MTCLI_INPUT_SCHEMA", `/${source.relative_path}`, "invalid node source");
     }
-    nodes.set(`${value.feature_id}:${value.node_id}`, { feature_id: value.feature_id, node_id: value.node_id, kind: value.kind, body: value.body });
+    const decodedBody = BODY_CONTRACTS[value.kind]
+      ? decodeBody(value.kind, value.body, `/${source.relative_path}/body`)
+      : null;
+    nodes.set(`${value.feature_id}:${value.node_id}`, {
+      feature_id: value.feature_id,
+      node_id: value.node_id,
+      kind: value.kind,
+      body: value.body,
+      decoded_body: decodedBody,
+      relative_path: source.relative_path,
+    });
   }
   return nodes;
 }
@@ -288,6 +385,25 @@ function validateRelationshipGraph(edges: readonly DecodedRelationship[]): void 
     if (priorIncoming) fail("MTCLI_RELATIONSHIP_MULTIPLICITY", `/relationships/${edge.edge_id}`, `creates target already has source ${priorIncoming.source.feature_id}:${priorIncoming.source.node_id}`);
     outgoing.set(sourceKey, edge);
     incoming.set(targetKey, edge);
+  }
+
+  const owns = new Map<string, DecodedRelationship>();
+  for (const edge of edges.filter((candidate) => candidate.relationship === "owns")) {
+    const sourceKey = `${edge.source.feature_id}:${edge.source.node_id}`;
+    const targetKey = `${edge.target.feature_id}:${edge.target.node_id}`;
+    owns.set(`${sourceKey}\u0000${targetKey}`, edge);
+  }
+  for (const edge of edges.filter((candidate) => candidate.relationship === "belongs-to")) {
+    const sourceKey = `${edge.source.feature_id}:${edge.source.node_id}`;
+    const targetKey = `${edge.target.feature_id}:${edge.target.node_id}`;
+    const collapsed = owns.get(`${targetKey}\u0000${sourceKey}`);
+    if (collapsed) {
+      fail(
+        "MTCLI_RELATIONSHIP_INVERSE_COLLAPSE",
+        `/relationships/${edge.edge_id}`,
+        `belongs-to cannot restate owns inverse:${collapsed.edge_id}`,
+      );
+    }
   }
 }
 
@@ -329,23 +445,160 @@ function decodeProjectEdges(projectRoot: string, manifest: SourceManifestV1, nod
   return sorted;
 }
 
+function relationshipsFor(selector: string, relationships: readonly DecodedRelationship[]): readonly DecodedRelationship[] {
+  return Object.freeze(relationships.filter((relationship) =>
+    `${relationship.source.feature_id}:${relationship.source.node_id}` === selector ||
+    `${relationship.target.feature_id}:${relationship.target.node_id}` === selector
+  ));
+}
+
+function validateBackendRelationshipClosures(
+  projectRoot: string,
+  projectId: string,
+  manifest: SourceManifestV1,
+  nodes: Map<string, NodeRecord>,
+  relationships: readonly DecodedRelationship[],
+): void {
+  for (const [selector, node] of nodes) {
+    if (node.kind !== "Workflow" && node.kind !== "State Machine") continue;
+    if (node.decoded_body === null) fail("MTCLI_INPUT_BODY", `/${node.relative_path}/body`, `${node.kind} body was not decoded`);
+    if (node.kind === "State Machine") {
+      for (const [index, transition] of (node.decoded_body.transitions as readonly StateTransitionSpec[]).entries()) {
+        if (transition.guard_ref !== null) {
+          const guard = nodes.get(transition.guard_ref);
+          if (!guard || guard.kind !== "Rule") fail("MTCLI_STATE_MACHINE_GUARD_REFERENCE", `/${node.relative_path}/body/transitions/${index}/guard_ref`, "guard reference must resolve to a Rule node");
+        }
+        if (transition.effect_event_ref !== null) {
+          const event = nodes.get(transition.effect_event_ref);
+          if (!event || event.kind !== "Event") fail("MTCLI_STATE_MACHINE_EVENT_REFERENCE", `/${node.relative_path}/body/transitions/${index}/effect_event_ref`, "effect reference must resolve to an Event node");
+        }
+      }
+    }
+    validateSelectedNodeRelationships(Object.freeze({
+      project_root: projectRoot,
+      project_id: projectId,
+      feature_id: node.feature_id,
+      node_id: node.node_id,
+      kind: node.kind,
+      meta_type_id: metaTypeIdForLabel(node.kind),
+      body: node.decoded_body,
+      relationships: relationshipsFor(selector, relationships),
+      source_manifest: manifest,
+    }));
+  }
+}
+
+interface DecodedProjectModel {
+  readonly project_root: string;
+  readonly source_manifest: SourceManifestV1;
+  readonly nodes: Map<string, NodeRecord>;
+  readonly relationships: readonly DecodedRelationship[];
+}
+
+function decodeProjectModel(projectRoot: unknown): DecodedProjectModel {
+  const manifest = resolveProjectRoot(projectRoot);
+  const root = fs.realpathSync(String(projectRoot));
+  const nodes = readNodes(root, manifest);
+  const relationships = decodeProjectEdges(root, manifest, nodes);
+  validateBackendRelationshipClosures(root, manifest.project_id, manifest, nodes, relationships);
+  return Object.freeze({ project_root: root, source_manifest: manifest, nodes, relationships });
+}
+
+export function validateProjectRoot(projectRoot: unknown): SourceManifestV1 {
+  return decodeProjectModel(projectRoot).source_manifest;
+}
+
+export function loadCompiledProjectGraph(projectRoot: unknown): CompiledProjectGraph {
+  const model = decodeProjectModel(projectRoot);
+  const nodes = [...model.nodes.values()]
+    .map((node): CompiledProjectGraphNode => {
+      const selector = `${node.feature_id}:${node.node_id}`;
+      const generatedRelationshipProjections: Record<string, readonly string[]> = {};
+      const authoredForbiddenProjectionAttributes: string[] = [];
+      for (const signature of RELATIONSHIP_SIGNATURES) {
+        const projection = signature.generated_source_projection;
+        if (!projection || !signature.source_types.includes(node.kind)) continue;
+        if (Object.hasOwn(node.body, projection.attribute)) authoredForbiddenProjectionAttributes.push(projection.attribute);
+        const targets = model.relationships
+          .filter((relationship) =>
+            relationship.relationship === signature.id &&
+            `${relationship.source.feature_id}:${relationship.source.node_id}` === selector
+          )
+          .map(({ target }) => `${target.feature_id}:${target.node_id}`)
+          .sort();
+        generatedRelationshipProjections[projection.attribute] = Object.freeze(targets);
+      }
+      return Object.freeze({
+        feature_id: node.feature_id,
+        node_id: node.node_id,
+        selector,
+        kind: node.kind,
+        meta_type_id: metaTypeIdForLabel(node.kind),
+        body: withGeneratedRelationshipProjections(
+          node.kind,
+          node.feature_id,
+          node.node_id,
+          node.decoded_body ?? Object.freeze(node.body as DecodedBody),
+          model.relationships,
+        ),
+        generated_relationship_projections: Object.freeze(generatedRelationshipProjections),
+        authored_forbidden_projection_attributes: Object.freeze(authoredForbiddenProjectionAttributes.sort()),
+      });
+    })
+    .sort((left, right) => left.selector.localeCompare(right.selector));
+  return Object.freeze({
+    schema_version: "domainspec.compiled-project-graph/v1-candidate",
+    project_root: model.project_root,
+    project_id: model.source_manifest.project_id,
+    source_manifest: model.source_manifest,
+    nodes: Object.freeze(nodes),
+    relationships: model.relationships,
+    authority_effect: "none",
+  });
+}
+
+export function withGeneratedRelationshipProjections(
+  kind: string,
+  featureId: string,
+  nodeId: string,
+  body: DecodedBody,
+  relationships: readonly DecodedRelationship[],
+): DecodedBody {
+  const compiled: Record<string, unknown> = { ...body };
+  const selector = `${featureId}:${nodeId}`;
+  for (const signature of RELATIONSHIP_SIGNATURES) {
+    const projection = signature.generated_source_projection;
+    if (!projection || !signature.source_types.includes(kind)) continue;
+    const targets = relationships
+      .filter((relationship) =>
+        relationship.relationship === signature.id &&
+        `${relationship.source.feature_id}:${relationship.source.node_id}` === selector
+      )
+      .map(({ target }) => `${target.feature_id}.${target.node_id}`)
+      .sort();
+    if (targets.length > 0) compiled[projection.attribute] = Object.freeze(targets);
+  }
+  return Object.freeze(compiled);
+}
+
 export function loadProjectNode(projectRoot: unknown, selector: unknown): DecodedProjectNode {
   if (typeof selector !== "string") fail("MTCLI_INPUT_SELECTOR", "/node", "node selector must be feature-id:node-id");
   const match = SELECTOR_PATTERN.exec(selector);
   if (!match) fail("MTCLI_INPUT_SELECTOR", "/node", "node selector must be feature-id:node-id");
-  const manifest = resolveProjectRoot(projectRoot);
-  const root = fs.realpathSync(String(projectRoot));
-  const nodes = readNodes(root, manifest);
+  const model = decodeProjectModel(projectRoot);
+  const manifest = model.source_manifest;
+  const root = model.project_root;
+  const nodes = model.nodes;
   const selected = nodes.get(selector);
   if (!selected) fail("MTCLI_INPUT_MISSING", "/node", `selected node is missing:${selector}`);
   const metaTypeId = metaTypeIdForLabel(selected.kind);
-  const body = decodeBody(selected.kind, selected.body, `/specs/${selected.feature_id}/nodes/${selected.node_id}.json/body`);
-  const projectRelationships = decodeProjectEdges(root, manifest, nodes);
+  const body = selected.decoded_body ?? decodeBody(selected.kind, selected.body, `/${selected.relative_path}/body`);
+  const projectRelationships = model.relationships;
   const selectedTypedContract = body.typed_contract;
   const closureSources: TypedClosureSourceNode[] = [];
   if (selectedTypedContract !== undefined) {
     for (const candidate of nodes.values()) {
-      const candidateBody = decodeBody(candidate.kind, candidate.body, `/specs/${candidate.feature_id}/nodes/${candidate.node_id}.json/body`);
+      const candidateBody = candidate.decoded_body ?? decodeBody(candidate.kind, candidate.body, `/${candidate.relative_path}/body`);
       closureSources.push(Object.freeze({
         feature_id: candidate.feature_id,
         node_id: candidate.node_id,
@@ -363,10 +616,7 @@ export function loadProjectNode(projectRoot: unknown, selector: unknown): Decode
     kind: selected.kind,
     meta_type_id: metaTypeId,
     body,
-    relationships: Object.freeze(projectRelationships.filter((relationship) =>
-      `${relationship.source.feature_id}:${relationship.source.node_id}` === selector ||
-      `${relationship.target.feature_id}:${relationship.target.node_id}` === selector
-    )),
+    relationships: relationshipsFor(selector, projectRelationships),
     source_manifest: manifest,
     typed_closure: typedClosure,
   });

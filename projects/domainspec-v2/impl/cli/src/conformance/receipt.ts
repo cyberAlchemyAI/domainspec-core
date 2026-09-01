@@ -4,7 +4,13 @@ import path from "node:path";
 import type { InstantiationPlanV1, PlannedArtifact } from "../generation/contracts.js";
 import { generatorIdFor } from "../generation/generators.js";
 import { canonicalJson, sha256 } from "../input/source-manifest.js";
-import { decodeBody, type DecodedBody, type DecodedRelationship } from "../input/project-model.js";
+import {
+  decodeBody,
+  RELATIONSHIP_SIGNATURES,
+  withGeneratedRelationshipProjections,
+  type DecodedBody,
+  type DecodedRelationship,
+} from "../input/project-model.js";
 import { FROZEN_META_TYPE_CATALOG, metaTypeIdForLabel, selectRealization } from "../meta-types/catalog.js";
 import type { CatalogRealizationRow, SupportedLanguage } from "../meta-types/types.js";
 import { RELATIONSHIP_AUTHORITY_SHA256, relationshipSignature } from "../relationships/authority.js";
@@ -202,8 +208,6 @@ export function validateInstantiationReceipt(value: unknown): InstantiationRecei
   const hasTypedClosure = Object.hasOwn(value.semantic_contract, "typed_closure");
   exactKeys(value.semantic_contract, hasTypedClosure ? ["body", "relationships", "relationship_authority_sha256", "typed_closure"] : ["body", "relationships", "relationship_authority_sha256"], "/semantic_contract");
   if (!isObject(value.semantic_contract.body) || !Array.isArray(value.semantic_contract.relationships)) fail("MTCLI_RECEIPT_SCHEMA", "/semantic_contract", "invalid semantic contract");
-  const decodedBody = decodeBody(String(value.input.kind), value.semantic_contract.body, "/semantic_contract/body");
-  if (canonicalJson(decodedBody) !== canonicalJson(value.semantic_contract.body)) fail("MTCLI_RECEIPT_BODY", "/semantic_contract/body", "receipt body is not the closed decoded contract");
   let priorEdge = "";
   const edgeIds = new Set<string>();
   for (const [index, relationship] of value.semantic_contract.relationships.entries()) {
@@ -230,6 +234,22 @@ export function validateInstantiationReceipt(value: unknown): InstantiationRecei
     if (!admittedScope) fail("MTCLI_RECEIPT_RELATIONSHIP", `${pointer}/scope`, "relationship placement does not match the frozen authority signature");
     const selectedKey = `${value.input.feature_id}:${value.input.node_id}`;
     if (`${sourceEndpoint.feature_id}:${sourceEndpoint.node_id}` !== selectedKey && `${targetEndpoint.feature_id}:${targetEndpoint.node_id}` !== selectedKey) fail("MTCLI_RECEIPT_RELATIONSHIP", pointer, "relationship is unrelated to the selected node");
+  }
+  const sourceBody = { ...value.semantic_contract.body };
+  for (const signature of RELATIONSHIP_SIGNATURES) {
+    const projection = signature.generated_source_projection;
+    if (projection && signature.source_types.includes(String(value.input.kind))) delete sourceBody[projection.attribute];
+  }
+  const decodedBody = decodeBody(String(value.input.kind), sourceBody, "/semantic_contract/body");
+  const compiledBody = withGeneratedRelationshipProjections(
+    String(value.input.kind),
+    String(value.input.feature_id),
+    String(value.input.node_id),
+    decodedBody,
+    value.semantic_contract.relationships as unknown as readonly DecodedRelationship[],
+  );
+  if (canonicalJson(compiledBody) !== canonicalJson(value.semantic_contract.body)) {
+    fail("MTCLI_RECEIPT_BODY", "/semantic_contract/body", "receipt body does not contain the exact derived relationship projections");
   }
   if (value.semantic_contract.relationship_authority_sha256 !== RELATIONSHIP_AUTHORITY_SHA256) fail("MTCLI_RECEIPT_RELATIONSHIP_AUTHORITY", "/semantic_contract/relationship_authority_sha256", "relationship authority drift");
   if (hasTypedClosure) validateTypedClosure(value.semantic_contract.typed_closure, value.input, decodedBody, value.semantic_contract.relationships as readonly DecodedRelationship[]);

@@ -22,6 +22,16 @@ function expectCode(action: () => unknown, code: string): void {
   assert.throws(action, (error) => error instanceof PublicationError && error.code === code);
 }
 
+function inventory(root: string): readonly Readonly<{ relative_path: string; sha256: string }>[] {
+  const visit = (relative = ""): Array<Readonly<{ relative_path: string; sha256: string }>> => fs.readdirSync(path.join(root, relative), { withFileTypes: true })
+    .sort((left, right) => left.name.localeCompare(right.name))
+    .flatMap((entry) => {
+      const child = relative ? `${relative}/${entry.name}` : entry.name;
+      return entry.isDirectory() ? visit(child) : [{ relative_path: child, sha256: sha256(fs.readFileSync(path.join(root, child))) }];
+    });
+  return Object.freeze(visit());
+}
+
 test("publication atomically creates the declared target and receipt", () => {
   const root = sandbox();
   const target = path.join(root, "target");
@@ -31,6 +41,23 @@ test("publication atomically creates the declared target and receipt", () => {
     assert.equal(fs.existsSync(path.join(target, result.receipt_path)), true);
     assert.equal(fs.readFileSync(path.join(target, result.receipt.artifacts[0]!.relative_path), "utf8").includes("export class Account"), true);
     assert.deepEqual(fs.readdirSync(root), ["target"]);
+  } finally {
+    clean(root);
+  }
+});
+
+test("State Machine materialization and receipt are byte-identical across two targets", () => {
+  const root = sandbox();
+  const left = path.join(root, "left");
+  const right = path.join(root, "right");
+  try {
+    const leftResult = publishInstantiation(testPlan("State Machine"), left);
+    const rightResult = publishInstantiation(testPlan("State Machine"), right);
+    assert.deepEqual(inventory(left), inventory(right));
+    assert.equal(leftResult.receipt.receipt_sha256, rightResult.receipt.receipt_sha256);
+    assert.equal(leftResult.receipt.generator_id, "domainspec.generator/DS-D1.14/typescript/v2");
+    assert.deepEqual(leftResult.receipt.semantic_contract.body, rightResult.receipt.semantic_contract.body);
+    assert.deepEqual(leftResult.receipt.semantic_contract.relationships, rightResult.receipt.semantic_contract.relationships);
   } finally {
     clean(root);
   }

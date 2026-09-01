@@ -78,7 +78,7 @@ try {
     return { consumer, executable, source, target, authoringResult, sourceLint, result };
   });
   const authoringResults = cleanRuns.map(({ authoringResult }) => authoringResult);
-  assert.equal(authoringResults.every(({ result, selector, source_count }) => result === "pass" && selector === "alpha:create-order" && source_count === 12), true);
+  assert.equal(authoringResults.every(({ result, selector, source_count }) => result === "pass" && selector === "alpha:create-order" && source_count === 18), true);
   assert.equal(authoringResults[0].source_manifest_sha256, authoringResults[1].source_manifest_sha256);
   assert.equal(cleanRuns.every(({ sourceLint, authoringResult }) => sourceLint.result === "pass" && sourceLint.source_manifest.manifest_sha256 === authoringResult.source_manifest_sha256), true);
   assert.equal(

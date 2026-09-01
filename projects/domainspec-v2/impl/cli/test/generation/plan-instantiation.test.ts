@@ -6,13 +6,14 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import { BODY_CONTRACTS, decodeBody, type DecodedProjectNode } from "../../src/input/project-model.ts";
+import { BODY_CONTRACTS, decodeBody, loadProjectNode, type DecodedProjectNode } from "../../src/input/project-model.ts";
 import { canonicalJson, sha256, type SourceManifestV1 } from "../../src/input/source-manifest.ts";
 import { FROZEN_META_TYPE_CATALOG } from "../../src/meta-types/catalog.ts";
 import { GENERATOR_REGISTRY, generatorIdFor } from "../../src/generation/generators.ts";
 import { planInstantiation } from "../../src/generation/plan-instantiation.ts";
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
+const sourceFixtureRoot = path.resolve(testDir, "../../fixtures/input-roots/canonical-project");
 
 const sourceManifest = Object.freeze({
   schema_version: "domainspec.stable-foundation-cli.source-manifest/v1",
@@ -38,7 +39,7 @@ const bodySamples: Readonly<Record<string, Record<string, unknown>>> = {
   Interface: { description: "Interface", version: "v1", operations: ["operate"] },
   Event: { description: "Event", fields: ["entity_id"] },
   Mapping: { description: "Mapping", source: "Source", target: "Target" },
-  "State Machine": { description: "Machine", states: ["new", "done"], initial: "new", transitions: ["new->done"] },
+  "State Machine": { description: "Machine", states: ["new", "done"], initial: "new", transitions: [{ transition_id: "finish", source_state: "new", target_state: "done", guard_ref: null, effect_event_ref: null }] },
 };
 
 function node(kind: string, id: string): DecodedProjectNode {
@@ -164,6 +165,81 @@ test("all generated TypeScript typechecks, all generated Python parses, and gene
     fs.writeFileSync(rustSource, rustArtifact.content);
     const rust = spawnSync("rustc", ["--edition", "2024", "--crate-type", "lib", rustSource, "--out-dir", root], { encoding: "utf8" });
     if ((rust.error as NodeJS.ErrnoException | undefined)?.code !== "ENOENT") assert.equal(rust.status, 0, `${rust.stdout}\n${rust.stderr}`);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("State Machine causal outcomes are equivalent in TypeScript, Python, and Rust", async (context) => {
+  const machine = loadProjectNode(sourceFixtureRoot, "beta:settlement-status");
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-state-machine-runtime-"));
+  const expected = [
+    "applied|settled|beta:settlement-completed",
+    "guard-rejected",
+    "undeclared-transition",
+    "source-mismatch",
+    "invalid-current-state",
+  ];
+  try {
+    const typescriptArtifact = planInstantiation(machine, "typescript").artifacts[0]!;
+    const typescriptSource = path.join(root, "settlement-status.ts");
+    fs.writeFileSync(typescriptSource, typescriptArtifact.content);
+    const generated = await import(`${pathToFileURL(typescriptSource).href}?case=state-machine-runtime`);
+    const typescriptResults = [
+      generated.settlementStatusTransition("pending", "complete-settlement", () => true),
+      generated.settlementStatusTransition("pending", "complete-settlement", () => false),
+      generated.settlementStatusTransition("pending", "missing", () => true),
+      generated.settlementStatusTransition("settled", "complete-settlement", () => true),
+      generated.settlementStatusTransition("unknown", "complete-settlement", () => true),
+    ].map((result: { ok: boolean; state: string; effectEventRef?: string | null; code?: string }) => result.ok ? `applied|${result.state}|${result.effectEventRef ?? ""}` : result.code);
+    assert.deepEqual(typescriptResults, expected);
+
+    const pythonArtifact = planInstantiation(machine, "python").artifacts[0]!;
+    const pythonSource = path.join(root, "settlement_status.py");
+    fs.writeFileSync(pythonSource, pythonArtifact.content);
+    const pythonProgram = [
+      "import importlib.util,sys",
+      "spec=importlib.util.spec_from_file_location('machine',sys.argv[1])",
+      "machine=importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(machine)",
+      "cases=[machine.settlement_status_transition('pending','complete-settlement',lambda _ref: True),machine.settlement_status_transition('pending','complete-settlement',lambda _ref: False),machine.settlement_status_transition('pending','missing',lambda _ref: True),machine.settlement_status_transition('settled','complete-settlement',lambda _ref: True),machine.settlement_status_transition('unknown','complete-settlement',lambda _ref: True)]",
+      "print('\\n'.join(('applied|'+str(value['state'])+'|'+str(value['effect_event_ref'] or '')) if value['ok'] else str(value['code']) for value in cases))",
+    ].join(";");
+    const python = spawnSync("python3", ["-c", pythonProgram, pythonSource], { encoding: "utf8" });
+    assert.equal(python.status, 0, `${python.stdout}\n${python.stderr}`);
+    assert.deepEqual(python.stdout.trim().split("\n"), expected);
+
+    const rustArtifact = planInstantiation(machine, "rust").artifacts[0]!;
+    const rustSource = path.join(root, "settlement_status.rs");
+    const rustHarness = `
+fn normalized(result: SettlementStatusTransitionResult) -> String {
+    match result {
+        SettlementStatusTransitionResult::Applied { state, effect_event_ref, .. } => format!("applied|{}|{}", state, effect_event_ref.unwrap_or_default()),
+        SettlementStatusTransitionResult::Rejected { code, .. } => code.to_owned(),
+    }
+}
+fn main() {
+    let cases = [
+        settlement_status_transition("pending", "complete-settlement", |_| true),
+        settlement_status_transition("pending", "complete-settlement", |_| false),
+        settlement_status_transition("pending", "missing", |_| true),
+        settlement_status_transition("settled", "complete-settlement", |_| true),
+        settlement_status_transition("unknown", "complete-settlement", |_| true),
+    ];
+    for result in cases { println!("{}", normalized(result)); }
+}
+`;
+    fs.writeFileSync(rustSource, `${rustArtifact.content}${rustHarness}`);
+    const rustBinary = path.join(root, "settlement-status");
+    const rust = spawnSync("rustc", ["--edition", "2024", rustSource, "-o", rustBinary], { encoding: "utf8" });
+    if ((rust.error as NodeJS.ErrnoException | undefined)?.code === "ENOENT") {
+      context.skip("Rust provider is not installed");
+      return;
+    }
+    assert.equal(rust.status, 0, `${rust.stdout}\n${rust.stderr}`);
+    const executed = spawnSync(rustBinary, [], { encoding: "utf8" });
+    assert.equal(executed.status, 0, `${executed.stdout}\n${executed.stderr}`);
+    assert.deepEqual(executed.stdout.trim().split("\n"), expected);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }

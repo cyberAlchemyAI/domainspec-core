@@ -56,7 +56,7 @@ test("add operation authors, validates, saves, and instantiates one canonical Op
     assert.equal(authored.result, "pass");
     assert.equal(authored.selector, "alpha:create-order");
     assert.equal(authored.node_path, "specs/alpha/nodes/create-order.json");
-    assert.equal(authored.source_count, 12);
+    assert.equal(authored.source_count, 18);
     assert.match(authored.source_manifest_sha256, /^[a-f0-9]{64}$/);
     assert.deepEqual(errors, []);
 
@@ -339,6 +339,26 @@ test("lint and receipt emit causal failure receipts with nonzero status", () => 
     assert.equal(receipt.observation.result, "fail");
     assert.equal(receipt.observation.code, "MTCLI_OBSERVE_EXACT_REALIZATION");
     assert.deepEqual(errors, []);
+  } finally {
+    fs.rmSync(parent, { recursive: true, force: true });
+  }
+});
+
+test("source lint and receipt execute project-wide relationship validation", () => {
+  const { parent, source } = fixture();
+  try {
+    const edgePath = path.join(source, "specs/alpha/edges/customer-performs-settle.json");
+    const edge = JSON.parse(fs.readFileSync(edgePath, "utf8"));
+    edge.relationship = "announces";
+    fs.writeFileSync(edgePath, `${JSON.stringify(edge, null, 2)}\n`);
+    const out: string[] = [];
+    const errors: string[] = [];
+    const io = { stdout: (value: string) => out.push(value), stderr: (value: string) => errors.push(value) };
+    assert.equal(runCli(["lint", source], io), 22);
+    assert.equal(JSON.parse(errors.pop()!).code, "MTCLI_RELATIONSHIP_UNKNOWN");
+    assert.equal(runCli(["receipt", source], io), 22);
+    assert.equal(JSON.parse(errors.pop()!).code, "MTCLI_RELATIONSHIP_UNKNOWN");
+    assert.deepEqual(out, []);
   } finally {
     fs.rmSync(parent, { recursive: true, force: true });
   }

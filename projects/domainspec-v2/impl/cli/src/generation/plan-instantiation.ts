@@ -1,7 +1,11 @@
 import path from "node:path";
 
 import { canonicalJson, sha256 } from "../input/source-manifest.js";
-import { validateSelectedNodeRelationships, type DecodedProjectNode } from "../input/project-model.js";
+import {
+  validateSelectedNodeRelationships,
+  withGeneratedRelationshipProjections,
+  type DecodedProjectNode,
+} from "../input/project-model.js";
 import { FROZEN_META_TYPE_CATALOG, selectRealization } from "../meta-types/catalog.js";
 import type { SupportedLanguage } from "../meta-types/types.js";
 import type { InstantiationPlanV1, PlannedArtifact } from "./contracts.js";
@@ -19,6 +23,13 @@ function assertContainedRelative(relativePath: string): void {
 export function planInstantiation(node: DecodedProjectNode, language: SupportedLanguage, systemIntegration: SystemIntegrationSelectionV1 | null = null): InstantiationPlanV1 {
   validateSelectedNodeRelationships(node);
   if (node.typed_closure != null && language !== "rust") throw new Error(`typed Operation realization is not supported for language:${language}`);
+  const compiledBody = withGeneratedRelationshipProjections(
+    node.kind,
+    node.feature_id,
+    node.node_id,
+    node.body,
+    node.relationships,
+  );
   const realization = selectRealization(node.meta_type_id, language);
   const rendered = renderImplementation({
     project_id: node.project_id,
@@ -26,7 +37,7 @@ export function planInstantiation(node: DecodedProjectNode, language: SupportedL
     node_id: node.node_id,
     kind: node.kind,
     meta_type_id: node.meta_type_id,
-    body: node.body,
+    body: compiledBody,
     relationships: node.relationships,
     realization,
     typed_closure: node.typed_closure,
@@ -74,7 +85,7 @@ export function planInstantiation(node: DecodedProjectNode, language: SupportedL
       node_id: node.node_id,
       kind: node.kind,
       meta_type_id: node.meta_type_id,
-      body: node.body,
+      body: compiledBody,
       relationships: node.relationships,
       source_manifest: node.source_manifest,
       typed_closure: node.typed_closure,

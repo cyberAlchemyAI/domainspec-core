@@ -1,0 +1,273 @@
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+
+import type { CompiledProjectGraph, DecodedRelationship, StateTransitionSpec } from "../input/project-model.js";
+import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
+import { FROZEN_RELATIONSHIP_AUTHORITY_V1 } from "../relationships/frozen-authority.generated.js";
+import type { FrozenRelationshipSignature } from "../relationships/types.js";
+
+const UI_META_TYPES = ["Page", "Layout", "Component", "View Model", "Hook", "Form", "Action", "Guard", "Binding", "Adapter", "State Indicator"] as const;
+const LEAN_META_TYPE: Readonly<Record<string, string>> = Object.freeze({
+  "Entity": "entity", "Value Object": "valueObject", "Enum": "enumType", "Operation": "operation", "Query": "query",
+  "Calculation": "calculation", "Rule": "rule", "Policy": "policy", "Workflow": "workflow", "Interface": "interfaceType",
+  "Event": "event", "Mapping": "mapping", "State Machine": "stateMachine", "Page": "page", "Layout": "layout",
+  "Component": "component", "View Model": "viewModel", "Hook": "hook", "Form": "form", "Action": "action",
+  "Guard": "guard", "Binding": "binding", "Adapter": "adapter", "State Indicator": "stateIndicator",
+});
+const LEAN_RELATION: Readonly<Record<string, string>> = Object.freeze({
+  "performs": "performs", "produces": "produces", "produces-for": "producesFor", "creates": "creates",
+  "triggers-cross": "triggersCross", "enforces": "enforces", "calculates": "calculates", "transitions": "transitions",
+  "exposes": "exposes", "orchestrates": "orchestrates", "applies": "applies", "maps": "maps", "contains": "contains",
+  "reads": "reads", "emits": "emits", "owns": "owns", "belongs-to": "belongsTo", "renders": "renders", "wraps": "wraps",
+  "composes": "composes", "consumes": "consumes", "submits": "submits", "shapes": "shapes", "protects": "protects",
+  "displays": "displays", "fetches": "fetches", "mutates": "mutates", "reflects": "reflects", "derives": "derives",
+  "contracts": "contracts", "mirrors": "mirrors",
+});
+const LEAN_SCOPE: Readonly<Record<string, string>> = Object.freeze({ "same-feature": "sameFeature", "cross-feature": "crossFeature", "ui": "ui", "ui-backend": "uiBackend" });
+const LEAN_MULTIPLICITY: Readonly<Record<string, string>> = Object.freeze({ "one_to_one": "oneToOne", "one_to_many": "oneToMany", "one_to_many_ordered": "oneToManyOrdered", "many_to_one": "manyToOne", "many_to_many": "manyToMany" });
+
+export type ObligationFamily = "endpoint" | "scope" | "multiplicity" | "generated-projection" | "inverse-collapse" | "deprecation";
+type StateTransitionProjection = Readonly<{ transition_id: string; source_state: string; target_state: string; guard_ref: string; effect_event_ref: string }>;
+type ProjectNodeProjection = Readonly<{
+  selector: string; feature_id: string; node_id: string; meta_type: string;
+  generated_creation_targets: readonly string[]; authored_forbidden_projection_attributes: readonly string[];
+  state_machine_states: readonly string[]; state_machine_initial: string; state_machine_transitions: readonly StateTransitionProjection[];
+}>;
+type ProjectEdgeProjection = Readonly<{
+  edge_id: string; relation: string; scope: string; source_selector: string; target_selector: string;
+  source_type: string; target_type: string; authored_relationship_id: string; source_generated_creation_targets: readonly string[];
+  source_authored_generated_projection: boolean; obligation_ids: readonly string[];
+}>;
+
+export interface MetaTypeFormalizationProjection {
+  readonly schema_version: "domainspec.meta-type-formalization-projection/v2-candidate";
+  readonly authority_effect: "none";
+  readonly claim_ceiling: "compiled-project-graph-projection-only-no-runtime-conformance-or-authority";
+  readonly baseline: Readonly<{ id: string; digest: string; manifest_sha256: string }>;
+  readonly relationship_authority: Readonly<{ path: string; sha256: string; signature_count: 31 }>;
+  readonly project_graph: Readonly<{ project_id: string; source_manifest_sha256: string; graph_sha256: string; nodes: readonly ProjectNodeProjection[]; edges: readonly ProjectEdgeProjection[] }>;
+  readonly meta_types: readonly Readonly<{ label: string; lean_constructor: string; partition: "backend" | "ui-supporting-context" }>[];
+  readonly relationships: readonly Readonly<{
+    id: string; lean_constructor: string; source_types: readonly string[]; target_types: readonly string[]; scopes: readonly string[];
+    multiplicity: string; inverse_kind: "none" | "generated_view"; obligation_ids: readonly string[];
+  }>[];
+  readonly obligation_catalog: readonly Readonly<{ obligation_id: string; lean_constructor: string; family: ObligationFamily; relationship_ids: readonly string[] }>[];
+  readonly applicable_witnesses: readonly Readonly<{ witness_id: string; lean_constructor: string; edge_id: string; obligation_id: string }>[];
+}
+
+export class FormalizationProjectionError extends Error {
+  readonly exitCode = 22;
+  constructor(readonly code: string, message: string) { super(message); this.name = "FormalizationProjectionError"; }
+}
+function fail(code: string, message: string): never { throw new FormalizationProjectionError(code, message); }
+function sha256(text: string): string { return crypto.createHash("sha256").update(text).digest("hex"); }
+function leanList(values: readonly string[]): string { return `[${values.map((value) => `.${value}`).join(", ")}]`; }
+function leanStringList(values: readonly string[]): string { return `[${values.map((value) => JSON.stringify(value)).join(", ")}]`; }
+function leanStateTransitionList(values: readonly StateTransitionProjection[]): string {
+  return `[${values.map((value) => `⟨${JSON.stringify(value.transition_id)}, ${JSON.stringify(value.source_state)}, ${JSON.stringify(value.target_state)}, ${JSON.stringify(value.guard_ref)}, ${JSON.stringify(value.effect_event_ref)}⟩`).join(", ")}]`;
+}
+function leanIdentifier(value: string): string {
+  const parts = value.split(/[^a-zA-Z0-9]+/).filter(Boolean);
+  if (parts.length === 0) fail("MTCLI_FORMALIZE_IDENTIFIER", `cannot form Lean identifier:${value}`);
+  const identifier = parts[0]!.toLowerCase() + parts.slice(1).map((part) => `${part[0]!.toUpperCase()}${part.slice(1)}`).join("");
+  return /^[a-z][a-zA-Z0-9]*$/.test(identifier) ? identifier : fail("MTCLI_FORMALIZE_IDENTIFIER", `invalid Lean identifier:${value}`);
+}
+function obligationFamily(id: string): ObligationFamily {
+  if (/^reject_non_.+_(?:source|target)$/.test(id)) return "endpoint";
+  if (["admit_same_and_cross_feature_scope", "reject_cross_feature_scope", "reject_enforces_cross_label", "require_admitted_workflow_scope"].includes(id)) return "scope";
+  if (["reject_multiple_sources_per_target", "reject_multiple_targets_per_source"].includes(id)) return "multiplicity";
+  if (["reject_authored_generated_projection", "derive_creation_targets_from_edge"].includes(id)) return "generated-projection";
+  if (id === "reject_inverse_collapse_with_owns") return "inverse-collapse";
+  if (id === "reject_deprecated_queries_alias") return "deprecation";
+  return fail("MTCLI_FORMALIZE_OBLIGATION", `unclassified DS-D8 obligation:${id}`);
+}
+function edgeScope(edge: DecodedRelationship, signature: FrozenRelationshipSignature): string {
+  if (edge.scope === "project") return "crossFeature";
+  if (signature.feature_scope.includes("same-feature")) return "sameFeature";
+  if (signature.feature_scope.includes("ui")) return "ui";
+  if (signature.feature_scope.includes("ui-backend")) return "uiBackend";
+  return fail("MTCLI_FORMALIZE_SCOPE", `compiled feature edge has no admitted scope:${edge.edge_id}`);
+}
+
+export function createMetaTypeFormalizationProjection(graph: CompiledProjectGraph): MetaTypeFormalizationProjection {
+  if (graph.schema_version !== "domainspec.compiled-project-graph/v1-candidate" || graph.authority_effect !== "none") fail("MTCLI_FORMALIZE_GRAPH", "formalize requires the decoded, non-effectful project graph");
+  const backend = FROZEN_META_TYPE_CATALOG.backend_meta_types.map(({ label }) => ({ label, lean_constructor: LEAN_META_TYPE[label] ?? fail("MTCLI_FORMALIZE_META_TYPE", `missing Lean constructor:${label}`), partition: "backend" as const }));
+  const ui = UI_META_TYPES.map((label) => ({ label, lean_constructor: LEAN_META_TYPE[label] ?? fail("MTCLI_FORMALIZE_META_TYPE", `missing Lean constructor:${label}`), partition: "ui-supporting-context" as const }));
+  const relationships = FROZEN_RELATIONSHIP_AUTHORITY_V1.signatures.map((signature) => ({
+    id: signature.id,
+    lean_constructor: LEAN_RELATION[signature.id] ?? fail("MTCLI_FORMALIZE_RELATIONSHIP", `missing Lean relation constructor:${signature.id}`),
+    source_types: signature.source_types.map((label) => LEAN_META_TYPE[label] ?? fail("MTCLI_FORMALIZE_ENDPOINT", `missing Lean meta-type:${label}`)),
+    target_types: signature.target_types.map((label) => LEAN_META_TYPE[label] ?? fail("MTCLI_FORMALIZE_ENDPOINT", `missing Lean meta-type:${label}`)),
+    scopes: signature.feature_scope.map((scope) => LEAN_SCOPE[scope] ?? fail("MTCLI_FORMALIZE_SCOPE", `missing Lean scope:${scope}`)),
+    multiplicity: LEAN_MULTIPLICITY[signature.multiplicity] ?? fail("MTCLI_FORMALIZE_MULTIPLICITY", `missing Lean multiplicity:${signature.multiplicity}`),
+    inverse_kind: signature.inverse.kind,
+    obligation_ids: Object.freeze([...signature.validation_obligations]),
+  }));
+  const obligationRelations = new Map<string, string[]>();
+  for (const signature of FROZEN_RELATIONSHIP_AUTHORITY_V1.signatures) for (const id of signature.validation_obligations) {
+    const relationIds = obligationRelations.get(id) ?? [];
+    relationIds.push(signature.id);
+    obligationRelations.set(id, relationIds);
+  }
+  const obligationCatalog = [...obligationRelations].map(([id, relationIds]) => Object.freeze({ obligation_id: id, lean_constructor: leanIdentifier(id), family: obligationFamily(id), relationship_ids: Object.freeze(relationIds.sort()) })).sort((a, b) => a.obligation_id.localeCompare(b.obligation_id));
+  const graphNodes = graph.nodes.map((node): ProjectNodeProjection => {
+    const transitions = node.kind === "State Machine" ? node.body.transitions as readonly StateTransitionSpec[] : [];
+    return Object.freeze({
+      selector: node.selector, feature_id: node.feature_id, node_id: node.node_id,
+      meta_type: LEAN_META_TYPE[node.kind] ?? fail("MTCLI_FORMALIZE_PROJECT_NODE", `missing Lean project meta-type:${node.kind}`),
+      generated_creation_targets: Object.freeze([...(node.generated_relationship_projections.creation_targets ?? [])]),
+      authored_forbidden_projection_attributes: Object.freeze([...node.authored_forbidden_projection_attributes]),
+      state_machine_states: Object.freeze(node.kind === "State Machine" ? [...node.body.states as readonly string[]] : []),
+      state_machine_initial: node.kind === "State Machine" ? String(node.body.initial) : "",
+      state_machine_transitions: Object.freeze(transitions.map((transition) => Object.freeze({
+        transition_id: transition.transition_id,
+        source_state: transition.source_state,
+        target_state: transition.target_state,
+        guard_ref: transition.guard_ref ?? "",
+        effect_event_ref: transition.effect_event_ref ?? "",
+      }))),
+    });
+  });
+  const nodeBySelector = new Map(graphNodes.map((node) => [node.selector, node]));
+  const signatureById = new Map(FROZEN_RELATIONSHIP_AUTHORITY_V1.signatures.map((signature) => [signature.id, signature]));
+  const graphEdges = graph.relationships.map((edge): ProjectEdgeProjection => {
+    const signature = signatureById.get(edge.relationship) ?? fail("MTCLI_FORMALIZE_PROJECT_EDGE", `missing relationship signature:${edge.relationship}`);
+    const sourceSelector = `${edge.source.feature_id}:${edge.source.node_id}`;
+    return Object.freeze({
+      edge_id: edge.edge_id, relation: LEAN_RELATION[edge.relationship] ?? fail("MTCLI_FORMALIZE_PROJECT_EDGE", `missing Lean relation:${edge.relationship}`),
+      scope: edgeScope(edge, signature), source_selector: sourceSelector, target_selector: `${edge.target.feature_id}:${edge.target.node_id}`,
+      source_type: LEAN_META_TYPE[edge.source.kind] ?? fail("MTCLI_FORMALIZE_PROJECT_EDGE", `missing Lean source type:${edge.source.kind}`),
+      target_type: LEAN_META_TYPE[edge.target.kind] ?? fail("MTCLI_FORMALIZE_PROJECT_EDGE", `missing Lean target type:${edge.target.kind}`),
+      authored_relationship_id: edge.relationship,
+      source_generated_creation_targets: nodeBySelector.get(sourceSelector)?.generated_creation_targets ?? Object.freeze([]),
+      source_authored_generated_projection: (nodeBySelector.get(sourceSelector)?.authored_forbidden_projection_attributes.length ?? 0) > 0,
+      obligation_ids: Object.freeze([...signature.validation_obligations]),
+    });
+  });
+  const applicableWitnesses = graphEdges.flatMap((edge) => edge.obligation_ids.map((obligationId) => {
+    const witnessId = `${edge.edge_id}:${obligationId}`;
+    return Object.freeze({ witness_id: witnessId, lean_constructor: leanIdentifier(witnessId), edge_id: edge.edge_id, obligation_id: obligationId });
+  }));
+  if (backend.length !== 13 || ui.length !== 11 || relationships.length !== 31 || obligationCatalog.length !== 45) fail("MTCLI_FORMALIZE_COVERAGE", "formalization source denominator drift");
+  const graphIdentity = { project_id: graph.project_id, source_manifest_sha256: graph.source_manifest.manifest_sha256, nodes: graphNodes, edges: graphEdges };
+  return Object.freeze({
+    schema_version: "domainspec.meta-type-formalization-projection/v2-candidate", authority_effect: "none",
+    claim_ceiling: "compiled-project-graph-projection-only-no-runtime-conformance-or-authority",
+    baseline: Object.freeze({ id: FROZEN_META_TYPE_CATALOG.baseline_id, digest: FROZEN_META_TYPE_CATALOG.baseline_digest, manifest_sha256: FROZEN_META_TYPE_CATALOG.manifest_sha256 }),
+    relationship_authority: Object.freeze({ path: FROZEN_RELATIONSHIP_AUTHORITY_V1.source_path, sha256: FROZEN_RELATIONSHIP_AUTHORITY_V1.source_sha256, signature_count: 31 }),
+    project_graph: Object.freeze({ ...graphIdentity, graph_sha256: sha256(JSON.stringify(graphIdentity)) }), meta_types: Object.freeze([...backend, ...ui]),
+    relationships: Object.freeze(relationships), obligation_catalog: Object.freeze(obligationCatalog), applicable_witnesses: Object.freeze(applicableWitnesses),
+  });
+}
+
+export function formalizationProjectionSha256(projection: MetaTypeFormalizationProjection): string { return sha256(JSON.stringify(projection)); }
+
+export function renderLeanMetaTypeFormalization(projection: MetaTypeFormalizationProjection): string {
+  const meta = projection.meta_types.map(({ lean_constructor }) => lean_constructor);
+  const relations = projection.relationships;
+  const obligations = projection.obligation_catalog;
+  const signatureRows = relations.map((relation) => `  | .${relation.lean_constructor} => ⟨${leanList(relation.source_types)}, ${leanList(relation.target_types)}, ${leanList(relation.scopes)}, .${relation.multiplicity}, .${relation.inverse_kind === "generated_view" ? "generatedView" : "none"}, ${leanList(relation.obligation_ids.map(leanIdentifier))}⟩`);
+  const familyRows = obligations.map((obligation) => `  | .${obligation.lean_constructor} => .${leanIdentifier(obligation.family)}`);
+  const nodeRows = projection.project_graph.nodes.map((node) => `  ⟨${JSON.stringify(node.selector)}, ${JSON.stringify(node.feature_id)}, ${JSON.stringify(node.node_id)}, .${node.meta_type}, ${leanStringList(node.generated_creation_targets)}, ${leanStringList(node.authored_forbidden_projection_attributes)}, ${leanStringList(node.state_machine_states)}, ${JSON.stringify(node.state_machine_initial)}, ${leanStateTransitionList(node.state_machine_transitions)}⟩`);
+  const edgeRows = projection.project_graph.edges.map((edge) => `  ⟨${JSON.stringify(edge.edge_id)}, .${edge.relation}, .${edge.scope}, ${JSON.stringify(edge.source_selector)}, ${JSON.stringify(edge.target_selector)}, .${edge.source_type}, .${edge.target_type}, ${JSON.stringify(edge.authored_relationship_id)}, ${leanStringList(edge.source_generated_creation_targets)}, ${edge.source_authored_generated_projection}⟩`);
+  const witnessRows = projection.applicable_witnesses.map((witness) => `  ⟨${JSON.stringify(witness.witness_id)}, ${JSON.stringify(witness.edge_id)}, .${leanIdentifier(witness.obligation_id)}⟩`);
+  return [
+    "/- Generated by domainspec-v2 formalize from one compiled project graph. Do not hand-edit.", `   Project: ${projection.project_graph.project_id}.`,
+    `   Source manifest: ${projection.project_graph.source_manifest_sha256}.`, `   Compiled graph: ${projection.project_graph.graph_sha256}.`,
+    `   Baseline: ${projection.baseline.id} (${projection.baseline.digest}).`, `   Relationship authority: ${projection.relationship_authority.path} (${projection.relationship_authority.sha256}). -/`,
+    "namespace DomainSpec.CurrentGenerated", "",
+    `inductive MetaType | ${meta.join(" | ")} deriving DecidableEq, BEq, Repr`, `def allMetaTypes : List MetaType := ${leanList(meta)}`,
+    "theorem allMetaTypes_count : allMetaTypes.length = 24 := by decide", "theorem allMetaTypes_complete : ∀ m : MetaType, allMetaTypes.contains m = true := by intro m; cases m <;> decide", "",
+    `inductive Relation | ${relations.map(({ lean_constructor }) => lean_constructor).join(" | ")} deriving DecidableEq, BEq, Repr`,
+    `def allRelations : List Relation := ${leanList(relations.map(({ lean_constructor }) => lean_constructor))}`, "theorem allRelations_count : allRelations.length = 31 := by decide",
+    "theorem allRelations_complete : ∀ r : Relation, allRelations.contains r = true := by intro r; cases r <;> decide", "",
+    `inductive ObligationId | ${obligations.map(({ lean_constructor }) => lean_constructor).join(" | ")} deriving DecidableEq, BEq, Repr`,
+    `def allObligationIds : List ObligationId := ${leanList(obligations.map(({ lean_constructor }) => lean_constructor))}`,
+    "theorem allObligationIds_count : allObligationIds.length = 45 := by decide", "theorem allObligationIds_complete : ∀ o : ObligationId, allObligationIds.contains o = true := by intro o; cases o <;> decide", "",
+    "inductive ObligationFamily | endpoint | scope | multiplicity | generatedProjection | inverseCollapse | deprecation deriving DecidableEq, BEq, Repr", "def obligationFamily : ObligationId → ObligationFamily", ...familyRows, "",
+    "inductive FeatureScope | sameFeature | crossFeature | ui | uiBackend deriving DecidableEq, BEq, Repr",
+    "inductive Multiplicity | oneToOne | oneToMany | oneToManyOrdered | manyToOne | manyToMany deriving DecidableEq, BEq, Repr",
+    "inductive InverseKind | none | generatedView deriving DecidableEq, BEq, Repr", "structure RelationshipSignature where", "  sourceTypes : List MetaType", "  targetTypes : List MetaType", "  scopes : List FeatureScope", "  multiplicity : Multiplicity", "  inverse : InverseKind", "  obligations : List ObligationId", "def signature : Relation → RelationshipSignature", ...signatureRows, "",
+    "structure StateTransition where", "  transitionId : String", "  sourceState : String", "  targetState : String", "  guardRef : String", "  effectEventRef : String", "  deriving DecidableEq, BEq, Repr", "",
+    "structure ProjectNode where", "  selector : String", "  featureId : String", "  nodeId : String", "  metaType : MetaType", "  generatedCreationTargets : List String", "  authoredForbiddenProjectionAttributes : List String", "  stateMachineStates : List String", "  stateMachineInitial : String", "  stateMachineTransitions : List StateTransition", "  deriving Repr",
+    `def projectNodes : List ProjectNode := [\n${nodeRows.join(",\n")}\n]`, "",
+    "structure ProjectEdge where", "  edgeId : String", "  relation : Relation", "  scope : FeatureScope", "  sourceSelector : String", "  targetSelector : String", "  sourceType : MetaType", "  targetType : MetaType", "  authoredRelationshipId : String", "  sourceGeneratedCreationTargets : List String", "  sourceAuthoredGeneratedProjection : Bool", "  deriving Repr",
+    `def projectEdges : List ProjectEdge := [\n${edgeRows.join(",\n")}\n]`, "",
+    "def endpointAllowed (edge : ProjectEdge) : Bool :=", "  (signature edge.relation).sourceTypes.contains edge.sourceType &&", "  (signature edge.relation).targetTypes.contains edge.targetType",
+    "def scopeAllowed (edge : ProjectEdge) : Bool := (signature edge.relation).scopes.contains edge.scope",
+    "def multiplicityAllowed (edges : List ProjectEdge) (edge : ProjectEdge) : Bool :=", "  if edge.relation == .creates then", "    (edges.filter (fun other => other.relation == .creates && other.sourceSelector == edge.sourceSelector)).length == 1 &&", "    (edges.filter (fun other => other.relation == .creates && other.targetSelector == edge.targetSelector)).length == 1", "  else true",
+    "def generatedProjectionAllowed (edge : ProjectEdge) : Bool :=", "  if edge.relation == .creates then edge.sourceGeneratedCreationTargets.contains edge.targetSelector else true",
+    "def authoredGeneratedProjectionAbsent (edge : ProjectEdge) : Bool := !edge.sourceAuthoredGeneratedProjection",
+    "def inverseCollapseAllowed (edges : List ProjectEdge) (edge : ProjectEdge) : Bool :=", "  !(edge.relation == .belongsTo && edges.any (fun other =>", "    other.relation == .owns && other.sourceSelector == edge.targetSelector && other.targetSelector == edge.sourceSelector))",
+    "def deprecatedQueriesAliasAbsent (edge : ProjectEdge) : Bool := edge.authoredRelationshipId != \"queries\"",
+    "def enforcesCrossLabelAbsent (edge : ProjectEdge) : Bool := edge.authoredRelationshipId != \"enforces-cross\"", "",
+    "def stateTransitionHolds (node : ProjectNode) (transition : StateTransition) : Bool :=",
+    "  node.stateMachineStates.contains transition.sourceState &&",
+    "  node.stateMachineStates.contains transition.targetState &&",
+    "  (transition.guardRef == \"\" || projectNodes.any (fun candidate => candidate.selector == transition.guardRef && candidate.metaType == .rule)) &&",
+    "  (transition.effectEventRef == \"\" ||",
+    "    (projectNodes.any (fun candidate => candidate.selector == transition.effectEventRef && candidate.metaType == .event) &&",
+    "     projectEdges.any (fun edge => edge.relation == .transitions && edge.sourceSelector == transition.effectEventRef && edge.targetSelector == node.selector)))",
+    "def stateMachineHolds (node : ProjectNode) : Bool :=",
+    "  if node.metaType == .stateMachine then",
+    "    node.stateMachineStates.contains node.stateMachineInitial &&",
+    "    !node.stateMachineTransitions.isEmpty &&",
+    "    (node.stateMachineTransitions.map (fun transition => transition.transitionId)).eraseDups.length == node.stateMachineTransitions.length &&",
+    "    node.stateMachineTransitions.all (stateTransitionHolds node)",
+    "  else true",
+    "theorem allProjectStateMachinesHold : ∀ node ∈ projectNodes, stateMachineHolds node = true := by decide", "",
+    "def findStateTransition (node : ProjectNode) (transitionId : String) : Option StateTransition :=",
+    "  node.stateMachineTransitions.find? (fun transition => transition.transitionId == transitionId)",
+    "def stateTransitionAllowed (node : ProjectNode) (current transitionId : String) (guardAccepted : Bool) : Bool :=",
+    "  if !node.stateMachineStates.contains current then false else",
+    "  match findStateTransition node transitionId with",
+    "  | none => false",
+    "  | some transition => transition.sourceState == current && (transition.guardRef == \"\" || guardAccepted)",
+    "theorem invalidCurrentStateRejected (node : ProjectNode) (current transitionId : String) (guardAccepted : Bool)",
+    "    (h : node.stateMachineStates.contains current = false) : stateTransitionAllowed node current transitionId guardAccepted = false := by",
+    "  unfold stateTransitionAllowed",
+    "  rw [h]",
+    "  rfl",
+    "theorem undeclaredTransitionRejected (node : ProjectNode) (current transitionId : String) (guardAccepted : Bool)",
+    "    (h : findStateTransition node transitionId = none) : stateTransitionAllowed node current transitionId guardAccepted = false := by",
+    "  simp [stateTransitionAllowed, h]",
+    "theorem sourceMismatchRejected (node : ProjectNode) (current transitionId : String) (guardAccepted : Bool) (transition : StateTransition)",
+    "    (hfind : findStateTransition node transitionId = some transition) (hsource : (transition.sourceState == current) = false) : stateTransitionAllowed node current transitionId guardAccepted = false := by",
+    "  unfold stateTransitionAllowed",
+    "  split",
+    "  · rfl",
+    "  · rw [hfind]",
+    "    simp [hsource]",
+    "theorem guardFailureRejected (node : ProjectNode) (current transitionId : String) (transition : StateTransition)",
+    "    (hfind : findStateTransition node transitionId = some transition) (hguard : (transition.guardRef == \"\") = false) : stateTransitionAllowed node current transitionId false = false := by",
+    "  unfold stateTransitionAllowed",
+    "  split",
+    "  · rfl",
+    "  · rw [hfind]",
+    "    simp [hguard]", "",
+    "def obligationHolds (edges : List ProjectEdge) (obligation : ObligationId) (edge : ProjectEdge) : Bool :=",
+    "  if obligation == .rejectAuthoredGeneratedProjection then authoredGeneratedProjectionAbsent edge",
+    "  else if obligation == .deriveCreationTargetsFromEdge then generatedProjectionAllowed edge",
+    "  else if obligation == .rejectDeprecatedQueriesAlias then deprecatedQueriesAliasAbsent edge",
+    "  else if obligation == .rejectEnforcesCrossLabel then enforcesCrossLabelAbsent edge && scopeAllowed edge",
+    "  else match obligationFamily obligation with", "    | .endpoint => endpointAllowed edge", "    | .scope => scopeAllowed edge", "    | .multiplicity => multiplicityAllowed edges edge", "    | .generatedProjection => false", "    | .inverseCollapse => inverseCollapseAllowed edges edge", "    | .deprecation => false", "",
+    "structure ApplicableObligationWitness where", "  witnessId : String", "  edgeId : String", "  obligation : ObligationId", "  deriving Repr",
+    `def applicableWitnesses : List ApplicableObligationWitness := [\n${witnessRows.join(",\n")}\n]`, "def witnessHolds (witness : ApplicableObligationWitness) : Bool :=", "  match projectEdges.find? (fun edge => edge.edgeId == witness.edgeId) with", "  | some edge => (signature edge.relation).obligations.contains witness.obligation && obligationHolds projectEdges witness.obligation edge", "  | none => false",
+    "theorem allApplicableWitnessesHold : ∀ witness ∈ applicableWitnesses, witnessHolds witness = true := by decide", "", "end DomainSpec.CurrentGenerated", "",
+  ].join("\n");
+}
+
+export function materializeLeanMetaTypeFormalization(graph: CompiledProjectGraph, targetPath: string): Readonly<{ projection_sha256: string; project_graph_sha256: string; target_path: string }> {
+  if (!path.isAbsolute(targetPath)) fail("MTCLI_FORMALIZE_TARGET", "formalize target must be absolute");
+  const projection = createMetaTypeFormalizationProjection(graph);
+  fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+  fs.writeFileSync(targetPath, renderLeanMetaTypeFormalization(projection), { encoding: "utf8", flag: "wx" });
+  return Object.freeze({ projection_sha256: formalizationProjectionSha256(projection), project_graph_sha256: projection.project_graph.graph_sha256, target_path: targetPath });
+}
+export function checkLeanMetaTypeFormalization(graph: CompiledProjectGraph, targetPath: string): Readonly<{ projection_sha256: string; project_graph_sha256: string; target_path: string; current: boolean }> {
+  if (!path.isAbsolute(targetPath)) fail("MTCLI_FORMALIZE_TARGET", "formalize-check target must be absolute");
+  const projection = createMetaTypeFormalizationProjection(graph);
+  const current = fs.existsSync(targetPath) && fs.readFileSync(targetPath, "utf8") === renderLeanMetaTypeFormalization(projection);
+  return Object.freeze({ projection_sha256: formalizationProjectionSha256(projection), project_graph_sha256: projection.project_graph.graph_sha256, target_path: targetPath, current });
+}

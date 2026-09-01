@@ -89,7 +89,7 @@ test("byte-identical arbitrary roots produce one normalized manifest", () => {
     const rightManifest = resolveProjectRoot(right);
     assert.deepEqual(validateSourceManifest(leftManifest), leftManifest);
     assert.deepEqual(leftManifest, rightManifest);
-    assert.equal(leftManifest.source_count, 11);
+    assert.equal(leftManifest.source_count, 17);
     assert.equal(leftManifest.authority_effect, "none");
     assert.deepEqual([...leftManifest.sources].map((source) => source.relative_path), [...leftManifest.sources].map((source) => source.relative_path).sort());
   } finally {

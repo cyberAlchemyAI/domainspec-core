@@ -2,8 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-import { decodeBody, loadProjectNode } from "../input/project-model.js";
-import { resolveProjectRoot } from "../input/project-root.js";
+import { decodeBody, loadProjectNode, validateProjectRoot } from "../input/project-model.js";
 import { sha256, type SourceManifestV1 } from "../input/source-manifest.js";
 
 const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
@@ -158,7 +157,7 @@ function validateInput(input: AddOperationInput): void {
 
 export function addOperation(input: AddOperationInput): AddOperationResult {
   validateInput(input);
-  const initialManifest = resolveProjectRoot(input.sourceRoot);
+  const initialManifest = validateProjectRoot(input.sourceRoot);
   const root = fs.realpathSync(input.sourceRoot);
   const featureExists = initialManifest.sources.some((source) => source.source_type === "feature" && source.source_id === input.featureId);
   if (!featureExists) fail("MTCLI_AUTHORING_FEATURE_MISSING", "/feature", `feature is absent:${input.featureId}`);
@@ -171,7 +170,7 @@ export function addOperation(input: AddOperationInput): AddOperationResult {
   let stageRoot: string | null = null;
   let nodePublished = false;
   try {
-    const lockedManifest = resolveProjectRoot(root);
+    const lockedManifest = validateProjectRoot(root);
     if (lockedManifest.manifest_sha256 !== initialManifest.manifest_sha256) {
       fail("MTCLI_AUTHORING_SOURCE_DRIFT", "/source-root", "source project changed before authoring lock acquisition");
     }
@@ -207,13 +206,13 @@ export function addOperation(input: AddOperationInput): AddOperationResult {
     fs.writeFileSync(path.join(stageRoot, nodeRelativePath), nodeDocument, { encoding: "utf8", flag: "wx", mode: 0o644 });
     fs.writeFileSync(path.join(stageRoot, feature.relativePath), featureDocument, { encoding: "utf8", flag: "w", mode: 0o644 });
 
-    const prospectiveManifest = resolveProjectRoot(stageRoot);
+    const prospectiveManifest = validateProjectRoot(stageRoot);
     const stagedNode = loadProjectNode(stageRoot, `${input.featureId}:${input.nodeId}`);
     if (stagedNode.kind !== "Operation" || stagedNode.meta_type_id !== "DS-D1.4") {
       fail("MTCLI_AUTHORING_META_TYPE", "/name", "authored node did not resolve to the canonical Operation meta-type");
     }
 
-    const liveManifest = resolveProjectRoot(root);
+    const liveManifest = validateProjectRoot(root);
     if (liveManifest.manifest_sha256 !== lockedManifest.manifest_sha256 || sha256(feature.bytes) !== sha256(fs.readFileSync(feature.absolutePath))) {
       fail("MTCLI_AUTHORING_SOURCE_DRIFT", "/source-root", "source project changed during authoring transaction");
     }

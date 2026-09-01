@@ -33,15 +33,16 @@ test("Entity input decodes from a read-only project with its exact relationship"
     assert.equal(node.meta_type_id, "DS-D1.1");
     assert.equal(node.kind, "Entity");
     assert.deepEqual(node.body, { description: "A fixture customer.", fields: [] });
-    assert.deepEqual(node.relationships.map(({ relationship }) => relationship), ["performs"]);
+    assert.deepEqual(node.relationships.map(({ relationship }) => relationship), ["performs", "creates", "reads"]);
     assert.equal(fs.readFileSync(path.join(root, "specs/alpha/nodes/customer.json"), "utf8"), before);
   } finally {
     removeRoot(root);
   }
 });
 
-test("all 13 bodies are closed and Operation semantics are explicit", () => {
+test("all 13 bodies are closed and Operation and State Machine semantics are explicit", () => {
   assert.equal(RELATIONSHIP_SIGNATURES.length, 31);
+  assert.equal(new Set(RELATIONSHIP_SIGNATURES.flatMap(({ validation_obligations }) => validation_obligations)).size, 45);
   const operation = decodeBody("Operation", {
     description: "Settle an account.",
     reads: ["account"],
@@ -54,6 +55,23 @@ test("all 13 bodies are closed and Operation semantics are explicit", () => {
   expectCode(() => decodeBody("Operation", { ...operation, undeclared: "effect" }), "MTCLI_INPUT_BODY");
   expectCode(() => decodeBody("Enum", { description: "Priority", values: [] }), "MTCLI_INPUT_BODY");
   expectCode(() => decodeBody("State Machine", { description: "Order", states: ["new"], initial: "missing", transitions: [] }), "MTCLI_INPUT_BODY");
+  const stateMachine = decodeBody("State Machine", {
+    description: "Order",
+    states: ["new", "done"],
+    initial: "new",
+    transitions: [{ transition_id: "finish", source_state: "new", target_state: "done", guard_ref: "orders:can-finish", effect_event_ref: "orders:finished" }],
+  });
+  assert.deepEqual(stateMachine.transitions, [{ transition_id: "finish", source_state: "new", target_state: "done", guard_ref: "orders:can-finish", effect_event_ref: "orders:finished" }]);
+  expectCode(() => decodeBody("State Machine", { ...stateMachine, transitions: [{ ...(stateMachine.transitions as readonly Record<string, unknown>[])[0], source_state: "missing" }] }), "MTCLI_STATE_MACHINE_STATE");
+  expectCode(() => decodeBody("State Machine", { ...stateMachine, transitions: [...stateMachine.transitions as readonly Record<string, unknown>[], { ...(stateMachine.transitions as readonly Record<string, unknown>[])[0] }] }), "MTCLI_STATE_MACHINE_DUPLICATE_TRANSITION");
+  expectCode(() => decodeBody("State Machine", { ...stateMachine, states: ["new", "not canonical"] }), "MTCLI_STATE_MACHINE_STATE");
+});
+
+test("canonical State Machine resolves Rule guards and Event transition relationships", () => {
+  const machine = loadProjectNode(fixtureRoot, "beta:settlement-status");
+  assert.equal(machine.kind, "State Machine");
+  assert.deepEqual(machine.relationships.map(({ relationship }) => relationship), ["transitions"]);
+  assert.deepEqual((machine.body.transitions as readonly { transition_id: string }[]).map(({ transition_id }) => transition_id), ["complete-settlement", "fail-settlement"]);
 });
 
 test("Workflow compensation dependencies are closed, Operation-shaped, and acyclic", () => {
@@ -85,7 +103,7 @@ test("unknown selected types and relationship endpoint mismatches fail closed", 
     const node = JSON.parse(fs.readFileSync(nodePath, "utf8"));
     node.kind = "Saga";
     fs.writeFileSync(nodePath, `${JSON.stringify(node, null, 2)}\n`);
-    assert.throws(() => loadProjectNode(unknown, "alpha:customer"), /unsupported meta-type/);
+    expectCode(() => loadProjectNode(unknown, "alpha:customer"), "MTCLI_RELATIONSHIP_ENDPOINT");
 
     const edgePath = path.join(mismatch, "specs/beta/edges/audit-owns-settled.json");
     const edge = JSON.parse(fs.readFileSync(edgePath, "utf8"));

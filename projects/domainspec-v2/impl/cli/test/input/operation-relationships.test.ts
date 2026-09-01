@@ -84,7 +84,7 @@ test("Workflow forward and compensation Operations close exactly against orchest
   }
 });
 
-test("Workflow rejects missing and undeclared compensation Operation relationships", () => {
+test("project-wide validation rejects missing and undeclared Workflow Operation relationships", () => {
   const missing = project();
   const undeclared = project();
   try {
@@ -93,6 +93,10 @@ test("Workflow rejects missing and undeclared compensation Operation relationshi
     writeJson(missing, "specs/settlement/nodes/settlement-flow.json", missingNode);
     assert.throws(
       () => loadProjectNode(missing, "settlement:settlement-flow"),
+      (error) => error instanceof ProjectModelError && error.code === "MTCLI_WORKFLOW_OPERATION_RELATIONSHIP_MISSING",
+    );
+    assert.throws(
+      () => loadProjectNode(missing, "settlement:settle"),
       (error) => error instanceof ProjectModelError && error.code === "MTCLI_WORKFLOW_OPERATION_RELATIONSHIP_MISSING",
     );
 
@@ -106,6 +110,21 @@ test("Workflow rejects missing and undeclared compensation Operation relationshi
   } finally {
     fs.rmSync(missing, { recursive: true, force: true });
     fs.rmSync(undeclared, { recursive: true, force: true });
+  }
+});
+
+test("project-wide validation rejects authored generated projections on unselected Operations", () => {
+  const root = project();
+  try {
+    const reverse = readJson(root, "specs/settlement/nodes/reverse.json");
+    (reverse.body as Record<string, unknown>).creation_targets = ["settlement.settled"];
+    writeJson(root, "specs/settlement/nodes/reverse.json", reverse);
+    assert.throws(
+      () => loadProjectNode(root, "settlement:settle"),
+      (error) => error instanceof ProjectModelError && error.code === "MTCLI_INPUT_BODY",
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
   }
 });
 
@@ -196,5 +215,38 @@ test("creates enforces one target per Operation and one creator per Entity", () 
   } finally {
     fs.rmSync(outgoing, { recursive: true, force: true });
     fs.rmSync(incoming, { recursive: true, force: true });
+  }
+});
+
+test("creates derives the exact sorted creation_targets projection without source authorship", () => {
+  const root = project();
+  try {
+    writeJson(root, "specs/settlement/nodes/settled.json", { schema_version: "domainspec.node/v1", node_id: "settled", feature_id: "settlement", kind: "Entity", body: { description: "Settlement" } });
+    const edge = readJson(root, "specs/settlement/edges/operation-event.json");
+    edge.relationship = "creates";
+    writeJson(root, "specs/settlement/edges/operation-event.json", edge);
+    const source = readJson(root, "specs/settlement/nodes/settle.json");
+    assert.equal("creation_targets" in (source.body as Record<string, unknown>), false);
+    const plan = planInstantiation(loadProjectNode(root, "settlement:settle"), "typescript");
+    assert.deepEqual(plan.input.body.creation_targets, ["settlement.settled"]);
+    assert.match(plan.artifacts[0]!.content, /"creation_targets":\["settlement\.settled"\]/);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("belongs-to cannot restate the inverse of owns", () => {
+  const root = project();
+  try {
+    addFeatureNode(root, "owner", "Entity", { description: "Owner" });
+    addFeatureNode(root, "member", "Entity", { description: "Member" });
+    addFeatureEdge(root, "owner-owns-member", "owns", "owner", "member");
+    addFeatureEdge(root, "member-belongs-to-owner", "belongs-to", "member", "owner");
+    assert.throws(
+      () => loadProjectNode(root, "settlement:settle"),
+      (error) => error instanceof ProjectModelError && error.code === "MTCLI_RELATIONSHIP_INVERSE_COLLAPSE",
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
   }
 });

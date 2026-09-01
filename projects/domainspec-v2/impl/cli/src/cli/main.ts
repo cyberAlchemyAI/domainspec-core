@@ -8,8 +8,8 @@ import { observeTarget, observeTargetReceipt } from "../conformance/observe-targ
 import { readInstantiationReceipt } from "../conformance/receipt.js";
 import { planInstantiation } from "../generation/plan-instantiation.js";
 import { publishInstantiation } from "../generation/publish-instantiation.js";
-import { loadProjectNode } from "../input/project-model.js";
-import { resolveProjectRoot } from "../input/project-root.js";
+import { checkLeanMetaTypeFormalization, materializeLeanMetaTypeFormalization } from "../formalization/projection.js";
+import { loadCompiledProjectGraph, loadProjectNode, validateProjectRoot } from "../input/project-model.js";
 import { normalizeLanguage } from "../meta-types/catalog.js";
 import { loadSystemIntegrationSelection } from "../system-integration/compiler.js";
 
@@ -124,6 +124,14 @@ function instantiateArgs(args: readonly string[]): InstantiateArgs {
   });
 }
 
+function formalizeArgs(args: readonly string[], command: "formalize" | "formalize-check"): { readonly sourceRoot: string; readonly targetPath: string } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot) || args.length !== 3 || args[1] !== "--target" || !path.isAbsolute(args[2] ?? "")) {
+    usage(`${command} requires one absolute source project root and --target <absolute-file>`);
+  }
+  return Object.freeze({ sourceRoot, targetPath: args[2]! });
+}
+
 function isInstantiationTarget(root: string): boolean {
   return fs.existsSync(path.join(root, ".domainspec", "instantiations"));
 }
@@ -182,6 +190,31 @@ export function runCli(argv: readonly string[], io: CliIo = {
       });
       return 0;
     }
+    if (command === "formalize" || command === "formalize-check") {
+      const parsed = formalizeArgs(args, command);
+      const projectGraph = loadCompiledProjectGraph(parsed.sourceRoot);
+      const sourceManifest = projectGraph.source_manifest;
+      if (command === "formalize") {
+        const result = materializeLeanMetaTypeFormalization(projectGraph, parsed.targetPath);
+        objectOutput(io, {
+          schema_version: "domainspec.meta-type-formalization-command-result/v1-candidate",
+          result: "pass",
+          source_manifest_sha256: sourceManifest.manifest_sha256,
+          ...result,
+          authority_effect: "none",
+        });
+        return 0;
+      }
+      const result = checkLeanMetaTypeFormalization(projectGraph, parsed.targetPath);
+      objectOutput(io, {
+        schema_version: "domainspec.meta-type-formalization-command-result/v1-candidate",
+        result: result.current ? "pass" : "fail",
+        source_manifest_sha256: sourceManifest.manifest_sha256,
+        ...result,
+        authority_effect: "none",
+      });
+      return result.current ? 0 : 1;
+    }
     if (command === "lint") {
       const root = exactlyOneRoot(args, "lint");
       if (isInstantiationTarget(root)) {
@@ -192,7 +225,7 @@ export function runCli(argv: readonly string[], io: CliIo = {
       objectOutput(io, {
         schema_version: "domainspec.source-project-lint/v1",
         result: "pass",
-        source_manifest: resolveProjectRoot(root),
+        source_manifest: validateProjectRoot(root),
         authority_effect: "none",
       });
       return 0;
@@ -207,11 +240,11 @@ export function runCli(argv: readonly string[], io: CliIo = {
         }
         objectOutput(io, { receipt: readInstantiationReceipt(root), observation });
       } else {
-        objectOutput(io, resolveProjectRoot(root));
+        objectOutput(io, validateProjectRoot(root));
       }
       return 0;
     }
-    usage("expected command: add operation, instantiate, lint, or receipt");
+    usage("expected command: add operation, instantiate, formalize, formalize-check, lint, or receipt");
   } catch (error) {
     objectOutput({ ...io, stdout: io.stderr }, errorEnvelope(error));
     const candidate = error as { exitCode?: unknown };

@@ -22,7 +22,7 @@ const samples = {
   Interface: { description: "Interface", version: "v1", operations: ["operate"] },
   Event: { description: "Event", fields: ["entity-id"] },
   Mapping: { description: "Mapping", source: "Source", target: "Target" },
-  "State Machine": { description: "Machine", states: ["new", "done"], initial: "new", transitions: ["new->done"] },
+  "State Machine": { description: "Machine", states: ["new", "done"], initial: "new", transitions: [{ transition_id: "finish", source_state: "new", target_state: "done", guard_ref: null, effect_event_ref: null }] },
 };
 
 const sourceManifest = Object.freeze({

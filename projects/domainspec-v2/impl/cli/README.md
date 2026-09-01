@@ -3,12 +3,14 @@
 This directory contains the canonical private DomainSpec v2 foundation CLI.
 It embeds the immutable `domainspec-meta-types-current-implemented@10` catalog,
 selects exactly one of
-its 39 realization rows, and exposes four command forms:
+its 39 realization rows, and exposes the following command forms:
 
 ```text
 domainspec-v2 add operation <source-project-root> --feature <feature> --name <operation> --description <text> --guard <guard> --failure-continuation <continuation> [--reads <csv>] [--writes <csv>] [--effects <csv>]
 domainspec-v2 instantiate <source-project-root> --node <feature>:<node> --language <typescript|python|rust> --target-root <absolute-new-root>
 domainspec-v2 instantiate <source-project-root> --node <feature>:<node> --language <typescript|python|rust> --target-root <absolute-new-root> --integration-profile provider-neutral-v1 --integration-binding-set <binding-set-id>
+domainspec-v2 formalize <source-project-root> --target <absolute-new-lean-file>
+domainspec-v2 formalize-check <source-project-root> --target <absolute-lean-file>
 domainspec-v2 lint <source-or-instantiated-target-root>
 domainspec-v2 receipt <source-or-instantiated-target-root>
 ```
@@ -32,6 +34,18 @@ updates an existing target. `lint` and `receipt` independently re-read an
 instantiated target, reproduce the expected generator output for the selected
 frozen row, and reject undeclared files or semantic drift.
 
+`formalize` decodes and validates the entire authored project before it creates
+one Lean file. The output binds the source-manifest and compiled-graph digests,
+the immutable `@10` predecessor, all 31 DS-D8 signatures, all 45 obligation
+identifiers, executable predicates for the six obligation families, and one
+witness for every obligation applicable to an authored edge. State Machine
+sources also project their declared states, initial state, structured
+transitions, Rule guard references, and Event-intent relationships into an
+executable `allProjectStateMachinesHold` theorem. `formalize-check`
+rebuilds that projection and rejects source or target drift. These finite Lean
+proofs establish only the generated graph obligations; they do not establish
+runtime conformance, business acceptance, publication, or external authority.
+
 The optional system-integration pair is explicit and closed: both options must
 be present or both absent. The CLI reads
 `integrations/<binding-set-id>.json` from the source project, validates the
@@ -45,10 +59,14 @@ container. Generated contracts preserve
 separate observation layer and is outside this candidate slice.
 
 Relationship inputs are validated project-wide against a digest-bound generated
-projection of all 31 canonical signatures. The decoder rejects invalid endpoint
-types and placement, deprecated aliases, authored generated views, selected
-duplicate propositions, and the explicit `creates` one-to-one obligations before
-it plans any target. Operation generators keep instrumentation in an injected
+projection of all 31 canonical signatures and all 45 declared validation
+obligations. Source `lint`, source `receipt`, authoring, and instantiation use the
+same fail-closed project validator. The decoder rejects invalid endpoint types
+and placement, deprecated aliases, authored generated views, selected duplicate
+propositions, inverse `owns`/`belongs-to` collapse, and the explicit `creates`
+one-to-one obligations before it plans any target. `creates` also derives the
+sorted `creation_targets` semantic projection without permitting source
+authorship. Operation generators keep instrumentation in an injected
 outer wrapper around the pure state/outbox core; Workflow generators require an
 explicit composition-root compensation callable, emit a five-state forward-recovery
 plan, and preserve the selected realization's `compensation_execution: false` ceiling.
@@ -57,6 +75,16 @@ Every forward and recovery step must be connected through the canonical
 dependencies use `operation:depends-on:operation`; absent dependencies fall back
 to reverse completed-step order. A separately owned executor preflights every
 Operation binding and deterministic idempotency key before the first invocation.
+
+State Machine bodies are closed transition tables. Each transition has a stable
+identity, a declared source and target state, an optional Rule selector, and an
+optional Event selector. Event intents must be backed by an incoming canonical
+`Event --[transitions]--> State Machine` relationship. Generated TypeScript,
+Python, and Rust runtimes apply the same fail-closed causal outcomes:
+`invalid-current-state`, `undeclared-transition`, `source-mismatch`, and
+`guard-rejected`. The Rule-reference evaluator is required at every call site;
+there is no allow-by-default guard callback. A successful transition returns only the declared next state
+and Event intent; effect execution remains outside this package.
 
 The package is not released, published, registered, deployed, or production
 ready. The root export is the curated instantiation/conformance API; the
