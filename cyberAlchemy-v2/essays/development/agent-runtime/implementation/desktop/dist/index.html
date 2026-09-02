@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Essays</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+    body { max-width: 900px; margin: 3rem auto; padding: 0 1rem; background: #111; color: #eee; }
+    textarea { box-sizing: border-box; width: 100%; min-height: 22rem; padding: 1rem; background: #181818; color: #eee; border: 1px solid #555; }
+    button, input { padding: .7rem 1rem; margin: .25rem 0; }
+    #status { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Essays</h1>
+  <p>Local desktop projection. Accepted prose changes only through typed owner commands.</p>
+  <label>Workspace <input id="workspace" value="default"></label>
+  <button id="load" type="button">Load snapshot</button>
+  <textarea id="text" aria-label="Accepted essay" readonly></textarea>
+  <pre id="status" role="status"></pre>
+  <script>
+    const invoke = window.__TAURI__.core.invoke;
+    const workspace = document.querySelector('#workspace');
+    const text = document.querySelector('#text');
+    const status = document.querySelector('#status');
+    async function loadSnapshot() {
+      try {
+        const snapshot = await invoke('snapshot', { workspaceId: workspace.value, cursor: null });
+        if (!snapshot) throw new Error('Workspace not found');
+        text.value = snapshot.workspace.accepted_text;
+        status.textContent = `revision ${snapshot.workspace.accepted_revision} · cursor ${snapshot.event_cursor} · ${snapshot.freshness}`;
+      } catch (error) {
+        status.textContent = String(error);
+      }
+    }
+    document.querySelector('#load').addEventListener('click', loadSnapshot);
+    loadSnapshot();
+  </script>
+</body>
+</html>

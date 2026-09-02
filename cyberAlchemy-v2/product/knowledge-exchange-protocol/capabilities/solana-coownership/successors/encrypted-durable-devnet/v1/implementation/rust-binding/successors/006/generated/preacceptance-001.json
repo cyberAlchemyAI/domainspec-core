@@ -1,0 +1,174 @@
+{
+  "schema_version": "cav2-kep-sol2-rust-construction-binding-full-projection-repair-preacceptance/v1",
+  "receipt_id": "CA2-RECEIPT-KEP-SOL2-RUST-CONSTRUCTION-BINDING-PREACCEPTANCE-006",
+  "route_id": "CA2-ROUTE-IMPLEMENT",
+  "delegation_route_id": "CA2-ROUTE-DELEGATE",
+  "candidate": {
+    "binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-006",
+    "lifecycle_status": "authored-preimplementation-candidate",
+    "binding_material_digest_algorithm": "sha256-path-null-bytes-null/v1",
+    "binding_material_digest": "d143425e72617a07415d1f0fd6bc10e1ea60ee93e7587a6a22cba1d5131fb839",
+    "artifacts": [
+      {
+        "path": "policy.json",
+        "sha256": "f62c94dddc616af9d08c8858e87fbd9f3450cef599db07431502909c2964bf76"
+      },
+      {
+        "path": "generated/implementation-binding.json",
+        "sha256": "c699af7d3a038b8eeb368a02b7cf5b573ad62364b71c65c7d1a2517b73458c3c"
+      }
+    ]
+  },
+  "supersession": {
+    "supersedes_binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-005",
+    "supersedes_accepted_material_digest": "af5de6c6a168c0e83e0a4246306b28aee23c262bebb24f5648c2a931a9d8aba3",
+    "cause": {
+      "defect_id": "KEP-SOL2-BINDING-005-SOLANA-SIGNER-LOWER-BOUND-CONFLICT",
+      "observed_failure": "Actual runtime cargo generate-lockfile fails because accepted binding 005 pins direct solana-signer =3.0.0 while solana-program-test 4.2.2 requires solana-signer ^3.0.1 and solana-transaction 4.1.4 with wincode requires solana-signer ^3.0.1.",
+      "omission": "Binding 005 validated only a five-entry repair projection and did not require its direct solana-signer and solana-keypair pins or the complete seventeen-entry accepted dependency projection in the probe closure.",
+      "repair_basis": "A fresh full seventeen-entry manifest with only solana-signer changed to =3.0.1 generated a 773-package lock and completed cargo check --all-targets --locked --offline.",
+      "repair_limit": "Change only direct solana-signer from =3.0.0 to =3.0.1; preserve the other sixteen dependencies, fourteen targets, workstreams, selectors, profiles, FE-W3 and FE-W4 semantics, and all authority ceilings."
+    },
+    "change_set": [
+      {
+        "dependency": "solana-signer",
+        "from": {
+          "version": "=3.0.0",
+          "kind": "test",
+          "default_features": false,
+          "features": []
+        },
+        "to": {
+          "version": "=3.0.1",
+          "kind": "test",
+          "default_features": false,
+          "features": []
+        }
+      }
+    ],
+    "all_other_construction_semantics": "byte-equivalent-after-successor-metadata-and-signer-pin-normalization"
+  },
+  "selected_dependency_digests": {
+    "accepted_binding_005_material": "af5de6c6a168c0e83e0a4246306b28aee23c262bebb24f5648c2a931a9d8aba3",
+    "accepted_implementation_material": "877caaa3865870a5310db88f5fe951b15b4e164e7185cb2d814459febdc22b3b",
+    "accepted_assessment_material": "e844154f1caae759a889f79f1e94447e86e9e47ac08f70142e1d92dc39ce6487",
+    "admitted_system_ontology_candidate_set": "0af0efd436cf447e01fc1082fed3794f9690a9e2bc4367679a9c9385961ba168"
+  },
+  "closure": {
+    "system_nodes": "89/89 selected",
+    "system_relations": "204/204 selected",
+    "proof_obligations": "13/13 selected",
+    "boundaries": "9/9 selected",
+    "exact_dependencies": "17/17 PASS",
+    "unchanged_dependencies": "16/16 PASS",
+    "signer_repair": "1/1 PASS",
+    "cached_manifests": "4/4 PASS",
+    "isolated_solana_direct_projection": "7/7 PASS including signer and keypair",
+    "full_manifest_direct_projection": "17/17 PASS",
+    "full_manifest_locked_packages": "774/774 PASS including root; 773 resolved dependencies",
+    "full_manifest_offline_check": "PASS",
+    "planned_targets": "14/14 PASS",
+    "all_other_construction_semantics": "unchanged-from-accepted-binding-005 PASS"
+  },
+  "checks": [
+    {
+      "check_id": "accepted-binding-005-exact",
+      "status": "PASS"
+    },
+    {
+      "check_id": "selected-ontology-and-profiles-exact",
+      "status": "PASS"
+    },
+    {
+      "check_id": "signer-lower-bound-cause-exact",
+      "status": "PASS"
+    },
+    {
+      "check_id": "direct-signer-and-keypair-probe-closure",
+      "status": "PASS"
+    },
+    {
+      "check_id": "full-seventeen-dependency-projection",
+      "status": "PASS"
+    },
+    {
+      "check_id": "full-manifest-offline-resolution",
+      "status": "PASS"
+    },
+    {
+      "check_id": "only-signer-pin-changed",
+      "status": "PASS"
+    },
+    {
+      "check_id": "other-construction-semantics-preserved",
+      "status": "PASS"
+    },
+    {
+      "check_id": "successor-binding-acceptance",
+      "status": "not_evaluable",
+      "causal_blocker": "Human owner has not accepted this exact successor material digest."
+    },
+    {
+      "check_id": "implementation-conformance",
+      "status": "not_evaluable",
+      "causal_blocker": "This construction-binding candidate grants no implementation or conformance claim."
+    },
+    {
+      "check_id": "production-security-approval",
+      "status": "not_evaluable",
+      "causal_blocker": "Independent cryptographic security review remains absent."
+    },
+    {
+      "check_id": "devnet-evidence",
+      "status": "not_evaluable",
+      "causal_blocker": "Credentials, wallets, RPC, deployment, and Devnet effects remain forbidden."
+    }
+  ],
+  "resolution_evidence": {
+    "manifest": {
+      "path": "../full-manifest-probe/Cargo.toml",
+      "sha256": "29798b2f2a4bd09ad062d64a0444457646c838286061d1ce7e79bdaf495e37b8"
+    },
+    "lock": {
+      "path": "../full-manifest-probe/Cargo.lock",
+      "sha256": "f9ce2c74753778b0e79fbf79308e406729de24f5529c43a1476537866b571d55"
+    },
+    "source": {
+      "path": "../full-manifest-probe/src/lib.rs",
+      "sha256": "ebf894ea4025dec47dcf1b81ddfa54bdea0db46c43c50fea30c99b22b20d3e45"
+    },
+    "command": "cargo check --all-targets --locked --offline --manifest-path full-manifest-probe/Cargo.toml",
+    "result": "PASS"
+  },
+  "author": {
+    "path": "../author.py",
+    "sha256": "21bd07fbe273caa2dda33eaecb27388a7871b85282a6e20af7ca713430046c5b"
+  },
+  "tests": {
+    "path": "../tests/test_author.py",
+    "sha256": "d72cda29b814d7b76f6454e711117d5200fb357fd0b9e59beed11eb9247d7d5e"
+  },
+  "author_decision": {
+    "path": "author-decision.json",
+    "sha256": "6b168faebf0a8b637398bce3d302895ef747b89617cd601ff3c9dd06356f1eb1"
+  },
+  "decision_gate": {
+    "status": "ready-for-exact-successor-construction-binding-decision",
+    "required_digest": "d143425e72617a07415d1f0fd6bc10e1ea60ee93e7587a6a22cba1d5131fb839",
+    "admissible_option_ids": [
+      "ACCEPT-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING",
+      "REJECT-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING",
+      "DEFER-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING"
+    ],
+    "decision_limit": "Acceptance may bind only this exact signer-pin repair candidate; it cannot accept implementation bytes, conformance, security, or external effects."
+  },
+  "preacceptance": {
+    "status": "PASS",
+    "authority_effect": "none"
+  },
+  "authority_effect": "none",
+  "implementation_effect": "none",
+  "enforcement_effect": "none",
+  "external_effect": "none",
+  "claim_ceiling": "Exact successor Rust construction-binding candidate only. It repairs accepted binding 005 solely by changing direct solana-signer =3.0.0 to =3.0.1 and preserves the other sixteen dependencies, Rust 1.94.0, all fourteen local FE-W3 and FE-W4 targets, workstreams, selectors, profiles, and semantics. Full-manifest offline resolution evidence does not grant acceptance, implementation, conformance, security, credential, wallet, RPC, deployment, Devnet, publication, or external-effect authority."
+}

@@ -1,0 +1,347 @@
+{
+  "schema_ref": "schemas/agent-reasoning-engine-ontology.schema.json#/$defs/bridgeOntology",
+  "schema_version": "cav2-agent-reasoning-engine-bridge/v1",
+  "ontology_id": "cav2.agent-reasoning-engine.bridge.v1",
+  "ontology_type": "business-system-bridge",
+  "branches": ["business", "system"],
+  "business_ontology_ref": "business-ontology.json",
+  "system_ontology_ref": "domainspec/generated/system-ontology.json",
+  "edges": [
+    {
+      "id": "CA2-ARE-BRIDGE-01",
+      "source": "CA2-ARE-BUSINESS-ONTOLOGY",
+      "relation": "traced_to",
+      "target": "agent-reasoning-engine.ContextAssembly",
+      "realization_status": "candidate-trace",
+      "evidence_refs": ["CAP-SEL-ARE-OWNER-INTENT", "CAP-SEL-ARE-SPEC"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-02",
+      "source": "CA2-ARE-BUSINESS-ONTOLOGY",
+      "relation": "traced_to",
+      "target": "agent-reasoning-engine.SemanticReduction",
+      "realization_status": "candidate-trace",
+      "evidence_refs": ["CAP-SEL-ARE-SPEC", "CAP-SEL-ARE-ARCHITECTURE"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-03",
+      "source": "CA2-ARE-OUTCOME-CONTEXT-INTEGRITY",
+      "relation": "traced_to",
+      "target": "agent-reasoning-engine.ContextIntegrity",
+      "realization_status": "candidate-trace",
+      "evidence_refs": ["CAP-SEL-ARE-OWNER-INTENT", "CAP-SEL-ARE-SPEC"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-04",
+      "source": "CA2-ARE-OUTCOME-CONTEXT-LIFECYCLE",
+      "relation": "traced_to",
+      "target": "agent-reasoning-engine.ContextRefresh",
+      "realization_status": "candidate-trace",
+      "evidence_refs": ["CAP-SEL-ARE-OWNER-INTENT", "CAP-SEL-ARE-SPEC"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-05",
+      "source": "CA2-ARE-WORKFLOW-SEMANTIC-EVALUATION",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.SemanticReduction",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVALUATOR", "CAP-SEL-ARE-EVALUATOR-RECEIPT", "CAP-SEL-ARE-CONTEXT-LIFECYCLE", "CAP-SEL-ARE-CONTEXT-SEMANTIC-ADAPTER", "CAP-SEL-ARE-SEMANTIC-INPUT-RUNTIME", "CAP-SEL-ARE-CODEX-WRAPPER", "CAP-SEL-ARE-L0-PROMOTION"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-06",
+      "source": "CA2-ARE-CONCEPT-REASONING-RECEIPT",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ReasoningReceipt",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVALUATOR", "CAP-SEL-ARE-EVALUATOR-RECEIPT", "CAP-SEL-ARE-CONTEXT-LIFECYCLE", "CAP-SEL-ARE-CONTEXT-SEMANTIC-ADAPTER", "CAP-SEL-ARE-SEMANTIC-INPUT-RUNTIME", "CAP-SEL-ARE-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-07",
+      "source": "CA2-ARE-WORKFLOW-CONTEXT-FORMATION",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.IntentRouteResolution",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-ROUTE-RESOLVER", "CAP-SEL-ARE-ROUTE-RECEIPT"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-08",
+      "source": "CA2-ARE-OUTCOME-NONAUTHORIZING-RESULT",
+      "relation": "constrained_by",
+      "target": "agent-reasoning-engine.AuthoritySeparation",
+      "realization_status": "candidate-trace",
+      "evidence_refs": ["CAP-SEL-CAV2-D65", "CAP-SEL-ARE-SPEC", "CAP-SEL-ARE-ARCHITECTURE"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-09",
+      "source": "CA2-ARE-WORKFLOW-REQUEST-ROUTING",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.CapabilitySelection",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REQUEST-DECISION-ROUTER", "CAP-SEL-ARE-REQUEST-DECISION-PROFILE", "CAP-SEL-ARE-REQUEST-DECISION-WITNESS"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-10",
+      "source": "CA2-ARE-WORKFLOW-UNTIL-DECISION-GATE",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ContinuationDecision",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REQUEST-DECISION-ROUTER", "CAP-SEL-ARE-REQUEST-DECISION-PROFILE", "CAP-SEL-ARE-REQUEST-DECISION-WITNESS", "CAP-SEL-ARE-AUTHORITY-MODEL", "CAP-SEL-ARE-GOVERNANCE-INVARIANTS"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-11",
+      "source": "CA2-ARE-CONCEPT-DEFINITION-CLOSURE",
+      "relation": "traced_to",
+      "target": "agent-reasoning-engine.DefinitionClosure",
+      "realization_status": "candidate-trace",
+      "evidence_refs": ["CAP-SEL-ARE-CONTEXT-BASIS-DEFINITION-PACK", "CAP-SEL-ARE-CONTEXT-BASIS-DECISION"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-12",
+      "source": "CA2-ARE-CONCEPT-ONTOLOGY-SELECTOR-LOCK",
+      "relation": "traced_to",
+      "target": "agent-reasoning-engine.OntologySelectorLock",
+      "realization_status": "candidate-trace",
+      "evidence_refs": ["CAP-SEL-ARE-CONTEXT-BASIS-DEFINITION-PACK", "CAP-SEL-ARE-CONTEXT-BASIS-DECISION"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-13",
+      "source": "CA2-ARE-CONCEPT-NECESSARY-CONTEXT-BASIS",
+      "relation": "traced_to",
+      "target": "agent-reasoning-engine.NecessaryContextBasis",
+      "realization_status": "candidate-trace",
+      "evidence_refs": ["CAP-SEL-ARE-CONTEXT-BASIS-DEFINITION-PACK", "CAP-SEL-ARE-SPEC", "CAP-SEL-ARE-ARCHITECTURE"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-14",
+      "source": "CA2-ARE-CONCEPT-CONTEXT-WINDOW-VIEW",
+      "relation": "traced_to",
+      "target": "agent-reasoning-engine.ContextWindowView",
+      "realization_status": "candidate-trace",
+      "evidence_refs": ["CAP-SEL-ARE-CONTEXT-BASIS-DEFINITION-PACK", "CAP-SEL-ARE-SPEC", "CAP-SEL-ARE-ARCHITECTURE"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-15",
+      "source": "CA2-ARE-WORKFLOW-CONTEXT-FORMATION",
+      "relation": "traced_to",
+      "target": "agent-reasoning-engine.ReasoningContextLifecycle",
+      "realization_status": "candidate-trace",
+      "evidence_refs": ["CAP-SEL-ARE-SPEC", "CAP-SEL-ARE-ARCHITECTURE"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-16",
+      "source": "CA2-ARE-WORKFLOW-CONTEXT-FORMATION",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ContextAssembly",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-CONTEXT-LIFECYCLE", "CAP-SEL-ARE-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-17",
+      "source": "CA2-ARE-OUTCOME-CONTEXT-INTEGRITY",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ContextIntegrity",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-CONTEXT-LIFECYCLE", "CAP-SEL-ARE-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-18",
+      "source": "CA2-ARE-OUTCOME-CONTEXT-LIFECYCLE",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ContextRefresh",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-CONTEXT-LIFECYCLE", "CAP-SEL-ARE-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-19",
+      "source": "CA2-ARE-CONCEPT-REASONING-RECEIPT-CONSTRAINT",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ReasoningReceiptConstraint",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-RECEIPT-CONSTRAINTS", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER", "CAP-SEL-ARE-SEMANTIC-CANARY"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-20",
+      "source": "CA2-ARE-CONCEPT-RUNTIME-JOURNAL",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.RuntimeJournal",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-RUNTIME-JOURNAL", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-21",
+      "source": "CA2-ARE-WORKFLOW-RUNTIME-JOURNAL-REPLAY",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.JournalReplay",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-RUNTIME-JOURNAL", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-22",
+      "source": "CA2-ARE-WORKFLOW-RECEIPT-CONSTRAINT-DERIVATION",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ContinuationDecision",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-RECEIPT-CONSTRAINTS", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER", "CAP-SEL-ARE-SEMANTIC-CANARY"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-23",
+      "source": "CA2-ARE-CONCEPT-PERSISTENT-APP-SERVER-GATEWAY",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.PersistentAppServerGateway",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-PERSISTENT-GATEWAY", "CAP-SEL-ARE-GATEWAY-BACKENDS", "CAP-SEL-ARE-GATEWAY-CANARY"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-24",
+      "source": "CA2-ARE-CONCEPT-GATEWAY-CONSUMER-SESSION",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.GatewayConsumerSession",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-PERSISTENT-GATEWAY", "CAP-SEL-ARE-GATEWAY-CANARY"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-25",
+      "source": "CA2-ARE-WORKFLOW-GATEWAY-CONNECTION",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.GatewayConnection",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-PERSISTENT-GATEWAY", "CAP-SEL-ARE-GATEWAY-BACKENDS", "CAP-SEL-ARE-GATEWAY-CANARY"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-26",
+      "source": "CA2-ARE-CONCEPT-REASONING-STATE-LEDGER",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ReasoningStateLedger",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-27",
+      "source": "CA2-ARE-CONCEPT-REASONING-STATE-EPOCH",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ReasoningStateEpoch",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-28",
+      "source": "CA2-ARE-CONCEPT-REASONING-STATE-CHECKPOINT",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ReasoningStateCheckpoint",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-29",
+      "source": "CA2-ARE-CONCEPT-EXACT-REASONING-DISPATCH",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ReasoningDispatch",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-30",
+      "source": "CA2-ARE-WORKFLOW-REASONING-STATE-FORMATION",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ReasoningStateFormation",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-31",
+      "source": "CA2-ARE-WORKFLOW-EXACT-DISPATCH-PREPARATION",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ExactDispatchPreparation",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-32",
+      "source": "CA2-ARE-WORKFLOW-RISK-ALIGNED-CHECKPOINT",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.CheckpointReasoningState",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-33",
+      "source": "CA2-ARE-CONCEPT-REASONING-STATE-DERIVED-INDEX",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ReasoningStateDerivedIndex",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-34",
+      "source": "CA2-ARE-CONCEPT-REASONING-STATE-RECOVERY-ASSESSMENT",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ReasoningStateRecoveryAssessment",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-35",
+      "source": "CA2-ARE-WORKFLOW-REASONING-STATE-RECOVERY",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.RebuildReasoningStateIndex",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-36",
+      "source": "CA2-ARE-WORKFLOW-REASONING-STATE-RECOVERY",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.RecoverReasoningState",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-37",
+      "source": "CA2-ARE-RULE-RECOVERY-REQUIRES-COMPLETE-CHECKPOINT",
+      "relation": "constrained_by",
+      "target": "agent-reasoning-engine.ReasoningStateRecoveryBoundary",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-38",
+      "source": "CA2-ARE-RULE-DERIVED-INDEX-IS-DISPOSABLE",
+      "relation": "constrained_by",
+      "target": "agent-reasoning-engine.ReasoningStateRecoveryBoundary",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]
+    }
+  ],
+  "gaps": [
+    {
+      "id": "CA2-ARE-GAP-CONTEXT-MANAGER",
+      "status": "blocked",
+      "business_refs": ["CA2-ARE-OUTCOME-CONTEXT-INTEGRITY", "CA2-ARE-OUTCOME-CONTEXT-LIFECYCLE", "CA2-ARE-WORKFLOW-CONTEXT-FORMATION", "CA2-ARE-WORKFLOW-CONTEXT-REFRESH"],
+      "system_refs": ["agent-reasoning-engine.DefinitionClosureResolution", "agent-reasoning-engine.OntologySelectorBinding", "agent-reasoning-engine.ContextBasisConstruction", "agent-reasoning-engine.ContextViewBinding", "agent-reasoning-engine.ContextAssembly", "agent-reasoning-engine.ContextIntegrity", "agent-reasoning-engine.ContextRefresh", "agent-reasoning-engine.ReasoningStateFormation", "agent-reasoning-engine.ExactDispatchPreparation", "agent-reasoning-engine.CheckpointReasoningState", "agent-reasoning-engine.RebuildReasoningStateIndex", "agent-reasoning-engine.RecoverReasoningState", "agent-reasoning-engine.ReasoningStateRecoveryBoundary", "agent-reasoning-engine.ReasoningContextLifecycle"],
+      "meaning": "A bounded Codex vertical realizes deterministic context assembly, explicit append-only reasoning-state epochs, exact dispatch reconstruction, required memory or fsync checkpoints, fail-closed checkpointed file recovery, selected-dependency refresh, semantic evaluation, receipt constraints, journal replay, and isolated app-server consumers. Production semantic activation, repair, cross-process coordination, durable Session semantics, Desktop endpoint adoption, and adaptive compression remain open."
+    },
+    {
+      "id": "CA2-ARE-GAP-WHOLE-ENGINE",
+      "status": "blocked",
+      "business_refs": ["CA2-ARE-BUSINESS-ONTOLOGY"],
+      "system_refs": ["agent-reasoning-engine.ReasoningContextLifecycle", "agent-reasoning-engine.IntentRouteResolution", "agent-reasoning-engine.SemanticReduction", "agent-reasoning-engine.ReasoningReceiptConstraint", "agent-reasoning-engine.RuntimeJournal", "agent-reasoning-engine.JournalReplay", "agent-reasoning-engine.ReasoningStateLedger", "agent-reasoning-engine.ReasoningStateEpoch", "agent-reasoning-engine.ReasoningStateCheckpoint", "agent-reasoning-engine.ReasoningDispatch", "agent-reasoning-engine.ReasoningStateDerivedIndex", "agent-reasoning-engine.ReasoningStateRecoveryAssessment", "agent-reasoning-engine.ReasoningStateFormation", "agent-reasoning-engine.ExactDispatchPreparation", "agent-reasoning-engine.CheckpointReasoningState", "agent-reasoning-engine.RebuildReasoningStateIndex", "agent-reasoning-engine.RecoverReasoningState", "agent-reasoning-engine.ReasoningStateRecoveryBoundary", "agent-reasoning-engine.PersistentAppServerGateway", "agent-reasoning-engine.GatewayConsumerSession", "agent-reasoning-engine.GatewayConnection"],
+      "meaning": "Context assembly, reusable explicit reasoning-state epochs, exact dispatch reconstruction, risk-aligned checkpoints, checkpointed file recovery, semantic materialization, receipt-constrained continuation, bounded replay, and an isolated app-server gateway form a working candidate vertical. The whole engine remains incomplete because repair, compaction, branching, a production semantic catalog, default activation, durable cross-process coordination, and a supported Codex Desktop endpoint are absent."
+    },
+    {
+      "id": "CA2-ARE-GAP-DOMAINSPEC-ADMISSION",
+      "status": "blocked",
+      "business_refs": ["CA2-ARE-BUSINESS-ONTOLOGY"],
+      "system_refs": ["agent-reasoning-engine.ReasoningAndContextManagement"],
+      "meaning": "The development profile and deterministic system-ontology projection remain candidates without admission."
+    },
+    {
+      "id": "CA2-ARE-GAP-IMPLEMENTATION-BINDING",
+      "status": "not_evaluable",
+      "business_refs": ["CA2-ARE-BUSINESS-ONTOLOGY"],
+      "system_refs": ["agent-reasoning-engine.ReasoningAndContextManagement"],
+      "meaning": "No accepted baseline binds implementation bytes to this exact system ontology, so conformance is not evaluable."
+    }
+  ],
+  "authority_effect": "none",
+  "claim_limit": "Bridge traceability and bounded partial-realization evidence only; gaps remain first class and no edge establishes complete implementation, conformance, admission, or effect authority."
+}

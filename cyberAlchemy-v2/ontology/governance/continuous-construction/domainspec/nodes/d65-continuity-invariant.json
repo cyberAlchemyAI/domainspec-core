@@ -1,0 +1,14 @@
+{
+  "schema_version": "minted-node/v1",
+  "node_id": "governance-continuous-construction.D65ContinuityInvariant",
+  "feature_id": "governance-continuous-construction",
+  "kind": "Rule",
+  "intent": "Return true only when exact C19 and D65 sources are current, immutable authorization bytes match the attempt envelope, every validated stage and required owner gate resolves to exact repository bytes, ordered applicable predecessors validate, and every missing or invalid predecessor causally marks downstream work blocked or not_evaluable.",
+  "body": {
+    "formal_return_type": "boolean",
+    "semantic_refs": ["CAV2-C19", "CAV2-D65", "GCC-RULE-ORDERED-CONTINUITY", "GCC-RULE-CONTINUE-WITHOUT-ROUTINE-CONFIRMATION", "GCC-RULE-NO-RETROACTIVE-APPROVAL"],
+    "failure_behavior": "collect_all_and_classify",
+    "authority_effect": "none"
+  },
+  "connections": []
+}

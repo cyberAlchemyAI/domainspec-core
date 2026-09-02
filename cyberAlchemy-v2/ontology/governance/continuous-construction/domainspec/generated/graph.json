@@ -1,0 +1,510 @@
+{
+  "schema_version": "minted-graph/v1",
+  "authority": "generated-semantic-read-model",
+  "project_id": "governance-continuous-construction",
+  "language": {
+    "profile_digest": "f93131e0da1355d609f11e7fc2c34d96c32ef3331d868f094687e522619f1c0a",
+    "kinds_digest": "bc800afdca36fa701a13ec611e7ee0ef928a4c8d259d48dfac2880a3cc8cbbc4",
+    "relationships_digest": "82c55ea1ad031d3135c5b8a85162e44b4e85f296b54057fda0dc38131ab376a1"
+  },
+  "source_set_digest": "1aac63c63bcd188921ca2db3e9bb284c510c30a3eb4deb46adfec9aa1b91b84a",
+  "nodes": [
+    {
+      "node_id": "governance-continuous-construction.AuthorizationEnvelope",
+      "feature_id": "governance-continuous-construction",
+      "kind": "Entity",
+      "intent": "Bind one construction attempt to its exact owner-authorized subject, project, stage set, locality, reversibility, and zero-effect ceiling.",
+      "body": {
+        "fields": [
+          {
+            "name": "envelope_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "owner_authorization_ref",
+            "type": "relative-path",
+            "identity": false
+          },
+          {
+            "name": "owner_authorization_sha256",
+            "type": "sha256",
+            "identity": false
+          },
+          {
+            "name": "subject_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "project_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "permitted_stages",
+            "type": "string[]",
+            "identity": false
+          },
+          {
+            "name": "repository_local",
+            "type": "boolean",
+            "identity": false
+          },
+          {
+            "name": "reversible",
+            "type": "boolean",
+            "identity": false
+          },
+          {
+            "name": "effect_ceiling",
+            "type": "none",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CAV2-C19",
+          "CAV2-D65",
+          "GCC-AUTHORIZATION-ENVELOPE",
+          "GCC-OWNER-AUTHORIZATION"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "governance-continuous-construction.BoundedConstructionAttempt",
+      "feature_id": "governance-continuous-construction",
+      "kind": "Entity",
+      "intent": "Represent one bounded evaluation input with an exact authorization envelope, ordered D65 stage observations, blockers, an optional immutable human-test packet reference, and a separate optional immutable human-test observation reference.",
+      "body": {
+        "fields": [
+          {
+            "name": "construction_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "attempt_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "program_id",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "program_version",
+            "type": "positive-integer",
+            "identity": false
+          },
+          {
+            "name": "authorization",
+            "type": "AuthorizationEnvelope",
+            "identity": false
+          },
+          {
+            "name": "stages",
+            "type": "StageObservation[]",
+            "identity": false
+          },
+          {
+            "name": "blockers",
+            "type": "Blocker[]",
+            "identity": false
+          },
+          {
+            "name": "human_test_packet",
+            "type": "ArtifactRef|null",
+            "identity": false
+          },
+          {
+            "name": "human_test_observation",
+            "type": "ArtifactRef|null",
+            "identity": false
+          },
+          {
+            "name": "routine_confirmation_requested",
+            "type": "boolean",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CAV2-C19",
+          "CAV2-D65",
+          "GCC-CONSTRUCTION-ATTEMPT"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "governance-continuous-construction.ContinuousConstructionEvaluation",
+      "feature_id": "governance-continuous-construction",
+      "kind": "Entity",
+      "intent": "Return exactly one deterministic no-effect decision with complete stage states and distinct blocker, authority, and terminal confirmation requests.",
+      "body": {
+        "fields": [
+          {
+            "name": "evaluation_id",
+            "type": "sha256",
+            "identity": true
+          },
+          {
+            "name": "decision",
+            "type": "CONTINUE|STOP|READY_FOR_HUMAN_TEST|REQUEST_TERMINAL_CONFIRMATION",
+            "identity": false
+          },
+          {
+            "name": "stage_results",
+            "type": "StageResult[]",
+            "identity": false
+          },
+          {
+            "name": "blocker_requests",
+            "type": "Request[]",
+            "identity": false
+          },
+          {
+            "name": "authority_requests",
+            "type": "Request[]",
+            "identity": false
+          },
+          {
+            "name": "routine_confirmation_required",
+            "type": "boolean",
+            "identity": false
+          },
+          {
+            "name": "effect_authorized",
+            "type": "false",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CAV2-C19",
+          "GCC-DECISION",
+          "GCC-BLOCKER-REQUEST",
+          "GCC-AUTHORITY-REQUEST"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "governance-continuous-construction.ContinuousConstructionProgram",
+      "feature_id": "governance-continuous-construction",
+      "kind": "Entity",
+      "intent": "Represent one immutable no-effect program binding exact C19, D65, and D67 source sections to an ordered construction stage vocabulary.",
+      "body": {
+        "fields": [
+          {
+            "name": "program_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "version",
+            "type": "positive-integer",
+            "identity": true
+          },
+          {
+            "name": "source_bindings",
+            "type": "SourceBinding[]",
+            "identity": false
+          },
+          {
+            "name": "stage_order",
+            "type": "string[]",
+            "identity": false
+          },
+          {
+            "name": "decisions",
+            "type": "string[]",
+            "identity": false
+          },
+          {
+            "name": "routine_confirmation_policy",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "predecessor_failure_policy",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "retroactive_approval",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "effect_ceiling",
+            "type": "none",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CAV2-C19",
+          "CAV2-D65",
+          "CAV2-D67",
+          "GCC-GOVERNANCE-PROGRAM"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "governance-continuous-construction.D65ContinuityInvariant",
+      "feature_id": "governance-continuous-construction",
+      "kind": "Rule",
+      "intent": "Return true only when exact C19 and D65 sources are current, immutable authorization bytes match the attempt envelope, every validated stage and required owner gate resolves to exact repository bytes, ordered applicable predecessors validate, and every missing or invalid predecessor causally marks downstream work blocked or not_evaluable.",
+      "body": {
+        "formal_return_type": "boolean",
+        "semantic_refs": [
+          "CAV2-C19",
+          "CAV2-D65",
+          "GCC-RULE-ORDERED-CONTINUITY",
+          "GCC-RULE-CONTINUE-WITHOUT-ROUTINE-CONFIRMATION",
+          "GCC-RULE-NO-RETROACTIVE-APPROVAL"
+        ],
+        "failure_behavior": "collect_all_and_classify",
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "governance-continuous-construction.HumanTestObservation",
+      "feature_id": "governance-continuous-construction",
+      "kind": "Entity",
+      "intent": "Record passed or failed for one exact frozen human-test packet without replacing or mutating the packet exercised by the human.",
+      "body": {
+        "fields": [
+          {
+            "name": "observation_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "packet_ref",
+            "type": "relative-path",
+            "identity": false
+          },
+          {
+            "name": "packet_sha256",
+            "type": "sha256",
+            "identity": false
+          },
+          {
+            "name": "result",
+            "type": "passed|failed",
+            "identity": false
+          },
+          {
+            "name": "observed_by",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "observation_ref",
+            "type": "string",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CAV2-C19",
+          "GCC-HUMAN-TEST-PACKET",
+          "GCC-HUMAN-TEST-OBSERVATION",
+          "GCC-RULE-TERMINAL-PACKET"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "governance-continuous-construction.HumanTestPacket",
+      "feature_id": "governance-continuous-construction",
+      "kind": "Entity",
+      "intent": "Represent one frozen immutable human-test input and terminal decision packet binding the exact attempt basis, test procedure, requested decision, final owner, residue, rollback, challenge route, and prior decisions without carrying an observed test outcome; a separate HumanTestObservation records pass or fail.",
+      "body": {
+        "fields": [
+          {
+            "name": "packet_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "construction_id",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "attempt_id",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "project_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "subject_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "program_id",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "program_version",
+            "type": "positive-integer",
+            "identity": false
+          },
+          {
+            "name": "owner_authorization_ref",
+            "type": "relative-path",
+            "identity": false
+          },
+          {
+            "name": "owner_authorization_sha256",
+            "type": "sha256",
+            "identity": false
+          },
+          {
+            "name": "stage_set_sha256",
+            "type": "sha256",
+            "identity": false
+          },
+          {
+            "name": "attempt_basis_sha256",
+            "type": "sha256",
+            "identity": false
+          },
+          {
+            "name": "frozen",
+            "type": "boolean",
+            "identity": false
+          },
+          {
+            "name": "human_test_procedure",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "requested_decision",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "final_decision_owner",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "open_residue",
+            "type": "string[]",
+            "identity": false
+          },
+          {
+            "name": "rollback_path",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "challenge_route",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "prior_decisions",
+            "type": "ArtifactRef[]",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CAV2-C19",
+          "GCC-HUMAN-TEST-PACKET",
+          "GCC-RULE-TERMINAL-PACKET"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "governance-continuous-construction.StageObservation",
+      "feature_id": "governance-continuous-construction",
+      "kind": "Entity",
+      "intent": "Record applicability, state, exact artifact digest, and owner-gate posture for one ordered D65 construction stage.",
+      "body": {
+        "fields": [
+          {
+            "name": "stage",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "applicable",
+            "type": "boolean",
+            "identity": false
+          },
+          {
+            "name": "state",
+            "type": "validated|pending|missing|stale|invalid|blocked|not_evaluable|not_applicable",
+            "identity": false
+          },
+          {
+            "name": "artifact_ref",
+            "type": "string|null",
+            "identity": false
+          },
+          {
+            "name": "artifact_sha256",
+            "type": "sha256|null",
+            "identity": false
+          },
+          {
+            "name": "owner_gate_required",
+            "type": "boolean",
+            "identity": false
+          },
+          {
+            "name": "owner_gate_bound",
+            "type": "boolean",
+            "identity": false
+          },
+          {
+            "name": "owner_gate_ref",
+            "type": "relative-path|null",
+            "identity": false
+          },
+          {
+            "name": "owner_gate_sha256",
+            "type": "sha256|null",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CAV2-D65",
+          "GCC-STAGE-OBSERVATION",
+          "GCC-OWNER-GATE",
+          "GCC-DOWNSTREAM-STATE"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "governance-continuous-construction.TerminalConfirmationInvariant",
+      "feature_id": "governance-continuous-construction",
+      "kind": "Rule",
+      "intent": "Return true for a terminal confirmation request only when all applicable D65 stages validate against exact evidence, one complete frozen human-test input packet binds the canonical attempt basis, and a separate immutable passing observation binds that exact packet ref and digest; otherwise routine confirmation remains false.",
+      "body": {
+        "formal_return_type": "boolean",
+        "semantic_refs": [
+          "CAV2-C19",
+          "GCC-RULE-TERMINAL-PACKET",
+          "GCC-RULE-NO-EFFECT"
+        ],
+        "failure_behavior": "collect_all_and_classify",
+        "authority_effect": "none"
+      }
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,97 @@
+{
+  "schema_version": "cav2-continuous-construction-candidate-evidence/v2",
+  "evidence_id": "CA2-GCC-EVIDENCE-2026-09-01-002",
+  "observed_on": "2026-09-01",
+  "selected_source_gate": {
+    "command": "cargo run --quiet --locked -- validate-program --program ../programs/continuous-construction.program.json --repository-root ../../../../..",
+    "status": "CANDIDATE",
+    "source_bindings_current": true,
+    "problem_count": 0,
+    "c19_section_sha256": "fb7fbe17c21567a4f07c4b771266695f09481aeda4e703b8210ad5fd6e4c44fa",
+    "d65_section_sha256": "ba524beb8fb408f9abcd0805644f59ec2dbfcd810de24ac99c87296f843ba4ff",
+    "d67_section_sha256": "bf8f3cb9b7d22aaa3c54b7c1eb177b85100be9bc421142bb3ead7e2456431d13"
+  },
+  "runtime_validation": {
+    "fmt_command": "cargo fmt --manifest-path cyberAlchemy-v2/ontology/governance/continuous-construction/runtime/Cargo.toml",
+    "check_command": "cargo check --locked --manifest-path cyberAlchemy-v2/ontology/governance/continuous-construction/runtime/Cargo.toml",
+    "test_command": "cargo test --locked --manifest-path cyberAlchemy-v2/ontology/governance/continuous-construction/runtime/Cargo.toml -- --test-threads=1",
+    "fmt_status": "PASS",
+    "check_status": "PASS-WITHOUT-WARNINGS",
+    "test_status": "PASS",
+    "tests_passed": 23,
+    "tests_failed": 0,
+    "covered_contracts": [
+      "all four decision values and terminal-only routine confirmation",
+      "exact current C19, D65, and D67 source sections",
+      "closed exact owner-authorization record and envelope cross-binding",
+      "raw-byte verification for every validated stage artifact",
+      "closed exact owner-gate evidence when a gate is bound",
+      "skipped predecessor propagation to downstream not_evaluable",
+      "canonical packet attempt-basis binding",
+      "complete packet residue, rollback, challenge, and prior-decision fields",
+      "separate immutable observation bound to the exact frozen packet ref and digest",
+      "closed decision vocabulary and policy values",
+      "duplicate source and permitted-stage rejection",
+      "deterministic output and zero authority/effect"
+    ]
+  },
+  "positive_cli_cases": [
+    {"attempt":"examples/attempts/continue.json","decision":"CONTINUE","routine_confirmation_required":false,"effect_authorized":false},
+    {"attempt":"examples/attempts/continue-with-owner-gate.json","decision":"CONTINUE","routine_confirmation_required":false,"effect_authorized":false},
+    {"attempt":"examples/attempts/stop.json","decision":"STOP","routine_confirmation_required":false,"effect_authorized":false},
+    {"attempt":"examples/attempts/ready-for-human-test.json","decision":"READY_FOR_HUMAN_TEST","routine_confirmation_required":false,"effect_authorized":false},
+    {"attempt":"examples/attempts/request-terminal-confirmation.json","decision":"REQUEST_TERMINAL_CONFIRMATION","routine_confirmation_required":true,"effect_authorized":false}
+  ],
+  "hostile_cli_cases": [
+    {"attempt":"examples/mutations/skipped-predecessor.json","decision":"STOP","codes":["PREDECESSOR_NOT_VALID","SKIPPED_PREDECESSOR"]},
+    {"attempt":"examples/mutations/missing-owner-gate.json","decision":"STOP","codes":["MISSING_OWNER_GATE"]},
+    {"attempt":"examples/mutations/owner-gate-boolean-only.json","decision":"STOP","codes":["OWNER_GATE_EVIDENCE_REQUIRED"]},
+    {"attempt":"examples/mutations/changed-authorization.json","decision":"STOP","codes":["OWNER_AUTHORIZATION_CHANGED"]},
+    {"attempt":"examples/mutations/fabricated-stage-digest.json","decision":"STOP","codes":["VALIDATED_STAGE_ARTIFACT_CHANGED"]},
+    {"attempt":"examples/mutations/attempt-basis-changed.json","decision":"STOP","codes":["PACKET_BINDING_MISMATCH"]},
+    {"attempt":"examples/mutations/changed-packet.json","decision":"STOP","codes":["HUMAN_TEST_PACKET_CHANGED"]},
+    {"attempt":"examples/mutations/incomplete-packet.json","decision":"STOP","codes":["PACKET_CONTRACT_OPEN","PACKET_FIELD_REQUIRED"]},
+    {"attempt":"examples/mutations/observation-wrong-packet.json","decision":"STOP","codes":["OBSERVATION_PACKET_MISMATCH"]},
+    {"attempt":"examples/mutations/implicit-confirmation.json","decision":"STOP","codes":["ROUTINE_CONFIRMATION_FORBIDDEN"]}
+  ],
+  "immutable_human_test_separation": {
+    "authorization_sha256": "463fe3d2d92c4cad4a658645c8b322522ee25473c67a5b9e6aa866de67d020d1",
+    "packet_sha256": "6c2766e189e304c06511f190667d6bdde222832612454b58c90773567ed15023",
+    "observation_sha256": "4166dac48924b11a8fd42709d676d93646773b0bc05622cd9788f44f62593bbb",
+    "ready_attempt_sha256": "d703f1650ccb08816db139dde5542b3693a46c34364033838f57af866f74c0e0",
+    "terminal_attempt_sha256": "2712c03a88e89912ec6ff321216ba90666c13e0e8f21636c79fa71215f08c5a1",
+    "same_frozen_packet": true,
+    "terminal_addition": "immutable passing observation only"
+  },
+  "domainspec_build": {
+    "status": "PASS",
+    "artifacts_built": 7,
+    "deterministic_internal_runs": 2,
+    "external_runs": 2,
+    "external_runs_equal": true,
+    "source_set_sha256": "1aac63c63bcd188921ca2db3e9bb284c510c30a3eb4deb46adfec9aa1b91b84a",
+    "graph_sha256": "e36d13d6abfd881550b45a048332fc178db5e85f6337cf781a8aef2fbd2b3446",
+    "system_ontology_sha256": "69a81eea809dd4e79fcd46d3d441af01629d6fb4868e0c9695efb5a8e889418e",
+    "build_receipt_sha256": "5fc8843e9b14400da3c3261098a2788c19273281f80ac24acc9df295790cefec",
+    "profile_release_admission": "not-granted"
+  },
+  "exact_runtime_baseline": {
+    "manifest_sha256": "38d3c92615992b2c2f65b570051e611216c120bd929415a7b96bcdcd2fe3017b",
+    "lock_sha256": "2d71b9a9b28e2b05cb573140860b30b2d46e87ae7779434cba54b127150e7012",
+    "library_sha256": "755a6c7caa73073ded0d6d398b410557034262acd1e792e326c2d7a48a9d54b4",
+    "cli_sha256": "bb5ed332f0c067936dc6445270fcdb744f7ff990e50b721061a2ddb26c02b963"
+  },
+  "evidence_class": "candidate-implementation-behavior",
+  "conformance_status": "not_evaluable",
+  "conformance_blockers": [
+    "CAV2-C19 is candidate and not adopted",
+    "Product Capability is not adopted",
+    "DomainSpec development profile and generated system ontology are not admitted",
+    "Rust runtime baseline is not independently accepted",
+    "no route or effect adapter is activated"
+  ],
+  "effect_authorized": false,
+  "authority_effect": "none",
+  "enforcement_effect": "none",
+  "claim_limit": "Passing candidate tests and deterministic construction evidence do not prove adoption, admission, baseline acceptance, conformance, activation, publication, release, deployment, or external effect."
+}

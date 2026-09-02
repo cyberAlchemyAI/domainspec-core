@@ -1,0 +1,75 @@
+{
+  "schema_version": "cav2.alchlang.operation-pattern-registry.conformance/v1",
+  "conformance_id": "CA2-CONFORMANCE-ALCHLANG-OPERATION-PATTERN-REGISTRY-V1-001",
+  "status": "PASS",
+  "scope": "source-local-exact-binding-and-local-effects",
+  "evaluated_at": "2026-09-02",
+  "binding": {
+    "ref": "evidence/construction-binding.candidate.json",
+    "binding_id": "CA2-BIND-ALCHLANG-LOCAL-RUNTIME-CLI-V1-001",
+    "sha256": "176c0918784a086bb7b291b37aaba6901b5c6de9646410ca2a1bb5d59924b188"
+  },
+  "implementation": {
+    "material_files": 29,
+    "material_tree_sha256": "8cd388e881635cc6b937542428beb56beece1129de997b9100441230ebd2c0ad",
+    "dist_files": 30,
+    "dist_tree_sha256": "8f9859846cd6c078f51c8775162e8c76d587753cd477d93b038fd3e45fa26a7b"
+  },
+  "package": {
+    "name": "@cyberalchemy/domainspec-cli-candidate",
+    "version": "0.2.0-candidate.0",
+    "bin": "domainspec",
+    "tarball_sha256": "bcfffe5fcb19666aad12e39c6aedb5176415b53510f887b0f63823bdf1b1c287",
+    "registry_published": false
+  },
+  "checks": [
+    { "check_id": "immutable-predecessor", "status": "PASS", "evidence": "historical predecessor bytes remain bound; carrier successor is covered by its exact owner decision" },
+    { "check_id": "extension-product-capability", "status": "PASS", "evidence": "local-runtime-cli product capability candidate bound" },
+    { "check_id": "extension-business-ontology", "status": "PASS", "evidence": "cav2.alchlang.local-runtime-cli.business bound" },
+    { "check_id": "operation-pattern-capability", "status": "PASS", "evidence": "candidate Product Capability and capability-local business ontology bound" },
+    { "check_id": "architecture-pattern-inventory", "status": "PASS", "evidence": "23-file registry extension with exact bindings, generators, conformance inputs and generated registry receipt" },
+    { "check_id": "pattern-registry-schema-parity", "status": "PASS", "evidence": "deterministic registry compilation and executable registry parity" },
+    { "check_id": "pattern-cli-closure", "status": "PASS", "evidence": "operation-port and transactional-outbox are available only because meta-type, binding, generator and conformance dependencies close" },
+    { "check_id": "domainspec-source", "status": "PASS", "evidence": "27 nodes and 22 relationships" },
+    { "check_id": "deterministic-system-model", "status": "PASS", "evidence": "source manifest 42356153974f62c380f002ab2f4850fd5d65fa2622cf355df68ed5f26a3246b5" },
+    { "check_id": "explicit-effect-performs", "status": "PASS", "evidence": "textual effect and action performs clauses lower to typed effect contracts without name inference" },
+    { "check_id": "sqlite-transactional-outbox", "status": "PASS", "evidence": "generated SQLite implementation atomically writes aggregate state and pending Outbox record, rolls back failures, and retries delivery at least once" },
+    { "check_id": "textual-parser", "status": "PASS", "evidence": "Markdown alchlang source parses into carrier-v2; missing domain/owner fails closed" },
+    { "check_id": "predicate-translation", "status": "PASS", "evidence": "typed comparison and boolean grammar; legacy identifier requires explicit AST registry" },
+    { "check_id": "guarded-action-runtime", "status": "PASS", "evidence": "rules, permission, actor, authority and adapter all gate execution" },
+    { "check_id": "local-sqlite-adapter", "status": "PASS", "evidence": "Node SQLite local persistence test" },
+    { "check_id": "allowlisted-http-adapter", "status": "PASS", "evidence": "injected transport and loopback allowlist/deny tests" },
+    { "check_id": "atomic-artifact-writer", "status": "PASS", "evidence": "11-file generated proof with manifest; replacement requires force" },
+    { "check_id": "cli-build", "status": "PASS", "evidence": "fresh domainspec build manifest equals bound proof" },
+    { "check_id": "cli-run", "status": "PASS", "evidence": "ReleaseCredit executed with explicit actor, facts and grant" },
+    { "check_id": "local-package", "status": "PASS", "evidence": "32-entry local npm tarball; packed CLI proof equals source CLI proof" },
+    { "check_id": "compiler-regression-suite", "status": "PASS", "evidence": "34 executed subtests plus strict TypeScript typecheck" },
+    { "check_id": "domain-branch-absence", "status": "PASS", "evidence": "reference domain/profile tokens absent from compiler source" }
+  ],
+  "claims": {
+    "product_capability": "extension-candidate-not-product-proof",
+    "business_ontology": "extension-candidate-not-runtime-admission",
+    "domainspec": "source-local-valid-not-profile-admission",
+    "compiled_system_model": "deterministic-candidate-not-admission",
+    "implementation": "local-runtime-cli-source-conformant-candidate",
+    "operation_pattern_registry": "source-local-conformant-candidate",
+    "architecture_pattern_stability": "candidate-not-owner-promoted",
+    "binding": "candidate-not-owner-accepted",
+    "package": "local-tarball-not-registry-publication",
+    "release": "not-authorized",
+    "deployment": "not-authorized",
+    "external_effect": "none"
+  },
+  "residue": [
+    "The textual grammar is explicit and bounded; it is not general natural-language understanding.",
+    "Legacy opaque predicate identifiers remain non-executable unless the caller supplies an exact AST registry entry.",
+    "SQLite uses the Node built-in module, which is experimental in the selected runtime.",
+    "HTTP execution requires an explicit destination and allowlisted origin; only loopback evidence was collected.",
+    "The npm tarball is local and has not been published to any registry.",
+    "Transactional Outbox is implemented and tested only for the explicit local SQLite binding; other providers remain unavailable until independently registered and closed.",
+    "No architecture pattern was promoted to stable; that remains an owner decision.",
+    "No external database, credentials, remote network, release, deployment, production or product-value evidence was collected."
+  ],
+  "authority_effect": "none",
+  "claim_ceiling": "PASS proves source-local conformance for the exact registry compiler, explicit effect/performs carrier, SQLite Transactional Outbox generator, local package and CLI proofs. It does not make the pattern stable, admit the extension, publish the package, release, deploy, or grant external effects."
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "cav2-kep-sol2-rust-construction-binding-repair-policy/v1",
+  "policy_id": "CA2-POLICY-KEP-SOL2-RUST-CONSTRUCTION-BINDING-004",
+  "binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-004",
+  "route_id": "CA2-ROUTE-IMPLEMENT",
+  "delegation_route_id": "CA2-ROUTE-DELEGATE",
+  "source_authorization": {
+    "kind": "current-chat-owner-authorized-local-continuation",
+    "exact_scope": "Repair exactly the solana-program-test 4.1.2 feature omission discovered after accepted binding 003; its entire API is gated by feature agave-unstable-api while 003 selects no features.",
+    "bounded_interpretation": "Author a successor exact-byte construction-binding candidate that changes only the solana-program-test feature selection from an empty set to agave-unstable-api. Preserve every other dependency, target, semantic selection, forbidden capability, and authority ceiling from accepted binding 003."
+  },
+  "dependency_path_root": "cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1",
+  "superseded_binding": {
+    "binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-003",
+    "policy_path": "implementation/rust-binding/successors/003/policy.json",
+    "policy_sha256": "959fc9267a98522adaa181a7a313659e4033bf2ef59fee156f92e40959b0271e",
+    "binding_path": "implementation/rust-binding/successors/003/generated/implementation-binding.json",
+    "binding_sha256": "34431c3bb61577dd582f055ffca2c8f540c25fa207a9cf7bf9d2ec93610a2c0f",
+    "binding_material_digest": "9e3fd5c97771be8c2634110776ca132535cc2226f7f63fb92d5b3c22c8614b58",
+    "acceptance_decision_path": "decisions/rust-construction-binding-acceptance-003.json",
+    "acceptance_decision_sha256": "44161278391d438a215353d4dec1d40a58a2431cf028dd0b9b31fb72a755cc5b",
+    "acceptance_decision_id": "CA2-DECISION-KEP-SOL2-RUST-CONSTRUCTION-BINDING-ACCEPTANCE-003"
+  },
+  "causal_defect": {
+    "defect_id": "KEP-SOL2-BINDING-003-SOLANA-PROGRAM-TEST-FEATURE-OMISSION",
+    "dependency": "solana-program-test",
+    "version": "=4.1.2",
+    "observed_selection": [],
+    "required_selection": ["agave-unstable-api"],
+    "cause": "The crate root is compiled only when feature agave-unstable-api is enabled, so the accepted empty feature set makes its public test API unavailable.",
+    "repair_limit": "Change only this dependency feature selection; do not change versions, other features, targets, semantics, or authority."
+  },
+  "cached_source_evidence": {
+    "crate": "solana-program-test",
+    "version": "4.1.2",
+    "cargo_manifest_locator": "$CARGO_HOME/registry/src/*/solana-program-test-4.1.2/Cargo.toml",
+    "cargo_manifest_sha256": "9fac49dfff943f9ccad9de3586efd506871defd7c87a5ec312e5eed6460fb514",
+    "crate_root_locator": "$CARGO_HOME/registry/src/*/solana-program-test-4.1.2/src/lib.rs",
+    "crate_root_sha256": "42d411c8256b80740597c2626457ea46e36f84d48796a916f55c55ee573de107",
+    "required_manifest_declaration": "agave-unstable-api = []",
+    "required_crate_gate": "#![cfg(feature = \"agave-unstable-api\")]"
+  },
+  "exact_feature_repair": {
+    "dependency": "solana-program-test",
+    "from": [],
+    "to": ["agave-unstable-api"]
+  },
+  "preservation": {
+    "dependency_versions": "unchanged-from-binding-003",
+    "all_other_dependency_features": "unchanged-from-binding-003",
+    "planned_targets": "unchanged-from-binding-003",
+    "preserved_surfaces": "unchanged-from-binding-003",
+    "selected_dependencies": "unchanged-from-binding-003",
+    "selector_closure": "unchanged-from-binding-003",
+    "forbidden_capabilities": "unchanged-from-binding-003",
+    "security_posture": "unchanged-from-binding-003"
+  },
+  "authority_effect": "none",
+  "implementation_effect": "none",
+  "enforcement_effect": "none",
+  "external_effect": "none"
+}

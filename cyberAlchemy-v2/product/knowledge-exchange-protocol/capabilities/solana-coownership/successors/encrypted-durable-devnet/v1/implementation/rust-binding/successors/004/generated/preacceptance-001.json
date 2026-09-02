@@ -1,0 +1,131 @@
+{
+  "schema_version": "cav2-kep-sol2-rust-construction-binding-repair-preacceptance/v1",
+  "receipt_id": "CA2-RECEIPT-KEP-SOL2-RUST-CONSTRUCTION-BINDING-PREACCEPTANCE-004",
+  "route_id": "CA2-ROUTE-IMPLEMENT",
+  "delegation_route_id": "CA2-ROUTE-DELEGATE",
+  "candidate": {
+    "binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-004",
+    "lifecycle_status": "authored-preimplementation-candidate",
+    "binding_material_digest_algorithm": "sha256-path-null-bytes-null/v1",
+    "binding_material_digest": "c54bf1e9d6c8ae44674c12b7ab2c98ba3e59250633d53459e0366b35b850432e",
+    "artifacts": [
+      {
+        "path": "policy.json",
+        "sha256": "7dd775ab69523ffb3b6f85cb5430acfd631f1c9f30c85e9acd63d88a57f81bd8"
+      },
+      {
+        "path": "generated/implementation-binding.json",
+        "sha256": "810f547534f3e9e9e6ab3ae1befefa8cbe432872860784973d42ddf3b797c233"
+      }
+    ]
+  },
+  "supersession": {
+    "supersedes_binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-003",
+    "supersedes_accepted_material_digest": "9e3fd5c97771be8c2634110776ca132535cc2226f7f63fb92d5b3c22c8614b58",
+    "cause": {
+      "defect_id": "KEP-SOL2-BINDING-003-SOLANA-PROGRAM-TEST-FEATURE-OMISSION",
+      "dependency": "solana-program-test",
+      "version": "=4.1.2",
+      "observed_selection": [],
+      "required_selection": [
+        "agave-unstable-api"
+      ],
+      "cause": "The crate root is compiled only when feature agave-unstable-api is enabled, so the accepted empty feature set makes its public test API unavailable.",
+      "repair_limit": "Change only this dependency feature selection; do not change versions, other features, targets, semantics, or authority."
+    },
+    "change_set": {
+      "dependency": "solana-program-test",
+      "from": [],
+      "to": [
+        "agave-unstable-api"
+      ]
+    },
+    "all_other_construction_semantics": "byte-equivalent-after-successor-metadata-and-feature-normalization"
+  },
+  "selected_dependency_digests": {
+    "accepted_binding_003_material": "9e3fd5c97771be8c2634110776ca132535cc2226f7f63fb92d5b3c22c8614b58",
+    "accepted_implementation_material": "877caaa3865870a5310db88f5fe951b15b4e164e7185cb2d814459febdc22b3b",
+    "accepted_assessment_material": "e844154f1caae759a889f79f1e94447e86e9e47ac08f70142e1d92dc39ce6487",
+    "admitted_system_ontology_candidate_set": "0af0efd436cf447e01fc1082fed3794f9690a9e2bc4367679a9c9385961ba168"
+  },
+  "closure": {
+    "system_nodes": "89/89 selected",
+    "system_relations": "204/204 selected",
+    "proof_obligations": "13/13 selected",
+    "boundaries": "9/9 selected",
+    "exact_dependencies": "16/16 PASS",
+    "planned_targets": "14/14 PASS",
+    "forbidden_external_capabilities": "9/9 PASS",
+    "feature_repair": "1/1 PASS",
+    "all_other_construction_semantics": "unchanged-from-binding-003 PASS"
+  },
+  "checks": [
+    {
+      "check_id": "accepted-binding-003-exact",
+      "status": "PASS"
+    },
+    {
+      "check_id": "cached-crate-source-exact",
+      "status": "PASS"
+    },
+    {
+      "check_id": "crate-api-feature-gate-proved",
+      "status": "PASS"
+    },
+    {
+      "check_id": "single-feature-repair-exact",
+      "status": "PASS"
+    },
+    {
+      "check_id": "other-construction-semantics-preserved",
+      "status": "PASS"
+    },
+    {
+      "check_id": "successor-binding-acceptance",
+      "status": "not_evaluable",
+      "causal_blocker": "Human owner has not accepted this exact successor material digest."
+    },
+    {
+      "check_id": "implementation-conformance",
+      "status": "not_evaluable",
+      "causal_blocker": "The repaired construction binding is not accepted and cannot authorize successor implementation evidence."
+    },
+    {
+      "check_id": "production-security-approval",
+      "status": "not_evaluable",
+      "causal_blocker": "Independent cryptographic security review remains absent."
+    },
+    {
+      "check_id": "devnet-evidence",
+      "status": "not_evaluable",
+      "causal_blocker": "Credentials, wallets, RPC, deployment, and Devnet effects remain forbidden."
+    }
+  ],
+  "author": {
+    "path": "../author.py",
+    "sha256": "835d6078b5fcd01c2c710364f03bdbb9b2134f33fc030f0c6ebf1d91ce4236b1"
+  },
+  "tests": {
+    "path": "../tests/test_author.py",
+    "sha256": "12bc74dd69636e92918d8ae7a2fe8550a3007733bb0b325be2e1d9be870a4f8f"
+  },
+  "decision_gate": {
+    "status": "ready-for-exact-successor-construction-binding-decision",
+    "required_digest": "c54bf1e9d6c8ae44674c12b7ab2c98ba3e59250633d53459e0366b35b850432e",
+    "admissible_option_ids": [
+      "ACCEPT-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING",
+      "REJECT-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING",
+      "DEFER-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING"
+    ],
+    "decision_limit": "Acceptance may bind only this exact one-feature repair candidate; it cannot accept implementation bytes, conformance, security, or external effects."
+  },
+  "preacceptance": {
+    "status": "PASS",
+    "authority_effect": "none"
+  },
+  "authority_effect": "none",
+  "implementation_effect": "none",
+  "enforcement_effect": "none",
+  "external_effect": "none",
+  "claim_ceiling": "Exact successor Rust construction-binding candidate only. It repairs the solana-program-test 4.1.2 agave-unstable-api feature omission and preserves all other accepted binding 003 construction semantics. It grants no acceptance, implementation, conformance, security, credential, wallet, RPC, deployment, Devnet, publication, or external-effect authority."
+}

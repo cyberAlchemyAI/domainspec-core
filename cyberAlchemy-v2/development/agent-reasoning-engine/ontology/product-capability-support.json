@@ -1,0 +1,225 @@
+{
+  "schema_version": "cav2-agent-reasoning-engine-capability-support/v1",
+  "instance_status": ["candidate", "adopted", "retired"],
+  "activation_state": ["inactive", "active-local-owner-directed", "admitted"],
+  "records": [
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-REASONING-REQUEST",
+      "kind": "input-contract",
+      "meaning": "One bounded reasoning objective with an attributable intent, a frozen question or conclusion domain, selected source handles, constraints, and protected effects."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-CONTEXT-INPUTS",
+      "kind": "input-contract",
+      "meaning": "A provenance-bearing set of candidate context items with source, authority, temporal, relevance, and revision metadata."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-REQUEST-CONTEXT",
+      "kind": "input-contract",
+      "meaning": "One raw request plus an explicit or inferred request context whose posture and evidence remain visible during capability selection."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-CONTEXT-ENVELOPE",
+      "kind": "output-contract",
+      "meaning": "A bounded context envelope that states included and excluded material, digests, contradictions, gaps, freshness, and the claim ceiling for one reasoning run."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-CONTEXT-BASIS",
+      "kind": "output-contract",
+      "meaning": "A request-relative, digest-bound semantic substrate containing the preserved request, selected route, route-profiled definition closure, declared ontology selector lock, authority and effect posture, constraints, exclusions, gaps, and residue required before route-owned strategy or work."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-CONTEXT-WINDOW-VIEW",
+      "kind": "output-contract",
+      "meaning": "An immutable consumer-specific projection of one Context Basis with an explicit plan-bound or interaction-bound identity lane, source epoch, predecessor or reuse evidence, exclusions, residue, and no authority effect."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-REASONING-RESULT",
+      "kind": "output-contract",
+      "meaning": "Exactly one typed semantic disposition with its reasoning receipt, support, defeaters, unresolved residue, input identities, and non-authorizing posture."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-CONTINUATION-DECISION",
+      "kind": "output-contract",
+      "meaning": "One complete, direct, gate, or block disposition with admissible options, consequence reasons, owner-gate requirements, provenance digests, and no authority effect."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-RECEIPT-CONSTRAINT",
+      "kind": "output-contract",
+      "meaning": "One exact proposal-scoped constraint derived from a verified Reasoning Receipt, preserving advisory, ineligible, owner-gated, or no-op posture without granting effect authority."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-RUNTIME-JOURNAL-CUT",
+      "kind": "output-contract",
+      "meaning": "One immutable digest-bound cut of compact per-turn runtime events suitable for deterministic external-call-free replay."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-REASONING-STATE-EPOCH",
+      "kind": "output-contract",
+      "meaning": "One immutable content-addressed selection of exact reasoning events, dependencies, context identity, consumer, request, and continuation frontier."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-REASONING-DISPATCH",
+      "kind": "output-contract",
+      "meaning": "One exactly reconstructable canonical model request bound to a Reasoning State epoch and provider, model, system, tool, and configuration header."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-REASONING-CHECKPOINT",
+      "kind": "output-contract",
+      "meaning": "One non-authorizing digest-bound receipt that a verified reasoning-state epoch was flushed at a declared pre-request, pre-effect, or pre-continuation boundary."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-REASONING-STATE-DERIVED-INDEX",
+      "kind": "output-contract",
+      "meaning": "One deterministic disposable index derived solely from a verified canonical Reasoning State record stream, containing event, epoch, checkpoint, and head identities without becoming source authority."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-REASONING-STATE-RECOVERY-ASSESSMENT",
+      "kind": "output-contract",
+      "meaning": "One non-authorizing assessment that binds exact log bytes, derived-index identity, final checkpoint, recovery disposition, and zero-external-call posture before a recovered ledger can accept work."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-GATEWAY-SESSION",
+      "kind": "output-contract",
+      "meaning": "One declared consumer and lane bound to an isolated in-memory wrapper and upstream app-server connection under a distinct gateway runtime epoch."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-BOUNDED-CONTEXT",
+      "kind": "context-policy",
+      "meaning": "Select only material relevant to the frozen objective, declared dependencies, owner scopes, and evidence obligations; record exclusions instead of silently broadening context."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-PROVENANCE-INTEGRITY",
+      "kind": "context-policy",
+      "meaning": "Preserve source identity, transformations, digests, authority posture, contradictions, and unresolved gaps through selection and compression."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-REFRESH-INVALIDATION",
+      "kind": "context-policy",
+      "meaning": "Changed selected dependencies create a new context epoch; historical replay remains distinct from current revalidation and stale results cannot be silently reused."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-AUTHORITY-SEPARATION",
+      "kind": "context-policy",
+      "meaning": "Context selection, semantic judgment, validation, consensus, and receipt persistence never become owner authority or exact-effect permission."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-DIRECT-CAPABILITY-ROUTING",
+      "kind": "context-policy",
+      "meaning": "Select the nearest uniquely supported capability directly; Goal participates only when goal-specific request evidence matches and is never a fallback."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-CONSEQUENTIAL-GATE",
+      "kind": "context-policy",
+      "meaning": "After completion, continue only through a sole non-consequential option; route multiple or consequential options to their configured Decision Gate and block zero admissible options."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-DEFINITION-CLOSURE",
+      "kind": "context-policy",
+      "meaning": "Compute request-relative definition closure as the least fixed point of universal normative relation classes plus additions declared by the selected route profile; preserve exact definition identity, version or revision, digest, authority posture, and typed semantic gaps."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-ONTOLOGY-SELECTOR-LOCK",
+      "kind": "context-policy",
+      "meaning": "Bind owner-declared required ontology nodes and edges recursively with typed exclusions and exact digests; a versioned omission audit may report candidates but cannot widen the lock, admit or reject records, route, continue, or authorize."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-VIEW-IDENTITY",
+      "kind": "context-policy",
+      "meaning": "Retain an unchanged plan-bound view only with an exact per-turn reuse receipt; create a successor for every interaction-bound human or chat turn and whenever any selected dependency or protected binding changes."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-REASONING-STATE-REUSE",
+      "kind": "context-policy",
+      "meaning": "Reuse explicit provenance-bound reasoning products through append-only events and immutable epochs; treat Context Envelopes as projections and request caches as optimizations rather than sources of truth."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-RISK-ALIGNED-CHECKPOINTS",
+      "kind": "context-policy",
+      "meaning": "Fail closed unless the selected Reasoning State epoch and exact dispatch are verified and flushed before a model request, accepted effect, or automatic continuation crosses its boundary."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-RECOVERY-FAIL-CLOSED",
+      "kind": "context-policy",
+      "meaning": "Recover only from a fully verified canonical record stream ending at a valid checkpoint; block torn, malformed, tampered, mixed-ledger, unknown, source-drifted, or uncheckpointed state without rewriting or silently truncating bytes."
+    },
+    {
+      "id": "CA2-CAP-BIND-ARE-SEMANTIC-EVALUATOR-L0",
+      "kind": "realization-binding",
+      "meaning": "Bounded legacy evidence for deterministic semantic reduction and reasoning-receipt assembly; not a complete engine or context manager."
+    },
+    {
+      "id": "CA2-CAP-BIND-ARE-INTENT-ROUTE-RESOLVER",
+      "kind": "realization-binding",
+      "meaning": "Bounded legacy evidence for advisory intent-route resolution over prepared inputs; not a dispatcher or general context manager."
+    },
+    {
+      "id": "CA2-CAP-BIND-ARE-REQUEST-DECISION-ROUTER",
+      "kind": "realization-binding",
+      "meaning": "Candidate local realization of profile-verified direct capability routing and configurable consequence/cardinality evaluation; it performs no capability or effect."
+    },
+    {
+      "id": "CA2-CAP-BIND-ARE-RUNTIME-JOURNAL",
+      "kind": "realization-binding",
+      "meaning": "Candidate local realization of immutable hash-chained in-memory events, verified cuts, deterministic replay, idempotency, and closed-turn-only eviction; not durable storage."
+    },
+    {
+      "id": "CA2-CAP-BIND-ARE-RECEIPT-CONSTRAINED-CONTINUATION",
+      "kind": "realization-binding",
+      "meaning": "Candidate Codex realization that verifies receipt and turn bindings before constraining explicitly dependent proposals while preserving structural consequence and authority boundaries."
+    },
+    {
+      "id": "CA2-CAP-BIND-ARE-PERSISTENT-GATEWAY",
+      "kind": "realization-binding",
+      "meaning": "Candidate local realization of isolated lane-bound consumer sessions across direct stdio, managed-daemon proxy, or loopback WebSocket app-server transports with bounded reconnect and no durable state."
+    },
+    {
+      "id": "CA2-CAP-BIND-ARE-REASONING-STATE-FIRST-THREE",
+      "kind": "realization-binding",
+      "meaning": "Candidate local realization of append-only explicit reasoning events and epochs, risk-aligned memory or fsync checkpoints, and exact Codex request reconstruction; file-log recovery and distributed durability remain absent."
+    },
+    {
+      "id": "CA2-CAP-BIND-ARE-REASONING-STATE-RECOVERY",
+      "kind": "realization-binding",
+      "meaning": "Candidate local realization of canonical log verification, deterministic disposable-index rebuilding, final-checkpoint selection, exact ledger hydration, and Codex startup recovery; repair, compaction, cross-process locking, and Session semantics remain absent."
+    },
+    {
+      "id": "CA2-CAP-OBLIGATIONS-ARE",
+      "kind": "obligation-registry",
+      "meaning": "Intent preservation, fast direct routing, route-profiled definition closure, declared ontology selector locking, Necessary Context Basis construction, dual-lane immutable Context Window Views, bounded context selection, provenance integrity, contradiction and exclusion visibility, freshness and invalidation, typed semantic outcomes, deterministic reuse and reasoning receipts, fail-closed checkpointed recovery, abstention, replay separation, authority non-collapse, and explicit realization gaps."
+    }
+  ],
+  "residue": [
+    {
+      "id": "CAP-RES-ARE-CONTEXT-MANAGER",
+      "status": "blocked",
+      "meaning": "The bounded candidate realizes fast routing, definition closure, selector locking, Context Basis and dual-lane views, inline envelopes, refresh and invalidation, semantic input and reduction, receipt-constrained continuation, in-memory journal replay, checkpointed Reasoning State file recovery, and isolated persistent app-server consumer sessions. Production semantic activation, adaptive compression, cross-process recovery coordination, and supported Codex Desktop adoption remain open."
+    },
+    {
+      "id": "CAP-RES-ARE-WHOLE-ENGINE",
+      "status": "blocked",
+      "meaning": "The working Codex candidate composes the bounded libraries behind a local persistent gateway and can recover one checkpointed Reasoning State file, but no production semantic-domain catalog or default activation is adopted, cross-process coordination and repair are absent, Desktop integration is unproved, and the full engine is not admitted or generally hosted."
+    },
+    {
+      "id": "CAP-RES-ARE-DOMAINSPEC-ADMISSION",
+      "status": "blocked",
+      "meaning": "The package-local DomainSpec development profile and generated system ontology are candidates and are not admitted."
+    },
+    {
+      "id": "CAP-RES-ARE-IMPLEMENTATION-BINDING",
+      "status": "not_evaluable",
+      "meaning": "No owner-accepted baseline binds the implementation target to this exact generated system ontology."
+    },
+    {
+      "id": "CAP-RES-ARE-CONFORMANCE",
+      "status": "not_evaluable",
+      "meaning": "Static and runtime conformance cannot be evaluated before an exact implementation binding exists."
+    },
+    {
+      "id": "CAP-RES-ARE-DECISION-GATE-ADOPTION",
+      "status": "blocked",
+      "meaning": "The configurable decision model is candidate runtime behavior and is not an adopted governance or authority gate."
+    }
+  ],
+  "authority_effect": "none"
+}

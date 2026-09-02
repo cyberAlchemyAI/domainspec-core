@@ -1,0 +1,21 @@
+{
+  "schema_version": "cav2.product-capability/v1-candidate",
+  "capability_id": "CA2-CAP-ALCHLANG-DISCOVER-GENERATABLE-OPERATION-PATTERNS",
+  "title": "Discover safely generatable operation patterns",
+  "status": "candidate-implementation-authorized",
+  "extends_capability_ref": "CA2-CAP-ALCHLANG-BUILD-AND-RUN-LOCAL-DOMAINS",
+  "purpose": "Expose an evidence-bounded inventory of operation patterns whose meta-type, integration binding, generator and conformance prerequisites determine whether the CLI may generate them.",
+  "inputs": ["DomainSpec meta-type identity", "integration binding identity", "generator identity", "conformance state", "owner-controlled maturity state"],
+  "outputs": ["machine-readable operation pattern inventory", "CLI availability view", "architecture-pattern ontology projection", "explicit blockers for unsafe generation", "deterministic registry compilation receipt", "effect-to-pattern implementation binding"],
+  "policies": [
+    "Availability is derived from explicit prerequisites and never from a pattern name.",
+    "A pattern is generatable only when its meta-type, binding, generator and conformance prerequisites are closed.",
+    "Registration creates a candidate; stable maturity requires a separate owner decision.",
+    "Blocked patterns remain visible with causal blockers and generate no implementation code.",
+    "An explicit effect and performs edge is required before an implementation generator may run.",
+    "Provider-specific generators must bind a concrete integration manifest and executable conformance evidence."
+  ],
+  "exclusions": ["Automatic stable promotion", "Provider selection by convention", "Code generation from an unregistered effect name", "External effects"],
+  "authority_effect": "none",
+  "claim_ceiling": "Candidate discovery capability only; listing a pattern does not admit it, make it stable, or authorize generation or execution."
+}

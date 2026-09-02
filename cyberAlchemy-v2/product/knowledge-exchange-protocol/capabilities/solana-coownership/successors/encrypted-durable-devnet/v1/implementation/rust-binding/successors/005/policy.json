@@ -1,0 +1,125 @@
+{
+  "schema_version": "cav2-kep-sol2-rust-construction-binding-graph-repair-policy/v1",
+  "policy_id": "CA2-POLICY-KEP-SOL2-RUST-CONSTRUCTION-BINDING-005",
+  "binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-005",
+  "route_id": "CA2-ROUTE-IMPLEMENT",
+  "delegation_route_id": "CA2-ROUTE-DELEGATE",
+  "source_authorization": {
+    "kind": "current-chat-owner-authorized-local-construction-binding-repair",
+    "exact_scope": "Repair only the accepted binding 004 Solana dependency graph by selecting a coherent wincode 0.5 schema family while preserving its fourteen implementation targets and FE-W3 and FE-W4 semantics.",
+    "bounded_interpretation": "Author an exact-byte successor construction-binding candidate. Do not mutate runtime files, accept the candidate, claim implementation or conformance, use credentials or wallets, access RPC or a network, deploy, access Devnet, publish, or create any external effect."
+  },
+  "dependency_path_root": "cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1",
+  "superseded_binding": {
+    "binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-004",
+    "policy_path": "implementation/rust-binding/successors/004/policy.json",
+    "policy_sha256": "7dd775ab69523ffb3b6f85cb5430acfd631f1c9f30c85e9acd63d88a57f81bd8",
+    "binding_path": "implementation/rust-binding/successors/004/generated/implementation-binding.json",
+    "binding_sha256": "810f547534f3e9e9e6ab3ae1befefa8cbe432872860784973d42ddf3b797c233",
+    "binding_material_digest": "c54bf1e9d6c8ae44674c12b7ab2c98ba3e59250633d53459e0366b35b850432e",
+    "acceptance_decision_path": "decisions/rust-construction-binding-acceptance-004.json",
+    "acceptance_decision_sha256": "c5a78b52bd17f7f9659ddf9662e10d00c73a6f05e228eb95baf7bb44543ed829",
+    "acceptance_decision_id": "CA2-DECISION-KEP-SOL2-RUST-CONSTRUCTION-BINDING-ACCEPTANCE-004"
+  },
+  "selected_ontology_dependency": {
+    "ontology_id": "CA2-SYSTEM-ONTOLOGY-KEP-SOLANA-ENCRYPTED-DURABLE-DEVNET",
+    "accepted_candidate_set_digest": "0af0efd436cf447e01fc1082fed3794f9690a9e2bc4367679a9c9385961ba168",
+    "selectors": {
+      "system_nodes": 89,
+      "system_relations": 204,
+      "proof_obligations": 13,
+      "boundaries": 9
+    },
+    "semantic_profiles": [
+      {
+        "path": "cryptographic-profile.json",
+        "sha256": "d5a196a3a7e8ace5f814ea694d27d2424b5d00c952045d008c9b529fbb388310"
+      },
+      {
+        "path": "durable-storage-instantiation.json",
+        "sha256": "6539037cf329855d9ea51fccc06e20f68ff65392d1f71fd2cad83a1cdd24d2f9"
+      }
+    ]
+  },
+  "causal_defect": {
+    "defect_id": "KEP-SOL2-BINDING-004-SOLANA-WINCODE-SCHEMA-SPLIT",
+    "observed_failure": "The accepted binding 004 full test compile fails because solana-program-test 4.1.2 selects pubkey and address types using wincode 0.6 while solana-transaction and solana-runtime-transaction use wincode 0.5.",
+    "invalid_workaround": "Removing the solana-transaction wincode feature is invalid because transaction sign, try_sign, and new_signed_with_payer are feature-gated by wincode.",
+    "repair_basis": "The isolated exact graph selected below completed cargo check --all-targets and resolves one wincode 0.5.5 package.",
+    "repair_limit": "Change only the five declared Solana graph selections and the corresponding provider version label; preserve all other dependencies, targets, semantics, and authority ceilings."
+  },
+  "current_accepted_projection": {
+    "path": "runtime/Cargo.toml",
+    "sha256": "259933ecf2394f03b16c985bd0ad77f638afb5128b46bd29b261661c9ca9c023"
+  },
+  "exact_graph_repair": [
+    {
+      "dependency": "solana-program-test",
+      "from": {"version": "=4.1.2", "default_features": false, "features": ["agave-unstable-api"]},
+      "to": {"version": "=4.2.2", "default_features": false, "features": ["agave-unstable-api"]}
+    },
+    {
+      "dependency": "solana-transaction",
+      "from": {"version": "=4.1.1", "default_features": false, "features": ["wincode"]},
+      "to": {"version": "=4.1.4", "default_features": false, "features": ["wincode"]}
+    },
+    {
+      "dependency": "solana-instruction",
+      "from": {"version": "=3.4.0", "default_features": false, "features": ["std"]},
+      "to": {"version": "=3.4.1", "default_features": false, "features": ["std"]}
+    },
+    {
+      "dependency": "solana-pubkey",
+      "from": {"version": "=4.2.0", "default_features": false, "features": ["std"]},
+      "to": {"version": "=4.2.0", "default_features": false, "features": ["std"]}
+    },
+    {
+      "dependency": "solana-address",
+      "from": null,
+      "to": {"version": "=2.6.1", "kind": "runtime-and-test", "default_features": false, "features": []}
+    }
+  ],
+  "cached_manifest_evidence": [
+    {"crate": "solana-program-test", "version": "4.2.2", "sha256": "1cb41c3bc433e7406ca357f6293dc15eb56005bfdd0699156c630be2abd36bf8"},
+    {"crate": "solana-runtime-transaction", "version": "4.2.2", "sha256": "dbb2ddd2fd8bd4fd50948654d34cd91c64ab6b0fbd695a46db03d4e91d1a9b9e"},
+    {"crate": "solana-transaction", "version": "4.1.4", "sha256": "586493e586962d0cb75b91c709f4b694e32204ea1a67d3fabee0c734b21334b4"},
+    {"crate": "solana-message", "version": "4.4.1", "sha256": "b4cf8a1ca839724a2ce29c43e521616f8267f64566e43b445928f2eaddc59d37"},
+    {"crate": "solana-instruction", "version": "3.4.1", "sha256": "a4ddde3846ef06ff35bb5dd992f1dde832378a9ed9dac85b4cd952902a326bcd"},
+    {"crate": "solana-pubkey", "version": "4.2.0", "sha256": "2037d13555d0a1b4256c8ff0a20da098e9f4974a05450f05a952fdb03a85c191"},
+    {"crate": "solana-address", "version": "2.6.1", "sha256": "ee2f809d5a74a55c01f9ea8b6d3d9b5905b97bad5872ef539f81b3974634066e"}
+  ],
+  "isolated_probe": {
+    "manifest_path": "/tmp/ca2-solana-graph-probe.yjihjG/Cargo.toml",
+    "manifest_sha256": "5dee20f7c82db1abe63b21f1f4d0ff102bd749c4b8037472cbe4d042c08687fa",
+    "lock_path": "/tmp/ca2-solana-graph-probe.yjihjG/Cargo.lock",
+    "lock_sha256": "f781282904c80952a43ebe1105f04358c6045ef53a3b08d79bc3ba89a1e9cd8c",
+    "check_command": "cargo check --all-targets --locked --offline --manifest-path /tmp/ca2-solana-graph-probe.yjihjG/Cargo.toml",
+    "expected_packages": {
+      "solana-program-test": "4.2.2",
+      "solana-runtime-transaction": "4.2.2",
+      "solana-transaction": "4.1.4",
+      "solana-message": "4.4.1",
+      "solana-instruction": "3.4.1",
+      "solana-pubkey": "4.2.0",
+      "solana-address": "2.6.1",
+      "wincode": "0.5.5"
+    },
+    "forbidden_wincode_versions": ["0.6.0"]
+  },
+  "preservation": {
+    "minimum_rust_version": "1.94.0",
+    "planned_target_count": 14,
+    "all_non_graph_dependency_selections": "unchanged-from-binding-004",
+    "workstream_semantics": "unchanged-from-binding-004",
+    "planned_targets": "unchanged-from-binding-004",
+    "preserved_surfaces": "unchanged-from-binding-004",
+    "selected_dependencies": "unchanged-from-binding-004",
+    "selector_closure": "unchanged-from-binding-004",
+    "forbidden_capabilities": "unchanged-from-binding-004",
+    "security_posture": "unchanged-from-binding-004"
+  },
+  "authority_effect": "none",
+  "implementation_effect": "none",
+  "enforcement_effect": "none",
+  "external_effect": "none"
+}

@@ -3,6 +3,7 @@ use cav2_work_orchestration_etl_demo::composite::{
     compile_l0, validate_compiled_composite, ScopeBindings,
 };
 use cav2_work_orchestration_etl_demo::host::verify_accepted_history;
+use cav2_work_orchestration_etl_demo::l0;
 use cav2_work_orchestration_etl_demo::ports::{AcceptedHistoryPort, FileAcceptedHistory};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
@@ -13,7 +14,7 @@ use std::path::Path;
 use std::time::Duration;
 
 fn usage() -> String {
-    "usage: domainspec_control compile <source.json> <scope-bindings.json> [output.json]\n       domainspec_control validate <compiled-graph.json>\n       domainspec_control history-verify <compiled-graph.json> <history.json> <stream-id>\n       domainspec_control c19-evaluate <input.json>".to_owned()
+    "usage: domainspec_control compile <source.json> <scope-bindings.json> [output.json]\n       domainspec_control validate <compiled-graph.json>\n       domainspec_control history-verify <compiled-graph.json> <history.json> <stream-id>\n       domainspec_control c19-evaluate <input.json>\n       domainspec_control preflight <l0-run-request.json>\n       domainspec_control run <l0-run-request.json>\n       domainspec_control resume <l0-run-request.json>".to_owned()
 }
 
 fn read_json(path: &str) -> Result<Value, String> {
@@ -126,6 +127,9 @@ fn main_result() -> Result<(), String> {
                 None,
             )
         }
+        Some("preflight") if args.len() == 2 => write(&l0::preflight(Path::new(&args[1]))?, None),
+        Some("run") if args.len() == 2 => write(&l0::run(Path::new(&args[1]))?, None),
+        Some("resume") if args.len() == 2 => write(&l0::resume(Path::new(&args[1]))?, None),
         _ => Err(usage()),
     }
 }

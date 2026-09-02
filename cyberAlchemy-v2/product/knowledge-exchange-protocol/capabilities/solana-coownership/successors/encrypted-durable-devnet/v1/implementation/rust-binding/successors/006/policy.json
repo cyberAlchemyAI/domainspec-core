@@ -1,0 +1,108 @@
+{
+  "schema_version": "cav2-kep-sol2-rust-construction-binding-full-projection-repair-policy/v1",
+  "policy_id": "CA2-POLICY-KEP-SOL2-RUST-CONSTRUCTION-BINDING-006",
+  "binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-006",
+  "route_id": "CA2-ROUTE-IMPLEMENT",
+  "delegation_route_id": "CA2-ROUTE-DELEGATE",
+  "source_authorization": {
+    "kind": "current-chat-owner-authorized-local-construction-binding-repair",
+    "exact_scope": "Repair only the accepted binding 005 dependency graph by changing direct solana-signer =3.0.0 to =3.0.1 while preserving all other dependencies, fourteen implementation targets, workstreams, selectors, profiles, and FE-W3 and FE-W4 semantics.",
+    "bounded_interpretation": "Author and self-validate an exact-byte successor construction-binding candidate and full-manifest resolution probe. Do not mutate runtime files, accept the candidate, claim implementation or conformance, use credentials or wallets, access RPC or a network, deploy, access Devnet, publish, or create any external effect."
+  },
+  "dependency_path_root": "cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1",
+  "accepted_predecessor": {
+    "binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-005",
+    "policy_path": "implementation/rust-binding/successors/005/policy.json",
+    "policy_sha256": "dca327731c2483eca7caac13172abb3aa4fbdbcc79e7da8826bba085fba5eddf",
+    "binding_path": "implementation/rust-binding/successors/005/generated/implementation-binding.json",
+    "binding_sha256": "08809a8ec226cf967706eccb8d198897d0e0a755bd443223acad3bc424368284",
+    "binding_material_digest": "af5de6c6a168c0e83e0a4246306b28aee23c262bebb24f5648c2a931a9d8aba3",
+    "acceptance_decision_path": "decisions/rust-construction-binding-acceptance-005.json",
+    "acceptance_decision_sha256": "2ecf0f1d05d5583dbacdc1af5cc479f986465f1e89bddcdf0893e41a0f1d992e",
+    "acceptance_decision_id": "CA2-DECISION-KEP-SOL2-RUST-CONSTRUCTION-BINDING-ACCEPTANCE-005"
+  },
+  "selected_ontology_dependency": {
+    "ontology_id": "CA2-SYSTEM-ONTOLOGY-KEP-SOLANA-ENCRYPTED-DURABLE-DEVNET",
+    "accepted_candidate_set_digest": "0af0efd436cf447e01fc1082fed3794f9690a9e2bc4367679a9c9385961ba168",
+    "selectors": {
+      "system_nodes": 89,
+      "system_relations": 204,
+      "proof_obligations": 13,
+      "boundaries": 9
+    },
+    "semantic_profiles": [
+      {"path": "cryptographic-profile.json", "sha256": "d5a196a3a7e8ace5f814ea694d27d2424b5d00c952045d008c9b529fbb388310"},
+      {"path": "durable-storage-instantiation.json", "sha256": "6539037cf329855d9ea51fccc06e20f68ff65392d1f71fd2cad83a1cdd24d2f9"}
+    ]
+  },
+  "causal_defect": {
+    "defect_id": "KEP-SOL2-BINDING-005-SOLANA-SIGNER-LOWER-BOUND-CONFLICT",
+    "observed_failure": "Actual runtime cargo generate-lockfile fails because accepted binding 005 pins direct solana-signer =3.0.0 while solana-program-test 4.2.2 requires solana-signer ^3.0.1 and solana-transaction 4.1.4 with wincode requires solana-signer ^3.0.1.",
+    "omission": "Binding 005 validated only a five-entry repair projection and did not require its direct solana-signer and solana-keypair pins or the complete seventeen-entry accepted dependency projection in the probe closure.",
+    "repair_basis": "A fresh full seventeen-entry manifest with only solana-signer changed to =3.0.1 generated a 773-package lock and completed cargo check --all-targets --locked --offline.",
+    "repair_limit": "Change only direct solana-signer from =3.0.0 to =3.0.1; preserve the other sixteen dependencies, fourteen targets, workstreams, selectors, profiles, FE-W3 and FE-W4 semantics, and all authority ceilings."
+  },
+  "current_runtime_projection": {
+    "path": "runtime/Cargo.toml",
+    "sha256": "758e5eada2148e7af54d404158b49b9778ff28bdd8964b6361c6976fd4e1f7dd",
+    "dependency_count": 17
+  },
+  "exact_graph_repair": {
+    "dependency": "solana-signer",
+    "from": {"version": "=3.0.0", "kind": "test", "default_features": false, "features": []},
+    "to": {"version": "=3.0.1", "kind": "test", "default_features": false, "features": []}
+  },
+  "cached_manifest_evidence": [
+    {"crate": "solana-program-test", "version": "4.2.2", "sha256": "1cb41c3bc433e7406ca357f6293dc15eb56005bfdd0699156c630be2abd36bf8"},
+    {"crate": "solana-signer", "version": "3.0.1", "sha256": "dd796735e3181a252a0b0bf8c4af96c1618cf7e8341582b89914174cd59dc4f1"},
+    {"crate": "solana-keypair", "version": "3.1.2", "sha256": "51f75973b656ea09881e8c202061a414cc795fea24257bc3c1bb6d7cc2db0f70"},
+    {"crate": "solana-transaction", "version": "4.1.4", "sha256": "586493e586962d0cb75b91c709f4b694e32204ea1a67d3fabee0c734b21334b4"}
+  ],
+  "isolated_solana_probe": {
+    "manifest_path": "/tmp/ca2-solana-graph-probe.yjihjG/Cargo.toml",
+    "manifest_sha256": "9967f2fa38a00e676e1f4d905ae54fd18d6bffb9b25c75c0f38b752d866456e4",
+    "lock_path": "/tmp/ca2-solana-graph-probe.yjihjG/Cargo.lock",
+    "lock_sha256": "60a9dc5fc138a4053568a2b510f72b5f31c198351d28e5dbf4121a5a5d432fd8",
+    "required_direct_dependencies": [
+      "solana-address",
+      "solana-instruction",
+      "solana-keypair",
+      "solana-program-test",
+      "solana-pubkey",
+      "solana-signer",
+      "solana-transaction"
+    ],
+    "check_command": "cargo check --all-targets --locked --offline --manifest-path /tmp/ca2-solana-graph-probe.yjihjG/Cargo.toml"
+  },
+  "full_manifest_probe": {
+    "manifest_path": "full-manifest-probe/Cargo.toml",
+    "manifest_sha256": "29798b2f2a4bd09ad062d64a0444457646c838286061d1ce7e79bdaf495e37b8",
+    "lock_path": "full-manifest-probe/Cargo.lock",
+    "lock_sha256": "f9ce2c74753778b0e79fbf79308e406729de24f5529c43a1476537866b571d55",
+    "source_path": "full-manifest-probe/src/lib.rs",
+    "source_sha256": "ebf894ea4025dec47dcf1b81ddfa54bdea0db46c43c50fea30c99b22b20d3e45",
+    "direct_dependency_count": 17,
+    "locked_package_count": 774,
+    "resolved_dependency_package_count": 773,
+    "generate_command": "cargo generate-lockfile --offline --manifest-path full-manifest-probe/Cargo.toml",
+    "check_command": "cargo check --all-targets --locked --offline --manifest-path full-manifest-probe/Cargo.toml",
+    "observed_result": "PASS"
+  },
+  "preservation": {
+    "minimum_rust_version": "1.94.0",
+    "dependency_count": 17,
+    "planned_target_count": 14,
+    "all_other_dependency_selections": "unchanged-from-accepted-binding-005",
+    "workstreams": "unchanged-from-accepted-binding-005",
+    "planned_targets": "unchanged-from-accepted-binding-005",
+    "selected_dependencies": "unchanged-from-accepted-binding-005",
+    "selector_closure": "unchanged-from-accepted-binding-005",
+    "profiles": "unchanged-from-accepted-binding-005",
+    "forbidden_capabilities": "unchanged-from-accepted-binding-005",
+    "security_posture": "unchanged-from-accepted-binding-005"
+  },
+  "authority_effect": "none",
+  "implementation_effect": "none",
+  "enforcement_effect": "none",
+  "external_effect": "none"
+}

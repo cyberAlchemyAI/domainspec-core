@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberalchemy.local/schemas/agent-reasoning-engine-ontology/v1",
+  "title": "CyberAlchemy-v2 Agent Reasoning Engine Ontology",
+  "$defs": {
+    "nonEmptyString": {"type": "string", "minLength": 1},
+    "id": {"type": "string", "minLength": 1},
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_ref", "schema_version", "package_id", "ontology_id", "ontology_type", "package_root", "package_owner", "meaning_owner", "system_owner", "visibility", "status", "authority_effect", "product_capability_ref", "source_registry", "business_ontology", "bridge_registry", "domainspec_project", "system_ontology", "implementation_target", "schema_path", "validator_path", "residue_registry", "receipt_root", "stage_states", "blocked_effects"],
+      "properties": {
+        "schema_ref": {"const": "schemas/agent-reasoning-engine-ontology.schema.json#/$defs/profile"},
+        "schema_version": {"const": "cav2-agent-reasoning-engine-ontology-profile/v1"},
+        "package_id": {"const": "cav2.agent-reasoning-engine.ontology"},
+        "ontology_id": {"const": "cav2.agent-reasoning-engine.bridge.v1"},
+        "ontology_type": {"const": "business-system-bridge"},
+        "package_root": {"const": "cyberAlchemy-v2/development/agent-reasoning-engine/ontology"},
+        "package_owner": {"$ref": "#/$defs/nonEmptyString"},
+        "meaning_owner": {"$ref": "#/$defs/nonEmptyString"},
+        "system_owner": {"$ref": "#/$defs/nonEmptyString"},
+        "visibility": {"const": "private"},
+        "status": {"const": "candidate-first-class"},
+        "authority_effect": {"const": "none"},
+        "product_capability_ref": {"const": "CA2-CAP-REASON-AND-MANAGE-CONTEXT"},
+        "source_registry": {"const": "sources.json"},
+        "business_ontology": {"const": "business-ontology.json"},
+        "bridge_registry": {"const": "bridge.json"},
+        "domainspec_project": {"const": "domainspec/project.json"},
+        "system_ontology": {"const": "domainspec/generated/system-ontology.json"},
+        "implementation_target": {"const": "cyberAlchemy-v2/implementation/agent-reasoning-engine"},
+        "schema_path": {"const": "schemas/agent-reasoning-engine-ontology.schema.json"},
+        "validator_path": {"const": "scripts/validate.py"},
+        "residue_registry": {"const": "residue.jsonl"},
+        "receipt_root": {"const": "receipts"},
+        "stage_states": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["definition", "product_ontology", "product_capability", "business_ontology", "domainspec_source", "compiled_graph", "system_ontology", "bridge_validation", "implementation", "static_conformance", "runtime_evidence"],
+          "properties": {
+            "definition": {"const": "validated"},
+            "product_ontology": {"const": "referenced"},
+            "product_capability": {"const": "candidate"},
+            "business_ontology": {"const": "candidate"},
+            "domainspec_source": {"const": "candidate"},
+            "compiled_graph": {"const": "candidate-generated"},
+            "system_ontology": {"const": "candidate-generated"},
+            "bridge_validation": {"const": "candidate"},
+            "implementation": {"const": "candidate-partial-realizations"},
+            "static_conformance": {"const": "not_evaluable"},
+            "runtime_evidence": {"const": "not_evaluable"}
+          }
+        },
+        "blocked_effects": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}}
+      }
+    },
+    "businessNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "meaning"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["Product", "Product Capability", "Outcome", "Actor", "Domain Concept", "Workflow", "Business Rule", "Policy"]},
+        "meaning": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "businessRelation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source", "type", "target"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "source": {"$ref": "#/$defs/id"},
+        "type": {"enum": ["belongs_to", "produces", "serves", "consumes", "constrains", "precedes", "manages", "exposes", "preserves"]},
+        "target": {"$ref": "#/$defs/id"}
+      }
+    },
+    "businessOntology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_ref", "schema_version", "ontology_id", "ontology_type", "branch", "nodes", "relations", "authority_effect"],
+      "properties": {
+        "schema_ref": {"const": "schemas/agent-reasoning-engine-ontology.schema.json#/$defs/businessOntology"},
+        "schema_version": {"const": "cav2-agent-reasoning-engine-business-ontology/v1"},
+        "ontology_id": {"const": "CA2-ARE-BUSINESS-ONTOLOGY"},
+        "ontology_type": {"const": "business-domain"},
+        "branch": {"const": "business"},
+        "nodes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/businessNode"}},
+        "relations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/businessRelation"}},
+        "authority_effect": {"const": "none"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "scope_kind", "selector", "sha256", "role", "branch"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^CAP-SEL-"},
+        "path": {"$ref": "#/$defs/nonEmptyString"},
+        "scope_kind": {"enum": ["whole-file", "heading-section"]},
+        "selector": {"type": ["string", "null"]},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "role": {"enum": ["canonical-definition", "owner-direction", "product-source", "system-design", "implementation-evidence", "decision-evidence"]},
+        "branch": {"enum": ["business", "system", "bridge"]}
+      }
+    },
+    "sourceRegistry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_ref", "schema_version", "registry_id", "sources", "authority_effect"],
+      "properties": {
+        "schema_ref": {"const": "schemas/agent-reasoning-engine-ontology.schema.json#/$defs/sourceRegistry"},
+        "schema_version": {"const": "cav2-agent-reasoning-engine-sources/v1"},
+        "registry_id": {"const": "cav2.agent-reasoning-engine.sources"},
+        "sources": {"type": "array", "minItems": 8, "items": {"$ref": "#/$defs/source"}},
+        "authority_effect": {"const": "none"}
+      }
+    },
+    "bridgeEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source", "relation", "target", "realization_status", "evidence_refs"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "source": {"$ref": "#/$defs/id"},
+        "relation": {"enum": ["realized_by", "depends_on", "constrained_by", "observed_by", "tested_by", "drifts_from", "traced_to"]},
+        "target": {"$ref": "#/$defs/id"},
+        "realization_status": {"enum": ["candidate-trace", "bounded-realization", "gap"]},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^CAP-SEL-"}}
+      }
+    },
+    "bridgeGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "business_refs", "system_refs", "meaning"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "status": {"enum": ["open", "blocked", "not_evaluable"]},
+        "business_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "system_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "meaning": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "bridgeOntology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_ref", "schema_version", "ontology_id", "ontology_type", "branches", "business_ontology_ref", "system_ontology_ref", "edges", "gaps", "authority_effect", "claim_limit"],
+      "properties": {
+        "schema_ref": {"const": "schemas/agent-reasoning-engine-ontology.schema.json#/$defs/bridgeOntology"},
+        "schema_version": {"const": "cav2-agent-reasoning-engine-bridge/v1"},
+        "ontology_id": {"const": "cav2.agent-reasoning-engine.bridge.v1"},
+        "ontology_type": {"const": "business-system-bridge"},
+        "branches": {"const": ["business", "system"]},
+        "business_ontology_ref": {"const": "business-ontology.json"},
+        "system_ontology_ref": {"const": "domainspec/generated/system-ontology.json"},
+        "edges": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/bridgeEdge"}},
+        "gaps": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/bridgeGap"}},
+        "authority_effect": {"const": "none"},
+        "claim_limit": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    }
+  }
+}

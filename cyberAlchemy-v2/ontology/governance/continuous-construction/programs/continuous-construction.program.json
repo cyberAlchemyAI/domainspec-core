@@ -1,0 +1,42 @@
+{
+  "schema_version": "cav2-continuous-construction-program/v1",
+  "program_id": "CA2-GOV-PROGRAM-CONTINUOUS-CONSTRUCTION-001",
+  "version": 1,
+  "source_bindings": [
+    {
+      "id": "GCC-SEL-CAV2-C19",
+      "path": "cyberAlchemy-v2/authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md",
+      "selector": "### CAV2-C19. D65 Continuous Construction To Terminal Human Test",
+      "sha256": "fb7fbe17c21567a4f07c4b771266695f09481aeda4e703b8210ad5fd6e4c44fa"
+    },
+    {
+      "id": "GCC-SEL-CAV2-D65",
+      "path": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
+      "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant",
+      "sha256": "ba524beb8fb408f9abcd0805644f59ec2dbfcd810de24ac99c87296f843ba4ff"
+    },
+    {
+      "id": "GCC-SEL-CAV2-D67",
+      "path": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
+      "selector": "## CAV2-D67: Product Capability",
+      "sha256": "bf8f3cb9b7d22aaa3c54b7c1eb177b85100be9bc421142bb3ead7e2456431d13"
+    }
+  ],
+  "stage_order": [
+    "canonical-definitions",
+    "product-ontology",
+    "business-ontology",
+    "domainspec-source",
+    "compiled-graph",
+    "system-ontology",
+    "exact-implementation-binding",
+    "static-conformance",
+    "runtime-evidence"
+  ],
+  "decisions": ["CONTINUE", "STOP", "READY_FOR_HUMAN_TEST", "REQUEST_TERMINAL_CONFIRMATION"],
+  "routine_confirmation_policy": "false-except-terminal-request",
+  "predecessor_failure_policy": "fail-closed-and-mark-downstream-not_evaluable",
+  "retroactive_approval": "forbidden",
+  "effect_ceiling": "none",
+  "authority_effect": "none"
+}
