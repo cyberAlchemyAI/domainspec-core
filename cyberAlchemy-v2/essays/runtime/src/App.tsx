@@ -1,11 +1,35 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { LocalStorageWorkspaceRepository } from "./adapters/local-storage-repository";
+import { normalizeMarkdown, type EssaysSavedDraftObservation, type EssaysStagedBuffer } from "./domain/markdown";
 import { EssaysProblem, type EssayExportManifest, type EssayWorkspace, type ReviewComment } from "./domain/model";
 import { EssaysRuntime } from "./domain/runtime";
 
 const DEFAULT_WORKSPACE_ID = "local-essay-workspace";
 const STAGES = ["intent", "plan", "draft", "review", "validated"] as const;
 const MilkdownEditor = lazy(() => import("./adapters/milkdown-editor").then((module) => ({ default: module.MilkdownEditor })));
+
+export interface EssaysAppProps {
+  embedded?: boolean;
+  onWorkspaceChange?: (workspace: EssayWorkspace | null) => void;
+  stagedBuffer?: EssaysStagedBuffer | null;
+  onSavedDraftObservation?: (observation: EssaysSavedDraftObservation) => void;
+}
+
+export function selectEditorInitialMarkdown(input: {
+  draftMarkdown: string;
+  workspaceId: string;
+  hasCompositionPlan: boolean;
+  stagedBuffer: EssaysStagedBuffer | null;
+  appliedStageEpoch: number | null;
+}): string {
+  const staged = input.stagedBuffer;
+  return staged
+    && staged.workspaceId === input.workspaceId
+    && input.hasCompositionPlan
+    && input.appliedStageEpoch !== staged.stageEpoch
+    ? staged.markdown
+    : input.draftMarkdown;
+}
 
 function messageFor(error: unknown): string {
   if (error instanceof EssaysProblem) return error.message;
@@ -37,7 +61,7 @@ function StageRail({ workspace }: { workspace: EssayWorkspace }) {
   );
 }
 
-function Setup({ onCreated }: { onCreated: (workspace: EssayWorkspace) => void }) {
+function Setup({ onCreated, embedded }: { onCreated: (workspace: EssayWorkspace) => void; embedded: boolean }) {
   const [title, setTitle] = useState("Ontology as a Product Practice");
   const [writer, setWriter] = useState("Writer");
   const [busy, setBusy] = useState(false);
@@ -65,7 +89,7 @@ function Setup({ onCreated }: { onCreated: (workspace: EssayWorkspace) => void }
   };
 
   return (
-    <main className="setup-shell">
+    <main className={`essays-root setup-shell ${embedded ? "essays-embedded" : ""}`}>
       <section className="setup-card" aria-labelledby="setup-title">
         <p className="eyebrow">CyberAlchemy · Essays</p>
         <h1 id="setup-title">Begin with intent, not a blank page.</h1>
@@ -149,7 +173,7 @@ function ReviewCard({ comment, onResolve, busy }: { comment: ReviewComment; onRe
   );
 }
 
-export default function App() {
+export default function App({ embedded = false, onWorkspaceChange, stagedBuffer = null, onSavedDraftObservation }: EssaysAppProps = {}) {
   const runtime = useMemo(
     () => new EssaysRuntime(new LocalStorageWorkspaceRepository(window.localStorage)),
     [],
@@ -160,6 +184,7 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
+  const appliedStageEpoch = useRef<number | null>(null);
 
   useEffect(() => {
     void runtime.openEssayWorkspace(DEFAULT_WORKSPACE_ID).then((loaded) => {
@@ -170,6 +195,33 @@ export default function App() {
       setWorkspace(null);
     });
   }, [runtime]);
+
+  useEffect(() => {
+    if (workspace !== undefined) onWorkspaceChange?.(workspace);
+  }, [onWorkspaceChange, workspace]);
+
+  useEffect(() => {
+    if (
+      !stagedBuffer
+      || workspace?.workspaceId !== stagedBuffer.workspaceId
+      || !workspace.compositionPlan
+      || appliedStageEpoch.current === stagedBuffer.stageEpoch
+    ) return;
+    appliedStageEpoch.current = stagedBuffer.stageEpoch;
+    setDraftMarkdown(stagedBuffer.markdown);
+    setError("");
+    setNotice(`Proposal ${stagedBuffer.proposalId} staged in the unsaved editor buffer.`);
+  }, [stagedBuffer, workspace?.workspaceId, workspace?.compositionPlan]);
+
+  useEffect(() => {
+    if (!workspace?.essay?.revision) return;
+    onSavedDraftObservation?.({
+      workspaceId: workspace.workspaceId,
+      workspaceRevision: workspace.currentRevision,
+      essayRevision: workspace.essay.revision,
+      canonicalMarkdown: normalizeMarkdown(workspace.essay.markdown),
+    });
+  }, [onSavedDraftObservation, workspace?.workspaceId, workspace?.currentRevision, workspace?.essay?.revision, workspace?.essay?.markdown]);
 
   const run = useCallback(async (operation: () => Promise<EssayWorkspace>, success: string) => {
     setBusy(true);
@@ -189,8 +241,8 @@ export default function App() {
     }
   }, [draftMarkdown]);
 
-  if (workspace === undefined) return <main className="loading-shell"><p>Opening the local studio…</p></main>;
-  if (workspace === null) return <Setup onCreated={(created) => { setWorkspace(created); setNotice("Local studio created."); }} />;
+  if (workspace === undefined) return <main className={`essays-root loading-shell ${embedded ? "essays-embedded" : ""}`}><p>Opening the local studio…</p></main>;
+  if (workspace === null) return <Setup embedded={embedded} onCreated={(created) => { setWorkspace(created); setNotice("Local studio created."); }} />;
 
   const acceptIntent = async (value: { objective: string; audience: string; tone: string; constraints: string[] }) => {
     await run(() => runtime.captureTextIntent({ workspaceId: workspace.workspaceId, expectedRevision: workspace.currentRevision, ...value }), "Intent accepted by the writer.");
@@ -241,9 +293,16 @@ export default function App() {
   const review = workspace.review;
   const residue = workspace.residue;
   const essay = workspace.essay;
+  const editorInitialMarkdown = selectEditorInitialMarkdown({
+    draftMarkdown,
+    workspaceId: workspace.workspaceId,
+    hasCompositionPlan: Boolean(workspace.compositionPlan),
+    stagedBuffer,
+    appliedStageEpoch: appliedStageEpoch.current,
+  });
 
   return (
-    <div className="app-shell">
+    <div className={`essays-root app-shell ${embedded ? "essays-embedded" : ""}`}>
       <header className="topbar">
         <div>
           <p className="eyebrow">CyberAlchemy · Essays</p>
@@ -300,8 +359,8 @@ export default function App() {
             <>
               <Suspense fallback={<div className="empty-editor"><p>Preparing the writing surface…</p></div>}>
                 <MilkdownEditor
-                  key={`${essay?.essayId ?? "essay"}-${essay?.revision ?? 0}`}
-                  initialMarkdown={draftMarkdown}
+                  key={`${essay?.essayId ?? "essay"}-${essay?.revision ?? 0}-${stagedBuffer?.stageEpoch ?? "no-stage"}`}
+                  initialMarkdown={editorInitialMarkdown}
                   onMarkdownChange={setDraftMarkdown}
                   onSettlingChange={setEditorSettling}
                   describedBy="editor-instructions"

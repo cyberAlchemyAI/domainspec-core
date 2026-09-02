@@ -13,8 +13,14 @@ ontology describes one candidate realization.
 
 Essays is the first projected Project entry. The unaccepted Essays semantic
 explorer candidate is used only as evidence for useful projection fields and
-read-only obligations. Its Essays-local ownership and runtime boundary are
-explicitly rejected.
+read-only obligations. Workspace preserves the Essays-local ownership and
+runtime boundary; it rejects inheriting either boundary as Workspace authority.
+
+The runtime also contains a bounded implementation candidate that composes the
+read-only Workspace snapshot, the Essays lifecycle, a separate Rust proposal
+ledger, and a generated presentation graph. That candidate does not replace the
+canonical snapshot generator and carries no acceptance, release, or mutation
+authority.
 
 Validation and deterministic compilation are construction evidence only. They
 do not accept the realization candidate or authorize runtime implementation.

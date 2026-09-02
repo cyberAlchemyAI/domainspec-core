@@ -8,6 +8,12 @@ describe("Markdown block identity", () => {
     expect(normalizeMarkdown(normalizeMarkdown(source))).toBe(normalizeMarkdown(source));
   });
 
+  it("canonicalizes cross-store comparison bytes", () => {
+    expect(normalizeMarkdown("  # Title  \r\n\r\nBody with tabs\t \r\n\r\n"))
+      .toBe("# Title\n\nBody with tabs\n");
+    expect(normalizeMarkdown("\n\t\n")).toBe("");
+  });
+
   it("does not split a fenced code block at internal blank lines", () => {
     expect(splitMarkdownBlocks("Before\n\n```ts\nconst a = 1;\n\nconst b = 2;\n```\n\nAfter")).toEqual([
       "Before",

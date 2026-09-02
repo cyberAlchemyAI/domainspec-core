@@ -1,5 +1,19 @@
 import type { StableBlock } from "./model";
 
+export interface EssaysStagedBuffer {
+  workspaceId: string;
+  proposalId: string;
+  stageEpoch: number;
+  markdown: string;
+}
+
+export interface EssaysSavedDraftObservation {
+  workspaceId: string;
+  workspaceRevision: number;
+  essayRevision: number;
+  canonicalMarkdown: string;
+}
+
 export function normalizeMarkdown(markdown: string): string {
   const normalized = markdown
     .replace(/\r\n?/g, "\n")

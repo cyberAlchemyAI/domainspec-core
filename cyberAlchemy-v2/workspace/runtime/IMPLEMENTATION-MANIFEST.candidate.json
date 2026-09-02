@@ -1,0 +1,48 @@
+{
+  "schema_version": "cav2-workspace-implementation-binding/v1",
+  "manifest_id": "CA2-WORKSPACE-IMPLEMENTATION-MANIFEST-CANDIDATE-001",
+  "status": "candidate",
+  "authority_effect": "none",
+  "canonical_generation_claim": false,
+  "claim_ceiling": "Exact-byte local candidate binding only. This manifest does not establish canonical generation, ontology admission, owner acceptance, conformance, publication, release, deployment, or product value.",
+  "bindings": {
+    "preserved_explore_snapshot": {
+      "identity_kind": "preserved-generated-snapshot",
+      "embedded_snapshot_id": "644ff57bb6ff6ece046611bf7ff93b2231b7e3b490ef0ce3e716048eae238b9d",
+      "embedded_source_epoch": "d1b343f86572d8a8a5a56f43adca73ee40792dae27a8771183070b86d2c09bda",
+      "generation_posture": "preserved-not-regenerated",
+      "source": {
+        "root": "runtime",
+        "path": "src/domain/workspace.generated.ts",
+        "sha256": "fcf2007f404cf017c3cd190c8f8a655fea29d10541496e84c26b258fdfd339f3"
+      }
+    },
+    "ontology_canvas_graph": {
+      "identity_kind": "exact-current-graph-epoch",
+      "graph_epoch_algorithm": "sha256(nodes-bytes || 0x00 || relations-bytes)",
+      "graph_epoch_sha256": "b60385638745ee85a99018091505d3e17a6f6082a34c7f6775f434b3f1e5f58c",
+      "nodes": {
+        "root": "repository",
+        "path": "cyberAlchemy-v2/workspace/nodes.json",
+        "sha256": "4d0619d99b9aab742377c451bb21cd535c36c733e7b98c1f4d876f74bbf52e7c"
+      },
+      "relations": {
+        "root": "repository",
+        "path": "cyberAlchemy-v2/workspace/relations.json",
+        "sha256": "d4d9e44b4688833e7514b58d02e110d3156ab4cd7b225f81ee81ac6def27f8d0"
+      }
+    }
+  },
+  "identity_separation": {
+    "preserved_snapshot_is_current_graph_epoch": false,
+    "meaning": "The preserved Explore snapshot identity and source epoch are not the current ontology-canvas graph epoch. Exact binding of both does not regenerate, reconcile, or canonically unify them."
+  },
+  "canonical_build_blockers": [
+    {
+      "code": "WORKSPACE_CATALOG_SNAPSHOT_DRIFT",
+      "status": "retained-open",
+      "blocks": "canonical-workspace-build",
+      "meaning": "The preserved Explore snapshot has not been canonically regenerated against the current graph inputs."
+    }
+  ]
+}
