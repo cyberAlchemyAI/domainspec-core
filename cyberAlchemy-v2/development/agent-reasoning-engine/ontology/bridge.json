@@ -310,6 +310,38 @@
       "target": "agent-reasoning-engine.ReasoningStateRecoveryBoundary",
       "realization_status": "bounded-realization",
       "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-39",
+      "source": "CA2-ARE-CONCEPT-REASONING-STATE-FRONTIER",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ReasoningStateFrontier",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-40",
+      "source": "CA2-ARE-WORKFLOW-COMPLETION-FRONTIER-SEALING",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.SealCompletionFrontier",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-41",
+      "source": "CA2-ARE-RULE-COMPLETION-FRONTIER-BEFORE-CONTINUATION",
+      "relation": "constrained_by",
+      "target": "agent-reasoning-engine.CompletionFrontierBoundary",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-REASONING-STATE-RUNTIME", "CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-42",
+      "source": "CA2-ARE-RULE-CONTEXT-BEFORE-JUDGMENT",
+      "relation": "constrained_by",
+      "target": "agent-reasoning-engine.ContextBoundSemanticIntegrity",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVALUATOR", "CAP-SEL-ARE-CONTEXT-SEMANTIC-ADAPTER", "CAP-SEL-ARE-EVALUATOR-REDUCER", "CAP-SEL-ARE-EVALUATOR-RECEIPT-ASSEMBLER", "CAP-SEL-ARE-EVALUATOR-CONTEXT-TEST"]
     }
   ],
   "gaps": [
@@ -317,15 +349,15 @@
       "id": "CA2-ARE-GAP-CONTEXT-MANAGER",
       "status": "blocked",
       "business_refs": ["CA2-ARE-OUTCOME-CONTEXT-INTEGRITY", "CA2-ARE-OUTCOME-CONTEXT-LIFECYCLE", "CA2-ARE-WORKFLOW-CONTEXT-FORMATION", "CA2-ARE-WORKFLOW-CONTEXT-REFRESH"],
-      "system_refs": ["agent-reasoning-engine.DefinitionClosureResolution", "agent-reasoning-engine.OntologySelectorBinding", "agent-reasoning-engine.ContextBasisConstruction", "agent-reasoning-engine.ContextViewBinding", "agent-reasoning-engine.ContextAssembly", "agent-reasoning-engine.ContextIntegrity", "agent-reasoning-engine.ContextRefresh", "agent-reasoning-engine.ReasoningStateFormation", "agent-reasoning-engine.ExactDispatchPreparation", "agent-reasoning-engine.CheckpointReasoningState", "agent-reasoning-engine.RebuildReasoningStateIndex", "agent-reasoning-engine.RecoverReasoningState", "agent-reasoning-engine.ReasoningStateRecoveryBoundary", "agent-reasoning-engine.ReasoningContextLifecycle"],
-      "meaning": "A bounded Codex vertical realizes deterministic context assembly, explicit append-only reasoning-state epochs, exact dispatch reconstruction, required memory or fsync checkpoints, fail-closed checkpointed file recovery, selected-dependency refresh, semantic evaluation, receipt constraints, journal replay, and isolated app-server consumers. Production semantic activation, repair, cross-process coordination, durable Session semantics, Desktop endpoint adoption, and adaptive compression remain open."
+      "system_refs": ["agent-reasoning-engine.DefinitionClosureResolution", "agent-reasoning-engine.OntologySelectorBinding", "agent-reasoning-engine.ContextBasisConstruction", "agent-reasoning-engine.ContextViewBinding", "agent-reasoning-engine.ContextAssembly", "agent-reasoning-engine.ContextIntegrity", "agent-reasoning-engine.ContextRefresh", "agent-reasoning-engine.ReasoningStateFormation", "agent-reasoning-engine.ExactDispatchPreparation", "agent-reasoning-engine.CheckpointReasoningState", "agent-reasoning-engine.RebuildReasoningStateIndex", "agent-reasoning-engine.RecoverReasoningState", "agent-reasoning-engine.ReasoningStateRecoveryBoundary", "agent-reasoning-engine.ReasoningStateFrontier", "agent-reasoning-engine.SealCompletionFrontier", "agent-reasoning-engine.CompletionFrontierBoundary", "agent-reasoning-engine.ReasoningContextLifecycle"],
+      "meaning": "A bounded Codex vertical realizes deterministic context assembly, explicit append-only reasoning-state epochs, exact dispatch reconstruction, required memory or fsync checkpoints, fail-closed checkpointed file recovery, completed-turn frontier replay, selected-dependency refresh, semantic evaluation, receipt constraints, journal replay, and isolated app-server consumers. Production semantic activation, successor-delivery acknowledgement, repair, cross-process coordination, durable Session semantics, Desktop endpoint adoption, and adaptive compression remain open."
     },
     {
       "id": "CA2-ARE-GAP-WHOLE-ENGINE",
       "status": "blocked",
       "business_refs": ["CA2-ARE-BUSINESS-ONTOLOGY"],
-      "system_refs": ["agent-reasoning-engine.ReasoningContextLifecycle", "agent-reasoning-engine.IntentRouteResolution", "agent-reasoning-engine.SemanticReduction", "agent-reasoning-engine.ReasoningReceiptConstraint", "agent-reasoning-engine.RuntimeJournal", "agent-reasoning-engine.JournalReplay", "agent-reasoning-engine.ReasoningStateLedger", "agent-reasoning-engine.ReasoningStateEpoch", "agent-reasoning-engine.ReasoningStateCheckpoint", "agent-reasoning-engine.ReasoningDispatch", "agent-reasoning-engine.ReasoningStateDerivedIndex", "agent-reasoning-engine.ReasoningStateRecoveryAssessment", "agent-reasoning-engine.ReasoningStateFormation", "agent-reasoning-engine.ExactDispatchPreparation", "agent-reasoning-engine.CheckpointReasoningState", "agent-reasoning-engine.RebuildReasoningStateIndex", "agent-reasoning-engine.RecoverReasoningState", "agent-reasoning-engine.ReasoningStateRecoveryBoundary", "agent-reasoning-engine.PersistentAppServerGateway", "agent-reasoning-engine.GatewayConsumerSession", "agent-reasoning-engine.GatewayConnection"],
-      "meaning": "Context assembly, reusable explicit reasoning-state epochs, exact dispatch reconstruction, risk-aligned checkpoints, checkpointed file recovery, semantic materialization, receipt-constrained continuation, bounded replay, and an isolated app-server gateway form a working candidate vertical. The whole engine remains incomplete because repair, compaction, branching, a production semantic catalog, default activation, durable cross-process coordination, and a supported Codex Desktop endpoint are absent."
+      "system_refs": ["agent-reasoning-engine.ReasoningContextLifecycle", "agent-reasoning-engine.IntentRouteResolution", "agent-reasoning-engine.SemanticReduction", "agent-reasoning-engine.ReasoningReceiptConstraint", "agent-reasoning-engine.RuntimeJournal", "agent-reasoning-engine.JournalReplay", "agent-reasoning-engine.ReasoningStateLedger", "agent-reasoning-engine.ReasoningStateEpoch", "agent-reasoning-engine.ReasoningStateCheckpoint", "agent-reasoning-engine.ReasoningDispatch", "agent-reasoning-engine.ReasoningStateDerivedIndex", "agent-reasoning-engine.ReasoningStateRecoveryAssessment", "agent-reasoning-engine.ReasoningStateFrontier", "agent-reasoning-engine.ReasoningStateFormation", "agent-reasoning-engine.ExactDispatchPreparation", "agent-reasoning-engine.CheckpointReasoningState", "agent-reasoning-engine.RebuildReasoningStateIndex", "agent-reasoning-engine.RecoverReasoningState", "agent-reasoning-engine.ReasoningStateRecoveryBoundary", "agent-reasoning-engine.SealCompletionFrontier", "agent-reasoning-engine.CompletionFrontierBoundary", "agent-reasoning-engine.PersistentAppServerGateway", "agent-reasoning-engine.GatewayConsumerSession", "agent-reasoning-engine.GatewayConnection"],
+      "meaning": "Context assembly, reusable explicit reasoning-state epochs, exact dispatch reconstruction, risk-aligned checkpoints, checkpointed file recovery, completed-turn frontier replay, semantic materialization, receipt-constrained continuation, bounded replay, and an isolated app-server gateway form a working candidate vertical. The whole engine remains incomplete because delivery acknowledgement, repair, compaction, branching, a production semantic catalog, default activation, durable cross-process coordination, and a supported Codex Desktop endpoint are absent."
     },
     {
       "id": "CA2-ARE-GAP-DOMAINSPEC-ADMISSION",

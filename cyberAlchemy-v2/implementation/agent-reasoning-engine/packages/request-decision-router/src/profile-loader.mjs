@@ -1,6 +1,6 @@
 import {createHash} from "node:crypto";
 import {readFileSync} from "node:fs";
-import {resolve} from "node:path";
+import {isAbsolute, relative, resolve, sep} from "node:path";
 
 import {deepFreeze} from "../../intent-route-resolver/index.mjs";
 import {admitDecisionProfile} from "./profile.mjs";
@@ -24,7 +24,8 @@ export function loadVerifiedDecisionProfile(profilePath, repositoryRoot) {
   const sourceBytes = new Map();
   for (const source of admission.value.provenance) {
     const path = resolve(root, source.path);
-    if (!(path === root || path.startsWith(`${root}/`))) {
+    const pathFromRoot = relative(root, path);
+    if (pathFromRoot === ".." || pathFromRoot.startsWith(`..${sep}`) || isAbsolute(pathFromRoot)) {
       reasons.push(`profile.provenance-escape:${source.id}`);
       continue;
     }

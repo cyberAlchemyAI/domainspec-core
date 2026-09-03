@@ -2,6 +2,7 @@
 export {loadRepositoryProfile} from "./src/config.mjs";
 export {materializeDefinitionCatalog, materializeOntologySnapshot} from "./src/source-adapters.mjs";
 export {evaluateTurnPreflight} from "./src/preflight.mjs";
+export {buildRequestContext, REQUEST_CONTEXT_KEY} from "./src/request-context.mjs";
 export {evaluateEffectRequest, bindApprovalResponse} from "./src/effect-boundary.mjs";
 export {evaluateDualLaneContinuation, normalizeContinuationProposals} from "./src/continuation.mjs";
 export {createEvidenceLedger} from "./src/evidence-ledger.mjs";
@@ -10,9 +11,13 @@ export {
   createAppendOnlyFileReasoningStateSink,
   createMemoryReasoningStateSink,
   createReasoningStateLedger,
+  getReasoningStateFrontier,
+  listReasoningStateFrontiers,
   rebuildReasoningStateIndexes,
   recoverReasoningStateLedger,
+  sealReasoningStateFrontier,
   selectRecoverableCheckpoint,
+  verifyReasoningStateFrontier,
   verifyReasoningStateLog,
 } from "../reasoning-state-runtime/index.mjs";
 export {CODEX_SEMANTIC_COMPLETION_SCHEMA, evaluateSemanticCompletion} from "./src/semantic-completion.mjs";

@@ -275,7 +275,7 @@ export function createCodexAppServerWrapper(options) {
 
   async function loadCurrentSources() {
     if (typeof options.context_source_provider !== "function") {
-      return {ok: true, decision_profile: activeDecisionProfile, definition_catalog: options.definition_catalog, ontology_snapshot: options.ontology_snapshot, source_snapshot: options.source_snapshot ?? [], authority_effect: "none"};
+      return {ok: true, decision_profile: activeDecisionProfile, definition_catalog: options.definition_catalog, ontology_snapshot: options.ontology_snapshot, instructions: options.instructions ?? [], supplemental_context_items: options.supplemental_context_items ?? [], source_snapshot: options.source_snapshot ?? [], authority_effect: "none"};
     }
     const current = await options.context_source_provider();
     if (!isRecord(current) || current.ok !== true) return current ?? fail("context-source-refresh", ["context.source-provider-failed"]);
@@ -295,6 +295,8 @@ export function createCodexAppServerWrapper(options) {
       decision_profile: current.decision_profile,
       definition_catalog: current.definition_catalog,
       ontology_snapshot: current.ontology_snapshot,
+      instructions: current.instructions ?? [],
+      supplemental_context_items: current.supplemental_context_items ?? [],
       context: options.loaded_profile.context,
       previous_envelope: previousState?.envelope ?? null,
       current_sources: current.source_snapshot ?? [],

@@ -1,10 +1,12 @@
 import {execFileSync} from "node:child_process";
 import {dirname, resolve} from "node:path";
-import {createInterface} from "node:readline";
+import {EventEmitter} from "node:events";
 import {PassThrough} from "node:stream";
 import {fileURLToPath} from "node:url";
 
 import {
+  AppServerRpcError,
+  createAppServerRpcClient,
   createCodexAppServerWrapper,
   loadRepositoryProfile,
   protocolBindingCheck,
@@ -18,6 +20,25 @@ const repositoryRoot = resolve(packageRoot, "../../../../..");
 const profilePath = resolve(packageRoot, "profiles/repository-v1.json");
 const semanticProfilePath = resolve(packageRoot, "test/fixtures/semantic/profile.json");
 const SCENARIOS = ["recommended", "insufficient", "owner-escalation", "tampered", "disabled", "interaction-precedence"];
+const REQUEST_TIMEOUT_MS = positiveMilliseconds("ARE_CANARY_REQUEST_TIMEOUT_MS", 180000);
+const EVENT_TIMEOUT_MS = positiveMilliseconds("ARE_CANARY_EVENT_TIMEOUT_MS", 120000);
+
+function positiveMilliseconds(name, fallback) {
+  const parsed = Number.parseInt(process.env[name] ?? "", 10);
+  return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function progress(scenario, stage, details = {}) {
+  const event = {schema_version: "are.codex-canary-progress/v1", scenario, stage, ...details, authority_effect: "none"};
+  process.stderr.write(`ARE_CANARY_PROGRESS ${JSON.stringify(event)}\n`);
+  return event;
+}
+
+function failureClass(error) {
+  if (["rpc.request-timeout", "rpc.notification-timeout"].includes(error?.code)) return "app-server-protocol-timeout";
+  if (["rpc.transport-exited", "rpc.transport-spawn-failed", "rpc.transport-failed", "rpc.invalid-json"].includes(error?.code)) return "app-server-transport";
+  return "scenario-failure";
+}
 
 function semanticInput() {
   const value = {purchase_age_days: 12, purchase_amount: 75, receipt_present: true, fraud_hold: false, final_sale: false};
@@ -67,31 +88,30 @@ function expected(scenario) {
   return {semantic: "RecommendedUnderSnapshot", directive: "gate", successors: 0};
 }
 
-function bounded(waiters, predicate, label, milliseconds = 300000) {
-  const existing = waiters.messages.find(predicate);
-  if (existing) return Promise.resolve(existing);
-  return new Promise((resolvePromise, reject) => {
-    const timer = setTimeout(() => reject(new Error(`${label}:timeout`)), milliseconds);
-    waiters.pending.push({
-      predicate,
-      resolve: (value) => { clearTimeout(timer); resolvePromise(value); },
-    });
-  });
-}
-
-async function runScenario(scenario, loaded, semanticProfile, observedVersion) {
+async function runMatrix(loaded, semanticProfile, observedVersion) {
   const profile = structuredClone(loaded.value);
-  profile.semantic_evaluation = {enabled: scenario !== "disabled", trigger: "turn/completed"};
-  let primaryTurnId = null;
-  let evaluatorCalls = 0;
-  const provider = () => {
+  profile.semantic_evaluation = {enabled: true, trigger: "turn/completed"};
+  const scenarioStartedAt = new Map();
+  const progressByScenario = new Map();
+  const scenarioByTurn = new Map();
+  const evaluatorCalls = new Map();
+  let activeScenario = "matrix";
+  const trace = (scenario, stage, details = {}) => {
+    const startedAt = scenarioStartedAt.get(scenario) ?? Date.now();
+    const event = progress(scenario, stage, {elapsed_ms: Date.now() - startedAt, ...details});
+    if (!progressByScenario.has(scenario)) progressByScenario.set(scenario, []);
+    progressByScenario.get(scenario).push(event);
+  };
+  const provider = ({turn_state: turnState}) => {
+    const scenario = scenarioByTurn.get(turnState?.turn_id) ?? activeScenario;
     const input = semanticInput();
     if (scenario === "insufficient") input.observation_candidates = input.observation_candidates.filter((candidate) => candidate.field !== "receipt_present");
     if (scenario === "owner-escalation") input.challenge_state.material_disputes = [{dispute_id: "canary-owner", status: "open"}];
     return input;
   };
   const lifecycle = (input) => {
-    evaluatorCalls += 1;
+    const scenario = activeScenario;
+    evaluatorCalls.set(scenario, (evaluatorCalls.get(scenario) ?? 0) + 1);
     const result = composeSemanticLifecycle(input);
     if (scenario !== "tampered" || !result.ok) return result;
     const reasoningReceipt = {...result.reasoning_receipt, terminal_outcome: "Deferred.Insufficient"};
@@ -104,11 +124,12 @@ async function runScenario(scenario, loaded, semanticProfile, observedVersion) {
     ontology_snapshot: loaded.ontology_snapshot,
     source_snapshot: loaded.source_snapshot,
     context_source_provider: loaded.context_source_provider,
-    semantic_profile: scenario === "disabled" ? null : semanticProfile,
+    semantic_profile: semanticProfile,
     semantic_input_provider: provider,
     semantic_lifecycle: lifecycle,
     continuation_provider: ({message}) => {
-      if (message.params?.turn?.id !== primaryTurnId) return {plan_bound: [], interaction_bound: []};
+      const scenario = scenarioByTurn.get(message.params?.turn?.id);
+      if (!scenario) return {plan_bound: [], interaction_bound: []};
       const proposal = planProposal(message.params.threadId, scenario);
       if (scenario === "interaction-precedence") {
         return {plan_bound: [proposal], interaction_bound: [{proposal_id: "canary:interaction", attributed_to: "human:canary", proposal_text: "Review before continuing.", evidence_refs: ["canary:interaction"]}]};
@@ -121,96 +142,145 @@ async function runScenario(scenario, loaded, semanticProfile, observedVersion) {
   const clientOutput = new PassThrough();
   const clientError = new PassThrough();
   const child = runStdioProxy({wrapper, client_input: clientInput, client_output: clientOutput, client_error: clientError});
-  const waiters = {messages: [], pending: []};
-  const pendingRequests = new Map();
-  let sequence = 0;
+  const transportFailure = new EventEmitter();
+  let closing = false;
   let stderr = "";
   clientError.on("data", (chunk) => { stderr += chunk; });
-  createInterface({input: clientOutput, crlfDelay: Infinity}).on("line", (line) => {
-    const message = JSON.parse(line);
-    waiters.messages.push(message);
-    for (const waiter of [...waiters.pending]) {
-      if (!waiter.predicate(message)) continue;
-      waiters.pending.splice(waiters.pending.indexOf(waiter), 1);
-      waiter.resolve(message);
-    }
-    if (message.method?.endsWith("/requestApproval")) {
-      const denial = message.method === "item/permissions/requestApproval" ? {permissions: {}} : {decision: "decline"};
-      clientInput.write(`${JSON.stringify({jsonrpc: "2.0", id: message.id, result: denial})}\n`);
-    }
-    if (Object.hasOwn(message, "id") && pendingRequests.has(String(message.id))) {
-      const pending = pendingRequests.get(String(message.id));
-      pendingRequests.delete(String(message.id));
-      if (message.error) pending.reject(new Error(`${pending.method}:${JSON.stringify(message.error)}`));
-      else pending.resolve(message.result);
+  child.on("error", (error) => {
+    if (!closing) transportFailure.emit("failure", new AppServerRpcError("rpc.transport-failed", error.message));
+  });
+  child.on("close", (code, signal) => {
+    if (!closing) transportFailure.emit("failure", new AppServerRpcError("rpc.transport-exited", `Wrapped app-server exited: ${signal ?? code}`, {code, signal}));
+  });
+  const transport = {
+    input: clientInput,
+    output: clientOutput,
+    failure: transportFailure,
+    ready: Promise.resolve({kind: "semantic-canary-stdio"}),
+    close: async () => {
+      if (closing) return;
+      closing = true;
+      clientInput.end();
+      if (child.exitCode === null) child.kill("SIGKILL");
+    },
+    inspect: () => ({kind: "semantic-canary-stdio", closing, exit_code: child.exitCode, authority_effect: "none"}),
+  };
+  const rpc = createAppServerRpcClient({transport, request_timeout_ms: REQUEST_TIMEOUT_MS, thread_start_timeout_ms: REQUEST_TIMEOUT_MS, completion_timeout_ms: EVENT_TIMEOUT_MS});
+  const messages = [];
+  rpc.events.on("notification", (message) => {
+    messages.push(message);
+    if (["turn/completed", "cyberalchemy/semantic", "cyberalchemy/decision", "cyberalchemy/successor"].includes(message.method)) {
+      const turnId = message.params?.turn?.id ?? message.params?.turnId ?? message.params?.reasoning_receipt_binding?.turn_id;
+      trace(scenarioByTurn.get(turnId) ?? activeScenario, "notification", {method: message.method, kind: message.params?.kind ?? null});
     }
   });
-
-  function request(method, params) {
-    const id = ++sequence;
-    clientInput.write(`${JSON.stringify({jsonrpc: "2.0", id, method, params})}\n`);
-    return new Promise((resolvePromise, reject) => pendingRequests.set(String(id), {resolve: resolvePromise, reject, method}));
-  }
-
-  let result;
+  const request = async (scenario, method, params) => {
+    trace(scenario, "request-start", {method});
+    const response = await rpc.request(method, params);
+    trace(scenario, "request-complete", {method});
+    return response;
+  };
+  const waitFor = async (scenario, predicate, label) => {
+    trace(scenario, "wait-start", {label});
+    const message = await rpc.waitForNotification(predicate, {timeout_ms: EVENT_TIMEOUT_MS});
+    trace(scenario, "wait-complete", {label});
+    return message;
+  };
+  const seenDecisionDigests = new Set();
+  const seenSuccessorResponses = new Set();
+  const nextDecision = async (scenario, label) => {
+    const message = await waitFor(scenario, (candidate) => candidate.method === "cyberalchemy/decision"
+      && candidate.params?.completion_digest
+      && !seenDecisionDigests.has(candidate.params.completion_digest), label);
+    seenDecisionDigests.add(message.params.completion_digest);
+    return message;
+  };
+  const results = [];
+  let matrixError = null;
   try {
-    await request("initialize", {clientInfo: {name: `are-semantic-canary-${scenario}`, version: "0.1.0"}, capabilities: {experimentalApi: true}});
-    const started = await request("thread/start", {cwd: "/tmp", ephemeral: true, model: "gpt-5.6-sol", approvalPolicy: "never", sandbox: "read-only"});
-    const turn = await request("turn/start", {
-      threadId: started.thread.id,
-      input: [{type: "text", text: "Research whether this exact refund case is eligible. Answer in one sentence and do not use tools."}],
-      approvalPolicy: "never",
-      sandboxPolicy: {type: "readOnly", networkAccess: false},
-    });
-    primaryTurnId = turn.turn.id;
-    await bounded(waiters, (message) => message.method === "turn/completed" && message.params?.turn?.id === primaryTurnId, `${scenario}:primary-completion`);
-    const semantic = scenario === "disabled" ? null : await bounded(waiters, (message) => message.method === "cyberalchemy/semantic", `${scenario}:semantic`);
-    const directive = await bounded(waiters, (message) => message.method === "cyberalchemy/decision" && message.params?.completion_digest, `${scenario}:directive`);
-    let successorTurns = 0;
-    if (directive.params.directive_kind === "direct") {
-      await bounded(waiters, (message) => message.method === "cyberalchemy/successor" && message.params?.kind === "started", `${scenario}:successor-started`);
-      const successorResponse = await bounded(waiters, (message) => message.method === "cyberalchemy/successor" && message.params?.kind === "turn-start-response", `${scenario}:successor-response`);
-      const successorTurnId = successorResponse.params.response?.result?.turn?.id;
-      if (successorTurnId) {
-        await bounded(waiters, (message) => message.method === "turn/completed" && message.params?.turn?.id === successorTurnId, `${scenario}:successor-completion`);
-        successorTurns = 1;
+    scenarioStartedAt.set("matrix", Date.now());
+    await request("matrix", "initialize", {clientInfo: {name: "are-semantic-canary-matrix", version: "0.2.0"}, capabilities: {experimentalApi: true}});
+    const started = await request("matrix", "thread/start", {cwd: "/tmp", ephemeral: true, model: "gpt-5.6-sol", approvalPolicy: "never", sandbox: "read-only"});
+    for (const scenario of SCENARIOS) {
+      activeScenario = scenario;
+      profile.semantic_evaluation.enabled = scenario !== "disabled";
+      scenarioStartedAt.set(scenario, Date.now());
+      trace(scenario, "scenario-start", {request_timeout_ms: REQUEST_TIMEOUT_MS, event_timeout_ms: EVENT_TIMEOUT_MS, shared_thread: true});
+      const baseline = messages.length;
+      evaluatorCalls.set(scenario, 0);
+      try {
+        const turn = await request(scenario, "turn/start", {
+          threadId: started.thread.id,
+          input: [{type: "text", text: "Research whether this exact refund case is eligible. Answer in one sentence and do not use tools."}],
+          approvalPolicy: "never",
+          sandboxPolicy: {type: "readOnly", networkAccess: false},
+        });
+        const primaryTurnId = turn.turn.id;
+        scenarioByTurn.set(primaryTurnId, scenario);
+        await waitFor(scenario, (message) => message.method === "turn/completed" && message.params?.turn?.id === primaryTurnId, `${scenario}:primary-completion`);
+        const directive = await nextDecision(scenario, `${scenario}:directive`);
+        const scenarioMessages = messages.slice(baseline);
+        const semantic = scenarioMessages.find((message) => message.method === "cyberalchemy/semantic") ?? null;
+        let successorTurns = 0;
+        if (directive.params.directive_kind === "direct") {
+          const proposalId = `canary:${scenario}:successor`;
+          await waitFor(scenario, (message) => message.method === "cyberalchemy/successor" && message.params?.kind === "started" && message.params?.proposal_id === proposalId, `${scenario}:successor-started`);
+          const successorResponse = await waitFor(scenario, (message) => message.method === "cyberalchemy/successor"
+            && message.params?.kind === "turn-start-response"
+            && !seenSuccessorResponses.has(String(message.params?.rpc_id)), `${scenario}:successor-response`);
+          seenSuccessorResponses.add(String(successorResponse.params?.rpc_id));
+          const successorTurnId = successorResponse.params.response?.result?.turn?.id;
+          if (successorTurnId) {
+            await waitFor(scenario, (message) => message.method === "turn/completed" && message.params?.turn?.id === successorTurnId, `${scenario}:successor-completion`);
+            await nextDecision(scenario, `${scenario}:successor-directive`);
+            successorTurns = 1;
+          }
+        }
+        const exp = expected(scenario);
+        const completedMessages = messages.slice(baseline);
+        const semanticNotifications = completedMessages.filter((message) => message.method === "cyberalchemy/semantic").length;
+        const effectRequests = completedMessages.filter((message) => message.method?.endsWith("/requestApproval")).length;
+        const pass = directive.params.directive_kind === exp.directive
+          && successorTurns === exp.successors
+          && effectRequests === 0
+          && (exp.semantic_notifications === undefined || semanticNotifications === exp.semantic_notifications)
+          && (exp.semantic_disposition === undefined || semantic?.params?.disposition === exp.semantic_disposition)
+          && (exp.semantic === undefined || semantic?.params?.semantic_outcome === exp.semantic);
+        results.push({
+          scenario,
+          status: pass ? "PASS" : "FAIL",
+          observed_codex_version: observedVersion,
+          thread_id: started.thread.id,
+          primary_turn_id: primaryTurnId,
+          semantic_disposition: semantic?.params?.disposition ?? "disabled",
+          semantic_outcome: semantic?.params?.semantic_outcome ?? null,
+          reasoning_receipt_digest: semantic?.params?.reasoning_receipt_digest ?? null,
+          journal_cut_digest: semantic?.params?.reasoning_receipt_binding?.runtime_journal_cut_digest ?? null,
+          directive_kind: directive.params.directive_kind,
+          reason_codes: directive.params.reason_codes,
+          successor_turns: successorTurns,
+          evaluator_calls: evaluatorCalls.get(scenario) ?? 0,
+          effect_requests: effectRequests,
+          elapsed_ms: Date.now() - scenarioStartedAt.get(scenario),
+          progress: progressByScenario.get(scenario) ?? [],
+          authority_effect: "none",
+        });
+        trace(scenario, pass ? "scenario-pass" : "scenario-assertion-failed", {directive_kind: directive.params.directive_kind});
+      } catch (error) {
+        const classification = failureClass(error);
+        trace(scenario, "scenario-failed", {error_code: error.code ?? "unclassified", failure_class: classification});
+        results.push({scenario, status: "FAIL", error: error.message, error_code: error.code ?? null, failure_class: classification, observed_codex_version: observedVersion, elapsed_ms: Date.now() - scenarioStartedAt.get(scenario), progress: progressByScenario.get(scenario) ?? [], authority_effect: "none"});
+        if (["app-server-protocol-timeout", "app-server-transport"].includes(classification)) break;
       }
     }
-    const exp = expected(scenario);
-    const semanticNotifications = waiters.messages.filter((message) => message.method === "cyberalchemy/semantic").length;
-    const effectRequests = waiters.messages.filter((message) => message.method?.endsWith("/requestApproval")).length;
-    const pass = directive.params.directive_kind === exp.directive
-      && successorTurns === exp.successors
-      && effectRequests === 0
-      && (exp.semantic_notifications === undefined || semanticNotifications === exp.semantic_notifications)
-      && (exp.semantic_disposition === undefined || semantic?.params?.disposition === exp.semantic_disposition)
-      && (exp.semantic === undefined || semantic?.params?.semantic_outcome === exp.semantic);
-    const journalCutDigests = waiters.messages.filter((message) => message.method === "cyberalchemy/semantic").map((message) => message.params?.reasoning_receipt_binding?.runtime_journal_cut_digest).filter(Boolean);
-    result = {
-      scenario,
-      status: pass ? "PASS" : "FAIL",
-      observed_codex_version: observedVersion,
-      thread_id: started.thread.id,
-      primary_turn_id: primaryTurnId,
-      semantic_disposition: semantic?.params?.disposition ?? "disabled",
-      semantic_outcome: semantic?.params?.semantic_outcome ?? null,
-      reasoning_receipt_digest: semantic?.params?.reasoning_receipt_digest ?? null,
-      journal_cut_digest: journalCutDigests[0] ?? null,
-      directive_kind: directive.params.directive_kind,
-      reason_codes: directive.params.reason_codes,
-      successor_turns: successorTurns,
-      evaluator_calls: evaluatorCalls,
-      effect_requests: effectRequests,
-      authority_effect: "none",
-    };
   } catch (error) {
-    result = {scenario, status: "FAIL", error: error.message, observed_codex_version: observedVersion, authority_effect: "none"};
+    const classification = failureClass(error);
+    trace("matrix", "matrix-failed", {error_code: error.code ?? "unclassified", failure_class: classification});
+    matrixError = {error: error.message, error_code: error.code ?? null, failure_class: classification};
   } finally {
-    child.kill("SIGKILL");
-    clientInput.end();
+    await rpc.close();
   }
-  result.stderr = stderr.split("\n").filter(Boolean).slice(-10);
-  return result;
+  return {results, matrix_error: matrixError, matrix_progress: progressByScenario.get("matrix") ?? [], stderr: stderr.split("\n").filter(Boolean).slice(-20)};
 }
 
 const loaded = loadRepositoryProfile(profilePath, repositoryRoot);
@@ -225,15 +295,31 @@ try {
 }
 const binding = protocolBindingCheck(loaded.value.protocol_binding, observedVersion);
 let results = [];
+let matrixError = null;
+let matrixProgress = [];
+let stderr = [];
 if (binding.ok) {
-  for (const scenario of SCENARIOS) results.push(await runScenario(scenario, loaded, semanticLoaded.value, observedVersion));
+  const matrix = await runMatrix(loaded, semanticLoaded.value, observedVersion);
+  results = matrix.results;
+  matrixError = matrix.matrix_error;
+  matrixProgress = matrix.matrix_progress;
+  stderr = matrix.stderr;
 }
+const completedScenarios = new Set(results.map((item) => item.scenario));
 const output = {
   schema_version: "are.codex-semantic-continuation-live-canary/v1",
-  status: binding.ok && results.every((item) => item.status === "PASS") ? "PASS" : "FAIL",
+  status: binding.ok && results.length === SCENARIOS.length && results.every((item) => item.status === "PASS") ? "PASS" : "FAIL",
   observed_codex_version: observedVersion,
   protocol_binding: binding.ok ? "matched" : "blocked-version-drift",
   scenarios: results,
+  not_run_scenarios: SCENARIOS.filter((scenario) => !completedScenarios.has(scenario)),
+  matrix_error: matrixError,
+  matrix_progress: matrixProgress,
+  stderr,
+  shared_app_server: true,
+  shared_thread: true,
+  request_timeout_ms: REQUEST_TIMEOUT_MS,
+  event_timeout_ms: EVENT_TIMEOUT_MS,
   authority_effect: "none",
   claim_limit: "Controlled ephemeral local canary only; no acceptance, admission, conformance, publication, deployment, or external-effect authority.",
 };

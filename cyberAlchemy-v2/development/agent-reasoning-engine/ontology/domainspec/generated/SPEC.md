@@ -1,7 +1,7 @@
 # Agent Reasoning Engine Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `2eeeb3e640461ee8ec077e4c95da8421e0cba1668b25edd7de51828279b13329`.
+Graph digest: `139863fd3ca0de1fce90472b80494b9e9619b7f729ecff71cec445a17862cd36`.
 
 ## Nodes
 
@@ -10,9 +10,11 @@ Graph digest: `2eeeb3e640461ee8ec077e4c95da8421e0cba1668b25edd7de51828279b13329`
 | `agent-reasoning-engine.AuthoritySeparation` | Rule | Keep context selection, semantic judgment, validation, consensus, and receipts separate from owner authority and exact-effect permission. |
 | `agent-reasoning-engine.CapabilitySelection` | Entity | Return the nearest uniquely supported capability, visible ambiguity, no-match, or invalid result with exact profile and provenance digests. |
 | `agent-reasoning-engine.CheckpointReasoningState` | Operation | Verify and flush one selected Reasoning State epoch before a model request, accepted effect, or automatic continuation boundary advances. |
+| `agent-reasoning-engine.CompletionFrontierBoundary` | Rule | Block automatic continuation or completion replay when the exact completed-turn frontier and after-completion checkpoint do not verify. |
 | `agent-reasoning-engine.ConsequenceAssessment` | Entity | Classify proposed continuations by admissible cardinality, reversibility, hazards, authority implications, and required owner gates. |
 | `agent-reasoning-engine.ContextAssembly` | Operation | Select and freeze only context that is relevant to the bounded request and its declared evidence obligations while recording exclusions and gaps. |
 | `agent-reasoning-engine.ContextBasisConstruction` | Operation | Construct one deterministic Necessary Context Basis only after routing, definition closure, and ontology selector locking succeed. |
+| `agent-reasoning-engine.ContextBoundSemanticIntegrity` | Rule | Block semantic reduction when the Context Envelope binding, Problem Frame, entry gate, authority snapshot, freshness, claim ceiling, or selected Context Item digests do not agree exactly. |
 | `agent-reasoning-engine.ContextEnvelope` | Entity | Freeze the included and excluded context, dependency identities, contradictions, gaps, freshness state, and claim ceiling for one reasoning run. |
 | `agent-reasoning-engine.ContextIntegrity` | Rule | Prevent context selection or compression from erasing load-bearing provenance, authority limits, contradictions, transformations, exclusions, or gaps. |
 | `agent-reasoning-engine.ContextItem` | Entity | Preserve one candidate context unit with relevance, provenance, authority, temporal, transformation, and digest metadata. |
@@ -44,6 +46,7 @@ Graph digest: `2eeeb3e640461ee8ec077e4c95da8421e0cba1668b25edd7de51828279b13329`
 | `agent-reasoning-engine.ReasoningStateDerivedIndex` | Entity | Represent one disposable deterministic index derived only from a verified canonical Reasoning State record stream. |
 | `agent-reasoning-engine.ReasoningStateEpoch` | Entity | Bind an immutable content-addressed selection of reasoning events to exact dependencies, context, consumer, request, and continuation frontier. |
 | `agent-reasoning-engine.ReasoningStateFormation` | Operation | Append explicit reasoning products and seal one exact reusable Reasoning State epoch without rewriting prior bytes. |
+| `agent-reasoning-engine.ReasoningStateFrontier` | Entity | Bind one completed reasoning boundary to its exact subject, context, semantic result, continuation result, and after-completion checkpoint. |
 | `agent-reasoning-engine.ReasoningStateLedger` | Entity | Preserve the canonical append-only hash-chained sequence of explicit reasoning products without capturing hidden model chain-of-thought or granting authority. |
 | `agent-reasoning-engine.ReasoningStateRecoveryAssessment` | Entity | Bind exact log, derived-index, and final-checkpoint identities to one non-authorizing recovery disposition. |
 | `agent-reasoning-engine.ReasoningStateRecoveryBoundary` | Rule | Block reasoning-state recovery when exact log verification, derived-index rebuilding, final-checkpoint selection, or source rechecking fails. |
@@ -51,6 +54,7 @@ Graph digest: `2eeeb3e640461ee8ec077e4c95da8421e0cba1668b25edd7de51828279b13329`
 | `agent-reasoning-engine.RecoverReasoningState` | Operation | Hydrate one exact checkpointed Reasoning State ledger after verified index rebuilding and source rechecking. |
 | `agent-reasoning-engine.RequestContext` | Entity | Preserve a raw request with explicit or inferred objective, effect, target, constraint, and provenance fields for fast deterministic routing. |
 | `agent-reasoning-engine.RuntimeJournal` | Entity | Preserve a bounded immutable hash-chained sequence of compact lifecycle events and exact per-turn cuts without durable or effect authority. |
+| `agent-reasoning-engine.SealCompletionFrontier` | Operation | Append, epoch-seal, and checkpoint one exact completed-turn semantic and continuation frontier before automatic continuation. |
 | `agent-reasoning-engine.SemanticJudgment` | Entity | Represent exactly one typed semantic disposition under a frozen context, catalog, evaluator, and residue set. |
 | `agent-reasoning-engine.SemanticReduction` | Operation | Derive exactly one typed semantic outcome from an admitted frozen context and finite rule catalog while abstaining on missing support or unresolved ownership. |
 
@@ -69,9 +73,11 @@ Graph digest: `2eeeb3e640461ee8ec077e4c95da8421e0cba1668b25edd7de51828279b13329`
 | `agent-reasoning-engine.edge.basis-construction-reads-selector-lock` | `agent-reasoning-engine.ContextBasisConstruction` | `reads` | `agent-reasoning-engine.OntologySelectorLock` |
 | `agent-reasoning-engine.edge.checkpoint-state-creates-checkpoint` | `agent-reasoning-engine.CheckpointReasoningState` | `creates` | `agent-reasoning-engine.ReasoningStateCheckpoint` |
 | `agent-reasoning-engine.edge.checkpoint-state-reads-epoch` | `agent-reasoning-engine.CheckpointReasoningState` | `reads` | `agent-reasoning-engine.ReasoningStateEpoch` |
+| `agent-reasoning-engine.edge.completion-frontier-boundary-enforces-sealing` | `agent-reasoning-engine.CompletionFrontierBoundary` | `enforces` | `agent-reasoning-engine.SealCompletionFrontier` |
 | `agent-reasoning-engine.edge.context-assembly-creates-envelope` | `agent-reasoning-engine.ContextAssembly` | `creates` | `agent-reasoning-engine.ContextEnvelope` |
 | `agent-reasoning-engine.edge.context-assembly-reads-context-item` | `agent-reasoning-engine.ContextAssembly` | `reads` | `agent-reasoning-engine.ContextItem` |
 | `agent-reasoning-engine.edge.context-assembly-reads-view` | `agent-reasoning-engine.ContextAssembly` | `reads` | `agent-reasoning-engine.ContextWindowView` |
+| `agent-reasoning-engine.edge.context-bound-semantic-integrity-enforces-reduction` | `agent-reasoning-engine.ContextBoundSemanticIntegrity` | `enforces` | `agent-reasoning-engine.SemanticReduction` |
 | `agent-reasoning-engine.edge.context-integrity-enforces-assembly` | `agent-reasoning-engine.ContextIntegrity` | `enforces` | `agent-reasoning-engine.ContextAssembly` |
 | `agent-reasoning-engine.edge.context-integrity-enforces-basis` | `agent-reasoning-engine.ContextIntegrity` | `enforces` | `agent-reasoning-engine.ContextBasisConstruction` |
 | `agent-reasoning-engine.edge.context-integrity-enforces-view` | `agent-reasoning-engine.ContextIntegrity` | `enforces` | `agent-reasoning-engine.ContextViewBinding` |
@@ -84,12 +90,17 @@ Graph digest: `2eeeb3e640461ee8ec077e4c95da8421e0cba1668b25edd7de51828279b13329`
 | `agent-reasoning-engine.edge.definition-closure-reads-request-context` | `agent-reasoning-engine.DefinitionClosureResolution` | `reads` | `agent-reasoning-engine.RequestContext` |
 | `agent-reasoning-engine.edge.dispatch-preparation-creates-dispatch` | `agent-reasoning-engine.ExactDispatchPreparation` | `creates` | `agent-reasoning-engine.ReasoningDispatch` |
 | `agent-reasoning-engine.edge.dispatch-preparation-reads-epoch` | `agent-reasoning-engine.ExactDispatchPreparation` | `reads` | `agent-reasoning-engine.ReasoningStateEpoch` |
+| `agent-reasoning-engine.edge.frontier-sealing-creates-frontier` | `agent-reasoning-engine.SealCompletionFrontier` | `creates` | `agent-reasoning-engine.ReasoningStateFrontier` |
+| `agent-reasoning-engine.edge.frontier-sealing-reads-consequence-assessment` | `agent-reasoning-engine.SealCompletionFrontier` | `reads` | `agent-reasoning-engine.ConsequenceAssessment` |
+| `agent-reasoning-engine.edge.frontier-sealing-reads-ledger` | `agent-reasoning-engine.SealCompletionFrontier` | `reads` | `agent-reasoning-engine.ReasoningStateLedger` |
+| `agent-reasoning-engine.edge.frontier-sealing-reads-semantic-judgment` | `agent-reasoning-engine.SealCompletionFrontier` | `reads` | `agent-reasoning-engine.SemanticJudgment` |
 | `agent-reasoning-engine.edge.gateway-connection-creates-consumer-session` | `agent-reasoning-engine.GatewayConnection` | `creates` | `agent-reasoning-engine.GatewayConsumerSession` |
 | `agent-reasoning-engine.edge.gateway-connection-reads-gateway` | `agent-reasoning-engine.GatewayConnection` | `reads` | `agent-reasoning-engine.PersistentAppServerGateway` |
 | `agent-reasoning-engine.edge.intent-route-creates-capability-selection` | `agent-reasoning-engine.IntentRouteResolution` | `creates` | `agent-reasoning-engine.CapabilitySelection` |
 | `agent-reasoning-engine.edge.intent-route-reads-request-context` | `agent-reasoning-engine.IntentRouteResolution` | `reads` | `agent-reasoning-engine.RequestContext` |
 | `agent-reasoning-engine.edge.journal-replay-reads-runtime-journal` | `agent-reasoning-engine.JournalReplay` | `reads` | `agent-reasoning-engine.RuntimeJournal` |
 | `agent-reasoning-engine.edge.lifecycle-orchestrates-basis-construction` | `agent-reasoning-engine.ReasoningContextLifecycle` | `orchestrates` | `agent-reasoning-engine.ContextBasisConstruction` |
+| `agent-reasoning-engine.edge.lifecycle-orchestrates-completion-frontier` | `agent-reasoning-engine.ReasoningContextLifecycle` | `orchestrates` | `agent-reasoning-engine.SealCompletionFrontier` |
 | `agent-reasoning-engine.edge.lifecycle-orchestrates-context-assembly` | `agent-reasoning-engine.ReasoningContextLifecycle` | `orchestrates` | `agent-reasoning-engine.ContextAssembly` |
 | `agent-reasoning-engine.edge.lifecycle-orchestrates-continuation` | `agent-reasoning-engine.ReasoningContextLifecycle` | `orchestrates` | `agent-reasoning-engine.ContinuationDecision` |
 | `agent-reasoning-engine.edge.lifecycle-orchestrates-definition-closure` | `agent-reasoning-engine.ReasoningContextLifecycle` | `orchestrates` | `agent-reasoning-engine.DefinitionClosureResolution` |

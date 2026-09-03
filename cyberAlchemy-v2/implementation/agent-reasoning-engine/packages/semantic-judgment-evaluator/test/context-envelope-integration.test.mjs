@@ -69,6 +69,8 @@ test("a real Context Envelope deterministically drives semantic evaluation and r
   assert.equal(first.request.context_envelope_binding.context_envelope_digest, envelope.digest);
   assert.equal(first.reasoning_receipt.context_epoch_id, envelope.value.context_epoch_id);
   assert.equal(first.reasoning_receipt.input_digests.context_envelope, envelope.digest);
+  assert.equal(first.reasoning_receipt.context_envelope_binding_digest, first.request.context_envelope_binding.digest);
+  assert.equal(first.reasoning_receipt.input_digests.context_envelope_binding, first.request.context_envelope_binding.digest);
   assert.deepEqual(first.reasoning_receipt.input_digests.context_items, [...envelope.value.included_item_digests].sort());
   assert.equal(first.reasoning_receipt_exact_bytes_digest, second.reasoning_receipt_exact_bytes_digest);
   assert.equal(request.frame.digest, originalFrameDigest);
@@ -99,6 +101,16 @@ test("a bound ProblemFrame cannot be replaced without invalidating semantic inpu
   assert.equal(bound.ok, true);
   const request = structuredClone(bound.value);
   request.frame = sealRecord({...omitDigestFields(request.frame), question: "Substituted after binding?"});
+  const semantic = evaluateSemanticJudgment(request, {});
+  assert.equal(semantic.outcome, OUTCOMES.INVALID_INPUT);
+  assert.equal(semantic.residue.includes("context-envelope-binding:mismatch"), true);
+});
+
+test("a separately resealed entry gate cannot replace the bound frame subject", () => {
+  const bound = bindSemanticRequestToContextEnvelope({context_envelope: contextEnvelope(), semantic_request: buildRequest(refund)});
+  assert.equal(bound.ok, true);
+  const request = structuredClone(bound.value);
+  request.entry_gate = sealRecord({...omitDigestFields(request.entry_gate), subject_digest: "0".repeat(64)});
   const semantic = evaluateSemanticJudgment(request, {});
   assert.equal(semantic.outcome, OUTCOMES.INVALID_INPUT);
   assert.equal(semantic.residue.includes("context-envelope-binding:mismatch"), true);

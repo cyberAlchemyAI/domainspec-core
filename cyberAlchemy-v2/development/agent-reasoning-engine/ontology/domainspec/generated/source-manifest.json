@@ -2,11 +2,11 @@
   "schema_version": "minted-source-manifest/v1",
   "authority": "generated-provenance-read-model",
   "project_id": "agent-reasoning-engine",
-  "source_set_digest": "df89f0656cdc118683da31a9d4afd9267fcbd517fe12f8a41cb0a9d1bada010b",
+  "source_set_digest": "ebf4965eaf19a0938cb108b4d66fa76d5d2c4ba9e03aff1fc198cb5f890ab8c3",
   "inputs": [
     {
       "path": "feature.json",
-      "digest": "c16c9c48f1ec8b87953801b3916e3f50f8d68c6fdca82ab6ab4e94160f2bec65"
+      "digest": "810d474033eef62f52c53f8aff177e3a13da755ea9e3b69a8304c443a8a1ce6d"
     },
     {
       "path": "nodes/authority-separation.json",
@@ -21,6 +21,10 @@
       "digest": "6181fc74a5c8635f23e3c54a1732fa0c74d5f96bb435eebc9e9b0e95a37a5fda"
     },
     {
+      "path": "nodes/completion-frontier-boundary.json",
+      "digest": "e011862bf7b5b9f4b54a728daa1eeebd56b367154fe12f696b514edb390aa0a6"
+    },
+    {
       "path": "nodes/consequence-assessment.json",
       "digest": "377ef07ee5227ae39315ad3021ea8285d86854dd118b1b63bc2d4588240bd6ec"
     },
@@ -31,6 +35,10 @@
     {
       "path": "nodes/context-basis-construction.json",
       "digest": "52c7990379ce2eecd0d15488c3186d5619276fa9ad5913eda7bdde8930d8b6be"
+    },
+    {
+      "path": "nodes/context-bound-semantic-integrity.json",
+      "digest": "acc4e6e47c08211fa275b493522da0c3c5f975623e132db82b93416e2868de1c"
     },
     {
       "path": "nodes/context-envelope.json",
@@ -118,7 +126,7 @@
     },
     {
       "path": "nodes/reasoning-context-lifecycle.json",
-      "digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "path": "nodes/reasoning-dispatch.json",
@@ -130,7 +138,7 @@
     },
     {
       "path": "nodes/reasoning-receipt.json",
-      "digest": "a32e8af61e11d0159333eeff2ada5767e05d6de31b3e54f83e1510619dfbe9da"
+      "digest": "566c6e80a9e178e58fafc89538367c9bff37f3d1fb6a1a86f0bdf370f4015545"
     },
     {
       "path": "nodes/reasoning-request.json",
@@ -155,6 +163,10 @@
     {
       "path": "nodes/reasoning-state-formation.json",
       "digest": "0880ac28f117994723794c6ea477e7328cdf81adbc5484c4890453adff443457"
+    },
+    {
+      "path": "nodes/reasoning-state-frontier.json",
+      "digest": "4e3765f590661d85ea1bf0885df67b17c632a212d99af6f878e85695c196b8a4"
     },
     {
       "path": "nodes/reasoning-state-ledger.json",
@@ -185,12 +197,16 @@
       "digest": "9b91f6c7008b6003c3100c2768f59aca4df8e5f25ffb559dac96b6f6d9c6a3e3"
     },
     {
+      "path": "nodes/seal-completion-frontier.json",
+      "digest": "21da9284ae94c500e724bafc0d7f0fbaafd138aad1692364d70b9d870b923a65"
+    },
+    {
       "path": "nodes/semantic-judgment.json",
       "digest": "dbc1610bd2cbe4d46a988b3ab45cc4feaf73fb883fc3e4ab8135879e227ba0d6"
     },
     {
       "path": "nodes/semantic-reduction.json",
-      "digest": "c3d810b3e2a15425e0e5e769d4fce8e48fb4fd4c28ffe1d110483fac0ccef911"
+      "digest": "af20c80458a9a9aa0178fdbd84a425a7a102c658060cf43b057acdb8e765d892"
     },
     {
       "path": "project.json",
@@ -266,6 +282,12 @@
     },
     {
       "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.completion-frontier-boundary-enforces-sealing",
+      "source_path": "nodes/completion-frontier-boundary.json",
+      "source_digest": "e011862bf7b5b9f4b54a728daa1eeebd56b367154fe12f696b514edb390aa0a6"
+    },
+    {
+      "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.context-assembly-creates-envelope",
       "source_path": "nodes/context-assembly.json",
       "source_digest": "c679f2fb7cb7a6d871988e091a17a251d55ae2236beef1fb61b9ceb0051fc622"
@@ -281,6 +303,12 @@
       "graph_id": "agent-reasoning-engine.edge.context-assembly-reads-view",
       "source_path": "nodes/context-assembly.json",
       "source_digest": "c679f2fb7cb7a6d871988e091a17a251d55ae2236beef1fb61b9ceb0051fc622"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.context-bound-semantic-integrity-enforces-reduction",
+      "source_path": "nodes/context-bound-semantic-integrity.json",
+      "source_digest": "acc4e6e47c08211fa275b493522da0c3c5f975623e132db82b93416e2868de1c"
     },
     {
       "record_type": "edge",
@@ -356,6 +384,30 @@
     },
     {
       "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.frontier-sealing-creates-frontier",
+      "source_path": "nodes/seal-completion-frontier.json",
+      "source_digest": "21da9284ae94c500e724bafc0d7f0fbaafd138aad1692364d70b9d870b923a65"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.frontier-sealing-reads-consequence-assessment",
+      "source_path": "nodes/seal-completion-frontier.json",
+      "source_digest": "21da9284ae94c500e724bafc0d7f0fbaafd138aad1692364d70b9d870b923a65"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.frontier-sealing-reads-ledger",
+      "source_path": "nodes/seal-completion-frontier.json",
+      "source_digest": "21da9284ae94c500e724bafc0d7f0fbaafd138aad1692364d70b9d870b923a65"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.frontier-sealing-reads-semantic-judgment",
+      "source_path": "nodes/seal-completion-frontier.json",
+      "source_digest": "21da9284ae94c500e724bafc0d7f0fbaafd138aad1692364d70b9d870b923a65"
+    },
+    {
+      "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.gateway-connection-creates-consumer-session",
       "source_path": "nodes/gateway-connection.json",
       "source_digest": "9beb554368c60e2f8a62ba8966db188a1d31cd79590f6974a7e8aa354fd12d15"
@@ -388,91 +440,97 @@
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-basis-construction",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-completion-frontier",
+      "source_path": "nodes/reasoning-context-lifecycle.json",
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-context-assembly",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-continuation",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-definition-closure",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-dispatch-preparation",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-gateway-connection",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-intent-route",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-journal-replay",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-reasoning-checkpoint",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-reasoning-index-rebuild",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-reasoning-recovery",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-reasoning-state",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-selector-binding",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-semantic-reduction",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-view-binding",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "edge",
@@ -574,19 +632,19 @@
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.semantic-reduction-creates-judgment",
       "source_path": "nodes/semantic-reduction.json",
-      "source_digest": "c3d810b3e2a15425e0e5e769d4fce8e48fb4fd4c28ffe1d110483fac0ccef911"
+      "source_digest": "af20c80458a9a9aa0178fdbd84a425a7a102c658060cf43b057acdb8e765d892"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.semantic-reduction-reads-envelope",
       "source_path": "nodes/semantic-reduction.json",
-      "source_digest": "c3d810b3e2a15425e0e5e769d4fce8e48fb4fd4c28ffe1d110483fac0ccef911"
+      "source_digest": "af20c80458a9a9aa0178fdbd84a425a7a102c658060cf43b057acdb8e765d892"
     },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.semantic-reduction-reads-runtime-journal",
       "source_path": "nodes/semantic-reduction.json",
-      "source_digest": "c3d810b3e2a15425e0e5e769d4fce8e48fb4fd4c28ffe1d110483fac0ccef911"
+      "source_digest": "af20c80458a9a9aa0178fdbd84a425a7a102c658060cf43b057acdb8e765d892"
     },
     {
       "record_type": "edge",
@@ -668,6 +726,12 @@
     },
     {
       "record_type": "node",
+      "graph_id": "agent-reasoning-engine.CompletionFrontierBoundary",
+      "source_path": "nodes/completion-frontier-boundary.json",
+      "source_digest": "e011862bf7b5b9f4b54a728daa1eeebd56b367154fe12f696b514edb390aa0a6"
+    },
+    {
+      "record_type": "node",
       "graph_id": "agent-reasoning-engine.ConsequenceAssessment",
       "source_path": "nodes/consequence-assessment.json",
       "source_digest": "377ef07ee5227ae39315ad3021ea8285d86854dd118b1b63bc2d4588240bd6ec"
@@ -683,6 +747,12 @@
       "graph_id": "agent-reasoning-engine.ContextBasisConstruction",
       "source_path": "nodes/context-basis-construction.json",
       "source_digest": "52c7990379ce2eecd0d15488c3186d5619276fa9ad5913eda7bdde8930d8b6be"
+    },
+    {
+      "record_type": "node",
+      "graph_id": "agent-reasoning-engine.ContextBoundSemanticIntegrity",
+      "source_path": "nodes/context-bound-semantic-integrity.json",
+      "source_digest": "acc4e6e47c08211fa275b493522da0c3c5f975623e132db82b93416e2868de1c"
     },
     {
       "record_type": "node",
@@ -814,7 +884,7 @@
       "record_type": "node",
       "graph_id": "agent-reasoning-engine.ReasoningContextLifecycle",
       "source_path": "nodes/reasoning-context-lifecycle.json",
-      "source_digest": "5df4823a530eccdb3f3fef5cf0b76359455b976a4d74205f80e91222597d024f"
+      "source_digest": "96c34157da812963454284564ae56515317e403c11e0c5fc2a8bd1a06714dd61"
     },
     {
       "record_type": "node",
@@ -826,7 +896,7 @@
       "record_type": "node",
       "graph_id": "agent-reasoning-engine.ReasoningReceipt",
       "source_path": "nodes/reasoning-receipt.json",
-      "source_digest": "a32e8af61e11d0159333eeff2ada5767e05d6de31b3e54f83e1510619dfbe9da"
+      "source_digest": "566c6e80a9e178e58fafc89538367c9bff37f3d1fb6a1a86f0bdf370f4015545"
     },
     {
       "record_type": "node",
@@ -872,6 +942,12 @@
     },
     {
       "record_type": "node",
+      "graph_id": "agent-reasoning-engine.ReasoningStateFrontier",
+      "source_path": "nodes/reasoning-state-frontier.json",
+      "source_digest": "4e3765f590661d85ea1bf0885df67b17c632a212d99af6f878e85695c196b8a4"
+    },
+    {
+      "record_type": "node",
       "graph_id": "agent-reasoning-engine.ReasoningStateLedger",
       "source_path": "nodes/reasoning-state-ledger.json",
       "source_digest": "75e21eca12b10f2472c0ad3a54560cc37195b3267420d69dac03a62cd0129506"
@@ -914,6 +990,12 @@
     },
     {
       "record_type": "node",
+      "graph_id": "agent-reasoning-engine.SealCompletionFrontier",
+      "source_path": "nodes/seal-completion-frontier.json",
+      "source_digest": "21da9284ae94c500e724bafc0d7f0fbaafd138aad1692364d70b9d870b923a65"
+    },
+    {
+      "record_type": "node",
       "graph_id": "agent-reasoning-engine.SemanticJudgment",
       "source_path": "nodes/semantic-judgment.json",
       "source_digest": "dbc1610bd2cbe4d46a988b3ab45cc4feaf73fb883fc3e4ab8135879e227ba0d6"
@@ -922,7 +1004,7 @@
       "record_type": "node",
       "graph_id": "agent-reasoning-engine.SemanticReduction",
       "source_path": "nodes/semantic-reduction.json",
-      "source_digest": "c3d810b3e2a15425e0e5e769d4fce8e48fb4fd4c28ffe1d110483fac0ccef911"
+      "source_digest": "af20c80458a9a9aa0178fdbd84a425a7a102c658060cf43b057acdb8e765d892"
     }
   ]
 }

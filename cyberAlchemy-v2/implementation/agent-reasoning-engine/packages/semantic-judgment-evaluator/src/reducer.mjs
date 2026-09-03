@@ -62,6 +62,34 @@ function recordCheck(record, name) {
   return null;
 }
 
+function contextEnvelopeBindingCheck(request) {
+  const binding = request.context_envelope_binding;
+  if (binding === undefined) return null;
+  const recordFailure = recordCheck(binding, "context-envelope-binding");
+  if (recordFailure) return recordFailure;
+  const frame = request.frame;
+  const entryGate = request.entry_gate;
+  const itemDigestsEqual = Array.isArray(binding.context_item_digests)
+    && Array.isArray(frame.context_item_digests)
+    && JSON.stringify(binding.context_item_digests) === JSON.stringify(frame.context_item_digests);
+  if (
+    binding.record_type !== "ContextEnvelopeBinding" ||
+    binding.authority_effect !== "none" ||
+    binding.bound_frame_digest !== frame.digest ||
+    binding.context_epoch_id !== frame.context_epoch_id ||
+    binding.context_envelope_digest !== frame.context_envelope_digest ||
+    binding.freshness_state !== frame.context_freshness_state ||
+    binding.claim_ceiling !== frame.context_claim_ceiling ||
+    !itemDigestsEqual ||
+    entryGate.subject_digest !== frame.digest ||
+    entryGate.context_envelope_binding_digest !== binding.digest ||
+    entryGate.authority_snapshot_digest !== request.authority_snapshot.digest
+  ) {
+    return "context-envelope-binding:mismatch";
+  }
+  return null;
+}
+
 function hasCycle(edges) {
   const graph = new Map();
   for (const edge of edges ?? []) {
@@ -222,6 +250,8 @@ export function evaluateSemanticJudgment(request, telemetry = {}) {
     const failure = recordCheck(record, name);
     if (failure) return invalid(failure, derivation);
   }
+  const contextBindingFailure = contextEnvelopeBindingCheck(request);
+  if (contextBindingFailure) return invalid(contextBindingFailure, derivation);
   const observationIds = new Set();
   const admittedFields = new Set();
   for (const observation of request.observations ?? []) {

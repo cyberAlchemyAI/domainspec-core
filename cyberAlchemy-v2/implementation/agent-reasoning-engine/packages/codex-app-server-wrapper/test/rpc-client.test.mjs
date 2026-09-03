@@ -57,6 +57,14 @@ test("shared RPC client correlates requests and completes a structured turn", as
   await client.close();
 });
 
+test("shared RPC client exposes the transport handshake receipt", async () => {
+  const transport = fakeTransport();
+  transport.ready = Promise.resolve({ok: true, resumed: true, runtime_epoch_id: "runtime:1"});
+  const client = createAppServerRpcClient({transport});
+  assert.deepEqual(await client.ready(), {ok: true, resumed: true, runtime_epoch_id: "runtime:1"});
+  await client.close();
+});
+
 test("shared RPC client declines approvals by default", async () => {
   const transport = fakeTransport();
   const sent = jsonLines(transport.input);
@@ -75,4 +83,13 @@ test("shared RPC client rejects pending work on transport failure", async () => 
   transport.failure.emit("failure", new AppServerRpcError("rpc.transport-exited", "provider exited"));
   await assert.rejects(pending, /provider exited/);
   assert.equal(client.inspect().pending_requests, 0);
+});
+
+test("shared RPC client observes a transport failure retained before attachment", async () => {
+  const transport = fakeTransport();
+  const retained = new AppServerRpcError("rpc.transport-exited", "provider exited before attachment");
+  transport.get_failure = () => retained;
+  const client = createAppServerRpcClient({transport});
+  await assert.rejects(client.initialize({}), /provider exited before attachment/);
+  assert.equal(client.inspect().failure, retained.message);
 });

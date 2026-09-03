@@ -4,6 +4,7 @@ import {resolveDefinitionClosure} from "./definition-closure.mjs";
 import {lockOntologySelectors} from "./ontology-selector-lock.mjs";
 import {constructNecessaryContextBasis} from "./context-basis.mjs";
 import {bindContextWindowView} from "./context-window-view.mjs";
+import {selectRequestContext} from "./request-context-selector.mjs";
 
 const SCHEMA_VERSION = "are.context-basis-composition/v1";
 
@@ -34,22 +35,30 @@ export function composeContextBasis(input) {
   if (routeDecision.kind !== "direct") return stoppedRoute(routeDecision);
 
   const definitionInput = isRecord(input.definition) ? input.definition : {};
+  const ontologyInput = isRecord(input.ontology) ? input.ontology : {};
+  const requestSelection = selectRequestContext({
+    raw_request: admitted.value.raw_request,
+    catalog: definitionInput.catalog,
+    snapshot: ontologyInput.snapshot,
+    context_items: input.supplemental_context_items,
+    policy: input.request_selection_policy,
+  });
+  if (!requestSelection.ok) return deepFreeze({...requestSelection, stage_trace: ["request-admission", "route", "request-context-selection"]});
   const routeAdditions = isRecord(definitionInput.route_relation_classes_by_route)
     ? definitionInput.route_relation_classes_by_route[routeDecision.selected.route_id]
     : [];
   const closure = resolveDefinitionClosure({
     catalog: definitionInput.catalog,
-    seed_definition_ids: definitionInput.seed_definition_ids,
+    seed_definition_ids: [...(definitionInput.seed_definition_ids ?? []), ...requestSelection.value.definition_matches.map((match) => match.definition_id)],
     universal_relation_classes: definitionInput.universal_relation_classes,
     route_relation_classes: routeAdditions,
   });
   if (!closure.ok) return deepFreeze({...closure, stage_trace: ["request-admission", "route", "definition-closure"]});
 
-  const ontologyInput = isRecord(input.ontology) ? input.ontology : {};
   const lock = lockOntologySelectors({
     snapshot: ontologyInput.snapshot,
-    initial_node_ids: ontologyInput.initial_node_ids,
-    required_edge_ids: ontologyInput.required_edge_ids,
+    initial_node_ids: [...(ontologyInput.initial_node_ids ?? []), ...requestSelection.value.ontology_node_matches.map((match) => match.node_id)],
+    required_edge_ids: [...(ontologyInput.required_edge_ids ?? []), ...requestSelection.value.ontology_edge_matches.map((match) => match.edge_id)],
     omission_candidate_ids: ontologyInput.omission_candidate_ids,
   });
   if (!lock.ok) return deepFreeze({...lock, stage_trace: ["request-admission", "route", "definition-closure", "ontology-selector-lock"]});
@@ -69,6 +78,8 @@ export function composeContextBasis(input) {
     contradictions: input.contradictions,
     gaps: input.gaps,
     residue: input.residue,
+    instructions: input.instructions,
+    supplemental_context_items: (input.supplemental_context_items ?? []).filter((item) => requestSelection.value.context_item_matches.some((match) => match.context_item_id === item.context_item_id)),
   });
   if (!basis.ok) return deepFreeze({...basis, stage_trace: ["request-admission", "route", "definition-closure", "ontology-selector-lock", "context-basis"]});
 
@@ -79,6 +90,7 @@ export function composeContextBasis(input) {
   const value = canonicalizeJson({
     schema_version: SCHEMA_VERSION,
     route_decision: routeDecision,
+    request_context_selection: requestSelection,
     definition_closure: closure,
     ontology_selector_lock: lock,
     necessary_context_basis: basis,

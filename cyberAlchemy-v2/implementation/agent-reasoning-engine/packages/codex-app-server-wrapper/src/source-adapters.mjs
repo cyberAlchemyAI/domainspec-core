@@ -10,6 +10,51 @@ function addDefinition(target, definition) {
   return true;
 }
 
+function lookupTerms(values) {
+  const terms = [];
+  for (const value of values) {
+    const tokens = String(value ?? "").replace(/([a-z0-9])([A-Z])/g, "$1 $2").toLowerCase().match(/[a-z0-9]+/g) ?? [];
+    if (tokens.length === 0) continue;
+    terms.push(tokens.join(" "), ...tokens.filter((token) => token.length >= 4));
+  }
+  return uniqueStrings(terms);
+}
+
+function markdownField(section, name) {
+  return section.match(new RegExp(`^${name}:\\s*(.+)$`, "mi"))?.[1]?.trim() ?? null;
+}
+
+function markdownSubsection(section, name) {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return section.match(new RegExp(`^### ${escaped}\\s*$([\\s\\S]*?)(?=^### |^## |(?![\\s\\S]))`, "mi"))?.[1]?.trim() ?? null;
+}
+
+function canonicalMarkdownConcepts(text) {
+  const headings = [...text.matchAll(/^## (CAV2-D\d+):\s*(.+)$/gm)];
+  return headings.map((heading, index) => {
+    const start = heading.index;
+    const end = headings[index + 1]?.index ?? text.length;
+    const section = text.slice(start, end).trim();
+    const term = markdownField(section, "Term") ?? heading[2].trim();
+    const aliases = (markdownField(section, "Aliases") ?? "").split(",").map((value) => value.trim()).filter(Boolean);
+    const selectedSections = [
+      ["Normative Definition", markdownSubsection(section, "Normative Definition")],
+      ["Plain-Language Intuition", markdownSubsection(section, "Plain-Language Intuition")],
+      ["Domain-Context Voice", markdownSubsection(section, "Domain-Context Voice")],
+      ["Boundary", markdownSubsection(section, "Boundary")],
+    ].filter(([, value]) => value);
+    return {
+      concept_id: heading[1],
+      term,
+      aliases,
+      current_disposition: "propose",
+      propose: {normative_voice: selectedSections.map(([label, value]) => `${label}:\n${value}`).join("\n\n")},
+      section_digest: digestValue(section),
+      status: markdownField(section, "Status") ?? "unknown",
+    };
+  });
+}
+
 export function materializeDefinitionCatalog(input) {
   if (!isRecord(input)) return fail("definition-source-adapter", ["adapter.input-required"]);
   const sources = Array.isArray(input.sources) ? input.sources : [];
@@ -20,11 +65,14 @@ export function materializeDefinitionCatalog(input) {
   const reasons = [];
 
   for (const [index, source] of sources.entries()) {
-    if (!isRecord(source) || !isRecord(source.document) || !nonEmptyString(source.source_digest)) {
+    const markdownSource = isRecord(source) && source.format === "canonical-definitions-markdown/v1" && typeof source.text === "string";
+    if (!isRecord(source) || (!isRecord(source.document) && !markdownSource) || !nonEmptyString(source.source_digest)) {
       reasons.push("adapter.definition-source-invalid");
       continue;
     }
-    const document = source.document;
+    const document = markdownSource
+      ? {schema_version: "cav2.canonical-definitions-markdown/v1", status: "mixed-section-status", concepts: canonicalMarkdownConcepts(source.text)}
+      : source.document;
     const identity = sourceIdentity(source, index);
     if (Array.isArray(document.concepts)) {
       for (const concept of document.concepts) {
@@ -36,11 +84,13 @@ export function materializeDefinitionCatalog(input) {
         const body = isRecord(concept[disposition]) ? concept[disposition] : {};
         const definition = {
           definition_id: concept.concept_id.trim(),
-          version_or_revision: String(document.pack_revision ?? document.schema_version ?? "unknown"),
-          digest: digestValue(concept),
-          authority_posture: String(document.status ?? "candidate"),
+          version_or_revision: String(concept.section_digest ?? document.pack_revision ?? document.schema_version ?? "unknown"),
+          digest: concept.section_digest ?? digestValue(concept),
+          authority_posture: String(concept.status ?? document.status ?? "candidate"),
           source_ref: `${identity}#concept:${concept.concept_id.trim()}`,
-          aliases: [concept.term.trim()],
+          primary_term: concept.term.trim(),
+          aliases: uniqueStrings([concept.term.trim(), ...(concept.aliases ?? [])]),
+          lookup_terms: lookupTerms([concept.term, ...(concept.aliases ?? [])]),
           relations: [],
           definition_text: body.normative_voice ?? body.formal_voice ?? null,
         };
@@ -67,7 +117,9 @@ export function materializeDefinitionCatalog(input) {
           digest: digestValue(node),
           authority_posture: String(document.authority_effect ?? "none"),
           source_ref: `${identity}#node:${node.id.trim()}`,
+          primary_term: node.term ?? node.name ?? node.title ?? null,
           aliases: [],
+          lookup_terms: [],
           relations: [],
           definition_text: node.meaning ?? null,
         };
@@ -120,6 +172,8 @@ export function materializeOntologySnapshot(input) {
     source_digest: digestValue(node),
     source_ref: `${input.source_identity ?? `system-ontology:${document.ontology_id}`}#node:${node.node_id}`,
     content: {intent: node.intent ?? null},
+    search_terms: uniqueStrings([node.node_id, node.title, node.name, node.term]),
+    lookup_terms: lookupTerms([node.node_id, node.title, node.name, node.term]),
     required_edge_ids: uniqueStrings(requiredByNode[node.node_id]),
   })).sort((a, b) => a.node_id.localeCompare(b.node_id));
   const edges = document.edges.map((edge) => ({

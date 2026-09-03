@@ -30,6 +30,7 @@
     {"id": "CA2-ARE-CONCEPT-EXACT-REASONING-DISPATCH", "kind": "Domain Concept", "meaning": "The complete canonical outbound request, byte count, message digest, reasoning-state epoch, and provider, model, system, tool, and configuration header needed for exact reconstruction."},
     {"id": "CA2-ARE-CONCEPT-REASONING-STATE-DERIVED-INDEX", "kind": "Domain Concept", "meaning": "A disposable deterministic index of event, epoch, checkpoint, and head identities derived only from a verified canonical Reasoning State record stream."},
     {"id": "CA2-ARE-CONCEPT-REASONING-STATE-RECOVERY-ASSESSMENT", "kind": "Domain Concept", "meaning": "A non-authorizing record binding exact log bytes, derived-index identity, final checkpoint, and recovery disposition before a recovered ledger accepts work."},
+    {"id": "CA2-ARE-CONCEPT-REASONING-STATE-FRONTIER", "kind": "Domain Concept", "meaning": "A content-addressed completed reasoning state binding the exact completion subject, context and prior-epoch identities, explicit semantic result, continuation result, and non-authorizing posture."},
     {"id": "CA2-ARE-CONCEPT-JOURNAL-REPLAY", "kind": "Domain Concept", "meaning": "A deterministic external-call-free reconstruction from one verified immutable runtime-journal cut."},
     {"id": "CA2-ARE-CONCEPT-PERSISTENT-APP-SERVER-GATEWAY", "kind": "Domain Concept", "meaning": "A long-lived local transport boundary that isolates one ARE wrapper and upstream Codex app-server connection per declared consumer without durable authority."},
     {"id": "CA2-ARE-CONCEPT-GATEWAY-CONSUMER-SESSION", "kind": "Domain Concept", "meaning": "One lane-bound in-memory consumer session whose context, turn, and journal state may survive transport reconnect but never a gateway runtime-epoch restart."},
@@ -58,8 +59,9 @@
     {"id": "CA2-ARE-WORKFLOW-EXACT-DISPATCH-PREPARATION", "kind": "Workflow", "meaning": "Materialize, append, reconstruct, verify, and checkpoint the exact outbound request before it crosses the model boundary."},
     {"id": "CA2-ARE-WORKFLOW-RISK-ALIGNED-CHECKPOINT", "kind": "Workflow", "meaning": "Verify and flush the selected Reasoning State epoch before a model request, accepted effect, or automatic continuation boundary advances."},
     {"id": "CA2-ARE-WORKFLOW-REASONING-STATE-RECOVERY", "kind": "Workflow", "meaning": "Verify one append-only log, rebuild disposable indexes, require its final valid checkpoint, recheck source identity, and hydrate the exact ledger without external calls or source mutation."},
+    {"id": "CA2-ARE-WORKFLOW-COMPLETION-FRONTIER-SEALING", "kind": "Workflow", "meaning": "Append the exact completed-turn semantic and continuation state, seal its single-event Reasoning State epoch, and flush an after-completion checkpoint before automatic continuation."},
     {"id": "CA2-ARE-WORKFLOW-GATEWAY-CONNECTION", "kind": "Workflow", "meaning": "Authorize one declared consumer and lane, bind an isolated upstream app-server transport, and attach or resume its bounded in-memory session."},
-    {"id": "CA2-ARE-RULE-CONTEXT-BEFORE-JUDGMENT", "kind": "Business Rule", "meaning": "A semantic judgment is not evaluable until its context envelope is explicit and frozen."},
+    {"id": "CA2-ARE-RULE-CONTEXT-BEFORE-JUDGMENT", "kind": "Business Rule", "meaning": "A semantic judgment is not evaluable until its Context Envelope is explicit and frozen and its binding, Problem Frame, entry gate, authority snapshot, selected Context Items, freshness, and claim ceiling agree exactly."},
     {"id": "CA2-ARE-RULE-PROVENANCE-NONLOSS", "kind": "Business Rule", "meaning": "Selection or compression must not erase load-bearing provenance, authority limits, contradictions, or exclusions."},
     {"id": "CA2-ARE-RULE-DRIFT-INVALIDATES", "kind": "Business Rule", "meaning": "A changed selected dependency creates a new context epoch and prevents silent reuse of the prior current-state result."},
     {"id": "CA2-ARE-RULE-ADVICE-NOT-PERMISSION", "kind": "Business Rule", "meaning": "No context envelope, semantic judgment, consensus, validation, or receipt grants authority or permits an effect."}
@@ -78,6 +80,7 @@
     ,{"id": "CA2-ARE-RULE-DISPATCH-MUST-RECONSTRUCT", "kind": "Business Rule", "meaning": "The request sent across the Codex app-server boundary must equal the canonical request reconstructed from its exact reasoning dispatch and request-series header."}
     ,{"id": "CA2-ARE-RULE-RECOVERY-REQUIRES-COMPLETE-CHECKPOINT", "kind": "Business Rule", "meaning": "Reasoning State recovery blocks unless every selected log byte verifies and the non-empty stream ends at a valid checkpoint; it cannot silently truncate, repair, or skip residue."}
     ,{"id": "CA2-ARE-RULE-DERIVED-INDEX-IS-DISPOSABLE", "kind": "Business Rule", "meaning": "A recovery index must be reproducible solely from canonical records and cannot replace the append-only log, create provenance, or grant authority."}
+    ,{"id": "CA2-ARE-RULE-COMPLETION-FRONTIER-BEFORE-CONTINUATION", "kind": "Business Rule", "meaning": "Automatic continuation cannot advance until the exact completed-turn frontier is checkpointed; recovery may replay it without external calls but cannot retry an unacknowledged successor delivery."}
     ,{"id": "CA2-ARE-RULE-GATEWAY-CONSUMER-ISOLATION", "kind": "Business Rule", "meaning": "A gateway consumer cannot substitute lanes, attach concurrently, access another consumer's state, or treat reconnect as durable recovery or authority."}
   ],
   "relations": [
@@ -156,6 +159,12 @@
     ,{"id": "CA2-ARE-BREL-75", "source": "CA2-ARE-WORKFLOW-REASONING-STATE-RECOVERY", "type": "produces", "target": "CA2-ARE-CONCEPT-REASONING-STATE-RECOVERY-ASSESSMENT"}
     ,{"id": "CA2-ARE-BREL-76", "source": "CA2-ARE-RULE-RECOVERY-REQUIRES-COMPLETE-CHECKPOINT", "type": "constrains", "target": "CA2-ARE-WORKFLOW-REASONING-STATE-RECOVERY"}
     ,{"id": "CA2-ARE-BREL-77", "source": "CA2-ARE-RULE-DERIVED-INDEX-IS-DISPOSABLE", "type": "constrains", "target": "CA2-ARE-WORKFLOW-REASONING-STATE-RECOVERY"}
+    ,{"id": "CA2-ARE-BREL-78", "source": "CA2-ARE-WORKFLOW-COMPLETION-FRONTIER-SEALING", "type": "consumes", "target": "CA2-ARE-CONCEPT-SEMANTIC-JUDGMENT"}
+    ,{"id": "CA2-ARE-BREL-79", "source": "CA2-ARE-WORKFLOW-COMPLETION-FRONTIER-SEALING", "type": "consumes", "target": "CA2-ARE-CONCEPT-CONTINUATION-DECISION"}
+    ,{"id": "CA2-ARE-BREL-80", "source": "CA2-ARE-WORKFLOW-COMPLETION-FRONTIER-SEALING", "type": "produces", "target": "CA2-ARE-CONCEPT-REASONING-STATE-FRONTIER"}
+    ,{"id": "CA2-ARE-BREL-81", "source": "CA2-ARE-WORKFLOW-COMPLETION-FRONTIER-SEALING", "type": "manages", "target": "CA2-ARE-CONCEPT-REASONING-STATE-LEDGER"}
+    ,{"id": "CA2-ARE-BREL-82", "source": "CA2-ARE-RULE-COMPLETION-FRONTIER-BEFORE-CONTINUATION", "type": "constrains", "target": "CA2-ARE-WORKFLOW-COMPLETION-FRONTIER-SEALING"}
+    ,{"id": "CA2-ARE-BREL-83", "source": "CA2-ARE-WORKFLOW-REASONING-STATE-RECOVERY", "type": "produces", "target": "CA2-ARE-CONCEPT-REASONING-STATE-FRONTIER"}
   ],
   "authority_effect": "none"
 }

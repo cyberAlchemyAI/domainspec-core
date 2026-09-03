@@ -17,6 +17,7 @@ import {
   loadRepositoryProfile,
   SEMANTIC_NOTIFICATION,
   protocolBindingCheck,
+  REQUEST_CONTEXT_KEY,
   verifyReasoningStateLog,
 } from "../index.mjs";
 import {digestValue} from "../../semantic-judgment-evaluator/index.mjs";
@@ -46,6 +47,17 @@ function wrapper(overrides = {}) {
 
 function turnStart(id, text, threadId = "thread-1", extras = {}) {
   return {jsonrpc: "2.0", id, method: "turn/start", params: {threadId, input: [{type: "text", text}], ...extras}};
+}
+
+function forwardedContext(result) {
+  const context = result.to_server[0].params.additionalContext;
+  const manifest = JSON.parse(context[CONTEXT_KEY].value);
+  const includedItems = Object.values(context)
+    .map((entry) => {
+      try { return JSON.parse(entry.value); } catch { return null; }
+    })
+    .filter((value) => value?.schema_version === "are.context-item/v1");
+  return {...manifest, included_items: includedItems};
 }
 
 function completed(threadId = "thread-1", turnId = "turn-1") {
@@ -116,8 +128,8 @@ async function startAndBind(instance, {id, text, threadId, turnId}) {
 test("repository profile verifies exact sources and materializes production inputs", () => {
   assert.equal(loaded.decision_profile.profile_id, "cyberalchemy-fast-routing");
   assert.ok(loaded.definition_catalog.definitions.length > 20);
-  assert.equal(loaded.ontology_snapshot.nodes.length, 46);
-  assert.equal(loaded.ontology_snapshot.edges.length, 75);
+  assert.equal(loaded.ontology_snapshot.nodes.length, 50);
+  assert.equal(loaded.ontology_snapshot.edges.length, 82);
   assert.deepEqual(loaded.value.semantic_evaluation, {enabled: false, trigger: "turn/completed"});
   assert.deepEqual(loaded.value.runtime_journal, {journal_id: "are-codex-runtime:domainspec-core", max_events: 4096, max_closed_turns: 256});
   assert.deepEqual(loaded.value.gateway, {
@@ -126,6 +138,7 @@ test("repository profile verifies exact sources and materializes production inpu
     max_buffered_messages_per_client: 256,
     reconnect: true,
     allowed_clients: [
+      {consumer_id: "codex:benchmark", lane: "interaction-bound", window_ref: null, request_id: null},
       {consumer_id: "codex:human-chat", lane: "interaction-bound", window_ref: null, request_id: null},
       {consumer_id: "codex:plan", lane: "plan-bound", window_ref: "plan:persistent-codex", request_id: "request:persistent-codex-plan"},
     ],
@@ -157,10 +170,22 @@ test("an explicitly enabled repository profile exact-loads its semantic profile"
 });
 
 test("protocol binding accepts the observed binary and blocks version drift", () => {
-  assert.equal(protocolBindingCheck(loaded.value.protocol_binding, "codex-cli 0.152.1").ok, true);
-  const drift = protocolBindingCheck(loaded.value.protocol_binding, "codex-cli 0.150.0-alpha.8");
+  assert.equal(protocolBindingCheck(loaded.value.protocol_binding, "codex-cli 0.153.0-alpha.5").ok, true);
+  const drift = protocolBindingCheck(loaded.value.protocol_binding, "codex-cli 0.152.1");
   assert.equal(drift.ok, false);
   assert.deepEqual(drift.reason_codes, ["protocol.codex-version-drift"]);
+});
+
+test("repository profile rejects semantic drift between its protocol binding and exact evidence", () => {
+  const directory = mkdtempSync(resolve(packageRoot, ".tmp-protocol-config-"));
+  temporaryPaths.push(directory);
+  const profile = JSON.parse(readFileSync(resolve(packageRoot, "profiles/repository-v1.json"), "utf8"));
+  profile.protocol_binding.observed_codex_version = "codex-cli 0.152.1";
+  const path = resolve(directory, "profile.json");
+  writeFileSync(path, JSON.stringify(profile));
+  const result = loadRepositoryProfile(path, repositoryRoot);
+  assert.equal(result.ok, false);
+  assert.ok(result.reason_codes.includes("config.protocol-observed-version-drift"));
 });
 
 test("obvious Research preflight forwards a bounded inline Context Envelope", async () => {
@@ -169,15 +194,66 @@ test("obvious Research preflight forwards a bounded inline Context Envelope", as
   assert.equal(result.to_client.length, 0);
   const entry = result.to_server[0].params.additionalContext[CONTEXT_KEY];
   assert.equal(entry.kind, "application");
-  const fragment = JSON.parse(entry.value);
+  const fragment = forwardedContext(result);
   assert.equal(fragment.route_id, "CA2-ROUTE-RESEARCH");
-  assert.equal(fragment.schema_version, "are.codex-context-fragment/v2");
+  assert.equal(fragment.schema_version, "are.codex-context-manifest/v1");
+  assert.equal(fragment.context_fragment_schema_version, "are.codex-context-fragment/v2");
+  assert.equal(fragment.included_item_count, fragment.included_items.length);
   assert.equal(fragment.view_lane, "interaction-bound");
   assert.equal(fragment.inline_bytes <= 32768, true);
   assert.equal(fragment.included_items.length > 0, true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "definition" && typeof item.content.text === "string"), true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-node" && typeof item.content.intent === "string"), true);
   assert.equal(fragment.authority_effect, "none");
+});
+
+test("typed request hint retrieves canonical ontology meaning, related nodes, and repository instructions", async () => {
+  const hint = {
+    schema_version: "are.request-context-hint/v1",
+    raw_request: "How does ontology work in CyberAlchemy?",
+    objective_kind: "define",
+    requested_effects: [],
+    target_refs: ["CA2-CAP-DEFINE-SHARED-MEANING"],
+    constraints: ["candidate-meaning-only"],
+    evidence_refs: ["test:human-input"],
+  };
+  const result = await wrapper().processClientMessage(turnStart(1901, "Define the supplied conversational context.", "thread-ontology", {
+    additionalContext: {[REQUEST_CONTEXT_KEY]: {kind: "application", value: JSON.stringify(hint)}},
+  }));
+  assert.equal(result.to_server.length, 1);
+  const fragment = forwardedContext(result);
+  assert.equal(fragment.route_id, "CA2-ROUTE-DEFINE");
+  assert.equal(fragment.inline_bytes <= fragment.max_inline_bytes, true);
+  assert.equal(fragment.included_items.some((item) => item.item_kind === "request" && item.content.raw_request === hint.raw_request), true);
+  assert.equal(fragment.included_items.some((item) => item.context_item_id === "definition:CAV2-D19" && item.relevance_basis === "request-term-match"), true);
+  assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-node" && item.context_item_id.includes("OntologySelector")), true);
+  assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-catalog" && item.content.ontologies.some((ontology) => ontology.ontology_id === "cav2.ontology-product")), true);
+  assert.equal(fragment.included_items.some((item) => item.item_kind === "repository-instruction" && item.content.instruction_id === "repository-root-agents"), true);
+  assert.equal(fragment.exclusion_count >= fragment.exclusions.length, true);
+  assert.equal(fragment.omitted_diagnostic_exclusion_count > 0, true);
+  assert.equal(typeof fragment.exclusions_digest, "string");
+  assert.equal(fragment.exclusions.some((entry) => entry.reason === "not-selected"), false);
+});
+
+test("a request naming CyberAlchemy v2 and ontology projects both exact definitions", async () => {
+  const rawRequest = "I want to understand and use the ontology already present in CyberAlchemy v2.";
+  const hint = {schema_version: "are.request-context-hint/v1", raw_request: rawRequest, objective_kind: "define"};
+  const result = await wrapper().processClientMessage(turnStart(1903, rawRequest, "thread-disjoint-exact", {
+    additionalContext: {[REQUEST_CONTEXT_KEY]: {kind: "application", value: JSON.stringify(hint)}},
+  }));
+  assert.equal(result.to_server.length, 1);
+  const fragment = forwardedContext(result);
+  assert.equal(fragment.included_items.some((item) => item.context_item_id === "definition:CAV2-D9"), true);
+  assert.equal(fragment.included_items.some((item) => item.context_item_id === "definition:CAV2-D19"), true);
+  assert.equal(fragment.included_items.some((item) => item.context_item_id === "ontology-catalog:repository"), true);
+});
+
+test("malformed request context hint blocks before forwarding", async () => {
+  const result = await wrapper().processClientMessage(turnStart(1902, "Define the supplied conversational context.", "thread-bad-hint", {
+    additionalContext: {[REQUEST_CONTEXT_KEY]: {kind: "application", value: "{}"}},
+  }));
+  assert.equal(result.to_server.length, 0);
+  assert.equal(result.to_client[0].error.data.reason_codes.includes("request.context-hint-invalid"), true);
 });
 
 test("turn/start seals, reconstructs, verifies, and checkpoints reasoning state before forwarding", async () => {
@@ -275,7 +351,6 @@ test("file-backed completion frontier replays after restart without semantic, co
   temporaryPaths.push(directory);
   const logPath = resolve(directory, "reasoning-state.jsonl");
   const profile = structuredClone(loaded.value);
-  profile.semantic_evaluation = {enabled: true, trigger: "turn/completed"};
   profile.reasoning_state = {...profile.reasoning_state, storage_mode: "append-only-file-fsync", log_path: logPath};
   let semanticInputCalls = 0;
   let semanticLifecycleCalls = 0;
@@ -294,7 +369,6 @@ test("file-backed completion frontier replays after restart without semantic, co
   };
   const first = wrapper({
     loaded_profile: profile,
-    semantic_profile: semanticProfile.value,
     semantic_input_provider: semanticInputProvider,
     semantic_lifecycle: semanticLifecycle,
     continuation_provider: continuationProvider,
@@ -303,12 +377,11 @@ test("file-backed completion frontier replays after restart without semantic, co
   const initial = await first.processServerMessage(completed("thread-frontier", "turn-frontier"));
   assert.equal(initial.to_server.length, 1);
   assert.equal(first.inspectState().reasoning_state.frontier_count, 1);
-  assert.deepEqual({semanticInputCalls, semanticLifecycleCalls, continuationCalls}, {semanticInputCalls: 1, semanticLifecycleCalls: 1, continuationCalls: 1});
+  assert.deepEqual({semanticInputCalls, semanticLifecycleCalls, continuationCalls}, {semanticInputCalls: 0, semanticLifecycleCalls: 0, continuationCalls: 1});
   first.close();
 
   const second = wrapper({
     loaded_profile: profile,
-    semantic_profile: semanticProfile.value,
     semantic_input_provider: semanticInputProvider,
     semantic_lifecycle: semanticLifecycle,
     continuation_provider: continuationProvider,
@@ -317,7 +390,13 @@ test("file-backed completion frontier replays after restart without semantic, co
   const replayed = await second.processServerMessage(completed("thread-frontier", "turn-frontier"));
   assert.equal(replayed.to_server.length, 0);
   assert.equal(replayed.to_client.some((message) => message.method === "cyberalchemy/successor" && message.params.kind === "replayed"), true);
-  assert.deepEqual({semanticInputCalls, semanticLifecycleCalls, continuationCalls}, {semanticInputCalls: 1, semanticLifecycleCalls: 1, continuationCalls: 1});
+  assert.deepEqual({semanticInputCalls, semanticLifecycleCalls, continuationCalls}, {semanticInputCalls: 0, semanticLifecycleCalls: 0, continuationCalls: 1});
+  const changedCompletion = completed("thread-frontier", "turn-frontier");
+  changedCompletion.params.turn.status = "failed";
+  const mismatch = await second.processServerMessage(changedCompletion);
+  assert.equal(mismatch.to_server.length, 0);
+  assert.deepEqual(mismatch.to_client.at(-1).params.reason_codes, ["reasoning.frontier-subject-mismatch"]);
+  assert.deepEqual({semanticInputCalls, semanticLifecycleCalls, continuationCalls}, {semanticInputCalls: 0, semanticLifecycleCalls: 0, continuationCalls: 1});
   second.close();
   const verified = verifyReasoningStateLog(logPath, {expected_ledger_id: loaded.value.reasoning_state.ledger_id});
   assert.equal(verified.ok, true);
@@ -497,7 +576,7 @@ test("opt-in turn/completed performs one context-bound semantic evaluation", asy
   await startAndBind(instance, {id: 211, text: "Research whether this refund is eligible.", threadId: "thread-semantic-on", turnId: "turn-semantic-on"});
   const result = await instance.processServerMessage(completed("thread-semantic-on", "turn-semantic-on"));
   const notification = result.to_client.find((message) => message.method === SEMANTIC_NOTIFICATION);
-  assert.equal(notification.params.disposition, "evaluated");
+  assert.equal(notification.params.disposition, "evaluated", JSON.stringify(notification.params));
   assert.equal(notification.params.semantic_outcome, "RecommendedUnderSnapshot");
   assert.equal(notification.params.evaluator_calls, 1);
   assert.equal(typeof notification.params.semantic_materialization_id, "string");

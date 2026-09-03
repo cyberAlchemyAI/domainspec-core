@@ -7,7 +7,7 @@
     "kinds_digest": "bc800afdca36fa701a13ec611e7ee0ef928a4c8d259d48dfac2880a3cc8cbbc4",
     "relationships_digest": "82c55ea1ad031d3135c5b8a85162e44b4e85f296b54057fda0dc38131ab376a1"
   },
-  "source_set_digest": "df89f0656cdc118683da31a9d4afd9267fcbd517fe12f8a41cb0a9d1bada010b",
+  "source_set_digest": "ebf4965eaf19a0938cb108b4d66fa76d5d2c4ba9e03aff1fc198cb5f890ab8c3",
   "nodes": [
     {
       "node_id": "agent-reasoning-engine.AuthoritySeparation",
@@ -110,6 +110,26 @@
         "creation_targets": [
           "agent-reasoning-engine.ReasoningStateCheckpoint"
         ]
+      }
+    },
+    {
+      "node_id": "agent-reasoning-engine.CompletionFrontierBoundary",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Rule",
+      "intent": "Block automatic continuation or completion replay when the exact completed-turn frontier and after-completion checkpoint do not verify.",
+      "body": {
+        "formal_return_type": "boolean",
+        "semantic_refs": [
+          "CA2-ARE-RULE-COMPLETION-FRONTIER-BEFORE-CONTINUATION"
+        ],
+        "required_conditions": [
+          "changed completion bytes under one frontier key block",
+          "replay performs zero semantic, continuation, effect, or successor calls",
+          "recovery never retries unacknowledged successor delivery",
+          "frontier reuse grants no effect authority"
+        ],
+        "violation_behavior": "block continuation or replay and preserve typed residue",
+        "authority_effect": "none"
       }
     },
     {
@@ -217,6 +237,30 @@
         "creation_targets": [
           "agent-reasoning-engine.NecessaryContextBasis"
         ]
+      }
+    },
+    {
+      "node_id": "agent-reasoning-engine.ContextBoundSemanticIntegrity",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Rule",
+      "intent": "Block semantic reduction when the Context Envelope binding, Problem Frame, entry gate, authority snapshot, freshness, claim ceiling, or selected Context Item digests do not agree exactly.",
+      "body": {
+        "formal_return_type": "boolean",
+        "semantic_refs": [
+          "CA2-ARE-RULE-CONTEXT-BEFORE-JUDGMENT",
+          "CA2-CAP-POLICY-ARE-CONTEXT-BOUND-SEMANTIC-INTEGRITY"
+        ],
+        "required_conditions": [
+          "the context binding record digest verifies",
+          "the binding names the exact bound frame digest",
+          "the frame and binding name the same context epoch and envelope",
+          "the entry gate names the exact frame and context binding",
+          "the authority snapshot digest agrees with the entry gate",
+          "selected Context Item digests, freshness, and claim ceiling agree",
+          "legacy unbound receipt bytes remain unchanged"
+        ],
+        "violation_behavior": "return InvalidInput before semantic reduction",
+        "authority_effect": "none"
       }
     },
     {
@@ -1147,13 +1191,23 @@
             "identity": true
           },
           {
+            "name": "context_epoch_id",
+            "type": "string",
+            "identity": false
+          },
+          {
             "name": "context_envelope_digest",
             "type": "sha256",
             "identity": false
           },
           {
+            "name": "context_envelope_binding_digest",
+            "type": "sha256",
+            "identity": false
+          },
+          {
             "name": "input_digests",
-            "type": "sha256[]",
+            "type": "object",
             "identity": false
           },
           {
@@ -1473,6 +1527,60 @@
       }
     },
     {
+      "node_id": "agent-reasoning-engine.ReasoningStateFrontier",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Entity",
+      "intent": "Bind one completed reasoning boundary to its exact subject, context, semantic result, continuation result, and after-completion checkpoint.",
+      "body": {
+        "fields": [
+          {
+            "name": "frontier_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "frontier_digest",
+            "type": "sha256",
+            "identity": false
+          },
+          {
+            "name": "frontier_key",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "subject_digest",
+            "type": "sha256",
+            "identity": false
+          },
+          {
+            "name": "context_envelope_digest",
+            "type": "sha256?",
+            "identity": false
+          },
+          {
+            "name": "prior_reasoning_epoch_digest",
+            "type": "sha256?",
+            "identity": false
+          },
+          {
+            "name": "state",
+            "type": "object",
+            "identity": false
+          },
+          {
+            "name": "authority_effect",
+            "type": "none",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CA2-ARE-CONCEPT-REASONING-STATE-FRONTIER"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
       "node_id": "agent-reasoning-engine.ReasoningStateLedger",
       "feature_id": "agent-reasoning-engine",
       "kind": "Entity",
@@ -1725,6 +1833,30 @@
       }
     },
     {
+      "node_id": "agent-reasoning-engine.SealCompletionFrontier",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Operation",
+      "intent": "Append, epoch-seal, and checkpoint one exact completed-turn semantic and continuation frontier before automatic continuation.",
+      "body": {
+        "state_change": "yes",
+        "formal_return_type": "boolean",
+        "semantic_refs": [
+          "CA2-ARE-WORKFLOW-COMPLETION-FRONTIER-SEALING"
+        ],
+        "required_conditions": [
+          "the completion subject digest and stable frontier key are explicit",
+          "semantic and continuation products remain inspectable non-authorizing state",
+          "the frontier event and single-event epoch verify",
+          "an after-turn-completion checkpoint flushes before automatic continuation",
+          "equal duplicates reuse identity and changed content conflicts"
+        ],
+        "authority_effect": "none",
+        "creation_targets": [
+          "agent-reasoning-engine.ReasoningStateFrontier"
+        ]
+      }
+    },
+    {
       "node_id": "agent-reasoning-engine.SemanticJudgment",
       "feature_id": "agent-reasoning-engine",
       "kind": "Entity",
@@ -1782,14 +1914,16 @@
         "state_change": "yes",
         "formal_return_type": "boolean",
         "semantic_refs": [
-          "CA2-CAP-REASON-AND-MANAGE-CONTEXT"
+          "CA2-CAP-REASON-AND-MANAGE-CONTEXT",
+          "CA2-ARE-RULE-CONTEXT-BEFORE-JUDGMENT"
         ],
         "required_conditions": [
           "context envelope is frozen",
+          "bound frame, entry gate, authority snapshot, and context binding agree exactly",
           "catalog and evaluator identities are fixed",
           "applicability and defeaters are reproducible",
           "missing support cannot become a positive outcome",
-          "one reasoning receipt preserves derivation and residue"
+          "one reasoning receipt preserves context identity, derivation, and residue"
         ],
         "result_posture": "semantic recommendation under captured inputs only",
         "authority_effect": "none",
@@ -1867,6 +2001,12 @@
       "to": "agent-reasoning-engine.ReasoningStateEpoch"
     },
     {
+      "edge_id": "agent-reasoning-engine.edge.completion-frontier-boundary-enforces-sealing",
+      "type": "enforces",
+      "from": "agent-reasoning-engine.CompletionFrontierBoundary",
+      "to": "agent-reasoning-engine.SealCompletionFrontier"
+    },
+    {
       "edge_id": "agent-reasoning-engine.edge.context-assembly-creates-envelope",
       "type": "creates",
       "from": "agent-reasoning-engine.ContextAssembly",
@@ -1883,6 +2023,12 @@
       "type": "reads",
       "from": "agent-reasoning-engine.ContextAssembly",
       "to": "agent-reasoning-engine.ContextWindowView"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.context-bound-semantic-integrity-enforces-reduction",
+      "type": "enforces",
+      "from": "agent-reasoning-engine.ContextBoundSemanticIntegrity",
+      "to": "agent-reasoning-engine.SemanticReduction"
     },
     {
       "edge_id": "agent-reasoning-engine.edge.context-integrity-enforces-assembly",
@@ -1957,6 +2103,30 @@
       "to": "agent-reasoning-engine.ReasoningStateEpoch"
     },
     {
+      "edge_id": "agent-reasoning-engine.edge.frontier-sealing-creates-frontier",
+      "type": "creates",
+      "from": "agent-reasoning-engine.SealCompletionFrontier",
+      "to": "agent-reasoning-engine.ReasoningStateFrontier"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.frontier-sealing-reads-consequence-assessment",
+      "type": "reads",
+      "from": "agent-reasoning-engine.SealCompletionFrontier",
+      "to": "agent-reasoning-engine.ConsequenceAssessment"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.frontier-sealing-reads-ledger",
+      "type": "reads",
+      "from": "agent-reasoning-engine.SealCompletionFrontier",
+      "to": "agent-reasoning-engine.ReasoningStateLedger"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.frontier-sealing-reads-semantic-judgment",
+      "type": "reads",
+      "from": "agent-reasoning-engine.SealCompletionFrontier",
+      "to": "agent-reasoning-engine.SemanticJudgment"
+    },
+    {
       "edge_id": "agent-reasoning-engine.edge.gateway-connection-creates-consumer-session",
       "type": "creates",
       "from": "agent-reasoning-engine.GatewayConnection",
@@ -1991,6 +2161,12 @@
       "type": "orchestrates",
       "from": "agent-reasoning-engine.ReasoningContextLifecycle",
       "to": "agent-reasoning-engine.ContextBasisConstruction"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-completion-frontier",
+      "type": "orchestrates",
+      "from": "agent-reasoning-engine.ReasoningContextLifecycle",
+      "to": "agent-reasoning-engine.SealCompletionFrontier"
     },
     {
       "edge_id": "agent-reasoning-engine.edge.lifecycle-orchestrates-context-assembly",

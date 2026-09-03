@@ -81,6 +81,9 @@ function build() {
   const businessPath = resolve(packageRoot, "business-ontology.json");
   const evaluatorPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/README.md");
   const contextSemanticAdapterPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/src/context-envelope.mjs");
+  const semanticReducerPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/src/reducer.mjs");
+  const semanticReceiptPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/src/receipt.mjs");
+  const semanticContextTestPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/test/context-envelope-integration.test.mjs");
   const resolverPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/intent-route-resolver/package.json");
   const requestDecisionPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/request-decision-router/index.mjs");
   const requestDecisionProfilePath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/request-decision-router/profiles/cyberalchemy-v1.json");
@@ -138,6 +141,19 @@ function build() {
           evidence_sha256: sha256(readFileSync(evaluatorPath)),
           context_envelope_adapter_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/src/context-envelope.mjs",
           context_envelope_adapter_sha256: sha256(readFileSync(contextSemanticAdapterPath)),
+        },
+        {
+          id: "context-bound-semantic-integrity@1",
+          reducer_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/src/reducer.mjs",
+          reducer_sha256: sha256(readFileSync(semanticReducerPath)),
+          receipt_assembler_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/src/receipt.mjs",
+          receipt_assembler_sha256: sha256(readFileSync(semanticReceiptPath)),
+          integration_test_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-judgment-evaluator/test/context-envelope-integration.test.mjs",
+          integration_test_sha256: sha256(readFileSync(semanticContextTestPath)),
+          cross_record_binding_verification: true,
+          context_identity_receipt_binding: true,
+          historical_unbound_receipt_compatibility: true,
+          authority_effect: "none",
         },
         {
           id: "intent-route-resolver@1",
@@ -209,6 +225,20 @@ function build() {
           authority_effect: "none",
         },
         {
+          id: "completed-turn-reasoning-frontier@1",
+          evidence_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/reasoning-state-runtime/index.mjs",
+          evidence_sha256: sha256(readFileSync(reasoningStateRuntimePath)),
+          wrapper_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/src/wrapper.mjs",
+          wrapper_sha256: sha256(readFileSync(journaledWrapperPath)),
+          append_only_frontier: true,
+          exact_subject_binding: true,
+          after_completion_checkpoint: true,
+          recovery_replay_external_calls: 0,
+          automatic_successor_delivery: "at-most-once-no-retry-after-recovery",
+          delivery_acknowledgement: false,
+          authority_effect: "none",
+        },
+        {
           id: "semantic-continuation-live-canary@1",
           evidence_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/scripts/semantic-continuation-canary.mjs",
           evidence_sha256: sha256(readFileSync(semanticCanaryPath)),
@@ -230,7 +260,7 @@ function build() {
           authority_effect: "none",
         },
       ],
-      context_management_realization: "bounded-recoverable-reasoning-state-checkpointed-dispatch-codex-gateway-candidate",
+      context_management_realization: "bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate",
       whole_engine_realization: "absent",
       accepted_baseline_required: true,
       accepted_baseline_ref: null,
