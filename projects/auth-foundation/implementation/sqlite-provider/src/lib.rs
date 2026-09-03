@@ -69,20 +69,48 @@ where
             Ok(transaction) => transaction,
             Err(_) => return authorize_with_failed_ports(&self.clock, command),
         };
-        let snapshot = SqliteSnapshot { transaction };
-        let decision = AuthorizationAdapter::new(
-            &snapshot,
-            &snapshot,
-            &snapshot,
-            &snapshot,
-            ClockRef(&self.clock),
-        )
-        .authorize(command);
+        let decision = authorize_in_transaction(
+            &transaction,
+            command,
+            match self.clock.decision_time() {
+                Ok(value) => value,
+                Err(_) => return BinaryAuthorizationDecision::Deny,
+            },
+        );
 
-        match snapshot.transaction.commit() {
+        match transaction.commit() {
             Ok(()) => decision,
             Err(_) => BinaryAuthorizationDecision::Deny,
         }
+    }
+}
+
+/// Evaluate authorization through a caller-owned SQLite transaction and a
+/// decision time captured by that caller. This is the service-composition
+/// entrypoint for keeping trusted-input and authorization-state reads in one
+/// evaluation epoch.
+pub fn authorize_in_transaction(
+    transaction: &Transaction<'_>,
+    command: AuthorizationCommand,
+    decision_time: u64,
+) -> BinaryAuthorizationDecision {
+    let snapshot = SqliteSnapshot { transaction };
+    AuthorizationAdapter::new(
+        &snapshot,
+        &snapshot,
+        &snapshot,
+        &snapshot,
+        FixedClock(decision_time),
+    )
+    .authorize(command)
+}
+
+#[derive(Clone, Copy)]
+struct FixedClock(u64);
+
+impl DecisionClock for FixedClock {
+    fn decision_time(&self) -> Result<u64, PortFailure> {
+        Ok(self.0)
     }
 }
 
@@ -149,11 +177,11 @@ where
     .authorize(command)
 }
 
-struct SqliteSnapshot<'connection> {
-    transaction: Transaction<'connection>,
+struct SqliteSnapshot<'transaction, 'connection> {
+    transaction: &'transaction Transaction<'connection>,
 }
 
-impl SessionResolver for &SqliteSnapshot<'_> {
+impl SessionResolver for &SqliteSnapshot<'_, '_> {
     fn resolve_sessions(&self, session_id: &str) -> Result<Vec<SessionRecord>, PortFailure> {
         let mut statement = self
             .transaction
@@ -198,7 +226,7 @@ impl SessionResolver for &SqliteSnapshot<'_> {
     }
 }
 
-impl RoleResolver for &SqliteSnapshot<'_> {
+impl RoleResolver for &SqliteSnapshot<'_, '_> {
     fn resolve_active_roles(&self, session: &SessionRecord) -> Result<RoleResolution, PortFailure> {
         let status = status_text(session.status);
         let revision = to_i64(session.authorization_revision)?;
@@ -277,7 +305,7 @@ impl RoleResolver for &SqliteSnapshot<'_> {
     }
 }
 
-impl ScopeEvidenceVerifier for &SqliteSnapshot<'_> {
+impl ScopeEvidenceVerifier for &SqliteSnapshot<'_, '_> {
     fn verify_scope_evidence(&self, command: &AuthorizationCommand) -> Result<bool, PortFailure> {
         let count = self
             .transaction
@@ -302,7 +330,7 @@ impl ScopeEvidenceVerifier for &SqliteSnapshot<'_> {
     }
 }
 
-impl AuthorizationRevisionSource for &SqliteSnapshot<'_> {
+impl AuthorizationRevisionSource for &SqliteSnapshot<'_, '_> {
     fn current_authorization_revision(&self, session_id: &str) -> Result<u64, PortFailure> {
         let revision = self
             .transaction

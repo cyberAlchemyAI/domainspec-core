@@ -1,0 +1,37 @@
+{
+  "schema_version": "auth-service-product-contracts/v1-candidate",
+  "capability_ref": "CA2-CAP-AUTHORIZE-THROUGH-TRUSTED-SNAPSHOT",
+  "status": "prototype-candidate",
+  "contracts": [
+    {"contract_id":"CA2-CAP-CONTRACT-AUTH-SERVICE-INBOUND-REFERENCES","direction":"input","items":["authentication_evidence_ref","route_ref"],"caller_authority":"none"},
+    {"contract_id":"CA2-CAP-CONTRACT-AUTH-SERVICE-TRUSTED-PROVIDERS","direction":"input","items":["one SQLite database identity","one connection","one read transaction","one captured decision time"],"failure":"DENY"},
+    {"contract_id":"CA2-CAP-CONTRACT-AUTH-SERVICE-BINARY-DECISION","direction":"output","items":["ALLOW","DENY"],"diagnostic_exposure":"none"}
+  ],
+  "context_policies": [
+    {"policy_id":"CA2-CAP-POLICY-AUTH-SERVICE-SINGLE-EVALUATION-EPOCH","rule":"Snapshots and commands are valid only inside their creating transaction; retry creates a new epoch and complete reread."},
+    {"policy_id":"CA2-CAP-POLICY-AUTH-SERVICE-FAIL-CLOSED","rule":"ALLOW is possible only after every identity, cardinality, field, revision, currentness, scope, and permission predicate passes."}
+  ],
+  "obligation_registry": {
+    "registry_id": "CA2-CAP-OBLIGATIONS-AUTH-SERVICE",
+    "implementation_ready": [
+      "single service-owned connection",
+      "single captured decision time",
+      "single read transaction across all reads and evaluation",
+      "eleven-field trusted-input snapshot wrapper",
+      "subject and session equality",
+      "authorization-state revision closure",
+      "binary fail-closed result"
+    ],
+    "reserved_for_product_test": [
+      "permitted end-to-end path",
+      "missing and duplicate input denial",
+      "expiry and revocation denial",
+      "subject mismatch denial",
+      "each revision mismatch denial",
+      "permission mismatch denial",
+      "transaction and commit failure denial"
+    ]
+  },
+  "authority_effect": "none",
+  "claim_limit": "Prototype contracts and test obligations only; authored tests are not executed evidence."
+}

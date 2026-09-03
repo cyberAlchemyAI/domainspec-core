@@ -1,0 +1,26 @@
+{
+  "schema_version": "auth-service-domainspec-source-set/v1-candidate",
+  "source_set_id": "AUTH-SERVICE-DOMAINSPEC-SOURCE-001",
+  "status": "prototype-candidate",
+  "service_operation": "SqliteAuthService::authorize",
+  "component_sources": [
+    "../../implementation/operation-source/project.json",
+    "../../implementation/command-boundary-source/project.json",
+    "../../implementation/trusted-input-source/project.json"
+  ],
+  "service_owned_contract": {
+    "operation":"authorize",
+    "input":"InboundAuthorizationRequest",
+    "output":"AuthorizationDecision",
+    "reads":["authentication evidence","route binding","session","active-role relation","permission grants","authorization revision","scope evidence"],
+    "transaction":"one SQLite read transaction beginning before the first read and ending after the decision is fixed",
+    "failure_continuation":"return DENY"
+  },
+  "compiled_scaffold": {
+    "nodes":["InboundAuthorizationRequest","TrustedInputSnapshot","TrustedAuthorizationCommand","AuthorizationStateSnapshot","AuthorizationEvaluationEpoch","AuthorizationDecision","AuthService.authorize"],
+    "edges":["authorize resolves trusted inputs","authorize constructs trusted command","authorize resolves authorization state","authorize evaluates exact permission","evaluation epoch contains all reads and evaluation"]
+  },
+  "implementation_ref":"../../implementation/authorization-service/src/lib.rs",
+  "authority_effect":"none",
+  "claim_limit":"DomainSpec composition source-set scaffold over existing generated components; no new generated runtime, deterministic replay evidence, or system-ontology admission is claimed."
+}

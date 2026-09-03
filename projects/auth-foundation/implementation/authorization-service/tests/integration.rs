@@ -1,16 +1,13 @@
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use auth_foundation_authorization_service::SqliteAuthService;
 use auth_foundation_runtime_adapter::{BinaryAuthorizationDecision, DecisionClock, PortFailure};
-use auth_foundation_sqlite_provider::SCHEMA_V1 as AUTHORIZATION_SCHEMA_V1;
 use auth_foundation_trusted_boundary::InboundAuthorizationRequest;
-use auth_foundation_trusted_input_provider::SCHEMA_V1 as TRUSTED_INPUT_SCHEMA_V1;
 use rusqlite::Connection;
 
 #[derive(Clone, Copy)]
 struct FixedClock(u64);
-
 impl DecisionClock for FixedClock {
     fn decision_time(&self) -> Result<u64, PortFailure> {
         Ok(self.0)
@@ -25,146 +22,99 @@ fn request() -> InboundAuthorizationRequest {
     }
 }
 
-fn seed_trusted_inputs(path: &Path) {
-    let connection = Connection::open(path).expect("open trusted input database");
-    connection
-        .execute_batch(TRUSTED_INPUT_SCHEMA_V1)
-        .expect("apply trusted input schema");
-    connection
+fn fixture() -> PathBuf {
+    let path = unique_database_path();
+    drop(SqliteAuthService::open(&path, FixedClock(100)).expect("prepare unified schema"));
+    Connection::open(&path)
+        .expect("open fixture")
         .execute_batch(
             "INSERT INTO auth_authentication_evidence
-                 (evidence_row_id, evidence_ref, session_id, trusted, revoked, expires_at)
-             VALUES (1, 'auth-1', 'session-1', 1, 0, 101);
-             INSERT INTO auth_route_authorization_bindings
-                 (binding_row_id, route_id, resource, action, scope, scope_evidence_ref, complete, enabled)
-             VALUES (1, 'documents.read', 'documents', 'read', 'tenant-7', 'scope-1', 1, 1);",
+             (evidence_row_id, evidence_ref, session_id, trusted, revoked, expires_at,
+              evidence_revision, authenticated_subject_id)
+         VALUES (1, 'auth-1', 'session-1', 1, 0, 101, 3, 'user-1');
+         INSERT INTO auth_route_authorization_bindings
+             (binding_row_id, route_id, resource, action, scope, scope_evidence_ref,
+              complete, enabled, binding_revision)
+         VALUES (1, 'documents.read', 'documents', 'read', 'tenant-7', 'scope-1', 1, 1, 5);
+         INSERT INTO auth_roles (role_id) VALUES ('reader');
+         INSERT INTO auth_role_permissions
+             (role_id, resource, action, scope, authorization_revision)
+         VALUES ('reader', 'documents', 'read', 'tenant-7', 7);
+         INSERT INTO auth_sessions
+             (session_row_id, session_id, user_id, status, authorization_revision, expires_at)
+         VALUES (1, 'session-1', 'user-1', 'active', 7, 101);
+         INSERT INTO auth_session_active_roles
+             (session_row_id, role_id, authorization_revision)
+         VALUES (1, 'reader', 7);
+         INSERT INTO auth_authorization_revisions (session_id, revision)
+         VALUES ('session-1', 7);
+         INSERT INTO auth_scope_evidence (evidence_ref, resource, action, scope, trusted)
+         VALUES ('scope-1', 'documents', 'read', 'tenant-7', 1);",
         )
-        .expect("seed trusted inputs");
+        .expect("seed unified auth database");
+    path
 }
 
-fn seed_authorization_state(path: &Path) {
-    let connection = Connection::open(path).expect("open authorization database");
-    connection
-        .execute_batch(AUTHORIZATION_SCHEMA_V1)
-        .expect("apply authorization schema");
-    connection
-        .execute_batch(
-            "INSERT INTO auth_roles (role_id) VALUES ('reader');
-             INSERT INTO auth_role_permissions (role_id, resource, action, scope)
-             VALUES ('reader', 'documents', 'read', 'tenant-7');
-             INSERT INTO auth_sessions
-                 (session_row_id, session_id, user_id, status, authorization_revision, expires_at)
-             VALUES (1, 'session-1', 'user-1', 'active', 7, 101);
-             INSERT INTO auth_session_active_roles (session_row_id, role_id)
-             VALUES (1, 'reader');
-             INSERT INTO auth_authorization_revisions (session_id, revision)
-             VALUES ('session-1', 7);
-             INSERT INTO auth_scope_evidence
-                 (evidence_ref, resource, action, scope, trusted)
-             VALUES ('scope-1', 'documents', 'read', 'tenant-7', 1);",
-        )
-        .expect("seed authorization state");
-}
-
-fn fixture() -> (PathBuf, PathBuf) {
-    let trusted = unique_database_path("trusted-input");
-    let authorization = unique_database_path("authorization-state");
-    seed_trusted_inputs(&trusted);
-    seed_authorization_state(&authorization);
-    (trusted, authorization)
-}
-
-fn run_with_trusted_mutation(mutation: &str, time: u64) -> BinaryAuthorizationDecision {
-    let (trusted, authorization) = fixture();
+fn run(mutation: &str, time: u64) -> BinaryAuthorizationDecision {
+    let path = fixture();
     if !mutation.is_empty() {
-        Connection::open(&trusted)
-            .expect("reopen trusted inputs")
+        Connection::open(&path)
+            .expect("open mutation connection")
             .execute_batch(mutation)
-            .expect("mutate trusted inputs");
+            .expect("apply mutation");
     }
-    let mut service = SqliteAuthService::open(&trusted, &authorization, FixedClock(time))
-        .expect("open composed service");
-    let decision = service.authorize(request());
-    drop(service);
-    remove_fixture(trusted, authorization);
+    let decision = SqliteAuthService::open(&path, FixedClock(time))
+        .expect("open service")
+        .authorize(request());
+    std::fs::remove_file(path).expect("remove fixture");
     decision
 }
 
 #[test]
-fn complete_current_server_owned_evidence_allows_end_to_end() {
-    assert_eq!(
-        run_with_trusted_mutation("", 100),
-        BinaryAuthorizationDecision::Allow
-    );
+fn one_complete_epoch_allows() {
+    assert_eq!(run("", 100), BinaryAuthorizationDecision::Allow);
 }
 
 #[test]
-fn authentication_evidence_failures_deny_end_to_end() {
+fn trusted_input_failures_deny() {
     for mutation in [
         "DELETE FROM auth_authentication_evidence;",
-        "INSERT INTO auth_authentication_evidence
-             (evidence_row_id, evidence_ref, session_id, trusted, revoked, expires_at)
-         VALUES (2, 'auth-1', 'session-2', 1, 0, 101);",
-        "UPDATE auth_authentication_evidence SET trusted = 0;",
+        "UPDATE auth_authentication_evidence SET authenticated_subject_id = '';",
         "UPDATE auth_authentication_evidence SET revoked = 1;",
-    ] {
-        assert_eq!(
-            run_with_trusted_mutation(mutation, 100),
-            BinaryAuthorizationDecision::Deny
-        );
-    }
-    assert_eq!(
-        run_with_trusted_mutation("", 101),
-        BinaryAuthorizationDecision::Deny
-    );
-}
-
-#[test]
-fn route_binding_failures_deny_end_to_end() {
-    for mutation in [
-        "DELETE FROM auth_route_authorization_bindings;",
-        "INSERT INTO auth_route_authorization_bindings
-             (binding_row_id, route_id, resource, action, scope, scope_evidence_ref, complete, enabled)
-         VALUES (2, 'documents.read', 'documents', 'read', 'tenant-7', 'scope-1', 1, 1);",
-        "UPDATE auth_route_authorization_bindings SET complete = 0;",
         "UPDATE auth_route_authorization_bindings SET enabled = 0;",
     ] {
-        assert_eq!(
-            run_with_trusted_mutation(mutation, 100),
-            BinaryAuthorizationDecision::Deny
-        );
+        assert_eq!(run(mutation, 100), BinaryAuthorizationDecision::Deny);
+    }
+    assert_eq!(run("", 101), BinaryAuthorizationDecision::Deny);
+}
+
+#[test]
+fn identity_and_revision_join_failures_deny() {
+    for mutation in [
+        "UPDATE auth_sessions SET user_id = 'user-2';",
+        "UPDATE auth_authorization_revisions SET revision = 8;",
+        "UPDATE auth_session_active_roles SET authorization_revision = 6;",
+        "UPDATE auth_role_permissions SET authorization_revision = 6;",
+    ] {
+        assert_eq!(run(mutation, 100), BinaryAuthorizationDecision::Deny);
     }
 }
 
 #[test]
-fn downstream_permission_mismatch_preserves_deny() {
-    let (trusted, authorization) = fixture();
-    Connection::open(&authorization)
-        .expect("reopen authorization state")
-        .execute("UPDATE auth_role_permissions SET action = 'write'", [])
-        .expect("mutate permission");
-    let mut service = SqliteAuthService::open(&trusted, &authorization, FixedClock(100))
-        .expect("open composed service");
+fn permission_mismatch_denies() {
     assert_eq!(
-        service.authorize(request()),
+        run("UPDATE auth_role_permissions SET action = 'write';", 100),
         BinaryAuthorizationDecision::Deny
     );
-    drop(service);
-    remove_fixture(trusted, authorization);
 }
 
-fn unique_database_path(label: &str) -> PathBuf {
+fn unique_database_path() -> PathBuf {
     let nonce = SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .expect("system time")
+        .expect("time")
         .as_nanos();
     std::env::temp_dir().join(format!(
-        "auth-foundation-{label}-{}-{nonce}.sqlite",
+        "auth-service-{}-{nonce}.sqlite",
         std::process::id()
     ))
-}
-
-fn remove_fixture(trusted: PathBuf, authorization: PathBuf) {
-    std::fs::remove_file(trusted).expect("remove trusted input database");
-    std::fs::remove_file(authorization).expect("remove authorization database");
 }
